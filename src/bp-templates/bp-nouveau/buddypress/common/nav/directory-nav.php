@@ -28,6 +28,6 @@
 
 		</ul><!-- .component-navigation -->
 
-	<?php endif ; ?>
+	<?php endif; ?>
 
 </nav><!-- .bp-navs -->

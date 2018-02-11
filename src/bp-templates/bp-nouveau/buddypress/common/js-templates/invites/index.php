@@ -58,16 +58,16 @@
 
 	<div class="action">
 		<# if ( undefined === data.is_sent || ( false === data.is_sent && true === data.can_edit ) ) { #>
-			<button type="button" class="button invite-button group-add-remove-invite-button bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'Invite / Uninvite', 'buddypress' );?>">
+			<button type="button" class="button invite-button group-add-remove-invite-button bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'Invite / Uninvite', 'buddypress' ); ?>">
 				<span class="icons"></span>
-				<span class="bp-screen-reader-text"><?php esc_html_e( 'Invite/Uninvite', 'buddypress' );?></span>
+				<span class="bp-screen-reader-text"><?php esc_html_e( 'Invite/Uninvite', 'buddypress' ); ?></span>
 			</button>
 		<# } #>
 
 		<# if ( undefined !== data.can_edit && true === data.can_edit ) { #>
-			<button type="button" class="button invite-button group-remove-invite-button bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'Remove', 'buddypress' );?>">
+			<button type="button" class="button invite-button group-remove-invite-button bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'Remove', 'buddypress' ); ?>">
 				<span class=" icons"></span>
-				<span class="bp-screen-reader-text"><?php esc_html_e( 'Remove', 'buddypress' );?></span>
+				<span class="bp-screen-reader-text"><?php esc_html_e( 'Remove', 'buddypress' ); ?></span>
 			</button>
 		<# } #>
 	</div>
@@ -110,13 +110,13 @@
 <script type="text/html" id="tmpl-bp-invites-paginate">
 	<# if ( 1 !== data.page ) { #>
 		<button type="button" id="bp-invites-prev-page" class="button invite-button">
-			<span class="bp-screen-reader-text"><?php esc_html_e( 'Previous', 'buddypress' );?></span>
+			<span class="bp-screen-reader-text"><?php esc_html_e( 'Previous', 'buddypress' ); ?></span>
 		</button>
 	<# } #>
 
 	<# if ( data.total_page !== data.page ) { #>
 		<button type="button" id="bp-invites-next-page" class="button invite-button">
-			<span class="bp-screen-reader-text"><?php esc_html_e( 'Next', 'buddypress' );?></span>
+			<span class="bp-screen-reader-text"><?php esc_html_e( 'Next', 'buddypress' ); ?></span>
 		</button>
 	<# } #>
 </script>

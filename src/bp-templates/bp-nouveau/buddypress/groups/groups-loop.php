@@ -10,7 +10,7 @@
 bp_nouveau_before_loop(); ?>
 
 <?php if ( bp_get_current_group_directory_type() ) : ?>
-	<p class="current-group-type"><?php bp_current_group_directory_type_message() ?></p>
+	<p class="current-group-type"><?php bp_current_group_directory_type_message(); ?></p>
 <?php endif; ?>
 
 <?php if ( bp_has_groups( bp_ajax_querystring( 'groups' ) ) ) : ?>
@@ -50,7 +50,7 @@ bp_nouveau_before_loop(); ?>
 
 					<?php bp_nouveau_groups_loop_item(); ?>
 
-					<?php bp_nouveau_groups_loop_buttons( ); ?>
+					<?php bp_nouveau_groups_loop_buttons(); ?>
 
 				</div>
 
@@ -64,10 +64,12 @@ bp_nouveau_before_loop(); ?>
 
 	<?php bp_nouveau_pagination( 'bottom' ); ?>
 
-<?php else:
+<?php
+else :
 
 	bp_nouveau_user_feedback( 'groups-loop-none' );
 
-endif; ?>
+endif;
+?>
 
 <?php bp_nouveau_after_loop(); ?>

@@ -13,7 +13,7 @@
 
 			<?php bp_get_template_part( 'members/single/parts/item-subnav' ); ?>
 
-		<?php endif ; ?>
+		<?php endif; ?>
 
 	</ul>
 </nav><!-- .bp-navs -->
@@ -30,9 +30,9 @@
 switch ( bp_current_action() ) :
 
 	// Home/My Groups
-	case 'my-groups' :
-
-		bp_nouveau_member_hook( 'before', 'groups_content' ); ?>
+	case 'my-groups':
+		bp_nouveau_member_hook( 'before', 'groups_content' );
+		?>
 
 		<div class="groups mygroups" data-bp-list="groups">
 

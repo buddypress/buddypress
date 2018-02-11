@@ -72,7 +72,7 @@ class BP_Latest_Activities extends WP_Widget {
 			$classes = array_map( 'sanitize_html_class', array_merge( $type, array( 'bp-latest-activities' ) ) );
 
 			// Add classes to the container
-			$args['before_widget'] = str_replace( 'bp-latest-activities', join( ' ', $classes  ), $args['before_widget'] );
+			$args['before_widget'] = str_replace( 'bp-latest-activities', join( ' ', $classes ), $args['before_widget'] );
 		}
 
 		echo $args['before_widget'];
@@ -174,7 +174,7 @@ class BP_Latest_Activities extends WP_Widget {
 			<select class="widefat" multiple="multiple" id="<?php echo $this->get_field_id( 'type' ); ?>" name="<?php echo $this->get_field_name( 'type' ); ?>[]">
 				<?php foreach ( bp_nouveau_get_activity_filters() as $key => $name ) : ?>
 					<option value="<?php echo esc_attr( $key ); ?>" <?php selected( in_array( $key, $type ) ); ?>><?php echo esc_html( $name ); ?></option>
-				<?php endforeach ; ?>
+				<?php endforeach; ?>
 			</select>
 		</p>
 		<?php

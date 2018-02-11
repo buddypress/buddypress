@@ -18,7 +18,7 @@
 
 	<h2 class="bp-screen-title"><?php _e( 'Change Cover Image', 'buddypress' ); ?></h2>
 
-<?php endif ; ?>
+<?php endif; ?>
 
 <p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
 

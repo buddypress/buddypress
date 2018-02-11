@@ -354,7 +354,7 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 		return $classes;
 	}
 
-	$user_id = bp_loggedin_user_id();
+	$user_id    = bp_loggedin_user_id();
 	$my_classes = array();
 
 	/*
@@ -369,7 +369,7 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 
 	// Add specific classes to perform specific actions on the client side.
 	if ( $scope && bp_is_activity_directory() ) {
-		$component  = bp_get_activity_object_name();
+		$component = bp_get_activity_object_name();
 
 		/*
 		 * These classes will be used to count the number of newest activities for
@@ -424,25 +424,27 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
  */
 
 function bp_nouveau_activity_time_since( $time_since, $activity = null ) {
-	if ( ! isset ( $activity->date_recorded ) ) {
+	if ( ! isset( $activity->date_recorded ) ) {
 		return $time_since;
 	}
 
-	return apply_filters( 'bp_nouveau_activity_time_since', sprintf(
-		'<time class="time-since" datetime="%1$s" data-bp-timestamp="%2$d">%3$s</time>',
-		esc_attr( $activity->date_recorded ),
-		esc_attr( strtotime( $activity->date_recorded ) ),
-		esc_attr( bp_core_time_since( $activity->date_recorded ) )
-	) );
+	return apply_filters(
+		'bp_nouveau_activity_time_since', sprintf(
+			'<time class="time-since" datetime="%1$s" data-bp-timestamp="%2$d">%3$s</time>',
+			esc_attr( $activity->date_recorded ),
+			esc_attr( strtotime( $activity->date_recorded ) ),
+			esc_attr( bp_core_time_since( $activity->date_recorded ) )
+		)
+	);
 }
 
 /**
  * @since 1.0.0
  */
 function bp_nouveau_activity_allowed_tags( $activity_allowedtags = array() ) {
-	$activity_allowedtags['time'] = array();
-	$activity_allowedtags['time']['class'] = array();
-	$activity_allowedtags['time']['datetime'] = array();
+	$activity_allowedtags['time']                      = array();
+	$activity_allowedtags['time']['class']             = array();
+	$activity_allowedtags['time']['datetime']          = array();
 	$activity_allowedtags['time']['data-bp-timestamp'] = array();
 
 	return $activity_allowedtags;

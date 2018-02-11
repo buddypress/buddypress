@@ -162,7 +162,7 @@ function bp_nouveau_has_dismiss_button() {
  */
 function bp_nouveau_dismiss_button_type() {
 	$bp_nouveau = bp_nouveau();
-	$type = 'clear';
+	$type       = 'clear';
 
 	if ( ! empty( $bp_nouveau->user_feedback['dismiss'] ) ) {
 		$type = $bp_nouveau->user_feedback['dismiss'];
@@ -236,7 +236,7 @@ function bp_nouveau_template_notices() {
 		$template_message['dismiss'] = false;
 
 		// Set dismiss button true for sitewide notices
-		if( 'bp-sitewide-notice' == $template_message['type'] ) {
+		if ( 'bp-sitewide-notice' == $template_message['type'] ) {
 			$template_message['dismiss'] = true;
 		}
 
@@ -303,7 +303,7 @@ function bp_nouveau_user_feedback( $feedback_id = '' ) {
 	}
 
 	// Reset the feedback message.
-	$bp_nouveau->user_feedback =array();
+	$bp_nouveau->user_feedback = array();
 }
 
 /**
@@ -737,7 +737,6 @@ function bp_nouveau_has_nav( $args = array() ) {
 
 			$nav = $user_nav->get_primary( $args );
 		}
-
 	} elseif ( ! empty( $bp_nouveau->object_nav ) ) {
 
 		$bp_nouveau->displayed_nav = $bp_nouveau->object_nav;
@@ -1756,7 +1755,6 @@ function bp_nouveau_search_form() {
 			 */
 			do_action( 'bp_members_directory_member_sub_types' );
 		}
-
 	} elseif ( 'group' === $objects['primary'] && 'activity' === $objects['secondary'] ) {
 		/**
 		 * Fires inside the syndication options list, after the RSS option.
@@ -2154,7 +2152,7 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 			 * Passes BP signup errors to Nouveau's template function to
 			 * render suitable markup for error string.
 			 */
-			if( isset( buddypress()->signup->errors[ $name ] ) ) {
+			if ( isset( buddypress()->signup->errors[ $name ] ) ) {
 				nouveau_error_template( buddypress()->signup->errors[ $name ] );
 				$invalid = 'invalid';
 			}
@@ -2176,7 +2174,8 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 		}
 
 		// Set the input.
-		$field_output = sprintf( '<input type="%1$s" name="%2$s" id="%3$s" %4$s value="%5$s" %6$s />',
+		$field_output = sprintf(
+			'<input type="%1$s" name="%2$s" id="%3$s" %4$s value="%5$s" %6$s />',
 			esc_attr( $type ),
 			esc_attr( $name ),
 			esc_attr( $id ),
@@ -2193,7 +2192,8 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 			// If it's the signup blog url, it's specific to Multisite config.
 			} elseif ( is_subdomain_install() ) {
 				// Constructed safely above.
-				printf( '%1$s %2$s . %3$s',
+				printf(
+					'%1$s %2$s . %3$s',
 					is_ssl() ? 'https://' : 'http://',
 					$field_output,
 					bp_signup_get_subdomain_base()
@@ -2201,7 +2201,8 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 
 			// Subfolders!
 			} else {
-				printf( '%1$s %2$s',
+				printf(
+					'%1$s %2$s',
 					home_url( '/' ),
 					$field_output  // Constructed safely above.
 				);
@@ -2214,9 +2215,11 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 		}
 
 		// Password strength is restricted to the signup_password field
-		if ( 'signup_password' === $name ) : ?>
+		if ( 'signup_password' === $name ) :
+		?>
 			<div id="pass-strength-result"></div>
-		<?php endif ;
+		<?php
+		endif;
 	}
 
 	/**

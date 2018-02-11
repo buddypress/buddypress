@@ -43,4 +43,3 @@
 	</div><!-- .page -->
 
 	<?php bp_nouveau_activation_hook( 'after', 'page' ); ?>
-

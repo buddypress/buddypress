@@ -17,8 +17,9 @@
 <?php
 switch ( bp_current_action() ) :
 
-	case 'unread' :
-	case 'read'   : ?>
+	case 'unread':
+	case 'read':
+	?>
 
 
 	<?php bp_get_template_part( 'common/search-and-filters-bar' ); ?>

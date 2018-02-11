@@ -68,7 +68,8 @@
 	 *
 	 * @since 2.3.0
 	 */
-	bp_avatar_get_templates(); ?>
+	bp_avatar_get_templates();
+	?>
 
 <?php else : ?>
 
@@ -76,4 +77,5 @@
 
 <?php endif; ?>
 
-<?php bp_nouveau_xprofile_hook( 'after', 'avatar_upload_content' );
+<?php
+bp_nouveau_xprofile_hook( 'after', 'avatar_upload_content' );

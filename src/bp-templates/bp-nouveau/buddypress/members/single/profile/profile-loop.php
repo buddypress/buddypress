@@ -54,4 +54,5 @@ bp_nouveau_xprofile_hook( 'before', 'loop_content' ); ?>
 
 <?php endif; ?>
 
-<?php bp_nouveau_xprofile_hook( 'after', 'loop_content' );
+<?php
+bp_nouveau_xprofile_hook( 'after', 'loop_content' );

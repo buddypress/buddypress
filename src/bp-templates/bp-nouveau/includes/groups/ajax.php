@@ -312,7 +312,6 @@ function bp_nouveau_ajax_get_users_to_invite() {
 					'type'     => 'info',
 				);
 			}
-
 		}
 
 		unset( $bp->groups->invites_scope );

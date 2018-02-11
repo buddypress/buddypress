@@ -41,7 +41,7 @@ class BP_Nouveau_xProfile {
 	 * @since 1.0.0
 	 */
 	protected function includes() {
-		require( trailingslashit( $this->dir ) . 'functions.php'     );
+		require( trailingslashit( $this->dir ) . 'functions.php' );
 		require( trailingslashit( $this->dir ) . 'template-tags.php' );
 	}
 

@@ -10,7 +10,7 @@
 bp_nouveau_before_loop(); ?>
 
 <?php if ( bp_get_current_member_type() ) : ?>
-	<p class="current-member-type"><?php bp_current_member_type_message() ?></p>
+	<p class="current-member-type"><?php bp_current_member_type_message(); ?></p>
 <?php endif; ?>
 
 <?php if ( bp_has_members( bp_ajax_querystring( 'members' ) ) ) : ?>
@@ -40,7 +40,7 @@ bp_nouveau_before_loop(); ?>
 							<p class="item-meta last-activity">
 								<?php bp_nouveau_member_meta(); ?>
 							</p><!-- #item-meta -->
-						<?php endif ; ?>
+						<?php endif; ?>
 
 						<?php bp_nouveau_members_loop_buttons( array( 'container' => 'ul', 'button_element' => 'button' ) ); ?>
 
@@ -65,10 +65,12 @@ bp_nouveau_before_loop(); ?>
 
 	<?php bp_nouveau_pagination( 'bottom' ); ?>
 
-<?php else:
+<?php
+else :
 
 	bp_nouveau_user_feedback( 'members-loop-none' );
 
-endif; ?>
+endif;
+?>
 
 <?php bp_nouveau_after_loop(); ?>

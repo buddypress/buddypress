@@ -77,7 +77,7 @@ function bp_nouveau_ajax_object_template_loader() {
 		$result['feed_url'] = apply_filters( 'bp_legacy_theme_activity_feed_url', $feed_url, $scope );
 	}
 
- 	/*
+	/*
 	 * AJAX requests happen too early to be seen by bp_update_is_directory()
 	 * so we do it manually here to ensure templates load with the correct
 	 * context. Without this check, templates will load the 'single' version

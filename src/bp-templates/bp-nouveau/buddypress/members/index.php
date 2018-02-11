@@ -5,7 +5,7 @@
 
 ?>
 
-	<?php bp_nouveau_before_members_directory_content() ?>
+	<?php bp_nouveau_before_members_directory_content(); ?>
 
 	<?php if ( ! bp_nouveau_is_object_nav_in_sidebar() ) : ?>
 
@@ -21,5 +21,5 @@
 			<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'directory-members-loading' ); ?></div>
 		</div><!-- #members-dir-list -->
 
-		<?php bp_nouveau_after_members_directory_content() ?>
+		<?php bp_nouveau_after_members_directory_content(); ?>
 	</div><!-- // .screen-content -->

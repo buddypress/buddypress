@@ -33,7 +33,7 @@
 			<?php bp_group_description(); ?>
 
 		</div><!-- .group-description -->
-	<?php endif ; ?>
+	<?php endif; ?>
 
 	<?php if ( bp_nouveau_groups_do_group_boxes() ) : ?>
 		<div class="bp-plugin-widgets">
@@ -41,7 +41,7 @@
 			<?php bp_custom_group_boxes(); ?>
 
 		</div><!-- .bp-plugin-widgets -->
-	<?php endif ;?>
+	<?php endif; ?>
 
 	<?php if ( is_active_sidebar( 'sidebar-buddypress-groups' ) ) : ?>
 		<div id="group-front-widgets" class="bp-sidebar bp-widget-area" role="complementary">
@@ -49,6 +49,6 @@
 			<?php dynamic_sidebar( 'sidebar-buddypress-groups' ); ?>
 
 		</div><!-- .bp-sidebar.bp-widget-area -->
-	<?php endif ; ?>
+	<?php endif; ?>
 
 </div>

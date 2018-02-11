@@ -209,14 +209,16 @@ class BP_Nouveau_Admin_Notices {
 
 			<?php if ( isset( $_GET['success'] ) || isset( $_GET['error'] ) ) : ?>
 
-				<div id="message" class="<?php echo isset( $_GET['success'] ) ? 'updated' : 'error' ; ?>">
+				<div id="message" class="<?php echo isset( $_GET['success'] ) ? 'updated' : 'error'; ?>">
 
 					<p>
-						<?php if ( isset( $_GET['error'] ) ) :
+						<?php
+						if ( isset( $_GET['error'] ) ) :
 							esc_html_e( 'Notice was not created. Please try again.', 'buddypress' );
-						else:
+						else :
 							esc_html_e( 'Notice successfully created.', 'buddypress' );
-						endif; ?>
+						endif;
+						?>
 					</p>
 
 				</div>

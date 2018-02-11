@@ -211,7 +211,7 @@ function bp_nouveau_get_blog_signup_inline_script() {
  *
  * @since 1.2.0
  */
-function bp_nouveau_blog_loop_item_has_lastest_post( $classes) {
+function bp_nouveau_blog_loop_item_has_lastest_post( $classes ) {
 	if ( bp_get_blog_latest_post_title() ) {
 		$classes[] = 'has-latest-post';
 	}

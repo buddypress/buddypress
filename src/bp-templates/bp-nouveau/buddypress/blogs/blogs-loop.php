@@ -59,10 +59,12 @@ bp_nouveau_before_loop(); ?>
 
 	<?php bp_nouveau_pagination( 'bottom' ); ?>
 
-<?php else:
+<?php
+else :
 
 	bp_nouveau_user_feedback( 'blogs-loop-none' );
 
-endif; ?>
+endif;
+?>
 
 <?php bp_nouveau_after_loop(); ?>

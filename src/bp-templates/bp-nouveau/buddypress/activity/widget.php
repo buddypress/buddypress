@@ -36,7 +36,7 @@
 
 					</blockquote>
 
-				<?php else: ?>
+				<?php else : ?>
 
 					<p><?php bp_activity_action(); ?></p>
 

@@ -16,7 +16,7 @@
 
 	<dt class="admin-section section-title"><?php _e( 'Administrators', 'buddypress' ); ?></dt>
 
-	<?php if ( bp_has_members( '&include='. bp_group_admin_ids() ) ) : ?>
+	<?php if ( bp_has_members( '&include=' . bp_group_admin_ids() ) ) : ?>
 		<dd class="admin-listing">
 			<ul id="admins-list" class="item-list single-line">
 
@@ -34,7 +34,7 @@
 							<a class="button confirm admin-demote-to-member" href="<?php bp_group_member_demote_link( bp_get_member_user_id() ); ?>"><?php _e( 'Demote to Member', 'buddypress' ); ?></a>
 						</p>
 
-						<?php endif; ?>
+					<?php endif; ?>
 
 				</li>
 				<?php endwhile; ?>
@@ -72,7 +72,7 @@
 
 		<?php endif; ?>
 	</dd>
-<?php endif ?>
+	<?php endif ?>
 
 
 	<dt class="gen-members-section section-title"><?php esc_html_e( 'Members', 'buddypress' ); ?></dt>

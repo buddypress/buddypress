@@ -20,7 +20,7 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 				<?php bp_profile_group_tabs(); ?>
 
 			</ul>
-		<?php endif ;?>
+		<?php endif; ?>
 
 		<h2 class="screen-heading profile-group-title edit"><?php printf( __( 'Editing \'%s\' Profile Group', 'buddypress' ), bp_get_the_profile_group_name() ); ?></h2>
 
@@ -49,6 +49,9 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 
 </form>
 
-<?php endwhile; endif;
+	<?php
+	endwhile;
+
+endif;
 
 bp_nouveau_xprofile_hook( 'after', 'edit_content' );

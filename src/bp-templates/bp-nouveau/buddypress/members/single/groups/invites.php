@@ -19,14 +19,14 @@ bp_nouveau_group_hook( 'before', 'invites_content' ); ?>
 
 				<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
 					<div class="item-avatar">
-						<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar(  ); ?></a>
+						<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar(); ?></a>
 					</div>
 				<?php endif; ?>
 
 					<div class="item">
 						<h2 class="list-title groups-title"><?php bp_group_link(); ?></h2>
 						<p class="meta group-details">
-							<span class="small"> - <?php printf( _nx( '%d member', '%d members', bp_get_group_total_members( false ),'Group member count', 'buddypress' ), bp_get_group_total_members( false ) ); ?></span>
+							<span class="small"> - <?php printf( _nx( '%d member', '%d members', bp_get_group_total_members( false ), 'Group member count', 'buddypress' ), bp_get_group_total_members( false ) ); ?></span>
 						</p>
 
 						<p class="desc">
@@ -44,10 +44,13 @@ bp_nouveau_group_hook( 'before', 'invites_content' ); ?>
 		<?php endwhile; ?>
 	</ul>
 
-<?php else:
+<?php
+else :
 
 	bp_nouveau_user_feedback( 'member-invites-none' );
 
-endif;?>
+endif;
+?>
 
-<?php bp_nouveau_group_hook( 'after', 'invites_content' );
+<?php
+bp_nouveau_group_hook( 'after', 'invites_content' );

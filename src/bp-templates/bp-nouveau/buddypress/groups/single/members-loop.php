@@ -10,7 +10,7 @@
 
 	<?php bp_nouveau_group_hook( 'before', 'members_content' ); ?>
 
-	<?php bp_nouveau_pagination( 'top' ) ; ?>
+	<?php bp_nouveau_pagination( 'top' ); ?>
 
 	<?php bp_nouveau_group_hook( 'before', 'members_list' ); ?>
 
@@ -54,7 +54,7 @@
 
 	<?php bp_nouveau_group_hook( 'after', 'members_list' ); ?>
 
-	<?php bp_nouveau_pagination( 'bottom' ) ; ?>
+	<?php bp_nouveau_pagination( 'bottom' ); ?>
 
 	<?php bp_nouveau_group_hook( 'after', 'members_content' ); ?>
 

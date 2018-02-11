@@ -694,7 +694,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 	 */
 	do_action( 'bp_activity_comment_options' );
 
-	$output .= ob_get_clean();
+	$output     .= ob_get_clean();
 	$has_content = trim( $output, ' ' );
 	if ( ! $has_content ) {
 		return;

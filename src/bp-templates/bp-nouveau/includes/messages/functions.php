@@ -126,11 +126,11 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
  * @since 1.0.0
  */
 function bp_nouveau_message_search_form() {
-	$query_arg = bp_core_get_component_search_query_arg( 'messages' );
+	$query_arg   = bp_core_get_component_search_query_arg( 'messages' );
 	$placeholder = bp_get_search_default_text( 'messages' );
 
 	$search_form_html = '<form action="" method="get" id="search-messages-form">
-		<label for="messages_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="messages_search" placeholder="'. esc_attr( $placeholder ) .'" /></label>
+		<label for="messages_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="messages_search" placeholder="' . esc_attr( $placeholder ) . '" /></label>
 		<input type="submit" id="messages_search_submit" name="messages_search_submit" value="' . esc_attr_e( 'Search', 'buddypress' ) . '" />
 	</form>';
 
@@ -224,7 +224,7 @@ function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id )
 		return $notifications;
 	}
 
-	$notice_notification = new stdClass;
+	$notice_notification                    = new stdClass;
 	$notice_notification->id                = 0;
 	$notice_notification->user_id           = $user_id;
 	$notice_notification->item_id           = $notice->id;
@@ -291,7 +291,7 @@ function bp_nouveau_push_sitewide_notices() {
 				stripslashes( $notice->subject ),
 				stripslashes( $notice->message )
 			);
-			$bp->template_message = $message;
+			$bp->template_message      = $message;
 			$bp->template_message_type = 'bp-sitewide-notice';
 		}
 	}
@@ -333,12 +333,12 @@ function bp_nouveau_messages_at_on_tinymce_init( $settings, $editor_id ) {
  * @since 1.0.0
  */
 function bp_nouveau_get_message_date( $date ) {
-	$now = bp_core_current_time( true, 'timestamp' );
+	$now  = bp_core_current_time( true, 'timestamp' );
 	$date = strtotime( $date );
 
-	$now_date  = getdate( $now );
-	$date_date = getdate( $date );
-	$compare   = array_diff( $date_date, $now_date );
+	$now_date    = getdate( $now );
+	$date_date   = getdate( $date );
+	$compare     = array_diff( $date_date, $now_date );
 	$date_format = 'Y/m/d';
 
 	// Use Timezone string if set.

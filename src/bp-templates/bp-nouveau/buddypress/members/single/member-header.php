@@ -28,7 +28,7 @@
 			<?php bp_nouveau_member_meta(); ?>
 
 		</div><!-- #item-meta -->
-	<?php endif ; ?>
+	<?php endif; ?>
 
 	<?php bp_nouveau_member_header_buttons( array( 'container_classes' => array( 'member-header-actions' ) ) ); ?>
 </div><!-- #item-header-content -->

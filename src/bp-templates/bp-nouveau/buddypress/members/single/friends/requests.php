@@ -36,10 +36,13 @@ bp_nouveau_member_hook( 'before', 'friend_requests_content' ); ?>
 
 	<?php bp_nouveau_pagination( 'bottom' ); ?>
 
-<?php else:
+<?php
+else :
 
 	bp_nouveau_user_feedback( 'member-requests-none' );
 
-endif;?>
+endif;
+?>
 
-<?php bp_nouveau_member_hook( 'after', 'friend_requests_content' );
+<?php
+bp_nouveau_member_hook( 'after', 'friend_requests_content' );

@@ -10,10 +10,10 @@
 </h2>
 
 <?php if ( ! bp_is_group_create() ) : ?>
-	<?php if ( ! bp_get_group_has_avatar() ): ?>
-		<p class="bp-help-text"><?php _e("Add an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.", 'buddypress' ); ?></p>
-	<?php else: ?>
-		<p class="bp-help-text"><?php _e("Edit or update your avatar image for this group.", 'buddypress' ); ?></p>
+	<?php if ( ! bp_get_group_has_avatar() ) : ?>
+		<p class="bp-help-text"><?php _e( 'Add an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.', 'buddypress' ); ?></p>
+	<?php else : ?>
+		<p class="bp-help-text"><?php _e( 'Edit or update your avatar image for this group.', 'buddypress' ); ?></p>
 	<?php endif; ?>
 <?php endif; ?>
 
@@ -31,7 +31,7 @@
 		<div class="main-column">
 	<?php endif; ?>
 
-			<p class="bp-help-text"><?php _e("Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.", 'buddypress' ); ?></p>
+			<p class="bp-help-text"><?php _e( 'Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.', 'buddypress' ); ?></p>
 
 			<p>
 				<label for="file" class="bp-screen-reader-text"><?php _e( 'Select an image', 'buddypress' ); ?></label>
@@ -88,4 +88,5 @@ if ( 'crop-image' === bp_get_avatar_admin_step() ) : ?>
 	}
 	?>
 
-<?php endif;
+<?php
+endif;

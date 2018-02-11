@@ -51,21 +51,22 @@
 		)
 	);
 	// Temporarly filter the editor
-	remove_filter( 'mce_buttons', 'bp_nouveau_mce_buttons', 10, 1 ); ?>
+	remove_filter( 'mce_buttons', 'bp_nouveau_mce_buttons', 10, 1 );
+	?>
 </script>
 
 <script type="text/html" id="tmpl-bp-messages-paginate">
 	<# if ( 1 !== data.page ) { #>
 		<button id="bp-messages-prev-page"class="button messages-button">
 			<span class="dashicons dashicons-arrow-left"></span>
-			<span class="bp-screen-reader-text"><?php esc_html_e( 'Prev', 'buddypress' );?></span>
+			<span class="bp-screen-reader-text"><?php esc_html_e( 'Prev', 'buddypress' ); ?></span>
 		</button>
 	<# } #>
 
 	<# if ( data.total_page !== data.page ) { #>
 		<button id="bp-messages-next-page"class="button messages-button">
 			<span class="dashicons dashicons-arrow-right"></span>
-			<span class="bp-screen-reader-text"><?php esc_html_e( 'Next', 'buddypress' );?></span>
+			<span class="bp-screen-reader-text"><?php esc_html_e( 'Next', 'buddypress' ); ?></span>
 		</button>
 	<# } #>
 </script>
@@ -159,26 +160,26 @@
 
 				<div class="actions">
 
-					<button type="button" class="message-action-delete bp-tooltip bp-icons" data-bp-action="delete" data-bp-tooltip="<?php esc_attr_e( 'Delete conversation.', 'buddypress' );?>">
-						<span class="bp-screen-reader-text"><?php esc_html_e( 'Delete conversation.', 'buddypress' );?></span>
+					<button type="button" class="message-action-delete bp-tooltip bp-icons" data-bp-action="delete" data-bp-tooltip="<?php esc_attr_e( 'Delete conversation.', 'buddypress' ); ?>">
+						<span class="bp-screen-reader-text"><?php esc_html_e( 'Delete conversation.', 'buddypress' ); ?></span>
 					</button>
 
 					<# if ( undefined !== data.star_link ) { #>
 
 						<# if ( false !== data.is_starred ) { #>
-							<a role="button" class="message-action-unstar bp-tooltip bp-icons" href="{{data.star_link}}" data-bp-action="unstar" aria-pressed="true" data-bp-tooltip="<?php esc_attr_e( 'Unstar Conversation', 'buddypress' );?>">
-								<span class="bp-screen-reader-text"><?php esc_html_e( 'Unstar Conversation', 'buddypress' );?></span>
+							<a role="button" class="message-action-unstar bp-tooltip bp-icons" href="{{data.star_link}}" data-bp-action="unstar" aria-pressed="true" data-bp-tooltip="<?php esc_attr_e( 'Unstar Conversation', 'buddypress' ); ?>">
+								<span class="bp-screen-reader-text"><?php esc_html_e( 'Unstar Conversation', 'buddypress' ); ?></span>
 							</a>
 						<# } else { #>
-							<a role="button" class="message-action-star bp-tooltip bp-icons" href="{{data.star_link}}" data-bp-action="star" aria-pressed="false" data-bp-tooltip="<?php esc_attr_e( 'Star Conversation', 'buddypress' );?>">
-								<span class="bp-screen-reader-text"><?php esc_html_e( 'Star Conversation', 'buddypress' );?></span>
+							<a role="button" class="message-action-star bp-tooltip bp-icons" href="{{data.star_link}}" data-bp-action="star" aria-pressed="false" data-bp-tooltip="<?php esc_attr_e( 'Star Conversation', 'buddypress' ); ?>">
+								<span class="bp-screen-reader-text"><?php esc_html_e( 'Star Conversation', 'buddypress' ); ?></span>
 							</a>
 						<# } #>
 
 					<# } #>
 
-					<a href="#view/{{data.id}}" class="message-action-view bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'View full conversation and reply.', 'buddypress' );?>">
-						<span class="bp-screen-reader-text"><?php esc_html_e( 'View full conversation and reply.', 'buddypress' );?></span>
+					<a href="#view/{{data.id}}" class="message-action-view bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'View full conversation and reply.', 'buddypress' ); ?>">
+						<span class="bp-screen-reader-text"><?php esc_html_e( 'View full conversation and reply.', 'buddypress' ); ?></span>
 					</a>
 				</div>
 			</header>
@@ -208,8 +209,8 @@
 
 		<div class="actions">
 
-			<button type="button" class="message-action-delete bp-tooltip bp-icons" data-bp-action="delete" data-bp-tooltip="<?php esc_attr_e( 'Delete conversation.', 'buddypress' );?>">
-				<span class="bp-screen-reader-text"><?php esc_html_e( 'Delete conversation.', 'buddypress' );?></span>
+			<button type="button" class="message-action-delete bp-tooltip bp-icons" data-bp-action="delete" data-bp-tooltip="<?php esc_attr_e( 'Delete conversation.', 'buddypress' ); ?>">
+				<span class="bp-screen-reader-text"><?php esc_html_e( 'Delete conversation.', 'buddypress' ); ?></span>
 			</button>
 
 			<?php bp_nouveau_messages_hook( 'after', 'thread_header_actions' ); ?>
@@ -234,12 +235,12 @@
 				<?php $test = 1; ?>
 
 				<# if ( false !== data.is_starred ) { #>
-					<button type="button" class="message-action-unstar bp-tooltip bp-icons" data-bp-star-link="{{data.star_link}}" data-bp-action="unstar" data-bp-tooltip="<?php esc_attr_e( 'Unstar Message', 'buddypress' );?>">
-						<span class="bp-screen-reader-text"><?php esc_html_e( 'Unstar Message', 'buddypress' );?></span>
+					<button type="button" class="message-action-unstar bp-tooltip bp-icons" data-bp-star-link="{{data.star_link}}" data-bp-action="unstar" data-bp-tooltip="<?php esc_attr_e( 'Unstar Message', 'buddypress' ); ?>">
+						<span class="bp-screen-reader-text"><?php esc_html_e( 'Unstar Message', 'buddypress' ); ?></span>
 					</button>
 				<# } else { #>
-					<button type="button" class="message-action-star bp-tooltip bp-icons" data-bp-star-link="{{data.star_link}}" data-bp-action="star" data-bp-tooltip="<?php esc_attr_e( 'Star Message', 'buddypress' );?>">
-						<span class="bp-screen-reader-text"><?php esc_html_e( 'Star Message', 'buddypress' );?></span>
+					<button type="button" class="message-action-star bp-tooltip bp-icons" data-bp-star-link="{{data.star_link}}" data-bp-action="star" data-bp-tooltip="<?php esc_attr_e( 'Star Message', 'buddypress' ); ?>">
+						<span class="bp-screen-reader-text"><?php esc_html_e( 'Star Message', 'buddypress' ); ?></span>
 					</button>
 				<# } #>
 

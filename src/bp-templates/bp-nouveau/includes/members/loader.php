@@ -42,7 +42,7 @@ class BP_Nouveau_Members {
 	 * @since 1.0.0
 	 */
 	protected function includes() {
-		require( trailingslashit( $this->dir ) . 'functions.php'     );
+		require( trailingslashit( $this->dir ) . 'functions.php' );
 		require( trailingslashit( $this->dir ) . 'template-tags.php' );
 	}
 
@@ -69,8 +69,8 @@ class BP_Nouveau_Members {
 		add_action( 'bp_nouveau_enqueue_scripts', 'bp_nouveau_members_enqueue_scripts' );
 
 		// Actions to check whether we are in the member's default front page sidebar
-		add_action( 'dynamic_sidebar_before', array( $this, 'user_home_sidebar_set'   ), 10, 1 );
-		add_action( 'dynamic_sidebar_after',  array( $this, 'user_home_sidebar_unset' ), 10, 1 );
+		add_action( 'dynamic_sidebar_before', array( $this, 'user_home_sidebar_set' ), 10, 1 );
+		add_action( 'dynamic_sidebar_after', array( $this, 'user_home_sidebar_unset' ), 10, 1 );
 	}
 
 	/**

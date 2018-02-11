@@ -12,7 +12,7 @@
 
 			<?php bp_get_template_part( 'members/single/parts/item-subnav' ); ?>
 
-		<?php endif ; ?>
+		<?php endif; ?>
 	</ul>
 </nav><!-- .bp-navs -->
 
@@ -22,9 +22,9 @@
 switch ( bp_current_action() ) :
 
 	// Home/My Friends
-	case 'my-friends' :
-
-		bp_nouveau_member_hook( 'before', 'friends_content' ); ?>
+	case 'my-friends':
+		bp_nouveau_member_hook( 'before', 'friends_content' );
+		?>
 
 		<div class="members friends" data-bp-list="members">
 
@@ -32,15 +32,16 @@ switch ( bp_current_action() ) :
 
 		</div><!-- .members.friends -->
 
-		<?php bp_nouveau_member_hook( 'after', 'friends_content' );
+		<?php
+		bp_nouveau_member_hook( 'after', 'friends_content' );
 		break;
 
-	case 'requests' :
+	case 'requests':
 		bp_get_template_part( 'members/single/friends/requests' );
 		break;
 
 	// Any other
-	default :
+	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;
 endswitch;

@@ -21,4 +21,4 @@
 			<input type="checkbox" name="group-notify-members" id="group-notify-members" value="1" /> <?php _e( 'Notify group members of these changes via email', 'buddypress' ); ?>
 		</label>
 	</p>
-<?php endif ; ?>
+<?php endif; ?>

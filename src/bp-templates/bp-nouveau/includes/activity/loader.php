@@ -81,7 +81,7 @@ class BP_Nouveau_Activity {
 		$bp = buddypress();
 
 		if ( bp_is_akismet_active() && isset( $bp->activity->akismet ) ) {
-			remove_action( 'bp_activity_entry_meta',      array( $bp->activity->akismet, 'add_activity_spam_button'         ) );
+			remove_action( 'bp_activity_entry_meta', array( $bp->activity->akismet, 'add_activity_spam_button' ) );
 			remove_action( 'bp_activity_comment_options', array( $bp->activity->akismet, 'add_activity_comment_spam_button' ) );
 		}
 	}
@@ -99,10 +99,10 @@ class BP_Nouveau_Activity {
 		// Localize Scripts
 		add_filter( 'bp_core_get_js_strings', 'bp_nouveau_activity_localize_scripts', 10, 1 );
 
-		add_filter( 'bp_get_activity_action_pre_meta', 'bp_nouveau_activity_secondary_avatars',  10, 2 );
-		add_filter( 'bp_get_activity_css_class',       'bp_nouveau_activity_scope_newest_class', 10, 1 );
-		add_filter( 'bp_activity_time_since',          'bp_nouveau_activity_time_since',         10, 2 );
-		add_filter( 'bp_activity_allowed_tags',        'bp_nouveau_activity_allowed_tags',       10, 1 );
+		add_filter( 'bp_get_activity_action_pre_meta', 'bp_nouveau_activity_secondary_avatars', 10, 2 );
+		add_filter( 'bp_get_activity_css_class', 'bp_nouveau_activity_scope_newest_class', 10, 1 );
+		add_filter( 'bp_activity_time_since', 'bp_nouveau_activity_time_since', 10, 2 );
+		add_filter( 'bp_activity_allowed_tags', 'bp_nouveau_activity_allowed_tags', 10, 1 );
 	}
 }
 

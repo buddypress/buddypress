@@ -19,8 +19,9 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_nouveau_message_markup_wrapper( $message, $type ) {
 
-	if( ! $message )
+	if ( ! $message ) {
 		return false;
+	}
 
 	$message = '<div class="bp-feedback ' . $type . '"><span class="bp-icon" aria-hidden="true"></span><p>' . $message . '</p></div>';
 
@@ -252,8 +253,8 @@ function bp_nouveau_get_group_potential_invites( $args = array() ) {
 
 		if ( ! empty( $r['per_page'] ) ) {
 			$response->meta = array(
-				'total_page'   => ceil( (int) $query->total_users / (int) $r['per_page'] ),
-				'page' => (int) $r['page'],
+				'total_page' => ceil( (int) $query->total_users / (int) $r['per_page'] ),
+				'page'       => (int) $r['page'],
 			);
 		}
 	}
@@ -268,14 +269,14 @@ function bp_nouveau_get_group_potential_invites( $args = array() ) {
 function bp_nouveau_group_invites_create_steps( $steps = array() ) {
 	if ( bp_is_active( 'friends' ) && isset( $steps['group-invites'] ) ) {
 		// Simply change the name
-		$steps['group-invites']['name'] = _x( 'Invite',  'Group screen nav', 'buddypress' );
+		$steps['group-invites']['name'] = _x( 'Invite', 'Group screen nav', 'buddypress' );
 		return $steps;
 	}
 
 	// Add the create step if friends component is not active
 	$steps['group-invites'] = array(
-		'name'     => _x( 'Invite',  'Group screen nav', 'buddypress' ),
-		'position' => 30
+		'name'     => _x( 'Invite', 'Group screen nav', 'buddypress' ),
+		'position' => 30,
 	);
 
 	return $steps;
@@ -854,7 +855,7 @@ function bp_nouveau_group_reset_front_template( $templates = array(), $group = n
  */
 function bp_nouveau_group_locate_template_part( $template = '' ) {
 	$current_group = groups_get_current_group();
-	$bp_nouveau     = bp_nouveau();
+	$bp_nouveau    = bp_nouveau();
 
 	if ( ! $template || empty( $current_group->id ) ) {
 		return '';
@@ -876,7 +877,7 @@ function bp_nouveau_group_locate_template_part( $template = '' ) {
 				$current_group_type = 'none';
 			}
 
-			$bp_nouveau->groups->current_group_hierarchy[] = 'groups/single/%s-group-type-' . sanitize_file_name( $current_group_type )   . '.php';
+			$bp_nouveau->groups->current_group_hierarchy[] = 'groups/single/%s-group-type-' . sanitize_file_name( $current_group_type ) . '.php';
 		}
 
 		$bp_nouveau->groups->current_group_hierarchy = array_merge( $bp_nouveau->groups->current_group_hierarchy, array(
@@ -996,8 +997,8 @@ function bp_nouveau_group_members_widget_overrides( $args = array() ) {
  */
 function bp_nouveau_groups_add_home_widget_filters() {
 	add_filter( 'bp_nouveau_activity_widget_query', 'bp_nouveau_group_activity_widget_overrides', 10, 1 );
-	add_filter( 'bp_before_has_groups_parse_args',  'bp_nouveau_group_groups_widget_overrides',   10, 1 );
-	add_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_group_members_widget_overrides',  10, 1 );
+	add_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_group_groups_widget_overrides', 10, 1 );
+	add_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_group_members_widget_overrides', 10, 1 );
 
 	do_action( 'bp_nouveau_groups_add_home_widget_filters' );
 }
@@ -1009,8 +1010,8 @@ function bp_nouveau_groups_add_home_widget_filters() {
  */
 function bp_nouveau_groups_remove_home_widget_filters() {
 	remove_filter( 'bp_nouveau_activity_widget_query', 'bp_nouveau_group_activity_widget_overrides', 10, 1 );
-	remove_filter( 'bp_before_has_groups_parse_args',  'bp_nouveau_group_groups_widget_overrides',   10, 1 );
-	remove_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_group_members_widget_overrides',  10, 1 );
+	remove_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_group_groups_widget_overrides', 10, 1 );
+	remove_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_group_members_widget_overrides', 10, 1 );
 
 	do_action( 'bp_nouveau_groups_remove_home_widget_filters' );
 }

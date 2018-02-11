@@ -213,7 +213,7 @@ function bp_nouveau_group_creation_tabs() {
 	}
 
 	if ( ! bp_get_groups_current_create_step() ) {
-		$keys = array_keys( $bp->groups->group_creation_steps );
+		$keys                            = array_keys( $bp->groups->group_creation_steps );
 		$bp->groups->current_create_step = array_shift( $keys );
 	}
 
@@ -262,12 +262,12 @@ function bp_nouveau_group_creation_screen() {
  */
 
 function bp_nouveau_group_manage_screen() {
-	$action          = bp_action_variable(0);
+	$action          = bp_action_variable( 0 );
 	$is_group_create = bp_is_group_create();
 	$output          = '';
 
 	if ( $is_group_create ) {
-		$action = bp_action_variable(1);
+		$action = bp_action_variable( 1 );
 	}
 
 	$screen_id = sanitize_file_name( $action );
@@ -445,7 +445,7 @@ function bp_nouveau_group_manage_screen() {
 function bp_nouveau_group_header_buttons( $args = array() ) {
 	$bp_nouveau = bp_nouveau();
 
-	$output = join( ' ', bp_nouveau_get_groups_buttons( $args) );
+	$output = join( ' ', bp_nouveau_get_groups_buttons( $args ) );
 
 	// On the group's header we need to reset the group button's global.
 	if ( ! empty( $bp_nouveau->groups->group_buttons ) ) {
@@ -1151,7 +1151,8 @@ function bp_nouveau_group_template_part() {
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'bp_before_group_status_message' ); ?>
+		do_action( 'bp_before_group_status_message' );
+		?>
 
 		<div id="message" class="info">
 			<p><?php bp_group_status_message(); ?></p>

@@ -20,9 +20,9 @@
 switch ( bp_current_action() ) :
 
 	// Home/My Blogs
-	case 'my-sites' :
-
-		bp_nouveau_member_hook( 'before', 'blogs_content' ); ?>
+	case 'my-sites':
+		bp_nouveau_member_hook( 'before', 'blogs_content' );
+		?>
 
 		<div class="blogs myblogs" data-bp-list="blogs">
 
@@ -30,7 +30,8 @@ switch ( bp_current_action() ) :
 
 		</div><!-- .blogs.myblogs -->
 
-		<?php bp_nouveau_member_hook( 'after', 'blogs_content' );
+		<?php
+		bp_nouveau_member_hook( 'after', 'blogs_content' );
 		break;
 
 	// Any other

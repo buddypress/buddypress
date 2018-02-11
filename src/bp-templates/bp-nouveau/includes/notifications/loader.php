@@ -79,8 +79,8 @@ class BP_Nouveau_Notifications {
 	protected function setup_filters() {
 		add_filter( 'bp_nouveau_register_scripts', 'bp_nouveau_notifications_register_scripts', 10, 1 );
 		add_filter( 'bp_get_the_notification_mark_unread_link', 'bp_nouveau_notifications_mark_unread_link', 10, 1 );
-		add_filter( 'bp_get_the_notification_mark_read_link',   'bp_nouveau_notifications_mark_read_link'  , 10, 1 );
-		add_filter( 'bp_get_the_notification_delete_link',      'bp_nouveau_notifications_delete_link'     , 10, 1 );
+		add_filter( 'bp_get_the_notification_mark_read_link', 'bp_nouveau_notifications_mark_read_link', 10, 1 );
+		add_filter( 'bp_get_the_notification_delete_link', 'bp_nouveau_notifications_delete_link', 10, 1 );
 	}
 }
 

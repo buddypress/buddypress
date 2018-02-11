@@ -61,31 +61,31 @@ class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 			<p class="description">
 				<?php echo esc_html( $guide ); ?>
 			</p>
-		<?php endif ; ?>
+		<?php endif; ?>
 
 		<?php if ( ! empty( $item_nav ) ) : ?>
-			<ul id="<?php echo esc_attr( $id ); ?>" class="ui-sortable" style="margin-top: 0px; height: 500px;" data-bp-type="<?php echo esc_attr( $this->type ) ; ?>">
+			<ul id="<?php echo esc_attr( $id ); ?>" class="ui-sortable" style="margin-top: 0px; height: 500px;" data-bp-type="<?php echo esc_attr( $this->type ); ?>">
 
 				<?php
 				$i = 0;
-				foreach ( $item_nav as $item) :
+				foreach ( $item_nav as $item ) :
 					$i += 1;
 				?>
 					<li class="<?php echo esc_attr( $class ); echo ( 1 === $i ) ? ' ui-sortable-disabled' : ''; ?>" data-bp-nav="<?php echo esc_attr( $item->slug ); ?>">
 						<div class="menu-item-bar">
 							<div class="menu-item-handle ui-sortable-handle">
 								<span class="item-title" aria-hidden="true">
-									<span class="menu-item-title"><?php echo esc_html( _bp_strip_spans_from_title( $item->name ) ) ; ?></span>
+									<span class="menu-item-title"><?php echo esc_html( _bp_strip_spans_from_title( $item->name ) ); ?></span>
 								</span>
 							</div>
 						</div>
 					</li>
-				<?php endforeach ; ?>
+				<?php endforeach; ?>
 
 			</ul>
 		<?php endif; ?>
 
-			<input id="<?php echo esc_attr( 'bp_item_' . $this->type ) ; ?>" type="hidden" value="" data-customize-setting-link="<?php echo esc_attr( $setting );?>" />
+			<input id="<?php echo esc_attr( 'bp_item_' . $this->type ); ?>" type="hidden" value="" data-customize-setting-link="<?php echo esc_attr( $setting ); ?>" />
 
 		<?php
 	}

@@ -28,6 +28,6 @@
 
 		</ul>
 
-	<?php endif ; ?>
+	<?php endif; ?>
 
 </nav><!-- #isubnav -->

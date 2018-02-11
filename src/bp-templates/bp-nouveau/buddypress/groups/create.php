@@ -5,7 +5,7 @@
 
 bp_nouveau_groups_create_hook( 'before', 'page' ); ?>
 
-	<h2 class="bp-subhead"><?php _e( 'Create A New Group','buddypress' ); ?></h2>
+	<h2 class="bp-subhead"><?php _e( 'Create A New Group', 'buddypress' ); ?></h2>
 
 	<?php bp_nouveau_groups_create_hook( 'before', 'content_template' ); ?>
 

@@ -32,4 +32,5 @@
 
 </div><!-- .activity -->
 
-<?php bp_nouveau_member_hook( 'after', 'activity_content' );
+<?php
+bp_nouveau_member_hook( 'after', 'activity_content' );

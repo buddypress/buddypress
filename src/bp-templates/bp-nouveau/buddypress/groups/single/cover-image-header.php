@@ -31,7 +31,7 @@
 
 			<?php bp_nouveau_group_hook( 'before', 'header_meta' ); ?>
 
-			<?php if ( bp_nouveau_group_has_meta_extra() ): ?>
+			<?php if ( bp_nouveau_group_has_meta_extra() ) : ?>
 				<div class="item-meta">
 
 					<?php echo bp_nouveau_group_meta()->extra; ?>

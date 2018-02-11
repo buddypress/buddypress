@@ -104,11 +104,10 @@ function bp_nouveau_get_members_filters( $context = '' ) {
 		if ( 'friends' === $context ) {
 			$action = 'bp_member_friends_order_options';
 		}
-
 	} else {
 		$filters = array(
-			'last_joined' => __( 'Newest', 'buddypress' ),
-			'first_joined' => __( 'Oldest','buddypress' ),
+			'last_joined'  => __( 'Newest', 'buddypress' ),
+			'first_joined' => __( 'Oldest', 'buddypress' ),
 		);
 
 		if ( bp_is_active( 'activity' ) ) {
@@ -116,7 +115,7 @@ function bp_nouveau_get_members_filters( $context = '' ) {
 		}
 
 		$filters['alphabetical'] = __( 'Alphabetical', 'buddypress' );
-		$action = 'bp_groups_members_order_options';
+		$action                  = 'bp_groups_members_order_options';
 	}
 
 	/**
@@ -269,7 +268,7 @@ function bp_nouveau_member_locate_template_part( $template = '' ) {
 				$displayed_user_member_type = 'none';
 			}
 
-			$bp_nouveau->members->displayed_user_hierarchy[] = 'members/single/%s-member-type-' . sanitize_file_name( $displayed_user_member_type )   . '.php';
+			$bp_nouveau->members->displayed_user_hierarchy[] = 'members/single/%s-member-type-' . sanitize_file_name( $displayed_user_member_type ) . '.php';
 		}
 
 		// And the regular one
@@ -397,8 +396,8 @@ function bp_nouveau_member_members_widget_overrides( $args = array() ) {
  */
 function bp_nouveau_members_add_home_widget_filters() {
 	add_filter( 'bp_nouveau_activity_widget_query', 'bp_nouveau_member_activity_widget_overrides', 10, 1 );
-	add_filter( 'bp_before_has_groups_parse_args',  'bp_nouveau_member_groups_widget_overrides',   10, 1 );
-	add_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_member_members_widget_overrides',  10, 1 );
+	add_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_member_groups_widget_overrides', 10, 1 );
+	add_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_member_members_widget_overrides', 10, 1 );
 
 	do_action( 'bp_nouveau_members_add_home_widget_filters' );
 }
@@ -410,8 +409,8 @@ function bp_nouveau_members_add_home_widget_filters() {
  */
 function bp_nouveau_members_remove_home_widget_filters() {
 	remove_filter( 'bp_nouveau_activity_widget_query', 'bp_nouveau_member_activity_widget_overrides', 10, 1 );
-	remove_filter( 'bp_before_has_groups_parse_args',  'bp_nouveau_member_groups_widget_overrides',   10, 1 );
-	remove_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_member_members_widget_overrides',  10, 1 );
+	remove_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_member_groups_widget_overrides', 10, 1 );
+	remove_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_member_members_widget_overrides', 10, 1 );
 
 	do_action( 'bp_nouveau_members_remove_home_widget_filters' );
 }

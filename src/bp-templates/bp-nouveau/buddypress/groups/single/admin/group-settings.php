@@ -48,7 +48,7 @@
 	</fieldset>
 
 <?php // Group type selection ?>
-<?php if ( $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ) ): ?>
+<?php if ( $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ) ) : ?>
 
 	<fieldset class="group-create-types">
 		<legend><?php _e( 'Group Types', 'buddypress' ); ?></legend>
@@ -60,9 +60,9 @@
 				<label for="<?php printf( 'group-type-%s', $type->name ); ?>">
 					<input type="checkbox" name="group-types[]" id="<?php printf( 'group-type-%s', $type->name ); ?>" value="<?php echo esc_attr( $type->name ); ?>" <?php checked( bp_groups_has_group_type( bp_get_current_group_id(), $type->name ) ); ?>/> <?php echo esc_html( $type->labels['name'] ); ?>
 					<?php
-						if ( ! empty( $type->description ) ) {
-							printf( '&ndash; %s', '<span class="bp-group-type-desc">' . esc_html( $type->description ) . '</span>' );
-						}
+					if ( ! empty( $type->description ) ) {
+						printf( '&ndash; %s', '<span class="bp-group-type-desc">' . esc_html( $type->description ) . '</span>' );
+					}
 					?>
 				</label>
 			</div>

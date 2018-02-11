@@ -30,6 +30,7 @@ bp_nouveau_member_hook( 'before', 'plugin_template' ); ?>
 
 <?php endif; ?>
 
-<?php bp_nouveau_plugin_hook( 'content' );
+<?php
+bp_nouveau_plugin_hook( 'content' );
 
 bp_nouveau_member_hook( 'after', 'plugin_template' );

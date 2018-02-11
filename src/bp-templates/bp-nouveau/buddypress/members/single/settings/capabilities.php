@@ -22,4 +22,5 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 
 </form>
 
-<?php bp_nouveau_member_hook( 'after', 'settings_template' );
+<?php
+bp_nouveau_member_hook( 'after', 'settings_template' );

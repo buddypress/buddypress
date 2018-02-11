@@ -48,7 +48,8 @@ if ( bp_has_notifications( bp_ajax_querystring( 'notifications' ) ) ) :
 		<?php wp_nonce_field( 'notifications_bulk_nonce', 'notifications_bulk_nonce' ); ?>
 	</form>
 
-	<?php bp_nouveau_pagination( 'bottom' );
+	<?php
+	bp_nouveau_pagination( 'bottom' );
 
 else :
 

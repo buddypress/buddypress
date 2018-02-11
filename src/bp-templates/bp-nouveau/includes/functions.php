@@ -72,7 +72,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 		if ( 'notifications' === $object ) {
 			$qs[] = 'component_action=' . $post_query['filter'];
 		} else {
-			$qs[] = 'type='   . $post_query['filter'];
+			$qs[] = 'type=' . $post_query['filter'];
 			$qs[] = 'action=' . $post_query['filter'];
 		}
 	}
@@ -84,7 +84,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 
 	if ( 'personal' === $post_query['scope'] ) {
 		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
-		$qs[] = 'user_id=' . $user_id;
+		$qs[]    = 'user_id=' . $user_id;
 	}
 
 	// Activity stream scope only on activity directory.
@@ -100,7 +100,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	// Excludes activity just posted and avoids duplicate ids.
 	if ( ! empty( $post_query['exclude_just_posted'] ) ) {
 		$just_posted = wp_parse_id_list( $post_query['exclude_just_posted'] );
-		$qs[] = 'exclude=' . implode( ',', $just_posted );
+		$qs[]        = 'exclude=' . implode( ',', $just_posted );
 	}
 
 	// To get newest activities.
@@ -156,7 +156,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
  *
  * @return string
  */
-function bp_nouveau_ajax_button( $output ='', $button = null, $before ='', $after = '', $r = array() ) {
+function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $after = '', $r = array() ) {
 	if ( empty( $button->component ) ) {
 		return $output;
 	}
@@ -258,24 +258,24 @@ function bp_nouveau_wrapper( $args = array() ) {
 
 	// Actually merge some classes defaults and $args
 	// @todo This is temp, we need certain classes but maybe improve this approach.
-	$default_classes = array( 'action' );
+	$default_classes        = array( 'action' );
 	$r['container_classes'] = array_merge( $r['container_classes'], $default_classes );
 
 	if ( empty( $r['container'] ) || ! isset( $valid_containers[ $r['container'] ] ) || empty( $r['output'] ) ) {
 		return;
 	}
 
-	$container          = $r['container'];
-	$container_id       = '';
-	$container_classes  = '';
-	$output             = $r['output'];
+	$container         = $r['container'];
+	$container_id      = '';
+	$container_classes = '';
+	$output            = $r['output'];
 
 	if ( ! empty( $r['container_id'] ) ) {
 		$container_id = ' id="' . esc_attr( $r['container_id'] ) . '"';
 	}
 
 	if ( ! empty( $r['container_classes'] ) && is_array( $r['container_classes'] ) ) {
-		$container_classes = ' class="' . join( ' ', array_map( 'sanitize_html_class', $r['container_classes'] ) ) .'"';
+		$container_classes = ' class="' . join( ' ', array_map( 'sanitize_html_class', $r['container_classes'] ) ) . '"';
 	}
 
 	// Print the wrapper and its content.
@@ -790,13 +790,13 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
 				continue;
 			}
 
-			$k = str_replace( array( '[', ']' ), array( '_', '' ), $key );
+			$k            = str_replace( array( '[', ']' ), array( '_', '' ), $key );
 			$retval[ $k ] = $setting;
 		}
 
 	// Used when it's an early regular request
-	} elseif ( isset( $temporary_setting['bp_nouveau_appearance[' . $option . ']'] ) ) {
-		$retval = $temporary_setting['bp_nouveau_appearance[' . $option . ']'];
+	} elseif ( isset( $temporary_setting[ 'bp_nouveau_appearance[' . $option . ']' ] ) ) {
+		$retval = $temporary_setting[ 'bp_nouveau_appearance[' . $option . ']' ];
 
 	// Used when it's an ajax request
 	} elseif ( isset( $_POST['customized'][ 'bp_nouveau_appearance_' . $option ] ) ) {
@@ -970,7 +970,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 	return '
 		/* Cover image */
 		#buddypress #item-header-cover-image {
-			min-height: ' . $params["height"] . 'px;
+			min-height: ' . $params['height'] . 'px;
 			margin-bottom: 1em;
 		}
 
@@ -981,7 +981,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 		}
 
 		#buddypress #header-cover-image {
-			height: ' . $params["height"] . 'px;
+			height: ' . $params['height'] . 'px;
 			' . $cover_image . '
 		}
 
@@ -995,7 +995,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 		}
 
 		#buddypress #item-header-cover-image #item-header-avatar {
-			margin-top: '. $avatar_offset .'px;
+			margin-top: ' . $avatar_offset . 'px;
 			float: left;
 			overflow: visible;
 			width:auto;
@@ -1011,7 +1011,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 
 		body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-header-content,
 		body.single-item.groups #buddypress div#item-header #item-header-cover-image #item-actions {
-			margin-top: ' . $params["height"] . 'px;
+			margin-top: ' . $params['height'] . 'px;
 			margin-left: 0;
 			clear: none;
 			max-width: 50%;
@@ -1296,7 +1296,7 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 		$feedback_messages['member-blogs-loading']['message'] = __( 'Loading the blogs you are a contributor of, please wait.', 'buddypress' );
 	} elseif ( 'member-friends-loading' === $feedback_id && bp_is_my_profile() ) {
 		$feedback_messages['member-friends-loading']['message'] = __( 'Loading your friends, please wait.', 'buddypress' );
-	}  elseif ( 'member-groups-loading' === $feedback_id && bp_is_my_profile() ) {
+	} elseif ( 'member-groups-loading' === $feedback_id && bp_is_my_profile() ) {
 		$feedback_messages['member-groups-loading']['message'] = __( 'Loading the groups you are a member of, please wait.', 'buddypress' );
 	}
 

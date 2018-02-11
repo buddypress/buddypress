@@ -182,16 +182,16 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 	}
 
 	$args['type'] = 'loop';
-	$action = 'bp_directory_members_actions';
+	$action       = 'bp_directory_members_actions';
 
 	// Specific case for group members.
 	if ( bp_is_active( 'groups' ) && bp_is_group_members() ) {
 		$args['type'] = 'group_member';
-		$action = 'bp_group_members_list_item_action';
+		$action       = 'bp_group_members_list_item_action';
 
 	} elseif ( bp_is_active( 'friends' ) && bp_is_user_friend_requests() ) {
 		$args['type'] = 'friendship_request';
-		$action = 'bp_friend_requests_item_action';
+		$action       = 'bp_friend_requests_item_action';
 	}
 
 	$output = join( ' ', bp_nouveau_get_members_buttons( $args ) );
@@ -730,20 +730,20 @@ function bp_nouveau_member_description( $user_id = 0 ) {
 
 	// @todo This hack is too brittle.
 	add_filter( 'the_author_description', 'make_clickable', 9 );
-	add_filter( 'the_author_description', 'wpautop'           );
-	add_filter( 'the_author_description', 'wptexturize'       );
-	add_filter( 'the_author_description', 'convert_smilies'   );
-	add_filter( 'the_author_description', 'convert_chars'     );
-	add_filter( 'the_author_description', 'stripslashes'      );
+	add_filter( 'the_author_description', 'wpautop' );
+	add_filter( 'the_author_description', 'wptexturize' );
+	add_filter( 'the_author_description', 'convert_smilies' );
+	add_filter( 'the_author_description', 'convert_chars' );
+	add_filter( 'the_author_description', 'stripslashes' );
 
 	the_author_meta( 'description', $user_id );
 
 	remove_filter( 'the_author_description', 'make_clickable', 9 );
-	remove_filter( 'the_author_description', 'wpautop'           );
-	remove_filter( 'the_author_description', 'wptexturize'       );
-	remove_filter( 'the_author_description', 'convert_smilies'   );
-	remove_filter( 'the_author_description', 'convert_chars'     );
-	remove_filter( 'the_author_description', 'stripslashes'      );
+	remove_filter( 'the_author_description', 'wpautop' );
+	remove_filter( 'the_author_description', 'wptexturize' );
+	remove_filter( 'the_author_description', 'convert_smilies' );
+	remove_filter( 'the_author_description', 'convert_chars' );
+	remove_filter( 'the_author_description', 'stripslashes' );
 }
 
 /**
@@ -864,7 +864,7 @@ function bp_nouveau_has_wp_profile_fields() {
 	}
 
 	// Keep it for a later use.
-	$bp_nouveau = bp_nouveau();
+	$bp_nouveau                            = bp_nouveau();
 	$bp_nouveau->members->wp_profile       = $user_profile_fields;
 	$bp_nouveau->members->wp_profile_index = 0;
 
@@ -900,7 +900,7 @@ function bp_nouveau_wp_profile_field() {
 	$bp_nouveau = bp_nouveau();
 
 	$bp_nouveau->members->wp_profile_current = $bp_nouveau->members->wp_profile[ $bp_nouveau->members->wp_profile_index ];
-	$bp_nouveau->members->wp_profile_index += 1;
+	$bp_nouveau->members->wp_profile_index  += 1;
 }
 
 /**

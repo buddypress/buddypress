@@ -18,7 +18,8 @@
 
 <div class="profile <?php echo bp_current_action(); ?>">
 
-<?php switch ( bp_current_action() ) :
+<?php
+switch ( bp_current_action() ) :
 
 	// Edit
 	case 'edit'   :
@@ -52,7 +53,9 @@
 	default :
 		bp_get_template_part( 'members/single/plugins' );
 		break;
-endswitch; ?>
+endswitch;
+?>
 </div><!-- .profile -->
 
-<?php bp_nouveau_xprofile_hook( 'after', 'profile_content' );
+<?php
+bp_nouveau_xprofile_hook( 'after', 'profile_content' );

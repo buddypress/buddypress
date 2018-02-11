@@ -137,7 +137,7 @@ function bp_nouveau_ajax_delete_activity() {
 		'feedback' => sprintf(
 			'<div class="bp-feedback bp-messages error">%s</div>',
 			esc_html__( 'There was a problem when deleting. Please try again.', 'buddypress' )
-		)
+		),
 	);
 
 	// Bail if not a POST action.
@@ -324,17 +324,17 @@ function bp_nouveau_ajax_new_activity_comment() {
 
 	// Swap the current comment with the activity item we just loaded.
 	if ( isset( $activities_template->activities[0] ) ) {
-		$activities_template->activity = new stdClass();
-		$activities_template->activity->id = $activities_template->activities[0]->item_id;
+		$activities_template->activity                  = new stdClass();
+		$activities_template->activity->id              = $activities_template->activities[0]->item_id;
 		$activities_template->activity->current_comment = $activities_template->activities[0];
 
 		// Because the whole tree has not been loaded, we manually
 		// determine depth.
-		$depth = 1;
+		$depth     = 1;
 		$parent_id = (int) $activities_template->activities[0]->secondary_item_id;
 		while ( $parent_id !== (int) $activities_template->activities[0]->item_id ) {
 			$depth++;
-			$p_obj = new BP_Activity_Activity( $parent_id );
+			$p_obj     = new BP_Activity_Activity( $parent_id );
 			$parent_id = (int) $p_obj->secondary_item_id;
 		}
 		$activities_template->activity->current_comment->depth = $depth;
@@ -412,7 +412,6 @@ function bp_nouveau_ajax_post_update() {
 	$object      = '';
 	$is_private  = false;
 
-
 	// Try to get the item id from posted variables.
 	if ( ! empty( $_POST['item_id'] ) ) {
 		$item_id = (int) $_POST['item_id'];
@@ -420,13 +419,13 @@ function bp_nouveau_ajax_post_update() {
 
 	// Try to get the object from posted variables.
 	if ( ! empty( $_POST['object'] ) ) {
-		$object  = sanitize_key( $_POST['object'] );
+		$object = sanitize_key( $_POST['object'] );
 
 	// If the object is not set and we're in a group, set the item id and the object
 	} elseif ( bp_is_group() ) {
 		$item_id = bp_get_current_group_id();
-		$object = 'group';
-		$status = groups_get_current_group()->status;
+		$object  = 'group';
+		$status  = groups_get_current_group()->status;
 	}
 
 	if ( 'user' === $object && bp_is_active( 'activity' ) ) {

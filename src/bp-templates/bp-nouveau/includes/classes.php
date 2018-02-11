@@ -62,7 +62,7 @@ class BP_Buttons_Group {
 			) );
 
 			// Just don't set the button if a param is missing
-			if ( empty( $r['id'] ) || empty( $r['component'] )  || empty( $r['link_text'] ) ) {
+			if ( empty( $r['id'] ) || empty( $r['component'] ) || empty( $r['link_text'] ) ) {
 				continue;
 			}
 
@@ -149,7 +149,7 @@ class BP_Buttons_Group {
 				unset( $this->group[ $key_button ] );
 			}
 
-			$buttons[ $button['id'] ] = bp_get_button( $button);
+			$buttons[ $button['id'] ] = bp_get_button( $button );
 		}
 
 		return $buttons;
@@ -193,7 +193,7 @@ class BP_Nouveau_Object_Nav_Widget extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
 			'description' => __( 'Displays BuddyPress primary nav in the sidebar of your site. Make sure to use it as the first widget of the sidebar and only once.', 'buddypress' ),
-			'classname'   => 'widget_nav_menu buddypress_object_nav'
+			'classname'   => 'widget_nav_menu buddypress_object_nav',
 		);
 
 		parent::__construct(
@@ -230,7 +230,7 @@ class BP_Nouveau_Object_Nav_Widget extends WP_Widget {
 
 		$title = '';
 
-		if ( ! empty( $item_nav_args[ 'bp_nouveau_widget_title' ] ) ) {
+		if ( ! empty( $item_nav_args['bp_nouveau_widget_title'] ) ) {
 			$title = '';
 
 			if ( bp_is_group() ) {
@@ -272,7 +272,7 @@ class BP_Nouveau_Object_Nav_Widget extends WP_Widget {
 	 * @return array the instance
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
+		$instance                            = $old_instance;
 		$instance['bp_nouveau_widget_title'] = (bool) $new_instance['bp_nouveau_widget_title'];
 
 		return $instance;

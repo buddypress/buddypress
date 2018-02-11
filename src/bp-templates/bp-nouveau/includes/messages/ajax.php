@@ -209,14 +209,14 @@ function bp_nouveau_ajax_get_user_message_threads() {
 		remove_filter( 'bp_after_has_message_threads_parse_args', 'bp_messages_filter_starred_message_threads' );
 	}
 
-	$threads = new stdClass;
+	$threads       = new stdClass;
 	$threads->meta = array(
 		'total_page' => ceil( (int) $messages_template->total_thread_count / (int) $messages_template->pag_num ),
-		'page'       => $messages_template->pag_page
+		'page'       => $messages_template->pag_page,
 	);
 
 	$threads->threads = array();
-	$i = 0;
+	$i                = 0;
 
 	while ( bp_message_threads() ) : bp_message_thread();
 		$threads->threads[ $i ] = array(
@@ -351,8 +351,8 @@ function bp_nouveau_ajax_get_thread_messages() {
 
 	if ( empty( $_POST['js_thread'] ) ) {
 		$thread->thread = array(
-			'id'            => bp_get_the_thread_id(),
-			'subject'       => html_entity_decode( bp_get_the_thread_subject() ),
+			'id'      => bp_get_the_thread_id(),
+			'subject' => html_entity_decode( bp_get_the_thread_subject() ),
 		);
 
 		if ( is_array( $thread_template->thread->recipients ) ) {

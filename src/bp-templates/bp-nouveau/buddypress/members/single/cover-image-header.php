@@ -34,7 +34,7 @@
 					<?php bp_nouveau_member_meta(); ?>
 
 				</div><!-- #item-meta -->
-			<?php endif ; ?>
+			<?php endif; ?>
 
 		</div><!-- #item-header-content -->
 

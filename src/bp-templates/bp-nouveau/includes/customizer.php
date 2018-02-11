@@ -324,7 +324,7 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 
 	// Add the controls to the customizer's section
 	foreach ( $controls as $id_control => $control_args ) {
-		if ( empty( $control_args['class'] ) )  {
+		if ( empty( $control_args['class'] ) ) {
 			$wp_customize->add_control( $id_control, $control_args );
 		} else {
 			$wp_customize->add_control( new $control_args['class']( $wp_customize, $id_control, $control_args ) );

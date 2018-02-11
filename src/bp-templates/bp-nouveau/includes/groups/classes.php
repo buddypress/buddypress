@@ -29,7 +29,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	 */
 	public function setup_hooks() {
 		add_action( 'bp_pre_user_query_construct', array( $this, 'build_exclude_args' ) );
-		add_action( 'bp_pre_user_query',           array( $this, 'build_meta_query'   ) );
+		add_action( 'bp_pre_user_query', array( $this, 'build_meta_query' ) );
 	}
 
 	/**
@@ -84,19 +84,19 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 		/** WHERE clauses *****************************************************/
 
 		// Group id
-		$sql['where'][] = $wpdb->prepare( "group_id = %d", $this->query_vars['group_id'] );
+		$sql['where'][] = $wpdb->prepare( 'group_id = %d', $this->query_vars['group_id'] );
 
 		if ( false === $this->query_vars['is_confirmed'] ) {
-			$sql['where'][] = $wpdb->prepare( "is_confirmed = %d", (int) $this->query_vars['is_confirmed'] );
-			$sql['where'][] = "inviter_id != 0";
+			$sql['where'][] = $wpdb->prepare( 'is_confirmed = %d', (int) $this->query_vars['is_confirmed'] );
+			$sql['where'][] = 'inviter_id != 0';
 		}
 
 		// Join the query part
 		$sql['where'] = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';
 
 		/** ORDER BY clause ***************************************************/
-		$sql['orderby'] = "ORDER BY date_modified";
-		$sql['order']   = "DESC";
+		$sql['orderby'] = 'ORDER BY date_modified';
+		$sql['order']   = 'DESC';
 
 		/** LIMIT clause ******************************************************/
 		$this->group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']} {$sql['limit']}" );
@@ -111,7 +111,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 		if ( isset( $this->query_vars['scope'] ) && 'members' === $this->query_vars['scope'] && isset( $this->query_vars['meta_query'] ) ) {
 
 			$invites_meta_query = new WP_Meta_Query( $this->query_vars['meta_query'] );
-			$meta_sql = $invites_meta_query->get_sql( 'user', 'u', 'ID' );
+			$meta_sql           = $invites_meta_query->get_sql( 'user', 'u', 'ID' );
 
 			if ( empty( $meta_sql['join'] ) || empty( $meta_sql['where'] ) ) {
 				return;
@@ -132,7 +132,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 			return array();
 		}
 
-		$bp  = buddypress();
+		$bp = buddypress();
 
 		return $wpdb->get_col( $wpdb->prepare( "SELECT inviter_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
 	}
@@ -292,10 +292,10 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 
 				if ( ! empty( $extension->params ) && ! array_diff_key( $required_params, $extension->params ) ) {
 					$nav_items[ $extension->params['slug'] ] = array(
-						'name'            => $extension->params['name'],
-						'slug'            => $extension->params['slug'],
-						'parent_slug'     => $this->group->slug,
-						'position'        => $extension->params['nav_item_position'],
+						'name'        => $extension->params['name'],
+						'slug'        => $extension->params['slug'],
+						'parent_slug' => $this->group->slug,
+						'position'    => $extension->params['nav_item_position'],
 					);
 				}
 			}

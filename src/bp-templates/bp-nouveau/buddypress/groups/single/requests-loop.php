@@ -8,7 +8,7 @@
 
 <?php if ( bp_group_has_membership_requests( bp_ajax_querystring( 'membership_requests' ) ) ) : ?>
 
-	<?php bp_nouveau_pagination( 'top' ) ; ?>
+	<?php bp_nouveau_pagination( 'top' ); ?>
 
 	<ul id="request-list" class="item-list bp-list">
 		<?php while ( bp_group_membership_requests() ) : bp_group_the_membership_request(); ?>
@@ -26,7 +26,7 @@
 		<?php endwhile; ?>
 	</ul>
 
-	<?php bp_nouveau_pagination( 'bottom' ) ; ?>
+	<?php bp_nouveau_pagination( 'bottom' ); ?>
 
 	<?php else:
 

@@ -174,18 +174,16 @@ class BP_Nouveau extends BP_Theme_Compat {
 		// We need to neutralize the BuddyPress core "bp_core_render_message()" once it has been added.
 		add_action( 'bp_actions', array( $this, 'neutralize_core_template_notices' ), 6 );
 
-
 		/** Scripts ***********************************************************/
 
-		add_action( 'bp_enqueue_scripts', array( $this, 'register_scripts'  ), 2 ); // Register theme JS
+		add_action( 'bp_enqueue_scripts', array( $this, 'register_scripts' ), 2 ); // Register theme JS
 
 		// We won't use this.
 		remove_action( 'bp_enqueue_scripts', 'bp_core_confirmation_js' );
 
-		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles'   ) ); // Enqueue theme CSS
-		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts'  ) ); // Enqueue theme JS
+		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS
+		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS
 		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
-
 
 		/** Body no-js Class **************************************************/
 
@@ -205,7 +203,6 @@ class BP_Nouveau extends BP_Theme_Compat {
 
 		// Set the BP Uri for the Ajax customizer preview
 		add_filter( 'bp_uri', array( $this, 'customizer_set_uri' ), 10, 1 );
-
 
 		/** Override **********************************************************/
 
@@ -399,25 +396,25 @@ class BP_Nouveau extends BP_Theme_Compat {
 			'unsaved_changes'     => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
 			'view'                => __( 'View', 'buddypress' ),
 			'object_nav_parent'   => '#buddypress',
-			'time_since'        => array(
-				'sometime'  => _x( 'sometime', 'javascript time since', 'buddypress' ),
-				'now'       => _x( 'right now', 'javascript time since', 'buddypress' ),
-				'ago'       => _x( '% ago', 'javascript time since', 'buddypress' ),
-				'separator' => _x( ',', 'Separator in javascript time since', 'buddypress' ),
-				'year'      => _x( '% year', 'javascript time since singular', 'buddypress' ),
-				'years'     => _x( '% years', 'javascript time since plural', 'buddypress' ),
-				'month'     => _x( '% month', 'javascript time since singular', 'buddypress' ),
-				'months'    => _x( '% months', 'javascript time since plural', 'buddypress' ),
-				'week'      => _x( '% week', 'javascript time since singular', 'buddypress' ),
-				'weeks'     => _x( '% weeks', 'javascript time since plural', 'buddypress' ),
-				'day'       => _x( '% day', 'javascript time since singular', 'buddypress' ),
-				'days'      => _x( '% days', 'javascript time since plural', 'buddypress' ),
-				'hour'      => _x( '% hour', 'javascript time since singular', 'buddypress' ),
-				'hours'     => _x( '% hours', 'javascript time since plural', 'buddypress' ),
-				'minute'    => _x( '% minute', 'javascript time since singular', 'buddypress' ),
-				'minutes'   => _x( '% minutes', 'javascript time since plural', 'buddypress' ),
-				'second'    => _x( '% second', 'javascript time since singular', 'buddypress' ),
-				'seconds'   => _x( '% seconds', 'javascript time since plural', 'buddypress' ),
+			'time_since'          => array(
+				'sometime'    => _x( 'sometime', 'javascript time since', 'buddypress' ),
+				'now'         => _x( 'right now', 'javascript time since', 'buddypress' ),
+				'ago'         => _x( '% ago', 'javascript time since', 'buddypress' ),
+				'separator'   => _x( ',', 'Separator in javascript time since', 'buddypress' ),
+				'year'        => _x( '% year', 'javascript time since singular', 'buddypress' ),
+				'years'       => _x( '% years', 'javascript time since plural', 'buddypress' ),
+				'month'       => _x( '% month', 'javascript time since singular', 'buddypress' ),
+				'months'      => _x( '% months', 'javascript time since plural', 'buddypress' ),
+				'week'        => _x( '% week', 'javascript time since singular', 'buddypress' ),
+				'weeks'       => _x( '% weeks', 'javascript time since plural', 'buddypress' ),
+				'day'         => _x( '% day', 'javascript time since singular', 'buddypress' ),
+				'days'        => _x( '% days', 'javascript time since plural', 'buddypress' ),
+				'hour'        => _x( '% hour', 'javascript time since singular', 'buddypress' ),
+				'hours'       => _x( '% hours', 'javascript time since plural', 'buddypress' ),
+				'minute'      => _x( '% minute', 'javascript time since singular', 'buddypress' ),
+				'minutes'     => _x( '% minutes', 'javascript time since plural', 'buddypress' ),
+				'second'      => _x( '% second', 'javascript time since singular', 'buddypress' ),
+				'seconds'     => _x( '% seconds', 'javascript time since plural', 'buddypress' ),
 				'time_chunks' => array(
 					'a_year'   => YEAR_IN_SECONDS,
 					'b_month'  => 30 * DAY_IN_SECONDS,
