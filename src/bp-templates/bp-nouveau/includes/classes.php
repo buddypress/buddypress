@@ -298,7 +298,7 @@ class BP_Nouveau_Object_Nav_Widget extends WP_Widget {
 		?>
 
 		<p>
-			<input class="checkbox" type="checkbox" <?php checked( $bp_nouveau_widget_title, true ) ?> id="<?php echo $this->get_field_id( 'bp_nouveau_widget_title' ); ?>" name="<?php echo $this->get_field_name( 'bp_nouveau_widget_title' ); ?>" />
+			<input class="checkbox" type="checkbox" <?php checked( $bp_nouveau_widget_title, true ); ?> id="<?php echo $this->get_field_id( 'bp_nouveau_widget_title' ); ?>" name="<?php echo $this->get_field_name( 'bp_nouveau_widget_title' ); ?>" />
 			<label for="<?php echo $this->get_field_id( 'bp_nouveau_widget_title' ); ?>"><?php esc_html_e( 'Include navigation title', 'buddypress' ); ?></label>
 		</p>
 

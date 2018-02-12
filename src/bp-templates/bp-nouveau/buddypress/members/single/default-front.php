@@ -34,7 +34,8 @@
 				</blockquote><!-- .member-bio -->
 			<?php endif; ?>
 
-			<?php if ( bp_is_my_profile() ) :
+			<?php
+			if ( bp_is_my_profile() ) :
 
 				bp_nouveau_member_description_edit_link();
 

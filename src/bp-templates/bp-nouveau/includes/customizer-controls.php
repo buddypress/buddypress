@@ -39,7 +39,13 @@ class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 			$guide = __( 'Customizing the Groups navivation order needs you create at least one group first.', 'buddypress' );
 
 			// Try to fetch any random group:
-			$random = groups_get_groups( array( 'type' => 'random', 'per_page' => 1, 'show_hidden' => true ) );
+			$random = groups_get_groups(
+				array(
+					'type'        => 'random',
+					'per_page'    => 1,
+					'show_hidden' => true,
+				)
+			);
 
 			if ( ! empty( $random['groups'] ) ) {
 				$group    = reset( $random['groups'] );

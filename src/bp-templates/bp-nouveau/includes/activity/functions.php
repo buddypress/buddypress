@@ -154,8 +154,12 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	);
 
 	if ( bp_is_group() ) {
-		$activity_params = array_merge( $activity_params,
-			array( 'object' => 'group', 'item_id' => bp_get_current_group_id() )
+		$activity_params = array_merge(
+			$activity_params,
+			array(
+				'object'  => 'group',
+				'item_id' => bp_get_current_group_id(),
+			)
 		);
 	}
 
@@ -185,19 +189,19 @@ function bp_nouveau_get_activity_directory_nav_items() {
 
 	// deprecated hooks
 	$deprecated_hooks = array(
-		array( 'bp_before_activity_type_tab_all', 'activity',  0 ),
-		array( 'bp_activity_type_tabs',           'activity', 46 ),
+		array( 'bp_before_activity_type_tab_all', 'activity', 0 ),
+		array( 'bp_activity_type_tabs', 'activity', 46 ),
 	);
 
 	if ( is_user_logged_in() ) {
 		$deprecated_hooks = array_merge(
 			$deprecated_hooks,
 			array(
-				array( 'bp_before_activity_type_tab_friends',   'activity',  6 ),
-				array( 'bp_before_activity_type_tab_groups',    'activity', 16 ),
+				array( 'bp_before_activity_type_tab_friends', 'activity', 6 ),
+				array( 'bp_before_activity_type_tab_groups', 'activity', 16 ),
 				array( 'bp_before_activity_type_tab_favorites', 'activity', 26 ),
-		) );
-
+			)
+		);
 
 		// If the user has favorite create a nav item
 		if ( bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) {
@@ -292,7 +296,10 @@ function bp_nouveau_get_activity_directory_nav_items() {
  * @return array
  */
 function bp_nouveau_get_activity_filters_array( $output = '', $filters = array(), $context = '' ) {
-	return array( 'filters' => $filters, 'context' => $context );
+	return array(
+		'filters' => $filters,
+		'context' => $context,
+	);
 }
 
 /**
@@ -332,8 +339,8 @@ function bp_nouveau_get_activity_filters() {
  */
 function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
 	switch ( $activity->component ) {
-		case 'groups' :
-		case 'friends' :
+		case 'groups':
+		case 'friends':
 			// Only insert avatar if one exists.
 			if ( $secondary_avatar = bp_get_activity_secondary_avatar() ) {
 				$reverse_content = strrev( $action );

@@ -19,13 +19,15 @@ function bp_nouveau_members_enqueue_scripts() {
 		return;
 	}
 
-	wp_add_inline_style( 'bp-nouveau', '
+	wp_add_inline_style(
+		'bp-nouveau', '
 		#member-front-widgets #groups-list-options,
 		#member-front-widgets #members-list-options,
 		#member-front-widgets #friends-list-options {
 			display: none;
 		}
-	' );
+	'
+	);
 }
 
 /**
@@ -447,11 +449,13 @@ function bp_nouveau_member_customizer_nav() {
 	add_filter( '_bp_nouveau_member_reset_front_template', 'bp_nouveau_member_restrict_user_front_templates', 10, 1 );
 
 	if ( bp_displayed_user_get_front_template( buddypress()->loggedin_user ) ) {
-		buddypress()->members->nav->add_nav( array(
-			'name'                => _x( 'Home', 'Member Home page', 'buddypress' ),
-			'slug'                => 'front',
-			'position'            => 5,
-		) );
+		buddypress()->members->nav->add_nav(
+			array(
+				'name'     => _x( 'Home', 'Member Home page', 'buddypress' ),
+				'slug'     => 'front',
+				'position' => 5,
+			)
+		);
 	}
 
 	remove_filter( '_bp_nouveau_member_reset_front_template', 'bp_nouveau_member_restrict_user_front_templates', 10, 1 );

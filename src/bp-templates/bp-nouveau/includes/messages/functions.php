@@ -286,7 +286,8 @@ function bp_nouveau_push_sitewide_notices() {
 		$bp = buddypress();
 
 		if ( empty( $bp->template_message ) ) {
-			$message = sprintf( '<strong class="subject">%s</strong>
+			$message = sprintf(
+				'<strong class="subject">%s</strong>
 				%s',
 				stripslashes( $notice->subject ),
 				stripslashes( $notice->message )
@@ -385,7 +386,10 @@ function bp_nouveau_messages_get_bulk_actions() {
 			}
 
 			if ( isset( $match[1] ) && isset( $match[2] ) ) {
-				$bulk_actions[] = array( 'value' => trim( $match[1] ), 'label' => trim( $match[2] ) );
+				$bulk_actions[] = array(
+					'value' => trim( $match[1] ),
+					'label' => trim( $match[2] ),
+				);
 			}
 		}
 	}
@@ -399,9 +403,11 @@ function bp_nouveau_messages_get_bulk_actions() {
  * @since 1.0.0
  */
 function bp_nouveau_messages_notification_filters() {
-	bp_nouveau_notifications_register_filter( array(
-		'id'       => 'new_message',
-		'label'    => __( 'New private messages', 'buddypress' ),
-		'position' => 115,
-	) );
+	bp_nouveau_notifications_register_filter(
+		array(
+			'id'       => 'new_message',
+			'label'    => __( 'New private messages', 'buddypress' ),
+			'position' => 115,
+		)
+	);
 }

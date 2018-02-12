@@ -22,4 +22,5 @@
 
 <p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
 
-<?php bp_attachments_get_template_part( 'cover-images/index' );
+<?php
+bp_attachments_get_template_part( 'cover-images/index' );

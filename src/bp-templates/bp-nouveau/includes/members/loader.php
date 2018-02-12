@@ -53,7 +53,12 @@ class BP_Nouveau_Members {
 	 */
 	protected function setup_actions() {
 		$ajax_actions = array(
-			array( 'members_filter' => array( 'function' => 'bp_nouveau_ajax_object_template_loader', 'nopriv' => true ) ),
+			array(
+				'members_filter' => array(
+					'function' => 'bp_nouveau_ajax_object_template_loader',
+					'nopriv'   => true,
+				),
+			),
 		);
 
 		foreach ( $ajax_actions as $ajax_action ) {

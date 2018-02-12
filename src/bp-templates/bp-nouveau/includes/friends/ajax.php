@@ -11,13 +11,40 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Registers friends AJAX actions.
  */
-bp_nouveau_register_ajax_actions( array(
-	array( 'friends_remove_friend'       => array( 'function' => 'bp_nouveau_ajax_addremove_friend', 'nopriv' => false ) ),
-	array( 'friends_add_friend'          => array( 'function' => 'bp_nouveau_ajax_addremove_friend', 'nopriv' => false ) ),
-	array( 'friends_withdraw_friendship' => array( 'function' => 'bp_nouveau_ajax_addremove_friend', 'nopriv' => false ) ),
-	array( 'friends_accept_friendship'   => array( 'function' => 'bp_nouveau_ajax_addremove_friend', 'nopriv' => false ) ),
-	array( 'friends_reject_friendship'   => array( 'function' => 'bp_nouveau_ajax_addremove_friend', 'nopriv' => false ) ),
-) );
+bp_nouveau_register_ajax_actions(
+	array(
+		array(
+			'friends_remove_friend' => array(
+				'function' => 'bp_nouveau_ajax_addremove_friend',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'friends_add_friend' => array(
+				'function' => 'bp_nouveau_ajax_addremove_friend',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'friends_withdraw_friendship' => array(
+				'function' => 'bp_nouveau_ajax_addremove_friend',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'friends_accept_friendship' => array(
+				'function' => 'bp_nouveau_ajax_addremove_friend',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'friends_reject_friendship' => array(
+				'function' => 'bp_nouveau_ajax_addremove_friend',
+				'nopriv'   => false,
+			),
+		),
+	)
+);
 
 /**
  * Friend/un-friend a user via a POST request.
@@ -31,7 +58,7 @@ function bp_nouveau_ajax_addremove_friend() {
 		'feedback' => sprintf(
 			'<div class="bp-feedback error bp-ajax-message"><p>%s</p></div>',
 			esc_html__( 'There was a problem performing this action. Please try again.', 'buddypress' )
-		)
+		),
 	);
 
 	// Bail if not a POST action.
@@ -64,37 +91,49 @@ function bp_nouveau_ajax_addremove_friend() {
 	// In the 2 first cases the $friend_id is a friendship id.
 	if ( ! empty( $_POST['action'] ) && 'friends_accept_friendship' === $_POST['action'] ) {
 		if ( ! friends_accept_friendship( $friend_id ) ) {
-			wp_send_json_error( array( 'feedback' => sprintf(
-				'<div class="bp-feedback error">%s</div>',
-				esc_html__( 'There was a problem accepting that request. Please try again.', 'buddypress' )
-			) ) );
+			wp_send_json_error(
+				array(
+					'feedback' => sprintf(
+						'<div class="bp-feedback error">%s</div>',
+						esc_html__( 'There was a problem accepting that request. Please try again.', 'buddypress' )
+					),
+				)
+			);
 		} else {
-			wp_send_json_success( array(
-				'feedback' => sprintf(
-					'<div class="bp-feedback success">%s</div>',
-					esc_html__( 'Friendship accepted.', 'buddypress' )
-				),
-				'type'     => 'success',
-				'is_user'  => true,
-			) );
+			wp_send_json_success(
+				array(
+					'feedback' => sprintf(
+						'<div class="bp-feedback success">%s</div>',
+						esc_html__( 'Friendship accepted.', 'buddypress' )
+					),
+					'type'     => 'success',
+					'is_user'  => true,
+				)
+			);
 		}
 
 	// Rejecting a friendship
 	} elseif ( ! empty( $_POST['action'] ) && 'friends_reject_friendship' === $_POST['action'] ) {
 		if ( ! friends_reject_friendship( $friend_id ) ) {
-			wp_send_json_error( array( 'feedback' => sprintf(
-				'<div class="bp-feedback error">%s</div>',
-				esc_html__( 'There was a problem rejecting that request. Please try again.', 'buddypress' )
-			) ) );
+			wp_send_json_error(
+				array(
+					'feedback' => sprintf(
+						'<div class="bp-feedback error">%s</div>',
+						esc_html__( 'There was a problem rejecting that request. Please try again.', 'buddypress' )
+					),
+				)
+			);
 		} else {
-			wp_send_json_success( array(
-				'feedback' => sprintf(
-					'<div class="bp-feedback success">%s</div>',
-					esc_html__( 'Friendship rejected.', 'buddypress' )
-				),
-				'type'     => 'success',
-				'is_user'  => true,
-			) );
+			wp_send_json_success(
+				array(
+					'feedback' => sprintf(
+						'<div class="bp-feedback success">%s</div>',
+						esc_html__( 'Friendship rejected.', 'buddypress' )
+					),
+					'type'     => 'success',
+					'is_user'  => true,
+				)
+			);
 		}
 
 	// Trying to cancel friendship.

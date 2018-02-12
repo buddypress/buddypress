@@ -35,7 +35,14 @@ bp_nouveau_group_hook( 'before', 'invites_content' ); ?>
 
 						<?php bp_nouveau_group_hook( '', 'invites_item' ); ?>
 
-						<?php bp_nouveau_groups_invite_buttons( array( 'container' => 'ul', 'button_element' => 'button' ) ); ?>
+						<?php
+						bp_nouveau_groups_invite_buttons(
+							array(
+								'container'      => 'ul',
+								'button_element' => 'button',
+							)
+						);
+						?>
 					</div>
 
 				</div>

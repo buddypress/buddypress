@@ -34,4 +34,5 @@
 
 </div><!-- .activity -->
 
-<?php bp_nouveau_group_hook( 'after', 'activity_content' );
+<?php
+bp_nouveau_group_hook( 'after', 'activity_content' );

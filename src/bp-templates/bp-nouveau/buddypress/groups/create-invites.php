@@ -10,4 +10,5 @@
 
 <?php bp_nouveau_user_feedback( 'create-invite-friends' ); ?>
 
-<?php bp_new_group_invite_friend_list(); ?>
+<?php
+bp_new_group_invite_friend_list();

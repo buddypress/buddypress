@@ -20,11 +20,13 @@ class BP_Latest_Activities extends WP_Widget {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$widget_ops = apply_filters( 'bp_latest_activities', array(
-			'classname'                   => 'bp-latest-activities buddypress',
-			'description'                 => __( 'Display the latest updates of your community having the type(s) of your choice.', 'buddypress' ),
-			'customize_selective_refresh' => true,
-		) );
+		$widget_ops = apply_filters(
+			'bp_latest_activities', array(
+				'classname'                   => 'bp-latest-activities buddypress',
+				'description'                 => __( 'Display the latest updates of your community having the type(s) of your choice.', 'buddypress' ),
+				'customize_selective_refresh' => true,
+			)
+		);
 
 		parent::__construct( false, __( '(BuddyPress) Latest Activities', 'buddypress' ), $widget_ops );
 	}

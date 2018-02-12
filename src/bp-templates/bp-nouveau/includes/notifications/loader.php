@@ -57,7 +57,12 @@ class BP_Nouveau_Notifications {
 		add_action( 'bp_nouveau_enqueue_scripts', 'bp_nouveau_notifications_enqueue_scripts' );
 
 		$ajax_actions = array(
-			array( 'notifications_filter' => array( 'function' => 'bp_nouveau_ajax_object_template_loader', 'nopriv' => false ) ),
+			array(
+				'notifications_filter' => array(
+					'function' => 'bp_nouveau_ajax_object_template_loader',
+					'nopriv'   => false,
+				),
+			),
 		);
 
 		foreach ( $ajax_actions as $ajax_action ) {

@@ -64,5 +64,10 @@ function bp_nouveau_xprofile_edit_visibilty() {
  * @since 1.0.0
  */
 function bp_nouveau_base_account_has_xprofile() {
-	return (bool) bp_has_profile( array( 'profile_group_id' => 1, 'fetch_field_data' => false ) );
+	return (bool) bp_has_profile(
+		array(
+			'profile_group_id' => 1,
+			'fetch_field_data' => false,
+		)
+	);
 }

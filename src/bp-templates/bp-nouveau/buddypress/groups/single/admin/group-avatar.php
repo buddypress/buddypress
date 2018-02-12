@@ -48,23 +48,40 @@
 
 		<p><?php _e( "If you'd like to remove the existing group profile photo but not upload a new one, please use the delete group profile photo button.", 'buddypress' ); ?></p>
 
-		<?php bp_button( array( 'id' => 'delete_group_avatar', 'component' => 'groups', 'wrapper_id' => 'delete-group-avatar-button', 'link_class' => 'edit', 'link_href' => bp_get_group_avatar_delete_link(), 'link_title' => __( 'Delete Group Profile Photo', 'buddypress' ), 'link_text' => __( 'Delete Group Profile Photo', 'buddypress' ) ) ); ?>
-
-	<?php endif; ?>
+		<?php
+		bp_button(
+			array(
+				'id'         => 'delete_group_avatar',
+				'component'  => 'groups',
+				'wrapper_id' => 'delete-group-avatar-button',
+				'link_class' => 'edit',
+				'link_href'  => bp_get_group_avatar_delete_link(),
+				'link_title' => __( 'Delete Group Profile Photo', 'buddypress' ),
+				'link_text'  => __( 'Delete Group Profile Photo', 'buddypress' ),
+			)
+		);
+		?>
 
 	<?php
+	endif;
+
 	/**
 	 * Load the Avatar UI templates
 	 *
 	 * @since 2.3.0
 	 */
-	bp_avatar_get_templates(); ?>
+	bp_avatar_get_templates();
 
-	<?php if ( ! bp_is_group_create() ) wp_nonce_field( 'bp_avatar_upload' ); ?>
+	if ( ! bp_is_group_create() ) {
+		wp_nonce_field( 'bp_avatar_upload' );
+	}
+	?>
 
-<?php endif;
+<?php
+endif;
 
-if ( 'crop-image' === bp_get_avatar_admin_step() ) : ?>
+if ( 'crop-image' === bp_get_avatar_admin_step() ) :
+?>
 
 	<h4><?php _e( 'Crop Group Profile Photo', 'buddypress' ); ?></h4>
 

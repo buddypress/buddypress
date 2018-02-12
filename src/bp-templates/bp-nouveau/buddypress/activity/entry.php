@@ -62,4 +62,5 @@ bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 
 </li>
 
-<?php bp_nouveau_activity_hook( 'after', 'entry' );
+<?php
+bp_nouveau_activity_hook( 'after', 'entry' );

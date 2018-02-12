@@ -42,11 +42,13 @@ function bp_nouveau_plugin_hook( $suffix = '' ) {
 		return;
 	}
 
-	bp_nouveau_hook( array(
-		'bp',
-		'template',
-		$suffix,
-	) );
+	bp_nouveau_hook(
+		array(
+			'bp',
+			'template',
+			$suffix,
+		)
+	);
 }
 
 /**
@@ -64,11 +66,13 @@ function bp_nouveau_friend_hook( $suffix = '' ) {
 		return;
 	}
 
-	bp_nouveau_hook( array(
-		'bp',
-		'friend',
-		$suffix,
-	) );
+	bp_nouveau_hook(
+		array(
+			'bp',
+			'friend',
+			$suffix,
+		)
+	);
 }
 
 /**
@@ -376,18 +380,18 @@ function bp_nouveau_pagination( $position ) {
 		}
 	}
 
-	switch( $pagination_type ) {
-		case 'blogs' :
+	switch ( $pagination_type ) {
+		case 'blogs':
 			$pag_count   = bp_get_blogs_pagination_count();
 			$pag_links   = bp_get_blogs_pagination_links();
 			$top_hook    = 'bp_before_directory_blogs_list';
 			$bottom_hook = 'bp_after_directory_blogs_list';
 			$page_arg    = $GLOBALS['blogs_template']->pag_arg;
-		break;
+			break;
 
-		case 'members'        :
-		case 'friends'        :
-		case 'manage-members' :
+		case 'members':
+		case 'friends':
+		case 'manage-members':
 			$pag_count = bp_get_members_pagination_count();
 			$pag_links = bp_get_members_pagination_links();
 
@@ -398,38 +402,39 @@ function bp_nouveau_pagination( $position ) {
 			}
 
 			$page_arg = $GLOBALS['members_template']->pag_arg;
-		break;
+			break;
 
-		case 'groups' :
+		case 'groups':
 			$pag_count   = bp_get_groups_pagination_count();
 			$pag_links   = bp_get_groups_pagination_links();
 			$top_hook    = 'bp_before_directory_groups_list';
 			$bottom_hook = 'bp_after_directory_groups_list';
 			$page_arg    = $GLOBALS['groups_template']->pag_arg;
-		break;
+			break;
 
-		case 'notifications' :
+		case 'notifications':
 			$pag_count   = bp_get_notifications_pagination_count();
 			$pag_links   = bp_get_notifications_pagination_links();
 			$top_hook    = '';
 			$bottom_hook = '';
 			$page_arg    = buddypress()->notifications->query_loop->pag_arg;
-		break;
+			break;
 
-		case 'membership-requests' :
+		case 'membership-requests':
 			$pag_count   = bp_get_group_requests_pagination_count();
 			$pag_links   = bp_get_group_requests_pagination_links();
 			$top_hook    = '';
 			$bottom_hook = '';
 			$page_arg    = $GLOBALS['requests_template']->pag_arg;
-		break;
+			break;
 	}
 
 	$count_class = sprintf( '%1$s-%2$s-count-%3$s', $pagination_type, $screen, $position );
 	$links_class = sprintf( '%1$s-%2$s-links-%3$s', $pagination_type, $screen, $position );
 	?>
 
-	<?php if ( 'bottom' === $position && isset( $bottom_hook ) ) {
+	<?php
+	if ( 'bottom' === $position && isset( $bottom_hook ) ) {
 		/**
 		 * Fires after the component directory list.
 		 *
@@ -463,7 +468,8 @@ function bp_nouveau_pagination( $position ) {
 
 	</div>
 
-	<?php if ( 'top' === $position && isset( $top_hook ) ) {
+	<?php
+	if ( 'top' === $position && isset( $top_hook ) ) {
 		/**
 		 * Fires before the component directory list.
 		 *
@@ -709,10 +715,12 @@ function bp_nouveau_has_nav( $args = array() ) {
 			bp_nouveau_set_nav_item_order( $group_nav, bp_nouveau_get_appearance_settings( 'group_nav_order' ), $parent_slug );
 		}
 
-		$nav = $group_nav->get_secondary( array(
-			'parent_slug'     => $parent_slug,
-			'user_has_access' => (bool) $n['user_has_access'],
-		) );
+		$nav = $group_nav->get_secondary(
+			array(
+				'parent_slug'     => $parent_slug,
+				'user_has_access' => (bool) $n['user_has_access'],
+			)
+		);
 
 	// Build the nav for the displayed user
 	} elseif ( bp_is_user() ) {
@@ -720,10 +728,12 @@ function bp_nouveau_has_nav( $args = array() ) {
 		$user_nav                  = buddypress()->members->nav;
 
 		if ( 'secondary' === $n['type'] ) {
-			$nav = $user_nav->get_secondary( array(
-				'parent_slug'     => bp_current_component(),
-				'user_has_access' => (bool) $n['user_has_access'],
-			) );
+			$nav = $user_nav->get_secondary(
+				array(
+					'parent_slug'     => bp_current_component(),
+					'user_has_access' => (bool) $n['user_has_access'],
+				)
+			);
 
 		} else {
 			$args = array();
@@ -2133,8 +2143,8 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 
 		// Specific case for Site's privacy
 		if ( 'signup_blog_privacy_public' === $name || 'signup_blog_privacy_private' === $name ) {
-			$name           = 'signup_blog_privacy';
-			$submitted      = bp_get_signup_blog_privacy_value();
+			$name      = 'signup_blog_privacy';
+			$submitted = bp_get_signup_blog_privacy_value();
 
 			if ( ! $submitted ) {
 				$submitted = 'public';
@@ -2248,8 +2258,8 @@ function bp_nouveau_submit_button( $action ) {
 	}
 
 	// Output the submit button.
-	printf( '
-		<div class="submit">
+	printf(
+		'<div class="submit">
 			<input type="submit" %s/>
 		</div>',
 		bp_get_form_field_attributes( 'submit', $submit_data['attributes'] )  // Safe.

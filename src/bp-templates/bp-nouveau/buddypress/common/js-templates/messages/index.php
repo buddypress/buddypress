@@ -97,7 +97,7 @@
 <div class="bulk-actions-wrap bp-hide">
 		<div class="bulk-actions select-wrap">
 			<label for="user-messages-bulk-actions" class="bp-screen-reader-text">
-				<?php esc_html_e( 'Select bulk action', 'buddypress' )  ?>
+				<?php esc_html_e( 'Select bulk action', 'buddypress' ); ?>
 			</label>
 			<select id="user-messages-bulk-actions">
 				<# for ( i in data ) { #>

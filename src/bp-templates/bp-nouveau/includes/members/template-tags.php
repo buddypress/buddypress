@@ -163,7 +163,10 @@ function bp_nouveau_member_header_buttons( $args = array() ) {
 	}
 
 	if ( ! $args ) {
-		$args = array( 'id' => 'item-buttons', 'classes' => false );
+		$args = array(
+			'id'      => 'item-buttons',
+			'classes' => false,
+		);
 	}
 
 	bp_nouveau_wrapper( array_merge( $args, array( 'output' => $output ) ) );
@@ -687,11 +690,13 @@ function bp_nouveau_member_header_template_part() {
  * @return string HTML Output
  */
 function bp_nouveau_members_get_customizer_option_link() {
-	return bp_nouveau_get_customizer_link( array(
-		'object'    => 'user',
-		'autofocus' => 'bp_nouveau_user_front_page',
-		'text'      => __( 'Members default front page', 'buddypress' ),
-	) );
+	return bp_nouveau_get_customizer_link(
+		array(
+			'object'    => 'user',
+			'autofocus' => 'bp_nouveau_user_front_page',
+			'text'      => __( 'Members default front page', 'buddypress' ),
+		)
+	);
 }
 
 /**
@@ -703,11 +708,13 @@ function bp_nouveau_members_get_customizer_option_link() {
  * @return string HTML Output
  */
 function bp_nouveau_members_get_customizer_widgets_link() {
-	return bp_nouveau_get_customizer_link( array(
-		'object'    => 'user',
-		'autofocus' => 'sidebar-widgets-sidebar-buddypress-members',
-		'text'      => __( '(BuddyPress) Widgets', 'buddypress' ),
-	) );
+	return bp_nouveau_get_customizer_link(
+		array(
+			'object'    => 'user',
+			'autofocus' => 'sidebar-widgets-sidebar-buddypress-members',
+			'text'      => __( '(BuddyPress) Widgets', 'buddypress' ),
+		)
+	);
 }
 
 /**
@@ -856,7 +863,11 @@ function bp_nouveau_has_wp_profile_fields() {
 			continue;
 		}
 
-		$user_profile_fields[] = (object) array( 'id' => 'wp_' . $key, 'label' => $field, 'data' => $user->{$key} );
+		$user_profile_fields[] = (object) array(
+			'id'    => 'wp_' . $key,
+			'label' => $field,
+			'data'  => $user->{$key},
+		);
 	}
 
 	if ( ! $user_profile_fields ) {
@@ -960,7 +971,12 @@ function bp_nouveau_wp_profile_field_data() {
 		 * @param string $data The profile field value.
 		 */
 		apply_filters( 'bp_nouveau_get_wp_profile_field_data', $data ),
-		array( 'a' => array( 'href' => true, 'rel' => true ) )
+		array(
+			'a' => array(
+				'href' => true,
+				'rel'  => true,
+			),
+		)
 	);
 }
 

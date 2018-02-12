@@ -40,16 +40,17 @@ switch ( bp_current_action() ) :
 
 		</div>
 
-		<?php bp_nouveau_member_hook( 'after', 'groups_content' );
+		<?php
+		bp_nouveau_member_hook( 'after', 'groups_content' );
 		break;
 
 	// Group Invitations
-	case 'invites' :
+	case 'invites':
 		bp_get_template_part( 'members/single/groups/invites' );
 		break;
 
 	// Any other
-	default :
+	default:
 		bp_get_template_part( 'members/single/plugins' );
 		break;
 endswitch;

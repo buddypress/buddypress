@@ -35,4 +35,5 @@ bp_nouveau_groups_create_hook( 'before', 'page' ); ?>
 
 	<?php bp_nouveau_groups_create_hook( 'after', 'content_template' ); ?>
 
-<?php bp_nouveau_groups_create_hook( 'after', 'page' );
+<?php
+bp_nouveau_groups_create_hook( 'after', 'page' );

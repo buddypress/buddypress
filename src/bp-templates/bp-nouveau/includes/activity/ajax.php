@@ -12,18 +12,70 @@ defined( 'ABSPATH' ) || exit;
  * Registers activity AJAX actions.
  * @todo this funciton CANNOT be run when the file is included (like it is now). Move to a function and hook to something.
  */
-bp_nouveau_register_ajax_actions( array(
-	array( 'activity_filter'                 => array( 'function' => 'bp_nouveau_ajax_object_template_loader',      'nopriv' => true ) ),
-	array( 'get_single_activity_content'     => array( 'function' => 'bp_nouveau_ajax_get_single_activity_content', 'nopriv' => true ) ),
-	array( 'activity_mark_fav'               => array( 'function' => 'bp_nouveau_ajax_mark_activity_favorite',      'nopriv' => false ) ),
-	array( 'activity_mark_unfav'             => array( 'function' => 'bp_nouveau_ajax_unmark_activity_favorite',    'nopriv' => false ) ),
-	array( 'activity_clear_new_mentions'     => array( 'function' => 'bp_nouveau_ajax_clear_new_mentions',          'nopriv' => false ) ),
-	array( 'delete_activity'                 => array( 'function' => 'bp_nouveau_ajax_delete_activity',             'nopriv' => false ) ),
-	array( 'new_activity_comment'            => array( 'function' => 'bp_nouveau_ajax_new_activity_comment',        'nopriv' => false ) ),
-	array( 'bp_nouveau_get_activity_objects' => array( 'function' => 'bp_nouveau_ajax_get_activity_objects',        'nopriv' => false ) ),
-	array( 'post_update'                     => array( 'function' => 'bp_nouveau_ajax_post_update',                 'nopriv' => false ) ),
-	array( 'bp_spam_activity'                => array( 'function' => 'bp_nouveau_ajax_spam_activity',               'nopriv' => false ) ),
-) );
+bp_nouveau_register_ajax_actions(
+	array(
+		array(
+			'activity_filter' => array(
+				'function' => 'bp_nouveau_ajax_object_template_loader',
+				'nopriv'   => true,
+			),
+		),
+		array(
+			'get_single_activity_content' => array(
+				'function' => 'bp_nouveau_ajax_get_single_activity_content',
+				'nopriv'   => true,
+			),
+		),
+		array(
+			'activity_mark_fav' => array(
+				'function' => 'bp_nouveau_ajax_mark_activity_favorite',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'activity_mark_unfav' => array(
+				'function' => 'bp_nouveau_ajax_unmark_activity_favorite',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'activity_clear_new_mentions' => array(
+				'function' => 'bp_nouveau_ajax_clear_new_mentions',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'delete_activity' => array(
+				'function' => 'bp_nouveau_ajax_delete_activity',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'new_activity_comment' => array(
+				'function' => 'bp_nouveau_ajax_new_activity_comment',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'bp_nouveau_get_activity_objects' => array(
+				'function' => 'bp_nouveau_ajax_get_activity_objects',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'post_update' => array(
+				'function' => 'bp_nouveau_ajax_post_update',
+				'nopriv'   => false,
+			),
+		),
+		array(
+			'bp_spam_activity' => array(
+				'function' => 'bp_nouveau_ajax_spam_activity',
+				'nopriv'   => false,
+			),
+		),
+	)
+);
 
 /**
  * Mark an activity as a favourite via a POST request.
@@ -209,7 +261,7 @@ function bp_nouveau_ajax_get_single_activity_content() {
 		'feedback' => sprintf(
 			'<div class="bp-feedback bp-messages error">%s</div>',
 			esc_html__( 'There was a problem displaying the content. Please try again.', 'buddypress' )
-		)
+		),
 	);
 
 	// Bail if not a POST action.
@@ -222,10 +274,12 @@ function bp_nouveau_ajax_get_single_activity_content() {
 		wp_send_json_error( $response );
 	}
 
-	$activity_array = bp_activity_get_specific( array(
-		'activity_ids'     => $_POST['id'],
-		'display_comments' => 'stream'
-	) );
+	$activity_array = bp_activity_get_specific(
+		array(
+			'activity_ids'     => $_POST['id'],
+			'display_comments' => 'stream',
+		)
+	);
 
 	if ( empty( $activity_array['activities'][0] ) ) {
 		wp_send_json_error( $response );
@@ -268,7 +322,7 @@ function bp_nouveau_ajax_new_activity_comment() {
 		'feedback' => sprintf(
 			'<div class="bp-feedback bp-messages error">%s</div>',
 			esc_html__( 'There was an error posting your reply. Please try again.', 'buddypress' )
-		)
+		),
 	);
 
 	// Bail if not a POST action.
@@ -315,12 +369,14 @@ function bp_nouveau_ajax_new_activity_comment() {
 	}
 
 	// Load the new activity item into the $activities_template global.
-	bp_has_activities( array(
-		'display_comments' => 'stream',
-		'hide_spam'        => false,
-		'show_hidden'      => true,
-		'include'          => $comment_id,
-	) );
+	bp_has_activities(
+		array(
+			'display_comments' => 'stream',
+			'hide_spam'        => false,
+			'show_hidden'      => true,
+			'include'          => $comment_id,
+		)
+	);
 
 	// Swap the current comment with the activity item we just loaded.
 	if ( isset( $activities_template->activities[0] ) ) {
@@ -368,12 +424,14 @@ function bp_nouveau_ajax_get_activity_objects() {
 	}
 
 	if ( 'group' === $_POST['type'] ) {
-		$groups = groups_get_groups( array(
-			'user_id'           => bp_loggedin_user_id(),
-			'search_terms'      => $_POST['search'],
-			'show_hidden'       => true,
-			'per_page'          => 2,
-		) );
+		$groups = groups_get_groups(
+			array(
+				'user_id'      => bp_loggedin_user_id(),
+				'search_terms' => $_POST['search'],
+				'show_hidden'  => true,
+				'per_page'     => 2,
+			)
+		);
 
 		wp_send_json_success( array_map( 'bp_nouveau_prepare_group_for_js', $groups['groups'] ) );
 	} else {
@@ -402,9 +460,11 @@ function bp_nouveau_ajax_post_update() {
 	}
 
 	if ( empty( $_POST['content'] ) ) {
-		wp_send_json_error( array(
-			'message' => __( 'Please enter some content to post.', 'buddypress' ),
-		) );
+		wp_send_json_error(
+			array(
+				'message' => __( 'Please enter some content to post.', 'buddypress' ),
+			)
+		);
 	}
 
 	$activity_id = 0;
@@ -434,7 +494,12 @@ function bp_nouveau_ajax_post_update() {
 	} elseif ( 'group' === $object ) {
 		if ( $item_id && bp_is_active( 'groups' ) ) {
 			// This function is setting the current group!
-			$activity_id = groups_post_update( array( 'content' => $_POST['content'], 'group_id' => $item_id ) );
+			$activity_id = groups_post_update(
+				array(
+					'content'  => $_POST['content'],
+					'group_id' => $item_id,
+				)
+			);
 
 			if ( empty( $status ) ) {
 				if ( ! empty( $bp->groups->current_group->status ) ) {
@@ -454,9 +519,11 @@ function bp_nouveau_ajax_post_update() {
 	}
 
 	if ( empty( $activity_id ) ) {
-		wp_send_json_error( array(
-			'message' => __( 'There was a problem posting your update. Please try again.', 'buddypress' ),
-		) );
+		wp_send_json_error(
+			array(
+				'message' => __( 'There was a problem posting your update. Please try again.', 'buddypress' ),
+			)
+		);
 	}
 
 	ob_start();
@@ -492,7 +559,7 @@ function bp_nouveau_ajax_spam_activity() {
 		'feedback' => sprintf(
 			'<div class="bp-feedback bp-messages error">%s</div>',
 			esc_html__( 'There was a problem spamming this item. Please try again.', 'buddypress' )
-		)
+		),
 	);
 
 	// Bail if not a POST action.

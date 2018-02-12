@@ -12,12 +12,14 @@ if ( is_admin() && current_user_can( 'activate_plugins' ) ) :
 
 	class BP_Nouveau_Notices_List_Table extends WP_List_Table {
 		public function __construct( $args = array() ) {
-			parent::__construct( array(
-				'plural' => 'notices',
-				'singular' => 'notice',
-				'ajax' => true,
-				'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
-			) );
+			parent::__construct(
+				array(
+					'plural'   => 'notices',
+					'singular' => 'notice',
+					'ajax'     => true,
+					'screen'   => isset( $args['screen'] ) ? $args['screen'] : null,
+				)
+			);
 		}
 
 		public function ajax_user_can() {

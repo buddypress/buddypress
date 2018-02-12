@@ -225,10 +225,10 @@ function bp_nouveau_group_creation_tabs() {
 		<li<?php if ( bp_get_groups_current_create_step() === $slug ) : ?> class="current"<?php endif; ?>>
 			<?php if ( $is_enabled ) : ?>
 				<a href="<?php echo esc_url( bp_groups_directory_permalink() . 'create/step/' . $slug . '/' ); ?>">
-					<?php echo (int) $counter ?> <?php echo esc_html( $step['name'] ); ?>
+					<?php echo (int) $counter; ?> <?php echo esc_html( $step['name'] ); ?>
 				</a>
-			<?php else: ?>
-				<a disabled="disabled"><?php echo (int) $counter ?>. <?php echo esc_html( $step['name'] ); ?></a>
+			<?php else : ?>
+				<a disabled="disabled"><?php echo (int) $counter; ?>. <?php echo esc_html( $step['name'] ); ?></a>
 			<?php endif ?>
 		</li>
 			<?php
@@ -349,7 +349,8 @@ function bp_nouveau_group_manage_screen() {
 
 				// Specific case for the delete group screen
 				if ( 'delete-group' === $screen_id ) {
-					$output = sprintf( '<div class="submit">
+					$output = sprintf(
+						'<div class="submit">
 							<input type="submit" disabled="disabled" value="%s" id="delete-group-button" name="delete-group-button" />
 						</div>',
 						esc_attr__( 'Delete Group', 'buddypress' )
@@ -373,26 +374,30 @@ function bp_nouveau_group_manage_screen() {
 			$creation_step_buttons = '';
 
 			if ( ! bp_is_first_group_creation_step() ) {
-				$creation_step_buttons .= sprintf( '<input type="button" value="%1$s" id="group-creation-previous" name="previous" onclick="%2$s" />',
+				$creation_step_buttons .= sprintf(
+					'<input type="button" value="%1$s" id="group-creation-previous" name="previous" onclick="%2$s" />',
 					esc_attr__( 'Back to Previous Step', 'buddypress' ),
-					"location.href='" . esc_js( esc_url_raw( bp_get_group_creation_previous_link() ) )  . "'"
+					"location.href='" . esc_js( esc_url_raw( bp_get_group_creation_previous_link() ) ) . "'"
 				);
 			}
 
 			if ( ! bp_is_last_group_creation_step() && ! bp_is_first_group_creation_step() ) {
-				$creation_step_buttons .= sprintf( '<input type="submit" value="%s" id="group-creation-next" name="save" />',
+				$creation_step_buttons .= sprintf(
+					'<input type="submit" value="%s" id="group-creation-next" name="save" />',
 					esc_attr__( 'Next Step', 'buddypress' )
 				);
 			}
 
 			if ( bp_is_first_group_creation_step() ) {
-				$creation_step_buttons .= sprintf( '<input type="submit" value="%s" id="group-creation-create" name="save" />',
+				$creation_step_buttons .= sprintf(
+					'<input type="submit" value="%s" id="group-creation-create" name="save" />',
 					esc_attr__( 'Create Group and Continue', 'buddypress' )
 				);
 			}
 
 			if ( bp_is_last_group_creation_step() ) {
-				$creation_step_buttons .= sprintf( '<input type="submit" value="%s" id="group-creation-finish" name="save" />',
+				$creation_step_buttons .= sprintf(
+					'<input type="submit" value="%s" id="group-creation-finish" name="save" />',
 					esc_attr__( 'Finish', 'buddypress' )
 				);
 			}
@@ -598,7 +603,10 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 	}
 
 	if ( ! $args ) {
-		$args = array( 'wrapper' => 'span', 'classes' => array( 'small' ) );
+		$args = array(
+			'wrapper' => 'span',
+			'classes' => array( 'small' ),
+		);
 	}
 
 	bp_nouveau_wrapper( array_merge( $args, array( 'output' => $output ) ) );
@@ -1248,11 +1256,13 @@ function bp_nouveau_group_header_template_part() {
  * @return string HTML Output
  */
 function bp_nouveau_groups_get_customizer_option_link() {
-	return bp_nouveau_get_customizer_link( array(
-		'object'    => 'group',
-		'autofocus' => 'bp_nouveau_group_front_page',
-		'text'      => __( 'Groups default front page', 'buddypress' ),
-	) );
+	return bp_nouveau_get_customizer_link(
+		array(
+			'object'    => 'group',
+			'autofocus' => 'bp_nouveau_group_front_page',
+			'text'      => __( 'Groups default front page', 'buddypress' ),
+		)
+	);
 }
 
 /**
@@ -1264,11 +1274,13 @@ function bp_nouveau_groups_get_customizer_option_link() {
  * @return string HTML Output
  */
 function bp_nouveau_groups_get_customizer_widgets_link() {
-	return bp_nouveau_get_customizer_link( array(
-		'object'    => 'group',
-		'autofocus' => 'sidebar-widgets-sidebar-buddypress-groups',
-		'text'      => __( '(BuddyPress) Widgets', 'buddypress' ),
-	) );
+	return bp_nouveau_get_customizer_link(
+		array(
+			'object'    => 'group',
+			'autofocus' => 'sidebar-widgets-sidebar-buddypress-groups',
+			'text'      => __( '(BuddyPress) Widgets', 'buddypress' ),
+		)
+	);
 }
 
 /**
