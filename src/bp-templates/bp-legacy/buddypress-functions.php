@@ -779,20 +779,22 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
  * @return string|null Prints template loop for the specified object
  */
 function bp_legacy_theme_object_template_loader() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Bail if no object passed.
-	if ( empty( $_POST['object'] ) )
+	if ( empty( $_POST['object'] ) ) {
 		return;
+	}
 
 	// Sanitize the object.
 	$object = sanitize_title( $_POST['object'] );
 
 	// Bail if object is not an active component to prevent arbitrary file inclusion.
-	if ( ! bp_is_active( $object ) )
+	if ( ! bp_is_active( $object ) ) {
 		return;
+	}
 
 	/**
 	 * AJAX requests happen too early to be seen by bp_update_is_directory()
@@ -859,9 +861,9 @@ function bp_legacy_theme_requests_template_loader() {
  *                     for the Activity component) and 'feed_url' (URL to the relevant RSS feed).
  */
 function bp_legacy_theme_activity_template_loader() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	$scope = '';
 	if ( ! empty( $_POST['scope'] ) )
@@ -920,9 +922,9 @@ function bp_legacy_theme_activity_template_loader() {
 function bp_legacy_theme_post_update() {
 	$bp = buddypress();
 
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Check the nonce.
 	check_admin_referer( 'post_update', '_wpnonce_post_update' );
@@ -1009,8 +1011,7 @@ function bp_legacy_theme_new_activity_comment() {
 
 	$bp = buddypress();
 
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		return;
 	}
 
@@ -1078,9 +1079,9 @@ function bp_legacy_theme_new_activity_comment() {
  * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_delete_activity() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Check the nonce.
 	check_admin_referer( 'bp_activity_delete_link' );
@@ -1116,9 +1117,9 @@ function bp_legacy_theme_delete_activity() {
  * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_delete_activity_comment() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Check the nonce.
 	check_admin_referer( 'bp_activity_delete_link' );
@@ -1158,9 +1159,9 @@ function bp_legacy_theme_delete_activity_comment() {
 function bp_legacy_theme_spam_activity() {
 	$bp = buddypress();
 
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Check that user is logged in, Activity Streams are enabled, and Akismet is present.
 	if ( ! is_user_logged_in() || ! bp_is_active( 'activity' ) || empty( $bp->activity->akismet ) )
@@ -1203,8 +1204,9 @@ function bp_legacy_theme_spam_activity() {
  */
 function bp_legacy_theme_mark_activity_favorite() {
 	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	if ( ! isset( $_POST['nonce'] ) ) {
 		return;
@@ -1232,9 +1234,9 @@ function bp_legacy_theme_mark_activity_favorite() {
  * @return string|null HTML
  */
 function bp_legacy_theme_unmark_activity_favorite() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	if ( ! isset( $_POST['nonce'] ) ) {
 		return;
@@ -1263,9 +1265,9 @@ function bp_legacy_theme_unmark_activity_favorite() {
  * @return string|null HTML
  */
 function bp_legacy_theme_get_single_activity_content() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	$activity_array = bp_activity_get_specific( array(
 		'activity_ids'     => $_POST['activity_id'],
@@ -1303,9 +1305,9 @@ function bp_legacy_theme_get_single_activity_content() {
  * @todo Audit return types
  */
 function bp_legacy_theme_ajax_invite_user() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	check_ajax_referer( 'groups_invite_uninvite_user' );
 
@@ -1386,10 +1388,9 @@ function bp_legacy_theme_ajax_invite_user() {
  * @return string|null HTML
  */
 function bp_legacy_theme_ajax_addremove_friend() {
-
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Cast fid as an integer.
 	$friend_id = (int) $_POST['fid'];
@@ -1440,9 +1441,9 @@ function bp_legacy_theme_ajax_addremove_friend() {
  * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_ajax_accept_friendship() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	check_admin_referer( 'friends_accept_friendship' );
 
@@ -1460,9 +1461,9 @@ function bp_legacy_theme_ajax_accept_friendship() {
  * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_ajax_reject_friendship() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	check_admin_referer( 'friends_reject_friendship' );
 
@@ -1480,9 +1481,9 @@ function bp_legacy_theme_ajax_reject_friendship() {
  * @return string|null HTML
  */
 function bp_legacy_theme_ajax_joinleave_group() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Cast gid as integer.
 	$group_id = (int) $_POST['gid'];
@@ -1551,9 +1552,9 @@ function bp_legacy_theme_ajax_joinleave_group() {
  * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_ajax_close_notice() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	$nonce_check = isset( $_POST['nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['nonce'] ), 'bp_messages_close_notice' );
 
@@ -1583,9 +1584,9 @@ function bp_legacy_theme_ajax_close_notice() {
  * @return string|null HTML
  */
 function bp_legacy_theme_ajax_messages_send_reply() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	check_ajax_referer( 'messages_send_message' );
 

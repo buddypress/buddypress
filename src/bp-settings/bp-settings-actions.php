@@ -27,18 +27,19 @@ defined( 'ABSPATH' ) || exit;
  * @global BuddyPress $bp
  */
 function bp_settings_action_general() {
-
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Bail if no submit action.
-	if ( ! isset( $_POST['submit'] ) )
+	if ( ! isset( $_POST['submit'] ) ) {
 		return;
+	}
 
 	// Bail if not in settings.
-	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'general' ) )
+	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'general' ) ) {
 		return;
+	}
 
 	// 404 if there are any additional action variables attached
 	if ( bp_action_variables() ) {
@@ -259,18 +260,19 @@ add_action( 'bp_actions', 'bp_settings_action_general' );
  * @since 1.6.0
  */
 function bp_settings_action_notifications() {
-
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Bail if no submit action.
-	if ( ! isset( $_POST['submit'] ) )
+	if ( ! isset( $_POST['submit'] ) ) {
 		return;
+	}
 
 	// Bail if not in settings.
-	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'notifications' ) )
+	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'notifications' ) ) {
 		return false;
+	}
 
 	// 404 if there are any additional action variables attached
 	if ( bp_action_variables() ) {
@@ -306,18 +308,19 @@ add_action( 'bp_actions', 'bp_settings_action_notifications' );
  * @since 1.6.0
  */
 function bp_settings_action_capabilities() {
-
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Bail if no submit action.
-	if ( ! isset( $_POST['capabilities-submit'] ) )
+	if ( ! isset( $_POST['capabilities-submit'] ) ) {
 		return;
+	}
 
 	// Bail if not in settings.
-	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'capabilities' ) )
+	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'capabilities' ) ) {
 		return false;
+	}
 
 	// 404 if there are any additional action variables attached
 	if ( bp_action_variables() ) {
@@ -380,18 +383,19 @@ add_action( 'bp_actions', 'bp_settings_action_capabilities' );
  * @since 1.6.0
  */
 function bp_settings_action_delete_account() {
-
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) )
+	if ( ! bp_is_post_request() ) {
 		return;
+	}
 
 	// Bail if no submit action.
-	if ( ! isset( $_POST['delete-account-understand'] ) )
+	if ( ! isset( $_POST['delete-account-understand'] ) ) {
 		return;
+	}
 
 	// Bail if not in settings.
-	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'delete-account' ) )
+	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'delete-account' ) ) {
 		return false;
+	}
 
 	// 404 if there are any additional action variables attached
 	if ( bp_action_variables() ) {

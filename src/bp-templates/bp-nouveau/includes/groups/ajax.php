@@ -39,7 +39,7 @@ function bp_nouveau_ajax_joinleave_group() {
 	);
 
 	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) || empty( $_POST['action'] ) ) {
+	if ( ! bp_is_post_request() || empty( $_POST['action'] ) ) {
 		wp_send_json_error( $response );
 	}
 

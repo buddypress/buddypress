@@ -85,8 +85,7 @@ bp_nouveau_register_ajax_actions(
  * @return string JSON reply
  */
 function bp_nouveau_ajax_mark_activity_favorite() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error();
 	}
 
@@ -126,8 +125,7 @@ function bp_nouveau_ajax_mark_activity_favorite() {
  * @return string JSON reply
  */
 function bp_nouveau_ajax_unmark_activity_favorite() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error();
 	}
 
@@ -163,8 +161,7 @@ function bp_nouveau_ajax_unmark_activity_favorite() {
  * @return string JSON reply
  */
 function bp_nouveau_ajax_clear_new_mentions() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error();
 	}
 
@@ -193,7 +190,7 @@ function bp_nouveau_ajax_delete_activity() {
 	);
 
 	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error( $response );
 	}
 
@@ -265,7 +262,7 @@ function bp_nouveau_ajax_get_single_activity_content() {
 	);
 
 	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error( $response );
 	}
 
@@ -326,7 +323,7 @@ function bp_nouveau_ajax_new_activity_comment() {
 	);
 
 	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error( $response );
 	}
 
@@ -563,7 +560,7 @@ function bp_nouveau_ajax_spam_activity() {
 	);
 
 	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error( $response );
 	}
 

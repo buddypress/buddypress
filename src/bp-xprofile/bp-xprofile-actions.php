@@ -54,7 +54,7 @@ add_action( 'bp_actions', 'xprofile_action_delete_avatar' );
 function bp_xprofile_action_settings() {
 
 	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		return;
 	}
 

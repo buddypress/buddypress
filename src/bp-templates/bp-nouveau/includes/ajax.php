@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  */
 function bp_nouveau_ajax_object_template_loader() {
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error();
 	}
 

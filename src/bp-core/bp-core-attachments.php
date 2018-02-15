@@ -1189,7 +1189,7 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
  *                     error message otherwise.
  */
 function bp_attachments_cover_image_ajax_upload() {
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_die();
 	}
 
@@ -1378,7 +1378,7 @@ add_action( 'wp_ajax_bp_cover_image_upload', 'bp_attachments_cover_image_ajax_up
  *                     error message otherwise.
  */
 function bp_attachments_cover_image_ajax_delete() {
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error();
 	}
 

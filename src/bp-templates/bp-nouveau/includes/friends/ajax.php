@@ -62,7 +62,7 @@ function bp_nouveau_ajax_addremove_friend() {
 	);
 
 	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error( $response );
 	}
 

@@ -809,8 +809,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
  *                     error message otherwise.
  */
 function bp_avatar_ajax_delete() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error();
 	}
 
@@ -952,8 +951,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
  *                     error message otherwise.
  */
 function bp_avatar_ajax_upload() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_die();
 	}
 
@@ -1237,8 +1235,7 @@ function bp_core_avatar_handle_crop( $args = '' ) {
  *                     error message otherwise.
  */
 function bp_avatar_ajax_set() {
-	// Bail if not a POST action.
-	if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+	if ( ! bp_is_post_request() ) {
 		wp_send_json_error();
 	}
 
