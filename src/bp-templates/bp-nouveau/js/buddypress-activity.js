@@ -350,7 +350,7 @@ window.bp = window.bp || {};
 
 						// Prepend a link to display all
 						if ( ! i ) {
-							$( item ).before( '<li class="show-all"><a href="#' + activity_item.prop( 'id' ) + '/show-all/">' + BP_Nouveau.show_x_comments.replace( '%d', comment_count ) + '</a></li>' );
+							$( item ).before( '<li class="show-all"><button class="text-button" type="button" data-bp-show-comments-id="#' + activity_item.prop( 'id' ) + '/show-all/"><span class="icon dashicons dashicons-visibility" aria-hidden="true"></span> ' + BP_Nouveau.show_x_comments.replace( '%d', comment_count ) + '</button></li>' );
 						}
 					}
 				} );
@@ -374,7 +374,7 @@ window.bp = window.bp || {};
 			$( event.target ).addClass( 'loading' );
 
 			setTimeout( function() {
-				$( event.target ).closest( 'ul' ).find( 'li' ).removeClass('bp-hidden').fadeIn( 200, function() {
+				$( event.target ).closest( 'ul' ).find( 'li' ).removeClass('bp-hidden').fadeIn( 300, function() {
 					$( event.target ).parent( 'li' ).remove();
 				} );
 			}, 600 );

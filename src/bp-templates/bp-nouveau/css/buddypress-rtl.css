@@ -1375,7 +1375,7 @@ body.buddypress article.page > .entry-header .entry-title {
 		padding: 30px;
 	}
 	.activity-list .activity-item .activity-content {
-		margin: 0 0 0 5%;
+		margin: 0;
 		position: relative;
 	}
 	.activity-list .activity-item .activity-content:after {
@@ -1586,15 +1586,23 @@ body.activity-permalink .activity-list .activity-comments {
 	text-transform: none;
 }
 
+.buddypress-wrap .activity-comments .show-all button {
+	font-size: 14px;
+	text-decoration: underline;
+	padding-right: 0.5em;
+}
+
+.buddypress-wrap .activity-comments .show-all button span {
+	text-decoration: none;
+}
+
+.buddypress-wrap .activity-comments .show-all button:hover span, .buddypress-wrap .activity-comments .show-all button:focus span {
+	color: #5087e5;
+}
+
 .buddypress-wrap .mini .activity-comments {
 	clear: both;
 	margin-top: 0;
-}
-
-@media screen and (min-width: 46.8em) {
-	.buddypress-wrap .activity-comments {
-		margin-right: 17%;
-	}
 }
 
 body.activity-permalink .activity-comments {

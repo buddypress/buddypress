@@ -98,6 +98,28 @@
 			}
 		}
 
+		.show-all {
+
+			button {
+
+				@include font-size(14);
+				text-decoration: underline;
+				padding-left: $pad-sml;
+
+				span {
+					text-decoration: none;
+				}
+
+				&:hover,
+				&:focus {
+
+					span {
+						color: $blue;
+					}
+				}
+			}
+		}
+
 	} // close .activity-comments
 
 	// Activity li.mini Comments
@@ -112,20 +134,6 @@
 	}
 
 } // close .buddypress-wrap
-
-@include medium-up() {
-
-	.buddypress-wrap {
-
-		.activity-comments {
-			margin-left: 17%;
-
-			ul {
-				//	margin: $marg-med 0 0;
-			}
-		}
-	}
-}
 
 // Single Activity Comment Entry View
 body.activity-permalink {
