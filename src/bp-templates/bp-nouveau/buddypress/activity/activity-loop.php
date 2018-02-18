@@ -9,7 +9,10 @@ bp_nouveau_before_loop(); ?>
 
 	<ul class="activity-list item-list bp-list" >
 
-	<?php while ( bp_activities() ) : bp_the_activity(); ?>
+	<?php
+	while ( bp_activities() ) :
+		bp_the_activity();
+	?>
 
 		<?php bp_get_template_part( 'activity/entry' ); ?>
 

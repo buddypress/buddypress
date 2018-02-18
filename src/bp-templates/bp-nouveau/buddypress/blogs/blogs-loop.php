@@ -15,9 +15,12 @@ bp_nouveau_before_loop(); ?>
 
 	<ul id="blogs-list" class="<?php bp_nouveau_loop_classes(); ?>">
 
-	<?php while ( bp_blogs() ) : bp_the_blog(); ?>
+	<?php
+	while ( bp_blogs() ) :
+		bp_the_blog();
+	?>
 
-		<li <?php bp_blog_class( array( 'item-entry' ) ) ?>>
+		<li <?php bp_blog_class( array( 'item-entry' ) ); ?>>
 			<div class="list-wrap">
 
 				<div class="item-avatar">
@@ -33,11 +36,11 @@ bp_nouveau_before_loop(); ?>
 						<p class="last-activity item-meta"><?php bp_blog_last_active(); ?></p>
 
 						<?php if ( bp_nouveau_blog_has_latest_post() ) : ?>
-						<p class="meta last-post">
+							<p class="meta last-post">
 
-							<?php bp_blog_latest_post(); ?>
+								<?php bp_blog_latest_post(); ?>
 
-						</p>
+							</p>
 						<?php endif; ?>
 
 						<?php bp_nouveau_blogs_loop_buttons( array( 'container' => 'ul' ) ); ?>
@@ -59,12 +62,11 @@ bp_nouveau_before_loop(); ?>
 
 	<?php bp_nouveau_pagination( 'bottom' ); ?>
 
-<?php
-else :
+<?php else : ?>
 
 	bp_nouveau_user_feedback( 'blogs-loop-none' );
 
-endif;
-?>
+<?php endif; ?>
 
-<?php bp_nouveau_after_loop(); ?>
+<?php
+bp_nouveau_after_loop();

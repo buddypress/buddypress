@@ -11,7 +11,10 @@
 	<?php bp_nouveau_pagination( 'top' ); ?>
 
 	<ul id="request-list" class="item-list bp-list">
-		<?php while ( bp_group_membership_requests() ) : bp_group_the_membership_request(); ?>
+		<?php
+		while ( bp_group_membership_requests() ) :
+			bp_group_the_membership_request();
+		?>
 
 			<li>
 				<?php bp_group_request_user_avatar_thumb(); ?>
@@ -28,8 +31,9 @@
 
 	<?php bp_nouveau_pagination( 'bottom' ); ?>
 
-	<?php else:
+<?php else : ?>
 
-		bp_nouveau_user_feedback( 'group-requests-none' );
+	<?php bp_nouveau_user_feedback( 'group-requests-none' ); ?>
 
-	endif; ?>
+<?php
+endif;

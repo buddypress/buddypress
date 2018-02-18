@@ -8,7 +8,10 @@
 
 <?php if ( bp_nouveau_has_nav( array( 'type' => 'secondary' ) ) ) : ?>
 
-	<?php while ( bp_nouveau_nav_items() ) : bp_nouveau_nav_item(); ?>
+	<?php
+	while ( bp_nouveau_nav_items() ) :
+		bp_nouveau_nav_item();
+	?>
 
 		<li id="<?php bp_nouveau_nav_id(); ?>" class="<?php bp_nouveau_nav_classes(); ?>" <?php bp_nouveau_nav_scope(); ?>>
 			<a href="<?php bp_nouveau_nav_link(); ?>" id="<?php bp_nouveau_nav_link_id(); ?>">

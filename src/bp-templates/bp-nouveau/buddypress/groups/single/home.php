@@ -5,9 +5,10 @@
  * @since 1.0.0
  */
 
-?>
-
-	<?php if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group(); ?>
+if ( bp_has_groups() ) :
+	while ( bp_groups() ) :
+		bp_the_group();
+	?>
 
 		<?php bp_nouveau_group_hook( 'before', 'home_content' ); ?>
 
@@ -35,4 +36,7 @@
 
 		<?php bp_nouveau_group_hook( 'after', 'home_content' ); ?>
 
-	<?php endwhile; endif; ?>
+	<?php endwhile; ?>
+
+<?php
+endif;

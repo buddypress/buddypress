@@ -9,7 +9,10 @@ bp_nouveau_xprofile_hook( 'before', 'loop_content' ); ?>
 
 <?php if ( bp_has_profile() ) : ?>
 
-	<?php while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
+	<?php
+	while ( bp_profile_groups() ) :
+		bp_the_profile_group();
+	?>
 
 		<?php if ( bp_profile_group_has_fields() ) : ?>
 
@@ -23,7 +26,10 @@ bp_nouveau_xprofile_hook( 'before', 'loop_content' ); ?>
 
 				<table class="profile-fields bp-tables-user">
 
-					<?php while ( bp_profile_fields() ) : bp_the_profile_field(); ?>
+					<?php
+					while ( bp_profile_fields() ) :
+						bp_the_profile_field();
+					?>
 
 						<?php if ( bp_field_has_data() ) : ?>
 

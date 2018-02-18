@@ -8,47 +8,50 @@
 
 <?php if ( bp_has_activities( bp_nouveau_activity_widget_query() ) ) : ?>
 
-		<div class="activity-list item-list">
+	<div class="activity-list item-list">
 
-			<?php while ( bp_activities() ) : bp_the_activity(); ?>
+		<?php
+		while ( bp_activities() ) :
+			bp_the_activity();
+		?>
 
-				<?php if ( bp_activity_has_content() ) : ?>
+			<?php if ( bp_activity_has_content() ) : ?>
 
-					<blockquote>
+				<blockquote>
 
-						<?php bp_activity_content_body(); ?>
+					<?php bp_activity_content_body(); ?>
 
-						<footer>
+					<footer>
 
-							<cite>
-								<a href="<?php bp_activity_user_link(); ?>">
-									<?php
-									bp_activity_avatar(
-										array(
-											'type'   => 'thumb',
-											'width'  => '40px',
-											'height' => '40px',
-										)
-									);
-									?>
-								</a>
-							</cite>
+						<cite>
+							<a href="<?php bp_activity_user_link(); ?>">
+								<?php
+								bp_activity_avatar(
+									array(
+										'type'   => 'thumb',
+										'width'  => '40px',
+										'height' => '40px',
+									)
+								);
+								?>
+							</a>
+						</cite>
 
-							<?php echo bp_insert_activity_meta(); ?>
+						<?php echo bp_insert_activity_meta(); ?>
 
-						</footer>
+					</footer>
 
-					</blockquote>
+				</blockquote>
 
-				<?php else : ?>
+			<?php else : ?>
 
-					<p><?php bp_activity_action(); ?></p>
+				<p><?php bp_activity_action(); ?></p>
 
-				<?php endif; ?>
+			<?php endif; ?>
 
-			<?php endwhile; ?>
+		<?php endwhile; ?>
 
-		</div>
+	</div>
 
 <?php else : ?>
 

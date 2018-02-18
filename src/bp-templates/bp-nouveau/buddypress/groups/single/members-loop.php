@@ -16,7 +16,10 @@
 
 	<ul id="members-list" class="<?php bp_nouveau_loop_classes(); ?>">
 
-		<?php while ( bp_group_members() ) : bp_group_the_member(); ?>
+		<?php
+		while ( bp_group_members() ) :
+			bp_group_the_member();
+		?>
 
 			<li <?php bp_member_class( array( 'item-entry' ) ); ?> data-bp-item-id="<?php echo esc_attr( bp_get_group_member_id() ); ?>" data-bp-item-component="members">
 
@@ -58,8 +61,9 @@
 
 	<?php bp_nouveau_group_hook( 'after', 'members_content' ); ?>
 
-	<?php else:
+<?php else : ?>
 
 		bp_nouveau_user_feedback( 'group-members-none' );
 
-endif; ?>
+<?php
+endif;

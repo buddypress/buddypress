@@ -26,7 +26,10 @@ if ( bp_has_notifications( bp_ajax_querystring( 'notifications' ) ) ) :
 
 			<tbody>
 
-				<?php while ( bp_the_notifications() ) : bp_the_notification(); ?>
+				<?php
+				while ( bp_the_notifications() ) :
+					bp_the_notification();
+				?>
 
 					<tr>
 						<td></td>
@@ -48,11 +51,10 @@ if ( bp_has_notifications( bp_ajax_querystring( 'notifications' ) ) ) :
 		<?php wp_nonce_field( 'notifications_bulk_nonce', 'notifications_bulk_nonce' ); ?>
 	</form>
 
-	<?php
-	bp_nouveau_pagination( 'bottom' );
+	<?php bp_nouveau_pagination( 'bottom' ); ?>
 
-else :
+<?php else : ?>
 
-	bp_nouveau_user_feedback( 'member-notifications-none' );
+	<?php bp_nouveau_user_feedback( 'member-notifications-none' ); ?>
 
-endif;
+<?php endif;

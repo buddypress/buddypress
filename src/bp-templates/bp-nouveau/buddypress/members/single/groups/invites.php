@@ -11,7 +11,10 @@ bp_nouveau_group_hook( 'before', 'invites_content' ); ?>
 
 	<ul id="group-list" class="invites item-list bp-list" data-bp-list="groups_invites">
 
-		<?php while ( bp_groups() ) : bp_the_group(); ?>
+		<?php
+		while ( bp_groups() ) :
+			bp_the_group();
+		?>
 
 			<li class="item-entry invites-list" data-bp-item-id="<?php bp_group_id(); ?>" data-bp-item-component="groups">
 
@@ -51,13 +54,11 @@ bp_nouveau_group_hook( 'before', 'invites_content' ); ?>
 		<?php endwhile; ?>
 	</ul>
 
-<?php
-else :
+<?php else : ?>
 
-	bp_nouveau_user_feedback( 'member-invites-none' );
+	<?php bp_nouveau_user_feedback( 'member-invites-none' ); ?>
 
-endif;
-?>
+<?php endif; ?>
 
 <?php
 bp_nouveau_group_hook( 'after', 'invites_content' );

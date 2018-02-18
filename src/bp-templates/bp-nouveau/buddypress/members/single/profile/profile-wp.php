@@ -27,23 +27,28 @@ bp_nouveau_wp_profile_hooks( 'before' ); ?>
 
 		<table class="wp-profile-fields">
 
-			<?php while ( bp_nouveau_wp_profile_fields() ) : bp_nouveau_wp_profile_field(); ?>
+			<?php
+			while ( bp_nouveau_wp_profile_fields() ) :
+				bp_nouveau_wp_profile_field();
+			?>
 
-				<tr id="<?php bp_nouveau_wp_profile_field_id();?>">
-					<td class="label"><?php bp_nouveau_wp_profile_field_label();?></td>
-					<td class="data"><?php bp_nouveau_wp_profile_field_data();?></td>
+				<tr id="<?php bp_nouveau_wp_profile_field_id(); ?>">
+					<td class="label"><?php bp_nouveau_wp_profile_field_label(); ?></td>
+					<td class="data"><?php bp_nouveau_wp_profile_field_data(); ?></td>
 				</tr>
 
-			<?php endwhile ;?>
+			<?php endwhile; ?>
 
 		</table>
 
-	<?php else :
+	<?php else : ?>
 
-		bp_nouveau_user_feedback( 'member-wp-profile-none' );
+		<?php bp_nouveau_user_feedback( 'member-wp-profile-none' ); ?>
 
-	endif; ?>
+	<?php endif; ?>
 
 </div>
 
-<?php bp_nouveau_wp_profile_hooks( 'after' ); ?>
+<?php
+bp_nouveau_wp_profile_hooks( 'after' );
+

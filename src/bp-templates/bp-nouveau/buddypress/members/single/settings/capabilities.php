@@ -15,7 +15,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 
 	<label for="user-spammer">
 		<input type="checkbox" name="user-spammer" id="user-spammer" value="1" <?php checked( bp_is_user_spammer( bp_displayed_user_id() ) ); ?> />
-		 <?php _e( 'This user is a spammer.', 'buddypress' ); ?>
+			<?php _e( 'This user is a spammer.', 'buddypress' ); ?>
 	</label>
 
 	<?php bp_nouveau_submit_button( 'member-capabilities' ); ?>
