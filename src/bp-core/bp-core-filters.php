@@ -1008,13 +1008,14 @@ function bp_email_set_default_headers( $headers, $property, $transform, $email )
 	if ( ! empty( $tokens['unsubscribe'] ) && $tokens['unsubscribe'] !== wp_login_url() ) {
 		$user = get_user_by( 'email', $tokens['recipient.email'] );
 
-		$headers['List-Unsubscribe'] = sprintf(
-			'<%s>',
-			esc_url_raw( bp_email_get_unsubscribe_link( array(
-				'user_id'           => $user->ID,
-				'notification_type' => $email->get( 'type' ),
-			) ) )
-		);
+		$link = bp_email_get_unsubscribe_link( array(
+			'user_id'           => $user->ID,
+			'notification_type' => $email->get( 'type' ),
+		) );
+
+		if ( ! empty( $link ) ) {
+			$headers['List-Unsubscribe'] = sprintf( '<%s>', esc_url_raw( $link ) );
+		}
 	}
 
 	return $headers;
