@@ -603,28 +603,68 @@ class BP_Friends_Friendship {
 			return 'not_friends';
 		}
 
-		/*
-		 * Find friendships where the possible_friend_userid is the
-		 * initiator or friend.
-		 */
-		$args = array(
-			'initiator_user_id' => $possible_friend_userid,
-			'friend_user_id'    => $possible_friend_userid
-		);
-		$result = self::get_friendships( $initiator_userid, $args, 'OR' );
+		BP_Friends_Friendship::update_bp_friends_cache( $initiator_userid, $possible_friend_userid );
 
-		if ( $result ) {
-			$friendship = current( $result );
-			if ( ! $friendship->is_confirmed ) {
-				$status = $initiator_userid == $friendship->initiator_user_id ? 'pending' : 'awaiting_response';
-			} else {
-				$status = 'is_friend';
+		return bp_core_get_incremented_cache( $initiator_userid . ':' . $possible_friend_userid, 'bp_friends' );
+	}
+
+
+	/**
+	 * Find uncached friendships between a user and one or more other users and cache them.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $user_id                          The ID of the primary user for whom we want 
+	 *                                              to check friendships statuses.
+	 * @param int|array|string $possible_friend_ids The IDs of the one or more users 
+	 *                                              to check friendship status with primary user.
+	 * @return null
+	 */
+	public static function update_bp_friends_cache( $user_id, $possible_friend_ids ) {
+		global $wpdb;
+		$bp = buddypress();
+		$possible_friend_ids = wp_parse_id_list( $possible_friend_ids );
+
+		$fetch = array();
+		foreach ( $possible_friend_ids as $friend_id ) {
+			// Check for cached items in both friendship directions.
+			if ( false === bp_core_get_incremented_cache( $user_id . ':' . $friend_id, 'bp_friends' ) 
+				|| false === bp_core_get_incremented_cache( $friend_id . ':' . $user_id, 'bp_friends' ) ) {
+				$fetch[] = $friend_id;
 			}
-		} else {
-			$status = 'not_friends';
+		}
+		if ( empty( $fetch ) ) {
+			return;
 		}
 
-		return $status;
+		$friend_ids_sql = implode( ',', array_unique( $fetch ) );
+		$sql = $wpdb->prepare( "SELECT initiator_user_id, friend_user_id, is_confirmed FROM {$bp->friends->table_name} WHERE (initiator_user_id = %d AND friend_user_id IN ({$friend_ids_sql}) ) OR (initiator_user_id IN ({$friend_ids_sql}) AND friend_user_id = %d )", $user_id, $user_id );
+		$friendships = $wpdb->get_results( $sql );
+
+		// Use $handled to keep track of all of the $possible_friend_ids we've matched.
+		$handled = array();
+		foreach ( $friendships as $friendship ) {
+			$initiator_user_id = (int) $friendship->initiator_user_id;
+			$friend_user_id    = (int) $friendship->friend_user_id;
+			if ( 1 === (int) $friendship->is_confirmed ) {
+				$status_initiator = $status_friend = 'is_friend';
+			} else {
+				$status_initiator = 'pending'; 
+				$status_friend    = 'awaiting_response';
+			}
+			bp_core_set_incremented_cache( $initiator_user_id . ':' . $friend_user_id, 'bp_friends', $status_initiator );
+			bp_core_set_incremented_cache( $friend_user_id . ':' . $initiator_user_id, 'bp_friends', $status_friend );
+
+			$handled[] = ( $initiator_user_id === $user_id ) ? $friend_user_id : $initiator_user_id;
+		}
+
+		// Set all those with no matching entry to "not friends" status.
+		$not_friends = array_diff( $fetch, $handled );
+
+		foreach ( $not_friends as $not_friend_id ) {
+			bp_core_set_incremented_cache( $user_id . ':' . $not_friend_id, 'bp_friends', 'not_friends' );
+			bp_core_set_incremented_cache( $not_friend_id . ':' . $user_id, 'bp_friends', 'not_friends' );
+		}
 	}
 
 	/**

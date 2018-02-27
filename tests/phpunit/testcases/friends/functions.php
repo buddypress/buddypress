@@ -282,33 +282,6 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	/**
 	 * @group friendship_caching
 	 */
-	public function test_friends_check_friendship_should_hit_user_cache() {
-		global $wpdb;
-		$now = time();
-		$u1 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now ),
-		) );
-		$u2 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
-		) );
-		$u3 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 200 ),
-		) );
-
-		friends_add_friend( $u1, $u2, true );
-		friends_add_friend( $u1, $u3, false );
-
-		friends_check_friendship_status( $u1, $u2 );
-		$first_query_count = $wpdb->num_queries;
-
-		friends_check_friendship_status( $u1, $u3 );
-
-		$this->assertEquals( $first_query_count, $wpdb->num_queries );
-	}
-
-	/**
-	 * @group friendship_caching
-	 */
 	public function test_friends_check_friendship_should_hit_friendship_object_cache() {
 		global $wpdb;
 		$now = time();
@@ -325,12 +298,11 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$first_query_count = $wpdb->num_queries;
 
 		/*
-		 * We expect this to generate one query to find $u2's friendships,
-		 * but the friendship object itself should come from cache.
+		 * This should access the previous friendship check's cached items.
 		 */
 		friends_check_friendship_status( $u2, $u1 );
 
-		$this->assertEquals( $first_query_count + 1, $wpdb->num_queries );
+		$this->assertEquals( $first_query_count, $wpdb->num_queries );
 	}
 
 	public function test_friends_get_recently_active() {
