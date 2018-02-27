@@ -184,9 +184,47 @@ class BP_XProfile_ProfileData {
 
 		$bp = buddypress();
 
-		$this->user_id      = apply_filters( 'xprofile_data_user_id_before_save',      $this->user_id,         $this->id );
-		$this->field_id     = apply_filters( 'xprofile_data_field_id_before_save',     $this->field_id,        $this->id );
-		$this->value        = apply_filters( 'xprofile_data_value_before_save',        $this->value,           $this->id, true, $this );
+		/**
+		 * Filters the data's user ID before saving to the database.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $user_id The user ID.
+		 * @param int $data_id The field data ID.
+		 */
+		$this->user_id = apply_filters( 'xprofile_data_user_id_before_save', $this->user_id, $this->id );
+
+		/**
+		 * Filters the data's field ID before saving to the database.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $field_id The field ID.
+		 * @param int $data_id  The field data ID.
+		 */
+		$this->field_id = apply_filters( 'xprofile_data_field_id_before_save', $this->field_id, $this->id );
+
+		/**
+		 * Filters the data's value before saving to the database.
+		 *
+		 * @since 1.0.0
+		 * @since 2.1.0 Added `$reserialize` and `$this` parameters.
+		 *
+		 * @param string                  $field_value The field value.
+		 * @param int                     $data_id     The field data ID.
+		 * @param bool                    $reserialize Whether to reserialize arrays before returning. Defaults to true.
+		 * @param BP_XProfile_ProfileData $this        Current instance of the profile data being saved.
+		 */
+		$this->value = apply_filters( 'xprofile_data_value_before_save', $this->value, $this->id, true, $this );
+
+		/**
+		 * Filters the data's last updated timestamp before saving to the database.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $last_updated The last updated timestamp.
+		 * @param int $data_id      The field data ID.
+		 */
 		$this->last_updated = apply_filters( 'xprofile_data_last_updated_before_save', bp_core_current_time(), $this->id );
 
 		/**
