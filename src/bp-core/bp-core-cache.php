@@ -307,6 +307,23 @@ function bp_core_set_incremented_cache( $key, $group, $ids ) {
 }
 
 /**
+ * Delete a value that has been cached using an incremented key.
+ *
+ * A utility function for use by query methods like BP_Activity_Activity::get().
+ *
+ * @since 3.0.0
+ * @see bp_core_set_incremented_cache()
+ *
+ * @param string $key   Unique key for the query. Usually a SQL string.
+ * @param string $group Cache group. Eg 'bp_activity'.
+ * @return bool True on successful removal, false on failure.
+ */
+function bp_core_delete_incremented_cache( $key, $group ) {
+	$cache_key = bp_core_get_incremented_cache_key( $key, $group );
+	return wp_cache_delete( $cache_key, $group );
+}
+
+/**
  * Gets the key to be used when caching a value using an incremented cache key.
  *
  * The $key is hashed with a component-specific incrementor, which is used to
