@@ -114,6 +114,9 @@ class BP_Messages_Notices_Admin {
 	 * @since 3.0.0
 	 */
 	public function admin_load() {
+		$redirect_to = false;
+
+		// Catch new notice saves.
 		if ( ! empty( $_POST['bp_notice']['send'] ) ) {
 
 			check_admin_referer( 'new-notice', 'ns-nonce' );
@@ -124,13 +127,46 @@ class BP_Messages_Notices_Admin {
 			) );
 
 			if ( messages_send_notice( $notice['subject'], $notice['content'] ) ) {
-				$redirect_to = add_query_arg( 'success', 1, $this->url );
+				$redirect_to = add_query_arg( 'success', 'create', $this->url );
 
 			// Notice could not be sent.
 			} else {
-				$redirect_to = add_query_arg( 'error', 1, $this->url );
+				$redirect_to = add_query_arg( 'error', 'create', $this->url );
+			}
+		}
+
+		// Catch activation/deactivation/delete requests
+		if ( ! empty( $_GET['notice_id'] ) && ! empty( $_GET['notice_action'] ) ) {
+			$notice_id = absint( $_GET['notice_id'] );
+
+			check_admin_referer( 'messages-' . $_GET['notice_action'] . '-notice-' . $notice_id );
+
+			$success = false;
+			switch ( $_GET['notice_action'] ) {
+				case 'activate':
+					$notice = new BP_Messages_Notice( $notice_id );
+					$success = $notice->activate();
+					break;
+				case 'deactivate':
+					$notice = new BP_Messages_Notice( $notice_id );
+					$success = $notice->deactivate();
+					break;
+				case 'delete':
+					$notice = new BP_Messages_Notice( $notice_id );
+					$success = $notice->delete();
+					break;			
+			}
+			if ( $success ) {
+				$redirect_to = add_query_arg( 'success', 'update', $this->url );
+
+			// Notice could not be updated.
+			} else {
+				$redirect_to = add_query_arg( 'error', 'update', $this->url );
 			}
 
+		}
+
+		if ( $redirect_to ) {
 			wp_safe_redirect( $redirect_to );
 			exit();
 		}
@@ -190,11 +226,19 @@ class BP_Messages_Notices_Admin {
 
 					<p>
 						<?php
-						if ( isset( $_GET['error'] ) ) :
-							esc_html_e( 'Notice was not created. Please try again.', 'buddypress' );
-						else :
-							esc_html_e( 'Notice successfully created.', 'buddypress' );
-						endif;
+						if ( isset( $_GET['error'] ) ) {
+							if ( 'create' === $_GET['error'] ) {
+								esc_html_e( 'Notice was not created. Please try again.', 'buddypress' );
+							} else {
+								esc_html_e( 'Notice was not updated. Please try again.', 'buddypress' );							
+							}
+						 } else {
+							if ( 'create' === $_GET['success'] ) {
+								esc_html_e( 'Notice successfully created.', 'buddypress' );
+							} else {
+								esc_html_e( 'Notice successfully updated.', 'buddypress' );
+							}
+						}
 						?>
 					</p>
 

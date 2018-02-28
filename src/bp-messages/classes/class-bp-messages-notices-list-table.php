@@ -109,21 +109,34 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 	 */
 	public function column_subject( $item ) {
 		$actions = array(
-			'activate_deactivate' => '<a href="' . esc_url( wp_nonce_url( add_query_arg( array(
-				'page' => 'bp-notices',
-				'activate' => $item->id
-			), bp_get_admin_url( 'users.php' ) ) ), 'messages_activate_notice' ) . '" data-bp-notice-id="' . $item->id . '" data-bp-action="activate">' . esc_html__( 'Activate Notice', 'buddypress' ) . '</a>',
-			'delete' => '<a href="' . esc_url( wp_nonce_url( add_query_arg( array(
-				'page' => 'bp-notices',
-				'delete' => $item->id
-			), bp_get_admin_url( 'users.php' ) ) ), 'messages_delete_thread' ) . '" data-bp-notice-id="' . $item->id . '" data-bp-action="delete">' . esc_html__( 'Delete Notice', 'buddypress' ) . '</a>',
+			'activate_deactivate' => sprintf( '<a href="%s" data-bp-notice-id="%d" data-bp-action="activate">%s</a>', 
+				esc_url( wp_nonce_url( add_query_arg( array(
+					'page'          => 'bp-notices',
+					'notice_action' => 'activate',
+					'notice_id'     => $item->id
+				), bp_get_admin_url( 'users.php' ) ), 'messages-activate-notice-' . $item->id ) ),
+				(int) $item->id,
+				esc_html__( 'Activate Notice', 'buddypress' ) ),
+			'delete' => sprintf( '<a href="%s" data-bp-notice-id="%d" data-bp-action="delete">%s</a>', 
+				esc_url( wp_nonce_url( add_query_arg( array(
+					'page'          => 'bp-notices',
+					'notice_action' => 'delete',
+					'notice_id'     => $item->id
+				), bp_get_admin_url( 'users.php' ) ), 'messages-delete-notice-' . $item->id ) ),
+				(int) $item->id,
+				esc_html__( 'Delete Notice', 'buddypress' ) )
 		);
 
 		if ( ! empty( $item->is_active ) ) {
-			$actions['activate_deactivate'] = '<a href="' . esc_url( wp_nonce_url( add_query_arg( array(
-				'page' => 'bp-notices',
-				'deactivate' => $item->id
-			), bp_get_admin_url( 'users.php' ) ) ), 'messages_deactivate_notice' ) . '" data-bp-notice-id="' . $item->id . '" data-bp-action="deactivate">' . esc_html__( 'Deactivate Notice', 'buddypress' ) . '</a>';
+			$item->subject = sprintf( _x( 'Active: %s', 'Tag prepended to active site-wide notice titles on WP Admin notices list table', 'buddypress' ), $item->subject );
+			$actions['activate_deactivate'] = sprintf( '<a href="%s" data-bp-notice-id="%d" data-bp-action="deactivate">%s</a>', 
+				esc_url( wp_nonce_url( add_query_arg( array(
+					'page'          => 'bp-notices',
+					'notice_action' => 'deactivate',
+					'notice_id'     => $item->id
+				), bp_get_admin_url( 'users.php' ) ), 'messages-deactivate-notice-' . $item->id ) ),
+				(int) $item->id,
+				esc_html__( 'Deactivate Notice', 'buddypress' ) );
 		}
 
 		echo '<strong>' . apply_filters( 'bp_get_message_notice_subject', $item->subject ) . '</strong> ' . $this->row_actions( $actions );
