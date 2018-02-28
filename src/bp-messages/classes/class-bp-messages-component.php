@@ -73,6 +73,9 @@ class BP_Messages_Component extends BP_Component {
 		if ( bp_is_active( $this->id, 'star' ) ) {
 			$includes[] = 'star';
 		}
+		if ( is_admin() ) {
+			$includes[] = 'admin';
+		}
 
 		parent::includes( $includes );
 	}

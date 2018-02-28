@@ -1,103 +1,51 @@
 <?php
 /**
- * Mesages classes
+ * BuddyPress messages component Site-wide Notices admin screen.
  *
- * @since 1.0.0
+ *
+ * @package BuddyPress
+ * @subpackage Messages
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( is_admin() && current_user_can( 'activate_plugins' ) ) :
+class BP_Messages_Notices_Admin {
 
-	class BP_Nouveau_Notices_List_Table extends WP_List_Table {
-		public function __construct( $args = array() ) {
-			parent::__construct(
-				array(
-					'plural'   => 'notices',
-					'singular' => 'notice',
-					'ajax'     => true,
-					'screen'   => isset( $args['screen'] ) ? $args['screen'] : null,
-				)
-			);
-		}
+	/**
+	 * The ID returned by `add_users_page()`.
+	 *
+	 * @since 3.0.0
+	 * @var string
+	 */
+	public $screen_id = '';
 
-		public function ajax_user_can() {
-			return bp_current_user_can( 'bp_moderate' );
-		}
+	/**
+	 * The URL of the admin screen.
+	 *
+	 * @since 3.0.0
+	 * @var string
+	 */
+	public $url = '';
 
-		public function prepare_items() {
-			$page     = $this->get_pagenum();
-			$per_page = $this->get_items_per_page( 'bp_nouveau_notices_per_page' );
+	/**
+	 * The current instance of the BP_Messages_Notices_List_Table class.
+	 *
+	 * @since 3.0.0
+	 * @var object
+	 */
+	public $list_table = '';
+	
 
-			$this->items = BP_Messages_Notice::get_notices( array(
-				'pag_num'  => $per_page,
-				'pag_page' => $page
-			) );
-
-			$this->set_pagination_args( array(
-				'total_items' => BP_Messages_Notice::get_total_notice_count(),
-				'per_page' => $per_page,
-			) );
-		}
-
-		public function get_columns() {
-			return apply_filters( 'bp_nouveau_notices_list_table_get_columns', array(
-				'subject'   => _x( 'Subject', 'Admin Notices column header', 'buddypress' ),
-				'message'   => _x( 'Content', 'Admin Notices column header', 'buddypress' ),
-				'date_sent' => _x( 'Created', 'Admin Notices column header', 'buddypress' ),
-			) );
-		}
-
-		public function single_row( $item ) {
-			$class = '';
-
-			if ( ! empty( $item->is_active ) ) {
-				$class = ' class="notice-active"';
-			}
-
-			echo "<tr{$class}>";
-			$this->single_row_columns( $item );
-			echo '</tr>';
-		}
-
-		public function column_subject( $item ) {
-			$actions = array(
-				'activate_deactivate' => '<a href="' . esc_url( wp_nonce_url( add_query_arg( array(
-					'page' => 'bp-notices',
-					'activate' => $item->id
-				), bp_get_admin_url( 'users.php' ) ) ), 'messages_activate_notice' ) . '" data-bp-notice-id="' . $item->id . '" data-bp-action="activate">' . esc_html__( 'Activate Notice', 'buddypress' ) . '</a>',
-				'delete' => '<a href="' . esc_url( wp_nonce_url( add_query_arg( array(
-					'page' => 'bp-notices',
-					'delete' => $item->id
-				), bp_get_admin_url( 'users.php' ) ) ), 'messages_delete_thread' ) . '" data-bp-notice-id="' . $item->id . '" data-bp-action="delete">' . esc_html__( 'Delete Notice', 'buddypress' ) . '</a>',
-			);
-
-			if ( ! empty( $item->is_active ) ) {
-				$actions['activate_deactivate'] = '<a href="' . esc_url( wp_nonce_url( add_query_arg( array(
-					'page' => 'bp-notices',
-					'deactivate' => $item->id
-				), bp_get_admin_url( 'users.php' ) ) ), 'messages_deactivate_notice' ) . '" data-bp-notice-id="' . $item->id . '" data-bp-action="deactivate">' . esc_html__( 'Deactivate Notice', 'buddypress' ) . '</a>';
-			}
-
-			echo '<strong>' . apply_filters( 'bp_get_message_notice_subject', $item->subject ) . '</strong> ' . $this->row_actions( $actions );
-		}
-
-		public function column_message( $item ) {
-			echo apply_filters( 'bp_get_message_notice_text', $item->message );
-		}
-
-		public function column_date_sent( $item ) {
-			echo apply_filters( 'bp_get_message_notice_post_date', bp_format_time( strtotime( $item->date_sent ) ) );
-		}
-	}
-endif;
-
-
-class BP_Nouveau_Admin_Notices {
-
+	/**
+     * Create a new instance or access the current instance of this class.
+     *
+     * @since 3.0.0
+     */
 	public static function register_notices_admin() {
-		if ( ! is_admin() || ! bp_is_active( 'messages' ) ) {
+
+		if ( ! is_admin() || ! bp_is_active( 'messages' ) || ! bp_current_user_can( 'bp_moderate' ) ) {
 			return;
 		}
 
@@ -113,22 +61,36 @@ class BP_Nouveau_Admin_Notices {
 	/**
 	 * Constructor method.
 	 *
-	 * @since 2.0.0
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		$this->setup_globals();
 		$this->setup_actions();
 	}
 
+	/**
+	 * Populate the classs variables.
+	 *
+	 * @since 3.0.0
+	 */
 	protected function setup_globals() {
-		$this->screen_id = '';
-		$this->url       = add_query_arg( array( 'page' => 'bp-notices' ), bp_get_admin_url( 'users.php' ) );
+		$this->url = add_query_arg( array( 'page' => 'bp-notices' ), bp_get_admin_url( 'users.php' ) );
 	}
 
+	/**
+	 * Add action hooks.
+	 *
+	 * @since 3.0.0
+	 */
 	protected function setup_actions() {
 		add_action( bp_core_admin_hook(), array( $this, 'admin_menu' ) );
 	}
 
+	/**
+	 * Add the 'All Member Notices' admin menu item.
+	 *
+	 * @since 3.0.0
+	 */
 	public function admin_menu() {
 		// Bail if current user cannot moderate community.
 		if ( ! bp_current_user_can( 'bp_moderate' ) || ! bp_is_active( 'messages' ) ) {
@@ -146,6 +108,11 @@ class BP_Nouveau_Admin_Notices {
 		add_action( 'load-' . $this->screen_id, array( $this, 'admin_load' ) );
 	}
 
+	/**
+	 * Catch save/update requests or load the screen.
+	 *
+	 * @since 3.0.0
+	 */
 	public function admin_load() {
 		if ( ! empty( $_POST['bp_notice']['send'] ) ) {
 			$notice = wp_parse_args( $_POST['bp_notice'], array(
@@ -165,9 +132,14 @@ class BP_Nouveau_Admin_Notices {
 			exit();
 		}
 
-		$this->list_table = new BP_Nouveau_Notices_List_Table( array( 'screen' => get_current_screen()->id ) );
+		$this->list_table = new BP_Messages_Notices_List_Table( array( 'screen' => get_current_screen()->id ) );
 	}
 
+	/**
+	 * Generate content for the bp-notices admin screen.
+	 *
+	 * @since 3.0.0
+	 */
 	public function admin_index() {
 		$this->list_table->prepare_items();
 		?>
@@ -233,4 +205,3 @@ class BP_Nouveau_Admin_Notices {
 		<?php
 	}
 }
-add_action( 'bp_init', array( 'BP_Nouveau_Admin_Notices', 'register_notices_admin' ) );

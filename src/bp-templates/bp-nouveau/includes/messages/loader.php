@@ -41,7 +41,6 @@ class BP_Nouveau_Messages {
 	 * @since 1.0.0
 	 */
 	protected function includes() {
-		require $this->dir . 'classes.php';
 		require $this->dir . 'functions.php';
 		require $this->dir . 'template-tags.php';
 
