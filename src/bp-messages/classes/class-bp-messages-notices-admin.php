@@ -115,6 +115,9 @@ class BP_Messages_Notices_Admin {
 	 */
 	public function admin_load() {
 		if ( ! empty( $_POST['bp_notice']['send'] ) ) {
+
+			check_admin_referer( 'new-notice', 'ns-nonce' );
+
 			$notice = wp_parse_args( $_POST['bp_notice'], array(
 				'subject' => '',
 				'content' => ''
@@ -161,7 +164,7 @@ class BP_Messages_Notices_Admin {
 
 			<?php endif; ?>
 
-			<form action=<?php echo esc_url( $this->url ); ?> method="post">
+			<form action=<?php echo esc_url( wp_nonce_url( $this->url, 'new-notice', 'ns-nonce' ) ); ?> method="post">
 				<table class="widefat">
 					<tr>
 						<td><label for="bp_notice_subject"><?php esc_html_e( 'Subject', 'buddypress' ); ?></label></td>
