@@ -805,7 +805,7 @@ function bp_legacy_theme_object_template_loader() {
 		bp_update_is_directory( true, bp_current_component() );
 
 	// The template part can be overridden by the calling JS function.
-	if ( ! empty( $_POST['template'] ) && 'groups/single/members' === $_POST['template'] && 'group_members' === $object ) {
+	if ( ! empty( $_POST['template'] ) && 'groups/single/members' === $_POST['template'] ) {
 		$template_part = 'groups/single/members.php';
 	} else {
 		$template_part = $object . '/' . $object . '-loop.php';
