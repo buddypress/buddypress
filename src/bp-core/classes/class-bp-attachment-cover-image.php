@@ -96,40 +96,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 * @return array $value Upload data (path, url, basedir...).
 	 */
 	public function upload_dir_filter( $upload_dir = array() ) {
-		// Default values are for profiles.
-		$object_id = bp_displayed_user_id();
-
-		if ( empty( $object_id ) ) {
-			$object_id = bp_loggedin_user_id();
-		}
-
-		$object_directory = 'members';
-
-		// We're in a group, edit default values.
-		if ( bp_is_group() || bp_is_group_create() ) {
-			$object_id        = bp_get_current_group_id();
-			$object_directory = 'groups';
-		}
-
-		// Set the subdir.
-		$subdir  = '/' . $object_directory . '/' . $object_id . '/cover-image';
-
-		/**
-		 * Filters the cover image upload directory.
-		 *
-		 * @since 2.4.0
-		 *
-		 * @param array $value      Array containing the path, URL, and other helpful settings.
-		 * @param array $upload_dir The original Uploads dir.
-		 */
-		return apply_filters( 'bp_attachments_cover_image_upload_dir', array(
-			'path'    => $this->upload_path . $subdir,
-			'url'     => $this->url . $subdir,
-			'subdir'  => $subdir,
-			'basedir' => $this->upload_path,
-			'baseurl' => $this->url,
-			'error'   => false
-		), $upload_dir );
+		return bp_attachments_cover_image_upload_dir();
 	}
 
 	/**

@@ -84,6 +84,58 @@ function bp_attachments_uploads_dir_get( $data = '' ) {
 }
 
 /**
+ * Gets the upload dir array for cover images.
+ *
+ * @since 3.0.0
+ *
+ * @return array See wp_upload_dir().
+ */
+function bp_attachments_cover_image_upload_dir( $args = array() ) {
+	// Default values are for profiles.
+	$object_id = bp_displayed_user_id();
+
+	if ( empty( $object_id ) ) {
+		$object_id = bp_loggedin_user_id();
+	}
+
+	$object_directory = 'members';
+
+	// We're in a group, edit default values.
+	if ( bp_is_group() || bp_is_group_create() ) {
+		$object_id        = bp_get_current_group_id();
+		$object_directory = 'groups';
+	}
+
+	$r = bp_parse_args( $args, array(
+		'object_id' => $object_id,
+		'object_directory' => $object_directory,
+	), 'cover_image_upload_dir' );
+
+
+	// Set the subdir.
+	$subdir  = '/' . $r['object_directory'] . '/' . $r['object_id'] . '/cover-image';
+
+	$upload_dir = bp_attachments_uploads_dir_get();
+
+	/**
+	 * Filters the cover image upload directory.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param array $value      Array containing the path, URL, and other helpful settings.
+	 * @param array $upload_dir The original Uploads dir.
+	 */
+	return apply_filters( 'bp_attachments_cover_image_upload_dir', array(
+		'path'    => $upload_dir['basedir'] . $subdir,
+		'url'     => set_url_scheme( $upload_dir['baseurl'] ) . $subdir,
+		'subdir'  => $subdir,
+		'basedir' => $upload_dir['basedir'],
+		'baseurl' => set_url_scheme( $upload_dir['baseurl'] ),
+		'error'   => false,
+	), $upload_dir );
+}
+
+/**
  * Get the max upload file size for any attachment.
  *
  * @since 2.4.0
@@ -312,7 +364,7 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 			$attachment_data = call_user_func_array( $r['component'] . '_avatar_upload_dir', $dir_args );
 		}
 	} elseif ( 'cover_image' === $type ) {
-		$attachment_data = bp_attachments_uploads_dir_get();
+		$attachment_data = bp_attachments_cover_image_upload_dir();
 
 		// The BP Attachments Uploads Dir is not set, stop.
 		if ( ! $attachment_data ) {
@@ -1130,8 +1182,10 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 		$cover_image_class = new BP_Attachment_Cover_Image();
 	}
 
+	$upload_dir = bp_attachments_cover_image_upload_dir();
+
 	// Make sure the file is inside the Cover Image Upload path.
-	if ( false === strpos( $args['file'], $cover_image_class->upload_path ) ) {
+	if ( false === strpos( $args['file'], $upload_dir['basedir'] ) ) {
 		return false;
 	}
 
@@ -1290,7 +1344,7 @@ function bp_attachments_cover_image_ajax_upload() {
 
 	$error_message = __( 'There was a problem uploading the cover image.', 'buddypress' );
 
-	$bp_attachments_uploads_dir = bp_attachments_uploads_dir_get();
+	$bp_attachments_uploads_dir = bp_attachments_cover_image_upload_dir();
 
 	// The BP Attachments Uploads Dir is not set, stop.
 	if ( ! $bp_attachments_uploads_dir ) {
