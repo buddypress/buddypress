@@ -265,7 +265,7 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 	}
 
 	// Make sure the file path is safe.
-	if ( 0 !== validate_file( $r['image'] ) ) {
+	if ( 1 === validate_file( $r['image'] ) ) {
 		return false;
 	}
 
@@ -447,7 +447,7 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 	$type_subdir = $r['object_dir'] . '/' . $r['item_id'] . '/' . $r['type'];
 	$type_dir    = trailingslashit( $bp_attachments_uploads_dir['basedir'] ) . $type_subdir;
 
-	if ( 0 !== validate_file( $type_dir ) || ! is_dir( $type_dir ) ) {
+	if ( 1 === validate_file( $type_dir ) || ! is_dir( $type_dir ) ) {
 		return $attachment_data;
 	}
 
@@ -1314,7 +1314,7 @@ function bp_attachments_cover_image_ajax_upload() {
 	$cover_subdir = $object_data['dir'] . '/' . $bp_params['item_id'] . '/cover-image';
 	$cover_dir    = trailingslashit( $bp_attachments_uploads_dir['basedir'] ) . $cover_subdir;
 
-	if ( 0 !== validate_file( $cover_dir ) || ! is_dir( $cover_dir ) ) {
+	if ( 1 === validate_file( $cover_dir ) || ! is_dir( $cover_dir ) ) {
 		// Upload error response.
 		bp_attachments_json_response( false, $is_html4, array(
 			'type'    => 'upload_error',
