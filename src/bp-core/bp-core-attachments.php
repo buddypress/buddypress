@@ -1409,10 +1409,20 @@ function bp_attachments_cover_image_ajax_upload() {
 	 * code once the user has set his cover image.
 	 *
 	 * @since 2.4.0
+	 * @since 3.0.0 Added $cover_url, $name, $feedback_code arguments.
 	 *
-	 * @param int $item_id Inform about the item id the cover image was set for.
+	 * @param int    $item_id       Inform about the item id the cover image was set for.
+	 * @param string $name          Filename.
+	 * @param string $cover_url     URL to the image.
+	 * @param int    $feedback_code If value not 1, an error occured.
 	 */
-	do_action( $object_data['component'] . '_cover_image_uploaded', (int) $bp_params['item_id'] );
+	do_action(
+		$object_data['component'] . '_cover_image_uploaded',
+		(int) $bp_params['item_id'],
+		$name,
+		$cover_url,
+		$feedback_code
+	);
 
 	// Finally return the cover image url to the UI.
 	bp_attachments_json_response( true, $is_html4, array(
