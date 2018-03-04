@@ -394,6 +394,17 @@ class BP_Component {
 	}
 
 	/**
+	 * Late includes method.
+	 *
+	 * Components should include files here only on specific pages using
+	 * conditionals such as {@link bp_is_current_component()}. Intentionally left
+	 * empty.
+	 *
+	 * @since 3.0.0
+	 */
+	public function late_includes() {}
+
+	/**
 	 * Set up the actions.
 	 *
 	 * @since 1.5.0
@@ -413,6 +424,9 @@ class BP_Component {
 		// compatibility; henceforth, plugins should register themselves by
 		// extending this base class.
 		add_action( 'bp_include',                array( $this, 'includes'               ), 8 );
+
+		// Load files conditionally, based on certain pages.
+		add_action( 'bp_late_include',           array( $this, 'late_includes'          ) );
 
 		// Setup navigation.
 		add_action( 'bp_setup_nav',              array( $this, 'setup_nav'              ), 10 );

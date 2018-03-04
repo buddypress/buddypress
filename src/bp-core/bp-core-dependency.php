@@ -34,6 +34,23 @@ function bp_include() {
 }
 
 /**
+ * Fire the 'bp_late_include' action for loading conditional files.
+ *
+ * @since 3.0.0
+ */
+function bp_late_include() {
+
+	/**
+	 * Fires the 'bp_late_include' action.
+	 *
+	 * Allow for conditional includes on certain pages.
+	 *
+	 * @since 3.0.0
+	 */
+	do_action( 'bp_late_include' );
+}
+
+/**
  * Fire the 'bp_setup_components' action, where plugins should initialize components.
  *
  * @since 1.6.0

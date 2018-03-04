@@ -86,6 +86,14 @@ add_action( 'bp_init', 'bp_add_permastructs',        40 );
 add_action( 'bp_register_taxonomies', 'bp_register_member_types' );
 
 /**
+ * Late includes.
+ *
+ * Run after the canonical stack is setup to allow for conditional includes
+ * on certain pages.
+ */
+add_action( 'bp_setup_canonical_stack', 'bp_late_include', 20 );
+
+/**
  * The bp_template_redirect hook - Attached to 'template_redirect' above.
  *
  * Attach various template actions to the bp_template_redirect action.
