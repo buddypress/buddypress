@@ -265,13 +265,11 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		$u = self::factory()->user->create();
 		$b1 = self::factory()->blog->create( array( 'user_id' => $u ) );
 
-		// switch to blog and create some dummy posts until we reach a post ID that
-		// matches our BP activity page ID
+		// Switch to blog and create a post with the same BP activity page ID.
 		switch_to_blog( $b1 );
-		$p = self::factory()->post->create();
-		while( $p <= $dir_pages->activity->id ) {
-			$p = self::factory()->post->create();
-		}
+		$p = self::factory()->post->create( array(
+			'import_id' => $dir_pages->activity->id
+		) );
 
 		// delete the post that matches the BP activity page ID on this sub-site
 		wp_delete_post( $dir_pages->activity->id, true );
