@@ -160,8 +160,9 @@ window.bp = window.bp || {};
 				 * @param {string} query Partial @mention to search for.
 				 * @param {function} render_view Render page callback function.
 				 * @since 2.1.0
+				 * @since 3.0.0. Renamed from "remote_filter" for at.js v1.5.4 support.
 				 */
-				remote_filter: function( query, render_view ) {
+				remoteFilter: function( query, render_view ) {
 					var self = $( this ),
 						params = {};
 
