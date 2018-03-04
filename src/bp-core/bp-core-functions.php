@@ -1037,7 +1037,11 @@ function bp_core_redirect( $location = '', $status = 302 ) {
 	buddypress()->no_status_set = true;
 
 	wp_safe_redirect( $location, $status );
-	die;
+
+	// If PHPUnit is running, do not kill execution.
+	if ( ! defined( 'BP_TESTS_DIR' ) ) {
+		die;
+	}
 }
 
 /**

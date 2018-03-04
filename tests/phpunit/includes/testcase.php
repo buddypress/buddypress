@@ -193,6 +193,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		parent::go_to( $url );
 
 		do_action( 'bp_init' );
+		do_action( 'bp_template_redirect' );
 	}
 
 	/**
