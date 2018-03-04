@@ -224,18 +224,16 @@ function bp_activity_screen_single_activity_permalink() {
 		$activity = $activity['activities'][0];
 	}
 
-	$user_id = bp_displayed_user_id();
-
 	/**
 	 * Check user access to the activity item.
 	 *
 	 * @since 3.0.0
 	 */
-	$has_access = bp_activity_user_can_read( $activity, $user_id );
+	$has_access = bp_activity_user_can_read( $activity );
 
 	// If activity author does not match displayed user, block access.
 	// More info:https://buddypress.trac.wordpress.org/ticket/7048#comment:28
-	if ( true === $has_access && $user_id !== $activity->user_id ) {
+	if ( true === $has_access && bp_displayed_user_id() !== $activity->user_id ) {
 		$has_access = false;
 	}
 
@@ -251,22 +249,15 @@ function bp_activity_screen_single_activity_permalink() {
 
 	// Access is specifically disallowed.
 	if ( false === $has_access ) {
+		// If not logged in, prompt for login.
+		if ( ! is_user_logged_in() ) {
+			bp_core_no_access();
 
-		// User feedback.
-		bp_core_add_message( __( 'You do not have access to this activity.', 'buddypress' ), 'error' );
-
-		// Redirect based on logged in status.
-		if ( is_user_logged_in() ) {
-			$url = bp_loggedin_user_domain();
-
+		// Redirect away.
 		} else {
-			$url = sprintf(
-				wp_login_url( 'wp-login.php?redirect_to=%s' ),
-				esc_url_raw( bp_activity_get_permalink( $action ) )
-			);
+			bp_core_add_message( __( 'You do not have access to this activity.', 'buddypress' ), 'error' );
+			bp_core_redirect( bp_loggedin_user_domain() );
 		}
-
-		bp_core_redirect( $url );
 	}
 
 	/**
