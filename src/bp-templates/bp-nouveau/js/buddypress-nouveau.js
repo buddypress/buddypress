@@ -326,8 +326,13 @@ window.bp = window.bp || {};
 
 			if ( 'friends' === data.object || 'group_members' === data.object ) {
 				data.object = 'members';
+				data.template = data.object;
 			} else if ( 'group_requests' === data.object ) {
 				data.object = 'groups';
+				data.template = 'group_requests';
+			} else if ( 'notifications' === data.object ) {
+				data.object = 'members';
+				data.template = 'member_notifications';
 			}
 
 			postdata = $.extend( {
@@ -429,14 +434,6 @@ window.bp = window.bp || {};
 						search_terms : search_terms,
 						extras       : extras
 					};
-
-					if ( 'group_members' === object ) {
-						$.extend( queryData, { template: 'groups/single/members-loop' } );
-					} else if ( 'group_requests' === object ) {
-						$.extend( queryData, { template: 'groups/single/requests-loop' } );
-					} else if ( 'notifications' === object ) {
-						$.extend( queryData, { template: 'members/single/notifications/notifications-loop' } );
-					}
 
 					// Populate the object list
 					self.objectRequest( queryData );
@@ -617,16 +614,6 @@ window.bp = window.bp || {};
 				search_terms = $( '#buddypress [data-bp-search="' + object + '"] input[type=search]' ).val();
 			}
 
-			// On the Groups Members page, we specify a template
-			if ( 'group_members' === object ) {
-				template = 'groups/single/members-loop';
-			}
-
-			// On the Members notifications page, we specify a template
-			if ( 'notifications' === object ) {
-				template = 'members/single/notifications/notifications-loop';
-			}
-
 			if ( 'friends' === object ) {
 				object = 'members';
 			}
@@ -662,14 +649,6 @@ window.bp = window.bp || {};
 
 			if ( $( self.objectNavParent + ' [data-bp-object]' ).length ) {
 				scope = $( self.objectNavParent + ' [data-bp-object="' + object + '"].selected' ).data( 'bp-scope' );
-			}
-
-			if ( 'group_members' === object ) {
-				template = 'groups/single/members-loop';
-			}
-
-			if ( 'notifications' === object ) {
-				template = 'members/single/notifications/notifications-loop';
 			}
 
 			self.objectRequest( {
@@ -894,14 +873,6 @@ window.bp = window.bp || {};
 				extras       : extras,
 				page         : self.getLinkParams( navLink.prop( 'href' ), pagArg ) || 1
 			};
-
-			if ( 'group_members' === object ) {
-				$.extend( queryData, { template: 'groups/single/members-loop' } );
-			} else if ( 'group_requests' === object ) {
-				$.extend( queryData, { template: 'groups/single/requests-loop' } );
-			} else if ( 'notifications' === object ) {
-				$.extend( queryData, { template: 'members/single/notifications/notifications-loop' } );
-			}
 
 			// Request the page
 			self.objectRequest( queryData );

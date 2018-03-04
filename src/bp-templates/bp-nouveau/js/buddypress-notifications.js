@@ -100,8 +100,7 @@ window.bp = window.bp || {};
 				filter              : filter,
 				search_terms        : search_terms,
 				extras              : sort,
-				page                : 1,
-				template            : 'members/single/notifications/notifications-loop'
+				page                : 1
 			} );
 		},
 

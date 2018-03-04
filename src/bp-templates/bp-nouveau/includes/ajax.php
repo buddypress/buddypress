@@ -87,11 +87,26 @@ function bp_nouveau_ajax_object_template_loader() {
 		bp_update_is_directory( true, bp_current_component() );
 	}
 
-	// The template part can be overridden by the calling JS function.
-	if ( ! empty( $_POST['template'] ) && 'groups/single/members' === $_POST['template'] && 'group_members' === $object ) {
-		$template_part = 'groups/single/members.php';
-	} else {
-		$template_part = $object . '/' . $object . '-loop.php';
+	// Get the template path based on the 'template' variable via the AJAX request.
+	$template = isset( $_POST['template'] ) ? wp_unslash( $_POST['template'] ) : '';
+
+	switch ( $template ) {
+		case 'group_members' :
+		case 'groups/single/members' :
+			$template_part = 'groups/single/members-loop.php';
+		break;
+
+		case 'group_requests' :
+			$template_part = 'groups/single/requests-loop.php';
+		break;
+
+		case 'member_notifications' :
+			$template_part = 'members/single/notifications/notifications-loop.php';
+		break;
+
+		default :
+			$template_part = $object . '/' . $object . '-loop.php';
+		break;
 	}
 
 	ob_start();
