@@ -403,4 +403,33 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 	public function dummy_notification_callback( $action, $item_id, $secondary_item_id, $total_items, $format = 'string', $id = 0 ) {
 		$this->n_args = compact( 'action', 'item_id', 'secondary_item_id', 'total_items', 'id', 'format' );
 	}
+
+	/**
+	 * @group cache
+	 * @ticket BP7130
+	 */
+	public function test_get_grouped_notifications_for_user_cache_invalidation() {
+		$u = self::factory()->user->create();
+
+		$n1 = self::factory()->notification->create( array(
+			'component_name'    => 'activity',
+			'component_action'  => 'new_at_mention',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		// Prime cache.
+		$found = bp_notifications_get_grouped_notifications_for_user( $u );
+		$this->assertEquals( 1, $found[0]->total_count );
+
+		$n2 = self::factory()->notification->create( array(
+			'component_name'    => 'activity',
+			'component_action'  => 'new_at_mention',
+			'item_id'           => 100,
+			'user_id'           => $u,
+		) );
+
+		$found = bp_notifications_get_grouped_notifications_for_user( $u );
+		$this->assertEquals( 2, $found[0]->total_count );
+	}
 }

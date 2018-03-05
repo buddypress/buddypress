@@ -1131,4 +1131,50 @@ class BP_Notifications_Notification {
 
 		return self::update( $update_args, $where_args );
 	}
+
+	/**
+	 * Get a user's unread notifications, grouped by component and action.
+	 *
+	 * Multiple notifications of the same type (those that share the same component_name
+	 * and component_action) are collapsed for formatting as "You have 5 pending
+	 * friendship requests", etc. See bp_notifications_get_notifications_for_user().
+	 * For a full-fidelity list of user notifications, use
+	 * bp_notifications_get_all_notifications_for_user().
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $user_id ID of the user whose notifications are being fetched.
+	 * @return array Notifications items for formatting into a list.
+	 */
+	public static function get_grouped_notifications_for_user( $user_id ) {
+		global $wpdb;
+
+		// Load BuddyPress.
+		$bp = buddypress();
+
+		// SELECT.
+		$select_sql = "SELECT id, user_id, item_id, secondary_item_id, component_name, component_action, date_notified, is_new, COUNT(id) as total_count ";
+
+		// FROM.
+		$from_sql = "FROM {$bp->notifications->table_name} n ";
+
+		// WHERE.
+		$where_sql = self::get_where_sql( array(
+			'user_id'        => $user_id,
+			'is_new'         => 1,
+			'component_name' => bp_notifications_get_registered_components(),
+		), $select_sql, $from_sql );
+
+		// GROUP
+		$group_sql = "GROUP BY user_id, component_name, component_action";
+
+		// SORT
+		$order_sql = "ORDER BY date_notified desc";
+
+		// Concatenate query parts.
+		$sql = "{$select_sql} {$from_sql} {$where_sql} {$group_sql} {$order_sql}";
+
+		// Return the queried results.
+		return $wpdb->get_results( $sql );
+	}
 }
