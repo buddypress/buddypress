@@ -3228,7 +3228,8 @@ function bp_send_email( $email_type, $to, $args = array() ) {
  * Return email appearance settings.
  *
  * @since 2.5.0
- * @since 3.0.0 Added "direction" parameter for LTR/RTL email support.
+ * @since 3.0.0 Added "direction" parameter for LTR/RTL email support, and
+ *              "link_text_color" to override that in the email body.
  *
  * @return array
  */
@@ -3255,11 +3256,18 @@ function bp_email_get_appearance_settings() {
 		),
 	);
 
-	return bp_parse_args(
+	$options = bp_parse_args(
 		bp_get_option( 'bp_email_options', array() ),
 		$default_args,
 		'email_appearance_settings'
 	);
+
+	// Link text colour defaults to the highlight colour.
+	if ( ! isset( $options['link_text_color'] ) ) {
+		$options['link_text_color'] = $options['highlight_color'];
+	}
+
+	return $options;
 }
 
 /**
