@@ -88,6 +88,18 @@ function bp_nouveau_ajax_addremove_friend() {
 	// Cast fid as an integer.
 	$friend_id = (int) $_POST['item_id'];
 
+	$user = get_user_by( 'id', $friend_id );
+	if ( ! $user ) {
+		wp_send_json_error(
+			array(
+				'feedback' => sprintf(
+					'<div class="bp-feedback error">%s</div>',
+					esc_html__( 'No member found by that ID.', 'buddypress' )
+				),
+			)
+		);
+	}
+
 	// In the 2 first cases the $friend_id is a friendship id.
 	if ( ! empty( $_POST['action'] ) && 'friends_accept_friendship' === $_POST['action'] ) {
 		if ( ! friends_accept_friendship( $friend_id ) ) {

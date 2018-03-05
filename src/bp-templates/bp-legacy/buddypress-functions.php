@@ -1395,6 +1395,11 @@ function bp_legacy_theme_ajax_addremove_friend() {
 	// Cast fid as an integer.
 	$friend_id = (int) $_POST['fid'];
 
+	$user = get_user_by( 'id', $friend_id );
+	if ( ! $user ) {
+		die( __( 'No member found by that ID.', 'buddypress' ) );
+	}
+
 	// Trying to cancel friendship.
 	if ( 'is_friend' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $friend_id ) ) {
 		check_ajax_referer( 'friends_remove_friend' );
