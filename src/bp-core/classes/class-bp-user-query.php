@@ -413,13 +413,16 @@ class BP_User_Query {
 				$search_terms_space   = '%' . $search_terms . '%';
 			}
 
-			$sql['where']['search'] = $wpdb->prepare(
-				"u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE ( user_login LIKE %s OR user_login LIKE %s OR user_nicename LIKE %s OR user_nicename LIKE %s ) )",
+			$matched_user_ids = $wpdb->get_col( $wpdb->prepare(
+				"SELECT ID FROM {$wpdb->users} WHERE ( user_login LIKE %s OR user_login LIKE %s OR user_nicename LIKE %s OR user_nicename LIKE %s )",
 				$search_terms_nospace,
 				$search_terms_space,
 				$search_terms_nospace,
 				$search_terms_space
-			);
+			) );
+
+			$match_in_clause = empty( $matched_user_ids) ? 'NULL' : implode( ',', $matched_user_ids );
+			$sql['where']['search'] = "u.{$this->uid_name} IN ({$match_in_clause})";
 		}
 
 		// Only use $member_type__in if $member_type is not set.

@@ -784,15 +784,17 @@ function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
 
 	// Combine the core search (against wp_users) into a single OR clause
 	// with the xprofile_data search.
-	$search_xprofile = $wpdb->prepare(
-		"u.{$query->uid_name} IN ( SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE %s OR value LIKE %s )",
+	$matched_user_ids = $wpdb->get_col( $wpdb->prepare(
+		"SELECT user_id FROM {$bp->profile->table_name_data} WHERE value LIKE %s OR value LIKE %s",
 		$search_terms_nospace,
 		$search_terms_space
-	);
+	) );
 
-	$search_core     = $sql['where']['search'];
-	$search_combined = "( {$search_xprofile} OR {$search_core} )";
-	$sql['where']['search'] = $search_combined;
+	if ( ! empty( $matched_user_ids ) ) {
+		$search_core     = $sql['where']['search'];
+		$search_combined = " ( u.{$query->uid_name} IN (" . implode(',', $matched_user_ids) . ") OR {$search_core} )";
+		$sql['where']['search'] = $search_combined;
+	}
 
 	return $sql;
 }
