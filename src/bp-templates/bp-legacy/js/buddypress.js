@@ -437,7 +437,7 @@ jq(document).ready( function() {
 
 			jq('#buddypress li.load-more').addClass('loading');
 
-			if ( null === jq.cookie('bp-activity-oldestpage') ) {
+			if ( ! jq.cookie('bp-activity-oldestpage') ) {
 				jq.cookie('bp-activity-oldestpage', 1, {
 					path: '/',
 					secure: ( 'https:' === window.location.protocol )
@@ -1738,12 +1738,6 @@ jq(document).ready( function() {
 
 /* Setup activity scope and filter based on the current cookie settings. */
 function bp_init_activity() {
-	/* Reset the page */
-	jq.cookie( 'bp-activity-oldestpage', 1, {
-		path: '/',
-		secure: ( 'https:' === window.location.protocol )
-	} );
-
 	if ( undefined !== jq.cookie('bp-activity-filter') && jq('#activity-filter-select').length ) {
 		jq('#activity-filter-select select option[value="' + jq.cookie('bp-activity-filter') + '"]').prop( 'selected', true );
 	}
