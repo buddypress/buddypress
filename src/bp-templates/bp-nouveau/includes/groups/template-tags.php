@@ -1153,7 +1153,7 @@ function bp_nouveau_group_template_part() {
 
 	$bp_is_group_home = bp_is_group_home();
 
-	if ( $bp_is_group_home && ! bp_group_is_visible() ) {
+	if ( $bp_is_group_home && ! bp_current_user_can( 'groups_access_group' ) ) {
 		/**
 		 * Fires before the display of the group status message.
 		 *

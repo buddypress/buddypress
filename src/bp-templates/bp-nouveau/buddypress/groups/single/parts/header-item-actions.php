@@ -7,7 +7,7 @@
 ?>
 <div id="item-actions" class="group-item-actions">
 
-	<?php if ( bp_group_is_visible() ) : ?>
+	<?php if ( bp_current_user_can( 'groups_access_group' ) ) : ?>
 
 		<dl class="moderators-lists">
 			<dt class="moderators-title"><?php _e( 'Group Admins', 'buddypress' ); ?></dt>

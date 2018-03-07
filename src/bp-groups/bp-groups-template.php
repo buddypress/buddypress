@@ -467,7 +467,13 @@ function bp_the_group() {
 }
 
 /**
- * Is the group visible to the currently logged-in user?
+ * Is the group accessible to the currently logged-in user?
+ * Despite the name of the function, it has historically checked
+ * whether a user has access to a group. 
+ * In BP 2.9, a property was added to the BP_Groups_Group class, 
+ * `is_visible`, that describes whether a user can know the group exists.
+ * If you wish to check that property, use the check: 
+ * bp_current_user_can( 'groups_see_group' ).
  *
  * @since 1.0.0
  *
@@ -485,11 +491,7 @@ function bp_group_is_visible( $group = null ) {
 		$group =& $groups_template->group;
 	}
 
-	if ( ! empty( $group->is_visible ) ) {
-		return true;
-	}
-
-	return false;
+	return bp_current_user_can( 'groups_access_group', array( 'group_id' => $group->id ) );
 }
 
 /**
