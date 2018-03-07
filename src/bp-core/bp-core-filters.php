@@ -1036,6 +1036,7 @@ add_filter( 'bp_email_get_headers', 'bp_email_set_default_headers', 6, 4 );
 function bp_email_set_default_tokens( $tokens, $property_name, $transform, $email ) {
 	$tokens['site.admin-email'] = bp_get_option( 'admin_email' );
 	$tokens['site.url']         = home_url();
+	$tokens['email.subject']    = $email->get_subject();
 
 	// These options are escaped with esc_html on the way into the database in sanitize_option().
 	$tokens['site.description'] = wp_specialchars_decode( bp_get_option( 'blogdescription' ), ENT_QUOTES );
@@ -1046,7 +1047,6 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 	$tokens['recipient.email']     = '';
 	$tokens['recipient.name']      = '';
 	$tokens['recipient.username']  = '';
-
 
 	// Who is the email going to?
 	$recipient = $email->get( 'to' );
@@ -1063,6 +1063,7 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 
 		if ( $user_obj ) {
 			$tokens['recipient.username'] = $user_obj->user_login;
+
 			if ( bp_is_active( 'settings' ) && empty( $tokens['unsubscribe'] ) ) {
 				$tokens['unsubscribe'] = esc_url( sprintf(
 					'%s%s/notifications/',
