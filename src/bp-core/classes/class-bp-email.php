@@ -246,7 +246,7 @@ class BP_Email {
 		switch ( $transform ) {
 			// Special-case to fill the $template with the email $content.
 			case 'add-content':
-				$retval = str_replace( '{{{content}}}', nl2br( $this->get_content( 'replace-tokens' ) ), $retval );
+				$retval = str_replace( '{{{content}}}', wpautop( $this->get_content( 'replace-tokens' ) ), $retval );
 				// Fall through.
 
 			case 'replace-tokens':
