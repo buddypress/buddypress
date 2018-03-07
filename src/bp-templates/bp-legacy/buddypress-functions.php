@@ -382,20 +382,30 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		// No need to check child if template == stylesheet.
 		if ( is_child_theme() ) {
-			$locations['bp-child'] = array(
+			$locations[] = array(
+				'type' => 'bp-child',
+				'dir'  => get_stylesheet_directory(),
+				'uri'  => get_stylesheet_directory_uri(),
+				'file' => $file,
+			);
+
+			$locations[] = array(
+				'type' => 'bp-child',
 				'dir'  => get_stylesheet_directory(),
 				'uri'  => get_stylesheet_directory_uri(),
 				'file' => str_replace( '.min', '', $file ),
 			);
 		}
 
-		$locations['bp-parent'] = array(
+		$locations[] = array(
+			'type' => 'bp-parent',
 			'dir'  => get_template_directory(),
 			'uri'  => get_template_directory_uri(),
 			'file' => str_replace( '.min', '', $file ),
 		);
 
-		$locations['bp-legacy'] = array(
+		$locations[] = array(
+			'type' => 'bp-legacy',
 			'dir'  => bp_get_theme_compat_dir(),
 			'uri'  => bp_get_theme_compat_url(),
 			'file' => $file,
@@ -410,11 +420,11 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		$retval = array();
 
-		foreach ( $locations as $location_type => $location ) {
+		foreach ( $locations as $location ) {
 			foreach ( $subdirs as $subdir ) {
 				if ( file_exists( trailingslashit( $location['dir'] ) . trailingslashit( $subdir ) . $location['file'] ) ) {
 					$retval['location'] = trailingslashit( $location['uri'] ) . trailingslashit( $subdir ) . $location['file'];
-					$retval['handle']   = ( $script_handle ) ? $script_handle : "{$location_type}-{$type}";
+					$retval['handle']   = ( $script_handle ) ? $script_handle : "{$location['type']}-{$type}";
 
 					break 2;
 				}
