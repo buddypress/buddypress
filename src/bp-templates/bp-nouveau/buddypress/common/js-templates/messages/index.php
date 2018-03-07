@@ -151,7 +151,7 @@
 						<dd>
 							<ul class="participants-list">
 								<# for ( i in data.recipients ) { #>
-									<li><a href="{{data.recipients[i].user_link}}" class="bp-tooltip" data-bp-tooltip="{{data.recipients[i].user_name}}"><img class="avatar mini" src="{{data.recipients[i].avatar}}" alt="" /></a></li>
+									<li><a href="{{data.recipients[i].user_link}}" class="bp-tooltip" data-bp-tooltip="{{data.recipients[i].user_name}}"><img class="avatar mini" src="{{data.recipients[i].avatar}}" alt="{{data.recipients[i].user_name}}" /></a></li>
 								<# } #>
 							</ul>
 						</dd>
@@ -200,7 +200,7 @@
 				<dd>
 					<ul class="participants-list">
 						<# for ( i in data.recipients ) { #>
-							<li><a href="{{data.recipients[i].user_link}}" class="bp-tooltip" data-bp-tooltip="{{data.recipients[i].user_name}}"><img class="avatar mini" src="{{data.recipients[i].avatar}}" alt="" /></a></li>
+							<li><a href="{{data.recipients[i].user_link}}" class="bp-tooltip" data-bp-tooltip="{{data.recipients[i].user_name}}"><img class="avatar mini" src="{{data.recipients[i].avatar}}" alt="{{data.recipients[i].user_name}}" /></a></li>
 						<# } #>
 					</ul>
 				</dd>
