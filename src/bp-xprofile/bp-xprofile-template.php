@@ -21,14 +21,19 @@ defined( 'ABSPATH' ) || exit;
  * @param array|string $args {
  *     Array of arguments. See BP_XProfile_Group::get() for full description. Those arguments whose defaults differ
  *     from that method are described here:
+ *     @type int          $user_id                Default: ID of the displayed user.
  *     @type string|array $member_type            Default: 'any'.
+ *     @type int|bool     $profile_group_id       Default: false.
  *     @type bool         $hide_empty_groups      Default: true.
  *     @type bool         $hide_empty_fields      Defaults to true on the Dashboard, on a user's Edit Profile page,
  *                                                or during registration. Otherwise false.
- *     @type bool         $fetch_visibility_level Defaults to true when an admin is viewing a profile, or when a user is
- *                                                viewing her own profile, or during registration. Otherwise false.
  *     @type bool         $fetch_fields           Default: true.
  *     @type bool         $fetch_field_data       Default: true.
+ *     @type bool         $fetch_visibility_level Defaults to true when an admin is viewing a profile, or when a user is
+ *                                                viewing her own profile, or during registration. Otherwise false.
+ *     @type int|bool     $exclude_groups         Default: false.
+ *     @type int|bool     $exclude_fields         Default: false
+ *     @type bool         $update_meta_cache      Default: true.
  * }
  *
  * @return bool
