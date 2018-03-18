@@ -2,7 +2,7 @@
 /**
  * BP Nouveau Blogs
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -11,13 +11,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Blogs Loader class
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class BP_Nouveau_Blogs {
 	/**
 	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -29,7 +29,7 @@ class BP_Nouveau_Blogs {
 	/**
 	 * Globals
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
 		$this->dir = trailingslashit( dirname( __FILE__ ) );
@@ -38,7 +38,7 @@ class BP_Nouveau_Blogs {
 	/**
 	 * Include needed files
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function includes() {
 		require $this->dir . 'functions.php';
@@ -61,7 +61,7 @@ class BP_Nouveau_Blogs {
 	/**
 	 * Register do_action() hooks
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_actions() {
 		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
@@ -79,7 +79,7 @@ class BP_Nouveau_Blogs {
 	/**
 	 * Register add_filter() hooks
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_filters() {
 		if ( is_multisite() ) {
@@ -95,7 +95,7 @@ class BP_Nouveau_Blogs {
 /**
  * Launch the Blogs loader class.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_blogs( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

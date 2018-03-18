@@ -5,7 +5,7 @@
  * This template is used to inject the BuddyPress Backbone views
  * dealing with invites.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 ?>
 <nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Group invitations menu', 'buddypress' ); ?>"></nav>

@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Members Profile Change Cover Image
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 ?>

@@ -2,7 +2,7 @@
 /**
  * BP Nouveau Notifications
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -11,13 +11,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notifications Loader class
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class BP_Nouveau_Notifications {
 	/**
 	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -29,7 +29,7 @@ class BP_Nouveau_Notifications {
 	/**
 	 * Globals
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
 		$this->dir = dirname( __FILE__ );
@@ -38,7 +38,7 @@ class BP_Nouveau_Notifications {
 	/**
 	 * Include needed files
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function includes() {
 		$dir = trailingslashit( $this->dir );
@@ -50,7 +50,7 @@ class BP_Nouveau_Notifications {
 	/**
 	 * Register do_action() hooks
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_actions() {
 		add_action( 'bp_init', 'bp_nouveau_notifications_init_filters', 20 );
@@ -79,7 +79,7 @@ class BP_Nouveau_Notifications {
 	/**
 	 * Register add_filter() hooks
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_filters() {
 		add_filter( 'bp_nouveau_register_scripts', 'bp_nouveau_notifications_register_scripts', 10, 1 );
@@ -92,7 +92,7 @@ class BP_Nouveau_Notifications {
 /**
  * Launch the Notifications loader class.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_notifications( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

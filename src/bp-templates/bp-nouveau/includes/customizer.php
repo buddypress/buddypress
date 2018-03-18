@@ -2,13 +2,13 @@
 /**
  * Code to hook into the WP Customizer
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 /**
  * Add a specific panel for the BP Nouveau Template Pack.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param WP_Customize_Manager $wp_customize WordPress customizer.
  */
@@ -336,7 +336,7 @@ add_action( 'bp_customize_register', 'bp_nouveau_customize_register', 10, 1 );
 /**
  * Enqueue needed JS for our customizer Settings & Controls
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_customizer_enqueue_scripts() {
 	$min = bp_core_get_minified_asset_suffix();

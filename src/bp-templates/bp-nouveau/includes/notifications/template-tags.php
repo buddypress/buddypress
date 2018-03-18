@@ -2,7 +2,7 @@
 /**
  * Notifications template tags
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Display the notifications filter options.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_notifications_filters() {
 	echo bp_nouveau_get_notifications_filters();
@@ -20,7 +20,7 @@ function bp_nouveau_notifications_filters() {
 	/**
 	 * Get the notifications filter options.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return string HTML output.
 	 */
@@ -56,7 +56,7 @@ function bp_nouveau_notifications_filters() {
 		/**
 		 * Filter to edit the options output.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param string $output  The options output.
 		 * @param array  $filters The sorted notifications filters.
@@ -67,7 +67,7 @@ function bp_nouveau_notifications_filters() {
 /**
  * Outputs the order action links.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_notifications_sort_order_links() {
 	if ( 'unread' === bp_current_action() ) {
@@ -91,7 +91,7 @@ function bp_nouveau_notifications_sort_order_links() {
 /**
  * Output the dropdown for bulk management of notifications.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_notifications_bulk_management_dropdown() {
 ?>

@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Members Friends Requests
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 bp_nouveau_member_hook( 'before', 'friend_requests_content' ); ?>

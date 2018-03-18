@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Groups plugins
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 bp_nouveau_group_hook( 'before', 'plugin_template' );

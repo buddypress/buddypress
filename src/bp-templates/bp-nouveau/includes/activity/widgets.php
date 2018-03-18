@@ -2,7 +2,7 @@
 /**
  * BP Nouveau Activity widgets
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -11,13 +11,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * A widget to display the latest activities of your community!
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class BP_Latest_Activities extends WP_Widget {
 	/**
 	 * Construct the widget.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		$widget_ops = apply_filters(
@@ -34,7 +34,7 @@ class BP_Latest_Activities extends WP_Widget {
 	/**
 	 * Register the widget.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public static function register_widget() {
 		register_widget( 'BP_Latest_Activities' );
@@ -43,7 +43,7 @@ class BP_Latest_Activities extends WP_Widget {
 	/**
 	 * Display the widget content.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param  array $args     Widget arguments.
 	 * @param  array $instance Widget settings, as saved by the user.
@@ -114,7 +114,7 @@ class BP_Latest_Activities extends WP_Widget {
 	/**
 	 * Update the widget settings.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param array $new_instance The new instance settings.
 	 * @param array $old_instance The old instance settings.
@@ -141,7 +141,7 @@ class BP_Latest_Activities extends WP_Widget {
 	/**
 	 * Display the form to set the widget settings.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param array $instance Settings for this widget.
 	 *

@@ -2,7 +2,7 @@
 /**
  * Blogs Template tags
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Template tag to wrap all Legacy actions that was used
  * before the blogs directory content
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_before_blogs_directory_content() {
 	/**
@@ -32,7 +32,7 @@ function bp_nouveau_before_blogs_directory_content() {
 	/**
 	 * Fires before the display of the blogs listing content.
 	 *
-	 * @since 1.1.0 (BuddyPress)
+	 * @since 3.0.0 (BuddyPress)
 	 */
 	do_action( 'bp_before_directory_blogs_content' );
 
@@ -47,20 +47,20 @@ function bp_nouveau_before_blogs_directory_content() {
 /**
  * Template tag to wrap all Legacy actions that was used after the blogs directory content
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_after_blogs_directory_content() {
 	/**
 	 * Fires inside and displays the blogs content.
 	 *
-	 * @since 1.1.0 (BuddyPress)
+	 * @since 3.0.0 (BuddyPress)
 	 */
 	do_action( 'bp_directory_blogs_content' );
 
 	/**
 	 * Fires after the display of the blogs listing content.
 	 *
-	 * @since 1.1.0 (BuddyPress)
+	 * @since 3.0.0 (BuddyPress)
 	 */
 	do_action( 'bp_after_directory_blogs_content' );
 
@@ -82,7 +82,7 @@ function bp_nouveau_after_blogs_directory_content() {
 /**
  * Fire specific hooks into the blogs create template
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $when   Optional. Either 'before' or 'after'.
  * @param string $suffix Optional. Use it to add terms at the end of the hook name.
@@ -107,7 +107,7 @@ function bp_nouveau_blogs_create_hook( $when = '', $suffix = '' ) {
 /**
  * Fire an isolated hook inside the blogs loop
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_blogs_loop_item() {
 	/**
@@ -121,7 +121,7 @@ function bp_nouveau_blogs_loop_item() {
 /**
  * Output the action buttons inside the blogs loop.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $args See bp_nouveau_wrapper() for the description of parameters.
  */
@@ -138,7 +138,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 	/**
 	 * Fires inside the blogs action listing area.
 	 *
-	 * @since 1.1.0
+	 * @since 3.0.0
 	 */
 	do_action( 'bp_directory_blogs_actions' );
 	$output .= ob_get_clean();
@@ -153,7 +153,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 	/**
 	 * Get the action buttons for the current blog in the loop.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param string $type Type of Group of buttons to get.
 	 *
@@ -255,7 +255,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 		/**
 		 * Filter to add your buttons, use the position argument to choose where to insert it.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param array  $buttons The list of buttons.
 		 * @param object $blog    The current blog object.
@@ -287,7 +287,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 		/**
 		 * Leave a chance to adjust the $return
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param array  $return  The list of buttons ordered.
 		 * @param object $blog    The current blog object.
@@ -301,7 +301,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 /**
  * Check if the Sites has a latest post
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return bool True if the sites has a latest post. False otherwise.
  */

@@ -5,7 +5,7 @@
  * This template is used by activity-loop.php and AJAX functions to show
  * each activity.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 bp_nouveau_activity_hook( 'before', 'entry' ); ?>

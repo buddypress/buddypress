@@ -2,7 +2,7 @@
 /**
  * Friends Ajax functions
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -49,7 +49,7 @@ bp_nouveau_register_ajax_actions(
 /**
  * Friend/un-friend a user via a POST request.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return string HTML
  */

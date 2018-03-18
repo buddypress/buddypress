@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Groups Admin
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 bp_get_template_part( 'groups/single/parts/admin-subnav' ); ?>

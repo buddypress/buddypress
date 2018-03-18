@@ -2,7 +2,7 @@
 /**
  * Messages Ajax functions
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -28,7 +28,7 @@ bp_nouveau_register_ajax_actions( array(
 ) );
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_ajax_messages_send_message() {
 	$response = array(
@@ -88,7 +88,7 @@ function bp_nouveau_ajax_messages_send_message() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_ajax_messages_send_reply() {
 	$response = array(
@@ -177,7 +177,7 @@ function bp_nouveau_ajax_messages_send_reply() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_ajax_get_user_message_threads() {
 	global $messages_template;
@@ -289,7 +289,7 @@ function bp_nouveau_ajax_get_user_message_threads() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_ajax_messages_thread_read() {
 	if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'bp_nouveau_messages' ) ) {
@@ -319,7 +319,7 @@ function bp_nouveau_ajax_messages_thread_read() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_ajax_get_thread_messages() {
 	global $thread_template;
@@ -415,7 +415,7 @@ function bp_nouveau_ajax_get_thread_messages() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_ajax_delete_thread_messages() {
 	$response = array(
@@ -448,7 +448,7 @@ function bp_nouveau_ajax_delete_thread_messages() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_ajax_star_thread_messages() {
 	if ( empty( $_POST['action'] ) ) {
@@ -535,7 +535,7 @@ function bp_nouveau_ajax_star_thread_messages() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_ajax_readunread_thread_messages() {
 	if ( empty( $_POST['action'] ) ) {
@@ -598,7 +598,7 @@ function bp_nouveau_ajax_readunread_thread_messages() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_ajax_dismiss_sitewide_notice() {
 	if ( empty( $_POST['action'] ) ) {

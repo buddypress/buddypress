@@ -2,7 +2,7 @@
 /**
  * BP Nouveau Members
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -11,13 +11,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Members Loader class
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class BP_Nouveau_Members {
 	/**
 	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -29,7 +29,7 @@ class BP_Nouveau_Members {
 	/**
 	 * Globals
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
 		$this->dir                  = dirname( __FILE__ );
@@ -39,7 +39,7 @@ class BP_Nouveau_Members {
 	/**
 	 * Include needed files
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function includes() {
 		require( trailingslashit( $this->dir ) . 'functions.php' );
@@ -49,7 +49,7 @@ class BP_Nouveau_Members {
 	/**
 	 * Register do_action() hooks
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_actions() {
 		$ajax_actions = array(
@@ -81,7 +81,7 @@ class BP_Nouveau_Members {
 	/**
 	 * Register add_filter() hooks
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_filters() {
 		// Add the default-front to User's front hierarchy if user enabled it (Enabled by default).
@@ -92,7 +92,7 @@ class BP_Nouveau_Members {
 	 * Add filters to be sure the (BuddyPress) widgets display will be consistent
 	 * with the displayed user's default front page.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param string $sidebar_index The Sidebar identifier.
 	 */
@@ -111,7 +111,7 @@ class BP_Nouveau_Members {
 	 * Remove filters to be sure the (BuddyPress) widgets display will no more take
 	 * the displayed user in account.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param  string $sidebar_index The Sidebar identifier.
 	 */
@@ -130,7 +130,7 @@ class BP_Nouveau_Members {
 /**
  * Launch the Members loader class.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_members( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

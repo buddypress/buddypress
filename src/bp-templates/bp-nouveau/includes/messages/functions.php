@@ -2,7 +2,7 @@
 /**
  * Messages functions
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Enqueue styles for the Messages UI (mentions).
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $styles Optional. The array of styles to enqueue.
  *
@@ -34,7 +34,7 @@ function bp_nouveau_messages_enqueue_styles( $styles = array() ) {
 /**
  * Register Scripts for the Messages component
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $scripts The array of scripts to register
  *
@@ -63,7 +63,7 @@ function bp_nouveau_messages_register_scripts( $scripts = array() ) {
 /**
  * Enqueue the messages scripts
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_messages_enqueue_scripts() {
 	if ( ! bp_is_user_messages() ) {
@@ -79,7 +79,7 @@ function bp_nouveau_messages_enqueue_scripts() {
 /**
  * Localize the strings needed for the messages UI
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param  array $params Associative array containing the JS Strings needed by scripts
  * @return array         The same array with specific strings for the messages UI if needed.
@@ -123,7 +123,7 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_message_search_form() {
 	$query_arg   = bp_core_get_component_search_query_arg( 'messages' );
@@ -137,7 +137,7 @@ function bp_nouveau_message_search_form() {
 	/**
 	 * Filters the private message component search form.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param string $search_form_html HTML markup for the message search form.
 	 */
@@ -146,7 +146,7 @@ function bp_nouveau_message_search_form() {
 add_filter( 'bp_message_search_form', 'bp_nouveau_message_search_form', 10, 1 );
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_messages_adjust_nav() {
 	$bp = buddypress();
@@ -178,7 +178,7 @@ function bp_nouveau_messages_adjust_nav() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_messages_adjust_admin_nav( $admin_nav ) {
 	if ( empty( $admin_nav ) ) {
@@ -203,7 +203,7 @@ function bp_nouveau_messages_adjust_admin_nav( $admin_nav ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id ) {
 	if ( ! bp_is_active( 'messages' ) || ! doing_action( 'admin_bar_menu' ) ) {
@@ -238,7 +238,7 @@ function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id )
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_format_notice_notification_for_user( $array ) {
 	if ( ! empty( $array['text'] ) || ! doing_action( 'admin_bar_menu' ) ) {
@@ -252,7 +252,7 @@ function bp_nouveau_format_notice_notification_for_user( $array ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_unregister_notices_widget() {
 	unregister_widget( 'BP_Messages_Sitewide_Notices_Widget' );
@@ -261,7 +261,7 @@ function bp_nouveau_unregister_notices_widget() {
 /**
  * Add active sitewide notices to the BP template_message global.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_push_sitewide_notices() {
 	// Do not show notices if user is not logged in.
@@ -299,7 +299,7 @@ function bp_nouveau_push_sitewide_notices() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_mce_buttons( $buttons = array() ) {
 	$remove_buttons = array(
@@ -319,7 +319,7 @@ function bp_nouveau_mce_buttons( $buttons = array() ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_messages_at_on_tinymce_init( $settings, $editor_id ) {
 	// We only apply the mentions init to the visual post editor in the WP dashboard.
@@ -331,7 +331,7 @@ function bp_nouveau_messages_at_on_tinymce_init( $settings, $editor_id ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_get_message_date( $date ) {
 	$now  = bp_core_current_time( true, 'timestamp' );
@@ -368,7 +368,7 @@ function bp_nouveau_get_message_date( $date ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_messages_get_bulk_actions() {
 	ob_start();
@@ -400,7 +400,7 @@ function bp_nouveau_messages_get_bulk_actions() {
 /**
  * Register notifications filters for the messages component.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_messages_notification_filters() {
 	bp_nouveau_notifications_register_filter(

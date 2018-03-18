@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Members Single Profile WP
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 bp_nouveau_wp_profile_hooks( 'before' ); ?>

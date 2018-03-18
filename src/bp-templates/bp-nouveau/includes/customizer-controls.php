@@ -2,7 +2,7 @@
 /**
  * Customizer controls
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * NB: this is a first pass to improve by using Javascript templating as explained here:
  * https://developer.wordpress.org/themes/advanced-topics/customizer-api/#putting-the-pieces-together
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 	/**
@@ -26,7 +26,7 @@ class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 	/**
 	 * Render the control's content.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public function render_content() {
 		$id       = 'customize-control-' . str_replace( '[', '-', str_replace( ']', '', $this->id ) );

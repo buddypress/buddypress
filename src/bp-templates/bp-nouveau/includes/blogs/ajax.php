@@ -2,7 +2,7 @@
 /**
  * Blogs Ajax functions
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.

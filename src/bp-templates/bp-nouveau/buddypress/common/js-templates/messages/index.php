@@ -5,7 +5,7 @@
  * This template is used to inject the BuddyPress Backbone views
  * dealing with user's private messages.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 ?>
 <div class="subnav-filters filters user-subnav bp-messages-filters" id="subsubnav"></div>

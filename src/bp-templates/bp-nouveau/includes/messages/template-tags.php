@@ -2,7 +2,7 @@
 /**
  * Messages template tags
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Fire specific hooks into the private messages template.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $when   Optional. Either 'before' or 'after'.
  * @param string $suffix Optional. Use it to add terms at the end of the hook name.
@@ -40,7 +40,7 @@ function bp_nouveau_messages_hook( $when = '', $suffix = '' ) {
 /**
  * Load the new Messages User Interface
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_messages_member_interface() {
 	/**

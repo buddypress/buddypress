@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Blogs Create
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 bp_nouveau_blogs_create_hook( 'before', 'content_template' ); ?>

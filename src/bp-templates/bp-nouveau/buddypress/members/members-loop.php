@@ -4,7 +4,7 @@
  *
  * Querystring is set via AJAX in _inc/ajax.php - bp_legacy_theme_object_filter()
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 bp_nouveau_before_loop(); ?>

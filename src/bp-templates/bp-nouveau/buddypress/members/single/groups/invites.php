@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Members Single Group Invites
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 bp_nouveau_group_hook( 'before', 'invites_content' ); ?>

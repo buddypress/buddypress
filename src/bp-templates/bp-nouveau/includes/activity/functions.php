@@ -2,7 +2,7 @@
 /**
  * Activity functions
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Register Scripts for the Activity component
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $scripts  The array of scripts to register.
  *
@@ -39,7 +39,7 @@ function bp_nouveau_activity_register_scripts( $scripts = array() ) {
 /**
  * Enqueue the activity scripts
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_activity_enqueue_scripts() {
 	if ( ! bp_is_activity_component() && ! bp_is_group_activity() ) {
@@ -52,7 +52,7 @@ function bp_nouveau_activity_enqueue_scripts() {
 /**
  * Localize the strings needed for the Activity Post form UI
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $params Associative array containing the JS Strings needed by scripts.
  *
@@ -91,7 +91,7 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	/**
 	 * Filter to include specific Action buttons.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param array $value The array containing the button params. Must look like:
 	 * array( 'buttonid' => array(
@@ -172,7 +172,7 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_get_activity_directory_nav_items() {
 	$nav_items = array();
@@ -277,7 +277,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 	/**
 	 * Use this filter to introduce your custom nav items for the activity directory.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param  array $nav_items The list of the activity directory nav items.
 	 */
@@ -288,7 +288,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
  * Make sure bp_get_activity_show_filters() will return the filters and the context
  * instead of the output.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $output string HTML output
  * @param 'directory' see comment below
@@ -305,7 +305,7 @@ function bp_nouveau_get_activity_filters_array( $output = '', $filters = array()
 /**
  * Get Dropdown filters of the activity component
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return array the filters
  */
@@ -335,7 +335,7 @@ function bp_nouveau_get_activity_filters() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
 	switch ( $activity->component ) {
@@ -354,7 +354,7 @@ function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 	if ( ! is_user_logged_in() ) {
@@ -427,7 +427,7 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 function bp_nouveau_activity_time_since( $time_since, $activity = null ) {
@@ -446,7 +446,7 @@ function bp_nouveau_activity_time_since( $time_since, $activity = null ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_activity_allowed_tags( $activity_allowedtags = array() ) {
 	$activity_allowedtags['time']                      = array();
@@ -460,7 +460,7 @@ function bp_nouveau_activity_allowed_tags( $activity_allowedtags = array() ) {
 /**
  * Get the activity query args for the widget.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return array The activity arguments.
  */
@@ -475,7 +475,7 @@ function bp_nouveau_activity_widget_query() {
 	/**
 	 * Filter to edit the activity widget arguments
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param  array $args The activity arguments.
 	 */
@@ -485,7 +485,7 @@ function bp_nouveau_activity_widget_query() {
 /**
  * Register notifications filters for the activity component.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_activity_notification_filters() {
 	$notifications = array(

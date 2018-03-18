@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Members Profile Loop
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 bp_nouveau_xprofile_hook( 'before', 'loop_content' ); ?>

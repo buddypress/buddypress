@@ -2,7 +2,7 @@
 /**
  * BP Nouveau Search & filters bar
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 ?>
 <div class="subnav-filters filters no-ajax" id="subnav-filters">

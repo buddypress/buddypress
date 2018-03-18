@@ -2,7 +2,7 @@
 /**
  * Common functions only loaded on AJAX requests.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Load the template loop for the current object.
  *
  * @return string Prints template loop for the specified object
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_ajax_object_template_loader() {
 	if ( ! bp_is_post_request() ) {
@@ -125,7 +125,7 @@ function bp_nouveau_ajax_object_template_loader() {
 /**
  * Register AJAX hooks.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $ajax_actions {
  *      Multi-dimensional array. For example:

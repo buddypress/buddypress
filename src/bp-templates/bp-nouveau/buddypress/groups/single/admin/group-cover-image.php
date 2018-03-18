@@ -2,7 +2,7 @@
 /**
  * BP Nouveau Group's cover image template.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 ?>
 

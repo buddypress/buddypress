@@ -2,7 +2,7 @@
 /**
  * BP Nouveau Activity Comment form template.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 if ( ! bp_nouveau_current_user_can( 'comment_activity' ) || ! bp_activity_can_comment() ) {

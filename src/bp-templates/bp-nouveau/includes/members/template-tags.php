@@ -2,7 +2,7 @@
 /**
  * Members template tags
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Template tag to wrap all Legacy actions that was used
  * before the members directory content
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_before_members_directory_content() {
 	/**
@@ -48,7 +48,7 @@ function bp_nouveau_before_members_directory_content() {
  * Template tag to wrap all Legacy actions that was used
  * after the members directory content
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_after_members_directory_content() {
 	/**
@@ -83,14 +83,10 @@ function bp_nouveau_after_members_directory_content() {
 /**
  * Fire specific hooks into the single members templates
  *
- * @since 1.0.0
- * @since 1.2.0 (BuddyPress) for the 'activity_content', 'blogs_content', 'header_meta',
- *                           'friends_content', 'groups_content', 'home_content', 'plugin_template'
- *                           'friend_requests_content' suffixes.
- * @since 1.5.0 (BuddyPress) for the 'settings_template' suffix.
+ * @since 3.0.0
  *
- * @param string $when    'before' or 'after'
- * @param string $suffix  Use it to add terms at the end of the hook name
+ * @param string $when   'before' or 'after'
+ * @param string $suffix Use it to add terms at the end of the hook name
  */
 function bp_nouveau_member_hook( $when = '', $suffix = '' ) {
 	$hook = array( 'bp' );
@@ -112,7 +108,7 @@ function bp_nouveau_member_hook( $when = '', $suffix = '' ) {
 /**
  * Template tag to wrap the notification settings hook
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_member_email_notice_settings() {
 	/**
@@ -126,7 +122,7 @@ function bp_nouveau_member_email_notice_settings() {
 /**
  * Output the action buttons for the displayed user profile
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $args See bp_nouveau_wrapper() for the description of parameters.
  */
@@ -175,7 +171,7 @@ function bp_nouveau_member_header_buttons( $args = array() ) {
 /**
  * Output the action buttons in member loops
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $args See bp_nouveau_wrapper() for the description of parameters.
  */
@@ -218,7 +214,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 	/**
 	 * Get the action buttons for the displayed user profile
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return array
 	 */
@@ -476,7 +472,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 		/**
 		 * Filter to add your buttons, use the position argument to choose where to insert it.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param array  $buttons The list of buttons.
 		 * @param int    $user_id The displayed user ID.
@@ -507,7 +503,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 		/**
 		 * Leave a chance to adjust the $return
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param array  $return  The list of buttons ordered.
 		 * @param int    $user_id The displayed user ID.
@@ -521,7 +517,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 /**
  * Does the member has meta.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return bool True if the member has meta. False otherwise.
  */
@@ -532,7 +528,7 @@ function bp_nouveau_member_has_meta() {
 /**
  * Display the member meta.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return string HTML Output.
  */
@@ -543,7 +539,7 @@ function bp_nouveau_member_meta() {
 	/**
 	 * Get the member meta.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return array The member meta.
 	 */
@@ -587,7 +583,7 @@ function bp_nouveau_member_meta() {
 			/**
 			 * Filter to add/remove Member meta.
 			 *
-			 * @since 1.0.0
+			 * @since 3.0.0
 			 *
 			 * @param array  $meta    The list of meta to output.
 			 * @param object $member  The member object
@@ -602,7 +598,7 @@ function bp_nouveau_member_meta() {
 /**
  * Load the appropriate content for the single member pages
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_member_template_part() {
 	/**
@@ -650,7 +646,7 @@ function bp_nouveau_member_template_part() {
 /**
  * Use the appropriate Member header and enjoy a template hierarchy
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return string HTML Output
  */
@@ -685,7 +681,7 @@ function bp_nouveau_member_header_template_part() {
  * Get a link to set the Member's default front page and directly
  * reach the Customizer section where it's possible to do it.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return string HTML Output
  */
@@ -703,7 +699,7 @@ function bp_nouveau_members_get_customizer_option_link() {
  * Get a link to set the Member's front page widgets and directly
  * reach the Customizer section where it's possible to do it.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return string HTML Output
  */
@@ -720,7 +716,7 @@ function bp_nouveau_members_get_customizer_widgets_link() {
 /**
  * Display the Member description making sure linefeeds are taking in account
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param int $user_id Optional.
  *
@@ -756,7 +752,7 @@ function bp_nouveau_member_description( $user_id = 0 ) {
 /**
  * Display the Edit profile link (temporary).
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @todo replace with Ajax feature
  *
@@ -770,7 +766,7 @@ function bp_nouveau_member_description_edit_link() {
 	 * Get the Edit profile link (temporary)
 	 * @todo  replace with Ajax featur
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return string HTML Output
 	 */
@@ -796,7 +792,7 @@ function bp_nouveau_member_description_edit_link() {
  * Template tag to wrap all Legacy actions that was used
  * before and after the WP User's Profile.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_wp_profile_hooks( $type = 'before' ) {
 	if ( 'before' === $type ) {
@@ -840,7 +836,7 @@ function bp_nouveau_wp_profile_hooks( $type = 'before' ) {
 /**
  * Does the displayed user has WP profile fields?
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return bool True if user has profile fields. False otherwise.
  */
@@ -885,7 +881,7 @@ function bp_nouveau_has_wp_profile_fields() {
 /**
  * Check if there are still profile fields to output.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return bool True if the profile field exists. False otherwise.
  */
@@ -905,7 +901,7 @@ function bp_nouveau_wp_profile_fields() {
 /**
  * Set the current profile field and iterate into the loop.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_wp_profile_field() {
 	$bp_nouveau = bp_nouveau();
@@ -917,7 +913,7 @@ function bp_nouveau_wp_profile_field() {
 /**
  * Output the WP profile field ID.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_wp_profile_field_id() {
 	echo esc_attr( bp_nouveau_get_wp_profile_field_id() );
@@ -925,7 +921,7 @@ function bp_nouveau_wp_profile_field_id() {
 	/**
 	 * Get the WP profile field ID.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return int the profile field ID.
 	 */
@@ -937,7 +933,7 @@ function bp_nouveau_wp_profile_field_id() {
 /**
  * Output the WP profile field label.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_wp_profile_field_label() {
 	echo esc_html( bp_nouveau_get_wp_profile_field_label() );
@@ -946,7 +942,7 @@ function bp_nouveau_wp_profile_field_label() {
 	/**
 	 * Get the WP profile label.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return string the profile field label.
 	 */
@@ -958,7 +954,7 @@ function bp_nouveau_wp_profile_field_label() {
 /**
  * Output the WP profile field data.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_wp_profile_field_data() {
 	$data = bp_nouveau_get_wp_profile_field_data();
@@ -983,7 +979,7 @@ function bp_nouveau_wp_profile_field_data() {
 	/**
 	 * Get the WP profile field data.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return string the profile field data.
 	 */

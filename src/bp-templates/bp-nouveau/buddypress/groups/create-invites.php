@@ -4,7 +4,7 @@
 *
 * This template include provides the standard BP invites step screen content
 *
-* @since 1.0.0
+* @since 3.0.0
 */
 ?>
 

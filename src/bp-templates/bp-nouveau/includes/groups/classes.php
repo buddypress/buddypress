@@ -2,7 +2,7 @@
 /**
  * Groups classes
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -11,21 +11,21 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Query to get members that are not already members of the group
  *
- * @since 1.0
+ * @since 3.0.0
  */
 class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	/**
 	 * Array of group member ids, cached to prevent redundant lookups
 	 *
 	 * @var null|array Null if not yet defined, otherwise an array of ints
-	 * @since 1.0
+	 * @since 3.0.0
 	 */
 	protected $group_member_ids;
 
 	/**
 	 * Set up action hooks
 	 *
-	 * @since 1.0
+	 * @since 3.0.0
 	 */
 	public function setup_hooks() {
 		add_action( 'bp_pre_user_query_construct', array( $this, 'build_exclude_args' ) );
@@ -35,7 +35,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	/**
 	 * Exclude group members from the user query as it's not needed to invite members to join the group.
 	 *
-	 * @since 1.0
+	 * @since 3.0.0
 	 */
 	public function build_exclude_args() {
 		$this->query_vars = wp_parse_args( $this->query_vars, array(
@@ -61,7 +61,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	/**
 	 * Get the members of the queried group
 	 *
-	 * @since 1.0
+	 * @since 3.0.0
 	 *
 	 * @return array $ids User IDs of relevant group member ids
 	 */
@@ -105,7 +105,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	}
 
 	/**
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public function build_meta_query( BP_User_Query $bp_user_query ) {
 		if ( isset( $this->query_vars['scope'] ) && 'members' === $this->query_vars['scope'] && isset( $this->query_vars['meta_query'] ) ) {
@@ -123,7 +123,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	}
 
 	/**
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public static function get_inviter_ids( $user_id = 0, $group_id = 0 ) {
 		global $wpdb;
@@ -142,7 +142,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
  * A specific Group Nav class to make it possible to set new positions for
  * buddypress()->groups->nav.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	/**
@@ -173,7 +173,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 *
 	 * Overrides BP_Core_Nav::__isset() to avoid looking into its nav property.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param string $key The property.
 	 *
@@ -188,7 +188,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 *
 	 * Overrides BP_Core_Nav::__isset() to avoid looking into its nav property.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param string $key The property.
 	 *
@@ -207,7 +207,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	 *
 	 * Overrides BP_Core_Nav::__isset() to avoid adding a value to its nav property.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param string $key The property.
 	 *
@@ -220,7 +220,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	/**
 	 * Setup a temporary nav with only the needed parameters.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_nav() {
 		$nav_items = array(
@@ -314,7 +314,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	/**
 	 * Front template: do not look into group's template hierarchy.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param array $templates The list of possible group front templates.
 	 *
@@ -330,7 +330,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	/**
 	 * Get the original order for the group navigation.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return array a list of nav items slugs ordered.
 	 */
@@ -342,7 +342,7 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 	/**
 	 * Get the list of nav items ordered according to the Site owner preferences.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return array the nav items ordered.
 	 */

@@ -2,7 +2,7 @@
 /**
  * Groups Template tags
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Template tag to wrap all Legacy actions that was used
  * before the groups directory content
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_before_groups_directory_content() {
 	/**
@@ -41,7 +41,7 @@ function bp_nouveau_before_groups_directory_content() {
  * Template tag to wrap all Legacy actions that was used
  * after the groups directory content
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_after_groups_directory_content() {
 	/**
@@ -76,7 +76,7 @@ function bp_nouveau_after_groups_directory_content() {
 /**
  * Fire specific hooks into the groups create template.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $when   Optional. Either 'before' or 'after'.
  * @param string $suffix Optional. Use it to add terms at the end of the hook name.
@@ -101,7 +101,7 @@ function bp_nouveau_groups_create_hook( $when = '', $suffix = '' ) {
 /**
  * Fire specific hooks into the single groups templates.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $when   Optional. Either 'before' or 'after'.
  * @param string $suffix Optional. Use it to add terms at the end of the hook name.
@@ -126,7 +126,7 @@ function bp_nouveau_group_hook( $when = '', $suffix = '' ) {
 /**
  * Fire an isolated hook inside the groups loop
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_groups_loop_item() {
 	/**
@@ -140,7 +140,7 @@ function bp_nouveau_groups_loop_item() {
 /**
  * Display the current group activity post form if needed
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_groups_activity_post_form() {
 	/**
@@ -165,7 +165,7 @@ function bp_nouveau_groups_activity_post_form() {
 /**
  * Load the Group Invites UI.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return string HTML Output.
  */
@@ -190,7 +190,7 @@ function bp_nouveau_group_invites_interface() {
 /**
  * Gets the displayed user group invites preferences
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return int Returns 1 if user chose to restrict to friends, 0 otherwise.
  */
@@ -201,7 +201,7 @@ function bp_nouveau_groups_get_group_invites_setting() {
 /**
  * Outputs the group creation numbered steps navbar
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @todo This output isn't localised correctly.
  */
@@ -242,14 +242,13 @@ function bp_nouveau_group_creation_tabs() {
 	 *
 	 * @since 1.0.0
 	 */
-
 	do_action( 'groups_creation_tabs' );
 }
 
 /**
  * Load the requested Create Screen for the new group.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_group_creation_screen() {
 	return bp_nouveau_group_manage_screen();
@@ -258,7 +257,7 @@ function bp_nouveau_group_creation_screen() {
 /**
  * Load the requested Manage Screen for the current group.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 function bp_nouveau_group_manage_screen() {
@@ -443,7 +442,7 @@ function bp_nouveau_group_manage_screen() {
 /**
  * Output the action buttons for the displayed group
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
@@ -480,7 +479,7 @@ function bp_nouveau_group_header_buttons( $args = array() ) {
 /**
  * Output the action buttons inside the groups loop.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
@@ -512,7 +511,7 @@ function bp_nouveau_groups_loop_buttons( $args = array() ) {
 /**
  * Output the action buttons inside the invites loop of the displayed user.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
@@ -544,7 +543,7 @@ function bp_nouveau_groups_invite_buttons( $args = array() ) {
 /**
  * Output the action buttons inside the requests loop of the group's manage screen.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
@@ -576,7 +575,7 @@ function bp_nouveau_groups_request_buttons( $args = array() ) {
 /**
  * Output the action buttons inside the manage members loop of the group's manage screen.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
  */
@@ -616,7 +615,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 	 * Get the action buttons for the current group in the loop,
 	 * or the current displayed group.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
 	 */
@@ -976,11 +975,11 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		/**
 		 * Filter to add your buttons, use the position argument to choose where to insert it.
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param array  $buttons The list of buttons.
 		 * @param int    $group   The current group object.
-		 * @parem string $type    Whether we're displaying a groups loop or a groups single item.
+		 * @param string $type    Whether we're displaying a groups loop or a groups single item.
 		 */
 		$buttons_group = apply_filters( 'bp_nouveau_get_groups_buttons', $buttons, $group, $type );
 
@@ -1017,7 +1016,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		/**
 		 * Leave a chance to adjust the $return
 		 *
-		 * @since 1.0.0
+		 * @since 3.0.0
 		 *
 		 * @param array  $return  The list of buttons.
 		 * @param int    $group   The current group object.
@@ -1031,7 +1030,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 /**
  * Does the group has meta.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return bool True if the group has meta. False otherwise.
  */
@@ -1042,7 +1041,7 @@ function bp_nouveau_group_has_meta() {
 /**
  * Does the group have extra meta?
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return bool True if the group has meta. False otherwise.
  */
@@ -1053,7 +1052,7 @@ function bp_nouveau_group_has_meta_extra() {
 /**
  * Display the group meta.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return string HTML Output.
  */
@@ -1078,7 +1077,7 @@ function bp_nouveau_group_meta() {
 	/**
 	 * Get the group meta.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @return array The group meta.
 	 */
@@ -1126,7 +1125,7 @@ function bp_nouveau_group_meta() {
 			/**
 			 * Filter to add/remove Group meta.
 			 *
-			 * @since 1.0.0
+			 * @since 3.0.0
 			 *
 			 * @param array  $meta     The list of meta to output.
 			 * @param object $group    The current Group of the loop object.
@@ -1141,7 +1140,7 @@ function bp_nouveau_group_meta() {
 /**
  * Load the appropriate content for the single group pages
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_group_template_part() {
 	/**
@@ -1218,7 +1217,7 @@ function bp_nouveau_group_template_part() {
 /**
  * Use the appropriate Group header and enjoy a template hierarchy
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_group_header_template_part() {
 	$template = 'group-header';
@@ -1251,7 +1250,7 @@ function bp_nouveau_group_header_template_part() {
  * Get a link to set the Group's default front page and directly
  * reach the Customizer section where it's possible to do it.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return string HTML Output
  */
@@ -1269,7 +1268,7 @@ function bp_nouveau_groups_get_customizer_option_link() {
  * Get a link to set the Group's front page widgets and directly
  * reach the Customizer section where it's possible to do it.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return string HTML Output
  */
@@ -1286,7 +1285,7 @@ function bp_nouveau_groups_get_customizer_widgets_link() {
 /**
  * Output the group description excerpt
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param object $group  Optional. The group being referenced.
  *                       Defaults to the group currently being
@@ -1305,7 +1304,7 @@ function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
  *
  * Checks if the group loop is set as a 'Grid' layout and returns a reduced excerpt.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param object $group  Optional. The group being referenced.
  *                       Defaults to the group currently being
@@ -1338,7 +1337,7 @@ function bp_nouveau_get_group_description_excerpt( $group = null, $length = null
 	/**
 	 * Filters the excerpt of a group description.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param string $value Excerpt of a group description.
 	 * @param object $group Object for group whose description is made into an excerpt.

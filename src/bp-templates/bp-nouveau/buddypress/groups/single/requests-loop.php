@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Groups Requests Loop
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 ?>
 

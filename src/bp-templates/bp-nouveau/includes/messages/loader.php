@@ -2,7 +2,7 @@
 /**
  * BP Nouveau Messages
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -11,13 +11,13 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Messages Loader class
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 class BP_Nouveau_Messages {
 	/**
 	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -29,7 +29,7 @@ class BP_Nouveau_Messages {
 	/**
 	 * Globals
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_globals() {
 		$this->dir = trailingslashit( dirname( __FILE__ ) );
@@ -38,7 +38,7 @@ class BP_Nouveau_Messages {
 	/**
 	 * Include needed files
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function includes() {
 		require $this->dir . 'functions.php';
@@ -61,7 +61,7 @@ class BP_Nouveau_Messages {
 	/**
 	 * Register do_action() hooks
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_actions() {
 		// Notices
@@ -84,7 +84,7 @@ class BP_Nouveau_Messages {
 	/**
 	 * Register add_filter() hooks
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 */
 	protected function setup_filters() {
 		// Enqueue specific styles
@@ -123,7 +123,7 @@ class BP_Nouveau_Messages {
 /**
  * Launch the Messages loader class.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_messages( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

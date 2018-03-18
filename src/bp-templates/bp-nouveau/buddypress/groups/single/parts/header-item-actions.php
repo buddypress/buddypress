@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Groups Header item-actions.
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 ?>
 <div id="item-actions" class="group-item-actions">

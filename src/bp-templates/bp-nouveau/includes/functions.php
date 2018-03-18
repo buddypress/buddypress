@@ -2,7 +2,7 @@
 /**
  * Common functions
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 
 // Exit if accessed directly.
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * By using cookies we can also make sure that user settings are retained
  * across page loads.
  *
- * @since 1.2.0
+ * @since 3.0.0
  *
  * @param string $query_string Query string for the current request.
  * @param string $object       Object for cookie.
@@ -138,7 +138,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	/**
 	 * Filters the AJAX query string for the component loops.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param string $query_string The query string we are working with.
 	 * @param string $object       The type of page we are on.
@@ -152,7 +152,7 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return string
  */
@@ -215,7 +215,7 @@ function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $af
 /**
  * Output HTML content into a wrapper.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $args {
  *     Optional arguments.
@@ -285,7 +285,7 @@ function bp_nouveau_wrapper( $args = array() ) {
 /**
  * Register the 2 sidebars for the Group & User default front page
  *
- * @since 1.0.0
+ * @since 3.0.0
  */
 function bp_nouveau_register_sidebars() {
 	$default_fronts      = bp_nouveau_get_appearance_settings();
@@ -348,7 +348,7 @@ function bp_nouveau_register_sidebars() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return bool
  */
@@ -357,7 +357,7 @@ function bp_nouveau_is_object_nav_in_sidebar() {
 }
 
 /**
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return bool
  */
@@ -368,7 +368,7 @@ function bp_nouveau_current_user_can( $capability = '' ) {
 /**
  * BP Nouveau will not use this hooks anymore
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @return array the list of disused legacy hooks
  */
@@ -604,7 +604,7 @@ function bp_nouveau_get_forsaken_hooks() {
 /**
  * Parse an html output to a list of component's directory nav item.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param  string $hook      The hook to fire.
  * @param  string $component The component nav belongs to.
@@ -674,7 +674,7 @@ function bp_nouveau_parse_hooked_dir_nav( $hook = '', $component = '', $position
 /**
  * Run specific "select filter" hooks to catch the options and build an array out of them
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $hook
  * @param array  $filters
@@ -707,7 +707,7 @@ function bp_nouveau_parse_hooked_options( $hook = '', $filters = array() ) {
 /**
  * Get Dropdawn filters for the current component of the one passed in params
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $context   'directory', 'user' or 'group'
  * @param string $component The BuddyPress component ID
@@ -768,7 +768,7 @@ function bp_nouveau_get_component_filters( $context = '', $component = '' ) {
  * When previewing make sure to get the temporary setting of the customizer.
  * This is necessary when we need to get these very early.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param  string $option the index of the setting to get.
  * @param  mixed  $retval the value to use as default.
@@ -809,7 +809,7 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
 /**
  * Get the BP Nouveau Appearance settings.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $option Leave empty to get all settings, specify a value for a specific one.
  * @param mixed          An array of settings, the value of the requested setting.
@@ -884,7 +884,7 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
  * Returns the choices for the Layout option of the customizer
  * or the list of corresponding css classes.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $type 'option' to get the labels, 'classes' to get the classes
  *
@@ -908,7 +908,7 @@ function bp_nouveau_customizer_grid_choices( $type = 'option' ) {
 /**
  * Sanitize a list of slugs to save it as an array
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param  string $option A comma separated list of nav items slugs.
  *
@@ -922,7 +922,7 @@ function bp_nouveau_sanitize_nav_order( $option = '' ) {
 /**
  * BP Nouveau's callback for the cover image feature.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param array $params Optional. The current component's feature parameters.
  *
@@ -1108,7 +1108,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 /**
  * All user feedback messages are available here
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $feedback_id The ID of the message.
  *
@@ -1303,7 +1303,7 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 	/**
 	 * Filter here if you wish to edit the message just before being displayed
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param array $feedback_messages
 	 */
@@ -1313,7 +1313,7 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 /**
  * Get the signup fields for the requested section
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $section Optional. The section of fields to get 'account_details' or 'blog_details'.
  *
@@ -1330,7 +1330,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 	 * If you need to use other types of field, please use the
 	 * do_action( 'bp_account_details_fields' ) or do_action( 'blog_details' ) hooks instead.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param array $value The list of fields organized into sections.
 	 */
@@ -1419,7 +1419,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 /**
  * Get Some submit buttons data.
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param string $action The action requested.
  *
@@ -1434,7 +1434,7 @@ function bp_nouveau_get_submit_button( $action = '' ) {
 	/**
 	 * Filter the Submit buttons to add your own.
 	 *
-	 * @since 1.0.0
+	 * @since 3.0.0
 	 *
 	 * @param array $value The list of submit buttons.
 	 *
@@ -1536,7 +1536,7 @@ function bp_nouveau_get_submit_button( $action = '' ) {
 /**
  * Reorder a BuddyPress item nav according to a given list of nav item slugs
  *
- * @since 1.0.0
+ * @since 3.0.0
  *
  * @param object $nav         The BuddyPress Item Nav object to reorder
  * @param array  $order       A list of slugs ordered (eg: array( 'profile', 'activity', etc..) )
