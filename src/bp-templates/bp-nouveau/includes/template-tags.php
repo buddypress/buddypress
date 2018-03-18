@@ -131,10 +131,8 @@ function bp_nouveau_has_template_message() {
 /**
  * Checks if the template notice/feedback message needs a dismiss button
  *
- *
  * @todo Dismiss button re-worked to try and prevent buttons on general
- * BP template notices - Nouveau user_feedback key needs review.
-	*
+ *       BP template notices - Nouveau user_feedback key needs review.
  *
  * @since 3.0.0
  *
@@ -148,7 +146,7 @@ function bp_nouveau_has_dismiss_button() {
 		return true;
 	}
 
-	// Test for isset as value may be bool or string i.e 'clear'
+	// Test for isset as value can be falsey.
 	if ( isset( $bp_nouveau->user_feedback['dismiss'] ) ) {
 		return true;
 	}
@@ -158,6 +156,7 @@ function bp_nouveau_has_dismiss_button() {
 
 /**
  * Ouptut the dismiss type.
+ *
  * $type is used to set the data-attr for the button.
  * 'clear' is tested for & used to remove cookies, if set, in buddypress-nouveau.js.
  * Currently template_notices(BP) will take $type = 'clear' if button set to true.
@@ -236,7 +235,6 @@ function bp_nouveau_template_notices() {
 		}
 
 		// Adds a 'dimiss' (button) key to array - set true/false.
-		// defaulting to false.
 		$template_message['dismiss'] = false;
 
 		// Set dismiss button true for sitewide notices
@@ -358,15 +356,8 @@ function bp_nouveau_after_loop() {
  * @since 3.0.0
  */
 function bp_nouveau_pagination( $position ) {
-	$component = bp_current_component();
-
-	// @TODO: How is this ever going to occur?
-	if ( ! bp_is_active( $component ) ) {
-		return;
-	}
-
 	$screen          = 'dir';
-	$pagination_type = $component;
+	$pagination_type = bp_current_component();
 
 	if ( bp_is_user() ) {
 		$screen = 'user';
@@ -615,17 +606,18 @@ function bp_nouveau_loop_get_grid_columns() {
 
 /**
  * Return a bool check for component directory layout.
- * Checks if activity, members, groups, blogs has the vert nav layout selected
+ *
+ * Checks if activity, members, groups, blogs has the vert nav layout selected.
  *
  * @since 3.0.0
  *
- * @return bool.
+ * @return bool
  */
 function bp_dir_is_vert_layout() {
-		$bp_nouveau = bp_nouveau();
-		$component  = sanitize_key( bp_current_component() );
+	$bp_nouveau = bp_nouveau();
+	$component  = sanitize_key( bp_current_component() );
 
-		return (bool) $bp_nouveau->{$component}->directory_vertical_layout;
+	return (bool) $bp_nouveau->{$component}->directory_vertical_layout;
 }
 
 /**
@@ -747,8 +739,8 @@ function bp_nouveau_has_nav( $args = array() ) {
 
 			$nav = $user_nav->get_primary( $args );
 		}
-	} elseif ( ! empty( $bp_nouveau->object_nav ) ) {
 
+	} elseif ( ! empty( $bp_nouveau->object_nav ) ) {
 		$bp_nouveau->displayed_nav = $bp_nouveau->object_nav;
 
 		/**
@@ -1301,6 +1293,8 @@ function bp_nouveau_directory_list_class() {
 	 * Gets the directory nav item list class.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @return string
 	 */
 	function bp_nouveau_get_directory_list_class() {
 		return sanitize_html_class( sprintf( '%s-nav', bp_current_component() ) );
@@ -1339,7 +1333,7 @@ function bp_nouveau_directory_nav_object() {
 	}
 
 
-/** Template tags for the single item navs ***********************************/
+// Template tags for the single item navs.
 
 /**
  * Output main BuddyPress container classes.
@@ -1525,7 +1519,7 @@ function bp_nouveau_single_item_subnav_classes() {
 	 * @return string CSS classes
 	 */
 	function bp_nouveau_get_single_item_subnav_classes() {
-		$classes  = array( 'bp-navs', 'bp-subnavs', 'no-ajax' );
+		$classes = array( 'bp-navs', 'bp-subnavs', 'no-ajax' );
 
 		// Set user or group class string
 		if ( bp_is_user() ) {
@@ -1776,7 +1770,7 @@ function bp_nouveau_search_form() {
 }
 
 
-/** Template tags for the directory & user/group screen filters **********************************/
+// Template tags for the directory & user/group screen filters.
 
 /**
  * Get the current component or action.

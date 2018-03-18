@@ -11,14 +11,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Provide a convenience function to add markup wrapper for message strings
  *
- * @param  $message: The message text string
- *         $type: the message type - 'error, 'info', 'warning', success'
+ * @param string $message The message text string
+ * @param string $type    The message type - 'error, 'info', 'warning', success'
+ *
  * @return string
  *
  * @since 3.0
  */
 function bp_nouveau_message_markup_wrapper( $message, $type ) {
-
 	if ( ! $message ) {
 		return false;
 	}
@@ -33,8 +33,9 @@ function bp_nouveau_message_markup_wrapper( $message, $type ) {
  *
  * @since 3.0.0
  *
- * @param  array  $scripts  The array of scripts to register
- * @return array  The same array with the specific groups scripts.
+ * @param array $scripts Optional. The array of scripts to register.
+ *
+ * @return array The same array with the specific groups scripts.
  */
 function bp_nouveau_groups_register_scripts( $scripts = array() ) {
 	if ( ! isset( $scripts['bp-nouveau'] ) ) {
@@ -673,7 +674,7 @@ function bp_nouveau_groups_customizer_sections( $sections = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $settings the settings to add.
+ * @param array $settings Optional. The settings to add.
  *
  * @return array the settings to add.
  */
@@ -750,7 +751,7 @@ function bp_nouveau_groups_customizer_settings( $settings = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $controls the controls to add.
+ * @param array $controls Optional. The controls to add.
  *
  * @return array the controls to add.
  */
@@ -820,8 +821,8 @@ function bp_nouveau_groups_customizer_controls( $controls = array() ) {
  *
  * @since 3.0.0
  *
- * @param array           $templates The list of templates for the front.php template part.
- * @param BP_Groups_Group The group object.
+ * @param array           $templates Optional. The list of templates for the front.php template part.
+ * @param BP_Groups_Group $group Optional. The group object.
  *
  * @return array The same list with the default front template if needed.
  */
@@ -849,7 +850,7 @@ function bp_nouveau_group_reset_front_template( $templates = array(), $group = n
  *
  * @since 3.0.0
  *
- * @param string $template The template part to get (eg: activity, members...).
+ * @param string $template Optional. The template part to get (eg: activity, members...).
  *
  * @return string The located template.
  */
@@ -902,7 +903,7 @@ function bp_nouveau_group_locate_template_part( $template = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $template The template part to get (eg: activity, members...).
+ * @param string $template Optional. The template part to get (eg: activity, members...).
  *
  * @return string HTML output.
  */
@@ -943,7 +944,7 @@ function bp_nouveau_group_is_home_widgets() {
  *
  * @since 3.0.0
  *
- * @param array $args The Activities Template arguments.
+ * @param array $args Optional. The Activities Template arguments.
  *
  * @return array The Activities Template arguments.
  */
@@ -959,7 +960,7 @@ function bp_nouveau_group_activity_widget_overrides( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $args The Groups Template arguments.
+ * @param array $args Optional. The Groups Template arguments.
  *
  * @return array The Groups Template arguments.
  */
@@ -974,7 +975,7 @@ function bp_nouveau_group_groups_widget_overrides( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param array $args The Members Template arguments.
+ * @param array $args Optional. The Members Template arguments.
  *
  * @return array The Members Template arguments.
  */
@@ -1021,7 +1022,7 @@ function bp_nouveau_groups_remove_home_widget_filters() {
  *
  * @since 3.0.0
  *
- * @param string $id The screen id
+ * @param string $id Optional. The screen id
  *
  * @return mixed An array containing the hook dynamic part, the nonce, and eventually a specific template.
  *               False if it's not a core create screen.
@@ -1048,7 +1049,7 @@ function bp_nouveau_group_get_core_create_screens( $id = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $id The screen id
+ * @param string $id Optional. The screen id
  *
  * @return mixed An array containing the hook dynamic part and the nonce.
  *               False if it's not a core manage screen.

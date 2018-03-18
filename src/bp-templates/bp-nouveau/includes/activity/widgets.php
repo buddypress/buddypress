@@ -45,8 +45,8 @@ class BP_Latest_Activities extends WP_Widget {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  array $args     Widget arguments.
-	 * @param  array $instance Widget settings, as saved by the user.
+	 * @param array $args     Widget arguments.
+	 * @param array $instance Widget settings, as saved by the user.
 	 */
 	public function widget( $args, $instance ) {
 		// Default values

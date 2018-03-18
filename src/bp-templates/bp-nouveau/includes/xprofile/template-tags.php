@@ -33,7 +33,6 @@ function bp_nouveau_xprofile_hook( $when = '', $suffix = '' ) {
 	bp_nouveau_hook( $hook );
 }
 
-
 /**
  * Template tag to output the field visibility markup in edit and signup screens.
  *

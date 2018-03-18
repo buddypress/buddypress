@@ -37,16 +37,12 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 */
 	protected static $instance = null;
 
-	/** Functions *************************************************************/
-
 	/**
 	 * Return the instance of this class.
 	 *
 	 * @since 3.0.0
 	 */
 	public static function get_instance() {
-
-		// If the single instance hasn't been set, set it now.
 		if ( null === self::$instance ) {
 			self::$instance = new self;
 		}
@@ -62,10 +58,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	public function __construct() {
 		parent::start();
 
-		// Include needed files
 		$this->includes();
-
-		// Setup features support
 		$this->setup_support();
 	}
 
@@ -82,8 +75,6 @@ class BP_Nouveau extends BP_Theme_Compat {
 		}
 
 		$this->includes_dir  = trailingslashit( $this->dir ) . 'includes/';
-		$this->lang_dir      = trailingslashit( $this->dir ) . 'languages';
-		$this->domain        = 'bp-nouveau';
 		$this->directory_nav = new BP_Core_Nav();
 	}
 
@@ -174,19 +165,14 @@ class BP_Nouveau extends BP_Theme_Compat {
 		// We need to neutralize the BuddyPress core "bp_core_render_message()" once it has been added.
 		add_action( 'bp_actions', array( $this, 'neutralize_core_template_notices' ), 6 );
 
-		/** Scripts ***********************************************************/
-
+		// Scripts
 		add_action( 'bp_enqueue_scripts', array( $this, 'register_scripts' ), 2 ); // Register theme JS
-
-		// We won't use this.
 		remove_action( 'bp_enqueue_scripts', 'bp_core_confirmation_js' );
-
 		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS
 		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS
 		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
 
-		/** Body no-js Class **************************************************/
-
+		// Body no-js class
 		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
 
 		// Ajax querystring
@@ -366,6 +352,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * @since 3.0.0
 	 *
 	 * @param array $classes Array of classes to append to body tag.
+	 *
 	 * @return array $classes
 	 */
 	public function add_nojs_body_class( $classes ) {
@@ -548,7 +535,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @see bp_buffer_template_part()
 	 *
-	 * @param  string $retval Current template part contents.
+	 * @param string $retval Current template part contents.
+	 *
 	 * @return string
 	 */
 	public function theme_compat_wrapper( $retval ) {

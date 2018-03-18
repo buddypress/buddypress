@@ -400,19 +400,6 @@ window.bp = window.bp || {};
 
 				return bp.ajax.send( options );
 			}
-
-			/*if ( 'delete' === method ) {
-				options.data = _.extend( options.data, {
-					action     : 'groups_delete_group_invite',
-					'_wpnonce' : BP_Nouveau.group_invites.nonces.uninvite
-				} );
-
-				if ( model ) {
-					options.data.user = model;
-				}
-
-				return bp.ajax.send( options );
-			}*/
 		},
 
 		parse: function( resp ) {

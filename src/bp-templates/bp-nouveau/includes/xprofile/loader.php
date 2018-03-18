@@ -51,7 +51,6 @@ class BP_Nouveau_xProfile {
 	 * @since 3.0.0
 	 */
 	protected function setup_actions() {
-		// Enqueue the scripts
 		add_action( 'bp_nouveau_enqueue_scripts', 'bp_nouveau_xprofile_enqueue_scripts' );
 	}
 
@@ -61,7 +60,6 @@ class BP_Nouveau_xProfile {
 	 * @since 3.0.0
 	 */
 	protected function setup_filters() {
-		// Register xprofile scripts
 		add_filter( 'bp_nouveau_register_scripts', 'bp_nouveau_xprofile_register_scripts', 10, 1 );
 	}
 }

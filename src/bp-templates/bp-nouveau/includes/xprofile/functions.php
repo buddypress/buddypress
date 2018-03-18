@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  *
- * @param  array $scripts  The array of scripts to register
+ * @param array $scripts The array of scripts to register
  *
  * @return array The same array with the specific groups scripts.
  */

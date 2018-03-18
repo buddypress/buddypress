@@ -94,7 +94,8 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  array the list of buttons to sort.
+	 * @param array the list of buttons to sort.
+	 *
 	 * @return array the list of buttons sorted.
 	 */
 	public function sort( $buttons ) {
@@ -113,7 +114,7 @@ class BP_Buttons_Group {
 
 				do {
 					$position += 1;
-				} while ( in_array( $position, $sorted_keys ) );
+				} while ( in_array( $position, $sorted_keys, true ) );
 			}
 
 			$sorted[ $position ] = $button;
@@ -128,7 +129,8 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  bool $sort whether to sort the buttons or not.
+	 * @param bool $sort whether to sort the buttons or not.
+	 *
 	 * @return array An array of HTML links.
 	 */
 	public function get( $sort = true ) {
@@ -160,13 +162,9 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $args See the __constructor for a description of this argument.
+	 * @param array $args Optional. See the __constructor for a description of this argument.
 	 */
 	public function update( $args = array() ) {
-		if ( empty( $args ) ) {
-			return false;
-		}
-
 		foreach ( $args as $id => $params ) {
 			if ( isset( $this->group[ $id ] ) ) {
 				$this->group[ $id ] = wp_parse_args( $params, $this->group[ $id ] );

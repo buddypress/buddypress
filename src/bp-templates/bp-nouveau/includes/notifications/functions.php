@@ -121,7 +121,6 @@ function bp_nouveau_notifications_get_filters( $id = '' ) {
 	} elseif ( ! empty( $id ) && isset( $bp_nouveau->notifications->filters[ $id ] ) ) {
 		return $bp_nouveau->notifications->filters[ $id ];
 
-	// Oops nothing found!
 	} else {
 		return false;
 	}
@@ -143,7 +142,6 @@ function bp_nouveau_notifications_sort( $filters = array() ) {
 	}
 
 	foreach ( $filters as $filter ) {
-		// Default position
 		$position = 99;
 
 		if ( isset( $filter['position'] ) ) {
@@ -156,7 +154,7 @@ function bp_nouveau_notifications_sort( $filters = array() ) {
 
 			do {
 				$position += 1;
-			} while ( in_array( $position, $sorted_keys ) );
+			} while ( in_array( $position, $sorted_keys, true ) );
 		}
 
 		$sorted[ $position ] = $filter;

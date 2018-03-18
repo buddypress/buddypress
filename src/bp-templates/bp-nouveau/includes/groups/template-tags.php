@@ -1287,11 +1287,9 @@ function bp_nouveau_groups_get_customizer_widgets_link() {
  *
  * @since 3.0.0
  *
- * @param object $group  Optional. The group being referenced.
- *                       Defaults to the group currently being
- *                       iterated on in the groups loop.
- * @param int $length    Optional. Length of returned string, including ellipsis.
- *                       Default: 100.
+ * @param object $group Optional. The group being referenced.
+ *                      Defaults to the group currently being iterated on in the groups loop.
+ * @param int $length   Optional. Length of returned string, including ellipsis. Default: 100.
  *
  * @return string Excerpt.
  */
@@ -1300,17 +1298,15 @@ function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
 }
 
 /**
- * Filters the excerpt  of a group description.
+ * Filters the excerpt of a group description.
  *
  * Checks if the group loop is set as a 'Grid' layout and returns a reduced excerpt.
  *
  * @since 3.0.0
  *
- * @param object $group  Optional. The group being referenced.
- *                       Defaults to the group currently being
- *                       iterated on in the groups loop.
- * @param int $length    Optional. Length of returned string, including ellipsis.
- *                       Default: 100.
+ * @param object $group Optional. The group being referenced. Defaults to the group currently being
+ *                      iterated on in the groups loop.
+ * @param int $length   Optional. Length of returned string, including ellipsis. Default: 100.
  *
  * @return string Excerpt.
  */
@@ -1322,10 +1318,10 @@ function bp_nouveau_get_group_description_excerpt( $group = null, $length = null
 	}
 
 	/**
-	* If this is a grid layout but no length is passed in set a shorter
-	* default value otherwise use the passed in value.
-	* If not a grid then the BP core default is used or passed in value.
-	*/
+	 * If this is a grid layout but no length is passed in set a shorter
+	 * default value otherwise use the passed in value.
+	 * If not a grid then the BP core default is used or passed in value.
+	 */
 	if ( bp_nouveau_loop_is_grid() && 'groups' === bp_current_component() ) {
 		if ( ! $length ) {
 			$length = 100;

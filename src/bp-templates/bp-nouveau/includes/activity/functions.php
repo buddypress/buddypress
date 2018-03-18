@@ -279,7 +279,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  array $nav_items The list of the activity directory nav items.
+	 * @param array $nav_items The list of the activity directory nav items.
 	 */
 	return apply_filters( 'bp_nouveau_get_activity_directory_nav_items', $nav_items );
 }
@@ -290,8 +290,9 @@ function bp_nouveau_get_activity_directory_nav_items() {
  *
  * @since 3.0.0
  *
- * @param string $output string HTML output
- * @param 'directory' see comment below
+ * @param string $output  HTML output
+ * @param array  $filters Optional.
+ * @param string $context
  *
  * @return array
  */
@@ -429,7 +430,6 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 /**
  * @since 3.0.0
  */
-
 function bp_nouveau_activity_time_since( $time_since, $activity = null ) {
 	if ( ! isset( $activity->date_recorded ) ) {
 		return $time_since;

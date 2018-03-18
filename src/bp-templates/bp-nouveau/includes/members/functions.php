@@ -422,8 +422,9 @@ function bp_nouveau_members_remove_home_widget_filters() {
  *
  * @since 3.0.0
  *
- * @param  WP_User $user The user object. Optional.
- * @return array         The list of WP Profile fields
+ * @param WP_User $user The user object. Optional.
+ *
+ * @return array The list of WP Profile fields
  */
 function bp_nouveau_get_wp_profile_fields( $user = null ) {
 	// Leave a chance to plugins to avoid showing the contact methods they're adding on front end.

@@ -606,9 +606,9 @@ function bp_nouveau_get_forsaken_hooks() {
  *
  * @since 3.0.0
  *
- * @param  string $hook      The hook to fire.
- * @param  string $component The component nav belongs to.
- * @param  int    $position  The position of the nav item.
+ * @param string $hook      The hook to fire.
+ * @param string $component The component nav belongs to.
+ * @param int    $position  The position of the nav item.
  *
  * @return array A list of component's dir nav items
  */
@@ -770,9 +770,10 @@ function bp_nouveau_get_component_filters( $context = '', $component = '' ) {
  *
  * @since 3.0.0
  *
- * @param  string $option the index of the setting to get.
- * @param  mixed  $retval the value to use as default.
- * @return mixed          the value for the requested option.
+ * @param string $option the index of the setting to get.
+ * @param mixed  $retval the value to use as default.
+ *
+ * @return mixed The value for the requested option.
  */
 function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
 	if ( empty( $option ) || ! isset( $_POST['customized'] ) ) {
@@ -941,7 +942,6 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 	$left_offset = bp_core_avatar_full_width() + 20;
 
 	$cover_image = isset( $params['cover_image'] ) ? 'background-image: url( ' . $params['cover_image'] . ' );' : '';
-
 	$hide_avatar_style = '';
 
 	// Adjust the cover image header, in case avatars are completely disabled.
