@@ -18,11 +18,12 @@ defined( 'ABSPATH' ) || exit;
  * match with our needs.
  *
  * @since 2.3.0
+ * @since 3.0.0 We now require WP >= 4.5, so this is always true.
  *
- * @return bool True if WordPress is 3.9+, false otherwise.
+ * @return bool Always true.
  */
 function bp_attachments_is_wp_version_supported() {
-	return (bool) version_compare( bp_get_major_wp_version(), '3.9', '>=' );
+	return true;
 }
 
 /**

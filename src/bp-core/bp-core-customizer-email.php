@@ -18,12 +18,6 @@ defined( 'ABSPATH' ) || exit;
  * @param WP_Customize_Manager $wp_customize The Customizer object.
  */
 function bp_email_init_customizer( WP_Customize_Manager $wp_customize ) {
-
-	// Require WP 4.0+.
-	if ( ! method_exists( $wp_customize, 'add_panel' ) ) {
-		return;
-	}
-
 	if ( ! bp_is_email_customizer() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 		return;
 	}
