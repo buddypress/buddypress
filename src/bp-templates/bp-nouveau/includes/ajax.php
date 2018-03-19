@@ -122,35 +122,3 @@ function bp_nouveau_ajax_object_template_loader() {
 	// Locate the object template.
 	wp_send_json_success( $result );
 }
-
-/**
- * Register AJAX hooks.
- *
- * @since 3.0.0
- *
- * @param array $ajax_actions {
- *      Optional. Multi-dimensional array. For example:
- *
- *      $ajax_actions = array(
- *	    array( 'messages_send_message' => array( 'function' => 'bp_nouveau_ajax_messages_send_message', 'nopriv' => false ) ),
- *          array( 'messages_send_reply'   => array( 'function' => 'bp_nouveau_ajax_messages_send_reply',   'nopriv' => false ) ),
- *      );
- *
- *     - 'messages_send_message' is the AJAX action.
- *     - 'bp_nouveau_ajax_messages_send_message' is the hooked function to the AJAX action.
- *     - 'nopriv' indicates whether the AJAX action is allowed for logged-out users.
- * }
- *
- * @return array
- */
-function bp_nouveau_register_ajax_actions( $ajax_actions = array() ) {
-	foreach ( $ajax_actions as $ajax_action ) {
-		$action = key( $ajax_action );
-
-		add_action( 'wp_ajax_' . $action, $ajax_action[ $action ]['function'] );
-
-		if ( ! empty( $ajax_action[ $action ]['nopriv'] ) ) {
-			add_action( 'wp_ajax_nopriv_' . $action, $ajax_action[ $action ]['function'] );
-		}
-	}
-}

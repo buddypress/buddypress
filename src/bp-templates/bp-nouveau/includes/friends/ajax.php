@@ -8,11 +8,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/**
- * Registers friends AJAX actions.
- */
-bp_nouveau_register_ajax_actions(
-	array(
+add_action( 'admin_init', function() {
+	$ajax_actions = array(
 		array(
 			'friends_remove_friend' => array(
 				'function' => 'bp_nouveau_ajax_addremove_friend',
@@ -43,8 +40,18 @@ bp_nouveau_register_ajax_actions(
 				'nopriv'   => false,
 			),
 		),
-	)
-);
+	);
+
+	foreach ( $ajax_actions as $ajax_action ) {
+		$action = key( $ajax_action );
+
+		add_action( 'wp_ajax_' . $action, $ajax_action[ $action ]['function'] );
+
+		if ( ! empty( $ajax_action[ $action ]['nopriv'] ) ) {
+			add_action( 'wp_ajax_nopriv_' . $action, $ajax_action[ $action ]['function'] );
+		}
+	}
+}, 12 );
 
 /**
  * Friend/un-friend a user via a POST request.
