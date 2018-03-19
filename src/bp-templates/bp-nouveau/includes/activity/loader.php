@@ -73,11 +73,6 @@ class BP_Nouveau_Activity {
 		add_action( 'bp_widgets_init', array( 'BP_Latest_Activities', 'register_widget' ) );
 		add_action( 'bp_nouveau_notifications_init_filters', 'bp_nouveau_activity_notification_filters' );
 
-		/*
-		 * Avoid BuddyPress to trigger a forsaken action notice.
-		 * We'll generate the button inside our bp_nouveau_get_activity_entry_buttons()
-		 * function.
-		 */
 		$bp = buddypress();
 
 		if ( bp_is_akismet_active() && isset( $bp->activity->akismet ) ) {
