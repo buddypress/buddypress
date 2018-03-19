@@ -463,9 +463,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  array $templates Array of templates.
-	 * @uses   apply_filters() call 'bp_legacy_theme_compat_page_templates_directory_only' and return false
-	 *                         to use the defined page template for component's directory and its single items
+	 * @param array $templates Array of templates.
+	 *
 	 * @return array
 	 */
 	public function theme_compat_page_templates( $templates = array() ) {
@@ -476,7 +475,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		 *
 		 * @param bool $value Whether or not we are viewing a directory.
 		 */
-		if ( true === (bool) apply_filters( 'bp_legacy_theme_compat_page_templates_directory_only', ! bp_is_directory() ) ) {
+		if ( true === (bool) apply_filters( 'bp_nouveau_theme_compat_page_templates_directory_only', ! bp_is_directory() ) ) {
 			return $templates;
 		}
 

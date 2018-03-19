@@ -54,7 +54,7 @@ function bp_nouveau_ajax_messages_send_message() {
 
 	// Validate recipients
 	if ( empty( $_POST['send_to'] ) || ! is_array( $_POST['send_to'] ) ) {
-		$response['feedback'] = __( 'Your message was not sent. Please enter at least one @username.', 'buddypress' );
+		$response['feedback'] = __( 'Your message was not sent. Please enter at least one username.', 'buddypress' );
 
 		wp_send_json_error( $response );
 	}
@@ -69,7 +69,7 @@ function bp_nouveau_ajax_messages_send_message() {
 		'recipients' => $recipients,
 		'subject'    => $_POST['subject'],
 		'content'    => $_POST['message_content'],
-		'error_type' => 'wp_error'
+		'error_type' => 'wp_error',
 	) );
 
 	// Send the message.

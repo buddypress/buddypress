@@ -375,7 +375,7 @@ function bp_nouveau_ajax_send_group_invites() {
 	$invited = array();
 
 	foreach ( (array) $_POST['users'] as $user_id ) {
-		$invited[ $user_id ] = groups_invite_user(
+		$invited[ (int) $user_id ] = groups_invite_user(
 			array(
 				'user_id'  => $user_id,
 				'group_id' => $group_id,

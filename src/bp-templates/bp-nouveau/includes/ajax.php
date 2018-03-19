@@ -11,8 +11,9 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Load the template loop for the current object.
  *
- * @return string Prints template loop for the specified object
  * @since 3.0.0
+ *
+ * @return string Template loop for the specified object
  */
 function bp_nouveau_ajax_object_template_loader() {
 	if ( ! bp_is_post_request() ) {
@@ -40,7 +41,7 @@ function bp_nouveau_ajax_object_template_loader() {
 	if ( 'activity' === $object ) {
 		$scope = '';
 		if ( ! empty( $_POST['scope'] ) ) {
-			$scope = $_POST['scope'];
+			$scope = sanitize_text_field( $_POST['scope'] );
 		}
 
 		// We need to calculate and return the feed URL for each scope.
@@ -70,11 +71,11 @@ function bp_nouveau_ajax_object_template_loader() {
 
 				break;
 			default:
-				$feed_url = home_url( bp_get_activity_root_slug() . '/feed/' );
+				$feed_url = bp_get_sitewide_activity_feed_link();
 				break;
 		}
 
-		$result['feed_url'] = apply_filters( 'bp_legacy_theme_activity_feed_url', $feed_url, $scope );
+		$result['feed_url'] = apply_filters( 'bp_nouveau_ajax_object_template_loader', $feed_url, $scope );
 	}
 
 	/*
@@ -112,7 +113,7 @@ function bp_nouveau_ajax_object_template_loader() {
 	ob_start();
 
 	$template_path = bp_locate_template( array( $template_part ), false );
-	$template_path = apply_filters( 'bp_legacy_object_template_path', $template_path );
+	$template_path = apply_filters( 'bp_nouveau_object_template_path', $template_path );
 
 	load_template( $template_path );
 	$result['contents'] = ob_get_contents();
@@ -128,7 +129,7 @@ function bp_nouveau_ajax_object_template_loader() {
  * @since 3.0.0
  *
  * @param array $ajax_actions {
- *      Multi-dimensional array. For example:
+ *      Optional. Multi-dimensional array. For example:
  *
  *      $ajax_actions = array(
  *	    array( 'messages_send_message' => array( 'function' => 'bp_nouveau_ajax_messages_send_message', 'nopriv' => false ) ),
@@ -139,6 +140,7 @@ function bp_nouveau_ajax_object_template_loader() {
  *     - 'bp_nouveau_ajax_messages_send_message' is the hooked function to the AJAX action.
  *     - 'nopriv' indicates whether the AJAX action is allowed for logged-out users.
  * }
+ *
  * @return array
  */
 function bp_nouveau_register_ajax_actions( $ajax_actions = array() ) {
