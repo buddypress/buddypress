@@ -2608,6 +2608,10 @@ body.no-js .single-item-header .js-self-profile-button {
 	font-weight: 400;
 }
 
+.buddypress-wrap .profile.edit .editfield fieldset label.xprofile-field-label {
+	display: inline;
+}
+
 .buddypress-wrap .profile.edit .editfield {
 	display: flex;
 	flex-direction: column;

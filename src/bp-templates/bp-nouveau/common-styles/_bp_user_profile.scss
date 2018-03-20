@@ -57,6 +57,10 @@
 
 				label {
 					font-weight: 400;
+
+					&.xprofile-field-label {
+						display: inline;
+					}
 				}
 			}
 		}

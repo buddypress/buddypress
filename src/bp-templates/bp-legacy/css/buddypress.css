@@ -786,6 +786,10 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	width: auto;
 }
 
+#buddypress label.xprofile-field-label {
+	display: inline;
+}
+
 #buddypress .standard-form p label,
 #buddypress .standard-form #invite-list label {
 	font-weight: 400;
