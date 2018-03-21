@@ -1007,8 +1007,6 @@ window.bp = window.bp || {};
 		template:  bp.template( 'bp-messages-filters' ),
 
 		events : {
-			'focus #user_messages_search'       : 'displaySrcBtn',
-			'blur #user_messages_search'        : 'hideSrcBtn',
 			'search #user_messages_search'      : 'resetSearchTerms',
 			'submit #user_messages_search_form' : 'setSearchTerms',
 			'click #bp-messages-next-page'      : 'nextPage',
@@ -1054,22 +1052,6 @@ window.bp = window.bp || {};
 
 		threadsFilterError: function( collection, response ) {
 			bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
-		},
-
-		displaySrcBtn: function( event ) {
-			event.preventDefault();
-
-			$( event.target ).closest( 'form' ).find( '[type=submit]' ).addClass('bp-show').removeClass('bp-hide');
-		},
-
-		hideSrcBtn: function( event ) {
-			event.preventDefault();
-
-			if ( $( event.target ).val() ) {
-				return;
-			}
-
-			$( event.target ).closest( 'form' ).find( '[type=submit]' ).addClass('bp-hide').removeClass('bp-show');
 		},
 
 		resetSearchTerms: function( event ) {

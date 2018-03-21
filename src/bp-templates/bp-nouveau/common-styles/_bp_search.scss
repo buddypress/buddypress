@@ -54,12 +54,6 @@
 			}
 		}
 
-		// For non no-js we'll add back in show() further down.
-		button[type="submit"] {
-
-			@include hide();
-		}
-
 		button[type="submit"].bp-show {
 
 			@include show();

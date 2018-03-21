@@ -489,8 +489,6 @@ window.bp = window.bp || {};
 		template:  bp.template( 'bp-invites-filters' ),
 
 		events : {
-			'focus #group_invites_search'       : 'displaySrcBtn',
-			'blur #group_invites_search'        : 'hideSrcBtn',
 			'search #group_invites_search'      : 'resetSearchTerms',
 			'submit #group_invites_search_form' : 'setSearchTerms',
 			'click #bp-invites-next-page'       : 'nextPage',
@@ -528,22 +526,6 @@ window.bp = window.bp || {};
 
 		usersFilterError: function( collection, response ) {
 			bp.Nouveau.GroupInvites.displayFeedback( response.feedback, 'error' );
-		},
-
-		displaySrcBtn: function( event ) {
-			event.preventDefault();
-
-			$( event.target ).closest( 'form' ).find( '[type=submit]' ).addClass('bp-show');
-		},
-
-		hideSrcBtn: function( event ) {
-			event.preventDefault();
-
-			if ( $( event.target ).val() ) {
-				return;
-			}
-
-			$( event.target ).closest( 'form' ).find( '[type=submit]' ).addClass('bp-hide').removeClass('bp-show');
 		},
 
 		resetSearchTerms: function( event ) {

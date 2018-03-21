@@ -147,11 +147,7 @@
 // Convenience helper to add hide properties to rulesets
 
 @mixin hide() {
-	height: 0;
-	left: -999em;
-	overflow: hidden;
-	position: absolute;
-	top: -999em;
+	display: none;
 }
 
 // companion mixins properties for showing the element for :focus/:hover

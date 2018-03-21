@@ -3573,16 +3573,6 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	line-height: 1.6;
 }
 
-.buddypress-wrap form.bp-dir-search-form button[type="submit"],
-.buddypress-wrap form.bp-messages-search-form button[type="submit"],
-.buddypress-wrap form.bp-invites-search-form button[type="submit"] {
-	height: 0;
-	right: -999em;
-	overflow: hidden;
-	position: absolute;
-	top: -999em;
-}
-
 .buddypress-wrap form.bp-dir-search-form button[type="submit"].bp-show,
 .buddypress-wrap form.bp-messages-search-form button[type="submit"].bp-show,
 .buddypress-wrap form.bp-invites-search-form button[type="submit"].bp-show {
@@ -3818,11 +3808,7 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 }
 
 .bp-hide {
-	height: 0;
-	right: -999em;
-	overflow: hidden;
-	position: absolute;
-	top: -999em;
+	display: none;
 }
 
 .bp-show {

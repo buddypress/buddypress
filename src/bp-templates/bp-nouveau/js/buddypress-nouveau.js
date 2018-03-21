@@ -487,8 +487,6 @@ window.bp = window.bp || {};
 
 			// Searching
 			$( '#buddypress [data-bp-search]' ).on( 'submit', 'form', this, this.searchQuery );
-			$( '#buddypress [data-bp-search]' ).on( 'focus', 'input[type=search]', this.showSearchSubmit );
-			$( '#buddypress [data-bp-search]' ).on( 'blur', 'input[type=search]', this.hideSearchSubmit );
 			$( '#buddypress [data-bp-search] form' ).on( 'search', 'input[type=search]', this.resetSearch );
 
 			// Buttons
@@ -670,17 +668,6 @@ window.bp = window.bp || {};
 			$( event.delegateTarget ).find( '[type=submit]' ).addClass( 'bp-show' );
 			if( $('[type=submit]').hasClass( 'bp-hide' ) ) {
 				$( '[type=submit]' ).removeClass( 'bp-hide' );
-			}
-		},
-
-		/**
-		 * [hideSearchSubmit description]
-		 * @param  {[type]} event [description]
-		 * @return {[type]}       [description]
-		 */
-		hideSearchSubmit: function( event ) {
-			if ( ! $( event.target ).val() ) {
-				$( event.delegateTarget ).find( '[type=submit]' ).addClass('bp-hide').removeClass('bp-show');
 			}
 		},
 
