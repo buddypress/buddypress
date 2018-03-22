@@ -1544,16 +1544,14 @@ class BP_Members_Admin {
 			);
 
 			// Add accessible hidden headings and text for the Pending Users screen.
-			if ( bp_get_major_wp_version() >= 4.4 ) {
-				get_current_screen()->set_screen_reader_content( array(
-					/* translators: accessibility text */
-					'heading_views'      => __( 'Filter users list', 'buddypress' ),
-					/* translators: accessibility text */
-					'heading_pagination' => __( 'Pending users list navigation', 'buddypress' ),
-					/* translators: accessibility text */
-					'heading_list'       => __( 'Pending users list', 'buddypress' ),
-				) );
-			}
+			get_current_screen()->set_screen_reader_content( array(
+				/* translators: accessibility text */
+				'heading_views'      => __( 'Filter users list', 'buddypress' ),
+				/* translators: accessibility text */
+				'heading_pagination' => __( 'Pending users list navigation', 'buddypress' ),
+				/* translators: accessibility text */
+				'heading_list'       => __( 'Pending users list', 'buddypress' ),
+			) );
 
 		} else {
 			if ( ! empty( $_REQUEST['signup_ids' ] ) ) {
