@@ -323,7 +323,7 @@ class BP_Messages_Component extends BP_Component {
 				$wp_admin_nav[] = array(
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-notices',
-					'title'    => __( 'All Member Notices', 'buddypress' ),
+					'title'    => __( 'Site Notices', 'buddypress' ),
 					'href'     => trailingslashit( $messages_link . 'notices' ),
 					'position' => 90
 				);

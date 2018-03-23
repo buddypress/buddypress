@@ -18,7 +18,9 @@ TABLE OF CONTENTS:
 	2.1 Top level menus
 	2.2 Settings - Components
 	2.3 Tools
-3.0 User's Lists
+3.0 Users
+	3.1 Users List
+	3.2 Site Notices
 4.0 Emails - Edit page
 5.0 Tools - BuddyPress
 6.0 Plugins page
@@ -569,8 +571,12 @@ TABLE OF CONTENTS:
 
 
 /*------------------------------------------------------------------------------
- * 3.0 User's Lists
+ * 3.0 Users
  *----------------------------------------------------------------------------*/
+
+/*
+ * 3.1 Users List
+ */
 body.site-users-php th#role,
 body.users-php th#role,
 body.users_page_bp-signups th#count_sent {
@@ -605,6 +611,93 @@ body.users_page_bp-signups td.count_sent {
 
 .bp-signups-list .column-fields {
 	font-weight: 700;
+}
+
+/*
+ * 3.2 Site Notices
+ */
+.bp-new-notice-panel {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	font-size: 13px;
+	line-height: 2.1;
+	margin: 1.5em 0 3em;
+	overflow: auto;
+	padding: 10px 25px 25px;
+	position: relative;
+}
+
+.bp-new-notice-panel label {
+	clear: both;
+	float: left;
+	margin-right: 3%;
+	width: 20%;
+}
+
+.bp-new-notice-panel input,
+.bp-new-notice-panel textarea {
+	clear: none;
+	margin-bottom: 1em;
+	width: 75%;
+}
+
+.bp-new-notice-panel input[type="text"]:after,
+.bp-new-notice-panel textarea:after {
+	clear: both;
+	content: " ";
+	display: table;
+}
+
+.bp-new-notice-panel .button-primary {
+	margin-left: 23%;
+	width: auto;
+}
+
+.bp-notice-about {
+	font-size: 1em;
+	margin-bottom: 1em;
+}
+
+.bp-new-notice {
+	margin-bottom: 1em;
+	margin-top: 0;
+}
+
+.bp-notices-list {
+	margin-bottom: 0;
+}
+
+@media screen and (max-width: 782px) {
+
+	.bp-new-notice-panel {
+		margin-bottom: 1.5em;
+	}
+
+	.bp-new-notice-panel input,
+	.bp-new-notice-panel textarea {
+		margin-left: 0;
+		width: 100%;
+	}
+
+	.bp-new-notice-panel .button-primary {
+		margin-left: 0;
+		width: auto;
+	}
+
+	.bp-new-notice-panel .button {
+		max-width: 45%;
+		word-wrap: break-word;
+	}
+
+	.bp-notice-about {
+		margin-top: 0;
+		margin-bottom: 1em;
+	}
+
+	.bp-new-notice {
+		margin-bottom: 0.5em;
+	}
 }
 
 /*------------------------------------------------------------------------------

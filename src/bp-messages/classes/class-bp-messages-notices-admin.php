@@ -36,7 +36,7 @@ class BP_Messages_Notices_Admin {
 	 * @var object
 	 */
 	public $list_table = '';
-	
+
 
 	/**
      * Create a new instance or access the current instance of this class.
@@ -87,7 +87,7 @@ class BP_Messages_Notices_Admin {
 	}
 
 	/**
-	 * Add the 'All Member Notices' admin menu item.
+	 * Add the 'Site Notices' admin menu item.
 	 *
 	 * @since 3.0.0
 	 */
@@ -98,8 +98,8 @@ class BP_Messages_Notices_Admin {
 		}
 
 		$this->screen_id = add_users_page(
-			_x( 'All Member Notices', 'Notices admin page title', 'buddypress' ),
-			_x( 'All Member Notices', 'Admin Users menu', 'buddypress' ),
+			_x( 'Site Notices', 'Notices admin page title', 'buddypress' ),
+			_x( 'Site Notices', 'Admin Users menu', 'buddypress' ),
 			'manage_options',
 			'bp-notices',
 			array( $this, 'admin_index' )
@@ -154,7 +154,7 @@ class BP_Messages_Notices_Admin {
 				case 'delete':
 					$notice = new BP_Messages_Notice( $notice_id );
 					$success = $notice->delete();
-					break;			
+					break;
 			}
 			if ( $success ) {
 				$redirect_to = add_query_arg( 'success', 'update', $this->url );
@@ -185,40 +185,36 @@ class BP_Messages_Notices_Admin {
 		<div class="wrap">
 			<?php if ( version_compare( $GLOBALS['wp_version'], '4.8', '>=' ) ) : ?>
 
-				<h1 class="wp-heading-inline"><?php echo esc_html_x( 'All Member Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
-
-					<a id="add_notice" class="page-title-action" href="#"><?php esc_html_e( 'Add New Notice', 'buddypress' ); ?></a>
-
+				<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Site Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
 				<hr class="wp-header-end">
 
 			<?php else : ?>
 
-				<h1>
-					<?php echo esc_html_x( 'All Member Notices', 'Notices admin page title', 'buddypress' ); ?>
-					<a id="add_notice" class="add-new-h2" href="#"><?php esc_html_e( 'Add New Notice', 'buddypress' ); ?></a>
-				</h1>
+				<h1><?php echo esc_html_x( 'Site Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
 
 			<?php endif; ?>
 
-			<form action=<?php echo esc_url( wp_nonce_url( $this->url, 'new-notice', 'ns-nonce' ) ); ?> method="post">
-				<table class="widefat">
-					<tr>
-						<td><label for="bp_notice_subject"><?php esc_html_e( 'Subject', 'buddypress' ); ?></label></td>
-						<td><input type="text" class="widefat" id="bp_notice_subject" name="bp_notice[subject]"/></td>
-					</tr>
-					<tr>
-						<td><label for="bp_notice_content"><?php esc_html_e( 'Content', 'buddypress' ); ?></label></td>
-						<td><textarea class="widefat" id="bp_notice_content" name="bp_notice[content]"></textarea></td>
-					</tr>
-					<tr class="submit">
-						<td>&nbsp;</td>
-						<td style="float:right">
-							<input type="reset" value="<?php esc_attr_e( 'Cancel Notice', 'buddypress' ); ?>" class="button-secondary">
-							<input type="submit" value="<?php esc_attr_e( 'Save Notice', 'buddypress' ); ?>" name="bp_notice[send]" class="button-primary">
-						</td>
-					</tr>
-				</table>
-			<form>
+			<p class="bp-notice-about"><?php esc_html_e( 'Manage notices shown at front end of your site to all logged-in users.', 'buddypress' ); ?></p>
+
+			<div class="bp-new-notice-panel">
+
+				<h2 class="bp-new-notice"><?php esc_html_e( 'Add New Notice', 'buddypress' ); ?></h2>
+
+				<form action="<?php echo esc_url( wp_nonce_url( $this->url, 'new-notice', 'ns-nonce' ) ); ?>" method="post">
+
+					<div>
+						<label for="bp_notice_subject"><?php esc_html_e( 'Subject', 'buddypress' ); ?></label>
+						<input type="text" class="bp-panel-input" id="bp_notice_subject" name="bp_notice[subject]"/>
+
+						<label for="bp_notice_content"><?php esc_html_e( 'Content', 'buddypress' ); ?></label>
+						<textarea class="bp-panel-textarea" id="bp_notice_content" name="bp_notice[content]"></textarea>
+					</div>
+
+					<input type="submit" value="<?php esc_attr_e( 'Publish Notice', 'buddypress' ); ?>" name="bp_notice[send]" class="button button-primary save alignleft">
+
+				</form>
+
+			</div>
 
 			<?php if ( isset( $_GET['success'] ) || isset( $_GET['error'] ) ) : ?>
 
@@ -230,7 +226,7 @@ class BP_Messages_Notices_Admin {
 							if ( 'create' === $_GET['error'] ) {
 								esc_html_e( 'Notice was not created. Please try again.', 'buddypress' );
 							} else {
-								esc_html_e( 'Notice was not updated. Please try again.', 'buddypress' );							
+								esc_html_e( 'Notice was not updated. Please try again.', 'buddypress' );
 							}
 						 } else {
 							if ( 'create' === $_GET['success'] ) {
@@ -245,6 +241,8 @@ class BP_Messages_Notices_Admin {
 				</div>
 
 			<?php endif; ?>
+
+			<h2 class="bp-notices-list"><?php esc_html_e( 'Notices List', 'buddypress' ); ?></h2>
 
 			<?php $this->list_table->display(); ?>
 
