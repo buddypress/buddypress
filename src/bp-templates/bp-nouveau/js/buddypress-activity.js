@@ -242,7 +242,7 @@ window.bp = window.bp || {};
 				} );
 
 				// Now the stream is cleaned, prepend newest
-				$( event.delegateTarget ).prepend( this.heartbeat_data.newest ).trigger( 'bp_heartbeat_prepend', this.heartbeat_data );
+				$( event.delegateTarget ).find( '.activity-list' ).prepend( this.heartbeat_data.newest ).trigger( 'bp_heartbeat_prepend', this.heartbeat_data );
 
 				// Reset the newest activities now they're displayed
 				this.heartbeat_data.newest = '';
