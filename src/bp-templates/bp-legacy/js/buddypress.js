@@ -1420,7 +1420,7 @@ jq(document).ready( function() {
 				offset  = jq('#message-recipients').offset(),
 				button  = jq('#send_reply_button');
 
-			jq(button).addClass('loading');
+			jq(button).addClass('loading').prop( 'disabled', true );
 
 			jq.post( ajaxurl, {
 				action: 'messages_send_reply',
@@ -1451,7 +1451,7 @@ jq(document).ready( function() {
 						jq('.new-message').removeClass('new-message');
 					});
 				}
-				jq(button).removeClass('loading');
+				jq(button).removeClass('loading').prop( 'disabled', false );
 			});
 
 			return false;
