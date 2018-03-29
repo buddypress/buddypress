@@ -200,21 +200,10 @@ function bp_core_admin_components_options() {
 
 						</th>
 						<td class="plugin-title column-primary">
-							<?php if ( !in_array( $name, array( 'core', 'members' ) ) ) : ?>
-
-								<label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" aria-label="<?php
-								/* translators: accessibility text */
-								printf( __( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) ); ?>">
-									<span aria-hidden="true"></span>
-									<strong><?php echo esc_html( $labels['title'] ); ?></strong>
-								</label>
-
-							<?php else: ?>
-
+							<label for="<?php echo esc_attr( "bp_components[$name]" ); ?>">
 								<span aria-hidden="true"></span>
 								<strong><?php echo esc_html( $labels['title'] ); ?></strong>
-
-							<?php endif; ?>
+							</label>
 						</td>
 
 						<td class="column-description desc">
