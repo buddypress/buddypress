@@ -30,7 +30,7 @@ window.bp = window.bp || {};
 		var suggestionsDefaults = {
 			delay:             200,
 			hideWithoutSuffix: true,
-			insertTpl:         '</>@${ID}</>', // For contentEditable, the fake tags make jQuery insert a textNode.
+			insertTpl:         '@${ID}',
 			limit:             10,
 			startWithSpace:    false,
 			suffix:            '',
