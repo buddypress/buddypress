@@ -83,7 +83,7 @@ endif;
 if ( 'crop-image' === bp_get_avatar_admin_step() ) :
 ?>
 
-	<h4><?php _e( 'Crop Group Profile Photo', 'buddypress' ); ?></h4>
+	<h2><?php _e( 'Crop Group Profile Photo', 'buddypress' ); ?></h2>
 
 	<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-to-crop" class="avatar" alt="<?php esc_attr_e( 'Profile photo to crop', 'buddypress' ); ?>" />
 

@@ -26,7 +26,7 @@ bp_nouveau_member_hook( 'before', 'plugin_template' ); ?>
 
 <?php if ( has_action( 'bp_template_title' ) ) : ?>
 
-	<h3><?php bp_nouveau_plugin_hook( 'title' ); ?></h3>
+	<h2><?php bp_nouveau_plugin_hook( 'title' ); ?></h2>
 
 <?php endif; ?>
 

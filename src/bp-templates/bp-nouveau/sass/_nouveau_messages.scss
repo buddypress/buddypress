@@ -394,10 +394,11 @@ li#compose-personal-li {
 		display: none;
 	}
 
-	#thread-preview h4:first-child,
-	#bp-message-thread-header h4:first-child {
+	#thread-preview h2:first-child,
+	#bp-message-thread-header h2:first-child {
 		background-color: $light-grey;
 		color: $bp-text;
+		font-weight: 700;
 		margin: 0;
 		padding: 0.5em;
 	}

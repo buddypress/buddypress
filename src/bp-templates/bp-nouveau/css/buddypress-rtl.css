@@ -3128,10 +3128,11 @@ li#compose-personal-li a#compose:hover {
 	display: none;
 }
 
-.bp-messages-content #thread-preview h4:first-child,
-.bp-messages-content #bp-message-thread-header h4:first-child {
+.bp-messages-content #thread-preview h2:first-child,
+.bp-messages-content #bp-message-thread-header h2:first-child {
 	background-color: #eaeaea;
 	color: #555;
+	font-weight: 700;
 	margin: 0;
 	padding: 0.5em;
 }

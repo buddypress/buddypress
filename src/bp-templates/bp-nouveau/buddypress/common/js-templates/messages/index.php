@@ -141,7 +141,7 @@
 <script type="text/html" id="tmpl-bp-messages-preview">
 	<# if ( undefined !== data.content ) { #>
 
-		<h4 class=" message-title preview-thread-title"><?php esc_html_e( 'Active conversation:', 'buddypress' ); ?><span class="messages-title"> <# print( data.subject ); #></span></h4>
+		<h2 class="message-title preview-thread-title"><?php esc_html_e( 'Active conversation:', 'buddypress' ); ?><span class="messages-title"> <# print( data.subject ); #></span></h2>
 		<div class="preview-content">
 			<header class="preview-pane-header">
 
@@ -192,7 +192,7 @@
 </script>
 
 <script type="text/html" id="tmpl-bp-messages-single-header">
-	<h4 id="message-subject" class="message-title single-thread-title"><# print( data.subject ); #></h4>
+	<h2 id="message-subject" class="message-title single-thread-title"><# print( data.subject ); #></h2>
 	<header class="single-message-thread-header">
 		<# if ( undefined !== data.recipients ) { #>
 			<dl class="thread-participants">
