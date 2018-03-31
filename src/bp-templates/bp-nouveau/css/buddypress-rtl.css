@@ -4132,7 +4132,7 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 }
 
 .buddypress-wrap #group-create-body .bp-cover-image-status p.warning {
-	background: #38a;
+	background: #0b80a4;
 	border: 0;
 	-webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
 	-moz-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
@@ -4251,7 +4251,7 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .buddypress-wrap .bp-feedback.info .bp-icon,
 .buddypress-wrap .bp-feedback.help .bp-icon {
-	background-color: #38a;
+	background-color: #0b80a4;
 }
 
 .buddypress-wrap .bp-feedback.info .bp-icon:before,
