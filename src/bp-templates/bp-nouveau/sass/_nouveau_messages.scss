@@ -5,15 +5,10 @@
 
 .message-action-star:before,
 .message-action-unstar:before,
-.bp-navs ul li#compose-personal-li a#compose:before,
 .message-action-view:before,
 .message-action-delete:before {
 	font-family: dashicons;
 	font-size: 18px;
-}
-
-.bp-navs ul li#compose-personal-li a#compose:before {
-	font-size: 22px;
 }
 
 .message-action-star:before {
@@ -47,30 +42,6 @@
 		}
 	}
 }
-
-// Compose Icon
-li#compose-personal-li {
-
-	&.last {
-		margin-top: 0;
-	}
-
-	a#compose {
-		display: inline-block;
-		padding: 1px 6px;
-	}
-
-	a#compose:before {
-		content: "\f464";
-	}
-
-	a#compose:focus,
-	a#compose:hover {
-		background: #eee;
-		color: #e8861e;
-	}
-
-} // close li#compose-personal-li
 
 // Visual message threads & preview pane styles
 
@@ -123,13 +94,6 @@ li#compose-personal-li {
 
 			@include center-vert();
 			@include box-item-size(1, 2, 5%);
-
-			label {
-				float: left;
-				margin-left: $marg-xsml;
-				text-align: center;
-				width: 5%;
-			}
 		}
 
 		.thread-from {

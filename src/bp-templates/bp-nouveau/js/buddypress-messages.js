@@ -44,10 +44,6 @@ window.bp = window.bp || {};
 
 			// First adapt the compose nav
 			$( '#compose-personal-li' ).addClass( 'last' );
-			$( '#compose-personal-li a#compose').html(
-				$( '<span></span>' ).html( $( '#compose-personal-li a#compose' ).html() ).addClass( 'bp-screen-reader-text' )
-			);
-			$( '#compose-personal-li a#compose' ).addClass( 'button' );
 
 			// Then listen to nav click and load the appropriate view
 			$( '#subnav a' ).on( 'click', function( event ) {
@@ -928,7 +924,7 @@ window.bp = window.bp || {};
 			var isChecked = $( event.currentTarget ).prop( 'checked' );
 
 			if ( isChecked ) {
-				$( this.el ).find( '.bulk-actions-wrap' ).removeClass( 'bp-hide' );
+				$( this.el ).find( '.bulk-actions-wrap' ).removeClass( 'bp-hide' ).addClass( 'bp-show' );
 			} else {
 				$( this.el ).find( '.bulk-actions-wrap' ).addClass( 'bp-hide' );
 			}

@@ -35,12 +35,6 @@
 			width: auto;
 		}
 
-		// Reduce padding for messages screens compose button
-		// to prevent border clipping in tab visual layout
-		li.last a#compose {
-			padding: 2px 8px;
-		}
-
 		// Re-instate the quick-tag padding to avoid the above ruleset
 		// causing styling issues.
 		.button-small[type="button"] {
