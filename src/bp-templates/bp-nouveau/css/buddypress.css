@@ -979,6 +979,23 @@ body.buddypress article.page > .entry-header .entry-title {
 	margin-top: 0;
 }
 
+.friends-request-list .item-title {
+	text-align: center;
+}
+
+@media screen and (min-width: 46.8em) {
+	.friends-request-list li {
+		display: flex;
+	}
+	.friends-request-list li .item {
+		flex-grow: 1;
+	}
+	.friends-request-list li .item-title {
+		font-size: 22px;
+		text-align: left;
+	}
+}
+
 @media screen and (min-width: 46.8em) {
 	body:not(.logged-in) .bp-list .item {
 		margin-right: 0;

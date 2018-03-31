@@ -175,6 +175,31 @@
 	}
 }
 
+.friends-request-list {
+
+	.item-title {
+		text-align: center;
+	}
+
+	@include medium-up() {
+
+		li {
+			display: flex;
+
+			.item {
+				flex-grow: 1;
+			}
+
+			.item-title {
+
+				@include font-size(22);
+				text-align: left;
+			}
+		}
+	}
+
+}
+
 // If logged out we don't display action buttons
 // so lets remove the margin right creating the white-space
 // for the buttons - max out the item element width.

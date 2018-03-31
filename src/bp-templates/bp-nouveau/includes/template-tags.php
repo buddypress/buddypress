@@ -512,6 +512,10 @@ function bp_nouveau_loop_classes() {
 			$classes[] = 'members-list';
 		}
 
+		if ( bp_is_user() && 'requests' === bp_current_action() ) {
+			$classes[] = 'friends-request-list';
+		}
+
 		$available_components = array(
 			'members' => true,
 			'groups'  => true,
