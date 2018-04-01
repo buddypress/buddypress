@@ -19,7 +19,7 @@ bp_nouveau_member_hook( 'before', 'friend_requests_content' ); ?>
 
 			<li id="friendship-<?php bp_friend_friendship_id(); ?>" <?php bp_member_class( array( 'item-entry' ) ); ?> data-bp-item-id="<?php bp_friend_friendship_id(); ?>" data-bp-item-component="members">
 				<div class="item-avatar">
-					<a href="<?php bp_member_link(); ?>"><?php bp_member_avatar(); ?></a>
+					<a href="<?php bp_member_link(); ?>"><?php bp_member_avatar( array( 'type' => 'full' ) ); ?></a>
 				</div>
 
 				<div class="item">
