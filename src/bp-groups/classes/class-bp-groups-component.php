@@ -123,9 +123,7 @@ class BP_Groups_Component extends BP_Component {
 	public function includes( $includes = array() ) {
 		$includes = array(
 			'cache',
-			'actions',
 			'filters',
-			'screens',
 			'widgets',
 			'activity',
 			'template',
@@ -139,6 +137,81 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 		parent::includes( $includes );
+	}
+
+	/**
+	 * Late includes method.
+	 *
+	 * Only load up certain code when on specific pages.
+	 *
+	 * @since 3.0.0
+	 */
+	public function late_includes() {
+		// Bail if PHPUnit is running.
+		if ( defined( 'BP_TESTS_DIR' ) ) {
+			return;
+		}
+
+		if ( bp_is_groups_component() ) {
+			// Authenticated actions.
+			if ( is_user_logged_in() &&
+				in_array( bp_current_action(), array( 'create', 'join', 'leave-group' ), true )
+			) {
+				require $this->path . 'bp-groups/actions/' . bp_current_action() . '.php';
+			}
+
+			// Actions - RSS feed handler.
+			if ( bp_is_active( 'activity' ) && bp_is_current_action( 'feed' ) ) {
+				require $this->path . 'bp-groups/actions/feed.php';
+			}
+
+			// Actions - Random group handler.
+			if ( isset( $_GET['random-group'] ) ) {
+				require $this->path . 'bp-groups/actions/random.php';
+			}
+
+			// Screens - Directory.
+			if ( bp_is_groups_directory() ) {
+				require $this->path . 'bp-groups/screens/directory.php';
+			}
+
+			// Screens - User profile integration.
+			if ( bp_is_user() ) {
+				require $this->path . 'bp-groups/screens/user/my-groups.php';
+
+				if ( bp_is_current_action( 'invites' ) ) {
+					require $this->path . 'bp-groups/screens/user/invites.php';
+				}
+			}
+
+			// Single group.
+			if ( bp_is_group() ) {
+				// Actions - Access protection.
+				require $this->path . 'bp-groups/actions/access.php';
+
+				// Public nav items.
+				if ( in_array( bp_current_action(), array( 'home', 'request-membership', 'activity', 'members', 'send-invites' ), true ) ) {
+					require $this->path . 'bp-groups/screens/single/' . bp_current_action() . '.php';
+				}
+
+				// Admin nav items.
+				if ( bp_is_item_admin() && is_user_logged_in() ) {
+					require $this->path . 'bp-groups/screens/single/admin.php';
+
+					if ( in_array( bp_get_group_current_admin_tab(), array( 'edit-details', 'group-settings', 'group-avatar', 'group-cover-image', 'manage-members', 'membership-requests', 'delete-group' ), true ) ) {
+						require $this->path . 'bp-groups/screens/single/admin/' . bp_get_group_current_admin_tab() . '.php';
+					}
+				}
+			}
+
+			// Theme compatibility.
+			new BP_Groups_Theme_Compat();
+		}
+
+		// Groups notifications HTML table.
+		if ( bp_is_user_settings_notifications() ) {
+			require $this->path . 'bp-groups/screens/user/settings-email.php';
+		}
 	}
 
 	/**

@@ -18,20 +18,23 @@ function _bp_mock_mailer( $class ) {
 tests_add_filter( 'bp_send_email_delivery_class', '_bp_mock_mailer' );
 
 /**
- * Load up activity action and screen code.
+ * Load up component action and screen code.
  *
  * In BuddyPress, this is loaded conditionally, but PHPUnit needs all files
  * loaded at the same time to prevent weird load order issues.
  */
-add_action( 'bp_activity_includes', function() {
-	$dirs = array(
-		buddypress()->plugin_dir . 'bp-activity/actions/',
-		buddypress()->plugin_dir . 'bp-activity/screens/',
-	);
+$components = array( 'activity', 'groups' );
+foreach ( $components as $component ) {
+	add_action( "bp_{$component}_includes", function() use ( $component ) {
+		$dirs = array(
+			buddypress()->plugin_dir . 'bp-' . $component . '/actions/',
+			buddypress()->plugin_dir . 'bp-' . $component . '/screens/',
+		);
 
-	foreach ( $dirs as $dir ) {
-		foreach ( glob( $dir . "*.php" ) as $file ) {
-			require $file;
+		foreach ( $dirs as $dir ) {
+			foreach ( glob( $dir . "*.php" ) as $file ) {
+				require $file;
+			}
 		}
-	}
-} );
+	} );
+}
