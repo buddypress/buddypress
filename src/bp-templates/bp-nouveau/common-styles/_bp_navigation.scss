@@ -207,24 +207,6 @@
 	}
 }
 
-// massage link padding
-
-.buddypress-wrap:not(.bp-vertical-navs) {
-
-	.main-navs.single-screen-navs {
-
-		@include medium-up {
-
-			> ul > li:first-child {
-
-				a {
-					padding-left: 0;
-				}
-			}
-		}
-	}
-}
-
 // Specifically default subnav elements
 .buddypress-wrap {
 
@@ -253,16 +235,6 @@
 					}
 				}
 
-			}
-
-			@include medium-up {
-
-				li:first-child {
-
-					a {
-						padding-left: 0;
-					}
-				}
 			}
 		}
 	}

@@ -184,10 +184,16 @@
 	@include medium-up() {
 
 		li {
-			display: flex;
+
+			@include flex-box-dir();
 
 			.item {
-				flex-grow: 1;
+
+				@include box-item-size($grow: 1);
+			}
+
+			.action {
+				text-align: right;
 			}
 
 			.item-title {
@@ -198,6 +204,11 @@
 		}
 	}
 
+}
+
+#notifications-user-list {
+	clear: both;
+	padding-top: $pad-med;
 }
 
 // If logged out we don't display action buttons

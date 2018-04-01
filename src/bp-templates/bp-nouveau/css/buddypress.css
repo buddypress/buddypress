@@ -407,12 +407,6 @@ body.buddypress article.page > .entry-header .entry-title {
 	background: none;
 }
 
-@media screen and (min-width: 46.8em) {
-	.buddypress-wrap:not(.bp-vertical-navs) .main-navs.single-screen-navs > ul > li:first-child a {
-		padding-left: 0;
-	}
-}
-
 .buddypress-wrap .bp-subnavs,
 .buddypress-wrap ul.subnav {
 	width: 100%;
@@ -432,12 +426,6 @@ body.buddypress article.page > .entry-header .entry-title {
 .buddypress-wrap .bp-subnavs ul li.current :hover {
 	background: none;
 	color: #333;
-}
-
-@media screen and (min-width: 46.8em) {
-	.buddypress-wrap .bp-subnavs ul li:first-child a {
-		padding-left: 0;
-	}
 }
 
 .buddypress-wrap ul.subnav {
@@ -992,15 +980,36 @@ body.buddypress article.page > .entry-header .entry-title {
 
 @media screen and (min-width: 46.8em) {
 	.friends-request-list li {
+		display: -webkit-flex;
+		display: -moz-flex;
+		display: -ms-flex;
+		display: -o-flex;
 		display: flex;
+		-webkit-flex-flow: row nowrap;
+		-moz-flex-flow: row nowrap;
+		-ms-flex-flow: row nowrap;
+		-o-flex-flow: row nowrap;
+		flex-flow: row nowrap;
 	}
 	.friends-request-list li .item {
-		flex-grow: 1;
+		-webkit-flex: 1 1 auto;
+		-moz-flex: 1 1 auto;
+		-ms-flex: 1 1 auto;
+		-o-flex: 1 1 auto;
+		flex: 1 1 auto;
+	}
+	.friends-request-list li .action {
+		text-align: right;
 	}
 	.friends-request-list li .item-title {
 		font-size: 22px;
 		text-align: left;
 	}
+}
+
+#notifications-user-list {
+	clear: both;
+	padding-top: 1em;
 }
 
 @media screen and (min-width: 46.8em) {
