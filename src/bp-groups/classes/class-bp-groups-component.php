@@ -125,13 +125,16 @@ class BP_Groups_Component extends BP_Component {
 			'cache',
 			'filters',
 			'widgets',
-			'activity',
 			'template',
 			'adminbar',
 			'functions',
 			'notifications'
 		);
 
+		// Conditional includes.
+		if ( bp_is_active( 'activity' ) ) {
+			$includes[] = 'activity';
+		}
 		if ( is_admin() ) {
 			$includes[] = 'admin';
 		}
