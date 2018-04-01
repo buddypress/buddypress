@@ -2199,7 +2199,48 @@ add_action( 'wpmu_delete_user',  'groups_remove_data_for_user' );
 add_action( 'delete_user',       'groups_remove_data_for_user' );
 add_action( 'bp_make_spam_user', 'groups_remove_data_for_user' );
 
+/**
+ * Update orphaned child groups when the parent is deleted.
+ *
+ * @since 2.7.0
+ *
+ * @param BP_Groups_Group $group Instance of the group item being deleted.
+ */
+function bp_groups_update_orphaned_groups_on_group_delete( $group ) {
+	// Get child groups and set the parent to the deleted parent's parent.
+	$grandparent_group_id = $group->parent_id;
+	$child_args = array(
+		'parent_id'         => $group->id,
+		'show_hidden'       => true,
+		'per_page'          => false,
+		'update_meta_cache' => false,
+	);
+	$children = groups_get_groups( $child_args );
+	$children = $children['groups'];
+
+	foreach ( $children as $cgroup ) {
+		$cgroup->parent_id = $grandparent_group_id;
+		$cgroup->save();
+	}
+}
+add_action( 'bp_groups_delete_group', 'bp_groups_update_orphaned_groups_on_group_delete', 10, 2 );
+
 /** Group Types ***************************************************************/
+
+/**
+ * Fire the 'bp_groups_register_group_types' action.
+ *
+ * @since 2.6.0
+ */
+function bp_groups_register_group_types() {
+	/**
+	 * Fires when it's appropriate to register group types.
+	 *
+	 * @since 2.6.0
+	 */
+	do_action( 'bp_groups_register_group_types' );
+}
+add_action( 'bp_register_taxonomies', 'bp_groups_register_group_types' );
 
 /**
  * Register a group type.
