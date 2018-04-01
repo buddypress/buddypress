@@ -956,6 +956,13 @@ body.buddypress article.page > .entry-header .entry-title {
 	}
 }
 
+@media screen and (min-width: 32em) {
+	#activity-stream {
+		clear: both;
+		padding-top: 1em;
+	}
+}
+
 .activity-list.bp-list {
 	background: #fafafa;
 	border: 1px solid #eee;

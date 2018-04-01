@@ -17,9 +17,8 @@
 
 	.subnav-filters {
 		background: none;
-		overflow: hidden;
 		list-style: none;
-		margin: $marg-med 0;
+		margin: $marg-med 0 0;
 		padding: 0;
 
 		div {
@@ -37,10 +36,12 @@
 				width: 100%;
 			}
 
-			@include medium-max {
+			.messages-search {
+				margin-bottom: 1em;
 
-				.messages-search {
-					clear: both;
+				@include medium-up {
+
+					margin-bottom: 0;
 				}
 			}
 		}
@@ -85,22 +86,29 @@
 
 			.bulk-actions-wrap {
 				border: 1px solid $bp-border-color;
-				float: left;
+
+				&.bp-show {
+					display: inline-block;
+				}
+
+				&.bp-hide {
+					display: none;
+				}
 			}
 
 			.select-wrap {
 				border: 0;
 			}
 
-			.bulk-actions,
-			label {
+			.bulk-actions {
 				float: left;
 			}
 
 			label {
+				display: inline-block;
+				font-weight: 300;
+				margin-right: 25px;
 				padding: 5px 0;
-				text-align: center;
-				width: 30px;
 			}
 
 			div {

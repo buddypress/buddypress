@@ -157,6 +157,15 @@
 
 } // close .bp-list
 
+// Ensure there's space between parent act list wrapper and filters bar
+@include medium-small-up() {
+
+	#activity-stream {
+		clear: both;
+		padding-top: $pad-med;
+	}
+}
+
 .activity-list.bp-list {
 
 	background: $off-white;
