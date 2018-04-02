@@ -48,13 +48,15 @@ class BP_Friends_Component extends BP_Component {
 		$includes = array(
 			'cache',
 			'filters',
-			'activity',
 			'template',
 			'functions',
 			'widgets',
 		);
 
 		// Conditional includes.
+		if ( bp_is_active( 'activity' ) ) {
+			$includes[] = 'activity';
+		}
 		if ( bp_is_active( 'notifications' ) ) {
 			$includes[] = 'notifications';
 		}
