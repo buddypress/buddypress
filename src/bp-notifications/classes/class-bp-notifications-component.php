@@ -44,8 +44,6 @@ class BP_Notifications_Component extends BP_Component {
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
-			'actions',
-			'screens',
 			'adminbar',
 			'template',
 			'functions',
@@ -53,6 +51,38 @@ class BP_Notifications_Component extends BP_Component {
 		);
 
 		parent::includes( $includes );
+	}
+
+	/**
+	 * Late includes method.
+	 *
+	 * Only load up certain code when on specific pages.
+	 *
+	 * @since 3.0.0
+	 */
+	public function late_includes() {
+		// Bail if PHPUnit is running.
+		if ( defined( 'BP_TESTS_DIR' ) ) {
+			return;
+		}
+
+		// Bail if not on a notifications page or logged in.
+		if ( ! bp_is_user_notifications() || ! is_user_logged_in() ) {
+			return;
+		}
+
+		// Actions.
+		if ( bp_is_post_request() ) {
+			require $this->path . 'bp-notifications/actions/bulk-manage.php';
+		} elseif ( bp_is_get_request() ) {
+			require $this->path . 'bp-notifications/actions/delete.php';
+		}
+
+		// Screens.
+		require $this->path . 'bp-notifications/screens/unread.php';
+		if ( bp_is_current_action( 'read' ) ) {
+			require $this->path . 'bp-notifications/screens/read.php';
+		}
 	}
 
 	/**

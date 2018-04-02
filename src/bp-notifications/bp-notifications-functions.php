@@ -661,6 +661,15 @@ function bp_notifications_get_registered_components() {
 	return apply_filters( 'bp_notifications_get_registered_components', $component_names, $active_components );
 }
 
+/**
+ * Catch and route the 'settings' notifications screen.
+ *
+ * This is currently unused.
+ *
+ * @since 1.9.0
+ */
+function bp_notifications_screen_settings() {}
+
 /** Meta **********************************************************************/
 
 /**
