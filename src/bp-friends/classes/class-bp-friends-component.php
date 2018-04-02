@@ -47,8 +47,6 @@ class BP_Friends_Component extends BP_Component {
 	public function includes( $includes = array() ) {
 		$includes = array(
 			'cache',
-			'actions',
-			'screens',
 			'filters',
 			'activity',
 			'template',
@@ -62,6 +60,41 @@ class BP_Friends_Component extends BP_Component {
 		}
 
 		parent::includes( $includes );
+	}
+
+	/**
+	 * Late includes method.
+	 *
+	 * Only load up certain code when on specific pages.
+	 *
+	 * @since 3.0.0
+	 */
+	public function late_includes() {
+		// Bail if PHPUnit is running.
+		if ( defined( 'BP_TESTS_DIR' ) ) {
+			return;
+		}
+
+		// Friends.
+		if ( bp_is_user_friends() ) {
+			// Authenticated actions.
+			if ( is_user_logged_in() &&
+				in_array( bp_current_action(), array( 'add-friend', 'remove-friend' ), true )
+			) {
+				require $this->path . 'bp-friends/actions/' . bp_current_action() . '.php';
+			}
+
+			// User nav.
+			require $this->path . 'bp-friends/screens/my-friends.php';
+			if ( is_user_logged_in() && bp_is_user_friend_requests() ) {
+				require $this->path . 'bp-friends/screens/requests.php';
+			}
+		}
+
+		// Settings.
+		if ( bp_is_user_settings_notifications() ) {
+			require $this->path . 'bp-friends/screens/settings-email.php';
+		}
 	}
 
 	/**
