@@ -1,14 +1,11 @@
 <?php
 /**
- * BuddyPress Blogs Actions.
+ * Blogs: Random blog action handler
  *
  * @package BuddyPress
  * @subpackage BlogsActions
- * @since 1.5.0
+ * @since 3.0.0
  */
-
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Redirect to a random blog in the multisite network.
