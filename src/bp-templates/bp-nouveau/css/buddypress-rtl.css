@@ -619,6 +619,16 @@ body.buddypress article.page > .entry-header .entry-title {
 	display: inline;
 }
 
+.buddypress-wrap .subnav-filters:before,
+.buddypress-wrap .subnav-filters:after {
+	content: " ";
+	display: table;
+}
+
+.buddypress-wrap .subnav-filters:after {
+	clear: both;
+}
+
 .buddypress-wrap .subnav-filters {
 	background: none;
 	list-style: none;
