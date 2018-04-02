@@ -59,7 +59,6 @@ class BP_Members_Component extends BP_Component {
 		$includes = array(
 			'actions',
 			'filters',
-			'screens',
 			'template',
 			'adminbar',
 			'functions',
@@ -77,6 +76,55 @@ class BP_Members_Component extends BP_Component {
 		}
 
 		parent::includes( $includes );
+	}
+
+	/**
+	 * Late includes method.
+	 *
+	 * Only load up certain code when on specific pages.
+	 *
+	 * @since 3.0.0
+	 */
+	public function late_includes() {
+		// Bail if PHPUnit is running.
+		if ( defined( 'BP_TESTS_DIR' ) ) {
+			return;
+		}
+
+		// Members.
+		if ( bp_is_members_component() ) {
+			// Actions - Random member handler.
+			if ( isset( $_GET['random-member'] ) ) {
+				require $this->path . 'bp-members/actions/random.php';
+			}
+
+			// Screens - Directory.
+			if ( bp_is_members_directory() ) {
+				require $this->path . 'bp-members/screens/directory.php';
+			}
+		}
+
+		// Members - User main nav screen.
+		if ( bp_is_user() ) {
+			require $this->path . 'bp-members/screens/profile.php';
+		}
+
+		// Members - Theme compatibility.
+		if ( bp_is_members_component() || bp_is_user() ) {
+			new BP_Members_Theme_Compat();
+		}
+
+		// Registration / Activation.
+		if ( bp_is_register_page() || bp_is_activation_page() ) {
+			if ( bp_is_register_page() ) {
+				require $this->path . 'bp-members/screens/register.php';
+			} else {
+				require $this->path . 'bp-members/screens/activate.php';
+			}
+
+			// Theme compatibility.
+			new BP_Registration_Theme_Compat();
+		}
 	}
 
 	/**

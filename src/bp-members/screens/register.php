@@ -1,68 +1,11 @@
 <?php
 /**
- * BuddyPress Member Screens.
- *
- * Handlers for member screens that aren't handled elsewhere.
+ * Members: Register screen handler
  *
  * @package BuddyPress
  * @subpackage MembersScreens
- * @since 1.5.0
+ * @since 3.0.0
  */
-
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
-
-/**
- * Handle the display of the profile page by loading the correct template file.
- *
- * @since 1.5.0
- */
-function bp_members_screen_display_profile() {
-
-	/**
-	 * Fires right before the loading of the Member profile screen template file.
-	 *
-	 * @since 1.5.0
-	 */
-	do_action( 'bp_members_screen_display_profile' );
-
-	/**
-	 * Filters the template to load for the Member profile page screen.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param string $template Path to the Member template to load.
-	 */
-	bp_core_load_template( apply_filters( 'bp_members_screen_display_profile', 'members/single/home' ) );
-}
-
-/**
- * Handle the display of the members directory index.
- *
- * @since 1.5.0
- */
-function bp_members_screen_index() {
-	if ( bp_is_members_directory() ) {
-		bp_update_is_directory( true, 'members' );
-
-		/**
-		 * Fires right before the loading of the Member directory index screen template file.
-		 *
-		 * @since 1.5.0
-		 */
-		do_action( 'bp_members_screen_index' );
-
-		/**
-		 * Filters the template to load for the Member directory page screen.
-		 *
-		 * @since 1.5.0
-		 *
-		 * @param string $value Path to the member directory template to load.
-		 */
-		bp_core_load_template( apply_filters( 'bp_members_screen_index', 'members/index' ) );
-	}
-}
-add_action( 'bp_screens', 'bp_members_screen_index' );
 
 /**
  * Handle the loading of the signup screen.
@@ -286,59 +229,3 @@ function bp_core_screen_signup() {
 	bp_core_load_template( apply_filters( 'bp_core_template_register', array( 'register', 'registration/register' ) ) );
 }
 add_action( 'bp_screens', 'bp_core_screen_signup' );
-
-/**
- * Handle the loading of the Activate screen.
- *
- * @since 1.1.0
- */
-function bp_core_screen_activation() {
-
-	// Bail if not viewing the activation page.
-	if ( ! bp_is_current_component( 'activate' ) ) {
-		return false;
-	}
-
-	// If the user is already logged in, redirect away from here.
-	if ( is_user_logged_in() ) {
-
-		// If activation page is also front page, set to members directory to
-		// avoid an infinite loop. Otherwise, set to root domain.
-		$redirect_to = bp_is_component_front_page( 'activate' )
-			? bp_get_members_directory_permalink()
-			: bp_get_root_domain();
-
-		// Trailing slash it, as we expect these URL's to be.
-		$redirect_to = trailingslashit( $redirect_to );
-
-		/**
-		 * Filters the URL to redirect logged in users to when visiting activation page.
-		 *
-		 * @since 1.9.0
-		 *
-		 * @param string $redirect_to URL to redirect user to.
-		 */
-		$redirect_to = apply_filters( 'bp_loggedin_activate_page_redirect_to', $redirect_to );
-
-		// Redirect away from the activation page.
-		bp_core_redirect( $redirect_to );
-	}
-
-	// Get BuddyPress.
-	$bp = buddypress();
-
-	/**
-	 * Filters the template to load for the Member activation page screen.
-	 *
-	 * @since 1.1.1
-	 *
-	 * @param string $value Path to the Member activation template to load.
-	 */
-	bp_core_load_template( apply_filters( 'bp_core_template_activate', array( 'activate', 'registration/activate' ) ) );
-}
-add_action( 'bp_screens', 'bp_core_screen_activation' );
-
-/** Theme Compatibility *******************************************************/
-
-new BP_Members_Theme_Compat();
-new BP_Registration_Theme_Compat();
