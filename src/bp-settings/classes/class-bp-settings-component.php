@@ -42,11 +42,51 @@ class BP_Settings_Component extends BP_Component {
 	 */
 	public function includes( $includes = array() ) {
 		parent::includes( array(
-			'actions',
-			'screens',
 			'template',
 			'functions',
 		) );
+	}
+
+	/**
+	 * Late includes method.
+	 *
+	 * Only load up certain code when on specific pages.
+	 *
+	 * @since 3.0.0
+	 */
+	public function late_includes() {
+		// Bail if PHPUnit is running.
+		if ( defined( 'BP_TESTS_DIR' ) ) {
+			return;
+		}
+
+		// Bail if not on Settings component.
+		if ( ! bp_is_settings_component() ) {
+			return;
+		}
+
+		$actions = array( 'notifications', 'capabilities', 'delete-account' );
+
+		// Authenticated actions.
+		if ( is_user_logged_in() ) {
+			if ( bp_is_current_action( 'general' ) ) {
+				require $this->path . 'bp-settings/screens/general.php';
+
+			// Specific to post requests.
+			} elseif ( bp_is_post_request() && in_array( bp_current_action(), $actions, true ) ) {
+				require $this->path . 'bp-settings/actions/' . bp_current_action() . '.php';
+			}
+		}
+
+		// Screens - User profile integration.
+		if ( bp_is_user() ) {
+			require $this->path . 'bp-settings/screens/general.php';
+
+			// Sub-nav items.
+			if ( in_array( bp_current_action(), $actions, true ) ) {
+				require $this->path . 'bp-settings/screens/' . bp_current_action() . '.php';
+			}
+		}
 	}
 
 	/**

@@ -1,15 +1,11 @@
 <?php
 /**
- * BuddyPress Settings Actions
+ * Settings: Email address and password action handler
  *
- * @todo split actions into separate screen functions
  * @package BuddyPress
  * @subpackage SettingsActions
- * @since 1.5.0
+ * @since 3.0.0
  */
-
-// Exit if accessed directly.
-defined( 'ABSPATH' ) || exit;
 
 /**
  * Handles the changing and saving of user email addresses and passwords.
@@ -255,178 +251,6 @@ function bp_settings_action_general() {
 add_action( 'bp_actions', 'bp_settings_action_general' );
 
 /**
- * Handles the changing and saving of user notification settings.
- *
- * @since 1.6.0
- */
-function bp_settings_action_notifications() {
-	if ( ! bp_is_post_request() ) {
-		return;
-	}
-
-	// Bail if no submit action.
-	if ( ! isset( $_POST['submit'] ) ) {
-		return;
-	}
-
-	// Bail if not in settings.
-	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'notifications' ) ) {
-		return false;
-	}
-
-	// 404 if there are any additional action variables attached
-	if ( bp_action_variables() ) {
-		bp_do_404();
-		return;
-	}
-
-	check_admin_referer( 'bp_settings_notifications' );
-
-	bp_settings_update_notification_settings( bp_displayed_user_id(), (array) $_POST['notifications'] );
-
-	// Switch feedback for super admins.
-	if ( bp_is_my_profile() ) {
-		bp_core_add_message( __( 'Your notification settings have been saved.',        'buddypress' ), 'success' );
-	} else {
-		bp_core_add_message( __( "This user's notification settings have been saved.", 'buddypress' ), 'success' );
-	}
-
-	/**
-	 * Fires after the notification settings have been saved, and before redirect.
-	 *
-	 * @since 1.5.0
-	 */
-	do_action( 'bp_core_notification_settings_after_save' );
-
-	bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/notifications/' );
-}
-add_action( 'bp_actions', 'bp_settings_action_notifications' );
-
-/**
- * Handles the setting of user capabilities, spamming, hamming, role, etc...
- *
- * @since 1.6.0
- */
-function bp_settings_action_capabilities() {
-	if ( ! bp_is_post_request() ) {
-		return;
-	}
-
-	// Bail if no submit action.
-	if ( ! isset( $_POST['capabilities-submit'] ) ) {
-		return;
-	}
-
-	// Bail if not in settings.
-	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'capabilities' ) ) {
-		return false;
-	}
-
-	// 404 if there are any additional action variables attached
-	if ( bp_action_variables() ) {
-		bp_do_404();
-		return;
-	}
-
-	// Only super admins can currently spam users (but they can't spam
-	// themselves).
-	if ( ! is_super_admin() || bp_is_my_profile() ) {
-		return;
-	}
-
-	// Nonce check.
-	check_admin_referer( 'capabilities' );
-
-	/**
-	 * Fires before the capabilities settings have been saved.
-	 *
-	 * @since 1.6.0
-	 */
-	do_action( 'bp_settings_capabilities_before_save' );
-
-	/* Spam **************************************************************/
-
-	$is_spammer = !empty( $_POST['user-spammer'] ) ? true : false;
-
-	if ( bp_is_user_spammer( bp_displayed_user_id() ) != $is_spammer ) {
-		$status = ( true == $is_spammer ) ? 'spam' : 'ham';
-		bp_core_process_spammer_status( bp_displayed_user_id(), $status );
-
-		/**
-		 * Fires after processing a user as a spammer.
-		 *
-		 * @since 1.1.0
-		 *
-		 * @param int    $value  ID of the currently displayed user.
-		 * @param string $status Determined status of "spam" or "ham" for the displayed user.
-		 */
-		do_action( 'bp_core_action_set_spammer_status', bp_displayed_user_id(), $status );
-	}
-
-	/* Other *************************************************************/
-
-	/**
-	 * Fires after the capabilities settings have been saved and before redirect.
-	 *
-	 * @since 1.6.0
-	 */
-	do_action( 'bp_settings_capabilities_after_save' );
-
-	// Redirect to the root domain.
-	bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/capabilities/' );
-}
-add_action( 'bp_actions', 'bp_settings_action_capabilities' );
-
-/**
- * Handles the deleting of a user.
- *
- * @since 1.6.0
- */
-function bp_settings_action_delete_account() {
-	if ( ! bp_is_post_request() ) {
-		return;
-	}
-
-	// Bail if no submit action.
-	if ( ! isset( $_POST['delete-account-understand'] ) ) {
-		return;
-	}
-
-	// Bail if not in settings.
-	if ( ! bp_is_settings_component() || ! bp_is_current_action( 'delete-account' ) ) {
-		return false;
-	}
-
-	// 404 if there are any additional action variables attached
-	if ( bp_action_variables() ) {
-		bp_do_404();
-		return;
-	}
-
-	// Bail if account deletion is disabled.
-	if ( bp_disable_account_deletion() && ! bp_current_user_can( 'delete_users' ) ) {
-		return false;
-	}
-
-	// Nonce check.
-	check_admin_referer( 'delete-account' );
-
-	// Get username now because it might be gone soon!
-	$username = bp_get_displayed_user_fullname();
-
-	// Delete the users account.
-	if ( bp_core_delete_account( bp_displayed_user_id() ) ) {
-
-		// Add feedback after deleting a user.
-		bp_core_add_message( sprintf( __( '%s was successfully deleted.', 'buddypress' ), $username ), 'success' );
-
-		// Redirect to the root domain.
-		bp_core_redirect( bp_get_root_domain() );
-	}
-}
-add_action( 'bp_actions', 'bp_settings_action_delete_account' );
-
-/**
  * Process email change verification or cancel requests.
  *
  * @since 2.1.0
@@ -485,15 +309,3 @@ function bp_settings_verify_email_change() {
 	}
 }
 add_action( 'bp_actions', 'bp_settings_verify_email_change' );
-
-/**
- * Removes 'Email' sub nav, if no component has registered options there.
- *
- * @since 2.2.0
- */
-function bp_settings_remove_email_subnav() {
-	if ( ! has_action( 'bp_notification_settings' ) ) {
-		bp_core_remove_subnav_item( BP_SETTINGS_SLUG, 'notifications' );
-	}
-}
-add_action( 'bp_actions', 'bp_settings_remove_email_subnav' );

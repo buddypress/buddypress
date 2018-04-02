@@ -23,7 +23,7 @@ tests_add_filter( 'bp_send_email_delivery_class', '_bp_mock_mailer' );
  * In BuddyPress, this is loaded conditionally, but PHPUnit needs all files
  * loaded at the same time to prevent weird load order issues.
  */
-$components = array( 'activity', 'groups', 'messages' );
+$components = array( 'activity', 'groups', 'messages', 'settings' );
 foreach ( $components as $component ) {
 	add_action( "bp_{$component}_includes", function() use ( $component ) {
 		$dirs = array(
