@@ -67,15 +67,22 @@ class BP_XProfile_Component extends BP_Component {
 		$includes = array(
 			'cssjs',
 			'cache',
-			'activity',
 			'caps',
 			'filters',
-			'settings',
 			'template',
 			'functions',
-			'notifications',
 		);
 
+		// Conditional includes.
+		if ( bp_is_active( 'activity' ) ) {
+			$includes[] = 'activity';
+		}
+		if ( bp_is_active( 'notifications' ) ) {
+			$includes[] = 'notifications';
+		}
+		if ( bp_is_active( 'settings' ) ) {
+			$includes[] = 'settings';
+		}
 		if ( is_admin() ) {
 			$includes[] = 'admin';
 		}
