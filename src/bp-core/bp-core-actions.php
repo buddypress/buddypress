@@ -113,8 +113,9 @@ add_action( 'bp_template_redirect', 'bp_get_request',        10 );
 /**
  * Add the BuddyPress functions file and the Theme Compat Default features.
  */
-add_action( 'bp_after_setup_theme', 'bp_load_theme_functions',                    1 );
-add_action( 'bp_after_setup_theme', 'bp_register_theme_compat_default_features', 10 );
+add_action( 'bp_after_setup_theme', 'bp_check_theme_template_pack_dependency',   -10 );
+add_action( 'bp_after_setup_theme', 'bp_load_theme_functions',                    1  );
+add_action( 'bp_after_setup_theme', 'bp_register_theme_compat_default_features',  10 );
 
 // Load the admin.
 if ( is_admin() ) {

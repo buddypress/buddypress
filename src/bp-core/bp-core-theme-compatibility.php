@@ -987,3 +987,22 @@ function bp_theme_compat_loop_end( $query ) {
 	unset( $bp->theme_compat->is_page_toggled );
 }
 add_action( 'loop_end', 'bp_theme_compat_loop_end' );
+
+/**
+ * Maybe override the preferred template pack if the theme declares a dependency.
+ *
+ * @since 3.0.0
+ */
+function bp_check_theme_template_pack_dependency() {
+	$all_packages = array_keys( buddypress()->theme_compat->packages );
+
+	foreach ( $all_packages as $package ) {
+		// e.g. "buddypress-use-nouveau", "buddypress-use-legacy".
+		if ( ! current_theme_supports( "buddypress-use-{$package}" ) ) {
+			continue;
+		}
+
+		bp_setup_theme_compat( $package );
+		return;
+	}
+}
