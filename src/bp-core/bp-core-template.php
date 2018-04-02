@@ -2474,6 +2474,20 @@ function bp_is_user_change_cover_image() {
 }
 
 /**
+ * Is this a user's forums page?
+ *
+ * Eg http://example.com/members/joe/forums/ (or a subpage thereof).
+ *
+ * @since 1.5.0
+ * @deprecated 3.0.0 No longer used in core, but supported for third-party code.
+ *
+ * @return false
+ */
+function bp_is_user_forums() {
+	return false;
+}
+
+/**
  * Is the current page part of a user's Groups page?
  *
  * Eg http://example.com/members/joe/groups/ (or a subpage thereof).
