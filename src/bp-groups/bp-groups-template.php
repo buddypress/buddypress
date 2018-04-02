@@ -469,10 +469,10 @@ function bp_the_group() {
 /**
  * Is the group accessible to the currently logged-in user?
  * Despite the name of the function, it has historically checked
- * whether a user has access to a group. 
- * In BP 2.9, a property was added to the BP_Groups_Group class, 
+ * whether a user has access to a group.
+ * In BP 2.9, a property was added to the BP_Groups_Group class,
  * `is_visible`, that describes whether a user can know the group exists.
- * If you wish to check that property, use the check: 
+ * If you wish to check that property, use the check:
  * bp_current_user_can( 'groups_see_group' ).
  *
  * @since 1.0.0
@@ -3219,31 +3219,6 @@ function bp_has_friends_to_invite( $group = false ) {
 
 	return true;
 }
-
-/**
- * Output a 'New Topic' button for a group.
- *
- * @since 1.2.7
- * @deprecated 3.0.0 No longer used in core, but supported for third-party code.
- *
- * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
- */
-function bp_group_new_topic_button( $group = false ) {
-}
-
-	/**
-	 * Return a 'New Topic' button for a group.
-	 *
-	 * @since 1.2.7
-	 * @deprecated 3.0.0 No longer used in core, but supported for third-party code.
-	 *
-	 * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
-	 *
-	 * @return false
-	 */
-	function bp_get_group_new_topic_button( $group = false ) {
-		return false;
-	}
 
 /**
  * Output button to join a group.

@@ -2474,20 +2474,6 @@ function bp_is_user_change_cover_image() {
 }
 
 /**
- * Is this a user's forums page?
- *
- * Eg http://example.com/members/joe/forums/ (or a subpage thereof).
- *
- * @since 1.5.0
- * @deprecated 3.0.0 No longer used in core, but supported for third-party code.
- *
- * @return false
- */
-function bp_is_user_forums() {
-	return false;
-}
-
-/**
  * Is the current page part of a user's Groups page?
  *
  * Eg http://example.com/members/joe/groups/ (or a subpage thereof).
@@ -2719,19 +2705,6 @@ function bp_is_group_create() {
  */
 function bp_is_group_admin_page() {
 	return (bool) ( bp_is_single_item() && bp_is_groups_component() && bp_is_current_action( 'admin' ) );
-}
-
-/**
- * Is the current page a group's (legacy bbPress) forum page?
- *
- * @since 1.1.0
- * @since 3.0.0 Always returns false.
- * @deprecated 3.0.0 No longer used in core, but supported for custom theme templates.
- *
- * @return bool
- */
-function bp_is_group_forum() {
-	return false;
 }
 
 /**
