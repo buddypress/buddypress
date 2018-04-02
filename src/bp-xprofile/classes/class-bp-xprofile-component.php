@@ -67,9 +67,7 @@ class BP_XProfile_Component extends BP_Component {
 		$includes = array(
 			'cssjs',
 			'cache',
-			'actions',
 			'activity',
-			'screens',
 			'caps',
 			'filters',
 			'settings',
@@ -83,6 +81,47 @@ class BP_XProfile_Component extends BP_Component {
 		}
 
 		parent::includes( $includes );
+	}
+
+	/**
+	 * Late includes method.
+	 *
+	 * Only load up certain code when on specific pages.
+	 *
+	 * @since 3.0.0
+	 */
+	public function late_includes() {
+		// Bail if PHPUnit is running.
+		if ( defined( 'BP_TESTS_DIR' ) ) {
+			return;
+		}
+
+		// Bail if not on a user page.
+		if ( ! bp_is_user() ) {
+			return;
+		}
+
+		// User nav.
+		if ( bp_is_profile_component() ) {
+			require $this->path . 'bp-xprofile/screens/public.php';
+
+			// Action - Delete avatar.
+			if ( is_user_logged_in()&& bp_is_user_change_avatar() && bp_is_action_variable( 'delete-avatar', 0 ) ) {
+				require $this->path . 'bp-xprofile/actions/delete-avatar.php';
+			}
+
+			// Sub-nav items.
+			if ( is_user_logged_in() &&
+				in_array( bp_current_action(), array( 'edit', 'change-avatar', 'change-cover-image' ), true )
+			) {
+				require $this->path . 'bp-xprofile/screens/' . bp_current_action() . '.php';
+			}
+		}
+
+		// Settings.
+		if ( is_user_logged_in() && bp_is_user_settings_profile() ) {
+			require $this->path . 'bp-xprofile/screens/settings-profile.php';
+		}
 	}
 
 	/**
