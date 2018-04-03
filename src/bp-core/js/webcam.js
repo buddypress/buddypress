@@ -83,19 +83,17 @@ window.bp = window.bp || {};
 
 			stream.onended = bp.WebCam.noStream();
 
-			if ( video.mozSrcObject !== undefined ) {
-				video.mozSrcObject = stream;
-				video.play();
-			} else if ( navigator.mozGetUserMedia ) {
-				video.src = stream;
-				video.play();
-			} else if ( video.srcObject !== undefined ) {
+			// Older browsers may not have srcObject
+			if ( 'srcObject' in video ) {
 				video.srcObject = stream;
-			} else if ( window.URL ) {
-				video.src = window.URL.createObjectURL( stream );
 			} else {
-				video.src = stream;
+				// Avoid using this in new browsers, as it is going away.
+				video.src = window.URL.createObjectURL( stream );
 			}
+
+			video.onloadedmetadata = function() {
+				video.play();
+			};
 
 			bp.WebCam.params.capture_enable = true;
 		},
@@ -172,8 +170,16 @@ window.bp = window.bp || {};
 		initialize: function() {
 			var params;
 
-			if ( navigator.getUserMedia || navigator.oGetUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia || navigator.msGetUserMedia ) {
+			// Standardize getUserMedia browser call.
+			navigator.getUserMedia = (
+				navigator.getUserMedia ||
+				navigator.webkitGetUserMedia ||
+				navigator.mozGetUserMedia ||
+				navigator.msGetUserMedia ||
+				navigator.oGetUserMedia
+			);
 
+			if ( typeof navigator.getUserMedia !== 'undefined' ) {
 				// We need to add some cropping stuff to use bp.Avatar.setAvatar()
 				params = _.extend( _.pick( BP_Uploader.settings.defaults.multipart_params.bp_params,
 					'object',
@@ -213,19 +219,24 @@ window.bp = window.bp || {};
 			// User Feedback
 			bp.WebCam.displayWarning( 'requesting' );
 
-			if ( navigator.getUserMedia ) {
-				navigator.getUserMedia( { video:true }, bp.WebCam.gotStream, bp.WebCam.noStream );
-			}  else if ( navigator.oGetUserMedia ) {
-				navigator.oGetUserMedia( { video:true }, bp.WebCam.gotStream, bp.WebCam.noStream );
-			} else if ( navigator.mozGetUserMedia ) {
-				navigator.mozGetUserMedia( { video:true }, bp.WebCam.gotStream, bp.WebCam.noStream );
-			} else if ( navigator.webkitGetUserMedia ) {
-				navigator.webkitGetUserMedia( { video:true }, bp.WebCam.gotStream, bp.WebCam.noStream );
-			} else if (navigator.msGetUserMedia) {
-				navigator.msGetUserMedia( { video:true, audio:false }, bp.WebCams.gotStream, bp.WebCam.noStream );
+			// Use deprecated getUserMedia call for browsers that require it.
+			if ( typeof navigator.mediaDevices.getUserMedia === 'undefined' ) {
+				navigator.getUserMedia({
+					audio: false,
+					video: true
+				}, bp.WebCam.gotStream, bp.WebCam.noStream);
+
+			// Teh new hotness!
 			} else {
-				// User Feedback
-				bp.WebCam.displayWarning( 'errormsg' );
+				navigator.mediaDevices.getUserMedia({
+					audio: false,
+					video: true
+				}).then(bp.WebCam.gotStream, bp.WebCam.noStream)
+				// ES3 compatibility.
+				['catch'](function() {
+					// User Feedback
+					bp.WebCam.displayWarning( 'errormsg' );
+				});
 			}
 		},
 
