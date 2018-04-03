@@ -689,6 +689,27 @@ function bp_force_buddybar( $default = true ) {
 }
 
 /**
+ * Check whether Akismet is enabled.
+ *
+ * @since 1.6.0
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *                      Default: true.
+ * @return bool True if Akismet is enabled, otherwise false.
+ */
+function bp_is_akismet_active( $default = true ) {
+
+	/**
+	 * Filters whether or not Akismet is enabled.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param bool $value Whether or not Akismet is enabled.
+	 */
+	return (bool) apply_filters( 'bp_is_akismet_active', (bool) bp_get_option( '_bp_enable_akismet', $default ) );
+}
+
+/**
  * Check whether Activity Heartbeat refresh is enabled.
  *
  * @since 2.0.0
