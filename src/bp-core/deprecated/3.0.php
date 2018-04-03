@@ -20,6 +20,8 @@ defined( 'ABSPATH' ) || exit;
  * @return bool True if group forums are active, otherwise false.
  */
 function bp_is_group_forums_active( $default = false ) {
+	_deprecated_function( __FUNCTION__, '3.0', 'groups_get_group( $id )->enable_forum' );
+
 	$is_active = function_exists( 'bbp_is_group_forums_active' ) ? bbp_is_group_forums_active( $default ) : $default;
 
 	/**
@@ -44,6 +46,7 @@ function bp_is_group_forums_active( $default = false ) {
  * @return false
  */
 function bp_is_user_forums() {
+	_deprecated_function( __FUNCTION__, '3.0', 'legacy forum support removed' );
 	return false;
 }
 
@@ -57,6 +60,7 @@ function bp_is_user_forums() {
  * @return bool
  */
 function bp_is_group_forum() {
+	_deprecated_function( __FUNCTION__, '3.0', 'legacy forum support removed' );
 	return false;
 }
 
@@ -70,6 +74,7 @@ function bp_is_group_forum() {
  * @param BP_Groups_Group|bool $group The BP Groups_Group object if passed, boolean false if not passed.
  */
 function bp_group_new_topic_button( $group = false ) {
+	_deprecated_function( __FUNCTION__, '3.0', 'legacy forum support removed' );
 }
 
 	/**

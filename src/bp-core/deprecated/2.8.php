@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @return bool
  */
 function bp_core_admin_is_running_php53_or_greater() {
+	_deprecated_function( __FUNCTION__, '2.8' );
 	return version_compare( PHP_VERSION, '5.3', '>=' );
 }
 
@@ -70,6 +71,8 @@ function bp_core_admin_maybe_remove_from_update_core() {
  * @return object
  */
 function bp_core_admin_remove_buddypress_from_update_transient( $retval ) {
+	_deprecated_function( __FUNCTION__, '2.8' );
+
 	$loader = basename( constant( 'BP_PLUGIN_DIR' ) ) . '/bp-loader.php';
 
 	// Remove BP from update plugins list.
@@ -96,6 +99,8 @@ function bp_core_admin_remove_buddypress_from_update_transient( $retval ) {
  *                            plugins API.
  */
 function bp_core_admin_php52_plugin_row( $file, $plugin_data ) {
+	_deprecated_function( __FUNCTION__, '2.8' );
+
 	if ( is_multisite() && ! is_network_admin() ) {
 		return;
 	}
@@ -156,6 +161,8 @@ function bp_core_admin_php52_plugin_row( $file, $plugin_data ) {
  * @deprecated 2.8.0
  */
 function bp_core_admin_php53_admin_notice() {
+	_deprecated_function( __FUNCTION__, '2.8' );
+
 	// If not on the Plugins page, stop now.
 	if ( 'plugins' !== get_current_screen()->parent_base ) {
 		return;
