@@ -57,7 +57,6 @@ class BP_Members_Component extends BP_Component {
 
 		// Always include these files.
 		$includes = array(
-			'actions',
 			'filters',
 			'template',
 			'adminbar',
