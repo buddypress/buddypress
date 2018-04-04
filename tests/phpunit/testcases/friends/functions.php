@@ -280,6 +280,53 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group friends_remove_friend
+	 */
+	public function test_friends_check_is_friend_after_remove() {
+		$now = time();
+		$old_user = get_current_user_id();
+		$u1 = $this->factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		$u2 = $this->factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+
+		/*
+		 * Pretend user 1 is on the Members Directory page.
+		 *
+		 * Also primes the friendship cache in the process.
+		 * @see bp_friends_filter_user_query_populate_extras()
+		 */
+		$this->set_current_user( $u1 );
+		$this->go_to( bp_get_members_directory_permalink() );
+		ob_start();
+		bp_get_template_part( 'members/members-loop' );
+		ob_end_clean();
+
+		// User 1 initiates friendship.
+		friends_add_friend( $u1, $u2 );
+
+		/*
+		 * Pretend user 2 is logged in and accepts friendship.
+		 *
+		 * User 2 needs to be logged in for friends_accept_friendship() to work
+		 * properly.
+		 */
+		$this->set_current_user( $u2 );
+		friends_accept_friendship( friends_get_friendship_id( $u1, $u2 ) );
+
+		// Afterwards, user 1 decides to cancel friendship.
+		$this->set_current_user( $u1 );
+		friends_remove_friend( $u1, $u2 );
+
+		// Assert that users are no longer friends.
+		$this->assertEquals( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+
+		$this->set_current_user( $old_user );
+	}
+
+	/**
 	 * @group friendship_caching
 	 */
 	public function test_friends_check_friendship_should_hit_friendship_object_cache() {
