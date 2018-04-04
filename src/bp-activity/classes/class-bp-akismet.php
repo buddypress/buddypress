@@ -414,8 +414,8 @@ class BP_Akismet {
 
 			if (
 				Akismet::allow_discard() &&
-				! empty( $activity_data['bp_as_result_headers']['X-akismet-pro-tip'] ) &&
-				$activity_data['bp_as_result_headers']['X-akismet-pro-tip'] === 'discard'
+				! empty( $activity_data['akismet_pro_tip'] ) &&
+				'discard' === $activity_data['akismet_pro_tip']
 			) {
 				// If this is so spammy it's not worth your time, let's just delete it.
 				if ( $activity->type === 'activity_comment' ) {
@@ -559,13 +559,10 @@ class BP_Akismet {
 		$response = Akismet::http_post( $query_string, $path );
 		remove_filter( 'akismet_ua', array( $this, 'buddypress_ua' ) );
 
-		$activity_data['bp_as_result_headers'] = array();
-		$activity_data['bp_as_result']         = '';
-
-		// Get the response.
-		if ( ! empty( $response[1] ) && ! is_wp_error( $response[1] ) ) {
-			$activity_data['bp_as_result_headers'] = $response[0];
-			$activity_data['bp_as_result']         = $response[1];
+		// Save response data.
+		$activity_data['bp_as_result'] = $response[1];
+		if ( isset( $response[0]['x-akismet-pro-tip'] ) ) {
+			$activity_data['akismet_pro_tip'] = $response[0]['x-akismet-pro-tip'];
 		}
 
 		// Perform a daily tidy up.
