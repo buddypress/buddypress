@@ -47,6 +47,8 @@ add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
  * Handle the Toolbar/BuddyBar business.
  *
  * @since 1.2.0
+ *
+ * @global string $wp_version
  */
 function bp_core_load_admin_bar() {
 
