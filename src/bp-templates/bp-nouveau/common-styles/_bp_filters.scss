@@ -87,7 +87,6 @@
 			@include clearfix-element(".bulk-actions-wrap");
 
 			.bulk-actions-wrap {
-				border: 1px solid $bp-border-color;
 
 				&.bp-show {
 					display: inline-block;
@@ -100,6 +99,11 @@
 
 			.select-wrap {
 				border: 0;
+			}
+
+			.select-wrap:focus,
+			.select-wrap:hover {
+				outline: 1px solid $med-light-grey;
 			}
 
 			.bulk-actions {
@@ -121,8 +125,8 @@
 			}
 
 			.bulk-apply {
-				border-radius: none;
 				border: 0;
+				border-radius: none;
 				font-weight: 400;
 				line-height: 1.8;
 				margin: 0 0 0 10px;
