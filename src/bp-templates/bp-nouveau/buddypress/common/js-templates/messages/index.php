@@ -72,7 +72,6 @@
 </script>
 
 <script type="text/html" id="tmpl-bp-messages-filters">
-	<li class="user-messages-bulk-actions"></li>
 	<li class="user-messages-search" role="search" data-bp-search="{{data.box}}">
 		<div class="bp-search messages-search">
 			<form action="" method="get" id="user_messages_search_form" class="bp-messages-search-form" data-bp-search="messages">
@@ -87,14 +86,13 @@
 			</form>
 		</div>
 	</li>
+	<li class="user-messages-bulk-actions"></li>
 </script>
 
 <script type="text/html" id="tmpl-bp-bulk-actions">
-	<label for="user_messages_select_all">
-		<input type="checkbox" id="user_messages_select_all" value="1"/>
-		<span class="bp-screen-reader-text"><?php esc_html_e( 'Select All Messages', 'buddypress' ); ?></span>
-	</label>
-<div class="bulk-actions-wrap bp-hide">
+	<input type="checkbox" id="user_messages_select_all" value="1"/>
+	<label for="user_messages_select_all"><?php esc_html_e( 'All Messages', 'buddypress' ); ?></label>
+	<div class="bulk-actions-wrap bp-hide">
 		<div class="bulk-actions select-wrap">
 			<label for="user-messages-bulk-actions" class="bp-screen-reader-text">
 				<?php esc_html_e( 'Select bulk action', 'buddypress' ); ?>
@@ -106,7 +104,7 @@
 			</select>
 			<span class="select-arrow" aria-hidden="true"></span>
 		</div>
-		<button class="messages-button bulk-apply" type="submit">
+		<button class="messages-button bulk-apply bp-tooltip" type="submit" data-bp-tooltip="<?php echo esc_attr( 'Apply', 'buddypress' ); ?>">
 			<span class="dashicons dashicons-yes" aria-hidden="true"></span>
 			<span class="bp-screen-reader-text"><?php esc_html_e( 'Apply', 'buddypress' ); ?></span>
 		</button>
@@ -115,10 +113,8 @@
 
 <script type="text/html" id="tmpl-bp-messages-thread">
 	<div class="thread-cb">
-		<label for="bp-message-thread-{{data.id}}">
-			<input class="message-check" type="checkbox" name="message_ids[]" id="bp-message-thread-{{data.id}}" value="{{data.id}}">
-			<span class="bp-screen-reader-text"><?php esc_html_e( 'Select this message', 'buddypress' ); ?></span>
-		</label>
+		<input class="message-check" type="checkbox" name="message_ids[]" id="bp-message-thread-{{data.id}}" value="{{data.id}}">
+		<label for="bp-message-thread-{{data.id}}" class="bp-screen-reader-text"><?php esc_html_e( 'Select this message', 'buddypress' ); ?></label>
 	</div>
 	<div class="thread-from">
 		<a class="user-link" href="{{data.sender_link}}">
