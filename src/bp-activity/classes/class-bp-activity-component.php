@@ -71,10 +71,8 @@ class BP_Activity_Component extends BP_Component {
 			$includes[] = 'akismet';
 		}
 
-		// Embeds - only applicable for WP 4.5+
-		if ( version_compare( $GLOBALS['wp_version'], '4.5', '>=' ) && bp_is_active( $this->id, 'embeds' ) ) {
-			$includes[] = 'embeds';
-		}
+		// Embeds
+		$includes[] = 'embeds';
 
 		if ( is_admin() ) {
 			$includes[] = 'admin';
