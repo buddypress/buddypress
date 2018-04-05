@@ -99,6 +99,10 @@ Title: Core Developer
 Twitter: slaFFik
 Favorite Food: Cakes
 
+Name: Venutius
+Title: Community Support
+Favourite Food: Apple Crumble
+
 /* THANKS */
 modemlooper, cnorris23, karmatosed, photomatt
 
