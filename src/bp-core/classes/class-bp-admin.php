@@ -336,27 +336,24 @@ class BP_Admin {
 
 		$hooks = array();
 
-		// Require WP 4.0+.
-		if ( bp_is_root_blog() && version_compare( $GLOBALS['wp_version'], '4.0', '>=' ) ) {
-			// Appearance > Emails.
-			$hooks[] = add_theme_page(
-				_x( 'Emails', 'screen heading', 'buddypress' ),
-				_x( 'Emails', 'screen heading', 'buddypress' ),
-				$this->capability,
-				'bp-emails-customizer-redirect',
-				'bp_email_redirect_to_customizer'
-			);
+		// Appearance > Emails.
+		$hooks[] = add_theme_page(
+			_x( 'Emails', 'screen heading', 'buddypress' ),
+			_x( 'Emails', 'screen heading', 'buddypress' ),
+			$this->capability,
+			'bp-emails-customizer-redirect',
+			'bp_email_redirect_to_customizer'
+		);
 
-			// Emails > Customize.
-			$hooks[] = add_submenu_page(
-				'edit.php?post_type=' . bp_get_email_post_type(),
-				_x( 'Customize', 'email menu label', 'buddypress' ),
-				_x( 'Customize', 'email menu label', 'buddypress' ),
-				$this->capability,
-				'bp-emails-customizer-redirect',
-				'bp_email_redirect_to_customizer'
-			);
-		}
+		// Emails > Customize.
+		$hooks[] = add_submenu_page(
+			'edit.php?post_type=' . bp_get_email_post_type(),
+			_x( 'Customize', 'email menu label', 'buddypress' ),
+			_x( 'Customize', 'email menu label', 'buddypress' ),
+			$this->capability,
+			'bp-emails-customizer-redirect',
+			'bp_email_redirect_to_customizer'
+		);
 
 		foreach( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
