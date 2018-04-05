@@ -72,7 +72,9 @@ class BP_Activity_Component extends BP_Component {
 		}
 
 		// Embeds
-		$includes[] = 'embeds';
+		if ( bp_is_active( $this->id, 'embeds' ) ) {
+			$includes[] = 'embeds';
+		}
 
 		if ( is_admin() ) {
 			$includes[] = 'admin';
