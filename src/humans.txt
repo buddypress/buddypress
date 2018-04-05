@@ -103,9 +103,14 @@ Name: Venutius
 Title: Community Support
 Favourite Food: Apple Crumble
 
+Name: Laurens Offereins
+Title: Core Developer
+Twitter: lmoffereins
+Favorite Food: Lasagna
+
 /* THANKS */
 modemlooper, cnorris23, karmatosed, photomatt
 
 /* META */
-Updated: 2017/02/01
+Updated: 2018/04/05
 See: http://humanstxt.org/
