@@ -5,17 +5,16 @@
  * @since 3.0.0
  *
  * @buddypress-template-pack {
- * Template Pack ID:       nouveau
- * Template Pack Name:     BP Nouveau
- * Version:                1.0.0
- * WP required version:    4.5
- * BP required version:    2.7-alpha
- * Description:            A new template pack for BuddyPress!
- * Text Domain:            bp-nouveau
- * Domain Path:            /languages/
- * Author:                 The BuddyPress community
- * Template Pack Link:     https://github.com/buddypress/next-template-packs/bp-templates/bp-nouveau
- * Template Pack Supports: activity, blogs, friends, groups, messages, notifications, settings, xprofile
+ *   Template Pack ID:       nouveau
+ *   Template Pack Name:     BP Nouveau
+ *   Version:                1.0.0
+ *   WP required version:    4.5.0
+ *   BP required version:    3.0.0
+ *   Description:            A new template pack for BuddyPress!
+ *   Text Domain:            bp-nouveau
+ *   Domain Path:            /languages/
+ *   Author:                 The BuddyPress community
+ *   Template Pack Supports: activity, blogs, friends, groups, messages, notifications, settings, xprofile
  * }}
  */
 
