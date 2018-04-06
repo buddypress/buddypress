@@ -2946,7 +2946,7 @@ function bp_activity_can_comment_reply( $comment = false ) {
 	 * @since 1.5.0
 	 *
 	 * @param bool   $can_comment Status on if activity reply can be commented on.
-	 * @param string $comment     Current comment being checked on.
+	 * @param object $comment     Current comment object being checked on.
 	 */
 	return (bool) apply_filters( 'bp_activity_can_comment_reply', $can_comment, $comment );
 }
