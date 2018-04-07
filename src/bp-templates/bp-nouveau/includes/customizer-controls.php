@@ -36,7 +36,7 @@ class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 
 		// It's a group
 		if ( 'group' === $this->type ) {
-			$guide = __( 'Customizing the Groups navivation order needs you create at least one group first.', 'buddypress' );
+			$guide = __( 'Customizing the Groups navigation order needs you create at least one group first.', 'buddypress' );
 
 			// Try to fetch any random group:
 			$random = groups_get_groups(
