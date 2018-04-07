@@ -1,6 +1,6 @@
 === BuddyPress ===
-Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla
-Tags: social networking, activity, profiles, messaging, friends, groups, notifications, settings, social, community, networks, networking
+Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, tw2113, netweb, offereins, espellcaste, modemlooper, danbp, Venutius
+Tags: social networking, activity, profiles, messaging, friends, groups, notifications, settings, social, community, networking
 Requires at least: 4.5
 Tested up to: 4.9.5
 Requires PHP: 5.3
