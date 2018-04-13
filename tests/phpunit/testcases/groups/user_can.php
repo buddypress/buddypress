@@ -28,6 +28,10 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 	 * @ticket BP7610
 	 */
 	public function test_user_cannot_join_public_group_if_already_member_even_superadmin() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
 		$g1 = $this->factory->group->create( array(
 			'status'      => 'public'
 		) );
@@ -154,6 +158,10 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 	 * @ticket BP7610
 	 */
 	public function test_user_cannot_receive_invitation_to_private_group_if_already_member_even_superadmin() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
 		$g1 = $this->factory->group->create( array(
 			'status'      => 'private'
 		) );
