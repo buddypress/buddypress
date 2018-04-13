@@ -1102,7 +1102,7 @@ function bp_nouveau_groups_notification_filters() {
 		),
 		array(
 			'id'       => 'member_promoted_to_mod',
-			'label'    => __( 'Group Mod promotions', 'buddypress' ),
+			'label'    => __( 'Group Moderator promotions', 'buddypress' ),
 			'position' => 95,
 		),
 		array(
