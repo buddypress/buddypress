@@ -216,11 +216,17 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 				break;
 			}
 
+			// Set to false to begin with.
+			$retval = false;
+
 			// The group must allow joining, and the user should not currently be a member.
 			$group = groups_get_group( $group_id );
-			if ( 'public' === bp_get_group_status( $group )
+			if ( ( 'public' === bp_get_group_status( $group )
 				&& ! groups_is_user_member( $user_id, $group->id )
-				&& ! groups_is_user_banned( $user_id, $group->id )
+				&& ! groups_is_user_banned( $user_id, $group->id ) )
+				// Site admins can join any group they are not a member of.
+				|| ( bp_user_can( $user_id, 'bp_moderate' )
+				&& ! groups_is_user_member( $user_id, $group->id ) )
 			) {
 				$retval = true;
 			}
@@ -231,6 +237,9 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 			if ( ! $user_id || ! $group_id ) {
 				break;
 			}
+
+			// Set to false to begin with.
+			$retval = false;
 
 			/*
 			* The group must accept membership requests, and the user should not
@@ -256,7 +265,6 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 			* The group must allow invitations, and the user should not
 			* currently be a member or be banned from the group.
 			*/
-			$group = groups_get_group( $group_id );
 			// Users with the 'bp_moderate' cap can always send invitations.
 			if ( bp_user_can( $user_id, 'bp_moderate' ) ) {
 				$retval = true;
@@ -290,6 +298,9 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 			if ( ! $user_id || ! $group_id ) {
 				break;
 			}
+
+			// Set to false to begin with.
+			$retval = false;
 
 			/*
 			* The group must allow invitations, and the user should not

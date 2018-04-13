@@ -24,6 +24,22 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 		$this->assertFalse( bp_user_can( $u1, 'groups_join_group', array( 'group_id' => $g1 ) ) );
 	}
 
+	/**
+	 * @ticket BP7610
+	 */
+	public function test_user_cannot_join_public_group_if_already_member_even_superadmin() {
+		$g1 = $this->factory->group->create( array(
+			'status'      => 'public'
+		) );
+		$u1 = $this->factory->user->create();
+		$this->add_user_to_group( $u1, $g1 );
+
+		// Grant super admin status.
+		grant_super_admin( $u1 );
+
+		$this->assertFalse( bp_user_can( $u1, 'groups_join_group', array( 'group_id' => $g1 ) ) );
+	}
+
 	public function test_user_cannot_join_private_group() {
 		$g1 = $this->factory->group->create( array(
 			'status'      => 'private'
@@ -134,6 +150,21 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 		$this->assertFalse( bp_user_can( $u1, 'groups_receive_invitation', array( 'group_id' => $g1 ) ) );
 	}
 
+	/**
+	 * @ticket BP7610
+	 */
+	public function test_user_cannot_receive_invitation_to_private_group_if_already_member_even_superadmin() {
+		$g1 = $this->factory->group->create( array(
+			'status'      => 'private'
+		) );
+		$u1 = $this->factory->user->create();
+		$this->add_user_to_group( $u1, $g1 );
+
+		// Grant super admin status.
+		grant_super_admin( $u1 );
+
+		$this->assertFalse( bp_user_can( $u1, 'groups_receive_invitation', array( 'group_id' => $g1 ) ) );
+	}
 
 	public function test_user_cannot_receive_invitation_to_private_group_if_banned() {
 		$g1 = $this->factory->group->create( array(
@@ -368,4 +399,24 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 		$this->assertTrue( bp_user_can( $u1, 'groups_see_group', array( 'group_id' => $g1 ) ) );
 	}
 
+	/**
+	 * @ticket BP7610
+	 */
+	public function test_user_can_groups_request_membership_for_super_admin() {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		$g1 = $this->factory->group->create( array(
+			'status' => 'public'
+		) );
+		$u1 = $this->factory->user->create();
+		$this->add_user_to_group( $u1, $g1 );
+
+		// Grant super admin status.
+		grant_super_admin( $u1 );
+
+		// Assert false since public groups shouldn't be able to request membership.
+		$this->assertFalse( bp_user_can( $u1, 'groups_request_membership', array( 'group_id' => $g1 ) ) );
+	}
 }
