@@ -1327,13 +1327,14 @@ function bp_legacy_theme_ajax_invite_user() {
 	if ( ! bp_groups_user_can_send_invites( $_POST['group_id'] ) )
 		return;
 
-	if ( ! friends_check_friendship( bp_loggedin_user_id(), $_POST['friend_id'] ) )
-		return;
-
 	$group_id = (int) $_POST['group_id'];
 	$friend_id = (int) $_POST['friend_id'];
 
 	if ( 'invite' == $_POST['friend_action'] ) {
+		if ( ! friends_check_friendship( bp_loggedin_user_id(), $_POST['friend_id'] ) ) {
+			return;
+		}
+
 		$group = groups_get_group( $group_id );
 
 		// Users who have previously requested membership do not need
