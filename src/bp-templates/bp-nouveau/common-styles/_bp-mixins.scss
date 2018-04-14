@@ -338,7 +338,8 @@
 
 	.tabbed-links {
 
-		ul {
+		ul,
+		ol {
 			border-bottom: 1px solid $bp-border-dark;
 			float: none;
 			margin: $marg-lrg 0 $marg-sml;
@@ -358,11 +359,17 @@
 				list-style: none;
 				margin: 0 $marg-sml 0 0;
 
-				a {
+				a,
+				span {
 					background: none;
 					border: none;
 					display: block;
 					padding: 4px 10px;
+				}
+
+				a:focus,
+				a:hover {
+					background: none;
 				}
 			}
 
@@ -373,8 +380,7 @@
 				border-top-right-radius: 4px;
 				border-width: 1px;
 				margin-bottom: -1px;
-				margin-top: 1px;
-				padding: 0 $pad-sml;
+				padding: 0 $pad-sml 1px;
 
 				a {
 					color: $black;

@@ -154,7 +154,7 @@
 
 		&.bp-dir-hori-nav {
 
-			nav {
+			nav:not(".tabbed-links") {
 				border-bottom: 1px solid $bp-border-color;
 				border-top: 1px solid $bp-border-color;
 
@@ -360,6 +360,7 @@
 
 			li:not(.current) {
 				color: $light-text;
+
 				a {
 					color: $light-text;
 

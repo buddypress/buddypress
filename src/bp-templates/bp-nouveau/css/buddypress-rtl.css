@@ -376,7 +376,7 @@ body.buddypress article.page > .entry-header .entry-title {
 		color: #fafafa;
 		text-decoration: none;
 	}
-	.buddypress-wrap.bp-dir-hori-nav nav {
+	.buddypress-wrap.bp-dir-hori-nav nav:not(".tabbed-links") {
 		border-bottom: 1px solid #eee;
 		border-top: 1px solid #eee;
 		-webkit-box-shadow: 0 2px 12px 0 #fafafa;
@@ -552,40 +552,55 @@ body.buddypress article.page > .entry-header .entry-title {
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap .item-body .tabbed-links ul {
+	.buddypress-wrap .item-body .tabbed-links ul,
+	.buddypress-wrap .item-body .tabbed-links ol {
 		border-bottom: 1px solid #ccc;
 		float: none;
 		margin: 20px 0 10px;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul:before, .buddypress-wrap .item-body .tabbed-links ul:after {
+	.buddypress-wrap .item-body .tabbed-links ul:before, .buddypress-wrap .item-body .tabbed-links ul:after,
+	.buddypress-wrap .item-body .tabbed-links ol:before,
+	.buddypress-wrap .item-body .tabbed-links ol:after {
 		content: " ";
 		display: block;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul:after {
+	.buddypress-wrap .item-body .tabbed-links ul:after,
+	.buddypress-wrap .item-body .tabbed-links ol:after {
 		clear: both;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul li {
+	.buddypress-wrap .item-body .tabbed-links ul li,
+	.buddypress-wrap .item-body .tabbed-links ol li {
 		float: right;
 		list-style: none;
 		margin: 0 0 0 10px;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul li a {
+	.buddypress-wrap .item-body .tabbed-links ul li a,
+	.buddypress-wrap .item-body .tabbed-links ul li span,
+	.buddypress-wrap .item-body .tabbed-links ol li a,
+	.buddypress-wrap .item-body .tabbed-links ol li span {
 		background: none;
 		border: none;
 		display: block;
 		padding: 4px 10px;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul li.current {
+	.buddypress-wrap .item-body .tabbed-links ul li a:focus,
+	.buddypress-wrap .item-body .tabbed-links ul li a:hover,
+	.buddypress-wrap .item-body .tabbed-links ol li a:focus,
+	.buddypress-wrap .item-body .tabbed-links ol li a:hover {
+		background: none;
+	}
+	.buddypress-wrap .item-body .tabbed-links ul li.current,
+	.buddypress-wrap .item-body .tabbed-links ol li.current {
 		border-color: #ccc #ccc #fff;
 		border-style: solid;
 		border-top-right-radius: 4px;
 		border-top-left-radius: 4px;
 		border-width: 1px;
 		margin-bottom: -1px;
-		margin-top: 1px;
-		padding: 0 0.5em;
+		padding: 0 0.5em 1px;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul li.current a {
+	.buddypress-wrap .item-body .tabbed-links ul li.current a,
+	.buddypress-wrap .item-body .tabbed-links ol li.current a {
 		color: #333;
 	}
 	.buddypress-wrap .item-body .bp-subnavs.tabbed-links > ul {
