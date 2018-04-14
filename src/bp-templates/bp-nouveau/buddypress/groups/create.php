@@ -20,7 +20,7 @@ bp_nouveau_groups_create_hook( 'before', 'page' ); ?>
 			<nav class="<?php bp_nouveau_groups_create_steps_classes(); ?>" id="group-create-tabs" role="navigation" aria-label="<?php esc_attr_e( 'Group creation menu', 'buddypress' ); ?>">
 				<ul class="group-create-buttons button-tabs">
 
-					<?php bp_nouveau_group_creation_tabs(); ?>
+					<?php bp_group_creation_tabs(); ?>
 
 				</ul>
 			</nav>

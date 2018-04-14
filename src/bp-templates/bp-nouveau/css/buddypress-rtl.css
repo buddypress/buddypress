@@ -302,7 +302,7 @@ body.buddypress article.page > .entry-header .entry-title {
 	text-decoration: none;
 }
 
-.bp-navs ul li span {
+.bp-navs ul li .count {
 	background: #eaeaea;
 	border: 1px solid #ccc;
 	border-radius: 50%;
@@ -330,9 +330,9 @@ body.buddypress article.page > .entry-header .entry-title {
 	margin-bottom: 20px;
 }
 
-.buddypress-wrap .bp-navs li.selected a span,
-.buddypress-wrap .bp-navs li.current a span,
-.buddypress-wrap .bp-navs li a:hover a span {
+.buddypress-wrap .bp-navs li.selected a .count,
+.buddypress-wrap .bp-navs li.current a .count,
+.buddypress-wrap .bp-navs li a:hover a .count {
 	background-color: #ccc;
 }
 
@@ -354,12 +354,12 @@ body.buddypress article.page > .entry-header .entry-title {
 	color: #fafafa;
 }
 
-.buddypress-wrap .bp-navs li.selected a span,
-.buddypress-wrap .bp-navs li.selected a:focus span,
-.buddypress-wrap .bp-navs li.selected a:hover span,
-.buddypress-wrap .bp-navs li.current a span,
-.buddypress-wrap .bp-navs li.current a:focus span,
-.buddypress-wrap .bp-navs li.current a:hover span {
+.buddypress-wrap .bp-navs li.selected a .count,
+.buddypress-wrap .bp-navs li.selected a:focus .count,
+.buddypress-wrap .bp-navs li.selected a:hover .count,
+.buddypress-wrap .bp-navs li.current a .count,
+.buddypress-wrap .bp-navs li.current a:focus .count,
+.buddypress-wrap .bp-navs li.current a:hover .count {
 	border-color: #fafafa;
 }
 
@@ -461,34 +461,39 @@ body.buddypress article.page > .entry-header .entry-title {
 	}
 }
 
-.buddypress_object_nav .bp-navs li.selected a span,
-.buddypress_object_nav .bp-navs li.current a span,
-.buddypress-wrap .bp-navs li.selected a span,
-.buddypress-wrap .bp-navs li.current a span {
+.buddypress_object_nav .bp-navs li.selected a .count,
+.buddypress_object_nav .bp-navs li.current a .count,
+.buddypress-wrap .bp-navs li.selected a .count,
+.buddypress-wrap .bp-navs li.current a .count {
 	background-color: #fff;
 }
 
-.buddypress_object_nav .bp-navs li.dynamic a span,
-.buddypress_object_nav .bp-navs li.dynamic.selected a span,
-.buddypress_object_nav .bp-navs li.dynamic.current a span,
-.buddypress-wrap .bp-navs li.dynamic a span,
-.buddypress-wrap .bp-navs li.dynamic.selected a span,
-.buddypress-wrap .bp-navs li.dynamic.current a span {
+.buddypress_object_nav .bp-navs li.dynamic a .count,
+.buddypress_object_nav .bp-navs li.dynamic.selected a .count,
+.buddypress_object_nav .bp-navs li.dynamic.current a .count,
+.buddypress-wrap .bp-navs li.dynamic a .count,
+.buddypress-wrap .bp-navs li.dynamic.selected a .count,
+.buddypress-wrap .bp-navs li.dynamic.current a .count {
 	background-color: #5087e5;
 	border: 0;
 	color: #fafafa;
 }
 
-.buddypress_object_nav .bp-navs li.dynamic a:hover span,
-.buddypress-wrap .bp-navs li.dynamic a:hover span {
+.buddypress_object_nav .bp-navs li.dynamic a:hover .count,
+.buddypress-wrap .bp-navs li.dynamic a:hover .count {
 	background-color: #5087e5;
 	border: 0;
 	color: #fff;
 }
 
-.buddypress_object_nav .bp-navs li a span:empty,
-.buddypress-wrap .bp-navs li a span:empty {
+.buddypress_object_nav .bp-navs li a .count:empty,
+.buddypress-wrap .bp-navs li a .count:empty {
 	display: none;
+}
+
+.buddypress_object_nav .bp-navs.group-create-links ul li:not(.current),
+.buddypress-wrap .bp-navs.group-create-links ul li:not(.current) {
+	color: #767676;
 }
 
 .buddypress_object_nav .bp-navs.group-create-links ul li:not(.current) a,
@@ -532,7 +537,7 @@ body.buddypress article.page > .entry-header .entry-title {
 	}
 }
 
-.buddypress_object_nav .bp-navs li a span {
+.buddypress_object_nav .bp-navs li a .count {
 	display: inline-block;
 	float: left;
 }
@@ -541,7 +546,7 @@ body.buddypress article.page > .entry-header .entry-title {
 	.bp-dir-vert-nav .bp-navs.dir-navs {
 		background: none;
 	}
-	.bp-dir-vert-nav .bp-navs.dir-navs a span {
+	.bp-dir-vert-nav .bp-navs.dir-navs a .count {
 		float: left;
 	}
 }
@@ -577,6 +582,7 @@ body.buddypress article.page > .entry-header .entry-title {
 		border-top-left-radius: 4px;
 		border-width: 1px;
 		margin-bottom: -1px;
+		margin-top: 1px;
 		padding: 0 0.5em;
 	}
 	.buddypress-wrap .item-body .tabbed-links ul li.current a {

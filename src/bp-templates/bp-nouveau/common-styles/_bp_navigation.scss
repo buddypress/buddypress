@@ -32,7 +32,7 @@
 				text-decoration: none;
 			}
 
-			span {
+			.count {
 				background: $light-grey;
 				border: 1px solid $bp-border-dark;
 				border-radius: 50%;
@@ -92,7 +92,7 @@
 
 			a {
 
-				span {
+				.count {
 					background-color: $grey;
 				}
 			}
@@ -117,7 +117,7 @@
 				background: $dark-grey;
 				color: $off-white;
 
-				span {
+				.count {
 					border-color: $off-white;
 				}
 			}
@@ -310,7 +310,7 @@
 
 			a {
 
-				span {
+				.count {
 					background-color: $white;
 				}
 			}
@@ -322,7 +322,7 @@
 
 			a {
 
-				span {
+				.count {
 					background-color: $highlight;
 					border: 0;
 					color: $off-white;
@@ -334,7 +334,7 @@
 
 			a:hover {
 
-				span {
+				.count {
 					background-color: $highlight;
 					border: 0;
 					color: $white;
@@ -346,7 +346,7 @@
 
 			a {
 
-				span:empty {
+				.count:empty {
 					display: none;
 				}
 			}
@@ -359,7 +359,7 @@
 		ul {
 
 			li:not(.current) {
-
+				color: $light-text;
 				a {
 					color: $light-text;
 
@@ -436,7 +436,7 @@
 
 			a {
 
-				span {
+				.count {
 					display: inline-block;
 					float: right;
 				}
@@ -458,7 +458,7 @@
 
 			a {
 
-				span {
+				.count {
 					float: right;
 
 				}
