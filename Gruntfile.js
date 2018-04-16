@@ -259,6 +259,11 @@ module.exports = function( grunt ) {
 				command: 'svn export --force https://github.com/buddypress/BP-Default.git/trunk bp-themes/bp-default',
 				cwd: BUILD_DIR,
 				stdout: false
+			},
+			cli: {
+				command: 'svn export --force https://github.com/buddypress/wp-cli-buddypress.git/trunk@579 cli',
+				cwd: BUILD_DIR,
+				stdout: false
 			}
 		},
 		jsvalidate:{
@@ -296,7 +301,7 @@ module.exports = function( grunt ) {
 	 */
 	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'rtlcss'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin'] );
-	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault'] );
+	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault', 'exec:cli'] );
 	grunt.registerTask( 'release', ['build'] );
 
 	// Testing tasks.
