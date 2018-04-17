@@ -11,4 +11,4 @@
 <?php bp_nouveau_user_feedback( 'create-invite-friends' ); ?>
 
 <?php
-bp_new_group_invite_friend_list();
+bp_new_group_invite_friend_list( array(  'before' => '<ul class="friends-list create-group-invites">', 'after' => '</ul>' ) );
