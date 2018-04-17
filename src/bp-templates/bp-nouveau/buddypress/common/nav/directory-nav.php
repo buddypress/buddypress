@@ -10,7 +10,7 @@
 
 	<?php if ( bp_nouveau_has_nav( array( 'object' => 'directory' ) ) ) : ?>
 
-		<ul type="list" class="component-navigation <?php bp_nouveau_directory_list_class(); ?>">
+		<ul class="component-navigation <?php bp_nouveau_directory_list_class(); ?>">
 
 			<?php
 			while ( bp_nouveau_nav_items() ) :
