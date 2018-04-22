@@ -1019,6 +1019,10 @@ body.buddypress article.page > .entry-header .entry-title {
 	margin-top: 0;
 }
 
+.friends-list {
+	list-style-type: none;
+}
+
 .friends-request-list .item-title {
 	text-align: center;
 }
