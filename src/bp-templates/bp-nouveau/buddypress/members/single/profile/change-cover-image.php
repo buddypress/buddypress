@@ -9,7 +9,7 @@
 
 <h2 class="screen-heading"><?php _e( 'Change Cover Image', 'buddypress' ); ?></h2>
 
-<?php bp_nouveau_xprofile_hook( 'before', 'edit_cover_image' ); ?>
+<?php bp_nouveau_member_hook( 'before', 'edit_cover_image' ); ?>
 
 <p class="info bp-feedback">
 	<span class="bp-icon" aria-hidden="true"></span>
@@ -20,4 +20,4 @@
 // Load the cover image UI
 bp_attachments_get_template_part( 'cover-images/index' );
 
-bp_nouveau_xprofile_hook( 'after', 'edit_cover_image' );
+bp_nouveau_member_hook( 'after', 'edit_cover_image' );
