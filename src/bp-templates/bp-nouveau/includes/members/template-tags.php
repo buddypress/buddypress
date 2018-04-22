@@ -958,7 +958,7 @@ function bp_nouveau_wp_profile_field_data() {
 	$data = bp_nouveau_get_wp_profile_field_data();
 	$data = make_clickable( $data );
 
-	return wp_kses(
+	echo wp_kses(
 		/**
 		 * Filters a WP profile field value.
 		 *
