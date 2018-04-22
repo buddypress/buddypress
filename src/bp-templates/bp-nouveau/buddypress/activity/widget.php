@@ -29,8 +29,8 @@
 								bp_activity_avatar(
 									array(
 										'type'   => 'thumb',
-										'width'  => '40px',
-										'height' => '40px',
+										'width'  => '40',
+										'height' => '40',
 									)
 								);
 								?>
