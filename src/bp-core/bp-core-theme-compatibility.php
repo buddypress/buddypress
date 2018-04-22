@@ -994,6 +994,10 @@ add_action( 'loop_end', 'bp_theme_compat_loop_end' );
  * @since 3.0.0
  */
 function bp_check_theme_template_pack_dependency() {
+	if ( bp_is_deactivation() ) {
+		return;
+	}
+
 	$all_packages = array_keys( buddypress()->theme_compat->packages );
 
 	foreach ( $all_packages as $package ) {
