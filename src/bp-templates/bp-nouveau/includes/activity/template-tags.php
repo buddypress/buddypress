@@ -137,14 +137,14 @@ function bp_nouveau_activity_member_post_form() {
 function bp_nouveau_activity_hook( $when = '', $suffix = '' ) {
 	$hook = array( 'bp' );
 
-	if ( ! $when ) {
+	if ( $when ) {
 		$hook[] = $when;
 	}
 
 	// It's a activity entry hook
 	$hook[] = 'activity';
 
-	if ( ! $suffix ) {
+	if ( $suffix ) {
 		$hook[] = $suffix;
 	}
 

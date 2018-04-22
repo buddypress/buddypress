@@ -109,7 +109,7 @@ function bp_nouveau_groups_create_hook( $when = '', $suffix = '' ) {
 function bp_nouveau_group_hook( $when = '', $suffix = '' ) {
 	$hook = array( 'bp' );
 
-	if ( ! $when ) {
+	if ( $when ) {
 		$hook[] = $when;
 	}
 

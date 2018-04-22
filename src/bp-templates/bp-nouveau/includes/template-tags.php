@@ -2059,13 +2059,13 @@ function bp_nouveau_signup_hook( $when = '', $prefix = '' ) {
 function bp_nouveau_activation_hook( $when = '', $suffix = '' ) {
 	$hook = array( 'bp' );
 
-	if ( ! $when ) {
+	if ( $when ) {
 		$hook[] = $when;
 	}
 
 	$hook[] = 'activate';
 
-	if ( ! $suffix ) {
+	if ( $suffix ) {
 		$hook[] = $suffix;
 	}
 
