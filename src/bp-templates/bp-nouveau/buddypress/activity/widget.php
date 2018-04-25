@@ -24,7 +24,7 @@
 					<footer>
 
 						<cite>
-							<a href="<?php bp_activity_user_link(); ?>">
+							<a href="<?php bp_activity_user_link(); ?>" class="bp-tooltip" data-bp-tooltip="<?php echo esc_attr( bp_activity_member_display_name() ); ?>">
 								<?php
 								bp_activity_avatar(
 									array(

@@ -54,6 +54,20 @@
 			}
 		} // close li
 	}
+
+	.activity-list {
+		padding: 0;
+
+		blockquote {
+			margin: 0 0 1.5em;
+			overflow: visible;
+			padding: 0 0 0.75em 0.75em;
+		}
+
+		img {
+			margin-bottom: 0.5em;
+		}
+	}
 }
 
 // Are we in a main site sidebar?

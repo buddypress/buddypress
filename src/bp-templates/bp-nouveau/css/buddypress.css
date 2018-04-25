@@ -4490,6 +4490,20 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	overflow-wrap: break-word;
 }
 
+.buddypress.widget .activity-list {
+	padding: 0;
+}
+
+.buddypress.widget .activity-list blockquote {
+	margin: 0 0 1.5em;
+	overflow: visible;
+	padding: 0 0 0.75em 0.75em;
+}
+
+.buddypress.widget .activity-list img {
+	margin-bottom: 0.5em;
+}
+
 .widget-area .buddypress.widget ul.item-list li {
 	-webkit-flex: 0 1 46%;
 	-moz-flex: 0 1 46%;
@@ -4663,6 +4677,7 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	}
 }
 
+.activity-list .bp-tooltip:after,
 .activity-meta-action .bp-tooltip:after,
 .notification-actions .bp-tooltip:after,
 .participants-list .bp-tooltip:after {
