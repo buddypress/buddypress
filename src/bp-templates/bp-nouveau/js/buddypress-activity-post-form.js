@@ -31,6 +31,11 @@ window.bp = window.bp || {};
 		},
 
 		postFormView: function() {
+			// Do not carry on if the main element is not available.
+			if ( ! $( '#bp-nouveau-activity-form' ).length ) {
+				return;
+			}
+
 			// Create the BuddyPress Uploader
 			var postForm = new bp.Views.PostForm();
 
