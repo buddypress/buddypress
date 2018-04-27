@@ -68,7 +68,18 @@
 			margin-bottom: 0.5em;
 		}
 	}
+
+	.avatar-block {
+
+		@include flex-box-dir($flex-dir: row, $flex-wrap: wrap);
+
+		img {
+			margin-bottom: 1em;
+			margin-right: 1em;
+		}
+	}
 }
+
 
 // Are we in a main site sidebar?
 // while hard to tell width asume that

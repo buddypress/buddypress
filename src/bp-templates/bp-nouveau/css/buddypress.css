@@ -4504,6 +4504,24 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	margin-bottom: 0.5em;
 }
 
+.buddypress.widget .avatar-block {
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-webkit-flex-flow: row wrap;
+	-moz-flex-flow: row wrap;
+	-ms-flex-flow: row wrap;
+	-o-flex-flow: row wrap;
+	flex-flow: row wrap;
+}
+
+.buddypress.widget .avatar-block img {
+	margin-bottom: 1em;
+	margin-right: 1em;
+}
+
 .widget-area .buddypress.widget ul.item-list li {
 	-webkit-flex: 0 1 46%;
 	-moz-flex: 0 1 46%;
