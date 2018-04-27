@@ -96,8 +96,6 @@ class BP_Nouveau_Activity {
 
 		add_filter( 'bp_get_activity_action_pre_meta', 'bp_nouveau_activity_secondary_avatars', 10, 2 );
 		add_filter( 'bp_get_activity_css_class', 'bp_nouveau_activity_scope_newest_class', 10, 1 );
-		add_filter( 'bp_activity_time_since', 'bp_nouveau_activity_time_since', 10, 2 );
-		add_filter( 'bp_activity_allowed_tags', 'bp_nouveau_activity_allowed_tags', 10, 1 );
 	}
 }
 

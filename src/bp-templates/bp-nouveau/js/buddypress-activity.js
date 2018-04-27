@@ -95,13 +95,6 @@ window.bp = window.bp || {};
 			}
 
 			$.extend( data, { bp_heartbeat: bp.Nouveau.getStorage( 'bp-activity' ) } );
-
-			// Update all displayed time
-			$.each( $( '#buddypress time' ), function( t, time ) {
-				if ( $( time ).data( 'bp-timestamp' ) ) {
-					$( time ).html( bp.Nouveau.updateTimeSince( Number( $( time ).data( 'bp-timestamp' ) ) ) );
-				}
-			} );
 		},
 
 		/**

@@ -48,7 +48,6 @@ window.bp = window.bp || {};
 			// Object Globals
 			this.objects                = $.map( BP_Nouveau.objects, function( value ) { return value; } );
 			this.objectNavParent        = BP_Nouveau.object_nav_parent;
-			this.time_since             = BP_Nouveau.time_since;
 
 			// HeartBeat Global
 			this.heartbeat              = wp.heartbeat || {};
@@ -205,75 +204,6 @@ window.bp = window.bp || {};
 				$( selector ).prepend( content );
 			} else {
 				$( selector ).html( content );
-			}
-		},
-
-		/**
-		 * [updateTimeSince description]
-		 * @param  {[type]} timestamp [description]
-		 * @return {[type]}           [description]
-		 */
-		updateTimeSince: function( timestamp ) {
-			var now = new Date( $.now() ), diff, count_1, chunk_1, count_2, chunk_2,
-				time_since = [], time_chunks = $.extend( {}, this.time_since.time_chunks ), ms;
-
-			// Returns sometime
-			if ( undefined === timestamp ) {
-				return this.time_since.sometime;
-			}
-
-			// Javascript timestamps are in ms.
-			timestamp = new Date( timestamp * 1000 );
-
-			// Calculate the diff
-			diff = now - timestamp;
-
-			// Returns right now
-			if ( 0 === diff ) {
-				return this.time_since.now;
-			}
-
-			$.each( time_chunks, function( c, chunk ) {
-				var milliseconds = chunk * 1000;
-				var rounded_time = Math.floor( diff / milliseconds );
-
-				if ( 0 !== rounded_time && ! chunk_1 ) {
-					chunk_1 = c;
-					count_1 = rounded_time;
-					ms      = milliseconds;
-				}
-			} );
-
-			// First chunk
-			chunk_1 = chunk_1.substr( 2 );
-			time_since.push( ( 1 === count_1 ) ? this.time_since[ chunk_1 ].replace( '%', count_1 ) : this.time_since[ chunk_1 + 's' ].replace( '%', count_1 ) );
-
-			// Remove Year from chunks
-			delete time_chunks.a_year;
-
-			$.each( time_chunks, function( c, chunk ) {
-				var milliseconds = chunk * 1000;
-				var rounded_time = Math.floor( ( diff - ( ms * count_1 ) ) / milliseconds );
-
-				if ( 0 !== rounded_time && ! chunk_2 ) {
-					chunk_2 = c;
-					count_2 = rounded_time;
-				}
-			} );
-
-			// Second chunk
-			if ( undefined !== chunk_2 ) {
-				chunk_2 = chunk_2.substr( 2 );
-				time_since.push( ( 1 === count_2 ) ? this.time_since[ chunk_2 ].replace( '%', count_2 ) : this.time_since[ chunk_2 + 's' ].replace( '%', count_2 ) );
-			}
-
-			// Returns x time, y time ago
-			if ( time_since.length >= 1 ) {
-				return this.time_since.ago.replace( '%', time_since.join( this.time_since.separator + ' ' ) );
-
-			// Returns sometime
-			} else {
-				return this.time_since.sometime;
 			}
 		},
 

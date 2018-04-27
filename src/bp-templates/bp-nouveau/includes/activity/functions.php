@@ -428,36 +428,6 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 }
 
 /**
- * @since 3.0.0
- */
-function bp_nouveau_activity_time_since( $time_since, $activity = null ) {
-	if ( ! isset( $activity->date_recorded ) ) {
-		return $time_since;
-	}
-
-	return apply_filters(
-		'bp_nouveau_activity_time_since', sprintf(
-			'<time class="time-since" datetime="%1$s" data-bp-timestamp="%2$d">%3$s</time>',
-			esc_attr( $activity->date_recorded ),
-			esc_attr( strtotime( $activity->date_recorded ) ),
-			esc_attr( bp_core_time_since( $activity->date_recorded ) )
-		)
-	);
-}
-
-/**
- * @since 3.0.0
- */
-function bp_nouveau_activity_allowed_tags( $activity_allowedtags = array() ) {
-	$activity_allowedtags['time']                      = array();
-	$activity_allowedtags['time']['class']             = array();
-	$activity_allowedtags['time']['datetime']          = array();
-	$activity_allowedtags['time']['data-bp-timestamp'] = array();
-
-	return $activity_allowedtags;
-}
-
-/**
  * Get the activity query args for the widget.
  *
  * @since 3.0.0
