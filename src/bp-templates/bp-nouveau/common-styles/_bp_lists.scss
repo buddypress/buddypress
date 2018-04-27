@@ -69,6 +69,7 @@
 			color: $light-text-plus;
 
 			@include font-size(12);
+			margin-bottom: $marg-sml;
 			margin-top: $marg-sml;
 		}
 
@@ -188,7 +189,8 @@
 	list-style-type: none;
 }
 
-.friends-request-list {
+.friends-request-list,
+.membership-requests-list {
 
 	.item-title {
 		text-align: center;
@@ -213,6 +215,10 @@
 
 				@include font-size(22);
 				text-align: left;
+
+				h3 {
+					margin: 0;
+				}
 			}
 		}
 	}

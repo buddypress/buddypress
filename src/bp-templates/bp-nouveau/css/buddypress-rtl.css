@@ -925,6 +925,7 @@ body.buddypress article.page > .entry-header .entry-title {
 .bp-list li .item-meta {
 	color: #737373;
 	font-size: 12px;
+	margin-bottom: 10px;
 	margin-top: 10px;
 }
 
@@ -1023,12 +1024,14 @@ body.buddypress article.page > .entry-header .entry-title {
 	list-style-type: none;
 }
 
-.friends-request-list .item-title {
+.friends-request-list .item-title,
+.membership-requests-list .item-title {
 	text-align: center;
 }
 
 @media screen and (min-width: 46.8em) {
-	.friends-request-list li {
+	.friends-request-list li,
+	.membership-requests-list li {
 		display: -webkit-flex;
 		display: -moz-flex;
 		display: -ms-flex;
@@ -1040,19 +1043,26 @@ body.buddypress article.page > .entry-header .entry-title {
 		-o-flex-flow: row nowrap;
 		flex-flow: row nowrap;
 	}
-	.friends-request-list li .item {
+	.friends-request-list li .item,
+	.membership-requests-list li .item {
 		-webkit-flex: 1 1 auto;
 		-moz-flex: 1 1 auto;
 		-ms-flex: 1 1 auto;
 		-o-flex: 1 1 auto;
 		flex: 1 1 auto;
 	}
-	.friends-request-list li .action {
+	.friends-request-list li .action,
+	.membership-requests-list li .action {
 		text-align: left;
 	}
-	.friends-request-list li .item-title {
+	.friends-request-list li .item-title,
+	.membership-requests-list li .item-title {
 		font-size: 22px;
 		text-align: right;
+	}
+	.friends-request-list li .item-title h3,
+	.membership-requests-list li .item-title h3 {
+		margin: 0;
 	}
 }
 

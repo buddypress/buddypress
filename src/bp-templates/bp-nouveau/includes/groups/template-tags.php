@@ -747,11 +747,11 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 				'button_element'    => $button_element,
 				'parent_attr'       => array(
 					'id'    => '',
-					'class' => $parent_class . ' ' . 'accept',
+					'class' => $parent_class,
 				),
 				'button_attr'       => array(
 					'id'    => '',
-					'class' => 'button',
+					'class' => 'button accept',
 					'rel'   => '',
 				),
 			);
@@ -773,11 +773,11 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 				'link_text'         => __( 'Reject', 'buddypress' ),
 				'parent_attr'       => array(
 					'id'    => '',
-					'class' => $parent_class . ' ' . 'reject',
+					'class' => $parent_class,
 				),
 				'button_attr'       => array(
 					'id'    => '',
-					'class' => 'button',
+					'class' => 'button reject',
 					'rel'   => '',
 				),
 			);
