@@ -271,8 +271,8 @@ TABLE OF CONTENTS:
 		left: var(--bp-hello-container-size);
 		right: var(--bp-hello-container-size);
 		bottom: 30px;
-		border-radius: 3px;
 		z-index: 9999;
+		border-radius: 3px;
 	}
 	#bp-hello-container .bp-hello-header h1 {
 		line-height: inherit;
