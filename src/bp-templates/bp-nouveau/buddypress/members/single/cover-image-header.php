@@ -7,7 +7,7 @@
 ?>
 
 <div id="cover-image-container">
-	<a id="header-cover-image" href="<?php bp_displayed_user_link(); ?>"></a>
+	<div id="header-cover-image"></div>
 
 	<div id="item-header-cover-image">
 		<div id="item-header-avatar">
