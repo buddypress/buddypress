@@ -89,7 +89,7 @@ module.exports = function( grunt ) {
 				indentType: 'tab',
 				indentWidth: '1'
 			},
-			styles: {
+			legacy: {
 				cwd: SOURCE_DIR,
 				extDot: 'last',
 				expand: true,
@@ -106,6 +106,15 @@ module.exports = function( grunt ) {
 				flatten: true,
 				src: ['bp-templates/bp-nouveau/sass/buddypress.scss'],
 				dest: SOURCE_DIR + 'bp-templates/bp-nouveau/css/'
+			},
+			admin: {
+				cwd: SOURCE_DIR,
+				extDot: 'last',
+				expand: true,
+				ext: '.css',
+				flatten: true,
+				src: ['bp-core/admin/sass/*.scss'],
+				dest: SOURCE_DIR + 'bp-core/admin/css/'
 			}
 		},
 		rtlcss: {
@@ -227,7 +236,7 @@ module.exports = function( grunt ) {
 				},
 				expand: true,
 				cwd: SOURCE_DIR,
-				src: [ 'bp-templates/bp-legacy/css/*.scss' ]
+				src: [ '**/*.scss' ]
 			}
 		},
 		cssmin: {
