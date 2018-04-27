@@ -821,7 +821,7 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h3 class="wp-people-group"><?php printf( esc_html__( 'Contributors to BuddyPress %s:', 'buddypress' ), self::display_version() ); ?></h3>
+			<h3 class="wp-people-group"><?php printf( esc_html__( 'Contributors to BuddyPress %s', 'buddypress' ), self::display_version() ); ?></h3>
 			<p class="wp-credits-list">
 				<a href="https://profiles.wordpress.org/55don/">55don</a>,
 				<a href="https://profiles.wordpress.org/aaronoftomorrow/">AaronOfTomorrow</a>,
@@ -871,7 +871,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/vishalkakadiya/">Vishal Kakadiya (vishalkakadiya)</a>
 			</p>
 
-			<h3 class="wp-people-group"><?php _e( 'With our thanks to these Open Source projects:', 'buddypress' ); ?></h3>
+			<h3 class="wp-people-group"><?php _e( 'With our thanks to these Open Source projects', 'buddypress' ); ?></h3>
 			<p class="wp-credits-list">
 				<a href="https://github.com/ichord/At.js">At.js</a>,
 				<a href="https://bbpress.org">bbPress</a>,
@@ -885,6 +885,30 @@ class BP_Admin {
 				<a href="https://wordpress.org">WordPress</a>.
 			</p>
 
+			<h3 class="wp-people-group"><?php _e( 'Contributor Emeriti', 'buddypress' ); ?></h3>
+			<ul class="wp-people-group " id="wp-people-group-emeriti">
+				<li class="wp-person" id="wp-person-apeatling">
+					<a class="web" href="https://profiles.wordpress.org/johnjamesjacoby"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/bb29d699b5cba218c313b61aa82249da?s=60">
+					Andy Peatling</a>
+					<span class="title"><?php _e( 'Project Founder', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-burtadsit">
+					<a class="web" href="https://profiles.wordpress.org/burtadsit"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/185e1d3e2d653af9d49a4e8e4fc379df?s=60">
+					Burt Adsit</a>
+				</li>
+				<li class="wp-person" id="wp-person-jeffsayre">
+					<a class="web" href="https://profiles.wordpress.org/jeffsayre"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/8e009a84ff5d245c22a69c7df6ab45f7?s=60">
+					Jeff Sayre</a>
+				</li>
+				<li class="wp-person" id="wp-person-karmatosed">
+					<a class="web" href="https://profiles.wordpress.org/karmatosed"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ca7d4273a689cdbf524d8332771bb1ca?s=60">
+					Tammie Lister</a>
+				</li>
+				<li class="wp-person" id="wp-person-modemlooper">
+					<a class="web" href="https://profiles.wordpress.org/modemlooper"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/1c07be1016e845de514931477c939307?s=60">
+					modemlooper</a>
+				</li>
+			</ul>
 		</div>
 
 		<?php
