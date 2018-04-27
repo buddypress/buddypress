@@ -10,10 +10,8 @@ TABLE OF CONTENTS:
 --------------------------------------------------------------------------------
 1.0 Welcome Screen
 	1.1 Version Badge
-	1.2 About Panel
-		1.2.1 Headline Feature
-		1.2.2 Features Section
-		1.2.3 Changelog Section
+	1.2 ---
+	1.3 Credits Panel
 2.0 Dashicons
 	2.1 Top level menus
 	2.2 Settings - Components
@@ -43,398 +41,132 @@ TABLE OF CONTENTS:
 	content: "\f448";
 }
 
-.about-wrap .bp-badge {
-	position: absolute;
-	top: 0;
-	left: 0;
-}
-
-.index_page_bp-credits code,
+.settings_page_bp-credits code,
 .index_page_bp-about code {
 	background-color: #e0e0e0;
 	color: #636363;
 	font-size: 1em;
 }
 
+/*
+ * 1.3 Credits Panel
+ *
+ * Taken from WP 4.9.5.
+ */
+.bp-about-wrap {
+	position: relative;
+	max-width: 1050px;
+	font-size: 15px;
+}
+
+.bp-about-wrap img {
+	margin: 0;
+	max-width: 100%;
+	height: auto;
+	vertical-align: middle;
+}
+
+.bp-about-wrap p {
+	line-height: 1.5;
+	font-size: 14px;
+}
+
+.bp-about-wrap h2 {
+	margin: 40px 0 0.6em;
+	font-size: 2.7em;
+	line-height: 1.3;
+	font-weight: 300;
+	text-align: center;
+}
+
+.bp-about-wrap h3 {
+	margin: 1.25em 0 0.6em;
+	font-size: 1.4em;
+	line-height: 1.5;
+}
+
+.bp-about-wrap code {
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.bp-about-wrap .about-description {
+	margin-top: 1.4em;
+	font-weight: 400;
+	line-height: 1.6;
+	font-size: 19px;
+}
+
+.bp-about-wrap h3.wp-people-group {
+	margin: 2.6em 0 1.33em;
+	padding: 0;
+	font-size: 16px;
+	line-height: inherit;
+}
+
+.bp-about-wrap .wp-people-group {
+	padding: 0 5px;
+	margin: 0 -5px 0 -15px;
+}
+
+.bp-about-wrap .compact {
+	margin-bottom: 0;
+}
+
+.bp-about-wrap .wp-person {
+	display: inline-block;
+	vertical-align: top;
+	margin-left: 10px;
+	padding-bottom: 15px;
+	height: 70px;
+	width: 280px;
+}
+
+.bp-about-wrap .compact .wp-person {
+	height: auto;
+	width: 180px;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+.bp-about-wrap .wp-person .gravatar {
+	float: right;
+	margin: 0 0 10px 10px;
+	padding: 1px;
+	width: 60px;
+	height: 60px;
+}
+
+.bp-about-wrap .compact .wp-person .gravatar {
+	width: 30px;
+	height: 30px;
+}
+
+.bp-about-wrap .wp-person .web {
+	margin: 6px 0 2px;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 2;
+	text-decoration: none;
+}
+
+.bp-about-wrap .wp-person .title {
+	display: block;
+}
+
+.bp-about-wrap p.wp-credits-list a {
+	white-space: nowrap;
+}
+
 @media only screen and (max-width: 500px) {
 
-	.about-wrap .bp-badge {
-		position: relative;
-		margin: 10px auto;
-		top: auto;
-		left: auto;
-	}
-}
-
-/*
- * 1.2 About Panel
- */
-
-/*
- * 1.2.1 Headline Feature
- */
-.buddypress .bp-headline-feature {
-	margin-bottom: 2em;
-	margin-top: 3em;
-	padding: 2em 3em;
-}
-
-.buddypress .bp-headline {
-	margin: 0 auto;
-	width: 45em;
-}
-
-.buddypress .bp-headline span.dashicons {
-	background-color: #f1f1f1;
-	color: #d84800;
-	clear: right;
-	font-size: 100px;
-	float: right;
-	height: 100px;
-	line-height: 100px;
-	margin: 0 0 15px 15px;
-	text-align: center;
-	width: 100px;
-}
-
-.buddypress .bp-headline-feature .headline-title {
-	font-size: 2.2em;
-	font-weight: 300;
-	line-height: 2;
-	margin: 0 0 1em;
-	text-align: center;
-}
-
-.buddypress .bp-headline-feature p {
-	font-size: 1.15em;
-	margin: 1.15em 0 0.6em auto;
-}
-
-/*
- * 1.2.2 Features Section
- */
-.buddypress .bp-features-section {
-	border-bottom: 1px solid #ccc;
-	clear: both;
-	margin-bottom: 3em;
-	margin-top: 2em;
-	overflow: hidden;
-	padding-bottom: 2em;
-}
-
-.buddypress .bp-features-section p {
-	font-size: 14px;
-	line-height: 1.5;
-}
-
-.buddypress .bp-features-section img {
-	margin-bottom: 20px;
-}
-
-.buddypress .bp-features-section span.dashicons {
-	background-color: #fff;
-	border-radius: 50%;
-	clear: right;
-	color: #d84800;
-	font-size: 50px;
-	float: right;
-	height: 80px;
-	line-height: 80px;
-	margin: 0 0 15px 15px;
-	text-align: center;
-	width: 80px;
-}
-
-.buddypress .bp-features-section .headline-title {
-	font-size: 2em;
-	font-weight: 300;
-	line-height: 1.5;
-	margin: 1em auto 2em;
-	text-align: center;
-}
-
-.buddypress .bp-features-section .bp-feature-with-images {
-	border-bottom: 1px solid #ccc;
-	margin-bottom: 5em;
-	padding-bottom: 2em;
-}
-
-.buddypress .bp-features-section .bp-feature,
-.buddypress .bp-features-section .bp-feature-imaged {
-	float: right;
-	margin-bottom: 3em;
-	margin-left: 4.799999999%;
-	width: 47.6%;
-}
-
-.buddypress .bp-features-section .bp-feature.opposite,
-.buddypress .bp-features-section .bp-feature-imaged.anon {
-	margin-left: 0;
-}
-
-.buddypress .bp-features-section .bp-feature code {
-	font-size: 0.95em;
-	line-height: 1.5;
-}
-
-.buddypress .bp-feature:after {
-	clear: both;
-	content: "";
-	margin-bottom: 2em;
-}
-
-.buddypress .bp-feature-imaged .feature-title {
-	color: #23282d;
-	font-size: 1.25em;
-	margin-bottom: 0.6em;
-	margin-top: 0;
-}
-
-.buddypress .bp-feature-imaged p {
-	clear: right;
-	font-size: 1.1em;
-}
-
-.buddypress .bp-feature-imaged img {
-	clear: right;
-}
-
-.buddypress .bp-feature .feature-title {
-	font-size: 1em;
-	line-height: 1.5;
-	margin-bottom: 0;
-	margin-right: 110px;
-	margin-top: 0;
-	text-align: right;
-}
-
-.buddypress .bp-feature p {
-	margin-right: 110px;
-}
-
-/*
- * 1.2.3 Changelog Section
- */
-.buddypress .bp-changelog-section {
-	clear: both;
-	margin-bottom: 3em;
-	margin-top: 4em;
-	padding-bottom: 0;
-}
-
-.buddypress .bp-changelog-section:after {
-	clear: both;
-	content: "";
-	display: table;
-}
-
-.buddypress .bp-changelog-section .changelog-title {
-	color: #23282d;
-	font-size: 1.25em;
-	line-height: 1.5;
-	margin: 0 auto 1.5em;
-}
-
-.buddypress .bp-two-column div {
-	float: right;
-	margin-left: 4.799999999%;
-	position: relative;
-	width: 47.6%;
-}
-
-.buddypress .bp-three-column .bp-column {
-	float: right;
-	margin-left: 5%;
-	position: relative;
-	width: 29.95%;
-}
-
-.buddypress .bp-two-column .bp-column:nth-of-type(2n),
-.buddypress .bp-three-column .bp-column:nth-of-type(3n) {
-	margin-left: 0;
-}
-
-.buddypress .bp-changelog {
-	margin-bottom: 3em;
-}
-
-.buddypress .bp-changelog:after {
-	clear: both;
-	content: "";
-	display: table;
-}
-
-.buddypress .bp-changelog .title {
-	font-size: 14px;
-	margin-bottom: 0.75em;
-	margin-top: 0;
-}
-
-.buddypress .bp-changelog p {
-	margin-bottom: 0;
-}
-
-.bp-changelog-url {
-	text-align: center;
-}
-
-.bp-assets {
-	clear: both;
-	margin-bottom: 3em;
-}
-
-@media screen and ( max-width: 782px ) {
-
-	.bp-headline-feature,
-	.bp-features-section,
-	.bp-changelog-section,
-	.bp-assets {
-		margin-right: 20px;
+	.bp-about-wrap {
 		margin-left: 20px;
+		margin-right: 10px;
 	}
 
-	.buddypress .bp-headline-feature {
-		padding: 0;
-	}
-
-	.buddypress .bp-headline {
-		margin: 0;
-		width: 97%;
-	}
-
-	.buddypress .bp-features-section {
-		clear: both;
-		margin-bottom: 0;
-		margin-top: 2em;
-		padding-bottom: 2em;
-	}
-
-	.buddypress .bp-features-section .bp-feature-with-images {
-		margin-bottom: 2em;
-	}
-
-	.buddypress .bp-features-section .headline-title {
-		margin-bottom: 1em;
-	}
-
-	.buddypress .bp-changelog-section .changelog-title {
-		font-size: 1.25em;
-		line-height: 1.5;
-		margin-bottom: 0.5em;
-		margin-top: 0.5em;
-	}
-
-	.buddypress .bp-features-section .feature-title,
-	.buddypress .bp-changelog-section .title {
-		font-size: 1.25em;
-		line-height: 1.25;
-		margin-top: 0.6em;
-		text-align: right;
-	}
-
-	.buddypress .bp-features-section .bp-feature,
-	.buddypress .bp-features-section .bp-feature-imaged {
-		clear: both;
-		float: right;
-		margin-bottom: 1em;
-		margin-top: 1em;
+	.bp-about-wrap .bp-about-wrap h1 {
 		margin-left: 0;
-		padding-left: 1em;
-		width: 100%;
-	}
-
-	.buddypress .bp-features-section .bp-feature-imaged p {
-		font-size: 1em;
-	}
-
-	.buddypress .bp-features-section .bp-feature span {
-		margin-top: 0.33em;
-	}
-
-	.buddypress .bp-feature.opposite .feature-title,
-	.buddypress .bp-feature.opposite p {
-		float: none;
-	}
-
-	.buddypress .bp-changelog-section {
-		clear: both;
-		margin-bottom: 2em;
-		margin-top: 2em;
-	}
-
-	.buddypress .bp-changelog {
-		margin-bottom: 0;
-	}
-
-	.buddypress .bp-changelog-section .changelog-title {
-		margin-bottom: 0.5em;
-	}
-
-	.buddypress .bp-changelog .title {
-		font-size: 1em;
-	}
-
-	.buddypress .bp-changelog p {
-		margin-bottom: 1em;
-	}
-
-	.buddypress .bp-changelog-section .two-col > div,
-	.buddypress .bp-changelog-section .three-col .col {
-		margin-top: 0;
-		padding-bottom: 0.5em;
-		width: 100%;
-	}
-
-	.buddypress .bp-three-column .bp-column {
-		width: 100%;
-	}
-}
-
-@media screen and ( max-width: 360px ) {
-
-	.buddypress .bp-headline {
-		text-align: center;
-	}
-
-	.buddypress .bp-headline span.dashicons {
-		clear: none;
-		font-size: 80px;
-		float: none;
-		height: 80px;
-		line-height: 80px;
-		margin: 0 auto;
-		width: 80px;
-	}
-
-	.buddypress .bp-headline-feature .headline-title,
-	.buddypress .bp-features-section .headline-title {
-		font-size: 1.5em;
-		line-height: 1.5;
-		text-align: right;
-	}
-
-	.buddypress .bp-headline-feature .headline-title {
-		margin: 1em 0 0;
-	}
-
-	.buddypress .bp-headline-feature p {
-		margin: 1.15em 0 0.6em auto;
-		text-align: right;
-		width: auto;
-	}
-
-	.buddypress .bp-features-section .bp-feature {
-		text-align: center;
-	}
-
-	.buddypress .bp-features-section span.dashicons {
-		float: none;
-	}
-
-	.buddypress .bp-features-section .feature-title,
-	.buddypress .bp-features-section p {
-		margin-right: 0;
-		text-align: right;
 	}
 }
 

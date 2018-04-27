@@ -23,7 +23,8 @@ module.exports = function( grunt ) {
 		// SASS generated "Twenty*"" CSS files
 		BP_SCSS_CSS_FILES = [
 			'!bp-templates/bp-legacy/css/twenty*.css',
-			'!bp-templates/bp-nouveau/css/buddypress.css'
+			'!bp-templates/bp-nouveau/css/buddypress.css',
+			'!bp-core/admin/css/hello.css'
 		],
 
 		stylelintConfigCss  = require('stylelint-config-wordpress/index.js'),
