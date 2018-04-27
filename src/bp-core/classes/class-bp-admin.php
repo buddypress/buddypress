@@ -534,7 +534,7 @@ class BP_Admin {
 		wp_enqueue_style( 'bp-admin-common-css' );
 
 		// BuddyPress Hello
-		if ( get_current_screen()->id === 'dashboard' && ! empty( $_GET['hello'] ) && $_GET['hello'] === 'buddypress' ) {
+		if ( 0 === strpos( get_current_screen()->id, 'dashboard' ) && ! empty( $_GET['hello'] ) && $_GET['hello'] === 'buddypress' ) {
 			wp_enqueue_style( 'bp-hello-css' );
 			wp_enqueue_script( 'bp-hello-js' );
 		}
@@ -549,7 +549,7 @@ class BP_Admin {
 	 * @since 3.0.0 Now outputs BuddyPress Hello template.
 	 */
 	public function about_screen() {
-		if ( get_current_screen()->id !== 'dashboard' || empty( $_GET['hello'] ) || $_GET['hello'] !== 'buddypress' ) {
+		if ( 0 !== strpos( get_current_screen()->id, 'dashboard' ) || empty( $_GET['hello'] ) || $_GET['hello'] !== 'buddypress' ) {
 			return;
 		}
 	?>
