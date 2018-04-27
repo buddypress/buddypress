@@ -264,6 +264,16 @@ class BP_Admin {
 			'bp_core_admin_settings'
 		);
 
+		// Credits.
+		$hooks[] = add_submenu_page(
+			$this->settings_page,
+			__( 'BuddyPress Credits', 'buddypress' ),
+			__( 'BuddyPress Credits', 'buddypress' ),
+			$this->capability,
+			'bp-credits',
+			array( $this, 'credits_screen' )
+		);
+
 		// For consistency with non-Multisite, we add a Tools menu in
 		// the Network Admin as a home for our Tools panel.
 		if ( is_multisite() && bp_core_do_network_admin() ) {
@@ -514,6 +524,7 @@ class BP_Admin {
 		// Settings pages.
 		remove_submenu_page( $this->settings_page, 'bp-page-settings' );
 		remove_submenu_page( $this->settings_page, 'bp-settings'      );
+		remove_submenu_page( $this->settings_page, 'bp-credits'       );
 
 		// Network Admin Tools.
 		remove_submenu_page( 'network-tools', 'network-tools' );
@@ -696,11 +707,11 @@ class BP_Admin {
 	public function credits_screen() {
 	?>
 
-		<div class="wrap about-wrap">
+		<div class="wrap bp-about-wrap">
 
-			<?php self::welcome_text(); ?>
+		<h1><?php _e( 'BuddyPress Settings', 'buddypress' ); ?> </h1>
 
-			<?php self::tab_navigation( __METHOD__ ); ?>
+		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Credits', 'buddypress' ) ); ?></h2>
 
 			<p class="about-description"><?php _e( 'BuddyPress is created by a worldwide network of friendly folks like these.', 'buddypress' ); ?></p>
 

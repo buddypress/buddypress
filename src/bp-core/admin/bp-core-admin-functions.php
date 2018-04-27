@@ -421,13 +421,17 @@ function bp_core_get_admin_tabs( $active_tab = '' ) {
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) ),
 			'name' => __( 'Components', 'buddypress' )
 		),
+		'2' => array(
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
+			'name' => __( 'Options', 'buddypress' )
+		),
 		'1' => array(
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) ),
 			'name' => __( 'Pages', 'buddypress' )
 		),
-		'2' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
-			'name' => __( 'Options', 'buddypress' )
+		'3' => array(
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'admin.php' ) ),
+			'name' => __( 'Credits', 'buddypress' )
 		),
 	);
 
