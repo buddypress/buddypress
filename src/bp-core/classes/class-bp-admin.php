@@ -631,7 +631,7 @@ class BP_Admin {
 				<p>
 					<?php
 					printf(
-						__( ' How are you using BuddyPress? Recieving your feedback and suggestions for future versions of BuddyPress genuinely motivates and encourages our contributors. Please <a href="%s">share your feedback</a> about this version of BuddyPress on our website. ', 'buddypress' ),
+						__( ' How are you using BuddyPress? Receiving your feedback and suggestions for future versions of BuddyPress genuinely motivates and encourages our contributors. Please <a href="%s">share your feedback</a> about this version of BuddyPress on our website. ', 'buddypress' ),
 						esc_url( 'https://buddypress.org/support/' )
 					);
 					?>
