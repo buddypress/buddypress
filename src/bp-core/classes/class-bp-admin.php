@@ -719,20 +719,20 @@ class BP_Admin {
 				<li class="wp-person" id="wp-person-djpaul">
 					<a class="web" href="https://profiles.wordpress.org/djpaul"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3bc9ab796299d67ce83dceb9554f75df?s=60">
 					Paul Gibbs</a>
-					<span class="title"><?php _e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php _e( 'Release Lead', 'buddypress' ); ?></span>
 				</li>
 			</ul>
 
 			<h3 class="wp-people-group"><?php _e( 'BuddyPress Team', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-core-team">
-				<li class="wp-person" id="wp-person-hnla">
-					<a class="web" href="https://profiles.wordpress.org/hnla"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=60">
-					Hugo Ashmore</a>
-					<span class="title"><?php _e( '2.9 Release Lead', 'buddypress' ); ?></span>
-				</li>
 				<li class="wp-person" id="wp-person-r-a-y">
 					<a class="web" href="https://profiles.wordpress.org/r-a-y"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=60">
 					Ray</a>
+					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-hnla">
+					<a class="web" href="https://profiles.wordpress.org/hnla"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=60">
+					Hugo Ashmore</a>
 					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-imath">
@@ -785,6 +785,16 @@ class BP_Admin {
 					Stephen Edgar</a>
 					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
 				</li>
+				<li class="wp-person" id="wp-person-espellcaste">
+					<a class="web" href="https://profiles.wordpress.org/espellcaste"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/b691e67be0ba5cad6373770656686bc3?s=60">
+					Renato Alves</a>
+					<span class="title"><?php _e( 'Core Developer', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-venutius">
+					<a class="web" href="https://profiles.wordpress.org/venutius"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/6a7c42a77fd94b82b217a7a97afdddbc?s=60">
+					Venutius</a>
+					<span class="title"><?php _e( 'Community Support', 'buddypress' ); ?></span>
+				</li>
 			</ul>
 
 			<h3 class="wp-people-group"><?php _e( '&#x1f31f;Recent Rockstars&#x1f31f;', 'buddypress' ); ?></h3>
@@ -804,6 +814,10 @@ class BP_Admin {
 				<li class="wp-person" id="wp-person-ramiy">
 					<a class="web" href="https://profiles.wordpress.org/ramiy"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ce2a269e424156d79cb0c4e1d4d82db1?s=60">
 					Rami Yushuvaev</a>
+				</li>
+				<li class="wp-person" id="wp-person-vapvarun">
+					<a class="web" href="https://profiles.wordpress.org/vapvarun"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/78a3bf7eb3a1132fc667f96f2631e448?s=60">
+					Vapvarun</a>
 				</li>
 			</ul>
 
