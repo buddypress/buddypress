@@ -239,8 +239,6 @@ class BP_Nouveau_Object_Nav_Widget extends WP_Widget {
 		$title = '';
 
 		if ( ! empty( $item_nav_args['bp_nouveau_widget_title'] ) ) {
-			$title = '';
-
 			if ( bp_is_group() ) {
 				$title = bp_get_current_group_name();
 			} elseif ( bp_is_user() ) {
