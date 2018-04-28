@@ -138,7 +138,7 @@ window.bp = window.bp || {};
 				this.type = this.options.type;
 			}
 
-			this.el.className = this.type;
+			this.el.className = 'bp-messages bp-feedback ' + this.type ;
 		}
 	} );
 
