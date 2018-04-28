@@ -2075,6 +2075,9 @@ form.ac-form .ac-reply-content input {
 	.single-headers #item-header-avatar a img {
 		float: left;
 	}
+	.single-headers #item-header-content {
+		padding-left: 2em;
+	}
 }
 
 .single-headers .group-status,
