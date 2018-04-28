@@ -18,28 +18,28 @@ function bp_nouveau_before_blogs_directory_content() {
 	/**
 	 * Fires at the begining of the templates BP injected content.
 	 *
-	 * @since 2.3.0 (BuddyPress)
+	 * @since 2.3.0
 	 */
 	do_action( 'bp_before_directory_blogs_page' );
 
 	/**
 	 * Fires before the display of the blogs.
 	 *
-	 * @since 1.5.0 (BuddyPress)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_before_directory_blogs' );
 
 	/**
 	 * Fires before the display of the blogs listing content.
 	 *
-	 * @since 3.0.0 (BuddyPress)
+	 * @since 3.0.0
 	 */
 	do_action( 'bp_before_directory_blogs_content' );
 
 	/**
 	 * Fires before the display of the blogs list tabs.
 	 *
-	 * @since 2.3.0 (BuddyPress)
+	 * @since 2.3.0
 	 */
 	do_action( 'bp_before_directory_blogs_tabs' );
 }
@@ -53,28 +53,28 @@ function bp_nouveau_after_blogs_directory_content() {
 	/**
 	 * Fires inside and displays the blogs content.
 	 *
-	 * @since 3.0.0 (BuddyPress)
+	 * @since 3.0.0
 	 */
 	do_action( 'bp_directory_blogs_content' );
 
 	/**
 	 * Fires after the display of the blogs listing content.
 	 *
-	 * @since 3.0.0 (BuddyPress)
+	 * @since 3.0.0
 	 */
 	do_action( 'bp_after_directory_blogs_content' );
 
 	/**
 	 * Fires at the bottom of the blogs directory template file.
 	 *
-	 * @since 1.5.0 (BuddyPress)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_after_directory_blogs' );
 
 	/**
 	 * Fires at the bottom of the blogs directory template file.
 	 *
-	 * @since 2.3.0 (BuddyPress)
+	 * @since 2.3.0
 	 */
 	do_action( 'bp_after_directory_blogs_page' );
 }
@@ -113,7 +113,7 @@ function bp_nouveau_blogs_loop_item() {
 	/**
 	 * Fires after the listing of a blog item in the blogs loop.
 	 *
-	 * @since 1.2.0 (BuddyPress)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_directory_blogs_item' );
 }

@@ -215,6 +215,13 @@ function bp_nouveau_member_reset_front_template( $templates = array() ) {
 		array_push( $templates, 'members/single/default-front.php' );
 	}
 
+	/**
+	 * Filters the BuddyPress Nouveau template hierarchy after resetting front template for members.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $templates Array of templates.
+	 */
 	return apply_filters( '_bp_nouveau_member_reset_front_template', $templates );
 }
 
@@ -284,6 +291,13 @@ function bp_nouveau_member_locate_template_part( $template = '' ) {
 		$templates[] = sprintf( $part, $template );
 	}
 
+	/**
+	 * Filters the found template parts for the member template part locating functionality.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $templates Array of found templates.
+	 */
 	return bp_locate_template( apply_filters( 'bp_nouveau_member_locate_template_part', $templates ), false, true );
 }
 
@@ -304,7 +318,9 @@ function bp_nouveau_member_get_template_part( $template = '' ) {
 		$name = null;
 
 		/**
-		 * Let plugins adding an action to bp_get_template_part get it from here
+		 * Let plugins adding an action to bp_get_template_part get it from here.
+		 *
+		 * @since 3.0.0
 		 *
 		 * @param string $slug Template part slug requested.
 		 * @param string $name Template part name requested.
@@ -401,6 +417,11 @@ function bp_nouveau_members_add_home_widget_filters() {
 	add_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_member_groups_widget_overrides', 10, 1 );
 	add_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_member_members_widget_overrides', 10, 1 );
 
+	/**
+	 * Fires after Nouveau adds its members home widget filters.
+	 *
+	 * @since 3.0.0
+	 */
 	do_action( 'bp_nouveau_members_add_home_widget_filters' );
 }
 
@@ -414,6 +435,11 @@ function bp_nouveau_members_remove_home_widget_filters() {
 	remove_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_member_groups_widget_overrides', 10, 1 );
 	remove_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_member_members_widget_overrides', 10, 1 );
 
+	/**
+	 * Fires after Nouveau removes its members home widget filters.
+	 *
+	 * @since 3.0.0
+	 */
 	do_action( 'bp_nouveau_members_remove_home_widget_filters' );
 }
 
@@ -427,7 +453,16 @@ function bp_nouveau_members_remove_home_widget_filters() {
  * @return array The list of WP Profile fields
  */
 function bp_nouveau_get_wp_profile_fields( $user = null ) {
-	// Leave a chance to plugins to avoid showing the contact methods they're adding on front end.
+	/**
+	 * Filters the contact methods to be included in the WP Profile fields for a specific user.
+	 *
+	 * Provide a chance for plugins to avoid showing the contact methods they're adding on front end.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array   $value Array of user contact methods.
+	 * @param WP_User $user  WordPress user to get contact methods for.
+	 */
 	$contact_methods = (array) apply_filters( 'bp_nouveau_get_wp_profile_field', wp_get_user_contact_methods( $user ), $user );
 
 	$wp_fields = array(

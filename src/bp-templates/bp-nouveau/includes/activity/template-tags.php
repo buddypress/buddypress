@@ -17,14 +17,14 @@ function bp_nouveau_before_activity_directory_content() {
 	/**
 	 * Fires at the begining of the templates BP injected content.
 	 *
-	 * @since 2.3.0 (BuddyPress)
+	 * @since 2.3.0
 	 */
 	do_action( 'bp_before_directory_activity' );
 
 	/**
 	 * Fires before the activity directory display content.
 	 *
-	 * @since 1.2.0 (BuddyPress)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_directory_activity_content' );
 }
@@ -175,7 +175,7 @@ function bp_nouveau_activity_content() {
 	/**
 	 * Fires after the display of an activity entry content.
 	 *
-	 * @since 1.2.0 (BuddyPress)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_activity_entry_content' );
 }
@@ -195,7 +195,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 	/**
 	 * Fires at the end of the activity entry meta data area.
 	 *
-	 * @since 1.2.0 (BuddyPress)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_activity_entry_meta' );
 
@@ -585,7 +585,7 @@ function bp_nouveau_activity_recurse_comments( $comment ) {
 	/**
 	 * Filters the opening tag for the template that lists activity comments.
 	 *
-	 * @since 1.6.0 (BuddyPress)
+	 * @since 1.6.0
 	 *
 	 * @param string $value Opening tag for the HTML markup to use.
 	 */
@@ -599,7 +599,7 @@ function bp_nouveau_activity_recurse_comments( $comment ) {
 		/**
 		 * Fires before the display of an activity comment.
 		 *
-		 * @since 1.5.0 (BuddyPress)
+		 * @since 1.5.0
 		 */
 		do_action( 'bp_before_activity_comment' );
 
@@ -608,7 +608,7 @@ function bp_nouveau_activity_recurse_comments( $comment ) {
 		/**
 		 * Fires after the display of an activity comment.
 		 *
-		 * @since 1.5.0 (BuddyPress)
+		 * @since 1.5.0
 		 */
 		do_action( 'bp_after_activity_comment' );
 
@@ -618,7 +618,7 @@ function bp_nouveau_activity_recurse_comments( $comment ) {
 	/**
 	 * Filters the closing tag for the template that list activity comments.
 	 *
-	 * @since 1.6.0 (BuddyPress)
+	 * @since 1.6.0
 	 *
 	 * @param string $value Closing tag for the HTML markup to use.
 	 */
@@ -671,7 +671,7 @@ function bp_nouveau_activity_comment_form() {
 	/**
 	 * Fires after the activity entry comment form.
 	 *
-	 * @since 1.5.0 (BuddyPress)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_activity_entry_comments' );
 }
@@ -690,7 +690,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 	/**
 	 * Fires after the defualt comment action options display.
 	 *
-	 * @since 1.6.0 (BuddyPress)
+	 * @since 1.6.0
 	 */
 	do_action( 'bp_activity_comment_options' );
 

@@ -223,6 +223,15 @@ class BP_Nouveau_Object_Nav_Widget extends WP_Widget {
 			return;
 		}
 
+		/**
+		 * Filters the nav widget args for the BP_Nouveau_Object_Nav_Widget widget.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $value Array of arguments {
+		 *     @param bool $bp_nouveau_widget_title Whether or not to assign a title for the widget.
+		 * }
+		 */
 		$item_nav_args = wp_parse_args( $instance, apply_filters( 'bp_nouveau_object_nav_widget_args', array(
 			'bp_nouveau_widget_title' => true,
 		) ) );
@@ -241,6 +250,15 @@ class BP_Nouveau_Object_Nav_Widget extends WP_Widget {
 			}
 		}
 
+		/**
+		 * Filters the BP_Nouveau_Object_Nav_Widget widget title.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $title    The widget title.
+		 * @param array  $instance The settings for the particular instance of the widget.
+		 * @param string $id_base  Root ID for all widgets of this type.
+		 */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		echo $args['before_widget'];

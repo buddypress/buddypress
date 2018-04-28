@@ -18,21 +18,21 @@ function bp_nouveau_before_groups_directory_content() {
 	/**
 	 * Fires at the begining of the templates BP injected content.
 	 *
-	 * @since 2.3.0 (BuddyPress)
+	 * @since 2.3.0
 	 */
 	do_action( 'bp_before_directory_groups_page' );
 
 	/**
 	 * Fires before the display of the groups.
 	 *
-	 * @since 1.1.0 (BuddyPress)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_groups' );
 
 	/**
 	 * Fires before the display of the groups content.
 	 *
-	 * @since 1.1.0 (BuddyPress)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_directory_groups_content' );
 }
@@ -47,28 +47,28 @@ function bp_nouveau_after_groups_directory_content() {
 	/**
 	 * Fires and displays the group content.
 	 *
-	 * @since 1.1.0 (BuddyPress)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_directory_groups_content' );
 
 	/**
 	 * Fires after the display of the groups content.
 	 *
-	 * @since 1.1.0 (BuddyPress)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_directory_groups_content' );
 
 	/**
 	 * Fires after the display of the groups.
 	 *
-	 * @since 1.1.0 (BuddyPress)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_directory_groups' );
 
 	/**
 	 * Fires at the bottom of the groups directory template file.
 	 *
-	 * @since 1.5.0 (BuddyPress)
+	 * @since 1.5.0
 	 */
 	do_action( 'bp_after_directory_groups_page' );
 }
@@ -173,7 +173,7 @@ function bp_nouveau_group_invites_interface() {
 	/**
 	 * Fires before the send invites content.
 	 *
-	 * @since 1.1.0 (BuddyPress)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_before_group_send_invites_content' );
 
@@ -496,7 +496,7 @@ function bp_nouveau_groups_loop_buttons( $args = array() ) {
 	/**
 	 * Fires inside the action section of an individual group listing item.
 	 *
-	 * @since 1.1.0 (BuddyPress)
+	 * @since 1.1.0
 	 */
 	do_action( 'bp_directory_groups_actions' );
 	$output .= ob_get_clean();
@@ -1146,7 +1146,7 @@ function bp_nouveau_group_template_part() {
 	/**
 	 * Fires before the display of the group home body.
 	 *
-	 * @since 1.2.0 (BuddyPress)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_group_body' );
 
@@ -1209,7 +1209,7 @@ function bp_nouveau_group_template_part() {
 	/**
 	 * Fires after the display of the group home body.
 	 *
-	 * @since 1.2.0 (BuddyPress)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_after_group_body' );
 }
@@ -1229,7 +1229,7 @@ function bp_nouveau_group_header_template_part() {
 	/**
 	 * Fires before the display of a group's header.
 	 *
-	 * @since 1.2.0 (BuddyPress)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_before_group_header' );
 
@@ -1239,7 +1239,7 @@ function bp_nouveau_group_header_template_part() {
 	/**
 	 * Fires after the display of a group's header.
 	 *
-	 * @since 1.2.0 (BuddyPress)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_after_group_header' );
 

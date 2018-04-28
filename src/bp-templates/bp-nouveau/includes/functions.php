@@ -362,6 +362,15 @@ function bp_nouveau_is_object_nav_in_sidebar() {
  * @return bool
  */
 function bp_nouveau_current_user_can( $capability = '' ) {
+	/**
+	 * Filters whether or not the current user can perform an action for BuddyPress Nouveau.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param bool   $value      Whether or not the user is logged in.
+	 * @param string $capability Current capability being checked.
+	 * @param int    $value      Current logged in user ID.
+	 */
 	return apply_filters( 'bp_nouveau_current_user_can', is_user_logged_in(), $capability, bp_loggedin_user_id() );
 }
 
@@ -385,6 +394,14 @@ function bp_nouveau_parse_hooked_dir_nav( $hook = '', $component = '', $position
 
 	// Get the hook output.
 	ob_start();
+
+	/**
+	 * Fires at the start of the output for `bp_nouveau_parse_hooked_dir_nav()`.
+	 *
+	 * This hook is variable and depends on the hook parameter passed in.
+	 *
+	 * @since 3.0.0
+	 */
 	do_action( $hook );
 	$output = ob_get_clean();
 
@@ -451,6 +468,14 @@ function bp_nouveau_parse_hooked_options( $hook = '', $filters = array() ) {
 	}
 
 	ob_start();
+
+	/**
+	 * Fires at the start of the output for `bp_nouveau_parse_hooked_options()`.
+	 *
+	 * This hook is variable and depends on the hook parameter passed in.
+	 *
+	 * @since 3.0.0
+	 */
 	do_action( $hook );
 
 	$output = ob_get_clean();
@@ -880,7 +905,11 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
  */
 function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 	/**
-	 * Filter to add your custom feedback messages
+	 * Filters the BuddyPress Nouveau feedback messages.
+	 *
+	 * Use this filter to add your custom feedback messages.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param array $value The list of feedback messages.
 	 */

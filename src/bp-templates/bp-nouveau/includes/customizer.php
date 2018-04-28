@@ -27,6 +27,13 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 		'priority'    => 200,
 	) );
 
+	/**
+	 * Filters the BuddyPress Nouveau customizer sections and their arguments.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $value Array of Customizer sections.
+	 */
 	$sections = apply_filters( 'bp_nouveau_customizer_sections', array(
 		'bp_nouveau_general_settings' => array(
 			'title'       => __( 'General BP Settings', 'buddypress' ),
@@ -65,6 +72,13 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 		$wp_customize->add_section( $id_section, $section_args );
 	}
 
+	/**
+	 * Filters the BuddyPress Nouveau customizer settings and their arguments.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $value Array of Customizer settings.
+	 */
 	$settings = apply_filters( 'bp_nouveau_customizer_settings', array(
 		'bp_nouveau_appearance[avatar_style]' => array(
 			'index'             => 'avatar_style',
@@ -207,6 +221,13 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 		$wp_customize->add_setting( $id_setting, $args );
 	}
 
+	/**
+	 * Filters the BuddyPress Nouveau customizer controls and their arguments.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $value Array of Customizer controls.
+	 */
 	$controls = apply_filters( 'bp_nouveau_customizer_controls', array(
 		'bp_site_avatars' => array(
 			'label'      => __( 'Set BP User, Group avatars to rounded style.', 'buddypress' ),
@@ -349,6 +370,11 @@ function bp_nouveau_customizer_enqueue_scripts() {
 		true
 	);
 
+	/**
+	 * Fires after Nouveau enqueues its required javascript.
+	 *
+	 * @since 3.0.0
+	 */
 	do_action( 'bp_nouveau_customizer_enqueue_scripts' );
 }
 add_action( 'customize_controls_enqueue_scripts', 'bp_nouveau_customizer_enqueue_scripts' );

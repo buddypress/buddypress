@@ -26,8 +26,20 @@
 		<p><?php _e( "If you'd like to remove the existing group cover image but not upload a new one, please use the delete group cover image button.", 'buddypress' ); ?></p>
 		<button type="button" class="button edit" id="bp-delete-cover-image"><?php esc_html_e( 'Delete Group Cover Image', 'buddypress' ); ?></button>
 	<# } else { #>
-		<?php do_action( 'bp_attachments_cover_image_delete_template' ); ?>
+		<?php
+			/**
+			 * Fires inside the cover image delete frontend template markup if no other data.object condition is met.
+			 *
+			 * @since 3.0.0
+			 */
+			do_action( 'bp_attachments_cover_image_delete_template' ); ?>
 	<# } #>
 </script>
 
-<?php do_action( 'bp_attachments_cover_image_main_template' ); ?>
+<?php
+	/**
+	 * Fires after the cover image main frontend template markup.
+	 *
+	 * @since 3.0.0
+	 */
+	do_action( 'bp_attachments_cover_image_main_template' ); ?>

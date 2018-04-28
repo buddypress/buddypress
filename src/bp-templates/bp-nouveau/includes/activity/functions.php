@@ -89,7 +89,7 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	}
 
 	/**
-	 * Filter to include specific Action buttons.
+	 * Filters the included, specific, Action buttons.
 	 *
 	 * @since 3.0.0
 	 *
@@ -144,6 +144,13 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 			);
 		}
 
+		/**
+		 * Filters the activity objects to apply for localized javascript data.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $activity_objects Array of activity objects.
+		 */
 		$activity_params['objects'] = apply_filters( 'bp_nouveau_activity_objects', $activity_objects );
 	}
 
@@ -275,6 +282,8 @@ function bp_nouveau_get_activity_directory_nav_items() {
 	}
 
 	/**
+	 * Filters the activity directory navigation items.
+	 *
 	 * Use this filter to introduce your custom nav items for the activity directory.
 	 *
 	 * @since 3.0.0
@@ -417,6 +426,16 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 		}
 
 		// Leave other components do their specific stuff if needed.
+		/**
+		 * Filters the classes to be applied to the newest activity item.
+		 *
+		 * Leave other components do their specific stuff if needed.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array  $my_classes Array of classes to output to class attribute.
+		 * @param string $scope      Current scope for the activity type.
+		 */
 		$my_classes = (array) apply_filters( 'bp_nouveau_activity_scope_newest_class', $my_classes, $scope );
 
 		if ( ! empty( $my_classes ) ) {
@@ -443,11 +462,11 @@ function bp_nouveau_activity_widget_query() {
 	}
 
 	/**
-	 * Filter to edit the activity widget arguments
+	 * Filter to edit the activity widget arguments.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  array $args The activity arguments.
+	 * @param array $args The activity arguments.
 	 */
 	return apply_filters( 'bp_nouveau_activity_widget_query', $args );
 }

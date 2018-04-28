@@ -364,6 +364,16 @@ function bp_nouveau_get_message_date( $date ) {
 		$date_format = 'M j';
 	}
 
+	/**
+	 * Filters the message date for BuddyPress Nouveau display.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $value           Internationalization-ready formatted date value.
+	 * @param mixed  $calculated_time Calculated time.
+	 * @param string $date            Date value.
+	 * @param string $date_format     Format to convert the calcuated date to.
+	 */
 	return apply_filters( 'bp_nouveau_get_message_date', date_i18n( $date_format, $calculated_time, true ), $calculated_time, $date, $date_format );
 }
 

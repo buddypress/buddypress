@@ -67,6 +67,14 @@ function bp_nouveau_ajax_messages_send_message() {
 	}
 
 	// Trim @ from usernames
+	/**
+	 * Filters the results of trimming of `@` characters from usernames for who is set to receive a message.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $value Array of trimmed usernames.
+	 * @param array $value Array of un-trimmed usernames submitted.
+	 */
 	$recipients = apply_filters( 'bp_messages_recipients', array_map( function( $username ) {
 		return trim( $username, '@' );
 	}, $_POST['send_to'] ) );

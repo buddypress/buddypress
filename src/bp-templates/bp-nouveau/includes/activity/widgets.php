@@ -20,6 +20,14 @@ class BP_Latest_Activities extends WP_Widget {
 	 * @since 3.0.0
 	 */
 	public function __construct() {
+
+		/**
+		 * Filters the widget options for the BP_Latest_Activities widget.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $value Array of widget options.
+		 */
 		$widget_ops = apply_filters(
 			'bp_latest_activities', array(
 				'classname'                   => 'bp-latest-activities buddypress',
@@ -60,7 +68,15 @@ class BP_Latest_Activities extends WP_Widget {
 			$title = $instance['title'];
 		}
 
-		// Allow title to be filtered
+		/**
+		 * Filters the BP_Latest_Activities widget title.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $title    The widget title.
+		 * @param array  $instance The settings for the particular instance of the widget.
+		 * @param string $id_base  Root ID for all widgets of this type.
+		 */
 		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
 
 		// Check instance for custom max number of activities to display

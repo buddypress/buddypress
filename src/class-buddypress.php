@@ -399,7 +399,23 @@ class BuddyPress {
 		$this->displayed_user = new stdClass();
 
 		/** Post types and taxonomies *****************************************/
+
+		/**
+		 * Filters the post type slug for the email component.
+		 *
+		 * since 2.5.0
+		 *
+		 * @param string $value Email post type slug.
+		 */
 		$this->email_post_type     = apply_filters( 'bp_email_post_type', 'bp-email' );
+
+		/**
+		 * Filters the taxonomy slug for the email type component.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param string $value Email type taxonomy slug.
+		 */
 		$this->email_taxonomy_type = apply_filters( 'bp_email_tax_type', 'bp-email-type' );
 	}
 

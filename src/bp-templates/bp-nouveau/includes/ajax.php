@@ -75,6 +75,14 @@ function bp_nouveau_ajax_object_template_loader() {
 				break;
 		}
 
+		/**
+		 * Filters the browser URL for the template loader.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $feed_url Template feed url.
+		 * @param string $scope    Current component scope.
+		 */
 		$result['feed_url'] = apply_filters( 'bp_nouveau_ajax_object_template_loader', $feed_url, $scope );
 	}
 
@@ -113,6 +121,14 @@ function bp_nouveau_ajax_object_template_loader() {
 	ob_start();
 
 	$template_path = bp_locate_template( array( $template_part ), false );
+
+	/**
+	 * Filters the server path for the template loader.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string Template file path.
+	 */
 	$template_path = apply_filters( 'bp_nouveau_object_template_path', $template_path );
 
 	load_template( $template_path );

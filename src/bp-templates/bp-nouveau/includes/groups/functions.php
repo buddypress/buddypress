@@ -207,6 +207,14 @@ function bp_nouveau_prepare_group_potential_invites_for_js( $user ) {
 		}
 	}
 
+	/**
+	 * Filters the response value for potential group invite data for use with javascript.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array   $response Array of invite data.
+	 * @param WP_User $user User object.
+	 */
 	return apply_filters( 'bp_nouveau_prepare_group_potential_invites_for_js', $response, $user );
 }
 
@@ -600,7 +608,7 @@ function bp_nouveau_get_hooked_group_meta() {
 	/**
 	 * Fires after inside the group header item meta section.
 	 *
-	 * @since 1.2.0 (BuddyPress)
+	 * @since 1.2.0
 	 */
 	do_action( 'bp_group_header_meta' );
 
@@ -842,6 +850,13 @@ function bp_nouveau_group_reset_front_template( $templates = array(), $group = n
 		array_push( $templates, 'groups/single/default-front.php' );
 	}
 
+	/**
+	 * Filters the BuddyPress Nouveau template hierarchy after resetting front template for groups.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $templates Array of templates.
+	 */
 	return apply_filters( '_bp_nouveau_group_reset_front_template', $templates );
 }
 
@@ -895,6 +910,13 @@ function bp_nouveau_group_locate_template_part( $template = '' ) {
 		$templates[] = sprintf( $part, $template );
 	}
 
+	/**
+	 * Filters the found template parts for the group template part locating functionality.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $templates Array of found templates.
+	 */
 	return bp_locate_template( apply_filters( 'bp_nouveau_group_locate_template_part', $templates ), false, true );
 }
 
@@ -915,7 +937,11 @@ function bp_nouveau_group_get_template_part( $template = '' ) {
 		$name = null;
 
 		/**
-		 * Let plugins adding an action to bp_get_template_part get it from here
+		 * Let plugins adding an action to bp_get_template_part get it from here.
+		 *
+		 * This is a variable hook that is dependent on the template part slug.
+		 *
+		 * @since 3.0.0
 		 *
 		 * @param string $slug Template part slug requested.
 		 * @param string $name Template part name requested.
@@ -1001,6 +1027,11 @@ function bp_nouveau_groups_add_home_widget_filters() {
 	add_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_group_groups_widget_overrides', 10, 1 );
 	add_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_group_members_widget_overrides', 10, 1 );
 
+	/**
+	 * Fires after BuddyPress Nouveau groups have added their home widget filters.
+	 *
+	 * @since 3.0.0
+	 */
 	do_action( 'bp_nouveau_groups_add_home_widget_filters' );
 }
 
@@ -1014,6 +1045,11 @@ function bp_nouveau_groups_remove_home_widget_filters() {
 	remove_filter( 'bp_before_has_groups_parse_args', 'bp_nouveau_group_groups_widget_overrides', 10, 1 );
 	remove_filter( 'bp_before_has_members_parse_args', 'bp_nouveau_group_members_widget_overrides', 10, 1 );
 
+	/**
+	 * Fires after BuddyPress Nouveau groups have removed their home widget filters.
+	 *
+	 * @since 3.0.0
+	 */
 	do_action( 'bp_nouveau_groups_remove_home_widget_filters' );
 }
 
