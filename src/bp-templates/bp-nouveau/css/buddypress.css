@@ -4309,7 +4309,8 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .buddypress-wrap .bp-feedback.error .bp-icon,
 .buddypress-wrap .bp-feedback.warning .bp-icon,
 .buddypress-wrap .bp-feedback.loading .bp-icon,
-.buddypress-wrap .bp-feedback.success .bp-icon {
+.buddypress-wrap .bp-feedback.success .bp-icon,
+.buddypress-wrap .bp-feedback.updated .bp-icon {
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: -webkit-flex;
@@ -4348,11 +4349,13 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	content: "\f469";
 }
 
-.buddypress-wrap .bp-feedback.success .bp-icon {
+.buddypress-wrap .bp-feedback.success .bp-icon,
+.buddypress-wrap .bp-feedback.updated .bp-icon {
 	background-color: #8a2;
 }
 
-.buddypress-wrap .bp-feedback.success .bp-icon:before {
+.buddypress-wrap .bp-feedback.success .bp-icon:before,
+.buddypress-wrap .bp-feedback.updated .bp-icon:before {
 	content: "\f147";
 }
 

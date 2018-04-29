@@ -167,7 +167,8 @@
 	.bp-feedback.error,
 	.bp-feedback.warning,
 	.bp-feedback.loading,
-	.bp-feedback.success {
+	.bp-feedback.success,
+	.bp-feedback.updated {
 
 		.bp-icon {
 
@@ -210,7 +211,8 @@
 		}
 	}
 
-	.bp-feedback.success {
+	.bp-feedback.success,
+	.bp-feedback.updated {
 
 		.bp-icon {
 			background-color: $update-success;
