@@ -255,8 +255,8 @@ window.bp = window.bp || {};
 			$( '#buddypress [data-bp-filter="' + data.object + '"] option[value="' + data.filter + '"]' ).prop( 'selected', true );
 
 			if ( 'friends' === data.object || 'group_members' === data.object ) {
-				data.object = 'members';
 				data.template = data.object;
+				data.object   = 'members';
 			} else if ( 'group_requests' === data.object ) {
 				data.object = 'groups';
 				data.template = 'group_requests';
