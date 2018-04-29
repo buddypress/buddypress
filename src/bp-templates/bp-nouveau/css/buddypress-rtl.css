@@ -1115,6 +1115,7 @@ body.buddypress article.page > .entry-header .entry-title {
 }
 
 .activity-update-form #whats-new-avatar img {
+	box-shadow: none;
 	display: inline-block;
 }
 
@@ -1207,12 +1208,12 @@ body.buddypress article.page > .entry-header .entry-title {
 	.activity-update-form #whats-new-avatar {
 		display: block;
 		float: right;
-		margin: 0 0 0 10px;
+		margin: 0;
 	}
 	.activity-update-form #whats-new-content,
 	.activity-update-form #whats-new-post-in-box,
 	.activity-update-form #whats-new-submit {
-		margin-right: 12%;
+		margin-right: 8.5%;
 	}
 	.activity-update-form #whats-new-submit input {
 		margin-bottom: 0;
@@ -4055,6 +4056,11 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .buddypress #buddypress .create-button {
 	background: none;
 	text-align: center;
+}
+
+.buddypress #buddypress .create-button a:focus,
+.buddypress #buddypress .create-button a:hover {
+	text-decoration: underline;
 }
 
 @media screen and (min-width: 46.8em) {

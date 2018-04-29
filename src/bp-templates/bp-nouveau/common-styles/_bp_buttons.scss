@@ -231,6 +231,11 @@
 		.create-button { // the parent, i.e li element.
 			background: none;
 
+			a:focus,
+			a:hover {
+				text-decoration: underline;
+			}
+
 			@include medium-up {
 				float: right;
 			}

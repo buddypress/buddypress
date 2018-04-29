@@ -27,6 +27,7 @@
 		text-align: center;
 
 		img {
+			box-shadow: none;
 			display: inline-block;
 		}
 	}
@@ -125,13 +126,14 @@
 		#whats-new-avatar {
 			display: block;
 			float: left;
-			margin: 0 $marg-sml 0 0;
+			margin: 0;
 		}
 
 		#whats-new-content,
 		#whats-new-post-in-box,
 		#whats-new-submit {
-			margin-left: 12%;
+			margin-left: 8.5%;
+
 		}
 
 		#whats-new-submit {
