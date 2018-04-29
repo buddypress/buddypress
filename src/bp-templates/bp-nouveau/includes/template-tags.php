@@ -1749,6 +1749,30 @@ function bp_nouveau_search_container_class() {
 }
 
 /**
+ * Output the search form data-bp attribute.
+ *
+ * @since 3.0.0
+ *
+ * @param  string $attr The data-bp attribute.
+ * @return string The data-bp attribute.
+ */
+function bp_nouveau_search_object_data_attr( $attr = '' ) {
+	$objects = bp_nouveau_get_search_objects();
+
+	if ( ! isset( $objects['secondary'] ) ) {
+		return $attr;
+	}
+
+	if ( bp_is_active( 'groups' ) && bp_is_group_members() ) {
+		$attr = join( '_', $objects );
+	} else {
+		$attr = $objects['secondary'];
+	}
+
+	echo esc_attr( $attr );
+}
+
+/**
  * Output a selector ID.
  *
  * @since 3.0.0
