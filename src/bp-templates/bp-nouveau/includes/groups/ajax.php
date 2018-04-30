@@ -281,12 +281,12 @@ function bp_nouveau_ajax_get_users_to_invite() {
 	) );
 
 	$bp->groups->invites_scope = 'members';
-	$message = bp_nouveau_message_markup_wrapper( __( 'You can invite members using the + button, a new nav will appear to let you send your invites', 'buddypress' ), 'info' );
+	$message = bp_nouveau_message_markup_wrapper( __( 'Select members to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" nav item to continue.', 'buddypress' ), 'info' );
 
 	if ( 'friends' === $request['scope'] ) {
 		$request['user_id'] = bp_loggedin_user_id();
 		$bp->groups->invites_scope = 'friends';
-		$message = bp_nouveau_message_markup_wrapper( __( 'You can invite friends using the + button, a new nav will appear to let you send your invites', 'buddypress' ), 'info' );
+		$message = bp_nouveau_message_markup_wrapper( __( 'Select friends to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" nav item to continue.', 'buddypress' ), 'info' );
 	}
 
 	if ( 'invited' === $request['scope'] ) {
@@ -307,13 +307,13 @@ function bp_nouveau_ajax_get_users_to_invite() {
 
 	if ( empty( $potential_invites->users ) ) {
 		$error = array(
-			'feedback' => bp_nouveau_message_markup_wrapper( __( 'No members were found, try another filter.', 'buddypress' ), 'info' ),
+			'feedback' => bp_nouveau_message_markup_wrapper( __( 'No members were found. Try another filter.', 'buddypress' ), 'info' ),
 			'type'     => 'info',
 		);
 
 		if ( 'friends' === $bp->groups->invites_scope ) {
 			$error = array(
-				'feedback' => bp_nouveau_message_markup_wrapper( __( 'All your friends are already members of this group or already received an invite to join this group or requested to join it.', 'buddypress' ), 'info' ),
+				'feedback' => bp_nouveau_message_markup_wrapper( __( 'All your friends are already members of this group, or have already received an invite to join this group, or have requested to join it.', 'buddypress' ), 'info' ),
 				'type'     => 'info',
 			);
 
@@ -348,14 +348,14 @@ function bp_nouveau_ajax_send_group_invites() {
 	$bp = buddypress();
 
 	$response = array(
-		'feedback' => bp_nouveau_message_markup_wrapper( __( 'Invites could not be sent, please try again.', 'buddypress' ), 'error' ),
+		'feedback' => bp_nouveau_message_markup_wrapper( __( 'Invites could not be sent. Please try again.', 'buddypress' ), 'error' ),
 	);
 
 	// Verify nonce
 	if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'groups_send_invites' ) ) {
 		wp_send_json_error(
 			array(
-				'feedback' => bp_nouveau_message_markup_wrapper( __( 'Invites could not be sent, please try again.', 'buddypress' ), 'error' ),
+				'feedback' => bp_nouveau_message_markup_wrapper( __( 'Invites could not be sent. Please try again.', 'buddypress' ), 'error' ),
 				'type'     => 'error',
 			)
 		);
@@ -437,7 +437,7 @@ function bp_nouveau_ajax_remove_group_invite() {
 	if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'groups_invite_uninvite_user' ) ) {
 		wp_send_json_error(
 			array(
-				'feedback' => bp_nouveau_message_markup_wrapper( __( 'Invites could not be removed, please try again.', 'buddypress' ), 'error' ),
+				'feedback' => bp_nouveau_message_markup_wrapper( __( 'Invites could not be removed. Please try again.', 'buddypress' ), 'error' ),
 			)
 		);
 	}
@@ -445,7 +445,7 @@ function bp_nouveau_ajax_remove_group_invite() {
 	if ( BP_Groups_Member::check_for_membership_request( $user_id, $group_id ) ) {
 		wp_send_json_error(
 			array(
-				'feedback' => bp_nouveau_message_markup_wrapper( __( 'Too late, the user is now a member of the group.', 'buddypress' ), 'warning' ),
+				'feedback' => bp_nouveau_message_markup_wrapper( __( 'Too late! The user is already a member of the group.', 'buddypress' ), 'warning' ),
 				'code'     => 1,
 			)
 		);
@@ -455,7 +455,7 @@ function bp_nouveau_ajax_remove_group_invite() {
 	if ( ! groups_uninvite_user( $user_id, $group_id ) ) {
 		wp_send_json_error(
 			array(
-				'feedback' => bp_nouveau_message_markup_wrapper( __( 'Removing the invite for the user failed.', 'buddypress' ), 'error' ),
+				'feedback' => bp_nouveau_message_markup_wrapper( __( 'Invite could not be removed successfully.', 'buddypress' ), 'error' ),
 				'code'     => 0,
 			)
 		);
