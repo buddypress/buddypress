@@ -10,7 +10,7 @@
 
 bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 
-<li class="<?php bp_activity_css_class(); ?>" id="activity-<?php bp_activity_id(); ?>" data-bp-activity-id="<?php bp_activity_id(); ?>">
+<li class="<?php bp_activity_css_class(); ?>" id="activity-<?php bp_activity_id(); ?>" data-bp-activity-id="<?php bp_activity_id(); ?>" data-bp-timestamp="<?php bp_nouveau_activity_timestamp(); ?>">
 
 	<div class="activity-avatar item-avatar">
 

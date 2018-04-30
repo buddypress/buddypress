@@ -181,6 +181,33 @@ function bp_nouveau_activity_content() {
 }
 
 /**
+ * Output the Activity timestamp into the bp-timestamp attribute.
+ *
+ * @since 3.0.0
+ */
+function bp_nouveau_activity_timestamp() {
+	echo esc_attr( bp_nouveau_get_activity_timestamp() );
+}
+
+	/**
+	 * Get the Activity timestamp.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return integer The Activity timestamp.
+	 */
+	function bp_nouveau_get_activity_timestamp() {
+		/**
+		 * Filter here to edit the activity timestamp.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param integer $value The Activity timestamp.
+		 */
+		return apply_filters( 'bp_nouveau_get_activity_timestamp', strtotime( bp_get_activity_date_recorded() ) );
+	}
+
+/**
  * Output the action buttons inside an Activity Loop.
  *
  * @since 3.0.0

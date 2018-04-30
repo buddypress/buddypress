@@ -82,7 +82,7 @@ window.bp = window.bp || {};
 		 * @return {[type]}       [description]
 		 */
 		heartbeatSend: function( event, data ) {
-			this.heartbeat_data.first_recorded = $( '#buddypress [data-bp-list] [data-bp-activity-id] time' ).first().data( 'bp-timestamp' ) || 0;
+			this.heartbeat_data.first_recorded = $( '#buddypress [data-bp-list] [data-bp-activity-id]' ).first().data( 'bp-timestamp' ) || 0;
 
 			if ( 0 === this.heartbeat_data.last_recorded || this.heartbeat_data.first_recorded > this.heartbeat_data.last_recorded ) {
 				this.heartbeat_data.last_recorded = this.heartbeat_data.first_recorded;
@@ -587,7 +587,7 @@ window.bp = window.bp || {};
 						} );
 
 						// reset vars to get newest activities when an activity is deleted
-						if ( ! activity_comment_id && activity_item.find( 'time' ).first().data( 'bp-timestamp' ) === parent.Activity.heartbeat_data.last_recorded ) {
+						if ( ! activity_comment_id && activity_item.data( 'bp-timestamp' ) === parent.Activity.heartbeat_data.last_recorded ) {
 							parent.Activity.heartbeat_data.newest        = '';
 							parent.Activity.heartbeat_data.last_recorded  = 0;
 						}
