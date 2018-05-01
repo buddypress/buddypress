@@ -384,6 +384,9 @@ window.bp = window.bp || {};
 			// Make sure to only keep 5 root comments
 			this.hideComments( event );
 
+			// Reset the pagination for the scope.
+			this.current_page = 1;
+
 			// Mentions are specific
 			if ( 'mentions' === data.scope && undefined !== data.response.new_mentions ) {
 				$.each( data.response.new_mentions, function( i, id ) {
