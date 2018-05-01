@@ -1,5 +1,5 @@
 === BuddyPress ===
-Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, tw2113, netweb, offereins, espellcaste, modemlooper, danbp, Venutius
+Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
 Tags: social networking, activity, profiles, messaging, friends, groups, notifications, settings, social, community, networking
 Requires at least: 4.5
 Tested up to: 4.9.5
@@ -96,7 +96,7 @@ Check out the development trunk of BuddyPress from Subversion at <a href="https:
 
 = Who builds BuddyPress? =
 
-BuddyPress is free software, built by an international community of volunteers. Some contributors to BuddyPress are employed by companies that use BuddyPress, while others are consultants who offer BuddyPress-related services for hire. No one is paid by the BuddyPress project for his or her contributions. If you would like to provide monetary support to BuddyPress, please consider a donation to the <a href="http://wordpressfoundation.org">WordPress Foundation</a>, or ask your favorite contributor how they prefer to have their efforts rewarded.
+BuddyPress is free software, built by an international community of volunteers. Some contributors to BuddyPress are employed by companies that use BuddyPress, while others are consultants who offer BuddyPress-related services for hire. No one is paid by the BuddyPress project for his or her contributions. If you would like to provide monetary support to BuddyPress, please consider a donation to the <a href="https://wordpressfoundation.org">WordPress Foundation</a>, or ask your favorite contributor how they prefer to have their efforts rewarded.
 
 == Screenshots ==
 
@@ -117,10 +117,10 @@ Please consider helping translate BuddyPress at our <a href="https://translate.w
 
 == Upgrade Notice ==
 
-= 2.9.4 =
-See: https://codex.buddypress.org/releases/version-2-9-4/
+= 3.0.0 =
+See: https://codex.buddypress.org/releases/version-3-0-0/
 
 == Changelog ==
 
-= 2.9.4 =
-See: https://codex.buddypress.org/releases/version-2-9-4/
+= 3.0.0 =
+See: https://codex.buddypress.org/releases/version-3-0-0/
