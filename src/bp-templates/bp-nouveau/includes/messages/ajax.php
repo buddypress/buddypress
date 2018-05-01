@@ -472,8 +472,14 @@ function bp_nouveau_ajax_star_thread_messages() {
 
 	$action = str_replace( 'messages_', '', $_POST['action'] );
 
+	if ( 'star' === $action ) {
+		$error_message = __( 'There was a problem starring your message(s). Please try again.', 'buddypress' );
+	} else {
+		$error_message = __( 'There was a problem unstarring your message(s). Please try agian.', 'buddypress' );
+	}
+
 	$response = array(
-		'feedback' => '<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>' . sprintf( __( 'There was a problem marking your message(s) as %s. Please try again.', 'buddypress' ), $action ) . '</p></div>',
+		'feedback' => '<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>' . esc_html( $error_message ) . '</p></div>',
 		'type'     => 'error',
 	);
 
@@ -542,8 +548,14 @@ function bp_nouveau_ajax_star_thread_messages() {
 		);
 	}
 
+	if ( 'star' === $action ) {
+		$success_message = __( 'Message(s) successfully starred.', 'buddypress' );
+	} else {
+		$success_message = __( 'Message(s) successfully unstarred.', 'buddypress' );
+	}
+
 	wp_send_json_success( array(
-		'feedback' => '<div class="bp-feedback info"><span class="bp-icon" aria-hidden="true"></span><p>' . sprintf( __( 'Message(s) mark as %s', 'buddypress' ), $action ) . '</p></div>',
+		'feedback' => '<div class="bp-feedback info"><span class="bp-icon" aria-hidden="true"></span><p>' . esc_html( $success_message ) . '</p></div>',
 		'type'     => 'success',
 		'messages' => $messages,
 	) );
