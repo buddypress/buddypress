@@ -589,6 +589,17 @@ class BP_Admin {
 				</p>
 				<img srcset="https://via.placeholder.com/1024x576 1024w, https://via.placeholder.com/2048x1152 2048w" src="https://placekitten.com/1024x576" sizes="(max-width: 1023px) 90vw, 65vw" alt="a rad wolf" />
 
+
+				<h2><?php esc_html_e( __( 'Support for WP-CLI', 'buddypress' ) ); ?></h2>
+				<p>
+					<?php
+					printf(
+						__( '<a href="%s">WP-CLI</a> is the command-line interface for WordPress. You can update plugins, configure multisite installs, and much more, without using a web browser. With this version of BuddyPress, you can now manage your BuddyPress content from WP-CLI.', 'buddypress' ),
+						esc_url( 'https://wp-cli.org' )
+					);
+					?>
+				</p>
+
 				<h2><?php esc_html_e( _x( 'Control site-wide notices from your dashboard', 'section heading', 'buddypress' ) ); ?></h2>
 				<p><?php esc_html_e( 'Site Notices are a feature within the Private Messaging component that allows community managers to share important messages with all members of their community. With Nouveau, the management interface for Site Notices has been removed from the front-end theme templates.', 'buddypress' ); ?></p>
 
