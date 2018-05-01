@@ -550,7 +550,7 @@ function bp_nouveau_ajax_post_update() {
 
 	wp_send_json_success( array(
 		'id'           => $activity_id,
-		'message'      => sprintf( __( 'Update posted <a href="%s" class="just-posted">View activity</a>', 'buddypress' ), esc_url( bp_activity_get_permalink( $activity_id ) ) ),
+		'message'      => esc_html__( 'Update posted.', 'buddypress' ) . ' ' . sprintf( '<a href="%s" class="just-posted">%s</a>', esc_url( bp_activity_get_permalink( $activity_id ) ), esc_html__( 'View activity.', 'buddypress' ) ),
 		'activity'     => $acivity,
 
 		/**
