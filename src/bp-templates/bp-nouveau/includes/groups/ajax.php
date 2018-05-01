@@ -410,9 +410,12 @@ function bp_nouveau_ajax_send_group_invites() {
 	if ( array_search( false, $invited ) ) {
 		$errors = array_keys( $invited, false );
 
+		$error_count   = count( $errors );
+		$error_message = sprintf( _n( 'Invites failed for %s user.', 'Invites failed for %s users.', $error_count, 'buddypress' ), number_format_i18n( $error_count ) );
+
 		wp_send_json_error(
 			array(
-				'feedback' => bp_nouveau_message_markup_wrapper( sprintf( __( 'Invites failed for %d user(s).', 'buddypress' ), count( $errors ) ), 'error' ),
+				'feedback' => bp_nouveau_message_markup_wrapper( esc_html( $error_message ), 'error' ),
 				'users'    => $errors,
 				'type'     => 'error',
 			)
