@@ -2042,9 +2042,10 @@ function bp_nouveau_filter_label() {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param string $label Label for BuddyPress Nouveau filter.
+		 * @param string $label     Label for BuddyPress Nouveau filter.
+		 * @param array  $component The data filter's data-bp-filter attribute value.
 		 */
-		return apply_filters( 'bp_nouveau_get_filter_label', $label );
+		return apply_filters( 'bp_nouveau_get_filter_label', $label, $component );
 	}
 
 /**
