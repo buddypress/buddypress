@@ -6,7 +6,7 @@
  */
 ?>
 <h2 class="bp-screen-title <?php if ( bp_is_group_create() ) { echo esc_attr( 'creation-step-name' ); } ?>">
-	<?php _e( 'Edit your groups name &amp; description', 'buddypress' ); ?>
+	<?php esc_html_e( 'Edit your group\'s name &amp; description', 'buddypress' ); ?>
 </h2>
 
 <label for="group-name"><?php _e( 'Group Name (required)', 'buddypress' ); ?></label>
