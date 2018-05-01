@@ -39,7 +39,7 @@ add_action( 'admin_init', function() {
  */
 function bp_nouveau_ajax_messages_send_message() {
 	$response = array(
-		'feedback' => __( 'Your message could not be sent, please try again.', 'buddypress' ),
+		'feedback' => __( 'Your message could not be sent. Please try again.', 'buddypress' ),
 		'type'     => 'error',
 	);
 
