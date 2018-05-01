@@ -296,7 +296,8 @@ window.bp = window.bp || {};
 					search_terms        : search_terms,
 					page                : next_page,
 					method              : 'append',
-					exclude_just_posted : this.just_posted.join( ',' )
+					exclude_just_posted : this.just_posted.join( ',' ),
+					target              : '#buddypress [data-bp-list] ul.bp-list'
 				} ).done( function( response ) {
 					if ( true === response.success ) {
 						$( event.currentTarget ).remove();

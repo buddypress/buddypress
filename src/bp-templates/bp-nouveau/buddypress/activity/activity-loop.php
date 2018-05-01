@@ -7,7 +7,9 @@ bp_nouveau_before_loop(); ?>
 
 <?php if ( bp_has_activities( bp_ajax_querystring( 'activity' ) ) ) : ?>
 
-	<ul class="activity-list item-list bp-list" >
+	<?php if ( empty( $_POST['page'] ) || 1 === (int) $_POST['page'] ) : ?>
+		<ul class="activity-list item-list bp-list">
+	<?php endif; ?>
 
 	<?php
 	while ( bp_activities() ) :
@@ -26,7 +28,9 @@ bp_nouveau_before_loop(); ?>
 
 	<?php endif; ?>
 
-	</ul>
+	<?php if ( empty( $_POST['page'] ) || 1 === (int) $_POST['page'] ) : ?>
+		</ul>
+	<?php endif; ?>
 
 <?php else : ?>
 
