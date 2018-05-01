@@ -465,7 +465,7 @@ window.bp = window.bp || {};
 			if ( $( this.el ).find( 'span' ).length ) {
 				$( this.el ).find( 'span' ).html( span_count );
 			} else {
-				$( this.el ).find( 'a' ).append( $( '<span></span>' ).html( span_count ) );
+				$( this.el ).find( 'a' ).append( $( '<span class="count"></span>' ).html( span_count ) );
 			}
 		},
 
