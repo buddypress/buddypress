@@ -91,14 +91,14 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 
 	$params['messages'] = array(
 		'errors' => array(
-			'send_to'         => __( 'Please add at least a user to send the message to, using their @username.', 'buddypress' ),
+			'send_to'         => __( 'Please add at least one recipient.', 'buddypress' ),
 			'subject'         => __( 'Please add a subject to your message.', 'buddypress' ),
 			'message_content' => __( 'Please add some content to your message.', 'buddypress' ),
 		),
 		'nonces' => array(
 			'send' => wp_create_nonce( 'messages_send_message' ),
 		),
-		'loading' => '<div class="bp-feedback info"><span class="bp-icon"></span><p>' . __( 'Loading messages, please wait.', 'buddypress' ) . '</p></div>',
+		'loading' => '<div class="bp-feedback info"><span class="bp-icon"></span><p>' . __( 'Loading messages. Please wait.', 'buddypress' ) . '</p></div>',
 		'bulk_actions' => bp_nouveau_messages_get_bulk_actions(),
 	);
 
@@ -246,7 +246,7 @@ function bp_nouveau_format_notice_notification_for_user( $array ) {
 	}
 
 	return array(
-		'text' => esc_html__( 'New site wide notice', 'buddypress' ),
+		'text' => esc_html__( 'New sitewide notice', 'buddypress' ),
 		'link' => bp_loggedin_user_domain(),
 	);
 }
