@@ -402,7 +402,11 @@ window.bp = window.bp || {};
 
 			// Reset the newest activities now they're displayed
 			this.heartbeat_data.newest = '';
-			$( bp.Nouveau.objectNavParent + ' [data-bp-scope="all"]' ).find( 'a span' ).html( '' );
+			$.each( $( bp.Nouveau.objectNavParent + ' [data-bp-scope]' ).find( 'a span' ), function( s, count ) {
+				if ( 0 === parseInt( $( count ).html(), 10 ) ) {
+					$( count ).html( '' );
+				}
+			} );
 
 			// Activities are now loaded, clear the highlighted activities for the scope
 			if ( undefined !== this.heartbeat_data.highlights[ data.scope ] ) {
