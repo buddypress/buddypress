@@ -103,20 +103,22 @@
 					<span id="button-text" class="bp-screen-reader-text"><?php esc_html_e( 'Search', 'buddypress' ); ?></span>
 				</button>
 			</form>
-			</div>
+		</div>
 	</div>
 </script>
 
 <script type="text/html" id="tmpl-bp-invites-paginate">
 	<# if ( 1 !== data.page ) { #>
-		<button type="button" id="bp-invites-prev-page" class="button invite-button">
-			<span class="bp-screen-reader-text"><?php esc_html_e( 'Previous', 'buddypress' ); ?></span>
-		</button>
+		<a href="#previous-page" id="bp-invites-prev-page" class="button invite-button bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Previous page', 'buddypress' ); ?>">
+			<span class="dashicons dashicons-arrow-left" aria-hidden="true"></span>
+			<span class="bp-screen-reader-text"><?php esc_html_e( 'Previous page', 'buddypress' ); ?></span>
+		</a>
 	<# } #>
 
 	<# if ( data.total_page !== data.page ) { #>
-		<button type="button" id="bp-invites-next-page" class="button invite-button">
-			<span class="bp-screen-reader-text"><?php esc_html_e( 'Next', 'buddypress' ); ?></span>
+		<a href="#next-page" id="bp-invites-next-page" class="button invite-button bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Next page', 'buddypress' ); ?>">
+			<span class="bp-screen-reader-text"><?php esc_html_e( 'Next page', 'buddypress' ); ?></span>
+			<span class="dashicons dashicons-arrow-right" aria-hidden="true"></span>
 		</button>
 	<# } #>
 </script>

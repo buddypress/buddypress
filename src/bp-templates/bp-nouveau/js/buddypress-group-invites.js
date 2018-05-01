@@ -479,7 +479,7 @@ window.bp = window.bp || {};
 	} );
 
 	bp.Views.Pagination = bp.Nouveau.GroupInvites.View.extend( {
-		tagName   : 'li',
+		tagName   : 'div',
 		className : 'last',
 		template  :  bp.template( 'bp-invites-paginate' )
 	} );
@@ -504,6 +504,10 @@ window.bp = window.bp || {};
 			_.each( this.views._views[''], function( view ) {
 				view.remove();
 			} );
+
+			if ( 1 === collection.options.total_page ) {
+				return;
+			}
 
 			this.views.add( new bp.Views.Pagination( { model: new Backbone.Model( collection.options ) } ) );
 		},
