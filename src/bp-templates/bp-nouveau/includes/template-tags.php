@@ -1915,7 +1915,11 @@ function bp_nouveau_current_object() {
 		$component['members_select']   = 'groups_members-order-select';
 		$component['members_order_by'] = 'groups_members-order-by';
 		$component['object']           = bp_current_action();
-		$component['data_filter']      = 'group_' . bp_current_action();
+		$component['data_filter']      = bp_current_action();
+
+		if ( 'activity' !== bp_current_action() ) {
+			$component['data_filter'] = 'group_' . bp_current_action();
+		}
 
 	} else {
 		$component['members_select']   = 'members-order-select';
