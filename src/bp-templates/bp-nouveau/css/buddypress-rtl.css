@@ -3048,13 +3048,13 @@ body.register .buddypress-wrap .page ul {
 	max-width: 30%;
 }
 
-.bp-messages-content .actions .bp-icons {
+.bp-messages-content .actions .bp-icons:not(.bp-hide) {
 	display: inline-block;
 	margin: 0;
 	padding: 0.3em 0.5em;
 }
 
-.bp-messages-content .actions .bp-icons:before {
+.bp-messages-content .actions .bp-icons:not(.bp-hide):before {
 	font-size: 26px;
 }
 
@@ -3097,8 +3097,9 @@ body.register .buddypress-wrap .page ul {
 	-webkit-box-shadow: 2px 1px 9px 0 #eee;
 	-moz-box-shadow: 2px 1px 9px 0 #eee;
 	box-shadow: 2px 1px 9px 0 #eee;
-	overflow: hidden;
+	display: table;
 	padding: 0.2em;
+	width: 100%;
 }
 
 .bp-messages-content #bp-message-thread-list .message-metadata .avatar {
@@ -4751,7 +4752,9 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	transform: translate(0, 0);
 }
 
-.bp-invites-content .bp-tooltip:after {
+.bp-invites-content .bp-tooltip:after,
+.message-metadata .actions .bp-tooltip:after,
+.single-message-thread-header .actions .bp-tooltip:after {
 	right: auto;
 	left: 0;
 	-webkit-transform: translate(0, 0);

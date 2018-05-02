@@ -94,7 +94,9 @@
 
 // Bottom Right Tooltip
 
-.bp-invites-content .bp-tooltip {
+.bp-invites-content .bp-tooltip,
+.message-metadata .actions .bp-tooltip,
+.single-message-thread-header .actions .bp-tooltip {
 
 	@include bp-tooltip-bottom-right;
 }

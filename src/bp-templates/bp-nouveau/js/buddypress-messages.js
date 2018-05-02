@@ -1104,9 +1104,18 @@ window.bp = window.bp || {};
 			}
 
 			if ( 'star' === action || 'unstar' === action ) {
+				var opposite = {
+					'star'  : 'unstar',
+					'unstar' : 'star'
+				};
+
 				options.data = {
 					'star_nonce' : this.model.get( 'star_nonce' )
 				};
+
+				$( event.currentTarget ).addClass( 'bp-hide' );
+				$( event.currentTarget ).parent().find( '[data-bp-action="' + opposite[ action ] + '"]' ).removeClass( 'bp-hide' );
+
 			}
 
 			bp.Nouveau.Messages.threads.doAction( action, this.model.get( 'id' ), options ).done( function( response ) {

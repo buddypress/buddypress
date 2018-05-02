@@ -9,8 +9,9 @@
  */
 ?>
 <div class="subnav-filters filters user-subnav bp-messages-filters" id="subsubnav"></div>
-<div class="bp-messages-content"></div>
+
 <div class="bp-messages-feedback"></div>
+<div class="bp-messages-content"></div>
 
 <script type="text/html" id="tmpl-bp-messages-form">
 	<?php bp_nouveau_messages_hook( 'before', 'compose_content' ); ?>
@@ -228,17 +229,13 @@
 		<div class="actions">
 			<# if ( undefined !== data.star_link ) { #>
 
-				<?php $test = 1; ?>
+				<button type="button" class="message-action-unstar bp-tooltip bp-icons <# if ( false === data.is_starred ) { #>bp-hide<# } #>" data-bp-star-link="{{data.star_link}}" data-bp-action="unstar" data-bp-tooltip="<?php esc_attr_e( 'Unstar Message', 'buddypress' ); ?>">
+					<span class="bp-screen-reader-text"><?php esc_html_e( 'Unstar Message', 'buddypress' ); ?></span>
+				</button>
 
-				<# if ( false !== data.is_starred ) { #>
-					<button type="button" class="message-action-unstar bp-tooltip bp-icons" data-bp-star-link="{{data.star_link}}" data-bp-action="unstar" data-bp-tooltip="<?php esc_attr_e( 'Unstar Message', 'buddypress' ); ?>">
-						<span class="bp-screen-reader-text"><?php esc_html_e( 'Unstar Message', 'buddypress' ); ?></span>
-					</button>
-				<# } else { #>
-					<button type="button" class="message-action-star bp-tooltip bp-icons" data-bp-star-link="{{data.star_link}}" data-bp-action="star" data-bp-tooltip="<?php esc_attr_e( 'Star Message', 'buddypress' ); ?>">
-						<span class="bp-screen-reader-text"><?php esc_html_e( 'Star Message', 'buddypress' ); ?></span>
-					</button>
-				<# } #>
+				<button type="button" class="message-action-star bp-tooltip bp-icons <# if ( false !== data.is_starred ) { #>bp-hide<# } #>" data-bp-star-link="{{data.star_link}}" data-bp-action="star" data-bp-tooltip="<?php esc_attr_e( 'Star Message', 'buddypress' ); ?>">
+					<span class="bp-screen-reader-text"><?php esc_html_e( 'Star Message', 'buddypress' ); ?></span>
+				</button>
 
 			<# } #>
 		</div>

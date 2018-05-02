@@ -174,7 +174,7 @@
 		float: right;
 		max-width: 30%;
 
-		.bp-icons {
+		.bp-icons:not(.bp-hide) {
 			display: inline-block;
 			margin: 0;
 			padding: $pad-xsml $pad-sml;
@@ -230,8 +230,9 @@
 			border-bottom: 1px solid $bp-border-dark;
 
 			@include box-shadow(-2px 1px 9px 0 #eee);
-			overflow: hidden;
+			display: table;
 			padding: 0.2em;
+			width: 100%;
 
 			.avatar {
 				width: 30px;
