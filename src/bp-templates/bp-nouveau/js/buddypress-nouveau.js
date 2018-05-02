@@ -205,6 +205,10 @@ window.bp = window.bp || {};
 			} else {
 				$( selector ).html( content );
 			}
+
+			if ( 'undefined' !== typeof bp_mentions || 'undefined' !== typeof bp.mentions ) {
+				$( '.bp-suggestions' ).bp_mentions( bp.mentions.users );
+			}
 		},
 
 		/**
