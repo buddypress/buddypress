@@ -103,8 +103,8 @@ window.bp = window.bp || {};
 				store = {};
 			}
 
-			if ( undefined !== property && store[property] ) {
-				return store[property];
+			if ( undefined !== property ) {
+				return store[property] || false;
 			}
 
 			return store;
