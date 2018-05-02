@@ -191,7 +191,7 @@ window.bp = window.bp || {};
 			/**
 			 * How the content should be injected in the selector
 			 *
-			 * possible methodes are
+			 * possible methods are
 			 * - reset: the selector will be reset with the content
 			 * - append:  the content will be added after selector's content
 			 * - prepend: the content will be added before selector's content
@@ -405,7 +405,7 @@ window.bp = window.bp || {};
 			// Disabled inputs
 			$( '[data-bp-disable-input]' ).on( 'change', this.toggleDisabledInput );
 
-			// HeartBeat Send and Recieve
+			// HeartBeat Send and Receive
 			$( document ).on( 'heartbeat-send.buddypress', this.heartbeatSend );
 			$( document ).on( 'heartbeat-tick.buddypress', this.heartbeatTick );
 
@@ -647,7 +647,7 @@ window.bp = window.bp || {};
 				nonce = self.getLinkParams( target.prop( 'href' ), '_wpnonce' );
 			}
 
-			// Unforunately unlike groups
+			// Unfortunately unlike groups
 			// Friends actions does not match the wpnonce
 			var friends_actions_map = {
 				is_friend         : 'remove_friend',

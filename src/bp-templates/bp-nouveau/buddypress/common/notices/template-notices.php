@@ -1,6 +1,6 @@
 <?php
 /**
- * BP Nouveau temptate notices template.
+ * BP Nouveau template notices template.
  *
  * @since 3.0.0
  */

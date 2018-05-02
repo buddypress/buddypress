@@ -142,7 +142,7 @@
 
 // These two mixins add hide/show properties for clicked/focussed elements.
 // They may be added to existing rulesets or added to a class selector
-// rulesets to use hardoced to template markup.
+// rulesets to use hardcoded to template markup.
 
 // Convenience helper to add hide properties to rulesets
 
@@ -162,7 +162,7 @@
 }
 
 // Box model - defaults to value 'border-box'
-// Vendor prefixes are  pretty much redundent for this property,
+// Vendor prefixes are pretty much redundant for this property,
 // consider removing
 
 @mixin box-model($box-type: null) {
@@ -249,7 +249,7 @@
 
 // Flexbox Mixins
 
-// Set display to box flex & set the direcction and wrapping behavour
+// Set display to box flex & set the direction and wrapping behavior
 // shorthand for flex-direction & flex wrap - default ( row wrap )
 
 @mixin flex-box-dir($flex-dir: "row", $flex-wrap: "nowrap") {
@@ -302,7 +302,7 @@
 // using flexbox. This is a progressive enhancement,
 // it won't work in all browsers, older browser will simply
 // fall back to non centered or using older techniques.
-// N.B It would be prefereable to remove the older property syntax
+// N.B It would be preferable to remove the older property syntax
 
 @mixin center-vert() {
 	display: -webkit-box; // older

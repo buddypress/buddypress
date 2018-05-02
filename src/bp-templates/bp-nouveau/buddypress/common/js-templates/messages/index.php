@@ -33,7 +33,7 @@
 
 <script type="text/html" id="tmpl-bp-messages-editor">
 	<?php
-	// Temporarly filter the editor
+	// Temporarily filter the editor
 	add_filter( 'mce_buttons', 'bp_nouveau_mce_buttons', 10, 1 );
 
 	wp_editor(
@@ -50,7 +50,7 @@
 			'textarea_rows' => 5,
 		)
 	);
-	// Temporarly filter the editor
+	// Temporarily filter the editor
 	remove_filter( 'mce_buttons', 'bp_nouveau_mce_buttons', 10, 1 );
 	?>
 </script>
