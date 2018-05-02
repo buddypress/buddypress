@@ -2641,6 +2641,30 @@ body.no-js .single-item-header .js-self-profile-button {
 	}
 }
 
+@media screen and (min-width: 37.5em) {
+	.buddypress-wrap #group-invites-container {
+		display: -ms-grid;
+		display: grid;
+		-ms-grid-columns: 25% auto;
+		grid-template-columns: 25% auto;
+		grid-template-areas: "group-invites-nav group-invites-column";
+	}
+	.buddypress-wrap #group-invites-container .bp-invites-nav {
+		-ms-grid-row: 1;
+		-ms-grid-column: 1;
+		grid-area: group-invites-nav;
+	}
+	.buddypress-wrap #group-invites-container .bp-invites-nav li {
+		display: block;
+		float: none;
+	}
+	.buddypress-wrap #group-invites-container .group-invites-column {
+		-ms-grid-row: 1;
+		-ms-grid-column: 2;
+		grid-area: group-invites-column;
+	}
+}
+
 /*
 *-----------------------------------------
 * @subsection 5.2.1.4 - Group Activity

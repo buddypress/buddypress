@@ -8,15 +8,22 @@
  * @since 3.0.0
  */
 ?>
-<nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Group invitations menu', 'buddypress' ); ?>"></nav>
 
 <h2 class="bp-screen-title <?php if ( bp_is_group_create() ) { echo esc_attr( 'creation-step-name' ); } ?>">
 	<?php _e( 'Invite Members', 'buddypress' ); ?>
 </h2>
 
-<div class="subnav-filters group-subnav-filters bp-invites-filters"></div>
-<div class="bp-invites-feedback"></div>
-<div class="members bp-invites-content"></div>
+<div id="group-invites-container">
+
+	<nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Group invitations menu', 'buddypress' ); ?>"></nav>
+
+	<div class="group-invites-column">
+		<div class="subnav-filters group-subnav-filters bp-invites-filters"></div>
+		<div class="bp-invites-feedback"></div>
+		<div class="members bp-invites-content"></div>
+	</div>
+
+</div>
 
 <script type="text/html" id="tmpl-bp-invites-nav">
 	<a href="{{data.href}}" class="bp-invites-nav-item" data-nav="{{data.id}}">{{data.name}}</a>
