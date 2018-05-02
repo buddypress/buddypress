@@ -356,8 +356,6 @@ function bp_nouveau_group_manage_screen() {
 					);
 				}
 			}
-
-			wp_nonce_field( $core_screen['nonce'] );
 		}
 	}
 
@@ -413,6 +411,20 @@ function bp_nouveau_group_manage_screen() {
 		do_action( 'bp_after_group_creation_step_buttons' );
 	}
 
+	/**
+	 * Avoid nested forms with the Backbone views for the group invites step.
+	 */
+	if ( 'group-invites' === bp_get_groups_current_create_step() ) {
+		printf(
+			'<form action="%s" method="post" enctype="multipart/form-data">',
+			bp_get_group_creation_form_action()
+		);
+	}
+
+	if ( ! empty( $core_screen['nonce'] ) ) {
+		wp_nonce_field( $core_screen['nonce'] );
+	}
+
 	printf(
 		'<input type="hidden" name="group-id" id="group-id" value="%s" />',
 		$is_group_create ? esc_attr( bp_get_new_group_id() ) : esc_attr( bp_get_group_id() )
@@ -436,6 +448,13 @@ function bp_nouveau_group_manage_screen() {
 		 * @since 1.1.0
 		 */
 		do_action( 'bp_directory_groups_content' );
+	}
+
+	/**
+	 * Avoid nested forms with the Backbone views for the group invites step.
+	 */
+	if ( 'group-invites' === bp_get_groups_current_create_step() ) {
+		echo '</form>';
 	}
 }
 

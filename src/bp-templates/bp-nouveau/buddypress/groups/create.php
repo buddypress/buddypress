@@ -9,7 +9,11 @@ bp_nouveau_groups_create_hook( 'before', 'page' ); ?>
 
 	<?php bp_nouveau_groups_create_hook( 'before', 'content_template' ); ?>
 
-	<form action="<?php bp_group_creation_form_action(); ?>" method="post" id="create-group-form" class="standard-form" enctype="multipart/form-data">
+	<?php if ( 'group-invites' !== bp_get_groups_current_create_step() ) : ?>
+		<form action="<?php bp_group_creation_form_action(); ?>" method="post" id="create-group-form" class="standard-form" enctype="multipart/form-data">
+	<?php else : ?>
+		<div id="create-group-form" class="standard-form">
+	<?php endif; ?>
 
 		<?php bp_nouveau_groups_create_hook( 'before' ); ?>
 
@@ -31,7 +35,11 @@ bp_nouveau_groups_create_hook( 'before', 'page' ); ?>
 
 		<?php bp_nouveau_groups_create_hook( 'after' ); ?>
 
-	</form>
+	<?php if ( 'group-invites' !== bp_get_groups_current_create_step() ) : ?>
+		</form><!-- #create-group-form -->
+	<?php else : ?>
+		</div><!-- #create-group-form -->
+	<?php endif; ?>
 
 	<?php bp_nouveau_groups_create_hook( 'after', 'content_template' ); ?>
 
