@@ -170,6 +170,18 @@ function bp_nouveau_blogs_customizer_controls( $controls = array() ) {
 			'type'       => 'select',
 			'choices'    => bp_nouveau_customizer_grid_choices(),
 		),
+		'sites_dir_layout' => array(
+			'label'      => __( 'Use column navigation for the Sites directory.', 'buddypress' ),
+			'section'    => 'bp_nouveau_dir_layout',
+			'settings'   => 'bp_nouveau_appearance[sites_dir_layout]',
+			'type'       => 'checkbox',
+		),
+		'sites_dir_tabs' => array(
+			'label'      => __( 'Use tab styling for Sites directory navigation.', 'buddypress' ),
+			'section'    => 'bp_nouveau_dir_layout',
+			'settings'   => 'bp_nouveau_appearance[sites_dir_tabs]',
+			'type'       => 'checkbox',
+		),
 	) );
 }
 

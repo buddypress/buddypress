@@ -185,13 +185,6 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 			'transport'         => 'refresh',
 			'type'              => 'option',
 		),
-		'bp_nouveau_appearance[groups_dir_tabs]' => array(
-			'index'             => 'groups_dir_tabs',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
 		'bp_nouveau_appearance[sites_dir_layout]' => array(
 			'index'             => 'sites_dir_layout',
 			'capability'        => 'bp_moderate',
@@ -221,14 +214,7 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 		$wp_customize->add_setting( $id_setting, $args );
 	}
 
-	/**
-	 * Filters the BuddyPress Nouveau customizer controls and their arguments.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param array $value Array of Customizer controls.
-	 */
-	$controls = apply_filters( 'bp_nouveau_customizer_controls', array(
+	$controls = array(
 		'bp_site_avatars' => array(
 			'label'      => __( 'Use the round style for member and group avatars.', 'buddypress' ),
 			'section'    => 'bp_nouveau_general_settings',
@@ -279,31 +265,12 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 			'type'       => 'select',
 			'choices'    => bp_nouveau_customizer_grid_choices(),
 		),
-		'members_group_layout' => array(
-			'label'      => __( 'Group > Members', 'buddypress' ),
-			'section'    => 'bp_nouveau_loops_layout',
-			'settings'   => 'bp_nouveau_appearance[members_group_layout]',
-			'type'       => 'select',
-			'choices'    => bp_nouveau_customizer_grid_choices(),
-		),
 		'members_friends_layout' => array(
 			'label'      => __( 'Member > Friends', 'buddypress' ),
 			'section'    => 'bp_nouveau_loops_layout',
 			'settings'   => 'bp_nouveau_appearance[members_friends_layout]',
 			'type'       => 'select',
 			'choices'    => bp_nouveau_customizer_grid_choices(),
-		),
-		'act_dir_layout' => array(
-			'label'      => __( 'Use column navigation for the Activity directory.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[activity_dir_layout]',
-			'type'       => 'checkbox',
-		),
-		'act_dir_tabs' => array(
-			'label'      => __( 'Use tab styling for Activity directory navigation.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[activity_dir_tabs]',
-			'type'       => 'checkbox',
 		),
 		'members_dir_layout' => array(
 			'label'      => __( 'Use column navigation for the Members directory.', 'buddypress' ),
@@ -317,31 +284,16 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 			'settings'   => 'bp_nouveau_appearance[members_dir_tabs]',
 			'type'       => 'checkbox',
 		),
-		'group_dir_layout' => array(
-			'label'      => __( 'Use column navigation for the Groups directory.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[groups_dir_layout]',
-			'type'       => 'checkbox',
-		),
-		'group_dir_tabs' => array(
-			'label'      => __( 'Use tab styling for Groups directory navigation.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[groups_dir_tabs]',
-			'type'       => 'checkbox',
-		),
-		'sites_dir_layout' => array(
-			'label'      => __( 'Use column navigation for the Sites directory.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[sites_dir_layout]',
-			'type'       => 'checkbox',
-		),
-		'sites_dir_tabs' => array(
-			'label'      => __( 'Use tab styling for Sites directory navigation.', 'buddypress' ),
-			'section'    => 'bp_nouveau_dir_layout',
-			'settings'   => 'bp_nouveau_appearance[sites_dir_tabs]',
-			'type'       => 'checkbox',
-		),
-	) );
+	);
+
+	/**
+	 * Filters the BuddyPress Nouveau customizer controls and their arguments.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $value Array of Customizer controls.
+	 */
+	$controls = apply_filters( 'bp_nouveau_customizer_controls', $controls );
 
 	// Add the controls to the customizer's section
 	foreach ( $controls as $id_control => $control_args ) {

@@ -87,6 +87,8 @@ class BP_Nouveau_Activity {
 	 * @since 3.0.0
 	 */
 	protected function setup_filters() {
+		// Register customizer controls.
+		add_filter( 'bp_nouveau_customizer_controls', 'bp_nouveau_activity_customizer_controls', 10, 1 );
 
 		// Register activity scripts
 		add_filter( 'bp_nouveau_register_scripts', 'bp_nouveau_activity_register_scripts', 10, 1 );

@@ -751,6 +751,13 @@ function bp_nouveau_groups_customizer_settings( $settings = array() ) {
 			'transport'         => 'refresh',
 			'type'              => 'option',
 		),
+		'bp_nouveau_appearance[groups_dir_tabs]' => array(
+			'index'             => 'groups_dir_tabs',
+			'capability'        => 'bp_moderate',
+			'sanitize_callback' => 'absint',
+			'transport'         => 'refresh',
+			'type'              => 'option',
+		),
 	) );
 }
 
@@ -820,6 +827,25 @@ function bp_nouveau_groups_customizer_controls( $controls = array() ) {
 			'settings'   => 'bp_nouveau_appearance[groups_layout]',
 			'type'       => 'select',
 			'choices'    => bp_nouveau_customizer_grid_choices(),
+		),
+		'members_group_layout' => array(
+			'label'      => __( 'Group > Members', 'buddypress' ),
+			'section'    => 'bp_nouveau_loops_layout',
+			'settings'   => 'bp_nouveau_appearance[members_group_layout]',
+			'type'       => 'select',
+			'choices'    => bp_nouveau_customizer_grid_choices(),
+		),
+		'group_dir_layout' => array(
+			'label'      => __( 'Use column navigation for the Groups directory.', 'buddypress' ),
+			'section'    => 'bp_nouveau_dir_layout',
+			'settings'   => 'bp_nouveau_appearance[groups_dir_layout]',
+			'type'       => 'checkbox',
+		),
+		'group_dir_tabs' => array(
+			'label'      => __( 'Use tab styling for Groups directory navigation.', 'buddypress' ),
+			'section'    => 'bp_nouveau_dir_layout',
+			'settings'   => 'bp_nouveau_appearance[groups_dir_tabs]',
+			'type'       => 'checkbox',
 		),
 	) );
 }
