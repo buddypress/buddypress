@@ -1087,7 +1087,8 @@ window.bp = window.bp || {};
 		template : bp.template( 'bp-messages-single-header' ),
 
 		events: {
-			'click .actions a' : 'doAction'
+			'click .actions a' : 'doAction',
+			'click .actions button' : 'doAction'
 		},
 
 		doAction: function( event ) {
@@ -1125,9 +1126,9 @@ window.bp = window.bp || {};
 				} else if ( response.messages ) {
 					self.model.set( _.first( response.messages ) );
 				}
+
 				// Display the feedback
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
-
 			} ).fail( function( response ) {
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 			} );
