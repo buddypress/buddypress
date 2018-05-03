@@ -476,55 +476,56 @@
 
 .buddypress-wrap {
 
-	.item-body {
+	@include medium-up {
 
-		@include medium-up {
+		// Profile group labels links
+		// Button navigation as tabbed effect for wide screen
 
-			// Profile group labels links
-			// Button navigation as tabbed effect for wide screen
+		@include tabbed-links();
 
-			@include tabbed-links();
+		.bp-navs.tabbed-links {
+			background: none;
+			margin-top: 2px;
 
-			.bp-navs.tabbed-links {
-				background: none;
-				margin-top: 2px;
+			&.main-navs {
 
-				// For tabbed nav we remove any default button nav styles.
-				ul {
+			}
 
-					li {
+			// For tabbed nav we remove any default button nav styles.
+			ul {
 
-						a {
-							border-right: 0;
-							font-size: inherit;
-						}
-					}
+				li {
 
-					li.last {
-						float: right;
-						margin: 0;
-
-						a {
-							margin-top: -0.5em;
-						}
-					}
-
-					li,
-					li.current {
-
-						a,
-						a:focus,
-						a:hover {
-							background: none;
-							border: 0;
-						}
-
-						a:active {
-							outline: none;
-						}
+					a {
+						border-right: 0;
+						font-size: inherit;
 					}
 				}
-			} // close .bp-navs.tabbed-links
-		} // @media
-	}
+
+				li.last {
+					float: right;
+					margin: 0;
+
+					a {
+						margin-top: -0.5em;
+					}
+				}
+
+				li,
+				li.current {
+
+					a,
+					a:focus,
+					a:hover {
+						background: none;
+						border: 0;
+					}
+
+					a:active {
+						outline: none;
+					}
+				}
+			}
+		} // close .bp-navs.tabbed-links
+	} // @media
 }

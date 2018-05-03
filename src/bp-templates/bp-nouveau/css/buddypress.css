@@ -552,45 +552,45 @@ body.buddypress article.page > .entry-header .entry-title {
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap .item-body .tabbed-links ul,
-	.buddypress-wrap .item-body .tabbed-links ol {
+	.buddypress-wrap .tabbed-links ul,
+	.buddypress-wrap .tabbed-links ol {
 		border-bottom: 1px solid #ccc;
 		float: none;
 		margin: 20px 0 10px;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul:before, .buddypress-wrap .item-body .tabbed-links ul:after,
-	.buddypress-wrap .item-body .tabbed-links ol:before,
-	.buddypress-wrap .item-body .tabbed-links ol:after {
+	.buddypress-wrap .tabbed-links ul:before, .buddypress-wrap .tabbed-links ul:after,
+	.buddypress-wrap .tabbed-links ol:before,
+	.buddypress-wrap .tabbed-links ol:after {
 		content: " ";
 		display: block;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul:after,
-	.buddypress-wrap .item-body .tabbed-links ol:after {
+	.buddypress-wrap .tabbed-links ul:after,
+	.buddypress-wrap .tabbed-links ol:after {
 		clear: both;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul li,
-	.buddypress-wrap .item-body .tabbed-links ol li {
+	.buddypress-wrap .tabbed-links ul li,
+	.buddypress-wrap .tabbed-links ol li {
 		float: left;
 		list-style: none;
 		margin: 0 10px 0 0;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul li a,
-	.buddypress-wrap .item-body .tabbed-links ul li span,
-	.buddypress-wrap .item-body .tabbed-links ol li a,
-	.buddypress-wrap .item-body .tabbed-links ol li span {
+	.buddypress-wrap .tabbed-links ul li a,
+	.buddypress-wrap .tabbed-links ul li span:not(.count),
+	.buddypress-wrap .tabbed-links ol li a,
+	.buddypress-wrap .tabbed-links ol li span:not(.count) {
 		background: none;
 		border: none;
 		display: block;
 		padding: 4px 10px;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul li a:focus,
-	.buddypress-wrap .item-body .tabbed-links ul li a:hover,
-	.buddypress-wrap .item-body .tabbed-links ol li a:focus,
-	.buddypress-wrap .item-body .tabbed-links ol li a:hover {
+	.buddypress-wrap .tabbed-links ul li a:focus,
+	.buddypress-wrap .tabbed-links ul li a:hover,
+	.buddypress-wrap .tabbed-links ol li a:focus,
+	.buddypress-wrap .tabbed-links ol li a:hover {
 		background: none;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul li.current,
-	.buddypress-wrap .item-body .tabbed-links ol li.current {
+	.buddypress-wrap .tabbed-links ul li.current,
+	.buddypress-wrap .tabbed-links ol li.current {
 		border-color: #ccc #ccc #fff;
 		border-style: solid;
 		border-top-left-radius: 4px;
@@ -599,39 +599,39 @@ body.buddypress article.page > .entry-header .entry-title {
 		margin-bottom: -1px;
 		padding: 0 0.5em 1px;
 	}
-	.buddypress-wrap .item-body .tabbed-links ul li.current a,
-	.buddypress-wrap .item-body .tabbed-links ol li.current a {
+	.buddypress-wrap .tabbed-links ul li.current a,
+	.buddypress-wrap .tabbed-links ol li.current a {
 		color: #333;
 	}
-	.buddypress-wrap .item-body .bp-subnavs.tabbed-links > ul {
+	.buddypress-wrap .bp-subnavs.tabbed-links > ul {
 		margin-top: 0;
 	}
-	.buddypress-wrap .item-body .bp-navs.tabbed-links {
+	.buddypress-wrap .bp-navs.tabbed-links {
 		background: none;
 		margin-top: 2px;
 	}
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li a {
+	.buddypress-wrap .bp-navs.tabbed-links ul li a {
 		border-right: 0;
 		font-size: inherit;
 	}
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li.last {
+	.buddypress-wrap .bp-navs.tabbed-links ul li.last {
 		float: right;
 		margin: 0;
 	}
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li.last a {
+	.buddypress-wrap .bp-navs.tabbed-links ul li.last a {
 		margin-top: -0.5em;
 	}
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li a,
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li a:focus,
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li a:hover,
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li.current a,
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li.current a:focus,
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li.current a:hover {
+	.buddypress-wrap .bp-navs.tabbed-links ul li a,
+	.buddypress-wrap .bp-navs.tabbed-links ul li a:focus,
+	.buddypress-wrap .bp-navs.tabbed-links ul li a:hover,
+	.buddypress-wrap .bp-navs.tabbed-links ul li.current a,
+	.buddypress-wrap .bp-navs.tabbed-links ul li.current a:focus,
+	.buddypress-wrap .bp-navs.tabbed-links ul li.current a:hover {
 		background: none;
 		border: 0;
 	}
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li a:active,
-	.buddypress-wrap .item-body .bp-navs.tabbed-links ul li.current a:active {
+	.buddypress-wrap .bp-navs.tabbed-links ul li a:active,
+	.buddypress-wrap .bp-navs.tabbed-links ul li.current a:active {
 		outline: none;
 	}
 }

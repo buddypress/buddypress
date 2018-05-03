@@ -360,7 +360,7 @@
 				margin: 0 $marg-sml 0 0;
 
 				a,
-				span {
+				span:not(.count) {
 					background: none;
 					border: none;
 					display: block;
