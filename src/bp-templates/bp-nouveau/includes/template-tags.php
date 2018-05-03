@@ -1152,7 +1152,7 @@ function bp_nouveau_nav_link_text() {
 		$link_text  = '';
 
 		if ( 'directory' === $bp_nouveau->displayed_nav && ! empty( $nav_item->text ) ) {
-			$link_text = $nav_item->text;
+			$link_text = _bp_strip_spans_from_title( $nav_item->text );
 
 		} elseif (
 			( 'groups' === $bp_nouveau->displayed_nav || 'personal' === $bp_nouveau->displayed_nav )
