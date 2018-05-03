@@ -364,3 +364,21 @@ function bp_messages_star_message_css_class( $retval = array() ) {
 	return $retval;
 }
 add_filter( 'bp_get_the_thread_message_css_class', 'bp_messages_star_message_css_class' );
+
+/**
+ * Filter message threads by those starred by the logged-in user.
+ *
+ * @since 2.3.0
+ *
+ * @param  array $r Current message thread arguments.
+ * @return array $r Array of starred message threads.
+ */
+function bp_messages_filter_starred_message_threads( $r = array() ) {
+	$r['box'] = 'starred';
+	$r['meta_query'] = array( array(
+		'key'   => 'starred_by_user',
+		'value' => $r['user_id']
+	) );
+
+	return $r;
+}
