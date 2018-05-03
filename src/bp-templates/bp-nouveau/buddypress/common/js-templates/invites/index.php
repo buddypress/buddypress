@@ -66,14 +66,14 @@
 	<div class="action">
 		<# if ( undefined === data.is_sent || ( false === data.is_sent && true === data.can_edit ) ) { #>
 			<button type="button" class="button invite-button group-add-remove-invite-button bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'Invite / Uninvite', 'buddypress' ); ?>">
-				<span class="icons"></span>
+				<span class="icons" aria-hidden="true"></span>
 				<span class="bp-screen-reader-text"><?php esc_html_e( 'Invite/Uninvite', 'buddypress' ); ?></span>
 			</button>
 		<# } #>
 
 		<# if ( undefined !== data.can_edit && true === data.can_edit ) { #>
 			<button type="button" class="button invite-button group-remove-invite-button bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'Remove', 'buddypress' ); ?>">
-				<span class=" icons"></span>
+				<span class=" icons" aria-hidden="true"></span>
 				<span class="bp-screen-reader-text"><?php esc_html_e( 'Remove', 'buddypress' ); ?></span>
 			</button>
 		<# } #>

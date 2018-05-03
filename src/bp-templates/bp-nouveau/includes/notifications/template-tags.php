@@ -81,7 +81,7 @@ function bp_nouveau_notifications_sort_order_links() {
 	?>
 
 	<span class="notifications-order-actions">
-		<a href="<?php echo esc_url( $desc ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Newest First', 'buddypress' ); ?>" aria-label="<?php esc_attr_e( 'Newest First', 'buddypress' ); ?>" data-bp-notifications-order="DESC"><span class="dashicons dashicons-arrow-down"></span></a>
+		<a href="<?php echo esc_url( $desc ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Newest First', 'buddypress' ); ?>" aria-label="<?php esc_attr_e( 'Newest First', 'buddypress' ); ?>" data-bp-notifications-order="DESC"><span class="dashicons dashicons-arrow-down" aria-hidden="true"></span></a>
 		<a href="<?php echo esc_url( $asc ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Older First', 'buddypress' ); ?>" aria-label="<?php esc_attr_e( 'Older First', 'buddypress' ); ?>" data-bp-notifications-order="ASC"><span class="dashicons dashicons-arrow-up" aria-hidden="true"></span></a>
 	</span>
 
