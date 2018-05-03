@@ -569,7 +569,10 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
 		return $retval;
 	}
 
-	$temporary_setting = json_decode( wp_unslash( $_POST['customized'] ), true );
+	$temporary_setting = wp_unslash( $_POST['customized'] );
+	if ( ! is_array( $temporary_setting ) ) {
+		$temporary_setting = json_decode( $temporary_setting, true );
+	}
 
 	// This is used to transport the customizer settings into Ajax requests.
 	if ( 'any' === $option ) {
