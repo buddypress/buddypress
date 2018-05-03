@@ -815,7 +815,7 @@ function bp_nouveau_groups_customizer_controls( $controls = array() ) {
 			'type'       => 'group',
 		),
 		'groups_layout' => array(
-			'label'      => __( 'Groups loop:', 'buddypress' ),
+			'label'      => __( 'Groups', 'buddypress' ),
 			'section'    => 'bp_nouveau_loops_layout',
 			'settings'   => 'bp_nouveau_appearance[groups_layout]',
 			'type'       => 'select',
