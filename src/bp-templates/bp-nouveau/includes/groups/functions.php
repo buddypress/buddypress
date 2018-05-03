@@ -663,16 +663,16 @@ function bp_nouveau_groups_front_page_description() {
 function bp_nouveau_groups_customizer_sections( $sections = array() ) {
 	return array_merge( $sections, array(
 		'bp_nouveau_group_front_page' => array(
-			'title'       => __( 'Group\'s front page', 'buddypress' ),
+			'title'       => __( 'Group front page', 'buddypress' ),
 			'panel'       => 'bp_nouveau_panel',
 			'priority'    => 20,
-			'description' => __( 'Set your preferences for the groups default front page.', 'buddypress' ),
+			'description' => __( 'Configure the default front page for groups.', 'buddypress' ),
 		),
 		'bp_nouveau_group_primary_nav' => array(
-			'title'       => __( 'Group\'s navigation', 'buddypress' ),
+			'title'       => __( 'Group navigation', 'buddypress' ),
 			'panel'       => 'bp_nouveau_panel',
 			'priority'    => 40,
-			'description' => __( 'Customize the groups primary navigations. Navigate to any random group to live preview your changes.', 'buddypress' ),
+			'description' => __( 'Customize the navigation menu for groups. See your changes by navigating to a group in the live-preview window..', 'buddypress' ),
 		),
 	) );
 }
@@ -766,50 +766,50 @@ function bp_nouveau_groups_customizer_settings( $settings = array() ) {
 function bp_nouveau_groups_customizer_controls( $controls = array() ) {
 	return array_merge( $controls, array(
 		'group_front_page' => array(
-			'label'      => __( 'Enable default front page for groups.', 'buddypress' ),
+			'label'      => __( 'Enable custom front pages for groups.', 'buddypress' ),
 			'section'    => 'bp_nouveau_group_front_page',
 			'settings'   => 'bp_nouveau_appearance[group_front_page]',
 			'type'       => 'checkbox',
 		),
 		'group_front_boxes' => array(
-			'label'      => __( 'Enable widget region for groups homepage - allows widgets to be added to a sidebar in widgets screen.', 'buddypress' ),
+			'label'      => __( 'Enable widget region for group homepages. (When enabled, the site admin can add widgets to group pages via the Widgets panel.)', 'buddypress' ),
 			'section'    => 'bp_nouveau_group_front_page',
 			'settings'   => 'bp_nouveau_appearance[group_front_boxes]',
 			'type'       => 'checkbox',
 		),
 		'group_front_description' => array(
-			'label'      => __( 'Display the Group\'s description in the front page body.', 'buddypress' ),
+			'label'      => __( 'Display the group description in the body of the group\'s front page.', 'buddypress' ),
 			'section'    => 'bp_nouveau_group_front_page',
 			'settings'   => 'bp_nouveau_appearance[group_front_description]',
 			'type'       => 'checkbox',
 		),
 		'group_nav_display' => array(
-			'label'      => __( 'Display the Group\'s primary nav vertically.', 'buddypress' ),
+			'label'      => __( 'Display the group navigation vertically.', 'buddypress' ),
 			'section'    => 'bp_nouveau_group_primary_nav',
 			'settings'   => 'bp_nouveau_appearance[group_nav_display]',
 			'type'       => 'checkbox',
 		),
 		'group_nav_tabs' => array(
-		'label'      => __( 'Set primary nav to tab style.', 'buddypress' ),
-		'section'    => 'bp_nouveau_group_primary_nav',
-		'settings'   => 'bp_nouveau_appearance[group_nav_tabs]',
-		'type'       => 'checkbox',
+			'label'      => __( 'Use tab styling for primary nav.', 'buddypress' ),
+			'section'    => 'bp_nouveau_group_primary_nav',
+			'settings'   => 'bp_nouveau_appearance[group_nav_tabs]',
+			'type'       => 'checkbox',
 		),
 		'group_subnav_tabs' => array(
-		'label'      => __( 'Set subnavs to tab style.', 'buddypress' ),
-		'section'    => 'bp_nouveau_group_primary_nav',
-		'settings'   => 'bp_nouveau_appearance[group_subnav_tabs]',
-		'type'       => 'checkbox',
+			'label'      => __( 'Use tab styling for secondary nav.', 'buddypress' ),
+			'section'    => 'bp_nouveau_group_primary_nav',
+			'settings'   => 'bp_nouveau_appearance[group_subnav_tabs]',
+			'type'       => 'checkbox',
 		),
 		'groups_create_tabs' => array(
-		'label'      => __( 'Set groups create steps to tab style.', 'buddypress' ),
-		'section'    => 'bp_nouveau_group_primary_nav',
-		'settings'   => 'bp_nouveau_appearance[groups_create_tabs]',
-		'type'       => 'checkbox',
+			'label'      => __( 'Use tab styling for the group creation process.', 'buddypress' ),
+			'section'    => 'bp_nouveau_group_primary_nav',
+			'settings'   => 'bp_nouveau_appearance[groups_create_tabs]',
+			'type'       => 'checkbox',
 		),
 		'group_nav_order' => array(
 			'class'       => 'BP_Nouveau_Nav_Customize_Control',
-			'label'      => __( 'Reorder the Groups single items primary navigation.', 'buddypress' ),
+			'label'      => __( 'Reorder the primary navigation for a group.', 'buddypress' ),
 			'section'    => 'bp_nouveau_group_primary_nav',
 			'settings'   => 'bp_nouveau_appearance[group_nav_order]',
 			'type'       => 'group',
