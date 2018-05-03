@@ -1209,8 +1209,10 @@ window.bp = window.bp || {};
 			this.views.add( '#bp-message-thread-header', new bp.Views.userMessagesHeader( { model: this.options.thread } ) );
 		},
 
-		messagesFetchError: function( collection ) {
-			console.log( collection );
+		messagesFetchError: function( collection, response ) {
+			if ( response.feedback && response.type ) {
+				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
+			}
 		},
 
 		addMessage: function( message ) {
@@ -1252,7 +1254,9 @@ window.bp = window.bp || {};
 		},
 
 		replyError: function( response ) {
-			console.log( response );
+			if ( response.feedback && response.type ) {
+				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
+			}
 		}
 	} );
 

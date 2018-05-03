@@ -107,7 +107,7 @@ function bp_nouveau_ajax_messages_send_message() {
  */
 function bp_nouveau_ajax_messages_send_reply() {
 	$response = array(
-		'feedback' => __( 'There was a problem sending your reply. Please try again.', 'buddypress' ),
+		'feedback' => '<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>' . __( 'There was a problem sending your reply. Please try again.', 'buddypress' ) . '</p></div>',
 		'type'     => 'error',
 	);
 
@@ -197,7 +197,7 @@ function bp_nouveau_ajax_messages_send_reply() {
 function bp_nouveau_ajax_get_user_message_threads() {
 	global $messages_template;
 
-	if ( empty( $_POST['nonce'] ) ||  !wp_verify_nonce( $_POST['nonce'], 'bp_nouveau_messages' ) ) {
+	if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'bp_nouveau_messages' ) ) {
 		wp_send_json_error( array(
 			'feedback' => '<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>' . __( 'Unauthorized request.', 'buddypress' ) . '</p></div>',
 			'type'     => 'error'
