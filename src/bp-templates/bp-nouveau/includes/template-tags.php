@@ -1535,7 +1535,7 @@ function bp_nouveau_single_item_nav_classes() {
 
 		$customizer_option = ( bp_is_user() )? 'user_nav_display' : 'group_nav_display';
 
-		$layout_prefs = bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
+		$layout_prefs = (int) bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
 
 		// Set the global for a later use - this is moved from the `bp_nouveau_get_container_classes()
 		// But was set as a check for this array class addition.
