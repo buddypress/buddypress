@@ -376,7 +376,7 @@ body.buddypress article.page > .entry-header .entry-title {
 		color: #fafafa;
 		text-decoration: none;
 	}
-	.buddypress-wrap.bp-dir-hori-nav nav:not(".tabbed-links") {
+	.buddypress-wrap.bp-dir-hori-nav nav:not(.tabbed-links) {
 		border-bottom: 1px solid #eee;
 		border-top: 1px solid #eee;
 		-webkit-box-shadow: 0 2px 12px 0 #fafafa;
