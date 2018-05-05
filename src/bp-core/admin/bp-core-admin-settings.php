@@ -70,8 +70,8 @@ function bp_admin_setting_callback_theme_package_id() {
 	}
 
 	if ( $options ) : ?>
-		<select name="_bp_theme_package_id" id="_bp_theme_package_id"><?php echo $options; ?></select>
-		<p class="description"><label for="_bp_theme_package_id"><?php esc_html_e( 'The selected Template Pack will serve all BuddyPress templates.', 'buddypress' ); ?></label></p>
+		<select name="_bp_theme_package_id" id="_bp_theme_package_id" aria-describedby="_bp_theme_package_description"><?php echo $options; ?></select>
+		<p id="_bp_theme_package_description" class="description"><?php esc_html_e( 'The selected Template Pack will serve all BuddyPress templates.', 'buddypress' ); ?></p>
 
 	<?php else : ?>
 		<p><?php esc_html_e( 'No template packages available.', 'buddypress' ); ?></p>
@@ -216,9 +216,9 @@ function bp_admin_setting_callback_groups_section() { }
 function bp_admin_setting_callback_group_creation() {
 ?>
 
-	<input id="bp_restrict_group_creation" name="bp_restrict_group_creation" type="checkbox"value="1" <?php checked( !bp_restrict_group_creation( false ) ); ?> />
+	<input id="bp_restrict_group_creation" name="bp_restrict_group_creation" type="checkbox" aria-describedby="bp_group_creation_description" value="1" <?php checked( !bp_restrict_group_creation( false ) ); ?> />
 	<label for="bp_restrict_group_creation"><?php _e( 'Enable group creation for all users', 'buddypress' ); ?></label>
-	<p class="description"><?php _e( 'Administrators can always create groups, regardless of this setting.', 'buddypress' ); ?></p>
+	<p class="description" id="bp_group_creation_description"><?php _e( 'Administrators can always create groups, regardless of this setting.', 'buddypress' ); ?></p>
 
 <?php
 }
