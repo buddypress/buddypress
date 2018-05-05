@@ -605,6 +605,7 @@ body.buddypress article.page > .entry-header .entry-title {
 	}
 	.buddypress-wrap .tabbed-links ul li.current a,
 	.buddypress-wrap .tabbed-links ol li.current a {
+		background: none;
 		color: #333;
 	}
 	.buddypress-wrap .bp-subnavs.tabbed-links > ul {
