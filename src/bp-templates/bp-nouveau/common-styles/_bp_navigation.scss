@@ -152,7 +152,7 @@
 			}
 		}
 
-		&.bp-dir-hori-nav {
+		&.bp-dir-hori-nav:not(.bp-vertical-navs) {
 
 			nav:not(.tabbed-links) {
 				border-bottom: 1px solid $bp-border-color;

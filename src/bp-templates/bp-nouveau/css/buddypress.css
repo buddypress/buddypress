@@ -376,7 +376,7 @@ body.buddypress article.page > .entry-header .entry-title {
 		color: #fafafa;
 		text-decoration: none;
 	}
-	.buddypress-wrap.bp-dir-hori-nav nav:not(.tabbed-links) {
+	.buddypress-wrap.bp-dir-hori-nav:not(.bp-vertical-navs) nav:not(.tabbed-links) {
 		border-bottom: 1px solid #eee;
 		border-top: 1px solid #eee;
 		-webkit-box-shadow: 0 2px 12px 0 #fafafa;
@@ -5104,7 +5104,6 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	.bp-single-vert-nav .bp-navs.vertical li.selected a {
 		background: #ccc;
 		color: #333;
-		padding-left: 0;
 	}
 	.bp-single-vert-nav .bp-navs.vertical li:focus, .bp-single-vert-nav .bp-navs.vertical li:hover {
 		background: #ccc;
@@ -5117,6 +5116,9 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	}
 	.bp-single-vert-nav .bp-navs.vertical li:hover span {
 		border-color: #eaeaea;
+	}
+	.bp-single-vert-nav .bp-navs.vertical.tabbed-links li.selected a {
+		padding-left: 0;
 	}
 	.bp-single-vert-nav .bp-wrap {
 		margin-bottom: 15px;
