@@ -338,18 +338,13 @@ window.bp = window.bp || {};
 	bp.Views.Feedback = bp.Nouveau.GroupInvites.View.extend( {
 		tagName   : 'div',
 		className : 'bp-invites-feedback',
+		template  : bp.template( 'bp-group-invites-feedback' ),
 
 		initialize: function() {
-			this.value = this.options.value;
-
-			if ( this.options.type ) {
-				this.el.className += ' ' + this.options.type;
-			}
-		},
-
-		render: function() {
-			this.$el.html( this.value );
-			return this;
+			this.model = new Backbone.Model( {
+				type: this.options.type || 'info',
+				message: this.options.value
+			} );
 		}
 	} );
 
@@ -715,6 +710,8 @@ window.bp = window.bp || {};
 
 			$( this.el ).addClass( 'bp-hide' );
 
+			bp.Nouveau.GroupInvites.displayFeedback( BP_Nouveau.group_invites.invites_sending, 'info' );
+
 			this.collection.sync( 'create', _.pluck( this.collection.models, 'id' ), {
 				success : _.bind( this.invitesSent, this ),
 				error   : _.bind( this.invitesError, this ),
@@ -768,7 +765,7 @@ window.bp = window.bp || {};
 				view.remove();
 			} );
 
-			bp.Nouveau.GroupInvites.displayFeedback( BP_Nouveau.group_invites.invites_form_reset, 'help' );
+			bp.Nouveau.GroupInvites.displayFeedback( BP_Nouveau.group_invites.invites_form_reset, 'success' );
 		}
 	} );
 

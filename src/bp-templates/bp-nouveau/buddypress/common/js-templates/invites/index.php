@@ -25,6 +25,13 @@
 
 </div>
 
+<script type="text/html" id="tmpl-bp-group-invites-feedback">
+	<div class="bp-feedback {{data.type}}">
+		<span class="bp-icon" aria-hidden="true"></span>
+		<p>{{{data.message}}}</p>
+	</div>
+</script>
+
 <script type="text/html" id="tmpl-bp-invites-nav">
 	<a href="{{data.href}}" class="bp-invites-nav-item" data-nav="{{data.id}}">{{data.name}}</a>
 </script>

@@ -146,10 +146,10 @@ function bp_nouveau_groups_localize_scripts( $params = array() ) {
 
 	$params['group_invites'] = array(
 		'nav'                => bp_sort_by_key( $invites_nav, 'order', 'num' ),
-		'loading'            => bp_nouveau_message_markup_wrapper( __( 'Loading members. Please wait.', 'buddypress' ), 'loading' ),
-		'invites_form'       => bp_nouveau_message_markup_wrapper( __( 'Use the "Send" button to send your invite or the "Cancel" button to abort.', 'buddypress' ), 'info' ),
-		'invites_form_reset' => bp_nouveau_message_markup_wrapper( __( 'Invites cleared. Please use one of the available tabs to select members to invite.', 'buddypress' ), 'success' ),
-		'invites_sending'    => bp_nouveau_message_markup_wrapper( __( 'Sending the invites. Please wait.', 'buddypress' ), 'loading' ),
+		'loading'            => __( 'Loading members. Please wait.', 'buddypress' ),
+		'invites_form'       => __( 'Use the "Send" button to send your invite or the "Cancel" button to abort.', 'buddypress' ),
+		'invites_form_reset' => __( 'Invites cleared. Please use one of the available tabs to select members to invite.', 'buddypress' ),
+		'invites_sending'    => __( 'Sending the invites. Please wait.', 'buddypress' ),
 		'group_id'           => ! bp_get_current_group_id() ? bp_get_new_group_id() : bp_get_current_group_id(),
 		'is_group_create'    => bp_is_group_create(),
 		'nonces'             => array(
