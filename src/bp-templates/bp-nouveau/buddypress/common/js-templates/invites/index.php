@@ -96,7 +96,7 @@
 
 <script type="text/html" id="tmpl-bp-invites-selection">
 	<a href="#uninvite-user-{{data.id}}" title="{{data.name}}">
-		<img src="{{data.avatar}}" class="avatar" title="{{data.name}}"/>
+		<img src="{{data.avatar}}" class="avatar" alt="{{data.name}}"/>
 	</a>
 </script>
 
