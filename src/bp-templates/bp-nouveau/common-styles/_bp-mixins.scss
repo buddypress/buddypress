@@ -373,6 +373,10 @@
 				}
 			}
 
+			li:not(.current) {
+				margin-bottom: 2px;
+			}
+
 			li.current {
 				border-color: $bp-border-dark $bp-border-dark #fff;
 				border-style: solid;

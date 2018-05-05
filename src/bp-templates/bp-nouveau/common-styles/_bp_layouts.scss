@@ -456,7 +456,7 @@
 
 	.bp-single-vert-nav { // described for the #buddypress element
 
-		.vertical {
+		.bp-navs.vertical {
 			overflow: visible;
 
 			ul {
@@ -468,10 +468,12 @@
 
 			li {
 				float: none;
+				margin-right: 0;
 
 				&.selected a {
 					background: $grey;
 					color: $black;
+					padding-left: 0;
 				}
 
 				&:focus,

@@ -589,6 +589,10 @@ body.buddypress article.page > .entry-header .entry-title {
 	.buddypress-wrap .tabbed-links ol li a:hover {
 		background: none;
 	}
+	.buddypress-wrap .tabbed-links ul li:not(.current),
+	.buddypress-wrap .tabbed-links ol li:not(.current) {
+		margin-bottom: 2px;
+	}
 	.buddypress-wrap .tabbed-links ul li.current,
 	.buddypress-wrap .tabbed-links ol li.current {
 		border-color: #ccc #ccc #fff;
@@ -5082,32 +5086,34 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 }
 
 @media screen and (min-width: 46.8em) {
-	.bp-single-vert-nav .vertical {
+	.bp-single-vert-nav .bp-navs.vertical {
 		overflow: visible;
 	}
-	.bp-single-vert-nav .vertical ul {
+	.bp-single-vert-nav .bp-navs.vertical ul {
 		border-left: 1px solid #d6d6d6;
 		float: right;
 		margin-left: -1px;
 		width: 25%;
 	}
-	.bp-single-vert-nav .vertical li {
+	.bp-single-vert-nav .bp-navs.vertical li {
 		float: none;
+		margin-left: 0;
 	}
-	.bp-single-vert-nav .vertical li.selected a {
+	.bp-single-vert-nav .bp-navs.vertical li.selected a {
 		background: #ccc;
 		color: #333;
+		padding-right: 0;
 	}
-	.bp-single-vert-nav .vertical li:focus, .bp-single-vert-nav .vertical li:hover {
+	.bp-single-vert-nav .bp-navs.vertical li:focus, .bp-single-vert-nav .bp-navs.vertical li:hover {
 		background: #ccc;
 	}
-	.bp-single-vert-nav .vertical li span {
+	.bp-single-vert-nav .bp-navs.vertical li span {
 		background: #d6d6d6;
 		border-radius: 10%;
 		float: left;
 		margin-left: 2px;
 	}
-	.bp-single-vert-nav .vertical li:hover span {
+	.bp-single-vert-nav .bp-navs.vertical li:hover span {
 		border-color: #eaeaea;
 	}
 	.bp-single-vert-nav .bp-wrap {
