@@ -2542,8 +2542,8 @@ body.no-js .single-item-header .js-self-profile-button {
 }
 
 .buddypress .bp-invites-content ul.item-list li .list-title {
-	text-align: center;
-	width: auto;
+	margin: 0 auto;
+	width: 80%;
 }
 
 .buddypress .bp-invites-content ul.item-list li .action {
