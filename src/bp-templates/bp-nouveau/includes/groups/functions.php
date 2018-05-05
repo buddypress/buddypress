@@ -112,13 +112,32 @@ function bp_nouveau_groups_localize_scripts( $params = array() ) {
 
 	// Init the Group invites nav
 	$invites_nav = array(
-		'members' => array( 'id' => 'members', 'caption' => __( 'All Members', 'buddypress' ), 'order' => 5 ),
-		'invited' => array( 'id' => 'invited', 'caption' => __( 'Pending Invites', 'buddypress' ), 'order' => 90, 'hide' => (int) ! $show_pending ),
-		'invites' => array( 'id' => 'invites', 'caption' => __( 'Send Invites', 'buddypress' ), 'order' => 100, 'hide' => 1 ),
+		'members' => array(
+			'id'      => 'members',
+			'caption' => __( 'All Members', 'buddypress' ),
+			'order'   => 5,
+		),
+		'invited' => array(
+			'id'      => 'invited',
+			'caption' => __( 'Pending Invites', 'buddypress' ),
+			'order'   => 90,
+			'hide'    => (int) ! $show_pending,
+		),
+		'invites' => array(
+			'id'      => 'invites',
+			'caption' => __( 'Send Invites', 'buddypress' ),
+			'order'   => 100,
+			'hide'    => 1,
+			'href'    => '#send-invites-editor',
+		),
 	);
 
 	if ( bp_is_active( 'friends' ) ) {
-		$invites_nav['friends'] = array( 'id' => 'friends', 'caption' => __( 'My Friends', 'buddypress' ), 'order' => 0 );
+		$invites_nav['friends'] = array(
+			'id'      => 'friends',
+			'caption' => __( 'My Friends', 'buddypress' ),
+			'order'   => 0,
+		);
 
 		if ( true === bp_nouveau_groups_disallow_all_members_invites() ) {
 			unset( $invites_nav['members'] );

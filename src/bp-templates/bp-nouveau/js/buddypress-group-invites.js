@@ -72,7 +72,7 @@ window.bp = window.bp || {};
 				this.navItems.add( {
 					id     : item.id,
 					name   : item.caption,
-					href   : '#',
+					href   : item.href || '#members-list',
 					active : activeView,
 					hide   : _.isUndefined( item.hide ) ? 0 : item.hide
 				} );
@@ -806,6 +806,7 @@ window.bp = window.bp || {};
 
 		initialize: function() {
 			this.model.on( 'change:selected', this.removeView, this );
+			this.el.id = 'uninvite-user-' + this.model.get( 'id' );
 		},
 
 		removeSelection: function( event ) {
