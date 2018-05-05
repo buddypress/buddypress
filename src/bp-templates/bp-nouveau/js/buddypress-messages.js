@@ -452,18 +452,13 @@ window.bp = window.bp || {};
 	bp.Views.Feedback = bp.Nouveau.Messages.View.extend( {
 		tagName: 'div',
 		className: 'bp-messages bp-user-messages-feedback',
+		template  : bp.template( 'bp-messages-feedback' ),
 
 		initialize: function() {
-			this.value = this.options.value;
-
-			if ( this.options.type ) {
-				this.el.className += ' ' + this.options.type;
-			}
-		},
-
-		render: function() {
-			this.$el.html( this.value );
-			return this;
+			this.model = new Backbone.Model( {
+				type: this.options.type || 'info',
+				message: this.options.value
+			} );
 		}
 	} );
 

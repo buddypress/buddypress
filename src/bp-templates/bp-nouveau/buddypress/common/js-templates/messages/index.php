@@ -13,6 +13,13 @@
 <div class="bp-messages-feedback"></div>
 <div class="bp-messages-content"></div>
 
+<script type="text/html" id="tmpl-bp-messages-feedback">
+	<div class="bp-feedback {{data.type}}">
+		<span class="bp-icon" aria-hidden="true"></span>
+		<p>{{{data.message}}}</p>
+	</div>
+</script>
+
 <script type="text/html" id="tmpl-bp-messages-form">
 	<?php bp_nouveau_messages_hook( 'before', 'compose_content' ); ?>
 
