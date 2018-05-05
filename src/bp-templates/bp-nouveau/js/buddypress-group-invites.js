@@ -621,9 +621,18 @@ window.bp = window.bp || {};
 			var invite = bp.Nouveau.GroupInvites.invites.get( this.model.get( 'id' ) );
 
 			if ( invite ) {
-				this.el.className = 'selected';
 				this.model.set( 'selected', true, { silent: true } );
 			}
+		},
+
+		render: function() {
+			if ( this.model.get( 'selected' ) ) {
+				this.el.className = 'selected';
+			} else {
+				this.el.className = '';
+			}
+
+			bp.Nouveau.GroupInvites.View.prototype.render.apply( this, arguments );
 		},
 
 		toggleUser: function( event ) {
@@ -633,19 +642,16 @@ window.bp = window.bp || {};
 
 			if ( false === selected ) {
 				this.model.set( 'selected', true );
-
-				// Set the selected class
-				$( this.el ).addClass( 'selected' );
 			} else {
 				this.model.set( 'selected', false );
-
-				// Set the selected class
-				$( this.el ).removeClass( 'selected' );
 
 				if ( ! bp.Nouveau.GroupInvites.invites.length  ) {
 					bp.Nouveau.GroupInvites.invites.reset();
 				}
 			}
+
+			// Rerender to update buttons.
+			this.render();
 		},
 
 		removeInvite: function( event ) {

@@ -65,16 +65,22 @@
 
 	<div class="action">
 		<# if ( undefined === data.is_sent || ( false === data.is_sent && true === data.can_edit ) ) { #>
-			<button type="button" class="button invite-button group-add-remove-invite-button bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'Invite / Uninvite', 'buddypress' ); ?>">
+			<button type="button" class="button invite-button group-add-remove-invite-button bp-tooltip bp-icons<# if ( data.selected ) { #> selected<# } #>" data-bp-tooltip="<# if ( data.selected ) { #><?php esc_attr_e( 'Disinvite', 'buddypress' ); ?><# } else { #><?php esc_attr_e( 'Invite', 'buddypress' ); ?><# } #>">
 				<span class="icons" aria-hidden="true"></span>
-				<span class="bp-screen-reader-text"><?php esc_html_e( 'Invite/Uninvite', 'buddypress' ); ?></span>
+				<span class="bp-screen-reader-text">
+					<# if ( data.selected ) { #>
+						<?php esc_html_e( 'Disinvite', 'buddypress' ); ?>
+					<# } else { #>
+						<?php esc_html_e( 'Invite', 'buddypress' ); ?>
+					<# } #>
+				</span>
 			</button>
 		<# } #>
 
 		<# if ( undefined !== data.can_edit && true === data.can_edit ) { #>
-			<button type="button" class="button invite-button group-remove-invite-button bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'Remove', 'buddypress' ); ?>">
+			<button type="button" class="button invite-button group-remove-invite-button bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'Disinvite', 'buddypress' ); ?>">
 				<span class=" icons" aria-hidden="true"></span>
-				<span class="bp-screen-reader-text"><?php esc_html_e( 'Remove', 'buddypress' ); ?></span>
+				<span class="bp-screen-reader-text"><?php esc_html_e( 'Disinvite', 'buddypress' ); ?></span>
 			</button>
 		<# } #>
 	</div>
