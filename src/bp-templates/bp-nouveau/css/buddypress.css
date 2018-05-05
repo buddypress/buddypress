@@ -5091,6 +5091,7 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	}
 	.bp-single-vert-nav .bp-navs.vertical ul {
 		border-right: 1px solid #d6d6d6;
+		border-bottom: 0;
 		float: left;
 		margin-right: -1px;
 		width: 25%;
