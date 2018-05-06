@@ -3803,3 +3803,40 @@ function bp_email_get_unsubscribe_type_schema() {
 	 */
 	return (array) apply_filters( 'bp_email_get_unsubscribe_type_schema', $emails );
 }
+
+/**
+ * Get BuddyPress content allowed tags.
+ *
+ * @since  3.0.0
+ *
+ * @global array $allowedtags KSES allowed HTML elements.
+ * @return array              BuddyPress content allowed tags.
+ */
+function bp_get_allowedtags() {
+	global $allowedtags;
+
+	return array_merge_recursive( $allowedtags, array(
+		'a' => array(
+			'aria-label'      => array(),
+			'class'           => array(),
+			'data-bp-tooltip' => array(),
+			'id'              => array(),
+			'rel'             => array(),
+		),
+		'img' => array(
+			'src'    => array(),
+			'alt'    => array(),
+			'width'  => array(),
+			'height' => array(),
+			'class'  => array(),
+			'id'     => array(),
+		),
+		'span'=> array(
+			'class'          => array(),
+			'data-livestamp' => array(),
+		),
+		'ul' => array(),
+		'ol' => array(),
+		'li' => array(),
+	) );
+}

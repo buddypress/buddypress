@@ -192,7 +192,7 @@
 		margin-top: $marg-lrg;
 
 		.preview-message {
-			clear: both;
+			overflow: hidden;
 		}
 
 		.preview-content {
@@ -263,7 +263,7 @@
 		}
 
 		.message-content {
-			clear: both;
+			overflow: hidden;
 			margin: 1em auto 0;
 			width: 90%;
 		}

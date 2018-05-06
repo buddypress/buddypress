@@ -102,21 +102,6 @@ class BP_Nouveau_Messages {
 
 		// Messages
 		add_filter( 'bp_messages_admin_nav', 'bp_nouveau_messages_adjust_admin_nav', 10, 1 );
-
-		remove_filter( 'messages_notice_message_before_save', 'wp_filter_kses', 1 );
-		remove_filter( 'messages_message_content_before_save', 'wp_filter_kses', 1 );
-		remove_filter( 'bp_get_the_thread_message_content', 'wp_filter_kses', 1 );
-
-		add_filter( 'messages_notice_message_before_save', 'wp_filter_post_kses', 1 );
-		add_filter( 'messages_message_content_before_save', 'wp_filter_post_kses', 1 );
-		add_filter( 'bp_get_the_thread_message_content', 'wp_filter_post_kses', 1 );
-		add_filter( 'bp_get_message_thread_content', 'wp_filter_post_kses', 1 );
-		add_filter( 'bp_get_message_thread_content', 'wptexturize' );
-		add_filter( 'bp_get_message_thread_content', 'stripslashes_deep', 1 );
-		add_filter( 'bp_get_message_thread_content', 'convert_smilies', 2 );
-		add_filter( 'bp_get_message_thread_content', 'convert_chars' );
-		add_filter( 'bp_get_message_thread_content', 'make_clickable', 9 );
-		add_filter( 'bp_get_message_thread_content', 'wpautop' );
 	}
 }
 

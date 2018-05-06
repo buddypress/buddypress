@@ -3069,7 +3069,7 @@ body.register .buddypress-wrap .page ul {
 }
 
 .bp-messages-content #thread-preview .preview-message {
-	clear: both;
+	overflow: hidden;
 }
 
 .bp-messages-content #thread-preview .preview-content {
@@ -3138,7 +3138,7 @@ body.register .buddypress-wrap .page ul {
 }
 
 .bp-messages-content #bp-message-thread-list .message-content {
-	clear: both;
+	overflow: hidden;
 	margin: 1em auto 0;
 	width: 90%;
 }

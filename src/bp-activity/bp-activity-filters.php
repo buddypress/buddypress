@@ -202,36 +202,6 @@ function bp_activity_check_blacklist_keys( $activity ) {
  * @return string $content Filtered activity content.
  */
 function bp_activity_filter_kses( $content ) {
-	global $allowedtags;
-
-	$activity_allowedtags = $allowedtags;
-	$activity_allowedtags['a']['aria-label']      = array();
-	$activity_allowedtags['a']['class']           = array();
-	$activity_allowedtags['a']['data-bp-tooltip'] = array();
-	$activity_allowedtags['a']['id']              = array();
-	$activity_allowedtags['a']['rel']             = array();
-	$activity_allowedtags['a']['title']           = array();
-
-	$activity_allowedtags['b']    = array();
-	$activity_allowedtags['code'] = array();
-	$activity_allowedtags['i']    = array();
-
-	$activity_allowedtags['img']           = array();
-	$activity_allowedtags['img']['src']    = array();
-	$activity_allowedtags['img']['alt']    = array();
-	$activity_allowedtags['img']['width']  = array();
-	$activity_allowedtags['img']['height'] = array();
-	$activity_allowedtags['img']['class']  = array();
-	$activity_allowedtags['img']['id']     = array();
-
-	$activity_allowedtags['span']                   = array();
-	$activity_allowedtags['span']['class']          = array();
-	$activity_allowedtags['span']['data-livestamp'] = array();
-
-	$activity_allowedtags['ul'] = array();
-	$activity_allowedtags['ol'] = array();
-	$activity_allowedtags['li'] = array();
-
 	/**
 	 * Filters the allowed HTML tags for BuddyPress Activity content.
 	 *
@@ -239,7 +209,7 @@ function bp_activity_filter_kses( $content ) {
 	 *
 	 * @param array $value Array of allowed HTML tags and attributes.
 	 */
-	$activity_allowedtags = apply_filters( 'bp_activity_allowed_tags', $activity_allowedtags );
+	$activity_allowedtags = apply_filters( 'bp_activity_allowed_tags', bp_get_allowedtags() );
 	return wp_kses( $content, $activity_allowedtags );
 }
 

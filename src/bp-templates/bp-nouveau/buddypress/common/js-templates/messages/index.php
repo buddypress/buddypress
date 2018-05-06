@@ -41,8 +41,8 @@
 
 <script type="text/html" id="tmpl-bp-messages-editor">
 	<?php
-	// Temporarily filter the editor
-	add_filter( 'mce_buttons', 'bp_nouveau_mce_buttons', 10, 1 );
+	// Add a temporary filter on editor buttons
+	add_filter( 'mce_buttons', 'bp_nouveau_messages_mce_buttons', 10, 1 );
 
 	wp_editor(
 		'',
@@ -58,8 +58,8 @@
 			'textarea_rows' => 5,
 		)
 	);
-	// Temporarily filter the editor
-	remove_filter( 'mce_buttons', 'bp_nouveau_mce_buttons', 10, 1 );
+	// Remove the temporary filter on editor buttons
+	remove_filter( 'mce_buttons', 'bp_nouveau_messages_mce_buttons', 10, 1 );
 	?>
 </script>
 
