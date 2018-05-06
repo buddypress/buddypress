@@ -354,15 +354,6 @@ body.buddypress article.page > .entry-header .entry-title {
 	color: #fafafa;
 }
 
-.buddypress-wrap .bp-navs li.selected a .count,
-.buddypress-wrap .bp-navs li.selected a:focus .count,
-.buddypress-wrap .bp-navs li.selected a:hover .count,
-.buddypress-wrap .bp-navs li.current a .count,
-.buddypress-wrap .bp-navs li.current a:focus .count,
-.buddypress-wrap .bp-navs li.current a:hover .count {
-	border-color: #fafafa;
-}
-
 @media screen and (min-width: 46.8em) {
 	.buddypress-wrap .main-navs:not(.dir-navs) li.selected a,
 	.buddypress-wrap .main-navs:not(.dir-navs) li.current a {
