@@ -1253,6 +1253,7 @@ body.buddypress article.page > .entry-header .entry-title {
 }
 
 .activity-list .activity-item div.item-avatar img {
+	height: auto;
 	max-width: 40%;
 }
 
