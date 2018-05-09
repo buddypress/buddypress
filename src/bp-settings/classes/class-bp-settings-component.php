@@ -70,7 +70,7 @@ class BP_Settings_Component extends BP_Component {
 		// Authenticated actions.
 		if ( is_user_logged_in() ) {
 			if ( bp_is_current_action( 'general' ) ) {
-				require $this->path . 'bp-settings/screens/general.php';
+				require $this->path . 'bp-settings/actions/general.php';
 
 			// Specific to post requests.
 			} elseif ( bp_is_post_request() && in_array( bp_current_action(), $actions, true ) ) {
