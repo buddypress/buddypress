@@ -54,12 +54,14 @@ class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 			}
 
 			if ( $item_nav ) {
-				$guide = __( 'All the possible group nav items are listed below, in some groups some of these nav items might not be active.', 'buddypress' );
+				$guide = __( 'Drag each possible group nav items that are listed below into the order you prefer, in some groups some of these nav items might not be active.', 'buddypress' );
 			}
 
 		// It's a user!
 		} else {
 			$item_nav = bp_nouveau_member_customizer_nav();
+
+			$guide = __( 'Drag each possible user nav items that are listed below into the order you prefer.', 'buddypress' );
 		}
 		?>
 
