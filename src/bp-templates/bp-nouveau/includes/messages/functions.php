@@ -98,8 +98,15 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 		'nonces' => array(
 			'send' => wp_create_nonce( 'messages_send_message' ),
 		),
-		'loading' => __( 'Loading messages. Please wait.', 'buddypress' ),
-		'bulk_actions' => bp_nouveau_messages_get_bulk_actions(),
+		'loading'       => __( 'Loading messages. Please wait.', 'buddypress' ),
+		'doingAction'   => array(
+			'read'   => __( 'Marking message(s) as read. Please wait.', 'buddypress' ),
+			'unread' => __( 'Marking message(s) as unread. Please wait.', 'buddypress' ),
+			'delete' => __( 'Deleting message(s). Please wait.', 'buddypress' ),
+			'star'   => __( 'Starring message(s). Please wait.', 'buddypress' ),
+			'unstar' => __( 'Unstarring message(s). Please wait.', 'buddypress' ),
+		),
+		'bulk_actions'  => bp_nouveau_messages_get_bulk_actions(),
 	);
 
 	// Star private messages.

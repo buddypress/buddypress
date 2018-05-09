@@ -850,7 +850,8 @@ window.bp = window.bp || {};
 		},
 
 		doAction: function( event ) {
-			var action = $( event.currentTarget ).data( 'bp-action' ), self = this, options = {}, mid;
+			var action = $( event.currentTarget ).data( 'bp-action' ), self = this, options = {}, mid,
+			    feedback = BP_Nouveau.messages.doingAction;
 
 			if ( ! action ) {
 				return event;
@@ -874,7 +875,14 @@ window.bp = window.bp || {};
 				mid = model.get( 'starred_id' );
 			}
 
+			if ( ! _.isUndefined( feedback[ action ] ) ) {
+				bp.Nouveau.Messages.displayFeedback( feedback[ action ], 'loading' );
+			}
+
 			this.collection.doAction( action, mid, options ).done( function( response ) {
+				// Remove previous feedback.
+				bp.Nouveau.Messages.removeFeedback();
+
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 
 				if ( 'delete' === action || ( 'starred' === self.collection.options.box && 'unstar' === action ) ) {
@@ -895,6 +903,9 @@ window.bp = window.bp || {};
 					model.set( _.first( response.messages ) );
 				}
 			} ).fail( function( response ) {
+				// Remove previous feedback.
+				bp.Nouveau.Messages.removeFeedback();
+
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 			} );
 		}
@@ -930,7 +941,8 @@ window.bp = window.bp || {};
 		},
 
 		doBulkAction: function( event ) {
-			var self = this, options = {}, ids, attr = 'id';
+			var self = this, options = {}, ids, attr = 'id',
+			    feedback = BP_Nouveau.messages.doingAction;
 
 			event.preventDefault();
 
@@ -969,7 +981,14 @@ window.bp = window.bp || {};
 			    return [model.get( attr ), model.get( 'id' )];
 			} ) );
 
+			if ( ! _.isUndefined( feedback[ action ] ) ) {
+				bp.Nouveau.Messages.displayFeedback( feedback[ action ], 'loading' );
+			}
+
 			this.collection.doAction( action, ids, options ).done( function( response ) {
+				// Remove previous feedback.
+				bp.Nouveau.Messages.removeFeedback();
+
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 
 				if ( 'delete' === action || ( 'starred' === self.collection.options.box && 'unstar' === action ) ) {
@@ -988,6 +1007,9 @@ window.bp = window.bp || {};
 					} );
 				}
 			} ).fail( function( response ) {
+				// Remove previous feedback.
+				bp.Nouveau.Messages.removeFeedback();
+
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 			} );
 		}
@@ -1087,7 +1109,8 @@ window.bp = window.bp || {};
 		},
 
 		doAction: function( event ) {
-			var action = $( event.currentTarget ).data( 'bp-action' ), self = this, options = {};
+			var action = $( event.currentTarget ).data( 'bp-action' ), self = this, options = {},
+			    feedback = BP_Nouveau.messages.doingAction;
 
 			if ( ! action ) {
 				return event;
@@ -1114,6 +1137,10 @@ window.bp = window.bp || {};
 
 			}
 
+			if ( ! _.isUndefined( feedback[ action ] ) ) {
+				bp.Nouveau.Messages.displayFeedback( feedback[ action ], 'loading' );
+			}
+
 			bp.Nouveau.Messages.threads.doAction( action, this.model.get( 'id' ), options ).done( function( response ) {
 				// Remove all views
 				if ( 'delete' === action ) {
@@ -1122,9 +1149,15 @@ window.bp = window.bp || {};
 					self.model.set( _.first( response.messages ) );
 				}
 
+				// Remove previous feedback.
+				bp.Nouveau.Messages.removeFeedback();
+
 				// Display the feedback
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 			} ).fail( function( response ) {
+				// Remove previous feedback.
+				bp.Nouveau.Messages.removeFeedback();
+
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 			} );
 		}
