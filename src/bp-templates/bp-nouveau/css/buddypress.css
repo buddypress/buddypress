@@ -1,4 +1,9 @@
 /*--------------------------------------------------------------
+Hello, this is the BuddyPress Nouveau stylesheet.
+
+@version 3.0.0
+
+----------------------------------------------------------------
 >>> TABLE OF CONTENTS:
 ----------------------------------------------------------------
 1.0 - BP Generic, Typography & Imagery
@@ -2526,8 +2531,9 @@ body.no-js .single-item-header .js-self-profile-button {
 *-----------------------------------------
 */
 /*
-* bp-nouveau styling: invite members, sent invites
-* */
+ * bp-nouveau styling: invite members, sent invites
+ * @version 3.0.0
+ */
 .buddypress .bp-invites-content ul.item-list {
 	border-top: 0;
 }
