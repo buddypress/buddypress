@@ -803,6 +803,15 @@ window.bp = window.bp || {};
 
 		initialize: function() {
 			this.model.on( 'change:selected', this.removeView, this );
+
+			// Build the BP Tooltip.
+			if ( ! this.model.get( 'uninviteTooltip' ) ) {
+				this.model.set( 'uninviteTooltip',
+					BP_Nouveau.group_invites.removeUserInvite.replace( '%s', this.model.get( 'name' ) ),
+					{ silent: true }
+				);
+			}
+
 			this.el.id = 'uninvite-user-' + this.model.get( 'id' );
 		},
 

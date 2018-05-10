@@ -2584,8 +2584,14 @@ body.no-js .single-item-header .js-self-profile-button {
 	margin: 10px 0;
 }
 
-.buddypress .bp-invites-content #send-invites-editor {
-	overflow: hidden;
+.buddypress .bp-invites-content #send-invites-editor ul:before,
+.buddypress .bp-invites-content #send-invites-editor ul:after {
+	content: " ";
+	display: table;
+}
+
+.buddypress .bp-invites-content #send-invites-editor ul:after {
+	clear: both;
 }
 
 .buddypress .bp-invites-content #send-invites-editor textarea {
@@ -2596,7 +2602,6 @@ body.no-js .single-item-header .js-self-profile-button {
 	clear: both;
 	list-style: none;
 	margin: 10px 0;
-	overflow: hidden;
 }
 
 .buddypress .bp-invites-content #send-invites-editor ul li {
@@ -2604,6 +2609,11 @@ body.no-js .single-item-header .js-self-profile-button {
 	margin: 0.5%;
 	max-height: 50px;
 	max-width: 50px;
+}
+
+.buddypress .bp-invites-content #send-invites-editor #bp-send-invites-form {
+	clear: both;
+	margin-top: 10px;
 }
 
 .buddypress .bp-invites-content #send-invites-editor .action {
@@ -4770,6 +4780,11 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	-webkit-transform: translate(0, 0);
 	-ms-transform: translate(0, 0);
 	transform: translate(0, 0);
+}
+
+.bp-invites-content #send-invites-editor .bp-tooltip:after {
+	right: 0;
+	left: auto;
 }
 
 /**

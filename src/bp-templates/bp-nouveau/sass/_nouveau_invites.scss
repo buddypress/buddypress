@@ -77,8 +77,9 @@
 
 		} // close li
 
+		@include clearfix-element("#send-invites-editor ul");
+
 		#send-invites-editor {
-			overflow: hidden;
 
 			textarea {
 				width: 100%;
@@ -88,7 +89,6 @@
 				clear: both;
 				list-style: none;
 				margin: $marg-sml 0;
-				overflow: hidden;
 
 				li {
 					float: left;
@@ -97,6 +97,11 @@
 					max-width: 50px;
 				}
 			} // ul
+
+			#bp-send-invites-form {
+				clear: both;
+				margin-top: $marg-sml;
+			}
 
 			.action {
 				margin-top: $marg-sml;

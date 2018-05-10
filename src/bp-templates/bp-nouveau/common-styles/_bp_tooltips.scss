@@ -100,3 +100,12 @@
 
 	@include bp-tooltip-bottom-right;
 }
+
+.bp-invites-content #send-invites-editor .bp-tooltip {
+
+	// override .bp-invites-content .bp-tooltip
+	&:after {
+		left: 0;
+		right: auto;
+	}
+}
