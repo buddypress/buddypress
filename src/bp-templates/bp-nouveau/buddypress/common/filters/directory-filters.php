@@ -3,6 +3,7 @@
  * BP Nouveau Component's  filters template.
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 ?>
 

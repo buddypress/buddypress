@@ -3,6 +3,7 @@
  * BP Nouveau Search & filters bar
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 ?>
 <div class="subnav-filters filters no-ajax" id="subnav-filters">

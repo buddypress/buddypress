@@ -1,6 +1,8 @@
 <?php
 /**
  * BuddyPress - Home
+ *
+ * @version 3.0.0
  */
 
 ?>

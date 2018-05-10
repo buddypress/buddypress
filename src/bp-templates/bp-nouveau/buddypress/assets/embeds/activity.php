@@ -1,4 +1,8 @@
 <?php
+/**
+ * @version 3.0.0
+ */
+
 if ( bp_activity_embed_has_activity( bp_current_action() ) ) :
 ?>
 

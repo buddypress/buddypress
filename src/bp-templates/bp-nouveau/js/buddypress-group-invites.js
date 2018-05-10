@@ -1,4 +1,5 @@
 /* global wp, bp, BP_Nouveau, _, Backbone */
+/* @version 3.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 

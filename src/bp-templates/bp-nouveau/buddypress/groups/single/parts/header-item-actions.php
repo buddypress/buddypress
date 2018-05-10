@@ -3,6 +3,7 @@
  * BuddyPress - Groups Header item-actions.
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 ?>
 <div id="item-actions" class="group-item-actions">

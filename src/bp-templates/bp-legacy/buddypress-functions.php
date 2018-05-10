@@ -6,6 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage BP_Theme_Compat
+ * @version 3.0.0
  */
 
 // Exit if accessed directly.

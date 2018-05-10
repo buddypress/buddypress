@@ -3,6 +3,7 @@
  * BuddyPress - Members Loop
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 
 bp_nouveau_before_loop(); ?>

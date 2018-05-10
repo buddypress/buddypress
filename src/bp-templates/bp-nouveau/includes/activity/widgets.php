@@ -3,6 +3,7 @@
  * BP Nouveau Activity widgets
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 
 // Exit if accessed directly.

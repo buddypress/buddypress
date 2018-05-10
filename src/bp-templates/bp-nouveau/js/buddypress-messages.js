@@ -1,5 +1,6 @@
 /* global wp, bp, BP_Nouveau, _, Backbone, tinymce, tinyMCE */
 /* jshint devel: true */
+/* @version 3.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 

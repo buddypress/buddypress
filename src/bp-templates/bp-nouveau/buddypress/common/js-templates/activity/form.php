@@ -2,6 +2,7 @@
 /**
  * Activity Post form JS Templates
  *
+ * @version 3.0.0
  */
 ?>
 

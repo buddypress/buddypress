@@ -3,6 +3,7 @@
  * BuddyPress - Groups Cover Image Header.
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 ?>
 

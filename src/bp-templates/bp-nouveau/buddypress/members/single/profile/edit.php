@@ -3,6 +3,7 @@
  * BuddyPress - Members Single Profile Edit
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 
 bp_nouveau_xprofile_hook( 'before', 'edit_content' ); ?>

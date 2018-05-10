@@ -1,6 +1,8 @@
 <?php
 /**
  * BuddyPress - Groups Create
+ *
+ * @version 3.0.0
  */
 
 bp_nouveau_groups_create_hook( 'before', 'page' ); ?>

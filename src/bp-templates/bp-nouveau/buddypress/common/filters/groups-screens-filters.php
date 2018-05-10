@@ -3,6 +3,7 @@
  * BP Nouveau Groups screens filters
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 ?>
 <div id="comp-filters" class="component-filters clearfix">

@@ -1,4 +1,5 @@
 /* jshint undef: false */
+/* @version 3.0.0 */
 /* Password Verify */
 ( function( $ ){
 	function check_pass_strength() {

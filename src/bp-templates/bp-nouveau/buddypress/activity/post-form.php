@@ -1,6 +1,8 @@
 <?php
 /**
  * BuddyPress - Activity Post Form
+ *
+ * @version 3.0.0
  */
 
 ?>

@@ -1,6 +1,7 @@
 /* jshint undef: false */
 /* Password Verify */
 /* global pwsL10n */
+/* @version 3.0.0 */
 ( function( $ ){
 	function check_pass_strength() {
 		var pass1 = $( '.password-entry' ).val(),

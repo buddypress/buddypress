@@ -8,6 +8,7 @@
  * It's also used to create the common Backbone views.
  *
  * @since 2.4.0
+ * @version 3.0.0
  */
 
 ?>

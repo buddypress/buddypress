@@ -3,6 +3,7 @@
  * BuddyPress - Members Settings ( Delete Account )
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 
 bp_nouveau_member_hook( 'before', 'settings_template' ); ?>

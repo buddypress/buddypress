@@ -3,6 +3,7 @@
  * BuddyPress - Members Notifications Loop
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 
 if ( bp_has_notifications( bp_ajax_querystring( 'notifications' ) ) ) :

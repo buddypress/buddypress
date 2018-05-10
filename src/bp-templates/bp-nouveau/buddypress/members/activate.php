@@ -1,8 +1,9 @@
 <?php
 /**
  * BuddyPress - Members Activate
+ *
+ * @version 3.0.0
  */
-
 ?>
 
 	<?php bp_nouveau_activation_hook( 'before', 'page' ); ?>

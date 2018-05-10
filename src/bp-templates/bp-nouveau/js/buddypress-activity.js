@@ -1,5 +1,6 @@
 /* jshint browser: true */
 /* global bp, BP_Nouveau */
+/* @version 3.0.0 */
 window.bp = window.bp || {};
 
 ( function( exports, $ ) {

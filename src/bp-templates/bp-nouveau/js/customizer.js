@@ -1,4 +1,5 @@
 /* global _ */
+/* @version 3.0.0 */
 window.wp = window.wp || {};
 
 ( function( wp, $ ) {

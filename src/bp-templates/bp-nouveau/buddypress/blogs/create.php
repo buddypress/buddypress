@@ -3,6 +3,7 @@
  * BuddyPress - Blogs Create
  *
  * @since 3.0.0
+ * @version 3.0.0
  */
 
 bp_nouveau_blogs_create_hook( 'before', 'content_template' ); ?>

@@ -1,6 +1,7 @@
 /* global wp, bp, BP_Nouveau, JSON */
 /* jshint devel: true */
 /* jshint browser: true */
+/* @version 3.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 

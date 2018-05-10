@@ -11,6 +11,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-attachments
+ * @version 3.0.0
  */
 
 ?>

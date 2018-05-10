@@ -1,4 +1,5 @@
 /* jshint undef: false, unused:false */
+/* @version 3.0.0 */
 // AJAX Functions
 var jq = jQuery;
 

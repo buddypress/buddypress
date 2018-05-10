@@ -4,6 +4,8 @@
  *
  * This template is used by bp_activity_comments() functions to show
  * each activity.
+ *
+ * @version 3.0.0
  */
 
 	?>
