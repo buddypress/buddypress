@@ -235,7 +235,7 @@ function bp_nouveau_wrapper( $args = array() ) {
 	*/
 	$current_component_class = bp_current_component() . '-meta';
 
-	if ( 'groups' === bp_current_component() && 'activity' === bp_current_action() ) {
+	if ( bp_is_group_activity() ) {
 		$generic_class = ' activity-meta ';
 	} else {
 		$generic_class = '';
