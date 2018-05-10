@@ -138,10 +138,6 @@ class BP_Nouveau extends BP_Theme_Compat {
 		/** This filter is documented in bp-core/bp-core-avatars.php. */
 		$avatar_height = apply_filters( 'bp_core_avatar_full_height', $top_offset );
 
-		if ( ! empty( $GLOBALS['content_width'] ) ) {
-			$width = $GLOBALS['content_width'];
-		}
-
 		if ( $avatar_height > $top_offset ) {
 			$top_offset = $avatar_height;
 		}
