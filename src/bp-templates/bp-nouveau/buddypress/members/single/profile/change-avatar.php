@@ -6,7 +6,7 @@
  */
 ?>
 
-<h2 class="screen-heading"><?php _e( 'Change Profile Photo', 'buddypress' ); ?></h2>
+<h2 class="screen-heading change-avatar-screen"><?php _e( 'Change Profile Photo', 'buddypress' ); ?></h2>
 
 <?php bp_nouveau_member_hook( 'before', 'avatar_upload_content' ); ?>
 

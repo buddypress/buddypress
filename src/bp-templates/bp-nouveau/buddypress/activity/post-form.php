@@ -13,6 +13,8 @@
 bp_nouveau_before_activity_post_form();
 ?>
 
+<h2 class="bp-screen-reader-text"><?php _e( 'Post Update', 'buddypress' ); ?></h2>
+
 <div id="bp-nouveau-activity-form" class="activity-update-form"></div>
 
 <?php

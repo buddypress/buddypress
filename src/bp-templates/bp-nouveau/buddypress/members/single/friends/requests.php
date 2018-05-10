@@ -5,7 +5,11 @@
  * @since 3.0.0
  */
 
-bp_nouveau_member_hook( 'before', 'friend_requests_content' ); ?>
+?>
+
+<h2 class="screen-heading friendship-requests-screen"><?php esc_html_e( 'Friendship Requests', 'buddypress' ); ?></h2>
+
+<?php bp_nouveau_member_hook( 'before', 'friend_requests_content' ); ?>
 
 <?php if ( bp_has_members( 'type=alphabetical&include=' . bp_get_friendship_requests() ) ) : ?>
 

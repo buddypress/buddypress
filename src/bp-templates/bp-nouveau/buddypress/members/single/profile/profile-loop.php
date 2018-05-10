@@ -5,7 +5,11 @@
  * @since 3.0.0
  */
 
-bp_nouveau_xprofile_hook( 'before', 'loop_content' ); ?>
+?>
+
+<h2 class="screen-heading view-profile-screen"><?php _e( 'View Profile', 'buddypress' ); ?></h2>
+
+<?php bp_nouveau_xprofile_hook( 'before', 'loop_content' ); ?>
 
 <?php if ( bp_has_profile() ) : ?>
 
@@ -20,9 +24,9 @@ bp_nouveau_xprofile_hook( 'before', 'loop_content' ); ?>
 
 			<div class="bp-widget <?php bp_the_profile_group_slug(); ?>">
 
-				<h2 class="screen-heading profile-group-title">
+				<h3 class="screen-heading profile-group-title">
 					<?php bp_the_profile_group_name(); ?>
-				</h2>
+				</h3>
 
 				<table class="profile-fields bp-tables-user">
 

@@ -9,7 +9,7 @@ bp_nouveau_wp_profile_hooks( 'before' ); ?>
 
 <div class="bp-widget wp-profile">
 
-	<h2 class="screen-heading">
+	<h2 class="screen-heading wp-profile-screen">
 		<?php
 		if ( bp_is_my_profile() ) {
 			_e( 'My Profile', 'buddypress' );

@@ -7,7 +7,7 @@
 
 ?>
 
-<h2 class="screen-heading"><?php _e( 'Change Cover Image', 'buddypress' ); ?></h2>
+<h2 class="screen-heading change-cover-image-screen"><?php _e( 'Change Cover Image', 'buddypress' ); ?></h2>
 
 <?php bp_nouveau_member_hook( 'before', 'edit_cover_image' ); ?>
 

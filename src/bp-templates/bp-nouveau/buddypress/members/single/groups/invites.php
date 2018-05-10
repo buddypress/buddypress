@@ -5,7 +5,11 @@
  * @since 3.0.0
  */
 
-bp_nouveau_group_hook( 'before', 'invites_content' ); ?>
+?>
+
+<h2 class="screen-heading group-invites-screen"><?php esc_html_e( 'Group Invites', 'buddypress' ); ?></h2>
+
+<?php bp_nouveau_group_hook( 'before', 'invites_content' ); ?>
 
 <?php if ( bp_has_groups( 'type=invites&user_id=' . bp_loggedin_user_id() ) ) : ?>
 
