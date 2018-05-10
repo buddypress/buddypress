@@ -1,72 +1,72 @@
 === BuddyPress ===
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
-Tags: social networking, activity, profiles, messaging, friends, groups, notifications, settings, social, community, networking
+Tags: user profiles, activity streams, messaging, friends, user groups, notifications, community, social networking
 Requires at least: 4.5
-Tested up to: 4.9.5
+Tested up to: 4.9.6
 Requires PHP: 5.3
 Stable tag: 2.9.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!
+BuddyPress helps site builders & developers add community features to their websites, with user profiles, activity streams, and more!
 
 == Description ==
 
 Are you looking for modern, robust, and sophisticated social network software? BuddyPress is a suite of components that are common to a typical social network, and allows for great add-on features through WordPress's extensive plugin system.
 
-BuddyPress is focused on ease of integration, ease of use, and extensibility. It is deliberately powerful yet unbelievably simple social network software, built by contributors to WordPress.
+Aimed at site builders & developers, BuddyPress is focused on ease of integration, ease of use, and extensibility. It is deliberately powerful yet unbelievably simple social network software, built by contributors to WordPress.
 
-Enable registered members to create profiles, have private conversations, make connections, create & interact in groups, and much more. Truly a social network in a box, BuddyPress helps you more easily build a home for your company, school, sports team, or other niche community.
+https://wordpress.tv/2015/08/23/rocio-valdivia-buddypress-much-more-than-a-plugin/
 
-= Extensions =
+Members can register on your site to create user profiles, have private conversations, make social connections, create and interact in groups, and much more. Truly a social network in a box, BuddyPress helps you build a home for your company, school, sports team, or other niche community.
 
-BuddyPress has an ever-increasing array of extended features developed by an active and thriving plugin development community, with hundreds of free-and-open BuddyPress-compatible plugins available at <a href="https://wordpress.org/plugins/search.php?q=buddypress">WordPress.org</a>. Any plugin can be conveniently installed using the plugin installer in your WordPress Dashboard.
+= Built with developers in mind =
 
-= More Information =
+BuddyPress helps site builders & developers add community features to their websites. It comes with a robust theme compatibility API that does its best to make every BuddyPress content page look and feel right with just about any WordPress theme. You will likely need to adjust some styling on your own to make everything look pristine.
 
-Visit the <a href="https://buddypress.org/">BuddyPress website</a> for documentation, support, and information on getting involved in the project and community.
+BuddyPress themes are just WordPress themes with additional templates, and with a little work, you could easily create your own, too! A handful of BuddyPress-specific themes are readily available for download from WordPress.org, and lots more are available from third-party theme authors.
+
+BuddyPress also comes with built-in support for Akismet and [bbPress](https://wordpress.org/plugins/bbbpress/), two very popular and very powerful WordPress plugins. If you're using either, visit their settings pages and ensure everything is configured to your liking.
+
+= The BuddyPress ecosystem =
+
+WordPress.org is home to some amazing extensions for BuddyPress, including:
+
+- [rtMedia for WordPress, BuddyPress and bbPress](https://wordpress.org/plugins/buddypress-media/)
+- [BuddyPress Docs](https://wordpress.org/plugins/buddypress-docs/)
+- [BuddyPress Activity Plus](https://wordpress.org/plugins/buddypress-activity-plus/)
+
+Search WordPress.org for "BuddyPress" to find them all!
+
+= Join our community =
+
+If you're interested in contributing to BuddyPress, we'd love to have you. Head over to the [BuddyPress Documentation](https://codex.buddypress.org/participate-and-contribute/) site to find out how you can pitch in.
+
+BuddyPress is available in many languages thanks to the volunteer efforts of individuals all around the world. Check out our <a href="https://codex.buddypress.org/translations/">translations page</a> on the BuddyPress Documentation site for more details. If you are a polygot, please <a href="https://translate.wordpress.org/projects/wp-plugins/buddypress">consider helping translate BuddyPress</a> into your language.
+
+Growing the BuddyPress community means better software for everyone!
 
 == Installation ==
 
-= From your WordPress dashboard =
+= Requirements =
 
-1. Visit 'Plugins > Add New'
-2. Search for 'BuddyPress'
-3. Activate BuddyPress from your Plugins page. (You will be greeted with a Welcome page.)
+To run BuddyPress, we recommend your host supports:
 
-= From WordPress.org =
+* PHP version 7.2 or greater.
+* MySQL version 5.6 or greater, or, MariaDB version 10.0 or greater.
+* HTTPS support.
 
-1. Download BuddyPress.
-2. Upload the 'buddypress' directory to your '/wp-content/plugins/' directory, using your favorite method (ftp, sftp, scp, etc...)
-3. Activate BuddyPress from your Plugins page. (You will be greeted with a Welcome page.)
+= Automatic installation =
 
-= Once Activated =
+Automatic installation is the easiest option as WordPress handles everything itself. To do an automatic install of BuddyPress, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
 
-1. If you do not have pretty permalinks enabled, you will see a notice to enable them. (BuddyPress will not currently work without them.)
-2. Visit 'Settings > BuddyPress > Components' and adjust the active components to match your community. (You can always toggle these later.)
-3. Visit 'Settings > BuddyPress > Pages' and setup your directories and special pages. We create a few automatically, but suggest you customize these to fit the flow and verbiage of your site.
-4. Visit 'Settings > BuddyPress > Settings' and take a moment to match BuddyPress's settings to your expectations. We pick the most common configuration by default, but every community is different.
+In the search field type "BuddyPress" and click Search Plugins. Once you've found it, you can view details about the latest release, such as community reviews, ratings, and description. Install BuddyPress by simply pressing "Install Now".
 
-= Once Configured =
+Once activated:
 
-* BuddyPress comes with a robust theme-compatibility API that does its best to make every BuddyPress page look and feel right with just-about any WordPress theme. You may need to adjust some styling on your own to make everything look pristine.
-* A few BuddyPress specific themes are readily available for download from WordPress.org, and hundreds more are available from third-party theme authors. BuddyPress themes are just WordPress themes with additional templates for each component, and with a little work you could easily create your own too!
-* BuddyPress also comes with built-in support for Akismet and bbPress, two very popular and very powerful WordPress plugins. If you're using either, visit their settings pages and ensure everything is configured to your liking.
-
-= Multisite & Multiple Networks =
-
-BuddyPress can be activated and operate in just about any scope you need for it to.
-
-* Activate at the site level to only load BuddyPress on that site.
-* Activate at the network level for full integration with all sites in your network. (This is the most common multisite installation type.)
-* Enable <a href="https://codex.buddypress.org/getting-started/customizing/bp_enable_multiblog/">multiblog</a> mode to allow your BuddyPress content to be displayed on any site in your WordPress Multisite network, using the same central data.
-* Extend BuddyPress with a third-party multi-network plugin to allow each site or network to have an isolated and dedicated community, all from the same WordPress installation.
-
-Read more about custom BuddyPress activations <a href="https://codex.buddypress.org/getting-started/installation-in-wordpress-multisite/">on our codex page.</a>
-
-= Discussion Forums =
-
-Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates with BuddyPress Groups, Profiles, and Notifications. Each group on your site can choose to have its own forum, and each user's topics, replies, favorites, and subscriptions appear in their profiles.
+1. Visit 'Settings > BuddyPress > Components' and adjust the active components to match your community. (You can always toggle these later.)
+2. Visit 'Settings > BuddyPress > Pages' and setup your directories and special pages. We create a few automatically, but suggest you customize these to fit the flow and verbiage of your site.
+3. Visit 'Settings > BuddyPress > Settings' and take a moment to match BuddyPress's settings to your expectations. We pick the most common configuration by default, but every community is different.
 
 == Frequently Asked Questions ==
 
@@ -78,13 +78,22 @@ Yes! BuddyPress works out-of-the-box with nearly every WordPress theme.
 
 Yes! If your WordPress installation has multisite enabled, BuddyPress will support the global tracking of blogs, posts, comments, and even custom post types with a little bit of custom code.
 
+Furthermore, BuddyPress can be activated and operate in just about any scope you need for it to:
+
+* Activate at the site level to only load BuddyPress on that site.
+* Activate at the network level for full integration with all sites in your network. (This is the most common multisite installation type.)
+* Enable <a href="https://codex.buddypress.org/getting-started/customizing/bp_enable_multiblog/">multiblog</a> mode to allow your BuddyPress content to be displayed on any site in your WordPress Multisite network, using the same central data.
+* Extend BuddyPress with a third-party multi-network plugin to allow each site or network to have an isolated and dedicated community, all from the same WordPress installation.
+
+Read <a href="https://codex.buddypress.org/getting-started/installation-in-wordpress-multisite/">custom BuddyPress activations </a> for more information.
+
 = Where can I get support? =
 
 Our community provides free support at <a href="https://buddypress.org/support/">https://buddypress.org/support/</a>.
 
 = Where can I find documentation? =
 
-Our codex can be found at <a href="https://codex.buddypress.org/">https://codex.buddypress.org/</a>.
+Our documentation site can be found at <a href="https://codex.buddypress.org/">https://codex.buddypress.org/</a>.
 
 = Where can I report a bug? =
 
@@ -96,7 +105,13 @@ Check out the development trunk of BuddyPress from Subversion at <a href="https:
 
 = Who builds BuddyPress? =
 
-BuddyPress is free software, built by an international community of volunteers. Some contributors to BuddyPress are employed by companies that use BuddyPress, while others are consultants who offer BuddyPress-related services for hire. No one is paid by the BuddyPress project for his or her contributions. If you would like to provide monetary support to BuddyPress, please consider a donation to the <a href="https://wordpressfoundation.org">WordPress Foundation</a>, or ask your favorite contributor how they prefer to have their efforts rewarded.
+BuddyPress is free software, built by an international community of volunteers. Some contributors to BuddyPress are employed by companies that use BuddyPress, while others are consultants who offer BuddyPress-related services for hire. No one is paid by the BuddyPress project for his or her contributions.
+
+If you would like to provide monetary support to BuddyPress, please consider a donation to the <a href="https://wordpressfoundation.org">WordPress Foundation</a>, or ask your favorite contributor how they prefer to have their efforts rewarded.
+
+= Discussion Forums =
+
+Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates with BuddyPress Groups, Profiles, and Notifications. Each group on your site can choose to have its own forum, and each user's topics, replies, favorites, and subscriptions appear in their profiles.
 
 == Screenshots ==
 
@@ -109,12 +124,6 @@ BuddyPress is free software, built by an international community of volunteers. 
 7. **Site Tracking** - Track posts and comments in the activity stream, and allow your users to add their own blogs using WordPress' Multisite feature.
 8. **Notifications** - Keep your members up-to-date with relevant activity via toolbar and email notifications.
 
-== Languages ==
-
-BuddyPress is available in many languages thanks to the volunteer efforts of individuals all around the world. Check out our <a href="https://codex.buddypress.org/translations/">translations page</a> on the BuddyPress Codex for more details.
-
-Please consider helping translate BuddyPress at our <a href="https://translate.wordpress.org/projects/wp-plugins/buddypress">GlotPress project</a>. Growing the BuddyPress community means better software for everyone!
-
 == Upgrade Notice ==
 
 = 3.0.0 =
@@ -123,4 +132,5 @@ See: https://codex.buddypress.org/releases/version-3-0-0/
 == Changelog ==
 
 = 3.0.0 =
+
 See: https://codex.buddypress.org/releases/version-3-0-0/
