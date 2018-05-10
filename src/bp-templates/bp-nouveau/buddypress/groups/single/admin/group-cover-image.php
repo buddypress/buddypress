@@ -8,15 +8,17 @@
 
 <?php if ( bp_is_group_create() ) : ?>
 
-	<h2 class="bp-screen-title <?php if ( bp_is_group_create() ) { echo esc_attr( 'creation-step-name' ); } ?>">
-		<?php _e( 'Upload a Cover Image', 'buddypress' ); ?>
+	<h2 class="bp-screen-title creation-step-name">
+		<?php esc_html_e( 'Upload Cover Image', 'buddypress' ); ?>
 	</h2>
 
 	<div id="header-cover-image"></div>
 
 <?php else : ?>
 
-	<h2 class="bp-screen-title"><?php _e( 'Change Cover Image', 'buddypress' ); ?></h2>
+	<h2 class="bp-screen-title">
+		<?php esc_html_e( 'Change Cover Image', 'buddypress' ); ?>
+	</h2>
 
 <?php endif; ?>
 

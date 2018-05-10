@@ -5,9 +5,20 @@
  * @since 3.0.0
  */
 ?>
-<h2 class="bp-screen-title <?php if ( bp_is_group_create() ) { echo esc_attr( 'creation-step-name' ); } ?>">
-	<?php _e( 'Group Avatar', 'buddypress' ); ?>
-</h2>
+
+<?php if ( bp_is_group_create() ) : ?>
+
+	<h3 class="bp-screen-title creation-step-name">
+		<?php esc_html_e( 'Upload Group Avatar', 'buddypress' ); ?>
+	</h3>
+
+<?php else : ?>
+
+	<h2 class="bp-screen-title">
+		<?php esc_html_e( 'Change Group Avatar', 'buddypress' ); ?>
+	</h2>
+
+<?php endif; ?>
 
 <?php if ( ! bp_is_group_create() ) : ?>
 	<?php if ( ! bp_get_group_has_avatar() ) : ?>

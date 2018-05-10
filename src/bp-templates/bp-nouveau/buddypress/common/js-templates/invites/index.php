@@ -9,9 +9,19 @@
  */
 ?>
 
-<h2 class="bp-screen-title <?php if ( bp_is_group_create() ) { echo esc_attr( 'creation-step-name' ); } ?>">
-	<?php _e( 'Invite Members', 'buddypress' ); ?>
-</h2>
+<?php if ( bp_is_group_create() ) : ?>
+
+	<h3 class="bp-screen-title creation-step-name">
+		<?php esc_html_e( 'Invite Members', 'buddypress' ); ?>
+	</h3>
+
+<?php else : ?>
+
+	<h2 class="bp-screen-title">
+		<?php esc_html_e( 'Invite Members', 'buddypress' ); ?>
+	</h2>
+
+<?php endif; ?>
 
 <div id="group-invites-container">
 
