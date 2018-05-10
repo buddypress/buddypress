@@ -634,8 +634,7 @@ window.bp = window.bp || {};
 		tagName   : 'div',
 
 		events: {
-			'click .thread-content'       : 'changePreview',
-			'dblclick .thread-content'    : 'loadSingleView'
+			'click .subject' : 'changePreview'
 		},
 
 		initialize: function() {
@@ -666,6 +665,9 @@ window.bp = window.bp || {};
 
 		threadsFetched: function() {
 			bp.Nouveau.Messages.removeFeedback();
+
+			// Inform the user about how to use the UI.
+			bp.Nouveau.Messages.displayFeedback( BP_Nouveau.messages.howto, 'info' );
 		},
 
 		threadsFetchError: function( collection, response ) {
@@ -688,23 +690,13 @@ window.bp = window.bp || {};
 			this.views.add( '#message-threads', new bp.Views.userThread( { model: thread } ) );
 		},
 
-		changePreview: function( event ) {
-			var target = $( event.currentTarget );
-
-			if ( ! target.hasClass( 'thread-content' ) || $( event.target ).hasClass( 'user-link' ) ) {
-				return event;
-			}
-
-			event.preventDefault();
-
-			if ( target.parent( 'li' ).hasClass( 'selected' ) ) {
+		setActiveThread: function( active ) {
+			if ( ! active ) {
 				return;
 			}
 
-			var selected = target.data( 'thread-id' );
-
 			_.each( this.collection.models, function( thread ) {
-				if ( thread.id === selected ) {
+				if ( thread.id === active ) {
 					thread.set( 'active', true );
 				} else {
 					thread.unset( 'active' );
@@ -712,18 +704,31 @@ window.bp = window.bp || {};
 			}, this );
 		},
 
-		loadSingleView: function( event ) {
+		changePreview: function( event ) {
 			var target = $( event.currentTarget );
 
-			if ( ! target.hasClass( 'thread-content' ) || $( event.target ).hasClass( 'user-link' ) ) {
-				return event;
-			}
+			event.preventDefault();
+			bp.Nouveau.Messages.removeFeedback();
 
+			// If the click is done on an active conversation, open it.
+			if ( $( event.currentTarget ).closest( '.thread-item' ).hasClass( 'selected' ) ) {
+				this.loadSingleView( event );
+
+			// Otherwise activate the conversation and display its preview.
+			} else {
+				this.setActiveThread( target.closest( '.thread-content' ).data( 'thread-id' ) );
+
+				$( '.message-action-view' ).focus();
+			}
+		},
+
+		loadSingleView: function( event ) {
 			event.preventDefault();
 
-			var id = target.data( 'thread-id' );
-
-			bp.Nouveau.Messages.router.navigate( 'view/' + id, { trigger: true } );
+			bp.Nouveau.Messages.router.navigate(
+				'view/' + $( event.currentTarget ).closest( '.thread-content' ).data( 'thread-id' ),
+				{ trigger: true }
+			);
 		}
 	} );
 
@@ -743,6 +748,23 @@ window.bp = window.bp || {};
 
 			if ( this.model.get( 'unread' ) ) {
 				this.el.className += ' unread';
+			}
+
+			if ( 'sentbox' === bp.Nouveau.Messages.box ) {
+				var recipientsCount = this.model.get( 'recipients' ).length, toOthers = '';
+
+				if ( 2 === recipientsCount ) {
+					toOthers = BP_Nouveau.messages.toOthers.one;
+				} else if ( 2 < recipientsCount ) {
+					toOthers = BP_Nouveau.messages.toOthers.more.replace( '%d', Number( recipientsCount - 1 ) );
+				}
+
+				this.model.set( {
+					recipientsCount: recipientsCount,
+					toOthers: toOthers
+				}, { silent: true } );
+			} else if ( this.model.get( 'recipientsCount' )  ) {
+				this.model.unset( 'recipientsCount', { silent: true } );
 			}
 
 			this.model.on( 'change:active', this.toggleClass, this );
@@ -789,8 +811,13 @@ window.bp = window.bp || {};
 
 			if ( hasChecked ) {
 				$( '#user-messages-bulk-actions' ).closest( '.bulk-actions-wrap' ).removeClass( 'bp-hide' );
+
+				// Inform the user about how to use the bulk actions.
+				bp.Nouveau.Messages.displayFeedback( BP_Nouveau.messages.howtoBulk, 'info' );
 			} else {
 				$( '#user-messages-bulk-actions' ).closest( '.bulk-actions-wrap' ).addClass( 'bp-hide' );
+
+				bp.Nouveau.Messages.removeFeedback();
 			}
 		},
 
@@ -931,8 +958,13 @@ window.bp = window.bp || {};
 
 			if ( isChecked ) {
 				$( this.el ).find( '.bulk-actions-wrap' ).removeClass( 'bp-hide' ).addClass( 'bp-show' );
+
+				// Inform the user about how to use the bulk actions.
+				bp.Nouveau.Messages.displayFeedback( BP_Nouveau.messages.howtoBulk, 'info' );
 			} else {
 				$( this.el ).find( '.bulk-actions-wrap' ).addClass( 'bp-hide' );
+
+				bp.Nouveau.Messages.removeFeedback();
 			}
 
 			_.each( this.collection.models, function( model ) {

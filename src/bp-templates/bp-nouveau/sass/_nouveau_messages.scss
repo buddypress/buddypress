@@ -96,7 +96,8 @@
 			@include box-item-size(1, 2, 5%);
 		}
 
-		.thread-from {
+		.thread-from,
+		.thread-to {
 
 			@include box-item-size(1, 2, 20%);
 
@@ -108,6 +109,14 @@
 			.user-name {
 				display: inline-block;
 				line-height: 1.1;
+			}
+
+			.num-recipients {
+				color: $meta-text;
+				font-weight: 400;
+
+				@include font-size(12);
+				margin: 0;
 			}
 		}
 
@@ -133,8 +142,12 @@
 			}
 		}
 
+		// the unread parent li
+		&.unread {
+			font-weight: 700;
+		}
+
 		.thread-content {
-			cursor: pointer;
 
 			.excerpt {
 				color: $meta-text;
@@ -144,6 +157,7 @@
 			}
 
 			.thread-from,
+			.thread-to,
 			.thread-subject {
 
 				@include responsive-font(16);

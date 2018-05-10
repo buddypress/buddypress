@@ -107,6 +107,12 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 			'unstar' => __( 'Unstarring message(s). Please wait.', 'buddypress' ),
 		),
 		'bulk_actions'  => bp_nouveau_messages_get_bulk_actions(),
+		'howto'         => __( 'Click on the message title to preview it in the Active conversation box below.', 'buddypress' ),
+		'howtoBulk'     => __( 'Use the select box to define your bulk action and click on the &#10003; button to apply.', 'buddypress' ),
+		'toOthers'      => array(
+			'one'  => __( '(and 1 other)', 'buddypress' ),
+			'more' => __( '(and %d others)', 'buddypress' ),
+		),
 	);
 
 	// Star private messages.
