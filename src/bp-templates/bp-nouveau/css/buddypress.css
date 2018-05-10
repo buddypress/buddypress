@@ -799,6 +799,14 @@ body.buddypress article.page > .entry-header .entry-title {
 	line-height: 1.6;
 }
 
+.buddypress-wrap .group-subnav-filters .group-invites-search {
+	margin-bottom: 1em;
+}
+
+.buddypress-wrap .group-subnav-filters .last {
+	text-align: center;
+}
+
 /**
 *----------------------------------------------------------
 * @section 2.2 - Pagination
@@ -2648,24 +2656,24 @@ body.no-js .single-item-header .js-self-profile-button {
 	}
 }
 
-@media screen and (min-width: 37.5em) {
-	.buddypress-wrap #group-invites-container {
+@media screen and (min-width: 46.8em) {
+	:not(.vertical) + .item-body #group-invites-container {
 		display: -ms-grid;
 		display: grid;
 		-ms-grid-columns: 25% auto;
 		grid-template-columns: 25% auto;
 		grid-template-areas: "group-invites-nav group-invites-column";
 	}
-	.buddypress-wrap #group-invites-container .bp-invites-nav {
+	:not(.vertical) + .item-body #group-invites-container .bp-invites-nav {
 		-ms-grid-row: 1;
 		-ms-grid-column: 1;
 		grid-area: group-invites-nav;
 	}
-	.buddypress-wrap #group-invites-container .bp-invites-nav li {
+	:not(.vertical) + .item-body #group-invites-container .bp-invites-nav li {
 		display: block;
 		float: none;
 	}
-	.buddypress-wrap #group-invites-container .group-invites-column {
+	:not(.vertical) + .item-body #group-invites-container .group-invites-column {
 		-ms-grid-row: 1;
 		-ms-grid-column: 2;
 		grid-area: group-invites-column;
