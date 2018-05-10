@@ -34,7 +34,7 @@
 					<div class="item">
 
 						<div class="item-block">
-							<h2 class="list-title member-name"><?php bp_group_member_link(); ?></h2>
+							<h3 class="list-title member-name"><?php bp_group_member_link(); ?></h3>
 
 							<p class="joined item-meta">
 								<?php bp_group_member_joined_since(); ?>

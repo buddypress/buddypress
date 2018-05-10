@@ -7,8 +7,11 @@
 
 ?>
 
-<?php bp_nouveau_groups_activity_post_form(); ?>
+<h2 class="bp-screen-title<?php echo ( ! bp_is_group_home() ) ? ' bp-screen-reader-text' : ''; ?>">
+	<?php esc_html_e( 'Group Activities', 'buddypress' ); ?>
+</h2>
 
+<?php bp_nouveau_groups_activity_post_form(); ?>
 
 <div class="subnav-filters filters clearfix">
 
@@ -22,7 +25,6 @@
 
 		<?php bp_get_template_part( 'common/filters/groups-screens-filters' ); ?>
 </div><!-- // .subnav-filters -->
-
 
 <?php bp_nouveau_group_hook( 'before', 'activity_content' ); ?>
 

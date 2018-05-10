@@ -8,7 +8,9 @@
 
 <?php if ( bp_group_has_membership_requests( bp_ajax_querystring( 'membership_requests' ) ) ) : ?>
 
-	<h2 class="bp-screen-reader-text">Membership Requests</h2>
+	<h2 class="bp-screen-title">
+		<?php esc_html_e( 'Manage Membership Requests', 'buddypress' ); ?>
+	</h2>
 
 	<?php bp_nouveau_pagination( 'top' ); ?>
 
