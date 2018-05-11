@@ -92,11 +92,6 @@ class BP_Friends_Component extends BP_Component {
 				require $this->path . 'bp-friends/screens/requests.php';
 			}
 		}
-
-		// Settings.
-		if ( bp_is_user_settings_notifications() ) {
-			require $this->path . 'bp-friends/screens/settings-email.php';
-		}
 	}
 
 	/**

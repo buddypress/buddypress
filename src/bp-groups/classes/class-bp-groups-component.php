@@ -210,11 +210,6 @@ class BP_Groups_Component extends BP_Component {
 			// Theme compatibility.
 			new BP_Groups_Theme_Compat();
 		}
-
-		// Groups notifications HTML table.
-		if ( bp_is_user_settings_notifications() ) {
-			require $this->path . 'bp-groups/screens/user/settings-email.php';
-		}
 	}
 
 	/**

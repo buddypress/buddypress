@@ -137,11 +137,6 @@ class BP_Activity_Component extends BP_Component {
 			// Theme compatibility.
 			new BP_Activity_Theme_Compat();
 		}
-
-		// Activity notifications HTML table.
-		if ( bp_is_user_settings_notifications() ) {
-			require $this->path . 'bp-activity/screens/settings-email.php';
-		}
 	}
 
 	/**

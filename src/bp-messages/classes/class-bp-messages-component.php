@@ -138,11 +138,6 @@ class BP_Messages_Component extends BP_Component {
 				}
 			}
 		}
-
-		// Groups notifications HTML table.
-		if ( bp_is_user_settings_notifications() ) {
-			require $this->path . 'bp-messages/screens/settings-email.php';
-		}
 	}
 
 	/**
