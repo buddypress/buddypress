@@ -69,7 +69,7 @@ class BP_Settings_Component extends BP_Component {
 
 		// Authenticated actions.
 		if ( is_user_logged_in() ) {
-			if ( bp_is_current_action( 'general' ) ) {
+			if ( ! bp_current_action() || bp_is_current_action( 'general' ) ) {
 				require $this->path . 'bp-settings/actions/general.php';
 
 			// Specific to post requests.
