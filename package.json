@@ -48,6 +48,6 @@
 		"type": "svn",
 		"url": "https://buddypress.svn.wordpress.org/trunk/"
 	},
-	"version": "3.0.0-RC1",
+	"version": "3.0.0-RC2",
 	"dependencies": {}
 }
