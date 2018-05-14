@@ -26,7 +26,7 @@ BuddyPress helps site builders & developers add community features to their webs
 
 BuddyPress themes are just WordPress themes with additional templates, and with a little work, you could easily create your own, too! A handful of BuddyPress-specific themes are readily available for download from WordPress.org, and lots more are available from third-party theme authors.
 
-BuddyPress also comes with built-in support for Akismet and [bbPress](https://wordpress.org/plugins/bbbpress/), two very popular and very powerful WordPress plugins. If you're using either, visit their settings pages and ensure everything is configured to your liking.
+BuddyPress also comes with built-in support for Akismet and [bbPress](https://wordpress.org/plugins/bbpress/), two very popular and very powerful WordPress plugins. If you're using either, visit their settings pages and ensure everything is configured to your liking.
 
 = The BuddyPress ecosystem =
 
