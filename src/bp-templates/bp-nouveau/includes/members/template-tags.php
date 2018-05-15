@@ -364,9 +364,10 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 					);
 
 					// If button element set add nonce link to data attr
-					if ( 'button' === $button_element ) {
+					if ( 'button' === $button_element && 'awaiting_response' !== $button_args['id'] ) {
 						$buttons['member_friendship']['button_attr']['data-bp-nonce'] = $button_args['link_href'];
 					} else {
+						$buttons['member_friendship']['button_element'] = 'a';
 						$buttons['member_friendship']['button_attr']['href'] = $button_args['link_href'];
 					}
 
