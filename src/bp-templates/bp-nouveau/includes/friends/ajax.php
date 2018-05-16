@@ -96,16 +96,19 @@ function bp_nouveau_ajax_addremove_friend() {
 	// Cast fid as an integer.
 	$friend_id = (int) $_POST['item_id'];
 
-	$user = get_user_by( 'id', $friend_id );
-	if ( ! $user ) {
-		wp_send_json_error(
-			array(
-				'feedback' => sprintf(
-					'<div class="bp-feedback error">%s</div>',
-					esc_html__( 'No member found by that ID.', 'buddypress' )
-				),
-			)
-		);
+	// Check if the user exists only when the Friend ID is not a Frienship ID.
+	if ( isset( $_POST['action'] ) && $_POST['action'] !== 'friends_accept_friendship' && $_POST['action'] !== 'friends_reject_friendship' ) {
+		$user = get_user_by( 'id', $friend_id );
+		if ( ! $user ) {
+			wp_send_json_error(
+				array(
+					'feedback' => sprintf(
+						'<div class="bp-feedback error">%s</div>',
+						esc_html__( 'No member found by that ID.', 'buddypress' )
+					),
+				)
+			);
+		}
 	}
 
 	// In the 2 first cases the $friend_id is a friendship id.
