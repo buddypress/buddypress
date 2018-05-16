@@ -657,9 +657,9 @@ class BP_Admin {
 					<p>
 						<?php
 						printf(
-							_n( 'Built by <a href="%s">%s volunteer</a>.', 'Built by <a href="%s">%s volunteers</a>.', 55, 'buddypress' ),
+							_n( 'Built by <a href="%s">%s volunteer</a>.', 'Built by <a href="%s">%s volunteers</a>.', 57, 'buddypress' ),
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 55 )
+							number_format_i18n( 57 )
 						);
 						?>
 					</p>
