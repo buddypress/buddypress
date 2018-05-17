@@ -52,11 +52,14 @@
 	 * Close the Hello modal.
 	 */
 	var bp_hello_close_modal = function() {
+		var backdrop = document.getElementById( 'bp-hello-backdrop' ),
+			modal = document.getElementById( 'bp-hello-container' );
+
 		document.body.classList.remove( 'bp-disable-scroll' );
 
-		// Hide modal and overlay.
-		document.getElementById( 'bp-hello-container' ).style.display = 'none';
-		document.getElementById( 'bp-hello-backdrop' ).style.display  = 'none';
+		// Remove modal and overlay.
+		modal.parentNode.removeChild( modal );
+		backdrop.parentNode.removeChild( backdrop );
 	};
 
 	/**
@@ -73,23 +76,36 @@
 			last_tab_stop  = focus_targets[ focus_targets.length - 1 ];
 
 		// Check for TAB key press.
-		if ( event.keyCode === 9 ) {
-			// When SHIFT+TAB on first tab stop, go to last tab stop in modal.
-			if ( event.shiftKey && document.activeElement === first_tab_stop ) {
-				event.preventDefault();
-				last_tab_stop.focus();
+		if ( event.keyCode !== 9 ) {
+			return;
+		}
 
-			// When TAB reaches last tab stop, go to first tab stop in modal.
-			} else if ( document.activeElement === last_tab_stop ) {
-				event.preventDefault();
-				first_tab_stop.focus();
-			}
+		// When SHIFT+TAB on first tab stop, go to last tab stop in modal.
+		if ( event.shiftKey && document.activeElement === first_tab_stop ) {
+			event.preventDefault();
+			last_tab_stop.focus();
 
-		// Check for ESCAPE key press.
-		} else if ( event.keyCode === 27 ) {
-			bp_hello_close_modal();
+		// When TAB reaches last tab stop, go to first tab stop in modal.
+		} else if ( document.activeElement === last_tab_stop ) {
+			event.preventDefault();
+			first_tab_stop.focus();
 		}
 	};
+
+	/**
+	 * Close modal if escape key is presssed.
+	 *
+	 * @param {Event} event - A keyboard focus event.
+	 */
+	document.addEventListener( 'keyup', function( event ) {
+		if ( event.keyCode === 27 ) {
+			if ( ! document.getElementById( 'bp-hello-backdrop' ) || ! document.getElementById( 'bp-hello-container' ) ) {
+				return;
+			}
+
+			bp_hello_close_modal();
+		}
+	}, false );
 
 	// Init modal after the screen's loaded.
 	if ( document.attachEvent ? document.readyState === 'complete' : document.readyState !== 'loading' ) {
