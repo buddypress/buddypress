@@ -557,14 +557,16 @@ class BP_Admin {
 		<div id="bp-hello-backdrop" style="display: none;">
 		</div>
 
-		<div id="bp-hello-container" style="display: none;">
-			<div class="bp-hello-header">
+		<div id="bp-hello-container" role="dialog" aria-labelledby="bp-hello-title" style="display: none;">
+			<div class="bp-hello-header" role="document">
 				<div class="bp-hello-close">
-					<a class="close-modal" href="#" title="<?php echo esc_attr( 'Close pop-up', 'buddypress' ); ?>"><span class="screen-reader-text"><?php esc_html_e( 'Close pop-up', 'buddypress' ); ?></span></a>
+					<button type="button" class="close-modal button bp-tooltip" data-bp-tooltip="<?php echo esc_attr( 'Close pop-up', 'buddypress' ); ?>">
+						<span class="screen-reader-text"><?php esc_html_e( 'Close pop-up', 'buddypress' ); ?></span>
+					</button>
 				</div>
 
 				<div class="bp-hello-title">
-					<h1><?php esc_html_e( _x( 'New in BuddyPress', 'section heading', 'buddypress' ) ); ?></h1>
+					<h1 id="bp-hello-title" tabindex="-1"><?php esc_html_e( _x( 'New in BuddyPress', 'section heading', 'buddypress' ) ); ?></h1>
 				</div>
 			</div>
 
@@ -587,7 +589,7 @@ class BP_Admin {
 					);
 					?>
 				</p>
-				<img srcset="https://via.placeholder.com/1024x576 1024w, https://via.placeholder.com/2048x1152 2048w" src="https://placekitten.com/1024x576" sizes="(max-width: 1023px) 90vw, 65vw" alt="a rad wolf" />
+				<img srcset="https://via.placeholder.com/1024x576 1024w, https://via.placeholder.com/2048x1152 2048w" src="https://placekitten.com/1024x576" sizes="(max-width: 1023px) 90vw, 65vw" alt="" />
 
 
 				<h2><?php esc_html_e( __( 'Support for WP-CLI', 'buddypress' ) ); ?></h2>
@@ -670,7 +672,7 @@ class BP_Admin {
 						<li>
 							<?php
 							printf(
-								'<a class="twitter" title="%1$s" href="%2$s"><span class="screen-reader-text">%3$s</span></a>',
+								'<a class="twitter bp-tooltip" data-bp-tooltip="%1$s" href="%2$s"><span class="screen-reader-text">%3$s</span></a>',
 								esc_attr( 'Follow BuddyPress on Twitter', 'buddypress' ),
 								esc_url( 'https://twitter.com/buddypress' ),
 								esc_html( 'Follow BuddyPress on Twitter', 'buddypress' )
@@ -681,7 +683,7 @@ class BP_Admin {
 						<li>
 							<?php
 							printf(
-								'<a class="support" title="%1$s" href="%2$s"><span class="screen-reader-text">%3$s</span></a>',
+								'<a class="support bp-tooltip" data-bp-tooltip="%1$s" href="%2$s"><span class="screen-reader-text">%3$s</span></a>',
 								esc_attr( 'Visit the Support Forums', 'buddypress' ),
 								esc_url( 'https://buddypress.org/support/' ),
 								esc_html( 'Visit the Support Forums', 'buddypress' )

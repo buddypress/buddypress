@@ -16,6 +16,7 @@ TABLE OF CONTENTS:
 	2.1 Top level menus
 	2.2 Settings - Components
 	2.3 Tools
+	2.4 Tooltips
 3.0 Users
 	3.1 Users List
 	3.2 Site Notices
@@ -301,6 +302,76 @@ TABLE OF CONTENTS:
 	content: "";
 }
 
+/*
+ * 2.4 Tooltips
+ */
+.bp-tooltip {
+	position: relative;
+}
+
+.bp-tooltip:after {
+	background: #fff;
+	border: 1px solid #aaa;
+	border-collapse: separate;
+	border-radius: 1px;
+	box-shadow: -1px 1px 0 1px rgba(132, 132, 132, 0.3);
+	color: #000;
+	content: attr(data-bp-tooltip);
+	display: none;
+	font-family: sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	letter-spacing: normal;
+	line-height: 1.5;
+	margin-top: 10px;
+	max-width: 240px;
+	opacity: 0;
+	padding: 3px 6px;
+	position: absolute;
+	left: 50%;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: none;
+	text-transform: none;
+	top: 100%;
+	-webkit-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	transform: translateX(-50%);
+	-webkit-transition: opacity 2s ease-out;
+	-ms-transition: opacity 2s ease-out;
+	transition: opacity 2s ease-out;
+	white-space: pre;
+	word-wrap: break-word;
+	z-index: 998;
+}
+
+.bp-hello-close .bp-tooltip:after {
+	left: 0;
+	text-align: left;
+	-webkit-transform: translateX(0);
+	-ms-transform: translateX(0);
+	transform: translateX(0);
+}
+
+.bp-hello-social .bp-tooltip:after {
+	bottom: 120%;
+	margin-bottom: 20px;
+	margin-top: 0;
+	top: auto;
+	-webkit-transform: translateX(-15%);
+	-ms-transform: translateX(-15%);
+	transform: translateX(-15%);
+}
+
+.bp-tooltip:hover:after,
+.bp-tooltip:active:after,
+.bp-tooltip:focus:after {
+	display: inline-block;
+	opacity: 1;
+	overflow: visible;
+	text-decoration: none;
+	z-index: 999;
+}
 
 /*------------------------------------------------------------------------------
  * 3.0 Users

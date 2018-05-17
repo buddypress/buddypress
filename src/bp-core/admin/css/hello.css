@@ -37,6 +37,8 @@ TABLE OF CONTENTS:
 }
 
 #bp-hello-container a:hover {
+	-webkit-transition: all 0.1s ease-in-out;
+	-o-transition: all 0.1s ease-in-out;
 	transition: all 0.1s ease-in-out;
 	color: black;
 }
@@ -54,20 +56,26 @@ TABLE OF CONTENTS:
 /*------------------------------------------------------------------------------
  * 2.0 - Dashicons
  *----------------------------------------------------------------------------*/
-.bp-hello-close a:hover:before {
-	transition: all 0.1s ease-in-out;
-	color: var(--bp-hello-color-primary);
+.bp-hello-close .button {
+	padding: 5px !important;
 }
 
-.bp-hello-close a.close-modal:before {
+.bp-hello-close .close-modal:before {
 	content: "\f158";
 	color: #23282d;
 	/* wp toolbar */
-	font: 400 35px/1 dashicons;
+	font: 400 1.5em/1 dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	background-image: none !important;
+}
+
+.bp-hello-close .close-modal:focus:before, .bp-hello-close .close-modal:hover:before {
+	-webkit-transition: all 0.1s ease-in-out;
+	-o-transition: all 0.1s ease-in-out;
+	transition: all 0.1s ease-in-out;
+	color: var(--bp-hello-color-primary);
 }
 
 .bp-hello-social li a:before {
@@ -81,6 +89,8 @@ TABLE OF CONTENTS:
 }
 
 .bp-hello-social li a:hover:before {
+	-webkit-transition: all 0.1s ease-in-out;
+	-o-transition: all 0.1s ease-in-out;
 	transition: all 0.1s ease-in-out;
 	color: var(--bp-hello-color-primary);
 }
@@ -124,7 +134,10 @@ TABLE OF CONTENTS:
  * 3.2 - Modal footer
  */
 .bp-hello-footer {
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
+	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 	height: 58px;
 	max-height: 58px;
@@ -132,6 +145,7 @@ TABLE OF CONTENTS:
 
 .bp-hello-social-cta,
 .bp-hello-social-links {
+	-ms-flex-preferred-size: 50%;
 	flex-basis: 50%;
 }
 
@@ -177,6 +191,8 @@ TABLE OF CONTENTS:
  */
 #bp-hello-backdrop {
 	background-color: rgba(0, 0, 0, 0.8);
+	-webkit-transition: opacity 0.15s ease-out;
+	-o-transition: opacity 0.15s ease-out;
 	transition: opacity 0.15s ease-out;
 }
 
@@ -236,10 +252,6 @@ TABLE OF CONTENTS:
 	text-align: right;
 }
 
-.bp-hello-close a {
-	text-decoration: none;
-}
-
 /*
  * 4.4 - Content content
  */
@@ -285,7 +297,7 @@ TABLE OF CONTENTS:
 	.bp-hello-close {
 		right: 30px;
 	}
-	.bp-hello-close a.close-modal:before {
+	.bp-hello-close .close-modal:before {
 		line-height: 0.7;
 	}
 	.bp-hello-footer {

@@ -39,6 +39,8 @@ TABLE OF CONTENTS:
 		color: var(--bp-hello-color-primary);
 
 		&:hover {
+			-webkit-transition: all 0.1s ease-in-out;
+			-o-transition: all 0.1s ease-in-out;
 			transition: all 0.1s ease-in-out;
 			color: rgb(0, 0, 0);
 		}
@@ -66,21 +68,28 @@ TABLE OF CONTENTS:
  *----------------------------------------------------------------------------*/
 .bp-hello-close {
 
-	a {
+	.button {
+		padding: 5px !important;
+	}
 
-		&:hover:before {
-			transition: all 0.1s ease-in-out;
-			color: var(--bp-hello-color-primary);
-		}
+	.close-modal {
 
-		&.close-modal:before {
+		&:before {
 			content: "\f158";
 			color: #23282d; /* wp toolbar */
-			font: 400 35px/1 dashicons;
+			font: 400 1.5em/1 dashicons;
 			speak: none;
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
 			background-image: none !important;
+		}
+
+		&:focus:before,
+		&:hover:before {
+			-webkit-transition: all 0.1s ease-in-out;
+			-o-transition: all 0.1s ease-in-out;
+			transition: all 0.1s ease-in-out;
+			color: var(--bp-hello-color-primary);
 		}
 	}
 }
@@ -99,6 +108,8 @@ TABLE OF CONTENTS:
 		}
 
 		&:hover:before {
+			-webkit-transition: all 0.1s ease-in-out;
+			-o-transition: all 0.1s ease-in-out;
 			transition: all 0.1s ease-in-out;
 			color: var(--bp-hello-color-primary);
 		}
@@ -126,7 +137,7 @@ TABLE OF CONTENTS:
 	left: 0;
 	right: 0;
 	bottom: 0;
-	z-index: 9998; // >= 9990 for main menu
+	z-index: 9998;
 
 	display: none;
 }
@@ -135,7 +146,7 @@ TABLE OF CONTENTS:
 	position: fixed;
 	top: 0;
 	bottom: 80px;
-	z-index: 99999; // >= 99998 for toolbar
+	z-index: 99999;
 }
 
 .bp-disable-scroll {
@@ -146,7 +157,10 @@ TABLE OF CONTENTS:
  * 3.2 - Modal footer
  */
 .bp-hello-footer {
+	display: -webkit-box;
+	display: -ms-flexbox;
 	display: flex;
+	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 
 	height: 58px;
@@ -155,6 +169,7 @@ TABLE OF CONTENTS:
 
 .bp-hello-social-cta,
 .bp-hello-social-links {
+	-ms-flex-preferred-size: 50%;
 	flex-basis: 50%;
 }
 
@@ -209,6 +224,8 @@ TABLE OF CONTENTS:
  */
 #bp-hello-backdrop {
 	background-color: rgba(0, 0, 0, 0.8);
+	-webkit-transition: opacity 0.15s ease-out;
+	-o-transition: opacity 0.15s ease-out;
 	transition: opacity 0.15s ease-out;
 }
 
@@ -275,10 +292,6 @@ TABLE OF CONTENTS:
 	top: 20px;
 	right: 25px;
 	text-align: right;
-
-	a {
-		text-decoration: none;
-	}
 }
 
 /*
@@ -333,18 +346,14 @@ TABLE OF CONTENTS:
 	.bp-hello-header {
 		height: auto;
 		max-height: inherit;
-
 		padding: 6px 30px;
 	}
 
 	.bp-hello-close {
 		right: 30px;
 
-		a {
-
-			&.close-modal:before {
-				line-height: 0.7;
-			}
+		.close-modal:before {
+			line-height: 0.7;
 		}
 	}
 
