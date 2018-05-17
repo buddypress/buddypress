@@ -589,8 +589,8 @@ class BP_Admin {
 					);
 					?>
 				</p>
-				<img srcset="https://via.placeholder.com/1024x576 1024w, https://via.placeholder.com/2048x1152 2048w" src="https://placekitten.com/1024x576" sizes="(max-width: 1023px) 90vw, 65vw" alt="" />
 
+				<?php echo $GLOBALS['wp_embed']->autoembed( 'https://player.vimeo.com/video/270507360' ); ?>
 
 				<h2><?php esc_html_e( __( 'Support for WP-CLI', 'buddypress' ) ); ?></h2>
 				<p>
