@@ -266,11 +266,15 @@ class BP_Nouveau extends BP_Theme_Compat {
 					$file = $asset['uri'];
 				}
 
-				$data = wp_parse_args( $style, array(
-					'dependencies' => array(),
-					'version'      => $this->version,
-					'type'         => 'screen',
-				) );
+				$data = bp_parse_args(
+					$style,
+					array(
+						'dependencies' => array(),
+						'version'      => $this->version,
+						'type'         => 'screen',
+					),
+					'nouveau_enqueue_styles'
+				);
 
 				wp_enqueue_style( $handle, $file, $data['dependencies'], $data['version'], $data['type'] );
 
@@ -345,11 +349,15 @@ class BP_Nouveau extends BP_Theme_Compat {
 				$file = $asset['uri'];
 			}
 
-			$data = wp_parse_args( $script, array(
-				'dependencies' => array(),
-				'version'      => $this->version,
-				'footer'       => false,
-			) );
+			$data = bp_parse_args(
+				$script,
+				array(
+					'dependencies' => array(),
+					'version'      => $this->version,
+					'footer'       => false,
+				),
+				'nouveau_register_scripts'
+			);
 
 			wp_register_script( $handle, $file, $data['dependencies'], $data['version'], $data['footer'] );
 		}
@@ -627,7 +635,11 @@ class BP_Nouveau extends BP_Theme_Compat {
 		if ( false === strpos( $uri['path'], 'customize.php' ) ) {
 			return $path;
 		} else {
-			$vars = wp_parse_args( $uri['query'], array() );
+			$vars = bp_parse_args(
+				$uri['query'],
+				array(),
+				'customizer_set_uri'
+			);
 
 			if ( ! empty( $vars['url'] ) ) {
 				$path = str_replace( get_site_url(), '', urldecode( $vars['url'] ) );

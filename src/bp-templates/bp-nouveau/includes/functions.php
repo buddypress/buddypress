@@ -44,7 +44,11 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 	);
 
 	if ( ! empty( $_POST ) ) {
-		$post_query = wp_parse_args( $_POST, $post_query );
+		$post_query = bp_parse_args(
+			$_POST,
+			$post_query,
+			'nouveau_ajax_querystring'
+		);
 
 		// Make sure to transport the scope, filter etc.. in HeartBeat Requests
 		if ( ! empty( $post_query['data']['bp_heartbeat'] ) ) {
@@ -52,7 +56,11 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 
 			// Remove heartbeat specific vars
 			$post_query = array_diff_key(
-				wp_parse_args( $bp_heartbeat, $post_query ),
+				bp_parse_args(
+					$bp_heartbeat,
+					$post_query,
+					'nouveau_ajax_querystring_heartbeat'
+				),
 				array(
 					'data'      => false,
 					'interval'  => false,
@@ -242,12 +250,16 @@ function bp_nouveau_wrapper( $args = array() ) {
 		$generic_class = '';
 	}
 
-	$r = wp_parse_args( $args, array(
-		'container'         => 'div',
-		'container_id'      => '',
-		'container_classes' => array( $generic_class, $current_component_class   ),
-		'output'            => '',
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'container'         => 'div',
+			'container_id'      => '',
+			'container_classes' => array( $generic_class, $current_component_class   ),
+			'output'            => '',
+		),
+		'nouveau_wrapper'
+	);
 
 	$valid_containers = array(
 		'div'  => true,

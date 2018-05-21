@@ -44,18 +44,22 @@ class BP_Buttons_Group {
 	 */
 	public function __construct( $args = array() ) {
 		foreach ( $args as $arg ) {
-			$r = wp_parse_args( (array) $arg, array(
-				'id'                => '',
-				'position'          => 99,
-				'component'         => '',
-				'must_be_logged_in' => true,
-				'block_self'        => false,
-				'parent_element'    => false,
-				'parent_attr'       => array(),
-				'button_element'    => 'a',
-				'button_attr'       => array(),
-				'link_text'         => '',
-			) );
+			$r = bp_parse_args(
+				(array) $arg,
+				array(
+					'id'                => '',
+					'position'          => 99,
+					'component'         => '',
+					'must_be_logged_in' => true,
+					'block_self'        => false,
+					'parent_element'    => false,
+					'parent_attr'       => array(),
+					'button_element'    => 'a',
+					'button_attr'       => array(),
+					'link_text'         => '',
+				),
+				'buttons_group_constructor'
+			);
 
 			// Just don't set the button if a param is missing
 			if ( empty( $r['id'] ) || empty( $r['component'] ) || empty( $r['link_text'] ) ) {
@@ -163,7 +167,11 @@ class BP_Buttons_Group {
 	public function update( $args = array() ) {
 		foreach ( $args as $id => $params ) {
 			if ( isset( $this->group[ $id ] ) ) {
-				$this->group[ $id ] = wp_parse_args( $params, $this->group[ $id ] );
+				$this->group[ $id ] = bp_parse_args(
+					$params,
+					$this->group[ $id ],
+					'buttons_group_update'
+				);
 			}
 		}
 	}
@@ -228,9 +236,14 @@ class BP_Nouveau_Object_Nav_Widget extends WP_Widget {
 		 *     @param bool $bp_nouveau_widget_title Whether or not to assign a title for the widget.
 		 * }
 		 */
-		$item_nav_args = wp_parse_args( $instance, apply_filters( 'bp_nouveau_object_nav_widget_args', array(
-			'bp_nouveau_widget_title' => true,
-		) ) );
+		$item_nav_args = bp_parse_args(
+			$instance,
+			apply_filters(
+				'bp_nouveau_object_nav_widget_args',
+				array( 'bp_nouveau_widget_title' => true )
+			),
+			'widget_object_nav'
+		);
 
 		$title = '';
 
@@ -303,7 +316,11 @@ class BP_Nouveau_Object_Nav_Widget extends WP_Widget {
 			'bp_nouveau_widget_title' => true,
 		);
 
-		$instance = wp_parse_args( (array) $instance, $defaults );
+		$instance = bp_parse_args(
+			(array) $instance,
+			$defaults,
+			'widget_object_nav_form'
+		);
 
 		$bp_nouveau_widget_title = (bool) $instance['bp_nouveau_widget_title'];
 		?>

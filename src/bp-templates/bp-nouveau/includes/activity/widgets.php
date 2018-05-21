@@ -165,11 +165,15 @@ class BP_Latest_Activities extends WP_Widget {
 	 * @return string HTML output.
 	 */
 	public function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array(
-			'title' => __( 'Latest updates', 'buddypress' ),
-			'max'   => 5,
-			'type'  => '',
-		) );
+		$instance = bp_parse_args(
+			(array) $instance,
+			array(
+				'title' => __( 'Latest updates', 'buddypress' ),
+				'max'   => 5,
+				'type'  => '',
+			),
+			'widget_latest_activities'
+		);
 
 		$title = esc_attr( $instance['title'] );
 		$max   = (int) $instance['max'];

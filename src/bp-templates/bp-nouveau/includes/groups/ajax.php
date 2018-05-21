@@ -277,9 +277,13 @@ function bp_nouveau_ajax_get_users_to_invite() {
 		wp_send_json_error( $response );
 	}
 
-	$request = wp_parse_args( $_POST, array(
-		'scope' => 'members',
-	) );
+	$request = bp_parse_args(
+		$_POST,
+		array(
+			'scope' => 'members',
+		),
+		'nouveau_ajax_get_users_to_invite'
+	);
 
 	$bp->groups->invites_scope = 'members';
 	$message = __( 'Select members to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" navigation item to continue.', 'buddypress' );

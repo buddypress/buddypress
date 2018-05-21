@@ -84,11 +84,15 @@ function bp_nouveau_notifications_init_filters() {
 function bp_nouveau_notifications_register_filter( $args = array() ) {
 	$bp_nouveau = bp_nouveau();
 
-	$r = wp_parse_args( $args, array(
-		'id'       => '',
-		'label'    => '',
-		'position' => 99,
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'id'       => '',
+			'label'    => '',
+			'position' => 99,
+		),
+		'nouveau_notifications_register_filter'
+	);
 
 	if ( empty( $r['id'] ) || empty( $r['label'] ) ) {
 		return false;

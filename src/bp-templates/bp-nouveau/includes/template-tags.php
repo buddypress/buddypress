@@ -708,12 +708,16 @@ function bp_nouveau_avatar_args() {
 function bp_nouveau_has_nav( $args = array() ) {
 	$bp_nouveau = bp_nouveau();
 
-	$n = wp_parse_args( $args, array(
-		'type'                    => 'primary',
-		'object'                  => '',
-		'user_has_access'         => true,
-		'show_for_displayed_user' => true,
-	) );
+	$n = bp_parse_args(
+		$args,
+		array(
+			'type'                    => 'primary',
+			'object'                  => '',
+			'user_has_access'         => true,
+			'show_for_displayed_user' => true,
+		),
+		'nouveau_has_nav'
+	);
 
 	if ( empty( $n['type'] ) ) {
 		return false;

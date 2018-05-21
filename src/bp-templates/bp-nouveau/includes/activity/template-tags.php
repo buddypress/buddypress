@@ -435,16 +435,20 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 				}
 			}
 
-			$delete_args = wp_parse_args( $delete_args, array(
-				'link_text'   => '',
-				'button_attr' => array(
-					'link_id'         => '',
-					'link_href'       => '',
-					'link_class'      => '',
-					'link_rel'        => 'nofollow',
-					'data_bp_tooltip' => '',
+			$delete_args = bp_parse_args(
+				$delete_args,
+				array(
+					'link_text'   => '',
+					'button_attr' => array(
+						'link_id'         => '',
+						'link_href'       => '',
+						'link_class'      => '',
+						'link_rel'        => 'nofollow',
+						'data_bp_tooltip' => '',
+					),
 				),
-			) );
+				'nouveau_get_activity_entry_buttons'
+			);
 		}
 
 		if ( empty( $delete_args['link_href'] ) ) {
