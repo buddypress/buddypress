@@ -224,7 +224,7 @@ function bp_nouveau_prepare_group_potential_invites_for_js( $user ) {
 		if ( bp_is_item_admin() ) {
 			$response['can_edit'] = true;
 		} else {
-			$response['can_edit'] = in_array( bp_loggedin_user_id(), $inviter_ids );
+			$response['can_edit'] = in_array( bp_loggedin_user_id(), $inviter_ids, true );
 		}
 	}
 

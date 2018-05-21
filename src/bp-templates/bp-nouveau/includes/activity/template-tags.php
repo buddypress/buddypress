@@ -562,7 +562,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 			unset( $return['activity_delete'] );
 		}
 
-		if ( isset( $return['activity_spam'] ) && ! in_array( $activity_type, BP_Akismet::get_activity_types() ) ) {
+		if ( isset( $return['activity_spam'] ) && ! in_array( $activity_type, BP_Akismet::get_activity_types(), true ) ) {
 			unset( $return['activity_spam'] );
 		}
 

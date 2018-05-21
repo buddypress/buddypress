@@ -417,7 +417,7 @@ function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 				$new_mentions = bp_get_user_meta( $user_id, 'bp_new_mentions', true );
 
 				// The current activity is one of the new mentions
-				if ( is_array( $new_mentions ) && in_array( bp_get_activity_id(), $new_mentions ) ) {
+				if ( is_array( $new_mentions ) && in_array( bp_get_activity_id(), $new_mentions, true ) ) {
 					$my_classes[] = 'bp-my-mentions';
 				}
 			}

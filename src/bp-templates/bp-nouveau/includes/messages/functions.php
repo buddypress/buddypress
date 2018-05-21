@@ -295,7 +295,7 @@ function bp_nouveau_push_sitewide_notices() {
 		$closed_notices = array();
 	}
 
-	if ( $notice->id && is_array( $closed_notices ) && ! in_array( $notice->id, $closed_notices ) ) {
+	if ( $notice->id && is_array( $closed_notices ) && ! in_array( $notice->id, $closed_notices, true ) ) {
 		// Inject the notice into the template_message if no other message has priority.
 		$bp = buddypress();
 
