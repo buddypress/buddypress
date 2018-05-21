@@ -2241,21 +2241,25 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 	}
 
 	foreach ( $fields as $name => $attributes ) {
-		$classes = '';
-
 		list( $label, $required, $value, $attribute_type, $type, $class ) = array_values( $attributes );
-
-		if ( $required ) {
-			$required = ' ' . _x( '(required)', 'signup required field', 'buddypress' );
-		}
 
 		// Text fields are using strings, radios are using their inputs
 		$label_output = '<label for="%1$s">%2$s</label>';
 		$id           = $name;
+		$classes      = '';
+
+		if ( $required ) {
+			/* translators: Do not translate placeholders. 2 = form field name, 3 = "(required)". */
+			$label_output = __( '<label for="%1$s">%2$s %3$s</label>', 'buddypress' );
+		}
 
 		// Output the label for regular fields
 		if ( 'radio' !== $type ) {
-			printf( $label_output, esc_attr( $name ), esc_html( sprintf( $label, $required ) ) );
+			if ( $required ) {
+				printf( $label_output, esc_attr( $name ), esc_html( $label ), __( '(required)', 'buddypress' ) );
+			} else {
+				printf( $label_output, esc_attr( $name ), esc_html( $label ) );
+			}
 
 			if ( ! empty( $value ) && is_callable( $value ) ) {
 				$value = call_user_func( $value );

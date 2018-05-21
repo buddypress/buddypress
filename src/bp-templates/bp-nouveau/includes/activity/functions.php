@@ -84,8 +84,12 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 			) ),
 			'avatar_width'  => $width,
 			'avatar_height' => $height,
-			'avatar_alt'    => sprintf( __( 'Profile photo of %s', 'buddypress' ), $user_displayname ),
-			'user_domain'   => bp_loggedin_user_domain()
+			'user_domain'   => bp_loggedin_user_domain(),
+			'avatar_alt'    => sprintf(
+				/* translators: %s = member name */
+				__( 'Profile photo of %s', 'buddypress' ),
+				$user_displayname
+			),
 		) );
 	}
 

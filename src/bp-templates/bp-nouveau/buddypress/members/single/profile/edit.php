@@ -27,7 +27,15 @@ bp_nouveau_xprofile_hook( 'before', 'edit_content' ); ?>
 					</ul>
 				<?php endif; ?>
 
-				<h3 class="screen-heading profile-group-title edit"><?php printf( __( 'Editing \'%s\' Profile Group', 'buddypress' ), bp_get_the_profile_group_name() ); ?></h3>
+				<h3 class="screen-heading profile-group-title edit">
+					<?php
+					printf(
+						/* translators: %s = profile field group name */
+						__( 'Editing "%s" Profile Group', 'buddypress' ),
+						bp_get_the_profile_group_name()
+					)
+					?>
+				</h3>
 
 				<?php
 				while ( bp_profile_fields() ) :

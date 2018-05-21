@@ -9,7 +9,7 @@
 bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 
 <h2 class="screen-heading delete-account-screen warn">
-	<?php _e( 'Delete Account', 'buddypress' ); ?>
+	<?php esc_html_e( 'Delete Account', 'buddypress' ); ?>
 </h2>
 
 <?php bp_nouveau_user_feedback( 'member-delete-account' ); ?>
@@ -18,7 +18,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 
 	<label id="delete-account-understand" class="warn" for="delete-account-understand">
 		<input class="disabled" type="checkbox" name="delete-account-understand" value="1" data-bp-disable-input="#delete-account-button" />
-		<?php _e( 'I understand the consequences.', 'buddypress' ); ?>
+		<?php esc_html_e( 'I understand the consequences.', 'buddypress' ); ?>
 	</label>
 
 	<?php bp_nouveau_submit_button( 'member-delete-account' ); ?>

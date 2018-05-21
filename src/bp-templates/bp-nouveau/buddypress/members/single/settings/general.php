@@ -21,7 +21,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 	<?php if ( ! is_super_admin() ) : ?>
 
 		<label for="pwd"><?php _e( 'Current Password <span>(required to update email or change current password)</span>', 'buddypress' ); ?></label>
-		<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" <?php bp_form_field_attributes( 'password' ); ?>/> &nbsp;<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Lost your password?', 'buddypress' ); ?></a>
+		<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" <?php bp_form_field_attributes( 'password' ); ?>/> &nbsp;<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Lost your password?', 'buddypress' ); ?></a>
 
 	<?php endif; ?>
 
@@ -30,13 +30,13 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 
 	<div class="info bp-feedback">
 		<span class="bp-icon" aria-hidden="true"></span>
-		<p class="text"><?php _e( 'Leave password fields blank for no change', 'buddypress' ); ?></p>
+		<p class="text"><?php esc_html_e( 'Leave password fields blank for no change', 'buddypress' ); ?></p>
 	</div>
 
-	<label for="pass1"><?php _e( 'Add Your New Password', 'buddypress' ); ?></label>
+	<label for="pass1"><?php esc_html_e( 'Add Your New Password', 'buddypress' ); ?></label>
 	<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small password-entry" <?php bp_form_field_attributes( 'password' ); ?>/>
 
-	<label for="pass2" class="repeated-pwd"><?php _e( 'Repeat Your New Password', 'buddypress' ); ?></label>
+	<label for="pass2" class="repeated-pwd"><?php esc_html_e( 'Repeat Your New Password', 'buddypress' ); ?></label>
 	<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small password-entry-confirm" <?php bp_form_field_attributes( 'password' ); ?>/>
 
 	<div id="pass-strength-result"></div>

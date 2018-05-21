@@ -435,7 +435,7 @@ function bp_nouveau_ajax_get_thread_messages() {
  */
 function bp_nouveau_ajax_delete_thread_messages() {
 	$response = array(
-		'feedback' => __( 'There was a problem deleting your message(s). Please try again.', 'buddypress' ),
+		'feedback' => __( 'There was a problem deleting your messages. Please try again.', 'buddypress' ),
 		'type'     => 'error',
 	);
 
@@ -458,7 +458,7 @@ function bp_nouveau_ajax_delete_thread_messages() {
 	}
 
 	wp_send_json_success( array(
-		'feedback' => __( 'Message(s) deleted', 'buddypress' ),
+		'feedback' => __( 'Messages deleted', 'buddypress' ),
 		'type'     => 'success',
 	) );
 }
@@ -474,9 +474,9 @@ function bp_nouveau_ajax_star_thread_messages() {
 	$action = str_replace( 'messages_', '', $_POST['action'] );
 
 	if ( 'star' === $action ) {
-		$error_message = __( 'There was a problem starring your message(s). Please try again.', 'buddypress' );
+		$error_message = __( 'There was a problem starring your messages. Please try again.', 'buddypress' );
 	} else {
-		$error_message = __( 'There was a problem unstarring your message(s). Please try agian.', 'buddypress' );
+		$error_message = __( 'There was a problem unstarring your messages. Please try agian.', 'buddypress' );
 	}
 
 	$response = array(
@@ -550,9 +550,9 @@ function bp_nouveau_ajax_star_thread_messages() {
 	}
 
 	if ( 'star' === $action ) {
-		$success_message = __( 'Message(s) successfully starred.', 'buddypress' );
+		$success_message = __( 'Messages successfully starred.', 'buddypress' );
 	} else {
-		$success_message = __( 'Message(s) successfully unstarred.', 'buddypress' );
+		$success_message = __( 'Messages successfully unstarred.', 'buddypress' );
 	}
 
 	wp_send_json_success( array(
@@ -573,13 +573,13 @@ function bp_nouveau_ajax_readunread_thread_messages() {
 	$action = str_replace( 'messages_', '', $_POST['action'] );
 
 	$response = array(
-		'feedback' => __( 'There was a problem marking your message(s) as read. Please try again.', 'buddypress' ),
+		'feedback' => __( 'There was a problem marking your messages as read. Please try again.', 'buddypress' ),
 		'type'     => 'error',
 	);
 
 	if ( 'unread' === $action ) {
 		$response = array(
-			'feedback' => __( 'There was a problem marking your message(s) as unread. Please try again.', 'buddypress' ),
+			'feedback' => __( 'There was a problem marking your messages as unread. Please try again.', 'buddypress' ),
 			'type'     => 'error',
 		);
 	}
@@ -597,9 +597,9 @@ function bp_nouveau_ajax_readunread_thread_messages() {
 	$response['messages'] = array();
 
 	if ( 'unread' === $action ) {
-		$response['feedback'] = __( 'Message(s) marked as unread.', 'buddypress' );
+		$response['feedback'] = __( 'Messages marked as unread.', 'buddypress' );
 	} else {
-		$response['feedback'] = __( 'Message(s) marked as read.', 'buddypress' );
+		$response['feedback'] = __( 'Messages marked as read.', 'buddypress' );
 	}
 
 	foreach ( $thread_ids as $thread_id ) {

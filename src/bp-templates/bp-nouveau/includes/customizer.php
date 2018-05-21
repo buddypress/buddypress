@@ -43,16 +43,16 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 			'description' => __( 'Configure general BuddyPress appearance options.', 'buddypress' ),
 		),
 		'bp_nouveau_user_front_page' => array(
-			'title'       => __( 'User front page', 'buddypress' ),
+			'title'       => __( 'Member front page', 'buddypress' ),
 			'panel'       => 'bp_nouveau_panel',
 			'priority'    => 30,
-			'description' => __( 'Configure the default front page for users.', 'buddypress' ),
+			'description' => __( 'Configure the default front page for members.', 'buddypress' ),
 		),
 		'bp_nouveau_user_primary_nav' => array(
-			'title'       => __( 'User navigation', 'buddypress' ),
+			'title'       => __( 'Member navigation', 'buddypress' ),
 			'panel'       => 'bp_nouveau_panel',
 			'priority'    => 50,
-			'description' => __( 'Customize the navigation menu for users. In the preview window, navigate to a user to preview your changes.', 'buddypress' ),
+			'description' => __( 'Customize the navigation menu for members. In the preview window, navigate to a user to preview your changes.', 'buddypress' ),
 		),
 		'bp_nouveau_loops_layout' => array(
 			'title'       => __( 'Loop layouts', 'buddypress' ),
@@ -229,13 +229,13 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 			'type'       => 'checkbox',
 		),
 		'user_front_bio' => array(
-			'label'      => __( 'Display the biographical info from the user\'s WordPress profile.', 'buddypress' ),
+			'label'      => __( 'Display the biographical info from the member\'s WordPress profile.', 'buddypress' ),
 			'section'    => 'bp_nouveau_user_front_page',
 			'settings'   => 'bp_nouveau_appearance[user_front_bio]',
 			'type'       => 'checkbox',
 		),
 		'user_nav_display' => array(
-			'label'      => __( 'Display the user navigation vertically.', 'buddypress' ),
+			'label'      => __( 'Display the member navigation vertically.', 'buddypress' ),
 			'section'    => 'bp_nouveau_user_primary_nav',
 			'settings'   => 'bp_nouveau_appearance[user_nav_display]',
 			'type'       => 'checkbox',

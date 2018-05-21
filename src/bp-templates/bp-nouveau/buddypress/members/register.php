@@ -28,7 +28,7 @@
 
 					<?php /***** Basic Account Details ******/ ?>
 
-					<h2 class="bp-heading"><?php _e( 'Account Details', 'buddypress' ); ?></h2>
+					<h2 class="bp-heading"><?php esc_html_e( 'Account Details', 'buddypress' ); ?></h2>
 
 					<?php bp_nouveau_signup_form(); ?>
 
@@ -44,7 +44,7 @@
 
 					<div class="register-section extended-profile" id="profile-details-section">
 
-						<h2 class="bp-heading"><?php _e( 'Profile Details', 'buddypress' ); ?></h2>
+						<h2 class="bp-heading"><?php esc_html_e( 'Profile Details', 'buddypress' ); ?></h2>
 
 						<?php /* Use the profile field loop to render input fields for the 'base' profile field group */ ?>
 						<?php while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
@@ -86,9 +86,9 @@
 
 					<div class="register-section blog-details" id="blog-details-section">
 
-						<h2><?php _e( 'Blog Details', 'buddypress' ); ?></h2>
+						<h2><?php esc_html_e( 'Site Details', 'buddypress' ); ?></h2>
 
-						<p><label for="signup_with_blog"><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1" <?php checked( (int) bp_get_signup_with_blog_value(), 1 ); ?>/> <?php _e( "Yes, I'd like to create a new site", 'buddypress' ); ?></label></p>
+						<p><label for="signup_with_blog"><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1" <?php checked( (int) bp_get_signup_with_blog_value(), 1 ); ?>/> <?php esc_html_e( "Yes, i'd like to create a new site", 'buddypress' ); ?></label></p>
 
 						<div id="blog-details"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?>class="show"<?php endif; ?>>
 

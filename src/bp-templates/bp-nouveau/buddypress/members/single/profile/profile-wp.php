@@ -13,7 +13,7 @@ bp_nouveau_wp_profile_hooks( 'before' ); ?>
 	<h2 class="screen-heading wp-profile-screen">
 		<?php
 		if ( bp_is_my_profile() ) {
-			_e( 'My Profile', 'buddypress' );
+			esc_html_e( 'My Profile', 'buddypress' );
 		} else {
 			printf(
 				/* Translators: a member's profile, e.g. "Paul's profile". */

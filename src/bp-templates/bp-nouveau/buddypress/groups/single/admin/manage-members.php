@@ -8,14 +8,14 @@
 ?>
 
 <h2 class="bp-screen-title <?php if ( bp_is_group_create() ) { echo esc_attr( 'creation-step-name' ); } ?>">
-	<?php _e( 'Manage Group Members', 'buddypress' ); ?>
+	<?php esc_html_e( 'Manage Group Members', 'buddypress' ); ?>
 </h2>
 
-	<p class="bp-help-text"><?php _e( 'Manage your group members; promote to moderators, admins or demote or ban.', 'buddypress' ); ?></p>
+	<p class="bp-help-text"><?php esc_html_e( 'Manage your group members; promote to moderators, admins or demote or ban.', 'buddypress' ); ?></p>
 
 	<dl class="groups-manage-members-list">
 
-	<dt class="admin-section section-title"><?php _e( 'Administrators', 'buddypress' ); ?></dt>
+	<dt class="admin-section section-title"><?php esc_html_e( 'Administrators', 'buddypress' ); ?></dt>
 
 	<?php if ( bp_has_members( '&include=' . bp_group_admin_ids() ) ) : ?>
 		<dd class="admin-listing">
@@ -32,7 +32,7 @@
 					<?php if ( count( bp_group_admin_ids( false, 'array' ) ) > 1 ) : ?>
 
 						<p class="action text-links-list">
-							<a class="button confirm admin-demote-to-member" href="<?php bp_group_member_demote_link( bp_get_member_user_id() ); ?>"><?php _e( 'Demote to Member', 'buddypress' ); ?></a>
+							<a class="button confirm admin-demote-to-member" href="<?php bp_group_member_demote_link( bp_get_member_user_id() ); ?>"><?php esc_html_e( 'Demote to Member', 'buddypress' ); ?></a>
 						</p>
 
 					<?php endif; ?>
@@ -46,7 +46,7 @@
 
 	<?php if ( bp_group_has_moderators() ) : ?>
 
-		<dt class="moderator-section section-title"><?php _e( 'Moderators', 'buddypress' ); ?></dt>
+		<dt class="moderator-section section-title"><?php esc_html_e( 'Moderators', 'buddypress' ); ?></dt>
 
 		<dd class="moderator-listing">
 		<?php if ( bp_has_members( '&include=' . bp_group_mod_ids() ) ) : ?>
@@ -61,8 +61,8 @@
 					</p>
 
 					<div class="members-manage-buttons action text-links-list">
-						<a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => bp_get_member_user_id() ) ); ?>" class="button confirm mod-promote-to-admin"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a>
-						<a class="button confirm mod-demote-to-member" href="<?php bp_group_member_demote_link( bp_get_member_user_id() ); ?>"><?php _e( 'Demote to Member', 'buddypress' ); ?></a>
+						<a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => bp_get_member_user_id() ) ); ?>" class="button confirm mod-promote-to-admin"><?php esc_html_e( 'Promote to Admin', 'buddypress' ); ?></a>
+						<a class="button confirm mod-demote-to-member" href="<?php bp_group_member_demote_link( bp_get_member_user_id() ); ?>"><?php esc_html_e( 'Demote to Member', 'buddypress' ); ?></a>
 					</div>
 
 				</li>
@@ -95,7 +95,14 @@
 
 						<p class="list-title member-name">
 							<?php bp_group_member_link(); ?>
-							<span class="banned warn"><?php if ( bp_get_group_member_is_banned() ) _e( '(banned)', 'buddypress' ); ?></span>
+							<span class="banned warn">
+								<?php if ( bp_get_group_member_is_banned() ) : ?>
+									<?php
+									/* translators: indicates a user is banned from a group, e.g. "Mike (banned)". */
+									esc_html_e( '(banned)', 'buddypress' );
+									?>
+								<?php endif; ?>
+							</span>
 						</p>
 
 						<?php bp_nouveau_groups_manage_members_buttons( array( 'container' => 'div', 'container_classes' => array( 'members-manage-buttons', 'text-links-list' ), 'parent_element' => '  ' ) ) ; ?>

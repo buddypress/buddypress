@@ -452,7 +452,7 @@ function bp_nouveau_ajax_get_activity_objects() {
 	}
 
 	if ( empty( $response ) ) {
-		wp_send_json_error( array( 'error' => __( 'No items were found.', 'buddypress' ) ) );
+		wp_send_json_error( array( 'error' => __( 'No activites were found.', 'buddypress' ) ) );
 	} else {
 		wp_send_json_success( $response );
 	}
@@ -579,7 +579,7 @@ function bp_nouveau_ajax_spam_activity() {
 	$response = array(
 		'feedback' => sprintf(
 			'<div class="bp-feedback bp-messages error">%s</div>',
-			esc_html__( 'There was a problem spamming this item. Please try again.', 'buddypress' )
+			esc_html__( 'There was a problem marking this activity as spam. Please try again.', 'buddypress' )
 		),
 	);
 
@@ -628,7 +628,7 @@ function bp_nouveau_ajax_spam_activity() {
 	// If on a single activity redirect to user's home.
 	if ( ! empty( $_POST['is_single'] ) ) {
 		$response['redirect'] = bp_core_get_user_domain( $activity->user_id );
-		bp_core_add_message( __( 'The activity item has been marked as spam and is no longer visible.', 'buddypress' ) );
+		bp_core_add_message( __( 'This activity has been marked as spam and is no longer visible.', 'buddypress' ) );
 	}
 
 	// Send the json reply

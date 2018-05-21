@@ -32,7 +32,7 @@ class BP_Latest_Activities extends WP_Widget {
 		$widget_ops = apply_filters(
 			'bp_latest_activities', array(
 				'classname'                   => 'bp-latest-activities buddypress',
-				'description'                 => __( 'Display the latest updates of your community having the type(s) of your choice.', 'buddypress' ),
+				'description'                 => __( 'Display the latest updates of your community having the types of your choice.', 'buddypress' ),
 				'customize_selective_refresh' => true,
 			)
 		);
@@ -185,7 +185,7 @@ class BP_Latest_Activities extends WP_Widget {
 		</p>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'max' ); ?>"><?php _e( 'Max amount to display:', 'buddypress' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'max' ); ?>"><?php _e( 'Maximum amount to display:', 'buddypress' ); ?></label>
 			<input type="number" class="widefat" id="<?php echo $this->get_field_id( 'max' ); ?>" name="<?php echo $this->get_field_name( 'max' ); ?>" value="<?php echo intval( $max ); ?>" step="1" min="1" max="20" />
 		</p>
 		<p>

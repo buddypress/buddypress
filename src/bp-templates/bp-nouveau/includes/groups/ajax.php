@@ -101,7 +101,7 @@ function bp_nouveau_ajax_joinleave_group() {
 				$response = array(
 					'feedback' => sprintf(
 						'<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>%s</p></div>',
-						esc_html__( 'Group invite could not be accepted.', 'buddypress' )
+						esc_html__( 'Group invitation could not be accepted.', 'buddypress' )
 					),
 					'type'     => 'error',
 				);
@@ -282,26 +282,26 @@ function bp_nouveau_ajax_get_users_to_invite() {
 	) );
 
 	$bp->groups->invites_scope = 'members';
-	$message = __( 'Select members to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" nav item to continue.', 'buddypress' );
+	$message = __( 'Select members to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" navigation item to continue.', 'buddypress' );
 
 	if ( 'friends' === $request['scope'] ) {
 		$request['user_id'] = bp_loggedin_user_id();
 		$bp->groups->invites_scope = 'friends';
-		$message = __( 'Select friends to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" nav item to continue.', 'buddypress' );
+		$message = __( 'Select friends to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" navigation item to continue.', 'buddypress' );
 	}
 
 	if ( 'invited' === $request['scope'] ) {
 
 		if ( ! bp_group_has_invites( array( 'user_id' => 'any' ) ) ) {
 			wp_send_json_error( array(
-				'feedback' => __( 'No pending invites found.', 'buddypress' ),
+				'feedback' => __( 'No pending group invitations found.', 'buddypress' ),
 				'type'     => 'info',
 			) );
 		}
 
 		$request['is_confirmed'] = false;
 		$bp->groups->invites_scope = 'invited';
-		$message = __( 'You can view all the group\'s pending invites from this screen.', 'buddypress' );
+		$message = __( 'You can view the group\'s pending invitations from this screen.', 'buddypress' );
 	}
 
 	$potential_invites = bp_nouveau_get_group_potential_invites( $request );
@@ -365,7 +365,7 @@ function bp_nouveau_ajax_send_group_invites() {
 	}
 
 	if ( ! bp_groups_user_can_send_invites( $group_id ) ) {
-		$response['feedback'] = __( 'You are not allowed to send invites for this group.', 'buddypress' );
+		$response['feedback'] = __( 'You are not allowed to send invitations for this group.', 'buddypress' );
 		wp_send_json_error( $response );
 	}
 
@@ -404,7 +404,15 @@ function bp_nouveau_ajax_send_group_invites() {
 		$errors = array_keys( $invited, false );
 
 		$error_count   = count( $errors );
-		$error_message = sprintf( _n( 'Invites failed for %s user.', 'Invites failed for %s users.', $error_count, 'buddypress' ), number_format_i18n( $error_count ) );
+		$error_message = sprintf(
+			/* translators: count of users affected */
+			_n(
+				'Invitation failed for %s user.',
+				'Invitation failed for %s users.',
+				$error_count, 'buddypress'
+			),
+			number_format_i18n( $error_count )
+		);
 
 		wp_send_json_error(
 			array(
@@ -417,7 +425,7 @@ function bp_nouveau_ajax_send_group_invites() {
 
 	wp_send_json_success(
 		array(
-			'feedback' => __( 'Invites sent.', 'buddypress' ),
+			'feedback' => __( 'Invitations sent.', 'buddypress' ),
 			'type'     => 'success',
 		)
 	);
@@ -427,14 +435,14 @@ function bp_nouveau_ajax_send_group_invites() {
  * @since 3.0.0
  */
 function bp_nouveau_ajax_remove_group_invite() {
-	$user_id  = $_POST['user'];
+	$user_id  = (int) $_POST['user'];
 	$group_id = bp_get_current_group_id();
 
 	// Verify nonce
 	if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'groups_invite_uninvite_user' ) ) {
 		wp_send_json_error(
 			array(
-				'feedback' => __( 'Invites could not be removed. Please try again.', 'buddypress' ),
+				'feedback' => __( 'Group invitation could not be removed.', 'buddypress' ),
 				'type'     => 'error',
 			)
 		);
@@ -443,7 +451,7 @@ function bp_nouveau_ajax_remove_group_invite() {
 	if ( BP_Groups_Member::check_for_membership_request( $user_id, $group_id ) ) {
 		wp_send_json_error(
 			array(
-				'feedback' => __( 'Too late! The user is already a member of the group.', 'buddypress' ),
+				'feedback' => __( 'The member is already a member of the group.', 'buddypress' ),
 				'type'     => 'warning',
 				'code'     => 1,
 			)
@@ -454,7 +462,7 @@ function bp_nouveau_ajax_remove_group_invite() {
 	if ( ! groups_uninvite_user( $user_id, $group_id ) ) {
 		wp_send_json_error(
 			array(
-				'feedback' => __( 'Invite could not be removed successfully.', 'buddypress' ),
+				'feedback' => __( 'Group invitation could not be removed.', 'buddypress' ),
 				'type'     => 'error',
 				'code'     => 0,
 			)
@@ -463,7 +471,7 @@ function bp_nouveau_ajax_remove_group_invite() {
 
 	wp_send_json_success(
 		array(
-			'feedback'    => __( 'No more pending invites for the group.', 'buddypress' ),
+			'feedback'    => __( 'There are no more pending invitations for the group.', 'buddypress' ),
 			'type'        => 'info',
 			'has_invites' => bp_group_has_invites( array( 'user_id' => 'any' ) ),
 		)

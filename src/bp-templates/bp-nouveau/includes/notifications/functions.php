@@ -200,11 +200,16 @@ function bp_nouveau_notifications_dashiconified_link( $link = '', $bp_tooltip = 
  *
  * @since 3.0.0
  *
- * @param  string $link The Mark Unread action link.
- * @return string       Link Output.
+ * @param string $link Optional. The Mark Unread action link.
+ *
+ * @return string Link Output.
  */
 function bp_nouveau_notifications_mark_unread_link( $link = '' ) {
-	return bp_nouveau_notifications_dashiconified_link( $link, __( 'Mark Unread', 'buddypress' ), 'dashicons-hidden' );
+	return bp_nouveau_notifications_dashiconified_link(
+		$link,
+		_x( 'Mark Unread', 'link', 'buddypress' ),
+		'dashicons-hidden'
+	);
 }
 
 /**
@@ -212,11 +217,16 @@ function bp_nouveau_notifications_mark_unread_link( $link = '' ) {
  *
  * @since 3.0.0
  *
- * @param  string $link The Mark Read action link.
- * @return string       Link Output.
+ * @param string $link Optional. The Mark Read action link.
+ *
+ * @return string Link Output.
  */
 function bp_nouveau_notifications_mark_read_link( $link = '' ) {
-	return bp_nouveau_notifications_dashiconified_link( $link, __( 'Mark Read', 'buddypress' ), 'dashicons-visibility' );
+	return bp_nouveau_notifications_dashiconified_link(
+		$link,
+		_x( 'Mark Read', 'link', 'buddypress' ),
+		'dashicons-visibility'
+	);
 }
 
 /**
@@ -224,9 +234,14 @@ function bp_nouveau_notifications_mark_read_link( $link = '' ) {
  *
  * @since 3.0.0
  *
- * @param  string $link The Delete action link.
- * @return string       Link Output.
+ * @param string $link Optional. The Delete action link.
+ *
+ * @return string Link Output.
  */
 function bp_nouveau_notifications_delete_link( $link = '' ) {
-	return bp_nouveau_notifications_dashiconified_link( $link, __( 'Delete', 'buddypress' ), 'dashicons-dismiss' );
+	return bp_nouveau_notifications_dashiconified_link(
+		$link,
+		_x( 'Delete', 'link', 'buddypress' ),
+		'dashicons-dismiss'
+	);
 }

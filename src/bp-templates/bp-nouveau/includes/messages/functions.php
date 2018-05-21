@@ -101,11 +101,11 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 		),
 		'loading'       => __( 'Loading messages. Please wait.', 'buddypress' ),
 		'doingAction'   => array(
-			'read'   => __( 'Marking message(s) as read. Please wait.', 'buddypress' ),
-			'unread' => __( 'Marking message(s) as unread. Please wait.', 'buddypress' ),
-			'delete' => __( 'Deleting message(s). Please wait.', 'buddypress' ),
-			'star'   => __( 'Starring message(s). Please wait.', 'buddypress' ),
-			'unstar' => __( 'Unstarring message(s). Please wait.', 'buddypress' ),
+			'read'   => __( 'Marking messages as read. Please wait.', 'buddypress' ),
+			'unread' => __( 'Marking messages as unread. Please wait.', 'buddypress' ),
+			'delete' => __( 'Deleting messages. Please wait.', 'buddypress' ),
+			'star'   => __( 'Starring messages. Please wait.', 'buddypress' ),
+			'unstar' => __( 'Unstarring messages. Please wait.', 'buddypress' ),
 		),
 		'bulk_actions'  => bp_nouveau_messages_get_bulk_actions(),
 		'howto'         => __( 'Click on the message title to preview it in the Active conversation box below.', 'buddypress' ),
@@ -145,7 +145,7 @@ function bp_nouveau_message_search_form() {
 
 	$search_form_html = '<form action="" method="get" id="search-messages-form">
 		<label for="messages_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="messages_search" placeholder="' . esc_attr( $placeholder ) . '" /></label>
-		<input type="submit" id="messages_search_submit" name="messages_search_submit" value="' . esc_attr_e( 'Search', 'buddypress' ) . '" />
+		<input type="submit" id="messages_search_submit" name="messages_search_submit" value="' . esc_attr_x( 'Search', 'button', 'buddypress' ) . '" />
 	</form>';
 
 	/**
@@ -260,7 +260,7 @@ function bp_nouveau_format_notice_notification_for_user( $array ) {
 	}
 
 	return array(
-		'text' => esc_html__( 'New sitewide notice', 'buddypress' ),
+		'text' => __( 'New sitewide notice', 'buddypress' ),
 		'link' => bp_loggedin_user_domain(),
 	);
 }
