@@ -316,7 +316,7 @@ function bp_nouveau_register_sidebars() {
 	$sidebars = array();
 	if ( $default_user_front ) {
 		$sidebars[] = array(
-			'name'          => __( 'BuddyPress User\'s Home', 'buddypress' ),
+			'name'          => __( 'BuddyPress Member\'s Home', 'buddypress' ),
 			'id'            => 'sidebar-buddypress-members',
 			'description'   => __( 'Add widgets here to appear in the front page of each member of your community.', 'buddypress' ),
 			'before_widget' => '<div id="%1$s" class="widget %2$s">',
@@ -920,7 +920,7 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 	$feedback_messages = apply_filters( 'bp_nouveau_feedback_messages', array(
 		'registration-disabled' => array(
 			'type'    => 'info',
-			'message' => __( 'User registration is currently not allowed.', 'buddypress' ),
+			'message' => __( 'Member registration is currently not allowed.', 'buddypress' ),
 			'before'  => 'bp_before_registration_disabled',
 			'after'   => 'bp_after_registration_disabled'
 		),
@@ -1034,19 +1034,19 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 		),
 		'member-activity-loading' => array(
 			'type'    => 'loading',
-			'message' => __( 'Loading the user\'s updates. Please wait.', 'buddypress' ),
+			'message' => __( 'Loading the member\'s updates. Please wait.', 'buddypress' ),
 		),
 		'member-blogs-loading' => array(
 			'type'    => 'loading',
-			'message' => __( 'Loading the user\'s blogs. Please wait.', 'buddypress' ),
+			'message' => __( 'Loading the member\'s blogs. Please wait.', 'buddypress' ),
 		),
 		'member-friends-loading' => array(
 			'type'    => 'loading',
-			'message' => __( 'Loading the user\'s friends. Please wait.', 'buddypress' ),
+			'message' => __( 'Loading the member\'s friends. Please wait.', 'buddypress' ),
 		),
 		'member-groups-loading' => array(
 			'type'    => 'loading',
-			'message' => __( 'Loading the user\'s groups. Please wait.', 'buddypress' ),
+			'message' => __( 'Loading the member\'s groups. Please wait.', 'buddypress' ),
 		),
 		'member-notifications-loading' => array(
 			'type'    => 'loading',

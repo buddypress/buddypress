@@ -83,7 +83,7 @@ function bp_nouveau_notifications_sort_order_links() {
 
 	<span class="notifications-order-actions">
 		<a href="<?php echo esc_url( $desc ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Newest First', 'buddypress' ); ?>" aria-label="<?php esc_attr_e( 'Newest First', 'buddypress' ); ?>" data-bp-notifications-order="DESC"><span class="dashicons dashicons-arrow-down" aria-hidden="true"></span></a>
-		<a href="<?php echo esc_url( $asc ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Older First', 'buddypress' ); ?>" aria-label="<?php esc_attr_e( 'Older First', 'buddypress' ); ?>" data-bp-notifications-order="ASC"><span class="dashicons dashicons-arrow-up" aria-hidden="true"></span></a>
+		<a href="<?php echo esc_url( $asc ); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Oldest First', 'buddypress' ); ?>" aria-label="<?php esc_attr_e( 'Oldest First', 'buddypress' ); ?>" data-bp-notifications-order="ASC"><span class="dashicons dashicons-arrow-up" aria-hidden="true"></span></a>
 	</span>
 
 	<?php
@@ -100,25 +100,24 @@ function bp_nouveau_notifications_bulk_management_dropdown() {
 	<div class="select-wrap">
 
 		<label class="bp-screen-reader-text" for="notification-select"><?php
-			/* translators: accessibility text */
-			_e( 'Select Bulk Action', 'buddypress' );
+			esc_html_e( 'Select Bulk Action', 'buddypress' );
 		?></label>
 
 		<select name="notification_bulk_action" id="notification-select">
-			<option value="" selected="selected"><?php _e( 'Bulk Actions', 'buddypress' ); ?></option>
+			<option value="" selected="selected"><?php echo esc_html( 'Bulk Actions', 'buddypress' ); ?></option>
 
 			<?php if ( bp_is_current_action( 'unread' ) ) : ?>
-				<option value="read"><?php _e( 'Mark read', 'buddypress' ); ?></option>
+				<option value="read"><?php echo esc_html_x( 'Mark read', 'button', 'buddypress' ); ?></option>
 			<?php elseif ( bp_is_current_action( 'read' ) ) : ?>
-				<option value="unread"><?php _e( 'Mark unread', 'buddypress' ); ?></option>
+				<option value="unread"><?php echo esc_html_x( 'Mark unread', 'button', 'buddypress' ); ?></option>
 			<?php endif; ?>
-			<option value="delete"><?php _e( 'Delete', 'buddypress' ); ?></option>
+			<option value="delete"><?php echo esc_html_x( 'Delete', 'button', 'buddypress' ); ?></option>
 		</select>
 
 		<span class="select-arrow"></span>
 
 	</div><!-- // .select-wrap -->
 
-	<input type="submit" id="notification-bulk-manage" class="button action" value="<?php esc_attr_e( 'Apply', 'buddypress' ); ?>">
+	<input type="submit" id="notification-bulk-manage" class="button action" value="<?php echo esc_attr_x( 'Apply', 'button', 'buddypress' ); ?>">
 	<?php
 }

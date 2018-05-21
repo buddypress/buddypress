@@ -35,8 +35,8 @@
 	<?php bp_nouveau_messages_hook( 'after', 'compose_content' ); ?>
 
 	<div class="submit">
-		<input type="button" id="bp-messages-send" class="button bp-primary-action" value="<?php esc_attr_e( 'Send', 'buddypress' ); ?>"/>
-		<input type="button" id="bp-messages-reset" class="text-button small bp-secondary-action" value="<?php esc_attr_e( 'Reset', 'buddypress' ); ?>"/>
+		<input type="button" id="bp-messages-send" class="button bp-primary-action" value="<?php echo esc_attr_x( 'Send', 'button', 'buddypress' ); ?>"/>
+		<input type="button" id="bp-messages-reset" class="text-button small bp-secondary-action" value="<?php echo esc_attr_x( 'Reset', 'form reset button', 'buddypress' ); ?>"/>
 	</div>
 </script>
 
@@ -59,6 +59,7 @@
 			'textarea_rows' => 5,
 		)
 	);
+
 	// Remove the temporary filter on editor buttons
 	remove_filter( 'mce_buttons', 'bp_nouveau_messages_mce_buttons', 10, 1 );
 	?>
@@ -68,14 +69,14 @@
 	<# if ( 1 !== data.page ) { #>
 		<button id="bp-messages-prev-page"class="button messages-button">
 			<span class="dashicons dashicons-arrow-left"></span>
-			<span class="bp-screen-reader-text"><?php esc_html_e( 'Prev', 'buddypress' ); ?></span>
+			<span class="bp-screen-reader-text"><?php echo esc_html_x( 'Previous page', 'link', 'buddypress' ); ?></span>
 		</button>
 	<# } #>
 
 	<# if ( data.total_page !== data.page ) { #>
 		<button id="bp-messages-next-page"class="button messages-button">
 			<span class="dashicons dashicons-arrow-right"></span>
-			<span class="bp-screen-reader-text"><?php esc_html_e( 'Next', 'buddypress' ); ?></span>
+			<span class="bp-screen-reader-text"><?php echo esc_html_x( 'Next page', 'link', 'buddypress' ); ?></span>
 		</button>
 	<# } #>
 </script>
@@ -87,10 +88,10 @@
 				<label for="user_messages_search" class="bp-screen-reader-text">
 					<?php _e( 'Search Messages', 'buddypress' ); ?>
 				</label>
-				<input type="search" id="user_messages_search" placeholder="<?php esc_attr_e( 'Search', 'buddypress' ); ?>"/>
+				<input type="search" id="user_messages_search" placeholder="<?php echo esc_attr_x( 'Search', 'search placeholder text', 'buddypress' ); ?>"/>
 				<button type="submit" id="user_messages_search_submit">
 					<span class="dashicons dashicons-search" aria-hidden="true"></span>
-					<span class="bp-screen-reader-text"><?php esc_html_e( 'Search', 'buddypress' ); ?></span>
+					<span class="bp-screen-reader-text"><?php echo esc_html_x( 'Search', 'button', 'buddypress' ); ?></span>
 				</button>
 			</form>
 		</div>
@@ -113,9 +114,9 @@
 			</select>
 			<span class="select-arrow" aria-hidden="true"></span>
 		</div>
-		<button class="messages-button bulk-apply bp-tooltip" type="submit" data-bp-tooltip="<?php echo esc_attr( 'Apply', 'buddypress' ); ?>">
+		<button class="messages-button bulk-apply bp-tooltip" type="submit" data-bp-tooltip="<?php echo esc_attr_x( 'Apply', 'button', 'buddypress' ); ?>">
 			<span class="dashicons dashicons-yes" aria-hidden="true"></span>
-			<span class="bp-screen-reader-text"><?php esc_html_e( 'Apply', 'buddypress' ); ?></span>
+			<span class="bp-screen-reader-text"><?php echo esc_html_x( 'Apply', 'button', 'buddypress' ); ?></span>
 		</button>
 	</div>
 </script>
@@ -301,7 +302,7 @@
 				<div class="avatar-box">
 					<?php bp_loggedin_user_avatar( 'type=thumb&height=30&width=30' ); ?>
 
-					<strong><?php _e( 'Send a Reply', 'buddypress' ); ?></strong>
+					<strong><?php esc_html_e( 'Send a Reply', 'buddypress' ); ?></strong>
 				</div>
 
 				<?php bp_nouveau_messages_hook( 'after', 'meta' ); ?>
@@ -318,7 +319,7 @@
 				<?php bp_nouveau_messages_hook( 'after', 'reply_box' ); ?>
 
 				<div class="submit">
-					<input type="submit" name="send" value="<?php esc_attr_e( 'Send Reply', 'buddypress' ); ?>" id="send_reply_button"/>
+					<input type="submit" name="send" value="<?php echo esc_attr_x( 'Send Reply', 'button', 'buddypress' ); ?>" id="send_reply_button"/>
 				</div>
 
 			</div><!-- .message-content -->

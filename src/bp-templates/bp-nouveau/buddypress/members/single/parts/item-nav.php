@@ -7,7 +7,7 @@
  */
 ?>
 
-<nav class="<?php bp_nouveau_single_item_nav_classes(); ?>" id="object-nav" role="navigation" aria-label="<?php esc_attr_e( 'User menu', 'buddypress' ); ?>">
+<nav class="<?php bp_nouveau_single_item_nav_classes(); ?>" id="object-nav" role="navigation" aria-label="<?php esc_attr_e( 'Member menu', 'buddypress' ); ?>">
 
 	<?php if ( bp_nouveau_has_nav( array( 'type' => 'primary' ) ) ) : ?>
 

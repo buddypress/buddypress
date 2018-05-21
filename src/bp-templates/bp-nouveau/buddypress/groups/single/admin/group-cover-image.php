@@ -23,7 +23,7 @@
 
 <?php endif; ?>
 
-<p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
+<p><?php esc_html_e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
 
 <?php
 bp_attachments_get_template_part( 'cover-images/index' );

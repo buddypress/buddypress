@@ -43,11 +43,6 @@ class BP_Buttons_Group {
 	 * }
 	 */
 	public function __construct( $args = array() ) {
-		if ( empty( $args ) || ! is_array( $args ) ) {
-			_doing_it_wrong( __( 'You need to use an array containing arrays of parameters.', 'buddypress' ) );
-			return;
-		}
-
 		foreach ( $args as $arg ) {
 			$r = wp_parse_args( (array) $arg, array(
 				'id'                => '',
@@ -197,7 +192,7 @@ class BP_Nouveau_Object_Nav_Widget extends WP_Widget {
 
 		parent::__construct(
 			'bp_nouveau_sidebar_object_nav_widget',
-			__( '(BuddyPress) Primary nav', 'buddypress' ),
+			__( '(BuddyPress) Primary navigation', 'buddypress' ),
 			$widget_ops
 		);
 	}

@@ -217,7 +217,7 @@ $settings = bp_email_get_appearance_settings();
 
 						<span class="footer_text"><?php echo nl2br( stripslashes( $settings['footer_text'] ) ); ?></span>
 						<br><br>
-						<a href="{{{unsubscribe}}}" style="text-decoration: underline;"><?php _ex( 'unsubscribe', 'email', 'buddypress' ); ?></a>
+						<a href="{{{unsubscribe}}}" style="text-decoration: underline;"><?php echo esc_html_x( 'unsubscribe', 'email', 'buddypress' ); ?></a>
 
 						<?php
 						/**

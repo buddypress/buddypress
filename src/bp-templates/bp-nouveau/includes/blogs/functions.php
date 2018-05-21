@@ -165,7 +165,7 @@ function bp_nouveau_blogs_customizer_settings( $settings = array() ) {
 function bp_nouveau_blogs_customizer_controls( $controls = array() ) {
 	return array_merge( $controls, array(
 		'blogs_layout' => array(
-			'label'      => __( 'Blogs loop:', 'buddypress' ),
+			'label'      => __( 'Sites loop:', 'buddypress' ),
 			'section'    => 'bp_nouveau_loops_layout',
 			'settings'   => 'bp_nouveau_appearance[blogs_layout]',
 			'type'       => 'select',

@@ -16,7 +16,7 @@
 
 		<button type="submit" id="<?php bp_nouveau_search_selector_id( 'search-submit' ); ?>" class="nouveau-search-submit" name="<?php bp_nouveau_search_selector_name( 'search_submit' ); ?>">
 			<span class="dashicons dashicons-search" aria-hidden="true"></span>
-			<span id="button-text" class="bp-screen-reader-text"><?php _e( 'Search', 'buddypress' ); ?></span>
+			<span id="button-text" class="bp-screen-reader-text"><?php echo esc_html_x( 'Search', 'button', 'buddypress' ); ?></span>
 		</button>
 
 	</form>
