@@ -1134,7 +1134,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 	$fields = apply_filters( 'bp_nouveau_get_signup_fields', array(
 		'account_details' => array(
 			'signup_username' => array(
-				'label'          => _x( 'Username%s', 'signup field label', 'buddypress' ),
+				'label'          => __( 'Username', 'buddypress' ),
 				'required'       => true,
 				'value'          => 'bp_get_signup_username_value',
 				'attribute_type' => 'username',
@@ -1142,7 +1142,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 				'class'          => '',
 			),
 			'signup_email' => array(
-				'label'          => _x( 'Email Address%s', 'signup field label', 'buddypress' ),
+				'label'          => __( 'Email Address', 'buddypress' ),
 				'required'       => true,
 				'value'          => 'bp_get_signup_email_value',
 				'attribute_type' => 'email',
@@ -1150,7 +1150,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 				'class'          => '',
 			),
 			'signup_password' => array(
-				'label'          => _x( 'Choose a Password%s', 'signup field label', 'buddypress' ),
+				'label'          => __( 'Choose a Password', 'buddypress' ),
 				'required'       => true,
 				'value'          => '',
 				'attribute_type' => 'password',
@@ -1158,7 +1158,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 				'class'          => 'password-entry',
 			),
 			'signup_password_confirm' => array(
-				'label'          => _x( 'Confirm Password%s', 'signup field label', 'buddypress' ),
+				'label'          => __( 'Confirm Password', 'buddypress' ),
 				'required'       => true,
 				'value'          => '',
 				'attribute_type' => 'password',
@@ -1168,7 +1168,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 		),
 		'blog_details' => array(
 			'signup_blog_url' => array(
-				'label'          => _x( 'Site URL%s', 'signup field label', 'buddypress' ),
+				'label'          => __( 'Site URL', 'buddypress' ),
 				'required'       => true,
 				'value'          => 'bp_get_signup_blog_url_value',
 				'attribute_type' => 'slug',
@@ -1176,7 +1176,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 				'class'          => '',
 			),
 			'signup_blog_title' => array(
-				'label'          => _x( 'Site Title%s', 'signup field label', 'buddypress' ),
+				'label'          => __( 'Site Title', 'buddypress' ),
 				'required'       => true,
 				'value'          => 'bp_get_signup_blog_title_value',
 				'attribute_type' => 'title',
