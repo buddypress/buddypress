@@ -1607,4 +1607,54 @@ Bar!';
 			$this->acaches[ $k ] = wp_cache_get( $k, 'bp_activity' );
 		}
 	}
+
+	/**
+	 * @ticket BP7818
+	 * @ticket BP7698
+	 */
+	public function test_bp_activity_personal_data_exporter() {
+		$u = self::factory()->user->create();
+
+		$a1 = self::factory()->activity->create(
+			array(
+				'user_id'   => $u,
+				'component' => 'activity',
+				'type'      => 'activity_update',
+			)
+		);
+
+		$a2 = self::factory()->activity->create(
+			array(
+				'user_id'           => $u,
+				'component'         => 'activity',
+				'type'              => 'activity_comment',
+				'item_id'           => $a1,
+				'secondary_item_id' => $a1,
+			)
+		);
+
+		$g = self::factory()->group->create(
+			array(
+				'name' => 'My Cool Group',
+			)
+		);
+
+		$a3 = self::factory()->activity->create(
+			array(
+				'user_id'   => $u,
+				'component' => 'groups',
+				'type'      => 'activity_update',
+				'item_id'   => $g,
+			)
+		);
+
+		$test_user = new WP_User( $u );
+
+		$actual = bp_activity_personal_data_exporter( $test_user->user_email, 1 );
+
+		$this->assertTrue( $actual['done'] );
+
+		// Number of exported activity items.
+		$this->assertSame( 3, count( $actual['data'] ) );
+	}
 }
