@@ -1336,3 +1336,55 @@ function bp_xprofile_maybe_format_datebox_post_data( $field_id ) {
 		}
 	}
 }
+
+/**
+ * Finds and exports personal data associated with an email address from the XProfile tables.
+ *
+ * @since 4.0.0
+ *
+ * @param string $email_address  The userss email address.
+ * @return array An array of personal data.
+ */
+function bp_xprofile_personal_data_exporter( $email_address ) {
+	$email_address = trim( $email_address );
+
+	$data_to_export = array();
+
+	$user = get_user_by( 'email', $email_address );
+
+	if ( ! $user ) {
+		return array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	$user_data_to_export = array();
+
+	$user_profile_data = BP_XProfile_ProfileData::get_all_for_user( $user->ID );
+	foreach ( $user_profile_data as $field_name => $field ) {
+		// Skip non-array fields, which don't belong to XProfile.
+		if ( ! is_array( $field ) ) {
+			continue;
+		}
+
+		// Re-pull the data so that BuddyPress formats and sanitizes properly.
+		$value = xprofile_get_field_data( $field['field_id'], $user->ID, 'comma' );
+		$user_data_to_export[] = array(
+			'name'  => $field_name,
+			'value' => $value,
+		);
+	}
+
+	$data_to_export[] = array(
+		'group_id'    => 'bp_xprofile',
+		'group_label' => __( 'Extended Profile Data', 'buddypress' ),
+		'item_id'     => "bp-xprofile-{$user->ID}",
+		'data'        => $user_data_to_export,
+	);
+
+	return array(
+		'data' => $data_to_export,
+		'done' => true,
+	);
+}

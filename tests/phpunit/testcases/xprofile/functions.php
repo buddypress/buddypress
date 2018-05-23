@@ -1074,4 +1074,61 @@ Bar!';
 		$this->assertRegExp( $regex, $output );
 		unset( $GLOBALS['field'] );
 	}
+
+	/**
+	 * @ticket BP7817
+	 * @ticket BP7698
+	 */
+	public function test_bp_xprofile_personal_data_exporter() {
+		$u = self::factory()->user->create();
+
+		$field_group_id = self::factory()->xprofile_group->create();
+		$f1 = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $field_group_id,
+			)
+		);
+		$f2 = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $field_group_id,
+				'type'           => 'checkbox',
+			)
+		);
+
+		$option1 = xprofile_insert_field( array(
+			'field_group_id' => $field_group_id,
+			'parent_id'      => $f2,
+			'type'           => 'option',
+			'name'           => 'Option 1',
+		) );
+
+		$option2 = xprofile_insert_field( array(
+			'field_group_id' => $field_group_id,
+			'parent_id'      => $f2,
+			'type'           => 'option',
+			'name'           => 'Option 2',
+		) );
+
+		$option3 = xprofile_insert_field( array(
+			'field_group_id' => $field_group_id,
+			'parent_id'      => $f2,
+			'type'           => 'option',
+			'name'           => 'Option 3',
+		) );
+
+		xprofile_set_field_data( $f1, $u, 'foo' );
+		xprofile_set_field_data( $f2, $u, array( 'Option 1', 'Option 3' ) );
+
+		$test_user = new WP_User( $u );
+
+		$actual = bp_xprofile_personal_data_exporter( $test_user->user_email );
+
+		$this->assertTrue( $actual['done'] );
+
+		// Number of exported users.
+		$this->assertSame( 1, count( $actual['data'] ) );
+
+		// Number of exported user properties.
+		$this->assertSame( 3, count( $actual['data'][0]['data'] ) );
+	}
 }
