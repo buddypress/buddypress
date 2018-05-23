@@ -4241,7 +4241,7 @@ function bp_activity_personal_data_exporter( $email_address, $page ) {
 
 		$data_to_export[] = array(
 			'group_id'    => 'bp_activity',
-			'group_label' => __( 'Activity' ),
+			'group_label' => __( 'Activity', 'buddypress' ),
 			'item_id'     => "bp-activity-{$activity->id}",
 			'data'        => $item_data,
 		);
