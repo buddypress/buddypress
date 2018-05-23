@@ -77,8 +77,8 @@ add_filter( 'xprofile_field_can_delete_before_save',   'absint' );
 add_filter( 'xprofile_field_options_before_save', 'bp_xprofile_sanitize_field_options' );
 add_filter( 'xprofile_field_default_before_save', 'bp_xprofile_sanitize_field_default' );
 
-// Privacy data export.
-add_filter( 'wp_privacy_personal_data_exporters', 'bp_register_xprofile_personal_data_exporter' );
+// Personal data export.
+add_filter( 'wp_privacy_personal_data_exporters', 'bp_xprofile_register_personal_data_exporter' );
 
 /**
  * Sanitize each field option name for saving to the database.
@@ -635,7 +635,7 @@ function bp_xprofile_filter_meta_query( $q ) {
  * @param array $exporters  An array of personal data exporters.
  * @return array An array of personal data exporters.
  */
-function bp_register_xprofile_personal_data_exporter( $exporters ) {
+function bp_xprofile_register_personal_data_exporter( $exporters ) {
 	$exporters['buddypress-xprofile'] = array(
 		'exporter_friendly_name' => __( 'BuddyPress XProfile Data', 'buddypress' ),
 		'callback'               => 'bp_xprofile_personal_data_exporter',
