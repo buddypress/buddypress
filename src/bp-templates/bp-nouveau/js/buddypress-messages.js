@@ -37,7 +37,10 @@ window.bp = window.bp || {};
 
 			this.setupNav();
 
-			Backbone.history.start();
+			Backbone.history.start( {
+				pushState: true,
+				root: BP_Nouveau.messages.rootUrl
+			} );
 		},
 
 		setupNav: function() {
@@ -69,11 +72,11 @@ window.bp = window.bp || {};
 						}
 
 						// Navigate back to current box
-						self.router.navigate( self.box, { trigger: true } );
+						self.router.navigate( self.box + '/', { trigger: true } );
 
 					// Otherwise load it
 					} else {
-						self.router.navigate( 'compose', { trigger: true } );
+						self.router.navigate( 'compose/', { trigger: true } );
 					}
 
 				// Other views are classic.
@@ -82,7 +85,7 @@ window.bp = window.bp || {};
 					if ( self.box !== view_id || ! _.isUndefined( self.views.get( 'compose' ) ) ) {
 						self.clearViews();
 
-						self.router.navigate( view_id, { trigger: true } );
+						self.router.navigate( view_id + '/', { trigger: true } );
 					}
 				}
 			} );
@@ -616,7 +619,7 @@ window.bp = window.bp || {};
 				form.get( 'view' ).remove();
 				bp.Nouveau.Messages.views.remove( { id: 'compose', view: form } );
 
-				bp.Nouveau.Messages.router.navigate( 'sentbox', { trigger: true } );
+				bp.Nouveau.Messages.router.navigate( 'sentbox/', { trigger: true } );
 			} ).fail( function( response ) {
 				if ( response.feedback ) {
 					bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
@@ -712,8 +715,11 @@ window.bp = window.bp || {};
 			bp.Nouveau.Messages.removeFeedback();
 
 			// If the click is done on an active conversation, open it.
-			if ( $( event.currentTarget ).closest( '.thread-item' ).hasClass( 'selected' ) ) {
-				this.loadSingleView( event );
+			if ( target.closest( '.thread-item' ).hasClass( 'selected' ) ) {
+				bp.Nouveau.Messages.router.navigate(
+					'view/' + target.closest( '.thread-content' ).data( 'thread-id' ) + '/',
+					{ trigger: true }
+				);
 
 			// Otherwise activate the conversation and display its preview.
 			} else {
@@ -721,15 +727,6 @@ window.bp = window.bp || {};
 
 				$( '.message-action-view' ).focus();
 			}
-		},
-
-		loadSingleView: function( event ) {
-			event.preventDefault();
-
-			bp.Nouveau.Messages.router.navigate(
-				'view/' + $( event.currentTarget ).closest( '.thread-content' ).data( 'thread-id' ),
-				{ trigger: true }
-			);
 		}
 	} );
 
@@ -895,7 +892,17 @@ window.bp = window.bp || {};
 
 			mid = model.get( 'id' );
 
-			if ( 'star' === action || 'unstar' === action ) {
+			// Open the full conversation
+			if ( 'view' === action ) {
+				bp.Nouveau.Messages.router.navigate(
+					'view/' + mid + '/',
+					{ trigger: true }
+				);
+
+				return;
+
+			// Star/Unstar actions needs to use a specific id and nonce.
+			} else if ( 'star' === action || 'unstar' === action ) {
 				options.data = {
 					'star_nonce' : model.get( 'star_nonce' )
 				};
@@ -1323,11 +1330,11 @@ window.bp = window.bp || {};
 
 	bp.Nouveau.Messages.Router = Backbone.Router.extend( {
 		routes: {
-			'compose' : 'composeMessage',
-			'view/:id': 'viewMessage',
-			'sentbox' : 'sentboxView',
-			'starred' : 'starredView',
-			'inbox'   : 'inboxView',
+			'compose/' : 'composeMessage',
+			'view/:id/': 'viewMessage',
+			'sentbox/' : 'sentboxView',
+			'starred/' : 'starredView',
+			'inbox/'   : 'inboxView',
 			''        : 'inboxView'
 		},
 

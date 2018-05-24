@@ -114,6 +114,7 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 			'one'  => __( '(and 1 other)', 'buddypress' ),
 			'more' => __( '(and %d others)', 'buddypress' ),
 		),
+		'rootUrl' => trailingslashit( str_replace( home_url(), '', bp_displayed_user_domain() ) . bp_get_messages_slug() ),
 	);
 
 	// Star private messages.
@@ -178,15 +179,10 @@ function bp_nouveau_messages_adjust_nav() {
 
 		if ( 'notices' === $secondary_nav_item->slug ) {
 			bp_core_remove_subnav_item( bp_get_messages_slug(), $secondary_nav_item->slug, 'members' );
-		} else {
-			$params = array( 'link' => '#' . $secondary_nav_item->slug );
-
-			// Make sure Admins won't write a messages from the user's account.
-			if ( 'compose' === $secondary_nav_item->slug ) {
-				$params['user_has_access'] = bp_is_my_profile();
-			}
-
-			$bp->members->nav->edit_nav( $params, $secondary_nav_item->slug, bp_get_messages_slug() );
+		} elseif ( 'compose' === $secondary_nav_item->slug ) {
+			$bp->members->nav->edit_nav( array(
+				'user_has_access' => bp_is_my_profile()
+			), $secondary_nav_item->slug, bp_get_messages_slug() );
 		}
 	}
 }
@@ -204,12 +200,10 @@ function bp_nouveau_messages_adjust_admin_nav( $admin_nav ) {
 	foreach ( $admin_nav as $nav_iterator => $nav ) {
 		$nav_id = str_replace( 'my-account-messages-', '', $nav['id'] );
 
-		if ( 'my-account-messages' !== $nav_id ) {
-			if ( 'notices' === $nav_id ) {
-				$admin_nav[ $nav_iterator ]['href'] = esc_url( add_query_arg( array( 'page' => 'bp-notices' ), bp_get_admin_url( 'users.php' ) ) );
-			} else {
-				$admin_nav[ $nav_iterator ]['href'] = $user_messages_link . '#' . trim( $nav_id );
-			}
+		if ( 'notices' === $nav_id ) {
+			$admin_nav[ $nav_iterator ]['href'] = esc_url( add_query_arg( array(
+				'page' => 'bp-notices'
+			), bp_get_admin_url( 'users.php' ) ) );
 		}
 	}
 
