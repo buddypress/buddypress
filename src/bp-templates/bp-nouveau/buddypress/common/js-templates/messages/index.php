@@ -154,7 +154,7 @@
 	<div class="thread-content" data-thread-id="{{data.id}}">
 		<div class="thread-subject">
 			<span class="thread-count">({{data.count}})</span>
-			<a class="subject" href="#view/{{data.id}}">{{data.subject}}</a>
+			<a class="subject" href="../view/{{data.id}}/">{{data.subject}}</a>
 		</div>
 		<p class="excerpt">{{data.excerpt}}</p>
 	</div>
@@ -203,7 +203,7 @@
 
 					<# } #>
 
-					<a href="#view/{{data.id}}" class="message-action-view bp-tooltip bp-icons" data-bp-tooltip="<?php esc_attr_e( 'View full conversation and reply.', 'buddypress' ); ?>">
+					<a href="../view/{{data.id}}/" class="message-action-view bp-tooltip bp-icons" data-bp-action="view" data-bp-tooltip="<?php esc_attr_e( 'View full conversation and reply.', 'buddypress' ); ?>">
 						<span class="bp-screen-reader-text"><?php esc_html_e( 'View full conversation and reply.', 'buddypress' ); ?></span>
 					</a>
 				</div>
