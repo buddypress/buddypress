@@ -5,6 +5,7 @@
  * @group functions
  */
 class BP_Tests_Friends_Functions extends BP_UnitTestCase {
+	static public $user_ids;
 
 	protected $filter_fired;
 
@@ -13,15 +14,41 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$this->filter_fired = '';
 	}
 
+	public static function wpSetUpBeforeClass( $factory ) {
+		$now = time();
+
+		self::$user_ids[0] = $factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now ),
+		) );
+		self::$user_ids[1] = $factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		self::$user_ids[2] = $factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 200 ),
+		) );
+		self::$user_ids[3] = $factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 300 ),
+		) );
+		self::$user_ids[4] = $factory->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', $now - 400 ),
+		) );
+	}
+
+	public static function wpTearDownAfterClass() {
+		foreach ( self::$user_ids as $user_id ) {
+			self::delete_user( $user_id );
+		}
+	}
+
 	/**
 	 * @group friends_get_friendship_request_user_ids
 	 * @group friends_add_friend
 	 * @group friends_accept_friendship
 	 */
 	public function test_requests_on_accept() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		$u3 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
+		$u3 = self::$user_ids[2];
 
 		// request friendship
 		friends_add_friend( $u2, $u1 );
@@ -54,9 +81,9 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @group friends_add_friend
 	 */
 	public function test_requests_on_request() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		$u3 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
+		$u3 = self::$user_ids[2];
 
 		// request friendship
 		friends_add_friend( $u2, $u1 );
@@ -84,8 +111,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @group friends_withdraw_friendship
 	 */
 	public function test_requests_on_withdraw() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
 
 		// request friendship
 		friends_add_friend( $u2, $u1 );
@@ -112,8 +139,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @group friends_reject_friendship
 	 */
 	public function test_requests_on_reject() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
 
 		// request friendship
 		friends_add_friend( $u2, $u1 );
@@ -138,7 +165,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @group friends_add_friend
 	 */
 	public function test_friends_add_friend_fail_on_self() {
-		$u1 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
 		$this->assertFalse( friends_add_friend( $u1, $u1 ) );
 	}
 
@@ -146,8 +173,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @group friends_add_friend
 	 */
 	public function test_friends_add_friend_already_friends() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
 
 		friends_add_friend( $u1, $u2, true );
 
@@ -159,21 +186,11 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 */
 	public function test_friends_check_friendship_status_in_members_loop() {
 		$now = time();
-		$u1 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now ),
-		) );
-		$u2 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
-		) );
-		$u3 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 200 ),
-		) );
-		$u4 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 300 ),
-		) );
-		$u5 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 400 ),
-		) );
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
+		$u3 = self::$user_ids[2];
+		$u4 = self::$user_ids[3];
+		$u5 = self::$user_ids[4];
 
 		friends_add_friend( $u1, $u2, true );
 		friends_add_friend( $u1, $u3, false );
@@ -206,22 +223,11 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @group friends_check_friendship_status
 	 */
 	public function test_friends_check_friendship_status_not_in_members_loop() {
-		$now = time();
-		$u1 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now ),
-		) );
-		$u2 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
-		) );
-		$u3 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 200 ),
-		) );
-		$u4 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 300 ),
-		) );
-		$u5 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 400 ),
-		) );
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
+		$u3 = self::$user_ids[2];
+		$u4 = self::$user_ids[3];
+		$u5 = self::$user_ids[4];
 
 		friends_add_friend( $u1, $u2, true );
 		friends_add_friend( $u1, $u3, false );
@@ -250,8 +256,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @group friends_add_friend
 	 */
 	public function test_friends_add_friend_friends_friendship_requested() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
 
 		add_filter( 'friends_friendship_requested', array( $this, 'friends_friendship_filter_callback' ) );
 		$n = friends_add_friend( $u1, $u2, false );
@@ -264,8 +270,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @group friends_add_friend
 	 */
 	public function test_friends_add_friend_friends_friendship_accepted() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
 
 		add_filter( 'friends_friendship_accepted', array( $this, 'friends_friendship_filter_callback' ) );
 		$n = friends_add_friend( $u1, $u2, true );
@@ -283,14 +289,9 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 * @group friends_remove_friend
 	 */
 	public function test_friends_check_is_friend_after_remove() {
-		$now = time();
 		$old_user = get_current_user_id();
-		$u1 = $this->factory->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now ),
-		) );
-		$u2 = $this->factory->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
-		) );
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
 
 		/*
 		 * Pretend user 1 is on the Members Directory page.
@@ -331,13 +332,9 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	 */
 	public function test_friends_check_friendship_should_hit_friendship_object_cache() {
 		global $wpdb;
-		$now = time();
-		$u1 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now ),
-		) );
-		$u2 = self::factory()->user->create( array(
-			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
-		) );
+
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
 
 		friends_add_friend( $u1, $u2, true );
 
@@ -353,10 +350,10 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_friends_get_recently_active() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		$u3 = self::factory()->user->create();
-		$u4 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
+		$u3 = self::$user_ids[2];
+		$u4 = self::$user_ids[3];
 
 		// request friendship
 		friends_add_friend( $u1, $u2, true );
@@ -375,9 +372,9 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_friends_get_alphabetically() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		$u3 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
+		$u3 = self::$user_ids[2];
 
 		// request friendship
 		friends_add_friend( $u1, $u2, true );
@@ -396,10 +393,10 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_friends_get_newest() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-		$u3 = self::factory()->user->create();
-		$u4 = self::factory()->user->create();
+		$u1 = self::$user_ids[0];
+		$u2 = self::$user_ids[1];
+		$u3 = self::$user_ids[2];
+		$u4 = self::$user_ids[3];
 
 		// request friendship
 		friends_add_friend( $u1, $u2, true );
