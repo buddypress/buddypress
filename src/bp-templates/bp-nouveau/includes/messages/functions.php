@@ -114,7 +114,7 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 			'one'  => __( '(and 1 other)', 'buddypress' ),
 			'more' => __( '(and %d others)', 'buddypress' ),
 		),
-		'rootUrl' => trailingslashit( str_replace( home_url(), '', bp_displayed_user_domain() ) . bp_get_messages_slug() ),
+		'rootUrl' => parse_url( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ), PHP_URL_PATH ),
 	);
 
 	// Star private messages.
