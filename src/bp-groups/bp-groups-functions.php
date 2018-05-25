@@ -604,6 +604,31 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 	return true;
 }
 
+/**
+ * Update the last_activity meta value for a given group.
+ *
+ * @since 1.0.0
+ *
+ * @param int $group_id Optional. The ID of the group whose last_activity is
+ *                      being updated. Default: the current group's ID.
+ * @return false|null False on failure.
+ */
+function groups_update_last_activity( $group_id = 0 ) {
+
+	if ( empty( $group_id ) ) {
+		$group_id = buddypress()->groups->current_group->id;
+	}
+
+	if ( empty( $group_id ) ) {
+		return false;
+	}
+
+	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
+}
+add_action( 'groups_join_group',           'groups_update_last_activity' );
+add_action( 'groups_leave_group',          'groups_update_last_activity' );
+add_action( 'groups_created_group',        'groups_update_last_activity' );
+
 /** General Group Functions ***************************************************/
 
 /**
