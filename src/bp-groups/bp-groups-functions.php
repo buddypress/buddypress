@@ -585,11 +585,13 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 		$group = $bp->groups->current_group;
 
 	// Record this in activity streams.
-	groups_record_activity( array(
-		'type'    => 'joined_group',
-		'item_id' => $group_id,
-		'user_id' => $user_id,
-	) );
+	if ( bp_is_active( 'activity' ) ) {
+		groups_record_activity( array(
+			'type'    => 'joined_group',
+			'item_id' => $group_id,
+			'user_id' => $user_id,
+		) );
+	}
 
 	/**
 	 * Fires after a user joins a group.

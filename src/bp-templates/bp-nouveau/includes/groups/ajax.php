@@ -107,12 +107,14 @@ function bp_nouveau_ajax_joinleave_group() {
 				);
 
 			} else {
-				groups_record_activity(
-					array(
-						'type'    => 'joined_group',
-						'item_id' => $group->id,
-					)
-				);
+				if ( bp_is_active( 'activity' ) ) {
+					groups_record_activity(
+						array(
+							'type'    => 'joined_group',
+							'item_id' => $group->id,
+						)
+					);
+				}
 
 				// User is now a member of the group
 				$group->is_member = '1';
