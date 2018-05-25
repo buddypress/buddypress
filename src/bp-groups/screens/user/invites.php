@@ -28,10 +28,12 @@ function groups_screen_group_invites() {
 
 			bp_core_add_message( sprintf( __( 'Group invite accepted. Visit %s.', 'buddypress' ), bp_get_group_link( $group ) ) );
 
-			groups_record_activity( array(
-				'type'    => 'joined_group',
-				'item_id' => $group->id
-			) );
+			if ( bp_is_active( 'activity' ) ) {
+				groups_record_activity( array(
+					'type'    => 'joined_group',
+					'item_id' => $group->id
+				) );
+			}
 		}
 
 		if ( isset( $_GET['redirect_to'] ) ) {

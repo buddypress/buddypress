@@ -182,10 +182,12 @@ function groups_action_create_group() {
 			setcookie( 'bp_completed_create_steps', false, time() - 3600, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 
 			// Once we completed all steps, record the group creation in the activity stream.
-			groups_record_activity( array(
-				'type' => 'created_group',
-				'item_id' => $bp->groups->new_group_id
-			) );
+			if ( bp_is_active( 'activity' ) ) {
+				groups_record_activity( array(
+					'type' => 'created_group',
+					'item_id' => $bp->groups->new_group_id
+				) );
+			}
 
 			/**
 			 * Fires after the group has been successfully created.
