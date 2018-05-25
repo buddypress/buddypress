@@ -427,31 +427,6 @@ function bp_groups_filter_activity_can_comment_reply( $retval, $comment ) {
 add_filter( 'bp_activity_can_comment_reply', 'bp_groups_filter_activity_can_comment_reply', 99, 2 );
 
 /**
- * Update the last_activity meta value for a given group.
- *
- * @since 1.0.0
- *
- * @param int $group_id Optional. The ID of the group whose last_activity is
- *                      being updated. Default: the current group's ID.
- * @return false|null False on failure.
- */
-function groups_update_last_activity( $group_id = 0 ) {
-
-	if ( empty( $group_id ) ) {
-		$group_id = buddypress()->groups->current_group->id;
-	}
-
-	if ( empty( $group_id ) ) {
-		return false;
-	}
-
-	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
-}
-add_action( 'groups_join_group',           'groups_update_last_activity' );
-add_action( 'groups_leave_group',          'groups_update_last_activity' );
-add_action( 'groups_created_group',        'groups_update_last_activity' );
-
-/**
  * Add an activity stream item when a member joins a group.
  *
  * @since 1.9.0
