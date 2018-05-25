@@ -392,7 +392,7 @@ function bp_groups_filter_activity_can_comment( $retval, $activity = null ) {
 
 	// If current user is not a group member or is banned, user cannot comment.
 	if ( ! bp_current_user_can( 'bp_moderate' ) &&
-		( ! groups_is_user_member( bp_loggedin_user_id(), $group_id ) || ! groups_is_user_banned( bp_loggedin_user_id(), $group_id ) )
+		( ! groups_is_user_member( bp_loggedin_user_id(), $group_id ) || groups_is_user_banned( bp_loggedin_user_id(), $group_id ) )
 	) {
 		$retval = false;
 	}
