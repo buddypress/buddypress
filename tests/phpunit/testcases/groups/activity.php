@@ -223,4 +223,43 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 
 		$this->set_current_user( $old_user );
 	}
+
+	/**
+	 * @group bp_activity_can_comment
+	 */
+	public function test_groups_activity_can_comment() {
+		$old_user = get_current_user_id();
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$g = self::factory()->group->create();
+
+		// User 1 is a group member, while user 2 isn't.
+		groups_join_group( $g, $u1 );
+
+		$a = self::factory()->activity->create( array(
+			'component' => buddypress()->groups->id,
+			'type' => 'created_group',
+			'user_id' => $u1,
+			'item_id' => $g,
+		) );
+
+		$this->set_current_user( $u1 );
+		if ( bp_has_activities( array( 'in' => $a ) ) ) {
+			while ( bp_activities() ) : bp_the_activity();
+				// User 1 should be able to comment.
+				$this->assertTrue( bp_activity_can_comment() );
+			endwhile;
+		}
+
+		$this->set_current_user( $u2 );
+		if ( bp_has_activities( array( 'in' => $a ) ) ) {
+			while ( bp_activities() ) : bp_the_activity();
+				// User 2 should not be able to comment.
+				$this->assertFalse( bp_activity_can_comment() );
+			endwhile;
+		}
+
+		$this->set_current_user( $old_user );
+	}
 }
