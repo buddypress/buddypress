@@ -134,8 +134,14 @@ function bp_nouveau_ajax_messages_send_reply() {
 		wp_send_json_error( $response );
 	}
 
-	// Get the message bye pretending we're in the message loop.
+	// Get the message by pretending we're in the message loop.
 	global $thread_template;
+
+	$bp           = buddypress();
+	$reset_action = $bp->current_action;
+
+	// Override bp_current_action().
+	$bp->current_action = 'view';
 
 	bp_thread_has_messages( array( 'thread_id' => (int) $_POST['thread_id'] ) );
 
@@ -182,8 +188,20 @@ function bp_nouveau_ajax_messages_send_reply() {
 		$reply['is_starred'] = array_search( 'unstar', explode( '/', $star_link ) );
 	}
 
+	$extra_content = bp_nouveau_messages_catch_hook_content( array(
+		'beforeContent' => 'bp_before_message_content',
+		'afterContent'  => 'bp_after_message_content',
+	) );
+
+	if ( array_filter( $extra_content ) ) {
+		$reply = array_merge( $reply, $extra_content );
+	}
+
 	// Clean up the loop.
 	bp_thread_messages();
+
+	// Remove the bp_current_action() override.
+	$bp->current_action = $reset_action;
 
 	wp_send_json_success( array(
 		'messages' => array( $reply ),
@@ -356,10 +374,18 @@ function bp_nouveau_ajax_get_thread_messages() {
 		wp_send_json_error( $response );
 	}
 
-	$thread_id = (int) $_POST['id'];
+	$thread_id    = (int) $_POST['id'];
+	$bp           = buddypress();
+	$reset_action = $bp->current_action;
+
+	// Override bp_current_action().
+	$bp->current_action = 'view';
 
 	// Simulate the loop.
 	if ( ! bp_thread_has_messages( array( 'thread_id' => $thread_id ) ) ) {
+		// Remove the bp_current_action() override.
+		$bp->current_action = $reset_action;
+
 		wp_send_json_error( $response );
 	}
 
@@ -422,10 +448,22 @@ function bp_nouveau_ajax_get_thread_messages() {
 			$thread->messages[ $i ]['star_nonce'] = wp_create_nonce( 'bp-messages-star-' . bp_get_the_thread_message_id() );
 		}
 
+		$extra_content = bp_nouveau_messages_catch_hook_content( array(
+			'beforeContent' => 'bp_before_message_content',
+			'afterContent'  => 'bp_after_message_content',
+		) );
+
+		if ( array_filter( $extra_content ) ) {
+			$thread->messages[ $i ] = array_merge( $thread->messages[ $i ], $extra_content );
+		}
+
 		$i += 1;
 	endwhile;
 
 	$thread->messages = array_filter( $thread->messages );
+
+	// Remove the bp_current_action() override.
+	$bp->current_action = $reset_action;
 
 	wp_send_json_success( $thread );
 }

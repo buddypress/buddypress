@@ -3840,3 +3840,15 @@ function bp_get_allowedtags() {
 		'li' => array(),
 	) );
 }
+
+/**
+ * Remove script and style tags from a string.
+ *
+ * @since 3.0.1
+ *
+ * @param  string $string The string to strip tags from.
+ * @return string         The stripped tags string.
+ */
+function bp_strip_script_and_style_tags( $string ) {
+	return preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
+}

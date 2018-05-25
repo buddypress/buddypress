@@ -438,3 +438,35 @@ function bp_nouveau_messages_notification_filters() {
 		)
 	);
 }
+
+/**
+ * Fires Messages Legacy hooks to catch the content and add them
+ * as extra keys to the JSON Messages UI reply.
+ *
+ * @since 3.0.1
+ *
+ * @param array $hooks The list of hooks to fire.
+ * @return array       An associative containing the caught content.
+ */
+function bp_nouveau_messages_catch_hook_content( $hooks = array() ) {
+	$content = array();
+
+	ob_start();
+	foreach ( $hooks as $js_key => $hook ) {
+		if ( ! has_action( $hook ) ) {
+			continue;
+		}
+
+		// Fire the hook.
+		do_action( $hook );
+
+		// Catch the sanitized content.
+		$content[ $js_key ] = bp_strip_script_and_style_tags( ob_get_contents() );
+
+		// Clean the buffer.
+		ob_clean();
+	}
+	ob_end_clean();
+
+	return $content;
+}
