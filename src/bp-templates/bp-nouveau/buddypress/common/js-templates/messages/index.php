@@ -272,11 +272,15 @@
 
 	</div>
 
-	<?php bp_nouveau_messages_hook( 'before', 'content' ); ?>
+	<# if ( data.beforeContent ) { #>
+		<div class="bp-messages-hook before-message-content">{{{data.beforeContent}}}</div>
+	<# } #>
 
-	<div class="message-content"><# print( data.content ) #></div>
+	<div class="message-content">{{{data.content}}}</div>
 
-	<?php bp_nouveau_messages_hook( 'after', 'content' ); ?>
+	<# if ( data.afterContent ) { #>
+		<div class="bp-messages-hook after-message-content">{{{data.afterContent}}}</div>
+	<# } #>
 
 </script>
 
