@@ -21,6 +21,15 @@
 	</div>
 </script>
 
+<?php
+/**
+ * This view is used to inject hooks buffer
+ */
+?>
+<script type="text/html" id="tmpl-bp-messages-hook">
+	{{{data.extraContent}}}
+</script>
+
 <script type="text/html" id="tmpl-bp-messages-form">
 	<?php bp_nouveau_messages_hook( 'before', 'compose_content' ); ?>
 
