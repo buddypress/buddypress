@@ -354,6 +354,13 @@ window.bp = window.bp || {};
 				this.options.box = bp.Nouveau.Messages.box;
 			}
 
+			if ( ! _.isUndefined( resp.extraContent ) ) {
+				_.extend( this.options, _.pick( resp.extraContent, [
+					'beforeLoop',
+					'afterLoop'
+				] ) );
+			}
+
 			return resp.threads;
 		},
 
@@ -463,6 +470,24 @@ window.bp = window.bp || {};
 				type: this.options.type || 'info',
 				message: this.options.value
 			} );
+		}
+	} );
+
+	// Hook view
+	bp.Views.Hook = bp.Nouveau.Messages.View.extend( {
+		tagName: 'div',
+		template  : bp.template( 'bp-messages-hook' ),
+
+		initialize: function() {
+			this.model = new Backbone.Model( {
+				extraContent: this.options.extraContent
+			} );
+
+			this.el.className = 'bp-messages-hook';
+
+			if ( this.options.className ) {
+				this.el.className += ' ' + this.options.className;
+			}
 		}
 	} );
 
@@ -642,11 +667,14 @@ window.bp = window.bp || {};
 		},
 
 		initialize: function() {
-			// Add the threads parent view
-			this.views.add( new bp.Nouveau.Messages.View( { tagName: 'ul', id: 'message-threads', className: 'message-lists' } ) );
+			var Views = [
+				new bp.Nouveau.Messages.View( { tagName: 'ul', id: 'message-threads', className: 'message-lists' } ),
+				new bp.Views.previewThread( { collection: this.collection } )
+			];
 
-			// Add the preview Active Thread view
-			this.views.add( new bp.Views.previewThread( { collection: this.collection } ) );
+			_.each( Views, function( view ) {
+				this.views.add( view );
+			}, this );
 
 			// Load threads for the active view
 			this.requestThreads();
@@ -662,13 +690,23 @@ window.bp = window.bp || {};
 
 			this.collection.fetch( {
 				data    : _.pick( this.options, 'box' ),
-				success : this.threadsFetched,
+				success : _.bind( this.threadsFetched, this ),
 				error   : this.threadsFetchError
 			} );
 		},
 
 		threadsFetched: function() {
 			bp.Nouveau.Messages.removeFeedback();
+
+			// Display the bp_after_member_messages_loop hook.
+			if ( this.collection.options.afterLoop ) {
+				this.views.add( new bp.Views.Hook( { extraContent: this.collection.options.afterLoop, className: 'after-messages-loop' } ), { at: 1 } );
+			}
+
+			// Display the bp_before_member_messages_loop hook.
+			if ( this.collection.options.beforeLoop ) {
+				this.views.add( new bp.Views.Hook( { extraContent: this.collection.options.beforeLoop, className: 'before-messages-loop' } ), { at: 0 } );
+			}
 
 			// Inform the user about how to use the UI.
 			bp.Nouveau.Messages.displayFeedback( BP_Nouveau.messages.howto, 'info' );

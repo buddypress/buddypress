@@ -223,23 +223,32 @@ function bp_nouveau_ajax_get_user_message_threads() {
 		) );
 	}
 
-	if ( isset( $_POST['box'] ) && 'starred' === $_POST['box'] ) {
-		$star_filter = true;
+	$bp           = buddypress();
+	$reset_action = $bp->current_action;
 
-		// Add the message thread filter.
+	// Override bp_current_action().
+	if ( isset( $_POST['box'] ) ) {
+		$bp->current_action = $_POST['box'];
+	}
+
+	// Add the message thread filter.
+	if ( 'starred' === $bp->current_action ) {
 		add_filter( 'bp_after_has_message_threads_parse_args', 'bp_messages_filter_starred_message_threads' );
 	}
 
 	// Simulate the loop.
 	if ( ! bp_has_message_threads( bp_ajax_querystring( 'messages' ) ) ) {
+		// Remove the bp_current_action() override.
+		$bp->current_action = $reset_action;
+
 		wp_send_json_error( array(
 			'feedback' => __( 'Sorry, no messages were found.', 'buddypress' ),
 			'type'     => 'info'
 		) );
 	}
 
-	if ( ! empty( $star_filter ) ) {
-		// remove the message thread filter.
+	// remove the message thread filter.
+	if ( 'starred' === $bp->current_action ) {
 		remove_filter( 'bp_after_has_message_threads_parse_args', 'bp_messages_filter_starred_message_threads' );
 	}
 
@@ -319,6 +328,19 @@ function bp_nouveau_ajax_get_user_message_threads() {
 
 	$threads->threads = array_filter( $threads->threads );
 
+	$extra_content = bp_nouveau_messages_catch_hook_content( array(
+		'beforeLoop' => 'bp_before_member_messages_loop',
+		'afterLoop'  => 'bp_after_member_messages_loop',
+	) );
+
+	if ( array_filter( $extra_content ) ) {
+		$threads->extraContent = $extra_content;
+	}
+
+	// Remove the bp_current_action() override.
+	$bp->current_action = $reset_action;
+
+	// Return the successfull reply.
 	wp_send_json_success( $threads );
 }
 
