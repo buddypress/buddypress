@@ -27,6 +27,7 @@ module.exports = function( grunt ) {
 			'!bp-core/admin/css/hello.css'
 		],
 
+		autoprefixer = require('autoprefixer'),
 		stylelintConfigCss  = require('stylelint-config-wordpress/index.js'),
 		stylelintConfigScss = require('stylelint-config-wordpress/scss.js');
 
@@ -240,6 +241,24 @@ module.exports = function( grunt ) {
 				src: [ '**/*.scss' ]
 			}
 		},
+		postcss: {
+			options: {
+				map: false,
+				processors: [
+					autoprefixer({
+						browsers: ['extends @wordpress/browserslist-config'],
+						cascade: false
+					})
+				],
+				failOnError: false
+			},
+			css: {
+				expand: true,
+				cwd: SOURCE_DIR,
+				dest: SOURCE_DIR,
+				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC )
+			}
+		},
 		cssmin: {
 			minify: {
 				cwd: BUILD_DIR,
@@ -309,7 +328,7 @@ module.exports = function( grunt ) {
 	/**
 	 * Register tasks.
 	 */
-	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'rtlcss'] );
+	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'postcss', 'rtlcss'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin'] );
 	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault', 'exec:cli'] );
 	grunt.registerTask( 'release', ['build'] );

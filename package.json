@@ -5,6 +5,8 @@
 	},
 	"description": "BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!",
 	"devDependencies": {
+		"@wordpress/browserslist-config": "~2.1.4",
+		"autoprefixer": "~8.5.1",
 		"grunt": "^1.0.2",
 		"grunt-check-dependencies": "~1.0.0",
 		"grunt-checktextdomain": "~1.0.1",
@@ -19,12 +21,13 @@
 		"grunt-jsvalidate": "~0.2.2",
 		"grunt-legacy-util": "^1.0.0",
 		"grunt-patch-wordpress": "~0.4.2",
+		"grunt-postcss": "~0.9.0",
 		"grunt-rtlcss": "~2.0.1",
 		"grunt-sass": "~2.0.0",
 		"grunt-stylelint": "^0.8.0",
 		"grunt-wp-i18n": "^1.0.2",
 		"matchdep": "~1.0.1",
-		"postcss-scss": "^1.0.5",
+		"postcss-scss": "~1.0.5",
 		"stylelint": "~7.10.1",
 		"stylelint-config-wordpress": "~11.0.0"
 	},
@@ -49,5 +52,8 @@
 		"url": "https://buddypress.svn.wordpress.org/trunk/"
 	},
 	"version": "3.0.0",
-	"dependencies": {}
+	"dependencies": {},
+	"browserslist": [
+		"extends @wordpress/browserslist-config"
+	]
 }
