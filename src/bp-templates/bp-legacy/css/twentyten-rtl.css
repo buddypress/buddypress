@@ -249,9 +249,7 @@ body.page-template-onecolumn-page #content .entry-content {
 	#main #buddypress #group-create-tabs.item-list-tabs ul li.current {
 		border: 1px solid #ddd;
 		border-bottom-color: #fff;
-		-webkit-border-top-left-radius: 4px;
 		border-top-left-radius: 4px;
-		-webkit-border-top-right-radius: 4px;
 		border-top-right-radius: 4px;
 		background-clip: padding-box;
 		margin-bottom: -1px;
@@ -732,8 +730,6 @@ body.page-template-onecolumn-page #content .entry-content {
 
 #buddypress #activity-stream .activity-comments .ac-form {
 	border: 1px solid #d4d0ba;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	margin: 15px 0;
 	width: 100%;
@@ -926,8 +922,6 @@ body.page-template-onecolumn-page #content .entry-content {
 }
 
 .single-item.groups #buddypress div#item-header #item-header-content {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -1336,9 +1330,6 @@ body.page-template-onecolumn-page #content .entry-content {
 .bp-user #buddypress .profile #profile-edit-form .field-visibility-settings-close,
 .bp-user #buddypress .profile #profile-edit-form .visibility-toggle-link {
 	background: #6f6e6e;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	-ms-border-radius: 2px;
 	border-radius: 2px;
 	background-clip: padding-box;
 	color: #eee;
@@ -1429,8 +1420,6 @@ body.page-template-onecolumn-page #content .entry-content {
 
 .bp-user #buddypress #message-threads tr td {
 	background: #fff;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	display: inline-block;
 	float: right;
@@ -1480,8 +1469,6 @@ body.page-template-onecolumn-page #content .entry-content {
 .bp-user #buddypress #message-threads tr td.thread-from,
 .bp-user #buddypress #message-threads tr td.thread-options {
 	border-right: 0 !important;
-	width: -webkit-calc(100% - 30px);
-	width: -moz-calc(100% - 30px);
 	width: calc(100% - 30px);
 	margin-right: 0;
 }
@@ -1543,8 +1530,6 @@ body.page-template-onecolumn-page #content .entry-content {
 
 .bp-user #buddypress #send_message_form input,
 .bp-user #buddypress #send_message_form textarea {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -1717,8 +1702,6 @@ body.page-template-onecolumn-page #content .entry-content {
 #main #buddypress .standard-form textarea {
 	border-width: 1px;
 	box-shadow: none;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 100%;
 }
@@ -1781,8 +1764,6 @@ body.page-template-onecolumn-page #content .entry-content {
 	border: 0;
 	border-radius: 0;
 	box-shadow: none;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	font-size: 14px;
 	font-size: 0.9333333333rem;

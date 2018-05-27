@@ -1,48 +1,4 @@
 /* Profile field group main admin page */
-@-o-keyframes tab-throb {
-
-	from {
-		box-shadow: 0 0 10px #1e8cbe;
-	}
-
-	50% {
-		box-shadow: 0 0 0 #1e8cbe;
-	}
-
-	to {
-		box-shadow: 0 0 10px #1e8cbe;
-	}
-}
-
-@-webkit-keyframes tab-throb {
-
-	from {
-		box-shadow: 0 0 10px #1e8cbe;
-	}
-
-	50% {
-		box-shadow: 0 0 0 #1e8cbe;
-	}
-
-	to {
-		box-shadow: 0 0 10px #1e8cbe;
-	}
-}
-
-@-moz-keyframes tab-throb {
-
-	from {
-		box-shadow: 0 0 10px #1e8cbe;
-	}
-
-	50% {
-		box-shadow: 0 0 0 #1e8cbe;
-	}
-
-	to {
-		box-shadow: 0 0 10px #1e8cbe;
-	}
-}
 
 #profile-field-form {
 	margin-top: 12px;
@@ -75,20 +31,12 @@ ul#field-group-tabs li.ui-state-hover a.ui-tab {
 }
 
 ul#field-group-tabs li.ui-state-acceptable:not(.ui-state-active) a.ui-tab {
-	-webkit-animation: tab-throb 2s infinite;
-	-moz-animation: tab-throb 2s infinite;
-	-o-animation: tab-throb 2s infinite;
 	animation: tab-throb 2s infinite;
 }
 
 ul#field-group-tabs li.drop-candidate.ui-state-acceptable:not(.ui-state-active) a.ui-tab {
-	-webkit-box-shadow: 0 0 10px #0f0;
-	-moz-box-shadow: 0 0 10px #0f0;
 	-o-box-shadow: 0 0 10px #0f0;
 	box-shadow: 0 0 10px #0f0;
-	-webkit-animation: none;
-	-moz-animation: none;
-	-o-animation: none;
 	animation: none;
 	color: #000;
 }
@@ -121,7 +69,6 @@ ul#field-group-tabs li.ui-state-active a.ui-tab {
 	border-width: 1px;
 	border-color: #e5e5e5;
 	border-style: solid;
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	padding: 10px;
 	margin-bottom: 10px;
@@ -149,7 +96,6 @@ div.field-group {
 	cursor: default;
 	border: 1px solid #e5e5e5;
 	background: #fff;
-	-webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 	margin-top: 10px;
 	padding: 0 20px 20px;

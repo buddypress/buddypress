@@ -37,8 +37,6 @@ TABLE OF CONTENTS:
 }
 
 #bp-hello-container a:hover {
-	-webkit-transition: all 0.1s ease-in-out;
-	-o-transition: all 0.1s ease-in-out;
 	transition: all 0.1s ease-in-out;
 	color: black;
 }
@@ -72,8 +70,6 @@ TABLE OF CONTENTS:
 }
 
 .bp-hello-close .close-modal:focus:before, .bp-hello-close .close-modal:hover:before {
-	-webkit-transition: all 0.1s ease-in-out;
-	-o-transition: all 0.1s ease-in-out;
 	transition: all 0.1s ease-in-out;
 	color: var(--bp-hello-color-primary);
 }
@@ -89,8 +85,6 @@ TABLE OF CONTENTS:
 }
 
 .bp-hello-social li a:hover:before {
-	-webkit-transition: all 0.1s ease-in-out;
-	-o-transition: all 0.1s ease-in-out;
 	transition: all 0.1s ease-in-out;
 	color: var(--bp-hello-color-primary);
 }
@@ -134,10 +128,7 @@ TABLE OF CONTENTS:
  * 3.2 - Modal footer
  */
 .bp-hello-footer {
-	display: -webkit-box;
-	display: -ms-flexbox;
 	display: flex;
-	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 	height: 58px;
 	max-height: 58px;
@@ -145,7 +136,6 @@ TABLE OF CONTENTS:
 
 .bp-hello-social-cta,
 .bp-hello-social-links {
-	-ms-flex-preferred-size: 50%;
 	flex-basis: 50%;
 }
 
@@ -191,8 +181,6 @@ TABLE OF CONTENTS:
  */
 #bp-hello-backdrop {
 	background-color: rgba(0, 0, 0, 0.8);
-	-webkit-transition: opacity 0.15s ease-out;
-	-o-transition: opacity 0.15s ease-out;
 	transition: opacity 0.15s ease-out;
 }
 

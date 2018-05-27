@@ -334,11 +334,7 @@ TABLE OF CONTENTS:
 	text-shadow: none;
 	text-transform: none;
 	top: 100%;
-	-webkit-transform: translateX(50%);
-	-ms-transform: translateX(50%);
 	transform: translateX(50%);
-	-webkit-transition: opacity 2s ease-out;
-	-ms-transition: opacity 2s ease-out;
 	transition: opacity 2s ease-out;
 	white-space: pre;
 	word-wrap: break-word;
@@ -348,8 +344,6 @@ TABLE OF CONTENTS:
 .bp-hello-close .bp-tooltip:after {
 	right: 0;
 	text-align: right;
-	-webkit-transform: translateX(0);
-	-ms-transform: translateX(0);
 	transform: translateX(0);
 }
 
@@ -358,8 +352,6 @@ TABLE OF CONTENTS:
 	margin-bottom: 20px;
 	margin-top: 0;
 	top: auto;
-	-webkit-transform: translateX(15%);
-	-ms-transform: translateX(15%);
 	transform: translateX(15%);
 }
 
