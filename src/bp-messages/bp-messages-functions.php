@@ -581,6 +581,12 @@ function messages_notification_new_message( $raw_args = array() ) {
 
 	$sender_name = bp_core_get_user_displayname( $sender_id );
 
+	if ( isset( $message ) ) {
+		$message = wpautop( $message );
+	} else {
+		$message = '';
+	}
+
 	// Send an email to each recipient.
 	foreach ( $recipients as $recipient ) {
 		if ( $sender_id == $recipient->user_id || 'no' == bp_get_user_meta( $recipient->user_id, 'notification_messages_new_message', true ) ) {
