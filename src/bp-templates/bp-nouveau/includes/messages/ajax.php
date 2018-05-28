@@ -189,6 +189,8 @@ function bp_nouveau_ajax_messages_send_reply() {
 	}
 
 	$extra_content = bp_nouveau_messages_catch_hook_content( array(
+		'beforeMeta'    => 'bp_before_message_meta',
+		'afterMeta'     => 'bp_after_message_meta',
 		'beforeContent' => 'bp_before_message_content',
 		'afterContent'  => 'bp_after_message_content',
 	) );
@@ -262,9 +264,11 @@ function bp_nouveau_ajax_get_user_message_threads() {
 	$i                = 0;
 
 	while ( bp_message_threads() ) : bp_message_thread();
+		$last_message_id = (int) $messages_template->thread->last_message_id;
+
 		$threads->threads[ $i ] = array(
 			'id'            => bp_get_message_thread_id(),
-			'message_id'    => (int) $messages_template->thread->last_message_id,
+			'message_id'    => (int) $last_message_id,
 			'subject'       => html_entity_decode( bp_get_message_thread_subject() ),
 			'excerpt'       => html_entity_decode( bp_get_message_thread_excerpt() ),
 			'content'       => html_entity_decode( do_shortcode( bp_get_message_thread_content() ) ),
@@ -313,7 +317,7 @@ function bp_nouveau_ajax_get_user_message_threads() {
 			$threads->threads[ $i ]['is_starred'] = array_search( 'unstar', $star_link_data );
 
 			// Defaults to last
-			$sm_id = (int) $messages_template->thread->last_message_id;
+			$sm_id = $last_message_id;
 
 			if ( $threads->threads[ $i ]['is_starred'] ) {
 				$sm_id = (int) $star_link_data[ $threads->threads[ $i ]['is_starred'] + 1 ];
@@ -321,6 +325,15 @@ function bp_nouveau_ajax_get_user_message_threads() {
 
 			$threads->threads[ $i ]['star_nonce'] = wp_create_nonce( 'bp-messages-star-' . $sm_id );
 			$threads->threads[ $i ]['starred_id'] = $sm_id;
+		}
+
+		$thread_extra_content = bp_nouveau_messages_catch_hook_content( array(
+			'inboxListItem' => 'bp_messages_inbox_list_item',
+			'threadOptions' => 'bp_messages_thread_options',
+		) );
+
+		if ( array_filter( $thread_extra_content ) ) {
+			$threads->threads[ $i ] = array_merge( $threads->threads[ $i ], $thread_extra_content );
 		}
 
 		$i += 1;
@@ -471,6 +484,8 @@ function bp_nouveau_ajax_get_thread_messages() {
 		}
 
 		$extra_content = bp_nouveau_messages_catch_hook_content( array(
+			'beforeMeta'    => 'bp_before_message_meta',
+			'afterMeta'     => 'bp_after_message_meta',
 			'beforeContent' => 'bp_before_message_content',
 			'afterContent'  => 'bp_after_message_content',
 		) );

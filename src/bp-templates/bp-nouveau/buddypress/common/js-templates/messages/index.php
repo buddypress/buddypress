@@ -175,7 +175,7 @@
 <script type="text/html" id="tmpl-bp-messages-preview">
 	<# if ( undefined !== data.content ) { #>
 
-		<h2 class="message-title preview-thread-title"><?php esc_html_e( 'Active conversation:', 'buddypress' ); ?><span class="messages-title"> <# print( data.subject ); #></span></h2>
+		<h2 class="message-title preview-thread-title"><?php esc_html_e( 'Active conversation:', 'buddypress' ); ?><span class="messages-title">{{{data.subject}}}</span></h2>
 		<div class="preview-content">
 			<header class="preview-pane-header">
 
@@ -215,18 +215,32 @@
 					<a href="../view/{{data.id}}/" class="message-action-view bp-tooltip bp-icons" data-bp-action="view" data-bp-tooltip="<?php esc_attr_e( 'View full conversation and reply.', 'buddypress' ); ?>">
 						<span class="bp-screen-reader-text"><?php esc_html_e( 'View full conversation and reply.', 'buddypress' ); ?></span>
 					</a>
+
+					<# if ( data.threadOptions ) { #>
+						<span class="bp-messages-hook thread-options">
+							{{{data.threadOptions}}}
+						</span>
+					<# } #>
 				</div>
 			</header>
 
 			<div class='preview-message'>
-				<# print( data.content ) #>
+				{{{data.content}}}
 			</div>
+
+			<# if ( data.inboxListItem ) { #>
+				<table class="bp-messages-hook inbox-list-item">
+					<tbody>
+						<tr>{{{data.inboxListItem}}}</tr>
+					</tbody>
+				</table>
+			<# } #>
 		</div>
 	<# } #>
 </script>
 
 <script type="text/html" id="tmpl-bp-messages-single-header">
-	<h2 id="message-subject" class="message-title single-thread-title"><# print( data.subject ); #></h2>
+	<h2 id="message-subject" class="message-title single-thread-title">{{{data.subject}}}</h2>
 	<header class="single-message-thread-header">
 		<# if ( undefined !== data.recipients ) { #>
 			<dl class="thread-participants">
@@ -242,19 +256,18 @@
 		<# } #>
 
 		<div class="actions">
-
 			<button type="button" class="message-action-delete bp-tooltip bp-icons" data-bp-action="delete" data-bp-tooltip="<?php esc_attr_e( 'Delete conversation.', 'buddypress' ); ?>">
 				<span class="bp-screen-reader-text"><?php esc_html_e( 'Delete conversation.', 'buddypress' ); ?></span>
 			</button>
-
-			<?php bp_nouveau_messages_hook( 'after', 'thread_header_actions' ); ?>
 		</div>
 	</header>
 </script>
 
 <script type="text/html" id="tmpl-bp-messages-single-list">
 	<div class="message-metadata">
-		<?php bp_nouveau_messages_hook( 'before', 'meta' ); ?>
+		<# if ( data.beforeMeta ) { #>
+			<div class="bp-messages-hook before-message-meta">{{{data.beforeMeta}}}</div>
+		<# } #>
 
 		<a href="{{data.sender_link}}" class="user-link">
 			<img class="avatar" src="{{data.sender_avatar}}" alt="" />
@@ -277,8 +290,9 @@
 			<# } #>
 		</div>
 
-		<?php bp_nouveau_messages_hook( 'after', 'meta' ); ?>
-
+		<# if ( data.afterMeta ) { #>
+			<div class="bp-messages-hook after-message-meta">{{{data.afterMeta}}}</div>
+		<# } #>
 	</div>
 
 	<# if ( data.beforeContent ) { #>
@@ -310,7 +324,7 @@
 		<div class="message-box">
 			<div class="message-metadata">
 
-				<?php bp_nouveau_messages_hook( 'before', 'meta' ); ?>
+				<?php bp_nouveau_messages_hook( 'before', 'reply_meta' ); ?>
 
 				<div class="avatar-box">
 					<?php bp_loggedin_user_avatar( 'type=thumb&height=30&width=30' ); ?>
@@ -318,7 +332,7 @@
 					<strong><?php esc_html_e( 'Send a Reply', 'buddypress' ); ?></strong>
 				</div>
 
-				<?php bp_nouveau_messages_hook( 'after', 'meta' ); ?>
+				<?php bp_nouveau_messages_hook( 'after', 'reply_meta' ); ?>
 
 			</div><!-- .message-metadata -->
 
