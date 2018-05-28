@@ -80,7 +80,7 @@ class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 				foreach ( $item_nav as $item ) :
 					$i += 1;
 				?>
-					<li class="<?php echo esc_attr( $class ); echo ( 1 === $i ) ? ' ui-sortable-disabled' : ''; ?>" data-bp-nav="<?php echo esc_attr( $item->slug ); ?>">
+					<li data-bp-nav="<?php echo esc_attr( $item->slug ); ?>">
 						<div class="menu-item-bar">
 							<div class="menu-item-handle ui-sortable-handle">
 								<span class="item-title" aria-hidden="true">
