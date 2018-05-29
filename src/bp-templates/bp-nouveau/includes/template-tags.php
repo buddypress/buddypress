@@ -2177,11 +2177,11 @@ function bp_nouveau_get_customizer_link( $args = array() ) {
 function bp_nouveau_signup_hook( $when = '', $prefix = '' ) {
 	$hook = array( 'bp' );
 
-	if ( ! $when ) {
+	if ( $when ) {
 		$hook[] = $when;
 	}
 
-	if ( ! $prefix ) {
+	if ( $prefix ) {
 		if ( 'page' === $prefix ) {
 			$hook[] = 'register';
 		} elseif ( 'steps' === $prefix ) {
