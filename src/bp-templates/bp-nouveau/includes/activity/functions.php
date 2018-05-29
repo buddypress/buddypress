@@ -163,6 +163,8 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 		'whatsnewPlaceholder' => sprintf( __( "What's new, %s?", 'buddypress' ), bp_get_user_firstname( $user_displayname ) ),
 		'whatsnewLabel'       => __( 'Post what\'s new', 'buddypress' ),
 		'whatsnewpostinLabel' => __( 'Post in', 'buddypress' ),
+		'postUpdateButton'    => __( 'Post Update', 'buddypress' ),
+		'cancelButton'        => __( 'Cancel', 'buddypress' ),
 	);
 
 	if ( bp_is_group() ) {
