@@ -1321,6 +1321,16 @@ function bp_nouveau_get_submit_button( $action = '' ) {
 				'class' => 'auto',
 			),
 		),
+		'activity-new-comment' => array(
+			'after'     => 'bp_activity_entry_comments',
+			'nonce'     => 'new_activity_comment',
+			'nonce_key' => '_wpnonce_new_activity_comment',
+			'wrapper'   => false,
+			'attributes' => array(
+				'name'  => 'ac_form_submit',
+				'value' => _x( 'Post', 'button', 'buddypress' ),
+			),
+		),
 	) );
 
 	if ( isset( $actions[ $action ] ) ) {

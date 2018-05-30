@@ -2419,15 +2419,24 @@ function bp_nouveau_submit_button( $action ) {
 		do_action( $submit_data['before'] );
 	}
 
-	// Output the submit button.
-	printf(
-		'<div class="submit">
-			<input type="submit" %s/>
-		</div>',
+	$submit_input = sprintf( '<input type="submit" %s/>',
 		bp_get_form_field_attributes( 'submit', $submit_data['attributes'] )  // Safe.
 	);
 
-	wp_nonce_field( $submit_data['nonce'] );
+	// Output the submit button.
+	if ( isset( $submit_data['wrapper'] ) && false === $submit_data['wrapper'] ) {
+		echo $submit_input;
+
+	// Output the submit button into a wrapper.
+	} else {
+		printf( '<div class="submit">%s</div>', $submit_input );
+	}
+
+	if ( empty( $submit_data['nonce_key'] ) ) {
+		wp_nonce_field( $submit_data['nonce'] );
+	} else {
+		wp_nonce_field( $submit_data['nonce'], $submit_data['nonce_key'] );
+	}
 
 	if ( ! empty( $submit_data['after'] ) ) {
 

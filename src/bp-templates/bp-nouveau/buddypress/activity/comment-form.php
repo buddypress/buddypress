@@ -20,16 +20,15 @@ if ( ! bp_nouveau_current_user_can( 'comment_activity' ) || ! bp_activity_can_co
 			</label>
 			<textarea id="ac-input-<?php bp_activity_id(); ?>" class="ac-input bp-suggestions" name="ac_input_<?php bp_activity_id(); ?>"></textarea>
 		</div>
+		<input type="hidden" name="comment_form_id" value="<?php bp_activity_id(); ?>" />
+
 		<?php
+		bp_nouveau_submit_button( 'activity-new-comment' );
 		printf(
-			'<input type="submit" name="ac_form_submit" value="%s" /> &nbsp; <button type="button" class="ac-reply-cancel">%s</button>',
-			esc_attr( _x( 'Post', 'button', 'buddypress' ) ),
+			'&nbsp; <button type="button" class="ac-reply-cancel">%s</button>',
 			esc_html( _x( 'Cancel', 'button', 'buddypress' ) )
 		);
 		?>
-		<input type="hidden" name="comment_form_id" value="<?php bp_activity_id(); ?>" />
 	</div>
-
-	<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ); ?>
 
 </form>
