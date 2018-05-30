@@ -699,13 +699,6 @@ function bp_nouveau_activity_comment_action() {
  */
 function bp_nouveau_activity_comment_form() {
 	bp_get_template_part( 'activity/comment-form' );
-
-	/**
-	 * Fires after the activity entry comment form.
-	 *
-	 * @since 1.5.0
-	 */
-	do_action( 'bp_activity_entry_comments' );
 }
 
 /**
