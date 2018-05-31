@@ -89,8 +89,13 @@ function bp_core_screen_signup() {
 				foreach ( (array) $profile_field_ids as $field_id ) {
 					bp_xprofile_maybe_format_datebox_post_data( $field_id );
 
+					// Trim post fields.
 					if ( isset( $_POST[ 'field_' . $field_id ] ) ) {
-						$_POST[ 'field_' . $field_id ] = trim( $_POST[ 'field_' . $field_id ] );
+						if ( is_array( $_POST[ 'field_' . $field_id ] ) ) {
+							$_POST[ 'field_' . $field_id ] = array_map( 'trim', $_POST[ 'field_' . $field_id ] );
+						} else {
+							$_POST[ 'field_' . $field_id ] = trim( $_POST[ 'field_' . $field_id ] );
+						}
 					}
 
 					// Create errors for required fields without values.
