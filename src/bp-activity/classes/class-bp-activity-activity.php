@@ -613,12 +613,12 @@ class BP_Activity_Activity {
 			$from_sql   = " FROM {$bp->activity->table_name} a LEFT JOIN {$wpdb->users} u ON a.user_id = u.ID";
 
 			if ( ! empty( $page ) && ! empty( $per_page ) ) {
-				$pag_sql    = $wpdb->prepare( "LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
+				$pag_sql = $wpdb->prepare( "LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
 
 				/** This filter is documented in bp-activity/bp-activity-classes.php */
-				$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
+				$activity_sql = apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql );
 			} else {
-				$pag_sql    = '';
+				$pag_sql = '';
 
 				/**
 				 * Filters the legacy MySQL query statement so plugins can alter before results are fetched.
@@ -631,8 +631,20 @@ class BP_Activity_Activity {
 				 * @param string $where_sql  Final WHERE MySQL statement portion for legacy query.
 				 * @param string $sort       Final sort direction for legacy query.
 				 */
-				$activities = $wpdb->get_results( apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
+				$activity_sql = apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql );
 			}
+
+			/*
+			 * Queries that include 'last_activity' are cached separately,
+			 * since they are generally much less long-lived.
+			 */
+			if ( preg_match( '/a\.type NOT IN \([^\)]*\'last_activity\'[^\)]*\)/', $activity_sql ) ) {
+				$cache_group = 'bp_activity';
+			} else {
+				$cache_group = 'bp_activity_with_last_activity';
+			}
+
+			$activities = $wpdb->get_results( $activity_sql );
 
 			// Integer casting for legacy activity query.
 			foreach ( (array) $activities as $i => $ac ) {
