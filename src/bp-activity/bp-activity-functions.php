@@ -3107,31 +3107,40 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
  * @return boolean True on success, false on failure.
  */
 function bp_activity_user_can_read( $activity, $user_id = 0 ) {
-	$retval = false;
+	$retval = true;
 
 	// Fallback.
 	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
 	}
 
-	// Admins and moderators can see everything.
-	if ( bp_current_user_can( 'bp_moderate' ) ) {
-		$retval = true;
-	}
-
-	// If activity author match user, allow access as well.
-	if ( $user_id === $activity->user_id ) {
-		$retval = true;
-	}
-
-	// If activity is from a group, do an extra cap check.
-	if ( ! $retval && bp_is_active( 'groups' ) && $activity->component === buddypress()->groups->id ) {
-
+	// If activity is from a group, do extra cap checks.
+	if ( bp_is_active( 'groups' ) && buddypress()->groups->id === $activity->component ) {
 		// Check to see if the user has access to the activity's parent group.
 		$group = groups_get_group( $activity->item_id );
 		if ( $group ) {
-			$retval = $group->user_has_access;
+			// For logged-in user, we can check against the 'user_has_access' prop.
+			if ( bp_loggedin_user_id() === $user_id ) {
+				$retval = $group->user_has_access;
+
+			// Manually check status.
+			} elseif ( 'private' === $group->status || 'hidden' === $group->status ) {
+				// Only group members that are not banned can view.
+				if ( ! groups_is_user_member( $user_id, $activity->item_id ) || groups_is_user_banned( $user_id, $activity->item_id ) ) {
+					$retval = false;
+				}
+			}
 		}
+	}
+
+	// Spammed items are not visible to the public.
+	if ( $activity->is_spam ) {
+		$retval = false;
+	}
+
+	// Site moderators can view anything.
+	if ( bp_current_user_can( 'bp_moderate' ) ) {
+		$retval = true;
 	}
 
 	/**
