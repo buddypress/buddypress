@@ -3,7 +3,7 @@
  * BP Nouveau Group's edit settings template.
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 3.1.0
  */
 ?>
 
