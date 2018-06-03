@@ -3,7 +3,7 @@
  * BuddyPress - Members Single Profile WP
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 3.1.0
  */
 
 bp_nouveau_wp_profile_hooks( 'before' ); ?>

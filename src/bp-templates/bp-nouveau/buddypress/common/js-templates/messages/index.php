@@ -6,7 +6,7 @@
  * dealing with user's private messages.
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 3.1.0
  */
 ?>
 <div class="subnav-filters filters user-subnav bp-messages-filters" id="subsubnav"></div>
