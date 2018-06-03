@@ -1493,23 +1493,6 @@ Bar!';
 	/**
 	 * @group bp_activity_user_can_read
 	 */
-	public function test_user_cannot_access_someone_elses_activity() {
-		$u = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
-
-		$a = self::factory()->activity->create( array(
-			'user_id' => $u2,
-		) );
-
-		$o = self::factory()->activity->get_object_by_id( $a );
-
-		$this->assertFalse( bp_activity_user_can_read( $o, $u ) );
-		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
-	}
-
-	/**
-	 * @group bp_activity_user_can_read
-	 */
 	public function test_admin_can_access_someone_elses_activity() {
 		$u = self::factory()->user->create();
 		$u2 = self::factory()->user->create( array( 'role' => 'administrator' ) );
@@ -1529,7 +1512,45 @@ Bar!';
 	/**
 	 * @group bp_activity_user_can_read
 	 */
-	public function test_group_admin_access_someone_elses_activity_in_a_grou() {
+	public function test_user_cannot_access_spam_activity() {
+		$u = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$a = self::factory()->activity->create( array(
+			'user_id' => $u,
+		) );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
+
+		bp_activity_mark_as_spam( $o );
+
+		$this->assertFalse( bp_activity_user_can_read( $o, $u ) );
+		$this->assertFalse( bp_activity_user_can_read( $o, $u2 ) );
+	}
+
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_admin_can_access_spam_activity() {
+		$u = self::factory()->user->create();
+		$u2 = self::factory()->user->create( array( 'role' => 'administrator' ) );
+
+		$a = self::factory()->activity->create( array(
+			'user_id' => $u,
+		) );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
+
+		bp_activity_mark_as_spam( $o );
+
+		$this->set_current_user( $u2 );
+		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
+	}
+
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_group_admin_access_someone_elses_activity_in_a_group() {
 		$u  = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
@@ -1579,9 +1600,11 @@ Bar!';
 	/**
 	 * @group bp_activity_user_can_read
 	 */
-	public function test_user_access_to_his_activity_in_disabled_group() {
+	public function test_user_access_to_his_activity_in_hidden_group() {
 		$u  = self::factory()->user->create();
-		$g  = self::factory()->group->create();
+		$g  = self::factory()->group->create( array(
+			'status' => 'hidden',
+		) );
 
 		self::add_user_to_group( $u, $g );
 
@@ -1593,13 +1616,79 @@ Bar!';
 
 		$o = self::factory()->activity->get_object_by_id( $a );
 
-		groups_edit_group_settings( $g, 0, 'hidden' );
+		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
+	}
+
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_user_access_to_his_activity_in_private_group() {
+		$u  = self::factory()->user->create();
+		$g  = self::factory()->group->create( array(
+			'status' => 'private',
+		) );
+
+		self::add_user_to_group( $u, $g );
+
+		$a = self::factory()->activity->create( array(
+			'component' => buddypress()->groups->id,
+			'user_id'   => $u,
+			'item_id'   => $g,
+		) );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
 
 		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
+	}
 
-		groups_edit_group_settings( $g, 0, 'private' );
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_banned_user_cannot_access_to_his_activity_in_a_private_group() {
+		$u  = self::factory()->user->create();
+		$g  = self::factory()->group->create( array(
+			'status' => 'private',
+		) );
 
-		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
+		self::add_user_to_group( $u, $g );
+
+		$a = self::factory()->activity->create( array(
+			'component' => buddypress()->groups->id,
+			'user_id'   => $u,
+			'item_id'   => $g,
+		) );
+
+		buddypress()->is_item_admin = true;
+		groups_ban_member( $u, $g );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
+
+		$this->assertFalse( bp_activity_user_can_read( $o, $u ) );
+	}
+
+	/**
+	 * @group bp_activity_user_can_read
+	 */
+	public function test_removed_member_cannot_access_to_his_activity_in_a_private_group() {
+		$u  = self::factory()->user->create();
+		$g  = self::factory()->group->create( array(
+			'status' => 'private',
+		) );
+
+		self::add_user_to_group( $u, $g );
+
+		$a = self::factory()->activity->create( array(
+			'component' => buddypress()->groups->id,
+			'user_id'   => $u,
+			'item_id'   => $g,
+		) );
+
+		buddypress()->is_item_admin = true;
+		groups_remove_member( $u, $g );
+
+		$o = self::factory()->activity->get_object_by_id( $a );
+
+		$this->assertFalse( bp_activity_user_can_read( $o, $u ) );
 	}
 
 	public function check_activity_caches() {
