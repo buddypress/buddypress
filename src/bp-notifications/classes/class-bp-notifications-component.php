@@ -46,6 +46,7 @@ class BP_Notifications_Component extends BP_Component {
 		$includes = array(
 			'adminbar',
 			'template',
+			'filters',
 			'functions',
 			'cache',
 		);

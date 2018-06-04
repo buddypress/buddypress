@@ -432,4 +432,35 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$found = bp_notifications_get_grouped_notifications_for_user( $u );
 		$this->assertEquals( 2, $found[0]->total_count );
 	}
+
+	/**
+	 * @ticket BP7827
+	 */
+	public function test_bp_notifications_personal_data_exporter() {
+		$u = self::factory()->user->create();
+
+		// Create notifications
+		$n1 = self::factory()->notification->create( array(
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		$n2 = self::factory()->notification->create( array(
+			'component_name'    => 'activity',
+			'component_action'  => 'new_at_mention',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		$test_user = new WP_User( $u );
+
+		$actual = bp_notifications_personal_data_exporter( $test_user->user_email, 1 );
+
+		$this->assertTrue( $actual['done'] );
+
+		// Number of exported notification items.
+		$this->assertSame( 2, count( $actual['data'] ) );
+	}
 }

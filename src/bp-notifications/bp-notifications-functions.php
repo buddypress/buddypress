@@ -794,3 +794,97 @@ function bp_notifications_add_meta( $notification_id, $meta_key, $meta_value, $u
 
 	return $retval;
 }
+
+/**
+ * Finds and exports personal data associated with an email address from the Notifications tables.
+ *
+ * @since 4.0.0
+ *
+ * @param string $email_address  The users email address.
+ * @param int    $page           Batch number.
+ * @return array An array of personal data.
+ */
+function bp_notifications_personal_data_exporter( $email_address, $page ) {
+	$number = 50;
+
+	$email_address = trim( $email_address );
+
+	$data_to_export = array();
+
+	$user = get_user_by( 'email', $email_address );
+
+	if ( ! $user ) {
+		return array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	$notifications = BP_Notifications_Notification::get( array(
+		'is_new'   => null,
+		'per_page' => $number,
+		'page'     => $page,
+		'user_id'  => $user->ID,
+		'order'    => 'DESC',
+	) );
+
+	$user_data_to_export = array();
+
+	foreach ( $notifications as $notification ) {
+		if ( 'xprofile' === $notification->component_name ) {
+			$component_name = 'profile';
+		} else {
+			$component_name = $notification->component_name;
+		}
+
+		// Format notifications.
+		if ( isset( buddypress()->{$component_name}->notification_callback ) && is_callable( buddypress()->{$component_name}->notification_callback ) ) {
+			$content = call_user_func( buddypress()->{$component_name}->notification_callback, $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1, 'string', $notification->id );
+		} else {
+			// The array to reference with apply_filters_ref_array().
+			$ref_array = array(
+				$notification->component_action,
+				$notification->item_id,
+				$notification->secondary_item_id,
+				$notification->total_count,
+				'string',
+				$notification->component_action,
+				$component_name,
+				$notification_item->id,
+			);
+
+			/** This filter is documented in bp-notifications/bp-notifications-functions.php */
+			$content = apply_filters_ref_array( 'bp_notifications_get_notifications_for_user', $ref_array );
+		}
+
+		$item_data = array(
+			array(
+				'name'  => __( 'Notification Content', 'buddypress' ),
+				'value' => $content,
+			),
+			array(
+				'name'  => __( 'Notification Date', 'buddypress' ),
+				'value' => $notification->date_notified,
+			),
+			array(
+				'name'  => __( 'Status', 'buddypress' ),
+				'value' => $notification->is_new ? __( 'Unread', 'buddypress' ) : __( 'Read', 'buddypress' ),
+			),
+		);
+
+		$data_to_export[] = array(
+			'group_id'    => 'bp_notifications',
+			'group_label' => __( 'Notifications' ),
+			'item_id'     => "bp-notifications-{$notification->id}",
+			'data'        => $item_data,
+		);
+	}
+
+	// Tell core if we have more items to process.
+	$done = count( $notifications ) < $number;
+
+	return array(
+		'data' => $data_to_export,
+		'done' => $done,
+	);
+}
