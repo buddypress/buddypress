@@ -874,7 +874,7 @@ function bp_notifications_personal_data_exporter( $email_address, $page ) {
 
 		$data_to_export[] = array(
 			'group_id'    => 'bp_notifications',
-			'group_label' => __( 'Notifications' ),
+			'group_label' => __( 'Notifications', 'buddypress' ),
 			'item_id'     => "bp-notifications-{$notification->id}",
 			'data'        => $item_data,
 		);
