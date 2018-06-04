@@ -826,6 +826,81 @@ class BP_Groups_Member {
 	}
 
 	/**
+	 * Gets memberships of a user for purposes of a personal data export.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param int $user_id ID of the user.
+	 * @param array $args {
+	 *    Array of optional arguments.
+	 *    @type int    $page     Page of memberships being requested. Default 1.
+	 *    @type int    $per_page Memberships to return per page. Default 20.
+	 *    @type string $type     Membership type being requested. Accepts 'membership',
+	 *                           'pending_request', 'pending_received_invitation',
+	 *                           'pending_sent_invitation'. Default 'membership'.
+	 * }
+	 *
+	 * @return array
+	 */
+	public static function get_user_memberships( $user_id, $args = array() ) {
+		global $wpdb;
+
+		$bp = buddypress();
+
+		$r = array_merge( array(
+			'page'     => 1,
+			'per_page' => 20,
+			'type'     => 'membership',
+		), $args );
+
+		$sql = array(
+			'select' => 'SELECT *',
+			'from'   => "FROM {$bp->groups->table_name_members}",
+			'where'  => '',
+			'limits' => '',
+		);
+
+		switch ( $r['type'] ) {
+			case 'pending_request' :
+				$sql['where'] = $wpdb->prepare( "user_id = %d AND is_confirmed = 0 AND inviter_id = 0", $user_id );
+			break;
+
+			case 'pending_received_invitation' :
+				$sql['where'] = $wpdb->prepare( "user_id = %d AND is_confirmed = 0 AND inviter_id != 0", $user_id );
+			break;
+
+			case 'pending_sent_invitation' :
+				$sql['where'] = $wpdb->prepare( "inviter_id = %d AND is_confirmed = 0", $user_id );
+			break;
+
+			case 'membership' :
+			default :
+				$sql['where'] = $wpdb->prepare( "user_id = %d AND is_confirmed = 1", $user_id );
+			break;
+		}
+
+		if ( $r['page'] && $r['per_page'] ) {
+			$sql['limits'] = $wpdb->prepare( "LIMIT %d, %d", ( $r['page'] - 1 ) * $r['per_page'], $r['per_page'] );
+		}
+
+		$memberships = $wpdb->get_results( "{$sql['select']} {$sql['from']} WHERE {$sql['where']} {$sql['limits']}" );
+
+		foreach ( $memberships as &$membership ) {
+			$membership->id           = (int) $membership->id;
+			$membership->group_id     = (int) $membership->group_id;
+			$membership->user_id      = (int) $membership->user_id;
+			$membership->inviter_id   = (int) $membership->inviter_id;
+			$membership->is_admin     = (int) $membership->is_admin;
+			$membership->is_mod       = (int) $membership->is_mod;
+			$membership->is_banned    = (int) $membership->is_banned;
+			$membership->is_confirmed = (int) $membership->is_confirmed;
+			$membership->invite_sent  = (int) $membership->invite_sent;
+		}
+
+		return $memberships;
+	}
+
+	/**
 	 * Check whether a user has an outstanding invitation to a given group.
 	 *
 	 * @since 1.6.0

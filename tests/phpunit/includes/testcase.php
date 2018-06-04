@@ -120,6 +120,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			bp_activity_remove_all_user_data( $user_id );
 		}
 
+		bp_core_remove_data( $user_id );
+
 		return $deleted;
 	}
 

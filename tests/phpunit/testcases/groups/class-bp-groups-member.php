@@ -4,6 +4,22 @@
  * @group BP_Groups_Member
  */
 class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
+	static public $user_ids;
+	static public $group_ids;
+
+	public static function wpSetUpBeforeClass( $factory ) {
+		global $wpdb, $bp;
+		self::$user_ids  = $factory->user->create_many( 4 );
+		self::$group_ids = $factory->group->create_many( 3, array(
+			'creator_id' => self::$user_ids[3],
+		) );
+	}
+
+	public static function wpTearDownAfterClass() {
+		array_map( array( __CLASS__, 'delete_user' ), self::$user_ids );
+		array_map( 'groups_delete_group', self::$group_ids );
+	}
+
 	public static function invite_user_to_group( $user_id, $group_id, $inviter_id ) {
 		$invite                = new BP_Groups_Member;
 		$invite->group_id      = $group_id;
@@ -1370,5 +1386,72 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$admins = groups_get_group_admins( null );
 
 		$this->assertTrue( is_array( $admins ) && empty( $admins ) );
+	}
+
+	/**
+	 * @ticket BP7859
+	 */
+	public function test_get_user_memberships_type_membership() {
+		groups_join_group( self::$group_ids[0], self::$user_ids[0] );
+
+		$memberships = BP_Groups_Member::get_user_memberships( self::$user_ids[0], array(
+			'type' => 'membership',
+		) );
+
+		$this->assertCount( 1, $memberships );
+		$this->assertSame( self::$group_ids[0], $memberships[0]->group_id );
+	}
+
+	/**
+	 * @ticket BP7859
+	 */
+	public function test_get_user_memberships_type_pending_request() {
+		groups_join_group( self::$group_ids[0], self::$user_ids[0] );
+		groups_send_membership_request( self::$user_ids[0], self::$group_ids[1] );
+
+		$memberships = BP_Groups_Member::get_user_memberships( self::$user_ids[0], array(
+			'type' => 'pending_request',
+		) );
+
+		$this->assertCount( 1, $memberships );
+		$this->assertSame( self::$group_ids[1], $memberships[0]->group_id );
+	}
+
+	/**
+	 * @ticket BP7859
+	 */
+	public function test_get_user_memberships_type_pending_received_invitation() {
+		groups_join_group( self::$group_ids[0], self::$user_ids[0] );
+		groups_invite_user( array(
+			'user_id'    => self::$user_ids[0],
+			'group_id'   => self::$group_ids[1],
+			'inviter_id' => self::$user_ids[1],
+		) );
+
+		$memberships = BP_Groups_Member::get_user_memberships( self::$user_ids[0], array(
+			'type' => 'pending_received_invitation',
+		) );
+
+		$this->assertCount( 1, $memberships );
+		$this->assertSame( self::$group_ids[1], $memberships[0]->group_id );
+	}
+
+	/**
+	 * @ticket BP7859
+	 */
+	public function test_get_user_memberships_type_pending_sent_invitation() {
+		groups_join_group( self::$group_ids[0], self::$user_ids[0] );
+		groups_invite_user( array(
+			'user_id'    => self::$user_ids[1],
+			'group_id'   => self::$group_ids[1],
+			'inviter_id' => self::$user_ids[0],
+		) );
+
+		$memberships = BP_Groups_Member::get_user_memberships( self::$user_ids[0], array(
+			'type' => 'pending_sent_invitation',
+		) );
+
+		$this->assertCount( 1, $memberships );
+		$this->assertSame( self::$group_ids[1], $memberships[0]->group_id );
 	}
 }
