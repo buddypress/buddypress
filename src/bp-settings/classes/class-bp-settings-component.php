@@ -43,6 +43,7 @@ class BP_Settings_Component extends BP_Component {
 	public function includes( $includes = array() ) {
 		parent::includes( array(
 			'template',
+			'filters',
 			'functions',
 		) );
 	}
