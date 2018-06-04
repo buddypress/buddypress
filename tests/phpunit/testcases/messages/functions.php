@@ -89,4 +89,67 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 	public function remove_recipients_before_save( $message ) {
 		$message->recipients = array();
 	}
+
+	/**
+	 * @ticket BP7819
+	 * @ticket BP7698
+	 */
+	public function test_bp_messages_personal_data_exporter() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$time = time();
+
+		$t1 = messages_new_message( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'A new message',
+			'content'    => 'Hey there!',
+			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 3 * HOUR_IN_SECONDS ) ),
+		) );
+
+		$t1m1 = messages_new_message( array(
+			'sender_id'  => $u2,
+			'thread_id'  => $t1,
+			'recipients' => array( $u1 ),
+			'subject'    => 'Reply to ' . $t1,
+			'content'    => 'Hey there!',
+			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 2 * HOUR_IN_SECONDS ) ),
+		) );
+
+		$t1m2 = messages_new_message( array(
+			'sender_id'  => $u1,
+			'thread_id'  => $t1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'Reply to ' . $t1,
+			'content'    => 'Hey there!',
+			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 2 * HOUR_IN_SECONDS ) ),
+		) );
+
+		$t2 = messages_new_message( array(
+			'sender_id'  => $u2,
+			'recipients' => array( $u1 ),
+			'subject'    => 'A new message',
+			'content'    => 'Hey there!',
+			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 5 * HOUR_IN_SECONDS ) ),
+		) );
+
+		$t2m1 = messages_new_message( array(
+			'sender_id'  => $u1,
+			'thread_id'  => $t2,
+			'recipients' => array( $u2 ),
+			'subject'    => 'Reply to ' . $t2,
+			'content'    => 'Hey there!',
+			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 4 * HOUR_IN_SECONDS ) ),
+		) );
+
+		$test_user = new WP_User( $u1 );
+
+		$actual = bp_messages_personal_data_exporter( $test_user->user_email, 1 );
+
+		$this->assertTrue( $actual['done'] );
+
+		// Number of exported messages.
+		$this->assertSame( 3, count( $actual['data'] ) );
+	}
 }

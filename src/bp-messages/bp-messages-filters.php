@@ -79,6 +79,9 @@ add_filter( 'bp_get_the_thread_message_content',      'stripslashes_deep'    );
 add_filter( 'bp_get_the_thread_subject',              'stripslashes_deep'    );
 add_filter( 'bp_get_message_thread_content',          'stripslashes_deep', 1 );
 
+// Personal data export.
+add_filter( 'wp_privacy_personal_data_exporters', 'bp_messages_register_personal_data_exporter' );
+
 /**
  * Enforce limitations on viewing private message contents
  *
@@ -125,4 +128,21 @@ function bp_messages_filter_kses( $content ) {
 	 */
 	$messages_allowedtags = apply_filters( 'bp_messages_allowed_tags', $messages_allowedtags );
 	return wp_kses( $content, $messages_allowedtags );
+}
+
+/**
+ * Register Messages personal data exporter.
+ *
+ * @since 4.0.0
+ *
+ * @param array $exporters  An array of personal data exporters.
+ * @return array An array of personal data exporters.
+ */
+function bp_messages_register_personal_data_exporter( $exporters ) {
+	$exporters['buddypress-messages'] = array(
+		'exporter_friendly_name' => __( 'BuddyPress Messages', 'buddypress' ),
+		'callback'               => 'bp_messages_personal_data_exporter',
+	);
+
+	return $exporters;
 }
