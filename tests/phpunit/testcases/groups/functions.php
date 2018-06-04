@@ -5,6 +5,21 @@
  * @group functions
  */
 class BP_Tests_Groups_Functions extends BP_UnitTestCase {
+	static public $group_ids;
+	static public $user_ids;
+
+	static public function wpSetUpBeforeClass( $factory ) {
+		self::$user_ids  = $factory->user->create_many( 3 );
+		self::$group_ids = $factory->group->create_many( 2, array(
+			'creator_id' => self::$user_ids[2],
+		) );
+	}
+
+	static public function wpTearDownAfterClass() {
+		array_map( array( __CLASS__, 'delete_user' ), self::$user_ids );
+		array_map( 'groups_delete_group', self::$group_ids );
+	}
+
 	public function test_creating_new_group_as_authenticated_user() {
 		$u = self::factory()->user->create();
 		wp_set_current_user( $u );
@@ -849,4 +864,75 @@ Bar!';
 		$this->assertNull( groups_get_id_by_previous_slug( 'woohoo' ) );
 	}
 
+	/**
+	 * @ticket BP7820
+	 * @ticket BP7698
+	 */
+	public function test_bp_groups_memberships_personal_data_exporter() {
+		groups_join_group( self::$group_ids[0], self::$user_ids[0] );
+
+		$test_user = new WP_User( self::$user_ids[0] );
+
+		$actual = bp_groups_memberships_personal_data_exporter( $test_user->user_email, 1 );
+
+		$this->assertTrue( $actual['done'] );
+		$this->assertCount( 1, $actual['data'] );
+		$this->assertSame( 'bp-group-membership-' . self::$group_ids[0], $actual['data'][0]['item_id'] );
+	}
+
+	/**
+	 * @ticket BP7820
+	 * @ticket BP7698
+	 */
+	public function test_bp_groups_pending_requests_personal_data_exporter() {
+		groups_send_membership_request( self::$user_ids[0], self::$group_ids[0] );
+
+		$test_user = new WP_User( self::$user_ids[0] );
+
+		$actual = bp_groups_pending_requests_personal_data_exporter( $test_user->user_email, 1 );
+
+		$this->assertTrue( $actual['done'] );
+		$this->assertCount( 1, $actual['data'] );
+		$this->assertSame( 'bp-group-pending-request-' . self::$group_ids[0], $actual['data'][0]['item_id'] );
+	}
+
+	/**
+	 * @ticket BP7820
+	 * @ticket BP7698
+	 */
+	public function test_bp_groups_pending_sent_invitations_personal_data_exporter() {
+		groups_invite_user( array(
+			'user_id'    => self::$user_ids[1],
+			'group_id'   => self::$group_ids[0],
+			'inviter_id' => self::$user_ids[0],
+		) );
+
+		$test_user = new WP_User( self::$user_ids[0] );
+
+		$actual = bp_groups_pending_sent_invitations_personal_data_exporter( $test_user->user_email, 1 );
+
+		$this->assertTrue( $actual['done'] );
+		$this->assertCount( 1, $actual['data'] );
+		$this->assertSame( 'bp-group-pending-sent-invitation-' . self::$group_ids[0], $actual['data'][0]['item_id'] );
+	}
+
+	/**
+	 * @ticket BP7820
+	 * @ticket BP7698
+	 */
+	public function test_bp_groups_pending_received_invitations_personal_data_exporter() {
+		groups_invite_user( array(
+			'user_id'    => self::$user_ids[0],
+			'group_id'   => self::$group_ids[0],
+			'inviter_id' => self::$user_ids[1],
+		) );
+
+		$test_user = new WP_User( self::$user_ids[0] );
+
+		$actual = bp_groups_pending_received_invitations_personal_data_exporter( $test_user->user_email, 1 );
+
+		$this->assertTrue( $actual['done'] );
+		$this->assertCount( 1, $actual['data'] );
+		$this->assertSame( 'bp-group-pending-received-invitation-' . self::$group_ids[0], $actual['data'][0]['item_id'] );
+	}
 }

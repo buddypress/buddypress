@@ -2638,3 +2638,298 @@ function bp_remove_group_type_on_group_delete( $group_id = 0 ) {
 	bp_groups_set_group_type( $group_id, '' );
 }
 add_action( 'groups_delete_group', 'bp_remove_group_type_on_group_delete' );
+
+/**
+ * Finds and exports group membership data associated with an email address.
+ *
+ * @since 4.0.0
+ *
+ * @param string $email_address  The user's email address.
+ * @param int    $page           Batch number.
+ * @return array An array of personal data.
+ */
+function bp_groups_memberships_personal_data_exporter( $email_address, $page ) {
+	$number = 20;
+
+	$email_address = trim( $email_address );
+
+	$data_to_export = array();
+
+	$user = get_user_by( 'email', $email_address );
+
+	if ( ! $user ) {
+		return array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	$memberships = BP_Groups_Member::get_user_memberships( $user->ID, array(
+		'type'     => 'membership',
+		'page'     => $page,
+		'per_page' => $number,
+	) );
+
+	foreach ( $memberships as $membership ) {
+		$group = groups_get_group( $membership->group_id );
+
+		$item_data = array(
+			array(
+				'name'  => __( 'Group Name', 'buddypress' ),
+				'value' => bp_get_group_name( $group ),
+			),
+			array(
+				'name'  => __( 'Group URL', 'buddypress' ),
+				'value' => bp_get_group_permalink( $group ),
+			),
+		);
+
+		if ( $membership->inviter_id ) {
+			$item_data[] = array(
+				'name'  => __( 'Invited By', 'buddypress' ),
+				'value' => bp_core_get_userlink( $membership->inviter_id ),
+			);
+		}
+
+		if ( $group->creator_id === $user->ID ) {
+			$group_role = __( 'Creator', 'buddypress' );
+		} elseif ( $membership->is_admin ) {
+			$group_role = __( 'Admin', 'buddypress' );
+		} elseif ( $membership->is_mod ) {
+			$group_role = __( 'Moderator', 'buddypress' );
+		} else {
+			$group_role = __( 'Member', 'buddypress' );
+		}
+
+		$item_data[] = array(
+			'name'  => __( 'Group Role', 'buddypress' ),
+			'value' => $group_role,
+		);
+
+		$item_data[] = array(
+			'name'  => __( 'Date Joined', 'buddypress' ),
+			'value' => $membership->date_modified,
+		);
+
+		$data_to_export[] = array(
+			'group_id'    => 'bp_groups_memberships',
+			'group_label' => __( 'Group Memberships', 'buddypress' ),
+			'item_id'     => "bp-group-membership-{$group->id}",
+			'data'        => $item_data,
+		);
+	}
+
+	// Tell core if we have more items to process.
+	$done = count( $memberships ) < $number;
+
+	return array(
+		'data' => $data_to_export,
+		'done' => $done,
+	);
+}
+
+/**
+ * Finds and exports data on pending group membership requests associated with an email address.
+ *
+ * @since 4.0.0
+ *
+ * @param string $email_address  The user's email address.
+ * @param int    $page           Batch number.
+ * @return array An array of personal data.
+ */
+function bp_groups_pending_requests_personal_data_exporter( $email_address, $page ) {
+	$number = 20;
+
+	$email_address = trim( $email_address );
+
+	$data_to_export = array();
+
+	$user = get_user_by( 'email', $email_address );
+
+	if ( ! $user ) {
+		return array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	$requests = BP_Groups_Member::get_user_memberships( $user->ID, array(
+		'type'     => 'pending_request',
+		'page'     => $page,
+		'per_page' => $number,
+	) );
+
+	foreach ( $requests as $request ) {
+		$group = groups_get_group( $request->group_id );
+
+		$item_data = array(
+			array(
+				'name'  => __( 'Group Name', 'buddypress' ),
+				'value' => bp_get_group_name( $group ),
+			),
+			array(
+				'name'  => __( 'Group URL', 'buddypress' ),
+				'value' => bp_get_group_permalink( $group ),
+			),
+			array(
+				'name'  => __( 'Date Sent', 'buddypress' ),
+				'value' => $request->date_modified,
+			),
+		);
+
+		$data_to_export[] = array(
+			'group_id'    => 'bp_groups_pending_requests',
+			'group_label' => __( 'Pending Group Membership Requests', 'buddypress' ),
+			'item_id'     => "bp-group-pending-request-{$group->id}",
+			'data'        => $item_data,
+		);
+	}
+
+	// Tell core if we have more items to process.
+	$done = count( $requests ) < $number;
+
+	return array(
+		'data' => $data_to_export,
+		'done' => $done,
+	);
+}
+
+/**
+ * Finds and exports data on pending group invitations sent by a user associated with an email address.
+ *
+ * @since 4.0.0
+ *
+ * @param string $email_address  The user's email address.
+ * @param int    $page           Batch number.
+ * @return array An array of personal data.
+ */
+function bp_groups_pending_sent_invitations_personal_data_exporter( $email_address, $page ) {
+	$number = 20;
+
+	$email_address = trim( $email_address );
+
+	$data_to_export = array();
+
+	$user = get_user_by( 'email', $email_address );
+
+	if ( ! $user ) {
+		return array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	$invitations = BP_Groups_Member::get_user_memberships( $user->ID, array(
+		'type'     => 'pending_sent_invitation',
+		'page'     => $page,
+		'per_page' => $number,
+	) );
+
+	foreach ( $invitations as $invitation ) {
+		$group = groups_get_group( $invitation->group_id );
+
+		$item_data = array(
+			array(
+				'name'  => __( 'Group Name', 'buddypress' ),
+				'value' => bp_get_group_name( $group ),
+			),
+			array(
+				'name'  => __( 'Group URL', 'buddypress' ),
+				'value' => bp_get_group_permalink( $group ),
+			),
+			array(
+				'name'  => __( 'Sent To', 'buddypress' ),
+				'value' => bp_core_get_userlink( $invitation->user_id ),
+			),
+			array(
+				'name'  => __( 'Date Sent', 'buddypress' ),
+				'value' => $invitation->date_modified,
+			),
+		);
+
+		$data_to_export[] = array(
+			'group_id'    => 'bp_groups_pending_sent_invitations',
+			'group_label' => __( 'Pending Group Invitations (Sent)', 'buddypress' ),
+			'item_id'     => "bp-group-pending-sent-invitation-{$group->id}",
+			'data'        => $item_data,
+		);
+	}
+
+	// Tell core if we have more items to process.
+	$done = count( $invitations ) < $number;
+
+	return array(
+		'data' => $data_to_export,
+		'done' => $done,
+	);
+}
+
+/**
+ * Finds and exports data on pending group invitations received by a user associated with an email address.
+ *
+ * @since 4.0.0
+ *
+ * @param string $email_address  The user's email address.
+ * @param int    $page           Batch number.
+ * @return array An array of personal data.
+ */
+function bp_groups_pending_received_invitations_personal_data_exporter( $email_address, $page ) {
+	$number = 20;
+
+	$email_address = trim( $email_address );
+
+	$data_to_export = array();
+
+	$user = get_user_by( 'email', $email_address );
+
+	if ( ! $user ) {
+		return array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	$invitations = BP_Groups_Member::get_user_memberships( $user->ID, array(
+		'type'     => 'pending_received_invitation',
+		'page'     => $page,
+		'per_page' => $number,
+	) );
+
+	foreach ( $invitations as $invitation ) {
+		$group = groups_get_group( $invitation->group_id );
+
+		$item_data = array(
+			array(
+				'name'  => __( 'Group Name', 'buddypress' ),
+				'value' => bp_get_group_name( $group ),
+			),
+			array(
+				'name'  => __( 'Group URL', 'buddypress' ),
+				'value' => bp_get_group_permalink( $group ),
+			),
+			array(
+				'name'  => __( 'Invited By', 'buddypress' ),
+				'value' => bp_core_get_userlink( $invitation->inviter_id ),
+			),
+			array(
+				'name'  => __( 'Date Sent', 'buddypress' ),
+				'value' => $invitation->date_modified,
+			),
+		);
+
+		$data_to_export[] = array(
+			'group_id'    => 'bp_groups_pending_received_invitations',
+			'group_label' => __( 'Pending Group Invitations (Received)', 'buddypress' ),
+			'item_id'     => "bp-group-pending-received-invitation-{$group->id}",
+			'data'        => $item_data,
+		);
+	}
+
+	// Tell core if we have more items to process.
+	$done = count( $invitations ) < $number;
+
+	return array(
+		'data' => $data_to_export,
+		'done' => $done,
+	);
+}

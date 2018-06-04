@@ -74,6 +74,9 @@ add_filter( 'bp_activity_at_name_do_notifications', 'bp_groups_disable_at_mentio
 add_filter( 'bp_core_avatar_default',       'bp_groups_default_avatar', 10, 3 );
 add_filter( 'bp_core_avatar_default_thumb', 'bp_groups_default_avatar', 10, 3 );
 
+// Personal data export.
+add_filter( 'wp_privacy_personal_data_exporters', 'bp_groups_register_personal_data_exporters' );
+
 /**
  * Filter output of Group Description through WordPress's KSES API.
  *
@@ -362,3 +365,35 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 
 }
 add_filter( 'bp_user_can', 'bp_groups_user_can_filter', 10, 5 );
+
+/**
+ * Registers Groups personal data exporters.
+ *
+ * @since 4.0.0
+ *
+ * @param array $exporters  An array of personal data exporters.
+ * @return array An array of personal data exporters.
+ */
+function bp_groups_register_personal_data_exporters( $exporters ) {
+	$exporters['buddypress-groups-memberships'] = array(
+		'exporter_friendly_name' => __( 'BuddyPress Group Memberships', 'buddypress' ),
+		'callback'               => 'bp_groups_memberships_personal_data_exporter',
+	);
+
+	$exporters['buddypress-groups-pending-requests'] = array(
+		'exporter_friendly_name' => __( 'BuddyPress Pending Group Membership Requests', 'buddypress' ),
+		'callback'               => 'bp_groups_pending_requests_personal_data_exporter',
+	);
+
+	$exporters['buddypress-groups-pending-received-invitations'] = array(
+		'exporter_friendly_name' => __( 'BuddyPress Pending Group Invitations (Received)', 'buddypress' ),
+		'callback'               => 'bp_groups_pending_received_invitations_personal_data_exporter',
+	);
+
+	$exporters['buddypress-groups-pending-sent-invitations'] = array(
+		'exporter_friendly_name' => __( 'BuddyPress Pending Group Invitations (Sent)', 'buddypress' ),
+		'callback'               => 'bp_groups_pending_sent_invitations_personal_data_exporter',
+	);
+
+	return $exporters;
+}
