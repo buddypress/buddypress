@@ -897,3 +897,203 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 	bp_send_email( 'friends-request-accepted', $initiator_id, $args );
 }
 add_action( 'friends_friendship_accepted', 'friends_notification_accepted_request', 10, 3 );
+
+/**
+ * Finds and exports friendship data associated with an email address.
+ *
+ * @since 4.0.0
+ *
+ * @param string $email_address  The user's email address.
+ * @param int    $page           Batch number.
+ * @return array An array of personal data.
+ */
+function bp_friends_personal_data_exporter( $email_address, $page ) {
+	$number = 50;
+
+	$email_address = trim( $email_address );
+
+	$data_to_export = array();
+
+	$user = get_user_by( 'email', $email_address );
+
+	if ( ! $user ) {
+		return array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	$friendships = BP_Friends_Friendship::get_friendships( $user->ID, array(
+		'is_confirmed' => true,
+		'page'         => $page,
+		'per_page'     => $number,
+	) );
+
+	$user_data_to_export = array();
+
+	foreach ( $friendships as $friendship ) {
+		if ( (int) $user->ID === (int) $friendship->initiator_user_id ) {
+			$friend_id         = $friendship->friend_user_id;
+			$user_is_initiator = true;
+		} else {
+			$friend_id         = $friendship->initiator_user_id;
+			$user_is_initiator = false;
+		}
+
+		$item_data = array(
+			array(
+				'name'  => __( 'Friend', 'buddypress' ),
+				'value' => bp_core_get_userlink( $friend_id ),
+			),
+			array(
+				'name'  => __( 'Initiated By Me', 'buddypress' ),
+				'value' => $user_is_initiator ? __( 'Yes', 'buddypress' ) : __( 'No', 'buddypress' ),
+			),
+			array(
+				'name'  => __( 'Friendship Date', 'buddypress' ),
+				'value' => $friendship->date_created,
+			),
+		);
+
+		$data_to_export[] = array(
+			'group_id'    => 'bp_friends',
+			'group_label' => __( 'Friends', 'buddypress' ),
+			'item_id'     => "bp-friends-{$friend_id}",
+			'data'        => $item_data,
+		);
+	}
+
+	// Tell core if we have more items to process.
+	$done = count( $friendships ) < $number;
+
+	return array(
+		'data' => $data_to_export,
+		'done' => $done,
+	);
+}
+
+/**
+ * Finds and exports pending sent friendship request data associated with an email address.
+ *
+ * @since 4.0.0
+ *
+ * @param string $email_address  The user's email address.
+ * @param int    $page           Batch number.
+ * @return array An array of personal data.
+ */
+function bp_friends_pending_sent_requests_personal_data_exporter( $email_address, $page ) {
+	$number = 50;
+
+	$email_address = trim( $email_address );
+
+	$data_to_export = array();
+
+	$user = get_user_by( 'email', $email_address );
+
+	if ( ! $user ) {
+		return array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	$friendships = BP_Friends_Friendship::get_friendships( $user->ID, array(
+		'is_confirmed'      => false,
+		'initiator_user_id' => $user->ID,
+		'page'              => $page,
+		'per_page'          => $number,
+	) );
+
+	$user_data_to_export = array();
+
+	foreach ( $friendships as $friendship ) {
+		$item_data = array(
+			array(
+				'name'  => __( 'Recipient', 'buddypress' ),
+				'value' => bp_core_get_userlink( $friendship->friend_user_id ),
+			),
+			array(
+				'name'  => __( 'Date Sent', 'buddypress' ),
+				'value' => $friendship->date_created,
+			),
+		);
+
+		$data_to_export[] = array(
+			'group_id'    => 'bp_friends_pending_sent_requests',
+			'group_label' => __( 'Pending Friend Requests (Sent)', 'buddypress' ),
+			'item_id'     => "bp-friends-pending-sent-request-{$friendship->friend_user_id}",
+			'data'        => $item_data,
+		);
+	}
+
+	// Tell core if we have more items to process.
+	$done = count( $friendships ) < $number;
+
+	return array(
+		'data' => $data_to_export,
+		'done' => $done,
+	);
+}
+
+/**
+ * Finds and exports pending received friendship request data associated with an email address.
+ *
+ * @since 4.0.0
+ *
+ * @param string $email_address  The user's email address.
+ * @param int    $page           Batch number.
+ * @return array An array of personal data.
+ */
+function bp_friends_pending_received_requests_personal_data_exporter( $email_address, $page ) {
+	$number = 50;
+
+	$email_address = trim( $email_address );
+
+	$data_to_export = array();
+
+	$user = get_user_by( 'email', $email_address );
+
+	if ( ! $user ) {
+		return array(
+			'data' => array(),
+			'done' => true,
+		);
+	}
+
+	$friendships = BP_Friends_Friendship::get_friendships( $user->ID, array(
+		'is_confirmed'   => false,
+		'friend_user_id' => $user->ID,
+		'page'           => $page,
+		'per_page'       => $number,
+	) );
+
+	$user_data_to_export = array();
+
+	foreach ( $friendships as $friendship ) {
+		$item_data = array(
+			array(
+				'name'  => __( 'Requester', 'buddypress' ),
+				'value' => bp_core_get_userlink( $friendship->initiator_user_id ),
+			),
+			array(
+				'name'  => __( 'Date Sent', 'buddypress' ),
+				'value' => $friendship->date_created,
+			),
+		);
+
+		$data_to_export[] = array(
+			'group_id'    => 'bp_friends_pending_received_requests',
+			'group_label' => __( 'Pending Friend Requests (Received)', 'buddypress' ),
+			'item_id'     => "bp-friends-pending-received-request-{$friendship->initiator_user_id}",
+			'data'        => $item_data,
+		);
+	}
+
+	// Tell core if we have more items to process.
+	$done = count( $friendships ) < $number;
+
+	return array(
+		'data' => $data_to_export,
+		'done' => $done,
+	);
+}

@@ -47,3 +47,31 @@ function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query
 
 }
 add_filter( 'bp_user_query_populate_extras', 'bp_friends_filter_user_query_populate_extras', 4, 2 );
+
+/**
+ * Registers Friends personal data exporter.
+ *
+ * @since 4.0.0
+ *
+ * @param array $exporters  An array of personal data exporters.
+ * @return array An array of personal data exporters.
+ */
+function bp_friends_register_personal_data_exporters( $exporters ) {
+	$exporters['buddypress-friends'] = array(
+		'exporter_friendly_name' => __( 'BuddyPress Friends', 'buddypress' ),
+		'callback'               => 'bp_friends_personal_data_exporter',
+	);
+
+	$exporters['buddypress-friends-pending-sent-requests'] = array(
+		'exporter_friendly_name' => __( 'BuddyPress Friend Requests (Sent)', 'buddypress' ),
+		'callback'               => 'bp_friends_pending_sent_requests_personal_data_exporter',
+	);
+
+	$exporters['buddypress-friends-pending-received-requests'] = array(
+		'exporter_friendly_name' => __( 'BuddyPress Friend Requests (Received)', 'buddypress' ),
+		'callback'               => 'bp_friends_pending_received_requests_personal_data_exporter',
+	);
+
+	return $exporters;
+}
+add_filter( 'wp_privacy_personal_data_exporters', 'bp_friends_register_personal_data_exporters' );

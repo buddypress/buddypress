@@ -413,4 +413,74 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		$this->assertEquals( $newest['users'][1]->id, $u3 );
 		$this->assertEquals( $newest['users'][2]->id, $u2 );
 	}
+
+	/**
+	 * @ticket BP7821
+	 * @ticket BP7698
+	 */
+	public function test_bp_friends_personal_data_exporter() {
+		friends_add_friend( self::$user_ids[0], self::$user_ids[1], true );
+		friends_add_friend( self::$user_ids[0], self::$user_ids[2], false );
+		friends_add_friend( self::$user_ids[3], self::$user_ids[0], true );
+		friends_add_friend( self::$user_ids[4], self::$user_ids[0], false );
+
+		$test_user = new WP_User( self::$user_ids[0] );
+
+		$actual = bp_friends_personal_data_exporter( $test_user->user_email, 1 );
+
+		$this->assertTrue( $actual['done'] );
+		$this->assertCount( 2, $actual['data'] );
+
+		$expected_ids = array(
+			'bp-friends-' . self::$user_ids[1],
+			'bp-friends-' . self::$user_ids[3],
+		);
+		$this->assertEqualSets( $expected_ids, wp_list_pluck( $actual['data'], 'item_id' ) );
+	}
+
+	/**
+	 * @ticket BP7821
+	 * @ticket BP7698
+	 */
+	public function test_bp_friends_pending_sent_requests_personal_data_exporter() {
+		friends_add_friend( self::$user_ids[0], self::$user_ids[1], true );
+		friends_add_friend( self::$user_ids[0], self::$user_ids[2], false );
+		friends_add_friend( self::$user_ids[3], self::$user_ids[0], true );
+		friends_add_friend( self::$user_ids[4], self::$user_ids[0], false );
+
+		$test_user = new WP_User( self::$user_ids[0] );
+
+		$actual = bp_friends_pending_sent_requests_personal_data_exporter( $test_user->user_email, 1 );
+
+		$this->assertTrue( $actual['done'] );
+		$this->assertCount( 1, $actual['data'] );
+
+		$expected_ids = array(
+			'bp-friends-pending-sent-request-' . self::$user_ids[2],
+		);
+		$this->assertEqualSets( $expected_ids, wp_list_pluck( $actual['data'], 'item_id' ) );
+	}
+
+	/**
+	 * @ticket BP7821
+	 * @ticket BP7698
+	 */
+	public function test_bp_friends_pending_received_requests_personal_data_exporter() {
+		friends_add_friend( self::$user_ids[0], self::$user_ids[1], true );
+		friends_add_friend( self::$user_ids[0], self::$user_ids[2], false );
+		friends_add_friend( self::$user_ids[3], self::$user_ids[0], true );
+		friends_add_friend( self::$user_ids[4], self::$user_ids[0], false );
+
+		$test_user = new WP_User( self::$user_ids[0] );
+
+		$actual = bp_friends_pending_received_requests_personal_data_exporter( $test_user->user_email, 1 );
+
+		$this->assertTrue( $actual['done'] );
+		$this->assertCount( 1, $actual['data'] );
+
+		$expected_ids = array(
+			'bp-friends-pending-received-request-' . self::$user_ids[4],
+		);
+		$this->assertEqualSets( $expected_ids, wp_list_pluck( $actual['data'], 'item_id' ) );
+	}
 }
