@@ -4,7 +4,7 @@ Tags: user profiles, activity streams, messaging, friends, user groups, notifica
 Requires at least: 4.5
 Tested up to: 4.9.6
 Requires PHP: 5.3
-Stable tag: 3.0.0
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,11 +126,11 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
-= 3.0.0 =
-See: https://codex.buddypress.org/releases/version-3-0-0/
+= 3.1.0 =
+See: https://codex.buddypress.org/releases/version-3-1-0/
 
 == Changelog ==
 
-= 3.0.0 =
+= 3.1.0 =
 
-See: https://codex.buddypress.org/releases/version-3-0-0/
+See: https://codex.buddypress.org/releases/version-3-1-0/

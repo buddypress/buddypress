@@ -571,6 +571,24 @@ class BP_Admin {
 			</div>
 
 			<div class="bp-hello-content">
+				<h2><?php echo esc_html( _n( 'Maintenance Release', 'Maintenance Releases', 1, 'buddypress' ) ); ?></h2>
+				<p>
+					<?php
+					printf(
+						/* translators: 1: BuddyPress version number, 2: plural number of bugs. */
+						_n(
+							'<strong>Version %1$s</strong> addressed %2$s bug.',
+							'<strong>Version %1$s</strong> addressed %2$s bugs.',
+							23,
+							'buddypress'
+						),
+						self::display_version(),
+						number_format_i18n( 23 )
+					);
+					?>
+				</p>
+
+				<hr>
 				<h2><?php esc_html_e( __( 'Say hello to &ldquo;Nouveau&rdquo;!', 'buddypress' ) ); ?></h2>
 				<p>
 					<?php
