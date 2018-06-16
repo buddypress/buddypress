@@ -1,62 +1,31 @@
 // BP Widgets
-// @version 3.0.0
+// @version 4.0.0
 
 .buddypress.widget {
 
 	.item-options {
 
-		@include font-size(14);
+		@include font-size(12);
+
+		margin: 0 0 1em;
+		padding: 1em 0;
+	}
+
+	.bp-login-widget-user-avatar {
+		float: left;
+	}
+
+	.bp-login-widget-user-links {
+		margin-left: 70px;
 	}
 
 	ul.item-list {
-
-		@include flex-box-dir($flex-dir: column);
-
-		@include medium-small-up() {
-
-			@include flex-box-dir($flex-dir: row, $flex-wrap: wrap);
-		}
-
 		list-style: none;
-		margin: $marg-sml -2%;
-		overflow: hidden;
-
-		li {
-			border: 1px solid $bp-border-color;
-
-			@include flex-align();
-			@include box-item-size($grow: 1, $basis: 46%);
-
-			@include large-up() {
-
-				@include box-item-size($grow: 0, $basis: 20%);
-			}
-
-			margin: 2%;
-
-			.item-avatar {
-				padding: $pad-sml;
-				text-align: center;
-
-				.avatar {
-					width: 60%;
-				}
-			}
-
-			.item {
-				padding: 0 $pad-sml $pad-sml;
-
-
-				.item-meta {
-
-					@include font-size(12);
-					overflow-wrap: break-word;
-				}
-			}
-		} // close li
+		margin: $marg-sml 0;
 	}
 
-	.activity-list {
+	ul.activity-list {
+
 		padding: 0;
 
 		blockquote {
@@ -68,6 +37,19 @@
 		img {
 			margin-bottom: 0.5em;
 		}
+
+		li {
+			border-bottom: 1px solid $primary-grey;
+			margin-bottom: 1em;
+
+			.activity-header p {
+				margin-bottom: 0.5em;
+			}
+
+			&:last-child {
+				border-bottom: 0;
+			}
+		}
 	}
 
 	.avatar-block {
@@ -75,46 +57,83 @@
 		@include flex-box-dir($flex-dir: row, $flex-wrap: wrap);
 
 		img {
+			margin: 0.5em;
+		}
+	}
+
+	ul#friends-list,
+	ul#groups-list,
+	ul#members-list {
+
+		@include clearfix-element("li");
+
+		li {
+
 			margin-bottom: 1em;
-			margin-right: 1em;
+
+			.item-avatar {
+				float: left;
+				width: 60px;
+			}
+
+			.item {
+				margin-left: 70px;
+			}
 		}
 	}
 }
 
+// BP Widgets in Main content area.
+// User's and Group's widgetized default home pages.
 
-// Are we in a main site sidebar?
-// while hard to tell width assume that
-// at large width it's narrow &
-// adjust the li widths & margins to %
-// & flex basis to auto for large up.
-// @todo this may need reviewing & adjusting.
-
-// WP default themes use the class '.widget-area'
-// as a naming convention for the main sidebar
-// this is the best we can know & style on this class
-.widget-area {
+.buddypress-wrap {
 
 	.buddypress.widget {
 
-		ul.item-list {
+		ul#friends-list,
+		ul#groups-list,
+		ul#members-list {
+
+			@include flex-box-dir($flex-dir: column);
+
+			@include medium-small-up() {
+
+				@include flex-box-dir($flex-dir: row, $flex-wrap: wrap);
+			}
+
 
 			li {
+				border: 1px solid $bp-border-color;
 
-				@include box-item-size($grow: 0, $basis: 46%);
-				margin: 2% 2% 10px;
+				@include flex-align();
+				@include box-item-size($grow: 1, $basis: 46%);
 
-				@include large-up {
+				@include large-up() {
 
-					.avatar {
-						width: 100%;
+					@include box-item-size($grow: 0, $basis: 20%);
+				}
+
+				margin: 2%;
+
+				.item-avatar {
+					padding: $pad-sml;
+					text-align: center;
+				}
+
+				.item {
+					padding: $pad-sml;
+
+
+					.item-meta {
+
+						@include font-size(12);
+						overflow-wrap: break-word;
 					}
 				}
-			}
-		}
+			} // close li
 
-		@include large-up() {
+			@include large-up() {
 
-			ul.item-list {
 				margin: $marg-sml -2%;
 				width: 100%;
 
@@ -125,6 +144,12 @@
 					width: 46%;
 				}
 			}
+		}
+
+		blockquote {
+			margin: 0 0 1.5em;
+			overflow: visible;
+			padding: 0 0 0.75em 0.75em;
 		}
 	}
 }

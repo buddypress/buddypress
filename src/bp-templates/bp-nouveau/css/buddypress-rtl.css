@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------
 Hello, this is the BuddyPress Nouveau stylesheet.
 
-@version 3.0.0
+@version 4.0.0
 
 ----------------------------------------------------------------
 >>> TABLE OF CONTENTS:
@@ -62,7 +62,7 @@ body #buddypress * a {
 
 body #buddypress #item-body blockquote,
 body #buddypress .bp-lists blockquote {
-	margin-right: 10px;
+	margin-right: 0;
 }
 
 body #buddypress .bp-list .action {
@@ -4386,79 +4386,49 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 }
 
 .buddypress.widget .item-options {
-	font-size: 14px;
+	font-size: 12px;
+	margin: 0 0 1em;
+	padding: 1em 0;
+}
+
+.buddypress.widget .bp-login-widget-user-avatar {
+	float: right;
+}
+
+.buddypress.widget .bp-login-widget-user-links {
+	margin-right: 70px;
 }
 
 .buddypress.widget ul.item-list {
-	display: -moz-flex;
-	display: -ms-flex;
-	display: -o-flex;
-	display: flex;
-	-o-flex-flow: column nowrap;
-	flex-flow: column nowrap;
 	list-style: none;
-	margin: 10px -2%;
-	overflow: hidden;
+	margin: 10px 0;
 }
 
-@media screen and (min-width: 32em) {
-	.buddypress.widget ul.item-list {
-		display: -moz-flex;
-		display: -ms-flex;
-		display: -o-flex;
-		display: flex;
-		-o-flex-flow: row wrap;
-		flex-flow: row wrap;
-	}
-}
-
-.buddypress.widget ul.item-list li {
-	border: 1px solid #eee;
-	align-items: stretch;
-	-moz-flex: 1 1 46%;
-	-o-flex: 1 1 46%;
-	flex: 1 1 46%;
-	margin: 2%;
-}
-
-@media screen and (min-width: 75em) {
-	.buddypress.widget ul.item-list li {
-		-moz-flex: 0 1 20%;
-		-o-flex: 0 1 20%;
-		flex: 0 1 20%;
-	}
-}
-
-.buddypress.widget ul.item-list li .item-avatar {
-	padding: 0.5em;
-	text-align: center;
-}
-
-.buddypress.widget ul.item-list li .item-avatar .avatar {
-	width: 60%;
-}
-
-.buddypress.widget ul.item-list li .item {
-	padding: 0 0.5em 0.5em;
-}
-
-.buddypress.widget ul.item-list li .item .item-meta {
-	font-size: 12px;
-	overflow-wrap: break-word;
-}
-
-.buddypress.widget .activity-list {
+.buddypress.widget ul.activity-list {
 	padding: 0;
 }
 
-.buddypress.widget .activity-list blockquote {
+.buddypress.widget ul.activity-list blockquote {
 	margin: 0 0 1.5em;
 	overflow: visible;
 	padding: 0 0.75em 0.75em 0;
 }
 
-.buddypress.widget .activity-list img {
+.buddypress.widget ul.activity-list img {
 	margin-bottom: 0.5em;
+}
+
+.buddypress.widget ul.activity-list li {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 1em;
+}
+
+.buddypress.widget ul.activity-list li .activity-header p {
+	margin-bottom: 0.5em;
+}
+
+.buddypress.widget ul.activity-list li:last-child {
+	border-bottom: 0;
 }
 
 .buddypress.widget .avatar-block {
@@ -4471,35 +4441,131 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 }
 
 .buddypress.widget .avatar-block img {
+	margin: 0.5em;
+}
+
+.buddypress.widget ul#friends-list li:before,
+.buddypress.widget ul#friends-list li:after,
+.buddypress.widget ul#groups-list li:before,
+.buddypress.widget ul#groups-list li:after,
+.buddypress.widget ul#members-list li:before,
+.buddypress.widget ul#members-list li:after {
+	content: " ";
+	display: table;
+}
+
+.buddypress.widget ul#friends-list li:after,
+.buddypress.widget ul#groups-list li:after,
+.buddypress.widget ul#members-list li:after {
+	clear: both;
+}
+
+.buddypress.widget ul#friends-list li,
+.buddypress.widget ul#groups-list li,
+.buddypress.widget ul#members-list li {
 	margin-bottom: 1em;
-	margin-left: 1em;
 }
 
-.widget-area .buddypress.widget ul.item-list li {
-	-moz-flex: 0 1 46%;
-	-o-flex: 0 1 46%;
-	flex: 0 1 46%;
-	margin: 2% 2% 10px;
+.buddypress.widget ul#friends-list li .item-avatar,
+.buddypress.widget ul#groups-list li .item-avatar,
+.buddypress.widget ul#members-list li .item-avatar {
+	float: right;
+	width: 60px;
 }
 
-@media screen and (min-width: 75em) {
-	.widget-area .buddypress.widget ul.item-list li .avatar {
-		width: 100%;
+.buddypress.widget ul#friends-list li .item,
+.buddypress.widget ul#groups-list li .item,
+.buddypress.widget ul#members-list li .item {
+	margin-right: 70px;
+}
+
+.buddypress-wrap .buddypress.widget ul#friends-list,
+.buddypress-wrap .buddypress.widget ul#groups-list,
+.buddypress-wrap .buddypress.widget ul#members-list {
+	display: -moz-flex;
+	display: -ms-flex;
+	display: -o-flex;
+	display: flex;
+	-o-flex-flow: column nowrap;
+	flex-flow: column nowrap;
+}
+
+@media screen and (min-width: 32em) {
+	.buddypress-wrap .buddypress.widget ul#friends-list,
+	.buddypress-wrap .buddypress.widget ul#groups-list,
+	.buddypress-wrap .buddypress.widget ul#members-list {
+		display: -moz-flex;
+		display: -ms-flex;
+		display: -o-flex;
+		display: flex;
+		-o-flex-flow: row wrap;
+		flex-flow: row wrap;
 	}
 }
 
+.buddypress-wrap .buddypress.widget ul#friends-list li,
+.buddypress-wrap .buddypress.widget ul#groups-list li,
+.buddypress-wrap .buddypress.widget ul#members-list li {
+	border: 1px solid #eee;
+	align-items: stretch;
+	-moz-flex: 1 1 46%;
+	-o-flex: 1 1 46%;
+	flex: 1 1 46%;
+	margin: 2%;
+}
+
 @media screen and (min-width: 75em) {
-	.widget-area .buddypress.widget ul.item-list {
+	.buddypress-wrap .buddypress.widget ul#friends-list li,
+	.buddypress-wrap .buddypress.widget ul#groups-list li,
+	.buddypress-wrap .buddypress.widget ul#members-list li {
+		-moz-flex: 0 1 20%;
+		-o-flex: 0 1 20%;
+		flex: 0 1 20%;
+	}
+}
+
+.buddypress-wrap .buddypress.widget ul#friends-list li .item-avatar,
+.buddypress-wrap .buddypress.widget ul#groups-list li .item-avatar,
+.buddypress-wrap .buddypress.widget ul#members-list li .item-avatar {
+	padding: 0.5em;
+	text-align: center;
+}
+
+.buddypress-wrap .buddypress.widget ul#friends-list li .item,
+.buddypress-wrap .buddypress.widget ul#groups-list li .item,
+.buddypress-wrap .buddypress.widget ul#members-list li .item {
+	padding: 0.5em;
+}
+
+.buddypress-wrap .buddypress.widget ul#friends-list li .item .item-meta,
+.buddypress-wrap .buddypress.widget ul#groups-list li .item .item-meta,
+.buddypress-wrap .buddypress.widget ul#members-list li .item .item-meta {
+	font-size: 12px;
+	overflow-wrap: break-word;
+}
+
+@media screen and (min-width: 75em) {
+	.buddypress-wrap .buddypress.widget ul#friends-list,
+	.buddypress-wrap .buddypress.widget ul#groups-list,
+	.buddypress-wrap .buddypress.widget ul#members-list {
 		margin: 10px -2%;
 		width: 100%;
 	}
-	.widget-area .buddypress.widget ul.item-list li {
+	.buddypress-wrap .buddypress.widget ul#friends-list li,
+	.buddypress-wrap .buddypress.widget ul#groups-list li,
+	.buddypress-wrap .buddypress.widget ul#members-list li {
 		-moz-flex: 0 1 auto;
 		-o-flex: 0 1 auto;
 		flex: 0 1 auto;
 		margin: 10px 2% 1%;
 		width: 46%;
 	}
+}
+
+.buddypress-wrap .buddypress.widget blockquote {
+	margin: 0 0 1.5em;
+	overflow: visible;
+	padding: 0 0.75em 0.75em 0;
 }
 
 #buddypress-wrap * {
@@ -4606,6 +4672,7 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .activity-list .bp-tooltip:after,
 .activity-meta-action .bp-tooltip:after,
+.avatar-block .item-avatar .bp-tooltip:after,
 .notification-actions .bp-tooltip:after,
 .participants-list .bp-tooltip:after {
 	right: 0;

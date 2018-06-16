@@ -1,5 +1,5 @@
 // BuddyPress Tooltips
-// @version 3.0.0
+// @version 4.0.0
 
 [data-bp-tooltip] {
 	position: relative;
@@ -87,6 +87,7 @@
 
 .activity-list .bp-tooltip,
 .activity-meta-action .bp-tooltip,
+.avatar-block .item-avatar .bp-tooltip,
 .notification-actions .bp-tooltip,
 .participants-list .bp-tooltip {
 
