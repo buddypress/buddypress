@@ -776,6 +776,12 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 		return;
 	}
 
+	// Check if comments are still open for parent item.
+	$comments_open = bp_blogs_comments_open( $parent_activity );
+	if ( ! $comments_open ) {
+		return;
+	}
+
 	// Get userdata.
 	if ( $params['user_id'] == bp_loggedin_user_id() ) {
 		$user = buddypress()->loggedin_user->userdata;
