@@ -30,12 +30,12 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		$b2_last_activity = bp_blogs_get_blogmeta( $b2, 'last_activity' );
 
 		// Clear caches (due to _get_)
-		wp_cache_delete( $b1, 'blog_meta' );
-		wp_cache_delete( $b2, 'blog_meta' );
+		wp_cache_delete( $b1, 'bp_blog_meta' );
+		wp_cache_delete( $b2, 'bp_blog_meta' );
 
 		// Caches should be empty
-		$this->assertFalse( wp_cache_get( $b1, 'blog_meta' ) );
-		$this->assertFalse( wp_cache_get( $b2, 'blog_meta' ) );
+		$this->assertFalse( wp_cache_get( $b1, 'bp_blog_meta' ) );
+		$this->assertFalse( wp_cache_get( $b2, 'bp_blog_meta' ) );
 
 		bp_blogs_update_meta_cache( array( $b1, $b2 ) );
 
@@ -74,12 +74,12 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 
 		// The cache may contain more than just this, so loop through
 		// and check only relevant keys
-		$b1_found = wp_cache_get( $b1, 'blog_meta' );
+		$b1_found = wp_cache_get( $b1, 'bp_blog_meta' );
 		foreach ( $b1_expected as $k => $v ) {
 			$this->assertSame( $v, $b1_found[ $k ] );
 		}
 
-		$b2_found = wp_cache_get( $b2, 'blog_meta' );
+		$b2_found = wp_cache_get( $b2, 'bp_blog_meta' );
 		foreach ( $b2_expected as $k => $v ) {
 			$this->assertSame( $v, $b2_found[ $k ] );
 		}
@@ -120,12 +120,12 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		$b2_last_activity = bp_blogs_get_blogmeta( $b2, 'last_activity' );
 
 		// Clear caches (due to _get_)
-		wp_cache_delete( $b1, 'blog_meta' );
-		wp_cache_delete( $b2, 'blog_meta' );
+		wp_cache_delete( $b1, 'bp_blog_meta' );
+		wp_cache_delete( $b2, 'bp_blog_meta' );
 
 		// Caches should be empty
-		$this->assertFalse( wp_cache_get( $b1, 'blog_meta' ) );
-		$this->assertFalse( wp_cache_get( $b2, 'blog_meta' ) );
+		$this->assertFalse( wp_cache_get( $b1, 'bp_blog_meta' ) );
+		$this->assertFalse( wp_cache_get( $b2, 'bp_blog_meta' ) );
 
 		bp_has_blogs( array(
 			'user_id' => $u,
@@ -166,12 +166,12 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 
 		// The cache may contain more than just this, so loop through
 		// and check only relevant keys
-		$b1_found = wp_cache_get( $b1, 'blog_meta' );
+		$b1_found = wp_cache_get( $b1, 'bp_blog_meta' );
 		foreach ( $b1_expected as $k => $v ) {
 			$this->assertSame( $v, $b1_found[ $k ] );
 		}
 
-		$b2_found = wp_cache_get( $b2, 'blog_meta' );
+		$b2_found = wp_cache_get( $b2, 'bp_blog_meta' );
 		foreach ( $b2_expected as $k => $v ) {
 			$this->assertSame( $v, $b2_found[ $k ] );
 		}
@@ -214,20 +214,20 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		$b2_last_activity = bp_blogs_get_blogmeta( $b2, 'last_activity' );
 
 		// Clear caches (due to _get_)
-		wp_cache_delete( $b1, 'blog_meta' );
-		wp_cache_delete( $b2, 'blog_meta' );
+		wp_cache_delete( $b1, 'bp_blog_meta' );
+		wp_cache_delete( $b2, 'bp_blog_meta' );
 
 		// Caches should be empty
-		$this->assertFalse( wp_cache_get( $b1, 'blog_meta' ) );
-		$this->assertFalse( wp_cache_get( $b2, 'blog_meta' ) );
+		$this->assertFalse( wp_cache_get( $b1, 'bp_blog_meta' ) );
+		$this->assertFalse( wp_cache_get( $b2, 'bp_blog_meta' ) );
 
 		bp_has_blogs( array(
 			'update_meta_cache' => false,
 		) );
 
 		// Caches should be empty
-		$this->assertFalse( wp_cache_get( $b1, 'blog_meta' ) );
-		$this->assertFalse( wp_cache_get( $b2, 'blog_meta' ) );
+		$this->assertFalse( wp_cache_get( $b1, 'bp_blog_meta' ) );
+		$this->assertFalse( wp_cache_get( $b2, 'bp_blog_meta' ) );
 
 		$this->set_current_user( $old_user );
 	}
@@ -304,7 +304,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 
 		// prime cache
 		bp_blogs_get_blogmeta( $b1, 'url' );
-		$this->assertNotEmpty( wp_cache_get( $b1, 'blog_meta' ) );
+		$this->assertNotEmpty( wp_cache_get( $b1, 'bp_blog_meta' ) );
 
 		// updating blog details should purge cache
 		update_blog_details( $b1, array(
@@ -312,6 +312,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		) );
 
 		// assert cache is purged
-		$this->assertEmpty( wp_cache_get( $b1, 'blog_meta' ) );
+		$this->assertEmpty( wp_cache_get( $b1, 'bp_blog_meta' ) );
 	}
 }

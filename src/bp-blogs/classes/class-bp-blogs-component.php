@@ -63,7 +63,7 @@ class BP_Blogs_Component extends BP_Component {
 		);
 
 		$meta_tables = array(
-			'blog' => $bp->table_prefix . 'bp_user_blogs_blogmeta',
+			'bp_blog' => $bp->table_prefix . 'bp_user_blogs_blogmeta',
 		);
 
 		// Fetch the default directory title.
@@ -347,7 +347,7 @@ class BP_Blogs_Component extends BP_Component {
 
 		// Global groups.
 		wp_cache_add_global_groups( array(
-			'blog_meta'
+			'bp_blog_meta'
 		) );
 
 		parent::setup_cache_groups();
