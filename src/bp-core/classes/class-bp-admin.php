@@ -169,6 +169,9 @@ class BP_Admin {
 		add_filter( 'manage_' . bp_get_email_post_type() . '_posts_columns',       array( $this, 'emails_register_situation_column' ) );
 		add_action( 'manage_' . bp_get_email_post_type() . '_posts_custom_column', array( $this, 'emails_display_situation_column_data' ), 10, 2 );
 
+		// Privacy Policy.
+		add_action( 'bp_admin_init', array( $this, 'add_privacy_policy_content' ) );
+
 		// BuddyPress Hello.
 		add_action( 'admin_footer', array( $this, 'about_screen' ) );
 
@@ -538,6 +541,68 @@ class BP_Admin {
 			wp_enqueue_style( 'bp-hello-css' );
 			wp_enqueue_script( 'bp-hello-js' );
 		}
+	}
+
+	/**
+	 * Registers BuddyPress's suggested privacy policy language.
+	 *
+	 * @since 3.x.y
+	 */
+	public function add_privacy_policy_content() {
+		// Nothing to do if we're running < WP 4.9.6.
+		if ( version_compare( $GLOBALS['wp_version'], '4.9.6', '<' ) ) {
+			return;
+		}
+
+		$suggested_text = '<strong class="privacy-policy-tutorial">' . esc_html__( 'Suggested text:', 'buddypress' ) . ' </strong>';
+		$content = '';
+
+		$content .= '<div class="wp-suggested-text">';
+
+		$content .= '<h2>' . esc_html__( 'What personal data we collect and why we collect it', 'buddypress' ) . '</h2>';
+		$content .= '<p class="privacy-policy-tutorial">' . esc_html__( 'Sites powered by BuddyPress rely heavily on user-provided data. In this section, you should note what data you collect, from both registered users and anonymous visitors.', 'buddypress' ) . '</p>';
+
+		if ( bp_is_active( 'xprofile' ) ) {
+			$content .= '<h3>' . esc_html__( 'Profile Data', 'buddypress' ) . '</h3>';
+			$content .= '<p class="privacy-policy-tutorial">' . esc_html__( 'In this section you should note what information is collected on user profiles. The suggested text gives an overview of the kinds of profile data collected by BuddyPress.', 'buddypress' ) . '</p>';
+
+			$content .= '<p>' . $suggested_text . esc_html__( 'When you register for the site, you may be asked to provide certain personal data for display on your profile. The "Name" field is required as well as public, and user profiles are visible to any site visitor. Other profile information may be required or optional, as configured by the site administrator.', 'buddypress' ) . '</p>';
+			$content .= '<p>' . esc_html__( 'User information provided during account registration can be modified or removed on the Profile > Edit panel. In most cases, users also have control over who is able to view a particular piece of profile content, limiting visibility on a field-by-field basis to friends, logged-in users, or administrators only. Site administrators can read and edit all profile data for all users.', 'buddypress' ) . '</p>';
+		}
+
+		if ( bp_is_active( 'activity' ) ) {
+			$content .= '<h3>' . esc_html__( 'Activity', 'buddypress' ) . '</h3>';
+			$content .= '<p class="privacy-policy-tutorial">' . esc_html__( 'In this section you should describe the kinds of information collected in the activity stream, how and whether it can be edited or deleted, and to whom the activity is visible.', 'buddypress' ) . '</p>';
+
+			$content .= '<p>' . $suggested_text . esc_html__( 'This site records certain user actions, in the form of "activity" data. Activity includes updates and comments posted directly to activity streams, as well as descriptions of other actions performed while using the site, such as new friendships, newly joined groups, and profile updates.', 'buddypress' ) . '</p>';
+			$content .= '<p>' . esc_html__( 'The content of activity items obey the same privacy rules as the contexts in which the activity items are created. For example, activity updates created in a user\'s profile is publicly visible, while activity items generated in a private group are visible only to members of that group. Site administrators can view all activity items, regardless of context.', 'buddypress' ) . '</p>';
+			$content .= '<p>' . esc_html__( 'Activity items may be deleted at any time by users who created them. Site administrators can edit all activity items.', 'buddypress' ) . '</p>';
+		}
+
+		if ( bp_is_active( 'messages' ) ) {
+			$content .= '<h3>' . esc_html__( 'Messages', 'buddypress' ) . '</h3>';
+			$content .= '<p class="privacy-policy-tutorial">' . esc_html__( 'In this section you should describe any personal data related to private messages.', 'buddypress' ) . '</p>';
+
+			$content .= '<p>' . $suggested_text . esc_html__( 'The content of private messages is visible only to the sender and the recipients of the message. With the exception of site administrators, who can read all private messages, private message content is never visible to other users or site visitors. Site administrators may delete the content of any message.', 'buddypress' ) . '</p>';
+		}
+
+		$content .= '<h3>' . esc_html__( 'Cookies', 'buddypress' ) . '</h3>';
+		$content .= '<p class="privacy-policy-tutorial">' . esc_html__( 'In this section you should describe the BuddyPress-specific cookies that your site collects. The suggested text describes the default cookies.', 'buddypress' ) . '</p>';
+
+		$content .= '<p>' . $suggested_text . esc_html__( 'We use a cookie to show success and failure messages to logged-in users, in response to certain actions, like joining a group. These cookies contain no personal data, and are deleted immediately after the next page load.', 'buddypress' ) . '</p>';
+
+		$content .= '<p>' . esc_html__( 'We use cookies on group, member, and activity directories to keep track of a user\'s browsing preferences. These preferences include the last-selected values of the sort and filter dropdowns, as well as pagination information. These cookies contain no personal data, and are deleted after 24 hours.', 'buddypress' ) . '</p>';
+
+		if ( bp_is_active( 'groups' ) ) {
+			$content .= '<p>' . esc_html__( 'When a logged-in user creates a new group, we use a number of cookies to keep track of the group creation process. These cookies contain no personal data, and are deleted either upon the successful creation of the group or after 24 hours.', 'buddypress' ) . '</p>';
+		}
+
+		$content .= '</div><!-- .wp-suggested-text -->';
+
+		wp_add_privacy_policy_content(
+			'BuddyPress',
+			wp_kses_post( wpautop( $content, false ) )
+		);
 	}
 
 	/** About *****************************************************************/
