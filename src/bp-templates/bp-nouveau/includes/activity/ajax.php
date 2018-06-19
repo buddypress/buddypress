@@ -452,7 +452,7 @@ function bp_nouveau_ajax_get_activity_objects() {
 	}
 
 	if ( empty( $response ) ) {
-		wp_send_json_error( array( 'error' => __( 'No activites were found.', 'buddypress' ) ) );
+		wp_send_json_error( array( 'error' => __( 'No activities were found.', 'buddypress' ) ) );
 	} else {
 		wp_send_json_success( $response );
 	}

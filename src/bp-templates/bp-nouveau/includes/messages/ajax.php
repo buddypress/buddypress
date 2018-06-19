@@ -551,7 +551,7 @@ function bp_nouveau_ajax_star_thread_messages() {
 	if ( 'star' === $action ) {
 		$error_message = __( 'There was a problem starring your messages. Please try again.', 'buddypress' );
 	} else {
-		$error_message = __( 'There was a problem unstarring your messages. Please try agian.', 'buddypress' );
+		$error_message = __( 'There was a problem unstarring your messages. Please try again.', 'buddypress' );
 	}
 
 	$response = array(
