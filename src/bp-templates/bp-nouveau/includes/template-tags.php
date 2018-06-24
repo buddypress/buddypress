@@ -2399,6 +2399,35 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 }
 
 /**
+ * Outputs the Privacy Policy acceptance area on the registration page.
+ *
+ * @since 4.0.0
+ */
+function bp_nouveau_signup_privacy_policy_acceptance_section() {
+	$error = null;
+	if ( isset( buddypress()->signup->errors['signup_privacy_policy'] ) ) {
+		$error = buddypress()->signup->errors['signup_privacy_policy'];
+	}
+
+	?>
+
+	<div class="privacy-policy-accept">
+		<?php if ( $error ) : ?>
+			<?php nouveau_error_template( $error ); ?>
+		<?php endif; ?>
+
+		<label for="signup-privacy-policy-accept">
+			<input type="hidden" name="signup-privacy-policy-check" value="1" />
+
+			<?php /* translators: link to Privacy Policy */ ?>
+			<input type="checkbox" name="signup-privacy-policy-accept" id="signup-privacy-policy-accept" required /> <?php printf( esc_html__( 'I have read and agree to this site\'s %s.', 'buddypress' ), sprintf( '<a href="%s">%s</a>', esc_url( get_privacy_policy_url() ), esc_html__( 'Privacy Policy', 'buddypress' ) ) ); ?>
+		</label>
+	</div>
+
+	<?php
+}
+
+/**
  * Output a submit button and the nonce for the requested action.
  *
  * @since 3.0.0

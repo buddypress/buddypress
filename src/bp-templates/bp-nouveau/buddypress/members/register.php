@@ -104,6 +104,10 @@
 
 				</div><!-- //.layout-wrap -->
 
+				<?php if ( bp_signup_requires_privacy_policy_acceptance() ) : ?>
+					<?php bp_nouveau_signup_privacy_policy_acceptance_section(); ?>
+				<?php endif; ?>
+
 				<?php bp_nouveau_submit_button( 'register' ); ?>
 
 			<?php endif; // request-details signup step ?>

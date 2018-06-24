@@ -73,6 +73,10 @@ function bp_core_screen_signup() {
 		if ( ( !empty( $_POST['signup_password'] ) && !empty( $_POST['signup_password_confirm'] ) ) && $_POST['signup_password'] != $_POST['signup_password_confirm'] )
 			$bp->signup->errors['signup_password'] = __( 'The passwords you entered do not match.', 'buddypress' );
 
+		if ( bp_signup_requires_privacy_policy_acceptance() && ! empty( $_POST['signup-privacy-policy-check'] ) && empty( $_POST['signup-privacy-policy-accept'] ) ) {
+			$bp->signup->errors['signup_privacy_policy'] = __( 'You must indicate that you have read and agreed to the Privacy Policy.', 'buddypress' );
+		}
+
 		$bp->signup->username = $_POST['signup_username'];
 		$bp->signup->email = $_POST['signup_email'];
 

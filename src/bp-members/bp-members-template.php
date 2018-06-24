@@ -2410,6 +2410,28 @@ function bp_signup_avatar_dir_value() {
 	}
 
 /**
+ * Determines whether privacy policy acceptance is required for registration.
+ *
+ * @since 4.0.0
+ *
+ * @return bool
+ */
+function bp_signup_requires_privacy_policy_acceptance() {
+	// Default to true when a published Privacy Policy page exists.
+	$privacy_policy_url = get_privacy_policy_url();
+	$required           = ! empty( $privacy_policy_url );
+
+	/**
+	 * Filters whether privacy policy acceptance is required for registration.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param bool $required Whether privacy policy acceptance is required.
+	 */
+	return (bool) apply_filters( 'bp_signup_requires_privacy_policy_acceptance', $required );
+}
+
+/**
  * Output the current signup step.
  *
  * @since 1.1.0
