@@ -449,11 +449,14 @@ function messages_get_message_thread_id( $message_id = 0 ) {
  * @return bool True on successful delete, false on failure.
  */
 function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
+	global $wpdb;
+
 	// Legacy - if no meta_key is passed, delete all for the item.
 	if ( empty( $meta_key ) ) {
-		global $wpdb;
-
-		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->messagemeta} WHERE message_id = %d", $message_id ) );
+		$table_name = buddypress()->messages->table_name_meta;
+		$sql        = "SELECT meta_key FROM {$table_name} WHERE message_id = %d";
+		$query      = $wpdb->prepare( $sql, $message_id );
+		$keys       = $wpdb->get_col( $query );
 
 		// With no meta_key, ignore $delete_all.
 		$delete_all = false;

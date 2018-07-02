@@ -661,7 +661,7 @@ class BP_Component {
 		// Add to the BuddyPress global object.
 		if ( !empty( $tables ) && is_array( $tables ) ) {
 			foreach ( $tables as $global_name => $table_name ) {
-				$this->$global_name = $table_name;
+				$this->{$global_name} = $table_name;
 			}
 
 			// Keep a record of the metadata tables in the component.

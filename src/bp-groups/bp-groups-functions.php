@@ -2116,7 +2116,10 @@ function groups_delete_groupmeta( $group_id, $meta_key = false, $meta_value = fa
 
 	// Legacy - if no meta_key is passed, delete all for the item.
 	if ( empty( $meta_key ) ) {
-		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->groupmeta} WHERE group_id = %d", $group_id ) );
+		$table_name = buddypress()->groups->table_name_groupmeta;
+		$sql        = "SELECT meta_key FROM {$table_name} WHERE group_id = %d";
+		$query      = $wpdb->prepare( $sql, $group_id );
+		$keys       = $wpdb->get_col( $query );
 
 		// With no meta_key, ignore $delete_all.
 		$delete_all = false;

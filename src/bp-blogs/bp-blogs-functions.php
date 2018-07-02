@@ -1302,7 +1302,12 @@ function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = fa
 
 	// Legacy - if no meta_key is passed, delete all for the blog_id.
 	if ( empty( $meta_key ) ) {
-		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$wpdb->bp_blogmeta} WHERE blog_id = %d", $blog_id ) );
+		$table_name = buddypress()->blogs->table_name_blogmeta;
+		$sql        = "SELECT meta_key FROM {$table_name} WHERE blog_id = %d";
+		$query      = $wpdb->prepare( $sql, $blog_id );
+		$keys       = $wpdb->get_col( $query );
+
+		// With no meta_key, ignore $delete_all.
 		$delete_all = false;
 	} else {
 		$keys = array( $meta_key );
