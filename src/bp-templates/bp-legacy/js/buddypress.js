@@ -11,6 +11,8 @@ var newest_activities = '';
 var activity_last_recorded  = 0;
 
 jq(document).ready( function() {
+	var activity_oldestpage = 1;
+
 	/**** Page Load Actions *******************************************************/
 
 	/* Activity filter and scope set */
@@ -257,12 +259,6 @@ jq(document).ready( function() {
 			return false;
 		}
 
-		/* Reset the page */
-		jq.cookie( 'bp-activity-oldestpage', 1, {
-			path: '/',
-			secure: ( 'https:' === window.location.protocol )
-		} );
-
 		/* Activity Stream Tabs */
 		scope  = target.attr('id').substr( 9, target.attr('id').length );
 		filter = jq('#activity-filter-select select').val();
@@ -438,14 +434,7 @@ jq(document).ready( function() {
 
 			jq('#buddypress li.load-more').addClass('loading');
 
-			if ( ! jq.cookie('bp-activity-oldestpage') ) {
-				jq.cookie('bp-activity-oldestpage', 1, {
-					path: '/',
-					secure: ( 'https:' === window.location.protocol )
-				} );
-			}
-
-			oldest_page = ( jq.cookie('bp-activity-oldestpage') * 1 ) + 1;
+			oldest_page = activity_oldestpage + 1;
 			just_posted = [];
 
 			jq('.activity-list li.just-posted').each( function(){
@@ -469,10 +458,7 @@ jq(document).ready( function() {
 			function(response)
 			{
 				jq('#buddypress li.load-more').removeClass('loading');
-				jq.cookie( 'bp-activity-oldestpage', oldest_page, {
-					path: '/',
-					secure: ( 'https:' === window.location.protocol )
-				} );
+				activity_oldestpage = oldest_page;
 				jq('#buddypress ul.activity-list').append(response.contents);
 
 				target.parent().hide();
@@ -1857,10 +1843,6 @@ function bp_activity_request(scope, filter) {
 			secure: ( 'https:' === window.location.protocol )
 		} );
 	}
-	jq.cookie( 'bp-activity-oldestpage', 1, {
-		path: '/',
-		secure: ( 'https:' === window.location.protocol )
-	} );
 
 	/* Remove selected and loading classes from tabs */
 	jq('.item-list-tabs li').each( function() {
