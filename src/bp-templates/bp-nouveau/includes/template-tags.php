@@ -1849,14 +1849,29 @@ function bp_nouveau_search_default_text( $text = '', $is_attr = true ) {
  * @since 3.0.0
  */
 function bp_nouveau_search_form() {
-	bp_get_template_part( 'common/search/search-form' );
+	$search_form_html = bp_buffer_template_part( 'common/search/search-form', null, false );
 
 	$objects = bp_nouveau_get_search_objects();
 	if ( empty( $objects['primary'] ) || empty( $objects['secondary'] ) ) {
+		echo $search_form_html;
 		return;
 	}
 
 	if ( 'dir' === $objects['primary'] ) {
+		/**
+		 * Filter here to edit the HTML output of the directory search form.
+		 *
+		 * NB: This will take in charge the following BP Core Components filters
+		 *     - bp_directory_members_search_form
+		 *     - bp_directory_blogs_search_form
+		 *     - bp_directory_groups_search_form
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param string $search_form_html The HTML output for the directory search form.
+		 */
+		echo apply_filters( "bp_directory_{$objects['secondary']}_search_form", $search_form_html );
+
 		if ( 'activity' === $objects['secondary'] ) {
 			/**
 			 * Fires before the display of the activity syndication options.

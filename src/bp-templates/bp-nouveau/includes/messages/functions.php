@@ -140,29 +140,6 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 /**
  * @since 3.0.0
  */
-function bp_nouveau_message_search_form() {
-	$query_arg   = bp_core_get_component_search_query_arg( 'messages' );
-	$placeholder = bp_get_search_default_text( 'messages' );
-
-	$search_form_html = '<form action="" method="get" id="search-messages-form">
-		<label for="messages_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="messages_search" placeholder="' . esc_attr( $placeholder ) . '" /></label>
-		<input type="submit" id="messages_search_submit" name="messages_search_submit" value="' . esc_attr_x( 'Search', 'button', 'buddypress' ) . '" />
-	</form>';
-
-	/**
-	 * Filters the private message component search form.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param string $search_form_html HTML markup for the message search form.
-	 */
-	echo apply_filters( 'bp_nouveau_message_search_form', $search_form_html );
-}
-add_filter( 'bp_message_search_form', 'bp_nouveau_message_search_form', 10, 1 );
-
-/**
- * @since 3.0.0
- */
 function bp_nouveau_messages_adjust_nav() {
 	$bp = buddypress();
 
