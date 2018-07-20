@@ -50,7 +50,7 @@ class BP_Nouveau_Friends {
 		} else {
 			add_action( 'admin_init', function() {
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX && 0 === strpos( $_REQUEST['action'], 'friends_' ) ) {
-					require $this->dir . 'ajax.php';
+					require bp_nouveau()->friends->dir . 'ajax.php';
 				}
 			} );
 		}

@@ -58,7 +58,7 @@ class BP_Nouveau_Activity {
 					// Check to see if action is activity-specific.
 					( false !== strpos( $_REQUEST['action'], 'activity' ) || ( 'post_update' === $_REQUEST['action'] ) )
 				) {
-					require $this->dir . 'ajax.php';
+					require bp_nouveau()->activity->dir . 'ajax.php';
 				}
 			} );
 		}

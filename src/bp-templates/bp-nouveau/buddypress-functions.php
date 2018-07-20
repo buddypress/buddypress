@@ -96,14 +96,14 @@ class BP_Nouveau extends BP_Theme_Compat {
 		} else {
 			add_action( 'admin_init', function() {
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX ) {
-					require $this->includes_dir . 'ajax.php';
+					require bp_nouveau()->includes_dir . 'ajax.php';
 				}
 			}, 0 );
 		}
 
 		add_action( 'bp_customize_register', function() {
 			if ( bp_is_root_blog() && current_user_can( 'customize' ) ) {
-				require $this->includes_dir . 'customizer.php';
+				require bp_nouveau()->includes_dir . 'customizer.php';
 			}
 		}, 0 );
 

@@ -52,7 +52,7 @@ class BP_Nouveau_Blogs {
 		} else {
 			add_action( 'admin_init', function() {
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX && 0 === strpos( $_REQUEST['action'], 'blogs_' ) ) {
-					require $this->dir . 'ajax.php';
+					require bp_nouveau()->blogs->dir . 'ajax.php';
 				}
 			} );
 		}

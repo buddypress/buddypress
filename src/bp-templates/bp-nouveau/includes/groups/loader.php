@@ -55,7 +55,7 @@ class BP_Nouveau_Groups {
 		} else {
 			add_action( 'admin_init', function() {
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX && 0 === strpos( $_REQUEST['action'], 'groups_' ) ) {
-					require $this->dir . 'ajax.php';
+					require bp_nouveau()->groups->dir . 'ajax.php';
 				}
 			} );
 		}
