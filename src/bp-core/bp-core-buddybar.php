@@ -608,11 +608,9 @@ function bp_core_register_subnav_screen_function( $args = '', $component = 'memb
 	}
 
 	$parent_nav = $bp->{$component}->nav->get_primary( array( 'slug' => $r['parent_slug'] ), false );
-	if ( ! $parent_nav ) {
-		return ;
+	if ( is_array( $parent_nav ) ) {
+		$parent_nav = reset( $parent_nav );
 	}
-
-	$parent_nav = reset( $parent_nav );
 
 	// If we *do* meet condition (2), then the added subnav item is currently being requested.
 	if ( ( bp_current_action() && bp_is_current_action( $r['slug'] ) ) || ( bp_is_user() && ! bp_current_action() && ! empty( $parent_nav->screen_function ) && $r['screen_function'] == $parent_nav->screen_function ) ) {
