@@ -4,41 +4,47 @@ window.wp = window.wp || {};
 
 ( function( wp, $ ) {
 
-	if ( undefined === typeof wp.customizer ) {
+	if ( 'undefined' === typeof wp.customize ) {
 		return;
 	}
 
-	$( document ).ready( function() {
+	wp.customize.bind( 'ready', function() {
+		var groupFrontPage = wp.customize.control( 'group_front_page' ),
+		    userFrontPage  = wp.customize.control( 'user_front_page' );
 
 		// If the Main Group setting is disabled, hide all others
-		$( wp.customize.control( 'group_front_page' ).selector ).on( 'click', 'input[type=checkbox]', function( event ) {
-			var checked = $( event.currentTarget ).prop( 'checked' ), controller = $( event.delegateTarget ).prop( 'id' );
+		if ( 'undefined' !== typeof groupFrontPage ) {
+			$( groupFrontPage.selector ).on( 'click', 'input[type=checkbox]', function( event ) {
+				var checked = $( event.currentTarget ).prop( 'checked' ), controller = $( event.delegateTarget ).prop( 'id' );
 
-			_.each( wp.customize.section( 'bp_nouveau_group_front_page' ).controls(), function( control ) {
-				if ( control.selector !== '#' + controller ) {
-					if ( true === checked ) {
-						$( control.selector ).show();
-					} else {
-						$( control.selector ).hide();
+				_.each( wp.customize.section( 'bp_nouveau_group_front_page' ).controls(), function( control ) {
+					if ( control.selector !== '#' + controller ) {
+						if ( true === checked ) {
+							$( control.selector ).show();
+						} else {
+							$( control.selector ).hide();
+						}
 					}
-				}
+				} );
 			} );
-		} );
+		}
 
 		// If the Main User setting is disabled, hide all others
-		$( wp.customize.control( 'user_front_page' ).selector ).on( 'click', 'input[type=checkbox]', function( event ) {
-			var checked = $( event.currentTarget ).prop( 'checked' ), controller = $( event.delegateTarget ).prop( 'id' );
+		if ( 'undefined' !== typeof userFrontPage ) {
+			$( userFrontPage.selector ).on( 'click', 'input[type=checkbox]', function( event ) {
+				var checked = $( event.currentTarget ).prop( 'checked' ), controller = $( event.delegateTarget ).prop( 'id' );
 
-			_.each( wp.customize.section( 'bp_nouveau_user_front_page' ).controls(), function( control ) {
-				if ( control.selector !== '#' + controller ) {
-					if ( true === checked ) {
-						$( control.selector ).show();
-					} else {
-						$( control.selector ).hide();
+				_.each( wp.customize.section( 'bp_nouveau_user_front_page' ).controls(), function( control ) {
+					if ( control.selector !== '#' + controller ) {
+						if ( true === checked ) {
+							$( control.selector ).show();
+						} else {
+							$( control.selector ).hide();
+						}
 					}
-				}
+				} );
 			} );
-		} );
+		}
 
 		$( 'ul#customize-control-group_nav_order, ul#customize-control-user_nav_order' ).sortable( {
 			cursor    : 'move',
@@ -59,7 +65,6 @@ window.wp = window.wp || {};
 				}
 			}
 		} ).disableSelection();
-
 	} );
 
 } )( window.wp, jQuery );
