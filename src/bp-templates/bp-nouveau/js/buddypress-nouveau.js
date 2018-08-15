@@ -357,6 +357,7 @@ window.bp = window.bp || {};
 					}
 
 					if ( search_terms ) {
+						search_terms = decodeURIComponent( search_terms.replace( /\+/g, ' ' ) );
 						$( '#buddypress [data-bp-search="' + object + '"] input[type=search]' ).val( search_terms );
 					}
 				}
