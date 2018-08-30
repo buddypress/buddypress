@@ -1904,13 +1904,46 @@ function bp_nouveau_search_form() {
 			 */
 			do_action( 'bp_members_directory_member_sub_types' );
 		}
-	} elseif ( 'group' === $objects['primary'] && 'activity' === $objects['secondary'] ) {
-		/**
-		 * Fires inside the syndication options list, after the RSS option.
-		 *
-		 * @since 1.2.0
-		 */
-		do_action( 'bp_group_activity_syndication_options' );
+	} elseif ( 'group' === $objects['primary'] ) {
+		if ( 'members' !== $objects['secondary'] ) {
+			/**
+			 * Filter here to edit the HTML output of the displayed group search form.
+			 *
+			 * @since 3.2.0
+			 *
+			 * @param string $search_form_html The HTML output for the directory search form.
+			 */
+			echo apply_filters( "bp_group_{$objects['secondary']}_search_form", $search_form_html );
+
+		} else {
+			/**
+			 * Filters the Members component search form.
+			 *
+			 * @since 1.9.0
+			 *
+			 * @param string $search_form_html HTML markup for the member search form.
+			 */
+			echo apply_filters( 'bp_directory_members_search_form', $search_form_html );
+		}
+
+		if ( 'members' === $objects['secondary'] ) {
+			/**
+			 * Fires at the end of the group members search unordered list.
+			 *
+			 * Part of bp_groups_members_template_part().
+			 *
+			 * @since 1.5.0
+			 */
+			do_action( 'bp_members_directory_member_sub_types' );
+
+		} elseif ( 'activity' === $objects['secondary'] ) {
+			/**
+			 * Fires inside the syndication options list, after the RSS option.
+			 *
+			 * @since 1.2.0
+			 */
+			do_action( 'bp_group_activity_syndication_options' );
+		}
 	}
 }
 
