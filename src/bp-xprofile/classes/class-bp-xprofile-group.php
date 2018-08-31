@@ -211,8 +211,10 @@ class BP_XProfile_Group {
 		if ( BP_XProfile_Field::delete_for_group( $this->id ) ) {
 
 			// Remove profile data for the groups fields.
-			for ( $i = 0, $count = count( $this->fields ); $i < $count; ++$i ) {
-				BP_XProfile_ProfileData::delete_for_field( $this->fields[$i]->id );
+			if ( ! empty( $this->fields ) ) {
+				for ( $i = 0, $count = count( $this->fields ); $i < $count; ++$i ) {
+					BP_XProfile_ProfileData::delete_for_field( $this->fields[$i]->id );
+				}
 			}
 		}
 
