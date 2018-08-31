@@ -19,6 +19,24 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP7916
+	 */
+	public function test_delete() {
+		$g = self::factory()->xprofile_group->create();
+
+		$groups    = bp_xprofile_get_groups();
+		$group_ids = wp_list_pluck( $groups, 'id' );
+		$this->assertContains( $g, $group_ids );
+
+		$group = new BP_XProfile_Group( $g );
+		$this->assertTrue( $group->delete() );
+
+		$groups    = bp_xprofile_get_groups();
+		$group_ids = wp_list_pluck( $groups, 'id' );
+		$this->assertNotContains( $g, $group_ids );
+	}
+
+	/**
 	 * @group fetch_visibility_level
 	 */
 	public function test_fetch_visibility_level() {
