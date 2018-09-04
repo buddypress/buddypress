@@ -573,6 +573,10 @@ function bp_nouveau_loop_classes() {
 					) );
 				}
 
+				if ( ! isset( $bp_nouveau->{$component} ) ) {
+					$bp_nouveau->{$component} = new stdClass;
+				}
+
 				// Set the global for a later use.
 				$bp_nouveau->{$component}->loop_layout = $layout_prefs;
 			}
