@@ -3,7 +3,7 @@
  * BuddyPress - Groups Cover Image Header.
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 3.2.0
  */
 ?>
 
@@ -55,12 +55,10 @@
 
 </div><!-- #cover-image-container -->
 
-<?php if ( ! bp_nouveau_groups_front_page_description() ) : ?>
-	<?php if ( ! empty( bp_nouveau_group_meta()->description ) ) : ?>
-		<div class="desc-wrap">
-			<div class="group-description">
-			<?php echo esc_html( bp_nouveau_group_meta()->description ); ?>
+<?php if ( ! bp_nouveau_groups_front_page_description() && bp_nouveau_group_has_meta( 'description' ) ) : ?>
+	<div class="desc-wrap">
+		<div class="group-description">
+			<?php bp_group_description(); ?>
 		</div><!-- //.group_description -->
 	</div>
-	<?php endif; ?>
 <?php endif; ?>

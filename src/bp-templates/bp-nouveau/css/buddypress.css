@@ -2338,6 +2338,11 @@ body.no-js .single-item-header .js-self-profile-button {
 	text-align: left;
 }
 
+.groups-header .desc-wrap .group-description p {
+	margin: 0;
+	padding: 0;
+}
+
 /**
 *-----------------------------------------------------
 * @subsection 5.1.2 - Item Header User Accounts
