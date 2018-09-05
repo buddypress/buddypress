@@ -3,7 +3,7 @@
  * Groups Template tags
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 3.2.0
  */
 
 // Exit if accessed directly.
@@ -1048,14 +1048,22 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 	}
 
 /**
- * Does the group has meta.
+ * Does the group has metas or a specific meta value.
  *
  * @since 3.0.0
+ * @since 3.2.0 Adds the $meta_key argument.
  *
- * @return bool True if the group has meta. False otherwise.
+ * @param  string $meta_key The key of the meta to check the value for.
+ * @return bool             True if the group has meta. False otherwise.
  */
-function bp_nouveau_group_has_meta() {
-	return (bool) bp_nouveau_get_group_meta();
+function bp_nouveau_group_has_meta( $meta_key = '' ) {
+	$group_meta = bp_nouveau_get_group_meta();
+
+	if ( ! $meta_key ) {
+		return (bool) $group_meta;
+	}
+
+	return ! empty( $group_meta[ $meta_key ] );
 }
 
 /**
