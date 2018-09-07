@@ -1,7 +1,7 @@
 /* global wp, bp, BP_Nouveau, JSON */
 /* jshint devel: true */
 /* jshint browser: true */
-/* @version 3.0.0 */
+/* @version 3.2.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
@@ -162,6 +162,27 @@ window.bp = window.bp || {};
 		},
 
 		/**
+		 * URL Decode a query variable.
+		 *
+		 * @param  {string} qv    The query variable to decode.
+		 * @param  {object} chars The specific characters to use. Optionnal.
+		 * @return {string}       The URL decoded variable.
+		 */
+		urlDecode: function( qv, chars ) {
+			var specialChars = chars || {
+				amp: '&',
+				lt: '<',
+				gt: '>',
+				quot: '"',
+				'#039': '\''
+			};
+
+			return decodeURIComponent( qv.replace( /\+/g, ' ' ) ).replace( /&([^;]+);/g, function( v, q ) {
+				return specialChars[q] || '';
+			} );
+		},
+
+		/**
 		 * [ajax description]
 		 * @param  {[type]} post_data [description]
 		 * @param  {[type]} object    [description]
@@ -236,6 +257,11 @@ window.bp = window.bp || {};
 			// Do not request if we don't have the object or the target to inject results into
 			if ( ! data.object || ! data.target ) {
 				return;
+			}
+
+			// Prepare the search terms for the request
+			if ( data.search_terms ) {
+				data.search_terms = data.search_terms.replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
 			}
 
 			// Set session's data
@@ -357,7 +383,7 @@ window.bp = window.bp || {};
 					}
 
 					if ( search_terms ) {
-						search_terms = decodeURIComponent( search_terms.replace( /\+/g, ' ' ) );
+						search_terms = self.urlDecode( search_terms );
 						$( '#buddypress [data-bp-search="' + object + '"] input[type=search]' ).val( search_terms );
 					}
 				}
