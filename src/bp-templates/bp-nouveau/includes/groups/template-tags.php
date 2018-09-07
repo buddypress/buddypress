@@ -1368,3 +1368,23 @@ function bp_nouveau_get_group_description_excerpt( $group = null, $length = null
 	 */
 	return apply_filters( 'bp_nouveau_get_group_description_excerpt', bp_create_excerpt( $group->description, $length ), $group );
 }
+
+/**
+ * Output "checked" attribute to determine if the group type should be checked.
+ *
+ * @since 3.2.0
+ *
+ * @param object $type Group type object. See bp_groups_get_group_type_object().
+ */
+function bp_nouveau_group_type_checked( $type = null ) {
+	if ( ! is_object( $type ) ) {
+		return;
+	}
+
+	// Group creation screen requires a different check.
+	if ( bp_is_group_create() ) {
+		checked( true, ! empty( $type->create_screen_checked ) );
+	} elseif ( bp_is_group() ) {
+		checked( bp_groups_has_group_type( bp_get_current_group_id(), $type->name ) );
+	}
+}
