@@ -3,7 +3,7 @@
 This is the BuddyPress companion stylesheet for
 the WordPress twentyseventeen theme.
 
-@version 3.0.0
+@version 3.2.0
 
 This sheet supports the primary BuddyPress styles in buddypress.css
 
@@ -1931,6 +1931,7 @@ body.colors-light #buddypress div#invite-list {
 #buddypress div.message-search form,
 #buddypress li.groups-members-search form {
 	border: 1px solid rgba(190, 190, 190, 0.6);
+	position: relative;
 	border-radius: 2px;
 	background-clip: padding-box;
 	overflow: hidden;
