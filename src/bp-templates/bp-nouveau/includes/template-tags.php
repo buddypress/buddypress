@@ -3,7 +3,7 @@
  * Common template tags
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 3.2.0
  */
 
 // Exit if accessed directly.
@@ -907,8 +907,14 @@ function bp_nouveau_nav_classes() {
 		$nav_item   = $bp_nouveau->current_nav_item;
 		$classes    = array();
 
-		if ( 'directory' === $bp_nouveau->displayed_nav && ! empty( $nav_item->li_class ) ) {
-			$classes = (array) $nav_item->li_class;
+		if ( 'directory' === $bp_nouveau->displayed_nav ) {
+			if ( ! empty( $nav_item->li_class ) ) {
+				$classes = (array) $nav_item->li_class;
+			}
+
+			if ( bp_get_current_member_type() || ( bp_is_groups_directory() && bp_get_current_group_directory_type() ) ) {
+				$classes[] = 'no-ajax';
+			}
 		} elseif ( 'groups' === $bp_nouveau->displayed_nav || 'personal' === $bp_nouveau->displayed_nav ) {
 			$classes  = array( 'bp-' . $bp_nouveau->displayed_nav . '-tab' );
 			$selected = bp_current_action();

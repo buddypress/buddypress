@@ -3245,7 +3245,7 @@ function bp_the_body_class() {
 				$bp_classes[] = 'my-activity';
 			}
 		} else {
-			if ( bp_get_current_member_type() ) {
+			if ( bp_get_current_member_type() || ( bp_is_groups_directory() && bp_get_current_group_directory_type() ) ) {
 				$bp_classes[] = 'type';
 			}
 		}
