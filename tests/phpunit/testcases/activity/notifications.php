@@ -364,6 +364,41 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 
 		$expected_commenter = array( $u3 );
 		$this->assertEquals( $expected_commenter, wp_list_pluck( $u2_notifications, 'secondary_item_id' ) );
+
+		// Attempt to mark 'update_reply' notifications as read for user 1.
+		foreach ( $u1_notifications as $i => $n ) {
+			$n = bp_activity_format_notifications( $n->component_action, $n->item_id, $n->secondary_item_id, 1, 'array', $n->id );
+			if ( ! empty( $n['link'] ) ) {
+				// Remove redirecter for unit tests.
+				$n['link'] = str_replace( '/p/', '/', $n['link'] );
+
+				// Attempt to clear the notification by going to the activity permalink.
+				$this->go_to( $n['link'] );
+			}
+		}
+
+		// Assert that notifications for user 1 are cleared and empty.
+		$this->assertEmpty( BP_Notifications_Notification::get( array(
+			'user_id' => $this->u1,
+		) ) );
+
+		// Attempt to mark 'comment_reply' notifications as read for user 2.
+		$this->set_current_user( $this->u2 );
+		foreach ( $u2_notifications as $i => $n ) {
+			$n = bp_activity_format_notifications( $n->component_action, $n->item_id, $n->secondary_item_id, 1, 'array', $n->id );
+			if ( ! empty( $n['link'] ) ) {
+				// Remove redirecter for unit tests.
+				$n['link'] = str_replace( '/p/', '/', $n['link'] );
+
+				// Attempt to clear the notification by going to the activity permalink.
+				$this->go_to( $n['link'] );
+			}
+		}
+
+		// Assert that notifications for user 2 are cleared and empty.
+		$this->assertEmpty( BP_Notifications_Notification::get( array(
+			'user_id' => $this->u2,
+		) ) );
 	}
 
 	/**
