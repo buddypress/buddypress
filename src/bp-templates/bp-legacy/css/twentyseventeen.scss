@@ -242,7 +242,7 @@ $link-action:        #c82b2b;
 This is the BuddyPress companion stylesheet for
 the WordPress twentyseventeen theme.
 
-@version 3.0.0
+@version 3.2.0
 
 This sheet supports the primary BuddyPress styles in buddypress.css
 
@@ -2860,6 +2860,7 @@ body.colors-light {
 
 		form { // *sigh* only to bludgeon over specified rules
 			border: 1px solid rgba($border-color, 0.6);
+			position: relative;
 
 			@include border-radius(2px);
 			overflow: hidden;
