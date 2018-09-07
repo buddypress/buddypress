@@ -3,7 +3,7 @@
  * BuddyPress - Members Activate
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 3.2.0
  */
 ?>
 
@@ -20,17 +20,16 @@
 			<?php if ( isset( $_GET['e'] ) ) : ?>
 				<p><?php esc_html_e( 'Your account was activated successfully! Your account details have been sent to you in a separate email.', 'buddypress' ); ?></p>
 			<?php else : ?>
-				<p>
-					<?php
-					echo esc_html(
-						sprintf(
-							__( 'Your account was activated successfully! You can now <a href="%s">log in</a> with the username and password you provided when you signed up.', 'buddypress' ),
-							wp_login_url( bp_get_root_domain() )
-						)
-					);
-					?>
-				</p>
+				<p><?php esc_html_e( 'Your account was activated successfully! You can now log in with the username and password you provided when you signed up.', 'buddypress' ); ?></p>
 			<?php endif; ?>
+
+			<?php
+			printf(
+				'<p><a href="%1$s">%2$s</a></p>',
+				esc_url( wp_login_url( bp_get_root_domain() ) ),
+				esc_html__( 'Log In', 'buddypress' )
+			);
+			?>
 
 		<?php else : ?>
 
