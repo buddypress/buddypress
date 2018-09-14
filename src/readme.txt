@@ -2,9 +2,9 @@
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
 Tags: user profiles, activity streams, messaging, friends, user groups, notifications, community, social networking
 Requires at least: 4.5
-Tested up to: 4.9.6
+Tested up to: 4.9.8
 Requires PHP: 5.3
-Stable tag: 3.1.0
+Stable tag: 3.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -126,11 +126,11 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
-= 3.1.0 =
-See: https://codex.buddypress.org/releases/version-3-1-0/
+= 3.2.0 =
+See: https://codex.buddypress.org/releases/version-3-2-0/
 
 == Changelog ==
 
-= 3.1.0 =
+= 3.2.0 =
 
-See: https://codex.buddypress.org/releases/version-3-1-0/
+See: https://codex.buddypress.org/releases/version-3-2-0/
