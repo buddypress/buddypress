@@ -582,7 +582,22 @@ class BP_Admin {
 							23,
 							'buddypress'
 						),
-						self::display_version(),
+						'3.2.0',
+						number_format_i18n( 25 )
+					);
+					?>
+				</p>
+				<p>
+					<?php
+					printf(
+						/* translators: 1: BuddyPress version number, 2: plural number of bugs. */
+						_n(
+							'<strong>Version %1$s</strong> addressed %2$s bug.',
+							'<strong>Version %1$s</strong> addressed %2$s bugs.',
+							23,
+							'buddypress'
+						),
+						'3.1.0',
 						number_format_i18n( 23 )
 					);
 					?>
