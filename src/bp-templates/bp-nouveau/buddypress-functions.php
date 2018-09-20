@@ -444,11 +444,12 @@ class BP_Nouveau extends BP_Theme_Compat {
 				continue;
 			}
 
-			if ( 'groups' === $object ) {
-				$supported_objects = array_merge( $supported_objects, array( 'group_members', 'group_requests' ) );
-			}
-
 			$object_nonces[ $object ] = wp_create_nonce( 'bp_nouveau_' . $object );
+		}
+
+		// Groups require some additional objects.
+		if ( bp_is_active( 'groups' ) ) {
+			$supported_objects = array_merge( $supported_objects, array( 'group_members', 'group_requests' ) );
 		}
 
 		// Add components & nonces
