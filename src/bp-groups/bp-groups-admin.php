@@ -861,13 +861,24 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
  * @param BP_Groups_Group $item The BP_Groups_Group object for the current group.
  */
 function bp_groups_admin_edit_metabox_add_new_members( $item ) {
+	if ( wp_is_large_network( 'users' ) ) {
+		$class  = '';
+		$notice = __( 'Enter a comma-separated list of user logins.', 'buddypress' );
+	} else {
+		$class  = 'bp-suggest-user';
+		$notice = '';
+	}
+
 	?>
 
 	<label for="bp-groups-new-members" class="screen-reader-text"><?php
 		/* translators: accessibility text */
 		_e( 'Add new members', 'buddypress' );
 	?></label>
-	<input name="bp-groups-new-members" type="text" id="bp-groups-new-members" class="bp-suggest-user" placeholder="<?php esc_attr_e( 'Enter a comma-separated list of user logins.', 'buddypress' ) ?>" />
+	<input name="bp-groups-new-members" type="text" id="bp-groups-new-members" class="<?php echo esc_attr( $class ); ?>" placeholder="" />
+	<?php if ( $notice ) : ?>
+		<p class="description"><?php echo esc_html( $notice ); ?></p>
+	<?php endif; ?>
 	<ul id="bp-groups-new-members-list"></ul>
 	<?php
 }
