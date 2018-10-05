@@ -85,7 +85,11 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		if ( $this->autocommitted ) {
 			if ( is_multisite() ) {
 				foreach ( $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs WHERE blog_id != 1" ) as $blog_id ) {
-					wpmu_delete_blog( $blog_id, true );
+					if ( function_exists( 'wp_uninitialize_site' ) ) {
+						wp_uninitialize_site( $blog_id );
+					} else {
+						wpmu_delete_blog( $blog_id, true );
+					}
 				}
 			}
 
