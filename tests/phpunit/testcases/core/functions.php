@@ -700,7 +700,10 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$expected_upload_dir = wp_upload_dir();
 
 		if ( is_multisite() ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+			if ( function_exists( 'wp_initialize_site' ) ) {
+				$this->setExpectedDeprecated( 'wpmu_new_blog' );
+			}
+
 			$b = self::factory()->blog->create();
 			switch_to_blog( $b );
 		}

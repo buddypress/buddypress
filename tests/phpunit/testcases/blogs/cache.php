@@ -269,7 +269,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_blogs_total_blogs
-	 * @expectedDeprecated delete_blog
 	 */
 	public function test_bp_blogs_total_blogs_count_after_delete_blog() {
 		if ( ! is_multisite() ) {
