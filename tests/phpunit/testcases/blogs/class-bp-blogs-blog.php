@@ -10,7 +10,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_search_terms() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$old_user = get_current_user_id();
@@ -38,7 +38,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_with_search_terms_should_match_description() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$old_user = get_current_user_id();
@@ -68,7 +68,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_search_blogs() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$old_user = get_current_user_id();
@@ -97,6 +97,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_by_letter() {
 		if ( ! is_multisite() ) {
+			$this->markTestSkipped();
 			return;
 		}
 
@@ -126,7 +127,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_order_by() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$old_user = get_current_user_id();

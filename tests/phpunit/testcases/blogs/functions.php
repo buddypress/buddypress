@@ -285,7 +285,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_restore_data() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		// Create a regular member
@@ -732,6 +732,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_is_blog_public_zero_publish_post() {
 		if ( ! is_multisite() ) {
+			$this->markTestSkipped();
 			return;
 		}
 
@@ -992,7 +993,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_record_existing_blogs_limit() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$old_user = get_current_user_id();
@@ -1026,7 +1027,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_remove_blog() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$reset_post = $_POST;
@@ -1074,7 +1075,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_remove_blog_for_user_is_contributor() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$reset_post = $_POST;

@@ -332,7 +332,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_bp_user_query_type_alphabetical_spam_xprofileon() {
 		if ( is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		// Make sure xprofile is on

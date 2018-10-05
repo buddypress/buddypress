@@ -347,7 +347,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_core_process_spammer_status() {
 		if ( is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$bp = buddypress();
@@ -375,7 +375,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_core_process_spammer_status_ms_bulk_spam() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$bp = buddypress();
@@ -403,7 +403,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_core_process_spammer_status_ms_bulk_ham() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$bp = buddypress();

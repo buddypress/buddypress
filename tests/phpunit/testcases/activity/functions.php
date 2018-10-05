@@ -760,7 +760,7 @@ Bar!';
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_post_nonms() {
 		if ( is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		register_post_type( 'foo', array(
@@ -808,7 +808,7 @@ Bar!';
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_post_ms() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$b = self::factory()->blog->create();
@@ -865,7 +865,7 @@ Bar!';
 	 */
 	public function test_bp_activity_format_activity_action_custom_string_post_type_post_nonms() {
 		if ( is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$labels = array(
@@ -921,7 +921,7 @@ Bar!';
 	 */
 	public function test_bp_activity_format_activity_action_custom_string_post_type_post_ms() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$b = self::factory()->blog->create();

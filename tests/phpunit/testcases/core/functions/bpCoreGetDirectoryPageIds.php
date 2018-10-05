@@ -259,7 +259,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	 */
 	public function test_bp_core_get_directory_pages_multisite_delete_post_with_same_bp_page_id() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$dir_pages = bp_core_get_directory_pages();
@@ -292,7 +292,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	 */
 	public function test_bp_core_get_directory_pages_autocreate_register_pages_single_site() {
 		if ( is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		// Emulate being in the admin area.
@@ -319,7 +319,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	 */
 	public function test_bp_core_get_directory_pages_autocreate_register_pages_multisite() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		// Emulate being in the network admin area.

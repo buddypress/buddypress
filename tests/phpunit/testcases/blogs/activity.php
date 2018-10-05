@@ -27,7 +27,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$b = self::factory()->blog->create();
@@ -52,7 +52,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_nonms() {
 		if ( is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$u = self::factory()->user->create();
@@ -86,7 +86,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_ms_rootblog() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$u = self::factory()->user->create();
@@ -121,7 +121,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_ms_nonrootblog() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$b = self::factory()->blog->create();
@@ -163,7 +163,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_comment_ms_nonrootblog() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		$b = self::factory()->blog->create();
@@ -207,7 +207,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_activity_format_activity_action_new_blog_backpat() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		add_filter( 'bp_blogs_activity_created_blog_action', array( $this, 'created_blog_passthrough' ), 10, 2 );
@@ -236,7 +236,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_activity_format_activity_action_new_blog_post_backpat() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		add_filter( 'bp_blogs_activity_new_post_action', array( $this, 'new_post_passthrough' ), 10, 2 );
@@ -265,7 +265,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_activity_format_activity_action_new_blog_comment_backpat() {
 		if ( ! is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		add_filter( 'bp_blogs_activity_new_comment_action', array( $this, 'new_comment_passthrough' ), 10, 2 );
@@ -322,7 +322,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_no_title() {
 		if ( is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		buddypress()->activity->actions = new stdClass();
@@ -359,7 +359,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_updated_without_title() {
 		if ( is_multisite() ) {
-			return;
+			$this->markTestSkipped();
 		}
 
 		buddypress()->activity->actions = new stdClass();
