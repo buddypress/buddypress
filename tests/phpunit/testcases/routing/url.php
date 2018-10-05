@@ -41,7 +41,9 @@ class BP_Tests_URL extends BP_UnitTestCase {
 
 		// (3) Multisite, root blog other than 1
 		if ( is_multisite() ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+			if ( function_exists( 'wp_initialize_site' ) ) {
+				$this->setExpectedDeprecated( 'wpmu_new_blog' );
+			}
 
 			$original_root_blog = bp_get_root_blog_id();
 			$blog_id = self::factory()->blog->create( array(

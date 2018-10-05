@@ -5,12 +5,13 @@
  * @group caps
  */
 class BP_Tests_Core_Caps extends BP_UnitTestCase {
-	/**
-	 * @expectedDeprecated wpmu_new_blog
-	 */
 	public function test_bp_current_user_can_should_interpret_integer_second_param_as_a_blog_id() {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$b = self::factory()->blog->create();
@@ -29,11 +30,14 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 
 	/**
 	 * @ticket BP6501
-	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_current_user_can_should_respect_blog_id_passed_in_args_array() {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$b = self::factory()->blog->create();
