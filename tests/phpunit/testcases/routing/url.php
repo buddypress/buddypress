@@ -3,6 +3,9 @@
  * @group url
  */
 class BP_Tests_URL extends BP_UnitTestCase {
+	/**
+	 * @expectedDeprecated wpmu_new_blog
+	 */
 	function test_bp_core_ajax_url() {
 		$forced = force_ssl_admin();
 		$old_https = isset( $_SERVER['HTTPS'] ) ? $_SERVER['HTTPS'] : null;

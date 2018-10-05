@@ -5,6 +5,9 @@
  * @group BP_Blogs_Blog
  */
 class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
+	/**
+	 * @expectedDeprecated wpmu_new_blog
+	 */
 	public function test_get_with_search_terms() {
 		if ( ! is_multisite() ) {
 			return;
@@ -31,6 +34,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @ticket BP5858
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_get_with_search_terms_should_match_description() {
 		if ( ! is_multisite() ) {
@@ -59,6 +63,9 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( 1, $blogs['total'] );
 	}
 
+	/**
+	 * @expectedDeprecated wpmu_new_blog
+	 */
 	public function test_search_blogs() {
 		if ( ! is_multisite() ) {
 			return;
@@ -86,6 +93,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get_by_letter
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_get_by_letter() {
 		if ( ! is_multisite() ) {
@@ -114,6 +122,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get_order_by
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_get_order_by() {
 		if ( ! is_multisite() ) {

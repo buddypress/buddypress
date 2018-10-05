@@ -281,6 +281,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_blogs_restore_data
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_blogs_restore_data() {
 		if ( ! is_multisite() ) {
@@ -883,6 +884,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_blogs_comment_sync_activity_comment
 	 * @group post_type_comment_activities
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_blogs_comment_sync_activity_comment_for_custom_post_type() {
 		if ( is_multisite() ) {
@@ -986,6 +988,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_blogs_record_existing_blogs
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_blogs_record_existing_blogs_limit() {
 		if ( ! is_multisite() ) {
@@ -1018,6 +1021,8 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_blogs_remove_blog
+	 * @expectedDeprecated wpmu_new_blog
+	 * @expectedDeprecated delete_blog
 	 */
 	public function test_bp_blogs_remove_blog() {
 		if ( ! is_multisite() ) {
@@ -1065,6 +1070,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_blogs_remove_blog_for_user
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_blogs_remove_blog_for_user_is_contributor() {
 		if ( ! is_multisite() ) {

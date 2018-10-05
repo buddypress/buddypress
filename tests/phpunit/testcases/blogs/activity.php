@@ -23,6 +23,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * @group activity_action
 	 * @group bp_blogs_format_activity_action_new_blog
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog() {
 		if ( ! is_multisite() ) {
@@ -116,6 +117,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * @group activity_action
 	 * @group bp_blogs_format_activity_action_new_blog_post
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_post_ms_nonrootblog() {
 		if ( ! is_multisite() ) {
@@ -157,6 +159,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	 * @group activity_action
 	 * @group bp_blogs_format_activity_action_new_blog_comment
 	 * @group post_type_comment_activities
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_blogs_format_activity_action_new_blog_comment_ms_nonrootblog() {
 		if ( ! is_multisite() ) {
@@ -200,6 +203,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_blogs_format_activity_action_new_blog
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_activity_format_activity_action_new_blog_backpat() {
 		if ( ! is_multisite() ) {
@@ -228,6 +232,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_blogs_format_activity_action_new_blog_post
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_activity_format_activity_action_new_blog_post_backpat() {
 		if ( ! is_multisite() ) {
@@ -256,6 +261,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_blogs_format_activity_action_new_blog_comment
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_activity_format_activity_action_new_blog_comment_backpat() {
 		if ( ! is_multisite() ) {

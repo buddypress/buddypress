@@ -254,6 +254,9 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		bp_update_option( 'bp-pages', $v );
 	}
 
+	/**
+	 * @expectedDeprecated wpmu_new_blog
+	 */
 	public function test_bp_core_get_directory_pages_multisite_delete_post_with_same_bp_page_id() {
 		if ( ! is_multisite() ) {
 			return;

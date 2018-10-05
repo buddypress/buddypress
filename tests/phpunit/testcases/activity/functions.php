@@ -804,6 +804,7 @@ Bar!';
 	 * @group activity_action
 	 * @group bp_activity_format_activity_action_custom_post_type_post_ms
 	 * @group activity_tracking
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_post_ms() {
 		if ( ! is_multisite() ) {
@@ -916,6 +917,7 @@ Bar!';
 	 * @group activity_action
 	 * @group bp_activity_format_activity_action_custom_post_type_post_ms
 	 * @group activity_tracking
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_activity_format_activity_action_custom_string_post_type_post_ms() {
 		if ( ! is_multisite() ) {
@@ -1050,6 +1052,7 @@ Bar!';
 	 * @group activity_action
 	 * @group bp_activity_format_activity_action_custom_post_type_post_ms
 	 * @group post_type_comment_activities
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_comment() {
 		if ( is_multisite() ) {

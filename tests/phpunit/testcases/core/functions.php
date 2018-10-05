@@ -695,6 +695,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_attachments
 	 * @group bp_upload_dir
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_upload_dir() {
 		$expected_upload_dir = wp_upload_dir();

@@ -495,6 +495,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_core_activate_signup
+	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_core_activate_signup_password() {
 		global $wpdb;
