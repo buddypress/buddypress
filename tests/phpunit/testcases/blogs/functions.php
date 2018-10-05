@@ -733,7 +733,6 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	public function test_bp_is_blog_public_zero_publish_post() {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped();
-			return;
 		}
 
 		add_filter( 'bp_is_blog_public', '__return_zero' );
@@ -885,10 +884,10 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	/**
 	 * @group bp_blogs_comment_sync_activity_comment
 	 * @group post_type_comment_activities
-	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_blogs_comment_sync_activity_comment_for_custom_post_type() {
 		if ( is_multisite() ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 			$b = self::factory()->blog->create();
 			switch_to_blog( $b );
 			add_filter( 'comment_flood_filter', '__return_false' );

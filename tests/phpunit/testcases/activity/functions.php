@@ -1052,10 +1052,10 @@ Bar!';
 	 * @group activity_action
 	 * @group bp_activity_format_activity_action_custom_post_type_post_ms
 	 * @group post_type_comment_activities
-	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_comment() {
 		if ( is_multisite() ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 			$b = self::factory()->blog->create();
 			switch_to_blog( $b );
 			add_filter( 'comment_flood_filter', '__return_false' );

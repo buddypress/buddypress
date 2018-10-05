@@ -495,7 +495,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_core_activate_signup
-	 * @expectedDeprecated wpmu_new_blog
 	 */
 	public function test_bp_core_activate_signup_password() {
 		global $wpdb;
@@ -516,6 +515,8 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		);
 
 		if ( is_multisite() ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+
 			$signups['ms-blog'] = array( 'signup_id' => self::factory()->signup->create( array(
 					'user_login'     => 'msblog',
 					'user_email'     => 'msblog@example.com',
