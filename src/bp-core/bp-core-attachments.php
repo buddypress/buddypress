@@ -565,7 +565,7 @@ function bp_attachments_delete_file( $args = array() ) {
 	 * @since 2.5.1
 	 *
 	 * @param bool $value Whether or not to delete the BuddyPress attachment.
-`	 * @param array $args Array of arguments for the attachment deletion.
+	 * @param array $args Array of arguments for the attachment deletion.
 	 */
 	if ( ! apply_filters( 'bp_attachments_pre_delete_file', true, $args ) ) {
 		return true;
