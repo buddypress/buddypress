@@ -530,11 +530,20 @@ window.bp = window.bp || {};
 		},
 
 		addMentions: function() {
+			var sendToInput = $( this.el ).find( '#send-to-input' ),
+			    mention = bp.Nouveau.getLinkParams( null, 'r' ) || null;
+
 			// Add autocomplete to send_to field
-			$( this.el ).find( '#send-to-input' ).bp_mentions( {
+			sendToInput.bp_mentions( {
 				data: [],
 				suffix: ' '
 			} );
+
+			// Check for mention
+			if ( ! _.isNull( mention ) ) {
+				sendToInput.val( '@' + _.escape( mention ) + ' ' );
+				sendToInput.focus();
+			}
 		},
 
 		resetFields: function( model ) {
