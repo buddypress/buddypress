@@ -104,9 +104,9 @@
 
 			<?php endif; // request-details signup step ?>
 
-			<?php bp_nouveau_signup_hook( 'custom', 'steps' ); ?>
-
 			</div><!-- //.layout-wrap -->
+
+			<?php bp_nouveau_signup_hook( 'custom', 'steps' ); ?>
 
 			<?php if ( 'request-details' === bp_get_current_signup_step() ) : ?>
 
