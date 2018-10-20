@@ -10,7 +10,7 @@ var bp_ajax_request = null;
 var newest_activities = '';
 var activity_last_recorded  = 0;
 
-var directoryPreferences = {}
+var directoryPreferences = {};
 
 jq(document).ready( function() {
 	var activity_oldestpage = 1;
@@ -1749,7 +1749,7 @@ function bp_get_directory_preference( directoryType, pref ) {
 		filter: '',
 		scope: '',
 		extras: ''
-	}
+	};
 
 	if ( ! directoryPreferences.hasOwnProperty( directoryType ) ) {
 		var newPreferences = {};
@@ -1776,7 +1776,7 @@ function bp_set_directory_preference( directoryType, pref, value ) {
 		filter: '',
 		scope: '',
 		extras: ''
-	}
+	};
 
 	if ( ! directoryPreferences.hasOwnProperty( directoryType ) ) {
 		var newPreferences = {};
@@ -1795,7 +1795,7 @@ function bp_set_directory_preference( directoryType, pref, value ) {
 		} );
 	}
 
-	directoryPreferences[ directoryType ][ pref ] = value
+	directoryPreferences[ directoryType ][ pref ] = value;
 }
 
 /* Setup activity scope and filter based on the current cookie settings. */
