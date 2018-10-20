@@ -3243,13 +3243,15 @@ function bp_email_get_appearance_settings() {
 		)
 	);
 
-	$privacy_policy_url = get_privacy_policy_url();
-	if ( $privacy_policy_url ) {
-		$footer_text[] = sprintf(
-			'<a href="%s">%s</a>',
-			esc_url( $privacy_policy_url ),
-			esc_html__( 'Privacy Policy', 'buddypress' )
-		);
+	if ( version_compare( $GLOBALS['wp_version'], '4.9.6', '>=' ) ) {
+		$privacy_policy_url = get_privacy_policy_url();
+		if ( $privacy_policy_url ) {
+			$footer_text[] = sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( $privacy_policy_url ),
+				esc_html__( 'Privacy Policy', 'buddypress' )
+			);
+		}
 	}
 
 	$default_args = array(
