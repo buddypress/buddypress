@@ -3234,6 +3234,24 @@ function bp_send_email( $email_type, $to, $args = array() ) {
  * @return array
  */
 function bp_email_get_appearance_settings() {
+	/* translators: This is the copyright text for email footers. 1. Copyright year, 2. Site name */
+	$footer_text = array(
+		sprintf(
+			_x( '&copy; %1$s %2$s', 'email', 'buddypress' ),
+			date_i18n( 'Y' ),
+			bp_get_option( 'blogname' )
+		)
+	);
+
+	$privacy_policy_url = get_privacy_policy_url();
+	if ( $privacy_policy_url ) {
+		$footer_text[] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( $privacy_policy_url ),
+			esc_html__( 'Privacy Policy', 'buddypress' )
+		);
+	}
+
 	$default_args = array(
 		'body_bg'           => '#FFFFFF',
 		'body_text_color'   => '#555555',
@@ -3248,12 +3266,7 @@ function bp_email_get_appearance_settings() {
 		'header_text_size'  => 30,
 		'direction'         => is_rtl() ? 'right' : 'left',
 
-		'footer_text' => sprintf(
-			/* translators: email disclaimer, e.g. "© 2016 Site Name". */
-			_x( '&copy; %s %s', 'email', 'buddypress' ),
-			date_i18n( 'Y' ),
-			bp_get_option( 'blogname' )
-		),
+		'footer_text' => implode( ' &middot; ', $footer_text ),
 	);
 
 	$options = bp_parse_args(
