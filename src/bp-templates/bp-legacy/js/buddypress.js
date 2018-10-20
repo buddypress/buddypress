@@ -1902,19 +1902,9 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 
 /* Activity Loop Requesting */
 function bp_activity_request(scope, filter) {
-	/* Save the type and filter to a session cookie */
-	if ( null !== scope ) {
-		jq.cookie( 'bp-activity-scope', scope, {
-			path: '/',
-			secure: ( 'https:' === window.location.protocol )
-		} );
-	}
-	if ( null !== filter ) {
-		jq.cookie( 'bp-activity-filter', filter, {
-			path: '/',
-			secure: ( 'https:' === window.location.protocol )
-		} );
-	}
+	/* Save the type and filter */
+	bp_set_directory_preference( 'activity', 'scope', scope );
+	bp_set_directory_preference( 'activity', 'filter', filter );
 
 	/* Remove selected and loading classes from tabs */
 	jq('.item-list-tabs li').each( function() {
@@ -1932,9 +1922,17 @@ function bp_activity_request(scope, filter) {
 		bp_ajax_request.abort();
 	}
 
+	// Get directory preferences (called "cookie" for legacy reasons).
+	var cookies = {
+		'bp-activity-filter': bp_get_directory_preference( 'activity', 'filter' ),
+		'bp-activity-scope': bp_get_directory_preference( 'activity', 'scope' )
+	};
+
+	var cookie = encodeURIComponent( jq.param( cookies ) );
+
 	bp_ajax_request = jq.post( ajaxurl, {
 		action: 'activity_widget_filter',
-		'cookie': bp_get_cookies(),
+		'cookie': cookie,
 		'_wpnonce_activity_filter': jq('#_wpnonce_activity_filter').val(),
 		'scope': scope,
 		'filter': filter
