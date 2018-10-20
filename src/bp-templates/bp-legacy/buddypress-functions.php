@@ -283,6 +283,15 @@ class BP_Legacy extends BP_Theme_Compat {
 		}
 
 		/**
+		 * Filters whether directory filter settings ('scope', etc) should be stored in a persistent cookie.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param bool $store_filter_settings Whether to store settings. Defaults to true for logged-in users.
+		 */
+		$store_filter_settings = apply_filters( 'bp_legacy_store_filter_settings', is_user_logged_in() );
+
+		/**
 		 * Filters core JavaScript strings for internationalization before AJAX usage.
 		 *
 		 * @since 2.0.0
@@ -290,6 +299,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		 * @param array $value Array of key/value pairs for AJAX usage.
 		 */
 		$params = apply_filters( 'bp_core_get_js_strings', array(
+			// Strings for display.
 			'accepted'            => __( 'Accepted', 'buddypress' ),
 			'close'               => __( 'Close', 'buddypress' ),
 			'comments'            => __( 'comments', 'buddypress' ),
@@ -303,6 +313,9 @@ class BP_Legacy extends BP_Theme_Compat {
 			'show_x_comments'     => __( 'Show all comments (%d)', 'buddypress' ),
 			'unsaved_changes'     => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
 			'view'                => __( 'View', 'buddypress' ),
+
+			// Settings.
+			'store_filter_settings' => $store_filter_settings,
 		) );
 		wp_localize_script( $asset['handle'], 'BP_DTheme', $params );
 
