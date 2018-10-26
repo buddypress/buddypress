@@ -2,7 +2,7 @@
 /**
  * Deprecated functions.
  *
- * @deprecated 2.9.0
+ * @deprecated 3.0.0
  */
 
 // Exit if accessed directly.

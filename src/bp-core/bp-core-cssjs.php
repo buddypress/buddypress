@@ -536,12 +536,7 @@ function bp_core_enqueue_livestamp() {
 	 */
 	if ( wp_script_is( 'bp-moment-locale', 'registered' ) ) {
 		wp_enqueue_script( 'bp-moment-locale' );
-
-		if ( function_exists( 'wp_add_inline_script' ) ) {
-			wp_add_inline_script ( 'bp-livestamp', bp_core_moment_js_config() );
-		} else {
-			add_action( 'wp_footer', '_bp_core_moment_js_config_footer', 20 );
-		}
+		wp_add_inline_script ( 'bp-livestamp', bp_core_moment_js_config() );
 	}
 
 	wp_enqueue_script( 'bp-livestamp' );
@@ -567,21 +562,4 @@ jQuery(function() {
 EOD;
 
 	return $inline_js;
-}
-
-/**
- * Print moment.js config in page footer.
- *
- * Will be removed once we set our minimum version of WP 4.5.
- *
- * @since 2.7.0
- *
- * @access private
- */
-function _bp_core_moment_js_config_footer() {
-	if ( ! wp_script_is( 'bp-moment-locale' ) ) {
-		return;
-	}
-
-	printf( '<script>%s</script>', bp_core_moment_js_config() );
 }

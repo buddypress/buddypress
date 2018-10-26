@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * match with our needs.
  *
  * @since 2.3.0
- * @since 3.0.0 We now require WP >= 4.5, so this is always true.
+ * @since 3.0.0 This is always true.
  *
  * @return bool Always true.
  */

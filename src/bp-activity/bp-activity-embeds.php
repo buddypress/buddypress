@@ -2,8 +2,6 @@
 /**
  * Functions related to embedding single activity items externally.
  *
- * Relies on WordPress 4.5.
- *
  * @since 2.6.0
  *
  * @package BuddyPress

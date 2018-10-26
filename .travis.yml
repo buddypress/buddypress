@@ -30,7 +30,6 @@ env:
   - WP_VERSION=4.8 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.7 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.6 BP_TRAVISCI=travis:phpunit
-  - WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
 
 matrix:
   include:
@@ -48,14 +47,9 @@ matrix:
     - php: 5.3
       env: WP_VERSION=4.6 BP_TRAVISCI=travis:phpunit
       dist: precise
-    - php: 5.3
-      env: WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
-      dist: precise
   exclude:
     - php: 7.2
       env: WP_VERSION=4.6 BP_TRAVISCI=travis:phpunit
-    - php: 7.2
-      env: WP_VERSION=4.5 BP_TRAVISCI=travis:phpunit
 
 # before_install: Failures in this section will result in build status 'errored'
 before_install:
