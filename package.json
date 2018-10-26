@@ -52,7 +52,7 @@
 		"type": "svn",
 		"url": "https://buddypress.svn.wordpress.org/trunk/"
 	},
-	"version": "4.0.0-alpha",
+	"version": "4.0.0-beta1",
 	"dependencies": {},
 	"browserslist": [
 		"extends @wordpress/browserslist-config"

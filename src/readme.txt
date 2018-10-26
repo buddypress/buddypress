@@ -2,7 +2,7 @@
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
 Tags: user profiles, activity streams, messaging, friends, user groups, notifications, community, social networking
 Requires at least: 4.5
-Tested up to: 4.9.6
+Tested up to: 4.9.8
 Requires PHP: 5.3
 Stable tag: 3.0.0
 License: GPLv2 or later
