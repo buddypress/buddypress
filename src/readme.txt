@@ -42,7 +42,7 @@ Search WordPress.org for "BuddyPress" to find them all!
 
 If you're interested in contributing to BuddyPress, we'd love to have you. Head over to the [BuddyPress Documentation](https://codex.buddypress.org/participate-and-contribute/) site to find out how you can pitch in.
 
-BuddyPress is available in many languages thanks to the volunteer efforts of individuals all around the world. Check out our <a href="https://codex.buddypress.org/translations/">translations page</a> on the BuddyPress Documentation site for more details. If you are a polygot, please <a href="https://translate.wordpress.org/projects/wp-plugins/buddypress">consider helping translate BuddyPress</a> into your language.
+BuddyPress is available in many languages thanks to the volunteer efforts of individuals all around the world. Check out our <a href="https://codex.buddypress.org/translations/">translations page</a> on the BuddyPress Documentation site for more details. If you are a polyglot, please <a href="https://translate.wordpress.org/projects/wp-plugins/buddypress">consider helping translate BuddyPress</a> into your language.
 
 Growing the BuddyPress community means better software for everyone!
 
