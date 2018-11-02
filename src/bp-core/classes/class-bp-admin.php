@@ -625,18 +625,18 @@ class BP_Admin {
 		<div id="bp-hello-container" role="dialog" aria-labelledby="bp-hello-title" style="display: none;">
 			<div class="bp-hello-header" role="document">
 				<div class="bp-hello-close">
-					<button type="button" class="close-modal button bp-tooltip" data-bp-tooltip="<?php echo esc_attr( 'Close pop-up', 'buddypress' ); ?>">
+					<button type="button" class="close-modal button bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Close pop-up', 'buddypress' ); ?>">
 						<span class="screen-reader-text"><?php esc_html_e( 'Close pop-up', 'buddypress' ); ?></span>
 					</button>
 				</div>
 
 				<div class="bp-hello-title">
-					<h1 id="bp-hello-title" tabindex="-1"><?php esc_html_e( _x( 'New in BuddyPress', 'section heading', 'buddypress' ) ); ?></h1>
+					<h1 id="bp-hello-title" tabindex="-1"><?php echo esc_html( _x( 'New in BuddyPress', 'section heading', 'buddypress' ) ); ?></h1>
 				</div>
 			</div>
 
 			<div class="bp-hello-content">
-				<h2><?php esc_html_e( __( 'Say hello to &ldquo;Nouveau&rdquo;!', 'buddypress' ) ); ?></h2>
+				<h2><?php echo esc_html( __( 'Say hello to &ldquo;Nouveau&rdquo;!', 'buddypress' ) ); ?></h2>
 				<p>
 					<?php
 					printf(
@@ -657,7 +657,7 @@ class BP_Admin {
 
 				<?php echo $GLOBALS['wp_embed']->autoembed( 'https://player.vimeo.com/video/270507360' ); ?>
 
-				<h2><?php esc_html_e( __( 'Support for WP-CLI', 'buddypress' ) ); ?></h2>
+				<h2><?php esc_html_e( 'Support for WP-CLI', 'buddypress' ); ?></h2>
 				<p>
 					<?php
 					printf(
@@ -667,7 +667,7 @@ class BP_Admin {
 					?>
 				</p>
 
-				<h2><?php esc_html_e( _x( 'Control site-wide notices from your dashboard', 'section heading', 'buddypress' ) ); ?></h2>
+				<h2><?php echo esc_html( _x( 'Control site-wide notices from your dashboard', 'section heading', 'buddypress' ) ); ?></h2>
 				<p><?php esc_html_e( 'Site Notices are a feature within the Private Messaging component that allows community managers to share important messages with all members of their community. With Nouveau, the management interface for Site Notices has been removed from the front-end theme templates.', 'buddypress' ); ?></p>
 
 				<?php if ( bp_is_active( 'messages' ) ) : ?>
@@ -681,10 +681,10 @@ class BP_Admin {
 				</p>
 				<?php endif; ?>
 
-				<h2><?php esc_html_e( __( 'New profile field type: telephone numbers', 'buddypress' ) ); ?></h2>
+				<h2><?php esc_html_e( 'New profile field type: telephone numbers', 'buddypress' ); ?></h2>
 				<p><?php esc_html_e( 'A new telephone number field type has been added to the Extended Profiles component, with support for all international number formats. With a modern web browser, your members can use this field type to touch-to-dial a number directly.', 'buddypress' ); ?></p>
 
-				<h2><?php esc_html_e( __( "BuddyPress: leaner, faster, stronger", 'buddypress' ) ); ?></h2>
+				<h2><?php esc_html_e( "BuddyPress: leaner, faster, stronger", 'buddypress' ); ?></h2>
 				<p><?php esc_html_e( 'With every BuddyPress version, we strive to make performance improvements alongside new features and fixes; this version is no exception. Memory use has been optimised &mdash; within active components, we now only load each individual code file when it\'s needed, not before.', 'buddypress' ); ?></p>
 				<p>
 					<?php
@@ -705,7 +705,7 @@ class BP_Admin {
 					?>
 				</em></p>
 
-				<h2><?php esc_html_e( _x( 'Your feedback', 'screen heading', 'buddypress' ) ); ?></h2>
+				<h2><?php echo esc_html( _x( 'Your feedback', 'screen heading', 'buddypress' ) ); ?></h2>
 				<p>
 					<?php
 					printf(
