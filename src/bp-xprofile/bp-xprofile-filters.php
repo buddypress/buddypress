@@ -637,7 +637,7 @@ function bp_xprofile_filter_meta_query( $q ) {
  */
 function bp_xprofile_register_personal_data_exporter( $exporters ) {
 	$exporters['buddypress-xprofile'] = array(
-		'exporter_friendly_name' => __( 'BuddyPress XProfile Data', 'buddypress' ),
+		'exporter_friendly_name' => __( 'BuddyPress Extended Profile Data', 'buddypress' ),
 		'callback'               => 'bp_xprofile_personal_data_exporter',
 	);
 
