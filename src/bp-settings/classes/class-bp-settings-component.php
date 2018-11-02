@@ -66,7 +66,7 @@ class BP_Settings_Component extends BP_Component {
 			return;
 		}
 
-		$actions = array( 'notifications', 'capabilities', 'delete-account' );
+		$actions = array( 'notifications', 'capabilities', 'data', 'delete-account' );
 
 		// Authenticated actions.
 		if ( is_user_logged_in() ) {
@@ -183,6 +183,28 @@ class BP_Settings_Component extends BP_Component {
 			);
 		}
 
+		/**
+		 * Filter whether the site should show the "Settings > Data" page.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param bool $show Defaults to true.
+		 */
+		$show_data_page = apply_filters( 'bp_settings_show_user_data_page', true );
+
+		// Export Data - only available for WP 4.9.6+.
+		if ( true === $show_data_page && version_compare( $GLOBALS['wp_version'], '4.9.6', '>=' ) ) {
+			$sub_nav[] = array(
+				'name'            => __( 'Export Data', 'buddypress' ),
+				'slug'            => 'data',
+				'parent_url'      => $settings_link,
+				'parent_slug'     => $slug,
+				'screen_function' => 'bp_settings_screen_data',
+				'position'        => 89,
+				'user_has_access' => $access,
+			);
+		}
+
 		// Add Delete Account nav item.
 		if ( ( ! bp_disable_account_deletion() && bp_is_my_profile() ) || bp_current_user_can( 'delete_users' ) ) {
 			$sub_nav[] = array(
@@ -239,6 +261,20 @@ class BP_Settings_Component extends BP_Component {
 					'title'    => __( 'Email', 'buddypress' ),
 					'href'     => trailingslashit( $settings_link . 'notifications' ),
 					'position' => 20
+				);
+			}
+
+			/** This filter is documented in bp-settings/classes/class-bp-settings-component.php */
+			$show_data_page = apply_filters( 'bp_settings_show_user_data_page', true );
+
+			// Export Data.
+			if ( true === $show_data_page && version_compare( $GLOBALS['wp_version'], '4.9.6', '>=' ) ) {
+				$wp_admin_nav[] = array(
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-data',
+					'title'    => __( 'Export Data', 'buddypress' ),
+					'href'     => trailingslashit( $settings_link . 'data' ),
+					'position' => 89,
 				);
 			}
 

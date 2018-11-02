@@ -2,7 +2,7 @@
 /**
  * BuddyPress - Users Settings
  *
- * @version 3.0.0
+ * @version 4.0.0
  */
 
 ?>
@@ -38,6 +38,9 @@ switch ( bp_current_action() ) :
 		break;
 	case 'invites':
 		bp_get_template_part( 'members/single/settings/group-invites' );
+		break;
+	case 'data':
+		bp_get_template_part( 'members/single/settings/data' );
 		break;
 	default:
 		bp_get_template_part( 'members/single/plugins' );
