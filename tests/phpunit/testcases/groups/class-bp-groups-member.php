@@ -1488,12 +1488,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		BP_Groups_Member::delete_all_for_user( $new_user );
 
 		$new_group_members = BP_Groups_Member::get_group_administrator_ids( $new_group );
-		$this->assertSame( [ $admin_user ], wp_list_pluck( $new_group_members, 'user_id' ) );
+		$this->assertSame( array( $admin_user ), wp_list_pluck( $new_group_members, 'user_id' ) );
 
 		$g0_members = BP_Groups_Member::get_group_administrator_ids( self::$group_ids[0] );
-		$this->assertSame( [ self::$user_ids[3] ], wp_list_pluck( $g0_members, 'user_id' ) );
+		$this->assertSame( array( self::$user_ids[3] ), wp_list_pluck( $g0_members, 'user_id' ) );
 
 		$g1_members = BP_Groups_Member::get_group_administrator_ids( self::$group_ids[1] );
-		$this->assertSame( [ self::$user_ids[3] ], wp_list_pluck( $g1_members, 'user_id' ) );
+		$this->assertSame( array( self::$user_ids[3] ), wp_list_pluck( $g1_members, 'user_id' ) );
 	}
 }
