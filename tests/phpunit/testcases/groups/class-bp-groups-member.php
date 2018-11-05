@@ -1472,9 +1472,9 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$admin_user = (int) $admin_users[0];
 
 		// Sole admin of group.
-		$new_group = self::factory()->group->create( [
+		$new_group = self::factory()->group->create( array(
 			'creator_id' => $new_user,
-		] );
+		) );
 
 		// One of two group admins.
 		groups_join_group( self::$group_ids[0], $new_user );
