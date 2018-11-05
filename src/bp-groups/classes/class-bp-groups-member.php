@@ -1445,13 +1445,13 @@ class BP_Groups_Member {
 			if ( groups_is_user_admin( $user_id, $group_id ) ) {
 				// If the user is a sole group admin, install a site admin as their replacement.
 				if ( count( groups_get_group_admins( $group_id ) ) < 2 ) {
-					$admin = get_users( [
+					$admin = get_users( array(
 						'blog_id' => bp_get_root_blog_id(),
 						'fields'  => 'id',
 						'number'  => 1,
 						'orderby' => 'ID',
 						'role'    => 'administrator',
-					] );
+					) );
 
 					if ( ! empty( $admin ) ) {
 						groups_join_group( $group_id, $admin[0] );

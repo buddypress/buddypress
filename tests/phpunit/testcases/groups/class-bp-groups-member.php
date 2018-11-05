@@ -1461,13 +1461,13 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	public function test_delete_all_for_user() {
 		$new_user = self::factory()->user->create();
 
-		$admin_users = get_users( [
+		$admin_users = get_users( array(
 			'blog_id' => bp_get_root_blog_id(),
 			'fields'  => 'id',
 			'number'  => 1,
 			'orderby' => 'ID',
 			'role'    => 'administrator',
-		] );
+		) );
 
 		$admin_user = (int) $admin_users[0];
 
