@@ -1454,4 +1454,46 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertCount( 1, $memberships );
 		$this->assertSame( self::$group_ids[1], $memberships[0]->group_id );
 	}
+
+	/**
+	 * @ticket BP7476
+	 */
+	public function test_delete_all_for_user() {
+		$new_user = self::factory()->user->create();
+
+		$admin_users = get_users( [
+			'blog_id' => bp_get_root_blog_id(),
+			'fields'  => 'id',
+			'number'  => 1,
+			'orderby' => 'ID',
+			'role'    => 'administrator',
+		] );
+
+		$admin_user = (int) $admin_users[0];
+
+		// Sole admin of group.
+		$new_group = self::factory()->group->create( [
+			'creator_id' => $new_user,
+		] );
+
+		// One of two group admins.
+		groups_join_group( self::$group_ids[0], $new_user );
+		$m1 = new BP_Groups_Member( $new_user, self::$group_ids[0] );
+		$m1->promote( 'admin' );
+
+		// Not an admin.
+		groups_join_group( self::$group_ids[1], $new_user );
+		$m2 = new BP_Groups_Member( $new_user, self::$group_ids[1] );
+
+		BP_Groups_Member::delete_all_for_user( $new_user );
+
+		$new_group_members = BP_Groups_Member::get_group_administrator_ids( $new_group );
+		$this->assertSame( [ $admin_user ], wp_list_pluck( $new_group_members, 'user_id' ) );
+
+		$g0_members = BP_Groups_Member::get_group_administrator_ids( self::$group_ids[0] );
+		$this->assertSame( [ self::$user_ids[3] ], wp_list_pluck( $g0_members, 'user_id' ) );
+
+		$g1_members = BP_Groups_Member::get_group_administrator_ids( self::$group_ids[1] );
+		$this->assertSame( [ self::$user_ids[3] ], wp_list_pluck( $g1_members, 'user_id' ) );
+	}
 }

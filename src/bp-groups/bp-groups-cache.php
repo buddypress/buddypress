@@ -214,6 +214,19 @@ function groups_clear_group_administrator_cache_on_member_save( BP_Groups_Member
 add_action( 'groups_member_after_save', 'groups_clear_group_administrator_cache_on_member_save' );
 
 /**
+ * Clear group administrator and moderator cache when a group member is deleted.
+ *
+ * @since 4.0.0
+ *
+ * @param int $user_id  User ID.
+ * @param int $group_id Group ID.
+ */
+function bp_groups_clear_group_administrator_cache_on_member_delete( $user_id, $group_id ) {
+	groups_clear_group_administrator_cache( $group_id );
+}
+add_action( 'bp_groups_member_after_delete', 'bp_groups_clear_group_administrator_cache_on_member_delete', 10, 2 );
+
+/**
  * Clear the group type cache for a group.
  *
  * Called when group is deleted.

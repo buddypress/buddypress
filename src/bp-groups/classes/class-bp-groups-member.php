@@ -1428,26 +1428,43 @@ class BP_Groups_Member {
 	/**
 	 * Delete all group membership information for the specified user.
 	 *
+	 * In cases where the user is the sole member of a group, a site administrator is
+	 * assigned to be the group's administrator. Unhook `groups_remove_data_for_user()`
+	 * to modify this behavior.
+	 *
 	 * @since 1.0.0
+	 * @since 4.0.0 The method behavior was changed so that single-member groups are not deleted.
 	 *
 	 * @param int $user_id ID of the user.
-	 * @return mixed
+	 * @return bool
 	 */
 	public static function delete_all_for_user( $user_id ) {
-		global $wpdb;
-
-		$bp = buddypress();
-
-		// Get all the group ids for the current user's groups and update counts.
 		$group_ids = BP_Groups_Member::get_group_ids( $user_id );
-		foreach ( $group_ids['groups'] as $group_id ) {
-			groups_update_groupmeta( $group_id, 'total_member_count', groups_get_total_member_count( $group_id ) - 1 );
 
-			// If current user is the creator of a group and is the sole admin, delete that group to avoid counts going out-of-sync.
-			if ( groups_is_user_admin( $user_id, $group_id ) && count( groups_get_group_admins( $group_id ) ) < 2 && groups_is_user_creator( $user_id, $group_id ) )
-				groups_delete_group( $group_id );
+		foreach ( $group_ids['groups'] as $group_id ) {
+			if ( groups_is_user_admin( $user_id, $group_id ) ) {
+				// If the user is a sole group admin, install a site admin as their replacement.
+				if ( count( groups_get_group_admins( $group_id ) ) < 2 ) {
+					$admin = get_users( [
+						'blog_id' => bp_get_root_blog_id(),
+						'fields'  => 'id',
+						'number'  => 1,
+						'orderby' => 'ID',
+						'role'    => 'administrator',
+					] );
+
+					if ( ! empty( $admin ) ) {
+						groups_join_group( $group_id, $admin[0] );
+
+						$member = new BP_Groups_Member( $admin[0], $group_id );
+						$member->promote( 'admin' );
+					}
+				}
+			}
+
+			BP_Groups_Member::delete( $user_id, $group_id );
 		}
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d", $user_id ) );
+		return true;
 	}
 }
