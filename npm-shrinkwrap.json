@@ -681,9 +681,9 @@
 			"dev": true
 		},
 		"caniuse-lite": {
-			"version": "1.0.30000878",
-			"resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30000878.tgz",
-			"integrity": "sha512-/dCGTdLCnjVJno1mFRn7Y6eit3AYaeFzSrMQHCoK0LEQaWl5snuLex1Ky4b8/Qu2ig5NgTX4cJx65hH9546puA==",
+			"version": "1.0.30000906",
+			"resolved": "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30000906.tgz",
+			"integrity": "sha512-ME7JFX6h0402om/nC/8Lw+q23QvPe2ust9U0ntLmkX9F2zaGwq47fZkjlyHKirFBuq1EM+T/LXBcDdW4bvkCTA==",
 			"dev": true
 		},
 		"capture-stack-trace": {
@@ -3092,7 +3092,7 @@
 			"dependencies": {
 				"grunt-cli": {
 					"version": "1.2.0",
-					"resolved": "https://registry.npmjs.org/grunt-cli/-/grunt-cli-1.2.0.tgz",
+					"resolved": "http://registry.npmjs.org/grunt-cli/-/grunt-cli-1.2.0.tgz",
 					"integrity": "sha1-VisRnrsGndtGSs4oRVAb6Xs1tqg=",
 					"dev": true,
 					"requires": {
@@ -6004,7 +6004,7 @@
 		},
 		"onetime": {
 			"version": "1.1.0",
-			"resolved": "http://registry.npmjs.org/onetime/-/onetime-1.1.0.tgz",
+			"resolved": "https://registry.npmjs.org/onetime/-/onetime-1.1.0.tgz",
 			"integrity": "sha1-ofeDj4MUxRbwXs78vEzP4EtO14k=",
 			"dev": true
 		},

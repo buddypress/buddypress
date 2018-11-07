@@ -29,5 +29,12 @@
 	"require": {
 		"composer/installers": "~1.0",
 		"php": ">=5.3.0"
+	},
+	"require-dev": {
+                "phpcompatibility/php-compatibility": "*"
+	},
+	"scripts": {
+	    "post-install-cmd": "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility",
+	    "post-update-cmd" : "\"vendor/bin/phpcs\" --config-set installed_paths vendor/phpcompatibility/php-compatibility"
 	}
 }
