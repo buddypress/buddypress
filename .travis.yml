@@ -35,6 +35,8 @@ matrix:
   include:
     - php: 7.2
       env: WP_VERSION=master BP_TRAVISCI=travis:grunt
+    - php: 7.2
+      env: WP_VERSION=master BP_TRAVISCI=travis:phpcompat
     - php: 5.3
       env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
       dist: precise
@@ -80,6 +82,7 @@ before_install:
 
   # prepare for running the tests
   - cd $plugin_dir
+  - composer install
 
   # setup NodeJS version using NVM
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
