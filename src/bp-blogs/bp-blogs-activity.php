@@ -1158,13 +1158,13 @@ function bp_blogs_setup_activity_loop_globals( $activity ) {
 
 	// Initialize a local object so we won't have to query this again in the
 	// comment loop.
-	if ( empty( buddypress()->blogs->allow_comments ) ) {
+	if ( ! isset( buddypress()->blogs->allow_comments ) ) {
 		buddypress()->blogs->allow_comments = array();
 	}
-	if ( empty( buddypress()->blogs->thread_depth ) ) {
+	if ( ! isset( buddypress()->blogs->thread_depth ) ) {
 		buddypress()->blogs->thread_depth   = array();
 	}
-	if ( empty( buddypress()->blogs->comment_moderation ) ) {
+	if ( ! isset( buddypress()->blogs->comment_moderation ) ) {
 		buddypress()->blogs->comment_moderation = array();
 	}
 
@@ -1242,12 +1242,12 @@ function bp_blogs_disable_activity_commenting( $retval ) {
 
 			// If comments are closed for the WP blog post, we should disable
 			// activity comments for this activity entry.
-			if ( empty( buddypress()->blogs->allow_comments[ bp_get_activity_id() ] ) ) {
+			if ( ! isset( buddypress()->blogs->allow_comments[ bp_get_activity_id() ] ) || ! buddypress()->blogs->allow_comments[ bp_get_activity_id() ] ) {
 				$retval = false;
 			}
 
 			// If comments need moderation, disable activity commenting.
-			if ( ! empty( buddypress()->blogs->comment_moderation[ bp_get_activity_id() ] ) ) {
+			if ( isset( buddypress()->blogs->comment_moderation[ bp_get_activity_id() ] ) && buddypress()->blogs->comment_moderation[ bp_get_activity_id() ] ) {
 				$retval = false;
 			}
 		// The activity type does not support comments or replies
@@ -1328,13 +1328,13 @@ function bp_blogs_can_comment_reply( $retval, $comment ) {
 	if ( isset( buddypress()->blogs->allow_comments[$comment->item_id] ) ){
 		// The blog post has closed off commenting, so we should disable all activity
 		// comments under the parent 'new_blog_post' activity entry.
-		if ( empty( buddypress()->blogs->allow_comments[$comment->item_id] ) ) {
+		if ( ! buddypress()->blogs->allow_comments[ $comment->item_id ] ) {
 			$retval = false;
 		}
 	}
 
 	// If comments need moderation, disable activity commenting.
-	if ( ! empty( buddypress()->blogs->comment_moderation[$comment->item_id] ) ) {
+	if ( isset( buddypress()->blogs->comment_moderation[ $comment->item_id ] ) && buddypress()->blogs->comment_moderation[ $comment->item_id ] ) {
 		$retval = false;
 	}
 

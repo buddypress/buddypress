@@ -686,7 +686,7 @@ function bp_template_include_theme_compat( $template = '' ) {
 	do_action( 'bp_template_include_reset_dummy_post_data' );
 
 	// Bail if the template already matches a BuddyPress template.
-	if ( ! empty( buddypress()->theme_compat->found_template ) ) {
+	if ( isset( buddypress()->theme_compat->found_template ) && buddypress()->theme_compat->found_template ) {
 		return $template;
 	}
 

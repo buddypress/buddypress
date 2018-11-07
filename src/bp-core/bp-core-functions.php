@@ -2548,14 +2548,15 @@ function bp_core_get_components( $type = 'all' ) {
  * @return mixed A URL or an array of dummy pages.
  */
 function bp_nav_menu_get_loggedin_pages() {
+	$bp = buddypress();
 
 	// Try to catch the cached version first.
-	if ( ! empty( buddypress()->wp_nav_menu_items->loggedin ) ) {
-		return buddypress()->wp_nav_menu_items->loggedin;
+	if ( ! empty( $bp->wp_nav_menu_items->loggedin ) ) {
+		return $bp->wp_nav_menu_items->loggedin;
 	}
 
 	// Pull up a list of items registered in BP's primary nav for the member.
-	$bp_menu_items = buddypress()->members->nav->get_primary();
+	$bp_menu_items = $bp->members->nav->get_primary();
 
 	// Some BP nav menu items will not be represented in bp_nav, because
 	// they are not real BP components. We add them manually here.
@@ -2590,11 +2591,11 @@ function bp_nav_menu_get_loggedin_pages() {
 		);
 	}
 
-	if ( empty( buddypress()->wp_nav_menu_items ) ) {
+	if ( empty( $bp->wp_nav_menu_items ) ) {
 		buddypress()->wp_nav_menu_items = new stdClass;
 	}
 
-	buddypress()->wp_nav_menu_items->loggedin = $page_args;
+	$bp->wp_nav_menu_items->loggedin = $page_args;
 
 	return $page_args;
 }
@@ -2614,10 +2615,11 @@ function bp_nav_menu_get_loggedin_pages() {
  * @return mixed A URL or an array of dummy pages.
  */
 function bp_nav_menu_get_loggedout_pages() {
+	$bp = buddypress();
 
 	// Try to catch the cached version first.
-	if ( ! empty( buddypress()->wp_nav_menu_items->loggedout ) ) {
-		return buddypress()->wp_nav_menu_items->loggedout;
+	if ( ! empty( $bp->wp_nav_menu_items->loggedout ) ) {
+		return $bp->wp_nav_menu_items->loggedout;
 	}
 
 	$bp_menu_items = array();
@@ -2664,11 +2666,11 @@ function bp_nav_menu_get_loggedout_pages() {
 		);
 	}
 
-	if ( empty( buddypress()->wp_nav_menu_items ) ) {
-		buddypress()->wp_nav_menu_items = new stdClass;
+	if ( empty( $bp->wp_nav_menu_items ) ) {
+		$bp->wp_nav_menu_items = new stdClass;
 	}
 
-	buddypress()->wp_nav_menu_items->loggedout = $page_args;
+	$bp->wp_nav_menu_items->loggedout = $page_args;
 
 	return $page_args;
 }

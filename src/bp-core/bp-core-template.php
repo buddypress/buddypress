@@ -138,7 +138,7 @@ function bp_get_directory_title( $component = '' ) {
 	$title = '';
 
 	// Use the string provided by the component.
-	if ( ! empty( buddypress()->{$component}->directory_title ) ) {
+	if ( isset( buddypress()->{$component}->directory_title ) && buddypress()->{$component}->directory_title ) {
 		$title = buddypress()->{$component}->directory_title;
 
 	// If none is found, concatenate.
@@ -1149,7 +1149,9 @@ function bp_blog_signup_allowed() {
  *              otherwise false.
  */
 function bp_account_was_activated() {
-	$activation_complete = ! empty( buddypress()->activation_complete ) || ( bp_is_current_component( 'activate' ) && ! empty( $_GET['activated'] ) );
+	$bp = buddypress();
+
+	$activation_complete = ! empty( $bp->activation_complete ) || ( bp_is_current_component( 'activate' ) && ! empty( $_GET['activated'] ) );
 
 	return $activation_complete;
 }
@@ -2081,7 +2083,9 @@ function bp_is_active( $component = '', $feature = '' ) {
 				$component = 'profile';
 			}
 
-			if ( empty( buddypress()->$component->features ) || false === in_array( $feature, buddypress()->$component->features, true ) ) {
+			$component_features = isset( buddypress()->{$component}->features ) ? buddypress()->{$component}->features : array();
+
+			if ( empty( $component_features ) || false === in_array( $feature, $component_features, true ) ) {
 				$retval = false;
 			}
 

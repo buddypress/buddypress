@@ -562,7 +562,7 @@ function bp_set_template_included( $template = false ) {
  * @return bool True if yes, false if no.
  */
 function bp_is_template_included() {
-	return ! empty( buddypress()->theme_compat->found_template );
+	return isset( buddypress()->theme_compat->found_template ) && buddypress()->theme_compat->found_template;
 }
 
 /**

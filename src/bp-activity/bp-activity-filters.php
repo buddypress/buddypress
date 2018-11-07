@@ -322,15 +322,17 @@ function bp_activity_at_name_send_emails( $activity ) {
 		return;
 	}
 
+	$bp = buddypress();
+
 	// If our temporary variable doesn't exist, stop now.
-	if ( empty( buddypress()->activity->mentioned_users ) )
+	if ( empty( $bp->activity->mentioned_users ) )
 		return;
 
 	// Grab our temporary variable from bp_activity_at_name_filter_updates().
-	$usernames = buddypress()->activity->mentioned_users;
+	$usernames = $bp->activity->mentioned_users;
 
 	// Get rid of temporary variable.
-	unset( buddypress()->activity->mentioned_users );
+	unset( $bp->activity->mentioned_users );
 
 	// Send @mentions and setup BP notifications.
 	foreach( (array) $usernames as $user_id => $username ) {

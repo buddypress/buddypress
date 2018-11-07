@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @return bool True if activity directory page is found, otherwise false.
  */
 function bp_activity_has_directory() {
-	return (bool) !empty( buddypress()->pages->activity->id );
+	return isset( buddypress()->pages->activity->id ) && buddypress()->pages->activity->id;
 }
 
 /**
