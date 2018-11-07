@@ -945,8 +945,8 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 
 			remove_filter( 'bp_get_group_join_button', 'bp_nouveau_groups_catch_button_args', 100, 1 );
 
-			$button_args = bp_nouveau()->groups->button_args;
-			if ( ! empty( $button_args ) ) {
+			if ( isset( bp_nouveau()->groups->button_args ) && bp_nouveau()->groups->button_args ) {
+				$button_args = bp_nouveau()->groups->button_args;
 
 				// If we pass through parent classes merge those into the existing ones
 				if ( $parent_class ) {
