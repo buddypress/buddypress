@@ -87,9 +87,10 @@ function bp_nouveau_friend_hook( $suffix = '' ) {
  * @since 3.0.0
  */
 function bp_nouveau_template_message_classes() {
-	$classes = array( 'bp-feedback', 'bp-messages' );
+	$bp_nouveau = bp_nouveau();
+	$classes    = array( 'bp-feedback', 'bp-messages' );
 
-	if ( ! empty( bp_nouveau()->template_message['message'] ) ) {
+	if ( ! empty( $bp_nouveau->template_message['message'] ) ) {
 		$classes[] = 'bp-template-notice';
 	}
 

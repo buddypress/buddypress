@@ -339,8 +339,8 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 
 				remove_filter( 'bp_get_add_friend_button', 'bp_nouveau_members_catch_button_args', 100, 1 );
 
-				if ( ! empty( bp_nouveau()->members->button_args ) ) {
-					$button_args = bp_nouveau()->members->button_args;
+				$button_args = bp_nouveau()->members->button_args;
+				if ( ! empty( $button_args ) ) {
 
 					$buttons['member_friendship'] = array(
 						'id'                => 'member_friendship',
@@ -392,9 +392,8 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 
 				remove_filter( 'bp_get_send_public_message_button', 'bp_nouveau_members_catch_button_args', 100, 1 );
 
-				if ( ! empty( bp_nouveau()->members->button_args ) ) {
-					$button_args = bp_nouveau()->members->button_args;
-
+				$button_args = bp_nouveau()->members->button_args;
+				if ( ! empty( $button_args ) ) {
 					/*
 					 * This button should remain as an anchor link.
 					 * Hardcode the use of anchor elements if button arg passed in for other elements.
@@ -435,9 +434,8 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 
 				remove_filter( 'bp_get_send_message_button_args', 'bp_nouveau_members_catch_button_args', 100, 1 );
 
-				if ( ! empty( bp_nouveau()->members->button_args ) ) {
-					$button_args = bp_nouveau()->members->button_args;
-
+				$button_args = bp_nouveau()->members->button_args;
+				if ( ! empty( $button_args ) ) {
 					/*
 					 * This button should remain as an anchor link.
 					 * Hardcode the use of anchor elements if button arg passed in for other elements.
