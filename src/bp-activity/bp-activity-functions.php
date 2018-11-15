@@ -3917,38 +3917,6 @@ function bp_activity_do_heartbeat() {
 }
 
 /**
- * AJAX endpoint for Suggestions API lookups.
- *
- * @since 2.1.0
- */
-function bp_ajax_get_suggestions() {
-	if ( ! bp_is_user_active() || empty( $_GET['term'] ) || empty( $_GET['type'] ) ) {
-		wp_send_json_error( 'missing_parameter' );
-		exit;
-	}
-
-	$args = array(
-		'term' => sanitize_text_field( $_GET['term'] ),
-		'type' => sanitize_text_field( $_GET['type'] ),
-	);
-
-	// Support per-Group suggestions.
-	if ( ! empty( $_GET['group-id'] ) ) {
-		$args['group_id'] = absint( $_GET['group-id'] );
-	}
-
-	$results = bp_core_get_suggestions( $args );
-
-	if ( is_wp_error( $results ) ) {
-		wp_send_json_error( $results->get_error_message() );
-		exit;
-	}
-
-	wp_send_json_success( $results );
-}
-add_action( 'wp_ajax_bp_get_suggestions', 'bp_ajax_get_suggestions' );
-
-/**
  * Detect a change in post type status, and initiate an activity update if necessary.
  *
  * @since 2.2.0

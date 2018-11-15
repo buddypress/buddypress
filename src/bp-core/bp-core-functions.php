@@ -2770,6 +2770,40 @@ function bp_core_get_suggestions( $args ) {
 }
 
 /**
+ * AJAX endpoint for Suggestions API lookups.
+ *
+ * @since 2.1.0
+ * @since 4.0.0 Moved here to make sure this function is available
+ *              even if the Activity component is not active.
+ */
+function bp_ajax_get_suggestions() {
+	if ( ! bp_is_user_active() || empty( $_GET['term'] ) || empty( $_GET['type'] ) ) {
+		wp_send_json_error( 'missing_parameter' );
+		exit;
+	}
+
+	$args = array(
+		'term' => sanitize_text_field( $_GET['term'] ),
+		'type' => sanitize_text_field( $_GET['type'] ),
+	);
+
+	// Support per-Group suggestions.
+	if ( ! empty( $_GET['group-id'] ) ) {
+		$args['group_id'] = absint( $_GET['group-id'] );
+	}
+
+	$results = bp_core_get_suggestions( $args );
+
+	if ( is_wp_error( $results ) ) {
+		wp_send_json_error( $results->get_error_message() );
+		exit;
+	}
+
+	wp_send_json_success( $results );
+}
+add_action( 'wp_ajax_bp_get_suggestions', 'bp_ajax_get_suggestions' );
+
+/**
  * Set data from the BP root blog's upload directory.
  *
  * Handy for multisite instances because all uploads are made on the BP root
