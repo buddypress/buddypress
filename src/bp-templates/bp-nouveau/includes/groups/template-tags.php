@@ -334,6 +334,17 @@ function bp_nouveau_group_manage_screen() {
 		bp_get_template_part( $template );
 
 		if ( ! empty( $core_screen['hook'] ) ) {
+
+			// Group's "Manage > Details" page.
+			if ( 'group_details_admin' === $core_screen['hook'] ) {
+				/**
+				 * Fires after the group description admin details.
+				 *
+				 * @since 1.0.0
+				 */
+				do_action( 'groups_custom_group_fields_editable' );
+			}
+
 			/**
 			 * Fires before the display of group delete admin.
 			 *
@@ -1388,3 +1399,19 @@ function bp_nouveau_group_type_checked( $type = null ) {
 		checked( bp_groups_has_group_type( bp_get_current_group_id(), $type->name ) );
 	}
 }
+
+/**
+ * Adds the "Notify group members of these changes" checkbox to the Manage > Details panel.
+ *
+ * See #7837 for background on why this technique is required.
+ *
+ * @since 4.0.0
+ */
+function bp_nouveau_add_notify_group_members_checkbox() {
+	printf( '<p class="bp-controls-wrap">
+		<label for="group-notify-members" class="bp-label-text">
+			<input type="checkbox" name="group-notify-members" id="group-notify-members" value="1" /> %s
+		</label>
+	</p>', esc_html__( 'Notify group members of these changes via email', 'buddypress' ) );
+}
+add_action( 'groups_custom_group_fields_editable', 'bp_nouveau_add_notify_group_members_checkbox', 20 );
