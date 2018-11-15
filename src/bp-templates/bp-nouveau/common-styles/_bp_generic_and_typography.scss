@@ -14,6 +14,21 @@ body {
 			}
 		} // close * the kitchen sink of elements
 
+		// 'Boxes' i.e display:block when given definition with borders
+		// look nice if corners subtly rounded by a couple of pixels
+		div,
+		dl,
+		li,
+		textarea,
+		select,
+		input[type="search"],
+		input[type="submit"],
+		input[type="reset"] {
+
+			@include border-radius(2px);
+		}
+
+
 		// Some themes have a negative left margin on the blockquote element??
 		#item-body,
 		.bp-lists {
@@ -127,20 +142,6 @@ body.buddypress { // add weight
 	.avatar {
 		border-radius: 50%;
 	}
-}
-
-// 'Boxes' i.e display:block when given definition with borders
-// look nice if corners subtly rounded by a couple of pixels
-div,
-dl,
-li,
-textarea,
-select,
-input[type="search"],
-input[type="submit"],
-input[type="reset"] {
-
-	@include border-radius(2px);
 }
 
 // ====== BP Typographic Elements ======
