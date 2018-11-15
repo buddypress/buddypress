@@ -1035,7 +1035,7 @@ add_filter( 'bp_email_get_headers', 'bp_email_set_default_headers', 6, 4 );
  */
 function bp_email_set_default_tokens( $tokens, $property_name, $transform, $email ) {
 	$tokens['site.admin-email'] = bp_get_option( 'admin_email' );
-	$tokens['site.url']         = home_url();
+	$tokens['site.url']         = bp_get_root_domain();
 	$tokens['email.subject']    = $email->get_subject();
 
 	// These options are escaped with esc_html on the way into the database in sanitize_option().
@@ -1080,9 +1080,9 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 	}
 
 	// Email preheader.
-	$post = $email->get_post_object();
-	if ( $post ) {
-		$tokens['email.preheader'] = sanitize_text_field( get_post_meta( $post->ID, 'bp_email_preheader', true ) );
+	$preheader = $email->get_preheader();
+	if ( $preheader ) {
+		$tokens['email.preheader'] = $preheader;
 	}
 
 	return $tokens;
