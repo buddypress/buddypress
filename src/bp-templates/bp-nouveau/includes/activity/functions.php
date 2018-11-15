@@ -364,7 +364,7 @@ function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
 			if ( $secondary_avatar ) {
 				$link_close  = '">';
 				$first_link  = strpos( $action, $link_close );
-				$second_link = strpos( $action, $link_close, $first_link + strlen( link_close ) );
+				$second_link = strpos( $action, $link_close, $first_link + strlen( $link_close ) );
 				$action      = substr_replace( $action, $secondary_avatar, $second_link + 2, 0 );
 			}
 			break;
