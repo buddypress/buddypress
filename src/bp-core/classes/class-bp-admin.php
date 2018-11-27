@@ -909,6 +909,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/needle/">Christian Wach (needle)</a>,
 				<a href="https://profiles.wordpress.org/cyberwani/">Dinesh Kesarwani (cyberwani)</a>,
 				<a href="https://profiles.wordpress.org/dipesh.kakadipa/">dipeshkakadiya</a>,
+				<a href="https://profiles.wordpress.org/drywallbmb/">drywallbmb</a>,
 				<a href="https://profiles.wordpress.org/dullowl/">dullowl</a>,
 				<a href="https://profiles.wordpress.org/eric01/">Eric (eric01)</a>,
 				<a href="https://profiles.wordpress.org/garrett-eclipse/">Garrett Hyder (garrett-eclipse)</a>,
