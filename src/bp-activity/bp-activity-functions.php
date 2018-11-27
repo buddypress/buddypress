@@ -1919,10 +1919,12 @@ function bp_activity_add( $args = '' ) {
 	 * Fires at the end of the execution of adding a new activity item, before returning the new activity item ID.
 	 *
 	 * @since 1.1.0
+	 * @since 4.0.0 Added the `$activity_id` parameter.
 	 *
-	 * @param array $r Array of parsed arguments for the activity item being added.
+	 * @param array $r           Array of parsed arguments for the activity item being added.
+	 * @param int   $activity_id The id of the activity item being added.
 	 */
-	do_action( 'bp_activity_add', $r );
+	do_action( 'bp_activity_add', $r, $activity->id );
 
 	return $activity->id;
 }
