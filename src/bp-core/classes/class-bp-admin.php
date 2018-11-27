@@ -636,71 +636,33 @@ class BP_Admin {
 			</div>
 
 			<div class="bp-hello-content">
-				<h2><?php echo esc_html( __( 'Say hello to &ldquo;Nouveau&rdquo;!', 'buddypress' ) ); ?></h2>
+				<h2><?php esc_html_e( 'New tools for data control and privacy', 'buddypress' ); ?></h2>
 				<p>
-					<?php
-					printf(
-						__( 'A bold reimagining of our legacy templates, Nouveau is our celebration of <a href="%s">10 years of BuddyPress</a>! Nouveau delivers modern markup with fresh JavaScript-powered templates, and full integration with WordPress\' Customizer, allowing more out-of-the-box control of your BuddyPress content than ever before.', 'buddypress' ),
-						esc_url( 'https://buddypress.org/2018/03/10-years/' )
-					);
-					?>
-				</p>
-				<p><?php esc_html_e( 'Nouveau provides vertical and horizontal layout options for BuddyPress navigation, and for the component directories, you can choose between a grid layout, and a classic flat list.', 'buddypress' ); ?></p>
-				<p>
-					<?php
-					printf(
-						__( 'Nouveau is fully compatible with WordPress. Existing BuddyPress themes have been written for our legacy template pack, and until they are updated, resolve any compatibility issues by choosing the legacy template pack option in <a href="%s">Settings &gt; BuddyPress</a>.', 'buddypress' ),
-						esc_url( bp_get_admin_url( 'admin.php?page=bp-settings' ) )
-					);
-					?>
+					<?php esc_html_e( 'BuddyPress boasts a proud history of letting community members and managers control their data, independent of third-party, commercial entities. In this spirit, as well as the spirit of recent regulations like the EU\'s General Data Protection Regulation (GDPR), BuddyPress 4.0 introduces a suite of tools allowing users and site admins to manage member data and privacy.', 'buddypress' ); ?>
 				</p>
 
-				<?php echo $GLOBALS['wp_embed']->autoembed( 'https://player.vimeo.com/video/270507360' ); ?>
+				<figure class="bp-hello-alignright">
+					<img class="bp-hello-img-border" src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/data-export.png' ); ?>" alt="<?php esc_attr_e( 'Screenshot of Export Data settings panel', 'buddypress' ); ?>" />
+					<figcaption>
+						<?php esc_html_e( 'Improved user control over data exports', 'buddypress' ); ?>
+					</figcaption>
+				</figure>
 
-				<h2><?php esc_html_e( 'Support for WP-CLI', 'buddypress' ); ?></h2>
-				<p>
-					<?php
-					printf(
-						__( '<a href="%s">WP-CLI</a> is the command-line interface for WordPress. You can update plugins, configure multisite installs, and much more, without using a web browser. With this version of BuddyPress, you can now manage your BuddyPress content from WP-CLI.', 'buddypress' ),
-						esc_url( 'https://wp-cli.org' )
-					);
-					?>
-				</p>
+				<p><?php esc_html_e( 'The new "Export Data" Settings panel lets users request an export of all BuddyPress data they\'ve created. BuddyPress integrates seamlessly with the data export functionality introduced in WordPress 4.9.8, and BP data is included in exports that are initiated either from the Export Data panel or via WP\'s Tools > Export Personal Data interface.', 'buddypress' ); ?></p>
 
-				<h2><?php echo esc_html( _x( 'Control site-wide notices from your dashboard', 'section heading', 'buddypress' ) ); ?></h2>
-				<p><?php esc_html_e( 'Site Notices are a feature within the Private Messaging component that allows community managers to share important messages with all members of their community. With Nouveau, the management interface for Site Notices has been removed from the front-end theme templates.', 'buddypress' ); ?></p>
+				<p><?php esc_html_e( 'BuddyPress 4.0 also integrates with WordPress 4.9.8\'s Privacy Policy tools. When you create or update your Privacy Policy, BP will suggest text that\'s specifically tailored to the kinds of social data generated on a BuddyPress site. And will prompt registering users to agree to the Privacy Policy, if your theme supports it.', 'buddypress' ); ?></p>
 
-				<?php if ( bp_is_active( 'messages' ) ) : ?>
-				<p>
-					<?php
-					printf(
-						__( 'Explore the new management interface at <a href="%s">Users &gt; Site Notices</a>.', 'buddypress' ),
-						esc_url( bp_get_admin_url( 'users.php?page=bp-notices' ) )
-					);
-					?>
-				</p>
-				<?php endif; ?>
-
-				<h2><?php esc_html_e( 'New profile field type: telephone numbers', 'buddypress' ); ?></h2>
-				<p><?php esc_html_e( 'A new telephone number field type has been added to the Extended Profiles component, with support for all international number formats. With a modern web browser, your members can use this field type to touch-to-dial a number directly.', 'buddypress' ); ?></p>
+				<h2><?php esc_html_e( 'Nouveau template improvements', 'buddypress' ); ?></h2>
+				<p><?php esc_html_e( 'BuddyPress 3.0 introduced a new set of default templates, which we call "Nouveau". In 4.0, we\'ve fixed bugs and smoothed the edges in these templates, including more accessible markup and improved appearance on mobile devices.', 'buddypress' ); ?></p>
 
 				<h2><?php esc_html_e( "BuddyPress: leaner, faster, stronger", 'buddypress' ); ?></h2>
-				<p><?php esc_html_e( 'With every BuddyPress version, we strive to make performance improvements alongside new features and fixes; this version is no exception. Memory use has been optimised &mdash; within active components, we now only load each individual code file when it\'s needed, not before.', 'buddypress' ); ?></p>
-				<p>
-					<?php
-					printf(
-						__( 'Most notably, the <a href="%s">Legacy Forums component has been removed</a> after 9 years of service. If your site was using Legacy Forums, you need to <a href="%s">migrate to the bbPress plugin</a>.', 'buddypress' ),
-						esc_url( 'https://bpdevel.wordpress.com/2017/12/07/legacy-forums-support-will-be/' ),
-						esc_url( 'https://codex.buddypress.org/getting-started/guides/migrating-from-old-forums-to-bbpress-2/' )
-					);
-					?>
-				</p>
+				<p><?php esc_html_e( 'With every BuddyPress version, we strive to make internal improvements to performance and code quality in addition to introducing new features and fixes. In BuddyPress 4.0, we\'ve improved PHP compatibility both in our codebase and in our automated testing tools; we\'ve reworked some automated tests for faster performance; we\'ve ensured compatibility with upcoming changes in WordPress; and we\'ve fixed a number of bugs in the formatting and sending of emails.', 'buddypress' ); ?></p>
 
 				<p><em>
 					<?php
 					printf(
 						__( 'To read the full list of features, fixes, and changes in this version of BuddyPress, <a href="%s">visit Trac</a>.', 'buddypress' ),
-						esc_url( 'https://buddypress.trac.wordpress.org/query?group=status&milestone=3.0' )
+						esc_url( 'https://buddypress.trac.wordpress.org/query?group=status&milestone=4.0' )
 					);
 					?>
 				</em></p>
@@ -724,9 +686,9 @@ class BP_Admin {
 					<p>
 						<?php
 						printf(
-							_n( 'Built by <a href="%s">%s volunteer</a>.', 'Built by <a href="%s">%s volunteers</a>.', 57, 'buddypress' ),
+							_n( 'Built by <a href="%s">%s volunteer</a>.', 'Built by <a href="%s">%s volunteers</a>.', 35, 'buddypress' ),
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 57 )
+							number_format_i18n( 35 )
 						);
 						?>
 					</p>

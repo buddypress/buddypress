@@ -271,6 +271,19 @@ TABLE OF CONTENTS:
 	width: 100%;
 }
 
+.bp-hello-img-border {
+	border: 1px solid #999;
+}
+
+.bp-hello-alignright {
+	margin: 10px 0;
+	width: 100%;
+}
+
+.bp-hello-alignright figcaption {
+	font-style: italic;
+}
+
 /*------------------------------------------------------------------------------
  * 6.0 - Media Queries
  *----------------------------------------------------------------------------*/
@@ -320,6 +333,11 @@ TABLE OF CONTENTS:
 	}
 	.bp-hello-content p {
 		font-size: 14px;
+	}
+	.bp-hello-alignright {
+		margin: 10px 0 10px 20px;
+		float: right;
+		width: 50%;
 	}
 }
 
