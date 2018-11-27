@@ -4,7 +4,7 @@ Tags: user profiles, activity streams, messaging, friends, user groups, notifica
 Requires at least: 4.6
 Tested up to: 4.9.8
 Requires PHP: 5.3
-Stable tag: 3.0.0
+Stable tag: 4.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
