@@ -60,6 +60,18 @@ body #buddypress * a {
 	text-decoration: none;
 }
 
+body #buddypress div,
+body #buddypress dl,
+body #buddypress li,
+body #buddypress textarea,
+body #buddypress select,
+body #buddypress input[type="search"],
+body #buddypress input[type="submit"],
+body #buddypress input[type="reset"] {
+	border-radius: 2px;
+	background-clip: padding-box;
+}
+
 body #buddypress #item-body blockquote,
 body #buddypress .bp-lists blockquote {
 	margin-right: 0;
@@ -120,18 +132,6 @@ body.buddypress .buddypress-wrap h6 {
 
 .buddypress-wrap.round-avatars .avatar {
 	border-radius: 50%;
-}
-
-div,
-dl,
-li,
-textarea,
-select,
-input[type="search"],
-input[type="submit"],
-input[type="reset"] {
-	border-radius: 2px;
-	background-clip: padding-box;
 }
 
 body.buddypress article.page > .entry-header {
