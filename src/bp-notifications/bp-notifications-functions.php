@@ -850,7 +850,7 @@ function bp_notifications_personal_data_exporter( $email_address, $page ) {
 				'string',
 				$notification->component_action,
 				$component_name,
-				$notification_item->id,
+				$notification->id,
 			);
 
 			/** This filter is documented in bp-notifications/bp-notifications-functions.php */
