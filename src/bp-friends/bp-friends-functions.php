@@ -781,7 +781,7 @@ function bp_friends_prime_mentions_results() {
 	}
 
 	// Bail out if the site has a ton of users.
-	if ( is_multisite() && wp_is_large_network( 'users' ) ) {
+	if ( bp_is_large_install() ) {
 		return;
 	}
 

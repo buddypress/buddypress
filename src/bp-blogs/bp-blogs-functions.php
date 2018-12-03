@@ -129,7 +129,7 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 		$sql['select'] = $wpdb->prepare( "SELECT blog_id, last_updated FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d", $r['site_id'] );
 
 		// Omit root blog if large network
-		if ( wp_is_large_network( 'users' ) ) {
+		if ( bp_is_large_install() ) {
 			$sql['omit_root_blog'] = $wpdb->prepare( "AND blog_id != %d", bp_get_root_blog_id() );
 		}
 
