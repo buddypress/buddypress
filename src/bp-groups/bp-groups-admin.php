@@ -861,7 +861,7 @@ function bp_groups_admin_edit_metabox_settings( $item ) {
  * @param BP_Groups_Group $item The BP_Groups_Group object for the current group.
  */
 function bp_groups_admin_edit_metabox_add_new_members( $item ) {
-	if ( wp_is_large_network( 'users' ) ) {
+	if ( bp_is_large_install() ) {
 		$class  = '';
 		$notice = __( 'Enter a comma-separated list of user logins.', 'buddypress' );
 	} else {
@@ -1252,7 +1252,7 @@ function bp_groups_admin_get_usernames_from_ids( $user_ids = array() ) {
 function bp_groups_admin_autocomplete_handler() {
 
 	// Bail if user user shouldn't be here, or is a large network.
-	if ( ! bp_current_user_can( 'bp_moderate' ) || ( is_multisite() && wp_is_large_network( 'users' ) ) ) {
+	if ( ! bp_current_user_can( 'bp_moderate' ) || bp_is_large_install() ) {
 		wp_die( -1 );
 	}
 
