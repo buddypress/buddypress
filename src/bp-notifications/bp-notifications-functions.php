@@ -841,12 +841,17 @@ function bp_notifications_personal_data_exporter( $email_address, $page ) {
 		if ( isset( buddypress()->{$component_name}->notification_callback ) && is_callable( buddypress()->{$component_name}->notification_callback ) ) {
 			$content = call_user_func( buddypress()->{$component_name}->notification_callback, $notification->component_action, $notification->item_id, $notification->secondary_item_id, 1, 'string', $notification->id );
 		} else {
-			// The array to reference with apply_filters_ref_array().
+			/*
+			 * Compile an array of data to send to filter.
+			 *
+			 * Note that a null value is passed in the slot filled by `total_count` in
+			 * other filter contexts. We don't have enough info here to pass a `total_count`.
+			 */
 			$ref_array = array(
 				$notification->component_action,
 				$notification->item_id,
 				$notification->secondary_item_id,
-				$notification->total_count,
+				null,
 				'string',
 				$notification->component_action,
 				$component_name,
