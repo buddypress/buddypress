@@ -662,6 +662,7 @@ function bp_blogs_update_post_activity_meta( $post, $activity, $activity_post_ob
 				$args['filter'] = array(
 					'object'       => $activity_post_object->comments_tracking->component_id,
 					'action'       => $activity_post_object->comments_tracking->action_id,
+					'primary_id'   => get_current_blog_id(),
 					'secondary_id' => implode( ',', $comment_ids ),
 				);
 

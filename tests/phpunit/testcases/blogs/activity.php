@@ -314,6 +314,87 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group post_type_comment_activities
+	 */
+	public function test_bp_blogs_update_post_title_activity_meta_should_not_be_the_same_for_same_comment_id() {
+		global $wpdb;
+
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped();
+		}
+
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+		}
+
+		$b1 = self::factory()->blog->create();
+		$b2 = self::factory()->blog->create();
+		$b3 = self::factory()->blog->create();
+		$u = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$commenter = self::factory()->user->get_object_by_id( $u2 );
+
+		$bids = array( $b1, $b2, $b3 );
+		$pids = array();
+
+		foreach ( $bids as $bid ) {
+			switch_to_blog( $bid );
+
+			// Ensure blog privacy is public so post activities are recorded.
+			update_option( 'blog_public', 1 );
+
+			// Create the post.
+			$pids[ $bid ] = self::factory()->post->create( array(
+				'post_author' => $u,
+			) );
+
+			/*
+			 * Create the post comment.
+			 *
+			 * Both user_id and comment_author_email are required for unit tests.
+			 */
+			$c = self::factory()->comment->create( array(
+				'user_id'         => $u2,
+				'comment_author_email' => $commenter->user_email,
+				'comment_post_ID' => $pids[ $bid ],
+			) );
+
+			// Approve the comment so the activity item is generated.
+			self::factory()->comment->update_object( $c, array( 'comment_approved' => 1 ) );
+
+			restore_current_blog();
+		}
+
+		// Now update the post title on one blog only.
+		switch_to_blog( $b1 );
+		wp_update_post( array(
+			'ID' => $pids[ $b1 ],
+			'post_title' => 'Updated'
+		) );
+		restore_current_blog();
+
+		// Check our activity meta to see if the post title is different.
+		$aids = bp_activity_get( array(
+			'fields' => 'ids',
+			'filter' => array(
+				'action' => 'new_blog_comment'
+			)
+		) );
+		$aids= $aids['activities'];
+		foreach ( $aids as $aid ) {
+			// Skip the check for the correct blog.
+			$a = new BP_Activity_Activity( $aid );
+			if ( $a->item_id == $b1 ) {
+				continue;
+			}
+
+			// Assert that post title is different.
+			$post_title = bp_activity_get_meta( $aid, 'post_title' );
+			$this->assertFalse( 'Updated' === $post_title, 'Post title should not be the same across all sites with the same post comment ID' );
+		}
+	}
+
+	/**
 	 * @ticket BP6126
 	 */
 	public function test_check_activity_actions_are_set_when_creating_activity_object() {
