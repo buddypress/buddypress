@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @group blogs
+ * @group activity
+ */
 class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * @group bp_blogs_register_activity_actions
