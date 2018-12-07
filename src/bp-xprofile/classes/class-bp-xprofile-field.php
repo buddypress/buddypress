@@ -977,6 +977,8 @@ class BP_XProfile_Field {
 		$sql        = $wpdb->prepare( "UPDATE {$table_name} SET field_order = %d, group_id = %d WHERE id = %d", $position, $field_group_id, $field_id );
 		$parent     = $wpdb->query( $sql );
 
+		$retval = false;
+
 		// Update $field_id with new $position and $field_group_id.
 		if ( ! empty( $parent ) && ! is_wp_error( $parent ) ) {
 
@@ -984,13 +986,15 @@ class BP_XProfile_Field {
 			$sql = $wpdb->prepare( "UPDATE {$table_name} SET group_id = %d WHERE parent_id = %d", $field_group_id, $field_id );
 			$wpdb->query( $sql );
 
-			// Invalidate profile field cache.
+			// Invalidate profile field and group query cache.
 			wp_cache_delete( $field_id, 'bp_xprofile_fields' );
 
-			return $parent;
+			$retval = $parent;
 		}
 
-		return false;
+		bp_core_reset_incrementor( 'bp_xprofile_groups' );
+
+		return $retval;
 	}
 
 	/**

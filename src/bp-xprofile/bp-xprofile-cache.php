@@ -287,5 +287,18 @@ function bp_xprofile_reset_fields_by_name_cache_incrementor() {
 }
 add_action( 'xprofile_field_before_save', 'bp_xprofile_reset_fields_by_name_cache_incrementor' );
 
+/**
+ * Resets all incremented bp_xprofile_groups caches.
+ *
+ * @since 5.0.0
+ */
+function bp_xprofile_reset_groups_cache_incrementor() {
+	bp_core_reset_incrementor( 'bp_xprofile_groups' );
+}
+add_action( 'xprofile_group_after_delete', 'bp_xprofile_reset_groups_cache_incrementor' );
+add_action( 'xprofile_group_after_save', 'bp_xprofile_reset_groups_cache_incrementor' );
+add_action( 'xprofile_field_after_delete', 'bp_xprofile_reset_groups_cache_incrementor' );
+add_action( 'xprofile_field_after_save', 'bp_xprofile_reset_groups_cache_incrementor' );
+
 // List actions to clear super cached pages on, if super cache is installed.
 add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );

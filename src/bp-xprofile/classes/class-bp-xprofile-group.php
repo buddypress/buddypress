@@ -288,24 +288,9 @@ class BP_XProfile_Group {
 			'data'  => array(),
 		);
 
-		// WHERE.
-		if ( ! empty( $r['profile_group_id'] ) ) {
-			$where_sql = $wpdb->prepare( 'WHERE g.id = %d', $r['profile_group_id'] );
-		} elseif ( $r['exclude_groups'] ) {
-			$exclude   = join( ',', wp_parse_id_list( $r['exclude_groups'] ) );
-			$where_sql = "WHERE g.id NOT IN ({$exclude})";
-		} else {
-			$where_sql = '';
-		}
-
 		$bp = buddypress();
 
-		// Include or exclude empty groups.
-		if ( ! empty( $r['hide_empty_groups'] ) ) {
-			$group_ids = $wpdb->get_col( "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC" );
-		} else {
-			$group_ids = $wpdb->get_col( "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC" );
-		}
+		$group_ids = self::get_group_ids( $r );
 
 		// Get all group data.
 		$groups = self::get_group_data( $group_ids );
@@ -326,52 +311,7 @@ class BP_XProfile_Group {
 			return $groups;
 		}
 
-		// Setup IN query from group IDs.
-		$group_ids_in = implode( ',', (array) $group_ids );
-
-		// Support arrays and comma-separated strings.
-		$exclude_fields_cs = wp_parse_id_list( $r['exclude_fields'] );
-
-		// Visibility - Handled here so as not to be overridden by sloppy use of the
-		// exclude_fields parameter. See bp_xprofile_get_hidden_fields_for_user().
-		$hidden_user_fields = bp_xprofile_get_hidden_fields_for_user( $r['user_id'] );
-		$exclude_fields_cs  = array_merge( $exclude_fields_cs, $hidden_user_fields );
-		$exclude_fields_cs  = implode( ',', $exclude_fields_cs );
-
-		// Set up NOT IN query for excluded field IDs.
-		if ( ! empty( $exclude_fields_cs ) ) {
-			$exclude_fields_sql = "AND id NOT IN ({$exclude_fields_cs})";
-		} else {
-			$exclude_fields_sql = '';
-		}
-
-		// Set up IN query for included field IDs.
-		$include_field_ids = array();
-
-		// Member-type restrictions.
-		if ( bp_get_member_types() ) {
-			if ( $r['user_id'] || false !== $r['member_type'] ) {
-				$member_types = $r['member_type'];
-				if ( $r['user_id'] ) {
-					$member_types = bp_get_member_type( $r['user_id'], false );
-					if ( empty( $member_types ) ) {
-						$member_types = array( 'null' );
-					}
-				}
-
-				$member_types_fields = BP_XProfile_Field::get_fields_for_member_type( $member_types );
-				$include_field_ids += array_keys( $member_types_fields );
-			}
-		}
-
-		$in_sql = '';
-		if ( ! empty( $include_field_ids ) ) {
-			$include_field_ids_cs = implode( ',', array_map( 'intval', $include_field_ids ) );
-			$in_sql = " AND id IN ({$include_field_ids_cs}) ";
-		}
-
-		// Fetch the fields.
-		$field_ids = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids_in} ) AND parent_id = 0 {$exclude_fields_sql} {$in_sql} ORDER BY field_order" );
+		$field_ids = self::get_group_field_ids( $group_ids, $r );
 
 		foreach( $groups as $group ) {
 			$group->fields = array();
@@ -499,6 +439,152 @@ class BP_XProfile_Group {
 	}
 
 	/**
+	 * Gets group IDs, based on passed parameters.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $args {
+	 *    Array of optional arguments:
+	 *    @type int   $profile_group_id  Limit results to a single profile group. Default false.
+	 *    @type array $exclude_groups    Comma-separated list or array of group IDs to exclude. Default false.
+	 *    @type bool  $hide_empty_groups True to hide groups that don't have any fields. Default: false.
+	 * }
+	 * @return array
+	 */
+	public static function get_group_ids( $args = array() ) {
+		global $wpdb;
+
+		$r = array_merge(
+			array(
+				'profile_group_id'  => false,
+				'exclude_groups'    => false,
+				'hide_empty_groups' => false,
+			),
+			$args
+		);
+
+		$bp = buddypress();
+
+		if ( ! empty( $r['profile_group_id'] ) ) {
+			$where_sql = $wpdb->prepare( 'WHERE g.id = %d', $r['profile_group_id'] );
+		} elseif ( $r['exclude_groups'] ) {
+			$exclude   = join( ',', wp_parse_id_list( $r['exclude_groups'] ) );
+			$where_sql = "WHERE g.id NOT IN ({$exclude})";
+		} else {
+			$where_sql = '';
+		}
+
+		// Include or exclude empty groups.
+		if ( ! empty( $r['hide_empty_groups'] ) ) {
+			$group_ids_sql = "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g INNER JOIN {$bp->profile->table_name_fields} f ON g.id = f.group_id {$where_sql} ORDER BY g.group_order ASC";
+		} else {
+			$group_ids_sql = "SELECT DISTINCT g.id FROM {$bp->profile->table_name_groups} g {$where_sql} ORDER BY g.group_order ASC";
+		}
+
+		$cached = bp_core_get_incremented_cache( $group_ids_sql, 'bp_xprofile_groups' );
+		if ( false === $cached ) {
+			$group_ids = $wpdb->get_col( $group_ids_sql );
+			bp_core_set_incremented_cache( $group_ids_sql, 'bp_xprofile_groups', $group_ids );
+		} else {
+			$group_ids = $cached;
+		}
+
+		return array_map( 'intval', $group_ids );
+	}
+
+	/**
+	 * Gets group field IDs, based on passed parameters.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param array $group_ids Array of group IDs.
+	 * @param array $args {
+	 *    Array of optional arguments:
+	 *      @type array        $exclude_fields    Comma-separated list or array of field IDs to exclude.
+	 *                                            Default empty.
+	 *      @type int          $user_id           Limit results to fields associated with a given user's
+	 *                                            member type. Default empty.
+	 *      @type array|string $member_type       Limit fields by those restricted to a given member type, or array of
+	 *                                            member types. If `$user_id` is provided, the value of `$member_type`
+	 *                                            is honored.
+	 * }
+	 * @return array
+	 */
+	public static function get_group_field_ids( $group_ids, $args = array() ) {
+		global $wpdb;
+
+		$r = array_merge(
+			array(
+				'exclude_fields' => false,
+				'user_id' => false,
+				'member_type' => false,
+			),
+			$args
+		);
+
+		$bp = buddypress();
+
+		// Setup IN query from group IDs.
+		if ( empty( $group_ids ) ) {
+			$group_ids = array( 0 );
+		}
+		$group_ids_in = implode( ',', array_map( 'intval', $group_ids ) );
+
+		// Support arrays and comma-separated strings.
+		$exclude_fields_cs = wp_parse_id_list( $r['exclude_fields'] );
+
+		// Visibility - Handled here so as not to be overridden by sloppy use of the
+		// exclude_fields parameter. See bp_xprofile_get_hidden_fields_for_user().
+		$hidden_user_fields = bp_xprofile_get_hidden_fields_for_user( $r['user_id'] );
+		$exclude_fields_cs  = array_merge( $exclude_fields_cs, $hidden_user_fields );
+		$exclude_fields_cs  = implode( ',', $exclude_fields_cs );
+
+		// Set up NOT IN query for excluded field IDs.
+		if ( ! empty( $exclude_fields_cs ) ) {
+			$exclude_fields_sql = "AND id NOT IN ({$exclude_fields_cs})";
+		} else {
+			$exclude_fields_sql = '';
+		}
+
+		// Set up IN query for included field IDs.
+		$include_field_ids = array();
+
+		// Member-type restrictions.
+		if ( bp_get_member_types() ) {
+			if ( $r['user_id'] || false !== $r['member_type'] ) {
+				$member_types = $r['member_type'];
+				if ( $r['user_id'] ) {
+					$member_types = bp_get_member_type( $r['user_id'], false );
+					if ( empty( $member_types ) ) {
+						$member_types = array( 'null' );
+					}
+				}
+
+				$member_types_fields = BP_XProfile_Field::get_fields_for_member_type( $member_types );
+				$include_field_ids += array_keys( $member_types_fields );
+			}
+		}
+
+		$in_sql = '';
+		if ( ! empty( $include_field_ids ) ) {
+			$include_field_ids_cs = implode( ',', array_map( 'intval', $include_field_ids ) );
+			$in_sql = " AND id IN ({$include_field_ids_cs}) ";
+		}
+
+		$field_ids_sql = "SELECT id FROM {$bp->profile->table_name_fields} WHERE group_id IN ( {$group_ids_in} ) AND parent_id = 0 {$exclude_fields_sql} {$in_sql} ORDER BY field_order";
+
+		$cached = bp_core_get_incremented_cache( $field_ids_sql, 'bp_xprofile_groups' );
+		if ( false === $cached ) {
+			$field_ids = $wpdb->get_col( $field_ids_sql );
+			bp_core_set_incremented_cache( $field_ids_sql, 'bp_xprofile_groups', $field_ids );
+		} else {
+			$field_ids = $cached;
+		}
+
+		return array_map( 'intval', $field_ids );
+	}
+
+	/**
 	 * Get data about a set of groups, based on IDs.
 	 *
 	 * @since 2.0.0
@@ -613,8 +699,9 @@ class BP_XProfile_Group {
 			return false;
 		}
 
-		// Purge profile field group cache.
+		// Purge profile field group and group query caches.
 		wp_cache_delete( 'all', 'bp_xprofile_groups' );
+		bp_core_reset_incrementor( 'bp_xprofile_groups' );
 
 		$bp = buddypress();
 

@@ -441,4 +441,217 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$this->assertSame( "Test ' Name", $e1->name );
 	}
+
+	/**
+	 * @group BP7435
+	 * @group cache
+	 */
+	public function test_group_ids_query_should_be_cached() {
+		global $wpdb;
+
+		$group_ids   = array( 1 ); // Default group.
+		$group_ids[] = self::factory()->xprofile_group->create();
+		$group_ids[] = self::factory()->xprofile_group->create();
+		$group_ids[] = self::factory()->xprofile_group->create();
+
+		$params_1 = array(
+			'exclude_groups' => false,
+		);
+
+		$params_2 = array(
+			'exclude_groups' => array( 0 ),
+		);
+
+		// Prime cache.
+		$found_1 = BP_XProfile_Group::get_group_ids( $params_1 );
+		$this->assertEqualSets( $group_ids, $found_1 );
+
+		$num_queries = $wpdb->num_queries;
+
+		$found_1 = BP_XProfile_Group::get_group_ids( $params_1 );
+		$this->assertEqualSets( $group_ids, $found_1 );
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+
+		// Different parameters should trigger a cache miss.
+		$found_2 = BP_XProfile_Group::get_group_ids( $params_2 );
+		$this->assertEqualSets( $group_ids, $found_2 );
+		$this->assertNotSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @group BP7435
+	 * @group cache
+	 */
+	public function test_group_ids_query_cache_should_be_busted_on_group_delete() {
+		$group_ids    = array( 1 ); // Default group.
+		$group_ids[1] = self::factory()->xprofile_group->create();
+		$group_ids[2] = self::factory()->xprofile_group->create();
+		$group_ids[3] = self::factory()->xprofile_group->create();
+
+		// Prime cache.
+		$found = BP_XProfile_Group::get_group_ids();
+		$this->assertContains( $group_ids[1], $found );
+
+		$g1 = new BP_XProfile_Group( $group_ids[1] );
+		$g1->delete();
+
+		$found = BP_XProfile_Group::get_group_ids();
+		$this->assertNotContains( $group_ids[1], $found );
+	}
+
+	/**
+	 * @group BP7435
+	 * @group cache
+	 */
+	public function test_group_ids_query_cache_should_be_busted_on_group_save() {
+		global $wpdb;
+
+		$group_ids    = array( 1 ); // Default group.
+		$group_ids[1] = self::factory()->xprofile_group->create();
+		$group_ids[2] = self::factory()->xprofile_group->create();
+		$group_ids[3] = self::factory()->xprofile_group->create();
+
+		// Prime cache.
+		$found = BP_XProfile_Group::get_group_ids();
+		$this->assertContains( $group_ids[1], $found );
+
+		$g1 = new BP_XProfile_Group( $group_ids[1] );
+		$g1->save();
+
+		$num_queries = $wpdb->num_queries;
+
+		$found = BP_XProfile_Group::get_group_ids();
+		$this->assertNotSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @group BP7435
+	 * @group cache
+	 */
+	public function test_group_ids_query_cache_should_be_busted_on_field_save() {
+		global $wpdb;
+
+		$group_ids    = array( 1 ); // Default group.
+		$group_ids[1] = self::factory()->xprofile_group->create();
+		$group_ids[2] = self::factory()->xprofile_group->create();
+		$group_ids[3] = self::factory()->xprofile_group->create();
+
+		$f = self::factory()->xprofile_field->create( array(
+			'field_group_id' => $group_ids[1],
+		) );
+		$field = new BP_XProfile_Field( $f );
+
+		// Prime cache.
+		$found = BP_XProfile_Group::get_group_ids();
+		$this->assertContains( $group_ids[1], $found );
+
+		$field->save();
+
+		$num_queries = $wpdb->num_queries;
+
+		$found = BP_XProfile_Group::get_group_ids();
+		$this->assertNotSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @group BP7435
+	 * @group cache
+	 */
+	public function test_group_ids_query_cache_should_be_busted_on_field_delete() {
+		$group_ids    = array( 1 ); // Default group.
+		$group_ids[1] = self::factory()->xprofile_group->create();
+		$group_ids[2] = self::factory()->xprofile_group->create();
+		$group_ids[3] = self::factory()->xprofile_group->create();
+
+		$f = self::factory()->xprofile_field->create( array(
+			'field_group_id' => $group_ids[1],
+		) );
+		$field = new BP_XProfile_Field( $f );
+
+		$args = array(
+			'hide_empty_groups' => true,
+		);
+
+		// Prime cache.
+		$found = BP_XProfile_Group::get_group_ids( $args );
+		$this->assertContains( $group_ids[1], $found );
+
+		$field->delete();
+
+		$found = BP_XProfile_Group::get_group_ids( $args );
+		$this->assertNotContains( $group_ids[1], $found );
+	}
+
+	/**
+	 * @group BP7435
+	 * @group cache
+	 */
+	public function test_group_field_ids_query_cache() {
+		global $wpdb;
+
+		$group_id = self::factory()->xprofile_group->create();
+
+		$f = self::factory()->xprofile_field->create( array(
+			'field_group_id' => $group_id,
+		) );
+		$field = new BP_XProfile_Field( $f );
+
+		// Prime cache.
+		$found = BP_XProfile_Group::get_group_field_ids( array( $group_id ) );
+		$this->assertContains( $f, $found );
+
+		$num_queries = $wpdb->num_queries;
+
+		$found = BP_XProfile_Group::get_group_field_ids( array( $group_id ) );
+		$this->assertContains( $f, $found );
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @group BP7435
+	 * @group cache
+	 */
+	public function test_group_field_ids_query_cache_should_be_busted_on_field_save() {
+		global $wpdb;
+
+		$group_id = self::factory()->xprofile_group->create();
+
+		$f = self::factory()->xprofile_field->create( array(
+			'field_group_id' => $group_id,
+		) );
+		$field = new BP_XProfile_Field( $f );
+
+		// Prime cache.
+		$found = BP_XProfile_Group::get_group_field_ids( array( $group_id ) );
+		$this->assertContains( $f, $found );
+
+		$field->save();
+		$num_queries = $wpdb->num_queries;
+
+		$found = BP_XProfile_Group::get_group_field_ids( array( $group_id ) );
+		$this->assertContains( $f, $found );
+		$this->assertNotSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @group BP7435
+	 * @group cache
+	 */
+	public function test_group_field_ids_query_cache_should_be_busted_on_field_delete() {
+		$group_id = self::factory()->xprofile_group->create();
+
+		$f = self::factory()->xprofile_field->create( array(
+			'field_group_id' => $group_id,
+		) );
+		$field = new BP_XProfile_Field( $f );
+
+		// Prime cache.
+		$found = BP_XProfile_Group::get_group_field_ids( array( $group_id ) );
+		$this->assertContains( $f, $found );
+
+		$field->delete();
+
+		$found = BP_XProfile_Group::get_group_field_ids( array( $group_id ) );
+		$this->assertNotContains( $f, $found );
+	}
 }
