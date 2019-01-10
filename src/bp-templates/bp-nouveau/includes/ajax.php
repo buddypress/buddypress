@@ -110,6 +110,10 @@ function bp_nouveau_ajax_object_template_loader() {
 			$template_part = 'groups/single/requests-loop.php';
 		break;
 
+		case 'friend_requests' :
+			$template_part = 'members/single/friends/requests-loop.php';
+		break;
+
 		case 'member_notifications' :
 			$template_part = 'members/single/notifications/notifications-loop.php';
 		break;

@@ -1988,10 +1988,15 @@ function bp_nouveau_current_object() {
 		}
 
 	} else {
+		$data_filter = bp_current_component();
+		if ( 'friends' === $data_filter && bp_is_user_friend_requests() ) {
+			$data_filter = 'friend_requests';
+		}
+
 		$component['members_select']   = 'members-order-select';
 		$component['members_order_by'] = 'members-order-by';
 		$component['object']           = bp_current_component();
-		$component['data_filter']      = bp_current_component();
+		$component['data_filter']      = $data_filter;
 	}
 
 	return $component;
