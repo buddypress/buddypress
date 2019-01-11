@@ -90,12 +90,15 @@ class BP_Core_Members_Widget extends WP_Widget {
 		// Output before widget HTMl, title (and maybe content before & after it).
 		echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title'];
 
+		$max_limit   = bp_get_widget_max_count_limit( __CLASS__ );
+		$max_members = $settings['max_members'] > $max_limit ? $max_limit : (int) $settings['max_members'];
+
 		// Setup args for querying members.
 		$members_args = array(
 			'user_id'         => 0,
 			'type'            => $settings['member_default'],
-			'per_page'        => $settings['max_members'],
-			'max'             => $settings['max_members'],
+			'per_page'        => $max_members,
+			'max'             => $max_members,
 			'populate_extras' => true,
 			'search_terms'    => false,
 		);
@@ -177,8 +180,10 @@ class BP_Core_Members_Widget extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 
+		$max_limit = bp_get_widget_max_count_limit( __CLASS__ );
+
 		$instance['title']          = strip_tags( $new_instance['title'] );
-		$instance['max_members']    = strip_tags( $new_instance['max_members'] );
+		$instance['max_members']    = $new_instance['max_members'] > $max_limit ? $max_limit : intval( $new_instance['max_members'] );
 		$instance['member_default'] = strip_tags( $new_instance['member_default'] );
 		$instance['link_title']	    = ! empty( $new_instance['link_title'] );
 
@@ -194,11 +199,12 @@ class BP_Core_Members_Widget extends WP_Widget {
 	 * @return void
 	 */
 	public function form( $instance ) {
+		$max_limit = bp_get_widget_max_count_limit( __CLASS__ );
 
 		// Get widget settings.
 		$settings       = $this->parse_settings( $instance );
 		$title          = strip_tags( $settings['title'] );
-		$max_members    = strip_tags( $settings['max_members'] );
+		$max_members    = $settings['max_members'] > $max_limit ? $max_limit : intval( $settings['max_members'] );
 		$member_default = strip_tags( $settings['member_default'] );
 		$link_title     = (bool) $settings['link_title']; ?>
 
@@ -219,7 +225,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id( 'max_members' ); ?>">
 				<?php esc_html_e( 'Max members to show:', 'buddypress' ); ?>
-				<input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="text" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" />
+				<input class="widefat" id="<?php echo $this->get_field_id( 'max_members' ); ?>" name="<?php echo $this->get_field_name( 'max_members' ); ?>" type="number" min="1" max="<?php echo esc_attr( $max_limit ); ?>" value="<?php echo esc_attr( $max_members ); ?>" style="width: 30%" />
 			</label>
 		</p>
 

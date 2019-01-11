@@ -3928,3 +3928,23 @@ function bp_is_large_install() {
 	 */
 	return (bool) apply_filters( 'bp_is_large_install', $is_large );
 }
+
+/**
+ * Returns the upper limit on the "max" item count, for widgets that support it.
+ *
+ * @since 5.0.0
+ *
+ * @param string $widget_class Optional. Class name of the calling widget.
+ * @return int
+ */
+function bp_get_widget_max_count_limit( $widget_class = '' ) {
+	/**
+	 * Filters the upper limit on the "max" item count, for widgets that support it.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param int    $count        Defaults to 50.
+	 * @param string $widget_class Class name of the calling widget.
+	 */
+	return apply_filters( 'bp_get_widget_max_count_limit', 50, $widget_class );
+}
