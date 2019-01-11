@@ -186,7 +186,7 @@ class BP_Groups_Widget extends WP_Widget {
 		$instance['title']         = strip_tags( $new_instance['title'] );
 		$instance['max_groups']    = strip_tags( $new_instance['max_groups'] );
 		$instance['group_default'] = strip_tags( $new_instance['group_default'] );
-		$instance['link_title']    = (bool) $new_instance['link_title'];
+		$instance['link_title']    = ! empty( $new_instance['link_title'] );
 
 		return $instance;
 	}

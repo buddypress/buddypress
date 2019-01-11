@@ -161,7 +161,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 
 		$instance['max_friends']    = absint( $new_instance['max_friends'] );
 		$instance['friend_default'] = sanitize_text_field( $new_instance['friend_default'] );
-		$instance['link_title']	    = (bool) $new_instance['link_title'];
+		$instance['link_title']	    = ! empty( $new_instance['link_title'] );
 
 		return $instance;
 	}

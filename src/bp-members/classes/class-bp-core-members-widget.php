@@ -180,7 +180,7 @@ class BP_Core_Members_Widget extends WP_Widget {
 		$instance['title']          = strip_tags( $new_instance['title'] );
 		$instance['max_members']    = strip_tags( $new_instance['max_members'] );
 		$instance['member_default'] = strip_tags( $new_instance['member_default'] );
-		$instance['link_title']	    = (bool) $new_instance['link_title'];
+		$instance['link_title']	    = ! empty( $new_instance['link_title'] );
 
 		return $instance;
 	}

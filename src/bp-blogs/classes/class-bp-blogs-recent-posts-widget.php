@@ -131,7 +131,7 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 		$instance               = $old_instance;
 		$instance['title']      = strip_tags( $new_instance['title'] );
 		$instance['max_posts']  = strip_tags( $new_instance['max_posts'] );
-		$instance['link_title'] = (bool) $new_instance['link_title'];
+		$instance['link_title'] = ! empty( $new_instance['link_title'] );
 
 		return $instance;
 	}
