@@ -633,7 +633,7 @@ window.bp = window.bp || {};
 			if ( errors.length ) {
 				var feedback = '';
 				_.each( errors, function( e ) {
-					feedback += '<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>'+BP_Nouveau.messages.errors[ e ] + '</p></div>';
+					feedback += BP_Nouveau.messages.errors[ e ] + '<br/>';
 				} );
 
 				bp.Nouveau.Messages.displayFeedback( feedback, 'error' );
