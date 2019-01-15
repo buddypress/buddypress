@@ -1202,8 +1202,13 @@ class BP_Groups_Group {
 		}
 
 		if ( ! is_null( $r['parent_id'] ) ) {
-			// Note that `wp_parse_id_list()` converts `false` to 0.
-			$parent_id        = implode( ',', wp_parse_id_list( $r['parent_id'] ) );
+			// For legacy reasons, `false` means groups with no parent.
+			if ( false === $r['parent_id'] ) {
+				$parent_id = 0;
+			} else {
+				$parent_id = implode( ',', wp_parse_id_list( $r['parent_id'] ) );
+			}
+
 			$where_conditions['parent_id'] = "g.parent_id IN ({$parent_id})";
 		}
 
