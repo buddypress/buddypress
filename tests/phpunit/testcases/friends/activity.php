@@ -229,6 +229,11 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		wp_delete_user( $u1 );
 
 		$this->set_current_user( $old_user );
+
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 	}
 }
 

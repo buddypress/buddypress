@@ -97,6 +97,11 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 		$u = self::factory()->user->create( array( 'user_nicename' => 'foo' ) );
 		bp_register_member_type( 'foo' );
 		$this->go_to( bp_get_members_directory_permalink() . 'type/foo/' );
+
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 	}
 
 	/**

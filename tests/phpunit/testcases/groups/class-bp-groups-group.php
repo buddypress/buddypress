@@ -1089,6 +1089,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		// @todo
 		//$this->assertEquals( array( $g1->id ), $found );
+
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 	}
 
 	public function test_search_groups_normal_search() {
@@ -1197,6 +1202,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		// @todo
 		// The test fails but at least it's sanitized
 		//$this->assertEquals( array( $g1->id ), $found );
+
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 	}
 
 	public function test_get_random_with_exclude() {

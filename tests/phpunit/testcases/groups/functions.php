@@ -25,6 +25,11 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		wp_set_current_user( $u );
 
 		self::factory()->group->create();
+
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete(
+			'This test has not been implemented yet.'
+		);
 	}
 
 	/**
