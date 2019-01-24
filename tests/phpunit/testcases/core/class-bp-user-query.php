@@ -327,6 +327,24 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group exclude
+	 * @ticket BP8040
+	 */
+	public function test_bp_user_query_should_ignore_empty_exclude() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$q = new BP_User_Query( array( 'exclude' => array() ) );
+
+		$found_user_ids = null;
+		if ( ! empty( $q->results ) ) {
+			$found_user_ids = array_values( wp_parse_id_list( wp_list_pluck( $q->results, 'ID' ) ) );
+		}
+
+		$this->assertContains( $u1, $found_user_ids );
+		$this->assertContains( $u2, $found_user_ids );
+	}
+	/**
 	 * @group type
 	 * @group spam
 	 */
