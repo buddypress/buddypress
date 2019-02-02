@@ -3030,7 +3030,7 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 		$component_subnav_name = '';
 
 		if ( ! empty( $bp->members->nav ) ) {
-			$primary_nav_item = $bp->members->nav->get_primary( array( 'slug' => $component_id ), false );
+			$primary_nav_item = (array) $bp->members->nav->get_primary( array( 'slug' => $component_id ), false );
 			$primary_nav_item = reset( $primary_nav_item );
 		}
 
