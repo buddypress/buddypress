@@ -417,12 +417,20 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @return array Array of sortable column names.
 	 */
 	public function get_sortable_columns() {
-		return array(
+
+		/**
+		 * Filters the column names for the sortable columns.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param array $value Array of keys and their values.
+		 */
+		return apply_filters( 'bp_groups_list_table_get_sortable_columns', array(
 			'gid'         => array( 'gid', false ),
 			'comment'     => array( 'name', false ),
 			'members'     => array( 'members', false ),
 			'last_active' => array( 'last_active', false ),
-		);
+		) );
 	}
 
 	/**

@@ -338,11 +338,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 *
 	 * @return array Key/value pairs for the bulk actions dropdown.
 	 */
-	function get_bulk_actions() {
-		$actions = array();
-		$actions['bulk_spam']   = __( 'Mark as Spam', 'buddypress' );
-		$actions['bulk_ham']    = __( 'Not Spam', 'buddypress' );
-		$actions['bulk_delete'] = __( 'Delete Permanently', 'buddypress' );
+	public function get_bulk_actions() {
 
 		/**
 		 * Filters the default bulk actions so plugins can add custom actions.
@@ -351,7 +347,11 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 *
 		 * @param array $actions Default available actions for bulk operations.
 		 */
-		return apply_filters( 'bp_activity_list_table_get_bulk_actions', $actions );
+		return apply_filters( 'bp_activity_list_table_get_bulk_actions', array(
+			'bulk_spam'   => __( 'Mark as Spam', 'buddypress' ),
+			'bulk_ham'    => __( 'Not Spam', 'buddypress' ),
+			'bulk_delete' => __( 'Delete Permanently', 'buddypress' ),
+		) );
 	}
 
 	/**
@@ -364,6 +364,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @return array The columns to appear in the Activity list table.
 	 */
 	function get_columns() {
+
 		/**
 		 * Filters the titles for the columns for the activity list table.
 		 *
@@ -373,7 +374,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 */
 		return apply_filters( 'bp_activity_list_table_get_columns', array(
 			'cb'       => '<input name type="checkbox" />',
-			'author'   => _x('Author', 'Admin SWA column header', 'buddypress' ),
+			'author'   => _x( 'Author', 'Admin SWA column header', 'buddypress' ),
 			'comment'  => _x( 'Activity', 'Admin SWA column header', 'buddypress' ),
 			'action'   => _x( 'Action', 'Admin SWA column header', 'buddypress' ),
 			'response' => _x( 'In Response To', 'Admin SWA column header', 'buddypress' ),
@@ -383,20 +384,20 @@ class BP_Activity_List_Table extends WP_List_Table {
 	/**
 	 * Get the column names for sortable columns.
 	 *
-	 * Currently, returns an empty array (no columns are sortable).
-	 *
 	 * @since 1.6.0
-	 * @todo For this to work, BP_Activity_Activity::get() needs updating
-	 *       to support ordering by specific fields.
 	 *
 	 * @return array The columns that can be sorted on the Activity screen.
 	 */
-	function get_sortable_columns() {
-		return array();
+	public function get_sortable_columns() {
 
-		/*return array(
-			'author' => array( 'activity_author', false ),  // Intentionally not using "=>"
-		);*/
+		/**
+		 * Filters the column names for the sortable columns.
+		 *
+		 * @since 5.0.0
+		 *
+		 * @param array $value Array of column names.
+		 */
+		return apply_filters( 'bp_activity_list_table_get_sortable_columns', array() );
 	}
 
 	/**
