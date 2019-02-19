@@ -1866,9 +1866,16 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 		bp_ajax_request.abort();
 	}
 
+	// Get directory preferences (called "cookie" for legacy reasons).
+	var cookies = {};
+	cookies['bp-' + object + '-filter'] = bp_get_directory_preference( object, 'filter' );
+	cookies['bp' + object + '-scope']   = bp_get_directory_preference( object, 'scope' );
+
+	var cookie = encodeURIComponent( jq.param( cookies ) );
+
 	bp_ajax_request = jq.post( ajaxurl, {
 		action: object + '_filter',
-		'cookie': bp_get_cookies(),
+		'cookie': cookie,
 		'object': object,
 		'filter': filter,
 		'search_terms': search_terms,
