@@ -2417,6 +2417,11 @@ function bp_signup_avatar_dir_value() {
  * @return bool
  */
 function bp_signup_requires_privacy_policy_acceptance() {
+	// Bail if we're running a version of WP that doesn't have the Privacy Policy feature.
+	if ( version_compare( $GLOBALS['wp_version'], '4.9.6', '<' ) ) {
+		return false;
+	}
+
 	// Default to true when a published Privacy Policy page exists.
 	$privacy_policy_url = get_privacy_policy_url();
 	$required           = ! empty( $privacy_policy_url );
