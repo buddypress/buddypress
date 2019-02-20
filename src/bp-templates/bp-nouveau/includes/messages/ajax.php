@@ -123,8 +123,14 @@ function bp_nouveau_ajax_messages_send_reply() {
 		wp_send_json_error( $response );
 	}
 
+	$thread_id = (int) $_POST['thread_id'];
+
+	if ( ! bp_current_user_can( 'bp_moderate' ) && ( ! messages_is_valid_thread( $thread_id ) || ! messages_check_thread_access( $thread_id ) ) ) {
+		wp_send_json_error( $response );
+	}
+
 	$new_reply = messages_new_message( array(
-		'thread_id' => (int) $_POST['thread_id'],
+		'thread_id' => $thread_id,
 		'subject'   => ! empty( $_POST['subject'] ) ? $_POST['subject'] : false,
 		'content'   => $_POST['content']
 	) );
@@ -143,7 +149,7 @@ function bp_nouveau_ajax_messages_send_reply() {
 	// Override bp_current_action().
 	$bp->current_action = 'view';
 
-	bp_thread_has_messages( array( 'thread_id' => (int) $_POST['thread_id'] ) );
+	bp_thread_has_messages( array( 'thread_id' => $thread_id ) );
 
 	// Set the current message to the 2nd last.
 	$thread_template->message = end( $thread_template->thread->messages );
