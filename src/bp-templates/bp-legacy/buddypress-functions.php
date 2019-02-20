@@ -1636,14 +1636,22 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 
 	check_ajax_referer( 'messages_send_message' );
 
-	$result = messages_new_message( array( 'thread_id' => (int) $_REQUEST['thread_id'], 'content' => $_REQUEST['content'] ) );
+	$thread_id = (int) $_POST['thread_id'];
+
+	// Cannot respond to a thread you're not already a recipient on.
+	if ( ! bp_current_user_can( 'bp_moderate' ) && ( ! messages_is_valid_thread( $thread_id ) || ! messages_check_thread_access( $thread_id ) ) ) {
+		echo "-1<div id='message' class='error'><p>" . __( 'There was a problem sending that reply. Please try again.', 'buddypress' ) . '</p></div>';
+		die;
+	}
+
+	$result = messages_new_message( array( 'thread_id' => $thread_id, 'content' => $_REQUEST['content'] ) );
 
 	if ( !empty( $result ) ) {
 
 		// Pretend we're in the message loop.
 		global $thread_template;
 
-		bp_thread_has_messages( array( 'thread_id' => (int) $_REQUEST['thread_id'] ) );
+		bp_thread_has_messages( array( 'thread_id' => $thread_id ) );
 
 		// Set the current message to the 2nd last.
 		$thread_template->message = end( $thread_template->thread->messages );
