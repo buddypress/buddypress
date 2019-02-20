@@ -835,7 +835,7 @@ function bp_avatar_ajax_delete() {
 	// Handle delete.
 	if ( bp_core_delete_existing_avatar( array( 'item_id' => $avatar_data['item_id'], 'object' => $avatar_data['object'] ) ) ) {
 		$return = array(
-			'avatar' => html_entity_decode( bp_core_fetch_avatar( array(
+			'avatar' => esc_url( bp_core_fetch_avatar( array(
 				'object'  => $avatar_data['object'],
 				'item_id' => $avatar_data['item_id'],
 				'html'    => false,
@@ -1273,7 +1273,7 @@ function bp_avatar_ajax_set() {
 
 		} else {
 			$return = array(
-				'avatar' => html_entity_decode( bp_core_fetch_avatar( array(
+				'avatar' => esc_url( bp_core_fetch_avatar( array(
 					'object'  => $avatar_data['object'],
 					'item_id' => $avatar_data['item_id'],
 					'html'    => false,
@@ -1330,7 +1330,7 @@ function bp_avatar_ajax_set() {
 	// Handle crop.
 	if ( bp_core_avatar_handle_crop( $r ) ) {
 		$return = array(
-			'avatar' => html_entity_decode( bp_core_fetch_avatar( array(
+			'avatar' => esc_url( bp_core_fetch_avatar( array(
 				'object'  => $avatar_data['object'],
 				'item_id' => $avatar_data['item_id'],
 				'html'    => false,
