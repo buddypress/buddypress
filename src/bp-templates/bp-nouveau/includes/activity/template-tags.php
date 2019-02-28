@@ -375,7 +375,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 					'button_element'   => $button_element,
 					'link_class'       => 'button fav bp-secondary-action bp-tooltip',
 					'data_bp_tooltip'  => __( 'Mark as Favorite', 'buddypress' ),
-					'link_text'        => __( 'Favorite', 'buddypress' ),
+					'link_text'        => __( 'Mark as Favorite', 'buddypress' ),
 					'aria-pressed'     => 'false',
 					'link_attr'        => bp_get_activity_favorite_link(),
 				);

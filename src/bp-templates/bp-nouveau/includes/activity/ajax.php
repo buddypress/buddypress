@@ -142,7 +142,7 @@ function bp_nouveau_ajax_unmark_activity_favorite() {
 	}
 
 	if ( bp_activity_remove_user_favorite( $_POST['id'] ) ) {
-		$response = array( 'content' => __( 'Favorite', 'buddypress' ) );
+		$response = array( 'content' => __( 'Mark as Favorite', 'buddypress' ) );
 
 		$fav_count = (int) bp_get_total_favorite_count_for_user( bp_loggedin_user_id() );
 

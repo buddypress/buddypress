@@ -461,7 +461,7 @@ window.bp = window.bp || {};
 							} else {
 								$( this ).html( response.data.content );
 							}
-							$( this ).prop( 'title', response.data.content );
+							$( this ).attr( 'data-bp-tooltip', response.data.content );
 
 							if ('false' === $(this).attr('aria-pressed') ) {
 								$( this ).attr('aria-pressed', 'true');
