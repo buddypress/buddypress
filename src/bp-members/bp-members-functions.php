@@ -1741,7 +1741,12 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		 *                               signup data, xprofile data, etc).
 		 */
 		if ( apply_filters( 'bp_core_signup_send_activation_key', true, $user_id, $user_email, $activation_key, $usermeta ) ) {
-			bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key, $user_login );
+			$salutation = $user_login;
+			if ( isset( $usermeta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
+				$salutation = $usermeta[ 'field_' . bp_xprofile_fullname_field_id() ];
+			}
+
+			bp_core_signup_send_validation_email( $user_id, $user_email, $activation_key, $salutation );
 		}
 	}
 
@@ -2158,13 +2163,14 @@ function bp_core_signup_avatar_upload_dir() {
  *
  * @since 1.2.2
  * @since 2.5.0 Add the $user_login parameter.
+ * @since 5.0.0 Change $user_login parameter to more general $salutation.
  *
  * @param int|bool $user_id    ID of the new user, false if BP_SIGNUPS_SKIP_USER_CREATION is true.
- * @param string   $user_email Email address of the new user.
- * @param string   $key        Activation key.
- * @param string   $user_login Optional. The user login name.
+ * @param string   $user_email   Email address of the new user.
+ * @param string   $key          Activation key.
+ * @param string   $salutation   Optional. The name to be used as a salutation in the email.
  */
-function bp_core_signup_send_validation_email( $user_id, $user_email, $key, $user_login = '' ) {
+function bp_core_signup_send_validation_email( $user_id, $user_email, $key, $salutation = '' ) {
 	$args = array(
 		'tokens' => array(
 			'activate.url' => esc_url( trailingslashit( bp_get_activation_page() ) . "{$key}/" ),
@@ -2174,11 +2180,7 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key, $use
 		),
 	);
 
-	if ( $user_id ) {
-		$to = $user_id;
-	} else {
-		$to = array( array( $user_email => $user_login ) );
-	}
+	$to = array( array( $user_email => $salutation ) );
 
 	bp_send_email( 'core-user-registration', $to, $args );
 }

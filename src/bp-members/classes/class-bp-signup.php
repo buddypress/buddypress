@@ -639,7 +639,12 @@ class BP_Signup {
 
 				// Send the validation email.
 				} else {
-					bp_core_signup_send_validation_email( false, $signup->user_email, $signup->activation_key, $signup->user_login );
+					$salutation = $signup->user_login;
+					if ( isset( $meta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
+						$salutation = $meta[ 'field_' . bp_xprofile_fullname_field_id() ];
+					}
+
+					bp_core_signup_send_validation_email( false, $signup->user_email, $signup->activation_key, $salutation );
 				}
 			}
 

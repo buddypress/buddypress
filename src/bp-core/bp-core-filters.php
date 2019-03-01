@@ -469,7 +469,22 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 			'user.email'        => $user_email,
 		),
 	);
-	bp_send_email( 'core-user-registration-with-blog', array( array( $user_email => $user ) ), $args );
+
+	$signups = BP_Signup::get(
+		array(
+			'user_login' => $user,
+		)
+	);
+
+	$salutation = $user;
+	if ( $signups ) {
+		$signup = $signups['signups'][0];
+		if ( isset( $signup->meta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
+			$salutation = $signup->meta[ 'field_' . bp_xprofile_fullname_field_id() ];
+		}
+	}
+
+	bp_send_email( 'core-user-registration-with-blog', array( array( $user_email => $salutation ) ), $args );
 
 	// Return false to stop the original WPMU function from continuing.
 	return false;
@@ -523,6 +538,13 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 		$user_id = $user_object->ID;
 	}
 
+	$salutation = $user;
+	if ( isset( $meta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
+		$salutation = $meta[ 'field_' . bp_xprofile_fullname_field_id() ];
+	} elseif ( $user_id ) {
+		$salutation = bp_core_get_user_displayname( $user_id );
+	}
+
 	$args = array(
 		'tokens' => array(
 			'activate.url' => esc_url( trailingslashit( bp_get_activation_page() ) . "{$key}/" ),
@@ -531,7 +553,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 			'user.id'      => $user_id,
 		),
 	);
-	bp_send_email( 'core-user-registration', array( array( $user_email => $user ) ), $args );
+	bp_send_email( 'core-user-registration', array( array( $user_email => $salutation ) ), $args );
 
 	// Return false to stop the original WPMU function from continuing.
 	return false;
