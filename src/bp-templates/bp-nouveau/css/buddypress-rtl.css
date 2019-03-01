@@ -2538,7 +2538,6 @@ body.no-js .single-item-header .js-self-profile-button {
 .buddypress .bp-invites-content li ul.group-inviters {
 	clear: both;
 	margin: 0;
-	overflow: hidden;
 }
 
 .buddypress .bp-invites-content li ul.group-inviters li {
