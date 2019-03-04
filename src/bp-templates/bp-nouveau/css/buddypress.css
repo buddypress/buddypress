@@ -2339,6 +2339,10 @@ body.no-js .single-item-header .js-self-profile-button {
 	padding-left: 0.5em;
 }
 
+#buddypress.buddypress-wrap .item-body p a {
+	text-decoration: underline;
+}
+
 /**
 *----------------------------------------------------
 * @subsection 5.2.1 - Item Body Groups
