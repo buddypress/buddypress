@@ -14,25 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.5.0
  */
-class BP_Email_Recipient {
-
-	/**
-	 * Recipient's email address.
-	 *
-	 * @since 2.5.0
-	 *
-	 * @var string
-	 */
-	protected $address = '';
-
-	/**
-	 * Recipient's name.
-	 *
-	 * @since 2.5.0
-	 *
-	 * @var string
-	 */
-	protected $name = '';
+class BP_Email_Recipient extends BP_Email_Participant {
 
 	/**
 	 * Optional. A `WP_User` object relating to this recipient.
@@ -88,7 +70,7 @@ class BP_Email_Recipient {
 
 		// Set address if we have one.
 		if ( ! empty( $address ) ) {
-			$this->address = sanitize_email( $address );
+			$this->set_address( sanitize_email( $address ) );
 		}
 
 		// Still no user object; try to query user by email address.
@@ -101,14 +83,14 @@ class BP_Email_Recipient {
 			// This is escaped with esc_html in bp_core_get_user_displayname()
 			$wp_name = wp_specialchars_decode( bp_core_get_user_displayname( $this->user_object->ID ), ENT_QUOTES );
 
-			$this->address = $this->user_object->user_email;
-			$this->name    = sanitize_text_field( $wp_name );
+			$this->set_address( $this->user_object->user_email );
+			$this->set_name( $wp_name );
 
 		}
 
 		// Custom name override.
 		if ( $name ) {
-			$this->name = $name;
+			$this->set_name( $name );
 		}
 
 		/**
@@ -132,16 +114,17 @@ class BP_Email_Recipient {
 	 * @return string
 	 */
 	public function get_address() {
+		$address = parent::get_address();
 
 		/**
 		 * Filters the recipient's address before it's returned.
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $address Recipient's address.
-		 * @param BP_Email $recipient $this Current instance of the email recipient class.
+		 * @param string             $address   Recipient's address.
+		 * @param BP_Email_Recipient $recipient Current instance of the email recipient class.
 		 */
-		return apply_filters( 'bp_email_recipient_get_address', $this->address, $this );
+		return apply_filters( 'bp_email_recipient_get_address', $address, $this );
 	}
 
 	/**
@@ -152,16 +135,17 @@ class BP_Email_Recipient {
 	 * @return string
 	 */
 	public function get_name() {
+		$name = parent::get_name();
 
 		/**
 		 * Filters the recipient's name before it's returned.
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $name Recipient's name.
-		 * @param BP_Email $recipient $this Current instance of the email recipient class.
+		 * @param string             $name      Recipient's name.
+		 * @param BP_Email_Recipient $recipient Current instance of the email recipient class.
 		 */
-		return apply_filters( 'bp_email_recipient_get_name', $this->name, $this );
+		return apply_filters( 'bp_email_recipient_get_name', $name, $this );
 	}
 
 	/**

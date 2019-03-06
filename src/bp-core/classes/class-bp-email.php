@@ -65,7 +65,7 @@ class BP_Email {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @var BP_Email_Recipient Sender details.
+	 * @var BP_Email_Sender Sender details.
 	 */
 	protected $from = null;
 
@@ -101,7 +101,7 @@ class BP_Email {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @var BP_Email_Recipient "Reply to" details.
+	 * @var BP_Email_Sender "Reply to" details.
 	 */
 	protected $reply_to = null;
 
@@ -430,7 +430,7 @@ class BP_Email {
 	 *
 	 * @param string $transform Optional. How to transform the return value.
 	 *                          Accepts 'raw' (default) or 'replace-tokens'.
-	 * @return BP_Email_Recipient "From" recipient.
+	 * @return BP_Email_Sender "From" recipient.
 	 */
 	public function get_from( $transform = 'raw' ) {
 		return $this->get( 'from', $transform );
@@ -738,7 +738,10 @@ class BP_Email {
 	 * @return BP_Email
 	 */
 	public function set_from( $email_address, $name = '' ) {
-		$from = new BP_Email_Recipient( $email_address, $name );
+		$from = new BP_Email_Sender();
+
+		$from->set_address( $email_address );
+		$from->set_name( $name );
 
 		/**
 		 * Filters the new value of the email's "from" property.
@@ -810,7 +813,10 @@ class BP_Email {
 	 * @return BP_Email
 	 */
 	public function set_reply_to( $email_address, $name = '' ) {
-		$reply_to = new BP_Email_Recipient( $email_address, $name );
+		$reply_to = new BP_Email_Sender();
+
+		$reply_to->set_address( $email_address );
+		$reply_to->set_name( $name );
 
 		/**
 		 * Filters the new value of the email's "reply to" property.
