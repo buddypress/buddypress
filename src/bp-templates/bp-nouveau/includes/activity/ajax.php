@@ -527,7 +527,7 @@ function bp_nouveau_ajax_post_update() {
 		}
 
 	} else {
-		/** This filter is documented in bp-activity/bp-activity-actions.php */
+		/** This filter is documented in bp-activity/actions/post.php */
 		$activity_id = apply_filters( 'bp_activity_custom_update', false, $object, $item_id, $_POST['content'] );
 	}
 
