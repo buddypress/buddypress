@@ -77,12 +77,15 @@ function bp_activity_action_post_update() {
 		 * Filters activity object for BuddyPress core and plugin authors before posting activity update.
 		 *
 		 * @since 1.2.0
+		 * @since 5.0.0 Fixed filter signature to match other instances of filter,
+		 *              with $activity_id as the first param.
 		 *
-		 * @param string $object  Activity item being associated to.
-		 * @param string $item_id Component ID being posted to.
-		 * @param string $content Activity content being posted.
+		 * @param int    $activity_id ID of the activity item.
+		 * @param string $object      Activity item being associated to.
+		 * @param string $item_id     Component ID being posted to.
+		 * @param string $content     Activity content being posted.
 		 */
-		$activity_id = apply_filters( 'bp_activity_custom_update', $object, $item_id, $content );
+		$activity_id = apply_filters( 'bp_activity_custom_update', 0, $object, $item_id, $content );
 	}
 
 	// Provide user feedback.
