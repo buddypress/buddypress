@@ -2291,14 +2291,55 @@ function bp_core_wpsignup_redirect() {
 		return;
 	}
 
-	$action = !empty( $_GET['action'] ) ? $_GET['action'] : '';
+	$is_wp_signup = false;
+	if ( ! empty( $_SERVER['SCRIPT_NAME'] ) ) {
+		$script_name_path = wp_parse_url( $_SERVER['SCRIPT_NAME'], PHP_URL_PATH );
 
-	// Not at the WP core signup page and action is not register.
-	if ( ! empty( $_SERVER['SCRIPT_NAME'] ) && false === strpos( 'wp-signup.php', $_SERVER['SCRIPT_NAME'] ) && ( 'register' != $action ) ) {
+		if ( 'wp-signup.php' === basename( $script_name_path ) || ( 'wp-login.php' === basename( $script_name_path ) && ! empty( $_GET['action'] ) && 'register' === $_GET['action'] ) ) {
+			$is_wp_signup = true;
+		}
+	}
+
+	// If this is not wp-signup.php, there's nothing to do here.
+	if ( ! $is_wp_signup ) {
 		return;
 	}
 
-	bp_core_redirect( bp_get_signup_page() );
+	/*
+	 * We redirect wp-signup.php to the registration page except when it's a site signup.
+	 * In that case, redirect to the BP site creation page if available, otherwise allow
+	 * access to wp-signup.php.
+	 */
+	$redirect_to = bp_get_signup_page();
+
+	$is_site_creation = false;
+
+	$referer = wp_get_referer();
+
+	// A new site is being added.
+	if ( isset( $_POST['stage'] ) && $_POST['stage'] === 'gimmeanotherblog' ) {
+		$is_site_creation = true;
+
+	// We've arrived at wp-signup.php from my-sites.php.
+	} elseif ( $referer ) {
+		$referer_path     = wp_parse_url( $referer, PHP_URL_PATH );
+		$is_site_creation = false !== strpos( $referer_path, 'wp-admin/my-sites.php' );
+	}
+
+	if ( $is_site_creation ) {
+		if ( bp_is_active( 'blogs' ) ) {
+			$redirect_to = trailingslashit( bp_get_blogs_directory_permalink() . 'create' );
+		} else {
+			// Perform no redirect in this case.
+			$redirect_to = '';
+		}
+	}
+
+	if ( ! $redirect_to ) {
+		return;
+	}
+
+	bp_core_redirect( $redirect_to );
 }
 add_action( 'bp_init', 'bp_core_wpsignup_redirect' );
 
