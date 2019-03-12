@@ -1160,7 +1160,7 @@ jq(document).ready( function() {
 
 		settings_div.hide().removeClass( 'field-visibility-settings-open' )
 			.siblings( '.field-visibility-settings-toggle' )
-				.children( '.current-visibility-level' ).text( vis_setting_text ).end()
+				.find( '.current-visibility-level' ).text( vis_setting_text ).end()
 			.show().removeClass( 'field-visibility-settings-hide' );
 	} );
 
