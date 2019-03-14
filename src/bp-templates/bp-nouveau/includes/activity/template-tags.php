@@ -3,7 +3,7 @@
  * Activity Template tags
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 5.0.0
  */
 
 // Exit if accessed directly.
@@ -67,18 +67,12 @@ function bp_nouveau_after_activity_directory_content() {
  * Enqueue needed scripts for the Activity Post Form
  *
  * @since 3.0.0
+ * @since 5.0.0 Move the `bp_before_activity_post_form` hook inside the Activity post form.
  */
 function bp_nouveau_before_activity_post_form() {
 	if ( bp_nouveau_current_user_can( 'publish_activity' ) ) {
 		wp_enqueue_script( 'bp-nouveau-activity-post-form' );
 	}
-
-	/**
-	 * Fires before the activity post form.
-	 *
-	 * @since 1.2.0
-	 */
-	do_action( 'bp_before_activity_post_form' );
 }
 
 /**

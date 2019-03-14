@@ -2,9 +2,14 @@
 /**
  * Activity Post form JS Templates
  *
- * @version 3.1.0
+ * @since 3.0.0
+ * @version 5.0.0
  */
 ?>
+
+<script type="text/html" id="tmpl-activity-before-post-form-inputs">
+	<?php bp_nouveau_activity_hook( 'before', 'post_form' ); ?>
+</script>
 
 <script type="text/html" id="tmpl-activity-post-form-feedback">
 	<span class="bp-icon" aria-hidden="true"></span><p>{{{data.message}}}</p>

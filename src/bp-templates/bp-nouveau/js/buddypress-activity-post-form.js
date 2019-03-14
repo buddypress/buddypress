@@ -1,5 +1,6 @@
 /* global bp, BP_Nouveau, _, Backbone */
-/* @version 3.1.0 */
+/* @since 3.0.0 */
+/* @version 5.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
@@ -375,6 +376,11 @@ window.bp = window.bp || {};
 		template : bp.template( 'activity-post-form-options' )
 	} );
 
+	bp.Views.BeforeFormInputs = bp.View.extend( {
+		tagName  : 'div',
+		template : bp.template( 'activity-before-post-form-inputs' )
+	} );
+
 	bp.Views.FormTarget = bp.View.extend( {
 		tagName   : 'div',
 		id        : 'whats-new-post-in-box',
@@ -586,24 +592,32 @@ window.bp = window.bp || {};
 				BP_Nouveau.activity.params,
 				['user_id', 'item_id', 'object' ]
 			) );
+			this.options.backcompat = BP_Nouveau.activity.params.backcompat;
+			var staticViews = [
+				new bp.Views.FormAvatar(),
+				new bp.Views.FormContent( { activity: this.model } )
+			];
+
+			// Backcompat to take the `bp_before_activity_post_form` action in account.
+			if ( true === this.options.backcompat.before_post_form ) {
+				staticViews.unshift( new bp.Views.BeforeFormInputs() );
+			}
 
 			// Clone the model to set the resetted one
 			this.resetModel = this.model.clone();
 
-			this.views.set( [
-				new bp.Views.FormAvatar(),
-				new bp.Views.FormContent( { activity: this.model } )
-			] );
+			this.views.set( staticViews );
 
 			this.model.on( 'change:errors', this.displayFeedback, this );
 		},
 
 		displayFull: function( event ) {
+			var numStaticViews = true === this.options.backcompat.before_post_form ? 3 : 2;
 
 			// Remove feedback.
 			this.cleanFeedback();
 
-			if ( 2 !== this.views._views[''].length ) {
+			if ( numStaticViews !== this.views._views[''].length ) {
 				return;
 			}
 
@@ -612,29 +626,33 @@ window.bp = window.bp || {};
 				height : 'auto'
 			} );
 
-			// Backcompat custom fields
-			if ( true === BP_Nouveau.activity.params.backcompat ) {
+			// Add the container view for buttons or custom fields.
+			if ( true === this.options.backcompat.post_form_options ) {
 				this.views.add( new bp.Views.FormOptions( { model: this.model } ) );
+			} else {
+				this.views.add( new bp.View( { id: 'whats-new-options' } ) );
 			}
 
 			// Attach buttons
 			if ( ! _.isUndefined( BP_Nouveau.activity.params.buttons ) ) {
 				// Global
 				bp.Nouveau.Activity.postForm.buttons.set( BP_Nouveau.activity.params.buttons );
-				this.views.add( new bp.Views.FormButtons( { collection: bp.Nouveau.Activity.postForm.buttons, model: this.model } ) );
+				this.views.add( '#whats-new-options', new bp.Views.FormButtons( { collection: bp.Nouveau.Activity.postForm.buttons, model: this.model } ) );
 			}
 
 			// Select box for the object
 			if ( ! _.isUndefined( BP_Nouveau.activity.params.objects ) && 1 < _.keys( BP_Nouveau.activity.params.objects ).length ) {
-				this.views.add( new bp.Views.FormTarget( { model: this.model } ) );
+				this.views.add( '#whats-new-options', new bp.Views.FormTarget( { model: this.model } ) );
 			}
 
-			this.views.add( new bp.Views.FormSubmit( { model: this.model } ) );
+			this.views.add( '#whats-new-options', new bp.Views.FormSubmit( { model: this.model } ) );
 		},
 
 		resetForm: function() {
+			var self = this, indexStaticViews = self.options.backcompat.before_post_form ? 2 : 1;
+
 			_.each( this.views._views[''], function( view, index ) {
-				if ( index > 1 ) {
+				if ( index > indexStaticViews ) {
 					view.remove();
 				}
 			} );

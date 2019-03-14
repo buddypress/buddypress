@@ -3,7 +3,7 @@
  * Activity functions
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 5.0.0
  */
 
 // Exit if accessed directly.
@@ -67,7 +67,10 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	$activity_params = array(
 		'user_id'     => bp_loggedin_user_id(),
 		'object'      => 'user',
-		'backcompat'  => (bool) has_action( 'bp_activity_post_form_options' ),
+		'backcompat'  => array(
+			'before_post_form'  => (bool) has_action( 'bp_before_activity_post_form' ),
+			'post_form_options' => (bool) has_action( 'bp_activity_post_form_options' ),
+		),
 		'post_nonce'  => wp_create_nonce( 'post_update', '_wpnonce_post_update' ),
 	);
 
