@@ -77,7 +77,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 			$return = apply_filters( 'bp_messages_' . $amount . '_new_message_notification', array(
 				'text' => $text,
 				'link' => $link
-			), $link, (int) $total_items, $text, $link, $item_id, $secondary_item_id );
+			), (int) $total_items, $text, $link, $item_id, $secondary_item_id );
 		}
 
 	// Custom notification action for the Messages component
