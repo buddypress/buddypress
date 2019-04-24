@@ -875,6 +875,32 @@ function bp_group_avatar_mini( $group = false ) {
 		) );
 	}
 
+/**
+ * Returns the group avatar URL.
+ *
+ * @since 5.0.0
+ *
+ * @param object|bool $group Optional. Group object. Default current group in loop.
+ * @param string      $type  Optional. The type of the avatar ('full' or 'thumb'). Default 'full'.
+ * @return string The avatar URL.
+ */
+function bp_get_group_avatar_url( $group = false, $type = 'full' ) {
+	$group_id = bp_get_group_id( $group );
+
+	if ( ! $group_id ) {
+		return '';
+	}
+
+	return bp_core_fetch_avatar(
+		array(
+			'type'    => $type,
+			'object'  => 'group',
+			'item_id' => $group_id,
+			'html'    => false,
+		)
+	);
+}
+
 /** Group cover image *********************************************************/
 
 /**
@@ -887,6 +913,36 @@ function bp_group_avatar_mini( $group = false ) {
  */
 function bp_group_use_cover_image_header() {
 	return (bool) bp_is_active( 'groups', 'cover_image' ) && ! bp_disable_group_cover_image_uploads() && bp_attachments_is_wp_version_supported();
+}
+
+/**
+ * Returns the group cover image URL.
+ *
+ * @since 5.0.0
+ *
+ * @param object|bool $group Optional. Group object. Default current group in loop.
+ * @return string The cover image URL or empty string if not found.
+ */
+function bp_get_group_cover_url( $group = false ) {
+	$group_id = bp_get_group_id( $group );
+
+	if ( ! $group_id ) {
+		return '';
+	}
+
+	$cover_url = bp_attachments_get_attachment(
+		'url',
+		array(
+			'object_dir' => 'groups',
+			'item_id'    => $group_id,
+		)
+	);
+
+	if ( ! $cover_url ) {
+		return '';
+	}
+
+	return $cover_url;
 }
 
 /**
