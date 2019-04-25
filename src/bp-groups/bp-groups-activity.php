@@ -298,6 +298,119 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 add_filter( 'bp_activity_set_groups_scope_args', 'bp_groups_filter_activity_scope', 10, 2 );
 
 /**
+ * Enforces group membership restrictions on activity favorite queries.
+ *
+ * @since 4.3.0
+
+ * @param array $retval Query arguments.
+ * @param array $filter
+ * @return array
+ */
+function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
+	// Only process for viewers looking at their own favorites feed.
+	if ( ! empty( $filter['user_id'] ) ) {
+		$user_id = (int) $filter['user_id'];
+	} else {
+		$user_id = bp_displayed_user_id() ? bp_displayed_user_id() : bp_loggedin_user_id();
+	}
+
+	if ( ! $user_id || ! is_user_logged_in() || $user_id !== bp_loggedin_user_id() ) {
+		return $retval;
+	}
+
+	$favs = bp_activity_get_user_favorites( $user_id );
+	if ( empty( $favs ) ) {
+		return $retval;
+	}
+
+	$user_groups = bp_get_user_groups(
+		$user_id,
+		array(
+			'is_admin' => null,
+			'is_mod'   => null,
+		)
+	);
+
+	$retval = array(
+		'relation' => 'OR',
+
+		// Allow hidden items for items unconnected to groups.
+		'non_groups' => array(
+			'relation' => 'AND',
+			array(
+				'column'  => 'component',
+				'compare' => '!=',
+				'value'   => buddypress()->groups->id,
+			),
+			array(
+				'column'  => 'hide_sitewide',
+				'compare' => 'IN',
+				'value'   => array( 1, 0 ),
+			),
+			array(
+				'column'  => 'id',
+				'compare' => 'IN',
+				'value'   => $favs,
+			),
+		),
+
+		// Trust the favorites list for group items that are not hidden sitewide.
+		'non_hidden_groups' => array(
+			'relation' => 'AND',
+			array(
+				'column'  => 'component',
+				'compare' => '=',
+				'value'   => buddypress()->groups->id,
+			),
+			array(
+				'column'  => 'hide_sitewide',
+				'compare' => '=',
+				'value'   => 0,
+			),
+			array(
+				'column'  => 'id',
+				'compare' => 'IN',
+				'value'   => $favs,
+			),
+		),
+
+		// For hidden group items, limit to those in the user's groups.
+		'hidden_groups' => array(
+			'relation' => 'AND',
+			array(
+				'column'  => 'component',
+				'compare' => '=',
+				'value'   => buddypress()->groups->id,
+			),
+			array(
+				'column'  => 'hide_sitewide',
+				'compare' => '=',
+				'value'   => 1,
+			),
+			array(
+				'column'  => 'id',
+				'compare' => 'IN',
+				'value'   => $favs,
+			),
+			array(
+				'column'  => 'item_id',
+				'compare' => 'IN',
+				'value'   => wp_list_pluck( $user_groups, 'group_id' ),
+			),
+		),
+
+		'override' => array(
+			'display_comments' => true,
+			'filter'           => array( 'user_id' => 0 ),
+			'show_hidden'      => true,
+		),
+	);
+
+	return $retval;
+}
+add_filter( 'bp_activity_set_favorites_scope_args', 'bp_groups_filter_activity_favorites_scope', 20, 2 );
+
+/**
  * Record an activity item related to the Groups component.
  *
  * A wrapper for {@link bp_activity_add()} that provides some Groups-specific
