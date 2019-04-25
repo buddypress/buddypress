@@ -15,7 +15,6 @@ defined( 'ABSPATH' ) || exit;
 // Apply WordPress defined filters.
 add_filter( 'bp_get_activity_action',                'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_content_body',          'bp_activity_filter_kses', 1 );
-add_filter( 'bp_get_activity_content',               'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_parent_content',        'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_latest_update',         'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'bp_activity_filter_kses', 1 );
@@ -205,6 +204,14 @@ function bp_activity_check_blacklist_keys( $activity ) {
  * @return string $content Filtered activity content.
  */
 function bp_activity_filter_kses( $content ) {
+	$activity_allowedtags = bp_get_allowedtags();
+
+	// Don't allow 'class' or 'id'.
+	foreach ( $activity_allowedtags as $el => &$atts ) {
+		unset( $atts['class'] );
+		unset( $atts['id'] );
+	}
+
 	/**
 	 * Filters the allowed HTML tags for BuddyPress Activity content.
 	 *
@@ -212,7 +219,7 @@ function bp_activity_filter_kses( $content ) {
 	 *
 	 * @param array $value Array of allowed HTML tags and attributes.
 	 */
-	$activity_allowedtags = apply_filters( 'bp_activity_allowed_tags', bp_get_allowedtags() );
+	$activity_allowedtags = apply_filters( 'bp_activity_allowed_tags', $activity_allowedtags );
 	return wp_kses( $content, $activity_allowedtags );
 }
 
