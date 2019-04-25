@@ -44,6 +44,12 @@ function bp_activity_action_post_comment() {
 		bp_core_redirect( wp_get_referer() . '#ac-form-' . $activity_id );
 	}
 
+	$activity_item = new BP_Activity_Activity( $activity_id );
+	if ( ! bp_activity_user_can_read( $activity_item ) ) {
+		bp_core_add_message( __( 'There was an error posting that reply. Please try again.', 'buddypress' ), 'error' );
+		bp_core_redirect( wp_get_referer() . '#ac-form-' . $activity_id );
+	}
+
 	$comment_id = bp_activity_new_comment( array(
 		'content'     => $content,
 		'activity_id' => $activity_id,

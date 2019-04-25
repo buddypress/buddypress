@@ -360,6 +360,12 @@ function bp_nouveau_ajax_new_activity_comment() {
 		wp_send_json_error( $response );
 	}
 
+	$activity_id   = (int) $_POST['form_id'];
+	$activity_item = new BP_Activity_Activity( $activity_id );
+	if ( ! bp_activity_user_can_read( $activity_item ) ) {
+		wp_send_json_error( $response );
+	}
+
 	$comment_id = bp_activity_new_comment( array(
 		'activity_id' => $_POST['form_id'],
 		'content'     => $_POST['content'],
