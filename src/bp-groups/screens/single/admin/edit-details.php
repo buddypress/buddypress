@@ -33,7 +33,7 @@ function groups_screen_group_admin_edit_details() {
 			if ( empty( $_POST['group-name'] ) || empty( $_POST['group-desc'] ) ) {
 				bp_core_add_message( __( 'Groups must have a name and a description. Please try again.', 'buddypress' ), 'error' );
 			} elseif ( ! groups_edit_base_group_details( array(
-				'group_id'       => $_POST['group-id'],
+				'group_id'       => bp_get_current_group_id(),
 				'name'           => $_POST['group-name'],
 				'slug'           => null, // @TODO: Add to settings pane? If yes, editable by site admin only, or allow group admins to do this?
 				'description'    => $_POST['group-desc'],
