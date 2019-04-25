@@ -73,7 +73,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 				<div>
 					<label for="group-name"><?php _e( 'Group Name (required)', 'buddypress' ); ?></label>
-					<input type="text" name="group-name" id="group-name" aria-required="true" value="<?php bp_new_group_name(); ?>" />
+					<input type="text" name="group-name" id="group-name" aria-required="true" value="<?php echo esc_attr( bp_get_new_group_name() ); ?>" />
 				</div>
 
 				<div>
