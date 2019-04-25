@@ -1056,8 +1056,14 @@ function bp_legacy_theme_new_activity_comment() {
 		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html( $feedback ) . '</p></div>' );
 	}
 
+	$activity_id   = (int) $_POST['form_id'];
+	$activity_item = new BP_Activity_Activity( $activity_id );
+	if ( ! bp_activity_user_can_read( $activity_item ) ) {
+		exit( '-1<div id="message" class="error bp-ajax-message"><p>' . esc_html( $feedback ) . '</p></div>' );
+	}
+
 	$comment_id = bp_activity_new_comment( array(
-		'activity_id' => $_POST['form_id'],
+		'activity_id' => $activity_id,
 		'content'     => $_POST['content'],
 		'parent_id'   => $_POST['comment_id'],
 		'error_type'  => 'wp_error'
