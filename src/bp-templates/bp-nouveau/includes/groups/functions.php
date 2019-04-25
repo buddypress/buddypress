@@ -258,6 +258,12 @@ function bp_nouveau_get_group_potential_invites( $args = array() ) {
 		return false;
 	}
 
+	// Check the current user's access to the group.
+	$group = groups_get_group( $r['group_id'] );
+	if ( ! $group->user_has_access && ! bp_current_user_can( 'bp_moderate' ) ) {
+		return false;
+	}
+
 	/*
 	 * If it's not a friend request and users can restrict invites to friends,
 	 * make sure they are not displayed in results.
