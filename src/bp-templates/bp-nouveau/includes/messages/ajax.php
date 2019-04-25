@@ -415,7 +415,12 @@ function bp_nouveau_ajax_get_thread_messages() {
 		wp_send_json_error( $response );
 	}
 
-	$thread_id    = (int) $_POST['id'];
+	$thread_id = (int) $_POST['id'];
+
+	if ( ! messages_is_valid_thread( $thread_id ) || ( ! messages_check_thread_access( $thread_id ) && ! bp_current_user_can( 'bp_moderate' ) ) ) {
+		wp_send_json_error();
+	}
+
 	$bp           = buddypress();
 	$reset_action = $bp->current_action;
 
