@@ -101,6 +101,12 @@ function bp_nouveau_ajax_mark_activity_favorite() {
 		wp_send_json_error();
 	}
 
+	$activity_id   = (int) $_POST['id'];
+	$activity_item = new BP_Activity_Activity( $activity_id );
+	if ( ! bp_activity_user_can_read( $activity_item, bp_loggedin_user_id() ) ) {
+		wp_send_json_error();
+	}
+
 	if ( bp_activity_add_user_favorite( $_POST['id'] ) ) {
 		$response = array( 'content' => __( 'Remove Favorite', 'buddypress' ) );
 
