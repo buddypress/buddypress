@@ -448,14 +448,30 @@ function bp_nouveau_ajax_remove_group_invite() {
 	$user_id  = (int) $_POST['user'];
 	$group_id = bp_get_current_group_id();
 
+	$response = array(
+		'feedback' => __( 'Group invitation could not be removed.', 'buddypress' ),
+		'type'     => 'error',
+	);
+
 	// Verify nonce
 	if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'groups_invite_uninvite_user' ) ) {
-		wp_send_json_error(
-			array(
-				'feedback' => __( 'Group invitation could not be removed.', 'buddypress' ),
-				'type'     => 'error',
-			)
-		);
+		wp_send_json_error( $response );
+	}
+
+	// Verify pending invite.
+	$invites_args = array(
+		'is_confirmed' => false,
+		'is_banned'    => null,
+		'is_admin'     => null,
+		'is_mod'       => null,
+	);
+	$invites = bp_get_user_groups( $user_id, $invites_args );
+	if ( empty( $invites ) ) {
+		wp_send_json_error( $response );
+	}
+
+	if ( ! groups_is_user_admin( bp_loggedin_user_id(), $group_id ) ) {
+		wp_send_json_error( $response );
 	}
 
 	if ( BP_Groups_Member::check_for_membership_request( $user_id, $group_id ) ) {
