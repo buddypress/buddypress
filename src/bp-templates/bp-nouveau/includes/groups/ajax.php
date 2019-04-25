@@ -97,6 +97,10 @@ function bp_nouveau_ajax_joinleave_group() {
 	switch ( $_POST['action'] ) {
 
 		case 'groups_accept_invite':
+			if ( ! groups_check_user_has_invite( bp_loggedin_user_id(), $group_id ) ) {
+				wp_send_json_error( $response );
+			}
+
 			if ( ! groups_accept_invite( bp_loggedin_user_id(), $group_id ) ) {
 				$response = array(
 					'feedback' => sprintf(
