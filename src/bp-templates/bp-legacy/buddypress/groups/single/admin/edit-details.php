@@ -21,7 +21,7 @@
 do_action( 'bp_before_group_details_admin' ); ?>
 
 <label for="group-name"><?php _e( 'Group Name (required)', 'buddypress' ); ?></label>
-<input type="text" name="group-name" id="group-name" value="<?php bp_group_name(); ?>" aria-required="true" />
+<input type="text" name="group-name" id="group-name" value="<?php echo esc_attr( bp_get_group_name() ); ?>" aria-required="true" />
 
 <label for="group-desc"><?php _e( 'Group Description (required)', 'buddypress' ); ?></label>
 <textarea name="group-desc" id="group-desc" aria-required="true"><?php bp_group_description_editable(); ?></textarea>
