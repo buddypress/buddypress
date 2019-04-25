@@ -345,7 +345,11 @@ window.bp = window.bp || {};
 
 						// Prepend a link to display all
 						if ( ! i ) {
-							$( item ).before( '<li class="show-all"><button class="text-button" type="button" data-bp-show-comments-id="#' + activity_item.prop( 'id' ) + '/show-all/"><span class="icon dashicons dashicons-visibility" aria-hidden="true"></span> ' + BP_Nouveau.show_x_comments.replace( '%d', comment_count ) + '</button></li>' );
+							var activity_id = activity_item.data( 'bpActivityId' );
+							if ( 'undefined' !== typeof activity_id ) {
+								activity_id = parseInt( activity_id, 10 );
+								$( item ).before( '<li class="show-all"><button class="text-button" type="button" data-bp-show-comments-id="#activity-' + activity_id + '/show-all/"><span class="icon dashicons dashicons-visibility" aria-hidden="true"></span> ' + BP_Nouveau.show_x_comments.replace( '%d', comment_count ) + '</button></li>' );
+							}
 						}
 					}
 				} );
