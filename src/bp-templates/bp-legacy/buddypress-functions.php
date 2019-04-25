@@ -1242,6 +1242,12 @@ function bp_legacy_theme_mark_activity_favorite() {
 		return;
 	}
 
+	$activity_id   = (int) $_POST['id'];
+	$activity_item = new BP_Activity_Activity( $activity_id );
+	if ( ! bp_activity_user_can_read( $activity_item, bp_loggedin_user_id() ) ) {
+		return;
+	}
+
 	if ( bp_activity_add_user_favorite( $_POST['id'] ) )
 		_e( 'Remove Favorite', 'buddypress' );
 	else

@@ -21,6 +21,11 @@ function bp_activity_action_mark_favorite() {
 	// Check the nonce.
 	check_admin_referer( 'mark_favorite' );
 
+	$activity_item = new BP_Activity_Activity( bp_action_variable( 0 ) );
+	if ( ! bp_activity_user_can_read( $activity_item, bp_loggedin_user_id() ) ) {
+		return false;
+	}
+
 	if ( bp_activity_add_user_favorite( bp_action_variable( 0 ) ) )
 		bp_core_add_message( __( 'Activity marked as favorite.', 'buddypress' ) );
 	else
