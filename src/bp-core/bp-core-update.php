@@ -268,6 +268,11 @@ function bp_version_updater() {
 		if ( $raw_db_version < 11105 ) {
 			bp_update_to_2_7();
 		}
+
+		// Version 5.0.0.
+		if ( $raw_db_version < 12385 ) {
+			bp_update_to_5_0();
+		}
 	}
 
 	/* All done! *************************************************************/
@@ -540,6 +545,40 @@ function bp_update_to_2_7() {
 
 	// Do not ignore deprecated code for existing installs.
 	bp_add_option( '_bp_ignore_deprecated_code', false );
+}
+
+/**
+ * 5.0.0 update routine.
+ *
+ * - Make sure the custom visibility is disabled for the default profile field.
+ *
+ * @since 5.0.0
+ */
+function bp_update_to_5_0() {
+	/**
+	 * The xProfile component is active by default on new installs, even if it
+	 * might be inactive during this update, we need to set the custom visibility
+	 * for the default field, in case the Administrator decides to reactivate it.
+	 */
+	global $wpdb;
+	$bp_prefix = bp_core_get_table_prefix();
+	$field_id  = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp_prefix}bp_xprofile_fields WHERE name = %s", addslashes( bp_get_option( 'bp-xprofile-fullname-field-name' ) ) ) );
+
+	$wpdb->insert(
+		$bp_prefix . 'bp_xprofile_meta',
+		array(
+			'object_id'   => $field_id,
+			'object_type' => 'field',
+			'meta_key'    => 'allow_custom_visibility',
+			'meta_value'  => 'disabled'
+		),
+		array(
+			'%d',
+			'%s',
+			'%s',
+			'%s'
+		)
+	);
 }
 
 /**

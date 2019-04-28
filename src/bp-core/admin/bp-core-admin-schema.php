@@ -382,6 +382,11 @@ function bp_core_install_extended_profiles() {
 
 	if ( ! $wpdb->get_var( "SELECT id FROM {$bp_prefix}bp_xprofile_fields WHERE id = 1" ) ) {
 		$insert_sql[] = "INSERT INTO {$bp_prefix}bp_xprofile_fields ( group_id, parent_id, type, name, description, is_required, can_delete ) VALUES ( 1, 0, 'textbox', " . $wpdb->prepare( '%s', stripslashes( bp_get_option( 'bp-xprofile-fullname-field-name' ) ) ) . ", '', 1, 0 );";
+
+		// Make sure the custom visibility is disabled for the default field.
+		if ( ! $wpdb->get_var( "SELECT id FROM {$bp_prefix}bp_xprofile_meta WHERE id = 1" ) ) {
+			$insert_sql[] = "INSERT INTO {$bp_prefix}bp_xprofile_meta ( object_id, object_type, meta_key, meta_value ) VALUES ( 1, 'field', 'allow_custom_visibility', 'disabled' );";
+		}
 	}
 
 	dbDelta( $insert_sql );
