@@ -488,3 +488,82 @@ function bp_core_admin_notice_repopulate_blogs_resume() {
 	echo '<div class="error"><p>' . __( 'It looks like you have more sites to record. Resume recording by checking the "Repopulate site tracking records" option.', 'buddypress' ) . '</p></div>';
 }
 add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resume' );
+
+/**
+ * Add BuddyPress debug info to the WordPress Site Health info screen.
+ *
+ * @since 5.0.0
+ *
+ * @param  array $debug_info The Site's debug info.
+ * @return array             The Site's debug info, including the BuddyPress specific ones.
+ */
+function bp_core_admin_debug_information( $debug_info = array() ) {
+	global $wp_settings_fields;
+	$active_components = array_intersect_key( bp_core_get_components(), buddypress()->active_components );
+	$bp_settings       = array();
+
+	foreach ( $wp_settings_fields['buddypress'] as $section => $settings ) {
+		$prefix       = '';
+		$component_id = str_replace( 'bp_', '', $section );
+
+		if ( isset( $active_components[ $component_id ]['title'] ) ) {
+			$prefix = $active_components[ $component_id ]['title'] .': ';
+		}
+
+		foreach( $settings as $bp_setting ) {
+			$reverse = (
+				strpos( $bp_setting['id'], 'hide' ) !== false ||
+				strpos( $bp_setting['id'], 'restrict' ) !== false ||
+				strpos( $bp_setting['id'], 'disable' ) !== false
+			);
+
+			if ( ! isset( $bp_setting['id'] ) || '_bp_theme_package_id' === $bp_setting['id'] ) {
+				continue;
+			}
+
+			$bp_setting_value = bp_get_option( $bp_setting['id'] );
+			if ( '0' === $bp_setting_value || '1' === $bp_setting_value ) {
+				if ( ( $reverse && '0' === $bp_setting_value ) || ( ! $reverse && '1' === $bp_setting_value ) ) {
+					$bp_setting_value = __( 'Yes', 'buddypress' );
+				} else {
+					$bp_setting_value = __( 'No', 'buddypress' );
+				}
+			}
+
+			// Make sure to show the setting is reversed when site info is copied to clipboard.
+			$bp_settings_id = $bp_setting['id'];
+			if ( $reverse ) {
+				$bp_settings_id = '! ' . $bp_settings_id;
+			}
+
+			$bp_settings[ $bp_settings_id ] = array(
+				'label' => $prefix . $bp_setting['title'],
+				'value' => $bp_setting_value,
+			);
+		}
+	}
+
+	$debug_info['buddypress'] = array(
+		'label'  => __( 'BuddyPress', 'buddypress' ),
+		'fields' => array_merge(
+			array(
+				'version' => array(
+					'label' => __( 'Version', 'buddypress' ),
+					'value' => bp_get_version(),
+				),
+				'active_components' => array(
+					'label' => __( 'Active components', 'buddypress' ),
+					'value' => implode( wp_list_pluck( $active_components, 'title' ), ', ' ),
+				),
+				'template_pack' => array(
+					'label' => __( 'Active template pack', 'buddypress' ),
+					'value' => bp_get_theme_compat_name() . ' ' . bp_get_theme_compat_version(),
+				),
+			),
+			$bp_settings
+		)
+	);
+
+	return $debug_info;
+}
+add_filter( 'debug_information', 'bp_core_admin_debug_information' );
