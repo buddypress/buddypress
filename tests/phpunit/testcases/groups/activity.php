@@ -121,7 +121,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 
 		$this->assertNotEmpty( $a['activities'] );
 
-		$expected = sprintf( __( '%s changed the name of the group %s from "%s" to "%s"', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . bp_get_group_permalink( $group ) . '">Foo</a>', $group->name, 'Foo' );
+		$expected = sprintf( esc_html__( '%s changed the name of the group %s from "%s" to "%s"', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . bp_get_group_permalink( $group ) . '">Foo</a>', $group->name, 'Foo' );
 		$this->assertSame( $expected, $a['activities'][0]->action );
 
 		$this->set_current_user( $old_user );
@@ -153,7 +153,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 
 		$this->assertNotEmpty( $a['activities'] );
 
-		$expected = sprintf( __( '%s changed the description of the group %s from "%s" to "%s"', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . bp_get_group_permalink( $group ) . '">' . $group->name . '</a>', $group->description, 'Bar' );
+		$expected = sprintf( esc_html__( '%s changed the description of the group %s from "%s" to "%s"', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . bp_get_group_permalink( $group ) . '">' . $group->name . '</a>', $group->description, 'Bar' );
 		$this->assertSame( $expected, $a['activities'][0]->action );
 
 		$this->set_current_user( $old_user );

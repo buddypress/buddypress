@@ -13,7 +13,6 @@ defined( 'ABSPATH' ) || exit;
 /* Filters *******************************************************************/
 
 // Apply WordPress defined filters.
-add_filter( 'bp_get_activity_action',                'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_content_body',          'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_parent_content',        'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_latest_update',         'bp_activity_filter_kses', 1 );

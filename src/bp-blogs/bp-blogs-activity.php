@@ -127,7 +127,7 @@ function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
 	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
 	$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
 
-	$action = sprintf( __( '%s created the site %s', 'buddypress' ), bp_core_get_userlink( $activity->user_id ), '<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>' );
+	$action = sprintf( esc_html__( '%s created the site %s', 'buddypress' ), bp_core_get_userlink( $activity->user_id ), '<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>' );
 
 	// Legacy filter - requires the BP_Blogs_Blog object.
 	if ( has_filter( 'bp_blogs_activity_created_blog_action' ) ) {
@@ -209,7 +209,7 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 	 */
 	if ( empty( $post_title ) ) {
 		// Defaults to no title.
-		$post_title = esc_html__( '(no title)', 'buddypress' );
+		$post_title = __( '(no title)', 'buddypress' );
 
 		switch_to_blog( $activity->item_id );
 
@@ -230,15 +230,15 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 	}
 
 	// Build the 'post link' part of the activity action string.
-	$post_link  = '<a href="' . esc_url( $post_url ) . '">' . $post_title . '</a>';
+	$post_link  = '<a href="' . esc_url( $post_url ) . '">' . esc_html( $post_title ) . '</a>';
 
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
 	// Build the complete activity action string.
 	if ( is_multisite() ) {
-		$action  = sprintf( __( '%1$s wrote a new post, %2$s, on the site %3$s', 'buddypress' ), $user_link, $post_link, '<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>' );
+		$action  = sprintf( esc_html__( '%1$s wrote a new post, %2$s, on the site %3$s', 'buddypress' ), $user_link, $post_link, '<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>' );
 	} else {
-		$action  = sprintf( __( '%1$s wrote a new post, %2$s', 'buddypress' ), $user_link, $post_link );
+		$action  = sprintf( esc_html__( '%1$s wrote a new post, %2$s', 'buddypress' ), $user_link, $post_link );
 	}
 
 	// Legacy filter - requires the post object.
@@ -358,13 +358,13 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 		restore_current_blog();
 	}
 
-	$post_link = '<a href="' . esc_url( $post_url ) . '">' . $post_title . '</a>';
+	$post_link = '<a href="' . esc_url( $post_url ) . '">' . esc_html( $post_title ) . '</a>';
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
 	if ( is_multisite() ) {
-		$action  = sprintf( __( '%1$s commented on the post, %2$s, on the site %3$s', 'buddypress' ), $user_link, $post_link, '<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>' );
+		$action  = sprintf( esc_html__( '%1$s commented on the post, %2$s, on the site %3$s', 'buddypress' ), $user_link, $post_link, '<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>' );
 	} else {
-		$action  = sprintf( __( '%1$s commented on the post, %2$s', 'buddypress' ), $user_link, $post_link );
+		$action  = sprintf( esc_html__( '%1$s commented on the post, %2$s', 'buddypress' ), $user_link, $post_link );
 	}
 
 	// Legacy filter - requires the comment object.
