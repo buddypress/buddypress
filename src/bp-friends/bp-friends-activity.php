@@ -141,7 +141,7 @@ function bp_friends_format_activity_action_friendship_accepted( $action, $activi
 	$initiator_link = bp_core_get_userlink( $activity->user_id );
 	$friend_link    = bp_core_get_userlink( $activity->secondary_item_id );
 
-	$action = sprintf( __( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link );
+	$action = sprintf( esc_html__( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link );
 
 	// Backward compatibility for legacy filter
 	// The old filter has the $friendship object passed to it. We want to
@@ -175,7 +175,7 @@ function bp_friends_format_activity_action_friendship_created( $action, $activit
 	$initiator_link = bp_core_get_userlink( $activity->user_id );
 	$friend_link    = bp_core_get_userlink( $activity->secondary_item_id );
 
-	$action = sprintf( __( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link );
+	$action = sprintf( esc_html__( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link );
 
 	// Backward compatibility for legacy filter
 	// The old filter has the $friendship object passed to it. We want to
