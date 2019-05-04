@@ -1,5 +1,6 @@
 // BP User settings screens
-// @version 3.0.0
+// @since 3.0.0
+// @version 5.0.0 Add data export settings screen rules.
 
 // 1. Settings Global
 // 1. General (email/password change)
@@ -41,3 +42,22 @@
 // Group Invites
 
 /*__ Group Invites __*/
+
+// Data Export
+
+/*__ Data Export __*/
+body.buddypress.settings.data {
+
+	#buddypress.buddypress-wrap {
+
+		.item-body {
+
+			p {
+
+				a {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+}

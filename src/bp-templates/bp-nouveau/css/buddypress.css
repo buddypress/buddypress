@@ -2339,10 +2339,6 @@ body.no-js .single-item-header .js-self-profile-button {
 	padding-left: 0.5em;
 }
 
-#buddypress.buddypress-wrap .item-body p a {
-	text-decoration: underline;
-}
-
 /**
 *----------------------------------------------------
 * @subsection 5.2.1 - Item Body Groups
@@ -3227,6 +3223,11 @@ div.bp-navs#subsubnav.bp-messages-filters .user-messages-bulk-actions {
 /*__ Email notifications __*/
 /*__ Profile visibility __*/
 /*__ Group Invites __*/
+/*__ Data Export __*/
+body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
+	text-decoration: underline;
+}
+
 /**
 *-------------------------------------------------------------------------------
 * @section 6.0 - Forms  - General
