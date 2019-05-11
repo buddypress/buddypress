@@ -54,6 +54,15 @@ function groups_register_activity_actions() {
 		array( 'activity', 'group', 'member', 'member_groups' )
 	);
 
+	bp_activity_set_action(
+		$bp->groups->id,
+		'activity_update',
+		__( 'Posted a status update in a Group', 'buddypress' ),
+		'bp_groups_format_activity_action_group_activity_update',
+		__( 'Group Activity Updates', 'buddypress' ),
+		array( 'activity', 'group', 'member', 'member_groups' )
+	);
+
 	/**
 	 * Fires at end of registration of the default activity actions for the Groups component.
 	 *
@@ -62,6 +71,27 @@ function groups_register_activity_actions() {
 	do_action( 'groups_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' );
+
+/**
+ * Get the group object the activity belongs to.
+ *
+ * @since 5.0.0
+ *
+ * @param integer $group_id The group ID the activity is linked to.
+ * @return BP_Groups_Group  The group object the activity belongs to.
+ */
+function bp_groups_get_activity_group( $group_id = 0 ) {
+	// If displaying a specific group, check the activity belongs to it.
+	if ( bp_is_group() && bp_get_current_group_id() === (int) $group_id ) {
+		$group = groups_get_current_group();
+
+		// Otherwise get the group the activity belongs to.
+	} else {
+		$group = groups_get_group( $group_id );
+	}
+
+	return $group;
+}
 
 /**
  * Format 'created_group' activity actions.
@@ -75,7 +105,7 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
 function bp_groups_format_activity_action_created_group( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
-	$group      = groups_get_group( $activity->item_id );
+	$group      = bp_groups_get_activity_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	$action = sprintf( esc_html__( '%1$s created the group %2$s', 'buddypress'), $user_link, $group_link );
@@ -103,7 +133,7 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
 function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
-	$group      = groups_get_group( $activity->item_id );
+	$group      = bp_groups_get_activity_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	$action = sprintf( esc_html__( '%1$s joined the group %2$s', 'buddypress' ), $user_link, $group_link );
@@ -142,7 +172,7 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 function bp_groups_format_activity_action_group_details_updated( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
-	$group      = groups_get_group( $activity->item_id );
+	$group      = bp_groups_get_activity_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	/*
@@ -181,6 +211,38 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
 	 * @param object $activity Activity data object.
 	 */
 	return apply_filters( 'bp_groups_format_activity_action_joined_group', $action, $activity );
+}
+
+/**
+ * Format the action for activity updates posted in a Group.
+ *
+ * @since 5.0.0
+ *
+ * @param string $action   Static activity action.
+ * @param object $activity Activity data object.
+ * @return string          The formatted action for activity updates posted in a Group.
+ */
+function bp_groups_format_activity_action_group_activity_update( $action, $activity ) {
+	$user_link = bp_core_get_userlink( $activity->user_id );
+	$group     = bp_groups_get_activity_group( $activity->item_id );
+
+	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
+
+	// Set the Activity update posted in a Group action.
+	$action = sprintf( esc_html__( '%1$s posted an update in the group %2$s', 'buddypress' ), $user_link, $group_link );
+
+	/** This filter is documented in wp-includes/deprecated.php */
+	$action = apply_filters_deprecated( 'groups_activity_new_update_action', array( $action ), '5.0.0', 'bp_groups_format_activity_action_group_activity_update' );
+
+	/**
+	 * Filters the Group's activity update action.
+	 *
+	 * @since 5.0.0
+	 *
+	 * @param string $action   The Group's activity update action.
+	 * @param object $activity Activity data object.
+	 */
+	return apply_filters( 'bp_groups_format_activity_action_group_activity_update', $action, $activity );
 }
 
 /**
@@ -440,12 +502,8 @@ function groups_record_activity( $args = '' ) {
 
 	// Set the default for hide_sitewide by checking the status of the group.
 	$hide_sitewide = false;
-	if ( !empty( $args['item_id'] ) ) {
-		if ( bp_get_current_group_id() == $args['item_id'] ) {
-			$group = groups_get_current_group();
-		} else {
-			$group = groups_get_group( $args['item_id'] );
-		}
+	if ( ! empty( $args['item_id'] ) ) {
+		$group = bp_groups_get_activity_group( $args['item_id'] );
 
 		if ( isset( $group->status ) && 'public' != $group->status ) {
 			$hide_sitewide = true;
@@ -468,6 +526,84 @@ function groups_record_activity( $args = '' ) {
 	), 'groups_record_activity' );
 
 	return bp_activity_add( $r );
+}
+
+/**
+ * Post an Activity status update affiliated with a group.
+ *
+ * @since 1.2.0
+ * @since 2.6.0 Added 'error_type' parameter to $args.
+ *
+ * @param array|string $args {
+ *     Array of arguments.
+ *     @type string $content  The content of the update.
+ *     @type int    $user_id  Optional. ID of the user posting the update. Default:
+ *                            ID of the logged-in user.
+ *     @type int    $group_id Optional. ID of the group to be affiliated with the
+ *                            update. Default: ID of the current group.
+ * }
+ * @return WP_Error|bool|int Returns the ID of the new activity item on success, or false on failure.
+ */
+function groups_post_update( $args = '' ) {
+	$bp = buddypress();
+
+	$r = bp_parse_args( $args, array(
+		'content'    => false,
+		'user_id'    => bp_loggedin_user_id(),
+		'group_id'   => 0,
+		'error_type' => 'bool'
+	), 'groups_post_update' );
+
+	$group_id = (int) $r['group_id'];
+	if ( ! $group_id && ! empty( $bp->groups->current_group->id ) ) {
+		$group_id = (int) $bp->groups->current_group->id;
+	}
+
+	$content = $r['content'];
+	$user_id = (int) $r['user_id'];
+	if ( ! $content || ! strlen( trim( $content ) ) || ! $user_id || ! $group_id ) {
+		return false;
+	}
+
+	$bp->groups->current_group = groups_get_group( $group_id );
+
+	// Be sure the user is a member of the group before posting.
+	if ( ! bp_current_user_can( 'bp_moderate' ) && ! groups_is_user_member( $user_id, $group_id ) ) {
+		return false;
+	}
+
+	/**
+	 * Filters the content for the new group activity update.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $content The content of the update.
+	 */
+	$content_filtered = apply_filters( 'groups_activity_new_update_content', $content );
+
+	$activity_id = groups_record_activity( array(
+		'user_id'    => $user_id,
+		'content'    => $content_filtered,
+		'type'       => 'activity_update',
+		'item_id'    => $group_id,
+		'error_type' => $r['error_type'],
+	) );
+
+	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
+
+	/**
+	 * Fires after posting of an Activity status update affiliated with a group.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param string $content     The content of the update.
+	 * @param int    $user_id     ID of the user posting the update.
+	 * @param int    $group_id    ID of the group being posted to.
+	 * @param bool   $activity_id Whether or not the activity recording succeeded.
+	 */
+	do_action( 'bp_groups_posted_update', $content, $user_id, $group_id, $activity_id );
+
+	return $activity_id;
 }
 
 /**

@@ -727,7 +727,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	/**
 	 * @group bp_blogs_sync_activity_edit_to_post_comment
 	 * @group post_type_comment_activities
-	 * @group imath
 	 */
 	public function test_bp_blogs_sync_activity_edit_to_post_comment_trash_comment_ham_activity() {
 		$old_user = get_current_user_id();

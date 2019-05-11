@@ -435,6 +435,11 @@ class BP_Activity_List_Table extends WP_List_Table {
 						$component = 'xprofile';
 					}
 
+					// The 'activity_update' filter is already used by the Activity component.
+					if ( isset( $actions->activity_update ) && 'bp_groups_format_activity_action_group_activity_update' === $actions->activity_update['format_callback'] ) {
+						unset( $actions->activity_update );
+					}
+
 					if ( bp_is_active( $component ) ) {
 						if ( $component === 'xprofile' ) {
 							$component_name = buddypress()->profile->name;
@@ -455,7 +460,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 							<?php
 
 							// Skip the incorrectly named pre-1.6 action.
-							if ( 'friends_register_activity_action' !== $action_key ) : ?>
+							if ( 'friends_register_activity_action' !== $action_key  ) : ?>
 
 								<option value="<?php echo esc_attr( $action_key ); ?>" <?php selected( $action_key,  $selected ); ?>><?php echo esc_html( $action_values[ 'value' ] ); ?></option>
 

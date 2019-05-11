@@ -3848,6 +3848,11 @@ function bp_activity_show_filters( $context = '' ) {
 				$action['key'] = 'friendship_accepted,friendship_created';
 			}
 
+			// The 'activity_update' filter is already used by the Activity component.
+			if ( 'bp_groups_format_activity_action_group_activity_update' === $action['format_callback'] ) {
+				continue;
+			}
+
 			$filters[ $action['key'] ] = $action['label'];
 		}
 

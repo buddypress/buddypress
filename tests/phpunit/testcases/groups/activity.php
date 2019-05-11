@@ -5,6 +5,8 @@
  * @group activity
  */
 class BP_Tests_Groups_Activity extends BP_UnitTestCase {
+	protected $groups_post_update_args;
+
 	/**
 	 * @group activity_action
 	 * @group bp_groups_format_activity_action_created_group
@@ -225,6 +227,84 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group activity_action
+	 * @group bp_groups_format_activity_action_group_activity_update
+	 */
+	public function test_bp_groups_format_activity_action_group_activity_update() {
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
+		$a = self::factory()->activity->create( array(
+			'component' => buddypress()->groups->id,
+			'type' => 'activity_update',
+			'user_id' => $u,
+			'item_id' => $g,
+		) );
+
+		$a_obj = new BP_Activity_Activity( $a );
+		$g_obj = groups_get_group( $g );
+
+		$expected = sprintf( esc_html__( '%1$s posted an update in the group %2$s', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . esc_url( bp_get_group_permalink( $g_obj ) ) . '">' . esc_html( $g_obj->name ) . '</a>' );
+
+		$this->assertSame( $expected, $a_obj->action );
+	}
+
+	/**
+	 * @group groups_post_update
+	 */
+	public function test_groups_post_update() {
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
+
+		// The user is a group member.
+		groups_join_group( $g, $u );
+
+		$activity_args = array(
+			'content'    => 'Test group_post_update',
+			'user_id'    => $u,
+			'group_id'   => $g,
+			'error_type' => 'wp_error',
+		);
+
+		add_filter( 'bp_before_groups_record_activity_parse_args', array( $this, 'groups_post_update_args' ), 10, 1 );
+
+		groups_post_update( $activity_args );
+
+		remove_filter( 'bp_before_groups_record_activity_parse_args', array( $this, 'groups_post_update_args' ), 10, 1 );
+
+		$expected = array_merge( $activity_args, array( 'item_id' => $g ) );
+		unset( $expected['group_id'] );
+
+		$this->assertEquals( $expected, $this->groups_post_update_args );
+	}
+
+	/**
+	 * @group groups_post_update
+	 */
+	public function test_groups_post_update_in_group() {
+		$bp = buddypress();
+		$u  = self::factory()->user->create();
+		$g  = self::factory()->group->create();
+
+		// The user is a group member.
+		groups_join_group( $g, $u );
+
+		$bp->groups->current_group = groups_get_group( $g );
+
+		$activity_args = array(
+			'content' => 'Test group_post_update in a group',
+			'user_id' => $u,
+		);
+
+		$a = groups_post_update( $activity_args );
+		$a_obj = new BP_Activity_Activity( $a );
+
+		$this->assertSame( $a_obj->item_id, $g );
+		$this->assertSame( $a_obj->component, 'groups' );
+
+		unset( $bp->groups->current_group );
+	}
+
+	/**
 	 * @group bp_activity_can_comment
 	 */
 	public function test_groups_activity_can_comment() {
@@ -261,5 +341,16 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		}
 
 		$this->set_current_user( $old_user );
+	}
+
+	public function groups_post_update_args( $args = array() ) {
+		$this->groups_post_update_args = array_intersect_key( $args, array(
+			'content'    => true,
+			'user_id'    => true,
+			'item_id'    => true,
+			'error_type' => true,
+		) );
+
+		return $args;
 	}
 }

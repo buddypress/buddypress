@@ -840,12 +840,18 @@ function bp_activity_admin_get_activity_actions() {
 		$action = array_values( (array) $action );
 
 		for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ ) {
+			/**
+			 * Don't take in account:
+			 * - a mis-named Friends activity type from before BP 1.6,
+			 * - The Group's component 'activity_update' one as the Activity component is using it.
+			 */
+			if ( 'friends_register_activity_action' === $action[$i]['key'] || 'bp_groups_format_activity_action_group_activity_update' === $action[$i]['format_callback'] ) {
+				continue;
+			}
+
 			$actions[ $action[$i]['key'] ] = $action[$i]['value'];
 		}
 	}
-
-	// This was a mis-named activity type from before BP 1.6.
-	unset( $actions['friends_register_activity_action'] );
 
 	// Sort array by the human-readable value.
 	natsort( $actions );
@@ -870,12 +876,19 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 	foreach ( bp_activity_get_actions() as $action ) {
 		$action = array_values( (array) $action );
 
-		for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ )
-			$actions[ $action[$i]['key'] ] = $action[$i]['value'];
-	}
+		for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ ) {
+			/**
+			 * Don't take in account:
+			 * - a mis-named Friends activity type from before BP 1.6,
+			 * - The Group's component 'activity_update' one as the Activity component is using it.
+			 */
+			if ( 'friends_register_activity_action' === $action[$i]['key'] || 'bp_groups_format_activity_action_group_activity_update' === $action[$i]['format_callback'] ) {
+				continue;
+			}
 
-	// This was a mis-named activity type from before BP 1.6.
-	unset( $actions['friends_register_activity_action'] );
+			$actions[ $action[$i]['key'] ] = $action[$i]['value'];
+		}
+	}
 
 	// Sort array by the human-readable value.
 	natsort( $actions );
