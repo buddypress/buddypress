@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 add_filter( 'bp_get_the_profile_group_name',        'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_profile_group_description', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_profile_field_name',        'wp_filter_kses', 1 );
-add_filter( 'bp_get_the_profile_field_edit_value',  'wp_filter_kses', 1 );
+add_filter( 'bp_get_the_profile_field_edit_value',  'xprofile_sanitize_data_value_before_display', 1, 3 );
 add_filter( 'bp_get_the_profile_field_description', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_profile_field_value',       'xprofile_sanitize_data_value_before_display', 1, 3 );
 
