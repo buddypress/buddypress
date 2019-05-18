@@ -1,5 +1,6 @@
 // BP Lists Global Styles.
-// @version 3.0.0
+// @since 3.0.0
+// @version 5.0.0
 
 // @todo decide whether using .buddypress quasi namespace parent
 // is useful, causing issue with specificity on other
@@ -42,7 +43,9 @@
 			text-align: center;
 
 			img.avatar {
-				display: inline;
+				display: inline-block;
+				width: auto;
+				height: auto;
 			}
 		}
 

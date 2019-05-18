@@ -1,5 +1,6 @@
 // BP Single Screens Item Body General Styles.
-// @version 3.0.0
+// @since 3.0.0
+// @version 5.0.0
 
 .buddypress-wrap {
 
@@ -15,6 +16,7 @@
 
 		.button-tabs {
 			margin: $marg-xlrg 0 $marg-med;
+			list-style: none;
 		}
 
 	}

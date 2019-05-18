@@ -1,5 +1,6 @@
 // BP Directory Search elements
-// @version 3.0.0
+// @since 3.0.0
+// @version 5.0.0
 
 .buddypress-wrap { // the ID is required to add weight to rules
 
@@ -7,14 +8,10 @@
 
 	form.bp-dir-search-form,
 	form.bp-messages-search-form,
-	form.bp-invites-search-form {
+	form[data-bp-search].bp-invites-search-form {
 		border: 1px solid $bp-border-color;
 
 		width: 100%;
-
-		@include medium-lrg-up() {
-			width: 15em;
-		}
 
 		label {
 			margin: 0;

@@ -1,5 +1,6 @@
 // Nouveau Messages styles.
-// @version 3.0.0
+// @since 3.0.0
+// @version 5.0.0
 // Icon additions to default action star
 
 
@@ -187,6 +188,7 @@
 	.actions {
 		float: right;
 		max-width: 30%;
+		line-height: 1;
 
 		.bp-icons:not(.bp-hide) {
 			display: inline-block;
@@ -354,6 +356,7 @@
 
 		img {
 			width: 30px;
+			height: 30px;
 		}
 	}
 

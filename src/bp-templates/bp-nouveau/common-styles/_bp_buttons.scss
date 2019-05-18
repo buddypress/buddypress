@@ -1,5 +1,6 @@
 // BP Buttons, Submits, Icons and general clicky things styling.
-// @version 3.0.0
+// @since 3.0.0
+// @version 5.0.0
 
 // Buttons by default are styled as simple boxes but we may
 // change that by adding a parent class ( on any close parent to
@@ -25,8 +26,10 @@
 			border-color: $bp-border-dark;
 			border-style: solid;
 			border-width: 1px;
+			border-radius: 0;
 			color: $dark-grey;
 			cursor: pointer;
+			font-family: inherit;
 			font-size: inherit;
 			font-weight: 400;
 			outline: none;
@@ -34,6 +37,12 @@
 			text-align: center;
 			text-decoration: none;
 			width: auto;
+			line-height: 1;
+		}
+
+		button.dashicons,
+		a.button.dashicons {
+			font-family: dashicons;
 		}
 
 		// Re-instate the quick-tag padding to avoid the above ruleset

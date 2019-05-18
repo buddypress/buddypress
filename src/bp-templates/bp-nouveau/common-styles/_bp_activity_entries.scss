@@ -1,5 +1,6 @@
 // BP Activity Entries - activity loop
-// @version 3.0.0
+// @since 3.0.0
+// @version 5.0.0
 
 .activity-list {
 
@@ -133,7 +134,9 @@
 			.avatar {
 				display: inline-block;
 				margin: 0 $marg-xsml;
-				vertical-align: bottom;
+				vertical-align: text-top;
+				width: 20px;
+				height: 20px;
 			}
 
 			.time-since {
@@ -215,6 +218,7 @@
 
 			.button {
 				background: transparent;
+				color: $dark-grey;
 			}
 
 			a {
@@ -326,7 +330,7 @@
 				padding: $pad-sml 0;
 
 				&:focus,
-				&:hover, {
+				&:hover {
 					background: $white;
 					color: $black;
 				}
@@ -371,6 +375,7 @@ body.activity-permalink {
 
 			img {
 				max-width: 100%;
+				background-color: $light-grey;
 			}
 		}
 
@@ -409,6 +414,11 @@ body.activity-permalink {
 				margin-right: 0;
 				position: relative;
 				top: -20px;
+
+				img {
+					-webkit-box-shadow: 0 0 0 8px #fff;
+					box-shadow: 0 0 0 8px #fff;
+				}
 			}
 
 			.activity-content {

@@ -1,5 +1,6 @@
 // BP Single Screens Item Header General Styles.
-// @version 3.0.0
+// @since 3.0.0
+// @version 5.0.0
 
 @include clearfix-element(".single-headers");
 
@@ -16,6 +17,8 @@
 
 			img {
 				float: none;
+				width: auto;
+				height: auto;
 			}
 		}
 	}

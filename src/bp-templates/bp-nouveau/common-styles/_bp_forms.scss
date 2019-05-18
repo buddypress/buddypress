@@ -1,5 +1,6 @@
 // BP Forms Elements Global Styles
-// @version 3.0.0
+// @since 3.0.0
+// @version 5.0.0
 
 // Some essential classes used for forms elements:
 // labels - sizing especially for standalone controls
@@ -353,7 +354,7 @@ body.no-js {
 			position: relative;
 			text-indent: -2px;
 			z-index: 1;
-			width: 100%;
+			width: auto;
 		}
 
 		select,

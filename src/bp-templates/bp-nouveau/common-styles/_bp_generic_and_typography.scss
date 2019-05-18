@@ -1,5 +1,6 @@
 // BP Generic elements, Typography and Images.
-// @version 4.0.0
+// @since 3.0.0
+// @version 5.0.0
 
 // ========= Generic Sitewide elements ========
 body {
@@ -66,10 +67,10 @@ body.buddypress {
 			max-width: none;
 		}
 
-		.entry-content {
+		.entry-content,
+		.entry .entry-content > * {
 			float: none;
 			max-width: none;
-			//padding: 0 $pad-xlrg;
 		}
 
 		// 2017 has a very large top padding we'll reduce that for bp screens
@@ -124,6 +125,11 @@ body.buddypress { // add weight
 			margin: 1em 0;
 			// some themes add padding top lets manage that generically sitewide
 			padding: 0;
+		}
+
+		// Specific to Twenty Nineteen
+		h2:before {
+			display: none;
 		}
 	}
 }

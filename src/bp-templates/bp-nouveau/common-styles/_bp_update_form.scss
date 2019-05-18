@@ -1,5 +1,6 @@
 // BP Whats new form handles user updates to groups or profiles
-// @version 3.0.0
+// @since 3.0.0
+// @version 5.0.0
 
 .activity-update-form {
 	padding: 10px 10px 0;
@@ -30,6 +31,8 @@
 		img {
 			box-shadow: none;
 			display: inline-block;
+			height: auto;
+			width: auto;
 		}
 	}
 
@@ -70,13 +73,20 @@
 		#whats-new-post-in-box-items {
 			list-style: none;
 			margin: $marg-sml 0;
+			padding-left: 0;
 
 			li {
 				margin-bottom: $marg-sml;
 			}
 
+			button.bp-remove-item {
+				margin-left: $marg-sml;
+				height: auto;
+			}
+
 			#activity-autocomplete {
 				padding: 0.3em;
+				width: 100%;
 			}
 
 			.bp-activity-object {
@@ -86,6 +96,7 @@
 
 				.avatar {
 					width: 30px;
+					height: 30px;
 				}
 
 				span {
@@ -133,8 +144,7 @@
 		#whats-new-content,
 		#whats-new-post-in-box,
 		#whats-new-submit {
-			margin-left: 8.5%;
-
+			margin-left: 55px;
 		}
 
 		#whats-new-submit {
