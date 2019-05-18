@@ -259,17 +259,22 @@
 		&.error,
 		&.bad {
 
-			@include pwd-bad-colors($color: $white);
+			@include pwd-bad-colors($color: $black);
 		}
 
 		&.short {
 
-			@include pwd-short-colors($color: $white);
+			@include pwd-short-colors($color: $black);
+		}
+
+		&.good {
+
+			@include pwd-good-colors($color: $black);
 		}
 
 		&.strong {
 
-			@include pwd-good-colors($color: $white);
+			@include pwd-strong-colors($color: $black);
 		}
 
 	} // close #pass-strength-result

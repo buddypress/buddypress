@@ -532,6 +532,27 @@
 	color: $color;
 }
 
+@mixin pwd-strong-colors($color: inherit, $background: null, $border: null) {
+
+	@if $background {
+		$background: $background;
+	} @else {
+		$background: $background-strong;
+	}
+
+	background-color: $background;
+
+	@if $border {
+		$border: $border;
+	} @else {
+		$border: $border-strong;
+	}
+
+	border-color: $border;
+
+	color: $color;
+}
+
 // BP Tooltips
 
 // Bottom center tooltip - Default

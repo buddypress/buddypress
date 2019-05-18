@@ -51,6 +51,48 @@
 			margin: 0 $marg-med $marg-sml 0;
 		}
 
+		.wp-pwd button {
+			vertical-align: middle;
+		}
+
+		#pass1,
+		#pass1-text,
+		#pass-strength-result {
+			width: 10em;
+		}
+
+		#pass1 {
+			display: inline-block;
+			margin-bottom: inherit;
+		}
+
+		#pass1-text,
+		.pw-weak {
+			display: none;
+		}
+
+		.show-password {
+
+			#pass1-text {
+				display: inline-block;
+				margin-bottom: inherit;
+			}
+
+			#pass1 {
+				display: none;
+			}
+		}
+
+		.description.indicator-hint {
+
+			@include font-size(14);
+		}
+
+		#submit:disabled {
+			color: $light-text;
+			opacity: 0.4;
+		}
+
 		.password-entry,
 		.password-entry-confirm {
 			border: 1px solid $bp-border-color;
@@ -58,6 +100,20 @@
 	} // close .signup-form
 
 } // close .register-page
+
+body.buddypress.register.js {
+
+	.user-pass2-wrap {
+		display: none;
+	}
+}
+
+body.buddypress.register.no-js {
+
+	.wp-hide-pw {
+		display: none;
+	}
+}
 
 // Flex layout containers for registration sections
 
@@ -101,6 +157,7 @@
 		.register-page {
 
 			.default-profile {
+				min-width: 14em;
 				flex: 1;
 				padding-right: $pad-med;
 			}

@@ -1161,22 +1161,8 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
 				'type'           => 'email',
 				'class'          => '',
 			),
-			'signup_password' => array(
-				'label'          => __( 'Choose a Password', 'buddypress' ),
-				'required'       => true,
-				'value'          => '',
-				'attribute_type' => 'password',
-				'type'           => 'password',
-				'class'          => 'password-entry',
-			),
-			'signup_password_confirm' => array(
-				'label'          => __( 'Confirm Password', 'buddypress' ),
-				'required'       => true,
-				'value'          => '',
-				'attribute_type' => 'password',
-				'type'           => 'password',
-				'class'          => 'password-entry-confirm',
-			),
+			'signup_password' => array(),
+			'signup_password_confirm' => array(),
 		),
 		'blog_details' => array(
 			'signup_blog_url' => array(
@@ -1256,7 +1242,7 @@ function bp_nouveau_get_submit_button( $action = '' ) {
 			'nonce'      => 'bp_new_signup',
 			'attributes' => array(
 				'name'  => 'signup_submit',
-				'id'    => 'signup_submit',
+				'id'    => 'submit',
 				'value' => __( 'Complete Sign Up', 'buddypress' ),
 			),
 		),

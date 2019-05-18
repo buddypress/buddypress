@@ -1946,9 +1946,55 @@ form.ac-form .ac-reply-content input {
 	margin: 0 15px 10px 0;
 }
 
+.register-page .signup-form .wp-pwd button {
+	vertical-align: middle;
+}
+
+.register-page .signup-form #pass1,
+.register-page .signup-form #pass1-text,
+.register-page .signup-form #pass-strength-result {
+	width: 10em;
+}
+
+.register-page .signup-form #pass1 {
+	display: inline-block;
+	margin-bottom: inherit;
+}
+
+.register-page .signup-form #pass1-text,
+.register-page .signup-form .pw-weak {
+	display: none;
+}
+
+.register-page .signup-form .show-password #pass1-text {
+	display: inline-block;
+	margin-bottom: inherit;
+}
+
+.register-page .signup-form .show-password #pass1 {
+	display: none;
+}
+
+.register-page .signup-form .description.indicator-hint {
+	font-size: 14px;
+}
+
+.register-page .signup-form #submit:disabled {
+	color: #767676;
+	opacity: 0.4;
+}
+
 .register-page .signup-form .password-entry,
 .register-page .signup-form .password-entry-confirm {
 	border: 1px solid #eee;
+}
+
+body.buddypress.register.js .user-pass2-wrap {
+	display: none;
+}
+
+body.buddypress.register.no-js .wp-hide-pw {
+	display: none;
 }
 
 @media screen and (min-width: 46.8em) {
@@ -1972,6 +2018,7 @@ form.ac-form .ac-reply-content input {
 
 @media screen and (min-width: 46.8em) {
 	.buddypress-wrap.extended-default-reg .register-page .default-profile {
+		min-width: 14em;
 		flex: 1;
 		padding-right: 1em;
 	}
@@ -3220,6 +3267,52 @@ div.bp-navs#subsubnav.bp-messages-filters .user-messages-bulk-actions {
 }
 
 /*__ General __*/
+body.buddypress.settings .wp-pwd button {
+	vertical-align: middle;
+}
+
+body.buddypress.settings #pass1,
+body.buddypress.settings #pass1-text,
+body.buddypress.settings #pass-strength-result {
+	width: 16em;
+}
+
+body.buddypress.settings #pass1 {
+	display: inline-block;
+	margin-bottom: inherit;
+}
+
+body.buddypress.settings #pass1-text,
+body.buddypress.settings .pw-weak,
+body.buddypress.settings #pass-strength-result {
+	display: none;
+}
+
+body.buddypress.settings .show-password #pass1-text {
+	display: inline-block;
+	margin-bottom: inherit;
+}
+
+body.buddypress.settings .show-password #pass1 {
+	display: none;
+}
+
+body.buddypress.settings #your-profile #submit:disabled {
+	color: #767676;
+	opacity: 0.4;
+}
+
+body.buddypress.settings.js .wp-pwd,
+body.buddypress.settings.js .user-pass2-wrap {
+	display: none;
+}
+
+body.buddypress.settings.no-js .wp-generate-pw,
+body.buddypress.settings.no-js .wp-cancel-pw,
+body.buddypress.settings.no-js .wp-hide-pw {
+	display: none;
+}
+
 /*__ Email notifications __*/
 /*__ Profile visibility __*/
 /*__ Group Invites __*/
@@ -3335,7 +3428,7 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
 	border-color: #b71717;
 }
 
-.buddypress-wrap .standard-form input:not(.button-small),
+.buddypress-wrap .standard-form input:not(.small),
 .buddypress-wrap .standard-form textarea {
 	width: 100%;
 }
@@ -4354,19 +4447,25 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .buddypress-wrap #pass-strength-result.error, .buddypress-wrap #pass-strength-result.bad {
 	background-color: #ffb78c;
 	border-color: #ff853c;
-	color: #fff;
+	color: #333;
 }
 
 .buddypress-wrap #pass-strength-result.short {
 	background-color: #ffa0a0;
 	border-color: #f04040;
-	color: #fff;
+	color: #333;
+}
+
+.buddypress-wrap #pass-strength-result.good {
+	background-color: #ffec8b;
+	border-color: #fc0;
+	color: #333;
 }
 
 .buddypress-wrap #pass-strength-result.strong {
 	background-color: #66d66e;
 	border-color: #438c48;
-	color: #fff;
+	color: #333;
 }
 
 .buddypress-wrap .standard-form#signup_form div div.error {

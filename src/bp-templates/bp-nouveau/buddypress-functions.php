@@ -324,6 +324,13 @@ class BP_Nouveau extends BP_Theme_Compat {
 
 		// Add The password verify if needed.
 		if ( bp_is_active( 'settings' ) || bp_get_signup_allowed() ) {
+			/**
+			 * BP Nouveau is now directly using the `wp-admin/js/user-profile.js` script.
+			 *
+			 * Setting the user password is now more consistent with how WordPress handles it.
+			 *
+			 * @deprecated 5.0.0
+			 */
 			$scripts['bp-nouveau-password-verify'] = array(
 				'file'         => 'js/password-verify%s.js',
 				'dependencies' => array( 'bp-nouveau', 'password-strength-meter' ),
@@ -372,7 +379,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		wp_enqueue_script( 'bp-nouveau' );
 
 		if ( bp_is_register_page() || bp_is_user_settings_general() ) {
-			wp_enqueue_script( 'bp-nouveau-password-verify' );
+			wp_enqueue_script( 'user-profile' );
 		}
 
 		if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) ) {
