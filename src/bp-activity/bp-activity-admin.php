@@ -310,7 +310,7 @@ function bp_activity_admin_load() {
 	) );
 	wp_enqueue_style( 'bp_activity_admin_css', $bp->plugin_url . "bp-activity/admin/css/admin{$min}.css", array(),                               bp_get_version()       );
 
-	wp_style_add_data( 'bp_activity_admin_css', 'rtl', true );
+	wp_style_add_data( 'bp_activity_admin_css', 'rtl', 'replace' );
 	if ( $min ) {
 		wp_style_add_data( 'bp_activity_admin_css', 'suffix', $min );
 	}

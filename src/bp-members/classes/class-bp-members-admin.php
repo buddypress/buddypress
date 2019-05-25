@@ -624,7 +624,7 @@ class BP_Members_Admin {
 
 		wp_enqueue_style( 'bp-members-css', $css, array(), bp_get_version() );
 
-		wp_style_add_data( 'bp-members-css', 'rtl', true );
+		wp_style_add_data( 'bp-members-css', 'rtl', 'replace' );
 		if ( $min ) {
 			wp_style_add_data( 'bp-members-css', 'suffix', $min );
 		}

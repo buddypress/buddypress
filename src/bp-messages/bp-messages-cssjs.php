@@ -42,7 +42,7 @@ function messages_add_autocomplete_css() {
 
 		wp_enqueue_style( 'bp-messages-autocomplete', "{$url}autocomplete/jquery.autocompletefb{$min}.css", array(), bp_get_version() );
 
-		wp_style_add_data( 'bp-messages-autocomplete', 'rtl', true );
+		wp_style_add_data( 'bp-messages-autocomplete', 'rtl', 'replace' );
 		if ( $min ) {
 			wp_style_add_data( 'bp-messages-autocomplete', 'suffix', $min );
 		}

@@ -21,7 +21,7 @@ function xprofile_add_admin_css() {
 
 		wp_enqueue_style( 'xprofile-admin-css', buddypress()->plugin_url . "bp-xprofile/admin/css/admin{$min}.css", array(), bp_get_version() );
 
-		wp_style_add_data( 'xprofile-admin-css', 'rtl', true );
+		wp_style_add_data( 'xprofile-admin-css', 'rtl', 'replace' );
 		if ( $min ) {
 			wp_style_add_data( 'xprofile-admin-css', 'suffix', $min );
 		}

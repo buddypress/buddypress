@@ -156,7 +156,7 @@ function bp_core_register_common_styles() {
 	foreach ( $styles as $id => $style ) {
 		wp_register_style( $id, $style['file'], $style['dependencies'], bp_get_version() );
 
-		wp_style_add_data( $id, 'rtl', true );
+		wp_style_add_data( $id, 'rtl', 'replace' );
 		if ( $min ) {
 			wp_style_add_data( $id, 'suffix', $min );
 		}

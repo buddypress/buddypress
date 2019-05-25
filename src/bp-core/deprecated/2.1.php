@@ -334,7 +334,7 @@ function bp_core_load_buddybar_css() {
 
 	wp_enqueue_style( 'bp-admin-bar', apply_filters( 'bp_core_buddybar_rtl_css', $stylesheet ), array(), bp_get_version() );
 
-	wp_style_add_data( 'bp-admin-bar', 'rtl', true );
+	wp_style_add_data( 'bp-admin-bar', 'rtl', 'replace' );
 	if ( $min ) {
 		wp_style_add_data( 'bp-admin-bar', 'suffix', $min );
 	}
