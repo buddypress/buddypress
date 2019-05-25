@@ -26,6 +26,9 @@ php:
 # x.y mirrors the latest from the x.y branch
 env:
   - WP_VERSION=master BP_TRAVISCI=travis:phpunit
+  - WP_VERSION=5.2 BP_TRAVISCI=travis:phpunit
+  - WP_VERSION=5.1 BP_TRAVISCI=travis:phpunit
+  - WP_VERSION=5.0 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.9 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.8 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.7 BP_TRAVISCI=travis:phpunit
@@ -37,9 +40,6 @@ matrix:
       env: WP_VERSION=master BP_TRAVISCI=travis:grunt
     - php: 7.2
       env: WP_VERSION=master BP_TRAVISCI=travis:phpcompat
-    - php: 5.3
-      env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
-      dist: precise
     - php: 5.3
       env: WP_VERSION=4.8 BP_TRAVISCI=travis:phpunit
       dist: precise
