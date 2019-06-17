@@ -240,7 +240,7 @@ function bp_core_set_uri_globals() {
 	}
 
 	// Search doesn't have an associated page, so we check for it separately.
-	if ( !empty( $bp_uri[0] ) && ( bp_get_search_slug() == $bp_uri[0] ) ) {
+	if ( isset( $_POST['search-terms'] ) && !empty( $bp_uri[0] ) && ( bp_get_search_slug() == $bp_uri[0] ) ) {
 		$matches[]   = 1;
 		$match       = new stdClass;
 		$match->key  = 'search';
