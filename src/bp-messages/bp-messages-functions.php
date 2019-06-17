@@ -684,7 +684,7 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
 
 		foreach ( $thread->messages as $message_index => $message ) {
 			// Only include messages written by the user.
-			if ( $recipient->user_id !== $message->sender_id ) {
+			if ( $user->ID !== $message->sender_id ) {
 				continue;
 			}
 
