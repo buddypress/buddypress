@@ -152,4 +152,62 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 		// Number of exported messages.
 		$this->assertSame( 3, count( $actual['data'] ) );
 	}
+
+	/**
+	 * @ticket BP8080
+	 */
+	public function test_bp_messages_personal_data_exporter_check_sender() {
+		$u1       = self::factory()->user->create();
+		$u2       = self::factory()->user->create();
+		$expected = array(
+			'Hey u2!',
+			'You could have replied to my first message u2!',
+		);
+
+		$time = time();
+
+		$t1 = messages_new_message( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'A new message',
+			'content'    => $expected[0],
+			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 3 * HOUR_IN_SECONDS ) ),
+		) );
+
+		$t2 = messages_new_message( array(
+			'sender_id'  => $u2,
+			'recipients' => array( $u1 ),
+			'subject'    => 'A new message',
+			'content'    => 'Hey u1!',
+			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 5 * HOUR_IN_SECONDS ) ),
+		) );
+
+		$t3 = messages_new_message( array(
+			'sender_id'  => $u1,
+			'thread_id'  => $t2,
+			'recipients' => array( $u2 ),
+			'subject'    => 'Reply to ' . $t2,
+			'content'    => $expected[1],
+			'date_sent'  => date( 'Y-m-d H:i:s', $time - ( 4 * HOUR_IN_SECONDS ) ),
+		) );
+
+		$test_user = new WP_User( $u1 );
+
+		$threads      = bp_messages_personal_data_exporter( $test_user->user_email, 1 );
+		$threads_data = wp_list_pluck( $threads['data'], 'data' );
+		$actual       = array();
+
+		foreach ( $threads_data as $thread ) {
+			foreach ( $thread as $data ) {
+				if ( 'Message Content' !== $data['name'] ) {
+					continue;
+				}
+
+				$actual[] = $data['value'];
+			}
+		}
+
+		// Only messages sent by u1 should be exported.
+		$this->assertEquals( $expected, $actual );
+	}
 }
