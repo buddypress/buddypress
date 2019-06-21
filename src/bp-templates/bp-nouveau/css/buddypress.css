@@ -2559,6 +2559,29 @@ body.no-js .single-item-header .js-self-profile-button {
 	}
 }
 
+#group-manage-members-ui #group-members-search-form button[type="submit"] {
+	float: right;
+	font-size: inherit;
+	font-weight: 400;
+	line-height: 1.5;
+	text-align: center;
+	text-transform: none;
+}
+
+#group-manage-members-ui #group-members-search-form button[type="submit"] span {
+	font-family: dashicons;
+	font-size: 18px;
+	line-height: 1.6;
+}
+
+#group-manage-members-ui #group-members-pagination button:last-child {
+	margin-right: 2em;
+}
+
+#group-manage-members-ui #bp-no-group-members td {
+	border: none;
+}
+
 /**
 *-----------------------------------------
 * @subsection 5.2.1.2 - Group Members List
@@ -3691,14 +3714,16 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .buddypress-wrap form.bp-dir-search-form,
 .buddypress-wrap form.bp-messages-search-form,
-.buddypress-wrap form[data-bp-search].bp-invites-search-form {
+.buddypress-wrap form[data-bp-search].bp-invites-search-form,
+.buddypress-wrap form#group-members-search {
 	border: 1px solid #eee;
 	width: 100%;
 }
 
 .buddypress-wrap form.bp-dir-search-form label,
 .buddypress-wrap form.bp-messages-search-form label,
-.buddypress-wrap form[data-bp-search].bp-invites-search-form label {
+.buddypress-wrap form[data-bp-search].bp-invites-search-form label,
+.buddypress-wrap form#group-members-search label {
 	margin: 0;
 }
 
@@ -3710,7 +3735,10 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .buddypress-wrap form.bp-messages-search-form button[type="submit"],
 .buddypress-wrap form[data-bp-search].bp-invites-search-form input[type="search"],
 .buddypress-wrap form[data-bp-search].bp-invites-search-form input[type="text"],
-.buddypress-wrap form[data-bp-search].bp-invites-search-form button[type="submit"] {
+.buddypress-wrap form[data-bp-search].bp-invites-search-form button[type="submit"],
+.buddypress-wrap form#group-members-search input[type="search"],
+.buddypress-wrap form#group-members-search input[type="text"],
+.buddypress-wrap form#group-members-search button[type="submit"] {
 	background: none;
 	border: 0;
 	border-radius: 0;
@@ -3722,7 +3750,9 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .buddypress-wrap form.bp-messages-search-form input[type="search"],
 .buddypress-wrap form.bp-messages-search-form input[type="text"],
 .buddypress-wrap form[data-bp-search].bp-invites-search-form input[type="search"],
-.buddypress-wrap form[data-bp-search].bp-invites-search-form input[type="text"] {
+.buddypress-wrap form[data-bp-search].bp-invites-search-form input[type="text"],
+.buddypress-wrap form#group-members-search input[type="search"],
+.buddypress-wrap form#group-members-search input[type="text"] {
 	float: left;
 	line-height: 1.5;
 	padding: 3px 10px;
@@ -3731,7 +3761,8 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .buddypress-wrap form.bp-dir-search-form button[type="submit"],
 .buddypress-wrap form.bp-messages-search-form button[type="submit"],
-.buddypress-wrap form[data-bp-search].bp-invites-search-form button[type="submit"] {
+.buddypress-wrap form[data-bp-search].bp-invites-search-form button[type="submit"],
+.buddypress-wrap form#group-members-search button[type="submit"] {
 	float: right;
 	font-size: inherit;
 	font-weight: 400;
@@ -3744,7 +3775,8 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .buddypress-wrap form.bp-dir-search-form button[type="submit"] span,
 .buddypress-wrap form.bp-messages-search-form button[type="submit"] span,
-.buddypress-wrap form[data-bp-search].bp-invites-search-form button[type="submit"] span {
+.buddypress-wrap form[data-bp-search].bp-invites-search-form button[type="submit"] span,
+.buddypress-wrap form#group-members-search button[type="submit"] span {
 	font-family: dashicons;
 	font-size: 18px;
 	line-height: 1.6;
@@ -3752,7 +3784,8 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .buddypress-wrap form.bp-dir-search-form button[type="submit"].bp-show,
 .buddypress-wrap form.bp-messages-search-form button[type="submit"].bp-show,
-.buddypress-wrap form[data-bp-search].bp-invites-search-form button[type="submit"].bp-show {
+.buddypress-wrap form[data-bp-search].bp-invites-search-form button[type="submit"].bp-show,
+.buddypress-wrap form#group-members-search button[type="submit"].bp-show {
 	height: auto;
 	left: 0;
 	overflow: visible;
@@ -3762,7 +3795,8 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 
 .buddypress-wrap form.bp-dir-search-form input[type="search"]::-webkit-search-cancel-button,
 .buddypress-wrap form.bp-messages-search-form input[type="search"]::-webkit-search-cancel-button,
-.buddypress-wrap form[data-bp-search].bp-invites-search-form input[type="search"]::-webkit-search-cancel-button {
+.buddypress-wrap form[data-bp-search].bp-invites-search-form input[type="search"]::-webkit-search-cancel-button,
+.buddypress-wrap form#group-members-search input[type="search"]::-webkit-search-cancel-button {
 	-webkit-appearance: searchfield-cancel-button;
 }
 
@@ -3771,8 +3805,15 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .buddypress-wrap form.bp-messages-search-form input[type="search"]::-webkit-search-results-button,
 .buddypress-wrap form.bp-messages-search-form input[type="search"]::-webkit-search-results-decoration,
 .buddypress-wrap form[data-bp-search].bp-invites-search-form input[type="search"]::-webkit-search-results-button,
-.buddypress-wrap form[data-bp-search].bp-invites-search-form input[type="search"]::-webkit-search-results-decoration {
+.buddypress-wrap form[data-bp-search].bp-invites-search-form input[type="search"]::-webkit-search-results-decoration,
+.buddypress-wrap form#group-members-search input[type="search"]::-webkit-search-results-button,
+.buddypress-wrap form#group-members-search input[type="search"]::-webkit-search-results-decoration {
 	display: none;
+}
+
+.buddypress-wrap form#group-members-search:hover {
+	border: 1px solid #d5d4d4;
+	box-shadow: inset 0 0 3px #eee;
 }
 
 .buddypress-wrap ul.filters li form label input {

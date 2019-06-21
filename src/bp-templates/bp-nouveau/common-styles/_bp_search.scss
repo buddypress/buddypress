@@ -8,7 +8,8 @@
 
 	form.bp-dir-search-form,
 	form.bp-messages-search-form,
-	form[data-bp-search].bp-invites-search-form {
+	form[data-bp-search].bp-invites-search-form,
+	form#group-members-search {
 		border: 1px solid $bp-border-color;
 
 		width: 100%;
@@ -67,6 +68,14 @@
 		}
 
 	} // close form
+
+	form#group-members-search {
+
+		&:hover {
+			border: 1px solid darken($bp-border-color, 10%);
+			box-shadow: inset 0 0 3px #eee;
+		}
+	}
 
 	// this block needs to be moved really.
 	ul.filters {

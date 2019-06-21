@@ -6217,3 +6217,15 @@ function bp_groups_get_profile_stats( $args = '' ) {
 	 */
 	return apply_filters( 'bp_groups_get_profile_stats', $r['output'], $r );
 }
+
+/**
+ * Check if the active template pack includes the Group Membership management UI templates.
+ *
+ * @since 5.0.0
+ *
+ * @return boolean True if the active template pack includes the Group Membership management UI templates.
+ *                 False otherwise.
+ */
+function bp_groups_has_manage_group_members_templates() {
+	return file_exists( bp_locate_template( 'common/js-templates/group-members/index.php' ) );
+}

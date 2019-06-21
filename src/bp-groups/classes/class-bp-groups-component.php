@@ -128,7 +128,8 @@ class BP_Groups_Component extends BP_Component {
 			'template',
 			'adminbar',
 			'functions',
-			'notifications'
+			'notifications',
+			'cssjs',
 		);
 
 		// Conditional includes.

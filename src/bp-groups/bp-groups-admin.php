@@ -891,6 +891,24 @@ function bp_groups_admin_edit_metabox_add_new_members( $item ) {
  * @param BP_Groups_Group $item The BP_Groups_Group object for the current group.
  */
 function bp_groups_admin_edit_metabox_members( $item ) {
+	// Use the BP REST API if it supported.
+	if ( bp_rest_api_is_available() && bp_groups_has_manage_group_members_templates() ) {
+		wp_enqueue_script( 'bp-group-manage-members' );
+		wp_localize_script(
+			'bp-group-manage-members',
+			'bpGroupManageMembersSettings',
+			bp_groups_get_group_manage_members_script_data( $item->id )
+		);
+
+		bp_get_template_part( 'common/js-templates/group-members/index' );
+
+		/**
+		 * Echo out the JavaScript variable.
+		 * This seems to be required by the autocompleter, leaving this here for now...
+		 */
+		echo '<script type="text/javascript">var group_id = "' . esc_js( $item->id ) . '";</script>';
+		return;
+	}
 
 	// Pull up a list of group members, so we can separate out the types
 	// We'll also keep track of group members here to place them into a

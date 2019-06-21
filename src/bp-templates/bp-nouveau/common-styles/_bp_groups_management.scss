@@ -139,3 +139,36 @@
 	}
 
 } //close .groups-manage-members-list
+
+#group-manage-members-ui {
+
+	#group-members-search-form {
+
+		button[type="submit"] {
+			float: right;
+			font-size: inherit;
+			font-weight: 400;
+			line-height: 1.5;
+			text-align: center;
+			text-transform: none;
+
+			span {
+				font-family: dashicons;
+
+				@include font-size(18);
+				line-height: 1.6;
+			}
+		}
+	}
+
+	#group-members-pagination {
+
+		button:last-child {
+			margin-right: 2em;
+		}
+	}
+
+	#bp-no-group-members td {
+		border: none;
+	}
+}

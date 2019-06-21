@@ -140,6 +140,39 @@ table.bp-group-members .urole-column {
 	padding-right: 20px;
 }
 
+#group-manage-members-ui .subnav-filters .filter.last {
+	float: right;
+}
+
+#group-manage-members-ui .subnav-filters .left-menu {
+	float: left;
+}
+
+#group-manage-members-ui .subnav-filters .group-members-paginate-button:last-child {
+	margin-right: 2em;
+}
+
+#group-manage-members-ui .subnav-filters .dashicons {
+	padding-top: 2px;
+}
+
+#group-manage-members-ui .uname-column .profile-photo {
+	margin-right: 1em;
+}
+
+#bp-no-group-members .bp-feedback.info {
+	background: #fff;
+	border-left: 4px solid #00a0d2;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+	margin: 5px 5px 2px;
+	padding: 1px 12px;
+}
+
+#bp-no-group-members .bp-feedback.info p {
+	margin: 0.5em 0;
+	padding: 2px;
+}
+
 @media screen and (max-width: 782px) {
 
 	.bp-groups-settings-section label {
