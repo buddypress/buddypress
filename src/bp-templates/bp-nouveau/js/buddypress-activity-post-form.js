@@ -626,6 +626,8 @@ window.bp = window.bp || {};
 				height : 'auto'
 			} );
 
+			this.$el.addClass( 'activity-form-expanded' );
+
 			// Add the container view for buttons or custom fields.
 			if ( true === this.options.backcompat.post_form_options ) {
 				this.views.add( new bp.Views.FormOptions( { model: this.model } ) );
@@ -661,6 +663,8 @@ window.bp = window.bp || {};
 				resize : 'none',
 				height : '50px'
 			} );
+
+			this.$el.removeClass( 'activity-form-expanded' );
 
 			// Reset the model
 			this.model.clear();
