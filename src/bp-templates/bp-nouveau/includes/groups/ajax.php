@@ -3,7 +3,7 @@
  * Groups Ajax functions
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 4.4.0
  */
 
 // Exit if accessed directly.
@@ -384,15 +384,26 @@ function bp_nouveau_ajax_send_group_invites() {
 	}
 
 	// For feedback
-	$invited = array();
+	$invited           = array();
+	$is_friends_active = bp_is_active( 'friends' );
 
 	foreach ( (array) $_POST['users'] as $user_id ) {
-		$invited[ (int) $user_id ] = groups_invite_user(
-			array(
-				'user_id'  => $user_id,
-				'group_id' => $group_id,
-			)
-		);
+		$user_id = (int) $user_id;
+
+		if ( $is_friends_active && bp_nouveau_groups_get_group_invites_setting( $user_id ) && 'is_friend' !== BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $user_id ) ) {
+			continue;
+		} else {
+			$invited[ $user_id ] = groups_invite_user(
+				array(
+					'user_id'  => $user_id,
+					'group_id' => $group_id,
+				)
+			);
+		}
+	}
+
+	if ( ! $invited ) {
+		wp_send_json_error( $response );
 	}
 
 	if ( ! empty( $_POST['message'] ) ) {
