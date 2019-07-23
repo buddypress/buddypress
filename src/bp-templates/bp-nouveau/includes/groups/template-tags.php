@@ -3,7 +3,7 @@
  * Groups Template tags
  *
  * @since 3.0.0
- * @version 3.2.0
+ * @version 4.4.0
  */
 
 // Exit if accessed directly.
@@ -192,11 +192,17 @@ function bp_nouveau_group_invites_interface() {
  * Gets the displayed user group invites preferences
  *
  * @since 3.0.0
+ * @since 4.4.0
  *
- * @return int Returns 1 if user chose to restrict to friends, 0 otherwise.
+ * @param  int $user_id The user ID to check group invites preference for.
+ * @return int          Returns 1 if user chose to restrict to friends, 0 otherwise.
  */
-function bp_nouveau_groups_get_group_invites_setting() {
-	return (int) bp_get_user_meta( bp_displayed_user_id(), '_bp_nouveau_restrict_invites_to_friends' );
+function bp_nouveau_groups_get_group_invites_setting( $user_id = 0 ) {
+	if ( ! $user_id ) {
+		$user_id = bp_displayed_user_id();
+	}
+
+	return (int) bp_get_user_meta( $user_id, '_bp_nouveau_restrict_invites_to_friends' );
 }
 
 /**
