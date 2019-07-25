@@ -666,14 +666,16 @@ function bp_xprofile_filter_meta_query( $q ) {
  * Register XProfile personal data exporter.
  *
  * @since 4.0.0
+ * @since 5.0.0 adds an `exporter_bp_friendly_name` param to exporters.
  *
  * @param array $exporters  An array of personal data exporters.
  * @return array An array of personal data exporters.
  */
 function bp_xprofile_register_personal_data_exporter( $exporters ) {
 	$exporters['buddypress-xprofile'] = array(
-		'exporter_friendly_name' => __( 'BuddyPress Extended Profile Data', 'buddypress' ),
-		'callback'               => 'bp_xprofile_personal_data_exporter',
+		'exporter_friendly_name'    => __( 'BuddyPress Extended Profile Data', 'buddypress' ),
+		'callback'                  => 'bp_xprofile_personal_data_exporter',
+		'exporter_bp_friendly_name' => _x( 'Extended Profile information', 'BuddyPress Extended Profile data exporter friendly name', 'buddypress' ),
 	);
 
 	return $exporters;

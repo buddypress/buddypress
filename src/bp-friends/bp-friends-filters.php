@@ -52,24 +52,28 @@ add_filter( 'bp_user_query_populate_extras', 'bp_friends_filter_user_query_popul
  * Registers Friends personal data exporter.
  *
  * @since 4.0.0
+ * @since 5.0.0 adds an `exporter_bp_friendly_name` param to exporters.
  *
  * @param array $exporters  An array of personal data exporters.
  * @return array An array of personal data exporters.
  */
 function bp_friends_register_personal_data_exporters( $exporters ) {
 	$exporters['buddypress-friends'] = array(
-		'exporter_friendly_name' => __( 'BuddyPress Friends', 'buddypress' ),
-		'callback'               => 'bp_friends_personal_data_exporter',
+		'exporter_friendly_name'    => __( 'BuddyPress Friends', 'buddypress' ),
+		'callback'                  => 'bp_friends_personal_data_exporter',
+		'exporter_bp_friendly_name' => _x( 'Friends', 'BuddyPress Friends data exporter friendly name', 'buddypress' ),
 	);
 
 	$exporters['buddypress-friends-pending-sent-requests'] = array(
-		'exporter_friendly_name' => __( 'BuddyPress Friend Requests (Sent)', 'buddypress' ),
-		'callback'               => 'bp_friends_pending_sent_requests_personal_data_exporter',
+		'exporter_friendly_name'    => __( 'BuddyPress Friend Requests (Sent)', 'buddypress' ),
+		'callback'                  => 'bp_friends_pending_sent_requests_personal_data_exporter',
+		'exporter_bp_friendly_name' => _x( 'Friend Requests (Sent)', 'BuddyPress Friend Requests data exporter friendly name', 'buddypress' ),
 	);
 
 	$exporters['buddypress-friends-pending-received-requests'] = array(
-		'exporter_friendly_name' => __( 'BuddyPress Friend Requests (Received)', 'buddypress' ),
-		'callback'               => 'bp_friends_pending_received_requests_personal_data_exporter',
+		'exporter_friendly_name'    => __( 'BuddyPress Friend Requests (Received)', 'buddypress' ),
+		'callback'                  => 'bp_friends_pending_received_requests_personal_data_exporter',
+		'exporter_bp_friendly_name' => _x( 'Friend Requests (Received)', 'BuddyPress Friend Requests data exporter friendly name', 'buddypress' ),
 	);
 
 	return $exporters;

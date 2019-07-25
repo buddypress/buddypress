@@ -134,14 +134,16 @@ function bp_messages_filter_kses( $content ) {
  * Register Messages personal data exporter.
  *
  * @since 4.0.0
+ * @since 5.0.0 adds an `exporter_bp_friendly_name` param to exporters.
  *
  * @param array $exporters  An array of personal data exporters.
  * @return array An array of personal data exporters.
  */
 function bp_messages_register_personal_data_exporter( $exporters ) {
 	$exporters['buddypress-messages'] = array(
-		'exporter_friendly_name' => __( 'BuddyPress Messages', 'buddypress' ),
-		'callback'               => 'bp_messages_personal_data_exporter',
+		'exporter_friendly_name'    => __( 'BuddyPress Messages', 'buddypress' ),
+		'callback'                  => 'bp_messages_personal_data_exporter',
+		'exporter_bp_friendly_name' => _x( 'Private Messages', 'BuddyPress Messages data exporter friendly name', 'buddypress' ),
 	);
 
 	return $exporters;

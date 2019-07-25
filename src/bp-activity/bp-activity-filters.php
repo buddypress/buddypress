@@ -818,14 +818,16 @@ add_filter( 'bp_activity_set_mentions_scope_args', 'bp_activity_filter_mentions_
  * Registers Activity personal data exporter.
  *
  * @since 4.0.0
+ * @since 5.0.0 adds an `exporter_bp_friendly_name` param to exporters.
  *
  * @param array $exporters  An array of personal data exporters.
  * @return array An array of personal data exporters.
  */
 function bp_activity_register_personal_data_exporter( $exporters ) {
 	$exporters['buddypress-activity'] = array(
-		'exporter_friendly_name' => __( 'BuddyPress Activity Data', 'buddypress' ),
-		'callback'               => 'bp_activity_personal_data_exporter',
+		'exporter_friendly_name'    => __( 'BuddyPress Activity Data', 'buddypress' ),
+		'callback'                  => 'bp_activity_personal_data_exporter',
+		'exporter_bp_friendly_name' => _x( 'Activity Data', 'BuddyPress Activity data exporter friendly name', 'buddypress' ),
 	);
 
 	return $exporters;
