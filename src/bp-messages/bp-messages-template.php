@@ -1155,17 +1155,28 @@ function bp_message_notice_post_date() {
 
 /**
  * Output the subject of the current notice in the loop.
+ *
+ * @since 5.0.0 The $notice parameter has been added.
+ *
+ * @param BP_Messages_Notice $notice The notice object.
  */
-function bp_message_notice_subject() {
-	echo bp_get_message_notice_subject();
+function bp_message_notice_subject( $notice = null ) {
+	echo bp_get_message_notice_subject( $notice );
 }
 	/**
 	 * Get the subject of the current notice in the loop.
 	 *
+	 * @since 5.0.0 The $notice parameter has been added.
+	 *
+	 * @param BP_Messages_Notice $notice The notice object.
 	 * @return string
 	 */
-	function bp_get_message_notice_subject() {
+	function bp_get_message_notice_subject( $notice = null ) {
 		global $messages_template;
+
+		if ( ! isset( $notice->subject ) ) {
+			$notice =& $messages_template->thread;
+		}
 
 		/**
 		 * Filters the subject of the current notice in the loop.
@@ -1174,22 +1185,33 @@ function bp_message_notice_subject() {
 		 *
 		 * @param string $subject Subject of the current notice in the loop.
 		 */
-		return apply_filters( 'bp_get_message_notice_subject', $messages_template->thread->subject );
+		return apply_filters( 'bp_get_message_notice_subject', $notice->subject );
 	}
 
 /**
  * Output the text of the current notice in the loop.
+ *
+ * @since 5.0.0 The $notice parameter has been added.
+ *
+ * @param BP_Messages_Notice $notice The notice object.
  */
-function bp_message_notice_text() {
-	echo bp_get_message_notice_text();
+function bp_message_notice_text( $notice = null ) {
+	echo bp_get_message_notice_text( $notice );
 }
 	/**
 	 * Get the text of the current notice in the loop.
 	 *
+	 * @since 5.0.0 The $notice parameter has been added.
+	 *
+	 * @param BP_Messages_Notice $notice The notice object.
 	 * @return string
 	 */
-	function bp_get_message_notice_text() {
+	function bp_get_message_notice_text( $notice = null ) {
 		global $messages_template;
+
+		if ( ! isset( $notice->subject ) ) {
+			$notice =& $messages_template->thread;
+		}
 
 		/**
 		 * Filters the text of the current notice in the loop.
@@ -1198,7 +1220,7 @@ function bp_message_notice_text() {
 		 *
 		 * @param string $message Text for the current notice in the loop.
 		 */
-		return apply_filters( 'bp_get_message_notice_text', $messages_template->thread->message );
+		return apply_filters( 'bp_get_message_notice_text', $notice->message );
 	}
 
 /**
@@ -1334,12 +1356,10 @@ function bp_message_get_notices() {
 		if ( !in_array( $notice->id, $closed_notices ) && $notice->id ) {
 			?>
 			<div id="message" class="info notice" rel="n-<?php echo esc_attr( $notice->id ); ?>">
-				<p>
-					<strong><?php echo stripslashes( wp_filter_kses( $notice->subject ) ) ?></strong><br />
-					<?php echo stripslashes( wp_filter_kses( $notice->message) ) ?>
-					<button type="button" id="close-notice" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Dismiss this notice', 'buddypress' ) ?>"><span class="bp-screen-reader-text"><?php _e( 'Dismiss this notice', 'buddypress' ) ?></span> <span aria-hidden="true">&Chi;</span></button>
-					<?php wp_nonce_field( 'bp_messages_close_notice', 'close-notice-nonce' ); ?>
-				</p>
+				<strong><?php bp_message_notice_subject( $notice ); ?></strong>
+				<button type="button" id="close-notice" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'Dismiss this notice', 'buddypress' ) ?>"><span class="bp-screen-reader-text"><?php _e( 'Dismiss this notice', 'buddypress' ) ?></span> <span aria-hidden="true">&Chi;</span></button>
+				<?php bp_message_notice_text( $notice ); ?>
+				<?php wp_nonce_field( 'bp_messages_close_notice', 'close-notice-nonce' ); ?>
 			</div>
 			<?php
 		}

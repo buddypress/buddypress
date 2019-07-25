@@ -624,7 +624,8 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 }
 
 #buddypress div#message p,
-#sitewide-notice p {
+#sitewide-notice p,
+#sitewide-notice strong:first-child {
 	font-size: 90%;
 	display: block;
 	padding: 10px 15px;
@@ -1392,8 +1393,13 @@ fieldset.create-site label {
 	font-weight: 700;
 }
 
+#sitewide-notice,
+.bp-site-wide-message {
+	position: relative;
+}
+
 #buddypress div#message p,
-#sitewide-notice p {
+#sitewide-notice #message {
 	background-color: #ffd;
 	border: 1px solid #cb2;
 	color: #440;
@@ -1405,7 +1411,6 @@ fieldset.create-site label {
 .bp-site-wide-message #message p,
 .admin-bar-on #message p {
 	padding-right: 25px;
-	position: relative;
 }
 
 .bp-site-wide-message #message button,
