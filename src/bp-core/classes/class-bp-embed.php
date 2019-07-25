@@ -138,7 +138,13 @@ class BP_Embed extends WP_Embed {
 		$attr['discover'] = ( apply_filters( 'bp_embed_oembed_discover', $default_discovery ) && $unfiltered_html );
 
 		// Set up a new WP oEmbed object to check URL with registered oEmbed providers.
-		require_once( ABSPATH . WPINC . '/class-oembed.php' );
+		if ( file_exists( ABSPATH . WPINC . '/class-wp-oembed.php' ) ) {
+			require_once( ABSPATH . WPINC . '/class-wp-oembed.php' );
+		} else {
+			// class-oembed.php is deprecated in WordPress 5.3.0.
+			require_once( ABSPATH . WPINC . '/class-oembed.php' );
+		}
+
 		$oembed_obj = _wp_oembed_get_object();
 
 		// If oEmbed discovery is true, skip oEmbed provider check.
