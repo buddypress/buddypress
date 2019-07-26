@@ -476,7 +476,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	$legacy_group_avatar_name = ( 'full' == $params['type'] ) ? '-groupavatar-full' : '-groupavatar-thumb';
 
 	// Check for directory.
-	if ( file_exists( $avatar_folder_dir ) ) {
+	if ( ! $params['force_default'] && file_exists( $avatar_folder_dir ) ) {
 
 		// Open directory.
 		if ( $av_dir = opendir( $avatar_folder_dir ) ) {
@@ -637,6 +637,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		// Custom Gravatar URL args.
 		if ( ! empty( $params['force_default'] ) ) {
 			$url_args['f'] = 'y';
+			$url_args['d'] = $params['default'];
 		}
 		if ( ! empty( $params['rating'] ) ) {
 			$url_args['r'] = strtolower( $params['rating'] );
@@ -653,7 +654,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		$default_grav = apply_filters( 'bp_core_avatar_default', $default_grav, $params );
 
 		// Only set default image if 'Gravatar Logo' is not requested.
-		if ( 'gravatar_default' !== $default_grav ) {
+		if ( ! $params['force_default'] && 'gravatar_default' !== $default_grav ) {
 			$url_args['d'] = $default_grav;
 		}
 
