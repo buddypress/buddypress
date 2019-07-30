@@ -16,19 +16,30 @@ window.bp = window.bp || {};
     bp.isRestEnabled = true;
 
     // Polyfill wp.apiRequest if WordPress < 4.9
-    bp.apiRequest = wp.apiRequest || function( options ) {
-        var url = bpApiSettings.root;
-
-        if ( options.path ) {
-            url = url + options.path.replace( /^\//, '' );
+    bp.apiRequest = function( options ) {
+        if ( ! options.dataType ) {
+            options.dataType = 'json';
         }
 
-        options.url = url;
-        options.beforeSend = function( xhr ) {
-            xhr.setRequestHeader( 'X-WP-Nonce', bpApiSettings.nonce );
-        };
+        // WordPress is >= 4.9.0.
+        if ( wp.apiRequest ) {
+            return wp.apiRequest( options );
 
-        return $.ajax( options );
+        // WordPress is < 4.9.0.
+        } else {
+            var url = bpApiSettings.root;
+
+            if ( options.path ) {
+                url = url + options.path.replace( /^\//, '' );
+            }
+
+            options.url = url;
+            options.beforeSend = function( xhr ) {
+                xhr.setRequestHeader( 'X-WP-Nonce', bpApiSettings.nonce );
+            };
+
+            return $.ajax( options );
+        }
     };
 
 } )( window.wp || {}, window.bp, jQuery );
