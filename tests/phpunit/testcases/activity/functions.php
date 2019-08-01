@@ -755,6 +755,51 @@ Bar!';
 
 	/**
 	 * @group activity_action
+	 * @group bp_activity_format_activity_action_activity_comment
+	 * @ticket BP8120
+	 */
+	public function test_bp_activity_format_activity_action_children_activity_comment() {
+		$u = self::factory()->user->create();
+		$a1 = self::factory()->activity->create( array(
+			'component' => buddypress()->activity->id,
+			'type'      => 'activity_update',
+			'user_id'   => $u,
+		) );
+
+		$ac1 = self::factory()->activity->create( array(
+			'type'              => 'activity_comment',
+			'item_id'           => $a1,
+			'secondary_item_id' => $a1,
+			'user_id'           => $u,
+		) );
+
+		$ac2 = self::factory()->activity->create( array(
+			'type'              => 'activity_comment',
+			'item_id'           => $a1,
+			'secondary_item_id' => $ac1,
+			'user_id'           => $u,
+		) );
+
+		// Remove all action strings
+		$table = buddypress()->activity->table_name;
+		$GLOBALS['wpdb']->query( "UPDATE {$table} set action = '' WHERE id IN ( {$a1}, {$ac1}, {$ac2} )" );
+
+		$get = bp_activity_get( array(
+			'in'               => array( $a1 ),
+			'display_comments' => 'thread'
+		) );
+
+		$activity    = reset( $get['activities'] );
+		$comment_one = reset( $activity->children );
+		$comment_two = reset( $comment_one->children );
+		$user_link   = bp_core_get_userlink( $u );
+
+		$this->assertSame( sprintf( '%s posted a new activity comment', $user_link ), $comment_one->action );
+		$this->assertSame( sprintf( '%s posted a new activity comment', $user_link ), $comment_two->action );
+	}
+
+	/**
+	 * @group activity_action
 	 * @group bp_activity_format_activity_action_custom_post_type_post
 	 * @group activity_tracking
 	 */

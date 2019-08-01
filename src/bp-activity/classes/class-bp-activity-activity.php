@@ -1539,6 +1539,7 @@ class BP_Activity_Activity {
 				$descendant_ids = $wpdb->get_col( $sql );
 				$descendants    = self::get_activity_data( $descendant_ids );
 				$descendants    = self::append_user_fullnames( $descendants );
+				$descendants    = self::generate_action_strings( $descendants );
 			}
 
 			$ref = array();
