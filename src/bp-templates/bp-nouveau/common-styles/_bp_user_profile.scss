@@ -33,17 +33,17 @@
 	.profile.edit {
 
 		// The groups tabs
-		.button-nav {
+		ul.button-nav {
 			list-style: none;
 			margin: $marg-xlrg 0 $marg-sml;
+			padding-left: 0;
 
 			li {
 				display: inline-block;
 				margin-right: $marg-sml;
 
 				a {
-
-					@include font-size(18);
+					padding: $pad-sml;
 				}
 			}
 		}

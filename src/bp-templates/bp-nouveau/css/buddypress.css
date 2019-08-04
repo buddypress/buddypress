@@ -2777,18 +2777,19 @@ body.no-js .single-item-header .js-self-profile-button {
 	width: 30%;
 }
 
-.buddypress-wrap .profile.edit .button-nav {
+.buddypress-wrap .profile.edit ul.button-nav {
 	list-style: none;
 	margin: 30px 0 10px;
+	padding-left: 0;
 }
 
-.buddypress-wrap .profile.edit .button-nav li {
+.buddypress-wrap .profile.edit ul.button-nav li {
 	display: inline-block;
 	margin-right: 10px;
 }
 
-.buddypress-wrap .profile.edit .button-nav li a {
-	font-size: 18px;
+.buddypress-wrap .profile.edit ul.button-nav li a {
+	padding: 0.5em;
 }
 
 .buddypress-wrap .profile.edit .editfield {
