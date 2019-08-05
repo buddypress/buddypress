@@ -378,7 +378,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_get_registered_image_subsizes' ) ) {
+		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
 			$this->setExpectedDeprecated( 'update_user_status' );
 		}
 
@@ -410,7 +410,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_get_registered_image_subsizes' ) ) {
+		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
 			$this->setExpectedDeprecated( 'update_user_status' );
 		}
 
@@ -438,7 +438,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_process_spammer_status
 	 */
 	public function test_bp_core_process_spammer_status_make_spam_user_filter() {
-		if ( function_exists( 'wp_get_registered_image_subsizes' ) ) {
+		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
 			$this->setExpectedDeprecated( 'update_user_status' );
 		}
 
@@ -454,7 +454,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_bp_core_process_spammer_status_make_ham_user_filter() {
-		if ( function_exists( 'wp_get_registered_image_subsizes' ) ) {
+		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
 			$this->setExpectedDeprecated( 'update_user_status' );
 		}
 
@@ -470,7 +470,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_bp_core_process_spammer_status_bp_make_spam_user_filter() {
-		if ( function_exists( 'wp_get_registered_image_subsizes' ) ) {
+		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
 			$this->setExpectedDeprecated( 'update_user_status' );
 		}
 
@@ -486,7 +486,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_bp_core_process_spammer_status_bp_make_ham_user_filter() {
-		if ( function_exists( 'wp_get_registered_image_subsizes' ) ) {
+		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
 			$this->setExpectedDeprecated( 'update_user_status' );
 		}
 

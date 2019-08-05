@@ -389,7 +389,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 	 * @group spam
 	 */
 	public function test_bp_user_query_type_alphabetical_spam_xprofileoff() {
-		if ( function_exists( 'wp_get_registered_image_subsizes' ) ) {
+		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
 			$this->setExpectedDeprecated( 'update_user_status' );
 		}
 

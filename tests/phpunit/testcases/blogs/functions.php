@@ -291,7 +291,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
-		if ( function_exists( 'wp_get_registered_image_subsizes' ) ) {
+		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
 			$this->setExpectedDeprecated( 'update_user_status' );
 		}
 
