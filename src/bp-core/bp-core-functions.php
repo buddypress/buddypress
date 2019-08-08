@@ -3225,7 +3225,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	 */
 	$delivery_class = apply_filters( 'bp_send_email_delivery_class', 'BP_PHPMailer', $email_type, $to, $args );
 	if ( ! class_exists( $delivery_class ) ) {
-		return new WP_Error( 'missing_class', __CLASS__, $this );
+		return new WP_Error( 'missing_class', 'No class found by that name', $delivery_class );
 	}
 
 	$delivery = new $delivery_class();
