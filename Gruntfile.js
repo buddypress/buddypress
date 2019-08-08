@@ -242,7 +242,7 @@ module.exports = function( grunt ) {
 			}
 		},
 		phplint: {
-			good: ['**/*.php'].concat( BP_EXCLUDED_MISC )
+			good: ['src/**/*.php'].concat( BP_EXCLUDED_MISC )
 		},
 		postcss: {
 			options: {
