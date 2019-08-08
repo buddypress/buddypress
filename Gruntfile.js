@@ -241,6 +241,9 @@ module.exports = function( grunt ) {
 				src: [ '**/*.scss' ]
 			}
 		},
+		phplint: {
+			good: ['**/*.php'].concat( BP_EXCLUDED_MISC )
+		},
 		postcss: {
 			options: {
 				map: false,
@@ -333,7 +336,7 @@ module.exports = function( grunt ) {
 	 * Register tasks.
 	 */
 	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'postcss', 'rtlcss'] );
-	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin','exec:phpcompat'] );
+	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcompat'] );
 	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault', 'exec:cli'] );
 	grunt.registerTask( 'release', ['build'] );
 
@@ -352,7 +355,7 @@ module.exports = function( grunt ) {
 
 	// Travis CI Tasks.
 	grunt.registerTask( 'travis:grunt', 'Runs Grunt build task.', [ 'build' ]);
-	grunt.registerTask( 'travis:phpunit', ['jsvalidate:src', 'jshint', 'checktextdomain', 'test'] );
+	grunt.registerTask( 'travis:phpunit', ['jsvalidate:src', 'jshint', 'checktextdomain', 'phplint', 'test'] );
 	grunt.registerTask( 'travis:codecoverage', 'Runs PHPUnit tasks with code-coverage generation.', ['phpunit:codecoverage'] );
 	grunt.registerTask( 'travis:phpcompat', 'Runs PHP compatibility scan.', ['exec:phpcompat'] );
 
