@@ -239,9 +239,10 @@ function groups_create_group( $args = '' ) {
  * @return bool True on success, false on failure.
  */
 function groups_edit_base_group_details( $args = array() ) {
+	$function_args = func_get_args();
 
 	// Backward compatibility with old method of passing arguments.
-	if ( ! is_array( $args ) || func_num_args() > 1 ) {
+	if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
 		_deprecated_argument( __METHOD__, '2.9.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
 		$old_args_keys = array(
@@ -251,7 +252,7 @@ function groups_edit_base_group_details( $args = array() ) {
 			3 => 'notify_members',
 		);
 
-		$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
+		$args = bp_core_parse_args_array( $old_args_keys, $function_args );
 	}
 
 	$r = bp_parse_args( $args, array(
@@ -689,9 +690,10 @@ function groups_get_group_mods( $group_id ) {
  * @return false|array Multi-d array of 'members' list and 'count'.
  */
 function groups_get_group_members( $args = array() ) {
+	$function_args = func_get_args();
 
 	// Backward compatibility with old method of passing arguments.
-	if ( ! is_array( $args ) || func_num_args() > 1 ) {
+	if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
 		_deprecated_argument( __METHOD__, '2.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
 		$old_args_keys = array(
@@ -704,7 +706,7 @@ function groups_get_group_members( $args = array() ) {
 			6 => 'group_role',
 		);
 
-		$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
+		$args = bp_core_parse_args_array( $old_args_keys, $function_args );
 	}
 
 	$r = bp_parse_args( $args, array(
@@ -720,7 +722,7 @@ function groups_get_group_members( $args = array() ) {
 	), 'groups_get_group_members' );
 
 	// For legacy users. Use of BP_Groups_Member::get_all_for_group() is deprecated.
-	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, func_get_args() ) ) {
+	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, $function_args ) ) {
 		$retval = BP_Groups_Member::get_all_for_group( $r['group_id'], $r['per_page'], $r['page'], $r['exclude_admins_mods'], $r['exclude_banned'], $r['exclude'] );
 	} else {
 
