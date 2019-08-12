@@ -312,17 +312,26 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	}
 
 	public function test_confirmed_members() {
-		$g = self::factory()->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'status' => 'private', 'creator_id' => $u )  );
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		$time = time();
+		$u3 = self::factory()->user->create();
+  		$time = time();
 
-		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
-			'is_confirmed' => 0,
+		groups_send_membership_request( array(
+			'user_id' => $u1,
+			'group_id' => $g
 		) );
 
-		$this->add_user_to_group( $u2, $g, array(
+		groups_invite_user( array(
+			'user_id'    => $u2,
+			'group_id'   => $g,
+			'inviter_id' => $u,
+			'send_invite' => 1
+		) );
+
+		$this->add_user_to_group( $u3, $g, array(
 			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
 			'is_confirmed' => 1,
 		) );
@@ -332,7 +341,7 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 		) );
 
 		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u2 ), $ids );
+		$this->assertEquals( array( $u3 ), $ids );
 	}
 
 	/**
@@ -594,21 +603,23 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 * @group invite_sent
 	 */
 	public function test_with_invite_sent_true() {
-		$g = self::factory()->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'status' => 'private', 'creator_id' => $u )  );
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		$time = time();
 
-		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
-			'is_confirmed' => 0,
-			'invite_sent' => 0,
+		groups_invite_user( array(
+			'user_id'    => $u1,
+			'group_id'   => $g,
+			'inviter_id' => $u,
+			'send_invite' => 0
 		) );
 
-		$this->add_user_to_group( $u2, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
-			'is_confirmed' => 0,
-			'invite_sent' => 1,
+		groups_invite_user( array(
+			'user_id'    => $u2,
+			'group_id'   => $g,
+			'inviter_id' => $u,
+			'send_invite' => 1
 		) );
 
 		$query_members = new BP_Group_Member_Query( array(
@@ -625,21 +636,23 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 * @group invite_sent
 	 */
 	public function test_with_invite_sent_false() {
-		$g = self::factory()->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'status' => 'private', 'creator_id' => $u )  );
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		$time = time();
 
-		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
-			'is_confirmed' => 0,
-			'invite_sent' => 0,
+		groups_invite_user( array(
+			'user_id'    => $u1,
+			'group_id'   => $g,
+			'inviter_id' => $u,
+			'send_invite' => 0
 		) );
 
-		$this->add_user_to_group( $u2, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
-			'is_confirmed' => 0,
-			'invite_sent' => 1,
+		groups_invite_user( array(
+			'user_id'    => $u2,
+			'group_id'   => $g,
+			'inviter_id' => $u,
+			'send_invite' => 1
 		) );
 
 		$query_members = new BP_Group_Member_Query( array(
@@ -656,19 +669,21 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 * @group inviter_id
 	 */
 	public function test_with_inviter_id_false() {
-		$g = self::factory()->group->create();
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'status' => 'private', 'creator_id' => $u )  );
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		$time = time();
 
-		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
-			'inviter_id' => 0,
+		groups_send_membership_request( array(
+			'user_id' => $u1,
+			'group_id' => $g
 		) );
 
-		$this->add_user_to_group( $u2, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
-			'inviter_id' => 1,
+		groups_invite_user( array(
+			'user_id'    => $u2,
+			'group_id'   => $g,
+			'inviter_id' => $u,
+			'send_invite' => 1
 		) );
 
 		$query_members = new BP_Group_Member_Query( array(
@@ -684,71 +699,89 @@ class BP_Tests_BP_Group_Member_Query_TestCases extends BP_UnitTestCase {
 	 * @group inviter_id
 	 */
 	public function test_with_inviter_id_specific() {
-		$g = self::factory()->group->create();
+		$a1 = self::factory()->user->create();
+		$a2 = self::factory()->user->create();
+		$a3 = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'status' => 'private', 'creator_id' => $a1 )  );
+		$this->add_user_to_group( $a2, $g, array( 'is_admin' => 1 ) );
+		$this->add_user_to_group( $a3, $g, array( 'is_admin' => 1 ) );
+
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
 		$u4 = self::factory()->user->create();
-		$time = time();
 
-		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
-			'inviter_id' => 0,
+		groups_send_membership_request( array(
+			'user_id' => $u1,
+			'group_id' => $g
 		) );
 
-		$this->add_user_to_group( $u2, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 200 ),
-			'inviter_id' => 1,
+		groups_invite_user( array(
+			'user_id'    => $u2,
+			'group_id'   => $g,
+			'inviter_id' => $a1,
+			'send_invite' => 1
 		) );
-
-		$this->add_user_to_group( $u3, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 300 ),
-			'inviter_id' => 6,
+		groups_invite_user( array(
+			'user_id'    => $u3,
+			'group_id'   => $g,
+			'inviter_id' => $a2,
+			'send_invite' => 1
 		) );
-
-		$this->add_user_to_group( $u4, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 400 ),
-			'inviter_id' => 2,
+		groups_invite_user( array(
+			'user_id'    => $u4,
+			'group_id'   => $g,
+			'inviter_id' => $a3,
+			'send_invite' => 1
 		) );
 
 		$query_members = new BP_Group_Member_Query( array(
 			'group_id' => $g,
-			'inviter_id' => array( 2, 6 ),
+			'inviter_id' => array( $a1, $a3 ),
 		) );
 
 		$ids = wp_parse_id_list( array_keys( $query_members->results ) );
-		$this->assertEquals( array( $u3, $u4 ), $ids );
+		$this->assertEquals( array( $u2, $u4 ), $ids );
 	}
 
 	/**
 	 * @group inviter_id
 	 */
 	public function test_with_inviter_id_any() {
-		$g = self::factory()->group->create();
+		$a1 = self::factory()->user->create();
+		$a2 = self::factory()->user->create();
+		$a3 = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'status' => 'private', 'creator_id' => $a1 )  );
+		$this->add_user_to_group( $a2, $g, array( 'is_admin' => 1 ) );
+		$this->add_user_to_group( $a3, $g, array( 'is_admin' => 1 ) );
+
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
 		$u4 = self::factory()->user->create();
-		$time = time();
 
-		$this->add_user_to_group( $u1, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 100 ),
-			'inviter_id' => 0,
+		groups_send_membership_request( array(
+			'user_id' => $u1,
+			'group_id' => $g
 		) );
 
-		$this->add_user_to_group( $u2, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 200 ),
-			'inviter_id' => 1,
+		groups_invite_user( array(
+			'user_id'    => $u2,
+			'group_id'   => $g,
+			'inviter_id' => $a1,
+			'send_invite' => 1
 		) );
-
-		$this->add_user_to_group( $u3, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 300 ),
-			'inviter_id' => 6,
+		groups_invite_user( array(
+			'user_id'    => $u3,
+			'group_id'   => $g,
+			'inviter_id' => $a2,
+			'send_invite' => 1
 		) );
-
-		$this->add_user_to_group( $u4, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time - 400 ),
-			'inviter_id' => 2,
+		groups_invite_user( array(
+			'user_id'    => $u4,
+			'group_id'   => $g,
+			'inviter_id' => $a3,
+			'send_invite' => 1
 		) );
 
 		$query_members = new BP_Group_Member_Query( array(

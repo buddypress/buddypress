@@ -231,7 +231,61 @@ class BP_Group_Member_Query extends BP_User_Query {
 		$sql['orderby'] = "ORDER BY date_modified";
 		$sql['order']   = 'first_joined' === $this->query_vars['type'] ? 'ASC' : 'DESC';
 
-		$this->group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']}" );
+		$group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']}" );
+
+		$invited_member_ids = array();
+
+		// If appropriate, fetch invitations and add them to the results.
+		if ( ! $is_confirmed || ! is_null( $this->query_vars['invite_sent'] ) || ! is_null( $this->query_vars['inviter_id'] ) ) {
+			$invite_args = array(
+				'item_id' => $this->query_vars['group_id'],
+				'fields'  => 'user_ids',
+				'type'    => 'all',
+			);
+
+			if ( ! is_null( $this->query_vars['invite_sent'] ) ) {
+				$invite_args['invite_sent'] = ! empty( $this->query_vars['invite_sent'] ) ? 'sent' : 'draft';
+			}
+
+			// If inviter_id.
+			if ( ! is_null( $this->query_vars['inviter_id'] ) ) {
+				$inviter_id = $this->query_vars['inviter_id'];
+
+				// Empty: inviter_id = 0. (pass false, 0, or empty array).
+				if ( empty( $inviter_id ) ) {
+					$invite_args['type'] = 'request';
+
+				/*
+				* The string 'any' matches any non-zero value (inviter_id != 0).
+				* These are invitations, not requests.
+				*/
+				} elseif ( 'any' === $inviter_id ) {
+					$invite_args['type'] = 'invite';
+
+				// Assume that a list of inviter IDs has been passed.
+				} else {
+					$invite_args['type'] = 'invite';
+					// Parse and sanitize.
+					$inviter_ids = wp_parse_id_list( $inviter_id );
+					if ( ! empty( $inviter_ids ) ) {
+						$invite_args['inviter_id'] = $inviter_ids;
+					}
+				}
+			}
+
+			/*
+			 * If first_joined is the "type" of query, sort the oldest
+			 * requests and invitations to the top.
+			 */
+			if ( 'first_joined' === $this->query_vars['type'] ) {
+				$invite_args['order_by']   = 'date_modified';
+				$invite_args['sort_order'] = 'ASC';
+			}
+
+			$invited_member_ids = groups_get_invites( $invite_args );
+		}
+
+		$this->group_member_ids = array_merge( $group_member_ids, $invited_member_ids );
 
 		/**
 		 * Filters the member IDs for the current group member query.
@@ -327,6 +381,45 @@ class BP_Group_Member_Query extends BP_User_Query {
 				$this->results[ $extra->user_id ]->inviter_id    = (int) $extra->inviter_id;
 				$this->results[ $extra->user_id ]->is_confirmed  = (int) $extra->is_confirmed;
 				$this->results[ $extra->user_id ]->membership_id = (int) $extra->id;
+			}
+		}
+
+		// Add accurate invitation info from the invitations table.
+		$invites = groups_get_invites( array(
+			'user_id' => $user_ids_sql,
+			'item_id' => $this->query_vars['group_id'],
+			'type'    => 'all',
+		) );
+		foreach ( $invites as $invite ) {
+			if ( isset( $this->results[ $invite->user_id ] ) ) {
+				$this->results[ $invite->user_id ]->comments      = $invite->content;
+				$this->results[ $invite->user_id ]->is_confirmed  = 0;
+				$this->results[ $invite->user_id ]->invitation_id = $invite->id;
+				$this->results[ $invite->user_id ]->invite_sent   = (int) $invite->invite_sent;
+				$this->results[ $invite->user_id ]->inviter_id    = $invite->inviter_id;
+
+				// Backfill properties that are not being set above.
+				if ( ! isset( $this->results[ $invite->user_id ]->user_id ) ) {
+					$this->results[ $invite->user_id ]->user_id = $invite->user_id;
+				}
+				if ( ! isset( $this->results[ $invite->user_id ]->is_admin ) ) {
+					$this->results[ $invite->user_id ]->is_admin = 0;
+				}
+				if ( ! isset( $this->results[ $invite->user_id ]->is_mod ) ) {
+					$this->results[ $invite->user_id ]->is_mod = 0;
+				}
+				if ( ! isset( $this->results[ $invite->user_id ]->is_banned ) ) {
+					$this->results[ $invite->user_id ]->is_banned = 0;
+				}
+				if ( ! isset( $this->results[ $invite->user_id ]->date_modified ) ) {
+					$this->results[ $invite->user_id ]->date_modified = $invite->date_modified;
+				}
+				if ( ! isset( $this->results[ $invite->user_id ]->user_title ) ) {
+					$this->results[ $invite->user_id ]->user_title = '';
+				}
+				if ( ! isset( $this->results[ $invite->user_id ]->membership_id ) ) {
+					$this->results[ $invite->user_id ]->membership_id = 0;
+				}
 			}
 		}
 
