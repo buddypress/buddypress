@@ -143,6 +143,15 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 		'notification_type' => 'groups-membership-request',
 	);
 
+	$request_message = '';
+	$requests = groups_get_requests( $args = array(
+		'user_id'    => $requesting_user_id,
+		'item_id'    => $group_id,
+	) );
+	if ( $requests ) {
+		$request_message = current( $requests )->content;
+	}
+
 	$group = groups_get_group( $group_id );
 	$args  = array(
 		'tokens' => array(
@@ -151,10 +160,10 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 			'group.name'           => $group->name,
 			'group.id'             => $group_id,
 			'group-requests.url'   => esc_url( bp_get_group_permalink( $group ) . 'admin/membership-requests' ),
-			'membership.id'        => $membership_id,
 			'profile.url'          => esc_url( bp_core_get_user_domain( $requesting_user_id ) ),
 			'requesting-user.id'   => $requesting_user_id,
 			'requesting-user.name' => bp_core_get_user_displayname( $requesting_user_id ),
+			'request.message'      => $request_message,
 			'unsubscribe'          => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 		),
 	);
@@ -289,20 +298,20 @@ add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10,
  *
  * @since 1.0.0
  *
- * @param BP_Groups_Group  $group           Group object.
- * @param BP_Groups_Member $member          Member object.
- * @param int              $inviter_user_id ID of the user who sent the invite.
+ * @param BP_Groups_Group      $group           Group object.
+ * @param BP_Groups_Member|int $member          Member object or invited_user_id.
+ * @param int                  $inviter_user_id ID of the user who sent the invite.
  */
 function groups_notification_group_invites( &$group, &$member, $inviter_user_id ) {
 
-	// Bail if member has already been invited.
-	if ( ! empty( $member->invite_sent ) ) {
-		return;
-	}
-
 	// @todo $inviter_ud may be used for caching, test without it
 	$inviter_ud      = bp_core_get_core_userdata( $inviter_user_id );
-	$invited_user_id = $member->user_id;
+
+	if ( $member instanceof BP_Groups_Member ) {
+		$invited_user_id = $member->user_id;
+	} else if ( is_int( $member ) ) {
+		$invited_user_id = $member;
+	}
 
 	// Trigger a BuddyPress Notification.
 	if ( bp_is_active( 'notifications' ) ) {
@@ -326,18 +335,30 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		'notification_type' => 'groups-invitation',
 	);
 
+	$invite_message = '';
+	$invitations = groups_get_invites( $args = array(
+		'user_id'    => $invited_user_id,
+		'item_id'    => $group->id,
+		'inviter_id' => $inviter_user_id,
+	) );
+	if ( $invitations ) {
+		$invite_message = current( $invitations )->content;
+	}
+
 	$args         = array(
 		'tokens' => array(
-			'group'        => $group,
-			'group.url'    => bp_get_group_permalink( $group ),
-			'group.name'   => $group->name,
-			'inviter.name' => bp_core_get_userlink( $inviter_user_id, true, false, true ),
-			'inviter.url'  => bp_core_get_user_domain( $inviter_user_id ),
-			'inviter.id'   => $inviter_user_id,
-			'invites.url'  => esc_url( $invited_link . '/invites/' ),
-			'unsubscribe'  => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
+			'group'          => $group,
+			'group.url'      => bp_get_group_permalink( $group ),
+			'group.name'     => $group->name,
+			'inviter.name'   => bp_core_get_userlink( $inviter_user_id, true, false, true ),
+			'inviter.url'    => bp_core_get_user_domain( $inviter_user_id ),
+			'inviter.id'     => $inviter_user_id,
+			'invites.url'    => esc_url( $invited_link . '/invites/' ),
+			'invite.message' => $invite_message,
+			'unsubscribe'    => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 		),
 	);
+
 	bp_send_email( 'groups-invitation', (int) $invited_user_id, $args );
 }
 

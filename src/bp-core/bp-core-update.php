@@ -553,6 +553,7 @@ function bp_update_to_2_7() {
  *
  * - Make sure the custom visibility is disabled for the default profile field.
  * - Create the invitations table.
+ * - Migrate requests and invitations to the new table.
  *
  * @since 5.0.0
  */
@@ -583,6 +584,10 @@ function bp_update_to_5_0() {
 	);
 
 	bp_core_install_invitations();
+
+	if ( bp_is_active( 'groups' ) ) {
+		bp_groups_migrate_invitations();
+	}
 }
 
 /**

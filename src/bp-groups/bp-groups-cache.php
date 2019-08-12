@@ -255,6 +255,42 @@ add_action( 'groups_member_before_save', 'bp_groups_clear_user_group_cache_on_me
 add_action( 'groups_member_before_remove', 'bp_groups_clear_user_group_cache_on_membership_save' );
 
 /**
+ * Clear caches on saving a group invitation or request.
+ * The save action is called when inserting a new record or using the save() method
+ * to update an existing record.
+ *
+ * @since 5.0.0
+ *
+ * @param BP_Invitation object $invitation Characteristics of the invitation just saved.
+ */
+function bp_groups_clear_user_group_cache_on_invitation_save( BP_Invitation $invitation ) {
+	if ( sanitize_key( 'BP_Groups_Invitation_Manager' ) !== $invitation->class ) {
+		return;
+	}
+
+	wp_cache_delete( $invitation->id, 'bp_groups_invitations_as_memberships' );
+}
+add_action( 'bp_invitation_after_save', 'bp_groups_clear_user_group_cache_on_invitation_save', 10, 2 );
+
+/**
+ * Clear caches on invitation deletion or update.
+ * This also catches changes like sending an invite or marking one as accepted.
+ *
+ * @since 5.0.0
+ *
+ * @param array $args Associative array of columns/values describing invitations about to be deleted.
+ */
+function bp_groups_clear_user_group_cache_on_invitation_change( $args ) {
+	$args['fields' ] = 'ids';
+	$affected_invitation_ids = groups_get_invites( $args );
+	foreach ( $affected_invitation_ids as $invitation_id ) {
+		wp_cache_delete( $invitation_id, 'bp_groups_invitations_as_memberships' );
+	}
+}
+add_action( 'bp_invitation_before_delete', 'bp_groups_clear_user_group_cache_on_invitation_change' );
+add_action( 'bp_invitation_before_update', 'bp_groups_clear_user_group_cache_on_invitation_change' );
+
+/**
  * Clear group memberships cache on miscellaneous actions not covered by the 'after_save' hook.
  *
  * @since 2.6.0
@@ -269,8 +305,6 @@ function bp_groups_clear_user_group_cache_on_other_events( $user_id, $group_id )
 	wp_cache_delete( $membership->id, 'bp_groups_memberships' );
 }
 add_action( 'bp_groups_member_before_delete', 'bp_groups_clear_user_group_cache_on_other_events', 10, 2 );
-add_action( 'bp_groups_member_before_delete_invite', 'bp_groups_clear_user_group_cache_on_other_events', 10, 2 );
-add_action( 'groups_accept_invite', 'bp_groups_clear_user_group_cache_on_other_events', 10, 2 );
 
 /**
  * Reset cache incrementor for the Groups component.
