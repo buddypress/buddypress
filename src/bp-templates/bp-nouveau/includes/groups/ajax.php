@@ -397,6 +397,7 @@ function bp_nouveau_ajax_send_group_invites() {
 				array(
 					'user_id'  => $user_id,
 					'group_id' => $group_id,
+					'content'  => $_POST['message'],
 				)
 			);
 		}
