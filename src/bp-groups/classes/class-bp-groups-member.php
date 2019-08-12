@@ -767,7 +767,7 @@ class BP_Groups_Member {
 	}
 
 	/**
-	 * Get a user's outstanding group invitations.
+	 * Get group objects for groups that a user is currently invited to.
 	 *
 	 * @since 1.6.0
 	 *
@@ -784,22 +784,7 @@ class BP_Groups_Member {
 	 * }
 	 */
 	public static function get_invites( $user_id, $limit = false, $page = false, $exclude = false ) {
-		global $wpdb;
-
-		$pag_sql = ( !empty( $limit ) && !empty( $page ) ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
-
-		if ( !empty( $exclude ) ) {
-			$exclude     = implode( ',', wp_parse_id_list( $exclude ) );
-			$exclude_sql = " AND g.id NOT IN ({$exclude})";
-		} else {
-			$exclude_sql = '';
-		}
-
-		$bp = buddypress();
-
-		$paged_groups = $wpdb->get_results( $wpdb->prepare( "SELECT g.*, gm1.meta_value as total_member_count, gm2.meta_value as last_activity FROM {$bp->groups->table_name_groupmeta} gm1, {$bp->groups->table_name_groupmeta} gm2, {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE g.id = m.group_id AND g.id = gm1.group_id AND g.id = gm2.group_id AND gm2.meta_key = 'last_activity' AND gm1.meta_key = 'total_member_count' AND m.is_confirmed = 0 AND m.inviter_id != 0 AND m.invite_sent = 1 AND m.user_id = %d {$exclude_sql} ORDER BY m.date_modified ASC {$pag_sql}", $user_id ) );
-
-		return array( 'groups' => $paged_groups, 'total' => self::get_invite_count_for_user( $user_id ) );
+		return groups_get_invites_for_user( $user_id, $limit, $page, $exclude );
 	}
 
 	/**
@@ -811,18 +796,7 @@ class BP_Groups_Member {
 	 * @return int
 	 */
 	public static function get_invite_count_for_user( $user_id = 0 ) {
-		global $wpdb;
-
-		$bp = buddypress();
-
-		$count = wp_cache_get( $user_id, 'bp_group_invite_count' );
-
-		if ( false === $count ) {
-			$count = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(DISTINCT m.group_id) FROM {$bp->groups->table_name_members} m, {$bp->groups->table_name} g WHERE m.group_id = g.id AND m.is_confirmed = 0 AND m.inviter_id != 0 AND m.invite_sent = 1 AND m.user_id = %d", $user_id ) );
-			wp_cache_set( $user_id, $count, 'bp_group_invite_count' );
-		}
-
-		return $count;
+		return groups_get_invite_count_for_user( $user_id );
 	}
 
 	/**
@@ -862,15 +836,27 @@ class BP_Groups_Member {
 
 		switch ( $r['type'] ) {
 			case 'pending_request' :
-				$sql['where'] = $wpdb->prepare( "user_id = %d AND is_confirmed = 0 AND inviter_id = 0", $user_id );
+				return groups_get_requests( array(
+					'user_id'  => $user_id,
+					'page'     => $r['page'],
+					'per_page' => $r['per_page'],
+				) );
 			break;
 
 			case 'pending_received_invitation' :
-				$sql['where'] = $wpdb->prepare( "user_id = %d AND is_confirmed = 0 AND inviter_id != 0", $user_id );
+				return groups_get_invites( array(
+					'user_id'  => $user_id,
+					'page'     => $r['page'],
+					'per_page' => $r['per_page'],
+				) );
 			break;
 
 			case 'pending_sent_invitation' :
-				$sql['where'] = $wpdb->prepare( "inviter_id = %d AND is_confirmed = 0", $user_id );
+				return groups_get_invites( array(
+					'inviter_id'  => $user_id,
+					'page'        => $r['page'],
+					'per_page'    => $r['per_page'],
+				) );
 			break;
 
 			case 'membership' :
@@ -912,20 +898,7 @@ class BP_Groups_Member {
 	 * @return int|null The ID of the invitation if found; null if not found.
 	 */
 	public static function check_has_invite( $user_id, $group_id, $type = 'sent' ) {
-		global $wpdb;
-
-		if ( empty( $user_id ) )
-			return false;
-
-		$bp  = buddypress();
-		$sql = "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id != 0";
-
-		if ( 'sent' == $type )
-			$sql .= " AND invite_sent = 1";
-
-		$query = $wpdb->get_var( $wpdb->prepare( $sql, $user_id, $group_id ) );
-
-		return is_numeric( $query ) ? (int) $query : $query;
+		return groups_is_user_invited( $user_id, $group_id, $type );
 	}
 
 	/**
@@ -935,38 +908,27 @@ class BP_Groups_Member {
 	 *
 	 * @global WPDB $wpdb
 	 *
-	 * @param  int $user_id  ID of the user.
-	 * @param  int $group_id ID of the group.
+	 * @param  int $user_id    ID of the user.
+	 * @param  int $group_id   ID of the group.
+	 * @param  int $inviter_id ID of the inviter. Specify if you want to delete
+	 *                         a specific invite. Leave false if you want to
+	 *                         delete all invites to this group.
 	 * @return int Number of records deleted.
 	 */
-	public static function delete_invite( $user_id, $group_id ) {
-		global $wpdb;
-
-		if ( empty( $user_id ) ) {
-			return false;
-		}
-
+	public static function delete_invite( $user_id, $group_id, $inviter_id = false ) {
 		/**
 		 * Fires before a group invitation is deleted.
 		 *
 		 * @since 2.6.0
+		 * @since 5.0.0 Added $inviter_id
 		 *
 		 * @param int $user_id  ID of the user.
 		 * @param int $group_id ID of the group.
+		 * @param  int $inviter_id ID of the inviter.
 		 */
-		do_action( 'bp_groups_member_before_delete_invite', $user_id, $group_id );
+		do_action( 'bp_groups_member_before_delete_invite', $user_id, $group_id, $inviter_id );
 
-		$table_name = buddypress()->groups->table_name_members;
-
-		$sql = "DELETE FROM {$table_name}
-				WHERE user_id = %d
-					AND group_id = %d
-					AND is_confirmed = 0
-					AND inviter_id != 0";
-
-		$prepared = $wpdb->prepare( $sql, $user_id, $group_id );
-
-		return $wpdb->query( $prepared );
+		return groups_delete_invite( $user_id, $group_id, $inviter_id );
 	}
 
 	/**
@@ -979,14 +941,7 @@ class BP_Groups_Member {
 	 * @return int Number of records deleted.
 	 */
 	public static function delete_request( $user_id, $group_id ) {
-		global $wpdb;
-
-		if ( empty( $user_id ) )
-			return false;
-
-		$bp = buddypress();
-
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND inviter_id = 0 AND invite_sent = 0", $user_id, $group_id ) );
+		return groups_delete_membership_request( false, $user_id, $group_id );
 	}
 
 	/**
@@ -1104,14 +1059,7 @@ class BP_Groups_Member {
 	 * @return int Database ID of the membership if found; int 0 on failure.
 	 */
 	public static function check_for_membership_request( $user_id, $group_id ) {
-		global $wpdb;
-
-		if ( empty( $user_id ) )
-			return false;
-
-		$bp = buddypress();
-
-		return $wpdb->query( $wpdb->prepare( "SELECT id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d AND is_confirmed = 0 AND is_banned = 0 AND inviter_id = 0", $user_id, $group_id ) );
+		return groups_is_user_pending( $user_id, $group_id );
 	}
 
 	/**
@@ -1292,11 +1240,7 @@ class BP_Groups_Member {
 	 * @return array IDs of users with outstanding membership requests.
 	 */
 	public static function get_all_membership_request_user_ids( $group_id ) {
-		global $wpdb;
-
-		$bp = buddypress();
-
-		return array_map( 'intval', $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0", $group_id ) ) );
+		return groups_get_membership_requested_user_ids( $group_id );
 	}
 
 	/**
