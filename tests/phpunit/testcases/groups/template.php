@@ -714,8 +714,9 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			) );
 
 			$memberships[ $i ] = groups_send_membership_request( array(
-				'user_id' => $users[ $i ],
-				'group_id' => $g
+				'user_id'       => $users[ $i ],
+				'group_id'      => $g,
+				'date_modified' => gmdate( 'Y-m-d H:i:s', $now - ( 100 - $i ) ),
 			) );
 		}
 
