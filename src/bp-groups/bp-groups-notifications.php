@@ -963,6 +963,23 @@ function bp_groups_delete_group_delete_all_notifications( $group_id ) {
 add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_notifications', 10 );
 
 /**
+ * Remove Group invite notification when a user is uninvited.
+ *
+ * @since 5.0.0
+ *
+ * @param int $group_id ID of the group being uninvited from.
+ * @param int $user_id  ID of the user being uninvited.
+ */
+function bp_groups_uninvite_user_delete_group_invite_notification( $group_id = 0, $user_id = 0 ) {
+	if ( ! bp_is_active( 'notifications' ) || ! $group_id || ! $user_id ) {
+		return;
+	}
+
+	bp_notifications_delete_notifications_by_item_id( $user_id, $group_id, buddypress()->groups->id, 'group_invite' );
+}
+add_action( 'groups_uninvite_user', 'bp_groups_uninvite_user_delete_group_invite_notification', 10, 2 );
+
+/**
  * When a demotion takes place, delete any corresponding promotion notifications.
  *
  * @since 2.0.0
