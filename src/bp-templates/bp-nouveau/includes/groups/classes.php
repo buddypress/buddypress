@@ -50,10 +50,13 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 
 		$group_member_ids = $this->get_group_member_ids();
 
-		// We want to get users that are already members of the group
+		/**
+		 * We want to exclude users who are already members or who have been
+		 * invited by **any** of the group members to join it.
+		 */
 		$type = 'exclude';
 
-		// We want to get invited users who did not confirmed yet
+		// We want to get the invited users who did not confirmed yet.
 		if ( false === $this->query_vars['is_confirmed'] ) {
 			$type = 'include';
 		}
@@ -77,6 +80,22 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 			return $this->group_member_ids;
 		}
 
+		// Fetch **all** invited users.
+		$pending_invites = groups_get_invites( array(
+			'item_id'     => $this->query_vars['group_id'],
+			'invite_sent' => 'sent',
+			'fields'      => 'user_ids'
+		) );
+
+		// This is a clue that we only want the invitations.
+		if ( false === $this->query_vars['is_confirmed'] ) {
+			return $pending_invites;
+		}
+
+		/**
+		 * Otherwise, we want group members _and_ users with outstanding invitations,
+		 * because we're doing an "exclude" query.
+		 */
 		$bp  = buddypress();
 		$sql = array(
 			'select'  => "SELECT user_id FROM {$bp->groups->table_name_members}",
@@ -91,11 +110,6 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 		// Group id
 		$sql['where'][] = $wpdb->prepare( 'group_id = %d', $this->query_vars['group_id'] );
 
-		if ( false === $this->query_vars['is_confirmed'] ) {
-			$sql['where'][] = $wpdb->prepare( 'is_confirmed = %d', (int) $this->query_vars['is_confirmed'] );
-			$sql['where'][] = 'inviter_id != 0';
-		}
-
 		// Join the query part
 		$sql['where'] = ! empty( $sql['where'] ) ? 'WHERE ' . implode( ' AND ', $sql['where'] ) : '';
 
@@ -106,7 +120,7 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 		/** LIMIT clause ******************************************************/
 		$this->group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']} {$sql['limit']}" );
 
-		return $this->group_member_ids;
+		return array_merge( $this->group_member_ids, $pending_invites );
 	}
 
 	/**
@@ -137,9 +151,12 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 			return array();
 		}
 
-		$bp = buddypress();
-
-		return $wpdb->get_col( $wpdb->prepare( "SELECT inviter_id FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
+		return groups_get_invites( array(
+			'user_id'     => $user_id,
+			'item_id'     => $group_id,
+			'invite_sent' => 'sent',
+			'fields'      => 'inviter_ids'
+		) );
 	}
 }
 
