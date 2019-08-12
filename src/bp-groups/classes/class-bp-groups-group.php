@@ -771,17 +771,20 @@ class BP_Groups_Group {
 	 *                  yet accepted.
 	 */
 	public static function get_invites( $user_id, $group_id, $sent = null ) {
-		global $wpdb;
-
-		$bp  = buddypress();
-		$sql = $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE group_id = %d and is_confirmed = 0 AND inviter_id = %d", $group_id, $user_id );
-
-		// Query for a specific invite sent status.
-		if ( ! is_null( $sent ) ) {
-			$sql .= $wpdb->prepare( ' AND invite_sent = %d', $sent );
+		if ( 0 === $sent ) {
+			$sent_arg = 'draft';
+		} else if ( 1 === $sent ) {
+			$sent_arg = 'sent';
+		} else {
+			$sent_arg = 'all';
 		}
 
-		return $wpdb->get_col( $sql );
+		return groups_get_invites( array(
+			'item_id'     => $group_id,
+			'inviter_id'  => $user_id,
+			'invite_sent' => $sent_arg,
+			'fields'      => 'user_ids',
+		) );
 	}
 
 	/**
@@ -959,18 +962,20 @@ class BP_Groups_Group {
 	 * }
 	 */
 	public static function get_membership_requests( $group_id, $limit = null, $page = null ) {
-		global $wpdb;
-
-		if ( !empty( $limit ) && !empty( $page ) ) {
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) );
+		$args = array(
+			'item_id' => $group_id
+		);
+		if ( $limit ) {
+			$args['per_page'] = $limit;
+		}
+		if ( $page ) {
+			$args['page'] = $page;
 		}
 
-		$bp = buddypress();
+		$requests = groups_get_requests( $args );
+		$total    = count( groups_get_membership_requested_user_ids( $group_id ) );
 
-		$paged_requests = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0{$pag_sql}", $group_id ) );
-		$total_requests = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 0 AND inviter_id = 0", $group_id ) );
-
-		return array( 'requests' => $paged_requests, 'total' => $total_requests );
+		return array( 'requests' => $requests, 'total' => $total );
 	}
 
 	/**
@@ -1637,11 +1642,15 @@ class BP_Groups_Group {
 	 *                  failure.
 	 */
 	public static function delete_all_invites( $group_id ) {
-		global $wpdb;
+		if ( empty( $group_id ) ) {
+			return false;
+		}
 
-		$bp = buddypress();
+		$invites_class = new BP_Groups_Invitation_Manager();
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE group_id = %d AND invite_sent = 1", $group_id ) );
+		return $invites_class->delete( array(
+			'item_id' => $group_id,
+		) );
 	}
 
 	/**
