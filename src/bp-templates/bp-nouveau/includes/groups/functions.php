@@ -266,8 +266,7 @@ function bp_nouveau_get_group_potential_invites( $args = array() ) {
 	}
 
 	// Check the current user's access to the group.
-	$group = groups_get_group( $r['group_id'] );
-	if ( ! $group->user_has_access && ! bp_current_user_can( 'bp_moderate' ) ) {
+	if ( ! bp_groups_user_can_send_invites( $r['group_id'] ) ) {
 		return false;
 	}
 
