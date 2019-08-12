@@ -310,10 +310,7 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 			* currently be a member or be banned from the group.
 			*/
 			$group = groups_get_group( $group_id );
-			if ( in_array( bp_get_group_status( $group ), array( 'private', 'hidden' ), true )
-				&& ! groups_is_user_member( $user_id, $group->id )
-				&& ! groups_is_user_banned( $user_id, $group->id )
-			) {
+			if ( ! groups_is_user_member( $user_id, $group->id ) && ! groups_is_user_banned( $user_id, $group->id )	) {
 				$retval = true;
 			}
 			break;

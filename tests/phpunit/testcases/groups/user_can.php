@@ -129,15 +129,6 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 		$this->assertFalse( bp_user_can( $u1, 'groups_request_membership', array( 'group_id' => $g1 ) ) );
 	}
 
-	public function test_user_cannot_receive_invitation_to_public_group() {
-		$g1 = $this->factory->group->create( array(
-			'status'      => 'public'
-		) );
-		$u1 = $this->factory->user->create();
-
-		$this->assertFalse( bp_user_can( $u1, 'groups_receive_invitation', array( 'group_id' => $g1 ) ) );
-	}
-
 	public function test_user_can_receive_invitation_to_private_group() {
 		$g1 = $this->factory->group->create( array(
 			'status'      => 'private'
