@@ -232,7 +232,10 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 			'is_admin' => 1,
 		) );
 
-		groups_send_membership_request( $users[2], $this->group );
+		groups_send_membership_request( array(
+			'user_id' => $users[2],
+			'group_id' => $this->group
+		) );
 
 		// Both admins should get a notification.
 		$get_args = array(

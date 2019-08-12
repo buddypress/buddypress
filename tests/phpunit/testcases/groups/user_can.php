@@ -108,7 +108,10 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 			'status'      => 'private'
 		) );
 		$u1 = $this->factory->user->create();
-		groups_send_membership_request( $u1, $g1 );
+		groups_send_membership_request( array(
+			'user_id' => $u1,
+			'group_id' => $g1
+		) );
 
 		$this->assertFalse( bp_user_can( $u1, 'groups_request_membership', array( 'group_id' => $g1 ) ) );
 	}

@@ -413,7 +413,7 @@ function bp_nouveau_ajax_send_group_invites() {
 	}
 
 	// Send the invites.
-	groups_send_invites( bp_loggedin_user_id(), $group_id );
+	groups_send_invites( array(	'group_id' => $group_id ) );
 
 	if ( ! empty( $_POST['message'] ) ) {
 		unset( $bp->groups->invites_message );

@@ -21,6 +21,7 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 		) );
 		self::$groups = $f->group->create_many( 3, array(
 			'creator_id' => self::$admin_user,
+			'status'     => 'private'
 		) );
 
 		$now = time();
@@ -173,28 +174,19 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 		$i = groups_invite_user( array(
 			'user_id' => self::$user,
 			'group_id' => self::$groups[1],
-			'inviter_id' => 123,
+			'inviter_id' => self::$admin_user,
+			'send_invite' => 1,
 		) );
-
-		// Send invite.
-		$m = new BP_Groups_Member( self::$user, self::$groups[1] );
-		$m->invite_sent = 1;
-		$m->save();
 
 		$this->assertNotEmpty( groups_is_user_invited( self::$user, self::$groups[1] ) );
 	}
 
-	public function test_groups_is_user_pending_should_return_false_for_pending_member() {
+	public function test_groups_is_user_pending_should_return_false_for_invited_member() {
 		groups_invite_user( array(
 			'user_id' => self::$user,
 			'group_id' => self::$groups[1],
-			'inviter_id' => 123,
+			'send_invite' => 1
 		) );
-
-		// Send invite.
-		$m = new BP_Groups_Member( self::$user, self::$groups[1] );
-		$m->invite_sent = 1;
-		$m->save();
 
 		$this->assertEquals( false, groups_is_user_pending( self::$user, self::$groups[1] ) );
 	}
@@ -204,17 +196,10 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 	}
 
 	public function test_groups_is_user_pending_should_return_true_for_pending_member() {
-
-		$m                = new BP_Groups_Member;
-		$m->group_id      = self::$groups[1];
-		$m->user_id       = self::$user;
-		$m->inviter_id    = 0;
-		$m->is_admin      = 0;
-		$m->user_title    = '';
-		$m->date_modified = bp_core_current_time();
-		$m->is_confirmed  = 0;
-		$m->comments      = 'request';
-		$m->save();
+		groups_send_membership_request( array(
+			'user_id' => self::$user,
+			'group_id' => self::$groups[1],
+		) );
 
 		$this->assertNotEmpty( groups_is_user_pending( self::$user, self::$groups[1] ) );
 	}

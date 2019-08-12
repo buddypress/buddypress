@@ -589,25 +589,23 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'creator_id' => $u1,
 		) );
 
-		$m2 = $this->add_user_to_group( $u2, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 60*60*24 ),
-			'is_confirmed' => 0,
+		groups_invite_user( array(
+			'user_id'    => $u2,
+			'group_id'   => $g,
 			'inviter_id' => $u1,
-			'invite_sent' => true,
+			'send_invite' => 1
 		) );
 
-		$m3 = $this->add_user_to_group( $u3, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 60*60*12 ),
-			'is_confirmed' => 0,
+		groups_invite_user( array(
+			'user_id'    => $u3,
+			'group_id'   => $g,
 			'inviter_id' => $u1,
-			'invite_sent' => true,
+			'send_invite' => 1
 		) );
 
 		$m4 = $this->add_user_to_group( $u4, $g, array(
 			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 60*60*36 ),
-			'is_confirmed' => 1,
-			'inviter_id' => $u1,
-			'invite_sent' => true,
+			'is_confirmed' => 1
 		) );
 
 		// Populate the global
@@ -663,15 +661,19 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$now = time();
 		for ( $i = 1; $i < 6; $i++ ) {
 			$users[ $i ] = self::factory()->user->create( array(
-				'last_activity' => gmdate( 'Y-m-d H:i:s', $now - $i ),
+				'last_activity' => gmdate( 'Y-m-d H:i:s', $now - $i*60 ),
 			) );
 
-			$this->add_user_to_group( $users[ $i ], $g, array(
-				'date_modified' => gmdate( 'Y-m-d H:i:s', $now - $i ),
-				'is_confirmed' => 0,
+			$inv = groups_invite_user( array(
+				'user_id'    => $users[ $i ],
+				'group_id'   => $g,
 				'inviter_id' => $u1,
-				'invite_sent' => true,
+				'send_invite' => 1
 			) );
+
+			$invite = new BP_Invitation( $inv );
+			$invite->date_modified = gmdate( 'Y-m-d H:i:s', $now - $i*60 );
+			$invite->save();
 		}
 
 		// Populate the global
@@ -701,6 +703,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		$g = self::factory()->group->create( array(
 			'creator_id' => $u1,
+			'status'     => 'private'
 		) );
 
 		$users = array();
@@ -710,14 +713,9 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 				'last_activity' => gmdate( 'Y-m-d H:i:s', $now - ( 100 - $i ) ),
 			) );
 
-			$memberships[ $i ] = $this->add_user_to_group( $users[ $i ], $g, array(
-				// this date_modified ensures that order will match
-				// id order. necessary due to a quirk in the legacy
-				// implementation
-				'date_modified' => gmdate( 'Y-m-d H:i:s', $now - ( 100 - $i ) ),
-				'is_confirmed' => 0,
-				'inviter_id' => 0,
-				'invite_sent' => false,
+			$memberships[ $i ] = groups_send_membership_request( array(
+				'user_id' => $users[ $i ],
+				'group_id' => $g
 			) );
 		}
 
@@ -750,7 +748,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		}
 
 		$this->assertEquals( $expected_user_ids, wp_list_pluck( $requests_template->requests, 'user_id' ) );
-		$this->assertEquals( $expected_mem_ids, wp_list_pluck( $requests_template->requests, 'id' ) );
+		$this->assertEquals( $expected_mem_ids, wp_list_pluck( $requests_template->requests, 'invitation_id' ) );
 	}
 
 	/**
@@ -766,6 +764,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		$g = self::factory()->group->create( array(
 			'creator_id' => $u1,
+			'status'     => 'private'
 		) );
 
 		$time = time();
@@ -774,11 +773,9 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			'last_activity' => gmdate( 'Y-m-d H:i:s', $time ),
 		) );
 
-		$membership = $this->add_user_to_group( $user, $g, array(
-			'date_modified' => gmdate( 'Y-m-d H:i:s', $time ),
-			'is_confirmed' => 0,
-			'inviter_id' => 0,
-			'invite_sent' => false,
+		$membership = groups_send_membership_request( array(
+			'user_id' => $user,
+			'group_id' => $g
 		) );
 
 		// Fake the current group
@@ -804,7 +801,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		global $requests_template;
 
 		$expected = new stdClass;
-		$expected->id = $membership;
+		$expected->invitation_id = $membership;
 		$expected->group_id = $g;
 		$expected->user_id = $user;
 		$expected->inviter_id = '0';
@@ -815,7 +812,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$expected->comments = '';
 		$expected->is_confirmed = '0';
 		$expected->is_banned = '0';
-		$expected->invite_sent = '0';
+		$expected->invite_sent = '1';
 
 		// Check each expected value. If there are more in the results,
 		// that's OK

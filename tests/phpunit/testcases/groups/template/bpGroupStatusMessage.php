@@ -98,7 +98,10 @@ class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
 
 		$this->set_current_user( $u );
 
-		groups_send_membership_request( $u, $g );
+		groups_send_membership_request( array(
+			'user_id'  => $u,
+			'group_id' => $g
+		) );
 
 		if ( bp_has_groups( array( 'include' => array( $g ) ) ) ) {
 			while ( bp_groups() ) {
@@ -141,7 +144,10 @@ class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
 		$GLOBALS['groups_template'] = new stdClass;
 		$GLOBALS['groups_template']->group = groups_get_group( $groups[0] );
 
-		groups_send_membership_request( $u, $groups[1] );
+		groups_send_membership_request( array(
+			'user_id' => $u,
+			'group_id' => $groups[1]
+		) );
 
 		$group1 = groups_get_group( array(
 			'group_id' => $groups[1],
