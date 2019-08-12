@@ -211,6 +211,7 @@ function bp_version_updater() {
 		bp_update_option( 'bp-active-components', $default_components );
 		bp_core_add_page_mappings( $default_components, 'delete' );
 		bp_core_install_emails();
+		bp_core_install_invitations();
 
 	// Upgrades.
 	} else {
@@ -551,6 +552,7 @@ function bp_update_to_2_7() {
  * 5.0.0 update routine.
  *
  * - Make sure the custom visibility is disabled for the default profile field.
+ * - Create the invitations table.
  *
  * @since 5.0.0
  */
@@ -579,6 +581,8 @@ function bp_update_to_5_0() {
 			'%s'
 		)
 	);
+
+	bp_core_install_invitations();
 }
 
 /**
