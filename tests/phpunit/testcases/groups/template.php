@@ -667,15 +667,12 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 			) );
 
 			$inv = groups_invite_user( array(
-				'user_id'    => $users[ $i ],
-				'group_id'   => $g,
-				'inviter_id' => $u1,
-				'send_invite' => 1
+				'user_id'       => $users[ $i ],
+				'group_id'      => $g,
+				'inviter_id'    => $u1,
+				'send_invite'   => 1,
+				'date_modified' => gmdate( 'Y-m-d H:i:s', $now - $i*60 ),
 			) );
-
-			$invite = new BP_Invitation( $inv );
-			$invite->date_modified = gmdate( 'Y-m-d H:i:s', $now - $i*60 );
-			$invite->save();
 		}
 
 		// Populate the global
@@ -777,8 +774,9 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		) );
 
 		$membership = groups_send_membership_request( array(
-			'user_id' => $user,
-			'group_id' => $g
+			'user_id'       => $user,
+			'group_id'      => $g,
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $time ),
 		) );
 
 		// Fake the current group
