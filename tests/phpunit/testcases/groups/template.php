@@ -590,17 +590,19 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		) );
 
 		groups_invite_user( array(
-			'user_id'    => $u2,
-			'group_id'   => $g,
-			'inviter_id' => $u1,
-			'send_invite' => 1
+			'user_id'       => $u2,
+			'group_id'      => $g,
+			'inviter_id'    => $u1,
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 50 ),
+			'send_invite'   => 1,
 		) );
 
 		groups_invite_user( array(
-			'user_id'    => $u3,
-			'group_id'   => $g,
-			'inviter_id' => $u1,
-			'send_invite' => 1
+			'user_id'       => $u3,
+			'group_id'      => $g,
+			'inviter_id'    => $u1,
+			'date_modified' => gmdate( 'Y-m-d H:i:s', $now - 30 ),
+			'send_invite'   => 1,
 		) );
 
 		$m4 = $this->add_user_to_group( $u4, $g, array(
