@@ -3134,6 +3134,9 @@ function bp_groups_migrate_invitations() {
 	$bp = buddypress();
 
 	$records = $wpdb->get_results( "SELECT id, group_id, user_id, inviter_id, date_modified, comments, invite_sent FROM {$bp->groups->table_name_members} WHERE is_confirmed = 0 AND is_banned = 0" );
+	if ( ! $records ) {
+		return;
+	}
 
 	$processed = array();
 	$values = array();
