@@ -318,20 +318,20 @@ window.bp = window.bp || {};
 						$( 'html,body' ).animate( { scrollTop: top.offset().top }, 'slow', function() {
 							$( data.target ).fadeOut( 100, function() {
 								self.inject( this, response.data.contents, data.method );
-								$( this ).fadeIn( 100 );
-
-								// Inform other scripts the list of objects has been refreshed.
-								$( data.target ).trigger( 'bp_ajax_request', $.extend( data, { response: response.data } ) );
+								$( this ).fadeIn( 100, 'swing', function(){
+									// Inform other scripts the list of objects has been refreshed.
+									$( data.target ).trigger( 'bp_ajax_request', $.extend( data, { response: response.data } ) );
+								} );
 							} );
 						} );
 
 					} else {
 						$( data.target ).fadeOut( 100, function() {
 							self.inject( this, response.data.contents, data.method );
-							$( this ).fadeIn( 100 );
-
-							// Inform other scripts the list of objects has been refreshed.
-							$( data.target ).trigger( 'bp_ajax_request', $.extend( data, { response: response.data } ) );
+							$( this ).fadeIn( 100, 'swing', function(){
+								// Inform other scripts the list of objects has been refreshed.
+								$( data.target ).trigger( 'bp_ajax_request', $.extend( data, { response: response.data } ) );
+							} );
 						} );
 					}
 				}
