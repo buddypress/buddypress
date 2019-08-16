@@ -669,6 +669,13 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
 		'page'    => $page,
 	) );
 
+	if ( empty( $user_threads ) ) {
+		return array(
+			'data' => $data_to_export,
+			'done' => true,
+		);
+	}
+
 	foreach ( $user_threads['threads'] as $thread ) {
 		$recipient_links = array();
 		foreach ( $thread->recipients as $recipient ) {
