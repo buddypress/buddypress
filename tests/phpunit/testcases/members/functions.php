@@ -378,10 +378,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
-			$this->setExpectedDeprecated( 'update_user_status' );
-		}
-
 		$bp = buddypress();
 		$displayed_user = $bp->displayed_user;
 
@@ -389,7 +385,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$bp->displayed_user->id = $u1;
 
 		// Bulk spam in network admin uses update_user_status
-		update_user_status( $u1, 'spam', '1' );
+		bp_core_update_member_status( $u1, '1' );
 
 		$this->assertTrue( bp_is_user_spammer( $u1 ) );
 
@@ -410,10 +406,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
-			$this->setExpectedDeprecated( 'update_user_status' );
-		}
-
 		$bp = buddypress();
 		$displayed_user = $bp->displayed_user;
 
@@ -426,7 +418,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_spammer( $u1 ) );
 
 		// Bulk unspam in network admin uses update_user_status
-		update_user_status( $u1, 'spam', '0' );
+		bp_core_update_member_status( $u1, '0' );
 
 		$this->assertFalse( bp_is_user_spammer( $u1 ) );
 
@@ -438,10 +430,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_process_spammer_status
 	 */
 	public function test_bp_core_process_spammer_status_make_spam_user_filter() {
-		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
-			$this->setExpectedDeprecated( 'update_user_status' );
-		}
-
 		add_filter( 'make_spam_user', array( $this, 'notification_filter_callback' ) );
 
 		$u1 = self::factory()->user->create();
@@ -454,14 +442,12 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_bp_core_process_spammer_status_make_ham_user_filter() {
-		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
-			$this->setExpectedDeprecated( 'update_user_status' );
-		}
+		$u1 = self::factory()->user->create();
+		$s  = bp_core_process_spammer_status( $u1, 'spam' );
 
 		add_filter( 'make_ham_user', array( $this, 'notification_filter_callback' ) );
 
-		$u1 = self::factory()->user->create();
-		$n = bp_core_process_spammer_status( $u1, 'ham' );
+		$h = bp_core_process_spammer_status( $u1, 'ham' );
 
 		remove_filter( 'make_ham_user', array( $this, 'notification_filter_callback' ) );
 
@@ -470,10 +456,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_bp_core_process_spammer_status_bp_make_spam_user_filter() {
-		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
-			$this->setExpectedDeprecated( 'update_user_status' );
-		}
-
 		add_filter( 'bp_make_spam_user', array( $this, 'notification_filter_callback' ) );
 
 		$u1 = self::factory()->user->create();
@@ -486,10 +468,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	public function test_bp_core_process_spammer_status_bp_make_ham_user_filter() {
-		if ( is_multisite() && function_exists( 'wp_get_registered_image_subsizes' ) ) {
-			$this->setExpectedDeprecated( 'update_user_status' );
-		}
-
 		add_filter( 'bp_make_ham_user', array( $this, 'notification_filter_callback' ) );
 
 		$u1 = self::factory()->user->create();
