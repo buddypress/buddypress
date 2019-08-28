@@ -324,7 +324,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			$_SERVER['SERVER_NAME'] = self::$cached_SERVER_NAME;
 			self::$cached_SERVER_NAME = '';
 		} else {
-			unset( $_SERVER['SERVER_NAME'] );
+			$_SERVER['SERVER_NAME'] = WP_TESTS_DOMAIN;
 		}
 
 		// passthrough

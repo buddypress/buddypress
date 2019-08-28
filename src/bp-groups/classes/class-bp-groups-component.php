@@ -922,4 +922,28 @@ class BP_Groups_Component extends BP_Component {
 			'public' => false,
 		) );
 	}
+
+	/**
+	 * Init the BP REST API.
+	 *
+	 * @since 5.0.0
+	 */
+	public function rest_api_init() {
+		$controller = new BP_REST_Groups_Endpoint();
+		$controller->register_routes();
+
+		$controller = new BP_REST_Group_Membership_Endpoint();
+		$controller->register_routes();
+
+		$controller = new BP_REST_Group_Invites_Endpoint();
+		$controller->register_routes();
+
+		$controller = new BP_REST_Group_Membership_Request_Endpoint();
+		$controller->register_routes();
+
+		$controller = new BP_REST_Attachments_Group_Avatar_Endpoint();
+		$controller->register_routes();
+
+		parent::rest_api_init();
+	}
 }

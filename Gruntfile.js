@@ -190,7 +190,8 @@ module.exports = function( grunt ) {
 			}
 		},
 		clean: {
-			all: [ BUILD_DIR ]
+			all: [ BUILD_DIR ],
+			bp_rest: [ BUILD_DIR + 'bp-rest/' ]
 		},
 		copy: {
 			files: {
@@ -209,6 +210,32 @@ module.exports = function( grunt ) {
 						src: ['composer.json']
 					}
 				]
+			},
+			bp_rest_components: {
+				cwd: BUILD_DIR + 'bp-rest/includes/',
+				dest: BUILD_DIR,
+				dot: true,
+				expand: true,
+				src: ['**/bp-activity/**', '**/bp-blogs/**', '**/bp-friends/**', '**/bp-groups/**', '**/bp-members/**', '**/bp-messages/**', '**/bp-notifications/**', '**/bp-settings/**', '**/bp-xprofile/**'],
+				options: {
+					process : function( content ) {
+						return content.replace( /\@since 0\.1\.0/g, '@since 5.0.0' );
+					}
+				}
+			},
+			bp_rest_core: {
+				cwd: BUILD_DIR + 'bp-rest/includes/',
+				dest: BUILD_DIR + 'bp-core/classes/',
+				dot: true,
+				expand: true,
+				flatten: true,
+				filter: 'isFile',
+				src: ['**', '!functions.php', '!**/bp-activity/**', '!**/bp-blogs/**', '!**/bp-friends/**', '!**/bp-groups/**', '!**/bp-members/**', '!**/bp-messages/**', '!**/bp-notifications/**', '!**/bp-settings/**', '!**/bp-xprofile/**'],
+				options: {
+					process : function( content ) {
+						return content.replace( /\@since 0\.1\.0/g, '@since 5.0.0' );
+					}
+				}
 			}
 		},
 		uglify: {
@@ -300,6 +327,11 @@ module.exports = function( grunt ) {
 			phpcompat: {
 				command: './vendor/bin/phpcs -p --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.3- src tests',
 				stdout: true
+			},
+			rest_api: {
+				command: 'svn export --force https://github.com/buddypress/BP-REST.git/trunk bp-rest',
+				cwd: BUILD_DIR,
+				stdout: false
 			}
 		},
 		jsvalidate:{
@@ -331,13 +363,13 @@ module.exports = function( grunt ) {
 		}
 	});
 
-
 	/**
 	 * Register tasks.
 	 */
 	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'postcss', 'rtlcss'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcompat'] );
-	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:bpdefault', 'exec:cli'] );
+	grunt.registerTask( 'bp_rest', [ 'exec:rest_api', 'copy:bp_rest_components', 'copy:bp_rest_core', 'clean:bp_rest' ] );
+	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'bp_rest', 'makepot', 'exec:bpdefault', 'exec:cli'] );
 	grunt.registerTask( 'release', ['build'] );
 
 	// Testing tasks.

@@ -456,4 +456,16 @@ class BP_Activity_Component extends BP_Component {
 
 		parent::setup_cache_groups();
 	}
+
+	/**
+	 * Init the BP REST API.
+	 *
+	 * @since 5.0.0
+	 */
+	public function rest_api_init() {
+		$controller = new BP_REST_Activity_Endpoint();
+		$controller->register_routes();
+
+		parent::rest_api_init();
+	}
 }
