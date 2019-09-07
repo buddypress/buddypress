@@ -238,10 +238,10 @@ function bp_rest_validate_member_types( $value ) {
 	foreach ( $types as $type ) {
 		if ( ! in_array( $type, $registered_types, true ) ) {
 			return new WP_Error(
-				'bp_rest_invalid_group_type',
+				'bp_rest_invalid_member_type',
 				sprintf(
 					/* translators: %1$s and %2$s is replaced with the registered type(s) */
-					__( 'The member type you provided, %$1s, is not one of %$2s.', 'buddypress' ),
+					__( 'The member type you provided, %1$s, is not one of %2$s.', 'buddypress' ),
 					$type,
 					implode( ', ', $registered_types )
 				)
