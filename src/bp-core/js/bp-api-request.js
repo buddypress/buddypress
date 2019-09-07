@@ -17,13 +17,15 @@ window.bp = window.bp || {};
 
     // Polyfill wp.apiRequest if WordPress < 4.9
     bp.apiRequest = function( options ) {
+        var bpRequest;
+
         if ( ! options.dataType ) {
             options.dataType = 'json';
         }
 
         // WordPress is >= 4.9.0.
         if ( wp.apiRequest ) {
-            return wp.apiRequest( options );
+            bpRequest = wp.apiRequest( options );
 
         // WordPress is < 4.9.0.
         } else {
@@ -33,13 +35,35 @@ window.bp = window.bp || {};
                 url = url + options.path.replace( /^\//, '' );
             }
 
-            options.url = url;
-            options.beforeSend = function( xhr ) {
-                xhr.setRequestHeader( 'X-WP-Nonce', bpApiSettings.nonce );
+            if ( ! options.url ) {
+                options.url = url;
+            }
+
+            // Add The nonce only when needed.
+            if ( -1 !== options.url.indexOf( url ) ) {
+                options.beforeSend = function( xhr ) {
+                    xhr.setRequestHeader( 'X-WP-Nonce', bpApiSettings.nonce );
+                };
+            }
+
+            bpRequest = $.ajax( options );
+        }
+
+        return bpRequest.then( null, function( result ) {
+            var errorObject = {
+                code: 'unexpected_error',
+                message: bpApiSettings.unexpectedError,
+                data: {
+                    status: 404
+                }
             };
 
-            return $.ajax( options );
-        }
+            if ( result && result.responseJSON ) {
+                errorObject = result.responseJSON;
+            }
+
+            return errorObject;
+        } );
     };
 
 } )( window.wp || {}, window.bp, jQuery );
