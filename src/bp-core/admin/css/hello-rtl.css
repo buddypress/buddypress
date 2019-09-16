@@ -9,15 +9,12 @@ TABLE OF CONTENTS:
 1.0 - Typography and colour
 2.0 - Dashicons
 3.0 - Elements
-	3.1 - Backdrop and container
-	3.2 - Modal footer
-	3.3 - Modal header
-	3.4 - Modal content
+	3.1 - Modal footer
+	3.2 - Modal content
 4.0 - Content styles
-	4.1 - Backdrop and container
-	4.2 - Footer content
-	4.3 - Header content
-	4.4 - Content content
+	4.1 - Footer content
+	4.2 - Header content
+	4.3 - Content content
 5.0 - Media
 6.0 - Media Queries
 	6.1 - Desktop Medium
@@ -32,48 +29,23 @@ TABLE OF CONTENTS:
 	--bp-hello-container-size: 15%;
 }
 
-#bp-hello-container a {
-	color: var(--bp-hello-color-primary);
-}
-
-#bp-hello-container a:hover {
-	transition: all 0.1s ease-in-out;
-	color: black;
-}
-
-#bp-hello-container .bp-hello-header h1 {
-	line-height: 1.7;
-	font-size: 21px;
-	font-weight: 400;
-}
-
 .bp-hello-content p {
 	font-size: 16px;
+}
+
+.bp-hello-content ul,
+.bp-hello-content ol {
+	list-style: inherit;
+}
+
+.bp-hello-content h3 {
+	font-size: 1.1em;
+	font-weight: 500;
 }
 
 /*------------------------------------------------------------------------------
  * 2.0 - Dashicons
  *----------------------------------------------------------------------------*/
-.bp-hello-close .button {
-	padding: 5px !important;
-}
-
-.bp-hello-close .close-modal:before {
-	content: "\f158";
-	color: #23282d;
-	/* wp toolbar */
-	font: 400 1.5em/1 dashicons;
-	speak: none;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	background-image: none !important;
-}
-
-.bp-hello-close .close-modal:focus:before, .bp-hello-close .close-modal:hover:before {
-	transition: all 0.1s ease-in-out;
-	color: var(--bp-hello-color-primary);
-}
-
 .bp-hello-social li a:before {
 	color: #23282d;
 	/* wp toolbar */
@@ -97,41 +69,34 @@ TABLE OF CONTENTS:
 	content: "\f301";
 }
 
+div.dashicons {
+	width: -webkit-fit-content;
+	width: fit-content;
+}
+
+div.dashicons.big {
+	font-size: 128px;
+	display: block;
+	color: var(--bp-hello-color-primary);
+	height: 128px;
+	width: 128px;
+}
+
 /*------------------------------------------------------------------------------
  * 3.0 - Elements
  *----------------------------------------------------------------------------*/
 /*
- * 3.1 - Backdrop and container
+ * 3.1 - Modal footer
  */
-#bp-hello-backdrop {
-	position: fixed;
-	top: 0;
-	right: 0;
-	left: 0;
-	bottom: 0;
-	z-index: 9998;
-	display: none;
-}
-
-#bp-hello-container {
-	position: fixed;
-	top: 0;
-	bottom: 80px;
-	z-index: 99999;
-}
-
-.bp-disable-scroll {
-	overflow: hidden;
-}
-
-/*
- * 3.2 - Modal footer
- */
-.bp-hello-footer {
+#plugin-information-footer {
 	display: flex;
 	flex-wrap: wrap;
-	height: 58px;
-	max-height: 58px;
+	padding: 0 16px;
+	height: auto;
+}
+
+#plugin-information-footer .dashicons-heart {
+	color: #be3631;
 }
 
 .bp-hello-social-cta,
@@ -156,52 +121,74 @@ TABLE OF CONTENTS:
 }
 
 /*
- * 3.3 - Modal header
+ * 3.2 - Modal content
  */
-.bp-hello-header {
-	height: 58px;
-	max-height: 58px;
+#bp-hello-container {
+	display: none;
 }
 
-/*
- * 3.4 - Modal content
- */
 .bp-hello-content {
 	padding: 0 25px;
-	height: calc(100% - 58px);
-	overflow-y: auto;
-	-webkit-overflow-scrolling: touch;
+	padding-bottom: 20px;
+}
+
+#dynamic-content {
+	padding-bottom: 40px;
+	display: none;
+}
+
+#dynamic-content.show {
+	display: block;
+}
+
+.plugin-details-modal #TB_title {
+	/* stylelint-disable-line */
+	height: 0;
+	background: none;
+	border: none;
+}
+
+#TB_window.plugin-details-modal.thickbox-loading:before {
+	/* stylelint-disable-line */
+	z-index: 10;
+	margin-top: 40px;
+	background-color: none;
+}
+
+.bp-hello-aligncenter * {
+	margin: 10px auto;
+}
+
+.bp-hello-alignleft {
+	float: right;
+}
+
+.bp-hello-alignleft:after {
+	content: "";
+	clear: right;
+}
+
+.bp-hello-alignright {
+	float: left;
+}
+
+.bp-hello-alignright:after {
+	content: "";
+	clear: left;
+}
+
+.bp-hello-divider {
+	clear: both;
+	border: none;
+	margin-bottom: 20px;
 }
 
 /*------------------------------------------------------------------------------
  * 4.0 - Content styles
  *----------------------------------------------------------------------------*/
 /*
- * 4.1 - Backdrop and container
+ * 4.1 - Footer content
  */
-#bp-hello-backdrop {
-	background-color: rgba(0, 0, 0, 0.8);
-	transition: opacity 0.15s ease-out;
-}
-
-#bp-hello-container {
-	background-color: white;
-}
-
-/*
- * 4.2 - Footer content
- */
-.bp-hello-footer {
-	border-radius: 0 0 3px 3px;
-	background-color: white;
-	border-top: 1px solid var(--bp-hello-color-secondary);
-	padding: 6px 25px;
-}
-
-.bp-hello-footer p {
-	font-size: 15px;
-}
-
 .bp-hello-social-cta {
 	text-align: right;
 }
@@ -215,33 +202,14 @@ TABLE OF CONTENTS:
 }
 
 /*
- * 4.3 - Header content
+ * 4.2 - Header content
  */
-.bp-hello-header {
-	padding: 6px 25px;
-}
-
-.bp-hello-header h1 {
-	width: calc(100% - 51px);
-}
-
-#bp-hello-container .bp-hello-header {
-	border-bottom: 1px solid var(--bp-hello-color-secondary);
-}
-
-.bp-hello-title {
-	text-align: right;
-}
-
-.bp-hello-close {
-	position: absolute;
-	top: 20px;
-	left: 25px;
-	text-align: left;
+#plugin-information-title.with-banner {
+	background-image: url(https://ps.w.org/buddypress/assets/banner-772x250.png);
 }
 
 /*
- * 4.4 - Content content
+ * 4.3 - Content content
  */
 .bp-hello-content {
 	background-color: white;
@@ -259,6 +227,11 @@ TABLE OF CONTENTS:
 	width: 100%;
 }
 
+.bp-hello-content .bp-hello-alignleft img,
+.bp-hello-content .bp-hello-alignright img {
+	max-width: 200px;
+}
+
 /*------------------------------------------------------------------------------
  * 6.0 - Media Queries
  *----------------------------------------------------------------------------*/
@@ -266,45 +239,8 @@ TABLE OF CONTENTS:
  * 6.1 - Desktop Medium
  */
 @media only screen and (min-width: 1024px) {
-	#bp-hello-backdrop {
-		display: block;
-	}
-	#bp-hello-container {
-		position: fixed;
-		top: 60px;
-		right: var(--bp-hello-container-size);
-		left: var(--bp-hello-container-size);
-		bottom: 30px;
-		z-index: 9999;
-		border-radius: 3px;
-	}
-	#bp-hello-container .bp-hello-header h1 {
-		line-height: inherit;
-	}
-	.bp-hello-header {
-		height: auto;
-		max-height: inherit;
-		padding: 6px 30px;
-	}
-	.bp-hello-close {
-		left: 30px;
-	}
-	.bp-hello-close .close-modal:before {
-		line-height: 0.7;
-	}
-	.bp-hello-footer {
-		position: fixed;
-		right: var(--bp-hello-container-size);
-		left: var(--bp-hello-container-size);
-		bottom: 30px;
-		z-index: 10000;
-		height: auto;
-		max-height: inherit;
-		padding: 6px 30px;
-	}
 	.bp-hello-content {
-		height: calc(100% - 90px);
-		padding: 0 30px;
+		padding: 0 30px 20px;
 	}
 	.bp-hello-content p {
 		font-size: 14px;
@@ -314,10 +250,8 @@ TABLE OF CONTENTS:
 /**
  * 6.2 - Desktop Large
  */
-@media screen and (min-width: 1280px) {
-	#bp-hello-container,
-	.bp-hello-footer {
-		right: calc((100% - 896px) / 2);
-		left: calc((100% - 896px) / 2);
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	#plugin-information-title.with-banner {
+		background-image: url(https://ps.w.org/buddypress/assets/banner-1544x500.png);
 	}
 }

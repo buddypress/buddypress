@@ -9,15 +9,12 @@ TABLE OF CONTENTS:
 1.0 - Typography and colour
 2.0 - Dashicons
 3.0 - Elements
-	3.1 - Backdrop and container
-	3.2 - Modal footer
-	3.3 - Modal header
-	3.4 - Modal content
+	3.1 - Modal footer
+	3.2 - Modal content
 4.0 - Content styles
-	4.1 - Backdrop and container
-	4.2 - Footer content
-	4.3 - Header content
-	4.4 - Content content
+	4.1 - Footer content
+	4.2 - Header content
+	4.3 - Content content
 5.0 - Media
 6.0 - Media Queries
 	6.1 - Desktop Medium
@@ -33,67 +30,26 @@ TABLE OF CONTENTS:
 	--bp-hello-container-size: 15%;
 }
 
-#bp-hello-container {
-
-	a {
-		color: var(--bp-hello-color-primary);
-
-		&:hover {
-			-webkit-transition: all 0.1s ease-in-out;
-			-o-transition: all 0.1s ease-in-out;
-			transition: all 0.1s ease-in-out;
-			color: rgb(0, 0, 0);
-		}
-	}
-
-	.bp-hello-header {
-
-		h1 {
-			line-height: 1.7;
-			font-size: 21px;
-			font-weight: 400;
-		}
-	}
-}
-
 .bp-hello-content {
 
 	p {
 		font-size: 16px;
+	}
+
+	ul,
+	ol {
+		list-style: inherit;
+	}
+
+	h3 {
+		font-size: 1.1em;
+		font-weight: 500;
 	}
 }
 
 /*------------------------------------------------------------------------------
  * 2.0 - Dashicons
  *----------------------------------------------------------------------------*/
-.bp-hello-close {
-
-	.button {
-		padding: 5px !important;
-	}
-
-	.close-modal {
-
-		&:before {
-			content: "\f158";
-			color: #23282d; /* wp toolbar */
-			font: 400 1.5em/1 dashicons;
-			speak: none;
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
-			background-image: none !important;
-		}
-
-		&:focus:before,
-		&:hover:before {
-			-webkit-transition: all 0.1s ease-in-out;
-			-o-transition: all 0.1s ease-in-out;
-			transition: all 0.1s ease-in-out;
-			color: var(--bp-hello-color-primary);
-		}
-	}
-}
-
 .bp-hello-social {
 
 	li a {
@@ -124,47 +80,36 @@ TABLE OF CONTENTS:
 	}
 }
 
+div.dashicons {
+
+	width: fit-content;
+
+	&.big {
+		font-size: 128px;
+		display: block;
+		color: var(--bp-hello-color-primary);
+		height: 128px;
+		width: 128px;
+	}
+}
+
 /*------------------------------------------------------------------------------
  * 3.0 - Elements
  *----------------------------------------------------------------------------*/
 
 /*
- * 3.1 - Backdrop and container
+ * 3.1 - Modal footer
  */
-#bp-hello-backdrop {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 9998;
+#plugin-information-footer {
 
-	display: none;
-}
-
-#bp-hello-container {
-	position: fixed;
-	top: 0;
-	bottom: 80px;
-	z-index: 99999;
-}
-
-.bp-disable-scroll {
-	overflow: hidden;
-}
-
-/*
- * 3.2 - Modal footer
- */
-.bp-hello-footer {
-	display: -webkit-box;
-	display: -ms-flexbox;
 	display: flex;
-	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
+	padding: 0 16px;
+	height: auto;
 
-	height: 58px;
-	max-height: 58px;
+	.dashicons-heart {
+		color: #be3631;
+	}
 }
 
 .bp-hello-social-cta,
@@ -196,23 +141,65 @@ TABLE OF CONTENTS:
 }
 
 /*
- * 3.3 - Modal header
+ * 3.2 - Modal content
  */
-.bp-hello-header {
-	height: 58px;
-	max-height: 58px;
+
+#bp-hello-container {
+	display: none;
 }
 
-/*
- * 3.4 - Modal content
- */
 .bp-hello-content {
 	padding: 0 25px;
+	padding-bottom: 20px;
+}
 
-	// Force scrolling.
-	height: calc(100% - 58px);
-	overflow-y: auto;
-	-webkit-overflow-scrolling: touch;
+#dynamic-content {
+	padding-bottom: 40px;
+	display: none;
+
+	&.show {
+		display: block;
+	}
+}
+
+.plugin-details-modal #TB_title { /* stylelint-disable-line */
+	height: 0;
+	background: none;
+	border: none;
+}
+
+#TB_window.plugin-details-modal.thickbox-loading:before { /* stylelint-disable-line */
+	z-index: 10;
+	margin-top: 40px;
+	background-color: none;
+}
+
+.bp-hello-aligncenter * {
+	margin: 10px auto;
+}
+
+.bp-hello-alignleft {
+	float: left;
+
+	&:after {
+		content: "";
+		clear: left;
+	}
+}
+
+.bp-hello-alignright {
+	float: right;
+
+	&:after {
+		content: "";
+		clear: right;
+	}
+}
+
+.bp-hello-divider {
+	clear: both;
+	border: none;
+	margin-bottom: 20px;
 }
 
 /*------------------------------------------------------------------------------
@@ -220,33 +207,8 @@ TABLE OF CONTENTS:
  *----------------------------------------------------------------------------*/
 
 /*
- * 4.1 - Backdrop and container
+ * 4.1 - Footer content
  */
-#bp-hello-backdrop {
-	background-color: rgba(0, 0, 0, 0.8);
-	-webkit-transition: opacity 0.15s ease-out;
-	-o-transition: opacity 0.15s ease-out;
-	transition: opacity 0.15s ease-out;
-}
-
-#bp-hello-container {
-	background-color: rgb(255, 255, 255);
-}
-
-/*
- * 4.2 - Footer content
- */
-.bp-hello-footer {
-	border-radius: 0 0 3px 3px;
-	background-color: rgb(255, 255, 255);
-	border-top: 1px solid var(--bp-hello-color-secondary);
-	padding: 6px 25px;
-
-	p {
-		font-size: 15px;
-	}
-}
-
 .bp-hello-social-cta {
 	text-align: left;
 }
@@ -266,36 +228,14 @@ TABLE OF CONTENTS:
 }
 
 /*
- * 4.3 - Header content
+ * 4.2 - Header content
  */
-.bp-hello-header {
-	padding: 6px 25px;
-
-	h1 {
-		width: calc(100% - 51px);  // Approx. width of "X" button block.
-	}
-}
-
-#bp-hello-container {
-
-	.bp-hello-header {
-		border-bottom: 1px solid var(--bp-hello-color-secondary);
-	}
-}
-
-.bp-hello-title {
-	text-align: left;
-}
-
-.bp-hello-close {
-	position: absolute;
-	top: 20px;
-	right: 25px;
-	text-align: right;
+#plugin-information-title.with-banner {
+	background-image: url(https://ps.w.org/buddypress/assets/banner-772x250.png);
 }
 
 /*
- * 4.4 - Content content
+ * 4.3 - Content content
  */
 .bp-hello-content {
 	background-color: rgb(255, 255, 255);
@@ -314,6 +254,11 @@ TABLE OF CONTENTS:
 	iframe {
 		width: 100%;
 	}
+
+	.bp-hello-alignleft img,
+	.bp-hello-alignright img {
+		max-width: 200px;
+	}
 }
 
 /*------------------------------------------------------------------------------
@@ -325,75 +270,21 @@ TABLE OF CONTENTS:
  */
 @media only screen and (min-width: 1024px) {
 
-	#bp-hello-backdrop {
-		display: block;
-	}
-
-	#bp-hello-container {
-		position: fixed;
-		top: 60px;
-		left: var(--bp-hello-container-size);
-		right: var(--bp-hello-container-size);
-		bottom: 30px;
-		z-index: 9999;
-
-		border-radius: 3px;
-
-		.bp-hello-header {
-
-			h1 {
-				line-height: inherit;
-			}
-		}
-	}
-
-	.bp-hello-header {
-		height: auto;
-		max-height: inherit;
-		padding: 6px 30px;
-	}
-
-	.bp-hello-close {
-		right: 30px;
-
-		.close-modal:before {
-			line-height: 0.7;
-		}
-	}
-
-	.bp-hello-footer {
-		position: fixed; // Fixed position above "content" div.
-		left: var(--bp-hello-container-size);
-		right: var(--bp-hello-container-size);
-		bottom: 30px;
-		z-index: 10000; // See #bp-hello-backdrop
-
-		height: auto;
-		max-height: inherit;
-
-		padding: 6px 30px;
-	}
-
 	.bp-hello-content {
-		// Very very approx. height of header and footer.
-		height: calc(100% - 90px);
-		padding: 0 30px;
+		padding: 0 30px 20px;
+	}
 
-		p {
-			font-size: 14px;
-		}
+	.bp-hello-content p {
+		font-size: 14px;
 	}
 }
 
 /**
  * 6.2 - Desktop Large
  */
-@media screen and (min-width: 1280px) {
+@media only screen and ( -webkit-min-device-pixel-ratio: 1.5 ) {
 
-	#bp-hello-container,
-	.bp-hello-footer {
-		// Approx. max-width of modal at Desktop Medium size.
-		left: calc((100% - 896px) / 2);
-		right: calc((100% - 896px) / 2);
+	#plugin-information-title.with-banner {
+		background-image: url(https://ps.w.org/buddypress/assets/banner-1544x500.png);
 	}
 }
