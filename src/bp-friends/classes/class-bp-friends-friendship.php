@@ -197,7 +197,7 @@ class BP_Friends_Friendship {
 		 *
 		 * @param BP_Friends_Friendship $value Current friendship request object.
 		 */
-		do_action( 'friends_friendship_after_save', array( &$this ) );
+		do_action_ref_array( 'friends_friendship_after_save', array( &$this ) );
 
 		return $result;
 	}
@@ -614,9 +614,9 @@ class BP_Friends_Friendship {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param int $user_id                          The ID of the primary user for whom we want 
+	 * @param int $user_id                          The ID of the primary user for whom we want
 	 *                                              to check friendships statuses.
-	 * @param int|array|string $possible_friend_ids The IDs of the one or more users 
+	 * @param int|array|string $possible_friend_ids The IDs of the one or more users
 	 *                                              to check friendship status with primary user.
 	 * @return null
 	 */
@@ -628,7 +628,7 @@ class BP_Friends_Friendship {
 		$fetch = array();
 		foreach ( $possible_friend_ids as $friend_id ) {
 			// Check for cached items in both friendship directions.
-			if ( false === bp_core_get_incremented_cache( $user_id . ':' . $friend_id, 'bp_friends' ) 
+			if ( false === bp_core_get_incremented_cache( $user_id . ':' . $friend_id, 'bp_friends' )
 				|| false === bp_core_get_incremented_cache( $friend_id . ':' . $user_id, 'bp_friends' ) ) {
 				$fetch[] = $friend_id;
 			}
@@ -649,7 +649,7 @@ class BP_Friends_Friendship {
 			if ( 1 === (int) $friendship->is_confirmed ) {
 				$status_initiator = $status_friend = 'is_friend';
 			} else {
-				$status_initiator = 'pending'; 
+				$status_initiator = 'pending';
 				$status_friend    = 'awaiting_response';
 			}
 			bp_core_set_incremented_cache( $initiator_user_id . ':' . $friend_user_id, 'bp_friends', $status_initiator );
