@@ -438,11 +438,11 @@ class BP_Messages_Component extends BP_Component {
 	 * Init the BP REST API.
 	 *
 	 * @since 5.0.0
+	 *
+	 * @param array $controllers Optional. See BP_Component::rest_api_init() for
+	 *                           description.
 	 */
-	public function rest_api_init() {
-		$controller = new BP_REST_Messages_Endpoint();
-		$controller->register_routes();
-
-		parent::rest_api_init();
+	public function rest_api_init( $controllers = array() ) {
+		parent::rest_api_init( array( 'BP_REST_Messages_Endpoint' ) );
 	}
 }

@@ -461,21 +461,19 @@ class BP_Members_Component extends BP_Component {
 	 * Init the BP REST API.
 	 *
 	 * @since 5.0.0
+	 *
+	 * @param array $controllers Optional. See BP_Component::rest_api_init() for
+	 *                           description.
 	 */
-	public function rest_api_init() {
-		/**
-		 * As the Members component is always loaded,
-		 * let's register the Components endpoint here.
-		 */
-		$controller = new BP_REST_Components_Endpoint();
-		$controller->register_routes();
-
-		$controller = new BP_REST_Members_Endpoint();
-		$controller->register_routes();
-
-		$controller = new BP_REST_Attachments_Member_Avatar_Endpoint();
-		$controller->register_routes();
-
-		parent::rest_api_init();
+	public function rest_api_init( $controllers = array() ) {
+		parent::rest_api_init( array(
+			/**
+			 * As the Members component is always loaded,
+			 * let's register the Components endpoint here.
+			 */
+			'BP_REST_Components_Endpoint',
+			'BP_REST_Members_Endpoint',
+			'BP_REST_Attachments_Member_Avatar_Endpoint',
+		) );
 	}
 }

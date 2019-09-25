@@ -867,8 +867,35 @@ class BP_Component {
 	 * Init the BP REST API.
 	 *
 	 * @since 5.0.0
+	 *
+	 * @param array $controllers The list of BP REST controllers to load.
 	 */
-	public function rest_api_init() {
+	public function rest_api_init( $controllers = array() ) {
+		if ( is_array( $controllers ) && $controllers ) {
+			// Built-in controllers.
+			$_controllers = $controllers;
+
+			/**
+			 * Use this filter to disable all or some REST API controllers
+			 * for the component.
+			 *
+			 * This is a dynamic hook that is based on the component string ID.
+			 *
+			 * @since 5.0.0
+			 *
+			 * @param array $controllers The list of BP REST API controllers to load.
+			 */
+			$controllers = (array) apply_filters( 'bp_' . $this->id . '_rest_api_controllers', $controllers );
+
+			foreach( $controllers as $controller ) {
+				if ( ! in_array( $controller, $_controllers, true ) ) {
+					continue;
+				}
+
+				$component_controller = new $controller;
+				$component_controller->register_routes();
+			}
+		}
 
 		/**
 		 * Fires in the rest_api_init method inside BP_Component.
