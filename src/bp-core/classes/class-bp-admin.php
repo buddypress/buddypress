@@ -789,9 +789,9 @@ class BP_Admin {
 							<?php
 							printf(
 								'<a class="twitter bp-tooltip" data-bp-tooltip="%1$s" href="%2$s"><span class="screen-reader-text">%3$s</span></a>',
-								esc_attr( 'Follow BuddyPress on Twitter', 'buddypress' ),
+								esc_attr__( 'Follow BuddyPress on Twitter', 'buddypress' ),
 								esc_url( 'https://twitter.com/buddypress' ),
-								esc_html( 'Follow BuddyPress on Twitter', 'buddypress' )
+								esc_html__( 'Follow BuddyPress on Twitter', 'buddypress' )
 							);
 							?>
 						</li>
@@ -800,9 +800,9 @@ class BP_Admin {
 							<?php
 							printf(
 								'<a class="support bp-tooltip" data-bp-tooltip="%1$s" href="%2$s"><span class="screen-reader-text">%3$s</span></a>',
-								esc_attr( 'Visit the Support Forums', 'buddypress' ),
+								esc_attr__( 'Visit the Support Forums', 'buddypress' ),
 								esc_url( 'https://buddypress.org/support/' ),
-								esc_html( 'Visit the Support Forums', 'buddypress' )
+								esc_html__( 'Visit the Support Forums', 'buddypress' )
 							);
 							?>
 						</li>
