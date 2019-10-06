@@ -22,7 +22,7 @@ bp_nouveau_group_hook( 'before', 'request_membership_content' ); ?>
 	</p>
 
 	<form action="<?php bp_group_form_action( 'request-membership' ); ?>" method="post" name="request-membership-form" id="request-membership-form" class="standard-form">
-		<label for="group-request-membership-comments"><?php esc_html( 'Comments (optional)', 'buddypress' ); ?></label>
+		<label for="group-request-membership-comments"><?php esc_html_e( 'Comments (optional)', 'buddypress' ); ?></label>
 		<textarea name="group-request-membership-comments" id="group-request-membership-comments"></textarea>
 
 		<?php bp_nouveau_group_hook( '', 'request_membership_content' ); ?>

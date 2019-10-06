@@ -104,7 +104,7 @@ function bp_nouveau_notifications_bulk_management_dropdown() {
 		?></label>
 
 		<select name="notification_bulk_action" id="notification-select">
-			<option value="" selected="selected"><?php echo esc_html( 'Bulk Actions', 'buddypress' ); ?></option>
+			<option value="" selected="selected"><?php esc_html_e( 'Bulk Actions', 'buddypress' ); ?></option>
 
 			<?php if ( bp_is_current_action( 'unread' ) ) : ?>
 				<option value="read"><?php echo esc_html_x( 'Mark read', 'button', 'buddypress' ); ?></option>
