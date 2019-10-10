@@ -34,7 +34,6 @@ WordPress.org is home to some amazing extensions for BuddyPress, including:
 
 - [rtMedia for WordPress, BuddyPress and bbPress](https://wordpress.org/plugins/buddypress-media/)
 - [BuddyPress Docs](https://wordpress.org/plugins/buddypress-docs/)
-- [BuddyPress Activity Plus](https://wordpress.org/plugins/buddypress-activity-plus/)
 
 Search WordPress.org for "BuddyPress" to find them all!
 
