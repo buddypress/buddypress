@@ -2155,8 +2155,31 @@ class BP_Members_Admin {
 
 								<?php endif; ?>
 
+								<?php
+								/**
+								 * Fires inside the table listing the activate action confirmation details.
+								 *
+								 * @since 6.0.0
+								 *
+								 * @param object $signup The Sign-up Object.
+								 */
+								do_action( 'bp_activate_signup_confirmation_details', $signup );
+								?>
+
 							</tbody>
 						</table>
+
+						<?php
+						/**
+						 * Fires outside the table listing the activate action confirmation details.
+						 *
+						 * @since 6.0.0
+						 *
+						 * @param object $signup The Sign-up Object.
+						 */
+						do_action( 'bp_activate_signup_confirmation_after_details', $signup );
+						?>
+
 					<?php endif; ?>
 
 					<?php if ( 'resend' == $action ) : ?>
