@@ -228,6 +228,13 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 				$parent_class = $args['parent_attr']['class'];
 			}
 
+			// Set defaults if not set.
+			$button_args = array_merge( array(
+				'wrapper_id' => '',
+				'link_id'    => '',
+				'link_rel'   => ''
+			), $button_args );
+
 			$buttons['visit_blog'] = array(
 				'id'                => 'visit_blog',
 				'position'          => 5,
@@ -265,7 +272,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 		$buttons_group = apply_filters( 'bp_nouveau_get_blogs_buttons', $buttons, $blog, $type );
 
 		if ( ! $buttons_group ) {
-			return $buttons;
+			return array();
 		}
 
 		// It's the first entry of the loop, so build the Group and sort it
