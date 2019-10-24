@@ -16,7 +16,6 @@ defined( 'ABSPATH' ) || exit;
  * Output the BuddyPress version.
  *
  * @since 1.6.0
- *
  */
 function bp_version() {
 	echo bp_get_version();
@@ -36,7 +35,6 @@ function bp_version() {
  * Output the BuddyPress database version.
  *
  * @since 1.6.0
- *
  */
 function bp_db_version() {
 	echo bp_get_db_version();
@@ -56,7 +54,6 @@ function bp_db_version() {
  * Output the BuddyPress database version.
  *
  * @since 1.6.0
- *
  */
 function bp_db_version_raw() {
 	echo bp_get_db_version_raw();
@@ -236,7 +233,7 @@ function bp_core_number_format( $number = 0, $decimals = false ) {
  *
  * @since 1.6.0
  *
- * @param array $old_args_keys Old argument indexs, keyed to their positions.
+ * @param array $old_args_keys Old argument indexes, keyed to their positions.
  * @param array $func_args     The parameters passed to the originating function.
  * @return array $new_args The parsed arguments.
  */
@@ -321,7 +318,7 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 /**
  * Sanitizes a pagination argument based on both the request override and the
  * original value submitted via a query argument, likely to a template class
- * responsible for limiting the resultset of a template loop.
+ * responsible for limiting the result set of a template loop.
  *
  * @since 2.2.0
  *
@@ -1422,7 +1419,6 @@ function bp_core_add_message( $message, $type = '' ) {
  * so that the message is not shown to the user multiple times.
  *
  * @since 1.1.0
- *
  */
 function bp_core_setup_message() {
 
@@ -1506,8 +1502,6 @@ function bp_core_render_message() {
  *
  * @since 1.0.0
  *
- *       usermeta table.
- *
  * @return false|null Returns false if there is nothing to do.
  */
 function bp_core_record_activity() {
@@ -1563,8 +1557,6 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  *
  * @since 1.0.0
  *
- *       representation of the time elapsed.
- *
  * @param int|string $last_activity_date The date of last activity.
  * @param string     $string             A sprintf()-able statement of the form 'active %s'.
  * @return string $last_active A string of the form '3 years ago'.
@@ -1598,7 +1590,7 @@ function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
 /**
  * Get the meta_key for a given piece of user metadata
  *
- * BuddyPress stores a number of pieces of userdata in the WordPress central
+ * BuddyPress stores a number of pieces of user data in the WordPress central
  * usermeta table. In order to allow plugins to enable multiple instances of
  * BuddyPress on a single WP installation, BP's usermeta keys are filtered
  * through this function, so that they can be altered on the fly.
@@ -3110,11 +3102,11 @@ function bp_get_email( $email_type ) {
  *
  * @param string                   $email_type Type of email being sent.
  * @param string|array|int|WP_User $to         Either a email address, user ID, WP_User object,
- *                                             or an array containg the address and name.
+ *                                             or an array containing the address and name.
  * @param array                    $args {
  *     Optional. Array of extra parameters.
  *
- *     @type array $tokens Optional. Assocative arrays of string replacements for the email.
+ *     @type array $tokens Optional. Associative arrays of string replacements for the email.
  * }
  * @return bool|WP_Error True if the email was sent successfully. Otherwise, a WP_Error object
  *                       describing why the email failed to send. The contents will vary based
@@ -3166,7 +3158,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	 * @param BP_Email                 $email      The email (object) about to be sent.
 	 * @param string                   $email_type Type of email being sent.
 	 * @param string|array|int|WP_User $to         Either a email address, user ID, WP_User object,
-	 *                                             or an array containg the address and name.
+	 *                                             or an array containing the address and name.
      * @param array                    $args {
 	 *     Optional. Array of extra parameters.
 	 *
@@ -3220,7 +3212,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	 * @param array        $args {
 	 *     Optional. Array of extra parameters.
 	 *
-	 *     @type array $tokens Optional. Assocative arrays of string replacements for the email.
+	 *     @type array $tokens Optional. Associative arrays of string replacements for the email.
 	 * }
 	 */
 	$delivery_class = apply_filters( 'bp_send_email_delivery_class', 'BP_PHPMailer', $email_type, $to, $args );
@@ -3247,7 +3239,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	} else {
 
 		/**
-		 * Fires after BuddyPress has succesfully sent an email.
+		 * Fires after BuddyPress has successfully sent an email.
 		 *
 		 * @since 2.5.0
 		 *
