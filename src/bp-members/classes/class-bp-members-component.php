@@ -473,7 +473,6 @@ class BP_Members_Component extends BP_Component {
 			 */
 			'BP_REST_Components_Endpoint',
 			'BP_REST_Members_Endpoint',
-			'BP_REST_Attachments_Member_Avatar_Endpoint',
 		) );
 	}
 }
