@@ -932,12 +932,18 @@ class BP_Groups_Component extends BP_Component {
 	 *                           description.
 	 */
 	public function rest_api_init( $controllers = array() ) {
-		parent::rest_api_init( array(
+		$controllers = array(
 			'BP_REST_Groups_Endpoint',
 			'BP_REST_Group_Membership_Endpoint',
 			'BP_REST_Group_Invites_Endpoint',
 			'BP_REST_Group_Membership_Request_Endpoint',
-			'BP_REST_Attachments_Group_Avatar_Endpoint',
-		) );
+		);
+
+		// Only Load the Group's Avatar controller if Group Avatar uploads are allowed.
+		if ( ! bp_disable_group_avatar_uploads() ) {
+			$controllers[] = 'BP_REST_Attachments_Group_Avatar_Endpoint';
+		}
+
+		parent::rest_api_init( $controllers );
 	}
 }
