@@ -32,6 +32,7 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $bp->unit_test_rest->controllers, array(
 			'BP_REST_Components_Endpoint',
 			'BP_REST_Members_Endpoint',
+			'BP_REST_Attachments_Member_Avatar_Endpoint',
 		) );
 	}
 
@@ -47,6 +48,7 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame( $bp->unit_test_rest->controllers, array(
 			'BP_REST_Components_Endpoint',
+			'BP_REST_Attachments_Member_Avatar_Endpoint',
 		) );
 	}
 
@@ -63,37 +65,7 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $bp->unit_test_rest->controllers, array(
 			'BP_REST_Components_Endpoint',
 			'BP_REST_Members_Endpoint',
-		) );
-	}
-
-	public function test_rest_api_init_for_xprofile_component() {
-		$bp_xprofile = new BP_XProfile_Component();
-		$bp          = buddypress();
-
-		$bp_xprofile->rest_api_init();
-
-		$this->assertSame( $bp->unit_test_rest->controllers, array(
-			'BP_REST_XProfile_Fields_Endpoint',
-			'BP_REST_XProfile_Field_Groups_Endpoint',
-			'BP_REST_XProfile_Data_Endpoint',
 			'BP_REST_Attachments_Member_Avatar_Endpoint',
-		) );
-	}
-
-	public function test_rest_api_init_for_xprofile_component_without_avatar_enabled() {
-		add_filter( 'bp_disable_avatar_uploads', '__return_true' );
-
-		$bp_xprofile = new BP_XProfile_Component();
-		$bp          = buddypress();
-
-		$bp_xprofile->rest_api_init();
-
-		remove_filter( 'bp_disable_avatar_uploads', '__return_true' );
-
-		$this->assertSame( $bp->unit_test_rest->controllers, array(
-			'BP_REST_XProfile_Fields_Endpoint',
-			'BP_REST_XProfile_Field_Groups_Endpoint',
-			'BP_REST_XProfile_Data_Endpoint',
 		) );
 	}
 }
