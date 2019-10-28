@@ -499,17 +499,10 @@ class BP_XProfile_Component extends BP_Component {
 	 *                           description.
 	 */
 	public function rest_api_init( $controllers = array() ) {
-		$controllers = array(
+		parent::rest_api_init( array(
 			'BP_REST_XProfile_Fields_Endpoint',
 			'BP_REST_XProfile_Field_Groups_Endpoint',
 			'BP_REST_XProfile_Data_Endpoint',
-		);
-
-		// Only Load the Member's Avatar controller if Avatar uploads are allowed.
-		if ( ! bp_disable_avatar_uploads() ) {
-			$controllers[] = 'BP_REST_Attachments_Member_Avatar_Endpoint';
-		}
-
-		parent::rest_api_init( $controllers );
+		) );
 	}
 }
