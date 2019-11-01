@@ -1,7 +1,7 @@
 === BuddyPress ===
 Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
 Tags: user profiles, activity streams, messaging, friends, user groups, notifications, community, social networking, intranet
-Requires at least: 4.7
+Requires at least: 4.8
 Tested up to: 5.2
 Requires PHP: 5.3
 Stable tag: 5.0.0
