@@ -503,6 +503,7 @@ class BP_XProfile_Component extends BP_Component {
 			'BP_REST_XProfile_Fields_Endpoint',
 			'BP_REST_XProfile_Field_Groups_Endpoint',
 			'BP_REST_XProfile_Data_Endpoint',
+			'BP_REST_Attachments_Member_Avatar_Endpoint',
 		) );
 	}
 }
