@@ -1142,9 +1142,13 @@ add_filter( 'admin_body_class', 'bp_core_admin_body_classes' );
  * @since 5.0.0
  *
  * @param array   $categories Array of block categories.
- * @param WP_Post $post       Post being loaded.
+ * @param object  $post       Post being loaded.
  */
-function bp_block_category( $categories = array(), WP_Post $post ) {
+function bp_block_category( $categories = array(), $post = null ) {
+	if ( ! ( $post instanceof WP_Post ) ) {
+		return $categories;
+	}
+
 	/**
 	 * Filter here to add/remove the supported post types for the BuddyPress blocks category.
 	 *
