@@ -596,7 +596,7 @@ class BP_Component {
 
 			// Add each admin menu.
 			foreach( $this->admin_menu as $admin_menu ) {
-				$wp_admin_bar->add_menu( $admin_menu );
+				$wp_admin_bar->add_node( $admin_menu );
 			}
 		}
 

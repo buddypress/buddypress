@@ -40,7 +40,7 @@ function bp_groups_group_admin_menu() {
 	$bp->group_admin_menu_id = 'group-admin';
 
 	// Add the top-level Group Admin button.
-	$wp_admin_bar->add_menu( array(
+	$wp_admin_bar->add_node( array(
 		'id'    => $bp->group_admin_menu_id,
 		'title' => __( 'Edit Group', 'buddypress' ),
 		'href'  => bp_get_group_permalink( $bp->groups->current_group )
@@ -71,7 +71,7 @@ function bp_groups_group_admin_menu() {
 				$title = sprintf( _x( '%s Group', 'Group WP Admin Bar delete link', 'buddypress' ), $menu->name );
 			}
 
-			$wp_admin_bar->add_menu( array(
+			$wp_admin_bar->add_node( array(
 				'parent' => $bp->group_admin_menu_id,
 				'id'     => $menu->slug,
 				'title'  => $title,

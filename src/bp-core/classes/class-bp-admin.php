@@ -474,7 +474,7 @@ class BP_Admin {
 			return;
 		}
 
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => 'wp-logo',
 			'id'     => 'bp-about',
 			'title'  => esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ),

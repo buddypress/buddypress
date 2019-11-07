@@ -30,7 +30,7 @@ function bp_admin_bar_my_account_root() {
 	if ( is_user_logged_in() ) {
 
 		// Add secondary parent item for all BuddyPress components.
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent'    => 'my-account',
 			'id'        => 'my-account-buddypress',
 			'title'     => __( 'My Account', 'buddypress' ),
