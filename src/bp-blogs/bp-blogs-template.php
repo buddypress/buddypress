@@ -301,6 +301,7 @@ function bp_blog_avatar( $args = '' ) {
 	 * admin. Filter 'bp_get_blog_avatar_' . $blog_id to customize.
 	 *
 	 * @since 2.4.0 Introduced `$title` argument.
+	 * @since 6.0.0 Introduced the `$blog_id` & `$admin_user_id` arguments.
 	 *
 	 * @see bp_core_fetch_avatar() For a description of arguments and
 	 *      return values.
@@ -309,13 +310,15 @@ function bp_blog_avatar( $args = '' ) {
 	 *     Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
 	 *     {@link bp_core_fetch_avatar()}.
-	 *     @type string   $alt     Default: 'Profile picture of site author [user name]'.
-	 *     @type string   $class   Default: 'avatar'.
-	 *     @type string   $type    Default: 'full'.
-	 *     @type int|bool $width   Default: false.
-	 *     @type int|bool $height  Default: false.
-	 *     @type bool     $id      Currently unused.
-	 *     @type bool     $no_grav Default: true.
+	 *     @type string   $alt           Default: 'Profile picture of site author [user name]'.
+	 *     @type string   $class         Default: 'avatar'.
+	 *     @type string   $type          Default: 'full'.
+	 *     @type int|bool $width         Default: false.
+	 *     @type int|bool $height        Default: false.
+	 *     @type bool     $id            Currently unused.
+	 *     @type bool     $no_grav       Default: false.
+	 *     @type int      $blog_id       The blog ID. Default: O.
+	 *     @type int      $admin_user_id The Blog Admin user ID. Default: 0.
 	 * }
 	 * @return string User avatar string.
 	 */
@@ -328,7 +331,24 @@ function bp_blog_avatar( $args = '' ) {
 			return false;
 		}
 
-		$author_displayname = bp_core_get_user_displayname( $blogs_template->blog->admin_user_id );
+		// Set default values.
+		$author_displayname = '';
+		$admin_user_id      = 0;
+		$blog_id            = 0;
+
+		if ( ! $blogs_template && isset( $args['admin_user_id'] ) && $args['admin_user_id'] ) {
+			$admin_user_id      = (int) $args['admin_user_id'];
+			$author_displayname = bp_core_get_user_displayname( $admin_user_id );
+		} else {
+			$admin_user_id      = $blogs_template->blog->admin_user_id;
+			$author_displayname = bp_core_get_user_displayname( $blogs_template->blog->admin_user_id );
+		}
+
+		if ( ! $blogs_template && isset( $args['blog_id'] ) && $args['blog_id'] ) {
+			$blog_id = (int) $args['blog_id'];
+		} else {
+			$blog_id = bp_get_blog_id();
+		}
 
 		// Parse the arguments.
 		$r = bp_parse_args( $args, array(
@@ -338,17 +358,17 @@ function bp_blog_avatar( $args = '' ) {
 			'class'   => 'avatar',
 			'id'      => false,
 			'alt'     => sprintf( __( 'Profile picture of site author %s', 'buddypress' ), esc_attr( $author_displayname ) ),
-			'no_grav' => true,
+			'no_grav' => false,
 		) );
 
 		// Use site icon if available.
 		$avatar = '';
-		if ( bp_is_active( 'blogs', 'site-icon' ) && function_exists( 'has_site_icon' ) ) {
-			$site_icon = bp_blogs_get_blogmeta( bp_get_blog_id(), "site_icon_url_{$r['type']}" );
+		if ( bp_is_active( 'blogs', 'site-icon' ) ) {
+			$site_icon = bp_blogs_get_blogmeta( $blog_id, "site_icon_url_{$r['type']}" );
 
 			// Never attempted to fetch site icon before; do it now!
 			if ( '' === $site_icon ) {
-				switch_to_blog( bp_get_blog_id() );
+				switch_to_blog( $blog_id );
 
 				// Fetch the other size first.
 				if ( 'full' === $r['type'] ) {
@@ -366,7 +386,7 @@ function bp_blog_avatar( $args = '' ) {
 				}
 
 				// Sync site icon for other size to blogmeta.
-				bp_blogs_update_blogmeta( bp_get_blog_id(), "site_icon_url_{$save_size}", $site_icon );
+				bp_blogs_update_blogmeta( $blog_id, "site_icon_url_{$save_size}", $site_icon );
 
 				// Now, fetch the size we want.
 				if ( 0 !== $site_icon ) {
@@ -375,7 +395,7 @@ function bp_blog_avatar( $args = '' ) {
 				}
 
 				// Sync site icon to blogmeta.
-				bp_blogs_update_blogmeta( bp_get_blog_id(), "site_icon_url_{$r['type']}", $site_icon );
+				bp_blogs_update_blogmeta( $blog_id, "site_icon_url_{$r['type']}", $site_icon );
 
 				restore_current_blog();
 			}
@@ -388,11 +408,17 @@ function bp_blog_avatar( $args = '' ) {
 					$size = (int) $r['width'];
 				}
 
+				$alt_attribute = __( 'Site icon for the blog', 'buddypress' );
+				if ( $blogs_template ) {
+					/* translators: %s is the placeholder for the name of the blog */
+					$alt_attribute = sprintf( __( 'Site icon for %s', 'buddypress' ), bp_get_blog_name() );
+				}
+
 				$avatar = sprintf( '<img src="%1$s" class="%2$s" width="%3$s" height="%3$s" alt="%4$s" />',
 					esc_url( $site_icon ),
 					esc_attr( "{$r['class']} avatar-{$size}" ),
 					esc_attr( $size ),
-					sprintf( esc_attr__( 'Site icon for %s', 'buddypress' ), bp_get_blog_name() )
+					esc_attr( $alt_attribute )
 				);
 			}
 		}
@@ -400,7 +426,7 @@ function bp_blog_avatar( $args = '' ) {
 		// Fallback to user ID avatar.
 		if ( '' === $avatar ) {
 			$avatar = bp_core_fetch_avatar( array(
-				'item_id'    => $blogs_template->blog->admin_user_id,
+				'item_id'    => $admin_user_id,
 				// 'avatar_dir' => 'blog-avatars',
 				// 'object'     => 'blog',
 				'type'       => $r['type'],
@@ -408,7 +434,8 @@ function bp_blog_avatar( $args = '' ) {
 				'css_id'     => $r['id'],
 				'class'      => $r['class'],
 				'width'      => $r['width'],
-				'height'     => $r['height']
+				'height'     => $r['height'],
+				'no_grav'    => $r['no_grav'],
 			) );
 		}
 
@@ -420,7 +447,7 @@ function bp_blog_avatar( $args = '' ) {
 		 * This filter is deprecated as of BuddyPress 1.5 and may be removed in a future version.
 		 * Use the 'bp_get_blog_avatar' filter instead.
 		 */
-		$avatar = apply_filters( 'bp_get_blog_avatar_' . $blogs_template->blog->blog_id, $avatar );
+		$avatar = apply_filters( 'bp_get_blog_avatar_' . $blog_id, $avatar );
 
 		/**
 		 * Filters a blog's avatar.
@@ -432,7 +459,7 @@ function bp_blog_avatar( $args = '' ) {
 		 * @param int    $blog_id ID of the blog whose avatar is being displayed.
 		 * @param array  $r       Array of arguments used when fetching avatar.
 		 */
-		return apply_filters( 'bp_get_blog_avatar', $avatar, $blogs_template->blog->blog_id, $r );
+		return apply_filters( 'bp_get_blog_avatar', $avatar, $blog_id, $r );
 	}
 
 function bp_blog_permalink() {

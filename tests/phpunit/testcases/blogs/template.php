@@ -367,4 +367,92 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$_REQUEST = $request;
 	}
 
+	/**
+	 * @group avatar
+	 * @group BP_Blogs_Template
+	 * @group bp_get_blog_avatar
+	 */
+	public function test_bp_get_blog_avatar_ids_provided() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped();
+		}
+
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+		}
+
+		global $blogs_template;
+		$reset_blogs_template = $blogs_template;
+		$blogs_template = null;
+
+		$u = self::factory()->user->create();
+		$b = self::factory()->blog->create( array(
+			'title' => 'The Foo Bar Blog',
+			'user_id' => $u,
+		) );
+
+		$avatar = bp_get_blog_avatar( array(
+			'type'          => 'full',
+			'admin_user_id' => $u,
+			'blog_id'       => $b,
+			'alt'           => 'test',
+			'no_grav'       => true,
+			'class'         => 'avatar',
+		) );
+
+		$blogs_template = $reset_blogs_template;
+
+		$this->assertTrue( $avatar === bp_core_fetch_avatar( array(
+			'type'          => 'full',
+			'item_id'       => $u,
+			'alt'           => 'test',
+			'no_grav'       => true,
+			'class'         => 'avatar',
+		) ) );
+	}
+
+	/**
+	 * @group avatar
+	 * @group BP_Blogs_Template
+	 * @group bp_get_blog_avatar
+	 */
+	public function test_bp_get_blog_avatar_has_site_icon() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped();
+		}
+
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+		}
+
+		global $blogs_template;
+		$reset_blogs_template = $blogs_template;
+		$blogs_template = null;
+
+		$u = self::factory()->user->create();
+		$b = self::factory()->blog->create( array(
+			'title' => 'The Bar Foo Blog',
+			'user_id' => $u,
+		) );
+
+		add_filter( 'get_site_icon_url', array( $this, 'filter_blog_avatar' ) );
+
+		$avatar = bp_get_blog_avatar( array(
+			'type'          => 'full',
+			'admin_user_id' => $u,
+			'blog_id'       => $b,
+			'alt'           => 'test',
+			'no_grav'       => true,
+			'class'         => 'avatar',
+		) );
+
+		remove_filter( 'get_site_icon_url', array( $this, 'filter_blog_avatar' ) );
+		$blogs_template = $reset_blogs_template;
+
+		$this->assertTrue( false !== strpos( $avatar, BP_TESTS_DIR . 'assets/upside-down.jpg' ) );
+	}
+
+	public function filter_blog_avatar() {
+		return BP_TESTS_DIR . 'assets/upside-down.jpg';
+	}
 }
