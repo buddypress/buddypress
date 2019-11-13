@@ -47,15 +47,16 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 * those have ID/post_parent.
 	 *
 	 * @since 1.7.0
-	 *
+	 * @since 6.0.0 Formalized the existing `...$args` parameter by adding it
+	 *              to the function signature to match WordPress 5.3.
 	 * @see Walker::walk()
 	 *
 	 * @param array $elements  See {@link Walker::walk()}.
 	 * @param int   $max_depth See {@link Walker::walk()}.
+	 * @param mixed ...$args   Optional additional arguments.
 	 * @return string See {@link Walker::walk()}.
 	 */
-	public function walk( $elements, $max_depth ) {
-		$args   = array_slice( func_get_args(), 2 );
+	public function walk( $elements, $max_depth, ...$args ) {
 		$output = '';
 
 		if ( $max_depth < -1 ) // Invalid parameter.
