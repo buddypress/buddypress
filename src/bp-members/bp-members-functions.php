@@ -1776,7 +1776,7 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		 */
 		if ( apply_filters( 'bp_core_signup_send_activation_key', true, $user_id, $user_email, $activation_key, $usermeta ) ) {
 			$salutation = $user_login;
-			if ( isset( $usermeta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
+			if ( bp_is_active( 'xprofile' ) && isset( $usermeta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
 				$salutation = $usermeta[ 'field_' . bp_xprofile_fullname_field_id() ];
 			}
 
