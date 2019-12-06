@@ -477,7 +477,7 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 	);
 
 	$salutation = $user;
-	if ( $signups ) {
+	if ( $signups && bp_is_active( 'xprofile' ) ) {
 		$signup = $signups['signups'][0];
 		if ( isset( $signup->meta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
 			$salutation = $signup->meta[ 'field_' . bp_xprofile_fullname_field_id() ];
@@ -539,7 +539,7 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	}
 
 	$salutation = $user;
-	if ( isset( $meta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
+	if ( bp_is_active( 'xprofile' ) && isset( $meta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
 		$salutation = $meta[ 'field_' . bp_xprofile_fullname_field_id() ];
 	} elseif ( $user_id ) {
 		$salutation = bp_core_get_user_displayname( $user_id );
