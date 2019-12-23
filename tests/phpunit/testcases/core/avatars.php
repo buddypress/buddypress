@@ -370,4 +370,51 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	public function filter_thumb_width() {
 		return 51;
 	}
+
+	/**
+	 * @group bp_core_delete_existing_avatar
+	 */
+	public function test_bp_core_delete_existing_avatar() {
+		$avatar_dir1 = bp_core_avatar_upload_path() . '/avatars/1';
+		$avatar_dir2 = bp_core_avatar_upload_path() . '/avatars/2';
+		wp_mkdir_p( $avatar_dir1 );
+		wp_mkdir_p( $avatar_dir2 );
+
+		copy( BP_TESTS_DIR . 'assets/upside-down.jpg', $avatar_dir1 . '/avatar-bpfull.jpg' );
+		copy( BP_TESTS_DIR . 'assets/upside-down.jpg', $avatar_dir1 . '/avatar-bpthumb.jpg' );
+		copy( BP_TESTS_DIR . 'assets/upside-down.jpg', $avatar_dir2 . '/avatar-bpfull.jpg' );
+		copy( BP_TESTS_DIR . 'assets/upside-down.jpg', $avatar_dir2 . '/avatar-bpthumb.jpg' );
+
+		$test = bp_core_delete_existing_avatar( array(
+			'item_id'    => '2/../1',
+			'object'     => 'user',
+			'avatar_dir' => false
+		) );
+
+		$this->assertTrue( is_dir( $avatar_dir1 ) );
+
+		$test2 = bp_core_delete_existing_avatar( array(
+			'item_id'    => '2',
+			'object'     => 'user',
+			'avatar_dir' => false
+		) );
+
+		$this->assertFalse( is_dir( $avatar_dir2 ) );
+
+		$test1 = bp_core_delete_existing_avatar( array(
+			'item_id'    => 1.1,
+			'object'     => 'user',
+			'avatar_dir' => false
+		) );
+
+		$this->assertTrue( is_dir( $avatar_dir1 ) );
+
+		$test1 = bp_core_delete_existing_avatar( array(
+			'item_id'    => 1,
+			'object'     => 'user',
+			'avatar_dir' => false
+		) );
+
+		$this->assertFalse( is_dir( $avatar_dir1 ) );
+	}
 }
