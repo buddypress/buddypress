@@ -1449,7 +1449,7 @@ function bp_attachments_cover_image_ajax_delete() {
 		wp_send_json_error();
 	}
 
-	if ( empty( $_POST['object'] ) || empty( $_POST['item_id'] ) ) {
+	if ( empty( $_POST['object'] ) || empty( $_POST['item_id'] ) || ( ! ctype_digit( $_POST['item_id'] ) && ! is_int( $_POST['item_id'] ) ) ) {
 		wp_send_json_error();
 	}
 
