@@ -6,7 +6,7 @@
  * dealing with invites.
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 6.0.0
  */
 ?>
 
@@ -150,6 +150,6 @@
 		<a href="#next-page" id="bp-invites-next-page" class="button invite-button bp-tooltip" data-bp-tooltip="<?php echo esc_attr_x( 'Next page', 'link', 'buddypress' ); ?>">
 			<span class="bp-screen-reader-text"><?php echo esc_html_x( 'Next page', 'link', 'buddypress' ); ?></span>
 			<span class="dashicons dashicons-arrow-right" aria-hidden="true"></span>
-		</button>
+		</a>
 	<# } #>
 </script>
