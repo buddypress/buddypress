@@ -133,7 +133,7 @@ class BP_Tests_XProfile_Cache extends BP_UnitTestCase {
 		bp_xprofile_add_meta( $f, 'field', 'field_foo', 'field_bar' );
 		bp_xprofile_add_meta( $d->id, 'data', 'data_foo', 'data_bar' );
 
-		// prime cache
+		// Prime cache.
 		bp_has_profile( array(
 			'user_id' => $u,
 			'profile_group_id' => $g,

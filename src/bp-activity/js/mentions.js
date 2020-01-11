@@ -135,7 +135,7 @@ window.bp = window.bp || {};
 				},
 
 				/**
-				 * Override default behaviour which inserts junk tags in the WordPress Visual editor.
+				 * Override default behavior which inserts junk tags in the WordPress Visual editor.
 				 *
 				 * @param {unknown} $inputor Element which we're inserting content into.
 				 * @param {string) content The content that will be inserted.

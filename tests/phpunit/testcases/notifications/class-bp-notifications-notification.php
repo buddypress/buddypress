@@ -33,7 +33,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$actual = wp_list_pluck( $n, 'id' );
 		$this->assertEquals( $expected, $actual );
 
-		// reset copmonent toggles
+		// reset component toggles.
 		if ( $groups_toggle ) {
 			buddypress()->active_components['groups'] = 1;
 		} else {
@@ -75,7 +75,7 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		// Check that the correct items are pulled up
 		$this->assertEquals( 1, $n );
 
-		// reset copmonent toggles
+		// reset component toggles.
 		if ( $groups_toggle ) {
 			buddypress()->active_components['groups'] = 1;
 		} else {

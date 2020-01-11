@@ -527,7 +527,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	/**
 	 * Default sort order should be the joined date
 	 *
-	 * @tickett BP5106
+	 * @ticket BP5106
 	 * @group bp_group_has_members
 	 */
 	public function test_bp_group_has_members_default_order() {

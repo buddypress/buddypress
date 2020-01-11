@@ -65,7 +65,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	 * @group add
 	 */
 	public function test_add_no_visibility_level_set_should_use_default_visiblity_level() {
-		// Update field_1's default visiblity to 'adminsonly'
+		// Update field_1's default visibility to 'adminsonly'.
 		bp_xprofile_update_field_meta( 1, 'default_visibility', 'adminsonly' );
 
 		// Add new signup without a custom field visibility set for field_1.
