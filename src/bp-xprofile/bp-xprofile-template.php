@@ -125,7 +125,7 @@ function bp_profile_group_has_fields() {
  * @since 1.0.0
  *
  * @param mixed $class Extra classes to append to class attribute.
- *                     Pass mutiple class names as an array or
+ *                     Pass multiple class names as an array or
  *                     space-delimited string.
  */
 function bp_field_css_class( $class = false ) {
@@ -690,7 +690,7 @@ function bp_the_profile_field_input_name() {
 }
 
 	/**
-	 * Retursn the XProfile field input name.
+	 * Returns the XProfile field input name.
 	 *
 	 * @since 1.1.0
 	 *
