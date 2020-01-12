@@ -2073,7 +2073,7 @@ function bp_is_active( $component = '', $feature = '' ) {
 	}
 
 	// Is component in either the active or required components arrays.
-	if ( isset( buddypress()->active_components[ $component ] ) || isset( buddypress()->required_components[ $component ] ) ) {
+	if ( isset( buddypress()->active_components[ $component ] ) || in_array( $component, buddypress()->required_components, true ) ) {
 		$retval = true;
 
 		// Is feature active?
