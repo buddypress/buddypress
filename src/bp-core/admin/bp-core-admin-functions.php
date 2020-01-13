@@ -65,7 +65,7 @@ add_action( bp_core_admin_hook(), 'bp_core_admin_backpat_menu', 999 );
  * This tells WP to highlight the Settings > BuddyPress menu item,
  * regardless of which actual BuddyPress admin screen we are on.
  *
- * The conditional prevents the behaviour when the user is viewing the
+ * The conditional prevents the behavior when the user is viewing the
  * backpat "Help" page, the Activity page, or any third-party plugins.
  *
  * @global string $plugin_page
@@ -96,7 +96,7 @@ function bp_core_modify_admin_menu_highlight() {
  *
  * @since 1.6.0
  *
- * @todo Add convenience links into the markup once new positions are finalised.
+ * @todo Add convenience links into the markup once new positions are finalized.
  */
 function bp_core_admin_backpat_page() {
 	$url          = bp_core_do_network_admin() ? network_admin_url( 'settings.php' ) : admin_url( 'options-general.php' );
