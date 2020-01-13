@@ -93,7 +93,7 @@ add_action( 'bp_notification_before_delete', 'bp_notifications_clear_all_for_use
  */
 function bp_notifications_clear_all_for_user_cache_before_update( $update_args, $where_args ) {
 
-	// User ID is passed in where arugments.
+	// User ID is passed in where arguments.
 	if ( ! empty( $where_args['user_id'] ) ) {
 		bp_notifications_clear_all_for_user_cache( $where_args['user_id'] );
 
