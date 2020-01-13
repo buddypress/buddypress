@@ -633,7 +633,7 @@ class BP_Admin {
 					<div class='vignette'></div>
 					<h2>
 						<?php printf(
-							/* translators: %s is the placehoder for the BuddyPress version number. */
+							/* translators: %s is the placeholder for the BuddyPress version number. */
 							esc_html__( 'BuddyPress %s', 'buddypress' ),
 							$version
 						); ?>
@@ -658,7 +658,7 @@ class BP_Admin {
 						<p>
 							<?php esc_html_e( 'BuddyPress endpoints provide machine-readable external access to your WordPress site with a clear, standards-driven interface, paving the way for new and innovative methods of interacting with your community through plugins, themes, apps, and beyond.', 'buddypress' ); ?>
 							<?php printf(
-								/* translators: %s is the placehoder for the link to the BP REST API documentation site. */
+								/* translators: %s is the placeholder for the link to the BP REST API documentation site. */
 								esc_html__( 'Ready to get started with development? Check out the %s.', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
@@ -693,7 +693,7 @@ class BP_Admin {
 						<p>
 							<?php esc_html_e( 'The BP Invitations API abstracts how these two actions are handled and allows developers to use them for any object on your site (e.g., Sites of a WordPress network).', 'buddypress' ); ?>
 							<?php printf(
-								/* translators: %s is the placehoder for the link to the BP Invitations API development note. */
+								/* translators: %s is the placeholder for the link to the BP Invitations API development note. */
 								esc_html__( 'Read more about the %s.', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
@@ -737,7 +737,7 @@ class BP_Admin {
 						<p>
 							<?php esc_html_e( 'Developers building tools for the Block Editor can now add their blocks to the BuddyPress category. This change provides a foundation for organizing custom BuddyPress blocks.', 'buddypress' ); ?>
 							<?php printf(
-								/* translators: %s is the placehoder for the link to the blocks category development note. */
+								/* translators: %s is the placeholder for the link to the blocks category development note. */
 								esc_html__( 'Read more about this feature in the %s.', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
@@ -753,7 +753,7 @@ class BP_Admin {
 						<p>
 							<?php
 							printf(
-								/* translators: %s is the placehoder for the link to BuddyPress support forums. */
+								/* translators: %s is the placeholder for the link to BuddyPress support forums. */
 								esc_html__( ' How are you using BuddyPress? Receiving your feedback and suggestions for future versions of BuddyPress genuinely motivates and encourages our contributors. Please %s about this version of BuddyPress on our website. ', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
