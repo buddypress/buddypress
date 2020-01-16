@@ -2,7 +2,7 @@
 (function( $ ) {
 
 /**
- * Activity reply object for the activity index screen
+ * Activity reply object for the activity index screen.
  *
  * @since 1.6.0
  */
@@ -18,7 +18,7 @@ var activityReply = {
 		$(document).on( 'click', '#bp-activities-container a.cancel', activityReply.close );
 		$(document).on( 'click', '#bp-activities-container a.save',   activityReply.send );
 
-		// Close textarea on escape
+		// Close textarea on escape.
 		$(document).on( 'keyup', '#bp-activities:visible', function( e ) {
 			if ( 27 === e.which ) {
 				activityReply.close();
@@ -32,7 +32,7 @@ var activityReply = {
 	 * @since 1.6.0
 	 */
 	open : function() {
-		// Hide the container row, and move it to the new location
+		// Hide the container row, and move it to the new location.
 		var box = $( '#bp-activities-container' ).hide();
 		$( this ).parents( 'tr' ).after( box );
 
@@ -49,13 +49,13 @@ var activityReply = {
 	 * @since 1.6.0
 	 */
 	close : function() {
-		// Hide the container row
+		// Hide the container row.
 		$('#bp-activities-container').fadeOut( '200', function () {
 
-			// Empty and unfocus the text area
+			// Empty and unfocus the text area.
 			$( '#bp-activities' ).val( '' ).blur();
 
-			// Remove any error message and disable the spinner
+			// Remove any error message and disable the spinner.
 			$( '#bp-replysubmit .error' ).html( '' ).hide();
 			$( '#bp-replysubmit .waiting' ).hide();
 		});
@@ -69,27 +69,27 @@ var activityReply = {
 	 * @since 1.6.0
 	 */
 	send : function() {
-		// Hide any existing error message, and show the loading spinner
+		// Hide any existing error message, and show the loading spinner.
 		$( '#bp-replysubmit .error' ).hide();
 		$( '#bp-replysubmit .waiting' ).show();
 
-		// Grab the nonce
+		// Grab the nonce.
 		var reply = {};
 		reply['_ajax_nonce-bp-activity-admin-reply'] = $( '#bp-activities-container input[name="_ajax_nonce-bp-activity-admin-reply"]' ).val();
 
-		// Get the rest of the data
+		// Get the rest of the data.
 		reply.action    = 'bp-activity-admin-reply';
 		reply.content   = $( '#bp-activities' ).val();
 		reply.parent_id = $( '#bp-activities-container' ).prev().data( 'parent_id' );
 		reply.root_id   = $( '#bp-activities-container' ).prev().data( 'root_id' );
 
-		// Make the AJAX call
+		// Make the AJAX call.
 		$.ajax({
 			data    : reply,
 			type    : 'POST',
 			url     : ajaxurl,
 
-			// Callbacks
+			// Callbacks.
 			error   : function( r ) { activityReply.error( r ); },
 			success : function( r ) { activityReply.show( r ); }
 		});
@@ -98,7 +98,7 @@ var activityReply = {
 	},
 
 	/**
-	 * send() error message handler
+	 * send() error message handler.
 	 *
 	 * @since 1.6.0
 	 */
@@ -116,14 +116,14 @@ var activityReply = {
 	},
 
 	/**
-	 * send() success handler
+	 * send() success handler.
 	 *
 	 * @since 1.6.0
 	 */
 	show : function ( xml ) {
 		var bg, id, response;
 
-		// Handle any errors in the response
+		// Handle any errors in the response.
 		if ( typeof( xml ) === 'string' ) {
 			activityReply.error( { 'responseText': xml } );
 			return false;
@@ -139,17 +139,17 @@ var activityReply = {
 		// Close and reset the reply row, and add the new Activity item into the list.
 		$('#bp-activities-container').fadeOut( '200', function () {
 
-			// Empty and unfocus the text area
+			// Empty and unfocus the text area.
 			$( '#bp-activities' ).val( '' ).blur();
 
-			// Remove any error message and disable the spinner
+			// Remove any error message and disable the spinner.
 			$( '#bp-replysubmit .error' ).html( '' ).hide();
 			$( '#bp-replysubmit .waiting' ).hide();
 
-			// Insert new activity item
+			// Insert new activity item.
 			$( '#bp-activities-container' ).before( response.data );
 
-			// Get background colour and animate the flash
+			// Get background colour and animate the flash.
 			id = $( '#activity-' + response.id );
 			bg = id.closest( '.widefat' ).css( 'backgroundColor' );
 			id.animate( { 'backgroundColor': '#CEB' }, 300 ).animate( { 'backgroundColor': bg }, 300 );
@@ -158,10 +158,10 @@ var activityReply = {
 };
 
 $(document).ready( function () {
-	// Create the Activity reply object after domready event
+	// Create the Activity reply object after domready event.
 	activityReply.init();
 
-	// On the edit screen, unload the close/open toggle js for the action & content metaboxes
+	// On the edit screen, unload the close/open toggle js for the action & content metaboxes.
 	$( '#bp_activity_action h3, #bp_activity_content h3' ).unbind( 'click' );
 
 	// redo the post box toggles to reset the one made by comment.js in favor
