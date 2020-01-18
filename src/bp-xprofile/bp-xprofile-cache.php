@@ -180,7 +180,7 @@ function bp_xprofile_update_meta_cache( $object_ids = array() ) {
  *
  * @since 2.1.0
  *
- * @param object $group_obj Groub object to clear.
+ * @param object $group_obj Group object to clear.
  */
 function xprofile_clear_profile_groups_object_cache( $group_obj ) {
 	wp_cache_delete( 'all',          'bp_xprofile_groups' );

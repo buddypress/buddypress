@@ -45,22 +45,22 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		? sanitize_key( $_GET['mode'] )
 		: false;
 
-	// Group ID
+	// Group ID.
 	$group_id = ! empty( $_GET['group_id'] )
 		? intval( $_GET['group_id'] )
 		: false;
 
-	// Field ID
+	// Field ID.
 	$field_id = ! empty( $_GET['field_id'] )
 		? intval( $_GET['field_id'] )
 		: false;
 
-	// Option ID
+	// Option ID.
 	$option_id = ! empty( $_GET['option_id'] )
 		? intval( $_GET['option_id'] )
 		: false;
 
-	// Allowed modes
+	// Allowed modes.
 	$allowed_modes = array(
 		'add_group',
 		'edit_group',
@@ -71,38 +71,38 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		'delete_option'
 	);
 
-	// Is an allowed mode
+	// Is an allowed mode.
 	if ( in_array( $mode, $allowed_modes, true ) ) {
 
-		// All group actions
+		// All group actions.
 		if ( false !== $group_id ) {
 
-			// Add field to group
+			// Add field to group.
 			if ( 'add_field' == $mode ) {
 				xprofile_admin_manage_field( $group_id );
 
-			// Edit field of group
+			// Edit field of group.
 			} elseif ( ! empty( $field_id ) && 'edit_field' === $mode ) {
 				xprofile_admin_manage_field( $group_id, $field_id );
 
-			// Delete group
+			// Delete group.
 			} elseif ( 'delete_group' === $mode ) {
 				xprofile_admin_delete_group( $group_id );
 
-			// Edit group
+			// Edit group.
 			} elseif ( 'edit_group' === $mode ) {
 				xprofile_admin_manage_group( $group_id );
 			}
 
-		// Delete field
+		// Delete field.
 		} elseif ( ( false !== $field_id ) && ( 'delete_field' === $mode ) ) {
 			xprofile_admin_delete_field( $field_id, 'field');
 
-		// Delete option
+		// Delete option.
 		} elseif ( ! empty( $option_id ) && 'delete_option' === $mode ) {
 			xprofile_admin_delete_field( $option_id, 'option' );
 
-		// Add group
+		// Add group.
 		} elseif ( 'add_group' == $mode ) {
 			xprofile_admin_manage_group();
 		}
@@ -124,10 +124,10 @@ function xprofile_admin( $message = '', $type = 'error' ) {
  */
 function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
-	// Users admin URL
+	// Users admin URL.
 	$url = bp_get_admin_url( 'users.php' );
 
-	// Add Group
+	// Add Group.
 	$add_group_url = add_query_arg( array(
 		'page' => 'bp-profile-setup',
 		'mode' => 'add_group'
@@ -200,21 +200,21 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 				<?php if ( !empty( $groups ) ) : foreach ( $groups as $group ) :
 
-					// Add Field to Group URL
+					// Add Field to Group URL.
 					$add_field_url = add_query_arg( array(
 						'page'     => 'bp-profile-setup',
 						'mode'     => 'add_field',
 						'group_id' => (int) $group->id
 					), $url );
 
-					// Edit Group URL
+					// Edit Group URL.
 					$edit_group_url = add_query_arg( array(
 						'page'     => 'bp-profile-setup',
 						'mode'     => 'edit_group',
 						'group_id' => (int) $group->id
 					), $url );
 
-					// Delete Group URL
+					// Delete Group URL.
 					$delete_group_url = wp_nonce_url( add_query_arg( array(
 						'page'     => 'bp-profile-setup',
 						'mode'     => 'delete_group',
@@ -340,7 +340,7 @@ function xprofile_admin_manage_group( $group_id = null ) {
 	// Updating.
 	if ( isset( $_POST['save_group'] ) ) {
 
-		// Check nonce
+		// Check nonce.
 		check_admin_referer( 'bp_xprofile_admin_group', 'bp_xprofile_admin_group' );
 
 		// Validate $_POSTed data.
@@ -366,7 +366,7 @@ function xprofile_admin_manage_group( $group_id = null ) {
 				$message = __( 'The group was saved successfully.', 'buddypress' );
 				$type    = 'success';
 
-				// @todo remove these old options
+				// @todo remove these old options.
 				if ( 1 == $group_id ) {
 					bp_update_option( 'bp-xprofile-base-group-name', $group->name );
 				}
@@ -448,7 +448,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
 	if ( isset( $_POST['saveField'] ) ) {
 
-		// Check nonce
+		// Check nonce.
 		check_admin_referer( 'bp_xprofile_admin_field', 'bp_xprofile_admin_field' );
 
 		if ( BP_XProfile_Field::admin_validate() ) {
@@ -483,7 +483,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				$message = __( 'The field was saved successfully.', 'buddypress' );
 				$type    = 'success';
 
-				// @todo remove these old options
+				// @todo remove these old options.
 				if ( 1 == $field_id ) {
 					bp_update_option( 'bp-xprofile-fullname-field-name', $field->name );
 				}
@@ -649,10 +649,10 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 
 	$field = $admin_field;
 
-	// Users admin URL
+	// Users admin URL.
 	$url = bp_get_admin_url( 'users.php' );
 
-	// Edit
+	// Edit.
 	$field_edit_url = add_query_arg( array(
 		'page'     => 'bp-profile-setup',
 		'mode'     => 'edit_field',
@@ -660,7 +660,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 		'field_id' => (int) $field->id
 	), $url );
 
-	// Delete
+	// Delete.
 	if ( $field->can_delete ) {
 		$field_delete_url = add_query_arg( array(
 			'page'     => 'bp-profile-setup',

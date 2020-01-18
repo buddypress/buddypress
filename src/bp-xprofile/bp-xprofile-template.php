@@ -593,12 +593,12 @@ function bp_the_profile_field_edit_value() {
 	function bp_get_the_profile_field_edit_value() {
 		global $field;
 
-		// Make sure field data object exists
+		// Make sure field data object exists.
 		if ( ! isset( $field->data ) ) {
 			$field->data = new stdClass;
 		}
 
-		// Default to empty value
+		// Default to empty value.
 		if ( ! isset( $field->data->value ) ) {
 			$field->data->value = '';
 		}
@@ -606,7 +606,7 @@ function bp_the_profile_field_edit_value() {
 		// Was a new value posted? If so, use it instead.
 		if ( isset( $_POST['field_' . $field->id] ) ) {
 
-			// This is sanitized via the filter below (based on the field type)
+			// This is sanitized via the filter below (based on the field type).
 			$field->data->value = $_POST['field_' . $field->id];
 		}
 

@@ -491,7 +491,7 @@ abstract class BP_XProfile_Field_Type {
 	/** Protected *************************************************************/
 
 	/**
-	 * Get a sanitised and escaped string of the edit field's HTML elements and attributes.
+	 * Get a sanitized and escaped string of the edit field's HTML elements and attributes.
 	 *
 	 * Must be used inside the {@link bp_profile_fields()} template loop.
 	 * This method was intended to be static but couldn't be because php.net/lsb/ requires PHP >= 5.3.

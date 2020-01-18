@@ -193,7 +193,7 @@ function xprofile_sanitize_data_value_before_display_from_get_field_data( $value
  *
  * @since 1.2.6
  *
- * @param string      $field_value Field value being santized.
+ * @param string      $field_value Field value being sanitized.
  * @param int         $field_id    Field ID being sanitized.
  * @param bool        $reserialize Whether to reserialize arrays before returning. Defaults to true.
  * @param object|null $data_obj    The BP_XProfile_ProfileData object.
@@ -408,7 +408,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 		 *
 		 * Before splitting on the ";" character, decode the HTML entities, and re-encode after.
 		 * This prevents input like "O'Hara" rendering as "O&#039; Hara" (with each of those parts
-		 * having a seperate HTML link).
+		 * having a separate HTML link).
 		 */
 		$list_type   = 'semicolon';
 		$field_value = wp_specialchars_decode( $field_value, ENT_QUOTES );

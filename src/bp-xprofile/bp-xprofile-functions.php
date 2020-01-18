@@ -479,7 +479,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
  *
  * @param int    $field_id         The ID of the xprofile field.
  * @param int    $user_id          The ID of the user to whom the data belongs.
- * @param string $visibility_level What the visibity setting should be.
+ * @param string $visibility_level What the visibility setting should be.
  * @return bool True on success
  */
 function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visibility_level = '' ) {
@@ -1342,7 +1342,7 @@ function bp_xprofile_maybe_format_datebox_post_data( $field_id ) {
  *
  * @since 4.0.0
  *
- * @param string $email_address  The userss email address.
+ * @param string $email_address  The users email address.
  * @return array An array of personal data.
  */
 function bp_xprofile_personal_data_exporter( $email_address ) {
