@@ -29,8 +29,8 @@ function bp_activity_add_admin_menu() {
 
 	// Add our screen.
 	$hook = add_menu_page(
-		_x( 'Activity', 'Admin Dashbord SWA page title', 'buddypress' ),
-		_x( 'Activity', 'Admin Dashbord SWA menu', 'buddypress' ),
+		_x( 'Activity', 'Admin Dashboard SWA page title', 'buddypress' ),
+		_x( 'Activity', 'Admin Dashboard SWA menu', 'buddypress' ),
 		'bp_moderate',
 		'bp-activity',
 		'bp_activity_admin',
