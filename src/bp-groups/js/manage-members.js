@@ -162,7 +162,7 @@
 
 	bp.Views.GroupRolesDropDown = bp.View.extend( {
 		tagName: 'select',
-		filters: _.extend( { all: { name: 'All members' } }, bpGroupManageMembersSettings.roles ),
+		filters: _.extend( { all: { name: bpGroupManageMembersSettings.strings.allMembers } }, bpGroupManageMembersSettings.roles ),
 
 		events: {
 			change: 'change'

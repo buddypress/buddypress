@@ -58,5 +58,8 @@ function bp_groups_get_group_manage_members_script_data( $group_id = 0 ) {
 		'path'      => remove_query_arg( 'exclude_admins', $path ),
 		'preloaded' => reset( $preloaded_members ),
 		'roles'     => bp_groups_get_group_roles(),
+		'strings'    => array(
+			'allMembers' => _x( 'All members', 'Group Manage Members dropdown default option', 'buddypress' ),
+		),
 	);
 }
