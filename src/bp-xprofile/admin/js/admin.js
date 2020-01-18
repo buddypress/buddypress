@@ -59,10 +59,10 @@ function add_option(forWhat) {
 	newDiv.appendChild( toDeleteWrap );
 	holder.appendChild( newDiv );
 
-	// re-initialize the sortable ui
+	// Re-initialize the sortable ui.
 	enableSortableFieldOptions( forWhat );
 
-	// set focus on newly created element
+	// Set focus on newly created element.
 	document.getElementById(forWhat + '_option' + theId).focus();
 
 	theId++;
@@ -104,7 +104,7 @@ function hide( id ) {
 	}
 
 	document.getElementById( id ).style.display = 'none';
-	// the field id is [fieldtype]option[iterator] and not [fieldtype]div[iterator]
+	// The field id is [fieldtype]option[iterator] and not [fieldtype]div[iterator].
 	var field_id = id.replace( 'div', 'option' );
 	document.getElementById( field_id ).value = '';
 }
@@ -190,7 +190,7 @@ function titleHint( id ) {
 
 jQuery( document ).ready( function() {
 
-	// Set focus in Field Title, if we're on the right page
+	// Set focus in Field Title, if we're on the right page.
 	jQuery( '#bp-xprofile-add-field #title' ).focus();
 
 	// Set up the notice that shows when no member types are selected for a field.
@@ -199,7 +199,7 @@ jQuery( document ).ready( function() {
 		toggle_no_member_type_notice();
 	} );
 
-	// Set up deleting options ajax
+	// Set up deleting options ajax.
 	jQuery( 'a.ajax-option-delete' ).on( 'click', function() {
 		var theId = this.id.split( '-' );
 		theId = theId[1];
@@ -213,7 +213,7 @@ jQuery( document ).ready( function() {
 		function() {} );
 	} );
 
-	// Set up the sort order change actions
+	// Set up the sort order change actions.
 	jQuery( '[id^="sort_order_"]' ).change(function() {
 		if ( jQuery( this ).val() !== 'custom' ) {
 			destroySortableFieldOptions();
@@ -222,10 +222,10 @@ jQuery( document ).ready( function() {
 		}
 	});
 
-	// Show object if JS is enabled
+	// Show object if JS is enabled.
 	jQuery( 'ul#field-group-tabs' ).show();
 
-	// Allow reordering of field group tabs
+	// Allow reordering of field group tabs.
 	jQuery( 'ul#field-group-tabs' ).sortable( {
 		cursor: 'move',
 		axis: 'x',
@@ -244,7 +244,7 @@ jQuery( document ).ready( function() {
 		}
 	}).disableSelection();
 
-	// Allow reordering of fields within groups
+	// Allow reordering of fields within groups.
 	jQuery( 'fieldset.field-group' ).sortable({
 		cursor: 'move',
 		opacity: 0.7,
@@ -263,13 +263,13 @@ jQuery( document ).ready( function() {
 		}
 	})
 
-	// Disallow text selection
+	// Disallow text selection.
 	.disableSelection();
 
-	// Allow reordering of field options
+	// Allow reordering of field options.
 	enableSortableFieldOptions( jQuery('#fieldtype :selected').val() );
 
-	// Handle title placeholder text the WordPress way
+	// Handle title placeholder text the WordPress way.
 	titleHint( 'title' );
 
 	// On Date fields, selecting a date_format radio button should change the Custom value.
@@ -313,7 +313,7 @@ jQuery( document ).ready( function() {
 		} );
 	} );
 
-	// tabs init with a custom tab template and an "add" callback filling in the content
+	// tabs init with a custom tab template and an "add" callback filling in the content.
 	var $tab_items,
 		$tabs = jQuery( '#tabs' ).tabs();
 
@@ -327,28 +327,28 @@ jQuery( document ).ready( function() {
 			touch: 'pointer',
 			tolerance: 'pointer',
 
-			// When field is dropped on tab
+			// When field is dropped on tab.
 			drop: function( ev, ui ) {
 				var $item = jQuery(this), // The tab
 					$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' ); // The tab body
 
-				// Remove helper class
+				// Remove helper class.
 				jQuery($item).removeClass( 'drop-candidate' );
 
-				// Hide field, change selected tab, and show new placement
+				// Hide field, change selected tab, and show new placement.
 				ui.draggable.hide( 'slow', function() {
 
-					// Select new tab as current
+					// Select new tab as current.
 					$tabs.tabs( 'option', 'active', $tab_items.index( $item ) );
 
-					// Show new placement
+					// Show new placement.
 					jQuery(this).appendTo($list).show( 'slow' ).animate( {opacity: '1'}, 500 );
 
-					// Refresh $list variable
+					// Refresh $list variable.
 					$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );
 					jQuery($list).find( 'p.nofields' ).hide( 'slow' );
 
-					// Ajax update field locations and orders
+					// Ajax update field locations and orders.
 					jQuery.post( ajaxurl, {
 						action: 'xprofile_reorder_fields',
 						'cookie': encodeURIComponent(document.cookie),
