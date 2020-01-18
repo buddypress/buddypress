@@ -170,29 +170,29 @@ class BP_Nouveau extends BP_Theme_Compat {
 		// We need to neutralize the BuddyPress core "bp_core_render_message()" once it has been added.
 		add_action( 'bp_actions', array( $this, 'neutralize_core_template_notices' ), 6 );
 
-		// Scripts
-		add_action( 'bp_enqueue_scripts', array( $this, 'register_scripts' ), 2 ); // Register theme JS
+		// Scripts.
+		add_action( 'bp_enqueue_scripts', array( $this, 'register_scripts' ), 2 ); // Register theme JS.
 		remove_action( 'bp_enqueue_scripts', 'bp_core_confirmation_js' );
-		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS
-		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS
-		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization
+		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS.
+		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS.
+		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization.
 
-		// Body no-js class
+		// Body no-js class.
 		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
 
-		// Ajax querystring
+		// Ajax querystring.
 		add_filter( 'bp_ajax_querystring', 'bp_nouveau_ajax_querystring', 10, 2 );
 
-		// Register directory nav items
+		// Register directory nav items.
 		add_action( 'bp_screens', array( $this, 'setup_directory_nav' ), 15 );
 
-		// Register the Default front pages Dynamic Sidebars
+		// Register the Default front pages Dynamic Sidebars.
 		add_action( 'widgets_init', 'bp_nouveau_register_sidebars', 11 );
 
-		// Register the Primary Object nav widget
+		// Register the Primary Object nav widget.
 		add_action( 'bp_widgets_init', array( 'BP_Nouveau_Object_Nav_Widget', 'register_widget' ) );
 
-		// Set the BP Uri for the Ajax customizer preview
+		// Set the BP Uri for the Ajax customizer preview.
 		add_filter( 'bp_uri', array( $this, 'customizer_set_uri' ), 10, 1 );
 
 		/** Override **********************************************************/
@@ -317,7 +317,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 			),
 		) );
 
-		// Bail if no scripts
+		// Bail if no scripts.
 		if ( empty( $scripts ) ) {
 			return;
 		}
@@ -430,7 +430,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 			'object_nav_parent'   => '#buddypress',
 		);
 
-		// If the Object/Item nav are in the sidebar
+		// If the Object/Item nav are in the sidebar.
 		if ( bp_nouveau_is_object_nav_in_sidebar() ) {
 			$params['object_nav_parent'] = '.buddypress_object_nav';
 		}
@@ -459,11 +459,11 @@ class BP_Nouveau extends BP_Theme_Compat {
 			$supported_objects = array_merge( $supported_objects, array( 'group_members', 'group_requests' ) );
 		}
 
-		// Add components & nonces
+		// Add components & nonces.
 		$params['objects'] = $supported_objects;
 		$params['nonces']  = $object_nonces;
 
-		// Used to transport the settings inside the Ajax requests
+		// Used to transport the settings inside the Ajax requests.
 		if ( is_customize_preview() ) {
 			$params['customizer_settings'] = bp_nouveau_get_temporary_setting( 'any' );
 		}
@@ -602,7 +602,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 				continue;
 			}
 
-			// Define the primary nav for the current component's directory
+			// Define the primary nav for the current component's directory.
 			$this->directory_nav->add_nav( $nav_item );
 		}
 	}
