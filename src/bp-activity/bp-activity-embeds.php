@@ -100,7 +100,7 @@ function bp_activity_embed_has_activity( $activity_id = 0 ) {
 		$activity = (array) $activities_template->activities;
 		$activity = reset( $activity );
 
-		// No need to requery if we already got the embed activity
+		// No need to requery if we already got the embed activity.
 		if ( (int) $activity_id === $activity->id ) {
 			return $activities_template->has_activities();
 		}
@@ -261,7 +261,7 @@ EOD;
 				$play_icon = sprintf( '<a rel="nofollow" class="play-btn" href="%1$s" onclick="top.location.href=\'%1$s\'">%2$s</a>', esc_url( $url ), $play_icon );
 			}
 
-			// Thumb width
+			// Thumb width.
 			$thumb_width = isset( $oembed->thumbnail_width ) && 'photo' !== $oembed->type && (int) $oembed->thumbnail_width < 550 ? (int) $oembed->thumbnail_width : $width;
 
 			$float_width = 350;
@@ -274,7 +274,7 @@ EOD;
 				$caption .= sprintf( '<p class="caption-title"><strong>%s</strong></p>', apply_filters( 'single_post_title', $oembed->title ) );
 			}
 
-			// Show description (non-oEmbed standard)
+			// Show description (non-oEmbed standard).
 			if ( isset( $oembed->description ) ) {
 				$caption .= sprintf( '<div class="caption-description">%s</div>', apply_filters( 'bp_activity_get_embed_excerpt', $oembed->description ) );
 			}

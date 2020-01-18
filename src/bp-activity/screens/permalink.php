@@ -26,7 +26,7 @@ function bp_activity_action_permalink_router() {
 	// Get the activity details.
 	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_action_variable( 0 ), 'show_hidden' => true ) );
 
-	// 404 if activity does not exist
+	// 404 if activity does not exist.
 	if ( empty( $activity['activities'][0] ) ) {
 		bp_do_404();
 		return;
@@ -106,7 +106,7 @@ function bp_activity_screen_single_activity_permalink() {
 		'spam'         => 'ham_only',
 	) );
 
-	// 404 if activity does not exist
+	// 404 if activity does not exist.
 	if ( empty( $activity['activities'][0] ) || bp_action_variables() ) {
 		bp_do_404();
 		return;

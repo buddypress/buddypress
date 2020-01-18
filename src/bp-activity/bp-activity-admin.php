@@ -75,7 +75,7 @@ function bp_activity_admin_reply() {
 	$parent_id = ! empty( $_REQUEST['parent_id'] ) ? (int) $_REQUEST['parent_id'] : 0;
 	$root_id   = ! empty( $_REQUEST['root_id'] )   ? (int) $_REQUEST['root_id']   : 0;
 
-	// $parent_id is required
+	// $parent_id is required.
 	if ( empty( $parent_id ) )
 		die( '-1' );
 
