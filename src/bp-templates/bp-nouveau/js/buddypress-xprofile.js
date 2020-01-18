@@ -4,7 +4,7 @@ window.bp = window.bp || {};
 
 ( function( exports, $ ) {
 
-	// Bail if not set
+	// Bail if not set.
 	if ( typeof BP_Nouveau === 'undefined' ) {
 		return;
 	}
@@ -17,9 +17,9 @@ window.bp = window.bp || {};
 
 	/** Profile Visibility Settings *********************************/
 
-	// Initially hide the 'field-visibility-settings' block
+	// Initially hide the 'field-visibility-settings' block.
 	$( '.field-visibility-settings' ).addClass( 'bp-hide' );
-	// Add initial aria state to button
+	// Add initial aria state to button.
 	$( '.visibility-toggle-link' ).attr( 'aria-expanded', 'false' );
 
 	$( '.visibility-toggle-link' ).on( 'click', function( event ) {

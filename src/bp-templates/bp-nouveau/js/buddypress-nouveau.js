@@ -7,7 +7,7 @@ window.bp = window.bp || {};
 
 ( function( exports, $ ) {
 
-	// Bail if not set
+	// Bail if not set.
 	if ( typeof BP_Nouveau === 'undefined' ) {
 		return;
 	}
@@ -23,19 +23,19 @@ window.bp = window.bp || {};
 		 */
 		start: function() {
 
-			// Setup globals
+			// Setup globals.
 			this.setupGlobals();
 
-			// Adjust Document/Forms properties
+			// Adjust Document/Forms properties.
 			this.prepareDocument();
 
-			// Init the BuddyPress objects
+			// Init the BuddyPress objects.
 			this.initObjects();
 
-			// Set BuddyPress HeartBeat
+			// Set BuddyPress HeartBeat.
 			this.setHeartBeat();
 
-			// Listen to events ("Add hooks!")
+			// Listen to events ("Add hooks!").
 			this.addListeners();
 		},
 
@@ -46,14 +46,14 @@ window.bp = window.bp || {};
 		setupGlobals: function() {
 			this.ajax_request           = null;
 
-			// Object Globals
+			// Object Globals.
 			this.objects                = $.map( BP_Nouveau.objects, function( value ) { return value; } );
 			this.objectNavParent        = BP_Nouveau.object_nav_parent;
 
-			// HeartBeat Global
+			// HeartBeat Global.
 			this.heartbeat              = wp.heartbeat || {};
 
-			// An object containing each query var
+			// An object containing each query var.
 			this.querystring            = this.getLinkParams();
 		},
 
@@ -63,19 +63,19 @@ window.bp = window.bp || {};
 		 */
 		prepareDocument: function() {
 
-			// Remove the no-js class and add the js one
+			// Remove the no-js class and add the js one.
 			if ( $( 'body' ).hasClass( 'no-js' ) ) {
 				$('body').removeClass( 'no-js' ).addClass( 'js' );
 			}
 
-			// Log Warnings into the console instead of the screen
+			// Log Warnings into the console instead of the screen.
 			if ( BP_Nouveau.warnings && 'undefined' !== typeof console && console.warn ) {
 				$.each( BP_Nouveau.warnings, function( w, warning ) {
 					console.warn( warning );
 				} );
 			}
 
-			// Remove the directory title if there's a widget containing it
+			// Remove the directory title if there's a widget containing it.
 			if ( $( '.buddypress_object_nav .widget-title' ).length ) {
 				var text = $( '.buddypress_object_nav .widget-title' ).html();
 
@@ -123,7 +123,7 @@ window.bp = window.bp || {};
 			if ( undefined === value && undefined !== store[ property ] ) {
 				delete store[ property ];
 			} else {
-				// Set property
+				// Set property.
 				store[ property ] = value;
 			}
 
@@ -165,7 +165,7 @@ window.bp = window.bp || {};
 		 * URL Decode a query variable.
 		 *
 		 * @param  {string} qv    The query variable to decode.
-		 * @param  {object} chars The specific characters to use. Optionnal.
+		 * @param  {object} chars The specific characters to use. Optional.
 		 * @return {string}       The URL decoded variable.
 		 */
 		urlDecode: function( qv, chars ) {
@@ -193,7 +193,7 @@ window.bp = window.bp || {};
 				this.ajax_request.abort();
 			}
 
-			// Extend posted data with stored data and object nonce
+			// Extend posted data with stored data and object nonce.
 			var postData = $.extend( {}, bp.Nouveau.getStorage( 'bp-' + object ), { nonce: BP_Nouveau.nonces[object] }, post_data );
 
 			if ( undefined !== BP_Nouveau.customizer_settings ) {
@@ -254,17 +254,17 @@ window.bp = window.bp || {};
 				method       : 'reset'
 			}, data );
 
-			// Do not request if we don't have the object or the target to inject results into
+			// Do not request if we don't have the object or the target to inject results into.
 			if ( ! data.object || ! data.target ) {
 				return;
 			}
 
-			// Prepare the search terms for the request
+			// Prepare the search terms for the request.
 			if ( data.search_terms ) {
 				data.search_terms = data.search_terms.replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
 			}
 
-			// Set session's data
+			// Set session's data.
 			if ( null !== data.scope ) {
 				this.setStorage( 'bp-' + data.object, 'scope', data.scope );
 			}
@@ -352,7 +352,7 @@ window.bp = window.bp || {};
 					scope = objectData.scope;
 				}
 
-				// Notifications always need to start with Newest ones
+				// Notifications always need to start with Newest ones.
 				if ( undefined !== objectData.extras && 'notifications' !== object ) {
 					extras = objectData.extras;
 				}
@@ -374,7 +374,7 @@ window.bp = window.bp || {};
 					$( this.objectNavParent + ' [data-bp-scope="' + object + '"], #object-nav li.current' ).addClass( 'selected' );
 				}
 
-				// Check the querystring to eventually include the search terms
+				// Check the querystring to eventually include the search terms.
 				if ( null !== self.querystring ) {
 					if ( undefined !== self.querystring[ object + '_search'] ) {
 						search_terms = self.querystring[ object + '_search'];
@@ -397,7 +397,7 @@ window.bp = window.bp || {};
 						extras       : extras
 					};
 
-					// Populate the object list
+					// Populate the object list.
 					self.objectRequest( queryData );
 				}
 			} );
@@ -413,14 +413,14 @@ window.bp = window.bp || {};
 
 			this.heartbeat.interval( Number( BP_Nouveau.pulse ) );
 
-			// Extend "send" with BuddyPress namespace
+			// Extend "send" with BuddyPress namespace.
 			$.fn.extend( {
 				'heartbeat-send': function() {
 					return this.bind( 'heartbeat-send.buddypress' );
 				}
 			} );
 
-			// Extend "tick" with BuddyPress namespace
+			// Extend "tick" with BuddyPress namespace.
 			$.fn.extend( {
 				'heartbeat-tick': function() {
 					return this.bind( 'heartbeat-tick.buddypress' );
@@ -434,30 +434,30 @@ window.bp = window.bp || {};
 		 * [addListeners description]
 		 */
 		addListeners: function() {
-			// Disabled inputs
+			// Disabled inputs.
 			$( '[data-bp-disable-input]' ).on( 'change', this.toggleDisabledInput );
 
-			// HeartBeat Send and Receive
+			// HeartBeat Send and Receive.
 			$( document ).on( 'heartbeat-send.buddypress', this.heartbeatSend );
 			$( document ).on( 'heartbeat-tick.buddypress', this.heartbeatTick );
 
-			// Refreshing
+			// Refreshing.
 			$( this.objectNavParent + ' .bp-navs' ).on( 'click', 'a', this, this.scopeQuery );
 
-			// Filtering
+			// Filtering.
 			$( '#buddypress [data-bp-filter]' ).on( 'change', this, this.filterQuery );
 
-			// Searching
+			// Searching.
 			$( '#buddypress [data-bp-search]' ).on( 'submit', 'form', this, this.searchQuery );
 			$( '#buddypress [data-bp-search] form' ).on( 'search', 'input[type=search]', this.resetSearch );
 
-			// Buttons
+			// Buttons.
 			$( '#buddypress [data-bp-list], #buddypress #item-header' ).on( 'click', '[data-bp-btn-action]', this, this.buttonAction );
 
-			// Close notice
+			// Close notice.
 			$( '#buddypress [data-bp-close]' ).on( 'click', this, this.closeNotice );
 
-			// Pagination
+			// Pagination.
 			$( '#buddypress [data-bp-list]' ).on( 'click', '[data-bp-pagination] a', this, this.paginateAction );
 		},
 
@@ -494,7 +494,7 @@ window.bp = window.bp || {};
 		 * @return {[type]}       [description]
 		 */
 		heartbeatSend: function( event, data ) {
-			// Add an heartbeat send event to possibly any BuddyPress pages
+			// Add an heartbeat send event to possibly any BuddyPress pages.
 			$( '#buddypress' ).trigger( 'bp_heartbeat_send', data );
 		},
 
@@ -505,7 +505,7 @@ window.bp = window.bp || {};
 		 * @return {[type]}       [description]
 		 */
 		heartbeatTick: function( event, data ) {
-			// Add an heartbeat send event to possibly any BuddyPress pages
+			// Add an heartbeat send event to possibly any BuddyPress pages.
 			$( '#buddypress' ).trigger( 'bp_heartbeat_tick', data );
 		},
 
@@ -529,7 +529,7 @@ window.bp = window.bp || {};
 				return event;
 			}
 
-			// Stop event propagation
+			// Stop event propagation.
 			event.preventDefault();
 
 			filter = $( '#buddypress' ).find( '[data-bp-filter="' + object + '"]' ).first().val();
@@ -538,7 +538,7 @@ window.bp = window.bp || {};
 				search_terms = $( '#buddypress [data-bp-search="' + object + '"] input[type=search]' ).val();
 			}
 
-			// Remove the New count on dynamic tabs
+			// Remove the New count on dynamic tabs.
 			if ( target.hasClass( 'dynamic' ) ) {
 				target.find( 'a span' ).html('');
 			}
@@ -596,7 +596,7 @@ window.bp = window.bp || {};
 				return event;
 			}
 
-			// Stop event propagation
+			// Stop event propagation.
 			event.preventDefault();
 
 			object       = $( event.delegateTarget ).data( 'bp-search' );
@@ -652,12 +652,12 @@ window.bp = window.bp || {};
 				item = target.closest( '[data-bp-item-id]' ), item_id = item.data( 'bp-item-id' ), item_inner = target.closest('.list-wrap'),
 				object = item.data( 'bp-item-component' ), nonce = '';
 
-			// Simply let the event fire if we don't have needed values
+			// Simply let the event fire if we don't have needed values.
 			if ( ! action || ! item_id || ! object ) {
 				return event;
 			}
 
-			// Stop event propagation
+			// Stop event propagation.
 			event.preventDefault();
 
 			if ( ( undefined !== BP_Nouveau[ action + '_confirm'] && false === window.confirm( BP_Nouveau[ action + '_confirm'] ) ) || target.hasClass( 'pending' ) ) {
@@ -690,7 +690,7 @@ window.bp = window.bp || {};
 				object = 'friends';
 			}
 
-			// Add a pending class to prevent queries while we're processing the action
+			// Add a pending class to prevent queries while we're processing the action.
 			target.addClass( 'pending loading' );
 
 			self.ajax( {
@@ -703,23 +703,23 @@ window.bp = window.bp || {};
 					target.removeClass( 'pending loading' );
 					item.find( '.bp-feedback' ).fadeOut( 6000 );
 				} else {
-					// Specific cases for groups
+					// Specific cases for groups.
 					if ( 'groups' === object ) {
 
-						// Group's header button
+						// Group's header button.
 						if ( undefined !== response.data.is_group && response.data.is_group ) {
 							return window.location.reload();
 						}
 					}
 
-					// User's groups invitations screen & User's friend screens
+					// User's groups invitations screen & User's friend screens.
 					if ( undefined !== response.data.is_user && response.data.is_user ) {
 						target.parent().html( response.data.feedback );
 						item.fadeOut( 1500 );
 						return;
 					}
 
-					// Update count
+					// Update count.
 					if ( $( self.objectNavParent + ' [data-bp-scope="personal"]' ).length ) {
 						var personal_count = Number( $( self.objectNavParent + ' [data-bp-scope="personal"] span' ).html() ) || 0;
 
@@ -751,7 +751,7 @@ window.bp = window.bp || {};
 
 			event.preventDefault();
 
-			// Make sure cookies are removed
+			// Make sure cookies are removed.
 			if ( 'clear' === closeBtn.data( 'bp-close' ) ) {
 				if ( undefined !== $.cookie( 'bp-message' ) ) {
 					$.removeCookie( 'bp-message' );
@@ -770,7 +770,7 @@ window.bp = window.bp || {};
 				}, 'messages' );
 			}
 
-			// Remove the notice
+			// Remove the notice.
 			closeBtn.closest( '.bp-feedback' ).remove();
 		},
 
@@ -788,7 +788,7 @@ window.bp = window.bp || {};
 
 			object = $( event.delegateTarget ).data( 'bp-list' ) || null;
 
-			// Set the scope & filter
+			// Set the scope & filter.
 			if ( null !== object ) {
 				objectData = self.getStorage( 'bp-' + object );
 
@@ -805,7 +805,7 @@ window.bp = window.bp || {};
 				}
 			}
 
-			// Set the search terms
+			// Set the search terms.
 			if ( $( '#buddypress [data-bp-search="' + object + '"] input[type=search]' ).length ) {
 				search_terms = $( '#buddypress [data-bp-search="' + object + '"] input[type=search]' ).val();
 			}
@@ -819,12 +819,12 @@ window.bp = window.bp || {};
 				page         : self.getLinkParams( navLink.prop( 'href' ), pagArg ) || 1
 			};
 
-			// Request the page
+			// Request the page.
 			self.objectRequest( queryData );
 		}
 	};
 
-	// Launch BP Nouveau
+	// Launch BP Nouveau.
 	bp.Nouveau.start();
 
 } )( bp, jQuery );

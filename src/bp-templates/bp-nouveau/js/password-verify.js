@@ -14,7 +14,7 @@
 		    pass2 = $( '.password-entry-confirm' ).val(),
 		    strength;
 
-		// Reset classes and result text
+		// Reset classes and result text.
 		$( '#pass-strength-result' ).removeClass( 'show mismatch short bad good strong' );
 		if ( ! pass1 ) {
 			$( '#pass-strength-result' ).html( pwsL10n.empty );
@@ -42,7 +42,7 @@
 		}
 	}
 
-	// Bind check_pass_strength to keyup events in the password fields
+	// Bind check_pass_strength to keyup events in the password fields.
 	$( document ).ready( function() {
 		$( '.password-entry' ).val( '' ).keyup( check_pass_strength );
 		$( '.password-entry-confirm' ).val( '' ).keyup( check_pass_strength );
