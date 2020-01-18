@@ -4,7 +4,7 @@ window.bp = window.bp || {};
 
 ( function( exports, $ ) {
 
-	// Bail if not set
+	// Bail if not set.
 	if ( typeof BP_Nouveau === 'undefined' ) {
 		return;
 	}
@@ -24,7 +24,7 @@ window.bp = window.bp || {};
 		start: function() {
 			this.setupGlobals();
 
-			// Listen to events ("Add hooks!")
+			// Listen to events ("Add hooks!").
 			this.addListeners();
 		},
 
@@ -47,13 +47,13 @@ window.bp = window.bp || {};
 			// Trigger Notifications order request.
 			$( '#buddypress [data-bp-list="notifications"]' ).on( 'click', '[data-bp-notifications-order]', bp.Nouveau, this.sortNotifications );
 
-			// Enable the Apply Button once the bulk action is selected
+			// Enable the Apply Button once the bulk action is selected.
 			$( '#buddypress [data-bp-list="notifications"]' ).on( 'change', '#notification-select', this.enableBulkSubmit );
 
-			// Select all displayed notifications
+			// Select all displayed notifications.
 			$( '#buddypress [data-bp-list="notifications"]' ).on( 'click', '#select-all-notifications', this.selectAll );
 
-			// Reset The filter before unload
+			// Reset The filter before unload.
 			$( window ).on( 'unload', this.resetFilter );
 		},
 
@@ -72,7 +72,7 @@ window.bp = window.bp || {};
 				$( '[data-bp-notifications-order="DESC"]' ).hide();
 			}
 
-			// Make sure a 'Bulk Action' is selected before submitting the form
+			// Make sure a 'Bulk Action' is selected before submitting the form.
 			$( '#notification-bulk-manage' ).prop( 'disabled', 'disabled' );
 		},
 
@@ -134,7 +134,7 @@ window.bp = window.bp || {};
 		}
 	};
 
-	// Launch BP Nouveau Notifications
+	// Launch BP Nouveau Notifications.
 	bp.Nouveau.Notifications.start();
 
 } )( bp, jQuery );

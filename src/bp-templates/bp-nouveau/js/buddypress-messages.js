@@ -6,7 +6,7 @@ window.bp = window.bp || {};
 
 ( function( exports, $ ) {
 
-	// Bail if not set
+	// Bail if not set.
 	if ( typeof BP_Nouveau === 'undefined' ) {
 		return;
 	}
@@ -46,35 +46,35 @@ window.bp = window.bp || {};
 		setupNav: function() {
 			var self = this;
 
-			// First adapt the compose nav
+			// First adapt the compose nav.
 			$( '#compose-personal-li' ).addClass( 'last' );
 
-			// Then listen to nav click and load the appropriate view
+			// Then listen to nav click and load the appropriate view.
 			$( '#subnav a' ).on( 'click', function( event ) {
 				event.preventDefault();
 
 				var view_id = $( event.target ).prop( 'id' );
 
-				// Remove the editor to be sure it will be added dynamically later
+				// Remove the editor to be sure it will be added dynamically later.
 				self.removeTinyMCE();
 
-				// The compose view is specific (toggle behavior)
+				// The compose view is specific (toggle behavior).
 				if ( 'compose' === view_id ) {
-					// If it exists, it means the user wants to remove it
+					// If it exists, it means the user wants to remove it.
 					if ( ! _.isUndefined( self.views.get( 'compose' ) ) ) {
 						var form = self.views.get( 'compose' );
 						form.get( 'view' ).remove();
 						self.views.remove( { id: 'compose', view: form } );
 
-						// Back to inbox
+						// Back to inbox.
 						if ( 'single' === self.box ) {
 							self.box = 'inbox';
 						}
 
-						// Navigate back to current box
+						// Navigate back to current box.
 						self.router.navigate( self.box + '/', { trigger: true } );
 
-					// Otherwise load it
+					// Otherwise load it.
 					} else {
 						self.router.navigate( 'compose/', { trigger: true } );
 					}
@@ -132,7 +132,7 @@ window.bp = window.bp || {};
 		displayFeedback: function( message, type ) {
 			var feedback;
 
-			// Make sure to remove the feedbacks
+			// Make sure to remove the feedbacks.
 			this.removeFeedback();
 
 			if ( ! message ) {
@@ -150,7 +150,7 @@ window.bp = window.bp || {};
 		},
 
 		clearViews: function() {
-			// Clear views
+			// Clear views.
 			if ( ! _.isUndefined( this.views.models ) ) {
 				_.each( this.views.models, function( model ) {
 					model.get( 'view' ).remove();
@@ -164,7 +164,7 @@ window.bp = window.bp || {};
 			// Remove all existing views.
 			this.clearViews();
 
-			// Create the loop view
+			// Create the loop view.
 			var form = new bp.Views.messageForm( {
 				model: new bp.Models.Message()
 			} );
@@ -175,27 +175,27 @@ window.bp = window.bp || {};
 		},
 
 		threadsView: function() {
-			// Activate the appropriate nav
+			// Activate the appropriate nav.
 			$( '#subnav ul li' ).each( function( l, li ) {
 				$( li ).removeClass( 'current selected' );
 			} );
 			$( '#subnav a#' + this.box ).closest( 'li' ).addClass( 'current selected' );
 
-			// Create the loop view
+			// Create the loop view.
 			var threads_list = new bp.Views.userThreads( { collection: this.threads, box: this.box } );
 
 			this.views.add( { id: 'threads', view: threads_list } );
 
 			threads_list.inject( '.bp-messages-content' );
 
-			// Attach filters
+			// Attach filters.
 			this.displayFilters( this.threads );
 		},
 
 		displayFilters: function( collection ) {
 			var filters_view;
 
-			// Create the model
+			// Create the model.
 			this.filters = new Backbone.Model( {
 				'page'         : 1,
 				'total_page'   : 0,
@@ -203,7 +203,7 @@ window.bp = window.bp || {};
 				'box'          : this.box
 			} );
 
-			// Use it in the filters viex
+			// Use it in the filters viex.
 			filters_view = new bp.Views.messageFilters( { model: this.filters, threads: collection } );
 
 			this.views.add( { id: 'filters', view: filters_view } );
@@ -217,7 +217,7 @@ window.bp = window.bp || {};
 
 			this.box = 'single';
 
-			// Create the single thread view
+			// Create the single thread view.
 			var single_thread = new bp.Views.userMessages( { collection: this.messages, thread: thread } );
 
 			this.views.add( { id: 'single', view: single_thread } );
@@ -310,7 +310,7 @@ window.bp = window.bp || {};
 			options.context = this;
 			options.data    = options.data || {};
 
-			// Add generic nonce
+			// Add generic nonce.
 			options.data.nonce = BP_Nouveau.nonces.messages;
 
 			if ( 'read' === method ) {
@@ -393,7 +393,7 @@ window.bp = window.bp || {};
 			options.context = this;
 			options.data    = options.data || {};
 
-			// Add generic nonce
+			// Add generic nonce.
 			options.data.nonce = BP_Nouveau.nonces.messages;
 
 			if ( 'read' === method ) {
@@ -447,7 +447,7 @@ window.bp = window.bp || {};
 		}
 	} );
 
-	// Extend wp.Backbone.View with .prepare() and .inject()
+	// Extend wp.Backbone.View with .prepare() and .inject().
 	bp.Nouveau.Messages.View = bp.Backbone.View.extend( {
 		inject: function( selector ) {
 			this.render();
@@ -464,7 +464,7 @@ window.bp = window.bp || {};
 		}
 	} );
 
-	// Feedback view
+	// Feedback view.
 	bp.Views.Feedback = bp.Nouveau.Messages.View.extend( {
 		tagName: 'div',
 		className: 'bp-messages bp-user-messages-feedback',
@@ -478,7 +478,7 @@ window.bp = window.bp || {};
 		}
 	} );
 
-	// Hook view
+	// Hook view.
 	bp.Views.Hook = bp.Nouveau.Messages.View.extend( {
 		tagName: 'div',
 		template  : bp.template( 'bp-messages-hook' ),
@@ -522,15 +522,15 @@ window.bp = window.bp || {};
 		},
 
 		initialize: function() {
-			// Clone the model to set the resetted one
+			// Clone the model to set the resetted one.
 			this.resetModel = this.model.clone();
 
-			// Add the editor view
+			// Add the editor view.
 			this.views.add( '#bp-message-content', new bp.Views.messageEditor() );
 
 			this.model.on( 'change', this.resetFields, this );
 
-			// Activate bp_mentions
+			// Activate bp_mentions.
 			this.on( 'ready', this.addMentions, this );
 		},
 
@@ -538,13 +538,13 @@ window.bp = window.bp || {};
 			var sendToInput = $( this.el ).find( '#send-to-input' ),
 			    mention = bp.Nouveau.getLinkParams( null, 'r' ) || null;
 
-			// Add autocomplete to send_to field
+			// Add autocomplete to send_to field.
 			sendToInput.bp_mentions( {
 				data: [],
 				suffix: ' '
 			} );
 
-			// Check for mention
+			// Check for mention.
 			if ( ! _.isNull( mention ) ) {
 				sendToInput.val( '@' + _.escape( mention ) + ' ' );
 				sendToInput.focus();
@@ -552,15 +552,15 @@ window.bp = window.bp || {};
 		},
 
 		resetFields: function( model ) {
-			// Clean inputs
+			// Clean inputs.
 			_.each( model.previousAttributes(), function( value, input ) {
 				if ( 'message_content' === input ) {
-					// tinyMce
+					// tinyMce.
 					if ( undefined !== tinyMCE.activeEditor && null !== tinyMCE.activeEditor ) {
 						tinyMCE.activeEditor.setContent( '' );
 					}
 
-				// All except meta or empty value
+				// All except meta or empty value.
 				} else if ( 'meta' !== input && false !== value ) {
 					$( 'input[name="' + input + '"]' ).val( '' );
 				}
@@ -576,11 +576,11 @@ window.bp = window.bp || {};
 
 			bp.Nouveau.Messages.removeFeedback();
 
-			// Set the content and meta
+			// Set the content and meta.
 			_.each( this.$el.serializeArray(), function( pair ) {
 				pair.name = pair.name.replace( '[]', '' );
 
-				// Group extra fields in meta
+				// Group extra fields in meta.
 				if ( -1 === _.indexOf( ['send_to', 'subject', 'message_content'], pair.name ) ) {
 					if ( _.isUndefined( meta[ pair.name ] ) ) {
 						meta[ pair.name ] = pair.value;
@@ -592,9 +592,9 @@ window.bp = window.bp || {};
 						meta[ pair.name ].push( pair.value );
 					}
 
-				// Prepare the core model
+				// Prepare the core model.
 				} else {
-					// Send to
+					// Send to.
 					if ( 'send_to' === pair.name ) {
 						var usernames = pair.value.match( /(^|[^@\w\-])@([a-zA-Z0-9_\-]{1,50})\b/g );
 
@@ -613,9 +613,9 @@ window.bp = window.bp || {};
 							this.model.set( 'send_to', usernames, { silent: true } );
 						}
 
-					// Subject and content
+					// Subject and content.
 					} else {
-						// Message content
+						// Message content.
 						if ( 'message_content' === pair.name && undefined !== tinyMCE.activeEditor ) {
 							pair.value = tinyMCE.activeEditor.getContent();
 						}
@@ -640,20 +640,20 @@ window.bp = window.bp || {};
 				return;
 			}
 
-			// Set meta
+			// Set meta.
 			this.model.set( 'meta', meta, { silent: true } );
 
 			// Send the message.
 			this.model.sendMessage().done( function( response ) {
-				// Reset the model
+				// Reset the model.
 				self.model.set( self.resetModel );
 
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 
-				// Remove tinyMCE
+				// Remove tinyMCE.
 				bp.Nouveau.Messages.removeTinyMCE();
 
-				// Remove the form view
+				// Remove the form view.
 				var form = bp.Nouveau.Messages.views.get( 'compose' );
 				form.get( 'view' ).remove();
 				bp.Nouveau.Messages.views.remove( { id: 'compose', view: form } );
@@ -690,7 +690,7 @@ window.bp = window.bp || {};
 				this.views.add( view );
 			}, this );
 
-			// Load threads for the active view
+			// Load threads for the active view.
 			this.requestThreads();
 
 			this.collection.on( 'reset', this.cleanContent, this );
@@ -848,7 +848,7 @@ window.bp = window.bp || {};
 		singleSelect: function( event ) {
 			var isChecked = $( event.currentTarget ).prop( 'checked' );
 
-			// To avoid infinite loops
+			// To avoid infinite loops.
 			this.model.set( 'checked', isChecked, { silent: true } );
 
 			var hasChecked = false;
@@ -894,7 +894,7 @@ window.bp = window.bp || {};
 		},
 
 		render: function() {
-			// Only render if we have some content to render
+			// Only render if we have some content to render.
 			if ( _.isUndefined( this.model ) || true !== this.model.get( 'active' ) ) {
 				return;
 			}
@@ -944,7 +944,7 @@ window.bp = window.bp || {};
 
 			mid = model.get( 'id' );
 
-			// Open the full conversation
+			// Open the full conversation.
 			if ( 'view' === action ) {
 				bp.Nouveau.Messages.router.navigate(
 					'view/' + mid + '/',
@@ -973,10 +973,10 @@ window.bp = window.bp || {};
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 
 				if ( 'delete' === action || ( 'starred' === self.collection.options.box && 'unstar' === action ) ) {
-					// Remove from the list of messages
+					// Remove from the list of messages.
 					self.collection.remove( model.get( 'id' ) );
 
-					// And Requery
+					// And Requery.
 					self.collection.fetch( {
 						data : _.pick( self.collection.options, ['box', 'search_terms', 'page'] )
 					} );
@@ -1049,10 +1049,10 @@ window.bp = window.bp || {};
 				return model.get( 'id' );
 			} );
 
-			// Default to thread ids
+			// Default to thread ids.
 			ids = thread_ids;
 
-			// We need to get the starred ids
+			// We need to get the starred ids.
 			if ( 'star' === action || 'unstar' === action ) {
 				ids = _.map( threads, function( model ) {
 					return model.get( 'starred_id' );
@@ -1064,11 +1064,11 @@ window.bp = window.bp || {};
 					};
 				}
 
-				// Map with first message starred in the thread
+				// Map with first message starred in the thread.
 				attr = 'starred_id';
 			}
 
-			// Message id to Thread id
+			// Message id to Thread id.
 			var m_tid = _.object( _.map( threads, function (model) {
 			    return [model.get( attr ), model.get( 'id' )];
 			} ) );
@@ -1084,15 +1084,15 @@ window.bp = window.bp || {};
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 
 				if ( 'delete' === action || ( 'starred' === self.collection.options.box && 'unstar' === action ) ) {
-					// Remove from the list of messages
+					// Remove from the list of messages.
 					self.collection.remove( thread_ids );
 
-					// And Requery
+					// And Requery.
 					self.collection.fetch( {
 						data : _.pick( self.collection.options, ['box', 'search_terms', 'page'] )
 					} );
 				} else if ( response.messages ) {
-					// Update each model attributes
+					// Update each model attributes.
 					_.each( response.messages, function( updated, id ) {
 						var model = self.collection.get( m_tid[id] );
 						model.set( updated );
@@ -1244,7 +1244,7 @@ window.bp = window.bp || {};
 				// Remove previous feedback.
 				bp.Nouveau.Messages.removeFeedback();
 
-				// Display the feedback
+				// Display the feedback.
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 			} ).fail( function( response ) {
 				// Remove previous feedback.
@@ -1281,15 +1281,15 @@ window.bp = window.bp || {};
 		template : bp.template( 'bp-messages-single' ),
 
 		initialize: function() {
-			// Load Messages
+			// Load Messages.
 			this.requestMessages();
 
-			// Init a reply
+			// Init a reply.
 			this.reply = new bp.Models.messageThread();
 
 			this.collection.on( 'add', this.addMessage, this );
 
-			// Add the editor view
+			// Add the editor view.
 			this.views.add( '#bp-message-content', new bp.Views.messageEditor() );
 		},
 
@@ -1366,7 +1366,7 @@ window.bp = window.bp || {};
 		replySent: function( response ) {
 			var reply = this.collection.parse( response );
 
-			// Reset the form
+			// Reset the form.
 			tinyMCE.activeEditor.setContent( '' );
 			this.reply.set( 'sending', false );
 
@@ -1399,7 +1399,7 @@ window.bp = window.bp || {};
 				return;
 			}
 
-			// Try to get the corresponding thread
+			// Try to get the corresponding thread.
 			var thread = bp.Nouveau.Messages.threads.get( thread_id );
 
 			if ( undefined === thread ) {
@@ -1426,7 +1426,7 @@ window.bp = window.bp || {};
 		}
 	} );
 
-	// Launch BP Nouveau Groups
+	// Launch BP Nouveau Groups.
 	bp.Nouveau.Messages.start();
 
 } )( bp, jQuery );
