@@ -862,7 +862,15 @@ class BP_XProfile_Field {
 			}
 		}
 
-		return $this->do_autolink;
+		/**
+		 * Filters the autolink property of the field.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param bool              $do_autolink The autolink property of the field.
+		 * @param BP_XProfile_Field $this Field object.
+		 */
+		return apply_filters( 'bp_xprofile_field_do_autolink', $this->do_autolink, $this );
 	}
 
 	/* Static Methods ********************************************************/
