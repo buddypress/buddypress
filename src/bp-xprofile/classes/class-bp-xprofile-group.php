@@ -805,10 +805,10 @@ class BP_XProfile_Group {
 	public function render_admin_form() {
 		global $message;
 
-		// Users Admin URL
+		// Users Admin URL.
 		$users_url = bp_get_admin_url( 'users.php' );
 
-		// URL to cancel to
+		// URL to cancel to.
 		$cancel_url = add_query_arg( array(
 			'page' => 'bp-profile-setup'
 		), $users_url );
@@ -900,7 +900,7 @@ class BP_XProfile_Group {
 
 											<?php
 
-											// Nonce fields
+											// Nonce fields.
 											wp_nonce_field( 'bp_xprofile_admin_group', 'bp_xprofile_admin_group' );
 
 											/**

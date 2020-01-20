@@ -355,7 +355,7 @@ class BP_XProfile_Query {
 
 		$sql_chunks = array(
 			'where' => array(),
-			'join' => array(),
+			'join'  => array(),
 		);
 
 		if ( isset( $clause['compare'] ) ) {

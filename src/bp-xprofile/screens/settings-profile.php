@@ -52,7 +52,7 @@ function bp_xprofile_action_settings() {
 		return;
 	}
 
-	// 404 if there are any additional action variables attached
+	// 404 if there are any additional action variables attached.
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;
