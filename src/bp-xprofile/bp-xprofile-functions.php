@@ -466,7 +466,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 	$field->field_id = $field_id;
 	$field->user_id  = $user_id;
 
-	// Gets un/reserialized via xprofile_sanitize_data_value_before_save()
+	// Gets un/reserialized via xprofile_sanitize_data_value_before_save().
 	$field->value    = maybe_serialize( $value );
 
 	return $field->save();
@@ -1197,7 +1197,7 @@ function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $curren
 		$current_user_id = bp_loggedin_user_id();
 	}
 
-	// @todo - This is where you'd swap out for current_user_can() checks
+	// @todo - This is where you'd swap out for current_user_can() checks.
 	$hidden_levels = bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id, $current_user_id );
 	$hidden_fields = bp_xprofile_get_fields_by_visibility_levels( $displayed_user_id, $hidden_levels );
 
