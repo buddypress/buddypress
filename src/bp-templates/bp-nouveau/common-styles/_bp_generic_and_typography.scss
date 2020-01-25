@@ -64,13 +64,10 @@ body.buddypress {
 
 		.entry-header {
 			float: none;
-			max-width: none;
 		}
 
-		.entry-content,
-		.entry .entry-content > * {
+		.entry-content {
 			float: none;
-			max-width: none;
 		}
 
 		// 2017 has a very large top padding we'll reduce that for bp screens

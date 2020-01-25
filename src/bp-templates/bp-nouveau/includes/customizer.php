@@ -202,6 +202,16 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 		),
 	) );
 
+	if ( current_theme_supports( 'align-wide' ) ) {
+		$settings['bp_nouveau_appearance[global_alignment]'] = array(
+			'index'             => 'global_alignment',
+			'capability'        => 'bp_moderate',
+			'sanitize_callback' => 'sanitize_html_class',
+			'transport'         => 'refresh',
+			'type'              => 'option',
+		);
+	}
+
 	// Add the settings
 	foreach ( $settings as $id_setting => $setting_args ) {
 		$args = array();
@@ -295,6 +305,20 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 	 * @param array $value Array of Customizer controls.
 	 */
 	$controls = apply_filters( 'bp_nouveau_customizer_controls', $controls );
+
+	if ( current_theme_supports( 'align-wide' ) ) {
+		$controls['global_alignment'] = array(
+			'label'      => __( 'Select the BuddyPress container width for your site.', 'buddypress' ),
+			'section'    => 'bp_nouveau_general_settings',
+			'settings'   => 'bp_nouveau_appearance[global_alignment]',
+			'type'       => 'select',
+			'choices'    => array(
+				'alignnone' => __( 'Default width', 'buddypress' ),
+				'alignwide' => __( 'Wide width', 'buddypress' ),
+				'alignfull' => __( 'Full width', 'buddypress' ),
+			),
+		);
+	}
 
 	// Add the controls to the customizer's section
 	foreach ( $controls as $id_control => $control_args ) {

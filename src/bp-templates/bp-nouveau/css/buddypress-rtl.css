@@ -89,12 +89,9 @@ body #buddypress .bp-list .action {
 	}
 	body.buddypress .entry-header {
 		float: none;
-		max-width: none;
 	}
-	body.buddypress .entry-content,
-	body.buddypress .entry .entry-content > * {
+	body.buddypress .entry-content {
 		float: none;
-		max-width: none;
 	}
 	body.buddypress .site-content {
 		padding-top: 2.5em;
