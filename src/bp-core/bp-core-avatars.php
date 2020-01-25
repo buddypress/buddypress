@@ -193,7 +193,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 	$bp = buddypress();
 
 	// If avatars are disabled for the root site, obey that request and bail.
-	if ( ! $bp->avatar->show_avatars ) {
+	if ( ! $bp->avatar || ! $bp->avatar->show_avatars ) {
 		return;
 	}
 
