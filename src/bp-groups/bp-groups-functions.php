@@ -1689,6 +1689,14 @@ function groups_send_invites( $args = array() ) {
 		'force_resend'  => false,
 	), 'groups_send_invitation' );
 
+
+	$args = array(
+		'user_id'       => $r['user_id'],
+		'invitee_email' => $r['invitee_email'],
+		'item_id'       => $r['group_id'],
+		'inviter_id'    => $r['inviter_id'],
+	);
+
 	/*
 	 * We will generally only want to fetch unsent invitations.
 	 * If force_resend is true, then we need to fetch both sent and draft invites.
@@ -1699,12 +1707,6 @@ function groups_send_invites( $args = array() ) {
 		$args['invite_sent'] = 'draft';
 	}
 
-	$args = array(
-		'user_id'       => $r['user_id'],
-		'invitee_email' => $r['invitee_email'],
-		'item_id'       => $r['group_id'],
-		'inviter_id'    => $r['inviter_id'],
-	);
 	$invites = groups_get_invites( $args );
 
 	$invited_users = array();
