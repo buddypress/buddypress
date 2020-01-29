@@ -434,7 +434,7 @@ function bp_core_filter_blog_welcome_email( $welcome_email, $blog_id, $user_id, 
 	if ( ! bp_has_custom_signup_page() )
 		return $welcome_email;
 
-	// [User Set] Replaces $password in welcome email; Represents value set by user
+	// [User Set] Replaces $password in welcome email; Represents value set by user.
 	return str_replace( $password, __( '[User Set]', 'buddypress' ), $welcome_email );
 }
 add_filter( 'update_welcome_email', 'bp_core_filter_blog_welcome_email', 10, 4 );
@@ -811,7 +811,7 @@ add_filter( 'customize_nav_menu_available_items', 'bp_customizer_nav_menus_get_i
  *
  * @since 2.3.3
  *
- * @param array $item_types An associative array structured for the customizer.
+ * @param  array $item_types An associative array structured for the customizer.
  * @return array $item_types An associative array structured for the customizer.
  */
 function bp_customizer_nav_menus_set_item_types( $item_types = array() ) {

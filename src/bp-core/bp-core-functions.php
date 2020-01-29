@@ -502,7 +502,7 @@ function bp_core_get_packaged_component_ids() {
 function bp_core_get_directory_page_ids( $status = 'active' ) {
 	$page_ids = bp_get_option( 'bp-pages', array() );
 
-	// Loop through pages
+	// Loop through pages.
 	foreach ( $page_ids as $component_name => $page_id ) {
 
 		// Ensure that empty indexes are unset. Should only matter in edge cases.
@@ -1565,7 +1565,7 @@ function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
 
 	// Setup a default string if none was passed.
 	$string = empty( $string )
-		? '%s'     // Gettext placeholder.
+		? '%s'     // Gettext library's placeholder.
 		: $string;
 
 	// Use the string if a last activity date was passed.
@@ -2731,7 +2731,7 @@ function bp_core_get_suggestions( $args ) {
 		 * @since 2.1.0
 		 *
 		 * @param string $value Custom class to use. Default: none.
-		 * @param array  $args  Array of arguments for sugggestions.
+		 * @param array  $args  Array of arguments for suggestions.
 		 */
 		$class = apply_filters( 'bp_suggestions_services', '', $args );
 	}
@@ -3162,7 +3162,7 @@ function bp_send_email( $email_type, $to, $args = array() ) {
      * @param array                    $args {
 	 *     Optional. Array of extra parameters.
 	 *
-	 *     @type array $tokens Optional. Assocative arrays of string replacements for the email.
+	 *     @type array $tokens Optional. Associative arrays of string replacements for the email.
 	 * }
 	 */
 	do_action_ref_array( 'bp_send_email', array( &$email, $email_type, $to, $args ) );

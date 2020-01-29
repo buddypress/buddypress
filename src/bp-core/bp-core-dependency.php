@@ -7,7 +7,7 @@
  * own in a safe and reliable way.
  *
  * We do this in BuddyPress by mirroring existing WordPress hooks in many places
- * allowing dependant plugins to hook into the BuddyPress specific ones, thus
+ * allowing dependent plugins to hook into the BuddyPress specific ones, thus
  * guaranteeing proper code execution only when BuddyPress is active.
  *
  * The following functions are wrappers for hooks, allowing them to be
