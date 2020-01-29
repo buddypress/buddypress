@@ -522,12 +522,12 @@ function bp_activity_get_post_type_tracking_args( $post_type ) {
 		$post_type_activity->new_post_type_action_ms = $post_type_object->labels->bp_activity_new_post_ms;
 	}
 
-	// If the post type supports comments and has a comment action id, build the comments tracking args
+	// If the post type supports comments and has a comment action id, build the comments tracking args.
 	if ( $post_type_support_comments && ! empty( $post_type_activity->comment_action_id ) ) {
-		// Init a new container for the activity type for comments
+		// Init a new container for the activity type for comments.
 		$post_type_activity->comments_tracking = new stdClass();
 
-		// Build the activity type for comments
+		// Build the activity type for comments.
 		$post_type_activity->comments_tracking->component_id = $post_type_activity->component_id;
 		$post_type_activity->comments_tracking->action_id    = $post_type_activity->comment_action_id;
 
@@ -1788,7 +1788,7 @@ function bp_activity_get_specific( $args = '' ) {
 		'page'              => 1,          // Page 1 without a per_page will result in no pagination.
 		'per_page'          => false,      // Results per page.
 		'show_hidden'       => true,       // When fetching specific items, show all.
-		'sort'              => 'DESC',     // Sort ASC or DESC
+		'sort'              => 'DESC',     // Sort ASC or DESC.
 		'spam'              => 'ham_only', // Retrieve items marked as spam.
 		'update_meta_cache' => true,
 	), 'activity_get_specific' );

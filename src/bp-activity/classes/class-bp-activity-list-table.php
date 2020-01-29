@@ -124,10 +124,10 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$has_filter_query = apply_filters( 'bp_activity_list_table_filter_activity_type_items', $filter );
 
 			if ( ! empty( $has_filter_query['filter_query'] ) ) {
-				// Reset the filter
+				// Reset the filter.
 				$filter       = array();
 
-				// And use the filter query instead
+				// And use the filter query instead.
 				$filter_query = $has_filter_query['filter_query'];
 			}
 		}

@@ -356,7 +356,7 @@ function bp_activity_admin_load() {
 			check_admin_referer( 'spam-activity_' . $activity_ids[0] );
 		}
 
-		// Initialise counters for how many of each type of item we perform an action on.
+		// Initialize counters for how many of each type of item we perform an action on.
 		$deleted = $spammed = $unspammed = 0;
 
 		// Store any errors that occurs when updating the database items.

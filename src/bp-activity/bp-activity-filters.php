@@ -615,7 +615,7 @@ function bp_activity_heartbeat_strings( $strings = array() ) {
 	 */
 	$heartbeat_settings = apply_filters( 'heartbeat_settings', array() );
 	if ( ! empty( $heartbeat_settings['interval'] ) ) {
-		// 'Fast' is 5
+		// 'Fast' is 5.
 		$global_pulse = is_numeric( $heartbeat_settings['interval'] ) ? absint( $heartbeat_settings['interval'] ) : 5;
 	}
 

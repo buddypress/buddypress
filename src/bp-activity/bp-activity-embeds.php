@@ -234,10 +234,10 @@ function bp_activity_embed_media() {
 			$thumbnail = $oembed->thumbnail_url;
 
 		/* Non-oEmbed standard attributes */
-		// Mixcloud
+		// Mixcloud.
 		} elseif ( isset( $oembed->image ) ) {
 			$thumbnail = $oembed->image;
-		// ReverbNation
+		// ReverbNation.
 		} elseif ( isset( $oembed->{'thumbnail-url'} ) ) {
 			$thumbnail = $oembed->{'thumbnail-url'};
 		}
