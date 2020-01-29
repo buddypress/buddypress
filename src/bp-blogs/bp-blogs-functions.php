@@ -45,13 +45,13 @@ function bp_blogs_get_blogs( $args = '' ) {
 
 	// Parse query arguments.
 	$r = bp_parse_args( $args, array(
-		'type'              => 'active', // 'active', 'alphabetical', 'newest', or 'random'
-		'include_blog_ids'  => false,    // Array of blog IDs to include
-		'user_id'           => false,    // Limit to blogs this user can post to
-		'search_terms'      => false,    // Limit to blogs matching these search terms
-		'per_page'          => 20,       // The number of results to return per page
-		'page'              => 1,        // The page to return if limiting per page
-		'update_meta_cache' => true      // Whether to pre-fetch blogmeta
+		'type'              => 'active', // 'active', 'alphabetical', 'newest', or 'random'.
+		'include_blog_ids'  => false,    // Array of blog IDs to include.
+		'user_id'           => false,    // Limit to blogs this user can post to.
+		'search_terms'      => false,    // Limit to blogs matching these search terms.
+		'per_page'          => 20,       // The number of results to return per page.
+		'page'              => 1,        // The page to return if limiting per page.
+		'update_meta_cache' => true      // Whether to pre-fetch blogmeta.
 	), 'blogs_get_blogs' );
 
 	// Get the blogs.
@@ -106,34 +106,34 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 		'site_id'  => $wpdb->siteid
 	), 'record_existing_blogs' );
 
-	// Truncate all BP blogs tables if starting fresh
+	// Truncate all BP blogs tables if starting fresh.
 	if ( empty( $r['offset'] ) && empty( $r['blog_ids'] ) ) {
 		$bp = buddypress();
 
-		// Truncate user blogs table
+		// Truncate user blogs table.
 		$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name}" );
 		if ( is_wp_error( $truncate ) ) {
 			return false;
 		}
 
-		// Truncate user blogmeta table
+		// Truncate user blogmeta table.
 		$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name_blogmeta}" );
 		if ( is_wp_error( $truncate ) ) {
 			return false;
 		}
 	}
 
-	// Multisite
+	// Multisite.
 	if ( is_multisite() ) {
 		$sql = array();
 		$sql['select'] = $wpdb->prepare( "SELECT blog_id, last_updated FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d", $r['site_id'] );
 
-		// Omit root blog if large network
+		// Omit root blog if large network.
 		if ( bp_is_large_install() ) {
 			$sql['omit_root_blog'] = $wpdb->prepare( "AND blog_id != %d", bp_get_root_blog_id() );
 		}
 
-		// Filter by selected blog IDs
+		// Filter by selected blog IDs.
 		if ( ! empty( $r['blog_ids'] ) ) {
 			$in        = implode( ',', wp_parse_id_list( $r['blog_ids'] ) );
 			$sql['in'] = "AND blog_id IN ({$in})";
@@ -161,9 +161,9 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 		}
 	}
 
-	 // Bail if there are no blogs
+	 // Bail if there are no blogs.
 	 if ( empty( $blogs ) ) {
-		// Make sure we remove our offset marker
+		// Make sure we remove our offset marker.
 		if ( is_multisite() ) {
 			bp_delete_option( '_bp_record_blogs_offset' );
 		}
@@ -192,24 +192,24 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 		foreach ( (array) $users as $user_id ) {
 			bp_blogs_add_user_to_blog( $user_id, false, $blog->blog_id );
 
-			// Clear cache
+			// Clear cache.
 			bp_blogs_clear_blog_object_cache( $blog->blog_id, $user_id );
 		}
 
-		// Update blog last activity timestamp
+		// Update blog last activity timestamp.
 		if ( ! empty( $blog->last_updated ) && false !== strtotime( $blog->last_updated ) ) {
 			bp_blogs_update_blogmeta( $blog->blog_id, 'last_activity', $blog->last_updated );
 		}
 	}
 
-	// See if we need to do this again
+	// See if we need to do this again.
 	if ( is_multisite() && empty( $r['blog_ids'] ) ) {
 		$sql['offset'] = $wpdb->prepare( " OFFSET %d", $r['limit'] + $r['offset'] );
 
-		// Check if there are more blogs to record
+		// Check if there are more blogs to record.
 		$blog_ids = $wpdb->get_results( implode( ' ', $sql ) );
 
-		// We have more blogs; record offset and re-run function
+		// We have more blogs; record offset and re-run function.
 		if ( ! empty( $blog_ids  ) ) {
 			bp_update_option( '_bp_record_blogs_offset', $r['limit'] + $r['offset'] );
 			bp_blogs_record_existing_blogs( array(
@@ -222,7 +222,7 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 			// Bail since we have more blogs to record.
 			return;
 
-		// No more blogs; delete offset marker
+		// No more blogs; delete offset marker.
 		} else {
 			bp_delete_option( '_bp_record_blogs_offset' );
 		}
@@ -726,14 +726,14 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 	// Set the current blog id.
 	$blog_id = get_current_blog_id();
 
-	// These activity metadatas are used to build the new_blog_comment action string
+	// These activity metadatas are used to build the new_blog_comment action string.
 	if ( ! empty( $activity_id ) && ! empty( $activity_args['item_id'] ) && 'new_blog_comment' === $activity_post_object->comment_action_id ) {
-		// add some post info in activity meta
+		// Add some post info in activity meta.
 		bp_activity_update_meta( $activity_id, 'post_title', $comment->post->post_title );
 		bp_activity_update_meta( $activity_id, 'post_url',   esc_url_raw( add_query_arg( 'p', $comment->post->ID, home_url( '/' ) ) ) );
 	}
 
-	// Sync comment - activity comment
+	// Sync comment - activity comment.
 	if ( ! bp_disable_blogforum_comments() ) {
 
 		if ( ! empty( $_REQUEST['action'] ) ) {
@@ -749,7 +749,7 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 		}
 
 		if ( isset( $activity_post_object->action_id ) && isset( $activity_post_object->component_id ) ) {
-			// find the parent 'new_post_type' activity entry
+			// Find the parent 'new_post_type' activity entry.
 			$parent_activity_id = bp_activity_get_activity_id( array(
 				'component'         => $activity_post_object->component_id,
 				'type'              => $activity_post_object->action_id,
@@ -763,20 +763,20 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 			}
 		}
 
-		// we found the parent activity entry
-		// so let's go ahead and reconfigure some activity args
+		// We found the parent activity entry
+		// so let's go ahead and reconfigure some activity args.
 		if ( ! empty( $parent_activity_id ) ) {
-			// set the parent activity entry ID
+			// Set the parent activity entry ID.
 			$activity_args['activity_id'] = $parent_activity_id;
 
-			// now see if the WP parent comment has a BP activity ID
+			// Now see if the WP parent comment has a BP activity ID.
 			$comment_parent = 0;
 			if ( ! empty( $comment->comment_parent ) ) {
 				$comment_parent = get_comment_meta( $comment->comment_parent, 'bp_activity_comment_id', true );
 			}
 
 			// WP parent comment does not have a BP activity ID
-			// so set to 'new_' . post_type activity ID
+			// so set to 'new_' . post_type activity ID.
 			if ( empty( $comment_parent ) ) {
 				$comment_parent = $parent_activity_id;
 			}
@@ -784,24 +784,24 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 			$activity_args['parent_id']         = $comment_parent;
 			$activity_args['skip_notification'] = true;
 
-		// could not find corresponding parent activity entry
-		// so wipe out $args array
+		// Could not find corresponding parent activity entry
+		// so wipe out $args array.
 		} else {
 			$activity_args = array();
 		}
 
-		// Record in activity streams
+		// Record in activity streams.
 		if ( ! empty( $activity_args ) ) {
 			$activity_id = bp_activity_new_comment( $activity_args );
 
 			if ( empty( $activity_args['id'] ) ) {
-				// The activity metadata to inform about the corresponding comment ID
+				// The activity metadata to inform about the corresponding comment ID.
 				bp_activity_update_meta( $activity_id, "bp_blogs_{$comment->post->post_type}_comment_id", $comment->comment_ID );
 
-				// The comment metadata to inform about the corresponding activity ID
+				// The comment metadata to inform about the corresponding activity ID.
 				add_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', $activity_id );
 
-				// These activity metadatas are used to build the new_blog_comment action string
+				// These activity metadatas are used to build the new_blog_comment action string.
 				if ( 'new_blog_comment' === $activity_post_object->comment_action_id ) {
 					bp_activity_update_meta( $activity_id, 'post_title', $comment->post->post_title );
 					bp_activity_update_meta( $activity_id, 'post_url', esc_url_raw( add_query_arg( 'p', $comment->post->ID, home_url( '/' ) ) ) );
@@ -1054,32 +1054,32 @@ function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_pos
 		 * child post comments and associated activity comments.
 		 */
 		if ( ! empty( $activity_id ) ) {
-			// fetch the activity comments for the activity item
+			// Fetch the activity comments for the activity item.
 			$activity = bp_activity_get( array(
 				'in'               => $activity_id,
 				'display_comments' => 'stream',
 				'spam'             => 'all',
 			) );
 
-			// get all activity comment IDs for the pending deleted item
+			// Get all activity comment IDs for the pending deleted item.
 			if ( ! empty( $activity['activities'] ) ) {
 				$activity_ids   = bp_activity_recurse_comments_activity_ids( $activity );
 				$activity_ids[] = $activity_id;
 
-				// delete activity items
+				// Delete activity items.
 				foreach ( $activity_ids as $activity_id ) {
 					bp_activity_delete( array(
 						'id' => $activity_id
 					) );
 				}
 
-				// remove associated blog comments
+				// Remove associated blog comments.
 				bp_blogs_remove_associated_blog_comments( $activity_ids );
 
-				// rebuild activity comment tree
+				// Rebuild activity comment tree.
 				BP_Activity_Activity::rebuild_activity_comment_tree( $activity['activities'][0]->item_id );
 
-				// Set the result
+				// Set the result.
 				$deleted = true;
 			}
 		}

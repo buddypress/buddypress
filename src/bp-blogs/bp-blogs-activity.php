@@ -287,7 +287,7 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 
 	$blog_url = false;
 
-	// Try to get the blog url from the activity object
+	// Try to get the blog url from the activity object.
 	if ( isset( $activity->blog_url ) ) {
 		$blog_url = $activity->blog_url;
 	} else {
@@ -296,7 +296,7 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 
 	$blog_name = false;
 
-	// Try to get the blog name from the activity object
+	// Try to get the blog name from the activity object.
 	if ( isset( $activity->blog_name ) ) {
 		$blog_name = $activity->blog_name;
 	} else {
@@ -313,7 +313,7 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 
 	$post_url = false;
 
-	// Try to get the post url from the activity object
+	// Try to get the post url from the activity object.
 	if ( isset( $activity->post_url ) ) {
 		$post_url = $activity->post_url;
 
@@ -328,11 +328,11 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 
 	$post_title = false;
 
-	// Should be the case when the comment has just been published
+	// Should be the case when the comment has just been published.
 	if ( isset( $activity->post_title ) ) {
 		$post_title = $activity->post_title;
 
-	// If activity already exists try to get the post title from activity meta
+	// If activity already exists try to get the post title from activity meta.
 	} elseif ( ! empty( $activity->id ) ) {
 		$post_title = bp_activity_get_meta( $activity->id, 'post_title' );
 	}
@@ -789,7 +789,7 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 		$user = bp_core_get_core_userdata( $params['user_id'] );
 	}
 
-	// Get associated post type and set default comment parent
+	// Get associated post type and set default comment parent.
 	$post_type      = bp_activity_post_type_get_tracking_arg( $parent_activity->type, 'post_type' );
 	$comment_parent = 0;
 
@@ -805,7 +805,7 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 		'comment_author_email' => $user->user_email,
 		'comment_author_url'   => bp_core_get_user_domain( $params['user_id'], $user->user_nicename, $user->user_login ),
 		'comment_content'      => $params['content'],
-		'comment_type'         => '', // Could be interesting to add 'buddypress' here...
+		'comment_type'         => '', // Could be interesting to add 'BuddyPress' here...
 		'comment_parent'       => (int) $comment_parent,
 		'user_id'              => $params['user_id'],
 		'comment_approved'     => 1
@@ -909,7 +909,7 @@ function bp_blogs_sync_delete_from_activity_comment( $retval, $parent_activity_i
 	$activity_ids   = bp_activity_recurse_comments_activity_ids( $activity );
 	$activity_ids[] = $activity_id;
 
-	// Handle multisite
+	// Handle multisite.
 	// switch to the blog where the comment was made.
 	switch_to_blog( $parent_activity->item_id );
 
@@ -923,7 +923,7 @@ function bp_blogs_sync_delete_from_activity_comment( $retval, $parent_activity_i
 	// emulate bp_activity_delete_comment().
 	BP_Activity_Activity::rebuild_activity_comment_tree( $parent_activity_id );
 
-	// Avoid the error message although the comments were successfully deleted
+	// Avoid the error message although the comments were successfully deleted.
 	$deleted = true;
 
 	// We're overriding the default bp_activity_delete_comment() functionality
@@ -946,10 +946,10 @@ function bp_blogs_sync_activity_edit_to_post_comment( BP_Activity_Activity $acti
 		return;
 	}
 
-	// fetch parent activity item
+	// Fetch parent activity item.
 	$parent_activity = new BP_Activity_Activity( $activity->item_id );
 
-	// if parent activity isn't a post type having the buddypress-activity support for comments, stop now!
+	// If parent activity isn't a post type having the buddypress-activity support for comments, stop now!
 	if ( ! bp_activity_type_supports( $parent_activity->type, 'post-type-comment-tracking' ) ) {
 		return;
 	}
@@ -971,11 +971,11 @@ function bp_blogs_sync_activity_edit_to_post_comment( BP_Activity_Activity $acti
 	// Handle multisite.
 	switch_to_blog( $parent_activity->item_id );
 
-	// Get the comment status
+	// Get the comment status.
 	$post_comment_status = wp_get_comment_status( $post_comment_id );
 	$old_comment_status  = $post_comment_status;
 
-	// No need to edit the activity, as it's the activity who's updating the comment
+	// No need to edit the activity, as it's the activity who's updating the comment.
 	remove_action( 'transition_comment_status', 'bp_activity_transition_post_type_comment_status', 10 );
 	remove_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_comment', 10 );
 
@@ -995,7 +995,7 @@ function bp_blogs_sync_activity_edit_to_post_comment( BP_Activity_Activity $acti
 		}
 	}
 
-	// Restore actions
+	// Restore actions.
 	add_action( 'transition_comment_status',     'bp_activity_transition_post_type_comment_status', 10, 3 );
 	add_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_comment',          10, 4 );
 
@@ -1054,15 +1054,15 @@ function bp_blogs_new_blog_comment_query_backpat( $args ) {
 		return $args;
 	}
 
-	// Get the associated post type
+	// Get the associated post type.
 	$post_type = bp_activity_post_type_get_tracking_arg( $args['action'], 'post_type' );
 
-	// Bail if this is not an activity associated with a post type
+	// Bail if this is not an activity associated with a post type.
 	if ( empty( $post_type ) ) {
 		return $args;
 	}
 
-	// Bail if this is an activity about posts and not comments
+	// Bail if this is an activity about posts and not comments.
 	if ( bp_activity_post_type_get_tracking_arg( $args['action'], 'comment_action_id' ) ) {
 		return $args;
 	}
@@ -1235,7 +1235,7 @@ function bp_blogs_disable_activity_commenting( $retval ) {
 
 	// It's a post type supporting comment tracking.
 	if ( bp_activity_type_supports( $type, 'post-type-comment-tracking' ) ) {
-		// The activity type is supporting comments or replies
+		// The activity type is supporting comments or replies.
 		if ( bp_activity_type_supports( $type, 'post-type-comment-reply' ) ) {
 			// Setup some globals we'll need to reference later.
 			bp_blogs_setup_activity_loop_globals( $activities_template->activity );
@@ -1250,7 +1250,7 @@ function bp_blogs_disable_activity_commenting( $retval ) {
 			if ( isset( buddypress()->blogs->comment_moderation[ bp_get_activity_id() ] ) && buddypress()->blogs->comment_moderation[ bp_get_activity_id() ] ) {
 				$retval = false;
 			}
-		// The activity type does not support comments or replies
+		// The activity type does not support comments or replies.
 		} else {
 			$retval = false;
 		}
@@ -1285,7 +1285,7 @@ function bp_blogs_post_type_comments_avoid_duplicates( $retval ) {
 		return $retval;
 	}
 
-	// Check the parent activity
+	// Check the parent activity.
 	$parent_activity = new BP_Activity_Activity( bp_get_activity_item_id() );
 
 	if ( isset( $parent_activity->type ) && bp_activity_post_type_get_tracking_arg( $parent_activity->type, 'post_type' ) ) {
@@ -1438,15 +1438,15 @@ function bp_blogs_activity_comment_single_action( $retval, $activity ) {
 	if ( ! empty( $blog_comment_id ) ) {
 		$bp = buddypress();
 
-		// Check if a comment action id is set for the parent activity
+		// Check if a comment action id is set for the parent activity.
 		$comment_action_id = bp_activity_post_type_get_tracking_arg( $parent_activity->type, 'comment_action_id' );
 
-		// Use the action string callback for the activity type
+		// Use the action string callback for the activity type.
 		if ( ! empty( $comment_action_id ) ) {
 			// Fake a 'new_{post_type}_comment' by cloning the activity object.
 			$object = clone $activity;
 
-			// Set the type of the activity to be a comment about a post type
+			// Set the type of the activity to be a comment about a post type.
 			$object->type = $comment_action_id;
 
 			// Use the blog ID as the item_id.
@@ -1455,10 +1455,10 @@ function bp_blogs_activity_comment_single_action( $retval, $activity ) {
 			// Use comment ID as the secondary_item_id.
 			$object->secondary_item_id = $blog_comment_id;
 
-			// Get the format callback for this activity comment
+			// Get the format callback for this activity comment.
 			$format_callback = bp_activity_post_type_get_tracking_arg( $comment_action_id, 'format_callback' );
 
-			// now format the activity action using the 'new_{post_type}_comment' action callback
+			// Now format the activity action using the 'new_{post_type}_comment' action callback.
 			if ( is_callable( $format_callback ) ) {
 				$retval = call_user_func_array( $format_callback, array( '', $object ) );
 			}

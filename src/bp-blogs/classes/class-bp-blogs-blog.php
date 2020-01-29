@@ -86,7 +86,7 @@ class BP_Blogs_Blog {
 		$this->user_id = apply_filters( 'bp_blogs_blog_user_id_before_save', $this->user_id, $this->id );
 
 		/**
-		 * Filters the blog blog ID before save.
+		 * Filters the blog ID before save.
 		 *
 		 * @since 1.0.0
 		 *
