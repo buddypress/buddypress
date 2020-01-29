@@ -152,7 +152,7 @@ function bp_get_directory_title( $component = '' ) {
 	 * @since 2.0.0
 	 *
 	 * @param string $title     Text to be used in <title> tag.
-	 * @param string $component Current componet being displayed.
+	 * @param string $component Current component being displayed.
 	 */
 	return apply_filters( 'bp_get_directory_title', $title, $component );
 }
@@ -352,7 +352,7 @@ function bp_site_name() {
  * Format a date based on a UNIX timestamp.
  *
  * This function can be used to turn a UNIX timestamp into a properly formatted
- * (and possibly localized) string, userful for ouputting the date & time an
+ * (and possibly localized) string, useful for outputting the date & time an
  * action took place.
  *
  * Not to be confused with `bp_core_time_since()`, this function is best used
@@ -1219,7 +1219,7 @@ function bp_get_email_subject( $args = array() ) {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $subject Client friendy version of the root blog name.
+	 * @param string $subject Client friendly version of the root blog name.
 	 * @param array  $r       Array of arguments for the email subject.
 	 */
 	return apply_filters( 'bp_get_email_subject', $subject, $r );
@@ -1248,7 +1248,7 @@ function bp_ajax_querystring( $object = false ) {
 	}
 
 	/**
-	 * Filters the template paramenters to be used in the query string.
+	 * Filters the template parameters to be used in the query string.
 	 *
 	 * Allows templates to pass parameters into the template loops via AJAX.
 	 *
@@ -3016,7 +3016,7 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 		return $bp_title_parts;
 	}
 
-	// Now we can build the BP Title Parts
+	// Now we can build the BP Title Parts.
 	// Is there a displayed user, and do they have a name?
 	$displayed_user_name = bp_get_displayed_user_fullname();
 
@@ -3619,7 +3619,7 @@ function bp_nav_menu( $args = array() ) {
 		$args->walker = new BP_Walker_Nav_Menu;
 	}
 
-	// Sanitise values for class and ID.
+	// Sanitize values for class and ID.
 	$args->container_class = sanitize_html_class( $args->container_class );
 	$args->container_id    = sanitize_html_class( $args->container_id );
 

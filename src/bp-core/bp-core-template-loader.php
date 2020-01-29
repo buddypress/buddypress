@@ -97,7 +97,7 @@ function bp_get_asset_template_part( $slug, $name = null ) {
  */
 function bp_locate_template( $template_names, $load = false, $require_once = true ) {
 
-	// Bail when there are no templates to locate
+	// Bail when there are no templates to locate.
 	if ( empty( $template_names ) ) {
 		return false;
 	}
@@ -135,7 +135,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 
 	/**
 	 * This action exists only to follow the standard BuddyPress coding convention,
-	 * and should not be used to short-circuit any part of the template locator.
+	 * and should not be used to short-circuit any part of the template locater.
 	 *
 	 * If you want to override a specific template part, please either filter
 	 * 'bp_get_template_part' or add a new location to the template stack.

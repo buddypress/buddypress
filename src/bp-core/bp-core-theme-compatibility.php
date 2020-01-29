@@ -189,7 +189,7 @@ function bp_use_theme_compat_with_current_theme() {
  *    fallback check for themes that were derived from bp-default, and have
  *    not been updated for BP 1.7+; we make the assumption that any theme in
  *    this category will have the members-loop.php template, and so use its
- *    presence as an indicator that theme compatibility is not required
+ *    presence as an indicator that theme compatibility is not required.
  *
  * @since 1.9.0
  *
@@ -432,7 +432,7 @@ function bp_register_theme_compat_default_features() {
 	 * than the width used by BuddyPress, so we need to manually set the
 	 * content width for the concerned themes.
 	 *
-	 * Example: array( stylesheet => content width used by BuddyPress )
+	 * Example: array( stylesheet => content width used by BuddyPress ).
 	 */
 	$bp_content_widths = array(
 		'twentyfifteen'  => 1300,
@@ -945,7 +945,7 @@ function bp_comments_open( $open, $post_id = 0 ) {
  *
  * @since 1.9.2
  *
- * @param string $retval The current post content.
+ * @param  string $retval The current post content.
  * @return string $retval
  */
 function bp_theme_compat_toggle_is_page( $retval = '' ) {
