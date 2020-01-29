@@ -7,7 +7,7 @@
  * @deprecated Since 1.5.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /** Loader ********************************************************************/
@@ -74,7 +74,7 @@ if ( !function_exists( 'is_site_admin' ) ) {
 
 /**
  * In BuddyPress 1.1 - 1.2.x, this function provided a better version of add_menu_page()
- * that allowed positioning of menus. Deprecated in 1.5 in favour of a WP core function.
+ * that allowed positioning of menus. Deprecated in 1.5 in favor of a WP core function.
  *
  * @deprecated 1.5.0
  * @deprecated Use add_menu_page().
@@ -341,7 +341,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 		if ( !groups_is_user_member( $receiver_user_id, $group_id ) )
 			continue;
 
-		// Now email the user with the contents of the message (if they have enabled email notifications)
+		// Now email the user with the contents of the message (if they have enabled email notifications).
 		if ( 'no' != bp_get_user_meta( $receiver_user_id, 'notification_activity_new_mention', true ) ) {
 			$poster_name = bp_core_get_user_displayname( $poster_user_id );
 
@@ -352,7 +352,7 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 			$poster_name = stripslashes( $poster_name );
 			$content = bp_groups_filter_kses( stripslashes( $content ) );
 
-			// Set up and send the message
+			// Set up and send the message.
 			$ud = bp_core_get_core_userdata( $receiver_user_id );
 			$to = $ud->user_email;
 			$subject = bp_get_email_subject( array( 'text' => sprintf( __( '%1$s mentioned you in the group "%2$s"', 'buddypress' ), $poster_name, $group->name ) ) );

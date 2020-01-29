@@ -7,7 +7,7 @@
  * @deprecated Since 1.7.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -153,7 +153,7 @@ function bp_update_db_stuff() {
 		bp_core_add_illegal_names();
 	}
 
-	// Update and remove the message threads table if it exists
+	// Update and remove the message threads table if it exists.
 	if ( $wpdb->get_var( "SHOW TABLES LIKE '%{$bp_prefix}bp_messages_threads%'" ) ) {
 		if ( BP_Messages_Thread::update_tables() ) {
 			$wpdb->query( "DROP TABLE {$bp_prefix}bp_messages_threads" );

@@ -84,7 +84,7 @@ abstract class BP_Recursive_Query {
 			if ( 'relation' === $key ) {
 				$relation = $query['relation'];
 			} elseif ( is_array( $clause ) ) {
-				// This is a first-order clause
+				// This is a first-order clause.
 				if ( $this->is_first_order_clause( $clause ) ) {
 					$clause_sql = $this->get_sql_for_clause( $clause, $query );
 
@@ -98,7 +98,7 @@ abstract class BP_Recursive_Query {
 					}
 
 					$sql_chunks['join'] = array_merge( $sql_chunks['join'], $clause_sql['join'] );
-				// This is a subquery
+				// This is a subquery.
 				} else {
 					$clause_sql = $this->get_sql_for_query( $clause, $depth + 1 );
 
@@ -108,7 +108,7 @@ abstract class BP_Recursive_Query {
 			}
 		}
 
-		// Filter empties
+		// Filter empties.
 		$sql_chunks['join']  = array_filter( $sql_chunks['join'] );
 		$sql_chunks['where'] = array_filter( $sql_chunks['where'] );
 

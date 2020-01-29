@@ -461,7 +461,7 @@ class BP_Component {
 		// Generate rewrite rules.
 		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
 
-		// Register BP REST Endpoints
+		// Register BP REST Endpoints.
 		if ( bp_rest_in_buddypress() && bp_rest_api_is_available() ) {
 			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
 		}
@@ -578,7 +578,7 @@ class BP_Component {
 				} else {
 					$pos = $nav['position'];
 
-					// Reset not set pos to 1
+					// Reset not set pos to 1.
 					if ( $pos % 10 === 0 ) {
 						$not_set_pos = 1;
 					}

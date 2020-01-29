@@ -79,8 +79,8 @@ function bp_core_deprecated_email_filters( $value, $property, $transform, $email
 		$to_changed     = true;
 
 		$value          = array_shift( $original_value );
-		$recipient_name = $value->get_name();     // Value - name
-		$value          = $value->get_address();  // Key   - email
+		$recipient_name = $value->get_name();     // Value - name.
+		$value          = $value->get_address();  // Key   - email.
 	}
 
 	if ( $email_type === 'activity-comment' ) {

@@ -130,7 +130,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			 */
 			$original_max_width = $ui_available_width;
 
-			// $original_max_width has to be larger than the avatar's full width
+			// $original_max_width has to be larger than the avatar's full width.
 			if ( $original_max_width < bp_core_avatar_full_width() ) {
 				$original_max_width = bp_core_avatar_full_width();
 			}
@@ -337,7 +337,7 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	}
 
 	/**
-	 * Build script datas for the Uploader UI.
+	 * Build script data for the Uploader UI.
 	 *
 	 * @since 2.3.0
 	 *

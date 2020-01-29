@@ -77,7 +77,7 @@ abstract class BP_Attachment {
 
 		/**
 		 * Max file size defaults to php ini settings or, in the case of
-		 * a multisite config, the root site fileupload_maxk option
+		 * a multisite config, the root site fileupload_maxk option.
 		 */
 		$this->default_args['original_max_filesize'] = (int) wp_max_upload_size();
 

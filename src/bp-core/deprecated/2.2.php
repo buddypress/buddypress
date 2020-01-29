@@ -7,7 +7,7 @@
  * @deprecated 2.2.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.0.0
  * @deprecated 2.2.0
  *
- * @todo Support untrashing better
+ * @todo Support untrashing better.
  *
  * @param string $new_status New status for the post.
  * @param string $old_status Old status for the post.
@@ -96,7 +96,7 @@ function bp_xprofile_format_activity_action_new_member( $action, $activity ) {
 }
 
 /**
- * Add 'bp' to global group of network wide cachable objects.
+ * Add 'bp' to global group of network wide catchable objects.
  *
  * @since 1.1.0
  * @deprecated 2.2.0

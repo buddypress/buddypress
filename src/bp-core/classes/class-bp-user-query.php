@@ -183,7 +183,7 @@ class BP_User_Query {
 			 */
 			do_action_ref_array( 'bp_pre_user_query_construct', array( &$this ) );
 
-			// Get user ids
+			// Get user ids.
 			// If the user_ids param is present, we skip the query.
 			if ( false !== $this->query_vars['user_ids'] ) {
 				$this->user_ids = wp_parse_id_list( $this->query_vars['user_ids'] );

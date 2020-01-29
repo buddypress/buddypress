@@ -7,7 +7,7 @@
  * @deprecated 1.6.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /** Toolbar functions *********************************************************/
@@ -224,16 +224,16 @@ if ( !function_exists( 'bp_dtheme_register_actions' ) ) :
 	function bp_die_legacy_ajax_callbacks() {
 
 		// This is a list of the BP wp_ajax_ hook suffixes whose associated functions did
-		// not die properly before BP 1.6
+		// not die properly before BP 1.6.
 		$actions = array(
-			// Directory template loaders
+			// Directory template loaders.
 			'members_filter',
 			'groups_filter',
 			'blogs_filter',
 			'forums_filter',
 			'messages_filter',
 
-			// Activity
+			// Activity.
 			'activity_widget_filter',
 			'activity_get_older_updates',
 			'post_update',
@@ -245,16 +245,16 @@ if ( !function_exists( 'bp_dtheme_register_actions' ) ) :
 			'activity_mark_fav',
 			'activity_mark_unfav',
 
-			// Groups
+			// Groups.
 			'groups_invite_user',
 			'joinleave_group',
 
-			// Members
+			// Members.
 			'addremove_friend',
 			'accept_friendship',
 			'reject_friendship',
 
-			// Messages
+			// Messages.
 			'messages_close_notice',
 			'messages_send_reply',
 			'messages_markunread',
@@ -263,7 +263,7 @@ if ( !function_exists( 'bp_dtheme_register_actions' ) ) :
 			'messages_autocomplete_results'
 		);
 
-		// For each of the problematic hooks, exit at the very end of execution
+		// For each of the problematic hooks, exit at the very end of execution.
 		foreach( $actions as $action ) {
 			add_action( 'wp_ajax_' . $action, function() {
 				exit;
