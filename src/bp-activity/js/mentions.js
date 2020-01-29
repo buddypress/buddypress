@@ -87,7 +87,7 @@ window.bp = window.bp || {};
 				 * @since 2.1.0
 				 */
 				before_reposition: function( offset ) {
-					// get the iframe, if any, already applied with atwho.
+					// get the iframe, if any, already applied with atwho.js library.
 					var caret,
 							line,
 							iframeOffset,
@@ -126,7 +126,7 @@ window.bp = window.bp || {};
 					// New position is under the caret (never above) and positioned to follow.
 					// Dynamic sizing based on the input area (remove 'px' from end).
 					line = parseInt( this.$inputor.css( 'line-height' ).substr( 0, this.$inputor.css( 'line-height' ).length - 2 ), 10 );
-					if ( !line || line < 5 ) { // sanity check, and catch no line-height.
+					if ( !line || line < 5 ) { // Sanity check, and catch no line-height.
 						line = 19;
 					}
 
