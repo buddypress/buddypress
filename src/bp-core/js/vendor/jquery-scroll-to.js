@@ -12,13 +12,13 @@
  */
 
 (function(factory) {
-	// AMD
+	// AMD.
 	if (typeof define === 'function' && define.amd) {
 		define(['jquery'], factory);
-	// CommonJS
+	// CommonJS.
 	} else if (typeof exports === 'object') {
 		factory(require('jquery'));
-	// Browser globals
+	// Browser globals.
 	} else {
 		factory(jQuery);
 	}
@@ -35,13 +35,13 @@
 	};
 
 	// Returns the element that needs to be animated to scroll the window.
-	// Kept for backwards compatibility (specially for localScroll & serialScroll)
+	// Kept for backwards compatibility (specially for localScroll & serialScroll).
 	$scrollTo.window = function() {
 		return $(window)._scrollable();
 	};
 
 	// Hack, hack, hack :)
-	// Returns the real elements to scroll (supports window/iframes, documents and regular nodes)
+	// Returns the real elements to scroll (supports window/iframes, documents and regular nodes).
 	$.fn._scrollable = function() {
 		return this.map(function() {
 			var elem = this,
@@ -73,12 +73,12 @@
 		}
 
 		settings = $.extend({}, $scrollTo.defaults, settings);
-		// Speed is still recognized for backwards compatibility
+		// Speed is still recognized for backwards compatibility.
 		duration = duration || settings.duration;
-		// Make sure the settings are given right
+		// Make sure the settings are given right.
 		settings.queue = settings.queue && settings.axis.length > 1;
 
-		// Let's keep the overall duration
+		// Let's keep the overall duration.
 		if (settings.queue) {
 			duration /= 2;
 		}
@@ -88,7 +88,7 @@
 
 		return this._scrollable().each(function() {
 
-			// Null target yields nothing, just like jQuery does
+			// Null target yields nothing, just like jQuery does.
 			if (target === null) {
 				return;
 			}
@@ -99,7 +99,7 @@
 					win = $elem.is('html,body');
 
 			switch (typeof targ) {
-				// A number will pass the regex
+				// A number will pass the regex.
 				case 'number':
 				case 'string':
 					if (/^([+-]=?)?\d+(\.\d+)?(px|%)?$/.test(targ)) {
@@ -114,9 +114,9 @@
 					}
 					/* falls through */
 				case 'object':
-					// DOMElement / jQuery
+					// DOMElement / jQuery.
 					if (targ.is || targ.style) {
-						// Get the real position of the target
+						// Get the real position of the target.
 						toff = (targ = $(targ)).offset();
 					}
 			}
@@ -130,10 +130,10 @@
 						old = elem[key],
 						max = $scrollTo.max(elem, axis);
 
-				if (toff) {// jQuery / DOMElement
+				if (toff) { // jQuery / DOMElement.
 					attr[key] = toff[pos] + (win ? 0 : old - $elem.offset()[pos]);
 
-					// If it's a dom element, reduce the margin
+					// If it's a dom element, reduce the margin.
 					if (settings.margin) {
 						attr[key] -= parseInt(targ.css('margin' + Pos)) || 0;
 						attr[key] -= parseInt(targ.css('border' + Pos + 'Width')) || 0;
@@ -141,29 +141,29 @@
 
 					attr[key] += offset[pos] || 0;
 
-					// Scroll to a fraction of its width/height
+					// Scroll to a fraction of its width/height.
 					if (settings.over[pos]) {
 						attr[key] += targ[axis === 'x' ? 'width' : 'height']() * settings.over[pos];
 					}
 				} else {
 					var val = targ[pos];
-					// Handle percentage values
+					// Handle percentage values.
 					attr[key] = val.slice && val.slice(-1) === '%' ?
 							parseFloat(val) / 100 * max
 							: val;
 				}
 
-				// Number or 'number'
+				// Number or 'number'.
 				if (settings.limit && /^\d+$/.test(attr[key])) {
 					// Check the limits
 					attr[key] = attr[key] <= 0 ? 0 : Math.min(attr[key], max);
 				}
 
-				// Queueing axes
+				// Queueing axes.
 				if (!i && settings.queue) {
 					// Don't waste time animating, if there's no need.
 					if (old !== attr[key]) {
-						// Intermediate animation
+						// Intermediate animation.
 						animate(settings.onAfterFirst);
 					}
 					// Don't animate this axis again in the next iteration.
@@ -203,6 +203,6 @@
 		return $.isFunction(val) || typeof val === 'object' ? val : {top: val, left: val};
 	}
 
-	// AMD requirement
+	// AMD requirement.
 	return $scrollTo;
 }));

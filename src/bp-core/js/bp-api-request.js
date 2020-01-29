@@ -8,14 +8,14 @@
 window.bp = window.bp || {};
 
 ( function( wp, bp, $ ) {
-    // Bail if not set
+    // Bail if not set.
     if ( typeof bpApiSettings === 'undefined' ) {
         return;
     }
 
     bp.isRestEnabled = true;
 
-    // Polyfill wp.apiRequest if WordPress < 4.9
+    // Polyfill wp.apiRequest if WordPress < 4.9.
     bp.apiRequest = function( options ) {
         var bpRequest;
 

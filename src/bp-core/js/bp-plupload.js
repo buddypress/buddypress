@@ -5,7 +5,7 @@ window.bp = window.bp || {};
 
 ( function( exports, $ ) {
 
-	// Bail if not set
+	// Bail if not set.
 	if ( typeof BP_Uploader === 'undefined' ) {
 		return;
 	}
@@ -17,7 +17,7 @@ window.bp = window.bp || {};
 	 */
 	_.extend( bp, _.pick( wp, 'Backbone', 'ajax', 'template' ) );
 
-	// Init Models, Collections, Views and the BuddyPress Uploader
+	// Init Models, Collections, Views and the BuddyPress Uploader.
 	bp.Models      = bp.Models || {};
 	bp.Collections = bp.Collections || {};
 	bp.Views       = bp.Views || {};
@@ -26,7 +26,7 @@ window.bp = window.bp || {};
 	/**
 	 * BuddyPress Uploader.
 	 *
-	 * This is an adapted version of wp.Uploader
+	 * This is an adapted version of wp.Uploader.
 	 */
 	bp.Uploader.uploader = function() {
 		var self = this,
@@ -47,7 +47,7 @@ window.bp = window.bp || {};
 			return;
 		}
 
-		// Make sure flash sends cookies (seems in IE it does without switching to urlstream mode)
+		// Make sure flash sends cookies (seems in IE it does without switching to urlstream mode).
 		if ( ! isIE && 'flash' === plupload.predictRuntime( this.params.defaults ) &&
 			( ! this.params.defaults.required_features || ! this.params.defaults.required_features.hasOwnProperty( 'send_binary_string' ) ) ) {
 
@@ -97,19 +97,19 @@ window.bp = window.bp || {};
 
 		} );
 
-		// See https://core.trac.wordpress.org/ticket/37039
+		// See https://core.trac.wordpress.org/ticket/37039.
 		this.uploader.bind( 'postinit', function( up ) {
 			up.refresh();
 		});
 
-		// Init BuddyPress Uploader
+		// Init BuddyPress Uploader.
 		this.uploader.init();
 
 		/**
 		 * Feedback callback.
 		 *
 		 * Add a new message to the errors collection, so it's possible
-		 * to give some feedback to the user
+		 * to give some feedback to the user.
 		 *
 		 * @param  {string}        message
 		 * @param  {object}        data
@@ -140,7 +140,7 @@ window.bp = window.bp || {};
 
 			/**
 			 * In case the multiple selection is false (eg: avatar) stop the process and send
-			 * and event containing a warning
+			 * and event containing a warning.
 			 */
 			if ( ! uploader.settings.multi_selection && files.length > 1 ) {
 				for ( var i in files ) {
@@ -181,7 +181,7 @@ window.bp = window.bp || {};
 		} );
 
 		/**
-		 * Update each file item on progress
+		 * Update each file item on progress.
 		 *
 		 * @event UploadProgress
 		 * @param {plupload.Uploader} uploader Uploader instance.
@@ -225,15 +225,15 @@ window.bp = window.bp || {};
 
 			file.item.set( _.extend( response.data, { uploading: false } ) );
 
-			//  Add the file to the Uploaded ones
+			//  Add the file to the Uploaded ones.
 			bp.Uploader.filesUploaded.add( file.item );
 
 		} );
 
 		/**
-		 * Trigger an event to inform a new upload is being processed
+		 * Trigger an event to inform a new upload is being processed.
 		 *
-		 * Mainly used to remove an eventual warning
+		 * Mainly used to remove an eventual warning.
 		 *
 		 * @event BeforeUpload
 		 * @param {plupload.Uploader} uploader Uploader instance.
@@ -244,7 +244,7 @@ window.bp = window.bp || {};
 		} );
 
 		/**
-		 * Reset the filesQueue once the upload is complete
+		 * Reset the filesQueue once the upload is complete.
 		 *
 		 * @event BeforeUpload
 		 * @param {plupload.Uploader} uploader Uploader instance.
@@ -256,7 +256,7 @@ window.bp = window.bp || {};
 		} );
 
 		/**
-		 * Map Plupload errors & Create a warning when plupload failed
+		 * Map Plupload errors & Create a warning when plupload failed.
 		 *
 		 * @event Error
 		 * @param {plupload.Uploader} uploader Uploader instance.
@@ -291,19 +291,19 @@ window.bp = window.bp || {};
 		} );
 	};
 
-	// Create a very generic Model for files
+	// Create a very generic Model for files.
 	bp.Models.File = Backbone.Model.extend( {
 		file: {}
 	} );
 
-	// Add Collections to store queue, uploaded files and errors
+	// Add Collections to store queue, uploaded files and errors.
 	$.extend( bp.Uploader, {
 		filesQueue    : new Backbone.Collection(),
 		filesUploaded : new Backbone.Collection(),
 		filesError    : new Backbone.Collection()
 	} );
 
-	// Extend wp.Backbone.View with .prepare() and .inject()
+	// Extend wp.Backbone.View with .prepare() and .inject().
 	bp.View = bp.Backbone.View.extend( {
 		inject: function( selector ) {
 			this.render();
@@ -320,7 +320,7 @@ window.bp = window.bp || {};
 		}
 	} );
 
-	// BuddyPress Uploader main view
+	// BuddyPress Uploader main view.
 	bp.Views.Uploader = bp.View.extend( {
 		className: 'bp-uploader-window',
 		template: bp.template( 'upload-window' ),
@@ -358,17 +358,17 @@ window.bp = window.bp || {};
 				return;
 			}
 
-			// Remove all warning views
+			// Remove all warning views.
 			_.each( this.warnings, function( view ) {
 				view.remove();
 			} );
 
-			// Reset Warnings
+			// Reset Warnings.
 			this.warnings = [];
 		}
 	} );
 
-	// BuddyPress Uploader warning view
+	// BuddyPress Uploader warning view.
 	bp.Views.uploaderWarning = bp.View.extend( {
 		tagName: 'p',
 		className: 'warning',
@@ -383,7 +383,7 @@ window.bp = window.bp || {};
 		}
 	} );
 
-	// BuddyPress Uploader Files view
+	// BuddyPress Uploader Files view.
 	bp.Views.uploaderStatus = bp.View.extend( {
 		className: 'files',
 
@@ -410,7 +410,7 @@ window.bp = window.bp || {};
 		}
 	} );
 
-	// BuddyPress Uploader File progress view
+	// BuddyPress Uploader File progress view.
 	bp.Views.uploaderProgress = bp.View.extend( {
 		className: 'bp-uploader-progress',
 		template: bp.template( 'progress-window' )

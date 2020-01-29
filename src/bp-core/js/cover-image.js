@@ -4,7 +4,7 @@ window.bp = window.bp || {};
 
 ( function( exports, $ ) {
 
-	// Bail if not set
+	// Bail if not set.
 	if ( typeof BP_Uploader === 'undefined' ) {
 		return;
 	}
@@ -16,41 +16,41 @@ window.bp = window.bp || {};
 	bp.CoverImage = {
 		start: function() {
 
-			// Init some vars
+			// Init some vars.
 			this.views   = new Backbone.Collection();
 			this.warning = null;
 
 			// The Cover Image Attachment object.
 			this.Attachment = new Backbone.Model();
 
-			// Set up views
+			// Set up views.
 			this.uploaderView();
 
-			// Inform about the needed dimensions
+			// Inform about the needed dimensions.
 			this.displayWarning( BP_Uploader.strings.cover_image_warnings.dimensions );
 
-			// Set up the delete view if needed
+			// Set up the delete view if needed.
 			if ( true === BP_Uploader.settings.defaults.multipart_params.bp_params.has_cover_image ) {
 				this.deleteView();
 			}
 		},
 
 		uploaderView: function() {
-			// Listen to the Queued uploads
+			// Listen to the Queued uploads.
 			bp.Uploader.filesQueue.on( 'add', this.uploadProgress, this );
 
-			// Create the BuddyPress Uploader
+			// Create the BuddyPress Uploader.
 			var uploader = new bp.Views.Uploader();
 
-			// Add it to views
+			// Add it to views.
 			this.views.add( { id: 'upload', view: uploader } );
 
-			// Display it
+			// Display it.
 			uploader.inject( '.bp-cover-image' );
 		},
 
 		uploadProgress: function() {
-			// Create the Uploader status view
+			// Create the Uploader status view.
 			var coverImageUploadProgress = new bp.Views.coverImageUploadProgress( { collection: bp.Uploader.filesQueue } );
 
 			if ( ! _.isUndefined( this.views.get( 'status' ) ) ) {
@@ -59,12 +59,12 @@ window.bp = window.bp || {};
 				this.views.add( { id: 'status', view: coverImageUploadProgress } );
 			}
 
-			// Display it
+			// Display it.
 			coverImageUploadProgress.inject( '.bp-cover-image-status' );
 		},
 
 		deleteView: function() {
-			// Create the delete model
+			// Create the delete model.
 			var delete_model = new Backbone.Model( _.pick( BP_Uploader.settings.defaults.multipart_params.bp_params,
 				['object', 'item_id', 'nonces']
 			) );
@@ -74,13 +74,13 @@ window.bp = window.bp || {};
 				return;
 			}
 
-			// Create the delete view
+			// Create the delete view.
 			var deleteView = new bp.Views.DeleteCoverImage( { model: delete_model } );
 
-			// Add it to views
+			// Add it to views.
 			this.views.add( { id: 'delete', view: deleteView } );
 
-			// Display it
+			// Display it.
 			deleteView.inject( '.bp-cover-image-manage' );
 		},
 
@@ -88,7 +88,7 @@ window.bp = window.bp || {};
 			var self = this,
 				deleteView;
 
-			// Remove the delete view
+			// Remove the delete view.
 			if ( ! _.isUndefined( this.views.get( 'delete' ) ) ) {
 				deleteView = this.views.get( 'delete' );
 				deleteView.get( 'view' ).remove();
@@ -114,7 +114,7 @@ window.bp = window.bp || {};
 
 				coverImageStatus.inject( '.bp-cover-image-status' );
 
-				// Reset the header of the page
+				// Reset the header of the page.
 				if ( '' === response.reset_url ) {
 					$( '#header-cover-image' ).css( {
 						'background-image': 'none'
@@ -125,11 +125,11 @@ window.bp = window.bp || {};
 					} );
 				}
 
-				// Reset the has_cover_image bp_param
+				// Reset the has_cover_image bp_param.
 				BP_Uploader.settings.defaults.multipart_params.bp_params.has_cover_image = false;
 
 				/**
-				 * Reset the Attachment object
+				 * Reset the Attachment object.
 				 *
 				 * You can run extra actions once the cover image is set using:
 				 * bp.CoverImage.Attachment.on( 'change:url', function( data ) { your code } );
@@ -182,7 +182,7 @@ window.bp = window.bp || {};
 		}
 	};
 
-	// Custom Uploader Files view
+	// Custom Uploader Files view.
 	bp.Views.coverImageUploadProgress = bp.Views.uploaderStatus.extend( {
 		className: 'files',
 
@@ -197,7 +197,7 @@ window.bp = window.bp || {};
 
 			if ( ! _.isUndefined( model.get( 'url' ) ) ) {
 
-				// Image is too small
+				// Image is too small.
 				if ( 0 === model.get( 'feedback_code' ) ) {
 					message = BP_Uploader.strings.cover_image_warnings.dimensions;
 					type    = 'warning';
@@ -213,16 +213,16 @@ window.bp = window.bp || {};
 					type  : type
 				} ) );
 
-				// Update the header of the page
+				// Update the header of the page.
 				$( '#header-cover-image' ).css( {
 					'background-image': 'url( ' + model.get( 'url' ) + ' )'
 				} );
 
-				// Add the delete view
+				// Add the delete view.
 				bp.CoverImage.deleteView();
 
 				/**
-				 * Set the Attachment object
+				 * Set the Attachment object.
 				 *
 				 * You can run extra actions once the cover image is set using:
 				 * bp.CoverImage.Attachment.on( 'change:url', function( data ) { your code } );
@@ -238,7 +238,7 @@ window.bp = window.bp || {};
 		}
 	} );
 
-	// BuddyPress Cover Image Feedback view
+	// BuddyPress Cover Image Feedback view.
 	bp.Views.CoverImageStatus = bp.View.extend( {
 		tagName: 'p',
 		className: 'updated',
@@ -255,7 +255,7 @@ window.bp = window.bp || {};
 		}
 	} );
 
-	// BuddyPress Cover Image Delete view
+	// BuddyPress Cover Image Delete view.
 	bp.Views.DeleteCoverImage = bp.View.extend( {
 		tagName: 'div',
 		id: 'bp-delete-cover-image-container',

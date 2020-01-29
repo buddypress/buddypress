@@ -8,13 +8,13 @@
  * Released under the MIT license
  */
 (function(factory) {
-	// AMD
+	// AMD.
 	if (typeof define === 'function' && define.amd) {
 		define(['jquery'], factory);
-	// CommonJS
+	// CommonJS.
 	} else if (typeof exports === 'object') {
 		factory(require('jquery'));
-	// Browser globals
+	// Browser globals.
 	} else {
 		factory(jQuery);
 	}
@@ -57,7 +57,7 @@
 
 	var config = $.cookie = function(key, value, options) {
 
-		// Write
+		// Write.
 
 		if (value !== undefined && !$.isFunction(value)) {
 			options = $.extend({}, config.defaults, options);
@@ -76,7 +76,7 @@
 			].join(''));
 		}
 
-		// Read
+		// Read.
 
 		var result = key ? undefined : {};
 
