@@ -97,7 +97,7 @@ function bp_core_set_uri_globals() {
 			foreach( $chunks as $key => $chunk ) {
 				$bkey = array_search( $chunk, $bp_uri );
 
-				// ...and unset offending keys
+				// ...and unset offending keys.
 				if ( false !== $bkey ) {
 					unset( $bp_uri[$bkey] );
 				}

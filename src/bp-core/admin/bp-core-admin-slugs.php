@@ -110,7 +110,7 @@ function bp_core_admin_get_static_pages() {
  */
 function bp_core_admin_slugs_options() {
 
-	// Get the existing WP pages
+	// Get the existing WP pages.
 	$existing_pages = bp_core_get_directory_page_ids();
 
 	// Set up an array of components (along with component names) that have directory pages.

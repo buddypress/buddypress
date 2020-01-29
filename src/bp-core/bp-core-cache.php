@@ -6,7 +6,7 @@
  * actions throughout BuddyPress.
  *
  * @package BuddyPress
- * @supackage Cache
+ * @subpackage Cache
  * @since 1.5.0
  */
 
@@ -80,14 +80,14 @@ function bp_core_clear_directory_pages_cache_page_edit( $post_id = 0 ) {
 		return;
 	}
 
-	// Bail if not on the root blog
+	// Bail if not on the root blog.
 	if ( ! bp_is_root_blog() ) {
 		return;
 	}
 
 	$page_ids = bp_core_get_directory_page_ids( 'all' );
 
-	// Bail if post ID is not a directory page
+	// Bail if post ID is not a directory page.
 	if ( ! in_array( $post_id, $page_ids ) ) {
 		return;
 	}
