@@ -145,7 +145,7 @@ function bp_core_admin_slugs_options() {
 
 							<?php if ( !empty( $existing_pages[$name] ) ) : ?>
 
-								<a href="<?php echo get_permalink( $existing_pages[$name] ); ?>" class="button-secondary" target="_bp"><?php _e( 'View', 'buddypress' ); ?></a>
+								<a href="<?php echo esc_url( get_permalink( $existing_pages[$name] ) ); ?>" class="button-secondary" target="_bp"><?php _e( 'View', 'buddypress' ); ?></a>
 
 							<?php endif; ?>
 
