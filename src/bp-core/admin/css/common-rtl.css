@@ -274,6 +274,11 @@ TABLE OF CONTENTS:
 	content: "\f307";
 }
 
+.settings_page_bp-page-settings .button-secondary .dashicons {
+	position: relative;
+	top: 3px;
+}
+
 #bp-admin-component-form .wp-list-table.plugins .plugin-title {
 	width: 25%;
 }
