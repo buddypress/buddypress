@@ -95,7 +95,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		// Sort order.
 		$order = 'DESC';
-		if ( !empty( $_REQUEST['order'] ) ) {
+		if ( ! empty( $_REQUEST['order'] ) ) {
 			$order = ( 'desc' == strtolower( $_REQUEST['order'] ) ) ? 'DESC' : 'ASC';
 		}
 
@@ -119,14 +119,22 @@ class BP_Groups_List_Table extends WP_List_Table {
 		}
 
 		// Are we doing a search?
-		if ( !empty( $_REQUEST['s'] ) )
+		if ( ! empty( $_REQUEST['s'] ) ) {
 			$search_terms = $_REQUEST['s'];
 
+			// Set the view as a search request.
+			$this->view = 'search';
+		}
+
 		// Check if user has clicked on a specific group (if so, fetch only that group).
-		if ( !empty( $_REQUEST['gid'] ) )
+		if ( ! empty( $_REQUEST['gid'] ) ) {
 			$include_id = (int) $_REQUEST['gid'];
 
-		// Set the current view.
+			// Set the view as a single activity.
+			$this->view = 'single';
+		}
+
+		// Use the status request to set the current view.
 		if ( isset( $_GET['group_status'] ) && in_array( $_GET['group_status'], array( 'public', 'private', 'hidden' ) ) ) {
 			$this->view = $_GET['group_status'];
 		}
@@ -186,6 +194,24 @@ class BP_Groups_List_Table extends WP_List_Table {
 			'total_items' => $groups_template->total_group_count,
 			'total_pages' => ceil( $groups_template->total_group_count / $per_page )
 		) );
+
+		// Set the Total number of groups.
+		if ( 'all' === $this->view ) {
+			$this->group_counts['all'] = (int) $groups_template->total_group_count;
+
+		// Only perform a query if not on the main list view.
+		} elseif ( 'single' !== $this->view ) {
+			$count_groups = groups_get_groups(
+				array(
+					'fields'      => 'ids',
+					'show_hidden' => true,
+				)
+			);
+
+			if ( $count_groups['total'] ) {
+				$this->group_counts['all'] = (int) $count_groups['total'];
+			}
+		}
 	}
 
 	/**
@@ -331,10 +357,54 @@ class BP_Groups_List_Table extends WP_List_Table {
 		?></h2>
 
 		<ul class="subsubsub">
-			<li class="all"><a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'all' == $this->view ) echo 'current'; ?>"><?php _e( 'All', 'buddypress' ); ?></a> |</li>
-			<li class="public"><a href="<?php echo esc_url( add_query_arg( 'group_status', 'public', $url_base ) ); ?>" class="<?php if ( 'public' == $this->view ) echo 'current'; ?>"><?php printf( _n( 'Public <span class="count">(%s)</span>', 'Public <span class="count">(%s)</span>', $this->group_counts['public'], 'buddypress' ), number_format_i18n( $this->group_counts['public'] ) ); ?></a> |</li>
-			<li class="private"><a href="<?php echo esc_url( add_query_arg( 'group_status', 'private', $url_base ) ); ?>" class="<?php if ( 'private' == $this->view ) echo 'current'; ?>"><?php printf( _n( 'Private <span class="count">(%s)</span>', 'Private <span class="count">(%s)</span>', $this->group_counts['private'], 'buddypress' ), number_format_i18n( $this->group_counts['private'] ) ); ?></a> |</li>
-			<li class="hidden"><a href="<?php echo esc_url( add_query_arg( 'group_status', 'hidden', $url_base ) ); ?>" class="<?php if ( 'hidden' == $this->view ) echo 'current'; ?>"><?php printf( _n( 'Hidden <span class="count">(%s)</span>', 'Hidden <span class="count">(%s)</span>', $this->group_counts['hidden'], 'buddypress' ), number_format_i18n( $this->group_counts['hidden'] ) ); ?></a></li>
+			<li class="all">
+				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'all' === $this->view ) echo 'current'; ?>">
+					<?php printf(
+						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
+						esc_html__( 'All %s', 'buddypress' ),
+						sprintf(
+							'<span class="count">(%s)</span>',
+							number_format_i18n( $this->group_counts['all'] )
+						)
+					); ?>
+				</a> |
+			</li>
+			<li class="public">
+				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'public', $url_base ) ); ?>" class="<?php if ( 'public' === $this->view ) echo 'current'; ?>">
+					<?php printf(
+						/* translators: %s is the placeholder for the count html `<span class="count"/>` */
+						_n( 'Public %s', 'Public %s', $this->group_counts['public'], 'buddypress' ),
+						sprintf(
+							'<span class="count">(%s)</span>',
+							number_format_i18n( $this->group_counts['public'] )
+						)
+					); ?>
+				</a> |
+			</li>
+			<li class="private">
+				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'private', $url_base ) ); ?>" class="<?php if ( 'private' === $this->view ) echo 'current'; ?>">
+					<?php printf(
+						/* translators: %s is the placeholder for the count html `<span class="count"/>` */
+						_n( 'Private %s', 'Private %s', $this->group_counts['private'], 'buddypress' ),
+						sprintf(
+							'<span class="count">(%s)</span>',
+							number_format_i18n( $this->group_counts['private'] )
+						)
+					); ?>
+				</a> |
+			</li>
+			<li class="hidden">
+				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'hidden', $url_base ) ); ?>" class="<?php if ( 'hidden' === $this->view ) echo 'current'; ?>">
+					<?php printf(
+						/* translators: %s is the placeholder for the count html tag */
+						_n( 'Hidden %s', 'Hidden %s', $this->group_counts['hidden'], 'buddypress' ),
+						sprintf(
+							'<span class="count">(%s)</span>',
+							number_format_i18n( $this->group_counts['hidden'] )
+						)
+					); ?>
+				</a>
+			</li>
 
 			<?php
 
