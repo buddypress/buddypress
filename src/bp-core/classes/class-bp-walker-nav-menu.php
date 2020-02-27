@@ -11,12 +11,11 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Compatibility Class to make BP_Walker_Nav_Menu::walk() compatible
- * from PHP 5.3 to 5.6 and up.
+ * Create HTML list of BP nav items.
  *
- * @since 5.1.0
+ * @since 1.7.0
  */
-class BP_Walker_Nav_Menu_Compat extends Walker_Nav_Menu {
+class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	/**
 	 * Description of fields indexes for building markup.
 	 *
@@ -132,6 +131,20 @@ class BP_Walker_Nav_Menu_Compat extends Walker_Nav_Menu {
 	}
 
 	/**
+	 * Overrides Walker::walk() method.
+	 *
+	 * @since 6.0.0 Formalized the existing `...$args` parameter by adding it
+	 *              to the function signature to match WordPress 5.3.
+	 *
+	 * @param array $elements  See {@link Walker::walk()}.
+	 * @param int   $max_depth See {@link Walker::walk()}.
+	 * @param mixed ...$args   See {@link Walker::walk()}.
+	 */
+	public function walk( $elements, $max_depth, ...$args ) {
+		return $this->do_walk( $elements, $max_depth, $args );
+	}
+
+	/**
 	 * Display the current <li> that we are on.
 	 *
 	 * @see Walker::start_el() for complete description of parameters.
@@ -211,10 +224,4 @@ class BP_Walker_Nav_Menu_Compat extends Walker_Nav_Menu {
 		 */
 		$output .= apply_filters( 'bp_walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}
-}
-
-if ( PHP_VERSION_ID >= 50600 ) {
-	require_once dirname( __DIR__ ) . '/compat/php56/class-bp-compat-walker-nav-menu.php';
-} else {
-	require_once dirname( __DIR__ ) . '/compat/php53/class-bp-compat-walker-nav-menu.php';
 }

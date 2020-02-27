@@ -269,7 +269,7 @@ module.exports = function( grunt ) {
 			}
 		},
 		phplint: {
-			good: ['src/**/*.php', '!src/bp-core/compat/php56/*.php'].concat( BP_EXCLUDED_MISC )
+			good: ['src/**/*.php'].concat( BP_EXCLUDED_MISC )
 		},
 		postcss: {
 			options: {
@@ -325,7 +325,7 @@ module.exports = function( grunt ) {
 				stdout: false
 			},
 			phpcompat: {
-				command: './vendor/bin/phpcs -p --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.3- src tests',
+				command: './vendor/bin/phpcs -p --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.6- src tests',
 				stdout: true
 			},
 			rest_api: {
