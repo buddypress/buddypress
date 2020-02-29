@@ -112,16 +112,9 @@ class BP_XProfile_Component extends BP_Component {
 		if ( bp_is_profile_component() ) {
 			require $this->path . 'bp-xprofile/screens/public.php';
 
-			// Action - Delete avatar.
-			if ( is_user_logged_in()&& bp_is_user_change_avatar() && bp_is_action_variable( 'delete-avatar', 0 ) ) {
-				require $this->path . 'bp-xprofile/actions/delete-avatar.php';
-			}
-
 			// Sub-nav items.
-			if ( is_user_logged_in() &&
-				in_array( bp_current_action(), array( 'edit', 'change-avatar', 'change-cover-image' ), true )
-			) {
-				require $this->path . 'bp-xprofile/screens/' . bp_current_action() . '.php';
+			if ( is_user_logged_in() && 'edit' === bp_current_action() ) {
+				require $this->path . 'bp-xprofile/screens/edit.php';
 			}
 		}
 
@@ -278,32 +271,6 @@ class BP_XProfile_Component extends BP_Component {
 			'user_has_access' => $access
 		);
 
-		// Change Avatar.
-		if ( buddypress()->avatar->show_avatars ) {
-			$sub_nav[] = array(
-				'name'            => _x( 'Change Profile Photo', 'Profile header sub menu', 'buddypress' ),
-				'slug'            => 'change-avatar',
-				'parent_url'      => $profile_link,
-				'parent_slug'     => $slug,
-				'screen_function' => 'xprofile_screen_change_avatar',
-				'position'        => 30,
-				'user_has_access' => $access
-			);
-		}
-
-		// Change Cover image.
-		if ( bp_displayed_user_use_cover_image_header() ) {
-			$sub_nav[] = array(
-				'name'            => _x( 'Change Cover Image', 'Profile header sub menu', 'buddypress' ),
-				'slug'            => 'change-cover-image',
-				'parent_url'      => $profile_link,
-				'parent_slug'     => $slug,
-				'screen_function' => 'xprofile_screen_change_cover_image',
-				'position'        => 40,
-				'user_has_access' => $access
-			);
-		}
-
 		// The Settings > Profile nav item can only be set up after
 		// the Settings component has run its own nav routine.
 		add_action( 'bp_settings_setup_nav', array( $this, 'setup_settings_nav' ) );
@@ -387,27 +354,6 @@ class BP_XProfile_Component extends BP_Component {
 				'href'     => trailingslashit( $profile_link . 'edit' ),
 				'position' => 20
 			);
-
-			// Edit Avatar.
-			if ( buddypress()->avatar->show_avatars ) {
-				$wp_admin_nav[] = array(
-					'parent'   => 'my-account-' . $this->id,
-					'id'       => 'my-account-' . $this->id . '-change-avatar',
-					'title'    => _x( 'Change Profile Photo', 'My Account Profile sub nav', 'buddypress' ),
-					'href'     => trailingslashit( $profile_link . 'change-avatar' ),
-					'position' => 30
-				);
-			}
-
-			if ( bp_displayed_user_use_cover_image_header() ) {
-				$wp_admin_nav[] = array(
-					'parent'   => 'my-account-' . $this->id,
-					'id'       => 'my-account-' . $this->id . '-change-cover-image',
-					'title'    => _x( 'Change Cover Image', 'My Account Profile sub nav', 'buddypress' ),
-					'href'     => trailingslashit( $profile_link . 'change-cover-image' ),
-					'position' => 40
-				);
-			}
 		}
 
 		parent::setup_admin_bar( $wp_admin_nav );
@@ -503,7 +449,6 @@ class BP_XProfile_Component extends BP_Component {
 			'BP_REST_XProfile_Fields_Endpoint',
 			'BP_REST_XProfile_Field_Groups_Endpoint',
 			'BP_REST_XProfile_Data_Endpoint',
-			'BP_REST_Attachments_Member_Avatar_Endpoint',
 		) );
 	}
 }

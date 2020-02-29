@@ -106,6 +106,18 @@ class BP_Members_Component extends BP_Component {
 		// Members - User main nav screen.
 		if ( bp_is_user() ) {
 			require $this->path . 'bp-members/screens/profile.php';
+
+			// Action - Delete avatar.
+			if ( is_user_logged_in()&& bp_is_user_change_avatar() && bp_is_action_variable( 'delete-avatar', 0 ) ) {
+				require $this->path . 'bp-members/actions/delete-avatar.php';
+			}
+
+			// Sub-nav items.
+			if ( is_user_logged_in() &&
+				in_array( bp_current_action(), array( 'change-avatar', 'change-cover-image' ), true )
+			) {
+				require $this->path . 'bp-members/screens/' . bp_current_action() . '.php';
+			}
 		}
 
 		// Members - Theme compatibility.
@@ -289,6 +301,49 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
+	 * Get the Avatar and Cover image subnavs.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @return array The Avatar and Cover image subnavs.
+	 */
+	public function get_avatar_cover_image_subnavs() {
+		$subnavs = array();
+
+		$access       = bp_core_can_edit_settings();
+		$slug         = bp_get_profile_slug();
+		$profile_link = bp_get_members_component_link( $slug );
+
+		// Change Avatar.
+		if ( buddypress()->avatar->show_avatars ) {
+			$subnavs[] = array(
+				'name'            => _x( 'Change Profile Photo', 'Profile header sub menu', 'buddypress' ),
+				'slug'            => 'change-avatar',
+				'parent_url'      => $profile_link,
+				'parent_slug'     => $slug,
+				'screen_function' => 'bp_members_screen_change_avatar',
+				'position'        => 30,
+				'user_has_access' => $access
+			);
+		}
+
+		// Change Cover image.
+		if ( bp_displayed_user_use_cover_image_header() ) {
+			$subnavs[] = array(
+				'name'            => _x( 'Change Cover Image', 'Profile header sub menu', 'buddypress' ),
+				'slug'            => 'change-cover-image',
+				'parent_url'      => $profile_link,
+				'parent_slug'     => $slug,
+				'screen_function' => 'bp_members_screen_change_cover_image',
+				'position'        => 40,
+				'user_has_access' => $access
+			);
+		}
+
+		return $subnavs;
+	}
+
+	/**
 	 * Set up fall-back component navigation if XProfile is inactive.
 	 *
 	 * @since 1.5.0
@@ -311,6 +366,7 @@ class BP_Members_Component extends BP_Component {
 
 		// Bail if XProfile component is active and there's no custom front page for the user.
 		if ( ! bp_displayed_user_has_front_template() && $is_xprofile_active ) {
+			add_action( 'bp_xprofile_setup_nav', array( $this, 'setup_xprofile_nav' ) );
 			return;
 		}
 
@@ -339,6 +395,15 @@ class BP_Members_Component extends BP_Component {
 				'default_subnav_slug' => 'public',
 				'item_css_id'         => buddypress()->profile->id
 			);
+
+		/**
+		 * The xProfile component is active.
+		 *
+		 * We need to make sure the Change Avatar and Change Cover Image subnavs are
+		 * added just like it was the case before.
+		 */
+		} else {
+			add_action( 'bp_xprofile_setup_nav', array( $this, 'setup_xprofile_nav' ) );
 		}
 
 		/**
@@ -393,7 +458,11 @@ class BP_Members_Component extends BP_Component {
 		 */
 		} else {
 			$main_nav  = $this->main_nav;
-			$sub_nav[] = $this->sub_nav;
+			$sub_nav   = array( $this->sub_nav );
+
+			if ( ! $is_xprofile_active ) {
+				$sub_nav = array_merge( $sub_nav, $this->get_avatar_cover_image_subnavs() );
+			}
 		}
 
 
@@ -417,6 +486,129 @@ class BP_Members_Component extends BP_Component {
 
 		// Add the sub nav item.
 		bp_core_new_subnav_item( $this->sub_nav, 'members' );
+
+		// Get the Avatar and cover image subnavs.
+		$this->setup_xprofile_nav();
+	}
+
+	/**
+	 * Set up the xProfile nav.
+	 *
+	 * @since 6.0.0
+	 */
+	public function setup_xprofile_nav() {
+		// Get the Avatar and cover image subnavs.
+		$items = $this->get_avatar_cover_image_subnavs();
+
+		foreach ( $items as $item ) {
+			bp_core_new_subnav_item( $item, 'members' );
+		}
+	}
+
+	/**
+	 * Get the Avatar and Cover image admin navs.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param  string $admin_bar_menu_id The Admin bar menu ID to attach sub items to.
+	 * @return array                     The Avatar and Cover image admin navs.
+	 */
+	public function get_avatar_cover_image_admin_navs( $admin_bar_menu_id = '' ) {
+		$wp_admin_nav = array();
+		$profile_link = trailingslashit( bp_loggedin_user_domain() . bp_get_profile_slug() );
+
+		if ( ! $admin_bar_menu_id ) {
+			$admin_bar_menu_id = $this->id;
+		}
+
+		// Edit Avatar.
+		if ( buddypress()->avatar->show_avatars ) {
+			$wp_admin_nav[] = array(
+				'parent'   => 'my-account-' . $admin_bar_menu_id,
+				'id'       => 'my-account-' . $admin_bar_menu_id . '-change-avatar',
+				'title'    => _x( 'Change Profile Photo', 'My Account Profile sub nav', 'buddypress' ),
+				'href'     => trailingslashit( $profile_link . 'change-avatar' ),
+				'position' => 30
+			);
+		}
+
+		// Edit Cover Image
+		if ( bp_displayed_user_use_cover_image_header() ) {
+			$wp_admin_nav[] = array(
+				'parent'   => 'my-account-' . $admin_bar_menu_id,
+				'id'       => 'my-account-' . $admin_bar_menu_id . '-change-cover-image',
+				'title'    => _x( 'Change Cover Image', 'My Account Profile sub nav', 'buddypress' ),
+				'href'     => trailingslashit( $profile_link . 'change-cover-image' ),
+				'position' => 40
+			);
+		}
+
+		return $wp_admin_nav;
+	}
+
+	/**
+	 * Set up the Admin Bar.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $wp_admin_nav Admin Bar items.
+	 */
+	public function setup_admin_bar( $wp_admin_nav = array() ) {
+		// Menus for logged in user.
+		if ( is_user_logged_in() ) {
+			$profile_link = trailingslashit( bp_loggedin_user_domain() . bp_get_profile_slug() );
+
+			if ( ! bp_is_active( 'xprofile' ) ) {
+				// Add the "Profile" sub menu.
+				$wp_admin_nav[] = array(
+					'parent' => buddypress()->my_account_menu_id,
+					'id'     => 'my-account-' . $this->id,
+					'title'  => _x( 'Profile', 'My Account Profile', 'buddypress' ),
+					'href'   => $profile_link
+				);
+
+				// View Profile.
+				$wp_admin_nav[] = array(
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-public',
+					'title'    => _x( 'View', 'My Account Profile sub nav', 'buddypress' ),
+					'href'     => $profile_link,
+					'position' => 10
+				);
+
+				$wp_admin_nav = array_merge( $wp_admin_nav, $this->get_avatar_cover_image_admin_navs() );
+
+			/**
+			 * The xProfile is active.
+			 *
+			 * Add the Change Avatar and Change Cover Image Admin Bar items
+			 * to the xProfile Admin Bar Menu.
+			 */
+			} else {
+				add_filter( 'bp_xprofile_admin_nav', array( $this, 'setup_xprofile_admin_nav' ), 2 );
+			}
+		}
+
+		parent::setup_admin_bar( $wp_admin_nav );
+	}
+
+	/**
+	 * Adds "Profile > Change Avatar" & "Profile > Change Cover Image" subnav item
+	 * under the "Profile" adminbar menu.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $wp_admin_nav The Profile adminbar nav array.
+	 * @return array
+	 */
+	public function setup_xprofile_admin_nav( $wp_admin_nav ) {
+		$items = $this->get_avatar_cover_image_admin_navs( buddypress()->profile->id );
+
+		if ( $items ) {
+			$wp_admin_nav = array_merge( $wp_admin_nav, $items );
+		}
+
+		return $wp_admin_nav;
 	}
 
 	/**
@@ -473,6 +665,7 @@ class BP_Members_Component extends BP_Component {
 			 */
 			'BP_REST_Components_Endpoint',
 			'BP_REST_Members_Endpoint',
+			'BP_REST_Attachments_Member_Avatar_Endpoint',
 		) );
 	}
 }
