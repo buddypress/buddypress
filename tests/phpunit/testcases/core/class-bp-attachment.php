@@ -238,13 +238,13 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		);
 
 		/* No error */
-		$user_avatar = $avatar_attachment->upload( $_FILES, 'xprofile_avatar_upload_dir' );
+		$user_avatar = $avatar_attachment->upload( $_FILES, 'bp_members_avatar_upload_dir' );
 		$this->assertEquals( $user_avatar['file'], $bp->avatar->upload_path . '/avatars/' . $u1 .'/mystery-man.jpg' );
 
 		/* File size error */
 		add_filter( 'bp_core_avatar_original_max_filesize', array( $this, 'max_filesize' ) );
 
-		$user_avatar = $avatar_attachment->upload( $_FILES, 'xprofile_avatar_upload_dir' );
+		$user_avatar = $avatar_attachment->upload( $_FILES, 'bp_members_avatar_upload_dir' );
 
 		remove_filter( 'bp_core_avatar_original_max_filesize', array( $this, 'max_filesize' ) );
 		$this->assertFalse( empty( $user_avatar['error'] ) );
@@ -253,7 +253,7 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$_FILES[ $avatar_attachment->file_input ]['name'] = 'buddypress_logo.pdf';
 		$_FILES[ $avatar_attachment->file_input ]['type'] = 'application/pdf';
 
-		$user_avatar = $avatar_attachment->upload( $_FILES, 'xprofile_avatar_upload_dir' );
+		$user_avatar = $avatar_attachment->upload( $_FILES, 'bp_members_avatar_upload_dir' );
 		$this->assertFalse( empty( $user_avatar['error'] ) );
 
 		// clean up!

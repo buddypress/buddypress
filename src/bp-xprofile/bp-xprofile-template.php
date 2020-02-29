@@ -1205,34 +1205,6 @@ function bp_current_profile_group_id() {
 	}
 
 /**
- * Render an avatar delete link.
- *
- * @since 1.1.0
- */
-function bp_avatar_delete_link() {
-	echo bp_get_avatar_delete_link();
-}
-
-	/**
-	 * Return an avatar delete link.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @return string
-	 */
-	function bp_get_avatar_delete_link() {
-
-		/**
-		 * Filters the link used for deleting an avatar.
-		 *
-		 * @since 1.1.0
-		 *
-		 * @param string $value Nonced URL used for deleting an avatar.
-		 */
-		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_profile_slug() . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
-	}
-
-/**
  * Render an edit profile button.
  *
  * @since 1.0.0

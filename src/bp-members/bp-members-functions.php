@@ -2848,3 +2848,47 @@ function bp_get_current_member_type() {
 	 */
 	return apply_filters( 'bp_get_current_member_type', buddypress()->current_member_type );
 }
+
+/**
+ * Setup the avatar upload directory for a user.
+ *
+ * @since 6.0.0
+ *
+ * @param string $directory The root directory name. Optional.
+ * @param int    $user_id   The user ID. Optional.
+ * @return array Array containing the path, URL, and other helpful settings.
+ */
+function bp_members_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
+
+	// Use displayed user if no user ID was passed.
+	if ( empty( $user_id ) ) {
+		$user_id = bp_displayed_user_id();
+	}
+
+	// Failsafe against accidentally nooped $directory parameter.
+	if ( empty( $directory ) ) {
+		$directory = 'avatars';
+	}
+
+	$path      = bp_core_avatar_upload_path() . '/' . $directory. '/' . $user_id;
+	$newbdir   = $path;
+	$newurl    = bp_core_avatar_url() . '/' . $directory. '/' . $user_id;
+	$newburl   = $newurl;
+	$newsubdir = '/' . $directory. '/' . $user_id;
+
+	/**
+	 * Filters the avatar upload directory for a user.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $value Array containing the path, URL, and other helpful settings.
+	 */
+	return apply_filters( 'bp_members_avatar_upload_dir', array(
+		'path'    => $path,
+		'url'     => $newurl,
+		'subdir'  => $newsubdir,
+		'basedir' => $newbdir,
+		'baseurl' => $newburl,
+		'error'   => false
+	) );
+}

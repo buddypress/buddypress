@@ -1005,8 +1005,8 @@ function bp_avatar_ajax_upload() {
 	$bp_params['upload_dir_filter'] = '';
 	$needs_reset = array();
 
-	if ( 'user' === $bp_params['object'] && bp_is_active( 'xprofile' ) ) {
-		$bp_params['upload_dir_filter'] = 'xprofile_avatar_upload_dir';
+	if ( 'user' === $bp_params['object'] && bp_is_active( 'members' ) ) {
+		$bp_params['upload_dir_filter'] = 'bp_members_avatar_upload_dir';
 
 		if ( ! bp_displayed_user_id() && ! empty( $bp_params['item_id'] ) ) {
 			$needs_reset = array( 'key' => 'displayed_user', 'value' => $bp->displayed_user );
@@ -1297,20 +1297,19 @@ function bp_avatar_ajax_set() {
 				'item_id'       => $avatar_data['item_id'],
 			);
 
+			/** This action is documented in wp-includes/deprecated.php */
+			do_action_deprecated( 'xprofile_avatar_uploaded', array( (int) $avatar_data['item_id'], $avatar_data['type'], $avatar_data ), '6.0.0', 'bp_members_avatar_uploaded' );
+
 			/**
 			 * Fires if the new avatar was successfully captured.
 			 *
-			 * @since 1.1.0 Used to inform the avatar was successfully cropped
-			 * @since 2.3.4 Add two new parameters to inform about the user id and
-			 *              about the way the avatar was set (eg: 'crop' or 'camera')
-			 *              Move the action at the right place, once the avatar is set
-			 * @since 2.8.0 Added the `$avatar_data` parameter.
+			 * @since 6.0.0
 			 *
 			 * @param string $item_id     Inform about the user id the avatar was set for.
 			 * @param string $type        Inform about the way the avatar was set ('camera').
 			 * @param array  $avatar_data Array of parameters passed to the avatar handler.
 			 */
-			do_action( 'xprofile_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $avatar_data );
+			do_action( 'bp_members_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $avatar_data );
 
 			wp_send_json_success( $return );
 		}
@@ -1355,8 +1354,11 @@ function bp_avatar_ajax_set() {
 		);
 
 		if ( 'user' === $avatar_data['object'] ) {
+			/** This action is documented in wp-includes/deprecated.php */
+			do_action_deprecated( 'xprofile_avatar_uploaded', array( (int) $avatar_data['item_id'], $avatar_data['type'], $r ), '6.0.0', 'bp_members_avatar_uploaded' );
+
 			/** This action is documented in bp-core/bp-core-avatars.php */
-			do_action( 'xprofile_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r );
+			do_action( 'bp_members_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r );
 		} elseif ( 'group' === $avatar_data['object'] ) {
 			/** This action is documented in bp-groups/bp-groups-screens.php */
 			do_action( 'groups_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r );
@@ -1935,11 +1937,6 @@ add_action( 'bp_parse_query', 'bp_core_avatar_reset_query', 10, 1 );
  */
 function bp_avatar_is_front_edit() {
 	$retval = false;
-
-	// No need to carry on if the current WordPress version is not supported.
-	if ( ! bp_attachments_is_wp_version_supported() ) {
-		return $retval;
-	}
 
 	if ( bp_is_user_change_avatar() && 'crop-image' !== bp_get_avatar_admin_step() ) {
 		$retval = ! bp_core_get_root_option( 'bp-disable-avatar-uploads' );

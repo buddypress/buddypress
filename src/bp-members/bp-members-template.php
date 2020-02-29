@@ -1510,7 +1510,7 @@ function bp_get_displayed_user_nav() {
  *              False otherwise
  */
 function bp_displayed_user_use_cover_image_header() {
-	return (bool) bp_is_active( 'xprofile', 'cover_image' ) && ! bp_disable_cover_image_uploads() && bp_attachments_is_wp_version_supported();
+	return (bool) bp_is_active( 'members', 'cover_image' ) && ! bp_disable_cover_image_uploads();
 }
 
 /** Avatars *******************************************************************/
@@ -2644,4 +2644,35 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
 		// Return the url, if there is one.
 		if ( !empty( $url ) )
 			return $url;
+	}
+
+
+/**
+ * Render an avatar delete link.
+ *
+ * @since 1.1.0
+ * @since 6.0.0 Moved from /bp-xprofile/bp-xprofile-template.php to this file.
+ */
+function bp_avatar_delete_link() {
+	echo bp_get_avatar_delete_link();
+}
+
+	/**
+	 * Return an avatar delete link.
+	 *
+	 * @since 1.1.0
+	 * @since 6.0.0 Moved from /bp-xprofile/bp-xprofile-template.php to this file.
+	 *
+	 * @return string
+	 */
+	function bp_get_avatar_delete_link() {
+
+		/**
+		 * Filters the link used for deleting an avatar.
+		 *
+		 * @since 1.1.0
+		 *
+		 * @param string $value Nonced URL used for deleting an avatar.
+		 */
+		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_profile_slug() . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
 	}
