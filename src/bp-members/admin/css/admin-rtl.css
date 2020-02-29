@@ -29,8 +29,8 @@ div#community-profile-page li.bp-members-profile-stats:before,
 div#community-profile-page li.bp-friends-profile-stats:before,
 div#community-profile-page li.bp-groups-profile-stats:before,
 div#community-profile-page li.bp-blogs-profile-stats:before,
-div#community-profile-page a.bp-xprofile-avatar-user-admin:before,
-div#community-profile-page a.bp-xprofile-avatar-user-edit:before {
+div#community-profile-page a.bp-members-avatar-user-admin:before,
+div#community-profile-page a.bp-members-avatar-user-edit:before {
 	font: 400 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
@@ -61,25 +61,25 @@ div#community-profile-page li.bp-blogs-profile-stats:before {
 	content: "\f120";
 }
 
-div#community-profile-page a.bp-xprofile-avatar-user-admin:before {
+div#community-profile-page a.bp-members-avatar-user-admin:before {
 	content: "\f182";
 }
 
-div#community-profile-page a.bp-xprofile-avatar-user-edit:before {
+div#community-profile-page a.bp-members-avatar-user-edit:before {
 	content: "\f107";
 }
 
-div#community-profile-page div#bp_xprofile_user_admin_avatar div.avatar {
+div#community-profile-page div#bp_members_user_admin_avatar div.avatar {
 	width: 150px;
 	margin: 0 auto;
 }
 
-div#community-profile-page div#bp_xprofile_user_admin_avatar div.avatar img {
+div#community-profile-page div#bp_members_user_admin_avatar div.avatar img {
 	max-width: 100%;
 	height: auto;
 }
 
-div#community-profile-page div#bp_xprofile_user_admin_avatar a {
+div#community-profile-page div#bp_members_user_admin_avatar a {
 	display: block;
 	margin: 1em 0;
 }

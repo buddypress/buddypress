@@ -50,7 +50,7 @@ window.bp = window.bp || {};
 				self.resetViews();
 			} );
 
-			$( 'body.wp-admin' ).on( 'click', '.bp-xprofile-avatar-user-edit', function() {
+			$( 'body.wp-admin' ).on( 'click', '.bp-members-avatar-user-edit', function() {
 				self.resetViews();
 			} );
 		},
@@ -78,9 +78,9 @@ window.bp = window.bp || {};
 				$( '.main-column p #file' ).remove();
 				$( '.main-column p #upload' ).remove();
 
-			// Admin Extended Profile.
-			} else if ( $( '#bp_xprofile_user_admin_avatar a.bp-xprofile-avatar-user-admin' ).length ) {
-				$( '#bp_xprofile_user_admin_avatar a.bp-xprofile-avatar-user-admin' ).remove();
+			// Member Admin.
+			} else if ( $( '#bp_members_user_admin_avatar a.bp-members-avatar-user-admin' ).length ) {
+				$( '#bp_members_user_admin_avatar a.bp-members-avatar-user-admin' ).remove();
 			}
 		},
 
