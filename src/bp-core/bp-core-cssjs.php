@@ -442,7 +442,7 @@ function bp_add_cover_image_inline_css( $return = false ) {
 		}
 
 		$cover_image_object = array(
-			'component' => 'xprofile',
+			'component' => 'members',
 			'object' => $bp->displayed_user
 		);
 	} elseif ( bp_is_group() ) {
@@ -479,7 +479,7 @@ function bp_add_cover_image_inline_css( $return = false ) {
 
 		$object_dir = $cover_image_object['component'];
 
-		if ( 'xprofile' === $object_dir ) {
+		if ( 'members' === $object_dir ) {
 			$object_dir = 'members';
 		}
 

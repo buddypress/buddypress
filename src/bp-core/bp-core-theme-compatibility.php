@@ -464,7 +464,7 @@ function bp_register_theme_compat_default_features() {
 	bp_set_theme_compat_feature( 'legacy', array(
 		'name'     => 'cover_image',
 		'settings' => array(
-			'components'   => array( 'xprofile', 'groups' ),
+			'components'   => array( 'members', 'groups' ),
 			'width'        => $bp_content_width,
 			'height'       => $top_offset + round( $avatar_height / 2 ),
 			'callback'     => 'bp_legacy_theme_cover_image',

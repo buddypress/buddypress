@@ -146,7 +146,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		bp_set_theme_compat_feature( $this->id, array(
 			'name'     => 'cover_image',
 			'settings' => array(
-				'components'   => array( 'xprofile', 'groups' ),
+				'components'   => array( 'members', 'groups' ),
 				'width'        => $width,
 				'height'       => $top_offset + round( $avatar_height / 2 ),
 				'callback'     => 'bp_nouveau_theme_cover_image',

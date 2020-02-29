@@ -912,7 +912,7 @@ function bp_get_group_avatar_url( $group = false, $type = 'full' ) {
  *              False otherwise
  */
 function bp_group_use_cover_image_header() {
-	return (bool) bp_is_active( 'groups', 'cover_image' ) && ! bp_disable_group_cover_image_uploads() && bp_attachments_is_wp_version_supported();
+	return (bool) bp_is_active( 'groups', 'cover_image' ) && ! bp_disable_group_cover_image_uploads();
 }
 
 /**
