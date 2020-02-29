@@ -147,6 +147,41 @@ function bp_admin_sanitize_callback_blogforum_comments( $value = false ) {
 	return $value ? 0 : 1;
 }
 
+/** Members *******************************************************************/
+
+/**
+ * Profile settings section description for the settings page.
+ *
+ * @since 1.6.0
+ */
+function bp_admin_setting_callback_members_section() { }
+
+/**
+ * Allow members to upload avatars field.
+ *
+ * @since 1.6.0
+ * @since 6.0.0 Setting has been moved into the Members section.
+ */
+function bp_admin_setting_callback_avatar_uploads() {
+?>
+	<input id="bp-disable-avatar-uploads" name="bp-disable-avatar-uploads" type="checkbox" value="1" <?php checked( !bp_disable_avatar_uploads( false ) ); ?> />
+	<label for="bp-disable-avatar-uploads"><?php _e( 'Allow registered members to upload avatars', 'buddypress' ); ?></label>
+<?php
+}
+
+/**
+ * Allow members to upload cover images field.
+ *
+ * @since 2.4.0
+ * @since 6.0.0 Setting has been moved into the Members section.
+ */
+function bp_admin_setting_callback_cover_image_uploads() {
+?>
+	<input id="bp-disable-cover-image-uploads" name="bp-disable-cover-image-uploads" type="checkbox" value="1" <?php checked( ! bp_disable_cover_image_uploads() ); ?> />
+	<label for="bp-disable-cover-image-uploads"><?php _e( 'Allow registered members to upload cover images', 'buddypress' ); ?></label>
+<?php
+}
+
 /** XProfile ******************************************************************/
 
 /**
@@ -168,33 +203,6 @@ function bp_admin_setting_callback_profile_sync() {
 	<input id="bp-disable-profile-sync" name="bp-disable-profile-sync" type="checkbox" value="1" <?php checked( !bp_disable_profile_sync( false ) ); ?> />
 	<label for="bp-disable-profile-sync"><?php _e( 'Enable BuddyPress to WordPress profile syncing', 'buddypress' ); ?></label>
 
-<?php
-}
-
-/**
- * Allow members to upload avatars field.
- *
- * @since 1.6.0
- *
- */
-function bp_admin_setting_callback_avatar_uploads() {
-?>
-
-	<input id="bp-disable-avatar-uploads" name="bp-disable-avatar-uploads" type="checkbox" value="1" <?php checked( !bp_disable_avatar_uploads( false ) ); ?> />
-	<label for="bp-disable-avatar-uploads"><?php _e( 'Allow registered members to upload avatars', 'buddypress' ); ?></label>
-
-<?php
-}
-
-/**
- * Allow members to upload cover images field.
- *
- * @since 2.4.0
- */
-function bp_admin_setting_callback_cover_image_uploads() {
-?>
-	<input id="bp-disable-cover-image-uploads" name="bp-disable-cover-image-uploads" type="checkbox" value="1" <?php checked( ! bp_disable_cover_image_uploads() ); ?> />
-	<label for="bp-disable-cover-image-uploads"><?php _e( 'Allow registered members to upload cover images', 'buddypress' ); ?></label>
 <?php
 }
 

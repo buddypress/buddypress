@@ -394,22 +394,27 @@ class BP_Admin {
 		add_settings_field( '_bp_theme_package_id', __( 'Template Pack', 'buddypress' ), 'bp_admin_setting_callback_theme_package_id', 'buddypress', 'bp_main', array( 'label_for' => '_bp_theme_package_id' ) );
 		register_setting( 'buddypress', '_bp_theme_package_id', 'sanitize_text_field' );
 
+		/* Members Section  **************************************************/
+
+		// Add the main section.
+		add_settings_section( 'bp_members', _x( 'Members Settings', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_members_section', 'buddypress' );
+
+		// Avatars.
+		add_settings_field( 'bp-disable-avatar-uploads', __( 'Profile Photo Uploads', 'buddypress' ), 'bp_admin_setting_callback_avatar_uploads', 'buddypress', 'bp_members' );
+		register_setting( 'buddypress', 'bp-disable-avatar-uploads', 'intval' );
+
+		// Cover images.
+		if ( bp_is_active( 'members', 'cover_image' ) ) {
+			add_settings_field( 'bp-disable-cover-image-uploads', __( 'Cover Image Uploads', 'buddypress' ), 'bp_admin_setting_callback_cover_image_uploads', 'buddypress', 'bp_members' );
+			register_setting( 'buddypress', 'bp-disable-cover-image-uploads', 'intval' );
+		}
+
 		/* XProfile Section **************************************************/
 
 		if ( bp_is_active( 'xprofile' ) ) {
 
 			// Add the main section.
 			add_settings_section( 'bp_xprofile', _x( 'Profile Settings', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_xprofile_section', 'buddypress' );
-
-			// Avatars.
-			add_settings_field( 'bp-disable-avatar-uploads', __( 'Profile Photo Uploads', 'buddypress' ), 'bp_admin_setting_callback_avatar_uploads', 'buddypress', 'bp_xprofile' );
-			register_setting( 'buddypress', 'bp-disable-avatar-uploads', 'intval' );
-
-			// Cover images.
-			if ( bp_is_active( 'xprofile', 'cover_image' ) ) {
-				add_settings_field( 'bp-disable-cover-image-uploads', __( 'Cover Image Uploads', 'buddypress' ), 'bp_admin_setting_callback_cover_image_uploads', 'buddypress', 'bp_xprofile' );
-				register_setting( 'buddypress', 'bp-disable-cover-image-uploads', 'intval' );
-			}
 
 			// Profile sync setting.
 			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync', 'buddypress', 'bp_xprofile' );
