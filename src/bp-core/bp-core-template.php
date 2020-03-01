@@ -2081,6 +2081,19 @@ function bp_is_active( $component = '', $feature = '' ) {
 			// The xProfile component is specific.
 			if ( 'xprofile' === $component ) {
 				$component = 'profile';
+
+				// The Cover Image feature has been moved to the Members component in 6.0.0.
+				if ( 'cover_image' === $feature && 'profile' === $component ) {
+					_doing_it_wrong( 'bp_is_active( \'profile\', \'cover_image\' )', esc_html__( 'The cover image is a Members component feature, please use bp_is_active( \'members\', \'cover_image\' ) instead.', 'buddypress' ), '6.0.0' );
+					$members_component = buddypress()->members;
+
+					if ( ! isset( $members_component->features ) || false === in_array( $feature, $members_component->features, true ) ) {
+						$retval = false;
+					}
+
+					/** This filter is documented in wp-includes/deprecated.php */
+					return apply_filters_deprecated( 'bp_is_profile_cover_image_active', array( $retval ), '6.0.0', 'bp_is_members_cover_image_active' );
+				}
 			}
 
 			$component_features = isset( buddypress()->{$component}->features ) ? buddypress()->{$component}->features : array();
