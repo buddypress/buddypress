@@ -61,3 +61,27 @@ function xprofile_action_delete_avatar() {
 
 	bp_members_action_delete_avatar();
 }
+
+/**
+ * Displays the change cover image page.
+ *
+ * @since 2.4.0
+ * @deprecated 6.0.0
+ */
+function xprofile_screen_change_cover_image() {
+	_deprecated_function( __FUNCTION__, '6.0.0', 'bp_members_screen_change_cover_image()' );
+
+	bp_members_screen_change_cover_image();
+}
+
+/**
+ * Handles the uploading and cropping of a user avatar. Displays the change avatar page.
+ *
+ * @since 1.0.0
+ * @deprecated 6.0.0
+ */
+function xprofile_screen_change_avatar() {
+	_deprecated_function( __FUNCTION__, '6.0.0', 'bp_members_screen_change_avatar()' );
+
+	bp_members_screen_change_avatar();
+}
