@@ -1306,6 +1306,7 @@ function bp_activity_action( $args = array() ) {
 	 * Return the activity action.
 	 *
 	 * @since 1.2.0
+	 * @since 1.7.0 Introduce function parameter, $args.
 	 *
 	 * @global object $activities_template {@link BP_Activity_Template}
 	 *
@@ -1344,8 +1345,9 @@ function bp_activity_action( $args = array() ) {
 		 * Filters the activity action after the action has been inserted as meta.
 		 *
 		 * @since 1.2.0
+		 * @since 1.7.0 Now passes a 3rd parameter, $r, an array of arguments from the function.
 		 *
-		 * @param array $value Array containing the current action, the current activity, and the $args array passed into the function.
+		 * @param array $value Array containing the current action, the current activity, and the $r array passed into the function.
 		 */
 		return apply_filters_ref_array( 'bp_get_activity_action', array(
 			$action,
