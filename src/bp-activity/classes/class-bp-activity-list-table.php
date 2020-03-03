@@ -696,21 +696,20 @@ class BP_Activity_List_Table extends WP_List_Table {
 		// End timestamp.
 		echo '</div>';
 
+		$activity = new BP_Activity_Activity( $item['id'] );
+
 		// Get activity content - if not set, use the action.
 		if ( ! empty( $item['content'] ) ) {
-			$activity = new BP_Activity_Activity( $item['id'] );
-
 			/** This filter is documented in bp-activity/bp-activity-template.php */
 			$content = apply_filters_ref_array( 'bp_get_activity_content_body', array( $item['content'], &$activity ) );
 		} else {
-			/**
-			 * Filters current activity item action.
-			 *
-			 * @since 1.2.0
-			 *
-			 * @var array $item Array index holding current activity item action.
-			 */
-			$content = apply_filters_ref_array( 'bp_get_activity_action', array( $item['action'] ) );
+			// Emulate bp_get_activity_action().
+			$r = array(
+				'no_timestamp' => false,
+			);
+
+			/** This filter is documented in bp-activity/bp-activity-template.php */
+			$content = apply_filters_ref_array( 'bp_get_activity_action', array( $item['action'], &$activity, $r ) );
 		}
 
 		/**
