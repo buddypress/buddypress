@@ -197,8 +197,6 @@ function bp_core_fetch_avatar( $args = '' ) {
 		return;
 	}
 
-	global $current_blog;
-
 	// Set the default variables array and parse it against incoming $args array.
 	$params = wp_parse_args( $args, array(
 		'item_id'       => false,
@@ -227,7 +225,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 		switch ( $params['object'] ) {
 
 			case 'blog'  :
-				$params['item_id'] = $current_blog->id;
+				$params['item_id'] = get_current_blog_id();
 				break;
 
 			case 'group' :
@@ -750,7 +748,7 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		} elseif ( 'group' === $args['object'] ) {
 			$args['item_id'] = buddypress()->groups->current_group->id;
 		} elseif ( 'blog' === $args['object'] ) {
-			$args['item_id'] = $current_blog->id;
+			$args['item_id'] = get_current_blog_id();
 		}
 
 		/** This filter is documented in bp-core/bp-core-avatars.php */
