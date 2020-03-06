@@ -3,7 +3,7 @@
  * BP Nouveau - Groups Directory
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 6.0.0
  */
 ?>
 
@@ -28,3 +28,4 @@
 	<?php bp_nouveau_after_groups_directory_content(); ?>
 	</div><!-- // .screen-content -->
 
+	<?php bp_nouveau_after_directory_page(); ?>

@@ -2,7 +2,8 @@
 /**
  * BuddyPress Members Directory
  *
- * @version 3.0.0
+ * @since 3.0.0
+ * @version 6.0.0
  */
 
 ?>
@@ -25,3 +26,5 @@
 
 		<?php bp_nouveau_after_members_directory_content(); ?>
 	</div><!-- // .screen-content -->
+
+	<?php bp_nouveau_after_directory_page(); ?>

@@ -3,7 +3,7 @@
  * BuddyPress Activity templates
  *
  * @since 2.3.0
- * @version 3.0.0
+ * @version 6.0.0
  */
 ?>
 
@@ -39,3 +39,4 @@
 
 	</div><!-- // .screen-content -->
 
+	<?php bp_nouveau_after_directory_page(); ?>

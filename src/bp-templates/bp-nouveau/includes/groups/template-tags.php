@@ -3,7 +3,7 @@
  * Groups Template tags
  *
  * @since 3.0.0
- * @version 4.4.0
+ * @version 6.0.0
  */
 
 // Exit if accessed directly.
@@ -65,13 +65,6 @@ function bp_nouveau_after_groups_directory_content() {
 	 * @since 1.1.0
 	 */
 	do_action( 'bp_after_directory_groups' );
-
-	/**
-	 * Fires at the bottom of the groups directory template file.
-	 *
-	 * @since 1.5.0
-	 */
-	do_action( 'bp_after_directory_groups_page' );
 }
 
 /**

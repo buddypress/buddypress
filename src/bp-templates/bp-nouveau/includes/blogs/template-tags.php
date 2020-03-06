@@ -3,7 +3,7 @@
  * Blogs Template tags
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 6.0.0
  */
 
 // Exit if accessed directly.
@@ -71,13 +71,6 @@ function bp_nouveau_after_blogs_directory_content() {
 	 * @since 1.5.0
 	 */
 	do_action( 'bp_after_directory_blogs' );
-
-	/**
-	 * Fires at the bottom of the blogs directory template file.
-	 *
-	 * @since 2.3.0
-	 */
-	do_action( 'bp_after_directory_blogs_page' );
 }
 
 /**

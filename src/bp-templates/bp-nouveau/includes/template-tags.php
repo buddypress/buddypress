@@ -3,7 +3,7 @@
  * Common template tags
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @version 6.0.0
  */
 
 // Exit if accessed directly.
@@ -654,6 +654,25 @@ function bp_dir_is_vert_layout() {
 	$component  = sanitize_key( bp_current_component() );
 
 	return (bool) $bp_nouveau->{$component}->directory_vertical_layout;
+}
+
+/**
+ * Template tag to wrap the Legacy actions that was used
+ * after the components directory page.
+ *
+ * @since 6.0.0
+ */
+function bp_nouveau_after_directory_page() {
+	$component = bp_current_component();
+
+	/**
+	 * Fires at the bottom of the activity, members, groups and blogs directory template file.
+	 *
+	 * @since 1.5.0 Added to the members, groups directory template file.
+	 * @since 2.3.0 Added to the blogs directory template file.
+	 * @since 6.0.0 Added to the activity directory template file.
+	 */
+	do_action( "bp_after_directory_{$component}_page" );
 }
 
 /**
