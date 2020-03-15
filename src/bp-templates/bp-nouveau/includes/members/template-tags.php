@@ -589,6 +589,45 @@ function bp_nouveau_member_meta() {
 	}
 
 /**
+ * Check if some extra content needs to be displayed into the members directory.
+ *
+ * @since 6.0.0
+ *
+ * @return bool True if some extra content needs to be displayed into the members directory.
+ *              False otherwise.
+ */
+function bp_nouveau_member_has_extra_content() {
+	/**
+	 * Filter here to display the extra content not only into the Members directory.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param bool $value True if on the Members directory page.
+	 *                    False otherwise.
+	 */
+	$members_directory_only = (bool) apply_filters( 'bp_nouveau_member_extra_content_in_members_directory', bp_is_members_directory() );
+
+	// Check if some extra content needs to be included into the item of the loop.
+	$has_action = (bool) has_action( 'bp_directory_members_item' );
+
+	return $members_directory_only && $has_action;
+}
+
+/**
+ * Displays extra content for each item of a members loop.
+ *
+ * @since 6.0.0
+ */
+function bp_nouveau_member_extra_content() {
+	/**
+	 * Fires inside the display of a members loop member item.
+	 *
+	 * @since 1.1.0
+	 */
+	do_action( 'bp_directory_members_item' );
+}
+
+/**
  * Load the appropriate content for the single member pages
  *
  * @since 3.0.0

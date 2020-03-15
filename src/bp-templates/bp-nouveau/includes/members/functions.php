@@ -3,7 +3,7 @@
  * Members functions
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 6.0.0
  */
 
 // Exit if accessed directly.
@@ -159,6 +159,8 @@ function bp_nouveau_members_catch_button_args( $button = array() ) {
  * and in the members loop.
  *
  * @since 3.0.0
+ * @since 6.0.0 Replace wrongly positioned `bp_directory_members_item`
+ *              with `bp_directory_members_item_meta`
  *
  * @return string|false HTML Output if hooked. False otherwise.
  */
@@ -167,11 +169,11 @@ function bp_nouveau_get_hooked_member_meta() {
 
 	if ( ! empty( $GLOBALS['members_template'] ) ) {
 		/**
-		 * Fires inside the display of a directory member item.
+		 * Fires inside the display of metas in the directory member item.
 		 *
-		 * @since 1.1.0
+		 * @since 6.0.0
 		 */
-		do_action( 'bp_directory_members_item' );
+		do_action( 'bp_directory_members_item_meta' );
 
 	// It's the user's header
 	} else {

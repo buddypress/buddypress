@@ -1874,6 +1874,11 @@ form.ac-form .ac-reply-content input {
 	margin-bottom: 10px;
 }
 
+.buddypress-wrap .members-list li .item-extra-content {
+	clear: both;
+	font-size: 14px;
+}
+
 .buddypress-wrap .members-list li .user-update {
 	border: 1px solid #eaeaea;
 	border-radius: 10px;

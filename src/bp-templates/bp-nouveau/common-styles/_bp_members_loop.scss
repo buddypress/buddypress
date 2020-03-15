@@ -1,5 +1,6 @@
 // BP Members loop.
-// @version 3.0.0
+// @since 3.0.0
+// @version 6.0.0
 
 .buddypress-wrap {
 
@@ -9,6 +10,12 @@
 
 			.member-name {
 				margin-bottom: $marg-sml;
+			}
+
+			.item-extra-content {
+				clear: both;
+
+				@include font-size(14);
 			}
 
 			.user-update {
