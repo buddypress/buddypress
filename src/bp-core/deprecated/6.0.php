@@ -85,3 +85,61 @@ function xprofile_screen_change_avatar() {
 
 	bp_members_screen_change_avatar();
 }
+
+/**
+ * Output the status of the current group in the loop.
+ *
+ * Either 'Public' or 'Private'.
+ *
+ * @since 1.0.0
+ * @deprecated 6.0.0 Not used anymore.
+ *
+ * @param object|bool $group Optional. Group object.
+ *                           Default: current group in loop.
+ */
+function bp_group_public_status( $group = false ) {
+	_deprecated_function( __FUNCTION__, '6.0' );
+}
+	/**
+	 * Return the status of the current group in the loop.
+	 *
+	 * Either 'Public' or 'Private'.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 6.0.0 Not used anymore.
+	 *
+	 * @param object|bool $group Optional. Group object.
+	 *                           Default: current group in loop.
+	 * @return string
+	 */
+	function bp_get_group_public_status( $group = false ) {
+		_deprecated_function( __FUNCTION__, '6.0' );
+	}
+
+/**
+ * Output whether the current group in the loop is public.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @deprecated 6.0.0 Not used anymore.
+ *
+ * @param object|bool $group Optional. Group object.
+ *                           Default: current group in loop.
+ */
+function bp_group_is_public( $group = false ) {
+	_deprecated_function( __FUNCTION__, '6.0' );
+}
+	/**
+	 * Return whether the current group in the loop is public.
+	 *
+	 * No longer used in BuddyPress.
+	 *
+	 * @deprecated 6.0.0 Not used anymore.
+	 *
+	 * @param object|bool $group Optional. Group object.
+	 *                           Default: current group in loop.
+	 * @return mixed
+	 */
+	function bp_get_group_is_public( $group = false ) {
+		_deprecated_function( __FUNCTION__, '6.0' );
+	}

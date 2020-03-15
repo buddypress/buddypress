@@ -508,6 +508,7 @@ class BuddyPress {
 			require( $this->plugin_dir . 'bp-core/deprecated/2.9.php' );
 			require( $this->plugin_dir . 'bp-core/deprecated/3.0.php' );
 			require( $this->plugin_dir . 'bp-core/deprecated/4.0.php' );
+			require( $this->plugin_dir . 'bp-core/deprecated/6.0.php' );
 		}
 
 		// Load wp-cli module if PHP 5.4+.
