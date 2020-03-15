@@ -166,10 +166,10 @@ $spacing-val-xs: 5px;
 }
 
 @mixin border-radius-none() {
-	-webkit-border-radius: none;
-	-moz-border-radius: none;
-	-ms-border-radius: none;
-	border-radius: none;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-ms-border-radius: 0;
+	border-radius: 0;
 }
 
 // Box sizing

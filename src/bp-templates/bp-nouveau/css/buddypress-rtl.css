@@ -749,7 +749,7 @@ body.buddypress article.page > .entry-header .entry-title {
 
 .buddypress-wrap .subnav-filters .user-messages-bulk-actions .bulk-apply {
 	border: 0;
-	border-radius: none;
+	border-radius: 0;
 	font-weight: 400;
 	line-height: 1.8;
 	margin: 0 10px 0 0;
@@ -1272,7 +1272,7 @@ body.buddypress article.page > .entry-header .entry-title {
 }
 
 .activity-list .activity-item.mini .activity-avatar {
-	margin-right: 0 auto;
+	margin-right: 0;
 	text-align: center;
 	width: auto;
 }

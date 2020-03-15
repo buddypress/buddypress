@@ -1976,7 +1976,7 @@ body.colors-light #buddypress div#invite-list {
 #buddypress div.dir-search form input[type="submit"],
 #buddypress div.message-search form input[type="submit"],
 #buddypress li.groups-members-search form input[type="submit"] {
-	border-radius: none;
+	border-radius: 0;
 	float: left;
 	font-weight: 400;
 	padding: 0.2em 1em;
