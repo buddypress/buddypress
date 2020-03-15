@@ -1148,6 +1148,7 @@ function bp_attachments_get_user_has_cover_image( $user_id = 0 ) {
  * Does the group has a cover image?
  *
  * @since 2.4.0
+ * @since 6.0.0 Renamed the filter coherently.
  *
  * @param int $group_id Group ID to check cover image existence for.
  * @return bool True if the group has a cover image, false otherwise.
@@ -1162,7 +1163,7 @@ function bp_attachments_get_group_has_cover_image( $group_id = 0 ) {
 		'item_id'    => $group_id,
 	) );
 
-	return (bool) apply_filters( 'bp_attachments_get_user_has_cover_image', $cover_src, $group_id );
+	return (bool) apply_filters( 'bp_attachments_get_group_has_cover_image', $cover_src, $group_id );
 }
 
 /**
