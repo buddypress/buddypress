@@ -906,19 +906,6 @@ function bp_core_create_root_component_page() {
 }
 
 /**
- * Add illegal blog names to WP so that root components will not conflict with blog names on a subdirectory installation.
- *
- * For example, it would stop someone creating a blog with the slug "groups".
- *
- * @since 1.0.0
- *
- * @todo Deprecate?
- */
-function bp_core_add_illegal_names() {
-	update_site_option( 'illegal_names', get_site_option( 'illegal_names' ), array() );
-}
-
-/**
  * Get the 'search' query argument for a given component.
  *
  * @since 2.4.0

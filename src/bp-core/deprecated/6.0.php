@@ -143,3 +143,17 @@ function bp_group_is_public( $group = false ) {
 	function bp_get_group_is_public( $group = false ) {
 		_deprecated_function( __FUNCTION__, '6.0' );
 	}
+
+/**
+ * Add illegal blog names to WP so that root components will not conflict with blog names on a subdirectory installation.
+ *
+ * For example, it would stop someone creating a blog with the slug "groups".
+ *
+ * @since 1.0.0
+ * @deprecated 6.0.0
+ */
+function bp_core_add_illegal_names() {
+	_deprecated_function( __FUNCTION__, '6.0' );
+
+	update_site_option( 'illegal_names', get_site_option( 'illegal_names' ), array() );
+}

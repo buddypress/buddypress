@@ -839,4 +839,48 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		$bp->pages = $reset_bp_pages;
 	}
+
+	/**
+	 * @group bp_core_add_page_mappings
+	 * @ticket 8187
+	 */
+	public function test_bp_core_add_page_mappings_in_multisite_subdirectory() {
+		if ( ! is_multisite() || is_subdomain_install() ) {
+			$this->markTestSkipped();
+		}
+
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+		}
+
+		$bp = buddypress();
+		$reset_bp_pages = $bp->pages;
+		$reset_bp_active_components = $bp->active_components;
+		$reset_option = bp_get_option( 'bp-pages' );
+
+		$b = self::factory()->blog->create( array(
+			'path'   => '/newcomponent/',
+		) );
+
+		$bp->active_components['newcomponent'] = 1;
+		add_filter( 'bp_core_get_directory_page_default_titles', array( $this, 'add_newcomponent_page_title' ) );
+
+		bp_core_add_page_mappings( $bp->active_components );
+
+		remove_filter( 'bp_core_get_directory_page_default_titles', array( $this, 'add_newcomponent_page_title' ) );
+		$bp_pages = bp_get_option( 'bp-pages' );
+
+		$new_component_page_id = $bp_pages['newcomponent'];
+		$this->assertNotSame( 'newcomponent', get_post_field( 'post_name', $new_component_page_id ), 'The component slug should not conflict with subsite name.' );
+
+		// Reset the page mapping.
+		bp_update_option( 'bp-pages', $reset_option );
+		wp_delete_post( $bp_pages['newcomponent'], true );
+		$bp->pages = $reset_bp_pages;
+		$bp->active_components = $reset_bp_active_components;
+	}
+
+	public function add_newcomponent_page_title( $page_default_titles = array() ) {
+		return array_merge( $page_default_titles, array( 'newcomponent' => 'NewComponent' ) );
+	}
 }

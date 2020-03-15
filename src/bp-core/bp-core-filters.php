@@ -1168,3 +1168,18 @@ function bp_core_render_email_template( $template ) {
 	return '';
 }
 add_action( 'bp_template_include', 'bp_core_render_email_template', 12 );
+
+/**
+ * Adds BuddyPress components' slugs to the WordPress Multisite subdirectory reserved names.
+ *
+ * @since 6.0.0
+ *
+ * @param array $names The WordPress Multisite subdirectory reserved names.
+ * @return array       The WordPress & BuddyPress Multisite subdirectory reserved names.
+ */
+function bp_core_components_subdirectory_reserved_names( $names = array() ) {
+	$bp_pages = (array) buddypress()->pages;
+
+	return array_merge( $names, wp_list_pluck( $bp_pages, 'slug' ) );
+}
+add_filter( 'subdirectory_reserved_names', 'bp_core_components_subdirectory_reserved_names' );
