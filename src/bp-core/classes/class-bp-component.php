@@ -467,7 +467,7 @@ class BP_Component {
 		}
 
 		// Register BP Blocks.
-		if ( bp_rest_api_is_available() ) {
+		if ( bp_support_blocks() ) {
 			add_action( 'bp_blocks_init', array( $this, 'blocks_init' ), 10 );
 		}
 
