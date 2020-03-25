@@ -130,6 +130,7 @@ class BP_Groups_Component extends BP_Component {
 			'functions',
 			'notifications',
 			'cssjs',
+			'blocks',
 		);
 
 		// Conditional includes.
@@ -939,5 +940,61 @@ class BP_Groups_Component extends BP_Component {
 			'BP_REST_Group_Membership_Request_Endpoint',
 			'BP_REST_Attachments_Group_Avatar_Endpoint',
 		) );
+	}
+
+	/**
+	 * Register the BP Groups Blocks.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $blocks Optional. See BP_Component::blocks_init() for
+	 *                      description.
+	 */
+	public function blocks_init( $blocks = array() ) {
+		parent::blocks_init(
+			array(
+				'bp/group' => array(
+					'name'               => 'bp/group',
+					'editor_script'      => 'bp-group-block',
+					'editor_script_url'  => plugins_url( 'js/blocks/group.js', dirname(  __FILE__ ) ),
+					'editor_script_deps' => array(
+						'wp-blocks',
+						'wp-element',
+						'wp-components',
+						'wp-i18n',
+						'wp-editor',
+						'wp-compose',
+						'wp-data',
+						'wp-block-editor',
+						'bp-block-components',
+					),
+					'style'              => 'bp-group-block',
+					'style_url'          => plugins_url( 'css/blocks/group.css', dirname( __FILE__ ) ),
+					'render_callback'    => 'bp_groups_render_group_block',
+					'attributes'         => array(
+						'itemID'              => array(
+							'type'    => 'integer',
+							'default' => 0,
+						),
+						'avatarSize'          => array(
+							'type'    => 'string',
+							'default' => 'full',
+						),
+						'displayDescription'  => array(
+							'type'    => 'boolean',
+							'default' => true,
+						),
+						'displayActionButton' => array(
+							'type'    => 'boolean',
+							'default' => true,
+						),
+						'displayCoverImage'   => array(
+							'type'    => 'boolean',
+							'default' => true,
+						),
+					),
+				),
+			)
+		);
 	}
 }
