@@ -117,14 +117,17 @@ div#community-profile-page p.not-activated {
 	font-size: 14px;
 }
 
+/* these fields are usually pretty tall, so align the label
+for better consistency */
 .field_type_textarea legend,
 .field_type_multiselectbox legend,
 .field_type_radio .radio legend,
-.field_type_checkbox .checkbox legend {  /* these fields are usually pretty tall, so align the label for better consistency */
+.field_type_checkbox .checkbox legend {
 	vertical-align: top;
 }
 
-.bp-profile-field .description {  /* description also sits in the right side column */
+/* description also sits in the right side column */
+.bp-profile-field .description {
 	margin: 10px 0 12px 200px;
 	text-align: left;
 }
@@ -139,7 +142,8 @@ div#community-profile-page p.not-activated {
 	margin-top: 0;
 }
 
-.clear-value {  /* 'clear value' option also sits in the right side column */
+/* 'clear value' option also sits in the right side column */
+.clear-value {
 	display: block;
 	font-size: 12px;
 	margin-left: 200px;
@@ -183,19 +187,22 @@ div#community-profile-page p.not-activated {
 	display: inline-block;
 }
 
+/* visibility settings go in the left column */
 .field-visibility-settings-notoggle,
-.field-visibility-settings-toggle {  /* visibility settings go in the left column */
+.field-visibility-settings-toggle {
 	margin: 10px 0 10px 200px;
 	text-align: left;
 }
 
-.field-visibility-settings {  /* visibility settings go in the left column */
+/* visibility settings go in the left column */
+.field-visibility-settings {
 	display: none;
 	margin-left: 200px;
 	margin-top: 1.5em;
 }
 
-.field-visibility-settings .button {  /* visibility setting close button */
+/* visibility setting close button */
+.field-visibility-settings .button {
 	margin-bottom: 15px;
 }
 
@@ -205,7 +212,8 @@ div#community-profile-page p.not-activated {
 	margin-bottom: 1em;
 }
 
-#normal-sortables .field-visibility-settings legend {  /* id required for css selector weight */
+/* id required for css selector weight */
+#normal-sortables .field-visibility-settings legend {
 	font-size: 14px;
 	font-weight: 600;
 }

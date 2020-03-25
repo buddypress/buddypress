@@ -34,9 +34,7 @@ module.exports = function( grunt ) {
 			'!bp-core/admin/css/hello.css'
 		],
 
-		autoprefixer = require('autoprefixer'),
-		stylelintConfigCss  = require('stylelint-config-wordpress/index.js'),
-		stylelintConfigScss = require('stylelint-config-wordpress/scss.js');
+		autoprefixer = require('autoprefixer');
 
 	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
 	grunt.util = require( 'grunt-legacy-util' );
@@ -241,7 +239,7 @@ module.exports = function( grunt ) {
 		stylelint: {
 			css: {
 				options: {
-					config: stylelintConfigCss,
+					configFile: '.stylelintrc',
 					format: 'css'
 				},
 				expand: true,
@@ -250,7 +248,7 @@ module.exports = function( grunt ) {
 			},
 			scss: {
 				options: {
-					config: stylelintConfigScss,
+					configFile: '.stylelintrc',
 					format: 'scss'
 				},
 				expand: true,
