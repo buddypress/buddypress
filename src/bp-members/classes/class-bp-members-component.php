@@ -61,6 +61,7 @@ class BP_Members_Component extends BP_Component {
 			'template',
 			'adminbar',
 			'functions',
+			'blocks',
 			'widgets',
 			'cache',
 		);
@@ -667,5 +668,61 @@ class BP_Members_Component extends BP_Component {
 			'BP_REST_Members_Endpoint',
 			'BP_REST_Attachments_Member_Avatar_Endpoint',
 		) );
+	}
+
+	/**
+	 * Register the BP Members Blocks.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $blocks Optional. See BP_Component::blocks_init() for
+	 *                      description.
+	 */
+	public function blocks_init( $blocks = array() ) {
+		parent::blocks_init(
+			array(
+				'bp/member' => array(
+					'name'               => 'bp/member',
+					'editor_script'      => 'bp-member-block',
+					'editor_script_url'  => plugins_url( 'js/blocks/member.js', dirname( __FILE__ ) ),
+					'editor_script_deps' => array(
+						'wp-blocks',
+						'wp-element',
+						'wp-components',
+						'wp-i18n',
+						'wp-editor',
+						'wp-compose',
+						'wp-data',
+						'wp-block-editor',
+						'bp-block-components',
+					),
+					'style'              => 'bp-member-block',
+					'style_url'          => plugins_url( 'css/blocks/member.css', dirname( __FILE__ ) ),
+					'render_callback'    => 'bp_members_render_member_block',
+					'attributes'         => array(
+						'itemID'              => array(
+							'type'    => 'integer',
+							'default' => 0,
+						),
+						'avatarSize'          => array(
+							'type'    => 'string',
+							'default' => 'full',
+						),
+						'displayMentionSlug'  => array(
+							'type'    => 'boolean',
+							'default' => true,
+						),
+						'displayActionButton' => array(
+							'type'    => 'boolean',
+							'default' => true,
+						),
+						'displayCoverImage'   => array(
+							'type'    => 'boolean',
+							'default' => true,
+						),
+					),
+				),
+			)
+		);
 	}
 }

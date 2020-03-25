@@ -1,0 +1,110 @@
+/* CSS for the bp/member block */
+.bp-block-member {
+	position: relative;
+}
+
+.bp-block-member .member-content {
+	display: flex;
+}
+
+.bp-block-member.has-cover .member-content,
+.bp-block-member.has-cover .item-header-avatar,
+.bp-block-member.has-cover .member-description {
+	z-index: 2;
+}
+
+.bp-block-member.has-cover .member-description {
+	padding-top: 75px;
+}
+
+.bp-block-member.has-cover .bp-member-cover-image {
+	background-color: #c5c5c5;
+	background-position: center top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border: 0;
+	display: block;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+	height: 150px;
+}
+
+.bp-block-member img.avatar {
+	width: auto;
+	height: auto;
+}
+
+.bp-block-member.avatar-none .item-header-avatar {
+	display: none;
+}
+
+.bp-block-member.avatar-none.has-cover {
+	min-height: 200px;
+}
+
+.bp-block-member.avatar-full {
+	min-height: 150px;
+}
+
+.bp-block-member.avatar-full.has-cover {
+	min-height: 300px;
+}
+
+.bp-block-member.avatar-full .item-header-avatar {
+	width: 180px;
+}
+
+.bp-block-member.has-cover.avatar-full .item-header-avatar {
+	width: 200px;
+}
+
+.bp-block-member.has-cover.avatar-full img.avatar {
+	border: solid 2px #fff;
+	background: rgba(255, 255, 255, 0.8);
+	margin-right: 20px;
+}
+
+.bp-block-member.has-cover .member-content {
+	padding-top: 75px;
+}
+
+.bp-block-member.avatar-thumb .member-content {
+	min-height: 50px;
+	align-items: center;
+}
+
+.bp-block-member.avatar-thumb .item-header-avatar {
+	width: 70px;
+}
+
+.bp-block-member.avatar-thumb.has-cover .item-header-avatar {
+	padding-top: 75px;
+}
+
+.bp-block-member .user-nicename {
+	display: block;
+}
+
+.bp-block-member .user-nicename a,
+.entry .entry-content .bp-block-member .user-nicename a {
+	color: currentColor;
+	text-decoration: none;
+	border: none;
+}
+
+.bp-block-member .bp-profile-button {
+	width: 100%;
+}
+
+.bp-block-member .bp-profile-button a.button {
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	display: inline-block;
+	margin: 18px 0 0;
+}
