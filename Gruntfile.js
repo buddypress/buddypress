@@ -17,6 +17,13 @@ module.exports = function( grunt ) {
 			'**/*.js'
 		],
 
+		BP_EXCLUDED_JS = [
+			'!**/js/blocks/*.js',
+			'!**/js/block-components/*.js',
+			'!**/js/block-components/**/*.js',
+			'!**/js/block-components.js'
+		],
+
 		BP_EXCLUDED_MISC = [
 		],
 
@@ -164,23 +171,6 @@ module.exports = function( grunt ) {
 				expand: true
 			}
 		},
-		makepot: {
-			target: {
-				options: {
-					cwd: BUILD_DIR,
-					domainPath: '.',
-					mainFile: 'bp-loader.php',
-					potFilename: 'buddypress.pot',
-					processPot: function( pot ) {
-						pot.headers['report-msgid-bugs-to'] = 'https://buddypress.trac.wordpress.org';
-						pot.headers['last-translator'] = 'JOHN JAMES JACOBY <jjj@buddypress.org>';
-						pot.headers['language-team'] = 'ENGLISH <jjj@buddypress.org>';
-						return pot;
-					},
-					type: 'wp-plugin'
-				}
-			}
-		},
 		imagemin: {
 			core: {
 				expand: true,
@@ -201,7 +191,7 @@ module.exports = function( grunt ) {
 						dest: BUILD_DIR,
 						dot: true,
 						expand: true,
-						src: ['**', '!**/.{svn,git}/**'].concat( BP_EXCLUDED_MISC )
+						src: ['**', '!**/.{svn,git,cache}/**', '!js/**'].concat( BP_EXCLUDED_MISC )
 					},
 					{
 						dest: BUILD_DIR,
@@ -245,7 +235,7 @@ module.exports = function( grunt ) {
 				extDot: 'last',
 				expand: true,
 				ext: '.min.js',
-				src: BP_JS
+				src: BP_JS.concat( BP_EXCLUDED_JS, BP_EXCLUDED_MISC )
 			}
 		},
 		stylelint: {
@@ -332,6 +322,20 @@ module.exports = function( grunt ) {
 				command: 'svn export --force https://github.com/buddypress/BP-REST.git/trunk bp-rest',
 				cwd: BUILD_DIR,
 				stdout: false
+			},
+			makepot: {
+				command: 'wp i18n make-pot build build/buddypress.pot --headers=\'{"Project-Id-Version": "BuddyPress", "Report-Msgid-Bugs-To": "https://buddypress.trac.wordpress.org", "Last-Translator": "JOHN JAMES JACOBY <jjj@buddypress.org>", "Language-Team": "ENGLISH <jjj@buddypress.org>"}\'',
+				stdout: true
+			},
+			blocks_src: {
+				command: 'npm run dev',
+				cwd: SOURCE_DIR,
+				stdout: true
+			},
+			blocks_build: {
+				command: 'npm run build',
+				cwd: SOURCE_DIR,
+				stdout: true
 			}
 		},
 		jsvalidate:{
@@ -342,12 +346,12 @@ module.exports = function( grunt ) {
 			},
 			build: {
 				files: {
-					src: [BUILD_DIR + '/**/*.js']
+					src: [BUILD_DIR + '/**/*.js'].concat( BP_EXCLUDED_JS, BP_EXCLUDED_MISC )
 				}
 			},
 			src: {
 				files: {
-					src: [SOURCE_DIR + '/**/*.js'].concat( BP_EXCLUDED_MISC )
+					src: [SOURCE_DIR + '/**/*.js'].concat( BP_EXCLUDED_JS, BP_EXCLUDED_MISC )
 				}
 			}
 		},
@@ -367,9 +371,10 @@ module.exports = function( grunt ) {
 	 * Register tasks.
 	 */
 	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'postcss', 'rtlcss'] );
+	grunt.registerTask( 'makepot', ['exec:makepot'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcompat'] );
 	grunt.registerTask( 'bp_rest', [ 'exec:rest_api', 'copy:bp_rest_components', 'copy:bp_rest_core', 'clean:bp_rest' ] );
-	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify', 'jsvalidate:build', 'cssmin', 'bp_rest', 'makepot', 'exec:bpdefault', 'exec:cli'] );
+	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'exec:blocks_src', 'cssmin', 'bp_rest', 'makepot', 'exec:blocks_build', 'exec:bpdefault', 'exec:cli'] );
 	grunt.registerTask( 'release', ['build'] );
 
 	// Testing tasks.

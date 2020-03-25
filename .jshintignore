@@ -1,3 +1,9 @@
 // 3rd party libraries
 src/bp-core/js/vendor/**/*
 src/bp-messages/js/autocomplete/*
+
+// Blocks Scripts
+src/**/js/blocks/*.js
+src/**/js/block-components/*.js
+src/**/js/block-components/**/*.js
+src/bp-core/js/block-components.js
