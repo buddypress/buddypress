@@ -95,7 +95,7 @@ before_install:
   # setup NodeJS version using NVM
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - node --version
-  - nvm install 6
+  - nvm install 10.13.0
   - node --version
   - npm install -g grunt-cli
   - npm --version
