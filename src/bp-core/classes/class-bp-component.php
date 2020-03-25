@@ -466,6 +466,11 @@ class BP_Component {
 			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
 		}
 
+		// Register BP Blocks.
+		if ( bp_rest_api_is_available() ) {
+			add_action( 'bp_blocks_init', array( $this, 'blocks_init' ), 10 );
+		}
+
 		/**
 		 * Fires at the end of the setup_actions method inside BP_Component.
 		 *
@@ -905,6 +910,41 @@ class BP_Component {
 		 * @since 5.0.0
 		 */
 		do_action( 'bp_' . $this->id . '_rest_api_init' );
+	}
+
+	/**
+	 * Register the BP Blocks.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $blocks The list of BP Blocks to register.
+	 */
+	public function blocks_init( $blocks = array() ) {
+		if ( is_array( $blocks ) && $blocks ) {
+			/**
+			 * Filter here to disable all or some BP Blocks for a component.
+			 *
+			 * This is a dynamic hook that is based on the component string ID.
+			 *
+			 * @since 6.0.0
+			 *
+			 * @param array $blocks The list of BP Blocks for the component.
+			 */
+			$blocks = (array) apply_filters( 'bp_' . $this->id . '_register_blocks', $blocks );
+
+			foreach ( $blocks as $block ) {
+				bp_register_block( $block );
+			}
+		}
+
+		/**
+		 * Fires in the blocks_init method inside BP_Component.
+		 *
+		 * This is a dynamic hook that is based on the component string ID.
+		 *
+		 * @since 6.0.0
+		 */
+		do_action( 'bp_' . $this->id . '_blocks_init' );
 	}
 }
 endif; // BP_Component.
