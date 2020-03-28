@@ -52,6 +52,7 @@ function bp_messages_star_bulk_manage_handler() {
 				) );
 			}
 
+			/* translators: %s: number of starred messages */
 			bp_core_add_message( sprintf( _n( '%s message was successfully starred', '%s messages were successfully starred', $count, 'buddypress' ), $count ) );
 			break;
 
@@ -66,6 +67,7 @@ function bp_messages_star_bulk_manage_handler() {
 				) );
 			}
 
+			/* translators: %s: number of unstarred messages */
 			bp_core_add_message( sprintf( _n( '%s message was successfully unstarred', '%s messages were successfully unstarred', $count, 'buddypress' ), $count ) );
 			break;
 	}

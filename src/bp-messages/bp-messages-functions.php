@@ -93,6 +93,7 @@ function messages_new_message( $args = '' ) {
 
 		// Set a default reply subject if none was sent.
 		if ( empty( $message->subject ) ) {
+			/* translators: %s: message subject */
 			$message->subject = sprintf( __( 'Re: %s', 'buddypress' ), $thread->messages[0]->subject );
 		}
 

@@ -639,6 +639,7 @@ function bp_message_thread_total_and_unread_count( $thread_id = false ) {
 			/* translators: 1: total number, 2: accessibility text: number of unread messages */
 			'<span class="thread-count">(%1$s)</span> <span class="bp-screen-reader-text">%2$s</span>',
 			number_format_i18n( $total ),
+			/* translators: %d: number of unread messages */
 			sprintf( _n( '%d unread', '%d unread', $unread, 'buddypress' ), number_format_i18n( $unread ) )
 		);
 	}
@@ -825,6 +826,7 @@ function bp_messages_pagination_count() {
 	if ( 1 == $messages_template->total_thread_count ) {
 		$message = __( 'Viewing 1 message', 'buddypress' );
 	} else {
+		/* translators: 1: message from number. 2: message to number. 3: total messages. */
 		$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s message', 'Viewing %1$s - %2$s of %3$s messages', $messages_template->total_thread_count, 'buddypress' ), $from_num, $to_num, $total );
 	}
 
@@ -1675,6 +1677,7 @@ function bp_the_thread_subject() {
  */
 function bp_get_the_thread_recipients() {
 	if ( 5 <= bp_get_thread_recipients_count() ) {
+		/* translators: %s: number of message recipients */
 		$recipients = sprintf( __( '%s recipients', 'buddypress' ), number_format_i18n( bp_get_thread_recipients_count() ) );
 	} else {
 		$recipients = bp_get_thread_recipients_list();
@@ -2066,7 +2069,14 @@ function bp_the_thread_message_time_since() {
 		 *
 		 * @param string $value Default text of 'Sent x hours ago'.
 		 */
-		return apply_filters( 'bp_get_the_thread_message_time_since', sprintf( __( 'Sent %s', 'buddypress' ), bp_core_time_since( bp_get_the_thread_message_date_sent() ) ) );
+		return apply_filters(
+			'bp_get_the_thread_message_time_since',
+			sprintf(
+				/* translators: %s: last activity timestamp (e.g. "active 1 hour ago") */
+				__( 'Sent %s', 'buddypress' ),
+				bp_core_time_since( bp_get_the_thread_message_date_sent() )
+			)
+		);
 	}
 
 /**
