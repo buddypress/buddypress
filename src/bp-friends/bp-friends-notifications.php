@@ -38,9 +38,11 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 
 			// Set up the string and the filter.
 			if ( (int) $total_items > 1 ) {
+				/* translators: %d: the number of friends */
 				$text = sprintf( __( '%d friends accepted your friendship requests', 'buddypress' ), (int) $total_items );
 				$amount = 'multiple';
 			} else {
+				/* translators: %s: friend name */
 				$text = sprintf( __( '%s accepted your friendship request', 'buddypress' ),  bp_core_get_user_displayname( $item_id ) );
 				$amount = 'single';
 			}
@@ -54,9 +56,11 @@ function friends_format_notifications( $action, $item_id, $secondary_item_id, $t
 
 			// Set up the string and the filter.
 			if ( (int) $total_items > 1 ) {
+				/* translators: %d: the number of pending requests */
 				$text = sprintf( __( 'You have %d pending friendship requests', 'buddypress' ), (int) $total_items );
 				$amount = 'multiple';
 			} else {
+				/* translators: %s: friend name */
 				$text = sprintf( __( 'You have a friendship request from %s', 'buddypress' ),  bp_core_get_user_displayname( $item_id ) );
 				$amount = 'single';
 			}

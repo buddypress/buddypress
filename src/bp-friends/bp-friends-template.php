@@ -81,7 +81,20 @@ function bp_friends_random_friends() {
 	} ?>
 
 	<div class="info-group">
-		<h4><?php bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) ) ?>  (<?php echo BP_Friends_Friendship::total_friend_count( bp_displayed_user_id() ) ?>) <span><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() ) ?>"><?php _e('See All', 'buddypress') ?></a></span></h4>
+		<h4>
+			<?php
+			/* translators: %s: member name */
+			bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) );
+			?>
+			&nbsp;
+			(<?php echo BP_Friends_Friendship::total_friend_count( bp_displayed_user_id() ); ?>)
+			&nbsp;
+			<span>
+				<a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() ) ?>">
+					<?php esc_html_e( 'See All', 'buddypress' ) ?>
+				</a>
+			</span>
+		</h4>
 
 		<?php if ( $friend_ids ) { ?>
 
@@ -101,7 +114,12 @@ function bp_friends_random_friends() {
 		<?php } else { ?>
 
 			<div id="message" class="info">
-				<p><?php bp_word_or_name( __( "You haven't added any friend connections yet.", 'buddypress' ), __( "%s hasn't created any friend connections yet.", 'buddypress' ) ) ?></p>
+				<p>
+					<?php
+					/* translators: %s: member name */
+					bp_word_or_name( __( "You haven't added any friend connections yet.", 'buddypress' ), __( "%s hasn't created any friend connections yet.", 'buddypress' ) );
+					?>
+				</p>
 			</div>
 
 		<?php } ?>
@@ -234,22 +252,21 @@ function bp_member_total_friend_count() {
 	function bp_get_member_total_friend_count() {
 		global $members_template;
 
-		if ( 1 == (int) $members_template->member->total_friend_count ) {
+		$total_friend_count = (int) $members_template->member->total_friend_count;
 
-			/**
-			 * Filters text used to denote total friend count.
-			 *
-			 * @since 1.2.0
-			 *
-			 * @param string $value String of the form "x friends".
-			 * @param int    $value Total friend count for current member in the loop.
-			 */
-			return apply_filters( 'bp_get_member_total_friend_count', sprintf( __( '%d friend', 'buddypress' ), (int) $members_template->member->total_friend_count ) );
-		} else {
-
-			/** This filter is documented in bp-friends/bp-friends-template.php */
-			return apply_filters( 'bp_get_member_total_friend_count', sprintf( __( '%d friends', 'buddypress' ), (int) $members_template->member->total_friend_count ) );
-		}
+		/**
+		 * Filters text used to denote total friend count.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param string $value String of the form "x friends".
+		 * @param int    $value Total friend count for current member in the loop.
+		 */
+		return apply_filters(
+			'bp_get_member_total_friend_count',
+			/* translators: %d: total friend count */
+			sprintf( _n( '%d friend', '%d friends', $total_friend_count, 'buddypress' ), number_format_i18n( $total_friend_count ) )
+		);
 	}
 
 /**
@@ -716,7 +733,11 @@ function bp_friends_get_profile_stats( $args = '' ) {
 			}
 
 			// If friends exist, show some formatted output.
-			$r['output'] = $r['before'] . sprintf( _n( '%s friend', '%s friends', $r['friends'], 'buddypress' ), '<strong>' . $r['friends'] . '</strong>' ) . $r['after'];
+			$r['output'] = $r['before'];
+
+			/* translators: %d: total friend count */
+			$r['output'] .= sprintf( _n( '%d friend', '%d friends', $r['friends'], 'buddypress' ), '<strong>' . number_format_i18n( $r['friends'] ) . '</strong>' );
+			$r['output'] .= $r['after'];
 		}
 	}
 

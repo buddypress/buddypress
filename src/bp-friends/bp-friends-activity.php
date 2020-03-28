@@ -141,6 +141,7 @@ function bp_friends_format_activity_action_friendship_accepted( $action, $activi
 	$initiator_link = bp_core_get_userlink( $activity->user_id );
 	$friend_link    = bp_core_get_userlink( $activity->secondary_item_id );
 
+	/* translators: 1: the initiator user link. 2: the friend user link. */
 	$action = sprintf( esc_html__( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link );
 
 	// Backward compatibility for legacy filter
@@ -175,6 +176,7 @@ function bp_friends_format_activity_action_friendship_created( $action, $activit
 	$initiator_link = bp_core_get_userlink( $activity->user_id );
 	$friend_link    = bp_core_get_userlink( $activity->secondary_item_id );
 
+	/* translators: 1: the initiator user link. 2: the friend user link. */
 	$action = sprintf( esc_html__( '%1$s and %2$s are now friends', 'buddypress' ), $initiator_link, $friend_link );
 
 	// Backward compatibility for legacy filter
