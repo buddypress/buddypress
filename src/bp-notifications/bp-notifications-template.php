@@ -936,6 +936,7 @@ function bp_notifications_pagination_count() {
 		if ( 1 == $query_loop->total_notification_count ) {
 			$pag = __( 'Viewing 1 notification', 'buddypress' );
 		} else {
+			/* translators: 1: notification from number. 2: notification to number. 3: total notifications. */
 			$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s notification', 'Viewing %1$s - %2$s of %3$s notifications', $query_loop->total_notification_count, 'buddypress' ), $from_num, $to_num, $total );
 		}
 
