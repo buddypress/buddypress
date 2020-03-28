@@ -779,6 +779,7 @@ class BP_Admin {
 					<p>
 						<?php
 						printf(
+							/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
 							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 28, 'buddypress' ),
 							'<span class="dashicons dashicons-heart"></span>',
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
@@ -955,7 +956,15 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h3 class="wp-people-group"><?php printf( esc_html__( 'Contributors to BuddyPress %s', 'buddypress' ), self::display_version() ); ?></h3>
+			<h3 class="wp-people-group">
+				<?php
+				printf(
+					/* translators: %s: BuddyPress version number */
+					esc_html__( 'Contributors to BuddyPress %s', 'buddypress' ),
+					self::display_version()
+				);
+				?>
+			</h3>
 			<p class="wp-credits-list">
 				<a href="https://github.com/baconbro">baconbro</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,

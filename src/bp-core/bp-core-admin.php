@@ -54,5 +54,6 @@ function bp_admin() {
 		'buddypress'
 	);
 
+	/* translators: %s: the link to the BuddyPress release notes */
 	__( 'For more information, see <a href="%s">the release notes</a>.', 'buddypress' );
 }

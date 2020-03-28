@@ -1185,7 +1185,11 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	 *
 	 * @param string $value String representing the time since the older date.
 	 */
-	$ago_text       = apply_filters( 'bp_core_time_since_ago_text',       __( '%s ago',    'buddypress' ) );
+	$ago_text = apply_filters(
+		'bp_core_time_since_ago_text',
+		/* translators: %s: the human time diff. */
+		__( '%s ago', 'buddypress' )
+	);
 
 	// Array of time period chunks.
 	$chunks = array(
@@ -1246,24 +1250,31 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 			// Set output var.
 			switch ( $seconds ) {
 				case YEAR_IN_SECONDS :
+					/* translators: %s: the number of years. */
 					$output = sprintf( _n( '%s year',   '%s years',   $count, 'buddypress' ), $count );
 					break;
 				case 30 * DAY_IN_SECONDS :
+					/* translators: %s: the number of months. */
 					$output = sprintf( _n( '%s month',  '%s months',  $count, 'buddypress' ), $count );
 					break;
 				case WEEK_IN_SECONDS :
+					/* translators: %s: the number of weeks. */
 					$output = sprintf( _n( '%s week',   '%s weeks',   $count, 'buddypress' ), $count );
 					break;
 				case DAY_IN_SECONDS :
+					/* translators: %s: the number of days. */
 					$output = sprintf( _n( '%s day',    '%s days',    $count, 'buddypress' ), $count );
 					break;
 				case HOUR_IN_SECONDS :
+					/* translators: %s: the number of hours. */
 					$output = sprintf( _n( '%s hour',   '%s hours',   $count, 'buddypress' ), $count );
 					break;
 				case MINUTE_IN_SECONDS :
+					/* translators: %s: the number of minutes. */
 					$output = sprintf( _n( '%s minute', '%s minutes', $count, 'buddypress' ), $count );
 					break;
 				default:
+					/* translators: %s: the number of seconds. */
 					$output = sprintf( _n( '%s second', '%s seconds', $count, 'buddypress' ), $count );
 			}
 
@@ -1283,21 +1294,27 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 
 					switch ( $seconds2 ) {
 						case 30 * DAY_IN_SECONDS :
+							/* translators: %s: the number of months. */
 							$output .= sprintf( _n( '%s month',  '%s months',  $count2, 'buddypress' ), $count2 );
 							break;
 						case WEEK_IN_SECONDS :
+							/* translators: %s: the number of weeks. */
 							$output .= sprintf( _n( '%s week',   '%s weeks',   $count2, 'buddypress' ), $count2 );
 							break;
 						case DAY_IN_SECONDS :
+							/* translators: %s: the number of days. */
 							$output .= sprintf( _n( '%s day',    '%s days',    $count2, 'buddypress' ), $count2 );
 							break;
 						case HOUR_IN_SECONDS :
+							/* translators: %s: the number of hours. */
 							$output .= sprintf( _n( '%s hour',   '%s hours',   $count2, 'buddypress' ), $count2 );
 							break;
 						case MINUTE_IN_SECONDS :
+							/* translators: %s: the number of minutes. */
 							$output .= sprintf( _n( '%s minute', '%s minutes', $count2, 'buddypress' ), $count2 );
 							break;
 						default:
+							/* translators: %s: the number of seconds. */
 							$output .= sprintf( _n( '%s second', '%s seconds', $count2, 'buddypress' ), $count2 );
 					}
 				}
@@ -3249,10 +3266,10 @@ function bp_send_email( $email_type, $to, $args = array() ) {
  * @return array
  */
 function bp_email_get_appearance_settings() {
-	/* translators: This is the copyright text for email footers. 1. Copyright year, 2. Site name */
 	$footer_text = array(
 		sprintf(
-			_x( '&copy; %1$s %2$s', 'email', 'buddypress' ),
+			/* translators: 1. Copyright year, 2. Site name */
+			_x( '&copy; %1$s %2$s', 'copyright text for email footers', 'buddypress' ),
 			date_i18n( 'Y' ),
 			bp_get_option( 'blogname' )
 		)

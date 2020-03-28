@@ -159,6 +159,8 @@ abstract class BP_Attachment {
 		$upload_errors = array(
 			0 => __( 'The file was uploaded successfully', 'buddypress' ),
 			1 => __( 'The uploaded file exceeds the maximum allowed file size for this site', 'buddypress' ),
+
+			/* translators: %s: Max file size for the file */
 			2 => sprintf( __( 'The uploaded file exceeds the maximum allowed file size of: %s', 'buddypress' ), size_format( $this->original_max_filesize ) ),
 			3 => __( 'The uploaded file was only partially uploaded.', 'buddypress' ),
 			4 => __( 'No file was uploaded.', 'buddypress' ),
@@ -500,7 +502,15 @@ abstract class BP_Attachment {
 			$ext           = $is_image['ext'];
 
 			if ( empty( $ext ) || empty( $supported_image_types[ $ext ] ) ) {
-				$wp_error->add( 'crop_error', sprintf( __( 'Cropping the file failed: %s is not a supported image file.', 'buddypress' ), $file['error'] ) );
+				$wp_error->add(
+					'crop_error',
+					sprintf(
+						/* translators: %s: image file extension */
+						__( 'Cropping the file failed: %s is not a supported image file.', 'buddypress' ),
+						$file['error']
+					)
+				);
+
 				return $wp_error;
 			}
 		}

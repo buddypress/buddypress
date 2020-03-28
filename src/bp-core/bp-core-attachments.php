@@ -640,6 +640,8 @@ function bp_attachments_get_plupload_l10n() {
 		'bp_attachments_get_plupload_l10n',
 		array(
 			'queue_limit_exceeded'      => __( 'You have attempted to queue too many files.', 'buddypress' ),
+
+			/* translators: %s: File name. */
 			'file_exceeds_size_limit'   => __( '%s exceeds the maximum upload size for this site.', 'buddypress' ),
 			'zero_byte_file'            => __( 'This file is empty. Please try another.', 'buddypress' ),
 			'invalid_filetype'          => __( 'This file type is not allowed. Please try another.', 'buddypress' ),
@@ -651,7 +653,11 @@ function bp_attachments_get_plupload_l10n() {
 			'upload_limit_exceeded'     => __( 'You may only upload 1 file.', 'buddypress' ),
 			'http_error'                => __( 'HTTP error.', 'buddypress' ),
 			'upload_failed'             => __( 'Upload failed.', 'buddypress' ),
+
+			/* translators: 1: Opening link tag, 2: Closing link tag. */
 			'big_upload_failed'         => __( 'Please try uploading this file with the %1$sbrowser uploader%2$s.', 'buddypress' ),
+
+			/* translators: %s: File name. */
 			'big_upload_queued'         => __( '%s exceeds the maximum upload size for the multi-file uploader when used in your browser.', 'buddypress' ),
 			'io_error'                  => __( 'IO error.', 'buddypress' ),
 			'security_error'            => __( 'Security error.', 'buddypress' ),
@@ -660,6 +666,8 @@ function bp_attachments_get_plupload_l10n() {
 			'dismiss'                   => __( 'Dismiss', 'buddypress' ),
 			'crunching'                 => __( 'Crunching&hellip;', 'buddypress' ),
 			'unique_file_warning'       => __( 'Make sure to upload a unique file', 'buddypress' ),
+
+			/* translators: %s: File name. */
 			'error_uploading'           => __( '&#8220;%s&#8221; has failed to upload.', 'buddypress' ),
 			'has_avatar_warning'        => __( 'If you&#39;d like to delete the existing profile photo but not upload a new one, please use the delete tab.', 'buddypress' )
 		)
@@ -830,10 +838,11 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		// Set warning messages.
 		$strings['cover_image_warnings'] = apply_filters( 'bp_attachments_cover_image_ui_warnings', array(
 			'dimensions'  => sprintf(
-					__( 'For better results, make sure to upload an image that is larger than %1$spx wide, and %2$spx tall.', 'buddypress' ),
-					(int) $cover_dimensions['width'],
-					(int) $cover_dimensions['height']
-				),
+				/* translators: 1: the advised width size in pixels. 2: the advised height size in pixels. */
+				__( 'For better results, make sure to upload an image that is larger than %1$spx wide, and %2$spx tall.', 'buddypress' ),
+				(int) $cover_dimensions['width'],
+				(int) $cover_dimensions['height']
+			),
 		) );
 	}
 
@@ -1353,7 +1362,11 @@ function bp_attachments_cover_image_ajax_upload() {
 		// Upload error response.
 		bp_attachments_json_response( false, $is_html4, array(
 			'type'    => 'upload_error',
-			'message' => sprintf( __( 'Upload Failed! Error was: %s', 'buddypress' ), $uploaded['error'] ),
+			'message' => sprintf(
+				/* translators: %s: the upload error message */
+				__( 'Upload Failed! Error was: %s', 'buddypress' ),
+				$uploaded['error']
+			),
 		) );
 	}
 

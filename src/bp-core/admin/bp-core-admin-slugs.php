@@ -190,9 +190,19 @@ function bp_core_admin_slugs_options() {
 			<p><?php _e( 'Associate WordPress Pages with the following BuddyPress Registration pages.', 'buddypress' ); ?></p>
 		<?php else : ?>
 			<?php if ( is_multisite() ) : ?>
-				<p><?php printf( __( 'Registration is currently disabled.  Before associating a page is allowed, please enable registration by selecting either the "User accounts may be registered" or "Both sites and user accounts can be registered" option on <a href="%s">this page</a>.', 'buddypress' ), network_admin_url( 'settings.php' ) ); ?></p>
+				<p>
+					<?php
+					/* translators: %s: the link to the Network settings page */
+					printf( __( 'Registration is currently disabled.  Before associating a page is allowed, please enable registration by selecting either the "User accounts may be registered" or "Both sites and user accounts can be registered" option on <a href="%s">this page</a>.', 'buddypress' ), network_admin_url( 'settings.php' ) );
+					?>
+				</p>
 			<?php else : ?>
-				<p><?php printf( __( 'Registration is currently disabled.  Before associating a page is allowed, please enable registration by clicking on the "Anyone can register" checkbox on <a href="%s">this page</a>.', 'buddypress' ), admin_url( 'options-general.php' ) ); ?></p>
+				<p>
+					<?php
+					/* translators: %s: the link to the Site settings page */
+					printf( __( 'Registration is currently disabled.  Before associating a page is allowed, please enable registration by clicking on the "Anyone can register" checkbox on <a href="%s">this page</a>.', 'buddypress' ), admin_url( 'options-general.php' ) );
+					?>
+				</p>
 			<?php endif; ?>
 		<?php endif; ?>
 

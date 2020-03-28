@@ -37,8 +37,11 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 
 			// Specific errors for cover images.
 			'upload_error_strings'  => array(
-				11  => sprintf( __( 'That image is too big. Please upload one smaller than %s', 'buddypress' ), size_format( $max_upload_file_size ) ),
-				12  => sprintf( _n( 'Please upload only this file type: %s.', 'Please upload only these file types: %s.', count( $allowed_types ), 'buddypress' ), self::get_cover_image_types( $allowed_types ) ),
+				/* translators: %s: Max file size for the cover image */
+				11  => sprintf( _x( 'That image is too big. Please upload one smaller than %s', 'cover image upload error', 'buddypress' ), size_format( $max_upload_file_size ) ),
+
+				/* translators: %s: comma separated list of file types allowed for the cover image */
+				12  => sprintf( _nx( 'Please upload only this file type: %s.', 'Please upload only these file types: %s.', count( $allowed_types ), 'cover image upload error', 'buddypress' ), self::get_cover_image_types( $allowed_types ) ),
 			),
 		) );
 	}

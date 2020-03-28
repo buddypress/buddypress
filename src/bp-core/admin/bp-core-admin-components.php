@@ -142,24 +142,70 @@ function bp_core_admin_components_options() {
 		case 'retired' :
 			$current_components = $retired_components;
 			break;
-	} ?>
+	}
+
+	$component_views = array(
+		array(
+			'action' => 'all',
+			'view'   => sprintf(
+				/* translators: %s: the number of installed components */
+				_nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $all_count, 'plugins', 'buddypress' ),
+				number_format_i18n( $all_count )
+			),
+		),
+		array(
+			'action' => 'active',
+			'view'   => sprintf(
+				/* translators: %s: the number of active components */
+				_n( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', count( $active_components ), 'buddypress' ),
+				number_format_i18n( count( $active_components ) )
+			),
+		),
+		array(
+			'action' => 'inactive',
+			'view'   => sprintf(
+				/* translators: %s: the number of inactive components */
+				_n( 'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', count( $inactive_components ), 'buddypress' ),
+				number_format_i18n( count( $inactive_components ) )
+			),
+		),
+		array(
+			'action' => 'mustuse',
+			'view'   => sprintf(
+				/* translators: %s: the number of must-Use components */
+				_n( 'Must-Use <span class="count">(%s)</span>', 'Must-Use <span class="count">(%s)</span>', count( $required_components ), 'buddypress' ),
+				number_format_i18n( count( $required_components ) )
+			),
+		),
+		array(
+			'action' => 'retired',
+			'view'   => sprintf(
+				/* translators: %s: the number of retired components */
+				_n( 'Retired <span class="count">(%s)</span>',  'Retired <span class="count">(%s)</span>',  count( $retired_components ),  'buddypress' ),
+				number_format_i18n( count( $retired_components ) )
+			),
+		),
+	);
+	?>
 
 	<h3 class="screen-reader-text"><?php
 		/* translators: accessibility text */
-		_e( 'Filter components list', 'buddypress' );
+		esc_html_e( 'Filter components list', 'buddypress' );
 	?></h3>
 
 	<ul class="subsubsub">
-		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'all'      ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'all'      ) : ?>class="current"<?php endif; ?>><?php printf( _nx( 'All <span class="count">(%s)</span>',      'All <span class="count">(%s)</span>',      $all_count,         'plugins', 'buddypress' ), number_format_i18n( $all_count                    ) ); ?></a> | </li>
-		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'active'   ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'active'   ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Active <span class="count">(%s)</span>',   'Active <span class="count">(%s)</span>',   count( $active_components   ), 'buddypress' ), number_format_i18n( count( $active_components   ) ) ); ?></a> | </li>
-		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'inactive' ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'inactive' ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Inactive <span class="count">(%s)</span>', 'Inactive <span class="count">(%s)</span>', count( $inactive_components ), 'buddypress' ), number_format_i18n( count( $inactive_components ) ) ); ?></a> | </li>
-		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'mustuse'  ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'mustuse'  ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Must-Use <span class="count">(%s)</span>', 'Must-Use <span class="count">(%s)</span>', count( $required_components ), 'buddypress' ), number_format_i18n( count( $required_components ) ) ); ?></a> | </li>
-		<li><a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => 'retired'  ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === 'retired'  ) : ?>class="current"<?php endif; ?>><?php printf( _n(  'Retired <span class="count">(%s)</span>',  'Retired <span class="count">(%s)</span>',  count( $retired_components ),  'buddypress' ), number_format_i18n( count( $retired_components  ) ) ); ?></a></li>
+		<?php foreach ( $component_views as $component_view ) : ?>
+			<li>
+				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => $component_view['action'] ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === $component_view['action'] ) : ?>class="current"<?php endif; ?>>
+					<?php echo wp_kses( $component_view['view'], array( 'span' => array( 'class' => true ) ) ); ?>
+				</a><?php echo 'retired' !== $component_view['action'] ? ' |' : ''; ?>
+			</li>
+		<?php endforeach ;?>
 	</ul>
 
 	<h3 class="screen-reader-text"><?php
 		/* translators: accessibility text */
-		_e( 'Components list', 'buddypress' );
+		esc_html_e( 'Components list', 'buddypress' );
 	?></h3>
 
 	<table class="wp-list-table widefat plugins">

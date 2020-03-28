@@ -355,9 +355,19 @@ function groups_at_message_notification( $content, $poster_user_id, $group_id, $
 			// Set up and send the message.
 			$ud = bp_core_get_core_userdata( $receiver_user_id );
 			$to = $ud->user_email;
-			$subject = bp_get_email_subject( array( 'text' => sprintf( __( '%1$s mentioned you in the group "%2$s"', 'buddypress' ), $poster_name, $group->name ) ) );
+			$subject = bp_get_email_subject(
+				array(
+					'text' => sprintf(
+						/* translators: 1: the poster name. 2: the group name. */
+						_x( '%1$s mentioned you in the group "%2$s"', 'deprecated string', 'buddypress' ),
+						$poster_name,
+						$group->name
+					)
+				)
+			);
 
-$message = sprintf( __(
+/* translators: 1: the poster name. 2: the group name. 3: the content of the activity. 4: the activity permalink. */
+$message = sprintf( _x(
 '%1$s mentioned you in the group "%2$s":
 
 "%3$s"
@@ -365,7 +375,7 @@ $message = sprintf( __(
 To view and respond to the message, log in and visit: %4$s
 
 ---------------------
-', 'buddypress' ), $poster_name, $group->name, $content, $message_link );
+', 'deprecated string', 'buddypress' ), $poster_name, $group->name, $content, $message_link );
 
 			/* Send the message */
 			$to = apply_filters( 'groups_at_message_notification_to', $to );

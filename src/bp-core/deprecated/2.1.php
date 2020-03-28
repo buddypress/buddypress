@@ -456,7 +456,11 @@ function bp_adminbar_authors_menu() {
 				'email'   => $author->user_email,
 				'width'   => 15,
 				'height'  => 15,
-				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $author->display_name )
+				'alt'     => sprintf(
+					/* translators: %s: member name */
+					__( 'Profile picture of %s', 'buddypress' ),
+					$author->display_name
+				),
 			) );
 			echo ' ' . $author->display_name . '</a>';
 			echo '<div class="admin-bar-clear"></div>';
@@ -495,15 +499,36 @@ function bp_members_adminbar_admin_menu() {
 		<ul>
 			<?php if ( bp_is_active( 'xprofile' ) ) : ?>
 
-				<li><a href="<?php bp_members_component_link( 'profile', 'edit' ); ?>"><?php printf( __( "Edit %s's Profile", 'buddypress' ), esc_attr( bp_get_displayed_user_fullname() ) ) ?></a></li>
+				<li>
+					<a href="<?php bp_members_component_link( 'profile', 'edit' ); ?>">
+						<?php
+						/* translators: %s: member name */
+						printf( __( "Edit %s's Profile", 'buddypress' ), esc_attr( bp_get_displayed_user_fullname() ) );
+						?>
+					</a>
+				</li>
 
 			<?php endif ?>
 
-			<li><a href="<?php bp_members_component_link( 'profile', 'change-avatar' ); ?>"><?php printf( __( "Edit %s's Profile Photo", 'buddypress' ), esc_attr( bp_get_displayed_user_fullname() ) ) ?></a></li>
+			<li>
+				<a href="<?php bp_members_component_link( 'profile', 'change-avatar' ); ?>">
+					<?php
+					/* translators: %s: member name */
+					printf( _x( "Edit %s's Profile Photo", 'deprecated string', 'buddypress' ), esc_attr( bp_get_displayed_user_fullname() ) );
+					?>
+				</a>
+			</li>
 
 			<li><a href="<?php bp_members_component_link( 'settings', 'capabilities' ); ?>"><?php _e( 'User Capabilities', 'buddypress' ); ?></a></li>
 
-			<li><a href="<?php bp_members_component_link( 'settings', 'delete-account' ); ?>"><?php printf( __( "Delete %s's Account", 'buddypress' ), esc_attr( bp_get_displayed_user_fullname() ) ); ?></a></li>
+			<li>
+				<a href="<?php bp_members_component_link( 'settings', 'delete-account' ); ?>">
+					<?php
+					/* translators: %s: member name */
+					printf( _x( "Delete %s's Account", 'deprecated string', 'buddypress' ), esc_attr( bp_get_displayed_user_fullname() ) );
+					?>
+				</a>
+			</li>
 
 			<?php do_action( 'bp_members_adminbar_admin_menu' ) ?>
 

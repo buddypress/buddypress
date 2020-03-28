@@ -171,9 +171,17 @@ function bp_core_action_delete_user() {
 		do_action( 'bp_core_before_action_delete_user', $errors );
 
 		if ( bp_core_delete_account( bp_displayed_user_id() ) ) {
-			bp_core_add_message( sprintf( __( '%s has been deleted from the system.', 'buddypress' ), bp_get_displayed_user_fullname() ) );
+			bp_core_add_message(
+				/* translators: %s: member name */
+				sprintf( _x( '%s has been deleted from the system.', 'deprecated string', 'buddypress' ), bp_get_displayed_user_fullname() )
+			);
 		} else {
-			bp_core_add_message( sprintf( __( 'There was an error deleting %s from the system. Please try again.', 'buddypress' ), bp_get_displayed_user_fullname() ), 'error' );
+			bp_core_add_message(
+				/* translators: %s: member name */
+				sprintf( _x( 'There was an error deleting %s from the system. Please try again.', 'deprecated string', 'buddypress' ), bp_get_displayed_user_fullname() ),
+				'error'
+			);
+
 			$errors = true;
 		}
 

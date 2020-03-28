@@ -143,6 +143,7 @@ function bp_get_directory_title( $component = '' ) {
 
 	// If none is found, concatenate.
 	} elseif ( isset( buddypress()->{$component}->name ) ) {
+		/* translators: %s: Name of the BuddyPress component */
 		$title = sprintf( __( '%s Directory', 'buddypress' ), buddypress()->{$component}->name );
 	}
 
@@ -195,7 +196,11 @@ function bp_comment_author_avatar() {
 	echo apply_filters( 'bp_comment_author_avatar', bp_core_fetch_avatar( array(
 		'item_id' => $comment->user_id,
 		'type'    => 'thumb',
-		'alt'     => sprintf( __( 'Profile photo of %s', 'buddypress' ), bp_core_get_user_displayname( $comment->user_id ) )
+		'alt'     => sprintf(
+			/* translators: %s: member name */
+			__( 'Profile photo of %s', 'buddypress' ),
+			bp_core_get_user_displayname( $comment->user_id )
+		),
 	) ) );
 }
 
@@ -210,7 +215,11 @@ function bp_post_author_avatar() {
 	echo apply_filters( 'bp_post_author_avatar', bp_core_fetch_avatar( array(
 		'item_id' => $post->post_author,
 		'type'    => 'thumb',
-		'alt'     => sprintf( __( 'Profile photo of %s', 'buddypress' ), bp_core_get_user_displayname( $post->post_author ) )
+		'alt'     => sprintf(
+			/* translators: %s: member name */
+			__( 'Profile photo of %s', 'buddypress' ),
+			bp_core_get_user_displayname( $post->post_author )
+		),
 	) ) );
 }
 
@@ -3757,5 +3766,14 @@ function bp_email_the_salutation( $settings = array() ) {
 		 * @param array  $settings Email Settings.
 		 * @param string $token    The Recipient token.
 		 */
-		return apply_filters( 'bp_email_get_salutation', sprintf( _x( 'Hi %s,', 'recipient salutation', 'buddypress' ), $token ), $settings, $token );
+		return apply_filters(
+			'bp_email_get_salutation',
+			sprintf(
+				/* translators: %s: the email token for the recipient name */
+				_x( 'Hi %s,', 'recipient salutation', 'buddypress' ),
+				$token
+			),
+			$settings,
+			$token
+		);
 	}
