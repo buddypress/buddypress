@@ -2722,6 +2722,12 @@ function bp_remove_member_type( $user_id, $member_type ) {
 		return false;
 	}
 
+	// No need to continue if the member doesn't have the type.
+	$existing_types = bp_get_member_type( $user_id, false );
+	if ( ! in_array( $member_type, $existing_types, true ) ) {
+		return false;
+	}
+
 	$deleted = bp_remove_object_terms( $user_id, $member_type, bp_get_member_type_tax_name() );
 
 	// Bust the cache if the type has been removed.
