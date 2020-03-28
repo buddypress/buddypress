@@ -48,7 +48,14 @@ function bp_settings_action_delete_account() {
 	if ( bp_core_delete_account( bp_displayed_user_id() ) ) {
 
 		// Add feedback after deleting a user.
-		bp_core_add_message( sprintf( __( '%s was successfully deleted.', 'buddypress' ), $username ), 'success' );
+		bp_core_add_message(
+			sprintf(
+				/* translators: %s: user username */
+				__( '%s was successfully deleted.', 'buddypress' ),
+				$username
+			),
+			'success'
+		);
 
 		// Redirect to the root domain.
 		bp_core_redirect( bp_get_root_domain() );

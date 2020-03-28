@@ -85,16 +85,24 @@ function bp_settings_pending_email_notice() {
 	?>
 
 	<div id="message" class="bp-template-notice error">
-		<p><?php printf(
-			__( 'There is a pending change of your email address to %s.', 'buddypress' ),
-			'<code>' . esc_html( $pending_email['newemail'] ) . '</code>'
-		); ?>
-		<br />
-		<?php printf(
-			__( 'Check your email (%1$s) for the verification link, or <a href="%2$s">cancel the pending change</a>.', 'buddypress' ),
-			'<code>' . esc_html( bp_get_displayed_user_email() ) . '</code>',
-			esc_url( wp_nonce_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?dismiss_email_change=1', 'bp_dismiss_email_change' ) )
-		); ?></p>
+		<p>
+			<?php
+			printf(
+				/* translators: %s: new email address */
+				__( 'There is a pending change of your email address to %s.', 'buddypress' ),
+				'<code>' . esc_html( $pending_email['newemail'] ) . '</code>'
+			);
+			?>
+			<br />
+			<?php
+			printf(
+				/* translators: 1: email address. 2: cancel email change url. */
+				__( 'Check your email (%1$s) for the verification link, or <a href="%2$s">cancel the pending change</a>.', 'buddypress' ),
+				'<code>' . esc_html( bp_get_displayed_user_email() ) . '</code>',
+				esc_url( wp_nonce_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?dismiss_email_change=1', 'bp_dismiss_email_change' ) )
+			);
+			?>
+		</p>
 	</div>
 
 	<?php
