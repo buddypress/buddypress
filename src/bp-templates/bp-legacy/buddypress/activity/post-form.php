@@ -26,11 +26,17 @@
 		</a>
 	</div>
 
-	<p class="activity-greeting"><?php if ( bp_is_group() )
-		printf( __( "What's new in %s, %s?", 'buddypress' ), bp_get_group_name(), bp_get_user_firstname( bp_get_loggedin_user_fullname() ) );
-	else
-		printf( __( "What's new, %s?", 'buddypress' ), bp_get_user_firstname( bp_get_loggedin_user_fullname() ) );
-	?></p>
+	<p class="activity-greeting">
+		<?php
+		if ( bp_is_group() ) {
+			/* translators: 1: group name. 2: member name. */
+			printf( __( 'What\'s new in %1$s, %2$s?', 'buddypress' ), bp_get_group_name(), bp_get_user_firstname( bp_get_loggedin_user_fullname() ) );
+		} else {
+			/* translators: %s: member name */
+			printf( __( "What's new, %s?", 'buddypress' ), bp_get_user_firstname( bp_get_loggedin_user_fullname() ) );
+		}
+		?>
+	</p>
 
 	<div id="whats-new-content">
 		<div id="whats-new-textarea">

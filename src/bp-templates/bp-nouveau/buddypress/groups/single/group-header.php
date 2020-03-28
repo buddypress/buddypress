@@ -27,7 +27,7 @@
 		<?php
 		echo esc_html(
 			sprintf(
-				/* translators: %s = last activity timestamp (e.g. "active 1 hour ago") */
+				/* translators: %s: last activity timestamp (e.g. "active 1 hour ago") */
 				__( 'active %s', 'buddypress' ),
 				bp_get_group_last_active()
 			)

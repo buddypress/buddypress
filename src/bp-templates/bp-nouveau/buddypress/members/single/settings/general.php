@@ -20,7 +20,12 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 
 	<?php if ( ! is_super_admin() ) : ?>
 
-		<label for="pwd"><?php printf( esc_html__( 'Current Password %s', 'buddypress' ), '<span>' . esc_html__( '(required to update email or change current password)', 'buddypress' ) . '</span>' ); ?></label>
+		<label for="pwd">
+			<?php
+			/* translators: %s: email requirement explanations */
+			printf( esc_html__( 'Current Password %s', 'buddypress' ), '<span>' . esc_html__( '(required to update email or change current password)', 'buddypress' ) . '</span>' );
+			?>
+		</label>
 		<input type="password" name="pwd" id="pwd" value="" size="24" class="settings-input small" <?php bp_form_field_attributes( 'password' ); ?>/> &nbsp;<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Lost your password?', 'buddypress' ); ?></a>
 
 	<?php endif; ?>

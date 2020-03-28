@@ -425,6 +425,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 		$params = array(
 			'ajaxurl'             => bp_core_ajax_url(),
 			'confirm'             => __( 'Are you sure?', 'buddypress' ),
+
+			/* translators: %s: number of activity comments */
 			'show_x_comments'     => __( 'Show all %d comments', 'buddypress' ),
 			'unsaved_changes'     => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
 			'object_nav_parent'   => '#buddypress',

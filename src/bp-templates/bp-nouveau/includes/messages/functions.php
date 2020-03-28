@@ -112,6 +112,8 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 		'howtoBulk'     => __( 'Use the select box to define your bulk action and click on the &#10003; button to apply.', 'buddypress' ),
 		'toOthers'      => array(
 			'one'  => __( '(and 1 other)', 'buddypress' ),
+
+			/* translators: %s: number of message recipients */
 			'more' => __( '(and %d others)', 'buddypress' ),
 		),
 		'rootUrl' => parse_url( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ), PHP_URL_PATH ),

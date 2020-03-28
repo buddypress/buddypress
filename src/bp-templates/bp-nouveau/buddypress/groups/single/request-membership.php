@@ -13,7 +13,7 @@ bp_nouveau_group_hook( 'before', 'request_membership_content' ); ?>
 		<?php
 		echo esc_html(
 			sprintf(
-				/* translators: %s = group name */
+				/* translators: %s: group name */
 				__( 'You are requesting to become a member of the group "%s".', 'buddypress' ),
 				bp_get_group_name()
 			)

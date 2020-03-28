@@ -16,6 +16,7 @@
 			<button type="button" class="bp-tooltip" data-bp-tooltip="<?php echo esc_attr_x( 'Close', 'button', 'buddypress' ); ?>" aria-label="<?php esc_attr_e( 'Close this notice', 'buddypress' ); ?>" data-bp-close="remove"><span class="dashicons dashicons-dismiss" aria-hidden="true"></span></button><br/>
 			<?php
 			printf(
+				/* translators: 1: link to the customizer option. 2: link to the customizer widgets section. */
 				esc_html__( 'You can set the preferences of the %1$s or add %2$s to it.', 'buddypress' ),
 				bp_nouveau_members_get_customizer_option_link(),
 				bp_nouveau_members_get_customizer_widgets_link()

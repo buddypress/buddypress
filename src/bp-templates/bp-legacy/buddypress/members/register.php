@@ -187,6 +187,7 @@
 								<p class="field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>"><span id="<?php bp_the_profile_field_input_name(); ?>-2">
 									<?php
 									printf(
+										/* translators: %s: level of visibility */
 										__( 'This field can be seen by: %s', 'buddypress' ),
 										'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
 									);

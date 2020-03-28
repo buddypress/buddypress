@@ -1039,6 +1039,7 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 		),
 		'member-wp-profile-none' => array(
 			'type'    => 'info',
+			/* translators: %s: member name */
 			'message' => __( '%s did not save any profile information yet.', 'buddypress' ),
 		),
 		'member-delete-account' => array(

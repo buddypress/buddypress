@@ -158,6 +158,8 @@ function bp_nouveau_groups_localize_scripts( $params = array() ) {
 		'invites_form'       => __( 'Use the "Send" button to send your invite or the "Cancel" button to abort.', 'buddypress' ),
 		'invites_form_reset' => __( 'Group invitations cleared. Please use one of the available tabs to select members to invite.', 'buddypress' ),
 		'invites_sending'    => __( 'Sending group invitations. Please wait.', 'buddypress' ),
+
+		/* translators: %s: member name */
 		'removeUserInvite'   => __( 'Cancel invitation %s', 'buddypress' ),
 		'group_id'           => ! bp_get_current_group_id() ? bp_get_new_group_id() : bp_get_current_group_id(),
 		'is_group_create'    => bp_is_group_create(),

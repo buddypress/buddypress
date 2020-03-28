@@ -60,11 +60,23 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 
 		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Sites directory main navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
-				<li class="selected" id="blogs-all"><a href="<?php bp_root_domain(); ?>/<?php bp_blogs_root_slug(); ?>"><?php printf( __( 'All Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count() . '</span>' ); ?></a></li>
+				<li class="selected" id="blogs-all">
+					<a href="<?php bp_root_domain(); ?>/<?php bp_blogs_root_slug(); ?>">
+						<?php
+						/* translators: %s: all blogs count */
+						printf( __( 'All Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count() . '</span>' ); ?>
+					</a>
+				</li>
 
 				<?php if ( is_user_logged_in() && bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) ) : ?>
 
-					<li id="blogs-personal"><a href="<?php echo bp_loggedin_user_domain() . bp_get_blogs_slug(); ?>"><?php printf( __( 'My Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) . '</span>' ); ?></a></li>
+					<li id="blogs-personal">
+						<a href="<?php echo bp_loggedin_user_domain() . bp_get_blogs_slug(); ?>">
+							<?php
+							/* translators: %s: current user blogs count */
+							printf( __( 'My Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) . '</span>' ); ?>
+						</a>
+					</li>
 
 				<?php endif; ?>
 

@@ -32,7 +32,16 @@ do_action( 'bp_before_group_invites_content' ); ?>
 					</div>
 				<?php endif; ?>
 
-				<h4><?php bp_group_link(); ?><span class="small"> - <?php printf( _nx( '%d member', '%d members', bp_get_group_total_members( false ),'Group member count', 'buddypress' ), bp_get_group_total_members( false )  ); ?></span></h4>
+				<h4>
+					<?php bp_group_link(); ?>
+					<span class="small">
+						&nbsp;-&nbsp;
+						<?php
+						/* translators: %s: group members count */
+						printf( _nx( '%d member', '%d members', bp_get_group_total_members( false ),'Group member count', 'buddypress' ), bp_get_group_total_members( false )  );
+						?>
+					</span>
+				</h4>
 
 				<p class="desc">
 					<?php bp_group_description_excerpt(); ?>
