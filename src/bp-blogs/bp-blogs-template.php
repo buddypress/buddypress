@@ -242,6 +242,7 @@ function bp_get_blogs_pagination_count() {
 	if ( 1 == $blogs_template->total_blog_count ) {
 		$message = __( 'Viewing 1 site', 'buddypress' );
 	} else {
+		/* translators: 1: the site from number. 2: the site to number. 3: the total number of sites. */
 		$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s site', 'Viewing %1$s - %2$s of %3$s sites', $blogs_template->total_blog_count, 'buddypress' ), $from_num, $to_num, $total );
 	}
 
@@ -357,7 +358,11 @@ function bp_blog_avatar( $args = '' ) {
 			'height'  => false,
 			'class'   => 'avatar',
 			'id'      => false,
-			'alt'     => sprintf( __( 'Profile picture of site author %s', 'buddypress' ), esc_attr( $author_displayname ) ),
+			'alt'     => sprintf(
+				/* translators: %s: the author display name */
+				__( 'Profile picture of site author %s', 'buddypress' ),
+				esc_attr( $author_displayname )
+			),
 			'no_grav' => false,
 		) );
 
@@ -648,7 +653,8 @@ function bp_blog_last_active( $args = array() ) {
 
 		// Backwards compatibility for anyone forcing a 'true' active_format.
 		if ( true === $r['active_format'] ) {
-			$r['active_format'] = __( 'active %s', 'buddypress' );
+			/* translators: %s: human time diff of the last time the site was active. */
+			$r['active_format'] = _x( 'active %s', 'last time the site was active', 'buddypress' );
 		}
 
 		// Blog has been posted to at least once.
@@ -713,7 +719,11 @@ function bp_blog_latest_post( $args = array() ) {
 				 *
 				 * @param string $retval Title of the latest post.
 				 */
-				$retval = sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>' );
+				$retval = sprintf(
+					/* translators: %s: the title of the latest post */
+					__( 'Latest Post: %s', 'buddypress' ),
+					'<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>'
+				);
 			} else {
 
 				/** This filter is documented in bp-blogs/bp-blogs-template.php */
@@ -1251,6 +1261,7 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 		<?php printf(
 			'%s %s',
 			sprintf(
+				/* translators: %s: the link of the new site */
 				__( '%s is your new site.', 'buddypress' ),
 				sprintf( '<a href="%s">%s</a>', esc_url( $blog_url ), esc_url( $blog_url ) )
 			),
@@ -1309,9 +1320,30 @@ function bp_blogs_blog_tabs() {
 	} ?>
 
 	<ul class="content-header-nav">
-		<li<?php if ( bp_is_current_action( 'my-blogs'        ) || !bp_current_action() ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/my-blogs'        ); ?>"><?php printf( __( "%s's Sites", 'buddypress' ),           bp_get_displayed_user_fullname() ); ?></a></li>
-		<li<?php if ( bp_is_current_action( 'recent-posts'    )                         ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/recent-posts'    ); ?>"><?php printf( __( "%s's Recent Posts", 'buddypress' ),    bp_get_displayed_user_fullname() ); ?></a></li>
-		<li<?php if ( bp_is_current_action( 'recent-comments' )                         ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/recent-comments' ); ?>"><?php printf( __( "%s's Recent Comments", 'buddypress' ), bp_get_displayed_user_fullname() ); ?></a></li>
+		<li<?php if ( bp_is_current_action( 'my-blogs' ) || !bp_current_action() ) : ?> class="current"<?php endif; ?>>
+			<a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/my-blogs' ); ?>">
+				<?php
+				/* translators: %s: the User Display Name */
+				printf( __( "%s's Sites", 'buddypress' ), bp_get_displayed_user_fullname() );
+				?>
+			</a>
+		</li>
+		<li<?php if ( bp_is_current_action( 'recent-posts' ) ) : ?> class="current"<?php endif; ?>>
+			<a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/recent-posts'    ); ?>">
+				<?php
+				/* translators: %s: the User Display Name */
+				printf( __( "%s's Recent Posts", 'buddypress' ), bp_get_displayed_user_fullname() );
+				?>
+			</a>
+		</li>
+		<li<?php if ( bp_is_current_action( 'recent-comments' ) ) : ?> class="current"<?php endif; ?>>
+			<a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_blogs_slug() . '/recent-comments' ); ?>">
+				<?php
+				/* translators: %s: the User Display Name */
+				printf( __( "%s's Recent Comments", 'buddypress' ), bp_get_displayed_user_fullname() );
+				?>
+			</a>
+		</li>
 	</ul>
 
 <?php
@@ -1555,7 +1587,11 @@ function bp_blogs_get_profile_stats( $args = '' ) {
 			}
 
 			// If blogs exist, show some formatted output.
-			$r['output'] = $r['before'] . sprintf( _n( '%s site', '%s sites', $r['blogs'], 'buddypress' ), '<strong>' . $r['blogs'] . '</strong>' ) . $r['after'];
+			$r['output'] = $r['before'];
+
+			/* translators: %s: the number of blogs */
+			$r['output'] .= sprintf( _n( '%s site', '%s sites', $r['blogs'], 'buddypress' ), '<strong>' . $r['blogs'] . '</strong>' );
+			$r['output'] .= $r['after'];
 		}
 	}
 
