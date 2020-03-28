@@ -111,7 +111,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 			</div>',
 			esc_url( $member_link ),
 			esc_url( $avatar ),
-			// Translators: %s is the member's display name.
+			/* translators: %s: member name */
 			sprintf( esc_html__( 'Profile photo of %s', 'buddypress' ), $display_name )
 		);
 	}

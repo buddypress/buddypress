@@ -178,6 +178,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 				$link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( network_admin_url( 'settings.php' ) ), esc_html__( 'Edit settings', 'buddypress' ) );
 			}
 
+			/* translators: %s: url to site settings */
 			printf( __( 'Registration is disabled. %s', 'buddypress' ), $link );
 		}
 	}

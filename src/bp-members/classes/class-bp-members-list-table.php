@@ -195,6 +195,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 				$link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( bp_get_admin_url( 'options-general.php' ) ), esc_html__( 'Edit settings', 'buddypress' ) );
 			}
 
+			/* translators: %s: url to site settings */
 			printf( __( 'Registration is disabled. %s', 'buddypress' ), $link );
 		}
 

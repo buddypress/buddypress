@@ -47,7 +47,9 @@ add_action( 'bp_register_activity_actions', 'bp_members_register_activity_action
  */
 function bp_members_format_activity_action_new_member( $action, $activity ) {
 	$userlink = bp_core_get_userlink( $activity->user_id );
-	$action   = sprintf( esc_html__( '%s became a registered member', 'buddypress' ), $userlink );
+
+	/* translators: %s: user link */
+	$action = sprintf( esc_html__( '%s became a registered member', 'buddypress' ), $userlink );
 
 	// Legacy filter - pass $user_id instead of $activity.
 	if ( has_filter( 'bp_core_activity_registered_member_action' ) ) {
