@@ -1164,7 +1164,11 @@ function bp_profile_last_updated() {
 			 *
 			 * @param string $value Formatted last updated indicator string.
 			 */
-			return apply_filters( 'bp_get_profile_last_updated', sprintf( __( 'Profile updated %s', 'buddypress' ), bp_core_time_since( strtotime( $last_updated ) ) ) );
+			return apply_filters(
+				'bp_get_profile_last_updated',
+				/* translators: %s: last activity timestamp (e.g. "active 1 hour ago") */
+				sprintf( __( 'Profile updated %s', 'buddypress' ), bp_core_time_since( strtotime( $last_updated ) ) )
+			);
 		}
 
 		return false;

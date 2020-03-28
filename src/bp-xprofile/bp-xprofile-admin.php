@@ -570,9 +570,11 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
 	$field       = xprofile_get_field( $field_id );
 
 	if ( !$field->delete( (bool) $delete_data ) ) {
+		/* translators: %s: the field type */
 		$message = sprintf( __( 'There was an error deleting the %s. Please try again.', 'buddypress' ), $field_type );
 		$type    = 'error';
 	} else {
+		/* translators: %s: the field type */
 		$message = sprintf( __( 'The %s was deleted successfully!', 'buddypress' ), $field_type );
 		$type    = 'success';
 

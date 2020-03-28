@@ -784,6 +784,7 @@ class BP_XProfile_Field {
 				$member_type_labels[] = __( 'Users with no member type', 'buddypress' );
 			}
 
+			/* translators: %s: comma separated list of member types */
 			$label = sprintf( __( '(Member types: %s)', 'buddypress' ), implode( ', ', array_map( 'esc_html', $member_type_labels ) ) );
 		} else {
 			$label = '<span class="member-type-none-notice">' . __( '(Unavailable to all members)', 'buddypress' ) . '</span>';
@@ -1111,6 +1112,7 @@ class BP_XProfile_Field {
 
 		// Check that field is of valid type.
 		if ( ! in_array( $_POST['fieldtype'], array_keys( bp_xprofile_get_field_types() ), true ) ) {
+			/* translators: %s: field type name */
 			$message = sprintf( esc_html__( 'The profile field type %s is not registered.', 'buddypress' ), '<code>' . esc_attr( $_POST['fieldtype'] ) . '</code>' );
 			return false;
 		}
@@ -1137,12 +1139,14 @@ class BP_XProfile_Field {
 
 			// Check for missing or malformed options.
 			if ( 0 === $field_count ) {
+				/* translators: %s: field type name */
 				$message = sprintf( esc_html__( '%s require at least one option.', 'buddypress' ), $field_type->name );
 				return false;
 			}
 
 			// If only one option exists, it cannot be an empty string.
 			if ( ( 1 === $field_count ) && ( '' === $field_options[0] ) ) {
+				/* translators: %s: field type name */
 				$message = sprintf( esc_html__( '%s require at least one option.', 'buddypress' ), $field_type->name );
 				return false;
 			}
