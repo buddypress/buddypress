@@ -17,8 +17,9 @@ function groups_screen_group_invites() {
 
 	if ( bp_is_action_variable( 'accept' ) && is_numeric( $group_id ) ) {
 		// Check the nonce.
-		if ( !check_admin_referer( 'groups_accept_invite' ) )
+		if ( ! check_admin_referer( 'groups_accept_invite' ) ) {
 			return false;
+		}
 
 		if ( !groups_accept_invite( bp_loggedin_user_id(), $group_id ) ) {
 			bp_core_add_message( __('Group invite could not be accepted', 'buddypress'), 'error' );
@@ -26,6 +27,7 @@ function groups_screen_group_invites() {
 			// Record this in activity streams.
 			$group = groups_get_group( $group_id );
 
+			/* translators: %s: group link */
 			bp_core_add_message( sprintf( __( 'Group invite accepted. Visit %s.', 'buddypress' ), bp_get_group_link( $group ) ) );
 
 			if ( bp_is_active( 'activity' ) ) {

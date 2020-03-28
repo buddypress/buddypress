@@ -65,11 +65,21 @@ function groups_ajax_widget_groups_list() {
 					<div class="item-title"><?php bp_group_link(); ?></div>
 					<div class="item-meta">
 						<?php if ( 'newest-groups' === $_POST['filter'] ) : ?>
-							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_date_created( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() ); ?></span>
+							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_date_created( 0, array( 'relative' => false ) ) ); ?>">
+								<?php
+								/* translators: %s: date */
+								printf( __( 'created %s', 'buddypress' ), bp_get_group_date_created() );
+								?>
+							</span>
 						<?php elseif ( 'popular-groups' === $_POST['filter'] ) : ?>
 							<span class="activity"><?php bp_group_member_count(); ?></span>
 						<?php else : ?>
-							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
+							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>">
+								<?php
+								/* translators: %s: last activity timestamp (e.g. "active 1 hour ago") */
+								printf( _x( 'active %s', 'last time the group was active', 'buddypress' ), bp_get_group_last_active() );
+								?>
+							</span>
 						<?php endif; ?>
 					</div>
 				</div>

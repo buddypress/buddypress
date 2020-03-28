@@ -97,6 +97,7 @@ class BP_Groups_Group_Members_Template {
 
 		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
+			/* translators: 1: the name of the method. 2: the name of the file. */
 			_deprecated_argument( __METHOD__, '2.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
 			$old_args_keys = array(

@@ -64,10 +64,12 @@ function bp_groups_group_admin_menu() {
 		 * the 'show_in_admin_bar' argument of your edit screen to true
 		 */
 		if ( $menu->show_in_admin_bar ) {
+			/* translators: %s the group menu name */
 			$title = sprintf( _x( 'Edit Group %s', 'Group WP Admin Bar manage links', 'buddypress' ), $menu->name );
 
 			// Title is specific for delete.
 			if ( 'delete-group' == $menu->slug ) {
+				/* translators: %s the group menu name */
 				$title = sprintf( _x( '%s Group', 'Group WP Admin Bar delete link', 'buddypress' ), $menu->name );
 			}
 

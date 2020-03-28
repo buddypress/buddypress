@@ -32,11 +32,14 @@ function groups_action_group_feed() {
 	buddypress()->activity->feed = new BP_Activity_Feed( array(
 		'id'            => 'group',
 
-		/* translators: Group activity RSS title - "[Site Name] | [Group Name] | Activity" */
-		'title'         => sprintf( __( '%1$s | %2$s | Activity', 'buddypress' ), bp_get_site_name(), bp_get_current_group_name() ),
+		/* translators: 1: Site Name. 2:Group Name. */
+		'title'         => sprintf( _x( '%1$s | %2$s | Activity', 'Group activity RSS title', 'buddypress' ), bp_get_site_name(), bp_get_current_group_name() ),
 
 		'link'          => bp_get_group_permalink( $group ),
+
+		/* translators: %s: Group Name. */
 		'description'   => sprintf( __( "Activity feed for the group, %s.", 'buddypress' ), bp_get_current_group_name() ),
+
 		'activity_args' => array(
 			'object'           => buddypress()->groups->id,
 			'primary_id'       => bp_get_current_group_id(),

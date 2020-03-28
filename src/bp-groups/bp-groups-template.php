@@ -1545,7 +1545,11 @@ function bp_group_creator_avatar( $group = false, $args = array() ) {
 			'height' => false,
 			'class'  => 'avatar',
 			'id'     => false,
-			'alt'    => sprintf( __( 'Group creator profile photo of %s', 'buddypress' ),  bp_core_get_user_displayname( $group->creator_id ) )
+			'alt'    => sprintf(
+				/* translators: %s: group creator name */
+				__( 'Group creator profile photo of %s', 'buddypress' ),
+				bp_core_get_user_displayname( $group->creator_id )
+			),
 		), 'group_creator_avatar' );
 		extract( $r, EXTR_SKIP );
 
@@ -1608,7 +1612,21 @@ function bp_group_list_admins( $group = false ) {
 		<ul id="group-admins">
 			<?php foreach( (array) $group->admins as $admin ) { ?>
 				<li>
-					<a href="<?php echo bp_core_get_user_domain( $admin->user_id, $admin->user_nicename, $admin->user_login ) ?>" class="bp-tooltip" data-bp-tooltip="<?php printf( ('%s'),  bp_core_get_user_displayname( $admin->user_id ) ); ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'email' => $admin->user_email, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $admin->user_id ) ) ) ) ?></a>
+					<a href="<?php echo bp_core_get_user_domain( $admin->user_id, $admin->user_nicename, $admin->user_login ) ?>" class="bp-tooltip" data-bp-tooltip="<?php printf( ('%s'),  bp_core_get_user_displayname( $admin->user_id ) ); ?>">
+						<?php
+						echo bp_core_fetch_avatar(
+							array(
+								'item_id' => $admin->user_id,
+								'email'   => $admin->user_email,
+								'alt'     => sprintf(
+									/* translators: %s: member name */
+									__( 'Profile picture of %s', 'buddypress' ),
+									bp_core_get_user_displayname( $admin->user_id )
+								),
+							)
+						);
+						?>
+					</a>
 				</li>
 			<?php } ?>
 		</ul>
@@ -1640,7 +1658,20 @@ function bp_group_list_mods( $group = false ) {
 			<?php foreach( (array) $group->mods as $mod ) { ?>
 
 				<li>
-					<a href="<?php echo bp_core_get_user_domain( $mod->user_id, $mod->user_nicename, $mod->user_login ) ?>" class="bp-tooltip" data-bp-tooltip="<?php printf( ('%s'),  bp_core_get_user_displayname( $mod->user_id ) ); ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'email' => $mod->user_email, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $mod->user_id ) ) ) ) ?></a>
+					<a href="<?php echo bp_core_get_user_domain( $mod->user_id, $mod->user_nicename, $mod->user_login ) ?>" class="bp-tooltip" data-bp-tooltip="<?php printf( ('%s'),  bp_core_get_user_displayname( $mod->user_id ) ); ?>">
+						<?php
+						echo bp_core_fetch_avatar(
+							array(
+								'item_id' => $mod->user_id,
+								'email'   => $mod->user_email,
+								'alt'     => sprintf(
+									/* translators: %s: member name */
+									__( 'Profile picture of %s', 'buddypress' ),
+									bp_core_get_user_displayname( $mod->user_id )
+								),
+							)
+						); ?>
+					</a>
 				</li>
 
 			<?php } ?>
@@ -1891,6 +1922,7 @@ function bp_groups_pagination_count() {
 		if ( 1 == $groups_template->total_group_count ) {
 			$message = __( 'Viewing 1 group', 'buddypress' );
 		} else {
+			/* translators: 1: group from number. 2: group to number. 3: total groups. */
 			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s group', 'Viewing %1$s - %2$s of %3$s groups', $groups_template->total_group_count, 'buddypress' ), $from_num, $to_num, $total );
 		}
 
@@ -2250,7 +2282,21 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 
 			<li>
 
-				<?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $admin->user_id ) ) ) ) ?>
+				<?php
+				echo bp_core_fetch_avatar(
+					array(
+						'item_id' => $admin->user_id,
+						'type'    => 'thumb',
+						'width'   => 30,
+						'height'  => 30,
+						'alt'     => sprintf(
+							/* translators: %s: member name */
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_core_get_user_displayname( $admin->user_id )
+						),
+					)
+				);
+				?>
 
 				<h5>
 
@@ -2266,11 +2312,26 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 
 			<li>
 
-				<?php echo bp_core_fetch_avatar( array( 'item_id' => $admin->user_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $admin->user_id ) ) ) ) ?>
+				<?php
+				echo bp_core_fetch_avatar(
+					array(
+						'item_id' => $admin->user_id,
+						'type'    => 'thumb',
+						'alt'     => sprintf(
+							/* translators: %s: member name */
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_core_get_user_displayname( $admin->user_id )
+						),
+					)
+				);
+				?>
 
 				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?></h5>
 				<span class="activity">
-					<?php echo bp_core_get_last_activity( strtotime( $admin->date_modified ), __( 'joined %s', 'buddypress') ); ?>
+					<?php
+					/* translators: %s: human time diff */
+					echo bp_core_get_last_activity( strtotime( $admin->date_modified ), __( 'joined %s', 'buddypress') );
+					?>
 				</span>
 
 				<?php if ( bp_is_active( 'friends' ) ) : ?>
@@ -2326,7 +2387,22 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 
 			<li>
 
-				<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $mod->user_id ) ) ) ) ?>
+				<?php
+				/* translators: %s: member name */
+				echo bp_core_fetch_avatar(
+					array(
+						'item_id' => $mod->user_id,
+						'type' => 'thumb',
+						'width' => 30,
+						'height' => 30,
+						'alt' => sprintf(
+							/* translators: %s: member name */
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_core_get_user_displayname( $mod->user_id )
+						),
+					)
+				);
+				?>
 
 				<h5>
 					<?php echo bp_core_get_userlink( $mod->user_id ); ?>
@@ -2342,11 +2418,28 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 
 			<li>
 
-				<?php echo bp_core_fetch_avatar( array( 'item_id' => $mod->user_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $mod->user_id ) ) ) ) ?>
+				<?php
+				echo bp_core_fetch_avatar(
+					array(
+						'item_id' => $mod->user_id,
+						'type'    => 'thumb',
+						'alt'     => sprintf(
+							/* translators: %s: member name */
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_core_get_user_displayname( $mod->user_id )
+						),
+					)
+				);
+				?>
 
 				<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?></h5>
 
-				<span class="activity"><?php echo bp_core_get_last_activity( strtotime( $mod->date_modified ), __( 'joined %s', 'buddypress') ); ?></span>
+				<span class="activity">
+					<?php
+					/* translators: %s: human time diff */
+					echo bp_core_get_last_activity( strtotime( $mod->date_modified ), __( 'joined %s', 'buddypress') );
+					?>
+				</span>
 
 				<?php if ( bp_is_active( 'friends' ) ) : ?>
 
@@ -4050,7 +4143,14 @@ function bp_group_member_joined_since( $args = array() ) {
 		 *
 		 * @param string $value Joined since time.
 		 */
-		return apply_filters( 'bp_get_group_member_joined_since', bp_core_get_last_activity( $members_template->member->date_modified, __( 'joined %s', 'buddypress') ) );
+		return apply_filters(
+			'bp_get_group_member_joined_since',
+			bp_core_get_last_activity(
+				$members_template->member->date_modified,
+				/* translators: %s: human time diff */
+				__( 'joined %s', 'buddypress')
+			)
+		);
 	}
 
 /**
@@ -4166,7 +4266,8 @@ function bp_group_member_pagination_count() {
 		if ( 1 == $members_template->total_member_count ) {
 			$message = __( 'Viewing 1 member', 'buddypress' );
 		} else {
-			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s member', 'Viewing %1$s - %2$s of %3$s members', $members_template->total_member_count, 'buddypress' ), $from_num, $to_num, $total );
+			/* translators: 1: group member from number. 2: group member to number. 3: total group members. */
+			$message = sprintf( _nx( 'Viewing %1$s - %2$s of %3$s member', 'Viewing %1$s - %2$s of %3$s members', $members_template->total_member_count, 'group members pagination', 'buddypress' ), $from_num, $to_num, $total );
 		}
 
 		/**
@@ -5137,6 +5238,7 @@ function bp_current_group_directory_type_message() {
 	function bp_get_current_group_directory_type_message() {
 		$type_object = bp_groups_get_group_type_object( bp_get_current_group_directory_type() );
 
+		/* translators: %s: group type singular name */
 		$message = sprintf( __( 'Viewing groups of the type: %s', 'buddypress' ), '<strong>' . $type_object->labels['singular_name'] . '</strong>' );
 
 		/**
@@ -5494,7 +5596,11 @@ function bp_group_request_time_since_requested() {
 	 *
 	 * @param string $value Formatted time since membership was requested.
 	 */
-	echo apply_filters( 'bp_group_request_time_since_requested', sprintf( __( 'requested %s', 'buddypress' ), bp_core_time_since( $requests_template->request->date_modified ) ) );
+	echo apply_filters(
+		'bp_group_request_time_since_requested',
+		/* translators: %s: human time diff */
+		sprintf( __( 'requested %s', 'buddypress' ), bp_core_time_since( $requests_template->request->date_modified ) )
+	);
 }
 
 /**
@@ -5567,6 +5673,7 @@ function bp_group_requests_pagination_count() {
 		if ( 1 == $requests_template->total_request_count ) {
 			$message = __( 'Viewing 1 request', 'buddypress' );
 		} else {
+			/* translators: 1: group request from number. 2: group request to number. 3: total group requests. */
 			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s request', 'Viewing %1$s - %2$s of %3$s requests', $requests_template->total_request_count, 'buddypress' ), $from_num, $to_num, $total );
 		}
 
@@ -5836,6 +5943,7 @@ function bp_group_invite_pagination_count() {
 		if ( 1 == $invites_template->total_invite_count ) {
 			$message = __( 'Viewing 1 invitation', 'buddypress' );
 		} else {
+			/* translators: 1: group invite from number. 2: group invite to number. 3: total group invites. */
 			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s invitation', 'Viewing %1$s - %2$s of %3$s invitations', $invites_template->total_invite_count, 'buddypress' ), $from_num, $to_num, $total );
 		}
 
@@ -6014,7 +6122,7 @@ function bp_current_group_description() {
 		 *
 		 * @param string $current_group_desc Description of the current group.
 		 */
-		$desc               = apply_filters( 'bp_get_group_description', $current_group_desc );
+		$desc = apply_filters( 'bp_get_group_description', $current_group_desc );
 
 		/**
 		 * Filters the description of the current group.
@@ -6139,7 +6247,11 @@ function bp_groups_get_profile_stats( $args = '' ) {
 			}
 
 			// If groups exist, show some formatted output
-			$r['output'] = $r['before'] . sprintf( _n( '%s group', '%s groups', $r['groups'], 'buddypress' ), '<strong>' . $r['groups'] . '</strong>' ) . $r['after'];
+			$r['output'] = $r['before'];
+
+			/* translators: %s: number of groups */
+			$r['output'] .= sprintf( _n( '%s group', '%s groups', $r['groups'], 'buddypress' ), '<strong>' . $r['groups'] . '</strong>' );
+			$r['output'] .= $r['after'];
 		}
 	}
 
