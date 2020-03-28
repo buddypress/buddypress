@@ -2757,6 +2757,12 @@ function bp_groups_remove_group_type( $group_id, $group_type ) {
 		return false;
 	}
 
+	// No need to continue if the group doesn't have the type.
+	$existing_types = bp_groups_get_group_type( $group_id, false );
+	if ( ! in_array( $group_type, $existing_types, true ) ) {
+		return false;
+	}
+
 	$deleted = bp_remove_object_terms( $group_id, $group_type, 'bp_group_type' );
 
 	// Bust the case, if the type has been removed.
