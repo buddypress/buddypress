@@ -33,7 +33,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 		BP_Activity_Activity::delete_activity_item_comments( $parent_activity );
 
-		$result = BP_Activity_Activity::get( array( 'in' => wp_list_pluck( $comments, 'id' ), ) );
+		$result = BP_Activity_Activity::get( array( 'in' => $comments ) );
 		$this->assertEmpty( $result['activities'] );
 	}
 
