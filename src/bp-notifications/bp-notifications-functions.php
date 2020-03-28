@@ -233,8 +233,8 @@ function bp_notifications_get_notifications_for_user( $user_id, $format = 'strin
 					$notification_object->content = $content;
 					$notification_object->href    = bp_loggedin_user_domain();
 				} else {
-					$notification_object->content = $content['text'];
-					$notification_object->href    = $content['link'];
+					$notification_object->content = isset( $content['text'] ) ? $content['text'] : '';
+					$notification_object->href    = isset( $content['link'] ) ? $content['link'] : '';
 				}
 
 				$renderable[] = $notification_object;

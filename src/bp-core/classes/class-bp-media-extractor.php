@@ -825,10 +825,15 @@ class BP_Media_Extractor {
 				// Extract the data we need from each image in this gallery.
 				foreach ( $images as $image_id ) {
 					$image  = wp_get_attachment_image_src( $image_id, $image_size );
+
+					$image_url    = isset( $image[0] ) ? $image[0] : '';
+					$image_width  = isset( $image[1] ) ? $image[1] : '';
+					$image_height = isset( $image[2] ) ? $image[2] : '';
+
 					$data[] = array(
-						'url'    => $image[0],
-						'width'  => $image[1],
-						'height' => $image[2],
+						'url'    => $image_url,
+						'width'  => $image_width,
+						'height' => $image_height,
 
 						'gallery_id' => 1 + $gallery_id,
 					);

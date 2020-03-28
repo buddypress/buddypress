@@ -1923,7 +1923,7 @@ function bp_core_activate_signup( $key ) {
 		// Set up data to pass to the legacy filter.
 		$user = array(
 			'user_id'  => $user_id,
-			'password' => $signup->meta['password'],
+			'password' => isset( $signup->meta['password'] ) ? $signup->meta['password'] : '',
 			'meta'     => $signup->meta,
 		);
 

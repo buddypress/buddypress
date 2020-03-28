@@ -78,11 +78,11 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 		}
 
 		// File size is too big.
-		if ( $file['size'] > $this->original_max_filesize ) {
+		if ( isset( $file['size'] ) && ( $file['size'] > $this->original_max_filesize ) ) {
 			$file['error'] = 11;
 
 		// File is of invalid type.
-		} elseif ( ! bp_attachments_check_filetype( $file['tmp_name'], $file['name'], bp_attachments_get_allowed_mimes( 'cover_image' ) ) ) {
+		} elseif ( isset( $file['tmp_name'] ) && isset( $file['name'] ) && ! bp_attachments_check_filetype( $file['tmp_name'], $file['name'], bp_attachments_get_allowed_mimes( 'cover_image' ) ) ) {
 			$file['error'] = 12;
 		}
 

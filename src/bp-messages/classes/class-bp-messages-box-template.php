@@ -162,8 +162,8 @@ class BP_Messages_Box_Template {
 				'meta_query'   => $r['meta_query'],
 			) );
 
-			$this->threads            = $threads['threads'];
-			$this->total_thread_count = $threads['total'];
+			$this->threads            = isset( $threads['threads'] ) ? $threads['threads'] : array();
+			$this->total_thread_count = isset( $threads['total'] ) ? $threads['total'] : 0;
 		}
 
 		if ( !$this->threads ) {

@@ -312,7 +312,7 @@ function bp_friends_filter_activity_just_me_scope( $retval = array(), $filter = 
 	}
 
 	// Get the requested action.
-	$action = $filter['filter']['action'];
+	$action = isset( $filter['filter']['action'] ) ? $filter['filter']['action'] : array();
 
 	// Make sure actions are listed in an array.
 	if ( ! is_array( $action ) ) {

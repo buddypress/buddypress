@@ -3428,7 +3428,8 @@ function bp_activity_create_summary( $content, $activity ) {
 	if ( $use_media_type === 'embeds' ) {
 		$summary .= PHP_EOL . PHP_EOL . $extracted_media['url'];
 	} elseif ( $use_media_type === 'images' ) {
-		$summary .= sprintf( ' <img src="%s">', esc_url( $extracted_media['url'] ) );
+		$extracted_media_url = isset( $extracted_media['url'] ) ? $extracted_media['url'] : '';
+		$summary .= sprintf( ' <img src="%s">', esc_url( $extracted_media_url ) );
 	} elseif ( in_array( $use_media_type, array( 'audio', 'videos' ), true ) ) {
 		$summary .= PHP_EOL . PHP_EOL . $extracted_media['original'];  // Full shortcode.
 	}
