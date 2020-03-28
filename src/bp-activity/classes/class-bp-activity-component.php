@@ -431,7 +431,11 @@ class BP_Activity_Component extends BP_Component {
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
 					'item_id' => bp_displayed_user_id(),
 					'type'    => 'thumb',
-					'alt'	  => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
+					'alt'	  => sprintf(
+						/* translators: %s: member name */
+						__( 'Profile picture of %s', 'buddypress' ),
+						bp_get_displayed_user_fullname()
+					),
 				) );
 				$bp->bp_options_title  = bp_get_displayed_user_fullname();
 			}

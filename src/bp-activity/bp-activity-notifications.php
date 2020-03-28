@@ -34,13 +34,17 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 		case 'new_at_mention':
 			$action_filter = 'at_mentions';
 			$link          = bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/';
-			$title         = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );
-			$amount        = 'single';
+
+			/* translators: %s: the current user display name */
+			$title  = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );
+			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
+				/* translators: 1: the number of activity mentions */
 				$text   = sprintf( __( 'You have %1$d new mentions', 'buddypress' ), (int) $total_items );
 				$amount = 'multiple';
 			} else {
+				/* translators: 1: the user display name */
 				$text = sprintf( __( '%1$s mentioned you', 'buddypress' ), $user_fullname );
 			}
 		break;
@@ -51,11 +55,15 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
-				$link   = add_query_arg( 'type', $action, $link );
+				$link = add_query_arg( 'type', $action, $link );
+
+				/* translators: 1: the number of activity replies */
 				$text   = sprintf( __( 'You have %1$d new replies', 'buddypress' ), (int) $total_items );
 				$amount = 'multiple';
 			} else {
 				$link = add_query_arg( 'rid', (int) $id, bp_activity_get_permalink( $activity_id ) );
+
+				/* translators: 1: the user display name */
 				$text = sprintf( __( '%1$s commented on one of your updates', 'buddypress' ), $user_fullname );
 			}
 		break;
@@ -66,11 +74,15 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
-				$link   = add_query_arg( 'type', $action, $link );
+				$link = add_query_arg( 'type', $action, $link );
+
+				/* translators: 1: the number of activity comment replies */
 				$text   = sprintf( __( 'You have %1$d new comment replies', 'buddypress' ), (int) $total_items );
 				$amount = 'multiple';
 			} else {
 				$link = add_query_arg( 'crid', (int) $id, bp_activity_get_permalink( $activity_id ) );
+
+				/* translators: 1: the user display name */
 				$text = sprintf( __( '%1$s replied to one of your activity comments', 'buddypress' ), $user_fullname );
 			}
 		break;
@@ -396,14 +408,19 @@ function bp_activity_screen_notification_settings() {
 			<?php if ( bp_activity_do_mentions() ) : ?>
 				<tr id="activity-notification-settings-mentions">
 					<td>&nbsp;</td>
-					<td><?php printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( bp_displayed_user_id() ) ) ?></td>
+					<td>
+						<?php
+						/* translators: %s: the displayed user username */
+						printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( bp_displayed_user_id() ) );
+						?>
+					</td>
 					<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-yes" value="yes" <?php checked( $mention, 'yes', true ) ?>/><label for="notification-activity-new-mention-yes" class="bp-screen-reader-text"><?php
 						/* translators: accessibility text */
-						_e( 'Yes, send email', 'buddypress' );
+						esc_html_e( 'Yes, send email', 'buddypress' );
 					?></label></td>
 					<td class="no"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-no" value="no" <?php checked( $mention, 'no', true ) ?>/><label for="notification-activity-new-mention-no" class="bp-screen-reader-text"><?php
 						/* translators: accessibility text */
-						_e( 'No, do not send email', 'buddypress' );
+						esc_html_e( 'No, do not send email', 'buddypress' );
 					?></label></td>
 				</tr>
 			<?php endif; ?>
@@ -413,11 +430,11 @@ function bp_activity_screen_notification_settings() {
 				<td><?php _e( "A member replies to an update or comment you've posted", 'buddypress' ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-yes" value="yes" <?php checked( $reply, 'yes', true ) ?>/><label for="notification-activity-new-reply-yes" class="bp-screen-reader-text"><?php
 					/* translators: accessibility text */
-					_e( 'Yes, send email', 'buddypress' );
+					esc_html_e( 'Yes, send email', 'buddypress' );
 				?></label></td>
 				<td class="no"><input type="radio" name="notifications[notification_activity_new_reply]" id="notification-activity-new-reply-no" value="no" <?php checked( $reply, 'no', true ) ?>/><label for="notification-activity-new-reply-no" class="bp-screen-reader-text"><?php
 					/* translators: accessibility text */
-					_e( 'No, do not send email', 'buddypress' );
+					esc_html_e( 'No, do not send email', 'buddypress' );
 				?></label></td>
 			</tr>
 

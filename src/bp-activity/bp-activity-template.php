@@ -452,6 +452,7 @@ function bp_activity_pagination_count() {
 		if ( 1 == $activities_template->total_activity_count ) {
 			$message = __( 'Viewing 1 item', 'buddypress' );
 		} else {
+			/* translators: 1: the from number item. 2: the to number item. 3: the total number of items. */
 			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s item', 'Viewing %1$s - %2$s of %3$s items', $activities_template->total_activity_count, 'buddypress' ), $from_num, $to_num, $total );
 		}
 
@@ -1034,7 +1035,11 @@ function bp_activity_avatar( $args = '' ) {
 		$dn_default  = isset( $current_activity_item->display_name ) ? $current_activity_item->display_name : '';
 
 		// Prepend some descriptive text to alt.
-		$alt_default = !empty( $dn_default ) ? sprintf( __( 'Profile picture of %s', 'buddypress' ), $dn_default ) : __( 'Profile picture', 'buddypress' );
+		$alt_default = __( 'Profile picture', 'buddypress' );
+		if ( ! empty( $dn_default ) ) {
+			/* translators: %s: member name */
+			$alt_default = sprintf( __( 'Profile picture of %s', 'buddypress' ), $dn_default );
+		}
 
 		$defaults = array(
 			'alt'     => $alt_default,
@@ -1182,6 +1187,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 					$alt = __( 'Group logo', 'buddypress' );
 
 					if ( ! empty( $name ) ) {
+						/* translators: %s: the Group name */
 						$alt = sprintf( __( 'Group logo of %s', 'buddypress' ), $name );
 					}
 				}
@@ -1193,6 +1199,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$link    = home_url();
 
 				if ( empty( $alt ) ) {
+					/* translators: %s: the blog name */
 					$alt = sprintf( __( 'Profile picture of the author of the site %s', 'buddypress' ), get_blog_option( $item_id, 'blogname' ) );
 				}
 
@@ -1203,6 +1210,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$link    = bp_core_get_userlink( $item_id, false, true );
 
 				if ( empty( $alt ) ) {
+					/* translators: %s: member name */
 					$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $activities_template->activity->secondary_item_id ) );
 				}
 
@@ -1214,6 +1222,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$link    = bp_core_get_userlink( $item_id, false, true );
 
 				if ( empty( $alt ) ) {
+					/* translators: %s: member name */
 					$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), $activities_template->activity->display_name );
 				}
 
@@ -2171,7 +2180,16 @@ function bp_activity_comment_count() {
 
 		// Deprecated notice about $args.
 		if ( ! empty( $deprecated ) ) {
-			_deprecated_argument( __FUNCTION__, '1.2', sprintf( __( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ), __FUNCTION__, __FILE__ ) );
+			_deprecated_argument(
+				__FUNCTION__,
+				'1.2',
+				sprintf(
+					/* translators: 1: the name of the function. 2: the name of the file. */
+					__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__FUNCTION__,
+					__FILE__
+				)
+			);
 		}
 
 		// Get the count using the purpose-built recursive function.

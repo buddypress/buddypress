@@ -281,10 +281,11 @@ EOD;
 
 			// Show author info.
 			if ( isset( $oembed->provider_name ) && isset( $oembed->author_name ) ) {
-				/* translators: By [oEmbed author] on [oEmbed provider]. eg. By BuddyPress on YouTube. */
+				/* translators: 1: oEmbed author. 2: oEmbed provider. eg. By BuddyPress on YouTube. */
 				$anchor_text = sprintf( __( 'By %1$s on %2$s', 'buddypress' ), $oembed->author_name, $oembed->provider_name );
 
 			} elseif ( isset( $oembed->provider_name ) ) {
+				/* translators: %s: oEmbed provider. */
 				$anchor_text = sprintf( __( 'View on %s', 'buddypress' ), $oembed->provider_name );
 			}
 

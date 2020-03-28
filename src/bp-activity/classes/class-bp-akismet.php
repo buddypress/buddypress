@@ -92,10 +92,13 @@ class BP_Akismet {
 		} else {
 			$who = bp_activity_get_meta( $activity['id'], '_bp_akismet_user' );
 
-			if ( 'true' == $user_result )
+			if ( 'true' == $user_result ) {
+				/* translators: %s: the name of the user */
 				$desc = sprintf( __( 'Flagged as spam by %s', 'buddypress' ), $who );
-			else
+			} else {
+				/* translators: %s: the name of the user */
 				$desc = sprintf( __( 'Un-spammed by %s', 'buddypress' ), $who );
+			}
 		}
 
 		// Add a History item to the hover links, just after Edit.
@@ -442,7 +445,16 @@ class BP_Akismet {
 		if ( !in_array( $activity->type, BP_Akismet::get_activity_types() ) )
 			return;
 
-		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as spam', 'buddypress' ), bp_get_loggedin_user_username() ), 'report-spam' );
+		$this->update_activity_history(
+			$activity->id,
+			sprintf(
+				/* translators: %s: the current user username */
+				__( '%s reported this activity as spam', 'buddypress' ),
+				bp_get_loggedin_user_username()
+			),
+			'report-spam'
+		);
+
 		bp_activity_update_meta( $activity->id, '_bp_akismet_user_result', 'true' );
 		bp_activity_update_meta( $activity->id, '_bp_akismet_user', bp_get_loggedin_user_username() );
 	}
@@ -459,7 +471,16 @@ class BP_Akismet {
 		if ( !in_array( $activity->type, BP_Akismet::get_activity_types() ) )
 			return;
 
-		$this->update_activity_history( $activity->id, sprintf( __( '%s reported this activity as not spam', 'buddypress' ), bp_get_loggedin_user_username() ), 'report-ham' );
+		$this->update_activity_history(
+			$activity->id,
+			sprintf(
+				/* translators: %s: the current user username */
+				__( '%s reported this activity as not spam', 'buddypress' ),
+				bp_get_loggedin_user_username()
+			),
+			'report-ham'
+		);
+
 		bp_activity_update_meta( $activity->id, '_bp_akismet_user_result', 'false' );
 		bp_activity_update_meta( $activity->id, '_bp_akismet_user', bp_get_loggedin_user_username() );
 	}
@@ -493,7 +514,15 @@ class BP_Akismet {
 		// Uh oh, something's gone horribly wrong. Unexpected result.
 		} else {
 			bp_activity_update_meta( $activity->id, '_bp_akismet_error', bp_core_current_time() );
-			$this->update_activity_history( $activity->id, sprintf( __( 'Akismet was unable to check this item (response: %s), will automatically retry again later.', 'buddypress' ), $this->last_activity->akismet_submission['bp_as_result'] ), 'check-error' );
+			$this->update_activity_history(
+				$activity->id,
+				sprintf(
+					/* translators: %s the akismet result */
+					__( 'Akismet was unable to check this item (response: %s), will automatically retry again later.', 'buddypress' ),
+					$this->last_activity->akismet_submission['bp_as_result']
+				),
+				'check-error'
+			);
 		}
 
 		// Record the original data which was submitted to Akismet for checking.
@@ -618,6 +647,7 @@ class BP_Akismet {
 			return;
 
 		echo '<div class="akismet-history"><div>';
+		/* translators: 1: the human diff time. 2: the akismet history data. */
 		printf( _x( '%1$s &mdash; %2$s', 'x hours ago - akismet cleared this item', 'buddypress' ), '<span>' . bp_core_time_since( $history[2] ) . '</span>', esc_html( $history[1] ) );
 		echo '</div></div>';
 	}

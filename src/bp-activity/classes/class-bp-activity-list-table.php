@@ -604,6 +604,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		if ( isset( $actions[ $item['type'] ] ) ) {
 			echo $actions[ $item['type'] ];
 		} else {
+			/* translators: %s: the name of the activity type */
 			printf( __( 'Unregistered action - %s', 'buddypress' ), $item['type'] );
 		}
 	}

@@ -660,7 +660,12 @@ function bp_activity_admin_edit() {
 	do_action_ref_array( 'bp_activity_admin_edit', array( &$activity ) ); ?>
 
 	<div class="wrap">
-		<h1><?php printf( __( 'Editing Activity (ID #%s)', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?></h1>
+		<h1>
+			<?php
+			/* translators: %s: the activity ID */
+			printf( __( 'Editing Activity (ID #%s)', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) );
+			?>
+		</h1>
 
 		<?php if ( ! empty( $activity ) ) : ?>
 
@@ -761,7 +766,12 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 					$datef = __( 'M j, Y @ G:i', 'buddypress' );
 					$date  = date_i18n( $datef, strtotime( $item->date_recorded ) );
 					?>
-					<span id="timestamp"><?php printf( __( 'Submitted on: %s', 'buddypress' ), '<strong>' . $date . '</strong>' ); ?></span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e( 'Edit', 'buddypress' ); ?></a>
+					<span id="timestamp">
+						<?php
+						/* translators: %s: the date the activity was submitted on */
+						printf( __( 'Submitted on: %s', 'buddypress' ), '<strong>' . $date . '</strong>' );
+						?>
+					</span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e( 'Edit', 'buddypress' ); ?></a>
 
 					<div id='timestampdiv' class='hide-if-js'>
 						<?php touch_time( 1, 0, 5 ); ?>
@@ -899,7 +909,16 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 	 * of the list.
 	 */
 	if ( ! isset( $actions[ $selected ] ) ) {
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'This activity item has a type (%s) that is not registered using bp_activity_set_action(), so no label is available.', 'buddypress' ), $selected ), '2.0.0' );
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: %s: the name of the activity type */
+				__( 'This activity item has a type (%s) that is not registered using bp_activity_set_action(), so no label is available.', 'buddypress' ),
+				$selected
+			),
+			'2.0.0'
+		);
+
 		$actions[ $selected ] = $selected;
 	}
 
@@ -973,11 +992,14 @@ function bp_activity_admin_index() {
 		// Reindex array.
 		$errors = array_values( $errors );
 
-		if ( $deleted > 0 )
+		if ( $deleted > 0 ) {
+			/* translators: %s: the number of permanently deleted activities */
 			$messages[] = sprintf( _n( '%s activity item has been permanently deleted.', '%s activity items have been permanently deleted.', $deleted, 'buddypress' ), number_format_i18n( $deleted ) );
+		}
 
 		if ( ! empty( $errors ) ) {
 			if ( 1 == count( $errors ) ) {
+				/* translators: %s: the ID of the activity which errored during an update */
 				$messages[] = sprintf( __( 'An error occurred when trying to update activity ID #%s.', 'buddypress' ), number_format_i18n( $errors[0] ) );
 
 			} else {
@@ -986,7 +1008,7 @@ function bp_activity_admin_index() {
 
 				// Display each error as a list item.
 				foreach ( $errors as $error ) {
-					// Translators: This is a bulleted list of item IDs.
+					/* Translators: %s: the activity ID */
 					$error_msg .= '<li>' . sprintf( __( '#%s', 'buddypress' ), number_format_i18n( $error ) ) . '</li>';
 				}
 
@@ -995,14 +1017,19 @@ function bp_activity_admin_index() {
 			}
 		}
 
-		if ( $spammed > 0 )
+		if ( $spammed > 0 ) {
+			/* translators: %s: the number of activities successfully marked as spam */
 			$messages[] = sprintf( _n( '%s activity item has been successfully spammed.', '%s activity items have been successfully spammed.', $spammed, 'buddypress' ), number_format_i18n( $spammed ) );
+		}
 
-		if ( $unspammed > 0 )
+		if ( $unspammed > 0 ) {
+			/* translators: %s: the number of activities successfully marked as ham */
 			$messages[] = sprintf( _n( '%s activity item has been successfully unspammed.', '%s activity items have been successfully unspammed.', $unspammed, 'buddypress' ), number_format_i18n( $unspammed ) );
+		}
 
-		if ( $updated > 0 )
+		if ( $updated > 0 ) {
 			$messages[] = __( 'The activity item has been updated successfully.', 'buddypress' );
+		}
 	}
 
 	// Prepare the activity items for display.
@@ -1020,13 +1047,21 @@ function bp_activity_admin_index() {
 	<div class="wrap">
 		<h1>
 			<?php if ( !empty( $_REQUEST['aid'] ) ) : ?>
-				<?php printf( __( 'Activity related to ID #%s', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) ); ?>
+				<?php
+				/* translators: %s: the activity ID */
+				printf( __( 'Activity related to ID #%s', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) );
+				?>
 			<?php else : ?>
 				<?php _ex( 'Activity', 'Admin SWA page', 'buddypress' ); ?>
 			<?php endif; ?>
 
 			<?php if ( !empty( $_REQUEST['s'] ) ) : ?>
-				<span class="subtitle"><?php printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) ); ?></span>
+				<span class="subtitle">
+					<?php
+					/* translators: %s: the activity search terms */
+					printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) );
+					?>
+				</span>
 			<?php endif; ?>
 		</h1>
 

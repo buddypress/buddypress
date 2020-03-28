@@ -1523,7 +1523,11 @@ function bp_activity_generate_action_string( $activity ) {
  * @return string $action
  */
 function bp_activity_format_activity_action_activity_update( $action, $activity ) {
-	$action = sprintf( esc_html__( '%s posted an update', 'buddypress' ), bp_core_get_userlink( $activity->user_id ) );
+	$action = sprintf(
+		/* translators: %s: the activity author user link */
+		esc_html__( '%s posted an update', 'buddypress' ),
+		bp_core_get_userlink( $activity->user_id )
+	);
 
 	/**
 	 * Filters the formatted activity action update string.
@@ -1546,7 +1550,11 @@ function bp_activity_format_activity_action_activity_update( $action, $activity 
  * @return string $action
  */
 function bp_activity_format_activity_action_activity_comment( $action, $activity ) {
-	$action = sprintf( esc_html__( '%s posted a new activity comment', 'buddypress' ), bp_core_get_userlink( $activity->user_id ) );
+	$action = sprintf(
+		/* translators: %s: the activity author user link */
+		esc_html__( '%s posted a new activity comment', 'buddypress' ),
+		bp_core_get_userlink( $activity->user_id )
+	);
 
 	/**
 	 * Filters the formatted activity action comment string.
@@ -1597,13 +1605,14 @@ function bp_activity_format_activity_action_custom_post_type_post( $action, $act
 		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_action_ms ) ) {
 			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_action_ms, $user_link, esc_url( $post_url ), $blog_link );
 		} else {
-
+			/* translators: 1: the activity author user link. 2: the post link. 3: the blog link. */
 			$action = sprintf( esc_html_x( '%1$s wrote a new %2$s, on the site %3$s', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_link, $blog_link );
 		}
 	} else {
 		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_action ) ) {
 			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_action, $user_link, $post_url );
 		} else {
+			/* translators: 1: the activity author user link. 2: the post link. */
 			$action = sprintf( esc_html_x( '%1$s wrote a new %2$s', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_link );
 		}
 	}
@@ -1650,12 +1659,14 @@ function bp_activity_format_activity_action_custom_post_type_comment( $action, $
 		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_comment_action_ms ) ) {
 			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_comment_action_ms, $user_link, $activity->primary_link, $blog_link );
 		} else {
+			/* translators: 1: the activity author user link. 2: the post link. 3: the blog link. */
 			$action = sprintf( esc_html_x( '%1$s commented on the %2$s, on the site %3$s', 'Activity Custom Post Type comment action', 'buddypress' ), $user_link, $post_link, $blog_link );
 		}
 	} else {
 		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_comment_action ) ) {
 			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_comment_action, $user_link, $activity->primary_link );
 		} else {
+			/* translators: 1: the activity author user link. 2: the post link. */
 			$action = sprintf( esc_html_x( '%1$s commented on the %2$s', 'Activity Custom Post Type post comment action', 'buddypress' ), $user_link, $post_link );
 		}
 	}
