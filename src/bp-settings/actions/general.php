@@ -110,7 +110,7 @@ function bp_settings_action_general() {
 							'verify.url'     => esc_url( $verify_link ),
 						),
 					);
-					bp_send_email( 'settings-verify-email-change', bp_displayed_user_id(), $args );
+					bp_send_email( 'settings-verify-email-change', $user_email, $args );
 
 					// We mark that the change has taken place so as to ensure a
 					// success message, even though verification is still required.

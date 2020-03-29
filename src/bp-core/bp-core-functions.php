@@ -3151,7 +3151,12 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 	}
 
 	// From, subject, content are set automatically.
-	$email->set_to( $to );
+	if ( 'settings-verify-email-change' === $email_type && isset( $args['tokens']['displayname'] ) ) {
+		$email->set_to( $to, $args['tokens']['displayname'] );
+	} else {
+		$email->set_to( $to );
+	}
+
 	$email->set_tokens( $args['tokens'] );
 
 	/**
