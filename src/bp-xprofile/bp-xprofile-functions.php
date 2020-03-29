@@ -847,8 +847,23 @@ function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
 }
 add_action( 'wpmu_delete_user',  'xprofile_remove_data' );
-add_action( 'delete_user',       'xprofile_remove_data' );
 add_action( 'bp_make_spam_user', 'xprofile_remove_data' );
+
+/**
+ * Deletes user XProfile data on the 'delete_user' hook.
+ *
+ * @since 6.0.0
+ *
+ * @param int $user_id The ID of the deleted user.
+ */
+function xprofile_remove_data_on_delete_user( $user_id ) {
+	if ( ! bp_remove_user_data_on_delete_user_hook( 'xprofile', $user_id ) ) {
+		return;
+	}
+
+	xprofile_remove_data( $user_id );
+}
+add_action( 'delete_user', 'xprofile_remove_data_on_delete_user' );
 
 /*** XProfile Meta ****************************************************/
 

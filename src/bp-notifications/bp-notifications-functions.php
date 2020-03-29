@@ -445,7 +445,23 @@ function bp_notifications_delete_notifications_on_user_delete( $user_id ) {
 	) );
 }
 add_action( 'wpmu_delete_user', 'bp_notifications_delete_notifications_on_user_delete' );
-add_action( 'delete_user', 'bp_notifications_delete_notifications_on_user_delete' );
+
+/**
+ * Deletes user notifications data on the 'delete_user' hook.
+ *
+ * @since 6.0.0
+ *
+ * @param int $user_id The ID of the deleted user.
+ */
+function bp_notifications_delete_notifications_on_delete_user( $user_id ) {
+	if ( ! bp_remove_user_data_on_delete_user_hook( 'notifications', $user_id ) ) {
+		return;
+	}
+
+	bp_notifications_delete_notifications_on_user_delete( $user_id );
+}
+
+add_action( 'delete_user', 'bp_notifications_delete_notifications_on_delete_user' );
 
 /** Mark **********************************************************************/
 

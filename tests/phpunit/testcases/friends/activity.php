@@ -205,7 +205,7 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$this->set_current_user( $old_user );
 
 		// Delete $u1.
-		wp_delete_user( $u1 );
+		$this->delete_user( $u1 );
 
 		// 'friendship_created' activity item should not exist.
 		$friendship_activity = bp_activity_get( array(

@@ -1141,4 +1141,64 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		return ! empty( $a['activities'] );
 	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_blogs_data_should_be_deleted_on_user_delete_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+		}
+
+		$u1 = self::factory()->user->create();
+		$b1 = get_current_blog_id();
+		$b2 = self::factory()->blog->create();
+
+		bp_blogs_record_blog( $b1, $u1, true );
+		bp_blogs_record_blog( $b2, $u1, true );
+
+		$blogs = bp_blogs_get_blogs_for_user( $u1 );
+
+		$this->assertEqualSets( [ $b1, $b2 ], wp_list_pluck( $blogs['blogs'], 'blog_id' ) );
+
+		wpmu_delete_user( $u1 );
+
+		$blogs = bp_blogs_get_blogs_for_user( $u1 );
+
+		$this->assertEmpty( $blogs['blogs'] );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_blogs_data_should_not_be_deleted_on_wp_delete_user_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		if ( function_exists( 'wp_initialize_site' ) ) {
+			$this->setExpectedDeprecated( 'wpmu_new_blog' );
+		}
+
+		$u1 = self::factory()->user->create();
+		$b1 = get_current_blog_id();
+		$b2 = self::factory()->blog->create();
+
+		bp_blogs_record_blog( $b1, $u1, true );
+		bp_blogs_record_blog( $b2, $u1, true );
+
+		$blogs = bp_blogs_get_blogs_for_user( $u1 );
+
+		$this->assertEqualSets( [ $b1, $b2 ], wp_list_pluck( $blogs['blogs'], 'blog_id' ) );
+
+		wp_delete_user( $u1 );
+
+		$blogs = bp_blogs_get_blogs_for_user( $u1 );
+
+		$this->assertEqualSets( [ $b2 ], wp_list_pluck( $blogs['blogs'], 'blog_id' ) );
+	}
 }

@@ -1262,6 +1262,35 @@ function bp_core_delete_account( $user_id = 0 ) {
 }
 
 /**
+ * Determines whether user data should be removed on the 'delete_user' hook.
+ *
+ * WordPress's 'delete_user' hook is ambiguous: on a standard installation, it means that a user
+ * account is being removed from the system, while on Multisite it simply means the user is
+ * being removed from a specific site (ie its roles are being revoked). As a rule, this means
+ * that BuddyPress should remove user data on the delete_user hook only on non-Multisite
+ * installations - only when the user account is being removed altogether. However, this behavior
+ * can be filtered in a global, per-user, or per-component fashion.
+ *
+ * @since 6.0.0
+ *
+ * @param string $data_type Type of data to be removed.
+ * @param int    $user_id   ID of the user, as passed to 'delete_user'.
+ * @return bool
+ */
+function bp_remove_user_data_on_delete_user_hook( $component, $user_id ) {
+	$remove = ! is_multisite();
+
+	/**
+	 * Filters whether to remove user data on the 'delete_user' hook.
+	 *
+	 * @param bool   $remove    Whether data should be removed.
+	 * @param string $data_type Type of data to be removed.
+	 * @param int    $user_id   ID of the user, as passed to 'delete_user'.
+	 */
+	return apply_filters( 'bp_remove_user_data_on_delete_user_hook', $remove, $component, $user_id );
+}
+
+/**
  * Delete a user's avatar when the user is deleted.
  *
  * @since 1.9.0
@@ -1276,7 +1305,22 @@ function bp_core_delete_avatar_on_user_delete( $user_id ) {
 	) );
 }
 add_action( 'wpmu_delete_user', 'bp_core_delete_avatar_on_user_delete' );
-add_action( 'delete_user', 'bp_core_delete_avatar_on_user_delete' );
+
+/**
+ * Deletes last_activity data on the 'delete_user' hook.
+ *
+ * @since 6.0.0
+ *
+ * @param int $user_id The ID of the deleted user.
+ */
+function bp_core_delete_avatar_on_delete_user( $user_id ) {
+	if ( ! bp_remove_user_data_on_delete_user_hook( 'avatar', $user_id ) ) {
+		return;
+	}
+
+	bp_core_delete_avatar_on_user_delete( $user_id );
+}
+add_action( 'delete_user', 'bp_core_delete_avatar_on_delete_user' );
 
 /**
  * Multibyte-safe ucfirst() support.
@@ -1344,8 +1388,23 @@ function bp_core_remove_data( $user_id ) {
 	wp_cache_flush();
 }
 add_action( 'wpmu_delete_user',  'bp_core_remove_data' );
-add_action( 'delete_user',       'bp_core_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_core_remove_data' );
+
+/**
+ * Deletes last_activity data on the 'delete_user' hook.
+ *
+ * @since 6.0.0
+ *
+ * @param int $user_id The ID of the deleted user.
+ */
+function bp_core_remove_data_on_delete_user( $user_id ) {
+	if ( ! bp_remove_user_data_on_delete_user_hook( 'last_activity', $user_id ) ) {
+		return;
+	}
+
+	bp_core_remove_data( $user_id );
+}
+add_action( 'delete_user', 'bp_core_remove_data_on_delete_user' );
 
 /**
  * Check whether the logged-in user can edit settings for the displayed user.
@@ -2837,7 +2896,22 @@ function bp_remove_member_type_on_user_delete( $user_id ) {
 	return bp_set_member_type( $user_id, '' );
 }
 add_action( 'wpmu_delete_user', 'bp_remove_member_type_on_user_delete' );
-add_action( 'delete_user', 'bp_remove_member_type_on_user_delete' );
+
+/**
+ * Deletes user member type on the 'delete_user' hook.
+ *
+ * @since 6.0.0
+ *
+ * @param int $user_id The ID of the deleted user.
+ */
+function bp_remove_member_type_on_delete_user( $user_id ) {
+	if ( ! bp_remove_user_data_on_delete_user_hook( 'member_type', $user_id ) ) {
+		return;
+	}
+
+	bp_remove_member_type_on_user_delete( $user_id );
+}
+add_action( 'delete_user', 'bp_remove_member_type_on_delete_user' );
 
 /**
  * Get the "current" member type, if one is provided, in member directories.

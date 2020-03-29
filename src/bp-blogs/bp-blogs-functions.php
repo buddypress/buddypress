@@ -1433,8 +1433,23 @@ function bp_blogs_remove_data( $user_id ) {
 	do_action( 'bp_blogs_remove_data', $user_id );
 }
 add_action( 'wpmu_delete_user',  'bp_blogs_remove_data' );
-add_action( 'delete_user',       'bp_blogs_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_blogs_remove_data' );
+
+/**
+ * Deletes user XProfile data on the 'delete_user' hook.
+ *
+ * @since 6.0.0
+ *
+ * @param int $user_id The ID of the deleted user.
+ */
+function bp_blogs_remove_data_on_delete_user( $user_id ) {
+	if ( ! bp_remove_user_data_on_delete_user_hook( 'blogs', $user_id ) ) {
+		return;
+	}
+
+	bp_blogs_remove_data( $user_id );
+}
+add_action( 'delete_user', 'bp_blogs_remove_data_on_delete_user' );
 
 /**
  * Restore all blog associations for a given user.

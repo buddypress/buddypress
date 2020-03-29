@@ -346,7 +346,7 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$found1 = $wpdb->get_col( $query );
 		$this->assertEqualSets( array( $n1, $n2, $n3, $n4, $n5 ), $found1 );
 
-		wp_delete_user( $u );
+		$this->delete_user( $u );
 
 		// Check if notifications are deleted.
 		$found2 = $wpdb->get_col( $query );
@@ -462,5 +462,83 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 
 		// Number of exported notification items.
 		$this->assertSame( 2, count( $actual['data'] ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_notifications_data_should_be_deleted_on_user_delete_non_multisite() {
+		if ( is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
+		}
+
+		$u = self::factory()->user->create();
+
+		$n1 = self::factory()->notification->create( array(
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		$found = bp_notifications_get_notifications_for_user( $u, 'object' );
+		$this->assertEqualSets( [ $n1 ], wp_list_pluck( $found, 'id' ) );
+
+		wp_delete_user( $u );
+
+		$found = bp_notifications_get_notifications_for_user( $u, 'object' );
+		$this->assertEmpty( '', $found );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_notifications_data_should_be_deleted_on_user_delete_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u = self::factory()->user->create();
+
+		$n1 = self::factory()->notification->create( array(
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		$found = bp_notifications_get_notifications_for_user( $u, 'object' );
+		$this->assertEqualSets( [ $n1 ], wp_list_pluck( $found, 'id' ) );
+
+		wpmu_delete_user( $u );
+
+		$found = bp_notifications_get_notifications_for_user( $u, 'object' );
+		$this->assertEmpty( '', $found );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_notifications_data_should_not_be_deleted_on_wp_delete_user_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u = self::factory()->user->create();
+
+		$n1 = self::factory()->notification->create( array(
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message',
+			'item_id'           => 99,
+			'user_id'           => $u,
+		) );
+
+		$found = bp_notifications_get_notifications_for_user( $u, 'object' );
+		$this->assertEqualSets( [ $n1 ], wp_list_pluck( $found, 'id' ) );
+
+		wp_delete_user( $u );
+
+		$found = bp_notifications_get_notifications_for_user( $u, 'object' );
+		$this->assertEqualSets( [ $n1 ], wp_list_pluck( $found, 'id' ) );
 	}
 }

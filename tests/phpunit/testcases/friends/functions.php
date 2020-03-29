@@ -483,4 +483,64 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		);
 		$this->assertEqualSets( $expected_ids, wp_list_pluck( $actual['data'], 'item_id' ) );
 	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_friends_data_should_be_deleted_on_user_delete_non_multisite() {
+		if ( is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
+		}
+
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		friends_add_friend( $u1, $u2, true );
+
+		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+
+		wp_delete_user( $u1 );
+
+		$this->assertEquals( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_xprofile_data_should_be_deleted_on_user_delete_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		friends_add_friend( $u1, $u2, true );
+
+		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+
+		wpmu_delete_user( $u1 );
+
+		$this->assertEquals( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_xprofile_data_should_not_be_deleted_on_wp_delete_user_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		friends_add_friend( $u1, $u2, true );
+
+		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+
+		wp_delete_user( $u1 );
+
+		$this->assertEquals( 'is_friend', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
+	}
 }

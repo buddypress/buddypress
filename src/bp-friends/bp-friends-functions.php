@@ -757,8 +757,23 @@ function friends_remove_data( $user_id ) {
 	do_action( 'friends_remove_data', $user_id );
 }
 add_action( 'wpmu_delete_user',  'friends_remove_data' );
-add_action( 'delete_user',       'friends_remove_data' );
 add_action( 'bp_make_spam_user', 'friends_remove_data' );
+
+/**
+ * Deletes user Friends data on the 'delete_user' hook.
+ *
+ * @since 6.0.0
+ *
+ * @param int $user_id The ID of the deleted user.
+ */
+function bp_friends_remove_data_on_delete_user( $user_id ) {
+	if ( ! bp_remove_user_data_on_delete_user_hook( 'friends', $user_id ) ) {
+		return;
+	}
+
+	friends_remove_data( $user_id );
+}
+add_action( 'delete_user', 'bp_friends_remove_data_on_delete_user' );
 
 /**
  * Used by the Activity component's @mentions to print a JSON list of the current user's friends.

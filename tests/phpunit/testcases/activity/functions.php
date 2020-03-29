@@ -1803,4 +1803,160 @@ Bar!';
 		// Number of exported activity items.
 		$this->assertSame( 3, count( $actual['data'] ) );
 	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_activity_data_should_be_deleted_on_user_delete_non_multisite() {
+		if ( is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
+		}
+
+		$u1 = self::factory()->user->create();
+		$a1 = self::factory()->activity->create(
+			array(
+				'user_id'   => $u1,
+				'component' => 'activity',
+				'type'      => 'activity_update',
+			)
+		);
+
+		$latest_update = array(
+			'id'      => $a1,
+			'content' => 'Foo',
+		);
+		bp_update_user_meta( $u1, 'bp_latest_update', $latest_update );
+
+		bp_activity_add_user_favorite( $a1, $u1 );
+
+		$found = bp_activity_get(
+			array(
+				'filter' => array(
+					'user_id' => $u1,
+				)
+			)
+		);
+
+		$this->assertEqualSets( [ $a1 ], wp_list_pluck( $found['activities'], 'id' ) );
+		$this->assertEqualSets( [ $a1 ], bp_activity_get_user_favorites( $u1 ) );
+		$this->assertSame( $latest_update, bp_get_user_meta( $u1, 'bp_latest_update', true ) );
+
+		wp_delete_user( $u1 );
+
+		$found = bp_activity_get(
+			array(
+				'filter' => array(
+					'user_id' => $u1,
+				)
+			)
+		);
+
+		$this->assertEmpty( $found['activities'] );
+		$this->assertEmpty( bp_activity_get_user_favorites( $u1 ) );
+		$this->assertSame( '', bp_get_user_meta( $u1, 'bp_latest_update', true ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_activity_data_should_be_deleted_on_user_delete_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u1 = self::factory()->user->create();
+		$a1 = self::factory()->activity->create(
+			array(
+				'user_id'   => $u1,
+				'component' => 'activity',
+				'type'      => 'activity_update',
+			)
+		);
+
+		$latest_update = array(
+			'id'      => $a1,
+			'content' => 'Foo',
+		);
+		bp_update_user_meta( $u1, 'bp_latest_update', $latest_update );
+
+		bp_activity_add_user_favorite( $a1, $u1 );
+
+		$found = bp_activity_get(
+			array(
+				'filter' => array(
+					'user_id' => $u1,
+				)
+			)
+		);
+
+		$this->assertEqualSets( [ $a1 ], wp_list_pluck( $found['activities'], 'id' ) );
+		$this->assertEqualSets( [ $a1 ], bp_activity_get_user_favorites( $u1 ) );
+		$this->assertSame( $latest_update, bp_get_user_meta( $u1, 'bp_latest_update', true ) );
+
+		wpmu_delete_user( $u1 );
+
+		$found = bp_activity_get(
+			array(
+				'filter' => array(
+					'user_id' => $u1,
+				)
+			)
+		);
+
+		$this->assertEmpty( $found['activities'] );
+		$this->assertEmpty( bp_activity_get_user_favorites( $u1 ) );
+		$this->assertSame( '', bp_get_user_meta( $u1, 'bp_latest_update', true ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_activity_data_should_not_be_deleted_on_wp_delete_user_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u1 = self::factory()->user->create();
+		$a1 = self::factory()->activity->create(
+			array(
+				'user_id'   => $u1,
+				'component' => 'activity',
+				'type'      => 'activity_update',
+			)
+		);
+
+		$latest_update = array(
+			'id'      => $a1,
+			'content' => 'Foo',
+		);
+		bp_update_user_meta( $u1, 'bp_latest_update', $latest_update );
+
+		bp_activity_add_user_favorite( $a1, $u1 );
+
+		$found = bp_activity_get(
+			array(
+				'filter' => array(
+					'user_id' => $u1,
+				)
+			)
+		);
+
+		$this->assertEqualSets( [ $a1 ], wp_list_pluck( $found['activities'], 'id' ) );
+		$this->assertEqualSets( [ $a1 ], bp_activity_get_user_favorites( $u1 ) );
+		$this->assertSame( $latest_update, bp_get_user_meta( $u1, 'bp_latest_update', true ) );
+
+		wp_delete_user( $u1 );
+
+		$found = bp_activity_get(
+			array(
+				'filter' => array(
+					'user_id' => $u1,
+				)
+			)
+		);
+
+		$this->assertEqualSets( [ $a1 ], wp_list_pluck( $found['activities'], 'id' ) );
+		$this->assertEqualSets( [ $a1 ], bp_activity_get_user_favorites( $u1 ) );
+		$this->assertSame( $latest_update, bp_get_user_meta( $u1, 'bp_latest_update', true ) );
+	}
 }

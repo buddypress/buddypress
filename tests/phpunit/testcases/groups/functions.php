@@ -949,4 +949,61 @@ Bar!';
 		$this->assertCount( 1, $actual['data'] );
 		$this->assertSame( 'bp-group-pending-received-invitation-' . self::$group_ids[0], $actual['data'][0]['item_id'] );
 	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_groups_data_should_be_deleted_on_user_delete_non_multisite() {
+		if ( is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
+		}
+
+		$u = self::factory()->user->create();
+
+		groups_join_group( self::$group_ids[0], $u );
+
+		$this->assertNotEmpty( groups_is_user_member( $u, self::$group_ids[0] ) );
+
+		wp_delete_user( $u );
+
+		$this->assertFalse( groups_is_user_member( $u, self::$group_ids[0] ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_groups_data_should_be_deleted_on_user_delete_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u = self::factory()->user->create();
+
+		groups_join_group( self::$group_ids[0], $u );
+
+		$this->assertNotEmpty( groups_is_user_member( $u, self::$group_ids[0] ) );
+
+		wpmu_delete_user( $u );
+
+		$this->assertFalse( groups_is_user_member( $u, self::$group_ids[0] ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_groups_data_should_not_be_deleted_on_wp_delete_user_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u = self::factory()->user->create();
+
+		groups_join_group( self::$group_ids[0], $u );
+
+		$this->assertNotEmpty( groups_is_user_member( $u, self::$group_ids[0] ) );
+
+		wp_delete_user( $u );
+
+		$this->assertNotEmpty( groups_is_user_member( $u, self::$group_ids[0] ) );
+	}
 }

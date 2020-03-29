@@ -49,6 +49,66 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP8175
+	 */
+	public function test_last_activity_data_should_be_deleted_on_user_delete_non_multisite() {
+		if ( is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
+		}
+
+		$u1 = self::factory()->user->create();
+
+		$now = time();
+		bp_update_user_last_activity( $u1, $now );
+
+		$this->assertEquals( $now, bp_get_user_last_activity( $u1 ) );
+
+		wp_delete_user( $u1 );
+
+		$this->assertEquals( '', bp_get_user_last_activity( $u1 ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_last_activity_data_should_be_deleted_on_user_delete_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u1 = self::factory()->user->create();
+
+		$now = time();
+		bp_update_user_last_activity( $u1, $now );
+
+		$this->assertEquals( $now, bp_get_user_last_activity( $u1 ) );
+
+		wpmu_delete_user( $u1 );
+
+		$this->assertEquals( '', bp_get_user_last_activity( $u1 ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_last_activity_data_should_not_be_deleted_on_wp_delete_user_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u1 = self::factory()->user->create();
+
+		$now = time();
+		bp_update_user_last_activity( $u1, $now );
+
+		$this->assertEquals( $now, bp_get_user_last_activity( $u1 ) );
+
+		wp_delete_user( $u1 );
+
+		$this->assertEquals( $now, bp_get_user_last_activity( $u1 ) );
+	}
+
+	/**
 	 * @group object_cache
 	 * @group bp_core_get_directory_pages
 	 */

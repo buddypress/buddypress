@@ -1131,4 +1131,79 @@ Bar!';
 		// Number of exported user properties.
 		$this->assertSame( 3, count( $actual['data'][0]['data'] ) );
 	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_xprofile_data_should_be_deleted_on_user_delete_non_multisite() {
+		if ( is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires non-multisite.' );
+		}
+
+		$u = self::factory()->user->create();
+
+		$fg = self::factory()->xprofile_group->create();
+		$f1 = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $fg,
+			)
+		);
+
+		xprofile_set_field_data( $f1, $u, 'foo' );
+		$this->assertSame( 'foo', xprofile_get_field_data( $f1, $u ) );
+
+		wp_delete_user( $u );
+
+		$this->assertSame( '', xprofile_get_field_data( $f1, $u ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_xprofile_data_should_be_deleted_on_user_delete_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u = self::factory()->user->create();
+
+		$fg = self::factory()->xprofile_group->create();
+		$f1 = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $fg,
+			)
+		);
+
+		xprofile_set_field_data( $f1, $u, 'foo' );
+		$this->assertSame( 'foo', xprofile_get_field_data( $f1, $u ) );
+
+		wpmu_delete_user( $u );
+
+		$this->assertSame( '', xprofile_get_field_data( $f1, $u ) );
+	}
+
+	/**
+	 * @ticket BP8175
+	 */
+	public function test_xprofile_data_should_not_be_deleted_on_wp_delete_user_multisite() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped( __METHOD__ . ' requires multisite.' );
+		}
+
+		$u = self::factory()->user->create();
+
+		$fg = self::factory()->xprofile_group->create();
+		$f1 = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $fg,
+			)
+		);
+
+		xprofile_set_field_data( $f1, $u, 'foo' );
+		$this->assertSame( 'foo', xprofile_get_field_data( $f1, $u ) );
+
+		wp_delete_user( $u );
+
+		$this->assertSame( 'foo', xprofile_get_field_data( $f1, $u ) );
+	}
 }

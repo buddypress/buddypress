@@ -1277,7 +1277,22 @@ function bp_activity_remove_all_user_data( $user_id = 0 ) {
 	do_action( 'bp_activity_remove_all_user_data', $user_id );
 }
 add_action( 'wpmu_delete_user',  'bp_activity_remove_all_user_data' );
-add_action( 'delete_user',       'bp_activity_remove_all_user_data' );
+
+/**
+ * Deletes user activity data on the 'delete_user' hook.
+ *
+ * @since 6.0.0
+ *
+ * @param int $user_id The ID of the deleted user.
+ */
+function bp_activity_remove_all_user_data_on_delete_user( $user_id ) {
+	if ( ! bp_remove_user_data_on_delete_user_hook( 'activity', $user_id ) ) {
+		return;
+	}
+
+	bp_activity_remove_all_user_data( $user_id );
+}
+add_action( 'delete_user', 'bp_activity_remove_all_user_data_on_delete_user' );
 
 /**
  * Mark all of the user's activity as spam.

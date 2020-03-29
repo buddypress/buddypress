@@ -2417,8 +2417,23 @@ function groups_remove_data_for_user( $user_id ) {
 	do_action( 'groups_remove_data_for_user', $user_id );
 }
 add_action( 'wpmu_delete_user',  'groups_remove_data_for_user' );
-add_action( 'delete_user',       'groups_remove_data_for_user' );
 add_action( 'bp_make_spam_user', 'groups_remove_data_for_user' );
+
+/**
+ * Deletes user group data on the 'delete_user' hook.
+ *
+ * @since 6.0.0
+ *
+ * @param int $user_id The ID of the deleted user.
+ */
+function bp_groups_remove_data_for_user_on_delete_user( $user_id ) {
+	if ( ! bp_remove_user_data_on_delete_user_hook( 'groups', $user_id ) ) {
+		return;
+	}
+
+	groups_remove_data_for_user( $user_id );
+}
+add_action( 'delete_user', 'bp_groups_remove_data_for_user_on_delete_user' );
 
 /**
  * Update orphaned child groups when the parent is deleted.
