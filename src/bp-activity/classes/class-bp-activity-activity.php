@@ -268,10 +268,30 @@ class BP_Activity_Activity {
 				return false;
 			} else {
 				if ( empty( $this->component ) ) {
-					$this->errors->add( 'bp_activity_missing_component' );
+					$this->errors->add( 'bp_activity_missing_component', __( 'You need to define a component parameter to insert activity.', 'buddypress' ) );
 				} else {
-					$this->errors->add( 'bp_activity_missing_type' );
+					$this->errors->add( 'bp_activity_missing_type', __( 'You need to define a type parameter to insert activity.', 'buddypress' ) );
 				}
+
+				return $this->errors;
+			}
+		}
+
+		/**
+		 * Use this filter to make the content of your activity required.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param bool   $value True if the content of the activity type is required.
+		 *                      False otherwise.
+		 * @param string $type  The type of the activity we are about to insert.
+		 */
+		$type_requires_content = (bool) apply_filters( 'bp_activity_type_requires_content', $this->type === 'activity_update', $this->type );
+		if ( $type_requires_content && ! $this->content ) {
+			if ( 'bool' === $this->error_type ) {
+				return false;
+			} else {
+				$this->errors->add( 'bp_activity_missing_content', __( 'Please enter some content to post.', 'buddypress' ) );
 
 				return $this->errors;
 			}

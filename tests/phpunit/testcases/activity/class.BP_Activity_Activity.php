@@ -785,4 +785,92 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	public function action_cb( $activity ) {
 		return 'Woo Hoo!';
 	}
+
+	/**
+	 * @ticket BP8236
+	 */
+	public function test_save_activity_requires_component() {
+		$a = bp_activity_add(
+			array(
+				'component'  => '',
+				'content'    => 'Activity without component content %s',
+				'type'       => 'activity_update',
+				'error_type' => 'wp_error',
+			)
+		);
+
+		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertEquals( 'bp_activity_missing_component', $a->get_error_code() );
+	}
+
+	/**
+	 * @ticket BP8236
+	 */
+	public function test_save_activity_requires_type() {
+		$a = bp_activity_add(
+			array(
+				'component'  => 'foobar',
+				'content'    => 'Activity without type content %s',
+				'type'       => '',
+				'error_type' => 'wp_error',
+			)
+		);
+
+		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertEquals( 'bp_activity_missing_type', $a->get_error_code() );
+	}
+
+	/**
+	 * @ticket BP8236
+	 */
+	public function test_save_activity_requires_content() {
+		$a = bp_activity_add(
+			array(
+				'component'  => buddypress()->activity->id,
+				'content'    => '',
+				'type'       => 'activity_update',
+				'error_type' => 'wp_error',
+			)
+		);
+
+		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertEquals( 'bp_activity_missing_content', $a->get_error_code() );
+	}
+
+	/**
+	 * @ticket BP8236
+	 */
+	public function test_save_activity_does_not_require_content() {
+		$a = bp_activity_add(
+			array(
+				'component'  => buddypress()->members->id,
+				'content'    => '',
+				'type'       => 'new_member',
+				'error_type' => 'wp_error',
+			)
+		);
+
+		$this->assertFalse( is_wp_error( $a ) );
+	}
+
+	/**
+	 * @ticket BP8236
+	 */
+	public function test_save_activity_custom_type_requires_content() {
+		add_filter( 'bp_activity_type_requires_content', '__return_true' );
+
+		$a = bp_activity_add(
+			array(
+				'component'  => 'foo',
+				'content'    => '',
+				'type'       => 'bar',
+				'error_type' => 'wp_error',
+			)
+		);
+
+		remove_filter( 'bp_activity_type_requires_content', '__return_true' );
+
+		$this->assertInstanceOf( 'WP_Error', $a );
+		$this->assertEquals( 'bp_activity_missing_content', $a->get_error_code() );
+	}
 }
