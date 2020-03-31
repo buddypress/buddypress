@@ -356,4 +356,27 @@ class BP_Blogs_Component extends BP_Component {
 
 		parent::setup_cache_groups();
 	}
+
+	/**
+	 * Init the BP REST API.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $controllers Optional. See BP_Component::rest_api_init() for
+	 *                           description.
+	 */
+	public function rest_api_init( $controllers = array() ) {
+		if ( is_multisite() ) {
+			$controllers = array(
+				'BP_REST_Blogs_Endpoint',
+			);
+
+			// Support to Blog Avatar.
+			if ( bp_is_active( 'blogs', 'site-icon' ) ) {
+				$controllers[] = 'BP_REST_Attachments_Blog_Avatar_Endpoint';
+			}
+		}
+
+		parent::rest_api_init( $controllers );
+	}
 }

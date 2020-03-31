@@ -325,4 +325,16 @@ class BP_Friends_Component extends BP_Component {
 
 		parent::setup_cache_groups();
 	}
+
+	/**
+	 * Init the BP REST API.
+	 *
+	 * @since 6.0.0
+	 *
+	 * @param array $controllers Optional. See BP_Component::rest_api_init() for
+	 *                           description.
+	 */
+	public function rest_api_init( $controllers = array() ) {
+		parent::rest_api_init( array( 'BP_REST_Friends_Endpoint' ) );
+	}
 }

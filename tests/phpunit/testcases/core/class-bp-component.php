@@ -33,6 +33,7 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 			'BP_REST_Components_Endpoint',
 			'BP_REST_Members_Endpoint',
 			'BP_REST_Attachments_Member_Avatar_Endpoint',
+			'BP_REST_Attachments_Member_Cover_Endpoint',
 		) );
 	}
 
@@ -49,6 +50,7 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		$this->assertSame( $bp->unit_test_rest->controllers, array(
 			'BP_REST_Components_Endpoint',
 			'BP_REST_Attachments_Member_Avatar_Endpoint',
+			'BP_REST_Attachments_Member_Cover_Endpoint',
 		) );
 	}
 
@@ -66,6 +68,7 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 			'BP_REST_Components_Endpoint',
 			'BP_REST_Members_Endpoint',
 			'BP_REST_Attachments_Member_Avatar_Endpoint',
+			'BP_REST_Attachments_Member_Cover_Endpoint',
 		) );
 	}
 }

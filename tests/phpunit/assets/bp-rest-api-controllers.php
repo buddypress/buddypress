@@ -12,6 +12,20 @@ class BP_REST_Mock_Class {
 }
 
 /**
+ * BP Member Cover Image REST Controller's mock.
+ */
+class BP_REST_Attachments_Member_Cover_Endpoint extends BP_REST_Mock_Class {
+	public function __construct() {
+		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
+		$this->rest_base = 'members';
+	}
+
+	public function register_routes( $controller = '' ) {
+		parent::register_routes( 'BP_REST_Attachments_Member_Cover_Endpoint' );
+	}
+}
+
+/**
  * BP Member Avatar REST Controller's mock.
  */
 class BP_REST_Attachments_Member_Avatar_Endpoint extends BP_REST_Mock_Class {
