@@ -25,10 +25,6 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		$u = self::factory()->user->create();
 
 		// get BP root blog's upload directory data

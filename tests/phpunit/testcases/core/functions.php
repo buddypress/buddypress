@@ -700,10 +700,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$expected_upload_dir = wp_upload_dir();
 
 		if ( is_multisite() ) {
-			if ( function_exists( 'wp_initialize_site' ) ) {
-				$this->setExpectedDeprecated( 'wpmu_new_blog' );
-			}
-
 			$b = self::factory()->blog->create();
 			switch_to_blog( $b );
 		}
@@ -847,10 +843,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	public function test_bp_core_add_page_mappings_in_multisite_subdirectory() {
 		if ( ! is_multisite() || is_subdomain_install() ) {
 			$this->markTestSkipped();
-		}
-
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$bp = buddypress();

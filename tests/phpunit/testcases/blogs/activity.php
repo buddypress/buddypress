@@ -33,10 +33,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create( array(
@@ -130,10 +126,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
 
@@ -173,10 +165,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_format_activity_action_new_blog_comment_ms_nonrootblog() {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped();
-		}
-
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$b = self::factory()->blog->create();
@@ -222,10 +210,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		add_filter( 'bp_blogs_activity_created_blog_action', array( $this, 'created_blog_passthrough' ), 10, 2 );
 
 		$b = self::factory()->blog->create();
@@ -254,10 +238,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		add_filter( 'bp_blogs_activity_new_post_action', array( $this, 'new_post_passthrough' ), 10, 2 );
 
 		$b = self::factory()->blog->create();
@@ -284,10 +264,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_activity_format_activity_action_new_blog_comment_backpat() {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped();
-		}
-
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		add_filter( 'bp_blogs_activity_new_comment_action', array( $this, 'new_comment_passthrough' ), 10, 2 );
@@ -321,10 +297,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped();
-		}
-
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$b1 = self::factory()->blog->create();

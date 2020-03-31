@@ -377,10 +377,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		global $blogs_template;
 		$reset_blogs_template = $blogs_template;
 		$blogs_template = null;
@@ -419,10 +415,6 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 	public function test_bp_get_blog_avatar_has_site_icon() {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped();
-		}
-
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		global $blogs_template;

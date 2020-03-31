@@ -10,10 +10,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		$old_user = get_current_user_id();
 
 		$u = self::factory()->user->create();
@@ -41,10 +37,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		$old_user = get_current_user_id();
 
 		$u = self::factory()->user->create();
@@ -70,10 +62,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	public function test_search_blogs() {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped();
-		}
-
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$old_user = get_current_user_id();
@@ -105,10 +93,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 			return;
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		$old_user = get_current_user_id();
 
 		$u = self::factory()->user->create();
@@ -135,10 +119,6 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 	public function test_get_order_by() {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped();
-		}
-
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$old_user = get_current_user_id();

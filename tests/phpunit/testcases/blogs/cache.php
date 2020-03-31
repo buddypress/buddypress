@@ -13,10 +13,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		$b1 = self::factory()->blog->create();
 		$b2 = self::factory()->blog->create();
 
@@ -96,10 +92,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 	public function test_bp_blogs_update_meta_cache_bp_has_blogs() {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped();
-		}
-
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$u = self::factory()->user->create();
@@ -196,10 +188,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-		}
-
 		$u = self::factory()->user->create();
 
 		// Switch user so we have access to non-public blogs
@@ -275,11 +263,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			$this->markTestSkipped();
 		}
 
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
-			$this->setExpectedDeprecated( 'delete_blog' );
-		}
-
 		$u = self::factory()->user->create();
 
 		// need to make sure we set the 'public' flag due to how BP_Blogs_Blogs:get_all() works
@@ -312,10 +295,6 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 	public function test_update_blog_details_should_purge_blogmeta_cache() {
 		if ( ! is_multisite() ) {
 			$this->markTestSkipped();
-		}
-
-		if ( function_exists( 'wp_initialize_site' ) ) {
-			$this->setExpectedDeprecated( 'wpmu_new_blog' );
 		}
 
 		$u = self::factory()->user->create();

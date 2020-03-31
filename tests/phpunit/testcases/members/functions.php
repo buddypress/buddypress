@@ -577,10 +577,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		);
 
 		if ( is_multisite() ) {
-			if ( function_exists( 'wp_initialize_site' ) ) {
-				$this->setExpectedDeprecated( 'wpmu_new_blog' );
-			}
-
 			$signups['ms-blog'] = array( 'signup_id' => self::factory()->signup->create( array(
 					'user_login'     => 'msblog',
 					'user_email'     => 'msblog@example.com',

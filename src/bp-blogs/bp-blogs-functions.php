@@ -411,7 +411,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	 */
 	do_action_ref_array( 'bp_blogs_new_blog', array( &$recorded_blog, $is_private, $is_recorded, $no_activity ) );
 }
-add_action( 'wpmu_new_blog', 'bp_blogs_record_blog', 10, 2 );
+add_action( 'bp_insert_site', 'bp_blogs_record_blog', 10, 2 );
 
 /**
  * Update blog name in BuddyPress blogmeta table.
@@ -994,7 +994,7 @@ function bp_blogs_remove_blog( $blog_id ) {
 	 */
 	do_action( 'bp_blogs_remove_blog', $blog_id );
 }
-add_action( 'delete_blog', 'bp_blogs_remove_blog' );
+add_action( 'bp_delete_site', 'bp_blogs_remove_blog' );
 
 /**
  * Remove a blog from the tracker for a specific user.
@@ -1218,7 +1218,7 @@ function bp_blogs_remove_data_for_blog( $blog_id ) {
 	 */
 	do_action( 'bp_blogs_remove_data_for_blog', $blog_id );
 }
-add_action( 'delete_blog', 'bp_blogs_remove_data_for_blog', 1 );
+add_action( 'bp_delete_site', 'bp_blogs_remove_data_for_blog', 1 );
 
 /**
  * Get all of a user's blogs, as tracked by BuddyPress.
