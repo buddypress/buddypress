@@ -331,7 +331,7 @@ class BP_Blogs_Component extends BP_Component {
 					'type'    => 'thumb',
 					'alt'     => sprintf(
 						/* translators: %s: member name */
-						_( 'Profile picture of %s', 'buddypress' ),
+						__( 'Profile picture of %s', 'buddypress' ),
 						bp_get_displayed_user_fullname()
 					),
 				) );
