@@ -50,6 +50,7 @@ matrix:
       dist: precise
     - php: 7.2
       env: WP_VERSION=5.0 BP_TRAVISCI=travis:phpunit
+      dist: precise
     - php: 5.3
       env: WP_VERSION=4.8 BP_TRAVISCI=travis:phpunit
       dist: precise
