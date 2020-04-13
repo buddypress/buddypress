@@ -211,7 +211,6 @@ function bp_version_updater() {
 		bp_update_option( 'bp-active-components', $default_components );
 		bp_core_add_page_mappings( $default_components, 'delete' );
 		bp_core_install_emails();
-		bp_core_install_invitations();
 
 	// Upgrades.
 	} else {

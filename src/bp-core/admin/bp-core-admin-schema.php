@@ -37,6 +37,9 @@ function bp_core_install( $active_components = false ) {
 	// Install the signups table.
 	bp_core_maybe_install_signups();
 
+	// Install the invitations table.
+	bp_core_install_invitations();
+
 	// Notifications.
 	if ( !empty( $active_components['notifications'] ) ) {
 		bp_core_install_notifications();
