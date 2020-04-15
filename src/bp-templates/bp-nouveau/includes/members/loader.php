@@ -3,7 +3,7 @@
  * BP Nouveau Members
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 6.0.0
  */
 
 // Exit if accessed directly.
@@ -83,10 +83,14 @@ class BP_Nouveau_Members {
 	 * Register add_filter() hooks
 	 *
 	 * @since 3.0.0
+	 * @since 6.0.0 Removes the BP Core number formatting filter on total members count.
 	 */
 	protected function setup_filters() {
 		// Add the default-front to User's front hierarchy if user enabled it (Enabled by default).
 		add_filter( 'bp_displayed_user_get_front_template', 'bp_nouveau_member_reset_front_template', 10, 1 );
+
+		// The number formatting is done into the `bp_nouveau_nav_count()` template tag.
+		remove_filter( 'bp_get_total_member_count', 'bp_core_number_format' );
 	}
 
 	/**
