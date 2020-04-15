@@ -66,7 +66,7 @@ const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 				</Toolbar>
 			</BlockControls>
 			<InspectorControls>
-				<PanelBody title={ __( 'Profile button settings', 'buddypress' ) } initialOpen={ true }>
+				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<ToggleControl
 						label={ __( 'Display Profile button', 'buddypress' ) }
 						checked={ !! displayActionButton }
@@ -79,21 +79,20 @@ const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 								: __( 'Toggle to display a link to the user\'s profile page under their display name.', 'buddypress' )
 						}
 					/>
-				</PanelBody>
-				{ isAvatarEnabled && (
-					<PanelBody title={ __( 'Avatar settings', 'buddypress' ) } initialOpen={ false }>
+
+					{ isAvatarEnabled && (
 						<SelectControl
-							label={ __( 'Size', 'buddypress' ) }
+							label={ __( 'Avatar size', 'buddypress' ) }
 							value={ avatarSize }
 							options={ AVATAR_SIZES }
+							help={ __( 'Select "None" to disable the avatar.', 'buddypress' ) }
 							onChange={ ( option ) => {
 								setAttributes( { avatarSize: option } );
 							} }
 						/>
-					</PanelBody>
-				) }
-				{ isCoverImageEnabled && (
-					<PanelBody title={ __( 'Cover image settings', 'buddypress' ) } initialOpen={ false }>
+					) }
+
+					{ isCoverImageEnabled && (
 						<ToggleControl
 							label={ __( 'Display Cover Image', 'buddypress' ) }
 							checked={ !! displayCoverImage }
@@ -106,10 +105,9 @@ const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 									: __( 'Toggle to display the user\'s cover image over their display name.', 'buddypress' )
 							}
 						/>
-					</PanelBody>
-				) }
-				{ isMentionEnabled && (
-					<PanelBody title={ __( 'Mention settings', 'buddypress' ) } initialOpen={ false }>
+					) }
+
+					{ isMentionEnabled && (
 						<ToggleControl
 							label={ __( 'Display Mention slug', 'buddypress' ) }
 							checked={ !! displayMentionSlug }
@@ -122,8 +120,8 @@ const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 									: __( 'Toggle to display the user\'s mention name under their display name.', 'buddypress' )
 							}
 						/>
-					</PanelBody>
-				) }
+					) }
+				</PanelBody>
 			</InspectorControls>
 			<Disabled>
 				<ServerSideRender block="bp/member" attributes={ attributes } />

@@ -191,7 +191,7 @@ var editMember = function editMember(_ref) {
       });
     }
   }))), createElement(InspectorControls, null, createElement(PanelBody, {
-    title: __('Profile button settings', 'buddypress'),
+    title: __('Settings', 'buddypress'),
     initialOpen: true
   }, createElement(ToggleControl, {
     label: __('Display Profile button', 'buddypress'),
@@ -202,22 +202,17 @@ var editMember = function editMember(_ref) {
       });
     },
     help: displayActionButton ? __('Include a link to the user\'s profile page under their display name.', 'buddypress') : __('Toggle to display a link to the user\'s profile page under their display name.', 'buddypress')
-  })), isAvatarEnabled && createElement(PanelBody, {
-    title: __('Avatar settings', 'buddypress'),
-    initialOpen: false
-  }, createElement(SelectControl, {
-    label: __('Size', 'buddypress'),
+  }), isAvatarEnabled && createElement(SelectControl, {
+    label: __('Avatar size', 'buddypress'),
     value: avatarSize,
     options: AVATAR_SIZES,
+    help: __('Select "None" to disable the avatar.', 'buddypress'),
     onChange: function onChange(option) {
       setAttributes({
         avatarSize: option
       });
     }
-  })), isCoverImageEnabled && createElement(PanelBody, {
-    title: __('Cover image settings', 'buddypress'),
-    initialOpen: false
-  }, createElement(ToggleControl, {
+  }), isCoverImageEnabled && createElement(ToggleControl, {
     label: __('Display Cover Image', 'buddypress'),
     checked: !!displayCoverImage,
     onChange: function onChange() {
@@ -226,10 +221,7 @@ var editMember = function editMember(_ref) {
       });
     },
     help: displayCoverImage ? __('Include the user\'s cover image over their display name.', 'buddypress') : __('Toggle to display the user\'s cover image over their display name.', 'buddypress')
-  })), isMentionEnabled && createElement(PanelBody, {
-    title: __('Mention settings', 'buddypress'),
-    initialOpen: false
-  }, createElement(ToggleControl, {
+  }), isMentionEnabled && createElement(ToggleControl, {
     label: __('Display Mention slug', 'buddypress'),
     checked: !!displayMentionSlug,
     onChange: function onChange() {

@@ -67,7 +67,7 @@ const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
 				</Toolbar>
 			</BlockControls>
 			<InspectorControls>
-				<PanelBody title={ __( 'Group\'s home button settings', 'buddypress' ) } initialOpen={ true }>
+				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<ToggleControl
 						label={ __( 'Display Group\'s home button', 'buddypress' ) }
 						checked={ !! displayActionButton }
@@ -80,8 +80,7 @@ const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
 								: __( 'Toggle to display a link to the group\'s home page under their name.', 'buddypress' )
 						}
 					/>
-				</PanelBody>
-				<PanelBody title={ __( 'Description settings', 'buddypress' ) } initialOpen={ false }>
+
 					<ToggleControl
 						label={ __( 'Display group\'s description', 'buddypress' ) }
 						checked={ !! displayDescription }
@@ -94,21 +93,20 @@ const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
 								: __( 'Toggle to display the group\'s description under their name.', 'buddypress' )
 						}
 					/>
-				</PanelBody>
-				{ isAvatarEnabled && (
-					<PanelBody title={ __( 'Avatar settings', 'buddypress' ) } initialOpen={ false }>
+
+					{ isAvatarEnabled && (
 						<SelectControl
-							label={ __( 'Size', 'buddypress' ) }
+							label={ __( 'Avatar size', 'buddypress' ) }
 							value={ avatarSize }
 							options={ AVATAR_SIZES }
+							help={ __( 'Select "None" to disable the avatar.', 'buddypress' ) }
 							onChange={ ( option ) => {
 								setAttributes( { avatarSize: option } );
 							} }
 						/>
-					</PanelBody>
-				) }
-				{ isCoverImageEnabled && (
-					<PanelBody title={ __( 'Cover image settings', 'buddypress' ) } initialOpen={ false }>
+					) }
+
+					{ isCoverImageEnabled && (
 						<ToggleControl
 							label={ __( 'Display Cover Image', 'buddypress' ) }
 							checked={ !! displayCoverImage }
@@ -121,8 +119,8 @@ const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
 									: __( 'Toggle to display the group\'s cover image over their name.', 'buddypress' )
 							}
 						/>
-					</PanelBody>
-				) }
+					) }
+				</PanelBody>
 			</InspectorControls>
 			<Disabled>
 				<ServerSideRender block="bp/group" attributes={ attributes } />

@@ -191,7 +191,7 @@ var editGroup = function editGroup(_ref) {
       });
     }
   }))), createElement(InspectorControls, null, createElement(PanelBody, {
-    title: __('Group\'s home button settings', 'buddypress'),
+    title: __('Settings', 'buddypress'),
     initialOpen: true
   }, createElement(ToggleControl, {
     label: __('Display Group\'s home button', 'buddypress'),
@@ -202,10 +202,7 @@ var editGroup = function editGroup(_ref) {
       });
     },
     help: displayActionButton ? __('Include a link to the group\'s home page under their name.', 'buddypress') : __('Toggle to display a link to the group\'s home page under their name.', 'buddypress')
-  })), createElement(PanelBody, {
-    title: __('Description settings', 'buddypress'),
-    initialOpen: false
-  }, createElement(ToggleControl, {
+  }), createElement(ToggleControl, {
     label: __('Display group\'s description', 'buddypress'),
     checked: !!displayDescription,
     onChange: function onChange() {
@@ -214,22 +211,17 @@ var editGroup = function editGroup(_ref) {
       });
     },
     help: displayDescription ? __('Include the group\'s description under their name.', 'buddypress') : __('Toggle to display the group\'s description under their name.', 'buddypress')
-  })), isAvatarEnabled && createElement(PanelBody, {
-    title: __('Avatar settings', 'buddypress'),
-    initialOpen: false
-  }, createElement(SelectControl, {
-    label: __('Size', 'buddypress'),
+  }), isAvatarEnabled && createElement(SelectControl, {
+    label: __('Avatar size', 'buddypress'),
     value: avatarSize,
     options: AVATAR_SIZES,
+    help: __('Select "None" to disable the avatar.', 'buddypress'),
     onChange: function onChange(option) {
       setAttributes({
         avatarSize: option
       });
     }
-  })), isCoverImageEnabled && createElement(PanelBody, {
-    title: __('Cover image settings', 'buddypress'),
-    initialOpen: false
-  }, createElement(ToggleControl, {
+  }), isCoverImageEnabled && createElement(ToggleControl, {
     label: __('Display Cover Image', 'buddypress'),
     checked: !!displayCoverImage,
     onChange: function onChange() {
