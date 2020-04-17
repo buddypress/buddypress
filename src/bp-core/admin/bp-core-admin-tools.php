@@ -347,6 +347,7 @@ function bp_admin_invitations_table() {
 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 
+	/* translators: %s: the result of the action performed by the repair tool */
 	$statement = __( 'Creating the Invitations database table if it does not exist&hellip; %s', 'buddypress' );
 	$result    = __( 'Failed to create table!', 'buddypress' );
 
@@ -365,7 +366,9 @@ function bp_admin_invitations_table() {
 
 	// Migrate group invitations if needed.
 	if ( bp_is_active( 'groups' ) ) {
-		$bp                = buddypress();
+		$bp = buddypress();
+
+		/* translators: %s: the result of the action performed by the repair tool */
 		$migrate_statement = __( 'Migrating group invitations&hellip; %s', 'buddypress' );
 		$migrate_result    = __( 'Failed to migrate invitations!', 'buddypress' );
 
