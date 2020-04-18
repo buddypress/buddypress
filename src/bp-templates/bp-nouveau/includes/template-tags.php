@@ -446,6 +446,33 @@ function bp_nouveau_pagination( $position ) {
 			$bottom_hook = '';
 			$page_arg    = $GLOBALS['requests_template']->pag_arg;
 			break;
+
+		default:
+			/**
+			 * Use this filter to define your custom pagination parameters.
+			 *
+			 * @since 6.0.0
+			 *
+			 * @param array $value {
+			 *     An associative array of pagination parameters.
+			 *     @type string   $pag_count Information about the pagination count.
+			 *                               eg: "Viewing 1 - 10 of 20 items".
+			 *     @type string   $pag_links The Pagination links.
+			 *     @type string   $page_arg  The argument to use to pass the page number.
+			 * }
+			 * @param string $pagination_type Information about the pagination type.
+			 */
+			$pagination_params = apply_filters( 'bp_nouveau_pagination_params',
+				array(
+					'pag_count' => '',
+					'pag_links' => '',
+					'page_arg'  => '',
+				),
+				$pagination_type
+			);
+
+			list( $pag_count, $pag_links, $page_arg ) = array_values( $pagination_params );
+			break;
 	}
 
 	$count_class = sprintf( '%1$s-%2$s-count-%3$s', $pagination_type, $screen, $position );
