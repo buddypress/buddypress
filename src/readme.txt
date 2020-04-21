@@ -125,6 +125,9 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
+= 5.2.0 =
+See: https://codex.buddypress.org/releases/version-5-2-0/
+
 = 5.1.2 =
 See: https://codex.buddypress.org/releases/version-5-1-2/
 
@@ -153,6 +156,9 @@ See: https://codex.buddypress.org/releases/version-4-1-0/
 See: https://codex.buddypress.org/releases/version-4-0-0/
 
 == Changelog ==
+
+= 5.2.0 =
+See: https://codex.buddypress.org/releases/version-5-2-0/
 
 = 5.1.2 =
 See: https://codex.buddypress.org/releases/version-5-1-2/
