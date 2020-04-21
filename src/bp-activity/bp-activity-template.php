@@ -1567,8 +1567,13 @@ function bp_activity_user_can_delete( $activity = false ) {
 			$can_delete = true;
 		}
 
-		// Viewing a single item, and this user is an admin of that item.
-		if ( bp_is_single_item() && bp_is_item_admin() ) {
+		/*
+		 * Viewing a single item, and this user is an admin of that item.
+		 *
+		 * Group activity items are handled separately.
+		 * See bp_groups_filter_activity_user_can_delete().
+		 */
+		if ( 'groups' !== $activity->component && bp_is_single_item() && bp_is_item_admin() ) {
 			$can_delete = true;
 		}
 	}
