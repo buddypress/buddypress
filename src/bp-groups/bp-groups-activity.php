@@ -618,6 +618,42 @@ function groups_post_update( $args = '' ) {
 }
 
 /**
+ * Function used to determine if a user can delete a group activity item.
+ *
+ * Used as a filter callback to 'bp_activity_user_can_delete'.
+ *
+ * @since 6.0.0
+ *
+ * @param  bool   $retval   True if item can receive comments.
+ * @param  object $activity Activity item being checked.
+ * @return bool
+ */
+function bp_groups_filter_activity_user_can_delete( $retval, $activity ) {
+	// Bail if no current user.
+	if ( ! is_user_logged_in() ) {
+		return $retval;
+	}
+
+	if ( isset( $activity->component ) || 'groups' !== $activity->component ) {
+		return $retval;
+	}
+
+	// Trust the passed value for administrators.
+	if ( bp_current_user_can( 'bp_moderate' ) ) {
+		return $retval;
+	}
+
+	// Group administrators or moderators can delete content in that group that doesn't belong to them.
+	$group_id = $activity->item_id;
+	if ( groups_is_user_admin( bp_loggedin_user_id(), $group_id ) || groups_is_user_mod( bp_loggedin_user_id(), $group_id ) ) {
+		$retval = true;
+	}
+
+	return $retval;
+}
+add_filter( 'bp_activity_user_can_delete', 'bp_groups_filter_activity_user_can_delete', 10, 2 );
+
+/**
  * Function used to determine if a user can comment on a group activity item.
  *
  * Used as a filter callback to 'bp_activity_can_comment'.
