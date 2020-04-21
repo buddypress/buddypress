@@ -564,6 +564,8 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_data = false ) {
 	global $message, $type;
 
+	check_admin_referer( 'bp_xprofile_delete_field-' . $field_id, 'bp_xprofile_delete_field' );
+
 	// Switch type to 'option' if type is not 'field'.
 	// @todo trust this param.
 	$field_type  = ( 'field' == $field_type ) ? __( 'field', 'buddypress' ) : __( 'option', 'buddypress' );
@@ -727,7 +729,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 				<?php if ( $field->can_delete ) : ?>
 
 					<div class="delete-button">
-						<a class="confirm submit-delete deletion" href="<?php echo esc_url( $field_delete_url ); ?>"><?php _ex( 'Delete', 'Delete field link', 'buddypress' ); ?></a>
+						<a class="confirm submit-delete deletion" href="<?php echo esc_url( wp_nonce_url( $field_delete_url, 'bp_xprofile_delete_field-' . $field->id, 'bp_xprofile_delete_field' ) ); ?>"><?php _ex( 'Delete', 'Delete field link', 'buddypress' ); ?></a>
 					</div>
 
 				<?php endif; ?>
