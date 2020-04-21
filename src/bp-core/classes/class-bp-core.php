@@ -306,6 +306,15 @@ class BP_Core extends BP_Component {
 				bp_get_email_post_type(),
 				apply_filters( 'bp_register_email_post_type', array(
 					'description'       => _x( 'BuddyPress emails', 'email post type description', 'buddypress' ),
+					'capabilities'      => array(
+						'edit_posts'          => 'bp_moderate',
+						'edit_others_posts'   => 'bp_moderate',
+						'publish_posts'       => 'bp_moderate',
+						'read_private_posts'  => 'bp_moderate',
+						'delete_posts'        => 'bp_moderate',
+						'delete_others_posts' => 'bp_moderate',
+					),
+					'map_meta_cap'      => true,
 					'labels'            => bp_get_email_post_type_labels(),
 					'menu_icon'         => 'dashicons-email',
 					'public'            => false,
