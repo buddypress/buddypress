@@ -121,13 +121,15 @@ class BP_Signup {
 	 * Fetch signups based on parameters.
 	 *
 	 * @since 2.0.0
+	 * @since 6.0.0 Adds a whitelist of allowed orderby parameters.
 	 *
 	 * @param array $args {
 	 *     The argument to retrieve desired signups.
 	 *     @type int         $offset         Offset amount. Default 0.
 	 *     @type int         $number         How many to fetch. Default 1.
 	 *     @type bool|string $usersearch     Whether or not to search for a username. Default false.
-	 *     @type string      $orderby        Order By parameter. Default 'signup_id'.
+	 *     @type string      $orderby        Order By parameter. Possible values are `signup_id`, `login`, `email`,
+	 *                                       `registered`, `activated`. Default `signup_id`.
 	 *     @type string      $order          Order direction. Default 'DESC'.
 	 *     @type bool        $include        Whether or not to include more specific query params.
 	 *     @type string      $activation_key Activation key to search for.
@@ -158,8 +160,12 @@ class BP_Signup {
 			'bp_core_signups_get_args'
 		);
 
-		// @todo whitelist sanitization
-		if ( $r['orderby'] !== 'signup_id' ) {
+		// Whitelist sanitization.
+		if ( ! in_array( $r['orderby'], array( 'login', 'email', 'registered', 'activated' ), true ) ) {
+			$r['orderby'] = 'signup_id';
+		}
+
+		if ( 'login' === $r['orderby'] || 'email' === $r['orderby'] ) {
 			$r['orderby'] = 'user_' . $r['orderby'];
 		}
 

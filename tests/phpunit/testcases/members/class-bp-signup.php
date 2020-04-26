@@ -198,6 +198,56 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	/**
 	 * @group get
 	 */
+	public function test_get_with_orderby_login_asc() {
+		$s1 = self::factory()->signup->create( array(
+			'user_login' => 'fghij',
+		) );
+		$s2 = self::factory()->signup->create( array(
+			'user_login' => 'abcde',
+		) );
+		$s3 = self::factory()->signup->create( array(
+			'user_login' => 'zzzzz',
+		) );
+
+		$ss = BP_Signup::get( array(
+			'orderby' => 'login',
+			'number' => 3,
+			'order' => 'ASC',
+			'fields' => 'ids',
+		) );
+
+		$this->assertEquals( array( $s2, $s1, $s3 ), $ss['signups'] );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_with_orderby_registered_asc() {
+		$now = time();
+
+		$s1 = self::factory()->signup->create( array(
+			'registered' => date( 'Y-m-d H:i:s', $now - 50 ),
+		) );
+		$s2 = self::factory()->signup->create( array(
+			'registered' => date( 'Y-m-d H:i:s', $now - 100 ),
+		) );
+		$s3 = self::factory()->signup->create( array(
+			'registered' => date( 'Y-m-d H:i:s', $now - 10 ),
+		) );
+
+		$ss = BP_Signup::get( array(
+			'orderby' => 'registered',
+			'number' => 3,
+			'order' => 'ASC',
+			'fields' => 'ids',
+		) );
+
+		$this->assertEquals( array( $s2, $s1, $s3 ), $ss['signups'] );
+	}
+
+	/**
+	 * @group get
+	 */
 	public function test_get_with_include() {
 		$s1 = self::factory()->signup->create();
 		$s2 = self::factory()->signup->create();
