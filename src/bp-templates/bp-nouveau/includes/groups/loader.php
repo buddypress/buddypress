@@ -3,7 +3,7 @@
  * BP Nouveau Groups
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 6.0.0
  */
 
 // Exit if accessed directly.
@@ -93,6 +93,7 @@ class BP_Nouveau_Groups {
 	 * Register add_filter() hooks
 	 *
 	 * @since 3.0.0
+	 * @since 6.0.0 Removes the BP Core number formatting filter on total groups count.
 	 */
 	protected function setup_filters() {
 		add_filter( 'bp_nouveau_register_scripts', 'bp_nouveau_groups_register_scripts', 10, 1 );
@@ -129,6 +130,9 @@ class BP_Nouveau_Groups {
 		if ( bp_is_active( 'friends' ) && ! bp_nouveau_groups_disallow_all_members_invites() ) {
 			add_filter( 'bp_settings_admin_nav', 'bp_nouveau_groups_invites_restriction_admin_nav', 10, 1 );
 		}
+
+		// The number formatting is done into the `bp_nouveau_nav_count()` template tag.
+		remove_filter( 'bp_get_total_group_count', 'bp_core_number_format' );
 	}
 
 	/**
