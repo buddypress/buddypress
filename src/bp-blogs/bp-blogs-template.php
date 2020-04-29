@@ -302,7 +302,7 @@ function bp_blog_avatar( $args = '' ) {
 	 * admin. Filter 'bp_get_blog_avatar_' . $blog_id to customize.
 	 *
 	 * @since 2.4.0 Introduced `$title` argument.
-	 * @since 6.0.0 Introduced the `$blog_id` & `$admin_user_id` arguments.
+	 * @since 6.0.0 Introduced the `$blog_id`, `$admin_user_id` and `html` arguments.
 	 *
 	 * @see bp_core_fetch_avatar() For a description of arguments and
 	 *      return values.
@@ -320,6 +320,7 @@ function bp_blog_avatar( $args = '' ) {
 	 *     @type bool     $no_grav       Default: false.
 	 *     @type int      $blog_id       The blog ID. Default: O.
 	 *     @type int      $admin_user_id The Blog Admin user ID. Default: 0.
+	 *     @type bool     $html          Default: true.
 	 * }
 	 * @return string User avatar string.
 	 */
@@ -364,6 +365,7 @@ function bp_blog_avatar( $args = '' ) {
 				esc_attr( $author_displayname )
 			),
 			'no_grav' => false,
+			'html'    => true,
 		) );
 
 		// Use site icon if available.
@@ -407,6 +409,11 @@ function bp_blog_avatar( $args = '' ) {
 
 			// We have a site icon.
 			if ( ! is_numeric( $site_icon ) ) {
+				// Just return the raw url of the Site Icon.
+				if ( ! $r['html'] ) {
+					return esc_url_raw( $site_icon );
+				}
+
 				if ( empty( $r['width'] ) && ! isset( $size ) ) {
 					$size = 'full' === $r['type'] ? bp_core_avatar_full_width() : bp_core_avatar_thumb_width();
 				} else {
@@ -431,16 +438,17 @@ function bp_blog_avatar( $args = '' ) {
 		// Fallback to user ID avatar.
 		if ( '' === $avatar ) {
 			$avatar = bp_core_fetch_avatar( array(
-				'item_id'    => $admin_user_id,
+				'item_id' => $admin_user_id,
 				// 'avatar_dir' => 'blog-avatars',
 				// 'object'     => 'blog',
-				'type'       => $r['type'],
-				'alt'        => $r['alt'],
-				'css_id'     => $r['id'],
-				'class'      => $r['class'],
-				'width'      => $r['width'],
-				'height'     => $r['height'],
-				'no_grav'    => $r['no_grav'],
+				'type'    => $r['type'],
+				'alt'     => $r['alt'],
+				'css_id'  => $r['id'],
+				'class'   => $r['class'],
+				'width'   => $r['width'],
+				'height'  => $r['height'],
+				'no_grav' => $r['no_grav'],
+				'html'    => $r['html'],
 			) );
 		}
 
