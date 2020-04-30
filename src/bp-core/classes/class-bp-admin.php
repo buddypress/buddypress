@@ -927,7 +927,15 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h3 class="wp-people-group"><?php printf( esc_html__( 'Noteworthy Contributors to %s', 'buddypress' ), self::display_version() ); ?></h3>
+			<h3 class="wp-people-group">
+				<?php
+				printf(
+					/* translators: %s: BuddyPress version number */
+					esc_html__( 'Noteworthy Contributors to %s', 'buddypress' ),
+					self::display_version()
+				);
+				?>
+			</h3>
 			<ul class="wp-people-group " id="wp-people-group-rockstars">
 				<li class="wp-person" id="wp-person-dimensionmedia">
 					<a class="web" href="https://profiles.wordpress.org/dimensionmedia"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/7735aada1ec39d0c1118bd92ed4551f1?s=120">
