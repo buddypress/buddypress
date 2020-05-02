@@ -40,10 +40,10 @@
 	"scripts": {
 		"start": "npm run dev:components && parcel watch src/js/bp-*/*s/blocks/*.js --out-dir src --no-source-maps",
 		"dev": "npm run dev:components && parcel build src/js/bp-*/*s/blocks/*.js --out-dir src --no-source-maps --no-minify",
-		"build": "npm run build:components && parcel build src/js/bp-*/*s/blocks/*.js --out-dir build --no-source-maps",
+		"build": "npm run build:components && parcel build src/js/bp-*/*s/blocks/*.js --out-dir build",
 		"watch:components": "parcel watch src/js/bp-core/js/block-components/block-components.js --out-dir src/bp-core/js --out-file block-components.js --no-source-maps --global bp",
 		"dev:components": "parcel build src/js/bp-core/js/block-components/block-components.js --out-dir src/bp-core/js --out-file block-components.js --no-source-maps --no-minify --global bp",
-		"build:components": "parcel build src/js/bp-core/js/block-components/block-components.js --out-dir build/bp-core/js --out-file block-components.js --no-source-maps --global bp"
+		"build:components": "parcel build src/js/bp-core/js/block-components/block-components.js --out-dir build/bp-core/js --out-file block-components.js --global bp"
 	},
 	"keywords": [
 		"activity",
