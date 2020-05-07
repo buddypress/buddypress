@@ -940,7 +940,7 @@ function bp_nouveau_group_locate_template_part( $template = '' ) {
 	// Use a global to avoid requesting the hierarchy for each template
 	if ( ! isset( $bp_nouveau->groups->current_group_hierarchy ) ) {
 		$bp_nouveau->groups->current_group_hierarchy = array(
-			'groups/single/%s-id-' . sanitize_file_name( $current_group->id ) . '.php',
+			'groups/single/%s-id-' . (int) $current_group->id                     . '.php',
 			'groups/single/%s-slug-' . sanitize_file_name( $current_group->slug ) . '.php',
 		);
 

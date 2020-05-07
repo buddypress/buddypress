@@ -223,7 +223,7 @@ class BP_Groups_Theme_Compat {
 		 * @param array $value Array of default template files to use.
 		 */
 		$new_templates = apply_filters( 'bp_template_hierarchy_groups_single_item', array(
-			'groups/single/index-id-'     . sanitize_file_name( bp_get_current_group_id() )   . '.php',
+			'groups/single/index-id-'     . (int) bp_get_current_group_id()                   . '.php',
 			'groups/single/index-slug-'   . sanitize_file_name( bp_get_current_group_slug() ) . '.php',
 			'groups/single/index-action-' . sanitize_file_name( bp_current_action() )         . '.php',
 			'groups/single/index-status-' . sanitize_file_name( $group->status )              . '.php',

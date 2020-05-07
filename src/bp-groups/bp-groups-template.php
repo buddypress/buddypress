@@ -4358,7 +4358,7 @@ function bp_groups_get_front_template( $group = null ) {
 	}
 
 	$template_names = array(
-		'groups/single/front-id-'     . sanitize_file_name( $group->id )     . '.php',
+		'groups/single/front-id-'     . (int) $group->id . '.php',
 		'groups/single/front-slug-'   . sanitize_file_name( $group->slug )   . '.php',
 	);
 

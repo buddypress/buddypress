@@ -170,7 +170,7 @@ class BP_Members_Theme_Compat {
 		 * @param array $value Array of template paths to add to hierarchy.
 		 */
 		$new_templates = apply_filters( 'bp_template_hierarchy_members_single_item', array(
-			'members/single/index-id-'        . sanitize_file_name( bp_displayed_user_id() ) . '.php',
+			'members/single/index-id-'        . (int) bp_displayed_user_id()                 . '.php',
 			'members/single/index-nicename-'  . sanitize_file_name( $user_nicename )         . '.php',
 			'members/single/index-action-'    . sanitize_file_name( bp_current_action() )    . '.php',
 			'members/single/index-component-' . sanitize_file_name( bp_current_component() ) . '.php',
