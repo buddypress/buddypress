@@ -897,7 +897,7 @@ function bp_the_notification_action_links( $args = '' ) {
 		) );
 
 		// Build the links.
-		$retval = $r['before'] . implode( $r['links'], $r['sep'] ) . $r['after'];
+		$retval = $r['before'] . implode( $r['sep'], $r['links'] ) . $r['after'];
 
 		/**
 		 * Filters the action links for the current notification.
