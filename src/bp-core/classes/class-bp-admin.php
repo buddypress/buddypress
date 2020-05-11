@@ -633,16 +633,16 @@ class BP_Admin {
 	?>
 
 		<div id="bp-hello-container">
-			<div id="plugin-information-scrollable">
+			<div id="plugin-information-scrollable" role="document">
 				<div id='plugin-information-title' class="with-banner">
 					<div class='vignette'></div>
-					<h2>
+					<h1>
 						<?php printf(
 							/* translators: %s is the placeholder for the BuddyPress version number. */
 							esc_html__( 'BuddyPress %s', 'buddypress' ),
 							$version
 						); ?>
-					</h2>
+					</h1>
 				</div>
 				<div id="plugin-information-tabs">
 					<a name="whats-new" href="#whats-new" class="current"><?php esc_html_e( 'What\'s new?', 'buddypress' ); ?></a>

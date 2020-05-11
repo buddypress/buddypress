@@ -234,6 +234,33 @@ div.dashicons {
 	background-image: url(https://ps.w.org/buddypress/assets/banner-772x250.png);
 }
 
+#plugin-information-title h1 {
+	font-size: 1em;
+	font-weight: 600;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#plugin-information-title.with-banner h1 {
+	position: relative;
+	font-family: "Helvetica Neue", sans-serif;
+	display: inline-block;
+	font-size: 20px;
+	line-height: 1.68;
+	box-sizing: border-box;
+	max-width: 85%;
+	padding: 0 15px;
+	margin-top: 30px;
+	color: #fff;
+	background: rgba(30, 30, 30, 0.9);
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+	box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+}
+
 /*
  * 4.3 - Content content
  */
@@ -264,6 +291,16 @@ div.dashicons {
 /*------------------------------------------------------------------------------
  * 6.0 - Media Queries
  *----------------------------------------------------------------------------*/
+
+@media screen and (min-width: 770px) {
+
+	#plugin-information-title.with-banner h1 {
+		font-size: 30px;
+		line-height: 2;
+		margin-top: 174px;
+		max-width: 100%;
+	}
+}
 
 /*
  * 6.1 - Desktop Medium
