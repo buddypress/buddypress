@@ -737,7 +737,7 @@ class BP_Admin {
 								esc_html__( 'Take the %s.', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://buddypress.org' ),
+									esc_url( 'https://mercime.survey.fm/2020-buddypress-survey' ),
 									esc_html__( '2020 BuddyPress Survey', 'buddypress' )
 								)
 							); ?></strong>
