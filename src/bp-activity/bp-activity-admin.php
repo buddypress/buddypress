@@ -85,12 +85,12 @@ function bp_activity_admin_reply() {
 
 	// Check that a reply has been entered.
 	if ( empty( $_REQUEST['content'] ) )
-		die( __( 'ERROR: Please type a reply.', 'buddypress' ) );
+		die( __( 'Error: Please type a reply.', 'buddypress' ) );
 
 	// Check parent activity exists.
 	$parent_activity = new BP_Activity_Activity( $parent_id );
 	if ( empty( $parent_activity->component ) )
-		die( __( 'ERROR: The item you are trying to reply to cannot be found, or it has been deleted.', 'buddypress' ) );
+		die( __( 'Error: The item you are trying to reply to cannot be found, or it has been deleted.', 'buddypress' ) );
 
 	// @todo: Check if user is allowed to create new activity items
 	// if ( ! current_user_can( 'bp_new_activity' ) )

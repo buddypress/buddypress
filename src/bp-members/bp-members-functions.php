@@ -1364,7 +1364,7 @@ function bp_core_boot_spammer( $user ) {
 	// The user exists; now do a check to see if the user is a spammer
 	// if the user is a spammer, stop them in their tracks!
 	if ( is_a( $user, 'WP_User' ) && ( ( is_multisite() && (int) $user->spam ) || 1 == $user->user_status ) ) {
-		return new WP_Error( 'invalid_username', __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
+		return new WP_Error( 'invalid_username', __( '<strong>Error</strong>: Your account has been marked as a spammer.', 'buddypress' ) );
 	}
 
 	// User is good to go!
@@ -2337,7 +2337,7 @@ function bp_core_signup_disable_inactive( $user = null, $username = '', $passwor
 	/* translators: %s: the activation url */
 	$resend_string .= sprintf( __( 'If you have not received an email yet, <a href="%s">click here to resend it</a>.', 'buddypress' ), esc_url( $resend_url ) );
 
-	return new WP_Error( 'bp_account_not_activated', __( '<strong>ERROR</strong>: Your account has not been activated. Check your email for the activation link.', 'buddypress' ) . $resend_string );
+	return new WP_Error( 'bp_account_not_activated', __( '<strong>Error</strong>: Your account has not been activated. Check your email for the activation link.', 'buddypress' ) . $resend_string );
 }
 add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30, 3 );
 
@@ -2368,7 +2368,7 @@ function bp_members_login_resend_activation_email() {
 
 	// Add feedback message.
 	if ( ! empty( $resend['errors'] ) ) {
-		$error = __( '<strong>ERROR</strong>: Your account has already been activated.', 'buddypress' );
+		$error = __( '<strong>Error</strong>: Your account has already been activated.', 'buddypress' );
 	} else {
 		$error = __( 'Activation email resent! Please check your inbox or spam folder.', 'buddypress' );
 	}
@@ -2513,7 +2513,7 @@ add_action( 'bp_init', 'bp_stop_live_spammer', 5 );
 function bp_live_spammer_login_error() {
 	global $error;
 
-	$error = __( '<strong>ERROR</strong>: Your account has been marked as a spammer.', 'buddypress' );
+	$error = __( '<strong>Error</strong>: Your account has been marked as a spammer.', 'buddypress' );
 
 	// Shake shake shake!
 	add_action( 'login_head', 'wp_shake_js', 12 );
