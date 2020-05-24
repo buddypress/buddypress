@@ -323,14 +323,14 @@ function bp_activity_admin_load() {
 	do_action( 'bp_activity_admin_enqueue_scripts' );
 
 	// Handle spam/un-spam/delete of activities.
-	if ( !empty( $doaction ) && ! in_array( $doaction, array( '-1', 'edit', 'save', ) ) ) {
+	if ( ! empty( $doaction ) && ! in_array( $doaction, array( '-1', 'edit', 'save', 'delete', 'bulk_delete' ) ) ) {
 
 		// Build redirection URL.
 		$redirect_to = remove_query_arg( array( 'aid', 'deleted', 'error', 'spammed', 'unspammed', ), wp_get_referer() );
 		$redirect_to = add_query_arg( 'paged', $bp_activity_list_table->get_pagenum(), $redirect_to );
 
 		// Get activity IDs.
-		$activity_ids = array_map( 'absint', (array) $_REQUEST['aid'] );
+		$activity_ids = wp_parse_id_list( $_REQUEST['aid'] );
 
 		/**
 		 * Filters list of IDs being spammed/un-spammed/deleted.
@@ -349,7 +349,11 @@ function bp_activity_admin_load() {
 			// Trim 'bulk_' off the action name to avoid duplicating a ton of code.
 			$doaction = substr( $doaction, 5 );
 
-		// This is a request to delete, spam, or un-spam, a single item.
+			// This is a request to delete single or multiple item.
+		} elseif ( 'do_delete'  === $doaction && ! empty( $_REQUEST['aid'] ) ) {
+			check_admin_referer( 'bp-activities-delete' );
+
+		// This is a request to spam, or un-spam, a single item.
 		} elseif ( !empty( $_REQUEST['aid'] ) ) {
 
 			// Check this is a valid form submission.
@@ -375,13 +379,18 @@ function bp_activity_admin_load() {
 			}
 
 			switch ( $doaction ) {
-				case 'delete' :
-					if ( 'activity_comment' == $activity->type )
-						bp_activity_delete_comment( $activity->item_id, $activity->id );
-					else
-						bp_activity_delete( array( 'id' => $activity->id ) );
+				case 'do_delete' :
+					if ( 'activity_comment' === $activity->type ) {
+						$delete_result = bp_activity_delete_comment( $activity->item_id, $activity->id );
+					} else {
+						$delete_result = bp_activity_delete( array( 'id' => $activity->id ) );
+					}
 
-					$deleted++;
+					if ( ! $delete_result ) {
+						$errors[] = $activity->id;
+					} else {
+						$deleted++;
+					}
 					break;
 
 				case 'ham' :
@@ -396,10 +405,11 @@ function bp_activity_admin_load() {
 					$result = $activity->save();
 
 					// Check for any error during activity save.
-					if ( ! $result )
+					if ( ! $result ) {
 						$errors[] = $activity->id;
-					else
+					} else {
 						$unspammed++;
+					}
 					break;
 
 				case 'spam' :
@@ -407,10 +417,11 @@ function bp_activity_admin_load() {
 					$result = $activity->save();
 
 					// Check for any error during activity save.
-					if ( ! $result )
+					if ( ! $result ) {
 						$errors[] = $activity->id;
-					else
+					} else {
 						$spammed++;
+					}
 					break;
 
 				default:
@@ -435,18 +446,22 @@ function bp_activity_admin_load() {
 		do_action( 'bp_activity_admin_action_after', array( $spammed, $unspammed, $deleted, $errors ), $redirect_to, $activity_ids );
 
 		// Add arguments to the redirect URL so that on page reload, we can easily display what we've just done.
-		if ( $spammed )
+		if ( $spammed ) {
 			$redirect_to = add_query_arg( 'spammed', $spammed, $redirect_to );
+		}
 
-		if ( $unspammed )
+		if ( $unspammed ) {
 			$redirect_to = add_query_arg( 'unspammed', $unspammed, $redirect_to );
+		}
 
-		if ( $deleted )
+		if ( $deleted ) {
 			$redirect_to = add_query_arg( 'deleted', $deleted, $redirect_to );
+		}
 
 		// If an error occurred, pass back the activity ID that failed.
-		if ( ! empty( $errors ) )
+		if ( ! empty( $errors ) ) {
 			$redirect_to = add_query_arg( 'error', implode ( ',', array_map( 'absint', $errors ) ), $redirect_to );
+		}
 
 		/**
 		 * Filters redirect URL after activity spamming/un-spamming/deletion occurs.
@@ -604,16 +619,97 @@ function bp_activity_admin_load() {
  */
 function bp_activity_admin() {
 	// Decide whether to load the index or edit screen.
-	$doaction = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
+	$doaction = bp_admin_list_table_current_bulk_action();
 
 	// Display the single activity edit screen.
-	if ( 'edit' == $doaction && ! empty( $_GET['aid'] ) )
+	if ( 'edit' === $doaction && ! empty( $_GET['aid'] ) ) {
 		bp_activity_admin_edit();
 
+	// Display the activty delete confirmation screen.
+	} elseif ( in_array( $doaction, array( 'bulk_delete', 'delete' ) ) && ! empty( $_GET['aid'] ) ) {
+		bp_activity_admin_delete();
+
 	// Otherwise, display the Activity index screen.
-	else
+	} else {
 		bp_activity_admin_index();
+	}
 }
+
+/**
+ * Display the Activity delete confirmation screen.
+ *
+ * @since 7.0.0
+ */
+function bp_activity_admin_delete() {
+
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+		die( '-1' );
+	}
+
+	$activity_ids = isset( $_REQUEST['aid'] ) ? $_REQUEST['aid'] : 0;
+
+	if ( ! is_array( $activity_ids ) ) {
+		$activity_ids = explode( ',', $activity_ids );
+	}
+
+	$activities = bp_activity_get( array(
+		'in'               => $activity_ids,
+		'show_hidden'      => true,
+		'spam'             => 'all',
+		'display_comments' => 0,
+		'per_page'         => null
+	) );
+
+	// Create a new list of activity ids, based on those that actually exist.
+	$aids = array();
+	foreach ( $activities['activities'] as $activity ) {
+		$aids[] = $activity->id;
+	}
+
+	$base_url = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'aid' ), $_SERVER['REQUEST_URI'] ); ?>
+
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Delete Activities', 'buddypress' ) ?></h1>
+		<p><?php esc_html_e( 'You are about to delete the following activities:', 'buddypress' ) ?></p>
+
+		<ul class="bp-activity-delete-list">
+		<?php foreach ( $activities['activities'] as $activity ) : ?>
+			<li>
+			<?php
+			$actions = bp_activity_admin_get_activity_actions();
+
+			if ( isset( $actions[ $activity->type ] ) ) {
+				$activity_type =  $actions[ $activity->type ];
+			} else {
+				/* translators: %s: the name of the activity type */
+				$activity_type = sprintf( __( 'Unregistered action - %s', 'buddypress' ), $activity->type );
+			}
+
+			printf(
+				/* translators: 1: activity type. 2: activity author. 3: activity date and time. */
+				__( '"%1$s" activity submitted by %2$s on %3$s', 'buddypress' ),
+				esc_html( $activity_type ),
+				bp_core_get_userlink( $activity->user_id ),
+				sprintf(
+					'<a href="%1$s">%2$s</a>',
+					esc_url( bp_activity_get_permalink( $activity->id, $activity ) ),
+					date_i18n( bp_get_option( 'date_format' ), strtotime( $activity->date_recorded ) )
+				)
+			);
+			?>
+			</li>
+		<?php endforeach; ?>
+		</ul>
+
+		<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ) ?></strong></p>
+
+		<a class="button-primary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'do_delete', 'aid' => implode( ',', $aids ) ), $base_url ), 'bp-activities-delete' ) ); ?>"><?php esc_html_e( 'Delete Permanently', 'buddypress' ) ?></a>
+		<a class="button" href="<?php echo esc_attr( $base_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ) ?></a>
+	</div>
+
+	<?php
+}
+
 
 /**
  * Display the single activity edit screen.
@@ -741,6 +837,10 @@ function bp_activity_admin_edit() {
  * @param object $item Activity item.
  */
 function bp_activity_admin_edit_metabox_status( $item ) {
+	$base_url = add_query_arg( array(
+		'page' => 'bp-activity',
+		'aid'  => $item->id
+	), bp_get_admin_url( 'admin.php' ) );
 ?>
 
 	<div class="submitbox" id="submitcomment">
@@ -783,6 +883,10 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 		</div><!-- #minor-publishing -->
 
 		<div id="major-publishing-actions">
+			<div id="delete-action">
+				<a class="submitdelete deletion" href="<?php echo esc_url( wp_nonce_url( add_query_arg( 'action', 'delete', $base_url ), 'bp-activities-delete' ) ); ?>"><?php esc_html_e( 'Delete Permanently', 'buddypress' ) ?></a>
+			</div>
+
 			<div id="publishing-action">
 				<?php submit_button( __( 'Update', 'buddypress' ), 'primary', 'save', false ); ?>
 			</div>

@@ -97,6 +97,11 @@
 	width: 12%;
 }
 
+ul.bp-activity-delete-list {
+	list-style-type: disc;
+	margin: 4px 26px;
+}
+
 @media screen and (max-width: 782px) {
 
 	body.toplevel_page_bp-activity .wp-list-table tr:not(.inline-edit-row):not(.no-items) td:not(.check-column) {

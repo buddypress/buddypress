@@ -648,23 +648,24 @@ class BP_Activity_List_Table extends WP_List_Table {
 		// Reply - JavaScript only; implemented by AJAX.
 		if ( 'spam' != $item_status ) {
 			if ( $this->can_comment( $item ) ) {
-				$actions['reply'] = sprintf( '<a href="#" class="reply hide-if-no-js">%s</a>', __( 'Reply', 'buddypress' ) );
+				$actions['reply'] = sprintf( '<a href="#" class="reply hide-if-no-js">%s</a>', esc_html__( 'Reply', 'buddypress' ) );
 			} else {
-				$actions['reply'] = sprintf( '<span class="form-input-tip">%s</span>', __( 'Replies disabled', 'buddypress' ) );
+				$actions['reply'] = sprintf( '<span class="form-input-tip">%s</span>', esc_html__( 'Replies disabled', 'buddypress' ) );
 			}
 
 			// Edit.
-			$actions['edit'] = sprintf( '<a href="%s">%s</a>', $edit_url, __( 'Edit', 'buddypress' ) );
+			$actions['edit'] = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), esc_html__( 'Edit', 'buddypress' ) );
 		}
 
 		// Spam/unspam.
-		if ( 'spam' == $item_status )
-			$actions['unspam'] = sprintf( '<a href="%s">%s</a>', $ham_url, __( 'Not Spam', 'buddypress' ) );
-		else
-			$actions['spam'] = sprintf( '<a href="%s">%s</a>', $spam_url, __( 'Spam', 'buddypress' ) );
+		if ( 'spam' == $item_status ) {
+			$actions['unspam'] = sprintf( '<a href="%s">%s</a>', esc_url( $ham_url ), esc_html__( 'Not Spam', 'buddypress' ) );
+		} else {
+			$actions['spam'] = sprintf( '<a href="%s">%s</a>', esc_url( $spam_url ), esc_html__( 'Spam', 'buddypress' ) );
+		}
 
 		// Delete.
-		$actions['delete'] = sprintf( '<a href="%s" onclick="%s">%s</a>', $delete_url, "javascript:return confirm('" . esc_js( __( 'Are you sure?', 'buddypress' ) ) . "'); ", __( 'Delete Permanently', 'buddypress' ) );
+		$actions['delete'] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $delete_url ), esc_html__( 'Delete Permanently', 'buddypress' ) );
 
 		// Start timestamp.
 		echo '<div class="submitted-on">';
