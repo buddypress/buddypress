@@ -19,6 +19,8 @@
  * Text Domain: buddypress
  * Domain Path: /bp-languages/
  * License:     GPLv2 or later (license.txt)
+ * Requires at least: 4.8
+ * Requires PHP: 5.6
  */
 
 /**
