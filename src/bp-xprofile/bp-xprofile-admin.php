@@ -65,6 +65,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		'add_group',
 		'edit_group',
 		'delete_group',
+		'do_delete_group',
 		'add_field',
 		'edit_field',
 		'delete_field',
@@ -86,7 +87,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 				xprofile_admin_manage_field( $group_id, $field_id );
 
 			// Delete group.
-			} elseif ( 'delete_group' === $mode ) {
+			} elseif ( in_array( $mode, array( 'delete_group', 'do_delete_group' ), true ) ) {
 				xprofile_admin_delete_group( $group_id );
 
 			// Edit group.
@@ -403,26 +404,69 @@ function xprofile_admin_delete_group( $group_id ) {
 
 	check_admin_referer( 'bp_xprofile_delete_group' );
 
-	$group = new BP_XProfile_Group( $group_id );
+	$mode = ! empty( $_GET['mode'] )
+		  ? sanitize_key( $_GET['mode'] )
+		  : false;
 
-	if ( !$group->delete() ) {
-		$message = _x( 'There was an error deleting the group. Please try again.', 'Error when deleting profile fields group', 'buddypress' );
-		$type    = 'error';
+	// Display the group delete confirmation screen.
+	if ( 'delete_group' === $mode ) {
+		xprofile_admin_delete_group_screen( $group_id );
+
+	// Handle the deletion of group.
 	} else {
-		$message = _x( 'The group was deleted successfully.', 'Profile fields group was deleted successfully', 'buddypress' );
-		$type    = 'success';
+		$group = new BP_XProfile_Group( $group_id );
 
-		/**
-		 * Fires at the end of group deletion process, if successful.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param BP_XProfile_Group $group Current BP_XProfile_Group object.
-		 */
-		do_action( 'xprofile_groups_deleted_group', $group );
+		if ( ! $group->delete() ) {
+			$message = _x( 'There was an error deleting the group. Please try again.', 'Error when deleting profile fields group', 'buddypress' );
+			$type    = 'error';
+		} else {
+			$message = _x( 'The group was deleted successfully.', 'Profile fields group was deleted successfully', 'buddypress' );
+			$type    = 'success';
+
+			/**
+			 * Fires at the end of group deletion process, if successful.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param BP_XProfile_Group $group Current BP_XProfile_Group object.
+			 */
+			do_action( 'xprofile_groups_deleted_group', $group );
+		}
+
+		xprofile_admin_screen( $message, $type );
+	}
+}
+
+/**
+ * Display the delete confirmation screen of profile data groups.
+ *
+ * @since 7.0.0
+ */
+function xprofile_admin_delete_group_screen( $group_id ) {
+
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+		die( '-1' );
 	}
 
-	xprofile_admin_screen( $message, $type );
+	$group = new BP_XProfile_Group( $group_id );
+
+	$base_url = remove_query_arg( array( 'mode', 'group_id', '_wpnonce' ), $_SERVER['REQUEST_URI'] ); ?>
+
+	<div class="wrap">
+		<h1><?php esc_html_e( 'Delete Field Group', 'buddypress' ) ?></h1>
+		<p><?php esc_html_e( 'You are about to delete the following field group:', 'buddypress' ) ?></p>
+
+		<ul class="bp-xprofile-delete-group-list">
+			<li><?php echo esc_html( $group->name ); ?></li>
+		</ul>
+
+		<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ) ?></strong></p>
+
+		<a class="button-primary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'mode' => 'do_delete_group', 'group_id' => $group_id ), $base_url ), 'bp_xprofile_delete_group' ) ); ?>"><?php esc_html_e( 'Delete Permanently', 'buddypress' ) ?></a>
+		<a class="button" href="<?php echo esc_attr( $base_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ) ?></a>
+	</div>
+
+	<?php
 }
 
 /**

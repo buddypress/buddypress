@@ -831,6 +831,15 @@ class BP_XProfile_Group {
 				'mode'     => 'edit_group',
 				'group_id' => (int) $this->id
 			), $users_url );
+
+			if ( $this->can_delete ) {
+				// Delete Group URL.
+				$delete_url = wp_nonce_url( add_query_arg( array(
+					'page'     => 'bp-profile-setup',
+					'mode'     => 'delete_group',
+					'group_id' => (int) $this->id
+				), $users_url ), 'bp_xprofile_delete_group' );
+			}
 		} ?>
 
 		<div class="wrap">
@@ -893,7 +902,7 @@ class BP_XProfile_Group {
 							do_action( 'xprofile_group_before_submitbox', $this ); ?>
 
 							<div id="submitdiv" class="postbox">
-								<h2><?php _e( 'Submit', 'buddypress' ); ?></h2>
+								<h2><?php esc_html_e( 'Submit', 'buddypress' ); ?></h2>
 								<div class="inside">
 									<div id="submitcomment" class="submitbox">
 										<div id="major-publishing-actions">
@@ -917,7 +926,11 @@ class BP_XProfile_Group {
 												<input type="submit" name="save_group" value="<?php echo esc_attr( $button ); ?>" class="button-primary"/>
 											</div>
 											<div id="delete-action">
-												<a href="<?php echo esc_url( $cancel_url ); ?>" class="deletion"><?php _e( 'Cancel', 'buddypress' ); ?></a>
+												<?php if ( ! empty( $this->id ) && isset( $delete_url ) ) : ?>
+													<a href="<?php echo esc_url( $delete_url ); ?>" class="submitdelete deletion"><?php esc_html_e( 'Delete Group', 'buddypress' ); ?></a>
+												<?php endif; ?>
+
+												<div><a href="<?php echo esc_url( $cancel_url ); ?>" class="deletion"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a></div>
 											</div>
 											<div class="clear"></div>
 										</div>
