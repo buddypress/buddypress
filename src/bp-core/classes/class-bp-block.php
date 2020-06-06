@@ -186,10 +186,10 @@ class BP_Block {
 					 * @param string $editor_script The editor's script handle.
 					 * @param string $name          The block's name.
 					 */
-					$domain = apply_filters( 'bp_block_translation_dir', 'buddypress', $this->block->editor_script, $name );
+					$translation_domain = apply_filters( 'bp_block_translation_domain', 'buddypress', $this->block->editor_script, $name );
 
 					// Try to load the translation.
-					$translated = wp_set_script_translations( $this->block->editor_script, $domain, $translation_dir );
+					$translated = wp_set_script_translations( $this->block->editor_script, $translation_domain, $translation_dir );
 				}
 			}
 		}
