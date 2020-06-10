@@ -186,6 +186,43 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_has_members
+	 * @ticket BP8309
+	 */
+	public function test_bp_has_members_xprofile_query() {
+		$group_id = self::factory()->xprofile_group->create();
+		$field_id = self::factory()->xprofile_field->create( array(
+			'field_group_id' => $group_id,
+			'type'           => 'textbox',
+		) );
+		$users = self::factory()->user->create_many( 2 );
+
+		xprofile_set_field_data( $field_id, $users[0], 'foo' );
+		xprofile_set_field_data( $field_id, $users[1], 'bar' );
+
+		global $members_template;
+		$old_members_template = $members_template;
+
+		$args = array(
+			'xprofile_query' => array(
+				array(
+					'field' => $field_id,
+					'value' => 'foo',
+				),
+			),
+		);
+
+		bp_has_members( $args );
+
+		$members    = is_array( $members_template->members ) ? array_values( $members_template->members ) : array();
+		$member_ids = wp_list_pluck( $members, 'ID' );
+		$this->assertEqualSets( array( $users[0] ), $member_ids );
+
+		$GLOBALS['members_template'] = $old_members_template;
+	}
+
+
+	/**
 	 * @group bp_get_member_last_active
 	 */
 	public function test_bp_get_member_last_active_default_params() {

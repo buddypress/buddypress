@@ -282,6 +282,7 @@ function bp_activate_slug() {
  * display a list of members.
  *
  * @since 1.2.0
+ * @since 7.0.0 Added `xprofile_query` parameter.
  *
  * @global object $members_template {@link BP_Members_Template}
  *
@@ -325,6 +326,8 @@ function bp_activate_slug() {
  *                                                      Default: false.
  *     @type mixed                 $meta_value          When used with meta_key, limits results by the a matching
  *                                                      usermeta value. Default: false.
+ *     @type array                 $xprofile_query      Filter results by xprofile data. Requires the xprofile
+ *                                                      component. See {@see BP_XProfile_Query} for details.
  *     @type bool                  $populate_extras     Whether to fetch optional data, such as friend counts.
  *                                                      Default: true.
  * }
@@ -378,6 +381,7 @@ function bp_has_members( $args = '' ) {
 		'meta_key'            => false,    // Only return users with this usermeta.
 		'meta_value'          => false,    // Only return users where the usermeta value matches. Requires meta_key.
 
+		'xprofile_query'      => false,
 		'populate_extras'     => true      // Fetch usermeta? Friend count, last active etc.
 	), 'has_members' );
 
@@ -411,7 +415,8 @@ function bp_has_members( $args = '' ) {
 		$r['page_arg'],
 		$r['member_type'],
 		$r['member_type__in'],
-		$r['member_type__not_in']
+		$r['member_type__not_in'],
+		$r['xprofile_query']
 	);
 
 	/**

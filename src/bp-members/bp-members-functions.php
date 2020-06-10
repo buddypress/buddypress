@@ -78,6 +78,7 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
  * bp_use_legacy_user_query value, returning true.
  *
  * @since 1.2.0
+ * @since 7.0.0 Added `xprofile_query` parameter.
  *
  * @param array|string $args {
  *     Array of arguments. All are optional. See {@link BP_User_Query} for
@@ -96,6 +97,8 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
  *     @type int          $per_page            Results per page. Default: 20.
  *     @type int          $page                Page of results. Default: 1.
  *     @type bool         $populate_extras     Fetch optional extras. Default: true.
+ *     @type array        $xprofile_query      Filter results by xprofile data. Requires the xprofile
+ *                                             component. See {@see BP_XProfile_Query} for details.
  *     @type string|bool  $count_total         How to do total user count. Default: 'count_query'.
  * }
  * @return array
@@ -117,6 +120,7 @@ function bp_core_get_users( $args = '' ) {
 		'per_page'            => 20,           // The number of results to return per page.
 		'page'                => 1,            // The page to return if limiting per page.
 		'populate_extras'     => true,         // Fetch the last active, where the user is a friend, total friend count, latest update.
+		'xprofile_query'      => false,
 		'count_total'         => 'count_query' // What kind of total user count to do, if any. 'count_query', 'sql_calc_found_rows', or false.
 	), 'core_get_users' );
 

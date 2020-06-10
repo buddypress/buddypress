@@ -110,6 +110,7 @@ class BP_Core_Members_Template {
 	 * Constructor method.
 	 *
 	 * @since 1.5.0
+	 * @since 7.0.0 Added $xprofile_query parameter.
 	 *
 	 * @see BP_User_Query for an in-depth description of parameters.
 	 *
@@ -130,18 +131,38 @@ class BP_Core_Members_Template {
 	 * @param array|string $member_type__in     Array or comma-separated string of member types to limit results to.
 	 * @param array|string $member_type__not_in Array or comma-separated string of member types to exclude
 	 *                                          from results.
+ *     @param array        $xprofile_query      Filter results by xprofile data. Requires the xprofile
+ *                                              component. See {@see BP_XProfile_Query} for details.
 	 */
-	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value, $page_arg = 'upage', $member_type = '', $member_type__in = '', $member_type__not_in = '' ) {
+	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value, $page_arg = 'upage', $member_type = '', $member_type__in = '', $member_type__not_in = '', $xprofile_query = false ) {
 
 		$this->pag_arg  = sanitize_key( $page_arg );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $page_number );
 		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $per_page    );
 		$this->type     = $type;
 
-		if ( !empty( $_REQUEST['letter'] ) )
+		if ( ! empty( $_REQUEST['letter'] ) ) {
 			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras, $exclude );
-		else
-			$this->members = bp_core_get_users( array( 'type' => $this->type, 'per_page' => $this->pag_num, 'page' => $this->pag_page, 'user_id' => $user_id, 'include' => $include, 'search_terms' => $search_terms, 'populate_extras' => $populate_extras, 'exclude' => $exclude, 'meta_key' => $meta_key, 'meta_value' => $meta_value, 'member_type' => $member_type, 'member_type__in' => $member_type__in, 'member_type__not_in' => $member_type__not_in ) );
+		} else {
+			$this->members = bp_core_get_users(
+				array(
+					'type'                => $this->type,
+					'per_page'            => $this->pag_num,
+					'page'                => $this->pag_page,
+					'user_id'             => $user_id,
+					'include'             => $include,
+					'search_terms'        => $search_terms,
+					'populate_extras'     => $populate_extras,
+					'exclude'             => $exclude,
+					'meta_key'            => $meta_key,
+					'meta_value'          => $meta_value,
+					'member_type'         => $member_type,
+					'member_type__in'     => $member_type__in,
+					'member_type__not_in' => $member_type__not_in,
+					'xprofile_query'      => $xprofile_query,
+				)
+			);
+		}
 
 		if ( !$max || $max >= (int) $this->members['total'] )
 			$this->total_member_count = (int) $this->members['total'];
