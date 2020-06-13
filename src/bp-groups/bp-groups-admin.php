@@ -606,7 +606,7 @@ function bp_groups_admin_edit() {
 
 		<?php // If the user has just made a change to an group, display the status messages. ?>
 		<?php if ( !empty( $messages ) ) : ?>
-			<div id="moderated" class="<?php echo ( $is_error ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "</p><p>", $messages ); ?></p></div>
+			<div id="moderated" class="<?php echo ( $is_error ) ? 'error' : 'updated'; ?> notice is-dismissible"><p><?php echo implode( "</p><p>", $messages ); ?></p></div>
 		<?php endif; ?>
 
 		<?php if ( $group->id ) : ?>
@@ -801,7 +801,7 @@ function bp_groups_admin_index() {
 
 		<?php // If the user has just made a change to an group, display the status messages. ?>
 		<?php if ( !empty( $messages ) ) : ?>
-			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['error'] ) ) ? 'error' : 'updated'; ?>"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
+			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['error'] ) ) ? 'error' : 'updated'; ?> notice is-dismissible"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
 		<?php endif; ?>
 
 		<?php // Display each group on its own row. ?>
