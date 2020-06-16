@@ -10,6 +10,10 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+// Format numerical output.
+add_filter( 'friends_get_total_friend_count', 'bp_core_number_format' );
+add_filter( 'bp_get_total_friend_count',      'bp_core_number_format' );
+
 /**
  * Filter BP_User_Query::populate_extras to add confirmed friendship status.
  *

@@ -3,7 +3,7 @@
  * BP Nouveau Friends
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 6.1.0
  */
 
 // Exit if accessed directly.
@@ -87,6 +87,10 @@ class BP_Nouveau_Friends {
 		foreach ( $buttons as $button ) {
 			add_filter( 'bp_button_' . $button, 'bp_nouveau_ajax_button', 10, 5 );
 		}
+
+		// The number formatting is done into the `bp_nouveau_nav_count()` template tag.
+		remove_filter( 'friends_get_total_friend_count', 'bp_core_number_format' );
+		remove_filter( 'bp_get_total_friend_count',      'bp_core_number_format' );
 	}
 
 	/**

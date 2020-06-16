@@ -649,7 +649,6 @@ function bp_total_friend_count( $user_id = 0 ) {
 		 */
 		return apply_filters( 'bp_get_total_friend_count', friends_get_total_friend_count( $user_id ), $user_id );
 	}
-	add_filter( 'bp_get_total_friend_count', 'bp_core_number_format' );
 
 /**
  * Output the total friendship request count for a given user.

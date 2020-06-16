@@ -3,7 +3,7 @@
  * BP Nouveau Groups
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version 6.1.0
  */
 
 // Exit if accessed directly.
@@ -133,6 +133,7 @@ class BP_Nouveau_Groups {
 
 		// The number formatting is done into the `bp_nouveau_nav_count()` template tag.
 		remove_filter( 'bp_get_total_group_count', 'bp_core_number_format' );
+		remove_filter( 'bp_get_total_group_count_for_user', 'bp_core_number_format' );
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * BP Nouveau Notifications
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 6.1.0
  */
 
 // Exit if accessed directly.
@@ -87,6 +87,9 @@ class BP_Nouveau_Notifications {
 		add_filter( 'bp_get_the_notification_mark_unread_link', 'bp_nouveau_notifications_mark_unread_link', 10, 1 );
 		add_filter( 'bp_get_the_notification_mark_read_link', 'bp_nouveau_notifications_mark_read_link', 10, 1 );
 		add_filter( 'bp_get_the_notification_delete_link', 'bp_nouveau_notifications_delete_link', 10, 1 );
+
+		// The number formatting is done into the `bp_nouveau_nav_count()` template tag.
+		remove_filter( 'bp_notifications_get_total_notification_count', 'bp_core_number_format' );
 	}
 }
 
