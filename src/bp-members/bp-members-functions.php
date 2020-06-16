@@ -696,18 +696,49 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 	// Force the cleanup of WordPress content and status for multisite configs.
 	if ( $do_wp_cleanup ) {
 
-		// Get the blogs for the user.
-		$blogs = get_blogs_of_user( $user_id, true );
+		// Mark blogs as spam if the user is the sole admin of a site.
+		if ( is_multisite() ) {
+			/*
+			 * No native function to fetch a user's blogs by role, so do it manually.
+			 *
+			 * This logic is mostly copied from get_blogs_of_user().
+			 */
+			$meta = get_user_meta( $user_id );
 
-		foreach ( (array) array_values( $blogs ) as $details ) {
+			foreach ( $meta as $key => $val ) {
+				if ( 'capabilities' !== substr( $key, -12 ) ) {
+					continue;
+				}
+				if ( $wpdb->base_prefix && 0 !== strpos( $key, $wpdb->base_prefix ) ) {
+					continue;
+				}
+				$site_id = str_replace( array( $wpdb->base_prefix, '_capabilities' ), '', $key );
+				if ( ! is_numeric( $site_id ) ) {
+					continue;
+				}
 
-			// Do not mark the main or current root blog as spam.
-			if ( 1 == $details->userblog_id || bp_get_root_blog_id() == $details->userblog_id ) {
-				continue;
+				$site_id = (int) $site_id;
+
+				// Do not mark the main or current root blog as spam.
+				if ( 1 === $site_id || bp_get_root_blog_id() === $site_id ) {
+					continue;
+				}
+
+				// Now, do check for administrator role.
+				$role = maybe_unserialize( $val );
+				if ( empty( $role['administrator'] ) ) {
+					continue;
+				}
+
+				// Check if the site has more than 1 admin. If so, bail.
+				$counts = count_users( 'time', $site_id );
+				if ( empty( $counts['avail_roles']['administrator'] ) || $counts['avail_roles']['administrator'] > 1 ) {
+					continue;
+				}
+
+				// Now we can spam the blog.
+				update_blog_status( $site_id, 'spam', $is_spam );
 			}
-
-			// Update the blog status.
-			update_blog_status( $details->userblog_id, 'spam', $is_spam );
 		}
 
 		// Finally, mark this user as a spammer.
