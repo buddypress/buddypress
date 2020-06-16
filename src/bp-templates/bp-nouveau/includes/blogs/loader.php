@@ -3,6 +3,7 @@
  * BP Nouveau Blogs
  *
  * @since 3.0.0
+ * @version 6.1.0
  */
 
 // Exit if accessed directly.
@@ -88,6 +89,9 @@ class BP_Nouveau_Blogs {
 
 			// Add controls into the Blogs sections of the customizer.
 			add_filter( 'bp_nouveau_customizer_controls', 'bp_nouveau_blogs_customizer_controls', 11, 1 );
+
+			// The number formatting is done into the `bp_nouveau_nav_count()` template tag.
+			remove_filter( 'bp_get_total_blog_count_for_user', 'bp_core_number_format' );
 		}
 	}
 }

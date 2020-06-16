@@ -164,7 +164,7 @@ class BP_Notifications_Component extends BP_Component {
 				sprintf(
 					'<span class="%s">%s</span>',
 					esc_attr( $class ),
-					bp_core_number_format( $count )
+					esc_html( $count )
 				)
 			);
 		} else {

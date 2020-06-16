@@ -1,11 +1,15 @@
 <?php
 /**
- * Filters related to the Activity component.
+ * Filters related to the Notifications component.
  *
  * @package BuddyPress
  * @subpackage Notifications
  * @since 4.0.0
  */
+
+
+// Format numerical output.
+add_filter( 'bp_notifications_get_total_notification_count', 'bp_core_number_format' );
 
 // Privacy data export.
 add_filter( 'wp_privacy_personal_data_exporters', 'bp_register_notifications_personal_data_exporter' );
