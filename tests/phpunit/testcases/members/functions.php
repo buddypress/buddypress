@@ -539,6 +539,31 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 	}
 
+	/**
+	 * @group bp_core_process_spammer_status
+	 * @ticket BP8316
+	 */
+	public function test_bp_core_process_spammer_status_ms_should_only_spam_sites_with_one_admin() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped();
+		}
+
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$b1 = self::factory()->blog->create( array( 'user_id' => $u1 ) );
+
+		// Add user 2 to site as administrator.
+		add_user_to_blog( $b1, $u2, 'administrator' );
+
+		// Mark user 2 as a spammer.
+		bp_core_process_spammer_status( $u2, 'spam' );
+
+		// Ensure site isn't marked as spam because there is more than one admin.
+		$site = get_site( $b1 );
+		$this->assertEmpty( $site->spam );
+	}
+
 	public function notification_filter_callback( $value ) {
 		$this->filter_fired = current_filter();
 		return $value;
