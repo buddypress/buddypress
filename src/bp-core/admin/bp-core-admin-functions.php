@@ -151,7 +151,7 @@ function bp_core_print_admin_notices() {
 
 	foreach ( $notice_types as $type ) {
 		$notices = wp_list_filter( buddypress()->admin->notices, array( 'type' => $type ) );
-		printf( '<div id="message" class="fade %s">', sanitize_html_class( $type ) );
+		printf( '<div id="message" class="fade %s notice is-dismissible">', sanitize_html_class( $type ) );
 
 		foreach ( $notices as $notice ) {
 			printf( '<p>%s</p>', $notice['message'] );

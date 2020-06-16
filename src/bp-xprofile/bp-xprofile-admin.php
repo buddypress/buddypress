@@ -170,7 +170,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 			if ( ! empty( $message ) ) :
 				$type = ( $type == 'error' ) ? 'error' : 'updated'; ?>
 
-				<div id="message" class="<?php echo $type; ?> fade">
+				<div id="message" class="<?php echo $type; ?> fade notice is-dismissible">
 					<p><?php echo esc_html( $message ); ?></p>
 				</div>
 
@@ -313,7 +313,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 				<?php endforeach; else : ?>
 
-					<div id="message" class="error"><p><?php _ex( 'You have no groups.', 'You have no profile fields groups.', 'buddypress' ); ?></p></div>
+					<div id="message" class="error notice is-dismissible"><p><?php _ex( 'You have no groups.', 'You have no profile fields groups.', 'buddypress' ); ?></p></div>
 					<p><a href="<?php echo esc_url( $add_group_url ); ?>"><?php _ex( 'Add New Group', 'Add New Profile Fields Group', 'buddypress' ); ?></a></p>
 
 				<?php endif; ?>

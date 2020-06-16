@@ -218,7 +218,7 @@ class BP_Messages_Notices_Admin {
 
 			<?php if ( isset( $_GET['success'] ) || isset( $_GET['error'] ) ) : ?>
 
-				<div id="message" class="<?php echo isset( $_GET['success'] ) ? 'updated' : 'error'; ?>">
+				<div id="message" class="<?php echo isset( $_GET['success'] ) ? 'updated' : 'error'; ?> notice is-dismissible">
 
 					<p>
 						<?php

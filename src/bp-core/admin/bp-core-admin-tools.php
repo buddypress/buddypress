@@ -422,7 +422,7 @@ function bp_admin_tools_feedback( $message, $class = false ) {
 		return false;
 	}
 
-	$message = '<div id="message" class="' . esc_attr( $class ) . '">' . $message . '</div>';
+	$message = '<div id="message" class="' . esc_attr( $class ) . ' notice is-dismissible">' . $message . '</div>';
 	$message = str_replace( "'", "\'", $message );
 	$lambda  = function() use ( $message ) { echo $message; };
 

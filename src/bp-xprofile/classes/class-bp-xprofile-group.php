@@ -848,7 +848,7 @@ class BP_XProfile_Group {
 
 			<?php if ( ! empty( $message ) ) : ?>
 
-				<div id="message" class="error fade">
+				<div id="message" class="error fade notice is-dismissible">
 					<p><?php echo esc_html( $message ); ?></p>
 				</div>
 

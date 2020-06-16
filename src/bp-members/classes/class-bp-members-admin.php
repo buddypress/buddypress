@@ -983,7 +983,7 @@ class BP_Members_Admin {
 
 		if ( ! empty( $notice ) ) : ?>
 
-			<div <?php if ( 'updated' === $notice['class'] ) : ?>id="message" <?php endif; ?>class="<?php echo esc_attr( $notice['class'] ); ?>">
+			<div <?php if ( 'updated' === $notice['class'] ) : ?>id="message" <?php endif; ?>class="<?php echo esc_attr( $notice['class'] ); ?>  notice is-dismissible">
 
 				<p><?php echo esc_html( $notice['message'] ); ?></p>
 
@@ -1986,11 +1986,11 @@ class BP_Members_Admin {
 		if ( ! empty( $notice ) ) :
 			if ( 'updated' === $notice['class'] ) : ?>
 
-				<div id="message" class="<?php echo esc_attr( $notice['class'] ); ?>">
+				<div id="message" class="<?php echo esc_attr( $notice['class'] ); ?> notice is-dismissible">
 
 			<?php else: ?>
 
-				<div class="<?php echo esc_attr( $notice['class'] ); ?>">
+				<div class="<?php echo esc_attr( $notice['class'] ); ?> notice is-dismissible">
 
 			<?php endif; ?>
 
