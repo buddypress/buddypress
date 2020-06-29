@@ -38,7 +38,7 @@ function groups_screen_group_request_membership() {
 		if ( !check_admin_referer( 'groups_request_membership' ) )
 			return false;
 
-		if ( !groups_send_membership_request( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
+		if ( !groups_send_membership_request( [ 'user_id' => bp_loggedin_user_id(), 'group_id' => $bp->groups->current_group->id ] ) ) {
 			bp_core_add_message( __( 'There was an error sending your group membership request. Please try again.', 'buddypress' ), 'error' );
 		} else {
 			bp_core_add_message( __( 'Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request.', 'buddypress' ) );

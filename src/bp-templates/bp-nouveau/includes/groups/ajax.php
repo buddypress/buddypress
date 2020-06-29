@@ -189,7 +189,7 @@ function bp_nouveau_ajax_joinleave_group() {
 			break;
 
 			case 'groups_request_membership' :
-				if ( ! groups_send_membership_request( bp_loggedin_user_id(), $group->id ) ) {
+				if ( ! groups_send_membership_request( [ 'user_id' => bp_loggedin_user_id(), 'group_id' => $group->id ] ) ) {
 					$response = array(
 						'feedback' => sprintf(
 							'<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>%s</p></div>',
