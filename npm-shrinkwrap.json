@@ -1,6 +1,6 @@
 {
 	"name": "buddypress",
-	"version": "6.1.0-alpha",
+	"version": "6.1.0",
 	"lockfileVersion": 1,
 	"requires": true,
 	"dependencies": {
