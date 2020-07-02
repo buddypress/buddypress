@@ -1331,6 +1331,15 @@ class BP_XProfile_Field {
 			'page' => 'bp-profile-setup'
 		), $users_url );
 
+
+		// Delete.
+		if ( $this->can_delete ) {
+			$delete_url = wp_nonce_url( add_query_arg( array(
+				'page'     => 'bp-profile-setup',
+				'mode'     => 'delete_field',
+				'field_id' => (int) $this->id
+			), $users_url ), 'bp_xprofile_delete_field-' . $this->id, 'bp_xprofile_delete_field' );
+		}
 		/**
 		 * Fires before XProfile Field submit metabox.
 		 *
@@ -1368,7 +1377,11 @@ class BP_XProfile_Field {
 						<?php endif; ?>
 
 						<div id="delete-action">
-							<a href="<?php echo esc_url( $cancel_url ); ?>" class="deletion"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a>
+							<?php if ( ! empty( $this->id ) && isset( $delete_url ) ) : ?>
+								<a href="<?php echo esc_url( $delete_url ); ?>" class="submitdelete deletion"><?php esc_html_e( 'Delete', 'buddypress' ); ?></a>
+							<?php endif; ?>
+
+							<div><a href="<?php echo esc_url( $cancel_url ); ?>" class="deletion"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a></div>
 						</div>
 
 						<?php wp_nonce_field( 'xprofile_delete_option' ); ?>
