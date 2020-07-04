@@ -793,6 +793,10 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$images = bp_attachments_get_allowed_types( 'image/' );
 
 		foreach ( $images as $image ) {
+			if ( 'heic' === $image ) {
+				continue;
+			}
+
 			if ( 'image' !== wp_ext2type( $image ) ) {
 				$not_image = $image;
 			}
