@@ -581,6 +581,62 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_members_validate_user_password
+	 */
+	public function test_bp_members_validate_user_password() {
+		$validate = bp_members_validate_user_password( 'foobar', 'foobar' );
+
+		$this->assertEmpty( $validate->get_error_message() );
+	}
+
+	/**
+	 * @group bp_members_validate_user_password
+	 */
+	public function test_bp_members_validate_user_password_missing() {
+		$validate = bp_members_validate_user_password( '', '' );
+
+		$this->assertEquals( 'missing_user_password', $validate->get_error_code() );
+
+		$validate = bp_members_validate_user_password( 'foobar', '' );
+
+		$this->assertEquals( 'missing_user_password', $validate->get_error_code() );
+
+		$validate = bp_members_validate_user_password( '', 'foobar' );
+
+		$this->assertEquals( 'missing_user_password', $validate->get_error_code() );
+	}
+
+	/**
+	 * @group bp_members_validate_user_password
+	 */
+	public function test_bp_members_validate_user_password_mismatching() {
+		$validate = bp_members_validate_user_password( 'foobar', 'barfoo' );
+
+		$this->assertEquals( 'mismatching_user_password', $validate->get_error_code() );
+	}
+
+	/**
+	 * @group bp_members_validate_user_password
+	 */
+	public function test_bp_members_validate_user_password_too_short() {
+		add_filter( 'bp_members_validate_user_password', array( $this, 'filter_bp_members_validate_user_password' ), 10, 2 );
+
+		$validate = bp_members_validate_user_password( 'one', 'one' );
+
+		remove_filter( 'bp_members_validate_user_password', array( $this, 'filter_bp_members_validate_user_password' ), 10, 2 );
+
+		$this->assertEquals( 'too_short_user_password', $validate->get_error_code() );
+	}
+
+	function filter_bp_members_validate_user_password( $errors, $pass ) {
+		if ( 4 > strlen( $pass ) ) {
+			$errors->add( 'too_short_user_password', __( 'Your password is too short.', 'buddypress' ) );
+		}
+
+		return $errors;
+	}
+
+	/**
 	 * @group bp_core_activate_signup
 	 */
 	public function test_bp_core_activate_signup_password() {

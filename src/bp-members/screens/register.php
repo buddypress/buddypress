@@ -59,19 +59,31 @@ function bp_core_screen_signup() {
 		$account_details = bp_core_validate_user_signup( $_POST['signup_username'], $_POST['signup_email'] );
 
 		// If there are errors with account details, set them for display.
-		if ( !empty( $account_details['errors']->errors['user_name'] ) )
+		if ( ! empty( $account_details['errors']->errors['user_name'] ) ) {
 			$bp->signup->errors['signup_username'] = $account_details['errors']->errors['user_name'][0];
+		}
 
-		if ( !empty( $account_details['errors']->errors['user_email'] ) )
+		if ( ! empty( $account_details['errors']->errors['user_email'] ) ) {
 			$bp->signup->errors['signup_email'] = $account_details['errors']->errors['user_email'][0];
+		}
 
-		// Check that both password fields are filled in.
-		if ( empty( $_POST['signup_password'] ) || empty( $_POST['signup_password_confirm'] ) )
-			$bp->signup->errors['signup_password'] = __( 'Please make sure you enter your password twice', 'buddypress' );
+		$signup_pass = '';
+		if ( isset( $_POST['signup_password'] ) ) {
+			$signup_pass = wp_unslash( $_POST['signup_password'] );
+		}
 
-		// Check that the passwords match.
-		if ( ( !empty( $_POST['signup_password'] ) && !empty( $_POST['signup_password_confirm'] ) ) && $_POST['signup_password'] != $_POST['signup_password_confirm'] )
-			$bp->signup->errors['signup_password'] = __( 'The passwords you entered do not match.', 'buddypress' );
+		$signup_pass_confirm = '';
+		if ( isset( $_POST['signup_password_confirm'] ) ) {
+			$signup_pass_confirm = wp_unslash( $_POST['signup_password_confirm'] );
+		}
+
+		// Check the account password for problems.
+		$account_password = bp_members_validate_user_password( $signup_pass, $signup_pass_confirm );
+		$password_error   = $account_password->get_error_message();
+
+		if ( $password_error ) {
+			$bp->signup->errors['signup_password'] = $password_error;
+		}
 
 		if ( bp_signup_requires_privacy_policy_acceptance() && ! empty( $_POST['signup-privacy-policy-check'] ) && empty( $_POST['signup-privacy-policy-accept'] ) ) {
 			$bp->signup->errors['signup_privacy_policy'] = __( 'You must indicate that you have read and agreed to the Privacy Policy.', 'buddypress' );

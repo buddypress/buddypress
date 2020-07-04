@@ -130,23 +130,22 @@ function bp_settings_action_general() {
 
 		/* Password Change Attempt ***************************************/
 
-		if ( !empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) ) {
+		if ( ! empty( $_POST['pass1'] ) && ! empty( $_POST['pass2'] ) ) {
+			$pass         = wp_unslash( $_POST['pass1'] );
+			$pass_confirm = wp_unslash( $_POST['pass2'] );
+			$pass_error   = bp_members_validate_user_password( $pass, $pass_confirm, $update_user );
 
-			if ( ( $_POST['pass1'] == $_POST['pass2'] ) && !strpos( " " . wp_unslash( $_POST['pass1'] ), "\\" ) ) {
-
+			if ( ! $pass_error->get_error_message() ) {
 				// Password change attempt is successful.
-				if ( ( ! empty( $_POST['pwd'] ) && $_POST['pwd'] != $_POST['pass1'] ) || is_super_admin() )  {
+				if ( ( ! empty( $_POST['pwd'] ) && wp_unslash( $_POST['pwd'] ) !== $pass ) || is_super_admin() )  {
 					$update_user->user_pass = $_POST['pass1'];
-					$pass_changed = true;
+					$pass_error             = false;
+					$pass_changed           = true;
 
 				// The new password is the same as the current password.
 				} else {
-					$pass_error = 'same';
+					$pass_error->add( 'same_user_password', __( 'The new password must be different from the current password.', 'buddypress' ) );
 				}
-
-			// Password change attempt was unsuccessful.
-			} else {
-				$pass_error = 'mismatch';
 			}
 
 		// Both password fields were empty.
@@ -154,8 +153,8 @@ function bp_settings_action_general() {
 			$pass_error = false;
 
 		// One of the password boxes was left empty.
-		} elseif ( ( empty( $_POST['pass1'] ) && !empty( $_POST['pass2'] ) ) || ( !empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) ) {
-			$pass_error = 'empty';
+		} elseif ( ( empty( $_POST['pass1'] ) && ! empty( $_POST['pass2'] ) ) || ( ! empty( $_POST['pass1'] ) && empty( $_POST['pass2'] ) ) ) {
+			$pass_error = new WP_Error( 'empty_user_password', __( 'One of the password fields was empty.', 'buddypress' ) );
 		}
 
 		// The structure of the $update_user object changed in WP 3.3, but
@@ -180,7 +179,7 @@ function bp_settings_action_general() {
 
 	// Password Error.
 	} else {
-		$pass_error = 'invalid';
+		$pass_error = new WP_Error( 'invalid_user_password', __( 'Your current password is invalid.', 'buddypress' ) );
 	}
 
 	// Email feedback.
@@ -202,23 +201,8 @@ function bp_settings_action_general() {
 			break;
 	}
 
-	// Password feedback.
-	switch ( $pass_error ) {
-		case 'invalid' :
-			$feedback['pass_error']    = __( 'Your current password is invalid.', 'buddypress' );
-			break;
-		case 'mismatch' :
-			$feedback['pass_mismatch'] = __( 'The new password fields did not match.', 'buddypress' );
-			break;
-		case 'empty' :
-			$feedback['pass_empty']    = __( 'One of the password fields was empty.', 'buddypress' );
-			break;
-		case 'same' :
-			$feedback['pass_same'] 	   = __( 'The new password must be different from the current password.', 'buddypress' );
-			break;
-		case false :
-			// No change.
-			break;
+	if ( is_wp_error( $pass_error ) && $pass_error->get_error_message() ) {
+		$feedback[ $pass_error->get_error_code() ] = $pass_error->get_error_message();
 	}
 
 	// No errors so show a simple success message.

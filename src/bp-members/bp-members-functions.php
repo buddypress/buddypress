@@ -1769,6 +1769,40 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 }
 
 /**
+ * Validate a user password.
+ *
+ * @since 7.0.0
+ *
+ * @param string       $pass         The password.
+ * @param string       $confirm_pass The confirmed password.
+ * @param null|WP_User $userdata     Null or the userdata object when a member updates their password from front-end.
+ * @return WP_Error A WP error object possibly containing error messages.
+ */
+function bp_members_validate_user_password( $pass, $confirm_pass, $userdata = null ) {
+	$errors = new WP_Error();
+
+	if ( ! $pass || ! $confirm_pass ) {
+		$errors->add( 'missing_user_password', __( 'Please make sure you enter your password twice', 'buddypress' ) );
+	}
+
+	if ( $pass && $confirm_pass && $pass !== $confirm_pass ) {
+		$errors->add( 'mismatching_user_password', __( 'The passwords you entered do not match.', 'buddypress' ) );
+	}
+
+	/**
+	 * Filter here to add password validation errors.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param WP_Error     $errors       Password validation errors.
+	 * @param string       $pass         The password.
+	 * @param string       $confirm_pass The confirmed password.
+	 * @param null|WP_User $userdata     Null or the userdata object when a member updates their password from front-end.
+	 */
+	return apply_filters( 'bp_members_validate_user_password', $errors, $pass, $confirm_pass, $userdata );
+}
+
+/**
  * Validate blog URL and title provided at signup.
  *
  * @since 1.2.2
