@@ -577,6 +577,14 @@ class BuddyPress {
 			'BP_Theme_Compat'              => 'core',
 			'BP_User_Query'                => 'core',
 			'BP_Walker_Category_Checklist' => 'core',
+			/**
+			 * BP_Walker_Nav_Menu_Checklist class.
+			 *
+			 * As this class corresponding file is deprecated, it will trigger a deprecation notice if instantiated.
+			 * In a subsequent release, we'll remove it from our Classes Autoloader.
+			 *
+			 * @todo Remove the BP_Walker_Nav_Menu_Checklist from our Classes Autoloader.
+			 */
 			'BP_Walker_Nav_Menu_Checklist' => 'core',
 			'BP_Walker_Nav_Menu'           => 'core',
 			'BP_Invitation_Manager'        => 'core',

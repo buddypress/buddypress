@@ -691,6 +691,16 @@ add_filter( 'document_title_parts', 'bp_modify_document_title_parts', 20, 1 );
  */
 function bp_setup_nav_menu_item( $menu_item ) {
 	if ( is_admin() ) {
+		if ( 'bp_nav_menu_item' === $menu_item->object ) {
+			$menu_item->type = 'custom';
+			$menu_item->url  = $menu_item->guid;
+
+			if ( ! in_array( array( 'bp-menu', 'bp-'. $menu_item->post_excerpt .'-nav' ), $menu_item->classes ) ) {
+				$menu_item->classes[] = 'bp-menu';
+				$menu_item->classes[] = 'bp-'. $menu_item->post_excerpt .'-nav';
+			}
+		}
+
 		return $menu_item;
 	}
 

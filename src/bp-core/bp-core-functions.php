@@ -2580,7 +2580,7 @@ function bp_nav_menu_get_loggedin_pages() {
 			'post_author'    => 0,
 			'post_date'      => 0,
 			'post_excerpt'   => $bp_item['slug'],
-			'post_type'      => 'page',
+			'post_type'      => 'bp_nav_menu_item',
 			'post_status'    => 'publish',
 			'comment_status' => 'closed',
 			'guid'           => $bp_item['link']
@@ -2655,7 +2655,7 @@ function bp_nav_menu_get_loggedout_pages() {
 			'post_author'    => 0,
 			'post_date'      => 0,
 			'post_excerpt'   => $bp_item['slug'],
-			'post_type'      => 'page',
+			'post_type'      => 'bp_nav_menu_item',
 			'post_status'    => 'publish',
 			'comment_status' => 'closed',
 			'guid'           => $bp_item['link']

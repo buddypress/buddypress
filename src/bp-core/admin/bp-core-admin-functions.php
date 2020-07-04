@@ -755,96 +755,167 @@ function bp_admin_wp_nav_menu_meta_box() {
 		return;
 	}
 
-	add_meta_box( 'add-buddypress-nav-menu', __( 'BuddyPress', 'buddypress' ), 'bp_admin_do_wp_nav_menu_meta_box', 'nav-menus', 'side', 'default' );
+	add_meta_box( 'add-buddypress-nav-menu', __( 'BuddyPress Member', 'buddypress' ), 'bp_admin_do_wp_nav_menu_meta_box', 'nav-menus', 'side', 'default' );
 
 	add_action( 'admin_print_footer_scripts', 'bp_admin_wp_nav_menu_restrict_items' );
+}
+
+/**
+ * BP Member nav menu filter to short-circuit WP's query.
+ *
+ * @since 7.0.0
+ *
+ * @param null     $null     A null value.
+ * @param WP_Query $wp_query The WP_Query instance (passed by reference).
+ * @return array   The BP Member nav items to short-circuit WP's query,
+ */
+function bp_admin_get_wp_nav_menu_items( $null = null, $wp_query ) {
+	if ( isset( $wp_query->query['orderby'], $wp_query->query['order'] ) && 'post_date' === $wp_query->query['orderby'] && 'DESC' === $wp_query->query['order'] ) {
+		return bp_nav_menu_get_loggedin_pages();
+	} elseif ( isset( $wp_query->query['nopaging'] ) && true === $wp_query->query['nopaging'] ) {
+		return array_merge( bp_nav_menu_get_loggedin_pages(), bp_nav_menu_get_loggedout_pages() );
+	}
+
+	return bp_nav_menu_get_loggedout_pages();
 }
 
 /**
  * Build and populate the BuddyPress accordion on Appearance > Menus.
  *
  * @since 1.9.0
+ * @since 7.0.0 Uses wp_nav_menu_item_post_type_meta_box()
  *
  * @global $nav_menu_selected_id
  */
-function bp_admin_do_wp_nav_menu_meta_box() {
+function bp_admin_do_wp_nav_menu_meta_box( $object = '', $box = array() ) {
 	global $nav_menu_selected_id;
 
-	$walker = new BP_Walker_Nav_Menu_Checklist( false );
-	$args   = array( 'walker' => $walker );
+	$box['args'] = (object) array(
+		'name'           => 'bp_nav_menu_item',
+		'_default_query' => array(),
+	);
 
-	$post_type_name = 'buddypress';
+	// Temporarly register a post type.
+	register_post_type(
+		'bp_nav_menu_item',
+		array(
+			'label'  => 'BuddyPress',
+			'labels' => array(
+				'search_items' => __( 'Search BuddyPress member menu items', 'buddypress' ),
+				'all_items'    => __( 'All BuddyPress Member menu items', 'buddypress' ),
+			),
+			'public' => true,
+			'hierarchical' => false,
+			'has_archive'  => false,
+			'rewrite'      => false,
+		)
+	);
 
-	$tabs = array();
+	// Temporarly override the posts query results.
+	add_filter( 'posts_pre_query', 'bp_admin_get_wp_nav_menu_items', 10, 2 );
 
-	$tabs['loggedin']['label'] = __( 'Logged-In', 'buddypress' );
-	$tabs['loggedin']['pages'] = bp_nav_menu_get_loggedin_pages();
+	ob_start();
+	wp_nav_menu_item_post_type_meta_box( 'buddypress', $box );
+	$output = ob_get_clean();
 
-	$tabs['loggedout']['label'] = __( 'Logged-Out', 'buddypress' );
-	$tabs['loggedout']['pages'] = bp_nav_menu_get_loggedout_pages();
-
-	?>
-
-	<div id="buddypress-menu" class="posttypediv">
-		<h4><?php _e( 'Logged-In', 'buddypress' ); ?></h4>
-		<p><?php _e( '<em>Logged-In</em> links are relative to the current user, and are not visible to visitors who are not logged in.', 'buddypress' ); ?></p>
-
-		<div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-loggedin" class="tabs-panel tabs-panel-active">
-			<ul id="buddypress-menu-checklist-loggedin" class="categorychecklist form-no-clear">
-				<?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $tabs['loggedin']['pages'] ), 0, (object) $args ); ?>
+	$get_bp_items = new WP_Query;
+	$all_bp_items = $get_bp_items->query( array( 'nopaging' => true ) );
+	$walker       = new Walker_Nav_Menu_Checklist();
+	$all_bp_tabs  = sprintf(
+		'<div id="bp_nav_menu_item-all" class="tabs-panel tabs-panel-view-all tabs-panel-inactive" role="region" aria-label="%1$s" tabindex="0">
+			<ul id="bp_nav_menu_itemchecklist" data-wp-lists="list:bp_nav_menu_item" class="categorychecklist form-no-clear">
+				%2$s
 			</ul>
-		</div>
+		</div>',
+		esc_html__( 'All BuddyPress Member menu items', 'buddypress' ),
+		walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $all_bp_items ), 0, (object) array( 'walker' => $walker ) )
+	);
 
-		<h4><?php _e( 'Logged-Out', 'buddypress' ); ?></h4>
-		<p><?php _e( '<em>Logged-Out</em> links are not visible to users who are logged in.', 'buddypress' ); ?></p>
+	// Remove temporary post type and filter.
+	unregister_post_type( 'bp_nav_menu_item' );
+	remove_filter( 'posts_pre_query', 'bp_admin_get_wp_nav_menu_items', 10, 2 );
 
-		<div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-loggedout" class="tabs-panel tabs-panel-active">
-			<ul id="buddypress-menu-checklist-loggedout" class="categorychecklist form-no-clear">
-				<?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $tabs['loggedout']['pages'] ), 0, (object) $args ); ?>
-			</ul>
-		</div>
+	$tab_name    = 'bp_nav_menu_item-tab';
+	$current_tab = 'logged-in';
+	$tabs        = array(
+		'logged-in'  => __( 'Logged-In', 'buddypress' ),
+		'logged-out' => __( 'Logged-Out', 'buddypress' ),
+		'all'        => __( 'All', 'buddypress' ),
+	);
+	$tab_urls    = array(
+		'all'        => '',
+		'logged-in'  => '',
+		'logged-out' => '',
+	);
 
-		<?php
-		$removed_args = array(
-			'action',
-			'customlink-tab',
-			'edit-menu-item',
-			'menu-item',
-			'page-tab',
-			'_wpnonce',
+	if ( isset( $_REQUEST[ $tab_name ] ) && in_array( $_REQUEST[ $tab_name ], array_keys( $tabs ), true ) ) {
+		$current_tab = $_REQUEST[ $tab_name ];
+	}
+
+	$removed_args = array(
+		'action',
+		'customlink-tab',
+		'edit-menu-item',
+		'menu-item',
+		'page-tab',
+		'_wpnonce',
+	);
+
+	if ( $nav_menu_selected_id ) {
+		$tab_urls['all']        = esc_url( add_query_arg( $tab_name, 'all', remove_query_arg( $removed_args ) ) );
+		$tab_urls['logged-in']  = esc_url( add_query_arg( $tab_name, 'logged-in', remove_query_arg( $removed_args ) ) );
+		$tab_urls['logged-out'] = esc_url( add_query_arg( $tab_name, 'logged-out', remove_query_arg( $removed_args ) ) );
+	}
+
+	$bp_tabs_nav = '';
+	foreach ( $tabs as $tab => $tab_text ) {
+		$class    = '';
+		$datatype = 'bp_nav_menu_item-' . $tab;
+
+		if ( $current_tab === $tab ) {
+			$class = ' class="tabs"';
+		}
+
+		if ( 'all' !== $tab ) {
+			$datatype = 'tabs-panel-posttype-bp_nav_menu_item-' . $tab;
+		}
+
+		$bp_tabs_nav .= sprintf(
+			'<li%1$s>
+				<a class="nav-tab-link" data-type="%2$s" href="%3$s">
+					%4$s
+				</a>
+			</li>',
+			$class,
+			$datatype,
+			esc_url( $tab_urls[ $tab ] ) . '#' . $datatype,
+			esc_html( $tab_text )
 		);
-		?>
+	}
 
-		<p class="button-controls">
-			<span class="list-controls">
-				<a href="
-				<?php
-				echo esc_url(
-					add_query_arg(
-						array(
-							$post_type_name . '-tab' => 'all',
-							'selectall'              => 1,
-						),
-						remove_query_arg( $removed_args )
-					)
-				);
-				?>
-				#buddypress-menu" class="select-all"><?php _e( 'Select All', 'buddypress' ); ?></a>
-			</span>
-			<span class="add-to-menu">
-				<input type="submit"
-				<?php
-				if ( function_exists( 'wp_nav_menu_disabled_check' ) ) :
-					wp_nav_menu_disabled_check( $nav_menu_selected_id );
-endif;
-				?>
-				 class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu', 'buddypress' ); ?>" name="add-custom-menu-item" id="submit-buddypress-menu" />
-				<span class="spinner"></span>
-			</span>
-		</p>
-	</div><!-- /#buddypress-menu -->
+	$output = str_replace(
+		array(
+			'tabs-panel-posttype-bp_nav_menu_item-most-recent',
+			'bp_nav_menu_itemchecklist-most-recent',
+			'bp_nav_menu_item-all',
+			'bp_nav_menu_itemchecklist',
+		),
+		array(
+			'tabs-panel-posttype-bp_nav_menu_item-logged-in',
+			'bp_nav_menu_itemchecklist-logged-in',
+			'tabs-panel-posttype-bp_nav_menu_item-logged-out',
+			'bp_nav_menu_itemchecklist-logged-out',
+		),
+		$output
+	);
 
-	<?php
+	preg_match( '/\<ul\sid=\"posttype-bp_nav_menu_item-tabs\"[^>]*>(.*?)\<\/ul\>\<!-- \.posttype-tabs --\>/s', $output, $tabs_nav );
+
+	if ( isset( $tabs_nav[1] ) ) {
+		$output = str_replace( $tabs_nav[1], $bp_tabs_nav, $output );
+	}
+
+	echo preg_replace( '/\<div\sclass=\".*\"\sid=\"tabs-panel-posttype-bp_nav_menu_item-search\"[^>]*>(.*?)\<\/div\>/s', $all_bp_tabs, $output );
 }
 
 /**

@@ -5,10 +5,14 @@
  * @package BuddyPress
  * @subpackage Core
  * @since 1.9.0
+ * @deprecated 7.0.0 This file is no longer used as of the improved way to generate BuddyPress Member's nav menu items in #8291.
+ * @todo Remove this file as it is no longer used.
  */
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
+
+_deprecated_file( basename( __FILE__ ), '7.0.0' );
 
 /**
  * Create a set of BuddyPress-specific links for use in the Menus admin UI.
@@ -17,17 +21,21 @@ defined( 'ABSPATH' ) || exit;
  * to require an actual post type or taxonomy, and to force certain CSS classes.
  *
  * @since 1.9.0
+ * @deprecated 7.0.0 This class is no longer used as of the improved way to generate BuddyPress Member's nav menu items in #8291.
  */
 class BP_Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 
 	/**
 	 * Constructor.
 	 *
+	 * @deprecated 7.0.0
+	 *
 	 * @see Walker_Nav_Menu::__construct() for a description of parameters.
 	 *
 	 * @param array|bool $fields See {@link Walker_Nav_Menu::__construct()}.
 	 */
 	public function __construct( $fields = false ) {
+		_deprecated_function( __METHOD__, '7.0.0' );
 		if ( $fields ) {
 			$this->db_fields = $fields;
 		}
@@ -36,6 +44,8 @@ class BP_Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	/**
 	 * Create the markup to start a tree level.
 	 *
+	 * @deprecated 7.0.0
+	 *
 	 * @see Walker_Nav_Menu::start_lvl() for description of parameters.
 	 *
 	 * @param string $output See {@Walker_Nav_Menu::start_lvl()}.
@@ -43,12 +53,15 @@ class BP_Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 * @param array  $args   See {@Walker_Nav_Menu::start_lvl()}.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
+		_deprecated_function( __METHOD__, '7.0.0' );
 		$indent = str_repeat( "\t", $depth );
 		$output .= "\n$indent<ul class='children'>\n";
 	}
 
 	/**
 	 * Create the markup to end a tree level.
+	 *
+	 * @deprecated 7.0.0
 	 *
 	 * @see Walker_Nav_Menu::end_lvl() for description of parameters.
 	 *
@@ -57,12 +70,15 @@ class BP_Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 * @param array  $args   See {@Walker_Nav_Menu::end_lvl()}.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
+		_deprecated_function( __METHOD__, '7.0.0' );
 		$indent = str_repeat( "\t", $depth );
 		$output .= "\n$indent</ul>";
 	}
 
 	/**
 	 * Create the markup to start an element.
+	 *
+	 * @deprecated 7.0.0
 	 *
 	 * @see Walker::start_el() for description of parameters.
 	 *
@@ -74,6 +90,7 @@ class BP_Walker_Nav_Menu_Checklist extends Walker_Nav_Menu {
 	 * @param int          $id     See {@Walker::start_el()}.
 	 */
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+		_deprecated_function( __METHOD__, '7.0.0' );
 		global $_nav_menu_placeholder;
 
 		$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval($_nav_menu_placeholder) - 1 : -1;
