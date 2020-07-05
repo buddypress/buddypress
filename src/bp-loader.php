@@ -30,7 +30,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // Required PHP version.
-define( 'BP_REQUIRED_PHP_VERSION', '5.3.0' );
+define( 'BP_REQUIRED_PHP_VERSION', '5.6.0' );
 
 /**
  * The main function responsible for returning the one true BuddyPress Instance to functions everywhere.
