@@ -312,7 +312,7 @@ if ( !function_exists( 'mb_strrpos' ) ) {
  * Returns the name of the hook to use once a WordPress Site is inserted into the Database.
  *
  * WordPress 5.1.0 deprecated the `wpmu_new_blog` action. As BuddyPress is supporting WordPress back
- * to 4.8.0, this function makes sure we are using the new hook `wp_initialize_site` when the current
+ * to 4.9.0, this function makes sure we are using the new hook `wp_initialize_site` when the current
  * WordPress version is upper or equal to 5.1.0 and that we keep on using `wpmu_new_blog` for earlier
  * versions of WordPress.
  *
@@ -405,7 +405,7 @@ add_action( bp_insert_site_hook(), 'bp_insert_site' );
  * Returns the name of the hook to use once a WordPress Site is deleted.
  *
  * WordPress 5.1.0 deprecated the `delete_blog` action. As BuddyPress is supporting WordPress back
- * to 4.8.0, this function makes sure we are using the new hook `wp_validate_site_deletion` when the
+ * to 4.9.0, this function makes sure we are using the new hook `wp_validate_site_deletion` when the
  * current WordPress version is upper or equal to 5.1.0 and that we keep on using `delete_blog` for
  * earlier versions of WordPress.
  *

@@ -32,7 +32,6 @@ env:
   - WP_VERSION=5.1 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=5.0 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=4.9 BP_TRAVISCI=travis:phpunit
-  - WP_VERSION=4.8 BP_TRAVISCI=travis:phpunit
 
 matrix:
   include:
@@ -61,8 +60,6 @@ matrix:
   exclude:
     - php: 7.3
       env: WP_VERSION=4.9 BP_TRAVISCI=travis:phpunit
-    - php: 7.3
-      env: WP_VERSION=4.8 BP_TRAVISCI=travis:phpunit
     - php: 7.3
       env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
 
