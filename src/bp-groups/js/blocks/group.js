@@ -155,6 +155,19 @@ var AVATAR_SIZES = [{
   label: __('Full', 'buddypress'),
   value: 'full'
 }];
+var GROUP_STATI = {
+  public: __('Public', 'buddypress'),
+  private: __('Private', 'buddypress'),
+  hidden: __('Hidden', 'buddypress')
+};
+
+var getSlugValue = function getSlugValue(item) {
+  if (item && item.status && GROUP_STATI[item.status]) {
+    return GROUP_STATI[item.status];
+  }
+
+  return null;
+};
 
 var editGroup = function editGroup(_ref) {
   var attributes = _ref.attributes,
@@ -174,7 +187,10 @@ var editGroup = function editGroup(_ref) {
       instructions: __('Start typing the name of the group you want to feature into this post.', 'buddypress')
     }, createElement(AutoCompleter, {
       component: "groups",
-      objectStatus: "public",
+      objectQueryArgs: {
+        'show_hidden': false
+      },
+      slugValue: getSlugValue,
       ariaLabel: __('Group\'s name', 'buddypress'),
       placeholder: __('Enter Group\'s name here…', 'buddypress'),
       onSelectItem: setAttributes,

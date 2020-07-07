@@ -156,6 +156,14 @@ var AVATAR_SIZES = [{
   value: 'full'
 }];
 
+var getSlugValue = function getSlugValue(item) {
+  if (item && item.mention_name) {
+    return item.mention_name;
+  }
+
+  return null;
+};
+
 var editMember = function editMember(_ref) {
   var attributes = _ref.attributes,
       setAttributes = _ref.setAttributes,
@@ -175,6 +183,7 @@ var editMember = function editMember(_ref) {
       instructions: __('Start typing the name of the member you want to feature into this post.', 'buddypress')
     }, createElement(AutoCompleter, {
       component: "members",
+      slugValue: getSlugValue,
       ariaLabel: __('Member\'s username', 'buddypress'),
       placeholder: __('Enter Member\'s username here…', 'buddypress'),
       onSelectItem: setAttributes,

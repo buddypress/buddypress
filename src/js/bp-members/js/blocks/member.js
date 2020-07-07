@@ -30,6 +30,14 @@ const AVATAR_SIZES = [
 	},
 ];
 
+const getSlugValue = ( item ) => {
+	if ( item && item.mention_name ) {
+		return item.mention_name;
+	}
+
+	return null;
+}
+
 const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 	const { isAvatarEnabled, isMentionEnabled, isCoverImageEnabled } = bpSettings;
 	const { avatarSize, displayMentionSlug, displayActionButton, displayCoverImage } = attributes;
@@ -43,6 +51,7 @@ const editMember = ( { attributes, setAttributes, bpSettings } ) => {
 			>
 				<AutoCompleter
 					component="members"
+					slugValue={ getSlugValue }
 					ariaLabel={ __( 'Member\'s username', 'buddypress' ) }
 					placeholder={ __( 'Enter Member\'s username here…', 'buddypress' ) }
 					onSelectItem={ setAttributes }

@@ -4,6 +4,7 @@
 const { Component, Fragment, createElement } = wp.element;
 const { Popover } = wp.components;
 const { apiFetch } = wp;
+const { addQueryArgs } = wp.url;
 const { __ } = wp.i18n;
 
 class AutoCompleter extends Component {
@@ -22,7 +23,7 @@ class AutoCompleter extends Component {
 
 	searchItemName( value ) {
 		const { search } = this.state;
-		const { component, objectStatus } = this.props;
+		const { component, objectQueryArgs } = this.props;
 		this.setState( { search: value } );
 
 		if ( value.length < search.length ) {
@@ -30,16 +31,17 @@ class AutoCompleter extends Component {
 		}
 
 		let path= '/buddypress/v1/' + component;
+		let queryArgs = {};
 
 		if ( value ) {
-			path += '?search=' + encodeURIComponent( value );
+			queryArgs.search = encodeURIComponent( value );
 		}
 
-		if ( objectStatus ) {
-			path += '&status=' + objectStatus;
+		if ( objectQueryArgs ) {
+			queryArgs = Object.assign( queryArgs, objectQueryArgs );
 		}
 
-		apiFetch( { path:  path } ).then( items => {
+		apiFetch( { path:  addQueryArgs( path, queryArgs ) } ).then( items => {
 			this.setState( { items: items } );
 		}, error => {
 			this.setState( { error: error.message } );
@@ -61,7 +63,7 @@ class AutoCompleter extends Component {
 
 	render() {
 		const { search, items } = this.state;
-		let { ariaLabel, placeholder, useAvatar } = this.props;
+		let { ariaLabel, placeholder, useAvatar, slugValue } = this.props;
 		let itemsList;
 
 		if ( ! ariaLabel ) {
@@ -85,10 +87,11 @@ class AutoCompleter extends Component {
 						{ useAvatar && (
 							<img key="avatar" className="editor-autocompleters__user-avatar" alt="" src={ item.avatar_urls.thumb } />
 						) }
+
 						<span key="name" className="editor-autocompleters__user-name">{ item.name }</span>
 
-						{ item.mention_name && (
-							<span key="slug" className="editor-autocompleters__user-slug">{ item.mention_name }</span>
+						{ slugValue && null !== slugValue( item ) && (
+							<span key="slug" className="editor-autocompleters__user-slug">{ slugValue( item ) }</span>
 						) }
 					</button>
 				);

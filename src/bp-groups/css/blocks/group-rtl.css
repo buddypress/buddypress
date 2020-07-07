@@ -116,3 +116,10 @@
 	display: block;
 	float: left;
 }
+
+[data-type="bp/group"] input.components-placeholder__input {
+	flex: 1 1 auto;
+	border-radius: 2px;
+	border: 1px solid #757575;
+	padding: 6px 8px;
+}

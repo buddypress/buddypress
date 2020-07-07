@@ -30,6 +30,20 @@ const AVATAR_SIZES = [
 	},
 ];
 
+const GROUP_STATI = {
+	public: __( 'Public', 'buddypress' ),
+	private: __( 'Private', 'buddypress' ),
+	hidden: __( 'Hidden', 'buddypress' ),
+};
+
+const getSlugValue = ( item ) => {
+	if ( item && item.status && GROUP_STATI[ item.status ] ) {
+		return GROUP_STATI[ item.status ];
+	}
+
+	return null;
+}
+
 const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
 	const { isAvatarEnabled, isCoverImageEnabled } = bpSettings;
 	const { avatarSize, displayDescription, displayActionButton, displayCoverImage } = attributes;
@@ -43,7 +57,8 @@ const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
 			>
 				<AutoCompleter
 					component="groups"
-					objectStatus="public"
+					objectQueryArgs={ { 'show_hidden': false } }
+					slugValue={ getSlugValue }
 					ariaLabel={ __( 'Group\'s name', 'buddypress' ) }
 					placeholder={ __( 'Enter Group\'s name here…', 'buddypress' ) }
 					onSelectItem={ setAttributes }

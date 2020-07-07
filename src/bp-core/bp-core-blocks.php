@@ -36,6 +36,7 @@ function bp_register_block_components() {
 			'wp-components',
 			'wp-i18n',
 			'wp-api-fetch',
+			'wp-url',
 		),
 		bp_get_version()
 	);

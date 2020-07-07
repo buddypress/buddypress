@@ -260,6 +260,7 @@ var _wp$element = wp.element,
 var Popover = wp.components.Popover;
 var _wp = wp,
     apiFetch = _wp.apiFetch;
+var addQueryArgs = wp.url.addQueryArgs;
 var __ = wp.i18n.__;
 
 var AutoCompleter = /*#__PURE__*/function (_Component) {
@@ -290,7 +291,7 @@ var AutoCompleter = /*#__PURE__*/function (_Component) {
       var search = this.state.search;
       var _this$props = this.props,
           component = _this$props.component,
-          objectStatus = _this$props.objectStatus;
+          objectQueryArgs = _this$props.objectQueryArgs;
       this.setState({
         search: value
       });
@@ -302,17 +303,18 @@ var AutoCompleter = /*#__PURE__*/function (_Component) {
       }
 
       var path = '/buddypress/v1/' + component;
+      var queryArgs = {};
 
       if (value) {
-        path += '?search=' + encodeURIComponent(value);
+        queryArgs.search = encodeURIComponent(value);
       }
 
-      if (objectStatus) {
-        path += '&status=' + objectStatus;
+      if (objectQueryArgs) {
+        queryArgs = Object.assign(queryArgs, objectQueryArgs);
       }
 
       apiFetch({
-        path: path
+        path: addQueryArgs(path, queryArgs)
       }).then(function (items) {
         _this2.setState({
           items: items
@@ -348,7 +350,8 @@ var AutoCompleter = /*#__PURE__*/function (_Component) {
       var _this$props2 = this.props,
           ariaLabel = _this$props2.ariaLabel,
           placeholder = _this$props2.placeholder,
-          useAvatar = _this$props2.useAvatar;
+          useAvatar = _this$props2.useAvatar,
+          slugValue = _this$props2.slugValue;
       var itemsList;
 
       if (!ariaLabel) {
@@ -378,10 +381,10 @@ var AutoCompleter = /*#__PURE__*/function (_Component) {
           }), createElement("span", {
             key: "name",
             className: "editor-autocompleters__user-name"
-          }, item.name), item.mention_name && createElement("span", {
+          }, item.name), slugValue && null !== slugValue(item) && createElement("span", {
             key: "slug",
             className: "editor-autocompleters__user-slug"
-          }, item.mention_name));
+          }, slugValue(item)));
         });
       }
 
