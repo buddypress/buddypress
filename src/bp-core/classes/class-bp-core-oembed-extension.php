@@ -230,9 +230,10 @@ abstract class BP_Core_oEmbed_Extension {
 
 		register_rest_route( 'oembed/1.0', "/embed/{$this->slug_endpoint}", array(
 			array(
-				'methods'  => WP_REST_Server::READABLE,
-				'callback' => array( $this, 'get_item' ),
-				'args'     => $args
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_item' ),
+				'permission_callback' => '__return_true',
+				'args'                => $args
 			),
 		) );
 	}
