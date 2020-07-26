@@ -3400,7 +3400,15 @@ function bp_core_replace_tokens_in_text( $text, $tokens ) {
  * @return array
  */
 function bp_email_get_schema() {
-	return array(
+
+	/**
+	 * Filters the list of `bp_email_get_schema()` allowing anyone to add/remove emails.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param array $emails The array of emails schema.
+	 */
+	return (array) apply_filters( 'bp_email_get_schema', array(
 		'activity-comment' => array(
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_title'   => __( '[{{{site.name}}}] {{poster.name}} replied to one of your updates', 'buddypress' ),
@@ -3532,7 +3540,7 @@ function bp_email_get_schema() {
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_excerpt' => __( "Your membership request for the group \"{{group.name}}\" has been rejected.\n\nTo request membership again, visit: {{{group.url}}}", 'buddypress' ),
 		),
-	);
+	) );
 }
 
 /**
@@ -3559,7 +3567,7 @@ function bp_email_get_type_schema( $field = 'description' ) {
 		'unsubscribe'	=> array(
 			'meta_key'	=> 'notification_activity_new_reply',
 			'message'	=> __( 'You will no longer receive emails when someone replies to an update or comment you posted.', 'buddypress' ),
-			),
+		),
 	);
 
 	$activity_comment_author = array(
@@ -3567,7 +3575,7 @@ function bp_email_get_type_schema( $field = 'description' ) {
 		'unsubscribe'	=> array(
 			'meta_key'	=> 'notification_activity_new_reply',
 			'message'	=> __( 'You will no longer receive emails when someone replies to an update or comment you posted.', 'buddypress' ),
-			),
+		),
 	);
 
 	$activity_at_message = array(
