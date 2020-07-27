@@ -282,7 +282,7 @@ function bp_activate_slug() {
  * display a list of members.
  *
  * @since 1.2.0
- * @since 7.0.0 Added `xprofile_query` parameter.
+ * @since 7.0.0 Added `xprofile_query` parameter. Added `user_ids` parameter.
  *
  * @global object $members_template {@link BP_Members_Template}
  *
@@ -310,6 +310,8 @@ function bp_activate_slug() {
  *     @type array|int|string|bool $exclude             Exclude users from results by ID. Accepts an array, a single
  *                                                      integer, a comma-separated list of IDs, or false (to disable
  *                                                      this limiting). Default: false.
+ *     @type array|string|bool     $user_ids            An array or comma-separated list of IDs, or false (to
+ *                                                      disable this limiting). Default: false.
  *     @type int                   $user_id             If provided, results are limited to the friends of the specified
  *                                                      user. When on a user's Friends page, defaults to the ID of the
  *                                                      displayed user. Otherwise defaults to 0.
@@ -371,6 +373,7 @@ function bp_has_members( $args = '' ) {
 
 		'include'             => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to only show these users.
 		'exclude'             => false,    // Pass a user_id or a list (comma-separated or array) of user_ids to exclude these users.
+		'user_ids'            => false,
 
 		'user_id'             => $user_id, // Pass a user_id to only show friends of this user.
 		'member_type'         => $member_type,

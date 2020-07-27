@@ -78,7 +78,7 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
  * bp_use_legacy_user_query value, returning true.
  *
  * @since 1.2.0
- * @since 7.0.0 Added `xprofile_query` parameter.
+ * @since 7.0.0 Added `xprofile_query` parameter. Added `user_ids` parameter.
  *
  * @param array|string $args {
  *     Array of arguments. All are optional. See {@link BP_User_Query} for
@@ -94,6 +94,7 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
  *                                             `$member_type` takes precedence over this parameter.
  *     @type array|string $member_type__not_in Array or comma-separated string of member types to be excluded.
  *     @type mixed        $include             Limit results by user IDs. Default: false.
+ *     @type mixed        $user_ids            IDs corresponding to the users. Default: false.
  *     @type int          $per_page            Results per page. Default: 20.
  *     @type int          $page                Page of results. Default: 1.
  *     @type bool         $populate_extras     Fetch optional extras. Default: true.
@@ -117,6 +118,7 @@ function bp_core_get_users( $args = '' ) {
 		'member_type__in'     => '',
 		'member_type__not_in' => '',
 		'include'             => false,        // Pass comma separated list of user_ids to limit to only these users.
+		'user_ids'            => false,
 		'per_page'            => 20,           // The number of results to return per page.
 		'page'                => 1,            // The page to return if limiting per page.
 		'populate_extras'     => true,         // Fetch the last active, where the user is a friend, total friend count, latest update.

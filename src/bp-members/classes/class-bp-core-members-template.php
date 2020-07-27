@@ -110,7 +110,7 @@ class BP_Core_Members_Template {
 	 * Constructor method.
 	 *
 	 * @since 1.5.0
-	 * @since 7.0.0 Added $xprofile_query parameter.
+	 * @since 7.0.0 Added $xprofile_query parameter. Added $user_ids parameter.
 	 *
 	 * @see BP_User_Query for an in-depth description of parameters.
 	 *
@@ -162,6 +162,7 @@ class BP_Core_Members_Template {
 			'include'             => false,
 			'populate_extras'     => true,
 			'exclude'             => false,
+			'user_ids'            => false,
 			'meta_key'            => false,
 			'meta_value'          => false,
 			'page_arg'            => 'upage',
@@ -190,6 +191,7 @@ class BP_Core_Members_Template {
 					'search_terms'        => $r['search_terms'],
 					'populate_extras'     => $r['populate_extras'],
 					'exclude'             => $r['exclude'],
+					'user_ids'            => $r['user_ids'],
 					'meta_key'            => $r['meta_key'],
 					'meta_value'          => $r['meta_value'],
 					'member_type'         => $r['member_type'],
