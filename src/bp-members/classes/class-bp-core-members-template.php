@@ -114,68 +114,105 @@ class BP_Core_Members_Template {
 	 *
 	 * @see BP_User_Query for an in-depth description of parameters.
 	 *
-	 * @param string       $type                Sort order.
-	 * @param int          $page_number         Page of results.
-	 * @param int          $per_page            Number of results per page.
-	 * @param int          $max                 Max number of results to return.
-	 * @param int          $user_id             Limit to friends of a user.
-	 * @param string       $search_terms        Limit to users matching search terms.
-	 * @param array        $include             Limit results by these user IDs.
-	 * @param bool         $populate_extras     Fetch optional extras.
-	 * @param array        $exclude             Exclude these IDs from results.
-	 * @param array        $meta_key            Limit to users with a meta_key.
-	 * @param array        $meta_value          Limit to users with a meta_value (with meta_key).
-	 * @param string       $page_arg            Optional. The string used as a query parameter in pagination links.
-	 *                                          Default: 'upage'.
-	 * @param array|string $member_type         Array or comma-separated string of member types to limit results to.
-	 * @param array|string $member_type__in     Array or comma-separated string of member types to limit results to.
-	 * @param array|string $member_type__not_in Array or comma-separated string of member types to exclude
-	 *                                          from results.
- *     @param array        $xprofile_query      Filter results by xprofile data. Requires the xprofile
- *                                              component. See {@see BP_XProfile_Query} for details.
+	 * @param array $args {
+	 *     Array of arguments. Supports all arguments of BP_User_Query. Additional
+	 *     arguments, or those with different defaults, are described below.
+	 *
+	 *     @type int    $page_number Page of results. Accepted for legacy reasons. Use 'page' instead.
+	 *     @type int    $max         Max number of results to return.
+	 *     @type string $page_arg    Optional. The string used as a query parameter in pagination links.
+	 * }
 	 */
-	function __construct( $type, $page_number, $per_page, $max, $user_id, $search_terms, $include, $populate_extras, $exclude, $meta_key, $meta_value, $page_arg = 'upage', $member_type = '', $member_type__in = '', $member_type__not_in = '', $xprofile_query = false ) {
+	public function __construct( $args ) {
+		// Backward compatibility with old method of passing arguments.
+		if ( ! is_array( $args ) || func_num_args() > 1 ) {
+			_deprecated_argument( __METHOD__, '7.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
-		$this->pag_arg  = sanitize_key( $page_arg );
-		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $page_number );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $per_page    );
-		$this->type     = $type;
+			$old_args_keys = array(
+				0  => 'type',
+				1  => 'page_number',
+				2  => 'per_page',
+				3  => 'max',
+				4  => 'user_id',
+				5  => 'search_terms',
+				6  => 'include',
+				7  => 'populate_extras',
+				8  => 'exclude',
+				9  => 'meta_key',
+				10 => 'meta_value',
+				11 => 'page_arg',
+				12 => 'member_type',
+				13 => 'member_type__in',
+				14 => 'member_type__not_in'
+			);
+
+			$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
+		}
+
+		// Support both 'page_number' and 'page' for backward compatibility.
+		$args['page_number'] = isset( $args['page_number'] ) ? $args['page_number'] : $args['page'];
+
+		$defaults = array(
+			'type'                => 'active',
+			'page_number'         => 1,
+			'per_page'            => 20,
+			'max'                 => false,
+			'user_id'             => false,
+			'search_terms'        => null,
+			'include'             => false,
+			'populate_extras'     => true,
+			'exclude'             => false,
+			'meta_key'            => false,
+			'meta_value'          => false,
+			'page_arg'            => 'upage',
+			'member_type'         => '',
+			'member_type__in'     => '',
+			'member_type__not_in' => '',
+			'xprofile_query'      => false,
+		);
+		$r = wp_parse_args( $args, $defaults );
+
+		$this->pag_arg  = sanitize_key( $r['page_arg'] );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page_number'] );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page']    );
+		$this->type     = $r['type'];
 
 		if ( ! empty( $_REQUEST['letter'] ) ) {
-			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $populate_extras, $exclude );
+			$this->members = BP_Core_User::get_users_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page, $r['populate_extras'], $r['exclude'] );
 		} else {
 			$this->members = bp_core_get_users(
 				array(
 					'type'                => $this->type,
 					'per_page'            => $this->pag_num,
 					'page'                => $this->pag_page,
-					'user_id'             => $user_id,
-					'include'             => $include,
-					'search_terms'        => $search_terms,
-					'populate_extras'     => $populate_extras,
-					'exclude'             => $exclude,
-					'meta_key'            => $meta_key,
-					'meta_value'          => $meta_value,
-					'member_type'         => $member_type,
-					'member_type__in'     => $member_type__in,
-					'member_type__not_in' => $member_type__not_in,
-					'xprofile_query'      => $xprofile_query,
+					'user_id'             => $r['user_id'],
+					'include'             => $r['include'],
+					'search_terms'        => $r['search_terms'],
+					'populate_extras'     => $r['populate_extras'],
+					'exclude'             => $r['exclude'],
+					'meta_key'            => $r['meta_key'],
+					'meta_value'          => $r['meta_value'],
+					'member_type'         => $r['member_type'],
+					'member_type__in'     => $r['member_type__in'],
+					'member_type__not_in' => $r['member_type__not_in'],
+					'xprofile_query'      => $r['xprofile_query'],
 				)
 			);
 		}
 
-		if ( !$max || $max >= (int) $this->members['total'] )
+		if ( ! $r['max'] || $r['max'] >= (int) $this->members['total'] ) {
 			$this->total_member_count = (int) $this->members['total'];
-		else
-			$this->total_member_count = (int) $max;
+		} else {
+			$this->total_member_count = (int) $r['max'];
+		}
 
 		$this->members = $this->members['users'];
 
-		if ( $max ) {
-			if ( $max >= count( $this->members ) ) {
+		if ( $r['max'] ) {
+			if ( $r['max'] >= count( $this->members ) ) {
 				$this->member_count = count( $this->members );
 			} else {
-				$this->member_count = (int) $max;
+				$this->member_count = (int) $r['max'];
 			}
 		} else {
 			$this->member_count = count( $this->members );
@@ -199,9 +236,9 @@ class BP_Core_Members_Template {
 			 */
 			$add_args = array();
 
-			if ( ! empty( $search_terms ) ) {
+			if ( ! empty( $r['search_terms'] ) ) {
 				$query_arg = bp_core_get_component_search_query_arg( 'members' );
-				$add_args[ $query_arg ] = urlencode( $search_terms );
+				$add_args[ $query_arg ] = urlencode( $r['search_terms'] );
 			}
 
 			$this->pag_links = paginate_links( array(

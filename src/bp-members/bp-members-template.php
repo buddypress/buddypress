@@ -400,24 +400,7 @@ function bp_has_members( $args = '' ) {
 	}
 
 	// Query for members and populate $members_template global.
-	$members_template = new BP_Core_Members_Template(
-		$r['type'],
-		$r['page'],
-		$r['per_page'],
-		$r['max'],
-		$r['user_id'],
-		$r['search_terms'],
-		$r['include'],
-		$r['populate_extras'],
-		$r['exclude'],
-		$r['meta_key'],
-		$r['meta_value'],
-		$r['page_arg'],
-		$r['member_type'],
-		$r['member_type__in'],
-		$r['member_type__not_in'],
-		$r['xprofile_query']
-	);
+	$members_template = new BP_Core_Members_Template( $r );
 
 	/**
 	 * Filters whether or not BuddyPress has members to iterate over.
