@@ -395,7 +395,7 @@ function bp_activity_admin_load() {
 
 				case 'ham' :
 					/**
-					 * Remove moderation and blacklist checks in case we want to ham an activity
+					 * Remove moderation and disallowed keyword checks in case we want to ham an activity
 					 * which contains one of these listed keys.
 					 */
 					remove_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2 );

@@ -573,10 +573,12 @@ class BP_User_Query {
 
 		), $this ) );
 
-		// We calculate total_users using a standalone query, except
-		// when a whitelist of user_ids is passed to the constructor.
-		// This clause covers the latter situation, and ensures that
-		// pagination works when querying by $user_ids.
+		/*
+		 * We calculate total_users using a standalone query, except
+		 * when a list of specific user_ids is passed to the constructor.
+		 * This clause covers the latter situation, and ensures that
+		 * pagination works when querying by $user_ids.
+		 */
 		if ( empty( $this->total_users ) ) {
 			$this->total_users = count( $wp_user_query->results );
 		}

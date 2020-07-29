@@ -121,7 +121,7 @@ class BP_Signup {
 	 * Fetch signups based on parameters.
 	 *
 	 * @since 2.0.0
-	 * @since 6.0.0 Adds a whitelist of allowed orderby parameters.
+	 * @since 6.0.0 Added a list of allowed orderby parameters.
 	 *
 	 * @param array $args {
 	 *     The argument to retrieve desired signups.

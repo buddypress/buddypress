@@ -415,7 +415,7 @@ function groups_delete_group( $group_id ) {
 }
 
 /**
- * Check a group status (eg 'private') against the whitelist of registered statuses.
+ * Check a group status (eg 'private') against the list of registered statuses.
  *
  * @since 1.1.0
  *

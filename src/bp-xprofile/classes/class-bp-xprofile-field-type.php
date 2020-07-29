@@ -26,10 +26,10 @@ abstract class BP_XProfile_Field_Type {
 	protected $validation_regex = array();
 
 	/**
-	 * Whitelisted values for field type.
+	 * Allowed values for field type.
 	 *
 	 * @since 2.0.0
-	 * @var array Field type whitelisted values.
+	 * @var array Field type allowed values.
 	 */
 	protected $validation_whitelist = array();
 
@@ -58,7 +58,7 @@ abstract class BP_XProfile_Field_Type {
 	public $accepts_null_value = false;
 
 	/**
-	 * If this is set, BP will set this field type's validation whitelist from the field's options (e.g checkbox, selectbox).
+	 * If this is set, BP will set this field type's list of allowed values from the field's options (e.g checkbox, selectbox).
 	 *
 	 * @since 2.0.0
 	 * @var bool Does this field support options? e.g. selectbox, radio buttons, etc.

@@ -515,7 +515,7 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
 			unset( $page_ids[ $component_name ] );
 		}
 
-		// 'register' and 'activate' do not have components, but should be whitelisted.
+		// 'register' and 'activate' do not have components, but are allowed as special cases.
 		if ( in_array( $component_name, array( 'register', 'activate' ), true ) ) {
 			continue;
 		}

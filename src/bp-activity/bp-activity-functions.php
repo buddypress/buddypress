@@ -847,7 +847,7 @@ function bp_activity_get_types() {
  *
  * The "context" is the current view type, corresponding roughly to the
  * current component. Use this context to determine which activity actions
- * should be whitelisted for the filter dropdown.
+ * should be permitted in the filter dropdown.
  *
  * @since 2.8.0
  *
@@ -4143,7 +4143,7 @@ function bp_activity_transition_post_type_comment_status( $new_status, $old_stat
 		bp_activity_mark_as_ham( $activity );
 	}
 
-	// Add "new_post_type_comment" to the whitelisted activity types, so that the activity's Akismet history is generated.
+	// Add "new_post_type_comment" to the allowed activity types, so that the activity's Akismet history is generated.
 	$post_type_comment_action = $activity_comment_object->action_id;
 	$comment_akismet_history = function ( $activity_types ) use ( $post_type_comment_action ) {
 		$activity_types[] = $post_type_comment_action;
@@ -4161,7 +4161,7 @@ function bp_activity_transition_post_type_comment_status( $new_status, $old_stat
 	// Restore the action.
 	add_action( 'bp_activity_before_save', 'bp_blogs_sync_activity_edit_to_post_comment', 20 );
 
-	// Remove the "new_blog_comment" activity type whitelist so we don't break anything.
+	// Remove the dynamic permitting of the "new_blog_comment" activity type so we don't break anything.
 	remove_filter( 'bp_akismet_get_activity_types', $comment_akismet_history );
 }
 add_action( 'transition_comment_status', 'bp_activity_transition_post_type_comment_status', 10, 3 );

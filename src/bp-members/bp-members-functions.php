@@ -1587,7 +1587,7 @@ add_filter( 'pre_update_site_option_illegal_names', 'bp_core_get_illegal_names',
  * Performs the following checks:
  *   - Is the email address well-formed?
  *   - Is the email address already used?
- *   - If there's an email domain blacklist, is the current domain on it?
+ *   - If there are disallowed email domains, is the current domain among them?
  *   - If there's an email domain whitelest, is the current domain on it?
  *
  * @since 1.6.2
@@ -1704,7 +1704,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 			$errors->add( 'user_name', __( 'Please enter a username', 'buddypress' ) );
 		}
 
-		// User name can't be on the blacklist.
+		// User name can't be on the list of illegal names.
 		$illegal_names = get_site_option( 'illegal_names' );
 		if ( in_array( $user_name, (array) $illegal_names ) ) {
 			$errors->add( 'user_name', __( 'That username is not allowed', 'buddypress' ) );

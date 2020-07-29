@@ -562,7 +562,7 @@ class BP_Akismet {
 		// Keys to ignore.
 		$ignore = array( 'HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW' );
 
-		// Loop through _SERVER args and remove whitelisted keys.
+		// Loop through _SERVER args and remove specified keys.
 		foreach ( $_SERVER as $key => $value ) {
 
 			// Key should not be ignored.

@@ -170,7 +170,7 @@ function bp_activity_check_moderation_keys( $activity ) {
 }
 
 /**
- * Mark the posted activity as spam, if it contains blacklist keywords.
+ * Mark the posted activity as spam, if it contains disallowed keywords.
  *
  * @since 1.6.0
  *

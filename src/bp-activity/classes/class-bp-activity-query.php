@@ -229,7 +229,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	/**
 	 * Validates a column name parameter.
 	 *
-	 * Column names are checked against a whitelist of known tables.
+	 * Column names are checked against a list of known tables.
 	 * See {@link BP_Activity_Query::db_tables}.
 	 *
 	 * @since 2.2.0

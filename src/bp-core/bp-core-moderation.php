@@ -141,13 +141,13 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '',
 	 */
 
 	// Get the moderation keys.
-	$blacklist = trim( get_option( 'moderation_keys' ) );
+	$disallowed = trim( get_option( 'moderation_keys' ) );
 
-	// Bail if blacklist is empty.
-	if ( ! empty( $blacklist ) ) {
+	// Bail if list is empty.
+	if ( ! empty( $disallowed ) ) {
 
 		// Get words separated by new lines.
-		$words = explode( "\n", $blacklist );
+		$words = explode( "\n", $disallowed );
 
 		// Loop through words.
 		foreach ( (array) $words as $word ) {
@@ -226,10 +226,17 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '', 
 	 */
 
 	// Get the moderation keys.
-	$blacklist = trim( get_option( 'blacklist_keys' ) );
+	$disallowed = get_option( 'disallowed_keys' );
 
-	// Bail if blacklist is empty.
-	if ( empty( $blacklist ) ) {
+	// Support for WP < 5.5.
+	if ( false === $disallowed ) {
+		$disallowed = get_option( 'blacklist_keys' );
+	}
+
+	$disallowed = trim( $disallowed );
+
+	// Bail if disallowed list is empty.
+	if ( empty( $disallowed ) ) {
 		return true;
 	}
 
@@ -262,7 +269,7 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '', 
 	 */
 
 	// Get words separated by new lines.
-	$words = explode( "\n", $blacklist );
+	$words = explode( "\n", $disallowed );
 
 	// Loop through words.
 	foreach ( (array) $words as $word ) {
