@@ -664,8 +664,24 @@ function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
 	$base_url = remove_query_arg( array( 'mode', 'field_id', 'bp_xprofile_delete_field' ), $_SERVER['REQUEST_URI'] ); ?>
 
 	<div class="wrap">
-		<h1><?php printf( esc_html__( 'Delete %s', 'buddypress' ), $field_type ); ?></h1>
-		<p><?php printf( esc_html__( 'You are about to delete the following %s:', 'buddypress' ), $field_type ); ?></p>
+		<h1>
+			<?php
+			printf(
+				/* translators: %s is the field type name. */
+				esc_html__( 'Delete %s', 'buddypress' ),
+				$field_type
+			);
+			?>
+		</h1>
+		<p>
+			<?php
+			printf(
+				/* translators: %s is the field type name. */
+				esc_html__( 'You are about to delete the following %s:', 'buddypress' ),
+				$field_type
+			);
+			?>
+		</p>
 
 		<ul class="bp-xprofile-delete-group-list">
 			<li><?php echo esc_html( $field->name ); ?></li>
