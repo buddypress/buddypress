@@ -454,7 +454,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 
 	// For certain fields, only certain parameters are acceptable, so add them to the list of allowed values.
 	if ( $field_type_obj->supports_options ) {
-		$field_type_obj->set_whitelist_values( wp_list_pluck( $field->get_children(), 'name' ) );
+		$field_type_obj->set_allowed_values( wp_list_pluck( $field->get_children(), 'name' ) );
 	}
 
 	// Check the value is in an accepted format for this form field.

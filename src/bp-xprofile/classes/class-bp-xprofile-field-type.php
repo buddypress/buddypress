@@ -31,7 +31,7 @@ abstract class BP_XProfile_Field_Type {
 	 * @since 2.0.0
 	 * @var array Field type allowed values.
 	 */
-	protected $validation_whitelist = array();
+	protected $validation_allowed_values = array();
 
 	/**
 	 * Name for field type.
@@ -153,29 +153,55 @@ abstract class BP_XProfile_Field_Type {
 	}
 
 	/**
-	 * Add a value to this type's whitelist that profile data will be asserted against.
-	 *
-	 * You can call this method multiple times to set multiple formats. When validation is performed,
-	 * it's successful as long as the new value matches any one of the registered formats.
+	 * Add a value to this type's list of allowed values that profile data will be asserted against.
 	 *
 	 * @since 2.0.0
+	 * @deprecated 7.0.0 Use set_allowed_values() instead.
 	 *
 	 * @param string|array $values Whitelisted values.
 	 * @return BP_XProfile_Field_Type
 	 */
 	public function set_whitelist_values( $values ) {
+		_deprecated_function( __METHOD__, '7.0.0', 'BP_XProfile_Field_Type::set_allowed_values()' );
+		$this->set_allowed_values( $values );
+	}
+
+	/**
+	 * Add a value to this type's list of allowed values that profile data will be asserted against.
+	 *
+	 * You can call this method multiple times to set multiple formats. When validation is performed,
+	 * it's successful as long as the new value matches any one of the registered formats.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param string|array $values Allowed values.
+	 * @return BP_XProfile_Field_Type
+	 */
+	public function set_allowed_values( $values ) {
 		foreach ( (array) $values as $value ) {
 
 			/**
-			 * Filters values for field type's whitelist that profile data will be asserted against.
+			 * Filters values for field type's list of allowed values that profile data will be asserted against.
 			 *
 			 * @since 2.0.0
+			 * @deprecated 7.0.0 Use 'bp_xprofile_field_type_set_allowed_values' instead.
 			 *
 			 * @param string                 $value  Field value.
 			 * @param array                  $values Original array of values.
 			 * @param BP_XProfile_Field_Type $this   Current instance of the BP_XProfile_Field_Type class.
 			 */
-			$this->validation_whitelist[] = apply_filters( 'bp_xprofile_field_type_set_whitelist_values', $value, $values, $this );
+			$this->validation_allowed_values[] = apply_filters_deprecated( 'bp_xprofile_field_type_set_whitelist_values', array( $value, $values, $this ), '7.0.0', 'bp_xprofile_field_type_set_allowed_values' );
+
+			/**
+			 * Filters values for field type's list of allowed values that profile data will be asserted against.
+			 *
+			 * @since 7.0.0
+			 *
+			 * @param string                 $value  Field value.
+			 * @param array                  $values Original array of values.
+			 * @param BP_XProfile_Field_Type $this   Current instance of the BP_XProfile_Field_Type class.
+			 */
+			$this->validation_allowed_values[] = apply_filters( 'bp_xprofile_field_type_set_allowed_values', $value, $values, $this );
 		}
 
 		return $this;
@@ -214,10 +240,10 @@ abstract class BP_XProfile_Field_Type {
 			$validated = true;
 		}
 
-		// If there's a whitelist set, make sure that each value is a whitelisted value.
-		if ( ( true === $validated ) && ! empty( $values ) && ! empty( $this->validation_whitelist ) ) {
+		// If there's a list of allowed values, make sure that each value is on that list.
+		if ( ( true === $validated ) && ! empty( $values ) && ! empty( $this->validation_allowed_values ) ) {
 			foreach ( (array) $values as $value ) {
-				if ( ! in_array( $value, $this->validation_whitelist, true ) ) {
+				if ( ! in_array( $value, $this->validation_allowed_values, true ) ) {
 					$validated = false;
 					break;
 				}
