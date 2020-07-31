@@ -117,7 +117,7 @@ add_action( 'bp_activity_before_save', 'bp_activity_at_name_filter_updates' );
 
 // Activity stream moderation.
 add_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2, 1 );
-add_action( 'bp_activity_before_save', 'bp_activity_check_blacklist_keys',  2, 1 );
+add_action( 'bp_activity_before_save', 'bp_activity_check_disallowed_keys',  2, 1 );
 
 /** Functions *****************************************************************/
 
@@ -172,11 +172,11 @@ function bp_activity_check_moderation_keys( $activity ) {
 /**
  * Mark the posted activity as spam, if it contains disallowed keywords.
  *
- * @since 1.6.0
+ * @since 7.0.0
  *
  * @param BP_Activity_Activity $activity The activity object to check.
  */
-function bp_activity_check_blacklist_keys( $activity ) {
+function bp_activity_check_disallowed_keys( $activity ) {
 
 	// Only check specific types of activity updates.
 	if ( ! in_array( $activity->type, bp_activity_get_moderated_activity_types() ) ) {
@@ -185,9 +185,9 @@ function bp_activity_check_blacklist_keys( $activity ) {
 
 	// Send back the error so activity update fails.
 	// @todo This is temporary until some kind of trash status is built.
-	$blacklist = bp_core_check_for_blacklist( $activity->user_id, '', $activity->content, 'wp_error' );
-	if ( is_wp_error( $blacklist ) ) {
-		$activity->errors = $blacklist;
+	$disallowed = bp_core_check_for_disallowed_keys( $activity->user_id, '', $activity->content, 'wp_error' );
+	if ( is_wp_error( $disallowed ) ) {
+		$activity->errors = $disallowed;
 
 		// Backpat.
 		$activity->component = false;

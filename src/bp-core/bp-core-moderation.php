@@ -187,10 +187,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '',
 /**
  * Check for blocked keys.
  *
- * @since 1.6.0
- * @since 2.6.0 Added $error_type parameter.
- *
- * @todo Why don't we use wp_blacklist_check() for this?
+ * @since 7.0.0
  *
  * @param int    $user_id    User ID.
  * @param string $title      The title of the content.
@@ -198,19 +195,34 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '',
  * @param string $error_type The error type to return. Either 'bool' or 'wp_error'.
  * @return bool|WP_Error True if test is passed, false if fail.
  */
-function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {
+function bp_core_check_for_disallowed_keys( $user_id = 0, $title = '', $content = '', $error_type = 'bool' ) {
 
 	/**
 	 * Filters whether or not to bypass checking for blocked keys.
 	 *
 	 * @since 2.2.0
+	 * @deprecated 7.0.0 Use 'bp_bypass_check_for_disallowed_keys' instead.
 	 *
 	 * @param bool   $value   Whether or not to bypass checking. Default false.
 	 * @param int    $user_id Topic of reply author ID.
 	 * @param string $title   The title of the content.
 	 * @param string $content $the content being posted.
 	 */
-	if ( apply_filters( 'bp_bypass_check_for_blacklist', false, $user_id, $title, $content ) ) {
+	if ( apply_filters_deprecated( 'bp_bypass_check_for_blacklist', array( false, $user_id, $title, $content ), '7.0.0', 'bp_bypass_check_for_disallowed_keys' ) ) {
+		return true;
+	}
+
+	/**
+	 * Filters whether or not to bypass checking for blocked keys.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param bool   $value   Whether or not to bypass checking. Default false.
+	 * @param int    $user_id Topic of reply author ID.
+	 * @param string $title   The title of the content.
+	 * @param string $content $the content being posted.
+	 */
+	if ( apply_filters( 'bp_bypass_check_for_disallowed_keys', false, $user_id, $title, $content ) ) {
 		return true;
 	}
 
@@ -293,7 +305,7 @@ function bp_core_check_for_blacklist( $user_id = 0, $title = '', $content = '', 
 				if ( 'bool' === $error_type ) {
 					return false;
 				} else {
-					return new WP_Error( 'bp_moderation_blacklist_match', _x( 'You have posted an inappropriate word.', 'Comment blacklist', 'buddypress' ) );
+					return new WP_Error( 'bp_moderation_disallowed_key_match', _x( 'You have posted an inappropriate word.', 'Comment disallowed key', 'buddypress' ) );
 				}
 			}
 		}

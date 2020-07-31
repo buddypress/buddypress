@@ -399,7 +399,7 @@ function bp_activity_admin_load() {
 					 * which contains one of these listed keys.
 					 */
 					remove_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2 );
-					remove_action( 'bp_activity_before_save', 'bp_activity_check_blacklist_keys', 2 );
+					remove_action( 'bp_activity_before_save', 'bp_activity_check_disallowed_keys', 2 );
 
 					bp_activity_mark_as_ham( $activity );
 					$result = $activity->save();
