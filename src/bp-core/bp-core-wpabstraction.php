@@ -472,3 +472,24 @@ function bp_delete_site( $site_id_or_error, $drop_or_site = false ) {
 	do_action( 'bp_delete_site', $site_id, $drop );
 }
 add_action( bp_delete_site_hook(), 'bp_delete_site', 10, 2 );
+
+if ( ! function_exists( 'wp_parse_list' ) ) {
+	/**
+	 * Cleans up an array, comma- or space-separated list of scalar values.
+	 *
+	 * As BuddyPress supports older WordPress versions than 5.1 (4.9 & 5.0),
+	 * the BP REST API needs this function to be available.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param array|string $list List of values.
+	 * @return array Sanitized array of values.
+	 */
+	function wp_parse_list( $list ) {
+		if ( ! is_array( $list ) ) {
+			return preg_split( '/[\s,]+/', $list, -1, PREG_SPLIT_NO_EMPTY );
+		}
+
+		return $list;
+	}
+}
