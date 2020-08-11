@@ -3,7 +3,7 @@
  * Common template tags
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version 7.0.0
  */
 
 // Exit if accessed directly.
@@ -2035,7 +2035,18 @@ function bp_nouveau_current_object() {
 		$component['data_filter']      = bp_current_action();
 
 		if ( 'activity' !== bp_current_action() ) {
-			$component['data_filter'] = 'group_' . bp_current_action();
+			/**
+			 * If the Group's front page is not used, Activities are displayed on Group's home page.
+			 * To make sure filters are behaving the right way, we need to override the component object
+			 * and data filter to `activity`.
+			 */
+			if ( bp_is_group_activity() ) {
+				$activity_id              = buddypress()->activity->id;
+				$component['object']      = $activity_id;
+				$component['data_filter'] = $activity_id;
+			} else {
+				$component['data_filter'] = 'group_' . bp_current_action();
+			}
 		}
 
 	} else {
