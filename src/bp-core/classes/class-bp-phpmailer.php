@@ -43,7 +43,9 @@ class BP_PHPMailer implements BP_Email_Delivery {
 		 * WordPress 5.5 deprecated version 5.2 of PHPMailer
 		 * and is now using version 6.0 of PHPMailer.
 		 */
-		if ( file_exists( ABSPATH . WPINC . '/PHPMailer/PHPMailer.php' ) ) {
+		if ( bp_get_major_wp_version() >= 5.5 ) {
+			$phpmailer_is_6_0 = true;
+
 			if ( ! ( $phpmailer instanceof PHPMailer\PHPMailer\PHPMailer ) ) {
 				if ( ! class_exists( 'PHPMailer\\PHPMailer\\PHPMailer' ) ) {
 					require_once ABSPATH . WPINC . '/PHPMailer/PHPMailer.php';
@@ -51,8 +53,7 @@ class BP_PHPMailer implements BP_Email_Delivery {
 					require_once ABSPATH . WPINC . '/PHPMailer/Exception.php';
 				}
 
-				$phpmailer        = new PHPMailer\PHPMailer\PHPMailer( true );
-				$phpmailer_is_6_0 = true;
+				$phpmailer = new PHPMailer\PHPMailer\PHPMailer( true );
 			}
 		} else {
 			if ( ! ( $phpmailer instanceof PHPMailer ) ) {
