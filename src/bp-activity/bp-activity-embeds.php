@@ -267,7 +267,7 @@ EOD;
 			$float_width = 350;
 
 			// Set up thumb.
-			$content = sprintf( '<div class="thumb" style="max-width:%1$spx">%2$s<a href="%3$s" rel="nofollow" onclick="top.location.href=\'%3$s\'"><img src="%4$s" /></a></div>', $thumb_width, $play_icon, esc_url( $url ), esc_url( $thumbnail ) );
+			$content = sprintf( '<div class="thumb" style="max-width:%1$spx">%2$s<a href="%3$s" rel="nofollow" onclick="top.location.href=\'%3$s\'"><img src="%4$s" alt="" /></a></div>', $thumb_width, $play_icon, esc_url( $url ), esc_url( $thumbnail ) );
 
 			// Show title.
 			if ( isset( $oembed->title ) ) {

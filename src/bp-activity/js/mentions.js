@@ -232,7 +232,7 @@ window.bp = window.bp || {};
 
 			at:         '@',
 			searchKey:  'search',
-			displayTpl: '<li data-value="@${ID}"><img src="${image}" /><span class="username">@${ID}</span><small>${name}</small></li>'
+			displayTpl: '<li data-value="@${ID}"><img src="${image}" alt="" /><span class="username">@${ID}</span><small>${name}</small></li>'
 		},
 
 		opts = $.extend( true, {}, suggestionsDefaults, mentionsDefaults, options );
