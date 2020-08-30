@@ -23,3 +23,6 @@ npm-debug.log
 
 # The build directory.
 build
+
+# The custom Docker config file.
+.wp-env.override.json

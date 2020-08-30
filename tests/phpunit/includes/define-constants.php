@@ -20,7 +20,10 @@ if ( ! defined( 'BP_TESTS_DIR' ) ) {
  * - Assume that we are inside of a develop.svn.wordpress.org setup, and walk
  *   up the directory tree
  */
-if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
+if ( false !== getenv( 'WP_PHPUNIT__DIR' ) ) {
+	define( 'WP_TESTS_DIR', getenv( 'WP_PHPUNIT__DIR' ) );
+	define( 'WP_ROOT_DIR', '/var/www/html' );
+} elseif ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 	define( 'WP_TESTS_DIR', getenv( 'WP_TESTS_DIR' ) );
 	define( 'WP_ROOT_DIR', WP_TESTS_DIR );
 } else {
@@ -34,20 +37,22 @@ if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 	define( 'WP_TESTS_DIR', WP_ROOT_DIR . '/tests/phpunit' );
 }
 
-// Based on the tests directory, look for a config file
-if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
-	// Standard develop.svn.wordpress.org setup
-	define( 'WP_TESTS_CONFIG_PATH', WP_ROOT_DIR . '/wp-tests-config.php' );
+if ( ! defined( 'WP_TESTS_CONFIG_FILE_PATH' ) ) {
+	// Based on the tests directory, look for a config file
+	if ( file_exists( WP_ROOT_DIR . '/wp-tests-config.php' ) ) {
+		// Standard develop.svn.wordpress.org setup
+		define( 'WP_TESTS_CONFIG_PATH', WP_ROOT_DIR . '/wp-tests-config.php' );
 
-} elseif ( file_exists( WP_TESTS_DIR . '/wp-tests-config.php' ) ) {
-	// Legacy unit-test.svn.wordpress.org setup
-	define( 'WP_TESTS_CONFIG_PATH', WP_TESTS_DIR . '/wp-tests-config.php' );
+	} elseif ( file_exists( WP_TESTS_DIR . '/wp-tests-config.php' ) ) {
+		// Legacy unit-test.svn.wordpress.org setup
+		define( 'WP_TESTS_CONFIG_PATH', WP_TESTS_DIR . '/wp-tests-config.php' );
 
-} elseif ( file_exists( dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' ) ) {
-	// Environment variable exists and points to tests/phpunit of
-	// develop.svn.wordpress.org setup
-	define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' );
+	} elseif ( file_exists( dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' ) ) {
+		// Environment variable exists and points to tests/phpunit of
+		// develop.svn.wordpress.org setup
+		define( 'WP_TESTS_CONFIG_PATH', dirname( dirname( WP_TESTS_DIR ) ) . '/wp-tests-config.php' );
 
-} else {
-	die( "wp-tests-config.php could not be found.\n" );
+	} else {
+		die( "wp-tests-config.php could not be found.\n" );
+	}
 }

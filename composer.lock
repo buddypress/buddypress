@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90ce29c17b18d6e1939f860a2a0dd560",
+    "content-hash": "d9a5fdcffcb85a344a7717fa092b72d0",
     "packages": [
         {
             "name": "composer/installers",
@@ -404,6 +404,49 @@
                 "standards"
             ],
             "time": "2018-09-23T23:08:17+00:00"
+        },
+        {
+            "name": "wp-phpunit/wp-phpunit",
+            "version": "5.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wp-phpunit/wp-phpunit.git",
+                "reference": "5cf5a40954b8c47941afdc08b0000ce42efe5993"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wp-phpunit/wp-phpunit/zipball/5cf5a40954b8c47941afdc08b0000ce42efe5993",
+                "reference": "5cf5a40954b8c47941afdc08b0000ce42efe5993",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "__loaded.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Evan Mattson",
+                    "email": "me@aaemnnost.tv"
+                },
+                {
+                    "name": "WordPress Community",
+                    "homepage": "https://wordpress.org/about/"
+                }
+            ],
+            "description": "WordPress core PHPUnit library",
+            "homepage": "https://github.com/wp-phpunit",
+            "keywords": [
+                "phpunit",
+                "test",
+                "wordpress"
+            ],
+            "time": "2020-08-12T15:43:21+00:00"
         }
     ],
     "aliases": [],
