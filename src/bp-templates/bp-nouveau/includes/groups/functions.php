@@ -363,9 +363,16 @@ function bp_nouveau_group_setup_nav() {
 }
 
 /**
+ * Includes a message into the sent invitation email.
+ *
  * @since 3.0.0
+ * @deprecated 7.0.0
+ *
+ * @param string $message The message to send with the invite
  */
 function bp_nouveau_groups_invites_custom_message( $message = '' ) {
+	_deprecated_function( __FUNCTION__, '7.0.0' );
+
 	if ( empty( $message ) ) {
 		return $message;
 	}
