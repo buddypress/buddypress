@@ -143,7 +143,7 @@ function bp_core_admin_slugs_options() {
 								'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
 							) ); ?>
 
-							<?php if ( !empty( $existing_pages[$name] ) ) : ?>
+							<?php if ( ! empty( $existing_pages[ $name ] ) && get_post( $existing_pages[ $name ] ) ) : ?>
 
 								<a href="<?php echo esc_url( get_permalink( $existing_pages[$name] ) ); ?>" class="button-secondary" target="_bp">
 									<?php _e( 'View', 'buddypress' ); ?> <span class="dashicons dashicons-external" aria-hidden="true"></span>
@@ -227,7 +227,7 @@ function bp_core_admin_slugs_options() {
 								'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
 							) ) ?>
 
-							<?php if ( !empty( $existing_pages[$name] ) ) : ?>
+							<?php if ( ! empty( $existing_pages[ $name ] ) && get_post( $existing_pages[ $name ] ) ) : ?>
 
 								<a href="<?php echo get_permalink( $existing_pages[$name] ); ?>" class="button-secondary" target="_bp"><?php _e( 'View', 'buddypress' ); ?></a>
 
