@@ -14,20 +14,24 @@
  */
 function groups_screen_group_request_membership() {
 
-	if ( !is_user_logged_in() )
+	if ( ! is_user_logged_in() ) {
 		return false;
+	}
 
 	$bp = buddypress();
 
-	if ( 'private' != $bp->groups->current_group->status )
+	if ( 'private' != $bp->groups->current_group->status ) {
 		return false;
+	}
 
 	// If the user is already invited, accept invitation.
 	if ( groups_check_user_has_invite( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
-		if ( groups_accept_invite( bp_loggedin_user_id(), $bp->groups->current_group->id ) )
+		if ( groups_accept_invite( bp_loggedin_user_id(), $bp->groups->current_group->id ) ) {
 			bp_core_add_message( __( 'Group invite accepted', 'buddypress' ) );
-		else
+		} else {
 			bp_core_add_message( __( 'There was an error accepting the group invitation. Please try again.', 'buddypress' ), 'error' );
+		}
+
 		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
 	}
 
@@ -35,10 +39,22 @@ function groups_screen_group_request_membership() {
 	if ( isset( $_POST['group-request-send']) ) {
 
 		// Check the nonce.
-		if ( !check_admin_referer( 'groups_request_membership' ) )
+		if ( ! check_admin_referer( 'groups_request_membership' ) ) {
 			return false;
+		}
 
-		if ( !groups_send_membership_request( [ 'user_id' => bp_loggedin_user_id(), 'group_id' => $bp->groups->current_group->id ] ) ) {
+		// Default arguments for the membership request.
+		$request_args = array(
+			'user_id'  => bp_loggedin_user_id(),
+			'group_id' => $bp->groups->current_group->id
+		);
+
+		// If the member added a message to their request include it into the request arguments.
+		if ( isset( $_POST['group-request-membership-comments'] ) && $_POST['group-request-membership-comments'] ) {
+			$request_args['content'] = strip_tags( wp_unslash( $_POST['group-request-membership-comments'] ) );
+		}
+
+		if ( ! groups_send_membership_request( $request_args ) ) {
 			bp_core_add_message( __( 'There was an error sending your group membership request. Please try again.', 'buddypress' ), 'error' );
 		} else {
 			bp_core_add_message( __( 'Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request.', 'buddypress' ) );
