@@ -151,8 +151,13 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 		'user_id'    => $requesting_user_id,
 		'item_id'    => $group_id,
 	) );
+
 	if ( $requests ) {
 		$request_message = current( $requests )->content;
+
+		if ( $request_message ) {
+			$request_message = "\n" . $request_message . "\n";
+		}
 	}
 
 	$group = groups_get_group( $group_id );
