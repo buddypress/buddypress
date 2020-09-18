@@ -998,46 +998,23 @@ class BP_Members_Admin {
 		<?php endif; ?>
 
 		<div class="wrap" id="community-profile-page">
-			<?php if ( version_compare( $GLOBALS['wp_version'], '4.8', '>=' ) ) : ?>
+			<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
 
-				<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
+			<?php if ( empty( $this->is_self_profile ) ) : ?>
 
-				<?php if ( empty( $this->is_self_profile ) ) : ?>
+				<?php if ( current_user_can( 'create_users' ) ) : ?>
 
-					<?php if ( current_user_can( 'create_users' ) ) : ?>
+					<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
 
-						<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
+				<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
 
-					<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
-
-						<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
-
-					<?php endif; ?>
+					<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
 
 				<?php endif; ?>
 
-				<hr class="wp-header-end">
-
-			<?php else : ?>
-
-				<h1><?php echo esc_html( $title ); ?>
-
-					<?php if ( empty( $this->is_self_profile ) ) : ?>
-
-						<?php if ( current_user_can( 'create_users' ) ) : ?>
-
-							<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
-
-						<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
-
-							<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
-
-						<?php endif; ?>
-
-					<?php endif; ?>
-				</h1>
-
 			<?php endif; ?>
+
+			<hr class="wp-header-end">
 
 			<?php if ( ! empty( $user ) ) :
 
@@ -2076,49 +2053,24 @@ class BP_Members_Admin {
 		?>
 
 		<div class="wrap">
-			<?php if ( version_compare( $GLOBALS['wp_version'], '4.8', '>=' ) ) : ?>
+			<h1 class="wp-heading-inline"><?php _e( 'Users', 'buddypress' ); ?></h1>
 
-				<h1 class="wp-heading-inline"><?php _e( 'Users', 'buddypress' ); ?></h1>
+			<?php if ( current_user_can( 'create_users' ) ) : ?>
 
-				<?php if ( current_user_can( 'create_users' ) ) : ?>
+				<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
 
-					<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
+			<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
 
-				<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
+				<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
 
-					<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
+			<?php endif;
 
-				<?php endif;
+			if ( $usersearch ) {
+				printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
+			}
+			?>
 
-				if ( $usersearch ) {
-					printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
-				}
-				?>
-
-				<hr class="wp-header-end">
-
-			<?php else : ?>
-
-				<h1><?php _e( 'Users', 'buddypress' ); ?>
-
-					<?php if ( current_user_can( 'create_users' ) ) : ?>
-
-						<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
-
-					<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
-
-						<a href="user-new.php" class="add-new-h2"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
-
-					<?php endif;
-
-					if ( $usersearch ) {
-						printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
-					}
-
-					?>
-				</h1>
-
-			<?php endif; ?>
+			<hr class="wp-header-end">
 
 			<?php // Display each signups on its own row. ?>
 			<?php $bp_members_signup_list_table->views(); ?>

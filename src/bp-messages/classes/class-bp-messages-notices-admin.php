@@ -183,16 +183,8 @@ class BP_Messages_Notices_Admin {
 		$this->list_table->prepare_items();
 		?>
 		<div class="wrap">
-			<?php if ( version_compare( $GLOBALS['wp_version'], '4.8', '>=' ) ) : ?>
-
-				<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Site Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
-				<hr class="wp-header-end">
-
-			<?php else : ?>
-
-				<h1><?php echo esc_html_x( 'Site Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
-
-			<?php endif; ?>
+			<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Site Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
+			<hr class="wp-header-end">
 
 			<p class="bp-notice-about"><?php esc_html_e( 'Manage notices shown at front end of your site to all logged-in users.', 'buddypress' ); ?></p>
 
