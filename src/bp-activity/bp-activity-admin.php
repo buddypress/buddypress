@@ -669,7 +669,9 @@ function bp_activity_admin_delete() {
 	$base_url = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'aid' ), $_SERVER['REQUEST_URI'] ); ?>
 
 	<div class="wrap">
-		<h1><?php esc_html_e( 'Delete Activities', 'buddypress' ) ?></h1>
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'Delete Activities', 'buddypress' ) ?></h1>
+		<hr class="wp-header-end">
+
 		<p><?php esc_html_e( 'You are about to delete the following activities:', 'buddypress' ) ?></p>
 
 		<ul class="bp-activity-delete-list">
@@ -756,12 +758,14 @@ function bp_activity_admin_edit() {
 	do_action_ref_array( 'bp_activity_admin_edit', array( &$activity ) ); ?>
 
 	<div class="wrap">
-		<h1>
+		<h1 class="wp-heading-inline">
 			<?php
 			/* translators: %s: the activity ID */
 			printf( __( 'Editing Activity (ID #%s)', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) );
 			?>
 		</h1>
+
+		<hr class="wp-header-end">
 
 		<?php if ( ! empty( $activity ) ) : ?>
 
@@ -1149,7 +1153,7 @@ function bp_activity_admin_index() {
 	do_action( 'bp_activity_admin_index', $messages ); ?>
 
 	<div class="wrap">
-		<h1>
+		<h1 class="wp-heading-inline">
 			<?php if ( !empty( $_REQUEST['aid'] ) ) : ?>
 				<?php
 				/* translators: %s: the activity ID */
@@ -1168,6 +1172,8 @@ function bp_activity_admin_index() {
 				</span>
 			<?php endif; ?>
 		</h1>
+
+		<hr class="wp-header-end">
 
 		<?php // If the user has just made a change to an activity item, display the status messages. ?>
 		<?php if ( !empty( $messages ) ) : ?>

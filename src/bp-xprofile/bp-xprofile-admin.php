@@ -444,7 +444,9 @@ function xprofile_admin_delete_group_screen( $group_id ) {
 	$base_url = remove_query_arg( array( 'mode', 'group_id', '_wpnonce' ), $_SERVER['REQUEST_URI'] ); ?>
 
 	<div class="wrap">
-		<h1><?php esc_html_e( 'Delete Field Group', 'buddypress' ) ?></h1>
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'Delete Field Group', 'buddypress' ) ?></h1>
+		<hr class="wp-header-end">
+
 		<p><?php esc_html_e( 'You are about to delete the following field group:', 'buddypress' ) ?></p>
 
 		<ul class="bp-xprofile-delete-group-list">
@@ -653,7 +655,7 @@ function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
 	$base_url = remove_query_arg( array( 'mode', 'field_id', 'bp_xprofile_delete_field' ), $_SERVER['REQUEST_URI'] ); ?>
 
 	<div class="wrap">
-		<h1>
+		<h1 class="wp-heading-inline">
 			<?php
 			printf(
 				/* translators: %s is the field type name. */
@@ -662,6 +664,9 @@ function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
 			);
 			?>
 		</h1>
+
+		<hr class="wp-header-end">
+
 		<p>
 			<?php
 			printf(

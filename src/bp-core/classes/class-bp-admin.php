@@ -828,7 +828,8 @@ class BP_Admin {
 
 		<div class="wrap bp-about-wrap">
 
-		<h1><?php esc_html_e( 'BuddyPress Settings', 'buddypress' ); ?> </h1>
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'BuddyPress Settings', 'buddypress' ); ?></h1>
+		<hr class="wp-header-end">
 
 		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( esc_html__( 'Credits', 'buddypress' ) ); ?></h2>
 

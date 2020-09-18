@@ -697,7 +697,9 @@ function bp_groups_admin_delete() {
 	$base_url  = remove_query_arg( array( 'action', 'action2', 'paged', 's', '_wpnonce', 'gid' ), $_SERVER['REQUEST_URI'] ); ?>
 
 	<div class="wrap">
-		<h1><?php _e( 'Delete Groups', 'buddypress' ) ?></h1>
+		<h1 class="wp-heading-inline"><?php _e( 'Delete Groups', 'buddypress' ) ?></h1>
+		<hr class="wp-header-end">
+
 		<p><?php _e( 'You are about to delete the following groups:', 'buddypress' ) ?></p>
 
 		<ul class="bp-group-delete-list">

@@ -2195,7 +2195,9 @@ class BP_Members_Admin {
 		?>
 
 		<div class="wrap">
-			<h1><?php echo esc_html( $header_text ); ?></h1>
+			<h1 class="wp-heading-inline"><?php echo esc_html( $header_text ); ?></h1>
+			<hr class="wp-header-end">
+
 			<p><?php echo esc_html( $helper_text ); ?></p>
 
 			<ol class="bp-signups-list">
