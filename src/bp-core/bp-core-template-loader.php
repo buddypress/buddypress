@@ -18,14 +18,16 @@ defined( 'ABSPATH' ) || exit;
  * Get a BuddyPress template part for display in a theme.
  *
  * @since 1.7.0
+ * @since 7.0.0 Added $args parameter.
  *
  * @param string      $slug Template part slug. Used to generate filenames,
  *                          eg 'friends' for 'friends.php'.
  * @param string|null $name Optional. Template part name. Used to generate
  *                          secondary filenames, eg 'personal' for 'activity-personal.php'.
+ * @param array       $args Optional. Extra args to pass to locate_template().
  * @return false|string Path to located template. See {@link bp_locate_template()}.
  */
-function bp_get_template_part( $slug, $name = null ) {
+function bp_get_template_part( $slug, $name = null, $args = array() ) {
 
 	/**
 	 * Fires at the start of bp_get_template_part().
@@ -33,11 +35,13 @@ function bp_get_template_part( $slug, $name = null ) {
 	 * This is a variable hook that is dependent on the slug passed in.
 	 *
 	 * @since 1.7.0
+	 * @since 7.0.0 Added $args parameter.
 	 *
 	 * @param string $slug Template part slug requested.
 	 * @param string $name Template part name requested.
+	 * @param array  $args Extra args to pass to locate_template().
 	 */
-	do_action( 'get_template_part_' . $slug, $slug, $name );
+	do_action( 'get_template_part_' . $slug, $slug, $name, $args );
 
 	// Setup possible parts.
 	$templates = array();
@@ -50,15 +54,17 @@ function bp_get_template_part( $slug, $name = null ) {
 	 * Filters the template parts to be loaded.
 	 *
 	 * @since 1.7.0
+	 * @since 7.0.0 Added $args parameter.
 	 *
 	 * @param array  $templates Array of templates located.
 	 * @param string $slug      Template part slug requested.
 	 * @param string $name      Template part name requested.
+	 * @param array  $args      Extra args to pass to locate_template().
 	 */
-	$templates = apply_filters( 'bp_get_template_part', $templates, $slug, $name );
+	$templates = apply_filters( 'bp_get_template_part', $templates, $slug, $name, $args );
 
 	// Return the part that is found.
-	return bp_locate_template( $templates, true, false );
+	return bp_locate_template( $templates, true, false, $args );
 }
 
 /**
@@ -68,15 +74,17 @@ function bp_get_template_part( $slug, $name = null ) {
  * prepended to the slug.
  *
  * @since 2.6.0
+ * @since 7.0.0 Added $args parameter.
  *
  * @see bp_get_template_part() for full documentation.
  *
  * @param string      $slug Template slug.
  * @param string|null $name Template name.
+ * @param array       $args Optional. Extra args to pass to locate_template().
  * @return false|string
  */
-function bp_get_asset_template_part( $slug, $name = null ) {
-	return bp_get_template_part( "assets/{$slug}", $name );
+function bp_get_asset_template_part( $slug, $name = null, $args = array() ) {
+	return bp_get_template_part( "assets/{$slug}", $name, $args );
 }
 
 /**
@@ -87,15 +95,17 @@ function bp_get_asset_template_part( $slug, $name = null ) {
  * not found in either of those, it looks in the theme-compat folder last.
  *
  * @since 1.7.0
+ * @since 7.0.0 Added $args parameter.
  *
  * @param string|array $template_names Template file(s) to search for, in order.
  * @param bool         $load           Optional. If true, the template file will be loaded when
  *                                     found. If false, the path will be returned. Default: false.
  * @param bool         $require_once   Optional. Whether to require_once or require. Has
  *                                     no effect if $load is false. Default: true.
+ * @param array        $args           Optional. Extra args to pass to locate_template().
  * @return string The template filename if one is located.
  */
-function bp_locate_template( $template_names, $load = false, $require_once = true ) {
+function bp_locate_template( $template_names, $load = false, $require_once = true, $args = array() ) {
 
 	// Bail when there are no templates to locate.
 	if ( empty( $template_names ) ) {
@@ -140,7 +150,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	 * If you want to override a specific template part, please either filter
 	 * 'bp_get_template_part' or add a new location to the template stack.
 	 */
-	do_action( 'bp_locate_template', $located, $template_name, $template_names, $template_locations, $load, $require_once );
+	do_action( 'bp_locate_template', $located, $template_name, $template_names, $template_locations, $load, $require_once, $args );
 
 	/**
 	 * Filter here to allow/disallow template loading.
@@ -152,7 +162,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	$load_template = (bool) apply_filters( 'bp_locate_template_and_load', true );
 
 	if ( $load_template && $load && ! empty( $located ) ) {
-		load_template( $located, $require_once );
+		load_template( $located, $require_once, $args );
 	}
 
 	return $located;
@@ -320,22 +330,24 @@ function bp_get_template_stack() {
  * Put a template part into an output buffer, and return it.
  *
  * @since 1.7.0
+ * @since 7.0.0 Added $args parameter.
  *
- * @see bp_get_template_part() for a description of $slug and $name params.
+ * @see bp_get_template_part() for a description of $slug, $name and $args params.
  *
  * @param string      $slug See {@link bp_get_template_part()}.
  * @param string|null $name See {@link bp_get_template_part()}.
  * @param bool        $echo If true, template content will be echoed. If false,
  *                          returned. Default: true.
+ * @param array       $args See {@link bp_get_template_part()}.
  * @return string|null If $echo, returns the template content.
  */
-function bp_buffer_template_part( $slug, $name = null, $echo = true ) {
+function bp_buffer_template_part( $slug, $name = null, $echo = true, $args = array() ) {
 	ob_start();
 
 	// Remove 'bp_replace_the_content' filter to prevent infinite loops.
 	remove_filter( 'the_content', 'bp_replace_the_content' );
 
-	bp_get_template_part( $slug, $name );
+	bp_get_template_part( $slug, $name, $args );
 
 	// Remove 'bp_replace_the_content' filter to prevent infinite loops.
 	add_filter( 'the_content', 'bp_replace_the_content' );
