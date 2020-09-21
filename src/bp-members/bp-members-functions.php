@@ -2646,6 +2646,92 @@ function bp_member_type_tax_name() {
 	}
 
 /**
+ * Returns labels used by the member type taxonomy.
+ *
+ * @since 7.0.0
+ *
+ * @return array
+ */
+function bp_get_member_type_tax_labels() {
+
+	/**
+	 * Filters Member type taxonomy labels.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param array $value Associative array (name => label).
+	 */
+	return apply_filters(
+		'bp_get_member_type_tax_labels',
+		array(
+			'name'                       => _x( 'Member types', 'Member type taxonomy name', 'buddypress' ),
+			'singular_name'              => _x( 'Member type', 'Member type taxonomy singular name', 'buddypress' ),
+			'search_items'               => _x( 'Search Member types', 'Member type taxonomy search items label', 'buddypress' ),
+			'popular_items'              => _x( 'Most used Member types', 'Member type taxonomy popular items label', 'buddypress' ),
+			'all_items'                  => _x( 'All Member types', 'Member type taxonomy all items label', 'buddypress' ),
+			'edit_item'                  => _x( 'Edit Member type', 'Member type taxonomy edit item label', 'buddypress' ),
+			'view_item'                  => _x( 'View Member type', 'Member type taxonomy view item label', 'buddypress' ),
+			'update_item'                => _x( 'Update Member type', 'Member type taxonomy update item label', 'buddypress' ),
+			'add_new_item'               => _x( 'Add new Member type', 'Member type taxonomy add new item label', 'buddypress' ),
+			'new_item_name'              => _x( 'New Member type name', 'Member type taxonomy new item name label', 'buddypress' ),
+			'separate_items_with_commas' => _x( 'Separate Member types with commas', 'Member type taxonomy separate items with commas label', 'buddypress' ),
+			'add_or_remove_items'        => _x( 'Add or remove Member types', 'Member type taxonomy add or remove items label', 'buddypress' ),
+			'choose_from_most_used'      => _x( 'Choose from the most used Member types', 'Member type taxonomy choose from most used label', 'buddypress' ),
+			'not_found'                  => _x( 'No Member types found', 'Member type taxonomy not found label', 'buddypress' ),
+			'no_terms'                   => _x( 'No Member types', 'Member type taxonomy no terms label', 'buddypress' ),
+			'items_list_navigation'      => _x( 'Member types list navigation', 'Member type taxonomy items list navigation label', 'buddypress' ),
+			'items_list'                 => _x( 'Member types list', 'Member type taxonomy items list label', 'buddypress' ),
+			'back_to_items'              => _x( 'Back to all Member types', 'Member type taxonomy back to items label', 'buddypress' ),
+			// Specific to BuddyPress.
+			'bp_type_id_label'           => _x( 'Member Type ID', 'BP Member type ID label', 'buddypress' ),
+			'bp_type_id_description'     => _x( 'Enter a lower-case string without spaces or special characters (used internally to identify the member type).', 'BP Member type ID description', 'buddypress' ),
+		)
+	);
+}
+
+/**
+ * Returns arguments used by the Member type taxonomy.
+ *
+ * @since 7.0.0
+ *
+ * @return array
+ */
+function bp_get_member_type_tax_args() {
+
+	/**
+	 * Filters Member type taxonomy args.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param array $value Associative array (key => arg).
+	 */
+	return apply_filters(
+		'bp_get_member_type_tax_args',
+		array_merge(
+			array(
+				'description' => _x( 'BuddyPress Member types', 'Member type taxonomy description', 'buddypress' ),
+				'labels'      => array_merge( bp_get_member_type_tax_labels(), bp_get_taxonomy_common_labels() ),
+			),
+			bp_get_taxonomy_common_args()
+		)
+	);
+}
+
+/**
+ * Registers the Member type metadata.
+ *
+ * @since 7.0.0
+ */
+function bp_register_member_type_metadata() {
+	$type_taxonomy = bp_get_member_type_tax_name();
+
+	foreach ( bp_get_type_metadata_schema( false, $type_taxonomy ) as $meta_key => $meta_args ) {
+		bp_register_type_meta( $type_taxonomy, $meta_key, $meta_args );
+	}
+}
+add_action( 'bp_register_type_metadata', 'bp_register_member_type_metadata' );
+
+/**
  * Register a member type.
  *
  * @since 2.2.0

@@ -2937,6 +2937,41 @@ function bp_get_email_post_type_supports() {
 /** Taxonomies *****************************************************************/
 
 /**
+ * Returns the BP Taxonomy common arguments.
+ *
+ * @since 7.0.0
+ *
+ * @return array The BP Taxonomy common arguments.
+ */
+function bp_get_taxonomy_common_args() {
+	return array(
+		'public'        => false,
+		'show_in_rest'  => false,
+		'query_var'     => false,
+		'rewrite'       => false,
+		'show_in_menu'  => false,
+		'show_tagcloud' => false,
+		'show_ui'       => bp_is_root_blog() && bp_current_user_can( 'bp_moderate' ),
+	);
+}
+
+/**
+ * Returns the BP Taxonomy common labels.
+ *
+ * @since 7.0.0
+ *
+ * @return array The BP Taxonomy common labels.
+ */
+function bp_get_taxonomy_common_labels() {
+	return array(
+		'bp_type_name'           => _x( 'Name', 'BP Type name label', 'buddypress' ),
+		'bp_type_singular_name'  => _x( 'Singular name', 'BP Type singular name label', 'buddypress' ),
+		'bp_type_has_directory'  => _x( 'Add Type-Filtered Directory View', 'BP Type has directory checkbox label', 'buddypress' ),
+		'bp_type_directory_slug' => _x( 'Custom type directory slug', 'BP Type slug label', 'buddypress' ),
+	);
+}
+
+/**
  * Output the name of the email type taxonomy.
  *
  * @since 2.5.0
@@ -2998,6 +3033,115 @@ function bp_get_email_tax_type_labels() {
 	) );
 }
 
+/**
+ * Return arguments used by the email type taxonomy.
+ *
+ * @since 7.0.0
+ *
+ * @return array
+ */
+function bp_get_email_tax_type_args() {
+
+	/**
+	 * Filters emails type taxonomy args.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param array $value Associative array (key => arg).
+	 */
+	return apply_filters(
+		'bp_register_email_tax_type',
+		array_merge(
+			array(
+				'description'   => _x( 'BuddyPress email types', 'email type taxonomy description', 'buddypress' ),
+				'labels'        => bp_get_email_tax_type_labels(),
+				'meta_box_cb'   => 'bp_email_tax_type_metabox',
+			),
+			bp_get_taxonomy_common_args()
+		)
+	);
+}
+
+/**
+ * Returns the default BuddyPress type metadata schema.
+ *
+ * @since 7.0.0
+ *
+ * @param  boolean $suppress_filters Whether to suppress filters. Default `false`.
+ * @param  string  $type_taxonomy    Optional. the Type's taxonomy name.
+ * @return array                     The default BuddyPress type metadata schema.
+ */
+function bp_get_type_metadata_schema( $suppress_filters = false, $type_taxonomy = '' ) {
+	$schema = array(
+		'bp_type_name' => array(
+			'description'       => __( 'The name of your type, at the plural form.', 'buddypress' ),
+			'type'              => 'string',
+			'single'            => true,
+			'sanitize_callback' => 'sanitize_text_field',
+		),
+		'bp_type_singular_name' => array(
+			'description'       => __( 'The name of your type, at the singular form.', 'buddypress' ),
+			'type'              => 'string',
+			'single'            => true,
+			'sanitize_callback' => 'sanitize_text_field',
+		),
+		'bp_type_has_directory' => array(
+			'description'       => __( 'Add a list of members matching the member type available on the Members Directory page (e.g. site.url/members/type/teacher/).', 'buddypress' ),
+			'type'              => 'boolean',
+			'single'            => true,
+			'sanitize_callback' => 'absint',
+		),
+		'bp_type_directory_slug' => array(
+			'label'             => __( 'Custom type directory slug', 'buddypress' ),
+			'description'       => __( 'If you want to use a slug that is different from the Member Type ID above, enter it here.', 'buddypress' ),
+			'type'              => 'string',
+			'single'            => true,
+			'sanitize_callback' => 'sanitize_title',
+		),
+	);
+
+	if ( true === $suppress_filters ) {
+		return $schema;
+	}
+
+	/**
+	 * Filter here to add new meta to the BuddyPress type metadata.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param array  $schema        Associative array (name => arguments).
+	 * @param string $type_taxonomy The Type's taxonomy name.
+	 */
+	return apply_filters( 'bp_get_type_metadata_schema', $schema, $type_taxonomy );
+}
+
+/**
+ * Registers a meta key for BuddyPress types.
+ *
+ * @since 7.0.0
+ *
+ * @param string $type_tax The BuddyPress type taxonomy.
+ * @param string $meta_key The meta key to register.
+ * @param array  $args     Data used to describe the meta key when registered. See
+ *                         {@see register_meta()} for a list of supported arguments.
+ * @return bool True if the meta key was successfully registered, false if not.
+ */
+function bp_register_type_meta( $type_tax, $meta_key, array $args ) {
+	$taxonomies = wp_list_pluck( bp_get_default_taxonomies(), 'component' );
+
+	if ( ! isset( $taxonomies[ $type_tax ] ) ) {
+		return false;
+	}
+
+	// register_term_meta() was introduced in WP 4.9.8.
+	if ( ! function_exists( 'register_term_meta' ) ) {
+		$args['object_subtype'] = $type_tax;
+
+		return register_meta( 'term', $meta_key, $args );
+	}
+
+	return register_term_meta( $type_tax, $meta_key, $args );
+}
 
 /** Email *****************************************************************/
 

@@ -15,32 +15,57 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Returns default BuddyPress taxonomies.
+ *
+ * @since 7.0.0
+ *
+ * @return array The BuddyPress default taxonomies.
+ */
+function bp_get_default_taxonomies() {
+	$taxonomies = array(
+		// Member Type.
+		bp_get_member_type_tax_name() => array(
+			'object'    => 'user',
+			'component' => 'members',
+			'args'      => bp_get_member_type_tax_args(),
+		),
+		// Email type.
+		bp_get_email_tax_type()       => array(
+			'object'    => bp_get_email_post_type(),
+			'component' => 'core',
+			'args'      => bp_get_email_tax_type_args(),
+		),
+	);
+
+	/**
+	 * This filter should only be used by built-in BuddyPress Components.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param array $taxonomies The taxonomy arguments used for WordPress registration.
+	 */
+	return apply_filters( 'bp_get_default_taxonomies', $taxonomies );
+}
+
+/**
  * Register our default taxonomies.
  *
  * @since 2.2.0
  */
 function bp_register_default_taxonomies() {
-	// Member Type.
-	register_taxonomy( bp_get_member_type_tax_name(), 'user', array(
-		'public' => false,
-	) );
+	$taxonomies = bp_get_default_taxonomies();
 
-	// Email type.
-	register_taxonomy(
-		bp_get_email_tax_type(),
-		bp_get_email_post_type(),
-		apply_filters( 'bp_register_email_tax_type', array(
-			'description'   => _x( 'BuddyPress email types', 'email type taxonomy description', 'buddypress' ),
-			'labels'        => bp_get_email_tax_type_labels(),
-			'meta_box_cb'   => 'bp_email_tax_type_metabox',
-			'public'        => false,
-			'query_var'     => false,
-			'rewrite'       => false,
-			'show_in_menu'  => false,
-			'show_tagcloud' => false,
-			'show_ui'       => bp_is_root_blog() && bp_current_user_can( 'bp_moderate' ),
-		) )
-	);
+	foreach ( $taxonomies as $taxonomy_name => $taxonomy_params ) {
+		if ( ! isset( $taxonomy_params['object'] ) || ! isset( $taxonomy_params['args'] ) ) {
+			continue;
+		}
+
+		register_taxonomy(
+			$taxonomy_name,
+			$taxonomy_params['object'],
+			$taxonomy_params['args']
+		);
+	}
 }
 add_action( 'bp_register_taxonomies', 'bp_register_default_taxonomies' );
 

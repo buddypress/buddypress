@@ -96,6 +96,21 @@ function bp_register_taxonomies() {
 }
 
 /**
+ * Fire the 'bp_register_type_metadata' action, where plugins should register metadata for their custom BuddyPress types.
+ *
+ * @since 7.0.0
+ */
+function bp_register_type_metadata() {
+
+	/**
+	 * Fires inside the 'bp_register_type_metadata' function, where plugins should register metadata for their custom BuddyPress types.
+	 *
+	 * @since 7.0.0
+	 */
+	do_action( 'bp_register_type_metadata' );
+}
+
+/**
  * Fire the 'bp_register_post_types' action, where plugins should register post types.
  *
  * @since 2.5.0
