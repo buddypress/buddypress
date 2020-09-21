@@ -14,11 +14,14 @@
 defined( 'ABSPATH' ) || exit;
 
 // Include WP's list table class.
-if ( !class_exists( 'WP_List_Table' ) ) require( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+if ( ! class_exists( 'WP_List_Table' ) ) {
+	require ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
+}
 
 // The per_page screen option. Has to be hooked in extremely early.
-if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-groups' == $_REQUEST['page'] )
+if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-groups' == $_REQUEST['page'] ) {
 	add_filter( 'set-screen-option', 'bp_groups_admin_screen_options', 10, 3 );
+}
 
 /**
  * Register the Groups component admin screen.
@@ -41,6 +44,63 @@ function bp_groups_add_admin_menu() {
 	add_action( "load-$hook", 'bp_groups_admin_load' );
 }
 add_action( bp_core_admin_hook(), 'bp_groups_add_admin_menu' );
+
+/**
+ * Redirects the user on the Goups network admin screen when BuddyPress is network activated.
+ *
+ * @since 7.0.0
+ */
+function bp_group_site_admin_network_admin_redirect() {
+	wp_safe_redirect( add_query_arg( 'page', 'bp-groups', network_admin_url( 'admin.php' ) ) );
+	exit();
+}
+
+/**
+ * Create Groups submenu to manage BuddyPress types.
+ *
+ * @since 7.0.0
+ */
+function bp_groups_admin_types_menu() {
+	if ( ! bp_is_root_blog() ) {
+		return;
+	}
+
+	if ( bp_is_network_activated() && is_network_admin() ) {
+		// Adds a 'bp-groups' submenu to go to the root blog Group types screen.
+		$group_type_admin_url = add_query_arg( 'taxonomy', 'bp_group_type', get_admin_url( bp_get_root_blog_id(), 'edit-tags.php' ) );
+		add_submenu_page(
+			'bp-groups',
+			__( 'Group types', 'buddypress' ),
+			__( 'Group types', 'buddypress' ),
+			'bp_moderate',
+			esc_url( $group_type_admin_url )
+		);
+	} elseif ( ! is_network_admin() ) {
+		if ( is_multisite() ) {
+			// Adds a 'bp-groups' menu to the root blog menu.
+			$redirect_hook = add_menu_page(
+				_x( 'Groups', 'Admin Groups page title', 'buddypress' ),
+				_x( 'Groups', 'Admin Groups menu', 'buddypress' ),
+				'bp_moderate',
+				'bp-groups',
+				'__return_empty_string',
+				'div'
+			);
+
+			add_action( "load-{$redirect_hook}", 'bp_group_site_admin_network_admin_redirect' );
+		}
+
+		// Add the submenu to manage Group Types.
+		add_submenu_page(
+			'bp-groups',
+			__( 'Group types', 'buddypress' ),
+			__( 'Group types', 'buddypress' ),
+			'bp_moderate',
+			basename( add_query_arg( 'taxonomy', 'bp_group_type', bp_get_admin_url( 'edit-tags.php' ) ) )
+		);
+	}
+}
+add_action( 'bp_admin_menu', 'bp_groups_admin_types_menu' );
 
 /**
  * Add groups component to custom menus array.
@@ -1379,3 +1439,51 @@ function bp_groups_admin_groups_type_change_notice() {
 	}
 }
 add_action( bp_core_admin_hook(), 'bp_groups_admin_groups_type_change_notice' );
+
+/**
+ * Checks whether a group type already exists.
+ *
+ * @since 7.0.0
+ *
+ * @param  boolean $exists  True if the group type already exists. False otherwise.
+ * @param  string  $type_id The group type identifier.
+ * @return boolean          True if the group type already exists. False otherwise.
+ */
+function bp_groups_type_admin_type_exists( $exists = false, $type_id = '' ) {
+	if ( ! $type_id ) {
+		return $exists;
+	}
+
+	return ! is_null( bp_groups_get_group_type_object( $type_id ) );
+}
+add_filter( bp_get_group_type_tax_name() . '_check_existing_type', 'bp_groups_type_admin_type_exists', 1, 2 );
+
+/**
+ * Set the feedback messages for the Group Types Admin actions.
+ *
+ * @since 7.0.0
+ *
+ * @param array  $messages The feedback messages.
+ * @return array           The feedback messages including the ones for the Group Types Admin actions.
+ */
+function bp_groups_type_admin_updated_messages( $messages = array() ) {
+	$type_taxonomy = bp_get_group_type_tax_name();
+
+	$messages[ $type_taxonomy ] = array(
+		0  => '',
+		1  => __( 'Please define the Group Type ID field.', 'buddypress' ),
+		2  => __( 'Group type successfully added.', 'buddypress' ),
+		3  => __( 'Sorry, there was an error and the Group type wasn’t added.', 'buddypress' ),
+		// The following one needs to be != 5.
+		4  => __( 'Group type successfully updated.', 'buddypress' ),
+		5  => __( 'Sorry, this Group type already exists.', 'buddypress' ),
+		6  => __( 'Sorry, the Group type was not deleted: it does not exist.', 'buddypress' ),
+		7  => __( 'Sorry, This Group type is registered using code, deactivate the plugin or remove the custom code before trying to delete it again.', 'buddypress' ),
+		8  => __( 'Sorry, there was an error while trying to delete this Group type.', 'buddypress' ),
+		9  => __( 'Group type successfully deleted.', 'buddypress' ),
+		10 => __( 'Group type could not be updated due to missing required information.', 'buddypress' ),
+	);
+
+	return $messages;
+}
+add_filter( 'term_updated_messages', 'bp_groups_type_admin_updated_messages' );

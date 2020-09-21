@@ -924,12 +924,12 @@ class BP_Groups_Component extends BP_Component {
 	 * Set up taxonomies.
 	 *
 	 * @since 2.6.0
+	 * @since 7.0.0 The Group Type taxonomy is registered using the `bp_groups_register_group_type_taxonomy()` function.
 	 */
 	public function register_taxonomies() {
-		// Group Type.
-		register_taxonomy( 'bp_group_type', 'bp_group', array(
-			'public' => false,
-		) );
+
+		// Just let BP Component fire 'bp_groups_register_taxonomies'.
+		return parent::register_taxonomies();
 	}
 
 	/**
