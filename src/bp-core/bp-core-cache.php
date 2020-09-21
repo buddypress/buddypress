@@ -390,3 +390,28 @@ function bp_invitations_reset_cache_incrementor() {
 }
 add_action( 'bp_invitation_after_save', 'bp_invitations_reset_cache_incrementor' );
 add_action( 'bp_invitation_after_delete', 'bp_invitations_reset_cache_incrementor' );
+
+/**
+ * Add a cache group for Database object types.
+ *
+ * @since 7.0.0
+ */
+function bp_set_object_type_terms_cache_group() {
+	wp_cache_add_global_groups( 'bp_object_terms' );
+}
+add_action( 'bp_setup_cache_groups', 'bp_set_object_type_terms_cache_group' );
+
+/**
+ * Clear the Database object types cache.
+ *
+ * @since 7.0.0
+ *
+ * @param int $type_id The Type's term ID.
+ * @param string $taxonomy The Type's taxonomy name.
+ */
+function bp_clear_object_type_terms_cache( $type_id = 0, $taxonomy = '' ) {
+	wp_cache_delete( $taxonomy, 'bp_object_terms' );
+}
+add_action( 'bp_type_inserted', 'bp_clear_object_type_terms_cache' );
+add_action( 'bp_type_updated', 'bp_clear_object_type_terms_cache' );
+add_action( 'bp_type_deleted', 'bp_clear_object_type_terms_cache' );

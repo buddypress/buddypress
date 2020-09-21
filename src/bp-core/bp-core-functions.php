@@ -3143,6 +3143,120 @@ function bp_register_type_meta( $type_tax, $meta_key, array $args ) {
 	return register_term_meta( $type_tax, $meta_key, $args );
 }
 
+/**
+ * Update a list of metadata for a given type ID and a given taxonomy.
+ *
+ * @since 7.0.0
+ *
+ * @param  integer $type_id    The database ID of the BP Type.
+ * @param  string  $taxonomy   The BP Type taxonomy.
+ * @param  array   $type_metas An associative array (meta_key=>meta_value).
+ * @return boolean             False on failure. True otherwise.
+ */
+function bp_update_type_metadata( $type_id = 0, $taxonomy = '', $type_metas = array() ) {
+	if ( ! $type_id || ! $taxonomy || ! is_array( $type_metas ) ) {
+		return false;
+	}
+
+	foreach ( $type_metas as $meta_key => $meta_value ) {
+		if ( ! registered_meta_key_exists( 'term', $meta_key, $taxonomy ) ) {
+			continue;
+		}
+
+		update_term_meta( $type_id, $meta_key, $meta_value );
+	}
+
+	return true;
+}
+
+/**
+ * Get types for a given BP Taxonomy.
+ *
+ * @since 7.0.0
+ *
+ * @param string $taxonomy The taxonomy to transform terms in types for.
+ * @param array  $types    Existing types to merge with the types found into the database.
+ *                         For instance this function is used internally to merge Group/Member
+ *                         types registered using code with the ones created by the administrator
+ *                         from the Group/Member types Administration screen. If not provided, only
+ *                         Types created by the administrator will be returned.
+ *                         Optional.
+ * @return array           The types of the given taxonomy.
+ */
+function bp_get_taxonomy_types( $taxonomy = '', $types = array() ) {
+	if ( ! $taxonomy ) {
+		return $types;
+	}
+
+	$db_types = wp_cache_get( $taxonomy, 'bp_object_terms' );
+
+	if ( ! $db_types ) {
+		$terms = bp_get_terms(
+			array(
+				'taxonomy' => $taxonomy,
+			)
+		);
+
+		if ( ! is_array( $terms ) || ! $terms ) {
+			return $types;
+		}
+
+		$type_metadata = array_keys( get_registered_meta_keys( 'term', $taxonomy ) );
+
+		foreach ( $terms as $term ) {
+			$type_name                      = $term->name;
+			$db_types[ $type_name ]         = new stdClass();
+			$db_types[ $type_name ]->db_id  = $term->term_id;
+			$db_types[ $type_name ]->labels = array();
+			$db_types[ $type_name ]->name   = $type_name;
+
+			if ( $type_metadata ) {
+				foreach ( $type_metadata as $meta_key ) {
+					$type_key = str_replace( 'bp_type_', '', $meta_key );
+					if ( in_array( $type_key, array( 'name', 'singular_name' ), true ) ) {
+						$db_types[ $type_name ]->labels[ $type_key ] = get_term_meta( $term->term_id, $meta_key, true );
+					} else {
+						$db_types[ $type_name ]->{$type_key} = get_term_meta( $term->term_id, $meta_key, true );
+					}
+				}
+			}
+		}
+
+		wp_cache_set( $taxonomy, $db_types, 'bp_object_terms' );
+	}
+
+	if ( is_array( $db_types ) ) {
+		foreach ( $db_types as $db_type_name => $db_type ) {
+			// Override props of registered by code types if customized by the admun user.
+			if ( isset( $types[ $db_type_name ] ) && isset( $types[ $db_type_name ]->code ) && $types[ $db_type_name ]->code ) {
+				// Merge Labels.
+				if ( $db_type->labels ) {
+					foreach ( $db_type->labels as $key_label => $value_label ) {
+						if ( '' !== $value_label ) {
+							$types[ $db_type_name ]->labels[ $key_label ] = $value_label;
+						}
+					}
+				}
+
+				// Merge other properties.
+				foreach ( get_object_vars( $types[ $db_type_name ] ) as $key_prop => $value_prop ) {
+					if ( 'labels' === $key_prop || 'name' === $key_prop ) {
+						continue;
+					}
+
+					if ( isset( $db_type->{$key_prop} ) && '' !== $db_type->{$key_prop} ) {
+						$types[ $db_type_name  ]->{$key_prop} = $db_type->{$key_prop};
+					}
+				}
+
+				unset( $db_types[ $db_type_name ] );
+			}
+		}
+	}
+
+	return array_merge( $types, (array) $db_types );
+}
+
 /** Email *****************************************************************/
 
 /**
