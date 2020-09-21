@@ -175,6 +175,9 @@ class BP_Admin {
 		// BuddyPress Hello.
 		add_action( 'admin_footer', array( $this, 'about_screen' ) );
 
+		// BuddyPress Types administration.
+		add_action( 'load-edit-tags.php', array( 'BP_Admin_Types', 'register_types_admin' ) );
+
 		/* Filters ***********************************************************/
 
 		// Add link to settings page.
