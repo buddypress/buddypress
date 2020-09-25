@@ -4571,6 +4571,24 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	top: 30px;
 }
 
+body.create-blog #buddypress .error,
+body.create-blog #buddypress .success {
+	background: #fff;
+	color: #807f7f;
+	box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.1);
+	color: #737373;
+	padding: 10px 15px;
+	background-color: #fff;
+}
+
+body.create-blog #buddypress .error {
+	border-left: 4px solid #d33;
+}
+
+body.create-blog #buddypress .success {
+	border-left: 4px solid #8a2;
+}
+
 .buddypress.widget .item-options {
 	font-size: 12px;
 	margin: 0 0 1em;

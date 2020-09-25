@@ -1,5 +1,6 @@
 // Sitewide template error & info messages constructs.
-// @version 3.0.0.
+// @since 3.0.0.
+// @version 7.0.0
 .buddypress-wrap {
 
 	.warn {
@@ -317,3 +318,28 @@
 	}
 
 } // close .buddypress-wrap
+
+body.create-blog {
+
+	#buddypress {
+
+		.error,
+		.success {
+
+			@include message-box($border: none);
+			@include box-shadow( 0 1px 1px 1px rgba(0, 0, 0, 0.1) );
+			color: $light-text-plus;
+			padding: 10px 15px;
+			background-color: $white;
+		}
+
+		.error {
+			border-left: 4px solid $warnings;
+		}
+
+		.success {
+			border-left: 4px solid $update-success;
+
+		}
+	}
+}

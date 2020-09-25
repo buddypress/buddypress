@@ -1476,3 +1476,90 @@ function bp_blogs_restore_data( $user_id = 0 ) {
 	}
 }
 add_action( 'bp_make_ham_user', 'bp_blogs_restore_data', 10, 1 );
+
+/**
+ * Checks whether blog creation is enabled.
+ *
+ * Returns true when blog creation is enabled for logged-in users only, or
+ * when it's enabled for new registrations.
+ *
+ * @since 1.0.0
+ * @since 7.0.0 The function has been moved into `bp-blogs/bp-blogs-functions.php`.
+ *
+ * @return bool True if blog registration is enabled.
+ */
+function bp_blog_signup_enabled() {
+	$bp            = buddypress();
+	$retval        = true;
+	$active_signup = 'all';
+
+	if ( isset( $bp->site_options['registration'] ) ) {
+		$active_signup = $bp->site_options['registration'];
+	}
+
+	/**
+	 * Filters whether or not blog creation is enabled.
+	 *
+	 * Return "all", "none", "blog" or "user".
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $active_signup Value of the registration site option creation status.
+	 */
+	$active_signup = apply_filters( 'wpmu_active_signup', $active_signup );
+
+	if ( 'none' === $active_signup || 'user' === $active_signup ) {
+		$retval = false;
+	}
+
+	return $retval;
+}
+
+/**
+ * Returns the Blog signup's submitted vars.
+ *
+ * @since 7.0.0
+ *
+ * @return array An associative array containing the Blog signup's submitted vars.
+ */
+function bp_blogs_get_signup_form_submitted_vars() {
+	$exprected_vars = array(
+		'blogname'    => '',
+		'blog_title'  => '',
+		'blog_public' => 0,
+	);
+
+	$submitted_vars = wp_parse_args( $_POST, $exprected_vars );
+
+	return array_map( 'wp_unslash', array_intersect_key( $submitted_vars, $exprected_vars ) );
+}
+
+/**
+ * Validate a blog creation submission.
+ *
+ * Essentially, a wrapper for {@link wpmu_validate_blog_signup()}.
+ *
+ * @since 1.0.0
+ * @since 7.0.0 Add the blog_name and blog_title parameters.
+ *              The function has been moved into `bp-blogs/bp-blogs-functions.php`.
+ *
+ * @return array Contains the new site data and error messages.
+ */
+function bp_blogs_validate_blog_form( $blog_name = '', $blog_title = '' ) {
+	$user = '';
+
+	if ( is_user_logged_in() ) {
+		$user = wp_get_current_user();
+	}
+
+	if ( ! $blog_name && ! $blog_title ) {
+		$submitted_vars = bp_blogs_get_signup_form_submitted_vars();
+
+		if ( array_filter( $submitted_vars ) ) {
+			$blog_name  = $submitted_vars['blogname'];
+			$blog_title = $submitted_vars['blog_title'];
+		}
+	}
+
+	return wpmu_validate_blog_signup( $blog_name, $blog_title, $user );
+}
