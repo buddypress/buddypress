@@ -610,7 +610,7 @@ jq(document).ready( function() {
 			ajaxdata = {
 				action: 'new_activity_comment',
 				'cookie': bp_get_cookies(),
-				'_wpnonce_new_activity_comment': jq('#_wpnonce_new_activity_comment').val(),
+				'_wpnonce_new_activity_comment': jq('#_wpnonce_new_activity_comment' + '_' + comment_id ).val(),
 				'comment_id': comment_id,
 				'form_id': form_id[2],
 				'content': content.val()

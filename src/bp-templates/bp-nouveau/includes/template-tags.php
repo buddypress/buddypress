@@ -2585,7 +2585,7 @@ function bp_nouveau_signup_privacy_policy_acceptance_section() {
  *
  * @param string $action The action to get the submit button for. Required.
  */
-function bp_nouveau_submit_button( $action ) {
+function bp_nouveau_submit_button( $action, $object_id = 0 ) {
 	$submit_data = bp_nouveau_get_submit_button( $action );
 	if ( empty( $submit_data['attributes'] ) || empty( $submit_data['nonce'] ) ) {
 		return;
@@ -2619,6 +2619,10 @@ function bp_nouveau_submit_button( $action ) {
 	if ( empty( $submit_data['nonce_key'] ) ) {
 		wp_nonce_field( $submit_data['nonce'] );
 	} else {
+		if ( $object_id ) {
+			$submit_data['nonce_key'] .= '_' . (int) $object_id;
+		}
+
 		wp_nonce_field( $submit_data['nonce'], $submit_data['nonce_key'] );
 	}
 

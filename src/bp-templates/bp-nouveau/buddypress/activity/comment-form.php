@@ -23,7 +23,7 @@ if ( ! bp_nouveau_current_user_can( 'comment_activity' ) || ! bp_activity_can_co
 		<input type="hidden" name="comment_form_id" value="<?php bp_activity_id(); ?>" />
 
 		<?php
-		bp_nouveau_submit_button( 'activity-new-comment' );
+		bp_nouveau_submit_button( 'activity-new-comment', bp_get_activity_id() );
 		printf(
 			'&nbsp; <button type="button" class="ac-reply-cancel">%s</button>',
 			esc_html( _x( 'Cancel', 'button', 'buddypress' ) )

@@ -1,6 +1,7 @@
 /* jshint browser: true */
 /* global bp, BP_Nouveau */
-/* @version 3.1.0 */
+/* @since 3.0.0 */
+/* @version 7.0.0 */
 window.bp = window.bp || {};
 
 ( function( exports, $ ) {
@@ -735,7 +736,7 @@ window.bp = window.bp || {};
 
 				comment_data = {
 					action                        : 'new_activity_comment',
-					_wpnonce_new_activity_comment : $( '#_wpnonce_new_activity_comment' ).val(),
+					_wpnonce_new_activity_comment : $( '#_wpnonce_new_activity_comment' + '_' + item_id ).val(),
 					comment_id                    : item_id,
 					form_id                       : activity_id,
 					content                       : comment_content.val()

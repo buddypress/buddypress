@@ -145,7 +145,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 					 */
 					do_action( 'bp_activity_entry_comments' ); ?>
 
-					<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment' ); ?>
+					<?php wp_nonce_field( 'new_activity_comment', '_wpnonce_new_activity_comment_' . bp_get_activity_id() ); ?>
 
 				</form>
 
