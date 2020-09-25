@@ -626,7 +626,7 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				),
 				'active_components' => array(
 					'label' => __( 'Active components', 'buddypress' ),
-					'value' => implode( wp_list_pluck( $active_components, 'title' ), ', ' ),
+					'value' => implode( ', ', wp_list_pluck( $active_components, 'title' ) ),
 				),
 				'template_pack' => array(
 					'label' => __( 'Active template pack', 'buddypress' ),
