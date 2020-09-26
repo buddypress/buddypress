@@ -180,7 +180,12 @@ module.exports = function( grunt ) {
 		},
 		clean: {
 			all: [ BUILD_DIR ],
-			bp_rest: [ BUILD_DIR + 'bp-rest/' ]
+			bp_rest: [ BUILD_DIR + 'bp-rest/' ],
+			cli: [
+				BUILD_DIR + 'cli/features/',
+				BUILD_DIR + 'cli/*.{yml,json,lock,xml,xml.dist,md}',
+				BUILD_DIR + 'cli/{.gitignore,.distignore,.editorconfig,.travis.yml}'
+			]
 		},
 		copy: {
 			files: {
@@ -377,7 +382,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'makepot', ['exec:makepot'] );
 	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcompat'] );
 	grunt.registerTask( 'bp_rest', [ 'exec:rest_api', 'copy:bp_rest_components', 'copy:bp_rest_core', 'clean:bp_rest' ] );
-	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'exec:blocks_build', 'cssmin', 'bp_rest', 'makepot', 'exec:bpdefault', 'exec:cli'] );
+	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'exec:blocks_build', 'cssmin', 'bp_rest', 'makepot', 'exec:bpdefault', 'exec:cli', 'clean:cli'] );
 	grunt.registerTask( 'release', ['build'] );
 
 	// Testing tasks.
@@ -394,7 +399,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'jstest', 'Runs all JavaScript tasks.', [ 'jsvalidate:src', 'jshint' ] );
 
 	// Travis CI Tasks.
-	grunt.registerTask( 'travis:grunt', 'Runs Grunt build task.', ['commit', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'cssmin', 'bp_rest', 'exec:bpdefault', 'exec:cli'] );
+	grunt.registerTask( 'travis:grunt', 'Runs Grunt build task.', ['commit', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'cssmin', 'bp_rest', 'exec:bpdefault', 'exec:cli', 'clean:cli'] );
 	grunt.registerTask( 'travis:phpunit', ['jsvalidate:src', 'jshint', 'checktextdomain', 'phplint', 'test'] );
 	grunt.registerTask( 'travis:codecoverage', 'Runs PHPUnit tasks with code-coverage generation.', ['phpunit:codecoverage'] );
 	grunt.registerTask( 'travis:phpcompat', 'Runs PHP compatibility scan.', ['exec:phpcompat'] );
