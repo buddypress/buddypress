@@ -76,7 +76,7 @@ function bp_groups_admin_types_menu() {
 			esc_url( $group_type_admin_url )
 		);
 	} elseif ( ! is_network_admin() ) {
-		if ( is_multisite() ) {
+		if ( is_multisite() && bp_is_root_blog( get_current_network_id() ) ) {
 			// Adds a 'bp-groups' menu to the root blog menu.
 			$redirect_hook = add_menu_page(
 				_x( 'Groups', 'Admin Groups page title', 'buddypress' ),
