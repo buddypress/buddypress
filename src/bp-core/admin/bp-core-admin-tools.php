@@ -22,21 +22,26 @@ function bp_core_admin_tools() {
 		<h1 class="wp-heading-inline"><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ) ?></h1>
 		<hr class="wp-header-end">
 
-		<p><?php esc_html_e( 'BuddyPress keeps track of various relationships between members, groups, and activity items. Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?></p>
+		<p><?php esc_html_e( 'BuddyPress keeps track of various relationships between members, groups, and activity items.', 'buddypress' ); ?></p>
+		<p><?php esc_html_e( 'Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?></p>
 		<p><?php esc_html_e( 'Use the tools below to manually recalculate these relationships.', 'buddypress' ); ?>
 		</p>
-		<p class="description"><?php esc_html_e( 'Some of these tools create substantial database overhead. Avoid running more than one repair job at a time.', 'buddypress' ); ?></p>
+		<p class="attention"><?php esc_html_e( 'Some of these tools create substantial database overhead. Avoid running more than one repair job at a time.', 'buddypress' ); ?></p>
+
+		<h2><?php esc_html_e( 'Activate checkboxe(s) to select the operation(s) to perform', 'buddypress' ); ?></h2>
 
 		<form class="settings" method="post" action="">
 
 			<fieldset>
-				<legend><?php esc_html_e( 'Repair tools', 'buddypress' ) ?></legend>
+				<legend class="screen-reader-text"><?php esc_html_e( 'Repair tools', 'buddypress' ); ?></legend>
 
-				<div class="checkbox">
 				<?php foreach ( bp_admin_repair_list() as $item ) : ?>
-					<label for="<?php echo esc_attr( str_replace( '_', '-', $item[0] ) ); ?>"><input type="checkbox" class="checkbox" name="<?php echo esc_attr( $item[0] ) . '" id="' . esc_attr( str_replace( '_', '-', $item[0] ) ); ?>" value="1" /> <?php echo esc_html( $item[1] ); ?></label>
+					<p>
+						<label for="<?php echo esc_attr( str_replace( '_', '-', $item[0] ) ); ?>">
+							<input type="checkbox" class="checkbox" name="<?php echo esc_attr( $item[0] ) . '" id="' . esc_attr( str_replace( '_', '-', $item[0] ) ); ?>" value="1" /> <?php echo esc_html( $item[1] ); ?>
+						</label>
+					</p>
 				<?php endforeach; ?>
-				</div>
 
 				<p class="submit">
 					<input class="button-primary" type="submit" name="bp-tools-submit" value="<?php esc_attr_e( 'Repair Items', 'buddypress' ); ?>" />

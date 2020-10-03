@@ -21,8 +21,7 @@ TABLE OF CONTENTS:
 	3.1 Users List
 	3.2 Site Notices
 4.0 Emails - Edit page
-5.0 Tools - BuddyPress
-6.0 Plugins page
+5.0 Plugins page
 ------------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------
@@ -523,55 +522,7 @@ body.post-type-bp-email .categorydiv label {
 }
 
 /*------------------------------------------------------------------------------
- * 5.0 Tools - BuddyPress
- *----------------------------------------------------------------------------*/
-.tools_page_bp-tools .wrap {
-	max-width: 950px;
-}
-
-.tools_page_bp-tools p {
-	line-height: 2;
-}
-
-.tools_page_bp-tools fieldset {
-	margin: 2em 0 0;
-}
-
-.tools_page_bp-tools legend {
-	color: #23282d;
-	font-size: 1.3em;
-	font-weight: 600;
-	margin: 1em 0;
-}
-
-.tools_page_bp-tools label {
-	clear: right;
-	display: block;
-	line-height: 1.5;
-	margin: 0 0 1em;
-	vertical-align: middle;
-}
-
-@media screen and (max-width: 782px) {
-
-	.tools_page_bp-tools p {
-		line-height: 1.5;
-	}
-
-	.tools_page_bp-tools label {
-		margin-bottom: 1em;
-		padding-left: 25px;
-		text-indent: -33px;
-	}
-
-	.tools_page_bp-tools .checkbox {
-		padding: 0 30px 0 0;
-	}
-}
-
-
-/*------------------------------------------------------------------------------
- * 6.0 Plugins page
+ * 5.0 Plugins page
  *----------------------------------------------------------------------------*/
 #buddypress-update.not-shiny .update-message {
 	border-right: 0;
