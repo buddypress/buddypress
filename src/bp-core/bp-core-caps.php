@@ -345,6 +345,49 @@ function bp_user_can( $user_id, $capability, $args = array() ) {
 }
 
 /**
+ * Adds the `bp_moderate` cap to Roles having the `manage_options` cap when
+ * BuddyPress is not active on the network.
+ *
+ * @since 7.0.0
+ *
+ * @access private
+ *
+ * @param WP_Roles $wp_roles The WordPress roles object.
+ */
+function _bp_roles_init( WP_Roles $wp_roles ) {
+	$roles_list = array();
+	$caps_list  = wp_list_pluck( $wp_roles->role_objects, 'capabilities' );
+
+	// Look for roles having the `manage_options` capability set to true.
+	$filtered_list = wp_list_filter( $caps_list, array( 'manage_options' => true ) );
+
+	if ( $filtered_list ) {
+		$roles_list = array_keys( $filtered_list );
+
+		// Loop into roles list to add the `bp_moderate` capability.
+		foreach ( $roles_list as $role ) {
+			if ( isset( $wp_roles->roles[ $role ] ) ) {
+				$wp_roles->roles[ $role ]['capabilities']['bp_moderate'] = true;
+			}
+
+			if ( isset( $wp_roles->role_objects[ $role ] ) ) {
+				$wp_roles->role_objects[ $role ]->capabilities['bp_moderate'] = true;
+			}
+		}
+	}
+
+	// Make sure to remove the `bp_moderate` capability from roles when BuddyPress is network activated.
+	if ( bp_is_network_activated() ) {
+		foreach ( $roles_list as $role ) {
+			unset( $wp_roles->roles[ $role ]['capabilities']['bp_moderate'], $wp_roles->role_objects[ $role ]->capabilities['bp_moderate'] );
+		}
+	}
+}
+add_action( 'wp_roles_init', '_bp_roles_init', 10, 1 );
+
+/** Deprecated ****************************************************************/
+
+/**
  * Temporary implementation of 'bp_moderate' cap.
  *
  * In BuddyPress 1.6, the 'bp_moderate' cap was introduced. In order to
@@ -363,6 +406,7 @@ function bp_user_can( $user_id, $capability, $args = array() ) {
  * Plugin authors: Please do not use this function; thank you. :)
  *
  * @since 1.6.0
+ * @deprecated 7.0.0
  *
  * @access private
  *
@@ -375,6 +419,7 @@ function bp_user_can( $user_id, $capability, $args = array() ) {
  * @return array $allcaps The user's cap list, with 'bp_moderate' appended, if relevant.
  */
 function _bp_enforce_bp_moderate_cap_for_admins( $caps = array(), $cap = '', $user_id = 0, $args = array() ) {
+	_deprecated_function( __FUNCTION__, '7.0.0' );
 
 	// Bail if not checking the 'bp_moderate' cap.
 	if ( 'bp_moderate' !== $cap ) {
@@ -394,9 +439,6 @@ function _bp_enforce_bp_moderate_cap_for_admins( $caps = array(), $cap = '', $us
 	// Only users that can 'manage_options' on this site can 'bp_moderate'.
 	return array( 'manage_options' );
 }
-add_filter( 'map_meta_cap', '_bp_enforce_bp_moderate_cap_for_admins', 10, 4 );
-
-/** Deprecated ****************************************************************/
 
 /**
  * Adds BuddyPress-specific user roles.
