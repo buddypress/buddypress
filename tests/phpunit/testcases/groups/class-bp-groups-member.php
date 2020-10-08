@@ -887,6 +887,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$groups = groups_get_invites_for_user( $u2 );
 
 		$this->assertEqualSets( array( $g1, $g2, $g3 ), wp_list_pluck( $groups['groups'], 'id' ) );
+		$this->assertEquals( 3, $groups['total'] );
 	}
 
 	/**
@@ -962,6 +963,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		$groups = groups_get_invites_for_user( $u2, false, false, array( $g2 ) );
 		$this->assertEqualSets( array( $g1, $g3 ), wp_list_pluck( $groups['groups'], 'id' ) );
+		$this->assertEquals( 2, $groups['total'] );
 	}
 
 	/**

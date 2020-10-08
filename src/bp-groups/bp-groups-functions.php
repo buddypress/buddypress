@@ -1415,9 +1415,8 @@ function groups_get_invites_for_user( $user_id = 0, $limit = false, $page = fals
 		'per_page'    => $limit,
 		'page'        => $page,
 	);
-	$groups = groups_get_groups( $args );
 
-	return array( 'groups' => $groups['groups'], 'total' => groups_get_invite_count_for_user( $user_id ) );
+	return groups_get_groups( $args );
 }
 
 /**
@@ -1433,7 +1432,8 @@ function groups_get_invite_count_for_user( $user_id = 0 ) {
 		$user_id = bp_loggedin_user_id();
 	}
 
-	return count( groups_get_invited_to_group_ids( $user_id ) );
+	$invites = groups_get_invites_for_user( $user_id );
+	return $invites['total'];
 }
 
 /**
