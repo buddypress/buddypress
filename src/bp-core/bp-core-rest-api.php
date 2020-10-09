@@ -56,7 +56,7 @@ function bp_rest_api_is_available() {
 	 *
 	 * @param boolean $value True if the BP REST API is available. False otherwise.
 	 */
-	return apply_filters( 'bp_rest_api_is_available', function_exists( 'create_initial_rest_routes' ) && bp_rest_in_buddypress() ) || bp_rest_is_plugin_active();
+	return apply_filters( 'bp_rest_api_is_available', bp_is_running_wp( '4.7.0' ) && bp_rest_in_buddypress() ) || bp_rest_is_plugin_active();
 }
 
 /**

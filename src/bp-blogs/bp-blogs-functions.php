@@ -575,7 +575,7 @@ function bp_blogs_delete_url_blogmeta( $site_id = 0 ) {
 	bp_blogs_delete_blogmeta( (int) $site_id, 'url' );
 }
 
-if ( function_exists( 'wp_switch_roles_and_user' ) ) {
+if ( bp_is_running_wp( '4.9.0' ) ) {
 	add_action( 'clean_site_cache', 'bp_blogs_delete_url_blogmeta' );
 } else {
 	add_action( 'refresh_blog_details', 'bp_blogs_delete_url_blogmeta' );

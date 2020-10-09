@@ -31,9 +31,7 @@ add_filter( 'bp_get_activity_feed_item_description', 'force_balance_tags' );
 add_filter( 'bp_activity_content_before_save',       'force_balance_tags' );
 add_filter( 'bp_activity_action_before_save',        'force_balance_tags' );
 
-if ( function_exists( 'wp_encode_emoji' ) ) {
-	add_filter( 'bp_activity_content_before_save', 'wp_encode_emoji' );
-}
+add_filter( 'bp_activity_content_before_save', 'wp_encode_emoji' );
 
 add_filter( 'bp_get_activity_action',                'wptexturize' );
 add_filter( 'bp_get_activity_content_body',          'wptexturize' );

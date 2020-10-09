@@ -2416,7 +2416,7 @@ function bp_signup_avatar_dir_value() {
  */
 function bp_signup_requires_privacy_policy_acceptance() {
 	// Bail if we're running a version of WP that doesn't have the Privacy Policy feature.
-	if ( version_compare( $GLOBALS['wp_version'], '4.9.6', '<' ) ) {
+	if ( bp_is_running_wp( '4.9.6', '<' ) ) {
 		return false;
 	}
 

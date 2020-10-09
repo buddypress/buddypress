@@ -193,7 +193,7 @@ class BP_Settings_Component extends BP_Component {
 		$show_data_page = apply_filters( 'bp_settings_show_user_data_page', true );
 
 		// Export Data - only available for WP 4.9.6+.
-		if ( true === $show_data_page && version_compare( $GLOBALS['wp_version'], '4.9.6', '>=' ) ) {
+		if ( true === $show_data_page && bp_is_running_wp( '4.9.6' ) ) {
 			$sub_nav[] = array(
 				'name'            => __( 'Export Data', 'buddypress' ),
 				'slug'            => 'data',
@@ -268,7 +268,7 @@ class BP_Settings_Component extends BP_Component {
 			$show_data_page = apply_filters( 'bp_settings_show_user_data_page', true );
 
 			// Export Data.
-			if ( true === $show_data_page && version_compare( $GLOBALS['wp_version'], '4.9.6', '>=' ) ) {
+			if ( true === $show_data_page && bp_is_running_wp( '4.9.6' ) ) {
 				$wp_admin_nav[] = array(
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-data',

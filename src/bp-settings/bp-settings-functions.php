@@ -249,7 +249,7 @@ function bp_settings_get_personal_data_request( $user_id = 0 ) {
 
 	if ( ! empty( $query->post ) ) {
 		// WP 5.4 changed the user request function name to wp_get_user_request()
-		$user_request = function_exists( 'wp_get_user_request' ) ? 'wp_get_user_request' : 'wp_get_user_request_data';
+		$user_request = bp_is_running_wp( '4.9.6' ) ? 'wp_get_user_request' : 'wp_get_user_request_data';
 		return $user_request( $query->post->ID );
 	} else {
 		return false;

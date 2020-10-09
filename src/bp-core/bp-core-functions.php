@@ -70,6 +70,19 @@ function bp_db_version_raw() {
 		return !empty( $bp->db_version_raw ) ? $bp->db_version_raw : 0;
 	}
 
+/**
+ * Check whether the current version of WP exceeds a given version.
+ *
+ * @since 7.0.0
+ *
+ * @param string $version WP version, in "PHP-standardized" format.
+ * @param string $compare Optional. Comparison operator. Default '>='.
+ * @return bool
+ */
+function bp_is_running_wp( $version, $compare = '>=' ) {
+	return version_compare( $GLOBALS['wp_version'], $version, $compare );
+}
+
 /** Functions *****************************************************************/
 
 /**
@@ -3134,7 +3147,7 @@ function bp_register_type_meta( $type_tax, $meta_key, array $args ) {
 	}
 
 	// register_term_meta() was introduced in WP 4.9.8.
-	if ( ! function_exists( 'register_term_meta' ) ) {
+	if ( ! bp_is_running_wp( '4.9.8' ) ) {
 		$args['object_subtype'] = $type_tax;
 
 		return register_meta( 'term', $meta_key, $args );
@@ -3538,7 +3551,7 @@ function bp_email_get_appearance_settings() {
 		)
 	);
 
-	if ( version_compare( $GLOBALS['wp_version'], '4.9.6', '>=' ) ) {
+	if ( bp_is_running_wp( '4.9.6' ) ) {
 		$privacy_policy_url = get_privacy_policy_url();
 		if ( $privacy_policy_url ) {
 			$footer_text[] = sprintf(

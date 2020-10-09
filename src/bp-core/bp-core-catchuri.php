@@ -463,7 +463,7 @@ function bp_core_load_template( $templates ) {
 	 * Wiping out the bp-default template allows WordPress to use their special
 	 * embed template, which is what we want.
 	 */
-	if ( function_exists( 'is_embed' ) && is_embed() ) {
+	if ( is_embed() ) {
 		$located_template = '';
 	}
 

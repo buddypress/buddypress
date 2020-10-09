@@ -50,7 +50,7 @@ function bp_groups_get_group_manage_members_script_data( $group_id = 0 ) {
 	);
 
 	$preloaded_members = array();
-	if ( function_exists( 'rest_preload_api_request' ) ) {
+	if ( bp_is_running_wp( '5.0.0' ) ) {
 		$preloaded_members = rest_preload_api_request( '', $path );
 	}
 

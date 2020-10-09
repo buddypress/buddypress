@@ -562,7 +562,7 @@ class BP_Admin {
 	 */
 	public function add_privacy_policy_content() {
 		// Nothing to do if we're running < WP 4.9.6.
-		if ( version_compare( $GLOBALS['wp_version'], '4.9.6', '<' ) ) {
+		if ( bp_is_running_wp( '4.9.6', '<' ) ) {
 			return;
 		}
 
