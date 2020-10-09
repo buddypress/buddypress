@@ -8,7 +8,7 @@
 		"@babel/core": "~7.8.7",
 		"@wordpress/babel-preset-default": "~4.10.0",
 		"@wordpress/browserslist-config": "~2.1.4",
-		"@wordpress/env": "~1.6.0",
+		"@wordpress/env": "~2.1.0",
 		"autoprefixer": "~8.5.2",
 		"grunt": "~1.1.0",
 		"grunt-check-dependencies": "~1.0.0",
@@ -48,7 +48,9 @@
 		"build:components": "parcel build src/js/bp-core/js/block-components/block-components.js --out-dir build/bp-core/js --out-file block-components.js --global bp",
 		"wp-env": "wp-env",
 		"test-php": "npm run wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/buddypress/tests/phpunit/env.xml'",
-		"test-php-multisite": "npm run wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/buddypress/tests/phpunit/env.multisite.xml'"
+		"test-php:group": "npm run wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/buddypress/tests/phpunit/env.xml --group $npm_confi_g'",
+		"test-php-multisite": "npm run wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/buddypress/tests/phpunit/env.multisite.xml'",
+		"test-php-multisite:group": "npm run wp-env run phpunit 'phpunit -c /var/www/html/wp-content/plugins/buddypress/tests/phpunit/env.multisite.xml --group $npm_confi_g'"
 	},
 	"keywords": [
 		"activity",
