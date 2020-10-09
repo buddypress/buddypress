@@ -293,6 +293,7 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
  * @since 1.0.0
  * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
  * @since 2.7.0 Added `$update_admin_cache` parameter.
+ * @since 7.0.0 Added `$status` parameter.
  *
  * @param array|string $args {
  *     Array of parameters. All items are optional.
@@ -319,6 +320,7 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
  *     @type array|string $group_type__in     Array or comma-separated list of group types to limit results to.
  *     @type array|string $group_type__not_in Array or comma-separated list of group types that will be
  *                                            excluded from results.
+ *     @type array|string $status             Array or comma-separated list of group statuses to limit results to.
  *     @type array        $meta_query         An array of meta_query conditions.
  *                                            See {@link WP_Meta_Query::queries} for description.
  *     @type array|string $include            Array or comma-separated list of group IDs. Results will be limited
@@ -372,6 +374,16 @@ function bp_has_groups( $args = '' ) {
 		}
 	}
 
+	$status = array();
+	if ( ! empty( $_GET['status'] ) ) {
+		if ( is_array( $_GET['status'] ) ) {
+			$status = $_GET['status'];
+		} else {
+			// Can be a comma-separated list.
+			$status = explode( ',', $_GET['status'] );
+		}
+	}
+
 	// Default search string (too soon to escape here).
 	$search_query_arg = bp_core_get_component_search_query_arg( 'groups' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
@@ -398,6 +410,7 @@ function bp_has_groups( $args = '' ) {
 		'group_type'         => $group_type,
 		'group_type__in'     => '',
 		'group_type__not_in' => '',
+		'status'             => $status,
 		'meta_query'         => false,
 		'include'            => false,
 		'exclude'            => false,
@@ -422,6 +435,7 @@ function bp_has_groups( $args = '' ) {
 		'group_type'         => $r['group_type'],
 		'group_type__in'     => $r['group_type__in'],
 		'group_type__not_in' => $r['group_type__not_in'],
+		'status'             => $r['status'],
 		'meta_query'         => $r['meta_query'],
 		'include'            => $r['include'],
 		'exclude'            => $r['exclude'],

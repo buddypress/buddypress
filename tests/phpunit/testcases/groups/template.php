@@ -120,6 +120,33 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * Test using the 'status' parameter in bp_has_groups()
+	 *
+	 * @group bp_has_groups
+	 */
+	public function test_bp_has_groups_status() {
+		$g1 = self::factory()->group->create( array(
+			'status' => 'public',
+		) );
+		$g2 = self::factory()->group->create( array(
+			'status' => 'private',
+		) );
+		$g3 = self::factory()->group->create( array(
+			'status' => 'hidden',
+		) );
+
+		global $groups_template;
+		bp_has_groups( array(
+			'status' => 'private',
+		) );
+
+		$ids = wp_parse_id_list( wp_list_pluck( $groups_template->groups, 'id' ) );
+		$this->assertEqualSets( array( $g2 ), $ids );
+
+		$this->assertEquals( 1, $groups_template->group_count );
+	}
+
+	/**
 	 * @group hierarchical_groups
 	 */
 	public function test_bp_has_groups_parent_id() {
