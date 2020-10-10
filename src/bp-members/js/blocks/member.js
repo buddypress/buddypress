@@ -117,34 +117,25 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"TmUL":[function(require,module,exports) {
+})({"AE3e":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.AVATAR_SIZES = void 0;
+
 /**
  * WordPress dependencies.
  */
-var registerBlockType = wp.blocks.registerBlockType;
-var _wp$element = wp.element,
-    createElement = _wp$element.createElement,
-    Fragment = _wp$element.Fragment;
-var _wp$components = wp.components,
-    Placeholder = _wp$components.Placeholder,
-    Disabled = _wp$components.Disabled,
-    PanelBody = _wp$components.PanelBody,
-    SelectControl = _wp$components.SelectControl,
-    ToggleControl = _wp$components.ToggleControl,
-    Toolbar = _wp$components.Toolbar,
-    ToolbarButton = _wp$components.ToolbarButton;
-var _wp$blockEditor = wp.blockEditor,
-    InspectorControls = _wp$blockEditor.InspectorControls,
-    BlockControls = _wp$blockEditor.BlockControls;
-var withSelect = wp.data.withSelect;
-var compose = wp.compose.compose;
-var ServerSideRender = wp.editor.ServerSideRender;
-var __ = wp.i18n.__;
+var _wp = wp,
+    __ = _wp.i18n.__;
 /**
- * BuddyPress dependencies.
+ * Avatar sizes.
+ *
+ * @type {Array}
  */
 
-var AutoCompleter = bp.blockComponents.AutoCompleter;
 var AVATAR_SIZES = [{
   label: __('None', 'buddypress'),
   value: 'none'
@@ -155,6 +146,47 @@ var AVATAR_SIZES = [{
   label: __('Full', 'buddypress'),
   value: 'full'
 }];
+exports.AVATAR_SIZES = AVATAR_SIZES;
+},{}],"YNTp":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _constants = require("./constants");
+
+/**
+ * WordPress dependencies.
+ */
+var _wp = wp,
+    _wp$blockEditor = _wp.blockEditor,
+    InspectorControls = _wp$blockEditor.InspectorControls,
+    BlockControls = _wp$blockEditor.BlockControls,
+    _wp$components = _wp.components,
+    Placeholder = _wp$components.Placeholder,
+    Disabled = _wp$components.Disabled,
+    PanelBody = _wp$components.PanelBody,
+    SelectControl = _wp$components.SelectControl,
+    ToggleControl = _wp$components.ToggleControl,
+    Toolbar = _wp$components.Toolbar,
+    ToolbarButton = _wp$components.ToolbarButton,
+    compose = _wp.compose.compose,
+    withSelect = _wp.data.withSelect,
+    ServerSideRender = _wp.editor.ServerSideRender,
+    _wp$element = _wp.element,
+    Fragment = _wp$element.Fragment,
+    createElement = _wp$element.createElement,
+    __ = _wp.i18n.__;
+/**
+ * BuddyPress dependencies.
+ */
+
+var AutoCompleter = bp.blockComponents.AutoCompleter;
+/**
+ * Internal dependencies.
+ */
 
 var getSlugValue = function getSlugValue(item) {
   if (item && item.mention_name) {
@@ -214,7 +246,7 @@ var editMember = function editMember(_ref) {
   }), isAvatarEnabled && createElement(SelectControl, {
     label: __('Avatar size', 'buddypress'),
     value: avatarSize,
-    options: AVATAR_SIZES,
+    options: _constants.AVATAR_SIZES,
     help: __('Select "None" to disable the avatar.', 'buddypress'),
     onChange: function onChange(option) {
       setAttributes({
@@ -251,6 +283,25 @@ var editMemberBlock = compose([withSelect(function (select) {
     bpSettings: editorSettings.bp.members || {}
   };
 })])(editMember);
+var _default = editMemberBlock;
+exports.default = _default;
+},{"./constants":"AE3e"}],"TmUL":[function(require,module,exports) {
+"use strict";
+
+var _edit = _interopRequireDefault(require("./member/edit"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * WordPress dependencies.
+ */
+var _wp = wp,
+    registerBlockType = _wp.blocks.registerBlockType,
+    __ = _wp.i18n.__;
+/**
+ * Internal dependencies.
+ */
+
 registerBlockType('bp/member', {
   title: __('Member', 'buddypress'),
   description: __('BuddyPress Member.', 'buddypress'),
@@ -278,6 +329,6 @@ registerBlockType('bp/member', {
       default: true
     }
   },
-  edit: editMemberBlock
+  edit: _edit.default
 });
-},{}]},{},["TmUL"], null)
+},{"./member/edit":"YNTp"}]},{},["TmUL"], null)

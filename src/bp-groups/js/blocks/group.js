@@ -117,34 +117,25 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"pvse":[function(require,module,exports) {
+})({"atl5":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.GROUP_STATI = exports.AVATAR_SIZES = void 0;
+
 /**
  * WordPress dependencies.
  */
-var registerBlockType = wp.blocks.registerBlockType;
-var _wp$element = wp.element,
-    createElement = _wp$element.createElement,
-    Fragment = _wp$element.Fragment;
-var _wp$components = wp.components,
-    Placeholder = _wp$components.Placeholder,
-    Disabled = _wp$components.Disabled,
-    PanelBody = _wp$components.PanelBody,
-    SelectControl = _wp$components.SelectControl,
-    ToggleControl = _wp$components.ToggleControl,
-    Toolbar = _wp$components.Toolbar,
-    ToolbarButton = _wp$components.ToolbarButton;
-var _wp$blockEditor = wp.blockEditor,
-    InspectorControls = _wp$blockEditor.InspectorControls,
-    BlockControls = _wp$blockEditor.BlockControls;
-var withSelect = wp.data.withSelect;
-var compose = wp.compose.compose;
-var ServerSideRender = wp.editor.ServerSideRender;
-var __ = wp.i18n.__;
+var _wp = wp,
+    __ = _wp.i18n.__;
 /**
- * BuddyPress dependencies.
+ * Avatar sizes.
+ *
+ * @type {Array}
  */
 
-var AutoCompleter = bp.blockComponents.AutoCompleter;
 var AVATAR_SIZES = [{
   label: __('None', 'buddypress'),
   value: 'none'
@@ -155,15 +146,63 @@ var AVATAR_SIZES = [{
   label: __('Full', 'buddypress'),
   value: 'full'
 }];
+/**
+ * Group stati.
+ *
+ * @type {Object}
+ */
+
+exports.AVATAR_SIZES = AVATAR_SIZES;
 var GROUP_STATI = {
   public: __('Public', 'buddypress'),
   private: __('Private', 'buddypress'),
   hidden: __('Hidden', 'buddypress')
 };
+exports.GROUP_STATI = GROUP_STATI;
+},{}],"cCC3":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _constants = require("./constants");
+
+/**
+ * WordPress dependencies.
+ */
+var _wp = wp,
+    _wp$blockEditor = _wp.blockEditor,
+    InspectorControls = _wp$blockEditor.InspectorControls,
+    BlockControls = _wp$blockEditor.BlockControls,
+    _wp$components = _wp.components,
+    Placeholder = _wp$components.Placeholder,
+    Disabled = _wp$components.Disabled,
+    PanelBody = _wp$components.PanelBody,
+    SelectControl = _wp$components.SelectControl,
+    ToggleControl = _wp$components.ToggleControl,
+    Toolbar = _wp$components.Toolbar,
+    ToolbarButton = _wp$components.ToolbarButton,
+    compose = _wp.compose.compose,
+    withSelect = _wp.data.withSelect,
+    ServerSideRender = _wp.editor.ServerSideRender,
+    _wp$element = _wp.element,
+    Fragment = _wp$element.Fragment,
+    createElement = _wp$element.createElement,
+    __ = _wp.i18n.__;
+/**
+ * BuddyPress dependencies.
+ */
+
+var AutoCompleter = bp.blockComponents.AutoCompleter;
+/**
+ * Internal dependencies.
+ */
 
 var getSlugValue = function getSlugValue(item) {
-  if (item && item.status && GROUP_STATI[item.status]) {
-    return GROUP_STATI[item.status];
+  if (item && item.status && _constants.GROUP_STATI[item.status]) {
+    return _constants.GROUP_STATI[item.status];
   }
 
   return null;
@@ -230,7 +269,7 @@ var editGroup = function editGroup(_ref) {
   }), isAvatarEnabled && createElement(SelectControl, {
     label: __('Avatar size', 'buddypress'),
     value: avatarSize,
-    options: AVATAR_SIZES,
+    options: _constants.AVATAR_SIZES,
     help: __('Select "None" to disable the avatar.', 'buddypress'),
     onChange: function onChange(option) {
       setAttributes({
@@ -258,6 +297,25 @@ var editGroupBlock = compose([withSelect(function (select) {
     bpSettings: editorSettings.bp.groups || {}
   };
 })])(editGroup);
+var _default = editGroupBlock;
+exports.default = _default;
+},{"./constants":"atl5"}],"pvse":[function(require,module,exports) {
+"use strict";
+
+var _edit = _interopRequireDefault(require("./group/edit"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * WordPress dependencies.
+ */
+var _wp = wp,
+    registerBlockType = _wp.blocks.registerBlockType,
+    __ = _wp.i18n.__;
+/**
+ * Internal dependencies.
+ */
+
 registerBlockType('bp/group', {
   title: __('Group', 'buddypress'),
   description: __('BuddyPress Group.', 'buddypress'),
@@ -285,6 +343,6 @@ registerBlockType('bp/group', {
       default: true
     }
   },
-  edit: editGroupBlock
+  edit: _edit.default
 });
-},{}]},{},["pvse"], null)
+},{"./group/edit":"cCC3"}]},{},["pvse"], null)

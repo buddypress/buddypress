@@ -1,4 +1,11 @@
 /* CSS for the bp/member block */
+[data-type="bp/member"] input.components-placeholder__input {
+	flex: 1 1 auto;
+	border-radius: 2px;
+	border: 1px solid #757575;
+	padding: 6px 8px;
+}
+
 .bp-block-member {
 	position: relative;
 }
@@ -7,10 +14,36 @@
 	display: flex;
 }
 
+.bp-block-member .user-nicename {
+	display: block;
+}
+
+.bp-block-member .user-nicename a {
+	color: currentColor;
+	text-decoration: none;
+	border: none;
+}
+
+.bp-block-member .bp-profile-button {
+	width: 100%;
+}
+
+.bp-block-member .bp-profile-button a.button {
+	position: absolute;
+	bottom: 10px;
+	left: 0;
+	display: inline-block;
+	margin: 18px 0 0;
+}
+
 .bp-block-member.has-cover .member-content,
 .bp-block-member.has-cover .item-header-avatar,
 .bp-block-member.has-cover .member-description {
 	z-index: 2;
+}
+
+.bp-block-member.has-cover .member-content {
+	padding-top: 75px;
 }
 
 .bp-block-member.has-cover .member-description {
@@ -51,26 +84,22 @@
 	min-height: 150px;
 }
 
-.bp-block-member.avatar-full.has-cover {
-	min-height: 300px;
-}
-
 .bp-block-member.avatar-full .item-header-avatar {
 	width: 180px;
 }
 
-.bp-block-member.has-cover.avatar-full .item-header-avatar {
+.bp-block-member.avatar-full.has-cover {
+	min-height: 300px;
+}
+
+.bp-block-member.avatar-full.has-cover .item-header-avatar {
 	width: 200px;
 }
 
-.bp-block-member.has-cover.avatar-full img.avatar {
+.bp-block-member.avatar-full.has-cover img.avatar {
 	border: solid 2px #fff;
 	background: rgba(255, 255, 255, 0.8);
 	margin-right: 20px;
-}
-
-.bp-block-member.has-cover .member-content {
-	padding-top: 75px;
 }
 
 .bp-block-member.avatar-thumb .member-content {
@@ -86,32 +115,8 @@
 	padding-top: 75px;
 }
 
-.bp-block-member .user-nicename {
-	display: block;
-}
-
-.bp-block-member .user-nicename a,
 .entry .entry-content .bp-block-member .user-nicename a {
 	color: currentColor;
 	text-decoration: none;
 	border: none;
-}
-
-.bp-block-member .bp-profile-button {
-	width: 100%;
-}
-
-.bp-block-member .bp-profile-button a.button {
-	position: absolute;
-	bottom: 10px;
-	left: 0;
-	display: inline-block;
-	margin: 18px 0 0;
-}
-
-[data-type="bp/member"] input.components-placeholder__input {
-	flex: 1 1 auto;
-	border-radius: 2px;
-	border: 1px solid #757575;
-	padding: 6px 8px;
 }

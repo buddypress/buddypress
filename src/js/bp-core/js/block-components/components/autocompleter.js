@@ -1,11 +1,23 @@
 /**
  * WordPress dependencies.
  */
-const { Component, Fragment, createElement } = wp.element;
-const { Popover } = wp.components;
-const { apiFetch } = wp;
-const { addQueryArgs } = wp.url;
-const { __ } = wp.i18n;
+const {
+	apiFetch,
+	components: {
+		Popover,
+	},
+	element: {
+		Component,
+		Fragment,
+		createElement,
+	},
+	i18n: {
+		__,
+	},
+	url: {
+		addQueryArgs,
+	},
+} = wp;
 
 class AutoCompleter extends Component {
 	constructor() {
