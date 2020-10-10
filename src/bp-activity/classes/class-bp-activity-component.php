@@ -55,7 +55,8 @@ class BP_Activity_Component extends BP_Component {
 			'adminbar',
 			'template',
 			'functions',
-			'cache'
+			'cache',
+			'blocks',
 		);
 
 		// Notifications support.
@@ -471,5 +472,34 @@ class BP_Activity_Component extends BP_Component {
 	 */
 	public function rest_api_init( $controllers = array() ) {
 		parent::rest_api_init( array( 'BP_REST_Activity_Endpoint' ) );
+	}
+
+	/**
+	 * Register the BP Activity Blocks.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param array $blocks Optional. See BP_Component::blocks_init() for
+	 *                      description.
+	 */
+	public function blocks_init( $blocks = array() ) {
+		parent::blocks_init(
+			array(
+				'bp/embed-activity' => array(
+					'name'               => 'bp/embed-activity',
+					'editor_script'      => 'bp-embed-activity-block',
+					'editor_script_url'  => plugins_url( 'js/blocks/embed-activity.js', dirname(  __FILE__ ) ),
+					'editor_script_deps' => array(
+						'wp-blocks',
+						'wp-element',
+						'wp-i18n',
+						'wp-components',
+						'wp-block-editor',
+						'wp-data',
+						'wp-compose',
+					),
+				),
+			)
+		);
 	}
 }
