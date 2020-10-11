@@ -264,7 +264,7 @@ function bp_members_render_members_block( $attributes = array() ) {
 					</a>
 				</div>',
 				esc_url( $member_link ),
-				/* translators: %s: the member display name */
+				/* translators: %s: member name */
 				sprintf( esc_attr__( 'Profile photo of %s', 'buddypress' ), $member->display_name ),
 				esc_url(
 					bp_core_fetch_avatar(
@@ -332,7 +332,7 @@ function bp_members_render_members_block( $attributes = array() ) {
 				$output .= sprintf(
 					'<time datetime="%1$s">%2$s</time>',
 					esc_attr( bp_core_get_iso8601_date( $member->last_activity ) ),
-					/* translators: %s: a human time diff */
+					/* translators: %s: a human time diff. */
 					sprintf( esc_html__( 'Active %s', 'buddypress' ), bp_core_time_since( $member->last_activity ) )
 				);
 			}

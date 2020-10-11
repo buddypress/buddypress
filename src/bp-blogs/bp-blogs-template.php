@@ -1176,7 +1176,10 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 
 		printf(
 			'<p>(<strong>%1$s.</strong> %2$s)</p>',
-			sprintf( esc_html__( 'Your address will be %s' , 'buddypress' ), $url ),
+			sprintf(
+				/* translators: %s is the site url. */
+				esc_html__( 'Your address will be %s' , 'buddypress' ), $url
+			),
 			esc_html__( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!' , 'buddypress' )
 		);
 	}

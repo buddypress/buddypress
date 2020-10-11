@@ -115,7 +115,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
 			</div>',
 			esc_url( $group_link ),
 			esc_url( $avatar ),
-			// Translators: %s is the group's name.
+			/* Translators: %s is the group's name. */
 			sprintf( esc_html__( 'Group Profile photo of %s', 'buddypress' ), $group_name )
 		);
 	}
@@ -268,8 +268,8 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 					</a>
 				</div>',
 				esc_url( $group_link ),
-				/* translators: %s: the group's name */
-				sprintf( esc_attr__( 'Profile photo of %s', 'buddypress' ), $group->display_name ),
+				/* Translators: %s is the group's name. */
+				sprintf( esc_attr__( 'Group Profile photo of %s', 'buddypress' ), $group->display_name ),
 				esc_url(
 					bp_core_fetch_avatar(
 						array(
