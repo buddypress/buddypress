@@ -401,11 +401,12 @@ module.exports = function( grunt ) {
 	/**
 	 * Register tasks.
 	 */
-	grunt.registerTask( 'src',     ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'postcss', 'rtlcss', 'exec:blocks_src'] );
+	grunt.registerTask( 'src', ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'postcss', 'rtlcss'] );
 	grunt.registerTask( 'makepot', ['exec:makepot'] );
-	grunt.registerTask( 'commit',  ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcompat'] );
+	grunt.registerTask( 'commit', ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcompat'] );
+	grunt.registerTask( 'commit:blocks', ['commit', 'exec:blocks_src'] );
 	grunt.registerTask( 'bp_rest', [ 'exec:rest_api', 'copy:bp_rest_components', 'copy:bp_rest_core', 'clean:bp_rest' ] );
-	grunt.registerTask( 'build',   ['commit', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'exec:blocks_build', 'cssmin', 'bp_rest', 'makepot', 'exec:bpdefault', 'exec:cli', 'clean:cli'] );
+	grunt.registerTask( 'build', ['commit', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'exec:blocks_build', 'cssmin', 'bp_rest', 'makepot', 'exec:bpdefault', 'exec:cli', 'clean:cli'] );
 	grunt.registerTask( 'release', ['build'] );
 
 	// Testing tasks.
