@@ -733,6 +733,61 @@ class BP_Members_Component extends BP_Component {
 						),
 					),
 				),
+				'bp/members' => array(
+					'name'               => 'bp/members',
+					'editor_script'      => 'bp-members-block',
+					'editor_script_url'  => plugins_url( 'js/blocks/members.js', dirname( __FILE__ ) ),
+					'editor_script_deps' => array(
+						'wp-blocks',
+						'wp-element',
+						'wp-components',
+						'wp-i18n',
+						'wp-compose',
+						'wp-data',
+						'wp-api-fetch',
+						'wp-url',
+						'wp-block-editor',
+						'bp-block-components',
+						'lodash',
+					),
+					'style'              => 'bp-members-block',
+					'style_url'          => plugins_url( 'css/blocks/members.css', dirname( __FILE__ ) ),
+					'attributes'         => array(
+						'itemIDs'            => array(
+							'type'  => 'array',
+							'items' => array(
+								'type' => 'integer',
+							),
+						),
+						'avatarSize'         => array(
+							'type'    => 'string',
+							'default' => 'full',
+						),
+						'displayMentionSlug' => array(
+							'type'    => 'boolean',
+							'default' => true,
+						),
+						'displayUserName'    => array(
+							'type'    => 'boolean',
+							'default' => true,
+						),
+						'extraData'          => array(
+							'type'    => 'string',
+							'default' => 'none',
+							'enum'    => array( 'last_activity', 'latest_update', 'none' ),
+						),
+						'layoutPreference'   => array(
+							'type'    => 'string',
+							'default' => 'list',
+							'enum'    => array( 'list', 'grid' ),
+						),
+						'columns'            => array(
+							'type'    => 'number',
+							'default' => 2,
+						),
+					),
+					'render_callback'    => 'bp_members_render_members_block',
+				),
 			)
 		);
 	}
