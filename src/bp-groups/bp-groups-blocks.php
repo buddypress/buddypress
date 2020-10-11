@@ -201,3 +201,135 @@ function bp_groups_render_group_block( $attributes = array() ) {
 	 */
 	return apply_filters( 'bp_groups_render_group_block_output', $output, $group, $params );
 }
+
+/**
+ * Callback function to render the BP Groups Block.
+ *
+ * @since 7.0.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string           HTML output.
+ */
+function bp_groups_render_groups_block( $attributes = array() ) {
+	$bp = buddypress();
+
+	$block_args = wp_parse_args(
+		$attributes,
+		array(
+			'itemIDs'          => array(),
+			'avatarSize'       => 'full',
+			'displayGroupName' => true,
+			'extraInfo'        => 'none',
+			'layoutPreference' => 'list',
+			'columns'          => '2',
+		)
+	);
+
+	$group_ids = wp_parse_id_list( $block_args['itemIDs'] );
+	if ( ! array_filter( $group_ids ) ) {
+		return '';
+	}
+
+	$container_classes = sprintf( 'bp-block-groups avatar-%s', $block_args['avatarSize'] );
+	if ( 'grid' === $block_args['layoutPreference'] ) {
+		$container_classes .= sprintf( ' is-grid columns-%d', (int) $block_args['columns'] );
+	}
+
+	$query = groups_get_groups(
+		array(
+			'include' => $group_ids,
+		)
+	);
+
+	// Initialize the output and the groups.
+	$output = '';
+	$groups = $query['groups'];
+
+	foreach ( $groups as $group ) {
+		$has_description    = false;
+		$group_item_classes = 'group-content';
+
+		if ( 'list' === $block_args['layoutPreference'] && 'description' === $block_args['extraInfo'] && isset( $group->description ) && $group->description ) {
+			$has_description    = true;
+			$group_item_classes = 'group-content has-description';
+		}
+
+		$output .= sprintf( '<div class="%s">', $group_item_classes );
+
+		// Get Member link.
+		$group_link = bp_get_group_permalink( $group );
+
+		// Set the Avatar output.
+		if ( $bp->avatar && $bp->avatar->show_avatars && ! bp_disable_group_avatar_uploads() && 'none' !== $block_args['avatarSize'] ) {
+			$output .= sprintf(
+				'<div class="item-header-avatar">
+					<a href="%1$s">
+						<img class="avatar" alt="%2$s" src="%3$s" />
+					</a>
+				</div>',
+				esc_url( $group_link ),
+				/* translators: %s: the group's name */
+				sprintf( esc_attr__( 'Profile photo of %s', 'buddypress' ), $group->display_name ),
+				esc_url(
+					bp_core_fetch_avatar(
+						array(
+							'item_id' => $group->id,
+							'object'  => 'group',
+							'type'    => $block_args['avatarSize'],
+							'html'    => false,
+						)
+					)
+				)
+			);
+		}
+
+		$output .= '<div class="group-description">';
+
+		if ( $block_args['displayGroupName'] ) {
+			$output .= sprintf(
+				'<strong><a href="%1$s">%2$s</a></strong>',
+				esc_url( $group_link ),
+				esc_html( $group->name )
+			);
+		}
+
+		// Add the latest activity the group posted.
+		if ( $has_description && $group->description ) {
+			$output .= sprintf(
+				'<div class="group-description-content">%s</div>',
+				bp_get_group_description( $group )
+			);
+		} elseif ( 'active' === $block_args['extraInfo'] ) {
+			$output .= sprintf(
+				'<time datetime="%1$s">%2$s</time>',
+				esc_attr( bp_core_get_iso8601_date( $group->last_activity ) ),
+				/* translators: %s: a human time diff. */
+				sprintf( esc_html__( 'Active %s', 'buddypress' ), bp_get_group_last_active( $group ) )
+			);
+		} elseif ( 'popular' === $block_args['extraInfo'] ) {
+			$total_member_count = $group->total_member_count;
+
+			$output .= sprintf(
+				'<div class="group-meta">%s</div>',
+				/* translators: %d: the number of group members. */
+				esc_html( sprintf( _n( '%d member', '%d members', $total_member_count, 'buddypress' ), $total_member_count ) )
+			);
+		}
+
+		$output .= '</div></div>';
+	}
+
+	// Set the final output.
+	$output = sprintf( '<div class="%1$s">%2$s</div>', $container_classes, $output );
+
+	/**
+	 * Filter here to edit the output of the groups block.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param string $output     The HTML output of the block.
+	 * @param array  $block_args The block arguments.
+	 * @param array  $groups     The list of BP_Groups_Group objects.
+	 */
+	return apply_filters( 'bp_groups_render_groups_block_output', $output, $block_args, $groups );
+}

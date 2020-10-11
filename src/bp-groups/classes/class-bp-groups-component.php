@@ -1010,6 +1010,57 @@ class BP_Groups_Component extends BP_Component {
 						),
 					),
 				),
+				'bp/groups' => array(
+					'name'               => 'bp/groups',
+					'editor_script'      => 'bp-groups-block',
+					'editor_script_url'  => plugins_url( 'js/blocks/groups.js', dirname( __FILE__ ) ),
+					'editor_script_deps' => array(
+						'wp-blocks',
+						'wp-element',
+						'wp-components',
+						'wp-i18n',
+						'wp-compose',
+						'wp-data',
+						'wp-api-fetch',
+						'wp-url',
+						'wp-block-editor',
+						'bp-block-components',
+						'lodash',
+					),
+					'style'              => 'bp-groups-block',
+					'style_url'          => plugins_url( 'css/blocks/groups.css', dirname( __FILE__ ) ),
+					'attributes'         => array(
+						'itemIDs'          => array(
+							'type'  => 'array',
+							'items' => array(
+								'type' => 'integer',
+							),
+						),
+						'avatarSize'       => array(
+							'type'    => 'string',
+							'default' => 'full',
+						),
+						'displayGroupName' => array(
+							'type'    => 'boolean',
+							'default' => true,
+						),
+						'extraInfo'        => array(
+							'type'    => 'string',
+							'default' => 'none',
+							'enum'    => array( 'description', 'popular', 'active', 'none' ),
+						),
+						'layoutPreference' => array(
+							'type'    => 'string',
+							'default' => 'list',
+							'enum'    => array( 'list', 'grid' ),
+						),
+						'columns'          => array(
+							'type'    => 'number',
+							'default' => 2,
+						),
+					),
+					'render_callback'    => 'bp_groups_render_groups_block',
+				),
 			)
 		);
 	}

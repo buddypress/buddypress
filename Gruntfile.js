@@ -34,7 +34,9 @@ module.exports = function( grunt ) {
 			'!bp-templates/bp-nouveau/css/buddypress.css',
 			'!bp-core/admin/css/hello.css',
 			'!bp-members/css/blocks/member.css',
-			'!bp-groups/css/blocks/group.css'
+			'!bp-groups/css/blocks/group.css',
+			'!bp-members/css/blocks/members.css',
+			'!bp-groups/css/blocks/groups.css'
 		],
 
 		autoprefixer = require('autoprefixer');
