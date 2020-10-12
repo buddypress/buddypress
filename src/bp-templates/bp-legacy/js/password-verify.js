@@ -14,7 +14,12 @@
 			return;
 		}
 
-		strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputBlacklist(), pass2 );
+		// wp.passwordStrength.userInputBlacklist() has been deprecated in WP 5.5.0.
+		if ( 'function' === typeof wp.passwordStrength.userInputDisallowedList ) {
+			strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputDisallowedList(), pass2 );
+		} else {
+			strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputBlacklist(), pass2 );
+		}
 
 		switch ( strength ) {
 			case 2:

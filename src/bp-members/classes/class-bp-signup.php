@@ -160,7 +160,7 @@ class BP_Signup {
 			'bp_core_signups_get_args'
 		);
 
-		// Whitelist sanitization.
+		// Make sure the orderby clause is allowed.
 		if ( ! in_array( $r['orderby'], array( 'login', 'email', 'registered', 'activated' ), true ) ) {
 			$r['orderby'] = 'signup_id';
 		}
