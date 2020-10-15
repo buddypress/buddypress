@@ -9,6 +9,8 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @expectedDeprecated BP_Core_User::get_users
 	 */
 	public function test_get_users_with_exclude_querystring() {
+		add_filter( 'bp_use_legacy_user_query', '__return_true' );
+
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
@@ -18,6 +20,8 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$users = BP_Core_User::get_users( 'active', 0, 1, 0, false, false, true, $exclude_qs );
 		$user_ids = wp_parse_id_list( wp_list_pluck( $users['users'], 'id' ) );
 
+		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
+
 		$this->assertEquals( array( $u2 ), $user_ids );
 	}
 
@@ -25,6 +29,8 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @expectedDeprecated BP_Core_User::get_users
 	 */
 	public function test_get_users_with_exclude_array() {
+		add_filter( 'bp_use_legacy_user_query', '__return_true' );
+
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
@@ -38,6 +44,8 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$users = BP_Core_User::get_users( 'active', 0, 1, 0, false, false, true, $exclude_array );
 		$user_ids = wp_parse_id_list( wp_list_pluck( $users['users'], 'id' ) );
 
+		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
+
 		$this->assertEquals( array( $u2 ), $user_ids );
 	}
 
@@ -45,6 +53,8 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @expectedDeprecated BP_Core_User::get_users
 	 */
 	public function test_get_users_with_include_querystring() {
+		add_filter( 'bp_use_legacy_user_query', '__return_true' );
+
 		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
 		) );
@@ -60,6 +70,8 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 		$users = BP_Core_User::get_users( 'active', 0, 1, 0, $include_qs );
 		$user_ids = wp_parse_id_list( wp_list_pluck( $users['users'], 'id' ) );
 
+		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
+
 		$this->assertEquals( array( $u1, $u3 ), $user_ids );
 	}
 
@@ -67,6 +79,8 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 	 * @expectedDeprecated BP_Core_User::get_users
 	 */
 	public function test_get_users_with_include_array() {
+		add_filter( 'bp_use_legacy_user_query', '__return_true' );
+
 		$u1 = self::factory()->user->create( array(
 			'last_activity' => gmdate( 'Y-m-d H:i:s' ),
 		) );
@@ -89,6 +103,8 @@ class BP_Tests_BP_Core_User_TestCases extends BP_UnitTestCase {
 
 		// typecast...ugh
 		$user_ids = array_map( 'intval', $user_ids );
+
+		remove_filter( 'bp_use_legacy_user_query', '__return_true' );
 
 		$this->assertEquals( array( $u1, $u3 ), $user_ids );
 	}

@@ -386,7 +386,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		// Setup parameters to assert to be the same
 		$expected = $time;
-		$found    = bp_get_user_meta( $user, 'last_activity', true );
+		$found    = bp_get_user_last_activity( $user );
 
 		$this->assertSame( $expected, $found );
 	}

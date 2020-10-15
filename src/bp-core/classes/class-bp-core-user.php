@@ -760,11 +760,12 @@ class BP_Core_User {
 
 		// Fetch the user's last_activity.
 		if ( 'active' != $type ) {
-			$user_activity = $wpdb->get_results( $wpdb->prepare( "SELECT user_id as id, meta_value as last_activity FROM {$wpdb->usermeta} WHERE meta_key = %s AND user_id IN ( {$user_ids} )", bp_get_user_meta_key( 'last_activity' ) ) );
+			$user_activity = self::get_last_activity( $user_ids );
 			for ( $i = 0, $count = count( $paged_users ); $i < $count; ++$i ) {
 				foreach ( (array) $user_activity as $activity ) {
-					if ( $activity->id == $paged_users[$i]->id )
-						$paged_users[$i]->last_activity = $activity->last_activity;
+					if ( ! empty( $activity['user_id'] ) && (int) $activity['user_id'] === (int) $paged_users[$i]->id ) {
+						$paged_users[$i]->last_activity = $activity['date_recorded'];
+					}
 				}
 			}
 		}

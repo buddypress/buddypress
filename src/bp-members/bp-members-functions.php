@@ -126,8 +126,22 @@ function bp_core_get_users( $args = '' ) {
 		'count_total'         => 'count_query' // What kind of total user count to do, if any. 'count_query', 'sql_calc_found_rows', or false.
 	), 'core_get_users' );
 
-	// For legacy users. Use of BP_Core_User::get_users() is deprecated.
-	if ( apply_filters( 'bp_use_legacy_user_query', false, __FUNCTION__, $r ) ) {
+	/**
+	 * For legacy users. Use of BP_Core_User::get_users() is deprecated.
+	 *
+	 * Forcing this filter to true will use the legacy user query. As of
+	 * BuddyPress 7.0.0, mirroring of the 'last_activity' value to usermeta
+	 * is also disabled if true. See bp_update_user_last_activity().
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param bool   $retval   Defaults to false.
+	 * @param string $function Current function name.
+	 * @param array  $r        User query arguments.
+	 */
+	$use_legacy_query = apply_filters( 'bp_use_legacy_user_query', false, __FUNCTION__, $r );
+
+	if ( $use_legacy_query ) {
 		$retval = BP_Core_User::get_users(
 			$r['type'],
 			$r['per_page'],
@@ -1048,6 +1062,8 @@ function bp_is_user_inactive( $user_id = 0 ) {
  * Update a user's last activity.
  *
  * @since 1.9.0
+ * @since 7.0.0 Backward compatibility usermeta mirroring is only allowed if the
+ *              legacy user query is enabled.
  *
  * @param int    $user_id ID of the user being updated.
  * @param string $time    Time of last activity, in 'Y-m-d H:i:s' format.
@@ -1070,14 +1086,23 @@ function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
 		$time = bp_core_current_time();
 	}
 
-	// As of BuddyPress 2.0, last_activity is no longer stored in usermeta.
-	// However, we mirror it there for backward compatibility. Do not use!
-	// Remove our warning and re-add.
-	remove_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10 );
-	remove_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10 );
-	bp_update_user_meta( $user_id, 'last_activity', $time );
-	add_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10, 4 );
-	add_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10, 4 );
+	/** This filter is documented in bp_core_get_users() */
+	$use_legacy_query = apply_filters( 'bp_use_legacy_user_query', false, __FUNCTION__, [ 'user_id' => $user_id ] );
+
+	/*
+	 * As of BuddyPress 2.0, last_activity is no longer stored in usermeta.
+	 * However, we mirror it there for backward compatibility. Do not use!
+	 *
+	 * As of BuddyPress 7.0, mirroring is only allowed if the legacy user
+	 * query is enabled.
+	 */
+	if ( $use_legacy_query ) {
+		remove_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10 );
+		remove_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10 );
+		bp_update_user_meta( $user_id, 'last_activity', $time );
+		add_filter( 'update_user_metadata', '_bp_update_user_meta_last_activity_warning', 10, 4 );
+		add_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10, 4 );
+	}
 
 	return BP_Core_User::update_last_activity( $user_id, $time );
 }
