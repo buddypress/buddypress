@@ -24,14 +24,14 @@ class BP_Core_Notification {
 	 *
 	 * @var int
 	 */
-	public $id;
+	public $id = 0;
 
 	/**
 	 * The ID to which the notification relates to within the component.
 	 *
 	 * @var int
 	 */
-	public $item_id;
+	public $item_id = 0;
 
 	/**
 	 * The secondary ID to which the notification relates to within the component.
@@ -45,35 +45,35 @@ class BP_Core_Notification {
 	 *
 	 * @var int
 	 */
-	public $user_id;
+	public $user_id = 0;
 
 	/**
 	 * The name of the component that the notification is for.
 	 *
 	 * @var string
 	 */
-	public $component_name;
+	public $component_name = '';
 
 	/**
 	 * The action within the component which the notification is related to.
 	 *
 	 * @var string
 	 */
-	public $component_action;
+	public $component_action = '';
 
 	/**
 	 * The date the notification was created.
 	 *
 	 * @var string
 	 */
-	public $date_notified;
+	public $date_notified = '';
 
 	/**
 	 * Is the notification new or has it already been read.
 	 *
 	 * @var boolean
 	 */
-	public $is_new;
+	public $is_new = false;
 
 	/** Public Methods ********************************************************/
 
@@ -83,10 +83,14 @@ class BP_Core_Notification {
 	 * @param int $id ID for the notification.
 	 */
 	public function __construct( $id = 0 ) {
-		if ( !empty( $id ) ) {
-			$this->id = $id;
-			$this->populate();
+
+		// Bail if no ID
+		if ( empty( $id ) ) {
+			return;
 		}
+
+		$this->id = absint( $id );
+		$this->populate();
 	}
 
 	/**
@@ -102,16 +106,21 @@ class BP_Core_Notification {
 		$bp = buddypress();
 
 		// Update.
-		if ( !empty( $this->id ) ) {
-			$sql = $wpdb->prepare( "UPDATE {$bp->core->table_name_notifications} SET item_id = %d, secondary_item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = %s, is_new = %d ) WHERE id = %d", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
+		if ( ! empty( $this->id ) ) {
+			$query = "UPDATE {$bp->notifications->table_name} SET item_id = %d, secondary_item_id = %d, user_id = %d, component_name = %s, component_action = %d, date_notified = %s, is_new = %d ) WHERE id = %d";
+			$sql   = $wpdb->prepare( $query, $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new, $this->id );
 
 		// Save.
 		} else {
-			$sql = $wpdb->prepare( "INSERT INTO {$bp->core->table_name_notifications} ( item_id, secondary_item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %d, %s, %s, %s, %d )", $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
+			$query = "INSERT INTO {$bp->notifications->table_name} ( item_id, secondary_item_id, user_id, component_name, component_action, date_notified, is_new ) VALUES ( %d, %d, %d, %s, %s, %s, %d )";
+			$sql   = $wpdb->prepare( $query, $this->item_id, $this->secondary_item_id, $this->user_id, $this->component_name, $this->component_action, $this->date_notified, $this->is_new );
 		}
 
-		if ( !$result = $wpdb->query( $sql ) )
+		$result = $wpdb->query( $sql );
+
+		if ( empty( $result ) || is_wp_error( $result ) ) {
 			return false;
+		}
 
 		$this->id = $wpdb->insert_id;
 
@@ -130,14 +139,18 @@ class BP_Core_Notification {
 
 		$bp = buddypress();
 
-		if ( $notification = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE id = %d", $this->id ) ) ) {
-			$this->item_id = $notification->item_id;
-			$this->secondary_item_id = $notification->secondary_item_id;
-			$this->user_id           = $notification->user_id;
-			$this->component_name    = $notification->component_name;
-			$this->component_action  = $notification->component_action;
-			$this->date_notified     = $notification->date_notified;
-			$this->is_new            = $notification->is_new;
+		$query   = "SELECT * FROM {$bp->notifications->table_name} WHERE id = %d";
+		$prepare = $wpdb->prepare( $query, $this->id );
+		$result  = $wpdb->get_row( $prepare );
+
+		if ( ! empty( $result ) ) {
+			$this->item_id = $result->item_id;
+			$this->secondary_item_id = $result->secondary_item_id;
+			$this->user_id           = $result->user_id;
+			$this->component_name    = $result->component_name;
+			$this->component_action  = $result->component_action;
+			$this->date_notified     = $result->date_notified;
+			$this->is_new            = $result->is_new;
 		}
 	}
 
@@ -150,12 +163,16 @@ class BP_Core_Notification {
 	 * @param int $notification_id Notification ID to check for.
 	 * @return string
 	 */
-	public static function check_access( $user_id, $notification_id ) {
+	public static function check_access( $user_id = 0, $notification_id = 0 ) {
 		global $wpdb;
 
 		$bp = buddypress();
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->core->table_name_notifications} WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
+		$query   = "SELECT COUNT(id) FROM {$bp->notifications->table_name} WHERE id = %d AND user_id = %d";
+		$prepare = $wpdb->prepare( $query, $notification_id, $user_id );
+		$result  = $wpdb->get_var( $prepare );
+
+		return $result;
 	}
 
 	/**
@@ -178,7 +195,11 @@ class BP_Core_Notification {
 			? ' AND is_new = 1 '
 			: '';
 
-		return $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$bp->core->table_name_notifications} WHERE user_id = %d {$is_new}", $user_id ) );
+		$query   = "SELECT * FROM {$bp->notifications->table_name} WHERE user_id = %d {$is_new}";
+		$prepare = $wpdb->prepare( $query, $user_id );
+		$result  = $wpdb->get_results( $prepare );
+
+		return $result;
 	}
 
 	/**
@@ -198,7 +219,11 @@ class BP_Core_Notification {
 
 		$bp = buddypress();
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
+		$query   = "DELETE FROM {$bp->notifications->table_name} WHERE user_id = %d AND component_name = %s AND component_action = %s";
+		$prepare = $wpdb->prepare( $query, $user_id, $component_name, $component_action );
+		$result  = $wpdb->query( $prepare );
+
+		return $result;
 	}
 
 	/**
@@ -212,20 +237,24 @@ class BP_Core_Notification {
 	 * @param int      $item_id           The item ID of the notifications we wish to delete.
 	 * @param string   $component_name    The name of the component that the notifications we wish to delete.
 	 * @param string   $component_action  The action of the component that the notifications we wish to delete.
-	 * @param int|bool $secondary_item_id (optional) The secondary item id of the notifications that we wish to
+	 * @param int      $secondary_item_id (optional) The secondary item id of the notifications that we wish to
 	 *                                    use to delete.
 	 * @return mixed
 	 */
-	public static function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = false ) {
+	public static function delete_for_user_by_item_id( $user_id, $item_id, $component_name, $component_action, $secondary_item_id = 0 ) {
 		global $wpdb;
 
 		$bp = buddypress();
 
-		$secondary_item_sql = !empty( $secondary_item_id )
+		$secondary_item_sql = ! empty( $secondary_item_id )
 			? $wpdb->prepare( " AND secondary_item_id = %d", $secondary_item_id )
 			: '';
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE user_id = %d AND item_id = %d AND component_name = %s AND component_action = %s{$secondary_item_sql}", $user_id, $item_id, $component_name, $component_action ) );
+		$query   = "DELETE FROM {$bp->notifications->table_name} WHERE user_id = %d AND item_id = %d AND component_name = %s AND component_action = %s{$secondary_item_sql}";
+		$prepare = $wpdb->prepare( $query, $user_id, $item_id, $component_name, $component_action );
+		$result  = $wpdb->query( $prepare );
+
+		return $result;
 	}
 
 	/**
@@ -245,7 +274,11 @@ class BP_Core_Notification {
 
 		$bp = buddypress();
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE item_id = %d AND component_name = %s AND component_action = %s", $user_id, $component_name, $component_action ) );
+		$query   = "DELETE FROM {$bp->notifications->table_name} WHERE item_id = %d AND component_name = %s AND component_action = %s";
+		$prepare = $wpdb->prepare( $query, $user_id, $component_name, $component_action );
+		$result  = $wpdb->query( $prepare );
+
+		return $result;
 	}
 
 	/**
@@ -256,27 +289,29 @@ class BP_Core_Notification {
 	 *
 	 * @static
 	 *
-	 * @param string $item_id           The item id that they notifications are to be for.
+	 * @param int    $item_id           The item id that they notifications are to be for.
 	 * @param string $component_name    The component that the notifications are to be from.
 	 * @param string $component_action  The action that the notifications are to be from.
-	 * @param string $secondary_item_id Optional secondary item id that the notifications are to have.
+	 * @param int    $secondary_item_id Optional secondary item id that the notifications are to have.
 	 * @return mixed
 	 */
-	public static function delete_all_by_type( $item_id, $component_name, $component_action, $secondary_item_id ) {
+	public static function delete_all_by_type( $item_id, $component_name, $component_action = '', $secondary_item_id = 0 ) {
 		global $wpdb;
 
-		if ( $component_action )
-			$component_action_sql = $wpdb->prepare( "AND component_action = %s", $component_action );
-		else
-			$component_action_sql = '';
+		$component_action_sql = ! empty( $component_action )
+			? $wpdb->prepare( "AND component_action = %s", $component_action )
+			: '';
 
-		if ( $secondary_item_id )
-			$secondary_item_sql = $wpdb->prepare( "AND secondary_item_id = %d", $secondary_item_id );
-		else
-			$secondary_item_sql = '';
+		$secondary_item_sql = ! empty( $secondary_item_id )
+			? $wpdb->prepare( "AND secondary_item_id = %d", $secondary_item_id )
+			: '';
 
 		$bp = buddypress();
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->core->table_name_notifications} WHERE item_id = %d AND component_name = %s {$component_action_sql} {$secondary_item_sql}", $item_id, $component_name ) );
+		$query   = "DELETE FROM {$bp->notifications->table_name} WHERE item_id = %d AND component_name = %s {$component_action_sql} {$secondary_item_sql}";
+		$prepare = $wpdb->prepare( $query, $item_id, $component_name );
+		$result  = $wpdb->query( $prepare );
+
+		return $result;
 	}
 }

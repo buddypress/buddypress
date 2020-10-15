@@ -36,6 +36,31 @@ class BP_Core extends BP_Component {
 	}
 
 	/**
+	 * Magic getter.
+	 *
+	 * This exists specifically for supporting deprecated object vars.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function __get( $key = '' ) {
+
+		// Backwards compatibility for the original Notifications table var
+		if ( 'table_name_notifications' === $key ) {
+			return bp_is_active( 'notifications' )
+				? buddypress()->notifications->table_name
+				: buddypress()->table_prefix . 'bp_notifications';
+		}
+
+		// Return object var if set, else null
+		return isset( $this->{$key} )
+			? $this->{$key}
+			: null;
+	}
+
+	/**
 	 * Populate the global data needed before BuddyPress can continue.
 	 *
 	 * This involves figuring out the currently required, activated, deactivated,
@@ -248,10 +273,6 @@ class BP_Core extends BP_Component {
 		 * @param string $value Default blog Gravatar.
 		 */
 		$bp->grav_default->blog  = apply_filters( 'bp_blog_gravatar_default',  $bp->grav_default->user );
-
-		// Notifications table. Included here for legacy purposes. Use
-		// bp-notifications instead.
-		$bp->core->table_name_notifications = $bp->table_prefix . 'bp_notifications';
 
 		// Backward compatibility for plugins modifying the legacy bp_nav and bp_options_nav global properties.
 		$bp->bp_nav         = new BP_Core_BP_Nav_BackCompat();

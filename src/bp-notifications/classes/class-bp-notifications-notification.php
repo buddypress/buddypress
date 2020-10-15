@@ -556,12 +556,16 @@ class BP_Notifications_Notification {
 	 * @return bool True if the notification belongs to the user, otherwise
 	 *              false.
 	 */
-	public static function check_access( $user_id, $notification_id ) {
+	public static function check_access( $user_id = 0, $notification_id = 0 ) {
 		global $wpdb;
 
 		$bp = buddypress();
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->core->table_name_notifications} WHERE id = %d AND user_id = %d", $notification_id, $user_id ) );
+		$query   = "SELECT COUNT(id) FROM {$bp->notifications->table_name} WHERE id = %d AND user_id = %d";
+		$prepare = $wpdb->prepare( $query, $notification_id, $user_id );
+		$result  = $wpdb->get_var( $prepare );
+
+		return $result;
 	}
 
 	/**
