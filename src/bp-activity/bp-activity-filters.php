@@ -374,17 +374,20 @@ function bp_activity_make_nofollow_filter( $text ) {
 }
 
 	/**
-	 * Add rel=nofollow to a link.
+	 * Adds `rel="nofollow ugc"` to a link.
 	 *
-	 * @since 1.2.0
+	 * @since 1.2.0 Adds the nofollow rel attribute.
+	 * @since 7.0.0 Adds the ugc rel attribute.
 	 *
 	 * @param array $matches Items matched by preg_replace_callback() in bp_activity_make_nofollow_filter().
 	 * @return string $text Link with rel=nofollow added.
 	 */
 	function bp_activity_make_nofollow_filter_callback( $matches ) {
 		$text = $matches[1];
-		$text = str_replace( array( ' rel="nofollow"', " rel='nofollow'"), '', $text );
-		return "<a $text rel=\"nofollow\">";
+
+		// The WP `make_clickable()` formatting function is adding the rel="nofollow" attribute.
+		$text = str_replace( array( ' rel="nofollow"', " rel='nofollow'" ), '', $text );
+		return "<a $text rel=\"nofollow ugc\">";
 	}
 
 /**
