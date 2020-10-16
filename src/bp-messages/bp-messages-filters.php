@@ -77,6 +77,8 @@ add_filter( 'bp_get_the_thread_message_content',      'stripslashes_deep'    );
 add_filter( 'bp_get_the_thread_subject',              'stripslashes_deep'    );
 add_filter( 'bp_get_message_thread_content',          'stripslashes_deep', 1 );
 
+add_filter( 'bp_get_the_thread_message_content', 'bp_core_add_loading_lazy_attribute' );
+
 // Personal data export.
 add_filter( 'wp_privacy_personal_data_exporters', 'bp_messages_register_personal_data_exporter' );
 

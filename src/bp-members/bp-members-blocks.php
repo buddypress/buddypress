@@ -106,7 +106,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 		$avatar_container = sprintf(
 			'<div class="item-header-avatar">
 				<a href="%1$s">
-					<img src="%2$s" alt="%3$s" class="avatar">
+					<img loading="lazy" src="%2$s" alt="%3$s" class="avatar">
 				</a>
 			</div>',
 			esc_url( $member_link ),

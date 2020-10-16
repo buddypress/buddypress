@@ -59,6 +59,9 @@ add_filter( 'bp_email_set_content_html', 'stripslashes', 8 );
 add_filter( 'bp_email_set_content_plaintext', 'wp_strip_all_tags', 6 );
 add_filter( 'bp_email_set_subject', 'sanitize_text_field', 6 );
 
+// Avatars.
+add_filter( 'bp_core_fetch_avatar', 'bp_core_add_loading_lazy_attribute' );
+
 /**
  * Template Compatibility.
  *
@@ -897,6 +900,31 @@ function bp_core_filter_edit_post_link( $edit_link = '', $post_id = 0 ) {
 	}
 
 	return $edit_link;
+}
+
+/**
+ * Add 'loading="lazy"' attribute into images and iframes.
+ *
+ * @since 7.0.0
+ *
+ * @string $content Content to inject attribute into.
+ * @return string
+ */
+function bp_core_add_loading_lazy_attribute( $content = '' ) {
+	if ( false === strpos( $content, '<img ' ) && false === strpos( $content, '<iframe ' ) ) {
+		return $content;
+	}
+
+	$content = str_replace( '<img ',    '<img loading="lazy" ',    $content );
+	$content = str_replace( '<iframe ', '<iframe loading="lazy" ', $content );
+
+	// WordPress posts need their position absolute removed for lazyloading.
+	$find_pos_absolute = ' style="position: absolute; clip: rect(1px, 1px, 1px, 1px);" ';
+	if ( false !== strpos( $content, 'data-secret=' ) && false !== strpos( $content, $find_pos_absolute ) ) {
+		$content = str_replace( $find_pos_absolute, '', $content );
+	}
+
+	return $content;
 }
 
 /**

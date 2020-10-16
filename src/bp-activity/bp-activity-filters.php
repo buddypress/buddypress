@@ -91,6 +91,9 @@ add_filter( 'bp_get_activity_latest_update',         'bp_activity_make_nofollow_
 add_filter( 'bp_get_activity_latest_update_excerpt', 'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_make_nofollow_filter' );
 
+add_filter( 'bp_get_activity_content_body', 'bp_core_add_loading_lazy_attribute' );
+add_filter( 'bp_activity_comment_content',  'bp_core_add_loading_lazy_attribute' );
+
 add_filter( 'pre_comment_content',                   'bp_activity_at_name_filter' );
 add_filter( 'the_content',                           'bp_activity_at_name_filter' );
 add_filter( 'bp_activity_get_embed_excerpt',         'bp_activity_at_name_filter' );
