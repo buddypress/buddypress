@@ -360,8 +360,7 @@ function bp_admin_invitations_table() {
 	bp_core_install_invitations();
 
 	// Check for existence of invitations table.
-	$bp_prefix  = bp_core_get_table_prefix();
-	$table_name = "{$bp_prefix}bp_invitations";
+	$table_name = BP_Invitation_Manager::get_table_name();
 	$query = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) );
 	if ( ! $wpdb->get_var( $query ) == $table_name ) {
 		// Early return if table creation failed.
