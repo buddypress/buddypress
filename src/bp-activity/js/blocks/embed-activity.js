@@ -220,11 +220,12 @@ var _wp = wp,
     __ = _wp.i18n.__,
     _wp$components = _wp.components,
     Placeholder = _wp$components.Placeholder,
+    Disabled = _wp$components.Disabled,
     SandBox = _wp$components.SandBox,
     Button = _wp$components.Button,
     ExternalLink = _wp$components.ExternalLink,
     Spinner = _wp$components.Spinner,
-    Toolbar = _wp$components.Toolbar,
+    ToolbarGroup = _wp$components.ToolbarGroup,
     ToolbarButton = _wp$components.ToolbarButton,
     compose = _wp.compose.compose,
     withSelect = _wp.data.withSelect,
@@ -274,7 +275,7 @@ var EditEmbedActivity = function EditEmbedActivity(_ref) {
     setIsEditingURL(true);
   };
 
-  var editToolbar = createElement(BlockControls, null, createElement(Toolbar, null, createElement(ToolbarButton, {
+  var editToolbar = createElement(BlockControls, null, createElement(ToolbarGroup, null, createElement(ToolbarButton, {
     icon: "edit",
     title: __('Edit URL', 'buddypress'),
     onClick: switchBackToURLInput
@@ -314,10 +315,6 @@ var EditEmbedActivity = function EditEmbedActivity(_ref) {
   }
 
   if (!preview || !preview['x_buddypress'] || 'activity' !== preview['x_buddypress']) {
-    // Reset the URL.
-    setAttributes({
-      url: ''
-    });
     return createElement(Fragment, null, editToolbar, createElement(Placeholder, {
       icon: "buddicons-activity",
       label: label
@@ -330,10 +327,10 @@ var EditEmbedActivity = function EditEmbedActivity(_ref) {
     className: "wp-block-embed is-type-bp-activity"
   }, createElement("div", {
     className: "wp-block-embed__wrapper"
-  }, createElement(SandBox, {
+  }, createElement(Disabled, null, createElement(SandBox, {
     html: preview && preview.html ? preview.html : '',
     scripts: [embedScriptURL]
-  })), (!RichText.isEmpty(caption) || isSelected) && createElement(RichText, {
+  }))), (!RichText.isEmpty(caption) || isSelected) && createElement(RichText, {
     tagName: "figcaption",
     placeholder: __('Write caption…', 'buddypress'),
     value: caption,
@@ -354,8 +351,8 @@ var editEmbedActivityBlock = compose([withSelect(function (select, ownProps) {
       getEmbedPreview = _select.getEmbedPreview,
       isRequestingEmbedPreview = _select.isRequestingEmbedPreview;
 
-  var preview = undefined !== url && getEmbedPreview(url);
-  var fetching = undefined !== url && isRequestingEmbedPreview(url);
+  var preview = !!url && getEmbedPreview(url);
+  var fetching = !!url && isRequestingEmbedPreview(url);
   return {
     bpSettings: editorSettings.bp.activity || {},
     preview: preview,

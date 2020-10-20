@@ -12,11 +12,12 @@ const {
 	},
 	components: {
 		Placeholder,
+		Disabled,
 		SandBox,
 		Button,
 		ExternalLink,
 		Spinner,
-		Toolbar,
+		ToolbarGroup,
 		ToolbarButton,
 	},
 	compose: {
@@ -64,13 +65,13 @@ const EditEmbedActivity = ( {
 
 	const editToolbar = (
 		<BlockControls>
-			<Toolbar>
+			<ToolbarGroup>
 				<ToolbarButton
 					icon="edit"
 					title={ __( 'Edit URL', 'buddypress' ) }
 					onClick={ switchBackToURLInput }
 				/>
-			</Toolbar>
+			</ToolbarGroup>
 		</BlockControls>
 	);
 
@@ -118,9 +119,6 @@ const EditEmbedActivity = ( {
 	}
 
 	if ( ! preview || ! preview['x_buddypress'] || 'activity' !== preview['x_buddypress'] ) {
-		// Reset the URL.
-		setAttributes( { url: '' } );
-
 		return (
 			<Fragment>
 				{ editToolbar }
@@ -141,10 +139,12 @@ const EditEmbedActivity = ( {
 			{ ! isEditingURL && editToolbar }
 			<figure className="wp-block-embed is-type-bp-activity">
 				<div className="wp-block-embed__wrapper">
-					<SandBox
-						html={ preview && preview.html ? preview.html : '' }
-						scripts={ [ embedScriptURL ] }
-					/>
+					<Disabled>
+						<SandBox
+							html={ preview && preview.html ? preview.html : '' }
+							scripts={ [ embedScriptURL ] }
+						/>
+					</Disabled>
 				</div>
 				{ ( ! RichText.isEmpty( caption ) || isSelected ) && (
 					<RichText
@@ -169,8 +169,8 @@ const editEmbedActivityBlock = compose( [
 			isRequestingEmbedPreview,
 		} = select( 'core' );
 
-		const preview = undefined !== url && getEmbedPreview( url );
-		const fetching = undefined !== url && isRequestingEmbedPreview( url );
+		const preview = !! url && getEmbedPreview( url );
+		const fetching = !! url && isRequestingEmbedPreview( url );
 
 		return {
 			bpSettings: editorSettings.bp.activity || {},
