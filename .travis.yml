@@ -79,6 +79,8 @@ before_install:
 
   # setup NodeJS version using NVM
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  # make sure composer is < 2.0.0 to avoid dependencies install errors.
+  - composer self-update 1.10.16
   - node --version
   - nvm install 12.16.0
   - node --version
