@@ -21,6 +21,10 @@ div#community-profile-page #profile-nav {
 	margin-bottom: 1em;
 }
 
+div#community-profile-page #bp-members-profile-member-type {
+	width: 100%;
+}
+
 #bp_members_admin_user_stats ul {
 	margin-bottom: 0;
 }

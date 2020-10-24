@@ -2993,17 +2993,25 @@ add_action( bp_get_member_type_tax_name() . '_add_form', 'bp_insert_member_types
  * Set type for a member.
  *
  * @since 2.2.0
+ * @since 7.0.0 $member_type parameter also accepts an array of member type names.
  *
- * @param int    $user_id     ID of the user.
- * @param string $member_type Member type.
- * @param bool   $append      Optional. True to append this to existing types for user,
- *                            false to replace. Default: false.
+ * @param int          $user_id     ID of the user.
+ * @param string|array $member_type The member type name or an array of member type names.
+ * @param bool         $append      Optional. True to append this to existing types for user,
+ *                                  false to replace. Default: false.
  * @return false|array $retval See {@see bp_set_object_terms()}.
  */
 function bp_set_member_type( $user_id, $member_type, $append = false ) {
 	// Pass an empty $member_type to remove a user's type.
-	if ( ! empty( $member_type ) && ! bp_get_member_type_object( $member_type ) ) {
-		return false;
+	if ( ! empty( $member_type ) ) {
+		$member_types = (array) $member_type;
+		$valid_types  = array_filter( array_map( 'bp_get_member_type_object', $member_types ) );
+
+		if ( $valid_types ) {
+			$member_type = wp_list_pluck( $valid_types, 'name' );
+		} else {
+			return false;
+		}
 	}
 
 	$retval = bp_set_object_terms( $user_id, $member_type, bp_get_member_type_tax_name(), $append );
@@ -3017,9 +3025,9 @@ function bp_set_member_type( $user_id, $member_type, $append = false ) {
 		 *
 		 * @since 2.2.0
 		 *
-		 * @param int    $user_id     ID of the user whose member type has been updated.
-		 * @param string $member_type Member type.
-		 * @param bool   $append      Whether the type is being appended to existing types.
+		 * @param int          $user_id     ID of the user whose member type has been updated.
+		 * @param string|array $member_type The member type name or an array of member type names.
+		 * @param bool         $append      Whether the type is being appended to existing types.
 		 */
 		do_action( 'bp_set_member_type', $user_id, $member_type, $append );
 	}
@@ -3122,9 +3130,10 @@ function bp_get_member_type( $user_id, $single = true, $use_db = true ) {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string $type    Member type.
-	 * @param int    $user_id ID of the user.
-	 * @param bool   $single  Whether to return a single type string, or an array.
+	 * @param string|array|bool $type    a single member type (if $single is true) or an array of member types
+	 *                                   (if $single is false) or false on failure.
+	 * @param int               $user_id ID of the user.
+	 * @param bool              $single  Whether to return a single type string, or an array.
 	 */
 	return apply_filters( 'bp_get_member_type', $type, $user_id, $single );
 }
