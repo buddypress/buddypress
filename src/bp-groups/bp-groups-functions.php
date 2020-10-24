@@ -2614,7 +2614,7 @@ add_action( 'bp_register_taxonomies', 'bp_groups_register_group_types' );
 function bp_get_group_type_metadata_schema( $schema = array(), $taxonomy = '' ) {
 	if ( bp_get_group_type_tax_name() === $taxonomy ) {
 		if ( isset( $schema['bp_type_has_directory']['description'] ) ) {
-			$schema['bp_type_has_directory']['description'] = __( 'Add a list of groups matching the member type available on the Groups Directory page (e.g. site.url/groups/type/ninja/).', 'buddypress' );
+			$schema['bp_type_has_directory']['description'] = __( 'Add a list of groups matching the group type available on the Groups Directory page (e.g. site.url/groups/type/ninja/).', 'buddypress' );
 		}
 
 		if ( isset( $schema['bp_type_directory_slug']['description'] ) ) {
