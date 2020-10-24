@@ -1382,24 +1382,21 @@ function bp_groups_admin_process_group_type_bulk_changes( $doaction ) {
 			$group_id = (int) $group_id;
 
 			// Get the old group type to check against.
-			$group_type = bp_groups_get_group_type( $group_id );
+			$current_types = bp_groups_get_group_type( $group_id, false );
 
-			if ( 'remove_group_type' === $new_type ) {
-				// Remove the current group type, if there's one to remove.
-				if ( $group_type ) {
-					$removed = bp_groups_remove_group_type( $group_id, $group_type );
-					if ( false === $removed || is_wp_error( $removed ) ) {
-						$error = true;
-					}
+			if ( $current_types && 'remove_group_type' === $new_type ) {
+				$group_types = array();
+			} elseif ( ! $current_types || 1 !== count( $current_types ) || $new_type !== $current_types[0] ) {
+				$group_types = array( $new_type );
+			}
+
+			// Set the new group type.
+			if ( isset( $group_types ) ) {
+				$set = bp_groups_set_group_type( $group_id, $group_types );
+				if ( false === $set || is_wp_error( $set ) ) {
+					$error = true;
 				}
-			} else {
-				// Set the new group type.
-				if ( $new_type !== $group_type ) {
-					$set = bp_groups_set_group_type( $group_id, $new_type );
-					if ( false === $set || is_wp_error( $set ) ) {
-						$error = true;
-					}
-				}
+				unset( $group_types );
 			}
 		}
 	}
