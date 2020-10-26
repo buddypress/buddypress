@@ -254,7 +254,7 @@ function xprofile_insert_field( $args = '' ) {
 
 	// Instantiate a new field object.
 	if ( ! empty( $r['field_id'] ) ) {
-		$field = xprofile_get_field( $r['field_id'] );
+		$field = xprofile_get_field( $r['field_id'], null, false );
 	} else {
 		$field = new BP_XProfile_Field;
 	}
@@ -525,7 +525,7 @@ function xprofile_get_field_visibility_level( $field_id = 0, $user_id = 0 ) {
 	$current_level  = isset( $current_levels[ $field_id ] ) ? $current_levels[ $field_id ] : '';
 
 	// Use the user's stored level, unless custom visibility is disabled.
-	$field = xprofile_get_field( $field_id );
+	$field = xprofile_get_field( $field_id, null, false );
 	if ( isset( $field->allow_custom_visibility ) && 'disabled' === $field->allow_custom_visibility ) {
 		$current_level = $field->default_visibility;
 	}
@@ -1099,7 +1099,7 @@ function bp_xprofile_is_richtext_enabled_for_field( $field_id = null ) {
 		$field_id = bp_get_the_profile_field_id();
 	}
 
-	$field = xprofile_get_field( $field_id );
+	$field = xprofile_get_field( $field_id, null, false );
 
 	$enabled = false;
 	if ( $field instanceof BP_XProfile_Field ) {

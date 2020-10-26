@@ -767,7 +767,7 @@ function bp_the_profile_field_options( $args = array() ) {
 		 * However, we have to make sure that all data originally in $field gets merged back in, after reinstantiation.
 		 */
 		if ( ! method_exists( $field, 'get_children' ) ) {
-			$field_obj = xprofile_get_field( $field->id );
+			$field_obj = xprofile_get_field( $field->id, null, false );
 
 			foreach ( $field as $field_prop => $field_prop_value ) {
 				if ( ! isset( $field_obj->{$field_prop} ) ) {

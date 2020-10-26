@@ -271,7 +271,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 								foreach ( $group->fields as $field ) {
 
 									// Load the field.
-									$field = xprofile_get_field( $field->id );
+									$field = xprofile_get_field( $field->id, null, false );
 
 									$class = '';
 									if ( empty( $field->can_delete ) ) {
@@ -478,7 +478,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 	if ( is_null( $field_id ) ) {
 		$field = new BP_XProfile_Field();
 	} else {
-		$field = xprofile_get_field( $field_id );
+		$field = xprofile_get_field( $field_id, null, false );
 	}
 
 	$field->group_id = $group_id;
@@ -615,7 +615,7 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
 
 	// Handle the deletion of field
 	} else {
-		$field = xprofile_get_field( $field_id );
+		$field = xprofile_get_field( $field_id, null, false );
 
 		if ( !$field->delete( (bool) $delete_data ) ) {
 			/* translators: %s: the field type */
@@ -650,7 +650,7 @@ function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
 		die( '-1' );
 	}
 
-	$field = xprofile_get_field( $field_id );
+	$field = xprofile_get_field( $field_id, null, false );
 
 	$base_url = remove_query_arg( array( 'mode', 'field_id', 'bp_xprofile_delete_field' ), $_SERVER['REQUEST_URI'] ); ?>
 

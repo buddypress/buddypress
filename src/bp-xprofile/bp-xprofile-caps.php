@@ -85,7 +85,7 @@ add_filter( 'bp_map_meta_caps', 'bp_xprofile_map_meta_caps', 10, 4 );
 function bp_xprofile_grant_bp_xprofile_change_field_visibility_for_logged_out_users( $user_can, $user_id, $capability ) {
 	if ( 'bp_xprofile_change_field_visibility' === $capability && 0 === $user_id ) {
 		$field_id = bp_get_the_profile_field_id();
-		if ( $field_id && $field = xprofile_get_field( $field_id ) ) {
+		if ( $field_id && $field = xprofile_get_field( $field_id, null, false ) ) {
 			$user_can = 'allowed' === $field->allow_custom_visibility;
 		}
 	}
