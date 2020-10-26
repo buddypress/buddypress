@@ -988,7 +988,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			 *
 			 * @since 1.1.0
 			 *
-			 * @param string $truncate      Generated excerpt.
+			 * @param string $text          Generated excerpt.
 			 * @param string $original_text Original text provided.
 			 * @param int    $length        Length of returned string, including ellipsis.
 			 * @param array  $options       Array of HTML attributes and options.
