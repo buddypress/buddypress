@@ -176,6 +176,7 @@ class BP_Members_Component extends BP_Component {
 			'directory_title' => isset( $bp->pages->members->title ) ? $bp->pages->members->title : $default_directory_title,
 			'search_string'   => __( 'Search Members...', 'buddypress' ),
 			'global_tables'   => array(
+				'table_name_invitations'   => bp_core_get_table_prefix() . 'bp_invitations',
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
 				'table_name_signups'       => $wpdb->base_prefix . 'signups', // Signups is a global WordPress table.
 			)

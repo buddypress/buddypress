@@ -50,7 +50,7 @@ abstract class BP_Invitation_Manager {
 	 * @return string
 	 */
 	public static function get_table_name() {
-		return buddypress()->table_prefix . 'bp_invitations';
+		return buddypress()->members->table_name_invitations;
 	}
 
 	/** Create ********************************************************************/
