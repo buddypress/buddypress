@@ -50,16 +50,7 @@ abstract class BP_Invitation_Manager {
 	 * @return string
 	 */
 	public static function get_table_name() {
-		/**
-		 * Filter the invitations table name.
-		 *
-		 * @since 7.0.0
-		 *
-		 * @var string $table_name Name of the invitations table.
-		 */
-		$table_name = apply_filters( 'bp_invitations_table_name', 'bp_invitations' );
-
-		return buddypress()->table_prefix . $table_name;
+		return buddypress()->table_prefix . 'bp_invitations';
 	}
 
 	/** Create ********************************************************************/
