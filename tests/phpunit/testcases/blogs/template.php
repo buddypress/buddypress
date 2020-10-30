@@ -397,14 +397,17 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		) );
 
 		$blogs_template = $reset_blogs_template;
+		$expected       = bp_core_fetch_avatar(
+			array(
+				'type'    => 'full',
+				'item_id' => $u,
+				'alt'     => 'test',
+				'no_grav' => true,
+				'class'   => 'avatar',
+			)
+		);
 
-		$this->assertTrue( $avatar === bp_core_fetch_avatar( array(
-			'type'          => 'full',
-			'item_id'       => $u,
-			'alt'           => 'test',
-			'no_grav'       => true,
-			'class'         => 'avatar',
-		) ) );
+		$this->assertTrue( $avatar === $expected );
 	}
 
 	/**
@@ -442,6 +445,40 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template = $reset_blogs_template;
 
 		$this->assertTrue( false !== strpos( $avatar, BP_TESTS_DIR . 'assets/upside-down.jpg' ) );
+	}
+
+	/**
+	 * @group avatar
+	 * @group BP_Blogs_Template
+	 * @group bp_get_blog_avatar
+	 */
+	public function test_bp_get_blog_default_avatar() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped();
+		}
+
+		global $blogs_template;
+		$reset_blogs_template = $blogs_template;
+		$blogs_template = null;
+
+		$u = self::factory()->user->create();
+		$b = self::factory()->blog->create( array(
+			'title' => 'The Foo Bar Blog',
+			'user_id' => $u,
+		) );
+
+		$avatar = bp_get_blog_avatar(
+			array(
+				'type'    => 'thumb',
+				'blog_id' => $b,
+				'html'    => false,
+			)
+		);
+
+		$blogs_template = $reset_blogs_template;
+		$expected       = buddypress()->plugin_url . "bp-core/images/mystery-blog-50.png";
+
+		$this->assertTrue( $avatar === $expected );
 	}
 
 	public function filter_blog_avatar() {

@@ -298,11 +298,14 @@ function bp_blog_avatar( $args = '' ) {
 	/**
 	 * Get a blog's avatar.
 	 *
-	 * At the moment, blog avatars are simply the user avatars of the blog
-	 * admin. Filter 'bp_get_blog_avatar_' . $blog_id to customize.
+	 * At the moment, unless the blog has a site icon, the blog's avatar defaults
+	 * to the /bp-core/images/mystery-blog.png image or the Blog's Admin user avatar
+	 * if the `admin_user_id` argument contains the Blog's Admin user ID.
 	 *
 	 * @since 2.4.0 Introduced `$title` argument.
 	 * @since 6.0.0 Introduced the `$blog_id`, `$admin_user_id` and `html` arguments.
+	 * @since 7.0.0 Introduced the Blog's default avatar {@see bp_blogs_default_avatar()}.
+	 *              Removed the `'bp_get_blog_avatar_' . $blog_id` filter (it was deprecated since 1.5).
 	 *
 	 * @see bp_core_fetch_avatar() For a description of arguments and
 	 *      return values.
@@ -333,40 +336,42 @@ function bp_blog_avatar( $args = '' ) {
 			return false;
 		}
 
-		// Set default values.
-		$author_displayname = '';
-		$admin_user_id      = 0;
-		$blog_id            = 0;
-
-		if ( ! $blogs_template && isset( $args['admin_user_id'] ) && $args['admin_user_id'] ) {
-			$admin_user_id      = (int) $args['admin_user_id'];
-			$author_displayname = bp_core_get_user_displayname( $admin_user_id );
-		} else {
-			$admin_user_id      = $blogs_template->blog->admin_user_id;
-			$author_displayname = bp_core_get_user_displayname( $blogs_template->blog->admin_user_id );
-		}
+		// Set default value for the `alt` attribute.
+		$alt_attribute = __( 'Site icon for the blog', 'buddypress' );
 
 		if ( ! $blogs_template && isset( $args['blog_id'] ) && $args['blog_id'] ) {
 			$blog_id = (int) $args['blog_id'];
 		} else {
-			$blog_id = bp_get_blog_id();
+			$blog_id       = bp_get_blog_id();
+			$alt_attribute = sprintf( __( 'Site icon for %s', 'buddypress' ), bp_get_blog_name() );
 		}
 
 		// Parse the arguments.
 		$r = bp_parse_args( $args, array(
-			'type'    => 'full',
-			'width'   => false,
-			'height'  => false,
-			'class'   => 'avatar',
-			'id'      => false,
-			'alt'     => sprintf(
-				/* translators: %s: the author display name */
-				__( 'Profile picture of site author %s', 'buddypress' ),
-				esc_attr( $author_displayname )
-			),
-			'no_grav' => false,
-			'html'    => true,
-		) );
+			'item_id'    => $blog_id,
+			'avatar_dir' => 'blog-avatars',
+			'object'     => 'blog',
+			'type'       => 'full',
+			'width'      => false,
+			'height'     => false,
+			'class'      => 'avatar',
+			'id'         => false,
+			'alt'        => $alt_attribute,
+			'no_grav'    => false,
+			'html'       => true,
+		), 'blog_avatar' );
+
+		/**
+		 * If the `admin_user_id` was provided, make the Blog avatar
+		 * defaults to the Blog's Admin user one.
+		 */
+		if ( isset( $r['admin_user_id'] ) && $r['admin_user_id'] ) {
+			$r['item_id']    = (int) $r['admin_user_id'];
+			$r['avatar_dir'] = 'avatars';
+			$r['object']     = 'user';
+		} elseif ( ! $r['no_grav'] ) {
+			$r['no_grav'] = true;
+		}
 
 		// Use site icon if available.
 		$avatar = '';
@@ -420,12 +425,6 @@ function bp_blog_avatar( $args = '' ) {
 					$size = (int) $r['width'];
 				}
 
-				$alt_attribute = __( 'Site icon for the blog', 'buddypress' );
-				if ( $blogs_template ) {
-					/* translators: %s is the placeholder for the name of the blog */
-					$alt_attribute = sprintf( __( 'Site icon for %s', 'buddypress' ), bp_get_blog_name() );
-				}
-
 				$avatar = sprintf( '<img src="%1$s" class="%2$s" width="%3$s" height="%3$s" alt="%4$s" />',
 					esc_url( $site_icon ),
 					esc_attr( "{$r['class']} avatar-{$size}" ),
@@ -435,32 +434,10 @@ function bp_blog_avatar( $args = '' ) {
 			}
 		}
 
-		// Fallback to user ID avatar.
+		// Fallback to Default blog avatar.
 		if ( '' === $avatar ) {
-			$avatar = bp_core_fetch_avatar( array(
-				'item_id' => $admin_user_id,
-				// 'avatar_dir' => 'blog-avatars',
-				// 'object'     => 'blog',
-				'type'    => $r['type'],
-				'alt'     => $r['alt'],
-				'css_id'  => $r['id'],
-				'class'   => $r['class'],
-				'width'   => $r['width'],
-				'height'  => $r['height'],
-				'no_grav' => $r['no_grav'],
-				'html'    => $r['html'],
-			) );
+			$avatar = bp_core_fetch_avatar( $r );
 		}
-
-		/**
-		 * In future BuddyPress versions you will be able to set the avatar for a blog.
-		 * Right now you can use a filter with the ID of the blog to change it if you wish.
-		 * By default it will return the avatar for the primary blog admin.
-		 *
-		 * This filter is deprecated as of BuddyPress 1.5 and may be removed in a future version.
-		 * Use the 'bp_get_blog_avatar' filter instead.
-		 */
-		$avatar = apply_filters( 'bp_get_blog_avatar_' . $blog_id, $avatar );
 
 		/**
 		 * Filters a blog's avatar.
