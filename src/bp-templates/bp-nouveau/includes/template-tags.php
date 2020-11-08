@@ -1790,6 +1790,14 @@ function bp_nouveau_get_search_objects( $objects = array() ) {
 		$objects['secondary'] = bp_current_component();
 	} elseif ( 'group' === $primary ) {
 		$objects['secondary'] = bp_current_action();
+
+		if ( bp_is_group_home() && ! bp_is_group_custom_front() ) {
+			$objects['secondary'] = 'members';
+
+			if ( bp_is_active( 'activity' ) ) {
+				$objects['secondary'] = 'activity';
+			}
+		}
 	} else {
 
 		/**
