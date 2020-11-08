@@ -70,8 +70,8 @@ function bp_groups_admin_types_menu() {
 		$group_type_admin_url = add_query_arg( 'taxonomy', 'bp_group_type', get_admin_url( bp_get_root_blog_id(), 'edit-tags.php' ) );
 		add_submenu_page(
 			'bp-groups',
-			__( 'Group types', 'buddypress' ),
-			__( 'Group types', 'buddypress' ),
+			__( 'Group Types', 'buddypress' ),
+			__( 'Group Types', 'buddypress' ),
 			'bp_moderate',
 			esc_url( $group_type_admin_url )
 		);
@@ -93,8 +93,8 @@ function bp_groups_admin_types_menu() {
 		// Add the submenu to manage Group Types.
 		add_submenu_page(
 			'bp-groups',
-			__( 'Group types', 'buddypress' ),
-			__( 'Group types', 'buddypress' ),
+			__( 'Group Types', 'buddypress' ),
+			__( 'Group Types', 'buddypress' ),
 			'bp_moderate',
 			basename( add_query_arg( 'taxonomy', 'bp_group_type', bp_get_admin_url( 'edit-tags.php' ) ) )
 		);

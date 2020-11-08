@@ -29,8 +29,8 @@ function bp_members_type_admin_menu() {
 
 		add_submenu_page(
 			'users.php',
-			__( 'Member types', 'buddypress' ),
-			__( 'Member types', 'buddypress' ),
+			__( 'Member Types', 'buddypress' ),
+			__( 'Member Types', 'buddypress' ),
 			'bp_moderate',
 			esc_url( $member_type_admin_url )
 		);
@@ -38,8 +38,8 @@ function bp_members_type_admin_menu() {
 	} elseif ( ! is_network_admin() ) {
 		add_submenu_page(
 			'users.php',
-			__( 'Member types', 'buddypress' ),
-			__( 'Member types', 'buddypress' ),
+			__( 'Member Types', 'buddypress' ),
+			__( 'Member Types', 'buddypress' ),
 			'bp_moderate',
 			basename( add_query_arg( 'taxonomy', bp_get_member_type_tax_name(), bp_get_admin_url( 'edit-tags.php' ) ) )
 		);
