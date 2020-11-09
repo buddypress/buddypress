@@ -2509,29 +2509,37 @@ function bp_get_group_type_tax_labels() {
 	return apply_filters(
 		'bp_get_group_type_tax_labels',
 		array(
-			'name'                          => _x( 'Group types', 'Group type taxonomy name', 'buddypress' ),
-			'singular_name'                 => _x( 'Group type', 'Group type taxonomy singular name', 'buddypress' ),
-			'search_items'                  => _x( 'Search Group types', 'Group type taxonomy search items label', 'buddypress' ),
-			'popular_items'                 => _x( 'Most used Group types', 'Group type taxonomy popular items label', 'buddypress' ),
-			'all_items'                     => _x( 'All Group types', 'Group type taxonomy all items label', 'buddypress' ),
-			'edit_item'                     => _x( 'Edit Group type', 'Group type taxonomy edit item label', 'buddypress' ),
-			'view_item'                     => _x( 'View Group type', 'Group type taxonomy view item label', 'buddypress' ),
-			'update_item'                   => _x( 'Update Group type', 'Group type taxonomy update item label', 'buddypress' ),
-			'add_new_item'                  => _x( 'Add new Group type', 'Group type taxonomy add new item label', 'buddypress' ),
-			'new_item_name'                 => _x( 'New Group type name', 'Group type taxonomy new item name label', 'buddypress' ),
-			'separate_items_with_commas'    => _x( 'Separate Group types with commas', 'Group type taxonomy separate items with commas label', 'buddypress' ),
-			'add_or_remove_items'           => _x( 'Add or remove Group types', 'Group type taxonomy add or remove items label', 'buddypress' ),
-			'choose_from_most_used'         => _x( 'Choose from the most used Group types', 'Group type taxonomy choose from most used label', 'buddypress' ),
-			'not_found'                     => _x( 'No Group types found', 'Group type taxonomy not found label', 'buddypress' ),
-			'no_terms'                      => _x( 'No Group types', 'Group type taxonomy no terms label', 'buddypress' ),
-			'items_list_navigation'         => _x( 'Group types list navigation', 'Group type taxonomy items list navigation label', 'buddypress' ),
-			'items_list'                    => _x( 'Group types list', 'Group type taxonomy items list label', 'buddypress' ),
-			'back_to_items'                 => _x( 'Back to all Group types', 'Group type taxonomy back to items label', 'buddypress' ),
+
+			// General labels
+			'name'                          => _x( 'Group Types', 'Group type taxonomy name', 'buddypress' ),
+			'singular_name'                 => _x( 'Group Type', 'Group type taxonomy singular name', 'buddypress' ),
+			'search_items'                  => _x( 'Search Group Types', 'Group type taxonomy search items label', 'buddypress' ),
+			'popular_items'                 => _x( 'Popular Group Types', 'Group type taxonomy popular items label', 'buddypress' ),
+			'all_items'                     => _x( 'All Group Types', 'Group type taxonomy all items label', 'buddypress' ),
+			'parent_item'                   => _x( 'Parent Group Type', 'Group type taxonomy parent item label', 'buddypress' ),
+			'parent_item_colon'             => _x( 'Parent Group Type:', 'Group type taxonomy parent item label', 'buddypress' ),
+			'edit_item'                     => _x( 'Edit Group Type', 'Group type taxonomy edit item label', 'buddypress' ),
+			'view_item'                     => _x( 'View Group Type', 'Group type taxonomy view item label', 'buddypress' ),
+			'update_item'                   => _x( 'Update Group Type', 'Group type taxonomy update item label', 'buddypress' ),
+			'add_new_item'                  => _x( 'Add New Group Type', 'Group type taxonomy add new item label', 'buddypress' ),
+			'new_item_name'                 => _x( 'New Group Type Name', 'Group type taxonomy new item name label', 'buddypress' ),
+			'separate_items_with_commas'    => _x( 'Separate group types with commas', 'Group type taxonomy separate items with commas label', 'buddypress' ),
+			'add_or_remove_items'           => _x( 'Add or remove group types', 'Group type taxonomy add or remove items label', 'buddypress' ),
+			'choose_from_most_used'         => _x( 'Choose from the most used group types', 'Group type taxonomy choose from most used label', 'buddypress' ),
+			'not_found'                     => _x( 'No group types found.', 'Group type taxonomy not found label', 'buddypress' ),
+			'no_terms'                      => _x( 'No group types', 'Group type taxonomy no terms label', 'buddypress' ),
+			'items_list_navigation'         => _x( 'Group Types list navigation', 'Group type taxonomy items list navigation label', 'buddypress' ),
+			'items_list'                    => _x( 'Group Types list', 'Group type taxonomy items list label', 'buddypress' ),
+
+			/* translators: Tab heading when selecting from the most used terms. */
+			'most_used'                     => _x( 'Most Used', 'Group type taxonomy most used items label', 'buddypress' ),
+			'back_to_items'                 => _x( '&larr; Back to Group Types', 'Group type taxonomy back to items label', 'buddypress' ),
+
 			// Specific to BuddyPress.
 			'bp_type_id_label'              => _x( 'Group Type ID', 'BP Member type ID label', 'buddypress' ),
-			'bp_type_id_description'        => _x( 'Enter a lower-case string without spaces or special characters (used internally to identify the group type).', 'BP Group type ID description', 'buddypress' ),
-			'bp_type_show_in_create_screen' => _x( 'Add to Available Types on Create Screen', 'BP Group type show in create screen', 'buddypress' ),
-			'bp_type_show_in_list'          => _x( 'Include when Group Types are Listed for a Group', 'BP Group type show in list', 'buddypress' ),
+			'bp_type_id_description'        => _x( 'Lower-case string, no spaces or special characters. Used to identify the group type.', 'BP Group type ID description', 'buddypress' ),
+			'bp_type_show_in_create_screen' => _x( 'Show on Group Creation', 'BP Group type show in create screen', 'buddypress' ),
+			'bp_type_show_in_list'          => _x( 'Show on Group', 'BP Group type show in list', 'buddypress' ),
 		)
 	);
 }
@@ -2556,7 +2564,7 @@ function bp_get_group_type_tax_args() {
 		'bp_get_group_type_tax_args',
 		array_merge(
 			array(
-				'description' => _x( 'BuddyPress Group types', 'Group type taxonomy description', 'buddypress' ),
+				'description' => _x( 'BuddyPress Group Types', 'Group type taxonomy description', 'buddypress' ),
 				'labels'      => array_merge( bp_get_group_type_tax_labels(), bp_get_taxonomy_common_labels() ),
 			),
 			bp_get_taxonomy_common_args()
@@ -2613,30 +2621,31 @@ add_action( 'bp_register_taxonomies', 'bp_groups_register_group_types' );
  */
 function bp_get_group_type_metadata_schema( $schema = array(), $taxonomy = '' ) {
 	if ( bp_get_group_type_tax_name() === $taxonomy ) {
+
+		// Directory
 		if ( isset( $schema['bp_type_has_directory']['description'] ) ) {
-			$schema['bp_type_has_directory']['description'] = __( 'Add a list of groups matching the group type available on the Groups Directory page (e.g. site.url/groups/type/ninja/).', 'buddypress' );
+			$schema['bp_type_has_directory']['description'] = __( 'Make a list of groups matching this type available on the groups directory.', 'buddypress' );
 		}
 
+		// Slug
 		if ( isset( $schema['bp_type_directory_slug']['description'] ) ) {
-			$schema['bp_type_directory_slug']['description'] = __( 'If you want to use a slug that is different from the Group Type ID above, enter it here.', 'buddypress' );
+			$schema['bp_type_directory_slug']['description'] = __( 'Enter if you want the type slug to be different from its ID.', 'buddypress' );
 		}
 
-		$schema = array_merge(
-			$schema,
-			array(
-				'bp_type_show_in_create_screen' => array(
-					'description'       => __( 'Include this group type during group creation and when a group administrator is on the group&rsquo;s &ldquo;Manage > Settings&rdquo; page.', 'buddypress' ),
-					'type'              => 'boolean',
-					'single'            => true,
-					'sanitize_callback' => 'absint',
-				),
-				'bp_type_show_in_list'          => array(
-					'description'       => __( 'Include this group type when group types are listed, like in the group header.', 'buddypress' ),
-					'type'              => 'boolean',
-					'single'            => true,
-					'sanitize_callback' => 'absint',
-				),
-			)
+		// Create
+		$schema['bp_type_show_in_create_screen'] = array(
+			'description'       => __( 'Show during group creation, and when a group admin is on the group&rsquo;s settings page.', 'buddypress' ),
+			'type'              => 'boolean',
+			'single'            => true,
+			'sanitize_callback' => 'absint',
+		);
+
+		// List
+		$schema['bp_type_show_in_list'] = array(
+			'description'       => __( 'Show where group types may be listed, like in the group header.', 'buddypress' ),
+			'type'              => 'boolean',
+			'single'            => true,
+			'sanitize_callback' => 'absint',
 		);
 	}
 
