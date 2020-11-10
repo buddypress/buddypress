@@ -1287,7 +1287,8 @@ class BP_Members_Admin {
 		}
 
 		$types        = bp_get_member_types( array(), 'objects' );
-		$current_type = bp_get_member_type( $user->ID, false );
+		$current_type = (array) bp_get_member_type( $user->ID, false );
+		$types_count  = count( array_filter( $current_type ) );
 		?>
 
 		<label for="bp-members-profile-member-type" class="screen-reader-text">
@@ -1296,17 +1297,17 @@ class BP_Members_Admin {
 			esc_html_e( 'Select member type', 'buddypress' );
 			?>
 		</label>
-		<select name="bp-members-profile-member-type[]" id="bp-members-profile-member-type" multiple="multiple">
-			<option value="" <?php selected( ! $current_type ); ?>>
-				<?php
-					/* translators: no option picked in select box */
-					esc_attr_e( '----', 'buddypress' );
-				?>
-			</option>
+		<ul class="categorychecklist form-no-clear">
 			<?php foreach ( $types as $type ) : ?>
-				<option value="<?php echo esc_attr( $type->name ) ?>" <?php selected( in_array( $type->name, (array) $current_type, true ) ) ?>><?php echo esc_html( $type->labels['singular_name'] ) ?></option>
+				<li>
+					<label class="selectit">
+						<input value="<?php echo esc_attr( $type->name ) ?>" name="bp-members-profile-member-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_type ) ); ?>>
+						<?php echo esc_html( $type->labels['singular_name'] ); ?>
+					</label>
+				</li>
 			<?php endforeach; ?>
-		</select>
+			<input type="hidden" value="<?php echo intval( $types_count ); ?>" name="bp-members-profile-member-types-count" />
+		</ul>
 
 		<?php
 		wp_nonce_field( 'bp-member-type-change-' . $user->ID, 'bp-member-type-nonce' );
@@ -1318,7 +1319,7 @@ class BP_Members_Admin {
 	 * @since 2.2.0
 	 */
 	public function process_member_type_update() {
-		if ( ! isset( $_POST['bp-member-type-nonce'] ) || ! isset( $_POST['bp-members-profile-member-type'] ) ) {
+		if ( ! isset( $_POST['bp-member-type-nonce'] ) || ! isset( $_POST['bp-members-profile-member-types-count'] ) ) {
 			return;
 		}
 
@@ -1331,9 +1332,18 @@ class BP_Members_Admin {
 			return;
 		}
 
-		// Member type [string] must either reference a valid member type, or be empty.
-		$member_type = wp_parse_slug_list( wp_unslash( $_POST['bp-members-profile-member-type'] ) );
-		$member_type = array_filter( $member_type );
+		if ( isset( $_POST['bp-members-profile-member-type'] ) ) {
+			// Member type [string] must either reference a valid member type, or be empty.
+			$member_type = wp_parse_slug_list( wp_unslash( $_POST['bp-members-profile-member-type'] ) );
+			$member_type = array_filter( $member_type );
+		} elseif ( 0 !== intval( $_POST['bp-members-profile-member-types-count'] ) ) {
+			$member_type = false;
+		}
+
+		// Nothing to do there.
+		if ( ! isset( $member_type ) ) {
+			return;
+		}
 
 		/*
 		 * If an invalid member type is passed, someone's doing something
