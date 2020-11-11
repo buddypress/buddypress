@@ -342,7 +342,9 @@ function bp_blog_avatar( $args = '' ) {
 		if ( ! $blogs_template && isset( $args['blog_id'] ) && $args['blog_id'] ) {
 			$blog_id = (int) $args['blog_id'];
 		} else {
-			$blog_id       = bp_get_blog_id();
+			$blog_id = bp_get_blog_id();
+
+			/* translators: %s is the blog name */
 			$alt_attribute = sprintf( __( 'Site icon for %s', 'buddypress' ), bp_get_blog_name() );
 		}
 
