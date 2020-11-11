@@ -419,6 +419,26 @@ class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 		$this->assertEquals( $expected, BP_XProfile_ProfileData::get_all_for_user( $u ) );
 	}
 
+	/**
+	 * @ticket BP8388
+	 * @group xprofile_remove_data
+	 */
+	public function test_cache_invalidated_when_xprofile_remove_data_called() {
+		$u = self::factory()->user->create();
+		$g = self::factory()->xprofile_group->create();
+		$f = self::factory()->xprofile_field->create( array(
+			'field_group_id' => $g,
+		) );
+
+		xprofile_set_field_data( $f, $u, 'Foo' );
+		// Prime the cache.
+		xprofile_get_field_data( $f, $u );
+		xprofile_remove_data( $u );
+
+		$d = new BP_XProfile_ProfileData( $f, $u );
+		$this->assertFalse( $d->exists() );
+	}
+
 	public function filter_time() {
 		return $this->last_updated;
 	}

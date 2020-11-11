@@ -681,7 +681,17 @@ class BP_XProfile_ProfileData {
 
 		$bp = buddypress();
 
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->profile->table_name_data} WHERE user_id = %d", $user_id ) );
+		$field_ids = $wpdb->get_col( $wpdb->prepare( "SELECT field_id FROM {$bp->profile->table_name_data} WHERE user_id = %d", $user_id ) );
+
+		if ( ! $field_ids ) {
+			return false;
+		}
+
+		foreach ( $field_ids as $field_id ) {
+			xprofile_delete_field_data( $field_id, $user_id );
+		}
+
+		return count( $field_ids );
 	}
 
 	/**
