@@ -431,6 +431,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		) );
 
 		add_filter( 'get_site_icon_url', array( $this, 'filter_blog_avatar' ) );
+		add_filter( 'bp_is_network_activated', '__return_true' );
 
 		$avatar = bp_get_blog_avatar( array(
 			'type'          => 'full',
@@ -441,6 +442,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 			'class'         => 'avatar',
 		) );
 
+		remove_filter( 'bp_is_network_activated', '__return_true' );
 		remove_filter( 'get_site_icon_url', array( $this, 'filter_blog_avatar' ) );
 		$blogs_template = $reset_blogs_template;
 

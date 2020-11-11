@@ -549,13 +549,15 @@ add_action( 'update_option_comment_moderation', 'bp_blogs_update_option_comment_
  * @param int|string $new_value New value
  */
 function bp_blogs_update_option_site_icon( $old_value, $new_value ) {
+	$blog_id = get_current_blog_id();
+
 	if ( 0 === $new_value ) {
-		bp_blogs_update_blogmeta( get_current_blog_id(), 'site_icon_url_thumb', 0 );
-		bp_blogs_update_blogmeta( get_current_blog_id(), 'site_icon_url_full',  0 );
+		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_thumb', 0 );
+		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_full',  0 );
 	} else {
 		// Save site icon URL as blogmeta.
-		bp_blogs_update_blogmeta( get_current_blog_id(), 'site_icon_url_thumb', get_site_icon_url( bp_core_avatar_thumb_width() ) );
-		bp_blogs_update_blogmeta( get_current_blog_id(), 'site_icon_url_full',  get_site_icon_url( bp_core_avatar_full_width()  ) );
+		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_thumb', bp_blogs_get_site_icon_url( $blog_id, bp_core_avatar_thumb_width() ) );
+		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_full',  bp_blogs_get_site_icon_url( $blog_id, bp_core_avatar_full_width()  ) );
 	}
 }
 add_action( 'update_option_site_icon', 'bp_blogs_update_option_site_icon', 10, 2 );
@@ -1562,4 +1564,53 @@ function bp_blogs_validate_blog_form( $blog_name = '', $blog_title = '' ) {
 	}
 
 	return wpmu_validate_blog_signup( $blog_name, $blog_title, $user );
+}
+
+/**
+ * Gets the site icon URL even when BuddyPress is not network activated.
+ *
+ * @since 7.0.0
+ *
+ * @param integer $blog_id The ID of the blog to get the site icon URL for.
+ * @param integer $size    The size of the site icon.
+ * @return string          The site icon URL
+ */
+function bp_blogs_get_site_icon_url( $blog_id = 0, $size = 512 ) {
+	if ( is_multisite() && ! bp_is_network_activated() && ! bp_is_root_blog( $blog_id ) ) {
+		$switched_blog = false;
+		$url           = '';
+
+		if ( $blog_id && get_current_blog_id() !== (int) $blog_id ) {
+			switch_to_blog( $blog_id );
+			$switched_blog = true;
+		}
+
+		$site_icon_id = get_option( 'site_icon' );
+
+		if ( $site_icon_id ) {
+			$site_icon_data = wp_get_attachment_metadata( $site_icon_id );
+			$sizes          = wp_list_pluck( $site_icon_data['sizes'], 'width' );
+
+			sort( $sizes );
+			$closest = 'full';
+
+			foreach ( $sizes as $width ) {
+				$closest = array( $width, $width );
+
+				if ( (int) $size < (int) $width ) {
+					break;
+				}
+			}
+
+			$url = wp_get_attachment_image_url( $site_icon_id, $closest );
+		}
+
+		if ( $switched_blog ) {
+			restore_current_blog();
+		}
+
+		return $url;
+	}
+
+	return get_site_icon_url( $size, '', $blog_id );
 }

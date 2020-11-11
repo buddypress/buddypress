@@ -1774,6 +1774,16 @@ form.ac-form .ac-reply-content input {
 * @section 3.2 - Blogs Loop
 *----------------------------------------------------------
 */
+.buddypress-wrap .blogs-list li .item-avatar img.avatar-150 {
+	max-width: 150px;
+	max-height: 150px;
+}
+
+.buddypress-wrap .blogs-list li .item-avatar img.avatar-50 {
+	max-width: 50px;
+	max-height: 50px;
+}
+
 @media screen and (min-width: 46.8em) {
 	.buddypress-wrap .blogs-list li .item-block {
 		float: none;

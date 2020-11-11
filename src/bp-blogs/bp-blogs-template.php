@@ -380,8 +380,6 @@ function bp_blog_avatar( $args = '' ) {
 
 			// Never attempted to fetch site icon before; do it now!
 			if ( '' === $site_icon ) {
-				switch_to_blog( $blog_id );
-
 				// Fetch the other size first.
 				if ( 'full' === $r['type'] ) {
 					$size      = bp_core_avatar_thumb_width();
@@ -391,7 +389,8 @@ function bp_blog_avatar( $args = '' ) {
 					$save_size = 'full';
 				}
 
-				$site_icon = get_site_icon_url( $size );
+				$site_icon = bp_blogs_get_site_icon_url( $blog_id, $size );
+
 				// Empty site icons get saved as integer 0.
 				if ( empty( $site_icon ) ) {
 					$site_icon = 0;
@@ -403,13 +402,11 @@ function bp_blog_avatar( $args = '' ) {
 				// Now, fetch the size we want.
 				if ( 0 !== $site_icon ) {
 					$size      = 'full' === $r['type'] ? bp_core_avatar_full_width() : bp_core_avatar_thumb_width();
-					$site_icon = get_site_icon_url( $size );
+					$site_icon = bp_blogs_get_site_icon_url( $blog_id, $size );
 				}
 
 				// Sync site icon to blogmeta.
 				bp_blogs_update_blogmeta( $blog_id, "site_icon_url_{$r['type']}", $site_icon );
-
-				restore_current_blog();
 			}
 
 			// We have a site icon.

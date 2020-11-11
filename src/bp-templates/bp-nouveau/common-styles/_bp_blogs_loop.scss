@@ -7,6 +7,19 @@
 
 		li {
 
+			.item-avatar {
+
+				img.avatar-150 {
+					max-width: 150px;
+					max-height: 150px;
+				}
+
+				img.avatar-50 {
+					max-width: 50px;
+					max-height: 50px;
+				}
+			}
+
 			@include medium-up() {
 
 				.item-block {

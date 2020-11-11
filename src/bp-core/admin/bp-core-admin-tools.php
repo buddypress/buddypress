@@ -143,6 +143,14 @@ function bp_admin_repair_list() {
 			__( 'Repopulate site tracking records.', 'buddypress' ),
 			'bp_admin_repair_blog_records',
 		);
+
+		if ( bp_is_active( 'blogs', 'site-icon' ) ) {
+			$repair_list[91] = array(
+				'bp-blog-site-icons',
+				__( 'Repair site tracking site icons/blog avatars synchronization.', 'buddypress' ),
+				'bp_admin_repair_blog_site_icons',
+			);
+		}
 	}
 
 	// Emails:
@@ -310,6 +318,59 @@ function bp_admin_repair_blog_records() {
 
 	// All done!
 	return array( 0, sprintf( $statement, $result ) );
+}
+
+/**
+ * Repair site icons/blog avatars synchronization.
+ *
+ * @since 7.0.0
+ *
+ * @return array
+ */
+function bp_admin_repair_blog_site_icons() {
+
+	/* translators: %s: the result of the action performed by the repair tool */
+	$statement = __( 'Repairing site icons/blog avatars synchronization&hellip; %s', 'buddypress' );
+
+	// Run function if blogs component is active.
+	if ( bp_is_active( 'blogs', 'site-icon' ) ) {
+		$blog_ids = get_sites(
+			array(
+				'fields'   => 'ids',
+				'archived' => 0,
+				'mature'   => 0,
+				'spam'     => 0,
+				'deleted'  => 0,
+			)
+		);
+
+		$sizes = array(
+			array(
+				'key'  => 'site_icon_url_full',
+				'size' => bp_core_avatar_full_width(),
+			),
+			array(
+				'key'  => 'site_icon_url_thumb',
+				'size' => bp_core_avatar_thumb_width(),
+			),
+		);
+
+		foreach ( $blog_ids as $blog_id ) {
+			$site_icon = 0;
+
+			foreach ( $sizes as $size ) {
+				$site_icon = bp_blogs_get_site_icon_url( $blog_id, $size['size'] );
+				if ( ! $site_icon ) {
+					$site_icon = 0;
+				}
+
+				bp_blogs_update_blogmeta( $blog_id, $size['key'], $site_icon );
+			}
+		}
+	}
+
+	// All done!
+	return array( 0, sprintf( $statement, __( 'Complete!', 'buddypress' ) ) );
 }
 
 /**
