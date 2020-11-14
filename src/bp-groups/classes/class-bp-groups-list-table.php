@@ -789,7 +789,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @param array  $item        The current group item in the loop.
 	 * @return string
 	 */
-	public function column_content_group_type( $retval = '', $column_name, $item ) {
+	public function column_content_group_type( $retval = '', $column_name = '', $item = array() ) {
 		if ( 'bp_group_type' !== $column_name ) {
 			return $retval;
 		}
