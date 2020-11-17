@@ -227,16 +227,22 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 			$group_id = bp_get_current_group_id();
 		}
 
-		$r = bp_parse_args( $r, array(
-			'parent_element' => 'p',
-			'parent_attr'    => array(
-				 'class' => 'bp-group-type-list',
+		$r = bp_parse_args(
+			$r,
+			array(
+				'parent_element'    => 'p',
+				'parent_attr'       => array(
+					'class' => 'bp-group-type-list',
+				),
+				'label'             => __( 'Group Types:', 'buddypress' ),
+				'label_element'     => 'strong',
+				'label_attr'        => array(),
+				'show_all'          => false,
+				'list_element'      => '',
+				'list_element_attr' => array(),
 			),
-			'label'          => __( 'Group Types:', 'buddypress' ),
-			'label_element'  => 'strong',
-			'label_attr'     => array(),
-			'show_all'       => false,
-		), 'group_type_list' );
+			'group_type_list'
+		);
 
 		$retval = '';
 
@@ -277,8 +283,22 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 				$label = esc_html( $r['label'] );
 			}
 
+			// The list of types.
+			$list = implode( ', ', array_map( 'bp_get_group_type_directory_link', $types ) );
+
+			// Render the list of types element.
+			if ( ! empty( $r['list_element'] ) ) {
+				$list_element = new BP_Core_HTML_Element( array(
+					'element'    => $r['list_element'],
+					'attr'       => $r['list_element_attr'],
+					'inner_html' => $list,
+				) );
+
+				$list = $list_element->contents();
+			}
+
 			// Comma-delimit each type into the group type directory link.
-			$label .= implode( ', ', array_map( 'bp_get_group_type_directory_link', $types ) );
+			$label .= $list;
 
 			// Retval time!
 			$retval = $before . $label . $after;
@@ -2017,21 +2037,29 @@ function bp_group_total_members( $group = false ) {
  * Output the "x members" count string for a group.
  *
  * @since 1.2.0
+ * @since 7.0.0 Adds the `$group` optional parameter.
+ *
+ * @param object|bool $group Optional. Group object. Default: current group in loop.
  */
-function bp_group_member_count() {
-	echo bp_get_group_member_count();
+function bp_group_member_count( $group = false ) {
+	echo bp_get_group_member_count( $group );
 }
 	/**
 	 * Generate the "x members" count string for a group.
 	 *
 	 * @since 1.2.0
 	 *
+	 * @since 7.0.0 Adds the `$group` optional parameter.
+	 *
+	 * @param object|bool $group Optional. Group object. Default: current group in loop.
 	 * @return string
 	 */
-	function bp_get_group_member_count() {
+	function bp_get_group_member_count( $group = false ) {
 		global $groups_template;
 
-		if ( isset( $groups_template->group->total_member_count ) ) {
+		if ( isset( $group->total_member_count ) ) {
+			$count = (int) $group->total_member_count;
+		} elseif ( isset( $groups_template->group->total_member_count ) ) {
 			$count = (int) $groups_template->group->total_member_count;
 		} else {
 			$count = 0;

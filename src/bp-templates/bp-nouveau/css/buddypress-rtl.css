@@ -1,7 +1,8 @@
 /*--------------------------------------------------------------
 Hello, this is the BuddyPress Nouveau stylesheet.
 
-@version 4.0.0
+@since 3.0.0
+@version 7.0.0
 
 ----------------------------------------------------------------
 >>> TABLE OF CONTENTS:
@@ -2301,7 +2302,15 @@ body.no-js .single-item-header .js-self-profile-button {
 *-----------------------------------------------------
 */
 .groups-header .bp-group-type-list {
+	font-size: 18px;
 	margin: 0;
+	color: #333;
+	display: flex;
+}
+
+.groups-header .bp-group-type-list strong {
+	padding-left: 1em;
+	white-space: nowrap;
 }
 
 .groups-header .bp-feedback {

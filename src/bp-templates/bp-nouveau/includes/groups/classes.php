@@ -3,7 +3,7 @@
  * Groups classes
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 7.0.0
  */
 
 // Exit if accessed directly.
@@ -374,5 +374,48 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 		bp_nouveau_set_nav_item_order( $this, bp_nouveau_get_appearance_settings( 'group_nav_order' ), $this->group->slug );
 
 		return $this->get_secondary( array( 'parent_slug' => $this->group->slug ) );
+	}
+}
+
+/**
+ * Group template meta backwards compatibility class.
+ *
+ * @since 7.0.0
+ */
+class BP_Nouveau_Group_Meta {
+	/**
+	 * Used to get the template meta used in Groups loop.
+	 *
+	 * @since 7.0.0
+	 * @var string $meta The template meta used in Groups loop.
+	 */
+	public $meta = '';
+
+	/**
+	 * Magic getter.
+	 *
+	 * This exists specifically for supporting deprecated object vars.
+	 *
+	 * @since 7.0.0
+	 *
+	 * @param string $key
+	 * @return string
+	 */
+	public function __get( $key = '' ) {
+		/* translators: %s is the name of the function to use instead of the deprecated one */
+		_doing_it_wrong( 'bp_nouveau_group_meta', sprintf( __( 'Please use %s instead', 'buddypress' ), 'bp_nouveau_the_group_meta( array( \'keys\' => \'' . $key . '\' ) )' ) , '7.0.0' );
+
+		// Backwards compatibility.
+		return bp_nouveau_the_group_meta( array( 'keys' => $key, 'echo' => false ) );
+	}
+
+	/**
+	 * Constructor
+	 *
+	 * @since 7.0.0
+	 */
+	public function __construct() {
+		// Backwards compatibility.
+		$this->meta = bp_nouveau_the_group_meta( array( 'echo' => false ) );
 	}
 }

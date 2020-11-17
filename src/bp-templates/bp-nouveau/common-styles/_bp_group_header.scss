@@ -1,10 +1,20 @@
 // BP Single Group Header Styles.
-// @version 3.0.0
+// @since 3.0.0
+// @version 7.0.0
 
 .groups-header {
 
 	.bp-group-type-list {
+
+		@include font-size(18);
 		margin: 0;
+		color: $black;
+		display: flex;
+
+		strong {
+			padding-right: $pad-med;
+			white-space: nowrap;
+		}
 	}
 
 	.bp-feedback {

@@ -1067,13 +1067,16 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
  * @return bool             True if the group has meta. False otherwise.
  */
 function bp_nouveau_group_has_meta( $meta_key = '' ) {
-	$group_meta = bp_nouveau_get_group_meta();
-
 	if ( ! $meta_key ) {
-		return (bool) $group_meta;
+		$meta_keys = array( 'status', 'count' );
+	} else {
+		$meta_keys = array( $meta_key );
 	}
 
-	return ! empty( $group_meta[ $meta_key ] );
+	$group_meta = bp_nouveau_get_group_meta( $meta_keys );
+	$group_meta = array_filter( $group_meta );
+
+	return ! empty( $group_meta );
 }
 
 /**
@@ -1084,95 +1087,140 @@ function bp_nouveau_group_has_meta( $meta_key = '' ) {
  * @return bool True if the group has meta. False otherwise.
  */
 function bp_nouveau_group_has_meta_extra() {
-	return (bool) bp_nouveau_get_hooked_group_meta();
+	return false !== bp_nouveau_get_hooked_group_meta();
 }
 
 /**
  * Display the group meta.
  *
  * @since 3.0.0
+ * @deprecated 7.0.0 Use bp_nouveau_the_group_meta()
+ * @see bp_nouveau_the_group_meta()
  *
  * @return string HTML Output.
  */
 function bp_nouveau_group_meta() {
-	$meta = bp_nouveau_get_group_meta();
+	_deprecated_function( __FUNCTION__, '7.0.0', 'bp_nouveau_the_group_meta()' );
+	$group_meta = new BP_Nouveau_Group_Meta();
 
 	if ( ! bp_is_group() ) {
-		echo join( ' / ', array_map( 'esc_html', (array) $meta ) );
+		echo $group_meta->meta;
 	} else {
-
-		/*
-		 * Lets return an object not echo an array here for the single groups,
-		 * more flexible for the template!!?? ~hnla
-		 *
-		 * @todo Paul says that a function that prints and/or returns a value,
-		 * depending on global state, is madness. This needs changing.
-		 */
-		return (object) bp_nouveau_get_group_meta();
+		return $group_meta;
 	}
 }
 
+/**
+ * Outputs or returns the group meta(s).
+ *
+ * @since 7.0.0
+ *
+ * @param array $args {
+ *     Optional. An array of arguments.
+ *
+ *     @type array   $keys      The list of template meta keys.
+ *     @type string  $delimeter The delimeter to use in case there is more than
+ *                              one key to output.
+ *     @type boolean $echo      True to output the template meta value. False otherwise.
+ * }
+ * @return string HTML Output.
+ */
+function bp_nouveau_the_group_meta( $args = array() ) {
+	$r = bp_parse_args( $args, array(
+		'keys'      => array(),
+		'delimeter' => '/',
+		'echo'      => true,
+	), 'nouveau_the_group_meta' );
+
+	$group_meta = (array) bp_nouveau_get_group_meta( $r['keys'] );
+
+	if ( ! $group_meta ) {
+		return;
+	}
+
+	$meta = '';
+	if ( 1 < count( $group_meta ) ) {
+		$group_meta = array_filter( $group_meta );
+		$meta       = join( ' ' . $r['delimeter'] . ' ', array_map( 'esc_html', $group_meta ) );
+	} else {
+		$meta = reset( $group_meta );
+	}
+
+	if ( ! $r['echo'] ) {
+		return $meta;
+	}
+
+	echo $meta;
+}
+
 	/**
-	 * Get the group meta.
+	 * Get the group template meta.
 	 *
 	 * @since 3.0.0
+	 * @since 7.0.0 Adds the `$keys` parameter.
 	 *
-	 * @return array The group meta.
+	 * @param array $keys One or more template meta keys to populate with their values.
+	 *                    Possible keys are `status`, `count`, `group_type_list`, `description`, `extra`.
+	 * @return array      The corresponding group template meta values.
 	 */
-	function bp_nouveau_get_group_meta() {
-		/*
-		 * @todo For brevity required approapriate markup is added here as strings
-		 * this needs to be either filterable or the function needs to be able to accept
-		 * & parse args!
-		 */
-		$meta     = array();
-		$is_group = bp_is_group();
+	function bp_nouveau_get_group_meta( $keys = array() ) {
+		$keys       = (array) $keys;
+		$group      = false;
+		$group_meta = array();
+		$is_group   = bp_is_group();
 
-		if ( ! empty( $GLOBALS['groups_template']->group ) ) {
+		if ( isset( $GLOBALS['groups_template']->group ) ) {
 			$group = $GLOBALS['groups_template']->group;
+		} else {
+			$group = groups_get_current_group();
 		}
 
-		if ( empty( $group->id ) ) {
-			return $meta;
+		if ( ! $group ) {
+			return '';
 		}
 
-		if ( empty( $group->template_meta ) ) {
-			// It's a single group
-			if ( $is_group ) {
-					$meta = array(
-						'status'          =>  bp_get_group_type(),
-						'group_type_list' =>  bp_get_group_type_list(),
-						'description'     =>  bp_get_group_description(),
-					);
+		if ( ! $keys && ! $is_group ) {
+			$keys = array( 'status', 'count' );
+		}
 
-				// Make sure to include hooked meta.
-				$extra_meta = bp_nouveau_get_hooked_group_meta();
+		foreach ( $keys as $key ) {
+			switch ( $key ) {
+				case 'status' :
+					$group_meta['status'] = bp_get_group_type( $group );
+					break;
 
-				if ( $extra_meta ) {
-					$meta['extra'] = $extra_meta;
-				}
+				case 'count' :
+					$group_meta['count'] = bp_get_group_member_count( $group );
+					break;
 
-			// We're in the groups loop
-			} else {
-				$meta = array(
-					'status' => bp_get_group_type(),
-					'count'  => bp_get_group_member_count(),
-				);
+				case 'group_type_list' :
+					$group_meta['group_type_list'] = bp_get_group_type_list( $group->id );
+					break;
+
+				case 'description' :
+					$group_meta['description'] = bp_get_group_description( $group );
+					break;
+
+				case 'extra' :
+					$group_meta['extra'] = '';
+
+					if ( $is_group ) {
+						$group_meta['extra'] = bp_nouveau_get_hooked_group_meta();
+					}
+					break;
 			}
-
-			/**
-			 * Filter to add/remove Group meta.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @param array  $meta     The list of meta to output.
-			 * @param object $group    The current Group of the loop object.
-			 * @param bool   $is_group True if a single group is displayed. False otherwise.
-			 */
-			$group->template_meta = apply_filters( 'bp_nouveau_get_group_meta', $meta, $group, $is_group );
 		}
 
-		return $group->template_meta;
+		/**
+		 * Filter to add/remove Group template meta.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array  $group_meta The list of meta to output.
+		 * @param object $group      The current Group of the loop object.
+		 * @param bool   $is_group   True if a single group is displayed. False otherwise.
+		 */
+		return apply_filters( 'bp_nouveau_get_group_meta', $group_meta, $group, $is_group );
 	}
 
 /**

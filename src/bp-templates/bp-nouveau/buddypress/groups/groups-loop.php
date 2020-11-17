@@ -3,7 +3,7 @@
  * BuddyPress - Groups Loop
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 7.0.0
  */
 
 bp_nouveau_before_loop(); ?>
@@ -18,57 +18,58 @@ bp_nouveau_before_loop(); ?>
 
 	<ul id="groups-list" class="<?php bp_nouveau_loop_classes(); ?>">
 
-	<?php
-	while ( bp_groups() ) :
-		bp_the_group();
-	?>
+		<?php while ( bp_groups() ) : bp_the_group(); ?>
 
-		<li <?php bp_group_class( array( 'item-entry' ) ); ?> data-bp-item-id="<?php bp_group_id(); ?>" data-bp-item-component="groups">
-			<div class="list-wrap">
+			<li <?php bp_group_class( array( 'item-entry' ) ); ?> data-bp-item-id="<?php bp_group_id(); ?>" data-bp-item-component="groups">
+				<div class="list-wrap">
 
-				<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
-					<div class="item-avatar">
-						<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar( bp_nouveau_avatar_args() ); ?></a>
+					<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
+						<div class="item-avatar">
+							<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar( bp_nouveau_avatar_args() ); ?></a>
+						</div>
+					<?php endif; ?>
+
+					<div class="item">
+
+						<div class="item-block">
+
+							<h2 class="list-title groups-title"><?php bp_group_link(); ?></h2>
+
+							<?php if ( bp_nouveau_group_has_meta() ) : ?>
+
+								<p class="item-meta group-details"><?php bp_nouveau_the_group_meta( array( 'keys' => array( 'status', 'count' ) ) ); ?></p>
+
+							<?php endif; ?>
+
+							<p class="last-activity item-meta">
+								<?php
+									printf(
+										/* translators: %s: last activity timestamp (e.g. "active 1 hour ago") */
+										esc_html__( 'Active %s', 'buddypress' ),
+										sprintf(
+											'<span data-livestamp="%1$s">%2$s</span>',
+											bp_core_get_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ),
+											esc_html( bp_get_group_last_active() )
+										)
+									);
+								?>
+							</p>
+
+						</div>
+
+						<div class="group-desc"><p><?php bp_nouveau_group_description_excerpt(); ?></p></div>
+
+						<?php bp_nouveau_groups_loop_item(); ?>
+
+						<?php bp_nouveau_groups_loop_buttons(); ?>
+
 					</div>
-				<?php endif; ?>
-
-				<div class="item">
-
-					<div class="item-block">
-
-						<h2 class="list-title groups-title"><?php bp_group_link(); ?></h2>
-
-						<?php if ( bp_nouveau_group_has_meta() ) : ?>
-
-							<p class="item-meta group-details"><?php bp_nouveau_group_meta(); ?></p>
-
-						<?php endif; ?>
-
-						<p class="last-activity item-meta">
-							<?php
-							printf(
-								/* translators: %s: last activity timestamp (e.g. "active 1 hour ago") */
-								__( 'active %s', 'buddypress' ),
-								bp_get_group_last_active()
-							);
-							?>
-						</p>
-
-					</div>
-
-					<div class="group-desc"><p><?php bp_nouveau_group_description_excerpt(); ?></p></div>
-
-					<?php bp_nouveau_groups_loop_item(); ?>
-
-					<?php bp_nouveau_groups_loop_buttons(); ?>
 
 				</div>
 
+			</li>
 
-			</div>
-		</li>
-
-	<?php endwhile; ?>
+		<?php endwhile; ?>
 
 	</ul>
 
