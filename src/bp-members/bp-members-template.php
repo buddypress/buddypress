@@ -2122,6 +2122,9 @@ function bp_member_type_list( $user_id = 0, $r = array() ) {
 			'member_type_list'
 		);
 
+		// Should the label be output?
+		$has_label = ! empty( $r['label'] );
+
 		$labels = wp_parse_args(
 			$r['label'],
 			array(
@@ -2142,8 +2145,8 @@ function bp_member_type_list( $user_id = 0, $r = array() ) {
 				}
 			}
 
-			$before = $after = '';
-			$count = count( $types );
+			$before = $after = $label = '';
+			$count  = count( $types );
 
 			if ( 1 === $count ) {
 				$label_text = $labels['singular'];
@@ -2155,7 +2158,7 @@ function bp_member_type_list( $user_id = 0, $r = array() ) {
 			if ( ! empty( $r['parent_element'] ) ) {
 				$parent_elem = new BP_Core_HTML_Element( array(
 					'element' => $r['parent_element'],
-					'attr'    => $r['parent_attr']
+					'attr'    => $r['parent_attr'],
 				) );
 
 				// Set before and after.
@@ -2168,12 +2171,12 @@ function bp_member_type_list( $user_id = 0, $r = array() ) {
 				$label = new BP_Core_HTML_Element( array(
 					'element'    => $r['label_element'],
 					'attr'       => $r['label_attr'],
-					'inner_html' => esc_html( $label_text )
+					'inner_html' => esc_html( $label_text ),
 				) );
 				$label = $label->contents() . ' ';
 
 			// No element, just the label.
-			} else {
+			} elseif ( $has_label ) {
 				$label = esc_html( $label_text );
 			}
 
