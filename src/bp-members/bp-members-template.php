@@ -955,7 +955,8 @@ function bp_member_last_active( $args = array() ) {
 
 		// Backwards compatibility for anyone forcing a 'true' active_format.
 		if ( true === $r['active_format'] ) {
-			$r['active_format'] = __( 'active %s', 'buddypress' );
+			/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
+			$r['active_format'] = __( 'Active %s', 'buddypress' );
 		}
 
 		// Member has logged in at least one time.
@@ -1686,10 +1687,12 @@ function bp_last_activity( $user_id = 0 ) {
 	 */
 	function bp_get_last_activity( $user_id = 0 ) {
 
-		if ( empty( $user_id ) )
+		if ( empty( $user_id ) ) {
 			$user_id = bp_displayed_user_id();
+		}
 
-		$last_activity = bp_core_get_last_activity( bp_get_user_last_activity( $user_id ), __('active %s', 'buddypress') );
+		/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
+		$last_activity = bp_core_get_last_activity( bp_get_user_last_activity( $user_id ), __('Active %s', 'buddypress') );
 
 		/**
 		 * Filters the 'active [x days ago]' string for a user.

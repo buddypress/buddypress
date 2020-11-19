@@ -64,7 +64,14 @@ do_action( 'bp_before_groups_loop' ); ?>
 
 			<div class="item">
 				<div class="item-title"><?php bp_group_link(); ?></div>
-				<div class="item-meta"><span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span></div>
+				<div class="item-meta">
+					<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>">
+						<?php
+						/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
+						printf( __( 'Active %s', 'buddypress' ), bp_get_group_last_active() );
+						?>
+					</span>
+				</div>
 
 				<div class="item-desc"><?php bp_group_description_excerpt(); ?></div>
 

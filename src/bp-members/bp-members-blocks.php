@@ -332,7 +332,7 @@ function bp_members_render_members_block( $attributes = array() ) {
 				$output .= sprintf(
 					'<time datetime="%1$s">%2$s</time>',
 					esc_attr( bp_core_get_iso8601_date( $member->last_activity ) ),
-					/* translators: %s: a human time diff. */
+					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 					sprintf( esc_html__( 'Active %s', 'buddypress' ), bp_core_time_since( $member->last_activity ) )
 				);
 			}

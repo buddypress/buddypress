@@ -149,8 +149,8 @@ class BP_Groups_Widget extends WP_Widget {
 									} elseif ( 'popular' == $instance['group_default'] ) {
 										bp_group_member_count();
 									} else {
-										/* translators: %s: last activity timestamp (e.g. "active 1 hour ago") */
-										printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() );
+										/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
+										printf( __( 'Active %s', 'buddypress' ), bp_get_group_last_active() );
 									}
 								?>
 								</span>

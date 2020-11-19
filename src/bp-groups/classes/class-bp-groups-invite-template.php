@@ -275,8 +275,8 @@ class BP_Groups_Invite_Template {
 		$this->invite->user->user_url  = bp_core_get_user_domain( $user_id, $this->invite->user->user_nicename, $this->invite->user->user_login );
 		$this->invite->user->user_link = "<a href='{$this->invite->user->user_url}'>{$this->invite->user->fullname}</a>";
 
-		/* translators: %s: last activity timestamp (e.g. "active 1 hour ago") */
-		$this->invite->user->last_active = bp_core_get_last_activity( $this->invite->user->last_activity, __( 'active %s', 'buddypress' ) );
+		/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
+		$this->invite->user->last_active = bp_core_get_last_activity( $this->invite->user->last_activity, __( 'Active %s', 'buddypress' ) );
 
 		if ( bp_is_active( 'groups' ) ) {
 			$total_groups = BP_Groups_Member::total_group_count( $user_id );

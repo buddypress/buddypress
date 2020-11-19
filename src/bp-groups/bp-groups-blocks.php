@@ -303,7 +303,7 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 			$output .= sprintf(
 				'<time datetime="%1$s">%2$s</time>',
 				esc_attr( bp_core_get_iso8601_date( $group->last_activity ) ),
-				/* translators: %s: a human time diff. */
+				/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 				sprintf( esc_html__( 'Active %s', 'buddypress' ), bp_get_group_last_active( $group ) )
 			);
 		} elseif ( 'popular' === $block_args['extraInfo'] ) {

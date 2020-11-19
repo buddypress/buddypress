@@ -16,7 +16,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template->blog = new stdClass;
 		$blogs_template->blog->last_activity = $time;
 
-		$this->assertEquals( bp_core_get_last_activity( $time, __( 'active %s', 'buddypress' ) ), bp_get_blog_last_active() );
+		$this->assertEquals( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_blog_last_active() );
 
 		$blogs_template->blog = null;
 	}
@@ -33,7 +33,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$blogs_template->blog = new stdClass;
 		$blogs_template->blog->last_activity = $time;
 
-		$this->assertEquals( bp_core_get_last_activity( $time, __( 'active %s', 'buddypress' ) ), bp_get_blog_last_active( array( 'active_format' => true, ) ) );
+		$this->assertEquals( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_blog_last_active( array( 'active_format' => true, ) ) );
 
 		$blogs_template->blog = null;
 	}

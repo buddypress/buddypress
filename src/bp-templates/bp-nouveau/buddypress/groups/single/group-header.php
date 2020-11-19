@@ -28,7 +28,7 @@
 	<p class="activity">
 		<?php
 			printf(
-				/* translators: %s: last activity timestamp (e.g. "active 1 hour ago") */
+				/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 				esc_html__( 'Active %s', 'buddypress' ),
 				sprintf(
 					'<span data-livestamp="%1$s">%2$s</span>',

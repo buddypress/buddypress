@@ -205,7 +205,7 @@ class BP_Core_User {
 		);
 
 		/* translators: %s: human time diff of the last time the user was active on the site. */
-		$this->last_active = bp_core_get_last_activity( bp_get_user_last_activity( $this->id ), _x( 'active %s', 'last time the user was active', 'buddypress' ) );
+		$this->last_active = bp_core_get_last_activity( bp_get_user_last_activity( $this->id ), _x( 'Active %s', 'last time the user was active', 'buddypress' ) );
 	}
 
 	/**

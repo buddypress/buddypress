@@ -76,8 +76,8 @@ function groups_ajax_widget_groups_list() {
 						<?php else : ?>
 							<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>">
 								<?php
-								/* translators: %s: last activity timestamp (e.g. "active 1 hour ago") */
-								printf( _x( 'active %s', 'last time the group was active', 'buddypress' ), bp_get_group_last_active() );
+								/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
+								printf( _x( 'Active %s', 'last time the group was active', 'buddypress' ), bp_get_group_last_active() );
 								?>
 							</span>
 						<?php endif; ?>

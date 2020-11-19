@@ -1575,7 +1575,7 @@ add_action( 'wp_head', 'bp_core_record_activity' );
  * @since 1.0.0
  *
  * @param int|string $last_activity_date The date of last activity.
- * @param string     $string             A sprintf()-able statement of the form 'active %s'.
+ * @param string     $string             A sprintf()-able statement of the form 'Active %s'.
  * @return string $last_active A string of the form '3 years ago'.
  */
 function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
@@ -1597,7 +1597,7 @@ function bp_core_get_last_activity( $last_activity_date = '', $string = '' ) {
 	 *
 	 * @param string $last_active        Last activity string based on time since date given.
 	 * @param string $last_activity_date The date of last activity.
-	 * @param string $string             A sprintf()-able statement of the form 'active %s'.
+	 * @param string $string             A sprintf()-able statement of the form 'Active %s'.
 	 */
 	return apply_filters( 'bp_core_get_last_activity', $last_active, $last_activity_date, $string );
 }

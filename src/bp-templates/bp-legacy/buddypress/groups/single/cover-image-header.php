@@ -60,7 +60,12 @@ do_action( 'bp_before_group_header' ); ?>
 				do_action( 'bp_group_header_meta' ); ?>
 
 				<span class="highlight"><?php bp_group_type(); ?></span>
-				<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>"><?php printf( __( 'active %s', 'buddypress' ), bp_get_group_last_active() ); ?></span>
+				<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>">
+					<?php
+					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
+					printf( __( 'Active %s', 'buddypress' ), bp_get_group_last_active() );
+					?>
+				</span>
 
 				<?php bp_group_description(); ?>
 
