@@ -2404,15 +2404,30 @@ body.no-js .single-item-header .js-self-profile-button {
 * User Accounts Specific Item Header
 *-----------------------------------------------------
 */
-.bp-user .users-header .user-nicename {
+body.buddypress.bp-user .buddypress-wrap .users-header h2.user-nicename {
+	margin-top: 0;
 	margin-bottom: 5px;
 }
 
-.bp-user .member-header-actions {
-	overflow: hidden;
+body.buddypress.bp-user .buddypress-wrap .users-header .bp-member-type-list {
+	padding-bottom: 0.5em;
+	font-size: 18px;
+	margin: 0;
+	color: #333;
+	display: flex;
 }
 
-.bp-user .member-header-actions * > * {
+body.buddypress.bp-user .buddypress-wrap .users-header .bp-member-type-list strong {
+	padding-right: 1em;
+	white-space: nowrap;
+}
+
+body.buddypress.bp-user .buddypress-wrap .member-header-actions {
+	overflow: hidden;
+	padding-left: 0;
+}
+
+body.buddypress.bp-user .buddypress-wrap .member-header-actions * > * {
 	display: block;
 }
 

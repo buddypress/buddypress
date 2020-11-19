@@ -33,7 +33,7 @@
 					'container_classes' => array( 'member-header-actions' ),
 				)
 			);
-?>
+			?>
 
 			<?php bp_nouveau_member_hook( 'before', 'header_meta' ); ?>
 
@@ -44,6 +44,19 @@
 
 				</div><!-- #item-meta -->
 			<?php endif; ?>
+
+			<?php
+			bp_member_type_list(
+				bp_displayed_user_id(),
+				array(
+					'label'        => array(
+						'plural'   => __( 'Member Types', 'buddypress' ),
+						'singular' => __( 'Member Type', 'buddypress' ),
+					),
+					'list_element' => 'span',
+				)
+			);
+			?>
 
 		</div><!-- #item-header-content -->
 

@@ -2718,6 +2718,7 @@ function bp_get_member_type_tax_labels() {
 			// Specific to BuddyPress.
 			'bp_type_id_label'           => _x( 'Member Type ID', 'BP Member type ID label', 'buddypress' ),
 			'bp_type_id_description'     => _x( 'Enter a lower-case string without spaces or special characters (used internally to identify the member type).', 'BP Member type ID description', 'buddypress' ),
+			'bp_type_show_in_list'       => _x( 'Show on Member', 'BP Member type show in list', 'buddypress' ),
 		)
 	);
 }
@@ -2762,15 +2763,23 @@ function bp_get_member_type_tax_args() {
 function bp_get_member_type_metadata_schema( $schema = array(), $taxonomy = '' ) {
 	if ( bp_get_member_type_tax_name() === $taxonomy ) {
 
-		// Directory
+		// Directory.
 		if ( isset( $schema['bp_type_has_directory']['description'] ) ) {
 			$schema['bp_type_has_directory']['description'] = __( 'Make a list of members matching this type available on the members directory.', 'buddypress' );
 		}
 
-		// Slug
+		// Slug.
 		if ( isset( $schema['bp_type_directory_slug']['description'] ) ) {
 			$schema['bp_type_directory_slug']['description'] = __( 'Enter if you want the type slug to be different from its ID.', 'buddypress' );
 		}
+
+		// List.
+		$schema['bp_type_show_in_list'] = array(
+			'description'       => __( 'Show where member types may be listed, like in the member header.', 'buddypress' ),
+			'type'              => 'boolean',
+			'single'            => true,
+			'sanitize_callback' => 'absint',
+		);
 	}
 
 	return $schema;
@@ -2810,6 +2819,10 @@ add_action( 'bp_register_type_metadata', 'bp_register_member_type_metadata' );
  *                                      Pass `true` to use the `$member_type` string as the type's slug.
  *                                      Pass a string to customize the slug. Pass `false` to disable.
  *                                      Default: true.
+ *     @type bool        $show_in_list  Whether this member type should be shown in lists rendered by
+ *                                      bp_member_type_list(). Default: false.
+ *     @type bool        $code          Whether this member type is registered using code. Default: true.
+ *     @type int         $db_id         The member type term ID. Default: 0.
  * }
  * @return object|WP_Error Member type object on success, WP_Error object on failure.
  */
@@ -2823,6 +2836,7 @@ function bp_register_member_type( $member_type, $args = array() ) {
 	$r = bp_parse_args( $args, array(
 		'labels'        => array(),
 		'has_directory' => true,
+		'show_in_list'  => false,
 		'code'          => true,
 		'db_id'         => 0,
 	), 'register_member_type' );
@@ -2871,6 +2885,9 @@ function bp_register_member_type( $member_type, $args = array() ) {
 		$r['directory_slug'] = '';
 		$r['has_directory']  = false;
 	}
+
+	// Show the list of member types on front-end (member header, for now).
+	$r['show_in_list'] = (bool) $r['show_in_list'];
 
 	$bp->members->types[ $member_type ] = $type = (object) $r;
 

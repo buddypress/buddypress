@@ -3232,6 +3232,10 @@ function bp_get_taxonomy_types( $taxonomy = '', $types = array() ) {
 						$db_types[ $type_name ]->{$type_key} = get_term_meta( $term->term_id, $meta_key, true );
 					}
 				}
+
+				if ( ! empty( $db_types[ $type_name ]->has_directory ) && empty( $db_types[ $type_name ]->directory_slug ) ) {
+					$db_types[ $type_name ]->directory_slug = $term->slug;
+				}
 			}
 		}
 
