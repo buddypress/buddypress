@@ -320,7 +320,7 @@ var EditEmbedActivity = function EditEmbedActivity(_ref) {
       label: label
     }, createElement("p", {
       className: "components-placeholder__error"
-    }, __('The URL you provided is not a permalink to a BuddyPress Activity. Please use another URL.', 'buddypress'))));
+    }, __('The URL you provided is not a permalink to a public BuddyPress Activity. Please use another URL.', 'buddypress'))));
   }
 
   return createElement(Fragment, null, !isEditingURL && editToolbar, createElement("figure", {
