@@ -611,7 +611,7 @@ abstract class BP_Invitation_Manager {
 	 * @param int $id The ID of the invitation to mark as sent.
 	 * @return bool True on success, false on failure.
 	 */
-	abstract public function run_acceptance_action( $type = 'invite', $r  );
+	abstract public function run_acceptance_action( $type, $r  );
 
 	/**
 	 * Mark invitation as accepted by invitation ID.
