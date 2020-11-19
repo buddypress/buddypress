@@ -656,108 +656,139 @@ class BP_Admin {
 				<div class="bp-hello-content">
 					<div id="dynamic-content"></div>
 					<div id="top-features">
-						<h2><?php esc_html_e( 'Say hello to the first two BuddyPress blocks!', 'buddypress' ); ?></h2>
+						<h2><?php esc_html_e( 'Manage Member Types and Group Types right from your WordPress Dashboard.', 'buddypress' ); ?></h2>
 						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-blocks.gif' ); ?>" alt="<?php esc_attr_e( 'Gif Animation showing how to insert the BuddyPress Group Block.', 'buddypress' ); ?>" />
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-types-illustration.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing how to access to the BP Types Admin areas.', 'buddypress' ); ?>" />
 						</figure>
 						<p>
-							<?php esc_html_e( 'BuddyPress 6.0.0 comes with two awesome blocks for your WordPress Editor: the BP Member and BP Group Blocks.', 'buddypress' ); ?>
-							<?php esc_html_e( 'Available from the BuddyPress blocks category of your WordPress Block menu, these lovely blocks let you insert a rich content block featuring a specific member or group from your community site in a WordPress post or page.', 'buddypress' ); ?>
-							<br/>
+							<?php esc_html_e( 'Playing with BP Types just became much easier! The Member Types and Group Types were primarily introduced in BuddyPress as features for advanced users, just like the WordPress Custom Post Type feature.', 'buddypress' ); ?>
 							<?php printf(
-								/* translators: %s is the placeholder for the link to the Advanced section of the BP Blocks development note. */
-								esc_html__( 'If you\'re an Advanced BuddyPresser and wish to fine tune the BuddyPress blocks for your community site, learn more in %s about the new BP Blocks.', 'buddypress' ),
+								/* translators: %s is the placeholder for the link to the BP Types Admin developer note. */
+								esc_html__( 'Thanks to the two new %s, adding, editing and deleting Member & Group Types has never been so easy!', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://bpdevel.wordpress.com/2020/03/30/welcome-to-the-first-buddypress-blocks/#advanced-customizations' ),
-									esc_html__( 'this section of our development note', 'buddypress' )
+									esc_url( 'https://bpdevel.wordpress.com/2020/09/21/bp-types-admin-ui/' ),
+									esc_html__( 'WordPress Administration Screens', 'buddypress' )
+								)
+							); ?>
+							<?php esc_html_e( 'Now you can set up BP Types using custom code or by simply using the Administration interfaces.', 'buddypress' ); ?>
+						</p>
+						<h3><?php esc_html_e( 'Multiple Member Type assignment.', 'buddypress' ); ?></h3>
+						<p>
+							<?php printf(
+								/* translators: %s is the placeholder for the link to the BP Types Admin developer note. */
+								esc_html__( 'As we were pretty hot on the subject, we also improved Member Types assignment. You can now %s to users from their extended profile in the WordPress Dashboard.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://bpdevel.wordpress.com/2020/10/26/assigning-multiple-member-types-to-a-user/' ),
+									esc_html__( 'add more than one member type', 'buddypress' )
 								)
 							); ?>
 						</p>
 
 						<hr class="bp-hello-divider"/>
 
-						<h2><?php esc_html_e( 'The BP REST API is now completed!', 'buddypress' ); ?></h2>
+						<h2><?php esc_html_e( 'The BP Blocks category now includes 5 blocks!', 'buddypress' ); ?></h2>
+						<figure class="bp-hello-aligncenter">
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-new-blocks.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the BuddyPress Blocks category inside the Block Editor Inserter.', 'buddypress' ); ?>" />
+						</figure>
+						<p>
+							<?php esc_html_e( '3 new BP Blocks are now available via your WordPress Editor.', 'buddypress' ); ?>
+							<?php esc_html_e( 'From the BuddyPress blocks category of the WordPress Block Inserter, you can pick a BP Block to feature a list of members, a list of groups or embed a public BuddyPress Activity into your post or page.', 'buddypress' ); ?>
+							<?php printf(
+								/* translators: %s is the placeholder for the link to the BP Blocks developer note. */
+								esc_html__( 'Read more about it in this %s.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://bpdevel.wordpress.com/2020/10/14/three-new-blocks-to-expect-in-buddypress-7-0-0/' ),
+									esc_html__( 'development note', 'buddypress' )
+								)
+							); ?>
+						</p>
+
+						<hr class="bp-hello-divider"/>
+
+						<h2><?php esc_html_e( 'Get the best of the BP REST API improvements!', 'buddypress' ); ?></h2>
 						<figure class="bp-hello-alignright">
 							<div class="dashicons dashicons-rest-api big"></div>
 						</figure>
 						<p>
 							<?php printf(
 								/* translators: %s is the placeholder for the link to the BP REST API documentation. */
-								esc_html__( 'In 5.0.0, we introduced the first endpoints and provided %s for them.', 'buddypress' ),
+								esc_html__( 'The %s has been updated according to the latest improvements we’ve brought to the BuddyPress REST API.', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
 									esc_url( 'https://developer.buddypress.org/bp-rest-api/' ),
-									esc_html__( 'reference documentation', 'buddypress' )
+									esc_html__( 'Developer documentation', 'buddypress' )
 								)
 							); ?>
-							<?php esc_html_e( 'In 6.0.0, we are adding the 6 remaining endpoints you were waiting for: Blogs, Blog avatar, Friends, Group Cover Image, Member Cover Image and User Signups. You can now build full-featured BuddyPress Apps!', 'buddypress' ); ?>
+						</p>
+						<p>
+							<?php esc_html_e( 'To name two: get the groups the logged in user is a member of, and create a blog when BuddyPress is activated on a network of WordPress sites.', 'buddypress' ); ?>
+							<?php printf(
+								/* translators: %s is the placeholder for the link to the BP REST API developer note. */
+								esc_html__( 'Read this %s to learn about all the others.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://bpdevel.wordpress.com/2020/11/14/buddypress-rest-api-whats-new-in-7-0-0/' ),
+									esc_html__( 'development note', 'buddypress' )
+								)
+							); ?>
 						</p>
 
 						<hr class="bp-hello-divider"/>
 
-						<h2><?php esc_html_e( 'BP Nouveau has been improved', 'buddypress' ); ?></h2>
+						<h2><?php esc_html_e( 'BP Nouveau is ready for Twenty Twenty-One', 'buddypress' ); ?></h2>
 						<p>
-							<?php esc_html_e( 'Your active theme supports wide layouts? Awesome! BP Nouveau now supports wide (and really, really wide) content areas, too!', 'buddypress' ); ?>
+							<?php esc_html_e( 'You love the latest default WordPress Theme, so do we!', 'buddypress' ); ?>
+							<?php esc_html_e( 'It’s important for us to make sure the BP Nouveau template pack looks great in the default themes included in the WordPress package.', 'buddypress' ); ?>
+							<?php esc_html_e( 'This is the first of the many improvements we are bringing to our default Template Pack.', 'buddypress' ); ?>
 						</p>
 						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-nouveau-wide-aligns.png' ); ?>" alt="<?php esc_attr_e( 'Screenshot of the BP Nouveau customizer setting to take advantage of wide layouts', 'buddypress' ); ?>" />
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-nouveau-2021.png' ); ?>" alt="<?php esc_attr_e( 'Screenshot of the BuddyPress Members directory', 'buddypress' ); ?>" />
+						</figure>
+
+						<hr class="bp-hello-divider"/>
+
+						<h2><?php esc_html_e( 'Improved support for WP CLI.', 'buddypress' ); ?></h2>
+						<figure class="bp-hello-alignleft">
+							<div class="dashicons dashicons-arrow-right-alt2 big"></div>
 						</figure>
 						<p>
-							<?php esc_html_e( 'This is the first of the many improvements we are bringing to our default Template Pack. It never looked so beautiful in your theme.', 'buddypress' ); ?>
+							<?php esc_html_e( 'WP-CLI is the command-line interface for WordPress. You can update plugins, configure multisite installs, and much more, all without using a web browser.', 'buddypress' ); ?>
+							<?php esc_html_e( 'In 7.0.0, you will be able to use new BuddyPress CLI commands to manage BuddyPress Group Meta, BuddyPress Activity Meta, activate or deactivate the BuddyPress signup feature and create BuddyPress-specific testing code for plugins.', 'buddypress' ); ?>
+						</p>
+						<p>
+							<?php printf(
+								/* translators: %s is the placeholder for the link to the WP BP CLI developer note. */
+								esc_html__( 'Discover more about it from this %s.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://bpdevel.wordpress.com/2020/10/09/wp-cli-buddypress-2-0/' ),
+									esc_html__( 'developer note', 'buddypress' )
+								)
+							); ?>
 						</p>
 
 						<hr class="bp-hello-divider"/>
 
 						<h2><?php esc_html_e( 'Under the hood', 'buddypress' ); ?></h2>
-						<figure class="bp-hello-alignright">
+						<p>
+							<?php esc_html_e( '7.0.0 includes more than 65 changes to improve your BuddyPress experience as users, and as contributors to our project; click on the “Changelog” tab to discover them all!', 'buddypress' ); ?>
+						</p>
+						<figure class="bp-hello-aligncenter">
 							<div class="dashicons dashicons-buddicons-buddypress-logo big"></div>
 						</figure>
-						<p>
-							<?php esc_html_e( '6.0.0 includes more than 80 changes to improve your BuddyPress experience as users, as contributors to our code and as contributors to our translations.', 'buddypress' ); ?>
-						</p>
-						<p>
-							<?php printf(
-								/* translators: %s is the placeholder for the link to the Avatar changes development note. */
-								esc_html__( 'The biggest change moves local avatar management to the Members component. Read more about it in %s.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://bpdevel.wordpress.com/2020/03/01/the-profile-photo-cover-image-features-belong-to-members/' ),
-									esc_html__( 'this development note', 'buddypress' )
-								)
-							); ?>
-						</p>
-
-						<hr class="bp-hello-divider"/>
-
-						<h2><?php esc_html_e( 'We want to hear your voice', 'buddypress' ); ?></h2>
-						<figure class="bp-hello-alignleft">
-							<div class="dashicons dashicons-microphone big"></div>
-						</figure>
-						<p class="aligncenter">
-							<strong><?php printf(
-								/* translators: %s is the placeholder for the link to the 2020 BuddyPress survey. */
-								esc_html__( 'Take the %s.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://mercime.survey.fm/2020-buddypress-survey' ),
-									esc_html__( '2020 BuddyPress Survey', 'buddypress' )
-								)
-							); ?></strong>
-						</p>
-						<p>
-							<?php esc_html_e( 'Knowing how you use BuddyPress and getting your point of view about future BuddyPress development is very important to us.', 'buddypress' ); ?>
-							<?php esc_html_e( 'Please, take some time to help us decide what\'s best for the BuddyPress project.', 'buddypress' ); ?>
-						</p>
 
 						<hr class="bp-hello-divider"/>
 
 						<h2><?php echo esc_html( _x( 'Your feedback', 'screen heading', 'buddypress' ) ); ?></h2>
 						<p>
+							<?php esc_html_e( 'How are you using BuddyPress? Receiving your feedback and suggestions for future versions of BuddyPress genuinely motivates and encourages our contributors.', 'buddypress' ); ?>
 							<?php
 							printf(
 								/* translators: %s is the placeholder for the link to BuddyPress support forums. */
-								esc_html__( ' How are you using BuddyPress? Receiving your feedback and suggestions for future versions of BuddyPress genuinely motivates and encourages our contributors. Please %s about this version of BuddyPress on our website. ', 'buddypress' ),
+								esc_html__( 'Please %s about this version of BuddyPress on our website.', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
 									esc_url( 'https://buddypress.org/support/' ),
