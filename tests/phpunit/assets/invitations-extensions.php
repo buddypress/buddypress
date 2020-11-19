@@ -12,7 +12,7 @@ class BPTest_Invitation_Manager_Extension extends BP_Invitation_Manager {
 		return true;
 	}
 
-	public function run_acceptance_action( $type = 'invite', $r  ) {
+	public function run_acceptance_action( $type, $r  ) {
 		return true;
 	}
 }
