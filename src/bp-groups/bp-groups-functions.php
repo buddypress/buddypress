@@ -2806,12 +2806,12 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
 function bp_groups_get_group_types( $args = array(), $output = 'names', $operator = 'and' ) {
 	$types = buddypress()->groups->types;
 
-	$types = wp_filter_object_list( $types, $args, $operator );
-
 	// Merge with types available into the database.
 	if ( ! isset( $args['code'] ) || true !== $args['code'] ) {
 		$types = bp_get_taxonomy_types( bp_get_group_type_tax_name(), $types );
 	}
+
+	$types = wp_filter_object_list( $types, $args, $operator );
 
 	/**
 	 * Filters the array of group type objects.
