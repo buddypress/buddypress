@@ -43,7 +43,10 @@
 	bp_group_type_list(
 		bp_get_group_id(),
 		array(
-			'label'        => __( 'Group Types', 'buddypress' ),
+			'label'        => array(
+				'plural'   => __( 'Group Types', 'buddypress' ),
+				'singular' => __( 'Group Type', 'buddypress' ),
+			),
 			'list_element' => 'span',
 		)
 	);

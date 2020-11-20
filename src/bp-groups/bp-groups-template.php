@@ -190,7 +190,26 @@ function bp_group_type_directory_link( $group_type = '' ) {
 			return '';
 		}
 
-		return sprintf( '<a href="%s">%s</a>', esc_url( bp_get_group_type_directory_permalink( $group_type ) ), bp_groups_get_group_type_object( $group_type )->labels['name'] );
+		$group_type_object = bp_groups_get_group_type_object( $group_type );
+
+		if ( ! isset( $group_type_object->labels['name'] ) ) {
+			return '';
+		}
+
+		$group_type_text = $group_type_object->labels['name'];
+		if ( isset( $group_type_object->labels['singular_name'] ) && $group_type_object->labels['singular_name'] ) {
+			$group_type_text = $group_type_object->labels['singular_name'];
+		}
+
+		if ( empty( $group_type_object->has_directory ) ) {
+			return esc_html( $group_type_text );
+		}
+
+		return sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( bp_get_group_type_directory_permalink( $group_type ) ),
+			esc_html( $group_type_text )
+		);
 	}
 
 /**
@@ -206,19 +225,23 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 	 * Return a comma-delimited list of group types.
 	 *
 	 * @since 2.7.0
+	 * @since 7.0.0 The `$r['label']` argument now also accept an array containing the
+	 *              plural & singular labels to use according to the Group's number of
+	 *              group types it is assigned to.
 	 *
 	 * @param int $group_id Group ID. Defaults to current group ID if on a group page.
 	 * @param array|string $r {
 	 *     Array of parameters. All items are optional.
-	 *     @type string $parent_element Element to wrap around the list. Defaults to 'p'.
-	 *     @type array  $parent_attr    Element attributes for parent element. Defaults to
-	 *                                  array( 'class' => 'bp-group-type-list' ).
-	 *     @type string $label          Label to add before the list. Defaults to 'Group Types:'.
-	 *     @type string $label_element  Element to wrap around the label. Defaults to 'strong'.
-	 *     @type array  $label_attr     Element attributes for label element. Defaults to array().
-	 *     @type bool   $show_all       Whether to show all registered group types. Defaults to 'false'. If
-	 *                                 'false', only shows group types with the 'show_in_list' parameter set to
-	 *                                  true. See bp_groups_register_group_type() for more info.
+	 *     @type string       $parent_element Element to wrap around the list. Defaults to 'p'.
+	 *     @type array        $parent_attr    Element attributes for parent element. Defaults to
+	 *                                        array( 'class' => 'bp-group-type-list' ).
+	 *     @type string|array $label          Plural and singular labels to add before the list. Defaults to
+	 *                                        array( 'plural' => 'Group Types:', 'singular' => 'Group Type:' ).
+	 *     @type string       $label_element  Element to wrap around the label. Defaults to 'strong'.
+	 *     @type array        $label_attr     Element attributes for label element. Defaults to array().
+	 *     @type bool         $show_all       Whether to show all registered group types. Defaults to 'false'. If
+	 *                                       'false', only shows group types with the 'show_in_list' parameter set to
+	 *                                        true. See bp_groups_register_group_type() for more info.
 	 * }
 	 * @return string
 	 */
@@ -234,7 +257,7 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 				'parent_attr'       => array(
 					'class' => 'bp-group-type-list',
 				),
-				'label'             => __( 'Group Types:', 'buddypress' ),
+				'label'             => array(),
 				'label_element'     => 'strong',
 				'label_attr'        => array(),
 				'show_all'          => false,
@@ -242,6 +265,24 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 				'list_element_attr' => array(),
 			),
 			'group_type_list'
+		);
+
+		// Should the label be output?
+		$has_label = ! empty( $r['label'] );
+
+		// Ensure backward compatibility in case developers are still using a string.
+		if ( ! is_array( $r['label'] ) ) {
+			$r['label'] = array(
+				'plural' => __( 'Group Types:', 'buddypress' ),
+			);
+		}
+
+		$labels = wp_parse_args(
+			$r['label'],
+			array(
+				'plural'   => __( 'Group Types:', 'buddypress' ),
+				'singular' => __( 'Group Type:', 'buddypress' ),
+			)
 		);
 
 		$retval = '';
@@ -256,12 +297,19 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 			}
 
 			$before = $after = $label = '';
+			$count  = count( $types );
+
+			if ( 1 === $count ) {
+				$label_text = $labels['singular'];
+			} else {
+				$label_text = $labels['plural'];
+			}
 
 			// Render parent element.
 			if ( ! empty( $r['parent_element'] ) ) {
 				$parent_elem = new BP_Core_HTML_Element( array(
 					'element' => $r['parent_element'],
-					'attr'    => $r['parent_attr']
+					'attr'    => $r['parent_attr'],
 				) );
 
 				// Set before and after.
@@ -274,13 +322,13 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
 				$label = new BP_Core_HTML_Element( array(
 					'element'    => $r['label_element'],
 					'attr'       => $r['label_attr'],
-					'inner_html' => esc_html( $r['label'] )
+					'inner_html' => esc_html( $label_text ),
 				) );
 				$label = $label->contents() . ' ';
 
 			// No element, just the label.
-			} else {
-				$label = esc_html( $r['label'] );
+			} elseif ( $has_label ) {
+				$label = esc_html( $label_text );
 			}
 
 			// The list of types.
