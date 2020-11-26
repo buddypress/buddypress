@@ -20,12 +20,13 @@ git:
 
 php:
   - 7.3
+  - 7.2
   - 5.6
 
 # WordPress comes from the Git mirror, where 'master' mirrors svn 'trunk' and
 # x.y mirrors the latest from the x.y branch
 env:
-  - WP_VERSION=master BP_TRAVISCI=travis:phpunit
+  - WP_VERSION=5.5 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=5.4 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=5.3 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=5.2 BP_TRAVISCI=travis:phpunit
@@ -37,27 +38,9 @@ env:
 matrix:
   include:
     - php: 7.3
-      env: WP_VERSION=master BP_TRAVISCI=travis:grunt
+      env: WP_VERSION=5.5 BP_TRAVISCI=travis:grunt
     - php: 7.3
-      env: WP_VERSION=master BP_TRAVISCI=travis:phpcompat
-    - php: 7.2
-      env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
-      dist: precise
-    - php: 7.2
-      env: WP_VERSION=5.4 BP_TRAVISCI=travis:phpunit
-      dist: precise
-    - php: 7.2
-      env: WP_VERSION=5.3 BP_TRAVISCI=travis:phpunit
-      dist: precise
-    - php: 7.2
-      env: WP_VERSION=5.2 BP_TRAVISCI=travis:phpunit
-      dist: precise
-    - php: 7.2
-      env: WP_VERSION=5.1 BP_TRAVISCI=travis:phpunit
-      dist: precise
-    - php: 7.2
-      env: WP_VERSION=5.0 BP_TRAVISCI=travis:phpunit
-      dist: precise
+      env: WP_VERSION=5.5 BP_TRAVISCI=travis:phpcompat
   exclude:
     - php: 7.3
       env: WP_VERSION=4.9 BP_TRAVISCI=travis:phpunit
@@ -109,7 +92,8 @@ before_install:
   - phpenv versions
   - php --version
   - php -m
-  - phpunit --version
+  # The installed PHPUnit version does not support PHP 7.2 on trusty dist.
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} != "7.2" ]]; then phpunit --version; fi
   - curl --version
   - grunt --version
   - git --version
