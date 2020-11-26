@@ -736,7 +736,7 @@ window.bp = window.bp || {};
 
 				comment_data = {
 					action                        : 'new_activity_comment',
-					_wpnonce_new_activity_comment : $( '#_wpnonce_new_activity_comment' + '_' + item_id ).val(),
+					_wpnonce_new_activity_comment : $( '#_wpnonce_new_activity_comment' + '_' + activity_id ).val(),
 					comment_id                    : item_id,
 					form_id                       : activity_id,
 					content                       : comment_content.val()
