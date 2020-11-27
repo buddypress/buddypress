@@ -23,15 +23,15 @@
 		"grunt-jsvalidate": "~0.2.2",
 		"grunt-legacy-util": "~1.1.1",
 		"grunt-patch-wordpress": "~1.0.0",
-		"phplint": "^2.0.1",
 		"grunt-postcss": "~0.9.0",
-		"grunt-rtlcss": "~2.0.1",
+		"grunt-rtlcss": "~2.0.2",
 		"grunt-sass": "~2.0.0",
 		"grunt-stylelint": "~0.12.0",
 		"matchdep": "~2.0.0",
 		"parcel-bundler": "~1.12.4",
+		"phplint": "~2.0.3",
 		"postcss-scss": "~2.0.0",
-		"stylelint": "~11.0.0",
+		"stylelint": "~13.8.0",
 		"stylelint-config-wordpress": "~16.0.0"
 	},
 	"engines": {
