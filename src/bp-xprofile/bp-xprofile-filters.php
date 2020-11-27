@@ -141,9 +141,15 @@ function xprofile_filter_kses( $content, $data_obj = null, $field_id = null ) {
 			'ul'   => array(),
 			'ol'   => array(),
 			'li'   => array(),
-			'span' => array( 'style' => 1 ),
-			'p'    => array( 'style' => 1 ),
+			'span' => array(),
+			'p'    => array(),
 		);
+
+		// Allow style attributes on certain elements for capable users
+		if ( bp_current_user_can( 'unfiltered_html' ) ) {
+			$richtext_tags['span'] = array( 'style' => 1 );
+			$richtext_tags['p']    = array( 'style' => 1 );
+		}
 
 		$xprofile_allowedtags = array_merge( $allowedtags, $richtext_tags );
 	}
