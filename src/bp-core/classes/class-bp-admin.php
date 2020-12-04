@@ -809,10 +809,10 @@ class BP_Admin {
 						<?php
 						printf(
 							/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
-							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 37, 'buddypress' ),
+							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 54, 'buddypress' ),
 							'<span class="dashicons dashicons-heart"></span>',
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 37 )
+							number_format_i18n( 54 )
 						);
 						?>
 					</p>
@@ -998,31 +998,47 @@ class BP_Admin {
 			<p class="wp-credits-list">
 				<a href="https://profiles.wordpress.org/oztaser/">Adil Oztaser (oztaser)</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
-				<a href="https://profiles.wordpress.org/corsky/">corsky</a>,
 				<a href="https://profiles.wordpress.org/sbrajesh/">Brajesh Singh (sbrajesh)</a>,
+				<a href="https://profiles.wordpress.org/corsky/">corsky</a>,
+				<a href="https://profiles.wordpress.org/dancaragea/">Dan Caragea (dancaragea)</a>,
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
 				<a href="https://profiles.wordpress.org/devnik/">devnik</a>,
 				<a href="https://profiles.wordpress.org/dilipbheda/">Dilip Bheda</a>,
 				<a href="https://profiles.wordpress.org/dd32/">Dion Hulse (dd32)</a>,
 				<a href="https://profiles.wordpress.org/dragoeco/">dragoeco</a>,
+				<a href="https://profiles.wordpress.org/kebbet/">Erik Betshammar (kebbet)</a>,
 				<a href="https://profiles.wordpress.org/etatus/">etatus</a>,
 				<a href="https://github.com/ExoGeek/">Didier Saintes (ExoGeek)</a>,
+				<a href="https://profiles.wordpress.org/f2010525/">诗语 (f2010525)</a>,
 				<a href="https://profiles.wordpress.org/mamaduka/">George Mamadashvili</a>,
+				<a href="https://profiles.wordpress.org/mociofiletto/">Giuseppe (mociofiletto)</a>,
 				<a href="https://profiles.wordpress.org/hareesh-pillai/">Hareesh</a>,
-				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
-				<a href="https://profiles.wordpress.org/k3690/">k3690</a>,
-				<a href="https://profiles.wordpress.org/laxman-prajapati/">Laxman Prajapati</a>,
 				<a href="https://profiles.wordpress.org/iamthewebb/">iamthewebb</a>,
+				<a href="https://profiles.wordpress.org/nobnob/">Javier Esteban (nobnob)</a>,
+				<a href="https://profiles.wordpress.org/audrasjb/">Jb Audras (audrasjb)</a>,
+				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
+				<a href="https://profiles.wordpress.org/joost-abrahams/">Joost Abrahams (joost-abrahams)</a>,
+				<a href="https://profiles.wordpress.org/k3690/">k3690</a>,
+				<a href="https://profiles.wordpress.org/knutsp/">Knut Sparhell (knutsp)</a>,
+				<a href="https://profiles.wordpress.org/laxman-prajapati/">Laxman Prajapati</a>,
+				<a href="https://profiles.wordpress.org/lidialab/">Lidia Pellizzaro (lidialab)</a>,
+				<a href="https://profiles.wordpress.org/marbaque/">marbaque</a>,
 				<a href="https://github.com/geckse/">Marcel Claus (geckse)</a>,
-				<a href="https://profiles.wordpress.org/marioshtika/">marioshtika</a>
+				<a href="https://profiles.wordpress.org/marioshtika/">marioshtika</a>,
+				<a href="https://profiles.wordpress.org/markscottrobson/">Mark Robson (markscottrobson)</a>,
 				<a href="https://profiles.wordpress.org/imath/">Mathieu Viet (imath)</a>,
 				<a href="https://profiles.wordpress.org/mercime/">mercime</a>,
 				<a href="https://profiles.wordpress.org/immeet94/">Meet Makadia</a>,
 				<a href="https://profiles.wordpress.org/tw2113/">Michael Beckwith</a>,
 				<a href="https://profiles.wordpress.org/man4toman/">Morteza Geransayeh (man4toman)</a>,
+				<a href="https://profiles.wordpress.org/morenolq/">morenolq</a>,
 				<a href="https://profiles.wordpress.org/n33d/">N33D</a>,
 				<a href="https://profiles.wordpress.org/oddev56/">oddev56</a>,
 				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
+				<a href="https://profiles.wordpress.org/walbo/">Petter Walbø Johnsgård (walbo)</a>,
+				<a href="https://profiles.wordpress.org/psmits1567/">Peter Smits (psmits1567)</a>,
+				<a href="https://profiles.wordpress.org/podporawebu/">wp24.cz (podporawebu)</a>,
+				<a href="https://profiles.wordpress.org/raruto/">Raruto</a>,
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
 				<a href="https://profiles.wordpress.org/espellcaste/">Renato Alves (espellcaste)</a>,
 				<a href="https://profiles.wordpress.org/scipi/">scipi</a>,
@@ -1032,6 +1048,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/sjregan/">sjregan</a>,
 				<a href="https://profiles.wordpress.org/netweb/">Stephen Edgar (netweb)</a>,
 				<a href="https://profiles.wordpress.org/tharsheblows/">tharsheblows</a>,
+				<a href="https://profiles.wordpress.org/tobifjellner/">Tor-Bjorn Fjellner (tobifjellner)</a>,
 				<a href="https://profiles.wordpress.org/vapvarun/">Varun Dubey (vapvarun)</a>.
 			</p>
 
