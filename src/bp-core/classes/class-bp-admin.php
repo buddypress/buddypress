@@ -809,10 +809,10 @@ class BP_Admin {
 						<?php
 						printf(
 							/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
-							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 54, 'buddypress' ),
+							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 55, 'buddypress' ),
 							'<span class="dashicons dashicons-heart"></span>',
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 54 )
+							number_format_i18n( 55 )
 						);
 						?>
 					</p>
@@ -1037,7 +1037,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
 				<a href="https://profiles.wordpress.org/walbo/">Petter Walbø Johnsgård (walbo)</a>,
 				<a href="https://profiles.wordpress.org/psmits1567/">Peter Smits (psmits1567)</a>,
-				<a href="https://profiles.wordpress.org/podporawebu/">wp24.cz (podporawebu)</a>,
+				<a href="https://profiles.wordpress.org/pooja1210/">Pooja N Muchandikar (pooja1210)</a>,
 				<a href="https://profiles.wordpress.org/raruto/">Raruto</a>,
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
 				<a href="https://profiles.wordpress.org/espellcaste/">Renato Alves (espellcaste)</a>,
@@ -1049,7 +1049,8 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/netweb/">Stephen Edgar (netweb)</a>,
 				<a href="https://profiles.wordpress.org/tharsheblows/">tharsheblows</a>,
 				<a href="https://profiles.wordpress.org/tobifjellner/">Tor-Bjorn Fjellner (tobifjellner)</a>,
-				<a href="https://profiles.wordpress.org/vapvarun/">Varun Dubey (vapvarun)</a>.
+				<a href="https://profiles.wordpress.org/vapvarun/">Varun Dubey (vapvarun)</a>,
+				<a href="https://profiles.wordpress.org/podporawebu/">wp24.cz (podporawebu)</a>.
 			</p>
 
 			<h3 class="wp-people-group"><?php esc_html_e( 'With our thanks to these Open Source projects', 'buddypress' ); ?></h3>
