@@ -3,7 +3,7 @@
  * Activity functions
  *
  * @since 3.0.0
- * @version 5.0.0
+ * @version 7.0.0
  */
 
 // Exit if accessed directly.
@@ -538,3 +538,20 @@ function bp_nouveau_activity_customizer_controls( $controls = array() ) {
 		),
 	) );
 }
+
+/**
+ * Remove brackets around the "Read more" text.
+ *
+ * @since 7.0.0
+ *
+ * @param string $read_more The read more text.
+ * @return string The read more text without brackets.
+ */
+function bp_nouveau_activity_excerpt_append_text( $read_more = '' ) {
+	/**
+	 * As this was added during a string freeze period, we
+	 * are using the `str_replace()` function.
+	 */
+	return str_replace( array( '[', ']' ), '', $read_more );
+}
+add_filter( 'bp_activity_excerpt_append_text', 'bp_nouveau_activity_excerpt_append_text', 10, 1 );

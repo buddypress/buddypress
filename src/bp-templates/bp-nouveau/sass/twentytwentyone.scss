@@ -1,0 +1,1849 @@
+//
+//
+// Twenty Twenty-One companion stylesheet source.
+//
+//
+// This file compiles to twentytwentyone.css.
+
+// Import our partials mixins & variables files
+
+@import "../common-styles/_bp-variables";
+@import "../common-styles/_bp-mixins";
+
+/*--------------------------------------------------------------
+Hello, this is the BP Nouveau's Twenty Twenty-One companion stylesheet.
+
+@since 7.0.0
+@version 7.0.0
+
+----------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+1.0 - BP Generic, Typography & Imagery
+
+2.0 - Navigation - General
+	2.1 - Navs - Object Nav / Sub Nav (item-list-tabs)
+	2.2 - Pagination
+
+3.0 - BP Lists / Loops Generic & filters
+	3.1 - Activity Loop
+		3.1.1 Whats New Activity
+		3.1.2 - Activity Entries
+		3.1.3 - Activity Comments
+	3.2 - Blogs Loop
+	3.3 - Groups Loop
+	3.4 - Members Loop
+
+4.0 - Directories - Members, Groups, Blogs, Register, Activation
+	4.1 - Groups Creation Steps Screens
+5.0 - Single Item screens: User Account & Single Group Screens
+	5.1 - Item Headers: Global
+		5.1.1 - item-header: Groups
+		5.1.2 - item-header: User Accounts
+	5.2 - Item Body: Global
+		5.2.1 - item-body: Groups
+			5.2.1.1 - Management settings screens
+			5.2.1.2 - Group Members list
+			5.2.1.3 - Group Invite list
+			5.2.1.4 - Group Activity
+		5.2.2 - item-body: User Accounts
+			5.2.2.1 - classes, pag, filters
+			5.2.2.2 - Extended Profiles
+			5.2.2.3 - Groups
+			5.2.2.4 - friends
+			5.2.2.5 - Private Messaging Threads
+			5.2.2.6 - Settings
+
+6.0 - Forms  -  General
+	6.1 - Dir Search
+
+7.0 - Tables -  General
+
+8.0 - Classes - Messages, Ajax, Widgets, Buttons, Tooltips
+
+9.0 - Layout Classes.
+--------------------------------------------------------------*/
+
+/**
+*-------------------------------------------------------------------------------
+* @section 1.0 - BP Generic, Typography & Imagery
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.is-dark-theme & {
+
+		.avatar {
+			background: var(--global--color-white-90);
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 2.0 - Navigation - General
+*-------------------------------------------------------------------------------
+*/
+
+
+/**
+*----------------------------------------------------------
+* @section 2.1 - Navs Object Nav / Sub Nav (bp-list)
+*
+* The main navigational elements for all BP screens
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	&:not(.bp-single-vert-nav) {
+
+		@include medium-max {
+
+			.bp-navs {
+
+				li {
+					background: transparent;
+				}
+			}
+		}
+	}
+
+	.bp-navs {
+
+		li {
+
+			.count {
+				background-color: var(--button--color-background);
+				border: 1px solid var(--button--color-background);
+				border-radius: 50%;
+				color: var(--button--color-text);
+			}
+		}
+
+		&:not(.tabbed-links) {
+
+			li.selected,
+			li.current,
+			li a:hover {
+
+				a {
+
+					.count {
+						background-color: var(--global--color-background);
+						border: 1px solid var(--global--color-background);
+						color: var(--button--color-text-hover);
+					}
+				}
+			}
+		}
+
+		li:not(.current):not(.selected) {
+
+			a:focus,
+			a:hover {
+				background: var(--global--color-background);
+				color: var(--global--color-primary);
+				outline-offset: -6px;
+				outline: 2px dotted currentColor;
+			}
+		}
+
+		li.selected,
+		li.current {
+
+			a,
+			a:focus,
+			a:hover {
+				color: var(--button--color-text);
+				background-color: var(--button--color-background);
+			}
+		}
+
+		&.tabbed-links ul,
+		&.tabbed-links ol {
+			border-bottom: 1px solid var(--global--color-primary);
+
+			li.current {
+				border-color: var(--global--color-primary) var(--global--color-primary) var(--global--color-background);
+				border-style: solid;
+				border-top-left-radius: 4px;
+				border-top-right-radius: 4px;
+
+				a {
+					color: var(--global--color-primary);
+					background-color: var(--global--color-background);
+				}
+			}
+		}
+	}
+
+	#group-invites-container {
+
+		.bp-invites-nav {
+			border-bottom: none;
+
+			li {
+
+				.count {
+					margin-left: 10px;
+					border-radius: 10%;
+					vertical-align: 10%;
+				}
+			}
+		}
+
+		#send-invites-editor {
+
+			ul {
+				padding-left: 0;
+			}
+		}
+	}
+
+	&.bp-dir-hori-nav:not(.bp-vertical-navs) {
+
+		nav:not(.tabbed-links) {
+			border: none;
+			border-bottom: 1px solid var(--global--color-primary);
+			box-shadow: none;
+		}
+	}
+}
+
+#buddypress.twentytwentyone {
+
+	.subnav-filters {
+
+		> ul {
+			padding-left: 0;
+		}
+	}
+
+	.notifications-options-nav {
+		margin-top: 1em;
+
+		input#notification-bulk-manage {
+			line-height: 1.2;
+		}
+	}
+}
+
+/**
+*----------------------------------------------------------
+* @section 2.2 - Pagination
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.bp-pagination {
+		color: var(--global--color-secondary);
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 3.0 - BP Lists / Loops Generic
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.bp-list {
+
+		border-top: 1px dotted var(--global--color-primary);
+
+		> li {
+			border-bottom: 1px dotted var(--global--color-primary);
+		}
+	}
+
+	.activity-list.bp-list {
+		background: inherit;
+		border-left: none;
+		border-right: none;
+		border-bottom: 1px dotted var(--global--color-primary);
+
+		.activity-item {
+			background: inherit;
+			border: 1px solid var(--global--color-primary);
+			box-shadow: none;
+
+			.activity-header {
+
+				.time-since,
+				.time-since:hover {
+					color: var(--global--color-secondary);
+				}
+			}
+		}
+	}
+
+	.bp-list {
+
+		li {
+
+			&:not(.mini) {
+
+				.item-avatar {
+
+					img.avatar {
+						display: block;
+						margin: 0 auto;
+						margin-bottom: 1em;
+					}
+
+					@include medium-up() {
+						max-width: 128px;
+						max-height: 128px;
+						margin: auto;
+						margin-right: 5%;
+					}
+				}
+			}
+
+			&.mini {
+
+				.item-avatar {
+
+					img.avatar {
+						display: block;
+						margin: 0 auto;
+						max-width: 50px;
+						max-height: 50px;
+						margin-bottom: 1em;
+					}
+
+					@include medium-up() {
+						width: 5%;
+						margin: auto;
+						margin-right: 2%;
+					}
+				}
+
+				.activity-meta {
+
+					&.action {
+						clear: none;
+					}
+				}
+			}
+
+			.meta,
+			.item-meta {
+				color: var(--global--color-secondary);
+			}
+		}
+	}
+}
+
+/**
+*----------------------------------------------------------
+* @section 3.1 - Activity Loop
+*----------------------------------------------------------
+*/
+
+/**
+*-----------------------------------------------------
+* @section 3.1.1 - Activity Whats New
+*-----------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.activity-update-form {
+		border: 1px solid var(--global--color-primary);
+		box-shadow: none;
+
+		#whats-new-post-in-box {
+
+			#whats-new-post-in-box-items {
+
+				li {
+					margin-bottom: 0;
+
+					&.bp-activity-object {
+						padding: 5px;
+						margin-left: 3px;
+						border-radius: 0;
+						border-style: dotted;
+						border-width: 0;
+						border-left-width: 1px;
+						border-right-width: 1px;
+
+						&:not(.selected) {
+							background: var(--global--color-white-90);
+							color: var(--form--color-text);
+							border-color: var(--form--border-color);
+
+							&:last-child {
+								border-bottom: dotted 1px;
+							}
+
+							&:hover {
+								background: var(--global--color-blue);
+							}
+						}
+
+						&.selected {
+							border: none;
+							background-color: transparent;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/**
+*-----------------------------------------------------
+* @section 3.1.2 - Activity Entries
+*-----------------------------------------------------
+*/
+
+body {
+
+	.site {
+
+		#buddypress.twentytwentyone {
+
+			.activity-list {
+
+				.load-more,
+				.load-newest {
+					background-color: var(--button--color-background);
+					color: var(--button--color-text);
+					border: 1px solid var(--button--color-background);
+
+					a {
+						color: var(--button--color-text);
+
+						&:focus {
+							color: var(--button--color-text-hover);
+							background: transparent;
+							outline-offset: -6px;
+							outline: 2px dotted currentColor;
+						}
+					}
+
+					&:hover,
+					&:focus {
+						color: var(--button--color-text-hover);
+						background: transparent;
+
+						a {
+							color: var(--button--color-text-hover);
+							background: transparent;
+						}
+					}
+				}
+
+				.activity-content {
+
+					.activity-header,
+					.comment-header {
+						color: var(--global--color-secondary);
+
+						a {
+							font-weight: 600;
+
+							&:hover {
+								text-decoration: underline;
+							}
+						}
+					}
+
+					.activity-inner,
+					blockquote {
+						background: inherit;
+						border: 1px dotted var(--global--color-primary);
+					}
+
+					.activity-meta.action {
+						background: inherit;
+
+						.button:before,
+						.icons:before {
+							height: auto;
+							width: auto;
+							display: inline;
+						}
+
+						.button {
+							background: var(--global--color-background);
+							color: var(--global--color-primary);
+							border: none;
+
+							span {
+								color: var(--global--color-secondary);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	&.activity-permalink {
+
+		#buddypress.twentytwentyone {
+
+			.activity-list {
+				border: none;
+
+				.activity-avatar {
+
+					img.avatar {
+						background: var(--global--color-white);
+					}
+				}
+			}
+		}
+	}
+}
+
+/**
+*-----------------------------------------------------
+* @section 3.1.3 - Activity Comments
+*-----------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.bp-list {
+
+		li {
+
+			.activity-comments {
+
+				.acomment-avatar {
+					width: auto;
+					margin-right: 0;
+				}
+
+				.acomment-meta {
+					color: var(--global--color-secondary);
+
+					a {
+						font-weight: 600;
+
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+				}
+
+				.acomment-content {
+					border-left: 1px solid var(--global--color-secondary);
+					margin: 15px 0 0 5%;
+				}
+			}
+		}
+	}
+}
+
+/**
+*----------------------------------------------------------
+* @section 3.2 - Blogs Loop
+*----------------------------------------------------------
+*/
+
+// Nothing special for Blogs loop so far.
+
+/**
+*----------------------------------------------------------
+* @section 3.3 - Groups Loop
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.groups-list { // ul
+
+		li {
+
+			.group-desc {
+				color: var(--global--color-secondary);
+				border: 1px dotted var(--global--color-primary);
+			}
+		}
+	}
+}
+
+
+/**
+*----------------------------------------------------------
+* @section 3.4 - Members Loop
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.members-list { // ul
+
+		li {
+
+			.user-update {
+				border: 1px dotted var(--global--color-primary);
+				color: var(--global--color-secondary);
+			}
+		}
+	}
+
+	#members-dir-list {
+
+		.current-member-type {
+			text-align: center;
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.0 - Directories
+*-------------------------------------------------------------------------------
+*/
+
+// Nothing special for Registration index screen (directory) so far.
+
+/**
+*----------------------------------------------------------
+* @section 4.1 - Groups Creation Steps
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	#group-create-body {
+
+		#avatar-crop-pane {
+			margin-bottom: 1em;
+		}
+
+		nav.group-create-links {
+
+			&:not(.tabbed-links) {
+				background: transparent;
+				clear: both;
+				overflow: hidden;
+				border: none;
+				border-bottom: 1px solid var(--global--color-primary);
+				box-shadow: none;
+
+				li {
+
+					a,
+					span {
+						padding: 0.5em calc(0.5em + 2px);
+						display: block;
+					}
+				}
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 5.0 - Single Item screens: Groups, Users
+*-------------------------------------------------------------------------------
+*/
+
+/**
+*-----------------------------------------------------------
+* @subsection 5.1 - Item Header Global
+*-----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.single-headers {
+
+		.group-status,
+		.item-meta,
+		.bp-group-type-list,
+		.bp-member-type-list {
+			color: var(--global--color-secondary);
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+/**
+*-----------------------------------------------------
+* @subsection 5.1.1 - item-header Groups
+*
+* Group Specific Item Header
+*-----------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.groups-header {
+
+		.desc-wrap {
+			background: var(--global--color-background);
+			border: 1px solid var(--global--color-primary);
+
+			.group-description {
+				background: none;
+				box-shadow: none;
+			}
+		}
+	}
+}
+
+/**
+*-----------------------------------------------------
+* @subsection 5.1.2 - Item Header User Accounts
+*
+* User Accounts Specific Item Header
+*-----------------------------------------------------
+*/
+
+// Nothing specific for the Single User specific header rules so far.
+
+/**
+*-----------------------------------------------------------
+* @subsection 5.2 - Item Body: Global
+*-----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.item-body {
+
+		h2.screen-heading,
+		h2.creation-step-name {
+			font-size: var(--heading--font-size-h2);
+			letter-spacing: var(--heading--letter-spacing-h2);
+		}
+
+		h3.screen-heading,
+		h3.creation-step-name {
+			font-size: var(--heading--font-size-h3);
+			letter-spacing: var(--heading--letter-spacing-h3);
+		}
+
+		h4.screen-heading,
+		h4.creation-step-name {
+			font-size: var(--heading--font-size-h4);
+			letter-spacing: var(--heading--letter-spacing-h4);
+		}
+	}
+}
+
+/**
+*----------------------------------------------------
+* @subsection 5.2.1 - Item Body Groups
+*
+* Groups specific item body rules -  screens
+*----------------------------------------------------
+*/
+
+// Nothing specific for the single screen item-body so far.
+
+/**
+*-----------------------------------------
+* @subsection 5.2.1.1 - Management Settings Screens
+*-----------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.group-settings & {
+
+		.group-settings-selections {
+			margin-bottom: 1em;
+		}
+	}
+
+	#group-manage-members-ui {
+
+		.bp-pagination {
+			padding: 0.4em 0 0.4em 0.5em;
+		}
+
+		#group-members-search-form {
+
+			input[type="search"] {
+				font-size: 16px;
+
+				&:focus {
+					outline-offset: -7px;
+					outline: 2px dotted var(--form--border-color);
+				}
+			}
+
+			button[type="submit"] {
+				border-width: 1px;
+				border-style: solid;
+				background-clip: border-box;
+
+				&:hover {
+					border-color: var(--button--color-background);
+				}
+			}
+		}
+
+		#group-roles-filter,
+		#group-members-list-table .group-member-edit {
+
+			label {
+				border: 0;
+				clip: rect(0 0 0 0);
+				height: 1px;
+				margin: -1px;
+				overflow: hidden;
+				padding: 0;
+				position: absolute;
+				width: 1px;
+				word-wrap: normal !important;
+			}
+		}
+
+		#group-members-role-filter,
+		#group-members-list-table .group-member-edit select {
+			font-size: 16px;
+			padding: 6px 25px 6px 10px;
+
+			&:focus {
+				outline-offset: 2px;
+				outline: 2px dotted var(--form--border-color);
+			}
+		}
+	}
+}
+
+/**
+*-----------------------------------------
+* @subsection 5.2.1.2 - Group Members List
+*-----------------------------------------
+*/
+
+/*
+*-----------------------------------------
+* @subsection 5.2.1.3 - Group Invites List
+*-----------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.bp-invites-content {
+
+		ul {
+			border-top: none;
+
+			li {
+				border: 1px dotted var(--global--color-primary);
+
+				&.selected {
+					box-shadow: none;
+					border-style: solid;
+				}
+
+				button.invite-button {
+					border: none;
+					background: none;
+					top: -5px;
+					right: 0;
+
+					.icons:before {
+						border-radius: 50%;
+						width: 32px;
+						height: 32px;
+						color: var(--global--color-primary);
+						background: var(--global--color-background);
+					}
+
+					&:hover {
+
+						.icons:before {
+							color: var(--global--color-background);
+							background: var(--global--color-primary);
+							width: 32px;
+							height: 32px;
+						}
+					}
+				}
+
+				ul.group-inviters {
+
+					li {
+						border: none;
+					}
+				}
+			}
+		}
+	}
+}
+
+/*
+*-----------------------------------------
+* @subsection 5.2.1.4 - Group Activity
+*-----------------------------------------
+*/
+
+// Nothing particular for the Group's activity.
+
+/**
+*-----------------------------------------------------
+* @subsection 5.2.2 - Item Body User Accounts
+*
+* User Account specific item body rules
+*-----------------------------------------------------
+*/
+
+/**
+*--------------------------------------------
+* @subsection 5.2.2.1 - classes, pag, filters
+*--------------------------------------------
+*/
+
+/**
+*-------------------------------------------
+* @subsection 5.2.2.2 - Extended Profiles
+*-------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.profile {
+
+		table.profile-fields,
+		table.bp-tables-user {
+
+			tr.alt,
+			tr {
+
+				td {
+					background: transparent;
+
+					&.label {
+						border-right-color: var(--global--color-primary);
+					}
+				}
+			}
+		}
+
+		&.edit {
+
+			.editfield {
+				background: var(--global--color-background);
+				border: 1px solid var(--global--color-primary);
+
+				p.field-visibility-settings-toggle {
+					margin-top: 1em;
+				}
+
+				.field-visibility-settings {
+
+					.radio {
+
+						label {
+							margin-bottom: 0.5em;
+						}
+					}
+				}
+			}
+
+			.wp-editor-container {
+
+				.mce-toolbar {
+
+					button {
+						color: var(--global--color-dark-gray);
+						background: var(--global--color-white-90);
+						border-color: var(--global--color-dark-gray);
+					}
+				}
+			}
+
+			.button-tabs {
+
+				li {
+					border: solid 2px var(--global--color-primary);
+					overflow: hidden;
+
+					a {
+						text-decoration: none;
+					}
+
+					&.current {
+						background-color: var(--global--color-primary);
+						color: var(--button--color-text);
+
+						a {
+							color: var(--button--color-text);
+						}
+					}
+
+					&:hover {
+						outline-offset: 10px;
+						border-style: dotted;
+					}
+				}
+			}
+
+			.clear-value {
+				text-decoration: underline;
+			}
+
+			legend {
+				padding: 0;
+			}
+		}
+	}
+
+	.field-visibility-settings,
+	.field-visibility-settings-header {
+		color: var(--global--color-secondary);
+	}
+
+	.bp-avatar-nav {
+
+		ul.avatar-nav-items {
+			border-bottom: 1px solid var(--global--color-primary);
+
+			li {
+
+				&.current {
+					border: 1px solid var(--global--color-primary);
+					border-bottom: 1px solid var(--global--color-background);
+				}
+			}
+		}
+	}
+
+	#drag-drop-area {
+		border: 4px dashed var(--global--color-secondary);
+
+		.drag-drop-info {
+			color: var(--global--color-secondary);
+		}
+	}
+
+	.bp-avatar-status,
+	.bp-cover-image-status {
+
+		.warning,
+		.success {
+			background-color: var(--global--color-light-gray);
+			border: none;
+			border-left-width: 4px;
+			border-left-style: solid;
+			color: var(--global--color-dark-gray);
+		}
+
+		.warning {
+			border-left-color: var(--global--color-orange);
+		}
+
+		.success {
+			border-left-color: var(--global--color-green);
+		}
+
+		.error {
+			border-left-color: var(--global--color-red);
+		}
+	}
+}
+
+/**
+*-------------------------------------------
+* @subsection 5.2.2.3 - Groups
+*-------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	#group-list {
+
+		&.invites {
+
+			h2.list-title {
+				float: none;
+			}
+
+			.accept {
+				margin-left: 0;
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------
+* @subsection 5.2.2.5 - Private Messaging
+*-------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	#user_messages_select_all {
+		vertical-align: -5px;
+	}
+
+	#user_messages_select_all:checked {
+		vertical-align: -3px;
+	}
+
+	#message-threads {
+		border-top: 1px dotted var(--global--color-primary);
+
+		> li {
+			border-bottom: 1px dotted var(--global--color-primary);
+
+			&.selected {
+				border: 1px solid var(--global--color-primary);
+			}
+
+			&.unread {
+				border-left: 8px solid var(--global--color-yellow);
+			}
+		}
+
+		li {
+
+			.thread-cb {
+				padding-left: 15px;
+			}
+
+			&.unread {
+
+				.thread-cb {
+					padding-left: 7px;
+				}
+			}
+
+			.thread-from,
+			.thread-to {
+
+				img.avatar {
+					width: 32px;
+					height: 32px;
+				}
+
+				.num-recipients {
+					color: var(--global--color-primary);
+				}
+			}
+
+			.thread-content {
+
+				.excerpt {
+					color: var(--global--color-primary);
+				}
+			}
+
+			.thread-date {
+
+				time {
+					color: var(--global--color-primary);
+				}
+			}
+		}
+
+		li.selected {
+			background: transparent;
+			font-weight: bolder;
+			color: var(--global--color-primary);
+
+			.thread-subject {
+
+				.subject {
+					color: var(--global--color-primary);
+				}
+			}
+		}
+
+		li:not(.selected) {
+			color: var(--global--color-secondary);
+		}
+	}
+
+	.bp-messages-content {
+
+		#thread-preview h2:first-child,
+		#bp-message-thread-header h2:first-child {
+			background-color: var(--button--color-background);
+			color: var(--button--color-text);
+		}
+
+		#thread-preview {
+			border-color: var(--button--color-background);
+
+			dd,
+			.participants-list {
+				padding-left: 0;
+			}
+
+			.preview-pane-header {
+				border-bottom-style: dotted;
+				border-bottom-color: var(--global--color-primary);
+			}
+
+			.preview-content {
+
+				.preview-message {
+					background: transparent;
+				}
+			}
+		}
+
+		.single-message-thread-header {
+
+			dd,
+			.participants-list {
+				padding-left: 0;
+			}
+		}
+
+		.actions {
+
+			button.bp-tooltip {
+				border: none;
+				background: none;
+
+				&.message-action-delete {
+
+					&:before {
+						width: 32px;
+						height: 32px;
+						color: var(--global--color-primary);
+						background: var(--global--color-background);
+					}
+
+					&:hover {
+
+						&:before {
+							border-radius: 50%;
+							color: var(--global--color-background);
+							background: var(--global--color-primary);
+						}
+					}
+				}
+			}
+
+			.message-action-unstar:before,
+			.message-action-star:before {
+				color: var(--global--color-secondary);
+			}
+		}
+
+		#bp-message-thread-list {
+
+			li {
+
+				.message-metadata {
+					background: transparent;
+					border: 1px solid var(--global--color-primary);
+					box-shadow: none;
+
+					* {
+						line-height: 1.6;
+						vertical-align: middle;
+					}
+
+					.user-link {
+						margin-top: 3px;
+						margin-bottom: 3px;
+
+						strong {
+							display: inline-block;
+							margin-top: 2px;
+						}
+
+						&:hover {
+
+							strong {
+								text-decoration: underline;
+							}
+						}
+					}
+
+					time {
+						color: var(--global--color-secondary);
+					}
+				}
+
+				.message-content {
+					background: transparent;
+					margin: 0;
+					width: 100%;
+					padding: 1em;
+				}
+
+				&:first-child {
+
+					.message-content {
+						border: 1px dotted var(--global--color-primary);
+						border-top: none;
+					}
+				}
+			}
+		}
+
+		#send-reply {
+
+			.avatar-box {
+
+				img.avatar {
+					display: inline-block;
+					vertical-align: -7px;
+				}
+			}
+		}
+
+		.wp-editor-container {
+
+			.mce-toolbar {
+
+				button {
+					color: var(--global--color-dark-gray);
+					background: var(--global--color-white-90);
+					border-color: var(--global--color-dark-gray);
+				}
+			}
+		}
+
+		#bp-messages-reset {
+			border-width: 0;
+			font-size: inherit;
+		}
+
+		#send-to-input {
+			width: 100% !important;
+		}
+	}
+
+	.subnav-filters {
+
+		button#user_messages_search_submit {
+			padding: 3px 0.7em;
+
+			background-color: var(--global--color-background);
+			color: var(--button--color-text-hover);
+			border-color: var(--global--color-background);
+			border-left-color: var(--button--color-background);
+
+			&:hover {
+				background-color: var(--button--color-background);
+				color: var(--button--color-text);
+				border-color: var(--button--color-background);
+			}
+		}
+
+		.user-messages-bulk-actions {
+
+			.bulk-apply {
+				line-height: 1.5;
+				margin: 0 0 0 10px;
+				padding: 3px 5px;
+				background-color: var(--global--color-background);
+				color: var(--button--color-text-hover);
+
+				&:hover {
+					background-color: var(--button--color-background);
+					color: var(--button--color-text);
+				}
+
+				span {
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+}
+
+/**
+*------------------------------------------
+* @subsection 5.2.2.6 - Settings
+*------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	&.buddypress-wrap .bp-tables-user tr.alt td,
+	&.buddypress-wrap table.wp-profile-fields tr.alt td {
+		background: transparent;
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 6.0 - Forms  - General
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	fieldset {
+		padding-top: 0;
+		margin-top: 1em;
+
+		legend {
+			padding: 0 1em;
+			display: inline-block;
+		}
+	}
+
+	.select-wrap {
+		border: 1px solid var(--global--color-primary);
+		background: var(--global--color-white-90);
+
+		select {
+			background: transparent;
+			width: 98%;
+			text-indent: 0;
+		}
+
+		span.select-arrow {
+			background: transparent;
+
+			&:before {
+				font-family: dashicons;
+				content: "\f140";
+				color: var(--global--color-black);
+				vertical-align: -10%;
+			}
+		}
+
+		&:focus,
+		&:hover {
+
+			.select-arrow:before {
+				color: var(--global--color-black);
+			}
+		}
+	}
+
+	.wp-pwd {
+
+		&:not(.is-open) {
+			display: none;
+		}
+	}
+
+	input[type="checkbox"],
+	input[type="radio"] {
+		width: 25px;
+		height: 25px;
+		vertical-align: top;
+	}
+
+	textarea,
+	input[type="text"],
+	input[type="color"],
+	input[type="date"],
+	input[type="datetime"],
+	input[type="datetime-local"],
+	input[type="email"],
+	input[type="month"],
+	input[type="number"],
+	input[type="range"],
+	input[type="tel"],
+	input[type="time"],
+	input[type="url"],
+	input[type="week"],
+	input[type="password"],
+	input[type="search"],
+	.groups-members-search input[type="text"] {
+		color: var(--form--color-text);
+		background: var(--global--color-white-90);
+	}
+
+	.subnav-filters {
+
+		input[type="search"] {
+			font-size: 16px;
+			background: transparent;
+		}
+	}
+
+	.bp-dir-search-form,
+	form#group-members-search,
+	form#group_invites_search_form {
+
+		button {
+			background-color: var(--global--color-background);
+			color: var(--button--color-text-hover);
+			border-color: var(--global--color-background);
+			border-left-color: var(--button--color-background);
+
+			&:hover {
+				background-color: var(--button--color-background);
+				color: var(--button--color-text);
+				border-color: var(--button--color-background);
+			}
+		}
+	}
+
+	.standard-form {
+
+		p.description {
+			color: var(--global--primary-color);
+			background-color: var(--global--color-background);
+		}
+	}
+}
+
+
+/**
+*----------------------------------------------------------
+* @section 6.1 - Directory Search
+*
+* The Search form & controls in directory pages
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.bp-user & {
+
+		[data-bp-search] {
+
+			form {
+
+				#user_messages_search {
+					padding: 3px 10px;
+				}
+			}
+		}
+	}
+
+	form.bp-dir-search-form,
+	form.bp-messages-search-form,
+	form[data-bp-search].bp-invites-search-form,
+	form#group-members-search {
+		border: 1px solid var(--global--color-primary);
+		background-color: var(--global--color-white-90);
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 7.0 - Tables - General
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	.bp-tables-user,
+	table.wp-profile-fields,
+	table.forum {
+
+		tbody {
+
+			tr,
+			tr.alt {
+				background: transparent;
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 8.0 - Classes - Messages, Ajax, Widgets, Buttons
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	button,
+	a.button,
+	input[type="submit"],
+	input[type="button"],
+	ul.button-nav:not(.button-tabs) li a,
+	.generic-button a,
+	.comment-reply-link,
+	a.bp-title-button,
+	.activity-read-more a {
+		background: var(--button--color-background);
+		border: 1px solid var(--button--color-background);
+		border-radius: 0;
+		color: var(--button--color-text);
+	}
+
+	button:hover,
+	button:focus,
+	a.button:focus,
+	a.button:hover,
+	input[type="submit"]:focus,
+	input[type="submit"]:hover,
+	input[type="button"]:focus,
+	input[type="button"]:hover,
+	input[type="reset"],
+	#bp-messages-reset,
+	.button-nav li a:focus,
+	.button-nav li a:hover,
+	.button-nav li.current a,
+	.generic-button a:focus,
+	.generic-button a:hover,
+	.comment-reply-link:focus,
+	.comment-reply-link:hover,
+	.activity-read-more a:focus,
+	.activity-read-more a:hover {
+		background: transparent;
+		border-color: var(--button--color-background);
+		color: var(--button--color-text-hover);
+		outline: none;
+		text-decoration: none;
+	}
+
+	input[type="reset"]:focus,
+	input[type="reset"]:hover,
+	#bp-messages-reset:focus,
+	#bp-messages-reset:hover {
+		outline-offset: -1px;
+		outline: 2px dotted currentColor;
+	}
+
+	input[type="submit"].pending,
+	input[type="button"].pending,
+	input[type="reset"].pending,
+	input[type="button"].disabled,
+	input[type="reset"].disabled,
+	input[type="submit"][disabled="disabled"],
+	input[type="submit"]:disabled,
+	input[type="submit"]:hover.pending,
+	input[type="button"]:hover.pending,
+	input[type="reset"]:hover.pending,
+	input[type="submit"]:hover.disabled,
+	input[type="button"]:hover.disabled,
+	input[type="reset"]:hover.disabled,
+	button.pending:hover,
+	button.disabled:hover,
+	div.pending a:hover,
+	a.disabled:hover
+	button.pending,
+	button.disabled,
+	div.pending a,
+	a.disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	.blog-button {
+
+		&:after,
+		&:before {
+			display: none;
+		}
+	}
+
+	.create-button {
+
+		a:focus,
+		a:hover {
+			text-decoration: none;
+		}
+	}
+
+	&.bp-dir-vert-nav {
+
+		.create-button {
+
+			a {
+				box-shadow: none;
+				color: var(--button--color-text);
+				background-color: var(--button--color-background);
+				border-radius: var(--button--border-radius);
+				border: var(--button--border-width) solid var(--button--color-background);
+				background-clip: border-box;
+			}
+		}
+	}
+}
+
+#buddypress.twentytwentyone {
+
+	.warn {
+		color: var(--global--color-primary);
+		font-weight: 600;
+	}
+
+	.bp-feedback {
+		color: var(--global--color-primary);
+		background: var(--global--color-background);
+		box-shadow: none;
+
+		&:not(.custom-homepage-info) {
+			margin-top: 1.5em;
+			margin-bottom: 1.5em;
+			border: solid 1px var(--global--color-primary);
+		}
+
+		.bp-icon {
+			background-color: var(--global--color-primary);
+			color: var(--button--color-text);
+		}
+
+		a {
+			border-bottom: solid 1px var(--global--color-primary);
+		}
+
+		button.bp-tooltip {
+			border: none;
+			background: none;
+			top: -5px;
+			right: 0;
+
+			.dashicons-dismiss {
+				border-radius: 50%;
+				width: 32px;
+				height: 32px;
+				color: var(--global--color-primary);
+				background: var(--global--color-background);
+			}
+
+			&:hover {
+
+				.dashicons-dismiss {
+					color: var(--global--color-background);
+					background: var(--global--color-primary);
+				}
+			}
+		}
+
+		&.bp-sitewide-notice {
+
+			button.bp-tooltip {
+				top: 0;
+				right: 15px;
+			}
+
+			.bp-icon:before {
+				content: "\f16d";
+			}
+		}
+	}
+
+	#group-create-body {
+
+		.bp-cover-image-status {
+
+			p.warning {
+				background-color: var(--global--color-light-gray);
+				border: none;
+				border-left-width: 4px;
+				border-left-style: solid;
+				border-left-color: var(--global--color-orange);
+				color: var(--global--color-dark-gray);
+				box-shadow: none;
+			}
+		}
+	}
+}
+
+body.buddypress {
+
+	.site {
+
+		#buddypress.twentytwentyone {
+
+			.button {
+
+				&.bp-tooltip {
+
+					&:after {
+						content: attr(data-bp-tooltip);
+						word-wrap: break-word;
+						height: auto;
+						width: auto;
+					}
+				}
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 9.0 - Layout classes
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyone {
+
+	&.bp-single-vert-nav {
+
+		.bp-navs {
+
+			&.vertical {
+
+				li {
+
+					span {
+						background-color: var(--button--color-background);
+						border-radius: 10%;
+						display: inline-block;
+						margin: 3px 0;
+					}
+
+					&.selected,
+					&.current {
+
+						span {
+							background-color: var(--global--color-background);
+						}
+					}
+				}
+			}
+		}
+
+		.item-body:not(#group-create-body) {
+			background: var(--global--color-background);
+			border-left: 1px solid var(--global--color-primary);
+
+			#subnav:not(.tabbed-links) {
+				background: transparent;
+				border-bottom: 1px solid var(--global--color-primary);
+
+				li {
+
+					a {
+						border: none;
+						text-decoration: none;
+					}
+
+					&.current,
+					&.selected {
+						background-color: var(--global--color-primary);
+						margin: 0;
+						padding: 10px 0;
+						border-radius: 0;
+					}
+				}
+			}
+		}
+	}
+
+	.grid {
+
+		&.bp-list {
+			border-top: none;
+		}
+
+		> li {
+			border: none;
+
+			.list-wrap {
+				border: 1px solid var(--global--color-primary);
+				background: transparent;
+			}
+
+			&:not(.mini) .item-avatar,
+			.item-avatar {
+				margin-right: auto;
+			}
+		}
+	}
+}

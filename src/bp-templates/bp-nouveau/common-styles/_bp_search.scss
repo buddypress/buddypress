@@ -1,6 +1,6 @@
 // BP Directory Search elements
 // @since 3.0.0
-// @version 5.0.0
+// @version 7.0.0
 
 .buddypress-wrap { // the ID is required to add weight to rules
 
@@ -30,9 +30,9 @@
 		input[type="search"],
 		input[type="text"] {
 			float: left;
-			line-height: 1.5;
+			line-height: 2;
 			padding: 3px 10px;
-			width: 80%;
+			width: 78%;
 		}
 
 		button[type="submit"] {

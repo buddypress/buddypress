@@ -83,9 +83,9 @@ body #buddypress .bp-list .action {
 }
 
 @media screen and (min-width: 46.8em) {
-	body.buddypress .entry-header,
-	body.buddypress .site-content .entry-header,
-	body.buddypress .entry-content {
+	body.buddypress .entry-header:not(.alignwide):not(.alignfull),
+	body.buddypress .site-content .entry-header:not(.alignwide):not(.alignfull),
+	body.buddypress .entry-content:not(.alignwide):not(.alignfull) {
 		max-width: none;
 	}
 	body.buddypress .entry-header {
@@ -142,14 +142,14 @@ body.buddypress article.page > .entry-header {
 	padding: 0;
 }
 
-body.buddypress article.page > .entry-header .entry-title {
+body.buddypress article.page > .entry-header:not(.alignwide):not(.alignfull) .entry-title {
 	font-size: 28px;
 	font-weight: inherit;
 	color: #767676;
 }
 
 @media screen and (min-width: 46.8em) {
-	body.buddypress article.page > .entry-header .entry-title {
+	body.buddypress article.page > .entry-header:not(.alignwide):not(.alignfull) .entry-title {
 		font-size: 34px;
 	}
 }
@@ -3481,7 +3481,7 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
 .buddypress-wrap .standard-form [data-bp-search] input[type="text"],
 .buddypress-wrap .standard-form .groups-members-search input[type="search"],
 .buddypress-wrap .standard-form .groups-members-search input[type="text"] {
-	background: #fafafa;
+	background-color: #fafafa;
 	border: 1px solid #d6d6d6;
 	border-radius: 0;
 	font: inherit;
@@ -3552,7 +3552,7 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
 .buddypress-wrap .standard-form input:focus,
 .buddypress-wrap .standard-form textarea:focus,
 .buddypress-wrap .standard-form select:focus {
-	background: #fafafa;
+	background-color: #fafafa;
 	color: #555;
 	outline: 0;
 }
@@ -3791,9 +3791,9 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .buddypress-wrap form#group-members-search input[type="search"],
 .buddypress-wrap form#group-members-search input[type="text"] {
 	float: right;
-	line-height: 1.5;
+	line-height: 2;
 	padding: 3px 10px;
-	width: 80%;
+	width: 78%;
 }
 
 .buddypress-wrap form.bp-dir-search-form button[type="submit"],

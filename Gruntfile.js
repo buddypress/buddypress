@@ -32,6 +32,7 @@ module.exports = function( grunt ) {
 		BP_SCSS_CSS_FILES = [
 			'!bp-templates/bp-legacy/css/twenty*.css',
 			'!bp-templates/bp-nouveau/css/buddypress.css',
+			'!bp-templates/bp-nouveau/css/twenty*.css',
 			'!bp-core/admin/css/hello.css',
 			'!bp-members/css/blocks/member.css',
 			'!bp-groups/css/blocks/group.css',
@@ -117,7 +118,7 @@ module.exports = function( grunt ) {
 				expand: true,
 				ext: '.css',
 				flatten: true,
-				src: ['bp-templates/bp-nouveau/sass/buddypress.scss'],
+				src: ['bp-templates/bp-nouveau/sass/buddypress.scss', 'bp-templates/bp-nouveau/sass/twenty*.scss'],
 				dest: SOURCE_DIR + 'bp-templates/bp-nouveau/css/'
 			},
 			admin: {
@@ -402,6 +403,7 @@ module.exports = function( grunt ) {
 	 * Register tasks.
 	 */
 	grunt.registerTask( 'src', ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'postcss', 'rtlcss'] );
+	grunt.registerTask( 'style', ['stylelint', 'sass', 'postcss', 'rtlcss'] );
 	grunt.registerTask( 'makepot', ['exec:makepot'] );
 	grunt.registerTask( 'commit', ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcompat'] );
 	grunt.registerTask( 'commit:blocks', ['commit', 'exec:blocks_src'] );

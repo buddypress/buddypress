@@ -1,6 +1,6 @@
 // BP Forms Elements Global Styles
 // @since 3.0.0
-// @version 5.0.0
+// @version 7.0.0
 
 // Some essential classes used for forms elements:
 // labels - sizing especially for standalone controls
@@ -87,7 +87,7 @@
 		[data-bp-search] input[type="text"],
 		.groups-members-search input[type="search"],
 		.groups-members-search input[type="text"] {
-			background: $off-white;
+			background-color: $off-white;
 			border: 1px solid $form-border-color;
 			border-radius: 0;
 			font: inherit;
@@ -163,7 +163,7 @@
 		input:focus,
 		textarea:focus,
 		select:focus {
-			background: $off-white;
+			background-color: $off-white;
 			color: $bp-text;
 			outline: 0;
 		}

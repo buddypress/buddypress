@@ -283,6 +283,33 @@ class BP_Nouveau extends BP_Theme_Compat {
 				}
 			}
 		}
+
+		// Compatibility stylesheets for specific themes.
+		$theme                = get_template();
+		$companion_stylesheet = bp_locate_template_asset( sprintf( 'css/%1$s%2$s.css', $theme, $min ) );
+		$companion_handle     = 'bp-' . $theme;
+
+		if ( ! is_rtl() && isset( $companion_stylesheet['uri'] ) && $companion_stylesheet['uri'] ) {
+			wp_enqueue_style( $companion_handle, $companion_stylesheet['uri'], array(), $this->version, 'screen' );
+
+			if ( $min ) {
+				wp_style_add_data( $companion_handle, 'suffix', $min );
+			}
+		}
+
+		// Compatibility stylesheet for specific themes, RTL-version.
+		if ( is_rtl() ) {
+			$rtl_companion_stylesheet = bp_locate_template_asset( sprintf( 'css/%1$s-rtl%2$s.css', $theme, $min ) );
+
+			if ( isset( $rtl_companion_stylesheet['uri'] ) ) {
+				$companion_handle .= '-rtl';
+				wp_enqueue_style( $companion_handle, $rtl_companion_stylesheet['uri'], array(), $this->version, 'screen' );
+
+				if ( $min ) {
+					wp_style_add_data( $companion_handle, 'suffix', $min );
+				}
+			}
+		}
 	}
 
 	/**

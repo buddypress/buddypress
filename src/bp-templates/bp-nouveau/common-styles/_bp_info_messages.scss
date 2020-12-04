@@ -28,22 +28,6 @@
 			clear: both;
 			display: block;
 		}
-
-		// Error message boxes
-		&.error {
-
-			p {
-				// oh linter you're too boringly pedantic, there will be properties!
-			}
-		}
-
-		// Warning boxes
-		//		&.warning {
-
-		//			p {
-		//			}
-		//		}
-
 	} // close .bp-messages
 
 	// user message screens handled separately due to backbone templates
