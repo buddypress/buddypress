@@ -237,7 +237,7 @@ function bp_xprofile_new_avatar_activity( $user_id = 0 ) {
 		'type'      => 'new_avatar'
 	) );
 }
-add_action( 'xprofile_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
+add_action( 'bp_members_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
 
 /**
  * Add an activity item when a user has updated his profile.
