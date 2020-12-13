@@ -65,7 +65,7 @@ function bp_groups_admin_types_menu() {
 		return;
 	}
 
-	if ( bp_is_network_activated() && is_network_admin() ) {
+	if ( bp_is_network_activated() && ! bp_is_multiblog_mode() && is_network_admin() ) {
 		// Adds a 'bp-groups' submenu to go to the root blog Group types screen.
 		$group_type_admin_url = add_query_arg( 'taxonomy', 'bp_group_type', get_admin_url( bp_get_root_blog_id(), 'edit-tags.php' ) );
 		add_submenu_page(
@@ -76,7 +76,7 @@ function bp_groups_admin_types_menu() {
 			esc_url( $group_type_admin_url )
 		);
 	} elseif ( ! is_network_admin() ) {
-		if ( bp_is_network_activated() ) {
+		if ( bp_is_network_activated() && ! bp_is_multiblog_mode() ) {
 			// Adds a 'bp-groups' menu to the root blog menu.
 			$redirect_hook = add_menu_page(
 				_x( 'Groups', 'Admin Groups page title', 'buddypress' ),

@@ -23,7 +23,7 @@ function bp_members_type_admin_menu() {
 		return;
 	}
 
-	if ( bp_is_network_activated() && is_network_admin() ) {
+	if ( bp_is_network_activated() && ! bp_is_multiblog_mode() && is_network_admin() ) {
 		// Adds a users.php submenu to go to the root blog Member types screen.
 		$member_type_admin_url = add_query_arg( 'taxonomy', bp_get_member_type_tax_name(), get_admin_url( bp_get_root_blog_id(), 'edit-tags.php' ) );
 
