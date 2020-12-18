@@ -144,7 +144,7 @@ function bp_admin_repair_list() {
 			'bp_admin_repair_blog_records',
 		);
 
-		if ( bp_is_active( 'blogs', 'site-icon' ) ) {
+		if ( is_multisite() && bp_is_active( 'blogs', 'site-icon' ) ) {
 			$repair_list[91] = array(
 				'bp-blog-site-icons',
 				__( 'Repair site tracking site icons/blog avatars synchronization.', 'buddypress' ),
@@ -331,6 +331,10 @@ function bp_admin_repair_blog_site_icons() {
 
 	/* translators: %s: the result of the action performed by the repair tool */
 	$statement = __( 'Repairing site icons/blog avatars synchronization&hellip; %s', 'buddypress' );
+
+	if ( ! is_multisite() ) {
+		return array( 0, sprintf( $statement, __( 'Failed!', 'buddypress' ) ) );
+ 	}
 
 	// Run function if blogs component is active.
 	if ( bp_is_active( 'blogs', 'site-icon' ) ) {
