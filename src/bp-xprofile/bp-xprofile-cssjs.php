@@ -54,8 +54,8 @@ function xprofile_add_admin_js() {
 			'do_settings_section_field_types' => array(),
 			'do_autolink'                     => '',
 			'text'                            => array(
-				'default_value' => __( 'Default Value', 'buddypress' ),
-				'delete'        => __( 'Delete', 'buddypress' ),
+				'defaultValue' => __( 'Default Value', 'buddypress' ),
+				'deleteLabel'  => __( 'Delete', 'buddypress' ),
 			),
 		);
 

@@ -15,8 +15,8 @@ function add_option(forWhat) {
 		newOption    = document.createElement( 'input' ),
 		label        = document.createElement( 'label' ),
 		isDefault    = document.createElement( 'input' ),
-		txt1         = document.createTextNode( XProfileAdmin.text.default_value ),
-		toDeleteText = document.createTextNode( XProfileAdmin.text.delete ),
+		txt1         = document.createTextNode( XProfileAdmin.text.defaultValue ),
+		toDeleteText = document.createTextNode( XProfileAdmin.text.deleteLabel ),
 		toDeleteWrap = document.createElement( 'div' ),
 		toDelete     = document.createElement( 'a' );
 
