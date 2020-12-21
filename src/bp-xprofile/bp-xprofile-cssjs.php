@@ -52,7 +52,11 @@ function xprofile_add_admin_js() {
 		// "please enter options for this field" section.
 		$strings = array(
 			'do_settings_section_field_types' => array(),
-			'do_autolink' => '',
+			'do_autolink'                     => '',
+			'text'                            => array(
+				'default_value' => __( 'Default Value', 'buddypress' ),
+				'delete'        => __( 'Delete', 'buddypress' ),
+			),
 		);
 
 		foreach ( bp_xprofile_get_field_types() as $field_type => $field_type_class ) {
