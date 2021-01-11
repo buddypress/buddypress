@@ -20,7 +20,7 @@ window.bp = window.bp || {};
 	 * @since 2.1.0
 	 */
 	$.fn.bp_mentions = function( options ) {
-		if ( $.isArray( options ) ) {
+		if ( Array.isArray( options ) ) {
 			options = { data: options };
 		}
 

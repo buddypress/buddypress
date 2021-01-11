@@ -171,18 +171,18 @@ function titleHint( id ) {
 		titleprompt.addClass('screen-reader-text');
 	}
 
-	titleprompt.click(function(){
+	titleprompt.on( 'click', function(){
 		jQuery(this).addClass('screen-reader-text');
 		title.focus();
 	});
 
-	title.blur(function(){
+	title.on( 'blur', function(){
 		if ( '' === this.value ) {
 			titleprompt.removeClass('screen-reader-text');
 		}
-	}).focus(function(){
+	}).on( 'focus', function(){
 		titleprompt.addClass('screen-reader-text');
-	}).keydown(function(e){
+	}).on( 'keydown', function(e){
 		titleprompt.addClass('screen-reader-text');
 		jQuery(this).unbind(e);
 	});
@@ -191,7 +191,7 @@ function titleHint( id ) {
 jQuery( document ).ready( function() {
 
 	// Set focus in Field Title, if we're on the right page.
-	jQuery( '#bp-xprofile-add-field #title' ).focus();
+	jQuery( '#bp-xprofile-add-field #title' ).trigger( 'focus' );
 
 	// Set up the notice that shows when no member types are selected for a field.
 	toggle_no_member_type_notice();
@@ -214,13 +214,13 @@ jQuery( document ).ready( function() {
 	} );
 
 	// Set up the sort order change actions.
-	jQuery( '[id^="sort_order_"]' ).change(function() {
+	jQuery( '[id^="sort_order_"]' ).on( 'change', function() {
 		if ( jQuery( this ).val() !== 'custom' ) {
 			destroySortableFieldOptions();
 		} else {
 			enableSortableFieldOptions( jQuery('#fieldtype :selected').val() );
 		}
-	});
+	} );
 
 	// Show object if JS is enabled.
 	jQuery( 'ul#field-group-tabs' ).show();
@@ -276,7 +276,7 @@ jQuery( document ).ready( function() {
 	var $date_format = jQuery( 'input[name="date_format"]' );
 	var $date_format_custom_value = jQuery( '#date-format-custom-value' );
 	var $date_format_sample = jQuery( '#date-format-custom-sample' );
-	$date_format.click( function( e ) {
+	$date_format.on( 'click', function( e ) {
 		switch ( e.target.value ) {
 			case 'elapsed' :
 				$date_format_custom_value.val( '' );
@@ -295,13 +295,13 @@ jQuery( document ).ready( function() {
 
 	// Clicking into the custom date format field should select the Custom radio button.
 	var $date_format_custom = jQuery( '#date-format-custom' );
-	$date_format_custom_value.focus( function() {
+	$date_format_custom_value.on( 'focus', function() {
 		$date_format_custom.prop( 'checked', 'checked' );
 	} );
 
 	// Validate custom date field.
 	var $date_format_spinner = jQuery( '#date-format-custom-spinner' );
-	$date_format_custom_value.change( function( e ) {
+	$date_format_custom_value.on( 'change', function( e ) {
 		$date_format_spinner.addClass( 'is-active' );
 		jQuery.post( ajaxurl, {
 			action: 'date_format',
