@@ -1424,13 +1424,6 @@ body {
 		}
 	}
 
-	.wp-pwd {
-
-		&:not(.is-open) {
-			display: none;
-		}
-	}
-
 	input[type="checkbox"],
 	input[type="radio"] {
 		width: 25px;
@@ -1490,6 +1483,19 @@ body {
 		p.description {
 			color: var(--global--primary-color);
 			background-color: var(--global--color-background);
+		}
+	}
+}
+
+body.bp-user.my-account {
+
+	#buddypress.twentytwentyone {
+
+		.wp-pwd {
+
+			&:not(.is-open) {
+				display: none;
+			}
 		}
 	}
 }
