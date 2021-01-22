@@ -547,14 +547,23 @@ function bp_nouveau_loop_classes() {
 		$bp_nouveau = bp_nouveau();
 
 		// @todo: this function could do with passing args so we can pass simple strings in or array of strings
+		$is_directory = bp_is_directory();
 
 		// The $component is faked if it's the single group member loop
-		if ( ! bp_is_directory() && ( bp_is_group() && 'members' === bp_current_action() ) ) {
+		if ( ! $is_directory && ( bp_is_group() && 'members' === bp_current_action() ) ) {
 			$component = 'members_group';
-		} elseif ( ! bp_is_directory() && ( bp_is_user() && 'my-friends' === bp_current_action() ) ) {
+		} elseif ( ! $is_directory && ( bp_is_user() && 'my-friends' === bp_current_action() ) ) {
 			$component = 'members_friends';
 		} else {
 			$component = sanitize_key( bp_current_component() );
+		}
+
+		/*
+		 * For the groups component, we need to take in account the
+		 * Groups directory can list Groups according to a Group Type.
+		 */
+		if ( 'groups' === $component ) {
+			$is_directory = bp_is_groups_directory();
 		}
 
 		$classes = array(
@@ -584,7 +593,7 @@ function bp_nouveau_loop_classes() {
 		);
 
 		// Only the available components supports custom layouts.
-		if ( ! empty( $available_components[ $component ] ) && ( bp_is_directory() || bp_is_group() || bp_is_user() ) ) {
+		if ( ! empty( $available_components[ $component ] ) && ( $is_directory || bp_is_group() || bp_is_user() ) ) {
 			$customizer_option = sprintf( '%s_layout', $component );
 			$layout_prefs      = bp_nouveau_get_temporary_setting(
 				$customizer_option,
