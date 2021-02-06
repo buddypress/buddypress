@@ -321,11 +321,16 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 	}
 
 	public function test_extract_images_from_content_with_galleries_variant_ids() {
-		$attachment_ids   = array();
-		$attachment_ids[] = $this->fake_attachment_upload( DIR_TESTDATA . '/images/test-image-large.png' );
-		$attachment_ids[] = $this->fake_attachment_upload( DIR_TESTDATA . '/images/canola.jpg' );
-		$attachment_ids   = join( ',', $attachment_ids );
-		$post_id          = self::factory()->post->create( array( 'post_content' => "[gallery ids='{$attachment_ids}']" ) );
+		$attachment_ids = array(
+			'large'  => 0,
+			'canola' => 0,
+		);
+
+		$attachment_ids['large'] = self::factory()->attachment->create_upload_object( BP_TESTS_DIR . 'assets/test-image-large.jpg' );
+		$attachment_ids['canola'] = self::factory()->attachment->create_upload_object( BP_TESTS_DIR . 'assets/canola.jpg' );
+
+		$attachments = join( ',', $attachment_ids );
+		$post_id     = self::factory()->post->create( array( 'post_content' => "[gallery ids='{$attachments}']" ) );
 
 		// Extract the gallery images.
 		$media = self::$media_extractor->extract( '', BP_Media_Extractor::IMAGES, array(
@@ -336,8 +341,13 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 		$media = array_values( wp_list_filter( $media['images'], array( 'source' => 'galleries' ) ) );
 		$this->assertCount( 2, $media );
 
-		$this->assertSame( WP_CONTENT_URL . '/uploads/test-image-large.png', $media[0]['url'] );
-		$this->assertSame( WP_CONTENT_URL . '/uploads/canola.jpg', $media[1]['url'] );
+		$expected_urls = array(
+			'large'  => wp_get_attachment_url( $attachment_ids['large'] ),
+			'canola' => wp_get_attachment_url( $attachment_ids['canola'] ),
+		);
+
+		$this->assertSame( $expected_urls['large'], $media[0]['url'] );
+		$this->assertSame( $expected_urls['canola'], $media[1]['url'] );
 	}
 
 	public function test_extract_no_images_from_content_with_invalid_galleries_variant_no_ids() {
