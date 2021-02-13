@@ -3858,7 +3858,8 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	padding: 0.1em 0.7em;
 }
 
-.buddypress-wrap .current-member-type {
+.buddypress-wrap .current-member-type,
+.buddypress-wrap .current-group-type {
 	font-style: italic;
 }
 

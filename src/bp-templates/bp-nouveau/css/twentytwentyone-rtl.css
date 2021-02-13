@@ -421,6 +421,10 @@ body.activity-permalink #buddypress.twentytwentyone .activity-list .activity-ava
 	border: 1px dotted var(--global--color-primary);
 }
 
+#buddypress.twentytwentyone #groups-dir-list .current-group-type {
+	text-align: center;
+}
+
 /**
 *----------------------------------------------------------
 * @section 3.4 - Members Loop
