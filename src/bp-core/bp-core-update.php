@@ -273,6 +273,11 @@ function bp_version_updater() {
 		if ( $raw_db_version < 12385 ) {
 			bp_update_to_5_0();
 		}
+
+		// Version 8.0.0.
+		if ( $raw_db_version < 12850 ) {
+			bp_update_to_8_0();
+		}
 	}
 
 	/* All done! *************************************************************/
@@ -587,6 +592,35 @@ function bp_update_to_5_0() {
 	if ( bp_is_active( 'groups' ) ) {
 		bp_groups_migrate_invitations();
 	}
+}
+
+/**
+ * 8.0.0 update routine.
+ *
+ * - Edit the `new_avatar` activity type's component to `members`.
+ *
+ * @since 8.0.0
+ */
+function bp_update_to_8_0() {
+	global $wpdb;
+	$bp_prefix = bp_core_get_table_prefix();
+
+	// Update the `new_avatar` activity type's component to `members`.
+	$wpdb->update(
+		$bp_prefix . 'bp_activity',
+		array(
+			'component' => 'members',
+		),
+		array(
+			'type' => 'new_avatar',
+		),
+		array(
+			'%s',
+		),
+		array(
+			'%s',
+		)
+	);
 }
 
 /**

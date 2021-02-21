@@ -21,16 +21,6 @@ defined( 'ABSPATH' ) || exit;
  */
 function xprofile_register_activity_actions() {
 
-	// Register the activity stream actions for this component.
-	bp_activity_set_action(
-		// Older avatar activity items use 'profile' for component. See r4273.
-		'profile',
-		'new_avatar',
-		__( 'Member changed profile picture', 'buddypress' ),
-		'bp_xprofile_format_activity_action_new_avatar',
-		__( 'Updated Profile Photos', 'buddypress' )
-	);
-
 	bp_activity_set_action(
 		buddypress()->profile->id,
 		'updated_profile',
@@ -48,37 +38,6 @@ function xprofile_register_activity_actions() {
 	do_action( 'xprofile_register_activity_actions' );
 }
 add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions' );
-
-/**
- * Format 'new_avatar' activity actions.
- *
- * @since 2.0.0
- *
- * @param string $action   Static activity action.
- * @param object $activity Activity object.
- * @return string
- */
-function bp_xprofile_format_activity_action_new_avatar( $action, $activity ) {
-	$userlink = bp_core_get_userlink( $activity->user_id );
-
-	/* translators: %s: user link */
-	$action = sprintf( esc_html__( '%s changed their profile picture', 'buddypress' ), $userlink );
-
-	// Legacy filter - pass $user_id instead of $activity.
-	if ( has_filter( 'bp_xprofile_new_avatar_action' ) ) {
-		$action = apply_filters( 'bp_xprofile_new_avatar_action', $action, $activity->user_id );
-	}
-
-	/**
-	 * Filters the formatted 'new_avatar' activity stream action.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param string $action   Formatted action for activity stream.
-	 * @param object $activity Activity object.
-	 */
-	return apply_filters( 'bp_xprofile_format_activity_action_new_avatar', $action, $activity );
-}
 
 /**
  * Format 'updated_profile' activity actions.
@@ -198,46 +157,6 @@ function xprofile_register_activity_action( $key, $value ) {
 	 */
 	return apply_filters( 'xprofile_register_activity_action', bp_activity_set_action( buddypress()->profile->id, $key, $value ), $key, $value );
 }
-
-/**
- * Adds an activity stream item when a user has uploaded a new avatar.
- *
- * @since 1.0.0
- * @since 2.3.4 Add new parameter to get the user id the avatar was set for.
- *
- *                         specific activity
- *
- * @param int $user_id The user id the avatar was set for.
- * @return bool
- */
-function bp_xprofile_new_avatar_activity( $user_id = 0 ) {
-
-	// Bail if activity component is not active.
-	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
-	}
-
-	if ( empty( $user_id ) ) {
-		$user_id = bp_displayed_user_id();
-	}
-
-	/**
-	 * Filters the user ID when a user has uploaded a new avatar.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param int $user_id ID of the user the avatar was set for.
-	 */
-	$user_id = apply_filters( 'bp_xprofile_new_avatar_user_id', $user_id );
-
-	// Add the activity.
-	bp_activity_add( array(
-		'user_id'   => $user_id,
-		'component' => 'profile',
-		'type'      => 'new_avatar'
-	) );
-}
-add_action( 'bp_members_avatar_uploaded', 'bp_xprofile_new_avatar_activity' );
 
 /**
  * Add an activity item when a user has updated his profile.

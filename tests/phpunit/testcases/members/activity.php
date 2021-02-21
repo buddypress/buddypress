@@ -26,6 +26,25 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group activity_action
+	 * @group bp_members_format_activity_action_new_avatar
+	 */
+	public function test_bp_members_format_activity_action_new_avatar() {
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create( array(
+			'component' => 'members',
+			'type' => 'new_avatar',
+			'user_id' => $u,
+		) );
+
+		$expected = sprintf( __( '%s changed their profile picture', 'buddypress' ), bp_core_get_userlink( $u ) );
+
+		$a_obj = new BP_Activity_Activity( $a );
+
+		$this->assertSame( $expected, $a_obj->action );
+	}
+
+	/**
 	 * @group bp_migrate_new_member_activity_component
 	 */
 	public function test_bp_migrate_new_member_activity_component() {
