@@ -21,12 +21,12 @@ git:
 php:
   - 7.3
   - 7.2
-  - 5.6
 
 # WordPress comes from the Git mirror, where 'master' mirrors svn 'trunk' and
 # x.y mirrors the latest from the x.y branch
 env:
   - WP_VERSION=master BP_TRAVISCI=travis:phpunit
+  - WP_VERSION=5.7 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=5.6 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=5.5 BP_TRAVISCI=travis:phpunit
   - WP_VERSION=5.4 BP_TRAVISCI=travis:phpunit
@@ -42,11 +42,13 @@ matrix:
       env: WP_VERSION=master BP_TRAVISCI=travis:grunt
     - php: 7.3
       env: WP_VERSION=master BP_TRAVISCI=travis:phpcompat
+    - php: 5.6
+      env: WP_VERSION=4.9 BP_TRAVISCI=travis:phpunit
   exclude:
-    - php: 7.3
+    - php: 7.2
       env: WP_VERSION=4.9 BP_TRAVISCI=travis:phpunit
     - php: 7.3
-      env: WP_VERSION=master BP_TRAVISCI=travis:phpunit
+      env: WP_VERSION=4.9 BP_TRAVISCI=travis:phpunit
 
 # before_install: Failures in this section will result in build status 'errored'
 before_install:
@@ -98,9 +100,6 @@ before_install:
 
 # before_script: Failures in this section will result in build status 'errored'
 before_script:
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then composer global require --dev phpunit/phpunit ^5; composer install; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then composer global require --dev phpunit/phpunit ^6; composer install; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.3" ]]; then composer global require --dev phpunit/phpunit ^6; composer install; fi
   - mkdir -p /tmp/node/node_modules
   - ln -s /tmp/node/node_modules $plugin_dir/node_modules
   - npm install

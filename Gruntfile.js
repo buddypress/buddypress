@@ -323,15 +323,15 @@ module.exports = function( grunt ) {
 		},
 		phpunit: {
 			'default': {
-				cmd: 'phpunit',
+				cmd: './vendor/phpunit/phpunit/phpunit',
 				args: ['-c', 'phpunit.xml.dist']
 			},
 			'multisite': {
-				cmd: 'phpunit',
+				cmd: './vendor/phpunit/phpunit/phpunit',
 				args: ['-c', 'tests/phpunit/multisite.xml']
 			},
 			'codecoverage': {
-				cmd: 'phpunit',
+				cmd: './vendor/phpunit/phpunit/phpunit',
 				args: ['-c', 'tests/phpunit/codecoverage.xml' ]
 			}
 		},
