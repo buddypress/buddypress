@@ -13,7 +13,7 @@
 		"social network"
 	],
 	"homepage": "https://buddypress.org",
-	"license": "GPL-2.0+",
+	"license": "GPL-2.0-or-later",
 	"authors": [ {
 		"name": "BuddyPress Community",
 		"homepage": "https://buddypress.org/about/"
@@ -27,12 +27,13 @@
 		"wiki": "https://codex.buddypress.org/"
 	},
 	"require": {
-		"composer/installers": "~1.0",
-		"php": ">=5.3.0"
+		"composer/installers": "^1.10.0",
+		"php": ">=5.6.0"
 	},
 	"require-dev": {
-		"phpcompatibility/phpcompatibility-wp": "*",
-		"dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
-		"wp-phpunit/wp-phpunit": "^5.4"
+		"phpcompatibility/phpcompatibility-wp": "^2.1.0",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+		"wp-phpunit/wp-phpunit": "^5.6",
+		"phpunit/phpunit": "^7.5"
 	}
 }

@@ -123,9 +123,9 @@ class BP_Core_Members_Template {
 	 *     @type string $page_arg    Optional. The string used as a query parameter in pagination links.
 	 * }
 	 */
-	public function __construct( $args ) {
+	public function __construct( ...$args ) {
 		// Backward compatibility with old method of passing arguments.
-		if ( ! is_array( $args ) || func_num_args() > 1 ) {
+		if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
 			_deprecated_argument( __METHOD__, '7.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
 			$old_args_keys = array(
@@ -146,7 +146,9 @@ class BP_Core_Members_Template {
 				14 => 'member_type__not_in'
 			);
 
-			$args = bp_core_parse_args_array( $old_args_keys, func_get_args() );
+			$args = bp_core_parse_args_array( $old_args_keys, $args );
+		} else {
+			$args = reset( $args );
 		}
 
 		// Support both 'page_number' and 'page' for backward compatibility.
