@@ -300,14 +300,14 @@ function bp_core_add_cropper_inline_js() {
 	?>
 
 	<script type="text/javascript">
-		jQuery(window).load( function(){
-			jQuery('#avatar-to-crop').Jcrop({
+		jQuery( window ).on( 'load', function() {
+			jQuery( '#avatar-to-crop' ).Jcrop( {
 				onChange: showPreview,
 				onSelect: updateCoords,
 				aspectRatio: <?php echo (int) $aspect_ratio; ?>,
 				setSelect: [ <?php echo (int) $crop_left; ?>, <?php echo (int) $crop_top; ?>, <?php echo (int) $crop_right; ?>, <?php echo (int) $crop_bottom; ?> ]
-			});
-		});
+			} );
+		} );
 
 		function updateCoords(c) {
 			jQuery('#x').val(c.x);
