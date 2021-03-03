@@ -1,8 +1,8 @@
-/* global bp, BP_Uploader, _, Backbone */
+/* global BP_Uploader, _, Backbone */
 
 window.bp = window.bp || {};
 
-( function() {
+( function( bp ) {
 
 	// Bail if not set.
 	if ( typeof BP_Uploader === 'undefined' ) {
@@ -317,4 +317,4 @@ window.bp = window.bp || {};
 
 	bp.WebCam.start();
 
-})( bp, jQuery );
+})( window.bp );

@@ -1,8 +1,8 @@
-/* global bp, BP_Uploader, _, Backbone */
+/* global BP_Uploader, _, Backbone */
 
 window.bp = window.bp || {};
 
-( function( exports, $ ) {
+( function( bp, $ ) {
 
 	// Bail if not set.
 	if ( typeof BP_Uploader === 'undefined' ) {
@@ -274,4 +274,4 @@ window.bp = window.bp || {};
 
 	bp.CoverImage.start();
 
-})( bp, jQuery );
+})( window.bp, jQuery );

@@ -1,9 +1,10 @@
-/* global wp, bp, BP_Nouveau, _, Backbone */
-/* @version 4.0.0 */
+/* global wp, BP_Nouveau, _, Backbone */
+/* @since 3.0.0 */
+/* @version 8.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
-( function( exports, $ ) {
+( function( bp, $ ) {
 
 	// Bail if not set
 	if ( typeof BP_Nouveau === 'undefined' ) {
@@ -844,4 +845,4 @@ window.bp = window.bp || {};
 	// Launch BP Nouveau Groups
 	bp.Nouveau.GroupInvites.start();
 
-} )( bp, jQuery );
+} )( window.bp, jQuery );

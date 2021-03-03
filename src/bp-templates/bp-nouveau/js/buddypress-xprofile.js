@@ -1,8 +1,8 @@
-/* global bp, BP_Nouveau */
-/* @version 3.0.0 */
-window.bp = window.bp || {};
+/* global BP_Nouveau */
+/* @since 3.0.0 */
+/* @version 8.0.0 */
 
-( function( exports, $ ) {
+( function( $ ) {
 
 	// Bail if not set.
 	if ( typeof BP_Nouveau === 'undefined' ) {
@@ -45,7 +45,7 @@ window.bp = window.bp || {};
 				$( '.visibility-toggle-link').attr( 'aria-expanded', 'false' );
 	} );
 
-	$( '#profile-edit-form input:not(:submit), #profile-edit-form textarea, #profile-edit-form select, #signup_form input:not(:submit), #signup_form textarea, #signup_form select' ).change( function() {
+	$( '#profile-edit-form input:not(:submit), #profile-edit-form textarea, #profile-edit-form select, #signup_form input:not(:submit), #signup_form textarea, #signup_form select' ).on( 'change', function() {
 		var shouldconfirm = true;
 
 		$( '#profile-edit-form input:submit, #signup_form input:submit' ).on( 'click', function() {
@@ -76,4 +76,4 @@ window.bp = window.bp || {};
 			} );
 		}
 	};
-} )( bp, jQuery );
+} )( jQuery );

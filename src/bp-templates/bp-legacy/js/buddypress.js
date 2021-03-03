@@ -1,5 +1,6 @@
 /* jshint undef: false, unused:false */
-/* @version 3.0.0 */
+/* @version 1.7.0 */
+/* @version 8.0.0 */
 // AJAX Functions
 var jq = jQuery;
 
@@ -12,7 +13,7 @@ var activity_last_recorded  = 0;
 
 var directoryPreferences = {};
 
-jq(document).ready( function() {
+jq( function() {
 	var activity_oldestpage = 1;
 
 	/**** Page Load Actions *******************************************************/
@@ -41,7 +42,7 @@ jq(document).ready( function() {
 			easing:'swing'
 		} );
 
-		$whats_new.val('').focus().val( $member_nicename );
+		$whats_new.val('').trigger( 'focus' ).val( $member_nicename );
 	} else {
 		jq('#whats-new-options').hide();
 	}
@@ -133,9 +134,9 @@ jq(document).ready( function() {
 			}
 		} );
 
-		form.find( '*' ).each( function() {
-			if ( jq.nodeName( this, 'textarea' ) || jq.nodeName( this, 'input' ) ) {
-				jq(this).prop( 'disabled', true );
+		form.find( '*' ).each( function( i, elem ) {
+			if ( elem.nodeName.toLowerCase() === 'textarea' || elem.nodeName.toLowerCase() ==='input' ) {
+				jq( elem ).prop( 'disabled', true );
 			}
 		} );
 
@@ -184,11 +185,11 @@ jq(document).ready( function() {
 		}, inputs );
 
 		jq.post( ajaxurl, post_data, function( response ) {
-			form.find( '*' ).each( function() {
-				if ( jq.nodeName( this, 'textarea' ) || jq.nodeName( this, 'input' ) ) {
-					jq(this).prop( 'disabled', false );
+			form.find( '*' ).each( function( i, elem ) {
+				if ( elem.nodeName.toLowerCase() === 'textarea' || elem.nodeName.toLowerCase() ==='input' ) {
+					jq( elem ).prop( 'disabled', false );
 				}
-			});
+			} );
 
 			/* Check for errors and append if found. */
 			if ( response[0] + response[1] === '-1' ) {
@@ -582,7 +583,7 @@ jq(document).ready( function() {
 				offset:-100,
 				easing:'swing'
 			} );
-			jq('#ac-form-' + ids[2] + ' textarea').focus();
+			jq('#ac-form-' + ids[2] + ' textarea').trigger( 'focus' );
 
 			return false;
 		}
@@ -1124,7 +1125,7 @@ jq(document).ready( function() {
 			'friend_id': friend_id,
 			'group_id': jq('#group_id').val()
 		},
-		function(response)
+		function()
 		{
 			if ( invites_new_template ) {
 				// With new-style templates, we refresh the
@@ -1382,7 +1383,7 @@ jq(document).ready( function() {
 		}
 
 		// toggle "Blog Details" block whenever checkbox is checked
-		blog_checked.change(function() {
+		blog_checked.on( 'change', function() {
 			jq('#blog-details').toggle();
 		});
 	}

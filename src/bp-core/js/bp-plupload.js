@@ -1,9 +1,9 @@
-/* global bp, plupload, BP_Uploader, _, JSON, Backbone */
+/* global plupload, BP_Uploader, _, JSON, Backbone */
 
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
-( function( exports, $ ) {
+( function( bp, $ ) {
 
 	// Bail if not set.
 	if ( typeof BP_Uploader === 'undefined' ) {
@@ -85,14 +85,17 @@ window.bp = window.bp || {};
 
 			if ( uploader.features.dragdrop && ! self.params.browser.mobile ) {
 				container.addClass( 'drag-drop' );
-				drop_element.bind( 'dragover.wp-uploader', function() {
+
+				drop_element.on( 'dragover.wp-uploader', function() {
 					container.addClass( 'drag-over' );
-				} ).bind( 'dragleave.wp-uploader, drop.wp-uploader', function() {
+				} );
+
+				drop_element.on( 'dragleave.wp-uploader, drop.wp-uploader', function() {
 					container.removeClass( 'drag-over' );
 				} );
 			} else {
 				container.removeClass( 'drag-drop' );
-				drop_element.unbind( '.wp-uploader' );
+				drop_element.off( '.wp-uploader' );
 			}
 
 		} );
@@ -416,4 +419,4 @@ window.bp = window.bp || {};
 		template: bp.template( 'progress-window' )
 	} );
 
-})( bp, jQuery );
+})( window.bp, jQuery );

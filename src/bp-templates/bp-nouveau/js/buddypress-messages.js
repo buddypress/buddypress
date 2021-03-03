@@ -1,10 +1,10 @@
-/* global wp, bp, BP_Nouveau, _, Backbone, tinymce, tinyMCE */
+/* global wp, BP_Nouveau, _, Backbone, tinymce, tinyMCE */
 /* jshint devel: true */
 /* @version 3.1.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
-( function( exports, $ ) {
+( function( bp, $ ) {
 
 	// Bail if not set.
 	if ( typeof BP_Nouveau === 'undefined' ) {
@@ -106,7 +106,7 @@ window.bp = window.bp || {};
 				return;
 			} else {
 				// Mentions isn't available, so bail.
-				if ( _.isEmpty( exports.mentions ) ) {
+				if ( _.isEmpty( bp.mentions ) ) {
 					return;
 				}
 
@@ -1429,4 +1429,4 @@ window.bp = window.bp || {};
 	// Launch BP Nouveau Groups.
 	bp.Nouveau.Messages.start();
 
-} )( bp, jQuery );
+} )( window.bp, jQuery );

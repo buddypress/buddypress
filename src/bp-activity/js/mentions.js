@@ -178,7 +178,8 @@ window.bp = window.bp || {};
 
 					params = { 'action': 'bp_get_suggestions', 'term': query, 'type': 'members' };
 
-					if ( $.isNumeric( this.$inputor.data( 'suggestions-group-id' ) ) ) {
+					var groupId = this.$inputor.data( 'suggestions-group-id' );
+					if ( ( 'number' === typeof groupId || 'string' === typeof groupId ) && ! isNaN( groupId - parseFloat( groupId ) ) ) {
 						params['group-id'] = parseInt( this.$inputor.data( 'suggestions-group-id' ), 10 );
 					}
 

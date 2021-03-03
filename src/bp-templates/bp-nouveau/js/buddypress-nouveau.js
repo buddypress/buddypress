@@ -1,12 +1,12 @@
-/* global wp, bp, BP_Nouveau, JSON */
+/* global wp, BP_Nouveau, JSON */
 /* jshint devel: true */
 /* jshint browser: true */
 /* @since 3.0.0 */
-/* @version 7.0.0 */
+/* @version 8.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
-( function( exports, $ ) {
+( function( bp, $ ) {
 
 	// Bail if not set.
 	if ( typeof BP_Nouveau === 'undefined' ) {
@@ -824,4 +824,4 @@ window.bp = window.bp || {};
 	// Launch BP Nouveau.
 	bp.Nouveau.start();
 
-} )( bp, jQuery );
+} )( window.bp, jQuery );

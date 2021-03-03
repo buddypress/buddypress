@@ -2,7 +2,7 @@
 /* Password Verify */
 /* global pwsL10n */
 /* @since 3.0.0 */
-/* @version 5.0.0 */
+/* @version 8.0.0 */
 ( function( $ ){
 	/**
 	 * Function to inform the user about the strength of its password.
@@ -48,7 +48,7 @@
 	}
 
 	// Bind check_pass_strength to keyup events in the password fields.
-	$( document ).ready( function() {
+	$( function() {
 		$( '.password-entry' ).val( '' ).keyup( check_pass_strength );
 		$( '.password-entry-confirm' ).val( '' ).keyup( check_pass_strength );
 

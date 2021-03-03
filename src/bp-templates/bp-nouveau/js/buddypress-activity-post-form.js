@@ -1,10 +1,10 @@
-/* global bp, BP_Nouveau, _, Backbone */
+/* global BP_Nouveau, _, Backbone */
 /* @since 3.0.0 */
-/* @version 5.0.0 */
+/* @version 8.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
-( function( exports, $ ) {
+( function( bp, $ ) {
 	bp.Nouveau = bp.Nouveau || {};
 
 	// Bail if not set
@@ -785,4 +785,4 @@ window.bp = window.bp || {};
 
 	bp.Nouveau.Activity.postForm.start();
 
-} )( bp, jQuery );
+} )( window.bp, jQuery );
