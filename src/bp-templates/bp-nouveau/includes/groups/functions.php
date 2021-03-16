@@ -3,7 +3,7 @@
  * Groups functions
  *
  * @since 3.0.0
- * @version 6.3.0
+ * @version 7.2.1
  */
 
 // Exit if accessed directly.
@@ -507,6 +507,40 @@ function bp_nouveau_groups_screen_invites_restriction() {
 	 */
 	bp_core_load_template( apply_filters( 'bp_nouveau_groups_screen_invites_restriction', 'members/single/settings/group-invites' ) );
 }
+
+/**
+ * Makes sure the BP REST API groups/invites endpoint respects invite restrictions.
+ *
+ * @since 7.2.1
+ *
+ * @param bool|WP_Error   $retval  Whether the request can continue.
+ * @param WP_REST_Request $request The request sent to the API.
+ * @return bool|WP_Error
+ */
+function bp_nouveau_restrict_rest_group_invite_to_friends( $retval, $request ) {
+	if ( true === $retval && bp_is_active( 'friends' ) ) {
+		$group_id   = $request->get_param( 'group_id' );
+		$user_id    = $request->get_param( 'user_id' );
+		$inviter_id = $request->get_param( 'inviter_id' );
+
+		if ( ! $inviter_id ) {
+			$inviter_id = bp_loggedin_user_id();
+		}
+
+		if ( bp_nouveau_groups_get_group_invites_setting( $user_id ) && 'is_friend' !== BP_Friends_Friendship::check_is_friend( $inviter_id, $user_id ) ) {
+			$retval = new WP_Error(
+				'bp_rest_group_invite_cannot_create_item',
+				__( 'Sorry, you are not allowed to create the invitation as requested.', 'buddypress' ),
+				array(
+					'status' => rest_authorization_required_code(),
+				)
+			);
+		}
+	}
+
+	return $retval;
+}
+add_filter( 'bp_rest_group_invites_create_item_permissions_check', 'bp_nouveau_restrict_rest_group_invite_to_friends', 10, 2 );
 
 /**
  * @since 3.0.0
