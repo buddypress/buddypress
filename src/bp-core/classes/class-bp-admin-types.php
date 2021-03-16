@@ -147,6 +147,10 @@ class BP_Admin_Types {
 	private function handle_action( $action ) {
 		$referer = wp_get_referer();
 
+		if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+			return;
+		}
+
 		// Adding a new type into the database.
 		if ( 'add-tag' === $action ) {
 			check_admin_referer( 'add-tag', '_wpnonce_add-tag' );
