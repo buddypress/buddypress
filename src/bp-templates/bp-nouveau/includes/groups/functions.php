@@ -1270,3 +1270,25 @@ function bp_nouveau_groups_notification_filters() {
 		bp_nouveau_notifications_register_filter( $notification );
 	}
 }
+
+/**
+ * Makes sure the Nouveau specific behavior about Group invites visibility is applied to the REST API.
+ *
+ * @since 7.2.1
+ *
+ * @param true|WP_Error   $retval  Whether the current user can list invites.
+ * @param WP_REST_Request $request The request sent to the API.
+ * @return true|WP_Error Whether the current user can list invites.
+ */
+function bp_nouveau_rest_group_invites_get_items_permissions_check( $retval, $request ) {
+	if ( is_wp_error( $retval ) ) {
+		$group_id = (int) $request['group_id'];
+
+		if ( groups_is_user_member( bp_loggedin_user_id(), $group_id ) ) {
+			$retval = true;
+		}
+	}
+
+	return $retval;
+}
+add_filter( 'bp_rest_group_invites_get_items_permissions_check', 'bp_nouveau_rest_group_invites_get_items_permissions_check', 10, 2 );
