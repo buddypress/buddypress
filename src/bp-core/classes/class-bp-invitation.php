@@ -422,7 +422,7 @@ class BP_Invitation {
 		 * invite_sent
 		 * Only create a where statement if something less than "all" has been
 		 * specifically requested.
-		 */ 
+		 */
 		if ( ! empty( $args['invite_sent'] ) && 'all' !== $args['invite_sent'] ) {
 			if ( $args['invite_sent'] == 'draft' ) {
 				$where_conditions['invite_sent'] = "invite_sent = 0";
@@ -443,7 +443,7 @@ class BP_Invitation {
 		// search_terms.
 		if ( ! empty( $args['search_terms'] ) ) {
 			$search_terms_like = '%' . bp_esc_like( $args['search_terms'] ) . '%';
-			$where_conditions['search_terms'] = $wpdb->prepare( "( class LIKE %s )", $search_terms_like, $search_terms_like );
+			$where_conditions['search_terms'] = $wpdb->prepare( '( invitee_email LIKE %s OR content LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
 		// Custom WHERE.

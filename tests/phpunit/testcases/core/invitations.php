@@ -173,7 +173,7 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 
 		$this->set_current_user( $old_current_user );
 	}
-	
+
 	public function test_bp_invitations_add_request_vanilla() {
 		$old_current_user = get_current_user_id();
 
@@ -283,6 +283,51 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 
 		$invite = new BP_Invitation( $i1 );
 		$this->assertEquals( 1, $invite->invite_sent );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	public function test_bp_invitations_get_by_search_terms() {
+		$old_current_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$this->set_current_user( $u1 );
+
+		$invites_class = new BPTest_Invitation_Manager_Extension();
+
+		// Create an invitation.
+		$i1_args = array(
+			'user_id'    => $u2,
+			'inviter_id' => $u1,
+			'item_id'    => 1,
+			'content'    => 'Sometimes, the mystery is enough.',
+		);
+		$i1 = $invites_class->add_invitation( $i1_args );
+		$invites_class->send_invitation_by_id( $i1 );
+
+		// Create an invitation that uses an email address.
+		$i2_args = array(
+			'invitee_email' => 'findme@buddypress.org',
+			'inviter_id'    => $u1,
+			'item_id'       => 1,
+		);
+		$i2 = $invites_class->add_invitation( $i2_args );
+		$invites_class->send_invitation_by_id( $i2 );
+
+		$get_invites = array(
+			'search_terms' => 'mystery',
+			'fields'       => 'ids',
+		);
+		$invites = $invites_class->get_invitations( $get_invites );
+		$this->assertEqualSets( array( $i1 ), $invites );
+
+		$get_invites = array(
+			'search_terms' => 'findme',
+			'fields'       => 'ids',
+		);
+		$invites = $invites_class->get_invitations( $get_invites );
+		$this->assertEqualSets( array( $i2 ), $invites );
 
 		$this->set_current_user( $old_current_user );
 	}
