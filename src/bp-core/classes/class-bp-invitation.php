@@ -830,10 +830,29 @@ class BP_Invitation {
 		global $wpdb;
 		$invites_table_name = BP_Invitation_Manager::get_table_name();
 
+		$r  = bp_parse_args( $args, array(
+			'id'                => false,
+			'user_id'           => false,
+			'inviter_id'        => false,
+			'invitee_email'     => false,
+			'class'             => false,
+			'item_id'           => false,
+			'secondary_item_id' => false,
+			'type'              => 'all',
+			'invite_sent'       => 'all',
+			'accepted'          => 'pending',
+			'search_terms'      => '',
+			'order_by'          => false,
+			'sort_order'        => false,
+			'page'              => false,
+			'per_page'          => false,
+			'fields'            => 'all',
+		), 'bp_invitations_invitation_get_total_count' );
+
 		// Build the query
 		$select_sql = "SELECT COUNT(*)";
 		$from_sql   = "FROM {$invites_table_name}";
-		$where_sql  = self::get_where_sql( $args );
+		$where_sql  = self::get_where_sql( $r );
 		$sql        = "{$select_sql} {$from_sql} {$where_sql}";
 
 		// Return the queried results
