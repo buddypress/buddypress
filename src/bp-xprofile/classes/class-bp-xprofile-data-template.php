@@ -105,6 +105,7 @@ class BP_XProfile_Data_Template {
 	 *
 	 * @since 1.5.0
 	 * @since 2.4.0 Introduced `$member_type` argument.
+	 * @since 8.0.0 Introduced `$hide_field_types` argument.
 	 *
 	 * @param array|string $args {
 	 *     An array of arguments. All items are optional.
@@ -120,6 +121,7 @@ class BP_XProfile_Data_Template {
 	 *     @type int|bool     $hide_empty_fields       Should empty fields be skipped.
 	 *     @type int|bool     $fetch_visibility_level  Fetch visibility levels.
 	 *     @type int|bool     $update_meta_cache       Should metadata cache be updated.
+	 *     @type string[]     $hide_field_types        List of field types to hide form loop. Default: empty array.
 	 * }
 	 */
 	public function __construct( $args = '' ) {
@@ -156,6 +158,7 @@ class BP_XProfile_Data_Template {
 			'fetch_visibility_level' => false,
 			'exclude_groups'         => false,
 			'exclude_fields'         => false,
+			'hide_field_types'       => array(),
 			'update_meta_cache'      => true
 		) );
 

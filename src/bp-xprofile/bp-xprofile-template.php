@@ -14,6 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * Query for XProfile groups and fields.
  *
  * @since 1.0.0
+ * @since 2.4.0 Introduced `$member_type` argument.
+ * @since 8.0.0 Introduced `$hide_field_types` argument.
  *
  * @global object $profile_template
  * @see BP_XProfile_Group::get() for full description of `$args` array.
@@ -31,8 +33,9 @@ defined( 'ABSPATH' ) || exit;
  *     @type bool         $fetch_field_data       Default: true.
  *     @type bool         $fetch_visibility_level Defaults to true when an admin is viewing a profile, or when a user is
  *                                                viewing her own profile, or during registration. Otherwise false.
- *     @type int|bool     $exclude_groups         Default: false.
- *     @type int|bool     $exclude_fields         Default: false
+ *     @type int[]|bool   $exclude_groups         Default: false.
+ *     @type int[]|bool   $exclude_fields         Default: false.
+ *     @type string[]     $hide_field_types       Default: empty array.
  *     @type bool         $update_meta_cache      Default: true.
  * }
  *
@@ -64,6 +67,7 @@ function bp_has_profile( $args = '' ) {
 		'fetch_visibility_level' => $fetch_visibility_level_default,
 		'exclude_groups'         => false, // Comma-separated list of profile field group IDs to exclude.
 		'exclude_fields'         => false, // Comma-separated list of profile field IDs to exclude.
+		'hide_field_types'       => array(), // List of field types to hide from profile fields loop.
 		'update_meta_cache'      => true,
 	), 'has_profile' );
 

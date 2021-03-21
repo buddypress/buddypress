@@ -493,6 +493,23 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 			$field->type        = $_POST['fieldtype'];
 			$field->name        = $_POST['title'];
 
+			/*
+			 * By default a Textbox field is created. To run field type's feature
+			 * checks we need to set it to what it really is early.
+			 */
+			if ( is_null( $field_id ) ) {
+				$field_type = bp_xprofile_create_field_type( $field->type );
+
+				// If it's a placeholder, then the field type is not registered.
+				if ( ! $field_type instanceof BP_XProfile_Field_Type_Placeholder ) {
+					$field->type_obj = $field_type;
+				}
+			}
+
+			if ( ! $field->field_type_supports( 'required' ) ) {
+				$field->is_required = "0";
+			}
+
 			if ( ! empty( $_POST['description'] ) ) {
 				$field->description = $_POST['description'];
 			} else {
@@ -537,12 +554,24 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 
 				// Validate default visibility.
 				if ( ! empty( $_POST['default-visibility'] ) && in_array( $_POST['default-visibility'], wp_list_pluck( bp_xprofile_get_visibility_levels(), 'id' ) ) ) {
-					bp_xprofile_update_field_meta( $field_id, 'default_visibility', $_POST['default-visibility'] );
+					$default_visibility = $_POST['default-visibility'];
+
+					if ( ! $field->field_type_supports( 'allow_custom_visibility' ) ) {
+						$default_visibility = 'public';
+					}
+
+					bp_xprofile_update_field_meta( $field_id, 'default_visibility', $default_visibility );
 				}
 
 				// Validate custom visibility.
 				if ( ! empty( $_POST['allow-custom-visibility'] ) && in_array( $_POST['allow-custom-visibility'], array( 'allowed', 'disabled' ) ) ) {
-					bp_xprofile_update_field_meta( $field_id, 'allow_custom_visibility', $_POST['allow-custom-visibility'] );
+					$allow_custom_visibility = $_POST['allow-custom-visibility'];
+
+					if ( ! $field->field_type_supports( 'allow_custom_visibility' ) ) {
+						$allow_custom_visibility = 'disabled';
+					}
+
+					bp_xprofile_update_field_meta( $field_id, 'allow_custom_visibility', $allow_custom_visibility );
 				}
 
 				// Validate signup.
@@ -552,8 +581,13 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 					bp_xprofile_delete_meta( $field_id, 'field', 'signup_position' );
 				}
 
+				$do_autolink = '';
+				if ( $field->field_type_supports( 'do_autolink' ) && isset( $_POST['do_autolink'] ) && $_POST['do_autolink'] ) {
+					$do_autolink = wp_unslash( $_POST['do_autolink'] );
+				}
+
 				// Save autolink settings.
-				if ( isset( $_POST['do_autolink'] ) && 'on' === wp_unslash( $_POST['do_autolink'] ) ) {
+				if ( 'on' === $do_autolink ) {
 					bp_xprofile_update_field_meta( $field_id, 'do_autolink', 'on' );
 				} else {
 					bp_xprofile_update_field_meta( $field_id, 'do_autolink', 'off' );

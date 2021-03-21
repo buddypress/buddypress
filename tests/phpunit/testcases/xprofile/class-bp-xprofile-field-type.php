@@ -1,9 +1,25 @@
 <?php
+// Include the xProfile Test Type
+include_once BP_TESTS_DIR . 'assets/bptest-xprofile-field-type.php';
+
 /**
  * @group xprofile
  * @group BP_XProfile_Field_Type
  */
 class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
+
+	public function setUp() {
+		parent::setUp();
+
+		add_filter( 'bp_xprofile_get_field_types', array( $this, 'get_field_types' ) );
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+
+		remove_filter( 'bp_xprofile_get_field_types', array( $this, 'get_field_types' ) );
+	}
+
 	public function test_unregistered_field_type_returns_textbox() {
 		$field = bp_xprofile_create_field_type( 'fakeyfield' );
 		$this->assertEquals( get_class( $field ), 'BP_XProfile_Field_Type_Placeholder' );
@@ -182,5 +198,33 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 		$this->assertTrue( $field->is_valid( '07700 900461' ) );
 		$this->assertTrue( $field->is_valid( '555-2368' ) );
 		$this->assertTrue( $field->is_valid( '(212) 664-7665' ) );
+	}
+
+	/**
+	 * @ticket BP7162
+	 */
+	public function test_xprofile_field_type_test_supports() {
+		$group_id = self::factory()->xprofile_group->create();
+		$field_id = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group_id,
+				'type'           => 'test-field-type',
+				'name'           => 'Test Supports',
+			)
+		);
+
+		$field = xprofile_get_field( $field_id, null, false );
+
+		$this->assertTrue( $field->field_type_supports( 'switch_fieldtype' ) );
+		$this->assertFalse( $field->field_type_supports( 'do_autolink' ) );
+		$this->assertFalse( $field->field_type_supports( 'allow_custom_visibility' ) );
+		$this->assertTrue( $field->field_type_supports( 'required' ) );
+		$this->assertTrue( $field->field_type_supports( 'member_types' ) );
+		$this->assertEquals( 'adminsonly', $field->get_default_visibility() );
+	}
+
+	public function get_field_types( $types ) {
+		$types['test-field-type'] = 'BPTest_XProfile_Field_Type';
+		return $types;
 	}
 }

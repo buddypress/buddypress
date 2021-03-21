@@ -51,9 +51,13 @@ function xprofile_add_admin_js() {
 		// types that support options, for use in showing/hiding the
 		// "please enter options for this field" section.
 		$strings = array(
-			'do_settings_section_field_types' => array(),
-			'do_autolink'                     => '',
-			'text'                            => array(
+			'do_settings_section_field_types'      => array(),
+			'do_autolink'                          => '',
+			'hide_do_autolink_metabox'             => array(),
+			'hide_allow_custom_visibility_metabox' => array(),
+			'hide_required_metabox'                => array(),
+			'hide_member_types_metabox'            => array(),
+			'text'                                 => array(
 				'defaultValue' => __( 'Default Value', 'buddypress' ),
 				'deleteLabel'  => __( 'Delete', 'buddypress' ),
 			),
@@ -63,6 +67,14 @@ function xprofile_add_admin_js() {
 			$field = new $field_type_class();
 			if ( $field->do_settings_section() ) {
 				$strings['do_settings_section_field_types'][] = $field_type;
+			}
+
+			if ( isset( $field::$supported_features ) && is_array( $field::$supported_features ) ) {
+				foreach ( $field::$supported_features as $feature => $support ) {
+					if ( isset( $strings['hide_' . $feature . '_metabox'] ) && ! $support ) {
+						$strings['hide_' . $feature . '_metabox'][] = $field_type;
+					}
+				}
 			}
 		}
 

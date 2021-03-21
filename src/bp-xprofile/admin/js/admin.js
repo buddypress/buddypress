@@ -95,6 +95,24 @@ function show_options( forWhat ) {
 		jQuery( '#do-autolink' ).val( do_autolink );
 	}
 
+	// Show/hides metaboxes according to selected field type supports.
+	jQuery( '#field-type-visibiliy-metabox, #field-type-required-metabox, #field-type-autolink-metabox, #field-type-member-types' ).show();
+	if ( -1 !== XProfileAdmin.hide_required_metabox.indexOf( forWhat ) ) {
+		jQuery( '#field-type-required-metabox' ).hide();
+	}
+
+	if ( -1 !== XProfileAdmin.hide_allow_custom_visibility_metabox.indexOf( forWhat ) ) {
+		jQuery( '#field-type-visibiliy-metabox' ).hide();
+	}
+
+	if ( -1 !== XProfileAdmin.hide_do_autolink_metabox.indexOf( forWhat ) ) {
+		jQuery( '#field-type-autolink-metabox' ).hide();
+	}
+
+	if ( -1 !== XProfileAdmin.hide_member_types_metabox.indexOf( forWhat ) ) {
+		jQuery( '#field-type-member-types' ).hide();
+	}
+
 	jQuery( document ).trigger( 'bp-xprofile-show-options', forWhat );
 }
 
@@ -173,7 +191,7 @@ function titleHint( id ) {
 
 	titleprompt.on( 'click', function(){
 		jQuery(this).addClass('screen-reader-text');
-		title.focus();
+		title.trigger( 'focus' );
 	});
 
 	title.on( 'blur', function(){
@@ -184,11 +202,11 @@ function titleHint( id ) {
 		titleprompt.addClass('screen-reader-text');
 	}).on( 'keydown', function(e){
 		titleprompt.addClass('screen-reader-text');
-		jQuery(this).unbind(e);
+		jQuery(this).off( e );
 	});
 }
 
-jQuery( document ).ready( function() {
+jQuery( function() {
 
 	// Set focus in Field Title, if we're on the right page.
 	jQuery( '#bp-xprofile-add-field #title' ).trigger( 'focus' );

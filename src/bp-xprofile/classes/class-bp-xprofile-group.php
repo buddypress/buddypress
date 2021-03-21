@@ -237,6 +237,8 @@ class BP_XProfile_Group {
 	 * and field data.
 	 *
 	 * @since 1.2.0
+	 * @since 2.4.0 Introduced `$member_type` argument.
+	 * @since 8.0.0 Introduced `$hide_field_types` argument.
 	 *
 	 * @global object $wpdb WordPress DB access object.
 	 *
@@ -256,8 +258,9 @@ class BP_XProfile_Group {
 	 *      @type bool         $fetch_fields      Whether to fetch each group's fields. Default: false.
 	 *      @type bool         $fetch_field_data  Whether to fetch data for each field. Requires a $user_id.
 	 *                                            Default: false.
-	 *      @type array        $exclude_groups    Comma-separated list or array of group IDs to exclude.
-	 *      @type array        $exclude_fields    Comma-separated list or array of field IDs to exclude.
+	 *      @type int[]|bool   $exclude_groups    Comma-separated list or array of group IDs to exclude.
+	 *      @type int[]|bool   $exclude_fields    Comma-separated list or array of field IDs to exclude.
+	 *      @type string[]     $hide_field_types  List of field types to hide form loop. Default: empty array.
 	 *      @type bool         $update_meta_cache Whether to pre-fetch xprofilemeta for all retrieved groups, fields,
 	 *                                            and data. Default: true.
 	 * }
@@ -278,6 +281,7 @@ class BP_XProfile_Group {
 			'fetch_visibility_level' => false,
 			'exclude_groups'         => false,
 			'exclude_fields'         => false,
+			'hide_field_types'       => array(),
 			'update_meta_cache'      => true,
 		) );
 
@@ -338,7 +342,13 @@ class BP_XProfile_Group {
 		// Pull field objects from the cache.
 		$fields = array();
 		foreach ( $field_ids as $field_id ) {
-			$fields[] = xprofile_get_field( $field_id, null, false );
+			$_field = xprofile_get_field( $field_id, null, false );
+
+			if ( in_array( $_field->type, $r['hide_field_types'], true ) ) {
+				continue;
+			}
+
+			$fields[] = $_field;
 		}
 
 		// Store field IDs for meta cache priming.
@@ -346,10 +356,11 @@ class BP_XProfile_Group {
 
 		// Maybe fetch field data.
 		if ( ! empty( $r['fetch_field_data'] ) ) {
+			$field_type_objects = wp_list_pluck( $fields, 'type_obj', 'id' );
 
 			// Get field data for user ID.
 			if ( ! empty( $field_ids ) && ! empty( $r['user_id'] ) ) {
-				$field_data = BP_XProfile_ProfileData::get_data_for_user( $r['user_id'], $field_ids );
+				$field_data = BP_XProfile_ProfileData::get_data_for_user( $r['user_id'], $field_ids, $field_type_objects );
 			}
 
 			// Remove data-less fields, if necessary.
