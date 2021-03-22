@@ -316,12 +316,15 @@ class BP_XProfile_ProfileData {
 	 * Get a user's profile data for a set of fields.
 	 *
 	 * @since 2.0.0
+	 * @since 8.0.0 Checks if a null field data is an xProfile WP Field.
+	 *              Adds a new parameter `$field_type_objects` to pass the list of field type objects.
 	 *
-	 * @param int   $user_id   ID of user whose data is being queried.
-	 * @param array $field_ids Array of field IDs to query for.
+	 * @param int   $user_id            ID of user whose data is being queried.
+	 * @param array $field_ids          Array of field IDs to query for.
+	 * @param array $field_type_objects Array of field type objects keyed by the queried filed IDs.
 	 * @return array
 	 */
-	public static function get_data_for_user( $user_id, $field_ids ) {
+	public static function get_data_for_user( $user_id, $field_ids, $field_type_objects = array() ) {
 		global $wpdb;
 
 		$data = array();
@@ -339,6 +342,7 @@ class BP_XProfile_ProfileData {
 			foreach ( $uncached_data as $ud ) {
 				$d               = new stdClass;
 				$d->id           = $ud->id;
+				$d->table_name   = $bp->profile->table_name_data;
 				$d->user_id      = $ud->user_id;
 				$d->field_id     = $ud->field_id;
 				$d->value        = $ud->value;
@@ -359,11 +363,23 @@ class BP_XProfile_ProfileData {
 				// If no value was found, cache an empty item
 				// to avoid future cache misses.
 				} else {
-					$d               = new stdClass;
-					$d->id           = '';
+					$d = new stdClass;
+
+					// Check WordPress if it's a WordPress field.
+					if ( isset( $field_type_objects[ $field_id ]->wp_user_key ) ) {
+						$meta          = $field_type_objects[ $field_id ]->get_field_value( $user_id, $field_id );
+						$d->id         = $meta['id'];
+						$d->value      = $meta['value'];
+						$d->table_name = $meta['table_name'];
+
+					} else {
+						$d->id    = '';
+						$d->value = '';
+					}
+
+					$d->table_name   = '';
 					$d->user_id      = $user_id;
 					$d->field_id     = $field_id;
-					$d->value        = '';
 					$d->last_updated = '';
 
 					wp_cache_set( $cache_key, $d, 'bp_xprofile_data' );
@@ -396,6 +412,7 @@ class BP_XProfile_ProfileData {
 	 * Get all of the profile information for a specific user.
 	 *
 	 * @since 1.2.0
+	 * @since 8.0.0 Checks if a null field data is an xProfile WP Field.
 	 *
 	 * @param int $user_id ID of the user.
 	 * @return array
@@ -430,8 +447,23 @@ class BP_XProfile_ProfileData {
 						'field_group_name' => $group->name,
 						'field_id'         => $field->id,
 						'field_type'       => $field->type,
-						'field_data'       => $field->data->value,
 					);
+
+					if ( is_null( $field->data ) ) {
+						if ( 1 === $field->id ) {
+							$profile_data[ $field->name ]['field_data'] = $user->display_name;
+						} elseif ( isset( $field->type_obj ) && $field->type_obj instanceof BP_XProfile_Field_Type && isset( $field->type_obj->wp_user_key ) ) {
+							$meta = $field->type_obj->get_field_value( $user->ID, $field->id );
+
+							if ( isset( $meta['value'] ) ) {
+								$profile_data[ $field->name ]['field_data'] = $meta['value'];
+							}
+						} else {
+							$profile_data[ $field->name ]['field_data'] = false;
+						}
+					} else {
+						$profile_data[ $field->name ]['field_data'] = $field->data->value;
+					}
 				}
 			}
 		}
@@ -475,6 +507,7 @@ class BP_XProfile_ProfileData {
 	 * Supports multiple user IDs.
 	 *
 	 * @since 1.0.0
+	 * @since 8.0.0 Checks if a null field data is an xProfile WP Field.
 	 *
 	 * @param int            $field_id ID of the field.
 	 * @param int|array|null $user_ids ID or IDs of user(s).
@@ -524,11 +557,24 @@ class BP_XProfile_ProfileData {
 				// No data found for the user, so we fake it to
 				// avoid cache misses and PHP notices.
 				} else {
-					$d = new stdClass;
-					$d->id           = '';
+					$d          = new stdClass;
+					$field_type = bp_xprofile_get_field_type( $field_id );
+
+					// Check WordPress if it's a WordPress field.
+					if ( isset( $field_type->wp_user_key ) ) {
+						$meta          = $field_type->get_field_value( $user_id, $field_id );
+						$d->id         = $meta['id'];
+						$d->value      = $meta['value'];
+						$d->table_name = $meta['table_name'];
+
+					} else {
+						$d->id    = '';
+						$d->value = '';
+					}
+
+					$d->table_name   = '';
 					$d->user_id      = $id;
 					$d->field_id     = $field_id;
-					$d->value        = '';
 					$d->last_updated = '';
 				}
 
@@ -570,12 +616,14 @@ class BP_XProfile_ProfileData {
 	 * Get profile field values by field name and user ID.
 	 *
 	 * @since 1.0.0
+	 * @deprecated 8.0.0 This function is not used anymore.
 	 *
 	 * @param array|string $fields  Field(s) to get.
 	 * @param int|null     $user_id User ID to get field data for.
 	 * @return array|bool
 	 */
 	public static function get_value_byfieldname( $fields, $user_id = null ) {
+		_deprecated_function( __FUNCTION__, '8.0.0' );
 		global $wpdb;
 
 		if ( empty( $fields ) ) {

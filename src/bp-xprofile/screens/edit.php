@@ -50,6 +50,9 @@ function xprofile_screen_edit_profile() {
 		$posted_field_ids = wp_parse_id_list( $_POST['field_ids'] );
 		$is_required      = array();
 
+		$bp_displayed_user = bp_get_displayed_user();
+		$bp_displayed_user->updated_keys = array();
+
 		// Loop through the posted fields formatting any datebox values then validate the field.
 		foreach ( (array) $posted_field_ids as $field_id ) {
 			bp_xprofile_maybe_format_datebox_post_data( $field_id );
@@ -125,6 +128,24 @@ function xprofile_screen_edit_profile() {
 			 * @param array $new_values       Array of newly saved values after update.
 			 */
 			do_action( 'xprofile_updated_profile', bp_displayed_user_id(), $posted_field_ids, $errors, $old_values, $new_values );
+
+			// Some WP User keys have been updated: let's update the WP fiels all together.
+			if ( $bp_displayed_user->updated_keys ) {
+				$user_id = wp_update_user(
+					array_merge(
+						array(
+							'ID' => bp_displayed_user_id(),
+						),
+						$bp_displayed_user->updated_keys
+					)
+				);
+
+				$bp_displayed_user->updated_keys = array();
+
+				if ( is_wp_error( $user_id ) ) {
+					$errors = true;
+				}
+			}
 
 			// Set the feedback messages.
 			if ( !empty( $errors ) ) {

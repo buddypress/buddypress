@@ -159,6 +159,8 @@ function bp_xprofile_get_field_types() {
 		'textarea'       => 'BP_XProfile_Field_Type_Textarea',
 		'textbox'        => 'BP_XProfile_Field_Type_Textbox',
 		'telephone'      => 'BP_XProfile_Field_Type_Telephone',
+		'wp-biography'   => 'BP_XProfile_Field_Type_WordPress_Biography',
+		'wp-textbox'     => 'BP_XProfile_Field_Type_WordPress_Textbox',
 	);
 
 	/**
@@ -308,6 +310,25 @@ function xprofile_get_field( $field, $user_id = null, $get_data = true ) {
 	}
 
 	return $_field;
+}
+
+/**
+ * Get a profile Field Type object.
+ *
+ * @since 8.0.0
+ *
+ * @param int $field_id ID of the field.
+ * @return BP_XProfile_Field_Type|null Field Type object if found, otherwise null.
+ */
+function bp_xprofile_get_field_type( $field_id ) {
+	$field_type = null;
+	$field      = xprofile_get_field( $field_id, null, false );
+
+	if ( $field instanceof BP_XProfile_Field ) {
+		$field_type = $field->type_obj;
+	}
+
+	return $field_type;
 }
 
 /**
@@ -462,14 +483,42 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 		return false;
 	}
 
-	$field           = new BP_XProfile_ProfileData();
-	$field->field_id = $field_id;
-	$field->user_id  = $user_id;
+	$field_args = compact( 'field_type_obj', 'field', 'user_id', 'value', 'is_required' );
 
-	// Gets un/reserialized via xprofile_sanitize_data_value_before_save().
-	$field->value    = maybe_serialize( $value );
+	/**
+	 * Return a WP_Error object or true to use your custom way of saving field values.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param boolean Whether to shortcircuit the $bp->profile->table_name_data table.
+	 * @param array $field_args {
+	 *     An array of arguments.
+	 *
+	 *     @type object            $field_type_obj Field type object.
+	 *     @type BP_XProfile_Field $field          Field object.
+	 *     @type integer           $user_id        The user ID.
+	 *     @type mixed             $value          Value passed to xprofile_set_field_data().
+	 *     @type boolean           $is_required    Whether or not the field is required.
+	 * }
+	 */
+	$retval = apply_filters( 'bp_xprofile_set_field_data_pre_save', false, $field_args );
 
-	return $field->save();
+	if ( is_wp_error( $retval ) ) {
+		return false;
+	}
+
+	if ( false === $retval ) {
+		$field           = new BP_XProfile_ProfileData();
+		$field->field_id = $field_id;
+		$field->user_id  = $user_id;
+
+		// Gets un/reserialized via xprofile_sanitize_data_value_before_save().
+		$field->value    = maybe_serialize( $value );
+
+		$retval = $field->save();
+	}
+
+	return $retval;
 }
 
 /**
@@ -1355,5 +1404,19 @@ function bp_xprofile_personal_data_exporter( $email_address ) {
 	return array(
 		'data' => $data_to_export,
 		'done' => true,
+	);
+}
+
+/**
+ * Returns the list of supporterd WordPress field meta keys.
+ *
+ * @since 8.0.0
+ *
+ * @return string[] List of supported WordPress user keys.
+ */
+function bp_xprofile_get_wp_user_keys() {
+	return array_merge(
+		array( 'first_name', 'last_name', 'user_url', 'description' ),
+		array_keys( wp_get_user_contact_methods() )
 	);
 }

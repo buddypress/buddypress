@@ -352,6 +352,11 @@ function xprofile_filter_pre_validate_value_by_field_type( $value, $field, $fiel
  * @return string
  */
 function bp_xprofile_escape_field_data( $value, $field_type, $field_id ) {
+	// Sanitization for these types is directly done into their `display_filter()` method.
+	if ( 'wp-biography' === $field_type || 'wp-textbox' === $field_type ) {
+		return $value;
+	}
+
 	if ( bp_xprofile_is_richtext_enabled_for_field( $field_id ) ) {
 		// The xprofile_filter_kses() expects a BP_XProfile_ProfileData object.
 		$data_obj = null;

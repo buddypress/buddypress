@@ -302,3 +302,15 @@ add_action( 'xprofile_field_after_save', 'bp_xprofile_reset_groups_cache_increme
 
 // List actions to clear super cached pages on, if super cache is installed.
 add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );
+
+/**
+ * Resets the User Metadata ids cache.
+ *
+ * @since 8.0.0
+ *
+ * @param integer $user_id The user ID.
+ */
+function bp_xprofile_reset_user_mid_cache( $user_id ) {
+	wp_cache_delete( $user_id, 'bp_user_mid' );
+}
+add_action( 'profile_update', 'bp_xprofile_reset_user_mid_cache', 10, 1 );
