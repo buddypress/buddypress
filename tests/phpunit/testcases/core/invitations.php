@@ -332,4 +332,52 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$this->set_current_user( $old_current_user );
 	}
 
+	public function test_bp_invitations_add_request_with_date_modified() {
+		$old_current_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$this->set_current_user( $u1 );
+
+		$invites_class = new BPTest_Invitation_Manager_Extension();
+
+		$time = gmdate( 'Y-m-d H:i:s', time() - 100 );
+		$args = array(
+			'user_id'           => $u1,
+			'item_id'           => 7,
+			'date_modified'     => $time,
+		);
+		$r1 = $invites_class->add_request( $args );
+
+		$req = new BP_Invitation( $r1 );
+		$this->assertEquals( $time, $req->date_modified );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	public function test_bp_invitations_add_invite_with_date_modified() {
+		$old_current_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$this->set_current_user( $u1 );
+
+		$invites_class = new BPTest_Invitation_Manager_Extension();
+		$time = gmdate( 'Y-m-d H:i:s', time() - 100 );
+
+		// Create an invitation.
+		$invite_args = array(
+			'user_id'           => $u2,
+			'inviter_id'		=> $u1,
+			'item_id'           => 1,
+			'send_invite'       => 1,
+			'date_modified'     => $time,
+		);
+		$i1 = $invites_class->add_invitation( $invite_args );
+
+		$inv = new BP_Invitation( $i1 );
+		$this->assertEquals( $time, $inv->date_modified );
+
+		$this->set_current_user( $old_current_user );
+	}
+
 }

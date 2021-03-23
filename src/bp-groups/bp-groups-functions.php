@@ -2044,7 +2044,7 @@ function groups_send_membership_request( ...$args ) {
 
 	// If a new request was created, send the emails.
 	if ( $request_id && is_int( $request_id ) ) {
-		$invites_class->send_request_notification_by_id( $request_id );
+		$invites_class->send_request_notification_by_id( $request_id, $r );
 		$admins = groups_get_group_admins( $r['group_id'] );
 
 		/**
