@@ -700,9 +700,9 @@ class BP_Invitation {
 	 *     @type int          $per_page          Number of items to show per page.
 	 *                                           Default: false (no pagination,
 	 *                                           all items).
-  	 *     @type string       $fields            Which fields to return. Specify 'item_ids' to fetch a list of Item_IDs.
-  	 *                                           Specify 'ids' to fetch a list of Invitation IDs.
- 	 *                                           Default: 'all' (return BP_Invitation objects).
+	 *     @type string       $fields            Which fields to return. Specify 'item_ids' to fetch a list of Item_IDs.
+	 *                                           Specify 'ids' to fetch a list of Invitation IDs.
+	 *                                           Default: 'all' (return BP_Invitation objects).
 	 * }
 	 *
 	 * @return array BP_Invitation objects | IDs of found invite.
@@ -917,7 +917,7 @@ class BP_Invitation {
 		 */
 		do_action( 'bp_invitation_after_update', $where_args, $update_args );
 
-  		return $retval;
+		return $retval;
 	}
 
 	/**
