@@ -18,6 +18,16 @@ defined( 'ABSPATH' ) || exit;
 class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 
 	/**
+	 * Supported features for the URL field type.
+	 *
+	 * @since 8.0.0
+	 * @var bool[] The URL field type supported features.
+	 */
+	public static $supported_features = array(
+		'do_autolink' => false,
+	);
+
+	/**
 	 * Constructor for the URL field type
 	 *
 	 * @since 2.1.0
