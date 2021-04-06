@@ -68,3 +68,16 @@
 		display: block;
 	}
 }
+
+@media screen and (max-width: 782px) {
+
+	#wpadminbar li#wp-admin-bar-bp-login,
+	#wpadminbar li#wp-admin-bar-bp-register {
+		display: block;
+	}
+
+	#wpadminbar li#wp-admin-bar-bp-login a,
+	#wpadminbar li#wp-admin-bar-bp-register a {
+		padding: 0 8px;
+	}
+}
