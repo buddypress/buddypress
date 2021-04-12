@@ -342,7 +342,7 @@ module.exports = function( grunt ) {
 				stdout: false
 			},
 			cli: {
-				command: 'svn export --force https://github.com/buddypress/wp-cli-buddypress.git/tags/2.0 cli',
+				command: 'svn export --force https://github.com/buddypress/wp-cli-buddypress.git/tags/2.0.1 cli',
 				cwd: BUILD_DIR,
 				stdout: false
 			},
