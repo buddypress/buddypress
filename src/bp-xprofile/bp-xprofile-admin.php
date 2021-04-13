@@ -557,7 +557,12 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 					$default_visibility = $_POST['default-visibility'];
 
 					if ( ! $field->field_type_supports( 'allow_custom_visibility' ) ) {
-						$default_visibility = 'public';
+						$default_visibility          = 'public';
+						$available_visibility_levels = bp_xprofile_get_visibility_levels();
+
+						if ( isset( $field->type_obj->visibility ) && in_array( $field->type_obj->visibility, array_keys( $available_visibility_levels ), true ) ) {
+							$default_visibility = $field->type_obj->visibility;
+						}
 					}
 
 					bp_xprofile_update_field_meta( $field_id, 'default_visibility', $default_visibility );
