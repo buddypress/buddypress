@@ -149,18 +149,19 @@ function xprofile_update_field_group_position( $field_group_id = 0, $position = 
  */
 function bp_xprofile_get_field_types() {
 	$fields = array(
-		'checkbox'       => 'BP_XProfile_Field_Type_Checkbox',
-		'datebox'        => 'BP_XProfile_Field_Type_Datebox',
-		'multiselectbox' => 'BP_XProfile_Field_Type_Multiselectbox',
-		'number'         => 'BP_XProfile_Field_Type_Number',
-		'url'            => 'BP_XProfile_Field_Type_URL',
-		'radio'          => 'BP_XProfile_Field_Type_Radiobutton',
-		'selectbox'      => 'BP_XProfile_Field_Type_Selectbox',
-		'textarea'       => 'BP_XProfile_Field_Type_Textarea',
-		'textbox'        => 'BP_XProfile_Field_Type_Textbox',
-		'telephone'      => 'BP_XProfile_Field_Type_Telephone',
-		'wp-biography'   => 'BP_XProfile_Field_Type_WordPress_Biography',
-		'wp-textbox'     => 'BP_XProfile_Field_Type_WordPress_Textbox',
+		'checkbox'            => 'BP_XProfile_Field_Type_Checkbox',
+		'datebox'             => 'BP_XProfile_Field_Type_Datebox',
+		'multiselectbox'      => 'BP_XProfile_Field_Type_Multiselectbox',
+		'number'              => 'BP_XProfile_Field_Type_Number',
+		'url'                 => 'BP_XProfile_Field_Type_URL',
+		'radio'               => 'BP_XProfile_Field_Type_Radiobutton',
+		'selectbox'           => 'BP_XProfile_Field_Type_Selectbox',
+		'textarea'            => 'BP_XProfile_Field_Type_Textarea',
+		'textbox'             => 'BP_XProfile_Field_Type_Textbox',
+		'telephone'           => 'BP_XProfile_Field_Type_Telephone',
+		'wp-biography'        => 'BP_XProfile_Field_Type_WordPress_Biography',
+		'wp-textbox'          => 'BP_XProfile_Field_Type_WordPress_Textbox',
+		'checkbox_acceptance' => 'BP_XProfile_Field_Type_Checkbox_Acceptance',
 	);
 
 	/**
