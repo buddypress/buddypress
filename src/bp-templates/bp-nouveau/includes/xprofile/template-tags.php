@@ -3,7 +3,7 @@
  * xProfile Template tags
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 8.0.0
  */
 
 // Exit if accessed directly.
@@ -62,12 +62,26 @@ function bp_nouveau_xprofile_edit_visibilty() {
  * profile fields added to it for the registration screen.
  *
  * @since 3.0.0
+ * @deprecated 8.0.0
  */
 function bp_nouveau_base_account_has_xprofile() {
-	return (bool) bp_has_profile(
-		array(
-			'profile_group_id' => 1,
-			'fetch_field_data' => false,
-		)
-	);
+	_deprecated_function( __FUNCTION__, '8.0.0', 'bp_nouveau_has_signup_xprofile_fields()' );
+	return bp_nouveau_has_signup_xprofile_fields();
+}
+
+/**
+ * Checks whether there are signup profile fields to display.
+ *
+ * @since 8.0.0
+ *
+ * @param bool Whether to init an xProfile loop.
+ * @return bool True if there are signup profile fields to display. False otherwise.
+ */
+function bp_nouveau_has_signup_xprofile_fields( $do_loop = false ) {
+	if ( ! $do_loop ) {
+		$signup_fields = (array) bp_xprofile_get_signup_field_ids();
+		return 1 <= count( $signup_fields );
+	}
+
+	return bp_has_profile( bp_xprofile_signup_args() );
 }

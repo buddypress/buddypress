@@ -3,7 +3,7 @@
  * BuddyPress - Members/Blogs Registration forms
  *
  * @since 3.0.0
- * @version 4.0.0
+ * @version 8.0.0
  */
 
 ?>
@@ -38,7 +38,7 @@
 
 				<?php /***** Extra Profile Details ******/ ?>
 
-				<?php if ( bp_is_active( 'xprofile' ) && bp_nouveau_base_account_has_xprofile() ) : ?>
+				<?php if ( bp_is_active( 'xprofile' ) && bp_nouveau_has_signup_xprofile_fields( true ) ) : ?>
 
 					<?php bp_nouveau_signup_hook( 'before', 'signup_profile' ); ?>
 

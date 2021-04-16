@@ -1515,7 +1515,7 @@ function bp_nouveau_container_classes() {
 		}
 
 		// Provide a class token to acknowledge additional extended profile fields added to default account reg screen
-		if ( 'register' === bp_current_component() && bp_is_active( 'xprofile' ) && bp_nouveau_base_account_has_xprofile()) {
+		if ( 'register' === bp_current_component() && bp_is_active( 'xprofile' ) && bp_nouveau_has_signup_xprofile_fields()) {
 			$classes[] = 'extended-default-reg';
 		}
 
