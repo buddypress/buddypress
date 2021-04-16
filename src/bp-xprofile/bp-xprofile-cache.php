@@ -314,3 +314,15 @@ function bp_xprofile_reset_user_mid_cache( $user_id ) {
 	wp_cache_delete( $user_id, 'bp_user_mid' );
 }
 add_action( 'profile_update', 'bp_xprofile_reset_user_mid_cache', 10, 1 );
+
+/**
+ * Resets the signup field IDs cache.
+ *
+ * @since 8.0.0
+ */
+function bp_xprofile_reset_signup_field_cache() {
+	wp_cache_delete( 'signup_fields', 'bp_xprofile' );
+}
+add_action( 'bp_xprofile_inserted_signup_field', 'bp_xprofile_reset_signup_field_cache' );
+add_action( 'bp_xprofile_reordered_signup_fields', 'bp_xprofile_reset_signup_field_cache' );
+add_action( 'bp_xprofile_removed_signup_field', 'bp_xprofile_reset_signup_field_cache' );

@@ -598,6 +598,7 @@ function bp_update_to_5_0() {
  * 8.0.0 update routine.
  *
  * - Edit the `new_avatar` activity type's component to `members`.
+ * - Upgrade Primary xProfile Group's fields to signup fields.
  *
  * @since 8.0.0
  */
@@ -621,6 +622,35 @@ function bp_update_to_8_0() {
 			'%s',
 		)
 	);
+
+	if ( bp_get_signup_allowed() ) {
+		// Get the Primary Group's fields.
+		$signup_fields = $wpdb->get_col( "SELECT id FROM {$bp_prefix}bp_xprofile_fields WHERE group_id = 1 ORDER BY field_order ASC" );
+
+		// Migrate potential signup fields.
+		if ( $signup_fields ) {
+			$signup_position = 0;
+			foreach ( $signup_fields as $signup_field_id ) {
+				$signup_position += 1;
+
+				$wpdb->insert(
+					$bp_prefix . 'bp_xprofile_meta',
+					array(
+						'object_id'   => $signup_field_id,
+						'object_type' => 'field',
+						'meta_key'    => 'signup_position',
+						'meta_value'  => $signup_position,
+					),
+					array(
+						'%d',
+						'%s',
+						'%s',
+						'%d',
+					)
+				);
+			}
+		}
+	}
 }
 
 /**

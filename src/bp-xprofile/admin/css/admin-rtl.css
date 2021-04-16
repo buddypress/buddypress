@@ -62,6 +62,10 @@ ul#field-group-tabs li.ui-state-active a.ui-tab {
 	color: #000;
 }
 
+li#signup-group a:focus {
+	box-shadow: none;
+}
+
 /* Toolbar */
 .tab-toolbar {
 	clear: right;

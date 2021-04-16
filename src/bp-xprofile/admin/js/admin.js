@@ -96,9 +96,13 @@ function show_options( forWhat ) {
 	}
 
 	// Show/hides metaboxes according to selected field type supports.
-	jQuery( '#field-type-visibiliy-metabox, #field-type-required-metabox, #field-type-autolink-metabox, #field-type-member-types' ).show();
+	jQuery( '#field-type-visibiliy-metabox, #field-type-required-metabox, #field-type-autolink-metabox, #field-type-member-types, #field-signup-position-metabox' ).show();
 	if ( -1 !== XProfileAdmin.hide_required_metabox.indexOf( forWhat ) ) {
 		jQuery( '#field-type-required-metabox' ).hide();
+	}
+
+	if ( -1 !== XProfileAdmin.hide_signup_position_metabox.indexOf( forWhat ) ) {
+		jQuery( '#field-signup-position-metabox' ).hide();
 	}
 
 	if ( -1 !== XProfileAdmin.hide_allow_custom_visibility_metabox.indexOf( forWhat ) ) {
@@ -207,6 +211,7 @@ function titleHint( id ) {
 }
 
 jQuery( function() {
+	var isMovingToSignups = false;
 
 	// Set focus in Field Title, if we're on the right page.
 	jQuery( '#bp-xprofile-add-field #title' ).trigger( 'focus' );
@@ -248,7 +253,7 @@ jQuery( function() {
 		cursor: 'move',
 		axis: 'x',
 		opacity: 1,
-		items: 'li',
+		items: 'li:not(.not-sortable)',
 		tolerance: 'intersect',
 
 		update: function() {
@@ -270,6 +275,10 @@ jQuery( function() {
 		tolerance: 'pointer',
 
 		update: function() {
+			if ( isMovingToSignups ) {
+				return false;
+			}
+
 			jQuery.post( ajaxurl, {
 				action: 'xprofile_reorder_fields',
 				'cookie': encodeURIComponent(document.cookie),
@@ -348,41 +357,119 @@ jQuery( function() {
 			// When field is dropped on tab.
 			drop: function( ev, ui ) {
 				var $item = jQuery(this), // The tab
-					$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' ); // The tab body
+					$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' ), // The tab body
+					dropInGroup = function( fieldId ) {
+						var fieldOrder, postData = {
+							action: 'xprofile_reorder_fields',
+							'cookie': encodeURIComponent(document.cookie),
+							'_wpnonce_reorder_fields': jQuery( 'input#_wpnonce_reorder_fields' ).val()
+						};
+
+						// Select new tab as current.
+						$tabs.tabs( 'option', 'active', $tab_items.index( $item ) );
+
+						// Refresh $list variable.
+						$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );
+						jQuery($list).find( 'p.nofields' ).hide( 'slow' );
+
+						jQuery.extend( postData, {
+							'field_group_id': jQuery( $list ).attr( 'id' ),
+							'group_tab': jQuery( $item ).prop( 'id' )
+						} );
+
+						// Set serialized data
+						fieldOrder = jQuery( $list ).sortable( 'serialize' );
+
+						if ( fieldId ) {
+							var serializedField = fieldId.replace( 'draggable_field_', 'draggable_signup_field[]=' );
+							if ( fieldOrder ) {
+								fieldOrder += '&' + serializedField;
+							} else {
+								fieldOrder = serializedField;
+							}
+
+							jQuery.extend( postData, {
+								'new_signup_field_id': serializedField
+							} );
+						} else {
+							// Show new placement.
+							jQuery( this ).appendTo( $list ).show( 'slow' ).animate( { opacity: '1' }, 500 );
+
+							// Refresh $list variable.
+							$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );
+
+							// Reset serialized data.
+							fieldOrder = jQuery( $list ).sortable( 'serialize' );
+
+							jQuery.extend( postData, {
+								'field_group_id': jQuery( $list ).attr( 'id' )
+							} );
+						}
+
+						jQuery.extend( postData, {
+							'field_order': fieldOrder
+						} );
+
+						// Ajax update field locations and orders.
+						jQuery.post( ajaxurl, postData, function( response ) {
+							if ( response.data && response.data.signup_field ) {
+								jQuery( $list ).append( response.data.signup_field );
+
+								if ( response.data.field_id ) {
+									jQuery( '#draggable_field_' + response.data.field_id + ' legend' ).append(
+										jQuery( '<span></span>' ).addClass( 'bp-signup-field-label' ).html( XProfileAdmin.signup_info )
+									);
+								}
+							}
+						}, 'json' ).always( function() {
+							isMovingToSignups = false;
+						} );
+					};
 
 				// Remove helper class.
 				jQuery($item).removeClass( 'drop-candidate' );
 
-				// Hide field, change selected tab, and show new placement.
-				ui.draggable.hide( 'slow', function() {
+				if ( 'signup-group' === jQuery( $item ).prop( 'id' ) ) {
+					// Simply add the field to signup ones.
+					dropInGroup( ui.draggable.prop( 'id' ) );
 
-					// Select new tab as current.
-					$tabs.tabs( 'option', 'active', $tab_items.index( $item ) );
-
-					// Show new placement.
-					jQuery(this).appendTo($list).show( 'slow' ).animate( {opacity: '1'}, 500 );
-
-					// Refresh $list variable.
-					$list = jQuery( $item.find( 'a' ).attr( 'href' ) ).find( '.connectedSortable' );
-					jQuery($list).find( 'p.nofields' ).hide( 'slow' );
-
-					// Ajax update field locations and orders.
-					jQuery.post( ajaxurl, {
-						action: 'xprofile_reorder_fields',
-						'cookie': encodeURIComponent(document.cookie),
-						'_wpnonce_reorder_fields': jQuery( 'input#_wpnonce_reorder_fields' ).val(),
-						'field_order': jQuery( $list ).sortable( 'serialize' ),
-						'field_group_id': jQuery( $list ).attr( 'id' )
-					},
-					function() {} );
-				});
+				} else if ( ! ui.draggable.prop( 'id' ).match( /draggable_signup_field_([0-9]+)/ ) ) {
+					// Hide field, change selected tab, and show new placement.
+					ui.draggable.hide( 'slow', dropInGroup );
+				}
 			},
 			over: function() {
+				isMovingToSignups = true;
 				jQuery(this).addClass( 'drop-candidate' );
 			},
 			out: function() {
 				jQuery(this).removeClass( 'drop-candidate' );
+				isMovingToSignups = false;
 			}
 		});
 	}
+
+	jQuery( '#signup-fields' ).on( 'click', '.removal', function( e ) {
+		e.preventDefault();
+
+		var fieldId = jQuery( e.target ).attr( 'href' ).replace( '#remove_field-', '' ),
+		    container = jQuery( e.target ).closest( '#draggable_signup_field_' + fieldId );
+
+		if ( ! fieldId ) {
+			return false;
+		}
+
+		// Ajax update field locations and orders.
+		jQuery.post( ajaxurl, {
+			action: 'xprofile_remove_signup_field',
+			'cookie': encodeURIComponent(document.cookie),
+			'_wpnonce_reorder_fields': jQuery( 'input#_wpnonce_reorder_fields' ).val(),
+			'signup_field_id': fieldId
+		}, function( response ) {
+			if ( response.success ) {
+				jQuery( container ).remove();
+				jQuery( '#draggable_field_' + fieldId + ' .bp-signup-field-label' ).remove();
+			}
+		}, 'json' );
+	} );
 });

@@ -188,6 +188,14 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 					<?php endforeach; endif; ?>
 
+					<?php if ( bp_get_signup_allowed() ) : ?>
+						<li id="signup-group" class="not-sortable last">
+							<a href="#tabs-signup-group" class="ui-tab">
+								<?php esc_html_e( 'Signup Fields', 'buddypress' ); ?>
+							</a>
+						</li>
+					<?php endif; ?>
+
 				</ul>
 
 				<?php if ( !empty( $groups ) ) : foreach ( $groups as $group ) :
@@ -294,12 +302,6 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 						</fieldset>
 
-						<?php if ( empty( $group->can_delete ) ) : ?>
-
-							<p><?php esc_html_e( '* Fields in this group appear on the signup page.', 'buddypress' ); ?></p>
-
-						<?php endif; ?>
-
 					</div>
 
 				<?php endforeach; else : ?>
@@ -309,10 +311,73 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 				<?php endif; ?>
 
+				<?php
+				// List fields to use into the signup form.
+				if ( bp_get_signup_allowed() ) {
+					$signup_groups = bp_xprofile_get_groups(
+						array(
+							'fetch_fields'       => true,
+							'signup_fields_only' => true,
+						)
+					);
+					$has_signup_fields   = false;
+					$signup_fields       = array();
+					$signup_fields_order = bp_xprofile_get_signup_field_ids();
+					?>
+					<div id="tabs-signup-group"" class="tab-wrapper">
+						<div class="tab-toolbar">
+							<p class="description"><?php esc_html_e( 'Drag fields from other groups and drop them on the above tab to include them into your registration form.', 'buddypress' ); ?></a>
+						</div>
+						<fieldset id="signup-fields" class="connectedSortable field-group" aria-live="polite" aria-atomic="true" aria-relevant="all">
+							<legend class="screen-reader-text">
+								<?php esc_html_e( 'Fields to use into the registration form', 'buddypress' );?>
+							</legend>
+
+							<?php
+							if ( ! empty( $signup_groups ) ) {
+								foreach ( $signup_groups as $signup_group ) {
+									if ( ! empty( $signup_group->fields ) ) {
+										$has_signup_fields = true;
+
+										foreach ( $signup_group->fields as $signup_field ) {
+											// Load the field.
+											$_signup_field = xprofile_get_field( $signup_field, null, false );
+
+											/**
+											 * This function handles the WYSIWYG profile field
+											 * display for the xprofile admin setup screen.
+											 */
+											$signup_fields[ $_signup_field->id ] = bp_xprofile_admin_get_signup_field( $_signup_field, $signup_group, '' );
+										}
+									}
+								}
+
+								// Output signup fields according to their signup position.
+								foreach ( $signup_fields_order as $ordered_signup_field_id ) {
+									if ( ! isset( $signup_fields[ $ordered_signup_field_id ] ) ) {
+										continue;
+									}
+
+									echo $signup_fields[ $ordered_signup_field_id ];
+								}
+							}
+
+							if ( ! $has_signup_fields ) {
+								?>
+								<p class="nodrag nofields"><?php esc_html_e( 'There are no registration fields set. The registration form uses the primary group by default.', 'buddypress' ); ?></p>
+								<?php
+							}
+							?>
+						</fieldset>
+
+						<p><?php esc_html_e( '* Fields in this group appear on the registration page.', 'buddypress' ); ?></p>
+					</div>
+					<?php
+				}
+				?>
 			</div>
 		</form>
 	</div>
-
 <?php
 }
 
@@ -580,10 +645,12 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				}
 
 				// Validate signup.
-				if ( ! empty( $_POST['signup-position'] ) ) {
-					bp_xprofile_update_field_meta( $field_id, 'signup_position', (int) $_POST['signup-position'] );
-				} else {
-					bp_xprofile_delete_meta( $field_id, 'field', 'signup_position' );
+				if ( $field->field_type_supports( 'signup_position' ) ) {
+					if ( ! empty( $_POST['signup-position'] ) ) {
+						bp_xprofile_update_field_meta( $field_id, 'signup_position', (int) $_POST['signup-position'] );
+					} else {
+						bp_xprofile_delete_meta( $field_id, 'field', 'signup_position' );
+					}
 				}
 
 				$do_autolink = '';
@@ -735,25 +802,160 @@ function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
  * Handles the ajax reordering of fields within a group.
  *
  * @since 1.0.0
+ * @since 8.0.0 Returns a JSON object.
  */
 function xprofile_ajax_reorder_fields() {
-
 	// Check the nonce.
 	check_admin_referer( 'bp_reorder_fields', '_wpnonce_reorder_fields' );
 
 	if ( empty( $_POST['field_order'] ) ) {
-		return false;
+		return wp_send_json_error();
 	}
 
-	parse_str( $_POST['field_order'], $order );
-
 	$field_group_id = $_POST['field_group_id'];
+	$group_tab      = '';
 
-	foreach ( (array) $order['draggable_field'] as $position => $field_id ) {
-		xprofile_update_field_position( (int) $field_id, (int) $position, (int) $field_group_id );
+	if ( isset( $_POST['group_tab'] ) && $_POST['group_tab'] ) {
+		$group_tab = wp_unslash( $_POST['group_tab'] );
+	}
+
+	if ( 'signup-fields' === $field_group_id ) {
+		parse_str( $_POST['field_order'], $order );
+		$fields = (array) $order['draggable_signup_field'];
+		$fields = array_map( 'intval', $fields );
+
+		if ( isset( $_POST['new_signup_field_id'] ) && $_POST['new_signup_field_id'] ) {
+			parse_str( $_POST['new_signup_field_id'], $signup_field );
+			$signup_fields = (array) $signup_field['draggable_signup_field'];
+		}
+
+		// Adding a new field to the registration form.
+		if ( 'signup-group' === $group_tab ) {
+			$field_id = (int) reset( $signup_fields );
+
+			// Load the field.
+			$field = xprofile_get_field( $field_id, null, false );
+
+			if ( $field instanceof BP_XProfile_Field ) {
+				// The field doesn't support the feature, stop right away!
+				if ( ! $field->field_type_supports( 'signup_position' ) ) {
+					wp_send_json_error(
+						array(
+							'message' => __( 'This field cannot be inserted into the registration form.', 'buddypress' ),
+						)
+					);
+				}
+
+				$signup_position = bp_xprofile_get_meta( $field->id, 'field', 'signup_position' );
+
+				if ( ! $signup_position ) {
+					$position = array_search( $field->id, $fields, true );
+					if ( false !== $position ) {
+						$position += 1;
+					} else {
+						$position = 1;
+					}
+
+					// Set the signup position.
+					bp_xprofile_update_field_meta( $field->id, 'signup_position', $position );
+
+					// Get the real Group object.
+					$group = xprofile_get_field_group( $field->id );
+
+					// Gets the HTML Output of the signup field.
+					$signup_field = bp_xprofile_admin_get_signup_field( $field, $group );
+
+					/**
+					 * Fires once a signup field has been inserted.
+					 *
+					 * @since 8.0.0
+					 */
+					do_action( 'bp_xprofile_inserted_signup_field' );
+
+					// Send the signup field to output.
+					wp_send_json_success(
+						array(
+							'signup_field' => $signup_field,
+							'field_id'     => $field->id,
+						)
+					);
+				} else {
+					wp_send_json_error(
+						array(
+							'message' => __( 'This field has been already added to the registration form.', 'buddypress' ),
+						)
+					);
+				}
+
+			} else {
+				wp_send_json_error();
+			}
+		} else {
+			// it's a sort operation.
+			foreach ( $fields as $position => $field_id ) {
+				bp_xprofile_update_field_meta( (int) $field_id, 'signup_position', (int) $position + 1 );
+			}
+
+			/**
+			 * Fires once the signup fields have been reordered.
+			 *
+			 * @since 8.0.0
+			 */
+			do_action( 'bp_xprofile_reordered_signup_fields' );
+
+			wp_send_json_success();
+		}
+	} else {
+		/**
+		 * @todo there's something going wrong here.
+		 * moving a field to another tab when there's only the fullname field fails.
+		 */
+		parse_str( $_POST['field_order'], $order );
+		$fields = (array) $order['draggable_field'];
+
+		foreach ( $fields as $position => $field_id ) {
+			xprofile_update_field_position( (int) $field_id, (int) $position, (int) $field_group_id );
+		}
+
+		wp_send_json_success();
 	}
 }
 add_action( 'wp_ajax_xprofile_reorder_fields', 'xprofile_ajax_reorder_fields' );
+
+/**
+ * Removes a field from signup fields.
+ *
+ * @since 8.0.0
+ */
+function bp_xprofile_ajax_remove_signup_field() {
+	// Check the nonce.
+	check_admin_referer( 'bp_reorder_fields', '_wpnonce_reorder_fields' );
+
+	if ( ! isset( $_POST['signup_field_id'] ) || ! $_POST['signup_field_id'] ) {
+		return wp_send_json_error();
+	}
+
+	$signup_field_id = (int) wp_unslash( $_POST['signup_field_id'] );
+
+	// Validate the field ID.
+	$signup_position = bp_xprofile_get_meta( $signup_field_id, 'field', 'signup_position' );
+
+	if ( ! $signup_position ) {
+		wp_send_json_error();
+	}
+
+	bp_xprofile_delete_meta( $signup_field_id, 'field', 'signup_position' );
+
+	/**
+	 * Fires when a signup field is removed from the signup form.
+	 *
+	 * @since 8.0.0
+	 */
+	do_action( 'bp_xprofile_removed_signup_field' );
+
+	wp_send_json_success();
+}
+add_action( 'wp_ajax_xprofile_remove_signup_field', 'bp_xprofile_ajax_remove_signup_field' );
 
 /**
  * Handles the reordering of field groups.
@@ -781,15 +983,18 @@ add_action( 'wp_ajax_xprofile_reorder_groups', 'xprofile_ajax_reorder_field_grou
  * Handles the WYSIWYG display of each profile field on the edit screen.
  *
  * @since 1.5.0
+ * @since 8.0.0 Adds the `$is_signup` parameter.
  *
  * @param BP_XProfile_Field   $admin_field Admin field.
  * @param object $admin_group Admin group object.
  * @param string $class       Classes to append to output.
+ * @param bool   $is_signup   Whether the admin field output is made inside the signup group.
  */
-function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
+function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_signup = false ) {
 	global $field;
 
-	$field = $admin_field;
+	$field       = $admin_field;
+	$fieldset_id = sprintf( 'draggable_field_%d', $field->id );
 
 	// Users admin URL.
 	$url = bp_get_admin_url( 'users.php' );
@@ -809,16 +1014,24 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 			'mode'     => 'delete_field',
 			'field_id' => (int) $field->id
 		), $url . '#tabs-' . (int) $field->group_id );
-	} ?>
+	}
 
-	<fieldset id="draggable_field_<?php echo esc_attr( $field->id ); ?>" class="sortable<?php echo ' ' . $field->type; if ( !empty( $class ) ) echo ' ' . $class; ?>">
+	// Avoid duplicate IDs into the signup group.
+	if ( $is_signup ) {
+		$fieldset_id = sprintf( 'draggable_signup_field_%d', $field->id );
+	}
+	?>
+
+	<fieldset id="<?php echo esc_attr( $fieldset_id ); ?>" class="sortable<?php echo ' ' . $field->type; if ( !empty( $class ) ) echo ' ' . $class; ?>">
 		<legend>
 			<span>
 				<?php bp_the_profile_field_name(); ?>
 
-				<?php if ( empty( $field->can_delete )                                    ) : ?><?php esc_html_e( '(Primary)', 'buddypress' ); endif; ?>
+				<?php if ( empty( $field->can_delete ) ) : ?><?php esc_html_e( '(Primary)', 'buddypress' ); endif; ?>
 				<?php bp_the_profile_field_required_label(); ?>
-				<?php if ( bp_xprofile_get_meta( $field->id, 'field', 'signup_position' ) ) : ?><?php esc_html_e( '(Sign-up)', 'buddypress' ); endif; ?>
+				<?php if ( bp_get_signup_allowed() && $field->get_signup_position() ) : ?>
+					<span class="bp-signup-field-label"><?php esc_html_e( '(Sign-up)', 'buddypress' );?></span>
+				<?php endif; ?>
 				<?php if ( bp_get_member_types() ) : echo $field->get_member_type_label(); endif; ?>
 
 				<?php
@@ -864,10 +1077,18 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 			<div class="actions">
 				<a class="button edit" href="<?php echo esc_url( $field_edit_url ); ?>"><?php _ex( 'Edit', 'Edit field link', 'buddypress' ); ?></a>
 
-				<?php if ( $field->can_delete ) : ?>
+				<?php if ( $field->can_delete && ! $is_signup ) : ?>
 
 					<div class="delete-button">
 						<a class="confirm submit-delete deletion" href="<?php echo esc_url( wp_nonce_url( $field_delete_url, 'bp_xprofile_delete_field-' . $field->id, 'bp_xprofile_delete_field' ) ); ?>"><?php _ex( 'Delete', 'Delete field link', 'buddypress' ); ?></a>
+					</div>
+
+				<?php endif; ?>
+
+				<?php if ( $field->can_delete && $is_signup ) : ?>
+
+					<div class="delete-button">
+						<a class="submit-delete removal" href="<?php echo esc_attr( sprintf( '#remove_field-%d', $field->id ) ); ?>"><?php echo esc_html_x( 'Remove', 'Remove field link', 'buddypress' ); ?></a>
 					</div>
 
 				<?php endif; ?>
@@ -887,8 +1108,38 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '' ) {
 			</div>
 		</div>
 	</fieldset>
-
 <?php
+}
+
+/**
+ * Handles the WYSIWYG display of signup profile fields on the edit screen.
+ *
+ * @since 8.0.0
+ *
+ * @param BP_XProfile_Field   $signup_field The field to use into the signup form.
+ * @param object $field_group The real field group object.
+ * @param string $class       Classes to append to output.
+ * @param bool   $echo        Whether to return or display the HTML output.
+ * @return string The HTML output.
+ */
+function bp_xprofile_admin_get_signup_field( $signup_field, $field_group = null, $class = '', $echo = false ) {
+	add_filter( 'bp_get_the_profile_field_input_name', 'bp_get_the_profile_signup_field_input_name' );
+
+	if ( ! $echo ) {
+		// Set up an output buffer.
+		ob_start();
+		xprofile_admin_field( $signup_field, $field_group, $class, true );
+		$output = ob_get_contents();
+		ob_end_clean();
+	} else {
+		xprofile_admin_field( $signup_field, $field_group, $class, true );
+	}
+
+	remove_filter( 'bp_get_the_profile_field_input_name', 'bp_get_the_profile_signup_field_input_name' );
+
+	if ( ! $echo ) {
+		return $output;
+	}
 }
 
 /**

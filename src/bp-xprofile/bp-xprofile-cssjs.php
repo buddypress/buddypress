@@ -57,10 +57,12 @@ function xprofile_add_admin_js() {
 			'hide_allow_custom_visibility_metabox' => array(),
 			'hide_required_metabox'                => array(),
 			'hide_member_types_metabox'            => array(),
+			'hide_signup_position_metabox'         => array(),
 			'text'                                 => array(
 				'defaultValue' => __( 'Default Value', 'buddypress' ),
 				'deleteLabel'  => __( 'Delete', 'buddypress' ),
 			),
+			'signup_info'                          => _x( '(Sign-up)', 'xProfile Group Admin Screen Signup field information', 'buddypress' ),
 		);
 
 		foreach ( bp_xprofile_get_field_types() as $field_type => $field_type_class ) {
