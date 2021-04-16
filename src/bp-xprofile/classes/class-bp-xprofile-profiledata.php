@@ -357,7 +357,7 @@ class BP_XProfile_ProfileData {
 				$cache_key = "{$user_id}:{$field_id}";
 
 				// If a value was found, cache it.
-				if ( isset( $queried_data[ $field_id ] ) ) {
+				if ( isset( $queried_data[ $field_id ] ) && ! isset( $field_type_objects[ $field_id ]->wp_user_key ) ) {
 					wp_cache_set( $cache_key, $queried_data[ $field_id ], 'bp_xprofile_data' );
 
 				// If no value was found, cache an empty item
@@ -365,7 +365,7 @@ class BP_XProfile_ProfileData {
 				} else {
 					$d = new stdClass;
 
-					// Check WordPress if it's a WordPress field.
+					// Check if it's a WordPress field.
 					if ( isset( $field_type_objects[ $field_id ]->wp_user_key ) ) {
 						$meta          = $field_type_objects[ $field_id ]->get_field_value( $user_id, $field_id );
 						$d->id         = $meta['id'];
@@ -373,11 +373,11 @@ class BP_XProfile_ProfileData {
 						$d->table_name = $meta['table_name'];
 
 					} else {
-						$d->id    = '';
-						$d->value = '';
+						$d->id         = '';
+						$d->value      = '';
+						$d->table_name = '';
 					}
 
-					$d->table_name   = '';
 					$d->user_id      = $user_id;
 					$d->field_id     = $field_id;
 					$d->last_updated = '';
