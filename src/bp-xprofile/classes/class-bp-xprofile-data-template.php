@@ -105,7 +105,7 @@ class BP_XProfile_Data_Template {
 	 *
 	 * @since 1.5.0
 	 * @since 2.4.0 Introduced `$member_type` argument.
-	 * @since 8.0.0 Introduced `$hide_field_types` argument.
+	 * @since 8.0.0 Introduced `$hide_field_types` & `$signup_fields_only` arguments.
 	 *
 	 * @param array|string $args {
 	 *     An array of arguments. All items are optional.
@@ -120,8 +120,9 @@ class BP_XProfile_Data_Template {
 	 *     @type array        $exclude_fields          Exclude these fields.
 	 *     @type int|bool     $hide_empty_fields       Should empty fields be skipped.
 	 *     @type int|bool     $fetch_visibility_level  Fetch visibility levels.
-	 *     @type int|bool     $update_meta_cache       Should metadata cache be updated.
 	 *     @type string[]     $hide_field_types        List of field types to hide form loop. Default: empty array.
+	 *     @type bool         $signup_fields_only      Whether to only return signup fields. Default: false.
+	 *     @type int|bool     $update_meta_cache       Should metadata cache be updated.
 	 * }
 	 */
 	public function __construct( $args = '' ) {
@@ -159,10 +160,51 @@ class BP_XProfile_Data_Template {
 			'exclude_groups'         => false,
 			'exclude_fields'         => false,
 			'hide_field_types'       => array(),
+			'signup_fields_only'     => false,
 			'update_meta_cache'      => true
 		) );
 
-		$this->groups      = bp_xprofile_get_groups( $r );
+		$groups = bp_xprofile_get_groups( $r );
+
+		if ( true === $r['signup_fields_only'] && bp_get_signup_allowed() ) {
+			$signup_fields_order       = bp_xprofile_get_signup_field_ids();
+			$signup_group              = new BP_XProfile_Group();
+			$signup_group->id          = 0;
+			$signup_group->name        = __( 'Signup Fields', 'buddypress' );
+			$signup_group->description = '';
+			$signup_group->can_delete  = 0;
+			$signup_group->group_order = 0;
+			$fields                    = array();
+			$signup_group->fields      = array();
+
+			// Get all group fields.
+			foreach ( $groups as $group ) {
+				if ( ! $group->fields ) {
+					continue;
+				}
+
+				// Populate fields using the field ID as key.
+				foreach ( $group->fields as $signup_field ) {
+					$fields[ $signup_field->id ] = $signup_field;
+				}
+			}
+
+			if ( $fields ) {
+				// Reorder signup fields.
+				foreach ( $signup_fields_order as $ordered_signup_field_id ) {
+					if ( ! isset( $fields[ $ordered_signup_field_id ] ) ) {
+						continue;
+					}
+
+					$signup_group->fields[] = $fields[ $ordered_signup_field_id ];
+				}
+			}
+
+			// Override groups with the signup one.
+			$groups = array( $signup_group );
+		}
+
+		$this->groups      = $groups;
 		$this->group_count = count( $this->groups );
 		$this->user_id     = $r['user_id'];
 	}

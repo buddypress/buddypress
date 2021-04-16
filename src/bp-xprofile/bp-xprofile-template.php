@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 2.4.0 Introduced `$member_type` argument.
- * @since 8.0.0 Introduced `$hide_field_types` argument.
+ * @since 8.0.0 Introduced `$hide_field_types` & `$signup_fields_only` arguments.
  *
  * @global object $profile_template
  * @see BP_XProfile_Group::get() for full description of `$args` array.
@@ -36,6 +36,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type int[]|bool   $exclude_groups         Default: false.
  *     @type int[]|bool   $exclude_fields         Default: false.
  *     @type string[]     $hide_field_types       Default: empty array.
+ *     @type bool         $signup_fields_only     Default: false.
  *     @type bool         $update_meta_cache      Default: true.
  * }
  *
@@ -68,6 +69,7 @@ function bp_has_profile( $args = '' ) {
 		'exclude_groups'         => false, // Comma-separated list of profile field group IDs to exclude.
 		'exclude_fields'         => false, // Comma-separated list of profile field IDs to exclude.
 		'hide_field_types'       => array(), // List of field types to hide from profile fields loop.
+		'signup_fields_only'     => false, // Whether to only return signup fields.
 		'update_meta_cache'      => true,
 	), 'has_profile' );
 

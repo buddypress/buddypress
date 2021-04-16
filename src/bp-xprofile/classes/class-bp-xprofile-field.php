@@ -140,6 +140,14 @@ class BP_XProfile_Field {
 	public $do_autolink;
 
 	/**
+	 * The signup position of the field into the signups form.
+	 *
+	 * @since 8.0.0
+	 * @var int
+	 */
+	public $signup_position;
+
+	/**
 	 * Field type option.
 	 *
 	 * @since 2.0.0
@@ -860,6 +868,22 @@ class BP_XProfile_Field {
 	}
 
 	/**
+	 * Get the field's signup position.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @return int the field's signup position.
+	 *             0 if the field has not been added to the signup form.
+	 */
+	public function get_signup_position() {
+		if ( ! isset( $this->signup_position ) ) {
+			$this->signup_position = (int) bp_xprofile_get_meta( $this->id, 'field', 'signup_position' );
+		}
+
+		return $this->signup_position;
+	}
+
+	/**
 	 * Get whether the field values should be auto-linked to a directory search.
 	 *
 	 * Lazy-loaded to reduce overhead.
@@ -1277,6 +1301,9 @@ class BP_XProfile_Field {
 							// Output the required metabox.
 							$this->required_metabox();
 
+							// Output signup position metabox.
+							$this->signup_position_metabox();
+
 							// Output the Member Types metabox.
 							$this->member_type_metabox();
 
@@ -1345,10 +1372,11 @@ class BP_XProfile_Field {
 	public function get_field_type_supports() {
 		$supports = array(
 			'switch_fieldtype'        => true,
-			'allow_required'          => true,
-			'allow_autolink'          => true,
+			'required'                => true,
+			'do_autolink'             => true,
 			'allow_custom_visibility' => true,
 			'member_types'            => true,
+			'signup_position'         => true,
 		);
 
 		if ( isset( $this->type_obj ) && $this->type_obj ) {
@@ -1502,11 +1530,13 @@ class BP_XProfile_Field {
 	 * Private method used to output field Member Type metabox.
 	 *
 	 * @since 2.4.0
+	 *
+	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function member_type_metabox() {
 
 		// The primary field is for all, so bail.
-		if ( 1 === (int) $this->id || ! $this->field_type_supports( 'member_types' ) ) {
+		if ( true === $this->is_default_field() || ! $this->field_type_supports( 'member_types' ) ) {
 			return;
 		}
 
@@ -1556,7 +1586,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @return void If default field id 1.
+	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function visibility_metabox() {
 
@@ -1605,7 +1635,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @return void If default field.
+	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function required_metabox() {
 
@@ -1632,7 +1662,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @return void If default field id 1.
+	 * @return void If the field does not support the feature.
 	 */
 	private function autolink_metabox() {
 
@@ -1706,6 +1736,46 @@ class BP_XProfile_Field {
 	}
 
 	/**
+	 * Output the metabox for setting the field's position into the signup form.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @return void If default field or if the field does not support the feature.
+	 */
+	private function signup_position_metabox() {
+		// Field types not supporting the feature cannot be added to signups form.
+		if ( ! $this->field_type_supports( 'signup_position' ) || true === $this->is_default_field() ) {
+			return;
+		}
+
+		$next_signup_position = 1;
+		$signup_position      = $this->get_signup_position();
+
+		if ( 0 === $signup_position ) {
+			$signup_fields_order = bp_xprofile_get_signup_field_ids();
+			$next_signup_position = count( $signup_fields_order ) + 1;
+		} else {
+			$next_signup_position = $signup_position;
+		}
+		?>
+
+		<div class="postbox" id="field-signup-position-metabox">
+			<h2><label for="default-visibility"><?php esc_html_e( 'Signups', 'buddypress' ); ?></label></h2>
+			<div class="inside">
+				<div>
+					<ul>
+						<li>
+							<input type="checkbox" id="has-signup-position" name="signup-position" value="<?php echo esc_attr( $next_signup_position ); ?>" <?php checked( $signup_position, $next_signup_position ); ?> />
+							<label for="has-signup-position"><?php esc_html_e( 'Use the field into the registration form.', 'buddypress' ); ?></label>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Output hidden fields used by default field.
 	 *
 	 * @since 2.3.0
@@ -1753,6 +1823,11 @@ class BP_XProfile_Field {
 					'name'  => 'fieldtype',
 					'id'    => 'fieldtype',
 					'value' => 'textbox',
+				),
+				array(
+					'name'  => 'signup-position',
+					'id'    => 'has-signup-position',
+					'value' => $this->get_signup_position(),
 				),
 			);
 		}

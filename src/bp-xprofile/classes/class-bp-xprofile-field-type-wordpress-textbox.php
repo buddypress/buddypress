@@ -144,6 +144,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 			$this->wp_user_key = self::get_field_settings( bp_get_the_profile_field_id() );
 		}
 
+		$field_value = '';
 		if ( 'user_url' === $this->wp_user_key ) {
 			if ( bp_displayed_user_id() ) {
 				$field_value = bp_get_displayed_user()->userdata->{$this->wp_user_key};

@@ -56,6 +56,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 		'do_autolink'             => false,
 		'allow_custom_visibility' => false,
 		'member_types'            => false,
+		'signup_position'         => true,
 	);
 
 	/**

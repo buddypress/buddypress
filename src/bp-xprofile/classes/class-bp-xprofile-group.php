@@ -238,31 +238,32 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.2.0
 	 * @since 2.4.0 Introduced `$member_type` argument.
-	 * @since 8.0.0 Introduced `$hide_field_types` argument.
+	 * @since 8.0.0 Introduced `$hide_field_types` & `$signup_fields_only` arguments.
 	 *
 	 * @global object $wpdb WordPress DB access object.
 	 *
 	 * @param array $args {
 	 *  Array of optional arguments:
-	 *      @type int          $profile_group_id  Limit results to a single profile group.
-	 *      @type int          $user_id           Required if you want to load a specific user's data.
-	 *                                            Default: displayed user's ID.
-	 *      @type array|string $member_type       Limit fields by those restricted to a given member type, or array of
-	 *                                            member types. If `$user_id` is provided, the value of `$member_type`
-	 *                                            will be overridden by the member types of the provided user. The
-	 *                                            special value of 'any' will return only those fields that are
-	 *                                            unrestricted by member type - i.e., those applicable to any type.
-	 *      @type bool         $hide_empty_groups True to hide groups that don't have any fields. Default: false.
-	 *      @type bool         $hide_empty_fields True to hide fields where the user has not provided data.
-	 *                                            Default: false.
-	 *      @type bool         $fetch_fields      Whether to fetch each group's fields. Default: false.
-	 *      @type bool         $fetch_field_data  Whether to fetch data for each field. Requires a $user_id.
-	 *                                            Default: false.
-	 *      @type int[]|bool   $exclude_groups    Comma-separated list or array of group IDs to exclude.
-	 *      @type int[]|bool   $exclude_fields    Comma-separated list or array of field IDs to exclude.
-	 *      @type string[]     $hide_field_types  List of field types to hide form loop. Default: empty array.
-	 *      @type bool         $update_meta_cache Whether to pre-fetch xprofilemeta for all retrieved groups, fields,
-	 *                                            and data. Default: true.
+	 *      @type int          $profile_group_id   Limit results to a single profile group.
+	 *      @type int          $user_id            Required if you want to load a specific user's data.
+	 *                                             Default: displayed user's ID.
+	 *      @type array|string $member_type        Limit fields by those restricted to a given member type, or array of
+	 *                                             member types. If `$user_id` is provided, the value of `$member_type`
+	 *                                             will be overridden by the member types of the provided user. The
+	 *                                             special value of 'any' will return only those fields that are
+	 *                                             unrestricted by member type - i.e., those applicable to any type.
+	 *      @type bool         $hide_empty_groups  True to hide groups that don't have any fields. Default: false.
+	 *      @type bool         $hide_empty_fields  True to hide fields where the user has not provided data.
+	 *                                             Default: false.
+	 *      @type bool         $fetch_fields       Whether to fetch each group's fields. Default: false.
+	 *      @type bool         $fetch_field_data   Whether to fetch data for each field. Requires a $user_id.
+	 *                                             Default: false.
+	 *      @type int[]|bool   $exclude_groups     Comma-separated list or array of group IDs to exclude.
+	 *      @type int[]|bool   $exclude_fields     Comma-separated list or array of field IDs to exclude.
+	 *      @type string[]     $hide_field_types   List of field types to hide form loop. Default: empty array.
+	 *      @type bool         $signup_fields_only Whether to only return signup fields. Default: false.
+	 *      @type bool         $update_meta_cache  Whether to pre-fetch xprofilemeta for all retrieved groups, fields,
+	 *                                             and data. Default: true.
 	 * }
 	 * @return array $groups
 	 */
@@ -283,6 +284,7 @@ class BP_XProfile_Group {
 			'exclude_fields'         => false,
 			'hide_field_types'       => array(),
 			'update_meta_cache'      => true,
+			'signup_fields_only'     => false,
 		) );
 
 		// Keep track of object IDs for cache-priming.
@@ -342,6 +344,10 @@ class BP_XProfile_Group {
 		// Pull field objects from the cache.
 		$fields = array();
 		foreach ( $field_ids as $field_id ) {
+			if ( true === $r['signup_fields_only'] && ! in_array( $field_id, bp_xprofile_get_signup_field_ids(), true ) ) {
+				continue;
+			}
+
 			$_field = xprofile_get_field( $field_id, null, false );
 
 			if ( in_array( $_field->type, $r['hide_field_types'], true ) ) {
