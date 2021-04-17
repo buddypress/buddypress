@@ -35,7 +35,7 @@
 				"grunt-sass": "~2.0.0",
 				"grunt-stylelint": "~0.15.0",
 				"matchdep": "~2.0.0",
-				"parcel-bundler": "~1.12.4",
+				"parcel-bundler": "~1.12.5",
 				"phplint": "^2.0.1",
 				"postcss-scss": "~2.0.0",
 				"stylelint": "~13.6.1",
@@ -13436,10 +13436,12 @@
 			"dev": true
 		},
 		"node_modules/parcel-bundler": {
-			"version": "1.12.4",
-			"resolved": "https://registry.npmjs.org/parcel-bundler/-/parcel-bundler-1.12.4.tgz",
-			"integrity": "sha512-G+iZGGiPEXcRzw0fiRxWYCKxdt/F7l9a0xkiU4XbcVRJCSlBnioWEwJMutOCCpoQmaQtjB4RBHDGIHN85AIhLQ==",
+			"version": "1.12.5",
+			"resolved": "https://registry.npmjs.org/parcel-bundler/-/parcel-bundler-1.12.5.tgz",
+			"integrity": "sha512-hpku8mW67U6PXQIenW6NBbphBOMb8XzW6B9r093DUhYj5GN2FUB/CXCiz5hKoPYUsusZ35BpProH8AUF9bh5IQ==",
+			"deprecated": "Parcel v1 is no longer maintained. Please migrate to v2, which is published under the 'parcel' package. See https://v2.parceljs.org/getting-started/migration for details.",
 			"dev": true,
+			"hasInstallScript": true,
 			"dependencies": {
 				"@babel/code-frame": "^7.0.0",
 				"@babel/core": "^7.4.4",
@@ -31946,9 +31948,9 @@
 			"dev": true
 		},
 		"parcel-bundler": {
-			"version": "1.12.4",
-			"resolved": "https://registry.npmjs.org/parcel-bundler/-/parcel-bundler-1.12.4.tgz",
-			"integrity": "sha512-G+iZGGiPEXcRzw0fiRxWYCKxdt/F7l9a0xkiU4XbcVRJCSlBnioWEwJMutOCCpoQmaQtjB4RBHDGIHN85AIhLQ==",
+			"version": "1.12.5",
+			"resolved": "https://registry.npmjs.org/parcel-bundler/-/parcel-bundler-1.12.5.tgz",
+			"integrity": "sha512-hpku8mW67U6PXQIenW6NBbphBOMb8XzW6B9r093DUhYj5GN2FUB/CXCiz5hKoPYUsusZ35BpProH8AUF9bh5IQ==",
 			"dev": true,
 			"requires": {
 				"@babel/code-frame": "^7.0.0",
