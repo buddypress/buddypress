@@ -672,6 +672,7 @@ window.bp = window.bp || {};
 		},
 
 		cleanFeedback: function() {
+			this.model.unset( 'errors', { silent: true } );
 			_.each( this.views._views[''], function( view ) {
 				if ( 'message' === view.$el.prop( 'id' ) ) {
 					view.remove();
@@ -777,7 +778,6 @@ window.bp = window.bp || {};
 					bp.Nouveau.inject( '#activity-stream ul.activity-list', response.activity, 'prepend' );
 				}
 			} ).fail( function( response ) {
-
 				self.model.set( 'errors', { type: 'error', value: response.message } );
 			} );
 		}
