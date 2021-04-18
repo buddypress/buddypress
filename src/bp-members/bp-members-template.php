@@ -2800,35 +2800,43 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
 	 * @return string
 	 */
 	function bp_get_members_component_link( $component, $action = '', $query_args = '', $nonce = false ) {
-
 		// Must be displayed user.
-		if ( !bp_displayed_user_id() )
+		if ( ! bp_displayed_user_id() ) {
 			return;
+		}
 
 		$bp = buddypress();
 
+		if ( 'xprofile' === $component ) {
+			$component = 'profile';
+		}
+
 		// Append $action to $url if there is no $type.
-		if ( !empty( $action ) )
+		if ( ! empty( $action ) ) {
 			$url = bp_displayed_user_domain() . $bp->{$component}->slug . '/' . $action;
-		else
+		} else {
 			$url = bp_displayed_user_domain() . $bp->{$component}->slug;
+		}
 
 		// Add a slash at the end of our user url.
 		$url = trailingslashit( $url );
 
 		// Add possible query arg.
-		if ( !empty( $query_args ) && is_array( $query_args ) )
+		if ( ! empty( $query_args ) && is_array( $query_args ) ) {
 			$url = add_query_arg( $query_args, $url );
+		}
 
 		// To nonce, or not to nonce...
-		if ( true === $nonce )
+		if ( true === $nonce ) {
 			$url = wp_nonce_url( $url );
-		elseif ( is_string( $nonce ) )
+		} elseif ( is_string( $nonce ) ) {
 			$url = wp_nonce_url( $url, $nonce );
+		}
 
 		// Return the url, if there is one.
-		if ( !empty( $url ) )
+		if ( ! empty( $url ) ) {
 			return $url;
+		}
 	}
 
 

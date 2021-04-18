@@ -102,7 +102,7 @@ function bp_members_admin_bar_user_admin_menu() {
 			'parent' => $bp->user_admin_menu_id,
 			'id'     => $bp->user_admin_menu_id . '-edit-profile',
 			'title'  => __( "Edit Profile", 'buddypress' ),
-			'href'   => bp_get_members_component_link( 'profile', 'edit' )
+			'href'   => bp_get_members_component_link( $bp->profile->id, 'edit' )
 		) );
 
 		// User Admin > Edit this user's avatar.
@@ -111,7 +111,7 @@ function bp_members_admin_bar_user_admin_menu() {
 				'parent' => $bp->user_admin_menu_id,
 				'id'     => $bp->user_admin_menu_id . '-change-avatar',
 				'title'  => __( "Edit Profile Photo", 'buddypress' ),
-				'href'   => bp_get_members_component_link( 'profile', 'change-avatar' )
+				'href'   => bp_get_members_component_link( $bp->profile->id, 'change-avatar' )
 			) );
 		}
 
@@ -121,7 +121,7 @@ function bp_members_admin_bar_user_admin_menu() {
 				'parent' => $bp->user_admin_menu_id,
 				'id'     => $bp->user_admin_menu_id . '-change-cover-image',
 				'title'  => __( 'Edit Cover Image', 'buddypress' ),
-				'href'   => bp_get_members_component_link( 'profile', 'change-cover-image' )
+				'href'   => bp_get_members_component_link( $bp->profile->id, 'change-cover-image' )
 			) );
 		}
 

@@ -950,6 +950,54 @@ function bp_core_get_component_search_query_arg( $component = null ) {
 }
 
 /**
+ * Get a list of all active component objects.
+ *
+ * @since 8.0.0
+ *
+ * @param array $args {
+ *     Optional. An array of key => value arguments to match against the component objects.
+ *     Default empty array.
+ *
+ *     @type string $name          Translatable name for the component.
+ *     @type string $id            Unique ID for the component.
+ *     @type string $slug          Unique slug for the component, for use in query strings and URLs.
+ *     @type bool   $has_directory True if the component has a top-level directory. False otherwise.
+ *     @type string $root_slug     Slug used by the component's directory page.
+ * }
+ * @param string $output   Optional. The type of output to return. Accepts 'ids'
+ *                         or 'objects'. Default 'ids'.
+ * @param string $operator Optional. The logical operation to perform. 'or' means only one
+ *                         element from the array needs to match; 'and' means all elements
+ *                         must match. Accepts 'or' or 'and'. Default 'and'.
+ * @return array A list of component ids or objects.
+ */
+function bp_core_get_active_components( $args = array(), $output = 'ids', $operator = 'and' ) {
+	$bp = buddypress();
+
+	$active_components = array_keys( $bp->active_components );
+
+	$xprofile_id = array_search( 'xprofile', $active_components, true );
+	if ( false !== $xprofile_id ) {
+		$active_components[ $xprofile_id ] = 'profile';
+	}
+
+	$components = array();
+	foreach ( $active_components as $id ) {
+		if ( isset( $bp->{$id} ) && $bp->{$id} instanceof BP_Component ) {
+			$components[ $id ] = $bp->{$id};
+		}
+	}
+
+	$components = wp_filter_object_list( $components, $args, $operator );
+
+	if ( 'ids' === $output ) {
+		$components = wp_list_pluck( $components, 'id' );
+	}
+
+	return $components;
+}
+
+/**
  * Determine whether BuddyPress should register the bp-themes directory.
  *
  * @since 1.9.0

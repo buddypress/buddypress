@@ -314,7 +314,7 @@ class BP_Members_Component extends BP_Component {
 
 		$access       = bp_core_can_edit_settings();
 		$slug         = bp_get_profile_slug();
-		$profile_link = bp_get_members_component_link( $slug );
+		$profile_link = bp_get_members_component_link( buddypress()->profile->id );
 
 		// Change Avatar.
 		if ( buddypress()->avatar->show_avatars ) {

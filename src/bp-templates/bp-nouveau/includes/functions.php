@@ -3,7 +3,7 @@
  * Common functions
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 8.0.0
  */
 
 // Exit if accessed directly.
@@ -237,12 +237,21 @@ function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $af
  * }
  */
 function bp_nouveau_wrapper( $args = array() ) {
- /**
-	* Classes need to be determined & set by component to a certain degree
-	*
-	* Check the component to find a default container_class to add
-	*/
-	$current_component_class = bp_current_component() . '-meta';
+	/**
+	 * Classes need to be determined & set by component to a certain degree.
+	 *
+	 * Check the component to find a default container_class based on the component ID to add.
+	 * We need to to this because bp_current_component() is using the component slugs which can differ
+	 * from the component ID.
+	 */
+	$current_component_id = bp_core_get_active_components( array( 'slug' => bp_current_component() ) );
+	if ( $current_component_id && 1 === count( $current_component_id ) ) {
+		$current_component_id = reset( $current_component_id );
+	} else {
+		$current_component_id = bp_current_component();
+	}
+
+	$current_component_class = $current_component_id . '-meta';
 
 	if ( bp_is_group_activity() ) {
 		$generic_class = ' activity-meta ';
@@ -255,7 +264,7 @@ function bp_nouveau_wrapper( $args = array() ) {
 		array(
 			'container'         => 'div',
 			'container_id'      => '',
-			'container_classes' => array( $generic_class, $current_component_class   ),
+			'container_classes' => array( $generic_class, $current_component_class ),
 			'output'            => '',
 		),
 		'nouveau_wrapper'
@@ -532,8 +541,9 @@ function bp_nouveau_get_component_filters( $context = '', $component = '' ) {
 	}
 
 	if ( empty( $component ) ) {
-		if ( 'directory' === $context || 'user' === $context ) {
-			$component = bp_current_component();
+		if ( 'user' === $context ) {
+			$component = bp_core_get_active_components( array( 'slug' => bp_current_component() ) );
+			$component = reset( $component );
 
 			if ( 'friends' === $component ) {
 				$context   = 'friends';
@@ -543,6 +553,8 @@ function bp_nouveau_get_component_filters( $context = '', $component = '' ) {
 			$component = 'activity';
 		} elseif ( 'group' === $context && bp_is_group_members() ) {
 			$component = 'members';
+		} else {
+			$component = bp_current_component();
 		}
 	}
 

@@ -3,7 +3,7 @@
  * Common template tags
  *
  * @since 3.0.0
- * @version 7.0.0
+ * @version 8.0.0
  */
 
 // Exit if accessed directly.
@@ -2068,14 +2068,21 @@ function bp_nouveau_current_object() {
 		}
 
 	} else {
-		$data_filter = bp_current_component();
+		$component_id = bp_current_component();
+		if ( ! bp_is_directory() ) {
+			$component_id = bp_core_get_active_components( array( 'slug' => $component_id ) );
+			$component_id = reset( $component_id );
+		}
+
+		$data_filter  = $component_id;
+
 		if ( 'friends' === $data_filter && bp_is_user_friend_requests() ) {
 			$data_filter = 'friend_requests';
 		}
 
 		$component['members_select']   = 'members-order-select';
 		$component['members_order_by'] = 'members-order-by';
-		$component['object']           = bp_current_component();
+		$component['object']           = $component_id;
 		$component['data_filter']      = $data_filter;
 	}
 
@@ -2232,7 +2239,7 @@ function bp_nouveau_filter_options() {
 	function bp_nouveau_get_filter_options() {
 		$output = '';
 
-		if ( 'notifications' === bp_current_component() ) {
+		if ( bp_get_notifications_slug() === bp_current_component() ) {
 			$output = bp_nouveau_get_notifications_filters();
 
 		} else {
