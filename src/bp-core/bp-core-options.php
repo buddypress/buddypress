@@ -90,11 +90,6 @@ function bp_get_default_options() {
 		// HeartBeat is on to refresh activities.
 		'_bp_enable_heartbeat_refresh'         => true,
 
-		/* BuddyBar **********************************************************/
-
-		// Force the BuddyBar.
-		'_bp_force_buddybar'                   => false,
-
 		/* Legacy *********************************************/
 
 		// Do not register the bp-default themes directory.
@@ -665,27 +660,6 @@ function bp_restrict_group_creation( $default = true ) {
 	 * @param bool $value Whether or not group creation is turned off.
 	 */
 	return (bool) apply_filters( 'bp_restrict_group_creation', (bool) bp_get_option( 'bp_restrict_group_creation', $default ) );
-}
-
-/**
- * Should the old BuddyBar be forced in place of the WP admin bar?
- *
- * @since 1.6.0
- *
- * @param bool $default Optional. Fallback value if not found in the database.
- *                      Default: true.
- * @return bool True if the BuddyBar should be forced on, otherwise false.
- */
-function bp_force_buddybar( $default = true ) {
-
-	/**
-	 * Filters whether or not BuddyBar should be forced in place of WP Admin Bar.
-	 *
-	 * @since 1.6.0
-	 *
-	 * @param bool $value Whether or not BuddyBar should be forced in place of WP Admin Bar.
-	 */
-	return (bool) apply_filters( 'bp_force_buddybar', (bool) bp_get_option( '_bp_force_buddybar', $default ) );
 }
 
 /**

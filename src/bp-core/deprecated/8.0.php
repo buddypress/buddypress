@@ -38,3 +38,20 @@ function bp_xprofile_new_avatar_activity( $user_id = 0 ) {
 	_deprecated_function( __FUNCTION__, '8.0.0', 'bp_members_new_avatar_activity()' );
 	return bp_members_new_avatar_activity( $user_id );
 }
+
+/**
+ * Should the old BuddyBar be forced in place of the WP admin bar?
+ *
+ * We deprecated the BuddyBar in v2.1.0, but have completely removed it in
+ * v8.0.
+ *
+ * @since 1.6.0
+ * @deprecated 8.0.0
+ *
+ * @return bool
+ */
+function bp_force_buddybar() {
+	_deprecated_function( __FUNCTION__, '8.0' );
+
+	return false;
+}

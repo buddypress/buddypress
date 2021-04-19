@@ -20,8 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @param int    $secondary_item_id The secondary item id.
  * @param int    $total_items       The total number of messaging-related notifications
  *                                  waiting for the user.
- * @param string $format            Return value format. 'string' for BuddyBar-compatible
- *                                  notifications; 'array' for WP Toolbar. Default: 'string'.
+ * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
  * @return string|array Formatted notifications.
  */
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {

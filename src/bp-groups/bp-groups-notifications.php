@@ -382,7 +382,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
  * @param int    $secondary_item_id The secondary item ID.
  * @param int    $total_items       The total number of messaging-related notifications
  *                                  waiting for the user.
- * @param string $format            'string' for BuddyBar-compatible notifications; 'array'
+ * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
  *                                  for WP Toolbar. Default: 'string'.
  * @return string
  */

@@ -19,8 +19,7 @@
  * @param int    $secondary_item_id The secondary item ID.
  * @param int    $total_items       The total number of messaging-related notifications
  *                                  waiting for the user.
- * @param string $format            'string' for BuddyBar-compatible notifications; 'array'
- *                                  for WP Toolbar. Default: 'string'.
+ * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
  * @return string
  */
 function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {

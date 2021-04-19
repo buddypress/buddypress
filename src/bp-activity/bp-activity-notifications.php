@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @param int    $item_id           The activity ID.
  * @param int    $secondary_item_id In the case of at-mentions, this is the mentioner's ID.
  * @param int    $total_items       The total number of notifications to format.
- * @param string $format            'string' to get a BuddyBar-compatible notification, 'array' otherwise.
+ * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
  * @param int    $id                Optional. The notification ID.
  * @return string $return Formatted @mention notification.
  */

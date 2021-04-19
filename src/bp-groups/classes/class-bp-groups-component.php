@@ -594,7 +594,7 @@ class BP_Groups_Component extends BP_Component {
 			bp_core_new_nav_item( array(
 				'name'                => __( 'Memberships', 'buddypress' ),
 				'slug'                => $this->current_group->slug,
-				'position'            => -1, // Do not show in BuddyBar.
+				'position'            => -1, // Do not show into the navigation.
 				'screen_function'     => 'groups_screen_group_home',
 				'default_subnav_slug' => $this->default_extension,
 				'item_css_id'         => $this->id

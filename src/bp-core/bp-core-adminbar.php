@@ -44,39 +44,20 @@ function bp_admin_bar_my_account_root() {
 add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
 
 /**
- * Handle the Toolbar/BuddyBar business.
+ * Toggle the display of the toolbar based on certain conditions.
  *
  * @since 1.2.0
  */
 function bp_core_load_admin_bar() {
-
 	// Show the Toolbar for logged out users.
 	if ( ! is_user_logged_in() && (int) bp_get_option( 'hide-loggedout-adminbar' ) != 1 ) {
 		show_admin_bar( true );
 	}
 
-	// Hide the WordPress Toolbar and show the BuddyBar.
+	// Hide the WordPress Toolbar.
 	if ( ! bp_use_wp_admin_bar() ) {
-		_doing_it_wrong( __FUNCTION__, __( 'The BuddyBar is no longer supported. Please migrate to the WordPress toolbar as soon as possible.', 'buddypress' ), '2.1.0' );
-
-		// Load deprecated code if not available.
-		if ( ! function_exists( 'bp_core_admin_bar' ) ) {
-			require buddypress()->plugin_dir . 'bp-core/deprecated/2.1.php';
-		}
-
 		// Keep the WP Toolbar from loading.
 		show_admin_bar( false );
-
-		// Actions used to build the BP Toolbar.
-		add_action( 'bp_adminbar_logo',  'bp_adminbar_logo'               );
-		add_action( 'bp_adminbar_menus', 'bp_adminbar_login_menu',    2   );
-		add_action( 'bp_adminbar_menus', 'bp_adminbar_account_menu',  4   );
-		add_action( 'bp_adminbar_menus', 'bp_adminbar_thisblog_menu', 6   );
-		add_action( 'bp_adminbar_menus', 'bp_adminbar_random_menu',   100 );
-
-		// Actions used to append BP Toolbar to footer.
-		add_action( 'wp_footer',    'bp_core_admin_bar', 8 );
-		add_action( 'admin_footer', 'bp_core_admin_bar'    );
 	}
 }
 add_action( 'init', 'bp_core_load_admin_bar', 9 );
