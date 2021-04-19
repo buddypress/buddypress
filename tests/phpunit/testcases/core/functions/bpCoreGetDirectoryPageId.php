@@ -3,6 +3,7 @@
 /**
  * @group core
  * @group BP7025
+ * @covers ::bp_core_get_directory_page_id
  */
 class BP_Tests_Core_BpCoreGetDirectoryPageId extends BP_UnitTestCase {
 	public function test_should_fall_back_on_current_component() {
