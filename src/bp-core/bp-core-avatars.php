@@ -362,7 +362,10 @@ function bp_core_fetch_avatar( $args = '' ) {
 	}
 
 	// Extra attributes.
-	$extra_attr = ! empty( $args['extra_attr'] ) ? ' ' . $args['extra_attr'] : '';
+	$extra_attr = '';
+	if ( ! empty( $params['extra_attr'] ) ) {
+		$extra_attr = ' ' . $params['extra_attr'];
+	}
 
 	// Set CSS ID and create html string.
 	$html_css_id = '';
