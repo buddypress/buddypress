@@ -307,14 +307,14 @@ TABLE OF CONTENTS:
 }
 
 body.tools-php .bp-tools dt {
-    font-size: 1.1em;
-    color: #646970;
-    font-weight: 600;
-    margin: 1em 0 0.5em 0;
+	font-size: 1.1em;
+	color: #646970;
+	font-weight: 600;
+	margin: 1em 0 0.5em 0;
 }
 
 body.tools-php .bp-tools dd {
-    margin: 0;
+	margin: 0;
 }
 
 /*
