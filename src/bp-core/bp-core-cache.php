@@ -415,3 +415,14 @@ function bp_clear_object_type_terms_cache( $type_id = 0, $taxonomy = '' ) {
 add_action( 'bp_type_inserted', 'bp_clear_object_type_terms_cache' );
 add_action( 'bp_type_updated', 'bp_clear_object_type_terms_cache' );
 add_action( 'bp_type_deleted', 'bp_clear_object_type_terms_cache' );
+
+/**
+ * Resets all incremented bp_optout caches.
+ *
+ * @since 8.0.0
+ */
+function bp_optouts_reset_cache_incrementor() {
+	bp_core_reset_incrementor( 'bp_optouts' );
+}
+add_action( 'bp_optout_after_save', 'bp_optouts_reset_cache_incrementor' );
+add_action( 'bp_optout_after_delete', 'bp_optouts_reset_cache_incrementor' );

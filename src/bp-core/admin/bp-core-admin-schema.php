@@ -40,6 +40,9 @@ function bp_core_install( $active_components = false ) {
 	// Install the invitations table.
 	bp_core_install_invitations();
 
+	// Install the nonmember opt-outs table.
+	bp_core_install_nonmember_opt_outs();
+
 	// Notifications.
 	if ( !empty( $active_components['notifications'] ) ) {
 		bp_core_install_notifications();
@@ -589,4 +592,39 @@ function bp_core_install_invitations() {
 	 * @since 5.0.0
 	 */
 	do_action( 'bp_core_install_invitations' );
+}
+
+/**
+ * Install database tables to store opt-out requests from nonmembers.
+ *
+ * @since 8.0.0
+ *
+ * @uses bp_core_set_charset()
+ * @uses bp_core_get_table_prefix()
+ * @uses dbDelta()
+ */
+function bp_core_install_nonmember_opt_outs() {
+	$sql             = array();
+	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
+	$bp_prefix       = bp_core_get_table_prefix();
+	$optouts_class   = new BP_Optout();
+	$table_name      = $optouts_class->get_table_name();
+	$sql = "CREATE TABLE {$table_name} (
+		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		email_address_hash varchar(255) NOT NULL,
+		user_id bigint(20) NOT NULL,
+		email_type varchar(255) NOT NULL,
+		date_modified datetime NOT NULL,
+		KEY user_id (user_id),
+		KEY email_type (email_type),
+		KEY date_modified (date_modified)
+		) {$charset_collate};";
+	dbDelta( $sql );
+
+	/**
+	 * Fires after BuddyPress adds the nonmember opt-outs table.
+	 *
+	 * @since 8.0.0
+	 */
+	do_action( 'bp_core_install_nonmember_opt_outs' );
 }

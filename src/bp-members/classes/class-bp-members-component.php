@@ -178,6 +178,7 @@ class BP_Members_Component extends BP_Component {
 			'global_tables'   => array(
 				'table_name_invitations'   => bp_core_get_table_prefix() . 'bp_invitations',
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
+				'table_name_optouts'       => bp_core_get_table_prefix() . 'bp_optouts',
 				'table_name_signups'       => $wpdb->base_prefix . 'signups', // Signups is a global WordPress table.
 			)
 		);

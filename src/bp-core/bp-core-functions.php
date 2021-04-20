@@ -4276,3 +4276,86 @@ function bp_get_widget_max_count_limit( $widget_class = '' ) {
 	 */
 	return apply_filters( 'bp_get_widget_max_count_limit', 50, $widget_class );
 }
+
+/**
+ * Add a new BP_Optout.
+ *
+ * @since 8.0.0
+ *
+ * @param array $args {
+ *     An array of arguments describing the new opt-out.
+ *     @type string $email_address Email address of user who has opted out.
+ *     @type int    $user_id       Optional. ID of user whose communication
+ *                                 prompted the user to opt-out.
+ *     @type string $email_type    Optional. Name of the email type that
+ *                                 prompted the user to opt-out.
+ *     @type string $date_modified Optional. Specify a time, else now will be used.
+ * }
+ * @return false|int False on failure, ID of new (or existing) opt-out if successful.
+ */
+function bp_add_optout( $args = array() ) {
+	$optout = new BP_Optout();
+	$r      = bp_parse_args(
+		$args, array(
+			'email_address' => '',
+			'user_id'       => 0,
+			'email_type'    => '',
+			'date_modified' => bp_core_current_time(),
+		),
+		'add_optout'
+	);
+
+	// Opt-outs must have an email address.
+	if ( empty( $r['email_address'] ) ) {
+		return false;
+	}
+
+	// Avoid creating duplicate opt-outs.
+	$optout_id = $optout->optout_exists(
+		array(
+			'email_address' => $r['email_address'],
+			'user_id'       => $r['user_id'],
+			'email_type'    => $r['email_type'],
+		)
+	);
+
+	if ( ! $optout_id ) {
+		// Set up the new opt-out.
+		$optout->email_address = $r['email_address'];
+		$optout->user_id       = $r['user_id'];
+		$optout->email_type    = $r['email_type'];
+		$optout->date_modified = $r['date_modified'];
+
+		$optout_id = $optout->save();
+	}
+
+	return $optout_id;
+}
+
+/**
+ * Find matching BP_Optouts.
+ *
+ * @since 8.0.0
+ *
+ * @see BP_Optout::get() for a description of parameters and return values.
+ *
+ * @param array $args See {@link BP_Optout::get()}.
+ * @return array See {@link BP_Optout::get()}.
+ */
+function bp_get_optouts( $args = array() ) {
+	$optout_class = new BP_Optout();
+	return $optout_class::get( $args );
+}
+
+/**
+ * Delete a BP_Optout by ID.
+ *
+ * @since 8.0.0
+ *
+ * @param int $id ID of the optout to delete.
+ * @return bool True on success, false on failure.
+ */
+function bp_delete_optout_by_id( $id = 0 ) {
+	$optout_class = new BP_Optout();
+	return $optout_class::delete_by_id( $id );
+}
