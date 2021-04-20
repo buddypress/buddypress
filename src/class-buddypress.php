@@ -598,6 +598,7 @@ class BuddyPress {
 			'BP_REST_Attachments'          => 'core',
 			'BP_Admin_Types'               => 'core',
 			'BP_Optout'                    => 'core',
+			'BP_Optouts_List_Table'        => 'core',
 
 			'BP_Core_Friends_Widget'   => 'friends',
 			'BP_REST_Friends_Endpoint' => 'friends',

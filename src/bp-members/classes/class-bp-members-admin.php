@@ -509,6 +509,8 @@ class BP_Members_Admin {
 			$this->user_page    .= '-network';
 			$this->users_page   .= '-network';
 			$this->signups_page .= '-network';
+
+			$this->members_optouts_page .= '-network';
 		}
 
 		// Setup the screen ID's.

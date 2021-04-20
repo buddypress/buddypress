@@ -84,6 +84,11 @@ function bp_core_modify_admin_menu_highlight() {
 	if ( in_array( $plugin_page, array( 'bp-tools', 'available-tools' ) ) ) {
 		$submenu_file = $plugin_page;
 	}
+
+	// Keep the BuddyPress tools menu highlighted.
+	if ( 'bp-optouts' === $plugin_page ) {
+		$submenu_file = 'bp-tools';
+	}
 }
 
 /**
@@ -472,6 +477,10 @@ function bp_core_get_admin_tabs( $active_tab = '', $context = 'settings' ) {
 			'0' => array(
 				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-tools' ), $tools_page ) ),
 				'name' => __( 'Repair', 'buddypress' ),
+			),
+			'1' => array(
+				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-optouts' ), $tools_page ) ),
+				'name' => __( 'Manage Opt-outs', 'buddypress' ),
 			),
 		);
 	}
