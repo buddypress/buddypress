@@ -22,6 +22,8 @@ function bp_core_admin_tools() {
 		<h1 class="wp-heading-inline"><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ) ?></h1>
 		<hr class="wp-header-end">
 
+		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Repair', 'buddypress' ), 'tools' ); ?></h2>
+
 		<p><?php esc_html_e( 'BuddyPress keeps track of various relationships between members, groups, and activity items.', 'buddypress' ); ?></p>
 		<p><?php esc_html_e( 'Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?></p>
 		<p><?php esc_html_e( 'Use the tools below to manually recalculate these relationships.', 'buddypress' ); ?>
@@ -541,18 +543,22 @@ function bp_core_admin_available_tools_intro() {
 	$page = bp_core_do_network_admin() ? 'admin.php' : 'tools.php' ;
 	$url  = add_query_arg( $query_arg, bp_get_admin_url( $page ) );
 	?>
-	<div class="card tool-box">
+	<div class="card tool-box bp-tools">
 		<h2><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ) ?></h2>
-		<p>
-			<?php esc_html_e( 'BuddyPress keeps track of various relationships between users, groups, and activity items. Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?>
-			<?php
-			printf(
-				/* translators: %s: the link to the BuddyPress repair tools */
-				esc_html_x( 'Use the %s to repair these relationships.', 'buddypress tools intro', 'buddypress' ),
-				'<a href="' . esc_url( $url ) . '">' . esc_html__( 'BuddyPress Tools', 'buddypress' ) . '</a>'
-			);
-			?>
-		</p>
+
+		<dl>
+			<dt><?php esc_html_e( 'Repair Tools', 'buddypress' ) ?></dt>
+			<dd>
+				<?php esc_html_e( 'BuddyPress keeps track of various relationships between users, groups, and activity items. Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?>
+				<?php
+				printf(
+					/* translators: %s: the link to the BuddyPress repair tools */
+					esc_html_x( 'Use the %s to repair these relationships.', 'buddypress tools intro', 'buddypress' ),
+					'<a href="' . esc_url( $url ) . '">' . esc_html__( 'BuddyPress Repair Tools', 'buddypress' ) . '</a>'
+				);
+				?>
+			</dd>
+		</dl>
 	</div>
 	<?php
 }

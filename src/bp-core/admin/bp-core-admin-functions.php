@@ -389,10 +389,13 @@ function bp_do_activation_redirect() {
  * Output the tabs in the admin area.
  *
  * @since 1.5.0
+ * @since 8.0.0 Adds the `$context` parameter.
  *
  * @param string $active_tab Name of the tab that is active. Optional.
+ * @param string $context    The context of use for the tabs. Defaults to 'settings'.
+ *                           Possible values are 'settings' & 'tools'.
  */
-function bp_core_admin_tabs( $active_tab = '' ) {
+function bp_core_admin_tabs( $active_tab = '', $context = 'settings' ) {
 	$tabs_html    = '';
 	$idle_class   = 'nav-tab';
 	$active_class = 'nav-tab nav-tab-active';
@@ -404,7 +407,7 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	 *
 	 * @param array $value Array of tabs to output to the admin area.
 	 */
-	$tabs = apply_filters( 'bp_core_admin_tabs', bp_core_get_admin_tabs( $active_tab ) );
+	$tabs = apply_filters( 'bp_core_admin_tabs', bp_core_get_admin_tabs( $active_tab, $context ) );
 
 	// Loop through tabs and build navigation.
 	foreach ( array_values( $tabs ) as $tab_data ) {
@@ -419,46 +422,70 @@ function bp_core_admin_tabs( $active_tab = '' ) {
 	 * Fires after the output of tabs for the admin area.
 	 *
 	 * @since 1.5.0
+	 * @since 8.0.0 Adds the `$context` parameter.
+	 *
+	 * @param string $context The context of use for the tabs.
 	 */
-	do_action( 'bp_admin_tabs' );
+	do_action( 'bp_admin_tabs', $context );
 }
 
 /**
  * Get the data for the tabs in the admin area.
  *
  * @since 2.2.0
+ * @since 8.0.0 Adds the `$context` parameter.
  *
  * @param string $active_tab Name of the tab that is active. Optional.
+ * @param string $context    The context of use for the tabs. Defaults to 'settings'.
+ *                           Possible values are 'settings' & 'tools'.
  * @return string
  */
-function bp_core_get_admin_tabs( $active_tab = '' ) {
-	$tabs = array(
-		'0' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) ),
-			'name' => __( 'Components', 'buddypress' ),
-		),
-		'2' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
-			'name' => __( 'Options', 'buddypress' ),
-		),
-		'1' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) ),
-			'name' => __( 'Pages', 'buddypress' ),
-		),
-		'3' => array(
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'admin.php' ) ),
-			'name' => __( 'Credits', 'buddypress' ),
-		),
-	);
+function bp_core_get_admin_tabs( $active_tab = '', $context = 'settings' ) {
+	$tabs = array();
+
+	if ( 'settings' === $context ) {
+		$tabs = array(
+			'0' => array(
+				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) ),
+				'name' => __( 'Components', 'buddypress' ),
+			),
+			'2' => array(
+				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
+				'name' => __( 'Options', 'buddypress' ),
+			),
+			'1' => array(
+				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) ),
+				'name' => __( 'Pages', 'buddypress' ),
+			),
+			'3' => array(
+				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'admin.php' ) ),
+				'name' => __( 'Credits', 'buddypress' ),
+			),
+		);
+	} elseif ( 'tools' === $context ) {
+		$tools_page = 'tools.php';
+		if ( bp_core_do_network_admin() ) {
+			$tools_page = 'admin.php';
+		}
+
+		$tabs = array(
+			'0' => array(
+				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-tools' ), $tools_page ) ),
+				'name' => __( 'Repair', 'buddypress' ),
+			),
+		);
+	}
 
 	/**
 	 * Filters the tab data used in our wp-admin screens.
 	 *
 	 * @since 2.2.0
+	 * @since 8.0.0 Adds the `$context` parameter.
 	 *
-	 * @param array $tabs Tab data.
+	 * @param array  $tabs    Tab data.
+	 * @param string $context The context of use for the tabs.
 	 */
-	return apply_filters( 'bp_core_get_admin_tabs', $tabs );
+	return apply_filters( 'bp_core_get_admin_tabs', $tabs, $context );
 }
 
 /** Help **********************************************************************/
