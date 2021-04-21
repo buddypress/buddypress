@@ -100,4 +100,85 @@
 		$this->set_current_user( $old_current_user );
 	}
 
+	public function test_bp_optouts_get_by_email_address_mismatched_case() {
+		$old_current_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$this->set_current_user( $u1 );
+
+		// Create a couple of optouts.
+		$args = array(
+			'email_address'     => 'ONE@wpfrost.org',
+			'user_id'           => $u1,
+			'email_type'        => 'annoyance'
+		);
+		$i1 = bp_add_optout( $args );
+		$args['email_address'] = 'two@WP.org';
+		$i2 = bp_add_optout( $args );
+
+		$get_args = array(
+			'email_address'  => 'one@WPfrost.org',
+			'fields'         => 'ids',
+		);
+		$optouts = bp_get_optouts( $get_args );
+		$this->assertEqualSets( array( $i1 ), $optouts );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+	public function test_bp_optouts_get_by_search_terms_mismatched_case() {
+		$old_current_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$this->set_current_user( $u1 );
+
+		// Create a couple of optouts.
+		$args = array(
+			'email_address'     => 'ONE@wpfrost.org',
+			'user_id'           => $u1,
+			'email_type'        => 'annoyance'
+		);
+		$i1 = bp_add_optout( $args );
+		$args['email_address'] = 'two@WP.org';
+		$i2 = bp_add_optout( $args );
+
+		$get_args = array(
+			'search_terms'   => 'one@wpfrost.org',
+			'fields'         => 'ids',
+		);
+		$optouts = bp_get_optouts( $get_args );
+		$this->assertEqualSets( array( $i1 ), $optouts );
+
+		$this->set_current_user( $old_current_user );
+	}
+
+
+	public function test_bp_optouts_get_by_email_address_mismatched_case_after_update() {
+		$old_current_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$this->set_current_user( $u1 );
+
+		// Create an opt-out.
+		$args = array(
+			'email_address'     => 'ONE@wpfrost.org',
+			'user_id'           => $u1,
+			'email_type'        => 'annoyance'
+		);
+		$i1 = bp_add_optout( $args );
+		// Update it.
+		$oo_class                = new BP_Optout( $i1 );
+		$oo_class->email_address = 'One@wpFrost.org';
+		$oo_class->save();
+
+		$get_args = array(
+			'email_address'  => 'one@WPfrost.org',
+			'fields'         => 'ids',
+		);
+		$optouts = bp_get_optouts( $get_args );
+		$this->assertEqualSets( array( $i1 ), $optouts );
+
+		$this->set_current_user( $old_current_user );
+	}
+
 }

@@ -212,8 +212,9 @@ class BP_Optout {
 	 */
 	protected static function _insert( $data = array(), $data_format = array() ) {
 		global $wpdb;
-		// We must hash the email address at insert.
-		$data['email_address_hash'] = wp_hash( $data['email_address_hash'] );
+		// We must lowercase and hash the email address at insert.
+		$email                      = strtolower( $data['email_address_hash'] );
+		$data['email_address_hash'] = wp_hash( $email );
 		return $wpdb->insert( BP_Optout::get_table_name(), $data, $data_format );
 	}
 
@@ -237,9 +238,10 @@ class BP_Optout {
 	protected static function _update( $data = array(), $where = array(), $data_format = array(), $where_format = array() ) {
 		global $wpdb;
 
-		// Ensure that a passed email address is hashed.
+		// Ensure that a passed email address is lowercased and hashed.
 		if ( ! empty( $data['email_address_hash'] ) && is_email( $data['email_address_hash'] ) ) {
-			$data['email_address_hash'] = wp_hash( $data['email_address_hash'] );
+			$email                      = strtolower( $data['email_address_hash'] );
+			$data['email_address_hash'] = wp_hash( $email );
 		}
 
 		return $wpdb->update( BP_Optout::get_table_name(), $data, $where, $data_format, $where_format );
@@ -296,6 +298,7 @@ class BP_Optout {
 
 			$email_clean = array();
 			foreach ( $emails as $email ) {
+				$email         = strtolower( $email );
 				$email_hash    = wp_hash( $email );
 				$email_clean[] = $wpdb->prepare( '%s', $email_hash );
 			}
@@ -330,6 +333,7 @@ class BP_Optout {
 		// search_terms.
 		if ( ! empty( $args['search_terms'] ) ) {
 			// Matching email_address is an exact match because of the hashing.
+			$args['search_terms']             = strtolower( $args['search_terms'] );
 			$search_terms_like                = wp_hash( $args['search_terms'] );
 			$where_conditions['search_terms'] = $wpdb->prepare( '( email_address_hash LIKE %s )', $search_terms_like );
 		}
