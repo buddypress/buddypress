@@ -28,9 +28,8 @@ function bp_core_admin_tools() {
 		<p><?php esc_html_e( 'Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?></p>
 		<p><?php esc_html_e( 'Use the tools below to manually recalculate these relationships.', 'buddypress' ); ?>
 		</p>
-		<p class="attention"><?php esc_html_e( 'Some of these tools create substantial database overhead. Avoid running more than one repair job at a time.', 'buddypress' ); ?></p>
 
-		<h2><?php esc_html_e( 'Activate checkboxe(s) to select the operation(s) to perform', 'buddypress' ); ?></h2>
+		<h2><?php esc_html_e( 'Select the operation to perform', 'buddypress' ); ?></h2>
 
 		<form class="settings" method="post" action="">
 
@@ -40,7 +39,7 @@ function bp_core_admin_tools() {
 				<?php foreach ( bp_admin_repair_list() as $item ) : ?>
 					<p>
 						<label for="<?php echo esc_attr( str_replace( '_', '-', $item[0] ) ); ?>">
-							<input type="checkbox" class="checkbox" name="<?php echo esc_attr( $item[0] ) . '" id="' . esc_attr( str_replace( '_', '-', $item[0] ) ); ?>" value="1" /> <?php echo esc_html( $item[1] ); ?>
+							<input type="radio" class="radio" name="bp-tools-run[]" id="<?php echo esc_attr( str_replace( '_', '-', $item[0] ) ); ?>" value="<?php echo esc_attr( $item[0] ); ?>" /> <?php echo esc_html( $item[1] ); ?>
 						</label>
 					</p>
 				<?php endforeach; ?>
@@ -81,7 +80,7 @@ function bp_admin_repair_handler() {
 	$messages = array();
 
 	foreach ( (array) bp_admin_repair_list() as $item ) {
-		if ( isset( $item[2] ) && isset( $_POST[$item[0]] ) && 1 === absint( $_POST[$item[0]] ) && is_callable( $item[2] ) ) {
+		if ( isset( $item[2] ) && isset( $_POST['bp-tools-run'] ) && in_array( $item[0], (array) $_POST['bp-tools-run'], true ) && is_callable( $item[2] ) ) {
 			$messages[] = call_user_func( $item[2] );
 		}
 	}
