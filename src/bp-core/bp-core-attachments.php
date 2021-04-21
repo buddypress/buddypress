@@ -467,8 +467,9 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 	 *                              Defaults to 'cover-image'
 	 *     @type string $file       The name of the file.
 	 * }
+	 * @param string $data          The requested data `url` or `path`.
 	 */
-	$pre_filter = apply_filters( 'bp_attachments_pre_get_attachment', null, $r );
+	$pre_filter = apply_filters( 'bp_attachments_pre_get_attachment', null, $r, $data );
 	if ( $pre_filter !== null ) {
 		return $pre_filter;
 	}
