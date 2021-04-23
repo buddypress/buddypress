@@ -553,6 +553,24 @@ function bp_update_to_2_7() {
 }
 
 /**
+ * Retuns needed the fullname field ID for an update task.
+ *
+ * @since 8.0.0
+ *
+ * @return int The fullname field ID.
+ */
+function bp_get_fullname_field_id_for_update() {
+	/**
+	 * The xProfile component is active by default on new installs, even if it
+	 * might be inactive during this update, we need to set the custom visibility
+	 * for the default field, in case the Administrator decides to reactivate it.
+	 */
+	global $wpdb;
+	$bp_prefix = bp_core_get_table_prefix();
+	return (int) $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp_prefix}bp_xprofile_fields WHERE name = %s", addslashes( bp_get_option( 'bp-xprofile-fullname-field-name' ) ) ) );
+}
+
+/**
  * 5.0.0 update routine.
  *
  * - Make sure the custom visibility is disabled for the default profile field.
@@ -569,7 +587,7 @@ function bp_update_to_5_0() {
 	 */
 	global $wpdb;
 	$bp_prefix = bp_core_get_table_prefix();
-	$field_id  = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp_prefix}bp_xprofile_fields WHERE name = %s", addslashes( bp_get_option( 'bp-xprofile-fullname-field-name' ) ) ) );
+	$field_id  = bp_get_fullname_field_id_for_update();
 
 	$wpdb->insert(
 		$bp_prefix . 'bp_xprofile_meta',
@@ -623,7 +641,10 @@ function bp_update_to_8_0() {
 		)
 	);
 
-	if ( bp_get_signup_allowed() ) {
+	// Check if we need to create default signup fields.
+	$field_id            = bp_get_fullname_field_id_for_update();
+	$has_signup_position = (bool) $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$bp_prefix}bp_xprofile_meta WHERE meta_key = 'signup_position' AND object_type = 'field' AND object_id = %d", $field_id ) );
+	if ( bp_get_signup_allowed() && ! $has_signup_position ) {
 		// Get the Primary Group's fields.
 		$signup_fields = $wpdb->get_col( "SELECT id FROM {$bp_prefix}bp_xprofile_fields WHERE group_id = 1 ORDER BY field_order ASC" );
 
