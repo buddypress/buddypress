@@ -3306,3 +3306,39 @@ function bp_members_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
 		'error'   => false
 	) );
 }
+
+/**
+ * Send welcome email on successful user activation.
+ *
+ * @since 8.0.0
+ *
+ * @param int $user_id The new user's ID
+ */
+function bp_send_welcome_email( $user_id = 0 ) {
+	if ( ! $user_id ) {
+		return;
+	}
+
+	$profile_url = bp_core_get_user_domain( $user_id );
+
+	/**
+	 * Use this filter to add/edit/remove tokens to use for your welcome email.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param array $value   An array of BP Email tokens.
+	 * @param int   $user_id The user ID.
+	 */
+	$welcome_tokens = apply_filters(
+		'bp_send_welcome_email_tokens',
+		array(
+			'displayname'      => bp_core_get_user_displayname( $user_id ),
+			'profile.url'      => $profile_url,
+			'lostpassword.url' => wp_lostpassword_url( $profile_url ),
+		),
+		$user_id
+	);
+
+	bp_send_email( 'core-user-activation', $user_id, array( 'tokens' => $welcome_tokens ) );
+}
+add_action( 'bp_core_activated_user', 'bp_send_welcome_email', 10, 1 );

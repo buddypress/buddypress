@@ -3728,6 +3728,14 @@ function bp_email_get_schema() {
 	 * @param array $emails The array of emails schema.
 	 */
 	return (array) apply_filters( 'bp_email_get_schema', array(
+		'core-user-activation' => array(
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_title'   => __( '[{{{site.name}}}] Welcome!', 'buddypress' ),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_content' => __( "Welcome to {{site.name}}!\n\nVisit your <a href=\"{{{profile.url}}}\">profile</a>, where you can tell us more about yourself, change your preferences, or make new connections, to get started.\n\nForgot your password? Don't worry, you can reset it with your email address from <a href=\"{{{lostpassword.url}}}\">this page</a> of our site", 'buddypress' ),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_excerpt' => __( "Welcome to {{site.name}}!\n\nVisit your profile, where you can tell us more about yourself, change your preferences, or make new connections, to get started: {{{profile.url}}}\n\nForgot your password? Don't worry, you can reset it with your email address from this page of our site: {{{lostpassword.url}}}", 'buddypress' ),
+		),
 		'activity-comment' => array(
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_title'   => __( '[{{{site.name}}}] {{poster.name}} replied to one of your updates', 'buddypress' ),
@@ -4000,6 +4008,10 @@ function bp_email_get_type_schema( $field = 'description' ) {
 		),
 	);
 
+	$core_user_activation = array(
+		'description'	=> __( 'Recipient has successfully activated an account.', 'buddypress' ),
+	);
+
 	$types = array(
 		'activity-comment'                   => $activity_comment,
 		'activity-comment-author'            => $activity_comment_author,
@@ -4017,6 +4029,7 @@ function bp_email_get_type_schema( $field = 'description' ) {
 		'settings-verify-email-change'       => $settings_verify_email_change,
 		'groups-membership-request-accepted' => $groups_membership_request_accepted,
 		'groups-membership-request-rejected' => $groups_membership_request_rejected,
+		'core-user-activation'               => $core_user_activation,
 	);
 
 	if ( $field !== 'all' ) {

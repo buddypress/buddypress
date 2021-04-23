@@ -624,6 +624,13 @@ function bp_update_to_8_0() {
 	global $wpdb;
 	$bp_prefix = bp_core_get_table_prefix();
 
+	// Install welcome email to email list.
+	add_filter( 'bp_email_get_schema', 'bp_core_get_8_0_upgrade_email_schema' );
+
+	bp_core_install_emails();
+
+	remove_filter( 'bp_email_get_schema', 'bp_core_get_8_0_upgrade_email_schema' );
+
 	// Update the `new_avatar` activity type's component to `members`.
 	$wpdb->update(
 		$bp_prefix . 'bp_activity',
@@ -674,6 +681,23 @@ function bp_update_to_8_0() {
 	}
 
 	bp_core_install_nonmember_opt_outs();
+}
+
+/**
+ * Select only the emails that need to be installed with version 8.0.
+ *
+ * @since 8.0.0
+ *
+ * @param array $emails The array of emails schema.
+ */
+function bp_core_get_8_0_upgrade_email_schema( $emails ) {
+	$new_emails = array();
+
+	if ( isset( $emails['core-user-activation'] ) ) {
+		$new_emails['core-user-activation'] = $emails['core-user-activation'];
+	}
+
+	return $new_emails;
 }
 
 /**
