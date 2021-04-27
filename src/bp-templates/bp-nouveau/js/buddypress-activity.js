@@ -839,7 +839,7 @@ window.bp = window.bp || {};
 		updateRssLink: function( event, data ) {
 			var rssLink = data.response.feed_url || '';
 
-			if ( rssLink && $( '#activity-rss-feed' ).length ) {
+			if ( rssLink && $( 'body:not(.bp-user) #activity-rss-feed' ).length ) {
 				$( '#activity-rss-feed' ).find( 'a' ).first().prop( 'href', rssLink );
 			}
 		}
