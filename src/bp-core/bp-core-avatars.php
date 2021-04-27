@@ -96,6 +96,39 @@ function bp_core_set_avatar_globals() {
 add_action( 'bp_setup_globals', 'bp_core_set_avatar_globals' );
 
 /**
+ * Checks whether a given gravatar is one of the default ones.
+ *
+ * @since 8.0.0
+ *
+ * @param string $d The name of the default gravatar.
+ * @return bool True if it's a default gravatar. False otherwise.
+ */
+function bp_core_is_default_gravatar( $d = '' ) {
+	if ( ! $d ) {
+		return false;
+	}
+
+	/** this filter is documented in wp-admin/options-discussion.php */
+	$gravatar_defaults = apply_filters(
+		'avatar_defaults',
+		array_fill_keys(
+			array(
+				'mystery',
+				'blank',
+				'gravatar_default',
+				'identicon',
+				'wavatar',
+				'monsterid',
+				'retro',
+			),
+			''
+		)
+	);
+
+	return isset( $gravatar_defaults[ $d ] );
+}
+
+/**
  * Get an avatar for a BuddyPress object.
  *
  * Supports avatars for users, groups, and blogs by default, but can be
@@ -644,15 +677,29 @@ function bp_core_fetch_avatar( $args = '' ) {
 			$url_args['r'] = strtolower( $params['rating'] );
 		}
 
+		/** This filter is documented in wp-includes/deprecated.php */
+		$d = apply_filters_deprecated(
+			'bp_core_avatar_default',
+			array( $default_grav, $params ),
+			'8.0.0',
+			'bp_core_avatar_gravatar_default||bp_core_default_avatar',
+			__( 'This filter was used for 2 different purposes. If your goal was to filter the default *Gravatar*, please use `bp_core_avatar_gravatar_default` instead. Otherwise, please use `bp_core_default_avatar` instead.', 'buddypress' )
+		);
+
+		if ( bp_core_is_default_gravatar( $d ) ) {
+			$default_grav = $d;
+		}
+
 		/**
 		 * Filters the Gravatar "d" parameter.
 		 *
 		 * @since 2.6.0
+		 * @since 8.0.0 The name of the filter was changed to `bp_core_avatar_gravatar_default`.
 		 *
 		 * @param string $default_grav The avatar default.
 		 * @param array  $params       The avatar's data.
 		 */
-		$default_grav = apply_filters( 'bp_core_avatar_default', $default_grav, $params );
+		$default_grav = apply_filters( 'bp_core_avatar_gravatar_default', $default_grav, $params );
 
 		// Only set default image if 'Gravatar Logo' is not requested.
 		if ( ! $params['force_default'] && 'gravatar_default' !== $default_grav ) {
@@ -1841,16 +1888,30 @@ function bp_core_avatar_default( $type = 'gravatar', $params = array() ) {
 		$avatar = '//www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=' . $size;
 	}
 
+	/** This filter is documented in wp-includes/deprecated.php */
+	$a = apply_filters_deprecated(
+		'bp_core_avatar_default',
+		array( $avatar, $params ),
+		'8.0.0',
+		'bp_core_avatar_gravatar_default||bp_core_default_avatar',
+		__( 'This filter was used for 2 different purposes. If your goal was to filter the default *Gravatar*, please use `bp_core_avatar_gravatar_default` instead. Otherwise, please use `bp_core_default_avatar` instead.', 'buddypress' )
+	);
+
+	if ( ! bp_core_is_default_gravatar( $a ) && false !== strpos( $avatar, '//' ) ) {
+		$avatar = $a;
+	}
+
 	/**
 	 * Filters the URL of the 'full' default avatar.
 	 *
 	 * @since 1.5.0
 	 * @since 2.6.0 Added `$params`.
+	 * @since 8.0.0 The name of the filter was changed to `bp_core_default_avatar`.
 	 *
 	 * @param string $avatar URL of the default avatar.
 	 * @param array  $params Params provided to bp_core_fetch_avatar().
 	 */
-	return apply_filters( 'bp_core_avatar_default', $avatar, $params );
+	return apply_filters( 'bp_core_default_avatar', $avatar, $params );
 }
 
 /**

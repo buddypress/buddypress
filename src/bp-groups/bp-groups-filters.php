@@ -69,7 +69,7 @@ add_filter( 'bp_get_total_group_count_for_user', 'bp_core_number_format' );
 add_filter( 'bp_activity_at_name_do_notifications', 'bp_groups_disable_at_mention_notification_for_non_public_groups', 10, 4 );
 
 // Default group avatar.
-add_filter( 'bp_core_avatar_default',       'bp_groups_default_avatar', 10, 3 );
+add_filter( 'bp_core_default_avatar',       'bp_groups_default_avatar', 10, 3 );
 add_filter( 'bp_core_avatar_default_thumb', 'bp_groups_default_avatar', 10, 3 );
 
 // Personal data export.
