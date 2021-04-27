@@ -3,7 +3,7 @@
  * BuddyPress - Members Settings ( Profile )
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 8.0.0
  */
 
 bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
@@ -16,7 +16,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 	<?php esc_html_e( 'Select who may see your profile details.', 'buddypress' ); ?>
 </p>
 
-<form action="<?php echo esc_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/profile/' ); ?>" method="post" class="standard-form" id="settings-form">
+<form action="<?php echo esc_url( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'settings' ) . '/profile/' ); ?>" method="post" class="standard-form" id="settings-form">
 
 	<?php if ( bp_xprofile_get_settings_fields() ) : ?>
 

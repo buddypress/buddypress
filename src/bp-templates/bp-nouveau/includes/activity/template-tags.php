@@ -514,7 +514,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 			}
 
 			$buttons['activity_spam']['button_attr'][ $data_element ] = wp_nonce_url(
-				bp_get_root_domain() . '/' . bp_get_activity_slug() . '/spam/' . $activity_id . '/',
+				bp_get_root_domain() . '/' . bp_nouveau_get_component_slug( 'activity' ) . '/spam/' . $activity_id . '/',
 				'bp_activity_akismet_spam_' . $activity_id
 			);
 		}
@@ -842,7 +842,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 			}
 
 			$buttons['activity_comment_spam']['button_attr'][ $data_element ] = wp_nonce_url(
-				bp_get_root_domain() . '/' . bp_get_activity_slug() . '/spam/' . $activity_comment_id . '/?cid=' . $activity_comment_id,
+				bp_get_root_domain() . '/' . bp_nouveau_get_component_slug( 'activity' ) . '/spam/' . $activity_comment_id . '/?cid=' . $activity_comment_id,
 				'bp_activity_akismet_spam_' . $activity_comment_id
 			);
 		}

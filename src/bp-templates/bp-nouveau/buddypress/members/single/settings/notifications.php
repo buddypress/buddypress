@@ -16,7 +16,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 	<?php _e( 'Set your email notification preferences.', 'buddypress' ); ?>
 </p>
 
-<form action="<?php echo esc_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/notifications' ); ?>" method="post" class="standard-form" id="settings-form">
+<form action="<?php echo esc_url( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'settings' ) . '/notifications' ); ?>" method="post" class="standard-form" id="settings-form">
 
 	<?php bp_nouveau_member_email_notice_settings(); ?>
 

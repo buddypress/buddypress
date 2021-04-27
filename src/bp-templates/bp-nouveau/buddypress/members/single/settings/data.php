@@ -3,7 +3,7 @@
  * BuddyPress - Members Settings (Export Data)
  *
  * @since 3.1.0
- * @version 3.1.0
+ * @version 8.0.0
  */
 
 bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
@@ -63,7 +63,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 </h2>
 
 <?php /* translators: Link to Delete Account Settings page */ ?>
-<p><?php esc_html_e( 'To erase all data associated with your account, your user account must be completely deleted.', 'buddypress' ); ?> <?php if ( bp_disable_account_deletion() ) : ?><?php esc_html_e( 'Please contact the site administrator to request account deletion.', 'buddypress' ); ?><?php else : ?><?php printf( esc_html__( 'You may delete your account by visiting the %s page.', 'buddypress' ), sprintf( '<a href="%s">%s</a>', bp_displayed_user_domain() . bp_get_settings_slug() . '/delete-account/', esc_html__( 'Delete Account', 'buddypress' ) ) ); ?><?php endif; ?></p>
+<p><?php esc_html_e( 'To erase all data associated with your account, your user account must be completely deleted.', 'buddypress' ); ?> <?php if ( bp_disable_account_deletion() ) : ?><?php esc_html_e( 'Please contact the site administrator to request account deletion.', 'buddypress' ); ?><?php else : ?><?php printf( esc_html__( 'You may delete your account by visiting the %s page.', 'buddypress' ), sprintf( '<a href="%s">%s</a>', bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'settings' ) . '/delete-account/', esc_html__( 'Delete Account', 'buddypress' ) ) ); ?><?php endif; ?></p>
 
 <?php
 bp_nouveau_member_hook( 'after', 'settings_template' );

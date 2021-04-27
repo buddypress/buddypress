@@ -3,7 +3,7 @@
  * Activity functions
  *
  * @since 3.0.0
- * @version 7.0.0
+ * @version 8.0.0
  */
 
 // Exit if accessed directly.
@@ -226,7 +226,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 				'component' => 'activity',
 				'slug'      => 'favorites', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array(),
-				'link'      => bp_loggedin_user_domain() . bp_get_activity_slug() . '/favorites/',
+				'link'      => bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/favorites/',
 				'text'      => __( 'My Favorites', 'buddypress' ),
 				'count'     => false,
 				'position'  => 35,
@@ -239,7 +239,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 				'component' => 'activity',
 				'slug'      => 'friends', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array( 'dynamic' ),
-				'link'      => bp_loggedin_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() . '/',
+				'link'      => bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/' . bp_nouveau_get_component_slug( 'friends' ) . '/',
 				'text'      => __( 'My Friends', 'buddypress' ),
 				'count'     => '',
 				'position'  => 15,
@@ -252,7 +252,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 				'component' => 'activity',
 				'slug'      => 'groups', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array( 'dynamic' ),
-				'link'      => bp_loggedin_user_domain() . bp_get_activity_slug() . '/' . bp_get_groups_slug() . '/',
+				'link'      => bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/' . bp_nouveau_get_component_slug( 'groups' ) . '/',
 				'text'      => __( 'My Groups', 'buddypress' ),
 				'count'     => '',
 				'position'  => 25,
@@ -272,7 +272,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 				'component' => 'activity',
 				'slug'      => 'mentions', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array( 'dynamic' ),
-				'link'      => bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/',
+				'link'      => bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/mentions/',
 				'text'      => __( 'Mentions', 'buddypress' ),
 				'count'     => $count,
 				'position'  => 45,

@@ -116,7 +116,7 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 			/* translators: %s: number of message recipients */
 			'more' => __( '(and %d others)', 'buddypress' ),
 		),
-		'rootUrl' => parse_url( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ), PHP_URL_PATH ),
+		'rootUrl' => parse_url( trailingslashit( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'messages' ) ), PHP_URL_PATH ),
 	);
 
 	// Star private messages.
@@ -145,7 +145,7 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 function bp_nouveau_messages_adjust_nav() {
 	$bp = buddypress();
 
-	$secondary_nav_items = $bp->members->nav->get_secondary( array( 'parent_slug' => bp_get_messages_slug() ), false );
+	$secondary_nav_items = $bp->members->nav->get_secondary( array( 'parent_slug' => bp_nouveau_get_component_slug( 'messages' ) ), false );
 
 	if ( empty( $secondary_nav_items ) ) {
 		return;
@@ -157,11 +157,11 @@ function bp_nouveau_messages_adjust_nav() {
 		}
 
 		if ( 'notices' === $secondary_nav_item->slug ) {
-			bp_core_remove_subnav_item( bp_get_messages_slug(), $secondary_nav_item->slug, 'members' );
+			bp_core_remove_subnav_item( bp_nouveau_get_component_slug( 'messages' ), $secondary_nav_item->slug, 'members' );
 		} elseif ( 'compose' === $secondary_nav_item->slug ) {
 			$bp->members->nav->edit_nav( array(
 				'user_has_access' => bp_is_my_profile()
-			), $secondary_nav_item->slug, bp_get_messages_slug() );
+			), $secondary_nav_item->slug, bp_nouveau_get_component_slug( 'messages' ) );
 		}
 	}
 }
@@ -174,7 +174,7 @@ function bp_nouveau_messages_adjust_admin_nav( $admin_nav ) {
 		return $admin_nav;
 	}
 
-	$user_messages_link = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() );
+	$user_messages_link = trailingslashit( bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'messages' ) );
 
 	foreach ( $admin_nav as $nav_iterator => $nav ) {
 		$nav_id = str_replace( 'my-account-messages-', '', $nav['id'] );

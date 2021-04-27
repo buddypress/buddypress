@@ -1391,3 +1391,59 @@ function bp_nouveau_set_nav_item_order( $nav = null, $order = array(), $parent_s
 
 	return true;
 }
+
+/**
+ * Gets the component's slug thanks to its ID.
+ *
+ * @since 8.0.0
+ *
+ * @param string $component_id The component ID.
+ * @return string The slug for the requested component ID.
+ */
+function bp_nouveau_get_component_slug( $component_id = '' ) {
+	$slug = '';
+
+	if ( bp_is_active( $component_id ) ) {
+		switch ( $component_id ) {
+			case 'activity':
+				$slug = bp_get_activity_slug();
+				break;
+			case 'blogs':
+				$slug = bp_get_blogs_slug();
+				break;
+			case 'friends':
+				$slug = bp_get_friends_slug();
+				break;
+			case 'groups':
+				$slug = bp_get_groups_slug();
+				break;
+			case 'messages':
+				$slug = bp_get_messages_slug();
+				break;
+			case 'notifications':
+				$slug = bp_get_notifications_slug();
+				break;
+			case 'settings':
+				$slug = bp_get_settings_slug();
+				break;
+			case 'xprofile':
+				$slug = bp_get_profile_slug();
+				break;
+		}
+	}
+
+	// Defaults to the component ID.
+	if ( ! $slug ) {
+		$slug = $component_id;
+	}
+
+	/**
+	 * Filter here to edit the slug for the requested component ID.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param string $slug         The slug for the requested component ID.
+	 * @param string $component_id The component ID.
+	 */
+	return apply_filters( 'bp_nouveau_get_component_slug', $slug, $component_id );
+}

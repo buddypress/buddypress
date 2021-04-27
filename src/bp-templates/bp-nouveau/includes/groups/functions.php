@@ -424,7 +424,7 @@ function bp_nouveau_prepare_group_for_js( $item ) {
  * @since 3.0.0
  */
 function bp_nouveau_groups_invites_restriction_nav() {
-	$slug        = bp_get_settings_slug();
+	$slug        = bp_nouveau_get_component_slug( 'settings' );
 	$user_domain = bp_loggedin_user_domain();
 
 	if ( bp_displayed_user_domain() ) {
@@ -454,7 +454,7 @@ function bp_nouveau_groups_invites_restriction_nav() {
  */
 function bp_nouveau_groups_invites_restriction_admin_nav( $wp_admin_nav ) {
 	// Setup the logged in user variables.
-	$settings_link = trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() );
+	$settings_link = trailingslashit( bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'settings' ) );
 
 	// Add the "Group Invites" subnav item.
 	$wp_admin_nav[] = array(
@@ -495,7 +495,7 @@ function bp_nouveau_groups_screen_invites_restriction() {
 			bp_core_add_message( __( 'You are not allowed to perform this action.', 'buddypress' ), 'error' );
 		}
 
-		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_settings_slug() ) . 'invites/' );
+		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'settings' ) ) . 'invites/' );
 	}
 
 	/**
@@ -568,7 +568,7 @@ function bp_nouveau_get_groups_directory_nav_items() {
 				'component' => 'groups',
 				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array(),
-				'link'      => bp_loggedin_user_domain() . bp_get_groups_slug() . '/my-groups/',
+				'link'      => bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'groups' ) . '/my-groups/',
 				'text'      => __( 'My Groups', 'buddypress' ),
 				'count'     => $my_groups_count,
 				'position'  => 15,
