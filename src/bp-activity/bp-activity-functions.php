@@ -4265,3 +4265,24 @@ function bp_activity_personal_data_exporter( $email_address, $page ) {
 		'done' => $done,
 	);
 }
+
+/**
+ * Checks whether an activity feed is enabled.
+ *
+ * @since 8.0.0
+ *
+ * @param string $feed_id The feed identifier. Possible values are:
+ *                        'sitewide', 'personal', 'friends', 'mygroups', 'mentions', 'favorites'.
+ */
+function bp_activity_is_feed_enable( $feed_id = '' ) {
+	/**
+	 * Filters if BuddyPress should consider feeds enabled. If disabled, it will return early.
+	 *
+	 * @since 1.8.0
+	 * @since 8.0.0 Adds the `$feed_id` parameter.
+	 *
+	 * @param bool   $value   Defaults to true aka feeds are enabled.
+	 * @param string $feed_id The feed identifier.
+	 */
+	return (bool) apply_filters( 'bp_activity_enable_feeds', true, $feed_id );
+}

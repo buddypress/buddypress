@@ -3,9 +3,8 @@
  * BuddyPress - Users Activity
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 8.0.0
  */
-
 ?>
 
 <nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Activity menu', 'buddypress' ); ?>">
@@ -30,9 +29,7 @@
 
 	<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'member-activity-loading' ); ?></div>
 
-	<ul  class="<?php bp_nouveau_loop_classes(); ?>" >
-
-	</ul>
+	<ul class="<?php bp_nouveau_loop_classes(); ?>"></ul>
 
 </div><!-- .activity -->
 

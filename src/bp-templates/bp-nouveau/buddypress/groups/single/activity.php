@@ -3,9 +3,8 @@
  * BuddyPress - Groups Activity
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 8.0.0
  */
-
 ?>
 
 <h2 class="bp-screen-title<?php echo ( ! bp_is_group_home() ) ? ' bp-screen-reader-text' : ''; ?>">
@@ -17,21 +16,25 @@
 <div class="subnav-filters filters clearfix">
 
 	<ul>
-
-		<li class="feed"><a href="<?php bp_group_activity_feed_link(); ?>" class="bp-tooltip no-ajax" data-bp-tooltip="<?php esc_attr_e( 'RSS Feed', 'buddypress' ); ?>"><span class="bp-screen-reader-text"><?php esc_html_e( 'RSS', 'buddypress' ); ?></span></a></li>
+		<?php if ( bp_activity_is_feed_enable( 'group' ) ) : ?>
+			<li class="feed">
+				<a href="<?php bp_group_activity_feed_link(); ?>" class="bp-tooltip no-ajax" data-bp-tooltip="<?php esc_attr_e( 'RSS Feed', 'buddypress' ); ?>">
+					<span class="bp-screen-reader-text"><?php esc_html_e( 'RSS', 'buddypress' ); ?></span>
+				</a>
+			</li>
+		<?php endif; ?>
 
 		<li class="group-act-search"><?php bp_nouveau_search_form(); ?></li>
-
 	</ul>
 
-		<?php bp_get_template_part( 'common/filters/groups-screens-filters' ); ?>
+	<?php bp_get_template_part( 'common/filters/groups-screens-filters' ); ?>
 </div><!-- // .subnav-filters -->
 
 <?php bp_nouveau_group_hook( 'before', 'activity_content' ); ?>
 
 <div id="activity-stream" class="activity single-group" data-bp-list="activity">
 
-		<li id="bp-activity-ajax-loader"><?php bp_nouveau_user_feedback( 'group-activity-loading' ); ?></li>
+	<div id="bp-activity-ajax-loader"><?php bp_nouveau_user_feedback( 'group-activity-loading' ); ?></div>
 
 </div><!-- .activity -->
 

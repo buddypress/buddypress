@@ -87,94 +87,97 @@ class BP_Activity_Feed {
 	 * @param array $args Optional.
 	 */
 	public function __construct( $args = array() ) {
+		$feed_id = '';
 
-		/**
-		 * Filters if BuddyPress should consider feeds enabled. If disabled, it will return early.
-		 *
-		 * @since 1.8.0
-		 *
-		 * @param bool true Default true aka feeds are enabled.
-		 */
-		if ( false === (bool) apply_filters( 'bp_activity_enable_feeds', true ) ) {
+		if ( isset( $args['id'] ) ) {
+			$feed_id = sanitize_key( $args['id'] );
+		}
+
+		if ( false === bp_activity_is_feed_enable( $feed_id ) ) {
 			global $wp_query;
 
 			// Set feed flag to false.
 			$wp_query->is_feed = false;
 
-			return false;
+			$this->data = array(
+				'enabled' => false,
+			);
+		} else {
+			// Setup data.
+			$this->data = wp_parse_args( $args, array(
+				// Internal identifier for the RSS feed - should be alphanumeric only.
+				'id'               => '',
+
+				// RSS title - should be plain-text.
+				'title'            => '',
+
+				// Relevant link for the RSS feed.
+				'link'             => '',
+
+				// RSS description - should be plain-text.
+				'description'      => '',
+
+				// Time-to-live - number of minutes to cache the data before an aggregator
+				// requests it again.  This is only acknowledged if the RSS client supports it
+				//
+				// See: http://www.rssboard.org/rss-profile#element-channel-ttl.
+				// See: http://www.kbcafe.com/rss/rssfeedstate.html#ttl.
+				'ttl'              => '30',
+
+				// Syndication module - similar to ttl, but not really supported by RSS
+				// clients
+				//
+				// See: http://web.resource.org/rss/1.0/modules/syndication/#description.
+				// See: http://www.kbcafe.com/rss/rssfeedstate.html#syndicationmodule.
+				'update_period'    => 'hourly',
+				'update_frequency' => 2,
+
+				// Number of items to display.
+				'max'              => 50,
+
+				// Activity arguments passed to bp_has_activities().
+				'activity_args'    => array(),
+
+				// The activity feed is enabled.
+				'enabled'          => false,
+			) );
+
+			/**
+			 * Fires before the feed is setup so plugins can modify.
+			 *
+			 * @since 1.8.0
+			 *
+			 * @param BP_Activity_Feed $this Current instance of activity feed. Passed by reference.
+			 */
+			do_action_ref_array( 'bp_activity_feed_prefetch', array( &$this ) );
+
+			// Setup class properties.
+			$this->setup_properties();
+
+			// Check if id is valid.
+			if ( empty( $this->id ) ) {
+				_doing_it_wrong( 'BP_Activity_Feed', __( "RSS feed 'id' must be defined", 'buddypress' ), 'BP 1.8' );
+				return false;
+			}
+
+			/**
+			 * Fires after the feed is setup so plugins can modify.
+			 *
+			 * @since 1.8.0
+			 *
+			 * @param BP_Activity_Feed $this Current instance of activity feed. Passed by reference.
+			 */
+			do_action_ref_array( 'bp_activity_feed_postfetch', array( &$this ) );
+
+			// Setup feed hooks.
+			$this->setup_hooks();
+
+			// Output the feed.
+			$this->output();
+
+			// Kill the rest of the output.
+			die();
 		}
-
-		// Setup data.
-		$this->data = wp_parse_args( $args, array(
-			// Internal identifier for the RSS feed - should be alphanumeric only.
-			'id'               => '',
-
-			// RSS title - should be plain-text.
-			'title'            => '',
-
-			// Relevant link for the RSS feed.
-			'link'             => '',
-
-			// RSS description - should be plain-text.
-			'description'      => '',
-
-			// Time-to-live - number of minutes to cache the data before an aggregator
-			// requests it again.  This is only acknowledged if the RSS client supports it
-			//
-			// See: http://www.rssboard.org/rss-profile#element-channel-ttl.
-			// See: http://www.kbcafe.com/rss/rssfeedstate.html#ttl.
-			'ttl'              => '30',
-
-			// Syndication module - similar to ttl, but not really supported by RSS
-			// clients
-			//
-			// See: http://web.resource.org/rss/1.0/modules/syndication/#description.
-			// See: http://www.kbcafe.com/rss/rssfeedstate.html#syndicationmodule.
-			'update_period'    => 'hourly',
-			'update_frequency' => 2,
-
-			// Number of items to display.
-			'max'              => 50,
-
-			// Activity arguments passed to bp_has_activities().
-			'activity_args'    => array()
-		) );
-
-		/**
-		 * Fires before the feed is setup so plugins can modify.
-		 *
-		 * @since 1.8.0
-		 *
-		 * @param BP_Activity_Feed $this Current instance of activity feed. Passed by reference.
-		 */
-		do_action_ref_array( 'bp_activity_feed_prefetch', array( &$this ) );
-
-		// Setup class properties.
-		$this->setup_properties();
-
-		// Check if id is valid.
-		if ( empty( $this->id ) ) {
-			_doing_it_wrong( 'BP_Activity_Feed', __( "RSS feed 'id' must be defined", 'buddypress' ), 'BP 1.8' );
-			return false;
-		}
-
-		/**
-		 * Fires after the feed is setup so plugins can modify.
-		 *
-		 * @since 1.8.0
-		 *
-		 * @param BP_Activity_Feed $this Current instance of activity feed. Passed by reference.
-		 */
-		do_action_ref_array( 'bp_activity_feed_postfetch', array( &$this ) );
-
-		// Setup feed hooks.
-		$this->setup_hooks();
-
-		// Output the feed.
-		$this->output();
-
-		// Kill the rest of the output.
-		die();
 	}
 
 	/** SETUP ****************************************************************/

@@ -3,7 +3,7 @@
  * Activity Template tags
  *
  * @since 3.0.0
- * @version 5.0.0
+ * @version 8.0.0
  */
 
 // Exit if accessed directly.
@@ -911,4 +911,106 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 		do_action_ref_array( 'bp_nouveau_return_activity_comment_buttons', array( &$return, $activity_comment_id, $activity_id ) );
 
 		return $return;
+	}
+
+/**
+ * Outputs the Activity RSS link.
+ *
+ * @since 8.0.0
+ */
+function bp_nouveau_activity_rss_link() {
+	echo esc_url( bp_nouveau_activity_get_rss_link() );
+}
+
+	/**
+	 * Returns the Activity RSS link.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @return string The Activity RSS link.
+	 */
+	function bp_nouveau_activity_get_rss_link() {
+		$bp_nouveau = bp_nouveau();
+		$link       = '';
+
+		if ( isset( $bp_nouveau->activity->current_rss_feed['link'] ) ) {
+			$link = $bp_nouveau->activity->current_rss_feed['link'];
+		}
+
+		/**
+		 * Filter here to edit the Activity RSS link.
+		 *
+		 * @since 8.0.0
+		 *
+		 * @param string The Activity RSS link.
+		 */
+		return apply_filters( 'bp_nouveau_activity_get_rss_link', $link );
+	}
+
+/**
+ * Outputs the Activity RSS Tooltip.
+ *
+ * @since 8.0.0
+ */
+function bp_nouveau_activity_rss_tooltip() {
+	echo esc_attr( bp_nouveau_activity_get_rss_tooltip() );
+}
+
+	/**
+	 * Returns the Activity RSS Tooltip.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @return string The Activity RSS Tooltip.
+	 */
+	function bp_nouveau_activity_get_rss_tooltip() {
+		$bp_nouveau = bp_nouveau();
+		$tooltip       = '';
+
+		if ( isset( $bp_nouveau->activity->current_rss_feed['tooltip'] ) ) {
+			$tooltip = $bp_nouveau->activity->current_rss_feed['tooltip'];
+		}
+
+		/**
+		 * Filter here to edit the Activity RSS Tooltip.
+		 *
+		 * @since 8.0.0
+		 *
+		 * @param string The Activity RSS Tooltip.
+		 */
+		return apply_filters( 'bp_nouveau_activity_get_rss_tooltip', $tooltip );
+	}
+
+/**
+ * Outputs the Activity RSS screen reader text.
+ *
+ * @since 8.0.0
+ */
+function bp_nouveau_activity_rss_screen_reader_text() {
+	echo esc_attr( bp_nouveau_activity_get_rss_screen_reader_text() );
+}
+
+	/**
+	 * Returns the Activity RSS screen reader text.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @return string The Activity RSS screen reader text.
+	 */
+	function bp_nouveau_activity_get_rss_screen_reader_text() {
+		$bp_nouveau         = bp_nouveau();
+		$screen_reader_text = '';
+
+		if ( isset( $bp_nouveau->activity->current_rss_feed['tooltip'] ) ) {
+			$screen_reader_text = $bp_nouveau->activity->current_rss_feed['tooltip'];
+		}
+
+		/**
+		 * Filter here to edit the Activity RSS screen reader text.
+		 *
+		 * @since 8.0.0
+		 *
+		 * @param string The Activity RSS screen reader text.
+		 */
+		return apply_filters( 'bp_nouveau_activity_get_rss_screen_reader_text', $screen_reader_text );
 	}

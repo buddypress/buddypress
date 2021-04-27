@@ -64,6 +64,7 @@ window.bp = window.bp || {};
 
 			// Inject Activities
 			$( '#buddypress [data-bp-list="activity"]' ).on( 'click', 'li.load-newest, li.load-more', this.injectActivities.bind( this ) );
+			$( '#buddypress [data-bp-list]' ).on( 'bp_ajax_request', this.updateRssLink );
 
 			// Hightlight new activities & clean up the stream
 			$( '#buddypress' ).on( 'bp_ajax_request', '[data-bp-list="activity"]', this.scopeLoaded.bind( this ) );
@@ -832,6 +833,14 @@ window.bp = window.bp || {};
 				}
 			} else if ( event.ctrlKey && 13 === keyCode && $( element ).val() ) {
 				$( element ).closest( 'form' ).find( '[type=submit]' ).first().trigger( 'click' );
+			}
+		},
+
+		updateRssLink: function( event, data ) {
+			var rssLink = data.response.feed_url || '';
+
+			if ( rssLink && $( '#activity-rss-feed' ).length ) {
+				$( '#activity-rss-feed' ).find( 'a' ).first().prop( 'href', rssLink );
 			}
 		}
 	};
