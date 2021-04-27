@@ -64,6 +64,8 @@
 
 		@include flex-box-dir();
 		@include flex-align();
+
+		align-items: center;
 	}
 
 	.bp-feedback {
@@ -159,6 +161,7 @@
 		.bp-icon {
 
 			@include center-vert();
+			align-self: stretch;
 		}
 	}
 

@@ -4406,6 +4406,7 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 	-o-flex-flow: row nowrap;
 	flex-flow: row nowrap;
 	align-items: stretch;
+	align-items: center;
 }
 
 .buddypress-wrap .bp-feedback {
@@ -4491,6 +4492,7 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .buddypress-wrap .bp-feedback.updated .bp-icon {
 	display: flex;
 	align-items: center;
+	align-self: stretch;
 }
 
 .buddypress-wrap .bp-feedback.info .bp-icon,
