@@ -317,6 +317,11 @@ body.tools-php .bp-tools dd {
 	margin: 0;
 }
 
+body.tools_page_bp-members-invitations .nav-tab-wrapper,
+body.tools_page_bp-optouts .nav-tab-wrapper {
+	margin-bottom: 1em;
+}
+
 /*
  * 2.4 Tooltips
  */

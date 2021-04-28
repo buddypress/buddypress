@@ -557,6 +557,20 @@ function bp_core_admin_available_tools_intro() {
 				);
 				?>
 			</dd>
+
+			<dt><?php esc_html_e( 'Manage Invitations', 'buddypress' ) ?></dt>
+			<dd>
+				<?php esc_html_e( 'When enabled, BuddyPress allows your users to invite nonmembers to join your site.', 'buddypress' ); ?>
+				<?php
+				$url = add_query_arg( 'page', 'bp-members-invitations', bp_get_admin_url( $page ) );
+				printf(
+					/* translators: %s: the link to the BuddyPress Invitations management tool screen */
+					esc_html_x( 'Visit %s to manage your site&rsquo;s invitations.', 'buddypress invitations tool intro', 'buddypress' ),
+					'<a href="' . esc_url( $url ) . '">' . esc_html__( 'Invitations', 'buddypress' ) . '</a>'
+				);
+				?>
+			</dd>
+
 			<dt><?php esc_html_e( 'Manage Opt-outs', 'buddypress' ) ?></dt>
 			<dd>
 				<?php esc_html_e( 'BuddyPress stores opt-out requests from people who are not members of this site, but have been contacted via communication from this site, and wish to opt-out from future communication.', 'buddypress' ); ?>

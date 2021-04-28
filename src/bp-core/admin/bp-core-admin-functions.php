@@ -85,8 +85,8 @@ function bp_core_modify_admin_menu_highlight() {
 		$submenu_file = $plugin_page;
 	}
 
-	// Keep the BuddyPress tools menu highlighted.
-	if ( 'bp-optouts' === $plugin_page ) {
+	// Keep the BuddyPress tools menu highlighted when using a tools tab.
+	if ( 'bp-optouts' === $plugin_page || 'bp-members-invitations' === $plugin_page ) {
 		$submenu_file = 'bp-tools';
 	}
 }
@@ -284,7 +284,7 @@ function bp_core_activation_notice() {
 
 	// Activate and Register are special cases. They are not components but they need WP pages.
 	// If user registration is disabled, we can skip this step.
-	if ( bp_get_signup_allowed() ) {
+	if ( bp_get_signup_allowed() || bp_get_members_invitations_allowed() ) {
 		$wp_page_components[] = array(
 			'id'   => 'activate',
 			'name' => __( 'Activate', 'buddypress' ),
@@ -479,6 +479,10 @@ function bp_core_get_admin_tabs( $active_tab = '', $context = 'settings' ) {
 				'name' => __( 'Repair', 'buddypress' ),
 			),
 			'1' => array(
+				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-members-invitations' ), $tools_page ) ),
+				'name' => __( 'Manage Invitations', 'buddypress' ),
+			),
+			'2' => array(
 				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-optouts' ), $tools_page ) ),
 				'name' => __( 'Manage Opt-outs', 'buddypress' ),
 			),
