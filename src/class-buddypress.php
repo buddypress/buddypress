@@ -623,6 +623,7 @@ class BuddyPress {
 			'BP_REST_Attachments_Member_Cover_Endpoint'  => 'members',
 			'BP_REST_Signup_Endpoint'                    => 'members',
 			'BP_Members_Invitation_Manager'              => 'members',
+			'BP_Members_Invitations_Template'            => 'members',
 
 			'BP_REST_Messages_Endpoint' => 'messages',
 

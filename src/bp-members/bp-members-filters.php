@@ -172,3 +172,50 @@ function bp_members_user_can_filter( $retval, $user_id, $capability, $site_id, $
 	return $retval;
 }
 add_filter( 'bp_user_can', 'bp_members_user_can_filter', 10, 5 );
+/**
+ * Sanitize the invitation property output.
+ *
+ * @since 8.0.0
+ *
+ * @param int|string $value    The value for the requested property.
+ * @param string     $property The name of the requested property.
+ * @param string     $context  The context of display.
+ * @return int|string          The sanitized value.
+ */
+function bp_members_sanitize_invitation_property( $value = '', $property = '', $context = 'html' ) {
+	if ( ! $property ) {
+		return '';
+	}
+
+	switch ( $property ) {
+		case 'id':
+		case 'user_id':
+		case 'item_id':
+		case 'secondary_item_id':
+			$value = absint( $value );
+			break;
+		case 'invite_sent':
+		case 'accepted':
+			$value = absint( $value ) ? __( 'Yes', 'buddypress' ) : __( 'No', 'buddypress' );
+			$value = 'attribute' === $context ? esc_attr( $value ) : esc_html( $value );
+			break;
+		case 'invitee_email':
+			$value = sanitize_email( $value );
+			break;
+		case 'content':
+			$value = wp_kses( $value, array() );
+			$value = wptexturize( $value );
+			break;
+		case 'date_modified':
+			$value = mysql2date( 'Y/m/d g:i:s a', $value );
+			$value = 'attribute' === $context ? esc_attr( $value ) : esc_html( $value );
+			break;
+
+		default:
+			$value = 'attribute' === $context ? esc_attr( $value ) : esc_html( $value );
+			break;
+	}
+
+	return $value;
+}
+add_filter( 'bp_the_members_invitation_property', 'bp_members_sanitize_invitation_property', 10, 3 );
