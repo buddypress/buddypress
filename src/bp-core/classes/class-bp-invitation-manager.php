@@ -388,6 +388,26 @@ abstract class BP_Invitation_Manager {
 	}
 
 	/**
+	 * Get a count of the number of invitations that match provided filter parameters.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @see BP_Invitation::get_total_count() for a description of accepted parameters.
+	 *
+	 * @return int Total number of invitations.
+	 */
+	public function get_invitations_total_count( $args = array() ) {
+		// Default to returning invitations, not requests.
+		if ( empty( $args['type'] ) ) {
+			$args['type'] = 'invite';
+		}
+		// Use the class_name property value.
+		$args['class'] = $this->class_name;
+
+		return BP_Invitation::get_total_count( $args );
+	}
+
+	/**
 	 * Get requests, based on provided filter parameters.
 	 *
 	 * @since 5.0.0
@@ -479,6 +499,7 @@ abstract class BP_Invitation_Manager {
 	 public function accept_invitation( $args = array() ) {
 
 		$r = bp_parse_args( $args, array(
+			'id'                => false,
 			'user_id'           => 0,
 			'invitee_email'     => '',
 			'item_id'           => null,
@@ -488,7 +509,7 @@ abstract class BP_Invitation_Manager {
 		), 'accept_invitation' );
 		$r['class'] = $this->class_name;
 
-		if ( ! ( ( $r['user_id'] || $r['invitee_email'] ) && $r['class'] && $r['item_id'] ) ) {
+		if ( ! $r['id'] && ! ( ( $r['user_id'] || $r['invitee_email'] ) && $r['class'] && $r['item_id'] ) ) {
 			return false;
 		}
 
@@ -705,6 +726,24 @@ abstract class BP_Invitation_Manager {
 		return BP_Invitation::delete( array(
 			'class' => $this->class_name,
 		) );
+	}
+
+	/**
+	 * Delete an invitation by id.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param int $id ID of the invitation to delete.
+	 * @return int|bool Number of rows deleted on success, false on failure.
+	 */
+	public function delete_by_id( $id ) {
+		// Ensure that the invitation exists and was created by this class.
+		$invite = new BP_Invitation( $id );
+		if ( ! $invite->id || sanitize_key( $this->class_name ) !== $invite->class ) {
+			return false;
+		}
+
+		return BP_Invitation::delete_by_id( $id );
 	}
 
 	/**
