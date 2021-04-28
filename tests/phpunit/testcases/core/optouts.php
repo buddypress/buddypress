@@ -181,4 +181,24 @@
 		$this->set_current_user( $old_current_user );
 	}
 
+	public function test_bp_optout_prevents_bp_email_send() {
+		$old_current_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$this->set_current_user( $u1 );
+		// Create an opt-out.
+		$args = array(
+			'email_address'     => 'test2@example.com',
+			'user_id'           => $u1,
+			'email_type'        => 'annoyance'
+		);
+		$i1 = bp_add_optout( $args );
+		$email = new BP_Email( 'activity-at-message' );
+		$email->set_from( 'test1@example.com' )->set_to( 'test2@example.com' )->set_subject( 'testing' );
+		$email->set_content_html( 'testing' )->set_tokens( array( 'poster.name' => 'example' ) );
+
+		$this->assertTrue( is_wp_error( $email->validate() ) );
+		$this->set_current_user( $old_current_user );
+	}
+
 }

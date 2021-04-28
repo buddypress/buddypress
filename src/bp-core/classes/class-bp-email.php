@@ -999,6 +999,14 @@ class BP_Email {
 			$retval = new WP_Error( 'missing_parameter', __CLASS__, $this );
 		}
 
+		// Has the user opted out of receiving any email from this site?
+		$recipient_to       = $this->get_to();
+		$recipient_to_first = array_shift( $recipient_to );
+		$recipient_address  = $recipient_to_first->get_address();
+		if ( bp_user_has_opted_out( $recipient_address ) ) {
+			$retval = new WP_Error( 'user_has_opted_out', __( 'The email recipient has opted out from receiving communication from this site.', 'buddypress' ), $recipient_address );
+		}
+
 		/**
 		 * Filters whether the email passes basic validation checks.
 		 *
