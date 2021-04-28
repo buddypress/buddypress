@@ -411,6 +411,12 @@ class BP_Admin {
 			register_setting( 'buddypress', 'bp-disable-cover-image-uploads', 'intval' );
 		}
 
+		// Community Invitations.
+		if ( bp_is_active( 'members', 'invitations' ) ) {
+			add_settings_field( 'bp-enable-members-invitations', __( 'Invitations', 'buddypress' ), 'bp_admin_setting_callback_members_invitations', 'buddypress', 'bp_members' );
+			register_setting( 'buddypress', 'bp-enable-members-invitations', 'intval' );
+		}
+
 		/* XProfile Section **************************************************/
 
 		if ( bp_is_active( 'xprofile' ) ) {
