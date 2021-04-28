@@ -181,13 +181,11 @@
 
 	} // close .subnav-filters
 
-	.notifications-options-nav {
-
-		input#notification-bulk-manage {
-			border: 0;
-			border-radius: 0;
-			line-height: 1.6;
-		}
+	.notifications-options-nav input#notification-bulk-manage,
+	.invitations-options-nav input#invitation-bulk-manage {
+		border: 0;
+		border-radius: 0;
+		line-height: 1.6;
 	}
 
 	.group-subnav-filters {

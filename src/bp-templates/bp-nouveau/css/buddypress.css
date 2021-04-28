@@ -255,12 +255,14 @@ body.buddypress article.page > .entry-header:not(.alignwide):not(.alignfull) .en
 	}
 }
 
-.buddypress-wrap #notification-select {
+.buddypress-wrap #notification-select,
+.buddypress-wrap #invitation-select {
 	font-size: 12px;
 }
 
 @media screen and (min-width: 46.8em) {
-	.buddypress-wrap #notification-select {
+	.buddypress-wrap #notification-select,
+	.buddypress-wrap #invitation-select {
 		font-size: 14px;
 	}
 }
@@ -794,7 +796,8 @@ body.buddypress article.page > .entry-header:not(.alignwide):not(.alignfull) .en
 	}
 }
 
-.buddypress-wrap .notifications-options-nav input#notification-bulk-manage {
+.buddypress-wrap .notifications-options-nav input#notification-bulk-manage,
+.buddypress-wrap .invitations-options-nav input#invitation-bulk-manage {
 	border: 0;
 	border-radius: 0;
 	line-height: 1.6;
@@ -3430,7 +3433,8 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
 	opacity: 0.4;
 }
 
-.buddypress-wrap #notification-bulk-manage[disabled] {
+.buddypress-wrap #notification-bulk-manage[disabled],
+.buddypress-wrap #invitation-bulk-manage[disabled] {
 	display: none;
 }
 
@@ -3727,7 +3731,8 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 }
 
 @media screen and (min-width: 32em) {
-	.buddypress-wrap .notifications-options-nav .select-wrap {
+	.buddypress-wrap .notifications-options-nav .select-wrap,
+	.buddypress-wrap .invitations-options-nav .select-wrap {
 		float: left;
 	}
 }

@@ -255,7 +255,8 @@ body.buddypress {
 		}
 	}
 
-	#notification-select {
+	#notification-select,
+	#invitation-select {
 
 		@include responsive-font(14);
 	}

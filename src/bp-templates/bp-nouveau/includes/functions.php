@@ -927,6 +927,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
  * All user feedback messages are available here
  *
  * @since 3.0.0
+ * @since 8.0.0 Adds the 'member-invites-none' feedback.
  *
  * @param string $feedback_id The ID of the message.
  *
@@ -939,154 +940,162 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 	 * Use this filter to add your custom feedback messages.
 	 *
 	 * @since 3.0.0
+	 * @since 8.0.0 Adds the 'member-invites-none' feedback.
 	 *
 	 * @param array $value The list of feedback messages.
 	 */
-	$feedback_messages = apply_filters( 'bp_nouveau_feedback_messages', array(
-		'registration-disabled' => array(
-			'type'    => 'info',
-			'message' => __( 'Member registration is currently not allowed.', 'buddypress' ),
-			'before'  => 'bp_before_registration_disabled',
-			'after'   => 'bp_after_registration_disabled'
-		),
-		'request-details' => array(
-			'type'    => 'info',
-			'message' => __( 'Registering for this site is easy. Just fill in the fields below, and we\'ll get a new account set up for you in no time.', 'buddypress' ),
-			'before'  => false,
-			'after'   => false,
-		),
-		'completed-confirmation' => array(
-			'type'    => 'info',
-			'message' => __( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ),
-			'before'  => 'bp_before_registration_confirmed',
-			'after'   => 'bp_after_registration_confirmed',
-		),
-		'directory-activity-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the community updates. Please wait.', 'buddypress' ),
-		),
-		'single-activity-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the update. Please wait.', 'buddypress' ),
-		),
-		'activity-loop-none' => array(
-			'type'    => 'info',
-			'message' => __( 'Sorry, there was no activity found. Please try a different filter.', 'buddypress' ),
-		),
-		'blogs-loop-none' => array(
-			'type'    => 'info',
-			'message' => __( 'Sorry, there were no sites found.', 'buddypress' ),
-		),
-		'blogs-no-signup' => array(
-			'type'    => 'info',
-			'message' => __( 'Site registration is currently disabled.', 'buddypress' ),
-		),
-		'directory-blogs-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the sites of the network. Please wait.', 'buddypress' ),
-		),
-		'directory-groups-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the groups of the community. Please wait.', 'buddypress' ),
-		),
-		'groups-loop-none' => array(
-			'type'    => 'info',
-			'message' => __( 'Sorry, there were no groups found.', 'buddypress' ),
-		),
-		'group-activity-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the group updates. Please wait.', 'buddypress' ),
-		),
-		'group-members-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Requesting the group members. Please wait.', 'buddypress' ),
-		),
-		'group-members-none' => array(
-			'type'    => 'info',
-			'message' => __( 'Sorry, there were no group members found.', 'buddypress' ),
-		),
-		'group-members-search-none' => array(
-			'type'    => 'info',
-			'message' => __( 'Sorry, there was no member of that name found in this group.', 'buddypress' ),
-		),
-		'group-manage-members-none' => array(
-			'type'    => 'info',
-			'message' => __( 'This group has no members.', 'buddypress' ),
-		),
-		'group-requests-none' => array(
-			'type'    => 'info',
-			'message' => __( 'There are no pending membership requests.', 'buddypress' ),
-		),
-		'group-requests-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the members who requested to join the group. Please wait.', 'buddypress' ),
-		),
-		'group-delete-warning' => array(
-			'type'    => 'warning',
-			'message' => __( 'WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back. Please be careful with this option.', 'buddypress' ),
-		),
-		'group-avatar-delete-info' => array(
-			'type'    => 'info',
-			'message' => __( 'If you\'d like to remove the existing group profile photo but not upload a new one, please use the delete group profile photo button.', 'buddypress' ),
-		),
-		'directory-members-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the members of your community. Please wait.', 'buddypress' ),
-		),
-		'members-loop-none' => array(
-			'type'    => 'info',
-			'message' => __( 'Sorry, no members were found.', 'buddypress' ),
-		),
-		'member-requests-none' => array(
-			'type'    => 'info',
-			'message' => __( 'You have no pending friendship requests.', 'buddypress' ),
-		),
-		'member-invites-none' => array(
-			'type'    => 'info',
-			'message' => __( 'You have no outstanding group invites.', 'buddypress' ),
-		),
-		'member-notifications-none' => array(
-			'type'    => 'info',
-			'message' => __( 'This member has no notifications.', 'buddypress' ),
-		),
-		'member-wp-profile-none' => array(
-			'type'    => 'info',
-			/* translators: %s: member name */
-			'message' => __( '%s did not save any profile information yet.', 'buddypress' ),
-		),
-		'member-delete-account' => array(
-			'type'    => 'warning',
-			'message' => __( 'Deleting this account will delete all of the content it has created. It will be completely unrecoverable.', 'buddypress' ),
-		),
-		'member-activity-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the member\'s updates. Please wait.', 'buddypress' ),
-		),
-		'member-blogs-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the member\'s blogs. Please wait.', 'buddypress' ),
-		),
-		'member-friends-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the member\'s friends. Please wait.', 'buddypress' ),
-		),
-		'member-groups-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading the member\'s groups. Please wait.', 'buddypress' ),
-		),
-		'member-notifications-loading' => array(
-			'type'    => 'loading',
-			'message' => __( 'Loading notifications. Please wait.', 'buddypress' ),
-		),
-		'member-group-invites-all' => array(
-			'type'    => 'info',
-			'message' => __( 'Currently every member of the community can invite you to join their groups. If you are not comfortable with it, you can always restrict group invites to your friends only.', 'buddypress' ),
-		),
-		'member-group-invites-friends-only' => array(
-			'type'    => 'info',
-			'message' => __( 'Currently only your friends can invite you to groups. Uncheck the box to allow any member to send invites.', 'buddypress' ),
-		),
-	) );
+	$feedback_messages = apply_filters(
+		'bp_nouveau_feedback_messages',
+		array(
+			'registration-disabled'             => array(
+				'type'    => 'info',
+				'message' => __( 'Member registration is currently not allowed.', 'buddypress' ),
+				'before'  => 'bp_before_registration_disabled',
+				'after'   => 'bp_after_registration_disabled'
+			),
+			'request-details'                   => array(
+				'type'    => 'info',
+				'message' => __( 'Registering for this site is easy. Just fill in the fields below, and we\'ll get a new account set up for you in no time.', 'buddypress' ),
+				'before'  => false,
+				'after'   => false,
+			),
+			'completed-confirmation'            => array(
+				'type'    => 'info',
+				'message' => __( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ),
+				'before'  => 'bp_before_registration_confirmed',
+				'after'   => 'bp_after_registration_confirmed',
+			),
+			'directory-activity-loading'        => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the community updates. Please wait.', 'buddypress' ),
+			),
+			'single-activity-loading'           => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the update. Please wait.', 'buddypress' ),
+			),
+			'activity-loop-none'                => array(
+				'type'    => 'info',
+				'message' => __( 'Sorry, there was no activity found. Please try a different filter.', 'buddypress' ),
+			),
+			'blogs-loop-none'                   => array(
+				'type'    => 'info',
+				'message' => __( 'Sorry, there were no sites found.', 'buddypress' ),
+			),
+			'blogs-no-signup'                   => array(
+				'type'    => 'info',
+				'message' => __( 'Site registration is currently disabled.', 'buddypress' ),
+			),
+			'directory-blogs-loading'           => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the sites of the network. Please wait.', 'buddypress' ),
+			),
+			'directory-groups-loading'          => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the groups of the community. Please wait.', 'buddypress' ),
+			),
+			'groups-loop-none'                  => array(
+				'type'    => 'info',
+				'message' => __( 'Sorry, there were no groups found.', 'buddypress' ),
+			),
+			'group-activity-loading'            => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the group updates. Please wait.', 'buddypress' ),
+			),
+			'group-members-loading'             => array(
+				'type'    => 'loading',
+				'message' => __( 'Requesting the group members. Please wait.', 'buddypress' ),
+			),
+			'group-members-none'                => array(
+				'type'    => 'info',
+				'message' => __( 'Sorry, there were no group members found.', 'buddypress' ),
+			),
+			'group-members-search-none'         => array(
+				'type'    => 'info',
+				'message' => __( 'Sorry, there was no member of that name found in this group.', 'buddypress' ),
+			),
+			'group-manage-members-none'         => array(
+				'type'    => 'info',
+				'message' => __( 'This group has no members.', 'buddypress' ),
+			),
+			'group-requests-none'               => array(
+				'type'    => 'info',
+				'message' => __( 'There are no pending membership requests.', 'buddypress' ),
+			),
+			'group-requests-loading'            => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the members who requested to join the group. Please wait.', 'buddypress' ),
+			),
+			'group-delete-warning'              => array(
+				'type'    => 'warning',
+				'message' => __( 'WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back. Please be careful with this option.', 'buddypress' ),
+			),
+			'group-avatar-delete-info'          => array(
+				'type'    => 'info',
+				'message' => __( 'If you\'d like to remove the existing group profile photo but not upload a new one, please use the delete group profile photo button.', 'buddypress' ),
+			),
+			'directory-members-loading'         => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the members of your community. Please wait.', 'buddypress' ),
+			),
+			'members-loop-none'                 => array(
+				'type'    => 'info',
+				'message' => __( 'Sorry, no members were found.', 'buddypress' ),
+			),
+			'member-requests-none'              => array(
+				'type'    => 'info',
+				'message' => __( 'You have no pending friendship requests.', 'buddypress' ),
+			),
+			'member-invites-none'               => array(
+				'type'    => 'info',
+				'message' => __( 'You have no outstanding group invites.', 'buddypress' ),
+			),
+			'member-notifications-none'         => array(
+				'type'    => 'info',
+				'message' => __( 'This member has no notifications.', 'buddypress' ),
+			),
+			'member-wp-profile-none'            => array(
+				'type'    => 'info',
+				/* translators: %s: member name */
+				'message' => __( '%s did not save any profile information yet.', 'buddypress' ),
+			),
+			'member-delete-account'             => array(
+				'type'    => 'warning',
+				'message' => __( 'Deleting this account will delete all of the content it has created. It will be completely unrecoverable.', 'buddypress' ),
+			),
+			'member-activity-loading'           => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the member\'s updates. Please wait.', 'buddypress' ),
+			),
+			'member-blogs-loading'              => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the member\'s blogs. Please wait.', 'buddypress' ),
+			),
+			'member-friends-loading'            => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the member\'s friends. Please wait.', 'buddypress' ),
+			),
+			'member-groups-loading'             => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading the member\'s groups. Please wait.', 'buddypress' ),
+			),
+			'member-notifications-loading'      => array(
+				'type'    => 'loading',
+				'message' => __( 'Loading notifications. Please wait.', 'buddypress' ),
+			),
+			'member-group-invites-all'          => array(
+				'type'    => 'info',
+				'message' => __( 'Currently every member of the community can invite you to join their groups. If you are not comfortable with it, you can always restrict group invites to your friends only.', 'buddypress' ),
+			),
+			'member-group-invites-friends-only' => array(
+				'type'    => 'info',
+				'message' => __( 'Currently only your friends can invite you to groups. Uncheck the box to allow any member to send invites.', 'buddypress' ),
+			),
+			'member-invites-none'               => array(
+				'type'    => 'info',
+				'message' => __( 'There are no invitations to display.', 'buddypress' ),
+			),
+		)
+	);
 
 	if ( ! isset( $feedback_messages[ $feedback_id ] ) ) {
 		return false;
@@ -1229,6 +1238,7 @@ function bp_nouveau_get_signup_fields( $section = '' ) {
  * Get Some submit buttons data.
  *
  * @since 3.0.0
+ * @since 8.0.0 Adds the 'member-send-invite' button.
  *
  * @param string $action The action requested.
  *
@@ -1244,106 +1254,120 @@ function bp_nouveau_get_submit_button( $action = '' ) {
 	 * Filter the Submit buttons to add your own.
 	 *
 	 * @since 3.0.0
+	 * @since 8.0.0 Adds the 'member-send-invite' button.
 	 *
 	 * @param array $value The list of submit buttons.
 	 *
 	 * @return array|false
 	 */
-	$actions = apply_filters( 'bp_nouveau_get_submit_button', array(
-		'register' => array(
-			'before'     => 'bp_before_registration_submit_buttons',
-			'after'      => 'bp_after_registration_submit_buttons',
-			'nonce'      => 'bp_new_signup',
-			'attributes' => array(
-				'name'  => 'signup_submit',
-				'id'    => 'submit',
-				'value' => __( 'Complete Sign Up', 'buddypress' ),
+	$actions = apply_filters(
+		'bp_nouveau_get_submit_button',
+		array(
+			'register'                      => array(
+				'before'     => 'bp_before_registration_submit_buttons',
+				'after'      => 'bp_after_registration_submit_buttons',
+				'nonce'      => 'bp_new_signup',
+				'attributes' => array(
+					'name'  => 'signup_submit',
+					'id'    => 'submit',
+					'value' => __( 'Complete Sign Up', 'buddypress' ),
+				),
 			),
-		),
-		'member-profile-edit' => array(
-			'before' => '',
-			'after'  => '',
-			'nonce'  => 'bp_xprofile_edit',
-			'attributes' => array(
-				'name'  => 'profile-group-edit-submit',
-				'id'    => 'profile-group-edit-submit',
-				'value' => __( 'Save Changes', 'buddypress' ),
+			'member-profile-edit'           => array(
+				'before'     => '',
+				'after'      => '',
+				'nonce'      => 'bp_xprofile_edit',
+				'attributes' => array(
+					'name'  => 'profile-group-edit-submit',
+					'id'    => 'profile-group-edit-submit',
+					'value' => __( 'Save Changes', 'buddypress' ),
+				),
 			),
-		),
-		'member-capabilities' => array(
-			'before' => 'bp_members_capabilities_account_before_submit',
-			'after'  => 'bp_members_capabilities_account_after_submit',
-			'nonce'  => 'capabilities',
-			'attributes' => array(
-				'name'  => 'capabilities-submit',
-				'id'    => 'capabilities-submit',
-				'value' => __( 'Save', 'buddypress' ),
+			'member-capabilities'           => array(
+				'before'     => 'bp_members_capabilities_account_before_submit',
+				'after'      => 'bp_members_capabilities_account_after_submit',
+				'nonce'      => 'capabilities',
+				'attributes' => array(
+					'name'  => 'capabilities-submit',
+					'id'    => 'capabilities-submit',
+					'value' => __( 'Save', 'buddypress' ),
+				),
 			),
-		),
-		'member-delete-account' => array(
-			'before' => 'bp_members_delete_account_before_submit',
-			'after'  => 'bp_members_delete_account_after_submit',
-			'nonce'  => 'delete-account',
-			'attributes' => array(
-				'disabled' => 'disabled',
-				'name'     => 'delete-account-button',
-				'id'       => 'delete-account-button',
-				'value'    => __( 'Delete Account', 'buddypress' ),
+			'member-delete-account'         => array(
+				'before'     => 'bp_members_delete_account_before_submit',
+				'after'      => 'bp_members_delete_account_after_submit',
+				'nonce'      => 'delete-account',
+				'attributes' => array(
+					'disabled' => 'disabled',
+					'name'     => 'delete-account-button',
+					'id'       => 'delete-account-button',
+					'value'    => __( 'Delete Account', 'buddypress' ),
+				),
 			),
-		),
-		'members-general-settings' => array(
-			'before' => 'bp_core_general_settings_before_submit',
-			'after'  => 'bp_core_general_settings_after_submit',
-			'nonce'  => 'bp_settings_general',
-			'attributes' => array(
-				'name'  => 'submit',
-				'id'    => 'submit',
-				'value' => __( 'Save Changes', 'buddypress' ),
-				'class' => 'auto',
+			'members-general-settings'      => array(
+				'before'     => 'bp_core_general_settings_before_submit',
+				'after'      => 'bp_core_general_settings_after_submit',
+				'nonce'      => 'bp_settings_general',
+				'attributes' => array(
+					'name'  => 'submit',
+					'id'    => 'submit',
+					'value' => __( 'Save Changes', 'buddypress' ),
+					'class' => 'auto',
+				),
 			),
-		),
-		'member-notifications-settings' => array(
-			'before' => 'bp_members_notification_settings_before_submit',
-			'after'  => 'bp_members_notification_settings_after_submit',
-			'nonce'  => 'bp_settings_notifications',
-			'attributes' => array(
-				'name'  => 'submit',
-				'id'    => 'submit',
-				'value' => __( 'Save Changes', 'buddypress' ),
-				'class' => 'auto',
+			'member-notifications-settings' => array(
+				'before'     => 'bp_members_notification_settings_before_submit',
+				'after'      => 'bp_members_notification_settings_after_submit',
+				'nonce'      => 'bp_settings_notifications',
+				'attributes' => array(
+					'name'  => 'submit',
+					'id'    => 'submit',
+					'value' => __( 'Save Changes', 'buddypress' ),
+					'class' => 'auto',
+				),
 			),
-		),
-		'members-profile-settings' => array(
-			'before' => 'bp_core_xprofile_settings_before_submit',
-			'after'  => 'bp_core_xprofile_settings_after_submit',
-			'nonce'  => 'bp_xprofile_settings',
-			'attributes' => array(
-				'name'  => 'xprofile-settings-submit',
-				'id'    => 'submit',
-				'value' => __( 'Save Changes', 'buddypress' ),
-				'class' => 'auto',
+			'members-profile-settings'      => array(
+				'before'     => 'bp_core_xprofile_settings_before_submit',
+				'after'      => 'bp_core_xprofile_settings_after_submit',
+				'nonce'      => 'bp_xprofile_settings',
+				'attributes' => array(
+					'name'  => 'xprofile-settings-submit',
+					'id'    => 'submit',
+					'value' => __( 'Save Changes', 'buddypress' ),
+					'class' => 'auto',
+				),
 			),
-		),
-		'member-group-invites' => array(
-			'nonce'  => 'bp_nouveau_group_invites_settings',
-			'attributes' => array(
-				'name'  => 'member-group-invites-submit',
-				'id'    => 'submit',
-				'value' => __( 'Save', 'buddypress' ),
-				'class' => 'auto',
+			'member-group-invites'          => array(
+				'nonce'      => 'bp_nouveau_group_invites_settings',
+				'attributes' => array(
+					'name'  => 'member-group-invites-submit',
+					'id'    => 'submit',
+					'value' => __( 'Save', 'buddypress' ),
+					'class' => 'auto',
+				),
 			),
-		),
-		'activity-new-comment' => array(
-			'after'     => 'bp_activity_entry_comments',
-			'nonce'     => 'new_activity_comment',
-			'nonce_key' => '_wpnonce_new_activity_comment',
-			'wrapper'   => false,
-			'attributes' => array(
-				'name'  => 'ac_form_submit',
-				'value' => _x( 'Post', 'button', 'buddypress' ),
+			'member-send-invite'            => array(
+				'nonce'                   => 'bp_members_invitation_send_%d',
+				'nonce_placeholder_value' => bp_displayed_user_id() ? bp_displayed_user_id() : bp_loggedin_user_id(),
+				'attributes'              => array(
+					'name'  => 'member-send-invite-submit',
+					'id'    => 'submit',
+					'value' => __( 'Send', 'buddypress' ),
+					'class' => 'auto',
+				),
 			),
-		),
-	) );
+			'activity-new-comment'          => array(
+				'after'      => 'bp_activity_entry_comments',
+				'nonce'      => 'new_activity_comment',
+				'nonce_key'  => '_wpnonce_new_activity_comment',
+				'wrapper'    => false,
+				'attributes' => array(
+					'name'  => 'ac_form_submit',
+					'value' => _x( 'Post', 'button', 'buddypress' ),
+				),
+			),
+		)
+	);
 
 	if ( isset( $actions[ $action ] ) ) {
 		return $actions[ $action ];

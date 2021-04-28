@@ -195,6 +195,9 @@ class BP_Nouveau extends BP_Theme_Compat {
 		// Set the BP Uri for the Ajax customizer preview.
 		add_filter( 'bp_uri', array( $this, 'customizer_set_uri' ), 10, 1 );
 
+		// Modify "registration disabled" and welcome message if invitations are enabled.
+		add_action( 'bp_nouveau_feedback_messages', array( $this, 'filter_registration_messages' ), 99 );
+
 		/** Override **********************************************************/
 
 		/**
@@ -675,6 +678,29 @@ class BP_Nouveau extends BP_Theme_Compat {
 		}
 
 		return $path;
+	}
+	/**
+	 * Modify "registration disabled" message in Nouveau template pack.
+	 * Modify welcome message in Nouveau template pack.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param array $messages The list of feedback messages.
+	 *
+	 * @return array $messages
+	 */
+	function filter_registration_messages( $messages ) {
+		// Change the "registration is disabled" message.
+		$disallowed_message = bp_members_invitations_get_modified_registration_disabled_message();
+		if ( $disallowed_message ) {
+			$messages['registration-disabled']['message'] = $disallowed_message;
+		}
+		// Add information about invitations to the welcome block.
+		$welcome_message = bp_members_invitations_get_registration_welcome_message();
+		if ( $welcome_message ) {
+			$messages['request-details']['message'] = $welcome_message . $messages['request-details']['message'];
+		}
+		return $messages;
 	}
 }
 

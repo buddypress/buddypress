@@ -88,6 +88,7 @@ class BP_Nouveau_Members {
 	protected function setup_filters() {
 		// Add the default-front to User's front hierarchy if user enabled it (Enabled by default).
 		add_filter( 'bp_displayed_user_get_front_template', 'bp_nouveau_member_reset_front_template', 10, 1 );
+		add_filter( 'bp_nouveau_register_scripts', 'bp_nouveau_members_register_scripts', 10, 1 );
 
 		// The number formatting is done into the `bp_nouveau_nav_count()` template tag.
 		remove_filter( 'bp_get_total_member_count', 'bp_core_number_format' );

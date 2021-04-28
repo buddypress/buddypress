@@ -154,11 +154,13 @@ Hello, this is the BP Nouveau's Twenty Twenty-One companion stylesheet.
 	padding-right: 0;
 }
 
-#buddypress.twentytwentyone .notifications-options-nav {
+#buddypress.twentytwentyone .notifications-options-nav,
+#buddypress.twentytwentyone .invitations-options-nav {
 	margin-top: 1em;
 }
 
-#buddypress.twentytwentyone .notifications-options-nav input#notification-bulk-manage {
+#buddypress.twentytwentyone .notifications-options-nav input#notification-bulk-manage,
+#buddypress.twentytwentyone .invitations-options-nav input#invitation-bulk-manage {
 	line-height: 1.2;
 }
 

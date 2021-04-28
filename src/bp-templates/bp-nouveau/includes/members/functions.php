@@ -3,11 +3,33 @@
  * Members functions
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version 8.0.0
  */
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
+
+/**
+ * Register Scripts for the Members component
+ *
+ * @since 8.0.0
+ *
+ * @param array $scripts Optional. The array of scripts to register.
+ * @return array The same array with the specific members scripts.
+ */
+function bp_nouveau_members_register_scripts( $scripts = array() ) {
+	if ( ! isset( $scripts['bp-nouveau'] ) || ! bp_get_members_invitations_allowed() ) {
+		return $scripts;
+	}
+
+	return array_merge( $scripts, array(
+		'bp-nouveau-member-invites' => array(
+			'file'         => 'js/buddypress-member-invites%s.js',
+			'dependencies' => array(),
+			'footer'       => true,
+		),
+	) );
+}
 
 /**
  * Enqueue the members scripts
@@ -16,19 +38,20 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_nouveau_members_enqueue_scripts() {
 	// Neutralize Ajax when using BuddyPress Groups & member widgets on default front page
-	if ( ! bp_is_user_front() || ! bp_nouveau_get_appearance_settings( 'user_front_page' ) ) {
-		return;
+	if ( bp_is_user_front() && bp_nouveau_get_appearance_settings( 'user_front_page' ) ) {
+		wp_add_inline_style(
+			'bp-nouveau',
+			'#member-front-widgets #groups-list-options,
+			#member-front-widgets #members-list-options,
+			#member-front-widgets #friends-list-options {
+				display: none;
+			}'
+		);
 	}
 
-	wp_add_inline_style(
-		'bp-nouveau', '
-		#member-front-widgets #groups-list-options,
-		#member-front-widgets #members-list-options,
-		#member-front-widgets #friends-list-options {
-			display: none;
-		}
-	'
-	);
+	if ( bp_is_user_members_invitations_list() ) {
+		wp_enqueue_script( 'bp-nouveau-member-invites' );
+	}
 }
 
 /**
