@@ -660,7 +660,7 @@ class BP_Invitation {
 	 *     Associative array of arguments. All arguments but $page and
 	 *     $per_page can be treated as filter values for get_where_sql()
 	 *     and get_query_clauses(). All items are optional.
-	 *     @type int|array    $id                ID of invitation being updated.
+	 *     @type int|array    $id                ID of invitation being fetched.
 	 *                                           Can be an array of IDs.
 	 *     @type int|array    $user_id           ID of user being queried. Can be an
 	 *                                           Can be an array of IDs.

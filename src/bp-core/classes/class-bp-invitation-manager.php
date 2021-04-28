@@ -99,6 +99,11 @@ abstract class BP_Invitation_Manager {
 			return false;
 		}
 
+		// If an email address is specified, it must be a valid email address.
+		if ( $r['invitee_email'] && ! is_email( $r['invitee_email'] ) ) {
+			return false;
+		}
+
 		/**
 		 * Is this user allowed to extend invitations in this situation?
 		 *
