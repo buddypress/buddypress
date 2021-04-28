@@ -4049,10 +4049,19 @@ function bp_email_unsubscribe_handler() {
 	$raw_email_type = ! empty( $_GET['nt'] ) ? $_GET['nt'] : '';
 	$raw_hash       = ! empty( $_GET['nh'] ) ? $_GET['nh'] : '';
 	$raw_user_id    = ! empty( $_GET['uid'] ) ? absint( $_GET['uid'] ) : 0;
-	$new_hash       = hash_hmac( 'sha1', "{$raw_email_type}:{$raw_user_id}", bp_email_get_salt() );
+	$raw_user_email = ! empty( $_GET['uem'] ) ? $_GET['uem'] : '';
+	$raw_member_id  = ! empty( $_GET['mid'] ) ? absint( $_GET['mid'] ) : 0;
+	$redirect_to    = '';
+
+	$new_hash = '';
+	if ( ! empty( $raw_user_id ) ) {
+		$new_hash = hash_hmac( 'sha1', "{$raw_email_type}:{$raw_user_id}", bp_email_get_salt() );
+	} else if ( ! empty( $raw_user_email ) ) {
+		$new_hash = hash_hmac( 'sha1', "{$raw_email_type}:{$raw_user_email}", bp_email_get_salt() );
+	}
 
 	// Check required values.
-	if ( ! $raw_user_id || ! $raw_email_type || ! $raw_hash || ! array_key_exists( $raw_email_type, $emails ) ) {
+	if ( ( ! $raw_user_id && ! $raw_user_email ) || ! $raw_email_type || ! $raw_hash || ! array_key_exists( $raw_email_type, $emails ) ) {
 		$redirect_to = wp_login_url();
 		$result_msg  = __( 'Something has gone wrong.', 'buddypress' );
 		$unsub_msg   = __( 'Please log in and go to your settings to unsubscribe from notification emails.', 'buddypress' );
@@ -4078,6 +4087,25 @@ function bp_email_unsubscribe_handler() {
 			$redirect_to = bp_core_get_user_domain( get_current_user_id() );
 		}
 
+	// This is an unsubscribe request from a nonmember.
+	} else if ( $raw_user_email ) {
+		// Unsubscribe.
+		if ( bp_user_has_opted_out() ) {
+			$result_msg = $emails[ $raw_email_type ]['unsubscribe']['message'];
+			$unsub_msg  = __( 'You have already unsubscribed from all communication from this site.', 'buddypress' );
+		} else {
+			$optout_args = array(
+				'email_address' => $raw_user_email,
+				'user_id'       => $raw_member_id,
+				'email_type'    => $raw_email_type,
+				'date_modified' => bp_core_current_time(),
+			);
+			bp_add_optout( $optout_args );
+			$result_msg = $emails[ $raw_email_type ]['unsubscribe']['message'];
+			$unsub_msg  = __( 'You have been unsubscribed.', 'buddypress' );
+		}
+
+	// This is an unsubscribe request from a current member.
 	} else {
 		if ( bp_is_active( 'settings' ) ) {
 			$redirect_to = sprintf(
@@ -4097,17 +4125,29 @@ function bp_email_unsubscribe_handler() {
 		$unsub_msg  = __( 'You can change this or any other email notification preferences in your email settings.', 'buddypress' );
 	}
 
-	$message = sprintf(
-		'%1$s <a href="%2$s">%3$s</a>',
-		$result_msg,
-		esc_url( $redirect_to ),
-		esc_html( $unsub_msg )
-	);
+	if ( $raw_user_id && $redirect_to ) {
+		$message = sprintf(
+			'%1$s <a href="%2$s">%3$s</a>',
+			$result_msg,
+			esc_url( $redirect_to ),
+			esc_html( $unsub_msg )
+		);
 
-	bp_core_add_message( $message );
-	bp_core_redirect( bp_core_get_user_domain( $raw_user_id ) );
+		// Template notices are only displayed on BP pages.
+		bp_core_add_message( $message );
+		bp_core_redirect( bp_core_get_user_domain( $raw_user_id ) );
 
-	exit;
+		exit;
+	} else {
+		wp_die(
+			sprintf( '%1$s %2$s', esc_html( $unsub_msg ), esc_html( $result_msg ) ),
+			esc_html( $unsub_msg ),
+			array(
+				'link_url'  => home_url(),
+				'link_text' => __( 'Go to website\'s home page.', 'buddypress' ),
+			)
+		);
+	}
 }
 
 /**
@@ -4141,15 +4181,34 @@ function bp_email_get_unsubscribe_link( $args ) {
 		return '';
 	}
 
-	$link = add_query_arg(
-		array(
-			'action' => 'unsubscribe',
-			'nh'     => hash_hmac( 'sha1', "{$email_type}:{$user_id}", bp_email_get_salt() ),
-			'nt'     => $args['notification_type'],
-			'uid'    => $user_id,
-		),
-		$redirect_to
-	);
+	$link = '';
+	// Case where the recipient is a member of the site.
+	if ( ! empty( $user_id ) ) {
+		$link = add_query_arg(
+			array(
+				'action' => 'unsubscribe',
+				'nh'     => hash_hmac( 'sha1', "{$email_type}:{$user_id}", bp_email_get_salt() ),
+				'nt'     => $args['notification_type'],
+				'uid'    => $user_id,
+			),
+			$redirect_to
+		);
+
+	// Case where the recipient is not a member of the site.
+	} else if ( ! empty( $args['email_address'] ) ) {
+		$email_address = $args['email_address'];
+		$member_id     = (int) $args['member_id'];
+		$link          = add_query_arg(
+			array(
+				'action' => 'unsubscribe',
+				'nh'     => hash_hmac( 'sha1', "{$email_type}:{$email_address}", bp_email_get_salt() ),
+				'nt'     => $args['notification_type'],
+				'mid'    => $member_id,
+				'uem'    => $email_address,
+			),
+			$redirect_to
+		);
+	}
 
 	/**
 	 * Filters the unsubscribe link.
@@ -4358,6 +4417,24 @@ function bp_add_optout( $args = array() ) {
 function bp_get_optouts( $args = array() ) {
 	$optout_class = new BP_Optout();
 	return $optout_class::get( $args );
+}
+
+/**
+ * Check an email address to see if that individual has opted out.
+ *
+ * @since 8.0.0
+ *
+ * @param string $email_address Email address to check.
+ * @return bool True if the user has opted out, false otherwise.
+ */
+function bp_user_has_opted_out( $email_address = '' ) {
+	$optout_class = new BP_Optout();
+	$optout_id    = $optout_class->optout_exists(
+		array(
+			'email_address' => $email_address,
+		)
+	);
+	return (bool) $optout_id;
 }
 
 /**

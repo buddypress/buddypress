@@ -1067,12 +1067,21 @@ function bp_email_set_default_headers( $headers, $property, $transform, $email )
 
 	// Add 'List-Unsubscribe' header if applicable.
 	if ( ! empty( $tokens['unsubscribe'] ) && $tokens['unsubscribe'] !== wp_login_url() ) {
-		$user = get_user_by( 'email', $tokens['recipient.email'] );
+		$user    = get_user_by( 'email', $tokens['recipient.email'] );
+		$user_id = isset( $user->ID ) ? $user->ID : 0;
 
-		$link = bp_email_get_unsubscribe_link( array(
-			'user_id'           => $user->ID,
+		$args = array(
+			'user_id'           => $user_id,
 			'notification_type' => $email->get( 'type' ),
-		) );
+		);
+
+		// If this email is not to a current member, include the nonmember's email address and the Inviter ID.
+		if ( ! $user_id ) {
+			$args['email_address'] = $tokens['recipient.email'];
+			$args['member_id']     = bp_loggedin_user_id();
+		}
+
+		$link = bp_email_get_unsubscribe_link( $args );
 
 		if ( ! empty( $link ) ) {
 			$headers['List-Unsubscribe'] = sprintf( '<%s>', esc_url_raw( $link ) );
