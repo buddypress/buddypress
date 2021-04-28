@@ -127,3 +127,48 @@ function bp_members_edit_profile_url( $url, $user_id, $scheme = 'admin' ) {
 	return apply_filters( 'bp_members_edit_profile_url', $profile_link, $url, $user_id, $scheme );
 }
 add_filter( 'edit_profile_url', 'bp_members_edit_profile_url', 10, 3 );
+
+/**
+ * Filter the bp_user_can value to determine what the user can do in the members component.
+ *
+ * @since 8.0.0
+ *
+ * @param bool   $retval     Whether or not the current user has the capability.
+ * @param int    $user_id
+ * @param string $capability The capability being checked for.
+ * @param int    $site_id    Site ID. Defaults to the BP root blog.
+ * @param array  $args       Array of extra arguments passed.
+ *
+ * @return bool
+ */
+function bp_members_user_can_filter( $retval, $user_id, $capability, $site_id, $args = array() ) {
+
+	switch ( $capability ) {
+		case 'bp_members_manage_membership_requests':
+			$retval = bp_user_can( $user_id, 'bp_moderate' );
+			break;
+
+		case 'bp_members_send_invitation':
+			if ( bp_get_members_invitations_allowed() ) {
+				$retval = true;
+			}
+			break;
+
+		case 'bp_members_receive_invitation':
+			if ( bp_get_members_invitations_allowed() ) {
+				$retval = true;
+				// The invited user must not already be a member of the network.
+				if ( empty( $args['invitee_email'] ) || false !== get_user_by( 'email', $args['invitee_email'] ) ) {
+					$retval = false;
+				}
+				// The invited user must not have opted out from being contacted from this site.
+				if ( bp_user_has_opted_out( $args['invitee_email'] ) ) {
+					$retval = false;
+				}
+			}
+			break;
+	}
+
+	return $retval;
+}
+add_filter( 'bp_user_can', 'bp_members_user_can_filter', 10, 5 );

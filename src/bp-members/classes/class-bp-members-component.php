@@ -39,7 +39,8 @@ class BP_Members_Component extends BP_Component {
 			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 20,
-				'search_query_arg' => 'members_search',
+				'search_query_arg'         => 'members_search',
+				'features'                 => array( 'invitations' )
 			)
 		);
 	}
@@ -64,6 +65,7 @@ class BP_Members_Component extends BP_Component {
 			'blocks',
 			'widgets',
 			'cache',
+			'invitations',
 		);
 
 		if ( bp_is_active( 'activity' ) ) {
@@ -233,6 +235,11 @@ class BP_Members_Component extends BP_Component {
 			$bp->profile->slug = 'profile';
 			$bp->profile->id   = 'profile';
 		}
+
+		/** Network Invitations **************************************************
+		 */
+
+		$bp->members->invitations = new stdClass;
 	}
 
 	/**
