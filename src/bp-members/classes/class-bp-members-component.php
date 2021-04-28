@@ -66,6 +66,7 @@ class BP_Members_Component extends BP_Component {
 			'widgets',
 			'cache',
 			'invitations',
+			'notifications',
 		);
 
 		if ( bp_is_active( 'activity' ) ) {
@@ -191,7 +192,8 @@ class BP_Members_Component extends BP_Component {
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
 				'table_name_optouts'       => bp_core_get_table_prefix() . 'bp_optouts',
 				'table_name_signups'       => $wpdb->base_prefix . 'signups', // Signups is a global WordPress table.
-			)
+			),
+			'notification_callback' => 'members_format_notifications',
 		);
 
 		parent::setup_globals( $args );
@@ -483,7 +485,6 @@ class BP_Members_Component extends BP_Component {
 				$sub_nav = array_merge( $sub_nav, $this->get_avatar_cover_image_subnavs() );
 			}
 		}
-
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
