@@ -55,8 +55,9 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 			'send_invite'       => 'sent',
 		);
 		$i1 = $invites_class->add_invitation( $invite_args );
-		// Attempt to create a duplicate.
-		$this->assertFalse( $invites_class->add_invitation( $invite_args ) );
+		// Attempt to create a duplicate. Should return existing invite.
+		$i2 = $invites_class->add_invitation( $invite_args );
+		$this->assertEquals( $i1, $i2 );
 
 		$this->set_current_user( $old_current_user );
 	}

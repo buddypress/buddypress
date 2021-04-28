@@ -157,7 +157,7 @@ abstract class BP_Invitation_Manager {
 	 * @param int   $invitation_id ID of invitation to send.
 	 * @param array $args          See BP_Invitation::mark_sent().
 	 *
-	 * @return int|bool The number of rows updated, or false on error.
+	 * @return bool The result of `run_send_action()`.
 	 */
 	public function send_invitation_by_id( $invitation_id = 0, $args = array() ) {
 		$updated = false;
@@ -195,11 +195,13 @@ abstract class BP_Invitation_Manager {
 		}
 
 		// Perform the send action.
-		$this->run_send_action( $invitation );
+		$success = $this->run_send_action( $invitation );
 
-		$updated = BP_Invitation::mark_sent( $invitation->id, $args );
+		if ( $success ) {
+			BP_Invitation::mark_sent( $invitation->id, $args );
+		}
 
-		return $updated;
+		return $success;
 	}
 
 	/**
@@ -309,7 +311,7 @@ abstract class BP_Invitation_Manager {
 	 * @param int   $request_id ID of request to send.
 	 * @param array $args       See BP_Invitation::mark_sent().
 	 *
-	 * @return int|bool The number of rows updated, or false on error.
+	 * @return bool The result of `run_send_action()`.
 	 */
 	public function send_request_notification_by_id( $request_id = 0, $args = array() ) {
 		$updated = false;
@@ -342,11 +344,13 @@ abstract class BP_Invitation_Manager {
 		}
 
 		// Perform the send action.
-		$this->run_send_action( $request );
+		$success = $this->run_send_action( $request );
 
-		$updated = BP_Invitation::mark_sent( $request->id, $args );
+		if ( $success ) {
+			BP_Invitation::mark_sent( $request->id, $args );
+		}
 
-		return $updated;
+		return $success;
 	}
 
 	/** Retrieve ******************************************************************/
