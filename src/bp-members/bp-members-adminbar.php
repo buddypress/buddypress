@@ -23,8 +23,9 @@ function bp_members_admin_bar_my_account_menu() {
 	global $wp_admin_bar;
 
 	// Bail if this is an ajax request.
-	if ( defined( 'DOING_AJAX' ) )
+	if ( wp_doing_ajax() ) {
 		return;
+	}
 
 	// Logged in user.
 	if ( is_user_logged_in() ) {
@@ -178,3 +179,61 @@ function bp_members_remove_edit_page_menu() {
 	}
 }
 add_action( 'add_admin_bar_menus', 'bp_members_remove_edit_page_menu' );
+
+/**
+ * Add the "Invitations" menu and submenus.
+ *
+ * @since 8.0.0
+ */
+function bp_members_admin_bar_add_invitations_menu() {
+	global $wp_admin_bar;
+
+	// Bail if this is an ajax request.
+	if ( wp_doing_ajax() ) {
+		return;
+	}
+
+	if ( is_user_logged_in() && bp_get_members_invitations_allowed() && ( bp_current_user_can( 'bp_members_send_invitation' ) || bp_members_invitations_user_has_sent_invites() ) ) {
+		$bp               = buddypress();
+		$invitations_link = trailingslashit( bp_loggedin_user_domain() . bp_get_members_invitations_slug() );
+
+		$wp_admin_bar->add_node(
+			array(
+				'id'     => $bp->my_account_menu_id . '-invitations',
+				'parent' => $bp->my_account_menu_id,
+				'title'  => __( 'Invitations', 'buddypress' ),
+				'href'   => $invitations_link,
+				'meta'   => array(
+					'class'  => 'ab-sub-secondary'
+				)
+			)
+		);
+
+		if ( bp_current_user_can( 'bp_members_send_invitation' ) ) {
+			$wp_admin_bar->add_node(
+				array(
+					'id'     => $bp->my_account_menu_id . '-invitations-send',
+					'parent' => $bp->my_account_menu_id . '-invitations',
+					'title'  => __( 'Send Invites', 'buddypress' ),
+					'href'   => $invitations_link,
+					'meta'   => array(
+						'class'  => 'ab-sub-secondary'
+					)
+				)
+			);
+		}
+
+		$wp_admin_bar->add_node(
+			array(
+				'id'     => $bp->my_account_menu_id . '-invitations-list',
+				'parent' => $bp->my_account_menu_id . '-invitations',
+				'title'  => __( 'Pending Invites', 'buddypress' ),
+				'href'   => $invitations_link . 'list-invites/',
+				'meta'   => array(
+					'class'  => 'ab-sub-secondary'
+				)
+			)
+		);
+	}
+}
+add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_add_invitations_menu', 90 );

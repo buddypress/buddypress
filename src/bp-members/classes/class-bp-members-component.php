@@ -566,6 +566,25 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
+	 * Get the members invitations admin bar navs.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param  string $admin_bar_menu_id The Admin bar menu ID to attach sub items to.
+	 * @return array                     The members invitations admin navs.
+	 */
+	public function get_members_invitations_admin_navs( $admin_bar_menu_id = '' ) {
+		$wp_admin_nav = array();
+		$invite_link  = trailingslashit( bp_loggedin_user_domain() . bp_get_profile_slug() );
+
+		if ( ! $admin_bar_menu_id ) {
+			$admin_bar_menu_id = $this->id;
+		}
+
+		return $wp_admin_nav;
+	}
+
+	/**
 	 * Set up the Admin Bar.
 	 *
 	 * @since 6.0.0
