@@ -139,6 +139,15 @@ class BP_Members_Component extends BP_Component {
 			// Theme compatibility.
 			new BP_Registration_Theme_Compat();
 		}
+
+		// Invitations.
+		if ( is_user_logged_in() && bp_is_user_members_invitations() ) {
+			if ( bp_is_user_members_invitations_list() ) {
+				require $this->path . 'bp-members/screens/list-invites.php';
+			} else {
+				require $this->path . 'bp-members/screens/send-invites.php';
+			}
+		}
 	}
 
 	/**
