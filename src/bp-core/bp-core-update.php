@@ -697,6 +697,10 @@ function bp_core_get_8_0_upgrade_email_schema( $emails ) {
 		$new_emails['core-user-activation'] = $emails['core-user-activation'];
 	}
 
+	if ( isset( $emails['bp-members-invitation'] ) ) {
+		$new_emails['bp-members-invitation'] = $emails['bp-members-invitation'];
+	}
+
 	return $new_emails;
 }
 
