@@ -56,10 +56,29 @@ add_action( 'bp_register_activity_actions', 'bp_members_register_activity_action
  * @return string $action
  */
 function bp_members_format_activity_action_new_member( $action, $activity ) {
-	$userlink = bp_core_get_userlink( $activity->user_id );
+	$userlink         = bp_core_get_userlink( $activity->user_id );
+	$inviter_userlink = false;
+	$invite_id        = bp_get_user_meta( $activity->user_id, 'accepted_members_invitation', true );
 
-	/* translators: %s: user link */
-	$action = sprintf( esc_html__( '%s became a registered member', 'buddypress' ), $userlink );
+	if ( $invite_id ) {
+		$invite = new BP_Invitation( (int) $invite_id );
+
+		if ( $invite->inviter_id ) {
+			$inviter_userlink = bp_core_get_userlink( $invite->inviter_id );
+		}
+	}
+
+	if ( $inviter_userlink ) {
+		$action = sprintf(
+			/* translators: 1: new user link. 2: inviter user link. */
+			esc_html__( '%1$s accepted an invitation from %2$s and became a registered member', 'buddypress' ),
+			$userlink,
+			$inviter_userlink
+		);
+	} else {
+		/* translators: %s: user link */
+		$action = sprintf( esc_html__( '%s became a registered member', 'buddypress' ), $userlink );
+	}
 
 	// Legacy filter - pass $user_id instead of $activity.
 	if ( has_filter( 'bp_core_activity_registered_member_action' ) ) {
@@ -70,11 +89,13 @@ function bp_members_format_activity_action_new_member( $action, $activity ) {
 	 * Filters the formatted 'new member' activity actions.
 	 *
 	 * @since 2.2.0
+	 * @since 8.0.0 Added $invite_id
 	 *
-	 * @param string $action   Static activity action.
-	 * @param object $activity Activity object.
+	 * @param string $action    Static activity action.
+	 * @param object $activity  Activity object.
+	 * @param int    $invite_id The ID of the invite.
 	 */
-	return apply_filters( 'bp_members_format_activity_action_new_member', $action, $activity );
+	return apply_filters( 'bp_members_format_activity_action_new_member', $action, $activity, $invite_id );
 }
 
 /**
