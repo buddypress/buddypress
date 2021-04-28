@@ -3342,3 +3342,300 @@ function bp_send_welcome_email( $user_id = 0 ) {
 	bp_send_email( 'core-user-activation', $user_id, array( 'tokens' => $welcome_tokens ) );
 }
 add_action( 'bp_core_activated_user', 'bp_send_welcome_email', 10, 1 );
+
+/**
+ * Get invitations to the BP community filtered by arguments.
+ *
+ * @since 8.0.0
+ *
+ * @param array $args     Invitation arguments.
+ *                        See BP_Invitation::get() for list.
+ *
+ * @return array $invites     Matching BP_Invitation objects.
+ */
+function bp_members_invitations_get_invites( $args = array() ) {
+	$invites_class = new BP_Members_Invitation_Manager();
+	return $invites_class->get_invitations( $args );
+}
+
+/**
+ * Check whether a user has sent any community invitations.
+ *
+ * @since 8.0.0
+ *
+ * @param int $user_id ID of user to check for invitations sent by.
+ *                     Defaults to the current user's ID.
+ *
+ * @return bool $invites True if user has sent invites.
+ */
+function bp_members_invitations_user_has_sent_invites( $user_id = 0 ) {
+	if ( 0 === $user_id ) {
+		$user_id = bp_loggedin_user_id();
+		if ( ! $user_id ) {
+			return false;
+		}
+	}
+	$invites_class = new BP_Members_Invitation_Manager();
+	$args = array(
+		'inviter_id' => $user_id,
+	);
+	return (bool) $invites_class->invitation_exists( $args );
+}
+
+/**
+ * Invite a user to a BP community.
+ *
+ * @since 8.0.0
+ *
+ * @param array|string $args {
+ *     Array of arguments.
+ *     @type int    $invitee_email Email address of the user being invited.
+ *     @type int    $network_id    ID of the network to which the user is being invited.
+ *     @type int    $inviter_id    Optional. ID of the inviting user. Default:
+ *                                 ID of the logged-in user.
+ *     @type string $date_modified Optional. Modified date for the invitation.
+ *                                 Default: current date/time.
+ *     @type string $content       Optional. Message to invitee.
+ *     @type bool   $send_invite   Optional. Whether the invitation should be
+ *                                 sent now. Default: false.
+ * }
+ * @return bool True on success, false on failure.
+ */
+function bp_members_invitations_invite_user( $args ) {
+	$r = bp_parse_args( $args, array(
+		'invitee_email' => '',
+		'network_id'    => get_current_network_id(),
+		'inviter_id'    => bp_loggedin_user_id(),
+		'date_modified' => bp_core_current_time(),
+		'content'       => '',
+		'send_invite'   => 0
+	), 'community_invite_user' );
+
+	$inv_args = array(
+		'invitee_email' => $r['invitee_email'],
+		'item_id'       => $r['network_id'],
+		'inviter_id'    => $r['inviter_id'],
+		'date_modified' => $r['date_modified'],
+		'content'       => $r['content'],
+		'send_invite'   => $r['send_invite']
+	);
+
+	// Create the invitataion.
+	$invites_class = new BP_Members_Invitation_Manager();
+	$created       = $invites_class->add_invitation( $inv_args );
+
+	/**
+	 * Fires after the creation of a new network invite.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param array    $r       Array of parsed arguments for the network invite.
+	 * @param int|bool $created The ID of the invitation or false if it couldn't be created.
+	 */
+	do_action( 'bp_members_invitations_invite_user', $r, $created );
+
+	return $created;
+}
+
+/**
+ * Resend a membership invitation email by id.
+ *
+ * @since 8.0.0
+ *
+ * @param int $id ID of the invitation to resend.
+ * @return bool True on success, false on failure.
+ */
+function bp_members_invitation_resend_by_id( $id = 0 ) {
+
+	// Find the invitation before deleting it.
+	$existing_invite = new BP_Invitation( $id );
+	$invites_class   = new BP_Members_Invitation_Manager();
+	$success         = $invites_class->send_invitation_by_id( $id );
+
+	if ( ! $success ) {
+		return $success;
+	}
+
+	/**
+	 * Fires after the re-sending of a network invite.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param BP_Invitation $existing_invite The invitation that was resent.
+	 */
+	do_action( 'bp_members_invitations_resend_invitation', $existing_invite );
+
+	return $success;
+}
+
+/**
+ * Delete a membership invitation by id.
+ *
+ * @since 8.0.0
+ *
+ * @param int $id ID of the invitation to delete.
+ * @return int|bool Number of rows deleted on success, false on failure.
+ */
+function bp_members_invitations_delete_by_id( $id = 0 ) {
+
+	// Find the invitation before deleting it.
+	$existing_invite = new BP_Invitation( $id );
+	$invites_class   = new BP_Members_Invitation_Manager();
+	$success         = $invites_class->delete_by_id( $id );
+
+	if ( ! $success ) {
+		return $success;
+	}
+
+	// Run a different action depending on the status of the invite.
+	if ( ! $existing_invite->invite_sent ) {
+		/**
+		 * Fires after the deletion of an unsent community invite.
+		 *
+		 * @since 8.0.0
+		 *
+		 * @param BP_Invitation $existing_invite The invitation to be deleted.
+		 */
+		do_action( 'bp_members_invitations_canceled_invitation', $existing_invite );
+	} else if ( ! $existing_invite->accepted ) {
+		/**
+		 * Fires after the deletion of a sent, but not yet accepted, community invite.
+		 *
+		 * @since 8.0.0
+		 *
+		 * @param BP_Invitation $existing_invite The invitation to be deleted.
+		 */
+		do_action( 'bp_members_invitations_revoked_invitation', $existing_invite );
+	} else {
+		/**
+		 * Fires after the deletion of a sent and accepted community invite.
+		 *
+		 * @since 8.0.0
+		 *
+		 * @param BP_Invitation $existing_invite The invitation to be deleted.
+		 */
+		do_action( 'bp_members_invitations_deleted_invitation', $existing_invite );
+	}
+
+	return $success;
+}
+
+/**
+ * Delete a membership invitation.
+ *
+ * @since 8.0.0
+ *
+ * @param intring $args {
+ *     Array of arguments.
+ *     @type int|array $id            Id(s) of the invitation(s) to remove.
+ *     @type int       $invitee_email Email address of the user being invited.
+ *     @type int       $network_id    ID of the network to which the user is being invited.
+ *     @type int       $inviter_id    ID of the inviting user.
+ *     @type int       $accepted      Whether the invitation has been accepted yet.
+ *     @type int       $invite_sent   Whether the invitation has been sent yet.
+ * }
+ * @return bool True if all were deleted.
+ */
+function bp_members_invitations_delete_invites( $args ) {
+	$r = bp_parse_args( $args, array(
+		'id'            => false,
+ 		'invitee_email' => '',
+		'network_id'    => get_current_network_id(),
+		'inviter_id'    => null,
+		'accepted'      => null,
+		'invite_sent'   => null
+	), 'members_invitations_delete_invites' );
+
+	$inv_args = array(
+		'id'            => $r['id'],
+		'invitee_email' => $r['invitee_email'],
+		'item_id'       => $r['network_id'],
+		'inviter_id'    => $r['inviter_id'],
+		'accepted'      => $r['accepted'],
+		'invite_sent'   => $r['invite_sent']
+	);
+
+	// Find the invitation(s).
+	$invites       = bp_members_invitations_get_invites( $inv_args );
+	$total_count   = count( $invites );
+
+	// Loop through, deleting each invitation.
+	$deleted = 0;
+	foreach ( $invites as $invite ) {
+		$success = bp_members_invitations_delete_by_id( $invite->id );
+		if ( $success ) {
+			$deleted++;
+		}
+	}
+
+	return $deleted === $total_count;
+}
+
+/**
+ * Get hash based on details of a membership invitation and the inviter.
+ *
+ * @since 8.0.0
+ *
+ * @param BP_Invitation object $invitation Invitation to create hash from.
+ *
+ * @return string $hash Calculated sha1 hash.
+ */
+function bp_members_invitations_get_hash( BP_Invitation $invitation ) {
+	$hash = false;
+
+	if ( ! empty( $invitation->id ) ) {
+		$inviter_ud = get_userdata( $invitation->inviter_id );
+		if ( $inviter_ud ) {
+			/*
+			 * Use some inviter details as part of the hash so that invitations from
+			 * users who are subsequently marked as spam will be invalidated.
+			 */
+			$hash = wp_hash( "{$invitation->inviter_id}:{$invitation->invitee_email}:{$inviter_ud->user_status}:{$inviter_ud->user_registered}" );
+		}
+	}
+
+	// If there's a problem, return a string that will change and thus fail.
+	if ( ! $hash ) {
+		$hash = wp_generate_password( 32, false );
+	}
+
+	/**
+	 * Filters the hash calculated by the invitation details.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param string $hash Calculated sha1 hash.
+	 * @param BP_Invitation object $invitation Invitation hash was created from.
+	 */
+	return apply_filters( 'bp_members_invitations_get_hash', $hash, $invitation );
+}
+
+/**
+ * Get the current invitation specified by the $_GET parameters.
+ *
+ * @since 8.0.0
+ *
+ * @return BP_Invitation $invite Invitation specified by the $_GET parameters.
+ */
+function bp_get_members_invitation_from_request() {
+	$invites_class = new BP_Members_Invitation_Manager();
+	$invite        = $invites_class->get_by_id( 0 );
+
+	if ( bp_get_members_invitations_allowed() && ! empty( $_GET['inv'] ) ) {
+		// Check to make sure the passed hash matches a calculated hash.
+		$maybe_invite = $invites_class->get_by_id( absint( $_GET['inv'] ) );
+		$hash = bp_members_invitations_get_hash( $maybe_invite );
+		if ( $_GET['ih'] === $hash ) {
+			$invite = $maybe_invite;
+		}
+	}
+
+	/**
+	 * Filters the invitation specified by the $_GET parameters.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param BP_Invitation $invite Invitation specified by the $_GET parameters.
+	 */
+	return apply_filters( 'bp_get_members_invitation_from_request', $invite );
+}
