@@ -563,7 +563,7 @@ function bp_core_admin_available_tools_intro() {
 				<?php
 				$url = add_query_arg( 'page', 'bp-optouts', bp_get_admin_url( $page ) );
 				printf(
-					/* translators: %s: the link to the BuddyPress Nonmember Opt-outs */
+					/* translators: %s: the link to the BuddyPress Nonmember Opt-outs management tool screen */
 					esc_html_x( 'Visit %s to manage your site&rsquo;s opt-out requests.', 'buddypress opt-outs intro', 'buddypress' ),
 					'<a href="' . esc_url( $url ) . '">' . esc_html__( 'Nonmember Opt-outs', 'buddypress' ) . '</a>'
 				);

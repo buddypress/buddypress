@@ -174,26 +174,30 @@ function bp_core_get_optouts_notice() {
 		);
 
 		if ( ! empty( $_REQUEST['deleted'] ) ) {
+			$deleted            = absint( $_REQUEST['deleted'] );
 			$notice['message'] .= sprintf(
-				/* translators: %s: number of deleted optouts */
-				_nx( '%s opt-out successfully deleted!', '%s opt-outs successfully deleted!',
-				 absint( $_REQUEST['deleted'] ),
-				 'nonmembers opt-out deleted',
-				 'buddypress'
+				_nx(
+					/* translators: %s: number of deleted optouts */
+					'%s opt-out successfully deleted!', '%s opt-outs successfully deleted!',
+					$deleted,
+					'nonmembers opt-out deleted',
+					'buddypress'
 				),
 				number_format_i18n( absint( $_REQUEST['deleted'] ) )
 			);
 		}
 
 		if ( ! empty( $_REQUEST['notdeleted'] ) ) {
+			$notdeleted         = absint( $_REQUEST['notdeleted'] );
 			$notice['message'] .= sprintf(
-				/* translators: %s: number of optouts that failed to be deleted */
-				_nx( '%s opt-out was not deleted.', '%s opt-outs were not deleted.',
-				 absint( $_REQUEST['notdeleted'] ),
-				 'nonmembers opt-out not deleted',
-				 'buddypress'
+				_nx(
+					/* translators: %s: number of optouts that failed to be deleted */
+					'%s opt-out was not deleted.', '%s opt-outs were not deleted.',
+					$notdeleted,
+					'nonmembers opt-out not deleted',
+					'buddypress'
 				),
-				number_format_i18n( absint( $_REQUEST['notdeleted'] ) )
+				number_format_i18n( $notdeleted )
 			);
 
 			if ( empty( $_REQUEST['deleted'] ) ) {
