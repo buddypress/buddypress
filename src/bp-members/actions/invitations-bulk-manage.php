@@ -17,7 +17,7 @@
 function bp_members_invitations_action_bulk_manage() {
 
 	// Bail if not the user's invitations screen.
-	if ( ! bp_is_user_members_invitations() ) {
+	if ( ! bp_is_my_profile() && ! bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
 	}
 
