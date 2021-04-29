@@ -6033,8 +6033,8 @@ function bp_group_invite_pagination_count() {
 		if ( 1 == $invites_template->total_invite_count ) {
 			$message = __( 'Viewing 1 invitation', 'buddypress' );
 		} else {
-			/* translators: 1: group invite from number. 2: group invite to number. 3: total group invites. */
-			$message = sprintf( _n( 'Viewing %1$s - %2$s of %3$s invitation', 'Viewing %1$s - %2$s of %3$s invitations', $invites_template->total_invite_count, 'buddypress' ), $from_num, $to_num, $total );
+			/* translators: 1: Invitations from number. 2: Invitations to number. 3: Total invitations. */
+			$message = sprintf( _nx( 'Viewing %1$s - %2$s of %3$s invitation', 'Viewing %1$s - %2$s of %3$s invitations', $invites_template->total_invite_count, 'Group invites pagination', 'buddypress' ), $from_num, $to_num, $total );
 		}
 
 		/** This filter is documented in bp-groups/bp-groups-template.php */

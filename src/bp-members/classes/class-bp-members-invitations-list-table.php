@@ -66,13 +66,13 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 		$paged    = $this->get_pagenum();
 
 		$args = array(
-			'invite_sent'       => 'all',
-			'accepted'          => 'all',
-			'search_terms'      => $search,
-			'order_by'          => 'date_modified',
-			'sort_order'        => 'DESC',
-			'page'              => $paged,
-			'per_page'          => $per_page,
+			'invite_sent'  => 'all',
+			'accepted'     => 'all',
+			'search_terms' => $search,
+			'order_by'     => 'date_modified',
+			'sort_order'   => 'DESC',
+			'page'         => $paged,
+			'per_page'     => $per_page,
 		);
 
 		if ( isset( $_REQUEST['accepted'] ) && in_array( $_REQUEST['accepted'], array( 'pending', 'accepted' ), true ) ) {
@@ -122,10 +122,12 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 		);
 		?>
 
-		<h2 class="screen-reader-text"><?php
+		<h2 class="screen-reader-text">
+			<?php
 			/* translators: accessibility text */
 			esc_html_e( 'Filter invitations list', 'buddypress' );
-		?></h2>
+			?>
+		</h2>
 		<ul class="subsubsub">
 			<li class="all">
 				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( empty( $this->active_filters ) ) echo 'current'; ?>">
@@ -198,15 +200,18 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 		 *
 		 * @param array $value Array of columns to display.
 		 */
-		return apply_filters( 'bp_members_invitations_list_columns', array(
-			'cb'                       => '<input type="checkbox" />',
-			'invitee_email'            => __( 'Invitee', 'buddypress' ),
-			'username'                 => __( 'Inviter', 'buddypress' ),
-			'inviter_registered_date'  => __( 'Inviter Registered', 'buddypress' ),
-			'invitation_date_modified' => __( 'Date Modified', 'buddypress' ),
-			'invitation_sent'          => __( 'Email Sent', 'buddypress' ),
-			'invitation_accepted'      => __( 'Accepted', 'buddypress' )
-		) );
+		return apply_filters(
+			'bp_members_invitations_list_columns',
+			array(
+				'cb'                       => '<input type="checkbox" />',
+				'invitee_email'            => __( 'Invitee', 'buddypress' ),
+				'username'                 => __( 'Inviter', 'buddypress' ),
+				'inviter_registered_date'  => __( 'Inviter Registered', 'buddypress' ),
+				'invitation_date_modified' => __( 'Date Modified', 'buddypress' ),
+				'invitation_sent'          => __( 'Email Sent', 'buddypress' ),
+				'invitation_accepted'      => __( 'Accepted', 'buddypress' )
+			)
+		);
 	}
 
 	/**
@@ -238,7 +243,11 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 		if ( bp_get_members_invitations_allowed() ) {
 			esc_html_e( 'No invitations found.', 'buddypress' );
 		} else {
-			$link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ) ), esc_html__( 'Edit settings', 'buddypress' ) );
+			$link = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ) ),
+				esc_html__( 'Edit settings', 'buddypress' )
+			);
 
 			/* translators: %s: url to site settings */
 			printf( __( 'Invitations are not allowed. %s', 'buddypress' ), $link );
@@ -301,11 +310,13 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 * @param BP_Invitation $invite BP_Invitation object.
 	 */
 	public function column_cb( $invite = null ) {
-	?>
-		<label class="screen-reader-text" for="invitation_<?php echo intval( $invite->id ); ?>"><?php
-			/* translators: accessibility text */
-			printf( esc_html__( 'Select invitation: %s', 'buddypress' ), $invite->id );
-		?></label>
+		?>
+		<label class="screen-reader-text" for="invitation_<?php echo intval( $invite->id ); ?>">
+			<?php
+				/* translators: accessibility text */
+				printf( esc_html__( 'Select invitation: %s', 'buddypress' ), $invite->id );
+			?>
+		</label>
 		<input type="checkbox" id="invitation_<?php echo intval( $invite->id ) ?>" name="invite_ids[]" value="<?php echo esc_attr( $invite->id ) ?>" />
 		<?php
 	}

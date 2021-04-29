@@ -44,6 +44,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 		if ( 'request' === $invitation->type ) {
 			// Coming soon to a BuddyPress near you!
 			return true;
+
 		// Notify the invitee of the invitation.
 		} else {
 			// Stop if the invitation has already been accepted.

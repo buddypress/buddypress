@@ -327,7 +327,16 @@ function bp_core_optouts_admin_index() {
 		<?php
 		if ( $usersearch ) {
 			$num_results = (int) $bp_optouts_list_table->total_items;
-			printf( '<p><span class="subtitle">' . esc_html( _n( 'Opt-out with an email address matching &#8220;%s&#8221;', 'Opt-outs with an email address matching &#8220;%s&#8221;', $num_results, 'buddypress' ) ) . '</span></p>', esc_html( $usersearch ) );
+			printf(
+				'<p><span class="subtitle">%s</span></p>',
+				sprintf(
+					esc_html(
+						/* translators: %s: the searched email. */
+						_n( 'Opt-out with an email address matching &#8220;%s&#8221;', 'Opt-outs with an email address matching &#8220;%s&#8221;', $num_results, 'buddypress' )
+					),
+					esc_html( $usersearch )
+				)
+			);
 		}
 		?>
 		<p><?php esc_html_e( 'This table shows opt-out requests from people who are not members of this site, but have been contacted via communication from this site, and wish to receive no further communications.', 'buddypress' ); ?></p>

@@ -3004,8 +3004,6 @@ class BP_Members_Admin {
 			}
 			?>
 
-			<hr class="wp-header-end">
-
 			<?php // Display each invitation on its own row. ?>
 			<?php $bp_members_invitations_list_table->views(); ?>
 

@@ -3401,15 +3401,19 @@ function bp_members_invitations_user_has_sent_invites( $user_id = 0 ) {
  * }
  * @return bool True on success, false on failure.
  */
-function bp_members_invitations_invite_user( $args ) {
-	$r = bp_parse_args( $args, array(
-		'invitee_email' => '',
-		'network_id'    => get_current_network_id(),
-		'inviter_id'    => bp_loggedin_user_id(),
-		'date_modified' => bp_core_current_time(),
-		'content'       => '',
-		'send_invite'   => 0
-	), 'community_invite_user' );
+function bp_members_invitations_invite_user( $args = array() ) {
+	$r = bp_parse_args(
+		$args,
+		array(
+			'invitee_email' => '',
+			'network_id'    => get_current_network_id(),
+			'inviter_id'    => bp_loggedin_user_id(),
+			'date_modified' => bp_core_current_time(),
+			'content'       => '',
+			'send_invite'   => 0
+		),
+		'community_invite_user'
+	);
 
 	$inv_args = array(
 		'invitee_email' => $r['invitee_email'],
@@ -3536,15 +3540,19 @@ function bp_members_invitations_delete_by_id( $id = 0 ) {
  * }
  * @return bool True if all were deleted.
  */
-function bp_members_invitations_delete_invites( $args ) {
-	$r = bp_parse_args( $args, array(
-		'id'            => false,
- 		'invitee_email' => '',
-		'network_id'    => get_current_network_id(),
-		'inviter_id'    => null,
-		'accepted'      => null,
-		'invite_sent'   => null
-	), 'members_invitations_delete_invites' );
+function bp_members_invitations_delete_invites( $args = array() ) {
+	$r = bp_parse_args(
+		$args,
+		array(
+			'id'            => false,
+			'invitee_email' => '',
+			'network_id'    => get_current_network_id(),
+			'inviter_id'    => null,
+			'accepted'      => null,
+			'invite_sent'   => null
+		),
+		'members_invitations_delete_invites'
+	);
 
 	$inv_args = array(
 		'id'            => $r['id'],
@@ -3556,8 +3564,8 @@ function bp_members_invitations_delete_invites( $args ) {
 	);
 
 	// Find the invitation(s).
-	$invites       = bp_members_invitations_get_invites( $inv_args );
-	$total_count   = count( $invites );
+	$invites     = bp_members_invitations_get_invites( $inv_args );
+	$total_count = count( $invites );
 
 	// Loop through, deleting each invitation.
 	$deleted = 0;
@@ -3624,7 +3632,8 @@ function bp_get_members_invitation_from_request() {
 	if ( bp_get_members_invitations_allowed() && ! empty( $_GET['inv'] ) ) {
 		// Check to make sure the passed hash matches a calculated hash.
 		$maybe_invite = $invites_class->get_by_id( absint( $_GET['inv'] ) );
-		$hash = bp_members_invitations_get_hash( $maybe_invite );
+		$hash         = bp_members_invitations_get_hash( $maybe_invite );
+
 		if ( $_GET['ih'] === $hash ) {
 			$invite = $maybe_invite;
 		}

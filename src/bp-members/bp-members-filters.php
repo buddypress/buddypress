@@ -208,6 +208,7 @@ function bp_members_invitations_get_registration_welcome_message() {
 	if ( ! bp_get_members_invitations_allowed() ) {
 		return $message;
 	}
+
 	$invite = bp_get_members_invitation_from_request();
 	if ( ! $invite->id || ! $invite->invitee_email ) {
 		return $message;
@@ -219,9 +220,15 @@ function bp_members_invitations_get_registration_welcome_message() {
 	// This user is already a member
 	if ( $maybe_user ) {
 		$message = sprintf(
-			esc_html__( 'Welcome! You are already a member of this site. Please %1$s to continue. ', 'buddypress' ),
-			sprintf( '<a href="%1$s">%2$s</a>', esc_url( wp_login_url( bp_get_root_domain() ) ), esc_html__( 'log in', 'buddypress' ) )
+			/* translators: %s: The log in link `<a href="login_url">log in</a>` */
+			esc_html__( 'Welcome! You are already a member of this site. Please %s to continue.', 'buddypress' ),
+			sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( wp_login_url( bp_get_root_domain() ) ),
+				esc_html__( 'log in', 'buddypress' )
+			)
 		);
+
 	// This user can register!
 	} else {
 
@@ -230,14 +237,20 @@ function bp_members_invitations_get_registration_welcome_message() {
 			'invitee_email' => $invite->invitee_email,
 			'invite_sent'   => 'sent',
 		);
-		$all_invites = bp_members_invitations_get_invites( $all_args );
-		$inviters = array();
+
+		$all_invites = bp_members_invitations_get_invites( $args );
+		$inviters    = array();
+
 		foreach ( $all_invites as $inv ) {
 			$inviters[] = bp_core_get_user_displayname( $inv->inviter_id );
 		}
 
 		if ( ! empty( $inviters ) ) {
-			$message = sprintf( _n( 'Welcome! You&#8217;ve been invited to join the site by the following user: %s. ', 'Welcome! You&#8217;ve been invited to join the site by the following users: %s. ', count( $inviters ), 'buddypress' ), implode( ', ', $inviters ) );
+			$message = sprintf(
+				/* translators: %s: The comma separated list of inviters display names */
+				_n( 'Welcome! You&#8217;ve been invited to join the site by the following user: %s.', 'Welcome! You&#8217;ve been invited to join the site by the following users: %s.', count( $inviters ), 'buddypress' ),
+				implode( ', ', $inviters )
+			);
 		} else {
 			$message = __( 'Welcome! You&#8217;ve been invited to join the site. ', 'buddypress' );
 		}
@@ -269,19 +282,32 @@ function bp_members_invitations_get_modified_registration_disabled_message() {
 		$maybe_user = get_user_by( 'email', $invite->invitee_email );
 
 		if ( ! $maybe_user ) {
-			$message = __( 'Member registration is allowed by invitation only.', 'buddypress' );
+			$message_parts = array( esc_html__( 'Member registration is allowed by invitation only.', 'buddypress' ) );
+
 			// Is the user trying to accept an invitation but something is wrong?
 			if ( ! empty( $_GET['inv'] ) ) {
-				$message .= __( ' It looks like there is a problem with your invitation. Please try again.', 'buddypress' );
+				$message_parts[] = esc_html__( 'It looks like there is a problem with your invitation. Please try again.', 'buddypress' );
 			}
+
+			$message = implode( ' ', $message_parts );
 		} else if ( 'nouveau' === bp_get_theme_package_id() ) {
 			$message = sprintf(
+				/* translators: 1: The log in link `<a href="login_url">log in</a>`. 2: The lost password link `<a href="lost_password_url">log in</a>` */
 				esc_html__( 'Welcome! You are already a member of this site. Please %1$s to continue. If you have forgotten your password, you can %2$s.', 'buddypress' ),
-				sprintf( '<a href="%1$s">%2$s</a>', esc_url( wp_login_url( bp_get_root_domain() ) ), esc_html__( 'log in', 'buddypress' ) ),
-				sprintf( '<a href="%1$s">%2$s</a>', esc_url( wp_lostpassword_url(  bp_get_root_domain() ) ), esc_html__( 'reset it', 'buddypress' ) )
+				sprintf(
+					'<a href="%1$s">%2$s</a>',
+					esc_url( wp_login_url( bp_get_root_domain() ) ),
+					esc_html__( 'log in', 'buddypress' )
+				),
+				sprintf(
+					'<a href="%1$s">%2$s</a>',
+					esc_url( wp_lostpassword_url( bp_get_root_domain() ) ),
+					esc_html__( 'reset it', 'buddypress' )
+				)
 			);
 		}
 	}
+
 	return $message;
 }
 

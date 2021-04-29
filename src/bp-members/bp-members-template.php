@@ -3049,8 +3049,8 @@ function bp_members_invitations_pagination_count() {
 		if ( 1 == $query_loop->total_invitation_count ) {
 			$pag = __( 'Viewing 1 invitation', 'buddypress' );
 		} else {
-			/* translators: 1: notification from number. 2: notification to number. 3: total notifications. */
-			$pag = sprintf( _n( 'Viewing %1$s - %2$s of %3$s invitation', 'Viewing %1$s - %2$s of %3$s invitations', $query_loop->total_invitation_count, 'buddypress' ), $from_num, $to_num, $total );
+			/* translators: 1: Invitations from number. 2: Invitations to number. 3: Total invitations. */
+			$pag = sprintf( _nx( 'Viewing %1$s - %2$s of %3$s invitation', 'Viewing %1$s - %2$s of %3$s invitations', $query_loop->total_invitation_count, 'Community invites pagination', 'buddypress' ), $from_num, $to_num, $total );
 		}
 
 		/**

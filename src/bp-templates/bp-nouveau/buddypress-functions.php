@@ -695,11 +695,13 @@ class BP_Nouveau extends BP_Theme_Compat {
 		if ( $disallowed_message ) {
 			$messages['registration-disabled']['message'] = $disallowed_message;
 		}
+
 		// Add information about invitations to the welcome block.
 		$welcome_message = bp_members_invitations_get_registration_welcome_message();
 		if ( $welcome_message ) {
-			$messages['request-details']['message'] = $welcome_message . $messages['request-details']['message'];
+			$messages['request-details']['message'] = $welcome_message . ' ' . $messages['request-details']['message'];
 		}
+
 		return $messages;
 	}
 }

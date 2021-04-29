@@ -2020,13 +2020,13 @@ function bp_legacy_theme_group_manage_members_add_search() {
  * community invitations are enabled.
  *
  * @since 8.0.0
- *
- * @return string $message The message text.
  */
 function bp_members_invitations_add_legacy_welcome_message() {
 	$message = bp_members_invitations_get_registration_welcome_message();
+
 	if ( $message ) {
-		echo apply_filters( 'wpautop', $message );
+		// Surround the message with `<p>` tags.
+		echo wpautop( $message );
 	}
 }
 add_action( 'bp_before_register_page', 'bp_members_invitations_add_legacy_welcome_message' );
@@ -2037,13 +2037,13 @@ add_action( 'bp_before_register_page', 'bp_members_invitations_add_legacy_welcom
  * community invitations are enabled.
  *
  * @since 8.0.0
- *
- * @return string $message The message text.
  */
 function bp_members_invitations_add_legacy_registration_disabled_message() {
 	$message = bp_members_invitations_get_modified_registration_disabled_message();
+
 	if ( $message ) {
-		echo apply_filters( 'wpautop', $message );
+		// Surround the message with `<p>` tags.
+		echo wpautop( $message );
 	}
 }
 add_action( 'bp_after_registration_disabled', 'bp_members_invitations_add_legacy_registration_disabled_message' );

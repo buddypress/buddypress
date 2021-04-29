@@ -162,23 +162,26 @@ class BP_Members_Invitations_Template {
 	public function __construct( $args = array() ) {
 
 		// Parse arguments.
-		$r = wp_parse_args( $args, array(
-			'id'                => false,
-			'user_id'           => false,
-			'inviter_id'        => false,
-			'invitee_email'     => false,
-			'item_id'           => false,
-			'type'              => 'invite',
-			'invite_sent'       => 'all',
-			'accepted'          => 'all',
-			'search_terms'      => '',
-			'order_by'          => 'date_modified',
-			'sort_order'        => 'DESC',
-			'page'              => 1,
-			'per_page'          => 25,
-			'fields'            => 'all',
-			'page_arg'          => 'ipage',
-		) );
+		$r = wp_parse_args(
+			$args,
+			array(
+				'id'            => false,
+				'user_id'       => false,
+				'inviter_id'    => false,
+				'invitee_email' => false,
+				'item_id'       => false,
+				'type'          => 'invite',
+				'invite_sent'   => 'all',
+				'accepted'      => 'all',
+				'search_terms'  => '',
+				'order_by'      => 'date_modified',
+				'sort_order'    => 'DESC',
+				'page'          => 1,
+				'per_page'      => 25,
+				'fields'        => 'all',
+				'page_arg'      => 'ipage',
+			)
+		);
 
 		// Sort order direction.
 		$orders = array( 'ASC', 'DESC' );
@@ -190,26 +193,26 @@ class BP_Members_Invitations_Template {
 
 		// Setup variables.
 		$this->pag_arg      = sanitize_key( $r['page_arg'] );
-		$this->pag_page     = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
-		$this->pag_num      = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
+		$this->pag_page     = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
+		$this->pag_num      = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 		$this->user_id      = $r['user_id'];
 		$this->search_terms = $r['search_terms'];
 		$this->order_by     = $r['order_by'];
 		$this->sort_order   = $r['sort_order'];
 		$this->query_vars   = array(
-			'id'                => $r['id'],
-			'user_id'           => $r['user_id'],
-			'inviter_id'        => $r['inviter_id'],
-			'invitee_email'     => $r['invitee_email'],
-			'item_id'           => $r['item_id'],
-			'type'              => $r['type'],
-			'invite_sent'       => $r['invite_sent'],
-			'accepted'          => $r['accepted'],
-			'search_terms'      => $this->search_terms,
-			'order_by'          => $this->order_by,
-			'sort_order'        => $this->sort_order,
-			'page'              => $this->pag_page,
-			'per_page'          => $this->pag_num,
+			'id'            => $r['id'],
+			'user_id'       => $r['user_id'],
+			'inviter_id'    => $r['inviter_id'],
+			'invitee_email' => $r['invitee_email'],
+			'item_id'       => $r['item_id'],
+			'type'          => $r['type'],
+			'invite_sent'   => $r['invite_sent'],
+			'accepted'      => $r['accepted'],
+			'search_terms'  => $this->search_terms,
+			'order_by'      => $this->order_by,
+			'sort_order'    => $this->sort_order,
+			'page'          => $this->pag_page,
+			'per_page'      => $this->pag_num,
 		);
 
 		// Setup the invitations to loop through.
@@ -224,16 +227,18 @@ class BP_Members_Invitations_Template {
 				'sort_order' => $this->sort_order,
 			);
 
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
-				'format'    => '',
-				'total'     => ceil( (int) $this->total_invitation_count / (int) $this->pag_num ),
-				'current'   => $this->pag_page,
-				'prev_text' => _x( '&larr;', 'Network invitation pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Network invitation pagination next text',     'buddypress' ),
-				'mid_size'  => 1,
-				'add_args'  => $add_args,
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $this->pag_arg, '%#%' ),
+					'format'    => '',
+					'total'     => ceil( (int) $this->total_invitation_count / (int) $this->pag_num ),
+					'current'   => $this->pag_page,
+					'prev_text' => _x( '&larr;', 'Network invitation pagination previous text', 'buddypress' ),
+					'next_text' => _x( '&rarr;', 'Network invitation pagination next text', 'buddypress' ),
+					'mid_size'  => 1,
+					'add_args'  => $add_args,
+				)
+			);
 		}
 	}
 
