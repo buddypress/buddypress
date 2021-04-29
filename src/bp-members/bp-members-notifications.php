@@ -147,7 +147,7 @@ function bp_members_invitations_accepted_invitation_notification( $invite, $new_
 		) );
 	}
 }
-add_action( 'community_membership_invite_accepted', 'bp_members_invitations_accepted_invitation_notification', 10, 3 );
+add_action( 'members_invitations_invite_accepted', 'bp_members_invitations_accepted_invitation_notification', 10, 3 );
 
 /**
  * Mark accepted invitation notifications as read when user visits new user profile.

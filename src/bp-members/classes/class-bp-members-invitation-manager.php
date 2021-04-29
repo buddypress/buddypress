@@ -131,7 +131,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 				 * @param WP_user       $new_user   ID of the user who accepted the membership invite.
 				 * @param int           $inviter_id ID of the user who invited this user to the site.
 				 */
-				do_action( 'community_membership_invite_accepted', $invite, $new_user, $invite->inviter_id );
+				do_action( 'members_invitations_invite_accepted', $invite, $new_user, $invite->inviter_id );
 			}
 		}
 

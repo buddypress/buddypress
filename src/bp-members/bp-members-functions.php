@@ -3412,7 +3412,7 @@ function bp_members_invitations_invite_user( $args = array() ) {
 			'content'       => '',
 			'send_invite'   => 0
 		),
-		'community_invite_user'
+		'members_invitations_invite_user'
 	);
 
 	$inv_args = array(

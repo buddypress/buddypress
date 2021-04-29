@@ -2982,7 +2982,7 @@ function bp_has_members_invitations( $args = '' ) {
 		// These are additional arguments that are not available in
 		// BP_Invitations_Invitation::get().
 		'page_arg'          => 'ipage',
-	), 'has_community_invitations' );
+	), 'has_members_invitations' );
 
 	// Get the notifications.
 	$query_loop = new BP_Members_Invitations_Template( $r );
