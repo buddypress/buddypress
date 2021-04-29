@@ -479,7 +479,14 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 					<div class="bp-date-format-option">
 						<label for="date-format-elapsed">
 							<input type="radio" name="field-settings[date_format]" id="date-format-elapsed" <?php checked( 'elapsed', $settings['date_format'] ); ?> value="elapsed" aria-describedby="date-format-elapsed-setting" />
-							<span class="date-format-label" id="date-format-elapsed-setting"><?php esc_html_e( 'Time elapsed', 'buddypress' ); ?></span> <?php _e( '<code>4 years ago</code>, <code>4 years from now</code>', 'buddypress' ); ?>
+							<span class="date-format-label" id="date-format-elapsed-setting"><?php esc_html_e( 'Time elapsed', 'buddypress' ); ?></span> <?php printf( '<code>%1$s</code>, <code>%2$s</code>', esc_html__( '4 years ago', 'buddypress' ), esc_html__( '4 years from now', 'buddypress' ) ); ?>
+						</label>
+					</div>
+
+					<div class="bp-date-format-option">
+						<label for="date-format-age">
+							<input type="radio" name="field-settings[date_format]" id="date-format-age" <?php checked( 'age', $settings['date_format'] ); ?> value="age" aria-describedby="date-format-age-setting" />
+							<span class="date-format-label" id="date-format-age-setting"><?php esc_html_e( 'Age', 'buddypress' ); ?></span> <?php printf( '<code>%s</code>', esc_html__( '20 years old', 'buddypress' ) ); ?>
 						</label>
 					</div>
 
@@ -599,6 +606,10 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		switch ( $settings['date_format'] ) {
 			case 'elapsed' :
 				$formatted = bp_core_time_since( $field_value );
+			break;
+
+			case 'age' :
+				$formatted = bp_core_time_old( $field_value );
 			break;
 
 			case 'custom' :

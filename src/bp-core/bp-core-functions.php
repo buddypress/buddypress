@@ -1177,21 +1177,183 @@ function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
 }
 
 /**
- * Get an English-language representation of the time elapsed since a given date.
+ * Calculate the human time difference between two dates.
  *
  * Based on function created by Dunstan Orchard - http://1976design.com
  *
+ * @since 8.0.0
+ *
+ * @param array $args {
+ *     An array of arguments. All arguments are technically optional.
+ *
+ *     @type int|string $older_date  An integer Unix timestamp or a date string of the format 'Y-m-d h:i:s'.
+ *     @type int|string $newer_date  An integer Unix timestamp or a date string of the format 'Y-m-d h:i:s'.
+ *     @type int        $time_chunks The number of time chunks to get (1 or 2).
+ * }
+ * @return null|array|false Null if there's no time diff. An array containing 1 or 2 chunks
+ *                          of human time. False if travelling into the future.
+ */
+function bp_core_time_diff( $args = array() ) {
+	$retval = null;
+	$r      = wp_parse_args(
+		$args,
+		array(
+			'older_date'     => 0,
+			'newer_date'     => bp_core_current_time( true, 'timestamp' ),
+			'time_chunks'    => 2,
+		)
+	);
+
+	// Array of time period chunks.
+	$chunks = array(
+		YEAR_IN_SECONDS,
+		30 * DAY_IN_SECONDS,
+		WEEK_IN_SECONDS,
+		DAY_IN_SECONDS,
+		HOUR_IN_SECONDS,
+		MINUTE_IN_SECONDS,
+		1
+	);
+
+	foreach ( array( 'older_date', 'newer_date' ) as $date ) {
+		if ( ! $r[ $date ] ) {
+			continue;
+		}
+
+		if ( ! is_numeric( $r[ $date ] ) ) {
+			$time_chunks = explode( ':', str_replace( ' ', ':', $r[ $date ] ) );
+			$date_chunks = explode( '-', str_replace( ' ', '-', $r[ $date ] ) );
+			$r[ $date ]  = gmmktime(
+				(int) $time_chunks[1],
+				(int) $time_chunks[2],
+				(int) $time_chunks[3],
+				(int) $date_chunks[1],
+				(int) $date_chunks[2],
+				(int) $date_chunks[0]
+			);
+		}
+	}
+
+	// Difference in seconds.
+	$diff = $r['newer_date'] - $r['older_date'];
+
+	/**
+	 * We only want to return one or two chunks of time here, eg:
+	 * - `array( 'x years', 'xx months' )`,
+	 * - `array( 'x days', 'xx hours' )`.
+	 * So there's only two bits of calculation below.
+	 */
+	if ( 0 <= $diff && (int) $r['time_chunks'] ) {
+		// Step one: the first chunk.
+		for ( $i = 0, $j = count( $chunks ); $i < $j; ++$i ) {
+			$seconds = $chunks[$i];
+
+			// Finding the biggest chunk (if the chunk fits, break).
+			$count = floor( $diff / $seconds );
+			if ( 0 != $count ) {
+				break;
+			}
+		}
+
+		// Add the first chunk of time diff.
+		if ( isset( $chunks[ $i ] ) ) {
+			$retval = array();
+
+			switch ( $seconds ) {
+				case YEAR_IN_SECONDS :
+					/* translators: %s: the number of years. */
+					$retval[] = sprintf( _n( '%s year', '%s years', $count, 'buddypress' ), $count );
+					break;
+				case 30 * DAY_IN_SECONDS :
+					/* translators: %s: the number of months. */
+					$retval[] = sprintf( _n( '%s month', '%s months', $count, 'buddypress' ), $count );
+					break;
+				case WEEK_IN_SECONDS :
+					/* translators: %s: the number of weeks. */
+					$retval[]= sprintf( _n( '%s week', '%s weeks', $count, 'buddypress' ), $count );
+					break;
+				case DAY_IN_SECONDS :
+					/* translators: %s: the number of days. */
+					$retval[] = sprintf( _n( '%s day', '%s days', $count, 'buddypress' ), $count );
+					break;
+				case HOUR_IN_SECONDS :
+					/* translators: %s: the number of hours. */
+					$retval[] = sprintf( _n( '%s hour', '%s hours', $count, 'buddypress' ), $count );
+					break;
+				case MINUTE_IN_SECONDS :
+					/* translators: %s: the number of minutes. */
+					$retval[] = sprintf( _n( '%s minute', '%s minutes', $count, 'buddypress' ), $count );
+					break;
+				default:
+					/* translators: %s: the number of seconds. */
+					$retval[] = sprintf( _n( '%s second', '%s seconds', $count, 'buddypress' ), $count );
+			}
+
+			/**
+			 * Step two: the second chunk.
+			 *
+			 * A quirk in the implementation means that this condition fails in the case of minutes and seconds.
+			 * We've left the quirk in place, since fractions of a minute are not a useful piece of information
+			 * for our purposes.
+			 */
+			if ( 2 === (int) $r['time_chunks'] && $i + 2 < $j ) {
+				$seconds2 = $chunks[$i + 1];
+				$count2   = floor( ( $diff - ( $seconds * $count ) ) / $seconds2 );
+
+				// Add the second chunk of time diff.
+				if ( 0 !== (int) $count2 ) {
+
+					switch ( $seconds2 ) {
+						case 30 * DAY_IN_SECONDS :
+							/* translators: %s: the number of months. */
+							$retval[] = sprintf( _n( '%s month', '%s months', $count2, 'buddypress' ), $count2 );
+							break;
+						case WEEK_IN_SECONDS :
+							/* translators: %s: the number of weeks. */
+							$retval[] = sprintf( _n( '%s week', '%s weeks', $count2, 'buddypress' ), $count2 );
+							break;
+						case DAY_IN_SECONDS :
+							/* translators: %s: the number of days. */
+							$retval[] = sprintf( _n( '%s day', '%s days',  $count2, 'buddypress' ), $count2 );
+							break;
+						case HOUR_IN_SECONDS :
+							/* translators: %s: the number of hours. */
+							$retval[] = sprintf( _n( '%s hour', '%s hours', $count2, 'buddypress' ), $count2 );
+							break;
+						case MINUTE_IN_SECONDS :
+							/* translators: %s: the number of minutes. */
+							$retval[] = sprintf( _n( '%s minute', '%s minutes', $count2, 'buddypress' ), $count2 );
+							break;
+						default:
+							/* translators: %s: the number of seconds. */
+							$retval[] = sprintf( _n( '%s second', '%s seconds', $count2, 'buddypress' ), $count2 );
+					}
+				}
+			}
+		}
+	} else {
+		// Something went wrong with date calculation and we ended up with a negative date.
+		$retval = false;
+	}
+
+	return $retval;
+}
+
+/**
+ * Get an English-language representation of the time elapsed since a given date.
+ *
  * This function will return an English representation of the time elapsed
  * since a given date.
- * eg: 2 hours and 50 minutes
+ * eg: 2 hours, 50 minutes
  * eg: 4 days
- * eg: 4 weeks and 6 days
+ * eg: 4 weeks, 6 days
  *
  * Note that fractions of minutes are not represented in the return string. So
  * an interval of 3 minutes will be represented by "3 minutes ago", as will an
  * interval of 3 minutes 59 seconds.
  *
  * @since 1.0.0
+ * @since 8.0.0 Move the time difference calculation into `bp_core_time_diff()`.
  *
  * @param int|string $older_date The earlier time from which you're calculating
  *                               the time elapsed. Enter either as an integer Unix timestamp,
@@ -1199,7 +1361,7 @@ function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
  * @param int|bool   $newer_date Optional. Unix timestamp of date to compare older
  *                               date to. Default: false (current time).
  * @return string String representing the time since the older date, eg
- *         "2 hours and 50 minutes".
+ *         "2 hours, 50 minutes".
  */
 function bp_core_time_since( $older_date, $newer_date = false ) {
 
@@ -1217,23 +1379,17 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		return $pre_value;
 	}
 
-	/**
-	 * Filters the value to use if the time since is unknown.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param string $value String representing the time since the older date.
-	 */
-	$unknown_text   = apply_filters( 'bp_core_time_since_unknown_text',   __( 'sometime',  'buddypress' ) );
+	$newer_date = (int) $newer_date;
+	$args       = array(
+		'older_date' => $older_date,
+	);
 
-	/**
-	 * Filters the value to use if the time since is right now.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param string $value String representing the time since the older date.
-	 */
-	$right_now_text = apply_filters( 'bp_core_time_since_right_now_text', __( 'right now', 'buddypress' ) );
+	if ( $newer_date) {
+		$args['newer_date'] = $newer_date;
+	}
+
+	// Calculate the time difference.
+	$time_diff = bp_core_time_diff( $args );
 
 	/**
 	 * Filters the value to use if the time since is some time ago.
@@ -1248,145 +1404,29 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		__( '%s ago', 'buddypress' )
 	);
 
-	// Array of time period chunks.
-	$chunks = array(
-		YEAR_IN_SECONDS,
-		30 * DAY_IN_SECONDS,
-		WEEK_IN_SECONDS,
-		DAY_IN_SECONDS,
-		HOUR_IN_SECONDS,
-		MINUTE_IN_SECONDS,
-		1
-	);
-
-	if ( !empty( $older_date ) && !is_numeric( $older_date ) ) {
-		$time_chunks = explode( ':', str_replace( ' ', ':', $older_date ) );
-		$date_chunks = explode( '-', str_replace( ' ', '-', $older_date ) );
-		$older_date  = gmmktime( (int) $time_chunks[1], (int) $time_chunks[2], (int) $time_chunks[3], (int) $date_chunks[1], (int) $date_chunks[2], (int) $date_chunks[0] );
-	}
-
 	/**
-	 * $newer_date will equal false if we want to know the time elapsed between
-	 * a date and the current time. $newer_date will have a value if we want to
-	 * work out time elapsed between two known dates.
+	 * Filters the value to use if the time since is right now.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param string $value String representing the time since the older date.
 	 */
-	$newer_date = ( !$newer_date ) ? bp_core_current_time( true, 'timestamp' ) : $newer_date;
+	$output = apply_filters( 'bp_core_time_since_right_now_text', __( 'right now', 'buddypress' ) );
 
-	// Difference in seconds.
-	$since = $newer_date - $older_date;
-
-	// Something went wrong with date calculation and we ended up with a negative date.
-	if ( 0 > $since ) {
-		$output = $unknown_text;
-
-	/**
-	 * We only want to output two chunks of time here, eg:
-	 * x years, xx months
-	 * x days, xx hours
-	 * so there's only two bits of calculation below:
-	 */
-	} else {
-
-		// Step one: the first chunk.
-		for ( $i = 0, $j = count( $chunks ); $i < $j; ++$i ) {
-			$seconds = $chunks[$i];
-
-			// Finding the biggest chunk (if the chunk fits, break).
-			$count = floor( $since / $seconds );
-			if ( 0 != $count ) {
-				break;
-			}
-		}
-
-		// If $i iterates all the way to $j, then the event happened 0 seconds ago.
-		if ( !isset( $chunks[$i] ) ) {
-			$output = $right_now_text;
-
-		} else {
-
-			// Set output var.
-			switch ( $seconds ) {
-				case YEAR_IN_SECONDS :
-					/* translators: %s: the number of years. */
-					$output = sprintf( _n( '%s year',   '%s years',   $count, 'buddypress' ), $count );
-					break;
-				case 30 * DAY_IN_SECONDS :
-					/* translators: %s: the number of months. */
-					$output = sprintf( _n( '%s month',  '%s months',  $count, 'buddypress' ), $count );
-					break;
-				case WEEK_IN_SECONDS :
-					/* translators: %s: the number of weeks. */
-					$output = sprintf( _n( '%s week',   '%s weeks',   $count, 'buddypress' ), $count );
-					break;
-				case DAY_IN_SECONDS :
-					/* translators: %s: the number of days. */
-					$output = sprintf( _n( '%s day',    '%s days',    $count, 'buddypress' ), $count );
-					break;
-				case HOUR_IN_SECONDS :
-					/* translators: %s: the number of hours. */
-					$output = sprintf( _n( '%s hour',   '%s hours',   $count, 'buddypress' ), $count );
-					break;
-				case MINUTE_IN_SECONDS :
-					/* translators: %s: the number of minutes. */
-					$output = sprintf( _n( '%s minute', '%s minutes', $count, 'buddypress' ), $count );
-					break;
-				default:
-					/* translators: %s: the number of seconds. */
-					$output = sprintf( _n( '%s second', '%s seconds', $count, 'buddypress' ), $count );
-			}
-
-			// Step two: the second chunk
-			// A quirk in the implementation means that this
-			// condition fails in the case of minutes and seconds.
-			// We've left the quirk in place, since fractions of a
-			// minute are not a useful piece of information for our
-			// purposes.
-			if ( $i + 2 < $j ) {
-				$seconds2 = $chunks[$i + 1];
-				$count2   = floor( ( $since - ( $seconds * $count ) ) / $seconds2 );
-
-				// Add to output var.
-				if ( 0 != $count2 ) {
-					$output .= _x( ',', 'Separator in time since', 'buddypress' ) . ' ';
-
-					switch ( $seconds2 ) {
-						case 30 * DAY_IN_SECONDS :
-							/* translators: %s: the number of months. */
-							$output .= sprintf( _n( '%s month',  '%s months',  $count2, 'buddypress' ), $count2 );
-							break;
-						case WEEK_IN_SECONDS :
-							/* translators: %s: the number of weeks. */
-							$output .= sprintf( _n( '%s week',   '%s weeks',   $count2, 'buddypress' ), $count2 );
-							break;
-						case DAY_IN_SECONDS :
-							/* translators: %s: the number of days. */
-							$output .= sprintf( _n( '%s day',    '%s days',    $count2, 'buddypress' ), $count2 );
-							break;
-						case HOUR_IN_SECONDS :
-							/* translators: %s: the number of hours. */
-							$output .= sprintf( _n( '%s hour',   '%s hours',   $count2, 'buddypress' ), $count2 );
-							break;
-						case MINUTE_IN_SECONDS :
-							/* translators: %s: the number of minutes. */
-							$output .= sprintf( _n( '%s minute', '%s minutes', $count2, 'buddypress' ), $count2 );
-							break;
-						default:
-							/* translators: %s: the number of seconds. */
-							$output .= sprintf( _n( '%s second', '%s seconds', $count2, 'buddypress' ), $count2 );
-					}
-				}
-			}
-
-			// No output, so happened right now.
-			if ( ! (int) trim( $output ) ) {
-				$output = $right_now_text;
-			}
-		}
-	}
-
-	// Append 'ago' to the end of time-since if not 'right now'.
-	if ( $output != $right_now_text ) {
-		$output = sprintf( $ago_text, $output );
+	if ( is_array( $time_diff ) ) {
+		$separator = _x( ',', 'Separator in time since', 'buddypress' ) . ' ';
+		$diff_text = implode( $separator, $time_diff );
+		$output    = sprintf( $ago_text, $diff_text );
+	} elseif ( false === $time_diff ) {
+		/**
+		 * Filters the value to use if the time since is unknown.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @param string $value String representing the time since the older date.
+		 */
+		$unknown_text = apply_filters( 'bp_core_time_since_unknown_text', __( 'sometime',  'buddypress' ) );
+		$output       = sprintf( $ago_text, $unknown_text );
 	}
 
 	/**
@@ -1399,6 +1439,42 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 	 * @param string $newer_date Unix timestamp of date to compare older time to.
 	 */
 	return apply_filters( 'bp_core_time_since', $output, $older_date, $newer_date );
+}
+
+/**
+ * Get an age to display according to the birth date.
+ *
+ * @since 8.0.0
+ *
+ * @param int|string $birth_date A timestamp or a MySQL formatted date.
+ * @return string The age to display.
+ */
+function bp_core_time_old( $birth_date ) {
+	$time_diff = bp_core_time_diff( array( 'older_date' => $birth_date, 'time_chunks' => 1 ) );
+	$retval    = '&mdash;';
+
+	if ( $time_diff ) {
+		$age = reset( $time_diff );
+
+		/**
+		 * Filters the value to use to display the age.
+		 *
+		 * @since 8.0.0
+		 *
+		 * @param string $value String representing the time since the older date.
+		 * @param int    $age   The age.
+		 */
+		$age_text = apply_filters(
+			'bp_core_time_old_text',
+			/* translators: %d: the age . */
+			__( '%s old', 'buddypress' ),
+			$age
+		);
+
+		$retval = sprintf( $age_text, $age );
+	}
+
+	return $retval;
 }
 
 /**
