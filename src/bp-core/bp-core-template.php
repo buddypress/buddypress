@@ -3807,7 +3807,7 @@ function bp_email_the_salutation( $settings = array() ) {
 	 */
 	function bp_email_get_salutation( $settings = array() ) {
 		$email_type = bp_email_get_type();
-		$saluation  = '';
+		$salutation  = '';
 
 		if ( $email_type ) {
 			$types_schema = bp_email_get_type_schema( 'named_salutation' );
@@ -3821,7 +3821,7 @@ function bp_email_the_salutation( $settings = array() ) {
 				 * @param string $value    The Recipient Salutation.
 				 * @param array  $settings Email Settings.
 				 */
-				$saluation = apply_filters(
+				$salutation = apply_filters(
 					'bp_email_get_unnamed_salutation',
 					_x( 'Hi,', 'Unnamed recipient salutation', 'buddypress' ),
 					$settings
@@ -3830,7 +3830,7 @@ function bp_email_the_salutation( $settings = array() ) {
 		}
 
 		// Named salutations are default.
-		if ( ! $saluation ) {
+		if ( ! $salutation ) {
 			$token = '{{recipient.name}}';
 
 			/**
@@ -3842,7 +3842,7 @@ function bp_email_the_salutation( $settings = array() ) {
 			 * @param array  $settings Email Settings.
 			 * @param string $token    The Recipient token.
 			 */
-			$saluation = apply_filters(
+			$salutation = apply_filters(
 				'bp_email_get_salutation',
 				sprintf(
 					/* translators: %s: the email token for the recipient name */
@@ -3854,5 +3854,5 @@ function bp_email_the_salutation( $settings = array() ) {
 			);
 		}
 
-		return $saluation;
+		return $salutation;
 	}
