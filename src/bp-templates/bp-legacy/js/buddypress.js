@@ -1611,6 +1611,29 @@ jq( function() {
 		jq('#notification-bulk-manage').attr('disabled', jq(this).val().length <= 0);
 	});
 
+	/** Members Invitations *****************************************/
+
+	/* Selecting/Deselecting all invitations */
+	jq( '#select-all-invitations' ).on( 'click', function() {
+		if ( this.checked ) {
+			jq( '.invitation-check' ).each( function() {
+				this.checked = true;
+			} );
+		} else {
+			jq( '.invitation-check' ).each( function() {
+				this.checked = false;
+			} );
+		}
+	} );
+
+	/* Make sure a 'Bulk Action' is selected before submitting the form */
+	jq('#invitation-bulk-manage').attr('disabled', 'disabled');
+
+	/* Remove the disabled attribute from the form submit button when bulk action has a value */
+	jq('#invitation-select').on('change', function(){
+		jq('#invitation-bulk-manage').attr('disabled', jq(this).val().length <= 0);
+	});
+
 	/* Close site wide notices in the sidebar */
 	jq('#close-notice').on( 'click', function() {
 		jq(this).addClass('loading');

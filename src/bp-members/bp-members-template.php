@@ -3477,3 +3477,26 @@ function bp_members_invitations_send_invites_permalink( $user_id = 0 ) {
 		 */
 		return apply_filters( 'bp_get_members_invitations_send_invites_permalink', $retval, $user_id );
 	}
+
+/**
+ * Output the dropdown for bulk management of invitations.
+ *
+ * @since 8.0.0
+ */
+function bp_members_invitations_bulk_management_dropdown() {
+	?>
+	<label class="bp-screen-reader-text" for="invitation-select">
+		<?php
+		esc_html_e( 'Select Bulk Action', 'buddypress' );
+		?>
+	</label>
+
+	<select name="invitation_bulk_action" id="invitation-select">
+		<option value="" selected="selected"><?php esc_html_e( 'Bulk Actions', 'buddypress' ); ?></option>
+		<option value="resend"><?php echo esc_html_x( 'Resend', 'button', 'buddypress' ); ?></option>
+		<option value="cancel"><?php echo esc_html_x( 'Cancel', 'button', 'buddypress' ); ?></option>
+	</select>
+
+	<input type="submit" id="invitation-bulk-manage" class="button action" value="<?php echo esc_attr_x( 'Apply', 'button', 'buddypress' ); ?>">
+	<?php
+}

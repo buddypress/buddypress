@@ -3451,7 +3451,7 @@ function bp_members_invitations_invite_user( $args = array() ) {
  */
 function bp_members_invitation_resend_by_id( $id = 0 ) {
 
-	// Find the invitation before deleting it.
+	// Find the invitation before resending it.
 	$existing_invite = new BP_Invitation( $id );
 	$invites_class   = new BP_Members_Invitation_Manager();
 	$success         = $invites_class->send_invitation_by_id( $id );

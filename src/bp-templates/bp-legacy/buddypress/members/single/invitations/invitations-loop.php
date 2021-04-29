@@ -12,7 +12,6 @@
 	<table class="invitations">
 		<thead>
 			<tr>
-				<th class="icon"></th>
 				<th class="bulk-select-all"><input id="select-all-invitations" type="checkbox">
 					<label class="bp-screen-reader-text" for="select-all-invitations">
 						<?php
@@ -35,7 +34,6 @@
 			<?php while ( bp_the_members_invitations() ) : bp_the_members_invitation(); ?>
 
 				<tr>
-					<td></td>
 					<td class="bulk-select-check">
 						<label for="<?php bp_the_members_invitation_property( 'id', 'attribute' ); ?>">
 							<input id="<?php bp_the_members_invitation_property( 'id', 'attribute' ); ?>" type="checkbox" name="network_invitations[]" value="<?php bp_the_members_invitation_property( 'id', 'attribute' ); ?>" class="invitation-check">
@@ -61,7 +59,7 @@
 	</table>
 
 	<div class="invitations-options-nav">
-		<?php // @TODO //bp_invitations_bulk_management_dropdown(); ?>
+		<?php bp_members_invitations_bulk_management_dropdown(); ?>
 	</div><!-- .invitations-options-nav -->
 
 	<?php wp_nonce_field( 'invitations_bulk_nonce', 'invitations_bulk_nonce' ); ?>
