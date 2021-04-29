@@ -790,7 +790,15 @@ class BP_Email {
 			// Load the template.
 			add_filter( 'bp_locate_template_and_load', '__return_true' );
 
+			// Set up the `$post` global.
+			global $post;
+			$reset_post = $post;
+			$post       = $this->post_object;
+
 			bp_locate_template( bp_email_get_template( $this->post_object ), true, false );
+
+			// Reset the `$post` global.
+			$post = $reset_post;
 
 			remove_filter( 'bp_locate_template_and_load', '__return_true' );
 

@@ -3977,133 +3977,152 @@ function bp_email_get_schema() {
  */
 function bp_email_get_type_schema( $field = 'description' ) {
 	$activity_comment = array(
-		'description'	=> __( 'A member has replied to an activity update that the recipient posted.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_activity_new_reply',
-			'message'	=> __( 'You will no longer receive emails when someone replies to an update or comment you posted.', 'buddypress' ),
+		'description'	   => __( 'A member has replied to an activity update that the recipient posted.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_activity_new_reply',
+			'message'  => __( 'You will no longer receive emails when someone replies to an update or comment you posted.', 'buddypress' ),
 		),
 	);
 
 	$activity_comment_author = array(
-		'description'	=> __( 'A member has replied to a comment on an activity update that the recipient posted.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_activity_new_reply',
-			'message'	=> __( 'You will no longer receive emails when someone replies to an update or comment you posted.', 'buddypress' ),
+		'description'	   => __( 'A member has replied to a comment on an activity update that the recipient posted.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_activity_new_reply',
+			'message'  => __( 'You will no longer receive emails when someone replies to an update or comment you posted.', 'buddypress' ),
 		),
 	);
 
 	$activity_at_message = array(
-		'description'	=> __( 'Recipient was mentioned in an activity update.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_activity_new_mention',
-			'message'	=> __( 'You will no longer receive emails when someone mentions you in an update.', 'buddypress' ),
+		'description'	   => __( 'Recipient was mentioned in an activity update.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_activity_new_mention',
+			'message'  => __( 'You will no longer receive emails when someone mentions you in an update.', 'buddypress' ),
 		),
 	);
 
 	$groups_at_message = array(
-		'description'	=> __( 'Recipient was mentioned in a group activity update.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_activity_new_mention',
-			'message'	=> __( 'You will no longer receive emails when someone mentions you in an update.', 'buddypress' ),
+		'description'	   => __( 'Recipient was mentioned in a group activity update.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_activity_new_mention',
+			'message'  => __( 'You will no longer receive emails when someone mentions you in an update.', 'buddypress' ),
 		),
 	);
 
 	$core_user_registration = array(
-		'description'	=> __( 'Recipient has registered for an account.', 'buddypress' ),
-		'unsubscribe'	=> false,
+		'description'	   => __( 'Recipient has registered for an account.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => false,
 	);
 
 	$core_user_registration_with_blog = array(
-		'description'	=> __( 'Recipient has registered for an account and site.', 'buddypress' ),
-		'unsubscribe'	=> false,
+		'description'	   => __( 'Recipient has registered for an account and site.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => false,
 	);
 
 	$friends_request = array(
-		'description'	=> __( 'A member has sent a friend request to the recipient.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_friends_friendship_request',
-			'message'	=> __( 'You will no longer receive emails when someone sends you a friend request.', 'buddypress' ),
+		'description'	   => __( 'A member has sent a friend request to the recipient.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_friends_friendship_request',
+			'message'  => __( 'You will no longer receive emails when someone sends you a friend request.', 'buddypress' ),
 		),
 	);
 
 	$friends_request_accepted = array(
-		'description'	=> __( 'Recipient has had a friend request accepted by a member.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_friends_friendship_accepted',
-			'message'	=> __( 'You will no longer receive emails when someone accepts your friendship request.', 'buddypress' ),
+		'description'	   => __( 'Recipient has had a friend request accepted by a member.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_friends_friendship_accepted',
+			'message'  => __( 'You will no longer receive emails when someone accepts your friendship request.', 'buddypress' ),
 		),
 	);
 
 	$groups_details_updated = array(
-		'description'	=> __( "A group's details were updated.", 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_groups_group_updated',
-			'message'	=> __( 'You will no longer receive emails when one of your groups is updated.', 'buddypress' ),
+		'description'	   => __( "A group's details were updated.", 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_groups_group_updated',
+			'message'  => __( 'You will no longer receive emails when one of your groups is updated.', 'buddypress' ),
 		),
 	);
 
 	$groups_invitation = array(
-		'description'	=> __( 'A member has sent a group invitation to the recipient.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_groups_invite',
-			'message'	=> __( 'You will no longer receive emails when you are invited to join a group.', 'buddypress' ),
+		'description'	   => __( 'A member has sent a group invitation to the recipient.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_groups_invite',
+			'message'  => __( 'You will no longer receive emails when you are invited to join a group.', 'buddypress' ),
 		),
 	);
 
 	$groups_member_promoted = array(
-		'description'	=> __( "Recipient's status within a group has changed.", 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_groups_admin_promotion',
-			'message'	=> __( 'You will no longer receive emails when you have been promoted in a group.', 'buddypress' ),
+		'description'	   => __( "Recipient's status within a group has changed.", 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe' => array(
+			'meta_key' => 'notification_groups_admin_promotion',
+			'message'  => __( 'You will no longer receive emails when you have been promoted in a group.', 'buddypress' ),
 		),
 	);
 
 	$groups_membership_request = array(
-		'description'	=> __( 'A member has requested permission to join a group.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_groups_membership_request',
-			'message'	=> __( 'You will no longer receive emails when someone requests to be a member of your group.', 'buddypress' ),
+		'description'	   => __( 'A member has requested permission to join a group.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_groups_membership_request',
+			'message'  => __( 'You will no longer receive emails when someone requests to be a member of your group.', 'buddypress' ),
 		),
 	);
 
 	$messages_unread = array(
-		'description'	=> __( 'Recipient has received a private message.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_messages_new_message',
-			'message'	=> __( 'You will no longer receive emails when someone sends you a message.', 'buddypress' ),
+		'description'	   => __( 'Recipient has received a private message.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_messages_new_message',
+			'message'  => __( 'You will no longer receive emails when someone sends you a message.', 'buddypress' ),
 		),
 	);
 
 	$settings_verify_email_change = array(
-		'description'	=> __( 'Recipient has changed their email address.', 'buddypress' ),
-		'unsubscribe'	=> false,
+		'description'	   => __( 'Recipient has changed their email address.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => false,
 	);
 
 	$groups_membership_request_accepted = array(
-		'description'	=> __( 'Recipient had requested to join a group, which was accepted.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_membership_request_completed',
-			'message'	=> __( 'You will no longer receive emails when your request to join a group has been accepted or denied.', 'buddypress' ),
+		'description'	   => __( 'Recipient had requested to join a group, which was accepted.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_membership_request_completed',
+			'message'  => __( 'You will no longer receive emails when your request to join a group has been accepted or denied.', 'buddypress' ),
 		),
 	);
 
 	$groups_membership_request_rejected = array(
-		'description'	=> __( 'Recipient had requested to join a group, which was rejected.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_membership_request_completed',
-			'message'	=> __( 'You will no longer receive emails when your request to join a group has been accepted or denied.', 'buddypress' ),
+		'description'	   => __( 'Recipient had requested to join a group, which was rejected.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_membership_request_completed',
+			'message'  => __( 'You will no longer receive emails when your request to join a group has been accepted or denied.', 'buddypress' ),
 		),
 	);
 
 	$core_user_activation = array(
-		'description'	=> __( 'Recipient has successfully activated an account.', 'buddypress' ),
+		'description'	   => __( 'Recipient has successfully activated an account.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => false,
 	);
 
 	$members_invitation = array(
-		'description'	=> __( 'A site member has sent a site invitation to the recipient.', 'buddypress' ),
-		'unsubscribe'	=> array(
-			'meta_key'	=> 'notification_bp_members_invite',
-			'message'	=> __( 'You will no longer receive emails when you are invited to join this site.', 'buddypress' ),
+		'description'	   => __( 'A site member has sent a site invitation to the recipient.', 'buddypress' ),
+		'named_salutation' => false,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_bp_members_invite',
+			'message'  => __( 'You will no longer receive emails when you are invited to join this site.', 'buddypress' ),
 		),
 	);
 
@@ -4347,6 +4366,27 @@ function bp_email_get_unsubscribe_type_schema() {
 	 * @param array $emails The array of email types and their schema.
 	 */
 	return (array) apply_filters( 'bp_email_get_unsubscribe_type_schema', $emails );
+}
+
+/**
+ * Gets the BP Email type of a BP Email ID or object.
+ *
+ * @since 8.0.0
+ *
+ * @param int|WP_Post $email Optional. BP Email ID or BP Email object. Defaults to global $post.
+ * @return string The type of the BP Email object.
+ */
+function bp_email_get_type( $email = null ) {
+	$email = get_post( $email );
+
+	if ( ! $email ) {
+		return '';
+	}
+
+	$types = bp_get_object_terms( $email->ID, bp_get_email_tax_type(), array( 'fields' => 'slugs' ) );
+	$type  = reset( $types );
+
+	return $type;
 }
 
 /**

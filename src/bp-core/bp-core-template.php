@@ -3800,30 +3800,59 @@ function bp_email_the_salutation( $settings = array() ) {
 	 * Gets the Recipient Salutation.
 	 *
 	 * @since 2.5.0
+	 * @since 8.0.0 Checks current BP Email type schema to eventually use the unnamed salutation.
 	 *
 	 * @param array $settings Email Settings.
 	 * @return string The Recipient Salutation.
 	 */
 	function bp_email_get_salutation( $settings = array() ) {
-		$token = '{{recipient.name}}';
+		$email_type = bp_email_get_type();
+		$saluation  = '';
 
-		/**
-		 * Filters The Recipient Salutation inside the Email Template.
-		 *
-		 * @since 2.5.0
-		 *
-		 * @param string $value    The Recipient Salutation.
-		 * @param array  $settings Email Settings.
-		 * @param string $token    The Recipient token.
-		 */
-		return apply_filters(
-			'bp_email_get_salutation',
-			sprintf(
-				/* translators: %s: the email token for the recipient name */
-				_x( 'Hi %s,', 'recipient salutation', 'buddypress' ),
+		if ( $email_type ) {
+			$types_schema = bp_email_get_type_schema( 'named_salutation' );
+
+			if ( isset( $types_schema[ $email_type ] ) && false === $types_schema[ $email_type ] ) {
+				/**
+				 * Filters The Recipient Unnamed Salutation inside the Email Template.
+				 *
+				 * @since 8.0.0
+				 *
+				 * @param string $value    The Recipient Salutation.
+				 * @param array  $settings Email Settings.
+				 */
+				$saluation = apply_filters(
+					'bp_email_get_unnamed_salutation',
+					_x( 'Hi,', 'Unnamed recipient salutation', 'buddypress' ),
+					$settings
+				);
+			}
+		}
+
+		// Named salutations are default.
+		if ( ! $saluation ) {
+			$token = '{{recipient.name}}';
+
+			/**
+			 * Filters The Recipient Named Salutation inside the Email Template.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @param string $value    The Recipient Salutation.
+			 * @param array  $settings Email Settings.
+			 * @param string $token    The Recipient token.
+			 */
+			$saluation = apply_filters(
+				'bp_email_get_salutation',
+				sprintf(
+					/* translators: %s: the email token for the recipient name */
+					_x( 'Hi %s,', 'Named recipient salutation', 'buddypress' ),
+					$token
+				),
+				$settings,
 				$token
-			),
-			$settings,
-			$token
-		);
+			);
+		}
+
+		return $saluation;
 	}
