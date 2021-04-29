@@ -3,7 +3,7 @@
  * Messages Ajax functions
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 8.0.0
  */
 
 // Exit if accessed directly.
@@ -494,6 +494,20 @@ function bp_nouveau_ajax_get_thread_messages() {
 			$thread->messages[ $i ]['star_nonce'] = wp_create_nonce( 'bp-messages-star-' . bp_get_the_thread_message_id() );
 		}
 
+		/**
+		 * Filter here to include your meta data to one or more messages of the thread.
+		 *
+		 * @since 8.0.0
+		 *
+		 * @param array $message_meta An associative array keyed using the meta_key.
+		 * @param array $message The current message in the loop.
+		 */
+		$message_meta = (array) apply_filters( 'bp_nouveau_ajax_get_thread_message_meta', array(), $thread->messages[ $i ] );
+
+		if ( $message_meta ) {
+			$thread->messages[ $i ]['meta'] = $message_meta;
+		}
+
 		$extra_content = bp_nouveau_messages_catch_hook_content( array(
 			'beforeMeta'    => 'bp_before_message_meta',
 			'afterMeta'     => 'bp_after_message_meta',
@@ -512,6 +526,20 @@ function bp_nouveau_ajax_get_thread_messages() {
 
 	// Remove the bp_current_action() override.
 	$bp->current_action = $reset_action;
+
+	/**
+	 * Filter here to include your meta data to the main message of the thread.
+	 *
+	 * @since 8.0.0
+	 *
+	 * @param array $thread_meta An associative array keyed using the meta_key.
+	 * @param array $thread The current message in the loop.
+	 */
+	$thread_meta = (array) apply_filters( 'bp_nouveau_ajax_get_thread_meta', array(), $thread->thread );
+
+	if ( $thread_meta ) {
+		$thread->thread['meta'] = $thread_meta;
+	}
 
 	wp_send_json_success( $thread );
 }
