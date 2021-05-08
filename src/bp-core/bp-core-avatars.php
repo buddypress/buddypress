@@ -929,7 +929,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	$bp->avatar_admin->image   = new stdClass();
 
 	// We only want to handle one image after resize.
-	if ( empty( $bp->avatar_admin->resized ) ) {
+	if ( empty( $bp->avatar_admin->resized ) || is_wp_error( $bp->avatar_admin->resized ) ) {
 		$bp->avatar_admin->image->file = $bp->avatar_admin->original['file'];
 		$bp->avatar_admin->image->dir  = str_replace( $upload_path, '', $bp->avatar_admin->original['file'] );
 	} else {
