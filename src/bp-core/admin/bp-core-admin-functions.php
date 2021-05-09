@@ -1344,4 +1344,17 @@ function bp_block_category( $categories = array(), $post = null ) {
 		)
 	);
 }
-add_filter( 'block_categories', 'bp_block_category', 1, 2 );
+
+/**
+ * Select the right `block_categories` filter according to WP version.
+ *
+ * @since 8.0.0
+ */
+function bp_block_init_category_filter() {
+	if ( function_exists( 'get_default_block_categories' ) ) {
+		add_filter( 'block_categories_all', 'bp_block_category', 1, 2 );
+	} else {
+		add_filter( 'block_categories', 'bp_block_category', 1, 2 );
+	}
+}
+add_action( 'bp_init', 'bp_block_init_category_filter' );

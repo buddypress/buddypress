@@ -67,7 +67,20 @@ function bp_blocks_editor_settings( $editor_settings = array() ) {
 
 	return $editor_settings;
 }
-add_filter( 'block_editor_settings', 'bp_blocks_editor_settings' );
+
+/**
+ * Select the right `block_editor_settings` filter according to WP version.
+ *
+ * @since 8.0.0
+ */
+function bp_block_init_editor_settings_filter() {
+	if ( function_exists( 'get_block_editor_settings' ) ) {
+		add_filter( 'block_editor_settings_all', 'bp_blocks_editor_settings' );
+	} else {
+		add_filter( 'block_editor_settings', 'bp_blocks_editor_settings' );
+	}
+}
+add_action( 'bp_init', 'bp_block_init_editor_settings_filter' );
 
 /**
  * Register a BuddyPress block type.
