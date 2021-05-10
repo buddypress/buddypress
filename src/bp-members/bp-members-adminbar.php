@@ -193,7 +193,7 @@ function bp_members_admin_bar_add_invitations_menu() {
 		return;
 	}
 
-	if ( is_user_logged_in() && bp_get_members_invitations_allowed() && ( bp_current_user_can( 'bp_members_send_invitation' ) || bp_members_invitations_user_has_sent_invites() ) ) {
+	if ( bp_current_user_can( 'bp_members_invitations_view_screens' ) ) {
 		$bp               = buddypress();
 		$invitations_link = trailingslashit( bp_loggedin_user_domain() . bp_get_members_invitations_slug() );
 
@@ -209,13 +209,13 @@ function bp_members_admin_bar_add_invitations_menu() {
 			)
 		);
 
-		if ( bp_current_user_can( 'bp_members_send_invitation' ) ) {
+		if ( bp_current_user_can( 'bp_members_invitations_view_send_screen' ) ) {
 			$wp_admin_bar->add_node(
 				array(
 					'id'     => $bp->my_account_menu_id . '-invitations-send',
 					'parent' => $bp->my_account_menu_id . '-invitations',
 					'title'  => __( 'Send Invites', 'buddypress' ),
-					'href'   => $invitations_link,
+					'href'   => $invitations_link . 'send-invites/',
 					'meta'   => array(
 						'class'  => 'ab-sub-secondary'
 					)

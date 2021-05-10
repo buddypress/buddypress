@@ -149,7 +149,7 @@ function bp_members_user_can_filter( $retval, $user_id, $capability, $site_id, $
 			break;
 
 		case 'bp_members_send_invitation':
-			if ( bp_get_members_invitations_allowed() ) {
+			if ( is_user_logged_in() && bp_get_members_invitations_allowed() ) {
 				$retval = true;
 			}
 			break;
@@ -166,6 +166,14 @@ function bp_members_user_can_filter( $retval, $user_id, $capability, $site_id, $
 					$retval = false;
 				}
 			}
+			break;
+
+		case 'bp_members_invitations_view_screens':
+			$retval = bp_get_members_invitations_allowed() && ( bp_user_can( $user_id, 'bp_members_send_invitation' ) || bp_members_invitations_user_has_sent_invites( $user_id ) );
+			break;
+
+		case 'bp_members_invitations_view_send_screen':
+			$retval = is_user_logged_in() && bp_get_members_invitations_allowed();
 			break;
 	}
 
