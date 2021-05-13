@@ -22,10 +22,16 @@ function bp_activity_mentions_script() {
 
 	// Special handling for New/Edit screens in wp-admin.
 	if ( is_admin() ) {
+		$current_screen = null;
+		if ( function_exists( 'get_current_screen' ) ) {
+			$current_screen = get_current_screen();
+		}
+
 		if (
-			! get_current_screen() ||
-			! in_array( get_current_screen()->base, array( 'page', 'post' ) ) ||
-			! post_type_supports( get_current_screen()->post_type, 'editor' ) ) {
+			! $current_screen ||
+			( isset( $current_screen->is_block_editor ) && $current_screen->is_block_editor ) ||
+			! in_array( $current_screen->base, array( 'page', 'post' ) ) ||
+			! post_type_supports( $current_screen->post_type, 'editor' ) ) {
 			return;
 		}
 	}
