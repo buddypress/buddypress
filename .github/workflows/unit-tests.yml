@@ -1,0 +1,96 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  tests:
+    name: "WP: ${{ matrix.wp_version }} - PHP: ${{ matrix.php }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0']
+        wp_version: ['master']
+        include:
+          - php: '8.0'
+            wp_version: '5.7'
+          - php: '7.4'
+            wp_version: '5.7'
+    env:
+      WP_ENV_PHP_VERSION: ${{ matrix.php }}
+      WP_VERSION: ${{ matrix.wp_version }}
+
+    steps:
+      - name: Cancel previous runs of this workflow
+        uses: styfle/cancel-workflow-action@0.5.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
+
+      - name: Log information
+        run: |
+          echo "$GITHUB_REF"
+          echo "$GITHUB_EVENT_NAME"
+          npm --version
+          node --version
+          git --version
+          php --version
+          composer --version
+
+      - name: Validate Composer
+        run: composer validate --strict
+
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: "--ignore-platform-reqs"
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Validate node modules
+        run: if [[ -f package.json ]]; then npm audit --audit-level=high --production --cache ~/.npm; fi
+
+      - name: Install node modules
+        run: npm ci --cache ~/.npm
+
+      - name: Setup WordPress
+        run: echo "{\"core\":\"WordPress/WordPress#${WP_VERSION}\"}" >> .wp-env.override.json
+
+      - name: Install WordPress
+        run: |
+          chmod -R 767 ./
+          npm run wp-env start -- --update
+
+      - name: Running single site unit tests
+        run: npm run test-php
+        if: ${{ success() || failure() }}
+
+      - name: Running multi site unit tests
+        run: npm run test-php-multisite
+        if: ${{ success() || failure() }}
+
+      - name: Stop Docker environment
+        run: npm run wp-env stop
+        if: ${{ success() || failure() }}
