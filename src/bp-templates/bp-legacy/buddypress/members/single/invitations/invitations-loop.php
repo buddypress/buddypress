@@ -36,7 +36,7 @@
 				<tr>
 					<td class="bulk-select-check">
 						<label for="<?php bp_the_members_invitation_property( 'id', 'attribute' ); ?>">
-							<input id="<?php bp_the_members_invitation_property( 'id', 'attribute' ); ?>" type="checkbox" name="network_invitations[]" value="<?php bp_the_members_invitation_property( 'id', 'attribute' ); ?>" class="invitation-check">
+							<input id="<?php bp_the_members_invitation_property( 'id', 'attribute' ); ?>" type="checkbox" name="members_invitations[]" value="<?php bp_the_members_invitation_property( 'id', 'attribute' ); ?>" class="invitation-check">
 							<span class="bp-screen-reader-text">
 								<?php
 									/* translators: accessibility text */

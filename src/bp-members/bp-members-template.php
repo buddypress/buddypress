@@ -3291,7 +3291,7 @@ function bp_the_members_invitations_resend_url( $user_id = 0 ) {
 		$url = add_query_arg( $args, $link );
 
 		// Add the nonce.
-		$url = wp_nonce_url( $url, 'bp_network_invitation_resend_' . $id );
+		$url = wp_nonce_url( $url, 'bp_members_invitation_resend_' . $id );
 
 		/**
 		 * Filters the URL used for resending a single invitation.

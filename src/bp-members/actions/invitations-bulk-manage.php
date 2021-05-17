@@ -24,7 +24,7 @@ function bp_members_invitations_action_bulk_manage() {
 	// Get the parameters.
 	$action      = ! empty( $_POST['invitation_bulk_action'] ) ? $_POST['invitation_bulk_action'] : '';
 	$nonce       = ! empty( $_POST['invitations_bulk_nonce'] ) ? $_POST['invitations_bulk_nonce'] : '';
-	$invitations = ! empty( $_POST['network_invitations']    ) ? $_POST['network_invitations']    : '';
+	$invitations = ! empty( $_POST['members_invitations']    ) ? $_POST['members_invitations']    : '';
 
 	// Bail if no action or no IDs.
 	if ( ( ! in_array( $action, array( 'cancel', 'resend' ), true ) ) || empty( $invitations ) || empty( $nonce ) ) {

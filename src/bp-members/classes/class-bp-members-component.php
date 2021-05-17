@@ -144,16 +144,12 @@ class BP_Members_Component extends BP_Component {
 		// Invitations.
 		if ( is_user_logged_in() && bp_is_user_members_invitations() ) {
 			// Actions.
-			if ( bp_is_post_request() ) {
+			if ( isset( $_POST['members_invitations'] ) ) {
 				require $this->path . 'bp-members/actions/invitations-bulk-manage.php';
 			}
 
 			// Screens.
-			if ( bp_is_user_members_invitations_list() ) {
-				require $this->path . 'bp-members/screens/list-invites.php';
-			} else {
-				require $this->path . 'bp-members/screens/send-invites.php';
-			}
+			require $this->path . 'bp-members/screens/invitations.php';
 		}
 	}
 

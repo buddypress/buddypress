@@ -23,7 +23,7 @@
 	<input id="bp_members_invitation_invitee_email" type="email" name="invitee_email" required="required">
 
 	<label for="bp_members_invitation_message"><?php esc_html_e( 'Add a personalized message to the invitation (optional)', 'buddypress' ); ?></label>
-	<textarea id="bp_members_invitation_message" name="invite_message"></textarea>
+	<textarea id="bp_members_invitation_message" name="content"></textarea>
 
 	<input type="hidden" name="action" value="send-invite">
 
