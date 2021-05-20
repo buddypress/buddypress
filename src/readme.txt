@@ -5,8 +5,8 @@ License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 4.9
 Requires PHP: 5.6
-Tested up to: 5.6
-Stable tag: 7.2.0
+Tested up to: 5.7
+Stable tag: 7.3.0
 
 BuddyPress helps site builders & developers add community features to their websites, with user profiles, activity streams, and more!
 
@@ -125,6 +125,12 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
+= 7.3.0 =
+See: https://codex.buddypress.org/releases/version-7-3-0/
+
+= 7.2.1 =
+See: https://codex.buddypress.org/releases/version-7-2-1/
+
 = 7.2.0 =
 See: https://codex.buddypress.org/releases/version-7-2-0/
 
@@ -180,6 +186,12 @@ See: https://codex.buddypress.org/releases/version-4-1-0/
 See: https://codex.buddypress.org/releases/version-4-0-0/
 
 == Changelog ==
+
+= 7.3.0 =
+See: https://codex.buddypress.org/releases/version-7-3-0/
+
+= 7.2.1 =
+See: https://codex.buddypress.org/releases/version-7-2-1/
 
 = 7.2.0 =
 See: https://codex.buddypress.org/releases/version-7-2-0/
