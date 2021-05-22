@@ -188,13 +188,11 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 					<?php endforeach; endif; ?>
 
-					<?php if ( bp_get_signup_allowed() ) : ?>
-						<li id="signup-group" class="not-sortable last">
-							<a href="#tabs-signup-group" class="ui-tab">
-								<?php esc_html_e( 'Signup Fields', 'buddypress' ); ?>
-							</a>
-						</li>
-					<?php endif; ?>
+					<li id="signup-group" class="not-sortable last">
+						<a href="#tabs-signup-group" class="ui-tab">
+							<?php esc_html_e( 'Signup Fields', 'buddypress' ); ?>
+						</a>
+					</li>
 
 				</ul>
 
@@ -312,69 +310,93 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 				<?php endif; ?>
 
 				<?php
-				// List fields to use into the signup form.
-				if ( bp_get_signup_allowed() ) {
-					$signup_groups = bp_xprofile_get_groups(
-						array(
-							'fetch_fields'       => true,
-							'signup_fields_only' => true,
-						)
-					);
-					$has_signup_fields   = false;
-					$signup_fields       = array();
-					$signup_fields_order = bp_xprofile_get_signup_field_ids();
-					?>
-					<div id="tabs-signup-group"" class="tab-wrapper">
-						<div class="tab-toolbar">
-							<p class="description"><?php esc_html_e( 'Drag fields from other groups and drop them on the above tab to include them into your registration form.', 'buddypress' ); ?></a>
-						</div>
-						<fieldset id="signup-fields" class="connectedSortable field-group" aria-live="polite" aria-atomic="true" aria-relevant="all">
-							<legend class="screen-reader-text">
-								<?php esc_html_e( 'Fields to use into the registration form', 'buddypress' );?>
-							</legend>
-
-							<?php
-							if ( ! empty( $signup_groups ) ) {
-								foreach ( $signup_groups as $signup_group ) {
-									if ( ! empty( $signup_group->fields ) ) {
-										$has_signup_fields = true;
-
-										foreach ( $signup_group->fields as $signup_field ) {
-											// Load the field.
-											$_signup_field = xprofile_get_field( $signup_field, null, false );
-
-											/**
-											 * This function handles the WYSIWYG profile field
-											 * display for the xprofile admin setup screen.
-											 */
-											$signup_fields[ $_signup_field->id ] = bp_xprofile_admin_get_signup_field( $_signup_field, $signup_group, '' );
-										}
-									}
-								}
-
-								// Output signup fields according to their signup position.
-								foreach ( $signup_fields_order as $ordered_signup_field_id ) {
-									if ( ! isset( $signup_fields[ $ordered_signup_field_id ] ) ) {
-										continue;
-									}
-
-									echo $signup_fields[ $ordered_signup_field_id ];
-								}
-							}
-
-							if ( ! $has_signup_fields ) {
-								?>
-								<p class="nodrag nofields"><?php esc_html_e( 'There are no registration fields set. The registration form uses the primary group by default.', 'buddypress' ); ?></p>
-								<?php
-							}
-							?>
-						</fieldset>
-
-						<p><?php esc_html_e( '* Fields in this group appear on the registration page.', 'buddypress' ); ?></p>
-					</div>
-					<?php
-				}
+				$signup_groups = bp_xprofile_get_groups(
+					array(
+						'fetch_fields'       => true,
+						'signup_fields_only' => true,
+					)
+				);
+				$has_signup_fields   = false;
+				$signup_fields       = array();
+				$signup_fields_order = bp_xprofile_get_signup_field_ids();
 				?>
+				<div id="tabs-signup-group"" class="tab-wrapper">
+					<div class="tab-toolbar">
+						<p class="description"><?php esc_html_e( 'Drag fields from other groups and drop them on the above tab to include them into your registration form.', 'buddypress' ); ?></a>
+					</div>
+					<fieldset id="signup-fields" class="connectedSortable field-group" aria-live="polite" aria-atomic="true" aria-relevant="all">
+						<legend class="screen-reader-text">
+							<?php esc_html_e( 'Fields to use into the registration form', 'buddypress' );?>
+						</legend>
+
+						<?php
+						if ( ! empty( $signup_groups ) ) {
+							foreach ( $signup_groups as $signup_group ) {
+								if ( ! empty( $signup_group->fields ) ) {
+									$has_signup_fields = true;
+
+									foreach ( $signup_group->fields as $signup_field ) {
+										// Load the field.
+										$_signup_field = xprofile_get_field( $signup_field, null, false );
+
+										/**
+										 * This function handles the WYSIWYG profile field
+										 * display for the xprofile admin setup screen.
+										 */
+										$signup_fields[ $_signup_field->id ] = bp_xprofile_admin_get_signup_field( $_signup_field, $signup_group, '' );
+									}
+								}
+							}
+
+							// Output signup fields according to their signup position.
+							foreach ( $signup_fields_order as $ordered_signup_field_id ) {
+								if ( ! isset( $signup_fields[ $ordered_signup_field_id ] ) ) {
+									continue;
+								}
+
+								echo $signup_fields[ $ordered_signup_field_id ];
+							}
+						}
+
+						if ( ! $has_signup_fields ) {
+							?>
+							<p class="nodrag nofields"><?php esc_html_e( 'There are no registration fields set. The registration form uses the primary group by default.', 'buddypress' ); ?></p>
+							<?php
+						}
+						?>
+					</fieldset>
+
+					<?php if ( bp_get_signup_allowed() ) : ?>
+						<p><?php esc_html_e( '* Fields in this group appear on the registration page.', 'buddypress' ); ?></p>
+					<?php else : ?>
+						<p>
+							<?php
+							// Include a link to edit settings.
+							$settings_link = '';
+
+							if ( is_multisite() && current_user_can( 'manage_network_users') ) {
+								$settings_link = sprintf(
+									' <a href="%1$">%2$s</a>.',
+									esc_url( network_admin_url( 'settings.php' ) ),
+									esc_html__( 'Edit settings', 'buddypress' )
+								);
+							} elseif ( current_user_can( 'manage_options' ) ) {
+								$settings_link = sprintf(
+									' <a href="%1$s">%2$s</a>.',
+									esc_url( bp_get_admin_url( 'options-general.php' ) ),
+									esc_html__( 'Edit settings', 'buddypress' )
+								);
+							}
+
+							printf(
+								/* translators: %s is the link to the registration settings. */
+								esc_html__( '* Fields in this group will appear on the registration page as soon as users will be able to register to your site.%s', 'buddypress' ),
+								$settings_link
+							);
+							?>
+						</p>
+					<?php endif; ?>
+				</div>
 			</div>
 		</form>
 	</div>
@@ -1029,7 +1051,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 
 				<?php if ( empty( $field->can_delete ) ) : ?><?php esc_html_e( '(Primary)', 'buddypress' ); endif; ?>
 				<?php bp_the_profile_field_required_label(); ?>
-				<?php if ( bp_get_signup_allowed() && $field->get_signup_position() ) : ?>
+				<?php if ( $field->get_signup_position() ) : ?>
 					<span class="bp-signup-field-label"><?php esc_html_e( '(Sign-up)', 'buddypress' );?></span>
 				<?php endif; ?>
 				<?php if ( bp_get_member_types() ) : echo $field->get_member_type_label(); endif; ?>

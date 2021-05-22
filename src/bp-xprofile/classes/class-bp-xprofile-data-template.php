@@ -166,7 +166,7 @@ class BP_XProfile_Data_Template {
 
 		$groups = bp_xprofile_get_groups( $r );
 
-		if ( true === $r['signup_fields_only'] && bp_get_signup_allowed() ) {
+		if ( true === $r['signup_fields_only'] ) {
 			$signup_fields_order       = bp_xprofile_get_signup_field_ids();
 			$signup_group              = new BP_XProfile_Group();
 			$signup_group->id          = 0;
