@@ -668,115 +668,94 @@ class BP_Admin {
 				<div class="bp-hello-content">
 					<div id="dynamic-content"></div>
 					<div id="top-features">
-						<h2><?php esc_html_e( 'Manage Member Types and Group Types right from your WordPress Dashboard.', 'buddypress' ); ?></h2>
+						<h2><?php esc_html_e( 'Your current members are the best way to recruit fantastic new members for your community.', 'buddypress' ); ?></h2>
+						<p>
+							<?php esc_html_e( 'Whether public registration is enabled or not, you can activate this great new opt-in feature from your site\'s BuddyPress settings; with it, your trusted members will handpick new members who will enrich your community', 'buddypress' ); ?>
+						</p>
 						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-types-illustration.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing how to access to the BP Types Admin areas.', 'buddypress' ); ?>" />
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-members-invitations-invite-screen.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the Members Invite Screen.', 'buddypress' ); ?>" />
+						</figure>
+						<p><?php esc_html_e( 'Once activated, each member will be able to send new Member Invitation emails and manage the pending invitations directly from his or her profile area.', 'buddypress' ); ?>
+						<figure class="bp-hello-aligncenter">
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-members-invitations-manage-admin-screen.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the Members Invite Screen.', 'buddypress' ); ?>" />
 						</figure>
 						<p>
-							<?php esc_html_e( 'Playing with BP Types just became much easier! The Member Types and Group Types were primarily introduced in BuddyPress as features for advanced users, just like the WordPress Custom Post Type feature.', 'buddypress' ); ?>
+							<?php esc_html_e( 'You keep control of everything thanks to two new screens we added to the BuddyPress Tools dashboard: invitations and opt-outs management.', 'buddypress' ); ?>
 							<?php printf(
-								/* translators: %s is the placeholder for the link to the BP Types Admin developer note. */
-								esc_html__( 'Thanks to the two new %s, adding, editing and deleting Member & Group Types has never been so easy!', 'buddypress' ),
+								/* translators: %s is the placeholder for the link to the BP Members Invitations developer note. */
+								esc_html__( 'Read more about the feature in this %s.', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://bpdevel.wordpress.com/2020/09/21/bp-types-admin-ui/' ),
-									esc_html__( 'WordPress Administration Screens', 'buddypress' )
-								)
-							); ?>
-							<?php esc_html_e( 'Now you can set up BP Types using custom code or by simply using the Administration interfaces.', 'buddypress' ); ?>
-						</p>
-						<h3><?php esc_html_e( 'Multiple Member Type assignment.', 'buddypress' ); ?></h3>
-						<p>
-							<?php printf(
-								/* translators: %s is the placeholder for the link to the BP Types Admin developer note. */
-								esc_html__( 'As we were pretty hot on the subject, we also improved Member Types assignment. You can now %s to users from their extended profile in the WordPress Dashboard.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://bpdevel.wordpress.com/2020/10/26/assigning-multiple-member-types-to-a-user/' ),
-									esc_html__( 'add more than one member type', 'buddypress' )
+									esc_url( 'https://bpdevel.wordpress.com/2021/05/26/bp-8-0-introduces-site-membership-invitations/' ),
+									esc_html__( 'developer note', 'buddypress' )
 								)
 							); ?>
 						</p>
 
 						<hr class="bp-hello-divider"/>
 
-						<h2><?php esc_html_e( 'The BP Blocks category now includes 5 blocks!', 'buddypress' ); ?></h2>
+						<h2><?php esc_html_e( 'Improved registration experience.', 'buddypress' ); ?></h2>
+						<p>
+							<?php esc_html_e( 'First, you can select any xProfile field from any xProfile field group to use on your site\'s registration form.', 'buddypress' ); ?>
+							<?php printf(
+								/* translators: %s is the placeholder for the link to the Selectable Signup Fields developer note. */
+								esc_html__( 'Learn more about it reading this %s.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://bpdevel.wordpress.com/2021/05/06/selectable-xprofile-sign-up-fields-in-8-0-0/' ),
+									esc_html__( 'developer note', 'buddypress' )
+								)
+							); ?>
+						</p>
 						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-new-blocks.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the BuddyPress Blocks category inside the Block Editor Inserter.', 'buddypress' ); ?>" />
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-xprofile-admin-signup-fields.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the xProfile Administration Screen.', 'buddypress' ); ?>" />
 						</figure>
 						<p>
-							<?php esc_html_e( '3 new BP Blocks are now available via your WordPress Editor.', 'buddypress' ); ?>
-							<?php esc_html_e( 'From the BuddyPress blocks category of the WordPress Block Inserter, you can pick a BP Block to feature a list of members, a list of groups or embed a public BuddyPress Activity into your post or page.', 'buddypress' ); ?>
+							<?php esc_html_e( 'Second, if your site requires that users accept specific rules such as terms of service or a code of conduct, you can now take advantage of the new Checkbox Acceptance xProfile Field type to record their agreement.', 'buddypress' ); ?>
 							<?php printf(
-								/* translators: %s is the placeholder for the link to the BP Blocks developer note. */
+								/* translators: %s is the placeholder for the link to the Checkbox Acceptance field type developer note. */
+								esc_html__( 'This %s will teach you more about it.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://bpdevel.wordpress.com/2021/05/05/new-xprofile-field-type-checkbox-acceptance-will-be-introduced-in-buddypress-8-0-0/' ),
+									esc_html__( 'developer note', 'buddypress' )
+								)
+							); ?>
+						</p>
+						<figure class="bp-hello-aligncenter">
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-xprofile-checkbox-acceptance-field-type.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing an example of Checkbox Acceptance xProfile field type display.', 'buddypress' ); ?>" />
+						</figure>
+						<p>
+							<?php esc_html_e( 'Third, once a user activates his or her account, BuddyPress will send a welcome email to help get him or her engaged with your community.', 'buddypress' ); ?>
+							<?php esc_html_e( 'You can customize the content of this email from the Emails menu of your WordPress dashboard.', 'buddypress' ); ?>
+							<?php printf(
+								/* translators: %s is the placeholder for the link to the Welcome Email developer note. */
+								esc_html__( 'Have a look to this %s to find out more about it.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://bpdevel.wordpress.com/2021/05/24/8-0-0-will-include-a-bp-email-to-welcome-new-community-members/' ),
+									esc_html__( 'developer note', 'buddypress' )
+								)
+							); ?>
+						</p>
+
+						<hr class="bp-hello-divider"/>
+
+						<h2><?php esc_html_e( 'WP xProfile field types.', 'buddypress' ); ?></h2>
+						<p>
+							<?php esc_html_e( 'Two new field types can now be used to include WordPress-specific information about the member in xProfile field loops without duplicating data.', 'buddypress' ); ?>
+						</p>
+						<figure class="bp-hello-aligncenter">
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-xprofile-wp-field-type.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the xProfile Field Edit Screen.', 'buddypress' ); ?>" />
+						</figure>
+						<p>
+							<?php esc_html_e( 'The WP Biography field type lets you include the user\'s Biographical Info and thanks to the WP Textbox field you can include the first & last name, the Website URL as well as any of the custom contact methods of your users.', 'buddypress' ); ?>
+							<?php printf(
+								/* translators: %s is the placeholder for the link to the WP xProfile Field Type developer note. */
 								esc_html__( 'Read more about it in this %s.', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://bpdevel.wordpress.com/2020/10/14/three-new-blocks-to-expect-in-buddypress-7-0-0/' ),
-									esc_html__( 'development note', 'buddypress' )
-								)
-							); ?>
-						</p>
-
-						<hr class="bp-hello-divider"/>
-
-						<h2><?php esc_html_e( 'Get the best of the BP REST API improvements!', 'buddypress' ); ?></h2>
-						<figure class="bp-hello-alignright">
-							<div class="dashicons dashicons-rest-api big"></div>
-						</figure>
-						<p>
-							<?php printf(
-								/* translators: %s is the placeholder for the link to the BP REST API documentation. */
-								esc_html__( 'The %s has been updated according to the latest improvements we’ve brought to the BuddyPress REST API.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://developer.buddypress.org/bp-rest-api/' ),
-									esc_html__( 'Developer documentation', 'buddypress' )
-								)
-							); ?>
-						</p>
-						<p>
-							<?php esc_html_e( 'To name two: get the groups the logged in user is a member of, and create a blog when BuddyPress is activated on a network of WordPress sites.', 'buddypress' ); ?>
-							<?php printf(
-								/* translators: %s is the placeholder for the link to the BP REST API developer note. */
-								esc_html__( 'Read this %s to learn about all the others.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://bpdevel.wordpress.com/2020/11/14/buddypress-rest-api-whats-new-in-7-0-0/' ),
-									esc_html__( 'development note', 'buddypress' )
-								)
-							); ?>
-						</p>
-
-						<hr class="bp-hello-divider"/>
-
-						<h2><?php esc_html_e( 'BP Nouveau is ready for Twenty Twenty-One', 'buddypress' ); ?></h2>
-						<p>
-							<?php esc_html_e( 'You love the latest default WordPress Theme, so do we!', 'buddypress' ); ?>
-							<?php esc_html_e( 'It’s important for us to make sure the BP Nouveau template pack looks great in the default themes included in the WordPress package.', 'buddypress' ); ?>
-							<?php esc_html_e( 'This is the first of the many improvements we are bringing to our default Template Pack.', 'buddypress' ); ?>
-						</p>
-						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-nouveau-2021.png' ); ?>" alt="<?php esc_attr_e( 'Screenshot of the BuddyPress Members directory', 'buddypress' ); ?>" />
-						</figure>
-
-						<hr class="bp-hello-divider"/>
-
-						<h2><?php esc_html_e( 'Improved support for WP CLI.', 'buddypress' ); ?></h2>
-						<figure class="bp-hello-alignleft">
-							<div class="dashicons dashicons-arrow-right-alt2 big"></div>
-						</figure>
-						<p>
-							<?php esc_html_e( 'WP-CLI is the command-line interface for WordPress. You can update plugins, configure multisite installs, and much more, all without using a web browser.', 'buddypress' ); ?>
-							<?php esc_html_e( 'In 7.0.0, you will be able to use new BuddyPress CLI commands to manage BuddyPress Group Meta, BuddyPress Activity Meta, activate or deactivate the BuddyPress signup feature and create BuddyPress-specific testing code for plugins.', 'buddypress' ); ?>
-						</p>
-						<p>
-							<?php printf(
-								/* translators: %s is the placeholder for the link to the WP BP CLI developer note. */
-								esc_html__( 'Discover more about it from this %s.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://bpdevel.wordpress.com/2020/10/09/wp-cli-buddypress-2-0/' ),
+									esc_url( 'https://bpdevel.wordpress.com/2021/03/24/wordpress-xprofile-field-types/' ),
 									esc_html__( 'developer note', 'buddypress' )
 								)
 							); ?>
@@ -786,7 +765,8 @@ class BP_Admin {
 
 						<h2><?php esc_html_e( 'Under the hood', 'buddypress' ); ?></h2>
 						<p>
-							<?php esc_html_e( '7.0.0 includes more than 65 changes to improve your BuddyPress experience as users, and as contributors to our project; click on the “Changelog” tab to discover them all!', 'buddypress' ); ?>
+							<?php esc_html_e( '8.0.0 includes more than 45 changes to improve the Activity component, BP Nouveau Template pack, the BP REST API and many more components and features.', 'buddypress' ); ?>
+							<?php esc_html_e( 'Click on the "Changelog" tab to discover them all!', 'buddypress' ); ?>
 						</p>
 						<figure class="bp-hello-aligncenter">
 							<div class="dashicons dashicons-buddicons-buddypress-logo big"></div>
@@ -824,7 +804,7 @@ class BP_Admin {
 							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 55, 'buddypress' ),
 							'<span class="dashicons dashicons-heart"></span>',
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 55 )
+							number_format_i18n( 31 )
 						);
 						?>
 					</p>
@@ -984,17 +964,17 @@ class BP_Admin {
 				?>
 			</h3>
 			<ul class="wp-people-group " id="wp-people-group-noteworthy">
+				<li class="wp-person" id="wp-person-vapvarun">
+					<a class="web" href="https://profiles.wordpress.org/vapvarun"><img alt="" class="gravatar" src="//gravatar.com/avatar/78a3bf7eb3a1132fc667f96f2631e448?s=120">
+					Varun Dubey</a>
+				</li>
+				<li class="wp-person" id="wp-person-sbrajesh">
+					<a class="web" href="https://profiles.wordpress.org/sbrajesh/"><img alt="" class="gravatar" src="//gravatar.com/avatar/2106622ee90d53d15ac1402806616aca?s=120">
+					Brajesh Singh</a>
+				</li>
 				<li class="wp-person" id="wp-person-oztaser">
 					<a class="web" href="https://profiles.wordpress.org/oztaser/"><img alt="" class="gravatar" src="//gravatar.com/avatar/06eb4dd13c0113bf826968ae16a13e52?s=120">
 					Adil Oztaser</a>
-				</li>
-				<li class="wp-person" id="wp-person-iamthewebb">
-					<a class="web" href="https://profiles.wordpress.org/iamthewebb/"><img alt="" class="gravatar" src="//gravatar.com/avatar/990bac871caf6d6e179b2753226d8f4a?s=120&d=mm">
-					IAmTheWebb</a>
-				</li>
-				<li class="wp-person" id="wp-person-vapvarun">
-					<a class="web" href="https://profiles.wordpress.org/vapvarun"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/78a3bf7eb3a1132fc667f96f2631e448?s=120">
-					Varun Dubey</a>
 				</li>
 			</ul>
 
@@ -1009,60 +989,36 @@ class BP_Admin {
 			</h3>
 			<p class="wp-credits-list">
 				<a href="https://profiles.wordpress.org/oztaser/">Adil Oztaser (oztaser)</a>,
+				<a href="https://profiles.wordpress.org/dontdream/">Andrea Tarantini (dontdream)</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
 				<a href="https://profiles.wordpress.org/sbrajesh/">Brajesh Singh (sbrajesh)</a>,
-				<a href="https://profiles.wordpress.org/corsky/">corsky</a>,
-				<a href="https://profiles.wordpress.org/dancaragea/">Dan Caragea (dancaragea)</a>,
+				<a href="https://profiles.wordpress.org/needle/">Christian Wach (needle)</a>,
+				<a href="https://profiles.wordpress.org/comminski/">comminski</a>,
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
-				<a href="https://profiles.wordpress.org/devnik/">devnik</a>,
-				<a href="https://profiles.wordpress.org/dilipbheda/">Dilip Bheda</a>,
-				<a href="https://profiles.wordpress.org/dd32/">Dion Hulse (dd32)</a>,
-				<a href="https://profiles.wordpress.org/dragoeco/">dragoeco</a>,
-				<a href="https://profiles.wordpress.org/kebbet/">Erik Betshammar (kebbet)</a>,
-				<a href="https://profiles.wordpress.org/etatus/">etatus</a>,
-				<a href="https://github.com/ExoGeek/">Didier Saintes (ExoGeek)</a>,
-				<a href="https://profiles.wordpress.org/f2010525/">诗语 (f2010525)</a>,
-				<a href="https://profiles.wordpress.org/mamaduka/">George Mamadashvili</a>,
-				<a href="https://profiles.wordpress.org/mociofiletto/">Giuseppe (mociofiletto)</a>,
-				<a href="https://profiles.wordpress.org/hareesh-pillai/">Hareesh</a>,
-				<a href="https://profiles.wordpress.org/iamthewebb/">iamthewebb</a>,
-				<a href="https://profiles.wordpress.org/nobnob/">Javier Esteban (nobnob)</a>,
-				<a href="https://profiles.wordpress.org/audrasjb/">Jb Audras (audrasjb)</a>,
+				<a href="https://github.com/dominic-ks/">dominic-ks</a>,
+				<a href="https://github.com/edusperoni/">Eduardo Speroni (edusperoni)</a>,
+				<a href="https://profiles.wordpress.org/hz_i3/">hz_i3</a>,
 				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
-				<a href="https://profiles.wordpress.org/joost-abrahams/">Joost Abrahams (joost-abrahams)</a>,
-				<a href="https://profiles.wordpress.org/k3690/">k3690</a>,
-				<a href="https://profiles.wordpress.org/knutsp/">Knut Sparhell (knutsp)</a>,
-				<a href="https://profiles.wordpress.org/laxman-prajapati/">Laxman Prajapati</a>,
-				<a href="https://profiles.wordpress.org/lidialab/">Lidia Pellizzaro (lidialab)</a>,
-				<a href="https://profiles.wordpress.org/marbaque/">marbaque</a>,
-				<a href="https://github.com/geckse/">Marcel Claus (geckse)</a>,
-				<a href="https://profiles.wordpress.org/marioshtika/">marioshtika</a>,
-				<a href="https://profiles.wordpress.org/markscottrobson/">Mark Robson (markscottrobson)</a>,
+				<a href="https://profiles.wordpress.org/krupajnanda/">Krupa (krupajnanda)</a>,
+				<a href="https://profiles.wordpress.org/offereins/">Laurens Offereins</a>,
+				<a href="https://profiles.wordpress.org/mahdiar/">mahdiar</a>,
 				<a href="https://profiles.wordpress.org/imath/">Mathieu Viet (imath)</a>,
-				<a href="https://profiles.wordpress.org/mercime/">mercime</a>,
-				<a href="https://profiles.wordpress.org/immeet94/">Meet Makadia</a>,
-				<a href="https://profiles.wordpress.org/tw2113/">Michael Beckwith</a>,
-				<a href="https://profiles.wordpress.org/man4toman/">Morteza Geransayeh (man4toman)</a>,
-				<a href="https://profiles.wordpress.org/morenolq/">morenolq</a>,
-				<a href="https://profiles.wordpress.org/n33d/">N33D</a>,
-				<a href="https://profiles.wordpress.org/oddev56/">oddev56</a>,
+				<a href="https://profiles.wordpress.org/mattneil/">mattneil</a>,
+				<a href="https://profiles.wordpress.org/meijioro/">meijioro</a>,
+				<a href="https://profiles.wordpress.org/modemlooper/">modemlooper</a>,
 				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
-				<a href="https://profiles.wordpress.org/walbo/">Petter Walbø Johnsgård (walbo)</a>,
-				<a href="https://profiles.wordpress.org/psmits1567/">Peter Smits (psmits1567)</a>,
-				<a href="https://profiles.wordpress.org/pooja1210/">Pooja N Muchandikar (pooja1210)</a>,
-				<a href="https://profiles.wordpress.org/raruto/">Raruto</a>,
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
 				<a href="https://profiles.wordpress.org/espellcaste/">Renato Alves (espellcaste)</a>,
-				<a href="https://profiles.wordpress.org/scipi/">scipi</a>,
-				<a href="https://profiles.wordpress.org/scottopolis/">Scott Bolinger (scottopolis)</a>,
-				<a href="https://profiles.wordpress.org/shanebp/">shanebp</a>,
-				<a href="https://profiles.wordpress.org/shawfactor/">shawfactor</a>,
-				<a href="https://profiles.wordpress.org/sjregan/">sjregan</a>,
+				<a href="https://profiles.wordpress.org/slaffik/">Slava Abakumov (slaffik)</a>,
+				<a href="https://profiles.wordpress.org/sabernhardt/">Stephen Bernhardt (sabernhardt)</a>,
 				<a href="https://profiles.wordpress.org/netweb/">Stephen Edgar (netweb)</a>,
-				<a href="https://profiles.wordpress.org/tharsheblows/">tharsheblows</a>,
-				<a href="https://profiles.wordpress.org/tobifjellner/">Tor-Bjorn Fjellner (tobifjellner)</a>,
+				<a href="https://profiles.wordpress.org/studiocrafted/">studiocrafted</a>,
+				<a href="https://profiles.wordpress.org/sippis/">Timi Wahalahti (sippis)</a>,
+				<a href="https://profiles.wordpress.org/topher1kenobe/">Topher (topher1kenobe)</a>,
+				<a href="https://profiles.wordpress.org/utsav72640/">Utsav tilava (utsav72640)</a>,
 				<a href="https://profiles.wordpress.org/vapvarun/">Varun Dubey (vapvarun)</a>,
-				<a href="https://profiles.wordpress.org/podporawebu/">wp24.cz (podporawebu)</a>.
+				<a href="https://profiles.wordpress.org/venutius/">Venutius</a>,
+				<a href="https://profiles.wordpress.org/weddywood/">WeddyWood</a>.
 			</p>
 
 			<h3 class="wp-people-group"><?php esc_html_e( 'With our thanks to these Open Source projects', 'buddypress' ); ?></h3>
