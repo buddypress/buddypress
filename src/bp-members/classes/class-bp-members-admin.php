@@ -996,6 +996,11 @@ class BP_Members_Admin {
 		if ( ! bp_current_user_can( 'bp_moderate' ) && empty( $this->is_self_profile ) ) {
 			die( '-1' );
 		}
+		
+		// check for WP User Profiles plugin compatibility
+		if ( is_plugin_active( 'wp-user-profiles/wp-user-profiles.php' ) ) {
+			return;
+		} 
 
 		// Get the user ID.
 		$user_id = $this->get_user_id();
