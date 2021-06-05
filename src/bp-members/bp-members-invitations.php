@@ -77,7 +77,7 @@ add_action( 'bp_setup_nav', 'bp_members_invitations_setup_nav' );
  *                               signup data, xprofile data, etc).
  * @return bool Whether or not to send the activation key.
  */
-function bp_members_invitations_cancel_activation_email( $send, $user_id, $user_email, $activation_key, $usermeta ) {
+function bp_members_invitations_cancel_activation_email( $send, $user_id = 0, $user_email = '', $activation_key = '', $usermeta = array() ) {
 	$invite = bp_members_invitations_get_invites(
 		array(
 			'invitee_email' => $user_email,
@@ -105,7 +105,7 @@ add_filter( 'bp_core_signup_send_activation_key', 'bp_members_invitations_cancel
  * @param string          $user_password Password requested by the user.
  * @param string          $user_email    Email address requested by the user.
  */
-function bp_members_invitations_complete_signup( $user_id, $user_login, $user_password, $user_email ) {
+function bp_members_invitations_complete_signup( $user_id, $user_login = '', $user_password = '', $user_email = '' ) {
 	if ( ! $user_id ) {
 		return;
 	}
