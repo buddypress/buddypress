@@ -10,6 +10,11 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Set up the displayed user's Members Invitations nav.
+ *
+ * @since 8.0.0
+ */
 function bp_members_invitations_setup_nav() {
 	if ( ! bp_get_members_invitations_allowed() ) {
 		return;
@@ -62,12 +67,15 @@ add_action( 'bp_setup_nav', 'bp_members_invitations_setup_nav' );
 /**
  * When a user joins the network via an invitation, skip sending the activation email.
  *
+ * @since 8.0.0
+ *
  * @param bool   $send           Whether or not to send the activation key.
  * @param int    $user_id        User ID to send activation key to.
  * @param string $user_email     User email to send activation key to.
  * @param string $activation_key Activation key to be sent.
  * @param array  $usermeta       Miscellaneous metadata about the user (blog-specific
  *                               signup data, xprofile data, etc).
+ * @return bool Whether or not to send the activation key.
  */
 function bp_members_invitations_cancel_activation_email( $send, $user_id, $user_email, $activation_key, $usermeta ) {
 	$invite = bp_members_invitations_get_invites(
@@ -89,6 +97,8 @@ add_filter( 'bp_core_signup_send_activation_key', 'bp_members_invitations_cancel
  * When a user joins the network via an invitation:
  * - mark all invitations and requests as accepted
  * - activate the user upon signup
+ *
+ * @since 8.0.0
  *
  * @param bool|WP_Error   $user_id       True on success, WP_Error on failure.
  * @param string          $user_login    Login name requested by the user.
