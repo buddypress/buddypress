@@ -3,7 +3,7 @@
  * Activity Template tags
  *
  * @since 3.0.0
- * @version 8.0.0
+ * @version 8.1.0
  */
 
 // Exit if accessed directly.
@@ -236,10 +236,13 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 }
 
 	/**
-	 * Get the action buttons inside an Activity Loop,
+	 * Get the action buttons inside an Activity Loop.
 	 *
 	 * @todo This function is too large and needs refactoring and reviewing.
 	 * @since 3.0.0
+	 *
+	 * @param array $args See bp_nouveau_wrapper() for the description of parameters.
+	 * @return array      Activity action buttons used into an Activity Loop.
 	 */
 	function bp_nouveau_get_activity_entry_buttons( $args ) {
 		$buttons = array();
@@ -530,7 +533,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 		$buttons_group = apply_filters( 'bp_nouveau_get_activity_entry_buttons', $buttons, $activity_id );
 
 		if ( ! $buttons_group ) {
-			return $buttons;
+			return array();
 		}
 
 		// It's the first entry of the loop, so build the Group and sort it
