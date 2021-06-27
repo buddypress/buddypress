@@ -12,17 +12,23 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * The Recent Networkwide Posts widget.
+ *
+ * @since 1.0.0
  */
 class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 
 	/**
 	 * Constructor method.
+	 *
+	 * @since 1.5.0
+	 * @since 9.0.0 Adds the `show_instance_in_rest` property to Widget options.
 	 */
 	public function __construct() {
 		$widget_ops = array(
 			'description'                 => __( 'A list of recently published posts from across your network.', 'buddypress' ),
 			'classname'                   => 'widget_bp_blogs_widget buddypress widget',
 			'customize_selective_refresh' => true,
+			'show_instance_in_rest'       => true,
 		);
 		parent::__construct( false, $name = _x( '(BuddyPress) Recent Networkwide Posts', 'widget name', 'buddypress' ), $widget_ops );
 	}

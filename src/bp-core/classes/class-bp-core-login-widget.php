@@ -21,6 +21,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 	 * Constructor method.
 	 *
 	 * @since 1.9.0
+	 * @since 9.0.0 Adds the `show_instance_in_rest` property to Widget options.
 	 */
 	public function __construct() {
 		parent::__construct(
@@ -30,6 +31,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 				'description'                 => __( 'Show a Log In form to logged-out visitors, and a Log Out link to those who are logged in.', 'buddypress' ),
 				'classname'                   => 'widget_bp_core_login_widget buddypress widget',
 				'customize_selective_refresh' => true,
+				'show_instance_in_rest'       => true,
 			)
 		);
 	}

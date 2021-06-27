@@ -19,6 +19,9 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 
 	/**
 	 * Constructor method.
+	 *
+	 * @since 1.9.0
+	 * @since 9.0.0 Adds the `show_instance_in_rest` property to Widget options.
 	 */
 	function __construct() {
 		parent::__construct(
@@ -28,6 +31,7 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 				'classname'                   => 'widget_bp_core_sitewide_messages buddypress widget',
 				'description'                 => __( 'Display Sitewide Notices posted by the site administrator', 'buddypress' ),
 				'customize_selective_refresh' => true,
+				'show_instance_in_rest'       => true,
 			)
 		);
 	}

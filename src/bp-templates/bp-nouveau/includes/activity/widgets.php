@@ -19,6 +19,7 @@ class BP_Latest_Activities extends WP_Widget {
 	 * Construct the widget.
 	 *
 	 * @since 3.0.0
+	 * @since 9.0.0 Adds the `show_instance_in_rest` property to Widget options.
 	 */
 	public function __construct() {
 
@@ -34,6 +35,7 @@ class BP_Latest_Activities extends WP_Widget {
 				'classname'                   => 'bp-latest-activities buddypress',
 				'description'                 => __( 'Display the latest updates of your community having the types of your choice.', 'buddypress' ),
 				'customize_selective_refresh' => true,
+				'show_instance_in_rest'       => true,
 			)
 		);
 

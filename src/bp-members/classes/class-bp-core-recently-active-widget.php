@@ -21,6 +21,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 * Constructor method.
 	 *
 	 * @since 1.5.0
+	 * @since 9.0.0 Adds the `show_instance_in_rest` property to Widget options.
 	 */
 	public function __construct() {
 		$name        = _x( '(BuddyPress) Recently Active Members', 'widget name', 'buddypress' );
@@ -29,6 +30,7 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 			'description'                 => $description,
 			'classname'                   => 'widget_bp_core_recently_active_widget buddypress widget',
 			'customize_selective_refresh' => true,
+			'show_instance_in_rest'       => true,
 		) );
 	}
 

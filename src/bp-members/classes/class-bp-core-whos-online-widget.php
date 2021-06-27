@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Who's Online Widget.
  *
  * @since 1.0.3
+ * @since 9.0.0 Adds the `show_instance_in_rest` property to Widget options.
  */
 class BP_Core_Whos_Online_Widget extends WP_Widget {
 
@@ -21,6 +22,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 * Constructor method.
 	 *
 	 * @since 1.5.0
+	 * @since 9.0.0 Adds the `show_instance_in_rest` property to Widget options.
 	 */
 	public function __construct() {
 		$name        = _x( "(BuddyPress) Who's Online", 'widget name', 'buddypress' );
@@ -29,6 +31,7 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 			'description'                 => $description,
 			'classname'                   => 'widget_bp_core_whos_online_widget buddypress widget',
 			'customize_selective_refresh' => true,
+			'show_instance_in_rest'       => true,
 		) );
 	}
 
