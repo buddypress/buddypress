@@ -91,6 +91,10 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 * @return string The sanitized field value.
 	 */
 	public function sanitize_for_db( $value ) {
+		if ( ! $value ) {
+			return '';
+		}
+
 		if ( 'user_url' === $this->wp_user_key ) {
 			return esc_url_raw( $value );
 		}

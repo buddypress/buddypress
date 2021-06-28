@@ -51,6 +51,10 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 	 * @return string The sanitized field value.
 	 */
 	public function sanitize_for_db( $value ) {
+		if ( ! $value ) {
+			return '';
+		}
+
 		return trim( $value );
 	}
 
