@@ -3,7 +3,7 @@
  * Groups Template tags
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version 9.0.0
  */
 
 // Exit if accessed directly.
@@ -1006,12 +1006,14 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		 * Filter to add your buttons, use the position argument to choose where to insert it.
 		 *
 		 * @since 3.0.0
+		 * @since 9.0.0 Adds the `$args` parameter to the filter.
 		 *
 		 * @param array  $buttons The list of buttons.
 		 * @param int    $group   The current group object.
 		 * @param string $type    Whether we're displaying a groups loop or a groups single item.
+		 * @param array  $args    Button arguments.
 		 */
-		$buttons_group = apply_filters( 'bp_nouveau_get_groups_buttons', $buttons, $group, $type );
+		$buttons_group = apply_filters( 'bp_nouveau_get_groups_buttons', $buttons, $group, $type, $args );
 
 		if ( ! $buttons_group ) {
 			return $buttons;

@@ -3,7 +3,7 @@
  * Members template tags
  *
  * @since 3.0.0
- * @version 8.0.0
+ * @version 9.0.0
  */
 
 // Exit if accessed directly.
@@ -466,12 +466,14 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 		 * Filter to add your buttons, use the position argument to choose where to insert it.
 		 *
 		 * @since 3.0.0
+		 * @since 9.0.0 Adds the `$args` parameter to the filter.
 		 *
 		 * @param array  $buttons The list of buttons.
 		 * @param int    $user_id The displayed user ID.
 		 * @param string $type    Whether we're displaying a members loop or a user's page
+		 * @param array  $args    Button arguments.
 		 */
-		$buttons_group = apply_filters( 'bp_nouveau_get_members_buttons', $buttons, $user_id, $type );
+		$buttons_group = apply_filters( 'bp_nouveau_get_members_buttons', $buttons, $user_id, $type, $args );
 		if ( ! $buttons_group ) {
 			return $buttons;
 		}
