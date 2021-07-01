@@ -1436,7 +1436,7 @@ function bp_xprofile_get_signup_field_ids() {
 		global $wpdb;
 		$bp = buddypress();
 
-		$signup_field_ids = $wpdb->get_col( "SELECT object_id FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND meta_key = 'signup_position' ORDER BY meta_value ASC" );
+		$signup_field_ids = $wpdb->get_col( "SELECT object_id FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND meta_key = 'signup_position' ORDER BY CONVERT(meta_value, SIGNED) ASC" );
 
 		wp_cache_set( 'signup_fields', $signup_field_ids, 'bp_xprofile' );
 	}
