@@ -3,7 +3,7 @@
  * Common Classes
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 9.0.0
  */
 
 // Exit if accessed directly.
@@ -44,47 +44,7 @@ class BP_Buttons_Group {
 	 */
 	public function __construct( $args = array() ) {
 		foreach ( $args as $arg ) {
-			$r = bp_parse_args(
-				(array) $arg,
-				array(
-					'id'                => '',
-					'position'          => 99,
-					'component'         => '',
-					'must_be_logged_in' => true,
-					'block_self'        => false,
-					'parent_element'    => false,
-					'parent_attr'       => array(),
-					'button_element'    => 'a',
-					'button_attr'       => array(),
-					'link_text'         => '',
-				),
-				'buttons_group_constructor'
-			);
-
-			// Just don't set the button if a param is missing
-			if ( empty( $r['id'] ) || empty( $r['component'] ) || empty( $r['link_text'] ) ) {
-				continue;
-			}
-
-			$r['id'] = sanitize_key( $r['id'] );
-
-			// If the button already exist don't add it
-			if ( isset( $this->group[ $r['id'] ] ) ) {
-				continue;
-			}
-
-			/*
-			 * If, in bp_nouveau_get_*_buttons(), we pass through a false value for 'parent_element'
-			 * but we have attributtes for it in the array, let's default to setting a div.
-			 *
-			 * Otherwise, the original false value will be passed through to BP buttons.
-			 * @todo: this needs review, probably trying to be too clever
-			 */
-			if ( ( ! empty( $r['parent_attr'] ) ) && false === $r['parent_element'] ) {
-				$r['parent_element'] = 'div';
-			}
-
-			$this->group[ $r['id'] ] = $r;
+			$this->add( $arg );
 		}
 	}
 
@@ -172,8 +132,63 @@ class BP_Buttons_Group {
 					$this->group[ $id ],
 					'buttons_group_update'
 				);
+			} else {
+				$this->add( $params );
 			}
 		}
+	}
+
+	/**
+	 * Adds a button.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @param array $args Required. See the __constructor for a description of this argument.
+	 * @return bool true on success, false on failure to add.
+	 */
+	private function add( $args ) {
+		$r = bp_parse_args(
+			(array) $args,
+			array(
+				'id'                => '',
+				'position'          => 99,
+				'component'         => '',
+				'must_be_logged_in' => true,
+				'block_self'        => false,
+				'parent_element'    => false,
+				'parent_attr'       => array(),
+				'button_element'    => 'a',
+				'button_attr'       => array(),
+				'link_text'         => '',
+			),
+			'buttons_group_constructor'
+		);
+
+		// Just don't set the button if a param is missing
+		if ( empty( $r['id'] ) || empty( $r['component'] ) || empty( $r['link_text'] ) ) {
+			return false;
+		}
+
+		$r['id'] = sanitize_key( $r['id'] );
+
+		// If the button already exist don't add it
+		if ( isset( $this->group[ $r['id'] ] ) ) {
+			return false;
+		}
+
+		/*
+		 * If, in bp_nouveau_get_*_buttons(), we pass through a false value for 'parent_element'
+		 * but we have attributtes for it in the array, let's default to setting a div.
+		 *
+		 * Otherwise, the original false value will be passed through to BP buttons.
+		 * @todo: this needs review, probably trying to be too clever
+		 */
+		if ( ( ! empty( $r['parent_attr'] ) ) && false === $r['parent_element'] ) {
+			$r['parent_element'] = 'div';
+		}
+
+		$this->group[ $r['id'] ] = $r;
+		return true;
 	}
 }
 
