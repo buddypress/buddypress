@@ -3,7 +3,7 @@
  * BP Nouveau Activity Widget template.
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 9.0.0
  */
 ?>
 
@@ -16,11 +16,13 @@
 			bp_the_activity();
 		?>
 
-			<?php if ( bp_activity_has_content() ) : ?>
+			<blockquote>
 
-				<blockquote>
+				<?php if ( bp_activity_has_content() ) : ?>
 
-					<?php bp_activity_content_body(); ?>
+					<div class="<?php bp_activity_css_class(); ?>">
+						<?php bp_activity_content_body(); ?>
+					</div>
 
 					<footer>
 
@@ -42,13 +44,15 @@
 
 					</footer>
 
-				</blockquote>
+					<?php else : ?>
 
-			<?php else : ?>
+						<div class="<?php bp_activity_css_class(); ?>">
+							<p><?php bp_activity_action(); ?></p>
+						</div>
 
-				<p><?php bp_activity_action(); ?></p>
+					<?php endif; ?>
 
-			<?php endif; ?>
+			</blockquote>
 
 		<?php endwhile; ?>
 

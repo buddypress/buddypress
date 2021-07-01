@@ -4678,6 +4678,64 @@ body.create-blog #buddypress .success {
 	border-bottom: 0;
 }
 
+.buddypress.widget div.activity-list blockquote {
+	padding: 0;
+	border: none;
+}
+
+.buddypress.widget div.activity-list blockquote .activity-item:not(.mini) {
+	position: relative;
+	box-shadow: 1px 0 4px rgba(0, 0, 0, 0.15);
+	padding: 0 1em;
+}
+
+.buddypress.widget div.activity-list blockquote .activity-item:not(.mini):after, .buddypress.widget div.activity-list blockquote .activity-item:not(.mini):before {
+	position: absolute;
+	left: 15px;
+	display: block;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-color: transparent;
+	content: "";
+}
+
+.buddypress.widget div.activity-list blockquote .activity-item:not(.mini):before {
+	bottom: -18px;
+	border-top-color: rgba(0, 0, 0, 0.15);
+	border-width: 9px;
+	left: 14px;
+}
+
+.buddypress.widget div.activity-list blockquote .activity-item:not(.mini):after {
+	bottom: -16px;
+	border-top-color: #fff;
+	border-width: 8px;
+}
+
+.buddypress.widget div.activity-list blockquote .activity-item.mini .avatar {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	vertical-align: middle;
+	margin-right: 2px;
+}
+
+.buddypress.widget div.activity-list footer {
+	display: flex;
+	align-items: center;
+}
+
+.buddypress.widget div.activity-list footer img.avatar {
+	display: inline-block;
+	border: none;
+	margin-right: 0.5em;
+}
+
+.buddypress.widget div.activity-list footer .activity-time-since {
+	font-size: 90%;
+}
+
 .buddypress.widget .avatar-block {
 	display: -moz-flex;
 	display: -ms-flex;
