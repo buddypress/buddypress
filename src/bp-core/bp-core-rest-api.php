@@ -135,19 +135,23 @@ function bp_rest_version() {
 }
 
 /**
- * Get user URL.
+ * Get a REST API object URL from a component.
  *
- * @since 5.0.0
+ * @since 9.0.0
  *
- * @param  int $user_id User ID.
+ * @param integer $object_id   Object ID.
+ * @param string  $object_path Path of the component endpoint.
  * @return string
  */
-function bp_rest_get_user_url( $user_id ) {
-	return sprintf(
-		'/%s/%s/members/%d',
-		bp_rest_namespace(),
-		bp_rest_version(),
-		$user_id
+function bp_rest_get_object_url( $object_id, $object_path ) {
+	return rest_url(
+		sprintf(
+			'/%1$s/%2$s/%3$s/%4$d',
+			bp_rest_namespace(),
+			bp_rest_version(),
+			$object_path,
+			$object_id
+		)
 	);
 }
 
