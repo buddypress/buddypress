@@ -612,18 +612,22 @@ class BP_Messages_Thread {
 	 * Mark a thread as read.
 	 *
 	 * @since 1.0.0
+	 * @since 9.0.0 Added the `user_id` parameter.
 	 *
 	 * @param int $thread_id The message thread ID.
+	 * @param int $user_id   The user the thread will be marked as read.
 	 *
 	 * @return false|int Number of threads marked as read or false on error.
 	 */
-	public static function mark_as_read( $thread_id = 0 ) {
+	public static function mark_as_read( $thread_id = 0, $user_id = 0 ) {
 		global $wpdb;
 
-		$user_id =
-			bp_displayed_user_id() ?
-			bp_displayed_user_id() :
-			bp_loggedin_user_id();
+		if ( empty( $user_id ) ) {
+			$user_id =
+				bp_displayed_user_id() ?
+				bp_displayed_user_id() :
+				bp_loggedin_user_id();
+		}
 
 		$bp     = buddypress();
 		$retval = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", $user_id, $thread_id ) );
@@ -635,10 +639,12 @@ class BP_Messages_Thread {
 		 * Fires when messages thread was marked as read.
 		 *
 		 * @since 2.8.0
+		 * @since 9.0.0 Added the `user_id` parameter.
 		 *
 		 * @param int $thread_id The message thread ID.
+		 * @param int $user_id   The user the thread will be marked as read.
 		 */
-		do_action( 'messages_thread_mark_as_read', $thread_id );
+		do_action( 'messages_thread_mark_as_read', $thread_id, $user_id );
 
 		return $retval;
 	}
@@ -647,18 +653,22 @@ class BP_Messages_Thread {
 	 * Mark a thread as unread.
 	 *
 	 * @since 1.0.0
+	 * @since 9.0.0 Added the `user_id` parameter.
 	 *
 	 * @param int $thread_id The message thread ID.
+	 * @param int $user_id   The user the thread will be marked as unread.
 	 *
 	 * @return false|int Number of threads marked as unread or false on error.
 	 */
-	public static function mark_as_unread( $thread_id = 0 ) {
+	public static function mark_as_unread( $thread_id = 0, $user_id = 0 ) {
 		global $wpdb;
 
-		$user_id =
-			bp_displayed_user_id() ?
-			bp_displayed_user_id() :
-			bp_loggedin_user_id();
+		if ( empty( $user_id ) ) {
+			$user_id =
+				bp_displayed_user_id() ?
+				bp_displayed_user_id() :
+				bp_loggedin_user_id();
+		}
 
 		$bp     = buddypress();
 		$retval = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", $user_id, $thread_id ) );
@@ -670,10 +680,12 @@ class BP_Messages_Thread {
 		 * Fires when messages thread was marked as unread.
 		 *
 		 * @since 2.8.0
+		 * @since 9.0.0 Added the `user_id` parameter.
 		 *
 		 * @param int $thread_id The message thread ID.
+		 * @param int $user_id   The user the thread will be marked as unread.
 		 */
-		do_action( 'messages_thread_mark_as_unread', $thread_id );
+		do_action( 'messages_thread_mark_as_unread', $thread_id, $user_id );
 
 		return $retval;
 	}

@@ -324,12 +324,15 @@ function messages_check_thread_access( $thread_id, $user_id = 0 ) {
  *
  * Wrapper for {@link BP_Messages_Thread::mark_as_read()}.
  *
- * @param int $thread_id ID of the thread.
+ * @since 9.0.0 Added the `user_id` parameter.
+ *
+ * @param int $thread_id The message thread ID.
+ * @param int $user_id   Optional. The user the thread will be marked as read.
  *
  * @return false|int Number of threads marked as read or false on error.
  */
-function messages_mark_thread_read( $thread_id ) {
-	return BP_Messages_Thread::mark_as_read( $thread_id );
+function messages_mark_thread_read( $thread_id, $user_id = 0 ) {
+	return BP_Messages_Thread::mark_as_read( $thread_id, $user_id );
 }
 
 /**
@@ -337,12 +340,15 @@ function messages_mark_thread_read( $thread_id ) {
  *
  * Wrapper for {@link BP_Messages_Thread::mark_as_unread()}.
  *
- * @param int $thread_id ID of the thread.
+ * @since 9.0.0 Added the `user_id` parameter.
+ *
+ * @param int $thread_id The message thread ID.
+ * @param int $user_id   Optional. The user the thread will be marked as unread.
  *
  * @return false|int Number of threads marked as unread or false on error.
  */
-function messages_mark_thread_unread( $thread_id ) {
-	return BP_Messages_Thread::mark_as_unread( $thread_id );
+function messages_mark_thread_unread( $thread_id, $user_id = 0 ) {
+	return BP_Messages_Thread::mark_as_unread( $thread_id, $user_id );
 }
 
 /**

@@ -319,6 +319,65 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group cache
+	 */
+	public function test_marking_a_thread_as_read_with_specific_user_id() {
+		$u1      = self::factory()->user->create();
+		$u2      = self::factory()->user->create();
+		$message = self::factory()->message->create_and_get( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'Foo',
+		) );
+
+		$thread_id = $message->thread_id;
+
+		// Cache should be populated.
+		$this->assertTrue( (bool) wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' ) );
+
+		// Mark thread as read.
+		messages_mark_thread_read( $thread_id, $u2 );
+
+		// Cache should be empty.
+		$this->assertFalse( wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' ) );
+
+		$thread = new BP_Messages_Thread( $thread_id );
+
+		$this->assertFalse( (bool) $thread->unread_count );
+		$this->assertFalse( (bool) $thread->recipients[ $u1 ]->unread_count );
+		$this->assertFalse( (bool) $thread->recipients[ $u2 ]->unread_count );
+	}
+
+	/**
+	 * @group cache
+	 */
+	public function test_marking_a_thread_as_unread_with_specific_user_id() {
+		$u1      = self::factory()->user->create();
+		$u2      = self::factory()->user->create();
+		$message = self::factory()->message->create_and_get( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'Foo',
+		) );
+
+		$thread_id = $message->thread_id;
+
+		// Cache should be populated.
+		$this->assertTrue( (bool) wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' ) );
+
+		// Mark thread as unread.
+		messages_mark_thread_unread( $thread_id, $u2 );
+
+		// Cache should be empty.
+		$this->assertFalse( wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' ) );
+
+		$thread = new BP_Messages_Thread( $thread_id );
+
+		$this->assertFalse( (bool) $thread->recipients[ $u1 ]->unread_count );
+		$this->assertTrue( (bool) $thread->recipients[ $u2 ]->unread_count );
+	}
+
+	/**
 	 * @group get_recipients
 	 * @group cache
 	 */
