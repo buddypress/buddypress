@@ -92,3 +92,47 @@ function bp_messages_action_edit_notice() {
 	bp_core_redirect( $redirect_to );
 }
 add_action( 'bp_actions', 'bp_messages_action_edit_notice' );
+
+/**
+ * Handle user dismissal of sitewide notices.
+ *
+ * @since 9.0.0
+ *
+ * @return bool False on failure.
+ */
+function bp_messages_action_dismiss_notice() {
+
+	// Bail if not viewing a notice dismissal URL.
+	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'notices' ) || 'dismiss' !== sanitize_key( bp_action_variable( 0 ) ) ) {
+		return false;
+	}
+
+	// Bail if the current user isn't logged in.
+	if ( ! is_user_logged_in() ) {
+		return false;
+	}
+
+	// Check the nonce.
+	check_admin_referer( 'messages_dismiss_notice' );
+
+	// Dismiss the notice.
+	$success = bp_messages_dismiss_sitewide_notice();
+
+	// User feedback.
+	if ( $success ) {
+		$feedback = __( 'Notice has been dismissed.', 'buddypress' );
+		$type     = 'success';
+	} else {
+		$feedback = __( 'There was a problem dismissing the notice.', 'buddypress');
+		$type     = 'error';
+	}
+
+	// Add feedback message.
+	bp_core_add_message( $feedback, $type );
+
+	// Redirect.
+	$redirect_to = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() );
+
+	bp_core_redirect( $redirect_to );
+}
+add_action( 'bp_actions', 'bp_messages_action_dismiss_notice' );

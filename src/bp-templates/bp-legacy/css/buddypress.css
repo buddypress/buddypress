@@ -1428,7 +1428,9 @@ fieldset.create-site label {
 }
 
 .bp-site-wide-message #message button,
-.admin-bar-on #message button {
+.bp-site-wide-message #message a.button,
+.admin-bar-on #message button,
+.admin-bar-on #message a.button {
 	font-size: 0.8em;
 	padding: 2px 4px;
 	position: absolute;
@@ -1436,7 +1438,8 @@ fieldset.create-site label {
 	top: 0;
 }
 
-.admin-bar-on #message button {
+.admin-bar-on #message button,
+.admin-bar-on #message a.button {
 	right: 10px;
 	top: 7px;
 }
