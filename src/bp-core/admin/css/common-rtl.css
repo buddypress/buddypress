@@ -21,7 +21,8 @@ TABLE OF CONTENTS:
 	3.1 Users List
 	3.2 Site Notices
 4.0 Emails - Edit page
-5.0 Plugins page
+5.0 Block Editor
+6.0 Plugins page
 ------------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------
@@ -538,7 +539,14 @@ body.post-type-bp-email .categorydiv label {
 }
 
 /*------------------------------------------------------------------------------
- * 5.0 Plugins page
+ * 5.0 Block Editor
+ *----------------------------------------------------------------------------*/
+.block-editor-inserter__panel-header span.dashicons-buddicons-buddypress-logo {
+	color: #d84800;
+}
+
+/*------------------------------------------------------------------------------
+ * 6.0 Plugins page
  *----------------------------------------------------------------------------*/
 #buddypress-update.not-shiny .update-message {
 	border-right: 0;
