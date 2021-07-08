@@ -766,24 +766,17 @@ function bp_nouveau_ajax_dismiss_sitewide_notice() {
 	}
 
 	// Mark the active notice as closed.
-	$notice = BP_Messages_Notice::get_active();
+	$success = bp_messages_dismiss_sitewide_notice();
 
-	if ( ! empty( $notice->id ) ) {
-		$user_id = bp_loggedin_user_id();
-
-		$closed_notices = bp_get_user_meta( $user_id, 'closed_notices', true );
-
-		if ( empty( $closed_notices ) ) {
-			$closed_notices = array();
-		}
-
-		// Add the notice to the array of the user's closed notices.
-		$closed_notices[] = (int) $notice->id;
-		bp_update_user_meta( $user_id, 'closed_notices', array_map( 'absint', array_unique( $closed_notices ) ) );
-
+	if ( $success ) {
 		wp_send_json_success( array(
 			'feedback' => '<div class="bp-feedback info"><span class="bp-icon" aria-hidden="true"></span><p>' . __( 'Sitewide notice dismissed', 'buddypress' ) . '</p></div>',
 			'type'     => 'success',
+		) );
+	} else {
+		wp_send_json_error( array(
+			'feedback' => '<div class="bp-feedback info"><span class="bp-icon" aria-hidden="true"></span><p>' . __( 'There was a problem dismissing that sitewide notice', 'buddypress' ) . '</p></div>',
+			'type'     => 'error',
 		) );
 	}
 }
