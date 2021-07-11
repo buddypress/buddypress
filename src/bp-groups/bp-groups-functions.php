@@ -2117,7 +2117,7 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
 function groups_reject_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
 
 	if ( ! empty( $membership_id ) ){
-		_deprecated_argument( __METHOD__, '5.0.0', sprintf( __( 'Argument `membership_id` passed to %1$s  is deprecated. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument( __METHOD__, '5.0.0', sprintf( __( 'Argument `membership_id` passed to %1$s is deprecated. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 	}
 
 	if ( ! groups_delete_membership_request( false, $user_id, $group_id ) ) {
@@ -2155,7 +2155,7 @@ function groups_reject_membership_request( $membership_id, $user_id = 0, $group_
 function groups_delete_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
 	if ( ! empty( $membership_id ) ){
 		/* translators: 1: method name. 2: file name. */
-		_deprecated_argument( __METHOD__, '5.0.0', sprintf( __( 'Argument `membership_id` passed to %1$s  is deprecated. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument( __METHOD__, '5.0.0', sprintf( __( 'Argument `membership_id` passed to %1$s is deprecated. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 	}
 
 	if ( empty( $user_id ) || empty( $group_id ) ) {
