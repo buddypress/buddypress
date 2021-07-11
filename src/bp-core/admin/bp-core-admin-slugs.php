@@ -212,7 +212,7 @@ function bp_core_admin_slugs_options() {
 					<?php
 					printf(
 						/* translators: %s: the link to the Site general options page */
-						esc_html_x( 'Registration is currently disabled.  Before associating a page is allowed, please enable registration by clicking on the "Anyone can register" checkbox on %s.', 'Disabled registration message for regular site config', 'buddypress' ),
+						esc_html_x( 'Registration is currently disabled. Before associating a page is allowed, please enable registration by clicking on the "Anyone can register" checkbox on %s.', 'Disabled registration message for regular site config', 'buddypress' ),
 						sprintf(
 							'<a href="%1$s">%2$s</a>',
 							esc_url( admin_url( 'options-general.php' ) ),
