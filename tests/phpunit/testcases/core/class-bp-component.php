@@ -30,7 +30,6 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		$bp_members->rest_api_init();
 
 		$this->assertSame( $bp->unit_test_rest->controllers, array(
-			'BP_REST_Components_Endpoint',
 			'BP_REST_Members_Endpoint',
 			'BP_REST_Attachments_Member_Avatar_Endpoint',
 			'BP_REST_Attachments_Member_Cover_Endpoint',
@@ -48,7 +47,6 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		remove_filter( 'bp_members_rest_api_controllers', array( $this, 'remove_controller' ) );
 
 		$this->assertSame( $bp->unit_test_rest->controllers, array(
-			'BP_REST_Components_Endpoint',
 			'BP_REST_Attachments_Member_Avatar_Endpoint',
 			'BP_REST_Attachments_Member_Cover_Endpoint',
 		) );
@@ -65,7 +63,6 @@ class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
 		remove_filter( 'bp_members_rest_api_controllers', array( $this, 'add_controller' ) );
 
 		$this->assertSame( $bp->unit_test_rest->controllers, array(
-			'BP_REST_Components_Endpoint',
 			'BP_REST_Members_Endpoint',
 			'BP_REST_Attachments_Member_Avatar_Endpoint',
 			'BP_REST_Attachments_Member_Cover_Endpoint',

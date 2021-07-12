@@ -917,21 +917,24 @@ class BP_Component {
 	 *
 	 * @since 6.0.0
 	 *
+	 * @see `BP_Block->construct()` for a full description of a BP Block arguments.
+	 *
 	 * @param array $blocks The list of BP Blocks to register.
 	 */
 	public function blocks_init( $blocks = array() ) {
-		if ( is_array( $blocks ) && $blocks ) {
-			/**
-			 * Filter here to disable all or some BP Blocks for a component.
-			 *
-			 * This is a dynamic hook that is based on the component string ID.
-			 *
-			 * @since 6.0.0
-			 *
-			 * @param array $blocks The list of BP Blocks for the component.
-			 */
-			$blocks = (array) apply_filters( 'bp_' . $this->id . '_register_blocks', $blocks );
+		/**
+		 * Filter here to add new BP Blocks, disable some or all BP Blocks for a component.
+		 *
+		 * This is a dynamic hook that is based on the component string ID.
+		 *
+		 * @since 6.0.0
+		 *
+		 * @param array $blocks The list of BP Blocks for the component.
+		 */
+		$blocks = (array) apply_filters( 'bp_' . $this->id . '_register_blocks', $blocks );
+		$blocks = array_filter( $blocks );
 
+		if ( $blocks ) {
 			foreach ( $blocks as $block ) {
 				bp_register_block( $block );
 			}

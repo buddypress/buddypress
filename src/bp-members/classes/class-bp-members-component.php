@@ -695,17 +695,13 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @since 5.0.0
 	 * @since 6.0.0 Adds the Member Cover and Signup REST endpoints.
+	 * @since 9.0.0 Moves the `BP_REST_Components_Endpoint` controller in `BP_Core` component.
 	 *
 	 * @param array $controllers Optional. See BP_Component::rest_api_init() for
 	 *                           description.
 	 */
 	public function rest_api_init( $controllers = array() ) {
 		$controllers = array(
-			/**
-			 * As the Members component is always loaded,
-			 * let's register the Components endpoint here.
-			 */
-			'BP_REST_Components_Endpoint',
 			'BP_REST_Members_Endpoint',
 			'BP_REST_Attachments_Member_Avatar_Endpoint',
 		);

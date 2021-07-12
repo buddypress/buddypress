@@ -379,4 +379,16 @@ class BP_Blogs_Component extends BP_Component {
 
 		parent::rest_api_init( $controllers );
 	}
+
+	/**
+	 * Register the BP Blogs Blocks.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @param array $blocks Optional. See BP_Component::blocks_init() for
+	 *                      description.
+	 */
+	public function blocks_init( $blocks = array() ) {
+		parent::blocks_init( array() );
+	}
 }

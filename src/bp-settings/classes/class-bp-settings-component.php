@@ -292,4 +292,16 @@ class BP_Settings_Component extends BP_Component {
 
 		parent::setup_admin_bar( $wp_admin_nav );
 	}
+
+	/**
+	 * Register the BP Settings Blocks.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @param array $blocks Optional. See BP_Component::blocks_init() for
+	 *                      description.
+	 */
+	public function blocks_init( $blocks = array() ) {
+		parent::blocks_init( array() );
+	}
 }

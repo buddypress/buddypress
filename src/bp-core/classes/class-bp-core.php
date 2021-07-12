@@ -351,4 +351,32 @@ class BP_Core extends BP_Component {
 
 		parent::register_post_types();
 	}
+
+	/**
+	 * Init the Core controllers of the BP REST API.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @param array $controllers Optional. See BP_Component::rest_api_init() for
+	 *                           description.
+	 */
+	public function rest_api_init( $controllers = array() ) {
+		$controllers = array(
+			'BP_REST_Components_Endpoint',
+		);
+
+		parent::rest_api_init( $controllers );
+	}
+
+	/**
+	 * Register the BP Core Blocks.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @param array $blocks Optional. See BP_Component::blocks_init() for
+	 *                      description.
+	 */
+	public function blocks_init( $blocks = array() ) {
+		parent::blocks_init( array() );
+	}
 }

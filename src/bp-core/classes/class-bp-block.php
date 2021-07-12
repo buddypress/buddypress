@@ -47,7 +47,29 @@ class BP_Block {
 	 *
 	 * @since 6.0.0
 	 *
-	 * @param array $args The registration arguments for the BP Block.
+	 * @param array $args {
+	 *     The registration arguments for the BP Block. Part of the arguments are the ones
+	 *     used by `WP_Block_Type`. Below are BP specific arguments.
+	 *
+	 *     @type string $name               The name of the block (eg: `bp/member`).
+	 *     @type string $editor_script_url  URL to the JavaScript main file of the BP Block
+	 *                                      to load into the Block Editor.
+	 *     @type array  $editor_script_deps The list of JavaScript dependency handles for the
+	 *                                      BP Block main file.
+	 *     @type string $script_url         URL to the JavaScript file to load into the Block
+	 *                                      Editor and on front-end.
+	 *     @type array  $script_deps        The list of JavaScript dependency handles for the
+	 *                                      JavaScript file to load into the Block Editor and
+	 *                                      on front-end.
+	 *     @type string $editor_style_url   URL to the CSS main file of the BP Block to load
+	 *                                      into the Block Editor.
+	 *     @type array  $editor_style_deps  The list of CSS dependency handles for the
+	 *                                      CSS main file.
+	 *     @type string $style_url          URL to the CSS file to load into the Block Editor
+	 *                                      and on front-end.
+	 *     @type array  $style_deps         The list of CSS dependency handles for the CSS file
+	 *                                      to load into the Block Editor and on front-end.
+	 * }
 	 */
 	public function __construct( $args ) {
 		if ( ! did_action( 'bp_blocks_init' ) ) {
