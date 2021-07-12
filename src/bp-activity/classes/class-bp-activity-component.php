@@ -497,6 +497,7 @@ class BP_Activity_Component extends BP_Component {
 						'wp-block-editor',
 						'wp-data',
 						'wp-compose',
+						'bp-block-data',
 					),
 				),
 			)

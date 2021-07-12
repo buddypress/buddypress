@@ -18,7 +18,11 @@ import editMembersBlock from './members/edit';
 registerBlockType( 'bp/members', {
 	title: __( 'Members', 'buddypress' ),
 	description: __( 'BuddyPress Members.', 'buddypress' ),
-	icon: 'groups',
+	icon: {
+		background: '#fff',
+		foreground: '#d84800',
+		src: 'groups',
+	},
 	category: 'buddypress',
 	attributes: {
 		itemIDs: {

@@ -19,7 +19,11 @@ import saveEmbedActivityBlock from './embed-activity/save';
 registerBlockType( 'bp/embed-activity', {
 	title: __( 'Embed an activity', 'buddypress' ),
 	description: __( 'Add a block that displays the activity content pulled from this or other community sites.', 'buddypress' ),
-	icon: 'buddicons-activity',
+	icon: {
+		background: '#fff',
+		foreground: '#d84800',
+		src: 'buddicons-activity',
+	},
 	category: 'buddypress',
 	attributes: {
 		url: {

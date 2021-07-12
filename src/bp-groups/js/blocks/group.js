@@ -184,9 +184,6 @@ var _wp = wp,
     ToggleControl = _wp$components.ToggleControl,
     Toolbar = _wp$components.Toolbar,
     ToolbarButton = _wp$components.ToolbarButton,
-    compose = _wp.compose.compose,
-    withSelect = _wp.data.withSelect,
-    ServerSideRender = _wp.editor.ServerSideRender,
     _wp$element = _wp.element,
     Fragment = _wp$element.Fragment,
     createElement = _wp$element.createElement,
@@ -195,7 +192,11 @@ var _wp = wp,
  * BuddyPress dependencies.
  */
 
-var AutoCompleter = bp.blockComponents.AutoCompleter;
+var _bp = bp,
+    _bp$blockComponents = _bp.blockComponents,
+    AutoCompleter = _bp$blockComponents.AutoCompleter,
+    ServerSideRender = _bp$blockComponents.ServerSideRender,
+    isActive = _bp.blockData.isActive;
 /**
  * Internal dependencies.
  */
@@ -208,12 +209,11 @@ var getSlugValue = function getSlugValue(item) {
   return null;
 };
 
-var editGroup = function editGroup(_ref) {
+var editGroupBlock = function editGroupBlock(_ref) {
   var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes,
-      bpSettings = _ref.bpSettings;
-  var isAvatarEnabled = bpSettings.isAvatarEnabled,
-      isCoverImageEnabled = bpSettings.isCoverImageEnabled;
+      setAttributes = _ref.setAttributes;
+  var isAvatarEnabled = isActive('groups', 'avatar');
+  var isCoverImageEnabled = isActive('groups', 'cover');
   var avatarSize = attributes.avatarSize,
       displayDescription = attributes.displayDescription,
       displayActionButton = attributes.displayActionButton,
@@ -237,7 +237,9 @@ var editGroup = function editGroup(_ref) {
     }));
   }
 
-  return createElement(Fragment, null, createElement(BlockControls, null, createElement(Toolbar, null, createElement(ToolbarButton, {
+  return createElement(Fragment, null, createElement(BlockControls, null, createElement(Toolbar, {
+    label: __('Block toolbar', 'buddypress')
+  }, createElement(ToolbarButton, {
     icon: "edit",
     title: __('Select another group', 'buddypress'),
     onClick: function onClick() {
@@ -291,12 +293,6 @@ var editGroup = function editGroup(_ref) {
   })));
 };
 
-var editGroupBlock = compose([withSelect(function (select) {
-  var editorSettings = select('core/editor').getEditorSettings();
-  return {
-    bpSettings: editorSettings.bp.groups || {}
-  };
-})])(editGroup);
 var _default = editGroupBlock;
 exports.default = _default;
 },{"./constants":"atl5"}],"pvse":[function(require,module,exports) {
@@ -319,7 +315,11 @@ var _wp = wp,
 registerBlockType('bp/group', {
   title: __('Group', 'buddypress'),
   description: __('BuddyPress Group.', 'buddypress'),
-  icon: 'buddicons-groups',
+  icon: {
+    background: '#fff',
+    foreground: '#d84800',
+    src: 'buddicons-groups'
+  },
   category: 'buddypress',
   attributes: {
     itemID: {

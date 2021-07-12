@@ -326,8 +326,6 @@ var _wp = wp,
     Tooltip = _wp$components.Tooltip,
     ToolbarGroup = _wp$components.ToolbarGroup,
     RangeControl = _wp$components.RangeControl,
-    compose = _wp.compose.compose,
-    withSelect = _wp.data.withSelect,
     _wp$element = _wp.element,
     createElement = _wp$element.createElement,
     Fragment = _wp$element.Fragment,
@@ -342,7 +340,9 @@ var _wp = wp,
  * BuddyPress dependencies.
  */
 
-var AutoCompleter = bp.blockComponents.AutoCompleter;
+var _bp = bp,
+    AutoCompleter = _bp.blockComponents.AutoCompleter,
+    isActive = _bp.blockData.isActive;
 /**
  * Internal dependencies.
  */
@@ -363,12 +363,11 @@ var getSlugValue = function getSlugValue(item) {
   return null;
 };
 
-var editGroups = function editGroups(_ref) {
+var editGroupsBlock = function editGroupsBlock(_ref) {
   var attributes = _ref.attributes,
       setAttributes = _ref.setAttributes,
-      isSelected = _ref.isSelected,
-      bpSettings = _ref.bpSettings;
-  var isAvatarEnabled = bpSettings.isAvatarEnabled;
+      isSelected = _ref.isSelected;
+  var isAvatarEnabled = isActive('groups', 'avatar');
   var itemIDs = attributes.itemIDs,
       avatarSize = attributes.avatarSize,
       displayGroupName = attributes.displayGroupName,
@@ -565,12 +564,6 @@ var editGroups = function editGroups(_ref) {
   })));
 };
 
-var editGroupsBlock = compose([withSelect(function (select) {
-  var editorSettings = select('core/editor').getEditorSettings();
-  return {
-    bpSettings: editorSettings.bp.groups || {}
-  };
-})])(editGroups);
 var _default = editGroupsBlock;
 exports.default = _default;
 },{"@babel/runtime/helpers/toConsumableArray":"I9dH","@babel/runtime/helpers/slicedToArray":"xkYc","./constants":"jS06"}],"jcTh":[function(require,module,exports) {
@@ -593,7 +586,11 @@ var _wp = wp,
 registerBlockType('bp/groups', {
   title: __('Groups', 'buddypress'),
   description: __('BuddyPress Groups.', 'buddypress'),
-  icon: 'buddicons-groups',
+  icon: {
+    background: '#fff',
+    foreground: '#d84800',
+    src: 'buddicons-groups'
+  },
   category: 'buddypress',
   attributes: {
     itemIDs: {

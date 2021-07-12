@@ -13,30 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Add BP Members blocks specific settings to the BP Blocks Editor ones.
- *
- * @since 6.0.0
- *
- * @param array $bp_editor_settings BP blocks editor settings.
- * @return array BP Members blocks editor settings.
- */
-function bp_members_editor_settings( $bp_editor_settings = array() ) {
-	$bp = buddypress();
-
-	return array_merge(
-		$bp_editor_settings,
-		array(
-			'members' => array(
-				'isMentionEnabled'    => bp_is_active( 'activity' ) && bp_activity_do_mentions(),
-				'isAvatarEnabled'     => $bp->avatar && $bp->avatar->show_avatars,
-				'isCoverImageEnabled' => bp_is_active( 'members', 'cover_image' ),
-			),
-		)
-	);
-}
-add_filter( 'bp_blocks_editor_settings', 'bp_members_editor_settings' );
-
-/**
  * Callback function to render the BP Member Block.
  *
  * @since 6.0.0
@@ -260,7 +236,7 @@ function bp_members_render_members_block( $attributes = array() ) {
 			$output .= sprintf(
 				'<div class="item-header-avatar">
 					<a href="%1$s">
-						<img class="avatar" alt="%2$s" src="%3$s" />
+						<img loading="lazy" class="avatar" alt="%2$s" src="%3$s" />
 					</a>
 				</div>',
 				esc_url( $member_link ),

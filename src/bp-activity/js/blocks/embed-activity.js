@@ -232,17 +232,21 @@ var _wp = wp,
     _wp$blockEditor = _wp.blockEditor,
     RichText = _wp$blockEditor.RichText,
     BlockControls = _wp$blockEditor.BlockControls;
+/**
+ * BuddyPress dependencies.
+ */
+
+var _bp = bp,
+    embedScriptURL = _bp.blockData.embedScriptURL;
 
 var EditEmbedActivity = function EditEmbedActivity(_ref) {
   var attributes = _ref.attributes,
       setAttributes = _ref.setAttributes,
       isSelected = _ref.isSelected,
-      bpSettings = _ref.bpSettings,
       preview = _ref.preview,
       fetching = _ref.fetching;
   var url = attributes.url,
       caption = attributes.caption;
-  var embedScriptURL = bpSettings.embedScriptURL;
 
   var label = __('BuddyPress Activity URL', 'buddypress');
 
@@ -345,7 +349,6 @@ var EditEmbedActivity = function EditEmbedActivity(_ref) {
 
 var editEmbedActivityBlock = compose([withSelect(function (select, ownProps) {
   var url = ownProps.attributes.url;
-  var editorSettings = select('core/editor').getEditorSettings();
 
   var _select = select('core'),
       getEmbedPreview = _select.getEmbedPreview,
@@ -354,7 +357,6 @@ var editEmbedActivityBlock = compose([withSelect(function (select, ownProps) {
   var preview = !!url && getEmbedPreview(url);
   var fetching = !!url && isRequestingEmbedPreview(url);
   return {
-    bpSettings: editorSettings.bp.activity || {},
     preview: preview,
     fetching: fetching
   };
@@ -421,7 +423,11 @@ var _wp = wp,
 registerBlockType('bp/embed-activity', {
   title: __('Embed an activity', 'buddypress'),
   description: __('Add a block that displays the activity content pulled from this or other community sites.', 'buddypress'),
-  icon: 'buddicons-activity',
+  icon: {
+    background: '#fff',
+    foreground: '#d84800',
+    src: 'buddicons-activity'
+  },
   category: 'buddypress',
   attributes: {
     url: {

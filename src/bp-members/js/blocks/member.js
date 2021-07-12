@@ -172,9 +172,6 @@ var _wp = wp,
     ToggleControl = _wp$components.ToggleControl,
     Toolbar = _wp$components.Toolbar,
     ToolbarButton = _wp$components.ToolbarButton,
-    compose = _wp.compose.compose,
-    withSelect = _wp.data.withSelect,
-    ServerSideRender = _wp.editor.ServerSideRender,
     _wp$element = _wp.element,
     Fragment = _wp$element.Fragment,
     createElement = _wp$element.createElement,
@@ -183,7 +180,11 @@ var _wp = wp,
  * BuddyPress dependencies.
  */
 
-var AutoCompleter = bp.blockComponents.AutoCompleter;
+var _bp = bp,
+    _bp$blockComponents = _bp.blockComponents,
+    AutoCompleter = _bp$blockComponents.AutoCompleter,
+    ServerSideRender = _bp$blockComponents.ServerSideRender,
+    isActive = _bp.blockData.isActive;
 /**
  * Internal dependencies.
  */
@@ -196,13 +197,12 @@ var getSlugValue = function getSlugValue(item) {
   return null;
 };
 
-var editMember = function editMember(_ref) {
+var editMemberBlock = function editMemberBlock(_ref) {
   var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes,
-      bpSettings = _ref.bpSettings;
-  var isAvatarEnabled = bpSettings.isAvatarEnabled,
-      isMentionEnabled = bpSettings.isMentionEnabled,
-      isCoverImageEnabled = bpSettings.isCoverImageEnabled;
+      setAttributes = _ref.setAttributes;
+  var isAvatarEnabled = isActive('members', 'avatar');
+  var isMentionEnabled = isActive('activity', 'mentions');
+  var isCoverImageEnabled = isActive('members', 'cover');
   var avatarSize = attributes.avatarSize,
       displayMentionSlug = attributes.displayMentionSlug,
       displayActionButton = attributes.displayActionButton,
@@ -223,7 +223,9 @@ var editMember = function editMember(_ref) {
     }));
   }
 
-  return createElement(Fragment, null, createElement(BlockControls, null, createElement(Toolbar, null, createElement(ToolbarButton, {
+  return createElement(Fragment, null, createElement(BlockControls, null, createElement(Toolbar, {
+    label: __('Block toolbar', 'buddypress')
+  }, createElement(ToolbarButton, {
     icon: "edit",
     title: __('Select another member', 'buddypress'),
     onClick: function onClick() {
@@ -277,12 +279,6 @@ var editMember = function editMember(_ref) {
   })));
 };
 
-var editMemberBlock = compose([withSelect(function (select) {
-  var editorSettings = select('core/editor').getEditorSettings();
-  return {
-    bpSettings: editorSettings.bp.members || {}
-  };
-})])(editMember);
 var _default = editMemberBlock;
 exports.default = _default;
 },{"./constants":"AE3e"}],"TmUL":[function(require,module,exports) {
@@ -305,7 +301,11 @@ var _wp = wp,
 registerBlockType('bp/member', {
   title: __('Member', 'buddypress'),
   description: __('BuddyPress Member.', 'buddypress'),
-  icon: 'admin-users',
+  icon: {
+    background: '#fff',
+    foreground: '#d84800',
+    src: 'admin-users'
+  },
   category: 'buddypress',
   attributes: {
     itemID: {

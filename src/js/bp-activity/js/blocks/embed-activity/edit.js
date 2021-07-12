@@ -32,16 +32,23 @@ const {
 	}
 } = wp;
 
+/**
+ * BuddyPress dependencies.
+ */
+ const {
+	blockData: {
+		embedScriptURL,
+	}
+} = bp;
+
 const EditEmbedActivity = ( {
 	attributes,
 	setAttributes,
 	isSelected,
-	bpSettings,
 	preview,
 	fetching
 } ) => {
 	const { url, caption } = attributes;
-	const { embedScriptURL } = bpSettings;
 	const label = __( 'BuddyPress Activity URL', 'buddypress' );
 	const [ value, setURL ] = useState( url );
 	const [ isEditingURL, setIsEditingURL ] = useState( ! url );
@@ -163,7 +170,6 @@ const EditEmbedActivity = ( {
 const editEmbedActivityBlock = compose( [
 	withSelect( ( select, ownProps ) => {
 		const { url } = ownProps.attributes;
-		const editorSettings = select( 'core/editor' ).getEditorSettings();
 		const {
 			getEmbedPreview,
 			isRequestingEmbedPreview,
@@ -173,7 +179,6 @@ const editEmbedActivityBlock = compose( [
 		const fetching = !! url && isRequestingEmbedPreview( url );
 
 		return {
-			bpSettings: editorSettings.bp.activity || {},
 			preview: preview,
 			fetching: fetching,
 		};

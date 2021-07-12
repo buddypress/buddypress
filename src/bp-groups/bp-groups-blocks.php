@@ -13,29 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Add BP Groups blocks specific settings to the BP Blocks Editor ones.
- *
- * @since 6.0.0
- *
- * @param array $bp_editor_settings BP blocks editor settings.
- * @return array BP Groups blocks editor settings.
- */
-function bp_groups_editor_settings( $bp_editor_settings = array() ) {
-	$bp = buddypress();
-
-	return array_merge(
-		$bp_editor_settings,
-		array(
-			'groups' => array(
-				'isAvatarEnabled'     => $bp->avatar && $bp->avatar->show_avatars && ! bp_disable_group_avatar_uploads(),
-				'isCoverImageEnabled' => bp_is_active( 'groups', 'cover_image' ),
-			),
-		)
-	);
-}
-add_filter( 'bp_blocks_editor_settings', 'bp_groups_editor_settings' );
-
-/**
  * Callback function to render the BP Group Block.
  *
  * @since 6.0.0
@@ -264,12 +241,12 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 			$output .= sprintf(
 				'<div class="item-header-avatar">
 					<a href="%1$s">
-						<img class="avatar" alt="%2$s" src="%3$s" />
+						<img loading="lazy" src="%2$s" alt="%3$s" class="avatar">
 					</a>
 				</div>',
 				esc_url( $group_link ),
 				/* Translators: %s is the group's name. */
-				sprintf( esc_attr__( 'Group Profile photo of %s', 'buddypress' ), $group->display_name ),
+				sprintf( esc_attr__( 'Group Profile photo of %s', 'buddypress' ), esc_html( $group->name ) ),
 				esc_url(
 					bp_core_fetch_avatar(
 						array(

@@ -17,12 +17,6 @@ const {
 		ToolbarGroup,
 		RangeControl,
 	},
-	compose: {
-		compose,
-	},
-	data: {
-		withSelect,
-	},
 	element: {
 		createElement,
 		Fragment,
@@ -41,7 +35,14 @@ const {
 /**
  * BuddyPress dependencies.
  */
-const { AutoCompleter } = bp.blockComponents;
+const {
+	blockComponents: {
+		AutoCompleter,
+	},
+	blockData: {
+		isActive,
+	}
+} = bp;
 
 /**
  * Internal dependencies.
@@ -65,11 +66,9 @@ const getSlugValue = ( item ) => {
 	return null;
 }
 
-const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) => {
-	const {
-		isAvatarEnabled,
-		isMentionEnabled,
-	} = bpSettings;
+const editMembersBlock = ( { attributes, setAttributes, isSelected } ) => {
+	const isAvatarEnabled = isActive( 'members', 'avatar' );
+	const isMentionEnabled = isActive( 'activity', 'mentions' );
 	const {
 		itemIDs,
 		avatarSize,
@@ -312,15 +311,5 @@ const editMembers = ( { attributes, setAttributes, isSelected, bpSettings } ) =>
 		</Fragment>
 	);
 };
-
-const editMembersBlock = compose( [
-	withSelect( ( select ) => {
-		const editorSettings = select( 'core/editor' ).getEditorSettings();
-
-		return {
-			bpSettings: editorSettings.bp.members || {},
-		};
-	} ),
-] )( editMembers );
 
 export default editMembersBlock;

@@ -18,7 +18,11 @@ import editGroupsBlock from './groups/edit';
 registerBlockType( 'bp/groups', {
 	title: __( 'Groups', 'buddypress' ),
 	description: __( 'BuddyPress Groups.', 'buddypress' ),
-	icon: 'buddicons-groups',
+	icon: {
+		background: '#fff',
+		foreground: '#d84800',
+		src: 'buddicons-groups',
+	},
 	category: 'buddypress',
 	attributes: {
 		itemIDs: {

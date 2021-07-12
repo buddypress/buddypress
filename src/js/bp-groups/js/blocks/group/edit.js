@@ -15,15 +15,6 @@ const {
 		Toolbar,
 		ToolbarButton,
 	},
-	compose: {
-		compose,
-	},
-	data: {
-		withSelect,
-	},
-	editor: {
-		ServerSideRender,
-	},
 	element: {
 		Fragment,
 		createElement,
@@ -36,7 +27,15 @@ const {
 /**
  * BuddyPress dependencies.
  */
-const { AutoCompleter } = bp.blockComponents;
+const {
+	blockComponents: {
+		AutoCompleter,
+		ServerSideRender,
+	},
+	blockData: {
+		isActive,
+	}
+} = bp;
 
 /**
  * Internal dependencies.
@@ -51,8 +50,9 @@ const getSlugValue = ( item ) => {
 	return null;
 }
 
-const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
-	const { isAvatarEnabled, isCoverImageEnabled } = bpSettings;
+const editGroupBlock = ( { attributes, setAttributes } ) => {
+	const isAvatarEnabled = isActive( 'groups', 'avatar' );
+	const isCoverImageEnabled = isActive( 'groups', 'cover' );
 	const { avatarSize, displayDescription, displayActionButton, displayCoverImage } = attributes;
 
 	if ( ! attributes.itemID ) {
@@ -78,7 +78,7 @@ const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
 	return (
 		<Fragment>
 			<BlockControls>
-				<Toolbar>
+				<Toolbar label={ __( 'Block toolbar', 'buddypress' ) }>
 					<ToolbarButton
 						icon="edit"
 						title={ __( 'Select another group', 'buddypress' ) }
@@ -150,14 +150,5 @@ const editGroup = ( { attributes, setAttributes, bpSettings } ) => {
 		</Fragment>
 	);
 };
-
-const editGroupBlock = compose( [
-	withSelect( ( select ) => {
-		const editorSettings = select( 'core/editor' ).getEditorSettings();
-		return {
-			bpSettings: editorSettings.bp.groups || {},
-		};
-	} ),
-] )( editGroup );
 
 export default editGroupBlock;
