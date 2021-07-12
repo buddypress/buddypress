@@ -5,6 +5,6 @@ src/bp-messages/js/autocomplete/*
 // Blocks Scripts
 src/**/js/blocks/*.js
 src/**/js/blocks/**/*.js
-src/**/js/block-components/*.js
-src/**/js/block-components/**/*.js
-src/bp-core/js/block-components.js
+src/**/js/block-*/*.js
+src/**/js/block-*/**/*.js
+src/**/js/block-*.js

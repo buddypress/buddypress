@@ -153,7 +153,37 @@ function _assertThisInitialized(self) {
 }
 
 module.exports = _assertThisInitialized;
-},{}],"xOn8":[function(require,module,exports) {
+},{}],"zqo5":[function(require,module,exports) {
+function _setPrototypeOf(o, p) {
+  module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+module.exports = _setPrototypeOf;
+},{}],"RISo":[function(require,module,exports) {
+var setPrototypeOf = require("./setPrototypeOf");
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) setPrototypeOf(subClass, superClass);
+}
+
+module.exports = _inherits;
+},{"./setPrototypeOf":"zqo5"}],"xOn8":[function(require,module,exports) {
 function _typeof(obj) {
   "@babel/helpers - typeof";
 
@@ -194,37 +224,7 @@ function _getPrototypeOf(o) {
 }
 
 module.exports = _getPrototypeOf;
-},{}],"zqo5":[function(require,module,exports) {
-function _setPrototypeOf(o, p) {
-  module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-module.exports = _setPrototypeOf;
-},{}],"RISo":[function(require,module,exports) {
-var setPrototypeOf = require("./setPrototypeOf");
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) setPrototypeOf(subClass, superClass);
-}
-
-module.exports = _inherits;
-},{"./setPrototypeOf":"zqo5"}],"W80x":[function(require,module,exports) {
+},{}],"W80x":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -238,17 +238,17 @@ var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/creat
 
 var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
 
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
 var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
 
 var _getPrototypeOf2 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
-
-var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2.default)(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2.default)(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2.default)(this, result); }; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 /**
  * WordPress dependencies.
@@ -377,7 +377,7 @@ var AutoCompleter = /*#__PURE__*/function (_Component) {
             key: "avatar",
             className: "editor-autocompleters__user-avatar",
             alt: "",
-            src: item.avatar_urls.thumb
+            src: item.avatar_urls.thumb.replaceAll('&#038;', '&')
           }), createElement("span", {
             key: "name",
             className: "editor-autocompleters__user-name"
@@ -411,7 +411,30 @@ var AutoCompleter = /*#__PURE__*/function (_Component) {
 
 var _default = AutoCompleter;
 exports.default = _default;
-},{"@babel/runtime/helpers/classCallCheck":"IC7x","@babel/runtime/helpers/createClass":"WiqS","@babel/runtime/helpers/assertThisInitialized":"NS7G","@babel/runtime/helpers/possibleConstructorReturn":"oXYo","@babel/runtime/helpers/getPrototypeOf":"goD2","@babel/runtime/helpers/inherits":"RISo"}],"iA92":[function(require,module,exports) {
+},{"@babel/runtime/helpers/classCallCheck":"IC7x","@babel/runtime/helpers/createClass":"WiqS","@babel/runtime/helpers/assertThisInitialized":"NS7G","@babel/runtime/helpers/inherits":"RISo","@babel/runtime/helpers/possibleConstructorReturn":"oXYo","@babel/runtime/helpers/getPrototypeOf":"goD2"}],"fOJU":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = ServerSideRender;
+
+/**
+ * WordPress dependencies.
+ */
+var _wp = wp,
+    createElement = _wp.element.createElement;
+/**
+ * Compatibility Server Side Render.
+ *
+ * @since 9.0.0
+ */
+
+function ServerSideRender(props) {
+  var CompatibiltyServerSideRender = wp.serverSideRender ? wp.serverSideRender : wp.editor.ServerSideRender;
+  return createElement(CompatibiltyServerSideRender, props);
+}
+},{}],"iA92":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -421,14 +444,19 @@ exports.default = void 0;
 
 var _autocompleter = _interopRequireDefault(require("./autocompleter"));
 
+var _serverSideRender = _interopRequireDefault(require("./server-side-render"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Components
+/**
+ * BuddyPress components.
+ */
 var _default = {
-  AutoCompleter: _autocompleter.default
+  AutoCompleter: _autocompleter.default,
+  ServerSideRender: _serverSideRender.default
 };
 exports.default = _default;
-},{"./autocompleter":"W80x"}],"Ee8M":[function(require,module,exports) {
+},{"./autocompleter":"W80x","./server-side-render":"fOJU"}],"Ee8M":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -444,4 +472,4 @@ Object.defineProperty(exports, "blockComponents", {
 var _components = _interopRequireDefault(require("./components"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./components":"iA92"}]},{},["Ee8M"], "bp")
+},{"./components":"iA92"}]},{},["Ee8M"], "bpBlock")

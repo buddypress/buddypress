@@ -20,9 +20,9 @@ module.exports = function( grunt ) {
 		BP_EXCLUDED_JS = [
 			'!**/js/blocks/*.js',
 			'!**/js/blocks/**/*.js',
-			'!**/js/block-components/*.js',
-			'!**/js/block-components/**/*.js',
-			'!**/js/block-components.js'
+			'!**/js/block-*/*.js',
+			'!**/js/block-*/**/*.js',
+			'!**/js/block-*.js'
 		],
 
 		BP_EXCLUDED_MISC = [

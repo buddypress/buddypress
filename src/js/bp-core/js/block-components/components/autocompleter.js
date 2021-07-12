@@ -97,7 +97,7 @@ class AutoCompleter extends Component {
 						onClick={ ( event ) => this.selectItemName( event, item.id ) }
 					>
 						{ useAvatar && (
-							<img key="avatar" className="editor-autocompleters__user-avatar" alt="" src={ item.avatar_urls.thumb } />
+							<img key="avatar" className="editor-autocompleters__user-avatar" alt="" src={ item.avatar_urls.thumb.replaceAll( '&#038;', '&' ) } />
 						) }
 
 						<span key="name" className="editor-autocompleters__user-name">{ item.name }</span>
