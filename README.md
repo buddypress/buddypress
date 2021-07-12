@@ -1,7 +1,5 @@
 # BuddyPress
 
-[![Build Status](https://api.travis-ci.org/buddypress/BuddyPress.svg?branch=master)](https://travis-ci.org/github/buddypress)
-
 [![Unit Tests](https://github.com/buddypress/buddypress/workflows/Unit%20Tests/badge.svg)](https://github.com/buddypress/buddypress/actions?query=workflow%3A%22Unit+Tests%22+branch%3Amaster)
 
 Welcome to the BuddyPress development repository! This repository is a mirror of our development [SVN repository](https://buddypress.svn.wordpress.org/). Please do not send pull requests here, instead submit patches to our [SVN repository](https://buddypress.trac.wordpress.org/). Check out the [Participate & contribute](https://codex.buddypress.org/participate-and-contribute/) page of our Codex for information about how to open bug reports, contribute patches, test changes, write documentation, or get involved in any way you can.

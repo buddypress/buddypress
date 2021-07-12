@@ -424,12 +424,6 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask( 'jstest', 'Runs all JavaScript tasks.', [ 'jsvalidate:src', 'jshint' ] );
 
-	// Travis CI Tasks.
-	grunt.registerTask( 'travis:grunt', 'Runs Grunt build task.', ['commit', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'cssmin', 'bp_rest', 'exec:bpdefault', 'exec:cli', 'clean:cli'] );
-	grunt.registerTask( 'travis:phpunit', ['jsvalidate:src', 'jshint', 'checktextdomain', 'phplint', 'test'] );
-	grunt.registerTask( 'travis:codecoverage', 'Runs PHPUnit tasks with code-coverage generation.', ['phpunit:codecoverage'] );
-	grunt.registerTask( 'travis:phpcompat', 'Runs PHP compatibility scan.', ['exec:phpcompat'] );
-
 	// Patch task.
 	grunt.renameTask( 'patch_wordpress', 'patch' );
 
