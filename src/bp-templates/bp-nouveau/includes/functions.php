@@ -375,7 +375,7 @@ function bp_nouveau_register_sidebars() {
  * @return bool
  */
 function bp_nouveau_is_object_nav_in_sidebar() {
-	return is_active_widget( false, false, 'bp_nouveau_sidebar_object_nav_widget', true );
+	return bp_is_widget_block_active( 'bp/primary-nav', 'bp_nouveau_sidebar_object_nav_widget' );
 }
 
 /**

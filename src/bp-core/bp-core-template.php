@@ -3856,3 +3856,54 @@ function bp_email_the_salutation( $settings = array() ) {
 
 		return $salutation;
 	}
+
+/**
+ * Checks if a Widget/Block is active.
+ *
+ * @since 9.0.0
+ *
+ * @param string $block_name     The Block name to check (eg: 'bp/sitewide-notices'). Optional.
+ * @param string $widget_id_base The Widget ID base to check (eg: 'bp_messages_sitewide_notices_widget' ). Optional.
+ * @return boolean True if the Widget/Block is active. False otherwise.
+ */
+function bp_is_widget_block_active( $block_name = '', $widget_id_base = '' ) {
+	$is_active = array(
+		'widget' => false,
+		'block'  => false,
+	);
+
+	if ( $block_name ) {
+		$widget_blocks = get_option( 'widget_block', array() );
+		$sidebars      = wp_get_sidebars_widgets();
+
+		if ( ! $widget_blocks || ! $sidebars ) {
+			return false;
+		}
+
+		// Neutralize inactive sidebar.
+		unset( $sidebars['wp_inactive_widgets'] );
+
+		$widgets_content = '';
+		foreach ( $widget_blocks as $key => $widget_block ) {
+			$widget_block_reference = 'block-' . $key;
+
+			if ( ! isset( $widget_block['content'] ) || ! $widget_block['content'] ) {
+				continue;
+			}
+
+			foreach ( $sidebars as $sidebar ) {
+				if ( is_array( $sidebar ) && in_array( $widget_block_reference, $sidebar, true ) ) {
+					$widgets_content .= $widget_block['content'] . "\n";
+				}
+			}
+		}
+
+		$is_active['block'] = has_block( $block_name, $widgets_content );
+	}
+
+	if ( $widget_id_base ) {
+		$is_active['widget'] = is_active_widget( false, false, $widget_id_base, true );
+	}
+
+	return 0 !== count( array_filter( $is_active ) );
+}

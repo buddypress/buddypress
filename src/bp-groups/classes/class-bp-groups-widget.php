@@ -32,7 +32,7 @@ class BP_Groups_Widget extends WP_Widget {
 		);
 		parent::__construct( false, _x( '(BuddyPress) Groups', 'widget name', 'buddypress' ), $widget_ops );
 
-		if ( is_customize_preview() || is_active_widget( false, false, $this->id_base ) ) {
+		if ( is_customize_preview() || bp_is_widget_block_active( '', $this->id_base ) ) {
 			add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		}
 	}
