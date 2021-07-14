@@ -331,3 +331,227 @@ function bp_members_render_members_block( $attributes = array() ) {
 	 */
 	return apply_filters( 'bp_members_render_members_block_output', $output, $block_args, $members );
 }
+
+/**
+ * Adds specific script data for the BP Members blocks.
+ *
+ * Only used for the BP Dynamic Members block.
+ *
+ * @since 9.0.0
+ */
+function bp_members_blocks_add_script_data() {
+	$dynamic_members_blocks = array_filter( buddypress()->members->block_globals['bp/dynamic-members']->items );
+
+	if ( ! $dynamic_members_blocks ) {
+		return;
+	}
+
+	// Include the common JS template.
+	echo bp_get_dynamic_template_part( 'assets/widgets/dynamic-members.php' );
+
+	// List the block specific props.
+	wp_add_inline_script(
+		'bp-dynamic-members-script',
+		sprintf( 'var bpDynamicMembersBlocks = %s;', wp_json_encode( array_values( $dynamic_members_blocks ) ) ),
+		'before'
+	);
+}
+
+/**
+ * Callback function to render the Dynamic Members Block.
+ *
+ * @since 9.0.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string           HTML output.
+ */
+function bp_members_render_dynamic_members_block( $attributes = array() ) {
+	$block_args = wp_parse_args(
+		$attributes,
+		array(
+			'title'         => __( 'Members', 'buddypress' ),
+			'maxMembers'    => 5,
+			'memberDefault' => 'active',
+			'linkTitle'     => false,
+		)
+	);
+
+	$classnames         = 'widget_bp_core_members_widget buddypress widget';
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
+
+	$max_members = (int) $block_args['maxMembers'];
+	$no_members  = __( 'No members found.', 'buddypress' );
+
+	/** This filter is documented in buddypress/src/bp-members/classes/class-bp-core-members-widget.php */
+	$separator = apply_filters( 'bp_members_widget_separator', '|' );
+
+	// Make sure the widget ID is unique.
+	$widget_id              = uniqid( 'members-list-' );
+	$members_directory_link = bp_get_members_directory_permalink();
+
+	// Set the Block's title.
+	if ( true === $block_args['linkTitle'] ) {
+		$widget_content = sprintf(
+			'<h2 class="widget-title"><a href="%1$s">%2$s</a></h2>',
+			esc_url( $members_directory_link ),
+			esc_html( $block_args['title'] )
+		);
+	} else {
+		$widget_content = sprintf( '<h2 class="widget-title">%s</h2>', esc_html( $block_args['title'] ) );
+	}
+
+	$item_options = array(
+		'newest' => array(
+			'class' => '',
+			'label' => __( 'Newest', 'buddypress' ),
+		),
+		'active' => array(
+			'class' => '',
+			'label' => __( 'Active', 'buddypress' ),
+		),
+	);
+
+	if ( bp_is_active( 'friends' ) ) {
+		$item_options['popular'] = array(
+			'class' => '',
+			'label' => __( 'Popular', 'buddypress' ),
+		);
+	}
+
+	$item_options_output = array();
+	$separator_output    = sprintf( ' <span class="bp-separator" role="separator">%s</span> ', esc_html( $separator ) );
+
+	foreach ( $item_options as $item_type => $item_attr ) {
+		if ( $block_args['memberDefault'] === $item_type ) {
+			$item_attr['class'] = ' class="selected"';
+		}
+
+		$item_options_output[] = sprintf(
+			'<a href="%1$s" data-bp-sort="%2$s"%3$s>%4$s</a>',
+			esc_url( $members_directory_link ),
+			esc_attr( $item_type ),
+			$item_attr['class'],
+			esc_html( $item_attr['label'] )
+		);
+	}
+
+	$preview      = '';
+	$default_args = array(
+		'type'            => $block_args['memberDefault'],
+		'per_page'        => $max_members,
+		'populate_extras' => true,
+	);
+
+	// Previewing the Block inside the editor.
+	if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		$bp_query = bp_core_get_users( $default_args );
+		$preview  = sprintf( '<div class="widget-error">%s</div>', $no_members );
+
+		if ( is_array( $bp_query['users'] ) && 0 < count( $bp_query['users'] ) ) {
+			$preview = '';
+			foreach ( $bp_query['users'] as $user ) {
+				if ( 'newest' === $block_args['memberDefault'] ) {
+					/* translators: %s is time elapsed since the registration date happened */
+					$extra = sprintf( _x( 'Registered %s', 'The timestamp when the user registered', 'buddypress' ), bp_core_time_since( $user->user_registered ) );
+				} elseif ( 'popular' === $block_args['memberDefault'] && isset( $item_options['popular'] ) && isset( $user->total_friend_count ) ) {
+					/* translators: %s: total friend count */
+					$extra = sprintf( _n( '%s friend', '%s friends', $user->total_friend_count, 'buddypress' ), number_format_i18n( $user->total_friend_count ) );
+				} else {
+					/* translators: %s: a human time diff. */
+					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_core_time_since( $user->last_activity ) );
+				}
+
+				$preview .= bp_get_dynamic_template_part(
+					'assets/widgets/dynamic-members.php',
+					'php',
+					array(
+						'data.link'              => bp_core_get_user_domain( $user->ID, $user->user_nicename, $user->user_login ),
+						'data.name'              => $user->display_name,
+						'data.avatar_urls.thumb' => bp_core_fetch_avatar(
+							array(
+								'item_id' => $user->ID,
+								'html'    => false,
+							)
+						),
+						'data.avatar_alt'        => esc_html(
+							sprintf(
+								/* translators: %s: member name */
+								__( 'Profile picture of %s', 'buddypress' ),
+								$user->display_name
+							)
+						),
+						'data.id'                => $user->ID,
+						'data.extra'             => $extra,
+					)
+				);
+			}
+		}
+	} else {
+		// Get corresponding members.
+		$path = sprintf(
+			'/%1$s/%2$s/%3$s',
+			bp_rest_namespace(),
+			bp_rest_version(),
+			buddypress()->members->id
+		);
+
+		$default_path = add_query_arg(
+			$default_args,
+			$path
+		);
+
+		$preloaded_members = array();
+		if ( bp_is_running_wp( '5.0.0' ) ) {
+			$preloaded_members = rest_preload_api_request( '', $default_path );
+		}
+
+		buddypress()->members->block_globals['bp/dynamic-members']->items[ $widget_id ] = (object) array(
+			'selector'   => $widget_id,
+			'query_args' => $default_args,
+			'preloaded'  => reset( $preloaded_members ),
+		);
+
+		// Only enqueue common/specific scripts and data once per page load.
+		if ( ! has_action( 'wp_footer', 'bp_members_blocks_add_script_data', 1 ) ) {
+			wp_set_script_translations( 'bp-dynamic-members-script', 'buddypress' );
+			wp_enqueue_script( 'bp-dynamic-members-script' );
+			wp_localize_script(
+				'bp-dynamic-members-script',
+				'bpDynamicMembersSettings',
+				array(
+					'path'  => ltrim( $path, '/' ),
+					'root'  => esc_url_raw( get_rest_url() ),
+					'nonce' => wp_create_nonce( 'wp_rest' ),
+				)
+			);
+
+			add_action( 'wp_footer', 'bp_members_blocks_add_script_data', 1 );
+		}
+	}
+
+	$widget_content .= sprintf(
+		'<div class="item-options">
+			%1$s
+		</div>
+		<ul id="%2$s" class="item-list" aria-live="polite" aria-relevant="all" aria-atomic="true">
+			%3$s
+		</ul>',
+		implode( $separator_output, $item_options_output ),
+		esc_attr( $widget_id ),
+		$preview
+	);
+
+	// Adds a container to make sure the block is styled even when used into the Columns parent block.
+	$widget_content = sprintf( '<div class="bp-dynamic-block-container">%s</div>', "\n" . $widget_content . "\n" );
+
+	// Only add a block wrapper if not loaded into a Widgets sidebar.
+	if ( ! did_action( 'dynamic_sidebar_before' ) ) {
+		return sprintf(
+			'<div %1$s>%2$s</div>',
+			$wrapper_attributes,
+			$widget_content
+		);
+	}
+
+	return $widget_content;
+}

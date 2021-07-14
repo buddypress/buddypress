@@ -58,6 +58,7 @@ class BP_Members_Component extends BP_Component {
 
 		// Always include these files.
 		$includes = array(
+			'cssjs',
 			'filters',
 			'template',
 			'adminbar',
@@ -196,6 +197,11 @@ class BP_Members_Component extends BP_Component {
 				'table_name_signups'       => $wpdb->base_prefix . 'signups', // Signups is a global WordPress table.
 			),
 			'notification_callback' => 'members_format_notifications',
+			'block_globals'         => array(
+				'bp/dynamic-members' => array(
+					'widget_classnames' => array( 'widget_bp_core_members_widget', 'buddypress' ),
+				)
+			),
 		);
 
 		parent::setup_globals( $args );
@@ -820,6 +826,41 @@ class BP_Members_Component extends BP_Component {
 						),
 					),
 					'render_callback'    => 'bp_members_render_members_block',
+				),
+				'bp/dynamic-members' => array(
+					'name'               => 'bp/dynamic-members',
+					'editor_script'      => 'bp-dynamic-members-block',
+					'editor_script_url'  => plugins_url( 'js/blocks/dynamic-members.js', dirname( __FILE__ ) ),
+					'editor_script_deps' => array(
+						'wp-blocks',
+						'wp-element',
+						'wp-components',
+						'wp-i18n',
+						'wp-block-editor',
+						'bp-block-data',
+						'bp-block-components',
+					),
+					'style'              => 'bp-dynamic-members-block',
+					'style_url'          => plugins_url( 'css/blocks/dynamic-members.css', dirname( __FILE__ ) ),
+					'attributes'         => array(
+						'title'         => array(
+							'type'    => 'string',
+							'default' => __( 'Members', 'buddypress' ),
+						),
+						'maxMembers'    => array(
+							'type'    => 'number',
+							'default' => 5,
+						),
+						'memberDefault' => array(
+							'type'    => 'string',
+							'default' => 'active',
+						),
+						'linkTitle'     => array(
+							'type'    => 'boolean',
+							'default' => false,
+						),
+					),
+					'render_callback'    => 'bp_members_render_dynamic_members_block',
 				),
 			)
 		);

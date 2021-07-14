@@ -24,6 +24,7 @@ module.exports = function( grunt ) {
 			'!**/js/block-*/**/*.js',
 			'!**/js/block-*.js',
 			'!**/js/friends.js',
+			'!**/js/dynamic-members.js',
 			'!**/js/dynamic-widget-block.js'
 		],
 
@@ -43,7 +44,8 @@ module.exports = function( grunt ) {
 			'!bp-groups/css/blocks/groups.css',
 			'!bp-core/css/blocks/login-form.css',
 			'!bp-activity/css/blocks/latest-activities.css',
-			'!bp-friends/css/blocks/friends.css'
+			'!bp-friends/css/blocks/friends.css',
+			'!bp-members/css/blocks/dynamic-members.css'
 		],
 
 		autoprefixer = require('autoprefixer');
