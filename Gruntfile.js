@@ -22,7 +22,9 @@ module.exports = function( grunt ) {
 			'!**/js/blocks/**/*.js',
 			'!**/js/block-*/*.js',
 			'!**/js/block-*/**/*.js',
-			'!**/js/block-*.js'
+			'!**/js/block-*.js',
+			'!**/js/friends.js',
+			'!**/js/dynamic-widget-block.js'
 		],
 
 		BP_EXCLUDED_MISC = [
@@ -40,7 +42,8 @@ module.exports = function( grunt ) {
 			'!bp-members/css/blocks/members.css',
 			'!bp-groups/css/blocks/groups.css',
 			'!bp-core/css/blocks/login-form.css',
-			'!bp-activity/css/blocks/latest-activities.css'
+			'!bp-activity/css/blocks/latest-activities.css',
+			'!bp-friends/css/blocks/friends.css'
 		],
 
 		autoprefixer = require('autoprefixer');
@@ -168,6 +171,15 @@ module.exports = function( grunt ) {
 				flatten: true,
 				src: ['bp-activity/sass/blocks/*.scss'],
 				dest: SOURCE_DIR + 'bp-activity/css/blocks/'
+			},
+			friends_blocks: {
+				cwd: SOURCE_DIR,
+				extDot: 'last',
+				expand: true,
+				ext: '.css',
+				flatten: true,
+				src: ['bp-friends/sass/blocks/*.scss'],
+				dest: SOURCE_DIR + 'bp-friends/css/blocks/'
 			}
 		},
 		rtlcss: {

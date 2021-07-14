@@ -8,3 +8,5 @@ src/**/js/blocks/**/*.js
 src/**/js/block-*/*.js
 src/**/js/block-*/**/*.js
 src/**/js/block-*.js
+src/**/js/friends.js
+src/**/js/dynamic-widget-block.js

@@ -85,6 +85,9 @@ function bp_core_register_common_scripts() {
 		// Version 2.7.
 		'bp-moment'    => array( 'file' => "{$url}vendor/moment-js/moment{$min}.js", 'dependencies' => array(), 'footer' => true ),
 		'bp-livestamp' => array( 'file' => "{$url}vendor/livestamp{$min}.js", 'dependencies' => array( 'jquery', 'bp-moment' ), 'footer' => true ),
+
+		// Version 9.0.
+		'bp-dynamic-widget-block-script' => array( 'file' => "{$url}dynamic-widget-block.js", 'dependencies' => array( 'lodash', 'wp-url' ), 'footer' => true ),
 	);
 
 	// Version 2.7 - Add Moment.js locale to our $scripts array if we found one.

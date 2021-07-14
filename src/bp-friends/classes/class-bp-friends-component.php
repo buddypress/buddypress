@@ -46,11 +46,13 @@ class BP_Friends_Component extends BP_Component {
 	 */
 	public function includes( $includes = array() ) {
 		$includes = array(
+			'cssjs',
 			'cache',
 			'filters',
 			'template',
 			'functions',
 			'widgets',
+			'blocks',
 		);
 
 		// Conditional includes.
@@ -133,7 +135,12 @@ class BP_Friends_Component extends BP_Component {
 			'has_directory'         => false,
 			'search_string'         => __( 'Search Friends...', 'buddypress' ),
 			'notification_callback' => 'friends_format_notifications',
-			'global_tables'         => $global_tables
+			'global_tables'         => $global_tables,
+			'block_globals'         => array(
+				'bp/friends' => array(
+					'widget_classnames' => array( 'widget_bp_core_friends_widget', 'buddypress' ),
+				)
+			),
 		);
 
 		parent::setup_globals( $args );
@@ -347,6 +354,44 @@ class BP_Friends_Component extends BP_Component {
 	 *                      description.
 	 */
 	public function blocks_init( $blocks = array() ) {
-		parent::blocks_init( array() );
+		parent::blocks_init(
+			array(
+				'bp/friends' => array(
+					'name'               => 'bp/friends',
+					'editor_script'      => 'bp-friends-block',
+					'editor_script_url'  => plugins_url( 'js/blocks/friends.js', dirname( __FILE__ ) ),
+					'editor_script_deps' => array(
+						'wp-blocks',
+						'wp-element',
+						'wp-components',
+						'wp-i18n',
+						'wp-block-editor',
+						'bp-block-data',
+						'bp-block-components',
+					),
+					'style'              => 'bp-friends-block',
+					'style_url'          => plugins_url( 'css/blocks/friends.css', dirname( __FILE__ ) ),
+					'attributes'         => array(
+						'maxFriends'    => array(
+							'type'    => 'number',
+							'default' => 5,
+						),
+						'friendDefault' => array(
+							'type'    => 'string',
+							'default' => 'active',
+						),
+						'linkTitle'     => array(
+							'type'    => 'boolean',
+							'default' => false,
+						),
+						'postId'        => array(
+							'type'    => 'number',
+							'default' => 0,
+						),
+					),
+					'render_callback'    => 'bp_friends_render_friends_block',
+				),
+			)
+		);
 	}
 }

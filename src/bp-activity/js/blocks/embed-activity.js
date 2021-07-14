@@ -117,13 +117,13 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"dEOc":[function(require,module,exports) {
+})({"DCTP":[function(require,module,exports) {
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
 }
 
 module.exports = _arrayWithHoles;
-},{}],"RonT":[function(require,module,exports) {
+},{}],"LoeL":[function(require,module,exports) {
 function _iterableToArrayLimit(arr, i) {
   if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
   var _arr = [];
@@ -152,7 +152,7 @@ function _iterableToArrayLimit(arr, i) {
 }
 
 module.exports = _iterableToArrayLimit;
-},{}],"LGpM":[function(require,module,exports) {
+},{}],"jEQo":[function(require,module,exports) {
 function _arrayLikeToArray(arr, len) {
   if (len == null || len > arr.length) len = arr.length;
 
@@ -164,7 +164,7 @@ function _arrayLikeToArray(arr, len) {
 }
 
 module.exports = _arrayLikeToArray;
-},{}],"Vzqv":[function(require,module,exports) {
+},{}],"Dbv9":[function(require,module,exports) {
 var arrayLikeToArray = require("./arrayLikeToArray");
 
 function _unsupportedIterableToArray(o, minLen) {
@@ -177,13 +177,13 @@ function _unsupportedIterableToArray(o, minLen) {
 }
 
 module.exports = _unsupportedIterableToArray;
-},{"./arrayLikeToArray":"LGpM"}],"sa4T":[function(require,module,exports) {
+},{"./arrayLikeToArray":"jEQo"}],"MWEO":[function(require,module,exports) {
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
 module.exports = _nonIterableRest;
-},{}],"xkYc":[function(require,module,exports) {
+},{}],"DERy":[function(require,module,exports) {
 var arrayWithHoles = require("./arrayWithHoles");
 
 var iterableToArrayLimit = require("./iterableToArrayLimit");
@@ -197,7 +197,7 @@ function _slicedToArray(arr, i) {
 }
 
 module.exports = _slicedToArray;
-},{"./arrayWithHoles":"dEOc","./iterableToArrayLimit":"RonT","./unsupportedIterableToArray":"Vzqv","./nonIterableRest":"sa4T"}],"Sjre":[function(require,module,exports) {
+},{"./arrayWithHoles":"DCTP","./iterableToArrayLimit":"LoeL","./unsupportedIterableToArray":"Dbv9","./nonIterableRest":"MWEO"}],"Sjre":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -363,7 +363,7 @@ var editEmbedActivityBlock = compose([withSelect(function (select, ownProps) {
 })])(EditEmbedActivity);
 var _default = editEmbedActivityBlock;
 exports.default = _default;
-},{"@babel/runtime/helpers/slicedToArray":"xkYc"}],"zmBI":[function(require,module,exports) {
+},{"@babel/runtime/helpers/slicedToArray":"DERy"}],"zmBI":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
