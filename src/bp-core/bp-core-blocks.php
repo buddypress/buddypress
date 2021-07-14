@@ -162,3 +162,51 @@ add_filter( 'block_editor_rest_api_preload_paths', 'bp_blocks_preload_paths' );
 function bp_register_block( $args = array() ) {
 	return new BP_Block( $args );
 }
+
+/**
+ * Gets a Widget Block list of classnames.
+ *
+ * @since 9.0.0
+ *
+ * @param string $block_name The Block name.
+ * @return array The list of widget classnames for the Block.
+ */
+function bp_blocks_get_widget_block_classnames( $block_name = '' ) {
+	$components         = bp_core_get_active_components( array(), 'objects' );
+	$components['core'] = buddypress()->core;
+	$classnames         = array();
+
+	foreach ( $components as $component ) {
+		if ( isset( $component->block_globals[ $block_name ] ) ) {
+			$block_props = $component->block_globals[ $block_name ]->props;
+
+			if ( isset( $block_props['widget_classnames'] ) && $block_props['widget_classnames'] ) {
+				$classnames = (array) $block_props['widget_classnames'];
+				break;
+			}
+		}
+	}
+
+	return $classnames;
+}
+
+/**
+ * Make sure the BP Widget Block classnames are included into Widget Blocks.
+ *
+ * @since 9.0.0
+ *
+ * @param string $classname The classname to be used in the block widget's container HTML.
+ * @param string $block_name The name of the block.
+ * @return string The classname to be used in the block widget's container HTML.
+ */
+function bp_widget_block_dynamic_classname( $classname, $block_name ) {
+	$bp_classnames = bp_blocks_get_widget_block_classnames( $block_name );
+
+	if ( $bp_classnames ) {
+		$bp_classnames = array_map( 'sanitize_html_class', $bp_classnames );
+		$classname    .= ' ' . implode( ' ', $bp_classnames );
+	}
+
+	return $classname;
+}
+add_filter( 'widget_block_dynamic_classname', 'bp_widget_block_dynamic_classname', 10, 2 );

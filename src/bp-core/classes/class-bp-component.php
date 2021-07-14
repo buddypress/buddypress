@@ -140,6 +140,15 @@ class BP_Component {
 	 */
 	public $search_query_arg = 's';
 
+	/**
+	 * An array of globalized data for BP Blocks.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @var array
+	 */
+	public $block_globals = array();
+
 	/** Methods ***************************************************************/
 
 	/**
@@ -205,7 +214,7 @@ class BP_Component {
 	 * Set up component global variables.
 	 *
 	 * @since 1.5.0
-	 *
+	 * @since 9.0.0 Adds the `$block_globals` argument to the `$args` parameter.
 	 *
 	 * @param array $args {
 	 *     All values are optional.
@@ -221,6 +230,7 @@ class BP_Component {
 	 *                                           'Search Groups...'.
 	 *     @type array    $global_tables         Optional. An array of database table names.
 	 *     @type array    $meta_tables           Optional. An array of metadata table names.
+	 *     @type array    $block_globals         Optional. An array of globalized data for BP Blocks.
 	 * }
 	 */
 	public function setup_globals( $args = array() ) {
@@ -241,6 +251,7 @@ class BP_Component {
 			'search_string'         => '',
 			'global_tables'         => '',
 			'meta_tables'           => '',
+			'block_globals'         => array(),
 		) );
 
 		/**
@@ -305,6 +316,27 @@ class BP_Component {
 		// Set the metadata table, if applicable.
 		if ( ! empty( $r['meta_tables'] ) ) {
 			$this->register_meta_tables( $r['meta_tables'] );
+		}
+
+		/**
+		 * Filters the $blocks global value.
+		 *
+		 * @since 9.0.0
+		 *
+		 * @param array $blocks a list of global properties for blocks keyed
+		 *                      by their corresponding block name.
+		 */
+		$block_globals = apply_filters( 'bp_' . $this->id . '_block_globals', $r['block_globals'] );
+		if ( is_array( $block_globals ) && array_filter( $block_globals ) ) {
+			foreach ( $block_globals as $block_name => $block_props ) {
+				$this->block_globals[ $block_name ] = new stdClass();
+
+				// Initialize an `items` property for Widget Block occurrences.
+				$this->block_globals[ $block_name ]->items = array();
+
+				// Set the global properties for the Block.
+				$this->block_globals[ $block_name ]->props = (array) $block_props;
+			}
 		}
 
 		/** BuddyPress *******************************************************
