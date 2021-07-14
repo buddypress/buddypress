@@ -37,7 +37,8 @@ module.exports = function( grunt ) {
 			'!bp-members/css/blocks/member.css',
 			'!bp-groups/css/blocks/group.css',
 			'!bp-members/css/blocks/members.css',
-			'!bp-groups/css/blocks/groups.css'
+			'!bp-groups/css/blocks/groups.css',
+			'!bp-core/css/blocks/login-form.css'
 		],
 
 		autoprefixer = require('autoprefixer');
@@ -147,6 +148,15 @@ module.exports = function( grunt ) {
 				flatten: true,
 				src: ['bp-groups/sass/blocks/*.scss'],
 				dest: SOURCE_DIR + 'bp-groups/css/blocks/'
+			},
+			core_blocks: {
+				cwd: SOURCE_DIR,
+				extDot: 'last',
+				expand: true,
+				ext: '.css',
+				flatten: true,
+				src: ['bp-core/sass/blocks/*.scss'],
+				dest: SOURCE_DIR + 'bp-core/css/blocks/'
 			}
 		},
 		rtlcss: {
