@@ -1,0 +1,46 @@
+.bp-recent-posts-block-container {
+
+	a {
+		box-shadow: none;
+		text-decoration: none;
+	}
+
+	ul.item-list {
+		list-style: none;
+		margin: 10px 0;
+	}
+
+	ul.activity-list {
+
+		padding: 0;
+
+		blockquote {
+			margin: 0 0 1.5em;
+			overflow: visible;
+			padding: 0 0 0.75em 0.75em;
+		}
+
+		img {
+			margin-bottom: 0.5em;
+		}
+
+		li {
+			border-bottom: 1px solid #ccc;
+			margin-bottom: 1em;
+
+			.activity-header p {
+				margin-bottom: 0.5em;
+
+				.time-since {
+					font-size: 80%;
+					color: #767676;
+					text-decoration: none;
+				}
+			}
+
+			&:last-child {
+				border-bottom: 0;
+			}
+		}
+	}
+}

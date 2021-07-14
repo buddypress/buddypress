@@ -49,7 +49,8 @@ module.exports = function( grunt ) {
 			'!bp-friends/css/blocks/friends.css',
 			'!bp-members/css/blocks/dynamic-members.css',
 			'!bp-groups/css/blocks/dynamic-groups.css',
-			'!bp-messages/css/blocks/sitewide-notices.css'
+			'!bp-messages/css/blocks/sitewide-notices.css',
+			'!bp-blogs/css/blocks/recent-posts.css'
 		],
 
 		autoprefixer = require('autoprefixer');
@@ -195,6 +196,15 @@ module.exports = function( grunt ) {
 				flatten: true,
 				src: ['bp-messages/sass/blocks/*.scss'],
 				dest: SOURCE_DIR + 'bp-messages/css/blocks/'
+			},
+			blogs_blocks: {
+				cwd: SOURCE_DIR,
+				extDot: 'last',
+				expand: true,
+				ext: '.css',
+				flatten: true,
+				src: ['bp-blogs/sass/blocks/*.scss'],
+				dest: SOURCE_DIR + 'bp-blogs/css/blocks/'
 			}
 		},
 		rtlcss: {

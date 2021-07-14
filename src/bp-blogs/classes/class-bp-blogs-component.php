@@ -81,6 +81,11 @@ class BP_Blogs_Component extends BP_Component {
 			'autocomplete_all'      => defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' ),
 			'global_tables'         => $global_tables,
 			'meta_tables'           => $meta_tables,
+			'block_globals'         => array(
+				'bp/recent-posts' => array(
+					'widget_classnames' => array( 'widget_bp_blogs_widget', 'buddypress' ),
+				),
+			),
 		);
 
 		// Setup the globals.
@@ -136,6 +141,7 @@ class BP_Blogs_Component extends BP_Component {
 
 		if ( is_multisite() ) {
 			$includes[] = 'widgets';
+			$includes[] = 'blocks';
 		}
 
 		// Include the files.
@@ -389,6 +395,41 @@ class BP_Blogs_Component extends BP_Component {
 	 *                      description.
 	 */
 	public function blocks_init( $blocks = array() ) {
-		parent::blocks_init( array() );
+		$blocks = array();
+
+		if ( is_multisite() ) {
+			$blocks['bp/recent-posts'] = array(
+				'name'               => 'bp/recent-posts',
+				'editor_script'      => 'bp-recent-posts-block',
+				'editor_script_url'  => plugins_url( 'js/blocks/recent-posts.js', dirname( __FILE__ ) ),
+				'editor_script_deps' => array(
+					'wp-blocks',
+					'wp-element',
+					'wp-components',
+					'wp-i18n',
+					'wp-block-editor',
+					'bp-block-components',
+				),
+				'style'              => 'bp-recent-posts-block',
+				'style_url'          => plugins_url( 'css/blocks/recent-posts.css', dirname( __FILE__ ) ),
+				'attributes'         => array(
+					'title'     => array(
+						'type'    => 'string',
+						'default' => __( 'Recent Networkwide Posts', 'buddypress' ),
+					),
+					'maxPosts'  => array(
+						'type'    => 'number',
+						'default' => 10,
+					),
+					'linkTitle' => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
+				),
+				'render_callback'    => 'bp_blogs_render_recent_posts_block',
+			);
+		}
+
+		parent::blocks_init( $blocks );
 	}
 }
