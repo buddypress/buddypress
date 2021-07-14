@@ -62,6 +62,7 @@ class BP_Messages_Component extends BP_Component {
 			'template',
 			'functions',
 			'widgets',
+			'blocks',
 		);
 
 		// Conditional includes.
@@ -455,6 +456,32 @@ class BP_Messages_Component extends BP_Component {
 	 *                      description.
 	 */
 	public function blocks_init( $blocks = array() ) {
-		parent::blocks_init( array() );
+		parent::blocks_init(
+			array(
+				'bp/sitewide-notices' => array(
+					'name'               => 'bp/sitewide-notices',
+					'editor_script'      => 'bp-sitewide-notices-block',
+					'editor_script_url'  => plugins_url( 'js/blocks/sitewide-notices.js', dirname( __FILE__ ) ),
+					'editor_script_deps' => array(
+						'wp-blocks',
+						'wp-element',
+						'wp-components',
+						'wp-i18n',
+						'wp-block-editor',
+						'bp-block-data',
+						'bp-block-components',
+					),
+					'style'              => 'bp-sitewide-notices-block',
+					'style_url'          => plugins_url( 'css/blocks/sitewide-notices.css', dirname( __FILE__ ) ),
+					'attributes'         => array(
+						'title' => array(
+							'type'    => 'string',
+							'default' => '',
+						),
+					),
+					'render_callback'    => 'bp_messages_render_sitewide_notices_block',
+				),
+			)
+		);
 	}
 }

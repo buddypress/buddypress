@@ -26,7 +26,8 @@ module.exports = function( grunt ) {
 			'!**/js/friends.js',
 			'!**/js/dynamic-members.js',
 			'!**/js/dynamic-groups.js',
-			'!**/js/dynamic-widget-block.js'
+			'!**/js/dynamic-widget-block.js',
+			'!**/js/sitewide-notices.js'
 		],
 
 		BP_EXCLUDED_MISC = [
@@ -47,7 +48,8 @@ module.exports = function( grunt ) {
 			'!bp-activity/css/blocks/latest-activities.css',
 			'!bp-friends/css/blocks/friends.css',
 			'!bp-members/css/blocks/dynamic-members.css',
-			'!bp-groups/css/blocks/dynamic-groups.css'
+			'!bp-groups/css/blocks/dynamic-groups.css',
+			'!bp-messages/css/blocks/sitewide-notices.css'
 		],
 
 		autoprefixer = require('autoprefixer');
@@ -184,6 +186,15 @@ module.exports = function( grunt ) {
 				flatten: true,
 				src: ['bp-friends/sass/blocks/*.scss'],
 				dest: SOURCE_DIR + 'bp-friends/css/blocks/'
+			},
+			messages_blocks: {
+				cwd: SOURCE_DIR,
+				extDot: 'last',
+				expand: true,
+				ext: '.css',
+				flatten: true,
+				src: ['bp-messages/sass/blocks/*.scss'],
+				dest: SOURCE_DIR + 'bp-messages/css/blocks/'
 			}
 		},
 		rtlcss: {

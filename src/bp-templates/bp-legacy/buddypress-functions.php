@@ -490,8 +490,9 @@ class BP_Legacy extends BP_Theme_Compat {
 	 */
 	public function sitewide_notices() {
 		// Do not show notices if user is not logged in.
-		if ( ! is_user_logged_in() )
+		if ( ! is_user_logged_in() || is_admin() ) {
 			return;
+		}
 
 		// Add a class to determine if the admin bar is on or not.
 		$class = did_action( 'admin_bar_menu' ) ? 'admin-bar-on' : 'admin-bar-off';

@@ -12,3 +12,4 @@ src/**/js/friends.js
 src/**/js/dynamic-members.js
 src/**/js/dynamic-groups.js
 src/**/js/dynamic-widget-block.js
+src/**/js/sitewide-notices.js

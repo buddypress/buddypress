@@ -73,3 +73,22 @@ function messages_autocomplete_init_jsblock() {
 
 <?php
 }
+
+/**
+ * Registers a new script to manage the dismissal action for the Sitewide notice widget/block.
+ *
+ * @since 9.0.0
+ *
+ * @param array $scripts Data about the scripts to register.
+ * @return array Data about the scripts to register.
+ */
+function bp_messages_register_scripts( $scripts = array() ) {
+	$scripts['bp-sitewide-notices-script'] = array(
+		'file'         => plugins_url( 'js/sitewide-notices.js', __FILE__ ),
+		'dependencies' => array(),
+		'footer'       => true,
+	);
+
+	return $scripts;
+}
+add_filter( 'bp_core_register_common_scripts', 'bp_messages_register_scripts', 9, 1 );
