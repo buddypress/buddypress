@@ -63,3 +63,25 @@ function bp_groups_get_group_manage_members_script_data( $group_id = 0 ) {
 		),
 	);
 }
+
+/**
+ * Registers a new script to manage the dynamic part of the Dynamic groups widget/block.
+ *
+ * @since 9.0.0
+ *
+ * @param array $scripts Data about the scripts to register.
+ * @return array Data about the scripts to register.
+ */
+function bp_groups_register_widget_block_scripts( $scripts = array() ) {
+	$scripts['bp-dynamic-groups-script'] = array(
+		'file'         => plugins_url( 'js/dynamic-groups.js', __FILE__ ),
+		'dependencies' => array(
+			'bp-dynamic-widget-block-script',
+			'wp-i18n',
+		),
+		'footer'       => true,
+	);
+
+	return $scripts;
+}
+add_filter( 'bp_core_register_common_scripts', 'bp_groups_register_widget_block_scripts', 9, 1 );

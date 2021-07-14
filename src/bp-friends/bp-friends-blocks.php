@@ -182,7 +182,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 								'html'    => false,
 							)
 						),
-						'data.avatar_alt'        => esc_html(
+						'data.avatar_alt'        => esc_attr(
 							sprintf(
 								/* translators: %s: member name */
 								__( 'Profile picture of %s', 'buddypress' ),

@@ -473,7 +473,7 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 								'html'    => false,
 							)
 						),
-						'data.avatar_alt'        => esc_html(
+						'data.avatar_alt'        => esc_attr(
 							sprintf(
 								/* translators: %s: member name */
 								__( 'Profile picture of %s', 'buddypress' ),
