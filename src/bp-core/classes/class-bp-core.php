@@ -295,7 +295,7 @@ class BP_Core extends BP_Component {
 			array(
 				'block_globals' => array(
 					'bp/login-form' => array(
-						'widget_classnames' => array ( 'widget_bp_core_login_widget', 'buddypress' ),
+						'widget_classnames' => array( 'widget_bp_core_login_widget', 'buddypress' ),
 					)
 				)
 			)

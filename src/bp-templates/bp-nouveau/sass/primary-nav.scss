@@ -1,0 +1,141 @@
+// BP primary navigation - directory and single screens
+
+// all devices & generic styles sitewide
+.buddypress_object_nav {
+
+	.bp-navs {
+		background: transparent;
+		clear: both;
+		overflow: hidden;
+
+		ul {
+			margin: 0;
+			padding: 0;
+
+			li {
+				list-style: none;
+				margin: 0;
+			}
+
+			li.last {
+
+				select {
+					max-width: 185px;
+				}
+			}
+
+			li {
+
+				a,
+				span {
+					border: 0;
+					display: block;
+					padding: 5px 10px;
+					text-decoration: none;
+				}
+
+				.count {
+					background: #eaeaea;
+					border: 1px solid #ccc;
+					border-radius: 50%;
+					color: #555;
+					display: inline-block;
+
+					font-size: 12px;
+					margin-left: 2px;
+					padding: 3px 6px;
+					text-align: center;
+					vertical-align: middle;
+				}
+			}
+
+			li.selected,
+			li.current {
+
+				a {
+					color: #333;
+					opacity: 1;
+
+					.count {
+						background-color: #fff;
+					}
+				}
+			}
+
+			li.dynamic,
+			li.dynamic.selected,
+			li.dynamic.current {
+
+				a {
+
+					.count {
+						background-color: #5087e5;
+						border: 0;
+						color: #fafafa;
+					}
+				}
+			}
+
+			li.dynamic {
+
+				a:hover {
+
+					.count {
+						background-color: #5087e5;
+						border: 0;
+						color: #fff;
+					}
+				}
+			}
+
+			li {
+
+				a {
+
+					.count:empty {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+
+	.main-navs.dir-navs {
+		margin-bottom: 20px;
+	}
+
+	.bp-navs.group-create-links {
+
+		ul {
+
+			li:not(.current) {
+				color: #767676;
+
+				a {
+					color: #767676;
+
+					&:focus,
+					&:hover {
+						background: none;
+						color: #555;
+					}
+				}
+
+				a[disabled] {
+
+					&:focus,
+					&:hover {
+						color: #767676;
+					}
+				}
+			}
+
+			li.current {
+
+				a {
+					text-align: center;
+				}
+			}
+		}
+	}
+}
