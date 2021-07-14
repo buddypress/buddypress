@@ -1,0 +1,12 @@
+// BP Who's online widget
+[data-type="bp/active-members"] {
+
+	.avatar-block {
+		display: flex;
+		flex-flow: row wrap;
+
+		img {
+			margin: 0.5em;
+		}
+	}
+}

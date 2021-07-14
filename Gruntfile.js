@@ -50,7 +50,9 @@ module.exports = function( grunt ) {
 			'!bp-members/css/blocks/dynamic-members.css',
 			'!bp-groups/css/blocks/dynamic-groups.css',
 			'!bp-messages/css/blocks/sitewide-notices.css',
-			'!bp-blogs/css/blocks/recent-posts.css'
+			'!bp-blogs/css/blocks/recent-posts.css',
+			'!bp-members/css/blocks/active-members.css',
+			'!bp-members/css/blocks/online-members.css'
 		],
 
 		autoprefixer = require('autoprefixer');

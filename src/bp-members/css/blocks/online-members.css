@@ -1,0 +1,8 @@
+[data-type="bp/online-members"] .avatar-block {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+[data-type="bp/online-members"] .avatar-block img {
+	margin: 0.5em;
+}

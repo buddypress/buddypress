@@ -200,7 +200,13 @@ class BP_Members_Component extends BP_Component {
 			'block_globals'         => array(
 				'bp/dynamic-members' => array(
 					'widget_classnames' => array( 'widget_bp_core_members_widget', 'buddypress' ),
-				)
+				),
+				'bp/online-members' => array(
+					'widget_classnames' => array( 'widget_bp_core_whos_online_widget', 'buddypress' ),
+				),
+				'bp/active-members' => array(
+					'widget_classnames' => array( 'widget_bp_core_recently_active_widget', 'buddypress' ),
+				),
 			),
 		);
 
@@ -861,6 +867,58 @@ class BP_Members_Component extends BP_Component {
 						),
 					),
 					'render_callback'    => 'bp_members_render_dynamic_members_block',
+				),
+				'bp/online-members'  => array(
+					'name'               => 'bp/online-members',
+					'editor_script'      => 'bp-online-members-block',
+					'editor_script_url'  => plugins_url( 'js/blocks/online-members.js', dirname( __FILE__ ) ),
+					'editor_script_deps' => array(
+						'wp-blocks',
+						'wp-element',
+						'wp-components',
+						'wp-i18n',
+						'wp-block-editor',
+						'bp-block-components',
+					),
+					'editor_style'       => 'bp-online-members-block',
+					'editor_style_url'   => plugins_url( 'css/blocks/online-members.css', dirname( __FILE__ ) ),
+					'attributes'         => array(
+						'title'      => array(
+							'type'    => 'string',
+							'default' => __( 'Who\'s Online', 'buddypress' ),
+						),
+						'maxMembers' => array(
+							'type'    => 'number',
+							'default' => 15,
+						),
+					),
+					'render_callback'    => 'bp_members_render_online_members_block',
+				),
+				'bp/active-members'  => array(
+					'name'               => 'bp/active-members',
+					'editor_script'      => 'bp-active-members-block',
+					'editor_script_url'  => plugins_url( 'js/blocks/active-members.js', dirname( __FILE__ ) ),
+					'editor_script_deps' => array(
+						'wp-blocks',
+						'wp-element',
+						'wp-components',
+						'wp-i18n',
+						'wp-block-editor',
+						'bp-block-components',
+					),
+					'editor_style'       => 'bp-active-members-block',
+					'editor_style_url'   => plugins_url( 'css/blocks/active-members.css', dirname( __FILE__ ) ),
+					'attributes'         => array(
+						'title'      => array(
+							'type'    => 'string',
+							'default' => __( 'Recently Active Members', 'buddypress' ),
+						),
+						'maxMembers' => array(
+							'type'    => 'number',
+							'default' => 15,
+						),
+					),
+					'render_callback'    => 'bp_members_render_active_members_block',
 				),
 			)
 		);
