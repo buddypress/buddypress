@@ -207,6 +207,11 @@ class BP_Activity_Component extends BP_Component {
 			'search_string'         => __( 'Search Activity...', 'buddypress' ),
 			'global_tables'         => $global_tables,
 			'meta_tables'           => $meta_tables,
+			'block_globals'         => array(
+				'bp/latest-activities' => array(
+					'widget_classnames' => array( 'wp-block-bp-latest-activities', 'buddypress' ),
+				)
+			),
 		);
 
 		parent::setup_globals( $args );
@@ -483,24 +488,62 @@ class BP_Activity_Component extends BP_Component {
 	 *                      description.
 	 */
 	public function blocks_init( $blocks = array() ) {
-		parent::blocks_init(
-			array(
-				'bp/embed-activity' => array(
-					'name'               => 'bp/embed-activity',
-					'editor_script'      => 'bp-embed-activity-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/embed-activity.js', dirname(  __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-i18n',
-						'wp-components',
-						'wp-block-editor',
-						'wp-data',
-						'wp-compose',
-						'bp-block-data',
+		$blocks = array(
+			'bp/latest-activities' => array(
+				'name'               => 'bp/latest-activities',
+				'editor_script'      => 'bp-latest-activities-block',
+				'editor_script_url'  => plugins_url( 'js/blocks/latest-activities.js', dirname(  __FILE__ ) ),
+				'editor_script_deps' => array(
+					'wp-blocks',
+					'wp-element',
+					'wp-components',
+					'wp-i18n',
+					'wp-block-editor',
+					'bp-block-data',
+					'bp-block-components',
+				),
+				'style'              => 'bp-latest-activities-block',
+				'style_url'          => plugins_url( 'css/blocks/latest-activities.css', dirname(  __FILE__ ) ),
+				'attributes'         => array(
+					'title'         => array(
+						'type'    => 'string',
+						'default' => __( 'Latest updates', 'buddypress' ),
+					),
+					'maxActivities' => array(
+						'type'    => 'number',
+						'default' => 5,
+					),
+					'type'          => array(
+						'type'    => 'array',
+						'default' => array( 'activity_update' ),
+					),
+					'postId'        => array(
+						'type'    => 'number',
+						'default' => 0,
 					),
 				),
-			)
+				'render_callback'    => 'bp_activity_render_latest_activities_block',
+			),
 		);
+
+		if ( bp_is_active( $this->id, 'embeds' ) ) {
+			$blocks['bp/embed-activity'] = array(
+				'name'               => 'bp/embed-activity',
+				'editor_script'      => 'bp-embed-activity-block',
+				'editor_script_url'  => plugins_url( 'js/blocks/embed-activity.js', dirname(  __FILE__ ) ),
+				'editor_script_deps' => array(
+					'wp-blocks',
+					'wp-element',
+					'wp-i18n',
+					'wp-components',
+					'wp-block-editor',
+					'wp-data',
+					'wp-compose',
+					'bp-block-data',
+				),
+			);
+		}
+
+		parent::blocks_init( $blocks );
 	}
 }
