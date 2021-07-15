@@ -117,4 +117,16 @@ class BP_Theme_Compat {
 	public function __get( $property ) {
 		return array_key_exists( $property, $this->_data ) ? $this->_data[$property] : '';
 	}
+
+	/**
+	 * Check a theme's property exists.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @param string $property Property name.
+	 * @return bool True if the property exists. False otherwise.
+	 */
+	public function __isset( $property ) {
+		return array_key_exists( $property, $this->_data );
+	}
 }
