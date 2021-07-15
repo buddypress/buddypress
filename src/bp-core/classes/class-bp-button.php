@@ -324,6 +324,17 @@ class BP_Button {
 		// Button properties.
 		$button = '';
 		if ( ! empty( $r['button_element'] ) ) {
+			// Ensure the `href` attribute is not wrongly used inside buttons.
+			if ( 'button' === $r['button_element'] && ! empty( $r['button_attr']['href'] ) ) {
+				_doing_it_wrong(
+					__CLASS__,
+					__( 'The `href` attribute is not available inside the `&lt;button&gt;` tag. Please use a `data-*` attribute to transport a link into this tag.', 'buddypress' ),
+					'9.0.0'
+				);
+
+				unset( $r['button_attr']['href'] );
+			}
+
 			$button = new BP_Core_HTML_Element( array(
 				'element'    => $r['button_element'],
 				'attr'       => $r['button_attr'],
