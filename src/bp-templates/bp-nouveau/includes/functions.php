@@ -1552,7 +1552,15 @@ add_filter( 'bp_core_block_globals', 'bp_nouveau_register_core_block_globals', 1
  * @since 9.0.0
  */
 function bp_nouveau_unregister_blocks_for_post_context() {
-	unregister_block_type( 'bp/primary-nav' );
+	if ( ! function_exists( 'unregister_block_type' ) ) {
+		return;
+	}
+
+	$is_registered = WP_Block_Type_Registry::get_instance()->is_registered( 'bp/primary-nav' );
+
+	if ( $is_registered ) {
+		unregister_block_type( 'bp/primary-nav' );
+	}
 }
 add_action( 'load-post.php', 'bp_nouveau_unregister_blocks_for_post_context' );
 add_action( 'load-post-new.php', 'bp_nouveau_unregister_blocks_for_post_context' );
