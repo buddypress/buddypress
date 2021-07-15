@@ -1766,7 +1766,7 @@ class BP_XProfile_Field {
 					<ul>
 						<li>
 							<input type="checkbox" id="has-signup-position" name="signup-position" value="<?php echo esc_attr( $next_signup_position ); ?>" <?php checked( $signup_position, $next_signup_position ); ?> />
-							<label for="has-signup-position"><?php esc_html_e( 'Use the field into the registration form.', 'buddypress' ); ?></label>
+							<label for="has-signup-position"><?php esc_html_e( 'Use this field in the site registration form.', 'buddypress' ); ?></label>
 						</li>
 					</ul>
 				</div>
