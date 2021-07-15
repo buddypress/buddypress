@@ -638,7 +638,7 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
 	$default_args = array(
 		'avatar_style'       => 0,
 		'global_alignment'   => 'alignwide',
-		'user_front_page'    => 1,
+		'user_front_page'    => 0,
 		'user_front_bio'     => 0,
 		'user_nav_display'   => 0, // O is default (horizontally). 1 is vertically.
 		'user_nav_tabs'      => 0,
@@ -660,8 +660,8 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
 
 	if ( bp_is_active( 'groups' ) ) {
 		$default_args = array_merge( $default_args, array(
-			'group_front_page'        => 1,
-			'group_front_boxes'       => 1,
+			'group_front_page'        => 0,
+			'group_front_boxes'       => 0,
 			'group_front_description' => 0,
 			'group_nav_display'       => 0,       // O is default (horizontally). 1 is vertically.
 			'group_nav_order'         => array(),
