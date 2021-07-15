@@ -1054,7 +1054,7 @@ class BP_Admin {
 			<h3 class="wp-people-group"><?php esc_html_e( 'Contributor Emeriti', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-emeriti">
 				<li class="wp-person" id="wp-person-apeatling">
-					<a class="web" href="https://profiles.wordpress.org/johnjamesjacoby"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/bb29d699b5cba218c313b61aa82249da?s=120">
+					<a class="web" href="https://profiles.wordpress.org/apeatling/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/bb29d699b5cba218c313b61aa82249da?s=120">
 					Andy Peatling</a>
 					<span class="title"><?php esc_html_e( 'Project Founder', 'buddypress' ); ?></span>
 				</li>
