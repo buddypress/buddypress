@@ -271,9 +271,10 @@ class BP_XProfile_User_Admin {
 		}
 
 		$r = bp_parse_args( $args['args'], array(
-			'profile_group_id' => 0,
-			'user_id'          => $user->ID,
-			'hide_field_types' => array( 'wp-textbox', 'wp-biography' ),
+			'profile_group_id'       => 0,
+			'user_id'                => $user->ID,
+			'hide_field_types'       => array( 'wp-textbox', 'wp-biography' ),
+			'fetch_visibility_level' => bp_current_user_can( 'bp_moderate' ) || (int) $user->ID === (int) get_current_user_id(),
 		), 'bp_xprofile_user_admin_profile_loop_args' );
 
 		// We really need these args.

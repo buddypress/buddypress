@@ -2,26 +2,25 @@
 
 ( function( $ ) {
 	// Profile Visibility Settings
-
 	$( '.visibility-toggle-link' ).on( 'click', function( event ) {
 		event.preventDefault();
 
 		$( this ).attr( 'aria-expanded', 'true' ).parent().hide()
-			.siblings( '.field-visibility-settings' ).show();
+			     .siblings( '.field-visibility-settings' ).show();
 	} );
 
 	$( '.field-visibility-settings-close' ).on( 'click', function( event ) {
 		event.preventDefault();
 
-		 $( '.visibility-toggle-link' ).attr( 'aria-expanded', 'false' );
+		$( '.visibility-toggle-link' ).attr( 'aria-expanded', 'false' );
 
-		var settings_div = $(this).parent(),
-		vis_setting_text = settings_div.find( 'input:checked' ).parent().text();
+		var settings_div = $( this ).parent(),
+		    vis_setting_text = settings_div.find( 'input:checked' ).parent().text();
 
 		settings_div.hide()
-			.siblings( '.field-visibility-settings-toggle' )
-				.children( '.current-visibility-level' ).text( vis_setting_text ).end()
-			.show();
+			        .siblings( '.field-visibility-settings-toggle' )
+			        .find( '.current-visibility-level' ).text( vis_setting_text ).end()
+			        .show();
 	} );
 
 } )( jQuery );
