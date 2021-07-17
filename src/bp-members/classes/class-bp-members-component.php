@@ -880,8 +880,8 @@ class BP_Members_Component extends BP_Component {
 						'wp-block-editor',
 						'bp-block-components',
 					),
-					'editor_style'       => 'bp-online-members-block',
-					'editor_style_url'   => plugins_url( 'css/blocks/online-members.css', dirname( __FILE__ ) ),
+					'editor_style'       => 'bp-member-avatar-blocks',
+					'editor_style_url'   => plugins_url( 'css/blocks/member-avatar-blocks.css', dirname( __FILE__ ) ),
 					'attributes'         => array(
 						'title'      => array(
 							'type'    => 'string',
@@ -906,8 +906,8 @@ class BP_Members_Component extends BP_Component {
 						'wp-block-editor',
 						'bp-block-components',
 					),
-					'editor_style'       => 'bp-active-members-block',
-					'editor_style_url'   => plugins_url( 'css/blocks/active-members.css', dirname( __FILE__ ) ),
+					'editor_style'       => 'bp-member-avatar-blocks',
+					'editor_style_url'   => plugins_url( 'css/blocks/member-avatar-blocks.css', dirname( __FILE__ ) ),
 					'attributes'         => array(
 						'title'      => array(
 							'type'    => 'string',

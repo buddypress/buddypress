@@ -1,0 +1,10 @@
+[data-type="bp/active-members"] .avatar-block,
+[data-type="bp/online-members"] .avatar-block {
+	display: flex;
+	flex-flow: row wrap;
+}
+
+[data-type="bp/active-members"] .avatar-block img,
+[data-type="bp/online-members"] .avatar-block img {
+	margin: 0.5em;
+}

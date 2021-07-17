@@ -51,8 +51,7 @@ module.exports = function( grunt ) {
 			'!bp-groups/css/blocks/dynamic-groups.css',
 			'!bp-messages/css/blocks/sitewide-notices.css',
 			'!bp-blogs/css/blocks/recent-posts.css',
-			'!bp-members/css/blocks/active-members.css',
-			'!bp-members/css/blocks/online-members.css'
+			'!bp-members/css/blocks/member-avatar-blocks.css'
 		],
 
 		autoprefixer = require('autoprefixer');
@@ -216,7 +215,7 @@ module.exports = function( grunt ) {
 					autoRename: false,
 					clean: true
 				},
-				saveUnmodified: false
+				saveUnmodified: true
 			},
 			core: {
 				expand: true,
