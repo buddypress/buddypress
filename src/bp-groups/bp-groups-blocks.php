@@ -93,7 +93,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
 			esc_url( $group_link ),
 			esc_url( $avatar ),
 			/* Translators: %s is the group's name. */
-			sprintf( esc_html__( 'Group Profile photo of %s', 'buddypress' ), $group_name )
+			sprintf( esc_attr__( 'Group Profile photo of %s', 'buddypress' ), esc_html( $group_name ) )
 		);
 	}
 
@@ -245,8 +245,6 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 					</a>
 				</div>',
 				esc_url( $group_link ),
-				/* Translators: %s is the group's name. */
-				sprintf( esc_attr__( 'Group Profile photo of %s', 'buddypress' ), esc_html( $group->name ) ),
 				esc_url(
 					bp_core_fetch_avatar(
 						array(
@@ -256,7 +254,9 @@ function bp_groups_render_groups_block( $attributes = array() ) {
 							'html'    => false,
 						)
 					)
-				)
+				),
+				/* Translators: %s is the group's name. */
+				sprintf( esc_attr__( 'Group Profile photo of %s', 'buddypress' ), esc_html( $group->name ) )
 			);
 		}
 
