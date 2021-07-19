@@ -55,14 +55,26 @@ function bp_activity_render_latest_activities_block( $attributes = array() ) {
 		$reset_activities_template = $GLOBALS['activities_template'];
 	}
 
-	$widget_args = array(
-		'max'          => $max_activities,
-		'scope'        => 'all',
-		'user_id'      => $member_id,
-		'object'       => false,
-		'action'       => implode( ',', $types ),
-		'primary_id'   => 0,
-		'secondary_id' => 0,
+	/**
+	 * Filter here to edit the arguments used by the Latest Activities block.
+	 *
+	 * @since 9.0.0
+	 *
+	 * @param array $widget_args The list of arguments for the Activity query.
+	 * @param array $block_args  The list of Block attributes.
+	 */
+	$widget_args = apply_filters(
+		'bp_activity_block_latest_updates_args',
+		array(
+			'max'          => $max_activities,
+			'scope'        => 'all',
+			'user_id'      => $member_id,
+			'object'       => false,
+			'action'       => implode( ',', $types ),
+			'primary_id'   => 0,
+			'secondary_id' => 0,
+		),
+		$block_args
 	);
 
 	// Build the activity loop.
