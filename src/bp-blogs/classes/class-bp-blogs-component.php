@@ -137,11 +137,11 @@ class BP_Blogs_Component extends BP_Component {
 
 		if ( bp_is_active( 'activity' ) ) {
 			$includes[] = 'activity';
-		}
 
-		if ( is_multisite() ) {
-			$includes[] = 'widgets';
-			$includes[] = 'blocks';
+			if ( is_multisite() ) {
+				$includes[] = 'widgets';
+				$includes[] = 'blocks';
+			}
 		}
 
 		// Include the files.
@@ -397,7 +397,7 @@ class BP_Blogs_Component extends BP_Component {
 	public function blocks_init( $blocks = array() ) {
 		$blocks = array();
 
-		if ( is_multisite() ) {
+		if ( is_multisite() && bp_is_active( 'activity' ) ) {
 			$blocks['bp/recent-posts'] = array(
 				'name'               => 'bp/recent-posts',
 				'editor_script'      => 'bp-recent-posts-block',
