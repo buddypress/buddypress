@@ -58,11 +58,13 @@ function bp_settings_action_general() {
 	// Validate the user again for the current password when making a big change.
 	if ( ( is_super_admin() ) || ( !empty( $_POST['pwd'] ) && wp_check_password( $_POST['pwd'], $bp->displayed_user->userdata->user_pass, bp_displayed_user_id() ) ) ) {
 
-		$update_user = get_userdata( bp_displayed_user_id() );
+		$update_user = array(
+			'ID' => (int) bp_displayed_user_id(),
+		);
 
 		/* Email Change Attempt ******************************************/
 
-		if ( !empty( $_POST['email'] ) ) {
+		if ( ! empty( $_POST['email'] ) ) {
 
 			// What is missing from the profile page vs signup -
 			// let's double check the goodies.
@@ -70,7 +72,7 @@ function bp_settings_action_general() {
 			$old_user_email = $bp->displayed_user->userdata->user_email;
 
 			// User is changing email address.
-			if ( $old_user_email != $user_email ) {
+			if ( $old_user_email !== $user_email ) {
 
 				// Run some tests on the email address.
 				$email_checks = bp_core_validate_email_address( $user_email );
@@ -114,7 +116,6 @@ function bp_settings_action_general() {
 
 					// We mark that the change has taken place so as to ensure a
 					// success message, even though verification is still required.
-					$_POST['email'] = $update_user->user_email;
 					$email_changed = true;
 				}
 
@@ -138,9 +139,9 @@ function bp_settings_action_general() {
 			if ( ! $pass_error->get_error_message() ) {
 				// Password change attempt is successful.
 				if ( ( ! empty( $_POST['pwd'] ) && wp_unslash( $_POST['pwd'] ) !== $pass ) || is_super_admin() )  {
-					$update_user->user_pass = $_POST['pass1'];
-					$pass_error             = false;
-					$pass_changed           = true;
+					$update_user['user_pass'] = $_POST['pass1'];
+					$pass_error               = false;
+					$pass_changed             = true;
 
 				// The new password is the same as the current password.
 				} else {
@@ -157,18 +158,10 @@ function bp_settings_action_general() {
 			$pass_error = new WP_Error( 'empty_user_password', __( 'One of the password fields was empty.', 'buddypress' ) );
 		}
 
-		// The structure of the $update_user object changed in WP 3.3, but
-		// wp_update_user() still expects the old format.
-		if ( isset( $update_user->data ) && is_object( $update_user->data ) ) {
-			$update_user = $update_user->data;
-			$update_user = get_object_vars( $update_user );
-
-			// Unset the password field to prevent it from emptying out the
-			// user's user_pass field in the database.
-			// @see wp_update_user().
-			if ( false === $pass_changed ) {
-				unset( $update_user['user_pass'] );
-			}
+		// Unset the password field to prevent it from emptying out the
+		// user's user_pass field in the database.
+		if ( false === $pass_changed ) {
+			unset( $update_user['user_pass'] );
 		}
 
 		// Clear cached data, so that the changed settings take effect
