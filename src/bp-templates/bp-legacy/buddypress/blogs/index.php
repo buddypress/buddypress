@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 10.0.0
  */
 
 /**
@@ -61,7 +61,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Sites directory main navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 				<li class="selected" id="blogs-all">
-					<a href="<?php bp_root_domain(); ?>/<?php bp_blogs_root_slug(); ?>">
+					<a href="<?php bp_blogs_directory_permalink(); ?>">
 						<?php
 						/* translators: %s: all blogs count */
 						printf( __( 'All Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count() . '</span>' ); ?>
