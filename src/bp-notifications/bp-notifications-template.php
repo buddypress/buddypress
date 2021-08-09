@@ -157,7 +157,7 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
 		 * @param string $retval  Permalink for the read notifications.
 		 * @param int    $user_id The user ID.
 		 */
-		return apply_filters( 'bp_get_notifications_unread_permalink', $retval, $user_id );
+		return apply_filters( 'bp_get_notifications_read_permalink', $retval, $user_id );
 	}
 
 /** The Loop ******************************************************************/

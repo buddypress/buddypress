@@ -63,6 +63,6 @@ function bp_notifications_action_mark_read() {
 	}
 
 	// Redirect.
-	bp_core_redirect( bp_displayed_user_domain() . bp_get_notifications_slug() . '/unread/' );
+	bp_core_redirect( bp_get_notifications_unread_permalink( bp_displayed_user_id() ) );
 }
 add_action( 'bp_actions', 'bp_notifications_action_mark_read' );

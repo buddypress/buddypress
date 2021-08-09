@@ -63,7 +63,14 @@ function bp_notifications_action_bulk_manage() {
 		break;
 	}
 
+	// URL to redirect to.
+	if ( bp_is_current_action( 'unread' ) ) {
+		$redirect = bp_get_notifications_unread_permalink( bp_displayed_user_id() );
+	} elseif ( bp_is_current_action( 'read' ) ) {
+		$redirect = bp_get_notifications_read_permalink( bp_displayed_user_id() );
+	}
+
 	// Redirect.
-	bp_core_redirect( bp_displayed_user_domain() . bp_get_notifications_slug() . '/' . bp_current_action() . '/' );
+	bp_core_redirect( $redirect );
 }
 add_action( 'bp_actions', 'bp_notifications_action_bulk_manage' );
