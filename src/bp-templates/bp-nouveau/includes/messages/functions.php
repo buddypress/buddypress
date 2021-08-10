@@ -3,7 +3,7 @@
  * Messages functions
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 10.0.0
  */
 
 // Exit if accessed directly.
@@ -190,7 +190,13 @@ function bp_nouveau_messages_adjust_admin_nav( $admin_nav ) {
 }
 
 /**
+ * Prepend a notification about the active Sitewide notice.
+ *
  * @since 3.0.0
+ *
+ * @param false|array $notifications False if there are no items, an array of notification items otherwise.
+ * @param int         $user_id       The user ID.
+ * @return false|array               False if there are no items, an array of notification items otherwise.
  */
 function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id ) {
 	if ( ! bp_is_active( 'messages' ) || ! doing_action( 'admin_bar_menu' ) ) {
@@ -211,31 +217,39 @@ function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id )
 		return $notifications;
 	}
 
-	$notice_notification                    = new stdClass;
-	$notice_notification->id                = 0;
-	$notice_notification->user_id           = $user_id;
-	$notice_notification->item_id           = $notice->id;
-	$notice_notification->secondary_item_id = '';
-	$notice_notification->component_name    = 'messages';
-	$notice_notification->component_action  = 'new_notice';
-	$notice_notification->date_notified     = $notice->date_sent;
-	$notice_notification->is_new            = '1';
+	$notice_notification = (object) array(
+		'id'                => 0,
+		'user_id'           => $user_id,
+		'item_id'           => $notice->id,
+		'secondary_item_id' => 0,
+		'component_name'    => 'messages',
+		'component_action'  => 'new_notice',
+		'date_notified'     => $notice->date_sent,
+		'is_new'            => 1,
+		'total_count'       => 1,
+		'content'           => __( 'New sitewide notice', 'buddypress' ),
+		'href'              => bp_loggedin_user_domain(),
+	);
 
-	return array_merge( $notifications, array( $notice_notification ) );
+	if ( ! is_array( $notifications ) ) {
+		$notifications = array( $notice_notification );
+	} else {
+		array_unshift( $notifications, $notice_notification );
+	}
+
+	return $notifications;
 }
 
 /**
+ * Format the notice notifications.
+ *
  * @since 3.0.0
+ * @deprecated 10.0.0
+ *
+ * @param array $array.
  */
 function bp_nouveau_format_notice_notification_for_user( $array ) {
-	if ( ! empty( $array['text'] ) || ! doing_action( 'admin_bar_menu' ) ) {
-		return $array;
-	}
-
-	return array(
-		'text' => __( 'New sitewide notice', 'buddypress' ),
-		'link' => bp_loggedin_user_domain(),
-	);
+	_deprecated_function( __FUNCTION__, '10.0.0' );
 }
 
 /**

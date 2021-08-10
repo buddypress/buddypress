@@ -3,7 +3,7 @@
  * BP Nouveau Messages
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 10.0.0
  */
 
 // Exit if accessed directly.
@@ -88,20 +88,19 @@ class BP_Nouveau_Messages {
 	 * @since 3.0.0
 	 */
 	protected function setup_filters() {
-		// Enqueue specific styles
+		// Enqueue specific styles.
 		add_filter( 'bp_nouveau_enqueue_styles', 'bp_nouveau_messages_enqueue_styles', 10, 1 );
 
-		// Register messages scripts
+		// Register messages scripts.
 		add_filter( 'bp_nouveau_register_scripts', 'bp_nouveau_messages_register_scripts', 10, 1 );
 
-		// Localize Scripts
+		// Localize Scripts.
 		add_filter( 'bp_core_get_js_strings', 'bp_nouveau_messages_localize_scripts', 10, 1 );
 
-		// Notices
-		add_filter( 'bp_messages_single_new_message_notification', 'bp_nouveau_format_notice_notification_for_user', 10, 1 );
-		add_filter( 'bp_notifications_get_all_notifications_for_user', 'bp_nouveau_add_notice_notification_for_user', 10, 2 );
+		// Notices.
+		add_filter( 'bp_core_get_notifications_for_user', 'bp_nouveau_add_notice_notification_for_user', 10, 2 );
 
-		// Messages
+		// Messages.
 		add_filter( 'bp_messages_admin_nav', 'bp_nouveau_messages_adjust_admin_nav', 10, 1 );
 	}
 }
