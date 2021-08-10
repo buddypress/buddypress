@@ -31,15 +31,16 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 			'component_action' => 'new_message',
 		) );
 
-		add_filter( 'bp_messages_multiple_new_message_notification', array( $this, 'notification_filter_callback' ) );
+		add_filter( 'bp_messages_multiple_new_message_array_notification', array( $this, 'notification_filter_callback' ) );
 		$n = messages_format_notifications( 'new_message', $n, '', 2, 'array' );
-		remove_filter( 'bp_messages_multiple_new_message_notification', array( $this, 'notification_filter_callback' ) );
+		remove_filter( 'bp_messages_multiple_new_message_array_notification', array( $this, 'notification_filter_callback' ) );
 
-		$this->assertSame( 'bp_messages_multiple_new_message_notification', $this->filter_fired );
+		$this->assertSame( 'bp_messages_multiple_new_message_array_notification', $this->filter_fired );
 	}
 
 	/**
 	 * @group messages_format_notifications
+	 * @group imath
 	 */
 	public function test_friends_format_notifications_bp_messages_single_new_message_notification_nonstring_filter() {
 		// Dummy thread ID
@@ -55,11 +56,11 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 			'component_action' => 'new_message',
 		) );
 
-		add_filter( 'bp_messages_single_new_message_notification', array( $this, 'notification_filter_callback' ) );
+		add_filter( 'bp_messages_single_new_message_array_notification', array( $this, 'notification_filter_callback' ) );
 		$n = messages_format_notifications( 'new_message', $n, '', 1, 'array' );
-		remove_filter( 'bp_messages_single_new_message_notification', array( $this, 'notification_filter_callback' ) );
+		remove_filter( 'bp_messages_single_new_message_array_notification', array( $this, 'notification_filter_callback' ) );
 
-		$this->assertSame( 'bp_messages_single_new_message_notification', $this->filter_fired );
+		$this->assertSame( 'bp_messages_single_new_message_array_notification', $this->filter_fired );
 	}
 
 	/**
@@ -79,11 +80,11 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 			'component_action' => 'new_message',
 		) );
 
-		add_filter( 'bp_messages_multiple_new_message_notification', array( $this, 'notification_filter_callback' ) );
+		add_filter( 'bp_messages_multiple_new_message_string_notification', array( $this, 'notification_filter_callback' ) );
 		$n = messages_format_notifications( 'new_message', $n, '', 2 );
-		remove_filter( 'bp_messages_multiple_new_message_notification', array( $this, 'notification_filter_callback' ) );
+		remove_filter( 'bp_messages_multiple_new_message_string_notification', array( $this, 'notification_filter_callback' ) );
 
-		$this->assertSame( 'bp_messages_multiple_new_message_notification', $this->filter_fired );
+		$this->assertSame( 'bp_messages_multiple_new_message_string_notification', $this->filter_fired );
 	}
 
 	/**
@@ -103,11 +104,11 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 			'component_action' => 'new_message',
 		) );
 
-		add_filter( 'bp_messages_single_new_message_notification', array( $this, 'notification_filter_callback' ) );
+		add_filter( 'bp_messages_single_new_message_string_notification', array( $this, 'notification_filter_callback' ) );
 		$n = messages_format_notifications( 'new_message', $n, '', 1 );
-		remove_filter( 'bp_messages_single_new_message_notification', array( $this, 'notification_filter_callback' ) );
+		remove_filter( 'bp_messages_single_new_message_string_notification', array( $this, 'notification_filter_callback' ) );
 
-		$this->assertSame( 'bp_messages_single_new_message_notification', $this->filter_fired );
+		$this->assertSame( 'bp_messages_single_new_message_string_notification', $this->filter_fired );
 	}
 
 	/**

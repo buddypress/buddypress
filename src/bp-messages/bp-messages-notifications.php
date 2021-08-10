@@ -34,16 +34,18 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		if ( $total_items > 1 ) {
 			$amount = 'multiple';
 
-			/* translators: %s: number of new messages */
+			/* translators: %d: number of new messages */
 			$text = sprintf( __( 'You have %d new messages', 'buddypress' ), $total_items );
 
 		} else {
 			// Get message thread ID.
 			$message   = new BP_Messages_Message( $item_id );
 			$thread_id = $message->thread_id;
-			$link      = ( ! empty( $thread_id ) )
-				? bp_get_message_thread_view_link( $thread_id )
-				: false;
+			$link      = '';
+
+			if ( ! empty( $thread_id ) ) {
+				$link = bp_get_message_thread_view_link( $thread_id );
+			}
 
 			if ( ! empty( $secondary_item_id ) ) {
 				/* translators: %s: member name */
@@ -56,39 +58,73 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 
 		if ( 'string' === $format ) {
 			if ( ! empty( $link ) ) {
-				$return = '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>';
+				$retval = '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>';
 			} else {
-				$return = esc_html( $text );
+				$retval = esc_html( $text );
 			}
 
-			/**
-			 * Filters the new message notification text before the notification is created.
-			 *
-			 * This is a dynamic filter. Possible filter names are:
-			 *   - 'bp_messages_multiple_new_message_notification'.
-			 *   - 'bp_messages_single_new_message_notification'.
-			 *
-			 * @param string $return            Notification text.
-			 * @param int    $total_items       Number of messages referred to by the notification.
-			 * @param string $text              The raw notification test (ie, not wrapped in a link).
-			 * @param int    $item_id           ID of the associated item.
-			 * @param int    $secondary_item_id ID of the secondary associated item.
-			 */
-			$return = apply_filters( 'bp_messages_' . $amount . '_new_message_notification', $return, (int) $total_items, $text, $link, $item_id, $secondary_item_id );
+			/** This filter is documented in wp-includes/deprecated.php */
+			$retval = apply_filters_deprecated(
+				'bp_messages_' . $amount . '_new_message_notification',
+				array( $retval, $total_items, $text, $link, $item_id, $secondary_item_id ),
+				'10.0.0',
+				'bp_messages_' . $amount . '_new_message_' . $format . '_notification'
+			);
 		} else {
-			/** This filter is documented in bp-messages/bp-messages-notifications.php */
-			$return = apply_filters( 'bp_messages_' . $amount . '_new_message_notification', array(
+			$retval = array(
 				'text' => $text,
-				'link' => $link
-			), $link, (int) $total_items, $text, $link, $item_id, $secondary_item_id );
+				'link' => $link,
+			);
+
+			/** This filter is documented in wp-includes/deprecated.php */
+			$retval = apply_filters_deprecated(
+				'bp_messages_' . $amount . '_new_message_notification',
+				array(
+					$retval,
+					$link, // This extra `$link` variable is the reason why we deprecated the filter.
+					$total_items,
+					$text,
+					$link,
+					$item_id,
+					$secondary_item_id,
+				),
+				'10.0.0',
+				'bp_messages_' . $amount . '_new_message_' . $format . '_notification'
+			);
 		}
+
+		/**
+		 * Filters the new message notification text before the notification is created.
+		 *
+		 * This is a dynamic filter. Possible filter names are:
+		 *   - 'bp_messages_multiple_new_message_string_notification'.
+		 *   - 'bp_messages_single_new_message_string_notification'.
+		 *   - 'bp_messages_multiple_new_message_array_notification'.
+		 *   - 'bp_messages_single_new_message_array_notification'.
+		 *
+		 * @param array|string $retval            An array containing the text and the link of the Notification or simply its text.
+		 * @param int          $total_items       Number of messages referred to by the notification.
+		 * @param string       $text              The raw notification text (ie, not wrapped in a link).
+		 * @param string       $link              The link of the notification.
+		 * @param int          $item_id           ID of the associated item.
+		 * @param int          $secondary_item_id ID of the secondary associated item.
+		 */
+		$retval = apply_filters(
+			'bp_messages_' . $amount . '_new_message_' . $format . '_notification',
+			$retval,
+			$total_items,
+			$text,
+			$link,
+			$item_id,
+			$secondary_item_id
+		);
 
 	// Custom notification action for the Messages component
 	} else {
 		if ( 'string' === $format ) {
-			$return = $text;
+			$retval = $text;
 		} else {
-			$return = array(
+			$retval = array(
 				'text' => $text,
 				'link' => $link
 			);
@@ -100,13 +136,22 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		 */
 		if ( has_filter( 'bp_messages_single_new_message_notification' ) ) {
 			if ( 'string' === $format ) {
-				/** This filter is documented in bp-messages/bp-messages-notifications.php */
-				$return = apply_filters( 'bp_messages_single_new_message_notification', $return, (int) $total_items, $text, $link, $item_id, $secondary_item_id );
+				/** This filter is documented in wp-includes/deprecated.php */
+				$retval = apply_filters_deprecated(
+					'bp_messages_' . $amount . '_new_message_notification',
+					array( $retval, $total_items, $text, $link, $item_id, $secondary_item_id ),
+					'10.0.0',
+					"bp_messages_{$action}_notification"
+				);
 
-			// Notice that there are seven parameters instead of six? Ugh...
 			} else {
-				/** This filter is documented in bp-messages/bp-messages-notifications.php */
-				$return = apply_filters( 'bp_messages_single_new_message_notification', $return, $link, (int) $total_items, $text, $link, $item_id, $secondary_item_id );
+				/** This filter is documented in wp-includes/deprecated.php */
+				$retval = apply_filters_deprecated(
+					'bp_messages_' . $amount . '_new_message_notification',
+					array( $retval, $link, $total_items, $text, $link, $item_id, $secondary_item_id ),
+					'10.0.0',
+					"bp_messages_{$action}_notification"
+				);
 			}
 		}
 
@@ -124,7 +169,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 		 * @param string $format            Return value format. 'string' for BuddyBar-compatible
 		 *                                  notifications; 'array' for WP Toolbar. Default: 'string'.
 		 */
-		$return = apply_filters( "bp_messages_{$action}_notification", $return, $item_id, $secondary_item_id, $total_items, $format );
+		$retval = apply_filters( "bp_messages_{$action}_notification", $retval, $item_id, $secondary_item_id, $total_items, $format );
 	}
 
 	/**
@@ -139,7 +184,7 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 	 */
 	do_action( 'messages_format_notifications', $action, $item_id, $secondary_item_id, $total_items );
 
-	return $return;
+	return $retval;
 }
 
 /**
