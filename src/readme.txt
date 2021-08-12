@@ -4,7 +4,7 @@ Tags: social networking, activity, profiles, messaging, friends, groups, forums,
 Requires at least: 4.4
 Tested up to: 4.9.4
 Requires PHP: 5.3
-Stable tag: 2.9.4
+Stable tag: 2.9.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
