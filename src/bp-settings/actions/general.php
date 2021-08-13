@@ -245,7 +245,25 @@ function bp_settings_verify_email_change() {
 
 	// Email change is being verified.
 	if ( isset( $_GET['verify_email_change'] ) ) {
-		$pending_email = bp_get_user_meta( bp_displayed_user_id(), 'pending_email_change', true );
+		$user_id       = bp_displayed_user_id();
+		$pending_email = (array) bp_get_user_meta( $user_id, 'pending_email_change', true );
+
+		// The user may have dismissed the email change.
+		if ( ! array_filter( $pending_email ) ) {
+			/**
+			 * Fires when a Pending Email Change is missing and before
+			 * BuddyPress redirects the user to an error message.
+			 *
+			 * @since 9.1.0
+			 *
+			 * @param int    $user_id     The user ID.
+			 * @param string $redirect_to The Default Front-end Settings Screen URL.
+			 */
+			do_action( 'bp_settings_missing_pending_email_change_hash', $user_id, $redirect_to );
+
+			bp_core_add_message( __( 'There was a problem verifying your new email address. If you haven’t dismissed the pending email change, please request a new email update.', 'buddypress' ), 'error' );
+			bp_core_redirect( $redirect_to );
+		}
 
 		// Bail if the hash provided doesn't match the one saved in the database.
 		if ( ! hash_equals( urldecode( $_GET['verify_email_change'] ), $pending_email['hash'] ) ) {
@@ -253,14 +271,24 @@ function bp_settings_verify_email_change() {
 		}
 
 		$email_changed = wp_update_user( array(
-			'ID'         => bp_displayed_user_id(),
+			'ID'         => $user_id,
 			'user_email' => trim( $pending_email['newemail'] ),
 		) );
 
 		if ( $email_changed ) {
-
 			// Delete the pending email change key.
-			bp_delete_user_meta( bp_displayed_user_id(), 'pending_email_change' );
+			bp_delete_user_meta( $user_id, 'pending_email_change' );
+
+			/**
+			 * Fires when a Pending Email Change has been validated and before
+			 * BuddyPress redirects the user to a success message.
+			 *
+			 * @since 9.1.0
+			 *
+			 * @param int    $user_id     The user ID.
+			 * @param string $redirect_to The Default Front-end Settings Screen URL.
+			 */
+			do_action( 'bp_settings_email_changed', $user_id, $redirect_to );
 
 			// Post a success message and redirect.
 			bp_core_add_message( __( 'You have successfully verified your new email address.', 'buddypress' ) );
@@ -270,19 +298,30 @@ function bp_settings_verify_email_change() {
 		}
 
 		bp_core_redirect( $redirect_to );
-		die();
 
 	// Email change is being dismissed.
 	} elseif ( ! empty( $_GET['dismiss_email_change'] ) ) {
 		$nonce_check = isset( $_GET['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'bp_dismiss_email_change' );
 
 		if ( $nonce_check ) {
-			bp_delete_user_meta( bp_displayed_user_id(), 'pending_email_change' );
+			$user_id = bp_displayed_user_id();
+			bp_delete_user_meta( $user_id, 'pending_email_change' );
+
+			/**
+			 * Fires when a Pending Email Change has been dismissed and before
+			 * BuddyPress redirects the user to a success message.
+			 *
+			 * @since 9.1.0
+			 *
+			 * @param int    $user_id     The user ID.
+			 * @param string $redirect_to The Default Front-end Settings Screen URL.
+			 */
+			do_action( 'bp_settings_email_change_dismissed', $user_id, $redirect_to );
+
 			bp_core_add_message( __( 'You have successfully dismissed your pending email change.', 'buddypress' ) );
 		}
 
 		bp_core_redirect( $redirect_to );
-		die();
 	}
 }
 add_action( 'bp_actions', 'bp_settings_verify_email_change' );
