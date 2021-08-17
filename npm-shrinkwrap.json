@@ -1,12 +1,11 @@
 {
 	"name": "buddypress",
-	"version": "9.1.0",
+	"version": "9.1.1",
 	"lockfileVersion": 2,
 	"requires": true,
 	"packages": {
 		"": {
-			"name": "buddypress",
-			"version": "9.1.0",
+			"version": "9.1.1",
 			"license": "GPL-2.0-or-later",
 			"dependencies": {
 				"postcss": "~7.0.35"
