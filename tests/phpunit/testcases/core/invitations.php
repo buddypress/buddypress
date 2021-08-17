@@ -381,4 +381,54 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$this->set_current_user( $old_current_user );
 	}
 
+	public function test_bp_invitations_orderby_item_id() {
+		$old_current_user = get_current_user_id();
+
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$u3 = $this->factory->user->create();
+		$this->set_current_user( $u1 );
+
+		$invites_class = new BPTest_Invitation_Manager_Extension();
+
+		// Create an invitation.
+		$i1_args = array(
+			'user_id'    => $u2,
+			'inviter_id' => $u1,
+			'item_id'    => 6,
+		);
+		$i1 = $invites_class->add_invitation( $i1_args );
+		$invites_class->send_invitation_by_id( $i1 );
+
+		$i2_args = array(
+			'user_id'    => $u3,
+			'inviter_id' => $u1,
+			'item_id'    => 4,
+		);
+		$i2 = $invites_class->add_invitation( $i2_args );
+		$invites_class->send_invitation_by_id( $i2 );
+
+		$i3_args = array(
+			'user_id'    => $u2,
+			'inviter_id' => $u1,
+			'item_id'    => 8,
+		);
+		$i3 = $invites_class->add_invitation( $i3_args );
+		$invites_class->send_invitation_by_id( $i3 );
+
+		$get_invites = array(
+			'order_by'   => 'item_id',
+			'sort_order' => 'ASC',
+			'fields'     => 'ids',
+		);
+		$invites = $invites_class->get_invitations( $get_invites );
+		$this->assertEquals( array( $i2, $i1, $i3 ), $invites );
+
+		$get_invites['sort_order'] = 'DESC';
+		$invites = $invites_class->get_invitations( $get_invites );
+		$this->assertEquals( array( $i3, $i1, $i2 ), $invites );
+
+		$this->set_current_user( $old_current_user );
+	}
+
 }
