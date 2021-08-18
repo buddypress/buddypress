@@ -179,21 +179,6 @@ See: https://codex.buddypress.org/releases/version-5-1-0/
 = 5.0.0 =
 See: https://codex.buddypress.org/releases/version-5-0-0/
 
-= 4.4.0 =
-See: https://codex.buddypress.org/releases/version-4-4-0/
-
-= 4.3.0 =
-See: https://codex.buddypress.org/releases/version-4-3-0/
-
-= 4.2.0 =
-See: https://codex.buddypress.org/releases/version-4-2-0/
-
-= 4.1.0 =
-See: https://codex.buddypress.org/releases/version-4-1-0/
-
-= 4.0.0 =
-See: https://codex.buddypress.org/releases/version-4-0-0/
-
 == Changelog ==
 
 = 9.1.1 =
@@ -249,18 +234,3 @@ See: https://codex.buddypress.org/releases/version-5-1-0/
 
 = 5.0.0 =
 See: https://codex.buddypress.org/releases/version-5-0-0/
-
-= 4.4.0 =
-See: https://codex.buddypress.org/releases/version-4-4-0/
-
-= 4.3.0 =
-See: https://codex.buddypress.org/releases/version-4-3-0/
-
-= 4.2.0 =
-See: https://codex.buddypress.org/releases/version-4-2-0/
-
-= 4.1.0 =
-See: https://codex.buddypress.org/releases/version-4-1-0/
-
-= 4.0.0 =
-See: https://codex.buddypress.org/releases/version-4-0-0/
