@@ -983,7 +983,12 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
  * @param bool   $single      Optional. If true, return only the first value of the
  *                            specified meta_key. This parameter has no effect if meta_key is not
  *                            specified. Default: true.
- * @return mixed Meta value if found. False on failure.
+ * @return mixed An array of values if `$single` is false.
+ *               The value of the meta field if `$single` is true.
+ *               False for an invalid `$object_type` (one of `group`, `field`, `data`).
+ *               False for an invalid `$object_id` (non-numeric, zero, or negative value),
+ *               or if `$meta_type` is not specified.
+ *               An empty string if a valid but non-existing object ID is passed.
  */
 function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single = true ) {
 	// Sanitize object type.
