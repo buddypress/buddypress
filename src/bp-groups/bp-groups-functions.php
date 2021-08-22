@@ -69,6 +69,62 @@ function groups_get_group( $group_id ) {
 	return apply_filters( 'groups_get_group', $group );
 }
 
+/**
+ * Retrieve group by a given field.
+ *
+ * @since 10.0.0
+ *
+ * @param string     $field (Required) The field to use to retrieve the group.
+ *                          Possible values are `'id'` or `'slug'`.
+ * @param string|int $value (Required) A value for the $field. A Group ID or slug.
+ * @return BP_Groups_Group|false The Group object if found, false otherwise.
+ */
+function bp_get_group_by( $field, $value ) {
+	$group_id = $value;
+
+	if ( 'slug' === $field && is_string( $value ) ) {
+		$group_id = groups_get_id( $value );
+	}
+
+	$group = groups_get_group( array( 'group_id' => (int) $group_id ) );
+
+	if ( empty( $group->id ) ) {
+		return false;
+	}
+
+	return $group;
+}
+
+/**
+ * Retrieve a Group.
+ *
+ * When used into the context of a Groups loop built by the `BP_Groups_Template` class, it defaults to the
+ * Group being iterated on.
+ *
+ * @since 10.0.0
+ *
+ * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+ *                                                Default: false.
+ * @return BP_Groups_Group|false                  The Group object if found, false otherwise.
+ */
+function bp_get_group( $group = false ) {
+	global $groups_template;
+
+	$group_obj = false;
+
+	if ( $group instanceof BP_Groups_Group ) {
+		$group_obj = $group;
+	} elseif ( is_string( $group ) ) {
+		$group_obj = bp_get_group_by( 'slug', $group );
+	} elseif ( is_numeric( $group ) ) {
+		$group_obj = bp_get_group_by( 'id', $group );
+	} elseif ( isset( $groups_template->group ) && is_object( $groups_template->group ) ) {
+		$group_obj = $groups_template->group;
+	}
+
+	return $group_obj;
+}
+
 /** Group Creation, Editing & Deletion ****************************************/
 
 /**

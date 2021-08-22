@@ -2,8 +2,9 @@
 
 /**
  * @group groups
+ * @group template
  */
-class BP_Tests_Groups_Template_BpGroupStatusMessage extends BP_UnitTestCase {
+class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 	private $current_user;
 	private $groups_template = null;
 
