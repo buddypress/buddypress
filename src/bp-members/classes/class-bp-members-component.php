@@ -155,6 +155,71 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
+	 * Set up additional globals for the component.
+	 *
+	 * @since 10.0.0
+	 */
+	public function setup_additional_globals() {
+		$bp = buddypress();
+
+		/** Logged in user ***************************************************
+		 */
+
+		// The core userdata of the user who is currently logged in.
+		$bp->loggedin_user->userdata = bp_core_get_core_userdata( bp_loggedin_user_id() );
+
+		// Fetch the full name for the logged in user.
+		$bp->loggedin_user->fullname = isset( $bp->loggedin_user->userdata->display_name ) ? $bp->loggedin_user->userdata->display_name : '';
+
+		// Hits the DB on single WP installs so get this separately.
+		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin( bp_loggedin_user_id() );
+
+		// The domain for the user currently logged in. eg: http://example.com/members/andy.
+		$bp->loggedin_user->domain = bp_core_get_user_domain( bp_loggedin_user_id() );
+
+		/** Displayed user ***************************************************
+		 */
+
+		// The core userdata of the user who is currently being displayed.
+		$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
+
+		// Fetch the full name displayed user.
+		$bp->displayed_user->fullname = isset( $bp->displayed_user->userdata->display_name ) ? $bp->displayed_user->userdata->display_name : '';
+
+		// The domain for the user currently being displayed.
+		$bp->displayed_user->domain = bp_core_get_user_domain( bp_displayed_user_id() );
+
+		// If A user is displayed, check if there is a front template
+		if ( bp_get_displayed_user() ) {
+			$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
+		}
+
+		/** Initialize the nav for the members component *********************
+		 */
+
+		$this->nav = new BP_Core_Nav();
+
+		/** Signup ***********************************************************
+		 */
+
+		$bp->signup = new stdClass;
+
+		/** Profiles Fallback ************************************************
+		 */
+
+		if ( ! bp_is_active( 'xprofile' ) ) {
+			$bp->profile       = new stdClass;
+			$bp->profile->slug = 'profile';
+			$bp->profile->id   = 'profile';
+		}
+
+		/** Network Invitations **************************************************
+		 */
+
+		$bp->members->invitations = new stdClass;
+	}
+
+	/**
 	 * Set up bp-members global settings.
 	 *
 	 * The BP_MEMBERS_SLUG constant is deprecated, and only used here for
@@ -212,59 +277,8 @@ class BP_Members_Component extends BP_Component {
 
 		parent::setup_globals( $args );
 
-		/** Logged in user ***************************************************
-		 */
-
-		// The core userdata of the user who is currently logged in.
-		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( bp_loggedin_user_id() );
-
-		// Fetch the full name for the logged in user.
-		$bp->loggedin_user->fullname       = isset( $bp->loggedin_user->userdata->display_name ) ? $bp->loggedin_user->userdata->display_name : '';
-
-		// Hits the DB on single WP installs so get this separately.
-		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin( bp_loggedin_user_id() );
-
-		// The domain for the user currently logged in. eg: http://example.com/members/andy.
-		$bp->loggedin_user->domain         = bp_core_get_user_domain( bp_loggedin_user_id() );
-
-		/** Displayed user ***************************************************
-		 */
-
-		// The core userdata of the user who is currently being displayed.
-		$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
-
-		// Fetch the full name displayed user.
-		$bp->displayed_user->fullname = isset( $bp->displayed_user->userdata->display_name ) ? $bp->displayed_user->userdata->display_name : '';
-
-		// The domain for the user currently being displayed.
-		$bp->displayed_user->domain   = bp_core_get_user_domain( bp_displayed_user_id() );
-
-		// Initialize the nav for the members component.
-		$this->nav = new BP_Core_Nav();
-
-		// If A user is displayed, check if there is a front template
-		if ( bp_get_displayed_user() ) {
-			$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
-		}
-
-		/** Signup ***********************************************************
-		 */
-
-		$bp->signup = new stdClass;
-
-		/** Profiles Fallback ************************************************
-		 */
-
-		if ( ! bp_is_active( 'xprofile' ) ) {
-			$bp->profile       = new stdClass;
-			$bp->profile->slug = 'profile';
-			$bp->profile->id   = 'profile';
-		}
-
-		/** Network Invitations **************************************************
-		 */
-
-		$bp->members->invitations = new stdClass;
+		// Additional globals.
+		$this->setup_additional_globals();
 	}
 
 	/**

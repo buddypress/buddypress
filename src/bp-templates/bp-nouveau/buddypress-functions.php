@@ -3,7 +3,7 @@
  * Functions of BuddyPress's "Nouveau" template pack.
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 10.0.0
  *
  * @buddypress-template-pack {
  *   Template Pack ID:       nouveau
@@ -75,7 +75,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		}
 
 		$this->includes_dir  = trailingslashit( $this->dir ) . 'includes/';
-		$this->directory_nav = new BP_Core_Nav();
+		$this->directory_nav = new BP_Core_Nav( bp_get_root_blog_id() );
 	}
 
 	/**
