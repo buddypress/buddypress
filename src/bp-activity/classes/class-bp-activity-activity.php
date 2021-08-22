@@ -383,13 +383,13 @@ class BP_Activity_Activity {
 		$function_args = func_get_args();
 
 		// Backward compatibility with old method of passing arguments.
-		if ( !is_array( $args ) || count( $function_args ) > 1 ) {
+		if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
 			_deprecated_argument(
 				__METHOD__,
 				'1.6',
 				sprintf(
 					/* translators: 1: the name of the method. 2: the name of the file. */
-					__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
 					__METHOD__,
 					__FILE__
 				)
@@ -1155,7 +1155,12 @@ class BP_Activity_Activity {
 	 * @return array
 	 */
 	public static function get_specific( $activity_ids, $max = false, $page = 1, $per_page = 25, $sort = 'DESC', $display_comments = false ) {
-		_deprecated_function( __FUNCTION__, '1.5', 'Use BP_Activity_Activity::get() with the "in" parameter instead.' );
+		_deprecated_function(
+			__FUNCTION__,
+			'1.5',
+			'Use BP_Activity_Activity::get() with the "in" parameter instead.'
+		);
+
 		return BP_Activity_Activity::get( $max, $page, $per_page, $sort, false, false, $display_comments, false, false, $activity_ids );
 	}
 

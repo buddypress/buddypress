@@ -97,15 +97,30 @@ class BP_Friends_Friendship {
 	 * Constructor method.
 	 *
 	 * @since 1.5.0
+	 * @since 10.0.0 Updated to add deprecated notice for `$is_request`.
 	 *
 	 * @param int|null $id                      Optional. The ID of an existing friendship.
 	 * @param bool     $is_request              Deprecated.
-	 * @param bool     $populate_friend_details True if friend details should be queried.
+	 * @param bool     $populate_friend_details Optional. True if friend details should be queried.
 	 */
 	public function __construct( $id = null, $is_request = false, $populate_friend_details = true ) {
+
+		if ( false !== $is_request ) {
+			_deprecated_argument(
+				__METHOD__,
+				'1.5.0',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( '%1$s no longer accepts $is_request. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
+		}
+
 		$this->is_request = $is_request;
 
-		if ( !empty( $id ) ) {
+		if ( ! empty( $id ) ) {
 			$this->id                      = (int) $id;
 			$this->populate_friend_details = $populate_friend_details;
 			$this->populate( $this->id );

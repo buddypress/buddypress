@@ -161,7 +161,7 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
 function friends_accept_friendship( $friendship_id ) {
 
 	// Get the friendship data.
-	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
+	$friendship = new BP_Friends_Friendship( $friendship_id, false, false );
 
 	// Accepting friendship.
 	if ( empty( $friendship->is_confirmed ) && BP_Friends_Friendship::accept( $friendship_id ) ) {
@@ -196,7 +196,7 @@ function friends_accept_friendship( $friendship_id ) {
  * @return bool True on success, false on failure.
  */
 function friends_reject_friendship( $friendship_id ) {
-	$friendship = new BP_Friends_Friendship( $friendship_id, true, false );
+	$friendship = new BP_Friends_Friendship( $friendship_id, false, false );
 
 	if ( empty( $friendship->is_confirmed ) && BP_Friends_Friendship::reject( $friendship_id ) ) {
 
@@ -227,7 +227,7 @@ function friends_reject_friendship( $friendship_id ) {
  */
 function friends_withdraw_friendship( $initiator_userid, $friend_userid ) {
 	$friendship_id = BP_Friends_Friendship::get_friendship_id( $initiator_userid, $friend_userid );
-	$friendship    = new BP_Friends_Friendship( $friendship_id, true, false );
+	$friendship    = new BP_Friends_Friendship( $friendship_id, false, false );
 
 	if ( empty( $friendship->is_confirmed ) && BP_Friends_Friendship::withdraw( $friendship_id ) ) {
 

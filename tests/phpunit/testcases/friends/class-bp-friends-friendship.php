@@ -4,6 +4,26 @@
  * @group friends
  */
 class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
+
+	/** __construct()  ***************************************************/
+
+	/**
+	 * @group __construct
+	 */
+	public function test_non_existent_friendship() {
+		$friendship = new BP_Friends_Friendship( 123456789 );
+		$this->assertSame( 0, $friendship->id );
+	}
+
+	/**
+	 * @group __construct
+	 * @expectedDeprecated BP_Friends_Friendship::__construct
+	 */
+	public function test_deprecated_arg() {
+		$friendship = new BP_Friends_Friendship( 123456789, true );
+		$this->assertSame( 0, $friendship->id );
+	}
+
 	public function test_search_friends() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();

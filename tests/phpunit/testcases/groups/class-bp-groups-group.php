@@ -15,7 +15,64 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$this->assertSame( 0, $group->id );
 	}
 
+	/**
+	 * @group __construct
+	 * @expectedDeprecated BP_Groups_Group::__construct
+	 */
+	public function test_deprecated_arg() {
+		$group = new BP_Groups_Group( 123456789, array( 'populate_extras' => true ) );
+		$this->assertSame( 0, $group->id );
+	}
+
 	/** get() ************************************************************/
+
+	/**
+	 * @group get
+	 */
+	public function test_get_group_id_with_slug() {
+		$slug     = 'group-test';
+		$g1       = self::factory()->group->create( array( 'slug' => $slug ) );
+		$group_id = BP_Groups_Group::group_exists( $slug );
+
+		$this->assertSame( $g1, $group_id );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_group_id_with_empty_slug() {
+		$this->assertFalse( BP_Groups_Group::group_exists( '' ) );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_group_id_from_slug_with_empty_slug() {
+		$this->assertFalse( BP_Groups_Group::get_id_from_slug( '' ) );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_group_id_from_slug() {
+		$slug     = 'group-test';
+		$g1       = self::factory()->group->create( array( 'slug' => $slug ) );
+		$group_id = BP_Groups_Group::get_id_from_slug( $slug );
+
+		$this->assertSame( $g1, $group_id );
+	}
+
+	/**
+	 * @group get
+	 * @expectedDeprecated BP_Groups_Group::group_exists
+	 */
+	public function test_get_group_with_slug_with_deprecated_args() {
+		$slug     = 'group-test';
+		$g1       = self::factory()->group->create( array( 'slug' => $slug ) );
+		$group_id = BP_Groups_Group::group_exists( $slug, 'random-name' );
+
+		$this->assertSame( $g1, $group_id );
+	}
 
 	/**
 	 * @group get
@@ -1143,28 +1200,41 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::search_groups( "'tis " );
-
-		$found = wp_list_pluck( $groups['groups'], 'group_id' );
+		$found  = wp_list_pluck( $groups['groups'], 'group_id' );
 
 		$this->assertEquals( array( $g1 ), $found );
+		$this->assertNotContains( $g2, $found );
+	}
+
+	/**
+	 * @expectedDeprecated BP_Groups_Group::get_by_letter
+	 */
+	public function test_get_by_letter_with_deprecated_arg() {
+		$g1 = self::factory()->group->create( array(
+			'name'        => 'Awesome Cool Group',
+			'description' => 'Neat',
+		) );
+		$g2 = self::factory()->group->create();
+
+		$groups = BP_Groups_Group::get_by_letter( 'A', null, null, false );
+		$found  = wp_list_pluck( $groups['groups'], 'id' );
+
+		$this->assertEquals( array( $g1 ), $found );
+		$this->assertNotContains( $g2, $found );
 	}
 
 	public function test_get_by_letter_typical_use() {
 		$g1 = self::factory()->group->create( array(
-			'name' => 'Awesome Cool Group',
+			'name'        => 'Awesome Cool Group',
 			'description' => 'Neat',
 		) );
-		$g2 = self::factory()->group->create( array(
-			'name' => 'Babylon Kong',
-			'description' => 'Awesome',
-		) );
+		$g2 = self::factory()->group->create();
 
 		$groups = BP_Groups_Group::get_by_letter( 'A' );
-
-		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$found  = wp_list_pluck( $groups['groups'], 'id' );
 
 		$this->assertEquals( array( $g1 ), $found );
-
+		$this->assertNotContains( $g2, $found );
 	}
 
 	public function test_get_by_letter_with_exclude() {
@@ -1178,8 +1248,7 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		) );
 
 		$groups = BP_Groups_Group::get_by_letter( 'A', null, null, true, array( $g1, 'stringthatshouldberemoved' ) );
-
-		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$found  = wp_list_pluck( $groups['groups'], 'id' );
 
 		$this->assertEquals( array( $g2 ), $found );
 
@@ -1209,6 +1278,20 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		);
 	}
 
+	/**
+	 * @expectedDeprecated BP_Groups_Group::get_random
+	 */
+	public function test_get_random_with_deprecated_arg() {
+		$g1 = self::factory()->group->create();
+		$g2 = self::factory()->group->create();
+
+		// There are only two groups, so excluding one should give us the other
+		$groups = BP_Groups_Group::get_random( null, null, 0, false, false, array( $g1, 'ignore this' ) );
+		$found  = wp_list_pluck( $groups['groups'], 'id' );
+
+		$this->assertEquals( array( $g2 ), $found );
+	}
+
 	public function test_get_random_with_exclude() {
 		$g1 = self::factory()->group->create();
 		$g2 = self::factory()->group->create();
@@ -1231,10 +1314,10 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		// Only one group will match, so the random part doesn't matter
 		$groups = BP_Groups_Group::get_random( null, null, 0, 'daci' );
-
-		$found = wp_list_pluck( $groups['groups'], 'id' );
+		$found  = wp_list_pluck( $groups['groups'], 'id' );
 
 		$this->assertEquals( array( $g1 ), $found );
+		$this->assertNotContains( $g2, $found );
 	}
 
 	/**

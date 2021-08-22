@@ -179,6 +179,8 @@ class BP_Groups_Group {
 	/**
 	 * Raw arguments passed to the constructor.
 	 *
+	 * Not currently used by BuddyPress.
+	 *
 	 * @since 2.0.0
 	 * @var array
 	 */
@@ -197,7 +199,22 @@ class BP_Groups_Group {
 	 * }
 	 */
 	public function __construct( $id = null, $args = array() ) {
-		if ( !empty( $id ) ) {
+
+		// Deprecated notice about $args.
+		if ( ! empty( $args ) ) {
+			_deprecated_argument(
+				__METHOD__,
+				'1.6.0',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
+		}
+
+		if ( ! empty( $id ) ) {
 			$this->id = (int) $id;
 			$this->populate();
 		}
@@ -671,27 +688,40 @@ class BP_Groups_Group {
 	 * Get whether a group exists for a given slug.
 	 *
 	 * @since 1.6.0
+	 * @since 10.0.0 Updated to add the deprecated notice.
 	 *
 	 * @param string      $slug       Slug to check.
 	 * @param string|bool $table_name Deprecated.
-	 * @return int|null Group ID if found; null if not.
+	 * @return int|null|bool False if empty slug, group ID if found; `null` if not.
 	 */
 	public static function group_exists( $slug, $table_name = false ) {
-		global $wpdb;
+
+		if ( false !== $table_name ) {
+			_deprecated_argument(
+				__METHOD__,
+				'1.6.0',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( '%1$s no longer accepts a table name argument. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
+		}
 
 		if ( empty( $slug ) ) {
 			return false;
 		}
 
-		$args = array(
-			'slug'               => $slug,
-			'per_page'           => 1,
-			'page'               => 1,
-			'update_meta_cache'  => false,
-			'show_hidden'        => true,
+		$groups = self::get(
+			array(
+				'slug'              => $slug,
+				'per_page'          => 1,
+				'page'              => 1,
+				'update_meta_cache' => false,
+				'show_hidden'       => true,
+			)
 		);
-
-		$groups = BP_Groups_Group::get( $args );
 
 		$group_id = null;
 		if ( $groups['groups'] ) {
@@ -709,10 +739,10 @@ class BP_Groups_Group {
 	 * @since 1.6.0
 	 *
 	 * @param string $slug See {@link BP_Groups_Group::group_exists()}.
-	 * @return int|null See {@link BP_Groups_Group::group_exists()}.
+	 * @return int|null|bool See {@link BP_Groups_Group::group_exists()}.
 	 */
 	public static function get_id_from_slug( $slug ) {
-		return BP_Groups_Group::group_exists( $slug );
+		return self::group_exists( $slug );
 	}
 
 	/**
@@ -1055,7 +1085,16 @@ class BP_Groups_Group {
 
 		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
-			_deprecated_argument( __METHOD__, '1.7', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+			_deprecated_argument(
+				__METHOD__,
+				'1.7',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
 
 			$old_args_keys = array(
 				0 => 'type',
@@ -1536,9 +1575,19 @@ class BP_Groups_Group {
 	 * }
 	 */
 	public static function get_by_letter( $letter, $limit = null, $page = null, $populate_extras = true, $exclude = false ) {
-		global $wpdb;
 
-		$pag_sql = $hidden_sql = $exclude_sql = '';
+		if ( true !== $populate_extras ) {
+			_deprecated_argument(
+				__METHOD__,
+				'1.6.0',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( '%1$s no longer accepts setting $populate_extras. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
+		}
 
 		// Multibyte compliance.
 		if ( function_exists( 'mb_strlen' ) ) {
@@ -1551,15 +1600,15 @@ class BP_Groups_Group {
 			}
 		}
 
-		$args = array(
-			'per_page'       => $limit,
-			'page'           => $page,
-			'search_terms'   => $letter . '*',
-			'search_columns' => array( 'name' ),
-			'exclude'        => $exclude,
+		return self::get(
+			array(
+				'per_page'       => $limit,
+				'page'           => $page,
+				'search_terms'   => $letter . '*',
+				'search_columns' => array( 'name' ),
+				'exclude'        => $exclude,
+			)
 		);
-
-		return BP_Groups_Group::get( $args );
 	}
 
 	/**
@@ -1568,6 +1617,7 @@ class BP_Groups_Group {
 	 * Use BP_Groups_Group::get() with 'type' = 'random' instead.
 	 *
 	 * @since 1.6.0
+	 * @since 10.0.0 Deprecate the `$populate_extras` arg.
 	 *
 	 * @param int|null          $limit           Optional. The max number of results to return.
 	 *                                           Default: null (no limit).
@@ -1577,8 +1627,7 @@ class BP_Groups_Group {
 	 *                                           those of which the specified user is a member.
 	 * @param string|bool       $search_terms    Optional. Limit groups to those whose name
 	 *                                           or description field contain the search string.
-	 * @param bool              $populate_extras Optional. Whether to fetch extra
-	 *                                           information about the groups. Default: true.
+	 * @param bool              $populate_extras Deprecated.
 	 * @param string|array|bool $exclude         Optional. Array or comma-separated list of group
 	 *                                           IDs to exclude from results.
 	 * @return array {
@@ -1589,16 +1638,30 @@ class BP_Groups_Group {
 	 * }
 	 */
 	public static function get_random( $limit = null, $page = null, $user_id = 0, $search_terms = false, $populate_extras = true, $exclude = false ) {
-		$args = array(
-			'type'               => 'random',
-			'per_page'           => $limit,
-			'page'               => $page,
-			'user_id'            => $user_id,
-			'search_terms'       => $search_terms,
-			'exclude'            => $exclude,
-		);
 
-		return BP_Groups_Group::get( $args );
+		if ( true !== $populate_extras ) {
+			_deprecated_argument(
+				__METHOD__,
+				'10.0.0',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( '%1$s no longer accepts setting $populate_extras. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
+		}
+
+		return self::get(
+			array(
+				'type'         => 'random',
+				'per_page'     => $limit,
+				'page'         => $page,
+				'user_id'      => $user_id,
+				'search_terms' => $search_terms,
+				'exclude'      => $exclude,
+			)
+		);
 	}
 
 	/**
