@@ -3,6 +3,7 @@
  * Functions of BuddyPress's "Nouveau" template pack.
  *
  * @since 3.0.0
+ * @package BuddyPress
  * @version 10.0.0
  *
  * @buddypress-template-pack {
@@ -32,8 +33,11 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  */
 class BP_Nouveau extends BP_Theme_Compat {
+
 	/**
 	 * Instance of this class.
+	 *
+	 * @var BP_Nouveau|null
 	 */
 	protected static $instance = null;
 
@@ -41,6 +45,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * Return the instance of this class.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @return BP_Nouveau
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {
@@ -133,8 +139,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * @since 3.0.0
 	 */
 	protected function setup_support() {
-		$width         = 1300;
-		$top_offset    = 150;
+		$width      = 1300;
+		$top_offset = 150;
 
 		/** This filter is documented in bp-core/bp-core-avatars.php. */
 		$avatar_height = apply_filters( 'bp_core_avatar_full_height', $top_offset );
@@ -338,14 +344,17 @@ class BP_Nouveau extends BP_Theme_Compat {
 		 *
 		 * @param array $value Array of scripts to register.
 		 */
-		$scripts = apply_filters( 'bp_nouveau_register_scripts', array(
-			'bp-nouveau' => array(
-				'file'         => 'js/buddypress-nouveau%s.js',
-				'dependencies' => $dependencies,
-				'version'      => $this->version,
-				'footer'       => true,
-			),
-		) );
+		$scripts = apply_filters(
+			'bp_nouveau_register_scripts',
+			array(
+				'bp-nouveau' => array(
+					'file'         => 'js/buddypress-nouveau%s.js',
+					'dependencies' => $dependencies,
+					'version'      => $this->version,
+					'footer'       => true,
+				),
+			)
+		);
 
 		// Bail if no scripts.
 		if ( empty( $scripts ) ) {
@@ -653,8 +662,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param  string $path the BP Uri.
-	 * @return string       the BP Uri.
+	 * @param  string $path The BP Uri.
+	 * @return string       The BP Uri.
 	 */
 	public function customizer_set_uri( $path ) {
 		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
@@ -679,6 +688,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 
 		return $path;
 	}
+
 	/**
 	 * Modify "registration disabled" message in Nouveau template pack.
 	 * Modify welcome message in Nouveau template pack.
@@ -689,7 +699,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @return array $messages
 	 */
-	function filter_registration_messages( $messages ) {
+	public function filter_registration_messages( $messages ) {
 		// Change the "registration is disabled" message.
 		$disallowed_message = bp_members_invitations_get_modified_registration_disabled_message();
 		if ( $disallowed_message ) {
