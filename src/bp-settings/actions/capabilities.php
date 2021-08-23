@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings: Capabilities action handler
+ * Settings: Capabilities action handler.
  *
  * @package BuddyPress
  * @subpackage SettingsActions
@@ -8,7 +8,7 @@
  */
 
 /**
- * Handles the setting of user capabilities, spamming, hamming, role, etc...
+ * Handles the setting of user capabilities, spamming, hamming, role, etc.
  *
  * @since 1.6.0
  */
@@ -51,7 +51,7 @@ function bp_settings_action_capabilities() {
 
 	/* Spam **************************************************************/
 
-	$is_spammer = !empty( $_POST['user-spammer'] ) ? true : false;
+	$is_spammer = ! empty( $_POST['user-spammer'] ) ? true : false;
 
 	if ( bp_is_user_spammer( bp_displayed_user_id() ) != $is_spammer ) {
 		$status = ( true == $is_spammer ) ? 'spam' : 'ham';

@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings: Email notifications action handler
+ * Settings: Email notifications action handler.
  *
  * @package BuddyPress
  * @subpackage SettingsActions
@@ -11,6 +11,8 @@
  * Handles the changing and saving of user notification settings.
  *
  * @since 1.6.0
+ *
+ * @return bool|void
  */
 function bp_settings_action_notifications() {
 	if ( ! bp_is_post_request() ) {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings: User's "Settings > Export Data" screen handler
+ * Settings: User's "Settings > Export Data" screen handler.
  *
  * @package BuddyPress
  * @subpackage SettingsScreens
@@ -13,6 +13,7 @@
  * @since 4.0.0
  */
 function bp_settings_screen_data() {
+
 	if ( bp_action_variables() ) {
 		bp_do_404();
 		return;

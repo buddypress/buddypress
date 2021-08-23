@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings: Data management action handler
+ * Settings: Data management action handler.
  *
  * @package BuddyPress
  * @subpackage SettingsActions

@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings: Email address and password action handler
+ * Settings: Email address and password action handler.
  *
  * @package BuddyPress
  * @subpackage SettingsActions

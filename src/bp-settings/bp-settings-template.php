@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Output the settings component slug.
  *
  * @since 1.5.0
- *
  */
 function bp_settings_slug() {
 	echo bp_get_settings_slug();
@@ -42,7 +41,6 @@ function bp_settings_slug() {
  * Output the settings component root slug.
  *
  * @since 1.5.0
- *
  */
 function bp_settings_root_slug() {
 	echo bp_get_settings_root_slug();

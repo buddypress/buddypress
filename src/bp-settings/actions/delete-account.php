@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings: Account deletion action handler
+ * Settings: Account deletion action handler.
  *
  * @package BuddyPress
  * @subpackage SettingsActions

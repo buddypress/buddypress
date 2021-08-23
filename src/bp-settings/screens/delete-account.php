@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings: User's "Settings > Delete Account" screen handler
+ * Settings: User's "Settings > Delete Account" screen handler.
  *
  * @package BuddyPress
  * @subpackage SettingsScreens

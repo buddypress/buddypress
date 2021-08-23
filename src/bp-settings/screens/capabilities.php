@@ -1,6 +1,6 @@
 <?php
 /**
- * Settings: User's "Settings > Capabilities" screen handler
+ * Settings: User's "Settings > Capabilities" screen handler.
  *
  * @package BuddyPress
  * @subpackage SettingsScreens

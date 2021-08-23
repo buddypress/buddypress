@@ -1,8 +1,9 @@
 <?php
-
 /**
  * Filters related to the Settings component.
  *
+ * @package BuddyPress
+ * @subpackage SettingsFilters
  * @since 4.0.0
  */
 
@@ -15,7 +16,7 @@ add_filter( 'wp_privacy_personal_data_exporters', 'bp_settings_register_personal
  * @since 4.0.0
  * @since 5.0.0 adds an `exporter_bp_friendly_name` param to exporters.
  *
- * @param array $exporters  An array of personal data exporters.
+ * @param array $exporters An array of personal data exporters.
  * @return array An array of personal data exporters.
  */
 function bp_settings_register_personal_data_exporter( $exporters ) {

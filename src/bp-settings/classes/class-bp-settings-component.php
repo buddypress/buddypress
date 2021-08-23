@@ -28,7 +28,7 @@ class BP_Settings_Component extends BP_Component {
 			__( 'Settings', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
-				'adminbar_myaccount_order' => 100
+				'adminbar_myaccount_order' => 100,
 			)
 		);
 	}
@@ -298,8 +298,7 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @since 9.0.0
 	 *
-	 * @param array $blocks Optional. See BP_Component::blocks_init() for
-	 *                      description.
+	 * @param array $blocks Optional. See BP_Component::blocks_init() for the description.
 	 */
 	public function blocks_init( $blocks = array() ) {
 		parent::blocks_init( array() );
