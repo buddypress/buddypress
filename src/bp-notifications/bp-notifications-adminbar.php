@@ -34,10 +34,10 @@ function bp_notifications_toolbar_menu() {
 
 	// Add the top-level Notifications button.
 	$wp_admin_bar->add_node( array(
-		'parent'    => 'top-secondary',
-		'id'        => 'bp-notifications',
-		'title'     => $menu_title,
-		'href'      => $menu_link,
+		'parent' => 'top-secondary',
+		'id'     => 'bp-notifications',
+		'title'  => $menu_title,
+		'href'   => $menu_link,
 	) );
 
 	if ( ! empty( $notifications ) ) {
@@ -58,6 +58,6 @@ function bp_notifications_toolbar_menu() {
 		) );
 	}
 
-	return;
+	return true;
 }
 add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu', 90 );

@@ -7,7 +7,6 @@
  * @since 4.0.0
  */
 
-
 // Format numerical output.
 add_filter( 'bp_notifications_get_total_notification_count', 'bp_core_number_format' );
 

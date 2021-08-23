@@ -30,7 +30,7 @@ function bp_notifications_update_meta_cache( $notification_ids = false ) {
 		'cache_group'      => 'notification_meta',
 		'object_column'    => 'notification_id',
 		'meta_table'       => buddypress()->notifications->table_name_meta,
-		'cache_key_prefix' => 'bp_notifications_meta'
+		'cache_key_prefix' => 'bp_notifications_meta',
 	) );
 }
 
@@ -52,10 +52,10 @@ function bp_notifications_clear_all_for_user_cache( $user_id = 0 ) {
  *
  * @since 2.0.0
  *
- * @param BP_Notifications_Notification $n Notification object.
+ * @param BP_Notifications_Notification $notification Notification object.
  */
-function bp_notifications_clear_all_for_user_cache_after_save( BP_Notifications_Notification $n ) {
-	bp_notifications_clear_all_for_user_cache( $n->user_id );
+function bp_notifications_clear_all_for_user_cache_after_save( $notification ) {
+	bp_notifications_clear_all_for_user_cache( $notification->user_id );
 }
 add_action( 'bp_notification_after_save', 'bp_notifications_clear_all_for_user_cache_after_save' );
 

@@ -98,7 +98,9 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $args Array of arguments.
+	 * @see BP_Component::setup_globals() for a description of arguments.
+	 *
+	 * @param array $args See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
 
@@ -119,8 +121,12 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $main_nav Array of main nav items.
-	 * @param array $sub_nav  Array of sub nav items.
+	 * @see BP_Component::setup_nav() for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 *                        description.
+	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+	 *                        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
@@ -144,7 +150,7 @@ class BP_Settings_Component extends BP_Component {
 			'position'                => 100,
 			'show_for_displayed_user' => $access,
 			'screen_function'         => 'bp_settings_screen_general',
-			'default_subnav_slug'     => 'general'
+			'default_subnav_slug'     => 'general',
 		);
 
 		// Add General Settings nav item.
@@ -155,7 +161,7 @@ class BP_Settings_Component extends BP_Component {
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_settings_screen_general',
 			'position'        => 10,
-			'user_has_access' => $access
+			'user_has_access' => $access,
 		);
 
 		// Add Email nav item. Formerly called 'Notifications', we
@@ -167,7 +173,7 @@ class BP_Settings_Component extends BP_Component {
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_settings_screen_notification',
 			'position'        => 20,
-			'user_has_access' => $access
+			'user_has_access' => $access,
 		);
 
 		// Add Spam Account nav item.
@@ -179,7 +185,7 @@ class BP_Settings_Component extends BP_Component {
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_settings_screen_capabilities',
 				'position'        => 80,
-				'user_has_access' => ! bp_is_my_profile()
+				'user_has_access' => ! bp_is_my_profile(),
 			);
 		}
 
@@ -222,11 +228,15 @@ class BP_Settings_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up the Toolbar.
+	 * Set up the component entries in the WordPress Admin Bar.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $wp_admin_nav Array of Admin Bar items.
+	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
+	 *      parameter array.
+	 *
+	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar() for a
+	 *                            description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
@@ -241,7 +251,7 @@ class BP_Settings_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => __( 'Settings', 'buddypress' ),
-				'href'   => $settings_link
+				'href'   => $settings_link,
 			);
 
 			// General Account.
@@ -250,7 +260,7 @@ class BP_Settings_Component extends BP_Component {
 				'id'       => 'my-account-' . $this->id . '-general',
 				'title'    => __( 'General', 'buddypress' ),
 				'href'     => $settings_link,
-				'position' => 10
+				'position' => 10,
 			);
 
 			// Notifications - only add the tab when there is something to display there.
@@ -260,7 +270,7 @@ class BP_Settings_Component extends BP_Component {
 					'id'       => 'my-account-' . $this->id . '-notifications',
 					'title'    => __( 'Email', 'buddypress' ),
 					'href'     => trailingslashit( $settings_link . 'notifications' ),
-					'position' => 20
+					'position' => 20,
 				);
 			}
 
@@ -285,7 +295,7 @@ class BP_Settings_Component extends BP_Component {
 					'id'       => 'my-account-' . $this->id . '-delete-account',
 					'title'    => __( 'Delete Account', 'buddypress' ),
 					'href'     => trailingslashit( $settings_link . 'delete-account' ),
-					'position' => 90
+					'position' => 90,
 				);
 			}
 		}

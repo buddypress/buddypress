@@ -492,7 +492,6 @@ function bp_the_notification_time_since() {
 function bp_the_notification_description() {
 	echo bp_get_the_notification_description();
 }
-
 	/**
 	 * Get full-text description for a specific notification.
 	 *
@@ -525,8 +524,8 @@ function bp_the_notification_description() {
 		 * @since 1.9.0
 		 * @since 2.3.0 Added the `$notification` parameter.
 		 *
-		 * @param string $description  Full-text description for a specific notification.
-		 * @param object $notification Notification object.
+		 * @param string                        $description  Full-text description for a specific notification.
+		 * @param BP_Notifications_Notification $notification Notification object.
 		 */
 		return apply_filters( 'bp_get_the_notification_description', $description, $notification );
 	}
@@ -599,7 +598,7 @@ function bp_the_notification_mark_read_url( $user_id = 0 ) {
 		// Get the args to add to the URL.
 		$args = array(
 			'action'          => 'read',
-			'notification_id' => $id
+			'notification_id' => $id,
 		);
 
 		// Set default user ID to use.
@@ -691,7 +690,7 @@ function bp_the_notification_mark_unread_url( $user_id = 0 ) {
 		// Get the args to add to the URL.
 		$args = array(
 			'action'          => 'unread',
-			'notification_id' => $id
+			'notification_id' => $id,
 		);
 
 		// Set default user ID to use.
@@ -834,7 +833,7 @@ function bp_the_notification_delete_url( $user_id = 0 ) {
 		// Get the args to add to the URL.
 		$args = array(
 			'action'          => 'delete',
-			'notification_id' => $id
+			'notification_id' => $id,
 		);
 
 		// Add the args.

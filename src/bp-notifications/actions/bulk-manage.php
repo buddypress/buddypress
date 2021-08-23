@@ -1,6 +1,6 @@
 <?php
 /**
- * Notifications: Bulk-manage action handler
+ * Notifications: Bulk-manage action handler.
  *
  * @package BuddyPress
  * @subpackage NotificationsActions
@@ -27,7 +27,7 @@ function bp_notifications_action_bulk_manage() {
 	$notifications = !empty( $_POST['notifications'] ) ? $_POST['notifications'] : '';
 
 	// Bail if no action or no IDs.
-	if ( ( ! in_array( $action, array( 'delete', 'read', 'unread' ) ) ) || empty( $notifications ) || empty( $nonce ) ) {
+	if ( ( ! in_array( $action, array( 'delete', 'read', 'unread' ), true ) ) || empty( $notifications ) || empty( $nonce ) ) {
 		return false;
 	}
 
@@ -41,26 +41,26 @@ function bp_notifications_action_bulk_manage() {
 
 	// Delete, mark as read or unread depending on the user 'action'.
 	switch ( $action ) {
-		case 'delete' :
+		case 'delete':
 			foreach ( $notifications as $notification ) {
 				bp_notifications_delete_notification( $notification );
 			}
 			bp_core_add_message( __( 'Notifications deleted.', 'buddypress' ) );
-		break;
+			break;
 
-		case 'read' :
+		case 'read':
 			foreach ( $notifications as $notification ) {
 				bp_notifications_mark_notification( $notification, false );
 			}
 			bp_core_add_message( __( 'Notifications marked as read', 'buddypress' ) );
-		break;
+			break;
 
-		case 'unread' :
+		case 'unread':
 			foreach ( $notifications as $notification ) {
 				bp_notifications_mark_notification( $notification, true );
 			}
 			bp_core_add_message( __( 'Notifications marked as unread.', 'buddypress' ) );
-		break;
+			break;
 	}
 
 	// URL to redirect to.

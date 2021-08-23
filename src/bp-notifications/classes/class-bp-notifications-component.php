@@ -28,7 +28,7 @@ class BP_Notifications_Component extends BP_Component {
 			_x( 'Notifications', 'Page <title>', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
-				'adminbar_myaccount_order' => 30
+				'adminbar_myaccount_order' => 30,
 			)
 		);
 	}
@@ -121,7 +121,7 @@ class BP_Notifications_Component extends BP_Component {
 			'has_directory' => false,
 			'search_string' => __( 'Search Notifications...', 'buddypress' ),
 			'global_tables' => $global_tables,
-			'meta_tables'   => $meta_tables
+			'meta_tables'   => $meta_tables,
 		);
 
 		parent::setup_globals( $args );
@@ -249,7 +249,7 @@ class BP_Notifications_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => $notifications_link
+				'href'   => $notifications_link,
 			);
 
 			// Unread.
@@ -258,7 +258,7 @@ class BP_Notifications_Component extends BP_Component {
 				'id'       => 'my-account-' . $this->id . '-unread',
 				'title'    => $unread,
 				'href'     => $notifications_link,
-				'position' => 10
+				'position' => 10,
 			);
 
 			// Read.
@@ -267,7 +267,7 @@ class BP_Notifications_Component extends BP_Component {
 				'id'       => 'my-account-' . $this->id . '-read',
 				'title'    => _x( 'Read', 'My Account Notification sub nav', 'buddypress' ),
 				'href'     => trailingslashit( $notifications_link . 'read' ),
-				'position' => 20
+				'position' => 20,
 			);
 		}
 
@@ -288,12 +288,12 @@ class BP_Notifications_Component extends BP_Component {
 			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = __( 'Notifications', 'buddypress' );
 			} else {
+				$bp->bp_options_title  = bp_get_displayed_user_fullname();
 				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
 					'item_id' => bp_displayed_user_id(),
 					'type'    => 'thumb',
 					'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
 				) );
-				$bp->bp_options_title = bp_get_displayed_user_fullname();
 			}
 		}
 

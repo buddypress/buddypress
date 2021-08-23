@@ -1,6 +1,6 @@
 <?php
 /**
- * Notifications: Delete action handler
+ * Notifications: Delete action handler.
  *
  * @package BuddyPress
  * @subpackage NotificationsActions
@@ -22,9 +22,9 @@ function bp_notifications_action_delete() {
 	}
 
 	// Get the action.
-	$action = !empty( $_GET['action']          ) ? $_GET['action']          : '';
-	$nonce  = !empty( $_GET['_wpnonce']        ) ? $_GET['_wpnonce']        : '';
-	$id     = !empty( $_GET['notification_id'] ) ? $_GET['notification_id'] : '';
+	$action = ! empty( $_GET['action']          ) ? $_GET['action']          : '';
+	$nonce  = ! empty( $_GET['_wpnonce']        ) ? $_GET['_wpnonce']        : '';
+	$id     = ! empty( $_GET['notification_id'] ) ? $_GET['notification_id'] : '';
 
 	// Bail if no action or no ID.
 	if ( ( 'delete' !== $action ) || empty( $id ) || empty( $nonce ) ) {
@@ -33,7 +33,7 @@ function bp_notifications_action_delete() {
 
 	// Check the nonce and delete the notification.
 	if ( bp_verify_nonce_request( 'bp_notification_delete_' . $id ) && bp_notifications_delete_notification( $id ) ) {
-		bp_core_add_message( __( 'Notification successfully deleted.',              'buddypress' )          );
+		bp_core_add_message( __( 'Notification successfully deleted.', 'buddypress' ) );
 	} else {
 		bp_core_add_message( __( 'There was a problem deleting that notification.', 'buddypress' ), 'error' );
 	}
