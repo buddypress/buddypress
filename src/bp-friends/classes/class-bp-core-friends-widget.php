@@ -3,7 +3,7 @@
  * BuddyPress Friends Widget.
  *
  * @package BuddyPress
- * @subpackage Friends
+ * @subpackage FriendsWidget
  * @since 1.9.0
  */
 
@@ -23,7 +23,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 * @since 1.9.0
 	 * @since 9.0.0 Adds the `show_instance_in_rest` property to Widget options.
 	 */
-	function __construct() {
+	public function __construct() {
 		$widget_ops = array(
 			'description'                 => __( 'A dynamic list of recently active, popular, and newest Friends of the displayed member. Widget is only shown when viewing a member profile.', 'buddypress' ),
 			'classname'                   => 'widget_bp_core_friends_widget buddypress widget',
@@ -52,10 +52,12 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 *
 	 * @since 1.9.0
 	 *
+	 * @global object $members_template
+	 *
 	 * @param array $args Widget arguments.
 	 * @param array $instance The widget settings, as saved by the user.
 	 */
-	function widget( $args, $instance ) {
+	public function widget( $args, $instance ) {
 		global $members_template;
 
 		extract( $args );
@@ -64,8 +66,8 @@ class BP_Core_Friends_Widget extends WP_Widget {
 			return;
 		}
 
-		$user_id = bp_displayed_user_id();
-		$link = trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() );
+		$user_id           = bp_displayed_user_id();
+		$link              = trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() );
 		$instance['title'] = sprintf( __( "%s's Friends", 'buddypress' ), bp_get_displayed_user_fullname() );
 
 		if ( empty( $instance['friend_default'] ) ) {
@@ -158,7 +160,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 * @param array $old_instance The parameters as previously saved to the database.
 	 * @return array $instance The processed settings to save.
 	 */
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 
 		$instance['max_friends']    = absint( $new_instance['max_friends'] );
@@ -174,34 +176,32 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 * @since 1.9.0
 	 *
 	 * @param array $instance The saved widget settings.
-	 * @return void
 	 */
-	function form( $instance ) {
+	public function form( $instance ) {
 		$defaults = array(
-			'max_friends' 	 => 5,
+			'max_friends'    => 5,
 			'friend_default' => 'active',
-			'link_title' 	 => false
+			'link_title'     => false,
 		);
-		$instance = wp_parse_args( (array) $instance, $defaults );
 
-		$max_friends 	= $instance['max_friends'];
+		$instance       = wp_parse_args( (array) $instance, $defaults );
+		$max_friends    = $instance['max_friends'];
 		$friend_default = $instance['friend_default'];
-		$link_title	= (bool) $instance['link_title'];
+		$link_title     = (bool) $instance['link_title'];
 		?>
 
 		<p><label for="<?php echo $this->get_field_id( 'link_title' ); ?>"><input type="checkbox" name="<?php echo $this->get_field_name('link_title'); ?>" id="<?php echo $this->get_field_id( 'link_title' ); ?>" value="1" <?php checked( $link_title ); ?> /> <?php _e( 'Link widget title to Members directory', 'buddypress' ); ?></label></p>
 
-		<p><label for="<?php echo $this->get_field_id( 'max_friends' ); ?>"><?php _e( 'Max friends to show:', 'buddypress' ); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_friends' ); ?>" name="<?php echo $this->get_field_name( 'max_friends' ); ?>" type="text" value="<?php echo absint( $max_friends ); ?>" style="width: 30%" /></label></p>
+		<p><label for="<?php echo $this->get_field_id( 'max_friends' ); ?>"><?php esc_html_e( 'Max friends to show:', 'buddypress' ); ?> <input class="widefat" id="<?php echo $this->get_field_id( 'max_friends' ); ?>" name="<?php echo $this->get_field_name( 'max_friends' ); ?>" type="text" value="<?php echo absint( $max_friends ); ?>" style="width: 30%" /></label></p>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'friend_default' ) ?>"><?php _e( 'Default friends to show:', 'buddypress' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'friend_default' ) ?>"><?php esc_html_e( 'Default friends to show:', 'buddypress' ); ?></label>
 			<select name="<?php echo $this->get_field_name( 'friend_default' ); ?>" id="<?php echo $this->get_field_id( 'friend_default' ); ?>">
-				<option value="newest" <?php selected( $friend_default, 'newest' ); ?>><?php _e( 'Newest', 'buddypress' ); ?></option>
-				<option value="active" <?php selected( $friend_default, 'active' );?>><?php _e( 'Active', 'buddypress' ); ?></option>
-				<option value="popular"  <?php selected( $friend_default, 'popular' ); ?>><?php _e( 'Popular', 'buddypress' ); ?></option>
+				<option value="newest" <?php selected( $friend_default, 'newest' ); ?>><?php esc_html_e( 'Newest', 'buddypress' ); ?></option>
+				<option value="active" <?php selected( $friend_default, 'active' ); ?>><?php esc_html_e( 'Active', 'buddypress' ); ?></option>
+				<option value="popular"  <?php selected( $friend_default, 'popular' ); ?>><?php esc_html_e( 'Popular', 'buddypress' ); ?></option>
 			</select>
 		</p>
-
 	<?php
 	}
 }

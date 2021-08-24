@@ -3,7 +3,7 @@
  * BuddyPress Friends Widgets.
  *
  * @package BuddyPress
- * @subpackage Friends
+ * @subpackage FriendsWidgets
  * @since 1.9.0
  */
 
@@ -27,7 +27,12 @@ function bp_friends_register_widgets() {
 		return;
 	}
 
-	add_action( 'widgets_init', function() { register_widget( 'BP_Core_Friends_Widget' ); } );
+	add_action(
+		'widgets_init',
+		function() {
+			register_widget( 'BP_Core_Friends_Widget' );
+		}
+	);
 }
 add_action( 'bp_register_widgets', 'bp_friends_register_widgets' );
 
@@ -86,7 +91,7 @@ function bp_core_ajax_widget_friends() {
 
 	<?php else: ?>
 		<?php echo "-1[[SPLIT]]<li>"; ?>
-		<?php _e( 'There were no members found, please try another filter.', 'buddypress' ); ?>
+		<?php esc_html_e( 'There were no members found, please try another filter.', 'buddypress' ); ?>
 		<?php echo "</li>"; ?>
 	<?php endif;
 }

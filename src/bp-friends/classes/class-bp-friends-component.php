@@ -5,7 +5,7 @@
  * The friends component is for users to create relationships with each other.
  *
  * @package BuddyPress
- * @subpackage Friends
+ * @subpackage FriendsComponent
  * @since 1.5.0
  */
 
@@ -30,7 +30,7 @@ class BP_Friends_Component extends BP_Component {
 			_x( 'Friend Connections', 'Friends screen page <title>', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
-				'adminbar_myaccount_order' => 60
+				'adminbar_myaccount_order' => 60,
 			)
 		);
 	}
@@ -103,6 +103,8 @@ class BP_Friends_Component extends BP_Component {
 	 * backwards compatibility.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
@@ -193,7 +195,7 @@ class BP_Friends_Component extends BP_Component {
 			'position'            => 60,
 			'screen_function'     => 'friends_screen_my_friends',
 			'default_subnav_slug' => 'my-friends',
-			'item_css_id'         => $this->id
+			'item_css_id'         => $this->id,
 		);
 
 		// Add the subnav items to the friends nav item.
@@ -204,7 +206,7 @@ class BP_Friends_Component extends BP_Component {
 			'parent_slug'     => $slug,
 			'screen_function' => 'friends_screen_my_friends',
 			'position'        => 10,
-			'item_css_id'     => 'friends-my-friends'
+			'item_css_id'     => 'friends-my-friends',
 		);
 
 		$sub_nav[] = array(
@@ -214,7 +216,7 @@ class BP_Friends_Component extends BP_Component {
 			'parent_slug'     => $slug,
 			'screen_function' => 'friends_screen_requests',
 			'position'        => 20,
-			'user_has_access' => $access
+			'user_has_access' => $access,
 		);
 
 		parent::setup_nav( $main_nav, $sub_nav );
@@ -240,7 +242,7 @@ class BP_Friends_Component extends BP_Component {
 
 			// Pending friend requests.
 			$count = count( friends_get_friendship_request_user_ids( bp_loggedin_user_id() ) );
-			if ( !empty( $count ) ) {
+			if ( ! empty( $count ) ) {
 				$title = sprintf(
 					/* translators: %s: Pending friend request count for the current user */
 					_x( 'Friends %s', 'My Account Friends menu', 'buddypress' ),
@@ -252,8 +254,8 @@ class BP_Friends_Component extends BP_Component {
 					'<span class="count">' . bp_core_number_format( $count ) . '</span>'
 				);
 			} else {
-				$title   = _x( 'Friends',            'My Account Friends menu',         'buddypress' );
-				$pending = _x( 'No Pending Requests','My Account Friends menu sub nav', 'buddypress' );
+				$title   = _x( 'Friends', 'My Account Friends menu', 'buddypress' );
+				$pending = _x( 'No Pending Requests', 'My Account Friends menu sub nav', 'buddypress' );
 			}
 
 			// Add the "My Account" sub menus.
@@ -261,7 +263,7 @@ class BP_Friends_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => $friends_link
+				'href'   => $friends_link,
 			);
 
 			// My Friends.
@@ -270,7 +272,7 @@ class BP_Friends_Component extends BP_Component {
 				'id'       => 'my-account-' . $this->id . '-friendships',
 				'title'    => _x( 'Friendships', 'My Account Friends menu sub nav', 'buddypress' ),
 				'href'     => $friends_link,
-				'position' => 10
+				'position' => 10,
 			);
 
 			// Requests.
@@ -279,7 +281,7 @@ class BP_Friends_Component extends BP_Component {
 				'id'       => 'my-account-' . $this->id . '-requests',
 				'title'    => $pending,
 				'href'     => trailingslashit( $friends_link . 'requests' ),
-				'position' => 20
+				'position' => 20,
 			);
 		}
 
@@ -290,6 +292,8 @@ class BP_Friends_Component extends BP_Component {
 	 * Set up the title for pages and <title>.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 */
 	public function setup_title() {
 

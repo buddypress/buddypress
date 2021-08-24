@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 
 // Format numerical output.
 add_filter( 'friends_get_total_friend_count', 'bp_core_number_format' );
-add_filter( 'bp_get_total_friend_count',      'bp_core_number_format' );
+add_filter( 'bp_get_total_friend_count', 'bp_core_number_format' );
 
 /**
  * Filter BP_User_Query::populate_extras to add confirmed friendship status.
@@ -22,17 +22,15 @@ add_filter( 'bp_get_total_friend_count',      'bp_core_number_format' );
  *
  * @since 1.7.0
  *
- * @global WPDB $wpdb WordPress database access object.
- *
  * @param BP_User_Query $user_query   The BP_User_Query object.
  * @param string        $user_ids_sql Comma-separated list of user IDs to fetch extra
  *                                    data for, as determined by BP_User_Query.
  */
-function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query, $user_ids_sql ) {
-	global $wpdb;
+function bp_friends_filter_user_query_populate_extras( $user_query, $user_ids_sql ) {
 
 	// Stop if user isn't logged in.
-	if ( ! $user_id = bp_loggedin_user_id() ) {
+	$user_id = bp_loggedin_user_id();
+	if ( ! $user_id ) {
 		return;
 	}
 
@@ -44,11 +42,10 @@ function bp_friends_filter_user_query_populate_extras( BP_User_Query $user_query
 	foreach ( $maybe_friend_ids as $friend_id ) {
 		$status = BP_Friends_Friendship::check_is_friend( $user_id, $friend_id );
 		$user_query->results[ $friend_id ]->friendship_status = $status;
-		if ( 'is_friend' == $status ) {
+		if ( 'is_friend' === $status ) {
 			$user_query->results[ $friend_id ]->is_friend = 1;
 		}
 	}
-
 }
 add_filter( 'bp_user_query_populate_extras', 'bp_friends_filter_user_query_populate_extras', 4, 2 );
 

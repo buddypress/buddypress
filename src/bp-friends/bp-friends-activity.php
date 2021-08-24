@@ -49,7 +49,7 @@ function friends_record_activity( $args = '' ) {
 		'item_id'           => false,
 		'secondary_item_id' => false,
 		'recorded_time'     => bp_core_current_time(),
-		'hide_sitewide'     => false
+		'hide_sitewide'     => false,
 	) );
 
 	return bp_activity_add( $r );
@@ -69,7 +69,6 @@ function friends_record_activity( $args = '' ) {
  *                           'friendship_accepted').
  *     @type int    $user_id ID of the user associated with the activity item.
  * }
- * @return bool True on success, false on failure.
  */
 function friends_delete_activity( $args ) {
 	if ( ! bp_is_active( 'activity' ) ) {
@@ -80,7 +79,7 @@ function friends_delete_activity( $args ) {
 		'component' => buddypress()->friends->id,
 		'item_id'   => $args['item_id'],
 		'type'      => $args['type'],
-		'user_id'   => $args['user_id']
+		'user_id'   => $args['user_id'],
 	) );
 }
 
@@ -88,10 +87,12 @@ function friends_delete_activity( $args ) {
  * Register the activity actions for bp-friends.
  *
  * @since 1.1.0
+ *
+ * @return bool False if activity component is not active.
  */
 function friends_register_activity_actions() {
 
-	if ( !bp_is_active( 'activity' ) ) {
+	if ( ! bp_is_active( 'activity' ) ) {
 		return false;
 	}
 
@@ -135,7 +136,7 @@ add_action( 'bp_register_activity_actions', 'friends_register_activity_actions' 
  *
  * @param string $action   Activity action string.
  * @param object $activity Activity data.
- * @return string $action Formatted activity action.
+ * @return string Formatted activity action.
  */
 function bp_friends_format_activity_action_friendship_accepted( $action, $activity ) {
 	$initiator_link = bp_core_get_userlink( $activity->user_id );
@@ -170,7 +171,7 @@ function bp_friends_format_activity_action_friendship_accepted( $action, $activi
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data.
- * @return string $action Formatted activity action.
+ * @return string Formatted activity action.
  */
 function bp_friends_format_activity_action_friendship_created( $action, $activity ) {
 	$initiator_link = bp_core_get_userlink( $activity->user_id );
@@ -269,19 +270,19 @@ function bp_friends_filter_activity_scope( $retval = array(), $filter = array() 
 		array(
 			'column'  => 'user_id',
 			'compare' => 'IN',
-			'value'   => (array) $friends
+			'value'   => (array) $friends,
 		),
 
 		// We should only be able to view sitewide activity content for friends.
 		array(
 			'column' => 'hide_sitewide',
-			'value'  => 0
+			'value'  => 0,
 		),
 
 		// Overrides.
 		'override' => array(
 			'filter'      => array( 'user_id' => 0 ),
-			'show_hidden' => true
+			'show_hidden' => true,
 		),
 	);
 
@@ -354,7 +355,7 @@ function bp_friends_filter_activity_just_me_scope( $retval = array(), $filter = 
 				'column' => 'secondary_item_id',
 				'value'  => $user_id,
 			),
-		)
+		),
 	);
 
 	// Juggle back override value.
@@ -372,12 +373,11 @@ add_filter( 'bp_activity_set_just-me_scope_args', 'bp_friends_filter_activity_ju
  *
  * @since 1.9.0
  *
- * @param int         $friendship_id       ID of the friendship.
- * @param int         $initiator_user_id   ID of friendship initiator.
- * @param int         $friend_user_id      ID of user whose friendship is requested.
- * @param object|bool $friendship Optional Friendship object.
+ * @param int $friendship_id     ID of the friendship.
+ * @param int $initiator_user_id ID of friendship initiator.
+ * @param int $friend_user_id    ID of user whose friendship is requested.
  */
-function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_user_id, $friend_user_id, $friendship = false ) {
+function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_user_id, $friend_user_id ) {
 	if ( ! bp_is_active( 'activity' ) ) {
 		return;
 	}
@@ -387,10 +387,10 @@ function bp_friends_friendship_accepted_activity( $friendship_id, $initiator_use
 		'user_id'           => $initiator_user_id,
 		'type'              => 'friendship_created',
 		'item_id'           => $friendship_id,
-		'secondary_item_id' => $friend_user_id
+		'secondary_item_id' => $friend_user_id,
 	) );
 }
-add_action( 'friends_friendship_accepted', 'bp_friends_friendship_accepted_activity', 10, 4 );
+add_action( 'friends_friendship_accepted', 'bp_friends_friendship_accepted_activity', 10, 3 );
 
 /**
  * Deletes friendship activity items when a user is deleted.
@@ -404,11 +404,13 @@ function bp_friends_delete_activity_on_user_delete( $user_id = 0 ) {
 		return;
 	}
 
-	bp_activity_delete( array(
-		'component'         => buddypress()->friends->id,
-		'type'              => 'friendship_created',
-		'secondary_item_id' => $user_id
-	) );
+	bp_activity_delete(
+		array(
+			'component'         => buddypress()->friends->id,
+			'type'              => 'friendship_created',
+			'secondary_item_id' => $user_id,
+		)
+	);
 }
 add_action( 'friends_remove_data', 'bp_friends_delete_activity_on_user_delete' );
 
@@ -420,6 +422,12 @@ add_action( 'friends_remove_data', 'bp_friends_delete_activity_on_user_delete' )
  * @param int $friendship_id ID of the friendship.
  */
 function bp_friends_delete_activity_on_friendship_delete( $friendship_id ) {
-	friends_delete_activity( array( 'item_id' => $friendship_id, 'type' => 'friendship_created', 'user_id' => 0 ) );
+	friends_delete_activity(
+		array(
+			'item_id' => $friendship_id,
+			'type'    => 'friendship_created',
+			'user_id' => 0,
+		)
+	);
 }
 add_action( 'friends_friendship_deleted', 'bp_friends_delete_activity_on_friendship_delete' );

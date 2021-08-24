@@ -33,7 +33,7 @@ defined( 'ABSPATH' ) || exit;
 function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = false ) {
 
 	// You cannot be friends with yourself!
-	if ( $initiator_userid == $friend_userid ) {
+	if ( $initiator_userid === $friend_userid ) {
 		return false;
 	}
 
@@ -77,10 +77,10 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int    $id                ID of the pending friendship connection.
-	 * @param int    $initiator_user_id ID of the friendship initiator.
-	 * @param int    $friend_user_id    ID of the friend user.
-	 * @param object $friendship        BuddyPress Friendship Object.
+	 * @param int                   $id                ID of the pending friendship connection.
+	 * @param int                   $initiator_user_id ID of the friendship initiator.
+	 * @param int                   $friend_user_id    ID of the friend user.
+	 * @param BP_Friends_Friendship $friendship        The friendship object.
 	 */
 	do_action( 'friends_friendship_' . $action, $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id, $friendship );
 
@@ -174,10 +174,10 @@ function friends_accept_friendship( $friendship_id ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param int    $id                ID of the pending friendship object.
-		 * @param int    $initiator_user_id ID of the friendship initiator.
-		 * @param int    $friend_user_id    ID of the user requested friendship with.
-		 * @param object $friendship        BuddyPress Friendship Object.
+		 * @param int                   $id                ID of the pending friendship object.
+		 * @param int                   $initiator_user_id ID of the friendship initiator.
+		 * @param int                   $friend_user_id    ID of the user requested friendship with.
+		 * @param BP_Friends_Friendship $friendship        The friendship object.
 		 */
 		do_action( 'friends_friendship_accepted', $friendship->id, $friendship->initiator_user_id, $friendship->friend_user_id, $friendship );
 
@@ -205,10 +205,11 @@ function friends_reject_friendship( $friendship_id ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param int                   $friendship_id ID of the pending friendship.
-		 * @param BP_Friends_Friendship $friendships Friendship object. Passed by reference.
+		 * @param int                   $friendship_id ID of the friendship.
+		 * @param BP_Friends_Friendship $friendship    The friendship object. Passed by reference.
 		 */
 		do_action_ref_array( 'friends_friendship_rejected', array( $friendship_id, &$friendship ) );
+
 		return true;
 	}
 
@@ -240,9 +241,9 @@ function friends_withdraw_friendship( $initiator_userid, $friend_userid ) {
 		 * @since 1.9.0
 		 *
 		 * @param int                   $friendship_id ID of the friendship.
-		 * @param BP_Friends_Friendship $friendship    Friendship object. Passed by reference.
+		 * @param BP_Friends_Friendship $friendship    The friendship object. Passed by reference.
 		 */
-		do_action_ref_array( 'friends_friendship_withdrawn',  array( $friendship_id, &$friendship ) );
+		do_action_ref_array( 'friends_friendship_withdrawn', array( $friendship_id, &$friendship ) );
 
 		return true;
 	}
@@ -260,11 +261,7 @@ function friends_withdraw_friendship( $initiator_userid, $friend_userid ) {
  * @return bool Returns true if the two users are friends, otherwise false.
  */
 function friends_check_friendship( $user_id, $possible_friend_id ) {
-
-	if ( 'is_friend' == BP_Friends_Friendship::check_is_friend( $user_id, $possible_friend_id ) )
-		return true;
-
-	return false;
+	return ( 'is_friend' === BP_Friends_Friendship::check_is_friend( $user_id, $possible_friend_id ) );
 }
 
 /**
@@ -273,6 +270,8 @@ function friends_check_friendship( $user_id, $possible_friend_id ) {
  * Will return 'is_friends', 'not_friends', 'pending' or 'awaiting_response'.
  *
  * @since 1.2.0
+ *
+ * @global object $friends_template
  *
  * @param int $user_id            ID of the first user.
  * @param int $possible_friend_id ID of the other user.
@@ -301,12 +300,14 @@ function friends_check_friendship_status( $user_id, $possible_friend_id ) {
  * @return int Friend count of the user.
  */
 function friends_get_total_friend_count( $user_id = 0 ) {
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+	}
 
 	$count = bp_get_user_meta( $user_id, 'total_friend_count', true );
-	if ( empty( $count ) )
+	if ( empty( $count ) ) {
 		$count = 0;
+	}
 
 	/**
 	 * Filters the total friend count for a given user.
@@ -315,7 +316,7 @@ function friends_get_total_friend_count( $user_id = 0 ) {
 	 *
 	 * @param int $count Total friend count for a given user.
 	 */
-	return apply_filters( 'friends_get_total_friend_count', $count );
+	return apply_filters( 'friends_get_total_friend_count', (int) $count );
 }
 
 /**
@@ -329,11 +330,13 @@ function friends_get_total_friend_count( $user_id = 0 ) {
 function friends_check_user_has_friends( $user_id ) {
 	$friend_count = friends_get_total_friend_count( $user_id );
 
-	if ( empty( $friend_count ) )
+	if ( empty( $friend_count ) ) {
 		return false;
+	}
 
-	if ( !(int) $friend_count )
+	if ( ! (int) $friend_count ) {
 		return false;
+	}
 
 	return true;
 }
@@ -345,7 +348,7 @@ function friends_check_user_has_friends( $user_id ) {
  *
  * @param int $initiator_user_id ID of the first user.
  * @param int $friend_user_id    ID of the second user.
- * @return int|null ID of the friendship if found, otherwise false.
+ * @return int|null ID of the friendship if found, otherwise null.
  */
 function friends_get_friendship_id( $initiator_user_id, $friend_user_id ) {
 	return BP_Friends_Friendship::get_friendship_id( $initiator_user_id, $friend_user_id );
@@ -406,7 +409,7 @@ function friends_get_friendship_request_user_ids( $user_id ) {
  *
  * @since 1.0.0
  *
- * @see BP_Core_User::get_users() for a description of return value.
+ * @see bp_core_get_users() for a description of return value.
  *
  * @param int    $user_id  ID of the user whose friends are being retrieved.
  * @param int    $per_page Optional. Number of results to return per page.
@@ -444,7 +447,7 @@ function friends_get_recently_active( $user_id, $per_page = 0, $page = 0, $filte
  *
  * @since 1.0.0
  *
- * @see BP_Core_User::get_users() for a description of return value.
+ * @see bp_core_get_users() for a description of return value.
  *
  * @param int    $user_id  ID of the user whose friends are being retrieved.
  * @param int    $per_page Optional. Number of results to return per page.
@@ -482,7 +485,7 @@ function friends_get_alphabetically( $user_id, $per_page = 0, $page = 0, $filter
  *
  * @since 1.0.0
  *
- * @see BP_Core_User::get_users() for a description of return value.
+ * @see bp_core_get_users() for a description of return value.
  *
  * @param int    $user_id  ID of the user whose friends are being retrieved.
  * @param int    $per_page Optional. Number of results to return per page.
@@ -524,7 +527,7 @@ function friends_get_newest( $user_id, $per_page = 0, $page = 0, $filter = '' ) 
  *      arguments and return value.
  *
  * @param array $friend_ids See BP_Friends_Friendship::get_bulk_last_active().
- * @return array $user_ids See BP_Friends_Friendship::get_bulk_last_active().
+ * @return array See BP_Friends_Friendship::get_bulk_last_active().
  */
 function friends_get_bulk_last_active( $friend_ids ) {
 	return BP_Friends_Friendship::get_bulk_last_active( $friend_ids );
@@ -546,8 +549,9 @@ function friends_get_bulk_last_active( $friend_ids ) {
 function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
 
 	// Default to logged in user id.
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
+	}
 
 	// Only group admins can invited previously banned users.
 	$user_is_admin = (bool) groups_is_user_admin( $user_id, $group_id );
@@ -560,13 +564,20 @@ function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
 	 *
 	 * @since 1.5.4
 	 *
-	 * @param array $value Array of default parameters for invite list.
+	 * @param array $value {
+	 *     @type int    $user_id  User ID whose friends too see can be invited.
+	 *     @type string $type     Type of order to return a list of members.
+	 *     @type int    $per_page Number of friends per page.
+	 * }
 	 */
-	$args = apply_filters( 'bp_friends_pre_get_invite_list', array(
-		'user_id'  => $user_id,
-		'type'     => 'alphabetical',
-		'per_page' => 0
-	) );
+	$args = apply_filters(
+		'bp_friends_pre_get_invite_list',
+		array(
+			'user_id'  => $user_id,
+			'type'     => 'alphabetical',
+			'per_page' => 0,
+		)
+	);
 
 	// User has friends.
 	if ( bp_has_members( $args ) ) {
@@ -588,25 +599,28 @@ function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
 			$friend_user_id = bp_get_member_user_id();
 
 			// Skip friend if already in the group.
-			if ( groups_is_user_member( $friend_user_id, $group_id ) )
+			if ( groups_is_user_member( $friend_user_id, $group_id ) ) {
 				continue;
+			}
 
 			// Skip friend if not group admin and user banned from group.
-			if ( ( false === $user_is_admin ) && groups_is_user_banned( $friend_user_id, $group_id ) )
+			if ( ( false === $user_is_admin ) && groups_is_user_banned( $friend_user_id, $group_id ) ) {
 				continue;
+			}
 
 			// Friend is safe, so add it to the array of possible friends.
 			$friends[] = array(
 				'id'        => $friend_user_id,
-				'full_name' => bp_get_member_name()
+				'full_name' => bp_get_member_name(),
 			);
 
 		endwhile;
 	}
 
 	// If no friends, explicitly set to false.
-	if ( empty( $friends ) )
+	if ( empty( $friends ) ) {
 		$friends = false;
+	}
 
 	/**
 	 * Filters the list of potential friends that can be invited to this group.
@@ -633,7 +647,7 @@ function friends_get_friends_invite_list( $user_id = 0, $group_id = 0 ) {
  *
  * @param int $user_id  ID of the user whose friends are being counted.
  * @param int $group_id ID of the group friends are being invited to.
- * @return int $invitable_count Eligible friend count.
+ * @return int Eligible friend count.
  */
 function friends_count_invitable_friends( $user_id, $group_id ) {
 	return BP_Friends_Friendship::get_invitable_friend_count( $user_id, $group_id );
@@ -666,17 +680,21 @@ function friends_get_friend_count_for_user( $user_id ) {
  * @return array Array of BP_Core_User objects corresponding to friends.
  */
 function friends_search_users( $search_terms, $user_id, $pag_num = 0, $pag_page = 0 ) {
-
 	$user_ids = BP_Friends_Friendship::search_users( $search_terms, $user_id, $pag_num, $pag_page );
 
-	if ( empty( $user_ids ) )
+	if ( empty( $user_ids ) ) {
 		return false;
+	}
 
 	$users = array();
-	for ( $i = 0, $count = count( $user_ids ); $i < $count; ++$i )
-		$users[] = new BP_Core_User( $user_ids[$i] );
+	for ( $i = 0, $count = count( $user_ids ); $i < $count; ++$i ) {
+		$users[] = new BP_Core_User( $user_ids[ $i ] );
+	}
 
-	return array( 'users' => $users, 'count' => BP_Friends_Friendship::search_users_count( $search_terms ) );
+	return array(
+		'users' => $users,
+		'count' => BP_Friends_Friendship::search_users_count( $search_terms ),
+	);
 }
 
 /**
@@ -689,7 +707,7 @@ function friends_search_users( $search_terms, $user_id, $pag_num = 0, $pag_page 
  */
 function friends_is_friendship_confirmed( $friendship_id ) {
 	$friendship = new BP_Friends_Friendship( $friendship_id );
-	return $friendship->is_confirmed;
+	return (bool) $friendship->is_confirmed;
 }
 
 /**
@@ -708,13 +726,12 @@ function friends_is_friendship_confirmed( $friendship_id ) {
  *                                  will --.
  */
 function friends_update_friend_totals( $initiator_user_id, $friend_user_id, $status = 'add' ) {
-
-	if ( 'add' == $status ) {
-		bp_update_user_meta( $initiator_user_id, 'total_friend_count', (int)bp_get_user_meta( $initiator_user_id, 'total_friend_count', true ) + 1 );
-		bp_update_user_meta( $friend_user_id, 'total_friend_count', (int)bp_get_user_meta( $friend_user_id, 'total_friend_count', true ) + 1 );
+	if ( 'add' === $status ) {
+		bp_update_user_meta( $initiator_user_id, 'total_friend_count', (int) bp_get_user_meta( $initiator_user_id, 'total_friend_count', true ) + 1 );
+		bp_update_user_meta( $friend_user_id, 'total_friend_count', (int) bp_get_user_meta( $friend_user_id, 'total_friend_count', true ) + 1 );
 	} else {
-		bp_update_user_meta( $initiator_user_id, 'total_friend_count', (int)bp_get_user_meta( $initiator_user_id, 'total_friend_count', true ) - 1 );
-		bp_update_user_meta( $friend_user_id, 'total_friend_count', (int)bp_get_user_meta( $friend_user_id, 'total_friend_count', true ) - 1 );
+		bp_update_user_meta( $initiator_user_id, 'total_friend_count', (int) bp_get_user_meta( $initiator_user_id, 'total_friend_count', true ) - 1 );
+		bp_update_user_meta( $friend_user_id, 'total_friend_count', (int) bp_get_user_meta( $friend_user_id, 'total_friend_count', true ) - 1 );
 	}
 }
 
@@ -756,7 +773,7 @@ function friends_remove_data( $user_id ) {
 	 */
 	do_action( 'friends_remove_data', $user_id );
 }
-add_action( 'wpmu_delete_user',  'friends_remove_data' );
+add_action( 'wpmu_delete_user', 'friends_remove_data' );
 add_action( 'bp_make_spam_user', 'friends_remove_data' );
 
 /**
@@ -805,9 +822,8 @@ function bp_friends_prime_mentions_results() {
 	}
 
 	$friends_query = array(
-		'count_total'     => '',                    // Prevents total count.
+		'count_total'     => '', // Prevents total count.
 		'populate_extras' => false,
-
 		'type'            => 'alphabetical',
 		'user_id'         => get_current_user_id(),
 	);
@@ -850,7 +866,7 @@ add_action( 'bp_activity_mentions_prime_results', 'bp_friends_prime_mentions_res
  * @param int $friend_id     ID of the request recipient.
  */
 function friends_notification_new_request( $friendship_id, $initiator_id, $friend_id ) {
-	if ( 'no' == bp_get_user_meta( (int) $friend_id, 'notification_friends_friendship_request', true ) ) {
+	if ( 'no' === bp_get_user_meta( (int) $friend_id, 'notification_friends_friendship_request', true ) ) {
 		return;
 	}
 
@@ -887,7 +903,7 @@ add_action( 'friends_friendship_requested', 'friends_notification_new_request', 
  * @param int $friend_id     ID of the request recipient.
  */
 function friends_notification_accepted_request( $friendship_id, $initiator_id, $friend_id ) {
-	if ( 'no' == bp_get_user_meta( (int) $initiator_id, 'notification_friends_friendship_accepted', true ) ) {
+	if ( 'no' === bp_get_user_meta( (int) $initiator_id, 'notification_friends_friendship_accepted', true ) ) {
 		return;
 	}
 
@@ -903,7 +919,7 @@ function friends_notification_accepted_request( $friendship_id, $initiator_id, $
 			'friend.name'    => bp_core_get_user_displayname( $friend_id ),
 			'friendship.id'  => $friendship_id,
 			'initiator.id'   => $initiator_id,
-			'unsubscribe'	   => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
+			'unsubscribe'    => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 		),
 	);
 	bp_send_email( 'friends-request-accepted', $initiator_id, $args );
@@ -920,13 +936,10 @@ add_action( 'friends_friendship_accepted', 'friends_notification_accepted_reques
  * @return array An array of personal data.
  */
 function bp_friends_personal_data_exporter( $email_address, $page ) {
-	$number = 50;
-
-	$email_address = trim( $email_address );
-
+	$number         = 50;
+	$email_address  = trim( $email_address );
 	$data_to_export = array();
-
-	$user = get_user_by( 'email', $email_address );
+	$user           = get_user_by( 'email', $email_address );
 
 	if ( ! $user ) {
 		return array(
@@ -940,8 +953,6 @@ function bp_friends_personal_data_exporter( $email_address, $page ) {
 		'page'         => $page,
 		'per_page'     => $number,
 	) );
-
-	$user_data_to_export = array();
 
 	foreach ( $friendships as $friendship ) {
 		if ( (int) $user->ID === (int) $friendship->initiator_user_id ) {
@@ -994,13 +1005,10 @@ function bp_friends_personal_data_exporter( $email_address, $page ) {
  * @return array An array of personal data.
  */
 function bp_friends_pending_sent_requests_personal_data_exporter( $email_address, $page ) {
-	$number = 50;
-
-	$email_address = trim( $email_address );
-
+	$number         = 50;
+	$email_address  = trim( $email_address );
 	$data_to_export = array();
-
-	$user = get_user_by( 'email', $email_address );
+	$user           = get_user_by( 'email', $email_address );
 
 	if ( ! $user ) {
 		return array(
@@ -1015,8 +1023,6 @@ function bp_friends_pending_sent_requests_personal_data_exporter( $email_address
 		'page'              => $page,
 		'per_page'          => $number,
 	) );
-
-	$user_data_to_export = array();
 
 	foreach ( $friendships as $friendship ) {
 		$item_data = array(
@@ -1057,13 +1063,10 @@ function bp_friends_pending_sent_requests_personal_data_exporter( $email_address
  * @return array An array of personal data.
  */
 function bp_friends_pending_received_requests_personal_data_exporter( $email_address, $page ) {
-	$number = 50;
-
-	$email_address = trim( $email_address );
-
+	$number         = 50;
+	$email_address  = trim( $email_address );
 	$data_to_export = array();
-
-	$user = get_user_by( 'email', $email_address );
+	$user           = get_user_by( 'email', $email_address );
 
 	if ( ! $user ) {
 		return array(
@@ -1078,8 +1081,6 @@ function bp_friends_pending_received_requests_personal_data_exporter( $email_add
 		'page'           => $page,
 		'per_page'       => $number,
 	) );
-
-	$user_data_to_export = array();
 
 	foreach ( $friendships as $friendship ) {
 		$item_data = array(

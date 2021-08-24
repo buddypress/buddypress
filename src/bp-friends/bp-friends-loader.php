@@ -5,7 +5,7 @@
  * The friends component is for users to create relationships with each other.
  *
  * @package BuddyPress
- * @subpackage Friends
+ * @subpackage FriendsLoader
  * @since 1.5.0
  */
 
