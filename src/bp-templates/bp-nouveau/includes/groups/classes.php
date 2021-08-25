@@ -280,9 +280,19 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 
 		remove_filter( '_bp_nouveau_group_reset_front_template', array( $this, 'all_groups_fronts' ), 10, 1 );
 
+		$members_nav = array(
+			'name'        => _x( 'Members', 'My Group screen nav', 'buddypress' ),
+			'slug'        => 'members',
+			'parent_slug' => $this->group->slug,
+			'position'    => 60,
+		);
+
 		if ( ! $front_template ) {
 			if ( bp_is_active( 'activity' ) ) {
 				$nav_items['home']['name'] = _x( 'Home (Activity)', 'Group screen navigation title', 'buddypress' );
+
+				// Add the members nav.
+				$nav_items['members'] = $members_nav;
 			} else {
 				$nav_items['home']['name'] = _x( 'Home (Members)', 'Group screen navigation title', 'buddypress' );
 			}
@@ -296,13 +306,8 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 				);
 			}
 
-			// Add the members one
-			$nav_items['members'] = array(
-				'name'        => _x( 'Members', 'My Group screen nav', 'buddypress' ),
-				'slug'        => 'members',
-				'parent_slug' => $this->group->slug,
-				'position'    => 60,
-			);
+			// Add the members nav.
+			$nav_items['members'] = $members_nav;
 		}
 
 		// Required params
