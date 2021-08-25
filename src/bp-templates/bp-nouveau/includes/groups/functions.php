@@ -3,7 +3,7 @@
  * Groups functions
  *
  * @since 3.0.0
- * @version 7.2.1
+ * @version 10.0.0
  */
 
 // Exit if accessed directly.
@@ -854,7 +854,7 @@ function bp_nouveau_groups_customizer_controls( $controls = array() ) {
 			'type'       => 'checkbox',
 		),
 		'group_front_boxes' => array(
-			'label'      => __( 'Enable widget region for group homepages. When enabled, the site admin can add widgets to group pages via the Widgets panel.', 'buddypress' ),
+			'label'      => __( 'Enable custom boxes for group homepages. When enabled, Plugins using the BuddyPress Group Extension API can include content into these boxes.', 'buddypress' ),
 			'section'    => 'bp_nouveau_group_front_page',
 			'settings'   => 'bp_nouveau_appearance[group_front_boxes]',
 			'type'       => 'checkbox',

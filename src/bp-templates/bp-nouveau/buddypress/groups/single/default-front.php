@@ -3,32 +3,28 @@
  * BP Nouveau Default group's front template.
  *
  * @since 3.0.0
- * @version 3.2.0
+ * @version 10.0.0
  */
 ?>
 
 <div class="group-front-page">
 
-	<?php if ( ! is_active_sidebar( 'sidebar-buddypress-groups' ) || ! bp_nouveau_groups_do_group_boxes() ) : ?>
-		<?php if ( ! is_customize_preview() && bp_current_user_can( 'bp_moderate' ) ) : ?>
+	<?php if ( ! is_customize_preview() && bp_current_user_can( 'bp_moderate' ) && ! is_active_sidebar( 'sidebar-buddypress-groups' ) ) : ?>
+		<div class="bp-feedback custom-homepage-info info no-icon">
+			<strong><?php esc_html_e( 'Manage the Groups default front page', 'buddypress' ); ?></strong>
 
-			<div class="bp-feedback custom-homepage-info info no-icon">
-				<strong><?php esc_html_e( 'Manage the Groups default front page', 'buddypress' ); ?></strong>
+			<p>
+			<?php
+			printf(
+				/* translators: 1: link to the customizer option. 2: link to the customizer widgets section. */
+				esc_html__( 'You can set your preferences for the %1$s or add %2$s to it.', 'buddypress' ),
+				bp_nouveau_groups_get_customizer_option_link(),
+				bp_nouveau_groups_get_customizer_widgets_link()
+			);
+			?>
+			</p>
 
-				<p>
-				<?php
-				printf(
-					/* translators: 1: link to the customizer option. 2: link to the customizer widgets section. */
-					esc_html__( 'You can set your preferences for the %1$s or add %2$s to it.', 'buddypress' ),
-					bp_nouveau_groups_get_customizer_option_link(),
-					bp_nouveau_groups_get_customizer_widgets_link()
-				);
-				?>
-				</p>
-
-			</div>
-
-		<?php endif; ?>
+		</div><!-- .custom-homepage-info -->
 	<?php endif; ?>
 
 	<?php if ( bp_nouveau_groups_front_page_description() && bp_nouveau_group_has_meta( 'description' ) ) : ?>
