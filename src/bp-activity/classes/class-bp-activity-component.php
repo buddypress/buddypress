@@ -367,7 +367,7 @@ class BP_Activity_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-personal',
 				'title'    => _x( 'Personal', 'My Account Activity sub nav', 'buddypress' ),
-				'href'     => $activity_link,
+				'href'     => trailingslashit( $activity_link . 'just-me' ),
 				'position' => 10
 			);
 

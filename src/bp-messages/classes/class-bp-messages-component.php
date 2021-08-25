@@ -346,7 +346,7 @@ class BP_Messages_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-inbox',
 				'title'    => $inbox,
-				'href'     => $messages_link,
+				'href'     => trailingslashit( $messages_link . 'inbox' ),
 				'position' => 10
 			);
 

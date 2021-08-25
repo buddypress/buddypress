@@ -259,7 +259,7 @@ class BP_Settings_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-general',
 				'title'    => __( 'General', 'buddypress' ),
-				'href'     => $settings_link,
+				'href'     => trailingslashit( $settings_link . 'general' ),
 				'position' => 10,
 			);
 

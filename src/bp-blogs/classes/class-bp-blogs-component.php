@@ -296,7 +296,7 @@ class BP_Blogs_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-my-sites',
 				'title'    => __( 'My Sites', 'buddypress' ),
-				'href'     => $blogs_link,
+				'href'     => trailingslashit( $blogs_link . 'my-sites' ),
 				'position' => 10
 			);
 

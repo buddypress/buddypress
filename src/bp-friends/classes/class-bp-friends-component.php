@@ -271,7 +271,7 @@ class BP_Friends_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-friendships',
 				'title'    => _x( 'Friendships', 'My Account Friends menu sub nav', 'buddypress' ),
-				'href'     => $friends_link,
+				'href'     => trailingslashit( $friends_link . 'my-friends' ),
 				'position' => 10,
 			);
 

@@ -639,7 +639,7 @@ class BP_Members_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-public',
 					'title'    => _x( 'View', 'My Account Profile sub nav', 'buddypress' ),
-					'href'     => $profile_link,
+					'href'     => trailingslashit( $profile_link . 'public' ),
 					'position' => 10
 				);
 

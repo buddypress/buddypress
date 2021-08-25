@@ -325,18 +325,41 @@ function bp_core_new_nav_default( $args = '' ) {
 
 	$parent_nav = reset( $parent_nav );
 
-	if ( ! empty( $parent_nav->screen_function ) ) {
-		// Remove our screen hook if screen function is callable.
-		if ( is_callable( $parent_nav->screen_function ) ) {
-			remove_action( 'bp_screens', $parent_nav->screen_function, 3 );
-		}
-	}
-
 	// Edit the screen function for the parent nav.
-	$bp->members->nav->edit_nav( array(
-		'screen_function'     => &$r['screen_function'],
-		'default_subnav_slug' => $r['subnav_slug'],
-	), $parent_nav->slug );
+	$bp->members->nav->edit_nav(
+		array(
+			'screen_function'     => &$r['screen_function'],
+			'default_subnav_slug' => $r['subnav_slug'],
+		),
+		$parent_nav->slug
+	);
+
+	/**
+	 * Update secondary nav items:
+	 * - The previous default nav item needs to have its slug added to its link property.
+	 * - The new default nav item needs to have its slug removed from its link property.
+	 */
+	$previous_default_subnav = $bp->members->nav->get( $parent_nav->slug . '/' . $parent_nav->default_subnav_slug );
+
+	// Edit the link of the previous default nav item.
+	$bp->members->nav->edit_nav(
+		array(
+			'link' => trailingslashit( $previous_default_subnav->link . $previous_default_subnav->slug ),
+		),
+		$previous_default_subnav->slug,
+		$parent_nav->slug
+	);
+
+	$new_default_subnav = $bp->members->nav->get( $parent_nav->slug . '/' . $r['subnav_slug'] );
+
+	// Edit the link of the new default nav item.
+	$bp->members->nav->edit_nav(
+		array(
+			'link' => rtrim( untrailingslashit( $new_default_subnav->link ), $new_default_subnav->slug ),
+		),
+		$new_default_subnav->slug,
+		$parent_nav->slug
+	);
 
 	if ( bp_is_current_component( $parent_nav->slug ) ) {
 

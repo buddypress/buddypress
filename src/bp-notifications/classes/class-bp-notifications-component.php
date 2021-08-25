@@ -257,7 +257,7 @@ class BP_Notifications_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-unread',
 				'title'    => $unread,
-				'href'     => $notifications_link,
+				'href'     => trailingslashit( $notifications_link . 'unread' ),
 				'position' => 10,
 			);
 

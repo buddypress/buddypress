@@ -843,7 +843,7 @@ class BP_Groups_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-memberships',
 				'title'    => _x( 'Memberships', 'My Account Groups sub nav', 'buddypress' ),
-				'href'     => $groups_link,
+				'href'     => trailingslashit( $groups_link . 'my-groups' ),
 				'position' => 10
 			);
 
