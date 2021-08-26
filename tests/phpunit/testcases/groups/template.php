@@ -4,6 +4,23 @@
  * @group template
  */
 class BP_Tests_Groups_Template extends BP_UnitTestCase {
+
+	public function setUp() {
+		parent::setUp();
+
+		if ( isset( $GLOBALS['groups_template'] ) ) {
+			$this->groups_template = $GLOBALS['groups_template'];
+		}
+	}
+
+	public function tearDown() {
+		if ( $this->groups_template ) {
+			$GLOBALS['groups_template'] = $this->groups_template;
+		}
+
+		parent::tearDown();
+	}
+
 	/**
 	 * Integration test to make sure meta_query is getting passed through
 	 *
@@ -950,54 +967,93 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group bp_group_is_forum_enabled
+	 */
+	public function test_bp_group_is_forum_enabled() {
+		$g1 = $this->factory->group->create( array( 'enable_forum' => 0 ) );
+		$g2 = $this->factory->group->create( array( 'enable_forum' => 1 ) );
+
+		$this->assertFalse( bp_group_is_forum_enabled( $g1 ) );
+		$this->assertTrue( bp_group_is_forum_enabled( $g2 ) );
+	}
+
+	/**
+	 * @group bp_get_group_member_is_banned
+	 */
+	public function test_bp_group_member_is_banned() {
+		$this->assertFalse( bp_get_group_member_is_banned() );
+	}
+
+	/**
+	 * @group bp_get_group_member_id
+	 */
+	public function test_bp_get_group_member_id() {
+		$this->assertFalse( (bool) bp_get_group_member_id() );
+	}
+
+	/**
+	 * @group bp_get_group_form_action
+	 */
+	public function test_bp_bp_get_group_form_action_when_empty() {
+		$this->assertEmpty( bp_get_group_form_action( '' ) );
+	}
+
+	/**
+	 * @group bp_get_group_form_action
+	 */
+	public function test_bp_bp_get_group_form_action() {
+		$g   = $this->factory->group->create();
+		$p   = 2;
+		$url = trailingslashit( bp_get_group_permalink( $g ) . $p );
+
+		$this->assertSame( bp_get_group_form_action( $p, $g ), $url );
+	}
+
+	/**
 	 * @group bp_get_group_member_count
 	 */
 	public function test_bp_get_group_member_count_0_members() {
-		global $groups_template;
-		$gt = $groups_template;
-		$groups_template = new stdClass;
-		$groups_template->group = new stdClass;
-		$groups_template->group->total_member_count = 0;
+		$u = $this->factory->user->create();
+		$g = $this->factory->group->create( array( 'creator_id' => $u ) );
 
-		$found = bp_get_group_member_count();
+		// Fake the current group.
+		$GLOBALS['groups_template'] = new stdClass;
+		$GLOBALS['groups_template']->group = groups_get_group( $g );
 
-		$groups_template = $gt;
+		// Kick group creator.
+		wp_delete_user( $u );
 
-		$this->assertSame( '0 members', $found );
+		$this->assertNotSame( '0 member', bp_get_group_member_count() );
 	}
 
 	/**
 	 * @group bp_get_group_member_count
 	 */
 	public function test_bp_get_group_member_count_1_member() {
-		global $groups_template;
-		$gt = $groups_template;
-		$groups_template = new stdClass;
-		$groups_template->group = new stdClass;
-		$groups_template->group->total_member_count = 1;
+		$g = $this->factory->group->create();
 
-		$found = bp_get_group_member_count();
+		// Fake the current group.
+		$GLOBALS['groups_template'] = new stdClass;
+		$GLOBALS['groups_template']->group = groups_get_group( $g );
 
-		$groups_template = $gt;
-
-		$this->assertSame( '1 member', $found );
+		$this->assertSame( '1 member', bp_get_group_member_count() );
 	}
 
 	/**
 	 * @group bp_get_group_member_count
 	 */
 	public function test_bp_get_group_member_count_2_members() {
-		global $groups_template;
-		$gt = $groups_template;
-		$groups_template = new stdClass;
-		$groups_template->group = new stdClass;
-		$groups_template->group->total_member_count = 2;
+		$u1 = $this->factory->user->create();
+		$u2 = $this->factory->user->create();
+		$g  = $this->factory->group->create( array( 'creator_id' => $u1 ) );
 
-		$found = bp_get_group_member_count();
+		$this->add_user_to_group( $u2, $g );
 
-		$groups_template = $gt;
+		// Fake the current group.
+		$GLOBALS['groups_template'] = new stdClass;
+		$GLOBALS['groups_template']->group = groups_get_group( $g );
 
-		$this->assertSame( '2 members', $found );
+		$this->assertSame( '2 members', bp_get_group_member_count() );
 	}
 
 	/**

@@ -1188,7 +1188,6 @@ class BP_Groups_Member {
 	 * @return array Info about group mods (user_id + date_modified).
 	 */
 	public static function get_group_moderator_ids( $group_id ) {
-		global $wpdb;
 
 		if ( empty( $group_id ) ) {
 			return array();
