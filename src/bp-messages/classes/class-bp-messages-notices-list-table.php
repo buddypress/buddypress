@@ -3,7 +3,7 @@
  * BuddyPress messages admin site-wide notices list table class.
  *
  * @package BuddyPress
- * @subpackage Messages
+ * @subpackage MessagesClasses
  * @since 3.0.0
  */
 
@@ -15,12 +15,17 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
+/**
+ * BuddyPress Notices List Table class.
+ */
 class BP_Messages_Notices_List_Table extends WP_List_Table {
 
 	/**
 	 * Constructor
 	 *
 	 * @since 3.0.0
+	 *
+	 * @param array $args Arguments passed to the WP_List_Table::constructor.
 	 */
 	public function __construct( $args = array() ) {
 		parent::__construct(

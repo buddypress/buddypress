@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: Compose action handler
+ * Messages: Compose action handler.
  *
  * @package BuddyPress
  * @subpackage MessageActions
@@ -12,7 +12,7 @@
  *
  * @since 2.4.0 This function was split from messages_screen_compose(). See #6505.
  *
- * @return boolean
+ * @return bool
  */
 function bp_messages_action_create_message() {
 
@@ -64,7 +64,7 @@ function bp_messages_action_create_message() {
 		} else {
 
 			// Filter recipients into the format we need - array( 'username/userid', 'username/userid' ).
-			$autocomplete_recipients = (array) explode( ',', $_POST['send-to-input']     );
+			$autocomplete_recipients = (array) explode( ',', $_POST['send-to-input'] );
 			$typed_recipients        = (array) explode( ' ', $_POST['send_to_usernames'] );
 			$recipients              = array_merge( $autocomplete_recipients, $typed_recipients );
 
@@ -82,7 +82,7 @@ function bp_messages_action_create_message() {
 				'recipients' => $recipients,
 				'subject'    => $_POST['subject'],
 				'content'    => $_POST['content'],
-				'error_type' => 'wp_error'
+				'error_type' => 'wp_error',
 			) );
 
 			// Send the message and redirect to it.

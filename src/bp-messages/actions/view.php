@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: View action handler
+ * Messages: View action handler.
  *
  * @package BuddyPress
  * @subpackage MessageActions
@@ -9,6 +9,8 @@
 
 /**
  * Process a request to view a single message thread.
+ *
+ * @return bool False if not a single conversation.
  */
 function messages_action_conversation() {
 

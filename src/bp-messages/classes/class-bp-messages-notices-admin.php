@@ -2,15 +2,17 @@
 /**
  * BuddyPress messages component Site-wide Notices admin screen.
  *
- *
  * @package BuddyPress
- * @subpackage Messages
+ * @subpackage MessagesClasses
  * @since 3.0.0
  */
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * BuddyPress Notices Admin class.
+ */
 class BP_Messages_Notices_Admin {
 
 	/**
@@ -33,16 +35,19 @@ class BP_Messages_Notices_Admin {
 	 * The current instance of the BP_Messages_Notices_List_Table class.
 	 *
 	 * @since 3.0.0
-	 * @var object
+	 * @var BP_Messages_Notices_List_Table|string
 	 */
 	public $list_table = '';
 
-
 	/**
-     * Create a new instance or access the current instance of this class.
-     *
-     * @since 3.0.0
-     */
+	 * Create a new instance or access the current instance of this class.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return BP_Messages_Notices_Admin
+	 */
 	public static function register_notices_admin() {
 
 		if ( ! is_admin() || ! bp_is_active( 'messages' ) || ! bp_current_user_can( 'bp_moderate' ) ) {
@@ -59,7 +64,7 @@ class BP_Messages_Notices_Admin {
 	}
 
 	/**
-	 * Constructor method.
+	 * Constructor.
 	 *
 	 * @since 3.0.0
 	 */

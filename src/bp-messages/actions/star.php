@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: Star action handler
+ * Messages: Star action handler.
  *
  * @package BuddyPress
  * @subpackage MessageActions

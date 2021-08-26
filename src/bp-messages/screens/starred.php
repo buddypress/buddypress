@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: User's "Messages > Starred" screen handler
+ * Messages: User's "Messages > Starred" screen handler.
  *
  * @package BuddyPress
  * @subpackage MessageScreens

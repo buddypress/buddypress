@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: Conversation thread screen handler
+ * Messages: Conversation thread screen handler.
  *
  * @package BuddyPress
  * @subpackage MessageScreens
@@ -12,7 +12,9 @@
  *
  * @since 1.0.0
  *
- * @return false|null False on failure.
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @return bool False on failure.
  */
 function messages_screen_conversation() {
 
@@ -49,8 +51,8 @@ function messages_screen_conversation() {
 	$bp = buddypress();
 
 	// Decrease the unread count in the nav before it's rendered.
-	$count    = bp_get_total_unread_messages_count();
-	$class    = ( 0 === $count ) ? 'no-count' : 'count';
+	$count = bp_get_total_unread_messages_count();
+	$class = ( 0 === $count ) ? 'no-count' : 'count';
 
 	/* translators: 1: class name. 2: number of messages */
 	$nav_name = sprintf( __( 'Messages <span class="%1$s">%2$s</span>', 'buddypress' ), esc_attr( $class ), bp_core_number_format( $count ) );

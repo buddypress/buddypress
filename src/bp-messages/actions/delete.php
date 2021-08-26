@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: Delete action handler
+ * Messages: Delete action handler.
  *
  * @package BuddyPress
  * @subpackage MessageActions
@@ -20,7 +20,7 @@ function messages_action_delete_message() {
 
 	$thread_id = bp_action_variable( 1 );
 
-	if ( !$thread_id || !is_numeric( $thread_id ) || !messages_check_thread_access( $thread_id ) ) {
+	if ( ! $thread_id || ! is_numeric( $thread_id ) || ! messages_check_thread_access( $thread_id ) ) {
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ) );
 	} else {
 		if ( ! check_admin_referer( 'messages_delete_thread' ) ) {
@@ -28,7 +28,7 @@ function messages_action_delete_message() {
 		}
 
 		// Delete message.
-		if ( !messages_delete_thread( $thread_id ) ) {
+		if ( ! messages_delete_thread( $thread_id ) ) {
 			bp_core_add_message( __('There was an error deleting that message.', 'buddypress'), 'error' );
 		} else {
 			bp_core_add_message( __('Message deleted.', 'buddypress') );

@@ -93,6 +93,8 @@ function bp_has_message_threads( $args = array() ) {
 /**
  * Check whether there are more threads to iterate over.
  *
+ * @global BP_Messages_Box_Template $messages_template
+ *
  * @return bool
  */
 function bp_message_threads() {
@@ -103,7 +105,9 @@ function bp_message_threads() {
 /**
  * Set up the current thread inside the loop.
  *
- * @return object
+ * @global BP_Messages_Box_Template $messages_template
+ *
+ * @return BP_Messages_Thread
  */
 function bp_message_thread() {
 	global $messages_template;
@@ -119,6 +123,8 @@ function bp_message_thread_id() {
 	/**
 	 * Get the ID of the current thread in the loop.
 	 *
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
 	 * @return int
 	 */
 	function bp_get_message_thread_id() {
@@ -131,7 +137,7 @@ function bp_message_thread_id() {
 		 *
 		 * @param int $thread_id ID of the current thread in the loop.
 		 */
-		return apply_filters( 'bp_get_message_thread_id', $messages_template->thread->thread_id );
+		return apply_filters( 'bp_get_message_thread_id', (int) $messages_template->thread->thread_id );
 	}
 
 /**
@@ -142,6 +148,8 @@ function bp_message_thread_subject() {
 }
 	/**
 	 * Get the subject of the current thread in the loop.
+	 *
+	 * @global BP_Messages_Box_Template $messages_template
 	 *
 	 * @return string
 	 */
@@ -166,6 +174,8 @@ function bp_message_thread_excerpt() {
 }
 	/**
 	 * Generate an excerpt from the current message in the loop.
+	 *
+	 * @global BP_Messages_Box_Template $messages_template
 	 *
 	 * @return string
 	 */
@@ -207,6 +217,8 @@ function bp_message_thread_content() {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
 	 * @return string The raw content of the last message in the thread.
 	 */
 	function bp_get_message_thread_content() {
@@ -230,6 +242,8 @@ function bp_message_thread_from() {
 }
 	/**
 	 * Get a link to the page of the current thread's last author.
+	 *
+	 * @global BP_Messages_Box_Template $messages_template
 	 *
 	 * @return string
 	 */
@@ -255,6 +269,8 @@ function bp_message_thread_to() {
 	/**
 	 * Generate HTML links to the pages of the current thread's recipients.
 	 *
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
 	 * @return string
 	 */
 	function bp_get_message_thread_to() {
@@ -267,7 +283,7 @@ function bp_message_thread_to() {
 		 *
 		 * @param string $value HTML links to the pages of the current thread's recipients.
 		 */
-		return apply_filters( 'bp_message_thread_to', BP_Messages_Thread::get_recipient_links($messages_template->thread->recipients ) );
+		return apply_filters( 'bp_message_thread_to', BP_Messages_Thread::get_recipient_links( $messages_template->thread->recipients ) );
 	}
 
 /**
@@ -288,6 +304,8 @@ function bp_message_thread_view_link( $thread_id = 0, $user_id = null ) {
 	 *
 	 * @since 2.9.0 Introduced `$user_id` parameter.
 	 *
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
 	 * @param int $thread_id Optional. ID of the thread. Default: current
 	 *                       thread being iterated on in the loop.
 	 * @param int $user_id   Optional. ID of the user relative to whom the link
@@ -303,7 +321,7 @@ function bp_message_thread_view_link( $thread_id = 0, $user_id = null ) {
 			$thread_id = $messages_template->thread->thread_id;
 		}
 
-		if ( null === $user_id ) {
+		if ( empty( $user_id ) ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
@@ -328,8 +346,8 @@ function bp_message_thread_view_link( $thread_id = 0, $user_id = null ) {
  *
  * @since 2.9.0 Introduced `$user_id` parameter.
  *
- * @param int $user_id Optional. ID of the user relative to whom the link
- *                     should be generated. Default: ID of logged-in user.
+ * @param int|null $user_id Optional. ID of the user relative to whom the link
+ *                          should be generated. Default: ID of logged-in user.
  */
 function bp_message_thread_delete_link( $user_id = null ) {
 	echo esc_url( bp_get_message_thread_delete_link( $user_id ) );
@@ -339,14 +357,16 @@ function bp_message_thread_delete_link( $user_id = null ) {
 	 *
 	 * @since 2.9.0 Introduced `$user_id` parameter.
 	 *
-	 * @param int $user_id Optional. ID of the user relative to whom the link
-	 *                     should be generated. Default: ID of logged-in user.
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
+	 * @param int|null $user_id Optional. ID of the user relative to whom the link
+	 *                          should be generated. Default: ID of logged-in user.
 	 * @return string
 	 */
 	function bp_get_message_thread_delete_link( $user_id = null ) {
 		global $messages_template;
 
-		if ( null === $user_id ) {
+		if ( empty( $user_id ) ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
@@ -371,8 +391,8 @@ function bp_message_thread_delete_link( $user_id = null ) {
  * @since 2.2.0
  * @since 2.9.0 Introduced `$user_id` parameter.
  *
- * @param int $user_id Optional. ID of the user relative to whom the link
- *                     should be generated. Default: ID of logged-in user.
+ * @param int|null $user_id Optional. ID of the user relative to whom the link
+ *                          should be generated. Default: ID of logged-in user.
  */
 function bp_the_message_thread_mark_unread_url( $user_id = null ) {
 	echo esc_url( bp_get_the_message_thread_mark_unread_url( $user_id ) );
@@ -383,8 +403,8 @@ function bp_the_message_thread_mark_unread_url( $user_id = null ) {
 	 * @since 2.2.0
 	 * @since 2.9.0 Introduced `$user_id` parameter.
 	 *
-	 * @param int $user_id Optional. ID of the user relative to whom the link
-	 *                     should be generated. Default: ID of logged-in user.
+	 * @param int|null $user_id Optional. ID of the user relative to whom the link
+	 *                          should be generated. Default: ID of logged-in user.
 	 * @return string
 	 */
 	function bp_get_the_message_thread_mark_unread_url( $user_id = null ) {
@@ -395,10 +415,10 @@ function bp_the_message_thread_mark_unread_url( $user_id = null ) {
 		// Get the args to add to the URL.
 		$args = array(
 			'action'     => 'unread',
-			'message_id' => $id
+			'message_id' => $id,
 		);
 
-		if ( null === $user_id ) {
+		if ( empty( $user_id ) ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
@@ -433,8 +453,8 @@ function bp_the_message_thread_mark_unread_url( $user_id = null ) {
  * @since 2.2.0
  * @since 2.9.0 Introduced `$user_id` parameter.
  *
- * @param int $user_id Optional. ID of the user relative to whom the link
- *                     should be generated. Default: ID of logged-in user.
+ * @param int|null $user_id Optional. ID of the user relative to whom the link
+ *                          should be generated. Default: ID of logged-in user.
  */
 function bp_the_message_thread_mark_read_url( $user_id = null ) {
 	echo esc_url( bp_get_the_message_thread_mark_read_url( $user_id ) );
@@ -445,8 +465,8 @@ function bp_the_message_thread_mark_read_url( $user_id = null ) {
 	 * @since 2.2.0
 	 * @since 2.9.0 Introduced `$user_id` parameter.
 	 *
-	 * @param int $user_id Optional. ID of the user relative to whom the link
-	 *                     should be generated. Default: ID of logged-in user.
+	 * @param int|null $user_id Optional. ID of the user relative to whom the link
+	 *                          should be generated. Default: ID of logged-in user.
 	 * @return string
 	 */
 	function bp_get_the_message_thread_mark_read_url( $user_id = null ) {
@@ -457,10 +477,10 @@ function bp_the_message_thread_mark_read_url( $user_id = null ) {
 		// Get the args to add to the URL.
 		$args = array(
 			'action'     => 'read',
-			'message_id' => $id
+			'message_id' => $id,
 		);
 
-		if ( null === $user_id ) {
+		if ( empty( $user_id ) ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
@@ -483,7 +503,7 @@ function bp_the_message_thread_mark_read_url( $user_id = null ) {
 		 * @param string $url     URL used for marking a single message thread as read.
 		 * @param int    $user_id ID of the user relative to whom the link should be generated.
 		 */
-		return apply_filters( 'bp_get_the_message_thread_mark_read_url', $url );
+		return apply_filters( 'bp_get_the_message_thread_mark_read_url', $url, $user_id );
 	}
 
 /**
@@ -495,6 +515,8 @@ function bp_message_css_class() {
 	/**
 	 * Generate the CSS class for the current thread.
 	 *
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
 	 * @return string
 	 */
 	function bp_get_message_css_class() {
@@ -502,7 +524,7 @@ function bp_message_css_class() {
 
 		$class = false;
 
-		if ( $messages_template->current_thread % 2 == 1 ) {
+		if ( $messages_template->current_thread % 2 === 1 ) {
 			$class .= 'alt';
 		}
 
@@ -519,14 +541,14 @@ function bp_message_css_class() {
 /**
  * Check whether the current thread has unread items.
  *
+ * @global BP_Messages_Box_Template $messages_template
+ *
  * @return bool True if there are unread items, otherwise false.
  */
 function bp_message_thread_has_unread() {
 	global $messages_template;
 
-	$retval = ! empty( $messages_template->thread->unread_count )
-		? true
-		: false;
+	$retval = ! empty( $messages_template->thread->unread_count );
 
 	/**
 	 * Filters whether or not a message thread has unread items.
@@ -547,6 +569,8 @@ function bp_message_thread_unread_count() {
 	/**
 	 * Get the current thread's unread count.
 	 *
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
 	 * @return int
 	 */
 	function bp_get_message_thread_unread_count() {
@@ -563,7 +587,7 @@ function bp_message_thread_unread_count() {
 		 *
 		 * @param int $count Current thread unread count.
 		 */
-		return apply_filters( 'bp_get_message_thread_unread_count', $count );
+		return apply_filters( 'bp_get_message_thread_unread_count', (int) $count );
 	}
 
 /**
@@ -653,6 +677,8 @@ function bp_message_thread_last_post_date_raw() {
 	/**
 	 * Get the unformatted date of the last post in the current thread.
 	 *
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
 	 * @return string
 	 */
 	function bp_get_message_thread_last_post_date_raw() {
@@ -707,6 +733,8 @@ function bp_message_thread_avatar( $args = '' ) {
 	 * @see bp_core_fetch_avatar() For a description of arguments and
 	 *      return values.
 	 *
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
 	 * @param array|string $args {
 	 *     Arguments are listed here with an explanation of their defaults.
 	 *     For more information about the arguments, see
@@ -758,11 +786,9 @@ function bp_message_thread_avatar( $args = '' ) {
 /**
  * Output the unread messages count for the current inbox.
  *
- * @since 2.6.x Added $user_id argument.
+ * @since 2.6.x Added the `$user_id` paremeter.
  *
  * @param int $user_id The user ID.
- *
- * @return int $unread_count Total inbox unread count for user.
  */
 function bp_total_unread_messages_count( $user_id = 0 ) {
 	echo bp_get_total_unread_messages_count( $user_id );
@@ -770,7 +796,7 @@ function bp_total_unread_messages_count( $user_id = 0 ) {
 	/**
 	 * Get the unread messages count for the current inbox.
 	 *
-	 * @since 2.6.x Added $user_id argument.
+	 * @since 2.6.x Added the `$user_id` paremeter.
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -783,9 +809,10 @@ function bp_total_unread_messages_count( $user_id = 0 ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param int $value Unread messages count for the current inbox.
+		 * @param int $value   Unread messages count for the current inbox.
+		 * @param int $user_id ID of the user the messages are from.
 		 */
-		return apply_filters( 'bp_get_total_unread_messages_count', BP_Messages_Thread::get_inbox_count( $user_id ) );
+		return apply_filters( 'bp_get_total_unread_messages_count', BP_Messages_Thread::get_inbox_count( $user_id ), $user_id );
 	}
 
 /**
@@ -796,6 +823,8 @@ function bp_messages_pagination() {
 }
 	/**
 	 * Get the pagination HTML for the current thread loop.
+	 *
+	 * @global BP_Messages_Box_Template $messages_template
 	 *
 	 * @return string
 	 */
@@ -814,6 +843,8 @@ function bp_messages_pagination() {
 
 /**
  * Generate the "Viewing message x to y (of z messages)" string for a loop.
+ *
+ * @global BP_Messages_Box_Template $messages_template
  */
 function bp_messages_pagination_count() {
 	global $messages_template;
@@ -1057,6 +1088,8 @@ function bp_messages_bulk_management_dropdown() {
  *
  * @since 1.6.0
  *
+ * @global BP_Messages_Box_Template $messages_template
+ *
  * @return bool
  */
 function bp_messages_is_active_notice() {
@@ -1083,7 +1116,6 @@ function bp_messages_is_active_notice() {
  *
  * @since 1.0.0
  * @deprecated 1.6.0
- * @return bool
  */
 function bp_message_is_active_notice() {
 	echo bp_get_message_is_active_notice();
@@ -1111,10 +1143,12 @@ function bp_message_is_active_notice() {
  * Output the ID of the current notice in the loop.
  */
 function bp_message_notice_id() {
-	echo (int) bp_get_message_notice_id();
+	echo bp_get_message_notice_id();
 }
 	/**
 	 * Get the ID of the current notice in the loop.
+	 *
+	 * @global BP_Messages_Box_Template $messages_template
 	 *
 	 * @return int
 	 */
@@ -1128,7 +1162,7 @@ function bp_message_notice_id() {
 		 *
 		 * @param int $id ID of the current notice in the loop.
 		 */
-		return apply_filters( 'bp_get_message_notice_id', $messages_template->thread->id );
+		return apply_filters( 'bp_get_message_notice_id', (int) $messages_template->thread->id );
 	}
 
 /**
@@ -1139,6 +1173,8 @@ function bp_message_notice_post_date() {
 }
 	/**
 	 * Get the post date of the current notice in the loop.
+	 *
+	 * @global BP_Messages_Box_Template $messages_template
 	 *
 	 * @return string
 	 */
@@ -1170,7 +1206,9 @@ function bp_message_notice_subject( $notice = null ) {
 	 *
 	 * @since 5.0.0 The $notice parameter has been added.
 	 *
-	 * @param BP_Messages_Notice $notice The notice object.
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
+	 * @param BP_Messages_Notice|null $notice The notice object.
 	 * @return string
 	 */
 	function bp_get_message_notice_subject( $notice = null ) {
@@ -1205,7 +1243,9 @@ function bp_message_notice_text( $notice = null ) {
 	 *
 	 * @since 5.0.0 The $notice parameter has been added.
 	 *
-	 * @param BP_Messages_Notice $notice The notice object.
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
+	 * @param BP_Messages_Notice|null $notice The notice object.
 	 * @return string
 	 */
 	function bp_get_message_notice_text( $notice = null ) {
@@ -1234,6 +1274,8 @@ function bp_message_notice_delete_link() {
 	/**
 	 * Get the URL for deleting the current notice.
 	 *
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
 	 * @return string Delete URL.
 	 */
 	function bp_get_message_notice_delete_link() {
@@ -1258,6 +1300,8 @@ function bp_message_activate_deactivate_link() {
 }
 	/**
 	 * Get the URL for deactivating the current notice.
+	 *
+	 * @global BP_Messages_Box_Template $messages_template
 	 *
 	 * @return string
 	 */
@@ -1289,6 +1333,8 @@ function bp_message_activate_deactivate_text() {
 	/**
 	 * Generate the text ('Deactivate' or 'Activate') for the notice action link.
 	 *
+	 * @global BP_Messages_Box_Template $messages_template
+	 *
 	 * @return string
 	 */
 	function bp_get_message_activate_deactivate_text() {
@@ -1314,7 +1360,6 @@ function bp_message_activate_deactivate_text() {
  * Output the URL for dismissing the current notice for the current user.
  *
  * @since 9.0.0
- * @return string URL for dismissing the current notice for the current user.
  */
 function bp_message_notice_dismiss_link() {
 	echo esc_url( bp_get_message_notice_dismiss_link() );
@@ -1384,7 +1429,7 @@ function bp_message_get_notices() {
 	}
 
 	if ( is_array( $closed_notices ) ) {
-		if ( !in_array( $notice->id, $closed_notices ) && $notice->id ) {
+		if ( ! in_array( $notice->id, $closed_notices, true ) && $notice->id ) {
 			?>
 			<div id="message" class="info notice" rel="n-<?php echo esc_attr( $notice->id ); ?>">
 				<strong><?php bp_message_notice_subject( $notice ); ?></strong>
@@ -1576,6 +1621,8 @@ function bp_message_get_recipient_usernames() {
 /**
  * Initialize the messages template loop for a specific thread.
  *
+ * @global BP_Messages_Thread_Template $thread_template
+ *
  * @param array|string $args {
  *     Array of arguments. All are optional.
  *     @type int    $thread_id         ID of the thread whose messages you are displaying.
@@ -1618,15 +1665,20 @@ function bp_thread_messages_order() {
 	/**
 	 * Get the 'ASC' or 'DESC' messages order string for this loop.
 	 *
+	 * @global BP_Messages_Thread_Template $thread_template
+	 *
 	 * @return string
 	 */
 	function bp_get_thread_messages_order() {
 		global $thread_template;
+
 		return $thread_template->thread->messages_order;
 	}
 
 /**
  * Check whether there are more messages to iterate over.
+ *
+ * @global BP_Messages_Thread_Template $thread_template
  *
  * @return bool
  */
@@ -1639,7 +1691,9 @@ function bp_thread_messages() {
 /**
  * Set up the current thread inside the loop.
  *
- * @return object
+ * @global BP_Messages_Thread_Template $thread_template
+ *
+ * @return BP_Messages_Message
  */
 function bp_thread_the_message() {
 	global $thread_template;
@@ -1655,6 +1709,8 @@ function bp_the_thread_id() {
 }
 	/**
 	 * Get the ID of the thread that the current loop belongs to.
+	 *
+	 * @global BP_Messages_Thread_Template $thread_template
 	 *
 	 * @return int
 	 */
@@ -1679,6 +1735,8 @@ function bp_the_thread_subject() {
 }
 	/**
 	 * Get the subject of the thread currently being iterated over.
+	 *
+	 * @global BP_Messages_Thread_Template $thread_template
 	 *
 	 * @return string
 	 */
@@ -1712,6 +1770,13 @@ function bp_get_the_thread_recipients() {
 		$recipients = bp_get_thread_recipients_list();
 	}
 
+	/**
+	 * Filters the thread recipients.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param string $recipients List of thread recipients.
+	 */
 	return apply_filters( 'bp_get_the_thread_recipients', $recipients );
 }
 
@@ -1720,10 +1785,13 @@ function bp_get_the_thread_recipients() {
  *
  * @since 2.2.0
  *
+ * @global BP_Messages_Thread_Template $thread_template
+ *
  * @return int
  */
 function bp_get_thread_recipients_count() {
 	global $thread_template;
+
 	/**
 	 * Filters the total number of recipients in a thread.
 	 *
@@ -1765,6 +1833,8 @@ function bp_the_thread_recipients_list() {
 	 *
 	 * @since 2.2.0
 	 *
+	 * @global BP_Messages_Thread_Template $thread_template
+	 *
 	 * @return string
 	 */
 	function bp_get_thread_recipients_list() {
@@ -1805,12 +1875,14 @@ function bp_the_thread_recipients_list() {
  * @since 1.9.0
  */
 function bp_the_thread_message_id() {
-	echo (int) bp_get_the_thread_message_id();
+	echo bp_get_the_thread_message_id();
 }
 	/**
 	 * Get the ID of the current message in the thread.
 	 *
 	 * @since 1.9.0
+	 *
+	 * @global BP_Messages_Thread_Template $thread_template
 	 *
 	 * @return int
 	 */
@@ -1819,7 +1891,7 @@ function bp_the_thread_message_id() {
 
 		$thread_message_id = isset( $thread_template->message->id )
 			? (int) $thread_template->message->id
-			: null;
+			: 0;
 
 		/**
 		 * Filters the ID of the current message in the thread.
@@ -1828,7 +1900,7 @@ function bp_the_thread_message_id() {
 		 *
 		 * @param int $thread_message_id ID of the current message in the thread.
 		 */
-		return apply_filters( 'bp_get_the_thread_message_id', $thread_message_id );
+		return (int) apply_filters( 'bp_get_the_thread_message_id', (int) $thread_message_id );
 	}
 
 /**
@@ -1844,6 +1916,8 @@ function bp_the_thread_message_css_class() {
 	 *
 	 * @since 2.1.0
 	 *
+	 * @global BP_Messages_Thread_Template $thread_template
+	 *
 	 * @return string
 	 */
 	function bp_get_the_thread_message_css_class() {
@@ -1858,7 +1932,7 @@ function bp_the_thread_message_css_class() {
 		$classes[] = 'sent-by-' . intval( $thread_template->message->sender_id );
 
 		// Whether the sender is the same as the logged-in user.
-		if ( bp_loggedin_user_id() == $thread_template->message->sender_id ) {
+		if ( bp_loggedin_user_id() === $thread_template->message->sender_id ) {
 			$classes[] = 'sent-by-me';
 		}
 
@@ -1883,15 +1957,16 @@ function bp_the_thread_message_alt_class() {
 	/**
 	 * Get the CSS class used for message zebra striping.
 	 *
+	 * @global BP_Messages_Thread_Template $thread_template
+	 *
 	 * @return string
 	 */
 	function bp_get_the_thread_message_alt_class() {
 		global $thread_template;
 
-		if ( $thread_template->current_message % 2 == 1 ) {
+		$class = 'odd';
+		if ( 1 === $thread_template->current_message % 2 ) {
 			$class = 'even alt';
-		} else {
-			$class = 'odd';
 		}
 
 		/**
@@ -1910,12 +1985,14 @@ function bp_the_thread_message_alt_class() {
  * @since 2.1.0
  */
 function bp_the_thread_message_sender_id() {
-	echo (int) bp_get_the_thread_message_sender_id();
+	echo bp_get_the_thread_message_sender_id();
 }
 	/**
 	 * Return the ID for message sender within a single thread.
 	 *
 	 * @since 2.1.0
+	 *
+	 * @global BP_Messages_Thread_Template $thread_template
 	 *
 	 * @return int
 	 */
@@ -1947,6 +2024,8 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 }
 	/**
 	 * Get the avatar for the current message sender.
+	 *
+	 * @global BP_Messages_Thread_Template $thread_template
 	 *
 	 * @param array|string $args {
 	 *     Array of arguments. See {@link bp_core_fetch_avatar()} for more
@@ -1997,6 +2076,8 @@ function bp_the_thread_message_sender_link() {
 	 *
 	 * @since 1.1.0
 	 *
+	 * @global BP_Messages_Thread_Template $thread_template
+	 *
 	 * @return string
 	 */
 	function bp_get_the_thread_message_sender_link() {
@@ -2024,6 +2105,8 @@ function bp_the_thread_message_sender_name() {
 	 * Get the display name of the sender of the current message.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @global BP_Messages_Thread_Template $thread_template
 	 *
 	 * @return string
 	 */
@@ -2121,6 +2204,7 @@ function bp_the_thread_message_date_sent() {
 	 *
 	 * @since 2.1.0
 	 *
+	 * @global BP_Messages_Thread_Template $thread_template
 	 *
 	 * @return int
 	 */
@@ -2149,6 +2233,8 @@ function bp_the_thread_message_content() {
 	 * Get the content of the current message in the loop.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @global BP_Messages_Thread_Template $thread_template
 	 *
 	 * @return string
 	 */
@@ -2182,8 +2268,8 @@ function bp_the_thread_message_content() {
  * @see BP_Embed
  */
 function bp_messages_embed() {
-	add_filter( 'embed_post_id',         'bp_get_the_thread_message_id' );
-	add_filter( 'bp_embed_get_cache',    'bp_embed_message_cache',      10, 3 );
+	add_filter( 'embed_post_id', 'bp_get_the_thread_message_id' );
+	add_filter( 'bp_embed_get_cache', 'bp_embed_message_cache', 10, 3 );
 	add_action( 'bp_embed_update_cache', 'bp_embed_message_save_cache', 10, 3 );
 }
 add_action( 'thread_loop_start', 'bp_messages_embed' );

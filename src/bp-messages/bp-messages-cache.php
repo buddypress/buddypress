@@ -53,7 +53,7 @@ add_action( 'messages_screen_inbox',   'bp_core_clear_cache' );
  *
  * @param BP_Messages_Message $message Message being saved.
  */
-function bp_messages_clear_cache_on_message_save( BP_Messages_Message $message ) {
+function bp_messages_clear_cache_on_message_save( $message ) {
 	// Delete thread cache.
 	wp_cache_delete( $message->thread_id, 'bp_messages_threads' );
 
@@ -78,7 +78,7 @@ add_action( 'messages_message_after_save', 'bp_messages_clear_cache_on_message_s
  */
 function bp_messages_clear_cache_on_message_delete( $thread_ids, $user_id ) {
 	// Delete thread and thread recipient cache.
-	foreach( (array) $thread_ids as $thread_id ) {
+	foreach ( (array) $thread_ids as $thread_id ) {
 		wp_cache_delete( $thread_id, 'bp_messages_threads' );
 		wp_cache_delete( "thread_recipients_{$thread_id}", 'bp_messages' );
 	}
@@ -94,11 +94,9 @@ add_action( 'messages_delete_thread', 'bp_messages_clear_cache_on_message_delete
  * Currently, invalidates active notice cache.
  *
  * @since 2.0.0
- *
- * @param BP_Messages_Notice $notice Notice that was saved.
  */
-function bp_notices_clear_cache( $notice ) {
+function bp_notices_clear_cache() {
 	wp_cache_delete( 'active_notice', 'bp_messages' );
 }
-add_action( 'messages_notice_after_save',    'bp_notices_clear_cache' );
+add_action( 'messages_notice_after_save', 'bp_notices_clear_cache' );
 add_action( 'messages_notice_before_delete', 'bp_notices_clear_cache' );

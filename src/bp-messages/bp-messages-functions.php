@@ -211,30 +211,30 @@ function messages_new_message( $args = '' ) {
  * @return bool True on success, false on failure.
  */
 function messages_send_notice( $subject, $message ) {
-	if ( !bp_current_user_can( 'bp_moderate' ) || empty( $subject ) || empty( $message ) ) {
+
+	if ( ! bp_current_user_can( 'bp_moderate' ) || empty( $subject ) || empty( $message ) ) {
 		return false;
-
-	// Has access to send notices, lets do it.
-	} else {
-		$notice            = new BP_Messages_Notice;
-		$notice->subject   = $subject;
-		$notice->message   = $message;
-		$notice->date_sent = bp_core_current_time();
-		$notice->is_active = 1;
-		$notice->save(); // Send it.
-
-		/**
-		 * Fires after a notice has been successfully sent.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $subject Subject of the notice.
-		 * @param string $message Content of the notice.
-		 */
-		do_action_ref_array( 'messages_send_notice', array( $subject, $message ) );
-
-		return true;
 	}
+
+	$notice            = new BP_Messages_Notice;
+	$notice->subject   = $subject;
+	$notice->message   = $message;
+	$notice->date_sent = bp_core_current_time();
+	$notice->is_active = 1;
+	$notice->save(); // Send it.
+
+	/**
+	 * Fires after a notice has been successfully sent.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string             $subject Subject of the notice.
+	 * @param string             $message Content of the notice.
+	 * @param BP_Messages_Notice $notice  Notice object sent.
+	 */
+	do_action_ref_array( 'messages_send_notice', array( $subject, $message, $notice ) );
+
+	return true;
 }
 
 /**
@@ -275,7 +275,7 @@ function messages_delete_thread( $thread_ids, $user_id = 0 ) {
 	if ( is_array( $thread_ids ) ) {
 		$error = 0;
 		for ( $i = 0, $count = count( $thread_ids ); $i < $count; ++$i ) {
-			if ( ! BP_Messages_Thread::delete( $thread_ids[$i], $user_id ) ) {
+			if ( ! BP_Messages_Thread::delete( $thread_ids[ $i ], $user_id ) ) {
 				$error = 1;
 			}
 		}
@@ -426,6 +426,9 @@ function messages_is_valid_thread( $thread_id ) {
  *
  * @since 2.3.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param  int $message_id ID of the message.
  * @return int The ID of the thread if found, otherwise 0.
  */
@@ -445,6 +448,8 @@ function messages_get_message_thread_id( $message_id = 0 ) {
  * If $meta_key is false, this will delete all meta for the message ID.
  *
  * @since 2.2.0
+ *
+ * @global wpdb $wpdb WordPress database object.
  *
  * @see delete_metadata() for full documentation excluding $meta_type variable.
  *
@@ -578,9 +583,8 @@ function messages_notification_new_message( $raw_args = array() ) {
 	}
 
 	// These should be extracted below.
-	$recipients    = array();
-	$email_subject = $email_content = '';
-	$sender_id     = 0;
+	$recipients = array();
+	$sender_id  = 0;
 
 	// Barf.
 	extract( $args );
@@ -666,8 +670,6 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
 		);
 	}
 
-	$user_data_to_export = array();
-
 	$user_threads = BP_Messages_Thread::get_current_threads_for_user( array(
 		'user_id' => $user->ID,
 		'box'     => 'sentbox',
@@ -716,7 +718,7 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
 					'value' => $message->date_sent,
 				),
 				array(
-					'name' => __( 'Recipients', 'buddypress' ),
+					'name'  => __( 'Recipients', 'buddypress' ),
 					'value' => $recipients,
 				),
 				array(

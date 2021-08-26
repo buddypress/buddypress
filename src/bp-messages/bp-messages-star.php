@@ -10,7 +10,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/** UTILITY **************************************************************/
+/** UTILITY ****************************************************************/
 
 /**
  * Return the starred messages slug. Defaults to 'starred'.
@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @return string
  */
 function bp_get_messages_starred_slug() {
+
 	/**
 	 * Filters the starred message slug.
 	 *
@@ -50,11 +51,7 @@ function bp_messages_is_message_starred( $mid = 0, $user_id = 0 ) {
 
 	$starred = array_flip( (array) bp_messages_get_meta( $mid, 'starred_by_user', false ) );
 
-	if ( isset( $starred[$user_id] ) ) {
-		return true;
-	} else {
-		return false;
-	}
+	return isset( $starred[ $user_id ] );
 }
 
 /**
@@ -255,7 +252,7 @@ function bp_messages_star_set_action( $args = array() ) {
 		'thread_id'  => 0,
 		'message_id' => 0,
 		'user_id'    => bp_displayed_user_id(),
-		'bulk'       => false
+		'bulk'       => false,
 	) );
 
 	// Set thread ID.

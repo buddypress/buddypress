@@ -18,10 +18,11 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  */
 class BP_Messages_Notice {
+
 	/**
 	 * The notice ID.
 	 *
-	 * @var int
+	 * @var int|null
 	 */
 	public $id = null;
 
@@ -61,7 +62,7 @@ class BP_Messages_Notice {
 	 * @param int|null $id Optional. The ID of the current notice.
 	 */
 	public function __construct( $id = null ) {
-		if ( $id ) {
+		if ( ! empty( $id ) ) {
 			$this->id = (int) $id;
 			$this->populate();
 		}
@@ -71,6 +72,9 @@ class BP_Messages_Notice {
 	 * Populate method.
 	 *
 	 * Runs during constructor.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @since 1.0.0
 	 */
@@ -91,6 +95,9 @@ class BP_Messages_Notice {
 
 	/**
 	 * Saves a notice.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @since 1.0.0
 	 *
@@ -173,6 +180,9 @@ class BP_Messages_Notice {
 	/**
 	 * Deletes a notice.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @since 1.0.0
 	 *
 	 * @return bool
@@ -215,6 +225,9 @@ class BP_Messages_Notice {
 	 *
 	 * To get all notices, pass a value of -1 to pag_num.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @since 1.0.0
 	 *
 	 * @param array $args {
@@ -222,7 +235,7 @@ class BP_Messages_Notice {
 	 *     @type int $pag_num  Number of notices per page. Defaults to 20.
 	 *     @type int $pag_page The page number.  Defaults to 1.
 	 * }
-	 * @return object List of notices to display.
+	 * @return array List of notices to display.
 	 */
 	public static function get_notices( $args = array() ) {
 		global $wpdb;
@@ -252,13 +265,17 @@ class BP_Messages_Notice {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param array $r Array of parameters.
+		 * @param array $notices List of notices sorted by date and paginated.
+		 * @param array $r       Array of parameters.
 		 */
 		return apply_filters( 'messages_notice_get_notices', $notices, $r );
 	}
 
 	/**
 	 * Returns the total number of recorded notices.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @since 1.0.0
 	 *
@@ -275,16 +292,21 @@ class BP_Messages_Notice {
 		 * Filters the total number of notices.
 		 *
 		 * @since 2.8.0
+		 *
+		 * @param int $notice_count Total number of recorded notices.
 		 */
-		return (int) apply_filters( 'messages_notice_get_total_notice_count', $notice_count );
+		return apply_filters( 'messages_notice_get_total_notice_count', (int) $notice_count );
 	}
 
 	/**
 	 * Returns the active notice that should be displayed on the front end.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @since 1.0.0
 	 *
-	 * @return object The BP_Messages_Notice object.
+	 * @return BP_Messages_Notice
 	 */
 	public static function get_active() {
 		$notice = wp_cache_get( 'active_notice', 'bp_messages' );
@@ -304,6 +326,8 @@ class BP_Messages_Notice {
 		 * Gives ability to filter the active notice that should be displayed on the front end.
 		 *
 		 * @since 2.8.0
+		 *
+		 * @param BP_Messages_Notice $notice The notice object.
 		 */
 		return apply_filters( 'messages_notice_get_active', $notice );
 	}

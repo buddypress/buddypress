@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: User's "Messages > Sent" screen handler
+ * Messages: User's "Messages > Sent" screen handler.
  *
  * @package BuddyPress
  * @subpackage MessageScreens

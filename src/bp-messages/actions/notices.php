@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: Edit notice action handler
+ * Messages: Edit notice action handler.
  *
  * @package BuddyPress
  * @subpackage MessageActions
@@ -12,7 +12,7 @@
  *
  * @since 2.4.0 This function was split from messages_screen_notices(). See #6505.
  *
- * @return boolean
+ * @return bool
  */
 function bp_messages_action_edit_notice() {
 

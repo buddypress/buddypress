@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: Unread action handler
+ * Messages: Unread action handler.
  *
  * @package BuddyPress
  * @subpackage MessageActions
@@ -12,8 +12,8 @@
  *
  * @since 2.2.0
  *
- * @return false|null Returns false on failure. Otherwise redirects back to the
- *                   message box URL.
+ * @return bool Returns false on failure. Otherwise redirects back to the
+ *              message box URL.
  */
 function bp_messages_action_mark_unread() {
 

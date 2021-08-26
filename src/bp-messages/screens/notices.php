@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: User's "Messages > Notices" screen handler
+ * Messages: User's "Messages > Notices" screen handler.
  *
  * @package BuddyPress
  * @subpackage MessageScreens
@@ -11,8 +11,6 @@
  * Load the Messages > Notices screen.
  *
  * @since 1.0.0
- *
- * @return false|null False on failure.
  */
 function messages_screen_notices() {
 

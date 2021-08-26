@@ -3,7 +3,7 @@
  * BuddyPress Messages Box Template Class.
  *
  * @package BuddyPress
- * @subpackage MessagesTemplate
+ * @subpackage MessagesClasses
  * @since 1.5.0
  */
 
@@ -46,7 +46,7 @@ class BP_Messages_Box_Template {
 	/**
 	 * The thread object currently being iterated on.
 	 *
-	 * @var object
+	 * @var BP_Messages_Thread|bool
 	 */
 	public $thread = false;
 
@@ -104,7 +104,7 @@ class BP_Messages_Box_Template {
 	 *
 	 * @param array $args {
 	 *     Array of arguments. See bp_has_message_threads() for full description.
-	 * }
+	 * }.
 	 */
 	public function __construct( $args = array() ) {
 		$function_args = func_get_args();
@@ -229,21 +229,17 @@ class BP_Messages_Box_Template {
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
 	public function has_threads() {
-		if ( $this->thread_count ) {
-			return true;
-		}
-
-		return false;
+		return ( $this->thread_count );
 	}
 
 	/**
 	 * Set up the next member and iterate index.
 	 *
-	 * @return object The next member to iterate over.
+	 * @return BP_Messages_Thread The next member to iterate over.
 	 */
 	public function next_thread() {
 		$this->current_thread++;
-		$this->thread = $this->threads[$this->current_thread];
+		$this->thread = $this->threads[ $this->current_thread ];
 
 		return $this->thread;
 	}
@@ -269,10 +265,10 @@ class BP_Messages_Box_Template {
 	 *
 	 * @return bool True if there are more threads to show, otherwise false.
 	 */
-	function message_threads() {
+	public function message_threads() {
 		if ( $this->current_thread + 1 < $this->thread_count ) {
 			return true;
-		} elseif ( $this->current_thread + 1 == $this->thread_count ) {
+		} elseif ( $this->current_thread + 1 === $this->thread_count ) {
 
 			/**
 			 * Fires when at the end of threads to iterate over.
@@ -307,7 +303,7 @@ class BP_Messages_Box_Template {
 			$this->thread->messages = array_reverse( (array) $this->thread->messages );
 
 			// Set up the last message data.
-			if ( count($this->thread->messages) > 1 ) {
+			if ( count( $this->thread->messages ) > 1 ) {
 				if ( 'inbox' == $this->box ) {
 					foreach ( (array) $this->thread->messages as $key => $message ) {
 						if ( bp_loggedin_user_id() != $message->sender_id ) {
@@ -334,7 +330,7 @@ class BP_Messages_Box_Template {
 		}
 
 		// Loop has just started.
-		if ( 0 == $this->current_thread ) {
+		if ( 0 === $this->current_thread ) {
 
 			/**
 			 * Fires if at the start of the message thread loop.

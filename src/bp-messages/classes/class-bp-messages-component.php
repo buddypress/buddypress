@@ -5,7 +5,7 @@
  * A private messages component, for users to send messages to each other.
  *
  * @package BuddyPress
- * @subpackage MessagesLoader
+ * @subpackage MessagesClasses
  * @since 1.5.0
  */
 

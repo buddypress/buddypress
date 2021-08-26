@@ -1,6 +1,6 @@
 <?php
 /**
- * Messages: Bulk-manage action handler
+ * Messages: Bulk-manage action handler.
  *
  * @package BuddyPress
  * @subpackage MessageActions
@@ -24,11 +24,10 @@ function bp_messages_action_bulk_manage() {
 	$action   = ! empty( $_POST['messages_bulk_action'] ) ? $_POST['messages_bulk_action'] : '';
 	$nonce    = ! empty( $_POST['messages_bulk_nonce'] ) ? $_POST['messages_bulk_nonce'] : '';
 	$messages = ! empty( $_POST['message_ids'] ) ? $_POST['message_ids'] : '';
-
 	$messages = wp_parse_id_list( $messages );
 
 	// Bail if no action or no IDs.
-	if ( ( ! in_array( $action, array( 'delete', 'read', 'unread' ) ) ) || empty( $messages ) || empty( $nonce ) ) {
+	if ( ( ! in_array( $action, array( 'delete', 'read', 'unread' ), true ) ) || empty( $messages ) || empty( $nonce ) ) {
 		bp_core_redirect( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/' );
 	}
 
@@ -47,26 +46,26 @@ function bp_messages_action_bulk_manage() {
 
 	// Delete, mark as read or unread depending on the user 'action'.
 	switch ( $action ) {
-		case 'delete' :
+		case 'delete':
 			foreach ( $messages as $message ) {
 				messages_delete_thread( $message );
 			}
 			bp_core_add_message( __( 'Messages deleted.', 'buddypress' ) );
-		break;
+			break;
 
-		case 'read' :
+		case 'read':
 			foreach ( $messages as $message ) {
 				messages_mark_thread_read( $message );
 			}
 			bp_core_add_message( __( 'Messages marked as read', 'buddypress' ) );
-		break;
+			break;
 
-		case 'unread' :
+		case 'unread':
 			foreach ( $messages as $message ) {
 				messages_mark_thread_unread( $message );
 			}
 			bp_core_add_message( __( 'Messages marked as unread.', 'buddypress' ) );
-		break;
+			break;
 	}
 
 	// Redirect back to message box.

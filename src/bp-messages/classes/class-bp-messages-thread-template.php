@@ -3,7 +3,7 @@
  * BuddyPress Messages Thread Template Class.
  *
  * @package BuddyPress
- * @subpackage MessagesTemplate
+ * @subpackage MessagesClasses
  * @since 1.5.0
  */
 
@@ -100,17 +100,13 @@ class BP_Messages_Thread_Template {
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
 	public function has_messages() {
-		if ( ! empty( $this->message_count ) ) {
-			return true;
-		}
-
-		return false;
+		return ( ! empty( $this->message_count ) );
 	}
 
 	/**
-	 * Set up the next member and iterate index.
+	 * Set up the next message and iterate index.
 	 *
-	 * @return object The next member to iterate over.
+	 * @return BP_Messages_Message The next message to iterate over.
 	 */
 	public function next_message() {
 		$this->current_message++;

@@ -8,9 +8,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Callback function to render the BP Sitewide Notices Block.
@@ -18,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 9.0.0
  *
  * @param array $attributes The block attributes.
- * @return string           HTML output.
+ * @return string HTML output.
  */
 function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 	$block_args = bp_parse_args(

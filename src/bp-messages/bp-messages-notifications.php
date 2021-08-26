@@ -119,14 +119,14 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 			$secondary_item_id
 		);
 
-	// Custom notification action for the Messages component
+	// Custom notification action for the Messages component.
 	} else {
 		if ( 'string' === $format ) {
 			$retval = $text;
 		} else {
 			$retval = array(
 				'text' => $text,
-				'link' => $link
+				'link' => $link,
 			);
 		}
 
@@ -215,6 +215,8 @@ add_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification'
  * Mark new message notification when member reads a message thread directly.
  *
  * @since 1.9.0
+ *
+ * @global BP_Messages_Thread_Template $thread_template
  */
 function bp_messages_screen_conversation_mark_notifications() {
 	global $thread_template;
@@ -308,23 +310,23 @@ function messages_screen_notification_settings() {
 		<thead>
 			<tr>
 				<th class="icon"></th>
-				<th class="title"><?php _e( 'Messages', 'buddypress' ) ?></th>
-				<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
-				<th class="no"><?php _e( 'No', 'buddypress' )?></th>
+				<th class="title"><?php esc_html_e( 'Messages', 'buddypress' ); ?></th>
+				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ); ?></th>
+				<th class="no"><?php esc_html_e( 'No', 'buddypress' ); ?></th>
 			</tr>
 		</thead>
 
 		<tbody>
 			<tr id="messages-notification-settings-new-message">
 				<td></td>
-				<td><?php _e( 'A member sends you a new message', 'buddypress' ) ?></td>
+				<td><?php esc_html_e( 'A member sends you a new message', 'buddypress' ); ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_messages_new_message]" id="notification-messages-new-messages-yes" value="yes" <?php checked( $new_messages, 'yes', true ) ?>/><label for="notification-messages-new-messages-yes" class="bp-screen-reader-text"><?php
 					/* translators: accessibility text */
-					_e( 'Yes, send email', 'buddypress' );
+					esc_html_e( 'Yes, send email', 'buddypress' );
 				?></label></td>
 				<td class="no"><input type="radio" name="notifications[notification_messages_new_message]" id="notification-messages-new-messages-no" value="no" <?php checked( $new_messages, 'no', true ) ?>/><label for="notification-messages-new-messages-no" class="bp-screen-reader-text"><?php
 					/* translators: accessibility text */
-					_e( 'No, do not send email', 'buddypress' );
+					esc_html_e( 'No, do not send email', 'buddypress' );
 				?></label></td>
 			</tr>
 

@@ -212,7 +212,7 @@ class BP_Messages_Thread {
 	 * @see BP_Messages_Thread::mark_as_read()
 	 */
 	public function mark_read() {
-		BP_Messages_Thread::mark_as_read( $this->thread_id );
+		self::mark_as_read( $this->thread_id );
 	}
 
 	/**
@@ -223,7 +223,7 @@ class BP_Messages_Thread {
 	 * @see BP_Messages_Thread::mark_as_unread()
 	 */
 	public function mark_unread() {
-		BP_Messages_Thread::mark_as_unread( $this->thread_id );
+		self::mark_as_unread( $this->thread_id );
 	}
 
 	/**
@@ -231,6 +231,9 @@ class BP_Messages_Thread {
 	 *
 	 * @since 1.0.0
 	 * @since 2.3.0 Added $thread_id as a parameter.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $thread_id The thread ID.
 	 * @return array
@@ -282,9 +285,12 @@ class BP_Messages_Thread {
 	 *
 	 * @since 2.3.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $thread_id The message thread ID.
 	 *
-	 * @return object List of messages associated with a thread.
+	 * @return array List of messages associated with a thread.
 	 */
 	public static function get_messages( $thread_id = 0 ) {
 		$thread_id = (int) $thread_id;
@@ -333,6 +339,9 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 * @since 2.7.0 The $user_id parameter was added. Previously the current user
 	 *              was always assumed.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $thread_id The message thread ID.
 	 * @param int $user_id The ID of the user in the thread to mark messages as
@@ -427,6 +436,9 @@ class BP_Messages_Thread {
 	 * Get current message threads for a user.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
 	 *     Array of arguments.
@@ -592,6 +604,8 @@ class BP_Messages_Thread {
 	 *
 	 * @since 2.2.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $meta_query An array of meta_query filters. See the
 	 *                          documentation for WP_Meta_Query for details.
 	 * @return array $sql_array 'join' and 'where' clauses.
@@ -623,10 +637,13 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 * @since 9.0.0 Added the `user_id` parameter.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $thread_id The message thread ID.
 	 * @param int $user_id   The user the thread will be marked as read.
 	 *
-	 * @return false|int Number of threads marked as read or false on error.
+	 * @return bool|int Number of threads marked as read or false on error.
 	 */
 	public static function mark_as_read( $thread_id = 0, $user_id = 0 ) {
 		global $wpdb;
@@ -664,10 +681,13 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 * @since 9.0.0 Added the `user_id` parameter.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $thread_id The message thread ID.
 	 * @param int $user_id   The user the thread will be marked as unread.
 	 *
-	 * @return false|int Number of threads marked as unread or false on error.
+	 * @return bool|int Number of threads marked as unread or false on error.
 	 */
 	public static function mark_as_unread( $thread_id = 0, $user_id = 0 ) {
 		global $wpdb;
@@ -689,12 +709,14 @@ class BP_Messages_Thread {
 		 * Fires when messages thread was marked as unread.
 		 *
 		 * @since 2.8.0
-		 * @since 9.0.0 Added the `user_id` parameter.
+		 * @since 9.0.0  Added the `$user_id` parameter.
+		 * @since 10.0.0 Added the `$retval` parameter.
 		 *
-		 * @param int $thread_id The message thread ID.
-		 * @param int $user_id   The user the thread will be marked as unread.
+		 * @param int      $thread_id The message thread ID.
+		 * @param int      $user_id   The user the thread will be marked as unread.
+		 * @param bool|int $retval     =Number of threads marked as unread or false on error.
 		 */
-		do_action( 'messages_thread_mark_as_unread', $thread_id, $user_id );
+		do_action( 'messages_thread_mark_as_unread', $thread_id, $user_id, $retval );
 
 		return $retval;
 	}
@@ -709,7 +731,7 @@ class BP_Messages_Thread {
 	 *                        Defaults to 'inbox'.
 	 * @param string $type    The type of messages to get. Either 'all' or 'unread'.
 	 *                        or 'read'. Defaults to 'all'.
-	 * @return int $value Total thread count for the provided user.
+	 * @return int Total thread count for the provided user.
 	 */
 	public static function get_total_threads_for_user( $user_id, $box = 'inbox', $type = 'all' ) {
 		global $wpdb;
@@ -735,6 +757,9 @@ class BP_Messages_Thread {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $thread_id The message thread ID.
 	 * @return bool
 	 */
@@ -749,13 +774,16 @@ class BP_Messages_Thread {
 			return false;
 		}
 
-		return in_array( bp_loggedin_user_id(), $sender_ids );
+		return in_array( bp_loggedin_user_id(), $sender_ids, true );
 	}
 
 	/**
 	 * Returns the userlink of the last sender in a message thread.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $thread_id The message thread ID.
 	 * @return string|bool The user link on success. Boolean false on failure.
@@ -777,8 +805,11 @@ class BP_Messages_Thread {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $user_id The user ID.
-	 * @return int $unread_count Total inbox unread count for user.
+	 * @return int Total inbox unread count for user.
 	 */
 	public static function get_inbox_count( $user_id = 0 ) {
 		global $wpdb;
@@ -838,7 +869,7 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 *
 	 * @param int $thread_id The message thread ID.
-	 * @return false|int|null The message thread ID on success, null on failure.
+	 * @return bool|int|null The message thread ID on success, null on failure.
 	 */
 	public static function is_valid( $thread_id = 0 ) {
 
@@ -867,7 +898,7 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 *
 	 * @param array $recipients Array containing the message recipients (array of objects).
-	 * @return string $value String of message recipent userlinks.
+	 * @return string String of message recipent userlinks.
 	 */
 	public static function get_recipient_links( $recipients ) {
 
@@ -894,9 +925,13 @@ class BP_Messages_Thread {
 	/**
 	 * Upgrade method for the older BP message thread DB table.
 	 *
+	 * @todo We should remove this. No one is going to upgrade from v1.1, right?
+	 *
 	 * @since 1.2.0
 	 *
-	 * @todo We should remove this.  No one is going to upgrade from v1.1, right?
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @return bool
 	 */
 	public static function update_tables() {
