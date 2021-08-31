@@ -78,6 +78,70 @@ class BP_Signup {
 	 */
 	public $activation_key;
 
+	/**
+	 * The activated date for the user.
+	 *
+	 * @since 10.0.0
+	 * @var string
+	 */
+	public $activated;
+
+	/**
+	 * Whether the user account is activated or not.
+	 *
+	 * @since 10.0.0
+	 * @var bool
+	 */
+	public $active;
+
+	/**
+	 * The date that the last activation email was sent.
+	 *
+	 * @since 10.0.0
+	 * @var string
+	 */
+	public $date_sent;
+
+	/**
+	 * Was the last activation email sent in the last 24 hours?
+	 *
+	 * @since 10.0.0
+	 * @var bool
+	 */
+	public $recently_sent;
+
+	/**
+	 * The number of activation emails sent to this user.
+	 *
+	 * @since 10.0.0
+	 * @var int
+	 */
+	public $count_sent;
+
+	/**
+	 * The domain for the signup.
+	 *
+	 * @since 10.0.0
+	 * @var string
+	 */
+	public $domain;
+
+	/**
+	 * The path for the signup.
+	 *
+	 * @since 10.0.0
+	 * @var string
+	 */
+	public $path;
+
+	/**
+	 * The title for the signup.
+	 *
+	 * @since 10.0.0
+	 * @var string
+	 */
+	public $title;
+
 
 	/** Public Methods *******************************************************/
 
@@ -89,7 +153,7 @@ class BP_Signup {
 	 * @param integer $signup_id The ID for the signup being queried.
 	 */
 	public function __construct( $signup_id = 0 ) {
-		if ( !empty( $signup_id ) ) {
+		if ( ! empty( $signup_id ) ) {
 			$this->id = $signup_id;
 			$this->populate();
 		}
@@ -103,16 +167,73 @@ class BP_Signup {
 	public function populate() {
 		global $wpdb;
 
-		$signups_table = buddypress()->members->table_name_signups;
-		$signup        = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$signups_table} WHERE signup_id = %d AND active = 0", $this->id ) );
+		// Get BuddyPress.
+		$bp = buddypress();
 
-		$this->avatar         = get_avatar( $signup->user_email, 32 );
+		// Check cache for signup data.
+		$signup = wp_cache_get( $this->id, 'bp_signups' );
+
+		// Cache missed, so query the DB.
+		if ( false === $signup ) {
+			$signup = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$bp->members->table_name_signups} WHERE signup_id = %d", $this->id ) );
+
+			wp_cache_set( $this->id, $signup, 'bp_signups' );
+		}
+
+		// No signup found so set the ID and bail.
+		if ( empty( $signup ) || is_wp_error( $signup ) ) {
+			$this->id = 0;
+			return;
+		}
+
+		/*
+		 * Add every db column to the object.
+		 */
+		$this->signup_id      = $this->id;
+		$this->domain         = $signup->domain;
+		$this->path           = $signup->path;
+		$this->title          = $signup->title;
 		$this->user_login     = $signup->user_login;
 		$this->user_email     = $signup->user_email;
-		$this->meta           = maybe_unserialize( $signup->meta );
-		$this->user_name      = ! empty( $this->meta['field_1'] ) ? wp_unslash( $this->meta['field_1'] ) : '';
 		$this->registered     = $signup->registered;
+		$this->activated      = $signup->activated;
+		$this->active         = (bool) $signup->active;
 		$this->activation_key = $signup->activation_key;
+		$this->meta           = maybe_unserialize( $signup->meta );
+
+		// Add richness.
+		$this->avatar    = get_avatar( $signup->user_email, 32 );
+		$this->user_name = ! empty( $this->meta['field_1'] ) ? wp_unslash( $this->meta['field_1'] ) : '';
+
+		// When was the activation email sent?
+		if ( isset( $this->meta['sent_date'] ) && '0000-00-00 00:00:00' !== $this->meta['sent_date'] ) {
+			$this->date_sent = $this->meta['sent_date'];
+
+			// Sent date defaults to date of registration.
+		} else {
+			$this->date_sent = $signup->registered;
+		}
+
+		/**
+		 * Calculate a diff between now & last time
+		 * an activation link has been resent.
+		 */
+		$sent_at = mysql2date( 'U', $this->date_sent );
+		$now     = current_time( 'timestamp', true );
+		$diff    = $now - $sent_at;
+
+		/**
+		 * Set a boolean to track whether an activation link
+		 * was sent in the last day.
+		 */
+		$this->recently_sent = ( $diff < 1 * DAY_IN_SECONDS );
+
+		// How many times has the activation email been sent?
+		if ( isset( $this->meta['count_sent'] ) ) {
+			$this->count_sent = absint( $this->meta['count_sent'] );
+		} else {
+			$this->count_sent = 0;
+		}
 	}
 
 	/** Static Methods *******************************************************/
@@ -126,13 +247,14 @@ class BP_Signup {
 	 * @param array $args {
 	 *     The argument to retrieve desired signups.
 	 *     @type int         $offset         Offset amount. Default 0.
-	 *     @type int         $number         How many to fetch. Default 1.
+	 *     @type int         $number         How many to fetch. Pass -1 to fetch all. Default 1.
 	 *     @type bool|string $usersearch     Whether or not to search for a username. Default false.
 	 *     @type string      $orderby        Order By parameter. Possible values are `signup_id`, `login`, `email`,
 	 *                                       `registered`, `activated`. Default `signup_id`.
 	 *     @type string      $order          Order direction. Default 'DESC'.
 	 *     @type bool        $include        Whether or not to include more specific query params.
-	 *     @type string      $activation_key Activation key to search for.
+	 *     @type string      $activation_key Activation key to search for. If specified, all other
+	 *                                       parameters will be ignored.
 	 *     @type string      $user_login     Specific user login to return.
 	 *     @type string      $fields         Which fields to return. Specify 'ids' to fetch a list of signups IDs.
 	 *                                       Default: 'all' (return BP_Signup objects).
@@ -145,7 +267,9 @@ class BP_Signup {
 	public static function get( $args = array() ) {
 		global $wpdb;
 
-		$r = bp_parse_args( $args,
+		$bp = buddypress();
+		$r  = bp_parse_args(
+			$args,
 			array(
 				'offset'         => 0,
 				'number'         => 1,
@@ -154,6 +278,7 @@ class BP_Signup {
 				'order'          => 'DESC',
 				'include'        => false,
 				'activation_key' => '',
+				'user_email'     => '',
 				'user_login'     => '',
 				'fields'         => 'all',
 			),
@@ -171,13 +296,29 @@ class BP_Signup {
 
 		$r['orderby'] = sanitize_title( $r['orderby'] );
 
-		$sql = array();
-		$signups_table  = buddypress()->members->table_name_signups;
-		$sql['select']  = "SELECT * FROM {$signups_table}";
-		$sql['where']   = array();
-		$sql['where'][] = "active = 0";
+		$sql = array(
+			'select'     => "SELECT DISTINCT signup_id",
+			'from'       => "{$bp->members->table_name_signups}",
+			'where'      => array(),
+			'orderby'    => '',
+			'limit'      => '',
+		);
 
-		if ( empty( $r['include'] ) ) {
+		// Activation key trumps other parameters because it should be unique.
+		if ( ! empty( $r['activation_key'] ) ) {
+			$sql['where'][] = $wpdb->prepare( "activation_key = %s", $r['activation_key'] );
+
+			// `Include` finds signups by ID.
+		} else if ( ! empty( $r['include'] ) ) {
+
+			$in             = implode( ',', wp_parse_id_list( $r['include'] ) );
+			$sql['where'][] = "signup_id IN ({$in})";
+
+			/**
+			 * Finally, the general case where a variety of parameters
+			 * can be used in combination to find signups.
+			 */
+		} else {
 
 			// Search terms.
 			if ( ! empty( $r['usersearch'] ) ) {
@@ -185,9 +326,9 @@ class BP_Signup {
 				$sql['where'][]    = $wpdb->prepare( "( user_login LIKE %s OR user_email LIKE %s OR meta LIKE %s )", $search_terms_like, $search_terms_like, $search_terms_like );
 			}
 
-			// Activation key.
-			if ( ! empty( $r['activation_key'] ) ) {
-				$sql['where'][] = $wpdb->prepare( "activation_key = %s", $r['activation_key'] );
+			// User email.
+			if ( ! empty( $r['user_email'] ) ) {
+				$sql['where'][] = $wpdb->prepare( "user_email = %s", $r['user_email'] );
 			}
 
 			// User login.
@@ -195,16 +336,19 @@ class BP_Signup {
 				$sql['where'][] = $wpdb->prepare( "user_login = %s", $r['user_login'] );
 			}
 
-			$sql['orderby'] = "ORDER BY {$r['orderby']}";
-			$sql['order']	= bp_esc_sql_order( $r['order'] );
-			$sql['limit']	= $wpdb->prepare( "LIMIT %d, %d", $r['offset'], $r['number'] );
-		} else {
-			$in = implode( ',', wp_parse_id_list( $r['include'] ) );
-			$sql['in'] = "AND signup_id IN ({$in})";
+			$order	        = bp_esc_sql_order( $r['order'] );
+			$sql['orderby'] = "ORDER BY {$r['orderby']} {$order}";
+
+			$number = intval( $r['number'] );
+			if ( -1 !== $number ) {
+				$sql['limit'] = $wpdb->prepare( "LIMIT %d, %d", absint( $r['offset'] ), $number );
+			}
 		}
 
 		// Implode WHERE clauses.
 		$sql['where'] = 'WHERE ' . implode( ' AND ', $sql['where'] );
+
+		$paged_signups_sql = "{$sql['select']} FROM {$sql['from']} {$sql['where']} {$sql['orderby']} {$sql['limit']}";
 
 		/**
 		 * Filters the Signups paged query.
@@ -216,62 +360,38 @@ class BP_Signup {
 		 * @param array  $args  Array of original arguments for get() method.
 		 * @param array  $r     Array of parsed arguments for get() method.
 		 */
-		$paged_signups = $wpdb->get_results( apply_filters( 'bp_members_signups_paged_query', join( ' ', $sql ), $sql, $args, $r ) );
+		$paged_signups_sql = apply_filters( 'bp_members_signups_paged_query', $paged_signups_sql, $sql, $args, $r );
 
-		if ( empty( $paged_signups ) ) {
-			return array( 'signups' => false, 'total' => false );
+		$cached = bp_core_get_incremented_cache( $paged_signups_sql, 'bp_signups' );
+		if ( false === $cached ) {
+			$paged_signup_ids = $wpdb->get_col( $paged_signups_sql );
+			bp_core_set_incremented_cache( $paged_signups_sql, 'bp_signups', $paged_signup_ids );
+		} else {
+			$paged_signup_ids = $cached;
 		}
 
 		// We only want the IDs.
 		if ( 'ids' === $r['fields'] ) {
-			$paged_signups = wp_list_pluck( $paged_signups, 'signup_id' );
+			$paged_signups = array_map( 'intval', $paged_signup_ids );
+
 		} else {
-
-			// Used to calculate a diff between now & last
-			// time an activation link has been resent.
-			$now = current_time( 'timestamp', true );
-
-			foreach ( (array) $paged_signups as $key => $signup ) {
-
-				$signup->id   = intval( $signup->signup_id );
-
-				$signup->meta = ! empty( $signup->meta ) ? maybe_unserialize( $signup->meta ) : false;
-
-				$signup->user_name = '';
-				if ( ! empty( $signup->meta['field_1'] ) ) {
-					$signup->user_name = wp_unslash( $signup->meta['field_1'] );
+			$uncached_signup_ids = bp_get_non_cached_ids( $paged_signup_ids, 'bp_signups' );
+			if ( $uncached_signup_ids ) {
+				$signup_ids_sql      = implode( ',', array_map( 'intval', $uncached_signup_ids ) );
+				$signup_data_objects = $wpdb->get_results( "SELECT * FROM {$bp->members->table_name_signups} WHERE signup_id IN ({$signup_ids_sql})" );
+				foreach ( $signup_data_objects as $signup_data_object ) {
+					wp_cache_set( $signup_data_object->signup_id, $signup_data_object, 'bp_signups' );
 				}
+			}
 
-				// Sent date defaults to date of registration.
-				if ( ! empty( $signup->meta['sent_date'] ) ) {
-					$signup->date_sent = $signup->meta['sent_date'];
-				} else {
-					$signup->date_sent = $signup->registered;
-				}
-
-				$sent_at = mysql2date('U', $signup->date_sent );
-				$diff    = $now - $sent_at;
-
-				/**
-				 * Add a boolean in case the last time an activation link
-				 * has been sent happened less than a day ago.
-				 */
-				if ( $diff < 1 * DAY_IN_SECONDS ) {
-					$signup->recently_sent = true;
-				}
-
-				if ( ! empty( $signup->meta['count_sent'] ) ) {
-					$signup->count_sent = absint( $signup->meta['count_sent'] );
-				} else {
-					$signup->count_sent = 1;
-				}
-
-				$paged_signups[ $key ] = $signup;
+			$paged_signups = array();
+			foreach ( $paged_signup_ids as $paged_signup_id ) {
+				$paged_signups[] = new BP_Signup( $paged_signup_id );
 			}
 		}
 
-		unset( $sql['limit'] );
-		$sql['select'] = preg_replace( "/SELECT.*?FROM/", "SELECT COUNT(*) FROM", $sql['select'] );
+		// Find the total number of signups in the results set.
+		$total_signups_sql = "SELECT COUNT(DISTINCT signup_id) FROM {$sql['from']} {$sql['where']}";
 
 		/**
 		 * Filters the Signups count query.
@@ -283,7 +403,15 @@ class BP_Signup {
 		 * @param array  $args  Array of original arguments for get() method.
 		 * @param array  $r     Array of parsed arguments for get() method.
 		 */
-		$total_signups = $wpdb->get_var( apply_filters( 'bp_members_signups_count_query', join( ' ', $sql ), $sql, $args, $r ) );
+		$total_signups_sql = apply_filters( 'bp_members_signups_count_query', $total_signups_sql, $sql, $args, $r );
+
+		$cached = bp_core_get_incremented_cache( $total_signups_sql, 'bp_signups' );
+		if ( false === $cached ) {
+			$total_signups = (int) $wpdb->get_var( $total_signups_sql );
+			bp_core_set_incremented_cache( $total_signups_sql, 'bp_signups', $total_signups );
+		} else {
+			$total_signups = (int) $cached;
+		}
 
 		return array( 'signups' => $paged_signups, 'total' => $total_signups );
 	}
@@ -309,7 +437,8 @@ class BP_Signup {
 	public static function add( $args = array() ) {
 		global $wpdb;
 
-		$r = bp_parse_args( $args,
+		$r = bp_parse_args(
+			$args,
 			array(
 				'domain'         => '',
 				'path'           => '',
@@ -318,10 +447,18 @@ class BP_Signup {
 				'user_email'     => '',
 				'registered'     => current_time( 'mysql', true ),
 				'activation_key' => '',
-				'meta'           => '',
+				'meta'           => array(),
 			),
 			'bp_core_signups_add_args'
 		);
+
+		// Ensure that sent_date and count_sent are set in meta.
+		if ( ! isset( $r['meta']['sent_date'] ) ) {
+			$r['meta']['sent_date'] = '0000-00-00 00:00:00';
+		}
+		if ( ! isset( $r['meta']['count_sent'] ) ) {
+			$r['meta']['count_sent'] = 0;
+		}
 
 		$r['meta'] = maybe_serialize( $r['meta'] );
 
@@ -338,11 +475,22 @@ class BP_Signup {
 		}
 
 		/**
+		 * Fires after adding a new BP_Signup.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param int|bool $retval ID of the BP_Signup just added.
+		 * @param array    $r      Array of parsed arguments for add() method.
+		 * @param array    $args   Array of original arguments for add() method.
+		 */
+		do_action( 'bp_core_signups_after_add', $retval, $r, $args );
+
+		/**
 		 * Filters the result of a signup addition.
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param int|bool $retval Newly added user ID on success, false on failure.
+		 * @param int|bool $retval Newly added signup ID on success, false on failure.
 		 */
 		return apply_filters( 'bp_core_signups_add', $retval );
 	}
@@ -368,12 +516,14 @@ class BP_Signup {
 	public static function add_backcompat( $user_login = '', $user_password = '', $user_email = '', $usermeta = array() ) {
 		global $wpdb;
 
-		$user_id = wp_insert_user( array(
-			'user_login'   => $user_login,
-			'user_pass'    => $user_password,
-			'display_name' => sanitize_title( $user_login ),
-			'user_email'   => $user_email
-		) );
+		$user_id = wp_insert_user(
+			array(
+				'user_login'   => $user_login,
+				'user_pass'    => $user_password,
+				'display_name' => sanitize_title( $user_login ),
+				'user_email'   => $user_email
+			)
+		);
 
 		if ( is_wp_error( $user_id ) || empty( $user_id ) ) {
 			return $user_id;
@@ -421,6 +571,15 @@ class BP_Signup {
 		}
 
 		/**
+		 * Fires after adding a new WP User (backcompat).
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param int $user_id ID of the WP_User just added.
+		 */
+		do_action( 'bp_core_signups_after_add_backcompat', $user_id );
+
+		/**
 		 * Filters the user ID for the backcompat functionality.
 		 *
 		 * @since 2.0.0
@@ -445,7 +604,8 @@ class BP_Signup {
 			return false;
 		}
 
-		$user_status = $wpdb->get_var( $wpdb->prepare( "SELECT user_status FROM {$wpdb->users} WHERE ID = %d", $user_id ) );
+		$user        = get_user_by( 'id', $user_id );
+		$user_status = $user->user_status;
 
 		/**
 		 * Filters the user status of a provided user ID.
@@ -511,10 +671,12 @@ class BP_Signup {
 	 * @return int The number of signups.
 	 */
 	public static function count_signups() {
-		global $wpdb;
-
-		$signups_table = buddypress()->members->table_name_signups;
-		$count_signups = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) AS total FROM {$signups_table} WHERE active = %d", 0 ) );
+		$all_signups   = self::get(
+			array(
+				'fields' => 'ids',
+			)
+		);
+		$count_signups = $all_signups['total'];
 
 		/**
 		 * Filters the total inactive signups.
@@ -544,7 +706,8 @@ class BP_Signup {
 	public static function update( $args = array() ) {
 		global $wpdb;
 
-		$r = bp_parse_args( $args,
+		$r = bp_parse_args(
+			$args,
 			array(
 				'signup_id'  => 0,
 				'meta'       => array(),
@@ -556,16 +719,22 @@ class BP_Signup {
 			return false;
 		}
 
+		$signup_id = absint( $r['signup_id'] );
+
+		// Figure out which meta keys should be updated.
+		$signup       = new BP_Signup( $signup_id );
+		$blended_meta = wp_parse_args( $r['meta'], $signup->meta );
+
 		$wpdb->update(
 			// Signups table.
 			buddypress()->members->table_name_signups,
 			// Data to update.
 			array(
-				'meta' => serialize( $r['meta'] ),
+				'meta' => serialize( $blended_meta ),
 			),
 			// WHERE.
 			array(
-				'signup_id' => $r['signup_id'],
+				'signup_id' => $signup_id,
 			),
 			// Data sanitization format.
 			array(
@@ -576,6 +745,18 @@ class BP_Signup {
 				'%d',
 			)
 		);
+
+		/**
+		 * Fires after updating the meta of a new BP_Signup.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param int|bool $signup_id    ID of the BP_Signup updated.
+		 * @param array    $r            Array of parsed arguments to update() method.
+		 * @param array    $args         Array of original arguments to update() method.
+		 * @param array    $blended_meta The complete set of meta to save.
+		 */
+		do_action( 'bp_core_signups_after_update_meta', $signup_id, $r, $args, $blended_meta );
 
 		/**
 		 * Filters the signup ID which received a meta update.
@@ -600,9 +781,11 @@ class BP_Signup {
 			return false;
 		}
 
-		$to_resend = self::get( array(
-			'include' => $signup_ids,
-		) );
+		$to_resend = self::get(
+			array(
+				'include' => $signup_ids,
+			)
+		);
 
 		if ( ! $signups = $to_resend['signups'] ) {
 			return false;
@@ -621,9 +804,10 @@ class BP_Signup {
 
 		foreach ( $signups as $signup ) {
 
-			$meta               = $signup->meta;
-			$meta['sent_date']  = current_time( 'mysql', true );
-			$meta['count_sent'] = $signup->count_sent + 1;
+			$meta = array(
+				'sent_date'  => current_time( 'mysql', true ),
+				'count_sent' => $signup->count_sent + 1
+			);
 
 			// Send activation email.
 			if ( is_multisite() ) {
@@ -655,10 +839,12 @@ class BP_Signup {
 			}
 
 			// Update metas.
-			$result['resent'][] = self::update( array(
-				'signup_id' => $signup->signup_id,
-				'meta'      => $meta,
-			) );
+			$result['resent'][] = self::update(
+				array(
+					'signup_id' => $signup->signup_id,
+					'meta'      => $meta,
+				)
+			);
 		}
 
 		/**
@@ -694,9 +880,11 @@ class BP_Signup {
 			return false;
 		}
 
-		$to_activate = self::get( array(
-			'include' => $signup_ids,
-		) );
+		$to_activate = self::get(
+			array(
+				'include' => $signup_ids,
+			)
+		);
 
 		if ( ! $signups = $to_activate['signups'] ) {
 			return false;
@@ -778,9 +966,11 @@ class BP_Signup {
 			return false;
 		}
 
-		$to_delete = self::get( array(
-			'include' => $signup_ids,
-		) );
+		$to_delete = self::get(
+			array(
+				'include' => $signup_ids,
+			)
+		);
 
 		if ( ! $signups = $to_delete['signups'] ) {
 			return false;

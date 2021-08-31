@@ -356,4 +356,224 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		$this->assertEquals( array( $s3, $s2, $s1 ), $ss['signups'] );
 	}
+
+	/**
+	 * @group cache
+	 */
+	public function test_get_queries_should_be_cached() {
+		global $wpdb;
+
+		$s = self::factory()->signup->create();
+
+		$found1 = BP_Signup::get(
+			array(
+				'fields' => 'ids',
+			)
+		);
+
+		$num_queries = $wpdb->num_queries;
+
+		$found2 = BP_Signup::get(
+			array(
+				'fields' => 'ids',
+			)
+		);
+
+		$this->assertEqualSets( $found1, $found2 );
+		$this->assertSame( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @group cache
+	 */
+	public function test_get_query_caches_should_be_busted_by_add() {
+		$s1 = self::factory()->signup->create();
+
+		$found1 = BP_Signup::get(
+			array(
+				'fields' => 'ids',
+			)
+		);
+		$this->assertEqualSets( array( $s1 ), $found1['signups'] );
+
+		$s2 = self::factory()->signup->create();
+		$found2 = BP_Signup::get(
+			array(
+				'fields' => 'ids',
+			)
+		);
+		$this->assertEqualSets( array( $s2 ), $found2['signups'] );
+	}
+
+	/**
+	 * @group cache
+	 */
+	public function test_get_query_caches_should_be_busted_by_meta_update() {
+		$time = bp_core_current_time();
+
+		$args = array(
+			'domain' => 'foo',
+			'path' => 'bar',
+			'title' => 'Foo bar',
+			'user_login' => 'user1',
+			'user_email' => 'user1@example.com',
+			'registered' => $time,
+			'activation_key' => '12345',
+			'meta' => array(
+				'field_1' => 'Fozzie',
+				'meta1' => 'meta2',
+			),
+		);
+		$s1 = BP_Signup::add( $args );
+
+		$args['meta']['field_1'] = 'Fozz';
+		$s2 = BP_Signup::add( $args );
+
+		// Should find both.
+		$found1 = BP_Signup::get( array(
+			'fields' => 'ids',
+			'number'  => -1,
+			'usersearch' => 'Fozz',
+		) );
+		$this->assertEqualSets( array( $s1, $s2 ), $found1['signups'] );
+
+		BP_Signup::update( array(
+			'signup_id'  => $s1,
+			'meta'       => array(
+				'field_1' => 'Fonzie'
+			),
+		) );
+
+		$found2 = BP_Signup::get( array(
+			'fields' => 'ids',
+			'number'  => -1,
+			'usersearch' => 'Fozz',
+		) );
+
+		$this->assertEqualSets( array( $s2 ), $found2['signups'] );
+	}
+
+	/**
+	 * @group cache
+	 */
+	public function test_get_query_caches_should_be_busted_by_delete() {
+		global $wpdb;
+		$time = bp_core_current_time();
+
+		$args = array(
+			'domain' => 'foo',
+			'path' => 'bar',
+			'title' => 'Foo bar',
+			'user_login' => 'user1',
+			'user_email' => 'user1@example.com',
+			'registered' => $time,
+			'activation_key' => '12345',
+			'meta' => array(
+				'field_1' => 'Fozzie',
+				'meta1' => 'meta2',
+			),
+		);
+		$s1 = BP_Signup::add( $args );
+
+		$args['meta']['field_1'] = 'Fozz';
+		$s2 = BP_Signup::add( $args );
+
+		// Should find both.
+		$found1 = BP_Signup::get( array(
+			'fields' => 'ids',
+			'number'  => -1,
+			'usersearch' => 'Fozz',
+		) );
+		$this->assertEqualSets( array( $s1, $s2 ), $found1['signups'] );
+
+		BP_Signup::delete( array( $s1 ) );
+
+		$found2 = BP_Signup::get( array(
+			'fields' => 'ids',
+			'number'  => -1,
+			'usersearch' => 'Fozz',
+		) );
+
+		$this->assertEqualSets( array( $s2 ), $found2['signups'] );
+	}
+
+	/**
+	 * @group cache
+	 */
+	public function test_get_query_caches_should_be_busted_by_activation() {
+		$s1 = self::factory()->signup->create( array(
+			'user_login'     => 'accountone',
+			'user_email'     => 'accountone@example.com',
+			'activation_key' => 'activationkeyone',
+		) );
+
+		$s2 = self::factory()->signup->create( array(
+			'user_login'     => 'accounttwo',
+			'user_email'     => 'accounttwo@example.com',
+			'activation_key' => 'activationkeytwo',
+		) );
+		$found1 = BP_Signup::get(
+			array(
+				'number' => -1,
+				'fields' => 'ids',
+			)
+		);
+		$this->assertEqualSets( array( $s1, $s2 ), $found1['signups'] );
+
+		$activate = BP_Signup::activate( (array) $s2 );
+
+		$found2 = BP_Signup::get(
+			array(
+				'number' => -1,
+				'fields' => 'ids',
+			)
+		);
+		$this->assertEqualSets( array( $s1 ), $found2['signups'] );
+	}
+
+	/**
+	 * @group cache
+	 */
+	public function signup_objects_should_be_cached() {
+		global $wpdb;
+
+		$s1 = self::factory()->signup->create( array(
+			'user_login'     => 'accountone',
+			'user_email'     => 'accountone@example.com',
+			'activation_key' => 'activationkeyone',
+		) );
+
+		$found1 = new BP_Signup( $s1 );
+
+		$num_queries = $wpdb->num_queries;
+
+		// Object should be rebuilt from cache.
+		$found2 = new BP_Signup( $s1 );
+
+		// @TODO: This fails because "get_avatar()" in populate() results in db queries.
+		$this->assertEquals( $found1, $found2 );
+		$this->assertEquals( $num_queries, $wpdb->num_queries );
+	}
+
+	/**
+	 * @group cache
+	 */
+	public function test_signup_object_caches_should_be_busted_by_activation() {
+		$s1 = self::factory()->signup->create( array(
+			'user_login'     => 'accountone',
+			'user_email'     => 'accountone@example.com',
+			'activation_key' => 'activationkeyone',
+		) );
+
+		$found1 = new BP_Signup( $s1 );
+		$this->assertEquals( $s1, $found1->id );
+		$this->assertFalse( $found1->active );
+
+		$activate = BP_Signup::activate( (array) $s1 );
+
+		$found2 = new BP_Signup( $s1 );
+		$this->assertEquals( $s1, $found2->id );
+		$this->assertTrue( $found2->active );
+
+	}
 }

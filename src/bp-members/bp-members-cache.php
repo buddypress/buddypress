@@ -73,3 +73,56 @@ function bp_members_reset_activity_cache_incrementor() {
 	return bp_core_reset_incrementor( 'bp_activity_with_last_activity' );
 }
 add_action( 'bp_core_user_updated_last_activity', 'bp_members_reset_activity_cache_incrementor' );
+
+/**
+ * Bust signup caches when editing or deleting.
+ *
+ * @since 10.0.0
+ *
+ * @param int $signup_id The ID of the signup affected.
+ */
+function bp_members_delete_signup_cache( $signup_id = 0 ) {
+	wp_cache_delete( $signup_id, 'bp_signups' );
+}
+add_action( 'bp_core_signups_after_add',         'bp_members_delete_signup_cache' );
+add_action( 'bp_core_signups_after_update_meta', 'bp_members_delete_signup_cache' );
+
+/**
+ * Bust signup caches for arrays of signup IDs.
+ *
+ * @since 10.0.0
+ *
+ * @param array $signup_ids The IDs of the signups affected.
+ */
+function bp_members_delete_signup_cache_multiples( $signup_ids = array() ) {
+	// Ensure that the incoming item is an array.
+	$signup_ids = wp_parse_id_list( $signup_ids );
+	foreach ( $signup_ids as $signup_id ) {
+		bp_members_delete_signup_cache( $signup_id );
+	}
+}
+add_action( 'bp_core_signup_after_resend',   'bp_members_delete_signup_cache_multiples' );
+add_action( 'bp_core_signup_after_activate', 'bp_members_delete_signup_cache_multiples' );
+add_action( 'bp_core_signup_after_delete',   'bp_members_delete_signup_cache_multiples' );
+
+/**
+ * Reset cache incrementor for BP_Signups.
+ *
+ * This function invalidates all cached results of BP_Signup queries,
+ * whenever one of the following events takes place:
+ *   - A record is created or updated.
+ *   - A record is deleted.
+ *
+ * @since 10.0.0
+ *
+ * @return bool True on success, false on failure.
+ */
+function bp_members_reset_signup_cache_incrementor() {
+	return bp_core_reset_incrementor( 'bp_signups' );
+}
+add_filter( 'bp_core_signups_after_add',         'bp_members_reset_signup_cache_incrementor' );
+add_action( 'bp_core_activated_user',            'bp_members_reset_signup_cache_incrementor' );
+add_action( 'bp_core_signup_after_activate',     'bp_members_reset_signup_cache_incrementor' );
+add_action( 'bp_core_signups_after_update_meta', 'bp_members_reset_signup_cache_incrementor' );
+add_action( 'bp_core_signup_after_delete',       'bp_members_reset_signup_cache_incrementor' );
+
