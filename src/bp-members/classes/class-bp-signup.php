@@ -255,6 +255,8 @@ class BP_Signup {
 	 *     @type bool        $include        Whether or not to include more specific query params.
 	 *     @type string      $activation_key Activation key to search for. If specified, all other
 	 *                                       parameters will be ignored.
+	 *     @type int|bool    $active         Pass 0 for inactive signups, 1 for active signups,
+	 *                                       and `false` to ignore.
 	 *     @type string      $user_login     Specific user login to return.
 	 *     @type string      $fields         Which fields to return. Specify 'ids' to fetch a list of signups IDs.
 	 *                                       Default: 'all' (return BP_Signup objects).
@@ -278,6 +280,7 @@ class BP_Signup {
 				'order'          => 'DESC',
 				'include'        => false,
 				'activation_key' => '',
+				'active'         => 0,
 				'user_email'     => '',
 				'user_login'     => '',
 				'fields'         => 'all',
@@ -319,6 +322,10 @@ class BP_Signup {
 			 * can be used in combination to find signups.
 			 */
 		} else {
+			// Active.
+			if ( false !== $r['active'] ) {
+				$sql['where'][] = $wpdb->prepare( "active = %d", absint( $r['active'] ) );
+			}
 
 			// Search terms.
 			if ( ! empty( $r['usersearch'] ) ) {
