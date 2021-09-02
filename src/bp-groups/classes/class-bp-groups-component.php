@@ -95,6 +95,16 @@ class BP_Groups_Component extends BP_Component {
 	public $current_directory_type = '';
 
 	/**
+	 * List of registered Group extensions.
+	 *
+	 * @see bp_register_group_extension()
+	 *
+	 * @since 10.0.0
+	 * @var array
+	 */
+	public $group_extensions = array();
+
+	/**
 	 * Start the groups component creation process.
 	 *
 	 * @since 1.5.0

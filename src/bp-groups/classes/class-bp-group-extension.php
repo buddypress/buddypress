@@ -10,6 +10,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+if ( ! class_exists( 'BP_Group_Extension', false ) ) :
 /**
  * API for creating group extensions without having to hardcode the content into
  * the theme.
@@ -1695,26 +1696,4 @@ class BP_Group_Extension {
 		}
 	}
 }
-
-/**
- * Register a new Group Extension.
- *
- * @since 1.1.0
- *
- * @param string $group_extension_class Name of the Extension class.
- * @return false|null Returns false on failure, otherwise null.
- */
-function bp_register_group_extension( $group_extension_class = '' ) {
-
-	if ( ! class_exists( $group_extension_class ) ) {
-		return false;
-	}
-
-	// Register the group extension on the bp_init action so we have access
-	// to all plugins.
-	add_action( 'bp_init', function() use ( $group_extension_class ) {
-		$extension = new $group_extension_class;
-		add_action( 'bp_actions', array( &$extension, '_register' ), 8 );
-		add_action( 'admin_init', array( &$extension, '_register' ) );
-	}, 11 );
-}
+endif; // End class_exists check.

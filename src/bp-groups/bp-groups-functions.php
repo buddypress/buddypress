@@ -3531,3 +3531,52 @@ function bp_groups_migrate_invitations() {
 		$wpdb->query( "DELETE FROM {$bp->groups->table_name_members} WHERE ID IN ($ids_to_delete)" );
 	}
 }
+
+/**
+ * Register a new Group Extension.
+ *
+ * @since 1.1.0
+ * @since 10.0.0 The function was moved from the `/bp-groups/classes/class-bp-group-extension.php` file.
+ *               It only registers Group Extensions if their corresponding class name has not been already
+ *               registered.
+ *
+ * @param string $group_extension_class Name of the Extension class.
+ * @return bool                         Returns true on success, otherwise false.
+ */
+function bp_register_group_extension( $group_extension_class = '' ) {
+	if ( ! class_exists( $group_extension_class ) ) {
+		return false;
+	}
+
+	$bp = buddypress();
+
+	if ( isset( $bp->groups->group_extensions[ $group_extension_class ] ) ) {
+		return false;
+	}
+
+	// Add the new Group extension to the registered ones.
+	$bp->groups->group_extensions[ $group_extension_class ] = true;
+
+	return true;
+}
+
+/**
+ * Init Registered Group Extensions.
+ *
+ * @since 10.0.0
+ */
+function bp_init_group_extensions() {
+	$registered_group_extensions = buddypress()->groups->group_extensions;
+
+	if ( ! $registered_group_extensions ) {
+		return;
+	}
+
+	foreach ( array_keys( $registered_group_extensions ) as $group_extension_class ) {
+		$extension = new $group_extension_class;
+
+		add_action( 'bp_actions', array( &$extension, '_register' ), 8 );
+		add_action( 'admin_init', array( &$extension, '_register' ) );
+	}
+}
+add_action( 'bp_init', 'bp_init_group_extensions', 11 );
