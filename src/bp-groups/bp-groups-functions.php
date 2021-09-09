@@ -77,7 +77,7 @@ function groups_get_group( $group_id ) {
  * @param string     $field (Required) The field to use to retrieve the group.
  *                          Possible values are `'id'` or `'slug'`.
  * @param string|int $value (Required) A value for the $field. A Group ID or slug.
- * @return BP_Groups_Group|false The Group object if found, false otherwise.
+ * @return BP_Groups_Group|bool The Group object if found, false otherwise.
  */
 function bp_get_group_by( $field, $value ) {
 	$group_id = $value;
@@ -103,9 +103,11 @@ function bp_get_group_by( $field, $value ) {
  *
  * @since 10.0.0
  *
+ * @global BP_Groups_Template $groups_template Groups template object.
+ *
  * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
  *                                                Default: false.
- * @return BP_Groups_Group|false                  The Group object if found, false otherwise.
+ * @return BP_Groups_Group|bool The Group object if found, false otherwise.
  */
 function bp_get_group( $group = false ) {
 	global $groups_template;
@@ -114,12 +116,32 @@ function bp_get_group( $group = false ) {
 
 	if ( $group instanceof BP_Groups_Group ) {
 		$group_obj = $group;
-	} elseif ( is_string( $group ) ) {
-		$group_obj = bp_get_group_by( 'slug', $group );
-	} elseif ( is_numeric( $group ) ) {
-		$group_obj = bp_get_group_by( 'id', $group );
-	} elseif ( isset( $groups_template->group ) && is_object( $groups_template->group ) ) {
+
+		// Nothing requested? Let's use the current Group of the Groups Loop, if available.
+	} elseif ( ! $group && isset( $groups_template->group ) && is_object( $groups_template->group ) ) {
 		$group_obj = $groups_template->group;
+	} else {
+		$current_group = null;
+
+		// Let's get the current group if we can.
+		if ( did_action( 'bp_groups_set_current_group' ) ) {
+			$current_group = groups_get_current_group();
+		}
+
+		$field = '';
+		if ( is_string( $group ) ) {
+			$field = 'slug';
+		} elseif ( is_numeric( $group ) ) {
+			$field = 'id';
+			$group = (int) $group;
+		}
+
+		// Let's use the current Group if it matches with the requested field value.
+		if ( isset( $current_group->{$field} ) && $current_group->{$field} === $group ) {
+			$group_obj = $current_group;
+		} else {
+			$group_obj = bp_get_group_by( $field, $group );
+		}
 	}
 
 	return $group_obj;
@@ -481,7 +503,7 @@ function groups_delete_group( $group_id ) {
 function groups_is_valid_status( $status ) {
 	$bp = buddypress();
 
-	return in_array( $status, (array) $bp->groups->valid_status );
+	return in_array( $status, (array) $bp->groups->valid_status, true );
 }
 
 /**
@@ -533,7 +555,7 @@ function groups_get_slug( $group_id ) {
  * @since 1.6.0
  *
  * @param string $group_slug The group's slug.
- * @return int|null The group ID on success; null on failure.
+ * @return int|null The group ID on success, null on failure.
  */
 function groups_get_id( $group_slug ) {
 	return BP_Groups_Group::group_exists( $group_slug );
@@ -545,7 +567,7 @@ function groups_get_id( $group_slug ) {
  * @since 2.9.0
  *
  * @param string $group_slug The group's slug.
- * @return int|null The group ID on success; null on failure.
+ * @return int|null The group ID on success, null on failure.
  */
 function groups_get_id_by_previous_slug( $group_slug ) {
 	return BP_Groups_Group::get_id_by_previous_slug( $group_slug );
@@ -684,9 +706,9 @@ function groups_update_last_activity( $group_id = 0 ) {
 
 	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
 }
-add_action( 'groups_join_group',           'groups_update_last_activity' );
-add_action( 'groups_leave_group',          'groups_update_last_activity' );
-add_action( 'groups_created_group',        'groups_update_last_activity' );
+add_action( 'groups_join_group', 'groups_update_last_activity' );
+add_action( 'groups_leave_group', 'groups_update_last_activity' );
+add_action( 'groups_created_group', 'groups_update_last_activity' );
 
 /** General Group Functions ***************************************************/
 
@@ -823,12 +845,21 @@ function groups_get_group_members( $args = array() ) {
  * Get the member count for a group.
  *
  * @since 1.2.3
+ * @since 10.0.0 Updated to use `bp_get_group`.
  *
- * @param int $group_id Group ID.
- * @return int Count of confirmed members for the group.
+ * @param int|string|BP_Groups_Group $group      The Group ID, the Group Slug or the Group object.
+ * @param bool                       $skip_cache Optional. Skip grabbing from cache. Defaults to false.
+ * @return int|bool Count of confirmed members for the group. False if group doesn't exist.
  */
-function groups_get_total_member_count( $group_id ) {
-	return BP_Groups_Group::get_total_member_count( $group_id );
+function groups_get_total_member_count( $group, $skip_cache = false ) {
+
+	$group = bp_get_group( $group );
+
+	if ( empty( $group->id ) ) {
+		return false;
+	}
+
+	return (int) BP_Groups_Group::get_total_member_count( $group->id, (bool) $skip_cache );
 }
 
 /** Group Fetching, Filtering & Searching  ************************************/
@@ -918,18 +949,14 @@ function groups_get_groups( $args = '' ) {
  * Get the total group count for the site.
  *
  * @since 1.2.0
+ * @since 10.0.0 Added the `$skip_cache` parameter.
  *
+ * @param bool $skip_cache Optional. Skip getting count from cache.
+ *                         Defaults to false.
  * @return int
  */
-function groups_get_total_group_count() {
-	$count = wp_cache_get( 'bp_total_group_count', 'bp' );
-
-	if ( false === $count ) {
-		$count = BP_Groups_Group::get_total_group_count();
-		wp_cache_set( 'bp_total_group_count', $count, 'bp' );
-	}
-
-	return $count;
+function groups_get_total_group_count( $skip_cache = false ) {
+	return (int) BP_Groups_Group::get_total_group_count( $skip_cache );
 }
 
 /**
@@ -949,8 +976,9 @@ function groups_get_total_group_count() {
  */
 function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
 
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = bp_displayed_user_id();
+	}
 
 	return BP_Groups_Member::get_group_ids( $user_id, $pag_num, $pag_page );
 }
@@ -1178,7 +1206,9 @@ function groups_total_groups_for_user( $user_id = 0 ) {
  *
  * @since 1.5.0
  *
- * @return BP_Groups_Group The current group object.
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @return BP_Groups_Group|bool The current group object or false.
  */
 function groups_get_current_group() {
 	$bp = buddypress();
@@ -1192,7 +1222,7 @@ function groups_get_current_group() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param BP_Groups_Group $current_group Current BP_Groups_Group object.
+	 * @param BP_Groups_Group|bool $current_group Current BP_Groups_Group object or false.
 	 */
 	return apply_filters( 'groups_get_current_group', $current_group );
 }

@@ -1723,35 +1723,81 @@ class BP_Groups_Group {
 	 * bp_current_user_can( 'bp_moderate' ).
 	 *
 	 * @since 1.6.0
+	 * @since 10.0.0 Added the `$skip_cache` parameter.
 	 *
-	 * @return int Group count.
+	 * @global BuddyPress $bp   The one true BuddyPress instance.
+	 * @global wpdb       $wpdb WordPress database object.
+	 *
+	 * @param bool $skip_cache Optional. Skip getting count from cache.
+	 *                         Defaults to false.
+	 * @return int
 	 */
-	public static function get_total_group_count() {
+	public static function get_total_group_count( $skip_cache = false ) {
 		global $wpdb;
 
-		$hidden_sql = '';
-		if ( !bp_current_user_can( 'bp_moderate' ) )
-			$hidden_sql = "WHERE status != 'hidden'";
+		$cache_key = 'bp_total_group_count';
+		$count     = wp_cache_get( $cache_key, 'bp' );
 
-		$bp = buddypress();
+		if ( false === $count || true === $skip_cache ) {
+			$hidden_sql = '';
+			if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+				$hidden_sql = "WHERE status != 'hidden'";
+			}
 
-		return $wpdb->get_var( "SELECT COUNT(id) FROM {$bp->groups->table_name} {$hidden_sql}" );
+			$bp    = buddypress();
+			$count = $wpdb->get_var( "SELECT COUNT(id) FROM {$bp->groups->table_name} {$hidden_sql}" );
+
+			wp_cache_set( $cache_key, (int) $count, 'bp' );
+		}
+
+		/**
+		 * Filters the total group count.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param int $count Total group count.
+		 */
+		return (int) apply_filters( 'bp_groups_total_group_count', (int) $count );
 	}
 
 	/**
 	 * Get the member count for a group.
 	 *
 	 * @since 1.6.0
+	 * @since 10.0.0 Updated to use the `groups_get_group_members`.
 	 *
-	 * @param int $group_id Group ID.
+	 * @param int  $group_id   Group ID.
+	 * @param bool $skip_cache Optional. Skip getting count from cache. Defaults to false.
 	 * @return int Count of confirmed members for the group.
 	 */
-	public static function get_total_member_count( $group_id ) {
-		global $wpdb;
+	public static function get_total_member_count( $group_id, $skip_cache = false ) {
+		$cache_key = 'total_member_count';
+		$count     = groups_get_groupmeta( $group_id, $cache_key );
 
-		$bp = buddypress();
+		if ( false === $count || true === $skip_cache ) {
+			$members = groups_get_group_members(
+				array(
+					'group_id'            => $group_id,
+					'exclude_banned'      => true,
+					'exclude_admins_mods' => false,
+					'type'                => 'active',
+				)
+			);
 
-		return $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(id) FROM {$bp->groups->table_name_members} WHERE group_id = %d AND is_confirmed = 1 AND is_banned = 0", $group_id ) );
+			$count = $members['count'] ? $members['count'] : 0;
+
+			groups_update_groupmeta( $group_id, $cache_key, (int) $count );
+		}
+
+		/**
+		 * Filters the total member count for a group.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param int $count    Total member count for group.
+		 * @param int $group_id The ID of the group.
+		 */
+		return (int) apply_filters( 'bp_groups_total_member_count', (int) $count, (int) $group_id );
 	}
 
 	/**

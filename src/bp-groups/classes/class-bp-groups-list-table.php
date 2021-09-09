@@ -701,11 +701,12 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Markup for the Number of Members column.
 	 *
 	 * @since 1.7.0
+	 * @since 10.0.0 Updated to use `groups_get_total_member_count`.
 	 *
 	 * @param array $item Information about the current row.
 	 */
 	public function column_members( $item = array() ) {
-		$count = groups_get_groupmeta( $item['id'], 'total_member_count' );
+		$count = groups_get_total_member_count( absint( $item['id'] ) );
 
 		/**
 		 * Filters the markup for the number of Members column.

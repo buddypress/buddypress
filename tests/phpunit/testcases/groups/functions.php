@@ -184,7 +184,16 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$g = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
 		groups_join_group( $g, $u2 );
-		$this->assertEquals( 2, groups_get_groupmeta( $g, 'total_member_count' ) );
+		$this->assertEquals( 2, groups_get_total_member_count( $g ) );
+	}
+
+	/**
+	 * @group total_member_count
+	 */
+	public function test_total_member_count_with_invalid_group() {
+		$this->assertFalse( groups_get_total_member_count( 'invalid-group' ) );
+		$this->assertFalse( groups_get_total_member_count( '' ) );
+		$this->assertFalse( groups_get_total_member_count( 123456789 ) );
 	}
 
 	/**
@@ -193,11 +202,16 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	 */
 	public function test_total_member_count_groups_leave_group() {
 		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
 		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
-		groups_join_group( $g1, $u1 );
 
-		groups_leave_group( $g1, $u1 );
-		$this->assertEquals( 1, groups_get_groupmeta( $g1, 'total_member_count' ) );
+		groups_join_group( $g1, $u2 );
+
+		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
+
+		groups_leave_group( $g1, $u2 );
+
+		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
 	}
 
 	/**
@@ -214,9 +228,11 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$this->set_current_user( $u1 );
 		buddypress()->is_item_admin = true;
 
+		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
+
 		groups_ban_member( $u2, $g1 );
 
-		$this->assertEquals( 1, groups_get_groupmeta( $g1, 'total_member_count' ) );
+		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
 	}
 
 	/**
@@ -235,9 +251,11 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_ban_member( $u2, $g1 );
 
+		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
+
 		groups_unban_member( $u2, $g1 );
 
-		$this->assertEquals( 2, groups_get_groupmeta( $g1, 'total_member_count' ) );
+		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
 	}
 
 	/**
@@ -255,9 +273,11 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 			'send_invite' => 1,
 		) );
 
+		$this->assertEquals( 1, groups_get_total_member_count( $g ) );
+
 		groups_accept_invite( $u2, $g );
 
-		$this->assertEquals( 2, groups_get_groupmeta( $g, 'total_member_count' ) );
+		$this->assertEquals( 2, groups_get_total_member_count( $g ) );
 	}
 
 	/**
@@ -275,7 +295,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		) );
 		groups_accept_membership_request( 0, $u2, $g );
 
-		$this->assertEquals( 2, groups_get_groupmeta( $g, 'total_member_count' ) );
+		$this->assertEquals( 2, groups_get_total_member_count( $g ) );
 	}
 
 	/**
@@ -294,7 +314,34 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		groups_remove_member( $u2, $g1 );
 
-		$this->assertEquals( 1, groups_get_groupmeta( $g1, 'total_member_count' ) );
+		$this->assertEquals( 1, groups_get_total_member_count( $g1 ));
+	}
+
+	/**
+	 * @group total_member_count
+	 * @group groups_remove_member
+	 */
+	public function test_total_member_count_groups_delete_member() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
+
+		groups_join_group( $g1, $u2 );
+		groups_join_group( $g1, $u3 );
+
+		$this->assertEquals( 3, groups_get_total_member_count( $g1 ) );
+		$this->assertEquals( 3, BP_Groups_Group::get_total_member_count( $g1 ) );
+
+		add_filter( 'bp_remove_user_data_on_delete_user_hook', '__return_true' );
+
+		// Delete user.
+		wp_delete_user( $u2 );
+
+		remove_filter( 'bp_remove_user_data_on_delete_user_hook', '__return_true' );
+
+		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
+		$this->assertEquals( 2, BP_Groups_Group::get_total_member_count( $g1 ) );
 	}
 
 	/**
@@ -313,7 +360,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 			'date_created' => bp_core_current_time(),
 		) );
 
-		$this->assertEquals( 1, groups_get_groupmeta( $g, 'total_member_count' ) );
+		$this->assertEquals( 1, groups_get_total_member_count( $g ) );
 	}
 
 	/**

@@ -259,4 +259,24 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 		// check if function references cache or hits the DB by comparing query count
 		$this->assertEquals( $first_query_count, $wpdb->num_queries );
 	}
+
+	/**
+	 * @group groups_get_total_group_count
+	 * @group counts
+	 */
+	public function test_total_groups_count() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		self::factory()->group->create( array( 'creator_id' => $u1 ) );
+		self::factory()->group->create( array( 'creator_id' => $u2 ) );
+
+		$this->assertEquals( 2, groups_get_total_group_count() );
+		$this->assertEquals( 2, BP_Groups_Group::get_total_group_count() );
+
+		self::factory()->group->create( array( 'creator_id' => $u3 ) );
+
+		$this->assertEquals( 3, groups_get_total_group_count( true ) );
+		$this->assertEquals( 3, BP_Groups_Group::get_total_group_count() );
+	}
 }

@@ -465,27 +465,28 @@ class BP_Groups_Member {
 	/** Static Methods ****************************************************/
 
 	/**
-	 * Refresh the total_group_count for a user.
+	 * Refresh the `total_group_count` for a user.
 	 *
 	 * @since 1.8.0
 	 *
 	 * @param int $user_id ID of the user.
-	 * @return bool True on success, false on failure.
 	 */
 	public static function refresh_total_group_count_for_user( $user_id ) {
-		return bp_update_user_meta( $user_id, 'total_group_count', (int) self::total_group_count( $user_id ) );
+		bp_update_user_meta( $user_id, 'total_group_count', (int) self::total_group_count( $user_id ) );
 	}
 
 	/**
-	 * Refresh the total_member_count for a group.
+	 * Refresh the `total_member_count` for a group.
+	 *
+	 * The request skip the current cache so that we always grab the lastest total count.
 	 *
 	 * @since 1.8.0
+	 * @since 10.0.0 Updated to use `BP_Groups_Group::get_total_member_count`
 	 *
 	 * @param int $group_id ID of the group.
-	 * @return bool|int True on success, false on failure.
 	 */
 	public static function refresh_total_member_count_for_group( $group_id ) {
-		return groups_update_groupmeta( $group_id, 'total_member_count', (int) BP_Groups_Group::get_total_member_count( $group_id ) );
+		BP_Groups_Group::get_total_member_count( $group_id, true );
 	}
 
 	/**
@@ -495,7 +496,7 @@ class BP_Groups_Member {
 	 *
 	 * @param int $user_id  ID of the user.
 	 * @param int $group_id ID of the group.
-	 * @return True on success, false on failure.
+	 * @return bool True on success, false on failure.
 	 */
 	public static function delete( $user_id, $group_id ) {
 		global $wpdb;
@@ -510,7 +511,7 @@ class BP_Groups_Member {
 		 */
 		do_action( 'bp_groups_member_before_delete', $user_id, $group_id );
 
-		$bp = buddypress();
+		$bp     = buddypress();
 		$remove = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $user_id, $group_id ) );
 
 		// Update the user's group count.
@@ -529,7 +530,7 @@ class BP_Groups_Member {
 		 */
 		do_action( 'bp_groups_member_after_delete', $user_id, $group_id );
 
-		return $remove;
+		return (bool) $remove;
 	}
 
 	/**

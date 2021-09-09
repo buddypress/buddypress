@@ -265,6 +265,9 @@ class BP_Groups_Component extends BP_Component {
 				$this->current_group = apply_filters( 'bp_groups_current_group_object', new $current_group_class( $group_id ) );
 			}
 
+			// Make sure the Group ID is an integer.
+			$this->current_group->id = (int) $this->current_group->id;
+
 			// When in a single group, the first action is bumped down one because of the
 			// group name, so we need to adjust this and set the group name to current_item.
 			$bp->current_item   = bp_current_action();
@@ -280,11 +283,20 @@ class BP_Groups_Component extends BP_Component {
 
 			// If the user is not an admin, check if they are a moderator.
 			if ( ! bp_is_item_admin() ) {
-				bp_update_is_item_mod  ( groups_is_user_mod  ( bp_loggedin_user_id(), $this->current_group->id ), 'groups' );
+				bp_update_is_item_mod( groups_is_user_mod( bp_loggedin_user_id(), $this->current_group->id ), 'groups' );
 			}
 
 			// Check once if the current group has a custom front template.
 			$this->current_group->front_template = bp_groups_get_front_template( $this->current_group );
+
+			/**
+			 * Fires once the `current_group` global is fully set.
+			 *
+			 * @since 10.0.0
+			 *
+			 * @param BP_Groups_Group|object $current_group The current group object.
+			 */
+			do_action_ref_array( 'bp_groups_set_current_group', array( $this->current_group ) );
 
 			// Initialize the nav for the groups component.
 			$this->nav = new BP_Core_Nav( $this->current_group->id );
