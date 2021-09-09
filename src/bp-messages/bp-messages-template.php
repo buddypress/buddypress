@@ -1625,23 +1625,32 @@ function bp_message_get_recipient_usernames() {
  *
  * @param array|string $args {
  *     Array of arguments. All are optional.
- *     @type int    $thread_id         ID of the thread whose messages you are displaying.
- *                                     Default: if viewing a thread, the thread ID will be parsed from
- *                                     the URL (bp_action_variable( 0 )).
- *     @type string $order             'ASC' or 'DESC'. Default: 'ASC'.
- *     @type bool   $update_meta_cache Whether to pre-fetch metadata for
- *                                     queried message items. Default: true.
+ *     @type int      $thread_id         ID of the thread whose messages you are displaying.
+ *                                       Default: if viewing a thread, the thread ID will be parsed from
+ *                                       the URL (bp_action_variable( 0 )).
+ *     @type string   $order             'ASC' or 'DESC'. Default: 'ASC'.
+ *     @type bool     $update_meta_cache Whether to pre-fetch metadata for
+ *                                       queried message items. Default: true.
+ *     @type int|null $page              Page of messages being requested. Default to null, meaning all.
+ *     @type int|null $per_page          Messages to return per page. Default to null, meaning all.
  * }
+ *
  * @return bool True if there are messages to display, otherwise false.
  */
 function bp_thread_has_messages( $args = '' ) {
 	global $thread_template;
 
-	$r = bp_parse_args( $args, array(
-		'thread_id'         => false,
-		'order'             => 'ASC',
-		'update_meta_cache' => true,
-	), 'thread_has_messages' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'thread_id'         => false,
+			'order'             => 'ASC',
+			'update_meta_cache' => true,
+			'page'              => null,
+			'per_page'          => null,
+		),
+		'thread_has_messages'
+	);
 
 	if ( empty( $r['thread_id'] ) && bp_is_messages_component() && bp_is_current_action( 'view' ) ) {
 		$r['thread_id'] = (int) bp_action_variable( 0 );

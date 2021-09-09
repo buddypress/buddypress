@@ -9,7 +9,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	/**
 	 * @group cache
 	 */
-	public function test_construct_cache() {
+	public function construct_cache() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
@@ -30,6 +30,66 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		);
 	}
 
+	public function test_get_messages_with_invalid_thread_id() {
+		$this->assertTrue( empty( BP_Messages_Thread::get_messages( 0 ) ) );
+	}
+
+	public function test_get_messages_using_arguments() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$m1 = self::factory()->message->create_and_get( array(
+			'sender_id' => $u1,
+			'recipients' => array( $u2 ),
+			'subject' => 'Foo',
+		) );
+
+		self::factory()->message->create_many(
+			98,
+			array(
+				'thread_id' => $m1->thread_id,
+				'sender_id' => $u2,
+				'recipients' => array( $u1 ),
+				'subject' => 'Bar',
+			)
+		);
+
+		// Last message
+		self::factory()->message->create(
+			array(
+				'thread_id' => $m1->thread_id,
+				'sender_id' => $u1,
+				'recipients' => array( $u2 ),
+				'subject' => 'Last Message',
+			)
+		);
+
+		// Default results.
+		$messages = BP_Messages_Thread::get_messages( $m1->thread_id );
+		$this->assertTrue( 100 === count( $messages ) );
+
+		// Get first 10 messages.
+		$messages = BP_Messages_Thread::get_messages( $m1->thread_id, array( 'page' => 1, 'per_page' => 10 ) );
+		$this->assertTrue( 10 === count( $messages ) );
+
+		// Get first 10 messages differently.
+		$thread = new BP_Messages_Thread( $m1->thread_id, 'ASC', array( 'page' => 1, 'per_page' => 10 ) );
+		$this->assertTrue( 10 === count( $thread->messages ) );
+
+		// Get all messages.
+		$messages = BP_Messages_Thread::get_messages( $m1->thread_id, array( 'page' => null, 'per_page' => null ) );
+		$this->assertTrue( 100 === count( $messages ) );
+
+		// Get all mesages differently.
+		$thread = new BP_Messages_Thread( $m1->thread_id, 'ASC', array( 'page' => null, 'per_page' => null ) );
+		$this->assertTrue( 100 === count( $thread->messages ) );
+
+		// Get last message.
+		$messages = BP_Messages_Thread::get_messages( $m1->thread_id, array( 'page' => 100, 'per_page' => 1 ) );
+		$this->assertTrue( 1 === count( $messages ) );
+		$this->assertEquals( $u1, $messages[0]->sender_id );
+		$this->assertEquals( 'Last Message', $messages[0]->subject );
+	}
+
 	/**
 	 * @group order
 	 */
@@ -39,28 +99,52 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 		// create thread
 		$message_1 = self::factory()->message->create_and_get( array(
-			'sender_id' => $u1,
+			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
-			'subject' => 'Foo',
+			'subject'    => 'Foo',
 		) );
-		$m1 = $message_1->id;
 
 		// create reply
 		$message_2 = self::factory()->message->create_and_get( array(
-			'thread_id' => $message_1->thread_id,
-			'sender_id' => $u1,
+			'thread_id'  => $message_1->thread_id,
+			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
-			'content' => 'Bar'
+			'content'    => 'Bar'
 		) );
-		$m2 = $message_2->id;
 
-		// now get thread by DESC
-		$thread = new BP_Messages_Thread( $message_1->thread_id, 'DESC' );
-
-		// assert!
+		// Default sort from constructor.
+		$thread = new BP_Messages_Thread( $message_1->thread_id );
 		$this->assertEquals(
-			array( $m2, $m1 ),
+			array( $message_1->id, $message_2->id ),
 			wp_list_pluck( $thread->messages, 'id' )
+		);
+
+		// Default via the helper method.
+		$messages = BP_Messages_Thread::get_messages( $message_1->thread_id );
+		$this->assertEquals(
+			array( $message_1->id, $message_2->id ),
+			wp_list_pluck( $messages, 'id' )
+		);
+
+		// Now get thread by DESC via the constructor.
+		$thread = new BP_Messages_Thread( $message_1->thread_id, 'DESC' );
+		$this->assertEquals(
+			array( $message_2->id, $message_1->id ),
+			wp_list_pluck( $thread->messages, 'id' )
+		);
+
+		// Testing sort with lowercase.
+		$thread = new BP_Messages_Thread( $message_1->thread_id, 'desc' );
+		$this->assertEquals(
+			array( $message_2->id, $message_1->id ),
+			wp_list_pluck( $thread->messages, 'id' )
+		);
+
+		// Now sorting via the helper method.
+		$messages = BP_Messages_Thread::get_messages( $message_1->thread_id, array( 'order' => 'desc' ) );
+		$this->assertEquals(
+			array( $message_2->id, $message_1->id ),
+			wp_list_pluck( $messages, 'id' )
 		);
 	}
 
@@ -71,7 +155,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
-		$message_1 = self::factory()->message->create_and_get( array(
+		self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -101,7 +185,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
-		$message_1 = self::factory()->message->create_and_get( array(
+		self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -133,7 +217,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
-		$message_1 = self::factory()->message->create_and_get( array(
+		self::factory()->message->create_and_get( array(
 			'sender_id' => $u1,
 			'recipients' => array( $u2 ),
 			'subject' => 'Foo',
@@ -151,6 +235,28 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$found = wp_parse_id_list( wp_list_pluck( $threads['threads'], 'thread_id' ) );
 
 		$this->assertSame( $expected, $found );
+	}
+
+	/**
+	 * @group get_recipients
+	 */
+	public function test_get_recipients_paginated() {
+		$u1       = self::factory()->user->create();
+		$user_ids = self::factory()->user->create_many( 9 );
+		$m        = self::factory()->message->create_and_get( array(
+			'sender_id'  => $u1,
+			'recipients' => $user_ids,
+			'subject'    => 'Foo',
+		) );
+
+		$thread_1 = new BP_Messages_Thread( $m->thread_id );
+		$this->assertTrue( 10 === count( $thread_1->get_recipients() ) );
+
+		$thread_2 = new BP_Messages_Thread( $m->thread_id, 'ASC', array( 'recipients_page' => 1, 'recipients_per_page' => 5 ) );
+		$this->assertTrue( 5 === count( $thread_2->recipients ) );
+
+		$thread_3 = new BP_Messages_Thread( $m->thread_id );
+		$this->assertTrue( 8 === count( $thread_3->get_recipients( $m->thread_id, array( 'recipients_page' => 1, 'recipients_per_page' => 8 ) ) ) );
 	}
 
 	/**
@@ -196,11 +302,11 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		) );
 
 		$thread = new BP_Messages_Thread( $message->thread_id );
-		$recipients = $thread->get_recipients();
+		$thread->get_recipients();
 
 		// Verify that the cache is populated.
 		$num_queries = $wpdb->num_queries;
-		$recipients_cached = $thread->get_recipients();
+		$thread->get_recipients();
 		$this->assertEquals( $num_queries, $wpdb->num_queries );
 
 		messages_new_message( array(
@@ -213,7 +319,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 		// Cache should be empty.
 		$num_queries = $wpdb->num_queries;
-		$recipients_uncached = $thread->get_recipients();
+		$thread->get_recipients();
 		$this->assertEquals( $num_queries + 1, $wpdb->num_queries );
 	}
 
@@ -236,11 +342,11 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$t1 = $message->thread_id;
 
 		$thread = new BP_Messages_Thread( $t1 );
-		$recipients = $thread->get_recipients();
+		$thread->get_recipients();
 
 		// Verify that the cache is populated.
 		$num_queries = $wpdb->num_queries;
-		$recipients_cached = $thread->get_recipients();
+		$thread->get_recipients();
 		$this->assertEquals( $num_queries, $wpdb->num_queries );
 
 		messages_delete_thread( $t1 );
@@ -268,11 +374,11 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$t1 = $message->thread_id;
 
 		$thread = new BP_Messages_Thread( $t1 );
-		$recipients = $thread->get_recipients();
+		$thread->get_recipients();
 
 		// Verify that the cache is populated.
 		$num_queries = $wpdb->num_queries;
-		$recipients_cached = $thread->get_recipients();
+		$thread->get_recipients();
 		$this->assertEquals( $num_queries, $wpdb->num_queries );
 
 		messages_delete_thread( array( $t1 ) );
@@ -396,11 +502,11 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$t1 = $message->thread_id;
 
 		$thread = new BP_Messages_Thread( $t1 );
-		$recipients = $thread->get_recipients();
+		$thread->get_recipients();
 
 		// Verify that the cache is populated.
 		$num_queries = $wpdb->num_queries;
-		$recipients_cached = $thread->get_recipients();
+		$thread->get_recipients();
 		$this->assertEquals( $num_queries, $wpdb->num_queries );
 
 		// Mark thread as unread

@@ -284,7 +284,14 @@ function bp_messages_message_delete_notifications( $thread_id, $message_ids ) {
 	$thread = new BP_Messages_Thread( $thread_id );
 	foreach ( $thread->get_recipients() as $recipient ) {
 		foreach ( $message_ids as $message_id ) {
-			bp_notifications_delete_notifications_by_item_id( $recipient->user_id, (int) $message_id, buddypress()->messages->id, 'new_message' );
+			if ( ! empty( $recipient->user_id ) ) {
+				bp_notifications_delete_notifications_by_item_id(
+					$recipient->user_id,
+					(int) $message_id,
+					buddypress()->messages->id,
+					'new_message'
+				);
+			}
 		}
 	}
 }
