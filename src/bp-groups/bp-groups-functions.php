@@ -537,16 +537,23 @@ function groups_check_slug( $slug ) {
 }
 
 /**
- * Get a group slug by its ID.
+ * Get slug from a group.
  *
  * @since 1.0.0
+ * @since 10.0.0 Updated to use `bp_get_group`.
  *
- * @param int $group_id The numeric ID of the group.
- * @return string The group's slug.
+ * @param int|string|BP_Groups_Group $group The Group ID, the Group Slug or the Group object.
+ * @return bool|string The group's slug. False if group doesn't exist.
  */
-function groups_get_slug( $group_id ) {
-	$group = groups_get_group( $group_id );
-	return !empty( $group->slug ) ? $group->slug : '';
+function groups_get_slug( $group ) {
+
+	$group = bp_get_group( $group );
+
+	if ( empty( $group->id ) ) {
+		return false;
+	}
+
+	return ! empty( $group->slug ) ? $group->slug : '';
 }
 
 /**
@@ -579,26 +586,34 @@ function groups_get_id_by_previous_slug( $group_slug ) {
  * Remove a user from a group.
  *
  * @since 1.0.0
+ * @since 10.0.0 Updated to use `bp_get_group`.
  *
- * @param int $group_id ID of the group.
- * @param int $user_id  Optional. ID of the user. Defaults to the currently
- *                      logged-in user.
+ * @param int|string|BP_Groups_Group $group   The Group ID, the Group Slug or the Group object.
+ * @param int                        $user_id Optional. ID of the user. Defaults to the currently
+ *                                            logged-in user.
  * @return bool True on success, false on failure.
  */
-function groups_leave_group( $group_id, $user_id = 0 ) {
+function groups_leave_group( $group, $user_id = 0 ) {
 
-	if ( empty( $user_id ) )
+	$group = bp_get_group( $group );
+
+	if ( empty( $group->id ) ) {
+		return false;
+	}
+
+	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
+	}
 
 	// Don't let single admins leave the group.
-	if ( count( groups_get_group_admins( $group_id ) ) < 2 ) {
-		if ( groups_is_user_admin( $user_id, $group_id ) ) {
+	if ( count( groups_get_group_admins( $group->id ) ) < 2 ) {
+		if ( groups_is_user_admin( $user_id, $group->id ) ) {
 			bp_core_add_message( __( 'As the only admin, you cannot leave the group.', 'buddypress' ), 'error' );
 			return false;
 		}
 	}
 
-	if ( ! BP_Groups_Member::delete( $user_id, $group_id ) ) {
+	if ( ! BP_Groups_Member::delete( $user_id, $group->id ) ) {
 		return false;
 	}
 
@@ -608,11 +623,13 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
 	 * Fires after a user leaves a group.
 	 *
 	 * @since 1.0.0
+	 * @since 10.0.0 Updated to add the `$group` parameter.
 	 *
-	 * @param int $group_id ID of the group.
-	 * @param int $user_id  ID of the user leaving the group.
+	 * @param int             $group_id ID of the group.
+	 * @param int             $user_id  ID of the user leaving the group.
+	 * @param BP_Groups_Group $group    The group object.
 	 */
-	do_action( 'groups_leave_group', $group_id, $user_id );
+	do_action( 'groups_leave_group', $group->id, $user_id, $group );
 
 	return true;
 }
@@ -621,30 +638,43 @@ function groups_leave_group( $group_id, $user_id = 0 ) {
  * Add a user to a group.
  *
  * @since 1.0.0
+ * @since 10.0.0 Updated to use `bp_get_group`.
  *
- * @param int $group_id ID of the group.
- * @param int $user_id  Optional. ID of the user. Defaults to the currently
- *                      logged-in user.
+ * @param int|string|BP_Groups_Group $group   The Group ID, the Group Slug or the Group object.
+ * @param int                        $user_id Optional. ID of the user. Defaults to the currently
+ *                                            logged-in user.
  * @return bool True on success, false on failure.
  */
-function groups_join_group( $group_id, $user_id = 0 ) {
+function groups_join_group( $group, $user_id = 0 ) {
 
-	if ( empty( $user_id ) )
+	$group = bp_get_group( $group );
+
+	if ( empty( $group->id ) ) {
+		return false;
+	}
+
+	$group_id = $group->id;
+
+	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
+	}
 
 	// Check if the user has an outstanding invite. If so, delete it.
-	if ( groups_check_user_has_invite( $user_id, $group_id ) )
+	if ( groups_check_user_has_invite( $user_id, $group_id ) ) {
 		groups_delete_invite( $user_id, $group_id );
+	}
 
 	// Check if the user has an outstanding request. If so, delete it.
-	if ( groups_check_for_membership_request( $user_id, $group_id ) )
+	if ( groups_check_for_membership_request( $user_id, $group_id ) ) {
 		groups_delete_membership_request( null, $user_id, $group_id );
+	}
 
 	// User is already a member, just return true.
-	if ( groups_is_user_member( $user_id, $group_id ) )
+	if ( groups_is_user_member( $user_id, $group_id ) ) {
 		return true;
+	}
 
-	$new_member                = new BP_Groups_Member;
+	$new_member                = new BP_Groups_Member();
 	$new_member->group_id      = $group_id;
 	$new_member->user_id       = $user_id;
 	$new_member->inviter_id    = 0;
@@ -653,34 +683,32 @@ function groups_join_group( $group_id, $user_id = 0 ) {
 	$new_member->date_modified = bp_core_current_time();
 	$new_member->is_confirmed  = 1;
 
-	if ( !$new_member->save() )
+	if ( ! $new_member->save() ) {
 		return false;
-
-	$bp = buddypress();
-
-	if ( !isset( $bp->groups->current_group ) || !$bp->groups->current_group || $group_id != $bp->groups->current_group->id )
-		$group = groups_get_group( $group_id );
-	else
-		$group = $bp->groups->current_group;
+	}
 
 	// Record this in activity streams.
 	if ( bp_is_active( 'activity' ) ) {
-		groups_record_activity( array(
-			'type'    => 'joined_group',
-			'item_id' => $group_id,
-			'user_id' => $user_id,
-		) );
+		groups_record_activity(
+			array(
+				'type'    => 'joined_group',
+				'item_id' => $group_id,
+				'user_id' => $user_id,
+			)
+		);
 	}
 
 	/**
 	 * Fires after a user joins a group.
 	 *
 	 * @since 1.0.0
+	 * @since 10.0.0 Added the `$group` parameter.
 	 *
-	 * @param int $group_id ID of the group.
-	 * @param int $user_id  ID of the user joining the group.
+	 * @param int             $group_id ID of the group.
+	 * @param int             $user_id  ID of the user joining the group.
+	 * @param BP_Groups_Group $group    The group object.
 	 */
-	do_action( 'groups_join_group', $group_id, $user_id );
+	do_action( 'groups_join_group', $group_id, $user_id, $group );
 
 	return true;
 }
@@ -689,22 +717,21 @@ function groups_join_group( $group_id, $user_id = 0 ) {
  * Update the last_activity meta value for a given group.
  *
  * @since 1.0.0
+ * @since 10.0.0 Updated to use `bp_get_group`.
  *
- * @param int $group_id Optional. The ID of the group whose last_activity is
- *                      being updated. Default: the current group's ID.
- * @return false|null False on failure.
+ * @param int|string|BP_Groups_Group $group The Group ID, the Group Slug or the Group object.
+ *                                          Default: the current group's ID.
+ * @return bool False on failure.
  */
-function groups_update_last_activity( $group_id = 0 ) {
+function groups_update_last_activity( $group = 0 ) {
 
-	if ( empty( $group_id ) ) {
-		$group_id = buddypress()->groups->current_group->id;
-	}
+	$group = bp_get_group( $group );
 
-	if ( empty( $group_id ) ) {
+	if ( empty( $group->id ) ) {
 		return false;
 	}
 
-	groups_update_groupmeta( $group_id, 'last_activity', bp_core_current_time() );
+	groups_update_groupmeta( $group->id, 'last_activity', bp_core_current_time() );
 }
 add_action( 'groups_join_group', 'groups_update_last_activity' );
 add_action( 'groups_leave_group', 'groups_update_last_activity' );
