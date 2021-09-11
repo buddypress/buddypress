@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 function bp_members_has_directory() {
 	$bp = buddypress();
 
-	return (bool) !empty( $bp->pages->members->id );
+	return (bool) ! empty( $bp->pages->members->id );
 }
 
 /**
@@ -37,6 +37,8 @@ function bp_members_has_directory() {
  * when no slugs have been explicitly defined.
  *
  * @since 1.5.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_core_define_slugs() {
 	$bp = buddypress();
@@ -206,7 +208,7 @@ function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_lo
 
 	// Don't use this filter.  Subject to removal in a future release.
 	// Use the 'bp_core_get_user_domain' filter instead.
-	$domain       = apply_filters( 'bp_core_get_user_domain_pre_cache', $domain, $user_id, $user_nicename, $user_login );
+	$domain = apply_filters( 'bp_core_get_user_domain_pre_cache', $domain, $user_id, $user_nicename, $user_login );
 
 	/**
 	 * Filters the domain for the passed user.
@@ -226,15 +228,15 @@ function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_lo
  *
  * @since 1.2.0
  *
- * @param  int $user_id The ID of the user.
- * @return array|bool Array of data on success, boolean false on failure.
+ * @param int $user_id The ID of the user.
+ * @return array|bool Array of data on success, false on failure.
  */
 function bp_core_get_core_userdata( $user_id = 0 ) {
 	if ( empty( $user_id ) ) {
 		return false;
 	}
 
-	// Get core user data
+	// Get core user data.
 	$userdata = BP_Core_User::get_core_userdata( $user_id );
 
 	/**
@@ -242,7 +244,7 @@ function bp_core_get_core_userdata( $user_id = 0 ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array|bool $userdata Array of user data for a passed user on success, boolean false on failure.
+	 * @param array|bool $userdata Array of user data for a passed user on success, false on failure.
 	 */
 	return apply_filters( 'bp_core_get_core_userdata', $userdata );
 }
@@ -284,7 +286,7 @@ function bp_core_get_userid( $username = '' ) {
 	 * @param int|null $value    ID of the user or null.
 	 * @param string   $username User login to check.
 	 */
-	return apply_filters( 'bp_core_get_userid', ! empty( $user->ID ) ? $user->ID : NULL, $username );
+	return apply_filters( 'bp_core_get_userid', ! empty( $user->ID ) ? $user->ID : null, $username );
 }
 
 /**
@@ -310,7 +312,7 @@ function bp_core_get_userid_from_nicename( $user_nicename = '' ) {
 	 * @param int|null $value         ID of the user or null.
 	 * @param string   $user_nicename User nicename to check.
 	 */
-	return apply_filters( 'bp_core_get_userid_from_nicename', ! empty( $user->ID ) ? $user->ID : NULL, $user_nicename );
+	return apply_filters( 'bp_core_get_userid_from_nicename', ! empty( $user->ID ) ? $user->ID : null, $user_nicename );
 }
 
 /**
@@ -361,6 +363,7 @@ function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login
  * @return string The username of the matched user or an empty string if no user is found.
  */
 function bp_members_get_user_nicename( $user_id ) {
+
 	/**
 	 * Filters the user_nicename based on originally provided user ID.
 	 *
@@ -376,11 +379,12 @@ function bp_members_get_user_nicename( $user_id ) {
  *
  * @since 1.0.0
  *
- * @param int $uid User ID to check.
+ * @param int $user_id User ID to check.
  * @return string The email for the matched user. Empty string if no user
  *                matches the $user_id.
  */
 function bp_core_get_user_email( $user_id ) {
+
 	/**
 	 * Filters the user email for user based on user ID.
 	 *
@@ -507,9 +511,9 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 	return apply_filters( 'bp_core_get_user_displayname', get_the_author_meta( 'display_name', $user_id ), $user_id );
 }
 add_filter( 'bp_core_get_user_displayname', 'strip_tags', 1 );
-add_filter( 'bp_core_get_user_displayname', 'trim'          );
-add_filter( 'bp_core_get_user_displayname', 'stripslashes'  );
-add_filter( 'bp_core_get_user_displayname', 'esc_html'      );
+add_filter( 'bp_core_get_user_displayname', 'trim' );
+add_filter( 'bp_core_get_user_displayname', 'stripslashes' );
+add_filter( 'bp_core_get_user_displayname', 'esc_html' );
 
 /**
  * Return the user link for the user based on user email address.
@@ -568,6 +572,8 @@ function bp_core_get_userlink_by_username( $username ) {
  *
  * @since 1.2.0
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @return int The total number of members.
  */
 function bp_core_get_total_member_count() {
@@ -595,6 +601,8 @@ function bp_core_get_total_member_count() {
  * Return the total number of members, limited to those members with last_activity.
  *
  * @since 1.6.0
+ *
+ * @global wpdb $wpdb WordPress database object.
  *
  * @return int The number of active members.
  */
@@ -634,8 +642,8 @@ function bp_core_get_active_member_count() {
  *
  * @since 5.0.0
  *
- * @param int   $user_id The user ID to spam or ham.
- * @param int   $value   0 to mark the user as `ham`, 1 to mark as `spam`.
+ * @param int $user_id The user ID to spam or ham.
+ * @param int $value   0 to mark the user as `ham`, 1 to mark as `spam`.
  * @return bool          True if the spam status of the member changed.
  *                       False otherwise.
  */
@@ -676,9 +684,11 @@ function bp_core_update_member_status( $user_id = 0, $value = 0 ) {
  *
  * @since 1.6.0
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param int    $user_id       The ID of the user being spammed/hammed.
  * @param string $status        'spam' if being marked as spam, 'ham' otherwise.
- * @param bool   $do_wp_cleanup True to force the cleanup of WordPress content
+ * @param bool   $do_wp_cleanup Optional. True to force the cleanup of WordPress content
  *                              and status, otherwise false. Generally, this should
  *                              only be false if WordPress is expected to have
  *                              performed this cleanup independently, as when hooked
@@ -707,7 +717,7 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 
 	// Only you can prevent infinite loops.
 	remove_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
-	remove_action( 'make_ham_user',  'bp_core_mark_user_ham_admin'  );
+	remove_action( 'make_ham_user',  'bp_core_mark_user_ham_admin' );
 
 	// Force the cleanup of WordPress content and status for multisite configs.
 	if ( $do_wp_cleanup ) {
@@ -832,7 +842,7 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 
 	// Put things back how we found them.
 	add_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
-	add_action( 'make_ham_user',  'bp_core_mark_user_ham_admin'  );
+	add_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
 
 	return true;
 }
@@ -864,6 +874,8 @@ add_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
  * Check whether a user has been marked as a spammer.
  *
  * @since 1.6.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param int $user_id The ID for the user.
  * @return bool True if spammer, otherwise false.
@@ -936,6 +948,8 @@ function bp_is_user_spammer( $user_id = 0 ) {
  *
  * @since 1.6.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param int $user_id The ID for the user.
  * @return bool True if deleted, otherwise false.
  */
@@ -1002,7 +1016,7 @@ function bp_is_user_deleted( $user_id = 0 ) {
  *
  * @since 1.6.0
  *
- * @param int $user_id The user ID to check.
+ * @param int $user_id Optional. The user ID to check.
  * @return bool True if active, otherwise false.
  */
 function bp_is_user_active( $user_id = 0 ) {
@@ -1036,26 +1050,12 @@ function bp_is_user_active( $user_id = 0 ) {
  *
  * @since 1.6.0
  *
- * @todo No need for the user fallback checks, since they're done in
- *       bp_is_user_active().
- *
- * @param int $user_id The user ID to check.
+ * @param int $user_id Optional. The user ID to check.
  * @return bool True if inactive, otherwise false.
  */
 function bp_is_user_inactive( $user_id = 0 ) {
-
-	// Default to current user.
-	if ( empty( $user_id ) && is_user_logged_in() ) {
-		$user_id = bp_loggedin_user_id();
-	}
-
-	// No user to check.
-	if ( empty( $user_id ) ) {
-		return false;
-	}
-
 	// Return the inverse of active.
-	return !bp_is_user_active( $user_id );
+	return ! bp_is_user_active( $user_id );
 }
 
 /**
@@ -1065,8 +1065,8 @@ function bp_is_user_inactive( $user_id = 0 ) {
  * @since 7.0.0 Backward compatibility usermeta mirroring is only allowed if the
  *              legacy user query is enabled.
  *
- * @param int    $user_id ID of the user being updated.
- * @param string $time    Time of last activity, in 'Y-m-d H:i:s' format.
+ * @param int    $user_id Optional. ID of the user being updated.
+ * @param string $time    Optional. Time of last activity, in 'Y-m-d H:i:s' format.
  * @return bool True on success, false on failure.
  */
 function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
@@ -1209,6 +1209,9 @@ function bp_get_user_last_activity( $user_id = 0 ) {
  * be called directly from the BuddyPress Tools panel.
  *
  * @since 2.0.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
  *
  * @return bool
  */
@@ -1513,12 +1516,11 @@ function bp_core_flush_illegal_names() {
  *
  * @since 1.2.7
  *
- * @param array|string $value    Illegal names as being saved defined in
- *                               Multisite settings.
- * @param array|string $oldvalue The old value of the option.
+ * @param array|string $value Illegal names as being saved defined in
+ *                            Multisite settings.
  * @return array Merged and unique array of illegal names.
  */
-function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
+function bp_core_get_illegal_names( $value = '' ) {
 
 	// Make sure $value is array.
 	if ( empty( $value ) ) {
@@ -1544,7 +1546,7 @@ function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
 		'settings',
 		'notifications',
 		'register',
-		'activate'
+		'activate',
 	);
 
 	// Core constants.
@@ -1562,7 +1564,7 @@ function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
 		'BP_REGISTER_SLUG',
 		'BP_ACTIVATION_SLUG',
 	);
-	foreach( $slug_constants as $constant ) {
+	foreach ( $slug_constants as $constant ) {
 		if ( defined( $constant ) ) {
 			$bp_component_slugs[] = constant( $constant );
 		}
@@ -1587,13 +1589,13 @@ function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
 	$wp_filtered_illegal_names = apply_filters( 'illegal_user_logins', array() );
 
 	// First merge BuddyPress illegal names.
-	$bp_merged_names           = array_merge( (array) $filtered_illegal_names, (array) $db_illegal_names );
+	$bp_merged_names = array_merge( (array) $filtered_illegal_names, (array) $db_illegal_names );
 
 	// Then merge WordPress and BuddyPress illegal names.
-	$merged_names              = array_merge( (array) $wp_filtered_illegal_names, (array) $bp_merged_names );
+	$merged_names = array_merge( (array) $wp_filtered_illegal_names, (array) $bp_merged_names );
 
 	// Remove duplicates.
-	$illegal_names             = array_unique( (array) $merged_names );
+	$illegal_names = array_unique( (array) $merged_names );
 
 	/**
 	 * Filters the array of default illegal names.
@@ -1604,7 +1606,7 @@ function bp_core_get_illegal_names( $value = '', $oldvalue = '' ) {
 	 */
 	return apply_filters( 'bp_core_illegal_names', $illegal_names );
 }
-add_filter( 'pre_update_site_option_illegal_names', 'bp_core_get_illegal_names', 10, 2 );
+add_filter( 'pre_update_site_option_illegal_names', 'bp_core_get_illegal_names' );
 
 /**
  * Check that an email address is valid for use.
@@ -1860,6 +1862,8 @@ function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
  *
  * @since 1.2.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @todo There appears to be a bug in the return value on success.
  *
  * @param string $user_login    Login name requested by the user.
@@ -1994,6 +1998,8 @@ function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name,
  *
  * @since 1.2.2
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param string $key Activation key.
  * @return int|bool User ID on success, false on failure.
  */
@@ -2117,7 +2123,7 @@ function bp_core_activate_signup( $key ) {
 			foreach( (array) $profile_field_ids as $field_id ) {
 				$current_field = isset( $user['meta']["field_{$field_id}"] ) ? $user['meta']["field_{$field_id}"] : false;
 
-				if ( !empty( $current_field ) ) {
+				if ( ! empty( $current_field ) ) {
 					xprofile_set_field_data( $field_id, $user_id, $current_field );
 				}
 
@@ -2199,6 +2205,8 @@ add_action( 'bp_core_activated_user', 'bp_members_add_role_after_activation', 1 
  * Migrate signups from pre-2.0 configuration to wp_signups.
  *
  * @since 2.0.1
+ *
+ * @global wpdb $wpdb WordPress database object.
  */
 function bp_members_migrate_signups() {
 	global $wpdb;
@@ -2314,6 +2322,8 @@ add_action( 'user_register', 'bp_core_map_user_registration' );
  *
  * @since 1.1.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return string|bool Directory path on success, false on failure.
  */
 function bp_core_signup_avatar_upload_dir() {
@@ -2343,7 +2353,7 @@ function bp_core_signup_avatar_upload_dir() {
 		'subdir'  => $newsubdir,
 		'basedir' => $newbdir,
 		'baseurl' => $newburl,
-		'error'   => false
+		'error'   => false,
 	) );
 }
 
@@ -2621,6 +2631,8 @@ add_action( 'login_form_bp-spam', 'bp_live_spammer_login_error' );
  *
  * @since 2.6.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return object The displayed user object, null otherwise.
  */
 function bp_get_displayed_user() {
@@ -2651,7 +2663,6 @@ function bp_get_displayed_user() {
 function bp_member_type_tax_name() {
 	echo bp_get_member_type_tax_name();
 }
-
 	/**
 	 * Return the slug of the member type taxonomy.
 	 *
@@ -2660,6 +2671,7 @@ function bp_member_type_tax_name() {
 	 * @return string The unique member taxonomy slug.
 	 */
 	function bp_get_member_type_tax_name() {
+
 		/**
 		 * Filters the slug of the member type taxonomy.
 		 *
@@ -2689,8 +2701,7 @@ function bp_get_member_type_tax_labels() {
 	return apply_filters(
 		'bp_get_member_type_tax_labels',
 		array(
-
-			// General labels
+			// General labels.
 			'name'                       => _x( 'Member Types', 'Member type taxonomy name', 'buddypress' ),
 			'singular_name'              => _x( 'Member Type', 'Member type taxonomy singular name', 'buddypress' ),
 			'search_items'               => _x( 'Search Member Types', 'Member type taxonomy search items label', 'buddypress' ),
@@ -2805,6 +2816,8 @@ add_action( 'bp_register_type_metadata', 'bp_register_member_type_metadata' );
  *
  * @since 2.2.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param string $member_type Unique string identifier for the member type.
  * @param array  $args {
  *     Array of arguments describing the member type.
@@ -2910,7 +2923,7 @@ function bp_register_member_type( $member_type, $args = array() ) {
  * @since 2.2.0
  *
  * @param string $member_type The name of the member type.
- * @return object A member type object.
+ * @return object|null A member type object or null if it doesn't exist.
  */
 function bp_get_member_type_object( $member_type ) {
 	$types = bp_get_member_types( array(), 'objects' );
@@ -2927,6 +2940,8 @@ function bp_get_member_type_object( $member_type ) {
  *
  * @since 2.2.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @see bp_register_member_type() for accepted arguments.
  *
  * @param array|string $args     Optional. An array of key => value arguments to match against
@@ -2939,7 +2954,8 @@ function bp_get_member_type_object( $member_type ) {
  * @return array A list of member type names or objects.
  */
 function bp_get_member_types( $args = array(), $output = 'names', $operator = 'and' ) {
-	$types = buddypress()->members->types;
+	$bp    = buddypress();
+	$types = $bp->members->types;
 
 	// Merge with types available into the database.
 	if ( ! isset( $args['code'] ) || true !== $args['code'] ) {
@@ -3051,7 +3067,7 @@ add_action( bp_get_member_type_tax_name() . '_add_form', 'bp_insert_member_types
  * @param string|array $member_type The member type name or an array of member type names.
  * @param bool         $append      Optional. True to append this to existing types for user,
  *                                  false to replace. Default: false.
- * @return false|array $retval See {@see bp_set_object_terms()}.
+ * @return bool|array $retval See {@see bp_set_object_terms()}.
  */
 function bp_set_member_type( $user_id, $member_type, $append = false ) {
 	// Pass an empty $member_type to remove a user's type.
@@ -3149,7 +3165,7 @@ function bp_get_member_type( $user_id, $single = true, $use_db = true ) {
 		$raw_types = bp_get_object_terms( $user_id, bp_get_member_type_tax_name() );
 
 		if ( ! is_wp_error( $raw_types ) ) {
-			$types =  array();
+			$types = array();
 
 			// Only include currently registered group types.
 			foreach ( $raw_types as $mtype ) {
@@ -3182,7 +3198,7 @@ function bp_get_member_type( $user_id, $single = true, $use_db = true ) {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param string|array|bool $type    a single member type (if $single is true) or an array of member types
+	 * @param string|array|bool $type    A single member type (if $single is true) or an array of member types
 	 *                                   (if $single is false) or false on failure.
 	 * @param int               $user_id ID of the user.
 	 * @param bool              $single  Whether to return a single type string, or an array.
@@ -3212,7 +3228,7 @@ function bp_has_member_type( $user_id, $member_type ) {
 		return false;
 	}
 
-	return in_array( $member_type, $types );
+	return in_array( $member_type, $types, true );
 }
 
 /**
@@ -3221,7 +3237,7 @@ function bp_has_member_type( $user_id, $member_type ) {
  * @since 2.2.0
  *
  * @param int $user_id ID of the user.
- * @return false|array $value See {@see bp_set_member_type()}.
+ * @return bool|array $value See {@see bp_set_member_type()}.
  */
 function bp_remove_member_type_on_user_delete( $user_id ) {
 	return bp_set_member_type( $user_id, '' );
@@ -3249,9 +3265,12 @@ add_action( 'delete_user', 'bp_remove_member_type_on_delete_user' );
  *
  * @since 2.3.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return string
  */
 function bp_get_current_member_type() {
+	$bp = buddypress();
 
 	/**
 	 * Filters the "current" member type, if one is provided, in member directories.
@@ -3260,7 +3279,7 @@ function bp_get_current_member_type() {
 	 *
 	 * @param string $value "Current" member type.
 	 */
-	return apply_filters( 'bp_get_current_member_type', buddypress()->current_member_type );
+	return apply_filters( 'bp_get_current_member_type', $bp->current_member_type );
 }
 
 /**
@@ -3284,11 +3303,11 @@ function bp_members_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
 		$directory = 'avatars';
 	}
 
-	$path      = bp_core_avatar_upload_path() . '/' . $directory. '/' . $user_id;
+	$path      = bp_core_avatar_upload_path() . '/' . $directory . '/' . $user_id;
 	$newbdir   = $path;
-	$newurl    = bp_core_avatar_url() . '/' . $directory. '/' . $user_id;
+	$newurl    = bp_core_avatar_url() . '/' . $directory . '/' . $user_id;
 	$newburl   = $newurl;
-	$newsubdir = '/' . $directory. '/' . $user_id;
+	$newsubdir = '/' . $directory . '/' . $user_id;
 
 	/**
 	 * Filters the avatar upload directory for a user.
@@ -3303,7 +3322,7 @@ function bp_members_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
 		'subdir'  => $newsubdir,
 		'basedir' => $newbdir,
 		'baseurl' => $newburl,
-		'error'   => false
+		'error'   => false,
 	) );
 }
 
@@ -3312,7 +3331,7 @@ function bp_members_avatar_upload_dir( $directory = 'avatars', $user_id = 0 ) {
  *
  * @since 8.0.0
  *
- * @param int $user_id The new user's ID
+ * @param int $user_id The new user's ID.
  */
 function bp_send_welcome_email( $user_id = 0 ) {
 	if ( ! $user_id ) {
@@ -3348,10 +3367,8 @@ add_action( 'bp_core_activated_user', 'bp_send_welcome_email', 10, 1 );
  *
  * @since 8.0.0
  *
- * @param array $args     Invitation arguments.
- *                        See BP_Invitation::get() for list.
- *
- * @return array $invites     Matching BP_Invitation objects.
+ * @param array $args Invitation arguments. See BP_Invitation::get() for list.
+ * @return array $invites Matching BP_Invitation objects.
  */
 function bp_members_invitations_get_invites( $args = array() ) {
 	$invites_class = new BP_Members_Invitation_Manager();
@@ -3410,7 +3427,7 @@ function bp_members_invitations_invite_user( $args = array() ) {
 			'inviter_id'    => bp_loggedin_user_id(),
 			'date_modified' => bp_core_current_time(),
 			'content'       => '',
-			'send_invite'   => 0
+			'send_invite'   => 0,
 		),
 		'members_invitations_invite_user'
 	);
@@ -3421,7 +3438,7 @@ function bp_members_invitations_invite_user( $args = array() ) {
 		'inviter_id'    => $r['inviter_id'],
 		'date_modified' => $r['date_modified'],
 		'content'       => $r['content'],
-		'send_invite'   => $r['send_invite']
+		'send_invite'   => $r['send_invite'],
 	);
 
 	// Create the invitataion.
@@ -3549,7 +3566,7 @@ function bp_members_invitations_delete_invites( $args = array() ) {
 			'network_id'    => get_current_network_id(),
 			'inviter_id'    => null,
 			'accepted'      => null,
-			'invite_sent'   => null
+			'invite_sent'   => null,
 		),
 		'members_invitations_delete_invites'
 	);
@@ -3560,7 +3577,7 @@ function bp_members_invitations_delete_invites( $args = array() ) {
 		'item_id'       => $r['network_id'],
 		'inviter_id'    => $r['inviter_id'],
 		'accepted'      => $r['accepted'],
-		'invite_sent'   => $r['invite_sent']
+		'invite_sent'   => $r['invite_sent'],
 	);
 
 	// Find the invitation(s).
@@ -3584,11 +3601,11 @@ function bp_members_invitations_delete_invites( $args = array() ) {
  *
  * @since 8.0.0
  *
- * @param BP_Invitation object $invitation Invitation to create hash from.
+ * @param BP_Invitation $invitation Invitation to create hash from.
  *
  * @return string $hash Calculated sha1 hash.
  */
-function bp_members_invitations_get_hash( BP_Invitation $invitation ) {
+function bp_members_invitations_get_hash( $invitation ) {
 	$hash = false;
 
 	if ( ! empty( $invitation->id ) ) {
@@ -3612,8 +3629,8 @@ function bp_members_invitations_get_hash( BP_Invitation $invitation ) {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $hash Calculated sha1 hash.
-	 * @param BP_Invitation object $invitation Invitation hash was created from.
+	 * @param string        $hash       Calculated sha1 hash.
+	 * @param BP_Invitation $invitation Invitation hash was created from.
 	 */
 	return apply_filters( 'bp_members_invitations_get_hash', $hash, $invitation );
 }

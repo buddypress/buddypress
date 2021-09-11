@@ -18,9 +18,26 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.2.0
  */
 function bp_members_register_widgets() {
-	add_action( 'widgets_init', function() { return register_widget( 'BP_Core_Members_Widget' );         } );
-	add_action( 'widgets_init', function() { return register_widget( 'BP_Core_Whos_Online_Widget' );     } );
-	add_action( 'widgets_init', function() { return register_widget( 'BP_Core_Recently_Active_Widget' ); } );
+	add_action(
+		'widgets_init',
+		function() {
+			return register_widget( 'BP_Core_Members_Widget' );
+		}
+	);
+
+	add_action(
+		'widgets_init',
+		function() {
+			return register_widget( 'BP_Core_Whos_Online_Widget' );
+		}
+	);
+
+	add_action(
+		'widgets_init',
+		function() {
+			return register_widget( 'BP_Core_Recently_Active_Widget' );
+		}
+	);
 }
 add_action( 'bp_register_widgets', 'bp_members_register_widgets' );
 
@@ -102,5 +119,5 @@ function bp_core_ajax_widget_members() {
 		<?php echo "</li>"; ?>
 	<?php endif;
 }
-add_action( 'wp_ajax_widget_members',        'bp_core_ajax_widget_members' );
+add_action( 'wp_ajax_widget_members', 'bp_core_ajax_widget_members' );
 add_action( 'wp_ajax_nopriv_widget_members', 'bp_core_ajax_widget_members' );

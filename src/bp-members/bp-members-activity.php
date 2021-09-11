@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Register the 'new member' activity type.
  *
  * @since 2.2.0
- *
  */
 function bp_members_register_activity_actions() {
 

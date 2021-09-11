@@ -110,11 +110,11 @@ class BP_Core_Members_Template {
 	 * Constructor method.
 	 *
 	 * @since 1.5.0
-	 * @since 7.0.0 Added $xprofile_query parameter. Added $user_ids parameter.
+	 * @since 7.0.0 Added `$xprofile_query` parameter. Added `$user_ids` parameter.
 	 *
 	 * @see BP_User_Query for an in-depth description of parameters.
 	 *
-	 * @param array $args {
+	 * @param array ...$args {
 	 *     Array of arguments. Supports all arguments of BP_User_Query. Additional
 	 *     arguments, or those with different defaults, are described below.
 	 *
@@ -267,11 +267,8 @@ class BP_Core_Members_Template {
 	 *
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
-	function has_members() {
-		if ( $this->member_count )
-			return true;
-
-		return false;
+	public function has_members() {
+		return ! empty( $this->member_count );
 	}
 
 	/**
@@ -281,9 +278,9 @@ class BP_Core_Members_Template {
 	 *
 	 * @return object The next member to iterate over.
 	 */
-	function next_member() {
+	public function next_member() {
 		$this->current_member++;
-		$this->member = $this->members[$this->current_member];
+		$this->member = $this->members[ $this->current_member ];
 
 		return $this->member;
 	}
@@ -293,7 +290,7 @@ class BP_Core_Members_Template {
 	 *
 	 * @since 1.0.0
 	 */
-	function rewind_members() {
+	public function rewind_members() {
 		$this->current_member = -1;
 		if ( $this->member_count > 0 ) {
 			$this->member = $this->members[0];
@@ -313,10 +310,10 @@ class BP_Core_Members_Template {
 	 *
 	 * @return bool True if there are more members to show, otherwise false.
 	 */
-	function members() {
+	public function members() {
 		if ( $this->current_member + 1 < $this->member_count ) {
 			return true;
-		} elseif ( $this->current_member + 1 == $this->member_count ) {
+		} elseif ( $this->current_member + 1 === $this->member_count ) {
 
 			/**
 			 * Fires right before the rewinding of members listing.
@@ -343,13 +340,12 @@ class BP_Core_Members_Template {
 	 *
 	 * @see bp_the_member()
 	 */
-	function the_member() {
-
+	public function the_member() {
 		$this->in_the_loop = true;
 		$this->member      = $this->next_member();
 
 		// Loop has just started.
-		if ( 0 == $this->current_member ) {
+		if ( 0 === $this->current_member ) {
 
 			/**
 			 * Fires if the current member is the first in the loop.
@@ -358,6 +354,5 @@ class BP_Core_Members_Template {
 			 */
 			do_action( 'member_loop_start' );
 		}
-
 	}
 }

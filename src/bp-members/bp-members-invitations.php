@@ -69,19 +69,17 @@ add_action( 'bp_setup_nav', 'bp_members_invitations_setup_nav' );
  *
  * @since 8.0.0
  *
- * @param bool   $send           Whether or not to send the activation key.
- * @param int    $user_id        User ID to send activation key to.
- * @param string $user_email     User email to send activation key to.
- * @param string $activation_key Activation key to be sent.
- * @param array  $usermeta       Miscellaneous metadata about the user (blog-specific
- *                               signup data, xprofile data, etc).
+ * @param bool   $send       Whether or not to send the activation key.
+ * @param int    $user_id    User ID to send activation key to.
+ * @param string $user_email User email to send activation key to.
+ *
  * @return bool Whether or not to send the activation key.
  */
-function bp_members_invitations_cancel_activation_email( $send, $user_id = 0, $user_email = '', $activation_key = '', $usermeta = array() ) {
+function bp_members_invitations_cancel_activation_email( $send, $user_id = 0, $user_email = '' ) {
 	$invite = bp_members_invitations_get_invites(
 		array(
 			'invitee_email' => $user_email,
-			'invite_sent'   => 'sent'
+			'invite_sent'   => 'sent',
 		)
 	);
 
@@ -91,7 +89,7 @@ function bp_members_invitations_cancel_activation_email( $send, $user_id = 0, $u
 
 	return $send;
 }
-add_filter( 'bp_core_signup_send_activation_key', 'bp_members_invitations_cancel_activation_email', 10, 5 );
+add_filter( 'bp_core_signup_send_activation_key', 'bp_members_invitations_cancel_activation_email', 10, 3 );
 
 /**
  * When a user joins the network via an invitation:
@@ -100,12 +98,13 @@ add_filter( 'bp_core_signup_send_activation_key', 'bp_members_invitations_cancel
  *
  * @since 8.0.0
  *
- * @param bool|WP_Error   $user_id       True on success, WP_Error on failure.
- * @param string          $user_login    Login name requested by the user.
- * @param string          $user_password Password requested by the user.
- * @param string          $user_email    Email address requested by the user.
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @param bool|WP_Error $user_id True on success, WP_Error on failure.
  */
-function bp_members_invitations_complete_signup( $user_id, $user_login = '', $user_password = '', $user_email = '' ) {
+function bp_members_invitations_complete_signup( $user_id ) {
+	$bp = buddypress();
+
 	if ( ! $user_id ) {
 		return;
 	}
@@ -146,7 +145,7 @@ function bp_members_invitations_complete_signup( $user_id, $user_login = '', $us
 		bp_core_redirect( add_query_arg( 'activated', '1', bp_get_activation_page() ) );
 	}
 }
-add_action( 'bp_core_signup_user', 'bp_members_invitations_complete_signup', 10, 4 );
+add_action( 'bp_core_signup_user', 'bp_members_invitations_complete_signup' );
 
 /**
  * Delete site membership invitations when an opt-out request is saved.
@@ -156,10 +155,10 @@ add_action( 'bp_core_signup_user', 'bp_members_invitations_complete_signup', 10,
  * @param BP_Optout $optout Characteristics of the opt-out just saved.
  */
 function bp_members_invitations_delete_optedout_invites( $optout ) {
-
-	$args = array(
-		'invitee_email' => $optout->email_address,
+	bp_members_invitations_delete_invites(
+		array(
+			'invitee_email' => $optout->email_address,
+		)
 	);
-	bp_members_invitations_delete_invites( $args );
 }
 add_action( 'bp_optout_after_save', 'bp_members_invitations_delete_optedout_invites' );

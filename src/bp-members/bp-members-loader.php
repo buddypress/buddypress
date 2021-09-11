@@ -3,7 +3,7 @@
  * BuddyPress Member Loader.
  *
  * @package BuddyPress
- * @subpackage Members
+ * @subpackage MembersLoader
  * @since 1.5.0
  */
 

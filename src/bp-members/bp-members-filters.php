@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Escape commonly used fullname output functions.
  */
-add_filter( 'bp_displayed_user_fullname',    'esc_html' );
+add_filter( 'bp_displayed_user_fullname', 'esc_html' );
 add_filter( 'bp_get_loggedin_user_fullname', 'esc_html' );
 
 // Filter the user registration URL to point to BuddyPress's registration page.
@@ -134,7 +134,7 @@ add_filter( 'edit_profile_url', 'bp_members_edit_profile_url', 10, 3 );
  * @since 8.0.0
  *
  * @param bool   $retval     Whether or not the current user has the capability.
- * @param int    $user_id
+ * @param int    $user_id    User ID.
  * @param string $capability The capability being checked for.
  * @param int    $site_id    Site ID. Defaults to the BP root blog.
  * @param array  $args       Array of extra arguments passed.
@@ -326,7 +326,7 @@ function bp_members_invitations_get_modified_registration_disabled_message() {
  *
  * @param int|string $value    The value for the requested property.
  * @param string     $property The name of the requested property.
- * @param string     $context  The context of display.
+ * @param string     $context  Optional. The context of display.
  * @return int|string          The sanitized value.
  */
 function bp_members_sanitize_invitation_property( $value = '', $property = '', $context = 'html' ) {

@@ -54,7 +54,7 @@ add_action( 'bp_admin_menu', 'bp_members_type_admin_menu' );
  *
  * @param  boolean $exists  True if the member type already exists. False otherwise.
  * @param  string  $type_id The member type identifier.
- * @return boolean          True if the member type already exists. False otherwise.
+ * @return bool True if the member type already exists. False otherwise.
  */
 function bp_members_type_admin_type_exists( $exists = false, $type_id = '' ) {
 	if ( ! $type_id ) {
@@ -70,8 +70,8 @@ add_filter( bp_get_member_type_tax_name() . '_check_existing_type', 'bp_members_
  *
  * @since 7.0.0
  *
- * @param array  $messages The feedback messages.
- * @return array           The feedback messages including the ones for the Member Types Admin actions.
+ * @param array $messages The feedback messages.
+ * @return array The feedback messages including the ones for the Member Types Admin actions.
  */
 function bp_members_type_admin_updated_messages( $messages = array() ) {
 	$type_taxonomy = bp_get_member_type_tax_name();

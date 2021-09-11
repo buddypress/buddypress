@@ -8,9 +8,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Registers the script to manage the dynamic part of the Dynamic Members widget/block.
@@ -22,12 +20,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function bp_members_register_scripts( $scripts = array() ) {
 	$scripts['bp-dynamic-members-script'] = array(
+		'footer'       => true,
 		'file'         => plugins_url( 'js/dynamic-members.js', __FILE__ ),
 		'dependencies' => array(
 			'bp-dynamic-widget-block-script',
 			'wp-i18n',
 		),
-		'footer'       => true,
 	);
 
 	return $scripts;

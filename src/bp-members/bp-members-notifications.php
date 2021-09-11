@@ -128,7 +128,8 @@ function bp_members_invitations_accepted_invitation_notification( $invite, $new_
 	if ( ! $invites ) {
 		return;
 	}
-	foreach ( $invites as $invite) {
+
+	foreach ( $invites as $invite ) {
 		// Include the id of the "accepted" invitation.
 		if ( $invite->inviter_id === $inviter_id ) {
 			$secondary_item_id = $invite->id;
@@ -136,7 +137,8 @@ function bp_members_invitations_accepted_invitation_notification( $invite, $new_
 			// Else don't store the invite id, so we know this is not the primary.
 			$secondary_item_id = 0;
 		}
-		$res = bp_notifications_add_notification( array(
+
+		bp_notifications_add_notification( array(
 			'user_id'           => $invite->inviter_id,
 			'item_id'           => $new_user->ID,
 			'secondary_item_id' => $secondary_item_id,
@@ -152,7 +154,6 @@ add_action( 'members_invitations_invite_accepted', 'bp_members_invitations_accep
 /**
  * Mark accepted invitation notifications as read when user visits new user profile.
  *
- *
  * @since 8.0.0
  */
 function bp_members_mark_read_accepted_invitation_notification() {
@@ -163,7 +164,7 @@ function bp_members_mark_read_accepted_invitation_notification() {
 	// Mark notification as read.
 	BP_Notifications_Notification::update(
 		array(
-			'is_new'  => false
+			'is_new' => false,
 		),
 		array(
 			'user_id' => bp_loggedin_user_id(),
@@ -225,7 +226,6 @@ function members_screen_notification_settings() {
 
 		</tbody>
 	</table>
-
 <?php
 }
 add_action( 'bp_notification_settings', 'members_screen_notification_settings' );
