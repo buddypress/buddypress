@@ -50,6 +50,21 @@ body.toplevel_page_bp-groups table.groups th#last_active {
 	vertical-align: middle;
 }
 
+.groupbox {
+	position: relative;
+	min-width: 255px;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+	background: #fff;
+	margin-bottom: 20px;
+	padding: 0;
+	line-height: 1;
+}
+
+.groupbox .inside {
+	padding: 0 12px 12px;
+}
+
 #bp-groups-permalink-box {
 	line-height: 24px;
 	color: #666;

@@ -775,7 +775,7 @@ function bp_activity_admin_edit() {
 					<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 						<div id="post-body-content">
 							<div id="postdiv">
-								<div id="bp_activity_action" class="postbox">
+								<div id="bp_activity_action" class="activitybox">
 									<h2><?php _e( 'Action', 'buddypress' ); ?></h2>
 									<div class="inside">
 										<label for="bp-activities-action" class="screen-reader-text"><?php
@@ -786,7 +786,7 @@ function bp_activity_admin_edit() {
 									</div>
 								</div>
 
-								<div id="bp_activity_content" class="postbox">
+								<div id="bp_activity_content" class="activitybox">
 									<h2><?php _e( 'Content', 'buddypress' ); ?></h2>
 									<div class="inside">
 										<label for="bp-activities-content" class="screen-reader-text"><?php

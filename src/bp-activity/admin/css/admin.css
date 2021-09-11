@@ -64,6 +64,21 @@
 	margin-left: 2em;
 }
 
+.activitybox {
+	position: relative;
+	min-width: 255px;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+	background: #fff;
+	margin-bottom: 20px;
+	padding: 0;
+	line-height: 1;
+}
+
+.activitybox .inside {
+	padding: 0 12px 12px;
+}
+
 #bp_activity_action div.inside,
 #bp_activity_content div.inside {
 	line-height: 0;

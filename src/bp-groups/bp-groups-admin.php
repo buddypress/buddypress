@@ -663,7 +663,7 @@ function bp_groups_admin_edit() {
 					<div id="post-body" class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
 						<div id="post-body-content">
 							<div id="postdiv">
-								<div id="bp_groups_name" class="postbox">
+								<div id="bp_groups_name" class="groupbox">
 									<h2><?php _e( 'Name and Description', 'buddypress' ); ?></h2>
 									<div class="inside">
 										<label for="bp-groups-name" class="screen-reader-text"><?php
