@@ -105,8 +105,8 @@ function bp_get_group_by( $field, $value ) {
  *
  * @global BP_Groups_Template $groups_template Groups template object.
  *
- * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
- *                                                Default: false.
+ * @param false|int|string|object|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+ *                                                       Default: false.
  * @return BP_Groups_Group|bool The Group object if found, false otherwise.
  */
 function bp_get_group( $group = false ) {
@@ -114,7 +114,7 @@ function bp_get_group( $group = false ) {
 
 	$group_obj = false;
 
-	if ( $group instanceof BP_Groups_Group ) {
+	if ( $group instanceof BP_Groups_Group || ( is_object( $group ) && ! empty( $group->id ) ) ) {
 		$group_obj = $group;
 
 		// Nothing requested? Let's use the current Group of the Groups Loop, if available.
