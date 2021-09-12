@@ -252,16 +252,19 @@ function bp_nouveau_prepare_group_potential_invites_for_js( $user ) {
  * @since 3.0.0
  */
 function bp_nouveau_get_group_potential_invites( $args = array() ) {
-	$r = bp_parse_args( $args, array(
-		'group_id'     => bp_get_current_group_id(),
-		'type'         => 'alphabetical',
-		'per_page'     => 20,
-		'page'         => 1,
-		'search_terms' => false,
-		'member_type'  => false,
-		'user_id'      => 0,
-		'is_confirmed' => true,
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'group_id'     => bp_get_current_group_id(),
+			'type'         => 'alphabetical',
+			'per_page'     => 20,
+			'page'         => 1,
+			'search_terms' => false,
+			'member_type'  => false,
+			'user_id'      => 0,
+			'is_confirmed' => true,
+		)
+	);
 
 	if ( empty( $r['group_id'] ) ) {
 		return false;

@@ -87,18 +87,21 @@ function xprofile_record_activity( $args = '' ) {
 	}
 
 	// Parse the arguments.
-	$r = bp_parse_args( $args, array(
-		'user_id'           => bp_loggedin_user_id(),
-		'action'            => '',
-		'content'           => '',
-		'primary_link'      => '',
-		'component'         => buddypress()->profile->id,
-		'type'              => false,
-		'item_id'           => false,
-		'secondary_item_id' => false,
-		'recorded_time'     => bp_core_current_time(),
-		'hide_sitewide'     => false
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'user_id'           => bp_loggedin_user_id(),
+			'action'            => '',
+			'content'           => '',
+			'primary_link'      => '',
+			'component'         => buddypress()->profile->id,
+			'type'              => false,
+			'item_id'           => false,
+			'secondary_item_id' => false,
+			'recorded_time'     => bp_core_current_time(),
+			'hide_sitewide'     => false,
+		)
+	);
 
 	return bp_activity_add( $r );
 }
@@ -122,9 +125,13 @@ function xprofile_delete_activity( $args = '' ) {
 	}
 
 	// Parse the arguments.
-	$r = bp_parse_args( $args, array(
-		'component' => buddypress()->profile->id
-	), 'xprofile_delete_activity' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'component' => buddypress()->profile->id,
+		),
+		'xprofile_delete_activity'
+	);
 
 	// Delete the activity item.
 	bp_activity_delete_by_item_id( $r );

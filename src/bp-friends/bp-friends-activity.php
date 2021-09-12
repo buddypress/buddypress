@@ -39,18 +39,21 @@ function friends_record_activity( $args = '' ) {
 		return false;
 	}
 
-	$r = wp_parse_args( $args, array(
-		'user_id'           => bp_loggedin_user_id(),
-		'action'            => '',
-		'content'           => '',
-		'primary_link'      => '',
-		'component'         => buddypress()->friends->id,
-		'type'              => false,
-		'item_id'           => false,
-		'secondary_item_id' => false,
-		'recorded_time'     => bp_core_current_time(),
-		'hide_sitewide'     => false,
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'user_id'           => bp_loggedin_user_id(),
+			'action'            => '',
+			'content'           => '',
+			'primary_link'      => '',
+			'component'         => buddypress()->friends->id,
+			'type'              => false,
+			'item_id'           => false,
+			'secondary_item_id' => false,
+			'recorded_time'     => bp_core_current_time(),
+			'hide_sitewide'     => false,
+		)
+	);
 
 	return bp_activity_add( $r );
 }

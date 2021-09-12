@@ -154,25 +154,28 @@ class BP_User_Query {
 		$this->setup_hooks();
 
 		if ( ! empty( $this->query_vars_raw ) ) {
-			$this->query_vars = wp_parse_args( $this->query_vars_raw, array(
-				'type'                => 'newest',
-				'per_page'            => 0,
-				'page'                => 1,
-				'user_id'             => 0,
-				'search_terms'        => false,
-				'search_wildcard'     => 'both',
-				'include'             => false,
-				'exclude'             => false,
-				'user_ids'            => false,
-				'member_type'         => '',
-				'member_type__in'     => '',
-				'member_type__not_in' => '',
-				'meta_key'            => false,
-				'meta_value'          => false,
-				'xprofile_query'      => false,
-				'populate_extras'     => true,
-				'count_total'         => 'count_query'
-			) );
+			$this->query_vars = bp_parse_args(
+				$this->query_vars_raw,
+				array(
+					'type'                => 'newest',
+					'per_page'            => 0,
+					'page'                => 1,
+					'user_id'             => 0,
+					'search_terms'        => false,
+					'search_wildcard'     => 'both',
+					'include'             => false,
+					'exclude'             => false,
+					'user_ids'            => false,
+					'member_type'         => '',
+					'member_type__in'     => '',
+					'member_type__not_in' => '',
+					'meta_key'            => false,
+					'meta_value'          => false,
+					'xprofile_query'      => false,
+					'populate_extras'     => true,
+					'count_total'         => 'count_query',
+				)
+			);
 
 			/**
 			 * Fires before the construction of the BP_User_Query query.

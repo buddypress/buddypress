@@ -60,10 +60,14 @@ class BP_XProfile_Field_Type_Number extends BP_XProfile_Field_Type {
 			unset( $raw_properties['user_id'] );
 		}
 
-		$r = bp_parse_args( $raw_properties, array(
-			'type'  => 'number',
-			'value' =>  bp_get_the_profile_field_edit_value()
-		) ); ?>
+		$r = bp_parse_args(
+			$raw_properties,
+			array(
+				'type'  => 'number',
+				'value' => bp_get_the_profile_field_edit_value(),
+			)
+		);
+		?>
 
 		<legend id="<?php bp_the_profile_field_input_name(); ?>-1">
 			<?php bp_the_profile_field_name(); ?>
@@ -94,9 +98,13 @@ class BP_XProfile_Field_Type_Number extends BP_XProfile_Field_Type {
 	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
-		$r = bp_parse_args( $raw_properties, array(
-			'type' => 'number'
-		) ); ?>
+		$r = bp_parse_args(
+			$raw_properties,
+			array(
+				'type' => 'number',
+			)
+		);
+		?>
 
 		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
 			/* translators: accessibility text */

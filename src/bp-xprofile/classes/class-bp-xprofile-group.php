@@ -243,7 +243,7 @@ class BP_XProfile_Group {
 	 * @global object $wpdb WordPress DB access object.
 	 *
 	 * @param array $args {
-	 *  Array of optional arguments:
+	 *      Array of optional arguments.
 	 *      @type int          $profile_group_id   Limit results to a single profile group.
 	 *      @type int          $user_id            Required if you want to load a specific user's data.
 	 *                                             Default: displayed user's ID.
@@ -271,21 +271,24 @@ class BP_XProfile_Group {
 		global $wpdb;
 
 		// Parse arguments.
-		$r = wp_parse_args( $args, array(
-			'profile_group_id'       => false,
-			'user_id'                => bp_displayed_user_id(),
-			'member_type'            => false,
-			'hide_empty_groups'      => false,
-			'hide_empty_fields'      => false,
-			'fetch_fields'           => false,
-			'fetch_field_data'       => false,
-			'fetch_visibility_level' => false,
-			'exclude_groups'         => false,
-			'exclude_fields'         => false,
-			'hide_field_types'       => array(),
-			'update_meta_cache'      => true,
-			'signup_fields_only'     => false,
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'profile_group_id'       => false,
+				'user_id'                => bp_displayed_user_id(),
+				'member_type'            => false,
+				'hide_empty_groups'      => false,
+				'hide_empty_fields'      => false,
+				'fetch_fields'           => false,
+				'fetch_field_data'       => false,
+				'fetch_visibility_level' => false,
+				'exclude_groups'         => false,
+				'exclude_fields'         => false,
+				'hide_field_types'       => array(),
+				'update_meta_cache'      => true,
+				'signup_fields_only'     => false,
+			)
+		);
 
 		// Keep track of object IDs for cache-priming.
 		$object_ids = array(

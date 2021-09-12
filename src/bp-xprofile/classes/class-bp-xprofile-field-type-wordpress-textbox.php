@@ -160,10 +160,13 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 			$field_value = bp_get_user_meta( $user_id, $this->wp_user_key, true );
 		}
 
-		$r = wp_parse_args( $raw_properties, array(
-			'type'  => 'text',
-			'value' => $this->sanitize_for_output( $field_value, $user_id ),
-		) );
+		$r = bp_parse_args(
+			$raw_properties,
+			array(
+				'type'  => 'text',
+				'value' => $this->sanitize_for_output( $field_value, $user_id ),
+			)
+		);
 		?>
 
 		<legend id="<?php bp_the_profile_field_input_name(); ?>-1">
@@ -195,9 +198,13 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
-		$r = wp_parse_args( $raw_properties, array(
-			'type' => 'text'
-		) ); ?>
+		$r = bp_parse_args(
+			$raw_properties,
+			array(
+				'type' => 'text',
+			)
+		);
+		?>
 
 		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
 			/* translators: accessibility text */

@@ -230,7 +230,7 @@ function bp_core_number_format( $number = 0, $decimals = false ) {
  *           'arg3' => array(),
  *           'arg4' => false,
  *       );
- *       $r = wp_parse_args( $args, $defaults ); // ...
+ *       $r = bp_parse_args( $args, $defaults ); // ...
  *
  * The first argument, $old_args_keys, is an array that matches the parameter positions (keys) to
  * the new $args keys (values):
@@ -253,9 +253,9 @@ function bp_core_number_format( $number = 0, $decimals = false ) {
 function bp_core_parse_args_array( $old_args_keys, $func_args ) {
 	$new_args = array();
 
-	foreach( $old_args_keys as $arg_num => $arg_key ) {
-		if ( isset( $func_args[$arg_num] ) ) {
-			$new_args[$arg_key] = $func_args[$arg_num];
+	foreach ( $old_args_keys as $arg_num => $arg_key ) {
+		if ( isset( $func_args[ $arg_num ] ) ) {
+			$new_args[ $arg_key ] = $func_args[ $arg_num ];
 		}
 	}
 
@@ -290,7 +290,7 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 	}
 
 	// Passively filter the args before the parse.
-	if ( !empty( $filter_key ) ) {
+	if ( ! empty( $filter_key ) ) {
 
 		/**
 		 * Filters the arguments key before parsing if filter key provided.
@@ -305,12 +305,12 @@ function bp_parse_args( $args, $defaults = array(), $filter_key = '' ) {
 	}
 
 	// Parse.
-	if ( is_array( $defaults ) && !empty( $defaults ) ) {
+	if ( is_array( $defaults ) && ! empty( $defaults ) ) {
 		$r = array_merge( $defaults, $r );
 	}
 
 	// Aggressively filter the args after the parse.
-	if ( !empty( $filter_key ) ) {
+	if ( ! empty( $filter_key ) ) {
 
 		/**
 		 * Filters the arguments key after parsing if filter key provided.
@@ -1195,7 +1195,7 @@ function bp_core_current_time( $gmt = true, $type = 'mysql' ) {
  */
 function bp_core_time_diff( $args = array() ) {
 	$retval = null;
-	$r      = wp_parse_args(
+	$r      = bp_parse_args(
 		$args,
 		array(
 			'older_date'     => 0,
@@ -2842,7 +2842,11 @@ function bp_nav_menu_get_item_url( $slug ) {
  * @return array|WP_Error Array of results. If there were any problems, returns a WP_Error object.
  */
 function bp_core_get_suggestions( $args ) {
-	$args = bp_parse_args( $args, array(), 'get_suggestions' );
+	$args = bp_parse_args(
+		$args,
+		array(),
+		'get_suggestions'
+	);
 
 	if ( ! $args['type'] ) {
 		return new WP_Error( 'missing_parameter' );
@@ -3531,15 +3535,17 @@ function bp_send_email( $email_type, $to, $args = array() ) {
 		}
 	}
 
-	$args = bp_parse_args( $args, array(
-		'tokens' => array(),
-	), 'send_email' );
-
+	$args = bp_parse_args(
+		$args,
+		array(
+			'tokens' => array(),
+		),
+		'send_email'
+	);
 
 	/*
 	 * Build the email.
 	 */
-
 	$email = bp_get_email( $email_type );
 	if ( is_wp_error( $email ) ) {
 		return $email;

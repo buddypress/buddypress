@@ -245,41 +245,45 @@ function bp_has_activities( $args = '' ) {
 
 	// Note: any params used for filtering can be a single value, or multiple
 	// values comma separated.
-	$r = bp_parse_args( $args, array(
-		'display_comments'  => 'threaded',   // False for none, stream/threaded - show comments in the stream or threaded under items.
-		'include'           => $include,     // Pass an activity_id or string of IDs comma-separated.
-		'exclude'           => false,        // Pass an activity_id or string of IDs comma-separated.
-		'in'                => false,        // Comma-separated list or array of activity IDs among which to search.
-		'sort'              => 'DESC',       // Sort DESC or ASC.
-		'page'              => 1,            // Which page to load.
-		'per_page'          => 20,           // Number of items per page.
-		'page_arg'          => 'acpage',     // See https://buddypress.trac.wordpress.org/ticket/3679.
-		'max'               => false,        // Max number to return.
-		'fields'            => 'all',
-		'count_total'       => false,
-		'show_hidden'       => $show_hidden, // Show activity items that are hidden site-wide?
-		'spam'              => 'ham_only',   // Hide spammed items.
+	$r = bp_parse_args(
+		$args,
+		array(
+			'display_comments'  => 'threaded',   // False for none, stream/threaded - show comments in the stream or threaded under items.
+			'include'           => $include,     // Pass an activity_id or string of IDs comma-separated.
+			'exclude'           => false,        // Pass an activity_id or string of IDs comma-separated.
+			'in'                => false,        // Comma-separated list or array of activity IDs among which to search.
+			'sort'              => 'DESC',       // Sort DESC or ASC.
+			'page'              => 1,            // Which page to load.
+			'per_page'          => 20,           // Number of items per page.
+			'page_arg'          => 'acpage',     // See https://buddypress.trac.wordpress.org/ticket/3679.
+			'max'               => false,        // Max number to return.
+			'fields'            => 'all',
+			'count_total'       => false,
+			'show_hidden'       => $show_hidden, // Show activity items that are hidden site-wide?
+			'spam'              => 'ham_only',   // Hide spammed items.
 
-		// Scope - pre-built activity filters for a user (friends/groups/favorites/mentions).
-		'scope'             => $scope,
+			// Scope - pre-built activity filters for a user (friends/groups/favorites/mentions).
+			'scope'             => $scope,
 
-		// Filtering
-		'user_id'           => $user_id,     // user_id to filter on.
-		'object'            => $object,      // Object to filter on e.g. groups, profile, status, friends.
-		'action'            => false,        // Action to filter on e.g. activity_update, profile_updated.
-		'primary_id'        => $primary_id,  // Object ID to filter on e.g. a group_id or blog_id etc.
-		'secondary_id'      => false,        // Secondary object ID to filter on e.g. a post_id.
-		'offset'            => false,        // Return only items >= this ID.
-		'since'             => false,        // Return only items recorded since this Y-m-d H:i:s date.
+			// Filtering.
+			'user_id'           => $user_id,     // user_id to filter on.
+			'object'            => $object,      // Object to filter on e.g. groups, profile, status, friends.
+			'action'            => false,        // Action to filter on e.g. activity_update, profile_updated.
+			'primary_id'        => $primary_id,  // Object ID to filter on e.g. a group_id or blog_id etc.
+			'secondary_id'      => false,        // Secondary object ID to filter on e.g. a post_id.
+			'offset'            => false,        // Return only items >= this ID.
+			'since'             => false,        // Return only items recorded since this Y-m-d H:i:s date.
 
-		'meta_query'        => false,        // Filter on activity meta. See WP_Meta_Query for format.
-		'date_query'        => false,        // Filter by date. See first parameter of WP_Date_Query for format.
-		'filter_query'      => false,        // Advanced filtering.  See BP_Activity_Query for format.
+			'meta_query'        => false,        // Filter on activity meta. See WP_Meta_Query for format.
+			'date_query'        => false,        // Filter by date. See first parameter of WP_Date_Query for format.
+			'filter_query'      => false,        // Advanced filtering.  See BP_Activity_Query for format.
 
-		// Searching.
-		'search_terms'      => $search_terms_default,
-		'update_meta_cache' => true,
-	), 'has_activities' );
+			// Searching.
+			'search_terms'      => $search_terms_default,
+			'update_meta_cache' => true,
+		),
+		'has_activities'
+	);
 
 	/*
 	 * Smart Overrides.
@@ -1049,7 +1053,11 @@ function bp_activity_avatar( $args = '' ) {
 			'user_id' => false
 		);
 
-		$r = wp_parse_args( $args, $defaults );
+		$r = bp_parse_args(
+			$args,
+			$defaults
+		);
+
 		extract( $r, EXTR_SKIP );
 
 		if ( !isset( $height ) && !isset( $width ) ) {
@@ -1152,16 +1160,20 @@ function bp_activity_secondary_avatar( $args = '' ) {
 	function bp_get_activity_secondary_avatar( $args = '' ) {
 		global $activities_template;
 
-		$r = wp_parse_args( $args, array(
-			'alt'        => '',
-			'type'       => 'thumb',
-			'width'      => 20,
-			'height'     => 20,
-			'class'      => 'avatar',
-			'link_class' => '',
-			'linked'     => true,
-			'email'      => false
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'alt'        => '',
+				'type'       => 'thumb',
+				'width'      => 20,
+				'height'     => 20,
+				'class'      => 'avatar',
+				'link_class' => '',
+				'linked'     => true,
+				'email'      => false,
+			)
+		);
+
 		extract( $r, EXTR_SKIP );
 
 		// Set item_id and object (default to user).
@@ -1328,9 +1340,12 @@ function bp_activity_action( $args = array() ) {
 	function bp_get_activity_action( $args = array() ) {
 		global $activities_template;
 
-		$r = wp_parse_args( $args, array(
-			'no_timestamp' => false,
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'no_timestamp' => false,
+			)
+		);
 
 		/**
 		 * Filters the activity action before the action is inserted as meta.
@@ -2812,9 +2827,12 @@ function bp_activity_filter_links( $args = false ) {
 	 */
 	function bp_get_activity_filter_links( $args = false ) {
 
-		$r = wp_parse_args( $args, array(
-			'style' => 'list'
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'style' => 'list',
+			)
+		);
 
 		// Define local variable.
 		$component_links = array();
@@ -3238,16 +3256,19 @@ function bp_send_public_message_button( $args = '' ) {
 	 */
 	function bp_get_send_public_message_button( $args = '' ) {
 
-		$r = bp_parse_args( $args, array(
-			'id'                => 'public_message',
-			'component'         => 'activity',
-			'must_be_logged_in' => true,
-			'block_self'        => true,
-			'wrapper_id'        => 'post-mention',
-			'link_href'         => bp_get_send_public_message_link(),
-			'link_text'         => __( 'Public Message', 'buddypress' ),
-			'link_class'        => 'activity-button mention'
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'id'                => 'public_message',
+				'component'         => 'activity',
+				'must_be_logged_in' => true,
+				'block_self'        => true,
+				'wrapper_id'        => 'post-mention',
+				'link_href'         => bp_get_send_public_message_link(),
+				'link_text'         => __( 'Public Message', 'buddypress' ),
+				'link_class'        => 'activity-button mention',
+			)
+		);
 
 		/**
 		 * Filters the public message button HTML.
@@ -3305,12 +3326,15 @@ function bp_activity_post_form_action() {
  */
 function bp_activity_comments_user_avatars( $args = array() ) {
 
-	$r = bp_parse_args( $args, array(
-		'height' => false,
-		'html'   => true,
-		'type'   => 'thumb',
-		'width'  => false,
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'height' => false,
+			'html'   => true,
+			'type'   => 'thumb',
+			'width'  => false,
+		)
+	);
 
 	// Get the user IDs of everyone who has left a comment to the current activity item.
 	$user_ids = bp_activity_get_comments_user_ids();
@@ -3472,10 +3496,13 @@ function bp_displayed_user_mentionname() {
  */
 function bp_activity_types_list( $output = 'select', $args = '' ) {
 
-	$args = bp_parse_args( $args, array(
-		'checkbox_name' => 'bp_activity_types',
-		'selected'      => array(),
-	) );
+	$args = bp_parse_args(
+		$args,
+		array(
+			'checkbox_name' => 'bp_activity_types',
+			'selected'      => array(),
+		)
+	);
 
 	$activities = bp_activity_get_types();
 	natsort( $activities );

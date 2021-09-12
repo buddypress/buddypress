@@ -181,9 +181,12 @@ function bp_core_admin_update_type( $args = array() ) {
 	$metadata  = bp_core_admin_get_type_default_meta_values( $type_taxonomy );
 
 	// Merge customs with defaults.
-	$metas = wp_parse_args( $args, $metadata );
+	$metas = bp_parse_args(
+		$args,
+		$metadata
+	);
 
-	// Validate metadata
+	// Validate metadata.
 	$metas = array_intersect_key( $metas, $metadata );
 
 	foreach ( $metas as $meta_key => $meta_value ) {

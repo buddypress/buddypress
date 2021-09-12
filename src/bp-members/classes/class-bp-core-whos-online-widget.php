@@ -170,14 +170,17 @@ class BP_Core_Whos_Online_Widget extends WP_Widget {
 	 *
 	 * @since 2.3.0
 	 *
-	 *
 	 * @param array $instance Widget instance settings.
 	 * @return array
 	 */
 	public function parse_settings( $instance = array() ) {
-		return bp_parse_args( $instance, array(
-			'title' 	     => __( "Who's Online", 'buddypress' ),
-			'max_members' 	 => 15,
-		), 'members_widget_settings' );
+		return bp_parse_args(
+			$instance,
+			array(
+				'title' 	  => __( "Who's Online", 'buddypress' ),
+				'max_members' => 15,
+			),
+			'members_widget_settings'
+		);
 	}
 }

@@ -104,43 +104,46 @@ class BP_Activity_Feed {
 			);
 		} else {
 			// Setup data.
-			$this->data = wp_parse_args( $args, array(
-				// Internal identifier for the RSS feed - should be alphanumeric only.
-				'id'               => '',
+			$this->data = bp_parse_args(
+				$args,
+				array(
+					// Internal identifier for the RSS feed - should be alphanumeric only.
+					'id'               => '',
 
-				// RSS title - should be plain-text.
-				'title'            => '',
+					// RSS title - should be plain-text.
+					'title'            => '',
 
-				// Relevant link for the RSS feed.
-				'link'             => '',
+					// Relevant link for the RSS feed.
+					'link'             => '',
 
-				// RSS description - should be plain-text.
-				'description'      => '',
+					// RSS description - should be plain-text.
+					'description'      => '',
 
-				// Time-to-live - number of minutes to cache the data before an aggregator
-				// requests it again.  This is only acknowledged if the RSS client supports it
-				//
-				// See: http://www.rssboard.org/rss-profile#element-channel-ttl.
-				// See: http://www.kbcafe.com/rss/rssfeedstate.html#ttl.
-				'ttl'              => '30',
+					// Time-to-live - number of minutes to cache the data before an aggregator
+					// requests it again.  This is only acknowledged if the RSS client supports it
+					//
+					// See: http://www.rssboard.org/rss-profile#element-channel-ttl.
+					// See: http://www.kbcafe.com/rss/rssfeedstate.html#ttl.
+					'ttl'              => '30',
 
-				// Syndication module - similar to ttl, but not really supported by RSS
-				// clients
-				//
-				// See: http://web.resource.org/rss/1.0/modules/syndication/#description.
-				// See: http://www.kbcafe.com/rss/rssfeedstate.html#syndicationmodule.
-				'update_period'    => 'hourly',
-				'update_frequency' => 2,
+					// Syndication module - similar to ttl, but not really supported by RSS
+					// clients
+					//
+					// See: http://web.resource.org/rss/1.0/modules/syndication/#description.
+					// See: http://www.kbcafe.com/rss/rssfeedstate.html#syndicationmodule.
+					'update_period'    => 'hourly',
+					'update_frequency' => 2,
 
-				// Number of items to display.
-				'max'              => 50,
+					// Number of items to display.
+					'max'              => 50,
 
-				// Activity arguments passed to bp_has_activities().
-				'activity_args'    => array(),
+					// Activity arguments passed to bp_has_activities().
+					'activity_args'    => array(),
 
-				// The activity feed is enabled.
-				'enabled'          => false,
-			) );
+					// The activity feed is enabled.
+					'enabled'          => false,
+				)
+			);
 
 			/**
 			 * Fires before the feed is setup so plugins can modify.
@@ -195,12 +198,14 @@ class BP_Activity_Feed {
 		$this->ttl              = (int) $this->ttl;
 		$this->update_period    = strip_tags( $this->update_period );
 		$this->update_frequency = (int) $this->update_frequency;
-
-		$this->activity_args    = wp_parse_args( $this->activity_args, array(
-			'max'              => $this->max,
-			'per_page'         => $this->max,
-			'display_comments' => 'stream'
-		) );
+		$this->activity_args    = bp_parse_args(
+			$this->activity_args,
+			array(
+				'max'              => $this->max,
+				'per_page'         => $this->max,
+				'display_comments' => 'stream',
+			)
+		);
 
 	}
 

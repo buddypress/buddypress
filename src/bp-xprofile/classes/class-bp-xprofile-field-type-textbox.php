@@ -59,10 +59,14 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 			unset( $raw_properties['user_id'] );
 		}
 
-		$r = bp_parse_args( $raw_properties, array(
-			'type'  => 'text',
-			'value' => bp_get_the_profile_field_edit_value(),
-		) ); ?>
+		$r = bp_parse_args(
+			$raw_properties,
+			array(
+				'type'  => 'text',
+				'value' => bp_get_the_profile_field_edit_value(),
+			)
+		);
+		?>
 
 		<legend id="<?php bp_the_profile_field_input_name(); ?>-1">
 			<?php bp_the_profile_field_name(); ?>
@@ -94,9 +98,13 @@ class BP_XProfile_Field_Type_Textbox extends BP_XProfile_Field_Type {
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 
-		$r = bp_parse_args( $raw_properties, array(
-			'type' => 'text'
-		) ); ?>
+		$r = bp_parse_args(
+			$raw_properties,
+			array(
+				'type' => 'text',
+			)
+		);
+		?>
 
 		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
 			/* translators: accessibility text */

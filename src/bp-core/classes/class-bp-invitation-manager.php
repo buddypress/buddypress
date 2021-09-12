@@ -81,18 +81,22 @@ abstract class BP_Invitation_Manager {
 	 */
 	public function add_invitation( $args = array() ) {
 
-		$r = bp_parse_args( $args, array(
-			'user_id'           => 0,
-			'invitee_email'     => '',
-			'inviter_id'        => 0,
-			'item_id'           => 0,
-			'secondary_item_id' => 0,
-			'type'              => 'invite',
-			'content'           => '',
-			'date_modified'     => bp_core_current_time(),
-			'send_invite'       => 0,
-			'accepted'          => 0
-		), 'add_invitation' );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'user_id'           => 0,
+				'invitee_email'     => '',
+				'inviter_id'        => 0,
+				'item_id'           => 0,
+				'secondary_item_id' => 0,
+				'type'              => 'invite',
+				'content'           => '',
+				'date_modified'     => bp_core_current_time(),
+				'send_invite'       => 0,
+				'accepted'          => 0,
+			),
+			'add_invitation'
+		);
 
 		// Invitations must have an invitee and inviter.
 		if ( ! ( ( $r['user_id'] || $r['invitee_email'] ) && $r['inviter_id'] ) ) {
@@ -235,18 +239,22 @@ abstract class BP_Invitation_Manager {
 	 */
 	public function add_request( $args = array() ) {
 
-		$r = bp_parse_args( $args, array(
-			'user_id'           => 0,
-			'inviter_id'        => 0,
-			'invitee_email'     => '',
-			'item_id'           => 0,
-			'secondary_item_id' => 0,
-			'type'              => 'request',
-			'content'           => '',
-			'date_modified'     => bp_core_current_time(),
-			'invite_sent'       => 0,
-			'accepted'          => 0
-		), 'add_request' );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'user_id'           => 0,
+				'inviter_id'        => 0,
+				'invitee_email'     => '',
+				'item_id'           => 0,
+				'secondary_item_id' => 0,
+				'type'              => 'request',
+				'content'           => '',
+				'date_modified'     => bp_core_current_time(),
+				'invite_sent'       => 0,
+				'accepted'          => 0,
+			),
+			'add_request'
+		);
 
 		// If there is no invitee, bail.
 		if ( ! ( $r['user_id'] || $r['invitee_email'] ) ) {
@@ -501,17 +509,22 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @return int|bool Number of rows updated on success, false on failure.
 	 */
-	 public function accept_invitation( $args = array() ) {
+	public function accept_invitation( $args = array() ) {
 
-		$r = bp_parse_args( $args, array(
-			'id'                => false,
-			'user_id'           => 0,
-			'invitee_email'     => '',
-			'item_id'           => null,
-			'secondary_item_id' => null,
-			'invite_sent'       => 'sent',
-			'date_modified'     => bp_core_current_time(),
-		), 'accept_invitation' );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'id'                => false,
+				'user_id'           => 0,
+				'invitee_email'     => '',
+				'item_id'           => null,
+				'secondary_item_id' => null,
+				'invite_sent'       => 'sent',
+				'date_modified'     => bp_core_current_time(),
+			),
+			'accept_invitation'
+		);
+
 		$r['class'] = $this->class_name;
 
 		if ( ! $r['id'] && ! ( ( $r['user_id'] || $r['invitee_email'] ) && $r['class'] && $r['item_id'] ) ) {
@@ -554,14 +567,19 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @return bool Number of rows updated on success, false on failure.
 	 */
-	 public function accept_request( $args = array() ) {
+	public function accept_request( $args = array() ) {
 
-		$r = bp_parse_args( $args, array(
-			'user_id'           => 0,
-			'item_id'           => null,
-			'secondary_item_id' => null,
-			'date_modified'     => bp_core_current_time(),
-		), 'accept_request' );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'user_id'           => 0,
+				'item_id'           => null,
+				'secondary_item_id' => null,
+				'date_modified'     => bp_core_current_time(),
+			),
+			'accept_request'
+		);
+
 		$r['class'] = $this->class_name;
 
 		if ( ! ( $r['user_id'] && $r['class'] && $r['item_id'] ) ) {

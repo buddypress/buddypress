@@ -96,18 +96,22 @@ function bp_the_message_star_action_link( $args = array() ) {
 			? bp_displayed_user_id()
 			: bp_loggedin_user_id();
 
-		$r = bp_parse_args( $args, array(
-			'user_id'             => (int) $user_id,
-			'thread_id'           => 0,
-			'message_id'          => (int) bp_get_the_thread_message_id(),
-			'url_only'            => false,
-			'text_unstar'         => __( 'Unstar',      'buddypress' ),
-			'text_star'           => __( 'Star',        'buddypress' ),
-			'title_unstar'        => __( 'Starred',     'buddypress' ),
-			'title_star'          => __( 'Not starred', 'buddypress' ),
-			'title_unstar_thread' => __( 'Remove all starred messages in this thread', 'buddypress' ),
-			'title_star_thread'   => __( 'Star the first message in this thread',      'buddypress' ),
-		), 'messages_star_action_link' );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'user_id'             => (int) $user_id,
+				'thread_id'           => 0,
+				'message_id'          => (int) bp_get_the_thread_message_id(),
+				'url_only'            => false,
+				'text_unstar'         => __( 'Unstar', 'buddypress' ),
+				'text_star'           => __( 'Star', 'buddypress' ),
+				'title_unstar'        => __( 'Starred', 'buddypress' ),
+				'title_star'          => __( 'Not starred', 'buddypress' ),
+				'title_unstar_thread' => __( 'Remove all starred messages in this thread', 'buddypress' ),
+				'title_star_thread'   => __( 'Star the first message in this thread', 'buddypress' ),
+			),
+			'messages_star_action_link'
+		);
 
 		// Check user ID and determine base user URL.
 		switch ( $r['user_id'] ) {
@@ -247,13 +251,16 @@ function bp_the_message_star_action_link( $args = array() ) {
  * @return bool
  */
 function bp_messages_star_set_action( $args = array() ) {
-	$r = wp_parse_args( $args, array(
-		'action'     => 'star',
-		'thread_id'  => 0,
-		'message_id' => 0,
-		'user_id'    => bp_displayed_user_id(),
-		'bulk'       => false,
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'action'     => 'star',
+			'thread_id'  => 0,
+			'message_id' => 0,
+			'user_id'    => bp_displayed_user_id(),
+			'bulk'       => false,
+		)
+	);
 
 	// Set thread ID.
 	if ( ! empty( $r['thread_id'] ) ) {

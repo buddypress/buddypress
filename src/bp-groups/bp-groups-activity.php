@@ -521,20 +521,24 @@ function groups_record_activity( $args = '' ) {
 		}
 	}
 
-	$r = bp_parse_args( $args, array(
-		'id'                => false,
-		'user_id'           => bp_loggedin_user_id(),
-		'action'            => '',
-		'content'           => '',
-		'primary_link'      => '',
-		'component'         => buddypress()->groups->id,
-		'type'              => false,
-		'item_id'           => false,
-		'secondary_item_id' => false,
-		'recorded_time'     => bp_core_current_time(),
-		'hide_sitewide'     => $hide_sitewide,
-		'error_type'        => 'bool'
-	), 'groups_record_activity' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'id'                => false,
+			'user_id'           => bp_loggedin_user_id(),
+			'action'            => '',
+			'content'           => '',
+			'primary_link'      => '',
+			'component'         => buddypress()->groups->id,
+			'type'              => false,
+			'item_id'           => false,
+			'secondary_item_id' => false,
+			'recorded_time'     => bp_core_current_time(),
+			'hide_sitewide'     => $hide_sitewide,
+			'error_type'        => 'bool',
+		),
+		'groups_record_activity'
+	);
 
 	return bp_activity_add( $r );
 }
@@ -558,12 +562,16 @@ function groups_record_activity( $args = '' ) {
 function groups_post_update( $args = '' ) {
 	$bp = buddypress();
 
-	$r = bp_parse_args( $args, array(
-		'content'    => false,
-		'user_id'    => bp_loggedin_user_id(),
-		'group_id'   => 0,
-		'error_type' => 'bool'
-	), 'groups_post_update' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'content'    => false,
+			'user_id'    => bp_loggedin_user_id(),
+			'group_id'   => 0,
+			'error_type' => 'bool',
+		),
+		'groups_post_update'
+	);
 
 	$group_id = (int) $r['group_id'];
 	if ( ! $group_id && ! empty( $bp->groups->current_group->id ) ) {

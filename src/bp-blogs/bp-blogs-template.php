@@ -155,17 +155,21 @@ function bp_has_blogs( $args = '' ) {
 	}
 
 	// Parse arguments.
-	$r = bp_parse_args( $args, array(
-		'type'              => 'active',
-		'page_arg'          => 'bpage', // See https://buddypress.trac.wordpress.org/ticket/3679.
-		'page'              => 1,
-		'per_page'          => 20,
-		'max'               => false,
-		'user_id'           => bp_displayed_user_id(), // Pass a user_id to limit to only blogs this user is a member of.
-		'include_blog_ids'  => false,
-		'search_terms'      => $search_terms_default,
-		'update_meta_cache' => true
-	), 'has_blogs' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'type'              => 'active',
+			'page_arg'          => 'bpage', // See https://buddypress.trac.wordpress.org/ticket/3679.
+			'page'              => 1,
+			'per_page'          => 20,
+			'max'               => false,
+			'user_id'           => bp_displayed_user_id(), // Pass a user_id to limit to only blogs this user is a member of.
+			'include_blog_ids'  => false,
+			'search_terms'      => $search_terms_default,
+			'update_meta_cache' => true,
+		),
+		'has_blogs'
+	);
 
 	// Set per_page to maximum if max is enforced.
 	if ( ! empty( $r['max'] ) && ( (int) $r['per_page'] > (int) $r['max'] ) ) {
@@ -349,19 +353,23 @@ function bp_blog_avatar( $args = '' ) {
 		}
 
 		// Parse the arguments.
-		$r = bp_parse_args( $args, array(
-			'item_id'    => $blog_id,
-			'avatar_dir' => 'blog-avatars',
-			'object'     => 'blog',
-			'type'       => 'full',
-			'width'      => false,
-			'height'     => false,
-			'class'      => 'avatar',
-			'id'         => false,
-			'alt'        => $alt_attribute,
-			'no_grav'    => false,
-			'html'       => true,
-		), 'blog_avatar' );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'item_id'    => $blog_id,
+				'avatar_dir' => 'blog-avatars',
+				'object'     => 'blog',
+				'type'       => 'full',
+				'width'      => false,
+				'height'     => false,
+				'class'      => 'avatar',
+				'id'         => false,
+				'alt'        => $alt_attribute,
+				'no_grav'    => false,
+				'html'       => true,
+			),
+			'blog_avatar'
+		);
 
 		/**
 		 * If the `admin_user_id` was provided, make the Blog avatar
@@ -631,9 +639,12 @@ function bp_blog_last_active( $args = array() ) {
 		global $blogs_template;
 
 		// Parse the activity format.
-		$r = bp_parse_args( $args, array(
-			'active_format' => true
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'active_format' => true,
+			)
+		);
 
 		// Backwards compatibility for anyone forcing a 'true' active_format.
 		if ( true === $r['active_format'] ) {
@@ -687,9 +698,12 @@ function bp_blog_latest_post( $args = array() ) {
 	function bp_get_blog_latest_post( $args = array() ) {
 		global $blogs_template;
 
-		$r = wp_parse_args( $args, array(
-			'latest_format' => true,
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'latest_format' => true,
+			)
+		);
 
 		$retval = bp_get_blog_latest_post_title();
 
@@ -1548,18 +1562,19 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 	 * @return string The HTML for the Visit button.
 	 */
 	function bp_get_blogs_visit_blog_button( $args = '' ) {
-		$defaults = array(
-			'id'                => 'visit_blog',
-			'component'         => 'blogs',
-			'must_be_logged_in' => false,
-			'block_self'        => false,
-			'wrapper_class'     => 'blog-button visit',
-			'link_href'         => bp_get_blog_permalink(),
-			'link_class'        => 'blog-button visit',
-			'link_text'         => __( 'Visit Site', 'buddypress' ),
+		$button = bp_parse_args(
+			$args,
+			array(
+				'id'                => 'visit_blog',
+				'component'         => 'blogs',
+				'must_be_logged_in' => false,
+				'block_self'        => false,
+				'wrapper_class'     => 'blog-button visit',
+				'link_href'         => bp_get_blog_permalink(),
+				'link_class'        => 'blog-button visit',
+				'link_text'         => __( 'Visit Site', 'buddypress' ),
+			)
 		);
-
-		$button = wp_parse_args( $args, $defaults );
 
 		/**
 		 * Filters the button for visiting a blog in a loop.
@@ -1596,13 +1611,17 @@ add_action( 'bp_members_admin_user_stats', 'bp_blogs_profile_stats', 9, 1 );
 function bp_blogs_get_profile_stats( $args = '' ) {
 
 	// Parse the args.
-	$r = bp_parse_args( $args, array(
-		'before'  => '<li class="bp-blogs-profile-stats">',
-		'after'   => '</li>',
-		'user_id' => bp_displayed_user_id(),
-		'blogs'   => 0,
-		'output'  => ''
-	), 'blogs_get_profile_stats' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'before'  => '<li class="bp-blogs-profile-stats">',
+			'after'   => '</li>',
+			'user_id' => bp_displayed_user_id(),
+			'blogs'   => 0,
+			'output'  => '',
+		),
+		'blogs_get_profile_stats'
+	);
 
 	// Allow completely overloaded output.
 	if ( is_multisite() && empty( $r['output'] ) ) {

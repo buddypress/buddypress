@@ -148,21 +148,24 @@ class BP_XProfile_Data_Template {
 			$args = bp_core_parse_args_array( $old_args_keys, $function_args );
 		}
 
-		$r = wp_parse_args( $args, array(
-			'profile_group_id'       => false,
-			'user_id'                => false,
-			'member_type'            => 'any',
-			'hide_empty_groups'      => false,
-			'hide_empty_fields'      => false,
-			'fetch_fields'           => false,
-			'fetch_field_data'       => false,
-			'fetch_visibility_level' => false,
-			'exclude_groups'         => false,
-			'exclude_fields'         => false,
-			'hide_field_types'       => array(),
-			'signup_fields_only'     => false,
-			'update_meta_cache'      => true
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'profile_group_id'       => false,
+				'user_id'                => false,
+				'member_type'            => 'any',
+				'hide_empty_groups'      => false,
+				'hide_empty_fields'      => false,
+				'fetch_fields'           => false,
+				'fetch_field_data'       => false,
+				'fetch_visibility_level' => false,
+				'exclude_groups'         => false,
+				'exclude_fields'         => false,
+				'hide_field_types'       => array(),
+				'signup_fields_only'     => false,
+				'update_meta_cache'      => true,
+			)
+		);
 
 		$groups = bp_xprofile_get_groups( $r );
 

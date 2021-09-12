@@ -269,17 +269,21 @@ class BP_Friends_Friendship {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$r = bp_parse_args( $args, array(
-			'id'                => null,
-			'initiator_user_id' => null,
-			'friend_user_id'    => null,
-			'is_confirmed'      => null,
-			'is_limited'        => null,
-			'order_by'          => 'date_created',
-			'sort_order'        => 'DESC',
-			'page'              => null,
-			'per_page'          => null
-		), 'bp_get_user_friendships' );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'id'                => null,
+				'initiator_user_id' => null,
+				'friend_user_id'    => null,
+				'is_confirmed'      => null,
+				'is_limited'        => null,
+				'order_by'          => 'date_created',
+				'sort_order'        => 'DESC',
+				'page'              => null,
+				'per_page'          => null,
+			),
+			'bp_get_user_friendships'
+		);
 
 		// First, we get all friendships that involve the user.
 		$friendship_ids = wp_cache_get( $user_id, 'bp_friends_friendships_for_user' );

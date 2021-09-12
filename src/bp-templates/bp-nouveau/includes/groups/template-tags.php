@@ -1128,11 +1128,15 @@ function bp_nouveau_group_meta() {
  * @return string HTML Output.
  */
 function bp_nouveau_the_group_meta( $args = array() ) {
-	$r = bp_parse_args( $args, array(
-		'keys'      => array(),
-		'delimeter' => '/',
-		'echo'      => true,
-	), 'nouveau_the_group_meta' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'keys'      => array(),
+			'delimeter' => '/',
+			'echo'      => true,
+		),
+		'nouveau_the_group_meta'
+	);
 
 	$group_meta = (array) bp_nouveau_get_group_meta( $r['keys'] );
 

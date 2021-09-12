@@ -80,7 +80,10 @@ class BP_Embed extends WP_Embed {
 			return '';
 
 		$rawattr = $attr;
-		$attr = wp_parse_args( $attr, wp_embed_defaults() );
+		$attr    = bp_parse_args(
+			$attr,
+			wp_embed_defaults()
+		);
 
 		// Use kses to convert & into &amp; and we need to undo this
 		// See https://core.trac.wordpress.org/ticket/11311.

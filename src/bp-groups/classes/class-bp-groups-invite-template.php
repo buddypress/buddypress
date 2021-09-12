@@ -93,13 +93,17 @@ class BP_Groups_Invite_Template {
 			$args = bp_core_parse_args_array( $old_args_keys, $function_args );
 		}
 
-		$r = bp_parse_args( $args, array(
-			'page'     => 1,
-			'per_page' => 10,
-			'page_arg' => 'invitepage',
-			'user_id'  => bp_loggedin_user_id(),
-			'group_id' => bp_get_current_group_id(),
-		), 'groups_invite_template' );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'page'     => 1,
+				'per_page' => 10,
+				'page_arg' => 'invitepage',
+				'user_id'  => bp_loggedin_user_id(),
+				'group_id' => bp_get_current_group_id(),
+			),
+			'groups_invite_template'
+		);
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );

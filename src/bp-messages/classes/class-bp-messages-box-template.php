@@ -126,17 +126,20 @@ class BP_Messages_Box_Template {
 			$args = bp_core_parse_args_array( $old_args_keys, $function_args );
 		}
 
-		$r = wp_parse_args( $args, array(
-			'page'         => 1,
-			'per_page'     => 10,
-			'page_arg'     => 'mpage',
-			'box'          => 'inbox',
-			'type'         => 'all',
-			'user_id'      => bp_loggedin_user_id(),
-			'max'          => false,
-			'search_terms' => '',
-			'meta_query'   => array(),
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'page'         => 1,
+				'per_page'     => 10,
+				'page_arg'     => 'mpage',
+				'box'          => 'inbox',
+				'type'         => 'all',
+				'user_id'      => bp_loggedin_user_id(),
+				'max'          => false,
+				'search_terms' => '',
+				'meta_query'   => array(),
+			)
+		);
 
 		$this->pag_arg      = sanitize_key( $r['page_arg'] );
 		$this->pag_page     = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );

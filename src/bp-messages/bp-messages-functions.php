@@ -42,15 +42,19 @@ defined( 'ABSPATH' ) || exit;
 function messages_new_message( $args = '' ) {
 
 	// Parse the default arguments.
-	$r = bp_parse_args( $args, array(
-		'sender_id'  => bp_loggedin_user_id(),
-		'thread_id'  => false,   // False for a new message, thread id for a reply to a thread.
-		'recipients' => array(), // Can be an array of usernames, user_ids or mixed.
-		'subject'    => false,
-		'content'    => false,
-		'date_sent'  => bp_core_current_time(),
-		'error_type' => 'bool'
-	), 'messages_new_message' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'sender_id'  => bp_loggedin_user_id(),
+			'thread_id'  => false,   // False for a new message, thread id for a reply to a thread.
+			'recipients' => array(), // Can be an array of usernames, user_ids or mixed.
+			'subject'    => false,
+			'content'    => false,
+			'date_sent'  => bp_core_current_time(),
+			'error_type' => 'bool',
+		),
+		'messages_new_message'
+	);
 
 	// Bail if no sender or no content.
 	if ( empty( $r['sender_id'] ) || empty( $r['content'] ) ) {

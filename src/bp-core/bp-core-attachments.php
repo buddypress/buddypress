@@ -91,11 +91,14 @@ function bp_attachments_cover_image_upload_dir( $args = array() ) {
 		$object_directory = 'groups';
 	}
 
-	$r = bp_parse_args( $args, array(
-		'object_id' => $object_id,
-		'object_directory' => $object_directory,
-	), 'cover_image_upload_dir' );
-
+	$r = bp_parse_args(
+		$args,
+		array(
+			'object_id'        => $object_id,
+			'object_directory' => $object_directory,
+		),
+		'cover_image_upload_dir'
+	);
 
 	// Set the subdir.
 	$subdir  = '/' . $r['object_directory'] . '/' . $r['object_id'] . '/cover-image';
@@ -286,16 +289,20 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 		return false;
 	}
 
-	$r = bp_parse_args( $args, array(
-		'item_id'   => 0,
-		'object'    => 'user',
-		'component' => '',
-		'image'     => '',
-		'crop_w'    => 0,
-		'crop_h'    => 0,
-		'crop_x'    => 0,
-		'crop_y'    => 0
-	), 'create_item_' . $type );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'item_id'   => 0,
+			'object'    => 'user',
+			'component' => '',
+			'image'     => '',
+			'crop_w'    => 0,
+			'crop_h'    => 0,
+			'crop_x'    => 0,
+			'crop_y'    => 0,
+		),
+		'create_item_' . $type
+	);
 
 	if ( empty( $r['item_id'] ) || empty( $r['object'] ) || ! file_exists( $r['image'] ) || ! @getimagesize( $r['image'] ) ) {
 		return false;
@@ -445,12 +452,16 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 	// Default value.
 	$attachment_data = false;
 
-	$r = bp_parse_args( $args, array(
-		'object_dir' => 'members',
-		'item_id'    => bp_loggedin_user_id(),
-		'type'       => 'cover-image',
-		'file'       => '',
-	), 'attachments_get_attachment_src' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'object_dir' => 'members',
+			'item_id'    => bp_loggedin_user_id(),
+			'type'       => 'cover-image',
+			'file'       => '',
+		),
+		'attachments_get_attachment_src'
+	);
 
 	/**
 	 * Filters whether or not to handle fetching a BuddyPress image attachment.
@@ -697,21 +708,25 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 	}
 
 	// Get an instance of the class and get the script data.
-	$attachment = new $class;
-	$script_data  = $attachment->script_data();
+	$attachment  = new $class;
+	$script_data = $attachment->script_data();
 
-	$args = bp_parse_args( $script_data, array(
-		'action'            => '',
-		'file_data_name'    => '',
-		'max_file_size'     => 0,
-		'browse_button'     => 'bp-browse-button',
-		'container'         => 'bp-upload-ui',
-		'drop_element'      => 'drag-drop-area',
-		'bp_params'         => array(),
-		'extra_css'         => array(),
-		'extra_js'          => array(),
-		'feedback_messages' => array(),
-	), 'attachments_enqueue_scripts' );
+	$args = bp_parse_args(
+		$script_data,
+		array(
+			'action'            => '',
+			'file_data_name'    => '',
+			'max_file_size'     => 0,
+			'browse_button'     => 'bp-browse-button',
+			'container'         => 'bp-upload-ui',
+			'drop_element'      => 'drag-drop-area',
+			'bp_params'         => array(),
+			'extra_css'         => array(),
+			'extra_js'          => array(),
+			'feedback_messages' => array(),
+		),
+		'attachments_enqueue_scripts'
+	);
 
 	if ( empty( $args['action'] ) || empty( $args['file_data_name'] ) ) {
 		return new WP_Error( 'missing_parameter' );
@@ -1021,7 +1036,7 @@ function bp_attachments_get_cover_image_settings( $component = 'members' ) {
 	}
 
 	// Set default args.
-	$default_args = wp_parse_args(
+	$default_args = bp_parse_args(
 		$args,
 		array(
 			'components'    => array(),
@@ -1049,7 +1064,11 @@ function bp_attachments_get_cover_image_settings( $component = 'members' ) {
 	 *
 	 * @param array $settings The cover image settings
 	 */
-	$settings = bp_parse_args( $args, $default_args, $component . '_cover_image_settings' );
+	$settings = bp_parse_args(
+		$args,
+		$default_args,
+		$component . '_cover_image_settings'
+	);
 
 	// Handle deprecated xProfile fitler.
 	if ( 'members' === $component ) {
@@ -1281,10 +1300,14 @@ function bp_attachments_cover_image_ajax_upload() {
 		bp_attachments_json_response( false, $is_html4 );
 	}
 
-	$bp_params = bp_parse_args( $_POST['bp_params'], array(
-		'object'  => 'user',
-		'item_id' => bp_loggedin_user_id(),
-	), 'attachments_cover_image_ajax_upload' );
+	$bp_params = bp_parse_args(
+		$_POST['bp_params'],
+		array(
+			'object'  => 'user',
+			'item_id' => bp_loggedin_user_id(),
+		),
+		'attachments_cover_image_ajax_upload'
+	);
 
 	$bp_params['item_id'] = (int) $bp_params['item_id'];
 	$bp_params['object']  = sanitize_text_field( $bp_params['object'] );

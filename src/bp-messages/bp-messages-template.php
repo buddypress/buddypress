@@ -64,16 +64,20 @@ function bp_has_message_threads( $args = array() ) {
 	$search_terms = isset( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
 
 	// Parse the arguments.
-	$r = bp_parse_args( $args, array(
-		'user_id'      => $user_id,
-		'box'          => $default_box,
-		'per_page'     => 10,
-		'max'          => false,
-		'type'         => 'all',
-		'search_terms' => $search_terms,
-		'page_arg'     => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679.
-		'meta_query'   => array()
-	), 'has_message_threads' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'user_id'      => $user_id,
+			'box'          => $default_box,
+			'per_page'     => 10,
+			'max'          => false,
+			'type'         => 'all',
+			'search_terms' => $search_terms,
+			'page_arg'     => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679.
+			'meta_query'   => array(),
+		),
+		'has_message_threads'
+	);
 
 	// Load the messages loop global up with messages.
 	$messages_template = new BP_Messages_Box_Template( $r );
@@ -754,14 +758,17 @@ function bp_message_thread_avatar( $args = '' ) {
 		$fullname = bp_core_get_user_displayname( $messages_template->thread->last_sender_id );
 		$alt      = sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname );
 
-		$r = bp_parse_args( $args, array(
-			'type'   => 'thumb',
-			'width'  => false,
-			'height' => false,
-			'class'  => 'avatar',
-			'id'     => false,
-			'alt'    => $alt
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'type'   => 'thumb',
+				'width'  => false,
+				'height' => false,
+				'class'  => 'avatar',
+				'id'     => false,
+				'alt'    => $alt,
+			)
+		);
 
 		/**
 		 * Filters the avatar for the last sender in the current message thread.
@@ -1515,17 +1522,19 @@ function bp_send_message_button( $args = '' ) {
 	 */
 	function bp_get_send_message_button( $args = '' ) {
 
-		$r = bp_parse_args( $args, array(
-			'id'                => 'private_message',
-			'component'         => 'messages',
-			'must_be_logged_in' => true,
-			'block_self'        => true,
-			'wrapper_id'        => 'send-private-message',
-			'link_href'         => bp_get_send_private_message_link(),
-			'link_text'         => __( 'Private Message', 'buddypress' ),
-			'link_class'        => 'send-message',
-		) );
-
+		$r = bp_parse_args(
+			$args,
+			array(
+				'id'                => 'private_message',
+				'component'         => 'messages',
+				'must_be_logged_in' => true,
+				'block_self'        => true,
+				'wrapper_id'        => 'send-private-message',
+				'link_href'         => bp_get_send_private_message_link(),
+				'link_text'         => __( 'Private Message', 'buddypress' ),
+				'link_class'        => 'send-message',
+			)
+		);
 
 		// Note: 'bp_get_send_message_button' is a legacy filter. Use
 		// 'bp_get_send_message_button_args' instead. See #4536.
@@ -2048,11 +2057,14 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 	function bp_get_the_thread_message_sender_avatar_thumb( $args = '' ) {
 		global $thread_template;
 
-		$r = bp_parse_args( $args, array(
-			'type'   => 'thumb',
-			'width'  => false,
-			'height' => false,
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'type'   => 'thumb',
+				'width'  => false,
+				'height' => false,
+			)
+		);
 
 		/**
 		 * Filters the avatar for the current message sender.

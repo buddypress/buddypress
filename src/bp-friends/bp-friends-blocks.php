@@ -44,7 +44,7 @@ function bp_friends_blocks_add_script_data() {
  * @return string           HTML output.
  */
 function bp_friends_render_friends_block( $attributes = array() ) {
-	$block_args = wp_parse_args(
+	$block_args = bp_parse_args(
 		$attributes,
 		array(
 			'maxFriends'    => 5,

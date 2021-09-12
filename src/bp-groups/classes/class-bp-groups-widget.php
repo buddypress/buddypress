@@ -214,9 +214,14 @@ class BP_Groups_Widget extends WP_Widget {
 			'title'         => __( 'Groups', 'buddypress' ),
 			'max_groups'    => 5,
 			'group_default' => 'active',
-			'link_title'    => false
+			'link_title'    => false,
 		);
-		$instance = bp_parse_args( (array) $instance, $defaults, 'groups_widget_form' );
+
+		$instance = bp_parse_args(
+			(array) $instance,
+			$defaults,
+			'groups_widget_form'
+		);
 
 		$max_limit = bp_get_widget_max_count_limit( __CLASS__ );
 

@@ -173,7 +173,11 @@ class BP_Core_Members_Template {
 			'member_type__not_in' => '',
 			'xprofile_query'      => false,
 		);
-		$r = wp_parse_args( $args, $defaults );
+
+		$r = bp_parse_args(
+			$args,
+			$defaults
+		);
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page_number'] );

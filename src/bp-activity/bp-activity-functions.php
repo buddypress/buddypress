@@ -493,7 +493,11 @@ function bp_activity_get_post_type_tracking_args( $post_type ) {
 	);
 
 	if ( ! empty( $post_type_object->bp_activity ) ) {
-		$post_type_activity = bp_parse_args( (array) $post_type_object->bp_activity, $post_type_activity, $post_type . '_tracking_args' );
+		$post_type_activity = bp_parse_args(
+			(array) $post_type_object->bp_activity,
+			$post_type_activity,
+			$post_type . '_tracking_args'
+		);
 	}
 
 	$post_type_activity = (object) $post_type_activity;
@@ -1770,39 +1774,43 @@ function bp_activity_format_activity_action_custom_post_type_comment( $action, $
  */
 function bp_activity_get( $args = '' ) {
 
-	$r = bp_parse_args( $args, array(
-		'max'               => false,        // Maximum number of results to return.
-		'fields'            => 'all',
-		'page'              => 1,            // Page 1 without a per_page will result in no pagination.
-		'per_page'          => false,        // results per page.
-		'sort'              => 'DESC',       // sort ASC or DESC.
-		'display_comments'  => false,        // False for no comments. 'stream' for within stream display, 'threaded' for below each activity item.
+	$r = bp_parse_args(
+		$args,
+		array(
+			'max'               => false,        // Maximum number of results to return.
+			'fields'            => 'all',
+			'page'              => 1,            // Page 1 without a per_page will result in no pagination.
+			'per_page'          => false,        // results per page.
+			'sort'              => 'DESC',       // sort ASC or DESC.
+			'display_comments'  => false,        // False for no comments. 'stream' for within stream display, 'threaded' for below each activity item.
 
-		'search_terms'      => false,        // Pass search terms as a string.
-		'meta_query'        => false,        // Filter by activity meta. See WP_Meta_Query for format.
-		'date_query'        => false,        // Filter by date. See first parameter of WP_Date_Query for format.
-		'filter_query'      => false,
-		'show_hidden'       => false,        // Show activity items that are hidden site-wide?
-		'exclude'           => false,        // Comma-separated list of activity IDs to exclude.
-		'in'                => false,        // Comma-separated list or array of activity IDs to which you.
-		                                     // want to limit the query.
-		'spam'              => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
-		'update_meta_cache' => true,
-		'count_total'       => false,
-		'scope'             => false,
+			'search_terms'      => false,        // Pass search terms as a string.
+			'meta_query'        => false,        // Filter by activity meta. See WP_Meta_Query for format.
+			'date_query'        => false,        // Filter by date. See first parameter of WP_Date_Query for format.
+			'filter_query'      => false,
+			'show_hidden'       => false,        // Show activity items that are hidden site-wide?
+			'exclude'           => false,        // Comma-separated list of activity IDs to exclude.
+			'in'                => false,        // Comma-separated list or array of activity IDs to which you.
+												// want to limit the query.
+			'spam'              => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
+			'update_meta_cache' => true,
+			'count_total'       => false,
+			'scope'             => false,
 
-		/**
-		 * Pass filters as an array -- all filter items can be multiple values comma separated:
-		 * array(
-		 *     'user_id'      => false, // User ID to filter on.
-		 *     'object'       => false, // Object to filter on e.g. groups, profile, status, friends.
-		 *     'action'       => false, // Action to filter on e.g. activity_update, profile_updated.
-		 *     'primary_id'   => false, // Object ID to filter on e.g. a group_id or blog_id etc.
-		 *     'secondary_id' => false, // Secondary object ID to filter on e.g. a post_id.
-		 * );
-		 */
-		'filter' => array()
-	), 'activity_get' );
+			/**
+			 * Pass filters as an array -- all filter items can be multiple values comma separated:
+			 * array(
+			 *     'user_id'      => false, // User ID to filter on.
+			 *     'object'       => false, // Object to filter on e.g. groups, profile, status, friends.
+			 *     'action'       => false, // Action to filter on e.g. activity_update, profile_updated.
+			 *     'primary_id'   => false, // Object ID to filter on e.g. a group_id or blog_id etc.
+			 *     'secondary_id' => false, // Secondary object ID to filter on e.g. a post_id.
+			 * );
+			 */
+			'filter' => array()
+		),
+		'activity_get'
+	);
 
 	$activity = BP_Activity_Activity::get( array(
 		'page'              => $r['page'],
@@ -1844,26 +1852,31 @@ function bp_activity_get( $args = '' ) {
  * @see BP_Activity_Activity::get() For more information on accepted arguments.
  *
  * @param array|string $args {
+ *     An array of arguments.
  *     All arguments and defaults are shared with BP_Activity_Activity::get(),
  *     except for the following:
  *     @type string|int|array Single activity ID, comma-separated list of IDs,
  *                            or array of IDs.
  * }
- * @return array $activity See BP_Activity_Activity::get() for description.
+ * @return array See BP_Activity_Activity::get() for description.
  */
 function bp_activity_get_specific( $args = '' ) {
 
-	$r = bp_parse_args( $args, array(
-		'activity_ids'      => false,      // A single activity_id or array of IDs.
-		'display_comments'  => false,      // True or false to display threaded comments for these specific activity items.
-		'max'               => false,      // Maximum number of results to return.
-		'page'              => 1,          // Page 1 without a per_page will result in no pagination.
-		'per_page'          => false,      // Results per page.
-		'show_hidden'       => true,       // When fetching specific items, show all.
-		'sort'              => 'DESC',     // Sort ASC or DESC.
-		'spam'              => 'ham_only', // Retrieve items marked as spam.
-		'update_meta_cache' => true,
-	), 'activity_get_specific' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'activity_ids'      => false,      // A single activity_id or array of IDs.
+			'display_comments'  => false,      // True or false to display threaded comments for these specific activity items.
+			'max'               => false,      // Maximum number of results to return.
+			'page'              => 1,          // Page 1 without a per_page will result in no pagination.
+			'per_page'          => false,      // Results per page.
+			'show_hidden'       => true,       // When fetching specific items, show all.
+			'sort'              => 'DESC',     // Sort ASC or DESC.
+			'spam'              => 'ham_only', // Retrieve items marked as spam.
+			'update_meta_cache' => true,
+		),
+		'activity_get_specific'
+	);
 
 	$get_args = array(
 		'display_comments'  => $r['display_comments'],
@@ -1877,16 +1890,18 @@ function bp_activity_get_specific( $args = '' ) {
 		'update_meta_cache' => $r['update_meta_cache'],
 	);
 
+	$activity = BP_Activity_Activity::get( $get_args );
+
 	/**
 	 * Filters the requested specific activity item.
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param BP_Activity_Activity $activity Requested activity object.
-	 * @param array                $args     Original passed in arguments.
-	 * @param array                $get_args Constructed arguments used with request.
+	 * @param array $activity The array returned has two keys: total and activity.
+	 * @param array $args     Original passed in arguments.
+	 * @param array $get_args Constructed arguments used with request.
 	 */
-	return apply_filters( 'bp_activity_get_specific', BP_Activity_Activity::get( $get_args ), $args, $get_args );
+	return apply_filters( 'bp_activity_get_specific', $activity, $args, $get_args );
 }
 
 /**
@@ -1931,28 +1946,32 @@ function bp_activity_get_specific( $args = '' ) {
  */
 function bp_activity_add( $args = '' ) {
 
-	$r = bp_parse_args( $args, array(
-		'id'                => false,                  // Pass an existing activity ID to update an existing entry.
-		'action'            => '',                     // The activity action - e.g. "Jon Doe posted an update".
-		'content'           => '',                     // Optional: The content of the activity item e.g. "BuddyPress is awesome guys!".
-		'component'         => false,                  // The name/ID of the component e.g. groups, profile, mycomponent.
-		'type'              => false,                  // The activity type e.g. activity_update, profile_updated.
-		'primary_link'      => '',                     // Optional: The primary URL for this item in RSS feeds (defaults to activity permalink).
-		'user_id'           => bp_loggedin_user_id(),  // Optional: The user to record the activity for, can be false if this activity is not for a user.
-		'item_id'           => false,                  // Optional: The ID of the specific item being recorded, e.g. a blog_id.
-		'secondary_item_id' => false,                  // Optional: A second ID used to further filter e.g. a comment_id.
-		'recorded_time'     => bp_core_current_time(), // The GMT time that this activity was recorded.
-		'hide_sitewide'     => false,                  // Should this be hidden on the sitewide activity stream?
-		'is_spam'           => false,                  // Is this activity item to be marked as spam?
-		'error_type'        => 'bool'
-	), 'activity_add' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'id'                => false,                  // Pass an existing activity ID to update an existing entry.
+			'action'            => '',                     // The activity action - e.g. "Jon Doe posted an update".
+			'content'           => '',                     // Optional: The content of the activity item e.g. "BuddyPress is awesome guys!".
+			'component'         => false,                  // The name/ID of the component e.g. groups, profile, mycomponent.
+			'type'              => false,                  // The activity type e.g. activity_update, profile_updated.
+			'primary_link'      => '',                     // Optional: The primary URL for this item in RSS feeds (defaults to activity permalink).
+			'user_id'           => bp_loggedin_user_id(),  // Optional: The user to record the activity for, can be false if this activity is not for a user.
+			'item_id'           => false,                  // Optional: The ID of the specific item being recorded, e.g. a blog_id.
+			'secondary_item_id' => false,                  // Optional: A second ID used to further filter e.g. a comment_id.
+			'recorded_time'     => bp_core_current_time(), // The GMT time that this activity was recorded.
+			'hide_sitewide'     => false,                  // Should this be hidden on the sitewide activity stream?
+			'is_spam'           => false,                  // Is this activity item to be marked as spam?
+			'error_type'        => 'bool',
+		),
+		'activity_add'
+	);
 
 	// Make sure we are backwards compatible.
-	if ( empty( $r['component'] ) && !empty( $r['component_name'] ) ) {
+	if ( empty( $r['component'] ) && ! empty( $r['component_name'] ) ) {
 		$r['component'] = $r['component_name'];
 	}
 
-	if ( empty( $r['type'] ) && !empty( $r['component_action'] ) ) {
+	if ( empty( $r['type'] ) && ! empty( $r['component_action'] ) ) {
 		$r['type'] = $r['component_action'];
 	}
 
@@ -1977,7 +1996,7 @@ function bp_activity_add( $args = '' ) {
 
 	if ( 'wp_error' === $r['error_type'] && is_wp_error( $save ) ) {
 		return $save;
-	} elseif ('bool' === $r['error_type'] && false === $save ) {
+	} elseif ( 'bool' === $r['error_type'] && false === $save ) {
 		return false;
 	}
 
@@ -2011,6 +2030,7 @@ function bp_activity_add( $args = '' ) {
  * @since 1.2.0
  *
  * @param array|string $args {
+ *     An array of arguments.
  *     @type string $content    The content of the activity update.
  *     @type int    $user_id    Optional. Defaults to the logged-in user.
  *     @type string $error_type Optional. Error type to return. Either 'bool' or 'wp_error'. Defaults to
@@ -2021,13 +2041,16 @@ function bp_activity_add( $args = '' ) {
  */
 function bp_activity_post_update( $args = '' ) {
 
-	$r = wp_parse_args( $args, array(
-		'content'    => false,
-		'user_id'    => bp_loggedin_user_id(),
-		'error_type' => 'bool',
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'content'    => false,
+			'user_id'    => bp_loggedin_user_id(),
+			'error_type' => 'bool',
+		)
+	);
 
-	if ( empty( $r['content'] ) || !strlen( trim( $r['content'] ) ) ) {
+	if ( empty( $r['content'] ) || ! strlen( trim( $r['content'] ) ) ) {
 		return false;
 	}
 
@@ -2645,17 +2668,19 @@ add_action( 'delete_comment', 'bp_activity_post_type_remove_comment', 10, 1 );
  */
 function bp_activity_new_comment( $args = '' ) {
 	$bp = buddypress();
-
-	$r = wp_parse_args( $args, array(
-		'id'                => false,
-		'content'           => false,
-		'user_id'           => bp_loggedin_user_id(),
-		'activity_id'       => false, // ID of the root activity item.
-		'parent_id'         => false, // ID of a parent comment (optional).
-		'primary_link'      => '',
-		'skip_notification' => false,
-		'error_type'        => 'bool'
-	) );
+	$r  = bp_parse_args(
+		$args,
+		array(
+			'id'                => false,
+			'content'           => false,
+			'user_id'           => bp_loggedin_user_id(),
+			'activity_id'       => false, // ID of the root activity item.
+			'parent_id'         => false, // ID of a parent comment (optional).
+			'primary_link'      => '',
+			'skip_notification' => false,
+			'error_type'        => 'bool',
+		)
+	);
 
 	// Error type is boolean; need to initialize some variables for backpat.
 	if ( 'bool' === $r['error_type'] ) {
@@ -2724,7 +2749,7 @@ function bp_activity_new_comment( $args = '' ) {
 	$comment_id = bp_activity_add( array(
 		'id'                => $r['id'],
 		'content'           => $comment_content,
-		'component'         => buddypress()->activity->id,
+		'component'         => $bp->activity->id,
 		'type'              => 'activity_comment',
 		'primary_link'      => $r['primary_link'],
 		'user_id'           => $r['user_id'],
@@ -2804,16 +2829,19 @@ function bp_activity_new_comment( $args = '' ) {
  */
 function bp_activity_get_activity_id( $args = '' ) {
 
-	$r = bp_parse_args( $args, array(
-		'user_id'           => false,
-		'component'         => false,
-		'type'              => false,
-		'item_id'           => false,
-		'secondary_item_id' => false,
-		'action'            => false,
-		'content'           => false,
-		'date_recorded'     => false,
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'user_id'           => false,
+			'component'         => false,
+			'type'              => false,
+			'item_id'           => false,
+			'secondary_item_id' => false,
+			'action'            => false,
+			'content'           => false,
+			'date_recorded'     => false,
+		)
+	);
 
 	/**
 	 * Filters the activity ID being requested.
@@ -2864,19 +2892,22 @@ function bp_activity_get_activity_id( $args = '' ) {
 function bp_activity_delete( $args = '' ) {
 
 	// Pass one or more the of following variables to delete by those variables.
-	$args = bp_parse_args( $args, array(
-		'id'                => false,
-		'action'            => false,
-		'content'           => false,
-		'component'         => false,
-		'type'              => false,
-		'primary_link'      => false,
-		'user_id'           => false,
-		'item_id'           => false,
-		'secondary_item_id' => false,
-		'date_recorded'     => false,
-		'hide_sitewide'     => false
-	) );
+	$args = bp_parse_args(
+		$args,
+		array(
+			'id'                => false,
+			'action'            => false,
+			'content'           => false,
+			'component'         => false,
+			'type'              => false,
+			'primary_link'      => false,
+			'user_id'           => false,
+			'item_id'           => false,
+			'secondary_item_id' => false,
+			'date_recorded'     => false,
+			'hide_sitewide'     => false,
+		)
+	);
 
 	/**
 	 * Fires before an activity item proceeds to be deleted.
@@ -2938,20 +2969,22 @@ function bp_activity_delete( $args = '' ) {
 	 * @since 1.1.0
 	 * @deprecated 1.2.0
 	 *
-	 *
 	 * @param array|string $args See BP_Activity_Activity::get for a
 	 *                           description of accepted arguments.
 	 * @return bool True on success, false on failure.
 	 */
 	function bp_activity_delete_by_item_id( $args = '' ) {
 
-		$r = bp_parse_args( $args, array(
-			'item_id'           => false,
-			'component'         => false,
-			'type'              => false,
-			'user_id'           => false,
-			'secondary_item_id' => false
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'item_id'           => false,
+				'component'         => false,
+				'type'              => false,
+				'user_id'           => false,
+				'secondary_item_id' => false,
+			)
+		);
 
 		return bp_activity_delete( $r );
 	}

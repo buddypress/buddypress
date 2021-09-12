@@ -529,10 +529,13 @@ abstract class BP_XProfile_Field_Type {
 	 */
 	protected function get_edit_field_html_elements( array $properties = array() ) {
 
-		$r = bp_parse_args( $properties, array(
-			'id'   => bp_get_the_profile_field_input_name(),
-			'name' => bp_get_the_profile_field_input_name(),
-		) );
+		$r = bp_parse_args(
+			$properties,
+			array(
+				'id'   => bp_get_the_profile_field_input_name(),
+				'name' => bp_get_the_profile_field_input_name(),
+			)
+		);
 
 		if ( bp_get_the_profile_field_is_required() ) {
 			$r['aria-required'] = 'true';

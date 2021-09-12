@@ -67,11 +67,15 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			$user_id = bp_displayed_user_id();
 		}
 
-		$r = bp_parse_args( $raw_properties, array(
-			'multiple' => 'multiple',
-			'id'       => bp_get_the_profile_field_input_name() . '[]',
-			'name'     => bp_get_the_profile_field_input_name() . '[]',
-		) ); ?>
+		$r = bp_parse_args(
+			$raw_properties,
+			array(
+				'multiple' => 'multiple',
+				'id'       => bp_get_the_profile_field_input_name() . '[]',
+				'name'     => bp_get_the_profile_field_input_name() . '[]',
+			)
+		);
+		?>
 
 		<legend id="<?php bp_the_profile_field_input_name(); ?>-1">
 			<?php bp_the_profile_field_name(); ?>
@@ -183,9 +187,13 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
-		$r = bp_parse_args( $raw_properties, array(
-			'multiple' => 'multiple'
-		) ); ?>
+		$r = bp_parse_args(
+			$raw_properties,
+			array(
+				'multiple' => 'multiple',
+			)
+		);
+		?>
 
 		<label for="<?php bp_the_profile_field_input_name(); ?>" class="screen-reader-text"><?php
 			/* translators: accessibility text */

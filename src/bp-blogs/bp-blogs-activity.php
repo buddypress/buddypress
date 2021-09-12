@@ -465,20 +465,22 @@ add_filter( 'bp_activity_prefetch_object_data', 'bp_blogs_prefetch_activity_obje
  * @return WP_Error|bool|int On success, returns the activity ID. False on failure.
  */
 function bp_blogs_record_activity( $args = '' ) {
-	$defaults = array(
-		'user_id'           => bp_loggedin_user_id(),
-		'action'            => '',
-		'content'           => '',
-		'primary_link'      => '',
-		'component'         => buddypress()->blogs->id,
-		'type'              => false,
-		'item_id'           => false,
-		'secondary_item_id' => false,
-		'recorded_time'     => bp_core_current_time(),
-		'hide_sitewide'     => false
-	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'user_id'           => bp_loggedin_user_id(),
+			'action'            => '',
+			'content'           => '',
+			'primary_link'      => '',
+			'component'         => buddypress()->blogs->id,
+			'type'              => false,
+			'item_id'           => false,
+			'secondary_item_id' => false,
+			'recorded_time'     => bp_core_current_time(),
+			'hide_sitewide'     => false,
+		)
+	);
 
 	if ( ! empty( $r['action'] ) ) {
 
@@ -534,13 +536,16 @@ function bp_blogs_record_activity( $args = '' ) {
  * @return bool True on success, false on failure.
  */
 function bp_blogs_delete_activity( $args = '' ) {
-	$r = bp_parse_args( $args, array(
-		'item_id'           => false,
-		'component'         => buddypress()->blogs->id,
-		'type'              => false,
-		'user_id'           => false,
-		'secondary_item_id' => false
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'item_id'           => false,
+			'component'         => buddypress()->blogs->id,
+			'type'              => false,
+			'user_id'           => false,
+			'secondary_item_id' => false,
+		)
+	);
 
 	bp_activity_delete_by_item_id( $r );
 }

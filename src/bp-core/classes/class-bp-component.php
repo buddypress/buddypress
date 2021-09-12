@@ -234,17 +234,20 @@ class BP_Component {
 	 * }
 	 */
 	public function setup_globals( $args = array() ) {
-		$r = wp_parse_args( $args, array(
-			'slug'                  => $this->id,
-			'root_slug'             => '',
-			'has_directory'         => false,
-			'directory_title'       => '',
-			'notification_callback' => '',
-			'search_string'         => '',
-			'global_tables'         => '',
-			'meta_tables'           => '',
-			'block_globals'         => array(),
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'slug'                  => $this->id,
+				'root_slug'             => '',
+				'has_directory'         => false,
+				'directory_title'       => '',
+				'notification_callback' => '',
+				'search_string'         => '',
+				'global_tables'         => '',
+				'meta_tables'           => '',
+				'block_globals'         => array(),
+			)
+		);
 
 		/** Slugs ************************************************************
 		 */

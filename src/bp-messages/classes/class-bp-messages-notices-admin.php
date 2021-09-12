@@ -126,10 +126,13 @@ class BP_Messages_Notices_Admin {
 
 			check_admin_referer( 'new-notice', 'ns-nonce' );
 
-			$notice = wp_parse_args( $_POST['bp_notice'], array(
-				'subject' => '',
-				'content' => ''
-			) );
+			$notice = bp_parse_args(
+				$_POST['bp_notice'],
+				array(
+					'subject' => '',
+					'content' => '',
+				)
+			);
 
 			if ( messages_send_notice( $notice['subject'], $notice['content'] ) ) {
 				$redirect_to = add_query_arg( 'success', 'create', $this->url );

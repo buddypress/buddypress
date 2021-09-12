@@ -257,7 +257,7 @@ function bp_blocks_get_login_widget_registration_link( $content = '', $args = ar
  * @return string           HTML output.
  */
 function bp_block_render_login_form_block( $attributes = array() ) {
-	$block_args = wp_parse_args(
+	$block_args = bp_parse_args(
 		$attributes,
 		array(
 			'title' => '',

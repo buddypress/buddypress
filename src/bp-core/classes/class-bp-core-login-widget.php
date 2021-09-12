@@ -174,9 +174,13 @@ class BP_Core_Login_Widget extends WP_Widget {
 	 */
 	public function form( $instance = array() ) {
 
-		$settings = wp_parse_args( $instance, array(
-			'title' => '',
-		) ); ?>
+		$settings = bp_parse_args(
+			$instance,
+			array(
+				'title' => '',
+			)
+		);
+		?>
 
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'buddypress' ); ?>

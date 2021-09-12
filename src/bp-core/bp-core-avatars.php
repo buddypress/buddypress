@@ -231,25 +231,28 @@ function bp_core_fetch_avatar( $args = '' ) {
 	}
 
 	// Set the default variables array and parse it against incoming $args array.
-	$params = wp_parse_args( $args, array(
-		'item_id'       => false,
-		'object'        => 'user',
-		'type'          => 'thumb',
-		'avatar_dir'    => false,
-		'width'         => false,
-		'height'        => false,
-		'class'         => 'avatar',
-		'css_id'        => false,
-		'alt'           => '',
-		'email'         => false,
-		'no_grav'       => null,
-		'html'          => true,
-		'title'         => '',
-		'extra_attr'    => '',
-		'scheme'        => null,
-		'rating'        => get_option( 'avatar_rating' ),
-		'force_default' => false,
-	) );
+	$params = bp_parse_args(
+		$args,
+		array(
+			'item_id'       => false,
+			'object'        => 'user',
+			'type'          => 'thumb',
+			'avatar_dir'    => false,
+			'width'         => false,
+			'height'        => false,
+			'class'         => 'avatar',
+			'css_id'        => false,
+			'alt'           => '',
+			'email'         => false,
+			'no_grav'       => null,
+			'html'          => true,
+			'title'         => '',
+			'extra_attr'    => '',
+			'scheme'        => null,
+			'rating'        => get_option( 'avatar_rating' ),
+			'force_default' => false,
+		)
+	);
 
 	/* Set item_id ***********************************************************/
 
@@ -765,7 +768,10 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		'avatar_dir' => false
 	);
 
-	$args = wp_parse_args( $args, $defaults );
+	$args = bp_parse_args(
+		$args,
+		$defaults
+	);
 
 	/**
 	 * Filters whether or not to handle deleting an existing avatar.
@@ -1254,16 +1260,19 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
  */
 function bp_core_avatar_handle_crop( $args = '' ) {
 
-	$r = wp_parse_args( $args, array(
-		'object'        => 'user',
-		'avatar_dir'    => 'avatars',
-		'item_id'       => false,
-		'original_file' => false,
-		'crop_w'        => bp_core_avatar_full_width(),
-		'crop_h'        => bp_core_avatar_full_height(),
-		'crop_x'        => 0,
-		'crop_y'        => 0
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'object'        => 'user',
+			'avatar_dir'    => 'avatars',
+			'item_id'       => false,
+			'original_file' => false,
+			'crop_w'        => bp_core_avatar_full_width(),
+			'crop_h'        => bp_core_avatar_full_height(),
+			'crop_x'        => 0,
+			'crop_y'        => 0,
+		)
+	);
 
 	/**
 	 * Filters whether or not to handle cropping.
@@ -1307,12 +1316,15 @@ function bp_avatar_ajax_set() {
 	// Check the nonce.
 	check_admin_referer( 'bp_avatar_cropstore', 'nonce' );
 
-	$avatar_data = wp_parse_args( $_POST, array(
-		'crop_w' => bp_core_avatar_full_width(),
-		'crop_h' => bp_core_avatar_full_height(),
-		'crop_x' => 0,
-		'crop_y' => 0
-	) );
+	$avatar_data = bp_parse_args(
+		$_POST,
+		array(
+			'crop_w' => bp_core_avatar_full_width(),
+			'crop_h' => bp_core_avatar_full_height(),
+			'crop_x' => 0,
+			'crop_y' => 0,
+		)
+	);
 
 	if ( empty( $avatar_data['object'] ) || empty( $avatar_data['item_id'] ) || empty( $avatar_data['original_file'] ) ) {
 		wp_send_json_error();

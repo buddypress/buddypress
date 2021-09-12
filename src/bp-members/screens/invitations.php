@@ -27,7 +27,10 @@ function members_screen_send_invites() {
 			'send_invite'   => 1,
 		);
 
-		$invite_args = wp_parse_args( array_map( 'wp_unslash', $_REQUEST ), $default_args );
+		$invite_args = bp_parse_args(
+			array_map( 'wp_unslash', $_REQUEST ),
+			$default_args
+		);
 		$invite_args = array_intersect_key( $invite_args, $default_args );
 
 		// Check the nonce and delete the invitation.

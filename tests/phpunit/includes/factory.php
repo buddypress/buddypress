@@ -27,7 +27,7 @@ class BP_UnitTest_Factory_For_User extends WP_UnitTest_Factory_For_User {
 	 * Also set a display name
 	 */
 	public function create_object( $args ) {
-		$r = wp_parse_args( $args, array(
+		$r = bp_parse_args( $args, array(
 			'role' => 'subscriber',
 			'last_activity' => date( 'Y-m-d H:i:s', strtotime( bp_core_current_time() ) - 60*60*24*365 ),
 		) );

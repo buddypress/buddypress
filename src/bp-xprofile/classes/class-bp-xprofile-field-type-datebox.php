@@ -65,20 +65,30 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			$user_id = bp_displayed_user_id();
 		}
 
-		$day_r = bp_parse_args( $raw_properties, array(
-			'id'   => bp_get_the_profile_field_input_name() . '_day',
-			'name' => bp_get_the_profile_field_input_name() . '_day'
-		) );
+		$day_r = bp_parse_args(
+			$raw_properties,
+			array(
+				'id'   => bp_get_the_profile_field_input_name() . '_day',
+				'name' => bp_get_the_profile_field_input_name() . '_day',
+			)
+		);
 
-		$month_r = bp_parse_args( $raw_properties, array(
-			'id'   => bp_get_the_profile_field_input_name() . '_month',
-			'name' => bp_get_the_profile_field_input_name() . '_month'
-		) );
+		$month_r = bp_parse_args(
+			$raw_properties,
+			array(
+				'id'   => bp_get_the_profile_field_input_name() . '_month',
+				'name' => bp_get_the_profile_field_input_name() . '_month',
+			)
+		);
 
-		$year_r = bp_parse_args( $raw_properties, array(
-			'id'   => bp_get_the_profile_field_input_name() . '_year',
-			'name' => bp_get_the_profile_field_input_name() . '_year'
-		) ); ?>
+		$year_r = bp_parse_args(
+			$raw_properties,
+			array(
+				'id'   => bp_get_the_profile_field_input_name() . '_year',
+				'name' => bp_get_the_profile_field_input_name() . '_year',
+			)
+		);
+		?>
 
 			<legend>
 				<?php bp_the_profile_field_name(); ?>
@@ -282,20 +292,30 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 */
 	public function admin_field_html( array $raw_properties = array() ) {
 
-		$day_r = bp_parse_args( $raw_properties, array(
-			'id'   => bp_get_the_profile_field_input_name() . '_day',
-			'name' => bp_get_the_profile_field_input_name() . '_day'
-		) );
+		$day_r = bp_parse_args(
+			$raw_properties,
+			array(
+				'id'   => bp_get_the_profile_field_input_name() . '_day',
+				'name' => bp_get_the_profile_field_input_name() . '_day',
+			)
+		);
 
-		$month_r = bp_parse_args( $raw_properties, array(
-			'id'   => bp_get_the_profile_field_input_name() . '_month',
-			'name' => bp_get_the_profile_field_input_name() . '_month'
-		) );
+		$month_r = bp_parse_args(
+			$raw_properties,
+			array(
+				'id'   => bp_get_the_profile_field_input_name() . '_month',
+				'name' => bp_get_the_profile_field_input_name() . '_month',
+			)
+		);
 
-		$year_r = bp_parse_args( $raw_properties, array(
-			'id'   => bp_get_the_profile_field_input_name() . '_year',
-			'name' => bp_get_the_profile_field_input_name() . '_year'
-		) ); ?>
+		$year_r = bp_parse_args(
+			$raw_properties,
+			array(
+				'id'   => bp_get_the_profile_field_input_name() . '_year',
+				'name' => bp_get_the_profile_field_input_name() . '_year',
+			)
+		);
+		?>
 
 		<label for="<?php bp_the_profile_field_input_name(); ?>_day" class="xprofile-field-label"><?php
 			esc_html_e( 'Day', 'buddypress' );

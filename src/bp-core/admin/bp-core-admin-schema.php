@@ -524,7 +524,14 @@ function bp_core_install_emails() {
 			continue;
 		}
 
-		$post_id = wp_insert_post( bp_parse_args( $email, $defaults, 'install_email_' . $id ) );
+		$post_id = wp_insert_post(
+			bp_parse_args(
+				$email,
+				$defaults,
+				'install_email_' . $id
+			)
+		);
+
 		if ( ! $post_id ) {
 			continue;
 		}

@@ -97,7 +97,11 @@ function bp_core_add_admin_menu_page( $args = '' ) {
 		'position'     => 100
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args(
+		$args,
+		$defaults
+	);
+
 	extract( $r, EXTR_SKIP );
 
 	$file     = plugin_basename( $file );

@@ -152,24 +152,27 @@ class BP_Notifications_Template {
 	public function __construct( $args = array() ) {
 
 		// Parse arguments.
-		$r = wp_parse_args( $args, array(
-			'id'                => false,
-			'user_id'           => 0,
-			'item_id'           => false,
-			'secondary_item_id' => false,
-			'component_name'    => bp_notifications_get_registered_components(),
-			'component_action'  => false,
-			'is_new'            => true,
-			'search_terms'      => '',
-			'order_by'          => 'date_notified',
-			'sort_order'        => 'DESC',
-			'page_arg'          => 'npage',
-			'page'              => 1,
-			'per_page'          => 25,
-			'max'               => null,
-			'meta_query'        => false,
-			'date_query'        => false,
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'id'                => false,
+				'user_id'           => 0,
+				'item_id'           => false,
+				'secondary_item_id' => false,
+				'component_name'    => bp_notifications_get_registered_components(),
+				'component_action'  => false,
+				'is_new'            => true,
+				'search_terms'      => '',
+				'order_by'          => 'date_notified',
+				'sort_order'        => 'DESC',
+				'page_arg'          => 'npage',
+				'page'              => 1,
+				'per_page'          => 25,
+				'max'               => null,
+				'meta_query'        => false,
+				'date_query'        => false,
+			)
+		);
 
 		// Sort order direction.
 		$orders = array( 'ASC', 'DESC' );

@@ -108,9 +108,12 @@ class BP_Messages_Sitewide_Notices_Widget extends WP_Widget {
 	 * @param array $instance See {@WP_Widget::form()}.
 	 */
 	public function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array(
-			'title' => '',
-		) );
+		$instance = bp_parse_args(
+			(array) $instance,
+			array(
+				'title' => '',
+			)
+		);
 
 		$title = strip_tags( $instance['title'] ); ?>
 

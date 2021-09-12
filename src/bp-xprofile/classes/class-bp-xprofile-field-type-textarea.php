@@ -74,11 +74,13 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 		do_action( bp_get_the_profile_field_errors_action() );
 
 		if ( ! $richtext_enabled ) {
-			$r = wp_parse_args( $raw_properties, array(
-				'cols' => 40,
-				'rows' => 5,
-			) );
-
+			$r = bp_parse_args(
+				$raw_properties,
+				array(
+					'cols' => 40,
+					'rows' => 5,
+				)
+			);
 			?>
 
 			<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-1" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-3"><?php bp_the_profile_field_edit_value(); ?></textarea>
@@ -137,10 +139,14 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 
 		if ( ! $richtext_enabled ) {
 
-			$r = bp_parse_args( $raw_properties, array(
-				'cols' => 40,
-				'rows' => 5,
-			) ); ?>
+			$r = bp_parse_args(
+				$raw_properties,
+				array(
+					'cols' => 40,
+					'rows' => 5,
+				)
+			);
+			?>
 
 			<textarea <?php echo $this->get_edit_field_html_elements( $r ); ?>></textarea>
 

@@ -170,7 +170,7 @@ class BP_Messages_Thread {
 			bp_loggedin_user_id();
 
 		// Merge $args with our defaults.
-		$r = wp_parse_args(
+		$r = bp_parse_args(
 			$args,
 			array(
 				'user_id'             => $user_id,
@@ -283,7 +283,7 @@ class BP_Messages_Thread {
 		}
 
 		$bp = buddypress();
-		$r  = wp_parse_args(
+		$r  = bp_parse_args(
 			$args,
 			array(
 				'recipients_page'     => null,
@@ -364,7 +364,7 @@ class BP_Messages_Thread {
 		}
 
 		$bp = buddypress();
-		$r  = wp_parse_args(
+		$r  = bp_parse_args(
 			$args,
 			array(
 				'page'     => null,
@@ -592,15 +592,18 @@ class BP_Messages_Thread {
 			$args = bp_core_parse_args_array( $old_args_keys, $function_args );
 		}
 
-		$r = bp_parse_args( $args, array(
-			'user_id'      => false,
-			'box'          => 'inbox',
-			'type'         => 'all',
-			'limit'        => null,
-			'page'         => null,
-			'search_terms' => '',
-			'meta_query'   => array()
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'user_id'      => false,
+				'box'          => 'inbox',
+				'type'         => 'all',
+				'limit'        => null,
+				'page'         => null,
+				'search_terms' => '',
+				'meta_query'   => array(),
+			)
+		);
 
 		$pag_sql = $type_sql = $search_sql = $user_id_sql = $sender_sql = '';
 		$meta_query_sql = array(

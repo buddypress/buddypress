@@ -700,7 +700,9 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 
 	// Set up the cookies passed on this AJAX request. Store a local var to avoid conflicts.
 	if ( ! empty( $_POST['cookie'] ) ) {
-		$_BP_COOKIE = wp_parse_args( str_replace( '; ', '&', urldecode( $_POST['cookie'] ) ) );
+		$_BP_COOKIE = bp_parse_args(
+			str_replace( '; ', '&', urldecode( $_POST['cookie'] ) )
+		);
 	} else {
 		$_BP_COOKIE = &$_COOKIE;
 	}

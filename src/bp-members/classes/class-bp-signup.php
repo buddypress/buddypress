@@ -730,7 +730,10 @@ class BP_Signup {
 
 		// Figure out which meta keys should be updated.
 		$signup       = new BP_Signup( $signup_id );
-		$blended_meta = wp_parse_args( $r['meta'], $signup->meta );
+		$blended_meta = bp_parse_args(
+			$r['meta'],
+			$signup->meta
+		);
 
 		$wpdb->update(
 			// Signups table.

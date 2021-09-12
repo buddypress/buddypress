@@ -413,27 +413,30 @@ class BP_Activity_Activity {
 		}
 
 		$bp = buddypress();
-		$r  = wp_parse_args( $args, array(
-			'page'              => 1,               // The current page.
-			'per_page'          => 25,              // Activity items per page.
-			'max'               => false,           // Max number of items to return.
-			'fields'            => 'all',           // Fields to include.
-			'sort'              => 'DESC',          // ASC or DESC.
-			'order_by'          => 'date_recorded', // Column to order by.
-			'exclude'           => false,           // Array of ids to exclude.
-			'in'                => false,           // Array of ids to limit query by (IN).
-			'meta_query'        => false,           // Filter by activitymeta.
-			'date_query'        => false,           // Filter by date.
-			'filter_query'      => false,           // Advanced filtering - see BP_Activity_Query.
-			'filter'            => false,           // See self::get_filter_sql().
-			'scope'             => false,           // Preset activity arguments.
-			'search_terms'      => false,           // Terms to search by.
-			'display_comments'  => false,           // Whether to include activity comments.
-			'show_hidden'       => false,           // Show items marked hide_sitewide.
-			'spam'              => 'ham_only',      // Spam status.
-			'update_meta_cache' => true,            // Whether or not to update meta cache.
-			'count_total'       => false,           // Whether or not to use count_total.
-		) );
+		$r  = bp_parse_args(
+			$args,
+			array(
+				'page'              => 1,               // The current page.
+				'per_page'          => 25,              // Activity items per page.
+				'max'               => false,           // Max number of items to return.
+				'fields'            => 'all',           // Fields to include.
+				'sort'              => 'DESC',          // ASC or DESC.
+				'order_by'          => 'date_recorded', // Column to order by.
+				'exclude'           => false,           // Array of ids to exclude.
+				'in'                => false,           // Array of ids to limit query by (IN).
+				'meta_query'        => false,           // Filter by activitymeta.
+				'date_query'        => false,           // Filter by date.
+				'filter_query'      => false,           // Advanced filtering - see BP_Activity_Query.
+				'filter'            => false,           // See self::get_filter_sql().
+				'scope'             => false,           // Preset activity arguments.
+				'search_terms'      => false,           // Terms to search by.
+				'display_comments'  => false,           // Whether to include activity comments.
+				'show_hidden'       => false,           // Show items marked hide_sitewide.
+				'spam'              => 'ham_only',      // Spam status.
+				'update_meta_cache' => true,            // Whether or not to update meta cache.
+				'count_total'       => false,           // Whether or not to use count_total.
+			)
+		);
 
 		// Select conditions.
 		$select_sql = "SELECT DISTINCT a.id";
@@ -1257,19 +1260,22 @@ class BP_Activity_Activity {
 		global $wpdb;
 
 		$bp = buddypress();
-		$r  = wp_parse_args( $args, array(
-			'id'                => false,
-			'action'            => false,
-			'content'           => false,
-			'component'         => false,
-			'type'              => false,
-			'primary_link'      => false,
-			'user_id'           => false,
-			'item_id'           => false,
-			'secondary_item_id' => false,
-			'date_recorded'     => false,
-			'hide_sitewide'     => false
-		) );
+		$r  = bp_parse_args(
+			$args,
+			array(
+				'id'                => false,
+				'action'            => false,
+				'content'           => false,
+				'component'         => false,
+				'type'              => false,
+				'primary_link'      => false,
+				'user_id'           => false,
+				'item_id'           => false,
+				'secondary_item_id' => false,
+				'date_recorded'     => false,
+				'hide_sitewide'     => false,
+			)
+		);
 
 		// Setup empty array from where query arguments.
 		$where_args = array();

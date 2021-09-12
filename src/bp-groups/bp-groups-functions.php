@@ -48,11 +48,15 @@ function groups_get_group( $group_id ) {
 	 * Old-style arguments take the form of an array or a query string.
 	 */
 	if ( ! is_numeric( $group_id ) ) {
-		$r = bp_parse_args( $group_id, array(
-			'group_id'        => false,
-			'load_users'      => false,
-			'populate_extras' => false,
-		), 'groups_get_group' );
+		$r = bp_parse_args(
+			$group_id,
+			array(
+				'group_id'        => false,
+				'load_users'      => false,
+				'populate_extras' => false,
+			),
+			'groups_get_group'
+		);
 
 		$group_id = $r['group_id'];
 	}
@@ -175,17 +179,21 @@ function bp_get_group( $group = false ) {
  */
 function groups_create_group( $args = '' ) {
 
-	$args = bp_parse_args( $args, array(
-		'group_id'     => 0,
-		'creator_id'   => 0,
-		'name'         => '',
-		'description'  => '',
-		'slug'         => '',
-		'status'       => null,
-		'parent_id'    => null,
-		'enable_forum' => null,
-		'date_created' => null
-	), 'groups_create_group' );
+	$args = bp_parse_args(
+		$args,
+		array(
+			'group_id'     => 0,
+			'creator_id'   => 0,
+			'name'         => '',
+			'description'  => '',
+			'slug'         => '',
+			'status'       => null,
+			'parent_id'    => null,
+			'enable_forum' => null,
+			'date_created' => null,
+		),
+		'groups_create_group'
+	);
 
 	extract( $args, EXTR_SKIP );
 
@@ -333,13 +341,17 @@ function groups_edit_base_group_details( $args = array() ) {
 		$args = bp_core_parse_args_array( $old_args_keys, $function_args );
 	}
 
-	$r = bp_parse_args( $args, array(
-		'group_id'       => bp_get_current_group_id(),
-		'name'           => null,
-		'slug'           => null,
-		'description'    => null,
-		'notify_members' => false,
-	), 'groups_edit_base_group_details' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'group_id'       => bp_get_current_group_id(),
+			'name'           => null,
+			'slug'           => null,
+			'description'    => null,
+			'notify_members' => false,
+		),
+		'groups_edit_base_group_details'
+	);
 
 	if ( ! $r['group_id'] ) {
 		return false;
@@ -815,17 +827,21 @@ function groups_get_group_members( $args = array() ) {
 		$args = bp_core_parse_args_array( $old_args_keys, $function_args );
 	}
 
-	$r = bp_parse_args( $args, array(
-		'group_id'            => bp_get_current_group_id(),
-		'per_page'            => false,
-		'page'                => false,
-		'exclude_admins_mods' => true,
-		'exclude_banned'      => true,
-		'exclude'             => false,
-		'group_role'          => array(),
-		'search_terms'        => false,
-		'type'                => 'last_joined',
-	), 'groups_get_group_members' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'group_id'            => bp_get_current_group_id(),
+			'per_page'            => false,
+			'page'                => false,
+			'exclude_admins_mods' => true,
+			'exclude_banned'      => true,
+			'exclude'             => false,
+			'group_role'          => array(),
+			'search_terms'        => false,
+			'type'                => 'last_joined',
+		),
+		'groups_get_group_members'
+	);
 
 	// For legacy users. Use of BP_Groups_Member::get_all_for_group() is deprecated.
 	if ( apply_filters( 'bp_use_legacy_group_member_query', false, __FUNCTION__, $function_args ) ) {
@@ -909,31 +925,33 @@ function groups_get_total_member_count( $group, $skip_cache = false ) {
  */
 function groups_get_groups( $args = '' ) {
 
-	$defaults = array(
-		'type'               => false,          // Active, newest, alphabetical, random, popular.
-		'order'              => 'DESC',         // 'ASC' or 'DESC'
-		'orderby'            => 'date_created', // date_created, last_activity, total_member_count, name, random, meta_id.
-		'user_id'            => false,          // Pass a user_id to limit to only groups that this user is a member of.
-		'include'            => false,          // Only include these specific groups (group_ids).
-		'exclude'            => false,          // Do not include these specific groups (group_ids).
-		'parent_id'          => null,           // Get groups that are children of the specified group(s).
-		'slug'               => array(),        // Find a group or groups by slug.
-		'search_terms'       => false,          // Limit to groups that match these search terms.
-		'search_columns'     => array(),        // Select which columns to search.
-		'group_type'         => '',             // Array or comma-separated list of group types to limit results to.
-		'group_type__in'     => '',             // Array or comma-separated list of group types to limit results to.
-		'group_type__not_in' => '',             // Array or comma-separated list of group types that will be excluded from results.
-		'meta_query'         => false,          // Filter by groupmeta. See WP_Meta_Query for syntax.
-		'show_hidden'        => false,          // Show hidden groups to non-admins.
-		'status'             => array(),        // Array or comma-separated list of group statuses to limit results to.
-		'per_page'           => 20,             // The number of results to return per page.
-		'page'               => 1,              // The page to return if limiting per page.
-		'update_meta_cache'  => true,           // Pre-fetch groupmeta for queried groups.
-		'update_admin_cache' => false,
-		'fields'             => 'all',          // Return BP_Groups_Group objects or a list of ids.
+	$r = bp_parse_args(
+		$args,
+		array(
+			'type'               => false,          // Active, newest, alphabetical, random, popular.
+			'order'              => 'DESC',         // 'ASC' or 'DESC'
+			'orderby'            => 'date_created', // date_created, last_activity, total_member_count, name, random, meta_id.
+			'user_id'            => false,          // Pass a user_id to limit to only groups that this user is a member of.
+			'include'            => false,          // Only include these specific groups (group_ids).
+			'exclude'            => false,          // Do not include these specific groups (group_ids).
+			'parent_id'          => null,           // Get groups that are children of the specified group(s).
+			'slug'               => array(),        // Find a group or groups by slug.
+			'search_terms'       => false,          // Limit to groups that match these search terms.
+			'search_columns'     => array(),        // Select which columns to search.
+			'group_type'         => '',             // Array or comma-separated list of group types to limit results to.
+			'group_type__in'     => '',             // Array or comma-separated list of group types to limit results to.
+			'group_type__not_in' => '',             // Array or comma-separated list of group types that will be excluded from results.
+			'meta_query'         => false,          // Filter by groupmeta. See WP_Meta_Query for syntax.
+			'show_hidden'        => false,          // Show hidden groups to non-admins.
+			'status'             => array(),        // Array or comma-separated list of group statuses to limit results to.
+			'per_page'           => 20,             // The number of results to return per page.
+			'page'               => 1,              // The page to return if limiting per page.
+			'update_meta_cache'  => true,           // Pre-fetch groupmeta for queried groups.
+			'update_admin_cache' => false,
+			'fields'             => 'all',          // Return BP_Groups_Group objects or a list of ids.
+		),
+		'groups_get_groups'
 	);
-
-	$r = bp_parse_args( $args, $defaults, 'groups_get_groups' );
 
 	$groups = BP_Groups_Group::get( array(
 		'type'               => $r['type'],
@@ -1051,15 +1069,19 @@ function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
  * @return array Array of matching group memberships, keyed by group ID.
  */
 function bp_get_user_groups( $user_id, $args = array() ) {
-	$r = bp_parse_args( $args, array(
-		'is_confirmed' => true,
-		'is_banned'    => false,
-		'is_admin'     => false,
-		'is_mod'       => false,
-		'invite_sent'  => null,
-		'orderby'      => 'group_id',
-		'order'        => 'ASC',
-	), 'get_user_groups' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'is_confirmed' => true,
+			'is_banned'    => false,
+			'is_admin'     => false,
+			'is_mod'       => false,
+			'invite_sent'  => null,
+			'orderby'      => 'group_id',
+			'order'        => 'ASC',
+		),
+		'get_user_groups'
+	);
 
 	$user_id = intval( $user_id );
 
@@ -1593,14 +1615,18 @@ function groups_get_invite_count_for_user( $user_id = 0 ) {
  */
 function groups_invite_user( $args = '' ) {
 
-	$r = bp_parse_args( $args, array(
-		'user_id'       => false,
-		'group_id'      => false,
-		'inviter_id'    => bp_loggedin_user_id(),
-		'date_modified' => bp_core_current_time(),
-		'content'       => '',
-		'send_invite'   => 0
-	), 'groups_invite_user' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'user_id'       => false,
+			'group_id'      => false,
+			'inviter_id'    => bp_loggedin_user_id(),
+			'date_modified' => bp_core_current_time(),
+			'content'       => '',
+			'send_invite'   => 0,
+		),
+		'groups_invite_user'
+	);
 
 	$inv_args = array(
 		'user_id'       => $r['user_id'],
@@ -1608,7 +1634,7 @@ function groups_invite_user( $args = '' ) {
 		'inviter_id'    => $r['inviter_id'],
 		'date_modified' => $r['date_modified'],
 		'content'       => $r['content'],
-		'send_invite'   => $r['send_invite']
+		'send_invite'   => $r['send_invite'],
 	);
 
 	// Create the unsent invitataion.
@@ -1797,14 +1823,17 @@ function groups_send_invites( ...$args ) {
 		$args = reset( $args );
 	}
 
-	$r = bp_parse_args( $args, array(
-		'user_id'       => false,
-		'invitee_email' => '',
-		'group_id'      => 0,
-		'inviter_id'    => bp_loggedin_user_id(),
-		'force_resend'  => false,
-	), 'groups_send_invitation' );
-
+	$r = bp_parse_args(
+		$args,
+		array(
+			'user_id'       => false,
+			'invitee_email' => '',
+			'group_id'      => 0,
+			'inviter_id'    => bp_loggedin_user_id(),
+			'force_resend'  => false,
+		),
+		'groups_send_invitation'
+	);
 
 	$args = array(
 		'user_id'       => $r['user_id'],
@@ -2138,12 +2167,16 @@ function groups_send_membership_request( ...$args ) {
 		$args = reset( $args );
 	}
 
-	$r = bp_parse_args( $args, array(
-		'user_id'       => false,
-		'group_id'      => false,
-		'content'       => '',
-		'date_modified' => bp_core_current_time(),
-	), 'groups_send_membership_request' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'user_id'       => false,
+			'group_id'      => false,
+			'content'       => '',
+			'date_modified' => bp_core_current_time(),
+		),
+		'groups_send_membership_request'
+	);
 
 	$inv_args = array(
 		'user_id'       => $r['user_id'],
@@ -2824,16 +2857,20 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
 		return new WP_Error( 'bp_group_type_exists', __( 'Group type already exists.', 'buddypress' ), $group_type );
 	}
 
-	$r = bp_parse_args( $args, array(
-		'has_directory'         => false,
-		'show_in_create_screen' => false,
-		'show_in_list'          => null,
-		'description'           => '',
-		'create_screen_checked' => false,
-		'labels'                => array(),
-		'code'                  => true,
-		'db_id'                 => 0,
-	), 'register_group_type' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'has_directory'         => false,
+			'show_in_create_screen' => false,
+			'show_in_list'          => null,
+			'description'           => '',
+			'create_screen_checked' => false,
+			'labels'                => array(),
+			'code'                  => true,
+			'db_id'                 => 0,
+		),
+		'register_group_type'
+	);
 
 	$group_type = sanitize_key( $group_type );
 

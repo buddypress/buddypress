@@ -150,15 +150,16 @@ class BP_Blogs_Recent_Posts_Widget extends WP_Widget {
 	 * Output the networkwide posts widget options form.
 	 *
 	 * @param array $instance Settings for this widget.
-	 *
-	 * @return void
 	 */
 	public function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array(
-			'title'      => __( 'Recent Networkwide Posts', 'buddypress' ),
-			'max_posts'  => 10,
-			'link_title' => false,
-		) );
+		$instance = bp_parse_args(
+			(array) $instance,
+			array(
+				'title'      => __( 'Recent Networkwide Posts', 'buddypress' ),
+				'max_posts'  => 10,
+				'link_title' => false,
+			)
+		);
 
 		$max_limit = bp_get_widget_max_count_limit( __CLASS__ );
 

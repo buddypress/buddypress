@@ -880,14 +880,18 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	// Backward compatibility. The third argument used to be a boolean $filter_shortcodes.
 	$filter_shortcodes_default = is_bool( $options ) ? $options : true;
 
-	$r = bp_parse_args( $options, array(
-		'ending'            => __( ' [&hellip;]', 'buddypress' ),
-		'exact'             => false,
-		'html'              => true,
-		'filter_shortcodes' => $filter_shortcodes_default,
-		'strip_tags'        => false,
-		'remove_links'      => false,
-	), 'create_excerpt' );
+	$r = bp_parse_args(
+		$options,
+		array(
+			'ending'            => __( ' [&hellip;]', 'buddypress' ),
+			'exact'             => false,
+			'html'              => true,
+			'filter_shortcodes' => $filter_shortcodes_default,
+			'strip_tags'        => false,
+			'remove_links'      => false,
+		),
+		'create_excerpt'
+	);
 
 	// Save the original text, to be passed along to the filter.
 	$original_text = $text;
@@ -1214,12 +1218,16 @@ function bp_registration_needs_activation() {
  */
 function bp_get_email_subject( $args = array() ) {
 
-	$r = bp_parse_args( $args, array(
-		'before'  => '[',
-		'after'   => ']',
-		'default' => __( 'Community', 'buddypress' ),
-		'text'    => ''
-	), 'get_email_subject' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'before'  => '[',
+			'after'   => ']',
+			'default' => __( 'Community', 'buddypress' ),
+			'text'    => '',
+		),
+		'get_email_subject'
+	);
 
 	$subject = $r['before'] . wp_specialchars_decode( bp_get_option( 'blogname', $r['default'] ), ENT_QUOTES ) . $r['after'] . ' ' . $r['text'];
 
@@ -3671,7 +3679,11 @@ function bp_nav_menu( $args = array() ) {
 		'menu_id'         => '',
 		'walker'          => '',
 	);
-	$args = wp_parse_args( $args, $defaults );
+
+	$args = bp_parse_args(
+		$args,
+		$defaults
+	);
 
 	/**
 	 * Filters the parsed bp_nav_menu arguments.

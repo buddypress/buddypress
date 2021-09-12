@@ -199,15 +199,18 @@ function bp_get_non_cached_ids( $item_ids, $cache_group ) {
 function bp_update_meta_cache( $args = array() ) {
 	global $wpdb;
 
-	$defaults = array(
-		'object_ids' 	   => array(), // Comma-separated list or array of item ids.
-		'object_type' 	   => '',      // Canonical component id: groups, members, etc.
-		'cache_group'      => '',      // Cache group.
-		'meta_table' 	   => '',      // Name of the table containing the metadata.
-		'object_column'    => '',      // DB column for the object ids (group_id, etc).
-		'cache_key_prefix' => ''       // Prefix to use when creating cache key names. Eg 'bp_groups_groupmeta'.
+	$r = bp_parse_args(
+		$args,
+		array(
+			'object_ids' 	   => array(), // Comma-separated list or array of item ids.
+			'object_type' 	   => '',      // Canonical component id: groups, members, etc.
+			'cache_group'      => '',      // Cache group.
+			'meta_table' 	   => '',      // Name of the table containing the metadata.
+			'object_column'    => '',      // DB column for the object ids (group_id, etc).
+			'cache_key_prefix' => '',      // Prefix to use when creating cache key names. Eg 'bp_groups_groupmeta'.
+		)
 	);
-	$r = wp_parse_args( $args, $defaults );
+
 	extract( $r );
 
 	if ( empty( $object_ids ) || empty( $object_type ) || empty( $meta_table ) || empty( $cache_group ) ) {

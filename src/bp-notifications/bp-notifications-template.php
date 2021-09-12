@@ -219,26 +219,30 @@ function bp_has_notifications( $args = '' ) {
 	}
 
 	// Parse the args.
-	$r = bp_parse_args( $args, array(
-		'id'                => false,
-		'user_id'           => $user_id,
-		'secondary_item_id' => false,
-		'component_name'    => bp_notifications_get_registered_components(),
-		'component_action'  => $component_action,
-		'is_new'            => $is_new,
-		'search_terms'      => $search_terms,
-		'order_by'          => 'date_notified',
-		'sort_order'        => 'DESC',
-		'meta_query'        => false,
-		'date_query'        => false,
-		'page'              => 1,
-		'per_page'          => 25,
+	$r = bp_parse_args(
+		$args,
+		array(
+			'id'                => false,
+			'user_id'           => $user_id,
+			'secondary_item_id' => false,
+			'component_name'    => bp_notifications_get_registered_components(),
+			'component_action'  => $component_action,
+			'is_new'            => $is_new,
+			'search_terms'      => $search_terms,
+			'order_by'          => 'date_notified',
+			'sort_order'        => 'DESC',
+			'meta_query'        => false,
+			'date_query'        => false,
+			'page'              => 1,
+			'per_page'          => 25,
 
-		// These are additional arguments that are not available in
-		// BP_Notifications_Notification::get().
-		'max'               => false,
-		'page_arg'          => 'npage',
-	), 'has_notifications' );
+			// These are additional arguments that are not available in
+			// BP_Notifications_Notification::get().
+			'max'               => false,
+			'page_arg'          => 'npage',
+		),
+		'has_notifications'
+	);
 
 	// Get the notifications.
 	$query_loop = new BP_Notifications_Template( $r );
@@ -885,15 +889,18 @@ function bp_the_notification_action_links( $args = '' ) {
 		$user_id = isset( $args['user_id'] ) ? $args['user_id'] : bp_displayed_user_id();
 
 		// Parse.
-		$r = wp_parse_args( $args, array(
-			'before' => '',
-			'after'  => '',
-			'sep'    => ' | ',
-			'links'  => array(
-				bp_get_the_notification_mark_link( $user_id ),
-				bp_get_the_notification_delete_link( $user_id )
+		$r = bp_parse_args(
+			$args,
+			array(
+				'before' => '',
+				'after'  => '',
+				'sep'    => ' | ',
+				'links'  => array(
+					bp_get_the_notification_mark_link( $user_id ),
+					bp_get_the_notification_delete_link( $user_id ),
+				),
 			)
-		) );
+		);
 
 		// Build the links.
 		$retval = $r['before'] . implode( $r['sep'], $r['links'] ) . $r['after'];

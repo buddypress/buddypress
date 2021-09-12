@@ -643,7 +643,10 @@ function bp_core_no_access( $args = '' ) {
 		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' )
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args(
+		$args,
+		$defaults
+	);
 
 	/**
 	 * Filters the arguments used for user redirecting when visiting access controlled areas.
@@ -873,9 +876,14 @@ function bp_get_canonical_url( $args = array() ) {
 	$bp = buddypress();
 
 	$defaults = array(
-		'include_query_args' => false // Include URL arguments, eg ?foo=bar&foo2=bar2.
+		'include_query_args' => false, // Include URL arguments, eg ?foo=bar&foo2=bar2.
 	);
-	$r = wp_parse_args( $args, $defaults );
+
+	$r = bp_parse_args(
+		$args,
+		$defaults
+	);
+
 	extract( $r );
 
 	// Special case: when a BuddyPress directory (eg example.com/members)

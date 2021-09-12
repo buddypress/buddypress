@@ -170,14 +170,17 @@ class BP_Core_Recently_Active_Widget extends WP_Widget {
 	 *
 	 * @since 2.3.0
 	 *
-	 *
 	 * @param array $instance Widget instance settings.
 	 * @return array
 	 */
 	public function parse_settings( $instance = array() ) {
-		return bp_parse_args( $instance, array(
-			'title' 	     => __( 'Recently Active Members', 'buddypress' ),
-			'max_members' 	 => 15,
-		), 'recently_active_members_widget_settings' );
+		return bp_parse_args(
+			$instance,
+			array(
+				'title' 	  => __( 'Recently Active Members', 'buddypress' ),
+				'max_members' => 15,
+			),
+			'recently_active_members_widget_settings'
+		);
 	}
 }

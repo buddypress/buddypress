@@ -240,10 +240,13 @@ class BP_Messages_Notice {
 	public static function get_notices( $args = array() ) {
 		global $wpdb;
 
-		$r = wp_parse_args( $args, array(
-			'pag_num'  => 20, // Number of notices per page.
-			'pag_page' => 1   // Page number.
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'pag_num'  => 20, // Number of notices per page.
+				'pag_page' => 1 , // Page number.
+			)
+		);
 
 		$limit_sql = '';
 		if ( (int) $r['pag_num'] >= 0 ) {

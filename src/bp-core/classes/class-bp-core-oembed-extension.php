@@ -367,15 +367,18 @@ abstract class BP_Core_oEmbed_Extension {
 	 * @return array
 	 */
 	protected function get_oembed_response_data( $item, $width ) {
-		$data = wp_parse_args( $item, array(
-			'version'       => '1.0',
-			'provider_name' => get_bloginfo( 'name' ),
-			'provider_url'  => get_home_url(),
-			'author_name'   => get_bloginfo( 'name' ),
-			'author_url'    => get_home_url(),
-			'title'         => ucfirst( $this->slug_endpoint ),
-			'type'          => 'rich',
-		) );
+		$data = bp_parse_args(
+			$item,
+			array(
+				'version'       => '1.0',
+				'provider_name' => get_bloginfo( 'name' ),
+				'provider_url'  => get_home_url(),
+				'author_name'   => get_bloginfo( 'name' ),
+				'author_url'    => get_home_url(),
+				'title'         => ucfirst( $this->slug_endpoint ),
+				'type'          => 'rich',
+			)
+		);
 
 		/** This filter is documented in /wp-includes/embed.php */
 		$min_max_width = apply_filters( 'oembed_min_max_width', array(

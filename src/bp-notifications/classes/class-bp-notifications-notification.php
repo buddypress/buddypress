@@ -616,23 +616,26 @@ class BP_Notifications_Notification {
 	 * @return array
 	 */
 	public static function parse_args( $args = '' ) {
-		return wp_parse_args( $args, array(
-			'id'                => false,
-			'user_id'           => false,
-			'item_id'           => false,
-			'secondary_item_id' => false,
-			'component_name'    => bp_notifications_get_registered_components(),
-			'component_action'  => false,
-			'is_new'            => true,
-			'search_terms'      => '',
-			'order_by'          => false,
-			'sort_order'        => false,
-			'page'              => false,
-			'per_page'          => false,
-			'meta_query'        => false,
-			'date_query'        => false,
-			'update_meta_cache' => true,
-		) );
+		return bp_parse_args(
+			$args,
+			array(
+				'id'                => false,
+				'user_id'           => false,
+				'item_id'           => false,
+				'secondary_item_id' => false,
+				'component_name'    => bp_notifications_get_registered_components(),
+				'component_action'  => false,
+				'is_new'            => true,
+				'search_terms'      => '',
+				'order_by'          => false,
+				'sort_order'        => false,
+				'page'              => false,
+				'per_page'          => false,
+				'meta_query'        => false,
+				'date_query'        => false,
+				'update_meta_cache' => true,
+			)
+		);
 	}
 
 	/**
@@ -1030,13 +1033,16 @@ class BP_Notifications_Notification {
 	 * }
 	 */
 	public static function get_current_notifications_for_user( $args = array() ) {
-		$r = wp_parse_args( $args, array(
-			'user_id'      => bp_loggedin_user_id(),
-			'is_new'       => true,
-			'page'         => 1,
-			'per_page'     => 25,
-			'search_terms' => '',
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'user_id'      => bp_loggedin_user_id(),
+				'is_new'       => true,
+				'page'         => 1,
+				'per_page'     => 25,
+				'search_terms' => '',
+			)
+		);
 
 		$notifications = self::get( $r );
 

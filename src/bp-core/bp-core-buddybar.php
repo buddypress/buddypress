@@ -50,10 +50,13 @@ function bp_core_new_nav_item( $args, $component = 'members' ) {
 		'site_admin_only'         => false, // Can only site admins see this nav item?
 		'position'                => 99,    // Index of where this nav item should be positioned.
 		'screen_function'         => false, // The name of the function to run when clicked.
-		'default_subnav_slug'     => false  // The slug of the default subnav item to select when clicked.
+		'default_subnav_slug'     => false, // The slug of the default subnav item to select when clicked.
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args(
+		$args,
+		$defaults
+	);
 
 	// Validate nav link data.
 	$nav_item = bp_core_create_nav_link( $r, $component );
@@ -130,7 +133,10 @@ function bp_core_create_nav_link( $args = '', $component = 'members' ) {
 		'default_subnav_slug'     => false  // The slug of the default subnav item to select when clicked.
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args(
+		$args,
+		$defaults
+	);
 
 	// If we don't have the required info we need, don't create this nav item.
 	if ( empty( $r['name'] ) || empty( $r['slug'] ) ) {
@@ -217,7 +223,10 @@ function bp_core_register_nav_screen_function( $args = '' ) {
 		'default_subnav_slug'     => false  // The slug of the default subnav item to select when clicked.
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args(
+		$args,
+		$defaults
+	);
 
 	// If we don't have the required info we need, don't register this screen function.
 	if ( empty( $r['slug'] ) ) {
@@ -314,7 +323,10 @@ function bp_core_new_nav_default( $args = '' ) {
 		'subnav_slug'     => false  // The slug of the subnav item to select when clicked.
 	);
 
-	$r = wp_parse_args( $args, $defaults );
+	$r = bp_parse_args(
+		$args,
+		$defaults
+	);
 
 	// This is specific to Members - it's not available in Groups.
 	$parent_nav = $bp->members->nav->get_primary( array( 'slug' => $r['parent_slug'] ), false );
@@ -529,20 +541,23 @@ function bp_core_new_subnav_item( $args, $component = null ) {
 function bp_core_create_subnav_link( $args = '', $component = 'members' ) {
 	$bp = buddypress();
 
-	$r = wp_parse_args( $args, array(
-		'name'              => false, // Display name for the nav item.
-		'slug'              => false, // URL slug for the nav item.
-		'parent_slug'       => false, // URL slug of the parent nav item.
-		'parent_url'        => false, // URL of the parent item.
-		'item_css_id'       => false, // The CSS ID to apply to the HTML of the nav item.
-		'user_has_access'   => true,  // Can the logged in user see this nav item?
-		'no_access_url'     => '',
-		'site_admin_only'   => false, // Can only site admins see this nav item?
-		'position'          => 90,    // Index of where this nav item should be positioned.
-		'screen_function'   => false, // The name of the function to run when clicked.
-		'link'              => '',    // The link for the subnav item; optional, not usually required.
-		'show_in_admin_bar' => false, // Show the Manage link in the current group's "Edit" Admin Bar menu.
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'name'              => false, // Display name for the nav item.
+			'slug'              => false, // URL slug for the nav item.
+			'parent_slug'       => false, // URL slug of the parent nav item.
+			'parent_url'        => false, // URL of the parent item.
+			'item_css_id'       => false, // The CSS ID to apply to the HTML of the nav item.
+			'user_has_access'   => true,  // Can the logged in user see this nav item?
+			'no_access_url'     => '',
+			'site_admin_only'   => false, // Can only site admins see this nav item?
+			'position'          => 90,    // Index of where this nav item should be positioned.
+			'screen_function'   => false, // The name of the function to run when clicked.
+			'link'              => '',    // The link for the subnav item; optional, not usually required.
+			'show_in_admin_bar' => false, // Show the Manage link in the current group's "Edit" Admin Bar menu.
+		)
+	);
 
 	// If we don't have the required info we need, don't create this subnav item.
 	if ( empty( $r['name'] ) || empty( $r['slug'] ) || empty( $r['parent_slug'] ) || empty( $r['parent_url'] ) || empty( $r['screen_function'] ) )
@@ -625,14 +640,17 @@ function bp_core_create_subnav_link( $args = '', $component = 'members' ) {
 function bp_core_register_subnav_screen_function( $args = '', $component = 'members' ) {
 	$bp = buddypress();
 
-	$r = wp_parse_args( $args, array(
-		'slug'              => false, // URL slug for the screen.
-		'parent_slug'       => false, // URL slug of the parent screen.
-		'user_has_access'   => true,  // Can the user visit this screen?
-		'no_access_url'     => '',
-		'site_admin_only'   => false, // Can only site admins visit this screen?
-		'screen_function'   => false, // The name of the function to run when clicked.
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'slug'              => false, // URL slug for the screen.
+			'parent_slug'       => false, // URL slug of the parent screen.
+			'user_has_access'   => true,  // Can the user visit this screen?
+			'no_access_url'     => '',
+			'site_admin_only'   => false, // Can only site admins visit this screen?
+			'screen_function'   => false, // The name of the function to run when clicked.
+		)
+	);
 
 	/*
 	 * Hook the screen function for the added subnav item. But this only needs to

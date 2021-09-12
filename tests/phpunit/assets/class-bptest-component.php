@@ -11,7 +11,7 @@ class BPTest_Component extends BP_Component {
 
 	// Start the `test` component setup process.
 	public function __construct( $args = array() ) {
-		$r = wp_parse_args(
+		$r = bp_parse_args(
 			$args,
 			array(
 				'id'      => 'example',

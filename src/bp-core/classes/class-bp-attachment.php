@@ -81,7 +81,11 @@ abstract class BP_Attachment {
 		 */
 		$this->default_args['original_max_filesize'] = (int) wp_max_upload_size();
 
-		$params = bp_parse_args( $args, $this->default_args, $this->action . '_upload_params' );
+		$params = bp_parse_args(
+			$args,
+			$this->default_args,
+			$this->action . '_upload_params'
+		);
 
 		foreach ( $params as $key => $param ) {
 			if ( 'upload_error_strings' === $key ) {
@@ -443,17 +447,21 @@ abstract class BP_Attachment {
 	public function crop( $args = array() ) {
 		$wp_error = new WP_Error();
 
-		$r = bp_parse_args( $args, array(
-			'original_file' => '',
-			'crop_x'        => 0,
-			'crop_y'        => 0,
-			'crop_w'        => 0,
-			'crop_h'        => 0,
-			'dst_w'         => 0,
-			'dst_h'         => 0,
-			'src_abs'       => false,
-			'dst_file'      => false,
-		), 'bp_attachment_crop_args' );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'original_file' => '',
+				'crop_x'        => 0,
+				'crop_y'        => 0,
+				'crop_w'        => 0,
+				'crop_h'        => 0,
+				'dst_w'         => 0,
+				'dst_h'         => 0,
+				'src_abs'       => false,
+				'dst_file'      => false,
+			),
+			'bp_attachment_crop_args'
+		);
 
 		if ( empty( $r['original_file'] ) || ! file_exists( $r['original_file'] ) ) {
 			$wp_error->add( 'crop_error', __( 'Cropping the file failed: missing source file.', 'buddypress' ) );
@@ -622,15 +630,19 @@ abstract class BP_Attachment {
 			return new WP_Error( 'missing_parameter' );
 		}
 
-		$r = bp_parse_args( $args, array(
-			'file'   => '',
-			'max_w'   => 0,
-			'max_h'   => 0,
-			'crop'    => false,
-			'rotate'  => 0,
-			'quality' => 90,
-			'save'    => true,
-		), 'attachment_' . $attachment_type . '_edit_image' );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'file'    => '',
+				'max_w'   => 0,
+				'max_h'   => 0,
+				'crop'    => false,
+				'rotate'  => 0,
+				'quality' => 90,
+				'save'    => true,
+			),
+			'attachment_' . $attachment_type . '_edit_image'
+		);
 
 		// Make sure we have to edit the image.
 		if ( empty( $r['max_w'] ) && empty( $r['max_h'] ) && empty( $r['rotate'] ) && empty( $r['file'] ) ) {

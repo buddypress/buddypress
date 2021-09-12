@@ -2235,13 +2235,17 @@ function bp_nouveau_filter_options() {
  * @return string HTML.
  */
 function bp_nouveau_get_customizer_link( $args = array() ) {
-	$r = bp_parse_args( $args, array(
-		'capability' => 'bp_moderate',
-		'object'     => 'user',
-		'item_id'    => 0,
-		'autofocus'  => '',
-		'text'       => '',
-	), 'nouveau_get_customizer_link' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'capability' => 'bp_moderate',
+			'object'     => 'user',
+			'item_id'    => 0,
+			'autofocus'  => '',
+			'text'       => '',
+		),
+		'nouveau_get_customizer_link'
+	);
 
 	if ( empty( $r['capability'] ) || empty( $r['autofocus'] ) || empty( $r['text'] ) ) {
 		return '';

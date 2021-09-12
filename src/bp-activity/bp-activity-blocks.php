@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string           HTML output.
  */
 function bp_activity_render_latest_activities_block( $attributes = array() ) {
-	$block_args = wp_parse_args(
+	$block_args = bp_parse_args(
 		$attributes,
 		array(
 			'title'         => __( 'Latest updates', 'buddypress' ),

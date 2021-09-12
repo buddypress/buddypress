@@ -727,13 +727,17 @@ add_action( 'bp_members_admin_user_stats', 'bp_friends_profile_stats', 7, 1 );
 function bp_friends_get_profile_stats( $args = '' ) {
 
 	// Parse the args.
-	$r = bp_parse_args( $args, array(
-		'before'  => '<li class="bp-friends-profile-stats">',
-		'after'   => '</li>',
-		'user_id' => bp_displayed_user_id(),
-		'friends' => 0,
-		'output'  => ''
-	), 'friends_get_profile_stats' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'before'  => '<li class="bp-friends-profile-stats">',
+			'after'   => '</li>',
+			'user_id' => bp_displayed_user_id(),
+			'friends' => 0,
+			'output'  => '',
+		),
+		'friends_get_profile_stats'
+	);
 
 	// Allow completely overloaded output.
 	if ( empty( $r['output'] ) ) {

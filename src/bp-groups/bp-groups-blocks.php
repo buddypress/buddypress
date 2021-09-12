@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function bp_groups_render_group_block( $attributes = array() ) {
 	$bp = buddypress();
 
-	$block_args = wp_parse_args(
+	$block_args = bp_parse_args(
 		$attributes,
 		array(
 			'itemID'              => 0,
@@ -190,7 +190,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
 function bp_groups_render_groups_block( $attributes = array() ) {
 	$bp = buddypress();
 
-	$block_args = wp_parse_args(
+	$block_args = bp_parse_args(
 		$attributes,
 		array(
 			'itemIDs'          => array(),
@@ -345,7 +345,7 @@ function bp_groups_blocks_add_script_data() {
  * @return string           HTML output.
  */
 function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
-	$block_args = wp_parse_args(
+	$block_args = bp_parse_args(
 		$attributes,
 		array(
 			'title'        => __( 'Groups', 'buddypress' ),

@@ -109,24 +109,28 @@ add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
 function bp_core_get_users( $args = '' ) {
 
 	// Parse the user query arguments.
-	$r = bp_parse_args( $args, array(
-		'type'                => 'active',     // Active, newest, alphabetical, random or popular.
-		'user_id'             => false,        // Pass a user_id to limit to only friend connections for this user.
-		'exclude'             => false,        // Users to exclude from results.
-		'search_terms'        => false,        // Limit to users that match these search terms.
-		'meta_key'            => false,        // Limit to users who have this piece of usermeta.
-		'meta_value'          => false,        // With meta_key, limit to users where usermeta matches this value.
-		'member_type'         => '',
-		'member_type__in'     => '',
-		'member_type__not_in' => '',
-		'include'             => false,        // Pass comma separated list of user_ids to limit to only these users.
-		'user_ids'            => false,
-		'per_page'            => 20,           // The number of results to return per page.
-		'page'                => 1,            // The page to return if limiting per page.
-		'populate_extras'     => true,         // Fetch the last active, where the user is a friend, total friend count, latest update.
-		'xprofile_query'      => false,
-		'count_total'         => 'count_query' // What kind of total user count to do, if any. 'count_query', 'sql_calc_found_rows', or false.
-	), 'core_get_users' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'type'                => 'active',     // Active, newest, alphabetical, random or popular.
+			'user_id'             => false,        // Pass a user_id to limit to only friend connections for this user.
+			'exclude'             => false,        // Users to exclude from results.
+			'search_terms'        => false,        // Limit to users that match these search terms.
+			'meta_key'            => false,        // Limit to users who have this piece of usermeta.
+			'meta_value'          => false,        // With meta_key, limit to users where usermeta matches this value.
+			'member_type'         => '',
+			'member_type__in'     => '',
+			'member_type__not_in' => '',
+			'include'             => false,        // Pass comma separated list of user_ids to limit to only these users.
+			'user_ids'            => false,
+			'per_page'            => 20,           // The number of results to return per page.
+			'page'                => 1,            // The page to return if limiting per page.
+			'populate_extras'     => true,         // Fetch the last active, where the user is a friend, total friend count, latest update.
+			'xprofile_query'      => false,
+			'count_total'         => 'count_query', // What kind of total user count to do, if any. 'count_query', 'sql_calc_found_rows', or false.
+		),
+		'core_get_users'
+	);
 
 	/**
 	 * For legacy users. Use of BP_Core_User::get_users() is deprecated.
@@ -2846,13 +2850,17 @@ function bp_register_member_type( $member_type, $args = array() ) {
 		return new WP_Error( 'bp_member_type_exists', __( 'Member type already exists.', 'buddypress' ), $member_type );
 	}
 
-	$r = bp_parse_args( $args, array(
-		'labels'        => array(),
-		'has_directory' => true,
-		'show_in_list'  => false,
-		'code'          => true,
-		'db_id'         => 0,
-	), 'register_member_type' );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'labels'        => array(),
+			'has_directory' => true,
+			'show_in_list'  => false,
+			'code'          => true,
+			'db_id'         => 0,
+		),
+		'register_member_type'
+	);
 
 	$member_type = sanitize_key( $member_type );
 
