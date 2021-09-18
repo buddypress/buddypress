@@ -1760,7 +1760,7 @@ class BP_XProfile_Field {
 		?>
 
 		<div class="postbox" id="field-signup-position-metabox">
-			<h2><label for="default-visibility"><?php esc_html_e( 'Signups', 'buddypress' ); ?></label></h2>
+			<h2><?php esc_html_e( 'Signups', 'buddypress' ); ?></h2>
 			<div class="inside">
 				<div>
 					<ul>
