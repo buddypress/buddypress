@@ -30,6 +30,10 @@ registerBlockType( 'bp/login-form', {
 			type: 'string',
 			default: '',
 		},
+		forgotPwdLink: {
+			type: 'boolean',
+			default: false,
+		},
 	},
 	edit: editLoginForm,
 	transforms: transforms,

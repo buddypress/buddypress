@@ -134,6 +134,7 @@ var _wp = wp,
     Disabled = _wp$components.Disabled,
     PanelBody = _wp$components.PanelBody,
     TextControl = _wp$components.TextControl,
+    ToggleControl = _wp$components.ToggleControl,
     _wp$element = _wp.element,
     Fragment = _wp$element.Fragment,
     createElement = _wp$element.createElement,
@@ -148,7 +149,8 @@ var _bp = bp,
 var editLoginForm = function editLoginForm(_ref) {
   var attributes = _ref.attributes,
       setAttributes = _ref.setAttributes;
-  var title = attributes.title;
+  var title = attributes.title,
+      forgotPwdLink = attributes.forgotPwdLink;
   return createElement(Fragment, null, createElement(InspectorControls, null, createElement(PanelBody, {
     title: __('Settings', 'buddypress'),
     initialOpen: true
@@ -158,6 +160,14 @@ var editLoginForm = function editLoginForm(_ref) {
     onChange: function onChange(text) {
       setAttributes({
         title: text
+      });
+    }
+  }), createElement(ToggleControl, {
+    label: __('Include the link to reset the user password', 'buddypress'),
+    checked: !!forgotPwdLink,
+    onChange: function onChange() {
+      setAttributes({
+        forgotPwdLink: !forgotPwdLink
       });
     }
   }))), createElement(Disabled, null, createElement(ServerSideRender, {
@@ -243,6 +253,10 @@ registerBlockType('bp/login-form', {
     title: {
       type: 'string',
       default: ''
+    },
+    forgotPwdLink: {
+      type: 'boolean',
+      default: false
     }
   },
   edit: _edit.default,

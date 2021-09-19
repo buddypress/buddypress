@@ -9,6 +9,7 @@ const {
 		Disabled,
 		PanelBody,
 		TextControl,
+		ToggleControl,
 	},
 	element: {
 		Fragment,
@@ -29,7 +30,7 @@ const {
 } = bp;
 
 const editLoginForm = ( { attributes, setAttributes } ) => {
-	const { title } = attributes;
+	const { title,forgotPwdLink } = attributes;
 
 	return (
 		<Fragment>
@@ -40,6 +41,13 @@ const editLoginForm = ( { attributes, setAttributes } ) => {
 						value={ title }
 						onChange={ ( text ) => {
 							setAttributes( { title: text } );
+						} }
+					/>
+					<ToggleControl
+						label={ __( 'Include the link to reset the user password', 'buddypress' ) }
+						checked={ !! forgotPwdLink }
+						onChange={ () => {
+							setAttributes( { forgotPwdLink: ! forgotPwdLink } );
 						} }
 					/>
 				</PanelBody>

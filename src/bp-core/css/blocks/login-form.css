@@ -34,3 +34,7 @@
 	margin-left: 1em;
 	vertical-align: super;
 }
+
+#bp-login-widget-form .bp-login-widget-pwd-link {
+	font-size: 80%;
+}

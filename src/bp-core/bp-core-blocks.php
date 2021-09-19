@@ -221,12 +221,22 @@ add_filter( 'widget_block_dynamic_classname', 'bp_widget_block_dynamic_classname
  * @return string         HTML output.
  */
 function bp_blocks_get_login_widget_registration_link( $content = '', $args = array() ) {
-	if ( isset( $args['form_id'] ) && 'bp-login-widget-form' === $args['form_id'] && bp_get_signup_allowed() ) {
-		$content .= sprintf(
-			'<p class="bp-login-widget-register-link"><a href="%1$s">%2$s</a></p>',
-			esc_url( bp_get_signup_page() ),
-			esc_html__( 'Register', 'buddypress' )
-		);
+	if ( isset( $args['form_id'] ) && 'bp-login-widget-form' === $args['form_id'] ) {
+		if ( bp_get_signup_allowed() ) {
+			$content .= sprintf(
+				'<p class="bp-login-widget-register-link"><a href="%1$s">%2$s</a></p>',
+				esc_url( bp_get_signup_page() ),
+				esc_html__( 'Register', 'buddypress' )
+			);
+		}
+
+		if ( isset( $args['include_pwd_link'] ) && true === $args['include_pwd_link'] ) {
+			$content .= sprintf(
+				'<p class="bp-login-widget-pwd-link"><a href="%1$s">%2$s</a></p>',
+				esc_url( wp_lostpassword_url( bp_get_root_domain() ) ),
+				esc_html__( 'Lost your password?', 'buddypress' )
+			);
+		}
 	}
 
 	$action_output = '';
@@ -260,7 +270,8 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 	$block_args = bp_parse_args(
 		$attributes,
 		array(
-			'title' => '',
+			'title'         => '',
+			'forgotPwdLink' => false,
 		)
 	);
 
@@ -338,6 +349,8 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 		}
 	} else {
 		$action_output = '';
+		$pwd_link      = (bool) $block_args['forgotPwdLink'];
+
 		if ( has_action( 'bp_before_login_widget_loggedout' ) ) {
 			ob_start();
 			/**
@@ -357,14 +370,15 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 
 		$widget_content .= wp_login_form(
 			array(
-				'echo'           => false,
-				'form_id'        => 'bp-login-widget-form',
-				'id_username'    => 'bp-login-widget-user-login',
-				'label_username' => __( 'Username', 'buddypress' ),
-				'id_password'    => 'bp-login-widget-user-pass',
-				'label_password' => __( 'Password', 'buddypress' ),
-				'id_remember'    => 'bp-login-widget-rememberme',
-				'id_submit'      => 'bp-login-widget-submit',
+				'echo'             => false,
+				'form_id'          => 'bp-login-widget-form',
+				'id_username'      => 'bp-login-widget-user-login',
+				'label_username'   => __( 'Username', 'buddypress' ),
+				'id_password'      => 'bp-login-widget-user-pass',
+				'label_password'   => __( 'Password', 'buddypress' ),
+				'id_remember'      => 'bp-login-widget-rememberme',
+				'id_submit'        => 'bp-login-widget-submit',
+				'include_pwd_link' => $pwd_link,
 			)
 		);
 
