@@ -247,9 +247,7 @@ function bp_messages_screen_conversation_mark_notifications() {
 	$message_ids = array_intersect( $unread_message_ids, wp_list_pluck( $thread_template->thread->messages, 'id' ) );
 
 	// Mark each notification for each PM message as read.
-	foreach ( $message_ids as $message_id ) {
-		bp_notifications_mark_notifications_by_item_id( bp_loggedin_user_id(), (int) $message_id, buddypress()->messages->id, 'new_message' );
-	}
+	bp_notifications_mark_notifications_by_item_ids( bp_loggedin_user_id(), $message_ids, 'messages', 'new_message', false );
 }
 add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notifications', 10 );
 
@@ -261,15 +259,20 @@ add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notificat
  * @since 3.0.0
  *
  * @param int $thread_id ID of the thread being marked as read.
+ * @param int $user_id   ID of the user who read the thread.
+ * @param int $num_rows  The number of affected rows by the "mark read" update query.
  */
-function bp_messages_mark_notification_on_mark_thread( $thread_id ) {
-	$thread_messages = BP_Messages_Thread::get_messages( $thread_id );
-
-	foreach ( $thread_messages as $thread_message ) {
-		bp_notifications_mark_notifications_by_item_id( bp_loggedin_user_id(), $thread_message->id, buddypress()->messages->id, 'new_message' );
+function bp_messages_mark_notification_on_mark_thread( $thread_id, $user_id = 0, $num_rows = 0 ) {
+	if ( ! $num_rows ) {
+		return;
 	}
+
+	$thread_messages = BP_Messages_Thread::get_messages( $thread_id );
+	$message_ids     = wp_list_pluck( $thread_messages, 'id' );
+
+	bp_notifications_mark_notifications_by_item_ids( $user_id, $message_ids, 'messages', 'new_message', false );
 }
-add_action( 'messages_thread_mark_as_read', 'bp_messages_mark_notification_on_mark_thread' );
+add_action( 'messages_thread_mark_as_read', 'bp_messages_mark_notification_on_mark_thread', 10, 3 );
 
 /**
  * When a message is deleted, delete corresponding notifications.
@@ -277,22 +280,17 @@ add_action( 'messages_thread_mark_as_read', 'bp_messages_mark_notification_on_ma
  * @since 2.0.0
  *
  * @param int   $thread_id   ID of the thread.
- * @param array $message_ids IDs of the messages.
+ * @param int[] $message_ids The list of message IDs to delete.
  */
 function bp_messages_message_delete_notifications( $thread_id, $message_ids ) {
 	// For each recipient, delete notifications corresponding to each message.
 	$thread = new BP_Messages_Thread( $thread_id );
 	foreach ( $thread->get_recipients() as $recipient ) {
-		foreach ( $message_ids as $message_id ) {
-			if ( ! empty( $recipient->user_id ) ) {
-				bp_notifications_delete_notifications_by_item_id(
-					$recipient->user_id,
-					(int) $message_id,
-					buddypress()->messages->id,
-					'new_message'
-				);
-			}
+		if ( ! isset( $recipient->user_id ) || ! $recipient->user_id ) {
+			continue;
 		}
+
+		bp_notifications_delete_notifications_by_item_ids( $recipient->user_id, $message_ids, buddypress()->messages->id, 'new_message' );
 	}
 }
 add_action( 'bp_messages_thread_after_delete', 'bp_messages_message_delete_notifications', 10, 2 );

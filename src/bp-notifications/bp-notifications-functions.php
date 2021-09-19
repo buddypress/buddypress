@@ -385,6 +385,41 @@ function bp_notifications_delete_notifications_by_item_id( $user_id, $item_id, $
 }
 
 /**
+ * Delete notifications by notification ids.
+ *
+ * @since 10.0.0
+ *
+ * @param  int[]     $ids IDs of the associated notifications.
+ * @return int|false      The number of rows updated. False on error.
+ */
+function bp_notifications_delete_notifications_by_ids( $ids ) {
+	return BP_Notifications_Notification::delete_by_id_list( 'id', $ids );
+}
+
+/**
+ * Delete notifications by item ids and user.
+ *
+ * @since 10.0.0
+ *
+ * @param  int       $user_id          ID of the user whose notifications are being deleted.
+ * @param  int[]     $item_ids         IDs of the associated items.
+ * @param  string    $component_name   Name of the associated component.
+ * @param  string    $component_action Name of the associated action.
+ * @return int|false                   The number of rows updated. False on error.
+ */
+function bp_notifications_delete_notifications_by_item_ids( $user_id, $item_ids, $component_name, $component_action ) {
+	return BP_Notifications_Notification::delete_by_id_list(
+		'item_id',
+		$item_ids,
+		array(
+			'user_id'          => $user_id,
+			'component_name'   => $component_name,
+			'component_action' => $component_action
+		)
+	);
+}
+
+/**
  * Delete all notifications by type.
  *
  * Used when clearing out notifications for an entire component.
@@ -580,6 +615,52 @@ function bp_notifications_mark_notifications_from_user( $user_id, $component_nam
 			'item_id'          => $user_id,
 			'component_name'   => $component_name,
 			'component_action' => $component_action,
+		)
+	);
+}
+
+/**
+ * Mark notifications read/unread by item ids and user.
+ *
+ * @since 10.0.0
+ *
+ * @param  int       $user_id          ID of the user whose notifications are being deleted.
+ * @param  int[]     $item_ids         IDs of the associated items.
+ * @param  string    $component_name   Name of the associated component.
+ * @param  string    $component_action Name of the associated action.
+ * @param  int|false $is_new           0 for read, 1 for unread.
+ * @return int|false                   The number of rows updated. False on error.
+ */
+function bp_notifications_mark_notifications_by_item_ids( $user_id, $item_ids, $component_name, $component_action, $is_new = false ) {
+	return BP_Notifications_Notification::update_id_list(
+		'item_id',
+		$item_ids,
+		array(
+			'is_new' => $is_new,
+		),
+		array(
+			'user_id'          => $user_id,
+			'component_name'   => $component_name,
+			'component_action' => $component_action
+		)
+	);
+}
+
+/**
+ * Mark notifications read/unread by notification ids.
+ *
+ * @since 10.0.0
+ *
+ * @param  int[]     $ids     IDs of the associated notification items.
+ * @param  int|false $is_new  0 for read, 1 for unread.
+ * @return int|false          The number of rows updated. False on error.
+ */
+function bp_notifications_mark_notifications_by_ids( $ids, $is_new = false ) {
+	return BP_Notifications_Notification::update_id_list(
+		'id',
+		$ids,
+		array(
+			'is_new' => $is_new,
 		)
 	);
 }

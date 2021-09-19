@@ -911,12 +911,73 @@ class BP_Notifications_Notification {
 	}
 
 	/**
+	 * Update notifications using a list of ids/items_ids.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param string $field The name of the db field of the items to update.
+	 *                      Possible values are `id` or `item_id`.
+	 * @param int[]  $items The list of items to update.
+	 * @param array  $data  Array of notification data to update.
+	 * @param array  $where The WHERE params to use to specify the item IDs to update.
+	 * @return int|false    The number of updated rows. False on error.
+	 */
+	public static function update_id_list( $field, $items = array(), $data = array(), $where = array() ) {
+		global $wpdb;
+		$bp = buddypress();
+
+		$supported_fields = array( 'id', 'item_id' );
+
+		if ( false === in_array( $field, $supported_fields, true ) ) {
+			return false;
+		}
+
+		if ( ! is_array( $items ) || ! is_array( $data ) || ! is_array( $where ) ) {
+			return false;
+		}
+
+		$update_args = self::get_query_clauses( $data );
+		$where_args  = self::get_query_clauses( $where );
+
+		$fields     = array();
+		$conditions = array();
+		$values     = array();
+
+		$_items       = implode( ',', wp_parse_id_list( $items ) );
+		$conditions[] = "{$field} IN ({$_items})";
+
+		foreach ( $update_args['data'] as $field => $value ) {
+			$index  = array_search( $field, array_keys( $update_args['data'] ) );
+			$format = $update_args['format'][ $index ];
+
+			$fields[] = "{$field} = {$format}";
+			$values[] = $value;
+		}
+
+		foreach ( $where_args['data'] as $field => $value ) {
+			$index  = array_search( $field, array_keys( $where_args['data'] ) );
+			$format = $where_args['format'][ $index ];
+
+			$conditions[] = "{$field} = {$format}";
+			$values[]     = $value;
+		}
+
+		$fields     = implode( ', ', $fields );
+		$conditions = implode( ' AND ', $conditions );
+
+		/** This action is documented in bp-notifications/classes/class-bp-notifications-notification.php */
+		do_action( 'bp_notification_before_update', $update_args, $where_args );
+
+		return $wpdb->query( $wpdb->prepare( "UPDATE {$bp->notifications->table_name} SET {$fields} WHERE {$conditions}", $values ) );
+	}
+
+	/**
 	 * Delete notifications.
 	 *
 	 * @since 1.9.0
 	 *
 	 * @see BP_Notifications_Notification::get() for a description of
-	 *      accepted update/where arguments.
+	 *      accepted where arguments.
 	 *
 	 * @param array $args Associative array of columns/values, to determine
 	 *                    which rows should be deleted.  Of the format
@@ -938,6 +999,59 @@ class BP_Notifications_Notification {
 		do_action( 'bp_notification_before_delete', $args );
 
 		return self::_delete( $where['data'], $where['format'] );
+	}
+
+	/**
+	 * Delete notifications using a list of ids/items_ids.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param string $field The name of the db field of the items to delete.
+	 *                      Possible values are `id` or `item_id`.
+	 * @param int[]  $items The list of items to delete.
+	 * @param array  $args  The WHERE arguments to use to specify the item IDs to delete.
+	 * @return int|false    The number of deleted rows. False on error.
+	 */
+	public static function delete_by_id_list( $field, $items = array(), $args = array() ) {
+		global $wpdb;
+		$bp = buddypress();
+
+		$supported_fields = array( 'id', 'item_id' );
+
+		if ( false === in_array( $field, $supported_fields, true ) ) {
+			return false;
+		}
+
+		if ( ! is_array( $items ) || ! is_array( $args ) ) {
+			return false;
+		}
+
+		$where = self::get_query_clauses( $args );
+
+		$conditions = array();
+		$values     = array();
+
+		$_items       = implode( ',', wp_parse_id_list( $items ) );
+		$conditions[] = "{$field} IN ({$_items})";
+
+		foreach ( $where['data'] as $field => $value ) {
+			$index  = array_search( $field, array_keys( $where['data'] ) );
+			$format = $where['format'][ $index ];
+
+			$conditions[] = "{$field} = {$format}";
+			$values[]     = $value;
+		}
+
+		$conditions = implode( ' AND ', $conditions );
+
+		/** This action is documented in bp-notifications/classes/class-bp-notifications-notification.php */
+		do_action( 'bp_notification_before_delete', $args );
+
+		if ( ! $values ) {
+			return $wpdb->query( "DELETE FROM {$bp->notifications->table_name} WHERE {$conditions}" );
+		}
+
+		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->notifications->table_name} WHERE {$conditions}", $values ) );
 	}
 
 	/** Convenience methods ***************************************************/

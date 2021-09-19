@@ -11,7 +11,15 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
+		$this->reset_user_id = get_current_user_id();
+
 		$this->filter_fired = '';
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+
+		$this->set_current_user( $this->reset_user_id );
 	}
 
 	/**
@@ -40,7 +48,6 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 
 	/**
 	 * @group messages_format_notifications
-	 * @group imath
 	 */
 	public function test_friends_format_notifications_bp_messages_single_new_message_notification_nonstring_filter() {
 		// Dummy thread ID
@@ -143,6 +150,111 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 			'user_id' => $u2,
 		) );
 		$this->assertSame( array(), $n2 );
+	}
+
+	/**
+	 * @ticket BP8426
+	 */
+	public function test_bp_messages_mark_notification_on_mark_thread() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$m1 = self::factory()->message->create_and_get( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'Foo',
+		) );
+
+		self::factory()->message->create_many(
+			9,
+			array(
+				'thread_id' => $m1->thread_id,
+				'sender_id' => $u2,
+				'recipients' => array( $u1 ),
+				'subject' => 'Bar',
+			)
+		);
+
+		$unreadn = wp_list_pluck(
+			BP_Notifications_Notification::get(
+				array(
+					'user_id'           => $u1,
+					'component_name'    => buddypress()->messages->id,
+					'component_action'  => 'new_message',
+					'is_new'            => 1,
+				)
+			),
+			'user_id',
+			'id'
+		);
+
+		$this->set_current_user( $u1 );
+
+		// Mark a thread read.
+		bp_messages_mark_notification_on_mark_thread( $m1->thread_id, $u1, count( $unreadn ) );
+
+		$readn = wp_list_pluck(
+			BP_Notifications_Notification::get(
+				array(
+					'user_id'           => $u1,
+					'component_name'    => buddypress()->messages->id,
+					'component_action'  => 'new_message',
+					'is_new'            => 0,
+				)
+			),
+			'user_id',
+			'id'
+		);
+
+		$this->assertSame( $unreadn, $readn );
+	}
+
+	/**
+	 * @ticket BP8426
+	 * @group message_delete_notifications
+	 */
+	public function test_bp_messages_message_delete_notifications() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$m1 = self::factory()->message->create_and_get( array(
+			'sender_id'  => $u1,
+			'recipients' => array( $u2 ),
+			'subject'    => 'Foo',
+		) );
+
+		$message_ids = self::factory()->message->create_many(
+			9,
+			array(
+				'thread_id' => $m1->thread_id,
+				'sender_id' => $u2,
+				'recipients' => array( $u1 ),
+				'subject' => 'Bar',
+			)
+		);
+
+		$message_ids = wp_list_pluck(
+			BP_Notifications_Notification::get(
+				array(
+					'user_id'           => $u1,
+					'component_name'    => buddypress()->messages->id,
+					'component_action'  => 'new_message',
+					'is_new'            => 1,
+				)
+			),
+			'item_id'
+		);
+
+		$test = bp_messages_message_delete_notifications( $m1->thread_id, $message_ids );
+
+		$deleted = BP_Notifications_Notification::get(
+			array(
+				'user_id'           => $u1,
+				'component_name'    => buddypress()->messages->id,
+				'component_action'  => 'new_message',
+				'is_new'            => 1,
+			)
+		);
+
+		$this->assertEmpty( $deleted );
 	}
 
 	public function notification_filter_callback( $value ) {

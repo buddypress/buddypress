@@ -541,4 +541,139 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$found = bp_notifications_get_notifications_for_user( $u, 'object' );
 		$this->assertEqualSets( [ $n1 ], wp_list_pluck( $found, 'id' ) );
 	}
+
+	/**
+	 * @ticket BP8426
+	 */
+	public function test_bp_notifications_mark_notifications_by_ids() {
+		$u = self::factory()->user->create();
+
+		$n = self::factory()->notification->create(
+			array(
+				'component_name'    => 'barfoo',
+				'component_action'  => 'new_bar',
+				'item_id'           => 98,
+				'user_id'           => $u,
+			)
+		);
+
+		for ( $i = 101; $i < 111; ++$i ) {
+			self::factory()->notification->create(
+				array(
+					'component_name'    => 'foobar',
+					'component_action'  => 'new_foo',
+					'item_id'           => $i,
+					'user_id'           => $u,
+				)
+			);
+		}
+
+		$unread = wp_list_pluck(
+			BP_Notifications_Notification::get(
+				array(
+					'user_id'           => $u,
+					'component_name'    => 'foobar',
+					'component_action'  => 'new_foo',
+					'is_new'            => 1,
+				)
+			),
+			'id'
+		);
+
+		bp_notifications_mark_notifications_by_ids( $unread );
+
+		$read = wp_list_pluck(
+			BP_Notifications_Notification::get(
+				array(
+					'user_id'           => $u,
+					'component_name'    => 'foobar',
+					'component_action'  => 'new_foo',
+					'is_new'            => 0,
+				)
+			),
+			'id'
+		);
+
+		$n_get = BP_Notifications_Notification::get(
+			array(
+				'id' => $n,
+				'component_name'    => 'barfoo',
+				'component_action'  => 'new_bar',
+			)
+		);
+
+		$n_obj = reset( $n_get );
+
+		$this->assertEquals( $unread, $read );
+		$this->assertEquals( $n, $n_obj->id );
+		$this->assertTrue( 1 === (int) $n_obj->is_new );
+	}
+
+	/**
+	 * @ticket BP8426
+	 * @group delete_notifications_by_ids
+	 */
+	public function test_bp_notifications_delete_notifications_by_ids() {
+		$u = self::factory()->user->create();
+
+		$n = self::factory()->notification->create(
+			array(
+				'component_name'    => 'barfoo',
+				'component_action'  => 'new_bar',
+				'item_id'           => 98,
+				'user_id'           => $u,
+			)
+		);
+
+		for ( $i = 101; $i < 111; ++$i ) {
+			self::factory()->notification->create(
+				array(
+					'component_name'    => 'foobar',
+					'component_action'  => 'new_foo',
+					'item_id'           => $i,
+					'user_id'           => $u,
+				)
+			);
+		}
+
+		$unread = wp_list_pluck(
+			BP_Notifications_Notification::get(
+				array(
+					'user_id'           => $u,
+					'component_name'    => 'foobar',
+					'component_action'  => 'new_foo',
+					'is_new'            => 1,
+				)
+			),
+			'id'
+		);
+
+		bp_notifications_delete_notifications_by_ids( $unread );
+
+		$deleted = wp_list_pluck(
+			BP_Notifications_Notification::get(
+				array(
+					'user_id'           => $u,
+					'component_name'    => 'foobar',
+					'component_action'  => 'new_foo',
+					'is_new'            => 1,
+				)
+			),
+			'id'
+		);
+
+		$n_get = BP_Notifications_Notification::get(
+			array(
+				'id' => $n,
+				'component_name'    => 'barfoo',
+				'component_action'  => 'new_bar',
+			)
+		);
+
+		$n_obj = reset( $n_get );
+
+		$this->assertEmpty( $deleted );
+		$this->assertEquals( $n, $n_obj->id );
+		$this->assertTrue( 1 === (int) $n_obj->is_new );
+	}
 }

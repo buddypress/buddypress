@@ -766,8 +766,8 @@ class BP_Messages_Thread {
 				bp_loggedin_user_id();
 		}
 
-		$bp     = buddypress();
-		$retval = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", $user_id, $thread_id ) );
+		$bp       = buddypress();
+		$num_rows = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 0 WHERE user_id = %d AND thread_id = %d", $user_id, $thread_id ) );
 
 		wp_cache_delete( 'thread_recipients_' . $thread_id, 'bp_messages' );
 		wp_cache_delete( $user_id, 'bp_messages_unread_count' );
@@ -777,13 +777,15 @@ class BP_Messages_Thread {
 		 *
 		 * @since 2.8.0
 		 * @since 9.0.0 Added the `user_id` parameter.
+		 * @since 10.0.0 Added the `$num_rows` parameter.
 		 *
 		 * @param int $thread_id The message thread ID.
 		 * @param int $user_id   The user the thread will be marked as read.
+		 * @param bool|int $num_rows    Number of threads marked as unread or false on error.
 		 */
-		do_action( 'messages_thread_mark_as_read', $thread_id, $user_id );
+		do_action( 'messages_thread_mark_as_read', $thread_id, $user_id, $num_rows );
 
-		return $retval;
+		return $num_rows;
 	}
 
 	/**
@@ -810,8 +812,8 @@ class BP_Messages_Thread {
 				bp_loggedin_user_id();
 		}
 
-		$bp     = buddypress();
-		$retval = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", $user_id, $thread_id ) );
+		$bp       = buddypress();
+		$num_rows = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->messages->table_name_recipients} SET unread_count = 1 WHERE user_id = %d AND thread_id = %d", $user_id, $thread_id ) );
 
 		wp_cache_delete( 'thread_recipients_' . $thread_id, 'bp_messages' );
 		wp_cache_delete( $user_id, 'bp_messages_unread_count' );
@@ -821,15 +823,15 @@ class BP_Messages_Thread {
 		 *
 		 * @since 2.8.0
 		 * @since 9.0.0  Added the `$user_id` parameter.
-		 * @since 10.0.0 Added the `$retval` parameter.
+		 * @since 10.0.0 Added the `$num_rows` parameter.
 		 *
 		 * @param int      $thread_id The message thread ID.
 		 * @param int      $user_id   The user the thread will be marked as unread.
-		 * @param bool|int $retval     =Number of threads marked as unread or false on error.
+		 * @param bool|int $num_rows  Number of threads marked as unread or false on error.
 		 */
-		do_action( 'messages_thread_mark_as_unread', $thread_id, $user_id, $retval );
+		do_action( 'messages_thread_mark_as_unread', $thread_id, $user_id, $num_rows );
 
-		return $retval;
+		return $num_rows;
 	}
 
 	/**

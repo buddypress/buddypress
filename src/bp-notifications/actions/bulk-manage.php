@@ -12,7 +12,7 @@
  *
  * @since 2.2.0
  *
- * @return bool
+ * @return false|void
  */
 function bp_notifications_action_bulk_manage() {
 
@@ -42,23 +42,17 @@ function bp_notifications_action_bulk_manage() {
 	// Delete, mark as read or unread depending on the user 'action'.
 	switch ( $action ) {
 		case 'delete':
-			foreach ( $notifications as $notification ) {
-				bp_notifications_delete_notification( $notification );
-			}
+			bp_notifications_delete_notifications_by_ids( $notifications );
 			bp_core_add_message( __( 'Notifications deleted.', 'buddypress' ) );
 			break;
 
 		case 'read':
-			foreach ( $notifications as $notification ) {
-				bp_notifications_mark_notification( $notification, false );
-			}
+			bp_notifications_mark_notifications_by_ids( $notifications, false );
 			bp_core_add_message( __( 'Notifications marked as read', 'buddypress' ) );
 			break;
 
 		case 'unread':
-			foreach ( $notifications as $notification ) {
-				bp_notifications_mark_notification( $notification, true );
-			}
+			bp_notifications_mark_notifications_by_ids( $notifications, true );
 			bp_core_add_message( __( 'Notifications marked as unread.', 'buddypress' ) );
 			break;
 	}
