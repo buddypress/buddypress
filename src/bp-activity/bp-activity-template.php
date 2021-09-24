@@ -2677,6 +2677,8 @@ function bp_activity_delete_link() {
 		// Determine if we're on a single activity page, and customize accordingly.
 		if ( bp_is_activity_component() && is_numeric( bp_current_action() ) ) {
 			$class = 'delete-activity-single';
+		} elseif ( 'activity_comment' === bp_get_activity_type() ) {
+			$class = 'acomment-delete';
 		}
 
 		$link = '<a href="' . esc_url( $url ) . '" class="button item-button bp-secondary-action ' . $class . ' confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>';
@@ -2713,11 +2715,18 @@ function bp_activity_delete_url() {
 	function bp_get_activity_delete_url() {
 		global $activities_template;
 
-		$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/delete/' . $activities_template->activity->id );
+		$activity_id = 0;
+		if ( isset( $activities_template->activity->id ) ) {
+			$activity_id = (int) $activities_template->activity->id;
+		}
+
+		$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/delete/' . $activity_id );
 
 		// Determine if we're on a single activity page, and customize accordingly.
 		if ( bp_is_activity_component() && is_numeric( bp_current_action() ) ) {
 			$url = add_query_arg( array( 'redirect_to' => wp_get_referer() ), $url );
+		} elseif ( 'activity_comment' === bp_get_activity_type() ) {
+			$url = add_query_arg( 'cid', $activity_id, $url );
 		}
 
 		$url = wp_nonce_url( $url, 'bp_activity_delete_link' );

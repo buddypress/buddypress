@@ -1,7 +1,7 @@
 /* jshint browser: true */
 /* global BP_Nouveau */
 /* @since 3.0.0 */
-/* @version 8.0.0 */
+/* @version 10.0.0 */
 window.bp = window.bp || {};
 
 ( function( bp, $ ) {
@@ -556,6 +556,11 @@ window.bp = window.bp || {};
 					li_parent = activity_comment_li;
 				}
 
+				// Move the form if needed
+				if ( activity_comment_li.find( 'form' ).length ) {
+					activity_item.find( '.activity-comments' ).append( activity_comment_li.find( 'form' ) );
+				}
+
 				parent.ajax( ajaxData, 'activity' ).done( function( response ) {
 					target.removeClass( 'loading' );
 
@@ -570,14 +575,18 @@ window.bp = window.bp || {};
 
 						if ( activity_comment_id ) {
 							deleted_comments_count = 1;
+							if ( response.data.deleted ) {
+								deleted_comments_count = response.data.deleted.length;
 
-							// Move the form if needed
-							activity_item.append( activity_comment_li.find( 'form' ) );
-
-							// Count child comments if there are some
-							$.each( activity_comment_li.find( 'li' ), function() {
-								deleted_comments_count += 1;
-							} );
+								response.data.deleted.forEach( function( cid ) {
+									$( '[data-bp-activity-comment-id="' + cid + '"]' ).remove();
+								} );
+							} else {
+								// Count child comments if there are some
+								$.each( activity_comment_li.find( 'li' ), function() {
+									deleted_comments_count += 1;
+								} );
+							}
 
 							// Update the button count
 							comment_count_span = activity_item.find( '.acomment-reply span.comment-count' );
@@ -659,6 +668,16 @@ window.bp = window.bp || {};
 
 				// Stop event propagation
 				event.preventDefault();
+
+				if ( ! form.length ) {
+					var viewDiscussionLink = target.closest( 'li.activity' ).find( '.activity-meta a.view' ).prop( 'href' );
+
+					if ( viewDiscussionLink ) {
+						window.location.href = viewDiscussionLink;
+					}
+
+					return false;
+				}
 
 				// If the comment count span inside the link is clicked
 				if ( target.parent().hasClass( 'acomment-reply' ) ) {

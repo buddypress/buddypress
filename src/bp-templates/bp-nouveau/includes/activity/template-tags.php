@@ -3,7 +3,7 @@
  * Activity Template tags
  *
  * @since 3.0.0
- * @version 8.1.0
+ * @version 10.0.0
  */
 
 // Exit if accessed directly.
@@ -144,6 +144,30 @@ function bp_nouveau_activity_hook( $when = '', $suffix = '' ) {
 	}
 
 	bp_nouveau_hook( $hook );
+}
+
+/**
+ * Output the `data-bp-activity-id` or `data-bp-activity-comment-id` attribute
+ * according to the activity type.
+ *
+ * @since 10.0.0
+ */
+function bp_nouveau_activity_data_attribute_id() {
+	$attribute  = 'data-bp-%1$s-id="%2$s"';
+	$type       = 'activity';
+	$id         = (int) bp_get_activity_id();
+	$comment_id = (int) bp_get_activity_comment_id();
+
+	if ( 'activity_comment' === bp_get_activity_type() || $comment_id ) {
+		$type = 'activity-comment';
+
+
+		if ( $comment_id ) {
+			$id = $comment_id;
+		}
+	}
+
+	printf( $attribute, $type, $id );
 }
 
 /**
