@@ -2760,9 +2760,7 @@ body.buddypress.bp-user .buddypress-wrap .member-header-actions * > * {
 
 @media screen and (min-width: 46.8em) {
 	:not(.vertical) + .item-body #group-invites-container {
-		display: -ms-grid;
 		display: grid;
-		-ms-grid-columns: 25% auto;
 		grid-template-columns: 25% auto;
 		grid-template-areas: "group-invites-nav group-invites-column";
 	}

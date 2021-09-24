@@ -54,7 +54,7 @@ module.exports = function( grunt ) {
 			'!bp-members/css/blocks/member-avatar-blocks.css'
 		],
 
-		autoprefixer = require('autoprefixer');
+		sass = require('node-sass');
 
 	require( 'matchdep' ).filterDev( ['grunt-*', '!grunt-legacy-util'] ).forEach( grunt.loadNpmTasks );
 	grunt.util = require( 'grunt-legacy-util' );
@@ -113,6 +113,7 @@ module.exports = function( grunt ) {
 		},
 		sass: {
 			options: {
+				implementation: sass,
 				outputStyle: 'expanded',
 				indentType: 'tab',
 				indentWidth: '1'
@@ -356,10 +357,9 @@ module.exports = function( grunt ) {
 			options: {
 				map: false,
 				processors: [
-					autoprefixer({
-						browsers: ['extends @wordpress/browserslist-config'],
+					require('autoprefixer')( {
 						cascade: false
-					})
+					} )
 				],
 				failOnError: false
 			},

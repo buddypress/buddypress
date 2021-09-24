@@ -65,6 +65,7 @@
 	border: solid 1px #ff853c;
 	color: #ff853c;
 	padding: 0.2em 0.5em;
+	width: -moz-fit-content;
 	width: fit-content;
 	position: absolute;
 	top: 0.5em;

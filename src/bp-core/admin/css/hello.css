@@ -70,6 +70,7 @@ TABLE OF CONTENTS:
 }
 
 div.dashicons {
+	width: -moz-fit-content;
 	width: fit-content;
 }
 

@@ -159,6 +159,7 @@
 .bp-block-groups img.avatar {
 	width: auto;
 	height: auto;
+	max-width: -moz-fit-content;
 	max-width: fit-content;
 }
 

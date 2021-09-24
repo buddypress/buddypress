@@ -26,6 +26,7 @@
 
 #bp-login-widget-form .login-submit,
 #bp-login-widget-form .bp-login-widget-register-link {
+	width: -moz-fit-content;
 	width: fit-content;
 	display: inline;
 }
