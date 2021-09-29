@@ -333,6 +333,11 @@ function bp_nouveau_ajax_get_users_to_invite() {
 					'feedback' => __( 'You have no friends!', 'buddypress' ),
 					'type'     => 'info',
 				);
+			} else {
+				$error = array(
+					'feedback' => __( 'No friends were found. Try another filter.', 'buddypress' ),
+					'type'     => 'info',
+				);
 			}
 		}
 

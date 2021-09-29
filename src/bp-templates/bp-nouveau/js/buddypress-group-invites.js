@@ -126,7 +126,7 @@ window.bp = window.bp || {};
 				scope        : this.scope
 			} );
 
-			// Use it in the filters viex
+			// Use it in the filters view.
 			filters_view = new bp.Views.inviteFilters( { model: this.filters, users: collection } );
 
 			this.views.add( { id: 'filters', view: filters_view } );
@@ -536,7 +536,13 @@ window.bp = window.bp || {};
 		},
 
 		usersFilterError: function( collection, response ) {
-			bp.Nouveau.GroupInvites.displayFeedback( response.feedback, 'error' );
+			var type = 'error';
+
+			if ( response.type ) {
+				type = response.type;
+			}
+
+			bp.Nouveau.GroupInvites.displayFeedback( response.feedback, type );
 		},
 
 		resetSearchTerms: function( event ) {
