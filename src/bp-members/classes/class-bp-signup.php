@@ -453,7 +453,7 @@ class BP_Signup {
 				'user_login'     => '',
 				'user_email'     => '',
 				'registered'     => current_time( 'mysql', true ),
-				'activation_key' => '',
+				'activation_key' => wp_generate_password( 32, false ),
 				'meta'           => array(),
 			),
 			'bp_core_signups_add_args'
