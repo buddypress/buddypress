@@ -2386,6 +2386,27 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key, $sal
 	$to = array( array( $user_email => $salutation ) );
 
 	bp_send_email( 'core-user-registration', $to, $args );
+
+	// Record that the activation email has been sent.
+	$signups = BP_Signup::get(
+		array(
+			'activation_key' => $key,
+		)
+	);
+
+	if ( ! empty( $signups['signups'] ) ) {
+		foreach ( $signups['signups'] as $signup ) {
+			$meta = array(
+				'sent_date'  => current_time( 'mysql', true ),
+				'count_sent' => $signup->count_sent + 1
+			);
+
+			BP_Signup::update( array(
+				'signup_id' => $signup->id,
+				'meta'      => $meta,
+			) );
+		}
+	}
 }
 
 /**

@@ -576,4 +576,22 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		$this->assertTrue( $found2->active );
 
 	}
+
+	public function test_bp_core_signup_send_validation_email_should_increment_sent_count() {
+		$activation_key = wp_generate_password( 32, false );
+		$user_email     = 'accountone@example.com';
+		$s1             = self::factory()->signup->create( array(
+			'user_login'     => 'accountone',
+			'user_email'     => $user_email,
+			'activation_key' => $activation_key
+		) );
+
+		$signup = new BP_Signup( $s1 );
+		$this->assertEquals( 0, $signup->count_sent );
+
+		bp_core_signup_send_validation_email( 0, $user_email, $activation_key );
+
+		$signup = new BP_Signup( $s1 );
+		$this->assertEquals( 1, $signup->count_sent );
+	}
 }
