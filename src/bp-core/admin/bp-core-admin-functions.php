@@ -284,7 +284,7 @@ function bp_core_activation_notice() {
 
 	// Activate and Register are special cases. They are not components but they need WP pages.
 	// If user registration is disabled, we can skip this step.
-	if ( bp_get_signup_allowed() || bp_get_members_invitations_allowed() ) {
+	if ( bp_allow_access_to_registration_pages() ) {
 		$wp_page_components[] = array(
 			'id'   => 'activate',
 			'name' => __( 'Activate', 'buddypress' ),

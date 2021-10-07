@@ -187,7 +187,7 @@ function bp_core_admin_slugs_options() {
 
 		<h3><?php esc_html_e( 'Registration', 'buddypress' ); ?></h3>
 
-		<?php if ( bp_get_signup_allowed() || bp_get_members_invitations_allowed() ) : ?>
+		<?php if ( bp_allow_access_to_registration_pages() ) : ?>
 			<p>
 				<?php esc_html_e( 'Associate WordPress Pages with the following BuddyPress Registration pages.', 'buddypress' ); ?>
 				<?php esc_html_e( 'These pages will only be reachable by users who are not logged in.', 'buddypress' ); ?>
@@ -227,7 +227,7 @@ function bp_core_admin_slugs_options() {
 		<table class="form-table">
 			<tbody>
 
-				<?php if ( bp_get_signup_allowed() || bp_get_members_invitations_allowed() ) : foreach ( $static_pages as $name => $label ) : ?>
+				<?php if ( bp_allow_access_to_registration_pages() ) : foreach ( $static_pages as $name => $label ) : ?>
 
 					<tr valign="top">
 						<th scope="row">

@@ -2926,6 +2926,29 @@ function bp_get_members_invitations_allowed() {
 }
 
 /**
+ * Should the system create and allow access
+ * to the Register and Activate pages?
+ *
+ * @since 10.0.0
+ *
+ * @return bool
+ */
+function bp_allow_access_to_registration_pages() {
+	$retval = bp_get_signup_allowed() || bp_get_members_invitations_allowed();
+
+	/**
+	 * Filters whether or not the system should create and allow access
+	 * to the Register and Activate pages.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param bool $retval Whether or not to allow access to
+	 *                     the Register and Activate pages.
+	 */
+	return apply_filters( 'bp_allow_access_to_registration_pages', $retval );
+}
+
+/**
  * Hook member activity feed to <head>.
  *
  * @since 1.5.0

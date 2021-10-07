@@ -702,7 +702,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 
 	// Register and Activate are not components, but need pages when
 	// registration is enabled.
-	if ( bp_get_signup_allowed() || bp_get_members_invitations_allowed()  ) {
+	if ( bp_allow_access_to_registration_pages() ) {
 		foreach ( array( 'register', 'activate' ) as $slug ) {
 			if ( ! isset( $pages[ $slug ] ) ) {
 				$pages_to_create[ $slug ] = $page_titles[ $slug ];
