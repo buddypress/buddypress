@@ -376,7 +376,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 							if ( is_multisite() && current_user_can( 'manage_network_users') ) {
 								$settings_link = sprintf(
-									' <a href="%1$">%2$s</a>.',
+									' <a href="%1$s">%2$s</a>.',
 									esc_url( network_admin_url( 'settings.php' ) ),
 									esc_html__( 'Edit settings', 'buddypress' )
 								);
