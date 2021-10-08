@@ -258,7 +258,8 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			'fields' => 'ids',
 		) );
 
-		$this->assertEquals( array( $s1, $s3 ), $ss['signups'] );
+		$this->assertContains( $s1, $ss['signups'] );
+		$this->assertContains( $s3, $ss['signups'] );
 	}
 
 	/**
