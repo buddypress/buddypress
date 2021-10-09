@@ -1206,4 +1206,182 @@ Bar!';
 
 		$this->assertSame( 'foo', xprofile_get_field_data( $f1, $u ) );
 	}
+
+	/**
+	 * @ticket BP8568
+	 */
+	public function test_xprofile_sync_wp_profile_signup_with_wp_first_and_last_name_fields() {
+		add_filter( 'bp_disable_profile_sync', '__return_true' );
+
+		$u = self::factory()->user->create_and_get(
+			array(
+				'user_login' => 'foobar',
+				'user_email' => 'foo@bar.email',
+			)
+		);
+
+		$field_fn = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => 1,
+				'type'           => 'wp-textbox',
+				'name'           => 'WP First Name',
+			)
+		);
+
+		// Set the WP User Key.
+		bp_xprofile_update_meta( $field_fn, 'field', 'wp_user_key', 'first_name' );
+
+		$field_ln = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => 1,
+				'type'           => 'wp-textbox',
+				'name'           => 'WP Last Name',
+			)
+		);
+
+		// Set the WP User Key.
+		bp_xprofile_update_meta( $field_ln, 'field', 'wp_user_key', 'last_name' );
+
+		$field_n  = bp_xprofile_fullname_field_id();
+		$usermeta = array(
+			'field_' . $field_n  => 'foobar',
+			'field_' . $field_fn => 'Foo',
+			'field_' . $field_ln => 'Bar',
+			'profile_field_ids'  => $field_n . ',' . $field_fn . ',' . $field_ln,
+		);
+
+		remove_filter( 'bp_disable_profile_sync', '__return_true' );
+
+		// simulates do_action( 'bp_core_signup_user', $user_id, $user_login, $user_password, $user_email, $usermeta );
+		xprofile_sync_wp_profile( $u->ID, $u->user_login, $u->user_pass, $u->user_email, $usermeta );
+
+		$updated_u = get_user_by( 'id', $u->ID );
+
+		$this->assertEquals( 'Foo', $updated_u->first_name );
+		$this->assertEquals( 'Bar', $updated_u->last_name );
+	}
+
+	/**
+	 * @ticket BP8568
+	 */
+	public function test_xprofile_sync_wp_profile_signup_without_wp_first_and_last_name_fields() {
+		add_filter( 'bp_disable_profile_sync', '__return_true' );
+
+		$u = self::factory()->user->create_and_get(
+			array(
+				'user_login' => 'foobar',
+				'user_email' => 'foo@bar.email',
+			)
+		);
+
+		$field_n  = bp_xprofile_fullname_field_id();
+		$usermeta = array(
+			'field_' . $field_n  => 'foobar',
+			'profile_field_ids'  => $field_n,
+		);
+
+		remove_filter( 'bp_disable_profile_sync', '__return_true' );
+
+		// simulates do_action( 'bp_core_signup_user', $user_id, $user_login, $user_password, $user_email, $usermeta );
+		xprofile_sync_wp_profile( $u->ID, $u->user_login, $u->user_pass, $u->user_email, $usermeta );
+
+		$updated_u = get_user_by( 'id', $u->ID );
+
+		$this->assertEquals( 'foobar', $updated_u->first_name );
+		$this->assertEquals( '', $updated_u->last_name );
+	}
+
+	/**
+	 * @ticket BP8568
+	 */
+	public function test_xprofile_sync_wp_profile_activate_signup_with_wp_first_and_last_name_fields() {
+		add_filter( 'bp_disable_profile_sync', '__return_true' );
+
+		$u = self::factory()->user->create_and_get(
+			array(
+				'user_login' => 'barfoo',
+				'user_email' => 'bar@foo.email',
+			)
+		);
+
+		$field_fn = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => 1,
+				'type'           => 'wp-textbox',
+				'name'           => 'WP First Name',
+			)
+		);
+
+		// Set the WP User Key.
+		bp_xprofile_update_meta( $field_fn, 'field', 'wp_user_key', 'first_name' );
+
+		$field_ln = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => 1,
+				'type'           => 'wp-textbox',
+				'name'           => 'WP Last Name',
+			)
+		);
+
+		// Set the WP User Key.
+		bp_xprofile_update_meta( $field_ln, 'field', 'wp_user_key', 'last_name' );
+
+		$field_n  = bp_xprofile_fullname_field_id();
+
+		$user = array(
+			'user_id'  => $u->ID,
+			'password' => $u->user_pass,
+			'meta'     => array(
+				'field_' . $field_n  => 'barfoo',
+				'field_' . $field_fn => 'Bar',
+				'field_' . $field_ln => 'Foo',
+				'profile_field_ids'  => $field_n . ',' . $field_fn . ',' . $field_ln,
+			),
+		);
+
+		remove_filter( 'bp_disable_profile_sync', '__return_true' );
+
+		// simulates do_action( 'bp_core_activated_user', $user_id, $key, $user );
+		xprofile_sync_wp_profile( $u->ID, 'randomkey', $user );
+
+		$updated_u = get_user_by( 'id', $u->ID );
+
+		$this->assertEquals( 'Bar', $updated_u->first_name );
+		$this->assertEquals( 'Foo', $updated_u->last_name );
+	}
+
+	/**
+	 * @ticket BP8568
+	 */
+	public function test_xprofile_sync_wp_profile_activate_signup_without_wp_first_and_last_name_fields() {
+		add_filter( 'bp_disable_profile_sync', '__return_true' );
+
+		$u = self::factory()->user->create_and_get(
+			array(
+				'user_login' => 'barfoo',
+				'user_email' => 'bar@foo.email',
+			)
+		);
+
+		$field_n  = bp_xprofile_fullname_field_id();
+
+		$user = array(
+			'user_id'  => $u->ID,
+			'password' => $u->user_pass,
+			'meta'     => array(
+				'field_' . $field_n  => 'barfoo',
+				'profile_field_ids'  => $field_n,
+			),
+		);
+
+		remove_filter( 'bp_disable_profile_sync', '__return_true' );
+
+		// simulates do_action( 'bp_core_activated_user', $user_id, $key, $user );
+		xprofile_sync_wp_profile( $u->ID, 'randomkey', $user );
+
+		$updated_u = get_user_by( 'id', $u->ID );
+
+		$this->assertEquals( 'barfoo', $updated_u->first_name );
+		$this->assertEquals( '', $updated_u->last_name );
+	}
 }

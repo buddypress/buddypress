@@ -808,11 +808,13 @@ add_action( 'bp_user_query_uid_clauses', 'bp_xprofile_bp_user_query_search', 10,
  * Syncs Xprofile data to the standard built in WordPress profile data.
  *
  * @since 1.0.0
+ * @since 9.2.0 Adds the $args arguments to catch hook's additional arguments.
  *
- * @param int $user_id ID of the user to sync.
+ * @param int   $user_id ID of the user to sync.
+ * @param array $args    Hook's additional arguments.
  * @return bool
  */
-function xprofile_sync_wp_profile( $user_id = 0 ) {
+function xprofile_sync_wp_profile( $user_id = 0, ...$args ) {
 
 	// Bail if profile syncing is disabled.
 	if ( bp_disable_profile_sync() ) {
@@ -827,25 +829,59 @@ function xprofile_sync_wp_profile( $user_id = 0 ) {
 		return false;
 	}
 
-	$fullname = xprofile_get_field_data( bp_xprofile_fullname_field_id(), $user_id );
+	$fullname_field_id = (int) bp_xprofile_fullname_field_id();
+	$usermeta          = array();
+	$userdata          = array();
+
+	if ( isset( $args[1]['meta'] ) ) {
+		$usermeta = $args[1]['meta'];
+	} elseif ( isset( $args[3] ) ) {
+		$usermeta = $args[3];
+	}
+
+	if ( isset( $usermeta['profile_field_ids'] ) ) {
+		$xprofile_fields = wp_parse_id_list( $usermeta['profile_field_ids'] );
+		$xprofile_fields = array_diff( $xprofile_fields, array( $fullname_field_id ) );
+
+		foreach ( $xprofile_fields as $xprofile_field_id ) {
+			$field_type = bp_xprofile_get_field_type( $xprofile_field_id );
+
+			$field_key = 'field_' . $xprofile_field_id;
+			if ( isset( $field_type->wp_user_key ) && isset( $usermeta[ $field_key ] ) && $usermeta[ $field_key ] ) {
+				$userdata[ $field_type->wp_user_key ] = $usermeta[ $field_key ];
+			}
+		}
+	}
+
+	$fullname = xprofile_get_field_data( $fullname_field_id, $user_id );
 	$space    = strpos( $fullname, ' ' );
 
 	if ( false === $space ) {
-		$firstname = $fullname;
-		$lastname = '';
+		if ( ! isset( $userdata['first_name'] ) ) {
+			$userdata['first_name'] = $fullname;
+		}
+
+		if ( ! isset( $userdata['last_name'] ) ) {
+			$userdata['last_name'] = '';
+		}
 	} else {
-		$firstname = substr( $fullname, 0, $space );
-		$lastname = trim( substr( $fullname, $space, strlen( $fullname ) ) );
+		if ( ! isset( $userdata['first_name'] ) ) {
+			$userdata['first_name'] = substr( $fullname, 0, $space );
+		}
+
+		if ( ! isset( $userdata['last_name'] ) ) {
+			$userdata['last_name'] = trim( substr( $fullname, $space, strlen( $fullname ) ) );
+		}
 	}
 
 	bp_update_user_meta( $user_id, 'nickname',   $fullname  );
-	bp_update_user_meta( $user_id, 'first_name', $firstname );
-	bp_update_user_meta( $user_id, 'last_name',  $lastname  );
+	bp_update_user_meta( $user_id, 'first_name', $userdata['first_name'] );
+	bp_update_user_meta( $user_id, 'last_name',  $userdata['last_name']  );
 
 	wp_update_user( array( 'ID' => $user_id, 'display_name' => $fullname ) );
 }
-add_action( 'bp_core_signup_user',      'xprofile_sync_wp_profile' );
-add_action( 'bp_core_activated_user',   'xprofile_sync_wp_profile' );
+add_action( 'bp_core_signup_user', 'xprofile_sync_wp_profile', 10, 5 );
+add_action( 'bp_core_activated_user', 'xprofile_sync_wp_profile', 10, 3 );
 
 /**
  * Syncs the standard built in WordPress profile data to XProfile.
