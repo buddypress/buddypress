@@ -59,6 +59,9 @@ add_action( 'bp_admin_init', 'bp_do_activation_redirect', 1    );
 // Add a new separator.
 add_action( 'bp_admin_menu', 'bp_admin_separator' );
 
+// Add a filter to include BP Components directory pages display states.
+add_filter( 'display_post_states', 'bp_admin_display_directory_states', 10, 2 );
+
 /**
  * When a new site is created in a multisite installation, run the activation
  * routine on that site.
@@ -233,4 +236,34 @@ function bp_register_admin_settings() {
 	 * @since 1.6.0
 	 */
 	do_action( 'bp_register_admin_settings' );
+}
+
+/**
+ * Dedicated filter to inform about BP components directory page states.
+ *
+ * @since 10.0.0
+ *
+ * @param string[] $post_states An array of post display states.
+ * @param WP_Post  $post        The current post object.
+ */
+function bp_admin_display_directory_states( $post_states = array(), $post = null ) {
+	/**
+	 * Filter here to add BP Directory pages.
+	 *
+	 * Used internaly by BP_Component->admin_directory_states(). Please use the dynamic
+	 * filter in BP_Component->admin_directory_states() to edit the directory state
+	 * according to the component's ID.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array    $value An empty array.
+	 * @param WP_Post  $post  The current post object.
+	 */
+	$directory_page_states = apply_filters( 'bp_admin_display_directory_states', array(), $post );
+
+	if ( $directory_page_states ) {
+		$post_states = array_merge( $post_states, $directory_page_states );
+	}
+
+	return $post_states;
 }

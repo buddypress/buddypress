@@ -1134,4 +1134,23 @@ class BP_Groups_Component extends BP_Component {
 			)
 		);
 	}
+
+	/**
+	 * Add the Groups directory states.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array   $states Optional. See BP_Component::admin_directory_states() for description.
+	 * @param WP_Post $post   Optional. See BP_Component::admin_directory_states() for description.
+	 * @return array          See BP_Component::admin_directory_states() for description.
+	 */
+	public function admin_directory_states( $states = array(), $post = null ) {
+		$bp = buddypress();
+
+		if ( isset( $bp->pages->groups->id ) && (int) $bp->pages->groups->id === (int) $post->ID ) {
+			$states['page_for_groups_directory'] = _x( 'BP Groups Page', 'page label', 'buddypress' );
+		}
+
+		return parent::admin_directory_states( $states, $post );
+	}
 }

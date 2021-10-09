@@ -937,4 +937,33 @@ class BP_Members_Component extends BP_Component {
 			)
 		);
 	}
+
+	/**
+	 * Add the Members directory states.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array   $states Optional. See BP_Component::admin_directory_states() for description.
+	 * @param WP_Post $post   Optional. See BP_Component::admin_directory_states() for description.
+	 * @return array          See BP_Component::admin_directory_states() for description.
+	 */
+	public function admin_directory_states( $states = array(), $post = null ) {
+		$bp = buddypress();
+
+		if ( isset( $bp->pages->members->id ) && (int) $bp->pages->members->id === (int) $post->ID ) {
+			$states['page_for_members_directory'] = _x( 'BP Members Page', 'page label', 'buddypress' );
+		}
+
+		if ( bp_get_signup_allowed() || bp_get_members_invitations_allowed() ) {
+			if ( isset( $bp->pages->register->id ) && (int) $bp->pages->register->id === (int) $post->ID ) {
+				$states['page_for_bp_registration'] = _x( 'BP Registration Page', 'page label', 'buddypress' );
+			}
+
+			if ( isset( $bp->pages->activate->id ) && (int) $bp->pages->activate->id === (int) $post->ID ) {
+				$states['page_for_bp_activation'] = _x( 'BP Activation Page', 'page label', 'buddypress' );
+			}
+		}
+
+		return parent::admin_directory_states( $states, $post );
+	}
 }

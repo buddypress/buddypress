@@ -432,4 +432,23 @@ class BP_Blogs_Component extends BP_Component {
 
 		parent::blocks_init( $blocks );
 	}
+
+	/**
+	 * Add the Sites directory states.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array   $states Optional. See BP_Component::admin_directory_states() for description.
+	 * @param WP_Post $post   Optional. See BP_Component::admin_directory_states() for description.
+	 * @return array          See BP_Component::admin_directory_states() for description.
+	 */
+	public function admin_directory_states( $states = array(), $post = null ) {
+		$bp = buddypress();
+
+		if ( isset( $bp->pages->blogs->id ) && (int) $bp->pages->blogs->id === (int) $post->ID ) {
+			$states['page_for_sites_directory'] = _x( 'BP Sites Page', 'page label', 'buddypress' );
+		}
+
+		return parent::admin_directory_states( $states, $post );
+	}
 }
