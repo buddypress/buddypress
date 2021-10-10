@@ -125,6 +125,8 @@ function bp_members_invitations_complete_signup( $user_id ) {
 	// User has already verified their email by responding to the invitation, so we can activate.
 	$key = bp_get_user_meta( $user_id, 'activation_key', true );
 	if ( $key ) {
+		$redirect = bp_get_activation_page();
+
 		/**
 		 * Filters the activation signup.
 		 *
@@ -137,12 +139,31 @@ function bp_members_invitations_complete_signup( $user_id ) {
 
 		// If there were errors, add a message and redirect.
 		if ( ! empty( $user->errors ) ) {
+			/**
+			 * Filter here to redirect the User to a different URL than the activation page.
+			 *
+			 * @since 10.0.0
+			 *
+			 * @param string   $redirect The URL to use to redirect the user.
+			 * @param WP_Error $user     The WP Error object.
+			 */
+			$redirect = apply_filters( 'bp_members_invitations_activation_errored_redirect', $redirect, $user );
+
 			bp_core_add_message( $user->get_error_message(), 'error' );
-			bp_core_redirect( trailingslashit( bp_get_root_domain() . '/' . $bp->pages->activate->slug ) );
+			bp_core_redirect( $redirect );
 		}
 
+		/**
+		 * Filter here to redirect the User to a different URL than the activation page.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param string $redirect The URL to use to redirect the user.
+		 */
+		$redirect = apply_filters( 'bp_members_invitations_activation_successed_redirect', $redirect );
+
 		bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
-		bp_core_redirect( add_query_arg( 'activated', '1', bp_get_activation_page() ) );
+		bp_core_redirect( add_query_arg( 'activated', '1', $redirect ) );
 	}
 }
 add_action( 'bp_core_signup_user', 'bp_members_invitations_complete_signup' );
