@@ -1010,8 +1010,9 @@ class BP_Component {
 			 * @since 10.0.0
 			 *
 			 * @param string[] $states An array of post display states.
+			 * @param WP_Post  $post   The current post object.
 			 */
-			return apply_filters( 'bp_' . $this->id . '_admin_directory_states', $states );
+			return apply_filters( 'bp_' . $this->id . '_admin_directory_states', $states, $post );
 		}
 
 		return $states;
