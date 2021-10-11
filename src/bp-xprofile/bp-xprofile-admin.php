@@ -320,7 +320,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 				$signup_fields       = array();
 				$signup_fields_order = bp_xprofile_get_signup_field_ids();
 				?>
-				<div id="tabs-signup-group"" class="tab-wrapper">
+				<div id="tabs-signup-group" class="tab-wrapper">
 					<div class="tab-toolbar">
 						<p class="description"><?php esc_html_e( 'Drag fields from other groups and drop them on the above tab to include them into your registration form.', 'buddypress' ); ?></p>
 					</div>
