@@ -2051,10 +2051,18 @@ function bp_activity_post_update( $args = '' ) {
 	);
 
 	if ( empty( $r['content'] ) || ! strlen( trim( $r['content'] ) ) ) {
+		if ( 'wp_error' === $r['error_type'] ) {
+			return new WP_Error( 'bp_activity_missing_content', __( 'Please enter some content to post.', 'buddypress' ) );
+		}
+
 		return false;
 	}
 
 	if ( bp_is_user_inactive( $r['user_id'] ) ) {
+		if ( 'wp_error' === $r['error_type'] ) {
+			return new WP_Error( 'bp_activity_inactive_user', __( 'User account has not yet been activated.', 'buddypress' ) );
+		}
+
 		return false;
 	}
 

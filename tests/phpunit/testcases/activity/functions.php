@@ -1459,11 +1459,38 @@ Bar!';
 	/**
 	 * @group bp_activity_post_update
 	 */
+	public function test_bp_activity_post_update_empty_content_wp_error() {
+		$activity = bp_activity_post_update( array(
+			'user_id'    => 3,
+			'error_type' => 'wp_error',
+		) );
+
+		$this->assertInstanceOf( 'WP_Error', $activity );
+		$this->assertEquals( 'bp_activity_missing_content', $activity->get_error_code() );
+	}
+
+	/**
+	 * @group bp_activity_post_update
+	 */
 	public function test_bp_activity_post_update_inactive_user() {
 		$this->assertFalse( bp_activity_post_update( array(
 			'user_id' => 3456,
 			'content' => 'foo',
 		) ) );
+	}
+
+	/**
+	 * @group bp_activity_post_update
+	 */
+	public function test_bp_activity_post_update_inactive_user_wp_error() {
+		$activity = bp_activity_post_update( array(
+			'user_id'    => 3456,
+			'content'    => 'foo',
+			'error_type' => 'wp_error',
+		) );
+
+		$this->assertInstanceOf( 'WP_Error', $activity );
+		$this->assertEquals( 'bp_activity_inactive_user', $activity->get_error_code() );
 	}
 
 	/**
