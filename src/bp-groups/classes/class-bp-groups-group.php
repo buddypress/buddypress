@@ -1781,10 +1781,9 @@ class BP_Groups_Group {
 		if ( false === $count || true === $skip_cache ) {
 			$members = groups_get_group_members(
 				array(
-					'group_id'            => $group_id,
-					'exclude_banned'      => true,
-					'exclude_admins_mods' => false,
-					'type'                => 'active',
+					'group_id'   => $group_id,
+					'group_role' => array( 'member', 'admin', 'mod' ),
+					'type'       => 'active',
 				)
 			);
 
