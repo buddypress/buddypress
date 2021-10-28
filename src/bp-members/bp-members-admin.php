@@ -10,6 +10,24 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Is the Admin User's community profile enabled?
+ *
+ * @since 10.0.0
+ *
+ * @return bool True if enabled. False otherwise.
+ */
+function bp_members_is_community_profile_enabled() {
+	/**
+	 * Filter here to disable the Admin User's Community profile.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param bool $value By default the Admin User's Community profile is enabled.
+	 */
+	return apply_filters( 'bp_members_is_community_profile_enabled', true );
+}
+
 // Load the BP Members admin.
 add_action( 'bp_init', array( 'BP_Members_Admin', 'register_members_admin' ) );
 

@@ -292,6 +292,8 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 			$this->markTestSkipped();
 		}
 
+		require BP_PLUGIN_DIR . 'bp-members/bp-members-admin.php';
+
 		// Emulate being in the admin area.
 		if ( ! class_exists( 'BP_Members_Admin', false ) ) {
 			require BP_PLUGIN_DIR . 'bp-members/classes/class-bp-members-admin.php';
