@@ -128,42 +128,60 @@ exports.default = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    InspectorControls = _wp.blockEditor.InspectorControls,
-    _wp$components = _wp.components,
-    Disabled = _wp$components.Disabled,
-    PanelBody = _wp$components.PanelBody,
-    RangeControl = _wp$components.RangeControl,
-    SelectControl = _wp$components.SelectControl,
-    TextControl = _wp$components.TextControl,
-    _wp$element = _wp.element,
-    Fragment = _wp$element.Fragment,
-    createElement = _wp$element.createElement,
-    __ = _wp.i18n.__;
+const {
+  blockEditor: {
+    InspectorControls
+  },
+  components: {
+    Disabled,
+    PanelBody,
+    RangeControl,
+    SelectControl,
+    TextControl
+  },
+  element: {
+    Fragment,
+    createElement
+  },
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * BuddyPress dependencies.
  */
 
-var _bp = bp,
-    ServerSideRender = _bp.blockComponents.ServerSideRender,
-    _bp$blockData = _bp.blockData,
-    currentPostId = _bp$blockData.currentPostId,
-    activityTypes = _bp$blockData.activityTypes;
+const {
+  blockComponents: {
+    ServerSideRender
+  },
+  blockData: {
+    currentPostId,
+    activityTypes
+  }
+} = bp;
 
-var editDynamicActivitiesBlock = function editDynamicActivitiesBlock(_ref) {
-  var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes;
-  var postId = attributes.postId,
-      maxActivities = attributes.maxActivities,
-      type = attributes.type,
-      title = attributes.title;
-  var post = currentPostId();
-  var types = activityTypes();
+const editDynamicActivitiesBlock = ({
+  attributes,
+  setAttributes
+}) => {
+  const {
+    postId,
+    maxActivities,
+    type,
+    title
+  } = attributes;
+  const post = currentPostId();
+  const types = activityTypes();
 
   if (!postId && post) {
     setAttributes({
       postId: post
     });
+
+    if (!attributes.postId) {
+      attributes.postId = post;
+    }
   }
 
   return createElement(Fragment, null, createElement(InspectorControls, null, createElement(PanelBody, {
@@ -173,7 +191,7 @@ var editDynamicActivitiesBlock = function editDynamicActivitiesBlock(_ref) {
   }, createElement(TextControl, {
     label: __('Title', 'buddypress'),
     value: title,
-    onChange: function onChange(text) {
+    onChange: text => {
       setAttributes({
         title: text
       });
@@ -181,11 +199,9 @@ var editDynamicActivitiesBlock = function editDynamicActivitiesBlock(_ref) {
   }), createElement(RangeControl, {
     label: __('Maximum amount to display', 'buddypress'),
     value: maxActivities,
-    onChange: function onChange(value) {
-      return setAttributes({
-        maxActivities: value
-      });
-    },
+    onChange: value => setAttributes({
+      maxActivities: value
+    }),
     min: 1,
     max: 10,
     required: true
@@ -194,7 +210,7 @@ var editDynamicActivitiesBlock = function editDynamicActivitiesBlock(_ref) {
     label: __('Type', 'buddypress'),
     value: type,
     options: types,
-    onChange: function onChange(option) {
+    onChange: option => {
       setAttributes({
         type: option
       });
@@ -218,40 +234,44 @@ exports.default = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    createBlock = _wp.blocks.createBlock;
+const {
+  blocks: {
+    createBlock
+  }
+} = wp;
 /**
  * Transforms Nouveau Activity Widget to Activity Block.
  *
  * @type {Object}
  */
 
-var transforms = {
+const transforms = {
   from: [{
     type: 'block',
     blocks: ['core/legacy-widget'],
-    isMatch: function isMatch(_ref) {
-      var idBase = _ref.idBase,
-          instance = _ref.instance;
-
+    isMatch: ({
+      idBase,
+      instance
+    }) => {
       if (!(instance !== null && instance !== void 0 && instance.raw)) {
         return false;
       }
 
       return idBase === 'bp_latest_activities';
     },
-    transform: function transform(_ref2) {
-      var instance = _ref2.instance;
-      var regex = /i:\d*;s:\d*:"(.*?)";/gmi;
-      var types = [];
-      var matches;
+    transform: ({
+      instance
+    }) => {
+      const regex = /i:\d*;s:\d*:"(.*?)";/gmi;
+      let types = [];
+      let matches;
 
       while ((matches = regex.exec(instance.raw.type)) !== null) {
         if (matches.index === regex.lastIndex) {
           regex.lastIndex++;
         }
 
-        matches.forEach(function (match, groupIndex) {
+        matches.forEach((match, groupIndex) => {
           if (1 === groupIndex) {
             types.push(match);
           }
@@ -280,9 +300,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    registerBlockType = _wp.blocks.registerBlockType,
-    __ = _wp.i18n.__;
+const {
+  blocks: {
+    registerBlockType
+  },
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * Internal dependencies.
  */

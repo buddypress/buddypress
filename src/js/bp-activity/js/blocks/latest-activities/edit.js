@@ -41,6 +41,9 @@ const editDynamicActivitiesBlock = ( { attributes, setAttributes } ) => {
 
 	if ( ! postId && post ) {
 		setAttributes( { postId: post } );
+		if ( ! attributes.postId ) {
+			attributes.postId = post;
+		}
 	}
 
 	return (
