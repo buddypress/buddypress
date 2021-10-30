@@ -174,41 +174,33 @@ function bp_attachments_get_allowed_types( $type = 'avatar' ) {
 		// Reset the default exts.
 		$exts = array();
 
-		switch ( $type ) {
-			case 'video':
-				$exts = wp_get_video_extensions();
-			break;
+		if ( 'video' === $type ) {
+			$exts = wp_get_video_extensions();
+		} elseif ( 'audio' === $type ) {
+			$exts = wp_get_audio_extensions();
+		} elseif ( isset( $wp_exts[ $type ] ) ) {
+			$exts = $wp_exts[ $type ];
+		} else {
+			$allowed_mimes = get_allowed_mime_types();
 
-			case 'audio':
-				$exts = wp_get_audio_extensions();
-			break;
+			/**
+			 * Search for allowed mimes matching the type.
+			 *
+			 * Eg: using 'application/vnd.oasis' as the $type
+			 * parameter will get all OpenOffice extensions supported
+			 * by WordPress and allowed for the current user.
+			 */
+			if ( '' !== $type ) {
+				$allowed_mimes = preg_grep( '/' . addcslashes( $type, '/.+-' ) . '/', $allowed_mimes );
+			}
 
-			case isset( $wp_exts[ $type ] ):
-				$exts = $wp_exts[ $type ];
-			break;
+			$allowed_types = array_keys( $allowed_mimes );
 
-			default:
-				$allowed_mimes = get_allowed_mime_types();
-
-				/**
-				 * Search for allowed mimes matching the type.
-				 *
-				 * Eg: using 'application/vnd.oasis' as the $type
-				 * parameter will get all OpenOffice extensions supported
-				 * by WordPress and allowed for the current user.
-				 */
-				if ( '' !== $type ) {
-					$allowed_mimes = preg_grep( '/' . addcslashes( $type, '/.+-' ) . '/', $allowed_mimes );
-				}
-
-				$allowed_types = array_keys( $allowed_mimes );
-
-				// Loop to explode keys using '|'.
-				foreach ( $allowed_types as $allowed_type ) {
-					$t = explode( '|', $allowed_type );
-					$exts = array_merge( $exts, (array) $t );
-				}
-			break;
+			// Loop to explode keys using '|'.
+			foreach ( $allowed_types as $allowed_type ) {
+				$t = explode( '|', $allowed_type );
+				$exts = array_merge( $exts, (array) $t );
+			}
 		}
 	}
 
@@ -237,8 +229,18 @@ function bp_attachments_get_allowed_mimes( $type = '', $allowed_types = array() 
 		$allowed_types = bp_attachments_get_allowed_types( $type );
 	}
 
-	$validate_mimes = wp_match_mime_types( join( ',', $allowed_types ), wp_get_mime_types() );
-	$allowed_mimes  = array_map( 'implode', $validate_mimes );
+	$wp_mimes      = wp_get_mime_types();
+	$allowed_mimes = array();
+
+	foreach ( $allowed_types as $allowed_type ) {
+		$filetype = wp_check_filetype( '.' . $allowed_type, $wp_mimes );
+
+		if ( false === $filetype['ext'] || false === $filetype['type'] ) {
+			continue;
+		}
+
+		$allowed_mimes[ $filetype['ext'] ] = $filetype['type'];
+	}
 
 	/**
 	 * Include jpg type if jpeg is set
