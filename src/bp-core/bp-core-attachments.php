@@ -163,7 +163,8 @@ function bp_attachments_get_max_upload_file_size( $type = '' ) {
  */
 function bp_attachments_get_allowed_types( $type = 'avatar' ) {
 	// Defaults to BuddyPress supported image extensions.
-	$exts = array( 'jpeg', 'gif', 'png' );
+	$exts    = array( 'jpeg', 'gif', 'png' );
+	$wp_exts = wp_get_ext_types();
 
 	/**
 	 * It's not a BuddyPress feature, get the allowed extensions
@@ -174,12 +175,16 @@ function bp_attachments_get_allowed_types( $type = 'avatar' ) {
 		$exts = array();
 
 		switch ( $type ) {
-			case 'video' :
+			case 'video':
 				$exts = wp_get_video_extensions();
 			break;
 
-			case 'audio' :
-				$exts = wp_get_video_extensions();
+			case 'audio':
+				$exts = wp_get_audio_extensions();
+			break;
+
+			case isset( $wp_exts[ $type ] ):
+				$exts = $wp_exts[ $type ];
 			break;
 
 			default:
