@@ -168,12 +168,92 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 		_unregister_post_type( 'foo' );
 	}
 
-	protected function activity_exists_for_post( $post_id, $action ) {
+	/**
+	 * @ticket BP8579
+	 * @group bp_activity_catch_transition_post_type_status
+	 * @group activity_tracking
+	 */
+	public function test_bp_activity_catch_transition_post_type_status_publish_publish_author_changed() {
+		$u1 = self::factory()->user->create(
+			array(
+				'role' => 'auhor',
+			)
+		);
+
+		$u2 = self::factory()->user->create(
+			array(
+				'role' => 'auhor',
+			)
+		);
+
+		$post_id = self::factory()->post->create( array(
+			'post_status' => 'publish',
+			'post_author' => $u1,
+			'post_type'   => 'post',
+		) );
+
+		$post = get_post( $post_id );
+
+		// 'new' => 'publish'
+		$this->assertTrue( $this->activity_exists_for_post( $post_id, 'new_post' ), 'Published post type should have activity' );
+
+		$post->post_author = $u2;
+
+		wp_update_post( $post );
+
+		$a = $this->activity_exists_for_post( $post_id, 'new_post', true );
+
+		$this->assertSame( $u2, $a->user_id, 'The Activity about a published post type should be updated when the post author has changed.' );
+	}
+
+	/**
+	 * @ticket BP8579
+	 * @group bp_activity_catch_transition_post_type_status
+	 * @group activity_tracking
+	 */
+	public function test_bp_activity_catch_transition_post_type_status_publish_publish_content_changed() {
+		$u1 = self::factory()->user->create(
+			array(
+				'role' => 'auhor',
+			)
+		);
+
+		$u2 = self::factory()->user->create(
+			array(
+				'role' => 'auhor',
+			)
+		);
+
+		$post_id = self::factory()->post->create( array(
+			'post_status' => 'publish',
+			'post_author' => $u1,
+			'post_type'   => 'post',
+		) );
+
+		$post = get_post( $post_id );
+
+		// 'new' => 'publish'
+		$this->assertTrue( $this->activity_exists_for_post( $post_id, 'new_post' ), 'Published post type should have activity' );
+
+		$post->post_content = "This time {$u2} has not edited the post";
+
+		wp_update_post( $post );
+
+		$a = $this->activity_exists_for_post( $post_id, 'new_post', true );
+
+		$this->assertSame( $post->post_content, $a->content, 'The Activity about a published post type should be updated when the post content has changed.' );
+	}
+
+	protected function activity_exists_for_post( $post_id, $action, $get_object = false ) {
 		$a = bp_activity_get( array(
 			'action'            => $action,
 			'item_id'           => get_current_blog_id(),
 			'secondary_item_id' => $post_id,
 		) );
+
+		if ( $get_object ) {
+			return reset( $a['activities'] );
+		}
 
 		return ! empty( $a['activities'] );
 	}

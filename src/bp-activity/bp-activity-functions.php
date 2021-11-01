@@ -2311,6 +2311,11 @@ function bp_activity_post_type_update( $post = null ) {
 	// Update the activity entry.
 	$activity = new BP_Activity_Activity( $activity_id );
 
+	// Check if the Post author has changed.
+	if ( (int) $post->post_author !== (int) $activity->user_id ) {
+		$activity->user_id = (int) $post->post_author;
+	}
+
 	if ( ! empty( $post->post_content ) ) {
 		$activity_summary = bp_activity_create_summary( $post->post_content, (array) $activity );
 
