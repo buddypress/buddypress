@@ -3,7 +3,7 @@
  * Common functions only loaded on AJAX requests.
  *
  * @since 3.0.0
- * @version 8.0.0
+ * @version 10.0.0
  */
 
 // Exit if accessed directly.
@@ -21,11 +21,19 @@ function bp_nouveau_ajax_object_template_loader() {
 		wp_send_json_error();
 	}
 
-	if ( empty( $_POST['object'] ) ) {
-		wp_send_json_error();
-	}
+	$post_vars = bp_parse_args(
+		$_POST,
+		array(
+			'action'   => '',
+			'object'   => '',
+			'scope'    => '',
+			'filter'   => '',
+			'nonce'    => '',
+			'template' => '',
+		)
+	);
 
-	$object = sanitize_title( $_POST['object'] );
+	$object = sanitize_title( $post_vars['object'] );
 
 	// Bail if object is not an active component to prevent arbitrary file inclusion.
 	if ( ! bp_is_active( $object ) ) {
@@ -33,7 +41,7 @@ function bp_nouveau_ajax_object_template_loader() {
 	}
 
 	// Nonce check!
-	if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'bp_nouveau_' . $object ) ) {
+	if ( ! $post_vars['nonce'] || ! wp_verify_nonce( $post_vars['nonce'], 'bp_nouveau_' . $object ) ) {
 		wp_send_json_error();
 	}
 
@@ -41,8 +49,8 @@ function bp_nouveau_ajax_object_template_loader() {
 
 	if ( 'activity' === $object ) {
 		$scope = '';
-		if ( ! empty( $_POST['scope'] ) ) {
-			$scope = sanitize_text_field( $_POST['scope'] );
+		if ( $post_vars['scope'] ) {
+			$scope = sanitize_text_field( $post_vars['scope'] );
 		}
 
 		// We need to calculate and return the feed URL for each scope.
@@ -98,7 +106,10 @@ function bp_nouveau_ajax_object_template_loader() {
 	}
 
 	// Get the template path based on the 'template' variable via the AJAX request.
-	$template = isset( $_POST['template'] ) ? wp_unslash( $_POST['template'] ) : '';
+	$template = '';
+	if ( $post_vars['template'] ) {
+		$template = wp_unslash( $post_vars['template'] );
+	}
 
 	switch ( $template ) {
 		case 'group_members' :
@@ -139,6 +150,24 @@ function bp_nouveau_ajax_object_template_loader() {
 	load_template( $template_path );
 	$result['contents'] = ob_get_contents();
 	ob_end_clean();
+
+	/**
+	 * Add additional info to the Ajax response.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array $value     An associative array with additional information to include in the Ajax response.
+	 * @param array $post_vars An associative array containing the Ajax request arguments.
+	 */
+	$additional_info = apply_filters( "bp_nouveau_{$object}_ajax_object_template_response", array(), $post_vars );
+	if ( $additional_info ) {
+		// Prevents content overrides.
+		if ( isset( $additional_info['contents'] ) ) {
+			unset( $additional_info['contents'] );
+		}
+
+		$result = array_merge( $result, $additional_info );
+	}
 
 	// Locate the object template.
 	wp_send_json_success( $result );

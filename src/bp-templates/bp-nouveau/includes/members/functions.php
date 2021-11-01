@@ -3,7 +3,7 @@
  * Members functions
  *
  * @since 3.0.0
- * @version 8.0.0
+ * @version 10.0.0
  */
 
 // Exit if accessed directly.
@@ -529,3 +529,37 @@ function bp_nouveau_member_customizer_nav() {
 
 	return $nav->get_primary();
 }
+
+/**
+ * Includes additional information about the Members loop Ajax response.
+ *
+ * @since 10.0.0
+ *
+ * @param array $additional_info An associative array with additional information to include in the Ajax response.
+ * @param array $args            The Ajax query arguments.
+ * @return array                 Additional information about the members loop.
+ */
+function bp_nouveau_members_loop_additional_info( $additional_info = array(), $args = array() ) {
+	if ( ! isset( $GLOBALS['members_template'] ) || ! $GLOBALS['members_template'] ) {
+		return $additional_info;
+	}
+
+	$members_template = $GLOBALS['members_template'];
+
+	if ( isset( $members_template->member_count ) && 'all' === $args['scope'] ) {
+		$additional_info['totalItems'] = bp_core_number_format( $members_template->member_count );
+		$additional_info['navLabel']   = esc_html__( 'All Members', 'buddypress' );
+
+		$nav_labels = array(
+			'active' => esc_html__( 'Active Members', 'buddypress' ),
+			'newest' => esc_html__( 'Newest Members', 'buddypress' ),
+		);
+
+		if ( isset( $nav_labels[ $args['filter'] ] ) ) {
+			$additional_info['navLabel'] = $nav_labels[ $args['filter'] ];
+		}
+	}
+
+	return $additional_info;
+}
+add_filter( 'bp_nouveau_members_ajax_object_template_response', 'bp_nouveau_members_loop_additional_info', 10, 2 );

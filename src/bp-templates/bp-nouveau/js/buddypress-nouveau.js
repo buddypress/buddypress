@@ -306,7 +306,15 @@ window.bp = window.bp || {};
 					return;
 				}
 
-				$( self.objectNavParent + ' [data-bp-scope="' + data.scope + '"]' ).removeClass( 'loading' );
+				var selectedObjectNavParent = $( self.objectNavParent + ' [data-bp-scope="' + data.scope + '"]' );
+
+				selectedObjectNavParent.removeClass( 'loading' );
+
+				if ( response.data && response.data.totalItems && response.data.navLabel ) {
+					selectedObjectNavParent.find( 'a' ).first().html(
+						response.data.navLabel + '&nbsp;'
+					).append( $( '<span></span>' ).addClass( 'count' ).html( response.data.totalItems ) );
+				}
 
 				if ( 'reset' !== data.method ) {
 					self.inject( data.target, response.data.contents, data.method );
