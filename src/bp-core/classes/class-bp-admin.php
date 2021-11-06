@@ -1287,9 +1287,22 @@ class BP_Admin {
 	 * @since 10.0.0
 	 */
 	public function add_inline_styles() {
-		$screen                  = get_current_screen();
-		$current_settings_tab_id = array_search( $screen->id, $this->submenu_pages['settings'], true );
-		$current_tools_tab_id    = array_search( $screen->id, $this->submenu_pages['tools'], true );
+		$screen = get_current_screen();
+
+		if ( ! isset( $screen->id ) ) {
+			return;
+		}
+
+		// We might need to edit this id, see below code.
+		$screen_id = $screen->id;
+
+		// Multisite configs adds a '-network' suffix to page hooknames inside the Network Admin screens.
+		if ( is_multisite() && is_network_admin() && bp_is_network_activated() ) {
+			$screen_id = str_replace( '-network', '', $screen_id );
+		}
+
+		$current_settings_tab_id = array_search( $screen_id, $this->submenu_pages['settings'], true );
+		$current_tools_tab_id    = array_search( $screen_id, $this->submenu_pages['tools'], true );
 		$current_tab_id          = '';
 		$tabs                    = array();
 		$context                 = '';

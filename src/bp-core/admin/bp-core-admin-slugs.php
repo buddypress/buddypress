@@ -179,7 +179,7 @@ function bp_core_admin_slugs_options() {
 
 	$static_pages = bp_core_admin_get_static_pages();
 
-	if ( !empty( $static_pages ) ) : ?>
+	if ( ! empty( $static_pages ) ) : ?>
 
 		<h3><?php esc_html_e( 'Registration', 'buddypress' ); ?></h3>
 
@@ -188,6 +188,46 @@ function bp_core_admin_slugs_options() {
 				<?php esc_html_e( 'Associate WordPress Pages with the following BuddyPress Registration pages.', 'buddypress' ); ?>
 				<?php esc_html_e( 'These pages will only be reachable by users who are not logged in.', 'buddypress' ); ?>
 			</p>
+
+			<table class="form-table">
+				<tbody>
+
+					<?php foreach ( $static_pages as $name => $label ) : ?>
+
+						<tr valign="top">
+							<th scope="row">
+								<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?></label>
+							</th>
+
+							<td>
+
+								<?php if ( ! bp_is_root_blog() ) switch_to_blog( bp_get_root_blog_id() ); ?>
+
+								<?php echo wp_dropdown_pages( array(
+									'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
+									'echo'             => false,
+									'show_option_none' => __( '- None -', 'buddypress' ),
+									'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
+								) ) ?>
+
+								<?php if ( ! bp_is_root_blog() ) restore_current_blog(); ?>
+
+							</td>
+						</tr>
+
+					<?php endforeach; ?>
+
+					<?php
+
+					/**
+					 * Fires after the display of default static pages for BuddyPress setup.
+					 *
+					 * @since 1.5.0
+					 */
+					do_action( 'bp_active_external_pages' ); ?>
+
+				</tbody>
+			</table>
 		<?php else : ?>
 			<?php if ( is_multisite() ) : ?>
 				<p>
@@ -218,49 +258,7 @@ function bp_core_admin_slugs_options() {
 					?>
 				</p>
 			<?php endif; ?>
-		<?php endif; ?>
-
-		<table class="form-table">
-			<tbody>
-
-				<?php if ( bp_allow_access_to_registration_pages() ) : foreach ( $static_pages as $name => $label ) : ?>
-
-					<tr valign="top">
-						<th scope="row">
-							<label for="bp_pages[<?php echo esc_attr( $name ) ?>]"><?php echo esc_html( $label ) ?></label>
-						</th>
-
-						<td>
-
-							<?php if ( ! bp_is_root_blog() ) switch_to_blog( bp_get_root_blog_id() ); ?>
-
-							<?php echo wp_dropdown_pages( array(
-								'name'             => 'bp_pages[' . esc_attr( $name ) . ']',
-								'echo'             => false,
-								'show_option_none' => __( '- None -', 'buddypress' ),
-								'selected'         => !empty( $existing_pages[$name] ) ? $existing_pages[$name] : false
-							) ) ?>
-
-							<?php if ( ! bp_is_root_blog() ) restore_current_blog(); ?>
-
-						</td>
-					</tr>
-
-				<?php endforeach; endif; ?>
-
-				<?php
-
-				/**
-				 * Fires after the display of default static pages for BuddyPress setup.
-				 *
-				 * @since 1.5.0
-				 */
-				do_action( 'bp_active_external_pages' ); ?>
-
-			</tbody>
-		</table>
-
-		<?php
+		<?php endif;
 	endif;
 }
 
