@@ -17,14 +17,10 @@ defined( 'ABSPATH' ) || exit;
  * @todo Use settings API
  */
 function bp_core_admin_slugs_settings() {
+	bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Pages', 'buddypress' ) );
 ?>
 
-	<div class="wrap">
-
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'BuddyPress Settings', 'buddypress' ); ?> </h1>
-		<hr class="wp-header-end">
-
-		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( esc_html__( 'Pages', 'buddypress' ) ); ?></h2>
+	<div class="buddypress-body">
 		<form action="" method="post" id="bp-admin-page-form">
 
 			<?php bp_core_admin_slugs_options(); ?>

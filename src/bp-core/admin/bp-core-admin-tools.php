@@ -16,13 +16,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.0.0
  */
 function bp_core_admin_tools() {
+	bp_core_admin_tabbed_screen_header( __( 'BuddyPress tools', 'buddypress' ), __( 'Repair', 'buddypress' ), 'tools' );
 	?>
-	<div class="wrap">
-
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ) ?></h1>
-		<hr class="wp-header-end">
-
-		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Repair', 'buddypress' ), 'tools' ); ?></h2>
+	<div class="buddypress-body">
 
 		<p><?php esc_html_e( 'BuddyPress keeps track of various relationships between members, groups, and activity items.', 'buddypress' ); ?></p>
 		<p><?php esc_html_e( 'Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?></p>

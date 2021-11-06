@@ -17,14 +17,11 @@ defined( 'ABSPATH' ) || exit;
  *
  */
 function bp_core_admin_components_settings() {
-?>
+	bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Components', 'buddypress' ) );
+	?>
 
-	<div class="wrap">
+	<div class="buddypress-body">
 
-		<h1 class="wp-heading-inline"><?php _e( 'BuddyPress Settings', 'buddypress' ); ?> </h1>
-		<hr class="wp-header-end">
-
-		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Components', 'buddypress' ) ); ?></h2>
 		<form action="" method="post" id="bp-admin-component-form">
 
 			<?php bp_core_admin_components_options(); ?>

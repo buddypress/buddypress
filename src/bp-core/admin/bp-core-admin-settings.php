@@ -288,16 +288,10 @@ function bp_core_admin_settings() {
 
 	// We're saving our own options, until the WP Settings API is updated to work with Multisite.
 	$form_action = add_query_arg( 'page', 'bp-settings', bp_get_admin_url( 'admin.php' ) );
-
+	bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Options', 'buddypress' ) );
 	?>
 
-	<div class="wrap">
-
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'BuddyPress Settings', 'buddypress' ); ?></h1>
-		<hr class="wp-header-end">
-
-		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( esc_html__( 'Options', 'buddypress' ) ); ?></h2>
-
+	<div class="buddypress-body">
 		<form action="<?php echo esc_url( $form_action ) ?>" method="post">
 
 			<?php settings_fields( 'buddypress' ); ?>

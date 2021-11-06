@@ -75,6 +75,30 @@ class BP_Admin {
 	 */
 	public $notices = array();
 
+	/**
+	 * BuddyPress admin screens nav tabs.
+	 *
+	 * @since 10.0.0
+	 * @var array()
+	 */
+	public $nav_tabs = array();
+
+	/**
+	 * BuddyPress admin active nav tab.
+	 *
+	 * @since 10.0.0
+	 * @var string()
+	 */
+	public $active_nav_tab = '';
+
+	/**
+	 * BuddyPress admin screens submenu pages.
+	 *
+	 * @since 10.0.0
+	 * @var array()
+	 */
+	public $submenu_pages = array();
+
 	/** Methods ***************************************************************/
 
 	/**
@@ -229,7 +253,7 @@ class BP_Admin {
 		);
 
 		// Add the option pages.
-		$hooks[] = add_submenu_page(
+		$bp_components_page = add_submenu_page(
 			$this->settings_page,
 			__( 'BuddyPress Components', 'buddypress' ),
 			__( 'BuddyPress', 'buddypress' ),
@@ -238,7 +262,10 @@ class BP_Admin {
 			'bp_core_admin_components_settings'
 		);
 
-		$hooks[] = add_submenu_page(
+		$this->submenu_pages['settings']['bp-components'] = $bp_components_page;
+		$hooks[]                                          = $bp_components_page;
+
+		$bp_page_settings_page = add_submenu_page(
 			$this->settings_page,
 			__( 'BuddyPress Pages', 'buddypress' ),
 			__( 'BuddyPress Pages', 'buddypress' ),
@@ -247,7 +274,10 @@ class BP_Admin {
 			'bp_core_admin_slugs_settings'
 		);
 
-		$hooks[] = add_submenu_page(
+		$this->submenu_pages['settings']['bp-page-settings'] = $bp_page_settings_page;
+		$hooks[]                                             = $bp_page_settings_page;
+
+		$bp_settings_page = add_submenu_page(
 			$this->settings_page,
 			__( 'BuddyPress Options', 'buddypress' ),
 			__( 'BuddyPress Options', 'buddypress' ),
@@ -256,8 +286,11 @@ class BP_Admin {
 			'bp_core_admin_settings'
 		);
 
+		$this->submenu_pages['settings']['bp-settings'] = $bp_settings_page;
+		$hooks[]                                        = $bp_settings_page;
+
 		// Credits.
-		$hooks[] = add_submenu_page(
+		$bp_credits_page = add_submenu_page(
 			$this->settings_page,
 			__( 'BuddyPress Credits', 'buddypress' ),
 			__( 'BuddyPress Credits', 'buddypress' ),
@@ -265,6 +298,9 @@ class BP_Admin {
 			'bp-credits',
 			array( $this, 'credits_screen' )
 		);
+
+		$this->submenu_pages['settings']['bp-credits'] = $bp_credits_page;
+		$hooks[]                                       = $bp_credits_page;
 
 		// For consistency with non-Multisite, we add a Tools menu in
 		// the Network Admin as a home for our Tools panel.
@@ -293,7 +329,10 @@ class BP_Admin {
 			$tools_parent = 'tools.php';
 		}
 
-		$hooks[] = add_submenu_page(
+		// Init the Tools submenu pages global.
+		$this->submenu_pages['tools'] = array();
+
+		$bp_repair_tools = add_submenu_page(
 			$tools_parent,
 			__( 'BuddyPress Tools', 'buddypress' ),
 			__( 'BuddyPress', 'buddypress' ),
@@ -302,7 +341,10 @@ class BP_Admin {
 			'bp_core_admin_tools'
 		);
 
-		$hooks[] = add_submenu_page(
+		$this->submenu_pages['tools']['bp-tools'] = $bp_repair_tools;
+		$hooks[]                                  = $bp_repair_tools;
+
+		$bp_optouts_tools = add_submenu_page(
 			$tools_parent,
 			__( 'Manage Opt-outs', 'buddypress' ),
 			__( 'Manage Opt-outs', 'buddypress' ),
@@ -310,6 +352,9 @@ class BP_Admin {
 			'bp-optouts',
 			'bp_core_optouts_admin'
 		);
+
+		$this->submenu_pages['tools']['bp-optouts'] = $bp_optouts_tools;
+		$hooks[]                                    = $bp_optouts_tools;
 
 		// For network-wide configs, add a link to (the root site's) Emails screen.
 		if ( is_network_admin() && bp_is_network_activated() ) {
@@ -332,6 +377,21 @@ class BP_Admin {
 
 		foreach( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
+		}
+
+		/**
+		 * Fires before adding inline styles for BP Admin tabs.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param array $submenu_pages The BP_Admin submenu pages passed by reference.
+		 */
+		do_action_ref_array( 'bp_admin_submenu_pages', array( &$this->submenu_pages ) );
+
+		foreach( $this->submenu_pages as $subpage_hooks ) {
+			foreach ( $subpage_hooks as $subpage_hook ) {
+				add_action( "admin_print_styles-{$subpage_hook}", array( $this, 'add_inline_styles' ), 20 );
+			}
 		}
 	}
 
@@ -810,14 +870,10 @@ class BP_Admin {
 	 * @since 1.7.0
 	 */
 	public function credits_screen() {
+		bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Credits', 'buddypress' ) );
 	?>
 
-		<div class="wrap bp-about-wrap">
-
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'BuddyPress Settings', 'buddypress' ); ?></h1>
-		<hr class="wp-header-end">
-
-		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( esc_html__( 'Credits', 'buddypress' ) ); ?></h2>
+		<div class="buddypress-body bp-about-wrap">
 
 			<p class="about-description"><?php esc_html_e( 'Meet the contributors behind BuddyPress:', 'buddypress' ); ?></p>
 
@@ -1222,6 +1278,53 @@ class BP_Admin {
 
 		foreach ( $scripts as $id => $script ) {
 			wp_register_script( $id, $script['file'], $script['dependencies'], $version, $script['footer'] );
+		}
+	}
+
+	/**
+	 * Adds inline styles to adapt the number of grid columns according to the number of BP Admin tabs.
+	 *
+	 * @since 10.0.0
+	 */
+	public function add_inline_styles() {
+		$screen                  = get_current_screen();
+		$current_settings_tab_id = array_search( $screen->id, $this->submenu_pages['settings'], true );
+		$current_tools_tab_id    = array_search( $screen->id, $this->submenu_pages['tools'], true );
+		$current_tab_id          = '';
+		$tabs                    = array();
+		$context                 = '';
+
+		if ( $current_settings_tab_id ) {
+			$current_tab_id = $current_settings_tab_id;
+			$tabs           = wp_list_pluck( bp_core_get_admin_settings_tabs(), 'name', 'id' );
+			$context        = 'settings';
+		} elseif ( $current_tools_tab_id ) {
+			$current_tab_id = $current_tools_tab_id;
+			$tabs           = wp_list_pluck( bp_core_get_admin_tools_tabs(), 'name', 'id' );
+			$context        = 'tools';
+		}
+
+		if ( $current_tab_id && isset( $tabs[ $current_tab_id ] ) ) {
+			$this->nav_tabs = bp_core_admin_tabs( $tabs[ $current_tab_id ], $context, false );
+			$grid_columns   = array_fill( 0, count( $this->nav_tabs ), '1fr');
+			$help_tab_css   = '';
+
+			if ( $screen->get_help_tabs() ) {
+				$help_tab_css  = '#screen-meta { margin-right: 0; } #screen-meta-links { position: absolute; right: 0; }';
+			}
+
+			wp_add_inline_style(
+				'bp-admin-common-css',
+				sprintf(
+					'.buddypress-tabs-wrapper {
+						-ms-grid-columns: %1$s;
+						grid-template-columns: %1$s;
+					}
+					%2$s',
+					implode( " ", $grid_columns ),
+					$help_tab_css
+				)
+			);
 		}
 	}
 }

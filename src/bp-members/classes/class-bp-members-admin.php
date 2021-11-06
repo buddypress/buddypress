@@ -149,6 +149,16 @@ class BP_Members_Admin {
 		if ( ! empty( $this->subsite_activated ) ) {
 			$this->capability = 'manage_network_users';
 		}
+
+		/*
+		 * For consistency with non-Multisite, we add a Tools menu in
+		 * the Network Admin as a home for our Tools panel.
+		 */
+		if ( is_multisite() && bp_core_do_network_admin() ) {
+			$this->tools_parent = 'network-tools';
+		} else {
+			$this->tools_parent = 'tools.php';
+		}
 	}
 
 	/**
@@ -254,6 +264,9 @@ class BP_Members_Admin {
 			// Filter WP admin users list table to include users of the specified type.
 			add_filter( 'pre_get_users', array( $this, 'users_table_filter_by_type' ) );
 		}
+
+		// Add the Members invitations submenu page to the tools submenu pages.
+		add_action( 'bp_admin_submenu_pages', array( $this, 'set_submenu_page' ), 10, 1 );
 	}
 
 	/**
@@ -511,16 +524,8 @@ class BP_Members_Admin {
 			);
 		}
 
-		// For consistency with non-Multisite, we add a Tools menu in
-		// the Network Admin as a home for our Tools panel.
-		if ( is_multisite() && bp_core_do_network_admin() ) {
-			$tools_parent = 'network-tools';
-		} else {
-			$tools_parent = 'tools.php';
-		}
-
 		$hooks['members_invitations'] = $this->members_invites_page = add_submenu_page(
-			$tools_parent,
+			$this->tools_parent,
 			__( 'Manage Invitations',  'buddypress' ),
 			__( 'Manage Invitations',  'buddypress' ),
 			$this->capability,
@@ -570,6 +575,19 @@ class BP_Members_Admin {
 
 		// Highlight the BuddyPress tools submenu when managing invitations.
 		add_action( "admin_head-{$this->members_invites_page}", 'bp_core_modify_admin_menu_highlight' );
+	}
+
+	/**
+	 * Include the Members Invitations tab to the Admin tabs needing specific inline styles.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array $submenu_pages The BP_Admin submenu pages passed by reference.
+	 */
+	public function set_submenu_page( &$submenu_pages ) {
+		if ( isset( $submenu_pages['tools'] ) ) {
+			$submenu_pages['tools']['bp-members-invitations'] = get_plugin_page_hookname( 'bp-members-invitations', $this->tools_parent );
+		}
 	}
 
 	/**
@@ -3003,14 +3021,10 @@ class BP_Members_Admin {
 			), $_SERVER['REQUEST_URI']
 		);
 
+		bp_core_admin_tabbed_screen_header( __( 'BuddyPress tools', 'buddypress' ), __( 'Manage Invitations', 'buddypress' ), 'tools' );
 		?>
 
-		<div class="wrap">
-			<h1 class="wp-heading-inline"><?php esc_html_e( 'BuddyPress tools', 'buddypress' ); ?></h1>
-			<hr class="wp-header-end">
-
-			<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Manage Invitations', 'buddypress' ), 'tools' ); ?></h2>
-
+		<div class="buddypress-body">
 			<?php
 			if ( $usersearch ) {
 				printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
@@ -3124,11 +3138,11 @@ class BP_Members_Admin {
 			'invitations_' . $action
 		);
 
+		bp_core_admin_tabbed_screen_header( __( 'BuddyPress tools', 'buddypress' ), __( 'Manage Invitations', 'buddypress' ), 'tools' );
 		?>
 
-		<div class="wrap">
-			<h1 class="wp-heading-inline"><?php echo esc_html( $header_text ); ?></h1>
-			<hr class="wp-header-end">
+		<div class="buddypress-body">
+			<h2><?php echo esc_html( $header_text ); ?></h2>
 
 			<p><?php echo esc_html( $helper_text ); ?></p>
 

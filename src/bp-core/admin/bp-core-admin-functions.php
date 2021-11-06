@@ -391,6 +391,53 @@ function bp_do_activation_redirect() {
 /** UI/Styling ****************************************************************/
 
 /**
+ * Outputs the BP Admin Tabbed header.
+ *
+ * @since 10.0.0
+ *
+ * @param string $title      The title of the Admin page.
+ * @param string $active_tab The current displayed tab.
+ * @param string $context    The context of use for the tabs. Defaults to 'settings'.
+ *                           Possible values are 'settings' & 'tools'.
+ */
+function bp_core_admin_tabbed_screen_header( $title = '', $active_tab = '', $context = 'settings' ) {
+	$bp = buddypress();
+
+	// Globalize the active tab for backcompat purpose.
+	$bp->admin->active_nav_tab = $active_tab;
+
+	/**
+	 * Fires before the output of the BP Admin tabbed screen header.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param string $active_tab The BP Admin active tab.
+	 * @param string $context    The context of use for the tabs.
+	 */
+	do_action( 'bp_core_admin_tabbed_screen_header', $active_tab, $context );
+	?>
+	<div class="buddypress-header">
+		<div class="buddypress-title-section">
+			<h1><span class="bp-badge"></span> <?php echo esc_html( $title ); ?></h1>
+		</div>
+		<nav class="buddypress-tabs-wrapper">
+			<?php if ( isset( $bp->admin->nav_tabs ) ) : ?>
+				<?php foreach ( $bp->admin->nav_tabs as $nav_tab ) : ?>
+
+					<?php echo $nav_tab; ?>
+
+				<?php endforeach; ?>
+			<?php else : ?>
+				<?php bp_core_admin_tabs( esc_html( $active_tab ), $context ); ?>
+			<?php endif; ?>
+		</nav>
+	</div>
+
+	<hr class="wp-header-end">
+	<?php
+}
+
+/**
  * Output the tabs in the admin area.
  *
  * @since 1.5.0
@@ -400,10 +447,10 @@ function bp_do_activation_redirect() {
  * @param string $context    The context of use for the tabs. Defaults to 'settings'.
  *                           Possible values are 'settings' & 'tools'.
  */
-function bp_core_admin_tabs( $active_tab = '', $context = 'settings' ) {
+function bp_core_admin_tabs( $active_tab = '', $context = 'settings', $echo = true ) {
 	$tabs_html    = '';
-	$idle_class   = 'nav-tab';
-	$active_class = 'nav-tab nav-tab-active';
+	$idle_class   = 'buddypress-nav-tab';
+	$active_class = 'buddypress-nav-tab active';
 
 	/**
 	 * Filters the admin tabs to be displayed.
@@ -412,26 +459,123 @@ function bp_core_admin_tabs( $active_tab = '', $context = 'settings' ) {
 	 *
 	 * @param array $value Array of tabs to output to the admin area.
 	 */
-	$tabs = apply_filters( 'bp_core_admin_tabs', bp_core_get_admin_tabs( $active_tab, $context ) );
+	$tabs         = apply_filters( 'bp_core_admin_tabs', bp_core_get_admin_tabs( $active_tab, $context ) );
+	$tabs_html    = array();
 
 	// Loop through tabs and build navigation.
 	foreach ( array_values( $tabs ) as $tab_data ) {
-		$is_current = (bool) ( $tab_data['name'] == $active_tab );
-		$tab_class  = $is_current ? $active_class : $idle_class;
-		$tabs_html .= '<a href="' . esc_url( $tab_data['href'] ) . '" class="' . esc_attr( $tab_class ) . '">' . esc_html( $tab_data['name'] ) . '</a>';
+		$is_current     = (bool) ( $tab_data['name'] == $active_tab );
+		$tab_class      = $is_current ? $active_class : $idle_class;
+		$tabs_html[]    = '<a href="' . esc_url( $tab_data['href'] ) . '" class="' . esc_attr( $tab_class ) . '">' . esc_html( $tab_data['name'] ) . '</a>';
 	}
 
-	echo $tabs_html;
+	if ( ! $echo ) {
+		return $tabs_html;
+	}
 
+	echo implode( "\n", $tabs_html );
 	/**
 	 * Fires after the output of tabs for the admin area.
 	 *
 	 * @since 1.5.0
 	 * @since 8.0.0 Adds the `$context` parameter.
+	 * @since 10.0.0 Adds the `$active_tab` parameter.
 	 *
 	 * @param string $context The context of use for the tabs.
 	 */
-	do_action( 'bp_admin_tabs', $context );
+	do_action( 'bp_admin_tabs', $context, $active_tab );
+}
+
+/**
+ * Returns the BP Admin settings tabs.
+ *
+ * @since 10.0.0
+ *
+ * @param bool $apply_filters Whether to apply filters or not.
+ * @return array              The BP Admin settings tabs.
+ */
+function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
+	$settings_tabs = array(
+		'0' => array(
+			'id'   => 'bp-components',
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) ),
+			'name' => __( 'Components', 'buddypress' ),
+		),
+		'2' => array(
+			'id'   => 'bp-settings',
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
+			'name' => __( 'Options', 'buddypress' ),
+		),
+		'1' => array(
+			'id'   => 'bp-page-settings',
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) ),
+			'name' => __( 'Pages', 'buddypress' ),
+		),
+		'3' => array(
+			'id'   => 'bp-credits',
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'admin.php' ) ),
+			'name' => __( 'Credits', 'buddypress' ),
+		),
+	);
+
+	if ( ! $apply_filters ) {
+		return $settings_tabs;
+	}
+
+	/**
+	 * Filter here to edit the BP Admin settings tabs.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array $settings_tabs The BP Admin settings tabs.
+	 */
+	return apply_filters( 'bp_core_get_admin_settings_tabs', $settings_tabs );
+}
+
+/**
+ * Returns the BP Admin tools tabs.
+ *
+ * @since 10.0.0
+ *
+ * @param bool $apply_filters Whether to apply filters or not.
+ * @return array              The BP Admin tools tabs.
+ */
+function bp_core_get_admin_tools_tabs( $apply_filters = true ) {
+	$tools_page = 'tools.php';
+	if ( bp_core_do_network_admin() ) {
+		$tools_page = 'admin.php';
+	}
+
+	$tools_tabs = array(
+		'0' => array(
+			'id'   => 'bp-tools',
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-tools' ), $tools_page ) ),
+			'name' => __( 'Repair', 'buddypress' ),
+		),
+		'1' => array(
+			'id'   => 'bp-members-invitations',
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-members-invitations' ), $tools_page ) ),
+			'name' => __( 'Manage Invitations', 'buddypress' ),
+		),
+		'2' => array(
+			'id'   => 'bp-optouts',
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-optouts' ), $tools_page ) ),
+			'name' => __( 'Manage Opt-outs', 'buddypress' ),
+		),
+	);
+
+	if ( ! $apply_filters ) {
+		return $tools_tabs;
+	}
+
+	/**
+	 * Filter here to edit the BP Admin tools tabs.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array $tools_tabs The BP Admin tools tabs.
+	 */
+	return apply_filters( 'bp_core_get_admin_tools_tabs', $tools_tabs );
 }
 
 /**
@@ -449,44 +593,9 @@ function bp_core_get_admin_tabs( $active_tab = '', $context = 'settings' ) {
 	$tabs = array();
 
 	if ( 'settings' === $context ) {
-		$tabs = array(
-			'0' => array(
-				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) ),
-				'name' => __( 'Components', 'buddypress' ),
-			),
-			'2' => array(
-				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
-				'name' => __( 'Options', 'buddypress' ),
-			),
-			'1' => array(
-				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) ),
-				'name' => __( 'Pages', 'buddypress' ),
-			),
-			'3' => array(
-				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'admin.php' ) ),
-				'name' => __( 'Credits', 'buddypress' ),
-			),
-		);
+		$tabs = bp_core_get_admin_settings_tabs();
 	} elseif ( 'tools' === $context ) {
-		$tools_page = 'tools.php';
-		if ( bp_core_do_network_admin() ) {
-			$tools_page = 'admin.php';
-		}
-
-		$tabs = array(
-			'0' => array(
-				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-tools' ), $tools_page ) ),
-				'name' => __( 'Repair', 'buddypress' ),
-			),
-			'1' => array(
-				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-members-invitations' ), $tools_page ) ),
-				'name' => __( 'Manage Invitations', 'buddypress' ),
-			),
-			'2' => array(
-				'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-optouts' ), $tools_page ) ),
-				'name' => __( 'Manage Opt-outs', 'buddypress' ),
-			),
-		);
+		$tabs = bp_core_get_admin_tools_tabs();
 	}
 
 	/**
@@ -500,6 +609,43 @@ function bp_core_get_admin_tabs( $active_tab = '', $context = 'settings' ) {
 	 */
 	return apply_filters( 'bp_core_get_admin_tabs', $tabs, $context );
 }
+
+/**
+ * Makes sure plugins using `bp_core_admin_tabs()` to output their custom BP Admin Tabs are well displayed
+ * inside the 10.0.0 tabbed header.
+ *
+ * @since 10.0.0
+ *
+ * @param string $context    The context of use for the tabs.
+ * @param string $active_tab The active tab.
+ */
+function bp_backcompat_admin_tabs( $context = '', $active_tab = '' ) {
+	$bp = buddypress();
+
+	// Only add the back compat for Settings or Tools sub pages.
+	if ( 'settings' !== $context && 'tools' !== $context ) {
+		return;
+	}
+
+	// Globalize the active tab for backcompat purpose.
+	if ( ! $bp->admin->active_nav_tab || $active_tab !== $bp->admin->active_nav_tab ) {
+		_doing_it_wrong(
+			'bp_core_admin_tabs()',
+			__( 'BuddyPress Settings and Tools Screens are now using a new tabbed header. Please use `bp_core_admin_tabbed_screen_header()` instead of bp_core_admin_tabs() to output tabs.', 'buddypress' ),
+			'10.0.0'
+		);
+
+		// Let's try to use JavaScript to force the use of the 10.0.0 Admin tabbed screen header.
+		wp_enqueue_script(
+			'bp-backcompat-admin-tabs',
+			sprintf( '%1$sbackcompat-admin-tabs%2$s.js', $bp->admin->js_url, bp_core_get_minified_asset_suffix() ),
+			array(),
+			bp_get_version(),
+			true
+		);
+	}
+}
+add_action( 'bp_admin_tabs', 'bp_backcompat_admin_tabs', 1, 2 );
 
 /** Help **********************************************************************/
 
@@ -1291,12 +1437,19 @@ add_action( 'wp_ajax_bp_dismiss_notice', 'bp_core_admin_notice_dismiss_callback'
  *
  * @since 2.8.0
  *
- * @param string $classes CSS classes for the body tag in the admin, a comma separated string.
+ * @param string $classes CSS classes for the body tag in the admin, a space separated string.
  *
  * @return string
  */
 function bp_core_admin_body_classes( $classes ) {
-	return $classes . ' buddypress';
+	$bp = buddypress();
+
+	$bp_class = ' buddypress';
+	if ( isset( $bp->admin->nav_tabs ) && $bp->admin->nav_tabs ) {
+		$bp_class .= ' bp-is-tabbed-screen';
+	}
+
+	return $classes . $bp_class;
 }
 add_filter( 'admin_body_class', 'bp_core_admin_body_classes' );
 

@@ -316,14 +316,10 @@ function bp_core_optouts_admin_index() {
 		$_SERVER['REQUEST_URI']
 	);
 
+	bp_core_admin_tabbed_screen_header( __( 'BuddyPress tools', 'buddypress' ), __( 'Manage Opt-outs', 'buddypress' ), 'tools' );
 	?>
 
-	<div class="wrap">
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'BuddyPress tools', 'buddypress' ); ?></h1>
-		<hr class="wp-header-end">
-
-		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Manage Opt-outs', 'buddypress' ), 'tools' ); ?></h2>
-
+	<div class="buddypress-body">
 		<?php
 		if ( $usersearch ) {
 			$num_results = (int) $bp_optouts_list_table->total_items;
@@ -425,13 +421,10 @@ function bp_core_optouts_admin_manage( $action = '' ) {
 		'optouts_' . $action
 	);
 
+	bp_core_admin_tabbed_screen_header( __( 'BuddyPress tools', 'buddypress' ), __( 'Manage Opt-outs', 'buddypress' ), 'tools' );
 	?>
 
-	<div class="wrap">
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'BuddyPress tools', 'buddypress' ); ?></h1>
-		<hr class="wp-header-end">
-
-		<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Manage Opt-outs', 'buddypress' ), 'tools' ); ?></h2>
+	<div class="buddypress-body">
 
 		<p><?php echo esc_html( $helper_text ); ?></p>
 
