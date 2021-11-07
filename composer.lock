@@ -2201,16 +2201,16 @@
         },
         {
             "name": "wp-phpunit/wp-phpunit",
-            "version": "5.8.1",
+            "version": "5.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wp-phpunit/wp-phpunit.git",
-                "reference": "0b89ad32feae22f3a39e63e44117d6e56bdeed69"
+                "reference": "5ab77c1e1328e9bee65f60c246e33b13fc202375"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wp-phpunit/wp-phpunit/zipball/0b89ad32feae22f3a39e63e44117d6e56bdeed69",
-                "reference": "0b89ad32feae22f3a39e63e44117d6e56bdeed69",
+                "url": "https://api.github.com/repos/wp-phpunit/wp-phpunit/zipball/5ab77c1e1328e9bee65f60c246e33b13fc202375",
+                "reference": "5ab77c1e1328e9bee65f60c246e33b13fc202375",
                 "shasum": ""
             },
             "type": "library",
@@ -2245,7 +2245,7 @@
                 "issues": "https://github.com/wp-phpunit/issues",
                 "source": "https://github.com/wp-phpunit/wp-phpunit"
             },
-            "time": "2021-09-09T19:11:29+00:00"
+            "time": "2021-03-10T17:57:07+00:00"
         }
     ],
     "aliases": [],
@@ -2257,5 +2257,5 @@
         "php": ">=5.6.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }
