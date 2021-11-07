@@ -4,7 +4,7 @@
 ( function( wp, bp, $ ) {
 
 	// Bail if not set
-	if ( typeof bpGroupManageMembersSettings === 'undefined' || ! bp.isRestEnabled ) {
+	if ( typeof bpGroupManageMembersSettings === 'undefined' ) {
 		return;
 	}
 
@@ -62,7 +62,7 @@
 					options.headers = { 'X-HTTP-Method-Override': 'PUT' };
 				}
 
-				return bp.apiRequest( options );
+				return wp.apiRequest( options );
 			}
 		},
 
@@ -117,7 +117,7 @@
 					}
 				};
 
-				return bp.apiRequest( options );
+				return wp.apiRequest( options );
 			}
 		}
 	} );

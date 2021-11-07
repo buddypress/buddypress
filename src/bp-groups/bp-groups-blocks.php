@@ -483,10 +483,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 			$path
 		);
 
-		$preloaded_groups = array();
-		if ( bp_is_running_wp( '5.0.0' ) ) {
-			$preloaded_groups = rest_preload_api_request( '', $default_path );
-		}
+		$preloaded_groups = rest_preload_api_request( '', $default_path );
 
 		buddypress()->groups->block_globals['bp/dynamic-groups']->items[ $widget_id ] = (object) array(
 			'selector'   => $widget_id,

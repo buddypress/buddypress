@@ -500,10 +500,7 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 			$path
 		);
 
-		$preloaded_members = array();
-		if ( bp_is_running_wp( '5.0.0' ) ) {
-			$preloaded_members = rest_preload_api_request( '', $default_path );
-		}
+		$preloaded_members = rest_preload_api_request( '', $default_path );
 
 		buddypress()->members->block_globals['bp/dynamic-members']->items[ $widget_id ] = (object) array(
 			'selector'   => $widget_id,

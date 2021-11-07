@@ -3270,13 +3270,6 @@ function bp_register_type_meta( $type_tax, $meta_key, array $args ) {
 		return false;
 	}
 
-	// register_term_meta() was introduced in WP 4.9.8.
-	if ( ! bp_is_running_wp( '4.9.8' ) ) {
-		$args['object_subtype'] = $type_tax;
-
-		return register_meta( 'term', $meta_key, $args );
-	}
-
 	return register_term_meta( $type_tax, $meta_key, $args );
 }
 
@@ -3684,15 +3677,13 @@ function bp_email_get_appearance_settings() {
 		)
 	);
 
-	if ( bp_is_running_wp( '4.9.6' ) ) {
-		$privacy_policy_url = get_privacy_policy_url();
-		if ( $privacy_policy_url ) {
-			$footer_text[] = sprintf(
-				'<a href="%s">%s</a>',
-				esc_url( $privacy_policy_url ),
-				esc_html__( 'Privacy Policy', 'buddypress' )
-			);
-		}
+	$privacy_policy_url = get_privacy_policy_url();
+	if ( $privacy_policy_url ) {
+		$footer_text[] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( $privacy_policy_url ),
+			esc_html__( 'Privacy Policy', 'buddypress' )
+		);
 	}
 
 	$default_args = array(

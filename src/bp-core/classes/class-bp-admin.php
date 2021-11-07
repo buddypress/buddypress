@@ -654,11 +654,6 @@ class BP_Admin {
 	 * @since 4.0.0
 	 */
 	public function add_privacy_policy_content() {
-		// Nothing to do if we're running < WP 4.9.6.
-		if ( bp_is_running_wp( '4.9.6', '<' ) ) {
-			return;
-		}
-
 		$suggested_text = '<strong class="privacy-policy-tutorial">' . esc_html__( 'Suggested text:', 'buddypress' ) . ' </strong>';
 		$content = '';
 
@@ -1290,7 +1285,7 @@ class BP_Admin {
 			// 3.0
 			'bp-hello-js' => array(
 				'file'         => "{$url}hello{$min}.js",
-				'dependencies' => array( 'thickbox', 'bp-api-request' ),
+				'dependencies' => array( 'thickbox', 'wp-api-request' ),
 				'footer'       => true,
 			),
 		) );

@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * BuddyPress blocks require WordPress >= 5.0.0 & the BP REST API.
+ * BuddyPress blocks require the BP REST API.
  *
  * @since 6.0.0
  *
@@ -19,7 +19,14 @@ defined( 'ABSPATH' ) || exit;
  *              False otherwise.
  */
 function bp_support_blocks() {
-	return bp_is_running_wp( '5.0.0' ) && bp_rest_api_is_available();
+	/**
+	 * Filter here, returning `false`, to completely disable BuddyPress blocks.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param bool $value True if the BP REST API is available. False otherwise.
+	 */
+	return apply_filters( 'bp_support_blocks', bp_rest_api_is_available() );
 }
 
 /**

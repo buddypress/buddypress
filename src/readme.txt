@@ -3,7 +3,7 @@ Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw21
 Tags: user profiles, activity streams, messaging, friends, user groups, notifications, community, social networking, intranet
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Requires at least: 4.9
+Requires at least: 5.4
 Requires PHP: 5.6
 Tested up to: 5.8
 Stable tag: 9.1.1

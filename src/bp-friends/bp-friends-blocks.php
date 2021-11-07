@@ -207,10 +207,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 			$path
 		);
 
-		$preloaded_friends = array();
-		if ( bp_is_running_wp( '5.0.0' ) ) {
-			$preloaded_friends = rest_preload_api_request( '', $default_path );
-		}
+		$preloaded_friends = rest_preload_api_request( '', $default_path );
 
 		buddypress()->friends->block_globals['bp/friends']->items[ $widget_id ] = (object) array(
 			'selector'   => $widget_id,

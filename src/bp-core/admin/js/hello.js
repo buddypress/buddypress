@@ -4,7 +4,7 @@
  *
  * @since 3.0.0
  */
-(function( $, bp ) {
+(function( $, wp ) {
 	// Bail if not set
 	if ( typeof bpHelloStrings === 'undefined' ) {
 		return;
@@ -79,7 +79,7 @@
 
 			$( '#TB_window' ).addClass( 'thickbox-loading' );
 
-			bp.apiRequest( {
+			wp.apiRequest( {
 				url: anchor.data( 'endpoint' ),
 				type: 'GET',
 				beforeSend: function( xhr, settings ) {
@@ -118,8 +118,8 @@
 	} );
 
 	// Init modal after the screen's loaded.
-	$( document ).ready( function() {
+	$( function() {
 		bpHelloOpenModal();
 	} );
 
-}( jQuery, window.bp || {} ) );
+}( jQuery, window.wp || {} ) );

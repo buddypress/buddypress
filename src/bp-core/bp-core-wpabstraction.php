@@ -309,28 +309,6 @@ if ( !function_exists( 'mb_strrpos' ) ) {
 }
 
 /**
- * Returns the name of the hook to use once a WordPress Site is inserted into the Database.
- *
- * WordPress 5.1.0 deprecated the `wpmu_new_blog` action. As BuddyPress is supporting WordPress back
- * to 4.9.0, this function makes sure we are using the new hook `wp_initialize_site` when the current
- * WordPress version is upper or equal to 5.1.0 and that we keep on using `wpmu_new_blog` for earlier
- * versions of WordPress.
- *
- * @since 6.0.0
- *
- * @return string The name of the hook to use.
- */
-function bp_insert_site_hook() {
-	$wp_hook = 'wpmu_new_blog';
-
-	if ( function_exists( 'wp_insert_site' ) ) {
-		$wp_hook = 'wp_initialize_site';
-	}
-
-	return $wp_hook;
-}
-
-/**
  * Catch the new site data for a later use.
  *
  * @since 6.0.0
@@ -399,29 +377,7 @@ function bp_insert_site( $site, $args_or_user_id = null, $domain = '', $path = '
 	 */
 	do_action( 'bp_insert_site', $site_id, $user_id, $domain, $path, $network_id, $meta );
 }
-add_action( bp_insert_site_hook(), 'bp_insert_site' );
-
-/**
- * Returns the name of the hook to use once a WordPress Site is deleted.
- *
- * WordPress 5.1.0 deprecated the `delete_blog` action. As BuddyPress is supporting WordPress back
- * to 4.9.0, this function makes sure we are using the new hook `wp_validate_site_deletion` when the
- * current WordPress version is upper or equal to 5.1.0 and that we keep on using `delete_blog` for
- * earlier versions of WordPress.
- *
- * @since 6.0.0
- *
- * @return string The name of the hook to use.
- */
-function bp_delete_site_hook() {
-	$wp_hook = 'delete_blog';
-
-	if ( function_exists( 'wp_delete_site' ) ) {
-		$wp_hook = 'wp_validate_site_deletion';
-	}
-
-	return $wp_hook;
-}
+add_action( 'wp_initialize_site', 'bp_insert_site' );
 
 /**
  * Makes sure the `bp_delete_site` hook is fired if site's deletion
@@ -471,25 +427,4 @@ function bp_delete_site( $site_id_or_error, $drop_or_site = false ) {
 	 */
 	do_action( 'bp_delete_site', $site_id, $drop );
 }
-add_action( bp_delete_site_hook(), 'bp_delete_site', 10, 2 );
-
-if ( ! function_exists( 'wp_parse_list' ) ) {
-	/**
-	 * Cleans up an array, comma- or space-separated list of scalar values.
-	 *
-	 * As BuddyPress supports older WordPress versions than 5.1 (4.9 & 5.0),
-	 * the BP REST API needs this function to be available.
-	 *
-	 * @since 7.0.0
-	 *
-	 * @param array|string $list List of values.
-	 * @return array Sanitized array of values.
-	 */
-	function wp_parse_list( $list ) {
-		if ( ! is_array( $list ) ) {
-			return preg_split( '/[\s,]+/', $list, -1, PREG_SPLIT_NO_EMPTY );
-		}
-
-		return $list;
-	}
-}
+add_action( 'wp_validate_site_deletion', 'bp_delete_site', 10, 2 );

@@ -19,7 +19,7 @@ function bp_groups_register_scripts() {
     wp_register_script(
         'bp-group-manage-members',
         sprintf( '%1$sbp-groups/js/manage-members%2$s.js', buddypress()->plugin_url, bp_core_get_minified_asset_suffix() ),
-        array( 'json2', 'wp-backbone', 'bp-api-request' ),
+        array( 'json2', 'wp-backbone', 'wp-api-request' ),
         bp_get_version(),
         true
     );
@@ -49,10 +49,7 @@ function bp_groups_get_group_manage_members_script_data( $group_id = 0 ) {
 		$group_id
 	);
 
-	$preloaded_members = array();
-	if ( bp_is_running_wp( '5.0.0' ) ) {
-		$preloaded_members = rest_preload_api_request( '', $path );
-	}
+	$preloaded_members = rest_preload_api_request( '', $path );
 
 	return array(
 		'path'      => remove_query_arg( 'exclude_admins', $path ),

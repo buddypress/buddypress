@@ -3884,7 +3884,7 @@ function bp_is_widget_block_active( $block_name = '', $widget_id_base = '' ) {
 		'block'  => false,
 	);
 
-	if ( $block_name && bp_is_running_wp( '5.0.0', '>=' ) ) {
+	if ( $block_name && bp_is_running_wp( '5.8.0', '>=' ) ) {
 		$widget_blocks = get_option( 'widget_block', array() );
 		$sidebars      = wp_get_sidebars_widgets();
 
