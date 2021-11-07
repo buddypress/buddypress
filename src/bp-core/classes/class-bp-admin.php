@@ -388,9 +388,14 @@ class BP_Admin {
 		 */
 		do_action_ref_array( 'bp_admin_submenu_pages', array( &$this->submenu_pages ) );
 
-		foreach( $this->submenu_pages as $subpage_hooks ) {
+		foreach( $this->submenu_pages as $subpage_type => $subpage_hooks ) {
 			foreach ( $subpage_hooks as $subpage_hook ) {
 				add_action( "admin_print_styles-{$subpage_hook}", array( $this, 'add_inline_styles' ), 20 );
+
+				// When BuddyPress is activated on the network, the settings screens need an admin notice when settings have been updated.
+				if ( is_network_admin() && bp_is_network_activated() && 'settings' === $subpage_type && 'settings_page_bp-credits' !== $subpage_hook ) {
+					add_action( "load-{$subpage_hook}", array( $this, 'admin_load' ) );
+				}
 			}
 		}
 	}
@@ -579,6 +584,22 @@ class BP_Admin {
 			'settings' => '<a href="' . esc_url( add_query_arg( array( 'page' => 'bp-components' ), bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
 			'about'    => '<a href="' . esc_url( bp_get_admin_url( '?hello=buddypress' ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
 		) );
+	}
+
+	/**
+	 * Displays an admin notice to inform settings have been saved.
+	 *
+	 * The notice is only displayed inside the Network Admin when
+	 * BuddyPress is network activated.
+	 *
+	 * @since 10.0.0
+	 */
+	public function admin_load() {
+		if ( ! isset( $_GET['updated'] ) ) {
+			return;
+		}
+
+		bp_core_add_admin_notice( __( 'Settings saved.', 'buddypress' ), 'updated' );
 	}
 
 	/**
