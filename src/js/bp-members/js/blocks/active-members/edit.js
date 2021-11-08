@@ -18,16 +18,8 @@ const {
 	i18n: {
 		__,
 	},
+	serverSideRender: ServerSideRender,
 } = wp;
-
-/**
- * BuddyPress dependencies.
- */
-const {
-	blockComponents: {
-		ServerSideRender,
-	},
-} = bp;
 
 const editActiveMembersBlock = ( { attributes, setAttributes } ) => {
 	const { title, maxMembers } = attributes;

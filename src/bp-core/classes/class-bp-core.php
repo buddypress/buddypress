@@ -392,7 +392,7 @@ class BP_Core extends BP_Component {
 						'wp-components',
 						'wp-i18n',
 						'wp-block-editor',
-						'bp-block-components',
+						'wp-server-side-render',
 					),
 					'style'              => 'bp-login-form-block',
 					'style_url'          => plugins_url( 'css/blocks/login-form.css', dirname( __FILE__ ) ),

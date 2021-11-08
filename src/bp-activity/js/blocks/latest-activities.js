@@ -145,16 +145,14 @@ const {
   },
   i18n: {
     __
-  }
+  },
+  serverSideRender: ServerSideRender
 } = wp;
 /**
  * BuddyPress dependencies.
  */
 
 const {
-  blockComponents: {
-    ServerSideRender
-  },
   blockData: {
     currentPostId,
     activityTypes

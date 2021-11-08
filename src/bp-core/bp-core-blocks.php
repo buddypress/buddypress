@@ -37,11 +37,6 @@ function bp_support_blocks() {
  *              Uses a dependency to `wp-editor` otherwise.
  */
 function bp_register_block_components() {
-	$server_side_renderer_dep = 'wp-server-side-render';
-	if ( bp_is_running_wp( '5.3.0', '<' ) ) {
-		$server_side_renderer_dep = 'wp-editor';
-	}
-
 	wp_register_script(
 		'bp-block-components',
 		plugins_url( 'js/block-components.js', __FILE__ ),
@@ -51,7 +46,6 @@ function bp_register_block_components() {
 			'wp-i18n',
 			'wp-api-fetch',
 			'wp-url',
-			$server_side_renderer_dep,
 		),
 		bp_get_version(),
 		false

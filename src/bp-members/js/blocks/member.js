@@ -128,15 +128,18 @@ exports.AVATAR_SIZES = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    __ = _wp.i18n.__;
+const {
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * Avatar sizes.
  *
  * @type {Array}
  */
 
-var AVATAR_SIZES = [{
+const AVATAR_SIZES = [{
   label: __('None', 'buddypress'),
   value: 'none'
 }, {
@@ -160,36 +163,46 @@ var _constants = require("./constants");
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    _wp$blockEditor = _wp.blockEditor,
-    InspectorControls = _wp$blockEditor.InspectorControls,
-    BlockControls = _wp$blockEditor.BlockControls,
-    _wp$components = _wp.components,
-    Placeholder = _wp$components.Placeholder,
-    Disabled = _wp$components.Disabled,
-    PanelBody = _wp$components.PanelBody,
-    SelectControl = _wp$components.SelectControl,
-    ToggleControl = _wp$components.ToggleControl,
-    Toolbar = _wp$components.Toolbar,
-    ToolbarButton = _wp$components.ToolbarButton,
-    _wp$element = _wp.element,
-    Fragment = _wp$element.Fragment,
-    createElement = _wp$element.createElement,
-    __ = _wp.i18n.__;
+const {
+  blockEditor: {
+    InspectorControls,
+    BlockControls
+  },
+  components: {
+    Placeholder,
+    Disabled,
+    PanelBody,
+    SelectControl,
+    ToggleControl,
+    Toolbar,
+    ToolbarButton
+  },
+  element: {
+    Fragment,
+    createElement
+  },
+  i18n: {
+    __
+  },
+  serverSideRender: ServerSideRender
+} = wp;
 /**
  * BuddyPress dependencies.
  */
 
-var _bp = bp,
-    _bp$blockComponents = _bp.blockComponents,
-    AutoCompleter = _bp$blockComponents.AutoCompleter,
-    ServerSideRender = _bp$blockComponents.ServerSideRender,
-    isActive = _bp.blockData.isActive;
+const {
+  blockComponents: {
+    AutoCompleter
+  },
+  blockData: {
+    isActive
+  }
+} = bp;
 /**
  * Internal dependencies.
  */
 
-var getSlugValue = function getSlugValue(item) {
+const getSlugValue = item => {
   if (item && item.mention_name) {
     return item.mention_name;
   }
@@ -197,16 +210,19 @@ var getSlugValue = function getSlugValue(item) {
   return null;
 };
 
-var editMemberBlock = function editMemberBlock(_ref) {
-  var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes;
-  var isAvatarEnabled = isActive('members', 'avatar');
-  var isMentionEnabled = isActive('activity', 'mentions');
-  var isCoverImageEnabled = isActive('members', 'cover');
-  var avatarSize = attributes.avatarSize,
-      displayMentionSlug = attributes.displayMentionSlug,
-      displayActionButton = attributes.displayActionButton,
-      displayCoverImage = attributes.displayCoverImage;
+const editMemberBlock = ({
+  attributes,
+  setAttributes
+}) => {
+  const isAvatarEnabled = isActive('members', 'avatar');
+  const isMentionEnabled = isActive('activity', 'mentions');
+  const isCoverImageEnabled = isActive('members', 'cover');
+  const {
+    avatarSize,
+    displayMentionSlug,
+    displayActionButton,
+    displayCoverImage
+  } = attributes;
 
   if (!attributes.itemID) {
     return createElement(Placeholder, {
@@ -228,7 +244,7 @@ var editMemberBlock = function editMemberBlock(_ref) {
   }, createElement(ToolbarButton, {
     icon: "edit",
     title: __('Select another member', 'buddypress'),
-    onClick: function onClick() {
+    onClick: () => {
       setAttributes({
         itemID: 0
       });
@@ -239,7 +255,7 @@ var editMemberBlock = function editMemberBlock(_ref) {
   }, createElement(ToggleControl, {
     label: __('Display Profile button', 'buddypress'),
     checked: !!displayActionButton,
-    onChange: function onChange() {
+    onChange: () => {
       setAttributes({
         displayActionButton: !displayActionButton
       });
@@ -250,7 +266,7 @@ var editMemberBlock = function editMemberBlock(_ref) {
     value: avatarSize,
     options: _constants.AVATAR_SIZES,
     help: __('Select "None" to disable the avatar.', 'buddypress'),
-    onChange: function onChange(option) {
+    onChange: option => {
       setAttributes({
         avatarSize: option
       });
@@ -258,7 +274,7 @@ var editMemberBlock = function editMemberBlock(_ref) {
   }), isCoverImageEnabled && createElement(ToggleControl, {
     label: __('Display Cover Image', 'buddypress'),
     checked: !!displayCoverImage,
-    onChange: function onChange() {
+    onChange: () => {
       setAttributes({
         displayCoverImage: !displayCoverImage
       });
@@ -267,7 +283,7 @@ var editMemberBlock = function editMemberBlock(_ref) {
   }), isMentionEnabled && createElement(ToggleControl, {
     label: __('Display Mention slug', 'buddypress'),
     checked: !!displayMentionSlug,
-    onChange: function onChange() {
+    onChange: () => {
       setAttributes({
         displayMentionSlug: !displayMentionSlug
       });
@@ -291,9 +307,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    registerBlockType = _wp.blocks.registerBlockType,
-    __ = _wp.i18n.__;
+const {
+  blocks: {
+    registerBlockType
+  },
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * Internal dependencies.
  */

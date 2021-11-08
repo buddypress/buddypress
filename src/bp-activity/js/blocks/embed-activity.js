@@ -117,87 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"DCTP":[function(require,module,exports) {
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-module.exports = _arrayWithHoles;
-},{}],"LoeL":[function(require,module,exports) {
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-module.exports = _iterableToArrayLimit;
-},{}],"jEQo":[function(require,module,exports) {
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-module.exports = _arrayLikeToArray;
-},{}],"Dbv9":[function(require,module,exports) {
-var arrayLikeToArray = require("./arrayLikeToArray");
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(n);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-}
-
-module.exports = _unsupportedIterableToArray;
-},{"./arrayLikeToArray":"jEQo"}],"MWEO":[function(require,module,exports) {
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableRest;
-},{}],"DERy":[function(require,module,exports) {
-var arrayWithHoles = require("./arrayWithHoles");
-
-var iterableToArrayLimit = require("./iterableToArrayLimit");
-
-var unsupportedIterableToArray = require("./unsupportedIterableToArray");
-
-var nonIterableRest = require("./nonIterableRest");
-
-function _slicedToArray(arr, i) {
-  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
-}
-
-module.exports = _slicedToArray;
-},{"./arrayWithHoles":"DCTP","./iterableToArrayLimit":"LoeL","./unsupportedIterableToArray":"Dbv9","./nonIterableRest":"MWEO"}],"Sjre":[function(require,module,exports) {
+})({"Sjre":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -205,62 +125,67 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    _wp$element = _wp.element,
-    createElement = _wp$element.createElement,
-    Fragment = _wp$element.Fragment,
-    useState = _wp$element.useState,
-    __ = _wp.i18n.__,
-    _wp$components = _wp.components,
-    Placeholder = _wp$components.Placeholder,
-    Disabled = _wp$components.Disabled,
-    SandBox = _wp$components.SandBox,
-    Button = _wp$components.Button,
-    ExternalLink = _wp$components.ExternalLink,
-    Spinner = _wp$components.Spinner,
-    ToolbarGroup = _wp$components.ToolbarGroup,
-    ToolbarButton = _wp$components.ToolbarButton,
-    compose = _wp.compose.compose,
-    withSelect = _wp.data.withSelect,
-    _wp$blockEditor = _wp.blockEditor,
-    RichText = _wp$blockEditor.RichText,
-    BlockControls = _wp$blockEditor.BlockControls;
+const {
+  element: {
+    createElement,
+    Fragment,
+    useState
+  },
+  i18n: {
+    __
+  },
+  components: {
+    Placeholder,
+    Disabled,
+    SandBox,
+    Button,
+    ExternalLink,
+    Spinner,
+    ToolbarGroup,
+    ToolbarButton
+  },
+  compose: {
+    compose
+  },
+  data: {
+    withSelect
+  },
+  blockEditor: {
+    RichText,
+    BlockControls
+  }
+} = wp;
 /**
  * BuddyPress dependencies.
  */
 
-var _bp = bp,
-    embedScriptURL = _bp.blockData.embedScriptURL;
+const {
+  blockData: {
+    embedScriptURL
+  }
+} = bp;
 
-var EditEmbedActivity = function EditEmbedActivity(_ref) {
-  var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes,
-      isSelected = _ref.isSelected,
-      preview = _ref.preview,
-      fetching = _ref.fetching;
-  var url = attributes.url,
-      caption = attributes.caption;
+const EditEmbedActivity = ({
+  attributes,
+  setAttributes,
+  isSelected,
+  preview,
+  fetching
+}) => {
+  const {
+    url,
+    caption
+  } = attributes;
 
-  var label = __('BuddyPress Activity URL', 'buddypress');
+  const label = __('BuddyPress Activity URL', 'buddypress');
 
-  var _useState = useState(url),
-      _useState2 = (0, _slicedToArray2.default)(_useState, 2),
-      value = _useState2[0],
-      setURL = _useState2[1];
+  const [value, setURL] = useState(url);
+  const [isEditingURL, setIsEditingURL] = useState(!url);
 
-  var _useState3 = useState(!url),
-      _useState4 = (0, _slicedToArray2.default)(_useState3, 2),
-      isEditingURL = _useState4[0],
-      setIsEditingURL = _useState4[1];
-
-  var onSubmit = function onSubmit(event) {
+  const onSubmit = event => {
     if (event) {
       event.preventDefault();
     }
@@ -271,7 +196,7 @@ var EditEmbedActivity = function EditEmbedActivity(_ref) {
     });
   };
 
-  var switchBackToURLInput = function switchBackToURLInput(event) {
+  const switchBackToURLInput = event => {
     if (event) {
       event.preventDefault();
     }
@@ -279,7 +204,7 @@ var EditEmbedActivity = function EditEmbedActivity(_ref) {
     setIsEditingURL(true);
   };
 
-  var editToolbar = createElement(BlockControls, null, createElement(ToolbarGroup, null, createElement(ToolbarButton, {
+  const editToolbar = createElement(BlockControls, null, createElement(ToolbarGroup, null, createElement(ToolbarButton, {
     icon: "edit",
     title: __('Edit URL', 'buddypress'),
     onClick: switchBackToURLInput
@@ -299,9 +224,7 @@ var EditEmbedActivity = function EditEmbedActivity(_ref) {
       className: "components-placeholder__input",
       "aria-label": label,
       placeholder: __('Enter URL to embed here…', 'buddypress'),
-      onChange: function onChange(event) {
-        return setURL(event.target.value);
-      }
+      onChange: event => setURL(event.target.value)
     }), createElement(Button, {
       isPrimary: true,
       type: "submit"
@@ -338,24 +261,23 @@ var EditEmbedActivity = function EditEmbedActivity(_ref) {
     tagName: "figcaption",
     placeholder: __('Write caption…', 'buddypress'),
     value: caption,
-    onChange: function onChange(value) {
-      return setAttributes({
-        caption: value
-      });
-    },
+    onChange: value => setAttributes({
+      caption: value
+    }),
     inlineToolbar: true
   })));
 };
 
-var editEmbedActivityBlock = compose([withSelect(function (select, ownProps) {
-  var url = ownProps.attributes.url;
-
-  var _select = select('core'),
-      getEmbedPreview = _select.getEmbedPreview,
-      isRequestingEmbedPreview = _select.isRequestingEmbedPreview;
-
-  var preview = !!url && getEmbedPreview(url);
-  var fetching = !!url && isRequestingEmbedPreview(url);
+const editEmbedActivityBlock = compose([withSelect((select, ownProps) => {
+  const {
+    url
+  } = ownProps.attributes;
+  const {
+    getEmbedPreview,
+    isRequestingEmbedPreview
+  } = select('core');
+  const preview = !!url && getEmbedPreview(url);
+  const fetching = !!url && isRequestingEmbedPreview(url);
   return {
     preview: preview,
     fetching: fetching
@@ -363,7 +285,7 @@ var editEmbedActivityBlock = compose([withSelect(function (select, ownProps) {
 })])(EditEmbedActivity);
 var _default = editEmbedActivityBlock;
 exports.default = _default;
-},{"@babel/runtime/helpers/slicedToArray":"DERy"}],"zmBI":[function(require,module,exports) {
+},{}],"zmBI":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -374,14 +296,22 @@ exports.default = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    RichText = _wp.blockEditor.RichText,
-    createElement = _wp.element.createElement;
+const {
+  blockEditor: {
+    RichText
+  },
+  element: {
+    createElement
+  }
+} = wp;
 
-var saveEmbedActivityBlock = function saveEmbedActivityBlock(_ref) {
-  var attributes = _ref.attributes;
-  var url = attributes.url,
-      caption = attributes.caption;
+const saveEmbedActivityBlock = ({
+  attributes
+}) => {
+  const {
+    url,
+    caption
+  } = attributes;
 
   if (!url) {
     return null;
@@ -391,7 +321,7 @@ var saveEmbedActivityBlock = function saveEmbedActivityBlock(_ref) {
     className: "wp-block-embed is-type-bp-activity"
   }, createElement("div", {
     className: "wp-block-embed__wrapper"
-  }, "\n".concat(url, "\n")
+  }, `\n${url}\n`
   /* URL needs to be on its own line. */
   ), !RichText.isEmpty(caption) && createElement(RichText.Content, {
     tagName: "figcaption",
@@ -413,9 +343,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    __ = _wp.i18n.__,
-    registerBlockType = _wp.blocks.registerBlockType;
+const {
+  i18n: {
+    __
+  },
+  blocks: {
+    registerBlockType
+  }
+} = wp;
 /**
  * Internal dependencies.
  */

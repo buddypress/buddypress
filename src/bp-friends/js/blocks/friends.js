@@ -128,15 +128,18 @@ exports.TYPES = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    __ = _wp.i18n.__;
+const {
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * Friends ordering types.
  *
  * @type {Array}
  */
 
-var TYPES = [{
+const TYPES = [{
   label: __('Newest', 'buddypress'),
   value: 'newest'
 }, {
@@ -160,37 +163,50 @@ var _constants = require("./constants");
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    InspectorControls = _wp.blockEditor.InspectorControls,
-    _wp$components = _wp.components,
-    Disabled = _wp$components.Disabled,
-    PanelBody = _wp$components.PanelBody,
-    RangeControl = _wp$components.RangeControl,
-    SelectControl = _wp$components.SelectControl,
-    ToggleControl = _wp$components.ToggleControl,
-    _wp$element = _wp.element,
-    Fragment = _wp$element.Fragment,
-    createElement = _wp$element.createElement,
-    __ = _wp.i18n.__;
+const {
+  blockEditor: {
+    InspectorControls
+  },
+  components: {
+    Disabled,
+    PanelBody,
+    RangeControl,
+    SelectControl,
+    ToggleControl
+  },
+  element: {
+    Fragment,
+    createElement
+  },
+  i18n: {
+    __
+  },
+  serverSideRender: ServerSideRender
+} = wp;
 /**
  * BuddyPress dependencies.
  */
 
-var _bp = bp,
-    ServerSideRender = _bp.blockComponents.ServerSideRender,
-    currentPostId = _bp.blockData.currentPostId;
+const {
+  blockData: {
+    currentPostId
+  }
+} = bp;
 /**
  * Internal dependencies.
  */
 
-var editDynamicFriendsBlock = function editDynamicFriendsBlock(_ref) {
-  var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes;
-  var postId = attributes.postId,
-      maxFriends = attributes.maxFriends,
-      friendDefault = attributes.friendDefault,
-      linkTitle = attributes.linkTitle;
-  var post = currentPostId();
+const editDynamicFriendsBlock = ({
+  attributes,
+  setAttributes
+}) => {
+  const {
+    postId,
+    maxFriends,
+    friendDefault,
+    linkTitle
+  } = attributes;
+  const post = currentPostId();
 
   if (!postId && post) {
     setAttributes({
@@ -204,11 +220,9 @@ var editDynamicFriendsBlock = function editDynamicFriendsBlock(_ref) {
   }, createElement(RangeControl, {
     label: __('Max friends to show', 'buddypress'),
     value: maxFriends,
-    onChange: function onChange(value) {
-      return setAttributes({
-        maxFriends: value
-      });
-    },
+    onChange: value => setAttributes({
+      maxFriends: value
+    }),
     min: 1,
     max: 10,
     required: true
@@ -216,7 +230,7 @@ var editDynamicFriendsBlock = function editDynamicFriendsBlock(_ref) {
     label: __('Default members to show', 'buddypress'),
     value: friendDefault,
     options: _constants.TYPES,
-    onChange: function onChange(option) {
+    onChange: option => {
       setAttributes({
         friendDefault: option
       });
@@ -224,7 +238,7 @@ var editDynamicFriendsBlock = function editDynamicFriendsBlock(_ref) {
   }), createElement(ToggleControl, {
     label: __('Link block title to Member\'s profile friends page', 'buddypress'),
     checked: !!linkTitle,
-    onChange: function onChange() {
+    onChange: () => {
       setAttributes({
         linkTitle: !linkTitle
       });
@@ -248,30 +262,34 @@ exports.default = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    createBlock = _wp.blocks.createBlock;
+const {
+  blocks: {
+    createBlock
+  }
+} = wp;
 /**
  * Transforms Legacy Widget to Friends Block.
  *
  * @type {Object}
  */
 
-var transforms = {
+const transforms = {
   from: [{
     type: 'block',
     blocks: ['core/legacy-widget'],
-    isMatch: function isMatch(_ref) {
-      var idBase = _ref.idBase,
-          instance = _ref.instance;
-
+    isMatch: ({
+      idBase,
+      instance
+    }) => {
       if (!(instance !== null && instance !== void 0 && instance.raw)) {
         return false;
       }
 
       return idBase === 'bp_core_friends_widget';
     },
-    transform: function transform(_ref2) {
-      var instance = _ref2.instance;
+    transform: ({
+      instance
+    }) => {
       return createBlock('bp/friends', {
         maxFriends: instance.raw.max_friends,
         friendDefault: instance.raw.friend_default,
@@ -294,9 +312,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    registerBlockType = _wp.blocks.registerBlockType,
-    __ = _wp.i18n.__;
+const {
+  blocks: {
+    registerBlockType
+  },
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * Internal dependencies.
  */

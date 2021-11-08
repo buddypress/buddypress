@@ -118,65 +118,51 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"nIsC":[function(require,module,exports) {
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 /**
  * Front-end Sitewide notices block class.
  *
  * @since 9.0.0
  */
-var bpSitewideNoticeBlock = /*#__PURE__*/function () {
-  function bpSitewideNoticeBlock(settings) {
-    _classCallCheck(this, bpSitewideNoticeBlock);
-
-    var path = settings.path,
-        dismissPath = settings.dismissPath,
-        root = settings.root,
-        nonce = settings.nonce;
+class bpSitewideNoticeBlock {
+  constructor(settings) {
+    const {
+      path,
+      dismissPath,
+      root,
+      nonce
+    } = settings;
     this.path = path;
     this.dismissPath = dismissPath;
     this.root = root;
     this.nonce = nonce;
   }
 
-  _createClass(bpSitewideNoticeBlock, [{
-    key: "start",
-    value: function start() {
-      var _this = this;
-
-      // Listen to each Block's dismiss button clicks
-      document.querySelectorAll('.bp-sitewide-notice-block a.dismiss-notice').forEach(function (dismissButton) {
-        dismissButton.addEventListener('click', function (event) {
-          event.preventDefault();
-          fetch(_this.root + _this.dismissPath, {
-            method: 'POST',
-            headers: {
-              'X-WP-Nonce': _this.nonce
-            }
-          }).then(function (response) {
-            return response.json();
-          }).then(function (data) {
-            if ('undefined' !== typeof data && 'undefined' !== typeof data.dismissed && data.dismissed) {
-              document.querySelectorAll('.bp-sitewide-notice-block').forEach(function (elem) {
-                elem.remove();
-              });
-            }
-          });
+  start() {
+    // Listen to each Block's dismiss button clicks
+    document.querySelectorAll('.bp-sitewide-notice-block a.dismiss-notice').forEach(dismissButton => {
+      dismissButton.addEventListener('click', event => {
+        event.preventDefault();
+        fetch(this.root + this.dismissPath, {
+          method: 'POST',
+          headers: {
+            'X-WP-Nonce': this.nonce
+          }
+        }).then(response => response.json()).then(data => {
+          if ('undefined' !== typeof data && 'undefined' !== typeof data.dismissed && data.dismissed) {
+            document.querySelectorAll('.bp-sitewide-notice-block').forEach(elem => {
+              elem.remove();
+            });
+          }
         });
       });
-    }
-  }]);
+    });
+  }
 
-  return bpSitewideNoticeBlock;
-}(); // widget_bp_core_sitewide_messages buddypress widget wp-block-bp-sitewide-notices > bp-sitewide-notice > a.dismiss-notice
+} // widget_bp_core_sitewide_messages buddypress widget wp-block-bp-sitewide-notices > bp-sitewide-notice > a.dismiss-notice
 
 
-var settings = window.bpSitewideNoticeBlockSettings || {};
-var bpSitewideNotice = new bpSitewideNoticeBlock(settings);
+const settings = window.bpSitewideNoticeBlockSettings || {};
+const bpSitewideNotice = new bpSitewideNoticeBlock(settings);
 
 if ('loading' === document.readyState) {
   document.addEventListener('DOMContentLoaded', bpSitewideNotice.start());

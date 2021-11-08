@@ -19,16 +19,8 @@ const {
 	i18n: {
 		__,
 	},
+	serverSideRender: ServerSideRender,
 } = wp;
-
-/**
- * BuddyPress dependencies.
- */
-const {
-	blockComponents: {
-		ServerSideRender,
-	},
-} = bp;
 
 const editRecentPostsBlock = ( { attributes, setAttributes } ) => {
 	const { title, maxPosts, linkTitle } = attributes;

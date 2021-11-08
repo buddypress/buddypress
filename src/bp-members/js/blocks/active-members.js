@@ -128,36 +128,41 @@ exports.default = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    InspectorControls = _wp.blockEditor.InspectorControls,
-    _wp$components = _wp.components,
-    Disabled = _wp$components.Disabled,
-    PanelBody = _wp$components.PanelBody,
-    RangeControl = _wp$components.RangeControl,
-    TextControl = _wp$components.TextControl,
-    _wp$element = _wp.element,
-    Fragment = _wp$element.Fragment,
-    createElement = _wp$element.createElement,
-    __ = _wp.i18n.__;
-/**
- * BuddyPress dependencies.
- */
+const {
+  blockEditor: {
+    InspectorControls
+  },
+  components: {
+    Disabled,
+    PanelBody,
+    RangeControl,
+    TextControl
+  },
+  element: {
+    Fragment,
+    createElement
+  },
+  i18n: {
+    __
+  },
+  serverSideRender: ServerSideRender
+} = wp;
 
-var _bp = bp,
-    ServerSideRender = _bp.blockComponents.ServerSideRender;
-
-var editActiveMembersBlock = function editActiveMembersBlock(_ref) {
-  var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes;
-  var title = attributes.title,
-      maxMembers = attributes.maxMembers;
+const editActiveMembersBlock = ({
+  attributes,
+  setAttributes
+}) => {
+  const {
+    title,
+    maxMembers
+  } = attributes;
   return createElement(Fragment, null, createElement(InspectorControls, null, createElement(PanelBody, {
     title: __('Settings', 'buddypress'),
     initialOpen: true
   }, createElement(TextControl, {
     label: __('Title', 'buddypress'),
     value: title,
-    onChange: function onChange(text) {
+    onChange: text => {
       setAttributes({
         title: text
       });
@@ -165,11 +170,9 @@ var editActiveMembersBlock = function editActiveMembersBlock(_ref) {
   }), createElement(RangeControl, {
     label: __('Max members to show', 'buddypress'),
     value: maxMembers,
-    onChange: function onChange(value) {
-      return setAttributes({
-        maxMembers: value
-      });
-    },
+    onChange: value => setAttributes({
+      maxMembers: value
+    }),
     min: 1,
     max: 15,
     required: true
@@ -192,30 +195,34 @@ exports.default = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    createBlock = _wp.blocks.createBlock;
+const {
+  blocks: {
+    createBlock
+  }
+} = wp;
 /**
  * Transforms Legacy Widget to Active Members Block.
  *
  * @type {Object}
  */
 
-var transforms = {
+const transforms = {
   from: [{
     type: 'block',
     blocks: ['core/legacy-widget'],
-    isMatch: function isMatch(_ref) {
-      var idBase = _ref.idBase,
-          instance = _ref.instance;
-
+    isMatch: ({
+      idBase,
+      instance
+    }) => {
       if (!(instance !== null && instance !== void 0 && instance.raw)) {
         return false;
       }
 
       return idBase === 'bp_core_recently_active_widget';
     },
-    transform: function transform(_ref2) {
-      var instance = _ref2.instance;
+    transform: ({
+      instance
+    }) => {
       return createBlock('bp/active-members', {
         title: instance.raw.title,
         maxMembers: instance.raw.max_members
@@ -237,9 +244,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    registerBlockType = _wp.blocks.registerBlockType,
-    __ = _wp.i18n.__;
+const {
+  blocks: {
+    registerBlockType
+  },
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * Internal dependencies.
  */

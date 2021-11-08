@@ -128,38 +128,43 @@ exports.default = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    InspectorControls = _wp.blockEditor.InspectorControls,
-    _wp$components = _wp.components,
-    Disabled = _wp$components.Disabled,
-    PanelBody = _wp$components.PanelBody,
-    RangeControl = _wp$components.RangeControl,
-    TextControl = _wp$components.TextControl,
-    ToggleControl = _wp$components.ToggleControl,
-    _wp$element = _wp.element,
-    Fragment = _wp$element.Fragment,
-    createElement = _wp$element.createElement,
-    __ = _wp.i18n.__;
-/**
- * BuddyPress dependencies.
- */
+const {
+  blockEditor: {
+    InspectorControls
+  },
+  components: {
+    Disabled,
+    PanelBody,
+    RangeControl,
+    TextControl,
+    ToggleControl
+  },
+  element: {
+    Fragment,
+    createElement
+  },
+  i18n: {
+    __
+  },
+  serverSideRender: ServerSideRender
+} = wp;
 
-var _bp = bp,
-    ServerSideRender = _bp.blockComponents.ServerSideRender;
-
-var editRecentPostsBlock = function editRecentPostsBlock(_ref) {
-  var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes;
-  var title = attributes.title,
-      maxPosts = attributes.maxPosts,
-      linkTitle = attributes.linkTitle;
+const editRecentPostsBlock = ({
+  attributes,
+  setAttributes
+}) => {
+  const {
+    title,
+    maxPosts,
+    linkTitle
+  } = attributes;
   return createElement(Fragment, null, createElement(InspectorControls, null, createElement(PanelBody, {
     title: __('Settings', 'buddypress'),
     initialOpen: true
   }, createElement(TextControl, {
     label: __('Title', 'buddypress'),
     value: title,
-    onChange: function onChange(text) {
+    onChange: text => {
       setAttributes({
         title: text
       });
@@ -167,18 +172,16 @@ var editRecentPostsBlock = function editRecentPostsBlock(_ref) {
   }), createElement(RangeControl, {
     label: __('Max posts to show', 'buddypress'),
     value: maxPosts,
-    onChange: function onChange(value) {
-      return setAttributes({
-        maxPosts: value
-      });
-    },
+    onChange: value => setAttributes({
+      maxPosts: value
+    }),
     min: 1,
     max: 10,
     required: true
   }), createElement(ToggleControl, {
     label: __('Link block title to Blogs directory', 'buddypress'),
     checked: !!linkTitle,
-    onChange: function onChange() {
+    onChange: () => {
       setAttributes({
         linkTitle: !linkTitle
       });
@@ -202,30 +205,34 @@ exports.default = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    createBlock = _wp.blocks.createBlock;
+const {
+  blocks: {
+    createBlock
+  }
+} = wp;
 /**
  * Transforms Legacy Widget to Recent Posts Block.
  *
  * @type {Object}
  */
 
-var transforms = {
+const transforms = {
   from: [{
     type: 'block',
     blocks: ['core/legacy-widget'],
-    isMatch: function isMatch(_ref) {
-      var idBase = _ref.idBase,
-          instance = _ref.instance;
-
+    isMatch: ({
+      idBase,
+      instance
+    }) => {
       if (!(instance !== null && instance !== void 0 && instance.raw)) {
         return false;
       }
 
       return idBase === 'bp_blogs_recent_posts_widget';
     },
-    transform: function transform(_ref2) {
-      var instance = _ref2.instance;
+    transform: ({
+      instance
+    }) => {
       return createBlock('bp/recent-posts', {
         title: instance.raw.title,
         maxPosts: instance.raw.max_posts,
@@ -248,9 +255,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    registerBlockType = _wp.blocks.registerBlockType,
-    __ = _wp.i18n.__;
+const {
+  blocks: {
+    registerBlockType
+  },
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * Internal dependencies.
  */

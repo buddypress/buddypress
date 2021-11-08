@@ -118,23 +118,21 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"eNhW":[function(require,module,exports) {
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    addQueryArgs = _wp.url.addQueryArgs;
+const {
+  url: {
+    addQueryArgs
+  }
+} = wp;
 /**
  * External dependencies.
  */
 
-var _lodash = lodash,
-    template = _lodash.template; // Use the bp global.
+const {
+  template
+} = lodash; // Use the bp global.
 
 window.bp = window.bp || {};
 /**
@@ -143,81 +141,66 @@ window.bp = window.bp || {};
  * @since 9.0.0
  */
 
-bp.dynamicWidgetBlock = /*#__PURE__*/function () {
-  function bpDynamicWidgetBlock(settings, blocks) {
-    var _this = this;
-
-    _classCallCheck(this, bpDynamicWidgetBlock);
-
-    var path = settings.path,
-        root = settings.root,
-        nonce = settings.nonce;
+bp.dynamicWidgetBlock = class bpDynamicWidgetBlock {
+  constructor(settings, blocks) {
+    const {
+      path,
+      root,
+      nonce
+    } = settings;
     this.path = path;
     this.root = root;
     this.nonce = nonce, this.blocks = blocks;
-    this.blocks.forEach(function (block, i) {
-      var _ref = block.query_args || 'active',
-          type = _ref.type;
-
-      var _ref2 = block.preloaded || [],
-          body = _ref2.body;
-
-      _this.blocks[i].items = {
+    this.blocks.forEach((block, i) => {
+      const {
+        type
+      } = block.query_args || 'active';
+      const {
+        body
+      } = block.preloaded || [];
+      this.blocks[i].items = {
         'active': [],
         'newest': [],
         'popular': [],
         'alphabetical': []
       };
 
-      if (!_this.blocks[i].items[type].length && body && body.length) {
-        _this.blocks[i].items[type] = body;
+      if (!this.blocks[i].items[type].length && body && body.length) {
+        this.blocks[i].items[type] = body;
       }
     });
   }
 
-  _createClass(bpDynamicWidgetBlock, [{
-    key: "useTemplate",
-    value: function useTemplate(tmpl) {
-      var options = {
-        evaluate: /<#([\s\S]+?)#>/g,
-        interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
-        escape: /\{\{([^\}]+?)\}\}(?!\})/g,
-        variable: 'data'
-      };
-      return template(document.querySelector('#tmpl-' + tmpl).innerHTML, options);
-    }
-  }, {
-    key: "loop",
-    value: function loop() {// This method needs to be overriden.
-    }
-  }, {
-    key: "getItems",
-    value: function getItems() {
-      var _this2 = this;
+  useTemplate(tmpl) {
+    const options = {
+      evaluate: /<#([\s\S]+?)#>/g,
+      interpolate: /\{\{\{([\s\S]+?)\}\}\}/g,
+      escape: /\{\{([^\}]+?)\}\}(?!\})/g,
+      variable: 'data'
+    };
+    return template(document.querySelector('#tmpl-' + tmpl).innerHTML, options);
+  }
 
-      var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'active';
-      var blockIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-      this.blocks[blockIndex].query_args.type = type;
+  loop() {// This method needs to be overriden.
+  }
 
-      if (this.blocks[blockIndex].items[type].length) {
+  getItems(type = 'active', blockIndex = 0) {
+    this.blocks[blockIndex].query_args.type = type;
+
+    if (this.blocks[blockIndex].items[type].length) {
+      this.loop(this.blocks[blockIndex].items[type], this.blocks[blockIndex].selector, type);
+    } else {
+      fetch(addQueryArgs(this.root + this.path, this.blocks[blockIndex].query_args), {
+        method: 'GET',
+        headers: {
+          'X-WP-Nonce': this.nonce
+        }
+      }).then(response => response.json()).then(data => {
+        this.blocks[blockIndex].items[type] = data;
         this.loop(this.blocks[blockIndex].items[type], this.blocks[blockIndex].selector, type);
-      } else {
-        fetch(addQueryArgs(this.root + this.path, this.blocks[blockIndex].query_args), {
-          method: 'GET',
-          headers: {
-            'X-WP-Nonce': this.nonce
-          }
-        }).then(function (response) {
-          return response.json();
-        }).then(function (data) {
-          _this2.blocks[blockIndex].items[type] = data;
-
-          _this2.loop(_this2.blocks[blockIndex].items[type], _this2.blocks[blockIndex].selector, type);
-        });
-      }
+      });
     }
-  }]);
+  }
 
-  return bpDynamicWidgetBlock;
-}();
+};
 },{}]},{},["eNhW"], null)

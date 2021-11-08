@@ -22,6 +22,7 @@ const {
 	i18n: {
 		__,
 	},
+	serverSideRender: ServerSideRender,
 } = wp;
 
 /**
@@ -30,7 +31,6 @@ const {
 const {
 	blockComponents: {
 		AutoCompleter,
-		ServerSideRender,
 	},
 	blockData: {
 		isActive,

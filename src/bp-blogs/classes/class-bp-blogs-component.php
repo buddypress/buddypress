@@ -408,7 +408,7 @@ class BP_Blogs_Component extends BP_Component {
 					'wp-components',
 					'wp-i18n',
 					'wp-block-editor',
-					'bp-block-components',
+					'wp-server-side-render',
 				),
 				'style'              => 'bp-recent-posts-block',
 				'style_url'          => plugins_url( 'css/blocks/recent-posts.css', dirname( __FILE__ ) ),

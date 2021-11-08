@@ -128,32 +128,45 @@ exports.default = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    InspectorControls = _wp.blockEditor.InspectorControls,
-    _wp$components = _wp.components,
-    Disabled = _wp$components.Disabled,
-    Notice = _wp$components.Notice,
-    PanelBody = _wp$components.PanelBody,
-    ToggleControl = _wp$components.ToggleControl,
-    _wp$element = _wp.element,
-    Fragment = _wp$element.Fragment,
-    createElement = _wp$element.createElement,
-    __ = _wp.i18n.__;
+const {
+  blockEditor: {
+    InspectorControls
+  },
+  components: {
+    Disabled,
+    Notice,
+    PanelBody,
+    ToggleControl
+  },
+  element: {
+    Fragment,
+    createElement
+  },
+  i18n: {
+    __
+  },
+  serverSideRender: ServerSideRender
+} = wp;
 /**
  * BuddyPress dependencies.
  */
 
-var _bp = bp,
-    ServerSideRender = _bp.blockComponents.ServerSideRender,
-    getCurrentWidgetsSidebar = _bp.blockData.getCurrentWidgetsSidebar;
+const {
+  blockData: {
+    getCurrentWidgetsSidebar
+  }
+} = bp;
 
-var editPrimaryNavBlock = function editPrimaryNavBlock(_ref) {
-  var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes,
-      clientId = _ref.clientId;
-  var displayTitle = attributes.displayTitle;
-  var currentSidebar = getCurrentWidgetsSidebar(clientId);
-  var disabledSidebars = ['sidebar-buddypress-members', 'sidebar-buddypress-groups'];
+const editPrimaryNavBlock = ({
+  attributes,
+  setAttributes,
+  clientId
+}) => {
+  const {
+    displayTitle
+  } = attributes;
+  const currentSidebar = getCurrentWidgetsSidebar(clientId);
+  const disabledSidebars = ['sidebar-buddypress-members', 'sidebar-buddypress-groups'];
 
   if (currentSidebar && currentSidebar.id && -1 !== disabledSidebars.indexOf(currentSidebar.id)) {
     return createElement(Notice, {
@@ -168,7 +181,7 @@ var editPrimaryNavBlock = function editPrimaryNavBlock(_ref) {
   }, createElement(ToggleControl, {
     label: __('Include navigation title', 'buddypress'),
     checked: !!displayTitle,
-    onChange: function onChange() {
+    onChange: () => {
       setAttributes({
         displayTitle: !displayTitle
       });
@@ -192,30 +205,34 @@ exports.default = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    createBlock = _wp.blocks.createBlock;
+const {
+  blocks: {
+    createBlock
+  }
+} = wp;
 /**
  * Transforms Legacy Widget to Primary Nav Block.
  *
  * @type {Object}
  */
 
-var transforms = {
+const transforms = {
   from: [{
     type: 'block',
     blocks: ['core/legacy-widget'],
-    isMatch: function isMatch(_ref) {
-      var idBase = _ref.idBase,
-          instance = _ref.instance;
-
+    isMatch: ({
+      idBase,
+      instance
+    }) => {
       if (!(instance !== null && instance !== void 0 && instance.raw)) {
         return false;
       }
 
       return idBase === 'bp_nouveau_sidebar_object_nav_widget';
     },
-    transform: function transform(_ref2) {
-      var instance = _ref2.instance;
+    transform: ({
+      instance
+    }) => {
       return createBlock('bp/primary-nav', {
         displayTitle: instance.raw.bp_nouveau_widget_title
       });
@@ -236,9 +253,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    registerBlockType = _wp.blocks.registerBlockType,
-    __ = _wp.i18n.__;
+const {
+  blocks: {
+    registerBlockType
+  },
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * Internal dependencies.
  */

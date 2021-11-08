@@ -117,121 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"jEQo":[function(require,module,exports) {
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-
-  return arr2;
-}
-
-module.exports = _arrayLikeToArray;
-},{}],"o3SL":[function(require,module,exports) {
-var arrayLikeToArray = require("./arrayLikeToArray");
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return arrayLikeToArray(arr);
-}
-
-module.exports = _arrayWithoutHoles;
-},{"./arrayLikeToArray":"jEQo"}],"lZpU":[function(require,module,exports) {
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
-}
-
-module.exports = _iterableToArray;
-},{}],"Dbv9":[function(require,module,exports) {
-var arrayLikeToArray = require("./arrayLikeToArray");
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(n);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-}
-
-module.exports = _unsupportedIterableToArray;
-},{"./arrayLikeToArray":"jEQo"}],"NCaH":[function(require,module,exports) {
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableSpread;
-},{}],"I9dH":[function(require,module,exports) {
-var arrayWithoutHoles = require("./arrayWithoutHoles");
-
-var iterableToArray = require("./iterableToArray");
-
-var unsupportedIterableToArray = require("./unsupportedIterableToArray");
-
-var nonIterableSpread = require("./nonIterableSpread");
-
-function _toConsumableArray(arr) {
-  return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
-}
-
-module.exports = _toConsumableArray;
-},{"./arrayWithoutHoles":"o3SL","./iterableToArray":"lZpU","./unsupportedIterableToArray":"Dbv9","./nonIterableSpread":"NCaH"}],"DCTP":[function(require,module,exports) {
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-module.exports = _arrayWithHoles;
-},{}],"LoeL":[function(require,module,exports) {
-function _iterableToArrayLimit(arr, i) {
-  if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _e = undefined;
-
-  try {
-    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-module.exports = _iterableToArrayLimit;
-},{}],"MWEO":[function(require,module,exports) {
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
-module.exports = _nonIterableRest;
-},{}],"DERy":[function(require,module,exports) {
-var arrayWithHoles = require("./arrayWithHoles");
-
-var iterableToArrayLimit = require("./iterableToArrayLimit");
-
-var unsupportedIterableToArray = require("./unsupportedIterableToArray");
-
-var nonIterableRest = require("./nonIterableRest");
-
-function _slicedToArray(arr, i) {
-  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || unsupportedIterableToArray(arr, i) || nonIterableRest();
-}
-
-module.exports = _slicedToArray;
-},{"./arrayWithHoles":"DCTP","./iterableToArrayLimit":"LoeL","./unsupportedIterableToArray":"Dbv9","./nonIterableRest":"MWEO"}],"jS06":[function(require,module,exports) {
+})({"jS06":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -242,15 +128,18 @@ exports.EXTRA_INFO = exports.GROUP_STATI = exports.AVATAR_SIZES = void 0;
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    __ = _wp.i18n.__;
+const {
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * Avatar sizes.
  *
  * @type {Array}
  */
 
-var AVATAR_SIZES = [{
+const AVATAR_SIZES = [{
   label: __('None', 'buddypress'),
   value: 'none'
 }, {
@@ -267,7 +156,7 @@ var AVATAR_SIZES = [{
  */
 
 exports.AVATAR_SIZES = AVATAR_SIZES;
-var GROUP_STATI = {
+const GROUP_STATI = {
   public: __('Public', 'buddypress'),
   private: __('Private', 'buddypress'),
   hidden: __('Hidden', 'buddypress')
@@ -279,7 +168,7 @@ var GROUP_STATI = {
  */
 
 exports.GROUP_STATI = GROUP_STATI;
-var EXTRA_INFO = [{
+const EXTRA_INFO = [{
   label: __('None', 'buddypress'),
   value: 'none'
 }, {
@@ -301,48 +190,54 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
-
-var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
-
 var _constants = require("./constants");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    _wp$blockEditor = _wp.blockEditor,
-    InspectorControls = _wp$blockEditor.InspectorControls,
-    BlockControls = _wp$blockEditor.BlockControls,
-    _wp$components = _wp.components,
-    Placeholder = _wp$components.Placeholder,
-    PanelBody = _wp$components.PanelBody,
-    SelectControl = _wp$components.SelectControl,
-    ToggleControl = _wp$components.ToggleControl,
-    Button = _wp$components.Button,
-    Dashicon = _wp$components.Dashicon,
-    Tooltip = _wp$components.Tooltip,
-    ToolbarGroup = _wp$components.ToolbarGroup,
-    RangeControl = _wp$components.RangeControl,
-    _wp$element = _wp.element,
-    createElement = _wp$element.createElement,
-    Fragment = _wp$element.Fragment,
-    useState = _wp$element.useState,
-    _wp$i18n = _wp.i18n,
-    __ = _wp$i18n.__,
-    sprintf = _wp$i18n.sprintf,
-    _n = _wp$i18n._n,
-    apiFetch = _wp.apiFetch,
-    addQueryArgs = _wp.url.addQueryArgs;
+const {
+  blockEditor: {
+    InspectorControls,
+    BlockControls
+  },
+  components: {
+    Placeholder,
+    PanelBody,
+    SelectControl,
+    ToggleControl,
+    Button,
+    Dashicon,
+    Tooltip,
+    ToolbarGroup,
+    RangeControl
+  },
+  element: {
+    createElement,
+    Fragment,
+    useState
+  },
+  i18n: {
+    __,
+    sprintf,
+    _n
+  },
+  apiFetch,
+  url: {
+    addQueryArgs
+  }
+} = wp;
 /**
  * BuddyPress dependencies.
  */
 
-var _bp = bp,
-    AutoCompleter = _bp.blockComponents.AutoCompleter,
-    isActive = _bp.blockData.isActive;
+const {
+  blockComponents: {
+    AutoCompleter
+  },
+  blockData: {
+    isActive
+  }
+} = bp;
 /**
  * Internal dependencies.
  */
@@ -350,12 +245,13 @@ var _bp = bp,
 /**
  * External dependencies.
  */
-var _lodash = lodash,
-    reject = _lodash.reject,
-    remove = _lodash.remove,
-    sortBy = _lodash.sortBy;
+const {
+  reject,
+  remove,
+  sortBy
+} = lodash;
 
-var getSlugValue = function getSlugValue(item) {
+const getSlugValue = item => {
   if (item && item.status && _constants.GROUP_STATI[item.status]) {
     return _constants.GROUP_STATI[item.status];
   }
@@ -363,69 +259,63 @@ var getSlugValue = function getSlugValue(item) {
   return null;
 };
 
-var editGroupsBlock = function editGroupsBlock(_ref) {
-  var attributes = _ref.attributes,
-      setAttributes = _ref.setAttributes,
-      isSelected = _ref.isSelected;
-  var isAvatarEnabled = isActive('groups', 'avatar');
-  var itemIDs = attributes.itemIDs,
-      avatarSize = attributes.avatarSize,
-      displayGroupName = attributes.displayGroupName,
-      extraInfo = attributes.extraInfo,
-      layoutPreference = attributes.layoutPreference,
-      columns = attributes.columns;
-  var hasGroups = 0 !== itemIDs.length;
-
-  var _useState = useState([]),
-      _useState2 = (0, _slicedToArray2.default)(_useState, 2),
-      groups = _useState2[0],
-      setGroups = _useState2[1];
-
-  var layoutControls = [{
+const editGroupsBlock = ({
+  attributes,
+  setAttributes,
+  isSelected
+}) => {
+  const isAvatarEnabled = isActive('groups', 'avatar');
+  const {
+    itemIDs,
+    avatarSize,
+    displayGroupName,
+    extraInfo,
+    layoutPreference,
+    columns
+  } = attributes;
+  const hasGroups = 0 !== itemIDs.length;
+  const [groups, setGroups] = useState([]);
+  const layoutControls = [{
     icon: 'text',
     title: __('List view', 'buddypress'),
-    onClick: function onClick() {
-      return setAttributes({
-        layoutPreference: 'list'
-      });
-    },
+    onClick: () => setAttributes({
+      layoutPreference: 'list'
+    }),
     isActive: layoutPreference === 'list'
   }, {
     icon: 'screenoptions',
     title: __('Grid view', 'buddypress'),
-    onClick: function onClick() {
-      return setAttributes({
-        layoutPreference: 'grid'
-      });
-    },
+    onClick: () => setAttributes({
+      layoutPreference: 'grid'
+    }),
     isActive: layoutPreference === 'grid'
   }];
-  var groupsList;
-  var containerClasses = 'bp-block-groups avatar-' + avatarSize;
-  var extraInfoOptions = _constants.EXTRA_INFO;
+  let groupsList;
+  let containerClasses = 'bp-block-groups avatar-' + avatarSize;
+  let extraInfoOptions = _constants.EXTRA_INFO;
 
   if (layoutPreference === 'grid') {
     containerClasses += ' is-grid columns-' + columns;
-    extraInfoOptions = _constants.EXTRA_INFO.filter(function (extra) {
+    extraInfoOptions = _constants.EXTRA_INFO.filter(extra => {
       return 'description' !== extra.value;
     });
   }
 
-  var onSelectedGroup = function onSelectedGroup(_ref2) {
-    var itemID = _ref2.itemID;
-
+  const onSelectedGroup = ({
+    itemID
+  }) => {
     if (itemID && -1 === itemIDs.indexOf(itemID)) {
       setAttributes({
-        itemIDs: [].concat((0, _toConsumableArray2.default)(itemIDs), [parseInt(itemID, 10)])
+        itemIDs: [...itemIDs, parseInt(itemID, 10)]
       });
     }
   };
 
-  var onRemoveGroup = function onRemoveGroup(itemID) {
+  const onRemoveGroup = itemID => {
     if (itemID && -1 !== itemIDs.indexOf(itemID)) {
       setGroups(reject(groups, ['id', itemID]));
       setAttributes({
-        itemIDs: remove(itemIDs, function (value) {
+        itemIDs: remove(itemIDs, value => {
           return value !== itemID;
         })
       });
@@ -434,21 +324,21 @@ var editGroupsBlock = function editGroupsBlock(_ref) {
 
   if (hasGroups && itemIDs.length !== groups.length) {
     apiFetch({
-      path: addQueryArgs("/buddypress/v1/groups", {
+      path: addQueryArgs(`/buddypress/v1/groups`, {
         populate_extras: true,
         include: itemIDs
       })
-    }).then(function (items) {
-      setGroups(sortBy(items, [function (item) {
+    }).then(items => {
+      setGroups(sortBy(items, [item => {
         return itemIDs.indexOf(item.id);
       }]));
     });
   }
 
   if (groups.length) {
-    groupsList = groups.map(function (group) {
-      var hasDescription = false;
-      var groupItemClasses = 'group-content';
+    groupsList = groups.map(group => {
+      let hasDescription = false;
+      let groupItemClasses = 'group-content';
 
       if (layoutPreference === 'list' && 'description' === extraInfo && group.description && group.description.rendered) {
         hasDescription = true;
@@ -462,9 +352,7 @@ var editGroupsBlock = function editGroupsBlock(_ref) {
         text: __('Remove group', 'buddypress')
       }, createElement(Button, {
         className: "is-right",
-        onClick: function onClick() {
-          return onRemoveGroup(group.id);
-        },
+        onClick: () => onRemoveGroup(group.id),
         label: __('Remove group', 'buddypress')
       }, createElement(Dashicon, {
         icon: "no"
@@ -504,7 +392,7 @@ var editGroupsBlock = function editGroupsBlock(_ref) {
   }, createElement(ToggleControl, {
     label: __('Display the group\'s name', 'buddypress'),
     checked: !!displayGroupName,
-    onChange: function onChange() {
+    onChange: () => {
       setAttributes({
         displayGroupName: !displayGroupName
       });
@@ -515,7 +403,7 @@ var editGroupsBlock = function editGroupsBlock(_ref) {
     value: avatarSize,
     options: _constants.AVATAR_SIZES,
     help: __('Select "None" to disable the avatar.', 'buddypress'),
-    onChange: function onChange(option) {
+    onChange: option => {
       setAttributes({
         avatarSize: option
       });
@@ -525,7 +413,7 @@ var editGroupsBlock = function editGroupsBlock(_ref) {
     value: extraInfo,
     options: extraInfoOptions,
     help: __('Select "None" to show no extra information.', 'buddypress'),
-    onChange: function onChange(option) {
+    onChange: option => {
       setAttributes({
         extraInfo: option
       });
@@ -533,11 +421,9 @@ var editGroupsBlock = function editGroupsBlock(_ref) {
   }), layoutPreference === 'grid' && createElement(RangeControl, {
     label: __('Columns', 'buddypress'),
     value: columns,
-    onChange: function onChange(value) {
-      return setAttributes({
-        columns: value
-      });
-    },
+    onChange: value => setAttributes({
+      columns: value
+    }),
     min: 2,
     max: 4,
     required: true
@@ -566,7 +452,7 @@ var editGroupsBlock = function editGroupsBlock(_ref) {
 
 var _default = editGroupsBlock;
 exports.default = _default;
-},{"@babel/runtime/helpers/toConsumableArray":"I9dH","@babel/runtime/helpers/slicedToArray":"DERy","./constants":"jS06"}],"jcTh":[function(require,module,exports) {
+},{"./constants":"jS06"}],"jcTh":[function(require,module,exports) {
 "use strict";
 
 var _edit = _interopRequireDefault(require("./groups/edit"));
@@ -576,9 +462,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    registerBlockType = _wp.blocks.registerBlockType,
-    __ = _wp.i18n.__;
+const {
+  blocks: {
+    registerBlockType
+  },
+  i18n: {
+    __
+  }
+} = wp;
 /**
  * Internal dependencies.
  */

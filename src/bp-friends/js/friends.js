@@ -118,140 +118,98 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"pMhP":[function(require,module,exports) {
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
-
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 /**
  * WordPress dependencies.
  */
-var _wp = wp,
-    _wp$i18n = _wp.i18n,
-    __ = _wp$i18n.__,
-    sprintf = _wp$i18n.sprintf;
+const {
+  i18n: {
+    __,
+    sprintf
+  }
+} = wp;
 /**
  * BuddyPress dependencies.
  */
 
-var _bp = bp,
-    dynamicWidgetBlock = _bp.dynamicWidgetBlock;
+const {
+  dynamicWidgetBlock
+} = bp;
 /**
  * Front-end Friends block class.
  */
 
-var bpFriendsWidgetBlock = /*#__PURE__*/function (_dynamicWidgetBlock) {
-  _inherits(bpFriendsWidgetBlock, _dynamicWidgetBlock);
+class bpFriendsWidgetBlock extends dynamicWidgetBlock {
+  loop(friends = [], container = '', type = 'active') {
+    const tmpl = super.useTemplate('bp-friends-item');
+    const selector = document.querySelector('#' + container);
+    let output = '';
 
-  var _super = _createSuper(bpFriendsWidgetBlock);
+    if (friends && friends.length) {
+      friends.forEach(friend => {
+        if ('active' === type && friend.last_activity) {
+          /* translators: %s: a human time diff. */
+          friend.extra = sprintf(__('Active %s', 'buddypress'), friend.last_activity.timediff);
+        } else if ('popular' === type && friend.total_friend_count) {
+          const friendsCount = parseInt(friend.total_friend_count, 10);
 
-  function bpFriendsWidgetBlock() {
-    _classCallCheck(this, bpFriendsWidgetBlock);
+          if (0 === friendsCount) {
+            friend.extra = __('No friends', 'buddypress');
+          } else if (1 === friendsCount) {
+            friend.extra = __('1 friend', 'buddypress');
+          } else {
+            /* translators: %s: total friend count (more than 1). */
+            friend.extra = sprintf(__('%s friends', 'buddypress'), friend.total_friend_count);
+          }
+        } else if ('newest' === type && friend.registered_since) {
+          /* translators: %s is time elapsed since the registration date happened */
+          friend.extra = sprintf(__('Registered %s', 'buddypress'), friend.registered_since);
+        }
+        /* translators: %s: member name */
 
-    return _super.apply(this, arguments);
+
+        friend.avatar_alt = sprintf(__('Profile picture of %s', 'buddypress'), friend.name);
+        output += tmpl(friend);
+      });
+    } else {
+      output = '<div class="widget-error">' + __('Sorry, no members were found.', 'buddypress') + '</div>';
+    }
+
+    selector.innerHTML = output;
   }
 
-  _createClass(bpFriendsWidgetBlock, [{
-    key: "loop",
-    value: function loop() {
-      var friends = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-      var container = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-      var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'active';
+  start() {
+    this.blocks.forEach((block, i) => {
+      const {
+        selector
+      } = block;
+      const {
+        type
+      } = block.query_args;
+      const list = document.querySelector('#' + selector).closest('.bp-dynamic-block-container'); // Get default Block's type friends.
 
-      var tmpl = _get(_getPrototypeOf(bpFriendsWidgetBlock.prototype), "useTemplate", this).call(this, 'bp-friends-item');
+      super.getItems(type, i); // Listen to Block's Nav item clics
 
-      var selector = document.querySelector('#' + container);
-      var output = '';
+      list.querySelectorAll('.item-options a').forEach(navItem => {
+        navItem.addEventListener('click', event => {
+          event.preventDefault(); // Changes the displayed filter.
 
-      if (friends && friends.length) {
-        friends.forEach(function (friend) {
-          if ('active' === type && friend.last_activity) {
-            /* translators: %s: a human time diff. */
-            friend.extra = sprintf(__('Active %s', 'buddypress'), friend.last_activity.timediff);
-          } else if ('popular' === type && friend.total_friend_count) {
-            var friendsCount = parseInt(friend.total_friend_count, 10);
+          event.target.closest('.item-options').querySelector('.selected').classList.remove('selected');
+          event.target.classList.add('selected');
+          const newType = event.target.getAttribute('data-bp-sort');
 
-            if (0 === friendsCount) {
-              friend.extra = __('No friends', 'buddypress');
-            } else if (1 === friendsCount) {
-              friend.extra = __('1 friend', 'buddypress');
-            } else {
-              /* translators: %s: total friend count (more than 1). */
-              friend.extra = sprintf(__('%s friends', 'buddypress'), friend.total_friend_count);
-            }
-          } else if ('newest' === type && friend.registered_since) {
-            /* translators: %s is time elapsed since the registration date happened */
-            friend.extra = sprintf(__('Registered %s', 'buddypress'), friend.registered_since);
+          if (newType !== this.blocks[i].query_args.type) {
+            super.getItems(newType, i);
           }
-          /* translators: %s: member name */
-
-
-          friend.avatar_alt = sprintf(__('Profile picture of %s', 'buddypress'), friend.name);
-          output += tmpl(friend);
-        });
-      } else {
-        output = '<div class="widget-error">' + __('Sorry, no members were found.', 'buddypress') + '</div>';
-      }
-
-      selector.innerHTML = output;
-    }
-  }, {
-    key: "start",
-    value: function start() {
-      var _this = this;
-
-      this.blocks.forEach(function (block, i) {
-        var selector = block.selector;
-        var type = block.query_args.type;
-        var list = document.querySelector('#' + selector).closest('.bp-dynamic-block-container'); // Get default Block's type friends.
-
-        _get(_getPrototypeOf(bpFriendsWidgetBlock.prototype), "getItems", _this).call(_this, type, i); // Listen to Block's Nav item clics
-
-
-        list.querySelectorAll('.item-options a').forEach(function (navItem) {
-          navItem.addEventListener('click', function (event) {
-            event.preventDefault(); // Changes the displayed filter.
-
-            event.target.closest('.item-options').querySelector('.selected').classList.remove('selected');
-            event.target.classList.add('selected');
-            var newType = event.target.getAttribute('data-bp-sort');
-
-            if (newType !== _this.blocks[i].query_args.type) {
-              _get(_getPrototypeOf(bpFriendsWidgetBlock.prototype), "getItems", _this).call(_this, newType, i);
-            }
-          });
         });
       });
-    }
-  }]);
+    });
+  }
 
-  return bpFriendsWidgetBlock;
-}(dynamicWidgetBlock);
+}
 
-var settings = window.bpFriendsSettings || {};
-var blocks = window.bpFriendsBlocks || {};
-var bpFriends = new bpFriendsWidgetBlock(settings, blocks);
+const settings = window.bpFriendsSettings || {};
+const blocks = window.bpFriendsBlocks || {};
+const bpFriends = new bpFriendsWidgetBlock(settings, blocks);
 
 if ('loading' === document.readyState) {
   document.addEventListener('DOMContentLoaded', bpFriends.start());

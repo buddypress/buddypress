@@ -17,16 +17,8 @@
 	i18n: {
 		__,
 	},
+	serverSideRender: ServerSideRender,
 } = wp;
-
-/**
- * BuddyPress dependencies.
- */
- const {
-	blockComponents: {
-		ServerSideRender,
-	},
-} = bp;
 
 const editSitewideNoticesBlock = ( { attributes, setAttributes } ) => {
 	const { title } = attributes;
