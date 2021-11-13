@@ -3,7 +3,7 @@
  * Code to hook into the WP Customizer
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 10.0.0
  */
 
 /**
@@ -21,6 +21,7 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 	require_once( trailingslashit( bp_nouveau()->includes_dir ) . 'customizer-controls.php' );
 	$wp_customize->register_control_type( 'BP_Nouveau_Nav_Customize_Control' );
 	$bp_nouveau_options = bp_nouveau_get_appearance_settings();
+	$layout_widths      = bp_nouveau_get_theme_layout_widths();
 
 	$wp_customize->add_panel( 'bp_nouveau_panel', array(
 		'description' => __( 'Customize the appearance of BuddyPress Nouveau Template pack.', 'buddypress' ),
@@ -202,7 +203,7 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 		),
 	) );
 
-	if ( current_theme_supports( 'align-wide' ) ) {
+	if ( $layout_widths ) {
 		$settings['bp_nouveau_appearance[global_alignment]'] = array(
 			'index'             => 'global_alignment',
 			'capability'        => 'bp_moderate',
@@ -306,17 +307,13 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 	 */
 	$controls = apply_filters( 'bp_nouveau_customizer_controls', $controls );
 
-	if ( current_theme_supports( 'align-wide' ) ) {
+	if ( $layout_widths ) {
 		$controls['global_alignment'] = array(
 			'label'      => __( 'Select the BuddyPress container width for your site.', 'buddypress' ),
 			'section'    => 'bp_nouveau_general_settings',
 			'settings'   => 'bp_nouveau_appearance[global_alignment]',
 			'type'       => 'select',
-			'choices'    => array(
-				'alignnone' => __( 'Default width', 'buddypress' ),
-				'alignwide' => __( 'Wide width', 'buddypress' ),
-				'alignfull' => __( 'Full width', 'buddypress' ),
-			),
+			'choices'    => $layout_widths,
 		);
 	}
 

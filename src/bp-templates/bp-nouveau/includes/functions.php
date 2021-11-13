@@ -3,7 +3,7 @@
  * Common functions
  *
  * @since 3.0.0
- * @version 9.0.0
+ * @version 10.0.0
  */
 
 // Exit if accessed directly.
@@ -1638,4 +1638,44 @@ function bp_nouveau_render_primary_nav_block( $attributes = array() ) {
 	}
 
 	return $widget_content;
+}
+
+/**
+ * Retuns the theme layout available widths.
+ *
+ * @since 10.0.0
+ *
+ * @return array The available theme layout widths.
+ */
+function bp_nouveau_get_theme_layout_widths() {
+	$layout_widths = array();
+
+	if ( current_theme_supports( 'align-wide' ) ) {
+		$layout_widths = array(
+			'alignnone' => __( 'Default width', 'buddypress' ),
+			'alignwide' => __( 'Wide width', 'buddypress' ),
+			'alignfull' => __( 'Full width', 'buddypress' ),
+		);
+	}
+
+	// `wp_get_global_settings()` has been introduced in WordPress 5.9
+	if ( function_exists( 'wp_get_global_settings' ) ) {
+		$theme_layouts = wp_get_global_settings( array( 'layout' ) );
+
+		if ( isset( $theme_layouts['wideSize'] ) && $theme_layouts['wideSize'] ) {
+			$layout_widths = array(
+				'alignnone' => __( 'Content width', 'buddypress' ),
+				'alignwide' => __( 'Wide width', 'buddypress' ),
+			);
+		}
+	}
+
+	/**
+	 * Filter here to edit the available theme layout widths.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array $layout_widths The available theme layout widths.
+	 */
+	return apply_filters( 'bp_nouveau_get_theme_layout_widths', $layout_widths );
 }

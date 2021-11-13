@@ -3,7 +3,7 @@
  * Common template tags
  *
  * @since 3.0.0
- * @version 8.0.0
+ * @version 10.0.0
  */
 
 // Exit if accessed directly.
@@ -1529,8 +1529,10 @@ function bp_nouveau_container_classes() {
 			}
 		}
 
-		$global_alignment = bp_nouveau_get_temporary_setting( 'global_alignment', bp_nouveau_get_appearance_settings( 'global_alignment' ) );
-		if ( $global_alignment && 'alignnone' !== $global_alignment && current_theme_supports( 'align-wide' ) ) {
+		$global_alignment  = bp_nouveau_get_temporary_setting( 'global_alignment', bp_nouveau_get_appearance_settings( 'global_alignment' ) );
+		$layout_widths     = bp_nouveau_get_theme_layout_widths();
+
+		if ( $global_alignment && 'alignnone' !== $global_alignment && $layout_widths ) {
 			$classes[] = $global_alignment;
 		}
 

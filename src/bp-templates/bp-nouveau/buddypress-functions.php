@@ -176,12 +176,33 @@ class BP_Nouveau extends BP_Theme_Compat {
 		// We need to neutralize the BuddyPress core "bp_core_render_message()" once it has been added.
 		add_action( 'bp_actions', array( $this, 'neutralize_core_template_notices' ), 6 );
 
-		// Scripts.
-		add_action( 'bp_enqueue_scripts', array( $this, 'register_scripts' ), 2 ); // Register theme JS.
+		// Scripts & Styles.
+		$registration_params = array(
+			'hook'     => 'bp_enqueue_scripts',
+			'priority' => 2,
+		);
+
+		/*
+		 * The WordPress Full Site Editing feature needs Scripts
+		 * and Styles to be registered earlier.
+		 */
+		if ( current_theme_supports( 'block-templates' ) ) {
+			$registration_params['hook']     = 'bp_init';
+			$registration_params['priority'] = 20;
+		}
+
+		// Register theme JS.
+		add_action( $registration_params['hook'], array( $this, 'register_scripts' ), $registration_params['priority'] );
+
+		// Enqueue theme CSS.
+		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+
+		// Enqueue theme JS.
+		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
+		// Enqueue theme script localization.
+		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) );
 		remove_action( 'bp_enqueue_scripts', 'bp_core_confirmation_js' );
-		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles' ) ); // Enqueue theme CSS.
-		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts' ) ); // Enqueue theme JS.
-		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) ); // Enqueue theme script localization.
 
 		// Body no-js class.
 		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
