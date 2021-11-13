@@ -257,7 +257,7 @@ class BP_Friends_Friendship {
 	 *        @type int    $is_confirmed      Whether the friendship has been accepted.
 	 *        @type int    $is_limited        Whether the friendship is limited.
 	 *        @type string $order_by          Column name to order by.
-	 *        @type string $sort_order        ASC or DESC. Default DESC.
+	 *        @type string $sort_order        Optional. ASC or DESC. Default: 'DESC'.
 	 * }
 	 * @param string $operator Optional. Operator to use in `wp_list_filter()`.
 	 *
@@ -369,7 +369,7 @@ class BP_Friends_Friendship {
 		}
 
 		// Adjust the sort direction of the results.
-		if ( 'ASC' === strtoupper( $r['sort_order'] ) ) {
+		if ( 'ASC' === bp_esc_sql_order( $r['sort_order'] ) ) {
 			// `true` to preserve keys.
 			$friendships = array_reverse( $friendships, true );
 		}

@@ -140,6 +140,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 			wp_list_pluck( $thread->messages, 'id' )
 		);
 
+		// Testing sort with lowercase and space.
+		$thread = new BP_Messages_Thread( $message_1->thread_id, '    desc' );
+		$this->assertEquals(
+			array( $message_2->id, $message_1->id ),
+			wp_list_pluck( $thread->messages, 'id' )
+		);
+
 		// Now sorting via the helper method.
 		$messages = BP_Messages_Thread::get_messages( $message_1->thread_id, array( 'order' => 'desc' ) );
 		$this->assertEquals(

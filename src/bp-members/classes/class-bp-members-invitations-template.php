@@ -184,21 +184,18 @@ class BP_Members_Invitations_Template {
 		);
 
 		// Sort order direction.
-		$orders = array( 'ASC', 'DESC' );
-		if ( ! empty( $_GET['sort_order'] ) && in_array( $_GET['sort_order'], $orders ) ) {
+		if ( ! empty( $_GET['sort_order'] ) ) {
 			$r['sort_order'] = $_GET['sort_order'];
-		} else {
-			$r['sort_order'] = in_array( $r['sort_order'], $orders ) ? $r['sort_order'] : 'DESC';
 		}
 
 		// Setup variables.
 		$this->pag_arg      = sanitize_key( $r['page_arg'] );
 		$this->pag_page     = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
 		$this->pag_num      = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
+		$this->sort_order   = bp_esc_sql_order( $r['sort_order'] );
 		$this->user_id      = $r['user_id'];
 		$this->search_terms = $r['search_terms'];
 		$this->order_by     = $r['order_by'];
-		$this->sort_order   = $r['sort_order'];
 		$this->query_vars   = array(
 			'id'            => $r['id'],
 			'user_id'       => $r['user_id'],
@@ -252,11 +249,7 @@ class BP_Members_Invitations_Template {
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
 	public function has_invitations() {
-		if ( $this->current_invitation_count ) {
-			return true;
-		}
-
-		return false;
+		return ! empty( $this->current_invitation_count );
 	}
 
 	/**

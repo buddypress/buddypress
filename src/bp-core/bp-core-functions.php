@@ -92,7 +92,7 @@ function bp_is_running_wp( $version, $compare = '>=' ) {
  *
  * @since 1.2.6
  *
- * @global object $wpdb WordPress database object.
+ * @global wpdb $wpdb WordPress database object.
  *
  * @return string Filtered database prefix.
  */
@@ -383,6 +383,7 @@ function bp_esc_sql_order( $order = '' ) {
  *
  * @since 2.1.0
  *
+ * @global wpdb $wpdb WordPress database object.
  * @see wpdb::esc_like() for more details on proper use.
  *
  * @param string $text The raw text to be escaped.
@@ -394,9 +395,9 @@ function bp_esc_like( $text ) {
 
 	if ( method_exists( $wpdb, 'esc_like' ) ) {
 		return $wpdb->esc_like( $text );
-	} else {
-		return addcslashes( $text, '_%\\' );
 	}
+
+	return addcslashes( $text, '_%\\' );
 }
 
 /**

@@ -121,7 +121,7 @@ class BP_Messages_Thread {
 	 *                                            queried message items. Default: true.
 	 *     @type int|null    $page                Page of messages being requested. Default to null, meaning all.
 	 *     @type int|null    $per_page            Messages to return per page. Default to null, meaning all.
-	 *     @type string      $order               The order to sort the messages. Either 'ASC' or 'DESC'.
+	 *     @type string      $order               Optional. The order to sort the messages. Either 'ASC' or 'DESC'.
 	 *                                            Defaults to 'ASC'.
 	 *     @type int|null    $recipients_page     Page of recipients being requested. Default to null, meaning all.
 	 *     @type int|null    $recipients_per_page Recipients to return per page. Defaults to null, meaning all.
@@ -160,10 +160,6 @@ class BP_Messages_Thread {
 	 */
 	public function populate( $thread_id = 0, $order = 'ASC', $args = array() ) {
 
-		if ( ! in_array( strtoupper( $order ), array( 'ASC', 'DESC' ), true ) ) {
-			$order = 'ASC';
-		}
-
 		$user_id =
 			bp_displayed_user_id() ?
 			bp_displayed_user_id() :
@@ -177,13 +173,13 @@ class BP_Messages_Thread {
 				'update_meta_cache'   => true,
 				'page'                => null,
 				'per_page'            => null,
-				'order'               => $order,
+				'order'               => bp_esc_sql_order( $order ),
 				'recipients_page'     => null,
 				'recipients_per_page' => null,
 			)
 		);
 
-		$this->messages_order = $order;
+		$this->messages_order = $r['order'];
 		$this->thread_id      = (int) $thread_id;
 
 		// Get messages for thread.
@@ -373,10 +369,8 @@ class BP_Messages_Thread {
 			)
 		);
 
-		// Fallback.
-		if ( ! in_array( strtoupper( $r['order'] ), array( 'ASC', 'DESC' ), true ) ) {
-			$r['order'] = 'ASC';
-		}
+		// Sanitize 'order'.
+		$r['order'] = bp_esc_sql_order( $r['order'] );
 
 		// Get messages from cache if available.
 		$messages = wp_cache_get( $thread_id, 'bp_messages_threads' );
@@ -403,7 +397,7 @@ class BP_Messages_Thread {
 		}
 
 		// Flip if order is DESC.
-		if ( 'DESC' === strtoupper( $r['order'] ) ) {
+		if ( 'DESC' === $r['order'] ) {
 			$messages = array_reverse( $messages );
 		}
 

@@ -446,8 +446,8 @@ class BP_Notifications_Notification {
 		}
 
 		// Sort order direction.
-		if ( ! empty( $args['sort_order'] ) && in_array( $args['sort_order'], array( 'ASC', 'DESC' ), true ) ) {
-			$sort_order               = $args['sort_order'];
+		if ( ! empty( $args['sort_order'] ) ) {
+			$sort_order               = bp_esc_sql_order( $args['sort_order'] );
 			$conditions['sort_order'] = "{$sort_order}";
 		}
 

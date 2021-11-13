@@ -84,7 +84,8 @@ class BP_Messages_Thread_Template {
 	 * @see BP_Messages_Thread::populate() for full parameter info.
 	 *
 	 * @param int    $thread_id ID of the message thread to display.
-	 * @param string $order     Order to show the thread's messages in.
+	 * @param string $order     Optional. Order to show the thread's messages in.
+	 *                          Default: 'ASC'.
 	 * @param array  $args      Array of arguments for the query.
 	 */
 	public function __construct( $thread_id = 0, $order = 'ASC', $args = array() ) {

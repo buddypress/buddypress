@@ -561,19 +561,21 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $wpdb
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param bool $for_editing Whether or not the field is for editing.
+	 * @param bool $for_editing Whether or not the field is for editing. Default to false.
 	 * @return array
 	 */
 	public function get_children( $for_editing = false ) {
 		global $wpdb;
 
+		// Sanitize 'order_by'.
+		$order_by = bp_esc_sql_order( $this->order_by );
+
 		// This is done here so we don't have problems with sql injection.
-		if ( empty( $for_editing ) && ( 'asc' === $this->order_by ) ) {
-			$sort_sql = 'ORDER BY name ASC';
-		} elseif ( empty( $for_editing ) && ( 'desc' === $this->order_by ) ) {
-			$sort_sql = 'ORDER BY name DESC';
+		if ( empty( $for_editing ) ) {
+			$sort_sql = "ORDER BY name {$order_by}";
 		} else {
 			$sort_sql = 'ORDER BY option_order ASC';
 		}
@@ -586,9 +588,8 @@ class BP_XProfile_Field {
 			$parent_id = $this->id;
 		}
 
-		$bp  = buddypress();
-		$sql = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE parent_id = %d AND group_id = %d {$sort_sql}", $parent_id, $this->group_id );
-
+		$bp       = buddypress();
+		$sql      = $wpdb->prepare( "SELECT * FROM {$bp->profile->table_name_fields} WHERE parent_id = %d AND group_id = %d {$sort_sql}", $parent_id, $this->group_id );
 		$children = $wpdb->get_results( $sql );
 
 		/**
@@ -597,7 +598,7 @@ class BP_XProfile_Field {
 		 * @since 1.2.5
 		 * @since 3.0.0 Added the `$this` parameter.
 		 *
-		 * @param object            $children    Found children for a field.
+		 * @param array             $children    Found children for a field.
 		 * @param bool              $for_editing Whether or not the field is for editing.
 		 * @param BP_XProfile_Field $this        Field object
 		 */

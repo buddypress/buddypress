@@ -97,6 +97,8 @@ function bp_blogs_directory_permalink() {
 
 /**
  * Rewind the blogs and reset blog index.
+ *
+ * @global BP_Blogs_Template $blogs_template {@link BP_Blogs_Template}
  */
 function bp_rewind_blogs() {
 	global $blogs_template;
@@ -111,7 +113,7 @@ function bp_rewind_blogs() {
  * global, enabling the use of BuddyPress templates and template functions to
  * display a list of activity items.
  *
- * @global object $blogs_template {@link BP_Blogs_Template}
+ * @global BP_Blogs_Template $blogs_template {@link BP_Blogs_Template}
  *
  * @param array|string $args {
  *     Arguments for limiting the contents of the blogs loop. Most arguments
@@ -133,7 +135,6 @@ function bp_rewind_blogs() {
  *     @type string   $type             The order in which results should be fetched.
  *                                      'active', 'alphabetical', 'newest', or 'random'.
  *     @type array    $include_blog_ids Array of blog IDs to limit results to.
- *     @type string   $sort             'ASC' or 'DESC'. Default: 'DESC'.
  *     @type string   $search_terms     Limit results by a search term. Default: the value of `$_REQUEST['s']` or
  *                                      `$_REQUEST['sites_search']`, if present.
  *     @type int      $user_id          The ID of the user whose blogs should be retrieved.

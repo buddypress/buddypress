@@ -91,12 +91,11 @@ function bp_blogs_get_blogs( $args = '' ) {
  *
  * @param array $args {
  *     Array of arguments.
- *     @type int   $offset   The offset to use.
- *     @type int   $limit    The number of blogs to record at one time.
- *     @type array $blog_ids Blog IDs to record. If empty, all blogs will be recorded.
- *     @type array $site_id  The network site ID to use.
+ *     @type int    $offset   The offset to use.
+ *     @type int    $limit    The number of blogs to record at one time.
+ *     @type array  $blog_ids Blog IDs to record. If empty, all blogs will be recorded.
+ *     @type array  $site_id  The network site ID to use.
  * }
- *
  * @return bool
  */
 function bp_blogs_record_existing_blogs( $args = array() ) {

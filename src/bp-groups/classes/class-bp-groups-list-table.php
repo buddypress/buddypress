@@ -96,7 +96,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		// Sort order.
 		$order = 'DESC';
 		if ( ! empty( $_REQUEST['order'] ) ) {
-			$order = ( 'desc' == strtolower( $_REQUEST['order'] ) ) ? 'DESC' : 'ASC';
+			$order = bp_esc_sql_order( $_REQUEST['order'] );
 		}
 
 		// Order by - default to newest.

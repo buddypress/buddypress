@@ -1634,11 +1634,11 @@ function bp_message_get_recipient_usernames() {
  *
  * @param array|string $args {
  *     Array of arguments. All are optional.
- *     @type int      $thread_id         ID of the thread whose messages you are displaying.
+ *     @type int      $thread_id         Optional. ID of the thread whose messages you are displaying.
  *                                       Default: if viewing a thread, the thread ID will be parsed from
  *                                       the URL (bp_action_variable( 0 )).
- *     @type string   $order             'ASC' or 'DESC'. Default: 'ASC'.
- *     @type bool     $update_meta_cache Whether to pre-fetch metadata for
+ *     @type string   $order             Optional. 'ASC' or 'DESC'. Default: 'ASC'.
+ *     @type bool     $update_meta_cache Optional. Whether to pre-fetch metadata for
  *                                       queried message items. Default: true.
  *     @type int|null $page              Page of messages being requested. Default to null, meaning all.
  *     @type int|null $per_page          Messages to return per page. Default to null, meaning all.

@@ -511,10 +511,10 @@ class BP_Activity_Activity {
 			}
 		}
 
-		// Sorting.
+		// Sanitize 'order'.
 		$sort = $r['sort'];
-		if ( $sort != 'ASC' && $sort != 'DESC' ) {
-			$sort = 'DESC';
+		if ( 'DESC' !== $sort ) {
+			$sort = bp_esc_sql_order( $sort );
 		}
 
 		switch( $r['order_by'] ) {

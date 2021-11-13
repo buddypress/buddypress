@@ -997,8 +997,8 @@ function bp_notifications_sort_order_form() {
 	$selected = 'DESC';
 
 	// Check for a custom sort_order.
-	if ( !empty( $_REQUEST['sort_order'] ) ) {
-		if ( in_array( $_REQUEST['sort_order'], $orders ) ) {
+	if ( ! empty( $_REQUEST['sort_order'] ) ) {
+		if ( in_array( $_REQUEST['sort_order'], $orders, true ) ) {
 			$selected = $_REQUEST['sort_order'];
 		}
 	} ?>
