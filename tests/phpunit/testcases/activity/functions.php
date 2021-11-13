@@ -1974,4 +1974,29 @@ Bar!';
 		$this->assertEqualSets( [ $a1 ], bp_activity_get_user_favorites( $u1 ) );
 		$this->assertSame( $latest_update, bp_get_user_meta( $u1, 'bp_latest_update', true ) );
 	}
+
+	/**
+	 * @ticket BP8591
+	 */
+	public function test_activity_admin_screen_count_activities() {
+		$u1 = self::factory()->user->create();
+		$a1 = self::factory()->activity->create_many(
+			5,
+			array(
+				'user_id'   => $u1,
+				'component' => 'activity',
+				'type'      => 'activity_update',
+			)
+		);
+		bp_update_user_last_activity( $u1, date( 'Y-m-d H:i:s', bp_core_current_time( true, 'timestamp' ) ) );
+
+		$count_activities = bp_activity_get(
+			array(
+				'show_hidden'      => true,
+				'count_total_only' => true,
+			)
+		);
+
+		$this->assertTrue( 5 === (int) $count_activities['total'] );
+	}
 }

@@ -1783,18 +1783,17 @@ function bp_activity_get( $args = '' ) {
 			'per_page'          => false,        // results per page.
 			'sort'              => 'DESC',       // sort ASC or DESC.
 			'display_comments'  => false,        // False for no comments. 'stream' for within stream display, 'threaded' for below each activity item.
-
 			'search_terms'      => false,        // Pass search terms as a string.
 			'meta_query'        => false,        // Filter by activity meta. See WP_Meta_Query for format.
 			'date_query'        => false,        // Filter by date. See first parameter of WP_Date_Query for format.
 			'filter_query'      => false,
 			'show_hidden'       => false,        // Show activity items that are hidden site-wide?
 			'exclude'           => false,        // Comma-separated list of activity IDs to exclude.
-			'in'                => false,        // Comma-separated list or array of activity IDs to which you.
-												// want to limit the query.
+			'in'                => false,        // Comma-separated list or array of activity IDs to which you want to limit the query.
 			'spam'              => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
 			'update_meta_cache' => true,
 			'count_total'       => false,
+			'count_total_only'  => false,
 			'scope'             => false,
 
 			/**
@@ -1812,26 +1811,29 @@ function bp_activity_get( $args = '' ) {
 		'activity_get'
 	);
 
-	$activity = BP_Activity_Activity::get( array(
-		'page'              => $r['page'],
-		'per_page'          => $r['per_page'],
-		'max'               => $r['max'],
-		'sort'              => $r['sort'],
-		'search_terms'      => $r['search_terms'],
-		'meta_query'        => $r['meta_query'],
-		'date_query'        => $r['date_query'],
-		'filter_query'      => $r['filter_query'],
-		'filter'            => $r['filter'],
-		'scope'             => $r['scope'],
-		'display_comments'  => $r['display_comments'],
-		'show_hidden'       => $r['show_hidden'],
-		'exclude'           => $r['exclude'],
-		'in'                => $r['in'],
-		'spam'              => $r['spam'],
-		'update_meta_cache' => $r['update_meta_cache'],
-		'count_total'       => $r['count_total'],
-		'fields'            => $r['fields'],
-	) );
+	$activity = BP_Activity_Activity::get(
+		array(
+			'page'              => $r['page'],
+			'per_page'          => $r['per_page'],
+			'max'               => $r['max'],
+			'sort'              => $r['sort'],
+			'search_terms'      => $r['search_terms'],
+			'meta_query'        => $r['meta_query'],
+			'date_query'        => $r['date_query'],
+			'filter_query'      => $r['filter_query'],
+			'filter'            => $r['filter'],
+			'scope'             => $r['scope'],
+			'display_comments'  => $r['display_comments'],
+			'show_hidden'       => $r['show_hidden'],
+			'exclude'           => $r['exclude'],
+			'in'                => $r['in'],
+			'spam'              => $r['spam'],
+			'update_meta_cache' => $r['update_meta_cache'],
+			'count_total'       => $r['count_total'],
+			'count_total_only'  => $r['count_total_only'],
+			'fields'            => $r['fields'],
+		)
+	);
 
 	/**
 	 * Filters the requested activity item(s).

@@ -341,6 +341,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @since 2.4.0 Introduced the `$fields` parameter.
 	 * @since 2.9.0 Introduced the `$order_by` parameter.
+	 * @since 10.0.0 Introduced the `$count_total_only` parameter.
 	 *
 	 * @see BP_Activity_Activity::get_filter_sql() for a description of the
 	 *      'filter' parameter.
@@ -372,6 +373,8 @@ class BP_Activity_Activity {
 	 *     @type bool         $update_meta_cache Whether to pre-fetch metadata for queried activity items. Default: true.
 	 *     @type string|bool  $count_total       If true, an additional DB query is run to count the total activity items
 	 *                                           for the query. Default: false.
+	 *     @type bool         $count_total_only  If true, only the DB query to count the total activity items is run.
+	 *                                           Default: false.
 	 * }
 	 * @return array The array returned has two keys:
 	 *               - 'total' is the count of located activities
@@ -435,6 +438,7 @@ class BP_Activity_Activity {
 				'spam'              => 'ham_only',      // Spam status.
 				'update_meta_cache' => true,            // Whether or not to update meta cache.
 				'count_total'       => false,           // Whether or not to use count_total.
+				'count_total_only'  => false,           // Whether to only get the total count.
 			)
 		);
 
@@ -629,6 +633,10 @@ class BP_Activity_Activity {
 			'has_more_items' => null,
 		);
 
+		// Init the activity list.
+		$activities     = array();
+		$only_get_count = (bool) $r['count_total_only'];
+
 		/**
 		 * Filters if BuddyPress should use legacy query structure over current structure for version 2.0+.
 		 *
@@ -640,7 +648,7 @@ class BP_Activity_Activity {
 		 * @param BP_Activity_Activity $value Current method being called.
 		 * @param array                $r     Parsed arguments passed into method.
 		 */
-		if ( apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $r ) ) {
+		if ( ! $only_get_count && apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $r ) ) {
 
 			// Legacy queries joined against the user table.
 			$select_sql = "SELECT DISTINCT a.*, u.user_email, u.user_nicename, u.user_login, u.display_name";
@@ -692,7 +700,7 @@ class BP_Activity_Activity {
 				$activities[ $i ]->is_spam           = (int) $ac->is_spam;
 			}
 
-		} else {
+		} elseif ( ! $only_get_count ) {
 			// Query first for activity IDs.
 			$activity_ids_sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY {$order_by} {$sort}, a.id {$sort}";
 
@@ -745,7 +753,7 @@ class BP_Activity_Activity {
 			}
 		}
 
-		if ( 'ids' !== $r['fields'] ) {
+		if ( $activities && 'ids' !== $r['fields'] ) {
 			// Get the fullnames of users so we don't have to query in the loop.
 			$activities = self::append_user_fullnames( $activities );
 
@@ -772,9 +780,8 @@ class BP_Activity_Activity {
 
 		$retval['activities'] = $activities;
 
-		// If $max is set, only return up to the max results.
-		if ( ! empty( $r['count_total'] ) ) {
-
+		// Only query the count total if requested.
+		if ( ! empty( $r['count_total'] ) || $only_get_count ) {
 			/**
 			 * Filters the total activities MySQL statement.
 			 *
@@ -785,6 +792,17 @@ class BP_Activity_Activity {
 			 * @param string $sort      Sort direction for query.
 			 */
 			$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$join_sql} {$where_sql}", $where_sql, $sort );
+
+			/*
+			 * Queries that include 'last_activity' are cached separately,
+			 * since they are generally much less long-lived.
+			 */
+			if ( preg_match( '/a\.type NOT IN \([^\)]*\'last_activity\'[^\)]*\)/', $total_activities_sql ) ) {
+				$cache_group = 'bp_activity';
+			} else {
+				$cache_group = 'bp_activity_with_last_activity';
+			}
+
 			$cached = bp_core_get_incremented_cache( $total_activities_sql, $cache_group );
 			if ( false === $cached ) {
 				$total_activities = $wpdb->get_var( $total_activities_sql );
@@ -793,7 +811,8 @@ class BP_Activity_Activity {
 				$total_activities = $cached;
 			}
 
-			if ( !empty( $r['max'] ) ) {
+			// If $max is set, only return up to the max results.
+			if ( ! empty( $r['max'] ) ) {
 				if ( (int) $total_activities > (int) $r['max'] ) {
 					$total_activities = $r['max'];
 				}

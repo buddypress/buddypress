@@ -156,7 +156,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			'display_comments' => 'stream',
 			'show_hidden'      => true,
 			'spam'             => 'spam_only',
-			'count_total'      => 'count_query',
+			'count_total_only' => true,
 		) );
 		$this->spam_count = $spams['total'];
 		unset( $spams );
@@ -214,9 +214,9 @@ class BP_Activity_List_Table extends WP_List_Table {
 		} elseif ( 'single' !== $this->view ) {
 			$count_activities = bp_activity_get(
 				array(
-					'fields'      => 'ids',
-					'show_hidden' => true,
-					'count_total' => 'count_query',
+					'fields'           => 'ids',
+					'show_hidden'      => true,
+					'count_total_only' => true,
 				)
 			);
 
