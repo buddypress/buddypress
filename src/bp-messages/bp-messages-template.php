@@ -23,20 +23,24 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array|string $args {
  *     Array of arguments. All are optional.
- *     @type int    $user_id      ID of the user whose threads are being loaded.
- *                                Default: ID of the logged-in user.
- *     @type string $box          Current "box" view. If not provided here, the current
- *                                view will be inferred from the URL.
- *     @type int    $per_page     Number of results to return per page. Default: 10.
- *     @type int    $max          Max results to return. Default: false.
- *     @type string $type         Type of messages to return. Values: 'all', 'read', 'unread'
- *                                Default: 'all'
- *     @type string $search_terms Terms to which to limit results. Default:
- *                                the value of $_REQUEST['s'].
- *     @type string $page_arg     URL argument used for the pagination param.
- *                                Default: 'mpage'.
- *     @type array  $meta_query   Meta query arguments. Only applicable if $box is
- *                                not 'notices'. See WP_Meta_Query more details.
+ *     @type int      $user_id             ID of the user whose threads are being loaded.
+ *                                         Default: ID of the logged-in user.
+ *     @type string   $box                 Current "box" view. If not provided here, the current
+ *                                         view will be inferred from the URL.
+ *     @type int      $per_page            Number of results to return per page. Default: 10.
+ *     @type int      $max                 Max results to return. Default: false.
+ *     @type string   $type                Type of messages to return. Values: 'all', 'read', 'unread'
+ *                                         Default: 'all'
+ *     @type string   $search_terms        Terms to which to limit results. Default:
+ *                                         the value of $_REQUEST['s'].
+ *     @type string   $page_arg            URL argument used for the pagination param.
+ *                                         Default: 'mpage'.
+ *     @type array    $meta_query          Meta query arguments. Only applicable if $box is
+ *                                         not 'notices'. See WP_Meta_Query more details.
+ *     @type int|null $recipients_page     Page of recipients being requested. Default to null, meaning all.
+ *     @type int|null $recipients_per_page Recipients to return per page. Defaults to null, meaning all.
+ *     @type int|null $messages_page       Page of messages being requested. Default to null, meaning all.
+ *     @type int|null $messages_per_page   Messages to return per page. Defaults to null, meaning all
  * }
  * @return bool True if there are threads to display, otherwise false.
  */
@@ -46,12 +50,12 @@ function bp_has_message_threads( $args = array() ) {
 	// The default box the user is looking at.
 	$current_action = bp_current_action();
 	switch ( $current_action ) {
-		case 'sentbox' :
-		case 'notices' :
-		case 'inbox'   :
+		case 'sentbox':
+		case 'notices':
+		case 'inbox':
 			$default_box = $current_action;
 			break;
-		default :
+		default:
 			$default_box = 'inbox';
 			break;
 	}
@@ -67,14 +71,18 @@ function bp_has_message_threads( $args = array() ) {
 	$r = bp_parse_args(
 		$args,
 		array(
-			'user_id'      => $user_id,
-			'box'          => $default_box,
-			'per_page'     => 10,
-			'max'          => false,
-			'type'         => 'all',
-			'search_terms' => $search_terms,
-			'page_arg'     => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679.
-			'meta_query'   => array(),
+			'user_id'             => $user_id,
+			'box'                 => $default_box,
+			'per_page'            => 10,
+			'max'                 => false,
+			'type'                => 'all',
+			'search_terms'        => $search_terms,
+			'page_arg'            => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679.
+			'meta_query'          => array(),
+			'recipients_page'     => null,
+			'recipients_per_page' => null,
+			'messages_page'       => null,
+			'messages_per_page'   => null,
 		),
 		'has_message_threads'
 	);

@@ -245,6 +245,68 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group get_current_threads_for_user
+	 */
+	public function test_get_current_threads_setting_per_page_messages_and_recipients() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		// create initial thread
+		$message_1 = self::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $u1,
+				'recipients' => array( $u2 ),
+			)
+		);
+
+		// create some replies to thread
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => array( $u1 ),
+			)
+		);
+
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => array( $u1 ),
+			)
+		);
+
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u1,
+				'recipients' => array( $u2 ),
+			)
+		);
+
+		$threads = BP_Messages_Thread::get_current_threads_for_user(
+			array( 'user_id' => $u1 )
+		)['threads'];
+
+		$this->assertCount( 4, $threads[0]->messages );
+		$this->assertCount( 2, $threads[0]->recipients );
+
+		$threads = BP_Messages_Thread::get_current_threads_for_user(
+			array(
+				'user_id'             => $u1,
+				'messages_page'       => 1,
+				'messages_per_page'   => 2,
+				'recipients_page'     => 1,
+				'recipients_per_page' => 1,
+			)
+		)['threads'];
+
+		$this->assertCount( 2, $threads[0]->messages );
+		$this->assertNotCount( 2, $threads[0]->recipients );
+		$this->assertCount( 1, $threads[0]->recipients );
+	}
+
+	/**
 	 * @group get_recipients
 	 */
 	public function test_get_recipients_paginated() {

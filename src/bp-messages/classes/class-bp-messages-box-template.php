@@ -79,7 +79,7 @@ class BP_Messages_Box_Template {
 	public $pag_page = 1;
 
 	/**
-	 * The number of items being requested per page.
+	 * The number of items (threads) being requested per page.
 	 *
 	 * @var int
 	 */
@@ -111,7 +111,16 @@ class BP_Messages_Box_Template {
 
 		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
-			_deprecated_argument( __METHOD__, '2.2.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+			_deprecated_argument(
+				__METHOD__,
+				'2.2.0',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
 
 			$old_args_keys = array(
 				0 => 'user_id',
@@ -120,7 +129,7 @@ class BP_Messages_Box_Template {
 				3 => 'max',
 				4 => 'type',
 				5 => 'search_terms',
-				6 => 'page_arg'
+				6 => 'page_arg',
 			);
 
 			$args = bp_core_parse_args_array( $old_args_keys, $function_args );
@@ -129,47 +138,59 @@ class BP_Messages_Box_Template {
 		$r = bp_parse_args(
 			$args,
 			array(
-				'page'         => 1,
-				'per_page'     => 10,
-				'page_arg'     => 'mpage',
-				'box'          => 'inbox',
-				'type'         => 'all',
-				'user_id'      => bp_loggedin_user_id(),
-				'max'          => false,
-				'search_terms' => '',
-				'meta_query'   => array(),
+				'page'                => 1,
+				'per_page'            => 10,
+				'page_arg'            => 'mpage',
+				'box'                 => 'inbox',
+				'type'                => 'all',
+				'user_id'             => bp_loggedin_user_id(),
+				'max'                 => false,
+				'search_terms'        => '',
+				'meta_query'          => array(),
+				'recipients_page'     => null,
+				'recipients_per_page' => null,
+				'messages_page'       => null,
+				'messages_per_page'   => null,
 			)
 		);
 
 		$this->pag_arg      = sanitize_key( $r['page_arg'] );
-		$this->pag_page     = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
-		$this->pag_num      = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
+		$this->pag_page     = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
+		$this->pag_num      = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 		$this->user_id      = $r['user_id'];
 		$this->box          = $r['box'];
 		$this->type         = $r['type'];
 		$this->search_terms = $r['search_terms'];
 
 		if ( 'notices' === $this->box ) {
-			$this->threads = BP_Messages_Notice::get_notices( array(
-				'pag_num'  => $this->pag_num,
-				'pag_page' => $this->pag_page
-			) );
+			$this->threads = BP_Messages_Notice::get_notices(
+				array(
+					'pag_num'  => $this->pag_num,
+					'pag_page' => $this->pag_page,
+				)
+			);
 		} else {
-			$threads = BP_Messages_Thread::get_current_threads_for_user( array(
-				'user_id'      => $this->user_id,
-				'box'          => $this->box,
-				'type'         => $this->type,
-				'limit'        => $this->pag_num,
-				'page'         => $this->pag_page,
-				'search_terms' => $this->search_terms,
-				'meta_query'   => $r['meta_query'],
-			) );
+			$threads = BP_Messages_Thread::get_current_threads_for_user(
+				array(
+					'user_id'             => $this->user_id,
+					'box'                 => $this->box,
+					'type'                => $this->type,
+					'limit'               => $this->pag_num,
+					'page'                => $this->pag_page,
+					'search_terms'        => $this->search_terms,
+					'meta_query'          => $r['meta_query'],
+					'recipients_page'     => $r['recipients_page'],
+					'recipients_per_page' => $r['recipients_per_page'],
+					'messages_page'       => $r['messages_page'],
+					'messages_per_page'   => $r['messages_per_page'],
+				)
+			);
 
 			$this->threads            = isset( $threads['threads'] ) ? $threads['threads'] : array();
 			$this->total_thread_count = isset( $threads['total'] ) ? $threads['total'] : 0;
 		}
 
-		if ( !$this->threads ) {
+		if ( ! $this->threads ) {
 			$this->thread_count       = 0;
 			$this->total_thread_count = 0;
 		} else {
@@ -211,16 +232,18 @@ class BP_Messages_Box_Template {
 				$add_args['s'] = $this->search_terms;
 			}
 
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $pag_args, $base ),
-				'format'    => '',
-				'total'     => ceil( (int) $this->total_thread_count / (int) $this->pag_num ),
-				'current'   => $this->pag_page,
-				'prev_text' => _x( '&larr;', 'Message pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Message pagination next text', 'buddypress' ),
-				'mid_size'  => 1,
-				'add_args'  => $add_args,
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $pag_args, $base ),
+					'format'    => '',
+					'total'     => ceil( (int) $this->total_thread_count / (int) $this->pag_num ),
+					'current'   => $this->pag_page,
+					'prev_text' => _x( '&larr;', 'Message pagination previous text', 'buddypress' ),
+					'next_text' => _x( '&rarr;', 'Message pagination next text', 'buddypress' ),
+					'mid_size'  => 1,
+					'add_args'  => $add_args,
+				)
+			);
 		}
 	}
 
@@ -307,17 +330,16 @@ class BP_Messages_Box_Template {
 
 			// Set up the last message data.
 			if ( count( $this->thread->messages ) > 1 ) {
-				if ( 'inbox' == $this->box ) {
+				if ( 'inbox' === $this->box ) {
 					foreach ( (array) $this->thread->messages as $key => $message ) {
-						if ( bp_loggedin_user_id() != $message->sender_id ) {
+						if ( bp_loggedin_user_id() !== $message->sender_id ) {
 							$last_message_index = $key;
 							break;
 						}
 					}
-
-				} elseif ( 'sentbox' == $this->box ) {
+				} elseif ( 'sentbox' === $this->box ) {
 					foreach ( (array) $this->thread->messages as $key => $message ) {
-						if ( bp_loggedin_user_id() == $message->sender_id ) {
+						if ( bp_loggedin_user_id() === $message->sender_id ) {
 							$last_message_index = $key;
 							break;
 						}

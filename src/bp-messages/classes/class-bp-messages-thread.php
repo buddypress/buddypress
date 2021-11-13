@@ -544,17 +544,21 @@ class BP_Messages_Thread {
 	 *
 	 * @param array $args {
 	 *     Array of arguments.
-	 *     @type int    $user_id      The user ID.
-	 *     @type string $box          The type of mailbox to get. Either 'inbox' or 'sentbox'.
-	 *                                Defaults to 'inbox'.
-	 *     @type string $type         The type of messages to get. Either 'all' or 'unread'
-	 *                                or 'read'. Defaults to 'all'.
-	 *     @type int    $limit        The number of messages to get. Defaults to null.
-	 *     @type int    $page         The page number to get. Defaults to null.
-	 *     @type string $search_terms The search term to use. Defaults to ''.
-	 *     @type array  $meta_query   Meta query arguments. See WP_Meta_Query for more details.
+	 *     @type int      $user_id             The user ID.
+	 *     @type string   $box                 The type of mailbox to get. Either 'inbox' or 'sentbox'.
+	 *                                         Defaults to 'inbox'.
+	 *     @type string   $type                The type of messages to get. Either 'all' or 'unread'
+	 *                                         or 'read'. Defaults to 'all'.
+	 *     @type int      $limit               The number of messages to get. Defaults to null.
+	 *     @type int      $page                The page number to get. Defaults to null.
+	 *     @type string   $search_terms        The search term to use. Defaults to ''.
+	 *     @type array    $meta_query          Meta query arguments. See WP_Meta_Query for more details.
+	 *     @type int|null $recipients_page     Page of recipients being requested. Default to null, meaning all.
+	 *     @type int|null $recipients_per_page Recipients to return per page. Defaults to null, meaning all.
+	 *     @type int|null $messages_page       Page of messages being requested. Default to null, meaning all.
+	 *     @type int|null $messages_per_page   Messages to return per page. Defaults to null, meaning all.
 	 * }
-	 * @return array|bool Array on success. Boolean false on failure.
+	 * @return array|bool Array on success. False on failure.
 	 */
 	public static function get_current_threads_for_user( $args = array() ) {
 		global $wpdb;
@@ -589,20 +593,24 @@ class BP_Messages_Thread {
 		$r = bp_parse_args(
 			$args,
 			array(
-				'user_id'      => false,
-				'box'          => 'inbox',
-				'type'         => 'all',
-				'limit'        => null,
-				'page'         => null,
-				'search_terms' => '',
-				'meta_query'   => array(),
+				'user_id'             => false,
+				'box'                 => 'inbox',
+				'type'                => 'all',
+				'limit'               => null,
+				'page'                => null,
+				'recipients_page'     => null,
+				'recipients_per_page' => null,
+				'messages_page'       => null,
+				'messages_per_page'   => null,
+				'search_terms'        => '',
+				'meta_query'          => array(),
 			)
 		);
 
 		$pag_sql = $type_sql = $search_sql = $user_id_sql = $sender_sql = '';
 		$meta_query_sql = array(
 			'join'  => '',
-			'where' => ''
+			'where' => '',
 		);
 
 		if ( $r['limit'] && $r['page'] ) {
@@ -626,17 +634,17 @@ class BP_Messages_Thread {
 		$deleted_sql = 'r.is_deleted = 0';
 
 		switch ( $r['box'] ) {
-			case 'sentbox' :
+			case 'sentbox':
 				$user_id_sql = 'AND ' . $wpdb->prepare( 'm.sender_id = %d', $r['user_id'] );
 				$sender_sql  = 'AND m.sender_id = r.user_id';
 				break;
 
-			case 'inbox' :
+			case 'inbox':
 				$user_id_sql = 'AND ' . $wpdb->prepare( 'r.user_id = %d', $r['user_id'] );
 				$sender_sql  = 'AND r.sender_only = 0';
 				break;
 
-			default :
+			default:
 				// Omit user-deleted threads from all other custom message boxes.
 				$deleted_sql = $wpdb->prepare( '( r.user_id = %d AND r.is_deleted = 0 )', $r['user_id'] );
 				break;
@@ -680,9 +688,17 @@ class BP_Messages_Thread {
 
 		$threads = array();
 		foreach ( (array) $sorted_threads as $thread_id => $date_sent ) {
-			$threads[] = new BP_Messages_Thread( $thread_id, 'ASC', array(
-				'update_meta_cache' => false
-			) );
+			$threads[] = new BP_Messages_Thread(
+				$thread_id,
+				'ASC',
+				array(
+					'update_meta_cache'   => false,
+					'recipients_page'     => $r['recipients_page'],
+					'recipients_per_page' => $r['recipients_per_page'],
+					'page'                => $r['messages_page'],
+					'per_page'            => $r['messages_per_page'],
+				)
+			);
 		}
 
 		/**
@@ -694,11 +710,16 @@ class BP_Messages_Thread {
 		 *     @type array $threads       Array of threads. Passed by reference.
 		 *     @type int   $total_threads Number of threads found by the query.
 		 * }
+		 *  @param array $r    Array of paremeters.
 		 */
-		return apply_filters( 'bp_messages_thread_current_threads', array(
-			'threads' => &$threads,
-			'total'   => (int) $total_threads
-		) );
+		return apply_filters(
+			'bp_messages_thread_current_threads',
+			array(
+				'threads' => &$threads,
+				'total'   => (int) $total_threads,
+			),
+			$r
+		);
 	}
 
 	/**

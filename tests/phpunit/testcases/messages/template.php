@@ -5,6 +5,7 @@
  * @group template
  */
 class BP_Tests_Messages_Template extends BP_UnitTestCase {
+
 	/**
 	 * @group bp_has_message_threads
 	 */
@@ -358,5 +359,69 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$this->assertEquals( 13, $at->pag_num );
 
 		$_REQUEST = $request;
+	}
+
+	/**
+	 * @group pagination
+	 * @group BP_Messages_Box_Template
+	 */
+	public function test_setting_per_page_messages_and_recipients() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		// create initial thread
+		$message_1 = self::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $u1,
+				'recipients' => array( $u2 ),
+			)
+		);
+
+		// create some replies to thread
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => array( $u1 ),
+			)
+		);
+
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => array( $u1 ),
+			)
+		);
+
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u1,
+				'recipients' => array( $u2 ),
+			)
+		);
+
+		$messages_template = new BP_Messages_Box_Template(
+			array( 'user_id' => $u1 )
+		);
+
+		$this->assertSame( array( $message_1->thread_id ), wp_list_pluck( $messages_template->threads, 'thread_id' ) );
+		$this->assertCount( 4, $messages_template->threads[0]->messages );
+		$this->assertCount( 2, $messages_template->threads[0]->recipients );
+
+		$messages_template = new BP_Messages_Box_Template(
+			array(
+				'user_id'             => $u1,
+				'messages_page'       => 1,
+				'messages_per_page'   => 2,
+				'recipients_page'     => 1,
+				'recipients_per_page' => 1,
+			)
+		);
+
+		$this->assertCount( 2, $messages_template->threads[0]->messages );
+		$this->assertNotCount( 2, $messages_template->threads[0]->recipients );
+		$this->assertCount( 1, $messages_template->threads[0]->recipients );
 	}
 }
