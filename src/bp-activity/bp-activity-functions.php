@@ -2868,16 +2868,7 @@ function bp_activity_get_activity_id( $args = '' ) {
 	 * @param array                $r     Parsed function arguments.
 	 * @param array                $args  Arguments passed to the function.
 	 */
-	return apply_filters( 'bp_activity_get_activity_id', BP_Activity_Activity::get_id(
-		$r['user_id'],
-		$r['component'],
-		$r['type'],
-		$r['item_id'],
-		$r['secondary_item_id'],
-		$r['action'],
-		$r['content'],
-		$r['date_recorded']
-	), $r, $args );
+	return apply_filters( 'bp_activity_get_activity_id', BP_Activity_Activity::get_id( $r ), $r, $args );
 }
 
 /**

@@ -464,8 +464,29 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'item_id' => 1888,
 		) );
 
-		$activity = BP_Activity_Activity::get_id( false, false, false, 523, false, false, false, false );
+		$args = array(
+			'item_id' => 523,
+		);
+
+		$activity = BP_Activity_Activity::get_id( $args );
 		$this->assertEquals( $a1, $activity );
+	}
+
+	/**
+	 * @group get_id
+	 * @group BP8596
+	 * @expectedDeprecated BP_Activity_Activity::get_id
+	 */
+	public function test_get_id_with_deprecated_args() {
+		$a1 = self::factory()->activity->create( array(
+			'item_id' => 573,
+		) );
+		$a2 = self::factory()->activity->create( array(
+			'item_id' => 1098,
+		) );
+
+		$activity = BP_Activity_Activity::get_id( false, false, false, 1098, false, false, false, false );
+		$this->assertEquals( $a2, $activity );
 	}
 
 	/**
@@ -479,7 +500,11 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			'secondary_content' => 1888,
 		) );
 
-		$activity = BP_Activity_Activity::get_id( false, false, false, false, 523, false, false, false );
+		$args = array(
+			'secondary_item_id' => 523,
+		);
+
+		$activity = BP_Activity_Activity::get_id( $args );
 		$this->assertEquals( $a1, $activity );
 	}
 

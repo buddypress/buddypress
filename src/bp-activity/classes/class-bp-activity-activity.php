@@ -1190,61 +1190,105 @@ class BP_Activity_Activity {
 	 * Get the first activity ID that matches a set of criteria.
 	 *
 	 * @since 1.2.0
+	 * @since 10.0.0 Parameters were made optional.
 	 *
-	 * @todo Should parameters be optional?
-	 *
-	 * @param int    $user_id           User ID to filter by.
-	 * @param string $component         Component to filter by.
-	 * @param string $type              Activity type to filter by.
-	 * @param int    $item_id           Associated item to filter by.
-	 * @param int    $secondary_item_id Secondary associated item to filter by.
-	 * @param string $action            Action to filter by.
-	 * @param string $content           Content to filter by.
-	 * @param string $date_recorded     Date to filter by.
+	 * @param array $args {
+	 *     An array of arguments. All items are optional.
+	 *     @type int    $user_id           User ID to filter by.
+	 *     @type string $component         Component to filter by.
+	 *     @type string $type              Activity type to filter by.
+	 *     @type int    $item_id           Associated item to filter by.
+	 *     @type int    $secondary_item_id Secondary associated item to filter by.
+	 *     @type string $action            Action to filter by.
+	 *     @type string $content           Content to filter by.
+	 *     @type string $date_recorded     Date to filter by.
+	 * }
 	 * @return int|false Activity ID on success, false if none is found.
 	 */
-	public static function get_id( $user_id, $component, $type, $item_id, $secondary_item_id, $action, $content, $date_recorded ) {
+	public static function get_id( $args = array() ) {
 		global $wpdb;
 
-		$bp = buddypress();
+		$function_args = func_get_args();
+
+		// Backward compatibility with old method of passing arguments.
+		if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
+			_deprecated_argument(
+				__METHOD__,
+				'10.0.0',
+				sprintf(
+					/* translators: 1: the name of the method. 2: the name of the file. */
+					esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
+
+			$old_args_keys = array(
+				0 => 'user_id',
+				1 => 'component',
+				2 => 'type',
+				3 => 'item_id',
+				4 => 'secondary_item_id',
+				5 => 'action',
+				6 => 'content',
+				7 => 'date_recorded',
+			);
+
+			$args = bp_core_parse_args_array( $old_args_keys, $function_args );
+		}
+
+		$r = bp_parse_args(
+			$args,
+			array(
+				'user_id'           => false,
+				'component'         => false,
+				'type'              => false,
+				'item_id'           => false,
+				'secondary_item_id' => false,
+				'action'            => false,
+				'content'           => false,
+				'date_recorded'     => false,
+			)
+		);
 
 		$where_args = false;
 
-		if ( ! empty( $user_id ) ) {
-			$where_args[] = $wpdb->prepare( "user_id = %d", $user_id );
+		if ( ! empty( $r['user_id'] ) ) {
+			$where_args[] = $wpdb->prepare( 'user_id = %d', $r['user_id'] );
 		}
 
-		if ( ! empty( $component ) ) {
-			$where_args[] = $wpdb->prepare( "component = %s", $component );
+		if ( ! empty( $r['component'] ) ) {
+			$where_args[] = $wpdb->prepare( 'component = %s', $r['component'] );
 		}
 
-		if ( ! empty( $type ) ) {
-			$where_args[] = $wpdb->prepare( "type = %s", $type );
+		if ( ! empty( $r['type'] ) ) {
+			$where_args[] = $wpdb->prepare( 'type = %s', $r['type'] );
 		}
 
-		if ( ! empty( $item_id ) ) {
-			$where_args[] = $wpdb->prepare( "item_id = %d", $item_id );
+		if ( ! empty( $r['item_id'] ) ) {
+			$where_args[] = $wpdb->prepare( 'item_id = %d', $r['item_id'] );
 		}
 
-		if ( ! empty( $secondary_item_id ) ) {
-			$where_args[] = $wpdb->prepare( "secondary_item_id = %d", $secondary_item_id );
+		if ( ! empty( $r['secondary_item_id'] ) ) {
+			$where_args[] = $wpdb->prepare( 'secondary_item_id = %d', $r['secondary_item_id'] );
 		}
 
-		if ( ! empty( $action ) ) {
-			$where_args[] = $wpdb->prepare( "action = %s", $action );
+		if ( ! empty( $r['action'] ) ) {
+			$where_args[] = $wpdb->prepare( 'action = %s', $r['action'] );
 		}
 
-		if ( ! empty( $content ) ) {
-			$where_args[] = $wpdb->prepare( "content = %s", $content );
+		if ( ! empty( $r['content'] ) ) {
+			$where_args[] = $wpdb->prepare( 'content = %s', $r['content'] );
 		}
 
-		if ( ! empty( $date_recorded ) ) {
-			$where_args[] = $wpdb->prepare( "date_recorded = %s", $date_recorded );
+		if ( ! empty( $r['date_recorded'] ) ) {
+			$where_args[] = $wpdb->prepare( 'date_recorded = %s', $r['date_recorded'] );
 		}
 
 		if ( ! empty( $where_args ) ) {
+			$bp        = buddypress();
 			$where_sql = 'WHERE ' . join( ' AND ', $where_args );
-			$result = $wpdb->get_var( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
+			$result    = $wpdb->get_var( "SELECT id FROM {$bp->activity->table_name} {$where_sql}" );
 
 			return is_numeric( $result ) ? (int) $result : false;
 		}
