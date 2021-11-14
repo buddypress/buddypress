@@ -358,4 +358,291 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 		$q2 = bp_activity_get( $activity_args );
 		$this->assertEqualSets( array( $activities[0] ), wp_list_pluck( $q2['activities'], 'id' ) );
 	}
+
+	/**
+	 * @ticket BP8296
+	 */
+	public function test_activity_comments_cache_should_be_cleared_when_parent_activity_marked_as_spam() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$activity = self::factory()->activity->create(
+			array(
+				'component' => buddypress()->activity->id,
+				'type'      => 'activity_update',
+				'user_id'   => $u1,
+				'content'   => 'bar',
+			)
+		);
+
+		$comment = bp_activity_new_comment(
+			array(
+				'activity_id'       => $activity,
+				'skip_notification' => true,
+				'user_id'           => $u2,
+				'content'           => 'foo',
+			)
+		);
+
+		$activities = bp_activity_get(
+			array(
+				'display_comments' => true,
+			)
+		);
+
+		$cached_ids = wp_list_pluck( wp_cache_get( $activity, 'bp_activity_comments' ), 'content', 'id' );
+		$this->assertTrue( 'foo' === $cached_ids[ $comment ] );
+
+		$activity_obj = new BP_Activity_Activity( $activity );
+
+		// An activity is always saved after being marked as spam.
+		bp_activity_mark_as_spam( $activity_obj );
+		$activity_obj->save();
+
+		$this->assertFalse( wp_cache_get( $activity, 'bp_activity_comments' ), 'The activity comments cache should be cleared when an activity has been marked as spam' );
+	}
+
+	/**
+	 * @ticket BP8296
+	 */
+	public function test_activity_comments_cache_should_be_cleared_when_activity_comment_marked_as_spam() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$activity = self::factory()->activity->create(
+			array(
+				'component' => buddypress()->activity->id,
+				'type'      => 'activity_update',
+				'user_id'   => $u1,
+				'content'   => 'foo',
+			)
+		);
+
+		$comment = bp_activity_new_comment(
+			array(
+				'activity_id'       => $activity,
+				'skip_notification' => true,
+				'user_id'           => $u2,
+				'content'           => 'bar',
+			)
+		);
+
+		$activities = bp_activity_get(
+			array(
+				'display_comments' => true,
+			)
+		);
+
+		$cached_ids = wp_list_pluck( wp_cache_get( $activity, 'bp_activity_comments' ), 'content', 'id' );
+		$this->assertTrue( 'bar' === $cached_ids[ $comment ] );
+
+		$comment_obj = new BP_Activity_Activity( $comment );
+
+		// An activity is always saved after being marked as spam.
+		bp_activity_mark_as_spam( $comment_obj );
+		$comment_obj->save();
+
+		$this->assertFalse( wp_cache_get( $activity, 'bp_activity_comments' ), 'The parent activity comments cache should be cleared when an activity comment has been marked as spam' );
+	}
+
+	/**
+	 * @ticket BP8296
+	 */
+	public function test_activity_comments_cache_should_be_cleared_when_parent_activity_marked_as_ham() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$activity = self::factory()->activity->create(
+			array(
+				'component' => buddypress()->activity->id,
+				'type'      => 'activity_update',
+				'user_id'   => $u1,
+				'content'   => 'bar',
+			)
+		);
+
+		$comment = bp_activity_new_comment(
+			array(
+				'activity_id'       => $activity,
+				'skip_notification' => true,
+				'user_id'           => $u2,
+				'content'           => 'foo',
+			)
+		);
+
+		$activities = bp_activity_get(
+			array(
+				'display_comments' => true,
+			)
+		);
+
+		$activity_obj          = new BP_Activity_Activity( $activity );
+		$activity_obj->is_spam = 1;
+		$activity_obj->save();
+
+		// An activity is always saved after being marked as spam.
+		bp_activity_mark_as_ham( $activity_obj );
+		$activity_obj->save();
+
+		$this->assertFalse( wp_cache_get( $activity, 'bp_activity_comments' ), 'The activity comments cache should be cleared when an activity has been marked as ham' );
+	}
+
+	/**
+	 * @ticket BP8296
+	 */
+	public function test_activity_comments_cache_should_be_cleared_when_activity_comment_marked_as_ham() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$activity = self::factory()->activity->create(
+			array(
+				'component' => buddypress()->activity->id,
+				'type'      => 'activity_update',
+				'user_id'   => $u1,
+				'content'   => 'foo',
+			)
+		);
+
+		$comment = bp_activity_new_comment(
+			array(
+				'activity_id'       => $activity,
+				'skip_notification' => true,
+				'user_id'           => $u2,
+				'content'           => 'bar',
+			)
+		);
+
+		$activities = bp_activity_get(
+			array(
+				'display_comments' => true,
+			)
+		);
+
+		$comment_obj          = new BP_Activity_Activity( $comment );
+		$comment_obj->is_spam = 1;
+		$comment_obj->save();
+
+		// An activity is always saved after being marked as spam.
+		bp_activity_mark_as_ham( $comment_obj );
+		$comment_obj->save();
+
+		$this->assertFalse( wp_cache_get( $activity, 'bp_activity_comments' ), 'The parent activity comments cache should be cleared when an activity comment has been marked as ham' );
+	}
+
+	/**
+	 * @ticket BP8296
+	 */
+	public function test_activity_comments_cache_should_be_cleared_when_activity_comment_has_been_updated() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$activity = self::factory()->activity->create(
+			array(
+				'component' => buddypress()->activity->id,
+				'type'      => 'activity_update',
+				'user_id'   => $u1,
+				'content'   => 'foo',
+			)
+		);
+
+		$comment = bp_activity_new_comment(
+			array(
+				'activity_id'       => $activity,
+				'skip_notification' => true,
+				'user_id'           => $u2,
+				'content'           => 'bar',
+			)
+		);
+
+		$activities = bp_activity_get(
+			array(
+				'display_comments' => true,
+			)
+		);
+
+		$comment_obj          = new BP_Activity_Activity( $comment );
+		$comment_obj->content = 'foo';
+		$comment_obj->save();
+
+		$this->assertFalse( wp_cache_get( $activity, 'bp_activity_comments' ), 'The parent activity comments cache should be cleared when an activity comment has been updated' );
+	}
+
+	/**
+	 * @ticket BP8296
+	 */
+	public function test_activity_comments_cache_should_be_cleared_when_activity_comment_has_been_deleted() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$activity = self::factory()->activity->create(
+			array(
+				'component' => buddypress()->activity->id,
+				'type'      => 'activity_update',
+				'user_id'   => $u1,
+				'content'   => 'foo',
+			)
+		);
+
+		$comment = bp_activity_new_comment(
+			array(
+				'activity_id'       => $activity,
+				'skip_notification' => true,
+				'user_id'           => $u2,
+				'content'           => 'bar',
+			)
+		);
+
+		$activities = bp_activity_get(
+			array(
+				'display_comments' => true,
+			)
+		);
+
+		bp_activity_delete_comment( $activity, $comment );
+
+		$this->assertFalse( wp_cache_get( $activity, 'bp_activity_comments' ), 'The parent activity comments cache should be cleared when an activity comment has been deleted' );
+	}
+
+	/**
+	 * @ticket BP8296
+	 */
+	public function test_activity_comments_cache_should_be_cleared_when_activity_comment_has_been_added() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$activity = self::factory()->activity->create(
+			array(
+				'component' => buddypress()->activity->id,
+				'type'      => 'activity_update',
+				'user_id'   => $u1,
+				'content'   => 'foo',
+			)
+		);
+
+		$c1 = bp_activity_new_comment(
+			array(
+				'activity_id'       => $activity,
+				'skip_notification' => true,
+				'user_id'           => $u2,
+				'content'           => 'bar',
+			)
+		);
+
+		$activities = bp_activity_get(
+			array(
+				'display_comments' => true,
+			)
+		);
+
+		$c2 = bp_activity_new_comment(
+			array(
+				'activity_id'       => $activity,
+				'skip_notification' => true,
+				'user_id'           => $u1,
+				'content'           => 'taz',
+			)
+		);
+
+		$this->assertFalse( wp_cache_get( $activity, 'bp_activity_comments' ), 'The parent activity comments cache should be cleared when a new activity comment has been added' );
+	}
 }

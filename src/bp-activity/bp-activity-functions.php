@@ -3595,8 +3595,14 @@ function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
 	// Clear the activity stream first page cache.
 	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 
+	if ( 'activity_comment' === $activity->type ) {
+		$activity_id = $activity->item_id;
+	} else {
+		$activity_id = $activity->id;
+	}
+
 	// Clear the activity comment cache for this activity item.
-	wp_cache_delete( $activity->id, 'bp_activity_comments' );
+	wp_cache_delete( $activity_id, 'bp_activity_comments' );
 
 	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity.
 	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
@@ -3642,8 +3648,14 @@ function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
 	// Clear the activity stream first page cache.
 	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 
+	if ( 'activity_comment' === $activity->type ) {
+		$activity_id = $activity->item_id;
+	} else {
+		$activity_id = $activity->id;
+	}
+
 	// Clear the activity comment cache for this activity item.
-	wp_cache_delete( $activity->id, 'bp_activity_comments' );
+	wp_cache_delete( $activity_id, 'bp_activity_comments' );
 
 	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity.
 	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
