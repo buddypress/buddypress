@@ -981,6 +981,7 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	}
 
 	// Maybe resize.
+	$original_file_size        = $avatar_attachment->get_image_data( $bp->avatar_admin->original['file'] );
 	$bp->avatar_admin->resized = $avatar_attachment->shrink( $bp->avatar_admin->original['file'], $ui_available_width );
 	$bp->avatar_admin->image   = new stdClass();
 
@@ -1003,8 +1004,16 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 
 	// If the uploaded image is smaller than the "full" dimensions, throw a warning.
 	if ( $avatar_attachment->is_too_small( $bp->avatar_admin->image->file ) ) {
-		/* translators: 1: the advised width size in pixels. 2: the advised height size in pixels. */
-		bp_core_add_message( sprintf( __( 'You have selected an image that is smaller than recommended. For best results, upload a picture larger than %1$d x %2$d pixels.', 'buddypress' ), bp_core_avatar_full_width(), bp_core_avatar_full_height() ), 'error' );
+		if ( isset( $original_file_size['width'] ) && $original_file_size['width'] > bp_core_avatar_full_width() ) {
+			$aspect_ratio = number_format_i18n( bp_core_avatar_full_width() / bp_core_avatar_full_height(), 2 );
+
+			/* translators: %s: the value of the aspect ratio. */
+			bp_core_add_message( sprintf( __( 'The aspect ratio of the image you selected is too great compared to the profile photo one. For best results, upload a picture having an aspect ratio closer to %s.', 'buddypress' ), $aspect_ratio ), 'error' );
+		} else {
+
+			/* translators: 1: the advised width size in pixels. 2: the advised height size in pixels. */
+			bp_core_add_message( sprintf( __( 'You have selected an image that is smaller than recommended. For best results, upload a picture larger than %1$d x %2$d pixels.', 'buddypress' ), bp_core_avatar_full_width(), bp_core_avatar_full_height() ), 'error' );
+		}
 	}
 
 	// Set the url value for the image.
