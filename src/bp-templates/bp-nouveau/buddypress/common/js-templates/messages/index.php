@@ -6,7 +6,7 @@
  * dealing with user's private messages.
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 10.0.0
  */
 ?>
 <div class="subnav-filters filters user-subnav bp-messages-filters" id="subsubnav"></div>
@@ -130,7 +130,7 @@
 	<# if ( ! data.recipientsCount ) { #>
 		<div class="thread-from">
 			<a class="user-link" href="{{data.sender_link}}">
-				<img class="avatar" src="{{data.sender_avatar}}" alt="" />
+				<img class="avatar" src="{{{data.sender_avatar}}}" alt="" />
 				<span class="bp-screen-reader-text"><?php esc_html_e( 'From:', 'buddypress' ); ?></span>
 				<span class="user-name">{{data.sender_name}}</span>
 			</a>
@@ -140,7 +140,7 @@
 		#>
 		<div class="thread-to">
 			<a class="user-link" href="{{recipient.user_link}}">
-				<img class="avatar" src="{{recipient.avatar}}" alt="" />
+				<img class="avatar" src="{{{recipient.avatar}}}" alt="" />
 				<span class="bp-screen-reader-text"><?php esc_html_e( 'To:', 'buddypress' ); ?></span>
 				<span class="user-name">{{recipient.user_name}}</span>
 			</a>
@@ -176,7 +176,7 @@
 						<dd>
 							<ul class="participants-list">
 								<# for ( i in data.recipients ) { #>
-									<li><a href="{{data.recipients[i].user_link}}" class="bp-tooltip" data-bp-tooltip="{{data.recipients[i].user_name}}"><img class="avatar mini" src="{{data.recipients[i].avatar}}" alt="{{data.recipients[i].user_name}}" /></a></li>
+									<li><a href="{{data.recipients[i].user_link}}" class="bp-tooltip" data-bp-tooltip="{{data.recipients[i].user_name}}"><img class="avatar mini" src="{{{data.recipients[i].avatar}}}" alt="{{data.recipients[i].user_name}}" /></a></li>
 								<# } #>
 							</ul>
 						</dd>
@@ -239,7 +239,7 @@
 				<dd>
 					<ul class="participants-list">
 						<# for ( i in data.recipients ) { #>
-							<li><a href="{{data.recipients[i].user_link}}" class="bp-tooltip" data-bp-tooltip="{{data.recipients[i].user_name}}"><img class="avatar mini" src="{{data.recipients[i].avatar}}" alt="{{data.recipients[i].user_name}}" /></a></li>
+							<li><a href="{{data.recipients[i].user_link}}" class="bp-tooltip" data-bp-tooltip="{{data.recipients[i].user_name}}"><img class="avatar mini" src="{{{data.recipients[i].avatar}}}" alt="{{data.recipients[i].user_name}}" /></a></li>
 						<# } #>
 					</ul>
 				</dd>
@@ -261,7 +261,7 @@
 		<# } #>
 
 		<a href="{{data.sender_link}}" class="user-link">
-			<img class="avatar" src="{{data.sender_avatar}}" alt="" />
+			<img class="avatar" src="{{{data.sender_avatar}}}" alt="" />
 			<strong>{{data.sender_name}}</strong>
 		</a>
 
