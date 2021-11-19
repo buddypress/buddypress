@@ -60,7 +60,10 @@ class BP_Nouveau_Activity {
 	protected function includes() {
 		require $this->dir . 'functions.php';
 		require $this->dir . 'template-tags.php';
-		require $this->dir . 'widgets.php';
+
+		if ( bp_core_retain_legacy_widgets() ) {
+			require $this->dir . 'widgets.php';
+		}
 
 		// Test suite requires the AJAX functions early.
 		if ( function_exists( 'tests_add_filter' ) ) {
@@ -87,8 +90,11 @@ class BP_Nouveau_Activity {
 	 */
 	protected function setup_actions() {
 		add_action( 'bp_nouveau_enqueue_scripts', 'bp_nouveau_activity_enqueue_scripts' );
-		add_action( 'bp_widgets_init', array( 'BP_Latest_Activities', 'register_widget' ) );
 		add_action( 'bp_nouveau_notifications_init_filters', 'bp_nouveau_activity_notification_filters' );
+
+		if ( bp_core_retain_legacy_widgets() ) {
+			add_action( 'bp_widgets_init', array( 'BP_Latest_Activities', 'register_widget' ) );
+		}
 
 		$bp = buddypress();
 

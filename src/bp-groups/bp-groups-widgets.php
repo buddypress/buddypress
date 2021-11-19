@@ -11,12 +11,21 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Registers the Groups Legacy Widget.
+ *
+ * @since 10.0.0
+ */
+function bp_groups_register_groups_widget() {
+	register_widget( 'BP_Groups_Widget' );
+}
+
+/**
  * Register widgets for groups component.
  *
  * @since 1.0.0
  */
 function groups_register_widgets() {
-	add_action( 'widgets_init', function() { register_widget( 'BP_Groups_Widget' ); } );
+	add_action( 'widgets_init', 'bp_groups_register_groups_widget' );
 }
 add_action( 'bp_register_widgets', 'groups_register_widgets' );
 

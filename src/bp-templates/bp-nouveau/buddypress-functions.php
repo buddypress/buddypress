@@ -217,7 +217,9 @@ class BP_Nouveau extends BP_Theme_Compat {
 		add_action( 'widgets_init', 'bp_nouveau_register_sidebars', 11 );
 
 		// Register the Primary Object nav widget.
-		add_action( 'bp_widgets_init', array( 'BP_Nouveau_Object_Nav_Widget', 'register_widget' ) );
+		if ( bp_core_retain_legacy_widgets() ) {
+			add_action( 'bp_widgets_init', array( 'BP_Nouveau_Object_Nav_Widget', 'register_widget' ) );
+		}
 
 		// Set the BP Uri for the Ajax customizer preview.
 		add_filter( 'bp_uri', array( $this, 'customizer_set_uri' ), 10, 1 );

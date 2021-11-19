@@ -11,6 +11,33 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Registers the Members Legacy Widget.
+ *
+ * @since 10.0.0
+ */
+function bp_members_register_members_widget() {
+	register_widget( 'BP_Core_Members_Widget' );
+}
+
+/**
+ * Registers the "Who's online?" Legacy Widget.
+ *
+ * @since 10.0.0
+ */
+function bp_members_register_whos_online_widget() {
+	register_widget( 'BP_Core_Whos_Online_Widget' );
+}
+
+/**
+ * Registers the "Recently Active" Legacy Widget.
+ *
+ * @since 10.0.0
+ */
+function bp_members_register_recently_active_widget() {
+	register_widget( 'BP_Core_Recently_Active_Widget' );
+}
+
+/**
  * Register bp-members widgets.
  *
  * Previously, these widgets were registered in bp-core.
@@ -18,26 +45,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.2.0
  */
 function bp_members_register_widgets() {
-	add_action(
-		'widgets_init',
-		function() {
-			return register_widget( 'BP_Core_Members_Widget' );
-		}
-	);
-
-	add_action(
-		'widgets_init',
-		function() {
-			return register_widget( 'BP_Core_Whos_Online_Widget' );
-		}
-	);
-
-	add_action(
-		'widgets_init',
-		function() {
-			return register_widget( 'BP_Core_Recently_Active_Widget' );
-		}
-	);
+	add_action( 'widgets_init', 'bp_members_register_members_widget' );
+	add_action( 'widgets_init', 'bp_members_register_whos_online_widget' );
+	add_action( 'widgets_init', 'bp_members_register_recently_active_widget' );
 }
 add_action( 'bp_register_widgets', 'bp_members_register_widgets' );
 
