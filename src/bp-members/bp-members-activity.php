@@ -192,13 +192,18 @@ function bp_members_new_avatar_activity( $user_id = 0 ) {
 	 */
 	$user_id = apply_filters( 'bp_members_new_avatar_user_id', $user_id );
 
+	// Get the BuddyPress main plugin instance.
+	$bp = buddypress();
+
 	// Check to make sure that a user has just one `new_avatar` activity per throttle time.
 	$last_new_avatar_activity = bp_activity_get(
 		array(
-			'user_id'   => $user_id,
-			'component' => buddypress()->members->id,
-			'type'      => 'new_avatar',
 			'per_page'  => 1,
+			'filter'    => array(
+				'object'  => $bp->members->id,
+				'user_id' => $user_id,
+				'action'  => 'new_avatar',
+			)
 		)
 	);
 
@@ -229,7 +234,7 @@ function bp_members_new_avatar_activity( $user_id = 0 ) {
 	bp_activity_add(
 		array(
 			'user_id'   => $user_id,
-			'component' => buddypress()->members->id,
+			'component' => $bp->members->id,
 			'type'      => 'new_avatar',
 		)
 	);

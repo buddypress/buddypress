@@ -100,7 +100,7 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 	public function test_bp_members_new_avatar_activity_throttled() {
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create( array(
-			'component' => 'members',
+			'component' => buddypress()->members->id,
 			'type'      => 'new_avatar',
 			'user_id'   => $u,
 		) );
@@ -108,9 +108,11 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		bp_members_new_avatar_activity( $u );
 
 		$new_avatar_activities = bp_activity_get( array(
-			'user_id'     => $u,
-			'component'   => buddypress()->members->id,
-			'type'        => 'new_avatar',
+			'filter'    => array(
+				'object'  => buddypress()->members->id,
+				'user_id' => $u,
+				'action'  => 'new_avatar',
+			),
 			'count_total' => 'count_query',
 		) );
 
@@ -128,7 +130,7 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		$prev_time = date( 'Y-m-d H:i:s', $time - ( 121 * HOUR_IN_SECONDS ) );
 
 		$a = self::factory()->activity->create( array(
-			'component'     => 'members',
+			'component'     => buddypress()->members->id,
 			'type'          => 'new_avatar',
 			'user_id'       => $u,
 			'recorded_time' => $prev_time,
@@ -137,9 +139,11 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		bp_members_new_avatar_activity( $u );
 
 		$new_avatar_activities = bp_activity_get( array(
-			'user_id'     => $u,
-			'component'   => buddypress()->members->id,
-			'type'        => 'new_avatar',
+			'filter'    => array(
+				'object'  => buddypress()->members->id,
+				'user_id' => $u,
+				'action'  => 'new_avatar',
+			),
 			'count_total' => 'count_query',
 		) );
 
