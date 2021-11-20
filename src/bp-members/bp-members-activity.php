@@ -192,11 +192,46 @@ function bp_members_new_avatar_activity( $user_id = 0 ) {
 	 */
 	$user_id = apply_filters( 'bp_members_new_avatar_user_id', $user_id );
 
+	// Check to make sure that a user has just one `new_avatar` activity per throttle time.
+	$last_new_avatar_activity = bp_activity_get(
+		array(
+			'user_id'   => $user_id,
+			'component' => buddypress()->members->id,
+			'type'      => 'new_avatar',
+			'per_page'  => 1,
+		)
+	);
+
+	if ( ! empty( $last_new_avatar_activity['activities'] ) ) {
+		/**
+		 * Filters the throttle time, in seconds, used to prevent generating multiple `new_avatar` activity
+		 * in a short amount of time.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param int $value Throttle time, in seconds.
+		 */
+		$throttle_period = apply_filters( 'bp_members_new_avatar_throttle_time', HOUR_IN_SECONDS );
+		$then            = strtotime( $last_new_avatar_activity['activities'][0]->date_recorded );
+		$now             = bp_core_current_time( true, 'timestamp' );
+
+		// Delete the old activity.
+		if ( ( $now - $then ) < $throttle_period ) {
+			bp_activity_delete(
+				array(
+					'id' => $last_new_avatar_activity['activities'][0]->id,
+				)
+			);
+		}
+	}
+
 	// Add the activity.
-	bp_activity_add( array(
-		'user_id'   => $user_id,
-		'component' => buddypress()->members->id,
-		'type'      => 'new_avatar'
-	) );
+	bp_activity_add(
+		array(
+			'user_id'   => $user_id,
+			'component' => buddypress()->members->id,
+			'type'      => 'new_avatar',
+		)
+	);
 }
 add_action( 'bp_members_avatar_uploaded', 'bp_members_new_avatar_activity' );
