@@ -259,12 +259,6 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 				'parent_slug' => $this->group->slug,
 				'position'    => 10,
 			),
-			'invites' => array(
-				'name'        => _x( 'Invite', 'My Group screen nav', 'buddypress' ),
-				'slug'        => 'send-invites',
-				'parent_slug' => $this->group->slug,
-				'position'    => 70,
-			),
 			'manage'  => array(
 				'name'        => _x( 'Manage', 'My Group screen nav', 'buddypress' ),
 				'slug'        => 'admin',
@@ -272,6 +266,15 @@ class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
 				'position'    => 1000,
 			),
 		);
+
+		if ( bp_is_active( 'groups', 'invitations' ) ) {
+			$nav_items['invites'] = array(
+				'name'        => _x( 'Invite', 'My Group screen nav', 'buddypress' ),
+				'slug'        => 'send-invites',
+				'parent_slug' => $this->group->slug,
+				'position'    => 70,
+			);
+		}
 
 		// Make sure only global front.php will be checked.
 		add_filter( '_bp_nouveau_group_reset_front_template', array( $this, 'all_groups_fronts' ), 10, 1 );

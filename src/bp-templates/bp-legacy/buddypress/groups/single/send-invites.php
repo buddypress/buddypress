@@ -14,9 +14,13 @@
  */
 do_action( 'bp_before_group_send_invites_content' ); ?>
 
+<?php if ( ! bp_is_active( 'friends' ) ) : ?>
+	<div id="message" class="info">
+		<p class="notice"><?php esc_html_e( 'Group invitations can only be extended to friends.', 'buddypress' ); ?></p>
+	</div>
 <?php
 /* Does the user have friends that could be invited to the group? */
-if ( bp_get_new_group_invite_friend_list() ) : ?>
+elseif ( bp_get_new_group_invite_friend_list() ) : ?>
 
 	<h2 class="bp-screen-reader-text"><?php _e( 'Send invites', 'buddypress' ); ?></h2>
 

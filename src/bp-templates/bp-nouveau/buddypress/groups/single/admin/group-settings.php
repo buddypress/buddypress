@@ -86,6 +86,8 @@ if ( $group_types ) : ?>
 
 <?php endif; ?>
 
+<?php if ( bp_is_active( 'groups', 'invitations' ) ): ?>
+
 	<fieldset class="radio group-invitations">
 		<legend><?php esc_html_e( 'Group Invitations', 'buddypress' ); ?></legend>
 
@@ -107,5 +109,7 @@ if ( $group_types ) : ?>
 		</label>
 
 	</fieldset>
+
+<?php endif; ?>
 
 </div><!-- // .group-settings-selections -->

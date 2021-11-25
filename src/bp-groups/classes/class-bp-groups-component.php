@@ -110,13 +110,19 @@ class BP_Groups_Component extends BP_Component {
 	 * @since 1.5.0
 	 */
 	public function __construct() {
+		$features = array();
+		if ( bp_is_active( 'friends' ) ) {
+			$features[] = 'invitations';
+		}
+
 		parent::start(
 			'groups',
 			_x( 'User Groups', 'Group screen page <title>', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 70,
-				'search_query_arg' => 'groups_search',
+				'search_query_arg'         => 'groups_search',
+				'features'                 => $features,
 			)
 		);
 	}
@@ -392,8 +398,8 @@ class BP_Groups_Component extends BP_Component {
 			);
 		}
 
-		// If friends component is active, add invitations.
-		if ( bp_is_active( 'friends' ) ) {
+		// If invitations are enabled, add invitations.
+		if ( bp_is_active( 'groups', 'invitations' ) ) {
 			$this->group_creation_steps['group-invites'] = array(
 				'name'     => _x( 'Invites',  'Group screen nav', 'buddypress' ),
 				'position' => 30
@@ -607,16 +613,18 @@ class BP_Groups_Component extends BP_Component {
 				'item_css_id'     => 'groups-my-groups'
 			);
 
-			// Add the Group Invites nav item.
-			$sub_nav[] = array(
-				'name'            => __( 'Invitations', 'buddypress' ),
-				'slug'            => 'invites',
-				'parent_url'      => $groups_link,
-				'parent_slug'     => $slug,
-				'screen_function' => 'groups_screen_group_invites',
-				'user_has_access' => $access,
-				'position'        => 30
-			);
+			if ( bp_is_active( 'groups', 'invitations' ) ) {
+				// Add the Group Invites nav item.
+				$sub_nav[] = array(
+					'name'            => __( 'Invitations', 'buddypress' ),
+					'slug'            => 'invites',
+					'parent_url'      => $groups_link,
+					'parent_slug'     => $slug,
+					'screen_function' => 'groups_screen_group_invites',
+					'user_has_access' => $access,
+					'position'        => 30
+				);
+			}
 
 			parent::setup_nav( $main_nav, $sub_nav );
 		}
@@ -705,7 +713,7 @@ class BP_Groups_Component extends BP_Component {
 				);
 			}
 
-			if ( bp_is_active( 'friends' ) && bp_groups_user_can_send_invites() ) {
+			if ( bp_is_active( 'groups', 'invitations' ) ) {
 				$sub_nav[] = array(
 					'name'            => _x( 'Send Invites', 'My Group screen nav', 'buddypress' ),
 					'slug'            => 'send-invites',
@@ -833,23 +841,25 @@ class BP_Groups_Component extends BP_Component {
 			// Setup the logged in user variables.
 			$groups_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() );
 
-			// Pending group invites.
-			$count   = groups_get_invite_count_for_user();
 			$title   = _x( 'Groups', 'My Account Groups', 'buddypress' );
 			$pending = _x( 'No Pending Invites', 'My Account Groups sub nav', 'buddypress' );
 
-			if ( $count ) {
-				$title = sprintf(
-					/* translators: %s: Group invitation count for the current user */
-					_x( 'Groups %s', 'My Account Groups nav', 'buddypress' ),
-					'<span class="count">' . bp_core_number_format( $count ) . '</span>'
-				);
+			if ( bp_is_active( 'groups', 'invitations' ) ) {
+				// Pending group invites.
+				$count   = groups_get_invite_count_for_user();
+				if ( $count ) {
+					$title = sprintf(
+						/* translators: %s: Group invitation count for the current user */
+						_x( 'Groups %s', 'My Account Groups nav', 'buddypress' ),
+						'<span class="count">' . bp_core_number_format( $count ) . '</span>'
+					);
 
-				$pending = sprintf(
-					/* translators: %s: Group invitation count for the current user */
-					_x( 'Pending Invites %s', 'My Account Groups sub nav', 'buddypress' ),
-					'<span class="count">' . bp_core_number_format( $count ) . '</span>'
-				);
+					$pending = sprintf(
+						/* translators: %s: Group invitation count for the current user */
+						_x( 'Pending Invites %s', 'My Account Groups sub nav', 'buddypress' ),
+						'<span class="count">' . bp_core_number_format( $count ) . '</span>'
+					);
+				}
 			}
 
 			// Add the "My Account" sub menus.
@@ -870,13 +880,15 @@ class BP_Groups_Component extends BP_Component {
 			);
 
 			// Invitations.
-			$wp_admin_nav[] = array(
-				'parent'   => 'my-account-' . $this->id,
-				'id'       => 'my-account-' . $this->id . '-invites',
-				'title'    => $pending,
-				'href'     => trailingslashit( $groups_link . 'invites' ),
-				'position' => 30
-			);
+			if ( bp_is_active( 'groups', 'invitations' ) ) {
+				$wp_admin_nav[] = array(
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-invites',
+					'title'    => $pending,
+					'href'     => trailingslashit( $groups_link . 'invites' ),
+					'position' => 30
+				);
+			}
 
 			// Create a Group.
 			if ( bp_user_can_create_groups() ) {

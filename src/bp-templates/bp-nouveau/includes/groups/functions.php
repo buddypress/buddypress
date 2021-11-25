@@ -103,6 +103,18 @@ function bp_nouveau_groups_disallow_all_members_invites( $default = false ) {
 }
 
 /**
+ * Activate the Groups invitations feature if any member can be invited.
+ *
+ * @since 10.0.0
+ *
+ * @param bool True if any member can be invited. False otherwise.
+ */
+function bp_nouveau_is_groups_invitations_active() {
+	return ! bp_nouveau_groups_disallow_all_members_invites();
+}
+add_filter( 'bp_is_groups_invitations_active', 'bp_nouveau_is_groups_invitations_active' );
+
+/**
  * Localize the strings needed for the Group's Invite UI
  *
  * @since 3.0.0
@@ -310,34 +322,34 @@ function bp_nouveau_get_group_potential_invites( $args = array() ) {
 }
 
 /**
+ * Rename the Group invite step.
+ *
  * @since 3.0.0
+ * @since 10.0.0 The function is no more creating a Group invite step.
+ *
+ * @param array $steps The Group create steps.
+ * @return array       The Group create steps.
  */
 function bp_nouveau_group_invites_create_steps( $steps = array() ) {
-	if ( bp_is_active( 'friends' ) && isset( $steps['group-invites'] ) ) {
-		// Simply change the name
+	if ( isset( $steps['group-invites'] ) ) {
 		$steps['group-invites']['name'] = _x( 'Invite', 'Group invitations menu title', 'buddypress' );
-		return $steps;
 	}
-
-	// Add the create step if friends component is not active
-	$steps['group-invites'] = array(
-		'name'     => _x( 'Invite', 'Group invitations menu title', 'buddypress' ),
-		'position' => 30,
-	);
 
 	return $steps;
 }
 
 /**
+ * Rename the Group Invites nav.
+ *
  * @since 3.0.0
+ * @since 10.0.0 The function is no longer creating a Group invite nav.
  */
 function bp_nouveau_group_setup_nav() {
 	if ( ! bp_is_group() || ! bp_groups_user_can_send_invites() ) {
 		return;
 	}
 
-	// Simply change the name
-	if ( bp_is_active( 'friends' ) ) {
+	if ( bp_is_active( 'groups', 'invitations' ) ) {
 		$bp = buddypress();
 
 		$bp->groups->nav->edit_nav(
@@ -345,23 +357,6 @@ function bp_nouveau_group_setup_nav() {
 			'send-invites',
 			bp_get_current_group_slug()
 		);
-
-	// Create the Subnav item for the group
-	} else {
-		$current_group = groups_get_current_group();
-		$group_link    = bp_get_group_permalink( $current_group );
-
-		bp_core_new_subnav_item( array(
-			'name'            => _x( 'Invite', 'Group invitations menu title', 'buddypress' ),
-			'slug'            => 'send-invites',
-			'parent_url'      => $group_link,
-			'parent_slug'     => $current_group->slug,
-			'screen_function' => 'groups_screen_group_invite',
-			'item_css_id'     => 'invite',
-			'position'        => 70,
-			'user_has_access' => $current_group->user_has_access,
-			'no_access_url'   => $group_link,
-		) );
 	}
 }
 
