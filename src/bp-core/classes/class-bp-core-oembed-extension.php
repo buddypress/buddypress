@@ -481,7 +481,7 @@ abstract class BP_Core_oEmbed_Extension {
 		// Validate URL against our oEmbed endpoint. If not valid, bail.
 		// This is our mod to _oembed_rest_pre_serve_request().
 		$query_params = $request->get_query_params();
-		if ( false === $this->validate_url_to_item_id( $query_params['url'] ) ) {
+		if ( ! isset( $query_params['url'] ) || false === $this->validate_url_to_item_id( $query_params['url'] ) ) {
 			return $served;
 		}
 
