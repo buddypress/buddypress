@@ -1536,16 +1536,25 @@ function bp_legacy_theme_ajax_joinleave_group() {
 	// Cast gid as integer.
 	$group_id = (int) $_POST['gid'];
 
-	if ( groups_is_user_banned( bp_loggedin_user_id(), $group_id ) )
+	if ( groups_is_user_banned( bp_loggedin_user_id(), $group_id ) ) {
 		return;
+	}
 
-	if ( ! $group = groups_get_group( $group_id ) )
+	$group = groups_get_group( $group_id );
+
+	if ( ! $group ) {
 		return;
+	}
+
+	$action = '';
+	if ( isset( $_POST['action'] ) ) {
+		$action = sanitize_key( wp_unslash( $_POST['action'] ) );
+	}
 
 	// Client doesn't distinguish between different request types, so we infer from user status.
 	if ( groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {
 		$request_type = 'leave_group';
-	} elseif ( groups_check_user_has_invite( bp_loggedin_user_id(), $group->id ) ) {
+	} elseif ( groups_check_user_has_invite( bp_loggedin_user_id(), $group->id ) && 'joinleave_group' !== $action ) {
 		$request_type = 'accept_invite';
 	} elseif ( 'private' === $group->status ) {
 		$request_type = 'request_membership';
