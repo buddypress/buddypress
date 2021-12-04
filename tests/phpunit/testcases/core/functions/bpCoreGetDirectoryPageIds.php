@@ -285,6 +285,46 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 	}
 
 	/**
+	 * @ticket BP8592
+	 */
+	public function test_bp_core_get_directory_pages_ids_ms_non_root_blog_trashed_same_page_id() {
+		if ( ! is_multisite() ) {
+			$this->markTestSkipped();
+		}
+
+		// create a blog
+		$u  = self::factory()->user->create();
+		$b1 = self::factory()->blog->create(
+			array(
+				'user_id' => $u,
+			)
+		);
+
+		// Switch to blog and create a post with the same BP Members page ID.
+		switch_to_blog( $b1 );
+
+		$dir_page_ids = bp_core_get_directory_page_ids();
+
+		$p = self::factory()->post->create(
+			array(
+				'import_id' => $dir_page_ids['members'],
+			)
+		);
+
+		// Trash the post that matches the BP Members page ID on this sub-site
+		wp_trash_post( $dir_page_ids['members'] );
+
+		// refetch BP directory page IDs
+		$page_ids = bp_core_get_directory_page_ids();
+
+		// restore blog
+		restore_current_blog();
+
+		// Now verify that our BP Members page was not wiped out
+		$this->assertTrue( $dir_page_ids['members'] === $page_ids['members'] );
+	}
+
+	/**
 	 * @ticket BP7193
 	 */
 	public function test_bp_core_get_directory_pages_autocreate_register_pages_single_site() {

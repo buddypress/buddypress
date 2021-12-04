@@ -502,6 +502,7 @@ function bp_core_get_packaged_component_ids() {
  * Fetch a list of BP directory pages from the appropriate meta table.
  *
  * @since 1.5.0
+ * @since 10.0.0 Eventually switch the current site to BP root's one on multisite configs.
  *
  * @param string $status 'active' to return only pages associated with active components, 'all' to return all saved
  *                       pages. When running save routines, use 'all' to avoid removing data related to inactive
@@ -511,6 +512,21 @@ function bp_core_get_packaged_component_ids() {
  */
 function bp_core_get_directory_page_ids( $status = 'active' ) {
 	$page_ids = bp_get_option( 'bp-pages', array() );
+	$switched = false;
+
+	/*
+	 * Make sure to switch the current site to BP root's one, if needed.
+	 *
+	 * @see https://buddypress.trac.wordpress.org/ticket/8592
+	 */
+	if ( is_multisite() ) {
+		$bp_site_id = bp_get_root_blog_id();
+
+		if ( $bp_site_id !== get_current_blog_id() ) {
+			switch_to_blog( $bp_site_id );
+			$switched = true;
+		}
+	}
 
 	// Loop through pages.
 	foreach ( $page_ids as $component_name => $page_id ) {
@@ -534,6 +550,10 @@ function bp_core_get_directory_page_ids( $status = 'active' ) {
 		if ( ( 'active' === $status ) && ! bp_is_active( $component_name ) ) {
 			unset( $page_ids[ $component_name ] );
 		}
+	}
+
+	if ( true === $switched ) {
+		restore_current_blog();
 	}
 
 	/**
