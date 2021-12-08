@@ -358,7 +358,7 @@ class BP_Members_Admin {
 
 		// Trust the 'bp_moderate' capability.
 		} else {
-			$retval = bp_current_user_can( 'bp_moderate' );
+			$retval = ( bp_current_user_can( 'edit_users' ) || bp_current_user_can( 'bp_moderate' ) );
 		}
 
 		return $retval;
@@ -1023,7 +1023,7 @@ class BP_Members_Admin {
 	 */
 	public function user_admin() {
 
-		if ( ! bp_current_user_can( 'bp_moderate' ) && empty( $this->is_self_profile ) ) {
+		if ( ! bp_current_user_can( 'edit_users' ) && ! bp_current_user_can( 'bp_moderate' ) && empty( $this->is_self_profile ) ) {
 			die( '-1' );
 		}
 
@@ -1399,7 +1399,7 @@ class BP_Members_Admin {
 		check_admin_referer( 'bp-member-type-change-' . $user_id, 'bp-member-type-nonce' );
 
 		// Permission check.
-		if ( ! bp_current_user_can( 'bp_moderate' ) && $user_id != bp_loggedin_user_id() ) {
+		if ( ! bp_current_user_can( 'edit_users' ) && ! bp_current_user_can( 'bp_moderate' ) && $user_id != bp_loggedin_user_id() ) {
 			return;
 		}
 
