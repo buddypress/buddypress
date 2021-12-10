@@ -514,10 +514,16 @@ class BP_Members_Admin {
 		// Only show sign-ups where they belong.
 		if ( ( ! bp_is_network_activated() && ! is_network_admin() ) || ( is_network_admin() && bp_is_network_activated() ) ) {
 
+			$signups_menu_label = __( 'Manage Signups',  'buddypress' );
+
+			if ( bp_get_membership_requests_required() ) {
+				$signups_menu_label = __( 'Manage Pending Memberships',  'buddypress' );
+			}
+
 			// Manage signups.
 			$hooks['signups'] = $this->signups_page = add_users_page(
-				__( 'Manage Signups',  'buddypress' ),
-				__( 'Manage Signups',  'buddypress' ),
+				$signups_menu_label,
+				$signups_menu_label,
 				$this->capability,
 				'bp-signups',
 				array( $this, 'signups_admin' )
@@ -1687,7 +1693,7 @@ class BP_Members_Admin {
 		 */
 		$allowed_actions = apply_filters( 'bp_signups_admin_allowed_actions', array( 'do_delete', 'do_activate', 'do_resend' ) );
 
-		// Prepare the display of the Community Profile screen.
+		// Prepare the display of the Signups screen.
 		if ( ! in_array( $doaction, $allowed_actions ) || ( -1 == $doaction ) ) {
 
 			if ( is_network_admin() ) {
@@ -1709,20 +1715,34 @@ class BP_Members_Admin {
 				'<p>' . __( 'Using the search form, you can find pending accounts more easily. The Username and Email fields will be included in the search.', 'buddypress' ) . '</p>'
 			) );
 
+			$signup_help_content = '<p>' . esc_html__( 'Hovering over a row in the pending accounts list will display action links that allow you to manage pending accounts. You can perform the following actions:', 'buddypress' ) . '</p>';
+
+			if ( bp_get_membership_requests_required() ) {
+				$signup_help_content .= '<ul><li>' . esc_html__( '"Activate" will activate the user immediately without requiring that they validate their email.', 'buddypress' ) .'</li>' .
+					'<li>' . esc_html__( '"Approve Request" or "Resend Approval" takes you to the confirmation screen before being able to send the activation link to the desired pending request. You can only send the activation email once per day.', 'buddypress' ) . '</li>';
+
+				if ( bp_is_active( 'xprofile' ) ) {
+					$signup_help_content .=	'<li>' . esc_html__( '"Profile Info" will display extended profile information for the request.', 'buddypress' ) . '</li>';
+				}
+
+				$signup_help_content .= '<li>' . esc_html__( '"Delete" allows you to delete a pending account from your site. You will be asked to confirm this deletion.', 'buddypress' ) . '</li></ul>';
+			} else {
+				$signup_help_content .= '<ul><li>' . esc_html__( '"Email" takes you to the confirmation screen before being able to send the activation link to the desired pending account. You can only send the activation email once per day.', 'buddypress' ) . '</li>' .
+					'<li>' . __( '"Delete" allows you to delete a pending account from your site. You will be asked to confirm this deletion.', 'buddypress' ) . '</li></ul>';
+			}
+
+			$signup_help_content .= '<p>' . esc_html__( 'By clicking on a Username you will be able to activate a pending account from the confirmation screen.', 'buddypress' ) . '</p>' .
+				'<p>' . __( 'Bulk actions allow you to perform these 3 actions for the selected rows.', 'buddypress' ) . '</p>';
+
 			get_current_screen()->add_help_tab( array(
 				'id'      => 'bp-signups-actions',
 				'title'   => __( 'Actions', 'buddypress' ),
-				'content' =>
-				'<p>' . __( 'Hovering over a row in the pending accounts list will display action links that allow you to manage pending accounts. You can perform the following actions:', 'buddypress' ) . '</p>' .
-				'<ul><li>' . __( '"Email" takes you to the confirmation screen before being able to send the activation link to the desired pending account. You can only send the activation email once per day.', 'buddypress' ) . '</li>' .
-				'<li>' . __( '"Delete" allows you to delete a pending account from your site. You will be asked to confirm this deletion.', 'buddypress' ) . '</li></ul>' .
-				'<p>' . __( 'By clicking on a Username you will be able to activate a pending account from the confirmation screen.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'Bulk actions allow you to perform these 3 actions for the selected rows.', 'buddypress' ) . '</p>'
+				'content' => $signup_help_content
 			) );
 
 			// Help panel - sidebar links.
 			get_current_screen()->set_help_sidebar(
-				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
 				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 			);
 
@@ -1735,6 +1755,25 @@ class BP_Members_Admin {
 				/* translators: accessibility text */
 				'heading_list'       => __( 'Pending users list', 'buddypress' ),
 			) );
+
+			// Use thickbox to display the extended profile information.
+			if ( bp_is_active( 'xprofile' ) || bp_members_site_requests_enabled() ) {
+				wp_enqueue_style( 'thickbox' );
+				wp_enqueue_script(
+					'bp-signup-preview',
+					$this->js_url . 'signup-preview' . bp_core_get_minified_asset_suffix() . '.js',
+					array( 'bp-thickbox', 'jquery' ),
+					bp_get_version(),
+					true
+				);
+				wp_localize_script(
+					'bp-signup-preview',
+					'bpSignupPreview',
+					array(
+						'modalLabel' => __( 'Profile info preview', 'buddypress' ),
+					)
+				);
+			}
 
 		} else {
 			if ( ! empty( $_REQUEST['signup_ids' ] ) ) {
@@ -2227,13 +2266,24 @@ class BP_Members_Admin {
 				break;
 
 			case 'resend' :
-				$header_text = __( 'Resend Activation Emails', 'buddypress' );
-				if ( 1 == count( $signup_ids ) ) {
-					$helper_text = __( 'You are about to resend an activation email to the following account:', 'buddypress' );
+
+				if ( bp_get_membership_requests_required() ) {
+					$header_text = __( 'Approve Membership Requests', 'buddypress' );
+					if ( 1 === count( $signup_ids ) ) {
+						$helper_text = __( 'You are about to send an approval email to the following user:', 'buddypress' );
+					} else {
+						$helper_text = __( 'You are about to send approval emails to the following users:', 'buddypress' );
+					}
 				} else {
-					$helper_text = __( 'You are about to resend an activation email to the following accounts:', 'buddypress' );
+					$header_text = __( 'Resend Activation Emails', 'buddypress' );
+					if ( 1 === count( $signup_ids ) ) {
+						$helper_text = __( 'You are about to resend an activation email to the following account:', 'buddypress' );
+					} else {
+						$helper_text = __( 'You are about to resend an activation email to the following accounts:', 'buddypress' );
+					}
 				}
 				break;
+
 		}
 
 		// These arguments are added to all URLs.
@@ -2262,7 +2312,7 @@ class BP_Members_Admin {
 
 		// Prefetch registration field data.
 		$fdata = array();
-		if ( 'activate' === $action && bp_is_active( 'xprofile' ) ) {
+		if ( bp_is_active( 'xprofile' ) && ( 'activate' == $action || ( 'resend' == $action && bp_get_membership_requests_required() ) ) ) {
 			$field_groups = bp_xprofile_get_groups( array(
 				'exclude_fields'    => 1,
 				'update_meta_cache' => false,
@@ -2286,7 +2336,11 @@ class BP_Members_Admin {
 
 			<ol class="bp-signups-list">
 			<?php foreach ( $signups as $signup ) :
-				$last_notified = mysql2date( 'Y/m/d g:i:s a', $signup->date_sent );
+				if ( $signup->count_sent > 0 ) {
+					$last_notified = mysql2date( 'Y/m/d g:i:s a', $signup->date_sent );
+				} else {
+					$last_notified = __( 'Not yet notified', 'buddypress' );
+				}
 				$profile_field_ids = array();
 
 				// Get all xprofile field IDs except field 1.
@@ -2298,7 +2352,7 @@ class BP_Members_Admin {
 				<li>
 					<strong><?php echo esc_html( $signup->user_login ) ?></strong>
 
-					<?php if ( 'activate' == $action ) : ?>
+					<?php if ( 'activate' == $action || ( 'resend' == $action && bp_get_membership_requests_required() ) ) : ?>
 						<table class="wp-list-table widefat fixed striped">
 							<tbody>
 								<tr>
@@ -2316,7 +2370,7 @@ class BP_Members_Admin {
 										$field_value = isset( $signup->meta[ "field_{$pid}" ] ) ? $signup->meta[ "field_{$pid}" ] : ''; ?>
 										<tr>
 											<td class="column-fields"><?php echo esc_html( $fdata[ $pid ] ); ?></td>
-											<td><?php echo $this->format_xprofile_field_for_display( $field_value ); ?></td>
+											<td><?php echo bp_members_admin_format_xprofile_field_for_display( $field_value ); ?></td>
 										</tr>
 
 									<?php endforeach;  ?>
@@ -2622,20 +2676,15 @@ class BP_Members_Admin {
 	 * Operates recursively on arrays, which are then imploded with commas.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 10.0.0
 	 *
 	 * @param string|array $value Field value.
 	 * @return string
 	 */
 	protected function format_xprofile_field_for_display( $value ) {
-		if ( is_array( $value ) ) {
-			$value = array_map( array( $this, 'format_xprofile_field_for_display' ), $value );
-			$value = implode( ', ', $value );
-		} else {
-			$value = stripslashes( $value );
-			$value = esc_html( $value );
-		}
+		_deprecated_function( __METHOD__, '10.0.0', 'bp_members_admin_format_xprofile_field_for_display' );
 
-		return $value;
+		return bp_members_admin_format_xprofile_field_for_display( $value );
 	}
 
 	/**

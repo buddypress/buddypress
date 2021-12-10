@@ -27,6 +27,15 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	public $signup_counts = 0;
 
 	/**
+	 * Signup profile fields.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @var array
+	 */
+	public $signup_field_labels = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 2.0.0
@@ -138,14 +147,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 */
 	public function get_columns() {
 
-		/**
-		 * Filters the single site Members signup columns.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param array $value Array of columns to display.
-		 */
-		return apply_filters( 'bp_members_signup_columns', array(
+		$columns = array(
 			'cb'         => '<input type="checkbox" />',
 			'username'   => __( 'Username',    'buddypress' ),
 			'name'       => __( 'Name',        'buddypress' ),
@@ -153,7 +155,16 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			'registered' => __( 'Registered',  'buddypress' ),
 			'date_sent'  => __( 'Last Sent',   'buddypress' ),
 			'count_sent' => __( 'Emails Sent', 'buddypress' )
-		) );
+		);
+
+		/**
+		 * Filters the single site Members signup columns.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $value Array of columns to display.
+		 */
+		return apply_filters( 'bp_members_signup_columns', $columns );
 	}
 
 	/**
@@ -171,7 +182,14 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 			$actions['delete'] = __( 'Delete', 'buddypress' );
 		}
 
-		return $actions;
+		/**
+		 * Filters the bulk actions for signups.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param array $actions Array of actions and corresponding labels.
+		 */
+		return apply_filters( 'bp_members_ms_signup_bulk_actions', $actions );
 	}
 
 	/**
@@ -183,7 +201,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 */
 	public function no_items() {
 
-		if ( bp_get_signup_allowed() ) {
+		if ( bp_get_signup_allowed() || bp_get_membership_requests_required() ) {
 			esc_html_e( 'No pending accounts found.', 'buddypress' );
 		} else {
 			$link = false;
@@ -342,6 +360,31 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 */
 	public function column_name( $signup_object = null ) {
 		echo esc_html( $signup_object->user_name );
+
+		// Insert the extended profile modal content required by thickbox.
+		if ( ! bp_is_active( 'xprofile' ) ) {
+			return;
+		}
+
+		$profile_field_ids = array();
+
+		// Fetch registration field data once only.
+		if ( ! $this->signup_field_labels ) {
+			$field_groups = bp_xprofile_get_groups(
+				array(
+					'fetch_fields'       => true,
+					'signup_fields_only' => true,
+				)
+			);
+
+			foreach ( $field_groups as $field_group ) {
+				foreach ( $field_group->fields as $field ) {
+					$this->signup_field_labels[ $field->id ] = $field->name;
+				}
+			}
+		}
+
+		bp_members_admin_preview_signup_profile_info( $this->signup_field_labels, $signup_object );
 	}
 
 	/**
@@ -363,7 +406,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @param object|null $signup_object The signup data object.
 	 */
 	public function column_registered( $signup_object = null ) {
-		echo mysql2date( 'Y/m/d', $signup_object->registered );
+		echo mysql2date( 'Y/m/d g:i:s a', $signup_object->registered );
 	}
 
 	/**
@@ -374,11 +417,28 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @param object|null $signup_object The signup data object.
 	 */
 	public function column_date_sent( $signup_object = null ) {
-		echo mysql2date( 'Y/m/d', $signup_object->date_sent );
+		if ( $signup_object->count_sent > 0 ) {
+			echo mysql2date( 'Y/m/d g:i:s a', $signup_object->date_sent );
+		} else {
+			$message = __( 'Not yet notified', 'buddypress' );
+
+			/**
+			 * Filters the "not yet sent" message for "Last Sent"
+			 * column in Manage Signups list table.
+			 *
+			 * @since 10.0.0
+			 *
+			 * @param string      $message       "Not yet sent" message.
+			 * @param object|null $signup_object Signup object instance.
+			 */
+			$message = apply_filters( 'bp_members_signup_date_sent_unsent_message', $message, $signup_object );
+
+			echo esc_html( $message );
+		}
 	}
 
 	/**
-	 * Display number of time an activation email has been sent.
+	 * Display number of times an activation email has been sent.
 	 *
 	 * @since 2.0.0
 	 *

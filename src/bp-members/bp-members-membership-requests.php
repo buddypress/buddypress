@@ -258,3 +258,98 @@ add_action( 'bp_core_signup_after_resend',   'bp_members_membership_requests_del
 add_action( 'bp_core_signup_after_activate', 'bp_members_membership_requests_delete_notifications_on_change' );
 add_action( 'bp_core_signup_after_delete',   'bp_members_membership_requests_delete_notifications_on_change' );
 
+/**
+ * Administration: Change certain behavior and labels
+ * on the WP Admin > Users > Manage Signups screen.
+ *********************************************************************/
+
+/**
+ * Filter the actions available on the signups list table.
+ *
+ * @since 10.0.0
+ *
+ * @param array  $actions       Array of actions and corresponding links.
+ * @param object $signup_object The signup data object.
+ */
+function bp_members_membership_requests_filter_signup_row_actions( $actions, $signup_object ) {
+
+	// Rename the "email" resend option when membership requests are active.
+	$email_link = add_query_arg(
+		array(
+			'page'	    => 'bp-signups',
+			'signup_id' => $signup_object->id,
+			'action'    => 'resend',
+		),
+		bp_get_admin_url( 'users.php' )
+	);
+
+	$resend_label = ( 0 === $signup_object->count_sent ) ? __( 'Approve Request', 'buddypress' ) : __( 'Resend Approval', 'buddypress' );
+
+	$actions['resend'] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $email_link ), esc_html( $resend_label ) );
+
+	// Add a link to view profile info when membership requests and xprofile are active.
+	if ( bp_is_active( 'xprofile' ) || bp_members_site_requests_enabled() ) {
+		$profile_link = add_query_arg(
+			array(
+				'page'	   => 'bp-signups#TB_inline',
+				'inlineId' => 'signup-info-modal-' . $signup_object->id,
+			),
+			bp_get_admin_url( 'users.php' )
+		);
+
+		$actions['profile'] = sprintf( '<a href="%1$s" class="bp-thickbox">%2$s</a>', esc_url( $profile_link ), esc_html__( 'Profile Info', 'buddypress' ) );
+	}
+
+	return $actions;
+}
+add_filter( 'bp_members_ms_signup_row_actions', 'bp_members_membership_requests_filter_signup_row_actions', 10, 2 );
+
+/**
+ * Filter the bulk actions available on the signups list table.
+ *
+ * @since 10.0.0
+ *
+ * @param array $actions Array of actions and corresponding links.
+ * @return array         List of actions and corresponding links.
+ */
+function bp_members_membership_requests_filter_signup_bulk_actions( $actions ) {
+	// Rename the "email" resend option when membership requests are active.
+	$actions['resend'] = esc_html_x( 'Approve', 'Pending signup action', 'buddypress' );
+	return $actions;
+}
+add_filter( 'bp_members_ms_signup_bulk_actions', 'bp_members_membership_requests_filter_signup_bulk_actions' );
+
+/**
+ * Filter the "Last Sent" column header on the pending users table.
+ *
+ * @since 10.0.0
+ *
+ * @param array $columns Array of columns to display.
+ * @return array List of columns to display.
+ */
+function bp_members_membership_requests_filter_signup_table_date_sent_header( $columns ) {
+	$columns['date_sent'] = esc_html__( 'Approved', 'buddypress' );
+	return $columns;
+}
+add_filter( 'bp_members_signup_columns', 'bp_members_membership_requests_filter_signup_table_date_sent_header' );
+add_filter( 'bp_members_ms_signup_columns', 'bp_members_membership_requests_filter_signup_table_date_sent_header' );
+
+/**
+ * Filter the "Last Sent" column message on the pending users table.
+ *
+ * @since 10.0.0
+ *
+ * @param string      $message "Not yet sent" message.
+ * @param object|null $signup  Signup object instance.
+ * @return string              "Not yet approved" message, if needed. Unchanged message otherwise.
+ */
+function bp_members_membership_requests_filter_signup_table_unsent_message( $message, $signup ) {
+	if ( 0 === $signup->count_sent ) {
+		$message = esc_html__( 'Not yet approved', 'buddypress' );
+	}
+
+	return $message;
+}
+add_filter( 'bp_members_signup_date_sent_unsent_message', 'bp_members_membership_requests_filter_signup_table_unsent_message', 10, 2 );
+add_filter( 'bp_members_ms_signup_date_sent_unsent_message', 'bp_members_membership_requests_filter_signup_table_unsent_message', 10, 2 );
+

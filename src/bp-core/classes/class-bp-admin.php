@@ -1295,10 +1295,17 @@ class BP_Admin {
 				'footer'       => true,
 			),
 
+			// 10.0
+			'bp-thickbox' => array(
+				'file'         => "{$url}bp-thickbox{$min}.js",
+				'dependencies' => array( 'thickbox' ),
+				'footer'       => true,
+			),
+
 			// 3.0
 			'bp-hello-js' => array(
 				'file'         => "{$url}hello{$min}.js",
-				'dependencies' => array( 'thickbox', 'wp-api-request' ),
+				'dependencies' => array( 'bp-thickbox', 'wp-api-request' ),
 				'footer'       => true,
 			),
 
