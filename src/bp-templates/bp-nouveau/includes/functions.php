@@ -1122,7 +1122,9 @@ function bp_nouveau_get_user_feedback( $feedback_id = '' ) {
 	/*
 	 * Adjust some messages to the context.
 	 */
-	if ( 'completed-confirmation' === $feedback_id && bp_registration_needs_activation() ) {
+	if ( 'completed-confirmation' === $feedback_id && bp_get_membership_requests_required() ) {
+		$feedback_messages['completed-confirmation']['message'] = __( 'You have successfully submitted your membership request! Our site moderators will review your submission and send you an activation email if your request is approved.', 'buddypress' );
+	} elseif ( 'completed-confirmation' === $feedback_id && bp_registration_needs_activation() ) {
 		$feedback_messages['completed-confirmation']['message'] = __( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' );
 	} elseif ( 'member-notifications-none' === $feedback_id ) {
 		$is_myprofile = bp_is_my_profile();

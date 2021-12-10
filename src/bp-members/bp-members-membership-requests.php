@@ -259,6 +259,21 @@ add_action( 'bp_core_signup_after_activate', 'bp_members_membership_requests_del
 add_action( 'bp_core_signup_after_delete',   'bp_members_membership_requests_delete_notifications_on_change' );
 
 /**
+ * In the Nouveau template pack, when membership requests are required,
+ * change registration form submit button label to "Submit Request".
+ *
+ * @since 10.0.0
+ *
+ * @return string $retval the HTML for the request membership link.
+ */
+function bp_members_membership_requests_filter_complete_signup_button( $buttons ) {
+
+	$buttons['register']['attributes']['value'] = __( 'Submit Request', 'buddypress' );
+	return $buttons;
+}
+add_filter( 'bp_nouveau_get_submit_button', 'bp_members_membership_requests_filter_complete_signup_button' );
+
+/**
  * Administration: Change certain behavior and labels
  * on the WP Admin > Users > Manage Signups screen.
  *********************************************************************/

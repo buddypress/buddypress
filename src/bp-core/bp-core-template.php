@@ -3192,7 +3192,11 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 
 	// Sign up page.
 	} elseif ( bp_is_register_page() ) {
-		$bp_title_parts = array( __( 'Create an Account', 'buddypress' ) );
+		if ( bp_get_membership_requests_required() ) {
+			$bp_title_parts = array( __( 'Request Membership', 'buddypress' ) );
+		} else {
+			$bp_title_parts = array( __( 'Create an Account', 'buddypress' ) );
+		}
 
 	// Activation page.
 	} elseif ( bp_is_activation_page() ) {

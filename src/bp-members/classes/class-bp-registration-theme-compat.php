@@ -97,10 +97,18 @@ class BP_Registration_Theme_Compat {
 	public function dummy_post() {
 		// Registration page.
 		if ( bp_is_register_page() ) {
-			$title = __( 'Create an Account', 'buddypress' );
+			if ( bp_get_membership_requests_required() ) {
+				$title = __( 'Request Membership', 'buddypress' );
+			} else {
+				$title = __( 'Create an Account', 'buddypress' );
+			}
 
 			if ( 'completed-confirmation' == bp_get_current_signup_step() ) {
-				$title = __( 'Check Your Email To Activate Your Account!', 'buddypress' );
+				if ( bp_get_membership_requests_required() ) {
+					$title = __( 'Your Membership Request has been submitted.', 'buddypress' );
+				} else {
+					$title = __( 'Check Your Email To Activate Your Account!', 'buddypress' );
+				}
 			}
 
 		// Activation page.

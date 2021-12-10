@@ -61,7 +61,9 @@ function bp_core_screen_signup() {
 		}
 	}
 
-	if ( ! bp_get_signup_allowed() && ! $active_invite ) {
+	$requests_enabled = bp_get_membership_requests_required();
+
+	if ( ! bp_get_signup_allowed() && ! $active_invite && ! $requests_enabled ) {
 		$bp->signup->step = 'registration-disabled';
 		// If the signup page is submitted, validate and save.
 	} elseif ( isset( $_POST['signup_submit'] ) && bp_verify_nonce_request( 'bp_new_signup' ) ) {
@@ -197,7 +199,7 @@ function bp_core_screen_signup() {
 			// No errors! Let's register those deets.
 			$active_signup = bp_core_get_root_option( 'registration' );
 
-			if ( 'none' != $active_signup ) {
+			if ( 'none' != $active_signup || $requests_enabled ) {
 
 				// Make sure the extended profiles module is enabled.
 				if ( bp_is_active( 'xprofile' ) ) {
