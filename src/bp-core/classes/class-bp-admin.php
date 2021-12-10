@@ -203,6 +203,9 @@ class BP_Admin {
 		// BuddyPress Types administration.
 		add_action( 'load-edit-tags.php', array( 'BP_Admin_Types', 'register_types_admin' ) );
 
+		// Official BuddyPress supported Add-ons.
+		add_action( 'install_plugins_bp-add-ons', array( $this, 'display_addons_table' ) );
+
 		/* Filters ***********************************************************/
 
 		// Add link to settings page.
@@ -215,6 +218,10 @@ class BP_Admin {
 
 		// Emails
 		add_filter( 'bp_admin_menu_order', array( $this, 'emails_admin_menu_order' ), 20 );
+
+		// Official BuddyPress supported Add-ons.
+		add_filter( 'install_plugins_tabs', array( $this, 'addons_tab' ) );
+		add_filter( 'install_plugins_table_api_args_bp-add-ons', array( $this,'addons_args' ) );
 	}
 
 	/**
@@ -1355,6 +1362,78 @@ class BP_Admin {
 				)
 			);
 		}
+	}
+
+	/**
+	 * Add a "BuddyPress Add-ons" tab to the Add Plugins Admin screen.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array $tabs The list of "Add Plugins" Tabs (Featured, Recommended, etc..).
+	 * @return array      The same list including the "BuddyPress Add-ons" tab.
+	 */
+	public function addons_tab( $tabs = array() ) {
+		$keys  = array_keys( $tabs );
+		$index = array_search( 'favorites', $keys, true );
+
+		// Makes sure the "BuddyPress Add-ons" tab is right after the "Favorites" one.
+		$new_tabs = array_merge(
+			array_slice( $tabs, 0, $index + 1, true ),
+			array(
+				'bp-add-ons' => __( 'BuddyPress Add-ons', 'buddypress' ),
+			),
+			$tabs
+		);
+
+		return $new_tabs;
+	}
+
+	/**
+	 * Customize the Plugins API query arguments.
+	 *
+	 * The most important argument is the $user one which is set to "buddypress".
+	 * Using this key and value will fetch the plugins the w.org "buddypress" user favorited.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @global int        $paged The current page of the Plugin results.
+	 * @param false|array $args  `false` by default.
+	 * @return array             The "BuddyPress add-ons" args.
+	 */
+	public function addons_args( $args = false ) {
+		global $paged;
+
+		return array(
+			'page'     => $paged,
+			'per_page' => 10,
+			'locale'   => get_user_locale(),
+			'user'     => 'buddypress',
+		);
+	}
+
+	/**
+	 * Displays the list of "BuddyPress Add-ons".
+	 *
+	 * @todo we should have a page on the BuddyPress codex to explain feature plugins like this one:
+	 *       https://make.wordpress.org/core/features/
+	 *
+	 * @since 10.0.0
+	 */
+	public function display_addons_table() {
+		?>
+		<div id="welcome-panel" class="welcome-panel">
+			<a class="welcome-panel-close" href="#" aria-label="Dismiss the welcome panel"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+			<div class="welcome-panel-content">
+				<h2><span class="bp-badge"></span> <?php esc_html_e( 'Hello BuddyPress Add-ons!', 'buddypress' ); ?></h2>
+				<p class="about-description">
+					<?php esc_html_e( 'Add-ons are features as Plugins or Blocks maintained by the BuddyPress development team & hosted on the WordPress.org plugins directory.', 'buddypress' ); ?>
+					<?php esc_html_e( 'Thanks to this new tab inside your Dashboard screen to add plugins, you’ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ); ?>
+				</p>
+			</div>
+		</div>
+		<?php
+		// Display the "buddypress" favorites ;)
+		display_plugins_table();
 	}
 }
 endif; // End class_exists check.
