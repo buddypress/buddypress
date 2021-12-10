@@ -248,8 +248,15 @@ function bp_core_set_uri_globals() {
 	}
 
 	// This is not a BuddyPress page, so just return.
-	if ( empty( $matches ) )
+	if ( empty( $matches ) ) {
+		/**
+		 * Fires when the the current page is not a BuddyPress one.
+		 *
+		 * @since 10.0.0
+		 */
+		do_action( 'is_not_buddypress' );
 		return false;
+	}
 
 	$wp_rewrite->use_verbose_page_rules = false;
 
