@@ -183,3 +183,42 @@ function bp_members_invitations_delete_optedout_invites( $optout ) {
 	);
 }
 add_action( 'bp_optout_after_save', 'bp_members_invitations_delete_optedout_invites' );
+
+/**
+ * If a user submits a site membership request, but there's a
+ * sent invitation to her, bypass the manual approval of the request.
+ *
+ * @since 10.0.0
+ *
+ * @param bool  $send    Whether or not this membership request should be approved
+ *                       immediately and the activation email sent.
+ *                       Default is `false` meaning that the request should be
+ *                       manually approved by a site admin.
+ * @param array $details The details of the request.
+ */
+function bp_members_invitations_maybe_bypass_request_approval( $send, $details ) {
+	if ( ! bp_get_members_invitations_allowed() ) {
+		return $send;
+	}
+
+	// We'll need the prospective user's email address.
+	if ( empty( $details['user_email'] ) ) {
+		return $send;
+	}
+
+	$invites = bp_members_invitations_get_invites(
+		array(
+			'invitee_email' => $details['user_email'],
+			'invite_sent'   => 'sent'
+		)
+	);
+
+	// If pending invitations exist, send the verification mail.
+	if ( $invites ) {
+		$send = true;
+	}
+
+	return $send;
+}
+add_filter( 'bp_members_membership_requests_bypass_manual_approval', 'bp_members_invitations_maybe_bypass_request_approval', 10, 2 );
+add_filter( 'bp_members_membership_requests_bypass_manual_approval_multisite', 'bp_members_invitations_maybe_bypass_request_approval', 10, 2 );

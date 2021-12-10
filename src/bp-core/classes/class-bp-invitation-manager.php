@@ -227,7 +227,7 @@ abstract class BP_Invitation_Manager {
 	 * 	   @type int    $item_id ID associated with the invitation and class.
 	 * 	   @type int    $secondary_item_id secondary ID associated with the
 	 *			        invitation and class.
-	 * 	   @type string $type @TODO. < missing description.
+	 * 	   @type string $type    Type of record this is: 'invite' or 'request'.
 	 * 	   @type string $content Extra information provided by the requester
 	 *			        or inviter.
 	 * 	   @type string $date_modified Date the invitation was last modified.
