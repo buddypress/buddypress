@@ -2204,7 +2204,7 @@ class BP_Members_Admin {
 		) );
 
 		$signups    = $signups_query['signups'];
-		$signup_ids = wp_list_pluck( $signups, 'signup_id' );
+		$signup_ids = wp_list_pluck( $signups, 'id' );
 
 		// Set up strings.
 		switch ( $action ) {

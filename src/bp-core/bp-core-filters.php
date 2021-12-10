@@ -473,15 +473,9 @@ function bp_core_activation_signup_blog_notification( $domain, $path, $title, $u
 		),
 	);
 
-	$signups = BP_Signup::get(
-		array(
-			'user_login' => $user,
-		)
-	);
-
+	$signup     = bp_members_get_signup_by( 'activation_key', $key );
 	$salutation = $user;
-	if ( $signups && bp_is_active( 'xprofile' ) ) {
-		$signup = $signups['signups'][0];
+	if ( $signup && bp_is_active( 'xprofile' ) ) {
 		if ( isset( $signup->meta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
 			$salutation = $signup->meta[ 'field_' . bp_xprofile_fullname_field_id() ];
 		}
@@ -562,6 +556,31 @@ function bp_core_activation_signup_user_notification( $user, $user_email, $key, 
 	return false;
 }
 add_filter( 'wpmu_signup_user_notification', 'bp_core_activation_signup_user_notification', 1, 4 );
+
+/**
+ * Ensure that some meta values are set for new multisite signups.
+ *
+ * @since 10.0.0
+ *
+ * @see wpmu_signup_user() for a full description of params.
+ *
+ * @param array $meta Signup meta data. Default empty array.
+ * @return array Signup meta data.
+ */
+function bp_core_add_meta_to_multisite_signups( $meta ) {
+
+	// Ensure that sent_date and count_sent are set in meta.
+	if ( ! isset( $meta['sent_date'] ) ) {
+		$meta['sent_date'] = '0000-00-00 00:00:00';
+	}
+	if ( ! isset( $meta['count_sent'] ) ) {
+		$meta['count_sent'] = 0;
+	}
+
+	return $meta;
+}
+add_filter( 'signup_user_meta', 'bp_core_add_meta_to_multisite_signups' );
+add_filter( 'signup_site_meta', 'bp_core_add_meta_to_multisite_signups' );
 
 /**
  * Filter the page title for BuddyPress pages.

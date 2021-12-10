@@ -2388,24 +2388,18 @@ function bp_core_signup_send_validation_email( $user_id, $user_email, $key, $sal
 	bp_send_email( 'core-user-registration', $to, $args );
 
 	// Record that the activation email has been sent.
-	$signups = BP_Signup::get(
-		array(
-			'activation_key' => $key,
-		)
-	);
+	$signup = bp_members_get_signup_by( 'activation_key', $key );
 
-	if ( ! empty( $signups['signups'] ) ) {
-		foreach ( $signups['signups'] as $signup ) {
-			$meta = array(
-				'sent_date'  => current_time( 'mysql', true ),
-				'count_sent' => $signup->count_sent + 1
-			);
+	if ( $signup ) {
+		$meta = array(
+			'sent_date'  => current_time( 'mysql', true ),
+			'count_sent' => $signup->count_sent + 1
+		);
 
-			BP_Signup::update( array(
-				'signup_id' => $signup->id,
-				'meta'      => $meta,
-			) );
-		}
+		BP_Signup::update( array(
+			'signup_id' => $signup->id,
+			'meta'      => $meta,
+		) );
 	}
 }
 
@@ -3693,4 +3687,57 @@ function bp_get_members_invitation_from_request() {
 	 * @param BP_Invitation $invite Invitation specified by the $_GET parameters.
 	 */
 	return apply_filters( 'bp_get_members_invitation_from_request', $invite );
+}
+
+/**
+ * Get WP_User object corresponding to a record in the signups table.
+ *
+ * @since 10.0.0
+ *
+ * @param string $field Which fields to search by. Possible values are
+ *                      activation_key, user_email, id.
+ * @param string $value Value to search by.
+ * @return bool|BP_Signup $signup Found signup, returns first found
+ *                                if more than one is found.
+ */
+function bp_members_get_signup_by( $field = 'activation_key', $value = '' ) {
+	switch ( $field ) {
+		case 'activation_key':
+		case 'user_email':
+			$key = $field;
+			break;
+
+		case 'id':
+		default:
+			$key = 'include';
+			break;
+	}
+
+	$signups = BP_Signup::get(
+		array(
+			$key => $value,
+		)
+	);
+
+	if ( ! empty( $signups['signups'] ) ) {
+		$signup = current( $signups['signups'] );
+	} else {
+		$signup = false;
+	}
+
+	return $signup;
+}
+
+/**
+ * Are site creation requests currently enabled?
+ *
+ * @since 10.0.0
+ *
+ * @return bool Whether site requests are currently enabled.
+ */
+function bp_members_site_requests_enabled() {
+
+	$matches = array( 'blog', 'all' );
+
+	return is_multisite() && in_array( bp_core_get_root_option( 'registration' ), $matches, true );
 }
