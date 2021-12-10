@@ -13,3 +13,5 @@ src/**/js/dynamic-members.js
 src/**/js/dynamic-groups.js
 src/**/js/dynamic-widget-block.js
 src/**/js/sitewide-notices.js
+src/**/bp-core/admin/js/dismissible-admin-notices.js
+src/**/bp-members/admin/js/admin.js

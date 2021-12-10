@@ -27,7 +27,9 @@ module.exports = function( grunt ) {
 			'!**/js/dynamic-members.js',
 			'!**/js/dynamic-groups.js',
 			'!**/js/dynamic-widget-block.js',
-			'!**/js/sitewide-notices.js'
+			'!**/js/sitewide-notices.js',
+			'!**/bp-core/admin/js/dismissible-admin-notices.js',
+			'!**/bp-members/admin/js/admin.js'
 		],
 
 		BP_EXCLUDED_MISC = [

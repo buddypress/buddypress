@@ -1295,12 +1295,35 @@ class BP_Admin {
 				'dependencies' => array( 'thickbox', 'wp-api-request' ),
 				'footer'       => true,
 			),
+
+			// 10.0
+			'bp-dismissible-admin-notices' => array(
+				'file'         => "{$url}dismissible-admin-notices.js",
+				'dependencies' => array(),
+				'footer'       => true,
+				'extra'        => array(
+					'name' => 'bpDismissibleAdminNoticesSettings',
+					'data' => array(
+						'url'    => bp_core_ajax_url(),
+						'nonce'  => wp_create_nonce( 'bp_dismiss_admin_notice' ),
+					),
+				),
+			),
 		) );
 
 		$version = bp_get_version();
 
 		foreach ( $scripts as $id => $script ) {
 			wp_register_script( $id, $script['file'], $script['dependencies'], $version, $script['footer'] );
+
+			if ( isset( $script['extra'] ) ) {
+				// List the block specific props.
+				wp_add_inline_script(
+					$id,
+					sprintf( 'var %1$s = %2$s;', $script['extra']['name'], wp_json_encode( $script['extra']['data'] ) ),
+					'before'
+				);
+			}
 		}
 	}
 
@@ -1414,25 +1437,31 @@ class BP_Admin {
 	/**
 	 * Displays the list of "BuddyPress Add-ons".
 	 *
-	 * @todo we should have a page on the BuddyPress codex to explain feature plugins like this one:
-	 *       https://make.wordpress.org/core/features/
-	 *
 	 * @since 10.0.0
 	 */
 	public function display_addons_table() {
-		?>
-		<div id="welcome-panel" class="welcome-panel">
-			<a class="welcome-panel-close" href="#" aria-label="Dismiss the welcome panel"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
-			<div class="welcome-panel-content">
-				<h2><span class="bp-badge"></span> <?php esc_html_e( 'Hello BuddyPress Add-ons!', 'buddypress' ); ?></h2>
-				<p class="about-description">
-					<?php esc_html_e( 'Add-ons are features as Plugins or Blocks maintained by the BuddyPress development team & hosted on the WordPress.org plugins directory.', 'buddypress' ); ?>
-					<?php esc_html_e( 'Thanks to this new tab inside your Dashboard screen to add plugins, you’ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ); ?>
-				</p>
+		$notice_id = 'bp100-welcome-addons';
+		$dismissed = bp_get_option( "bp-dismissed-notice-{$notice_id}", false );
+
+		if ( ! $dismissed ) {
+			// Enqueue the Script to Ajax Dismiss an Admin notice.
+			wp_enqueue_script( 'bp-dismissible-admin-notices' );
+
+			?>
+			<div id="welcome-panel" class="welcome-panel bp-notice-container">
+				<a class="welcome-panel-close bp-is-dismissible" href="#" data-notice_id="<?php echo esc_attr( $notice_id ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the welcome panel', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+				<div class="welcome-panel-content">
+					<h2><span class="bp-badge"></span> <?php esc_html_e( 'Hello BuddyPress Add-ons!', 'buddypress' ); ?></h2>
+					<p class="about-description">
+						<?php esc_html_e( 'Add-ons are features as Plugins or Blocks maintained by the BuddyPress development team & hosted on the WordPress.org plugins directory.', 'buddypress' ); ?>
+						<?php esc_html_e( 'Thanks to this new tab inside your Dashboard screen to add plugins, you’ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ); ?>
+					</p>
+				</div>
 			</div>
-		</div>
-		<?php
-		// Display the "buddypress" favorites ;)
+			<?php
+		}
+
+		// Display the "buddypress" favorites.
 		display_plugins_table();
 	}
 }

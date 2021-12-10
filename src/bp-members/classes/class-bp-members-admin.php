@@ -710,7 +710,7 @@ class BP_Members_Admin {
 				 * @param string $js URL to the JavaScript admin file to load.
 				 */
 				$js = apply_filters( 'bp_members_admin_js', $js );
-				wp_enqueue_script( 'bp-members-js', $js, array( 'jquery' ), bp_get_version(), true );
+				wp_enqueue_script( 'bp-members-js', $js, array(), bp_get_version(), true );
 
 				if ( ! bp_core_get_root_option( 'bp-disable-avatar-uploads' ) && buddypress()->avatar->show_avatars ) {
 					/**

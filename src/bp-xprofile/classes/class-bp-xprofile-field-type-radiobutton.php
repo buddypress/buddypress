@@ -81,9 +81,17 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 
 			<?php bp_the_profile_field_options( array( 'user_id' => $user_id ) );
 
-			if ( ! bp_get_the_profile_field_is_required() ) : ?>
+			if ( ! bp_get_the_profile_field_is_required() ) :
 
-				<a class="clear-value" href="javascript:clear( '<?php echo esc_js( bp_get_the_profile_field_input_name() ); ?>' );">
+				$clear = 'clear';
+				if ( is_admin() && ! wp_doing_ajax() ) {
+					$clear = 'bp.clear';
+				}
+
+				$js_clear = sprintf( 'javascript:%1$s( \'%2$s\' );', $clear, esc_js( bp_get_the_profile_field_input_name() ) );
+			?>
+
+				<a class="clear-value" href="<?php echo $js_clear; ?>">
 					<?php esc_html_e( 'Clear', 'buddypress' ); ?>
 				</a>
 

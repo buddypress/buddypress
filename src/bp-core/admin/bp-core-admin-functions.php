@@ -1416,17 +1416,30 @@ function bp_core_admin_notice_dismiss_callback() {
 		wp_send_json_error();
 	}
 
-	if ( empty( $_POST['nonce'] ) || empty( $_POST['notice_id'] ) ) {
+	$nonce_data = array();
+	if ( isset( $_SERVER['HTTP_X_BP_NONCE'] ) ) {
+		$nonce_data = array(
+			'nonce'  => $_SERVER['HTTP_X_BP_NONCE'],
+			'action' => 'bp_dismiss_admin_notice',
+		);
+	} elseif ( isset( $_POST['nonce'] ) ) {
+		$nonce_data['nonce'] = $_POST['nonce'];
+	}
+
+	if ( empty( $nonce_data['nonce'] ) || empty( $_POST['notice_id'] ) ) {
 		wp_send_json_error();
 	}
 
 	$notice_id = wp_unslash( $_POST['notice_id'] );
+	if ( ! isset( $nonce_data['action'] ) ) {
+		$nonce_data['action'] = 'bp-dismissible-notice-' . $notice_id;
+	}
 
-	if ( ! wp_verify_nonce( $_POST['nonce'], 'bp-dismissible-notice-' . $notice_id ) ) {
+	if ( ! wp_verify_nonce( $nonce_data['nonce'], $nonce_data['action'] ) ) {
 		wp_send_json_error();
 	}
 
-	bp_update_option( "bp-dismissed-notice-$notice_id", 1 );
+	bp_update_option( "bp-dismissed-notice-{$notice_id}", true );
 
 	wp_send_json_success();
 }
