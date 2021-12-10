@@ -368,3 +368,85 @@ function bp_members_membership_requests_filter_signup_table_unsent_message( $mes
 add_filter( 'bp_members_signup_date_sent_unsent_message', 'bp_members_membership_requests_filter_signup_table_unsent_message', 10, 2 );
 add_filter( 'bp_members_ms_signup_date_sent_unsent_message', 'bp_members_membership_requests_filter_signup_table_unsent_message', 10, 2 );
 
+/**
+ * Filter/add "Request Membership" links in the following locations:
+ * - BP login widget,
+ * - Sidebar register link,
+ * - WP Toolbar,
+ * - WP login form.
+ *********************************************************************/
+
+/**
+ * Add "Request Membership" link to Widget login form.
+ *
+ * @since 10.0.0
+ *
+ * @return string $retval the HTML for the request membership link.
+ */
+function bp_members_membership_requests_add_link_to_widget_login_form() {
+	?>
+	<span class="bp-login-widget-request-membership-link"><a href="<?php echo esc_url( bp_get_signup_page() ); ?>"><?php esc_html_e( 'Request Membership', 'buddypress' ); ?></a></span>
+	<?php
+}
+add_action( 'bp_login_widget_form', 'bp_members_membership_requests_add_link_to_widget_login_form' );
+
+/**
+ * Filter the "Register" link from `wp_register()` as used in
+ * `sidebar.php` and the WP Core meta widget.
+ *
+ * @since 10.0.0
+ *
+ * @param string $link The HTML code for the link to the Registration or Admin page.
+ * @return string      An empty string or the HTML code for the link to the Membership request page.
+ */
+function bp_members_membership_requests_filter_sidebar_register_link( $link ) {
+	// $link should be an empty string when public registration is disabled.
+	if ( ! is_user_logged_in() && empty( $link ) ) {
+		$link = '<a href="' . esc_url( wp_registration_url() ) . '">' . esc_html__( 'Request Membership', 'buddypress' ) . '</a>';
+	}
+
+	return $link;
+}
+add_filter( 'register', 'bp_members_membership_requests_filter_sidebar_register_link' );
+
+/**
+ * Add a "Request Membership" link to the WP Toolbar.
+ * Priority 21 should place it just after the "Log In" link.
+ *
+ * @since 10.0.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance, passed by reference
+ */
+function bp_members_membership_requests_add_toolbar_link( $wp_admin_bar ) {
+	if ( is_user_logged_in() ) {
+		return;
+	}
+
+	$args = array(
+		'id'    => 'bp-request-membership',
+		'title' => __( 'Request Membership', 'buddypress' ),
+		'href'  => wp_registration_url(),
+		'meta'  => array(
+			'class' => 'buddypress-request-membership',
+			'title' => __( 'Request Membership', 'buddypress' ),
+		),
+	);
+
+	$wp_admin_bar->add_node( $args );
+}
+add_action( 'admin_bar_menu', 'bp_members_membership_requests_add_toolbar_link', 21 );
+
+/**
+ * Add a "Request Membership" link to the WP Login form.
+ *
+ * @since 10.0.0
+ *
+ * @param string $link HTML link to the home URL of the current site.
+ * @return string      HTML link to the home URL of the current site and the one to request a membership.
+ */
+function bp_members_membership_requests_add_link_wp_login( $link ) {
+	$link_separator = apply_filters( 'login_link_separator', ' | ' );
+
+	return $link . $link_separator . '<a href="' . esc_url( wp_registration_url() ) . '">' . esc_html__( 'Request Membership', 'buddypress' ) . '</a>';
+}
+add_action( 'login_site_html_link', 'bp_members_membership_requests_add_link_wp_login' );
