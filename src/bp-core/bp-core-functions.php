@@ -3812,6 +3812,8 @@ function bp_core_replace_tokens_in_text( $text, $tokens ) {
  * Get a list of emails for populating the email post type.
  *
  * @since 2.5.1
+ * @since 10.0.0 Added members-membership-request and
+ *               members-membership-request-rejected email types.
  *
  * @return array
  */
@@ -3971,6 +3973,22 @@ function bp_email_get_schema() {
 			'post_content' => __( "<a href=\"{{{inviter.url}}}\">{{inviter.name}}</a> has invited you to join the site: &quot;{{site.name}}&quot;.\n\n{{usermessage}}\n\n<a href=\"{{{invite.accept_url}}}\">Accept your invitation</a> or <a href=\"{{{site.url}}}\">visit the site</a> to learn more.", 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_excerpt' => __( "{{inviter.name}} has invited you to join the site \"{{site.name}}\".\n\n{{usermessage}}\n\nTo accept your invitation, visit: {{{invite.accept_url}}}\n\nTo learn more about the site, visit: {{{site.url}}}.\nTo view {{inviter.name}}'s profile, visit: {{{inviter.url}}}", 'buddypress' ),
+		),
+		'members-membership-request' => array(
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_title'   => __( '{{requesting-user.user_login}} would like to join {{site.name}}', 'buddypress' ),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_content' => __( "{{requesting-user.user_login}} would like to join the site: &quot;{{site.name}}&quot;.\n\n<a href=\"{{{manage.url}}}\">Manage the request</a>.", 'buddypress' ),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_excerpt' => __( "{{requesting-user.user_login}} would like to join the site \"{{site.name}}\".\n\nTo manage the request, visit: {{{manage.url}}}.", 'buddypress' ),
+		),
+		'members-membership-request-rejected' => array(
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_title'   => __( 'Your request to join {{site.name}} has been declined', 'buddypress' ),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_content' => __( "Sorry, your request to join the site &quot;{{site.name}}&quot; has been declined.", 'buddypress' ),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_excerpt' => __( "Sorry, your request to join the site \"{{site.name}}\" has been declined.", 'buddypress' ),
 		),
 	) );
 }
@@ -4144,25 +4162,42 @@ function bp_email_get_type_schema( $field = 'description' ) {
 		),
 	);
 
+	$members_membership_request = array(
+		'description'	   => __( 'Someone has requested membership on this site.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => array(
+			'meta_key' => 'notification_members_membership_request',
+			'message'  => __( 'You will no longer receive emails when people submit requests to join this site.', 'buddypress' ),
+		),
+	);
+
+	$members_membership_request_rejected = array(
+		'description'	   => __( 'A site membership request has been rejected.', 'buddypress' ),
+		'named_salutation' => false,
+		'unsubscribe'	   => false,
+	);
+
 	$types = array(
-		'activity-comment'                   => $activity_comment,
-		'activity-comment-author'            => $activity_comment_author,
-		'activity-at-message'                => $activity_at_message,
-		'groups-at-message'                  => $groups_at_message,
-		'core-user-registration'             => $core_user_registration,
-		'core-user-registration-with-blog'   => $core_user_registration_with_blog,
-		'friends-request'                    => $friends_request,
-		'friends-request-accepted'           => $friends_request_accepted,
-		'groups-details-updated'             => $groups_details_updated,
-		'groups-invitation'                  => $groups_invitation,
-		'groups-member-promoted'             => $groups_member_promoted,
-		'groups-membership-request'          => $groups_membership_request,
-		'messages-unread'                    => $messages_unread,
-		'settings-verify-email-change'       => $settings_verify_email_change,
-		'groups-membership-request-accepted' => $groups_membership_request_accepted,
-		'groups-membership-request-rejected' => $groups_membership_request_rejected,
-		'core-user-activation'               => $core_user_activation,
-		'bp-members-invitation'              => $members_invitation,
+		'activity-comment'                    => $activity_comment,
+		'activity-comment-author'             => $activity_comment_author,
+		'activity-at-message'                 => $activity_at_message,
+		'groups-at-message'                   => $groups_at_message,
+		'core-user-registration'              => $core_user_registration,
+		'core-user-registration-with-blog'    => $core_user_registration_with_blog,
+		'friends-request'                     => $friends_request,
+		'friends-request-accepted'            => $friends_request_accepted,
+		'groups-details-updated'              => $groups_details_updated,
+		'groups-invitation'                   => $groups_invitation,
+		'groups-member-promoted'              => $groups_member_promoted,
+		'groups-membership-request'           => $groups_membership_request,
+		'messages-unread'                     => $messages_unread,
+		'settings-verify-email-change'        => $settings_verify_email_change,
+		'groups-membership-request-accepted'  => $groups_membership_request_accepted,
+		'groups-membership-request-rejected'  => $groups_membership_request_rejected,
+		'core-user-activation'                => $core_user_activation,
+		'bp-members-invitation'               => $members_invitation,
+		'members-membership-request'          => $members_membership_request,
+		'members-membership-request-rejected' => $members_membership_request_rejected,
 	);
 
 	if ( $field !== 'all' ) {

@@ -135,3 +135,126 @@ function bp_members_membership_requests_cancel_activation_email_multisite( $send
 add_filter( 'bp_core_signup_send_activation_key_multisite', 'bp_members_membership_requests_cancel_activation_email_multisite', 10, 5 );
 add_filter( 'bp_core_signup_send_activation_key_multisite_blog', 'bp_members_membership_requests_cancel_activation_email_multisite', 10, 5 );
 
+/**
+ * Notifications
+ *********************************************************************/
+
+/**
+ * Notify site admins about a new membership request.
+ *
+ * @since 10.0.0
+ *
+ * @param BP_Signup $signup The signup object that has been created.
+ */
+function bp_members_membership_requests_notify_site_admins( $signup ) {
+
+	if ( ! isset( $signup->signup_id ) ) {
+		return;
+	}
+
+	// Notify all site admins so the request can be handled.
+	$admin_ids = get_users(
+		array(
+			'fields' => 'ids',
+			'role'   => 'administrator',
+		)
+	);
+
+	foreach ( $admin_ids as $admin_id ) {
+		// Trigger a BuddyPress Notification.
+		if ( bp_is_active( 'notifications' ) ) {
+			bp_notifications_add_notification(
+				array(
+					'user_id'          => $admin_id,
+					'item_id'          => $signup->signup_id,
+					'component_name'   => buddypress()->members->id,
+					'component_action' => 'membership_request_submitted',
+					'date_notified'    => bp_core_current_time(),
+					'is_new'           => 1,
+				)
+			);
+		}
+
+		// Bail if member opted out of receiving this email.
+		if ( 'no' === bp_get_user_meta( $admin_id, 'notification_members_membership_request', true ) ) {
+			return;
+		}
+
+		$unsubscribe_args = array(
+			'user_id'           => $admin_id,
+			'notification_type' => 'members-membership-request',
+		);
+
+		$manage_url = add_query_arg(
+			array(
+				'mod_req'   => 1,
+				'page'      => 'bp-signups',
+				'signup_id' => $signup->signup_id,
+				'action'    => 'resend',
+			),
+			bp_get_admin_url( 'users.php' )
+		);
+
+		$args  = array(
+			'tokens' => array(
+				'admin.id'                   => $admin_id,
+				'manage.url'                 => esc_url_raw( $manage_url ),
+				'requesting-user.user_login' => esc_html( $signup->user_login ),
+				'unsubscribe'                => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
+			),
+		);
+
+		bp_send_email( 'members-membership-request', (int) $admin_id, $args );
+	}
+}
+add_action( 'bp_members_membership_request_submitted', 'bp_members_membership_requests_notify_site_admins' );
+
+/**
+ * Send a message to the requesting user when his or her
+ * site membership request has been rejected.
+ *
+ * @since 10.0.0
+ *
+ * @param array $signup_ids Array of pending IDs to delete.
+ */
+function bp_members_membership_requests_send_rejection_mail( $signup_ids ) {
+	$signups = BP_Signup::get(
+		array(
+			'include' => $signup_ids,
+		)
+	);
+
+	if ( empty( $signups['signups'] ) ) {
+		return;
+	}
+
+	foreach ( $signups['signups'] as $signup ) {
+		if ( ! empty( $signup->user_email ) ) {
+			bp_send_email( 'members-membership-request-rejected', $signup->user_email );
+		}
+	}
+}
+add_action( 'bp_core_signup_before_delete', 'bp_members_membership_requests_send_rejection_mail' );
+
+/**
+ * When a request is approved, activated or deleted,
+ * delete the associated notifications.
+ *
+ * @since 10.0.0
+ *
+ * @param array $signup_ids Array of changing signup IDs.
+ */
+function bp_members_membership_requests_delete_notifications_on_change( $signup_ids ) {
+	foreach ( $signup_ids as $signup_id ) {
+		BP_Notifications_Notification::delete(
+			array(
+				'item_id'          => $signup_id,
+				'component_action' => 'membership_request_submitted',
+			)
+		);
+	}
+}
+add_action( 'bp_core_signup_after_resend',   'bp_members_membership_requests_delete_notifications_on_change' );
+add_action( 'bp_core_signup_after_activate', 'bp_members_membership_requests_delete_notifications_on_change' );
+add_action( 'bp_core_signup_after_delete',   'bp_members_membership_requests_delete_notifications_on_change' );
+
