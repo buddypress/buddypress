@@ -2922,6 +2922,35 @@ function bp_get_members_invitations_allowed() {
 }
 
 /**
+ * Are membership requests required for joining this site?
+ *
+ * @since 10.0.0
+ *
+ * @param bool $context "raw" to fetch value from database,
+ *                      "site" to take "anyone can register" setting into account.
+ * @return bool
+ */
+function bp_get_membership_requests_required( $context = 'site' ) {
+	if ( 'raw' === $context ) {
+		$retval = bp_is_active( 'members', 'membership_requests' ) && (bool) bp_get_option( 'bp-enable-membership-requests' );
+	} else {
+		$retval = bp_is_active( 'members', 'membership_requests' ) && ! bp_get_signup_allowed() && (bool) bp_get_option( 'bp-enable-membership-requests' );
+	}
+
+	/**
+	 * Filters whether or not prospective members may submit network membership requests.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param bool $retval Whether or not membership requests are required.
+	 * @param bool $retval Whether this is the value stored in the database ('raw')
+	 *                     or whether the site's "anyone can register" setting is
+	 *                     being considered ('site' or anything else).
+	 */
+	return apply_filters( 'bp_get_membership_requests_required', $retval, $context );
+}
+
+/**
  * Should the system create and allow access
  * to the Register and Activate pages?
  *
@@ -2930,7 +2959,7 @@ function bp_get_members_invitations_allowed() {
  * @return bool
  */
 function bp_allow_access_to_registration_pages() {
-	$retval = bp_get_signup_allowed() || bp_get_members_invitations_allowed();
+	$retval = bp_get_signup_allowed() || bp_get_members_invitations_allowed() || bp_get_membership_requests_required();
 
 	/**
 	 * Filters whether or not the system should create and allow access

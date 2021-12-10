@@ -489,6 +489,12 @@ class BP_Admin {
 			register_setting( 'buddypress', 'bp-enable-members-invitations', 'intval' );
 		}
 
+		// Membership requests.
+		if ( bp_is_active( 'members', 'membership_requests' ) ) {
+			add_settings_field( 'bp-enable-membership-requests', __( 'Membership Requests', 'buddypress' ), 'bp_admin_setting_callback_membership_requests', 'buddypress', 'bp_members' );
+			register_setting( 'buddypress', 'bp-enable-membership-requests', 'intval' );
+		}
+
 		/* XProfile Section **************************************************/
 
 		if ( bp_is_active( 'xprofile' ) ) {
