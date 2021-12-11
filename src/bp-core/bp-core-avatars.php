@@ -2122,3 +2122,95 @@ function bp_avatar_template_check() {
 		bp_attachments_get_template_part( 'avatars/index' );
 	}
 }
+
+/**
+ * Get a specific version of an avatar from its history.
+ *
+ * @since 10.0.0
+ *
+ * @param int        $item_id   The item ID we need the avatar version for.
+ * @param string     $object    The object the item ID relates to.
+ * @param int|string $timestamp An integer Unix timestamp or a date string of the format 'Y-m-d h:i:s'.
+ * @param string     $type      The type of avatar we need. Possible values are `thumb` and `full`.
+ * @return array                A list of matching results, an empty array if no avatars were found.
+ */
+function bp_avatar_get_version( $item_id = 0, $object = 'user', $timestamp = '', $type = 'full' ) {
+	if ( ! $item_id || ! $timestamp ) {
+		return array();
+	}
+
+	if ( ! is_numeric( $timestamp ) ) {
+		$timestamp = strtotime( $timestamp );
+	}
+
+	$avatar_id = $timestamp . '-bpfull';
+	if ( 'full' !== $type ) {
+		$avatar_id = $timestamp . '-bpthumb';
+	}
+
+	$avatar_dir = 'avatars';
+	if ( 'user' !== $object ) {
+		$avatar_dir = sanitize_key( $object ) . '-avatars';
+	}
+
+	// The object avatar directory we are looking into to get the avatar url.
+	$object_avatar_dir = trailingslashit( bp_core_avatar_upload_path() ) . $avatar_dir . '/' . $item_id;
+
+	return bp_attachments_list_directory_files_recursively( $object_avatar_dir, $avatar_id );
+}
+
+/**
+ * Get the list of previous avatars in history
+ *
+ * @since 10.0.0
+ *
+ * @param int    $item_id The item ID we need the avatar version for.
+ * @param string $object  The object the item ID relates to.
+ * @param string $type    Get the `full`, `thumb` or `both` versions.
+ * @return array          The list of previous uploaded avatars.
+ */
+function bp_avatar_get_avatars_history( $item_id = 0, $object = 'user', $type = 'full' ) {
+	if ( ! $item_id ) {
+		return array();
+	}
+
+	$avatar_dir = 'avatars';
+	if ( 'user' !== $object ) {
+		$avatar_dir = sanitize_key( $object ) . '-avatars';
+	}
+
+	// The user avatar directory we are looking into to get the avatar url.
+	$history_dir      = trailingslashit( bp_core_avatar_upload_path() ) . $avatar_dir . '/' . $item_id . '/history';
+	$historic_avatars = bp_attachments_list_directory_files( $history_dir );
+
+	if ( ! $historic_avatars ) {
+		return array();
+	}
+
+	$avatars     = array();
+	$history_url = trailingslashit( bp_core_avatar_url() ) .  $avatar_dir . '/' . $item_id . '/history';
+
+	foreach ( $historic_avatars as $historic_avatar ) {
+		$prefix = str_replace( array( '-bpfull', '-bpthumb' ), '', $historic_avatar->id );
+		$gmdate = gmdate( 'Y-m-d H:i:s', $historic_avatar->last_modified );
+		$date   = strtotime( get_date_from_gmt( $gmdate ) );
+
+		$avatars[ $historic_avatar->id ] = (object) array(
+			'id'   => $historic_avatar->id,
+			'name' => $historic_avatar->name,
+			'date' => sprintf(
+				'%1$s (%2$s)',
+				date_i18n( get_option( 'date_format' ), $date ),
+				date_i18n( get_option( 'time_format' ), $date )
+			),
+			'type' => str_replace( $prefix . '-bp', '', $historic_avatar->id ),
+			'url'  => $history_url . '/' . $historic_avatar->name,
+		);
+	}
+
+	if ( 'both' === $type ) {
+		return $avatars;
+	}
+
+	return wp_filter_object_list( $avatars, array( 'type' => $type ) );
+}
