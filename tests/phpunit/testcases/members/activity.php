@@ -149,4 +149,44 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 
 		$this->assertEquals( 2, $new_avatar_activities['total'] );
 	}
+
+	/**
+	 * @group bp_members_remove_previous_avatar_activity
+	 */
+	public function test_bp_members_remove_previous_avatar_activity() {
+		$u              = self::factory()->user->create();
+		$timestamp      = strtotime( bp_core_current_time() );
+		$prev_timestamp = $timestamp - ( 121 * HOUR_IN_SECONDS );
+		$date_recorded  = date( 'Y-m-d H:i:s', $timestamp );
+		$prev_time      = date( 'Y-m-d H:i:s', $prev_timestamp );
+
+		$a1 = self::factory()->activity->create( array(
+			'component'     => buddypress()->members->id,
+			'type'          => 'new_avatar',
+			'user_id'       => $u,
+			'recorded_time' => $prev_time,
+		) );
+
+		$a2 = self::factory()->activity->create(
+			array(
+				'component'     => buddypress()->members->id,
+				'type'          => 'new_avatar',
+				'user_id'       => $u,
+				'recorded_time' => $date_recorded,
+			)
+		);
+
+		$this->assertTrue( bp_members_remove_previous_avatar_activity( $u, $prev_timestamp ) );
+
+		$new_avatar_activities = bp_activity_get( array(
+			'filter'    => array(
+				'object'  => buddypress()->members->id,
+				'user_id' => $u,
+				'action'  => 'new_avatar',
+			),
+			'count_total' => 'count_query',
+		) );
+
+		$this->assertEquals( 1, $new_avatar_activities['total'] );
+	}
 }

@@ -250,3 +250,39 @@ function bp_members_new_avatar_activity( $user_id = 0, $type = '', $crop_data = 
 	);
 }
 add_action( 'bp_members_avatar_uploaded', 'bp_members_new_avatar_activity', 10, 4 );
+
+/**
+ * Remove the `new_avatar` activity corresponding to the deleted previous avatar.
+ *
+ * @since 10.0.0
+ *
+ * @param int $user_id   The user ID.
+ * @param int $timestamp The timestamp when the activity was created.
+ * @return bool True on success. False otherwise.
+ */
+function bp_members_remove_previous_avatar_activity( $user_id = 0, $timestamp = 0 ) {
+	if ( ! $user_id || ! $timestamp || ! bp_is_active( 'activity' ) ) {
+		return false;
+	}
+
+	// Look for a `new_avatar` activity corresponding to the date and user.
+	$activity_id = BP_Activity_Activity::get_id(
+		array(
+			'user_id'       => $user_id,
+			'component'     => buddypress()->members->id,
+			'type'          => 'new_avatar',
+			'date_recorded' => date( 'Y-m-d H:i:s', $timestamp ),
+		)
+	);
+
+	if ( $activity_id ) {
+		return bp_activity_delete(
+			array(
+				'id' => $activity_id,
+			)
+		);
+	}
+
+	return false;
+}
+add_action( 'bp_previous_user_avatar_deleted', 'bp_members_remove_previous_avatar_activity', 10, 2 );
