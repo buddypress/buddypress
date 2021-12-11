@@ -406,6 +406,84 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 		$this->clean_files( 'shrink' );
 	}
 
+	/**
+	 * @group add_revision
+	 */
+	public function test_bp_attachment_add_revision() {
+		if ( false === _wp_image_editor_choose() || version_compare( phpversion(), '7.0' , '<' ) ) {
+			$this->markTestSkipped( 'This test requires PHP >= 7.0 and to have a valid image editor that is compatible with WordPress.' );
+		}
+
+		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
+
+		$attachment = new BPTest_Attachment_Extension(
+			array(
+				'base_dir'   => 'add_revision',
+				'action'     => 'attachment_action',
+				'file_input' => 'attachment_file_input',
+			)
+		);
+
+		$abs_path_copy = $attachment->upload_path . '/upside-down.jpg';
+		copy( $image, $abs_path_copy );
+
+		$revision = $attachment->add_revision(
+			'media',
+			array(
+				'file_abspath' => $abs_path_copy,
+				'file_id'      => 'media',
+			)
+		);
+
+		$this->assertFalse( file_exists( $abs_path_copy ) );
+		$this->assertTrue( file_exists( $revision->path ) );
+
+		// Cleanup
+		@unlink( $revision->path );
+		@rmdir( dirname( $revision->path ) );
+		$this->clean_files( 'add_revision' );
+	}
+
+	/**
+	 * @group add_revision
+	 * @group avatars
+	 */
+	public function test_bp_attachment_add_avatar_history() {
+		if ( false === _wp_image_editor_choose() || version_compare( phpversion(), '7.0' , '<' ) ) {
+			$this->markTestSkipped( 'This test requires PHP >= 7.0 and to have a valid image editor that is compatible with WordPress.' );
+		}
+
+		$image = BP_TESTS_DIR . 'assets/upside-down.jpg';
+
+		$attachment = new BPTest_Attachment_Extension(
+			array(
+				'base_dir'   => 'add_history',
+				'action'     => 'attachment_action',
+				'file_input' => 'attachment_file_input',
+			)
+		);
+
+		$abs_path_copy = $attachment->upload_path . '/upside-down.jpg';
+		copy( $image, $abs_path_copy );
+
+		$revision = $attachment->add_revision(
+			'avatar',
+			array(
+				'file_abspath' => $abs_path_copy,
+				'file_id'      => 'avatar',
+			)
+		);
+
+		$this->assertFalse( file_exists( $abs_path_copy ) );
+		$this->assertTrue( file_exists( $revision->path ) );
+		$this->assertSame( $attachment->url . '/history/upside-down.jpg', $revision->url );
+
+		// Cleanup
+		@unlink( $revision->path );
+		@rmdir( dirname( $revision->path ) );
+		$this->clean_files( 'add_history' );
+	}
+
 	public function limit_to_50px( $max_width ) {
 		return 50;
 	}

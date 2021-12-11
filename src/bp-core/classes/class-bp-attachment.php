@@ -560,6 +560,75 @@ abstract class BP_Attachment {
 	}
 
 	/**
+	 * Adds a new revision of a file.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param string $attachment_type The attachement type (eg: avatar).
+	 * @param array $args {
+	 *     @type string $file_abspath The source file (absolute path) for the attachment.
+	 *     @type string $file_id      Optional. The file ID to use as a suffix for the revision directory.
+	 * }
+	 * @return object|WP_Error An object informing about the URL an Path to a revision file, a WP_Error object on failure.
+	 */
+	public function add_revision( $attachment_type, $args = array() ) {
+		$r = bp_parse_args(
+			$args,
+			array(
+				'file_abspath' => '',
+				'file_id'      => '',
+			),
+			'attachment_' . $attachment_type . '_add_revision'
+		);
+
+		if ( ! $r['file_abspath'] ) {
+			return new WP_Error( 'missing_parameter', __( 'The absolute path to your file is missing.', 'buddypress' ) );
+
+			// Make sure it's coming from an uploaded file.
+		} elseif ( false === strpos( $r['file_abspath'], $this->upload_path ) ) {
+			return new WP_Error( 'forbidden_path', __( 'The absolute path to your file is not allowed.', 'buddypress' ) );
+
+		} else {
+			$filepath = $r['file_abspath'];
+		}
+
+		$dirname  = trailingslashit( dirname( $filepath ) );
+		$filename = sanitize_file_name( wp_basename( $filepath ) );
+
+		if ( ! $r['file_id'] ) {
+			$r['file_id'] = $filename;
+		}
+
+		$file_id = wp_hash( $r['file_id'] );
+
+		// Set the revision name & dir.
+		$revision_name = '';
+		$revision_dir  = $dirname . '._revisions_' . $file_id;
+
+		// Avatars and Cover Images are specific attachments.
+		if ( 'avatar' === $attachment_type || 'cover_image' === $attachment_type ) {
+			$revision_dir  = $dirname . 'history';
+		}
+
+		// Create the revision directory if it doesn't exist yet.
+		if ( ! is_dir( $revision_dir ) ) {
+			mkdir( $revision_dir );
+		}
+
+		$revision_name = wp_unique_filename( $revision_dir, $filename );
+		$revision_path = trailingslashit( $revision_dir ) . $revision_name;
+
+		if ( ! rename( $filepath, $revision_path ) ) {
+			return new WP_Error( 'adding_revision_failed', __( 'An unexpected error occured while adding the revision.', 'buddypress' ) );
+		}
+
+		return (object) array(
+			'url'  => str_replace( trailingslashit( $this->upload_path ), trailingslashit( $this->url ), $revision_path ),
+			'path' => $revision_path,
+		);
+	}
+
+	/**
 	 * Get full data for an image
 	 *
 	 * @since 2.4.0
