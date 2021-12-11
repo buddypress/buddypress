@@ -397,6 +397,53 @@ body.profile_page_bp-profile-edit.modal-open #TB_ajaxContent p.warning {
 	line-height: inherit;
 }
 
+.avatars-history {
+	display: flex;
+	flex-direction: row;
+}
+
+.avatar-history-list {
+	order: 1;
+	width: 80%;
+	max-height: 250px;
+	overflow-y: auto;
+}
+
+.avatar-history-list label {
+	display: block;
+	margin: 0 auto;
+	width: 60px;
+}
+
+.avatar-history-table td .avatar {
+	vertical-align: middle;
+}
+
+.avatar-history-table td .avatar.selected {
+	border: solid 4px #065288;
+}
+
+.avatar-history-actions {
+	order: 2;
+	margin-left: 1em;
+	text-align: center;
+}
+
+.avatar-history-actions p.warning {
+	text-align: left;
+}
+
+.avatar-history-actions button.delete:not(.disabled):hover {
+	background-color: #800;
+	color: #fff;
+}
+
+.avatar-history-actions button.delete:not(.disabled) {
+	background-color: #fdc;
+	border: 1px solid #a00;
+	color: #800;
+}
+
 @media screen and (min-width: 810px) {
 
 	.wp-admin #TB_window .bp-avatar #bp-webcam-avatar #avatar-to-crop {

@@ -39,6 +39,9 @@ window.bp = window.bp || {};
 			// The Avatar Attachment object.
 			this.Attachment = new Backbone.Model();
 
+			// The Avatars history.
+			this.historicAvatars = null;
+
 			// Wait till the queue is reset.
 			bp.Uploader.filesQueue.on( 'reset', this.cropView, this );
 
@@ -114,6 +117,10 @@ window.bp = window.bp || {};
 
 				case 'delete':
 					this.deleteView();
+					break;
+
+				case 'recycle':
+					this.recycleView();
 					break;
 			}
 		},
@@ -303,7 +310,7 @@ window.bp = window.bp || {};
 			} );
 		},
 
-		deleteView:function() {
+		deleteView: function() {
 			// Create the delete model.
 			var delete_model = new Backbone.Model( _.pick( BP_Uploader.settings.defaults.multipart_params.bp_params,
 				'object',
@@ -332,7 +339,7 @@ window.bp = window.bp || {};
 				this.views.remove( { id: 'delete', view: deleteView } );
 			}
 
-			// Remove the avatar !
+			// Remove the avatar!
 			bp.ajax.post( 'bp_avatar_delete', {
 				json:          true,
 				item_id:       model.get( 'item_id' ),
@@ -407,6 +414,126 @@ window.bp = window.bp || {};
 			} );
 
 			this.warning.inject( '.bp-avatar-status' );
+		},
+
+		recycleView: function() {
+			if ( ! this.historicAvatars ) {
+				this.historicAvatars = new Backbone.Collection( BP_Uploader.settings.history );
+			}
+
+			// Create the recycle view.
+			var recycleView = new bp.Views.RecycleAvatar( { collection: this.historicAvatars } );
+
+			// Add it to views.
+			this.views.add( { id: 'recycle', view: recycleView } );
+
+			// Display it.
+			recycleView.inject( '.bp-avatar' );
+		},
+
+		recycleHistoricAvatar: function( model ) {
+			var self = this;
+			model.set( 'selected', false );
+
+			// Recycle the avatar.
+			bp.ajax.post( 'bp_avatar_recycle_previous', {
+				json: true,
+				item_id: BP_Uploader.settings.defaults.multipart_params.bp_params.item_id,
+				avatar_id: model.get( 'id' ),
+				object: BP_Uploader.settings.defaults.multipart_params.bp_params.object,
+				nonce: BP_Uploader.settings.historyNonces.recylePrevious
+			} ).done( function( response ) {
+				if ( response.historicalAvatar ) {
+					model.collection.add( response.historicalAvatar );
+				}
+
+				model.collection.remove( model );
+
+				if ( response.feedback_code ) {
+					var avatarStatus = new bp.Views.AvatarStatus( {
+						value : BP_Uploader.strings.feedback_messages[ response.feedback_code ],
+						type : 'success'
+					} );
+
+					self.views.add( {
+						id   : 'status',
+						view : avatarStatus
+					} );
+
+					avatarStatus.inject( '.bp-avatar-status' );
+				}
+
+				// Update each avatars of the page.
+				$( '.' + BP_Uploader.settings.defaults.multipart_params.bp_params.object + '-' + response.item_id + '-avatar' ).each( function() {
+					$( this ).prop( 'src', response.avatar );
+				} );
+
+			} ).fail( function( response ) {
+				var error_message = BP_Uploader.strings.default_error;
+				if ( response && response.message ) {
+					error_message = response.message;
+				}
+
+				var avatarStatus = new bp.Views.AvatarStatus( {
+					value : error_message,
+					type : 'error'
+				} );
+
+				self.views.add( {
+					id   : 'status',
+					view : avatarStatus
+				} );
+
+				avatarStatus.inject( '.bp-avatar-status' );
+			} );
+		},
+
+		deletePreviousAvatar: function( model ) {
+			var self = this;
+			model.set( 'selected', false );
+
+			// Recycle the avatar.
+			bp.ajax.post( 'bp_avatar_delete_previous', {
+				json: true,
+				item_id: BP_Uploader.settings.defaults.multipart_params.bp_params.item_id,
+				avatar_id: model.get( 'id' ),
+				object: BP_Uploader.settings.defaults.multipart_params.bp_params.object,
+				nonce: BP_Uploader.settings.historyNonces.deletePrevious
+			} ).done( function( response ) {
+				model.collection.remove( model );
+
+				if ( response.feedback_code ) {
+					var avatarStatus = new bp.Views.AvatarStatus( {
+						value : BP_Uploader.strings.feedback_messages[ response.feedback_code ],
+						type : 'success'
+					} );
+
+					self.views.add( {
+						id   : 'status',
+						view : avatarStatus
+					} );
+
+					avatarStatus.inject( '.bp-avatar-status' );
+				}
+
+			} ).fail( function( response ) {
+				var error_message = BP_Uploader.strings.default_error;
+				if ( response && response.message ) {
+					error_message = response.message;
+				}
+
+				var avatarStatus = new bp.Views.AvatarStatus( {
+					value : error_message,
+					type : 'error'
+				} );
+
+				self.views.add( {
+					id   : 'status',
+					view : avatarStatus
+				} );
+
+				avatarStatus.inject( '.bp-avatar-status' );
+			} );
 		}
 	};
 
@@ -674,6 +801,95 @@ window.bp = window.bp || {};
 			event.preventDefault();
 
 			bp.Avatar.deleteAvatar( this.model );
+		}
+	} );
+
+	bp.Views.HistoryAvatarsItem = bp.View.extend( {
+		tagName: 'tr',
+		className: 'historic-avatar',
+		template: bp.template( 'bp-avatar-recycle-history-item' ),
+
+		events: {
+			'change input[name="avatar_id"]': 'selectAvatar'
+		},
+
+		initialize: function() {
+			this.model.on( 'change:selected', this.toggleSelection, this );
+			this.model.on( 'remove', this.clearView, this );
+		},
+
+		toggleSelection: function( model, selected ) {
+			if ( true === selected ) {
+				this.$el.parent().find( '#' + model.get( 'id' ) ).addClass( 'selected' );
+			} else {
+				this.$el.parent().find( '#' + model.get( 'id' ) ).removeClass( 'selected' );
+				this.$el.parent().find( '#avatar_' + model.get( 'id' ) ).prop( 'checked', false );
+			}
+		},
+
+		selectAvatar: function( event ) {
+			event.preventDefault();
+
+			if ( event.currentTarget.checked ) {
+				var self = this;
+
+				_.each( this.model.collection.models, function( model ) {
+					self.$el.parent().find( '#' + model.id ).removeClass( 'selected' );
+					model.set( 'selected', false, { silent: true } );
+				} );
+
+				this.model.set( 'selected', true );
+			}
+		},
+
+		clearView: function() {
+			this.views.view.remove();
+		}
+	} );
+
+	bp.Views.RecycleAvatar = bp.View.extend( {
+		tagName: 'div',
+		id: 'bp-avatars-history-container',
+		template: bp.template( 'bp-avatar-recycle' ),
+
+		events: {
+			'click button.avatar-history-action': 'doAvatarAction'
+		},
+
+		initialize: function() {
+			_.each( this.collection.models, function( model ) {
+				this.views.add( '#bp-avatars-history-list', new bp.Views.HistoryAvatarsItem( { model: model } ) );
+			}, this );
+
+			this.collection.on( 'change:selected', this.updateButtonStatus, this );
+			this.collection.on( 'add', this.addView, this );
+		},
+
+		addView: function( model ) {
+			this.views.add( '#bp-avatars-history-list', new bp.Views.HistoryAvatarsItem( { model: model } ) );
+		},
+
+		updateButtonStatus: function( model ) {
+			if ( true === model.get( 'selected' ) ) {
+				this.$el.find( 'button.disabled' ).removeClass( 'disabled' );
+			}
+		},
+
+		doAvatarAction: function( event ) {
+			event.preventDefault();
+			var buttonClasses = event.currentTarget.classList,
+			    selected = this.collection.findWhere( { selected: true } );
+
+			if ( ! buttonClasses.contains( 'disabled' ) && selected ) {
+				// Make sure it's not possible to fire 2 actions at the same time.
+				this.$el.find( 'button.avatar-history-action' ).addClass( 'disabled' );
+
+				if ( buttonClasses.contains( 'recycle' ) ) {
+					bp.Avatar.recycleHistoricAvatar( selected );
+				} else if ( buttonClasses.contains( 'delete' ) ) {
+					bp.Avatar.deletePreviousAvatar( selected );
+				}
+			}
 		}
 	} );
 

@@ -409,24 +409,28 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 
 	// It's an avatar, we need to crop it.
 	if ( 'avatar' === $type ) {
-		$created = bp_core_avatar_handle_crop( array(
-			'object'        => $r['object'],
-			'avatar_dir'    => trim( dirname( $attachment_data['subdir'] ), '/' ),
-			'item_id'       => (int) $r['item_id'],
-			'original_file' => trailingslashit( $attachment_data['subdir'] ) . $image_file_name,
-			'crop_w'        => $r['crop_w'],
-			'crop_h'        => $r['crop_h'],
-			'crop_x'        => $r['crop_x'],
-			'crop_y'        => $r['crop_y']
-		) );
+		$created = bp_core_avatar_handle_crop(
+			array(
+				'object'        => $r['object'],
+				'avatar_dir'    => trim( dirname( $attachment_data['subdir'] ), '/' ),
+				'item_id'       => (int) $r['item_id'],
+				'original_file' => trailingslashit( $attachment_data['subdir'] ) . $image_file_name,
+				'crop_w'        => $r['crop_w'],
+				'crop_h'        => $r['crop_h'],
+				'crop_x'        => $r['crop_x'],
+				'crop_y'        => $r['crop_y']
+			)
+		);
 
 	// It's a cover image we need to fit it to feature's dimensions.
 	} elseif ( 'cover_image' === $type ) {
-		$cover_image = bp_attachments_cover_image_generate_file( array(
-			'file'            => $image_file_path,
-			'component'       => $r['component'],
-			'cover_image_dir' => $attachment_data['path']
-		) );
+		$cover_image = bp_attachments_cover_image_generate_file(
+			array(
+				'file'            => $image_file_path,
+				'component'       => $r['component'],
+				'cover_image_dir' => $attachment_data['path']
+			)
+		);
 
 		$created = ! empty( $cover_image['cover_file'] );
 	}
@@ -787,23 +791,58 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 		// Avatar only need 1 file and 1 only!
 		$defaults['multi_selection'] = false;
 
-		// Does the object already has an avatar set.
+		// Does the object already has an avatar set?
 		$has_avatar = $defaults['multipart_params']['bp_params']['has_avatar'];
 
-		// What is the object the avatar belongs to.
+		// What is the object the avatar belongs to?
 		$object = $defaults['multipart_params']['bp_params']['object'];
+
+		// Get The item id.
+		$item_id = $defaults['multipart_params']['bp_params']['item_id'];
 
 		// Init the Avatar nav.
 		$avatar_nav = array(
-			'upload' => array( 'id' => 'upload', 'caption' => __( 'Upload', 'buddypress' ), 'order' => 0  ),
-
-			// The delete view will only show if the object has an avatar.
-			'delete' => array( 'id' => 'delete', 'caption' => __( 'Delete', 'buddypress' ), 'order' => 100, 'hide' => (int) ! $has_avatar ),
+			'upload'  => array(
+				'id'      => 'upload',
+				'caption' => __( 'Upload', 'buddypress' ),
+				'order'   => 0
+			),
+			'delete'  => array(
+				'id'      => 'delete',
+				'caption' => __( 'Delete', 'buddypress' ),
+				'order'   => 100,
+				'hide'    => (int) ! $has_avatar
+			),
 		);
+
+		if ( 'user' === $object ) {
+			// Look inside history to see if the user previously uploaded avatars.
+			$avatars_history = bp_avatar_get_avatars_history( $item_id, $object );
+
+			if ( $avatars_history ) {
+				ksort( $avatars_history );
+				$settings['history']       = array_values( $avatars_history );
+				$settings['historyNonces'] = array(
+					'recylePrevious' => wp_create_nonce( 'bp_avatar_recycle_previous' ),
+					'deletePrevious' => wp_create_nonce( 'bp_avatar_delete_previous' ),
+				);
+
+				$avatar_nav['recycle'] = array(
+					'id'      => 'recycle',
+					'caption' => __( 'Recycle', 'buddypress' ),
+					'order'   => 20,
+					'hide'    => (int) empty( $avatars_history ),
+				);
+			}
+		}
 
 		// Create the Camera Nav if the WebCam capture feature is enabled.
 		if ( bp_avatar_use_webcam() && 'user' === $object ) {
-			$avatar_nav['camera'] = array( 'id' => 'camera', 'caption' => __( 'Take Photo', 'buddypress' ), 'order' => 10 );
+			$avatar_nav['camera'] = array(
+				'id'      => 'camera',
+				'caption' => __( 'Take Photo', 'buddypress' ),
+				'order'   => 10
+			);
 
 			// Set warning messages.
 			$strings['camera_warnings'] = array(

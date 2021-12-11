@@ -30,6 +30,8 @@ do_action( 'bp_attachments_avatar_check_template' );
 
 <?php bp_attachments_get_template_part( 'avatars/camera' ); ?>
 
+<?php bp_attachments_get_template_part( 'avatars/recycle' ); ?>
+
 <script id="tmpl-bp-avatar-delete" type="text/html">
 	<# if ( 'user' === data.object ) { #>
 		<p><?php esc_html_e( "If you'd like to delete your current profile photo, use the delete profile photo button.", 'buddypress' ); ?></p>
