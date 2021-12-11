@@ -1597,3 +1597,90 @@ function bp_attachments_cover_image_ajax_delete() {
 	}
 }
 add_action( 'wp_ajax_bp_cover_image_delete', 'bp_attachments_cover_image_ajax_delete' );
+
+/**
+ * List the files of a directory.
+ *
+ * @since 10.0.0
+ *
+ * @param string $directory_path Absolute path of a directory.
+ * @return array                 The file objects list of the directory.
+ */
+function bp_attachments_list_directory_files( $directory_path = '' ) {
+	if ( ! is_dir( $directory_path ) ) {
+		return array();
+	}
+
+	$files    = array();
+	$iterator = new FilesystemIterator( $directory_path, FilesystemIterator::SKIP_DOTS );
+
+	foreach ( $iterator as $file ) {
+		$_file = new stdClass();
+
+		$_file->name               = $file->getfilename();
+		$_file->path               = $file->getPathname();
+		$_file->size               = $file->getSize();
+		$_file->type               = $file->getType();
+		$_file->mime_type          = mime_content_type( $_file->path );
+		$_file->last_modified      = $file->getMTime();
+		$_file->latest_access_date = $file->getATime();
+		$_file->id                 = pathinfo( $_file->name, PATHINFO_FILENAME );
+		$files[ $_file->id ]       = $_file;
+	}
+
+	return $files;
+}
+
+/**
+ * List the files of a directory recursively and eventually find a file using its ID.
+ *
+ * @since 10.0.0
+ *
+ * @param string $directory_path Absolute path of a directory.
+ * @param string $find           The file ID to find into the directory or its children.
+ * @return array                 The file objects list of the directory and subdirectories.
+ */
+function bp_attachments_list_directory_files_recursively( $directory_path = '', $find = '' ) {
+	if ( ! is_dir( $directory_path ) ) {
+		return array();
+	}
+
+	$files     = array();
+	$directory = new RecursiveDirectoryIterator( $directory_path, FilesystemIterator::SKIP_DOTS );
+	$iterator  = new RecursiveIteratorIterator( $directory, RecursiveIteratorIterator::CHILD_FIRST );
+	$bp_upload = bp_upload_dir();
+	$basedir   = str_replace( '\\', '/', $bp_upload['basedir'] );
+
+	foreach ( $iterator as $file ) {
+		$_file = new stdClass();
+
+		$_file->name               = $file->getfilename();
+		$_file->path               = $file->getPathname();
+		$_file->size               = $file->getSize();
+		$_file->type               = $file->getType();
+		$_file->mime_type          = mime_content_type( $_file->path );
+		$_file->last_modified      = $file->getMTime();
+		$_file->latest_access_date = $file->getATime();
+		$_file->parent_dir_path    = str_replace( '\\', '/', dirname( $_file->path ) );
+		$_file->parent_dir_url     = str_replace( $basedir, $bp_upload['baseurl'], $_file->parent_dir_path );
+		$_file->id                 = pathinfo( $_file->name, PATHINFO_FILENAME );
+
+		// Ensure URL is https if SSL is set/forced.
+		if ( is_ssl() ) {
+			$_file->parent_dir_url = str_replace( 'http://', 'https://', $_file->parent_dir_url );
+		}
+
+		$file_id = $_file->id;
+		if ( $_file->parent_dir_path !== $directory_path ) {
+			$file_id = trailingslashit( str_replace( trailingslashit( $directory_path ), '', $_file->parent_dir_path ) ) . $file_id;
+		}
+
+		$files[ $file_id ] = $_file;
+	}
+
+	if ( $find ) {
+		return wp_filter_object_list( $files, array( 'id' => $find ) );
+	}
+
+	return $files;
+}
