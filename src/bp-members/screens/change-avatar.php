@@ -61,7 +61,10 @@ function bp_members_screen_change_avatar() {
 			'crop_h'        => $_POST['h']
 		);
 
-		if ( ! bp_core_avatar_handle_crop( $args ) ) {
+		// Handle crop.
+		$cropped_avatar = bp_core_avatar_handle_crop( $r, 'array' );
+
+		if ( ! $cropped_avatar ) {
 			bp_core_add_message( __( 'There was a problem cropping your profile photo.', 'buddypress' ), 'error' );
 		} else {
 
@@ -72,11 +75,14 @@ function bp_members_screen_change_avatar() {
 			 * Fires right before the redirect, after processing a new avatar.
 			 *
 			 * @since 6.0.0
+			 * @since 10.0.0 Adds a new param: an array containing the full, thumb avatar and the timestamp.
 			 *
-			 * @param string $item_id Inform about the user id the avatar was set for.
-			 * @param string $value   Inform about the way the avatar was set ('crop').
+			 * @param string $item_id        Inform about the user id the avatar was set for.
+			 * @param string $type           Inform about the way the avatar was set ('camera').
+			 * @param array  $args           Array of parameters passed to the crop handler.
+			 * @param array  $cropped_avatar Array containing the full, thumb avatar and the timestamp.
 			 */
-			do_action( 'bp_members_avatar_uploaded', (int) $args['item_id'], 'crop' );
+			do_action( 'bp_members_avatar_uploaded', (int) $args['item_id'], 'crop', $args, $cropped_avatar );
 
 			bp_core_add_message( __( 'Your new profile photo was uploaded successfully.', 'buddypress' ) );
 			bp_core_redirect( bp_displayed_user_domain() );

@@ -1176,12 +1176,14 @@ add_action( 'wp_ajax_bp_avatar_upload', 'bp_avatar_ajax_upload' );
  * Handle avatar webcam capture.
  *
  * @since 2.3.0
+ * @since 10.0.0 Adds the `$return` param to eventually return the crop result.
  *
  * @param string $data    Base64 encoded image.
  * @param int    $item_id Item to associate.
- * @return bool True on success, false on failure.
+ * @param string $return  Whether to get the crop `array` or a `boolean`. Defaults to `boolean`.
+ * @return array|bool True on success, false on failure.
  */
-function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
+function bp_avatar_handle_capture( $data = '', $item_id = 0, $return = 'boolean' ) {
 	if ( empty( $data ) || empty( $item_id ) ) {
 		return false;
 	}
@@ -1237,6 +1239,10 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
 		// Crop to default values.
 		$crop_args = array( 'item_id' => $item_id, 'original_file' => $avatar_to_crop, 'crop_x' => 0, 'crop_y' => 0 );
 
+		if ( 'array' === $return ) {
+			return bp_core_avatar_handle_crop( $crop_args, 'array' );
+		}
+
 		return bp_core_avatar_handle_crop( $crop_args );
 	} else {
 		return false;
@@ -1247,6 +1253,7 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
  * Crop an uploaded avatar.
  *
  * @since 1.1.0
+ * @since 10.0.0 Adds the `$return` param to eventually return the crop result.
  *
  * @param array|string $args {
  *     Array of function parameters.
@@ -1265,9 +1272,10 @@ function bp_avatar_handle_capture( $data = '', $item_id = 0 ) {
  *     @type int         $crop_x        The horizontal starting point of the crop. Default: 0.
  *     @type int         $crop_y        The vertical starting point of the crop. Default: 0.
  * }
- * @return bool True on success, false on failure.
+ * @param string       $return Whether to get the crop `array` or a `boolean`. Defaults to `boolean`.
+ * @return array|bool True or the crop result on success, false on failure.
  */
-function bp_core_avatar_handle_crop( $args = '' ) {
+function bp_core_avatar_handle_crop( $args = '', $return = 'boolean' ) {
 
 	$r = bp_parse_args(
 		$args,
@@ -1304,6 +1312,10 @@ function bp_core_avatar_handle_crop( $args = '' ) {
 	// Check for errors.
 	if ( empty( $cropped['full'] ) || empty( $cropped['thumb'] ) || is_wp_error( $cropped['full'] ) || is_wp_error( $cropped['thumb'] ) ) {
 		return false;
+	}
+
+	if ( 'array' === $return ) {
+		return $cropped;
 	}
 
 	return true;
@@ -1352,19 +1364,25 @@ function bp_avatar_ajax_set() {
 			$webcam_avatar = base64_decode( $webcam_avatar );
 		}
 
-		if ( ! bp_avatar_handle_capture( $webcam_avatar, $avatar_data['item_id'] ) ) {
+		$cropped_webcam_avatar = bp_avatar_handle_capture( $webcam_avatar, $avatar_data['item_id'], 'array' );
+
+		if ( ! $cropped_webcam_avatar ) {
 			wp_send_json_error( array(
 				'feedback_code' => 1
 			) );
 
 		} else {
 			$return = array(
-				'avatar' => esc_url( bp_core_fetch_avatar( array(
-					'object'  => $avatar_data['object'],
-					'item_id' => $avatar_data['item_id'],
-					'html'    => false,
-					'type'    => 'full',
-				) ) ),
+				'avatar' => esc_url(
+					bp_core_fetch_avatar(
+						array(
+							'object'  => $avatar_data['object'],
+							'item_id' => $avatar_data['item_id'],
+							'html'    => false,
+							'type'    => 'full',
+						)
+					)
+				),
 				'feedback_code' => 2,
 				'item_id'       => $avatar_data['item_id'],
 			);
@@ -1376,12 +1394,14 @@ function bp_avatar_ajax_set() {
 			 * Fires if the new avatar was successfully captured.
 			 *
 			 * @since 6.0.0
+			 * @since 10.0.0 Adds a new param: an array containing the full, thumb avatar and the timestamp.
 			 *
-			 * @param string $item_id     Inform about the user id the avatar was set for.
-			 * @param string $type        Inform about the way the avatar was set ('camera').
-			 * @param array  $avatar_data Array of parameters passed to the avatar handler.
+			 * @param string $item_id               Inform about the user id the avatar was set for.
+			 * @param string $type                  Inform about the way the avatar was set ('camera').
+			 * @param array  $avatar_data           Array of parameters passed to the crop handler.
+			 * @param array  $cropped_webcam_avatar Array containing the full, thumb avatar and the timestamp.
 			 */
-			do_action( 'bp_members_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $avatar_data );
+			do_action( 'bp_members_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $avatar_data, $cropped_webcam_avatar );
 
 			wp_send_json_success( $return );
 		}
@@ -1413,14 +1433,20 @@ function bp_avatar_ajax_set() {
 	);
 
 	// Handle crop.
-	if ( bp_core_avatar_handle_crop( $r ) ) {
+	$cropped_avatar = bp_core_avatar_handle_crop( $r, 'array' );
+
+	if ( $cropped_avatar ) {
 		$return = array(
-			'avatar' => esc_url( bp_core_fetch_avatar( array(
-				'object'  => $avatar_data['object'],
-				'item_id' => $avatar_data['item_id'],
-				'html'    => false,
-				'type'    => 'full',
-			) ) ),
+			'avatar' => esc_url(
+				bp_core_fetch_avatar(
+					array(
+						'object'  => $avatar_data['object'],
+						'item_id' => $avatar_data['item_id'],
+						'html'    => false,
+						'type'    => 'full',
+					)
+				)
+			),
 			'feedback_code' => 2,
 			'item_id'       => $avatar_data['item_id'],
 		);
@@ -1430,10 +1456,10 @@ function bp_avatar_ajax_set() {
 			do_action_deprecated( 'xprofile_avatar_uploaded', array( (int) $avatar_data['item_id'], $avatar_data['type'], $r ), '6.0.0', 'bp_members_avatar_uploaded' );
 
 			/** This action is documented in bp-core/bp-core-avatars.php */
-			do_action( 'bp_members_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r );
+			do_action( 'bp_members_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r, $cropped_avatar );
 		} elseif ( 'group' === $avatar_data['object'] ) {
 			/** This action is documented in bp-groups/bp-groups-screens.php */
-			do_action( 'groups_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r );
+			do_action( 'groups_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r, $cropped_avatar );
 		}
 
 		wp_send_json_success( $return );

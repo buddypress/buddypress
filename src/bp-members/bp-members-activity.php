@@ -166,10 +166,14 @@ add_action( 'bp_core_activated_user', 'bp_core_new_user_activity' );
  * Adds an activity stream item when a user has uploaded a new avatar.
  *
  * @since 8.0.0
+ * @since 10.0.0 Adds the `$type`, `$crop_data` and `$cropped_avatar` parameters.
  *
- * @param int $user_id The user id the avatar was set for.
+ * @param int    $user_id        The user id the avatar was set for.
+ * @param string $type           The way the avatar was set ('camera' or `crop`).
+ * @param array  $crop_data      Array of parameters passed to the crop handler.
+ * @param array  $cropped_avatar Array containing the full, thumb avatar and the timestamp.
  */
-function bp_members_new_avatar_activity( $user_id = 0 ) {
+function bp_members_new_avatar_activity( $user_id = 0, $type = '', $crop_data = array(), $cropped_avatar = array() ) {
 
 	// Bail if activity component is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
@@ -230,13 +234,19 @@ function bp_members_new_avatar_activity( $user_id = 0 ) {
 		}
 	}
 
+	$recorded_time = '';
+	if ( isset( $cropped_avatar['timestamp'] ) && $cropped_avatar['timestamp'] ) {
+		$recorded_time = date( 'Y-m-d H:i:s', $cropped_avatar['timestamp'] );
+	}
+
 	// Add the activity.
-	bp_activity_add(
+	$activity_id = bp_activity_add(
 		array(
-			'user_id'   => $user_id,
-			'component' => $bp->members->id,
-			'type'      => 'new_avatar',
+			'user_id'       => $user_id,
+			'component'     => $bp->members->id,
+			'type'          => 'new_avatar',
+			'recorded_time' => $recorded_time,
 		)
 	);
 }
-add_action( 'bp_members_avatar_uploaded', 'bp_members_new_avatar_activity' );
+add_action( 'bp_members_avatar_uploaded', 'bp_members_new_avatar_activity', 10, 4 );
