@@ -889,6 +889,26 @@ function bp_activity_type() {
 		return apply_filters( 'bp_get_activity_type', $activities_template->activity->type );
 	}
 
+/**
+ * Return the activity type template part name.
+ *
+ * @since 10.0.0
+ *
+ * @global object $activities_template {@link BP_Activity_Template}
+ *
+ * @return string The activity type template part name.
+ */
+function bp_activity_type_part() {
+	global $activities_template;
+
+	$name = '';
+	if ( isset( $activities_template->activity->type ) && $activities_template->activity->type ) {
+		$name = str_replace( '_', '-', $activities_template->activity->type );
+	}
+
+	return $name;
+}
+
 	/**
 	 * Output the activity action name.
 	 *
@@ -1384,7 +1404,6 @@ function bp_activity_action( $args = array() ) {
  * Output the activity content body.
  *
  * @since 1.2.0
- *
  */
 function bp_activity_content_body() {
 	echo bp_get_activity_content_body();
@@ -1422,6 +1441,7 @@ function bp_activity_content_body() {
  * Does the activity have content?
  *
  * @since 1.2.0
+ * @since 10.0.0 Generate a richer content for activity types supporting the feature.
  *
  * @global object $activities_template {@link BP_Activity_Template}
  *
@@ -1430,12 +1450,223 @@ function bp_activity_content_body() {
 function bp_activity_has_content() {
 	global $activities_template;
 
-	if ( ! empty( $activities_template->activity->content ) ) {
-		return true;
+	$has_content = ! empty( $activities_template->activity->content );
+	if ( ! $has_content ) {
+		$activity_type = bp_get_activity_type();
+
+		if ( bp_activity_type_supports( $activity_type, 'generated-content' ) ) {
+			$bp                = buddypress();
+			$generated_content = new stdClass();
+			$activity          = $activities_template->activity;
+			$user_id           = $activity->user_id;
+
+			// Set generated content properties.
+			if ( 'new_avatar' === $activity_type ) {
+				$avatars = bp_avatar_get_version( $user_id, 'user', bp_get_activity_date_recorded() );
+
+				if ( $avatars && 1 === count( $avatars ) ) {
+					$avatar            = reset( $avatars );
+					$historical_avatar = trailingslashit( $avatar->parent_dir_url ) . $avatar->name;
+
+					// Add historical avatar to the current activity.
+					$generated_content->user_profile_photo = array(
+						'value'             => $historical_avatar,
+						'sanitize_callback' => 'esc_url',
+					);
+
+					// Do not use a generated content.
+				} else {
+					return false;
+				}
+			}
+
+			if ( in_array( $activity_type, array( 'new_member', 'friendship_created', 'updated_profile' ), true ) ) {
+				if ( 'friendship_created' === $activity_type ) {
+					$user_id = $activity->secondary_item_id;
+				}
+
+				if ( isset( $bp->avatar->show_avatars ) && $bp->avatar->show_avatars ) {
+					$generated_content->user_profile_photo = array(
+						'value'             => bp_core_fetch_avatar(
+							array(
+								'item_id' => $user_id,
+								'object'  => 'user',
+								'type'    => 'full',
+								'width'   => bp_core_avatar_full_width(),
+								'height'  => bp_core_avatar_full_height(),
+								'html'    => false,
+							)
+						),
+						'sanitize_callback' => 'esc_url',
+					);
+				}
+			}
+
+			// Set common generated content properties.
+			if ( in_array( $activity_type, array( 'new_avatar', 'new_member', 'friendship_created', 'updated_profile' ), true ) ) {
+				$generated_content->user_url = array(
+					'value'             => bp_core_get_user_domain( $user_id ),
+					'sanitize_callback' => 'esc_url',
+				);
+
+				$generated_content->user_display_name = array(
+					'value'             => bp_core_get_user_displayname( $user_id ),
+					'sanitize_callback' => 'esc_html',
+				);
+
+				$generated_content->user_mention_name = array(
+					'value'             => bp_activity_get_user_mentionname( $user_id ),
+					'sanitize_callback' => 'esc_html',
+				);
+
+				$generated_content->user_mention_url = array(
+					'value'             => wp_nonce_url(
+						add_query_arg(
+							array(
+								'r' => $generated_content->user_mention_name['value'],
+							),
+							bp_get_activity_directory_permalink()
+						)
+					),
+					'sanitize_callback' => 'esc_url',
+				);
+
+				if ( bp_displayed_user_use_cover_image_header() ) {
+					$generated_content->user_cover_image = array(
+						'value'             => bp_attachments_get_attachment(
+							'url',
+							array(
+								'object_dir' => 'members',
+								'item_id'    => $user_id,
+							)
+						),
+						'sanitize_callback' => 'esc_url',
+					);
+				}
+			}
+
+			if ( 'created_group' === $activity_type || 'joined_group' === $activity_type ) {
+				$group = bp_get_group( $activity->item_id );
+
+				if ( isset( $bp->avatar->show_avatars ) && $bp->avatar->show_avatars && ! bp_disable_group_avatar_uploads() ) {
+					$generated_content->group_profile_photo = array(
+						'value'             => bp_core_fetch_avatar(
+							array(
+								'item_id' => $group->id,
+								'object'  => 'group',
+								'type'    => 'full',
+								'width'   => bp_core_avatar_full_width(),
+								'height'  => bp_core_avatar_full_height(),
+								'html'    => false,
+							)
+						),
+						'sanitize_callback' => 'esc_url',
+					);
+				}
+
+				$generated_content->group_url = array(
+					'value'             => bp_get_group_permalink( $group ),
+					'sanitize_callback' => 'esc_url',
+				);
+
+				$generated_content->group_name = array(
+					'value'             => bp_get_group_name( $group ),
+					'sanitize_callback' => 'esc_html',
+				);
+
+				if ( bp_group_use_cover_image_header() ) {
+					$generated_content->group_cover_image = array(
+						'value'             => bp_get_group_cover_url( $group ),
+						'sanitize_callback' => 'esc_url',
+					);
+				}
+			}
+
+			// Update the corresponding entry into the activities template global.
+			if ( get_object_vars( $generated_content ) ) {
+				$activity_id    = $activities_template->activity->id;
+				$activity_index = 0;
+
+				// Find the activity index.
+				while ( (int) $activities_template->activities[ $activity_index ]->id !== (int) $activity_id ) {
+					$activity_index++;
+				}
+
+				// Add the generated content object.
+				$activities_template->activities[ $activity_index ]->generated_content = $generated_content;
+				$has_content = true;
+			}
+		}
 	}
 
-	return false;
+	return $has_content;
 }
+
+/**
+ * Does this property has been generated?
+ *
+ * @since 10.0.0
+ *
+ * @param string $property The name of the property to check into the generated content.
+ * @return bool            True if the property is not empty. False otherwise.
+ */
+function bp_activity_has_generated_content_part( $property = '' ) {
+	return bp_activity_get_generated_content_part( $property, 'boolean' );
+}
+
+/**
+ * Outputs a property of the activity generated content.
+ *
+ * @since 10.0.0
+ *
+ * @param string $property The name of the property to check into the generated content.
+ */
+function bp_activity_generated_content_part( $property = '' ) {
+	echo bp_activity_get_generated_content_part( $property );
+}
+
+	/**
+	 * Returns the property of the activity generated content.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param string $property The name of the property to check into the generated content.
+	 * @param string $return   Whether to return the property value or a boolean to check it exists.
+	 * @return bool|string     A boolean when requested, false if there is no value, the HTML output otherwise.
+	 */
+	function bp_activity_get_generated_content_part( $property = '', $return = '' ) {
+		global $activities_template;
+
+		if ( ! isset( $activities_template->activity->generated_content->{$property} ) ) {
+			return false;
+		}
+
+		$content_part = $activities_template->activity->generated_content->{$property};
+
+		if ( ! isset( $content_part['value'] ) || ! $content_part['value'] ) {
+			return false;
+		}
+
+		if ( 'boolean' === $return ) {
+			return true;
+		}
+
+		/**
+		 * Filter here to edit the generated content part.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param string $value    The generated content part.
+		 * @param string $property The property the content part is attached to.
+		 */
+		$value = apply_filters( 'bp_activity_get_generated_content_part', $content_part['value'], $property );
+
+		if ( isset( $content_part['sanitize_callback'] ) && $content_part['sanitize_callback'] ) {
+			return call_user_func( $content_part['sanitize_callback'], $value );
+		}
+
+		return $value;
+	}
 
 /**
  * Output the activity content.
