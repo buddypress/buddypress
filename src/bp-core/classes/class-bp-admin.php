@@ -1135,12 +1135,19 @@ class BP_Admin {
 		}
 
 		// Grab email situations for the current post.
-		$situations = wp_list_pluck( get_the_terms( $post_id, bp_get_email_tax_type() ), 'description' );
+		$terms           = get_the_terms( $post_id, bp_get_email_tax_type() );
+		$taxonomy_object = get_taxonomy( bp_get_email_tax_type() );
 
-		// Output each situation as a list item.
-		echo '<ul><li>';
-		echo implode( '</li><li>', $situations );
-		echo '</li></ul>';
+		if ( is_wp_error( $terms ) || ! $terms  ) {
+			printf( '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">%s</span>', $taxonomy_object->labels->no_terms );
+		} else {
+			$situations = wp_list_pluck( $terms, 'description' );
+
+			// Output each situation as a list item.
+			echo '<ul><li>';
+			echo implode( '</li><li>', $situations );
+			echo '</li></ul>';
+		}
 	}
 
 	/** Helpers ***************************************************************/
