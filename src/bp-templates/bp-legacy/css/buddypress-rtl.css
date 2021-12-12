@@ -30,6 +30,7 @@ Hello, this is the BuddyPress Legacy stylesheet.
 	4.1 - Smartphones Landscape
 	4.2 - Smartphones Portrait
 	4.3 - Smartphones - smaller screen sizes
+5.0 - Activity Types.
 --------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
@@ -2279,5 +2280,105 @@ body.register #buddypress div.page ul {
 		clear: right;
 		float: right;
 		margin: 10px 0 20px;
+	}
+}
+
+/*--------------------------------------------------------------
+5.0 - Activity Types
+--------------------------------------------------------------*/
+.bp-member-preview-cover,
+.bp-group-preview-cover {
+	position: relative;
+	min-height: 150px;
+	background: #c5c5c5;
+}
+
+.bp-member-preview-cover img,
+.bp-group-preview-cover img {
+	background: #c5c5c5;
+	-o-object-fit: cover;
+	object-fit: cover;
+	border: 0;
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	z-index: 1;
+	height: 150px;
+}
+
+.bp-member-short-description,
+.bp-group-short-description {
+	position: relative;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.bp-member-avatar-content,
+.bp-group-avatar-content {
+	width: 120px;
+	position: relative;
+	z-index: 2;
+	margin: auto;
+	overflow: hidden;
+}
+
+.bp-member-avatar-content.has-cover-image,
+.bp-group-avatar-content.has-cover-image {
+	width: 200px;
+	margin-top: -75px;
+}
+
+.bp-member-avatar-content img.profile-photo,
+.bp-group-avatar-content img.group-photo {
+	border: solid 2px #fff;
+	background: rgba(255, 255, 255, 0.8);
+	margin-right: 20px;
+	height: 80px;
+	width: 80px;
+}
+
+#buddypress ul.item-list li .bp-member-avatar-content img.avatar,
+#buddypress ul.item-list li .bp-group-avatar-content img.avatar {
+	float: none;
+	margin: auto;
+}
+
+.bp-member-avatar-content.has-cover-image img.profile-photo,
+.bp-member-avatar-content.has-cover-image img.group-photo,
+.bp-group-avatar-content.has-cover-image img.profile-photo,
+.bp-group-avatar-content.has-cover-image img.group-photo {
+	height: inherit;
+	width: inherit;
+}
+
+.bp-member-short-description-title a,
+.bp-group-short-description-title a {
+	font-weight: 600;
+}
+
+@media screen and (max-width: 46.8em) {
+
+	.bp-member-avatar-content,
+	.bp-group-avatar-content {
+		width: 100%;
+		margin-bottom: 15px;
+	}
+
+	.bp-member-avatar-content img.profile-photo,
+	.bp-group-avatar-content img.group-photo {
+		margin: auto;
+	}
+
+	.bp-profile-button {
+		position: relative;
+		margin-top: 15px;
+	}
+}
+
+@media screen and (min-width: 46.8em) {
+
+	.bp-profile-button {
+		text-align: left;
 	}
 }

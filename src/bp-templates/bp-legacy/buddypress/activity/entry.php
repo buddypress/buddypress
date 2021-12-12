@@ -7,7 +7,8 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @since 3.0.0
+ * @version 10.0.0
  */
 
 /**
@@ -38,7 +39,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 
 			<div class="activity-inner">
 
-				<?php bp_activity_content_body(); ?>
+				<?php bp_get_template_part( 'activity/type-parts/content',  bp_activity_type_part() ); ?>
 
 			</div>
 
