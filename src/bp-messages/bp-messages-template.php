@@ -764,7 +764,9 @@ function bp_message_thread_avatar( $args = '' ) {
 		global $messages_template;
 
 		$fullname = bp_core_get_user_displayname( $messages_template->thread->last_sender_id );
-		$alt      = sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname );
+
+		/* translators: %s: member name */
+		$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname );
 
 		$r = bp_parse_args(
 			$args,

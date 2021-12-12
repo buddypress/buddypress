@@ -27,7 +27,7 @@ class bpFriendsWidgetBlock extends dynamicWidgetBlock {
 		if ( friends && friends.length ) {
 			friends.forEach( ( friend ) => {
 				if ( 'active' === type && friend.last_activity ) {
-					/* translators: %s: a human time diff. */
+					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 					friend.extra = sprintf( __( 'Active %s', 'buddypress' ), friend.last_activity.timediff );
 				} else if ( 'popular' === type && friend.total_friend_count ) {
 					const friendsCount = parseInt( friend.total_friend_count, 10 );

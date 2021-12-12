@@ -36,7 +36,7 @@
 							<span class="small">
 							<?php
 							printf(
-								/* translators: %s = number of members */
+								/* translators: %s is the number of Group members */
 								_n(
 									'%s member',
 									'%s members',

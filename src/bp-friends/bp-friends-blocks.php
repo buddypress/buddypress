@@ -95,7 +95,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 
 	$link = trailingslashit( bp_core_get_user_domain( $user_id ) . bp_get_friends_slug() );
 
-	/* translators: %s is the member's display name */
+	/* translators: %s: member name */
 	$title = sprintf( __( '%s\'s Friends', 'buddypress' ), bp_core_get_user_displayname( $user_id ) );
 
 	// Set the Block's title.
@@ -164,7 +164,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 					/* translators: %s: total friend count */
 					$extra = sprintf( _n( '%s friend', '%s friends', $user->total_friend_count, 'buddypress' ), number_format_i18n( $user->total_friend_count ) );
 				} else {
-					/* translators: %s: a human time diff. */
+					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_core_time_since( $user->last_activity ) );
 				}
 

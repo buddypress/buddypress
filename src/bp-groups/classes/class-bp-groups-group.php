@@ -206,7 +206,7 @@ class BP_Groups_Group {
 				__METHOD__,
 				'1.6.0',
 				sprintf(
-					/* translators: 1: the name of the method. 2: the name of the file. */
+					/* translators: 1: the name of the function. 2: the name of the file. */
 					esc_html__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
 					__METHOD__,
 					__FILE__

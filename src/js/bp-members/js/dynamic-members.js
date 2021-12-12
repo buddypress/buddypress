@@ -29,7 +29,7 @@ class bpMembersWidgetBlock extends dynamicWidgetBlock {
 		if ( members && members.length ) {
 			members.forEach( ( member ) => {
 				if ( 'active' === type && member.last_activity ) {
-					/* translators: %s: a human time diff. */
+					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 					member.extra = sprintf( __( 'Active %s', 'buddypress' ), member.last_activity.timediff );
 				} else if ( 'popular' === type && member.total_friend_count ) {
 					const friendsCount = parseInt( member.total_friend_count, 10 );

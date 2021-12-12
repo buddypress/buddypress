@@ -860,7 +860,7 @@ function bp_member_avatar( $args = '' ) {
 				'class'   => 'avatar',
 				'id'      => false,
 				'no_grav' => false,
-				// translators: %s is the full name of the user.
+				/* translators: %s: member name */
 				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname ),
 			)
 		);
@@ -1671,6 +1671,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
 				'width'   => false,
 				'height'  => false,
 				'html'    => true,
+				/* translators: %s: member name */
 				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_loggedin_user_fullname() )
 			)
 		);
@@ -1729,6 +1730,7 @@ function bp_displayed_user_avatar( $args = '' ) {
 				'width'   => false,
 				'height'  => false,
 				'html'    => true,
+				/* translators: %s: member name */
 				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
 			)
 		);

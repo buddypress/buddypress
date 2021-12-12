@@ -71,6 +71,7 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 				$link   = bp_get_notifications_permalink();
 				$amount = 'multiple';
 
+				/* translators: %d: is the number of people who requested site membership */
 				$text = sprintf( __( '%d people have requested site membership.', 'buddypress' ), (int) $total_items );
 			} else {
 				$link   = add_query_arg( array(

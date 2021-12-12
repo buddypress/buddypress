@@ -39,11 +39,11 @@ class bpGroupsWidgetBlock extends dynamicWidgetBlock {
 					} else if ( 1 === membersCount ) {
 						group.extra = __( '1 member', 'buddypress' );
 					} else {
-						/* translators: %s is the number of Group members (more than 1). */
+						/* translators: %s is the number of Group members */
 						group.extra = sprintf( __( '%s members', 'buddypress' ), group.total_member_count );
 					}
 				} else {
-					/* translators: %s: a human time diff. */
+					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 					group.extra = sprintf( __( 'Active %s', 'buddypress' ), group.last_activity_diff );
 				}
 

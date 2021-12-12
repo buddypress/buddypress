@@ -2222,7 +2222,7 @@ function bp_group_member_count( $group = false ) {
 
 		$count        = (int) $group->total_member_count;
 		$count_string = sprintf(
-			// translators: %s: total member count for the group.
+			/* translators: %s is the number of Group members */
 			_n( '%s member', '%s members', $count, 'buddypress' ),
 			bp_core_number_format( $count )
 		);
@@ -4079,6 +4079,7 @@ function bp_group_member_avatar( $args = '' ) {
 				'item_id' => $members_template->member->user_id,
 				'type'    => 'full',
 				'email'   => $members_template->member->user_email,
+				/* translators: %s: member name */
 				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name )
 			)
 		);
@@ -4121,6 +4122,7 @@ function bp_group_member_avatar_thumb( $args = '' ) {
 				'item_id' => $members_template->member->user_id,
 				'type'    => 'thumb',
 				'email'   => $members_template->member->user_email,
+				/* translators: %s: member name */
 				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name )
 			)
 		);
@@ -4165,6 +4167,7 @@ function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
 				'item_id' => $members_template->member->user_id,
 				'type'    => 'thumb',
 				'email'   => $members_template->member->user_email,
+				/* translators: %s: member name */
 				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $members_template->member->display_name ),
 				'width'   => absint( $width ),
 				'height'  => absint( $height ),
@@ -5776,7 +5779,17 @@ function bp_group_request_user_avatar_thumb() {
 	 *
 	 * @param string $value HTML markup for the user's avatar thumbnail.
 	 */
-	echo apply_filters( 'bp_group_request_user_avatar_thumb', bp_core_fetch_avatar( array( 'item_id' => $requests_template->request->user_id, 'type' => 'thumb', 'alt' => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $requests_template->request->user_id ) ) ) ) );
+	echo apply_filters(
+		'bp_group_request_user_avatar_thumb',
+		bp_core_fetch_avatar(
+			array(
+				'item_id' => $requests_template->request->user_id,
+				'type'    => 'thumb',
+				/* translators: %s: member name */
+				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $requests_template->request->user_id ) )
+			)
+		)
+	);
 }
 
 /**

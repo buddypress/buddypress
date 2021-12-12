@@ -439,7 +439,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 					/* translators: %s is the number of Group members */
 					$extra = sprintf( _n( '%s member', '%s members', $count, 'buddypress' ), bp_core_number_format( $count ) );
 				} else {
-					/* translators: %s: a human time diff. */
+					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 					$extra = sprintf( __( 'Active %s', 'buddypress' ), bp_get_group_last_active( $group ) );
 				}
 

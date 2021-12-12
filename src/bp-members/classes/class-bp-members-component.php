@@ -706,6 +706,7 @@ class BP_Members_Component extends BP_Component {
 			$bp->bp_options_avatar = bp_core_fetch_avatar( array(
 				'item_id' => bp_displayed_user_id(),
 				'type'    => 'thumb',
+				/* translators: %s: member name */
 				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $bp->bp_options_title )
 			) );
 		}
