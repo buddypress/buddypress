@@ -1,6 +1,6 @@
 // BP Activity Entries - activity loop
 // @since 3.0.0
-// @version 5.0.0
+// @version 10.0.0
 
 .activity-list {
 
@@ -436,3 +436,89 @@ body.activity-permalink {
 
 	}
 }
+
+// Activity Types Entry View
+.bp-member-preview-cover,
+.bp-group-preview-cover {
+	position: relative;
+	min-height: 150px;
+	background: #c5c5c5;
+
+	img {
+		background: #c5c5c5;
+		object-fit: cover;
+		border: 0;
+		display: block;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		z-index: 1;
+		height: 150px;
+	}
+}
+
+.bp-member-short-description,
+.bp-group-short-description {
+	position: relative;
+	text-align: center;
+}
+
+.bp-member-avatar-content,
+.bp-group-avatar-content {
+	width: 120px;
+	position: relative;
+	z-index: 2;
+	margin: auto;
+
+	img.profile-photo,
+	img.group-photo {
+		border: solid 2px #fff;
+		background: rgba(255, 255, 255, 0.8);
+		height: 80px;
+		width: 80px;
+	}
+
+	&.has-cover-image {
+		width: 200px;
+		margin-top: -75px;
+
+		img.profile-photo,
+		img.group-photo {
+			height: inherit;
+			width: inherit;
+		}
+	}
+}
+
+.bp-member-short-description-title a,
+.bp-group-short-description-title a {
+	font-weight: 600;
+}
+
+@include medium-max() {
+
+	.bp-member-avatar-content,
+	.bp-group-avatar-content {
+		width: 100%;
+		margin-bottom: 15px;
+
+		img.profile-photo,
+		img.group-photo {
+			margin: auto;
+		}
+	}
+
+	.bp-profile-button {
+		position: relative;
+		margin-top: 15px;
+	}
+
+} // close @media
+
+@include medium-up {
+
+	.bp-profile-button {
+		text-align: right;
+	}
+
+} // close @media
