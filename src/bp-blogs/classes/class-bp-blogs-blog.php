@@ -163,46 +163,93 @@ class BP_Blogs_Blog {
 	/**
 	 * Retrieve a set of blog-user associations.
 	 *
-	 * @param string      $type              The order in which results should be returned.
-	 *                                       'active', 'alphabetical', 'newest', or 'random'.
-	 * @param int|bool    $limit             Optional. The maximum records to return.
-	 *                                       Default: false.
-	 * @param int|bool    $page              Optional. The page of records to return.
-	 *                                       Default: false (unlimited results).
-	 * @param int         $user_id           Optional. ID of the user whose blogs are being
-	 *                                       retrieved. Default: 0.
-	 * @param string|bool $search_terms      Optional. Search by text stored in
-	 *                                       blogmeta (such as the blog name). Default: false.
-	 * @param bool        $update_meta_cache Whether to pre-fetch metadata for
-	 *                                       blogs. Default: true.
-	 * @param array|bool  $include_blog_ids  Array of blog IDs to include.
+	 * @since 1.2.0
+	 * @since 10.0.0 Converted to array as main function argument. Added $date_query parameter.
+	 *
+	 * @param array $data {
+	 *     Array of site data to query for.
+	 *     @type string      $type              The order in which results should be returned.
+	 *                                          'active', 'alphabetical', 'newest', or 'random'.
+	 *     @type int|bool    $limit             Optional. The maximum records to return.
+	 *                                          Default: false.
+	 *     @type int|bool    $page              Optional. The page of records to return.
+	 *                                          Default: false (unlimited results).
+	 *     @type int         $user_id           Optional. ID of the user whose blogs are being
+	 *                                          retrieved. Default: 0.
+	 *     @type string|bool $search_terms      Optional. Search by text stored in
+	 *                                          blogmeta (such as the blog name). Default: false.
+	 *     @type bool        $update_meta_cache Whether to pre-fetch metadata for
+	 *                                          blogs. Default: true.
+	 *     @type array|bool  $include_blog_ids  Optional. Array of blog IDs to include.
+	 *     @type array       $date_query        Optional. Filter results by site last activity date. See first
+	 *                                          paramter of {@link WP_Date_Query::__construct()} for syntax. Only
+	 *                                          applicable if $type is either 'newest' or 'active'.
+	 * }
 	 * @return array Multidimensional results array, structured as follows:
 	 *               'blogs' - Array of located blog objects
 	 *               'total' - A count of the total blogs matching the filter params
 	 */
-	public static function get( $type, $limit = false, $page = false, $user_id = 0, $search_terms = false, $update_meta_cache = true, $include_blog_ids = false ) {
+	public static function get( ...$args ) {
 		global $wpdb;
 
 		$bp = buddypress();
 
-		if ( !is_user_logged_in() || ( !bp_current_user_can( 'bp_moderate' ) && ( $user_id != bp_loggedin_user_id() ) ) )
+		// Backward compatibility with old method of passing arguments.
+		if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
+			_deprecated_argument( __METHOD__, '10.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+
+			$old_args_keys = [
+				0  => 'type',
+				1  => 'limit',
+				2  => 'page',
+				3  => 'user_id',
+				4  => 'search_terms',
+				5  => 'update_meta_cache',
+				6  => 'include_blog_ids',
+			];
+
+			$args = bp_core_parse_args_array( $old_args_keys, $args );
+		} else {
+			$args = reset( $args );
+		}
+
+		$r = wp_parse_args(
+			$args,
+			array(
+				'type'              => 'active',
+				'limit'             => false,
+				'page'              => false,
+				'user_id'           => 0,
+				'search_terms'      => false,
+				'update_meta_cache' => true,
+				'include_blog_ids'  => false,
+				'date_query'        => false,
+			)
+		);
+
+		if ( ! is_user_logged_in() || ( ! bp_current_user_can( 'bp_moderate' ) && ( $r['user_id'] != bp_loggedin_user_id() ) ) ) {
 			$hidden_sql = "AND wb.public = 1";
-		else
+		} else {
 			$hidden_sql = '';
+		}
 
-		$pag_sql = ( $limit && $page ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit), intval( $limit ) ) : '';
+		$pag_sql = ( $r['limit'] && $r['page'] ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['limit']), intval( $r['limit'] ) ) : '';
 
-		$user_sql = !empty( $user_id ) ? $wpdb->prepare( " AND b.user_id = %d", $user_id ) : '';
+		$user_sql = ! empty( $r['user_id'] ) ? $wpdb->prepare( " AND b.user_id = %d", $r['user_id'] ) : '';
 
-		switch ( $type ) {
+		$date_query_sql = '';
+
+		switch ( $r['type'] ) {
 			case 'active': default:
-				$order_sql = "ORDER BY bm.meta_value DESC";
+				$date_query_sql = BP_Date_Query::get_where_sql( $r['date_query'], 'bm.meta_value', true );
+				$order_sql      = "ORDER BY bm.meta_value DESC";
 				break;
 			case 'alphabetical':
 				$order_sql = "ORDER BY bm_name.meta_value ASC";
 				break;
 			case 'newest':
-				$order_sql = "ORDER BY wb.registered DESC";
+				$date_query_sql = BP_Date_Query::get_where_sql( $r['date_query'], 'wb.registered', true );
+				$order_sql      = "ORDER BY wb.registered DESC";
 				break;
 			case 'random':
 				$order_sql = "ORDER BY RAND()";
@@ -210,14 +257,14 @@ class BP_Blogs_Blog {
 		}
 
 		$include_sql = '';
-		$include_blog_ids = array_filter( wp_parse_id_list( $include_blog_ids ) );
+		$include_blog_ids = array_filter( wp_parse_id_list( $r['include_blog_ids'] ) );
 		if ( ! empty( $include_blog_ids ) ) {
 			$blog_ids_sql = implode( ',', $include_blog_ids );
 			$include_sql  = " AND b.blog_id IN ({$blog_ids_sql})";
 		}
 
-		if ( ! empty( $search_terms ) ) {
-			$search_terms_like = '%' . bp_esc_like( $search_terms ) . '%';
+		if ( ! empty( $r['search_terms'] ) ) {
+			$search_terms_like = '%' . bp_esc_like( $r['search_terms'] ) . '%';
 			$search_terms_sql  = $wpdb->prepare( 'AND (bm_name.meta_value LIKE %s OR bm_description.meta_value LIKE %s)', $search_terms_like, $search_terms_like );
 		} else {
 			$search_terms_sql = '';
@@ -235,7 +282,7 @@ class BP_Blogs_Blog {
 			WHERE
 			  wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql}
 			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name' AND bm_description.meta_key = 'description'
-			  {$search_terms_sql} {$user_sql} {$include_sql}
+			  {$search_terms_sql} {$user_sql} {$include_sql} {$date_query_sql}
 			GROUP BY b.blog_id {$order_sql} {$pag_sql}
 		" );
 
@@ -244,13 +291,13 @@ class BP_Blogs_Blog {
 			FROM
 			  {$bp->blogs->table_name} b
 			  LEFT JOIN {$wpdb->base_prefix}blogs wb ON (b.blog_id = wb.blog_id)
+			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm ON (b.blog_id = bm.blog_id)
 			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_name ON (b.blog_id = bm_name.blog_id)
 			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_description ON (b.blog_id = bm_description.blog_id)
 			WHERE
 			  wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql}
-			  AND
-			  bm_name.meta_key = 'name' AND bm_description.meta_key = 'description'
-			  {$search_terms_sql} {$user_sql} {$include_sql}
+			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name' AND bm_description.meta_key = 'description'
+			  {$search_terms_sql} {$user_sql} {$include_sql} {$date_query_sql}
 		" );
 
 		$blog_ids = array();
@@ -258,7 +305,7 @@ class BP_Blogs_Blog {
 			$blog_ids[] = (int) $blog->blog_id;
 		}
 
-		$paged_blogs = BP_Blogs_Blog::get_blog_extras( $paged_blogs, $blog_ids, $type );
+		$paged_blogs = BP_Blogs_Blog::get_blog_extras( $paged_blogs, $blog_ids, $r['type'] );
 
 		// Integer casting.
 		foreach ( (array) $paged_blogs as $key => $data ) {
@@ -266,7 +313,7 @@ class BP_Blogs_Blog {
 			$paged_blogs[ $key ]->admin_user_id = (int) $paged_blogs[ $key ]->admin_user_id;
 		}
 
-		if ( $update_meta_cache ) {
+		if ( $r['update_meta_cache'] ) {
 			bp_blogs_update_meta_cache( $blog_ids );
 		}
 

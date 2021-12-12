@@ -83,25 +83,57 @@ class BP_Blogs_Template {
 	/**
 	 * Constructor method.
 	 *
+	 * @since 1.2.0
+	 * @since 10.0.0 Converted to array as main function argument. Added $date_query parameter.
+	 *
 	 * @see BP_Blogs_Blog::get() for a description of parameters.
 	 *
-	 * @param string     $type              See {@link BP_Blogs_Blog::get()}.
-	 * @param string     $page              See {@link BP_Blogs_Blog::get()}.
-	 * @param string     $per_page          See {@link BP_Blogs_Blog::get()}.
-	 * @param string     $max               See {@link BP_Blogs_Blog::get()}.
-	 * @param string     $user_id           See {@link BP_Blogs_Blog::get()}.
-	 * @param string     $search_terms      See {@link BP_Blogs_Blog::get()}.
-	 * @param string     $page_arg          The string used as a query parameter in
-	 *                                      pagination links. Default: 'bpage'.
-	 * @param bool       $update_meta_cache Whether to pre-fetch metadata for
-	 *                                      queried blogs.
-	 * @param array|bool $include_blog_ids  Array of blog IDs to include.
+	 * @param array $args {
+	 *     Array of arguments. See {@link BP_Blogs_Blog::get()}.
+	 * }
 	 */
-	public function __construct( $type, $page, $per_page, $max, $user_id, $search_terms, $page_arg = 'bpage', $update_meta_cache = true, $include_blog_ids = false ) {
+	public function __construct( ...$args ) {
+		// Backward compatibility with old method of passing arguments.
+		if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
+			_deprecated_argument( __METHOD__, '10.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
-		$this->pag_arg  = sanitize_key( $page_arg );
-		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $page     );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $per_page );
+			$old_args_keys = [
+				0  => 'type',
+				1  => 'page',
+				2  => 'per_page',
+				3  => 'max',
+				4  => 'user_id',
+				5  => 'search_terms',
+				6  => 'page_arg',
+				7  => 'update_meta_cache',
+				8  => 'include_blog_ids',
+			];
+
+			$args = bp_core_parse_args_array( $old_args_keys, $args );
+		} else {
+			$args = reset( $args );
+		}
+
+		$r = bp_parse_args(
+			$args,
+			array(
+				'type'              => '',
+				'page'              => false,
+				'per_page'          => false,
+				'max'               => false,
+				'user_id'           => false,
+				'search_terms'      => false,
+				'page_arg'          => 'bpage',
+				'update_meta_cache' => true,
+				'include_blog_ids'  => false,
+				'date_query'        => false,
+			),
+			'blogs_template'
+		);
+
+		$this->pag_arg  = sanitize_key( $r['page_arg'] );
+		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page'] );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
 		// Backwards compatibility support for blogs by first letter.
 		if ( ! empty( $_REQUEST['letter'] ) ) {
@@ -110,18 +142,19 @@ class BP_Blogs_Template {
 		// Typical blogs query.
 		} else {
 			$this->blogs = bp_blogs_get_blogs( array(
-				'type'              => $type,
+				'type'              => $r['type'],
 				'per_page'          => $this->pag_num,
 				'page'              => $this->pag_page,
-				'user_id'           => $user_id,
-				'search_terms'      => $search_terms,
-				'update_meta_cache' => $update_meta_cache,
-				'include_blog_ids'  => $include_blog_ids,
+				'user_id'           => $r['user_id'],
+				'search_terms'      => $r['search_terms'],
+				'update_meta_cache' => $r['update_meta_cache'],
+				'include_blog_ids'  => $r['include_blog_ids'],
+				'date_query'        => $r['date_query']
 			) );
 		}
 
 		// Set the total blog count.
-		if ( empty( $max ) || ( $max >= (int) $this->blogs['total'] ) ) {
+		if ( empty( $r['max'] ) || ( $r['max'] >= (int) $this->blogs['total'] ) ) {
 			$this->total_blog_count = (int) $this->blogs['total'];
 		} else {
 			$this->total_blog_count = (int) $max;
@@ -134,7 +167,7 @@ class BP_Blogs_Template {
 		$blog_count = count( $this->blogs );
 
 		// Set the current blog count.
-		if ( empty( $max ) || ( $max >= (int) $blog_count ) ) {
+		if ( empty( $r['max'] ) || ( $r['max'] >= (int) $blog_count ) ) {
 			$this->blog_count = (int) $blog_count;
 		} else {
 			$this->blog_count = (int) $max;

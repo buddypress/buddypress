@@ -291,6 +291,94 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @group date_query
+	 */
+	public function test_get_with_date_query_before() {
+		$u1 = self::factory()->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', time() ),
+		) );
+		$u2 = self::factory()->group->create( array(
+			'last_activity' => '2008-03-25 17:13:55',
+		) );
+		$u3 = self::factory()->group->create( array(
+			'last_activity' => '2010-01-01 12:00',
+		) );
+
+		// 'date_query' before test
+		$groups = BP_Groups_Group::get( array(
+			'type' => 'active',
+			'date_query' => array( array(
+				'before' => array(
+					'year'  => 2010,
+					'month' => 1,
+					'day'   => 1,
+				),
+			) )
+		) );
+
+		$this->assertEquals( [ $u2 ], wp_list_pluck( $groups['groups'], 'id' ) );
+	}
+
+	/**
+	 * @group get
+	 * @group date_query
+	 */
+	public function test_get_with_date_query_range() {
+		$u1 = self::factory()->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', time() ),
+		) );
+		$u2 = self::factory()->group->create( array(
+			'last_activity' => '2008-03-25 17:13:55',
+		) );
+		$u3 = self::factory()->group->create( array(
+			'last_activity' => '2001-01-01 12:00',
+		) );
+
+		// 'date_query' range test
+		$groups = BP_Groups_Group::get( array(
+			'type' => 'active',
+			'date_query' => array( array(
+				'after'  => 'January 2nd, 2001',
+				'before' => array(
+					'year'  => 2010,
+					'month' => 1,
+					'day'   => 1,
+				),
+				'inclusive' => true,
+			) )
+		) );
+
+		$this->assertEquals( [ $u2 ], wp_list_pluck( $groups['groups'], 'id' ) );
+	}
+
+	/**
+	 * @group get
+	 * @group date_query
+	 */
+	public function test_get_with_date_query_after() {
+		$u1 = self::factory()->group->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', time() ),
+		) );
+		$u2 = self::factory()->group->create( array(
+			'last_activity' => '2008-03-25 17:13:55',
+		) );
+		$u3 = self::factory()->group->create( array(
+			'last_activity' => '2001-01-01 12:00',
+		) );
+
+		// 'date_query' after and relative test
+		$groups = BP_Groups_Group::get( array(
+			'type' => 'active',
+			'date_query' => array( array(
+				'after' => '1 day ago'
+			) )
+		) );
+
+		$this->assertEquals( [ $u1 ], wp_list_pluck( $groups['groups'], 'id' ) );
+	}
+
+	/**
+	 * @group get
 	 */
 	public function test_get_normal_search() {
 		$g1 = self::factory()->group->create( array(

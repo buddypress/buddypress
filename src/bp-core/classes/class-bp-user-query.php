@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * Member directories, the Friends component, etc.
  *
  * @since 1.7.0
+ * @since 10.0.0 Added $date_query parameter.
  *
  * @param array $query {
  *     Query arguments. All items are optional.
@@ -49,6 +50,9 @@ defined( 'ABSPATH' ) || exit;
  *                                                  associated with $meta_key matches $meta_value. Default: false.
  *     @type array             $xprofile_query      Filter results by xprofile data. Requires the xprofile component.
  *                                                  See {@see BP_XProfile_Query} for details.
+ *     @type array             $date_query          Filter results by member last activity date. See first parameter of
+ *                                                  {@link WP_Date_Query::__construct()} for syntax. Only applicable if
+ *                                                  $type is either 'active', 'random', 'newest', or 'online'.
  *     @type bool              $populate_extras     True if you want to fetch extra metadata
  *                                                  about returned users, such as total group and friend counts.
  *     @type string            $count_total         Determines how BP_User_Query will do a count of total users matching
@@ -172,6 +176,7 @@ class BP_User_Query {
 					'meta_key'            => false,
 					'meta_value'          => false,
 					'xprofile_query'      => false,
+					'date_query'          => false,
 					'populate_extras'     => true,
 					'count_total'         => 'count_query',
 				)
@@ -282,6 +287,12 @@ class BP_User_Query {
 				$sql['orderby'] = "ORDER BY u.date_recorded";
 				$sql['order']   = "DESC";
 
+				// Date query.
+				$date_query = BP_Date_Query::get_where_sql( $date_query, 'u.date_recorded' );
+				if ( ! empty( $date_query ) ) {
+					$sql['where']['date_query'] = $date_query;
+				}
+
 				break;
 
 			// 'active', 'newest', and 'random' queries
@@ -302,6 +313,12 @@ class BP_User_Query {
 				} else {
 					$sql['orderby'] = "ORDER BY u.date_recorded";
 					$sql['order'] = "DESC";
+				}
+
+				// Date query.
+				$date_query = BP_Date_Query::get_where_sql( $date_query, 'u.date_recorded' );
+				if ( ! empty( $date_query ) ) {
+					$sql['where']['date_query'] = $date_query;
 				}
 
 				break;

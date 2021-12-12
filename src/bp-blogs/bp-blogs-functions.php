@@ -26,6 +26,10 @@ function bp_blogs_has_directory() {
 /**
  * Retrieve a set of blogs.
  *
+ * @since 1.2.0
+ * @since 2.0.0 Added $include_blog_ids, $update_meta_cache parameters
+ * @since 10.0.0 Added $date_query parameter
+ *
  * @see BP_Blogs_Blog::get() for a description of arguments and return value.
  *
  * @param array|string $args {
@@ -37,6 +41,7 @@ function bp_blogs_has_directory() {
  *     @type string|bool $search_terms      Default: false.
  *     @type int         $per_page          Default: 20.
  *     @type int         $page              Default: 1.
+ *     @type array       $date_query        Default: false.
  *     @type bool        $update_meta_cache Whether to pre-fetch blogmeta. Default: true.
  * }
  * @return array See {@link BP_Blogs_Blog::get()}.
@@ -53,21 +58,14 @@ function bp_blogs_get_blogs( $args = '' ) {
 			'search_terms'      => false,    // Limit to blogs matching these search terms.
 			'per_page'          => 20,       // The number of results to return per page.
 			'page'              => 1,        // The page to return if limiting per page.
+			'date_query'        => false,    // Filter blogs by date query.
 			'update_meta_cache' => true,     // Whether to pre-fetch blogmeta.
 		),
 		'blogs_get_blogs'
 	);
 
 	// Get the blogs.
-	$blogs = BP_Blogs_Blog::get(
-		$r['type'],
-		$r['per_page'],
-		$r['page'],
-		$r['user_id'],
-		$r['search_terms'],
-		$r['update_meta_cache'],
-		$r['include_blog_ids']
-	);
+	$blogs = BP_Blogs_Blog::get( $r );
 
 	/**
 	 * Filters a set of blogs.
@@ -1260,7 +1258,13 @@ function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
  * @return array See {@BP_Blogs_Blog::get()}.
  */
 function bp_blogs_get_random_blogs( $limit = null, $page = null ) {
-	return BP_Blogs_Blog::get( 'random', $limit, $page );
+	return BP_Blogs_Blog::get(
+		array(
+			'type'  => 'random',
+			'limit' => $limit,
+			'page'  => $page
+		)
+	);
 }
 
 /**

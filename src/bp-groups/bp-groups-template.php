@@ -362,6 +362,7 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
  * @since 2.6.0 Added `$group_type`, `$group_type__in`, and `$group_type__not_in` parameters.
  * @since 2.7.0 Added `$update_admin_cache` parameter.
  * @since 7.0.0 Added `$status` parameter.
+ * @since 10.0.0 Added `$date_query` parameter.
  *
  * @param array|string $args {
  *     Array of parameters. All items are optional.
@@ -391,6 +392,9 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
  *     @type array|string $status             Array or comma-separated list of group statuses to limit results to.
  *     @type array        $meta_query         An array of meta_query conditions.
  *                                            See {@link WP_Meta_Query::queries} for description.
+ *     @type array        $date_query         Filter results by group last activity date. See first parameter of
+ *                                            {@link WP_Date_Query::__construct()} for syntax. Only applicable if
+ *                                            $type is either 'newest' or 'active'.
  *     @type array|string $include            Array or comma-separated list of group IDs. Results will be limited
  *                                            to groups within the list. Default: false.
  *     @type array|string $exclude            Array or comma-separated list of group IDs. Results will exclude
@@ -482,6 +486,7 @@ function bp_has_groups( $args = '' ) {
 			'group_type__not_in' => '',
 			'status'             => $status,
 			'meta_query'         => false,
+			'date_query'         => false,
 			'include'            => false,
 			'exclude'            => false,
 			'parent_id'          => null,
@@ -509,6 +514,7 @@ function bp_has_groups( $args = '' ) {
 		'group_type__not_in' => $r['group_type__not_in'],
 		'status'             => $r['status'],
 		'meta_query'         => $r['meta_query'],
+		'date_query'         => $r['date_query'],
 		'include'            => $r['include'],
 		'exclude'            => $r['exclude'],
 		'parent_id'          => $r['parent_id'],

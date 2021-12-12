@@ -227,17 +227,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 			'update_meta_cache' => true
 		);
 
-		$at = new BP_Blogs_Template(
-			$r['type'],
-			$r['page'],
-			$r['per_page'],
-			$r['max'],
-			$r['user_id'],
-			$r['search_terms'],
-			$r['page_arg'],
-			$r['update_meta_cache'],
-			$r['include_blog_ids']
-		);
+		$at = new BP_Blogs_Template( $r );
 
 		$this->assertEquals( 5, $at->pag_page );
 
@@ -268,17 +258,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 			'update_meta_cache' => true
 		);
 
-		$at = new BP_Blogs_Template(
-			$r['type'],
-			$r['page'],
-			$r['per_page'],
-			$r['max'],
-			$r['user_id'],
-			$r['search_terms'],
-			$r['page_arg'],
-			$r['update_meta_cache'],
-			$r['include_blog_ids']
-		);
+		$at = new BP_Blogs_Template( $r );
 
 		$this->assertEquals( 8, $at->pag_page );
 
@@ -309,17 +289,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 			'update_meta_cache' => true
 		);
 
-		$at = new BP_Blogs_Template(
-			$r['type'],
-			$r['page'],
-			$r['per_page'],
-			$r['max'],
-			$r['user_id'],
-			$r['search_terms'],
-			$r['page_arg'],
-			$r['update_meta_cache'],
-			$r['include_blog_ids']
-		);
+		$at = new BP_Blogs_Template( $r );
 
 		$this->assertEquals( 14, $at->pag_num );
 
@@ -350,17 +320,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 			'update_meta_cache' => true
 		);
 
-		$at = new BP_Blogs_Template(
-			$r['type'],
-			$r['page'],
-			$r['per_page'],
-			$r['max'],
-			$r['user_id'],
-			$r['search_terms'],
-			$r['page_arg'],
-			$r['update_meta_cache'],
-			$r['include_blog_ids']
-		);
+		$at = new BP_Blogs_Template( $r );
 
 		$this->assertEquals( 13, $at->pag_num );
 

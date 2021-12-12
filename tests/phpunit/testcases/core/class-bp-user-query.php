@@ -779,4 +779,87 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertSame( array( 'foo' ), wp_cache_get( $users[2], 'bp_member_member_type' ) );
 		$this->assertSame( '', wp_cache_get( $users[3], 'bp_member_member_type' ) );
 	}
+
+	/**
+	 * @group date_query
+	 */
+	public function test_date_query_before() {
+		$u1 = self::factory()->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', time() ),
+		) );
+		$u2 = self::factory()->user->create( array(
+			'last_activity' => '2008-03-25 17:13:55',
+		) );
+		$u3 = self::factory()->user->create( array(
+			'last_activity' => '2010-01-01 12:00',
+		) );
+
+		// 'date_query' before test
+		$query = new BP_User_Query( array(
+			'date_query' => array( array(
+				'before' => array(
+					'year'  => 2010,
+					'month' => 1,
+					'day'   => 1,
+				),
+			) )
+		) );
+
+		$this->assertEquals( $u2, $query->user_ids[0] );
+	}
+
+	/**
+	 * @group date_query
+	 */
+	public function test_date_query_range() {
+		$u1 = self::factory()->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', time() ),
+		) );
+		$u2 = self::factory()->user->create( array(
+			'last_activity' => '2008-03-25 17:13:55',
+		) );
+		$u3 = self::factory()->user->create( array(
+			'last_activity' => '2001-01-01 12:00',
+		) );
+
+		// 'date_query' range test
+		$query = new BP_User_Query( array(
+			'date_query' => array( array(
+				'after'  => 'January 2nd, 2001',
+				'before' => array(
+					'year'  => 2010,
+					'month' => 1,
+					'day'   => 1,
+				),
+				'inclusive' => true,
+			) )
+		) );
+
+		$this->assertEquals( $u2, $query->user_ids[0] );
+	}
+
+	/**
+	 * @group date_query
+	 */
+	public function test_date_query_after() {
+		$u1 = self::factory()->user->create( array(
+			'last_activity' => date( 'Y-m-d H:i:s', time() ),
+		) );
+		$u2 = self::factory()->user->create( array(
+			'last_activity' => '2008-03-25 17:13:55',
+		) );
+		$u3 = self::factory()->user->create( array(
+			'last_activity' => '2001-01-01 12:00',
+		) );
+
+		// 'date_query' after and relative test
+		$query = new BP_User_Query( array(
+			'date_query' => array( array(
+				'after' => '1 day ago'
+			) )
+		) );
+
+		$this->assertEquals( $u1, $query->user_ids[0] );
+	}
+
 }

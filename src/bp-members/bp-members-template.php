@@ -309,6 +309,7 @@ function bp_members_invitations_slug() {
  *
  * @since 1.2.0
  * @since 7.0.0 Added `xprofile_query` parameter. Added `user_ids` parameter.
+ * @since 10.0.0 Added `date_query` parameter.
  *
  * @global BP_Core_Members_Template $members_template
  *
@@ -356,6 +357,9 @@ function bp_members_invitations_slug() {
  *                                                      usermeta value. Default: false.
  *     @type array                 $xprofile_query      Filter results by xprofile data. Requires the xprofile
  *                                                      component. See {@see BP_XProfile_Query} for details.
+ *     @type array                 $date_query          Filter results by member last activity date. See first parameter of
+ *                                                      {@link WP_Date_Query::__construct()} for syntax. Only applicable if
+ *                                                      $type is either 'active', 'random', 'newest', or 'online'.
  *     @type bool                  $populate_extras     Whether to fetch optional data, such as friend counts.
  *                                                      Default: true.
  * }
@@ -413,6 +417,7 @@ function bp_has_members( $args = '' ) {
 			'meta_value'          => false,    // Only return users where the usermeta value matches. Requires meta_key.
 
 			'xprofile_query'      => false,
+			'date_query'          => false,    // Filter members by last activity.
 			'populate_extras'     => true,     // Fetch usermeta? Friend count, last active etc.
 		),
 		'has_members'

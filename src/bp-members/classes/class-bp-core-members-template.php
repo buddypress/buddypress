@@ -111,6 +111,7 @@ class BP_Core_Members_Template {
 	 *
 	 * @since 1.5.0
 	 * @since 7.0.0 Added `$xprofile_query` parameter. Added `$user_ids` parameter.
+	 * @since 10.0.0 Added `$date_query` parameter.
 	 *
 	 * @see BP_User_Query for an in-depth description of parameters.
 	 *
@@ -172,6 +173,7 @@ class BP_Core_Members_Template {
 			'member_type__in'     => '',
 			'member_type__not_in' => '',
 			'xprofile_query'      => false,
+			'date_query'          => false,
 		);
 
 		$r = bp_parse_args(
@@ -204,6 +206,7 @@ class BP_Core_Members_Template {
 					'member_type__in'     => $r['member_type__in'],
 					'member_type__not_in' => $r['member_type__not_in'],
 					'xprofile_query'      => $r['xprofile_query'],
+					'date_query'          => $r['date_query'],
 				)
 			);
 		}
