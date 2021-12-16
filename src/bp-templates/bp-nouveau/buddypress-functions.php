@@ -384,22 +384,6 @@ class BP_Nouveau extends BP_Theme_Compat {
 			return;
 		}
 
-		// Add The password verify if needed.
-		if ( bp_is_active( 'settings' ) || bp_get_signup_allowed() ) {
-			/**
-			 * BP Nouveau is now directly using the `wp-admin/js/user-profile.js` script.
-			 *
-			 * Setting the user password is now more consistent with how WordPress handles it.
-			 *
-			 * @deprecated 5.0.0
-			 */
-			$scripts['bp-nouveau-password-verify'] = array(
-				'file'         => 'js/password-verify%s.js',
-				'dependencies' => array( 'bp-nouveau', 'password-strength-meter' ),
-				'footer'       => true,
-			);
-		}
-
 		foreach ( $scripts as $handle => $script ) {
 			if ( ! isset( $script['file'] ) ) {
 				continue;
@@ -530,6 +514,14 @@ class BP_Nouveau extends BP_Theme_Compat {
 		// Used to transport the settings inside the Ajax requests.
 		if ( is_customize_preview() ) {
 			$params['customizer_settings'] = bp_nouveau_get_temporary_setting( 'any' );
+		}
+
+		$required_password_strength = bp_members_user_pass_required_strength();
+		if ( $required_password_strength ) {
+			$params['bpPasswordVerify'] = array(
+				'tooWeakPasswordWarning' => __( 'Your password is too weak, please use a stronger password.', 'buddypress' ),
+				'requiredPassStrength'   => bp_members_user_pass_required_strength(),
+			);
 		}
 
 		/**

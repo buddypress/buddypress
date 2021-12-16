@@ -15,8 +15,9 @@
 function bp_core_screen_signup() {
 	$bp = buddypress();
 
-	if ( ! bp_is_current_component( 'register' ) || bp_current_action() )
+	if ( ! bp_is_current_component( 'register' ) || bp_current_action() ) {
 		return;
+	}
 
 	// Not a directory.
 	bp_update_is_directory( false, 'register' );
@@ -87,19 +88,34 @@ function bp_core_screen_signup() {
 			$bp->signup->errors['signup_email'] = $account_details['errors']->errors['user_email'][0];
 		}
 
-		$signup_pass = '';
-		if ( isset( $_POST['signup_password'] ) ) {
-			$signup_pass = wp_unslash( $_POST['signup_password'] );
+		// Password strength check.
+		$required_password_strength = bp_members_user_pass_required_strength();
+		$current_password_strength  = null;
+		if ( isset( $_POST['_password_strength_score'] ) ) {
+			$current_password_strength = (int) $_POST['_password_strength_score'];
 		}
 
-		$signup_pass_confirm = '';
-		if ( isset( $_POST['signup_password_confirm'] ) ) {
-			$signup_pass_confirm = wp_unslash( $_POST['signup_password_confirm'] );
+		if ( $required_password_strength && ! is_null( $current_password_strength ) && $required_password_strength > $current_password_strength ) {
+			$account_password = new WP_Error(
+				'not_strong_enough_password',
+				__( 'Your password is not strong enougth to be allowed on this site. Please use a stronger password.', 'buddypress' )
+			);
+		} else {
+			$signup_pass = '';
+			if ( isset( $_POST['signup_password'] ) ) {
+				$signup_pass = wp_unslash( $_POST['signup_password'] );
+			}
+
+			$signup_pass_confirm = '';
+			if ( isset( $_POST['signup_password_confirm'] ) ) {
+				$signup_pass_confirm = wp_unslash( $_POST['signup_password_confirm'] );
+			}
+
+			// Check the account password for problems.
+			$account_password = bp_members_validate_user_password( $signup_pass, $signup_pass_confirm );
 		}
 
-		// Check the account password for problems.
-		$account_password = bp_members_validate_user_password( $signup_pass, $signup_pass_confirm );
-		$password_error   = $account_password->get_error_message();
+		$password_error = $account_password->get_error_message();
 
 		if ( $password_error ) {
 			$bp->signup->errors['signup_password'] = $password_error;

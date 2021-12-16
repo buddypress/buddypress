@@ -73,7 +73,6 @@ function bp_settings_action_general() {
 
 			// User is changing email address.
 			if ( $old_user_email !== $user_email ) {
-
 				// Run some tests on the email address.
 				$email_checks = bp_core_validate_email_address( $user_email );
 
@@ -134,18 +133,33 @@ function bp_settings_action_general() {
 		if ( ! empty( $_POST['pass1'] ) && ! empty( $_POST['pass2'] ) ) {
 			$pass         = wp_unslash( $_POST['pass1'] );
 			$pass_confirm = wp_unslash( $_POST['pass2'] );
-			$pass_error   = bp_members_validate_user_password( $pass, $pass_confirm, $update_user );
 
-			if ( ! $pass_error->get_error_message() ) {
-				// Password change attempt is successful.
-				if ( ( ! empty( $_POST['pwd'] ) && wp_unslash( $_POST['pwd'] ) !== $pass ) || is_super_admin() )  {
-					$update_user['user_pass'] = $_POST['pass1'];
-					$pass_error               = false;
-					$pass_changed             = true;
+			// Password strength check.
+			$required_password_strength = bp_members_user_pass_required_strength();
+			$current_password_strength  = null;
+			if ( isset( $_POST['_password_strength_score'] ) ) {
+				$current_password_strength = (int) $_POST['_password_strength_score'];
+			}
 
-				// The new password is the same as the current password.
-				} else {
-					$pass_error->add( 'same_user_password', __( 'The new password must be different from the current password.', 'buddypress' ) );
+			if ( $required_password_strength && ! is_null( $current_password_strength ) && $required_password_strength > $current_password_strength ) {
+				$pass_error = new WP_Error(
+					'not_strong_enough_password',
+					__( 'Your password is not strong enougth to be allowed on this site. Please use a stronger password.', 'buddypress' )
+				);
+			} else {
+				$pass_error = bp_members_validate_user_password( $pass, $pass_confirm, $update_user );
+
+				if ( ! $pass_error->get_error_message() ) {
+					// Password change attempt is successful.
+					if ( ( ! empty( $_POST['pwd'] ) && wp_unslash( $_POST['pwd'] ) !== $pass ) || is_super_admin() )  {
+						$update_user['user_pass'] = $_POST['pass1'];
+						$pass_error               = false;
+						$pass_changed             = true;
+
+					// The new password is the same as the current password.
+					} else {
+						$pass_error->add( 'same_user_password', __( 'The new password must be different from the current password.', 'buddypress' ) );
+					}
 				}
 			}
 

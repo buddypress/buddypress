@@ -3763,3 +3763,33 @@ function bp_members_site_requests_enabled() {
 
 	return is_multisite() && in_array( bp_core_get_root_option( 'registration' ), $matches, true );
 }
+
+/**
+ * Returns the strength score a password needs to have to be used by a member.
+ *
+ * Score => Allowed Strength.
+ * 0     => any passwords.
+ * 1     => at least short passwords.
+ * 2     => at least weak passwords.
+ * 3     => at least good passwords.
+ * 4     => at least strong passwords.
+ *
+ * @since 10.0.0
+ *
+ * @return int the strength score a password needs to have to be used by a member.
+ */
+function bp_members_user_pass_required_strength() {
+	$default_strength = 0;
+	if ( defined( 'BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH' ) && BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH ) {
+		$default_strength = (int) BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH;
+	}
+
+	/**
+	 * Filter here to raise the strength score user passwords need to reach to be allowed.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param int $default_strength The strength score user passwords need to reach to be allowed.
+	 */
+	return (int) apply_filters( 'bp_members_user_pass_required_strength', $default_strength );
+}

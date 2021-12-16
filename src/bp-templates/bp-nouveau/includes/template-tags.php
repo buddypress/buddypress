@@ -2370,6 +2370,10 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 		if ( 'signup_password' === $name ) {
 			?>
 			<label for="pass1"><?php esc_html_e( 'Choose a Password (required)', 'buddypress' ); ?></label>
+			<?php if ( isset( buddypress()->signup->errors['signup_password'] ) ) :
+				nouveau_error_template( buddypress()->signup->errors['signup_password'] );
+			endif; ?>
+
 			<div class="user-pass1-wrap">
 				<div class="wp-pwd">
 					<div class="password-input-wrapper">

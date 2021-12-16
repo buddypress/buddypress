@@ -6,7 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage BP_Theme_Compat
- * @version 3.1.0
+ * @version 10.0.0
  */
 
 // Exit if accessed directly.
@@ -337,7 +337,15 @@ class BP_Legacy extends BP_Theme_Compat {
 			) );
 
 			// Enqueue script.
-			wp_enqueue_script( $asset['handle'] . '-password-verify', $asset['location'], $dependencies, $this->version);
+			wp_enqueue_script( $asset['handle'] . '-password-verify', $asset['location'], $dependencies, $this->version );
+			wp_localize_script(
+				$asset['handle'] . '-password-verify',
+				'bpPasswordVerify',
+				array(
+					'tooWeakPasswordWarning' => __( 'Your password is too weak, please use a stronger password.', 'buddypress' ),
+					'requiredPassStrength'   => bp_members_user_pass_required_strength(),
+				)
+			);
 		}
 
 		// Star private messages.
