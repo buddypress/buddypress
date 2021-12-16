@@ -1,6 +1,6 @@
 /* jshint undef: false, unused:false */
 /* @version 1.7.0 */
-/* @version 8.0.0 */
+/* @version 10.0.0 */
 // AJAX Functions
 var jq = jQuery;
 
@@ -2022,8 +2022,8 @@ function bp_legacy_theme_hide_comments() {
 		comment_lis = jq(this).children('ul').children('li');
 		comment_count = ' ';
 
-		if ( jq('#' + parent_li.attr('id') + ' li').length ) {
-			comment_count = jq('#' + parent_li.attr('id') + ' li').length;
+		if ( jq('#' + parent_li.attr('id') + ' li[id*="acomment-"]').length ) {
+			comment_count = jq('#' + parent_li.attr('id') + ' li[id*="acomment-"]').length;
 		}
 
 		comment_lis.each( function(i) {
