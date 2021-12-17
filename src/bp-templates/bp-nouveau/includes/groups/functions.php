@@ -1211,7 +1211,7 @@ function bp_nouveau_group_get_core_manage_screens( $id = '' ) {
 	$screens = array(
 		'edit-details'        => array( 'hook' => 'group_details_admin',             'nonce' => 'groups_edit_group_details'  ),
 		'group-settings'      => array( 'hook' => 'group_settings_admin',            'nonce' => 'groups_edit_group_settings' ),
-		'group-avatar'        => array(),
+		'group-avatar'        => array( 'hook' => 'group_settings_avatar',           'nonce' => ''                           ),
 		'group-cover-image'   => array( 'hook' => 'group_settings_cover_image',      'nonce' => ''                           ),
 		'manage-members'      => array( 'hook' => 'group_manage_members_admin',      'nonce' => ''                           ),
 		'membership-requests' => array( 'hook' => 'group_membership_requests_admin', 'nonce' => ''                           ),

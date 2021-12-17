@@ -10,13 +10,13 @@
 <?php if ( bp_is_group_create() ) : ?>
 
 	<h3 class="bp-screen-title creation-step-name">
-		<?php esc_html_e( 'Upload Group Avatar', 'buddypress' ); ?>
+		<?php esc_html_e( 'Upload Group profile photo', 'buddypress' ); ?>
 	</h3>
 
 <?php else : ?>
 
 	<h2 class="bp-screen-title">
-		<?php esc_html_e( 'Change Group Avatar', 'buddypress' ); ?>
+		<?php esc_html_e( 'Change Group profile photo', 'buddypress' ); ?>
 	</h2>
 
 <?php endif; ?>
