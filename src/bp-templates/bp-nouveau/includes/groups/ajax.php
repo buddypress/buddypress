@@ -283,6 +283,22 @@ function bp_nouveau_ajax_get_users_to_invite() {
 		wp_send_json_error( $response );
 	}
 
+	if ( ! bp_is_group_create() && ! bp_groups_user_can_send_invites( bp_get_current_group_id(), bp_loggedin_user_id() ) ) {
+		$invite_status = bp_group_get_invite_status( bp_get_current_group_id() );
+		if ( 'admins' === $invite_status ) {
+			$message = __( 'Inviting members to join this group is restricted to Group Administrators.', 'buddypress' );
+		} else {
+			$message = __( 'Inviting members to join this group is restricted to Group Moderators and Administrators.', 'buddypress' );
+		}
+
+		wp_send_json_error(
+			array(
+				'feedback' => $message,
+				'type'     => 'error',
+			)
+		);
+	}
+
 	$request = bp_parse_args(
 		$_POST,
 		array(

@@ -6,7 +6,7 @@
  * dealing with invites.
  *
  * @since 3.0.0
- * @version 6.0.0
+ * @version 10.0.0
  */
 ?>
 
@@ -57,10 +57,10 @@
 			{{data.name}}
 		</div>
 
-		<# if ( undefined !== data.is_sent ) { #>
+		<# if ( 'invited' === data.scope ) { #>
 			<div class="item-meta">
 
-				<# if ( undefined !== data.invited_by ) { #>
+				<# if ( data.invited_by.length > 0 ) { #>
 					<ul class="group-inviters">
 						<li><?php esc_html_e( 'Invited by:', 'buddypress' ); ?></li>
 						<# for ( i in data.invited_by ) { #>
@@ -82,7 +82,7 @@
 	</div>
 
 	<div class="action">
-		<# if ( undefined === data.is_sent || ( false === data.is_sent && true === data.can_edit ) ) { #>
+		<# if ( true === data.can_invite ) { #>
 			<button type="button" class="button invite-button group-add-remove-invite-button bp-tooltip bp-icons<# if ( data.selected ) { #> selected<# } #>" data-bp-tooltip="<# if ( data.selected ) { #><?php esc_attr_e( 'Cancel invitation', 'buddypress' ); ?><# } else { #><?php echo esc_attr_x( 'Invite', 'button', 'buddypress' ); ?><# } #>">
 				<span class="icons" aria-hidden="true"></span>
 				<span class="bp-screen-reader-text">
@@ -95,7 +95,7 @@
 			</button>
 		<# } #>
 
-		<# if ( undefined !== data.can_edit && true === data.can_edit ) { #>
+		<# if ( true === data.can_edit ) { #>
 			<button type="button" class="button invite-button group-remove-invite-button bp-tooltip bp-icons" data-bp-tooltip="<?php echo esc_attr_x( 'Cancel invitation', 'button', 'buddypress' ); ?>">
 				<span class=" icons" aria-hidden="true"></span>
 				<span class="bp-screen-reader-text"><?php echo esc_attr_x( 'Cancel invitation', 'button', 'buddypress' ); ?></span>
