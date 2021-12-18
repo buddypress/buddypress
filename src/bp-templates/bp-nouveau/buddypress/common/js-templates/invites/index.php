@@ -8,33 +8,18 @@
  * @since 3.0.0
  * @version 10.0.0
  */
+
+// Backward Compatibility for plugins still needing the placeholders to be located into this file.
+if ( ! did_action( '_bp_nouveau_group_print_invites_placeholders' ) ) {
+	/**
+	 * Placeholders to inject elements of the UI
+	 * to manage Group members.
+	 *
+	 * @since 5.0.0
+	 */
+	bp_nouveau_group_print_invites_placeholders();
+}
 ?>
-
-<?php if ( bp_is_group_create() ) : ?>
-
-	<h3 class="bp-screen-title creation-step-name">
-		<?php esc_html_e( 'Invite Members', 'buddypress' ); ?>
-	</h3>
-
-<?php else : ?>
-
-	<h2 class="bp-screen-title">
-		<?php esc_html_e( 'Invite Members', 'buddypress' ); ?>
-	</h2>
-
-<?php endif; ?>
-
-<div id="group-invites-container">
-
-	<nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Group invitations menu', 'buddypress' ); ?>"></nav>
-
-	<div class="group-invites-column">
-		<div class="subnav-filters group-subnav-filters bp-invites-filters"></div>
-		<div class="bp-invites-feedback"></div>
-		<div class="members bp-invites-content"></div>
-	</div>
-
-</div>
 
 <script type="text/html" id="tmpl-bp-group-invites-feedback">
 	<div class="bp-feedback {{data.type}}">

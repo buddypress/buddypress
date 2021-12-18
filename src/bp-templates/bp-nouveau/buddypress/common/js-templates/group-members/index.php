@@ -6,27 +6,20 @@
  * dealing with a group's membership management.
  *
  * @since 5.0.0
- * @version 5.0.0
+ * @version 10.0.0
  */
-?>
 
-<?php
-/**
- * Placeholder to inject elements of the UI
- * to manage Group members.
- *
- * @since 5.0.0
- * @version 5.0.0
- */
+// Backward Compatibility for plugins still needing the placeholders to be located into this file.
+if ( ! did_action( '_bp_groups_print_manage_group_members_placeholders' ) ) {
+	/**
+	 * Placeholders to inject elements of the UI
+	 * to manage Group members.
+	 *
+	 * @since 5.0.0
+	 */
+	bp_groups_print_manage_group_members_placeholders();
+}
 ?>
-<div id="group-manage-members-ui" class="standard-form">
-	<ul class="subnav-filters">
-		<li id="group-roles-filter" class="last filter"><?php // Placeholder for the Group Role Tabs ?></li>
-		<li id="group-members-pagination" class="left-menu"><?php // Placeholder for paginate links ?></li>
-		<li id="group-members-search-form" class="bp-search"><?php // Placeholder for search form ?></li>
-	</ul>
-	<table id="group-members-list-table" class="<?php echo is_admin() ? 'widefat bp-group-members' : 'bp-list'; ?>"><?php // Placeholder to list members ?></table>
-</div>
 
 <script type="text/html" id="tmpl-bp-manage-members-updating">
 	<# if ( ! data.type ) { #>

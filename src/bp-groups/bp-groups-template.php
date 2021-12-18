@@ -6580,3 +6580,56 @@ function bp_groups_get_profile_stats( $args = '' ) {
 function bp_groups_has_manage_group_members_templates() {
 	return file_exists( bp_locate_template( 'common/js-templates/group-members/index.php' ) );
 }
+
+/**
+ * Prints the JS Templates to manage the Group's members.
+ *
+ * @since 10.0.0
+ */
+function bp_groups_print_manage_group_members_templates() {
+	bp_get_template_part( 'common/js-templates/group-members/index' );
+}
+
+/**
+ * Prints the HTML placeholders to manage the Group's members.
+ *
+ * @since 10.0.0
+ */
+function bp_groups_print_manage_group_members_placeholders() {
+	?>
+	<div id="group-manage-members-ui" class="standard-form">
+		<ul class="subnav-filters">
+			<li id="group-roles-filter" class="last filter"><?php // Placeholder for the Group Role Tabs ?></li>
+			<li id="group-members-pagination" class="left-menu"><?php // Placeholder for paginate links ?></li>
+			<li id="group-members-search-form" class="bp-search"><?php // Placeholder for search form ?></li>
+		</ul>
+		<table id="group-members-list-table" class="<?php echo is_admin() ? 'widefat bp-group-members' : 'bp-list'; ?>"><?php // Placeholder to list members ?></table>
+	</div>
+	<?php
+}
+
+/**
+ * Outputs the Manage Group Members Backbone UI.
+ *
+ * @since 10.0.0
+ *
+ * @param string $hook The hook to use to inject the JS Templates.
+ */
+function bp_groups_manage_group_members_interface( $hook = 'wp_footer' ) {
+	/**
+	 * Get the templates to manage Group Members using the BP REST API.
+	 *
+	 * @since 5.0.0
+	 * @since 10.0.0 Hook to the `wp_footer` action to print the JS templates.
+	 */
+	add_action( $hook, 'bp_groups_print_manage_group_members_templates' );
+	bp_groups_print_manage_group_members_placeholders();
+
+	/**
+	 * Private hook to preserve backward compatibility with plugins needing the above placeholders to be located
+	 * into: `bp-templates/bp-nouveau/buddypress/common/js-templates/group-members/index.php`.
+	 *
+	 * @since 10.0.0
+	 */
+	do_action( '_bp_groups_print_manage_group_members_placeholders' );
+}

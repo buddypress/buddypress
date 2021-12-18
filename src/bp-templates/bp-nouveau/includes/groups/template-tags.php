@@ -3,7 +3,7 @@
  * Groups Template tags
  *
  * @since 3.0.0
- * @version 9.0.0
+ * @version 10.0.0
  */
 
 // Exit if accessed directly.
@@ -157,6 +157,46 @@ function bp_nouveau_groups_activity_post_form() {
 }
 
 /**
+ * Prints the JS Templates to invite new members to join the Group.
+ *
+ * @since 10.0.0
+ */
+function bp_nouveau_group_print_invites_templates() {
+	bp_get_template_part( 'common/js-templates/invites/index' );
+}
+
+/**
+ * Prints the HTML placeholders to invite new members to join the Group.
+ *
+ * @since 10.0.0
+ */
+function bp_nouveau_group_print_invites_placeholders() {
+	if ( bp_is_group_create() ) : ?>
+
+		<h3 class="bp-screen-title creation-step-name">
+			<?php esc_html_e( 'Invite Members', 'buddypress' ); ?>
+		</h3>
+
+	<?php else : ?>
+
+		<h2 class="bp-screen-title">
+			<?php esc_html_e( 'Invite Members', 'buddypress' ); ?>
+		</h2>
+
+	<?php endif; ?>
+
+	<div id="group-invites-container">
+		<nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav" role="navigation" aria-label="<?php esc_attr_e( 'Group invitations menu', 'buddypress' ); ?>"></nav>
+		<div class="group-invites-column">
+			<div class="subnav-filters group-subnav-filters bp-invites-filters"></div>
+			<div class="bp-invites-feedback"></div>
+			<div class="members bp-invites-content"></div>
+		</div>
+	</div>
+	<?php
+}
+
+/**
  * Load the Group Invites UI.
  *
  * @since 3.0.0
@@ -171,7 +211,21 @@ function bp_nouveau_group_invites_interface() {
 	 */
 	do_action( 'bp_before_group_send_invites_content' );
 
-	bp_get_template_part( 'common/js-templates/invites/index' );
+	/**
+	 * Get the templates to manage Group Members using the BP REST API.
+	 *
+	 * @since 10.0.0 Hook to the `wp_footer` action to print the JS templates.
+	 */
+	add_action( 'wp_footer', 'bp_nouveau_group_print_invites_templates' );
+	bp_nouveau_group_print_invites_placeholders();
+
+	/**
+	 * Private hook to preserve backward compatibility with plugins needing the above placeholders to be located
+	 * into: `bp-templates/bp-nouveau/buddypress/common/js-templates/invites/index.php`.
+	 *
+	 * @since 10.0.0
+	 */
+	do_action( '_bp_nouveau_group_print_invites_placeholders' );
 
 	/**
 	 * Fires after the send invites content.
