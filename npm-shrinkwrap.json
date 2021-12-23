@@ -1,12 +1,12 @@
 {
 	"name": "buddypress",
-	"version": "10.0.0-beta1",
+	"version": "10.0.0-beta2",
 	"lockfileVersion": 2,
 	"requires": true,
 	"packages": {
 		"": {
 			"name": "buddypress",
-			"version": "10.0.0-beta1",
+			"version": "10.0.0-beta2",
 			"license": "GPL-2.0-or-later",
 			"devDependencies": {
 				"@babel/core": "~7.15.5",
