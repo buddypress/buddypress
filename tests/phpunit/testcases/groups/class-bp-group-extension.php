@@ -887,4 +887,39 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$this->assertFalse( $content === 'Widget Displayed' );
 	}
+
+	/**
+	 * @ticket BP8558
+	 */
+	public function test_adding_multiple_extension_classes() {
+		$old_options_nav = buddypress()->bp_options_nav;
+
+		$g = self::factory()->group->create();
+		$g_obj = groups_get_group( $g );
+
+		$e = new BPTest_Group_Extension_Enable_Nav_Item_True();
+		$e_slug = 'bptest_group_extension_enable_nav_item_true';
+		$e_class_name = get_class( $e );
+		$f = new BPTest_Group_Extension_Access_Anyone();
+		$f_slug = 'bptest_group_extension_access_anyone';
+		$f_class_name = get_class( $f );
+
+		bp_register_group_extension( $e_class_name );
+		bp_register_group_extension( $f_class_name );
+
+		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$nav = buddypress()->groups->nav->get_secondary( array(
+			'parent_slug' => $g_obj->slug ,
+		) );
+
+		$slugs = array();
+		foreach ( $nav as $priority => $nav_obj ) {
+			$slugs[] = $nav_obj->slug;
+		}
+
+		$this->assertTrue( in_array( $e_slug, $slugs, true ) && in_array( $f_slug, $slugs, true ) );
+
+		// Clean up
+		buddypress()->bp_options_nav = $old_options_nav;
+	}
 }

@@ -3673,8 +3673,8 @@ function bp_init_group_extensions() {
 	foreach ( array_keys( $registered_group_extensions ) as $group_extension_class ) {
 		$extension = new $group_extension_class;
 
-		add_action( 'bp_actions', array( &$extension, '_register' ), 8 );
-		add_action( 'admin_init', array( &$extension, '_register' ) );
+		add_action( 'bp_actions', array( $extension, '_register' ), 8 );
+		add_action( 'admin_init', array( $extension, '_register' ) );
 	}
 }
 add_action( 'bp_init', 'bp_init_group_extensions', 11 );
