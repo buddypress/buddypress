@@ -2189,6 +2189,34 @@ function bp_the_thread_delete_link() {
 	}
 
 /**
+ * Output the URL to exit the current thread.
+ *
+ * @since 10.0.0
+ */
+function bp_the_thread_exit_link() {
+	echo esc_url( bp_get_the_thread_exit_link() );
+}
+	/**
+	 * Get the URL to exit the current thread.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @return string URL
+	 */
+	function bp_get_the_thread_exit_link() {
+
+		/**
+		 * Filters the URL to exit the current thread.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value URL to exit the current thread.
+		 * @param string $value Text indicating action being executed.
+		 */
+		return apply_filters( 'bp_get_the_thread_exit_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_messages_slug() . '/inbox/exit/' . bp_get_the_thread_id(), 'bp_messages_exit_thread' ) );
+	}
+
+/**
  * Output the 'Sent x hours ago' string for the current message.
  *
  * @since 1.1.0

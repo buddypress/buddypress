@@ -799,3 +799,68 @@ function bp_messages_dismiss_sitewide_notice( $user_id = 0, $notice_id = 0 ) {
 
 	return $retval;
 }
+
+/**
+ * Exit one or more message thread(s) for a given user.
+ *
+ * @since 10.0.0
+ *
+ * @param int|array $thread_ids Thread ID or array of thread IDs.
+ * @param int       $user_id    ID of the user to delete the threads for. Defaults
+ *                              to the current logged-in user.
+ * @return bool True on success, false on failure.
+ */
+function bp_messages_exit_thread( $thread_ids, $user_id = 0 ) {
+
+	if ( empty( $user_id ) ) {
+		$user_id = bp_loggedin_user_id();
+
+		if ( bp_displayed_user_id() ) {
+			$user_id = bp_displayed_user_id();
+		}
+	}
+
+	/**
+	 * Fires before a user exits specified thread IDs.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param int|array $thread_ids Thread ID or array of thread IDs to be deleted.
+	 * @param int       $user_id    ID of the user the threads are being deleted for.
+	 */
+	do_action( 'bp_messages_before_exit_thread', $thread_ids, $user_id );
+
+	if ( is_array( $thread_ids ) ) {
+		$error = 0;
+		for ( $i = 0, $count = count( $thread_ids ); $i < $count; ++$i ) {
+			if ( ! BP_Messages_Thread::exit_thread( $thread_ids[ $i ], $user_id ) ) {
+				$error = 1;
+			}
+		}
+
+		if ( ! empty( $error ) ) {
+			return false;
+		}
+
+		/**
+		 * Fires after a user exited the specified thread IDs.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param int|array Thread ID or array of thread IDs that were deleted.
+		 * @param int       ID of the user that the threads were deleted for.
+		 */
+		do_action( 'bp_messages_exit_thread', $thread_ids, $user_id );
+
+		return true;
+	} else {
+		if ( ! BP_Messages_Thread::exit_thread( $thread_ids, $user_id ) ) {
+			return false;
+		}
+
+		/** This action is documented in bp-messages/bp-messages-functions.php */
+		do_action( 'bp_messages_exit_thread', $thread_ids, $user_id );
+
+		return true;
+	}
+}

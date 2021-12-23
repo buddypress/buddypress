@@ -1227,7 +1227,8 @@ body {
 				border: none;
 				background: none;
 
-				&.message-action-delete {
+				&.message-action-delete,
+				&.message-action-exit {
 
 					&:before {
 						width: 32px;

@@ -906,14 +906,14 @@ body.activity-permalink #buddypress.twentytwentyone .activity-list .activity-ava
 	background: none;
 }
 
-#buddypress.twentytwentyone .bp-messages-content .actions button.bp-tooltip.message-action-delete:before {
+#buddypress.twentytwentyone .bp-messages-content .actions button.bp-tooltip.message-action-delete:before, #buddypress.twentytwentyone .bp-messages-content .actions button.bp-tooltip.message-action-exit:before {
 	width: 32px;
 	height: 32px;
 	color: var(--global--color-primary);
 	background: var(--global--color-background);
 }
 
-#buddypress.twentytwentyone .bp-messages-content .actions button.bp-tooltip.message-action-delete:hover:before {
+#buddypress.twentytwentyone .bp-messages-content .actions button.bp-tooltip.message-action-delete:hover:before, #buddypress.twentytwentyone .bp-messages-content .actions button.bp-tooltip.message-action-exit:hover:before {
 	border-radius: 50%;
 	color: var(--global--color-background);
 	background: var(--global--color-primary);

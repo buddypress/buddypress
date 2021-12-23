@@ -535,6 +535,70 @@ class BP_Messages_Thread {
 	}
 
 	/**
+	 * Exit a user from a thread.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
+	 * @param int $thread_id The message thread ID.
+	 * @param int $user_id The ID of the user in the thread.
+	 *                     Defaults to the current logged-in user.
+	 *
+	 * @return bool
+	 */
+	public static function exit_thread( $thread_id = 0, $user_id = 0 ) {
+		global $wpdb;
+
+		$thread_id = (int) $thread_id;
+		$user_id   = (int) $user_id;
+
+		if ( empty( $user_id ) ) {
+			$user_id = bp_loggedin_user_id();
+		}
+
+		// Check the user is a recipient of the thread and recipients count > 2.
+		$recipients    = self::get_recipients_for_thread( $thread_id );
+		$recipient_ids = wp_list_pluck( $recipients, 'user_id' );
+
+		if ( 2 >= count( $recipient_ids ) || ! in_array( $user_id, $recipient_ids, true ) ) {
+			return false;
+		}
+
+		/**
+		 * Fires before a user exits a thread.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param int $thread_id ID of the thread being deleted.
+		 * @param int $user_id   ID of the user that the thread is being deleted for.
+		 */
+		do_action( 'bp_messages_thread_before_exit', $thread_id, $user_id );
+
+		$bp = buddypress();
+
+		// Delete the user from messages recipients
+		$exited = $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND user_id = %d", $thread_id, $user_id ) );
+
+		// Bail if the user wasn't removed from the recipients list.
+		if ( empty( $exited ) ) {
+			return false;
+		}
+
+		/**
+		 * Fires after a user exits a thread.
+		 *
+		 * @since 10.0.0
+		 *
+		 * @param int   $thread_id ID of the thread being deleted.
+		 * @param int   $user_id   ID of the user the threads were deleted for.
+		 */
+		do_action( 'bp_messages_thread_after_exit', $thread_id, $user_id );
+
+		return true;
+	}
+
+	/**
 	 * Get current message threads for a user.
 	 *
 	 * @since 1.0.0

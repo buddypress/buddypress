@@ -87,6 +87,7 @@ function bp_messages_clear_cache_on_message_delete( $thread_ids, $user_id ) {
 	wp_cache_delete( $user_id, 'bp_messages_unread_count' );
 }
 add_action( 'messages_delete_thread', 'bp_messages_clear_cache_on_message_delete', 10, 2 );
+add_action( 'bp_messages_exit_thread', 'bp_messages_clear_cache_on_message_delete', 10, 2 );
 
 /**
  * Invalidate cache for notices.

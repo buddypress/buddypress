@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 10.0.0
  */
 
 ?>
@@ -48,7 +48,13 @@
 
 			</span>
 
-			<a class="button confirm" href="<?php bp_the_thread_delete_link(); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a>
+			<a class="button confirm" href="<?php bp_the_thread_delete_link(); ?>"><?php esc_html_e( 'Delete', 'buddypress' ); ?></a>
+
+			<?php if ( bp_get_thread_recipients_count() > 2 ) : ?>
+
+				<a class="button confirm" href="<?php bp_the_thread_exit_link(); ?>"><?php esc_html_e( 'Exit Conversation', 'buddypress' ); ?></a>
+
+			<?php endif; ?>
 
 			<?php
 

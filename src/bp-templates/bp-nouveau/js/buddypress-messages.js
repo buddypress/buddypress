@@ -978,7 +978,7 @@ window.bp = window.bp || {};
 
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 
-				if ( 'delete' === action || ( 'starred' === self.collection.options.box && 'unstar' === action ) ) {
+				if ( 'delete' === action || 'exit' === action || ( 'starred' === self.collection.options.box && 'unstar' === action ) ) {
 					// Remove from the list of messages.
 					self.collection.remove( model.get( 'id' ) );
 
@@ -1089,7 +1089,7 @@ window.bp = window.bp || {};
 
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 
-				if ( 'delete' === action || ( 'starred' === self.collection.options.box && 'unstar' === action ) ) {
+				if ( 'delete' === action || 'exit' === action || ( 'starred' === self.collection.options.box && 'unstar' === action ) ) {
 					// Remove from the list of messages.
 					self.collection.remove( thread_ids );
 
@@ -1241,7 +1241,7 @@ window.bp = window.bp || {};
 
 			bp.Nouveau.Messages.threads.doAction( action, this.model.get( 'id' ), options ).done( function( response ) {
 				// Remove all views
-				if ( 'delete' === action ) {
+				if ( 'delete' === action || 'exit' === action ) {
 					bp.Nouveau.Messages.clearViews();
 				} else if ( response.messages ) {
 					self.model.set( _.first( response.messages ) );

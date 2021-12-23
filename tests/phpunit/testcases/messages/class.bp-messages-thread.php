@@ -671,4 +671,70 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertEquals( $date, $thread->last_message_date );
 		$this->assertEquals( 'Bar and baz.', $thread->last_message_content );
 	}
+
+	/**
+	 * @group exit
+	 * @ticket BP7540
+	 */
+	public function test_bp_messages_thread_exit() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+
+		$message = self::factory()->message->create_and_get( array(
+			'sender_id' => $u1,
+			'recipients' => array( $u2, $u3 ),
+			'subject' => 'Foo Bar',
+			'date_sent' => bp_core_current_time(),
+			'content' => 'Foo Bar is there.',
+		) );
+
+		$t1 = $message->thread_id;
+
+		$this->assertTrue( BP_Messages_Thread::exit_thread( $t1, $u3 ) );
+	}
+
+	/**
+	 * @group exit
+	 * @ticket BP7540
+	 */
+	public function test_bp_messages_thread_exit_not_enougth_recipients() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$message = self::factory()->message->create_and_get( array(
+			'sender_id' => $u1,
+			'recipients' => array( $u2 ),
+			'subject' => 'Bar Foo',
+			'date_sent' => bp_core_current_time(),
+			'content' => 'Bar Foo is also there.',
+		) );
+
+		$t1 = $message->thread_id;
+
+		$this->assertFalse( BP_Messages_Thread::exit_thread( $t1, $u2 ) );
+	}
+
+	/**
+	 * @group exit
+	 * @ticket BP7540
+	 */
+	public function test_bp_messages_thread_exit_not_one_of_recipients() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		$u4 = self::factory()->user->create();
+
+		$message = self::factory()->message->create_and_get( array(
+			'sender_id' => $u1,
+			'recipients' => array( $u2, $u3 ),
+			'subject' => 'Taz',
+			'date_sent' => bp_core_current_time(),
+			'content' => 'Where is Taz?',
+		) );
+
+		$t1 = $message->thread_id;
+
+		$this->assertFalse( BP_Messages_Thread::exit_thread( $t1, $u4 ) );
+	}
 }

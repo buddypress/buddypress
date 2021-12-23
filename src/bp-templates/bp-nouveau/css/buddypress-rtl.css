@@ -3071,7 +3071,8 @@ body.register .buddypress-wrap .page ul {
 .message-action-star:before,
 .message-action-unstar:before,
 .message-action-view:before,
-.message-action-delete:before {
+.message-action-delete:before,
+.message-action-exit:before {
 	font-family: dashicons;
 	font-size: 18px;
 }
@@ -3092,6 +3093,10 @@ body.register .buddypress-wrap .page ul {
 
 .message-action-delete:before {
 	content: "\f153";
+}
+
+.message-action-exit:before {
+	content: "\f14a";
 }
 
 .message-action-delete:hover:before {
