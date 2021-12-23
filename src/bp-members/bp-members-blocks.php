@@ -346,6 +346,23 @@ function bp_members_blocks_add_script_data() {
 		return;
 	}
 
+	$path = sprintf(
+		'/%1$s/%2$s/%3$s',
+		bp_rest_namespace(),
+		bp_rest_version(),
+		buddypress()->members->id
+	);
+
+	wp_localize_script(
+		'bp-dynamic-members-script',
+		'bpDynamicMembersSettings',
+		array(
+			'path'  => ltrim( $path, '/' ),
+			'root'  => esc_url_raw( get_rest_url() ),
+			'nonce' => wp_create_nonce( 'wp_rest' ),
+		)
+	);
+
 	// Include the common JS template.
 	echo bp_get_dynamic_template_part( 'assets/widgets/dynamic-members.php' );
 
@@ -512,15 +529,6 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 		if ( ! has_action( 'wp_footer', 'bp_members_blocks_add_script_data', 1 ) ) {
 			wp_set_script_translations( 'bp-dynamic-members-script', 'buddypress' );
 			wp_enqueue_script( 'bp-dynamic-members-script' );
-			wp_localize_script(
-				'bp-dynamic-members-script',
-				'bpDynamicMembersSettings',
-				array(
-					'path'  => ltrim( $path, '/' ),
-					'root'  => esc_url_raw( get_rest_url() ),
-					'nonce' => wp_create_nonce( 'wp_rest' ),
-				)
-			);
 
 			add_action( 'wp_footer', 'bp_members_blocks_add_script_data', 1 );
 		}
