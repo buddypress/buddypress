@@ -36,7 +36,7 @@
 <script id="tmpl-bp-avatar-recycle-history-item" type="text/html">
 	<td>
 		<label for="avatar_{{data.id}}">
-			<input type="radio" name="avatar_id" value="{{data.id}}" id="avatar_{{data.id}}" class="bp-screen-reader-text"/>
+			<input type="radio" name="avatar_id" value="{{data.id}}" id="avatar_{{data.id}}" class="<?php echo esc_attr( is_admin() && ! wp_doing_ajax() ? 'screen-reader-text' : 'bp-screen-reader-text' ); ?>"/>
 			<img src="{{{data.url}}}" id="{{data.id}}" class="avatar" width="<?php echo esc_attr( bp_core_avatar_thumb_width() ); ?>" height="<?php echo esc_attr( bp_core_avatar_thumb_height() ); ?>"/>
 		</label>
 	</td>
