@@ -8,11 +8,12 @@
  * @since 3.0.0
  * @version 10.0.0
  */
-?>
-<div class="subnav-filters filters user-subnav bp-messages-filters" id="subsubnav"></div>
 
-<div class="bp-messages-feedback"></div>
-<div class="bp-messages-content"></div>
+// Backward Compatibility for plugins still needing the placeholders to be located into this file.
+if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
+	bp_nouveau_messages_print_placeholders();
+}
+?>
 
 <script type="text/html" id="tmpl-bp-messages-feedback">
 	<div class="bp-feedback {{data.type}}">
