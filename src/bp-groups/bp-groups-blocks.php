@@ -469,7 +469,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 				);
 			}
 		}
-	} else {
+	} elseif ( defined( 'WP_USE_THEMES' ) ) {
 		// Get corresponding members.
 		$path = sprintf(
 			'/%1$s/%2$s/%3$s',

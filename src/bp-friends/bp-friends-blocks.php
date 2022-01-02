@@ -195,7 +195,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 				);
 			}
 		}
-	} else {
+	} elseif ( defined( 'WP_USE_THEMES' ) ) {
 		// Get corresponding friends.
 		$path = sprintf(
 			'/%1$s/%2$s/%3$s',
