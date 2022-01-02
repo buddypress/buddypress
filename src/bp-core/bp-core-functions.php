@@ -2444,6 +2444,7 @@ add_action( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
  * A JavaScript-free implementation of the search functions in BuddyPress.
  *
  * @since 1.0.1
+ * @since 10.0.0 Add support for Activity search.
  *
  * @param string $slug The slug to redirect to for searching.
  */
@@ -2477,6 +2478,10 @@ function bp_core_action_search_site( $slug = '' ) {
 						$var  = '?s=';
 					}
 				}
+				break;
+
+			case 'activity':
+				$slug = bp_is_active( 'activity' )  ? bp_get_activity_root_slug()  : '';
 				break;
 
 			case 'blogs':
