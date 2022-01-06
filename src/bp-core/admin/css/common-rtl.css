@@ -557,6 +557,66 @@ body.post-type-bp-email .categorydiv label {
 	content: "\f534";
 }
 
+.buddypress .bp-welcome-panel {
+	position: relative;
+	overflow: auto;
+	margin: 16px 0;
+	padding: 23px 10px 0;
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+	background: #fff;
+	background-image: none;
+	font-size: 13px;
+	line-height: 1.7;
+}
+
+.buddypress .bp-welcome-panel-close {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	padding: 10px 21px 10px 15px;
+	font-size: 13px;
+	line-height: 1.23076923;
+	text-decoration: none;
+}
+
+.buddypress .bp-welcome-panel-close:before {
+	position: absolute;
+	top: 8px;
+	right: 0;
+	transition: all 0.1s ease-in-out;
+	margin: 0;
+	background: 100% 0;
+	color: #787c82;
+	content: "\f153";
+	display: block;
+	font: 600 16px/20px dashicons;
+	height: 20px;
+	text-align: center;
+	width: 20px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.buddypress .bp-welcome-panel-close:hover:before {
+	color: #d63638;
+}
+
+.buddypress .bp-welcome-panel-content {
+	margin-right: 13px;
+	max-width: 1500px;
+}
+
+.buddypress .bp-welcome-panel-content h2 {
+	line-height: 32px;
+	margin-bottom: 1em;
+}
+
+.buddypress .bp-welcome-panel-content p {
+	padding-bottom: 23px;
+	font-size: 14px;
+}
+
 /*------------------------------------------------------------------------------
  * 7.0 Admins page with tabbed nav.
  *----------------------------------------------------------------------------*/
@@ -590,19 +650,9 @@ body.bp-is-tabbed-screen #wpcontent {
 }
 
 .buddypress-title-section h1 .bp-badge,
-.buddypress .welcome-panel-content h2 .bp-badge {
+.buddypress .bp-welcome-panel-content h2 .bp-badge {
 	font-size: 32px;
 	vertical-align: top;
-}
-
-.buddypress .welcome-panel-content h2 {
-	line-height: 32px;
-	margin-bottom: 1em;
-}
-
-.buddypress .welcome-panel-content p {
-	padding-bottom: 23px;
-	font-size: 14px;
 }
 
 .buddypress-tabs-wrapper {

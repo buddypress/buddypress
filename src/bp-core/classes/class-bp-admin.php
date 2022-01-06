@@ -1468,9 +1468,9 @@ class BP_Admin {
 			wp_enqueue_script( 'bp-dismissible-admin-notices' );
 
 			?>
-			<div id="welcome-panel" class="welcome-panel bp-notice-container">
-				<a class="welcome-panel-close bp-is-dismissible" href="#" data-notice_id="<?php echo esc_attr( $notice_id ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the welcome panel', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
-				<div class="welcome-panel-content">
+			<div class="bp-welcome-panel bp-notice-container">
+				<a class="bp-welcome-panel-close bp-is-dismissible" href="#" data-notice_id="<?php echo esc_attr( $notice_id ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the welcome panel', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+				<div class="bp-welcome-panel-content">
 					<h2><span class="bp-badge"></span> <?php esc_html_e( 'Hello BuddyPress Add-ons!', 'buddypress' ); ?></h2>
 					<p class="about-description">
 						<?php esc_html_e( 'Add-ons are features as Plugins or Blocks maintained by the BuddyPress development team & hosted on the WordPress.org plugins directory.', 'buddypress' ); ?>
