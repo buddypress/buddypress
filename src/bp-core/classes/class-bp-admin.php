@@ -757,56 +757,112 @@ class BP_Admin {
 				<div class="bp-hello-content">
 					<div id="dynamic-content"></div>
 					<div id="top-features">
-						<h2><?php esc_html_e( 'It’s all about Widget Blocks!', 'buddypress' ); ?></h2>
+						<h2><?php esc_html_e( 'Site Membership Requests', 'buddypress' ); ?></h2>
 						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/latest-activities.jpg' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the Latest Activities Widget Block.', 'buddypress' ); ?>" />
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/prevent-spammer-registration.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the Site Membership Requests list.', 'buddypress' ); ?>" />
 						</figure>
 						<p>
-							<?php esc_html_e( 'WordPress 5.8 is right around the corner and debuts a brand new way to manage widgets: the Widget Block Editor. With BuddyPress 9.0.0, we have introduced 10 new BuddyPress Blocks, so you can continue to use your favorite BP Widgets with the new WP Block approach.', 'buddypress' ); ?>
+							<?php esc_html_e( 'Take control of your site’s membership! With site membership requests, new in BuddyPress 10.0.0, administrators can significantly reduce the number of spam users trolling their sites.', 'buddypress' ); ?>
 						</p>
 						<p>
-							<?php esc_html_e( 'The new BP Widget Blocks are simply Legacy Widgets we’ve rebuilt as BP Blocks, which means you can also access them in the Block Editor for use in your posts or pages!', 'buddypress' ); ?>
-						</p>
-						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-widget-blocks.jpg' ); ?>" alt="<?php esc_attr_e( 'Illustration showing BP Blocks collection.', 'buddypress' ); ?>" />
-						</figure>
-						<p>
-							<em><?php esc_html_e( 'PS: Have you noticed that the icons for BuddyPress Blocks are now bright red?', 'buddypress' ); ?></em>
-						</p>
-						<h3>
+							<?php esc_html_e( 'When requests are enabled, visitors may submit a membership request, which must be manually approved by a site administrator.', 'buddypress' ); ?>
 							<?php
 							printf(
-								/* Translators: %s is a smiling face with sunglasses emoji. */
-								esc_html__( 'Convert a Legacy Widget into a Block Widget in two clicks %s', 'buddypress' ),
-								wp_staticize_emoji( '😎' )
+								/* translators: %s is the placeholder for the link to the BuddyPress Codex documentation page. */
+								esc_html__( '%s about this feature.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://codex.buddypress.org/administrator-guide/alternative-registration-workflows/#membership-requests-available-in-buddypress-10' ),
+									esc_html__( 'Read more', 'buddypress' )
+								)
 							);
 							?>
-						</h3>
-						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/legacy-widget-to-block.jpg' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the Legacy Widget to Widget Block transformation.', 'buddypress' ); ?>" />
-						</figure>
-						<p>
-							<?php esc_html_e( 'As shown in the image above, it’s very easy to transform a Widget into a Block. Your existing Widget settings will automagically be imported into your shiny, new BP Block.', 'buddypress' ); ?>
-						</p>
-						<p>
-							<?php esc_html_e( 'NB: Creating a BP Block for each existing BP Legacy Widget marks the first step toward the progressive retirement of these tiny pieces of BuddyPress content.', 'buddypress' ); ?>
 						</p>
 
 						<hr class="bp-hello-divider"/>
 
-						<h2><?php esc_html_e( 'The BP REST API:  Improved endpoints and a new one!', 'buddypress' ); ?></h2>
+						<h2><?php esc_html_e( 'More engaging logging activities', 'buddypress' ); ?></h2>
 						<p>
-							<?php esc_html_e( 'This BuddyPress release was built in a short time frame to be ready for the release of WordPress 5.8.', 'buddypress' ); ?>
+							<?php esc_html_e( 'These simple activities about specific user interactions or events (e.g.: you and me are now friends) are more visually attractive to improve user engagement in your community.', 'buddypress' ); ?>
+						</p>
+						<figure class="bp-hello-aligncenter">
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/logging-activities.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the new avatar secondary activity.', 'buddypress' ); ?>" />
+						</figure>
+						<p>
+							<?php esc_html_e( 'The most impressive new activity is that which is generated when a user updates their profile photo: it will include the profile photo that spurred the creation of the activity item, even if it has been updated since.', 'buddypress' ); ?>
+							<?php
+							printf(
+								/* translators: %s is the placeholder for the link to the BuddyPress Development blog. */
+								esc_html__( 'Learn more about it reading this %s.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://bpdevel.wordpress.com/2022/01/06/more-engaging-logging-activities-in-10-0-0/' ),
+									esc_html__( 'Developer note', 'buddypress' )
+								)
+							);
+							?>
+						</p>
+
+						<hr class="bp-hello-divider"/>
+
+						<h2><?php esc_html_e( 'Administration: improved BuddyPress management experience', 'buddypress' ); ?></h2>
+						<figure class="bp-hello-aligncenter">
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-settings-screen.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the BuddyPress settings screen.', 'buddypress' ); ?>" />
+						</figure>
+						<p>
+							<?php esc_html_e( 'As shown in the image above, the BuddyPress administration screens are now using the layout WordPress uses for its tabbed administration screens such as the Site-Health or Privacy ones.', 'buddypress' ); ?>
+						</p>
+						<figure class="bp-hello-aligncenter">
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/edit-pages-screen.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the Edit Pages screen.', 'buddypress' ); ?>" />
+						</figure>
+						<p>
+							<?php esc_html_e( 'Knowing the WordPress pages BuddyPress uses for its front-end directory screens is easier, a status information informs you about the role of all BuddyPress pages.', 'buddypress' ); ?>
+						</p>
+
+						<hr class="bp-hello-divider"/>
+
+						<h2><?php esc_html_e( 'A new area to discover our current and future BuddyPress Add-ons.', 'buddypress' ); ?></h2>
+						<p>
+							<?php esc_html_e( 'BuddyPress Add-ons are experimental plugins, beta features packaged as plugins, that will be made available into the official WordPress.org plugins directory so that it’s easier for you to test them and give the development team your feedback.', 'buddypress' ); ?>
 						</p>
 						<p>
-							<?php esc_html_e( 'While doing the work on BP Widget Blocks, we’ve also manipulated many of our REST API endpoints and took this opportunity to improve several of them. We’re also introducing a new Sitewide Notices endpoint to allow site admins to create, edit, or delete notices and let all of your users fetch the active notice.', 'buddypress' ); ?>
+							<?php esc_html_e( 'The more we are to get involved into the future of our open source project, the brighter it will be and the faster we’ll be able to include great new features!', 'buddypress' ); ?>
+						</p>
+
+						<figure class="bp-hello-aligncenter">
+							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/hello-buddypress-addons.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the Edit Pages screen.', 'buddypress' ); ?>" />
+						</figure>
+
+						<p>
+							<?php esc_html_e( 'BuddyPress Add-ons are also stable complementary BP Components or BP Blocks, we choose to keep independent from the core of BuddyPress to leave you the choice to use it or not.', 'buddypress' ); ?>
+							<?php
+							printf(
+								/* translators: %s is the placeholder for the link to the BuddyPress Add-ons administration page. */
+								esc_html__( 'The BP Search Block is a first example of this second category of add-ons, give it a try installing it from your %s administration screen.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( add_query_arg( 'tab', 'bp-add-ons', network_admin_url( 'plugin-install.php' ) ) ),
+									esc_html__( 'BuddyPress Add-ons', 'buddypress' )
+								)
+							);
+							?>
+						</p>
+
+						<hr class="bp-hello-divider"/>
+
+						<h2><?php esc_html_e( 'Ready for Twenty Twenty-Two!', 'buddypress' ); ?></h2>
+						<p>
+							<?php esc_html_e( 'WordPress 5.9 will introduce Full Site Editing featuring the new default theme Twenty Twenty-Two.', 'buddypress' ); ?>
+						</p>
+						<p>
+							<?php esc_html_e( 'The needed adjustments to our BP Theme Compatibility API were made so that you can enjoy this amazing feature making sure the BuddyPress generated content integrates optimally within themes supporting it.', 'buddypress' ); ?>
 						</p>
 
 						<hr class="bp-hello-divider"/>
 
 						<h2><?php esc_html_e( 'Under the hood', 'buddypress' ); ?></h2>
 						<p>
-							<?php esc_html_e( '9.0.0 comes with fewer changes than most of our releases but includes fixes for issues which appeared in 8.0.0 and BP Nouveau Template Pack improvements.', 'buddypress' ); ?>
+							<?php esc_html_e( '10.0.0 comes with more than 70 changes including performance improvements to the BP Notifications, the BP Activity & the BP Signups API; Date Queries support for Members, Groups and Sites loops; new BP Avatar UI Recycle tab, improved inline documentation/translators comments and code formatting.', 'buddypress' ); ?>
 							<?php esc_html_e( 'Click on the "Changelog" tab to discover them all!', 'buddypress' ); ?>
 						</p>
 						<figure class="bp-hello-aligncenter">
@@ -850,10 +906,10 @@ class BP_Admin {
 						<?php
 						printf(
 							/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
-							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 24, 'buddypress' ),
+							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 38, 'buddypress' ),
 							'<span class="dashicons dashicons-heart"></span>',
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 24 )
+							number_format_i18n( 38 )
 						);
 						?>
 					</p>
@@ -1013,9 +1069,9 @@ class BP_Admin {
 					<a class="web" href="https://profiles.wordpress.org/vapvarun"><img alt="" class="gravatar" src="//gravatar.com/avatar/78a3bf7eb3a1132fc667f96f2631e448?s=120">
 					Varun Dubey</a>
 				</li>
-				<li class="wp-person" id="wp-person-sbrajesh">
-					<a class="web" href="https://profiles.wordpress.org/sbrajesh/"><img alt="" class="gravatar" src="//gravatar.com/avatar/2106622ee90d53d15ac1402806616aca?s=120">
-					Brajesh Singh</a>
+				<li class="wp-person" id="wp-person-oztaser">
+					<a class="web" href="https://profiles.wordpress.org/oztaser/"><img alt="" class="gravatar" src="//gravatar.com/avatar/06eb4dd13c0113bf826968ae16a13e52?s=120">
+					Adil Öztaşer</a>
 				</li>
 			</ul>
 
@@ -1029,30 +1085,44 @@ class BP_Admin {
 				?>
 			</h3>
 			<p class="wp-credits-list">
+				<a href="https://github.com/Achilles4400">Achilles4400</a>,
+				<a href="https://profiles.wordpress.org/oztaser/">Adil Öztaşer (oztaser)</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
-				<a href="https://profiles.wordpress.org/sbrajesh/">Brajesh Singh (sbrajesh)</a>,
-				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
+				<a href="https://profiles.wordpress.org/needle/">Christian Wach (needle)</a>,
+				<a href="https://profiles.wordpress.org/comminski/">comminski</a>,
 				<a href="https://profiles.wordpress.org/dancaragea/">Dan Caragea (dancaragea)</a>,
-				<a href="https://profiles.wordpress.org/ianbarnes/">Ian Barnes (ianbarnes)</a>,
-				<a href="https://profiles.wordpress.org/nobnob/">Javier Esteban (nobnob)</a>,
+				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
+				<a href="https://profiles.wordpress.org/dhavalkasvala/">Dhaval Kasavala (dhavalkasvala)</a>,
+				<a href="https://profiles.wordpress.org/dd32/">Dion Hulse (dd32)</a>,
+				<a href="https://github.com/durdenx">durdenx</a>,
+				<a href="https://profiles.wordpress.org/ellucinda/">ellucinda</a>,
+				<a href="https://profiles.wordpress.org/vanpop/">Evan Stein (vanpop)</a>,
+				<a href="https://profiles.wordpress.org/garyj/">Gary Jones (garyj)</a>,
+				<a href="https://profiles.wordpress.org/hasanuzzamanshamim/">Hasanuzzaman (hasanuzzamanshamim)</a>,
+				<a href="https://github.com/jakubrak">jakubrak</a>,
+				<a href="https://profiles.wordpress.org/jean-david/">Jean-David Daviet (Jean-David)</a>,
+				<a href="https://profiles.wordpress.org/jenfraggle/">Jennifer Burnett (jenfraggle)</a>
 				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
-				<a href="https://profiles.wordpress.org/leahkoerper/">leahkoerper</a>,
-				<a href="https://profiles.wordpress.org/marbaque/">marbaque</a>,
+				<a href="https://profiles.wordpress.org/josett225/">josett225</a>,
+				<a href="https://profiles.wordpress.org/ketan_chawda/">Ketan Chawda (ketan_chawda)</a>,
+				<a href="https://profiles.wordpress.org/konnektiv/">konnektiv</a>,
+				<a href="https://profiles.wordpress.org/offereins/">Laurens Offereins (Offereins)</a>,
+				<a href="https://profiles.wordpress.org/magland/">magland</a>,
+				<a href="https://profiles.wordpress.org/mandro/">mandro</a>,
+				<a href="https://github.com/marioshtika">marioshtika</a>,
 				<a href="https://profiles.wordpress.org/markscottrobson/">Mark Robson (markscottrobson)</a>,
 				<a href="https://profiles.wordpress.org/imath/">Mathieu Viet (imath)</a>,
-				<a href="https://profiles.wordpress.org/modemlooper/">modemlooper</a>,
 				<a href="https://profiles.wordpress.org/niftythree/">Nifty (niftythree)</a>,
+				<a href="https://profiles.wordpress.org/nunks/">nunks</a>,
+				<a href="https://profiles.wordpress.org/oddev56/">oddev56</a>,
 				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
-				<a href="https://profiles.wordpress.org/nekojonez/">Pieterjan Deneys (nekojonez)</a>,
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
 				<a href="https://profiles.wordpress.org/espellcaste/">Renato Alves (espellcaste)</a>,
-				<a href="https://profiles.wordpress.org/shanebp">shanebp</a>,
-				<a href="https://profiles.wordpress.org/shawfactor/">shawfactor</a>,
-				<a href="https://profiles.wordpress.org/slaffik/">Slava Abakumov (slaffik)</a>,
-				<a href="https://profiles.wordpress.org/netweb/">Stephen Edgar (netweb)</a>,
-				<a href="https://profiles.wordpress.org/tamarazambrana/">tamarazambrana</a>,
-				<a href="https://github.com/tkserver">TKServer</a>,
-				<a href="https://profiles.wordpress.org/vapvarun/">Varun Dubey (vapvarun)</a>.
+				<a href="https://profiles.wordpress.org/rigsbyx/">rigsbyx</a>,
+				<a href="https://profiles.wordpress.org/thomaslhotta/">thomaslhotta</a>,
+				<a href="https://profiles.wordpress.org/vapvarun/">Varun Dubey (vapvarun)</a>,
+				<a href="https://profiles.wordpress.org/venutius/">venutius</a>,
+				<a href="https://profiles.wordpress.org/yesbutmaybeno/">yesbutmaybeno</a>.
 			</p>
 
 			<h3 class="wp-people-group"><?php esc_html_e( 'With our thanks to these Open Source projects', 'buddypress' ); ?></h3>
