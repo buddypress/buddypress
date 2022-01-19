@@ -246,41 +246,54 @@ class BP_Attachment_Avatar extends BP_Attachment {
 			return false;
 		}
 
-		// Delete the existing avatar files for the object.
-		$existing_avatar = bp_core_fetch_avatar( array(
-			'object'  => $args['object'],
-			'item_id' => $args['item_id'],
-			'html' => false,
-		) );
+		// Get the existing avatar files for the object.
+		$existing_avatar = bp_core_fetch_avatar(
+			array(
+				'object'  => $args['object'],
+				'item_id' => $args['item_id'],
+				'html'    => false,
+			)
+		);
 
 		/**
 		 * Check that the new avatar doesn't have the same name as the
 		 * old one before moving the previous one into history.
 		 */
 		if ( ! empty( $existing_avatar ) && $existing_avatar !== $this->url . $relative_path ) {
-			// Add a new revision for the existing avatar.
-			$avatars = bp_attachments_list_directory_files( $avatar_folder_dir );
+			// Avatar history is disabled, simply delete the existing avatar files.
+			if ( bp_avatar_history_is_disabled() ) {
+				bp_core_delete_existing_avatar(
+					array(
+						'object'      => $args['object'],
+						'item_id'     => $args['item_id'],
+						'avatar_path' => $avatar_folder_dir,
+					)
+				);
+			} else {
+				// Add a new revision for the existing avatar.
+				$avatars = bp_attachments_list_directory_files( $avatar_folder_dir );
 
-			if ( $avatars ) {
-				foreach ( $avatars as $avatar_file ) {
-					if ( ! isset( $avatar_file->name, $avatar_file->id, $avatar_file->path ) ) {
-						continue;
-					}
+				if ( $avatars ) {
+					foreach ( $avatars as $avatar_file ) {
+						if ( ! isset( $avatar_file->name, $avatar_file->id, $avatar_file->path ) ) {
+							continue;
+						}
 
-					$is_full  = preg_match( "/-bpfull/", $avatar_file->name );
-					$is_thumb = preg_match( "/-bpthumb/", $avatar_file->name );
+						$is_full  = preg_match( "/-bpfull/", $avatar_file->name );
+						$is_thumb = preg_match( "/-bpthumb/", $avatar_file->name );
 
-					if ( $is_full || $is_thumb ) {
-						$revision = $this->add_revision(
-							'avatar',
-							array(
-								'file_abspath' => $avatar_file->path,
-								'file_id'      => $avatar_file->id,
-							)
-						);
+						if ( $is_full || $is_thumb ) {
+							$revision = $this->add_revision(
+								'avatar',
+								array(
+									'file_abspath' => $avatar_file->path,
+									'file_id'      => $avatar_file->id,
+								)
+							);
 
-						if ( is_wp_error( $revision ) ) {
-							error_log( $revision->get_error_message() );
+							if ( is_wp_error( $revision ) ) {
+								error_log( $revision->get_error_message() );
+							}
 						}
 					}
 				}

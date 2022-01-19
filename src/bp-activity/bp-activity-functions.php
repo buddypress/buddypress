@@ -632,6 +632,57 @@ function bp_activity_get_post_types_tracking_args() {
 }
 
 /**
+ * Gets the list of activity types name supporting the requested feature.
+ *
+ * This function is still a WIP, please don't use it into your plugins or themes.
+ *
+ * @since 10.0.0
+ *
+ * @access private
+ * @todo `bp_activity_set_action()` should be improved to include a supports
+ * argument or best we should create a `bp_register_activity_type()` function
+ * to mimic the way WordPress registers post types. For now we'll use a non
+ * extendable workaround.
+ *
+ * @param string $feature The feature activity types should support.
+ * @return array          The list of activity types name supporting the requested feature.
+ */
+function _bp_activity_get_types_by_support( $feature = 'generated-content' ) {
+	$activity_types = array();
+
+	if ( 'generated-content' === $feature ) {
+		$activity_types = array( 'new_member', 'new_avatar' );
+
+		if ( bp_is_active( 'friends' ) ) {
+			array_push( $activity_types, 'friendship_created' );
+		}
+
+		if ( bp_is_active( 'groups' ) ) {
+			array_push( $activity_types, 'created_group', 'joined_group' );
+		}
+
+		if ( bp_is_active( 'xprofile' ) ) {
+			array_push( $activity_types, 'updated_profile' );
+		}
+	}
+
+	$filter_key = str_replace( '-', '_', $feature );
+
+	/**
+	 * Use this filter to add/remove activity types supporting the requested feature.
+	 *
+	 * The dynamic portion of the filter is the name of the requested feature where hyphens are
+	 * replaced by underscores. Eg. use `bp_activity_get_types_supporting_generated_content` to
+	 * edit the list of activities supporting the `generated-content` feature.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param array $activity_types The list of activity types name supporting the requested feature.
+	 */
+	return apply_filters( "bp_activity_get_types_supporting_{$filter_key}", $activity_types );
+}
+
+/**
  * Check if the *Post Type* activity supports a specific feature.
  *
  * @since 2.5.0
@@ -714,25 +765,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		 * Does this activity type support `generated-content`?
 		 */
 		case 'generated-content' :
-			/*
-			 * @todo `bp_activity_set_action()` should be improved to include a supports
-			 * argument or best we should create a `bp_register_activity_type()` function
-			 * to mimic the way WordPress registers post types. For now we'll use a non
-			 * extendable workaround.
-			 */
-			$activity_types = array( 'new_member', 'new_avatar' );
-
-			if ( bp_is_active( 'friends' ) ) {
-				array_push( $activity_types, 'friendship_created' );
-			}
-
-			if ( bp_is_active( 'groups' ) ) {
-				array_push( $activity_types, 'created_group', 'joined_group' );
-			}
-
-			if ( bp_is_active( 'xprofile' ) ) {
-				array_push( $activity_types, 'updated_profile' );
-			}
+			$activity_types = _bp_activity_get_types_by_support( 'generated-content' );
 
 			$retval = in_array( $activity_type, $activity_types, true );
 			break;

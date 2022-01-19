@@ -1462,21 +1462,38 @@ function bp_activity_has_content() {
 
 			// Set generated content properties.
 			if ( 'new_avatar' === $activity_type ) {
-				$avatars = bp_avatar_get_version( $user_id, 'user', bp_get_activity_date_recorded() );
+				$avatars = array();
 
-				if ( $avatars && 1 === count( $avatars ) ) {
-					$avatar            = reset( $avatars );
-					$historical_avatar = trailingslashit( $avatar->parent_dir_url ) . $avatar->name;
+				// Use the avatar history to display the avatar that was in use at the time the activity was posted.
+				if ( ! bp_avatar_history_is_disabled() ) {
+					$avatars = bp_avatar_get_version( $user_id, 'user', bp_get_activity_date_recorded() );
 
-					// Add historical avatar to the current activity.
+					if ( $avatars && 1 === count( $avatars ) ) {
+						$avatar            = reset( $avatars );
+						$historical_avatar = trailingslashit( $avatar->parent_dir_url ) . $avatar->name;
+
+						// Add historical avatar to the current activity.
+						$generated_content->user_profile_photo = array(
+							'value'             => $historical_avatar,
+							'sanitize_callback' => 'esc_url',
+						);
+					}
+
+					// Otherwise use the current/latest avatar.
+				} else {
 					$generated_content->user_profile_photo = array(
-						'value'             => $historical_avatar,
+						'value'             => bp_core_fetch_avatar(
+							array(
+								'item_id' => $user_id,
+								'object'  => 'user',
+								'type'    => 'full',
+								'width'   => bp_core_avatar_full_width(),
+								'height'  => bp_core_avatar_full_height(),
+								'html'    => false,
+							)
+						),
 						'sanitize_callback' => 'esc_url',
 					);
-
-					// Do not use a generated content.
-				} else {
-					return false;
 				}
 			}
 

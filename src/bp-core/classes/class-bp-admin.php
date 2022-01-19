@@ -906,10 +906,10 @@ class BP_Admin {
 						<?php
 						printf(
 							/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
-							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 38, 'buddypress' ),
+							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 39, 'buddypress' ),
 							'<span class="dashicons dashicons-heart"></span>',
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 38 )
+							number_format_i18n( 39 )
 						);
 						?>
 					</p>
@@ -1088,6 +1088,7 @@ class BP_Admin {
 				<a href="https://github.com/Achilles4400">Achilles4400</a>,
 				<a href="https://profiles.wordpress.org/oztaser/">Adil Öztaşer (oztaser)</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
+				<a href="https://profiles.wordpress.org/sbrajesh/">Brajesh Singh (sbrajesh)</a>,
 				<a href="https://profiles.wordpress.org/needle/">Christian Wach (needle)</a>,
 				<a href="https://profiles.wordpress.org/comminski/">comminski</a>,
 				<a href="https://profiles.wordpress.org/dancaragea/">Dan Caragea (dancaragea)</a>,

@@ -2150,6 +2150,26 @@ function bp_avatar_template_check() {
 }
 
 /**
+ * Informs about whether avatar history is disabled or not.
+ *
+ * @since 10.0.0
+ *
+ * @return bool True if avatar history is disabled. False otherwise.
+ *              Default: `false`.
+ */
+function bp_avatar_history_is_disabled() {
+	/**
+	 * Filter here returning `true` to disable avatar history.
+	 *
+	 * @since 10.0.0
+	 *
+	 * @param bool $value True to disable avatar history. False otherwise.
+	 *                    Default: `false`.
+	 */
+	return apply_filters( 'bp_disable_avatar_history', false );
+}
+
+/**
  * Get a specific version of an avatar from its history.
  *
  * @since 10.0.0
