@@ -62,7 +62,7 @@ function bp_members_screen_change_avatar() {
 		);
 
 		// Handle crop.
-		$cropped_avatar = bp_core_avatar_handle_crop( $r, 'array' );
+		$cropped_avatar = bp_core_avatar_handle_crop( $args, 'array' );
 
 		if ( ! $cropped_avatar ) {
 			bp_core_add_message( __( 'There was a problem cropping your profile photo.', 'buddypress' ), 'error' );
