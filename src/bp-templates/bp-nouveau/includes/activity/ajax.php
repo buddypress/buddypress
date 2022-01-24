@@ -552,7 +552,7 @@ function bp_nouveau_ajax_post_update() {
 				if ( ! empty( $bp->groups->current_group->status ) ) {
 					$status = $bp->groups->current_group->status;
 				} else {
-					$group  = groups_get_group( array( 'group_id' => $group_id ) );
+					$group  = groups_get_group( array( 'group_id' => $item_id ) );
 					$status = $group->status;
 				}
 
@@ -580,13 +580,13 @@ function bp_nouveau_ajax_post_update() {
 			bp_get_template_part( 'activity/entry' );
 		}
 	}
-	$acivity = ob_get_contents();
+	$activity = ob_get_contents();
 	ob_end_clean();
 
 	wp_send_json_success( array(
 		'id'           => $activity_id,
 		'message'      => esc_html__( 'Update posted.', 'buddypress' ) . ' ' . sprintf( '<a href="%s" class="just-posted">%s</a>', esc_url( bp_activity_get_permalink( $activity_id ) ), esc_html__( 'View activity.', 'buddypress' ) ),
-		'activity'     => $acivity,
+		'activity'     => $activity,
 
 		/**
 		 * Filters whether or not an AJAX post update is private.
