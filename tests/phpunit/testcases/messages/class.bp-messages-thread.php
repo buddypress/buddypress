@@ -698,7 +698,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	 * @group exit
 	 * @ticket BP7540
 	 */
-	public function test_bp_messages_thread_exit_not_enougth_recipients() {
+	public function test_bp_messages_thread_exit_not_enough_recipients() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
