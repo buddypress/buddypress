@@ -144,7 +144,7 @@ function bp_settings_action_general() {
 			if ( $required_password_strength && ! is_null( $current_password_strength ) && $required_password_strength > $current_password_strength ) {
 				$pass_error = new WP_Error(
 					'not_strong_enough_password',
-					__( 'Your password is not strong enougth to be allowed on this site. Please use a stronger password.', 'buddypress' )
+					__( 'Your password is not strong enough to be allowed on this site. Please use a stronger password.', 'buddypress' )
 				);
 			} else {
 				$pass_error = bp_members_validate_user_password( $pass, $pass_confirm, $update_user );
