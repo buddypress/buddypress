@@ -103,6 +103,17 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	}
 
 	/**
+	 * Gets the name of the default primary column.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return string Name of the default primary column, in this case, 'invitee_email'.
+	 */
+	protected function get_default_primary_column_name() {
+		return 'invitee_email';
+	}
+
+	/**
 	 * Get the list of views available on this table (e.g. "all", "public").
 	 *
 	 * @since 8.0.0

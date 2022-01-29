@@ -87,6 +87,17 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 	}
 
 	/**
+	 * Gets the name of the default primary column.
+	 *
+	 * @since 10.1.0
+	 *
+	 * @return string Name of the default primary column, in this case, 'email_address'.
+	 */
+	protected function get_default_primary_column_name() {
+		return 'email_address';
+	}
+
+	/**
 	 * Get the list of views available on this table.
 	 *
 	 * @since 8.0.0
