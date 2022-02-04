@@ -69,29 +69,36 @@ function bp_core_maybe_unhook_legacy_widgets() {
 	}
 
 	$callbacks = array(
-		'bp_core_register_login_widget',
-		'bp_members_register_members_widget',
-		'bp_members_register_whos_online_widget',
-		'bp_members_register_recently_active_widget',
+		'BP_Core_Login_Widget'           => 'bp_core_register_login_widget',
+		'BP_Core_Members_Widget'         => 'bp_members_register_members_widget',
+		'BP_Core_Whos_Online_Widget'     => 'bp_members_register_whos_online_widget',
+		'BP_Core_Recently_Active_Widget' => 'bp_members_register_recently_active_widget',
 	);
 
 	if ( bp_is_active( 'friends' ) ) {
-		$callbacks[] = 'bp_friends_register_friends_widget';
+		$callbacks['BP_Core_Friends_Widget'] = 'bp_friends_register_friends_widget';
 	}
 
 	if ( bp_is_active( 'groups' ) ) {
-		$callbacks[] = 'bp_groups_register_groups_widget';
+		$callbacks['BP_Groups_Widget'] = 'bp_groups_register_groups_widget';
 	}
 
 	if ( bp_is_active( 'messages' ) ) {
-		$callbacks[] = 'bp_messages_register_sitewide_notices_widget';
+		$callbacks['BP_Messages_Sitewide_Notices_Widget'] = 'bp_messages_register_sitewide_notices_widget';
 	}
 
 	if ( bp_is_active( 'blogs' ) && bp_is_active( 'activity' ) && bp_is_root_blog() ) {
-		$callbacks[] = 'bp_blogs_register_recent_posts_widget';
+		$callbacks['BP_Blogs_Recent_Posts_Widget'] = 'bp_blogs_register_recent_posts_widget';
 	}
 
-	foreach ( $callbacks as $callback ) {
+	foreach ( $callbacks as $widget_id => $callback ) {
+		$widget_base = strtolower( $widget_id );
+
+		// If there's an active widget, we need to carry on loading it.
+		if ( is_active_widget( false, false, $widget_base ) ) {
+			continue;
+		}
+
 		remove_action( 'widgets_init', $callback );
 	}
 }
