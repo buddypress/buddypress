@@ -570,12 +570,9 @@ class BP_XProfile_Field {
 	public function get_children( $for_editing = false ) {
 		global $wpdb;
 
-		// Sanitize 'order_by'.
-		$order_by = bp_esc_sql_order( $this->order_by );
-
 		// This is done here so we don't have problems with sql injection.
-		if ( empty( $for_editing ) ) {
-			$sort_sql = "ORDER BY name {$order_by}";
+		if ( empty( $for_editing ) && in_array( $this->order_by, array( 'asc', 'desc' ), true ) ) {
+			$sort_sql = sprintf( 'ORDER BY name %s', bp_esc_sql_order( $this->order_by ) );
 		} else {
 			$sort_sql = 'ORDER BY option_order ASC';
 		}
@@ -598,9 +595,9 @@ class BP_XProfile_Field {
 		 * @since 1.2.5
 		 * @since 3.0.0 Added the `$this` parameter.
 		 *
-		 * @param array             $children    Found children for a field.
-		 * @param bool              $for_editing Whether or not the field is for editing.
-		 * @param BP_XProfile_Field $this        Field object
+		 * @param array             $children     Found children for a field.
+		 * @param bool              $for_editing  Whether or not the field is for editing.
+		 * @param BP_XProfile_Field $field_object BP_XProfile_Field Field object.
 		 */
 		return apply_filters( 'bp_xprofile_field_get_children', $children, $for_editing, $this );
 	}
