@@ -1,12 +1,12 @@
 === BuddyPress ===
-Contributors: johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
-Tags: user profiles, activity streams, messaging, friends, user groups, notifications, community, social networking, intranet
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Contributors:      johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
+Tags:              profiles, groups, activity, direct messaging, notifications, friends, community, social networking
+License:           GNU General Public License v2 or later
+License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+Requires PHP:      5.6
 Requires at least: 5.4
-Requires PHP: 5.6
-Tested up to: 5.8
-Stable tag: 10.0.0
+Tested up to:      5.9
+Stable tag:        10.0.0
 
 BuddyPress helps site builders & developers add community features to their websites, with user profiles, activity streams, and more!
 

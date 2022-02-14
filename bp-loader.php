@@ -10,15 +10,18 @@
  */
 
 /**
- * Plugin Name: BuddyPress
- * Plugin URI:  https://buddypress.org
- * Description: BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!
- * Author:      The BuddyPress Community
- * Author URI:  https://buddypress.org/
- * Version:     10.0.0
- * Text Domain: buddypress
- * Domain Path: /bp-languages/
- * License:     GPLv2 or later (license.txt)
+ * Plugin Name:       BuddyPress
+ * Plugin URI:        https://buddypress.org
+ * Description:       BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!
+ * Author:            The BuddyPress Community
+ * Author URI:        https://buddypress.org
+ * License:           GNU General Public License v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       buddypress
+ * Domain Path:       /bp-languages/
+ * Requires PHP:      5.6
+ * Requires at least: 5.4
+ * Version:           10.0.0
  */
 
 // Exit if accessed directly
