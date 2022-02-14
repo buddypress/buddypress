@@ -30,13 +30,13 @@ $bp_loader = dirname( __FILE__ ) . '/build/bp-loader.php';
 // Load from source if no build exists
 if ( ! file_exists( $bp_loader ) || defined( 'BP_LOAD_SOURCE' ) ) {
 	$bp_loader = dirname( __FILE__ ) . '/src/bp-loader.php';
-	$subdir = 'src';
+	$bp_subdir = 'src';
 } else {
-	$subdir = 'build';
+	$bp_subdir = 'build';
 }
 
 // Set source subdirectory
-define( 'BP_SOURCE_SUBDIRECTORY', $subdir );
+define( 'BP_SOURCE_SUBDIRECTORY', $bp_subdir );
 
 // Define overrides - only applicable to those running trunk
 if ( ! defined( 'BP_PLUGIN_DIR' ) ) {
@@ -50,5 +50,5 @@ if ( ! defined( 'BP_PLUGIN_URL' ) ) {
 // Include BuddyPress
 include( $bp_loader );
 
-// Unset the loader, since it's loaded in global scope
-unset( $bp_loader );
+// Unset vars that were invoked in global scope
+unset( $bp_loader, $bp_subdir );
