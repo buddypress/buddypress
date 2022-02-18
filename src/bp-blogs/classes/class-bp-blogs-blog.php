@@ -170,7 +170,7 @@ class BP_Blogs_Blog {
 	 *     Array of site data to query for.
 	 *     @type string      $type              The order in which results should be returned.
 	 *                                          'active', 'alphabetical', 'newest', or 'random'.
-	 *     @type int|bool    $limit             Optional. The maximum records to return.
+	 *     @type int|bool    $per_page          Optional. The number of records to return per page.
 	 *                                          Default: false.
 	 *     @type int|bool    $page              Optional. The page of records to return.
 	 *                                          Default: false (unlimited results).
@@ -200,7 +200,7 @@ class BP_Blogs_Blog {
 
 			$old_args_keys = [
 				0  => 'type',
-				1  => 'limit',
+				1  => 'per_page',
 				2  => 'page',
 				3  => 'user_id',
 				4  => 'search_terms',
@@ -217,7 +217,7 @@ class BP_Blogs_Blog {
 			$args,
 			array(
 				'type'              => 'active',
-				'limit'             => false,
+				'per_page'          => false,
 				'page'              => false,
 				'user_id'           => 0,
 				'search_terms'      => false,
@@ -233,7 +233,7 @@ class BP_Blogs_Blog {
 			$hidden_sql = '';
 		}
 
-		$pag_sql = ( $r['limit'] && $r['page'] ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['limit']), intval( $r['limit'] ) ) : '';
+		$pag_sql = ( $r['per_page'] && $r['page'] ) ? $wpdb->prepare( " LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['per_page']), intval( $r['per_page'] ) ) : '';
 
 		$user_sql = ! empty( $r['user_id'] ) ? $wpdb->prepare( " AND b.user_id = %d", $r['user_id'] ) : '';
 

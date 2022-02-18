@@ -1253,16 +1253,16 @@ function bp_blogs_get_all_blogs( $limit = null, $page = null ) {
  *
  * @see BP_Blogs_Blog::get() for a description of parameters and return values.
  *
- * @param int|null $limit See {@BP_Blogs_Blog::get()}.
+ * @param int|null $per_page See {@BP_Blogs_Blog::get()}.
  * @param int|null $page  See {@BP_Blogs_Blog::get()}.
  * @return array See {@BP_Blogs_Blog::get()}.
  */
-function bp_blogs_get_random_blogs( $limit = null, $page = null ) {
+function bp_blogs_get_random_blogs( $per_page = null, $page = null ) {
 	return BP_Blogs_Blog::get(
 		array(
-			'type'  => 'random',
-			'limit' => $limit,
-			'page'  => $page
+			'type'     => 'random',
+			'per_page' => $per_page,
+			'page'     => $page
 		)
 	);
 }
