@@ -124,7 +124,7 @@ add_filter( 'term_updated_messages', 'bp_members_type_admin_updated_messages' );
  */
 function bp_members_admin_format_xprofile_field_for_display( $value ) {
 	if ( is_array( $value ) ) {
-		$value = array_map( 'bp_signup_format_xprofile_field_for_display', $value );
+		$value = array_map( 'bp_members_admin_format_xprofile_field_for_display', $value );
 		$value = implode( ', ', $value );
 	} else {
 		$value = stripslashes( $value );
