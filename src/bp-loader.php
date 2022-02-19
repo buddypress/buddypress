@@ -21,7 +21,7 @@
  * Domain Path:       /bp-languages/
  * Requires PHP:      5.6
  * Requires at least: 5.4
- * Version:           10.0.0
+ * Version:           11.0.0-alpha
  */
 
 /**
