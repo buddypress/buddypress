@@ -344,6 +344,16 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP8639
+	 */
+	public function test_bp_remove_member_type_should_return_false_when_user_has_no_member_type() {
+		$u1 = self::factory()->user->create();
+		bp_register_member_type( 'random' );
+
+		$this->assertFalse( bp_remove_member_type( $u1, 'random' ) );
+	}
+
+	/**
 	 * @group BP6138
 	 */
 	function test_bp_has_member_type_should_return_false_when_member_type_is_empty() {

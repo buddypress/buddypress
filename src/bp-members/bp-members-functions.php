@@ -3165,7 +3165,7 @@ function bp_remove_member_type( $user_id, $member_type ) {
 
 	// No need to continue if the member doesn't have the type.
 	$existing_types = bp_get_member_type( $user_id, false );
-	if ( ! in_array( $member_type, $existing_types, true ) ) {
+	if ( ! is_array( $existing_types ) || ! in_array( $member_type, $existing_types, true ) ) {
 		return false;
 	}
 
