@@ -91,7 +91,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 		}
 
 		// Check the URL to see if this is a single activity URL.
-		if ( 0 !== strpos( $url, $domain ) ) {
+		if ( is_array( $url ) || 0 !== strpos( $url, $domain ) ) {
 			return false;
 		}
 
