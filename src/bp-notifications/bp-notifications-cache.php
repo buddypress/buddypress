@@ -101,6 +101,23 @@ function bp_notifications_clear_all_for_user_cache_before_update( $update_args, 
 	} elseif ( ! empty( $where_args['id'] ) ) {
 		$n = bp_notifications_get_notification( $where_args['id'] );
 		bp_notifications_clear_all_for_user_cache( $n->user_id );
+
+		// Get the list of user IDs from notification IDs.
+	} elseif ( isset( $where_args['ids'] ) && $where_args['ids'] ) {
+		$ids = (array) $where_args['ids'];
+
+		$ns = BP_Notifications_Notification::get(
+			array(
+				'id' => $ids,
+			)
+		);
+
+		$user_ids = wp_list_pluck( $ns, 'user_id' );
+		$user_ids = array_unique( $user_ids );
+
+		foreach ( $user_ids as $user_id ) {
+			bp_notifications_clear_all_for_user_cache( $user_id );
+		}
 	}
 }
 add_action( 'bp_notification_before_update', 'bp_notifications_clear_all_for_user_cache_before_update', 10, 2 );

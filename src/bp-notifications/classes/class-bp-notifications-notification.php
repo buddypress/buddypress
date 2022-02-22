@@ -933,24 +933,31 @@ class BP_Notifications_Notification {
 		$_items       = implode( ',', wp_parse_id_list( $items ) );
 		$conditions[] = "{$field} IN ({$_items})";
 
-		foreach ( $update_args['data'] as $field => $value ) {
-			$index  = array_search( $field, array_keys( $update_args['data'] ) );
+		foreach ( $update_args['data'] as $update_field => $value ) {
+			$index  = array_search( $update_field, array_keys( $update_args['data'] ) );
 			$format = $update_args['format'][ $index ];
 
-			$fields[] = "{$field} = {$format}";
+			$fields[] = "{$update_field} = {$format}";
 			$values[] = $value;
 		}
 
-		foreach ( $where_args['data'] as $field => $value ) {
-			$index  = array_search( $field, array_keys( $where_args['data'] ) );
+		foreach ( $where_args['data'] as $where_field => $value ) {
+			$index  = array_search( $where_field, array_keys( $where_args['data'] ) );
 			$format = $where_args['format'][ $index ];
 
-			$conditions[] = "{$field} = {$format}";
+			$conditions[] = "{$where_field} = {$format}";
 			$values[]     = $value;
 		}
 
 		$fields     = implode( ', ', $fields );
 		$conditions = implode( ' AND ', $conditions );
+
+		if ( 'item_id' === $field && isset( $where_args['data']['user_id'] ) ) {
+			$where_args['item_ids'] = $items;
+			$where_args['user_id']  = $where_args['data']['user_id'];
+		} elseif ( 'id' === $field ) {
+			$where_args['ids'] = $items;
+		}
 
 		/** This action is documented in bp-notifications/classes/class-bp-notifications-notification.php */
 		do_action( 'bp_notification_before_update', $update_args, $where_args );
@@ -1021,15 +1028,19 @@ class BP_Notifications_Notification {
 		$_items       = implode( ',', wp_parse_id_list( $items ) );
 		$conditions[] = "{$field} IN ({$_items})";
 
-		foreach ( $where['data'] as $field => $value ) {
-			$index  = array_search( $field, array_keys( $where['data'] ) );
+		foreach ( $where['data'] as $where_field => $value ) {
+			$index  = array_search( $where_field, array_keys( $where['data'] ) );
 			$format = $where['format'][ $index ];
 
-			$conditions[] = "{$field} = {$format}";
+			$conditions[] = "{$where_field} = {$format}";
 			$values[]     = $value;
 		}
 
 		$conditions = implode( ' AND ', $conditions );
+
+		if ( 'id' === $field ) {
+			$args['id'] = $items;
+		}
 
 		/** This action is documented in bp-notifications/classes/class-bp-notifications-notification.php */
 		do_action( 'bp_notification_before_delete', $args );
