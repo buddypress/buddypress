@@ -8,7 +8,7 @@
 		"@babel/core": "~7.15.5",
 		"@wordpress/babel-preset-default": "~6.3.2",
 		"@wordpress/browserslist-config": "~4.1.0",
-		"@wordpress/env": "^4.1.1",
+		"@wordpress/env": "^4.2.2",
 		"@wordpress/stylelint-config": "~19.1.0",
 		"autoprefixer": "^9.8.6",
 		"grunt": "~1.4.1",
