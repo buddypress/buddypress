@@ -228,6 +228,37 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
+	 * @ticket BP8642
+	 */
+	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_marked_unread() {
+		$u = self::factory()->user->create();
+		$a = self::factory()->activity->create();
+
+		$notification_ids = self::factory()->notification->create_many(
+			4,
+			array(
+				'component_name'    => 'activity',
+				'component_action'  => 'at_mentions',
+				'user_id'           => $u,
+				'item_id'           => $a,
+				'is_new'            => 0,
+				'allow_duplicate'   => true,
+			)
+		);
+
+		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $u );
+		$this->assertEmpty( $all_for_user_notifications );
+
+		// Mark as unread.
+		$amount = bp_notifications_mark_notifications_by_ids( $notification_ids, 1 );
+		$this->assertTrue( $amount === count( $notification_ids ) );
+
+		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $u );
+		$this->assertEquals( $notification_ids, wp_list_pluck( $all_for_user_notifications, 'id' ) );
+	}
+
+	/**
+	 * @group cache
 	 * @ticket BP8637
 	 */
 	public function test_bp_notifications_clear_all_for_user_cache_before_delete() {
@@ -312,6 +343,51 @@ class BP_Tests_Notifications_Cache extends BP_UnitTestCase {
 
 		$this->assertEmpty( array_intersect( $message_ids, $all_ids ) );
 		$this->assertContains( $message_id, $all_ids );
+	}
+
+	/**
+	 * @group cache
+	 * @ticket BP8642
+	 */
+	public function test_bp_notifications_clear_all_for_user_cache_before_update_when_item_ids_and_marked_unread() {
+		$s                = self::factory()->user->create();
+		$r                = self::factory()->user->create();
+		$notification_ids = array();
+
+		remove_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification', 10 );
+
+		$message_ids = self::factory()->message->create_many(
+			4,
+			array(
+				'sender_id'  => $s,
+				'recipients' => array( $r ),
+				'content'    => 'testing notification all for user cache',
+			)
+		);
+
+		foreach ( $message_ids as $message_id ) {
+			$notification_ids[] = self::factory()->notification->create(
+				array(
+					'component_name'    => 'messages',
+					'component_action'  => 'new_message',
+					'user_id'           => $r,
+					'item_id'           => $message_id,
+					'is_new'            => 0,
+				)
+			);
+		}
+
+		add_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification', 10 );
+
+		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $r );
+		$this->assertEmpty( $all_for_user_notifications );
+
+		// Mark unread.
+		$amount = bp_notifications_mark_notifications_by_item_ids( $r, $message_ids, 'messages', 'new_message', 1 );
+		$this->assertTrue( $amount === count( $message_ids ) );
+
+		$all_for_user_notifications = bp_notifications_get_all_notifications_for_user( $r );
+		$this->assertEquals( $message_ids, wp_list_pluck( $all_for_user_notifications, 'item_id' ) );
 	}
 
 	/**
