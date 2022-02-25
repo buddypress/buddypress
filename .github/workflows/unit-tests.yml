@@ -57,6 +57,7 @@ jobs:
         uses: ramsey/composer-install@v1
         with:
           composer-options: "--ignore-platform-reqs"
+          dependency-versions: "lowest"
 
       - name: Adjust wp-phpunit version
         run: if [ ${{ env.WP_VERSION }} == '5.4' ]; then composer require --dev "wp-phpunit/wp-phpunit:5.4"; fi
