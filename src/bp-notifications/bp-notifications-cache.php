@@ -104,11 +104,17 @@ function bp_notifications_clear_all_for_user_cache_before_update( $update_args, 
 
 		// Get the list of user IDs from notification IDs.
 	} elseif ( isset( $where_args['ids'] ) && $where_args['ids'] ) {
-		$ids = (array) $where_args['ids'];
+		$ids    = (array) $where_args['ids'];
+		$is_new = 1;
+
+		if ( isset( $update_args['data']['is_new'] ) && 1 === $update_args['data']['is_new'] ) {
+			$is_new = 0;
+		}
 
 		$ns = BP_Notifications_Notification::get(
 			array(
-				'id' => $ids,
+				'id'      => $ids,
+				'is_new'  => $is_new,
 			)
 		);
 
