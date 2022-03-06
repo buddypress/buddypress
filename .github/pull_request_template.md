@@ -16,7 +16,7 @@ If this is your first time contributing, you may also find reviewing these guide
 
 <!-- Insert a description of your changes here -->
 
-Trac ticket: <!-- insert a link to the WordPress Trac ticket here -->
+Trac ticket: <!-- insert a link to the BuddyPress Trac ticket here -->
 
 ---
 **This Pull Request is for code review only. Please keep all other discussion in the BuddyPress Trac ticket. Do not merge this Pull Request. See [GitHub Pull Requests for Code Review](https://make.wordpress.org/core/handbook/contribute/git/github-pull-requests-for-code-review/) in the WordPress Core Handbook for more details.**
