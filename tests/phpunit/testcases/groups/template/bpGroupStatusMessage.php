@@ -8,8 +8,8 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 	private $current_user;
 	private $groups_template = null;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->current_user = bp_loggedin_user_id();
 		$this->set_current_user( 0 );
 
@@ -18,13 +18,13 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		}
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		$this->set_current_user( $this->current_user );
 		if ( $this->groups_template ) {
 			$GLOBALS['groups_template'] = $this->groups_template;
 		}
 
-		parent::tearDown();
+		parent::tear_down();
 	}
 
 	/**

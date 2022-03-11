@@ -10,16 +10,16 @@ class BP_Core_Nav_BackCompat extends BP_UnitTestCase {
 	protected $bp_nav;
 	protected $bp_options_nav;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->bp_nav = buddypress()->bp_nav;
 		$this->bp_options_nav = buddypress()->bp_options_nav;
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		buddypress()->bp_nav = $this->bp_nav;
 		buddypress()->bp_options_nav = $this->bp_options_nav;
-		parent::tearDown();
+		parent::tear_down();
 	}
 
 	protected function create_nav_items() {

@@ -6,7 +6,7 @@
  */
 class BP_Tests_Template_Loader_Functions extends BP_UnitTestCase {
 
-	public function setUp() {
+	public function set_up() {
 		if ( version_compare( bp_get_major_wp_version(), '5.5', '<' ) ) {
 			$this->markTestSkipped(
 				'Passing variables in template parts was introduced in WordPress 5.5'
@@ -15,13 +15,13 @@ class BP_Tests_Template_Loader_Functions extends BP_UnitTestCase {
 
 		add_filter( 'bp_get_template_stack', array( $this, 'template_stack'), 10, 1 );
 
-		parent::setUp();
+		parent::set_up();
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		remove_filter( 'bp_get_template_stack', array( $this, 'template_stack'), 10, 1 );
 
-		parent::tearDown();
+		parent::tear_down();
 	}
 
 	public function template_stack( $stack = array() ) {

@@ -244,7 +244,7 @@ function bp_nouveau_wrapper( $args = array() ) {
 	 * We need to to this because bp_current_component() is using the component slugs which can differ
 	 * from the component ID.
 	 */
-	$current_component_id = bp_core_get_active_components( array( 'slug' => bp_current_component() ) );
+	$current_component_id = bp_core_get_active_components( array( 'id' => bp_current_component() ) );
 	if ( $current_component_id && 1 === count( $current_component_id ) ) {
 		$current_component_id = reset( $current_component_id );
 	} else {

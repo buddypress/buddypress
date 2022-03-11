@@ -186,14 +186,14 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			)
 		) );
 
-		$this->assertInternalType( 'int', strpos( $b->contents, '<section ' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'class="section-class ' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'id="section-id"' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'data-parent="foo"' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, '<button ' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'autofocus="autofocus"' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'type="submit"' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'name="my-button"' ) );
+		$this->assertIsInt( strpos( $b->contents, '<section ' ) );
+		$this->assertIsInt( strpos( $b->contents, 'class="section-class ' ) );
+		$this->assertIsInt( strpos( $b->contents, 'id="section-id"' ) );
+		$this->assertIsInt( strpos( $b->contents, 'data-parent="foo"' ) );
+		$this->assertIsInt( strpos( $b->contents, '<button ' ) );
+		$this->assertIsInt( strpos( $b->contents, 'autofocus="autofocus"' ) );
+		$this->assertIsInt( strpos( $b->contents, 'type="submit"' ) );
+		$this->assertIsInt( strpos( $b->contents, 'name="my-button"' ) );
 	}
 
 	/**
@@ -215,14 +215,14 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			'link_title' => 'link-title'
 		) );
 
-		$this->assertInternalType( 'int', strpos( $b->contents, '<section ' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'class="section-class ' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'id="section-id"' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'href="http://example.com"' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'class="link-class"' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'id="link-id"' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'rel="nofollow"' ) );
-		$this->assertInternalType( 'int', strpos( $b->contents, 'title="link-title"' ) );
+		$this->assertIsInt( strpos( $b->contents, '<section ' ) );
+		$this->assertIsInt( strpos( $b->contents, 'class="section-class ' ) );
+		$this->assertIsInt( strpos( $b->contents, 'id="section-id"' ) );
+		$this->assertIsInt( strpos( $b->contents, 'href="http://example.com"' ) );
+		$this->assertIsInt( strpos( $b->contents, 'class="link-class"' ) );
+		$this->assertIsInt( strpos( $b->contents, 'id="link-id"' ) );
+		$this->assertIsInt( strpos( $b->contents, 'rel="nofollow"' ) );
+		$this->assertIsInt( strpos( $b->contents, 'title="link-title"' ) );
 	}
 
 	/**
@@ -241,7 +241,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			'link_class' => 'old-class'
 		) );
 
-		$this->assertInternalType( 'int', strpos( $b->contents, '<button class="new-class"' ) );
+		$this->assertIsInt( strpos( $b->contents, '<button class="new-class"' ) );
 	}
 
 	/**

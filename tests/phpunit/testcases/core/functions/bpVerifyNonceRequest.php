@@ -10,8 +10,8 @@ class BP_Tests_Core_Functions_BPVerifyNonceRequest extends BP_UnitTestCase {
 	private $server_port = '';
 	private $request_uri = '';
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		if ( isset( $_SERVER['HTTP_HOST'] ) ) {
 			$this->http_host = $_SERVER['HTTP_HOST'];
@@ -26,7 +26,7 @@ class BP_Tests_Core_Functions_BPVerifyNonceRequest extends BP_UnitTestCase {
 		}
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		if ( '' !== $this->http_host ) {
 			$_SERVER['HTTP_HOST'] = $this->http_host;
 		}
@@ -39,7 +39,7 @@ class BP_Tests_Core_Functions_BPVerifyNonceRequest extends BP_UnitTestCase {
 			$_SERVER['REQUEST_URI'] = $this->request_uri;
 		}
 
-		parent::tearDown();
+		parent::tear_down();
 	}
 
 	public function test_bp_verify_nonce_request_with_port_in_home_url_and_wordpress_installed_in_subdirectory() {

@@ -3400,7 +3400,7 @@ function bp_get_taxonomy_types( $taxonomy = '', $types = array() ) {
 		return $types;
 	}
 
-	$db_types = wp_cache_get( $taxonomy, 'bp_object_terms' );
+	$db_types = (array) wp_cache_get( $taxonomy, 'bp_object_terms' );
 
 	if ( ! $db_types ) {
 		$terms = bp_get_terms(

@@ -10,8 +10,8 @@ class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 	protected $field_id;
 	protected $field;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		bp_register_member_type( 'foo' );
 		bp_register_member_type( 'bar' );
 
@@ -20,9 +20,9 @@ class BP_Tests_XProfile_BpXprofileField_MemberTypes extends BP_UnitTestCase {
 		$this->field = new BP_XProfile_Field( $this->field_id );
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		buddypress()->members->types = array();
-		parent::tearDown();
+		parent::tear_down();
 	}
 
 	public function test_get_single_member_type() {

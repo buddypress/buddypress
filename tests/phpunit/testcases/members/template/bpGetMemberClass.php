@@ -26,7 +26,7 @@ class BP_Tests_Members_Template_BpGetMemberClass extends BP_UnitTestCase {
 		unset( $members_template );
 		buddypress()->members->types = array();
 
-		$this->assertContains( 'member-type-bar', $found );
-		$this->assertNotContains( 'member-type-foo', $found );
+		$this->assertStringContainsString( 'member-type-bar', $found );
+		$this->assertStringNotContainsString( 'member-type-foo', $found );
 	}
 }

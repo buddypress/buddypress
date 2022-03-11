@@ -8,8 +8,8 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 	protected $reset_actions;
 	protected $reset_actions_sorted;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$bp = buddypress();
 
 		$this->reset_actions = clone $bp->activity->actions;
@@ -19,8 +19,8 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 		unset( $bp->activity->actions_sorted );
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		$bp = buddypress();
 
 		$bp->activity->actions = $this->reset_actions;

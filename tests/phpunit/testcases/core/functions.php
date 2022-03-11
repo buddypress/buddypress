@@ -809,12 +809,12 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$content    = '<a href="http://example.com">example</a>';
 		$link_color = 'style="color: ' . esc_attr( $appearance['highlight_color'] ) . ';';
 		$result     = bp_email_add_link_color_to_template( $content, 'template', 'add-content' );
-		$this->assertContains( $link_color, $result );
+		$this->assertStringContainsString( $link_color, $result );
 
 		$content     = '<a href="http://example.com" style="display: block">example</a>';
 		$link_color .= 'display: block';
 		$result      = bp_email_add_link_color_to_template( $content, 'template', 'add-content' );
-		$this->assertContains( $link_color, $result );
+		$this->assertStringContainsString( $link_color, $result );
 	}
 
 	/**

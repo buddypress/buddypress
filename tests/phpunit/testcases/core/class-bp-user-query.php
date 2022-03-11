@@ -74,7 +74,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			'include' => array( 0 ),
 		) );
 
-		$this->assertContains( '0 = 1', $q->uid_clauses['where'] );
+		$this->assertStringContainsString( '0 = 1', $q->uid_clauses['where'] );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 			'include' => array( 0, 1 ),
 		) );
 
-		$this->assertNotContains( '0 = 1', $q->uid_clauses['where'] );
+		$this->assertStringNotContainsString( '0 = 1', $q->uid_clauses['where'] );
 	}
 
 	/**

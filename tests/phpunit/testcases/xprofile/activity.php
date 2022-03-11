@@ -15,7 +15,7 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 		) );
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tear_down_after_class() {
 		$d = self::$updated_profile_data;
 
 		xprofile_delete_field_group( $d['g'] );

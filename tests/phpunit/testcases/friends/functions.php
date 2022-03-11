@@ -9,8 +9,8 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 	protected $filter_fired;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->filter_fired = '';
 	}
 

@@ -327,7 +327,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			'html' => false,
 		) );
 
-		$this->assertContains( 'mystery-man-50.jpg', $found );
+		$this->assertStringContainsString( 'mystery-man-50.jpg', $found );
 	}
 
 	/**
@@ -343,7 +343,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 			'html' => false,
 		) );
 
-		$this->assertContains( 'mystery-man-50.jpg', $found );
+		$this->assertStringContainsString( 'mystery-man-50.jpg', $found );
 	}
 
 	/**
@@ -360,7 +360,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		) );
 		remove_filter( 'bp_core_avatar_thumb_width', array( $this, 'filter_thumb_width' ) );
 
-		$this->assertContains( 'mystery-man.jpg', $found );
+		$this->assertStringContainsString( 'mystery-man.jpg', $found );
 	}
 
 	public function filter_thumb_width() {

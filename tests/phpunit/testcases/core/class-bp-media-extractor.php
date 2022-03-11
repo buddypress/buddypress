@@ -58,68 +58,68 @@ class BP_Tests_Media_Extractor extends BP_UnitTestCase {
 
 		foreach ( array( 'has', 'embeds', 'images', 'links', 'mentions', 'shortcodes', 'audio' ) as $key ) {
 			$this->assertArrayHasKey( $key, $media );
-			$this->assertInternalType( 'array', $media[ $key ] );
+			$this->assertIsArray( $media[ $key ] );
 		}
 
 		foreach ( $media['has'] as $item ) {
-			$this->assertInternalType( 'int', $item );
+			$this->assertIsInt( $item );
 		}
 
 		foreach ( $media['links'] as $item ) {
 			$this->assertArrayHasKey( 'url', $item );
-			$this->assertInternalType( 'string', $item['url'] );
+			$this->assertIsString( $item['url'] );
 			$this->assertNotEmpty( $item['url'] );
 		}
 
 		foreach ( $media['mentions'] as $item ) {
 			$this->assertArrayHasKey( 'name', $item );
-			$this->assertInternalType( 'string', $item['name'] );
+			$this->assertIsString( $item['name'] );
 			$this->assertNotEmpty( $item['name'] );
 		}
 
 		foreach ( $media['images'] as $item ) {
 			$this->assertArrayHasKey( 'height', $item );
-			$this->assertInternalType( 'int', $item['height'] );
+			$this->assertIsInt( $item['height'] );
 
 			$this->assertArrayHasKey( 'width', $item );
-			$this->assertInternalType( 'int', $item['width'] );
+			$this->assertIsInt( $item['width'] );
 
 			$this->assertArrayHasKey( 'source', $item );
-			$this->assertInternalType( 'string', $item['source'] );
+			$this->assertIsString( $item['source'] );
 			$this->assertNotEmpty( $item['source'] );
 
 			$this->assertArrayHasKey( 'url', $item );
-			$this->assertInternalType( 'string', $item['url'] );
+			$this->assertIsString( $item['url'] );
 			$this->assertNotEmpty( $item['url'] );
 		}
 
 		foreach ( $media['shortcodes'] as $shortcode_type => $item ) {
 			$this->assertArrayHasKey( 'attributes', $item );
-			$this->assertInternalType( 'array', $item['attributes'] );
+			$this->assertIsArray( $item['attributes'] );
 
 			$this->assertArrayHasKey( 'content', $item );
-			$this->assertInternalType( 'string', $item['content'] );
+			$this->assertIsString( $item['content'] );
 
 			$this->assertArrayHasKey( 'type', $item );
-			$this->assertInternalType( 'string', $item['type'] );
+			$this->assertIsString( $item['type'] );
 
 			$this->assertArrayHasKey( 'original', $item );
-			$this->assertInternalType( 'string', $item['original'] );
+			$this->assertIsString( $item['original'] );
 		}
 
 		foreach ( $media['embeds'] as $item ) {
 			$this->assertArrayHasKey( 'url', $item );
-			$this->assertInternalType( 'string', $item['url'] );
+			$this->assertIsString( $item['url'] );
 			$this->assertNotEmpty( $item['url'] );
 		}
 
 		foreach ( $media['audio'] as $item ) {
 			$this->assertArrayHasKey( 'url', $item );
-			$this->assertInternalType( 'string', $item['url'] );
+			$this->assertIsString( $item['url'] );
 			$this->assertNotEmpty( $item['url'] );
 
 			$this->assertArrayHasKey( 'source', $item );
-			$this->assertInternalType( 'string', $item['source'] );
+			$this->assertIsString( $item['source'] );
 			$this->assertNotEmpty( $item['source'] );
 		}
 	}

@@ -8,8 +8,8 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	protected $old_current_user = 0;
 	protected $u;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		add_filter( 'bp_core_enable_root_profiles', '__return_true' );
 
@@ -22,8 +22,8 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 		$this->set_current_user( $uid );
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		$this->set_current_user( $this->old_current_user );
 		remove_filter( 'bp_core_enable_root_profiles', '__return_true' );
 	}

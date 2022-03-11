@@ -1055,7 +1055,7 @@ Bar!';
 		$output = xprofile_filter_link_profile_data( 'Hello world this is a test; with, some, words', 'textbox' );
 		$regex = '#^Hello world this is a test; with, <a href="([^"]+)" rel="nofollow">some</a>, <a href="([^"]+)" rel="nofollow">words</a>$#i';
 
-		$this->assertRegExp( $regex, $output );
+		$this->assertMatchesRegularExpression( $regex, $output );
 		unset( $GLOBALS['field'] );
 	}
 
@@ -1071,7 +1071,7 @@ Bar!';
 		$output = xprofile_filter_link_profile_data( 'Hello world this is a test with; some; words', 'textbox' );
 		$regex = '#^Hello world this is a test with; <a href="([^"]+)" rel="nofollow">some</a>; <a href="([^"]+)" rel="nofollow">words</a>$#i';
 
-		$this->assertRegExp( $regex, $output );
+		$this->assertMatchesRegularExpression( $regex, $output );
 		unset( $GLOBALS['field'] );
 	}
 
