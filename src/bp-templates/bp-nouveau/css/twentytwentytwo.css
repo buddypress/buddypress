@@ -479,6 +479,14 @@ body.activity-permalink #buddypress.twentytwentytwo .activity-list .activity-ite
 * @section 3.1.3 - Activity Comments
 *-----------------------------------------------------
 */
+#buddypress.twentytwentytwo .bp-list li .activity-comments .show-all button {
+	text-decoration: none;
+}
+
+#buddypress.twentytwentytwo .bp-list li .activity-comments .show-all button .icon {
+	display: none;
+}
+
 #buddypress.twentytwentytwo .bp-list li .activity-comments .acomment-avatar {
 	width: auto;
 	margin-right: 0;
