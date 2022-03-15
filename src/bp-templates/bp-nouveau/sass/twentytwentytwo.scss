@@ -615,6 +615,17 @@ body {
 
 			.activity-comments {
 
+				.show-all {
+
+					button {
+						text-decoration: none;
+
+						.icon {
+							display: none;
+						}
+					}
+				}
+
 				.acomment-avatar {
 					width: auto;
 					margin-right: 0;
