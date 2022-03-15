@@ -1639,6 +1639,58 @@ function bp_attachments_cover_image_ajax_delete() {
 add_action( 'wp_ajax_bp_cover_image_delete', 'bp_attachments_cover_image_ajax_delete' );
 
 /**
+ * Returns a file's mime type.
+ *
+ * @since 10.2.0
+ *
+ * @param string $file Absolute path of a file or directory.
+ * @return false|string False if the mime type is not supported by WordPress.
+ *                      The mime type of a file or 'directory' for a directory.
+ */
+function bp_attachements_get_mime_type( $file = '' ) {
+	$file_type = wp_check_filetype( $file, wp_get_mime_types() );
+	$file_mime = $file_type['type'];
+
+	if ( false === $file_mime && is_dir( $file ) ) {
+		$file_mime = 'directory';
+	}
+
+	return $file_mime;
+}
+
+/**
+ * Returns a BP Attachments file object.
+ *
+ * @since 10.2.0
+ *
+ * @param SplFileInfo $file The SplFileInfo file object.
+ * @return null|object      Null if the file is not supported by WordPress.
+ *                          A BP Attachments file object otherwise.
+ */
+function bp_attachments_get_file_object( SplFileInfo $file ) {
+	$path      = $file->getPathname();
+	$mime_type = bp_attachements_get_mime_type( $path );
+
+	// Mime type not supported by WordPress.
+	if ( false === $mime_type ) {
+		return null;
+	}
+
+	$_file = new stdClass();
+
+	$_file->name               = $file->getfilename();
+	$_file->path               = $path;
+	$_file->size               = $file->getSize();
+	$_file->type               = $file->getType();
+	$_file->mime_type          = bp_attachements_get_mime_type( $_file->path );
+	$_file->last_modified      = $file->getMTime();
+	$_file->latest_access_date = $file->getATime();
+	$_file->id                 = pathinfo( $_file->name, PATHINFO_FILENAME );
+
+	return $_file;
+}
+
+/**
  * List the files of a directory.
  *
  * @since 10.0.0
@@ -1655,17 +1707,13 @@ function bp_attachments_list_directory_files( $directory_path = '' ) {
 	$iterator = new FilesystemIterator( $directory_path, FilesystemIterator::SKIP_DOTS );
 
 	foreach ( $iterator as $file ) {
-		$_file = new stdClass();
+		$supported_file = bp_attachments_get_file_object( $file );
 
-		$_file->name               = $file->getfilename();
-		$_file->path               = $file->getPathname();
-		$_file->size               = $file->getSize();
-		$_file->type               = $file->getType();
-		$_file->mime_type          = mime_content_type( $_file->path );
-		$_file->last_modified      = $file->getMTime();
-		$_file->latest_access_date = $file->getATime();
-		$_file->id                 = pathinfo( $_file->name, PATHINFO_FILENAME );
-		$files[ $_file->id ]       = $_file;
+		if ( is_null( $supported_file) ) {
+			continue;
+		}
+
+		$files[ $supported_file->id ] = $supported_file;
 	}
 
 	return $files;
@@ -1692,30 +1740,26 @@ function bp_attachments_list_directory_files_recursively( $directory_path = '', 
 	$basedir   = str_replace( '\\', '/', $bp_upload['basedir'] );
 
 	foreach ( $iterator as $file ) {
-		$_file = new stdClass();
+		$supported_file = bp_attachments_get_file_object( $file );
 
-		$_file->name               = $file->getfilename();
-		$_file->path               = $file->getPathname();
-		$_file->size               = $file->getSize();
-		$_file->type               = $file->getType();
-		$_file->mime_type          = mime_content_type( $_file->path );
-		$_file->last_modified      = $file->getMTime();
-		$_file->latest_access_date = $file->getATime();
-		$_file->parent_dir_path    = str_replace( '\\', '/', dirname( $_file->path ) );
-		$_file->parent_dir_url     = str_replace( $basedir, $bp_upload['baseurl'], $_file->parent_dir_path );
-		$_file->id                 = pathinfo( $_file->name, PATHINFO_FILENAME );
+		if ( is_null( $supported_file) ) {
+			continue;
+		}
+
+		$supported_file->parent_dir_path = str_replace( '\\', '/', dirname( $supported_file->path ) );
+		$supported_file->parent_dir_url  = str_replace( $basedir, $bp_upload['baseurl'], $supported_file->parent_dir_path );
 
 		// Ensure URL is https if SSL is set/forced.
 		if ( is_ssl() ) {
-			$_file->parent_dir_url = str_replace( 'http://', 'https://', $_file->parent_dir_url );
+			$supported_file->parent_dir_url = str_replace( 'http://', 'https://', $supported_file->parent_dir_url );
 		}
 
-		$file_id = $_file->id;
-		if ( $_file->parent_dir_path !== $directory_path ) {
-			$file_id = trailingslashit( str_replace( trailingslashit( $directory_path ), '', $_file->parent_dir_path ) ) . $file_id;
+		$file_id = $supported_file->id;
+		if ( $supported_file->parent_dir_path !== $directory_path ) {
+			$file_id = trailingslashit( str_replace( trailingslashit( $directory_path ), '', $supported_file->parent_dir_path ) ) . $file_id;
 		}
 
-		$files[ $file_id ] = $_file;
+		$files[ $file_id ] = $supported_file;
 	}
 
 	if ( $find ) {
