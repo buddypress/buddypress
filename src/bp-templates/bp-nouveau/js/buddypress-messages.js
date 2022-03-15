@@ -1,7 +1,7 @@
 /* global wp, BP_Nouveau, _, Backbone, tinymce, tinyMCE */
 /* jshint devel: true */
 /* @since 3.0.0 */
-/* @version 8.0.0 */
+/* @version 10.2.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
@@ -97,6 +97,21 @@ window.bp = window.bp || {};
 			} );
 		},
 
+		updateNav: function( view ) {
+			var currentView = this.box;
+
+			if ( view ) {
+				currentView = view;
+			}
+
+			// Activate the appropriate nav.
+			$( '#subnav ul li' ).each( function( l, li ) {
+				$( li ).removeClass( 'current selected' );
+			} );
+
+			$( '#subnav a#' + currentView ).closest( 'li' ).addClass( 'current selected' );
+		},
+
 		removeTinyMCE: function() {
 			if ( typeof tinymce !== 'undefined' ) {
 				var editor = tinymce.get( 'message_content' );
@@ -169,6 +184,7 @@ window.bp = window.bp || {};
 		composeView: function() {
 			// Remove all existing views.
 			this.clearViews();
+			this.updateNav( 'compose' );
 
 			// Create the loop view.
 			var form = new bp.Views.messageForm( {
@@ -181,11 +197,7 @@ window.bp = window.bp || {};
 		},
 
 		threadsView: function() {
-			// Activate the appropriate nav.
-			$( '#subnav ul li' ).each( function( l, li ) {
-				$( li ).removeClass( 'current selected' );
-			} );
-			$( '#subnav a#' + this.box ).closest( 'li' ).addClass( 'current selected' );
+			this.updateNav();
 
 			// Create the loop view.
 			var threads_list = new bp.Views.userThreads( { collection: this.threads, box: this.box } );
