@@ -14,7 +14,7 @@
  */
 do_action( 'bp_before_group_invites_content' ); ?>
 
-<?php if ( bp_has_groups( 'type=invites&user_id=' . bp_loggedin_user_id() ) ) : ?>
+<?php if ( bp_has_groups( 'type=invites&user_id=' . bp_displayed_user_id() ) ) : ?>
 
 	<h2 class="bp-screen-reader-text"><?php
 		/* translators: accessibility text */
