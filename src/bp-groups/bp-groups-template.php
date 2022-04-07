@@ -1037,7 +1037,13 @@ function bp_group_avatar_url( $group = false, $type = 'full' ) {
 	 * @return string
 	 */
 	function bp_get_group_avatar_url( $group = false, $type = 'full' ) {
-		return bp_get_group_avatar( array( 'type' => $type ), $group );
+		return bp_get_group_avatar(
+			array(
+				'type' => $type,
+				'html' => false,
+			),
+			$group
+		);
 	}
 
 /** Group cover image *********************************************************/
