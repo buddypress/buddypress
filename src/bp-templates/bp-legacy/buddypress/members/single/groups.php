@@ -11,11 +11,7 @@
 
 <div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Member secondary navigation', 'buddypress' ); ?>" role="navigation">
 	<ul>
-		<?php
-		if ( bp_core_can_edit_settings() ) {
-			bp_get_options_nav();
-		}
-		?>
+		<?php bp_get_options_nav(); ?>
 
 		<?php if ( ! bp_is_current_action( 'invites' ) ) : ?>
 
