@@ -97,11 +97,11 @@ function bp_nouveau_ajax_joinleave_group() {
 	switch ( $_POST['action'] ) {
 
 		case 'groups_accept_invite':
-			if ( ! groups_check_user_has_invite( bp_loggedin_user_id(), $group_id ) ) {
+			if ( ! groups_check_user_has_invite( bp_displayed_user_id(), $group_id ) ) {
 				wp_send_json_error( $response );
 			}
 
-			if ( ! groups_accept_invite( bp_loggedin_user_id(), $group_id ) ) {
+			if ( ! groups_accept_invite( bp_displayed_user_id(), $group_id ) ) {
 				$response = array(
 					'feedback' => sprintf(
 						'<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>%s</p></div>',
@@ -137,7 +137,7 @@ function bp_nouveau_ajax_joinleave_group() {
 			break;
 
 		case 'groups_reject_invite':
-			if ( ! groups_reject_invite( bp_loggedin_user_id(), $group_id ) ) {
+			if ( ! groups_reject_invite( bp_displayed_user_id(), $group_id ) ) {
 				$response = array(
 					'feedback' => sprintf(
 						'<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>%s</p></div>',
