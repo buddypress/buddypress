@@ -222,10 +222,10 @@ function bp_messages_screen_conversation_mark_notifications() {
 	global $thread_template;
 
 	/*
-	 * Only run on the logged-in user's profile.
-	 * If an admin visits a thread, it shouldn't change the read status.
+	 * Bail if the logged-in user's profile or viewing single message thread.
+	 * `messages_action_conversation()` action hook marks the thread as read before this action.
 	 */
-	if ( ! bp_is_my_profile() ) {
+	if ( ! bp_is_my_profile() || ( bp_is_current_action( 'view' ) && bp_action_variable( 0 ) ) ) {
 		return;
 	}
 
