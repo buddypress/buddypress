@@ -3355,7 +3355,7 @@ function bp_group_accept_invite_link() {
 		}
 
 		$user_domain = bp_loggedin_user_domain();
-		if ( bp_displayed_user_domain() ) {
+		if ( bp_is_user() ) {
 			$user_domain = bp_displayed_user_domain();
 		}
 
@@ -3396,7 +3396,7 @@ function bp_group_reject_invite_link() {
 		}
 
 		$user_domain = bp_loggedin_user_domain();
-		if ( bp_displayed_user_domain() ) {
+		if ( bp_is_user() ) {
 			$user_domain = bp_displayed_user_domain();
 		}
 
