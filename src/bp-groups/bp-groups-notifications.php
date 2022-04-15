@@ -1247,17 +1247,18 @@ function groups_email_notification_membership_request_completed_by_admin( $user_
 
 	$args = array(
 			'tokens' => array(
-					'group'              => $group,
-					'group.id'           => $group_id,
-					'group.name'         => $group->name,
-					'group.url'          => esc_url( bp_get_group_permalink( $group ) ),
-					'requesting-user.id' => $user_id,
+					'group'           => $group,
+					'group.id'        => $group_id,
+					'group.name'      => $group->name,
+					'group.url'       => esc_url( bp_get_group_permalink( $group ) ),
+					'leave-group.url' => esc_url( bp_core_get_user_domain( $user_id ) . bp_get_groups_slug() ),
 			),
 	);
 
-	$email_type = 'groups-membership-request-accepted';
+	$email_type = 'groups-membership-request-accepted-by-admin';
 	if ( true === doing_action( 'groups_reject_invite' ) ) {
-		$email_type = 'groups-membership-request-rejected';
+		unset( $args['tokens']['leave-group.url'] );
+		$email_type = 'groups-membership-request-rejected-by-admin';
 	}
 
 	bp_send_email( $email_type, (int) $user_id, $args );
