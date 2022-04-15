@@ -1232,7 +1232,7 @@ add_action( 'bp_notification_settings', 'groups_screen_notification_settings' );
  * @param int $group_id ID of the group.
  */
 function groups_email_notification_membership_request_completed_by_admin( $user_id, $group_id ) {
-	if ( $user_id === bp_loggedin_user_id() ) {
+	if ( (int) $user_id === bp_loggedin_user_id() ) {
 		return;
 	}
 
