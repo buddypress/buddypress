@@ -1241,7 +1241,11 @@ function groups_email_notification_membership_request_completed_by_admin( $user_
 	}
 
 	$group = groups_get_group( $group_id );
-	$args  = array(
+	if ( true === empty( $group->id ) ) {
+		return;
+	}
+
+	$args = array(
 			'tokens' => array(
 					'group'              => $group,
 					'group.id'           => $group_id,
@@ -1260,4 +1264,3 @@ function groups_email_notification_membership_request_completed_by_admin( $user_
 }
 add_action( 'groups_accept_invite', 'groups_email_notification_membership_request_completed_by_admin', 10, 2 );
 add_action( 'groups_reject_invite', 'groups_email_notification_membership_request_completed_by_admin', 10, 2 );
-
