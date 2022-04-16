@@ -48,6 +48,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Two companion stylesheet.
 	6.2 - Registration
 
 7.0 - Tables -  General
+	7.0.1 - Group - Manage Members
 
 8.0 - Classes - Messages, Ajax, Widgets, Buttons, Tooltips
 
@@ -1441,6 +1442,58 @@ body.bp-user.settings.general #buddypress.twentytwentytwo .wp-pwd:not(.is-open) 
 #buddypress.twentytwentytwo table.forum tbody tr,
 #buddypress.twentytwentytwo table.forum tbody tr.alt {
 	background: transparent;
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @subsection 7.0.1 - Group - Manage Members
+*-------------------------------------------------------------------------------
+*/
+#buddypress.twentytwentytwo table#group-members-list-table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#buddypress.twentytwentytwo table#group-members-list-table a:hover,
+#buddypress.twentytwentytwo table#group-members-list-table a:focus {
+	text-decoration: underline;
+	-webkit-text-decoration-style: dashed;
+	text-decoration-style: dashed;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.25ch;
+}
+
+#buddypress.twentytwentytwo table#group-members-list-table .row-actions a {
+	font-size: 90%;
+}
+
+#buddypress.twentytwentytwo table#group-members-list-table th,
+#buddypress.twentytwentytwo table#group-members-list-table td {
+	padding: 0.5em;
+	border: 1px solid var(--wp--preset--color--primary);
+	word-break: break-all;
+}
+
+#buddypress.twentytwentytwo table#group-members-list-table th.uname-column,
+#buddypress.twentytwentytwo table#group-members-list-table td.uname-column {
+	width: 60%;
+}
+
+#buddypress.twentytwentytwo table#group-members-list-table td img.avatar {
+	display: block;
+	height: calc(2.25 * 1rem);
+	min-height: inherit;
+	width: calc(2.25 * 1rem);
+}
+
+#buddypress.twentytwentytwo table#group-members-list-table td img.alignleft {
+	float: right;
+}
+
+@media screen and (min-width: 46.8em) {
+	#buddypress.twentytwentytwo table#group-members-list-table td img.alignleft {
+		margin-left: calc(2 * 1rem);
+	}
 }
 
 /**
