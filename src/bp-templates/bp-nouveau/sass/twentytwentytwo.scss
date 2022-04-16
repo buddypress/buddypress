@@ -60,6 +60,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Two companion stylesheet.
 	6.2 - Registration
 
 7.0 - Tables -  General
+	7.0.1 - Group - Manage Members
 
 8.0 - Classes - Messages, Ajax, Widgets, Buttons, Tooltips
 
@@ -1907,6 +1908,65 @@ body.bp-user.settings.general {
 			tr,
 			tr.alt {
 				background: transparent;
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @subsection 7.0.1 - Group - Manage Members
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentytwo {
+
+	table#group-members-list-table {
+		border-collapse: collapse;
+		width: 100%;
+
+		a:hover,
+		a:focus {
+			text-decoration: underline;
+			text-decoration-style: dashed;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 0.25ch;
+		}
+
+		.row-actions a {
+			font-size: 90%;
+		}
+
+		th,
+		td {
+			padding: 0.5em;
+			border: 1px solid var(--wp--preset--color--primary);
+			word-break: break-all;
+
+			&.uname-column {
+				width: 60%;
+			}
+		}
+
+		td {
+
+			img {
+
+				&.avatar {
+					display: block;
+					height: calc(2.25 * 1rem);
+					min-height: inherit;
+					width: calc(2.25 * 1rem);
+				}
+
+				&.alignleft {
+					float: left;
+
+					@media screen and (min-width: 46.8em) {
+
+						margin-right: calc(2 * 1rem);
+					}
+				}
 			}
 		}
 	}
