@@ -3973,7 +3973,7 @@ function bp_email_get_schema() {
 		),
 		'groups-membership-request-accepted-by-admin' => array(
 			/* translators: do not remove {} brackets or translate its contents. */
-				'post_title'   => __( '[{{{site.name}}}] Membership request for group "{{group.name}}" accepted', 'buddypress' ),
+			'post_title'   => __( '[{{{site.name}}}] Membership request for group "{{group.name}}" accepted', 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
 				'post_content' => __( "An administrator accepted an invitation to join &quot;<a href=\"{{{group.url}}}\">{{group.name}}</a>&quot; on your behalf.\n\nIf you disagree with this, you can leave the group at anytime using following page: {{{leave-group.url}}}", 'buddypress' ),
 			/* translators: do not remove {} brackets or translate its contents. */
