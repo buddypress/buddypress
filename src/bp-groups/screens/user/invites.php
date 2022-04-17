@@ -51,7 +51,7 @@ function groups_screen_group_invites() {
 		if ( !check_admin_referer( 'groups_reject_invite' ) )
 			return false;
 
-		if ( !groups_reject_invite( bp_displayed_user_id(), $group_id ) ) {
+		if ( ! groups_reject_invite( bp_displayed_user_id(), $group_id ) ) {
 			bp_core_add_message( __( 'Group invite could not be rejected', 'buddypress' ), 'error' );
 		} else {
 			bp_core_add_message( __( 'Group invite rejected', 'buddypress' ) );
