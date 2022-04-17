@@ -4169,9 +4169,9 @@ function bp_email_get_type_schema( $field = 'description' ) {
 	);
 
 	$groups_membership_request_accepted_by_admin = array(
-			'description'	   => __( 'Recipient had requested to join a group, which was accepted by admin.', 'buddypress' ),
-			'named_salutation' => true,
-			'unsubscribe'	   => false,
+		'description'	   => __( 'Recipient had requested to join a group, which was accepted by admin.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => false,
 	);
 
 	$groups_membership_request_rejected_by_admin = array(
