@@ -21,7 +21,7 @@ function groups_screen_group_invites() {
 			return false;
 		}
 
-		if ( !groups_accept_invite( bp_displayed_user_id(), $group_id ) ) {
+		if ( ! groups_accept_invite( bp_displayed_user_id(), $group_id ) ) {
 			bp_core_add_message( __('Group invite could not be accepted', 'buddypress'), 'error' );
 		} else {
 			// Record this in activity streams.
