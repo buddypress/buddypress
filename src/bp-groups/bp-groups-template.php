@@ -3360,7 +3360,10 @@ function bp_group_accept_invite_link() {
 			$group =& $groups_template->group;
 		}
 
-		$bp = buddypress();
+		$user_domain = bp_loggedin_user_domain();
+		if ( bp_is_user() ) {
+			$user_domain = bp_displayed_user_domain();
+		}
 
 		/**
 		 * Filters the URL for accepting an invitation to a group.
@@ -3371,7 +3374,7 @@ function bp_group_accept_invite_link() {
 		 * @param string $value URL for accepting an invitation to a group.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/accept/' . $group->id ), 'groups_accept_invite' ), $group );
+		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( trailingslashit( $user_domain . bp_get_groups_slug() . '/invites/accept/' . $group->id ), 'groups_accept_invite' ), $group );
 	}
 
 /**
@@ -3398,7 +3401,10 @@ function bp_group_reject_invite_link() {
 			$group =& $groups_template->group;
 		}
 
-		$bp = buddypress();
+		$user_domain = bp_loggedin_user_domain();
+		if ( bp_is_user() ) {
+			$user_domain = bp_displayed_user_domain();
+		}
 
 		/**
 		 * Filters the URL for rejecting an invitation to a group.
@@ -3409,7 +3415,7 @@ function bp_group_reject_invite_link() {
 		 * @param string $value URL for rejecting an invitation to a group.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/reject/' . $group->id ), 'groups_reject_invite' ), $group );
+		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( trailingslashit( $user_domain . bp_get_groups_slug() . '/invites/reject/' . $group->id ), 'groups_reject_invite' ), $group );
 	}
 
 /**

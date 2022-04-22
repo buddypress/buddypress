@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 11.0.0
  */
 
 /**
@@ -14,11 +14,11 @@
  */
 do_action( 'bp_before_group_invites_content' ); ?>
 
-<?php if ( bp_has_groups( 'type=invites&user_id=' . bp_loggedin_user_id() ) ) : ?>
+<?php if ( bp_has_groups( 'type=invites&user_id=' . bp_displayed_user_id() ) ) : ?>
 
 	<h2 class="bp-screen-reader-text"><?php
 		/* translators: accessibility text */
-		_e( 'Group invitations', 'buddypress' );
+		esc_html_e( 'Group invitations', 'buddypress' );
 	?></h2>
 
 	<ul id="group-list" class="invites item-list">
@@ -78,7 +78,7 @@ do_action( 'bp_before_group_invites_content' ); ?>
 <?php else: ?>
 
 	<div id="message" class="info">
-		<p><?php _e( 'You have no outstanding group invites.', 'buddypress' ); ?></p>
+		<p><?php esc_html_e( 'You have no outstanding group invites.', 'buddypress' ); ?></p>
 	</div>
 
 <?php endif;?>

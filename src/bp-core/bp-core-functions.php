@@ -3971,6 +3971,22 @@ function bp_email_get_schema() {
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_excerpt' => __( "Your membership request for the group \"{{group.name}}\" has been rejected.\n\nTo request membership again, visit: {{{group.url}}}", 'buddypress' ),
 		),
+		'groups-membership-request-accepted-by-admin' => array(
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_title'   => __( '[{{{site.name}}}] Membership request for group "{{group.name}}" accepted', 'buddypress' ),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_content' => __( "An administrator accepted an invitation to join &quot;<a href=\"{{{group.url}}}\">{{group.name}}</a>&quot; on your behalf.\n\nIf you disagree with this, you can leave the group at anytime visiting your <a href=\"{{{leave-group.url}}}\">groups memberships page</a>.", 'buddypress' ),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_excerpt' => __( "An administrator accepted an invitation to join \"{{group.name}}\" on your behalf.\n\nIf you disagree with this, you can leave the group at anytime visiting your groups memberships page: {{{leave-group.url}}}", 'buddypress' ),
+		),
+		'groups-membership-request-rejected-by-admin' => array(
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_title'   => __( '[{{{site.name}}}] Membership request for group "{{group.name}}" rejected', 'buddypress' ),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_content' => __( "An administrator rejected an invitation to join &quot;<a href=\"{{{group.url}}}\">{{group.name}}</a>&quot; on your behalf.\n\nIf you disagree with this, please contact the site administrator.", 'buddypress' ),
+			/* translators: do not remove {} brackets or translate its contents. */
+			'post_excerpt' => __( "An administrator rejected an invitation to join \"{{group.name}}\" on your behalf.\n\nIf you disagree with this, please contact the site administrator.", 'buddypress' ),
+		),
 		'bp-members-invitation' => array(
 			/* translators: do not remove {} brackets or translate its contents. */
 			'post_title'   => __( '{{inviter.name}} has invited you to join {{site.name}}', 'buddypress' ),
@@ -4152,6 +4168,18 @@ function bp_email_get_type_schema( $field = 'description' ) {
 		),
 	);
 
+	$groups_membership_request_accepted_by_admin = array(
+		'description'	   => __( 'Recipient had requested to join a group, which was accepted by admin.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => false,
+	);
+
+	$groups_membership_request_rejected_by_admin = array(
+		'description'	   => __( 'Recipient had requested to join a group, which was rejected by admin.', 'buddypress' ),
+		'named_salutation' => true,
+		'unsubscribe'	   => false,
+	);
+
 	$core_user_activation = array(
 		'description'	   => __( 'Recipient has successfully activated an account.', 'buddypress' ),
 		'named_salutation' => true,
@@ -4183,26 +4211,28 @@ function bp_email_get_type_schema( $field = 'description' ) {
 	);
 
 	$types = array(
-		'activity-comment'                    => $activity_comment,
-		'activity-comment-author'             => $activity_comment_author,
-		'activity-at-message'                 => $activity_at_message,
-		'groups-at-message'                   => $groups_at_message,
-		'core-user-registration'              => $core_user_registration,
-		'core-user-registration-with-blog'    => $core_user_registration_with_blog,
-		'friends-request'                     => $friends_request,
-		'friends-request-accepted'            => $friends_request_accepted,
-		'groups-details-updated'              => $groups_details_updated,
-		'groups-invitation'                   => $groups_invitation,
-		'groups-member-promoted'              => $groups_member_promoted,
-		'groups-membership-request'           => $groups_membership_request,
-		'messages-unread'                     => $messages_unread,
-		'settings-verify-email-change'        => $settings_verify_email_change,
-		'groups-membership-request-accepted'  => $groups_membership_request_accepted,
-		'groups-membership-request-rejected'  => $groups_membership_request_rejected,
-		'core-user-activation'                => $core_user_activation,
-		'bp-members-invitation'               => $members_invitation,
-		'members-membership-request'          => $members_membership_request,
-		'members-membership-request-rejected' => $members_membership_request_rejected,
+		'activity-comment'                            => $activity_comment,
+		'activity-comment-author'                     => $activity_comment_author,
+		'activity-at-message'                         => $activity_at_message,
+		'groups-at-message'                           => $groups_at_message,
+		'core-user-registration'                      => $core_user_registration,
+		'core-user-registration-with-blog'            => $core_user_registration_with_blog,
+		'friends-request'                             => $friends_request,
+		'friends-request-accepted'                    => $friends_request_accepted,
+		'groups-details-updated'                      => $groups_details_updated,
+		'groups-invitation'                           => $groups_invitation,
+		'groups-member-promoted'                      => $groups_member_promoted,
+		'groups-membership-request'                   => $groups_membership_request,
+		'messages-unread'                             => $messages_unread,
+		'settings-verify-email-change'                => $settings_verify_email_change,
+		'groups-membership-request-accepted'          => $groups_membership_request_accepted,
+		'groups-membership-request-rejected'          => $groups_membership_request_rejected,
+		'core-user-activation'                        => $core_user_activation,
+		'bp-members-invitation'                       => $members_invitation,
+		'members-membership-request'                  => $members_membership_request,
+		'members-membership-request-rejected'         => $members_membership_request_rejected,
+		'groups-membership-request-accepted-by-admin' => $groups_membership_request_accepted_by_admin,
+		'groups-membership-request-rejected-by-admin' => $groups_membership_request_rejected_by_admin,
 	);
 
 	if ( $field !== 'all' ) {

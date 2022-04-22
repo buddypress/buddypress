@@ -13,7 +13,7 @@
  * @since 1.0.0
  */
 function groups_screen_group_invites() {
-	$group_id = (int)bp_action_variable( 1 );
+	$group_id = (int) bp_action_variable( 1 );
 
 	if ( bp_is_action_variable( 'accept' ) && is_numeric( $group_id ) ) {
 		// Check the nonce.
@@ -21,7 +21,7 @@ function groups_screen_group_invites() {
 			return false;
 		}
 
-		if ( !groups_accept_invite( bp_loggedin_user_id(), $group_id ) ) {
+		if ( ! groups_accept_invite( bp_displayed_user_id(), $group_id ) ) {
 			bp_core_add_message( __('Group invite could not be accepted', 'buddypress'), 'error' );
 		} else {
 			// Record this in activity streams.
@@ -41,7 +41,7 @@ function groups_screen_group_invites() {
 		if ( isset( $_GET['redirect_to'] ) ) {
 			$redirect_to = urldecode( $_GET['redirect_to'] );
 		} else {
-			$redirect_to = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() );
+			$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() );
 		}
 
 		bp_core_redirect( $redirect_to );
@@ -51,7 +51,7 @@ function groups_screen_group_invites() {
 		if ( !check_admin_referer( 'groups_reject_invite' ) )
 			return false;
 
-		if ( !groups_reject_invite( bp_loggedin_user_id(), $group_id ) ) {
+		if ( ! groups_reject_invite( bp_displayed_user_id(), $group_id ) ) {
 			bp_core_add_message( __( 'Group invite could not be rejected', 'buddypress' ), 'error' );
 		} else {
 			bp_core_add_message( __( 'Group invite rejected', 'buddypress' ) );
@@ -60,7 +60,7 @@ function groups_screen_group_invites() {
 		if ( isset( $_GET['redirect_to'] ) ) {
 			$redirect_to = urldecode( $_GET['redirect_to'] );
 		} else {
-			$redirect_to = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() );
+			$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() );
 		}
 
 		bp_core_redirect( $redirect_to );

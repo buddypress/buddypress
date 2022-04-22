@@ -1222,3 +1222,46 @@ function groups_screen_notification_settings() {
 <?php
 }
 add_action( 'bp_notification_settings', 'groups_screen_notification_settings' );
+
+/**
+ * Notify member about their group membership request accepted/rejected by admin.
+ *
+ * @since 11.0.0
+ *
+ * @param int $user_id  ID of the user requesting group membership.
+ * @param int $group_id ID of the group.
+ */
+function groups_email_notification_membership_request_completed_by_admin( $user_id, $group_id ) {
+	if ( (int) $user_id === bp_loggedin_user_id() ) {
+		return;
+	}
+
+	if ( false === bp_current_user_can( 'bp_moderate' ) ) {
+		return;
+	}
+
+	$group = groups_get_group( $group_id );
+	if ( true === empty( $group->id ) ) {
+		return;
+	}
+
+	$args = array(
+		'tokens' => array(
+			'group'           => $group,
+			'group.id'        => $group_id,
+			'group.name'      => $group->name,
+			'group.url'       => esc_url( bp_get_group_permalink( $group ) ),
+			'leave-group.url' => esc_url( bp_core_get_user_domain( $user_id ) . bp_get_groups_slug() ),
+		),
+	);
+
+	$email_type = 'groups-membership-request-accepted-by-admin';
+	if ( true === doing_action( 'groups_reject_invite' ) ) {
+		unset( $args['tokens']['leave-group.url'] );
+		$email_type = 'groups-membership-request-rejected-by-admin';
+	}
+
+	bp_send_email( $email_type, (int) $user_id, $args );
+}
+add_action( 'groups_accept_invite', 'groups_email_notification_membership_request_completed_by_admin', 10, 2 );
+add_action( 'groups_reject_invite', 'groups_email_notification_membership_request_completed_by_admin', 10, 2 );

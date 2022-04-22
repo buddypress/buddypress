@@ -4,25 +4,24 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 11.0.0
  */
-
 ?>
 
 <div class="item-list-tabs no-ajax" id="subnav" aria-label="<?php esc_attr_e( 'Member secondary navigation', 'buddypress' ); ?>" role="navigation">
 	<ul>
-		<?php if ( bp_is_my_profile() ) bp_get_options_nav(); ?>
+		<?php bp_get_options_nav(); ?>
 
-		<?php if ( !bp_is_current_action( 'invites' ) ) : ?>
+		<?php if ( ! bp_is_current_action( 'invites' ) ) : ?>
 
 			<li id="groups-order-select" class="last filter">
 
-				<label for="groups-order-by"><?php _e( 'Order By:', 'buddypress' ); ?></label>
+				<label for="groups-order-by"><?php esc_html_e( 'Order By:', 'buddypress' ); ?></label>
 				<select id="groups-order-by">
-					<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
-					<option value="popular"><?php _e( 'Most Members', 'buddypress' ); ?></option>
-					<option value="newest"><?php _e( 'Newly Created', 'buddypress' ); ?></option>
-					<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
+					<option value="active"><?php esc_html_e( 'Last Active', 'buddypress' ); ?></option>
+					<option value="popular"><?php esc_html_e( 'Most Members', 'buddypress' ); ?></option>
+					<option value="newest"><?php esc_html_e( 'Newly Created', 'buddypress' ); ?></option>
+					<option value="alphabetical"><?php esc_html_e( 'Alphabetical', 'buddypress' ); ?></option>
 
 					<?php
 
@@ -58,12 +57,12 @@ switch ( bp_current_action() ) :
 		<?php if ( is_user_logged_in() ) : ?>
 			<h2 class="bp-screen-reader-text"><?php
 				/* translators: accessibility text */
-				_e( 'My groups', 'buddypress' );
+				esc_html_e( 'My groups', 'buddypress' );
 			?></h2>
 		<?php else : ?>
 			<h2 class="bp-screen-reader-text"><?php
 				/* translators: accessibility text */
-				_e( 'Member\'s groups', 'buddypress' );
+				esc_html_e( 'Member\'s groups', 'buddypress' );
 			?></h2>
 		<?php endif; ?>
 
