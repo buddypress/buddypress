@@ -1793,15 +1793,20 @@ class BP_Groups_Group {
 		$count     = groups_get_groupmeta( $group_id, $cache_key );
 
 		if ( false === $count || true === $skip_cache ) {
-			$members = groups_get_group_members(
+			$members = new BP_Group_Member_Query(
 				array(
 					'group_id'   => $group_id,
 					'group_role' => array( 'member', 'admin', 'mod' ),
 					'type'       => 'active',
+
+					// Avoid default members query, by specifying a non-false user list.
+					'user_ids' => array()
 				)
 			);
 
-			$count = $members['count'] ? $members['count'] : 0;
+			$group_member_ids = $members->get_include_ids();
+
+			$count = $group_member_ids ? count( $group_member_ids ) : 0;
 
 			groups_update_groupmeta( $group_id, $cache_key, (int) $count );
 		}
