@@ -268,36 +268,27 @@ class BP_Messages_Component extends BP_Component {
 			'user_has_access' => $access
 		);
 
-		// Show certain screens only if the current user is the displayed user.
-		if ( bp_is_my_profile() ) {
+		// Show "Compose" on the logged-in user's profile only.
+		$sub_nav[] = array(
+			'name'            => __( 'Compose', 'buddypress' ),
+			'slug'            => 'compose',
+			'parent_url'      => $messages_link,
+			'parent_slug'     => $slug,
+			'screen_function' => 'messages_screen_compose',
+			'position'        => 30,
+			'user_has_access' => bp_is_my_profile(),
+		);
 
-			// Show "Compose" on the logged-in user's profile only.
-			$sub_nav[] = array(
-				'name'            => __( 'Compose', 'buddypress' ),
-				'slug'            => 'compose',
-				'parent_url'      => $messages_link,
-				'parent_slug'     => $slug,
-				'screen_function' => 'messages_screen_compose',
-				'position'        => 30,
-				'user_has_access' => $access
-			);
-
-			/*
-			 * Show "Notices" on the logged-in user's profile only
-			 * and then only if the user can create notices.
-			 */
-			if ( bp_current_user_can( 'bp_moderate' ) ) {
-				$sub_nav[] = array(
-					'name'            => __( 'Notices', 'buddypress' ),
-					'slug'            => 'notices',
-					'parent_url'      => $messages_link,
-					'parent_slug'     => $slug,
-					'screen_function' => 'messages_screen_notices',
-					'position'        => 90,
-					'user_has_access' => true
-				);
-			}
-		}
+		// Show "Notices" to community admins only.
+		$sub_nav[] = array(
+			'name'            => __( 'Notices', 'buddypress' ),
+			'slug'            => 'notices',
+			'parent_url'      => $messages_link,
+			'parent_slug'     => $slug,
+			'screen_function' => 'messages_screen_notices',
+			'position'        => 90,
+			'user_has_access' => bp_current_user_can( 'bp_moderate' )
+		);
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
