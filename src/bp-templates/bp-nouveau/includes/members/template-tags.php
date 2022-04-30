@@ -3,7 +3,7 @@
  * Members template tags
  *
  * @since 3.0.0
- * @version 9.0.0
+ * @version 10.3.0
  */
 
 // Exit if accessed directly.
@@ -449,7 +449,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 							'class' => $parent_class,
 						),
 						'button_attr'       => array(
-							'href'  => trailingslashit( bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'messages' ) ) . 'compose?r=' . bp_core_get_username( $user_id ),
+							'href'  => bp_get_send_private_message_link(),
 							'id'    => false,
 							'class' => $button_args['link_class'],
 							'rel'   => '',
