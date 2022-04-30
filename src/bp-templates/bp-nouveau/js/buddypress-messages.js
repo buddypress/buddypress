@@ -256,20 +256,13 @@ window.bp = window.bp || {};
 		},
 
 		sendMessage: function() {
-			if ( true === this.get( 'sending' ) ) {
-				return;
-			}
-
-			this.set( 'sending', true, { silent: true } );
-
-			var sent = bp.ajax.post( 'messages_send_message', _.extend(
-				{
-					nonce: BP_Nouveau.messages.nonces.send
-				},
-				this.attributes
-			) );
-
-			this.set( 'sending', false, { silent: true } );
+			var sent = bp.ajax.post(
+				'messages_send_message',
+				_.extend(
+					{ nonce: BP_Nouveau.messages.nonces.send },
+					this.attributes
+				)
+			);
 
 			return sent;
 		}
@@ -568,7 +561,7 @@ window.bp = window.bp || {};
 			// Check for mention.
 			if ( ! _.isNull( mention ) ) {
 				sendToInput.val( '@' + _.escape( mention ) + ' ' );
-				sendToInput.focus();
+				sendToInput.trigger( 'focus' );
 			}
 		},
 
@@ -592,10 +585,13 @@ window.bp = window.bp || {};
 		},
 
 		sendMessage: function( event ) {
-			var meta = {}, errors = [], self = this;
+			var meta = {}, errors = [], self = this,
+			    button = event.currentTarget;
+
 			event.preventDefault();
 
 			bp.Nouveau.Messages.removeFeedback();
+			$( button ).addClass( 'disabled' ).prop( 'disabled', true );
 
 			// Set the content and meta.
 			_.each( this.$el.serializeArray(), function( pair ) {
@@ -661,8 +657,21 @@ window.bp = window.bp || {};
 				return;
 			}
 
+			// Prevents multiple frenetic clicks!
+			if ( true === this.model.get( 'sending' ) ) {
+				return;
+			}
+
 			// Set meta.
-			this.model.set( 'meta', meta, { silent: true } );
+			this.model.set(
+				{
+					sending: true,
+					meta: meta
+				},
+				{
+					silent: true
+				}
+			);
 
 			// Send the message.
 			this.model.sendMessage().done( function( response ) {
@@ -684,6 +693,9 @@ window.bp = window.bp || {};
 				if ( response.feedback ) {
 					bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
 				}
+			} ).always( function() {
+				self.model.set( 'sending', false, { silent: true } );
+				$( button ).removeClass( 'disabled' ).prop( 'disabled', false );
 			} );
 		},
 
