@@ -1789,21 +1789,20 @@ class BP_Groups_Group {
 	 * @return int Count of confirmed members for the group.
 	 */
 	public static function get_total_member_count( $group_id, $skip_cache = false ) {
-		$cache_key = 'total_member_count';
-		$count     = groups_get_groupmeta( $group_id, $cache_key );
+		$meta_key = 'total_member_count';
+		$count    = groups_get_groupmeta( $group_id, $meta_key );
 
 		if ( false === $count || true === $skip_cache ) {
-			$members = groups_get_group_members(
+			$group_members = new BP_Group_Member_Query(
 				array(
 					'group_id'   => $group_id,
 					'group_role' => array( 'member', 'admin', 'mod' ),
-					'type'       => 'active',
+					'count'      => true,
 				)
 			);
 
-			$count = $members['count'] ? $members['count'] : 0;
-
-			groups_update_groupmeta( $group_id, $cache_key, (int) $count );
+			$count = $group_members->total_users;
+			groups_update_groupmeta( $group_id, $meta_key, $count );
 		}
 
 		/**
@@ -1814,7 +1813,7 @@ class BP_Groups_Group {
 		 * @param int $count    Total member count for group.
 		 * @param int $group_id The ID of the group.
 		 */
-		return (int) apply_filters( 'bp_groups_total_member_count', (int) $count, (int) $group_id );
+		return (int) apply_filters( 'bp_groups_total_member_count', $count, (int) $group_id );
 	}
 
 	/**
