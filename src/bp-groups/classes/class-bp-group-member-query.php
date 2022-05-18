@@ -50,6 +50,24 @@ class BP_Group_Member_Query extends BP_User_Query {
 	protected $group_member_ids;
 
 	/**
+	 * Constructor.
+	 *
+	 * @since 10.3.0
+	 *
+	 * @param string|array|null $query See {@link BP_User_Query}.
+	 */
+	public function __construct( $query = null ) {
+		$qv = bp_parse_args(
+			$query,
+			array(
+				'count' => false, // True to perform a count query. False otherwise.
+			)
+		);
+
+		parent::__construct( $qv );
+	}
+
+	/**
 	 * Set up action hooks.
 	 *
 	 * @since 1.8.0
@@ -62,11 +80,60 @@ class BP_Group_Member_Query extends BP_User_Query {
 			$this->query_vars_raw['type'] = 'last_joined';
 		}
 
-		// Set the sort order.
-		add_action( 'bp_pre_user_query', array( $this, 'set_orderby' ) );
+		if ( ! $this->query_vars_raw['count'] ) {
+			// Set the sort order.
+			add_action( 'bp_pre_user_query', array( $this, 'set_orderby' ) );
 
-		// Set up our populate_extras method.
-		add_action( 'bp_user_query_populate_extras', array( $this, 'populate_group_member_extras' ), 10, 2 );
+			// Set up our populate_extras method.
+			add_action( 'bp_user_query_populate_extras', array( $this, 'populate_group_member_extras' ), 10, 2 );
+		} else {
+			$this->query_vars_raw['orderby'] = 'ID';
+		}
+	}
+
+	/**
+	 * Use WP_User_Query() to pull data for the user IDs retrieved in the main query.
+	 *
+	 * If a `count` query is performed, the function is used to validate existing users.
+	 *
+	 * @since 10.3.0
+	 */
+	public function do_wp_user_query() {
+		if ( ! $this->query_vars_raw['count'] ) {
+			return parent::do_wp_user_query();
+		}
+
+		/**
+		 * Filters the WP User Query arguments before passing into the class.
+		 *
+		 * @since 10.3.0
+		 *
+		 * @param array         $value Array of arguments for the user query.
+		 * @param BP_User_Query $this  Current BP_User_Query instance.
+		 */
+		$wp_user_query = new WP_User_Query(
+			apply_filters(
+				'bp_group_members_count_query_args',
+				array(
+					// Relevant.
+					'fields'      => 'ID',
+					'include'     => $this->user_ids,
+
+					// Overrides
+					'blog_id'     => 0,    // BP does not require blog roles.
+					'count_total' => false // We already have a count.
+
+				),
+				$this
+			)
+		);
+
+		// Validate existing user IDs.
+		$this->user_ids = array_map( 'intval', $wp_user_query->results );
+		$this->results  = $this->user_ids;
+
+		// Set the total existing users.
+		$this->total_users = count( $this->user_ids );
 	}
 
 	/**
@@ -472,5 +539,26 @@ class BP_Group_Member_Query extends BP_User_Query {
 		$group_user_ids = $wpdb->get_results( "{$sql['select']} {$sql['where']} {$sql['groupby']} {$sql['orderby']} {$sql['order']}" );
 
 		return wp_list_pluck( $group_user_ids, 'user_id' );
+	}
+
+	/**
+	 * Perform a database query to populate any extra metadata we might need.
+	 *
+	 * If a `count` query is performed, the function is used to validate active users.
+	 *
+	 * @since 10.3.0
+	 */
+	public function populate_extras() {
+		if ( ! $this->query_vars_raw['count'] ) {
+			return parent::populate_extras();
+		}
+
+		// Validate active users.
+		$active_users    = array_filter( BP_Core_User::get_last_activity( $this->user_ids ) );
+		$active_user_ids = array_keys( $active_users );
+		$this->results   = array_intersect( $this->user_ids, $active_user_ids );
+
+		// Set the total active users.
+		$this->total_users = count( $this->results );
 	}
 }

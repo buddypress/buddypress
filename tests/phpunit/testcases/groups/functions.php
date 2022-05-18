@@ -7,6 +7,7 @@
 class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	static public $group_ids;
 	static public $user_ids;
+	protected $did_group_member_count = 0;
 
 	static public function wpSetUpBeforeClass( $factory ) {
 		self::$user_ids  = $factory->user->create_many( 3 );
@@ -342,6 +343,71 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
 		$this->assertEquals( 2, BP_Groups_Group::get_total_member_count( $g1 ) );
+	}
+
+	/**
+	 * @group total_member_count
+	 * @ticket BP8688
+	 */
+	public function test_total_member_count_groups_inactive_user() {
+		$u1 = self::factory()->user->create();
+		$u2 = wp_insert_user( array(
+			'user_pass'  => 'foobar',
+			'user_login' => 'foobar',
+			'user_email' => 'foobar@buddypress.org',
+		) );
+
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
+
+		groups_join_group( $g1, $u2 );
+
+		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
+	}
+
+	/**
+	 * @group total_member_count
+	 * @ticket BP8688
+	 */
+	public function test_total_member_count_groups_spammed_user() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
+
+		groups_join_group( $g1, $u2 );
+		bp_core_process_spammer_status( $u2, 'spam' );
+
+		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
+	}
+
+	/**
+	 * @group total_member_count
+	 * @ticket BP8688
+	 */
+	public function test_total_member_count_groups_deferred() {
+		$u1 = self::factory()->user->create();
+		$g1 = self::factory()->group->create( array( 'creator_id' => $u1 ) );
+		$members = array();
+		$this->did_group_member_count = 0;
+
+		add_filter( 'bp_groups_total_member_count', array( $this, 'filter_bp_groups_total_member_count' ) );
+
+		bp_groups_defer_group_members_count( true );
+		for ( $i = 1; $i < 6; $i++ ) {
+			$members[ $i ] = self::factory()->user->create();
+			groups_join_group( $g1, $members[ $i ] );
+		}
+		bp_groups_defer_group_members_count( false, $g1 );
+
+		remove_filter( 'bp_groups_total_member_count', array( $this, 'filter_bp_groups_total_member_count' ) );
+
+		$this->assertTrue( 1 === $this->did_group_member_count );
+		$this->assertEquals( count( $members ) + 1, groups_get_total_member_count( $g1 ) );
+	}
+
+	public function filter_bp_groups_total_member_count( $count ) {
+		$this->did_group_member_count += 1;
+		return $count;
 	}
 
 	/**

@@ -3678,3 +3678,46 @@ function bp_init_group_extensions() {
 	}
 }
 add_action( 'bp_init', 'bp_init_group_extensions', 11 );
+
+/**
+ * Updates a group members count when a user joined or left the group.
+ *
+ * @since 10.3.0
+ *
+ * @param BP_Groups_Member|int $groups_member The BP_Groups_Member object or the group member ID.
+ * @param int                  $group_id      The group's ID.
+ */
+function bp_groups_update_group_members_count( $groups_member, $group_id = 0 ) {
+	if ( $groups_member instanceof BP_Groups_Member ) {
+		$group_id = $groups_member->group_id;
+	}
+
+	BP_Groups_Member::refresh_total_member_count_for_group( (int) $group_id );
+}
+add_action( 'groups_member_after_save', 'bp_groups_update_group_members_count' );
+add_action( 'groups_member_after_remove', 'bp_groups_update_group_members_count' );
+add_action( 'bp_groups_member_after_delete', 'bp_groups_update_group_members_count', 10, 2 );
+
+/**
+ * Defers a group's counting to avoid updating it when batch adding/removing users to this group.
+ *
+ * @since 10.3.0
+ *
+ * @param bool $defer True to defer, false otherwise.
+ * @param int $group_id The group's ID.
+ */
+function bp_groups_defer_group_members_count( $defer = true, $group_id = 0 ) {
+	if ( $defer ) {
+		remove_action( 'groups_member_after_save', 'bp_groups_update_group_members_count' );
+		remove_action( 'groups_member_after_remove', 'bp_groups_update_group_members_count' );
+		remove_action( 'bp_groups_member_after_delete', 'bp_groups_update_group_members_count', 10, 2 );
+	} else {
+		add_action( 'groups_member_after_save', 'bp_groups_update_group_members_count' );
+		add_action( 'groups_member_after_remove', 'bp_groups_update_group_members_count' );
+		add_action( 'bp_groups_member_after_delete', 'bp_groups_update_group_members_count', 10, 2 );
+	}
+
+	if  ( $group_id ) {
+		bp_groups_update_group_members_count( 0, (int) $group_id );
+	}
+}

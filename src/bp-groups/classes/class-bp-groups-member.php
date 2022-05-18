@@ -309,9 +309,6 @@ class BP_Groups_Member {
 		// Update the user's group count.
 		self::refresh_total_group_count_for_user( $this->user_id );
 
-		// Update the group's member count.
-		self::refresh_total_member_count_for_group( $this->group_id );
-
 		/**
 		 * Fires after the current group membership item has been saved.
 		 *
@@ -447,9 +444,6 @@ class BP_Groups_Member {
 		// Update the user's group count.
 		self::refresh_total_group_count_for_user( $this->user_id );
 
-		// Update the group's member count.
-		self::refresh_total_member_count_for_group( $this->group_id );
-
 		/**
 		 * Fires after a member is removed from a group.
 		 *
@@ -516,9 +510,6 @@ class BP_Groups_Member {
 
 		// Update the user's group count.
 		self::refresh_total_group_count_for_user( $user_id );
-
-		// Update the group's member count.
-		self::refresh_total_member_count_for_group( $group_id );
 
 		/**
 		 * Fires after a member is removed from a group.
