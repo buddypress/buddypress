@@ -482,7 +482,7 @@ class BP_Notifications_Notification {
 		if ( ! empty( $args['page'] ) && ! empty( $args['per_page'] ) ) {
 			$page     = absint( $args['page']     );
 			$per_page = absint( $args['per_page'] );
-			$offset   = $per_page * ( $page - 1 );
+			$offset   = $per_page * ( $page - 1 ) + 1;
 			$retval   = $wpdb->prepare( "LIMIT %d, %d", $offset, $per_page );
 		}
 
