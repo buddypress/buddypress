@@ -725,7 +725,7 @@ class BP_Groups_Component extends BP_Component {
 					'screen_function' => 'groups_screen_group_invite',
 					'item_css_id'     => 'invite',
 					'position'        => 70,
-					'user_has_access' => $this->current_group->user_has_access,
+					'user_has_access' => bp_groups_user_can_send_invites(),
 					'no_access_url'   => $group_link,
 				);
 			}
