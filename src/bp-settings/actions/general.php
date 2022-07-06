@@ -44,22 +44,23 @@ function bp_settings_action_general() {
 	}
 
 	// Define local defaults
-	$bp            = buddypress(); // The instance
-	$email_error   = false;        // invalid|blocked|taken|empty|nochange
-	$pass_error    = false;        // invalid|mismatch|empty|nochange
-	$pass_changed  = false;        // true if the user changes their password
-	$email_changed = false;        // true if the user changes their email
-	$feedback_type = 'error';      // success|error
-	$feedback      = array();      // array of strings for feedback.
+	$bp            = buddypress();           // The instance
+	$email_error   = false;                  // invalid|blocked|taken|empty|nochange
+	$pass_error    = false;                  // invalid|mismatch|empty|nochange
+	$pass_changed  = false;                  // true if the user changes their password
+	$email_changed = false;                  // true if the user changes their email
+	$feedback_type = 'error';                // success|error
+	$feedback      = array();                // array of strings for feedback.
+	$user_id       = bp_displayed_user_id(); // The ID of the user being displayed.
 
 	// Nonce check.
-	check_admin_referer('bp_settings_general');
+	check_admin_referer( 'bp_settings_general' );
 
 	// Validate the user again for the current password when making a big change.
-	if ( ( is_super_admin() ) || ( !empty( $_POST['pwd'] ) && wp_check_password( $_POST['pwd'], $bp->displayed_user->userdata->user_pass, bp_displayed_user_id() ) ) ) {
+	if ( ( is_super_admin() ) || ( ! empty( $_POST['pwd'] ) && wp_check_password( $_POST['pwd'], $bp->displayed_user->userdata->user_pass, $user_id ) ) ) {
 
 		$update_user = array(
-			'ID' => (int) bp_displayed_user_id(),
+			'ID' => (int) $user_id,
 		);
 
 		/* Email Change Attempt ******************************************/
@@ -99,13 +100,13 @@ function bp_settings_action_general() {
 						'newemail' => $user_email,
 					);
 
-					bp_update_user_meta( bp_displayed_user_id(), 'pending_email_change', $pending_email );
+					bp_update_user_meta( $user_id, 'pending_email_change', $pending_email );
 					$verify_link = bp_displayed_user_domain() . bp_get_settings_slug() . '/?verify_email_change=' . $hash;
 
 					// Send the verification email.
 					$args = array(
 						'tokens' => array(
-							'displayname'    => bp_core_get_user_displayname( bp_displayed_user_id() ),
+							'displayname'    => bp_core_get_user_displayname( $user_id ),
 							'old-user.email' => $old_user_email,
 							'user.email'     => $user_email,
 							'verify.url'     => esc_url( $verify_link ),
@@ -181,7 +182,7 @@ function bp_settings_action_general() {
 		// Clear cached data, so that the changed settings take effect
 		// on the current page load.
 		if ( ( false === $email_error ) && ( false === $pass_error ) && ( wp_update_user( $update_user ) ) ) {
-			$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
+			$bp->displayed_user->userdata = bp_core_get_core_userdata( $user_id );
 		}
 
 	// Password Error.
@@ -226,18 +227,25 @@ function bp_settings_action_general() {
 		}
 	}
 
-	// Set the feedback.
-	bp_core_add_message( implode( "\n", $feedback ), $feedback_type );
+	// Set the URL to redirect the user to.
+	$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_settings_slug() . '/general' );
 
 	/**
 	 * Fires after the general settings have been saved, and before redirect.
 	 *
 	 * @since 1.5.0
+	 * @since 11.0.0 Add the `$user_id` & `$redirect_to` parameters.
+	 *
+	 * @param int    $user_id     The ID of the user being displayed.
+	 * @param string $redirect_to The Default Front-end General Settings Screen URL.
 	 */
-	do_action( 'bp_core_general_settings_after_save' );
+	do_action( 'bp_core_general_settings_after_save', $user_id, $redirect_to );
+
+	// Set the feedback.
+	bp_core_add_message( implode( "\n", $feedback ), $feedback_type );
 
 	// Redirect to prevent issues with browser back button.
-	bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_settings_slug() . '/general' ) );
+	bp_core_redirect( $redirect_to );
 }
 add_action( 'bp_actions', 'bp_settings_action_general' );
 
