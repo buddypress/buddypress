@@ -233,7 +233,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 		);
 
 		// Only enqueue common/specific scripts and data once per page load.
-		if ( ! has_action( 'wp_footer', 'bp_friends_blocks_add_script_data', 1 ) ) {
+		if ( ! has_action( 'wp_footer', 'bp_friends_blocks_add_script_data' ) ) {
 			wp_set_script_translations( 'bp-friends-script', 'buddypress' );
 			wp_enqueue_script( 'bp-friends-script' );
 

@@ -526,7 +526,7 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 		);
 
 		// Only enqueue common/specific scripts and data once per page load.
-		if ( ! has_action( 'wp_footer', 'bp_members_blocks_add_script_data', 1 ) ) {
+		if ( ! has_action( 'wp_footer', 'bp_members_blocks_add_script_data' ) ) {
 			wp_set_script_translations( 'bp-dynamic-members-script', 'buddypress' );
 			wp_enqueue_script( 'bp-dynamic-members-script' );
 

@@ -3789,7 +3789,7 @@ function bp_group_create_nav_item() {
  */
 function bp_group_backcompat_create_nav_item() {
 	// Bail if the Groups nav item is already used by bp-legacy.
-	if ( has_action( 'bp_groups_directory_group_filter', 'bp_legacy_theme_group_create_nav', 999 ) ) {
+	if ( has_action( 'bp_groups_directory_group_filter', 'bp_legacy_theme_group_create_nav' ) ) {
 		return;
 	}
 

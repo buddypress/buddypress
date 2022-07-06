@@ -509,7 +509,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 		);
 
 		// Only enqueue common/specific scripts and data once per page load.
-		if ( ! has_action( 'wp_footer', 'bp_groups_blocks_add_script_data', 1 ) ) {
+		if ( ! has_action( 'wp_footer', 'bp_groups_blocks_add_script_data' ) ) {
 			wp_set_script_translations( 'bp-dynamic-groups-script', 'buddypress' );
 			wp_enqueue_script( 'bp-dynamic-groups-script' );
 
