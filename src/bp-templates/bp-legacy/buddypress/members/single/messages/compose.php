@@ -13,7 +13,7 @@
 	_e( 'Compose Message', 'buddypress' );
 ?></h2>
 
-<form action="<?php bp_messages_form_action('compose' ); ?>" method="post" id="send_message_form" class="standard-form" enctype="multipart/form-data">
+<form action="<?php bp_messages_form_action(); ?>" method="post" id="send_message_form" class="standard-form" enctype="multipart/form-data">
 
 	<?php
 
