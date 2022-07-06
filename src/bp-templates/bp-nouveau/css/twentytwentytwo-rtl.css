@@ -1619,14 +1619,16 @@ button.pending,
 	border-bottom: solid 1px var(--wp--preset--color--primary);
 }
 
-#buddypress.twentytwentytwo .bp-feedback button.bp-tooltip {
+#buddypress.twentytwentytwo .bp-feedback button.bp-tooltip,
+#buddypress.twentytwentytwo .bp-feedback a.bp-tooltip {
 	border: none;
 	background: none;
 	top: -5px;
 	left: 0;
 }
 
-#buddypress.twentytwentytwo .bp-feedback button.bp-tooltip .dashicons-dismiss {
+#buddypress.twentytwentytwo .bp-feedback button.bp-tooltip .dashicons-dismiss,
+#buddypress.twentytwentytwo .bp-feedback a.bp-tooltip .dashicons-dismiss {
 	border-radius: 50%;
 	width: 32px;
 	height: 32px;
@@ -1634,14 +1636,16 @@ button.pending,
 	background: var(--wp--preset--color--background);
 }
 
-#buddypress.twentytwentytwo .bp-feedback button.bp-tooltip:hover .dashicons-dismiss {
+#buddypress.twentytwentytwo .bp-feedback button.bp-tooltip:hover .dashicons-dismiss,
+#buddypress.twentytwentytwo .bp-feedback a.bp-tooltip:hover .dashicons-dismiss {
 	color: var(--wp--preset--color--background);
 	background: var(--wp--preset--color--primary);
 }
 
-#buddypress.twentytwentytwo .bp-feedback.bp-sitewide-notice button.bp-tooltip {
-	top: 0;
-	left: 15px;
+#buddypress.twentytwentytwo .bp-feedback.bp-sitewide-notice button.bp-tooltip,
+#buddypress.twentytwentytwo .bp-feedback.bp-sitewide-notice a.bp-tooltip {
+	top: 5px;
+	left: 5px;
 }
 
 #buddypress.twentytwentytwo .bp-feedback.bp-sitewide-notice .bp-icon:before {
