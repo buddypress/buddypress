@@ -72,7 +72,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 
 			$args = array(
 				'tokens' => array(
-					'inviter.name'      => bp_core_get_userlink( $invitation->inviter_id, true, false, true ),
+					'inviter.name'      => bp_core_get_userlink( $invitation->inviter_id, true, false ),
 					'inviter.url'       => bp_core_get_user_domain( $invitation->inviter_id ),
 					'inviter.id'        => $invitation->inviter_id,
 					'invite.accept_url' => esc_url( $invite_url ),

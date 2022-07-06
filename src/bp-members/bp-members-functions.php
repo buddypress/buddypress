@@ -537,7 +537,7 @@ function bp_core_get_userlink_by_email( $email ) {
 	 *
 	 * @param string|bool $value URL for the user if found, otherwise false.
 	 */
-	return apply_filters( 'bp_core_get_userlink_by_email', bp_core_get_userlink( $user->ID, false, false, true ) );
+	return apply_filters( 'bp_core_get_userlink_by_email', bp_core_get_userlink( $user->ID, false, false ) );
 }
 
 /**
@@ -564,7 +564,7 @@ function bp_core_get_userlink_by_username( $username ) {
 	 *
 	 * @param string|bool $value URL for the user if found, otherwise false.
 	 */
-	return apply_filters( 'bp_core_get_userlink_by_username', bp_core_get_userlink( $user_id, false, false, true ) );
+	return apply_filters( 'bp_core_get_userlink_by_username', bp_core_get_userlink( $user_id, false, false ) );
 }
 
 /**

@@ -358,7 +358,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 			'group'          => $group,
 			'group.url'      => bp_get_group_permalink( $group ),
 			'group.name'     => $group->name,
-			'inviter.name'   => bp_core_get_userlink( $inviter_user_id, true, false, true ),
+			'inviter.name'   => bp_core_get_userlink( $inviter_user_id, true, false ),
 			'inviter.url'    => bp_core_get_user_domain( $inviter_user_id ),
 			'inviter.id'     => $inviter_user_id,
 			'invites.url'    => esc_url( $invited_link . '/invites/' ),
