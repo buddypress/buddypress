@@ -2113,7 +2113,8 @@ body.bp-user.settings.general {
 			border-bottom: solid 1px var(--wp--preset--color--primary);
 		}
 
-		button.bp-tooltip {
+		button.bp-tooltip,
+		a.bp-tooltip {
 			border: none;
 			background: none;
 			top: -5px;
@@ -2138,9 +2139,10 @@ body.bp-user.settings.general {
 
 		&.bp-sitewide-notice {
 
-			button.bp-tooltip {
-				top: 0;
-				right: 15px;
+			button.bp-tooltip,
+			a.bp-tooltip {
+				top: 5px;
+				right: 5px;
 			}
 
 			.bp-icon:before {

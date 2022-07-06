@@ -4584,7 +4584,8 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .buddypress-wrap .bp-feedback.warning .bp-icon,
 .buddypress-wrap .bp-feedback.loading .bp-icon,
 .buddypress-wrap .bp-feedback.success .bp-icon,
-.buddypress-wrap .bp-feedback.updated .bp-icon {
+.buddypress-wrap .bp-feedback.updated .bp-icon,
+.buddypress-wrap .bp-feedback.bp-sitewide-notice .bp-icon {
 	display: flex;
 	align-items: center;
 	align-self: stretch;
