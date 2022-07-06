@@ -496,7 +496,8 @@ function bp_nouveau_ajax_get_thread_messages() {
 		wp_send_json_error( $response );
 	}
 
-	$thread = new stdClass;
+	$thread         = new stdClass;
+	$thread->thread = array();
 
 	if ( empty( $_POST['js_thread'] ) ) {
 		$thread->thread = array(
