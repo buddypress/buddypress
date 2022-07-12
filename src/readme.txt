@@ -4,7 +4,7 @@ Tags:              profiles, groups, activity, direct messaging, notifications, 
 License:           GNU General Public License v2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
-Requires at least: 5.4
+Requires at least: 5.7
 Tested up to:      6.0
 Stable tag:        10.3.0
 

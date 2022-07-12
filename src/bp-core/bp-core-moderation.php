@@ -239,12 +239,6 @@ function bp_core_check_for_disallowed_keys( $user_id = 0, $title = '', $content 
 
 	// Get the moderation keys.
 	$disallowed = get_option( 'disallowed_keys' );
-
-	// Support for WP < 5.5.
-	if ( false === $disallowed ) {
-		$disallowed = get_option( 'blacklist_keys' );
-	}
-
 	$disallowed = trim( $disallowed );
 
 	// Bail if disallowed list is empty.
