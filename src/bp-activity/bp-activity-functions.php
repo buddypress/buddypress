@@ -3460,9 +3460,11 @@ function bp_activity_create_summary( $content, $activity ) {
 		'width' => isset( $GLOBALS['content_width'] ) ? (int) $GLOBALS['content_width'] : 'medium',
 	);
 
+	$post_url = '';
 	// Get the WP_Post object if this activity type is a blog post.
 	if ( $activity['type'] === 'new_blog_post' ) {
-		$content = get_post( $activity['secondary_item_id'] );
+		$content  = get_post( $activity['secondary_item_id'] );
+		$post_url = $content->guid;
 	}
 
 	/**
@@ -3490,7 +3492,6 @@ function bp_activity_create_summary( $content, $activity ) {
 	 * @param BP_Media_Extractor $extractor The media extractor object.
 	 */
 	$args = apply_filters( 'bp_activity_create_summary_extractor_args', $args, $content, $activity, $extractor );
-
 
 	// Extract media information from the $content.
 	$media = $extractor->extract( $content, BP_Media_Extractor::ALL, $args );
@@ -3589,7 +3590,12 @@ function bp_activity_create_summary( $content, $activity ) {
 		$summary .= PHP_EOL . PHP_EOL . $extracted_media['url'];
 	} elseif ( $use_media_type === 'images' ) {
 		$extracted_media_url = isset( $extracted_media['url'] ) ? $extracted_media['url'] : '';
-		$summary .= sprintf( ' <img src="%s">', esc_url( $extracted_media_url ) );
+
+		if ( $post_url ) {
+			$summary .= sprintf( '<a href="%1$s" class="activity-post-featured-image"><img src="%2$s"></a>', esc_url( $post_url ), esc_url( $extracted_media_url ) );
+		} else {
+			$summary .= sprintf( ' <img src="%s">', esc_url( $extracted_media_url ) );
+		}
 	} elseif ( in_array( $use_media_type, array( 'audio', 'videos' ), true ) ) {
 		$summary .= PHP_EOL . PHP_EOL . $extracted_media['original'];  // Full shortcode.
 	}
