@@ -116,23 +116,6 @@ function bp_nouveau_get_blogs_filters( $context = '' ) {
 }
 
 /**
- * Catch the arguments for buttons
- *
- * @since 3.0.0
- *
- * @param array $buttons The arguments of the button that BuddyPress is about to create.
- *
- * @return array An empty array to stop the button creation process.
- */
-function bp_nouveau_blogs_catch_button_args( $button = array() ) {
-	// Globalize the arguments so that we can use it  in bp_nouveau_get_blogs_buttons().
-	bp_nouveau()->blogs->button_args = $button;
-
-	// return an empty array to stop the button creation process
-	return array();
-}
-
-/**
  * Add settings to the customizer for the blogs component.
  *
  * @since 3.0.0

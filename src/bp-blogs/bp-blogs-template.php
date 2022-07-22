@@ -1542,18 +1542,21 @@ add_action( 'bp_blogs_directory_blog_types', 'bp_blog_backcompat_create_nav_item
 /**
  * Output button for visiting a blog in a loop.
  *
- * @see bp_get_blogs_visit_blog_button() for description of arguments.
+ * @see bp_get_blogs_visit_blog_button_args() for description of arguments.
  *
- * @param array|string $args See {@link bp_get_blogs_visit_blog_button()}.
+ * @param array|string $args See {@link bp_get_blogs_visit_blog_button_args()}.
  */
 function bp_blogs_visit_blog_button( $args = '' ) {
 	echo bp_get_blogs_visit_blog_button( $args );
 }
+
 	/**
-	 * Return button for visiting a blog in a loop.
+	 * Return the arguments of the button for visiting a blog in a loop.
 	 *
 	 * @see BP_Button for a complete description of arguments and return
 	 *      value.
+	 *
+	 * @since 11.0.0
 	 *
 	 * @param array|string $args {
 	 *     Arguments are listed below, with their default values. For a
@@ -1566,11 +1569,12 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 	 *     @type string $link_href         Permalink of the current blog in the loop.
 	 *     @type string $link_class        Default: 'blog-button visit'.
 	 *     @type string $link_text         Default: 'Visit Site'.
+	 *     @type string $link_title        Default: 'Visit Site'.
 	 * }
-	 * @return string The HTML for the Visit button.
+	 * @return array Thhe arguments of the button for visiting a blog in a loop.
 	 */
-	function bp_get_blogs_visit_blog_button( $args = '' ) {
-		$button = bp_parse_args(
+	function bp_get_blogs_visit_blog_button_args( $args = '' ) {
+		$button_args = bp_parse_args(
 			$args,
 			array(
 				'id'                => 'visit_blog',
@@ -1581,6 +1585,7 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 				'link_href'         => bp_get_blog_permalink(),
 				'link_class'        => 'blog-button visit',
 				'link_text'         => __( 'Visit Site', 'buddypress' ),
+				'link_title'        => __( 'Visit Site', 'buddypress' ),
 			)
 		);
 
@@ -1589,9 +1594,30 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 		 *
 		 * @since 1.2.10
 		 *
-		 * @param array $button Array of arguments to be used for the button to visit a blog.
+		 * @param array $button_args Array of arguments to be used for the button to visit a blog.
 		 */
-		return bp_get_button( apply_filters( 'bp_get_blogs_visit_blog_button', $button ) );
+		return apply_filters( 'bp_get_blogs_visit_blog_button', $button_args );
+	}
+
+	/**
+	 * Return button for visiting a blog in a loop.
+	 *
+	 * @see BP_Button for a complete description of arguments and return
+	 *      value.
+	 *
+	 * @see bp_get_blogs_visit_blog_button_args() for description of arguments.
+	 *
+	 * @param array|string $args See {@link bp_get_blogs_visit_blog_button_args()}.
+	 * @return string The HTML for the Visit button.
+	 */
+	function bp_get_blogs_visit_blog_button( $args = '' ) {
+		$button_args = bp_get_blogs_visit_blog_button_args( $args );
+
+		if ( ! array_filter( $button_args ) ) {
+			return '';
+		}
+
+		return bp_get_button( $button_args );
 	}
 
 /** Stats **********************************************************************/

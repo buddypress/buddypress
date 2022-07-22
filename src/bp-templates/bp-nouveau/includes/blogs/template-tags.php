@@ -199,59 +199,43 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 			$icons = ' icons';
 		}
 
-		/*
-		 * This filter workaround is waiting for a core adaptation
-		 * so that we can directly get the groups button arguments
-		 * instead of the button.
-		 *
-		 * See https://buddypress.trac.wordpress.org/ticket/7126
-		 */
-		add_filter( 'bp_get_blogs_visit_blog_button', 'bp_nouveau_blogs_catch_button_args', 100, 1 );
+		$button_args = bp_get_blogs_visit_blog_button_args();
 
-		bp_get_blogs_visit_blog_button();
-
-		remove_filter( 'bp_get_blogs_visit_blog_button', 'bp_nouveau_blogs_catch_button_args', 100, 1 );
-
-		if ( isset( bp_nouveau()->blogs->button_args ) && bp_nouveau()->blogs->button_args ) {
-			$button_args = bp_nouveau()->blogs->button_args ;
-
-			// If we pass through parent classes add them to $button array
-			$parent_class = '';
-			if ( ! empty( $args['parent_attr']['class'] ) ) {
-				$parent_class = $args['parent_attr']['class'];
-			}
-
-			// Set defaults if not set.
-			$button_args = array_merge( array(
-				'wrapper_id' => '',
-				'link_id'    => '',
-				'link_rel'   => ''
-			), $button_args );
-
-			$buttons['visit_blog'] = array(
-				'id'                => 'visit_blog',
-				'position'          => 5,
-				'component'         => $button_args['component'],
-				'must_be_logged_in' => $button_args['must_be_logged_in'],
-				'block_self'        => $button_args['block_self'],
-				'parent_element'    => $parent_element,
-				'button_element'    => $button_element,
-				'link_text'         => $button_args['link_text'],
-				'parent_attr'       => array(
-					'id'              => $button_args['wrapper_id'],
-					'class'           => $parent_class,
-				),
-				'button_attr'       => array(
-					'href'             => $button_args['link_href'],
-					'id'               => $button_args['link_id'],
-					'class'            => $button_args['link_class'] . ' button',
-					'rel'              => $button_args['link_rel'],
-					'title'            => '',
-				),
-			);
-
-			unset( bp_nouveau()->blogs->button_args );
+		// If we pass through parent classes add them to $button array
+		$parent_class = '';
+		if ( ! empty( $args['parent_attr']['class'] ) ) {
+			$parent_class = $args['parent_attr']['class'];
 		}
+
+		// Set defaults if not set.
+		$button_args = array_merge( array(
+			'wrapper_id' => '',
+			'link_id'    => '',
+			'link_rel'   => ''
+		), $button_args );
+
+		$buttons['visit_blog'] = array(
+			'id'                => 'visit_blog',
+			'position'          => 5,
+			'component'         => $button_args['component'],
+			'must_be_logged_in' => $button_args['must_be_logged_in'],
+			'block_self'        => $button_args['block_self'],
+			'parent_element'    => $parent_element,
+			'button_element'    => $button_element,
+			'link_text'         => $button_args['link_text'],
+			'link_title'        => $button_args['link_title'],
+			'parent_attr'       => array(
+				'id'              => $button_args['wrapper_id'],
+				'class'           => $parent_class,
+			),
+			'button_attr'       => array(
+				'href'             => $button_args['link_href'],
+				'id'               => $button_args['link_id'],
+				'class'            => $button_args['link_class'] . ' button',
+				'rel'              => $button_args['link_rel'],
+				'title'            => '',
+			),
+		);
 
 		/**
 		 * Filter to add your buttons, use the position argument to choose where to insert it.
