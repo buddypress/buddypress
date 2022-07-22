@@ -1504,35 +1504,37 @@ function bp_send_private_message_button() {
  * @since 1.2.0
  * @since 3.0.0 Added `$args` parameter.
  *
- * @param array|string $args See {@link bp_get_send_message_button()}.
+ * @see bp_get_send_message_button_args() for description of parameters.
+ *
+ * @param array|string $args See {@link bp_get_send_message_button_args()}.
  */
 function bp_send_message_button( $args = '' ) {
 	echo bp_get_send_message_button( $args );
 }
+
 	/**
-	 * Generate the 'Private Message' button for member profile headers.
+	 * Get the arguments for the private message button.
 	 *
-	 * @since 1.2.0
-	 * @since 3.0.0 Added `$args` parameter.
+	 * @since 11.0.0
 	 *
 	 * @param array|string $args {
-	 *     All arguments are optional. See {@link BP_Button} for complete
-	 *     descriptions.
-	 *     @type string $id                Default: 'private_message'.
-	 *     @type string $component         Default: 'messages'.
-	 *     @type bool   $must_be_logged_in Default: true.
-	 *     @type bool   $block_self        Default: true.
-	 *     @type string $wrapper_id        Default: 'send-private-message'.
-	 *     @type string $link_href         Default: the private message link for
-	 *                                     the current member in the loop.
-	 *     @type string $link_text         Default: 'Private Message'.
-	 *     @type string $link_class        Default: 'send-message'.
+	 *    All arguments are optional. See {@link BP_Button} for complete
+	 *    descriptions.
+	 *    @type string $id                Default: 'private_message'.
+	 *    @type string $component         Default: 'messages'.
+	 *    @type bool   $must_be_logged_in Default: true.
+	 *    @type bool   $block_self        Default: true.
+	 *    @type string $wrapper_id        Default: 'send-private-message'.
+	 *    @type string $link_href         Default: the private message link for
+	 *                                    the current member in the loop.
+	 *    @type string $link_title        Default: 'Send a private message to this member.'.
+	 *    @type string $link_text         Default: 'Private Message'.
+	 *    @type string $link_class        Default: 'send-message'.
 	 * }
-	 * @return string
+	 * @return array The arguments for the public message button.
 	 */
-	function bp_get_send_message_button( $args = '' ) {
-
-		$r = bp_parse_args(
+	function bp_get_send_message_button_args( $args = '' ) {
+		$button_args = bp_parse_args(
 			$args,
 			array(
 				'id'                => 'private_message',
@@ -1542,23 +1544,49 @@ function bp_send_message_button( $args = '' ) {
 				'wrapper_id'        => 'send-private-message',
 				'link_href'         => bp_get_send_private_message_link(),
 				'link_text'         => __( 'Private Message', 'buddypress' ),
+				'link_title'        => __( 'Send a private message to this member.', 'buddypress' ),
 				'link_class'        => 'send-message',
 			)
 		);
 
-		// Note: 'bp_get_send_message_button' is a legacy filter. Use
-		// 'bp_get_send_message_button_args' instead. See #4536.
-		return apply_filters( 'bp_get_send_message_button',
+		/**
+		 * Filters the "Private Message" button for member profile headers.
+		 *
+		 * @since 1.8.0
+		 *
+		 * @param array $button_args See {@link BP_Button}.
+		 */
+		return apply_filters( 'bp_get_send_message_button_args', $button_args );
+	}
 
-			/**
-			 * Filters the "Private Message" button for member profile headers.
-			 *
-			 * @since 1.8.0
-			 *
-			 * @param array $value See {@link BP_Button}.
-			 */
-			bp_get_button( apply_filters( 'bp_get_send_message_button_args', $r ) )
+	/**
+	 * Generate the 'Private Message' button for member profile headers.
+	 *
+	 * @since 1.2.0
+	 * @since 3.0.0 Added `$args` parameter.
+	 * @since 11.0.0 uses `bp_get_send_message_button_args()`.
+	 *
+	 * @see bp_get_send_message_button_args() for description of parameters.
+	 *
+	 * @param array|string $args See {@link bp_get_send_message_button_args()}.
+	 * @return string
+	 */
+	function bp_get_send_message_button( $args = '' ) {
+		$button_args = bp_get_send_message_button_args( $args );
+
+		if ( ! array_filter( $button_args ) ) {
+			return '';
+		}
+
+		/** This filter is documented in wp-includes/deprecated.php */
+		$button = apply_filters_deprecated(
+			'bp_get_send_message_button',
+			array( bp_get_button( $button_args ) ),
+			'1.8.0',
+			'bp_get_send_message_button_args'
 		);
+
+		return $button;
 	}
 
 /**

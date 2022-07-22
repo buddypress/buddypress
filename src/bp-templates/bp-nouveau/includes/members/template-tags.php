@@ -401,49 +401,34 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 			}
 
 			if ( bp_is_active( 'messages' ) ) {
-				/**
-				 * This filter workaround is waiting for a core adaptation
-				 * so that we can directly get the private messages button arguments
-				 * instead of the button.
-				 * @see https://buddypress.trac.wordpress.org/ticket/7126
+				$button_args = bp_get_send_message_button_args();
+
+				/*
+				 * This button should remain as an anchor link.
+				 * Hardcode the use of anchor elements if button arg passed in for other elements.
 				 */
-				add_filter( 'bp_get_send_message_button_args', 'bp_nouveau_members_catch_button_args', 100, 1 );
-
-				bp_get_send_message_button();
-
-				remove_filter( 'bp_get_send_message_button_args', 'bp_nouveau_members_catch_button_args', 100, 1 );
-
-				if ( isset( bp_nouveau()->members->button_args ) && bp_nouveau()->members->button_args ) {
-					$button_args = bp_nouveau()->members->button_args;
-
-					/*
-					 * This button should remain as an anchor link.
-					 * Hardcode the use of anchor elements if button arg passed in for other elements.
-					 */
-					$buttons['private_message'] = array(
-						'id'                => $button_args['id'],
-						'position'          => 25,
-						'component'         => $button_args['component'],
-						'must_be_logged_in' => $button_args['must_be_logged_in'],
-						'block_self'        => $button_args['block_self'],
-						'parent_element'    => $parent_element,
-						'button_element'    => 'a',
-						'link_text'         => $button_args['link_text'],
-						'parent_attr'       => array(
-							'id'    => $button_args['wrapper_id'],
-							'class' => $parent_class,
-						),
-						'button_attr'       => array(
-							'href'  => bp_get_send_private_message_link(),
-							'id'    => false,
-							'class' => $button_args['link_class'],
-							'rel'   => '',
-							'title' => '',
-						),
-					);
-
-					unset( bp_nouveau()->members->button_args );
-				}
+				$buttons['private_message'] = array(
+					'id'                => $button_args['id'],
+					'position'          => 25,
+					'component'         => $button_args['component'],
+					'must_be_logged_in' => $button_args['must_be_logged_in'],
+					'block_self'        => $button_args['block_self'],
+					'parent_element'    => $parent_element,
+					'button_element'    => 'a',
+					'link_text'         => $button_args['link_text'],
+					'link_title'        => $button_args['link_title'],
+					'parent_attr'       => array(
+						'id'    => $button_args['wrapper_id'],
+						'class' => $parent_class,
+					),
+					'button_attr'       => array(
+						'href'  => bp_get_send_private_message_link(),
+						'id'    => false,
+						'class' => $button_args['link_class'],
+						'rel'   => '',
+						'title' => '',
+					),
+				);
 			}
 		}
 
