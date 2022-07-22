@@ -660,26 +660,6 @@ function bp_nouveau_get_groups_filters( $context = '' ) {
 }
 
 /**
- * Catch the arguments for buttons
- *
- * @since 3.0.0
- *
- * @param array $button The arguments of the button that BuddyPress is about to create.
- *
- * @return array An empty array to stop the button creation process.
- */
-function bp_nouveau_groups_catch_button_args( $button = array() ) {
-	/**
-	 * Globalize the arguments so that we can use it
-	 * in bp_nouveau_get_groups_buttons().
-	 */
-	bp_nouveau()->groups->button_args = $button;
-
-	// return an empty array to stop the button creation process
-	return array();
-}
-
-/**
  * Catch the content hooked to the 'bp_group_header_meta' action
  *
  * @since 3.0.0
