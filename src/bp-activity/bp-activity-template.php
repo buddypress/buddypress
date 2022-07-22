@@ -3482,38 +3482,38 @@ function bp_mentioned_user_display_name( $user_id_or_username = false ) {
  *
  * @since 1.2.0
  *
- * @see bp_get_send_public_message_button() for description of parameters.
+ * @see bp_activity_get_public_message_button_args() for description of parameters.
  *
- * @param array|string $args See {@link bp_get_send_public_message_button()}.
+ * @param array|string $args See {@link bp_activity_get_public_message_button_args()}.
  */
 function bp_send_public_message_button( $args = '' ) {
 	echo bp_get_send_public_message_button( $args );
 }
 
 	/**
-	 * Return button for sending a public message (an @-mention).
+	 * Get the arguments for the public message button.
 	 *
-	 * @since 1.2.0
-	 *
+	 * @since 11.0.0
 	 *
 	 * @param array|string $args {
-	 *     All arguments are optional. See {@link BP_Button} for complete
-	 *     descriptions.
-	 *     @type string $id                Default: 'public_message'.
-	 *     @type string $component         Default: 'activity'.
-	 *     @type bool   $must_be_logged_in Default: true.
-	 *     @type bool   $block_self        Default: true.
-	 *     @type string $wrapper_id        Default: 'post-mention'.
-	 *     @type string $link_href         Default: the public message link for
-	 *                                     the current member in the loop.
-	 *     @type string $link_text         Default: 'Public Message'.
-	 *     @type string $link_class        Default: 'activity-button mention'.
+	 *    All arguments are optional. See {@link BP_Button} for complete
+	 *    descriptions.
+	 *    @type string $id                Default: 'public_message'.
+	 *    @type string $component         Default: 'activity'.
+	 *    @type bool   $must_be_logged_in Default: true.
+	 *    @type bool   $block_self        Default: true.
+	 *    @type string $wrapper_id        Default: 'post-mention'.
+	 *    @type string $link_href         Default: the public message link for
+	 *                                    the current member in the loop.
+	 *    @type string $link_title        Default: 'Send a public message on your
+	 *                                    activity stream.'.
+	 *    @type string $link_text         Default: 'Public Message'.
+	 *    @type string $link_class        Default: 'activity-button mention'.
 	 * }
-	 * @return string The button for sending a public message.
+	 * @return array The arguments for the public message button.
 	 */
-	function bp_get_send_public_message_button( $args = '' ) {
-
-		$r = bp_parse_args(
+	function bp_activity_get_public_message_button_args( $args = '' ) {
+		$button_args = bp_parse_args(
 			$args,
 			array(
 				'id'                => 'public_message',
@@ -3522,6 +3522,7 @@ function bp_send_public_message_button( $args = '' ) {
 				'block_self'        => true,
 				'wrapper_id'        => 'post-mention',
 				'link_href'         => bp_get_send_public_message_link(),
+				'link_title'        => __( 'Send a public message to this member.', 'buddypress' ),
 				'link_text'         => __( 'Public Message', 'buddypress' ),
 				'link_class'        => 'activity-button mention',
 			)
@@ -3532,9 +3533,30 @@ function bp_send_public_message_button( $args = '' ) {
 		 *
 		 * @since 1.2.10
 		 *
-		 * @param array $r Array of arguments for the public message button HTML.
+		 * @param array $button_args Array of arguments for the public message button HTML.
 		 */
-		return bp_get_button( apply_filters( 'bp_get_send_public_message_button', $r ) );
+		return apply_filters( 'bp_get_send_public_message_button', $button_args );
+	}
+
+	/**
+	 * Return button for sending a public message (an @-mention).
+	 *
+	 * @since 1.2.0
+	 * @since 11.0.0 uses `bp_activity_get_public_message_button_args()`.
+	 *
+	 * @see bp_activity_get_public_message_button_args() for description of parameters.
+	 *
+	 * @param array|string $args See {@link bp_activity_get_public_message_button_args()}.
+	 * @return string The button for sending a public message.
+	 */
+	function bp_get_send_public_message_button( $args = '' ) {
+		$button_args = bp_activity_get_public_message_button_args( $args );
+
+		if ( ! array_filter( $button_args ) ) {
+			return '';
+		}
+
+		return bp_get_button( $button_args );
 	}
 
 /**
