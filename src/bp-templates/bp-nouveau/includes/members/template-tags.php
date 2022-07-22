@@ -319,22 +319,9 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 
 			// It's any other members screen
 			} else {
-				/*
-				 * This filter workaround is waiting for a core adaptation
-				 * so that we can directly get the friends button arguments
-				 * instead of the button.
-				 *
-				 * See https://buddypress.trac.wordpress.org/ticket/7126
-				 */
-				add_filter( 'bp_get_add_friend_button', 'bp_nouveau_members_catch_button_args', 100, 1 );
+				$button_args = bp_get_add_friend_button_args( $user_id );
 
-				bp_get_add_friend_button( $user_id );
-
-				remove_filter( 'bp_get_add_friend_button', 'bp_nouveau_members_catch_button_args', 100, 1 );
-
-				if ( isset( bp_nouveau()->members->button_args ) && bp_nouveau()->members->button_args ) {
-					$button_args = bp_nouveau()->members->button_args;
-
+				if ( $button_args ) {
 					$buttons['member_friendship'] = array(
 						'id'                => 'member_friendship',
 						'position'          => 5,
@@ -343,6 +330,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 						'block_self'        => $button_args['block_self'],
 						'parent_element'    => $parent_element,
 						'link_text'         => $button_args['link_text'],
+						'link_title'        => $button_args['link_title'],
 						'parent_attr'       => array(
 							'id'    => $button_args['wrapper_id'],
 							'class' => $parent_class . ' ' . $button_args['wrapper_class'],
@@ -363,8 +351,6 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 						$buttons['member_friendship']['button_element'] = 'a';
 						$buttons['member_friendship']['button_attr']['href'] = $button_args['link_href'];
 					}
-
-					unset( bp_nouveau()->members->button_args );
 				}
 			}
 		}

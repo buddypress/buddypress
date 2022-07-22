@@ -360,31 +360,31 @@ function bp_is_friend( $user_id = 0 ) {
 function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
 	echo bp_get_add_friend_button( $potential_friend_id, $friend_status );
 }
+
 	/**
-	 * Create the Add Friend button.
+	 * Build friend button arguments.
 	 *
-	 * @since 1.1.0
+	 * @since 11.0.0
 	 *
-	 * @param int  $potential_friend_id ID of the user to whom the button
-	 *                                  applies. Default: value of {@link bp_get_potential_friend_id()}.
-	 * @param bool $friend_status       Not currently used.
-	 * @return bool|string HTML for the Add Friend button. False if already friends.
+	 * @param int    $potential_friend_id The user ID of the potential friend.
+	 * @return array The friend button arguments.
 	 */
-	function bp_get_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
+	function bp_get_add_friend_button_args( $potential_friend_id = 0 ) {
+		$button_args = array();
 
 		if ( empty( $potential_friend_id ) ) {
 			$potential_friend_id = bp_get_potential_friend_id( $potential_friend_id );
 		}
 
-		$is_friend = bp_is_friend( $potential_friend_id );
+		$friendship_status = bp_is_friend( $potential_friend_id );
 
-		if ( empty( $is_friend ) ) {
-			return false;
+		if ( empty( $friendship_status ) ) {
+			return $button_args;
 		}
 
-		switch ( $is_friend ) {
+		switch ( $friendship_status ) {
 			case 'pending':
-				$button = array(
+				$button_args = array(
 					'id'                => 'pending',
 					'component'         => 'friends',
 					'must_be_logged_in' => true,
@@ -393,6 +393,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/cancel/' . $potential_friend_id . '/', 'friends_withdraw_friendship' ),
 					'link_text'         => __( 'Cancel Friendship Request', 'buddypress' ),
+					'link_title'        => __( 'Cancel Friendship Requested', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
 					'link_rel'          => 'remove',
 					'link_class'        => 'friendship-button pending_friend requested',
@@ -400,7 +401,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 				break;
 
 			case 'awaiting_response':
-				$button = array(
+				$button_args = array(
 					'id'                => 'awaiting_response',
 					'component'         => 'friends',
 					'must_be_logged_in' => true,
@@ -409,6 +410,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/',
 					'link_text'         => __( 'Friendship Requested', 'buddypress' ),
+					'link_title'        => __( 'Friendship Requested', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
 					'link_rel'          => 'remove',
 					'link_class'        => 'friendship-button awaiting_response_friend requested',
@@ -416,7 +418,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 				break;
 
 			case 'is_friend':
-				$button = array(
+				$button_args = array(
 					'id'                => 'is_friend',
 					'component'         => 'friends',
 					'must_be_logged_in' => true,
@@ -425,6 +427,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/remove-friend/' . $potential_friend_id . '/', 'friends_remove_friend' ),
 					'link_text'         => __( 'Cancel Friendship', 'buddypress' ),
+					'link_title'        => __( 'Cancel Friendship', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
 					'link_rel'          => 'remove',
 					'link_class'        => 'friendship-button is_friend remove',
@@ -432,7 +435,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 				break;
 
 			default:
-				$button = array(
+				$button_args = array(
 					'id'                => 'not_friends',
 					'component'         => 'friends',
 					'must_be_logged_in' => true,
@@ -441,6 +444,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/add-friend/' . $potential_friend_id . '/', 'friends_add_friend' ),
 					'link_text'         => __( 'Add Friend', 'buddypress' ),
+					'link_title'        => __( 'Add Friend', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
 					'link_rel'          => 'add',
 					'link_class'        => 'friendship-button not_friends add',
@@ -453,9 +457,30 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $button HTML markup for add friend button.
+		 * @param string $button_args Button arguments for add friend button.
 		 */
-		return bp_get_button( apply_filters( 'bp_get_add_friend_button', $button ) );
+		return apply_filters( 'bp_get_add_friend_button', $button_args );
+	}
+
+	/**
+	 * Create the Add Friend button.
+	 *
+	 * @since 1.1.0
+	 * @since 11.0.0 uses `bp_get_add_friend_button_args()`.
+	 *
+	 * @param int  $potential_friend_id ID of the user to whom the button
+	 *                                  applies. Default: value of {@link bp_get_potential_friend_id()}.
+	 * @param bool $friend_status       Not currently used.
+	 * @return bool|string HTML for the Add Friend button. False if already friends.
+	 */
+	function bp_get_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
+		$button_args = bp_get_add_friend_button_args( $potential_friend_id );
+
+		if ( ! array_filter( $button_args ) ) {
+			return false;
+		}
+
+		return bp_get_button( $button_args );
 	}
 
 /**
