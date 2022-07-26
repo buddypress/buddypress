@@ -185,7 +185,7 @@ function bp_core_confirmation_js() {
 	) );
 
 }
-add_action( 'bp_enqueue_scripts',       'bp_core_confirmation_js' );
+add_action( 'bp_enqueue_community_scripts', 'bp_core_confirmation_js' );
 add_action( 'bp_admin_enqueue_scripts', 'bp_core_confirmation_js' );
 
 /**
@@ -206,7 +206,7 @@ function bp_core_avatar_scripts() {
 	add_action( 'bp_after_group_admin_content',           'bp_avatar_template_check' );
 	add_action( 'bp_after_group_avatar_creation_step',    'bp_avatar_template_check' );
 }
-add_action( 'bp_enqueue_scripts', 'bp_core_avatar_scripts' );
+add_action( 'bp_enqueue_community_scripts', 'bp_core_avatar_scripts' );
 
 /**
  * Enqueues the css and js required by the Cover Image UI.
@@ -221,7 +221,7 @@ function bp_core_cover_image_scripts() {
 	// Enqueue the Attachments scripts for the Cover Image UI.
 	bp_attachments_enqueue_scripts( 'BP_Attachment_Cover_Image' );
 }
-add_action( 'bp_enqueue_scripts', 'bp_core_cover_image_scripts' );
+add_action( 'bp_enqueue_community_scripts', 'bp_core_cover_image_scripts' );
 
 /**
  * Enqueues jCrop library and hooks BP's custom cropper JS.
@@ -522,7 +522,7 @@ function bp_add_cover_image_inline_css( $return = false ) {
 		}
 	}
 }
-add_action( 'bp_enqueue_scripts', 'bp_add_cover_image_inline_css', 11 );
+add_action( 'bp_enqueue_community_scripts', 'bp_add_cover_image_inline_css', 11 );
 
 /**
  * Enqueues livestamp.js on BuddyPress pages.
@@ -536,7 +536,7 @@ function bp_core_add_livestamp() {
 
 	bp_core_enqueue_livestamp();
 }
-add_action( 'bp_enqueue_scripts', 'bp_core_add_livestamp' );
+add_action( 'bp_enqueue_community_scripts', 'bp_core_add_livestamp' );
 
 /**
  * Enqueue and localize livestamp.js script.

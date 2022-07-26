@@ -178,7 +178,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 
 		// Scripts & Styles.
 		$registration_params = array(
-			'hook'     => 'bp_enqueue_scripts',
+			'hook'     => 'bp_enqueue_community_scripts',
 			'priority' => 2,
 		);
 
@@ -195,14 +195,14 @@ class BP_Nouveau extends BP_Theme_Compat {
 		add_action( $registration_params['hook'], array( $this, 'register_scripts' ), $registration_params['priority'] );
 
 		// Enqueue theme CSS.
-		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_styles' ) );
 
 		// Enqueue theme JS.
-		add_action( 'bp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Enqueue theme script localization.
-		add_filter( 'bp_enqueue_scripts', array( $this, 'localize_scripts' ) );
-		remove_action( 'bp_enqueue_scripts', 'bp_core_confirmation_js' );
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'localize_scripts' ) );
+		remove_action( 'bp_enqueue_community_scripts', 'bp_core_confirmation_js' );
 
 		// Body no-js class.
 		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );

@@ -119,6 +119,9 @@ add_action( 'bp_after_setup_theme', 'bp_check_theme_template_pack_dependency',  
 add_action( 'bp_after_setup_theme', 'bp_load_theme_functions',                    1  );
 add_action( 'bp_after_setup_theme', 'bp_register_theme_compat_default_features',  10 );
 
+// Adds a new hook to be sure to enqueue scripts when `is_buddypress()` is true.
+add_action( 'bp_enqueue_scripts', 'bp_enqueue_community_scripts' );
+
 // Load the admin.
 if ( is_admin() ) {
 	add_action( 'bp_loaded', 'bp_admin' );
