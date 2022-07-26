@@ -90,6 +90,22 @@
 			}
 		} // close li forum elements
 
+		&.new_blog_post {
+
+			.activity-inner {
+
+				strong {
+					display: block;
+					margin-bottom: 0.8em;
+				}
+
+				img {
+					float: left;
+					margin-right: 0.8em;
+				}
+			}
+		} // close li blog post elements
+
 
 		&.newest_mentions_activity,
 		&.newest_friends_activity,

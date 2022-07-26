@@ -326,6 +326,16 @@ body.activity-permalink #buddypress .activity-list li .activity-header > p {
 	padding-right: 10px;
 }
 
+#buddypress .activity-list li.new_blog_post .activity-content .activity-inner strong {
+	display: block;
+	margin-bottom: 0.8em;
+}
+
+#buddypress .activity-list li.new_blog_post .activity-content .activity-inner img {
+	float: right;
+	margin-left: 0.8em;
+}
+
 body.activity-permalink #buddypress .activity-content .activity-inner,
 body.activity-permalink #buddypress .activity-content blockquote {
 	margin-right: 0;

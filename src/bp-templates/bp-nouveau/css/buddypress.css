@@ -1306,6 +1306,16 @@ body.buddypress article.page > .entry-header:not(.alignwide):not(.alignfull) .en
 	padding-left: 1em;
 }
 
+.activity-list .activity-item.new_blog_post .activity-inner strong {
+	display: block;
+	margin-bottom: 0.8em;
+}
+
+.activity-list .activity-item.new_blog_post .activity-inner img {
+	float: left;
+	margin-right: 0.8em;
+}
+
 .activity-list .activity-item.newest_mentions_activity, .activity-list .activity-item.newest_friends_activity, .activity-list .activity-item.newest_groups_activity, .activity-list .activity-item.newest_blogs_activity {
 	background: rgba(31, 179, 221, 0.1);
 }

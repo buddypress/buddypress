@@ -241,7 +241,7 @@ class BP_Tests_Activity_Actions extends BP_UnitTestCase {
 
 		$a = $this->activity_exists_for_post( $post_id, 'new_post', true );
 
-		$this->assertSame( $post->post_content, $a->content, 'The Activity about a published post type should be updated when the post content has changed.' );
+		$this->assertSame( bp_activity_create_summary( $post->post_content, (array) $a ), $a->content, 'The Activity about a published post type should be updated when the post content has changed.' );
 	}
 
 	protected function activity_exists_for_post( $post_id, $action, $get_object = false ) {
