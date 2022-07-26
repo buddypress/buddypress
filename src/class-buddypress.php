@@ -463,6 +463,15 @@ class BuddyPress {
 		 * @param string $value Email type taxonomy slug.
 		 */
 		$this->email_taxonomy_type = apply_filters( 'bp_email_tax_type', 'bp-email-type' );
+
+		/**
+		 * Are PHPUnit tests running?
+		 *
+		 * @since 11.0.0
+		 *
+		 * @param bool $value True if PHPUnit tests are running, false otherwise.
+		 */
+		$this->is_phpunit_running = function_exists( 'tests_add_filter' );
 	}
 
 	/**
@@ -483,11 +492,6 @@ class BuddyPress {
 		// Define the database version.
 		if ( ! defined( 'BP_DB_VERSION' ) ) {
 			define( 'BP_DB_VERSION', $this->db_version );
-		}
-
-		// Define if deprecated functions should be ignored.
-		if ( ! defined( 'BP_IGNORE_DEPRECATED' ) ) {
-			define( 'BP_IGNORE_DEPRECATED', true );
 		}
 	}
 
@@ -535,32 +539,18 @@ class BuddyPress {
 		require $this->plugin_dir . 'bp-core/bp-core-rest-api.php';
 		require $this->plugin_dir . 'bp-core/bp-core-blocks.php';
 
-		// Maybe load deprecated functionality (this double negative is proof positive!).
-		if ( ! bp_get_option( '_bp_ignore_deprecated_code', ! $this->load_deprecated ) ) {
-			require $this->plugin_dir . 'bp-core/deprecated/1.2.php';
-			require $this->plugin_dir . 'bp-core/deprecated/1.5.php';
-			require $this->plugin_dir . 'bp-core/deprecated/1.6.php';
-			require $this->plugin_dir . 'bp-core/deprecated/1.7.php';
-			require $this->plugin_dir . 'bp-core/deprecated/1.9.php';
-			require $this->plugin_dir . 'bp-core/deprecated/2.0.php';
-			require $this->plugin_dir . 'bp-core/deprecated/2.1.php';
-			require $this->plugin_dir . 'bp-core/deprecated/2.2.php';
-			require $this->plugin_dir . 'bp-core/deprecated/2.3.php';
-			require $this->plugin_dir . 'bp-core/deprecated/2.4.php';
-			require $this->plugin_dir . 'bp-core/deprecated/2.5.php';
-			require $this->plugin_dir . 'bp-core/deprecated/2.6.php';
-			require $this->plugin_dir . 'bp-core/deprecated/2.7.php';
-			require $this->plugin_dir . 'bp-core/deprecated/2.8.php';
-			require $this->plugin_dir . 'bp-core/deprecated/2.9.php';
-			require $this->plugin_dir . 'bp-core/deprecated/3.0.php';
-			require $this->plugin_dir . 'bp-core/deprecated/4.0.php';
-			require $this->plugin_dir . 'bp-core/deprecated/6.0.php';
-			require $this->plugin_dir . 'bp-core/deprecated/7.0.php';
-			require $this->plugin_dir . 'bp-core/deprecated/8.0.php';
-			require $this->plugin_dir . 'bp-core/deprecated/9.0.php';
-			require $this->plugin_dir . 'bp-core/deprecated/10.0.php';
-			require $this->plugin_dir . 'bp-core/deprecated/11.0.php';
-		}
+		// Get the list of versions needing their deprecated functions to be loaded.
+		$deprecated_functions_versions = bp_get_deprecated_functions_versions();
+
+		// Maybe load deprecated functionality.
+		if ( $deprecated_functions_versions && ! $this->is_phpunit_running ) {
+			$this->load_deprecated = true;
+
+			foreach ( $deprecated_functions_versions as $deprecated_functions_version ) {
+				// Load all or last 2 deprecated versions.
+				require $this->plugin_dir . sprintf( 'bp-core/deprecated/%s.php', $deprecated_functions_version );
+			}
+  		}
 
 		// Load wp-cli module if PHP 5.6+.
 		if (
@@ -720,7 +710,7 @@ class BuddyPress {
 		if (
 			! in_array( $component, array( 'core', 'members' ), true ) &&
 			! bp_is_active( $component ) &&
-			! function_exists( 'tests_add_filter' )
+			! $this->is_phpunit_running
 		) {
 			return;
 		}

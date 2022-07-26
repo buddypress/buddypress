@@ -5,6 +5,8 @@
  */
 
 class BP_Tests_Core_Functions extends BP_UnitTestCase {
+	protected $bp_initial_version;
+
 	/**
 	 * @group bp_esc_sql_order
 	 */
@@ -874,5 +876,42 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 	public function add_newcomponent_page_title( $page_default_titles = array() ) {
 		return array_merge( $page_default_titles, array( 'newcomponent' => 'NewComponent' ) );
+	}
+
+	public function override_initial_version() {
+		return $this->bp_initial_version;
+	}
+
+	/**
+	 * @ticket BP8687
+	 */
+	public function test_bp_get_deprecated_functions_versions() {
+		$current_version = (float) bp_get_version();
+		$versions        = bp_get_deprecated_functions_versions();
+
+		// When current version is the initial version, we shouldn't load deprecated functions files.
+		$this->assertTrue( is_array( $versions ) && ! $versions, 'Please check the list of `$deprecated_functions_versions` in `bp_get_deprecated_functions_versions()`. There should be one for each file of the `/src/bp-core/deprecated` directory.' );
+
+		// We should load the 2 lasts deprecated functions files.
+		$this->bp_initial_version = '8.0';
+
+		add_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
+
+		$versions = bp_get_deprecated_functions_versions();
+
+		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
+
+		$this->assertTrue( 2 === count( $versions ) );
+
+		// Even if this version does not exist in deprecated functions files, we should load the 2 lasts.
+		$this->bp_initial_version = '1.0';
+
+		add_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
+
+		$versions = bp_get_deprecated_functions_versions();
+
+		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
+
+		$this->assertTrue( 2 === count( $versions ) );
 	}
 }

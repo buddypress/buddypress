@@ -205,6 +205,8 @@ function bp_version_updater() {
 
 	// Install BP schema and activate only Activity and XProfile.
 	if ( bp_is_install() ) {
+		// Set the first BP major version the plugin was installed.
+		bp_update_option( '_bp_initial_major_version', bp_get_major_version() );
 
 		// Apply schema and set Activity and XProfile components as active.
 		bp_core_install( $default_components );
@@ -761,6 +763,7 @@ function bp_core_get_10_0_upgrade_email_schema( $emails ) {
  * @since 11.0.0
  */
 function bp_update_to_11_0() {
+	bp_delete_option( '_bp_ignore_deprecated_code' );
 
 	add_filter( 'bp_email_get_schema', 'bp_core_get_11_0_upgrade_email_schema' );
 
