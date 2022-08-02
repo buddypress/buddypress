@@ -626,33 +626,48 @@ class BP_Blogs_Blog {
 		for ( $i = 0, $count = count( $paged_blogs ); $i < $count; ++$i ) {
 			$blog_prefix = $wpdb->get_blog_prefix( $paged_blogs[$i]->blog_id );
 			$paged_blogs[$i]->latest_post = $wpdb->get_row( "SELECT ID, post_content, post_title, post_excerpt, guid FROM {$blog_prefix}posts WHERE post_status = 'publish' AND post_type = 'post' AND id != 1 ORDER BY id DESC LIMIT 1" );
-			$images = array();
 
-			// Add URLs to any Featured Image this post might have.
-			if ( ! empty( $paged_blogs[$i]->latest_post ) && has_post_thumbnail( $paged_blogs[$i]->latest_post->ID ) ) {
+			/**
+			 * Filters whether to fetch Featured Images for the Sites directory.
+			 *
+			 * @since 11.0.0
+			 *
+			 * @param bool $fetch_featured_images Defaults to true.
+			 * @param int  $blog_id               ID of the current blog whose extras are being generated.
+			 */
+			if ( apply_filters( 'bp_blogs_fetch_latest_post_thumbnails', true, $paged_blogs[ $i ]->blog_id ) ) {
+				$images = array();
 
-				// Grab 4 sizes of the image. Thumbnail.
-				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'thumbnail', false );
-				if ( ! empty( $image ) )
-					$images['thumbnail'] = $image[0];
+				switch_to_blog( $paged_blogs[ $i ]->blog_id );
 
-				// Medium.
-				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'medium', false );
-				if ( ! empty( $image ) )
-					$images['medium'] = $image[0];
+				// Add URLs to any Featured Image this post might have.
+				if ( ! empty( $paged_blogs[$i]->latest_post ) && has_post_thumbnail( $paged_blogs[$i]->latest_post->ID ) ) {
 
-				// Large.
-				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'large', false );
-				if ( ! empty( $image ) )
-					$images['large'] = $image[0];
+					// Grab 4 sizes of the image. Thumbnail.
+					$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'thumbnail', false );
+					if ( ! empty( $image ) )
+						$images['thumbnail'] = $image[0];
 
-				// Post thumbnail.
-				$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'post-thumbnail', false );
-				if ( ! empty( $image ) )
-					$images['post-thumbnail'] = $image[0];
+					// Medium.
+					$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'medium', false );
+					if ( ! empty( $image ) )
+						$images['medium'] = $image[0];
 
-				// Add the images to the latest_post object.
-				$paged_blogs[$i]->latest_post->images = $images;
+					// Large.
+					$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'large', false );
+					if ( ! empty( $image ) )
+						$images['large'] = $image[0];
+
+					// Post thumbnail.
+					$image = wp_get_attachment_image_src( get_post_thumbnail_id( $paged_blogs[$i]->latest_post->ID ), 'post-thumbnail', false );
+					if ( ! empty( $image ) )
+						$images['post-thumbnail'] = $image[0];
+
+					// Add the images to the latest_post object.
+					$paged_blogs[$i]->latest_post->images = $images;
+				}
+
+				restore_current_blog();
 			}
 		}
 
