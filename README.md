@@ -7,7 +7,7 @@ Welcome to the BuddyPress development repository! This repository is a mirror of
 * [Getting Started](#getting-started)
 * [Credentials](#credentials)
 
-## Getting Started
+## Getting Startedd
 
 BuddyPress is a WordPress plugin to power you community site. It is a PHP, MySQL, and JavaScript based project, and uses Node for its JavaScript dependencies. A local development environment is available to quickly get up and running.
 
