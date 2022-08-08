@@ -998,45 +998,47 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		} else {
 			$button_args = bp_groups_get_group_join_button_args( $group );
 
-			// If we pass through parent classes merge those into the existing ones
-			if ( $parent_class ) {
-				$parent_class .= ' ' . $button_args['wrapper_class'];
-			}
+			if ( $button_args ) {
+				// If we pass through parent classes merge those into the existing ones.
+				if ( $parent_class ) {
+					$parent_class .= ' ' . $button_args['wrapper_class'];
+				}
 
-			// The join or leave group header button should default to 'button'
-			// Reverse the earler button var to set default as 'button' not 'a'
-			if ( empty( $args['button_element'] ) ) {
-				$button_element = 'button';
-			}
+				// The join or leave group header button should default to 'button'.
+				// Reverse the earlier button var to set default as 'button' not 'a'.
+				if ( empty( $args['button_element'] ) ) {
+					$button_element = 'button';
+				}
 
-			$buttons['group_membership'] = array(
-				'id'                => 'group_membership',
-				'position'          => 5,
-				'component'         => $button_args['component'],
-				'must_be_logged_in' => $button_args['must_be_logged_in'],
-				'block_self'        => $button_args['block_self'],
-				'parent_element'    => $parent_element,
-				'button_element'    => $button_element,
-				'link_text'         => $button_args['link_text'],
-				'link_title'        => $button_args['link_title'],
-				'parent_attr'       => array(
-						'id'    => $button_args['wrapper_id'],
-						'class' => $parent_class,
-				),
-				'button_attr'       => array(
-					'id'    => ! empty( $button_args['link_id'] ) ? $button_args['link_id'] : '',
-					'class' => $button_args['link_class'] . ' button',
-					'rel'   => ! empty( $button_args['link_rel'] ) ? $button_args['link_rel'] : '',
-					'title' => '',
-				),
-			);
+				$buttons['group_membership'] = array(
+					'id'                => 'group_membership',
+					'position'          => 5,
+					'component'         => $button_args['component'],
+					'must_be_logged_in' => $button_args['must_be_logged_in'],
+					'block_self'        => $button_args['block_self'],
+					'parent_element'    => $parent_element,
+					'button_element'    => $button_element,
+					'link_text'         => $button_args['link_text'],
+					'link_title'        => $button_args['link_title'],
+					'parent_attr'       => array(
+							'id'    => $button_args['wrapper_id'],
+							'class' => $parent_class,
+					),
+					'button_attr'       => array(
+						'id'    => ! empty( $button_args['link_id'] ) ? $button_args['link_id'] : '',
+						'class' => $button_args['link_class'] . ' button',
+						'rel'   => ! empty( $button_args['link_rel'] ) ? $button_args['link_rel'] : '',
+						'title' => '',
+					),
+				);
 
-			// If button element set add nonce 'href' link to data-attr attr.
-			if ( 'button' === $button_element ) {
-				$buttons['group_membership']['button_attr']['data-bp-nonce'] = $button_args['link_href'];
-			} else {
-			// Else this is an anchor so use an 'href' attr.
-				$buttons['group_membership']['button_attr']['href'] = $button_args['link_href'];
+				// If button element set add nonce 'href' link to data-attr attr.
+				if ( 'button' === $button_element ) {
+					$buttons['group_membership']['button_attr']['data-bp-nonce'] = $button_args['link_href'];
+				} else {
+					// Else this is an anchor so use an 'href' attr.
+					$buttons['group_membership']['button_attr']['href'] = $button_args['link_href'];
+				}
 			}
 		}
 
