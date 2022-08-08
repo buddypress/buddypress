@@ -1459,6 +1459,12 @@ function bp_activity_has_content() {
 			$generated_content = new stdClass();
 			$activity          = $activities_template->activity;
 			$user_id           = $activity->user_id;
+			$personal_types    = array( 'new_avatar', 'new_member', 'updated_profile' );
+
+			// Do not use generated-content activities when displaying a personal activity stream.
+			if ( (int) $user_id === (int) bp_displayed_user_id() && in_array( $activity_type, $personal_types, true ) ) {
+				return false;
+			}
 
 			// Set generated content properties.
 			if ( 'new_avatar' === $activity_type ) {
@@ -1563,7 +1569,13 @@ function bp_activity_has_content() {
 			}
 
 			if ( 'created_group' === $activity_type || 'joined_group' === $activity_type ) {
-				$group = bp_get_group( $activity->item_id );
+				$group         = bp_get_group( $activity->item_id );
+				$current_group = groups_get_current_group();
+
+				// Do not use generated-content activities when displaying a group activity stream.
+				if ( (int) $group->id === (int) $current_group->id ) {
+					return false;
+				}
 
 				if ( isset( $bp->avatar->show_avatars ) && $bp->avatar->show_avatars && ! bp_disable_group_avatar_uploads() ) {
 					$generated_content->group_profile_photo = array(
