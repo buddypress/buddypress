@@ -3268,6 +3268,11 @@ function bp_has_member_type( $user_id, $member_type ) {
 		return false;
 	}
 
+	$user_id = (int) $user_id;
+	if ( ! $user_id ) {
+		return false;
+	}
+
 	// Get all user's member types.
 	$types = bp_get_member_type( $user_id, false );
 

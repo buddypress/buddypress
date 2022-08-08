@@ -373,7 +373,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	public function test_bp_has_member_type_should_return_false_when_member_id_is_empty() {
 		bp_register_member_type( 'foo' );
 
-		$this->assertFalse( bp_has_member_type( '', 'foo' ) );
+		$this->assertFalse( bp_has_member_type( 0, 'foo' ) );
 	}
 
 	/**

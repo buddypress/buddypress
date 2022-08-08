@@ -195,7 +195,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	public function test_groups_has_type_should_return_false_when_group_id_is_empty() {
 		bp_groups_register_group_type( 'foo' );
 
-		$this->assertFalse( bp_groups_has_group_type( '', 'foo' ) );
+		$this->assertFalse( bp_groups_has_group_type( 0, 'foo' ) );
 	}
 
 	public function test_groups_has_type_should_return_false_when_group_is_not_of_provided_type() {

@@ -249,7 +249,10 @@ add_action( 'groups_delete_group', 'groups_clear_group_type_cache' );
  */
 function bp_groups_clear_user_group_cache_on_membership_save( BP_Groups_Member $member ) {
 	wp_cache_delete( $member->user_id, 'bp_groups_memberships_for_user' );
-	wp_cache_delete( $member->id, 'bp_groups_memberships' );
+
+	if ( ! is_null( $member->id ) ) {
+		wp_cache_delete( $member->id, 'bp_groups_memberships' );
+	}
 }
 add_action( 'groups_member_before_save', 'bp_groups_clear_user_group_cache_on_membership_save' );
 add_action( 'groups_member_before_remove', 'bp_groups_clear_user_group_cache_on_membership_save' );

@@ -49,7 +49,7 @@ function bp_activity_clear_cache_for_activity( $activity ) {
 	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 
 	// Clear the comments cache for the parent activity ID.
-	if ( 'activity_comment' === $activity->type ) {
+	if ( 'activity_comment' === $activity->type && ! empty( $activity->item_id ) ) {
 		wp_cache_delete( $activity->item_id, 'bp_activity_comments' );
 	}
 }

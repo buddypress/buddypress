@@ -3247,6 +3247,11 @@ function bp_groups_has_group_type( $group_id, $group_type ) {
 		return false;
 	}
 
+	$group_id = (int) $group_id;
+	if ( ! $group_id ) {
+		return false;
+	}
+
 	// Get all group's group types.
 	$types = bp_groups_get_group_type( $group_id, false );
 
