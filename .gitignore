@@ -18,6 +18,7 @@ logs
 results
 src/vendor
 vendor
+composer.lock
 
 node_modules
 npm-debug.log

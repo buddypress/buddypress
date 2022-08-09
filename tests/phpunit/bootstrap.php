@@ -1,4 +1,5 @@
 <?php
+const WP_TESTS_PHPUNIT_POLYFILLS_PATH = __DIR__ . '/../../vendor/yoast/phpunit-polyfills';
 
 if ( defined( 'BP_USE_WP_ENV_TESTS' ) ) {
 	// wp-env setup.

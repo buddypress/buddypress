@@ -26,6 +26,12 @@
 		"source": "https://buddypress.trac.wordpress.org/browser/",
 		"wiki": "https://codex.buddypress.org/"
 	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
 	"require": {
 		"composer/installers": "^1.10.0",
 		"php": ">=5.6.0"
@@ -37,5 +43,8 @@
 		"wp-coding-standards/wpcs": "~2.3.0",
 		"wp-phpunit/wp-phpunit": "^6.0",
 		"yoast/phpunit-polyfills": "^1.0.1"
+	},
+	"scripts": {
+		"test": "@php ./vendor/phpunit/phpunit/phpunit"
 	}
 }
