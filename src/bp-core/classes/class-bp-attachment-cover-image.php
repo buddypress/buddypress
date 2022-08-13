@@ -196,6 +196,9 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 		// Get default script data.
 		$script_data = parent::script_data();
 
+		// Adds the list of supported image types.
+		$script_data['mime_types'] = implode( ',', bp_attachments_get_allowed_types( 'cover_image' ) );
+
 		if ( bp_is_user() ) {
 			$item_id = bp_displayed_user_id();
 

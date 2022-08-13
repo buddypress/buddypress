@@ -162,6 +162,13 @@ window.bp = window.bp || {};
 					return;
 				}
 
+				if ( file.type === 'image/webp' && uploader.settings.webp_upload_error ) {
+					// Disallow uploading of WebP images if the server cannot edit them.
+					$( self ).trigger( 'bp-uploader-warning', self.strings.noneditable_image );
+					uploader.removeFile( file );
+					return;
+				}
+
 				if ( max > hundredmb && file.size > hundredmb && uploader.runtime !== 'html5' ) {
 					_this.uploadSizeError( uploader, file, true );
 				} else {

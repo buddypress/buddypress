@@ -784,7 +784,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	 * @group bp_attachments
 	 */
 	public function test_bp_attachments_get_allowed_types() {
-		$supported = array( 'jpeg', 'gif', 'png' );
+		$supported = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' );
 
 		$avatar = bp_attachments_get_allowed_types( 'avatar' );
 		$this->assertSame( $supported, $avatar );

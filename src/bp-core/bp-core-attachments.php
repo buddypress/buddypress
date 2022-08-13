@@ -156,6 +156,7 @@ function bp_attachments_get_max_upload_file_size( $type = '' ) {
  * Get allowed types for any attachment.
  *
  * @since 2.4.0
+ * @since 11.0.0 Adds the support for .webp images to Avatars and Cover images.
  *
  * @param string $type The extension types to get.
  *                     Default: 'avatar'.
@@ -163,16 +164,16 @@ function bp_attachments_get_max_upload_file_size( $type = '' ) {
  */
 function bp_attachments_get_allowed_types( $type = 'avatar' ) {
 	// Defaults to BuddyPress supported image extensions.
-	$exts    = array( 'jpeg', 'gif', 'png' );
-	$wp_exts = wp_get_ext_types();
+	$exts = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
+	if ( bp_is_running_wp( '5.8.0', '>=' ) ) {
+		$exts[] = 'webp';
+	}
 
-	/**
-	 * It's not a BuddyPress feature, get the allowed extensions
-	 * matching the $type requested.
-	 */
-	if ( 'avatar' !== $type && 'cover_image' !== $type ) {
+	// Avatar and cover image are images.
+	if ( 'image' !== $type && 'avatar' !== $type && 'cover_image' !== $type ) {
 		// Reset the default exts.
-		$exts = array();
+		$exts    = array();
+		$wp_exts = wp_get_ext_types();
 
 		if ( 'video' === $type ) {
 			$exts = wp_get_video_extensions();
@@ -689,6 +690,7 @@ function bp_attachments_get_plupload_l10n() {
 			'dismiss'                   => __( 'Dismiss', 'buddypress' ),
 			'crunching'                 => __( 'Crunching&hellip;', 'buddypress' ),
 			'unique_file_warning'       => __( 'Make sure to upload a unique file', 'buddypress' ),
+			'noneditable_image'         => __( 'This image cannot be processed by the web server. Convert it to JPEG or PNG before uploading.', 'buddypress' ),
 
 			/* translators: %s: File name. */
 			'error_uploading'           => __( '&#8220;%s&#8221; has failed to upload.', 'buddypress' ),
@@ -777,6 +779,15 @@ function bp_attachments_enqueue_scripts( $class = '' ) {
 
 	if ( ! empty( $args['max_file_size'] ) ) {
 		$defaults['filters']['max_file_size'] = $args['max_file_size'] . 'b';
+	}
+
+	if ( isset( $args['mime_types'] ) && $args['mime_types'] ) {
+		$defaults['filters']['mime_types'] =  array( array( 'extensions' => $args['mime_types'] ) );
+	}
+
+	// Check if WebP images can be edited.
+	if ( bp_is_running_wp( '5.8.0', '>=' ) && ! wp_image_editor_supports( array( 'mime_type' => 'image/webp' ) ) ) {
+		$defaults['webp_upload_error'] = true;
 	}
 
 	// Specific to BuddyPress Avatars.

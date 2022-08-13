@@ -493,17 +493,8 @@ abstract class BP_Attachment {
 			$check_types['dst_file'] = array( 'file' => $r['dst_file'], 'error' => _x( 'destination file', 'Attachment destination file', 'buddypress' ) );
 		}
 
-		/**
-		 * WordPress image supported types.
-		 * @see wp_attachment_is()
-		 */
-		$supported_image_types = array(
-			'jpg'  => 1,
-			'jpeg' => 1,
-			'jpe'  => 1,
-			'gif'  => 1,
-			'png'  => 1,
-		);
+		// Set supported image types.
+		$supported_image_types = array_fill_keys( bp_attachments_get_allowed_types( 'image' ), 1 );
 
 		foreach ( $check_types as $file ) {
 			$is_image      = wp_check_filetype( $file['file'] );

@@ -399,6 +399,9 @@ class BP_Attachment_Avatar extends BP_Attachment {
 		// Get default script data.
 		$script_data = parent::script_data();
 
+		// Adds the list of supported image types.
+		$script_data['mime_types'] = implode( ',', bp_core_get_allowed_avatar_types() );
+
 		// Defaults to Avatar Backbone script.
 		$js_scripts = array( 'bp-avatar' );
 
