@@ -5,6 +5,17 @@
  */
 class BP_Tests_Avatars extends BP_UnitTestCase {
 	private $params = array();
+	protected $allowed_image_types = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
+	protected $allowed_image_mimes = array( 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/png' );
+
+	public function set_up() {
+		parent::set_up();
+
+		if ( bp_is_running_wp( '5.8.0', '>=' ) ) {
+			$this->allowed_image_types[] = 'webp';
+			$this->allowed_image_mimes[] = 'image/webp';
+		}
+	}
 
 	private function clean_existing_avatars( $type = 'user' ) {
 		if ( 'user' === $type ) {
@@ -255,21 +266,23 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	 * @group bp_core_get_allowed_avatar_types
 	 */
 	public function test_bp_core_get_allowed_avatar_types_filter() {
+		$allowed_image_types = $this->allowed_image_types;
 		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
 
-		$this->assertEquals( array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' ), bp_core_get_allowed_avatar_types() );
+		$this->assertEquals( $allowed_image_types, bp_core_get_allowed_avatar_types() );
 
 		remove_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
 
 		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_remove_type' ) );
+		array_shift( $allowed_image_types );
 
-		$this->assertEquals( array( 'jpeg', 'jpe', 'gif', 'png', 'webp' ), bp_core_get_allowed_avatar_types() );
+		$this->assertEquals( $allowed_image_types, bp_core_get_allowed_avatar_types() );
 
 		remove_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_remove_type' ) );
 
 		add_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
 
-		$this->assertEquals( array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' ), bp_core_get_allowed_avatar_types() );
+		$this->assertEquals( $this->allowed_image_types, bp_core_get_allowed_avatar_types() );
 
 		remove_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
 	}
@@ -279,26 +292,28 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	 * @group bp_core_get_allowed_avatar_mimes
 	 */
 	public function test_bp_core_get_allowed_avatar_mimes() {
-		$mimes = bp_core_get_allowed_avatar_mimes();
+		$mimes               = bp_core_get_allowed_avatar_mimes();
+		$allowed_image_mimes = $this->allowed_image_mimes;
 
-		$this->assertEqualSets( array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' ), array_keys( $mimes ) );
-		$this->assertEqualSets( array( 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/png', 'image/webp' ), array_values( $mimes ) );
+		$this->assertEqualSets( $this->allowed_image_types, array_keys( $mimes ) );
+		$this->assertEqualSets( $allowed_image_mimes, array_values( $mimes ) );
 
 		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
 
-		$this->assertEqualSets( array( 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/png', 'image/webp' ), array_values( bp_core_get_allowed_avatar_mimes() ) );
+		$this->assertEqualSets( $allowed_image_mimes, array_values( bp_core_get_allowed_avatar_mimes() ) );
 
 		remove_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_add_type' ) );
 
 		add_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_remove_type' ) );
+		array_shift( $allowed_image_mimes );
 
-		$this->assertEqualSets( array( 'image/jpeg', 'image/jpeg', 'image/gif', 'image/png', 'image/webp', 'image/jpeg' ), array_values( bp_core_get_allowed_avatar_mimes() ) );
+		$this->assertEqualSets( array_merge( $allowed_image_mimes, array( 'image/jpeg' ) ), array_values( bp_core_get_allowed_avatar_mimes() ) );
 
 		remove_filter( 'bp_core_get_allowed_avatar_types', array( $this, 'avatar_types_filter_remove_type' ) );
 
 		add_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
 
-		$this->assertEqualSets( array( 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/png', 'image/webp' ), array_values( bp_core_get_allowed_avatar_mimes() ) );
+		$this->assertEqualSets( $this->allowed_image_mimes, array_values( bp_core_get_allowed_avatar_mimes() ) );
 
 		remove_filter( 'bp_core_get_allowed_avatar_types', '__return_empty_array' );
 	}
