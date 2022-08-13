@@ -8,8 +8,8 @@ class BP_Tests_Groups_Functions_BpGetUserGroups extends BP_UnitTestCase {
 	static $admin_user;
 	static $groups;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		groups_remove_member( self::$user, self::$groups[2] );
 	}
 
@@ -40,7 +40,7 @@ class BP_Tests_Groups_Functions_BpGetUserGroups extends BP_UnitTestCase {
 		self::commit_transaction();
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tear_down_after_class() {
 		foreach ( self::$groups as $group ) {
 			groups_delete_group( $group );
 		}
@@ -62,9 +62,9 @@ class BP_Tests_Groups_Functions_BpGetUserGroups extends BP_UnitTestCase {
 		$this->assertEqualSets( array( self::$groups[0], self::$groups[1] ), wp_list_pluck( $found, 'group_id' ) );
 
 		foreach ( $found as $index => $f ) {
-			$this->assertInternalType( 'int', $index );
-			$this->assertInternalType( 'object', $f );
-			$this->assertInternalType( 'int', $f->group_id );
+			$this->assertIsInt( $index );
+			$this->assertIsObject( $f );
+			$this->assertIsInt( $f->group_id );
 			$this->assertSame( $index, $f->group_id );
 		}
 	}

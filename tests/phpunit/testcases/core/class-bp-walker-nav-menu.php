@@ -7,8 +7,8 @@ class BP_Tests_Walker_Nav_Menu extends BP_UnitTestCase {
 	protected $reset_user_id;
 	protected $user_id;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->reset_user_id = get_current_user_id();
 
@@ -16,8 +16,8 @@ class BP_Tests_Walker_Nav_Menu extends BP_UnitTestCase {
 		$this->set_current_user( $this->user_id );
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		$this->set_current_user( $this->reset_user_id );
 	}
 

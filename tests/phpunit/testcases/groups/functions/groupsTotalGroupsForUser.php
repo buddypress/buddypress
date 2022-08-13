@@ -9,7 +9,7 @@ class BP_Tests_Groups_Functions_GroupsTotalGroupsForUser extends BP_UnitTestCase
 	 * @ticket BP6813
 	 */
 	public function test_should_return_integer() {
-		$this->assertInternalType( 'int', groups_total_groups_for_user( 123 ) );
+		$this->assertIsInt( groups_total_groups_for_user( 123 ) );
 	}
 
 	/**
@@ -22,6 +22,6 @@ class BP_Tests_Groups_Functions_GroupsTotalGroupsForUser extends BP_UnitTestCase
 		 */
 		wp_cache_set( 'bp_total_groups_for_user_123', '321', 'bp' );
 
-		$this->assertInternalType( 'int', groups_total_groups_for_user( 123 ) );
+		$this->assertIsInt( groups_total_groups_for_user( 123 ) );
 	}
 }

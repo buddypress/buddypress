@@ -3,8 +3,8 @@ require_once dirname( __FILE__ ) . '/testcase.php';
 
 class BP_UnitTestCase_Emails extends BP_UnitTestCase {
 
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
+	public static function set_up_before_class() {
+		parent::set_up_before_class();
 
 		require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 
@@ -15,7 +15,7 @@ class BP_UnitTestCase_Emails extends BP_UnitTestCase {
 		bp_core_install_emails();
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tear_down_after_class() {
 		$emails = get_posts( array(
 			'fields'           => 'ids',
 			'post_status'      => 'any',
@@ -30,6 +30,6 @@ class BP_UnitTestCase_Emails extends BP_UnitTestCase {
 			}
 		}
 
-		parent::tearDownAfterClass();
+		parent::tear_down_after_class();
 	}
 }

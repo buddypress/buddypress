@@ -1497,7 +1497,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 * @ticket BP6813
 	 */
 	public function test_total_group_count_should_return_integer() {
-		$this->assertInternalType( 'int', BP_Groups_Member::total_group_count( 123 ) );
+		$this->assertIsInt( BP_Groups_Member::total_group_count( 123 ) );
 	}
 
 	/**

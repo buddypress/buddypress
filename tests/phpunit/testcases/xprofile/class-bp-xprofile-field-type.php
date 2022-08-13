@@ -8,14 +8,14 @@ include_once BP_TESTS_DIR . 'assets/bptest-xprofile-field-type.php';
  */
 class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		add_filter( 'bp_xprofile_get_field_types', array( $this, 'get_field_types' ) );
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 
 		remove_filter( 'bp_xprofile_get_field_types', array( $this, 'get_field_types' ) );
 	}

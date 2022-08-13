@@ -5,8 +5,8 @@
  * @group member_types
  */
 class BP_Tests_Members_Template_BpGetMemberTypeDirectoryPermalink extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		buddypress()->members->types = array();
 	}
@@ -23,7 +23,7 @@ class BP_Tests_Members_Template_BpGetMemberTypeDirectoryPermalink extends BP_Uni
 		$found = bp_get_member_type_directory_permalink( 'foo' );
 		remove_filter( 'bp_get_current_member_type', array( $this, 'fake_current_member_type' ) );
 
-		$this->assertContains( '/type/foo/', $found );
+		$this->assertStringContainsString( '/type/foo/', $found );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class BP_Tests_Members_Template_BpGetMemberTypeDirectoryPermalink extends BP_Uni
 		$found = bp_get_member_type_directory_permalink( 'bar' );
 		remove_filter( 'bp_get_current_member_type', array( $this, 'fake_current_member_type' ) );
 
-		$this->assertContains( '/type/bar/', $found );
+		$this->assertStringContainsString( '/type/bar/', $found );
 	}
 
 	public function fake_current_member_type() {

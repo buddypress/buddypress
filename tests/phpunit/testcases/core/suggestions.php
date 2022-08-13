@@ -93,7 +93,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		self::commit_transaction();
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tear_down_after_class() {
 		foreach ( self::$group_ids as $group_id ) {
 			groups_delete_group( $group_id );
 		}
@@ -109,13 +109,13 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		self::commit_transaction();
 	}
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->set_current_user( self::$current_user );
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		$this->set_current_user( self::$old_user_id );
 	}
 
@@ -391,7 +391,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertInternalType( 'array', $suggestions );
+		$this->assertIsArray( $suggestions );
 		$this->assertEmpty( $suggestions );
 	}
 
@@ -402,15 +402,15 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestion ) );
-		$this->assertInternalType( 'array', $suggestion );
+		$this->assertIsArray(  $suggestion );
 		$this->assertNotEmpty( $suggestion );
 
 		$suggestion = array_shift( $suggestion );
 
-		$this->assertInternalType( 'object', $suggestion );
-		$this->assertAttributeNotEmpty( 'image', $suggestion );
-		$this->assertAttributeNotEmpty( 'ID', $suggestion );
-		$this->assertAttributeNotEmpty( 'name', $suggestion );
+		$this->assertIsObject( $suggestion );
+		$this->assertNotEmpty( $suggestion->image );
+		$this->assertNotEmpty( $suggestion->ID );
+		$this->assertNotEmpty( $suggestion->name );
 	}
 
 	public function test_suggestions_response_multiple_matches() {
@@ -420,14 +420,14 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestions ) );
-		$this->assertInternalType( 'array', $suggestions );
+		$this->assertIsArray( $suggestions );
 		$this->assertNotEmpty( $suggestions );
 
 		foreach ( $suggestions as $suggestion ) {
-			$this->assertInternalType( 'object', $suggestion );
-			$this->assertAttributeNotEmpty( 'image', $suggestion );
-			$this->assertAttributeNotEmpty( 'ID', $suggestion );
-			$this->assertAttributeNotEmpty( 'name', $suggestion );
+			$this->assertIsObject( $suggestion );
+			$this->assertNotEmpty( $suggestion->image );
+			$this->assertNotEmpty( $suggestion->ID );
+			$this->assertNotEmpty( $suggestion->name );
 		}
 	}
 
@@ -457,15 +457,15 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_wp_error( $suggestion ) );
-		$this->assertInternalType( 'array', $suggestion );
+		$this->assertIsArray( $suggestion );
 		$this->assertNotEmpty( $suggestion );
 
 		$suggestion = array_shift( $suggestion );
 
-		$this->assertInternalType( 'object', $suggestion );
-		$this->assertAttributeInternalType( 'string', 'image', $suggestion );
-		$this->assertAttributeInternalType( 'string', 'ID', $suggestion );
-		$this->assertAttributeInternalType( 'string', 'name', $suggestion );
+		$this->assertIsObject( $suggestion );
+		$this->assertIsString( $suggestion->image );
+		$this->assertIsString( $suggestion->ID );
+		$this->assertIsString( $suggestion->name );
 	}
 
 

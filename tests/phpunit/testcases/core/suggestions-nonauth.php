@@ -75,7 +75,7 @@ class BP_Tests_Suggestions_Non_Authenticated extends BP_UnitTestCase {
 		self::commit_transaction();
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tear_down_after_class() {
 		foreach ( self::$group_ids as $group_id ) {
 			groups_delete_group( $group_id );
 		}

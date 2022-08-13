@@ -7,8 +7,8 @@
 class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	protected static $u1 = null;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		buddypress()->groups->types = array();
 	}
@@ -92,7 +92,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 
 	public function test_groups_get_type_object_should_return_type_object() {
 		bp_groups_register_group_type( 'foo' );
-		$this->assertInternalType( 'object', bp_groups_register_group_type( 'foo' ) );
+		$this->assertIsObject( bp_groups_register_group_type( 'foo' ) );
 	}
 
 	public function test_groups_set_type_should_return_false_for_invalid_group_type() {

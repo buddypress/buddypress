@@ -6,15 +6,15 @@
 class BP_Tests_Routing_Friends extends BP_UnitTestCase {
 	protected $old_current_user = 0;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->old_current_user = get_current_user_id();
 		$this->set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 		$this->set_current_user( $this->old_current_user );
 	}
 

@@ -8,16 +8,16 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 
 	protected $filter_fired;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->reset_user_id = get_current_user_id();
 
 		$this->filter_fired = '';
 	}
 
-	public function tearDown() {
-		parent::tearDown();
+	public function tear_down() {
+		parent::tear_down();
 
 		$this->set_current_user( $this->reset_user_id );
 	}

@@ -6,20 +6,20 @@
  */
 class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		if ( isset( $GLOBALS['groups_template'] ) ) {
 			$this->groups_template = $GLOBALS['groups_template'];
 		}
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		if ( $this->groups_template ) {
 			$GLOBALS['groups_template'] = $this->groups_template;
 		}
 
-		parent::tearDown();
+		parent::tear_down();
 	}
 
 	public function test_bp_group_is_visible_no_member() {

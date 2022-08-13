@@ -6,8 +6,8 @@
 class BP_Email_Recipient_Tests extends BP_UnitTestCase {
 	protected $u1;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->u1 = self::factory()->user->create( array(
 			'display_name' => 'Unit Test',

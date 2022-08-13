@@ -5,8 +5,8 @@
  * @group member_types
  */
 class BP_Tests_Members_Types extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		buddypress()->members->types = array();
 	}
@@ -17,7 +17,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 	}
 
 	public function test_bp_register_member_type_should_return_type_object() {
-		$this->assertInternalType( 'object', bp_register_member_type( 'foo' ) );
+		$this->assertIsObject( bp_register_member_type( 'foo' ) );
 	}
 
 	/**
@@ -143,7 +143,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 
 	public function test_bp_get_member_type_object_should_return_type_object() {
 		bp_register_member_type( 'foo' );
-		$this->assertInternalType( 'object', bp_get_member_type_object( 'foo' ) );
+		$this->assertIsObject( bp_get_member_type_object( 'foo' ) );
 	}
 
 	public function test_bp_set_member_type_should_return_false_for_invalid_member_type() {

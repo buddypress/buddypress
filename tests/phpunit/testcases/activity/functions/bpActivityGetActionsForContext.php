@@ -4,8 +4,8 @@
  * @group activity
  */
 class BP_Tests_Activity_Functions_BpActivityGetActionsForContext extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$bp = buddypress();
 
@@ -16,7 +16,7 @@ class BP_Tests_Activity_Functions_BpActivityGetActionsForContext extends BP_Unit
 		unset( $bp->activity->actions_sorted );
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		$bp = buddypress();
 
 		$bp->activity->actions = $this->reset_actions;
@@ -27,7 +27,7 @@ class BP_Tests_Activity_Functions_BpActivityGetActionsForContext extends BP_Unit
 			unset( $bp->activity->actions_sorted );
 		}
 
-		parent::tearDown();
+		parent::tear_down();
 	}
 
 	public function test_should_include_actions_registered_for_context() {

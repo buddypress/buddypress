@@ -29,7 +29,7 @@ class BP_Tests_Groups_Functions_GroupsIsUser extends BP_UnitTestCase {
 		self::commit_transaction();
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tear_down_after_class() {
 		foreach ( self::$groups as $group ) {
 			groups_delete_group( $group );
 		}

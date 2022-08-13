@@ -30,7 +30,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 *
 	 * @since 3.0.0
 	 */
-	public static function setUpBeforeClass() {
+	public static function set_up_before_class() {
 		global $wpdb;
 
 		// Fake WP mail globals, to avoid errors
@@ -48,8 +48,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		self::commit_transaction();
 	}
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		/*
 		 * WP's test suite wipes out BP's directory page mappings with `_delete_all_posts()`.
@@ -74,12 +74,12 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$this->reset_bp_activity_post_types_globals();
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		global $wpdb;
 
 		remove_action( 'bp_blogs_recorded_existing_blogs', array( $this, 'set_autocommit_flag' ) );
 
-		parent::tearDown();
+		parent::tear_down();
 
 		// If we detect that a COMMIT has been triggered during the test, clean up blog and user fixtures.
 		if ( $this->autocommitted ) {
@@ -115,7 +115,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	public static function delete_user( $user_id ) {
 		$deleted = parent::delete_user( $user_id );
 
-		// When called in tearDownAfterClass(), BP's cleanup functions may no longer be hooked.
+		// When called in tear_down_after_class(), BP's cleanup functions may no longer be hooked.
 		if ( bp_is_active( 'activity' ) ) {
 			bp_activity_remove_all_user_data( $user_id );
 		}
@@ -125,7 +125,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		return $deleted;
 	}
 
-	function clean_up_global_scope() {
+	public function clean_up_global_scope() {
 		buddypress()->bp_nav                = buddypress()->bp_options_nav = buddypress()->action_variables = buddypress()->canonical_stack = buddypress()->unfiltered_uri = $GLOBALS['bp_unfiltered_uri'] = array();
 		buddypress()->current_component     = buddypress()->current_item = buddypress()->current_action = buddypress()->current_member_type = '';
 		buddypress()->unfiltered_uri_offset = 0;
@@ -180,15 +180,15 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		buddypress()->activity->track = array();
 	}
 
-	function assertPreConditions() {
-		parent::assertPreConditions();
+	public function assert_pre_conditions() {
+		parent::assert_pre_conditions();
 
 		// Reinit some of the globals that might have been cleared by BP_UnitTestCase::clean_up_global_scope().
 		// This is here because it didn't work in clean_up_global_scope(); I don't know why.
 		do_action( 'bp_setup_globals' );
 	}
 
-	function go_to( $url ) {
+	public function go_to( $url ) {
 		$GLOBALS['bp']->loggedin_user = NULL;
 		$GLOBALS['bp']->pages = bp_core_get_directory_pages();
 

@@ -11,8 +11,8 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	protected $a1;
 	protected $a2;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 		$this->current_user = get_current_user_id();
 		$this->u1 = self::factory()->user->create();
 		$this->u2 = self::factory()->user->create();
@@ -22,14 +22,14 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		 * Tests suite in WP < 4.0 does not include the WP_UnitTestCase->_restore_hooks() function
 		 * When updating an activity, the following filter is fired to prevent sending more than one
 		 * notification. Once we've reached this filter all at_mentions tests fails so we need to
-		 * temporarly remove it and restore it in $this->tearDown()
+		 * temporarly remove it and restore it in $this->tear_down()
 		 */
 		remove_filter( 'bp_activity_at_name_do_notifications', '__return_false' );
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		$this->set_current_user( $this->current_user );
-		parent::tearDown();
+		parent::tear_down();
 
 		// Restore the filter
 		add_filter( 'bp_activity_at_name_do_notifications', '__return_false' );
@@ -309,10 +309,10 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$single = sprintf( __( '%1$s mentioned you', 'buddypress' ), bp_core_get_user_displayname( $this->u2 ) );
 		$multiple = 'You have 2 new mentions';
 
-		$this->assertContains( $single, $format_tests['string_single'] );
-		$this->assertContains( $single, $format_tests['array_single']['text'] );
-		$this->assertContains( $multiple, $format_tests['string_multiple'] );
-		$this->assertContains( $multiple, $format_tests['array_multiple']['text'] );
+		$this->assertStringContainsString( $single, $format_tests['string_single'] );
+		$this->assertStringContainsString( $single, $format_tests['array_single']['text'] );
+		$this->assertStringContainsString( $multiple, $format_tests['string_multiple'] );
+		$this->assertStringContainsString( $multiple, $format_tests['array_multiple']['text'] );
 
 		// Check filters
 		$this->assertTrue( 4 === count( $this->test_format_filter ) );

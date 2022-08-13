@@ -9,8 +9,8 @@ class BP_Tests_Core_Functions_BPGetRefererPath extends BP_UnitTestCase {
 	private $_wp_http_referer = '';
 	private $http_referer = '';
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->_wp_http_referer = '';
 		$this->http_referer = '';
@@ -24,7 +24,7 @@ class BP_Tests_Core_Functions_BPGetRefererPath extends BP_UnitTestCase {
 		}
 	}
 
-	public function tearDown() {
+	public function tear_down() {
 		if ( isset( $_REQUEST['_wp_http_referer'] ) ) {
 			unset( $_REQUEST['_wp_http_referer'] );
 		}
@@ -41,7 +41,7 @@ class BP_Tests_Core_Functions_BPGetRefererPath extends BP_UnitTestCase {
 			$_SERVER['HTTP_REFERER'] = $this->http_referer;
 		}
 
-		parent::tearDown();
+		parent::tear_down();
 	}
 
 	public function test_from__wp_http_referer_fully_qualified_uri() {

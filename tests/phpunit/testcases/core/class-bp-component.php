@@ -8,8 +8,8 @@ include_once BP_TESTS_DIR . '/assets/class-bptest-component.php';
  * @group BP_Component
  */
 class BP_Tests_BP_Component_TestCases extends BP_UnitTestCase {
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$bp = buddypress();
 		$bp->unit_test_rest = new stdClass;

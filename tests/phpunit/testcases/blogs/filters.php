@@ -7,8 +7,8 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 	protected $activity_actions;
 	protected $custom_post_types;
 
-	public function setUp() {
-		parent::setUp();
+	public function set_up() {
+		parent::set_up();
 
 		$this->custom_post_types = array( 'using_old_filter' );
 
@@ -22,8 +22,8 @@ class BP_Tests_Blogs_Filters extends BP_UnitTestCase {
 		add_filter( 'bp_blogs_record_comment_post_types', array( $this, 'filter_post_types'), 10, 1 );
 	}
 
-	function tearDown() {
-		parent::tearDown();
+	function tear_down() {
+		parent::tear_down();
 
 		$bp = buddypress();
 
