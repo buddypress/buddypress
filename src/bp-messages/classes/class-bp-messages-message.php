@@ -60,9 +60,9 @@ class BP_Messages_Message {
 	/**
 	 * Message recipients.
 	 *
-	 * @var bool|array
+	 * @var array
 	 */
-	public $recipients = false;
+	public $recipients = array();
 
 	/**
 	 * Constructor.

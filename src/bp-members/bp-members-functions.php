@@ -3009,7 +3009,7 @@ function bp_get_member_types( $args = array(), $output = 'names', $operator = 'a
 		$types = bp_get_taxonomy_types( bp_get_member_type_tax_name(), $types );
 	}
 
-	$types = wp_filter_object_list( $types, $args, $operator );
+	$types = array_filter( wp_filter_object_list( $types, $args, $operator ) );
 
 	/**
 	 * Filters the array of member type objects.
@@ -3023,9 +3023,9 @@ function bp_get_member_types( $args = array(), $output = 'names', $operator = 'a
 	 * @param array  $args      Array of key=>value arguments for filtering.
 	 * @param string $operator  'or' to match any of $args, 'and' to require all.
 	 */
-	$types = apply_filters( 'bp_get_member_types', $types, $args, $operator );
+	$types = (array) apply_filters( 'bp_get_member_types', $types, $args, $operator );
 
-	if ( 'names' === $output ) {
+	if ( $types && 'names' === $output ) {
 		$types = wp_list_pluck( $types, 'name' );
 	}
 

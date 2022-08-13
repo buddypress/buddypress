@@ -889,7 +889,7 @@ function bp_groups_leave_group_delete_recent_activity( $group_id, $user_id ) {
 	$membership = new BP_Groups_Member( $user_id, $group_id );
 
 	// Check the time period, and maybe delete their recent group activity.
-	if ( time() <= strtotime( '+5 minutes', (int) strtotime( $membership->date_modified ) ) ) {
+	if ( $membership->date_modified && time() <= strtotime( '+5 minutes', (int) strtotime( $membership->date_modified ) ) ) {
 		bp_activity_delete( array(
 			'component' => buddypress()->groups->id,
 			'type'      => 'joined_group',

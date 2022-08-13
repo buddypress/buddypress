@@ -1240,7 +1240,7 @@ class BP_Activity_Activity {
 			)
 		);
 
-		$where_args = false;
+		$where_args = array();
 
 		if ( ! empty( $r['user_id'] ) ) {
 			$where_args[] = $wpdb->prepare( 'user_id = %d', $r['user_id'] );
@@ -1567,15 +1567,16 @@ class BP_Activity_Activity {
 			$top_level_parent_id = $activity_id;
 		}
 
-		$comments = wp_cache_get( $activity_id, 'bp_activity_comments' );
+		$comments       = array();
+		$comments_cache = wp_cache_get( $activity_id, 'bp_activity_comments' );
 
 		// We store the string 'none' to cache the fact that the
 		// activity item has no comments.
-		if ( 'none' === $comments ) {
-			$comments = false;
+		if ( 'none' === $comments_cache ) {
+			return false;
 
 			// A true cache miss.
-		} elseif ( empty( $comments ) ) {
+		} elseif ( empty( $comments_cache ) ) {
 
 			$bp = buddypress();
 
@@ -1689,17 +1690,19 @@ class BP_Activity_Activity {
 				$r->depth = $depth;
 			}
 
-			// If we cache a value of false, it'll count as a cache
+			// If we cache an empty array, it'll count as a cache
 			// miss the next time the activity comments are fetched.
 			// Storing the string 'none' is a hack workaround to
 			// avoid unnecessary queries.
-			if ( false === $comments ) {
+			if ( ! $comments ) {
 				$cache_value = 'none';
 			} else {
 				$cache_value = $comments;
 			}
 
 			wp_cache_set( $activity_id, $cache_value, 'bp_activity_comments' );
+		} else {
+			$comments = (array) $comments_cache;
 		}
 
 		return $comments;
