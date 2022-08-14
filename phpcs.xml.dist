@@ -6,7 +6,7 @@
 	<rule ref="BuddyPress" />
 
 	<file>./bp-loader.php</file>
-	<file>./src/</file>
+	<file>./src/bp-xprofile</file>
 
 	<!-- We are starting with severity of 6. -->
 	<arg name="severity" value="6"/>
