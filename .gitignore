@@ -23,6 +23,8 @@ composer.lock
 node_modules
 npm-debug.log
 
+.phpcs/*.json
+
 # The build directory.
 build
 
