@@ -245,13 +245,19 @@ add_action( 'bp_core_signup_before_delete', 'bp_members_membership_requests_send
  * @param array $signup_ids Array of changing signup IDs.
  */
 function bp_members_membership_requests_delete_notifications_on_change( $signup_ids ) {
-	foreach ( $signup_ids as $signup_id ) {
-		BP_Notifications_Notification::delete(
-			array(
-				'item_id'          => $signup_id,
-				'component_action' => 'membership_request_submitted',
-			)
-		);
+	if ( bp_is_active( 'notifications' ) ) {
+		foreach ( $signup_ids as $signup_id ) {
+			/**
+			 * We use this method instead of one of the notification functions
+			 * because we want to delete all notifications for all admins.
+			 */
+			BP_Notifications_Notification::delete(
+				array(
+					'item_id'          => $signup_id,
+					'component_action' => 'membership_request_submitted',
+				)
+			);
+		}
 	}
 }
 add_action( 'bp_core_signup_after_resend',   'bp_members_membership_requests_delete_notifications_on_change' );
