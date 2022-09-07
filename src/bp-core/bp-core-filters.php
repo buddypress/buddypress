@@ -168,7 +168,7 @@ add_filter( 'nav_menu_meta_box_object', 'bp_core_exclude_pages_from_nav_menu_adm
  * @return array
  */
 function bp_core_menu_highlight_parent_page( $retval, $page ) {
-	if ( ! is_buddypress() ) {
+	if ( ! is_buddypress() || ! bp_is_root_blog() ) {
 		return $retval;
 	}
 
