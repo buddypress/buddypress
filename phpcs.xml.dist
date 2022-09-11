@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ruleset>
+	<description>PHP_CodeSniffer standard for the BuddyPress plugin.</description>
+
+	<!-- Load BuddyPress Coding standards -->
+	<rule ref="BuddyPress" />
+
+	<file>./bp-loader.php</file>
+	<file>./src/bp-xprofile</file>
+
+	<!-- We are starting with severity of 6. -->
+	<arg name="severity" value="6"/>
+
+	<!-- What to exclude -->
+	<exclude-pattern>*/**/tests/</exclude-pattern>
+
+	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan. -->
+	<arg name="cache" value=".phpcs/cache.json" />
+</ruleset>

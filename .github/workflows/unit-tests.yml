@@ -32,7 +32,7 @@ jobs:
           access_token: ${{ github.token }}
 
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -51,11 +51,8 @@ jobs:
           php --version
           composer --version
 
-      - name: Validate Composer
-        run: composer validate --strict
-
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v1
+        uses: ramsey/composer-install@v2
         with:
           composer-options: "--ignore-platform-reqs"
 
@@ -87,13 +84,13 @@ jobs:
           npm run wp-env start -- --update
 
       - name: Running single site unit tests
-        run: npm run test-php
         if: ${{ success() || failure() }}
+        run: npm run test-php
 
       - name: Running multi site unit tests
-        run: npm run test-php-multisite
         if: ${{ success() || failure() }}
+        run: npm run test-php-multisite
 
       - name: Stop Docker environment
-        run: npm run wp-env stop
         if: ${{ success() || failure() }}
+        run: npm run wp-env stop
