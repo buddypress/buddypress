@@ -83,6 +83,14 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	</form>
 -->
 
+<p><?php esc_html_e( 'To erase all data associated with your account, your user account must be completely deleted.', 'buddypress' ); ?> 
+	<?php if ( bp_disable_account_deletion() ) : ?>
+		<?php esc_html_e( 'Please contact the site administrator to request account deletion.', 'buddypress' ); ?>
+	<?php else : ?>
+		<?php printf( esc_html__( 'You may delete your account by visiting the %s page.', 'buddypress' ), sprintf( '<a href="%s">%s</a>', bp_displayed_user_domain() . bp_get_settings_slug() . '/delete-account', esc_html__( 'Delete Account', 'buddypress' ) ) ); ?>
+	<?php endif; ?>
+</p>
+
 <?php
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
