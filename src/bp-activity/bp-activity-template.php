@@ -1568,12 +1568,12 @@ function bp_activity_has_content() {
 				}
 			}
 
-			if ( 'created_group' === $activity_type || 'joined_group' === $activity_type ) {
+			if ( bp_is_active( 'groups' ) && ( 'created_group' === $activity_type || 'joined_group' === $activity_type ) ) {
 				$group         = bp_get_group( $activity->item_id );
 				$current_group = groups_get_current_group();
 
 				// Do not use generated-content activities when displaying a group activity stream.
-				if ( (int) $group->id === (int) $current_group->id ) {
+				if ( isset( $current_group->id ) && (int) $group->id === (int) $current_group->id ) {
 					return false;
 				}
 
