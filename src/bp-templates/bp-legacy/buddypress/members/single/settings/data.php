@@ -4,13 +4,13 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 4.0.0
+ * @version 11.0.0
  */
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
 do_action( 'bp_before_member_settings_template' ); ?>
 
-<h2><?php _e( 'Data Export', 'buddypress' );?></h2>
+<h2><?php esc_html_e( 'Data Export', 'buddypress' );?></h2>
 
 <?php $request = bp_settings_get_personal_data_request(); ?>
 
@@ -68,22 +68,31 @@ do_action( 'bp_before_member_settings_template' ); ?>
 
 <?php endif; ?>
 
-<!--
-<h2 class="bp-screen-reader-text"><?php
-	/* translators: accessibility text */
-	_e( 'Data Erase', 'buddypress' );
-?></h2>
+<?php if ( ! user_can( bp_displayed_user_id(), 'delete_users' ) ) : ?>
+	<h2><?php esc_html_e( 'Data Erase', 'buddypress' ); ?></h2>
+	<p>
+		<?php
+		esc_html_e( 'To erase all data associated with your account, your user account must be completely deleted.', 'buddypress' );
 
-<p>You can make a request to erase the following type of data from the site:</p>
+		if ( bp_disable_account_deletion() ) {
+			esc_html_e( 'Please contact the site administrator to request account deletion.', 'buddypress' );
+		} else {
+			echo '&nbsp;';
 
-<p>If you want to make a request, please click on the button below:</p>
-
-	<form id="bp-data-erase" method="post">
-		<button type="submit" name="bp-data-erase-nonce" value="<?php echo wp_create_nonce( 'bp-data-erase' ); ?>">Request data erasure</button>
-	</form>
--->
-
+			printf(
+				/* translators: %s the link to Delete Account Settings page */
+				esc_html__( 'You may delete your account by visiting the %s page.', 'buddypress' ),
+				sprintf(
+					'<a href="%1$s">%2$s</a>',
+					esc_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/delete-account/' ),
+					esc_html__( 'Delete Account', 'buddypress' )
+				)
+			);
+		}
+		?>
+	</p>
 <?php
+endif;
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
 do_action( 'bp_after_member_settings_template' );

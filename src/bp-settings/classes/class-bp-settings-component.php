@@ -220,7 +220,7 @@ class BP_Settings_Component extends BP_Component {
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_settings_screen_delete_account',
 				'position'        => 90,
-				'user_has_access' => ! is_super_admin( bp_displayed_user_id() )
+				'user_has_access' => ! user_can( bp_displayed_user_id(), 'delete_users' ),
 			);
 		}
 
