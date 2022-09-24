@@ -421,7 +421,7 @@ function bp_core_admin_tabbed_screen_header( $title = '', $active_tab = '', $con
 			<h1><span class="bp-badge"></span> <?php echo esc_html( $title ); ?></h1>
 		</div>
 		<nav class="buddypress-tabs-wrapper">
-			<?php if ( isset( $bp->admin->nav_tabs ) ) : ?>
+			<?php if ( isset( $bp->admin->nav_tabs ) && $bp->admin->nav_tabs ) : ?>
 				<?php foreach ( $bp->admin->nav_tabs as $nav_tab ) : ?>
 
 					<?php echo $nav_tab; ?>
