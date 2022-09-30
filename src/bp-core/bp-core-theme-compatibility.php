@@ -936,6 +936,31 @@ function bp_comments_open( $open, $post_id = 0 ) {
 }
 
 /**
+ * Avoid potential extra comment query on BuddyPress pages.
+ *
+ * @since 10.5.0
+ *
+ * @param array|int|null   $comment_data     The comments list, the comment count or null.
+ * @param WP_Comment_Query $wp_comment_query The WP_Comment_Query instance.
+ * @return array|int|null Null to leave WordPress deal with the comment query, an empty array or 0 to shortcircuit it.
+ */
+function bp_comments_pre_query( $comment_data, $wp_comment_query ) {
+	$is_post_null = isset( $wp_comment_query->query_vars['post_id'] ) && 0 === (int) $wp_comment_query->query_vars['post_id'];
+
+	if ( ! is_buddypress() || ! $is_post_null ) {
+		return $comment_data;
+	}
+
+	if ( isset( $wp_comment_query->query_vars['count'] ) && $wp_comment_query->query_vars['count'] ) {
+		$comment_data = 0;
+	} else {
+		$comment_data = array();
+	}
+
+	return $comment_data;
+}
+
+/**
  * Do not allow {@link comments_template()} to render during theme compatibility.
  *
  * When theme compatibility sets the 'is_page' flag to true via
