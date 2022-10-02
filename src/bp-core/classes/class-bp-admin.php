@@ -183,9 +183,11 @@ class BP_Admin {
 		// Add a link to BuddyPress Hello in the admin bar.
 		add_action( 'admin_bar_menu', array( $this, 'admin_bar_about_link' ), 100 );
 
-		// Add a description of new BuddyPress tools in the available tools page.
-		add_action( 'tool_box',            'bp_core_admin_available_tools_intro' );
-		add_action( 'bp_network_tool_box', 'bp_core_admin_available_tools_intro' );
+		// Add a description of BuddyPress tools in the available tools page.
+		if ( bp_current_user_can( 'bp_moderate' ) ) {
+			add_action( 'tool_box',            'bp_core_admin_available_tools_intro' );
+			add_action( 'bp_network_tool_box', 'bp_core_admin_available_tools_intro' );
+		}
 
 		// On non-multisite, catch.
 		add_action( 'load-users.php', 'bp_core_admin_user_manage_spammers' );
