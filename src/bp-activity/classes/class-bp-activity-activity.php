@@ -342,6 +342,7 @@ class BP_Activity_Activity {
 	 * @since 2.4.0 Introduced the `$fields` parameter.
 	 * @since 2.9.0 Introduced the `$order_by` parameter.
 	 * @since 10.0.0 Introduced the `$count_total_only` parameter.
+	 * @since 11.0.0 Introduced the `$user_id__in` and `$user_id__not_in` parameters.
 	 *
 	 * @see BP_Activity_Activity::get_filter_sql() for a description of the
 	 *      'filter' parameter.
@@ -366,6 +367,10 @@ class BP_Activity_Activity {
 	 *     @type array        $filter_query      Array of advanced query conditions. See BP_Activity_Query::__construct().
 	 *     @type string|array $scope             Pre-determined set of activity arguments.
 	 *     @type array        $filter            See BP_Activity_Activity::get_filter_sql().
+	 *     @type array        $user_id__in       An array of user ids to include. Activity posted by users matching one of these
+	 *                                           user ids will be included in results. Default empty array.
+	 *     @type array        $user_id__not_in   An array of user ids to exclude. Activity posted by users matching one of these
+	 *                                           user ids will not be included in results. Default empty array.
 	 *     @type string       $search_terms      Limit results by a search term. Default: false.
 	 *     @type bool         $display_comments  Whether to include activity comments. Default: false.
 	 *     @type bool         $show_hidden       Whether to show items marked hide_sitewide. Default: false.
@@ -430,6 +435,8 @@ class BP_Activity_Activity {
 				'meta_query'        => false,           // Filter by activitymeta.
 				'date_query'        => false,           // Filter by date.
 				'filter_query'      => false,           // Advanced filtering - see BP_Activity_Query.
+				'user_id__in'       => array(),         // Array of user ids to include.
+				'user_id__not_in'   => array(),         // Array of user ids to excluce.
 				'filter'            => false,           // See self::get_filter_sql().
 				'scope'             => false,           // Preset activity arguments.
 				'search_terms'      => false,           // Terms to search by.
@@ -481,6 +488,50 @@ class BP_Activity_Activity {
 		// Regular filtering.
 		if ( $r['filter'] && $filter_sql = BP_Activity_Activity::get_filter_sql( $r['filter'] ) ) {
 			$where_conditions['filter_sql'] = $filter_sql;
+		}
+
+		// User IDs filtering.
+		$user_ids_clause  = array();
+		$user_ids_filters = array_filter(
+			array_intersect_key(
+				$r,
+				array(
+					'user_id__in'     => true,
+					'user_id__not_in' => true,
+				)
+			)
+		);
+
+		foreach ( $user_ids_filters as $user_ids_filter_key => $user_ids_filter ) {
+			$user_ids_operator = 'IN';
+			if ( 'user_id__not_in' === $user_ids_filter_key ) {
+				$user_ids_operator = 'NOT IN';
+			}
+
+			if ( $user_ids_clause ) {
+				$user_ids_clause[] = array(
+					'column'  => 'user_id',
+					'compare' => $user_ids_operator,
+					'value'   => (array) $user_ids_filter,
+				);
+			} else {
+				$user_ids_clause = array(
+					'relation' => 'AND',
+					array(
+						'column'  => 'user_id',
+						'compare' => $user_ids_operator,
+						'value'   => (array) $user_ids_filter,
+					),
+				);
+			}
+		}
+
+		if ( $user_ids_clause ) {
+			$user_ids_query = new BP_Activity_Query( $user_ids_clause );
+			$user_ids_sql   = $user_ids_query->get_sql();
+			if ( ! empty( $user_ids_sql ) ) {
+				$where_conditions['user_ids_query_sql'] = $user_ids_sql;
+			}
 		}
 
 		// Spam.

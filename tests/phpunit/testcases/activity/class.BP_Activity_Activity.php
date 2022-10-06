@@ -412,6 +412,70 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 */
+	public function test_get_with_user_id__in() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		$a1 = self::factory()->activity->create( array( 'user_id' => $u1 ) );
+		$a2 = self::factory()->activity->create( array( 'user_id' => $u2 ) );
+		$a3 = self::factory()->activity->create( array( 'user_id' => $u3 ) );
+
+		$activities = BP_Activity_Activity::get( array(
+			'user_id__in' => array( $u1, $u2 ),
+		) );
+
+		$ids = wp_list_pluck( $activities['activities'], 'id' );
+		sort( $ids );
+		$this->assertEquals( array( $a1, $a2 ), $ids );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_with_user_id__not_in() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		$a1 = self::factory()->activity->create( array( 'user_id' => $u1 ) );
+		$a2 = self::factory()->activity->create( array( 'user_id' => $u2 ) );
+		$a3 = self::factory()->activity->create( array( 'user_id' => $u3 ) );
+
+		$activities = BP_Activity_Activity::get( array(
+			'user_id__not_in' => array( $u2, $u3 ),
+		) );
+
+		$ids = wp_list_pluck( $activities['activities'], 'id' );
+		$this->assertEquals( array( $a1 ), $ids );
+	}
+
+	/**
+	 * @group get
+	 */
+	public function test_get_with_user_id__in_andnot_in() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		$u4 = self::factory()->user->create();
+		$u5 = self::factory()->user->create();
+		$a1 = self::factory()->activity->create( array( 'user_id' => $u1 ) );
+		$a2 = self::factory()->activity->create( array( 'user_id' => $u2 ) );
+		$a3 = self::factory()->activity->create( array( 'user_id' => $u3 ) );
+		$a4 = self::factory()->activity->create( array( 'user_id' => $u4 ) );
+		$a5 = self::factory()->activity->create( array( 'user_id' => $u5 ) );
+
+		$activities = BP_Activity_Activity::get( array(
+			'user_id__in'     => array( $u1, $u2, $u4, $u5 ),
+			'user_id__not_in' => array( $u4, $u5 ),
+		) );
+
+		$ids = wp_list_pluck( $activities['activities'], 'id' );
+		sort( $ids );
+		$this->assertEquals( array( $a1, $a2 ), $ids );
+	}
+
+	/**
+	 * @group get
 	 * @group count_total
 	 */
 	public function test_get_with_count_total() {
