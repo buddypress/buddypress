@@ -5,6 +5,7 @@
  * @group functions
  */
 class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
+	public $groups_template = null;
 
 	public function set_up() {
 		parent::set_up();
