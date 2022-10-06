@@ -311,7 +311,9 @@ class BP_Core extends BP_Component {
 
 		// Global groups.
 		wp_cache_add_global_groups( array(
-			'bp'
+			'bp',
+			'bp_pages',
+			'bp_invitations',
 		) );
 
 		parent::setup_cache_groups();

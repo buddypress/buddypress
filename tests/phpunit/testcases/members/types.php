@@ -266,7 +266,7 @@ class BP_Tests_Members_Types extends BP_UnitTestCase {
 			wp_delete_user( $u );
 		}
 
-		$this->assertFalse( wp_cache_get( $u, 'bp_member_type' ) );
+		$this->assertFalse( wp_cache_get( $u, 'bp_member_member_type' ) );
 		$this->assertFalse( bp_get_member_type( $u ) );
 	}
 

@@ -962,14 +962,19 @@ class BP_Groups_Component extends BP_Component {
 	public function setup_cache_groups() {
 
 		// Global groups.
-		wp_cache_add_global_groups( array(
-			'bp_groups',
-			'bp_group_admins',
-			'bp_group_invite_count',
-			'group_meta',
-			'bp_groups_memberships',
-			'bp_groups_memberships_for_user',
-		) );
+		wp_cache_add_global_groups(
+			array(
+				'bp_groups',
+				'bp_group_admins',
+				'bp_group_invite_count',
+				'group_meta',
+				'bp_groups_memberships',
+				'bp_groups_memberships_for_user',
+				'bp_group_mods',
+				'bp_groups_invitations_as_memberships',
+				'bp_groups_group_type',
+			)
+		);
 
 		parent::setup_cache_groups();
 	}

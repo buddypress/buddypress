@@ -569,7 +569,7 @@ function bp_friend_friendship_id() {
 	function bp_get_friend_friendship_id() {
 		global $members_template;
 
-		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id() ) ) {
+		if ( ! $friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), 'bp' ) ) {
 			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
 			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}
@@ -604,7 +604,7 @@ function bp_friend_accept_request_link() {
 	function bp_get_friend_accept_request_link() {
 		global $members_template;
 
-		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id() ) ) {
+		if ( ! $friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), 'bp' ) ) {
 			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
 			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}
@@ -641,7 +641,7 @@ function bp_friend_reject_request_link() {
 	function bp_get_friend_reject_request_link() {
 		global $members_template;
 
-		if ( !$friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id() ) ) {
+		if ( ! $friendship_id = wp_cache_get( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), 'bp' ) ) {
 			$friendship_id = friends_get_friendship_id( $members_template->member->id, bp_loggedin_user_id() );
 			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}
