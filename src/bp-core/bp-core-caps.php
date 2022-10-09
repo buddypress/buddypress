@@ -130,6 +130,9 @@ function bp_remove_caps() {
  * @return array Actual capabilities for meta capability. See {@link WP_User::has_cap()}.
  */
 function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
+	if ( 'bp_read' === $cap ) {
+		$caps = 'members' === bp_get_community_visibility() ? array( 'read' ) : array( 'exist' );
+	}
 
 	/**
 	 * Filters the community caps mapping to be built in WordPress caps.
@@ -153,8 +156,11 @@ function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
  */
 function bp_get_community_caps() {
 
-	// Forum meta caps.
-	$caps = array();
+	// Community meta caps.
+	$caps = array(
+		'bp_moderate',
+		'bp_read',
+	);
 
 	/**
 	 * Filters community capabilities.
@@ -184,6 +190,7 @@ function bp_get_caps_for_role( $role = '' ) {
 			$caps = array(
 				// Misc.
 				'bp_moderate',
+				'bp_read',
 			);
 
 			break;
@@ -193,6 +200,11 @@ function bp_get_caps_for_role( $role = '' ) {
 		case 'author'      :
 		case 'contributor' :
 		case 'subscriber'  :
+			$caps = array(
+				'bp_read',
+			);
+			break;
+
 		default            :
 			$caps = array();
 			break;

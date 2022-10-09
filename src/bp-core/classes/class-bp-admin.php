@@ -470,6 +470,10 @@ class BP_Admin {
 		add_settings_field( '_bp_theme_package_id', __( 'Template Pack', 'buddypress' ), 'bp_admin_setting_callback_theme_package_id', 'buddypress', 'bp_main', array( 'label_for' => '_bp_theme_package_id' ) );
 		register_setting( 'buddypress', '_bp_theme_package_id', 'sanitize_text_field' );
 
+		// Community visibility.
+		add_settings_field( '_bp_community_visibility', __( 'Community Visibility', 'buddypress' ), 'bp_admin_setting_callback_community_visibility', 'buddypress', 'bp_main', array( 'label_for' => '_bp_community_visibility' ) );
+		register_setting( 'buddypress', '_bp_community_visibility', 'sanitize_text_field' );
+
 		/* Members Section  **************************************************/
 
 		// Add the main section.

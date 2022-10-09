@@ -49,6 +49,8 @@ function bp_admin_setting_callback_account_deletion() {
 
 /**
  * Form element to change the active template pack.
+ *
+ * @since 3.0.0
  */
 function bp_admin_setting_callback_theme_package_id() {
 	$options = '';
@@ -77,6 +79,24 @@ function bp_admin_setting_callback_theme_package_id() {
 		<p><?php esc_html_e( 'No template packages available.', 'buddypress' ); ?></p>
 
 	<?php endif;
+}
+
+/**
+ * Form element to change the community area visibility.
+ *
+ * @since 11.0.0
+ */
+function bp_admin_setting_callback_community_visibility() {
+	$visibility = bp_get_community_visibility();
+	?>
+
+		<select name="_bp_community_visibility" id="_bp_community_visibility" aria-describedby="_bp_community_visibility_description">
+			<option value="anyone" <?php selected( 'anyone', $visibility, true ); ?>><?php esc_html_e( 'Anyone', 'buddypress' ); ?></option>
+			<option value="members" <?php selected( 'members', $visibility, true ); ?>><?php esc_html_e( 'Members', 'buddypress' ); ?></option>
+		</select>
+		<p id="_bp_community_visibility_description" class="description"><?php esc_html_e( 'Choose "Members" to restrict your community area to logged in members only. Choose "Anyone" to allow any user to access to your community area.', 'buddypress' ); ?></p>
+
+	<?php
 }
 
 /** Activity *******************************************************************/

@@ -71,6 +71,9 @@ function bp_get_default_options() {
 		// The ID for the current theme package.
 		'_bp_theme_package_id'                 => 'nouveau',
 
+		// The community area (BP Pages) visibility.
+		'_bp_community_visibility'             => 'anyone',
+
 		// Email unsubscribe salt.
 		'bp-emails-unsubscribe-salt'           => '',
 
@@ -723,4 +726,25 @@ function bp_get_theme_package_id( $default = 'legacy' ) {
 	 * @param string $value The current theme package ID.
 	 */
 	return apply_filters( 'bp_get_theme_package_id', bp_get_option( '_bp_theme_package_id', $default ) );
+}
+
+/**
+ * Get the community area visibility.
+ *
+ * @since 11.0.0
+ *
+ * @param string $default Optional. Fallback value if not found in the database.
+ *                        Default: 'anyone'.
+ * @return string The visibility of the community area. Possible values are `anyone` or `members`.
+ */
+function bp_get_community_visibility( $default = 'anyone' ) {
+
+	/**
+	 * Filters the current community area visibility.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param string $value The current community area visibility.
+	 */
+	return apply_filters( 'bp_get_community_visibility', bp_get_option( '_bp_community_visibility', $default ) );
 }

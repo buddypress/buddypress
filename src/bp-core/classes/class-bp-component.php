@@ -879,6 +879,52 @@ class BP_Component {
 	 */
 	public function parse_query( $query ) {
 
+		if ( $this->has_directory ) {
+			$bp = buddypress();
+
+			// The current user does not have access to the community area.
+			if ( ! isset( $bp->pages->{ $this->id } ) && isset( $query->queried_object_id ) ) {
+
+				// Let's get the directory pages once again.
+				$bp_pages = bp_core_get_directory_pages();
+
+				if ( isset( $bp_pages->{ $this->id }->id ) && (int) $query->queried_object_id === (int) $bp_pages->{ $this->id }->id ) {
+					$login_link = sprintf(
+						'<a href="%1$s">%2$s</a>',
+						esc_url( wp_login_url( $_SERVER['REQUEST_URI'] ) ),
+						esc_html__( 'log in', 'buddypress' )
+					);
+
+					$join_link  = '';
+					if ( bp_get_signup_allowed() ) {
+						$join_link = ' <a href="%s">' . esc_html__( 'register', 'buddypress' ) . '</a>';
+					} elseif ( function_exists( 'bp_members_membership_requests_add_toolbar_link' ) ) {
+						$join_link = ' <a href="%s">' . esc_html__( 'request a membership', 'buddypress' ) . '</a>';
+					}
+
+					if ( $join_link ) {
+						$join_link = ' ' . esc_html__( 'or', 'buddypress' ) . sprintf( $join_link, esc_url( bp_get_signup_page() ) );
+					}
+
+					$bp->current_directory_default_data = (object) array(
+						'id'      => $query->queried_object_id,
+						'content' => sprintf(
+							'<p>%s</p>',
+							/* translators: 1. is the login link. 2. is the registration link. */
+							sprintf(
+								esc_html__( 'The community of this site is restricted to members. Please %1$s%2$s to this site.', 'buddypress' ),
+								$login_link,
+								$join_link
+							)
+						),
+					);
+
+					// If the corresponding BP Page has no content put the above one into it.
+					add_filter( 'the_content', 'bp_core_set_directory_default_content', 1, 1 );
+				}
+			}
+		}
+
 		/**
 		 * Fires in the parse_query method inside BP_Component.
 		 *

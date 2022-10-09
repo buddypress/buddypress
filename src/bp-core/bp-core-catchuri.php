@@ -36,8 +36,9 @@ function bp_core_set_uri_globals() {
 	global $current_blog, $wp_rewrite;
 
 	// Don't catch URIs on non-root blogs unless multiblog mode is on.
-	if ( !bp_is_root_blog() && !bp_is_multiblog_mode() )
+	if ( ! bp_is_root_blog() && ! bp_is_multiblog_mode() ) {
 		return false;
+	}
 
 	$bp = buddypress();
 
@@ -46,14 +47,24 @@ function bp_core_set_uri_globals() {
 	$key_slugs    = $matches = $uri_chunks = array();
 
 	// Fetch all the WP page names for each component.
-	if ( empty( $bp->pages ) )
+	if ( empty( $bp->pages ) ) {
 		$bp->pages = bp_core_get_directory_pages();
+	}
+
+	if ( ! bp_current_user_can( 'bp_read' ) ) {
+		foreach ( $bp->pages as $bp_page_slug => $bp_page ) {
+			if ( ! in_array( $bp_page_slug, array( 'register', 'activate' ), true ) ) {
+				unset( $bp->pages->{$bp_page_slug} );
+			}
+		}
+	}
 
 	// Ajax or not?
-	if ( defined( 'DOING_AJAX' ) && DOING_AJAX || strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) )
+	if ( defined( 'DOING_AJAX' ) && DOING_AJAX || strpos( $_SERVER['REQUEST_URI'], 'wp-load.php' ) ) {
 		$path = bp_get_referer_path();
-	else
+	} else {
 		$path = esc_url( $_SERVER['REQUEST_URI'] );
+	}
 
 	/**
 	 * Filters the BuddyPress global URI path.
@@ -72,8 +83,8 @@ function bp_core_set_uri_globals() {
 
 	// Loop and remove empties.
 	foreach ( (array) $bp_uri as $key => $uri_chunk ) {
-		if ( empty( $bp_uri[$key] ) ) {
-			unset( $bp_uri[$key] );
+		if ( empty( $bp_uri[ $key ] ) ) {
+			unset( $bp_uri[ $key ] );
 		}
 	}
 
@@ -85,16 +96,16 @@ function bp_core_set_uri_globals() {
 	 * 2. when BP is running on secondary blog of a subdirectory
 	 * multisite installation. Phew!
 	 */
-	if ( is_multisite() && !is_subdomain_install() && ( bp_is_multiblog_mode() || 1 != bp_get_root_blog_id() ) ) {
+	if ( is_multisite() && ! is_subdomain_install() && ( bp_is_multiblog_mode() || 1 !== (int) bp_get_root_blog_id() ) ) {
 
 		// Blow chunks.
 		$chunks = explode( '/', $current_blog->path );
 
 		// If chunks exist...
-		if ( !empty( $chunks ) ) {
+		if ( ! empty( $chunks ) ) {
 
 			// ...loop through them...
-			foreach( $chunks as $key => $chunk ) {
+			foreach ( $chunks as $key => $chunk ) {
 				$bkey = array_search( $chunk, $bp_uri );
 
 				// ...and unset offending keys.
@@ -111,12 +122,14 @@ function bp_core_set_uri_globals() {
 	$paths = explode( '/', bp_core_get_site_path() );
 
 	// Take empties off the end of path.
-	if ( empty( $paths[count( $paths ) - 1] ) )
+	if ( empty( $paths[ count( $paths ) - 1 ] ) ) {
 		array_pop( $paths );
+	}
 
 	// Take empties off the start of path.
-	if ( empty( $paths[0] ) )
+	if ( empty( $paths[0] ) ) {
 		array_shift( $paths );
+	}
 
 	// Reset indexes.
 	$bp_uri = array_values( $bp_uri );
@@ -139,7 +152,7 @@ function bp_core_set_uri_globals() {
 	 */
 	if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) && empty( $bp_uri ) && empty( $_GET['p'] ) && empty( $_GET['page_id'] ) ) {
 		$post = get_post( get_option( 'page_on_front' ) );
-		if ( !empty( $post ) ) {
+		if ( ! empty( $post ) ) {
 			$bp_uri[0] = $post->post_name;
 		}
 	}
@@ -151,12 +164,14 @@ function bp_core_set_uri_globals() {
 	$GLOBALS['bp_unfiltered_uri'] = &$bp->unfiltered_uri;
 
 	// Get slugs of pages into array.
-	foreach ( (array) $bp->pages as $page_key => $bp_page )
+	foreach ( (array) $bp->pages as $page_key => $bp_page ) {
 		$key_slugs[$page_key] = trailingslashit( '/' . $bp_page->slug );
+	}
 
 	// Bail if keyslugs are empty, as BP is not setup correct.
-	if ( empty( $key_slugs ) )
+	if ( empty( $key_slugs ) ) {
 		return;
+	}
 
 	// Loop through page slugs and look for exact match to path.
 	foreach ( $key_slugs as $key => $slug ) {
@@ -194,7 +209,7 @@ function bp_core_set_uri_globals() {
 				}
 
 				// Have a match.
-				if ( !in_array( 0, (array) $matches ) ) {
+				if ( ! in_array( 0, (array) $matches, true ) ) {
 					$match      = $bp_page;
 					$match->key = $page_key;
 					break;
@@ -240,7 +255,7 @@ function bp_core_set_uri_globals() {
 	}
 
 	// Search doesn't have an associated page, so we check for it separately.
-	if ( isset( $_POST['search-terms'] ) && !empty( $bp_uri[0] ) && ( bp_get_search_slug() == $bp_uri[0] ) ) {
+	if ( isset( $_POST['search-terms'] ) && ! empty( $bp_uri[0] ) && ( bp_get_search_slug() == $bp_uri[0] ) ) {
 		$matches[]   = 1;
 		$match       = new stdClass;
 		$match->key  = 'search';
@@ -261,11 +276,11 @@ function bp_core_set_uri_globals() {
 	$wp_rewrite->use_verbose_page_rules = false;
 
 	// Find the offset. With $root_profile set, we fudge the offset down so later parsing works.
-	$slug       = !empty ( $match ) ? explode( '/', $match->slug ) : '';
+	$slug       = ! empty ( $match ) ? explode( '/', $match->slug ) : '';
 	$uri_offset = empty( $root_profile ) ? 0 : -1;
 
 	// Rejig the offset.
-	if ( !empty( $slug ) && ( 1 < count( $slug ) ) ) {
+	if ( ! empty( $slug ) && ( 1 < count( $slug ) ) ) {
 		// Only offset if not on a root profile. Fixes issue when Members page is nested.
 		if ( false === $root_profile ) {
 			array_pop( $slug );
@@ -377,8 +392,8 @@ function bp_core_set_uri_globals() {
 	$bp->current_action = $current_action;
 
 	// Slice the rest of the $bp_uri array and reset offset.
-	$bp_uri      = array_slice( $bp_uri, $uri_offset + 2 );
-	$uri_offset  = 0;
+	$bp_uri     = array_slice( $bp_uri, $uri_offset + 2 );
+	$uri_offset = 0;
 
 	// Set the entire URI as the action variables, we will unset the current_component and action in a second.
 	$bp->action_variables = $bp_uri;
