@@ -203,9 +203,13 @@ class BP_Messages_Thread {
 		// Fetch the recipients.
 		$this->recipients = $this->get_recipients( $thread_id, $r );
 
-		// Get the unread count for the user.
-		if ( isset( $this->recipients[ $r['user_id'] ] ) ) {
-			$this->unread_count = $this->recipients[ $r['user_id'] ]->unread_count;
+		if ( $r['user_id'] ) {
+			// Get the unread count for the user.
+			if ( isset( $this->recipients[ $r['user_id'] ] ) ) {
+				$this->unread_count = $this->recipients[ $r['user_id'] ]->unread_count;
+			} else {
+				$this->unread_count = self::get_unread_count( $this->thread_id, $r['user_id'] );
+			}
 		}
 
 		// Grab all message meta.
@@ -314,7 +318,7 @@ class BP_Messages_Thread {
 		// Paginate the results.
 		if ( ! empty( $recipients ) && $r['recipients_per_page'] && $r['recipients_page'] ) {
 			$start      = ( $r['recipients_page'] - 1 ) * ( $r['recipients_per_page'] );
-			$recipients = array_slice( $recipients, $start, $r['recipients_per_page'] );
+			$recipients = array_slice( $recipients, $start, $r['recipients_per_page'], true );
 		}
 
 		/**
@@ -757,6 +761,7 @@ class BP_Messages_Thread {
 				'ASC',
 				array(
 					'update_meta_cache'   => false,
+					'user_id'             => $r['user_id'],
 					'recipients_page'     => $r['recipients_page'],
 					'recipients_per_page' => $r['recipients_per_page'],
 					'page'                => $r['messages_page'],
@@ -1030,6 +1035,59 @@ class BP_Messages_Thread {
 		 */
 		return apply_filters( 'messages_thread_get_inbox_count', (int) $unread_count, $user_id );
 	}
+
+    /**
+     * Gets the unread message count in a thread for a user.
+     *
+     * @since NEXT
+     *
+     * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
+     *
+     * @param int $thread_id The thread ID.
+     * @param int $user_id   Optional. The user ID. Default: logged-in user ID.
+     * @return int Unread message count in thread for user.
+     */
+    public static function get_unread_count( $thread_id, $user_id = 0 ) {
+		global $wpdb;
+
+		if ( empty( $user_id ) ) {
+			$user_id = bp_loggedin_user_id();
+		}
+
+		if ( ! $user_id ) {
+			return 0;
+		}
+
+		// Get recipients from cache if available.
+		 $recipients = wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' );
+
+		if ( is_array( $recipients ) && isset( $recipients[ $user_id ] ) ) {
+			return $recipients[ $user_id ]->unread_count;
+		}
+
+		// Get count from database.
+		$bp = buddypress();
+
+		$unread_count = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT unread_count FROM {$bp->messages->table_name_recipients} WHERE thread_id = %d AND user_id = %d",
+				$thread_id,
+				$user_id
+			)
+		);
+
+		/**
+		 * Filters a user's unread message count in a thread.
+		 *
+		 * @since NEXT
+		 *
+		 * @param int $unread_count Unread message count.
+		 * @param int $thread_id    ID of the thread.
+		 * @param int $user_id      ID of the user.
+		 */
+		return apply_filters( 'messages_thread_get_unread_count', (int) $unread_count, $thread_id, $user_id );
+    }
 
 	/**
 	 * Checks whether a user is a part of a message thread discussion.

@@ -423,5 +423,21 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$this->assertCount( 2, $messages_template->threads[0]->messages );
 		$this->assertNotCount( 2, $messages_template->threads[0]->recipients );
 		$this->assertCount( 1, $messages_template->threads[0]->recipients );
+
+		// mark thread read by user 2
+		BP_Messages_Thread::mark_as_read( $message_1->thread_id, $u2 );
+
+		// test unread count for user 1
+		$messages_template = new BP_Messages_Box_Template(
+			array(
+				'user_id'             => $u1,
+				'messages_page'       => 1,
+				'messages_per_page'   => 2,
+				'recipients_page'     => 1,
+				'recipients_per_page' => 1,
+			)
+		);
+
+        $this->assertEquals( 2, $messages_template->threads[0]->unread_count );
 	}
 }
