@@ -424,4 +424,114 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$this->assertNotCount( 2, $messages_template->threads[0]->recipients );
 		$this->assertCount( 1, $messages_template->threads[0]->recipients );
 	}
+
+	/**
+	 * @group pagination
+	 * @group BP_Messages_Box_Template
+	 * @group BP8750
+	 */
+	public function test_thread_unread_count_setting_per_page_recipients() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		// create initial thread
+		$message_1 = self::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $u1,
+				'recipients' => array( $u2 ),
+			)
+		);
+
+		// create some replies to thread
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => array( $u1 ),
+			)
+		);
+
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => array( $u1 ),
+			)
+		);
+
+		// set $u1 as current user.
+		$old_current_user = get_current_user_id();
+		$this->set_current_user( $u1 );
+
+		$messages_template = new BP_Messages_Box_Template(
+			array(
+				'recipients_page'     => 1,
+				'recipients_per_page' => 1,
+			)
+		);
+
+		$this->set_current_user( $old_current_user );
+
+		$thread = reset( $messages_template->threads );
+
+		$this->assertEquals( 2, $thread->unread_count );
+	}
+
+	/**
+	 * @group pagination
+	 * @group BP_Messages_Box_Template
+	 * @group BP8750
+	 */
+	public function test_thread_unread_count_setting_per_page_recipients_with_specific_user_id() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+
+		// create initial thread
+		$message_1 = self::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $u3,
+				'recipients' => array( $u1, $u2 ),
+			)
+		);
+
+		// create some replies to thread
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => array( $u1, $u3 ),
+			)
+		);
+
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u1,
+				'recipients' => array( $u2, $u3 ),
+			)
+		);
+
+		self::factory()->message->create_and_get(
+			array(
+				'thread_id'  => $message_1->thread_id,
+				'sender_id'  => $u3,
+				'recipients' => array( $u2, $u1 ),
+			)
+		);
+
+		$messages_template = new BP_Messages_Box_Template(
+			array(
+				'user_id'             => $u3,
+				'recipients_page'     => 1,
+				'recipients_per_page' => 1,
+			)
+		);
+
+		$thread = reset( $messages_template->threads );
+
+		$this->assertFalse( isset( $thread->recipients[ $u3 ] ) );
+		$this->assertCount( 1, $thread->recipients );
+		$this->assertEquals( 2, $thread->unread_count );
+	}
 }
