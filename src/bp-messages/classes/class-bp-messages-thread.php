@@ -200,13 +200,8 @@ class BP_Messages_Thread {
 			$this->sender_ids[ $message->sender_id ] = $message->sender_id;
 		}
 
-		// Fetch the recipients.
+		// Fetch the recipients and set the displayed/logged in user's unread count.
 		$this->recipients = $this->get_recipients( $thread_id, $r );
-
-		// Get the unread count for the user.
-		if ( isset( $this->recipients[ $r['user_id'] ] ) ) {
-			$this->unread_count = $this->recipients[ $r['user_id'] ]->unread_count;
-		}
 
 		// Grab all message meta.
 		if ( true === (bool) $r['update_meta_cache'] ) {
@@ -311,10 +306,15 @@ class BP_Messages_Thread {
 			wp_cache_set( 'thread_recipients_' . $thread_id, (array) $recipients, 'bp_messages' );
 		}
 
+		// Set the unread count for the user.
+		if ( isset( $r['user_id'] ) && $r['user_id'] && isset( $recipients[ $r['user_id'] ]->unread_count ) ) {
+			$this->unread_count = (int) $recipients[ $r['user_id'] ]->unread_count;
+		}
+
 		// Paginate the results.
 		if ( ! empty( $recipients ) && $r['recipients_per_page'] && $r['recipients_page'] ) {
 			$start      = ( $r['recipients_page'] - 1 ) * ( $r['recipients_per_page'] );
-			$recipients = array_slice( $recipients, $start, $r['recipients_per_page'] );
+			$recipients = array_slice( $recipients, $start, $r['recipients_per_page'], true );
 		}
 
 		/**
@@ -756,6 +756,7 @@ class BP_Messages_Thread {
 				$thread_id,
 				'ASC',
 				array(
+					'user_id'             => $r['user_id'],
 					'update_meta_cache'   => false,
 					'recipients_page'     => $r['recipients_page'],
 					'recipients_per_page' => $r['recipients_per_page'],
