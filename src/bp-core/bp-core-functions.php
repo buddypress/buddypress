@@ -4850,3 +4850,16 @@ function bp_get_deprecated_functions_versions() {
 
 	return $latest_deprecated_functions_versions;
 }
+
+/**
+ * Retuns the community gate slug.
+ *
+ * @since 11.0.0
+ *
+ * @return string The community gate slug.
+ */
+function bp_core_get_community_gate_slug() {
+	$slug = apply_filters( 'bp_core_community_gate_slug', __( 'community-gate', 'buddypress' ) );
+
+	return sanitize_title( $slug );
+}

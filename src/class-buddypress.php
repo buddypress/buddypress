@@ -59,6 +59,16 @@ class BuddyPress {
 	public $unfiltered_uri = array();
 
 	/**
+	 * URI globals.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @see bp_core_set_uri_globals()
+	 * @var array The list of BP URI globals keyed with their names.
+	 */
+	public $uri_globals = array();
+
+	/**
 	 * Canonical stack.
 	 *
 	 * @see bp_redirect_canonical()

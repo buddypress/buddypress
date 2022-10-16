@@ -1292,26 +1292,3 @@ function bp_core_components_subdirectory_reserved_names( $names = array() ) {
 	return array_merge( $names, wp_list_pluck( $bp_pages, 'slug' ) );
 }
 add_filter( 'subdirectory_reserved_names', 'bp_core_components_subdirectory_reserved_names' );
-
-/**
- * Filters a BP Page's content when the user has no access to the community area.
- *
- * @since 11.0.0
- *
- * @param string $content The content of the page.
- * @return string The content of the page.
- */
-function bp_core_set_directory_default_content( $content = '' ) {
-
-	// Only set the default content when there's no content for the directory page.
-	if ( ! $content ) {
-		$bp   = buddypress();
-		$post = get_post();
-
-		if ( isset( $post->ID, $bp->current_directory_default_data->id ) && (int) $post->ID === (int) $bp->current_directory_default_data->id ) {
-			$content = $bp->current_directory_default_data->content;
-		}
-	}
-
-	return $content;
-}

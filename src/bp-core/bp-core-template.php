@@ -3923,3 +3923,64 @@ function bp_is_widget_block_active( $block_name = '', $widget_id_base = '' ) {
 
 	return 0 !== count( array_filter( $is_active ) );
 }
+
+/**
+ * Outputs the community visibility information into the community gate page content.
+ *
+ * @since 11.0.0
+ */
+function bp_community_visibility_information() {
+	$redirect_url = '';
+	if ( isset( $_GET['redirect_to'] ) && $_GET['redirect_to'] ) {
+		$redirect_url = esc_url_raw( wp_unslash( $_GET['redirect_to'] ) );
+	}
+
+	$login_link = sprintf(
+		'<a href="%1$s">%2$s</a>',
+		esc_url( wp_login_url( $redirect_url ) ),
+		esc_html__( 'log in', 'buddypress' )
+	);
+
+	$join_link  = '';
+	if ( bp_get_signup_allowed() ) {
+		$join_link = ' <a href="%s">' . esc_html__( 'register', 'buddypress' ) . '</a>';
+	} elseif ( function_exists( 'bp_members_membership_requests_add_toolbar_link' ) ) {
+		$join_link = ' <a href="%s">' . esc_html__( 'request a membership', 'buddypress' ) . '</a>';
+	}
+
+	if ( $join_link ) {
+		$join_link = ' ' . esc_html__( 'or', 'buddypress' ) . sprintf( $join_link, esc_url( bp_get_signup_page() ) );
+	}
+
+	$output = sprintf(
+		/* translators: 1. is the login link. 2. is the registration link. */
+		esc_html__( 'The community of this site is restricted to members. Please %1$s%2$s to this site.', 'buddypress' ),
+		$login_link,
+		$join_link
+	);
+
+	echo wp_kses(
+		/**
+		 * Filter here to customize the community visibility information.
+		 *
+		 * @since 11.0.0
+		 *
+		 * @param string $output     The community visibility information output.
+		 * @param string $login_link The link to log in.
+		 * @param string $join_link  The link to register or request a membership.
+		 */
+		apply_filters( 'bp_get_community_visibility_information', $output, $login_link, $join_link ),
+		array(
+			'a' => array(
+				'href' => true,
+			),
+		)
+	);
+
+	/**
+	 * Hook here to insert additional content to the community gate page.
+	 *
+	 * @since 11.0.0
+	 */
+	do_action( 'bp_after_community_visibility_information' );
+}

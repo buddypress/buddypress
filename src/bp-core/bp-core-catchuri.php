@@ -40,7 +40,12 @@ function bp_core_set_uri_globals() {
 		return false;
 	}
 
-	$bp = buddypress();
+	$bp             = buddypress();
+	$bp_uri_globals = array(
+		'displayed_user_id'   => 0,
+		'current_component'   => '',
+		'current_member_type' => '',
+	);
 
 	// Define local variables.
 	$root_profile = $match   = false;
@@ -49,14 +54,6 @@ function bp_core_set_uri_globals() {
 	// Fetch all the WP page names for each component.
 	if ( empty( $bp->pages ) ) {
 		$bp->pages = bp_core_get_directory_pages();
-	}
-
-	if ( ! bp_current_user_can( 'bp_read' ) ) {
-		foreach ( $bp->pages as $bp_page_slug => $bp_page ) {
-			if ( ! in_array( $bp_page_slug, array( 'register', 'activate' ), true ) ) {
-				unset( $bp->pages->{$bp_page_slug} );
-			}
-		}
 	}
 
 	// Ajax or not?
@@ -110,7 +107,7 @@ function bp_core_set_uri_globals() {
 
 				// ...and unset offending keys.
 				if ( false !== $bkey ) {
-					unset( $bp_uri[$bkey] );
+					unset( $bp_uri[ $bkey ] );
 				}
 
 				$bp_uri = array_values( $bp_uri );
@@ -158,14 +155,14 @@ function bp_core_set_uri_globals() {
 	}
 
 	// Keep the unfiltered URI safe.
-	$bp->unfiltered_uri = $bp_uri;
+	$bp_uri_globals['unfiltered_uri'] = $bp_uri;
 
 	// Don't use $bp_unfiltered_uri, this is only for backpat with old plugins. Use $bp->unfiltered_uri.
-	$GLOBALS['bp_unfiltered_uri'] = &$bp->unfiltered_uri;
+	$GLOBALS['bp_unfiltered_uri'] = &$bp_uri_globals['unfiltered_uri'];
 
 	// Get slugs of pages into array.
 	foreach ( (array) $bp->pages as $page_key => $bp_page ) {
-		$key_slugs[$page_key] = trailingslashit( '/' . $bp_page->slug );
+		$key_slugs[ $page_key ] = trailingslashit( '/' . $bp_page->slug );
 	}
 
 	// Bail if keyslugs are empty, as BP is not setup correct.
@@ -199,7 +196,7 @@ function bp_core_set_uri_globals() {
 				foreach ( (array) $uri_chunks as $key => $uri_chunk ) {
 
 					// Make sure chunk is in the correct position.
-					if ( !empty( $bp_uri[$key] ) && ( $bp_uri[$key] == $uri_chunk ) ) {
+					if ( ! empty( $bp_uri[ $key ] ) && ( $bp_uri[ $key ] == $uri_chunk ) ) {
 						$matches[] = 1;
 
 					// No match.
@@ -262,6 +259,13 @@ function bp_core_set_uri_globals() {
 		$match->slug = bp_get_search_slug();
 	}
 
+	if ( empty( $matches ) && ! empty( $bp_uri[0] ) && bp_core_get_community_gate_slug() === $bp_uri[0] ) {
+		$matches[]   = 1;
+		$match       = new stdClass;
+		$match->key  = 'community-gate';
+		$match->slug = bp_core_get_community_gate_slug();
+	}
+
 	// This is not a BuddyPress page, so just return.
 	if ( empty( $matches ) ) {
 		/**
@@ -290,13 +294,13 @@ function bp_core_set_uri_globals() {
 
 	// Global the unfiltered offset to use in bp_core_load_template().
 	// To avoid PHP warnings in bp_core_load_template(), it must always be >= 0.
-	$bp->unfiltered_uri_offset = $uri_offset >= 0 ? $uri_offset : 0;
+	$bp_uri_globals['unfiltered_uri_offset'] = $uri_offset >= 0 ? $uri_offset : 0;
 
 	// We have an exact match.
 	if ( isset( $match->key ) ) {
 
 		// Set current component to matched key.
-		$bp->current_component = $match->key;
+		$bp_uri_globals['current_component'] = $match->key;
 
 		// If members component, do more work to find the actual component.
 		if ( 'members' == $match->key ) {
@@ -314,40 +318,40 @@ function bp_core_set_uri_globals() {
 
 				// If root profile, we've already queried for the user.
 				if ( $root_profile instanceof WP_User ) {
-					$bp->displayed_user->id = $root_profile->ID;
+					$bp_uri_globals['displayed_user_id'] = $root_profile->ID;
 
 				// Switch the displayed_user based on compatibility mode.
 				} elseif ( bp_is_username_compatibility_mode() ) {
-					$bp->displayed_user->id = (int) bp_core_get_userid( urldecode( $after_member_slug ) );
+					$bp_uri_globals['displayed_user_id'] = (int) bp_core_get_userid( urldecode( $after_member_slug ) );
 
 				} else {
-					$bp->displayed_user->id = (int) bp_core_get_userid_from_nicename( $after_member_slug );
+					$bp_uri_globals['displayed_user_id'] = (int) bp_core_get_userid_from_nicename( $after_member_slug );
 				}
 			}
 
 			// Is this a member type directory?
-			if ( ! bp_displayed_user_id() && $after_member_slug === bp_get_members_member_type_base() && ! empty( $bp_uri[ $uri_offset + 2 ] ) ) {
+			if ( ! $bp_uri_globals['displayed_user_id'] && $after_member_slug === bp_get_members_member_type_base() && ! empty( $bp_uri[ $uri_offset + 2 ] ) ) {
 				$matched_types = bp_get_member_types( array(
 					'has_directory'  => true,
 					'directory_slug' => $bp_uri[ $uri_offset + 2 ],
 				) );
 
 				if ( ! empty( $matched_types ) ) {
-					$bp->current_member_type = reset( $matched_types );
+					$bp_uri_globals['current_member_type'] = reset( $matched_types );
 					unset( $bp_uri[ $uri_offset + 1 ] );
 				}
 			}
 
 			// If the slug matches neither a member type nor a specific member, 404.
-			if ( ! bp_displayed_user_id() && ! bp_get_current_member_type() && $after_member_slug ) {
+			if ( ! $bp_uri_globals['displayed_user_id'] && ! $bp_uri_globals['current_member_type'] && $after_member_slug ) {
 				// Prevent components from loading their templates.
-				$bp->current_component = '';
+				$bp_uri_globals['current_component'] = '';
 				bp_do_404();
 				return;
 			}
 
 			// If the displayed user is marked as a spammer, 404 (unless logged-in user is a super admin).
-			if ( bp_displayed_user_id() && bp_is_user_spammer( bp_displayed_user_id() ) ) {
+			if ( $bp_uri_globals['displayed_user_id'] && bp_is_user_spammer( $bp_uri_globals['displayed_user_id'] ) ) {
 				if ( bp_current_user_can( 'bp_moderate' ) ) {
 					bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'buddypress' ), 'warning' );
 				} else {
@@ -357,15 +361,15 @@ function bp_core_set_uri_globals() {
 			}
 
 			// Bump the offset.
-			if ( bp_displayed_user_id() ) {
+			if ( $bp_uri_globals['displayed_user_id'] ) {
 				if ( isset( $bp_uri[$uri_offset + 2] ) ) {
-					$bp_uri                = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
-					$bp->current_component = $bp_uri[0];
+					$bp_uri                              = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
+					$bp_uri_globals['current_component'] = $bp_uri[0];
 
 				// No component, so default will be picked later.
 				} else {
-					$bp_uri                = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
-					$bp->current_component = '';
+					$bp_uri                              = array_merge( array(), array_slice( $bp_uri, $uri_offset + 2 ) );
+					$bp_uri_globals['current_component'] = '';
 				}
 
 				// Reset the offset.
@@ -384,22 +388,52 @@ function bp_core_set_uri_globals() {
 	if ( empty( $current_action) && ! empty( $_GET['s'] ) && 'page' == get_option( 'show_on_front' ) && ! empty( $match->id ) ) {
 		$page_on_front = (int) get_option( 'page_on_front' );
 		if ( (int) $match->id === $page_on_front ) {
-			$bp->current_component = '';
+			$bp_uri_globals['current_component'] = '';
 			return false;
 		}
 	}
 
-	$bp->current_action = $current_action;
+	// Set the current action.
+	$bp_uri_globals['current_action'] = $current_action;
 
 	// Slice the rest of the $bp_uri array and reset offset.
 	$bp_uri     = array_slice( $bp_uri, $uri_offset + 2 );
 	$uri_offset = 0;
 
 	// Set the entire URI as the action variables, we will unset the current_component and action in a second.
-	$bp->action_variables = $bp_uri;
+	$bp_action_variables = $bp_uri;
 
 	// Reset the keys by merging with an empty array.
-	$bp->action_variables = array_merge( array(), $bp->action_variables );
+	$bp_uri_globals['action_variables'] = array_merge( array(), $bp_action_variables );
+
+	/*
+	 * Pass the BP URI globals as capability check arguments.
+	 *
+	 * NB: Plugins willing to bypass the capability check can filter `bp_map_meta_caps` to return true.
+	 * Check the `$args` filter's parameter (4th one) to find the requested URI globals.
+	 * eg: `$args['current_component']` for the component.
+	 */
+	if ( ! bp_current_user_can( 'bp_read', $bp_uri_globals ) && ! in_array( $bp_uri_globals['current_component'], array( 'register', 'activate' ), true ) ) {
+
+		// Set the unfiltered URI & the current component to core to stay in BuddyPress.
+		$bp->unfiltered_uri    = $bp_uri_globals['unfiltered_uri'];
+		$bp->current_component = 'core';
+
+		// User has access to the community area.
+	} else {
+
+		// Set BP URI globals globally.
+		foreach ( $bp_uri_globals as $bp_uri_global_key => $bp_uri_global_value ) {
+			if ( 'displayed_user_id' === $bp_uri_global_key ) {
+				$bp->displayed_user->id = $bp_uri_global_value;
+			} else {
+				$bp->{ $bp_uri_global_key } = $bp_uri_global_value;
+			}
+		}
+	}
+
+	// Set the URI globals list.
+	$bp->uri_globals = $bp_uri_globals;
 }
 
 /**
@@ -638,6 +672,7 @@ add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
  * If authenticated, redirects user back to requested content by default.
  *
  * @since 1.5.0
+ * @since 11.0.0 Introduced the `$action` parameter for the $args array.
  *
  * @param array|string $args {
  *     @type int    $mode     Specifies the destination of the redirect. 1 will
@@ -649,6 +684,8 @@ add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
  *                            Default: the value of {@link bp_get_root_domain()}.
  *     @type string $message  An error message to display to the user on the log-in page.
  *                            Default: "You must log in to access the page you requested."
+ *     @type string $action   The wp-login.php action name to use.
+ *                            Default: 'bpnoaccess'
  * }
  */
 function bp_core_no_access( $args = '' ) {
@@ -662,13 +699,17 @@ function bp_core_no_access( $args = '' ) {
 		'mode'     => 2,                    // 1 = $root, 2 = wp-login.php.
 		'redirect' => $redirect_url,        // the URL you get redirected to when a user successfully logs in.
 		'root'     => bp_get_root_domain(), // the landing page you get redirected to when a user doesn't have access.
-		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' )
+		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' ),
+		'action'   => 'bpnoaccess',
 	);
 
 	$r = bp_parse_args(
 		$args,
 		$defaults
 	);
+
+	$action = $r['action'];
+	unset( $r['action'] );
 
 	/**
 	 * Filters the arguments used for user redirecting when visiting access controlled areas.
@@ -678,15 +719,16 @@ function bp_core_no_access( $args = '' ) {
 	 * @param array $r Array of parsed arguments for redirect determination.
 	 */
 	$r = apply_filters( 'bp_core_no_access', $r );
-	extract( $r, EXTR_SKIP );
 
-	/*
-	 * @ignore Ignore these filters and use 'bp_core_no_access' above.
+	/**
+	 * Ignore these filters and use 'bp_core_no_access' above.
+	 *
+	 * @deprecated 11.0.0
 	 */
-	$mode     = apply_filters( 'bp_no_access_mode',     $mode,     $root,     $redirect, $message );
-	$redirect = apply_filters( 'bp_no_access_redirect', $redirect, $root,     $message,  $mode    );
-	$root     = apply_filters( 'bp_no_access_root',     $root,     $redirect, $message,  $mode    );
-	$message  = apply_filters( 'bp_no_access_message',  $message,  $root,     $redirect, $mode    );
+	$mode     = apply_filters_deprecated( 'bp_no_access_mode', array( $r['mode'], $r['root'], $r['redirect'], $r['message'] ), '11.0.0' );
+	$redirect = apply_filters_deprecated( 'bp_no_access_redirect', array( $r['redirect'], $r['root'], $r['message'], $r['mode'] ), '11.0.0' );
+	$root     = apply_filters_deprecated( 'bp_no_access_root', array( $r['root'], $r['redirect'], $r['message'], $r['mode'] ), '11.0.0' );
+	$message  = apply_filters_deprecated( 'bp_no_access_message', array( $r['message'], $r['root'], $r['redirect'], $r['mode'] ), '11.0.0' );
 	$root     = trailingslashit( $root );
 
 	switch ( $mode ) {
@@ -695,10 +737,15 @@ function bp_core_no_access( $args = '' ) {
 		// Error message is displayed with bp_core_no_access_wp_login_error().
 		case 2 :
 			if ( !empty( $redirect ) ) {
-				bp_core_redirect( add_query_arg( array(
-					'bp-auth' => 1,
-					'action'  => 'bpnoaccess'
-				), wp_login_url( $redirect ) ) );
+				bp_core_redirect(
+					add_query_arg(
+						array(
+							'bp-auth' => 1,
+							'action'  => $action,
+						),
+						wp_login_url( $redirect )
+					)
+				);
 			} else {
 				bp_core_redirect( $root );
 			}
@@ -759,30 +806,93 @@ add_action( 'login_init', 'bp_login_redirector', 1 );
  *
  * @since 1.5.0
  * @since 2.7.0 Hook moved to 'wp_login_errors' made available since WP 3.6.0.
+ * @since 11.0.0 Introduced a new $action parameter to the `bp_wp_login_error` filter.
  *
  * @param  WP_Error $errors Current error container.
  * @return WP_Error
  */
 function bp_core_no_access_wp_login_error( $errors ) {
-	if ( empty( $_GET['action'] ) || 'bpnoaccess' !== $_GET['action'] ) {
+	$action      = '';
+	$redirect_to = '';
+
+	if ( isset( $_GET['action'] ) && $_GET['action'] ) {
+		$action = esc_html( wp_unslash( $_GET['action'] ) );
+	}
+
+	if ( ! in_array( $action, array( 'bpnoaccess', 'bpnocommunityvisibility' ), true ) ) {
 		return $errors;
+	}
+
+	if ( isset( $_REQUEST['redirect_to'] ) && $_REQUEST['redirect_to'] ) {
+		$redirect_to = esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) );
+	}
+
+	$error_message = __( 'You must log in to access the page you requested.', 'buddypress' );
+
+	if ( 'bpnocommunityvisibility' === $action ) {
+		$error_message = __( 'The community of this site is restricted to members. Please log in to access to it.', 'buddypress' );
+
+		if ( bp_get_signup_allowed() ) {
+			$error_message = __( 'The community of this site is restricted to members. Please log in or register to this site.', 'buddypress' );
+		} elseif ( function_exists( 'bp_members_membership_requests_add_toolbar_link' ) ) {
+			$error_message = __( 'The community of this site is restricted to members. Please log in or request a membership to this site.', 'buddypress' );
+		}
 	}
 
 	/**
 	 * Filters the error message for wp-login.php when needing to log in before accessing.
 	 *
 	 * @since 1.5.0
+	 * @since 11.0.0 The $action parameter has been introduced.
 	 *
-	 * @param string $value Error message to display.
-	 * @param string $value URL to redirect user to after successful login.
+	 * @param string $error_message Error message to display.
+	 * @param string $redirect_to   URL to redirect user to after successful login.
+	 * @param string $action        The name of the login action.
 	 */
-	$message = apply_filters( 'bp_wp_login_error', __( 'You must log in to access the page you requested.', 'buddypress' ), $_REQUEST['redirect_to'] );
+	$message = apply_filters( 'bp_wp_login_error', $error_message, $redirect_to, $action );
 
-	$errors->add( 'bp_no_access', $message );
+	$errors->add(
+		'bp_no_access',
+		$message,
+		array(
+			'bp_action' => $action,
+		)
+	);
 
 	return $errors;
 }
 add_filter( 'wp_login_errors', 'bp_core_no_access_wp_login_error' );
+
+/**
+ * Redirect the user who has no access to the community to the `wp-login.php` page.
+ *
+ * @since 11.0.0
+ *
+ * @param bool $skip_check True to skip the capability check. False otherwise.
+ */
+function bp_core_user_has_no_community_visibility( $skip_check = true ) {
+	$user_can_view = false;
+
+	if ( false === $skip_check ) {
+		$user_can_view = bp_current_user_can( 'bp_read', buddypress()->uri_globals );
+	}
+
+	// Protect BuddyPress content if the site is set to private.
+	if ( ! $user_can_view && is_buddypress() && ! ( bp_is_register_page() || bp_is_activation_page() ) ) {
+		$redirect_to = '';
+
+		if ( isset( $_GET['redirect_to'] ) && $_GET['redirect_to'] ) {
+			$redirect_to = esc_url_raw( wp_unslash( $_GET['redirect_to'] ) );
+		}
+
+		bp_core_no_access(
+			array(
+				'action'   => 'bpnocommunityvisibility',
+				'redirect' => $redirect_to,
+			)
+		);
+	}
+}
 
 /**
  * Add our custom error code to WP login's shake error codes.

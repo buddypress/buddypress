@@ -163,6 +163,12 @@ class BP_Core extends BP_Component {
 		// Add Core to required components.
 		$bp->required_components[] = 'core';
 
+		// Hook to `bp_screens` to eventually load the community gate template.
+		add_action( 'bp_screens', array( $this, 'screen_index' ) );
+
+		// Hook to `bp_setup_theme_compat` to set theme compat for the community gate page.
+		add_action( 'bp_setup_theme_compat', array( $this, 'is_gate' ) );
+
 		/**
 		 * Fires after the loading of individual components.
 		 *
@@ -291,6 +297,9 @@ class BP_Core extends BP_Component {
 		// Is the logged in user is a mod for the current item?
 		bp_update_is_item_mod( false, 'core' );
 
+		// Set the community gate page title.
+		$this->directory_title = __( 'Restricted Access', 'buddypress' );
+
 		parent::setup_globals(
 			array(
 				'block_globals' => array(
@@ -300,6 +309,118 @@ class BP_Core extends BP_Component {
 				),
 			)
 		);
+	}
+
+	/**
+	 * Set up the canonical URL stack for the core component.
+	 *
+	 * @since 11.0.0
+	 */
+	public function setup_canonical_stack() {
+		$bp = buddypress();
+
+		if ( bp_is_current_component( $this->id ) ) {
+			$slug = bp_core_get_community_gate_slug();
+
+			if ( ! in_array( $slug, $bp->unfiltered_uri, true ) ) {
+				$redirect_after_login                 = home_url( implode( '/', $bp->unfiltered_uri ) . '/' );
+				$redirect_now_url                     = home_url( $slug . '/' );
+				$bp->canonical_stack['base_url']      = $redirect_now_url;
+				$bp->canonical_stack['canonical_url'] = $redirect_now_url;
+				$bp->canonical_stack['requested_url'] = add_query_arg( 'redirect_to', $redirect_after_login );
+			}
+		}
+	}
+
+	/**
+	 * Load the template for BuddyPress standalone themes.
+	 *
+	 * @since 11.0.0
+	 */
+	public function screen_index() {
+		if ( bp_is_current_component( $this->id ) && ! bp_current_action() ) {
+			/**
+			 * Fires right before the loading of the community gate screen template file.
+			 *
+			 * @since 11.0.0
+			 */
+			do_action( 'bp_core_screen_index' );
+
+			if ( ! bp_use_theme_compat_with_current_theme() ) {
+				$theme_has_template = (bool) locate_template( array( 'members/gate.php' ), false );
+
+				// No theme template were found: use the /wp-login.php redirection in this case.
+				if ( false === $theme_has_template ) {
+					bp_core_user_has_no_community_visibility();
+				}
+			}
+
+			/**
+			 * Filters the template to load for the community gate screen.
+			 *
+			 * @since 11.0.0
+			 *
+			 * @param string $template Path to the community gate template to load.
+			 */
+			bp_core_load_template( apply_filters( 'bp_core_screen_template', 'members/gate' ) );
+		}
+	}
+
+	/**
+	 * Update the global $post with community gate data.
+	 *
+	 * @since 11.0.0
+	 */
+	public function gate_dummy_post() {
+		bp_theme_compat_reset_post( array(
+			'ID'             => 0,
+			'post_title'     => bp_get_directory_title( 'core' ),
+			'post_author'    => 0,
+			'post_date'      => 0,
+			'post_content'   => '',
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'is_page'        => true,
+			'comment_status' => 'closed'
+		) );
+	}
+
+	/**
+	 * Filter the_content with the community gate template part.
+	 *
+	 * @since 11.0.0
+	 */
+	public function gate_content() {
+		return bp_buffer_template_part( 'members/gate', null, false );
+	}
+
+	/**
+	 * Set up the theme compatibility hooks, if we're looking at the community gate page.
+	 *
+	 * @since 11.0.0
+	 */
+	public function is_gate() {
+		if ( ! bp_is_current_component( $this->id ) ) {
+			return;
+		}
+
+		if ( ! bp_current_action() ) {
+			/** This action is documented in bp-core/classes/class-bp-core.php */
+			do_action( 'bp_core_screen_index' );
+
+			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'gate_dummy_post' ) );
+
+			$template_pack_has_part = bp_locate_template( array( 'members/gate.php' ) );
+
+			// No Template Pack parts were found: use the /wp-login.php redirection in this case.
+			if ( false === $template_pack_has_part ) {
+				bp_core_user_has_no_community_visibility();
+
+				// A template part was found load it.
+			} else {
+				add_filter( 'bp_replace_the_content', array( $this, 'gate_content' ) );
+			}
+		}
 	}
 
 	/**
