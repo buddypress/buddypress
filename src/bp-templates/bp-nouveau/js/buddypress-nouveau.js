@@ -367,11 +367,11 @@ window.bp = window.bp || {};
 				}
 
 				if (  $( '#buddypress [data-bp-filter="' + object + '"]' ).length ) {
-					if ( '-1' !== $( '#buddypress [data-bp-filter="' + object + '"]' ).val() && '0' !== $( '#buddypress [data-bp-filter="' + object + '"]' ).val() ) {
-						filter = $( '#buddypress [data-bp-filter="' + object + '"]' ).val();
-					} else if ( undefined !== objectData.filter ) {
-						filter = objectData.filter,
+					if ( undefined !== objectData.filter ) {
+						filter = objectData.filter;
 						$( '#buddypress [data-bp-filter="' + object + '"] option[value="' + filter + '"]' ).prop( 'selected', true );
+					} else if ( '-1' !== $( '#buddypress [data-bp-filter="' + object + '"]' ).val() && '0' !== $( '#buddypress [data-bp-filter="' + object + '"]' ).val() ) {
+						filter = $( '#buddypress [data-bp-filter="' + object + '"]' ).val();
 					}
 				}
 
