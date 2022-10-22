@@ -115,17 +115,63 @@ function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) 
 add_filter( 'bp_activity_get_post_type_tracking_args', 'bp_blogs_register_post_tracking_args', 10, 2 );
 
 /**
+ * Returns the blog URL and name which relates to a post or comment activity.
+ *
+ * @since 11.0.0
+ *
+ * @param BP_Activity_Activity $activity The activity object.
+ * @return array The blog URL and name which relates to a post or comment activity.
+ */
+function bp_blogs_activity_get_site_link_meta( $activity = null ) {
+	$attributes = array(
+		'blog_url'  => '',
+		'blog_name' => '',
+	);
+
+	if ( ! isset( $activity->item_id, $activity->component ) || ! $activity->item_id || 'blogs' !== $activity->component ) {
+		return $attributes;
+	}
+
+	if ( isset( $activity->blog_url ) ) {
+		$attributes['blog_url'] = $activity->blog_url;
+	} else {
+		$blog_url = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
+
+		if ( ! $blog_url ) {
+			$blog_url = get_home_url( $activity->item_id );
+			bp_blogs_update_blogmeta( $activity->item_id, 'url', $blog_url );
+		} else {
+			$attributes['blog_url'] = $blog_url;
+		}
+	}
+
+	if ( isset( $activity->blog_name ) ) {
+		$attributes['blog_name'] = $activity->blog_name;
+	} else {
+		$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
+
+		if ( ! $blog_name ) {
+			$blog_name = get_blog_option( $activity->item_id, 'blogname' );
+			bp_blogs_update_blogmeta( $activity->item_id, 'name', $blog_name );
+		} else {
+			$attributes['blog_name'] = $blog_name;
+		}
+	}
+
+	return $attributes;
+}
+
+/**
  * Format 'new_blog' activity actions.
  *
  * @since 2.0.0
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
- * @return string
+ * @return string Constructed activity action.
  */
 function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
-	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
-	$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
+	list( $blog_url, $blog_name ) = array_values( bp_blogs_activity_get_site_link_meta( $activity ) );
 
 	$action = sprintf(
 		/* translators: 1: the activity user link. 2: the blog link. */
@@ -142,7 +188,8 @@ function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
 		}
 
 		if ( isset( $recorded_blog ) ) {
-			$action = apply_filters( 'bp_blogs_activity_created_blog_action', $action, $recorded_blog, $blog_name, bp_blogs_get_blogmeta( $activity->item_id, 'description' ) );
+			$blog_description = bp_blogs_get_blogmeta( $activity->item_id, 'description' );
+			$action           = apply_filters_deprecated( 'bp_blogs_activity_created_blog_action', array( $action, $recorded_blog, $blog_name, $blog_description ), '2.0.0', 'bp_blogs_format_activity_action_new_blog' );
 		}
 	}
 
@@ -167,93 +214,23 @@ function bp_blogs_format_activity_action_new_blog( $action, $activity ) {
  * @return string Constructed activity action.
  */
 function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
-	$blog_url  = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
-	$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
-
-	if ( empty( $blog_url ) || empty( $blog_name ) ) {
-		$blog_url  = get_home_url( $activity->item_id );
-		$blog_name = get_blog_option( $activity->item_id, 'blogname' );
-
-		bp_blogs_update_blogmeta( $activity->item_id, 'url', $blog_url );
-		bp_blogs_update_blogmeta( $activity->item_id, 'name', $blog_name );
-	}
-
-	/**
-	 * When the post is published we are faking an activity object
-	 * to which we add 2 properties :
-	 * - the post url
-	 * - the post title
-	 * This is done to build the 'post link' part of the activity
-	 * action string.
-	 * NB: in this case the activity has not yet been created.
-	 */
-	if ( isset( $activity->post_url ) ) {
-		$post_url = $activity->post_url;
-
-	/**
-	 * The post_url property is not set, we need to build the url
-	 * thanks to the post id which is also saved as the secondary
-	 * item id property of the activity object.
-	 */
-	} else {
-		$post_url = add_query_arg( 'p', $activity->secondary_item_id, trailingslashit( $blog_url ) );
-	}
-
-	// Should be the case when the post has just been published.
-	if ( isset( $activity->post_title ) ) {
-		$post_title = $activity->post_title;
-
-	// If activity already exists try to get the post title from activity meta.
-	} else if ( ! empty( $activity->id ) ) {
-		$post_title = bp_activity_get_meta( $activity->id, 'post_title' );
-	}
-
-	/**
-	 * In case the post was published without a title
-	 * or the activity meta was not found.
-	 */
-	if ( empty( $post_title ) ) {
-		// Defaults to no title.
-		$post_title = __( '(no title)', 'buddypress' );
-
-		switch_to_blog( $activity->item_id );
-
-		$post = get_post( $activity->secondary_item_id );
-		if ( is_a( $post, 'WP_Post' ) ) {
-			// Does the post have a title ?
-			if ( ! empty( $post->post_title ) ) {
-				$post_title = $post->post_title;
-			}
-
-			// Make sure the activity exists before saving the post title in activity meta.
-			if ( ! empty( $activity->id ) ) {
-				bp_activity_update_meta( $activity->id, 'post_title', $post_title );
-			}
-		}
-
-		restore_current_blog();
-	}
-
-	// Build the 'post link' part of the activity action string.
-	$post_link = '<a href="' . esc_url( $post_url ) . '">' . esc_html( $post_title ) . '</a>';
-
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
 	// Build the complete activity action string.
 	if ( is_multisite() ) {
+		list( $blog_url, $blog_name ) = array_values( bp_blogs_activity_get_site_link_meta( $activity ) );
+
 		$action = sprintf(
-			/* translators: 1: the activity user link. 2: the post link. 3: the blog link. */
-			esc_html_x( '%1$s wrote a new post, %2$s, on the site %3$s', '`new_blog_post` activity action', 'buddypress' ),
+			/* translators: 1: the activity user link. 2: the blog link. */
+			esc_html_x( '%1$s wrote a new post on the site %2$s', 'Multisite `new_blog_post` activity action', 'buddypress' ),
 			$user_link,
-			$post_link,
 			'<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>'
 		);
 	} else {
 		$action = sprintf(
-			/* translators: 1: the activity user link. 2: the post link. */
-			esc_html_x( '%1$s wrote a new post, %2$s', '`new_blog_post` activity action', 'buddypress' ),
-			$user_link,
-			$post_link
+			/* translators: 1: the activity user link. */
+			esc_html_x( '%s wrote a new post', '`new_blog_post` activity action', 'buddypress' ),
+			$user_link
 		);
 	}
 
@@ -264,7 +241,8 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 		restore_current_blog();
 
 		if ( ! empty( $post ) && ! is_wp_error( $post ) ) {
-			$action = apply_filters( 'bp_blogs_activity_new_post_action', $action, $post, $post_url );
+			$post_url = add_query_arg( 'p', $post->ID, trailingslashit( get_home_url( $activity->item_id ) ) );
+			$action   = apply_filters_deprecated( 'bp_blogs_activity_new_post_action', array( $action, $post, $post_url ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_post' );
 		}
 	}
 
@@ -300,34 +278,8 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 	 * action string.
 	 * NB: in this case the activity has not yet been created.
 	 */
-
-	$blog_url = false;
-
-	// Try to get the blog url from the activity object.
-	if ( isset( $activity->blog_url ) ) {
-		$blog_url = $activity->blog_url;
-	} else {
-		$blog_url = bp_blogs_get_blogmeta( $activity->item_id, 'url' );
-	}
-
-	$blog_name = false;
-
-	// Try to get the blog name from the activity object.
-	if ( isset( $activity->blog_name ) ) {
-		$blog_name = $activity->blog_name;
-	} else {
-		$blog_name = bp_blogs_get_blogmeta( $activity->item_id, 'name' );
-	}
-
-	if ( empty( $blog_url ) || empty( $blog_name ) ) {
-		$blog_url  = get_home_url( $activity->item_id );
-		$blog_name = get_blog_option( $activity->item_id, 'blogname' );
-
-		bp_blogs_update_blogmeta( $activity->item_id, 'url', $blog_url );
-		bp_blogs_update_blogmeta( $activity->item_id, 'name', $blog_name );
-	}
-
-	$post_url = false;
+	list( $blog_url, $blog_name ) = array_values( bp_blogs_activity_get_site_link_meta( $activity ) );
+	$post_url                     = false;
 
 	// Try to get the post url from the activity object.
 	if ( isset( $activity->post_url ) ) {
@@ -401,7 +353,7 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 		restore_current_blog();
 
 		if ( ! empty( $comment ) && ! is_wp_error( $comment ) ) {
-			$action = apply_filters( 'bp_blogs_activity_new_comment_action', $action, $comment, $post_url . '#' . $activity->secondary_item_id );
+			$action = apply_filters_deprecated( 'bp_blogs_activity_new_comment_action', array( $action, $comment, $post_url . '#' . $activity->secondary_item_id ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_comment' );
 		}
 	}
 

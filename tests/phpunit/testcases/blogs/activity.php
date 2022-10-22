@@ -73,12 +73,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$a_obj = new BP_Activity_Activity( $a );
 
 		$user_link = bp_core_get_userlink( $u );
-		$blog_url = get_home_url();
-		$post_url = add_query_arg( 'p', $p, trailingslashit( $blog_url ) );
-		$post_title = bp_activity_get_meta( $a, 'post_title' );
-		$post_link = '<a href="' . $post_url . '">' . $post_title . '</a>';
-
-		$expected = sprintf( '%s wrote a new post, %s', $user_link, $post_link );
+		$expected = sprintf( '%s wrote a new post', $user_link );
 
 		$this->assertSame( $expected, $a_obj->action );
 	}
@@ -108,11 +103,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		$user_link = bp_core_get_userlink( $u );
 		$blog_url = get_home_url();
-		$post_url = add_query_arg( 'p', $p, trailingslashit( $blog_url ) );
-		$post_title = bp_activity_get_meta( $a, 'post_title' );
-		$post_link = '<a href="' . $post_url . '">' . $post_title . '</a>';
 
-		$expected = sprintf( '%s wrote a new post, %s, on the site %s', $user_link, $post_link, '<a href="' . $blog_url . '">' . bp_blogs_get_blogmeta( $a_obj->item_id, 'name' ) . '</a>' );
+		$expected = sprintf( '%s wrote a new post on the site %s', $user_link, '<a href="' . $blog_url . '">' . bp_blogs_get_blogmeta( $a_obj->item_id, 'name' ) . '</a>' );
 
 		$this->assertSame( $expected, $a_obj->action );
 	}
@@ -148,11 +140,8 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		$user_link = bp_core_get_userlink( $u );
 		$blog_url = get_blog_option( $a_obj->item_id, 'home' );
-		$post_url = add_query_arg( 'p', $p, trailingslashit( $blog_url ) );
-		$post_title = $p_obj->post_title;
-		$post_link = '<a href="' . $post_url . '">' . $post_title . '</a>';
 
-		$expected = sprintf( '%s wrote a new post, %s, on the site %s', $user_link, $post_link, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
+		$expected = sprintf( '%s wrote a new post on the site %s', $user_link, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
 
 		$this->assertSame( $expected, $a_obj->action );
 	}
@@ -200,93 +189,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$expected = sprintf( '%s commented on the post, %s, on the site %s', $user_link, $post_link, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
 
 		$this->assertSame( $expected, $a_obj->action );
-	}
-
-	/**
-	 * @group bp_blogs_format_activity_action_new_blog
-	 */
-	public function test_bp_activity_format_activity_action_new_blog_backpat() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
-
-		add_filter( 'bp_blogs_activity_created_blog_action', array( $this, 'created_blog_passthrough' ), 10, 2 );
-
-		$b = self::factory()->blog->create();
-		$u = self::factory()->user->create();
-
-		$recorded_blog          = new BP_Blogs_Blog;
-		$recorded_blog->user_id = $u;
-		$recorded_blog->blog_id = $b;
-		$recorded_blog_id       = $recorded_blog->save();
-
-		$a = self::factory()->activity->create( array(
-			'component' => buddypress()->blogs->id,
-			'type' => 'new_blog',
-			'user_id' => $u,
-			'item_id' => $b,
-		) );
-
-		$this->assertEquals( $this->userblog_id, $recorded_blog_id );
-	}
-
-	/**
-	 * @group bp_blogs_format_activity_action_new_blog_post
-	 */
-	public function test_bp_activity_format_activity_action_new_blog_post_backpat() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
-
-		add_filter( 'bp_blogs_activity_new_post_action', array( $this, 'new_post_passthrough' ), 10, 2 );
-
-		$b = self::factory()->blog->create();
-
-		switch_to_blog( $b );
-		$p = self::factory()->post->create();
-		restore_current_blog();
-
-		$u = self::factory()->user->create();
-		$a = self::factory()->activity->create( array(
-			'component' => buddypress()->blogs->id,
-			'type' => 'new_blog_post',
-			'user_id' => $u,
-			'item_id' => $b,
-			'secondary_item_id' => $p,
-		) );
-
-		$this->assertEquals( $this->post_id, $p );
-	}
-
-	/**
-	 * @group bp_blogs_format_activity_action_new_blog_comment
-	 */
-	public function test_bp_activity_format_activity_action_new_blog_comment_backpat() {
-		if ( ! is_multisite() ) {
-			$this->markTestSkipped();
-		}
-
-		add_filter( 'bp_blogs_activity_new_comment_action', array( $this, 'new_comment_passthrough' ), 10, 2 );
-
-		$b = self::factory()->blog->create();
-
-		switch_to_blog( $b );
-		$p = self::factory()->post->create();
-		$c = self::factory()->comment->create( array(
-			'comment_post_ID' => $p,
-		) );
-		restore_current_blog();
-
-		$u = self::factory()->user->create();
-		$a = self::factory()->activity->create( array(
-			'component' => buddypress()->blogs->id,
-			'type' => 'new_blog_comment',
-			'user_id' => $u,
-			'item_id' => $b,
-			'secondary_item_id' => $c,
-		) );
-
-		$this->assertEquals( $this->comment_post_id, $p );
 	}
 
 	/**
@@ -388,99 +290,6 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 
 		$a_obj = new BP_Activity_Activity( $a );
 		$this->assertTrue( ! empty( $a_obj->action ) );
-
-	}
-
-	/**
-	 * @group activity_action
-	 * @group bp_blogs_format_activity_action_new_blog_post
-	 */
-	public function test_bp_blogs_format_activity_action_new_blog_post_no_title() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
-
-		buddypress()->activity->actions = new stdClass();
-
-		$u = self::factory()->user->create();
-		$p = wp_insert_post( array(
-			'post_author' => $u,
-			'post_title'  => '', // no title: the object of the test
-			'post_status' => 'publish',
-			'post_content' => 'foo bar',
-		) );
-
-		$user_link = bp_core_get_userlink( $u );
-		$blog_url = get_home_url();
-		$post_url = add_query_arg( 'p', $p, trailingslashit( $blog_url ) );
-		$post_link = '<a href="' . $post_url . '">(no title)</a>';
-
-		// Set activity actions
-		bp_activity_get_actions();
-
-		$a_obj = bp_activity_get( array(
-			'item_id'           => 1,
-			'secondary_item_id' => $p,
-		) );
-
-		$expected = sprintf( '%s wrote a new post, %s', $user_link, $post_link );
-
-		$this->assertSame( $expected, $a_obj['activities'][0]->action );
-	}
-
-	/**
-	 * @group activity_action
-	 * @group bp_blogs_format_activity_action_new_blog_post
-	 */
-	public function test_bp_blogs_format_activity_action_new_blog_post_updated_without_title() {
-		if ( is_multisite() ) {
-			$this->markTestSkipped();
-		}
-
-		buddypress()->activity->actions = new stdClass();
-
-		$u = self::factory()->user->create();
-		$p = wp_insert_post( array(
-			'post_author' => $u,
-			'post_title'  => 'foo',
-			'post_status' => 'publish',
-			'post_content' => 'foo bar',
-		) );
-
-		$user_link  = bp_core_get_userlink( $u );
-		$blog_url   = get_home_url();
-		$post_url   = add_query_arg( 'p', $p, trailingslashit( $blog_url ) );
-		$post_title = get_the_title( $p );
-		$post_link  = '<a href="' . $post_url . '">' . $post_title . '</a>';
-
-		// Set actions
-		bp_activity_get_actions();
-
-		$a_obj = bp_activity_get( array(
-			'item_id'           => 1,
-			'secondary_item_id' => $p,
-		) );
-
-		$expected = sprintf( '%s wrote a new post, %s', $user_link, $post_link );
-
-		$this->assertSame( $expected, $a_obj['activities'][0]->action );
-
-		// Update the post by removing its title
-		wp_update_post( array(
-			'ID'         => $p,
-			'post_title' => '',
-		) );
-
-		// we now expect the (no title) post link
-		$post_link = '<a href="' . $post_url . '">(no title)</a>';
-		$expected = sprintf( '%s wrote a new post, %s', $user_link, $post_link );
-
-		$a_obj = bp_activity_get( array(
-			'item_id'           => 1,
-			'secondary_item_id' => $p,
-		) );
-
-		$this->assertSame( $expected, $a_obj['activities'][0]->action );
 	}
 
 	/**
