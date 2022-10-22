@@ -353,7 +353,7 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 		restore_current_blog();
 
 		if ( ! empty( $comment ) && ! is_wp_error( $comment ) ) {
-			$action = apply_filters( 'bp_blogs_activity_new_comment_action', $action, $comment, $post_url . '#' . $activity->secondary_item_id );
+			$action = apply_filters_deprecated( 'bp_blogs_activity_new_comment_action', array( $action, $comment, $post_url . '#' . $activity->secondary_item_id ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_comment' );
 		}
 	}
 
