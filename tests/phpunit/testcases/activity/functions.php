@@ -855,10 +855,14 @@ Bar!';
 			$this->markTestSkipped();
 		}
 
-		$b = self::factory()->blog->create();
-		$u = self::factory()->user->create();
+		$bp    = buddypress();
+		$b     = self::factory()->blog->create();
+		$u     = self::factory()->user->create();
+		$reset = $bp->activity->track;
 
 		switch_to_blog( $b );
+
+		$bp->activity->track = array();
 
 		register_post_type( 'foo', array(
 			'label'   => 'foo',
@@ -883,12 +887,9 @@ Bar!';
 		);
 
 		_unregister_post_type( 'foo' );
-		bp_activity_get_actions();
-
 		restore_current_blog();
 
-		$a = self::factory()->activity->create( $activity_args );
-
+		$a     = self::factory()->activity->create( $activity_args );
 		$a_obj = new BP_Activity_Activity( $a );
 
 		$user_link = bp_core_get_userlink( $u );
@@ -898,6 +899,7 @@ Bar!';
 		$post_link = '<a href="' . $post_url . '">item</a>';
 
 		$expected = sprintf( '%s wrote a new %s, on the site %s', $user_link, $post_link, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
+		$bp->activity->track = $reset;
 
 		$this->assertSame( $expected, $a_obj->action );
 	}
@@ -967,10 +969,14 @@ Bar!';
 			$this->markTestSkipped();
 		}
 
-		$b = self::factory()->blog->create();
-		$u = self::factory()->user->create();
+		$bp = buddypress();
+		$b  = self::factory()->blog->create();
+		$u  = self::factory()->user->create();
+		$reset = $bp->activity->track;
 
 		switch_to_blog( $b );
+
+		$bp->activity->track = array();
 
 		$labels = array(
 			'name'                    => 'bars',
@@ -1009,10 +1015,11 @@ Bar!';
 		$a_obj = new BP_Activity_Activity( $a );
 
 		$user_link = bp_core_get_userlink( $u );
-		$blog_url = get_blog_option( $a_obj->item_id, 'home' );
-		$post_url = add_query_arg( 'p', $p, trailingslashit( $blog_url ) );
+		$blog_url  = get_blog_option( $a_obj->item_id, 'home' );
+		$post_url  = add_query_arg( 'p', $p, trailingslashit( $blog_url ) );
 
 		$expected = sprintf( '%1$s shared a new <a href="%2$s">bar</a>, on the site %3$s', $user_link, $post_url, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
+		$bp->activity->track = $reset;
 
 		$this->assertSame( $expected, $a_obj->action );
 	}
@@ -1097,9 +1104,15 @@ Bar!';
 	 * @group post_type_comment_activities
 	 */
 	public function test_bp_activity_format_activity_action_custom_post_type_comment() {
+		$bp    = buddypress();
+		$reset = $bp->activity->track;
+
 		if ( is_multisite() ) {
 			$b = self::factory()->blog->create();
+
 			switch_to_blog( $b );
+
+			$bp->activity->track = array();
 			add_filter( 'comment_flood_filter', '__return_false' );
 		} else {
 			$b = get_current_blog_id();
@@ -1159,6 +1172,8 @@ Bar!';
 			remove_filter( 'comment_flood_filter', '__return_false' );
 
 			$expected = sprintf( $labels['bp_activity_new_comment_ms'], $user_link, $comment_url, '<a href="' . $blog_url . '">' . get_blog_option( $a_obj->item_id, 'blogname' ) . '</a>' );
+
+			$bp->activity->track = $reset;
 		} else {
 			$expected = sprintf( $labels['bp_activity_new_comment'], $user_link, $comment_url );
 		}
