@@ -273,12 +273,14 @@ window.bp = window.bp || {};
 
 			// Load more activities
 			} else if ( $( event.currentTarget ).hasClass( 'load-more' ) ) {
-				var next_page = ( Number( this.current_page ) * 1 ) + 1, self = this, search_terms = '';
+				var next_page = ( Number( this.current_page ) * 1 ) + 1, self = this, search_terms = '',
+				    loadMoreLink = $( event.currentTarget ).children().first(),
+				    offsetLower  = loadMoreLink ? bp.Nouveau.getLinkParams( loadMoreLink.prop( 'href' ), 'offset_lower' ) : 0;
 
 				// Stop event propagation
 				event.preventDefault();
 
-				$( event.currentTarget ).find( 'a' ).first().addClass( 'loading' );
+				loadMoreLink.addClass( 'loading' );
 
 				// reset the just posted
 				this.just_posted = [];
@@ -300,6 +302,7 @@ window.bp = window.bp || {};
 					page                : next_page,
 					method              : 'append',
 					exclude_just_posted : this.just_posted.join( ',' ),
+					offset_lower        : offsetLower,
 					target              : '#buddypress [data-bp-list] ul.bp-list'
 				} ).done( function( response ) {
 					if ( true === response.success ) {

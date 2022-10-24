@@ -272,6 +272,7 @@ function bp_has_activities( $args = '' ) {
 			'primary_id'        => $primary_id,  // Object ID to filter on e.g. a group_id or blog_id etc.
 			'secondary_id'      => false,        // Secondary object ID to filter on e.g. a post_id.
 			'offset'            => false,        // Return only items >= this ID.
+			'offset_lower'      => false,        // Return only items < this ID.
 			'since'             => false,        // Return only items recorded since this Y-m-d H:i:s date.
 
 			'meta_query'        => false,        // Filter on activity meta. See WP_Meta_Query for format.
@@ -326,7 +327,7 @@ function bp_has_activities( $args = '' ) {
 		$r['filter'] = array(
 			'object' => $_GET['afilter']
 		);
-	} elseif ( ! empty( $r['user_id'] ) || ! empty( $r['object'] ) || ! empty( $r['action'] ) || ! empty( $r['primary_id'] ) || ! empty( $r['secondary_id'] ) || ! empty( $r['offset'] ) || ! empty( $r['since'] ) ) {
+	} elseif ( ! empty( $r['user_id'] ) || ! empty( $r['object'] ) || ! empty( $r['action'] ) || ! empty( $r['primary_id'] ) || ! empty( $r['secondary_id'] ) || ! empty( $r['offset'] ) || ! empty( $r['offset_lower'] ) || ! empty( $r['since'] ) ) {
 		$r['filter'] = array(
 			'user_id'      => $r['user_id'],
 			'object'       => $r['object'],
@@ -334,6 +335,7 @@ function bp_has_activities( $args = '' ) {
 			'primary_id'   => $r['primary_id'],
 			'secondary_id' => $r['secondary_id'],
 			'offset'       => $r['offset'],
+			'offset_lower' => $r['offset_lower'],
 			'since'        => $r['since']
 		);
 	} else {
@@ -410,8 +412,18 @@ function bp_activity_load_more_link() {
 	function bp_get_activity_load_more_link() {
 		global $activities_template;
 
-		$url  = bp_get_requested_url();
-		$link = add_query_arg( $activities_template->pag_arg, $activities_template->pag_page + 1, $url );
+		$url            = bp_get_requested_url();
+		$load_more_args = array(
+			$activities_template->pag_arg => $activities_template->pag_page + 1,
+		);
+
+		// Try to include the offset arg.
+		$last_displayed_activity = reset( $activities_template->activities );
+		if ( isset( $last_displayed_activity->id ) && $last_displayed_activity->id ) {
+			$load_more_args['offset_lower'] = (int) $last_displayed_activity->id;
+		}
+
+		$link = add_query_arg( $load_more_args, $url );
 
 		/**
 		 * Filters the Load More link URL.

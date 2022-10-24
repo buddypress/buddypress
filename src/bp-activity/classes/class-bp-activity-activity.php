@@ -1922,6 +1922,8 @@ class BP_Activity_Activity {
 	 *                                          'secondary_item_id' column in the database.
 	 *     @type int              $offset       Return only those items with an ID greater
 	 *                                          than the offset value.
+	 *     @type int              $offset_lower Return only those items with an ID lower
+	 *                                          than the offset value.
 	 *     @type string           $since        Return only those items that have a
 	 *                                          date_recorded value greater than a
 	 *                                          given MySQL-formatted date.
@@ -1965,6 +1967,11 @@ class BP_Activity_Activity {
 		if ( ! empty( $filter_array['offset'] ) ) {
 			$sid_sql = absint( $filter_array['offset'] );
 			$filter_sql[] = "a.id >= {$sid_sql}";
+		}
+
+		if ( ! empty( $filter_array['offset_lower'] ) ) {
+			$sid_sql = absint( $filter_array['offset_lower'] );
+			$filter_sql[] = "a.id < {$sid_sql}";
 		}
 
 		if ( ! empty( $filter_array['since'] ) ) {

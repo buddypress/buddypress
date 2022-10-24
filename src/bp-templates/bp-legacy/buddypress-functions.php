@@ -765,6 +765,10 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 		$qs[] = 'offset=' . intval( $_POST['offset'] );
 	}
 
+	if ( ! empty( $_POST['offset_lower'] ) ) {
+		$qs[] = 'offset_lower=' . intval( $_POST['offset_lower'] );
+	}
+
 	$object_search_text = bp_get_search_default_text( $object );
 	if ( ! empty( $_POST['search_terms'] ) && is_string( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] )
 		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
