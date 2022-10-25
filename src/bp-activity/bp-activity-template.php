@@ -406,6 +406,7 @@ function bp_activity_load_more_link() {
 	 * Get the URL for the Load More link.
 	 *
 	 * @since 2.1.0
+	 * @since 11.0.0 Adds the `offset_lower` query arg to avoid last displayed activity to be duplicated.
 	 *
 	 * @return string $link
 	 */
