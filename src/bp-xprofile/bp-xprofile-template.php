@@ -14,8 +14,9 @@ defined( 'ABSPATH' ) || exit;
  * Query for XProfile groups and fields.
  *
  * @since 1.0.0
- * @since 2.4.0 Introduced `$member_type` argument.
- * @since 8.0.0 Introduced `$hide_field_types` & `$signup_fields_only` arguments.
+ * @since 2.4.0  Introduced `$member_type` argument.
+ * @since 8.0.0  Introduced `$hide_field_types` & `$signup_fields_only` arguments.
+ * @since 11.0.0 `$profile_group_id` accepts an array of profile group ids.
  *
  * @global object $profile_template
  * @see BP_XProfile_Group::get() for full description of `$args` array.
@@ -25,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
  *     from that method are described here:
  *     @type int          $user_id                Default: ID of the displayed user.
  *     @type string|array $member_type            Default: 'any'.
- *     @type int|bool     $profile_group_id       Default: false.
+ *     @type int|int[]    $profile_group_id       Default: false.
  *     @type bool         $hide_empty_groups      Default: true.
  *     @type bool         $hide_empty_fields      Defaults to true on the Dashboard, on a user's Edit Profile page,
  *                                                or during registration. Otherwise false.
@@ -39,7 +40,6 @@ defined( 'ABSPATH' ) || exit;
  *     @type bool         $signup_fields_only     Default: false.
  *     @type bool         $update_meta_cache      Default: true.
  * }
- *
  * @return bool
  */
 function bp_has_profile( $args = '' ) {

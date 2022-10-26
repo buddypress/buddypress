@@ -104,15 +104,16 @@ class BP_XProfile_Data_Template {
 	 * @see BP_XProfile_Group::get() for more details about parameters.
 	 *
 	 * @since 1.5.0
-	 * @since 2.4.0 Introduced `$member_type` argument.
-	 * @since 8.0.0 Introduced `$hide_field_types` & `$signup_fields_only` arguments.
+	 * @since 2.4.0  Introduced `$member_type` argument.
+	 * @since 8.0.0  Introduced `$hide_field_types` & `$signup_fields_only` arguments.
+	 * @since 11.0.0 `$profile_group_id` accepts an array of profile group ids.
 	 *
 	 * @param array|string $args {
 	 *     An array of arguments. All items are optional.
 	 *
 	 *     @type int          $user_id                 Fetch field data for this user ID.
 	 *     @type string|array $member_type             Limit results to those matching member type(s).
-	 *     @type int          $profile_group_id        Field group to fetch fields & data for.
+	 *     @type int|int[]    $profile_group_id        Field group(s) to fetch fields & data for. Default: false.
 	 *     @type int|bool     $hide_empty_groups       Should empty field groups be skipped.
 	 *     @type int|bool     $fetch_fields            Fetch fields for field group.
 	 *     @type int|bool     $fetch_field_data        Fetch field data for fields in group.
