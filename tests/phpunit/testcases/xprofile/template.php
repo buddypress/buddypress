@@ -146,9 +146,6 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 			]
 		);
 
-		// Put the field at the last position
-		bp_xprofile_update_field_meta( $field_in_1, 'signup_position', 3 );
-
 		$field_in_2 = self::factory()->xprofile_field->create(
 			[
 				'field_group_id' => $g2,
@@ -157,10 +154,7 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 			]
 		);
 
-		// Put the field at the second position
-		bp_xprofile_update_field_meta( $field_in_2, 'signup_position', 2 );
-
-		$field_in_3 = self::factory()->xprofile_field->create(
+		self::factory()->xprofile_field->create(
 			[
 				'field_group_id' => $g3,
 				'type'           => 'textbox',
@@ -173,7 +167,8 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$group_ids = wp_list_pluck( $profile_template->groups, 'id' );
 
 		$this->assertSame( 2, $profile_template->group_count );
-		$this->assertSame( [ $g1, $g2 ], $group_ids );
+		$this->assertContains( $g1, $group_ids );
+		$this->assertContains( $g2, $group_ids );
 		$this->assertNotContains( $g3, $group_ids );
 
 		xprofile_delete_field_group( $g1 );
