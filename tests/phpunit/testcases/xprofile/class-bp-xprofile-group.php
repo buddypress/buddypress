@@ -499,6 +499,9 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$found_6 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => join( ',', [ $g1, $g2 ] ) ] );
 		$this->assertCount( 2, $found_6 );
 		$this->assertSame( [ $g1, $g2 ], $found_6 );
+
+		$found_7 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => true ] );
+		$this->assertEqualSets( $group_ids, $found_7 );
 	}
 
 	/**

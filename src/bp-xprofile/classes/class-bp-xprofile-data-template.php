@@ -111,19 +111,19 @@ class BP_XProfile_Data_Template {
 	 * @param array|string $args {
 	 *     An array of arguments. All items are optional.
 	 *
-	 *     @type int          $user_id                 Fetch field data for this user ID.
-	 *     @type string|array $member_type             Limit results to those matching member type(s).
-	 *     @type int|int[]    $profile_group_id        Field group(s) to fetch fields & data for. Default: false.
-	 *     @type int|bool     $hide_empty_groups       Should empty field groups be skipped.
-	 *     @type int|bool     $fetch_fields            Fetch fields for field group.
-	 *     @type int|bool     $fetch_field_data        Fetch field data for fields in group.
-	 *     @type array        $exclude_groups          Exclude these field groups.
-	 *     @type array        $exclude_fields          Exclude these fields.
-	 *     @type int|bool     $hide_empty_fields       Should empty fields be skipped.
-	 *     @type int|bool     $fetch_visibility_level  Fetch visibility levels.
-	 *     @type string[]     $hide_field_types        List of field types to hide form loop. Default: empty array.
-	 *     @type bool         $signup_fields_only      Whether to only return signup fields. Default: false.
-	 *     @type int|bool     $update_meta_cache       Should metadata cache be updated.
+	 *     @type int            $user_id                 Fetch field data for this user ID.
+	 *     @type string|array   $member_type             Limit results to those matching member type(s).
+	 *     @type int|int[]|bool $profile_group_id        Field group(s) to fetch fields & data for. Default: false.
+	 *     @type int|bool       $hide_empty_groups       Should empty field groups be skipped.
+	 *     @type int|bool       $fetch_fields            Fetch fields for field group.
+	 *     @type int|bool       $fetch_field_data        Fetch field data for fields in group.
+	 *     @type array          $exclude_groups          Exclude these field groups.
+	 *     @type array          $exclude_fields          Exclude these fields.
+	 *     @type int|bool       $hide_empty_fields       Should empty fields be skipped.
+	 *     @type int|bool       $fetch_visibility_level  Fetch visibility levels.
+	 *     @type string[]       $hide_field_types        List of field types to hide form loop. Default: empty array.
+	 *     @type bool           $signup_fields_only      Whether to only return signup fields. Default: false.
+	 *     @type int|bool       $update_meta_cache       Should metadata cache be updated.
 	 * }
 	 */
 	public function __construct( $args = '' ) {
