@@ -18,8 +18,8 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	static public function wpTearDownAfterClass() {
-		array_map( array( __CLASS__, 'delete_user' ), self::$user_ids );
 		array_map( 'groups_delete_group', self::$group_ids );
+		array_map( array( __CLASS__, 'delete_user' ), self::$user_ids );
 	}
 
 	public function test_creating_new_group_as_authenticated_user() {
