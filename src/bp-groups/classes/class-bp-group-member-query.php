@@ -547,6 +547,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * If a `count` query is performed, the function is used to validate active users.
 	 *
 	 * @since 10.3.0
+	 * @since 11.0.0 Include inactive users added by a community administrators to the group members count.
 	 */
 	public function populate_extras() {
 		if ( ! $this->query_vars_raw['count'] ) {
@@ -554,9 +555,13 @@ class BP_Group_Member_Query extends BP_User_Query {
 		}
 
 		// Validate active users.
-		$active_users    = array_filter( BP_Core_User::get_last_activity( $this->user_ids ) );
-		$active_user_ids = array_keys( $active_users );
-		$this->results   = array_intersect( $this->user_ids, $active_user_ids );
+		if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+			$active_users    = array_filter( BP_Core_User::get_last_activity( $this->user_ids ) );
+			$active_user_ids = array_keys( $active_users );
+			$this->results   = array_intersect( $this->user_ids, $active_user_ids );
+		} else {
+			$this->results = $this->user_ids;
+		}
 
 		// Set the total active users.
 		$this->total_users = count( $this->results );
