@@ -52,7 +52,7 @@ jobs:
           composer --version
 
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2.2
+        uses: ramsey/composer-install@v2.2.0
         with:
           composer-options: "--ignore-platform-reqs"
 
