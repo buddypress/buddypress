@@ -1424,40 +1424,47 @@ body.bp-user {
 		li {
 
 			.thread-cb {
-				padding-left: 15px;
+				padding-left: 5px;
+				margin-right: 5px;
 			}
 
 			&.unread {
 
 				.thread-cb {
-					padding-left: 7px;
+					padding-left: 2px;
 				}
 			}
 
 			.thread-from,
 			.thread-to {
+				display: flex;
+				flex: 1 2 30%;
+				align-items: center;
 
 				img.avatar {
-					width: 32px;
-					height: 32px;
+					width: 25px;
+					height: 25px;
+					margin-right: 5px;
 				}
 
 				.num-recipients {
-					color: var(--wp--preset--color--primary);
+					padding-left: 5px;
+					color: var(--wp--preset--color--contrast);
 				}
 			}
 
 			.thread-content {
+				flex: 1 2 50%;
 
 				.excerpt {
-					color: var(--wp--preset--color--primary);
+					color: var(--wp--preset--color--contrast);
 				}
 			}
 
 			.thread-date {
 
 				time {
-					color: var(--wp--preset--color--primary);
+					color: var(--wp--preset--color--contrast);
 				}
 			}
 		}
@@ -1465,12 +1472,12 @@ body.bp-user {
 		li.selected {
 			background: transparent;
 			font-weight: bolder;
-			color: var(--wp--preset--color--primary);
+			color: var(--wp--preset--color--secondary);
 
 			.thread-subject {
 
 				.subject {
-					color: var(--wp--preset--color--primary);
+					color: var(--wp--preset--color--secondary);
 				}
 			}
 		}
@@ -1649,16 +1656,15 @@ body.bp-user {
 	.subnav-filters {
 
 		button#user_messages_search_submit {
-			padding: 3px 0.7em;
+			padding: 5px 0.7em;
 
 			background-color: var(--wp--preset--color--base);
-			color: var(--wp--preset--color--secondary);
+			color: var(--wp--preset--color--contrast);
 			border-color: var(--wp--preset--color--base);
-			border-left-color: var(--wp--preset--color--primary);
 
 			&:hover {
-				background-color: var(--wp--preset--color--secondary);
-				color: var(--wp--preset--color--primary);
+				background-color: var(--wp--preset--color--primary);
+				color: var(--wp--preset--color--contrast);
 				border-color: var(--wp--preset--color--primary);
 			}
 		}
