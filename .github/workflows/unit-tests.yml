@@ -19,13 +19,8 @@ jobs:
             wp_version: '6.1'
           - php: '7.4'
             wp_version: '6.1'
-          # The following tests are always failing. Under investigation.
-          #- php: '8.0'
-          #  wp_version: '6.0'
-          #- php: '7.4'
-          #  wp_version: '6.0'
-          #- php: '7.4'
-          #  wp_version: '5.7'
+          - php: '7.4'
+            wp_version: '5.7'
     env:
       WP_ENV_PHP_VERSION: ${{ matrix.php }}
       WP_VERSION: ${{ matrix.wp_version }}
@@ -57,9 +52,15 @@ jobs:
           composer --version
 
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v2.2
         with:
           composer-options: "--ignore-platform-reqs"
+
+      - name: Adapt WP PHPUnit version for WP < 6.1
+        run: |
+          if [ ${{ env.WP_VERSION }} == '5.7' ]; then
+            composer require wp-phpunit/wp-phpunit:6.0
+          fi
 
       - name: Cache node modules
         uses: actions/cache@v2
