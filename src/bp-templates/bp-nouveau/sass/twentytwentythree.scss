@@ -139,7 +139,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 
 			a:focus,
 			a:hover {
-				background: var(--wp--preset--color--background);
+				background: var(--wp--preset--color--base);
 				color: var(--wp--preset--color--secondary);
 				outline-offset: -0.25ch;
 				outline: 2px dashed var(--wp--preset--color--primary);
@@ -152,7 +152,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 			a,
 			a:focus,
 			a:hover {
-				color: var(--wp--preset--color--background);
+				color: var(--wp--preset--color--secondary);
 				background-color: var(--wp--preset--color--primary);
 			}
 		}
@@ -162,14 +162,14 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 			border-bottom: 1px solid var(--wp--preset--color--primary);
 
 			li.current {
-				border-color: var(--wp--preset--color--primary) var(--wp--preset--color--primary) var(--wp--preset--color--background);
+				border-color: var(--wp--preset--color--primary) var(--wp--preset--color--primary) var(--wp--preset--color--base);
 				border-style: solid;
 				border-top-left-radius: 4px;
 				border-top-right-radius: 4px;
 
 				a {
 					color: var(--wp--preset--color--primary);
-					background-color: var(--wp--preset--color--background);
+					background-color: var(--wp--preset--color--secondary);
 				}
 			}
 		}
@@ -227,7 +227,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 #buddypress.twentytwentythree {
 
 	.bp-pagination {
-		color: var(--wp--preset--color--foreground);
+		color: var(--wp--preset--color--secondary);
 	}
 }
 
@@ -303,7 +303,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 
 			.meta,
 			.item-meta {
-				color: var(--wp--preset--color--foreground);
+				color: var(--wp--preset--color--secondary);
 			}
 		}
 	}
@@ -340,7 +340,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 
 				.time-since,
 				.time-since:hover {
-					color: var(--wp--preset--color--foreground);
+					color: var(--wp--preset--color--secondary);
 				}
 			}
 		}
@@ -481,7 +481,7 @@ body {
 
 					.activity-header,
 					.comment-header {
-						color: var(--wp--preset--color--foreground);
+						color: var(--wp--preset--color--contrast);
 
 						a {
 							font-weight: 600;
@@ -619,6 +619,24 @@ body {
 				}
 			}
 		}
+
+		#buddypress.twentytwentythree:not(.alignwide) {
+
+			.activity-list {
+
+				.activity-avatar {
+					left: 0;
+					top: 0;
+				}
+
+				.activity-content {
+
+					.activity-header {
+						padding: 0;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -658,7 +676,7 @@ body {
 				}
 
 				.acomment-meta {
-					color: var(--wp--preset--color--foreground);
+					color: var(--wp--preset--color--contrast);
 
 					a {
 						font-weight: 600;
@@ -687,7 +705,7 @@ body {
 				}
 
 				.acomment-content {
-					border-left: 1px solid var(--wp--preset--color--foreground);
+					border-left: 1px solid var(--wp--preset--color--secondary);
 					margin: 15px 0 0 5%;
 				}
 
@@ -760,7 +778,7 @@ body {
 		li {
 
 			.group-desc {
-				color: var(--wp--preset--color--foreground);
+				color: var(--wp--preset--color--contrast);
 				border: 1px dotted var(--wp--preset--color--primary);
 			}
 		}
@@ -799,7 +817,7 @@ body {
 
 			.user-update {
 				border: 1px dotted var(--wp--preset--color--primary);
-				color: var(--wp--preset--color--foreground);
+				color: var(--wp--preset--color--contrast);
 				margin: 0 auto 15px;
 			}
 		}
@@ -904,7 +922,7 @@ body.bp-user {
 		.item-meta,
 		.bp-group-type-list,
 		.bp-member-type-list {
-			color: var(--wp--preset--color--foreground);
+			color: var(--wp--preset--color--secondary);
 		}
 
 		a:hover {
@@ -926,7 +944,7 @@ body.bp-user {
 	.groups-header {
 
 		.desc-wrap {
-			background: var(--wp--preset--color--background);
+			background: var(--wp--preset--color--base);
 			border: 1px solid var(--wp--preset--color--primary);
 
 			.group-description {
@@ -988,28 +1006,30 @@ body.bp-user {
 
 					&.current {
 						border: 1px solid var(--wp--preset--color--primary);
-						border-bottom: 1px solid var(--wp--preset--color--background);
+						border-bottom: 1px solid var(--wp--preset--color--base);
 					}
 				}
 			}
 		}
 
 		#drag-drop-area {
-			border: 4px dashed var(--wp--preset--color--foreground);
+			border: 4px dashed var(--wp--preset--color--secondary);
 
 			.drag-drop-info {
-				color: var(--wp--preset--color--foreground);
+				color: var(--wp--preset--color--contrast);
 			}
 
 			#bp-browse-button {
 				margin: 50px auto 0;
+				color: var(--wp--preset--color--secondary);
+				font-weight: 600;
 			}
 		}
 
 		.drag-over {
 
 			#drag-drop-area {
-				border: 4px dashed var(--wp--preset--color--vivid-cyan-blue);
+				border: 4px dashed var(--wp--preset--color--primary);
 			}
 		}
 
@@ -1023,7 +1043,7 @@ body.bp-user {
 				border: none;
 				border-left-width: 4px;
 				border-left-style: solid;
-				color: var(--wp--preset--color--primary);
+				color: var(--wp--preset--color--contrast);
 			}
 
 			.warning {
@@ -1041,11 +1061,11 @@ body.bp-user {
 
 		.avatar-history-action.delete {
 			background-color: var(--wp--preset--color--vivid-red);
-			color: var(--wp--preset--color--background);
+			color: var(--wp--preset--color--base);
 			border: solid 1px var(--wp--preset--color--vivid-red);
 
 			&:hover {
-				background-color: var(--wp--preset--color--background);
+				background-color: var(--wp--preset--color--base);
 				color: var(--wp--preset--color--vivid-red);
 			}
 		}
@@ -1090,7 +1110,7 @@ body.bp-user {
 
 				&:focus {
 					outline-offset: -7px;
-					outline: 2px dotted var(--wp--preset--color--foreground);
+					outline: 2px dotted var(--wp--preset--color--primary);
 				}
 			}
 
@@ -1128,19 +1148,19 @@ body.bp-user {
 
 			&:focus {
 				outline-offset: 2px;
-				outline: 2px dotted var(--wp--preset--color--foreground);
+				outline: 2px dotted var(--wp--preset--color--primary);
 			}
 		}
 	}
 
 	#delete-group-button {
 		border-color: var(--wp--preset--color--vivid-red);
-		color: var(--wp--preset--color--background);
+		color: var(--wp--preset--color--base);
 		background: var(--wp--preset--color--vivid-red);
 
 		&:hover {
 			color: var(--wp--preset--color--vivid-red);
-			background: var(--wp--preset--color--background);
+			background: var(--wp--preset--color--base);
 		}
 	}
 }
@@ -1183,13 +1203,13 @@ body.bp-user {
 						width: 32px;
 						height: 32px;
 						color: var(--wp--preset--color--primary);
-						background: var(--wp--preset--color--background);
+						background: var(--wp--preset--color--base);
 					}
 
 					&:hover {
 
 						.icons:before {
-							color: var(--wp--preset--color--background);
+							color: var(--wp--preset--color--base);
 							background: var(--wp--preset--color--primary);
 							width: 32px;
 							height: 32px;
@@ -1200,13 +1220,13 @@ body.bp-user {
 
 						.icons:before {
 							color: var(--wp--preset--color--vivid-red);
-							background: var(--wp--preset--color--background);
+							background: var(--wp--preset--color--base);
 						}
 
 						&:hover {
 
 							.icons:before {
-								color: var(--wp--preset--color--background);
+								color: var(--wp--preset--color--base);
 								background: var(--wp--preset--color--vivid-red);
 							}
 						}
@@ -1275,7 +1295,7 @@ body.bp-user {
 		&.edit {
 
 			.editfield {
-				background: var(--wp--preset--color--background);
+				background: var(--wp--preset--color--base);
 				border: 1px solid var(--wp--preset--color--primary);
 
 				p.field-visibility-settings-toggle {
@@ -1298,8 +1318,8 @@ body.bp-user {
 				.mce-toolbar {
 
 					button {
-						color: var(--wp--preset--color--primary);
-						background: var(--wp--preset--color--background);
+						color: var(--wp--preset--color--contrast);
+						background: var(--wp--preset--color--base);
 						border-color: var(--wp--preset--color--primary);
 					}
 				}
@@ -1317,10 +1337,10 @@ body.bp-user {
 
 					&.current {
 						background-color: var(--wp--preset--color--primary);
-						color: var(--wp--preset--color--background);
+						color: var(--wp--preset--color--base);
 
 						a {
-							color: var(--wp--preset--color--background);
+							color: var(--wp--preset--color--base);
 						}
 					}
 
@@ -1343,7 +1363,7 @@ body.bp-user {
 
 	.field-visibility-settings,
 	.field-visibility-settings-header {
-		color: var(--wp--preset--color--foreground);
+		color: var(--wp--preset--color--secondary);
 	}
 }
 
@@ -1456,7 +1476,7 @@ body.bp-user {
 		}
 
 		li:not(.selected) {
-			color: var(--wp--preset--color--foreground);
+			color: var(--wp--preset--color--contrast);
 		}
 	}
 
@@ -1464,8 +1484,8 @@ body.bp-user {
 
 		#thread-preview h2:first-child,
 		#bp-message-thread-header h2:first-child {
-			background-color: var(--wp--preset--color--primary);
-			color: var(--wp--preset--color--background);
+			background-color: var(--wp--preset--color--tertiary);
+			color: var(--wp--preset--color--contrast);
 		}
 
 		#bp-message-thread-list {
@@ -1514,14 +1534,14 @@ body.bp-user {
 						width: 32px;
 						height: 32px;
 						color: var(--wp--preset--color--vivid-red);
-						background: var(--wp--preset--color--background);
+						background: var(--wp--preset--color--base);
 					}
 
 					&:hover {
 
 						&:before {
 							border-radius: 50%;
-							color: var(--wp--preset--color--background);
+							color: var(--wp--preset--color--base);
 							background: var(--wp--preset--color--vivid-red);
 						}
 					}
@@ -1530,7 +1550,7 @@ body.bp-user {
 
 			.message-action-unstar:before,
 			.message-action-star:before {
-				color: var(--wp--preset--color--foreground);
+				color: var(--wp--preset--color--contrast);
 			}
 		}
 
@@ -1567,7 +1587,7 @@ body.bp-user {
 					}
 
 					time {
-						color: var(--wp--preset--color--foreground);
+						color: var(--wp--preset--color--contrast);
 					}
 				}
 
@@ -1609,8 +1629,8 @@ body.bp-user {
 			.mce-toolbar {
 
 				button {
-					color: var(--wp--preset--color--primary);
-					background: var(--wp--preset--color--background);
+					color: var(--wp--preset--color--contrast);
+					background: var(--wp--preset--color--base);
 					border-color: var(--wp--preset--color--primary);
 				}
 			}
@@ -1631,14 +1651,14 @@ body.bp-user {
 		button#user_messages_search_submit {
 			padding: 3px 0.7em;
 
-			background-color: var(--wp--preset--color--background);
-			color: var(--wp--preset--color--foreground);
-			border-color: var(--wp--preset--color--background);
+			background-color: var(--wp--preset--color--base);
+			color: var(--wp--preset--color--secondary);
+			border-color: var(--wp--preset--color--base);
 			border-left-color: var(--wp--preset--color--primary);
 
 			&:hover {
-				background-color: var(--wp--preset--color--primary);
-				color: var(--wp--preset--color--background);
+				background-color: var(--wp--preset--color--secondary);
+				color: var(--wp--preset--color--primary);
 				border-color: var(--wp--preset--color--primary);
 			}
 		}
@@ -1649,12 +1669,12 @@ body.bp-user {
 				line-height: 1.5;
 				margin: 0 0 0 10px;
 				padding: 3px 5px;
-				background-color: var(--wp--preset--color--background);
-				color: var(--wp--preset--color--foreground);
+				background-color: var(--wp--preset--color--secondary);
+				color: var(--wp--preset--color--primary);
 
 				&:hover {
 					background-color: var(--wp--preset--color--primary);
-					color: var(--wp--preset--color--background);
+					color: var(--wp--preset--color--secondary);
 				}
 
 				span {
@@ -1697,12 +1717,12 @@ body.bp-user {
 
 	#delete-account-button {
 		border-color: var(--wp--preset--color--vivid-red);
-		color: var(--wp--preset--color--background);
+		color: var(--wp--preset--color--base);
 		background: var(--wp--preset--color--vivid-red);
 
 		&:hover {
 			color: var(--wp--preset--color--vivid-red);
-			background: var(--wp--preset--color--background);
+			background: var(--wp--preset--color--base);
 		}
 	}
 }
@@ -1760,7 +1780,7 @@ body.bp-user {
 
 	.select-wrap {
 		border: 1px solid var(--wp--preset--color--primary);
-		background: var(--wp--preset--color--background);
+		background: var(--wp--preset--color--base);
 
 		select {
 			background: transparent;
@@ -1774,7 +1794,7 @@ body.bp-user {
 			&:before {
 				font-family: dashicons;
 				content: "\f140";
-				color: var(--wp--preset--color--foreground);
+				color: var(--wp--preset--color--secondary);
 				vertical-align: -10%;
 			}
 		}
@@ -1783,7 +1803,7 @@ body.bp-user {
 		&:hover {
 
 			.select-arrow:before {
-				color: var(--wp--preset--color--foreground);
+				color: var(--wp--preset--color--secondary);
 			}
 		}
 	}
@@ -1812,8 +1832,8 @@ body.bp-user {
 	input[type="password"],
 	input[type="search"],
 	.groups-members-search input[type="text"] {
-		color: var(--wp--preset--color--foreground);
-		background: var(--wp--preset--color--background);
+		color: var(--wp--preset--color--contrast);
+		background: var(--wp--preset--color--base);
 	}
 
 	.subnav-filters {
@@ -1829,13 +1849,13 @@ body.bp-user {
 	form#group_invites_search_form {
 
 		button {
-			background-color: var(--wp--preset--color--background);
-			color: var(--wp--preset--color--foreground);
+			background-color: var(--wp--preset--color--base);
+			color: var(--wp--preset--color--contrast);
 			border-color: transparent;
 
 			&:hover {
 				background-color: var(--wp--preset--color--primary);
-				color: var(--wp--preset--color--background);
+				color: var(--wp--preset--color--contrast);
 				border-color: var(--wp--preset--color--primary);
 				border-left-color: var(--wp--preset--color--primary);
 			}
@@ -1846,7 +1866,7 @@ body.bp-user {
 
 		p.description {
 			color: var(--wp--preset--color--primary);
-			background-color: var(--wp--preset--color--background);
+			background-color: var(--wp--preset--color--base);
 		}
 
 		.datebox-selects {
@@ -1901,7 +1921,7 @@ body.bp-user.settings.general {
 	form[data-bp-search].bp-invites-search-form,
 	form#group-members-search {
 		border: 1px solid var(--wp--preset--color--primary);
-		background-color: var(--wp--preset--color--background);
+		background-color: var(--wp--preset--color--base);
 
 		button {
 			padding: 5px 0.8em 6px;
@@ -2029,7 +2049,7 @@ body.bp-user.settings.general {
 		background: var(--wp--preset--color--primary);
 		border: 1px solid var(--wp--preset--color--primary);
 		border-radius: 0;
-		color: var(--wp--preset--color--background);
+		color: var(--wp--preset--color--secondary);
 	}
 
 	button:hover,
@@ -2053,7 +2073,7 @@ body.bp-user.settings.general {
 	.activity-read-more a:hover {
 		background: transparent;
 		border-color: var(--wp--preset--color--primary);
-		color: var(--wp--preset--color--foreground);
+		color: var(--wp--preset--color--secondary);
 		outline: none;
 		text-decoration: none;
 	}
@@ -2113,10 +2133,10 @@ body.bp-user.settings.general {
 
 			a {
 				box-shadow: none;
-				color: var(--wp--preset--color--background);
-				background-color: var(--wp--preset--color--primary);
+				color: var(--wp--preset--color--base);
+				background-color: var(--wp--preset--color--secondary);
 				border-radius: 0;
-				border: 1px solid var(--wp--preset--color--primary);
+				border: 1px solid var(--wp--preset--color--secondary);
 				background-clip: border-box;
 			}
 		}
@@ -2144,6 +2164,13 @@ body.bp-user.settings.general {
 		.bp-icon {
 			background-color: var(--wp--preset--color--primary);
 			color: var(--wp--preset--color--contrast);
+		}
+
+		&.warning {
+
+			.bp-icon {
+				background-color: var(--wp--preset--color--luminous-vivid-orange);
+			}
 		}
 
 		a {
@@ -2254,7 +2281,7 @@ body.buddypress {
 					&.current {
 
 						span {
-							background-color: var(--wp--preset--color--background);
+							background-color: var(--wp--preset--color--secondary);
 						}
 					}
 				}
@@ -2262,8 +2289,9 @@ body.buddypress {
 		}
 
 		.item-body:not(#group-create-body) {
-			background: var(--wp--preset--color--background);
+			background: var(--wp--preset--color--base);
 			border-left: 1px solid var(--wp--preset--color--primary);
+			width: 75%;
 
 			#subnav:not(.tabbed-links) {
 				background: transparent;
