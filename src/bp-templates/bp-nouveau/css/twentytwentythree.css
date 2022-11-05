@@ -259,7 +259,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 }
 
 #buddypress.twentytwentythree .activity-update-form #whats-new-textarea textarea {
-	border: solid 1px var(--wp--preset--color--foreground);
+	border: solid 1px var(--wp--preset--color--primary);
 	border-radius: 0;
 }
 
@@ -269,7 +269,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 
 #buddypress.twentytwentythree .activity-update-form #whats-new-post-in-box select,
 #buddypress.twentytwentythree .activity-update-form #whats-new-post-in-box #activity-autocomplete {
-	border: solid 1px var(--wp--preset--color--foreground);
+	border: solid 1px var(--wp--preset--color--primary);
 	padding: 0.5em;
 	font-size: var(--wp--preset--font-size--medium);
 }
@@ -297,9 +297,9 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 }
 
 #buddypress.twentytwentythree .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object:not(.selected) {
-	background: var(--wp--preset--color--background);
-	color: var(--wp--preset--color--foreground);
-	border-color: var(--wp--preset--color--foreground);
+	background: var(--wp--preset--color--base);
+	color: var(--wp--preset--color--contrast);
+	border-color: var(--wp--preset--color--primary);
 }
 
 #buddypress.twentytwentythree .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object:not(.selected):last-child {
@@ -307,7 +307,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 }
 
 #buddypress.twentytwentythree .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object:not(.selected):hover {
-	background: var(--wp--preset--color--secondary);
+	background: var(--wp--preset--color--primary);
 }
 
 #buddypress.twentytwentythree .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object.selected {
@@ -331,34 +331,34 @@ Hello, this is the BP Nouveau's Twenty Twenty-Three companion stylesheet.
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-more,
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-newest {
 	background-color: var(--wp--preset--color--primary);
-	color: var(--wp--preset--color--background);
+	color: var(--wp--preset--color--contrast);
 	border: 1px solid var(--wp--preset--color--primary);
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-more a,
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-newest a {
-	color: var(--wp--preset--color--background);
+	color: var(--wp--preset--color--contrast);
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-more a:focus,
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-newest a:focus {
-	color: var(--wp--preset--color--foreground);
+	color: var(--wp--preset--color--contrast);
 	background: transparent;
 	outline-offset: -0.25ch;
-	outline: 2px dashed currentColor;
+	outline: 2px dashed var(--wp--preset--color--primary);
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-more:hover, body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-more:focus,
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-newest:hover,
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-newest:focus {
-	color: var(--wp--preset--color--foreground);
+	color: var(--wp--preset--color--contrast);
 	background: transparent;
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-more:hover a, body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-more:focus a,
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-newest:hover a,
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .load-newest:focus a {
-	color: var(--wp--preset--color--foreground);
+	color: var(--wp--preset--color--contrast);
 	background: transparent;
 }
 
@@ -380,7 +380,7 @@ body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-cont
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-content .activity-meta.action {
 	background: inherit;
-	margin-left: calc(128px + 5%);
+	margin-left: 19.5%;
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-content .activity-meta.action .icons:before {
@@ -411,30 +411,30 @@ body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-cont
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-content .activity-meta.action .button span:not(.bp-screen-reader-text) {
-	background-color: var(--wp--preset--color--foreground);
-	color: var(--wp--preset--color--tertiary);
+	background-color: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--foreground);
 	padding: 0.1em 0.3em;
-	border-radius: 50%;
+	border-radius: none;
 	font-size: var(--wp--preset--font-size--small);
 	vertical-align: text-bottom;
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-content .activity-meta.action .button:not(.delete-activity) {
-	color: var(--wp--preset--color--foreground);
+	color: var(--wp--preset--color--contrast);
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-content .activity-meta.action .button:hover {
-	background-color: var(--wp--preset--color--foreground);
-	color: var(--wp--preset--color--background);
+	background-color: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--contrast);
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-content .activity-meta.action .button:hover span {
-	color: var(--wp--preset--color--background);
+	color: var(--wp--preset--color--contrast);
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-content .activity-meta.action .button:hover span:not(.bp-screen-reader-text) {
-	background-color: var(--wp--preset--color--tertiary);
-	color: var(--wp--preset--color--foreground);
+	background-color: var(--wp--preset--color--contrast);
+	color: var(--wp--preset--color--primary);
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-content .activity-meta.action .button.delete-activity {
@@ -448,15 +448,11 @@ body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-cont
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-content .activity-meta.action .button.delete-activity:hover {
 	background-color: var(--wp--preset--color--vivid-red);
-	color: var(--wp--preset--color--background);
+	color: var(--wp--preset--color--base);
 }
 
 body .wp-site-blocks #buddypress.twentytwentythree .activity-list .activity-content .activity-meta.action .button.delete-activity:hover span.bp-screen-reader-text {
-	color: var(--wp--preset--color--background);
-}
-
-body .wp-site-blocks #buddypress.twentytwentythree .activity-list li.mini .activity-meta.action {
-	margin-left: calc(50px + 2%);
+	color: var(--wp--preset--color--base);
 }
 
 body.activity-permalink #buddypress.twentytwentythree .activity-list {
@@ -476,6 +472,10 @@ body.activity-permalink #buddypress.twentytwentythree .activity-list .activity-i
 * @section 3.1.3 - Activity Comments
 *-----------------------------------------------------
 */
+#buddypress.twentytwentythree .bp-list li .activity-comments {
+	margin: 5% 0 0 5%;
+}
+
 #buddypress.twentytwentythree .bp-list li .activity-comments .show-all button {
 	text-decoration: none;
 }
@@ -487,6 +487,10 @@ body.activity-permalink #buddypress.twentytwentythree .activity-list .activity-i
 #buddypress.twentytwentythree .bp-list li .activity-comments .acomment-avatar {
 	width: auto;
 	margin-right: 0;
+}
+
+#buddypress.twentytwentythree .bp-list li .activity-comments .acomment-avatar img.avatar {
+	max-width: none;
 }
 
 #buddypress.twentytwentythree .bp-list li .activity-comments .acomment-meta {
@@ -501,18 +505,21 @@ body.activity-permalink #buddypress.twentytwentythree .activity-list .activity-i
 	text-decoration: underline;
 }
 
+#buddypress.twentytwentythree .bp-list li .activity-comments .activity-meta.action {
+	margin: 10px 0 0 5%;
+}
+
 #buddypress.twentytwentythree .bp-list li .activity-comments .activity-meta.action .generic-button a {
-	color: var(--wp--preset--color--foreground);
+	border: none;
+	text-decoration: underline;
+	color: var(--wp--preset--color--secondary);
 	display: inline-block;
 	font-size: var(--wp--preset--font-size--small);
+	background-color: transparent;
 }
 
-#buddypress.twentytwentythree .bp-list li .activity-comments .activity-meta.action .generic-button a.bp-primary-action {
-	background-color: var(--wp--preset--color--secondary);
-}
-
-#buddypress.twentytwentythree .bp-list li .activity-comments .activity-meta.action .generic-button a.bp-secondary-action {
-	background-color: var(--wp--preset--color--tertiary);
+#buddypress.twentytwentythree .bp-list li .activity-comments .activity-meta.action .generic-button a.acomment-delete {
+	color: var(--wp--preset--color--vivid-red);
 }
 
 #buddypress.twentytwentythree .bp-list li .activity-comments .acomment-content {
@@ -520,8 +527,12 @@ body.activity-permalink #buddypress.twentytwentythree .activity-list .activity-i
 	margin: 15px 0 0 5%;
 }
 
+#buddypress.twentytwentythree .bp-list li .activity-comments .ac-form .ac-reply-avatar .avatar {
+	border: none;
+}
+
 #buddypress.twentytwentythree .bp-list li .activity-comments .ac-form .ac-reply-content .ac-textarea textarea {
-	width: 98%;
+	width: 95%;
 	border-radius: 0;
 }
 
@@ -531,18 +542,26 @@ body.activity-permalink #buddypress.twentytwentythree .activity-list .activity-i
 
 #buddypress.twentytwentythree .bp-list li .activity-comments .ac-form .ac-reply-content [type="submit"],
 #buddypress.twentytwentythree .bp-list li .activity-comments .ac-form .ac-reply-content [type="button"] {
-	color: var(--wp--preset--color--foreground);
+	color: var(--wp--preset--color--contrast);
 	display: inline-block;
 	font-size: var(--wp--preset--font-size--small);
 }
 
 #buddypress.twentytwentythree .bp-list li .activity-comments .ac-form .ac-reply-content [type="submit"] {
 	margin-left: calc(50px - 0.5em);
-	background-color: var(--wp--preset--color--secondary);
+	background-color: var(--wp--preset--color--primary);
+}
+
+#buddypress.twentytwentythree .bp-list li .activity-comments .ac-form .ac-reply-content [type="submit"]:hover {
+	background-color: var(--wp--preset--color--tertiary);
 }
 
 #buddypress.twentytwentythree .bp-list li .activity-comments .ac-form .ac-reply-content [type="button"] {
 	background-color: var(--wp--preset--color--tertiary);
+}
+
+#buddypress.twentytwentythree .bp-list li .activity-comments .ac-form .ac-reply-content [type="button"]:hover {
+	background-color: var(--wp--preset--color--primary);
 }
 
 /**
@@ -1239,7 +1258,7 @@ body.bp-user #buddypress.twentytwentythree .item-body h2.screen-heading {
 }
 
 #buddypress.twentytwentythree .bp-tables-user.profile-settings {
-	border: solid 1px currentColor;
+	border: solid 1px var(--wp--preset--color--primary);
 	margin-bottom: 1em;
 }
 
@@ -1249,7 +1268,7 @@ body.bp-user #buddypress.twentytwentythree .item-body h2.screen-heading {
 
 #buddypress.twentytwentythree .bp-tables-user.profile-settings thead tr th {
 	text-align: left;
-	border-bottom: dotted 1px currentColor;
+	border-bottom: dotted 1px var(--wp--preset--color--primary);
 }
 
 #buddypress.twentytwentythree #delete-account-button {
@@ -1543,7 +1562,7 @@ body.bp-user.settings.general #buddypress.twentytwentythree .wp-pwd:not(.is-open
 #buddypress.twentytwentythree #bp-messages-reset:focus,
 #buddypress.twentytwentythree #bp-messages-reset:hover {
 	outline-offset: -0.25ch;
-	outline: 2px dashed currentColor;
+	outline: 2px dashed var(--wp--preset--color--primary);
 }
 
 #buddypress.twentytwentythree input[type="submit"].pending,
@@ -1590,13 +1609,13 @@ button.pending,
 }
 
 #buddypress.twentytwentythree .warn {
-	color: var(--wp--preset--color--foreground);
+	color: var(--wp--preset--color--contrast);
 	font-weight: 600;
 }
 
 #buddypress.twentytwentythree .bp-feedback {
-	color: var(--wp--preset--color--foreground);
-	background: var(--wp--preset--color--background);
+	color: var(--wp--preset--color--contrast);
+	background: var(--wp--preset--color--base);
 	box-shadow: none;
 }
 
@@ -1608,7 +1627,7 @@ button.pending,
 
 #buddypress.twentytwentythree .bp-feedback .bp-icon {
 	background-color: var(--wp--preset--color--primary);
-	color: var(--wp--preset--color--foreground);
+	color: var(--wp--preset--color--contrast);
 }
 
 #buddypress.twentytwentythree .bp-feedback a {
@@ -1628,14 +1647,14 @@ button.pending,
 	border-radius: 50%;
 	width: 32px;
 	height: 32px;
-	color: var(--wp--preset--color--secondary);
-	background: var(--wp--preset--color--background);
+	color: var(--wp--preset--color--contrast);
+	background: var(--wp--preset--color--primary);
 }
 
 #buddypress.twentytwentythree .bp-feedback button.bp-tooltip:hover .dashicons-dismiss,
 #buddypress.twentytwentythree .bp-feedback a.bp-tooltip:hover .dashicons-dismiss {
-	color: var(--wp--preset--color--background);
-	background: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--primary);
+	background: var(--wp--preset--color--contrast);
 }
 
 #buddypress.twentytwentythree .bp-feedback.bp-sitewide-notice button.bp-tooltip,
@@ -1654,7 +1673,7 @@ button.pending,
 	border-left-width: 4px;
 	border-left-style: solid;
 	border-left-color: var(--wp--preset--color--luminous-vivid-orange);
-	color: var(--wp--preset--color--primary);
+	color: var(--wp--preset--color--contrast);
 	box-shadow: none;
 }
 
