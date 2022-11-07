@@ -105,25 +105,19 @@ add_filter( 'bp_core_signup_send_activation_key', 'bp_members_invitations_cancel
 function bp_members_invitations_complete_signup( $user_id ) {
 	$bp = buddypress();
 
-	if ( ! $user_id ) {
-		return;
-	}
-
 	// Check to see if this signup is the result of a valid invitation.
 	$invite = bp_get_members_invitation_from_request();
 	if ( ! $invite->id ) {
 		return;
 	}
 
-	// Accept the invitation.
-	$invites_class = new BP_Members_Invitation_Manager();
-	$args          = array(
-		'id' => $invite->id,
-	);
-	$invites_class->accept_invitation( $args );
-
 	// User has already verified their email by responding to the invitation, so we can activate.
-	$key = bp_get_user_meta( $user_id, 'activation_key', true );
+	$signup = bp_members_get_signup_by( 'user_email', $invite->invitee_email );
+	$key = false;
+	if ( ! empty( $signup->activation_key ) ) {
+		$key = $signup->activation_key;
+	}
+
 	if ( $key ) {
 		$redirect = bp_get_activation_page();
 
@@ -136,6 +130,13 @@ function bp_members_invitations_complete_signup( $user_id ) {
 		 *                        Integer on success, boolean on failure.
 		 */
 		$user = apply_filters( 'bp_core_activate_account', bp_core_activate_signup( $key ) );
+
+		// Accept the invitation now that the user has been created.
+		$invites_class = new BP_Members_Invitation_Manager();
+		$args          = array(
+			'id' => $invite->id,
+		);
+		$invites_class->accept_invitation( $args );
 
 		// If there were errors, add a message and redirect.
 		if ( ! empty( $user->errors ) ) {

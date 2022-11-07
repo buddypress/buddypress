@@ -18,8 +18,8 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 	}
 
 	static public function wpTearDownAfterClass() {
-		array_map( array( __CLASS__, 'delete_user' ), self::$user_ids );
 		array_map( 'groups_delete_group', self::$group_ids );
+		array_map( array( __CLASS__, 'delete_user' ), self::$user_ids );
 	}
 
 	public function test_creating_new_group_as_authenticated_user() {
@@ -362,6 +362,33 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g1, $u2 );
 
 		$this->assertEquals( 1, groups_get_total_member_count( $g1 ) );
+	}
+
+	/**
+	 * @group total_member_count
+	 * @ticket BP7614
+	 */
+	public function test_total_member_count_groups_inactive_user_from_admin() {
+		$current_user = get_current_user_id();
+		$u1           = self::factory()->user->create(
+			array(
+				'role' => 'administrator',
+			)
+		);
+		$u2           = wp_insert_user( array(
+			'user_pass'  => 'barfoo',
+			'user_login' => 'barfoo',
+			'user_email' => 'barfoo@buddypress.org',
+		) );
+
+		$this->set_current_user( $u1 );
+		$g1 = self::factory()->group->create();
+
+		groups_join_group( $g1, $u2 );
+
+		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
+
+		$this->set_current_user( $current_user );
 	}
 
 	/**
