@@ -131,6 +131,27 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group get_xprofile_groups
+	 * @group BP4075
+	 */
+	public function test_get_specific_xprofile_groups() {
+		$g1 = self::factory()->xprofile_group->create();
+		$g2 = self::factory()->xprofile_group->create();
+		$g3 = self::factory()->xprofile_group->create();
+		$e1 = [ $g1, $g2 ];
+
+		// Comma-separated list of profile group ids.
+		$groups1 = BP_XProfile_Group::get( [ 'profile_group_id' => join( ',', $e1 ) ] );
+
+		$this->assertSame( $e1, array_map( 'absint', wp_list_pluck( $groups1, 'id' ) ) );
+
+		// Array of profile group ids.
+		$groups2 = BP_XProfile_Group::get( [ 'profile_group_id' => $e1 ] );
+
+		$this->assertSame( $e1, array_map( 'absint', wp_list_pluck( $groups2, 'id' ) ) );
+	}
+
+	/**
 	 * @group member_types
 	 * @ticket BP5192
 	 */
@@ -443,6 +464,47 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group BP4075
+	 */
+	public function test_group_ids_query() {
+		$g1 = self::factory()->xprofile_group->create();
+		$g2 = self::factory()->xprofile_group->create();
+
+		$group_ids   = [ 1 ]; // Default group.
+		$group_ids[] = self::factory()->xprofile_group->create();
+		$group_ids[] = self::factory()->xprofile_group->create();
+		$group_ids[] = self::factory()->xprofile_group->create();
+		$group_ids[] = $g1;
+		$group_ids[] = $g2;
+
+		$found_1 = BP_XProfile_Group::get_group_ids();
+		$this->assertEqualSets( $group_ids, $found_1 );
+
+		$found_2 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => $g1 ] );
+		$this->assertCount( 1, $found_2 );
+		$this->assertSame( [ $g1 ], $found_2 );
+
+		$found_3 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => [ $g1 ] ] );
+		$this->assertCount( 1, $found_3 );
+		$this->assertSame( [ $g1 ], $found_3 );
+
+		$found_4 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => [ $g2 ] ] );
+		$this->assertCount( 1, $found_4 );
+		$this->assertSame( [ $g2 ], $found_4 );
+
+		$found_5 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => [ $g1, $g2 ] ] );
+		$this->assertCount( 2, $found_5 );
+		$this->assertSame( [ $g1, $g2 ], $found_5 );
+
+		$found_6 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => join( ',', [ $g1, $g2 ] ) ] );
+		$this->assertCount( 2, $found_6 );
+		$this->assertSame( [ $g1, $g2 ], $found_6 );
+
+		$found_7 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => true ] );
+		$this->assertEqualSets( $group_ids, $found_7 );
+	}
+
+	/**
 	 * @group BP7435
 	 * @group cache
 	 */
@@ -450,17 +512,15 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		global $wpdb;
 
 		$group_ids   = array( 1 ); // Default group.
+		$g1          = self::factory()->xprofile_group->create();
+		$g2          = self::factory()->xprofile_group->create();
 		$group_ids[] = self::factory()->xprofile_group->create();
 		$group_ids[] = self::factory()->xprofile_group->create();
 		$group_ids[] = self::factory()->xprofile_group->create();
+		$group_ids[] = $g1;
+		$group_ids[] = $g2;
 
-		$params_1 = array(
-			'exclude_groups' => false,
-		);
-
-		$params_2 = array(
-			'exclude_groups' => array( 0 ),
-		);
+		$params_1 = [ 'exclude_groups' => false ];
 
 		// Prime cache.
 		$found_1 = BP_XProfile_Group::get_group_ids( $params_1 );
@@ -468,13 +528,18 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$num_queries = $wpdb->num_queries;
 
-		$found_1 = BP_XProfile_Group::get_group_ids( $params_1 );
-		$this->assertEqualSets( $group_ids, $found_1 );
+		$found_2 = BP_XProfile_Group::get_group_ids( $params_1 );
+		$this->assertEqualSets( $group_ids, $found_2 );
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 
 		// Different parameters should trigger a cache miss.
-		$found_2 = BP_XProfile_Group::get_group_ids( $params_2 );
-		$this->assertEqualSets( $group_ids, $found_2 );
+		$found_3 = BP_XProfile_Group::get_group_ids( [ 'exclude_groups' => [ 0 ] ] );
+		$this->assertEqualSets( $group_ids, $found_3 );
+		$this->assertNotSame( $num_queries, $wpdb->num_queries );
+
+		// Again, different parameters should trigger a cache miss.
+		$found_4 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => [ $g1, $g2 ] ] );
+		$this->assertEqualSets( [ $g1, $g2 ], $found_4 );
 		$this->assertNotSame( $num_queries, $wpdb->num_queries );
 	}
 
