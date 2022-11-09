@@ -199,7 +199,7 @@ function bp_core_menu_highlight_parent_page( $retval, $page ) {
 	// Duplicate some logic from Walker_Page::start_el() to highlight menu items.
 	if ( ! empty( $page_id ) ) {
 		$_bp_page = get_post( $page_id );
-		if ( in_array( $page->ID, $_bp_page->ancestors, true ) ) {
+		if ( $_bp_page && in_array( $page->ID, $_bp_page->ancestors, true ) ) {
 			$retval[] = 'current_page_ancestor';
 		}
 		if ( $page->ID === $page_id ) {
