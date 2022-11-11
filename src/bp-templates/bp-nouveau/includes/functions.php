@@ -763,6 +763,10 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 	$top_offset  = bp_core_avatar_full_height() - 10;
 	$left_offset = bp_core_avatar_full_width() + 20;
 
+	if ( ! bp_is_active( 'activity' ) || ! bp_activity_do_mentions() ) {
+		$top_offset -= 40;
+	}
+
 	$cover_image = isset( $params['cover_image'] ) ? 'background-image: url( ' . $params['cover_image'] . ' );' : '';
 	$hide_avatar_style = '';
 
