@@ -4741,8 +4741,15 @@ function bp_delete_optout_by_id( $id = 0 ) {
  */
 function bp_get_deprecated_functions_versions() {
 	$ignore_deprecated = null;
-	if ( defined( 'BP_IGNORE_DEPRECATED' ) ) {
+
+	// Do ignore deprecated => ignore all deprecated code.
+	if ( defined( 'BP_IGNORE_DEPRECATED' ) && BP_IGNORE_DEPRECATED ) {
 		$ignore_deprecated = (bool) BP_IGNORE_DEPRECATED;
+	}
+
+	// Do not ignore deprecated => load all deprecated code.
+	if ( defined( 'BP_LOAD_DEPRECATED' ) && BP_LOAD_DEPRECATED ) {
+		$ignore_deprecated = ! (bool) BP_LOAD_DEPRECATED;
 	}
 
 	/*
