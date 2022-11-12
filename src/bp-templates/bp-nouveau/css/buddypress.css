@@ -1139,6 +1139,26 @@ body.buddypress article.page > .entry-header:not(.alignwide):not(.alignfull) .en
 	box-shadow: 0 0 6px 0 #d6d6d6;
 }
 
+.activity-update-form #whats-new-buttons {
+	max-width: 100%;
+	padding: 0 0 1em 0;
+	z-index: 1000;
+	margin: 0 0 0.5em 55px;
+	display: flex;
+	gap: 0.6em;
+	margin-left: 55px;
+}
+
+.activity-update-form #whats-new-buttons > li {
+	list-style: none;
+}
+
+.activity-update-form #whats-new-buttons > li button {
+	padding: 5px 10px;
+	width: auto;
+	height: auto;
+}
+
 .activity-update-form #whats-new-post-in-box {
 	margin: 10px 0;
 }

@@ -67,6 +67,26 @@
 		}
 	}
 
+	#whats-new-buttons {
+		max-width: 100%;
+		padding: 0 0 1em 0;
+		z-index: 1000;
+		margin: 0 0 0.5em 55px;
+		display: flex;
+		gap: 0.6em;
+		margin-left: 55px;
+
+		> li {
+			list-style: none;
+
+			button {
+				padding: 5px 10px;
+				width: auto;
+				height: auto;
+			}
+		}
+	}
+
 	#whats-new-post-in-box {
 		margin: $marg-sml 0;
 
