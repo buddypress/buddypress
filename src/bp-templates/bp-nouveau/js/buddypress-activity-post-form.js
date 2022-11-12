@@ -669,6 +669,11 @@ window.bp = window.bp || {};
 			// Reset the model
 			this.model.clear();
 			this.model.set( this.resetModel.attributes );
+
+			// Inform all custom buttons the form has been reset.
+			_.each( bp.Nouveau.Activity.postForm.buttons.models, function( model ) {
+				bp.Nouveau.Activity.postForm.buttons.trigger( 'resetForm:' + model.get( 'id' ), model );
+			} );
 		},
 
 		cleanFeedback: function() {
