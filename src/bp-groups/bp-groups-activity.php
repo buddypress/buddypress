@@ -578,16 +578,27 @@ function groups_post_update( $args = '' ) {
 		$group_id = (int) $bp->groups->current_group->id;
 	}
 
-	$content = $r['content'];
-	$user_id = (int) $r['user_id'];
-	if ( ! $content || ! strlen( trim( $content ) ) || ! $user_id || ! $group_id ) {
-		return false;
-	}
+	$content          = $r['content'];
+	$user_id          = (int) $r['user_id'];
+	$is_user_active   = bp_is_user_active( $user_id );
+	$is_group_allowed = $group_id && ( bp_current_user_can( 'bp_moderate' ) || groups_is_user_member( $user_id, $group_id ) );
 
-	$bp->groups->current_group = groups_get_group( $group_id );
+	if ( ! $content || ! strlen( trim( $content ) ) || ! $is_user_active || ! $is_group_allowed ) {
+		if ( 'wp_error' === $r['error_type'] ) {
+			$error_code         = 'bp_activity_missing_content';
+			$error_code_message = __( 'Please enter some content to post.', 'buddypress' );
 
-	// Be sure the user is a member of the group before posting.
-	if ( ! bp_current_user_can( 'bp_moderate' ) && ! groups_is_user_member( $user_id, $group_id ) ) {
+			if ( ! $is_user_active ) {
+				$error_code         = 'bp_activity_inactive_user';
+				$error_code_message = __( 'User account has not yet been activated.', 'buddypress' );
+			} elseif ( ! $is_group_allowed ) {
+				$error_code         = 'bp_activity_unallowed_group';
+				$error_code_message = __( 'You need to be a member of this group to share updates with their members.', 'buddypress' );
+			}
+
+			return new WP_Error( $error_code, $error_code_message );
+		}
+
 		return false;
 	}
 
