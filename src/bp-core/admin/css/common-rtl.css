@@ -624,6 +624,10 @@ body.bp-is-tabbed-screen #wpcontent {
 	padding-right: 0;
 }
 
+.bp-is-tabbed-screen .notice {
+	margin: 25px 22px 15px 20px;
+}
+
 .buddypress-header {
 	text-align: center;
 	margin: 0 0 1rem;
