@@ -917,4 +917,68 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		$this->assertTrue( 2 === count( $versions ) );
 	}
+
+	/**
+	 * Override the comment max links option.
+	 */
+	public function override_comment_max_links() {
+		return 2;
+	}
+
+	/**
+	 * @ticket BP8765
+	 */
+	public function test_bp_core_check_for_moderation() {
+		$u = self::factory()->user->create();
+		//<a href="%1$s">Hello</a>
+		$content = sprintf(
+			'<!-- wp:paragraph -->
+			<p><strong>%1$s %2$s!</p>
+			<!-- /wp:paragraph -->',
+			'Hello',
+			'World'
+		);
+
+		add_filter( 'pre_option_comment_max_links', array( $this, 'override_comment_max_links' ), 10, 0 );
+
+		$test = bp_core_check_for_moderation( $u, '', $content );
+		$this->assertTrue( $test );
+
+		$content = sprintf(
+			'<!-- wp:paragraph -->
+			<p><strong>%1$s %2$s!</p>
+			<!-- /wp:paragraph -->',
+			'Hello',
+			'<a href="https://foo.bar">World</a>'
+		);
+
+		$test = bp_core_check_for_moderation( $u, '', $content );
+		$this->assertTrue( $test );
+
+		$content = sprintf(
+			'<!-- wp:paragraph -->
+			<p><strong>%1$s %2$s!</p>
+			<!-- /wp:paragraph -->',
+			'<a href="https://bar.foo">Hello</a>',
+			'<a href="https://foo.bar">World</a>'
+		);
+
+		$test = bp_core_check_for_moderation( $u, '', $content );
+		$this->assertFalse( $test );
+
+		$content = sprintf(
+			'<!-- wp:paragraph -->
+			<p><strong>%1$s %2$s !</p>
+			<!-- /wp:paragraph -->
+			<!-- wp:bp/image-attachment {"align":"center","url":"%3$s/bp-attachments/public/members/admin/view/635168b2e5aae34973bcb0c1f0bd86fd/","src":"%3$s/wp-content/uploads/buddypress/public/members/1/bp-6-0-0-slated.jpg"} /-->',
+			'Hello',
+			'World',
+			home_url()
+		);
+
+		$test = bp_core_check_for_moderation( $u, '', $content );
+		$this->assertTrue( $test );
+
+		remove_filter( 'pre_option_comment_max_links', array( $this, 'override_comment_max_links' ), 10, 0 );
+	}
 }

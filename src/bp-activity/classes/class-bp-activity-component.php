@@ -79,6 +79,17 @@ class BP_Activity_Component extends BP_Component {
 			$includes[] = 'embeds';
 		}
 
+		/*
+		 * Activity blocks feature.
+		 *
+		 * By default this feature is inactive. We're including specific block functions
+		 * in version 11.0.0 so these can be used by BuddyPress Add-ons such as BP Attachments
+		 * or BP Activity Block Editor.
+		 */
+		if ( bp_is_active( $this->id, 'blocks' ) ) {
+			$includes[] = 'block-functions';
+		}
+
 		if ( is_admin() ) {
 			$includes[] = 'admin';
 		}
