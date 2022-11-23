@@ -76,3 +76,18 @@ function bp_nouveau_blogs_catch_button_args( $button = array() ) {
 	// return an empty array to stop the button creation process
 	return array();
 }
+
+/**
+ * Returns a file's mime type.
+ *
+ * @since 10.2.0
+ * @deprecated 11.0.0 replaced by `bp_attachments_get_mime_type()`
+ *
+ * @param string $file Absolute path of a file or directory.
+ * @return false|string False if the mime type is not supported by WordPress.
+ *                      The mime type of a file or 'directory' for a directory.
+ */
+function bp_attachements_get_mime_type( $file = '' ) {
+	_deprecated_function( __FUNCTION__, '11.0.0', 'bp_attachments_get_mime_type()' );
+	return bp_attachments_get_mime_type( $file );
+}
