@@ -197,7 +197,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param BP_Legacy $this Current BP_Legacy instance.
+		 * @param BP_Legacy $template_pack Current Template Pack instance.
 		 */
 		do_action_ref_array( 'bp_theme_compat_actions', array( &$this ) );
 	}

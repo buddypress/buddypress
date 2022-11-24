@@ -201,10 +201,10 @@ class BP_Groups_Invite_Template {
 			 * Fires right before the rewinding of invites list.
 			 *
 			 * @since 1.1.0
-			 * @since 2.3.0 `$this` parameter added.
+			 * @since 2.3.0 `$template_loop` parameter added.
 			 * @since 2.7.0 Action renamed from `loop_start`.
 			 *
-			 * @param BP_Groups_Invite_Template $this Instance of the current Invites template.
+			 * @param BP_Groups_Invite_Template $template_loop Instance of the current Invites template.
 			 */
 			do_action( 'group_invitation_loop_end', $this );
 
@@ -303,10 +303,10 @@ class BP_Groups_Invite_Template {
 			 * Fires if the current invite item is the first in the loop.
 			 *
 			 * @since 1.1.0
-			 * @since 2.3.0 `$this` parameter added.
+			 * @since 2.3.0 `$template_loop` parameter added.
 			 * @since 2.7.0 Action renamed from `loop_start`.
 			 *
-			 * @param BP_Groups_Invite_Template $this Instance of the current Invites template.
+			 * @param BP_Groups_Invite_Template $template_loop Instance of the current Invites template.
 			 */
 			do_action( 'group_invitation_loop_start', $this );
 		}

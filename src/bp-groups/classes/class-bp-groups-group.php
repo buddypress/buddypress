@@ -287,7 +287,7 @@ class BP_Groups_Group {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Groups_Group $this Current instance of the group item being saved. Passed by reference.
+		 * @param BP_Groups_Group $group Current instance of the group item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'groups_group_before_save', array( &$this ) );
 
@@ -371,7 +371,7 @@ class BP_Groups_Group {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Groups_Group $this Current instance of the group item that was saved. Passed by reference.
+		 * @param BP_Groups_Group $group Current instance of the group item that was saved. Passed by reference.
 		 */
 		do_action_ref_array( 'groups_group_after_save', array( &$this ) );
 
@@ -411,7 +411,7 @@ class BP_Groups_Group {
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param BP_Groups_Group $this     Current instance of the group item being deleted. Passed by reference.
+		 * @param BP_Groups_Group $group    Current instance of the group item being deleted. Passed by reference.
 		 * @param array           $user_ids Array of user IDs that were members of the group.
 		 */
 		do_action_ref_array( 'bp_groups_delete_group', array( &$this, $user_ids ) );

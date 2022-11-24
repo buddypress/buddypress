@@ -646,7 +646,7 @@ function bp_groups_admin_edit() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param BP_Groups_Group $this Instance of the current group being edited. Passed by reference.
+	 * @param BP_Groups_Group $group Instance of the current group being edited. Passed by reference.
 	 */
 	do_action_ref_array( 'bp_groups_admin_edit', array( &$group ) ); ?>
 

@@ -108,8 +108,8 @@ class BP_Group_Member_Query extends BP_User_Query {
 		 *
 		 * @since 10.3.0
 		 *
-		 * @param array         $value Array of arguments for the user query.
-		 * @param BP_User_Query $this  Current BP_User_Query instance.
+		 * @param array         $value      Array of arguments for the user query.
+		 * @param BP_User_Query $user_query Current BP_User_Query instance.
 		 */
 		$wp_user_query = new WP_User_Query(
 			apply_filters(
@@ -367,7 +367,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		 * @since 2.0.0
 		 *
 		 * @param array                 $group_member_ids Array of associated member IDs.
-		 * @param BP_Group_Member_Query $this             Current BP_Group_Member_Query instance.
+		 * @param BP_Group_Member_Query $user_query       Current BP_Group_Member_Query instance.
 		 */
 		$this->group_member_ids = apply_filters( 'bp_group_member_query_group_member_ids', $this->group_member_ids, $this );
 

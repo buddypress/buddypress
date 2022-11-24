@@ -110,8 +110,7 @@ abstract class BP_XProfile_Field_Type {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param BP_XProfile_Field_Type $this Current instance of
-		 *                                     the field type class.
+		 * @param BP_XProfile_Field_Type $field_type Current instance of the field type class.
 		 */
 		do_action( 'bp_xprofile_field_type', $this );
 	}
@@ -139,7 +138,7 @@ abstract class BP_XProfile_Field_Type {
 		 * @param string                 $format         Regex string.
 		 * @param string                 $replace_format Optional replace format If "replace", replaces the
 		 *                                               format instead of adding to it. Defaults to "add".
-		 * @param BP_XProfile_Field_Type $this           Current instance of the BP_XProfile_Field_Type class.
+		 * @param BP_XProfile_Field_Type $field_type     Current instance of the field type class.
 		 */
 		$format = apply_filters( 'bp_xprofile_field_type_set_format', $format, $replace_format, $this );
 
@@ -186,9 +185,9 @@ abstract class BP_XProfile_Field_Type {
 			 * @since 2.0.0
 			 * @deprecated 7.0.0 Use 'bp_xprofile_field_type_set_allowed_values' instead.
 			 *
-			 * @param string                 $value  Field value.
-			 * @param array                  $values Original array of values.
-			 * @param BP_XProfile_Field_Type $this   Current instance of the BP_XProfile_Field_Type class.
+			 * @param string                 $value      Field value.
+			 * @param array                  $values     Original array of values.
+			 * @param BP_XProfile_Field_Type $field_type Current instance of the field type class.
 			 */
 			$this->validation_allowed_values[] = apply_filters_deprecated( 'bp_xprofile_field_type_set_whitelist_values', array( $value, $values, $this ), '7.0.0', 'bp_xprofile_field_type_set_allowed_values' );
 
@@ -197,9 +196,9 @@ abstract class BP_XProfile_Field_Type {
 			 *
 			 * @since 7.0.0
 			 *
-			 * @param string                 $value  Field value.
-			 * @param array                  $values Original array of values.
-			 * @param BP_XProfile_Field_Type $this   Current instance of the BP_XProfile_Field_Type class.
+			 * @param string                 $value      Field value.
+			 * @param array                  $values     Original array of values.
+			 * @param BP_XProfile_Field_Type $field_type Current instance of the field type class.
 			 */
 			$this->validation_allowed_values[] = apply_filters( 'bp_xprofile_field_type_set_allowed_values', $value, $values, $this );
 		}
@@ -255,9 +254,9 @@ abstract class BP_XProfile_Field_Type {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param bool                   $validated Whether or not the field type is valid.
-		 * @param string|array           $values    Value to check against the registered formats.
-		 * @param BP_XProfile_Field_Type $this      Current instance of the BP_XProfile_Field_Type class.
+		 * @param bool                   $validated  Whether or not the field type is valid.
+		 * @param string|array           $values     Value to check against the registered formats.
+		 * @param BP_XProfile_Field_Type $field_type Current instance of the field type class.
 		 */
 		return (bool) apply_filters( 'bp_xprofile_field_type_is_valid', $validated, $values, $this );
 	}

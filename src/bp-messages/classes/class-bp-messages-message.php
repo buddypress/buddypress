@@ -127,7 +127,7 @@ class BP_Messages_Message {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Messages_Message $this Current instance of the message item being saved. Passed by reference.
+		 * @param BP_Messages_Message $message Current instance of the message item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'messages_message_before_save', array( &$this ) );
 
@@ -176,7 +176,7 @@ class BP_Messages_Message {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Messages_Message $this Current instance of the message item being saved. Passed by reference.
+		 * @param BP_Messages_Message $message Current instance of the message item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'messages_message_after_save', array( &$this ) );
 

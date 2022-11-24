@@ -134,7 +134,7 @@ class BP_XProfile_Group {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_XProfile_Group $this Current instance of the group being saved. Passed by reference.
+		 * @param BP_XProfile_Group $field_group Current instance of the field group being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'xprofile_group_before_save', array( &$this ) );
 
@@ -165,7 +165,7 @@ class BP_XProfile_Group {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_XProfile_Group $this Current instance of the group being saved. Passed by reference.
+		 * @param BP_XProfile_Group $field_group Current instance of the field group being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'xprofile_group_after_save', array( &$this ) );
 
@@ -194,7 +194,7 @@ class BP_XProfile_Group {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param BP_XProfile_Group $this Current instance of the group being deleted. Passed by reference.
+		 * @param BP_XProfile_Group $field_group Current instance of the field group being deleted. Passed by reference.
 		 */
 		do_action_ref_array( 'xprofile_group_before_delete', array( &$this ) );
 
@@ -223,7 +223,7 @@ class BP_XProfile_Group {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param BP_XProfile_Group $this Current instance of the group being deleted. Passed by reference.
+		 * @param BP_XProfile_Group $field_group Current instance of the field group being deleted. Passed by reference.
 		 */
 		do_action_ref_array( 'xprofile_group_after_delete', array( &$this ) );
 
@@ -910,7 +910,7 @@ class BP_XProfile_Group {
 							 *
 							 * @since 2.6.0
 							 *
-							 * @param BP_XProfile_Group $this Current XProfile group.
+							 * @param BP_XProfile_Group $field_group Current instance of the field group.
 							 */
 							do_action( 'xprofile_group_admin_after_description', $this ); ?>
 
@@ -925,7 +925,7 @@ class BP_XProfile_Group {
 							 *
 							 * @since 2.1.0
 							 *
-							 * @param BP_XProfile_Group $this Current XProfile group.
+							 * @param BP_XProfile_Group $field_group Current instance of the field group.
 							 */
 							do_action( 'xprofile_group_before_submitbox', $this ); ?>
 
@@ -945,7 +945,7 @@ class BP_XProfile_Group {
 											 *
 											 * @since 2.1.0
 											 *
-											 * @param BP_XProfile_Group $this Current XProfile group.
+											 * @param BP_XProfile_Group $field_group Current instance of the field group.
 											 */
 											do_action( 'xprofile_group_submitbox_start', $this ); ?>
 
@@ -973,7 +973,7 @@ class BP_XProfile_Group {
 							 *
 							 * @since 2.1.0
 							 *
-							 * @param BP_XProfile_Group $this Current XProfile group.
+							 * @param BP_XProfile_Group $field_group Current instance of the field group.
 							 */
 							do_action( 'xprofile_group_after_submitbox', $this ); ?>
 

@@ -118,7 +118,7 @@ class BP_Messages_Notice {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Messages_Notice $this Current instance of the message notice item being saved. Passed by reference.
+		 * @param BP_Messages_Notice $notice Current instance of the message notice item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'messages_notice_before_save', array( &$this ) );
 
@@ -146,7 +146,7 @@ class BP_Messages_Notice {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Messages_Notice $this Current instance of the message item being saved. Passed by reference.
+		 * @param BP_Messages_Notice $notice Current instance of the message item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'messages_notice_after_save', array( &$this ) );
 
@@ -195,7 +195,7 @@ class BP_Messages_Notice {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Messages_Notice $this Current instance of the message notice item being deleted.
+		 * @param BP_Messages_Notice $notice Current instance of the message notice item being deleted.
 		 */
 		do_action( 'messages_notice_before_delete', $this );
 
@@ -211,7 +211,7 @@ class BP_Messages_Notice {
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param BP_Messages_Notice $this Current instance of the message notice item being deleted.
+		 * @param BP_Messages_Notice $notice Current instance of the message notice item being deleted.
 		 */
 		do_action( 'messages_notice_after_delete', $this );
 

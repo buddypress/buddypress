@@ -214,8 +214,8 @@ class BP_Messages_Thread {
 		 * @since 2.2.0
 		 * @since 10.0.0 Added `$r` as a parameter.
 		 *
-		 * @param BP_Messages_Thread $this Message thread object.
-		 * @param array              $r    Array of paremeters.
+		 * @param BP_Messages_Thread $thread Current messages thread class.
+		 * @param array              $r      Array of paremeters.
 		 */
 		do_action( 'bp_messages_thread_post_populate', $this, $r );
 	}

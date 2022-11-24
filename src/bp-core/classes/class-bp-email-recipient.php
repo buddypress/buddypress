@@ -32,7 +32,8 @@ class BP_Email_Recipient extends BP_Email_Participant {
 	 *
 	 * @param string|array|int|WP_User $email_or_user Either a email address, user ID, WP_User object,
 	 *                                                or an array containing any combination of the above.
-	 * @param string $name Optional. If $email_or_user is a string, this is the recipient's name.
+	 * @param string                   $name          Optional. If $email_or_user is a string, this is the
+	 *                                                recipient's name.
 	 */
 	public function __construct( $email_or_user, $name = '' ) {
 		$name = sanitize_text_field( $name );
@@ -100,8 +101,8 @@ class BP_Email_Recipient extends BP_Email_Participant {
 		 *
 		 * @param string|array|int|WP_User $email_or_user Either a email address, user ID, WP_User object,
 		 *                                                or an array containing any combination of the above.
-		 * @param string $name If $email_or_user is a string, this is the recipient's name.
-		 * @param BP_Email_Recipient $this Current instance of the email type class.
+		 * @param string                   $name          If $email_or_user is a string, this is the recipient's name.
+		 * @param BP_Email_Recipient       $recipient     Current instance of the email type class.
 		 */
 		do_action( 'bp_email_recipient', $email_or_user, $name, $this );
 	}
@@ -169,10 +170,10 @@ class BP_Email_Recipient extends BP_Email_Participant {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param WP_User $name WP_User object for this recipient, or null if not set.
-		 * @param string $transform Optional. How the return value was transformed.
-		 *                          Accepts 'raw' (default) or 'search-email'.
-		 * @param BP_Email $recipient $this Current instance of the email recipient class.
+		 * @param WP_User            $user_object WP_User object for this recipient, or null if not set.
+		 * @param string             $transform   Optional. How the return value was transformed.
+		 *                                        Accepts 'raw' (default) or 'search-email'.
+		 * @param BP_Email_Recipient $recipient   Current instance of the email recipient class.
 		 */
 		return apply_filters( 'bp_email_recipient_get_user', $this->user_object, $transform, $this );
 	}

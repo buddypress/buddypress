@@ -130,7 +130,7 @@ class BP_XProfile_ProfileData {
 		if ( $cached && ! empty( $cached->id ) ) {
 			$retval = true;
 		} else {
-			$bp = buddypress();
+			$bp     = buddypress();
 			$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
 		}
 
@@ -139,8 +139,8 @@ class BP_XProfile_ProfileData {
 		 *
 		 * @since 1.2.7
 		 *
-		 * @param bool                    $retval Whether or not data already exists.
-		 * @param BP_XProfile_ProfileData $this   Instance of the current BP_XProfile_ProfileData class.
+		 * @param bool                    $retval       Whether or not data already exists.
+		 * @param BP_XProfile_ProfileData $profile_data Instance of the current BP_XProfile_ProfileData class.
 		 */
 		return apply_filters_ref_array( 'xprofile_data_exists', array( (bool)$retval, $this ) );
 	}
@@ -157,8 +157,7 @@ class BP_XProfile_ProfileData {
 	public function is_valid_field() {
 		global $wpdb;
 
-		$bp = buddypress();
-
+		$bp     = buddypress();
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id ) );
 
 		/**
@@ -166,8 +165,8 @@ class BP_XProfile_ProfileData {
 		 *
 		 * @since 1.2.7
 		 *
-		 * @param bool                    $retval Whether or not data is valid.
-		 * @param BP_XProfile_ProfileData $this   Instance of the current BP_XProfile_ProfileData class.
+		 * @param bool                    $retval       Whether or not data is valid.
+		 * @param BP_XProfile_ProfileData $profile_data Instance of the current BP_XProfile_ProfileData class.
 		 */
 		return apply_filters_ref_array( 'xprofile_data_is_valid_field', array( (bool)$retval, $this ) );
 	}
@@ -210,10 +209,10 @@ class BP_XProfile_ProfileData {
 		 * @since 1.0.0
 		 * @since 2.1.0 Added `$reserialize` and `$this` parameters.
 		 *
-		 * @param string                  $field_value The field value.
-		 * @param int                     $data_id     The field data ID.
-		 * @param bool                    $reserialize Whether to reserialize arrays before returning. Defaults to true.
-		 * @param BP_XProfile_ProfileData $this        Current instance of the profile data being saved.
+		 * @param string                  $field_value  The field value.
+		 * @param int                     $data_id      The field data ID.
+		 * @param bool                    $reserialize  Whether to reserialize arrays before returning. Defaults to true.
+		 * @param BP_XProfile_ProfileData $profile_data Current instance of the profile data being saved.
 		 */
 		$this->value = apply_filters( 'xprofile_data_value_before_save', $this->value, $this->id, true, $this );
 
@@ -234,7 +233,7 @@ class BP_XProfile_ProfileData {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_XProfile_ProfileData $this Current instance of the profile data being saved.
+		 * @param BP_XProfile_ProfileData $profile_data Current instance of the profile data being saved.
 		 */
 		do_action_ref_array( 'xprofile_data_before_save', array( $this ) );
 
@@ -260,7 +259,7 @@ class BP_XProfile_ProfileData {
 			 *
 			 * @since 1.0.0
 			 *
-			 * @param BP_XProfile_ProfileData $this Current instance of the profile data being saved.
+			 * @param BP_XProfile_ProfileData $profile_data Current instance of the profile data being saved.
 			 */
 			do_action_ref_array( 'xprofile_data_after_save', array( $this ) );
 
@@ -289,7 +288,7 @@ class BP_XProfile_ProfileData {
 		 *
 		 * @since 1.9.0
 		 *
-		 * @param BP_XProfile_ProfileData $this Current instance of the profile data being deleted.
+		 * @param BP_XProfile_ProfileData $profile_data Current instance of the profile data being deleted.
 		 */
 		do_action_ref_array( 'xprofile_data_before_delete', array( $this ) );
 
@@ -303,7 +302,7 @@ class BP_XProfile_ProfileData {
 		 *
 		 * @since 1.9.0
 		 *
-		 * @param BP_XProfile_ProfileData $this Current instance of the profile data being deleted.
+		 * @param BP_XProfile_ProfileData $profile_data Current instance of the profile data being deleted.
 		 */
 		do_action_ref_array( 'xprofile_data_after_delete', array( $this ) );
 

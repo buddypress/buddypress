@@ -45,8 +45,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param BP_XProfile_Field_Type_URL $this Current instance of
-		 *                                         the field type URL.
+		 * @param BP_XProfile_Field_Type_URL $field_type Current instance of the field type class.
 		 */
 		do_action( 'bp_xprofile_field_type_url', $this );
 	}

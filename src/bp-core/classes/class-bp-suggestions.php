@@ -50,9 +50,7 @@ abstract class BP_Suggestions {
 	 * @since 2.1.0
 	 * @var array
 	 */
-	protected $args = array(
-	);
-
+	protected $args = array();
 
 	/**
 	 * Constructor.
@@ -105,10 +103,10 @@ abstract class BP_Suggestions {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param BP_Suggestions $value Arguments to be validated.
-		 * @param BP_Suggestions $this  Current BP_Suggestions instance.
+		 * @param array          $args        Arguments to be validated.
+		 * @param BP_Suggestions $suggestions Current BP_Suggestions instance.
 		 */
-		$this->args          = apply_filters( 'bp_suggestions_args', $this->args, $this );
+		$this->args = apply_filters( 'bp_suggestions_args', $this->args, $this );
 
 		// Check for invalid or missing mandatory parameters.
 		if ( ! $this->args['limit'] || ! $this->args['term'] ) {
@@ -125,8 +123,8 @@ abstract class BP_Suggestions {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param bool           $value Whether or not the values are valid.
-		 * @param BP_Suggestions $this  Current BP_Suggestions instance.
+		 * @param bool           $is_valid    Whether or not the values are valid.
+		 * @param BP_Suggestions $suggestions Current BP_Suggestions instance.
 		 */
 		return apply_filters( 'bp_suggestions_validate_args', true, $this );
 	}

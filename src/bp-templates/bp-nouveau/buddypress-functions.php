@@ -128,7 +128,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param BP_Nouveau $value Current BP_Nouveau instance.
+		 * @param BP_Nouveau $template_pack Current Template Pack instance.
 		 */
 		do_action_ref_array( 'bp_nouveau_includes', array( &$this ) );
 	}
@@ -234,7 +234,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param BP_Nouveau $this Current BP_Nouveau instance.
+		 * @param BP_Nouveau $template_pack Current Template Pack instance.
 		 */
 		do_action_ref_array( 'bp_theme_compat_actions', array( &$this ) );
 	}

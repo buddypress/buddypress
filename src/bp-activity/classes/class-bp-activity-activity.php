@@ -255,7 +255,7 @@ class BP_Activity_Activity {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Activity_Activity $this Current instance of the activity item being saved. Passed by reference.
+		 * @param BP_Activity_Activity $activity Current instance of the activity item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_activity_before_save', array( &$this ) );
 
@@ -326,7 +326,7 @@ class BP_Activity_Activity {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Activity_Activity $this Current instance of activity item being saved. Passed by reference.
+		 * @param BP_Activity_Activity $activity Current instance of activity item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_activity_after_save', array( &$this ) );
 
