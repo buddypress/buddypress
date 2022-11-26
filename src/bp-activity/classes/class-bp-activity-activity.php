@@ -255,7 +255,7 @@ class BP_Activity_Activity {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Activity_Activity $this Current instance of the activity item being saved. Passed by reference.
+		 * @param BP_Activity_Activity $activity Current instance of the activity item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_activity_before_save', array( &$this ) );
 
@@ -326,7 +326,7 @@ class BP_Activity_Activity {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Activity_Activity $this Current instance of activity item being saved. Passed by reference.
+		 * @param BP_Activity_Activity $activity Current instance of activity item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_activity_after_save', array( &$this ) );
 
@@ -1922,6 +1922,8 @@ class BP_Activity_Activity {
 	 *                                          'secondary_item_id' column in the database.
 	 *     @type int              $offset       Return only those items with an ID greater
 	 *                                          than the offset value.
+	 *     @type int              $offset_lower Return only those items with an ID lower
+	 *                                          than the offset value.
 	 *     @type string           $since        Return only those items that have a
 	 *                                          date_recorded value greater than a
 	 *                                          given MySQL-formatted date.
@@ -1965,6 +1967,11 @@ class BP_Activity_Activity {
 		if ( ! empty( $filter_array['offset'] ) ) {
 			$sid_sql = absint( $filter_array['offset'] );
 			$filter_sql[] = "a.id >= {$sid_sql}";
+		}
+
+		if ( ! empty( $filter_array['offset_lower'] ) ) {
+			$sid_sql = absint( $filter_array['offset_lower'] );
+			$filter_sql[] = "a.id < {$sid_sql}";
 		}
 
 		if ( ! empty( $filter_array['since'] ) ) {

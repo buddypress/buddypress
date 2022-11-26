@@ -117,6 +117,10 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 		$qs[] = 'offset=' . intval( $post_query['offset'] );
 	}
 
+	if ( ! empty( $post_query['offset_lower'] ) ) {
+		$qs[] = 'offset_lower=' . intval( $post_query['offset_lower'] );
+	}
+
 	$object_search_text = bp_get_search_default_text( $object );
 	if ( ! empty( $post_query['search_terms'] ) && $object_search_text != $post_query['search_terms'] && 'false' != $post_query['search_terms'] && 'undefined' != $post_query['search_terms'] ) {
 		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
@@ -758,6 +762,10 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 	// Header content offset + spacing.
 	$top_offset  = bp_core_avatar_full_height() - 10;
 	$left_offset = bp_core_avatar_full_width() + 20;
+
+	if ( ! bp_is_active( 'activity' ) || ! bp_activity_do_mentions() ) {
+		$top_offset -= 40;
+	}
 
 	$cover_image = isset( $params['cover_image'] ) ? 'background-image: url( ' . $params['cover_image'] . ' );' : '';
 	$hide_avatar_style = '';

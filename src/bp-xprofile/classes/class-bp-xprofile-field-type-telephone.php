@@ -35,7 +35,7 @@ class BP_XProfile_Field_Type_Telephone extends BP_XProfile_Field_Type {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param BP_XProfile_Field_Type_Telephone $this Current instance of the field type.
+		 * @param BP_XProfile_Field_Type_Telephone $field_type Current instance of the field type class.
 		 */
 		do_action( 'bp_xprofile_field_type_telephone', $this );
 	}

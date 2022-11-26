@@ -506,14 +506,6 @@ function bp_nouveau_ajax_post_update() {
 		wp_send_json_error();
 	}
 
-	if ( empty( $_POST['content'] ) ) {
-		wp_send_json_error(
-			array(
-				'message' => __( 'Please enter some content to post.', 'buddypress' ),
-			)
-		);
-	}
-
 	$activity_id = 0;
 	$item_id     = 0;
 	$object      = '';
@@ -536,15 +528,21 @@ function bp_nouveau_ajax_post_update() {
 	}
 
 	if ( 'user' === $object && bp_is_active( 'activity' ) ) {
-		$activity_id = bp_activity_post_update( array( 'content' => $_POST['content'] ) );
+		$activity_id = bp_activity_post_update(
+			array(
+				'content'    => $_POST['content'],
+				'error_type' => 'wp_error',
+			)
+		);
 
 	} elseif ( 'group' === $object ) {
 		if ( $item_id && bp_is_active( 'groups' ) ) {
 			// This function is setting the current group!
 			$activity_id = groups_post_update(
 				array(
-					'content'  => $_POST['content'],
-					'group_id' => $item_id,
+					'content'    => $_POST['content'],
+					'group_id'   => $item_id,
+					'error_type' => 'wp_error',
 				)
 			);
 
@@ -565,7 +563,13 @@ function bp_nouveau_ajax_post_update() {
 		$activity_id = apply_filters( 'bp_activity_custom_update', false, $object, $item_id, $_POST['content'] );
 	}
 
-	if ( empty( $activity_id ) ) {
+	if ( is_wp_error( $activity_id ) ) {
+		wp_send_json_error(
+			array(
+				'message' => $activity_id->get_error_message(),
+			)
+		);
+	} elseif ( empty( $activity_id ) ) {
 		wp_send_json_error(
 			array(
 				'message' => __( 'There was a problem posting your update. Please try again.', 'buddypress' ),

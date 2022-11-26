@@ -359,7 +359,7 @@ class BP_Button {
 		 * @since 2.7.0 Added $r as a parameter.
 		 *
 		 * @param string    $contents HTML being used for the button.
-		 * @param BP_Button $this     Current BP_Button instance.
+		 * @param BP_Button $button   Current BP_Button instance.
 		 * @param string    $before   HTML appended before the actual button.
 		 * @param string    $after    HTML appended after the actual button.
 		 * @param array     $r        Parsed button arguments.

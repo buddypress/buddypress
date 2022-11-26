@@ -187,7 +187,7 @@ class BP_User_Query {
 			 *
 			 * @since 1.7.0
 			 *
-			 * @param BP_User_Query $this Current instance of the BP_User_Query. Passed by reference.
+			 * @param BP_User_Query $user_query Current instance of the BP_User_Query. Passed by reference.
 			 */
 			do_action_ref_array( 'bp_pre_user_query_construct', array( &$this ) );
 
@@ -493,8 +493,8 @@ class BP_User_Query {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param array         $sql  Array of SQL clauses to be used in the query.
-		 * @param BP_User_Query $this Current BP_User_Query instance.
+		 * @param array         $sql        Array of SQL clauses to be used in the query.
+		 * @param BP_User_Query $user_query Current BP_User_Query instance.
 		 */
 		$sql = apply_filters_ref_array( 'bp_user_query_uid_clauses', array( $sql, &$this ) );
 
@@ -510,7 +510,7 @@ class BP_User_Query {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param BP_User_Query $this Current BP_User_Query instance. Passed by reference.
+		 * @param BP_User_Query $query Current BP_User_Query instance. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_pre_user_query', array( &$this ) );
 	}
@@ -548,8 +548,8 @@ class BP_User_Query {
 			 *
 			 * @since 1.7.0
 			 *
-			 * @param string        $value SQL statement to select FOUND_ROWS().
-			 * @param BP_User_Query $this  Current BP_User_Query instance.
+			 * @param string        $value      SQL statement to select FOUND_ROWS().
+			 * @param BP_User_Query $user_query Current BP_User_Query instance.
 			 */
 			$this->total_users = $wpdb->get_var( apply_filters( 'bp_found_user_query', "SELECT FOUND_ROWS()", $this ) );
 		} elseif ( 'count_query' == $this->query_vars['count_total'] ) {
@@ -578,8 +578,8 @@ class BP_User_Query {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param array         $value Array of arguments for the user query.
-		 * @param BP_User_Query $this  Current BP_User_Query instance.
+		 * @param array         $value      Array of arguments for the user query.
+		 * @param BP_User_Query $user_query Current BP_User_Query instance.
 		 */
 		$wp_user_query = new WP_User_Query( apply_filters( 'bp_wp_user_query_args', array(
 
@@ -696,7 +696,7 @@ class BP_User_Query {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param BP_User_Query $this         Current BP_User_Query instance.
+		 * @param BP_User_Query $user_query   Current BP_User_Query instance.
 		 * @param string        $user_ids_sql Comma-separated string of user IDs.
 		 */
 		do_action_ref_array( 'bp_user_query_populate_extras', array( $this, $user_ids_sql ) );

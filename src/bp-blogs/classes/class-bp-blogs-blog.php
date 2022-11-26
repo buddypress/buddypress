@@ -102,7 +102,7 @@ class BP_Blogs_Blog {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Blogs_Blog $this Current instance of the blog item being saved. Passed by reference.
+		 * @param BP_Blogs_Blog $blog Current instance of the blog item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_blogs_blog_before_save', array( &$this ) );
 
@@ -134,7 +134,7 @@ class BP_Blogs_Blog {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Blogs_Blog $this Current instance of the blog item being saved. Passed by reference.
+		 * @param BP_Blogs_Blog $blog Current instance of the blog item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_blogs_blog_after_save', array( &$this ) );
 

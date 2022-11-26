@@ -108,8 +108,8 @@ class BP_Group_Member_Query extends BP_User_Query {
 		 *
 		 * @since 10.3.0
 		 *
-		 * @param array         $value Array of arguments for the user query.
-		 * @param BP_User_Query $this  Current BP_User_Query instance.
+		 * @param array         $value      Array of arguments for the user query.
+		 * @param BP_User_Query $user_query Current BP_User_Query instance.
 		 */
 		$wp_user_query = new WP_User_Query(
 			apply_filters(
@@ -367,7 +367,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		 * @since 2.0.0
 		 *
 		 * @param array                 $group_member_ids Array of associated member IDs.
-		 * @param BP_Group_Member_Query $this             Current BP_Group_Member_Query instance.
+		 * @param BP_Group_Member_Query $user_query       Current BP_Group_Member_Query instance.
 		 */
 		$this->group_member_ids = apply_filters( 'bp_group_member_query_group_member_ids', $this->group_member_ids, $this );
 
@@ -547,6 +547,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * If a `count` query is performed, the function is used to validate active users.
 	 *
 	 * @since 10.3.0
+	 * @since 11.0.0 Include inactive users added by a community administrators to the group members count.
 	 */
 	public function populate_extras() {
 		if ( ! $this->query_vars_raw['count'] ) {
@@ -554,9 +555,13 @@ class BP_Group_Member_Query extends BP_User_Query {
 		}
 
 		// Validate active users.
-		$active_users    = array_filter( BP_Core_User::get_last_activity( $this->user_ids ) );
-		$active_user_ids = array_keys( $active_users );
-		$this->results   = array_intersect( $this->user_ids, $active_user_ids );
+		if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+			$active_users    = array_filter( BP_Core_User::get_last_activity( $this->user_ids ) );
+			$active_user_ids = array_keys( $active_users );
+			$this->results   = array_intersect( $this->user_ids, $active_user_ids );
+		} else {
+			$this->results = $this->user_ids;
+		}
 
 		// Set the total active users.
 		$this->total_users = count( $this->results );

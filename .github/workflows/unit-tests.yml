@@ -16,9 +16,9 @@ jobs:
         wp_version: ['master']
         include:
           - php: '8.0'
-            wp_version: '6.0'
+            wp_version: '6.1'
           - php: '7.4'
-            wp_version: '6.0'
+            wp_version: '6.1'
           - php: '7.4'
             wp_version: '5.7'
     env:
@@ -55,6 +55,12 @@ jobs:
         uses: ramsey/composer-install@v2
         with:
           composer-options: "--ignore-platform-reqs"
+
+      - name: Adapt WP PHPUnit version for WP < 6.1
+        run: |
+          if [ ${{ env.WP_VERSION }} == '5.7' ]; then
+            composer require wp-phpunit/wp-phpunit:6.0 --dev
+          fi
 
       - name: Cache node modules
         uses: actions/cache@v2

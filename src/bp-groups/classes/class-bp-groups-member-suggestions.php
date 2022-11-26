@@ -54,10 +54,10 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param array                        $args  Array of arguments for the suggestion service query.
-		 * @param BP_Groups_Member_Suggestions $this  Instance of the current suggestion class.
+		 * @param array                        $args        Array of arguments for the suggestion service query.
+		 * @param BP_Groups_Member_Suggestions $suggestions Instance of the current suggestion class.
 		 */
-		$this->args             = apply_filters( 'bp_groups_member_suggestions_args', $this->args, $this );
+		$this->args = apply_filters( 'bp_groups_member_suggestions_args', $this->args, $this );
 
 		// Check for invalid or missing mandatory parameters.
 		if ( ! $this->args['group_id'] || ! bp_is_active( 'groups' ) ) {
@@ -76,8 +76,8 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param bool|WP_Error                $value True if valid, WP_Error if not.
-		 * @param BP_Groups_Member_Suggestions $this  Instance of the current suggestion class.
+		 * @param bool|WP_Error                $value       True if valid, WP_Error if not.
+		 * @param BP_Groups_Member_Suggestions $suggestions Instance of the current suggestion class.
 		 */
 		return apply_filters( 'bp_groups_member_suggestions_validate_args', parent::validate(), $this );
 	}
@@ -134,8 +134,8 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param array                        $user_query Array of arguments for the query.
-		 * @param BP_Groups_Member_Suggestions $this       Instance of the current suggestion class.
+		 * @param array                        $user_query  Array of arguments for the query.
+		 * @param BP_Groups_Member_Suggestions $suggestions Instance of the current suggestion class.
 		 */
 		$user_query = apply_filters( 'bp_groups_member_suggestions_query_args', $user_query, $this );
 		if ( is_wp_error( $user_query ) ) {
@@ -165,8 +165,8 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param array                        $results Array of member suggestions.
-		 * @param BP_Groups_Member_Suggestions $this    Instance of the current suggestion class.
+		 * @param array                        $results     Array of member suggestions.
+		 * @param BP_Groups_Member_Suggestions $suggestions Instance of the current suggestion class.
 		 */
 		return apply_filters( 'bp_groups_member_suggestions_get_suggestions', $results, $this );
 	}

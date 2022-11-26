@@ -35,8 +35,7 @@ class BP_XProfile_Field_Type_Number extends BP_XProfile_Field_Type {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param BP_XProfile_Field_Type_Number $this Current instance of
-		 *                                            the field type number.
+		 * @param BP_XProfile_Field_Type_Number $field_type Current instance of the field type class.
 		 */
 		do_action( 'bp_xprofile_field_type_number', $this );
 	}

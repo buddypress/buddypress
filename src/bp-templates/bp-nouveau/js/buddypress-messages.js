@@ -703,6 +703,7 @@ window.bp = window.bp || {};
 			event.preventDefault();
 
 			this.model.set( this.resetModel );
+			bp.Nouveau.Messages.views.trigger( 'compose:resetForm' );
 		}
 	} );
 

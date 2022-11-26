@@ -885,9 +885,15 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	 * @group post_type_comment_activities
 	 */
 	public function test_bp_blogs_comment_sync_activity_comment_for_custom_post_type() {
+		$bp    = buddypress();
+		$reset = $bp->activity->track;
+
 		if ( is_multisite() ) {
 			$b = self::factory()->blog->create();
+
 			switch_to_blog( $b );
+
+			$bp->activity->track = array();
 			add_filter( 'comment_flood_filter', '__return_false' );
 		} else {
 			$b = get_current_blog_id();
@@ -970,6 +976,8 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		if ( is_multisite() ) {
 			restore_current_blog();
+
+			$bp->activity->track = $reset;
 			remove_filter( 'comment_flood_filter', '__return_false' );
 		}
 

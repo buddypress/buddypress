@@ -332,6 +332,7 @@ body.activity-permalink #buddypress .activity-list li .activity-header > p {
 }
 
 #buddypress .activity-list li.new_blog_post .activity-content .activity-inner img {
+	max-width: 100%;
 	float: right;
 	margin-left: 0.8em;
 }

@@ -2113,7 +2113,8 @@ function bp_activity_post_update( $args = '' ) {
 			'content'    => false,
 			'user_id'    => bp_loggedin_user_id(),
 			'error_type' => 'bool',
-		)
+		),
+		'activity_post_update'
 	);
 
 	if ( empty( $r['content'] ) || ! strlen( trim( $r['content'] ) ) ) {

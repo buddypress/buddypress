@@ -287,7 +287,7 @@ class BP_Groups_Group {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Groups_Group $this Current instance of the group item being saved. Passed by reference.
+		 * @param BP_Groups_Group $group Current instance of the group item being saved. Passed by reference.
 		 */
 		do_action_ref_array( 'groups_group_before_save', array( &$this ) );
 
@@ -371,7 +371,7 @@ class BP_Groups_Group {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param BP_Groups_Group $this Current instance of the group item that was saved. Passed by reference.
+		 * @param BP_Groups_Group $group Current instance of the group item that was saved. Passed by reference.
 		 */
 		do_action_ref_array( 'groups_group_after_save', array( &$this ) );
 
@@ -394,11 +394,14 @@ class BP_Groups_Group {
 		groups_delete_groupmeta( $this->id );
 
 		// Fetch the user IDs of all the members of the group.
-		$user_ids    = BP_Groups_Member::get_group_member_ids( $this->id );
-		$user_id_str = esc_sql( implode( ',', wp_parse_id_list( $user_ids ) ) );
+		$user_ids = BP_Groups_Member::get_group_member_ids( $this->id );
 
-		// Modify group count usermeta for members.
-		$wpdb->query( "UPDATE {$wpdb->usermeta} SET meta_value = meta_value - 1 WHERE meta_key = 'total_group_count' AND user_id IN ( {$user_id_str} )" );
+		if ( $user_ids ) {
+			$user_id_str = esc_sql( implode( ',', wp_parse_id_list( $user_ids ) ) );
+
+			// Modify group count usermeta for members.
+			$wpdb->query( "UPDATE {$wpdb->usermeta} SET meta_value = meta_value - 1 WHERE meta_key = 'total_group_count' AND user_id IN ( {$user_id_str} )" );
+		}
 
 		// Now delete all group member entries.
 		BP_Groups_Member::delete_all( $this->id );
@@ -408,7 +411,7 @@ class BP_Groups_Group {
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param BP_Groups_Group $this     Current instance of the group item being deleted. Passed by reference.
+		 * @param BP_Groups_Group $group    Current instance of the group item being deleted. Passed by reference.
 		 * @param array           $user_ids Array of user IDs that were members of the group.
 		 */
 		do_action_ref_array( 'bp_groups_delete_group', array( &$this, $user_ids ) );
@@ -418,8 +421,9 @@ class BP_Groups_Group {
 		$bp = buddypress();
 
 		// Finally remove the group entry from the DB.
-		if ( !$wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name} WHERE id = %d", $this->id ) ) )
+		if ( ! $wpdb->query( $wpdb->prepare( "DELETE FROM {$bp->groups->table_name} WHERE id = %d", $this->id ) ) ) {
 			return false;
+		}
 
 		return true;
 	}

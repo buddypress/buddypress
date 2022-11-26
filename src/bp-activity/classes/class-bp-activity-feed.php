@@ -150,7 +150,7 @@ class BP_Activity_Feed {
 			 *
 			 * @since 1.8.0
 			 *
-			 * @param BP_Activity_Feed $this Current instance of activity feed. Passed by reference.
+			 * @param BP_Activity_Feed $feed Current instance of activity feed. Passed by reference.
 			 */
 			do_action_ref_array( 'bp_activity_feed_prefetch', array( &$this ) );
 
@@ -168,7 +168,7 @@ class BP_Activity_Feed {
 			 *
 			 * @since 1.8.0
 			 *
-			 * @param BP_Activity_Feed $this Current instance of activity feed. Passed by reference.
+			 * @param BP_Activity_Feed $feed Current instance of activity feed. Passed by reference.
 			 */
 			do_action_ref_array( 'bp_activity_feed_postfetch', array( &$this ) );
 

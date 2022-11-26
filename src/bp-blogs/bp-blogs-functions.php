@@ -350,12 +350,14 @@ function bp_blogs_is_blog_trackable( $blog_id, $user_id = 0 ) {
  */
 function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 
-	if ( empty( $user_id ) )
+	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
+	}
 
 	// If blog is not recordable, do not record the activity.
-	if ( !bp_blogs_is_blog_recordable( $blog_id, $user_id ) )
+	if ( ! bp_blogs_is_blog_recordable( $blog_id, $user_id ) ) {
 		return false;
+	}
 
 	$name = get_blog_option( $blog_id, 'blogname' );
 	$url  = get_home_url( $blog_id );
@@ -381,7 +383,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	$recorded_blog->user_id = $user_id;
 	$recorded_blog->blog_id = $blog_id;
 	$recorded_blog_id       = $recorded_blog->save();
-	$is_recorded            = !empty( $recorded_blog_id ) ? true : false;
+	$is_recorded            = ! empty( $recorded_blog_id ) ? true : false;
 
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'url', $url );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'name', $name );
@@ -392,8 +394,6 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'thread_comments_depth', $thread_depth );
 	bp_blogs_update_blogmeta( $recorded_blog->blog_id, 'comment_moderation', $moderation );
 
-	$is_private = !empty( $_POST['blog_public'] ) && (int) $_POST['blog_public'] ? false : true;
-
 	/**
 	 * Filters whether or not a new blog is public.
 	 *
@@ -401,7 +401,10 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 	 *
 	 * @param bool $is_private Whether or not blog is public.
 	 */
-	$is_private = !apply_filters( 'bp_is_new_blog_public', !$is_private );
+	$is_private = ! apply_filters(
+		'bp_is_new_blog_public',
+		(bool) get_blog_option( $blog_id, 'blog_public' )
+	);
 
 	/**
 	 * Fires after BuddyPress has been made aware of a new site for activity tracking.

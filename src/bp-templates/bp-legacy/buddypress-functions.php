@@ -197,7 +197,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param BP_Legacy $this Current BP_Legacy instance.
+		 * @param BP_Legacy $template_pack Current Template Pack instance.
 		 */
 		do_action_ref_array( 'bp_theme_compat_actions', array( &$this ) );
 	}
@@ -763,6 +763,10 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	// To get newest activities.
 	if ( ! empty( $_POST['offset'] ) ) {
 		$qs[] = 'offset=' . intval( $_POST['offset'] );
+	}
+
+	if ( ! empty( $_POST['offset_lower'] ) ) {
+		$qs[] = 'offset_lower=' . intval( $_POST['offset_lower'] );
 	}
 
 	$object_search_text = bp_get_search_default_text( $object );

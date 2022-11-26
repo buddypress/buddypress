@@ -1652,13 +1652,13 @@ add_action( 'wp_ajax_bp_cover_image_delete', 'bp_attachments_cover_image_ajax_de
 /**
  * Returns a file's mime type.
  *
- * @since 10.2.0
+ * @since 11.0.0
  *
  * @param string $file Absolute path of a file or directory.
  * @return false|string False if the mime type is not supported by WordPress.
  *                      The mime type of a file or 'directory' for a directory.
  */
-function bp_attachements_get_mime_type( $file = '' ) {
+function bp_attachments_get_mime_type( $file = '' ) {
 	$file_type = wp_check_filetype( $file, wp_get_mime_types() );
 	$file_mime = $file_type['type'];
 
@@ -1680,7 +1680,7 @@ function bp_attachements_get_mime_type( $file = '' ) {
  */
 function bp_attachments_get_file_object( SplFileInfo $file ) {
 	$path      = $file->getPathname();
-	$mime_type = bp_attachements_get_mime_type( $path );
+	$mime_type = bp_attachments_get_mime_type( $path );
 
 	// Mime type not supported by WordPress.
 	if ( false === $mime_type ) {
@@ -1693,7 +1693,7 @@ function bp_attachments_get_file_object( SplFileInfo $file ) {
 	$_file->path               = $path;
 	$_file->size               = $file->getSize();
 	$_file->type               = $file->getType();
-	$_file->mime_type          = bp_attachements_get_mime_type( $_file->path );
+	$_file->mime_type          = bp_attachments_get_mime_type( $_file->path );
 	$_file->last_modified      = $file->getMTime();
 	$_file->latest_access_date = $file->getATime();
 	$_file->id                 = pathinfo( $_file->name, PATHINFO_FILENAME );

@@ -243,10 +243,10 @@ class BP_Groups_Group_Members_Template {
 			 * Fires right before the rewinding of members list.
 			 *
 			 * @since 1.0.0
-			 * @since 2.3.0 `$this` parameter added.
+			 * @since 2.3.0 `$template_loop` parameter added.
 			 * @since 2.7.0 Action renamed from `loop_end`.
 			 *
-			 * @param BP_Groups_Group_Members_Template $this Instance of the current Members template.
+			 * @param BP_Groups_Group_Members_Template $template_loop Instance of the current Members template.
 			 */
 			do_action( 'group_members_loop_end', $this );
 
@@ -274,10 +274,10 @@ class BP_Groups_Group_Members_Template {
 			 * Fires if the current member item is the first in the members list.
 			 *
 			 * @since 1.0.0
-			 * @since 2.3.0 `$this` parameter added.
+			 * @since 2.3.0 `$template_loop` parameter added.
 			 * @since 2.7.0 Action renamed from `loop_start`.
 			 *
-			 * @param BP_Groups_Group_Members_Template $this Instance of the current Members template.
+			 * @param BP_Groups_Group_Members_Template $template_loop Instance of the current Members template.
 			 */
 			do_action( 'group_members_loop_start', $this );
 		}

@@ -126,4 +126,55 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		remove_filter( 'bp_get_signup_allowed', '__return_true' );
 		$profile_template = $reset_profile_template;
 	}
+
+	/**
+	 * @group bp_has_profile
+	 */
+	public function test_bp_has_profile_get_multiple_groups() {
+		global $profile_template;
+		$reset_profile_template = $profile_template;
+
+		$g1 = self::factory()->xprofile_group->create();
+		$g2 = self::factory()->xprofile_group->create();
+		$g3 = self::factory()->xprofile_group->create();
+
+		$field_in_1 = self::factory()->xprofile_field->create(
+			[
+				'field_group_id' => $g1,
+				'type'           => 'textbox',
+				'name'           => 'field1'
+			]
+		);
+
+		$field_in_2 = self::factory()->xprofile_field->create(
+			[
+				'field_group_id' => $g2,
+				'type'           => 'textbox',
+				'name'           => 'field2'
+			]
+		);
+
+		self::factory()->xprofile_field->create(
+			[
+				'field_group_id' => $g3,
+				'type'           => 'textbox',
+				'name'           => 'field3'
+			]
+		);
+
+		bp_has_profile( [ 'profile_group_id' => join( ',', [ $g1, $g2 ] ) ] );
+
+		$group_ids = wp_list_pluck( $profile_template->groups, 'id' );
+
+		$this->assertSame( 2, $profile_template->group_count );
+		$this->assertContains( $g1, $group_ids );
+		$this->assertContains( $g2, $group_ids );
+		$this->assertNotContains( $g3, $group_ids );
+
+		xprofile_delete_field_group( $g1 );
+		xprofile_delete_field_group( $g2 );
+		xprofile_delete_field_group( $g3 );
+
+		$profile_template = $reset_profile_template;
+	}
 }
