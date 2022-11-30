@@ -578,6 +578,31 @@ body {
 				}
 			}
 		}
+
+		#buddypress.twentytwentytwo:not(.alignwide) {
+
+			.activity-list {
+
+				.activity-avatar {
+					margin-left: 0;
+					margin-right: 1em;
+					width: auto;
+
+					img.avatar {
+						max-width: 25px;
+						max-height: 25px;
+						margin-bottom: 0;
+					}
+				}
+
+				.activity-content {
+
+					.activity-meta.action {
+						margin-left: 0;
+					}
+				}
+			}
+		}
 	}
 
 	&.activity-permalink {
@@ -630,6 +655,10 @@ body {
 				.acomment-avatar {
 					width: auto;
 					margin-right: 0;
+
+					img.avatar {
+						max-width: none;
+					}
 				}
 
 				.acomment-meta {
