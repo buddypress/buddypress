@@ -664,6 +664,39 @@ function bp_core_update_directory_page_ids( $blog_page_ids ) {
 }
 
 /**
+ * Get the BP Directory pages allowed stati.
+ *
+ * @since 11.0.0
+ *
+ * @return array The BP Directory pages allowed stati.
+ */
+function bp_core_get_directory_pages_stati() {
+	$default_page_status = array( 'publish' );
+
+	/**
+	 * Filter here to edit the allowed BP Directory pages stati.
+	 *
+	 * @since 11.0.0
+	 *
+	 * @param array $default_page_status The default allowed BP Directory pages stati.
+	 */
+	$page_stati = (array) apply_filters( 'bp_core_get_directory_pages_stati', $default_page_status );
+
+	// Validate the post stati, making sure each status is registered.
+	foreach ( $page_stati as $page_status_key => $page_status ) {
+		if ( ! get_post_status_object( $page_status ) ) {
+			unset( $page_stati[ $page_status_key ] );
+		}
+	}
+
+	if ( ! $page_stati ) {
+		$page_stati = $default_page_status;
+	}
+
+	return $page_stati;
+}
+
+/**
  * Get names and slugs for BuddyPress component directory pages.
  *
  * @since 1.5.0
@@ -683,13 +716,14 @@ function bp_core_get_directory_pages() {
 
 		// Get pages and IDs.
 		$page_ids = bp_core_get_directory_page_ids();
-		if ( !empty( $page_ids ) ) {
+		if ( ! empty( $page_ids ) ) {
 
 			// Always get page data from the root blog, except on multiblog mode, when it comes
 			// from the current blog.
 			$posts_table_name = bp_is_multiblog_mode() ? $wpdb->posts : $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts';
 			$page_ids_sql     = implode( ',', wp_parse_id_list( $page_ids ) );
-			$page_names       = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status = 'publish' " );
+			$page_stati_sql   = '\'' . implode( '\', \'', array_map( 'sanitize_key', bp_core_get_directory_pages_stati() ) ) . '\'';
+			$page_names       = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status IN ({$page_stati_sql}) " );
 
 			foreach ( (array) $page_ids as $component_id => $page_id ) {
 				foreach ( (array) $page_names as $page_name ) {
