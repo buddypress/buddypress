@@ -78,8 +78,43 @@ add_filter( 'bp_get_template_stack', 'bp_add_template_stack_locations' );
 // Turn comments off for BuddyPress pages.
 add_filter( 'comments_open', 'bp_comments_open', 10, 2 );
 
-// Force comments count to be 0 or comments list to be an empty array.
-add_filter( 'comments_pre_query', 'bp_comments_pre_query', 10, 2 );
+/**
+ * Removes the filter to `comments_pre_query` to restrict `bp_comments_pre_query`
+ * usage to the `core/comments' block.
+ *
+ * @since 10.7.0
+ *
+ * @param string $block_content The rendered block content.
+ * @return string Unchanged rendered block content.
+ */
+function bp_post_render_core_comments_block( $block_content ) {
+	// Stop forcing comments count to be 0 or comments list to be an empty array.
+	remove_filter( 'comments_pre_query', 'bp_comments_pre_query', 10 );
+	remove_filter( 'render_block', 'bp_post_render_core_comments_block' );
+
+	return $block_content;
+}
+
+/**
+ * Checks the current block being rendered is `core/comments` before hooking to
+ * `comments_pre_query`.
+ *
+ * @since 10.7.0
+ *
+ * @param string|null $pre_render   The pre-rendered content. Default null.
+ * @param array       $parsed_block The block being rendered.
+ * @return string|null Unchanged pre-rendered content.
+ */
+function bp_pre_render_core_comments_block( $pre_render, $parsed_block ) {
+	if ( isset( $parsed_block['blockName'] ) && 'core/comments' === $parsed_block['blockName'] ) {
+		// Force comments count to be 0 or comments list to be an empty array.
+		add_filter( 'comments_pre_query', 'bp_comments_pre_query', 10, 2 );
+		add_filter( 'render_block', 'bp_post_render_core_comments_block' );
+	}
+
+	return $pre_render;
+}
+add_filter( 'pre_render_block', 'bp_pre_render_core_comments_block', 10, 2 );
 
 // Prevent DB query for WP's main loop.
 add_filter( 'posts_pre_query', 'bp_core_filter_wp_query', 10, 2 );
