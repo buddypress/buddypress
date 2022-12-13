@@ -590,7 +590,7 @@ function bp_core_enqueue_livestamp() {
 						'relativeTime' => array(
 							/* Translators: %s is the relative time (eg: in a few seconds). */
 							'future' => __( 'in %s', 'buddypress' ),
-							/* Translators: %s is the relative time (eg: 10 minutes ago). */
+							/* translators: %s: the human time diff. */
 							'past'   => __( '%s ago', 'buddypress' ),
 							's'      => __( 'a few seconds', 'buddypress' ),
 							'm'      => __( 'a minute', 'buddypress' ),
