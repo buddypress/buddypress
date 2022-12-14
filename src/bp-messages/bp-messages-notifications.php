@@ -261,16 +261,48 @@ add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notificat
  * @param int $thread_id ID of the thread being marked as read.
  * @param int $user_id   ID of the user who read the thread.
  * @param int $num_rows  The number of affected rows by the "mark read" update query.
+ * @return bool True on success. False otherwise.
  */
 function bp_messages_mark_notification_on_mark_thread( $thread_id, $user_id = 0, $num_rows = 0 ) {
+	$unread_messages = array();
+
 	if ( ! $num_rows ) {
-		return;
+		/**
+		 * The thread might have been marked read, but a notification about the thread might also have been
+		 * marked back as unread from the BP Notifications screen. We then need to check a notification exists
+		 * about `new_message` action before checking found message ids are part of the thread.
+		 *
+		 * @see https://buddypress.trac.wordpress.org/ticket/8778
+		 */
+		$notifications = bp_notifications_get_all_notifications_for_user( $user_id );
+		if ( $notifications ) {
+			$unread_messages = wp_filter_object_list(
+				$notifications,
+				array(
+					'component_action' => 'new_message',
+					'is_new'           => 1,
+				),
+				'and',
+				'item_id'
+			);
+
+			$num_rows = count( $unread_messages );
+			if ( $num_rows ) {
+				$unread_messages = array_map( 'intval', $unread_messages );
+			} else {
+				return false;
+			}
+		}
 	}
 
 	$thread_messages = BP_Messages_Thread::get_messages( $thread_id );
 	$message_ids     = wp_list_pluck( $thread_messages, 'id' );
 
-	bp_notifications_mark_notifications_by_item_ids( $user_id, $message_ids, 'messages', 'new_message', false );
+	if ( $unread_messages && ! array_intersect( $message_ids, $unread_messages ) ) {
+		return false;
+	}
+
+	return bp_notifications_mark_notifications_by_item_ids( $user_id, $message_ids, 'messages', 'new_message', false );
 }
 add_action( 'messages_thread_mark_as_read', 'bp_messages_mark_notification_on_mark_thread', 10, 3 );
 
