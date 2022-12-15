@@ -759,92 +759,100 @@ class BP_Admin {
 				<div class="bp-hello-content">
 					<div id="dynamic-content"></div>
 					<div id="top-features">
-						<h2><?php esc_html_e( 'Site Membership Requests', 'buddypress' ); ?></h2>
-						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/prevent-spammer-registration.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the Site Membership Requests list.', 'buddypress' ); ?>" />
-						</figure>
-						<p>
-							<?php esc_html_e( 'Take control of your site’s membership! With site membership requests, new in BuddyPress 10.0.0, administrators can significantly reduce the number of spam users trolling their sites.', 'buddypress' ); ?>
-						</p>
-						<p>
-							<?php esc_html_e( 'When requests are enabled, visitors may submit a membership request, which must be manually approved by a site administrator.', 'buddypress' ); ?>
+						<h2>
 							<?php
 							printf(
-								/* translators: %s is the placeholder for the link to the BuddyPress Codex documentation page. */
-								esc_html__( '%s about this feature.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://codex.buddypress.org/administrator-guide/alternative-registration-workflows/#membership-requests-available-in-buddypress-10' ),
-									esc_html__( 'Read more', 'buddypress' )
-								)
-							);
+									/* Translators: %s is a Partying Face emoji. */
+									esc_html__( 'Happy new year & best wishes for Twenty Twenty-Three %s', 'buddypress' ),
+									wp_staticize_emoji( '🥳' )
+								);
 							?>
+						</h2>
+						<p>
+							<?php esc_html_e( 'Thanks for upgrading BuddyPress to 11.0.0.', 'buddypress' ); ?>
+							<?php esc_html_e( 'This new major version of your site’s community engine introduces around 50 changes mostly acting under the hood to improve performance, consistency and the stability of the plugin.', 'buddypress' ); ?>
+							<?php esc_html_e( 'Here are five important changes we would like to highlight:', 'buddypress' ); ?>
 						</p>
+						<ol>
+							<li>
+								<?php
+								printf(
+									/* Translators: %s is a the link to the .webp support developer note. */
+									esc_html__( 'You may now use %s images for your profile and cover images (requires WordPress 5.8 or newer).', 'buddypress' ),
+									sprintf(
+										'<a href="%s">.webp</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2022/11/24/webp-support-is-arriving-in-buddypress-11-0-0/' )
+									)
+								);
+								?>
+							</li>
+							<li>
+								<?php
+								printf(
+									/* Translators: %s is a the link to the community assets restricting filter developer note. */
+									esc_html__( 'A %s was introduced to only load BuddyPress JavaScript & CSS assets on BuddyPress-generated pages.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2022/11/21/buddypress-will-soon-only-load-its-javascript-and-style-assets-into-the-community-area-of-your-site/' ),
+										esc_html__( 'new filter', 'buddypress' )
+									)
+								);
+								?>
+							</li>
+							<li>
+								<?php
+								printf(
+									/* Translators: %s is a the link to the deprecated code developer note. */
+									esc_html__( 'The way BuddyPress loads its %s has been improved.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2022/11/20/the-way-buddypress-loads-deprecated-code-will-change-in-version-11-0-0/' ),
+										esc_html__( 'deprecated code', 'buddypress' )
+									)
+								);
+								?>
+							</li>
+							<li>
+								<?php
+								printf(
+									/* Translators: %s is a the link to the activity loop new arguments developer note. */
+									esc_html__( 'Advanced users or developers can now extend the Activity loop to %s.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2022/12/01/bp-11-fetch-activities-for-or-excluding-a-group-of-users/' ),
+										esc_html__( 'include or exclude a list of users', 'buddypress' )
+									)
+								);
+								?>
+							</li>
+							<li>
+								<?php
+								printf(
+									/* Translators: %s is a the link to the xProfile fields loop edited argument developer note. */
+									esc_html__( 'Advanced users or developers can now build custom xProfile loops %s.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2022/12/06/bp-11-bp_has_profile-now-accepts-an-array-of-profile-group-ids/' ),
+										esc_html__( 'including a specific set of profile field groups', 'buddypress' )
+									)
+								);
+								?>
+							</li>
+						</ol>
 
 						<hr class="bp-hello-divider"/>
 
-						<h2><?php esc_html_e( 'More engaging logging activities', 'buddypress' ); ?></h2>
-						<p>
-							<?php esc_html_e( 'These simple activities about specific user interactions or events (e.g.: you and me are now friends) are more visually attractive to improve user engagement in your community.', 'buddypress' ); ?>
-						</p>
-						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/logging-activities.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the new avatar secondary activity.', 'buddypress' ); ?>" />
-						</figure>
-						<p>
-							<?php esc_html_e( 'The most impressive new activity is that which is generated when a user updates their profile photo: it will include the profile photo that spurred the creation of the activity item, even if it has been updated since.', 'buddypress' ); ?>
-							<?php
-							printf(
-								/* translators: %s is the placeholder for the link to the BuddyPress Development blog. */
-								esc_html__( 'Learn more about it reading this %s.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( 'https://bpdevel.wordpress.com/2022/01/06/more-engaging-logging-activities-in-10-0-0/' ),
-									esc_html__( 'Developer note', 'buddypress' )
-								)
-							);
-							?>
-						</p>
-
-						<hr class="bp-hello-divider"/>
-
-						<h2><?php esc_html_e( 'Administration: improved BuddyPress management experience', 'buddypress' ); ?></h2>
-						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/bp-settings-screen.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the BuddyPress settings screen.', 'buddypress' ); ?>" />
-						</figure>
-						<p>
-							<?php esc_html_e( 'As shown in the image above, the BuddyPress administration screens are now using the layout WordPress uses for its tabbed administration screens such as the Site-Health or Privacy ones.', 'buddypress' ); ?>
-						</p>
-						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/edit-pages-screen.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the Edit Pages screen.', 'buddypress' ); ?>" />
-						</figure>
-						<p>
-							<?php esc_html_e( 'Knowing the WordPress pages BuddyPress uses for its front-end directory screens is easier, a status information informs you about the role of all BuddyPress pages.', 'buddypress' ); ?>
-						</p>
-
-						<hr class="bp-hello-divider"/>
-
-						<h2><?php esc_html_e( 'A new area to discover our current and future BuddyPress Add-ons.', 'buddypress' ); ?></h2>
-						<p>
-							<?php esc_html_e( 'BuddyPress Add-ons are experimental plugins, beta features packaged as plugins, that will be made available into the official WordPress.org plugins directory so that it’s easier for you to test them and give the development team your feedback.', 'buddypress' ); ?>
-						</p>
-						<p>
-							<?php esc_html_e( 'The more we are to get involved into the future of our open source project, the brighter it will be and the faster we’ll be able to include great new features!', 'buddypress' ); ?>
-						</p>
-
-						<figure class="bp-hello-aligncenter">
-							<img src="<?php echo esc_url( buddypress()->plugin_url . 'bp-core/images/hello-buddypress-addons.png' ); ?>" alt="<?php esc_attr_e( 'Illustration showing the Edit Pages screen.', 'buddypress' ); ?>" />
-						</figure>
+						<h2><?php esc_html_e( '11.0.0 also marks the beginning of a transitional year for BuddyPress: get ready for great features and changes.', 'buddypress' ); ?></h2>
 
 						<p>
-							<?php esc_html_e( 'BuddyPress Add-ons are also stable complementary BP Components or BP Blocks, we choose to keep independent from the core of BuddyPress to leave you the choice to use it or not.', 'buddypress' ); ?>
 							<?php
 							printf(
 								/* translators: %s is the placeholder for the link to the BuddyPress Add-ons administration page. */
-								esc_html__( 'The BP Search Block is a first example of this second category of add-ons, give it a try installing it from your %s administration screen.', 'buddypress' ),
+								esc_html__( 'In 10.0.0, we’ve introduced a %s to easily find BuddyPress Add-ons maintained by the BuddyPress Core Team. Check this list often as we will soon publish the following add-ons:', 'buddypress' ),
 								sprintf(
 									'<a href="%1$s">%2$s</a>',
 									esc_url( add_query_arg( 'tab', 'bp-add-ons', network_admin_url( 'plugin-install.php' ) ) ),
-									esc_html__( 'BuddyPress Add-ons', 'buddypress' )
+									esc_html__( 'new area in the Plugin Administration screen', 'buddypress' )
 								)
 							);
 							?>
@@ -852,21 +860,6 @@ class BP_Admin {
 
 						<hr class="bp-hello-divider"/>
 
-						<h2><?php esc_html_e( 'Ready for Twenty Twenty-Two!', 'buddypress' ); ?></h2>
-						<p>
-							<?php esc_html_e( 'WordPress 5.9 will introduce Full Site Editing featuring the new default theme Twenty Twenty-Two.', 'buddypress' ); ?>
-						</p>
-						<p>
-							<?php esc_html_e( 'The needed adjustments to our BP Theme Compatibility API were made so that you can enjoy this amazing feature making sure the BuddyPress generated content integrates optimally within themes supporting it.', 'buddypress' ); ?>
-						</p>
-
-						<hr class="bp-hello-divider"/>
-
-						<h2><?php esc_html_e( 'Under the hood', 'buddypress' ); ?></h2>
-						<p>
-							<?php esc_html_e( '10.0.0 comes with more than 70 changes including performance improvements to the BP Notifications, the BP Activity & the BP Signups API; Date Queries support for Members, Groups and Sites loops; new BP Avatar UI Recycle tab, improved inline documentation/translators comments and code formatting.', 'buddypress' ); ?>
-							<?php esc_html_e( 'Click on the "Changelog" tab to discover them all!', 'buddypress' ); ?>
-						</p>
 						<figure class="bp-hello-aligncenter">
 							<div class="dashicons dashicons-buddicons-buddypress-logo big"></div>
 						</figure>
@@ -892,7 +885,7 @@ class BP_Admin {
 							<?php
 								printf(
 									/* Translators: %s is a hugging face emoji. */
-									esc_html__( 'Thank you for using BuddyPress! %s', 'buddypress' ),
+									esc_html__( 'Many thanks to you for trusting BuddyPress to power your community site %s', 'buddypress' ),
 									wp_staticize_emoji( '🤗' )
 								);
 							?>
