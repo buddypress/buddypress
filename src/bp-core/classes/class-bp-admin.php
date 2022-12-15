@@ -857,6 +857,34 @@ class BP_Admin {
 							);
 							?>
 						</p>
+						<ol>
+							<li><?php esc_html_e( '"THE" long-awaited feature: Community Media Attachments.', 'buddypress' ); ?></li>
+							<li><?php esc_html_e( 'A revolutionary Block-based Activity Post Form to standardize the way to extend activity updates with richer & more engaging content.', 'buddypress' ); ?></li>
+						</ol>
+						<p>
+							<?php
+							printf(
+								/* translators: %s is the placeholder for the link to the BP Rewrites' w.org plugin page. */
+								esc_html__( 'An example about this new way to keep moving forward is the %s Add-on.', 'buddypress' ),
+								sprintf(
+									'<a href="%1$s">%2$s</a>',
+									esc_url( 'https://wordpress.org/plugins/bp-rewrites/' ),
+									esc_html__( 'BP Rewrites', 'buddypress' )
+								)
+							);
+							?>
+							<?php esc_html_e( 'You can already test this breaking change, which uses the WordPress way to parse URLs (thanks to the WP Rewrites API), and report issues to us or to the third-party plugin authors.', 'buddypress' ); ?>
+							<?php esc_html_e( 'Once BP Rewrites are merged into BuddyPress 12.0.0 (our next major release), we’ll make sure to build a backward-compatibility add-on so that you can still use plugins that do not work with "BP Rewrites".', 'buddypress' ); ?>
+						</p>
+						<p>
+							<?php
+							printf(
+									/* Translators: %s is a Passport control emoji. */
+									esc_html__( 'By the way, the latest version of BP Rewrites also includes a feature to restrict the community area to your site members only %s.', 'buddypress' ),
+									wp_staticize_emoji( '🛂' )
+								);
+							?>
+						</p>
 
 						<hr class="bp-hello-divider"/>
 

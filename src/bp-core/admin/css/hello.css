@@ -38,6 +38,10 @@ TABLE OF CONTENTS:
 	list-style: inherit;
 }
 
+.bp-hello-content ol li {
+	font-size: 14px;
+}
+
 .bp-hello-content h3 {
 	font-size: 1.1em;
 	font-weight: 500;
