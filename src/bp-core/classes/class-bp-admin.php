@@ -929,10 +929,10 @@ class BP_Admin {
 						<?php
 						printf(
 							/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
-							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 30, 'buddypress' ),
+							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 34, 'buddypress' ),
 							'<span class="dashicons dashicons-heart"></span>',
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 30 )
+							number_format_i18n( 34 )
 						);
 						?>
 					</p>
@@ -1114,10 +1114,13 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/bouncingsprout/">Ben Roberts (bouncingsprout)</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
 				<a href="https://profiles.wordpress.org/sbrajesh/">Brajesh Singh (sbrajesh)</a>,
+				<a href="https://profiles.wordpress.org/dancaragea/">Dan Caragea (dancaragea)</a>,
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
 				<a href="https://profiles.wordpress.org/devutpol/">Deb Nath Utpol (devutpol)</a>,
-				<a href="https://profiles.wordpress.org/fawp">fawp</a>,
+				<a href="https://profiles.wordpress.org/fawp/">fawp</a>,
+				<a href="https://profiles.wordpress.org/fernandot/">Fernando Tellado (fernandot)</a>,
 				<a href="https://profiles.wordpress.org/hnla/">Hugo Ashmore (hnla)</a>,
+				<a href="https://profiles.wordpress.org/nobnob/">Javier Esteban (nobnob)</a>,
 				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
 				<a href="https://profiles.wordpress.org/jtymann/">jtymann</a>,
 				<a href="https://profiles.wordpress.org/rudlinkon/">Linkon Miyan (rudlinkon)</a>,
@@ -1126,6 +1129,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/nickchomey/">Nick (nickchomey)</a>,
 				<a href="https://profiles.wordpress.org/niftythree/">Nifty (niftythree)</a>,
 				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
+				<a href="https://profiles.wordpress.org/nekojonez/">Pieterjan Deneys (nekojonez)</a>,
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
 				<a href="https://profiles.wordpress.org/rafiahmedd/">Rafi Ahmed (rafiahmedd)</a>,
 				<a href="https://github.com/ranfen/">ranfen</a>,
