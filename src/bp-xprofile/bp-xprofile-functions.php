@@ -546,14 +546,14 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
 
 	// Check against a list of registered visibility levels.
 	$allowed_values = bp_xprofile_get_visibility_levels();
-	if ( !array_key_exists( $visibility_level, $allowed_values ) ) {
+	if ( ! array_key_exists( $visibility_level, $allowed_values ) ) {
 		return false;
 	}
 
 	// Stored in an array in usermeta.
 	$current_visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 
-	if ( !$current_visibility_levels ) {
+	if ( ! $current_visibility_levels ) {
 		$current_visibility_levels = array();
 	}
 
@@ -786,7 +786,7 @@ function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
 		$search_terms_nospace = '%' . $search_terms_clean;
 		$search_terms_space   = '%' . $search_terms_clean . ' %';
 	} elseif ( $query->query_vars['search_wildcard'] === 'right' ) {
-		$search_terms_nospace =        $search_terms_clean . '%';
+		$search_terms_nospace = $search_terms_clean . '%';
 		$search_terms_space   = '% ' . $search_terms_clean . '%';
 	} else {
 		$search_terms_nospace = '%' . $search_terms_clean . '%';
@@ -1252,15 +1252,15 @@ function bp_xprofile_get_visibility_levels() {
  * @return array An array of field ids that should be excluded from the profile query
  */
 function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $current_user_id = 0 ) {
-	if ( !$displayed_user_id ) {
+	if ( ! $displayed_user_id ) {
 		$displayed_user_id = bp_displayed_user_id();
 	}
 
-	if ( !$displayed_user_id ) {
+	if ( ! $displayed_user_id ) {
 		return array();
 	}
 
-	if ( !$current_user_id ) {
+	if ( ! $current_user_id ) {
 		$current_user_id = bp_loggedin_user_id();
 	}
 
@@ -1346,7 +1346,7 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
  * @return array $field_ids The fields that match the requested visibility levels for the given user.
  */
 function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array() ) {
-	if ( !is_array( $levels ) ) {
+	if ( ! is_array( $levels ) ) {
 		$levels = (array)$levels;
 	}
 

@@ -475,7 +475,7 @@ class BP_XProfile_Field {
 				$parent_id = $this->id;
 
 				// Allow plugins to filter the field's child options (i.e. the items in a selectbox).
-				$post_option  = ! empty( $_POST[ "{$this->type}_option" ]           ) ? $_POST[ "{$this->type}_option" ]           : '';
+				$post_option  = ! empty( $_POST[ "{$this->type}_option" ]           ) ? $_POST[ "{$this->type}_option" ] : '';
 				$post_default = ! empty( $_POST[ "isDefault_{$this->type}_option" ] ) ? $_POST[ "isDefault_{$this->type}_option" ] : '';
 
 				/**
@@ -499,7 +499,7 @@ class BP_XProfile_Field {
 				$defaults = apply_filters( 'xprofile_field_default_before_save', $post_default, $this->type );
 
 				$counter = 1;
-				if ( !empty( $options ) ) {
+				if ( ! empty( $options ) ) {
 					foreach ( (array) $options as $option_key => $option_value ) {
 						$is_default = 0;
 
@@ -1240,7 +1240,7 @@ class BP_XProfile_Field {
 				'group_id' => (int) $this->group_id
 			), $users_url . '#tabs-' . (int) $this->group_id );
 
-			if ( !empty( $_POST['saveField'] ) ) {
+			if ( ! empty( $_POST['saveField'] ) ) {
 				$this->name        = $_POST['title'];
 				$this->description = $_POST['description'];
 				$this->is_required = $_POST['required'];
@@ -1269,7 +1269,7 @@ class BP_XProfile_Field {
 			<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
 			<hr class="wp-header-end">
 
-			<?php if ( !empty( $message ) ) : ?>
+			<?php if ( ! empty( $message ) ) : ?>
 
 				<div id="message" class="error fade notice is-dismissible">
 					<p><?php echo esc_html( $message ); ?></p>
