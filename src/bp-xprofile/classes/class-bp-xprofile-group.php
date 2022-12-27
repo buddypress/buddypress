@@ -213,7 +213,7 @@ class BP_XProfile_Group {
 			// Remove profile data for the groups fields.
 			if ( ! empty( $this->fields ) ) {
 				for ( $i = 0, $count = count( $this->fields ); $i < $count; ++$i ) {
-					BP_XProfile_ProfileData::delete_for_field( $this->fields[$i]->id );
+					BP_XProfile_ProfileData::delete_for_field( $this->fields[ $i ]->id );
 				}
 			}
 		}

@@ -603,8 +603,8 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				$field->description = '';
 			}
 
-			if ( ! empty( $_POST["sort_order_{$field->type}"] ) ) {
-				$field->order_by = $_POST["sort_order_{$field->type}"];
+			if ( ! empty( $_POST[ "sort_order_{$field->type}" ] ) ) {
+				$field->order_by = $_POST[ "sort_order_{$field->type}" ];
 			}
 
 			$field->field_order = $wpdb->get_var( $wpdb->prepare( "SELECT field_order FROM {$bp->profile->table_name_fields} WHERE id = %d", $field_id ) );
@@ -1189,10 +1189,10 @@ function bp_xprofile_admin_form_field_types( $select_field_type ) {
 			$the_category = _x( 'Other', 'xprofile field type category', 'buddypress' );
 		}
 
-		if ( isset( $categories[$the_category] ) ) {
-			$categories[$the_category][] = array( $field_name, $field_type_obj );
+		if ( isset( $categories[ $the_category ] ) ) {
+			$categories[ $the_category ][] = array( $field_name, $field_type_obj );
 		} else {
-			$categories[$the_category] = array( array( $field_name, $field_type_obj ) );
+			$categories[ $the_category ] = array( array( $field_name, $field_type_obj ) );
 		}
 	}
 

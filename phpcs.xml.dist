@@ -8,8 +8,8 @@
 	<file>./bp-loader.php</file>
 	<file>./src/bp-xprofile</file>
 
-	<!-- We are starting with severity of 6. -->
-	<arg name="severity" value="6"/>
+	<!-- We are starting with severity of 1. -->
+	<arg name="severity" value="1"/>
 
 	<!-- What to exclude -->
 	<exclude-pattern>*/**/tests/</exclude-pattern>

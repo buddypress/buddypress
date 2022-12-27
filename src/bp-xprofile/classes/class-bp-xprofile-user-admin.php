@@ -173,7 +173,7 @@ class BP_XProfile_User_Admin {
 				bp_xprofile_maybe_format_datebox_post_data( $field_id );
 
 				$is_required[ $field_id ] = xprofile_check_is_required_field( $field_id ) && ! bp_current_user_can( 'bp_moderate' );
-				if ( $is_required[ $field_id ] && empty( $_POST['field_' . $field_id ] ) ) {
+				if ( $is_required[ $field_id ] && empty( $_POST[ 'field_' . $field_id ] ) ) {
 					$redirect_to = add_query_arg( 'error', '2', $redirect_to );
 					bp_core_redirect( $redirect_to );
 				}
@@ -191,9 +191,9 @@ class BP_XProfile_User_Admin {
 				 * through empty. Save them as an empty array so that they don't
 				 * get overwritten by the default on the next edit.
 				 */
-				$value = isset( $_POST['field_' . $field_id] ) ? $_POST['field_' . $field_id] : '';
+				$value = isset( $_POST[ 'field_' . $field_id ] ) ? $_POST[ 'field_' . $field_id ] : '';
 
-				$visibility_level = ! empty( $_POST['field_' . $field_id . '_visibility'] ) ? $_POST['field_' . $field_id . '_visibility'] : 'public';
+				$visibility_level = ! empty( $_POST[ 'field_' . $field_id . '_visibility' ] ) ? $_POST[ 'field_' . $field_id . '_visibility' ] : 'public';
 				/*
 				 * Save the old and new values. They will be
 				 * passed to the filter and used to determine

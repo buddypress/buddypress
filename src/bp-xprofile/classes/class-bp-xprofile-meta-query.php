@@ -67,8 +67,8 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 		}
 
 		// BP_XProfile_Query sets 'object_type' = '' by default.
-		if ( isset( $qv[ 'object_type' ] ) && ( '' !== $qv[ 'object_type' ] ) && ( ! is_array( $qv[ 'object_type' ] ) || $qv[ 'object_type' ] ) ) {
-			$meta_query[0]['object'] = $qv[ 'object_type' ];
+		if ( isset( $qv['object_type'] ) && ( '' !== $qv['object_type'] ) && ( ! is_array( $qv['object_type'] ) || $qv['object_type'] ) ) {
+			$meta_query[0]['object'] = $qv['object_type'];
 		}
 
 		$existing_meta_query = isset( $qv['meta_query'] ) && is_array( $qv['meta_query'] ) ? $qv['meta_query'] : array();

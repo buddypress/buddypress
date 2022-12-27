@@ -614,10 +614,10 @@ function bp_the_profile_field_edit_value() {
 		}
 
 		// Was a new value posted? If so, use it instead.
-		if ( isset( $_POST['field_' . $field->id] ) ) {
+		if ( isset( $_POST[ 'field_' . $field->id ] ) ) {
 
 			// This is sanitized via the filter below (based on the field type).
-			$field->data->value = $_POST['field_' . $field->id];
+			$field->data->value = $_POST[ 'field_' . $field->id ];
 		}
 
 		/**
@@ -859,8 +859,8 @@ function bp_the_profile_field_visibility_level() {
 		// On the registration page, values stored in POST should take
 		// precedence over default visibility, so that submitted values
 		// are not lost on failure.
-		if ( bp_is_register_page() && ! empty( $_POST['field_' . $field->id . '_visibility'] ) ) {
-			$retval = esc_attr( $_POST['field_' . $field->id . '_visibility'] );
+		if ( bp_is_register_page() && ! empty( $_POST[ 'field_' . $field->id . '_visibility' ] ) ) {
+			$retval = esc_attr( $_POST[ 'field_' . $field->id . '_visibility' ] );
 		} else {
 			$retval = ! empty( $field->visibility_level ) ? $field->visibility_level : 'public';
 		}
@@ -897,8 +897,8 @@ function bp_the_profile_field_visibility_level_label() {
 		// On the registration page, values stored in POST should take
 		// precedence over default visibility, so that submitted values
 		// are not lost on failure.
-		if ( bp_is_register_page() && ! empty( $_POST['field_' . $field->id . '_visibility'] ) ) {
-			$level = esc_html( $_POST['field_' . $field->id . '_visibility'] );
+		if ( bp_is_register_page() && ! empty( $_POST[ 'field_' . $field->id . '_visibility' ] ) ) {
+			$level = esc_html( $_POST[ 'field_' . $field->id . '_visibility' ] );
 		} else {
 			$level = ! empty( $field->visibility_level ) ? $field->visibility_level : 'public';
 		}

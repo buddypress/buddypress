@@ -192,14 +192,14 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 
 		// Check for updated posted values, and errors preventing them from
 		// being saved first time.
-		if ( ! empty( $_POST['field_' . $this->field_obj->id . '_day'] ) ) {
-			$new_day = (int) $_POST['field_' . $this->field_obj->id . '_day'];
+		if ( ! empty( $_POST[ 'field_' . $this->field_obj->id . '_day' ] ) ) {
+			$new_day = (int) $_POST[ 'field_' . $this->field_obj->id . '_day' ];
 			$day     = ( $day != $new_day ) ? $new_day : $day;
 		}
 
-		if ( ! empty( $_POST['field_' . $this->field_obj->id . '_month'] ) ) {
-			if ( in_array( $_POST['field_' . $this->field_obj->id . '_month'], $eng_months ) ) {
-				$new_month = $_POST['field_' . $this->field_obj->id . '_month'];
+		if ( ! empty( $_POST[ 'field_' . $this->field_obj->id . '_month' ] ) ) {
+			if ( in_array( $_POST[ 'field_' . $this->field_obj->id . '_month' ], $eng_months ) ) {
+				$new_month = $_POST[ 'field_' . $this->field_obj->id . '_month' ];
 			} else {
 				$new_month = $month;
 			}
@@ -207,8 +207,8 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			$month = ( $month !== $new_month ) ? $new_month : $month;
 		}
 
-		if ( ! empty( $_POST['field_' . $this->field_obj->id . '_year'] ) ) {
-			$new_year = (int) $_POST['field_' . $this->field_obj->id . '_year'];
+		if ( ! empty( $_POST[ 'field_' . $this->field_obj->id . '_year' ] ) ) {
+			$new_year = (int) $_POST[ 'field_' . $this->field_obj->id . '_year' ];
 			$year     = ( $year != $new_year ) ? $new_year : $year;
 		}
 
@@ -241,7 +241,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				$html = sprintf( '<option value="" %1$s>%2$s</option>', selected( $month, 0, false ), /* translators: no option picked in select box */ __( '----', 'buddypress' ) );
 
 				for ( $i = 0; $i < 12; ++$i ) {
-					$html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $eng_months[$i] ), selected( $month, $eng_months[$i], false ), $months[$i] );
+					$html .= sprintf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $eng_months[ $i ] ), selected( $month, $eng_months[ $i ], false ), $months[ $i ] );
 				}
 			break;
 

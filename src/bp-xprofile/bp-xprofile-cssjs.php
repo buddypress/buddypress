@@ -73,8 +73,8 @@ function xprofile_add_admin_js() {
 
 			if ( isset( $field::$supported_features ) && is_array( $field::$supported_features ) ) {
 				foreach ( $field::$supported_features as $feature => $support ) {
-					if ( isset( $strings['hide_' . $feature . '_metabox'] ) && ! $support ) {
-						$strings['hide_' . $feature . '_metabox'][] = $field_type;
+					if ( isset( $strings[ 'hide_' . $feature . '_metabox' ] ) && ! $support ) {
+						$strings[ 'hide_' . $feature . '_metabox' ][] = $field_type;
 					}
 				}
 			}
