@@ -63,7 +63,7 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $value The user field value.
+	 * @param string  $value   The user field value.
 	 * @param integer $user_id The user ID.
 	 * @return string The sanitized field value.
 	 */
@@ -168,8 +168,8 @@ class BP_XProfile_Field_Type_WordPress_Biography extends BP_XProfile_Field_Type_
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string     $field_value The field value, as saved in the database.
-	 * @param string|int $field_id    Optional. ID of the field.
+	 * @param string         $field_value The field value, as saved in the database.
+	 * @param string|integer $field_id    Optional. ID of the field.
 	 * @return string The sanitized WordPress field.
 	 */
 	public static function display_filter( $field_value, $field_id = '' ) {

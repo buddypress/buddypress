@@ -62,8 +62,8 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int|null $field_id Field ID to instantiate.
-	 * @param int|null $user_id  User ID to instantiate for.
+	 * @param integer|null $field_id Field ID to instantiate.
+	 * @param integer|null $user_id  User ID to instantiate for.
 	 */
 	public function __construct( $field_id = null, $user_id = null ) {
 		if ( ! empty( $field_id ) ) {
@@ -76,8 +76,8 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $field_id Field ID to populate.
-	 * @param int $user_id  User ID to populate for.
+	 * @param integer $field_id Field ID to populate.
+	 * @param integer $user_id  User ID to populate for.
 	 */
 	public function populate( $field_id, $user_id ) {
 		global $wpdb;
@@ -118,7 +118,7 @@ class BP_XProfile_ProfileData {
 	 * @global object $wpdb
 	 * @global array $bp
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function exists() {
 		global $wpdb;
@@ -152,7 +152,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @global object $wpdb
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function is_valid_field() {
 		global $wpdb;
@@ -176,7 +176,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function save() {
 		global $wpdb;
@@ -318,9 +318,9 @@ class BP_XProfile_ProfileData {
 	 * @since 8.0.0 Checks if a null field data is an xProfile WP Field.
 	 *              Adds a new parameter `$field_type_objects` to pass the list of field type objects.
 	 *
-	 * @param int   $user_id            ID of user whose data is being queried.
-	 * @param array $field_ids          Array of field IDs to query for.
-	 * @param array $field_type_objects Array of field type objects keyed by the queried filed IDs.
+	 * @param integer $user_id            ID of user whose data is being queried.
+	 * @param array   $field_ids          Array of field IDs to query for.
+	 * @param array   $field_type_objects Array of field type objects keyed by the queried filed IDs.
 	 * @return array
 	 */
 	public static function get_data_for_user( $user_id, $field_ids, $field_type_objects = array() ) {
@@ -413,7 +413,7 @@ class BP_XProfile_ProfileData {
 	 * @since 1.2.0
 	 * @since 8.0.0 Checks if a null field data is an xProfile WP Field.
 	 *
-	 * @param int $user_id ID of the user.
+	 * @param integer $user_id ID of the user.
 	 * @return array
 	 */
 	public static function get_all_for_user( $user_id ) {
@@ -475,9 +475,9 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param int $field_id Field ID being queried for.
-	 * @param int $user_id  User ID associated with field.
-	 * @return int $fielddata_id
+	 * @param integer $field_id Field ID being queried for.
+	 * @param integer $user_id  User ID associated with field.
+	 * @return integer $fielddata_id
 	 */
 	public static function get_fielddataid_byid( $field_id, $user_id ) {
 		global $wpdb;
@@ -508,8 +508,8 @@ class BP_XProfile_ProfileData {
 	 * @since 1.0.0
 	 * @since 8.0.0 Checks if a null field data is an xProfile WP Field.
 	 *
-	 * @param int            $field_id ID of the field.
-	 * @param int|array|null $user_ids ID or IDs of user(s).
+	 * @param integer            $field_id ID of the field.
+	 * @param integer|array|null $user_ids ID or IDs of user(s).
 	 * @return string|array Single value if a single user is queried,
 	 *                      otherwise an array of results.
 	 */
@@ -618,8 +618,8 @@ class BP_XProfile_ProfileData {
 	 * @deprecated 8.0.0 This function is not used anymore.
 	 *
 	 * @param array|string $fields  Field(s) to get.
-	 * @param int|null     $user_id User ID to get field data for.
-	 * @return array|bool
+	 * @param integer|null $user_id User ID to get field data for.
+	 * @return array|boolean
 	 */
 	public static function get_value_byfieldname( $fields, $user_id = null ) {
 		_deprecated_function( __FUNCTION__, '8.0.0' );
@@ -682,8 +682,8 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $field_id ID of the field to delete.
-	 * @return bool
+	 * @param integer $field_id ID of the field to delete.
+	 * @return boolean
 	 */
 	public static function delete_for_field( $field_id ) {
 		global $wpdb;
@@ -702,7 +702,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $user_id User ID to get time for.
+	 * @param integer $user_id User ID to get time for.
 	 * @return null|string
 	 */
 	public static function get_last_updated( $user_id ) {
@@ -720,8 +720,8 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $user_id User ID to remove data for.
-	 * @return false|int
+	 * @param integer $user_id User ID to remove data for.
+	 * @return false|integer
 	 */
 	public static function delete_data_for_user( $user_id ) {
 		global $wpdb;
@@ -746,8 +746,8 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int    $user_id          User ID to query for.
-	 * @param string $exclude_fullname SQL portion used to exclude by field ID.
+	 * @param integer $user_id          User ID to query for.
+	 * @param string  $exclude_fullname SQL portion used to exclude by field ID.
 	 * @return array|null|object
 	 */
 	public static function get_random( $user_id, $exclude_fullname ) {
@@ -765,7 +765,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $user_id ID of the user to query.
+	 * @param integer $user_id ID of the user to query.
 	 * @return mixed
 	 */
 	public static function get_fullname( $user_id = 0 ) {

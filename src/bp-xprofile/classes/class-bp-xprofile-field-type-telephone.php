@@ -132,8 +132,8 @@ class BP_XProfile_Field_Type_Telephone extends BP_XProfile_Field_Type {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string     $field_value The URL value, as saved in the database.
-	 * @param string|int $field_id    Optional. ID of the field.
+	 * @param string         $field_value The URL value, as saved in the database.
+	 * @param string|integer $field_id    Optional. ID of the field.
 	 *
 	 * @return string URL converted to a link.
 	 */

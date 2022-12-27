@@ -345,7 +345,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param int $field_id ID of the field.
+	 * @param integer $field_id ID of the field.
 	 * @return array
 	 */
 	public static function get_field_settings( $field_id ) {
@@ -411,9 +411,9 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	/**
 	 * Save settings from the field edit screen in the Dashboard.
 	 *
-	 * @param int   $field_id ID of the field.
-	 * @param array $settings Array of settings.
-	 * @return bool True on success.
+	 * @param integer $field_id ID of the field.
+	 * @param array   $settings Array of settings.
+	 * @return boolean True on success.
 	 */
 	public function admin_save_settings( $field_id, $settings ) {
 		$existing_settings = self::get_field_settings( $field_id );
@@ -605,9 +605,9 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 * @since 2.1.0
 	 * @since 2.4.0 Added the `$field_id` parameter.
 	 *
-	 * @param string     $field_value The date value, as saved in the database. Typically, this is a MySQL-formatted
-	 *                                date string (Y-m-d H:i:s).
-	 * @param string|int $field_id    Optional. ID of the field.
+	 * @param string         $field_value The date value, as saved in the database. Typically, this is a MySQL-formatted
+	 *                                    date string (Y-m-d H:i:s).
+	 * @param string|integer $field_id    Optional. ID of the field.
 	 * @return string Date formatted by bp_format_time().
 	 */
 	public static function display_filter( $field_value, $field_id = '' ) {

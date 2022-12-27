@@ -69,7 +69,7 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param int         $user_id       ID of the user being edited.
+	 * @param integer     $user_id       ID of the user being edited.
 	 * @param string      $screen_id     Screen ID to load the metabox in.
 	 * @param object|null $stats_metabox Context and priority for the stats metabox.
 	 */
@@ -133,10 +133,10 @@ class BP_XProfile_User_Admin {
 	 * @since 2.0.0
 	 * @since 6.0.0 The `delete_avatar` action is now managed into BP_Members_Admin::user_admin_load().
 	 *
-	 * @param string $doaction    Action being run.
-	 * @param int    $user_id     ID for the user whose profile is being saved.
-	 * @param array  $request     Request being made.
-	 * @param string $redirect_to Where to redirect user to.
+	 * @param string  $doaction    Action being run.
+	 * @param integer $user_id     ID for the user whose profile is being saved.
+	 * @param array   $request     Request being made.
+	 * @param string  $redirect_to Where to redirect user to.
 	 */
 	public function user_admin_load( $doaction = '', $user_id = 0, $request = array(), $redirect_to = '' ) {
 

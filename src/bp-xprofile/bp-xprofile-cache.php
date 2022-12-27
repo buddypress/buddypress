@@ -18,8 +18,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.2.0
  *
- * @param int   $user_id   User ID to check.
- * @param array $field_ids XProfile field IDs.
+ * @param integer $user_id   User ID to check.
+ * @param array   $field_ids XProfile field IDs.
  * @return array
  */
 function bp_xprofile_get_non_cached_field_ids( $user_id = 0, $field_ids = array() ) {
@@ -52,7 +52,7 @@ function bp_xprofile_get_non_cached_field_ids( $user_id = 0, $field_ids = array(
  *
  * @param array $object_ids Multi-dimensional array of object_ids, keyed by
  *                          object type ('group', 'field', 'data').
- * @return bool
+ * @return boolean
  */
 function bp_xprofile_update_meta_cache( $object_ids = array() ) {
 	global $wpdb;
@@ -258,8 +258,8 @@ add_action( 'update_option_bp-xprofile-fullname-field-name', 'xprofile_clear_ful
  *
  * @since 2.4.0
  *
- * @param int|BP_XProfile_Field $field A field ID or a field object.
- * @return bool False on failure.
+ * @param integer|BP_XProfile_Field $field A field ID or a field object.
+ * @return boolean False on failure.
  */
 function bp_xprofile_clear_field_cache( $field ) {
 	if ( is_numeric( $field ) ) {

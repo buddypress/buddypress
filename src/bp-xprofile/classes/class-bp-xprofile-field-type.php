@@ -214,7 +214,7 @@ abstract class BP_XProfile_Field_Type {
 	 * @since 2.0.0
 	 *
 	 * @param string|array $values Value to check against the registered formats.
-	 * @return bool True if the value validates
+	 * @return boolean True if the value validates
 	 */
 	public function is_valid( $values ) {
 		$validated = false;
@@ -268,7 +268,7 @@ abstract class BP_XProfile_Field_Type {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function do_settings_section() {
 		if ( null === $this->do_settings_section ) {
@@ -475,8 +475,8 @@ abstract class BP_XProfile_Field_Type {
 	 * @since 2.1.0
 	 * @since 2.4.0 Added the `$field_id` parameter.
 	 *
-	 * @param mixed      $field_value Submitted field value.
-	 * @param string|int $field_id    Optional. ID of the field.
+	 * @param mixed          $field_value Submitted field value.
+	 * @param string|integer $field_id    Optional. ID of the field.
 	 * @return mixed
 	 */
 	public static function pre_validate_filter( $field_value, $field_id = '' ) {
@@ -493,8 +493,8 @@ abstract class BP_XProfile_Field_Type {
 	 * @since 2.1.0
 	 * @since 2.4.0 Added `$field_id` parameter.
 	 *
-	 * @param mixed      $field_value Field value.
-	 * @param string|int $field_id    ID of the field.
+	 * @param mixed          $field_value Field value.
+	 * @param string|integer $field_id    ID of the field.
 	 * @return mixed
 	 */
 	public static function display_filter( $field_value, $field_id = '' ) {
@@ -508,8 +508,8 @@ abstract class BP_XProfile_Field_Type {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param int   $field_id Field ID.
-	 * @param array $settings Array of settings.
+	 * @param integer $field_id Field ID.
+	 * @param array   $settings Array of settings.
 	 */
 	public function admin_save_settings( $field_id, $settings ) {}
 

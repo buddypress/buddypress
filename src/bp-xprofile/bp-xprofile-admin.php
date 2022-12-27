@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @return bool
+ * @return boolean
  */
 function xprofile_add_admin_menu() {
 
@@ -408,7 +408,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
  *
  * @since 1.0.0
  *
- * @param int|null $group_id Group ID to manage.
+ * @param integer|null $group_id Group ID to manage.
  */
 function xprofile_admin_manage_group( $group_id = null ) {
 	global $message, $type;
@@ -475,7 +475,7 @@ function xprofile_admin_manage_group( $group_id = null ) {
  *
  * @since 1.0.0
  *
- * @param int $group_id ID of the group to delete.
+ * @param integer $group_id ID of the group to delete.
  */
 function xprofile_admin_delete_group( $group_id ) {
 	global $message, $type;
@@ -519,6 +519,8 @@ function xprofile_admin_delete_group( $group_id ) {
  * Display the delete confirmation screen of profile data groups.
  *
  * @since 7.0.0
+ *
+ * @param integer $group_id XProfile Group ID.
  */
 function xprofile_admin_delete_group_screen( $group_id ) {
 
@@ -554,8 +556,8 @@ function xprofile_admin_delete_group_screen( $group_id ) {
  *
  * @since 1.0.0
  *
- * @param int      $group_id ID of the group.
- * @param int|null $field_id ID of the field being managed.
+ * @param integer      $group_id ID of the group.
+ * @param integer|null $field_id ID of the field being managed.
  */
 function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 	global $wpdb, $message, $groups;
@@ -722,9 +724,9 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
  * @global string $message The feedback message to show.
  * @global string $type The type of feedback message to show.
  *
- * @param int    $field_id    The field to delete.
- * @param string $field_type  The type of field being deleted.
- * @param bool   $delete_data Should the field data be deleted too.
+ * @param integer $field_id    The field to delete.
+ * @param string  $field_type  The type of field being deleted.
+ * @param boolean $delete_data Should the field data be deleted too.
  */
 function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_data = false ) {
 	global $message, $type;
@@ -772,6 +774,9 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
  * Display the delete confirmation screen of xprofile field/option.
  *
  * @since 7.0.0
+ *
+ * @param integer $field_id   XProfile Field ID.
+ * @param string  $field_type XProfile Field type name.
  */
 function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
@@ -1007,10 +1012,10 @@ add_action( 'wp_ajax_xprofile_reorder_groups', 'xprofile_ajax_reorder_field_grou
  * @since 1.5.0
  * @since 8.0.0 Adds the `$is_signup` parameter.
  *
- * @param BP_XProfile_Field   $admin_field Admin field.
- * @param object $admin_group Admin group object.
- * @param string $class       Classes to append to output.
- * @param bool   $is_signup   Whether the admin field output is made inside the signup group.
+ * @param BP_XProfile_Field $admin_field Admin field.
+ * @param object            $admin_group Admin group object.
+ * @param string            $class       Classes to append to output.
+ * @param boolean           $is_signup   Whether the admin field output is made inside the signup group.
  */
 function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_signup = false ) {
 	global $field;
@@ -1138,10 +1143,10 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
  *
  * @since 8.0.0
  *
- * @param BP_XProfile_Field   $signup_field The field to use into the signup form.
- * @param object $field_group The real field group object.
- * @param string $class       Classes to append to output.
- * @param bool   $echo        Whether to return or display the HTML output.
+ * @param BP_XProfile_Field $signup_field The field to use into the signup form.
+ * @param object            $field_group  The real field group object.
+ * @param string            $class        Classes to append to output.
+ * @param boolean           $echo         Whether to return or display the HTML output.
  * @return string The HTML output.
  */
 function bp_xprofile_admin_get_signup_field( $signup_field, $field_group = null, $class = '', $echo = false ) {

@@ -14,12 +14,12 @@
  *
  * @since 2.4.0
  *
- * @param string $action            The kind of notification being rendered.
- * @param int    $item_id           The primary item ID.
- * @param int    $secondary_item_id The secondary item ID.
- * @param int    $total_items       The total number of messaging-related notifications
- *                                  waiting for the user.
- * @param string $format            'string' for notification HTML link or 'array' for separate link and text.
+ * @param string  $action            The kind of notification being rendered.
+ * @param integer $item_id           The primary item ID.
+ * @param integer $secondary_item_id The secondary item ID.
+ * @param integer $total_items       The total number of messaging-related notifications
+ *                                   waiting for the user.
+ * @param string  $format            Format: 'string' for notification HTML link or 'array' for separate link and text.
  * @return string
  */
 function xprofile_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {

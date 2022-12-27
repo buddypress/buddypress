@@ -70,7 +70,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param integer $user_id The user ID.
+	 * @param integer $user_id  The user ID.
 	 * @param integer $field_id The xProfile field ID.
 	 * @return array An array containing the metadata `id`, `value` and `table_name`.
 	 */
@@ -107,7 +107,8 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $value The user field value.
+	 * @param string  $value   The user field value.
+	 * @param integer $user_id The user ID the field value is from.
 	 * @return string The sanitized field value.
 	 */
 	public function sanitize_for_output( $value, $user_id = 0 ) {
@@ -220,7 +221,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param int $field_id ID of the field.
+	 * @param integer $field_id ID of the field.
 	 * @return string The meta_key used for this field.
 	 */
 	public static function get_field_settings( $field_id ) {
@@ -234,9 +235,9 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param int   $field_id ID of the field.
-	 * @param array $settings Array of settings.
-	 * @return bool True on success.
+	 * @param integer $field_id ID of the field.
+	 * @param array   $settings Array of settings.
+	 * @return boolean True on success.
 	 */
 	public function admin_save_settings( $field_id, $settings ) {
 		$existing_setting = self::get_field_settings( $field_id );
@@ -323,8 +324,8 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string     $field_value The field value, as saved in the database.
-	 * @param string|int $field_id    Optional. ID of the field.
+	 * @param string         $field_value The field value, as saved in the database.
+	 * @param string|integer $field_id    Optional. ID of the field.
 	 * @return string The sanitized WordPress field.
 	 */
 	public static function display_filter( $field_value, $field_id = '' ) {

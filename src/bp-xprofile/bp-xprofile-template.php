@@ -40,7 +40,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type bool           $signup_fields_only     Default: false.
  *     @type bool           $update_meta_cache      Default: true.
  * }
- * @return bool
+ * @return boolean
  */
 function bp_has_profile( $args = '' ) {
 	global $profile_template;
@@ -147,7 +147,7 @@ function bp_field_css_class( $class = false ) {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param string|bool $class Extra classes to append to class attribute.
+	 * @param string|boolean $class Extra classes to append to class attribute.
 	 * @return string
 	 */
 	function bp_get_field_css_class( $class = false ) {
@@ -235,7 +235,7 @@ function bp_field_has_data() {
  *
  * @global object $profile_template
  *
- * @return bool
+ * @return boolean
  */
 function bp_field_has_public_data() {
 	global $profile_template;
@@ -267,7 +267,7 @@ function bp_the_profile_group_id() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	function bp_get_the_profile_group_id() {
 		global $group;
@@ -507,7 +507,7 @@ function bp_the_profile_field_id() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	function bp_get_the_profile_field_id() {
 		global $field;
@@ -814,7 +814,7 @@ function bp_the_profile_field_is_required() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	function bp_get_the_profile_field_is_required() {
 		global $field;
@@ -1012,7 +1012,7 @@ function bp_profile_get_field_groups() {
  *
  * @since 2.1.0
  *
- * @return bool True if there is more than one profile field group.
+ * @return boolean True if there is more than one profile field group.
  */
 function bp_profile_has_multiple_groups() {
 	$has_multiple_groups = count( (array) bp_profile_get_field_groups() ) > 1;
@@ -1103,7 +1103,7 @@ function bp_get_profile_group_tabs() {
  *
  * @since 1.0.0
  *
- * @param bool $deprecated Deprecated boolean parameter.
+ * @param boolean $deprecated Deprecated boolean parameter.
  *
  * @return string|null
  */
@@ -1166,7 +1166,7 @@ function bp_profile_last_updated() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool|string
+	 * @return boolean|string
 	 */
 	function bp_get_profile_last_updated() {
 
@@ -1205,7 +1205,7 @@ function bp_current_profile_group_id() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	function bp_get_current_profile_group_id() {
 		$profile_group_id = bp_action_variable( 1 );

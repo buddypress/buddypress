@@ -176,9 +176,9 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param int|null $id Field ID.
-	 * @param int|null $user_id User ID.
-	 * @param bool     $get_data Get data.
+	 * @param integer|null $id       Field ID.
+	 * @param integer|null $user_id  User ID.
+	 * @param boolean      $get_data Get data.
 	 */
 	public function __construct( $id = null, $user_id = null, $get_data = true ) {
 
@@ -209,9 +209,9 @@ class BP_XProfile_Field {
 	 * @global object $wpdb
 	 * @global object $userdata
 	 *
-	 * @param int      $id Field ID.
-	 * @param int|null $user_id User ID.
-	 * @param bool     $get_data Get data.
+	 * @param integer      $id       Field ID.
+	 * @param integer|null $user_id  User ID.
+	 * @param boolean      $get_data Get data.
 	 */
 	public function populate( $id, $user_id = null, $get_data = true ) {
 		global $wpdb, $userdata;
@@ -248,12 +248,12 @@ class BP_XProfile_Field {
 	 *
 	 * @static
 	 *
-	 * @param int      $field_id ID of the field.
-	 * @param int|null $user_id  Optional. ID of the user associated with the field.
-	 *                           Ignored if `$get_data` is false. If `$get_data` is
-	 *                           true, but no `$user_id` is provided, defaults to
-	 *                           logged-in user ID.
-	 * @param bool     $get_data Whether to fetch data for the specified `$user_id`.
+	 * @param integer      $field_id ID of the field.
+	 * @param integer|null $user_id  Optional. ID of the user associated with the field.
+	 *                               Ignored if `$get_data` is false. If `$get_data` is
+	 *                               true, but no `$user_id` is provided, defaults to
+	 *                               logged-in user ID.
+	 * @param boolean      $get_data Whether to fetch data for the specified `$user_id`.
 	 * @return BP_XProfile_Field|false Field object if found, otherwise false.
 	 */
 	public static function get_instance( $field_id, $user_id = null, $get_data = true ) {
@@ -329,7 +329,7 @@ class BP_XProfile_Field {
 	 * @since 2.4.0
 	 *
 	 * @param string $key Property name.
-	 * @return bool
+	 * @return boolean
 	 */
 	public function __isset( $key ) {
 		switch ( $key ) {
@@ -549,7 +549,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param int $user_id ID of the user to get field data for.
+	 * @param integer $user_id ID of the user to get field data for.
 	 * @return BP_XProfile_ProfileData
 	 */
 	public function get_field_data( $user_id = 0 ) {
@@ -564,7 +564,7 @@ class BP_XProfile_Field {
 	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param bool $for_editing Whether or not the field is for editing. Default to false.
+	 * @param boolean $for_editing Whether or not the field is for editing. Default to false.
 	 * @return array
 	 */
 	public function get_children( $for_editing = false ) {
@@ -681,10 +681,10 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @param array $member_types Array of member types. Can include 'null' (users with no type) in addition to any
-	 *                            registered types.
-	 * @param bool  $append       Whether to append to existing member types. If false, all existing member type
-	 *                            associations will be deleted before adding your `$member_types`. Default false.
+	 * @param array   $member_types Array of member types. Can include 'null' (users with no type) in addition to any
+	 *                              registered types.
+	 * @param boolean $append       Whether to append to existing member types. If false, all existing member type
+	 *                              associations will be deleted before adding your `$member_types`. Default false.
 	 * @return array Member types for the current field, after being saved.
 	 */
 	public function set_member_types( $member_types, $append = false ) {
@@ -870,7 +870,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @return int the field's signup position.
+	 * @return integer the field's signup position.
 	 *             0 if the field has not been added to the signup form.
 	 */
 	public function get_signup_position() {
@@ -890,7 +890,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function get_do_autolink() {
 		if ( ! isset( $this->do_autolink ) ) {
@@ -919,8 +919,8 @@ class BP_XProfile_Field {
 	/**
 	 * Get the type for provided field ID.
 	 *
-	 * @param int $field_id Field ID to get type of.
-	 * @return bool|null|string
+	 * @param integer $field_id Field ID to get type of.
+	 * @return boolean|null|string
 	 */
 	public static function get_type( $field_id = 0 ) {
 		global $wpdb;
@@ -949,7 +949,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global object $wpdb
 	 *
-	 * @param int $group_id ID of the field group to delete fields from.
+	 * @param integer $group_id ID of the field group to delete fields from.
 	 * @return boolean
 	 */
 	public static function delete_for_group( $group_id = 0 ) {
@@ -980,7 +980,7 @@ class BP_XProfile_Field {
 	 * @global object $wpdb
 	 *
 	 * @param string $field_name Name of the field to query the ID for.
-	 * @return int|null Field ID on success; null on failure.
+	 * @return integer|null Field ID on success; null on failure.
 	 */
 	public static function get_id_from_name( $field_name = '' ) {
 		global $wpdb;
@@ -1008,9 +1008,9 @@ class BP_XProfile_Field {
 	 *
 	 * @global object $wpdb
 	 *
-	 * @param int      $field_id       ID of the field to update.
-	 * @param int|null $position       Field position to update.
-	 * @param int|null $field_group_id ID of the field group.
+	 * @param integer      $field_id       ID of the field to update.
+	 * @param integer|null $position       Field position to update.
+	 * @param integer|null $field_group_id ID of the field group.
 	 * @return boolean
 	 */
 	public static function update_position( $field_id, $position = null, $field_group_id = null ) {
@@ -1864,8 +1864,8 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param int $field_id ID of field to check.
-	 * @return bool
+	 * @param integer $field_id ID of field to check.
+	 * @return boolean
 	 */
 	private function is_default_field( $field_id = 0 ) {
 

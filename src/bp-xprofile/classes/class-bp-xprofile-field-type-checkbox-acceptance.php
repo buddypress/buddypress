@@ -24,7 +24,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @return string The Checkbox Acceptance field's visibility setting.
+	 * @var string The Checkbox Acceptance field's visibility setting.
 	 */
 	public $visibility = 'adminsonly';
 
@@ -32,7 +32,8 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 * Supported features for the Checkbox Acceptance field type.
 	 *
 	 * @since 8.0.0
-	 * @var bool[] The WordPress field supported features.
+	 *
+	 * @var array The WordPress field supported features.
 	 */
 	public static $supported_features = array(
 		'switch_fieldtype'        => false,
@@ -222,9 +223,9 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param int   $field_id ID of the field.
-	 * @param array $settings Array of settings.
-	 * @return bool True on success.
+	 * @param integer $field_id ID of the field.
+	 * @param array   $settings Array of settings.
+	 * @return boolean True on success.
 	 */
 	public function admin_save_settings( $field_id, $settings ) {
 		if ( isset( $_POST['bp_xprofile_checkbox_acceptance_page'] ) ) {
@@ -302,12 +303,12 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 		 *
 		 * @since 8.0.0
 		 *
-		 * @param string $html                The HTML output.
-		 * @param int    $field_id            The field ID.
-		 * @param array  $r                   The edit field HTML elements data.
-		 * @param int    $checkbox_acceptance The field value.
+		 * @param string  $html                The HTML output.
+		 * @param integer $field_id            The field ID.
+		 * @param integer $checkbox_acceptance The field value.
+		 * @param array   $r                   The edit field HTML elements data.
 		 */
-		echo apply_filters( 'bp_get_the_profile_field_checkbox_acceptance', $html, $field_id, $checkbox_acceptance );
+		echo apply_filters( 'bp_get_the_profile_field_checkbox_acceptance', $html, $field_id, $checkbox_acceptance, $r );
 	}
 
 	/**
@@ -335,8 +336,8 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string|int $values value.
-	 * @return bool
+	 * @param string|integer $value Value to be checked against.
+	 * @return boolean
 	 */
 	public function is_valid( $value ) {
 		if ( empty( $value ) || 1 === (int) $value ) {
@@ -351,9 +352,8 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param string $field_value Original value of field.
-	 * @param int    $field_id field id.
-	 *
+	 * @param string  $field_value Original value of field.
+	 * @param integer $field_id    field id.
 	 * @return string   Value formatted
 	 */
 	public static function display_filter( $field_value, $field_id = 0 ) {

@@ -15,10 +15,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
- * @param array  $caps    Capabilities for meta capability.
- * @param string $cap     Capability name.
- * @param int    $user_id User id.
- * @param mixed  $args    Arguments.
+ * @param array   $caps    Capabilities for meta capability.
+ * @param string  $cap     Capability name.
+ * @param integer $user_id User id.
+ * @param mixed   $args    Arguments.
  *
  * @return array Actual capabilities for meta capability.
  */
@@ -77,10 +77,10 @@ add_filter( 'bp_map_meta_caps', 'bp_xprofile_map_meta_caps', 10, 4 );
  *
  * @since 2.7.1
  *
- * @param bool   $user_can
- * @param int    $user_id
- * @param string $capability
- * @return bool
+ * @param boolean $user_can   Whether or not the current user has the capability.
+ * @param integer $user_id    The user ID being checked for.
+ * @param string  $capability The capability being checked for.
+ * @return boolean
  */
 function bp_xprofile_grant_bp_xprofile_change_field_visibility_for_logged_out_users( $user_can, $user_id, $capability ) {
 	if ( 'bp_xprofile_change_field_visibility' === $capability && 0 === $user_id ) {

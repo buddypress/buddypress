@@ -302,13 +302,13 @@ function bp_current_user_can( $capability, $args = array() ) {
  *
  * @since 2.7.0
  *
- * @param int       $user_id
- * @param string    $capability Capability or role name.
- * @param array|int $args {
+ * @param integer       $user_id    User ID to check caps against.
+ * @param string        $capability Capability or role name.
+ * @param array|integer $args {
  *     Array of extra arguments applicable to the capability check.
  *
  *     @type int   $site_id Optional. Site ID. Defaults to the BP root blog.
- *     @type mixed $a,...   Optional. Extra arguments applicable to the capability check.
+ *     @type mixed $args    Optional. Extra arguments applicable to the capability check.
  * }
  * @return bool True if the user has the cap for the given parameters.
  */
@@ -329,11 +329,11 @@ function bp_user_can( $user_id, $capability, $args = array() ) {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param bool   $retval     Whether or not the current user has the capability.
-	 * @param int    $user_id
-	 * @param string $capability The capability being checked for.
-	 * @param int    $site_id    Site ID. Defaults to the BP root blog.
-	 * @param array  $args       Array of extra arguments passed.
+	 * @param boolean  $retval     Whether or not the current user has the capability.
+	 * @param integer  $user_id    The user ID being checked for.
+	 * @param string   $capability The capability being checked for.
+	 * @param integer  $site_id    Site ID. Defaults to the BP root blog.
+	 * @param array    $args       Array of extra arguments passed.
 	 */
 	$retval = (bool) apply_filters( 'bp_user_can', $retval, $user_id, $capability, $site_id, $args );
 

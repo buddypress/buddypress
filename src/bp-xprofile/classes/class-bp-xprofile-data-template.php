@@ -218,7 +218,7 @@ class BP_XProfile_Data_Template {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function has_groups() {
 		if ( ! empty( $this->group_count ) ) {
@@ -275,7 +275,7 @@ class BP_XProfile_Data_Template {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function profile_groups() {
 		if ( $this->current_group + 1 < $this->group_count ) {
@@ -327,7 +327,7 @@ class BP_XProfile_Data_Template {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return int
+	 * @return integer
 	 */
 	public function next_field() {
 		$this->current_field++;
@@ -354,7 +354,7 @@ class BP_XProfile_Data_Template {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function has_fields() {
 		$has_data = false;
@@ -375,7 +375,7 @@ class BP_XProfile_Data_Template {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function profile_fields() {
 		if ( $this->current_field + 1 < $this->field_count ) {

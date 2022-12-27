@@ -70,7 +70,7 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param int|null $id Field group ID.
+	 * @param integer|null $id Field group ID.
 	 */
 	public function __construct( $id = null ) {
 		if ( ! empty( $id ) ) {
@@ -85,7 +85,7 @@ class BP_XProfile_Group {
 	 *
 	 * @global $wpdb $wpdb
 	 *
-	 * @param int $id Field group ID.
+	 * @param integer $id Field group ID.
 	 * @return boolean
 	 */
 	public function populate( $id ) {
@@ -525,8 +525,8 @@ class BP_XProfile_Group {
 	 * @since 5.0.0
 	 *
 	 * @param array $group_ids Array of group IDs.
-	 * @param array $args {
-	 *    Array of optional arguments:
+	 * @param array $args      {
+	 *         Array of optional arguments:
 	 *      @type array        $exclude_fields    Comma-separated list or array of field IDs to exclude.
 	 *                                            Default empty.
 	 *      @type int          $user_id           Limit results to fields associated with a given user's
@@ -715,8 +715,8 @@ class BP_XProfile_Group {
 	 *
 	 * @global $wpdb $wpdb
 	 *
-	 * @param  int $field_group_id ID of the group the field belongs to.
-	 * @param  int $position       Field group position.
+	 * @param  integer $field_group_id ID of the group the field belongs to.
+	 * @param  integer $position       Field group position.
 	 * @return boolean
 	 */
 	public static function update_position( $field_group_id, $position ) {
@@ -740,8 +740,8 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param int   $user_id The profile owner's user_id.
-	 * @param array $fields  The database results returned by the get() query.
+	 * @param integer $user_id The profile owner's user_id.
+	 * @param array   $fields  The database results returned by the get() query.
 	 * @return array $fields The database results, with field_visibility added
 	 */
 	public static function fetch_visibility_level( $user_id = 0, $fields = array() ) {
