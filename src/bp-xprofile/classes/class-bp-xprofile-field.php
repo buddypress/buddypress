@@ -282,7 +282,7 @@ class BP_XProfile_Field {
 
 		$int_fields = array(
 			'id', 'is_required', 'group_id', 'parent_id', 'is_default_option',
-			'field_order', 'option_order', 'can_delete'
+			'field_order', 'option_order', 'can_delete',
 		);
 
 		foreach ( $args as $k => $v ) {
@@ -1237,7 +1237,7 @@ class BP_XProfile_Field {
 			$action = add_query_arg( array(
 				'page'     => 'bp-profile-setup',
 				'mode'     => 'add_field',
-				'group_id' => (int) $this->group_id
+				'group_id' => (int) $this->group_id,
 			), $users_url . '#tabs-' . (int) $this->group_id );
 
 			if ( ! empty( $_POST['saveField'] ) ) {
@@ -1260,7 +1260,7 @@ class BP_XProfile_Field {
 				'page'     => 'bp-profile-setup',
 				'mode'     => 'edit_field',
 				'group_id' => (int) $this->group_id,
-				'field_id' => (int) $this->id
+				'field_id' => (int) $this->id,
 			), $users_url . '#tabs-' . (int) $this->group_id );
 		} ?>
 
@@ -1419,7 +1419,7 @@ class BP_XProfile_Field {
 		// Setup the URL for deleting
 		$users_url  = bp_get_admin_url( 'users.php' );
 		$cancel_url = add_query_arg( array(
-			'page' => 'bp-profile-setup'
+			'page' => 'bp-profile-setup',
 		), $users_url );
 
 
@@ -1428,7 +1428,7 @@ class BP_XProfile_Field {
 			$delete_url = wp_nonce_url( add_query_arg( array(
 				'page'     => 'bp-profile-setup',
 				'mode'     => 'delete_field',
-				'field_id' => (int) $this->id
+				'field_id' => (int) $this->id,
 			), $users_url ), 'bp_xprofile_delete_field-' . $this->id, 'bp_xprofile_delete_field' );
 		}
 		/**
