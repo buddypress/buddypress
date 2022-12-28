@@ -958,6 +958,8 @@ function bp_legacy_theme_activity_template_loader() {
  *
  * @since 1.2.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return string|null HTML
  */
 function bp_legacy_theme_post_update() {
@@ -1049,8 +1051,6 @@ function bp_legacy_theme_post_update() {
  */
 function bp_legacy_theme_new_activity_comment() {
 	global $activities_template;
-
-	$bp = buddypress();
 
 	if ( ! bp_is_post_request() ) {
 		return;
@@ -1200,6 +1200,8 @@ function bp_legacy_theme_delete_activity_comment() {
  * AJAX spam an activity item or comment.
  *
  * @since 1.6.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return mixed String on error, void on success.
  */

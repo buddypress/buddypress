@@ -67,6 +67,8 @@ class BP_Core extends BP_Component {
 	 * and optional components.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 */
 	private function bootstrap() {
 		$bp = buddypress();
@@ -200,6 +202,8 @@ class BP_Core extends BP_Component {
 	 * amount of processing, meaning they cannot be set in the BuddyPress class.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *

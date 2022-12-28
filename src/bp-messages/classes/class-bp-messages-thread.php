@@ -539,6 +539,7 @@ class BP_Messages_Thread {
 	 *
 	 * @since 10.0.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $thread_id The message thread ID.
@@ -918,6 +919,9 @@ class BP_Messages_Thread {
 	 * Returns the total number of message threads for a user.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int    $user_id The user ID.
 	 * @param string $box     The type of mailbox to get. Either 'inbox' or 'sentbox'.

@@ -41,6 +41,7 @@ add_action( 'bp_activity_setup_globals', 'bp_activity_setup_akismet' );
  *
  * @since 1.6.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  * @global wpdb $wpdb WordPress database object.
  */
 function bp_activity_akismet_delete_old_metadata() {
@@ -65,8 +66,9 @@ function bp_activity_akismet_delete_old_metadata() {
 	$activity_ids = $wpdb->get_col( $sql );
 
 	if ( ! empty( $activity_ids ) ) {
-		foreach ( $activity_ids as $activity_id )
+		foreach ( $activity_ids as $activity_id ) {
 			bp_activity_delete_meta( $activity_id, '_bp_akismet_submission' );
+		}
 	}
 }
 add_action( 'bp_activity_akismet_delete_old_metadata', 'bp_activity_akismet_delete_old_metadata' );

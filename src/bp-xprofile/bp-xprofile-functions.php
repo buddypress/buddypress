@@ -767,6 +767,9 @@ add_action( 'bp_setup_globals', 'xprofile_override_user_fullnames', 100 );
  *
  * @since 2.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param array         $sql   Clauses in the user_id SQL query.
  * @param BP_User_Query $query User query object.
  * @return array
@@ -1146,14 +1149,17 @@ function bp_xprofile_update_fielddata_meta( $field_data_id, $meta_key, $meta_val
  *
  * @since 2.0.0
  *
- * @return int Field ID.
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
+ *
+ * @return integer Field ID.
  */
 function bp_xprofile_fullname_field_id() {
+	global $wpdb;
+
 	$id = wp_cache_get( 'fullname_field_id', 'bp_xprofile' );
 
 	if ( false === $id ) {
-		global $wpdb;
-
 		$bp = buddypress();
 		$id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s", addslashes( bp_xprofile_fullname_field_name() ) ) );
 
@@ -1475,13 +1481,17 @@ function bp_xprofile_get_wp_user_keys() {
  *
  * @since 8.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @return int[] The signup field IDs.
  */
 function bp_xprofile_get_signup_field_ids() {
+	global $wpdb;
+
 	$signup_field_ids = wp_cache_get( 'signup_fields', 'bp_xprofile' );
 
 	if ( ! $signup_field_ids ) {
-		global $wpdb;
 		$bp = buddypress();
 
 		$signup_field_ids = $wpdb->get_col( "SELECT object_id FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND meta_key = 'signup_position' ORDER BY CONVERT(meta_value, SIGNED) ASC" );

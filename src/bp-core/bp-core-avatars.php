@@ -17,8 +17,6 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_core_set_avatar_constants() {
 
-	$bp = buddypress();
-
 	if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
 		define( 'BP_AVATAR_THUMB_WIDTH', 50 );
 
@@ -48,6 +46,8 @@ add_action( 'bp_init', 'bp_core_set_avatar_constants', 3 );
  * Set up global variables related to avatars.
  *
  * @since 1.5.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_core_set_avatar_globals() {
 	$bp = buddypress();
@@ -142,6 +142,8 @@ function bp_core_is_default_gravatar( $d = '' ) {
  * @since 1.1.0
  * @since 2.4.0 Added 'extra_attr', 'scheme', 'rating' and 'force_default' for $args.
  *              These are inherited from WordPress 4.2.0. See {@link get_avatar()}.
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param array|string $args {
  *     An array of arguments. All arguments are technically optional; some
@@ -1027,6 +1029,8 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
  *
  * @since 2.3.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return string|null A JSON object containing success data if the upload succeeded
  *                     error message otherwise.
  */
@@ -1614,6 +1618,8 @@ function bp_core_check_avatar_type( $file ) {
  * Fetch data from the BP root blog's upload directory.
  *
  * @since 1.8.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param string $type The variable we want to return from the $bp->avatars object.
  *                     Only 'upload_path' and 'url' are supported. Default: 'upload_path'.

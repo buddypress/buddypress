@@ -226,6 +226,9 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @return WP_Error|bool True on success.
 	 */
 	public function save() {
@@ -343,6 +346,9 @@ class BP_Activity_Activity {
 	 * @since 2.9.0 Introduced the `$order_by` parameter.
 	 * @since 10.0.0 Introduced the `$count_total_only` parameter.
 	 * @since 11.0.0 Introduced the `$user_id__in` and `$user_id__not_in` parameters.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @see BP_Activity_Activity::get_filter_sql() for a description of the
 	 *      'filter' parameter.
@@ -880,6 +886,9 @@ class BP_Activity_Activity {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $activity_ids Array of activity IDs.
 	 * @return array
 	 */
@@ -1344,6 +1353,9 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $args {
 	 *     @int    $id                Optional. The ID of a specific item to delete.
 	 *     @string $action            Optional. The action to filter by.
@@ -1523,6 +1535,9 @@ class BP_Activity_Activity {
 	 *
 	 * @deprecated 2.3.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $activity_ids Activity IDs whose comments should be deleted.
 	 * @param bool  $delete_meta  Should we delete the activity meta items for these comments.
 	 * @return bool True on success.
@@ -1600,6 +1615,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int    $activity_id         Activity ID to fetch comments for.
@@ -1764,6 +1780,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $parent_id ID of an activity or activity comment.
@@ -1804,6 +1821,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $parent_id ID of an activity or activity comment.
@@ -1821,6 +1839,9 @@ class BP_Activity_Activity {
 	 * Get a list of components that have recorded activity associated with them.
 	 *
 	 * @since 1.2.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param bool $skip_last_activity If true, components will not be
 	 *                                 included if the only activity type associated with them is
@@ -1994,6 +2015,9 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @return string ISO timestamp.
 	 */
 	public static function get_last_updated() {
@@ -2029,6 +2053,9 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.1.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param string $content The content to filter by.
 	 * @return int|false The ID of the first matching item if found, otherwise false.
 	 */
@@ -2046,6 +2073,9 @@ class BP_Activity_Activity {
 	 * Hide all activity for a given user.
 	 *
 	 * @since 1.2.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $user_id The ID of the user whose activity you want to mark hidden.
 	 * @return mixed

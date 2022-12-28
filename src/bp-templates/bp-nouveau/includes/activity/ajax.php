@@ -342,12 +342,14 @@ function bp_nouveau_ajax_get_single_activity_content() {
  *
  * @since 3.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  * @global BP_Activity_Template $activities_template
  *
  * @return string JSON reply
  */
 function bp_nouveau_ajax_new_activity_comment() {
 	global $activities_template;
+
 	$bp = buddypress();
 
 	$response = array(
@@ -497,6 +499,8 @@ function bp_nouveau_ajax_get_activity_objects() {
  *
  * @since 3.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return string JSON reply
  */
 function bp_nouveau_ajax_post_update() {
@@ -608,6 +612,8 @@ function bp_nouveau_ajax_post_update() {
  * AJAX spam an activity item or comment.
  *
  * @since 3.0.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return string JSON reply.
  */

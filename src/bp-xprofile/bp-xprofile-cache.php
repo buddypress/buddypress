@@ -50,9 +50,12 @@ function bp_xprofile_get_non_cached_field_ids( $user_id = 0, $field_ids = array(
  *
  * @since 2.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param array $object_ids Multi-dimensional array of object_ids, keyed by
  *                          object type ('group', 'field', 'data').
- * @return bool
+ * @return boolean
  */
 function bp_xprofile_update_meta_cache( $object_ids = array() ) {
 	global $wpdb;

@@ -55,6 +55,9 @@ class BP_Blogs_Blog {
 
 	/**
 	 * Populate the object with data about the specific activity item.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 */
 	public function populate() {
 		global $wpdb;
@@ -69,6 +72,9 @@ class BP_Blogs_Blog {
 
 	/**
 	 * Save the BP blog data to the database.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return bool True on success, false on failure.
 	 */
@@ -147,6 +153,9 @@ class BP_Blogs_Blog {
 	/**
 	 * Check whether an association between this user and this blog exists.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @return int $value The number of associations between the user and blog
 	 *                    saved in the blog component tables.
 	 */
@@ -165,6 +174,9 @@ class BP_Blogs_Blog {
 	 *
 	 * @since 1.2.0
 	 * @since 10.0.0 Converted to array as main function argument. Added $date_query parameter.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $data {
 	 *     Array of site data to query for.
@@ -323,6 +335,9 @@ class BP_Blogs_Blog {
 	/**
 	 * Delete the record of a given blog for all users.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $blog_id The blog being removed from all users.
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
@@ -338,6 +353,9 @@ class BP_Blogs_Blog {
 
 	/**
 	 * Delete the record of a given blog for a specific user.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int      $blog_id The blog being removed.
 	 * @param int|null $user_id Optional. The ID of the user from whom the blog is
@@ -357,6 +375,9 @@ class BP_Blogs_Blog {
 
 	/**
 	 * Delete all of a user's blog associations in the BP tables.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int|null $user_id Optional. The ID of the user whose blog associations
 	 *                          are being deleted. If absent, defaults to logged-in user ID.
@@ -380,6 +401,9 @@ class BP_Blogs_Blog {
 	 * {@link get_blogs_of_user()}; the current method returns only those
 	 * blogs that have been recorded by BuddyPress, while the WP function
 	 * does a true query of a user's blog capabilities.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int  $user_id     Optional. ID of the user whose blogs are being
 	 *                          queried. Defaults to logged-in user.
@@ -422,6 +446,9 @@ class BP_Blogs_Blog {
 	 *
 	 * This method always includes hidden blogs.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $user_id Optional. ID of the user whose blogs are being
 	 *                     queried. Defaults to logged-in user.
 	 * @return int The number of blogs associated with the user.
@@ -439,6 +466,9 @@ class BP_Blogs_Blog {
 
 	/**
 	 * Check whether a blog has been recorded by BuddyPress.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $blog_id ID of the blog being queried.
 	 * @return int|null The ID of the first located entry in the BP table
@@ -460,6 +490,9 @@ class BP_Blogs_Blog {
 	 * Includes hidden blogs when the logged-in user is the same as the
 	 * $user_id parameter, or when the logged-in user has the bp_moderate
 	 * cap.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int|null $user_id Optional. ID of the user whose blogs are being
 	 *                          queried. Defaults to logged-in user.
@@ -486,6 +519,9 @@ class BP_Blogs_Blog {
 	 *
 	 * Matches against blog names and descriptions, as stored in the BP
 	 * blogmeta table.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string   $filter The search term.
 	 * @param int|null $limit  Optional. The maximum number of items to return.
@@ -530,6 +566,9 @@ class BP_Blogs_Blog {
 	 * Query will include hidden blogs if the logged-in user has the
 	 * 'bp_moderate' cap.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int|null $limit Optional. The maximum number of items to return.
 	 *                        Default: null (no limit).
 	 * @param int|null $page  Optional. The page of results to return. Default:
@@ -562,6 +601,9 @@ class BP_Blogs_Blog {
 	 *
 	 * Query will include hidden blogs if the logged-in user has the
 	 * 'bp_moderate' cap.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string   $letter The letter you're looking for.
 	 * @param int|null $limit  Optional. The maximum number of items to return.
@@ -607,6 +649,9 @@ class BP_Blogs_Blog {
 	 * fell swoop:
 	 *   - The latest post for each blog, include Featured Image data
 	 *   - The blog description
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array       $paged_blogs Array of results from the original query.
 	 * @param array       $blog_ids    Array of IDs returned from the original query.
@@ -689,6 +734,8 @@ class BP_Blogs_Blog {
 	 *
 	 * Checks the 'public' column in the wp_blogs table.
 	 *
+     * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $blog_id The ID of the blog being checked.
 	 * @return bool True if hidden (public = 0), false otherwise.
 	 */
@@ -704,6 +751,9 @@ class BP_Blogs_Blog {
 
 	/**
 	 * Get ID of user-blog link.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $user_id ID of user.
 	 * @param int $blog_id ID of blog.

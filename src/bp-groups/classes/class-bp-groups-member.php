@@ -796,6 +796,9 @@ class BP_Groups_Member {
 	 *
 	 * @since 4.0.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $user_id ID of the user.
 	 * @param array $args {
 	 *    Array of optional arguments.

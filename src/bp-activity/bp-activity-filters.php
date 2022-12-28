@@ -321,6 +321,8 @@ function bp_activity_at_name_filter_updates( $activity ) {
  *
  * @since 1.7.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param BP_Activity_Activity $activity The BP_Activity_Activity object.
  */
 function bp_activity_at_name_send_emails( $activity ) {
@@ -497,6 +499,8 @@ add_filter( 'bp_core_get_js_dependencies', 'bp_activity_get_js_dependencies', 10
  *
  * @since 2.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param string $classes Array of classes for most recent activity item.
  * @return string $classes
  */
@@ -508,6 +512,7 @@ function bp_activity_newest_class( $classes = '' ) {
 	}
 
 	$classes .= ' just-posted';
+
 	return $classes;
 }
 

@@ -87,6 +87,8 @@ class BP_Nouveau_Activity {
 	 * Register do_action() hooks
 	 *
 	 * @since 3.0.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 */
 	protected function setup_actions() {
 		add_action( 'bp_nouveau_enqueue_scripts', 'bp_nouveau_activity_enqueue_scripts' );

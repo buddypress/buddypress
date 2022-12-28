@@ -63,6 +63,8 @@ function bp_db_version_raw() {
 	 *
 	 * @since 1.6.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @return string The BuddyPress version direct from the database.
 	 */
 	function bp_get_db_version_raw() {
@@ -962,6 +964,8 @@ function bp_core_component_slug_from_root_slug( $root_slug ) {
  *
  * @since 1.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param string $slug The slug of the component being added to the root list.
  */
 function bp_core_add_root_component( $slug ) {
@@ -1003,6 +1007,8 @@ function bp_core_add_root_component( $slug ) {
  * Create WordPress pages to be used as BP component directories.
  *
  * @since 1.5.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_core_create_root_component_page() {
 
@@ -1060,6 +1066,8 @@ function bp_core_get_component_search_query_arg( $component = null ) {
  * Get a list of all active component objects.
  *
  * @since 8.0.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param array $args {
  *     Optional. An array of key => value arguments to match against the component objects.
@@ -1630,6 +1638,8 @@ function bp_core_time_old( $birth_date ) {
  *
  * @since 1.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param string $message Feedback message to be displayed.
  * @param string $type    Message type. 'updated', 'success', 'error', 'warning'.
  *                        Default: 'success'.
@@ -1667,6 +1677,8 @@ function bp_core_add_message( $message, $type = '' ) {
  * so that the message is not shown to the user multiple times.
  *
  * @since 1.1.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_core_setup_message() {
 
@@ -1700,6 +1712,8 @@ add_action( 'bp_actions', 'bp_core_setup_message', 5 );
  * called directly.
  *
  * @since 1.1.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_core_render_message() {
 
@@ -1707,7 +1721,7 @@ function bp_core_render_message() {
 	$bp = buddypress();
 
 	if ( !empty( $bp->template_message ) ) :
-		$type    = ( 'success' === $bp->template_message_type ) ? 'updated' : 'error';
+		$type = ( 'success' === $bp->template_message_type ) ? 'updated' : 'error';
 
 		/**
 		 * Filters the 'template_notices' feedback message content.
@@ -1936,6 +1950,8 @@ function bp_delete_user_meta( $user_id, $key, $value = '' ) {
  * Initializes {@link BP_Embed} after everything is loaded.
  *
  * @since 1.5.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_embed_init() {
 
@@ -2790,6 +2806,8 @@ function bp_core_get_components( $type = 'all' ) {
  *
  * @since 1.9.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return mixed A URL or an array of dummy pages.
  */
 function bp_nav_menu_get_loggedin_pages() {
@@ -2856,6 +2874,8 @@ function bp_nav_menu_get_loggedin_pages() {
  * menu.
  *
  * @since 1.9.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return mixed A URL or an array of dummy pages.
  */
@@ -3062,6 +3082,8 @@ add_action( 'wp_ajax_bp_get_suggestions', 'bp_ajax_get_suggestions' );
  * once to get what we need.
  *
  * @since 2.3.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return bool|array
  */

@@ -12,6 +12,8 @@
  *
  * @since 1.6.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param int $activity_id Activity id to be deleted. Defaults to 0.
  * @return bool False on failure.
  */

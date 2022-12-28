@@ -248,6 +248,9 @@ class BP_Core_User {
 	 *
 	 * @deprecated 1.7.0 Use {@link BP_User_Query}.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @see BP_User_Query for a description of parameters, most of which
 	 *      are used there in the same way.
 	 *
@@ -465,6 +468,7 @@ class BP_Core_User {
 	/**
 	 * Fetch the details for all users whose usernames start with the given letter.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string   $letter          The letter the users names are to start with.
@@ -647,6 +651,7 @@ class BP_Core_User {
 	/**
 	 * Find users who match on the value of an xprofile data.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string   $search_terms    The terms to search the profile table
@@ -707,6 +712,7 @@ class BP_Core_User {
 	 *
 	 * Accepts multiple user IDs to fetch data for.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array       $paged_users An array of stdClass containing the users.
@@ -796,6 +802,9 @@ class BP_Core_User {
 
 	/**
 	 * Get last activity data for a user or set of users.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int|array $user_id User IDs or multiple user IDs.
 	 * @return false|array

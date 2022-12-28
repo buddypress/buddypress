@@ -902,6 +902,9 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 10.0.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param string $field The name of the db field of the items to update.
 	 *                      Possible values are `id` or `item_id`.
 	 * @param int[]  $items The list of items to update.
@@ -911,6 +914,7 @@ class BP_Notifications_Notification {
 	 */
 	public static function update_id_list( $field, $items = array(), $data = array(), $where = array() ) {
 		global $wpdb;
+
 		$bp = buddypress();
 
 		$supported_fields = array( 'id', 'item_id' );
@@ -1000,6 +1004,9 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 10.0.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param string $field The name of the db field of the items to delete.
 	 *                      Possible values are `id` or `item_id`.
 	 * @param int[]  $items The list of items to delete.
@@ -1008,6 +1015,7 @@ class BP_Notifications_Notification {
 	 */
 	public static function delete_by_id_list( $field, $items = array(), $args = array() ) {
 		global $wpdb;
+
 		$bp = buddypress();
 
 		$supported_fields = array( 'id', 'item_id' );

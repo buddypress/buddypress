@@ -183,6 +183,8 @@ function bp_admin_repair_list() {
  *
  * @since 2.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return array
  */
 function bp_admin_repair_friend_count() {
@@ -241,6 +243,8 @@ function bp_admin_repair_friend_count() {
  * Recalculate group counts for each user.
  *
  * @since 2.0.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return array
  */
@@ -406,6 +410,8 @@ function bp_admin_repair_last_activity() {
  * Migrate outstanding group invitations if needed.
  *
  * @since 6.0.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return array
  */

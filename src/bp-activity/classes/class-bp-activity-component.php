@@ -182,6 +182,8 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @see BP_Component::setup_globals() for a description of arguments.
 	 *
 	 * @param array $args See BP_Component::setup_globals() for a description.
@@ -437,6 +439,7 @@ class BP_Activity_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 */
 	public function setup_title() {
 
@@ -564,6 +567,8 @@ class BP_Activity_Component extends BP_Component {
 	 * Add the Activity directory state.
 	 *
 	 * @since 10.0.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @param array   $states Optional. See BP_Component::admin_directory_states() for description.
 	 * @param WP_Post $post   Optional. See BP_Component::admin_directory_states() for description.

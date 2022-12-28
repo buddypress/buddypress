@@ -23,6 +23,8 @@ class BP_XProfile_User_Admin {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @return BP_XProfile_User_Admin
 	 */
 	public static function register_xprofile_user_admin() {

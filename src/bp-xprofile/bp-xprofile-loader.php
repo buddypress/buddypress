@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
  * Set up the bp-xprofile component.
  *
  * @since 1.6.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_setup_xprofile() {
 	$bp = buddypress();

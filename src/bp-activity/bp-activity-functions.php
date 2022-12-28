@@ -327,6 +327,8 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
  *
  * @since 1.1.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param  string        $component_id    The unique string ID of the component.
  * @param  string        $type            The action type.
  * @param  string        $description     The action description.
@@ -687,6 +689,8 @@ function _bp_activity_get_types_by_support( $feature = 'generated-content' ) {
  *
  * @since 2.5.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param  string $activity_type The activity type to check.
  * @param  string $feature       The feature to check. Currently supports:
  *                               'post-type-comment-tracking', 'post-type-comment-reply' & 'comment-reply'.
@@ -779,6 +783,8 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
  *
  * @since 2.5.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param  string       $activity_type the activity type.
  * @param  string       $arg           the key of the tracking argument.
  * @return mixed        the value of the tracking arg, false if not found.
@@ -806,6 +812,8 @@ function bp_activity_post_type_get_tracking_arg( $activity_type, $arg = '' ) {
  * Get all components' activity actions, sorted by their position attribute.
  *
  * @since 2.2.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return object Actions ordered by their position.
  */
@@ -1409,7 +1417,8 @@ add_action( 'delete_user', 'bp_activity_remove_all_user_data_on_delete_user' );
  *
  * @since 1.6.0
  *
- * @global object $wpdb WordPress database access object.
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
  *
  * @param int $user_id ID of the user whose activity is being spammed.
  * @return bool
@@ -1478,7 +1487,8 @@ add_action( 'bp_make_spam_user', 'bp_activity_spam_all_user_data' );
  *
  * @since 1.6.0
  *
- * @global object $wpdb WordPress database access object.
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
  *
  * @param int $user_id ID of the user whose activity is being hammed.
  * @return bool
@@ -1562,6 +1572,8 @@ add_action( 'bp_init', 'bp_register_activity_actions', 8 );
  * Register the activity stream actions for updates.
  *
  * @since 1.6.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_activity_register_activity_actions() {
 	$bp = buddypress();
@@ -1697,6 +1709,8 @@ function bp_activity_format_activity_action_activity_comment( $action, $activity
  *
  * @since 2.2.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
  * @return string $action
@@ -1757,6 +1771,8 @@ function bp_activity_format_activity_action_custom_post_type_post( $action, $act
  * Format activity action strings for custom post types comments.
  *
  * @since 2.5.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
@@ -2727,6 +2743,8 @@ add_action( 'delete_comment', 'bp_activity_post_type_remove_comment', 10, 1 );
  *              Add the $primary_link parameter for the array of arguments.
  * @since 2.6.0 Added 'error_type' parameter to $args.
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param array|string $args {
  *     An array of arguments.
  *     @type int    $id                Optional. Pass an ID to update an existing comment.
@@ -3233,6 +3251,8 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
  *
  * @since 1.2.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param int         $activity_id  The unique id of the activity object.
  * @param object|bool $activity_obj Optional. The activity object.
  * @return string $link Permalink for the activity item.
@@ -3678,6 +3698,8 @@ function bp_activity_user_can_mark_spam() {
  *
  * @since 1.6.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @todo We should probably save $source to activity meta.
  *
  * @param BP_Activity_Activity $activity The activity item to be spammed.
@@ -3732,6 +3754,8 @@ function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
  * Mark an activity item as ham.
  *
  * @since 1.6.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param BP_Activity_Activity $activity The activity item to be hammed. Passed by reference.
  * @param string               $source   Optional. Default is "by_a_person" (ie, a person has

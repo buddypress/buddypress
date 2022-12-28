@@ -354,10 +354,12 @@ class BP_Attachment_Avatar extends BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @return integer The user ID.
 	 */
 	private function get_user_id() {
-		$bp = buddypress();
+		$bp      = buddypress();
 		$user_id = 0;
 
 		if ( bp_is_user() ) {

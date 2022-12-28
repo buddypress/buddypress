@@ -72,6 +72,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * BP Nouveau global variables.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 */
 	protected function setup_globals() {
 		$bp = buddypress();

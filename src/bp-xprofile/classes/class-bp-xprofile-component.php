@@ -132,6 +132,8 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @param array $args Array of globals to set up.
 	 */
 	public function setup_globals( $args = array() ) {
@@ -372,6 +374,8 @@ class BP_XProfile_Component extends BP_Component {
 
 	/**
 	 * Sets up the title for pages and <title>.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @since 1.5.0
 	 */

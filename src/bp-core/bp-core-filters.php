@@ -124,6 +124,8 @@ add_filter( 'posts_pre_query', 'bp_core_filter_wp_query', 10, 2 );
  *
  * @since 1.5.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param array $pages List of excluded page IDs, as passed to the
  *                     'wp_list_pages_excludes' filter.
  * @return array The exclude list, with BP's pages added.
@@ -157,6 +159,8 @@ add_filter( 'wp_list_pages_excludes', 'bp_core_exclude_pages' );
  * Prevent specific pages (eg 'Activate') from showing in the Pages meta box of the Menu Administration screen.
  *
  * @since 2.0.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param object|null $object The post type object used in the meta box.
  * @return object|null The $object, with a query argument to remove register and activate pages id.

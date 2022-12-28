@@ -294,6 +294,8 @@ function bp_core_admin_components_options() {
  *
  * @since 1.6.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @todo Use settings API when it supports saving network settings
  */
 function bp_core_admin_components_settings_handler() {

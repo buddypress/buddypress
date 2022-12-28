@@ -255,6 +255,8 @@ function bp_nouveau_ajax_joinleave_group() {
 
 /**
  * @since 3.0.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_nouveau_ajax_get_users_to_invite() {
 	$bp = buddypress();
@@ -377,7 +379,6 @@ function bp_nouveau_ajax_get_users_to_invite() {
  * @since 3.0.0
  */
 function bp_nouveau_ajax_send_group_invites() {
-	$bp = buddypress();
 
 	$response = array(
 		'feedback' => __( 'Invites could not be sent. Please try again.', 'buddypress' ),

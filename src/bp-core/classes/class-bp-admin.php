@@ -117,6 +117,8 @@ class BP_Admin {
 	 * Set admin-related globals.
 	 *
 	 * @since 1.6.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 */
 	private function setup_globals() {
 		$bp = buddypress();

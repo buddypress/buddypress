@@ -73,7 +73,6 @@ function bp_blogs_comments_clauses_select_by_id( $retval ) {
  * @return bool True to authorize the post to be published, otherwise false.
  */
 function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, $user_id = 0 ) {
-	$bp = buddypress();
 
 	// If blog is not trackable, do not record the activity.
 	if ( ! bp_blogs_is_blog_trackable( $blog_id, $user_id ) ) {

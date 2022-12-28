@@ -19,6 +19,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param int|string|array|bool $activity_ids Accepts a single activity ID, or a comma-
  *                                            separated list or array of activity ids.
  */

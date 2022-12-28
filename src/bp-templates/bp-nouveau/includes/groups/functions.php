@@ -354,6 +354,8 @@ function bp_nouveau_group_invites_create_steps( $steps = array() ) {
  *
  * @since 3.0.0
  * @since 10.0.0 The function is no longer creating a Group invite nav.
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_nouveau_group_setup_nav() {
 	if ( ! bp_is_group() || ! bp_groups_user_can_send_invites() ) {
@@ -376,6 +378,8 @@ function bp_nouveau_group_setup_nav() {
  *
  * @since 3.0.0
  * @deprecated 6.3.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param string $message The message to send with the invite
  */

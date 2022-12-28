@@ -451,6 +451,8 @@ function bp_core_get_js_dependencies() {
  *
  * @since 2.4.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param bool $return True to get the inline css.
  * @return null|array|false The inline css or an associative array containing
  *                          the css rules and the style handle.

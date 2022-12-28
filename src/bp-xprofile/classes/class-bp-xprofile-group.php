@@ -116,7 +116,8 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global object $wpdb
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return boolean
 	 */
@@ -241,7 +242,8 @@ class BP_XProfile_Group {
 	 * @since 8.0.0  Introduced `$hide_field_types` & `$signup_fields_only` arguments.
 	 * @since 11.0.0 `$profile_group_id` accepts an array of profile group ids.
 	 *
-	 * @global object $wpdb WordPress DB access object.
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
 	 *      Array of optional arguments.
@@ -467,6 +469,9 @@ class BP_XProfile_Group {
 	 * @since 5.0.0
 	 * @since 11.0.0 `$profile_group_id` accepts an array of profile group ids.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $args {
 	 *    Array of optional arguments.
 	 *
@@ -523,6 +528,9 @@ class BP_XProfile_Group {
 	 * Gets group field IDs, based on passed parameters.
 	 *
 	 * @since 5.0.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $group_ids Array of group IDs.
 	 * @param array $args {
@@ -713,7 +721,8 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global $wpdb $wpdb
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param  int $field_group_id ID of the group the field belongs to.
 	 * @param  int $position       Field group position.
@@ -785,6 +794,9 @@ class BP_XProfile_Group {
 	 * Fetch the admin-set preferences for all fields.
 	 *
 	 * @since 1.6.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return array $default_visibility_levels An array, keyed by field_id, of default
 	 *                                          visibility level + allow_custom

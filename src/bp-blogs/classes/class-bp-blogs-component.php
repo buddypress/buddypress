@@ -45,6 +45,8 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
 	 * @param array $args See {@link BP_Component::setup_globals()}.
@@ -317,6 +319,8 @@ class BP_Blogs_Component extends BP_Component {
 
 	/**
 	 * Set up the title for pages and <title>.
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 */
 	public function setup_title() {
 
@@ -437,6 +441,8 @@ class BP_Blogs_Component extends BP_Component {
 	 * Add the Sites directory states.
 	 *
 	 * @since 10.0.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @param array   $states Optional. See BP_Component::admin_directory_states() for description.
 	 * @param WP_Post $post   Optional. See BP_Component::admin_directory_states() for description.

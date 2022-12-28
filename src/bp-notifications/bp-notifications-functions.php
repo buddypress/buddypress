@@ -196,6 +196,8 @@ function bp_notifications_get_grouped_notifications_for_user( $user_id = 0 ) {
  *
  * @since 1.9.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param int    $user_id ID of the user whose notifications are being fetched.
  * @param string $format  Format of the returned values. 'string' returns HTML,
  *                        while 'object' returns a structured object for parsing.
@@ -722,6 +724,8 @@ function bp_notifications_get_unread_notification_count( $user_id = 0 ) {
  * registered Notifications callbacks.
  *
  * @since 1.9.1
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @see http://buddypress.trac.wordpress.org/ticket/5300
  *

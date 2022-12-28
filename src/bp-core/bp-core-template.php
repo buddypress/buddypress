@@ -26,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- *       viewed user.
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param string $parent_slug Options nav slug.
  * @return string
@@ -112,6 +112,8 @@ function bp_get_options_nav( $parent_slug = '' ) {
  * Not currently used in BuddyPress.
  *
  * @todo Deprecate.
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_get_options_title() {
 	$bp = buddypress();
@@ -597,6 +599,8 @@ function bp_search_input_name( $component = '' ) {
  *
  * @since 2.7.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param string $component Component name. Defaults to current component.
  * @return string Text for the 'name' attribute.
  */
@@ -662,6 +666,8 @@ function bp_search_default_text( $component = '' ) {
 	 * Return the default text for the search box for a given component.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @param string $component Component name. Default: current component.
 	 * @return string Placeholder text for search field.
@@ -1158,6 +1164,8 @@ function bp_blog_signup_allowed() {
  *
  * @since 1.1.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return bool True if the activation_complete global flag has been set,
  *              otherwise false.
  */
@@ -1253,6 +1261,8 @@ function bp_get_email_subject( $args = array() ) {
  * WordPress theme without coping the functions from functions.php.
  *
  * @since 1.2.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param string|bool $object Current template component.
  * @return string The AJAX querystring.
@@ -1411,6 +1421,8 @@ function bp_root_domain() {
 	 *
 	 * @since 1.1.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @return string URL of the BP root blog.
 	 */
 	function bp_get_root_domain() {
@@ -1518,6 +1530,8 @@ function bp_root_slug( $component = '' ) {
  *
  * @since 1.5.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param string $root_slug Needle to our active component haystack.
  * @return mixed False if none found, component name if found.
  */
@@ -1597,6 +1611,8 @@ function bp_search_slug() {
  *
  * @since 1.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return int $id ID of the currently displayed user.
  */
 function bp_displayed_user_id() {
@@ -1620,11 +1636,13 @@ function bp_displayed_user_id() {
  *
  * @since 1.0.0
  *
- * @return int ID of the logged-in user.
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @return integer ID of the logged-in user.
  */
 function bp_loggedin_user_id() {
-	$bp = buddypress();
-	$id = !empty( $bp->loggedin_user->id )
+	$bp      = buddypress();
+	$user_id = ! empty( $bp->loggedin_user->id )
 		? $bp->loggedin_user->id
 		: 0;
 
@@ -1633,9 +1651,9 @@ function bp_loggedin_user_id() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $id ID of the currently logged-in user.
+	 * @param integer $user_id ID of the currently logged-in user.
 	 */
-	return (int) apply_filters( 'bp_loggedin_user_id', $id );
+	return (int) apply_filters( 'bp_loggedin_user_id', $user_id );
 }
 
 /** The is_() functions to determine the current page *****************************/
@@ -1650,6 +1668,8 @@ function bp_loggedin_user_id() {
  * - the component's id, or 'canonical' name.
  *
  * @since 1.5.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param string $component Name of the component being checked.
  * @return bool Returns true if the component matches, or else false.
@@ -1970,6 +1990,7 @@ function bp_is_root_component( $component_name = '' ) {
  *
  * @since 1.5.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  * @global int $current_blog WordPress global for the current blog.
  *
  * @param string $component Optional. Name of the component to check for.
@@ -2906,6 +2927,8 @@ function bp_is_group_single() {
  *
  * @since 2.4.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return bool True if the current group page is a custom front.
  */
 function bp_is_group_custom_front() {
@@ -3066,6 +3089,8 @@ function bp_is_register_page() {
  * Get the title parts of the BuddyPress displayed page
  *
  * @since 2.4.3
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param string $seplocation Location for the separator.
  * @return array the title parts

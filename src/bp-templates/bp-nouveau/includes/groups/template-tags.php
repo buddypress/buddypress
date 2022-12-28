@@ -257,6 +257,8 @@ function bp_nouveau_groups_get_group_invites_setting( $user_id = 0 ) {
  *
  * @since 3.0.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @todo This output isn't localised correctly.
  */
 function bp_nouveau_group_creation_tabs() {

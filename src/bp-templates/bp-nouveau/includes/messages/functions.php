@@ -183,6 +183,8 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 
 /**
  * @since 3.0.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_nouveau_messages_adjust_nav() {
 	$bp = buddypress();
@@ -305,6 +307,8 @@ function bp_nouveau_unregister_notices_widget() {
  * Add active sitewide notices to the BP template_message global.
  *
  * @since 3.0.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_nouveau_push_sitewide_notices() {
 	// Do not show notices if user is not logged in.

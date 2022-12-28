@@ -31,6 +31,8 @@ defined( 'ABSPATH' ) || exit;
  *    - $bp->action_variables: array ['group', 5]
  *
  * @since 1.0.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_core_set_uri_globals() {
 	global $current_blog, $wp_rewrite;
@@ -598,6 +600,8 @@ add_filter( 'bp_core_set_uri_globals_member_slug', 'bp_core_members_shortlink_re
  * Catch unauthorized access to certain BuddyPress pages and redirect accordingly.
  *
  * @since 1.5.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_core_catch_no_access() {
 	global $wp_query;
@@ -794,6 +798,8 @@ add_filter( 'shake_error_codes', 'bp_core_login_filter_shake_codes' );
  *
  * @since 1.6.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @see BP_Members_Component::setup_globals() where
  *      $bp->canonical_stack['base_url'] and ['component'] may be set.
  * @see bp_core_new_nav_item() where $bp->canonical_stack['action'] may be set.
@@ -865,6 +871,8 @@ function bp_rel_canonical() {
  * Get the canonical URL of the current page.
  *
  * @since 1.6.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param array $args {
  *     Optional array of arguments.
@@ -977,6 +985,8 @@ function bp_get_canonical_url( $args = array() ) {
  * Return the URL as requested on the current page load by the user agent.
  *
  * @since 1.6.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return string Requested URL string.
  */

@@ -57,6 +57,8 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	 *
 	 * @since 2.6.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @param mixed $offset Array offset.
 	 * @param array $value  Nav item.
 	 */
@@ -216,8 +218,6 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	 * @return bool|array
 	 */
 	protected function get_nav( $offset ) {
-		$bp = buddypress();
-
 		$component_nav = $this->get_component_nav( $offset );
 		$primary_nav   = $component_nav->get_primary( array( 'slug' => $offset ), false );
 
@@ -245,13 +245,15 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	 *
 	 * @since 2.6.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @param string $offset Nav item name.
 	 * @return BP_Core_Nav
 	 */
 	protected function get_component_nav( $offset = '' ) {
 		$component = $this->get_component( $offset );
+		$bp        = buddypress();
 
-		$bp = buddypress();
 		if ( ! isset( $bp->{$component}->nav ) ) {
 			return false;
 		}

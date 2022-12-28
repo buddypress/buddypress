@@ -554,8 +554,11 @@ function xprofile_admin_delete_group_screen( $group_id ) {
  *
  * @since 1.0.0
  *
- * @param int      $group_id ID of the group.
- * @param int|null $field_id ID of the field being managed.
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
+ *
+ * @param integer      $group_id ID of the group.
+ * @param integer|null $field_id ID of the field being managed.
  */
 function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 	global $wpdb, $message, $groups;

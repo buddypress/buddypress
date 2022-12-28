@@ -15,7 +15,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.5.0
  *
- * @return bool True if set, false if empty.
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
+ * @return boolean True if set, false if empty.
  */
 function bp_blogs_has_directory() {
 	$bp = buddypress();
@@ -86,6 +88,9 @@ function bp_blogs_get_blogs( $args = '' ) {
  *
  * @since 1.0.0
  * @since 2.6.0 Accepts $args as a parameter.
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
  *
  * @param array $args {
  *     Array of arguments.

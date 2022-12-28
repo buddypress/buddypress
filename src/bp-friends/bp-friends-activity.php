@@ -91,6 +91,8 @@ function friends_delete_activity( $args ) {
  *
  * @since 1.1.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return bool False if activity component is not active.
  */
 function friends_register_activity_actions() {

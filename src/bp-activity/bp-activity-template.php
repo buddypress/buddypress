@@ -107,7 +107,8 @@ function bp_activity_directory_permalink() {
  * @since 1.0.0
  * @since 2.4.0 Introduced the `$fields` parameter.
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global BP_Activity_Template $activities_template {@link BP_Activity_Template}
  *
  * @param array|string $args {
  *     Arguments for limiting the contents of the activity loop. Most arguments
@@ -1039,7 +1040,9 @@ function bp_activity_avatar( $args = '' ) {
 	 * @since 1.1.0
 	 *
 	 * @see bp_core_fetch_avatar() For a description of the arguments.
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global BP_Activity_Template $activities_template {@link BP_Activity_Template}
 	 *
 	 * @param array|string $args  {
 	 *     Arguments are listed here with an explanation of their defaults.
@@ -3198,13 +3201,9 @@ function bp_activity_filter_links( $args = false ) {
  *
  * @since 1.2.0
  *
- * @global object $activities_template {@link BP_Activity_Template}
- *
  * @return bool $can_comment True if item can receive comments.
  */
 function bp_activity_can_comment() {
-	global $activities_template;
-	$bp = buddypress();
 
 	// Determine ability to comment based on activity type name.
 	$activity_type = bp_get_activity_type();

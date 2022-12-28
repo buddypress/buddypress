@@ -1026,11 +1026,15 @@ add_action( 'trashed_post_comments', 'bp_blogs_remove_activity_meta_for_trashed_
  * @since 2.1.0
  * @since 2.5.0 Used for any synced Post type comments, in wp-admin or front-end contexts.
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param array $args Arguments passed from bp_parse_args() in bp_has_activities().
  * @return array $args
  */
 function bp_blogs_new_blog_comment_query_backpat( $args ) {
 	global $wpdb;
+
 	$bp = buddypress();
 
 	// If activity comments are disabled for blog posts, stop now!
@@ -1420,7 +1424,6 @@ function bp_blogs_activity_comment_single_action( $retval, $activity ) {
 	$blog_comment_id = bp_activity_get_meta( $activity->id, "bp_blogs_{$post_type}_comment_id" );
 
 	if ( ! empty( $blog_comment_id ) ) {
-		$bp = buddypress();
 
 		// Check if a comment action id is set for the parent activity.
 		$comment_action_id = bp_activity_post_type_get_tracking_arg( $parent_activity->type, 'comment_action_id' );

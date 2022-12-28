@@ -73,6 +73,8 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @return BP_Admin_Types
 	 */
 	public static function register_types_admin() {

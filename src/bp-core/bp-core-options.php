@@ -205,6 +205,8 @@ function bp_setup_option_filters() {
  *
  * @since 1.6.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param bool $value Optional. Default value false.
  * @return mixed False if not overloaded, mixed if set.
  */
@@ -310,6 +312,8 @@ function bp_delete_option( $option_name ) {
  *
  * @since 1.2.4
  * @deprecated 1.6.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param array $keys Array of site options.
  * @return bool
@@ -432,6 +436,8 @@ function bp_core_get_root_options() {
  * See {@see bp_core_get_root_options()}.
  *
  * @since 2.3.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param string $option Name of the option key.
  * @return mixed Value, if found.

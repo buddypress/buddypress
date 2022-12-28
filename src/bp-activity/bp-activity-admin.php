@@ -982,6 +982,8 @@ function bp_activity_admin_get_activity_actions() {
  *
  * @since 1.6.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param object $item Activity item.
  */
 function bp_activity_admin_edit_metabox_type( $item ) {

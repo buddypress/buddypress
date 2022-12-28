@@ -137,8 +137,6 @@ class BP_Activity_Template {
 	 * }
 	 */
 	public function __construct( $args ) {
-		$bp = buddypress();
-
 		$function_args = func_get_args();
 
 		// Backward compatibility with old method of passing arguments.

@@ -536,6 +536,8 @@ function bp_update_to_2_5() {
  * - Add ignore deprecated code option (false for updates).
  *
  * @since 2.7.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_update_to_2_7() {
 	bp_add_option( 'bp-emails-unsubscribe-salt', base64_encode( wp_generate_password( 64, true, true ) ) );
@@ -798,10 +800,12 @@ function bp_core_get_11_0_upgrade_email_schema( $emails ) {
  *
  * @since 2.2.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  * @global $wpdb
  */
 function bp_migrate_new_member_activity_component() {
 	global $wpdb;
+
 	$bp = buddypress();
 
 	// Update the component for the new_member type.

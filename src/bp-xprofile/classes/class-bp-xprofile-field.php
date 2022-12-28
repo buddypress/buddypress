@@ -206,8 +206,9 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global object $wpdb
-	 * @global object $userdata
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
+	 * @global WP_User $userdata User data object.
 	 *
 	 * @param int      $id Field ID.
 	 * @param int|null $user_id User ID.
@@ -404,7 +405,8 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global object $wpdb
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return boolean
 	 */
@@ -977,7 +979,8 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global object $wpdb
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string $field_name Name of the field to query the ID for.
 	 * @return int|null Field ID on success; null on failure.
@@ -1006,7 +1009,8 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global object $wpdb
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int      $field_id       ID of the field to update.
 	 * @param int|null $position       Field position to update.
@@ -1021,8 +1025,10 @@ class BP_XProfile_Field {
 			return false;
 		}
 
+		$bp = buddypress();
+
 		// Get table name and field parent.
-		$table_name = buddypress()->profile->table_name_fields;
+		$table_name = $bp->profile->table_name_fields;
 		$sql        = $wpdb->prepare( "UPDATE {$table_name} SET field_order = %d, group_id = %d WHERE id = %d", $position, $field_group_id, $field_id );
 		$parent     = $wpdb->query( $sql );
 
@@ -1050,6 +1056,9 @@ class BP_XProfile_Field {
 	 * Gets the IDs of fields applicable for a given member type or array of member types.
 	 *
 	 * @since 2.4.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+     * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string|array $member_types Member type or array of member types. Use 'any' to return unrestricted
 	 *                                   fields (those available for anyone, regardless of member type).

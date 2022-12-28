@@ -29,6 +29,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.7.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param string $theme Optional. The unique ID identifier of a theme package.
  */
 function bp_setup_theme_compat( $theme = '' ) {
@@ -231,6 +233,8 @@ function bp_detect_theme_compat_with_current_theme() {
  *
  * @since 1.7.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @return bool True if the current page uses theme compatibility.
  */
 function bp_is_theme_compat_active() {
@@ -312,6 +316,8 @@ function bp_set_theme_compat_original_template( $template = '' ) {
  * Set a theme compat feature
  *
  * @since 2.4.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param string $theme_id The theme id (eg: legacy).
  * @param array  $feature  An associative array (eg: array( name => 'feature_name', 'settings' => array() )).
@@ -478,6 +484,8 @@ function bp_register_theme_compat_default_features() {
  *
  * @since 1.7.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @param string $template The template name to check.
  * @return bool True if the value of $template is the same as the
  *              "original_template" originally selected by WP. Otherwise false.
@@ -499,6 +507,8 @@ function bp_is_theme_compat_original_template( $template = '' ) {
  * {@link BuddyPress::register_theme_packages()}.
  *
  * @since 1.7.0
+ *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @see BP_Theme_Compat for a description of the $theme parameter arguments.
  *
@@ -805,6 +815,7 @@ function bp_do_theme_compat() {
  *
  * @since 1.7.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  * @global WP_filter $wp_filter
  * @global array $merged_filters
  *
@@ -860,6 +871,7 @@ function bp_remove_all_filters( $tag, $priority = false ) {
  *
  * @since 1.7.0
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
  * @global WP_filter $wp_filter
  * @global array $merged_filters
  *
@@ -998,8 +1010,10 @@ add_filter( 'bp_replace_the_content', 'bp_theme_compat_toggle_is_page', 9999 );
  *
  * @since 1.9.2
  *
+ * @global BuddyPress $bp The one true BuddyPress instance.
+ *
  * @see bp_theme_compat_toggle_is_page()
- * @param object $query The WP_Query object.
+ * @param WP_Query $query The WP_Query object.
  */
 function bp_theme_compat_loop_end( $query ) {
 

@@ -91,6 +91,8 @@ class BP_Notifications_Component extends BP_Component {
 	 *
 	 * @since 1.9.0
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 *
 	 * @see BP_Component::setup_globals() for a description of arguments.
 	 *
 	 * @param array $args See BP_Component::setup_globals() for a description.
@@ -278,6 +280,8 @@ class BP_Notifications_Component extends BP_Component {
 	 * Set up the title for pages and <title>.
 	 *
 	 * @since 1.9.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 */
 	public function setup_title() {
 

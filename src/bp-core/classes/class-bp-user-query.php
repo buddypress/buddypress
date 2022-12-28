@@ -233,6 +233,9 @@ class BP_User_Query {
 	 * Prepare the query for user_ids.
 	 *
 	 * @since 1.7.0
+	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 */
 	public function prepare_user_ids_query() {
 		global $wpdb;
