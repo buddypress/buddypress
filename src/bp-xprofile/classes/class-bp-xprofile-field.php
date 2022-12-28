@@ -207,7 +207,7 @@ class BP_XProfile_Field {
 	 * @since 1.1.0
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance.
-     * @global wpdb $wpdb WordPress database object.
+	 * @global wpdb $wpdb WordPress database object.
 	 * @global WP_User $userdata User data object.
 	 *
 	 * @param int      $id Field ID.
@@ -347,7 +347,8 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global object $wpdb
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param boolean $delete_data Whether or not to delete data.
 	 * @return boolean
@@ -406,7 +407,7 @@ class BP_XProfile_Field {
 	 * @since 1.1.0
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance.
-     * @global wpdb $wpdb WordPress database object.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return boolean
 	 */
@@ -609,7 +610,8 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $wpdb
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 */
 	public function delete_children() {
 		global $wpdb;
@@ -921,6 +923,9 @@ class BP_XProfile_Field {
 	/**
 	 * Get the type for provided field ID.
 	 *
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $field_id Field ID to get type of.
 	 * @return bool|null|string
 	 */
@@ -949,7 +954,8 @@ class BP_XProfile_Field {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $wpdb
+	 * @global BuddyPress $bp The one true BuddyPress instance.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $group_id ID of the field group to delete fields from.
 	 * @return boolean
@@ -980,7 +986,7 @@ class BP_XProfile_Field {
 	 * @since 1.5.0
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance.
-     * @global wpdb $wpdb WordPress database object.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string $field_name Name of the field to query the ID for.
 	 * @return int|null Field ID on success; null on failure.
@@ -1010,7 +1016,7 @@ class BP_XProfile_Field {
 	 * @since 1.5.0
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance.
-     * @global wpdb $wpdb WordPress database object.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int      $field_id       ID of the field to update.
 	 * @param int|null $position       Field position to update.
@@ -1058,7 +1064,7 @@ class BP_XProfile_Field {
 	 * @since 2.4.0
 	 *
 	 * @global BuddyPress $bp The one true BuddyPress instance.
-     * @global wpdb $wpdb WordPress database object.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string|array $member_types Member type or array of member types. Use 'any' to return unrestricted
 	 *                                   fields (those available for anyone, regardless of member type).
