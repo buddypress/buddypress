@@ -133,6 +133,52 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @group cache
+	 */
+	public function test_get_messages_total_count_cached() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$m1 = self::factory()->message->create_and_get(
+			[
+				'sender_id'  => $u1,
+				'recipients' => [ $u2 ],
+				'subject'    => 'Foo',
+			]
+		);
+
+		$m2 = self::factory()->message->create(
+			[
+				'thread_id'  => $m1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => [ $u1 ],
+				'subject'    => 'Middle Message',
+			]
+		);
+
+		$cache_key = "{$m1->thread_id}_bp_messages_thread_total_count";
+		$count     = BP_Messages_Thread::get_total_thread_message_count( $m1->thread_id );
+
+		$this->assertSame( 2, $count );
+		$this->assertSame( 2, wp_cache_get( $cache_key, 'bp_messages_threads' ) );
+
+		self::factory()->message->create(
+			[
+				'thread_id'  => $m1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => [ $u1 ],
+				'subject'    => 'Last Message',
+			]
+		);
+
+		$this->assertSame( 3, wp_cache_get( $cache_key, 'bp_messages_threads' ) );
+
+		// Delete thread.
+		messages_delete_thread( $m1->thread_id );
+
+		$this->assertFalse( wp_cache_get( $cache_key, 'bp_messages_threads' ) );
+	}
+
+	/**
 	 * @group order
 	 */
 	public function test_construct_order_desc() {

@@ -961,16 +961,16 @@ class BP_Messages_Thread {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @param int $thread_id The message thread ID.
-	 * @return int Total thread message count
+	 * @param integer $thread_id The message thread ID.
+	 * @return integer Total thread message count
 	 */
 	public static function get_total_thread_message_count( $thread_id ) {
 		global $wpdb;
 
-		$total_count = wp_cache_get( $thread_id, 'bp_messages_unread_count' );
+		$cache_key   = "{$thread_id}_bp_messages_thread_total_count";
+		$total_count = wp_cache_get( $cache_key, 'bp_messages_threads' );
 
 		if ( false === $total_count ) {
 			$bp = buddypress();
@@ -979,7 +979,7 @@ class BP_Messages_Thread {
 				$wpdb->prepare( "SELECT COUNT(id) FROM {$bp->messages->table_name_messages} WHERE thread_id = %d", $thread_id )
 			);
 
-			wp_cache_set( $thread_id, $total_count, 'bp_messages_thread_count' );
+			wp_cache_set( $cache_key, $total_count, 'bp_messages_threads' );
 		}
 
 		/**
@@ -987,8 +987,8 @@ class BP_Messages_Thread {
 		 *
 		 * @since 12.0.0
 		 *
-		 * @param int $total_count Total thread messages count.
-		 * @param int $thread_id   ID of the thread.
+		 * @param integer $total_count Total thread messages count.
+		 * @param integer $thread_id   ID of the thread.
 		 */
 		return (int) apply_filters( 'messages_thread_get_total_message_count', $total_count, (int) $thread_id );
 	}
