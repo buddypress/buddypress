@@ -733,7 +733,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		);
 
 		$thread_id      = $m1->thread_id;
-		$latest_message = wp_cache_get( "{$thread_id}_bp_messages_thread_latest_message", 'bp_messages' );
+		$latest_message = wp_cache_get( "{$thread_id}_bp_messages_thread_latest_message", 'bp_messages_threads' );
 
 		$this->assertEquals( $thread_id, $latest_message->thread_id );
 		$this->assertEquals( $m2->id, $latest_message->id );

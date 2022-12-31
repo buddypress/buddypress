@@ -437,7 +437,7 @@ class BP_Messages_Thread {
 
 		$thread_id = (int) $thread_id;
 		$cache_key = "{$thread_id}_bp_messages_thread_latest_message";
-		$message   = wp_cache_get( $cache_key, 'bp_messages' );
+		$message   = wp_cache_get( $cache_key, 'bp_messages_threads' );
 
 		// Get latest message and cache it.
 		if ( empty( $message ) ) {
@@ -456,7 +456,7 @@ class BP_Messages_Thread {
 				$message->thread_id = (int) $message->thread_id;
 
 				// Cache message.
-				wp_cache_set( $cache_key, $message, 'bp_messages' );
+				wp_cache_set( $cache_key, $message, 'bp_messages_threads' );
 			}
 		}
 

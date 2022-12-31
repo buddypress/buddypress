@@ -175,11 +175,7 @@ class BP_UnitTest_Factory_For_Message extends WP_UnitTest_Factory_For_Thing {
 		}
 
 		$thread_id = messages_new_message( $args );
-
-		// Necessary to avoid getting cached data.
-		wp_cache_delete( "{$thread_id}_bp_messages_thread_latest_message", 'bp_messages' );
-
-		$message = BP_Messages_Thread::get_latest_thread_message( $thread_id );
+		$message   = BP_Messages_Thread::get_latest_thread_message( $thread_id );
 
 		return $message->id;
 	}
