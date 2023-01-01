@@ -698,6 +698,12 @@ class BP_Notifications_Notification {
 		// FROM.
 		$from_sql = "FROM {$bp->notifications->table_name} n ";
 
+		// Append meta data to the results.
+		if ( isset( $r['meta_query'][0]['compare'] ) && 'EXISTS' === $r['meta_query'][0]['compare'] ) {
+			$meta_table = $bp->notifications->table_name_meta;
+			$select_sql = "SELECT n.*, {$meta_table}.id as meta_id, {$meta_table}.meta_key, {$meta_table}.meta_value";
+		}
+
 		// JOIN.
 		$join_sql = $meta_query_sql['join'];
 
