@@ -818,7 +818,6 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param  array $meta_query An array of meta_query filters. See the
