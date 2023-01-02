@@ -42,8 +42,6 @@ class BP_Messages_Notices_Admin {
 	/**
 	 * Create a new instance or access the current instance of this class.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
-	 *
 	 * @since 3.0.0
 	 *
 	 * @return BP_Messages_Notices_Admin

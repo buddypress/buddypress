@@ -1043,14 +1043,12 @@ function bp_legacy_theme_post_update() {
  *
  * @since 1.2.0
  *
- * @global BP_Activity_Template $activities_template
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @return string|null HTML
  */
 function bp_legacy_theme_new_activity_comment() {
 	global $activities_template;
-
-	$bp = buddypress();
 
 	if ( ! bp_is_post_request() ) {
 		return;

@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
- * @global WP_Admin_Bar $wp_admin_bar.
+ * @global WP_Admin_Bar $wp_admin_bar Core class used to implement the Toolbar API.
  */
 function bp_admin_bar_my_account_root() {
 	global $wp_admin_bar;

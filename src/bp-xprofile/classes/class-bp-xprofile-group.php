@@ -83,7 +83,7 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global $wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $id Field group ID.
 	 * @return boolean
@@ -116,7 +116,7 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global object $wpdb
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return boolean
 	 */
@@ -177,7 +177,7 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global object $wpdb
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return boolean
 	 */
@@ -241,7 +241,7 @@ class BP_XProfile_Group {
 	 * @since 8.0.0  Introduced `$hide_field_types` & `$signup_fields_only` arguments.
 	 * @since 11.0.0 `$profile_group_id` accepts an array of profile group ids.
 	 *
-	 * @global object $wpdb WordPress DB access object.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
 	 *      Array of optional arguments.
@@ -692,7 +692,7 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global string $message
+	 * @global string $message The feedback message to show.
 	 *
 	 * @return boolean
 	 */
@@ -713,7 +713,7 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global $wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param  int $field_group_id ID of the group the field belongs to.
 	 * @param  int $position       Field group position.
@@ -827,7 +827,7 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global string $message
+	 * @global string $message The feedback message to show.
 	 */
 	public function render_admin_form() {
 		global $message;

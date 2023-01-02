@@ -107,7 +107,7 @@ function bp_activity_directory_permalink() {
  * @since 1.0.0
  * @since 2.4.0 Introduced the `$fields` parameter.
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @param array|string $args {
  *     Arguments for limiting the contents of the activity loop. Most arguments
@@ -371,7 +371,7 @@ function bp_has_activities( $args = '' ) {
  *
  * @since 1.0.0
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @return bool Returns true when activities are found.
  */
@@ -385,7 +385,7 @@ function bp_activities() {
  *
  * @since 1.0.0
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @return object The current activity within the loop.
  */
@@ -442,8 +442,6 @@ function bp_activity_load_more_link() {
  * Output the activity pagination count.
  *
  * @since 1.0.0
- *
- * @global object $activities_template {@link BP_Activity_Template}
  */
 function bp_activity_pagination_count() {
 	echo bp_get_activity_pagination_count();
@@ -454,7 +452,7 @@ function bp_activity_pagination_count() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The pagination text.
 	 */
@@ -491,7 +489,7 @@ function bp_activity_pagination_links() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The pagination links.
 	 */
@@ -513,7 +511,7 @@ function bp_activity_pagination_links() {
  *
  * @since 1.5.0
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @return bool $has_more_items True if more items, false if not.
  */
@@ -557,7 +555,7 @@ function bp_activity_count() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return int The activity count.
 	 */
@@ -589,7 +587,7 @@ function bp_activity_per_page() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return int The activities per page.
 	 */
@@ -689,7 +687,7 @@ function bp_activity_id() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return int The activity ID.
 	 */
@@ -721,7 +719,7 @@ function bp_activity_item_id() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return int The activity item ID.
 	 */
@@ -753,7 +751,7 @@ function bp_activity_secondary_item_id() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return int The activity secondary item ID.
 	 */
@@ -785,7 +783,7 @@ function bp_activity_date_recorded() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The date the activity was recorded.
 	 */
@@ -817,7 +815,7 @@ function bp_activity_member_display_name() {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The date the activity was recorded.
 	 */
@@ -853,7 +851,7 @@ function bp_activity_object_name() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity object name.
 	 */
@@ -885,7 +883,7 @@ function bp_activity_type() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity type.
 	 */
@@ -907,7 +905,7 @@ function bp_activity_type() {
  *
  * @since 10.0.0
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @return string The activity type template part name.
  */
@@ -966,7 +964,7 @@ function bp_activity_user_id() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return int The activity user ID.
 	 */
@@ -998,7 +996,7 @@ function bp_activity_user_link() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string $link The activity user link.
 	 */
@@ -1039,7 +1037,7 @@ function bp_activity_avatar( $args = '' ) {
 	 * @since 1.1.0
 	 *
 	 * @see bp_core_fetch_avatar() For a description of the arguments.
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param array|string $args  {
 	 *     Arguments are listed here with an explanation of their defaults.
@@ -1176,7 +1174,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 	 * @since 1.2.0
 	 *
 	 * @see bp_core_fetch_avatar() for description of arguments.
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param array|string $args  {
 	 *     For a complete description of arguments, see {@link bp_core_fetch_avatar()}.
@@ -1362,7 +1360,7 @@ function bp_activity_action( $args = array() ) {
 	 * @since 1.2.0
 	 * @since 1.7.0 Introduce function parameter, $args.
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param array $args {
 	 *     @type bool $no_timestamp Whether to exclude the timestamp.
@@ -1427,7 +1425,7 @@ function bp_activity_content_body() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity content body.
 	 */
@@ -1456,7 +1454,7 @@ function bp_activity_content_body() {
  * @since 1.2.0
  * @since 10.0.0 Generate a richer content for activity types supporting the feature.
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @return bool True if activity has content, false otherwise.
  */
@@ -1754,7 +1752,7 @@ function bp_activity_content() {
  *
  * @since 1.2.0
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @param string $content The activity content.
  * @return string The activity content with the metadata string attached.
@@ -1830,7 +1828,7 @@ function bp_insert_activity_meta( $content = '' ) {
  *
  * @since 1.2.0
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @param false|BP_Activity_Activity $activity Optional. Falls back on the current item in the loop.
  * @return bool True if can delete, false otherwise.
@@ -1906,7 +1904,7 @@ function bp_activity_parent_content( $args = '' ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param string $args Unused. Left over from an earlier implementation.
 	 * @return mixed False on failure, otherwise the activity parent content.
@@ -1970,7 +1968,7 @@ function bp_activity_parent_user_id() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @global BP_Activity_Template $activities_template
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return bool|int False if parent activity can't be found, otherwise
 	 *                  the parent activity's user ID.
@@ -2023,7 +2021,7 @@ function bp_activity_is_favorite() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return bool True if user favorite, false otherwise.
 	 */
@@ -2062,7 +2060,7 @@ function bp_activity_comments( $args = '' ) {
 	 * @todo Given that checks for children already happen in bp_activity_recurse_comments(),
 	 *       this function can probably be streamlined or removed.
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param string $args Unused. Left over from an earlier implementation.
 	 * @return bool
@@ -2085,7 +2083,7 @@ function bp_activity_comments( $args = '' ) {
 		 *
 		 * @since 1.2.0
 		 *
-		 * @global object $activities_template {@link BP_Activity_Template}
+		 * @global BP_Activity_Template $activities_template The main activity template loop class.
 		 *
 		 * @param object $comment The activity object currently being recursed.
 		 * @return bool|string
@@ -2144,7 +2142,7 @@ function bp_activity_comments( $args = '' ) {
  *
  * @since 1.5.0
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @return object|bool $current_comment The activity comment currently being
  *                                      displayed. False on failure.
@@ -2182,7 +2180,7 @@ function bp_activity_comment_id() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return int|bool $comment_id The ID of the activity comment currently
 	 *                              being displayed, false if none is found.
@@ -2217,7 +2215,7 @@ function bp_activity_comment_user_id() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return int|bool $user_id The user_id of the author of the displayed
 	 *                           activity comment. False on failure.
@@ -2286,7 +2284,7 @@ function bp_activity_comment_name() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string $name The full name of the activity comment author.
 	 */
@@ -2356,7 +2354,7 @@ function bp_activity_comment_date_recorded_raw() {
 	 *
 	 * @since 2.3.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string|bool $date_recorded Time since the activity was recorded,
 	 *                                    in the form "%s ago". False on failure.
@@ -2426,7 +2424,7 @@ function bp_activity_comment_content() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string $content The content of the current activity comment.
 	 */
@@ -2463,7 +2461,7 @@ function bp_activity_comment_count() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param array|null $deprecated Deprecated.
 	 * @return int $count The activity comment count.
@@ -2623,7 +2621,7 @@ function bp_activity_comment_link() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity comment link.
 	 */
@@ -2655,7 +2653,7 @@ function bp_activity_comment_form_nojs_display() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string|false The activity comment form no JavaScript
 	 *                      display CSS. False on failure.
@@ -2815,7 +2813,7 @@ function bp_activity_favorite_link() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity favorite link.
 	 */
@@ -2847,7 +2845,7 @@ function bp_activity_unfavorite_link() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity unfavorite link.
 	 */
@@ -2879,7 +2877,7 @@ function bp_activity_css_class() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity item's CSS class.
 	 */
@@ -2937,7 +2935,7 @@ function bp_activity_delete_link() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string $link Activity delete link. Contains $redirect_to arg
 	 *                      if on single activity page.
@@ -2980,7 +2978,7 @@ function bp_activity_delete_url() {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string $link Activity delete link. Contains $redirect_to arg
 	 *                      if on single activity page.
@@ -3198,7 +3196,7 @@ function bp_activity_filter_links( $args = false ) {
  *
  * @since 1.2.0
  *
- * @global object $activities_template {@link BP_Activity_Template}
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @return bool $can_comment True if item can receive comments.
  */
@@ -3979,7 +3977,7 @@ function bp_activity_feed_item_guid() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity feed item guid.
 	 */
@@ -4011,7 +4009,7 @@ function bp_activity_feed_item_title() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string $title The activity feed item title.
 	 */
@@ -4060,7 +4058,7 @@ function bp_activity_feed_item_link() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity feed item link.
 	 */
@@ -4096,7 +4094,7 @@ function bp_activity_feed_item_date() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity feed item date.
 	 */
@@ -4132,7 +4130,7 @@ function bp_activity_feed_item_description() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global object $activities_template {@link BP_Activity_Template}
+	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @return string The activity feed item description.
 	 */

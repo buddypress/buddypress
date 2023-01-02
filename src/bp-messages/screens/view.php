@@ -12,8 +12,6 @@
  *
  * @since 1.0.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @return bool False on failure.
  */
 function messages_screen_conversation() {

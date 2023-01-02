@@ -52,7 +52,7 @@ class BP_Core_Friends_Widget extends WP_Widget {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @param array $args Widget arguments.
 	 * @param array $instance The widget settings, as saved by the user.

@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.9.0
  *
+ * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance, passed by reference
+ *
  * @return bool
  */
 function bp_notifications_toolbar_menu() {

@@ -163,7 +163,6 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 */
 	public function populate() {

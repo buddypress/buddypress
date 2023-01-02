@@ -180,7 +180,7 @@ function bp_get_non_cached_ids( $item_ids, $cache_group ) {
  *
  * @since 1.6.0
  *
- * @global object $wpdb WordPress database object for queries..
+ * @global wpdb $wpdb WordPress database object. WordPress database object for queries..
  *
  * @param array $args {
  *     Array of arguments.

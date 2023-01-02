@@ -342,7 +342,7 @@ function bp_nouveau_ajax_get_single_activity_content() {
  *
  * @since 3.0.0
  *
- * @global BP_Activity_Template $activities_template
+ * @global BP_Activity_Template $activities_template The main activity template loop class.
  *
  * @return string JSON reply
  */

@@ -216,7 +216,7 @@ add_action( 'messages_message_sent', 'bp_messages_message_sent_add_notification'
  *
  * @since 1.9.0
  *
- * @global BP_Messages_Thread_Template $thread_template
+ * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
  */
 function bp_messages_screen_conversation_mark_notifications() {
 	global $thread_template;

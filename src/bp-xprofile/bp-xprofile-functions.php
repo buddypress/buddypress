@@ -662,10 +662,6 @@ function xprofile_get_field_id_from_name( $field_name ) {
  *
  * @since 1.0.0
  *
- * @global BuddyPress $bp           The one true BuddyPress instance.
- * @global object     $wpdb         WordPress DB access object.
- * @global object     $current_user WordPress global variable containing current logged in user information.
- *
  * @param int  $user_id          User ID of the user to get random data for.
  * @param bool $exclude_fullname Optional; whether or not to exclude the full name field as random data.
  *                               Defaults to true.

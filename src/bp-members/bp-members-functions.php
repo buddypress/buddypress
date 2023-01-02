@@ -37,8 +37,6 @@ function bp_members_has_directory() {
  * when no slugs have been explicitly defined.
  *
  * @since 1.5.0
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_core_define_slugs() {
 	$bp = buddypress();
@@ -879,8 +877,6 @@ add_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
  *
  * @since 1.6.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @param int $user_id The ID for the user.
  * @return bool True if spammer, otherwise false.
  */
@@ -952,8 +948,6 @@ function bp_is_user_spammer( $user_id = 0 ) {
  * Check whether a user has been marked as deleted.
  *
  * @since 1.6.0
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @param int $user_id The ID for the user.
  * @return bool True if deleted, otherwise false.
@@ -1215,8 +1209,6 @@ function bp_get_user_last_activity( $user_id = 0 ) {
  * be called directly from the BuddyPress Tools panel.
  *
  * @since 2.0.0
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  * @global wpdb $wpdb WordPress database object.
  *
  * @return bool
@@ -1868,8 +1860,6 @@ function bp_core_validate_blog_signup( $blog_url, $blog_title ) {
  *
  * @since 1.2.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @todo There appears to be a bug in the return value on success.
  *
  * @param string $user_login    Login name requested by the user.
@@ -2328,8 +2318,6 @@ add_action( 'user_register', 'bp_core_map_user_registration' );
  *
  * @since 1.1.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @return string|bool Directory path on success, false on failure.
  */
 function bp_core_signup_avatar_upload_dir() {
@@ -2674,8 +2662,6 @@ add_action( 'login_form_bp-spam', 'bp_live_spammer_login_error' );
  *
  * @since 2.6.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @return object The displayed user object, null otherwise.
  */
 function bp_get_displayed_user() {
@@ -2859,8 +2845,6 @@ add_action( 'bp_register_type_metadata', 'bp_register_member_type_metadata' );
  *
  * @since 2.2.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @param string $member_type Unique string identifier for the member type.
  * @param array  $args {
  *     Array of arguments describing the member type.
@@ -2986,8 +2970,6 @@ function bp_get_member_type_object( $member_type ) {
  * Get a list of all registered member type objects.
  *
  * @since 2.2.0
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @see bp_register_member_type() for accepted arguments.
  *
@@ -3316,8 +3298,6 @@ add_action( 'delete_user', 'bp_remove_member_type_on_delete_user' );
  * Get the "current" member type, if one is provided, in member directories.
  *
  * @since 2.3.0
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return string
  */

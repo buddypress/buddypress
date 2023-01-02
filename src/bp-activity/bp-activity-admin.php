@@ -194,7 +194,6 @@ add_filter( 'default_hidden_meta_boxes', 'bp_activity_admin_edit_hidden_metaboxe
  *
  * @since 1.6.0
  *
- * @global object                 $bp                     BuddyPress global settings.
  * @global BP_Activity_List_Table $bp_activity_list_table Activity screen list table.
  */
 function bp_activity_admin_load() {
