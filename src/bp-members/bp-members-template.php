@@ -1570,7 +1570,7 @@ function bp_displayed_user_has_front_template() {
  * Render the navigation markup for the displayed user.
  *
  * @since 1.1.0
- *
+ */
 function bp_get_displayed_user_nav() {
 	$bp = buddypress();
 
