@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @todo Add dynamic menu items for group extensions.
  *
- * @global WP_Admin_Bar $wp_admin_bar Core class used to implement the Toolbar API.
+ * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
  *
  * @return false|null False if not on a group page, or if user does not have
  *                    access to group admin options.
