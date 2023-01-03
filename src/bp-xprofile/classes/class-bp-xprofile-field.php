@@ -21,7 +21,7 @@ class BP_XProfile_Field {
 	 * Field ID.
 	 *
 	 * @since 1.0.0
-	 * @var int ID of field.
+	 * @var int
 	 */
 	public $id;
 
@@ -29,7 +29,7 @@ class BP_XProfile_Field {
 	 * Field group ID.
 	 *
 	 * @since 1.0.0
-	 * @var int Field group ID for field.
+	 * @var int
 	 */
 	public $group_id;
 
@@ -37,7 +37,7 @@ class BP_XProfile_Field {
 	 * Field parent ID.
 	 *
 	 * @since 1.0.0
-	 * @var int Parent ID of field.
+	 * @var int
 	 */
 	public $parent_id;
 
@@ -45,7 +45,7 @@ class BP_XProfile_Field {
 	 * Field type.
 	 *
 	 * @since 1.0.0
-	 * @var string Field type.
+	 * @var string
 	 */
 	public $type;
 
@@ -53,7 +53,7 @@ class BP_XProfile_Field {
 	 * Field name.
 	 *
 	 * @since 1.0.0
-	 * @var string Field name.
+	 * @var string
 	 */
 	public $name;
 
@@ -61,7 +61,7 @@ class BP_XProfile_Field {
 	 * Field description.
 	 *
 	 * @since 1.0.0
-	 * @var string Field description.
+	 * @var string
 	 */
 	public $description;
 
@@ -69,7 +69,7 @@ class BP_XProfile_Field {
 	 * Required field?
 	 *
 	 * @since 1.0.0
-	 * @var bool Is field required to be filled out?
+	 * @var bool
 	 */
 	public $is_required;
 
@@ -77,7 +77,7 @@ class BP_XProfile_Field {
 	 * Deletable field?
 	 *
 	 * @since 1.0.0
-	 * @var int Can field be deleted?
+	 * @var int
 	 */
 	public $can_delete = '1';
 
@@ -85,7 +85,7 @@ class BP_XProfile_Field {
 	 * Field position.
 	 *
 	 * @since 1.0.0
-	 * @var int Field position.
+	 * @var int
 	 */
 	public $field_order;
 
@@ -93,7 +93,7 @@ class BP_XProfile_Field {
 	 * Option order.
 	 *
 	 * @since 1.0.0
-	 * @var int Option order.
+	 * @var int
 	 */
 	public $option_order;
 
@@ -101,7 +101,7 @@ class BP_XProfile_Field {
 	 * Order child fields.
 	 *
 	 * @since 1.0.0
-	 * @var string Order child fields by.
+	 * @var string
 	 */
 	public $order_by;
 
@@ -109,16 +109,24 @@ class BP_XProfile_Field {
 	 * Is this the default option?
 	 *
 	 * @since 1.0.0
-	 * @var bool Is this the default option for this field?
+	 * @var bool
 	 */
 	public $is_default_option;
 
 	/**
 	 * Field data visibility.
 	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	public $visibility;
+
+	/**
+	 * Field data visibility.
+	 *
 	 * @since 1.9.0
 	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_default_visibility()`.
-	 * @var string Default field data visibility.
+	 * @var string
 	 */
 	protected $default_visibility;
 
@@ -127,7 +135,7 @@ class BP_XProfile_Field {
 	 *
 	 * @since 2.3.0
 	 * @since 2.4.0 Property marked protected. Now accessible by magic method or by `get_allow_custom_visibility()`.
-	 * @var string Members are allowed/disallowed to modify data visibility.
+	 * @var string
 	 */
 	protected $allow_custom_visibility;
 

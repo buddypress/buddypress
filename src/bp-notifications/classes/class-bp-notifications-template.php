@@ -76,6 +76,22 @@ class BP_Notifications_Template {
 	public $user_id;
 
 	/**
+	 * The status of the notification.
+	 *
+	 * @since 1.9.0
+	 * @var bool
+	 */
+	public $is_new;
+
+	/**
+	 * The total notification count.
+	 *
+	 * @since 1.9.0
+	 * @var int
+	 */
+	public $notification_count;
+
+	/**
 	 * The page number being requested.
 	 *
 	 * @since 1.9.0
@@ -261,7 +277,7 @@ class BP_Notifications_Template {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @return BP_Notifications_Notification The next notification to iterate over.
+	 * @return object The next notification to iterate over.
 	 */
 	public function next_notification() {
 

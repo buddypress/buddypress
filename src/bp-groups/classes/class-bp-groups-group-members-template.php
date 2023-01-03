@@ -65,6 +65,21 @@ class BP_Groups_Group_Members_Template {
 	public $pag_links;
 
 	/**
+	 * URL argument used for the pagination param.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	public $pag_arg;
+
+	/**
+	 * The total number of members.
+	 *
+	 * @var int
+	 */
+	public $total_member_count;
+
+	/**
 	 * @since 1.0.0
 	 * @var int
 	 */

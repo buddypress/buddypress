@@ -28,6 +28,30 @@ class BP_Members_Component extends BP_Component {
 	public $types = array();
 
 	/**
+	 * Main nav arguments.
+	 *
+	 * @since 2.2.0
+	 * @var array
+	 */
+	public $main_nav = array();
+
+	/**
+	 * Main nav arguments.
+	 *
+	 * @since 2.2.0
+	 * @var array
+	 */
+	public $sub_nav = array();
+
+	/**
+	 * Nav for the members component.
+	 *
+	 * @since 2.2.0
+	 * @var BP_Core_Nav
+	 */
+	public $nav;
+
+	/**
 	 * Start the members component creation process.
 	 *
 	 * @since 1.5.0

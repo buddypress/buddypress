@@ -223,6 +223,14 @@ class BP_Group_Extension {
 	 */
 	public $template_file = 'groups/single/plugins';
 
+	/**
+	 * The template file.
+	 *
+	 * @since 1.1.0
+	 * @var string
+	 */
+	public $edit_screen_template;
+
 	/** Protected *********************************************************/
 
 	/**

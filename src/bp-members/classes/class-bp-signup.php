@@ -23,6 +23,14 @@ class BP_Signup {
 	public $id;
 
 	/**
+	 * ID of the signup which the object relates to.
+	 *
+	 * @since 2.0.0
+	 * @var integer
+	 */
+	public $signup_id;
+
+	/**
 	 * The URL to the full size of the avatar for the user.
 	 *
 	 * @since 2.0.0
