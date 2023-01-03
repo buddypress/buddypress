@@ -580,7 +580,7 @@ class BP_Component {
 	 * @see WP_Admin_Bar::add_menu() for a description of the syntax
 	 *      required by each item in the $wp_admin_nav parameter array.
 	 *
-	 * @global WP_Admin_Bar $wp_admin_bar Core class used to implement the Toolbar API.
+	 * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
 	 *
 	 * @param array $wp_admin_nav An array of nav item arguments. Each item in this parameter
 	 *                            array is passed to {@link WP_Admin_Bar::add_menu()}.
