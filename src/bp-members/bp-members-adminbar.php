@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
- * @global WP_Admin_Bar $wp_admin_bar Core class used to implement the Toolbar API.
+ * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
  *
  * @todo Deprecate WP 3.2 Toolbar compatibility when we drop 3.2 support.
  */
