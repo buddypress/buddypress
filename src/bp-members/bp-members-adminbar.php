@@ -76,7 +76,7 @@ add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu', 4 );
  *
  * @since 1.5.0
  *
- * @global WP_Admin_Bar $wp_admin_bar Core class used to implement the Toolbar API.
+ * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
  */
 function bp_members_admin_bar_user_admin_menu() {
 	global $wp_admin_bar;
