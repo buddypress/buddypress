@@ -189,7 +189,7 @@ add_action( 'add_admin_bar_menus', 'bp_members_remove_edit_page_menu' );
  *
  * @since 8.0.0
  *
- * @global WP_Admin_Bar $wp_admin_bar Core class used to implement the Toolbar API.
+ * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
  */
 function bp_members_admin_bar_add_invitations_menu() {
 	global $wp_admin_bar;
