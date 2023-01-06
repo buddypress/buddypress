@@ -71,7 +71,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		'delete_field',
 		'do_delete_field',
 		'delete_option',
-		'do_delete_option'
+		'do_delete_option',
 	);
 
 	// Is an allowed mode.
@@ -133,7 +133,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 	// Add Group.
 	$add_group_url = add_query_arg( array(
 		'page' => 'bp-profile-setup',
-		'mode' => 'add_group'
+		'mode' => 'add_group',
 	), $url );
 
 	// Validate type.
@@ -141,7 +141,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 	// Get all of the profile groups & fields.
 	$groups = bp_xprofile_get_groups( array(
-		'fetch_fields' => true
+		'fetch_fields' => true,
 	) ); ?>
 
 	<div class="wrap">
@@ -202,21 +202,21 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 					$add_field_url = add_query_arg( array(
 						'page'     => 'bp-profile-setup',
 						'mode'     => 'add_field',
-						'group_id' => (int) $group->id
+						'group_id' => (int) $group->id,
 					), $url );
 
 					// Edit Group URL.
 					$edit_group_url = add_query_arg( array(
 						'page'     => 'bp-profile-setup',
 						'mode'     => 'edit_group',
-						'group_id' => (int) $group->id
+						'group_id' => (int) $group->id,
 					), $url );
 
 					// Delete Group URL.
 					$delete_group_url = wp_nonce_url( add_query_arg( array(
 						'page'     => 'bp-profile-setup',
 						'mode'     => 'delete_group',
-						'group_id' => (int) $group->id
+						'group_id' => (int) $group->id,
 					), $url ), 'bp_xprofile_delete_group' ); ?>
 
 					<noscript>
@@ -1026,7 +1026,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 		'page'     => 'bp-profile-setup',
 		'mode'     => 'edit_field',
 		'group_id' => (int) $field->group_id,
-		'field_id' => (int) $field->id
+		'field_id' => (int) $field->id,
 	), $url );
 
 	// Delete.
@@ -1034,7 +1034,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 		$field_delete_url = add_query_arg( array(
 			'page'     => 'bp-profile-setup',
 			'mode'     => 'delete_field',
-			'field_id' => (int) $field->id
+			'field_id' => (int) $field->id,
 		), $url . '#tabs-' . (int) $field->group_id );
 	}
 

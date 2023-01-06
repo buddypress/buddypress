@@ -184,7 +184,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 			'IN', 'NOT IN',
 			'BETWEEN', 'NOT BETWEEN',
 			'EXISTS', 'NOT EXISTS',
-			'REGEXP', 'NOT REGEXP', 'RLIKE'
+			'REGEXP', 'NOT REGEXP', 'RLIKE',
 		) ) ) {
 			$clause['compare'] = '=';
 		}

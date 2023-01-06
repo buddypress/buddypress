@@ -120,7 +120,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				<select <?php echo $this->get_edit_field_html_elements( $day_r ); ?>>
 					<?php bp_the_profile_field_options( array(
 						'type'    => 'day',
-						'user_id' => $user_id
+						'user_id' => $user_id,
 					) ); ?>
 				</select>
 
@@ -130,7 +130,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				<select <?php echo $this->get_edit_field_html_elements( $month_r ); ?>>
 					<?php bp_the_profile_field_options( array(
 						'type'    => 'month',
-						'user_id' => $user_id
+						'user_id' => $user_id,
 					) ); ?>
 				</select>
 
@@ -140,7 +140,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 				<select <?php echo $this->get_edit_field_html_elements( $year_r ); ?>>
 					<?php bp_the_profile_field_options( array(
 						'type'    => 'year',
-						'user_id' => $user_id
+						'user_id' => $user_id,
 					) ); ?>
 				</select>
 
@@ -235,7 +235,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 					__( 'September', 'buddypress' ),
 					__( 'October',   'buddypress' ),
 					__( 'November',  'buddypress' ),
-					__( 'December',  'buddypress' )
+					__( 'December',  'buddypress' ),
 				);
 
 				$html = sprintf( '<option value="" %1$s>%2$s</option>', selected( $month, 0, false ), /* translators: no option picked in select box */ __( '----', 'buddypress' ) );

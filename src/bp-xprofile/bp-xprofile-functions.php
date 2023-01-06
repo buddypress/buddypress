@@ -1309,16 +1309,16 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
 
 		// If the current user and displayed user are friends, show all.
 		} elseif ( bp_is_active( 'friends' ) && friends_check_friendship( $displayed_user_id, $current_user_id ) ) {
-			$hidden_levels = array( 'adminsonly', );
+			$hidden_levels = array( 'adminsonly' );
 
 		// Current user is logged in but not friends, so exclude friends-only.
 		} else {
-			$hidden_levels = array( 'friends', 'adminsonly', );
+			$hidden_levels = array( 'friends', 'adminsonly' );
 		}
 
 	// Current user is not logged in, so exclude friends-only, loggedin, and adminsonly.
 	} else {
-		$hidden_levels = array( 'friends', 'loggedin', 'adminsonly', );
+		$hidden_levels = array( 'friends', 'loggedin', 'adminsonly' );
 	}
 
 	/**

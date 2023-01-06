@@ -49,7 +49,7 @@ class BP_XProfile_Component extends BP_Component {
 			_x( 'Extended Profiles', 'Component page <title>', 'buddypress' ),
 			buddypress()->plugin_dir,
 			array(
-				'adminbar_myaccount_order' => 20
+				'adminbar_myaccount_order' => 20,
 			)
 		);
 
@@ -173,22 +173,22 @@ class BP_XProfile_Component extends BP_Component {
 		$this->visibility_levels = array(
 			'public' => array(
 				'id'	  => 'public',
-				'label' => _x( 'Everyone', 'Visibility level setting', 'buddypress' )
+				'label' => _x( 'Everyone', 'Visibility level setting', 'buddypress' ),
 			),
 			'adminsonly' => array(
 				'id'	  => 'adminsonly',
-				'label' => _x( 'Only Me', 'Visibility level setting', 'buddypress' )
+				'label' => _x( 'Only Me', 'Visibility level setting', 'buddypress' ),
 			),
 			'loggedin' => array(
 				'id'	  => 'loggedin',
-				'label' => _x( 'All Members', 'Visibility level setting', 'buddypress' )
-			)
+				'label' => _x( 'All Members', 'Visibility level setting', 'buddypress' ),
+			),
 		);
 
 		if ( bp_is_active( 'friends' ) ) {
 			$this->visibility_levels['friends'] = array(
 				'id'	=> 'friends',
-				'label'	=> _x( 'My Friends', 'Visibility level setting', 'buddypress' )
+				'label'	=> _x( 'My Friends', 'Visibility level setting', 'buddypress' ),
 			);
 		}
 
@@ -249,7 +249,7 @@ class BP_XProfile_Component extends BP_Component {
 			'position'            => 20,
 			'screen_function'     => 'xprofile_screen_display_profile',
 			'default_subnav_slug' => 'public',
-			'item_css_id'         => $this->id
+			'item_css_id'         => $this->id,
 		);
 
 		// Add the subnav items to the profile.
@@ -259,7 +259,7 @@ class BP_XProfile_Component extends BP_Component {
 			'parent_url'      => $profile_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'xprofile_screen_display_profile',
-			'position'        => 10
+			'position'        => 10,
 		);
 
 		// Edit Profile.
@@ -270,7 +270,7 @@ class BP_XProfile_Component extends BP_Component {
 			'parent_slug'     => $slug,
 			'screen_function' => 'xprofile_screen_edit_profile',
 			'position'        => 20,
-			'user_has_access' => $access
+			'user_has_access' => $access,
 		);
 
 		// The Settings > Profile nav item can only be set up after
@@ -312,7 +312,7 @@ class BP_XProfile_Component extends BP_Component {
 			'parent_slug'     => $settings_slug,
 			'screen_function' => 'bp_xprofile_screen_settings',
 			'position'        => 30,
-			'user_has_access' => bp_core_can_edit_settings()
+			'user_has_access' => bp_core_can_edit_settings(),
 		), 'members' );
 	}
 
@@ -336,7 +336,7 @@ class BP_XProfile_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => _x( 'Profile', 'My Account Profile', 'buddypress' ),
-				'href'   => $profile_link
+				'href'   => $profile_link,
 			);
 
 			// View Profile.
@@ -345,7 +345,7 @@ class BP_XProfile_Component extends BP_Component {
 				'id'       => 'my-account-' . $this->id . '-public',
 				'title'    => _x( 'View', 'My Account Profile sub nav', 'buddypress' ),
 				'href'     => trailingslashit( $profile_link . 'public' ),
-				'position' => 10
+				'position' => 10,
 			);
 
 			// Edit Profile.
@@ -354,7 +354,7 @@ class BP_XProfile_Component extends BP_Component {
 				'id'       => 'my-account-' . $this->id . '-edit',
 				'title'    => _x( 'Edit', 'My Account Profile sub nav', 'buddypress' ),
 				'href'     => trailingslashit( $profile_link . 'edit' ),
-				'position' => 20
+				'position' => 20,
 			);
 		}
 
@@ -388,7 +388,7 @@ class BP_XProfile_Component extends BP_Component {
 					'type'    => 'thumb',
 
 					/* translators: %s: member name */
-					'alt'	  => sprintf( _x( 'Profile picture of %s', 'Avatar alt', 'buddypress' ), bp_get_displayed_user_fullname() )
+					'alt'	  => sprintf( _x( 'Profile picture of %s', 'Avatar alt', 'buddypress' ), bp_get_displayed_user_fullname() ),
 				) );
 				$bp->bp_options_title = bp_get_displayed_user_fullname();
 			}
@@ -435,7 +435,7 @@ class BP_XProfile_Component extends BP_Component {
 			'parent' => 'my-account-' . buddypress()->settings->id,
 			'id'     => 'my-account-' . buddypress()->settings->id . '-profile',
 			'title'  => _x( 'Profile', 'My Account Settings sub nav', 'buddypress' ),
-			'href'   => trailingslashit( $settings_link . 'profile' )
+			'href'   => trailingslashit( $settings_link . 'profile' ),
 		);
 
 		return $wp_admin_nav;
