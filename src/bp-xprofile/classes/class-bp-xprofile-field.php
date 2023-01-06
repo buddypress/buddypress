@@ -475,8 +475,8 @@ class BP_XProfile_Field {
 				$parent_id = $this->id;
 
 				// Allow plugins to filter the field's child options (i.e. the items in a selectbox).
-				$post_option  = ! empty( $_POST["{$this->type}_option"]           ) ? $_POST["{$this->type}_option"]           : '';
-				$post_default = ! empty( $_POST["isDefault_{$this->type}_option"] ) ? $_POST["isDefault_{$this->type}_option"] : '';
+				$post_option  = ! empty( $_POST[ "{$this->type}_option" ]           ) ? $_POST[ "{$this->type}_option" ]           : '';
+				$post_default = ! empty( $_POST[ "isDefault_{$this->type}_option" ] ) ? $_POST[ "isDefault_{$this->type}_option" ] : '';
 
 				/**
 				 * Filters the submitted field option value before saved.
@@ -1247,8 +1247,8 @@ class BP_XProfile_Field {
 				$this->type        = $_POST['fieldtype'];
 				$this->field_order = $_POST['field_order'];
 
-				if ( ! empty( $_POST["sort_order_{$this->type}"] ) ) {
-					$this->order_by = $_POST["sort_order_{$this->type}"];
+				if ( ! empty( $_POST[ "sort_order_{$this->type}" ] ) ) {
+					$this->order_by = $_POST[ "sort_order_{$this->type}" ];
 				}
 			}
 

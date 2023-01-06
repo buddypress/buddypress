@@ -192,7 +192,7 @@ function bp_xprofile_get_field_types() {
 function bp_xprofile_create_field_type( $type ) {
 
 	$field = bp_xprofile_get_field_types();
-	$class = isset( $field[$type] ) ? $field[$type] : '';
+	$class = isset( $field[ $type ] ) ? $field[ $type ] : '';
 
 	/**
 	 * To handle (missing) field types, fallback to a placeholder field object if a type is unknown.
@@ -557,7 +557,7 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
 		$current_visibility_levels = array();
 	}
 
-	$current_visibility_levels[$field_id] = $visibility_level;
+	$current_visibility_levels[ $field_id ] = $visibility_level;
 
 	return bp_update_user_meta( $user_id, 'bp_xprofile_visibility_levels', $current_visibility_levels );
 }
@@ -1360,7 +1360,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 		// If the admin has forbidden custom visibility levels for this field, replace
 		// the user-provided setting with the default specified by the admin.
 		if ( isset( $defaults['allow_custom'] ) && isset( $defaults['default'] ) && 'disabled' == $defaults['allow_custom'] ) {
-			$user_visibility_levels[$d_field_id] = $defaults['default'];
+			$user_visibility_levels[ $d_field_id ] = $defaults['default'];
 		}
 	}
 
@@ -1374,7 +1374,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	// Never allow the fullname field to be excluded.
 	if ( in_array( 1, $field_ids ) ) {
 		$key = array_search( 1, $field_ids );
-		unset( $field_ids[$key] );
+		unset( $field_ids[ $key ] );
 	}
 
 	return $field_ids;
@@ -1390,15 +1390,15 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
  *              the datebox data.
  */
 function bp_xprofile_maybe_format_datebox_post_data( $field_id ) {
-	if ( ! isset( $_POST['field_' . $field_id] ) ) {
-		if ( ! empty( $_POST['field_' . $field_id . '_day'] ) && ! empty( $_POST['field_' . $field_id . '_month'] ) && ! empty( $_POST['field_' . $field_id . '_year'] ) ) {
+	if ( ! isset( $_POST[ 'field_' . $field_id ] ) ) {
+		if ( ! empty( $_POST[ 'field_' . $field_id . '_day' ] ) && ! empty( $_POST[ 'field_' . $field_id . '_month' ] ) && ! empty( $_POST[ 'field_' . $field_id . '_year' ] ) ) {
 			// Concatenate the values.
-			$date_value = $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
+			$date_value = $_POST[ 'field_' . $field_id . '_day' ] . ' ' . $_POST[ 'field_' . $field_id . '_month' ] . ' ' . $_POST[ 'field_' . $field_id . '_year' ];
 
 			// Check that the concatenated value can be turned into a timestamp.
 			if ( $timestamp = strtotime( $date_value ) ) {
 				// Add the timestamp to the global $_POST that should contain the datebox data.
-				$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', $timestamp );
+				$_POST[ 'field_' . $field_id ] = date( 'Y-m-d H:i:s', $timestamp );
 			}
 		}
 	}

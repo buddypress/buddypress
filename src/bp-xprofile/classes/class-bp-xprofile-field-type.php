@@ -369,13 +369,13 @@ abstract class BP_XProfile_Field_Type {
 					$options = array();
 					$i       = 1;
 
-					while ( isset( $_POST[$type . '_option'][$i] ) ) {
+					while ( isset( $_POST[ $type . '_option' ][ $i ] ) ) {
 
 						// Multiselectbox and checkboxes support MULTIPLE default options; all other core types support only ONE.
-						if ( $current_type_obj->supports_options && ! $current_type_obj->supports_multiple_defaults && isset( $_POST["isDefault_{$type}_option"][$i] ) && (int) $_POST["isDefault_{$type}_option"] === $i ) {
+						if ( $current_type_obj->supports_options && ! $current_type_obj->supports_multiple_defaults && isset( $_POST[ "isDefault_{$type}_option" ][ $i ] ) && (int) $_POST[ "isDefault_{$type}_option" ] === $i ) {
 							$is_default_option = true;
-						} elseif ( isset( $_POST["isDefault_{$type}_option"][$i] ) ) {
-							$is_default_option = (bool) $_POST["isDefault_{$type}_option"][$i];
+						} elseif ( isset( $_POST[ "isDefault_{$type}_option" ][ $i ] ) ) {
+							$is_default_option = (bool) $_POST[ "isDefault_{$type}_option" ][ $i ];
 						} else {
 							$is_default_option = false;
 						}
@@ -384,7 +384,7 @@ abstract class BP_XProfile_Field_Type {
 						$options[] = (object) array(
 							'id'                => -1,
 							'is_default_option' => $is_default_option,
-							'name'              => sanitize_text_field( stripslashes( $_POST[$type . '_option'][$i] ) ),
+							'name'              => sanitize_text_field( stripslashes( $_POST[ $type . '_option' ][ $i ] ) ),
 						);
 
 						++$i;
@@ -419,9 +419,9 @@ abstract class BP_XProfile_Field_Type {
 								/* translators: accessibility text */
 								esc_html_e( 'Add an option', 'buddypress' );
 							?></label>
-							<input type="text" name="<?php echo esc_attr( "{$type}_option[{$j}]" ); ?>" id="<?php echo esc_attr( "{$type}_option{$j}" ); ?>" value="<?php echo esc_attr( stripslashes( $options[$i]->name ) ); ?>" />
+							<input type="text" name="<?php echo esc_attr( "{$type}_option[{$j}]" ); ?>" id="<?php echo esc_attr( "{$type}_option{$j}" ); ?>" value="<?php echo esc_attr( stripslashes( $options[ $i ]->name ) ); ?>" />
 							<label for="<?php echo esc_attr( "{$type}_option{$default_name}" ); ?>">
-								<input type="<?php echo esc_attr( $control_type ); ?>" id="<?php echo esc_attr( "{$type}_option{$default_name}" ); ?>" name="<?php echo esc_attr( "isDefault_{$type}_option{$default_name}" ); ?>" <?php checked( $options[$i]->is_default_option, true ); ?> value="<?php echo esc_attr( $j ); ?>" />
+								<input type="<?php echo esc_attr( $control_type ); ?>" id="<?php echo esc_attr( "{$type}_option{$default_name}" ); ?>" name="<?php echo esc_attr( "isDefault_{$type}_option{$default_name}" ); ?>" <?php checked( $options[ $i ]->is_default_option, true ); ?> value="<?php echo esc_attr( $j ); ?>" />
 								<?php _e( 'Default Value', 'buddypress' ); ?>
 							</label>
 

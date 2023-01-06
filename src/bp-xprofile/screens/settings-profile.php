@@ -92,8 +92,8 @@ function bp_xprofile_action_settings() {
 
 			$visibility_level = 'public';
 
-			if ( !empty( $_POST['field_' . $field_id . '_visibility'] ) ) {
-				$visibility_level = $_POST['field_' . $field_id . '_visibility'];
+			if ( !empty( $_POST[ 'field_' . $field_id . '_visibility' ] ) ) {
+				$visibility_level = $_POST[ 'field_' . $field_id . '_visibility' ];
 			}
 
 			xprofile_set_field_visibility_level( $field_id, bp_displayed_user_id(), $visibility_level );

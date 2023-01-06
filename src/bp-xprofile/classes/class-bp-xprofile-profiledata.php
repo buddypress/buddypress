@@ -640,9 +640,9 @@ class BP_XProfile_ProfileData {
 		if ( is_array( $fields ) ) {
 			for ( $i = 0, $count = count( $fields ); $i < $count; ++$i ) {
 				if ( $i == 0 ) {
-					$field_sql .= $wpdb->prepare( "AND ( f.name = %s ", $fields[$i] );
+					$field_sql .= $wpdb->prepare( "AND ( f.name = %s ", $fields[ $i ] );
 				} else {
-					$field_sql .= $wpdb->prepare( "OR f.name = %s ", $fields[$i] );
+					$field_sql .= $wpdb->prepare( "OR f.name = %s ", $fields[ $i ] );
 				}
 			}
 
@@ -663,10 +663,10 @@ class BP_XProfile_ProfileData {
 		if ( is_array( $fields ) ) {
 			for ( $i = 0, $count = count( $values ); $i < $count; ++$i ) {
 				for ( $j = 0; $j < count( $fields ); $j++ ) {
-					if ( $values[$i]->name == $fields[$j] ) {
-						$new_values[$fields[$j]] = $values[$i]->value;
-					} elseif ( !array_key_exists( $fields[$j], $new_values ) ) {
-						$new_values[$fields[$j]] = NULL;
+					if ( $values[ $i ]->name == $fields[ $j ] ) {
+						$new_values[ $fields[ $j ] ] = $values[ $i ]->value;
+					} elseif ( !array_key_exists( $fields[ $j ], $new_values ) ) {
+						$new_values[ $fields[ $j ] ] = NULL;
 					}
 				}
 			}
