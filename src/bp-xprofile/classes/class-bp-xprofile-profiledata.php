@@ -66,7 +66,7 @@ class BP_XProfile_ProfileData {
 	 * @param int|null $user_id  User ID to instantiate for.
 	 */
 	public function __construct( $field_id = null, $user_id = null ) {
-		if ( !empty( $field_id ) ) {
+		if ( ! empty( $field_id ) ) {
 			$this->populate( $field_id, $user_id );
 		}
 	}
@@ -665,7 +665,7 @@ class BP_XProfile_ProfileData {
 				for ( $j = 0; $j < count( $fields ); $j++ ) {
 					if ( $values[ $i ]->name == $fields[ $j ] ) {
 						$new_values[ $fields[ $j ] ] = $values[ $i ]->value;
-					} elseif ( !array_key_exists( $fields[ $j ], $new_values ) ) {
+					} elseif ( ! array_key_exists( $fields[ $j ], $new_values ) ) {
 						$new_values[ $fields[ $j ] ] = NULL;
 					}
 				}

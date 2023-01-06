@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.1.0
  */
 function xprofile_add_admin_css() {
-	if ( !empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {
+	if ( ! empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {
 		$min = bp_core_get_minified_asset_suffix();
 
 		wp_enqueue_style( 'xprofile-admin-css', buddypress()->plugin_url . "bp-xprofile/admin/css/admin{$min}.css", array(), bp_get_version() );
@@ -35,7 +35,7 @@ add_action( 'bp_admin_enqueue_scripts', 'xprofile_add_admin_css' );
  * @since 1.5.0
  */
 function xprofile_add_admin_js() {
-	if ( !empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {
+	if ( ! empty( $_GET['page'] ) && strpos( $_GET['page'], 'bp-profile-setup' ) !== false ) {
 		wp_enqueue_script( 'jquery-ui-core'      );
 		wp_enqueue_script( 'jquery-ui-tabs'      );
 		wp_enqueue_script( 'jquery-ui-mouse'     );

@@ -423,7 +423,7 @@ function bp_the_profile_group_field_ids() {
 
 		$field_ids = '';
 
-		if ( !empty( $group->fields ) ) {
+		if ( ! empty( $group->fields ) ) {
 			foreach ( (array) $group->fields as $field ) {
 				$field_ids .= $field->id . ',';
 			}

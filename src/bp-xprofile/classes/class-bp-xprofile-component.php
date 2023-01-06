@@ -138,7 +138,7 @@ class BP_XProfile_Component extends BP_Component {
 		$bp = buddypress();
 
 		// Define a slug, if necessary.
-		if ( !defined( 'BP_XPROFILE_SLUG' ) ) {
+		if ( ! defined( 'BP_XPROFILE_SLUG' ) ) {
 			define( 'BP_XPROFILE_SLUG', 'profile' );
 		}
 

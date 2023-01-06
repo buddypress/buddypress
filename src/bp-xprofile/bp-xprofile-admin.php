@@ -170,7 +170,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 			<div id="tabs" aria-live="polite" aria-atomic="true" aria-relevant="all">
 				<ul id="field-group-tabs">
 
-					<?php if ( !empty( $groups ) ) : foreach ( $groups as $group ) : ?>
+					<?php if ( ! empty( $groups ) ) : foreach ( $groups as $group ) : ?>
 
 						<li id="group_<?php echo esc_attr( $group->id ); ?>">
 							<a href="#tabs-<?php echo esc_attr( $group->id ); ?>" class="ui-tab">
@@ -179,7 +179,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 								echo esc_html( apply_filters( 'bp_get_the_profile_group_name', $group->name ) );
 								?>
 
-								<?php if ( !$group->can_delete ) : ?>
+								<?php if ( ! $group->can_delete ) : ?>
 									<?php _e( '(Primary)', 'buddypress'); ?>
 								<?php endif; ?>
 
@@ -196,7 +196,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 				</ul>
 
-				<?php if ( !empty( $groups ) ) : foreach ( $groups as $group ) :
+				<?php if ( ! empty( $groups ) ) : foreach ( $groups as $group ) :
 
 					// Add Field to Group URL.
 					$add_field_url = add_query_arg( array(
@@ -273,7 +273,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 
 							<?php
 
-							if ( !empty( $group->fields ) ) :
+							if ( ! empty( $group->fields ) ) :
 								foreach ( $group->fields as $field ) {
 
 									// Load the field.
@@ -745,7 +745,7 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
 	} else {
 		$field = xprofile_get_field( $field_id, null, false );
 
-		if ( !$field->delete( (bool) $delete_data ) ) {
+		if ( ! $field->delete( (bool) $delete_data ) ) {
 			/* translators: %s: the field type */
 			$message = sprintf( __( 'There was an error deleting the %s. Please try again.', 'buddypress' ), $field_type );
 			$type    = 'error';
@@ -1044,7 +1044,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 	}
 	?>
 
-	<fieldset id="<?php echo esc_attr( $fieldset_id ); ?>" class="sortable<?php echo ' ' . $field->type; if ( !empty( $class ) ) echo ' ' . $class; ?>">
+	<fieldset id="<?php echo esc_attr( $fieldset_id ); ?>" class="sortable<?php echo ' ' . $field->type; if ( ! empty( $class ) ) echo ' ' . $class; ?>">
 		<legend>
 			<span>
 				<?php bp_the_profile_field_name(); ?>

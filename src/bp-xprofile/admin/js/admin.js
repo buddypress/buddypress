@@ -121,7 +121,7 @@ function show_options( forWhat ) {
 }
 
 function hide( id ) {
-	if ( !document.getElementById( id ) ) {
+	if ( ! document.getElementById( id ) ) {
 		return false;
 	}
 
