@@ -666,8 +666,6 @@ class BP_Notifications_Notification {
 	 *                                           or component_action fields.
 	 *     @type string       $order_by          Database column to order notifications by.
 	 *     @type string       $sort_order        Either 'ASC' or 'DESC'.
-	 *     @type string       $order_by          Field to order results by.
-	 *     @type string       $sort_order        ASC or DESC.
 	 *     @type int          $page              Number of the current page of results. Default:
 	 *                                           false (no pagination - all items).
 	 *     @type int          $per_page          Number of items to show per page. Default:
@@ -692,16 +690,22 @@ class BP_Notifications_Notification {
 		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
 
 		// SELECT.
-		$select_sql = "SELECT *";
+		$select_sql = "SELECT n.*";
 
 		// FROM.
-		$from_sql   = "FROM {$bp->notifications->table_name} n ";
+		$from_sql = "FROM {$bp->notifications->table_name} n ";
+
+		// Append meta data to the results.
+		if ( isset( $r['meta_query'][0]['compare'] ) && 'EXISTS' === $r['meta_query'][0]['compare'] ) {
+			$meta_table = $bp->notifications->table_name_meta;
+			$select_sql = "SELECT n.*, {$meta_table}.id as meta_id, {$meta_table}.meta_key, {$meta_table}.meta_value";
+		}
 
 		// JOIN.
-		$join_sql   = $meta_query_sql['join'];
+		$join_sql = $meta_query_sql['join'];
 
 		// WHERE.
-		$where_sql  = self::get_where_sql( array(
+		$where_sql = self::get_where_sql( array(
 			'id'                => $r['id'],
 			'user_id'           => $r['user_id'],
 			'item_id'           => $r['item_id'],
@@ -728,6 +732,7 @@ class BP_Notifications_Notification {
 		// Concatenate query parts.
 		$sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} {$order_sql} {$pag_sql}";
 
+		// Perform query.
 		$results = $wpdb->get_results( $sql );
 
 		// Integer casting.
@@ -809,11 +814,14 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 2.3.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param  array $meta_query An array of meta_query filters. See the
 	 *                           documentation for WP_Meta_Query for details.
 	 * @return array $sql_array 'join' and 'where' clauses.
 	 */
 	public static function get_meta_query_sql( $meta_query = array() ) {
+		global $wpdb;
 
 		// Default array keys & empty values.
 		$sql_array = array(
@@ -826,11 +834,13 @@ class BP_Notifications_Notification {
 			return $sql_array;
 		}
 
-		// WP_Meta_Query expects the table name at $wpdb->notificationmeta.
-		$GLOBALS['wpdb']->notificationmeta = buddypress()->notifications->table_name_meta;
+		$bp       = buddypress();
+		$meta_sql = new WP_Meta_Query( $meta_query );
 
-		$n_meta_query = new WP_Meta_Query( $meta_query );
-		$meta_sql     = $n_meta_query->get_sql( 'notification', 'n', 'id' );
+		// WP_Meta_Query expects the table name at $wpdb->notificationmeta.
+		$wpdb->notificationmeta = $bp->notifications->table_name_meta;
+
+		$meta_sql = $meta_sql->get_sql( 'notification', 'n', 'id' );
 
 		// Strip the leading AND - it's handled in get().
 		$sql_array['where'] = preg_replace( '/^\sAND/', '', $meta_sql['where'] );
