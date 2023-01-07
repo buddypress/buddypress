@@ -39,66 +39,68 @@ class BuddyPress {
 	/**
 	 * Primary BuddyPress navigation.
 	 *
-	 * @var array Primary BuddyPress navigation.
+	 * @var BP_Core_BP_Nav_BackCompat
 	 */
-	public $bp_nav = array();
+	public $bp_nav;
 
 	/**
 	 * Options for the BuddyPress navigation.
 	 *
-	 * @var array Secondary BuddyPress navigation to $bp_nav.
+	 * @var BP_Core_BP_Options_Nav_BackCompat
 	 */
-	public $bp_options_nav = array();
+	public $bp_options_nav;
 
 	/**
 	 * Unfiltered URI.
 	 *
+	 * The unfiltered URI broken down into chunks.
+	 *
 	 * @see bp_core_set_uri_globals()
-	 * @var array The unfiltered URI broken down into chunks.
+	 * @var array
 	 */
 	public $unfiltered_uri = array();
 
 	/**
-	 * Canonical stack.
+	 * The canonical URI stack.
 	 *
 	 * @see bp_redirect_canonical()
 	 * @see bp_core_new_nav_item()
-	 * @var array The canonical URI stack.
+	 * @var array
 	 */
 	public $canonical_stack = array();
 
 	/**
 	 * Current action variables.
 	 *
-	 * @var array Additional navigation elements (supplemental).
+	 * @var array
 	 */
 	public $action_variables = array();
 
 	/**
-	 * Current member type.
+	 * Current member directory type.
 	 *
-	 * @var string Current member directory type.
+	 * @var string
 	 */
 	public $current_member_type = '';
 
 	/**
-	 * BuddyPress required components.
+	 * BuddyPress required components (core, members).
 	 *
-	 * @var array Required components (core, members).
+	 * @var array
 	 */
 	public $required_components = array();
 
 	/**
 	 * BuddyPress loaded components.
 	 *
-	 * @var array Additional active components.
+	 * @var array
 	 */
 	public $loaded_components = array();
 
 	/**
 	 * BuddyPress active components.
 	 *
-	 * @var array Active components.
+	 * @var array
 	 */
 	public $active_components = array();
 
@@ -106,17 +108,106 @@ class BuddyPress {
 	 * Whether autoload is in use.
 	 *
 	 * @since 2.5.0
-	 *
 	 * @var bool
 	 */
 	public $do_autoload = true;
+
+	/**
+	 * Activity component.
+	 *
+	 * @since 1.6.0
+	 * @var BP_Activity_Component
+	 */
+	public $activity;
+
+	/**
+	 * Blogs component.
+	 *
+	 * @since 1.5.0
+	 * @var BP_Blogs_Component
+	 */
+	public $blogs;
+
+	/**
+	 * Core component.
+	 *
+	 * @since 1.6.0
+	 * @var BP_Core
+	 */
+	public $core;
+
+	/**
+	 * Forums component.
+	 *
+	 * @since 1.5.0
+	 * @var BP_Forums_Component
+	 */
+	public $forums;
+
+	/**
+	 * Friends component.
+	 *
+	 * @since 1.6.0
+	 * @var BP_Friends_Component
+	 */
+	public $friends;
+
+	/**
+	 * Groups component.
+	 *
+	 * @since 1.5.0
+	 * @var BP_Groups_Component
+	 */
+	public $groups;
+
+	/**
+	 * Members component.
+	 *
+	 * @since 1.5.0
+	 * @var BP_Members_Component
+	 */
+	public $members;
+
+	/**
+	 * Messages component.
+	 *
+	 * @since 1.5.0
+	 * @var BP_Messages_Component
+	 */
+	public $messages;
+
+	/**
+	 * Notifications component.
+	 *
+	 * @since 1.9.0
+	 * @var BP_Notifications_Component
+	 */
+	public $notifications;
+
+	/**
+	 * Settings component.
+	 *
+	 * @since 1.6.0
+	 * @var BP_Settings_Component
+	 */
+	public $settings;
+
+	/**
+	 * XProfile component.
+	 *
+	 * @since 1.6.0
+	 * @var BP_XProfile_Component
+	 */
+	public $profile;
 
 	/** Option Overload *******************************************************/
 
 	/**
 	 * BuddyPress options.
 	 *
-	 * @var array Optional Overloads default options retrieved from get_option().
+	 * Overloads default options retrieved from get_option().
+	 *
+	 * @var array
 	 */
 	public $options = array();
 
