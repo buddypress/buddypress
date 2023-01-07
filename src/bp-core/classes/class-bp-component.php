@@ -30,7 +30,8 @@ class BP_Component {
 	 * Translatable name for the component.
 	 *
 	 * @internal
-	 * @var string $name
+	 *
+	 * @var string
 	 */
 	public $name = '';
 
@@ -38,7 +39,7 @@ class BP_Component {
 	 * Unique ID for the component.
 	 *
 	 * @since 1.5.0
-	 * @var string $id
+	 * @var string
 	 */
 	public $id = '';
 
@@ -46,7 +47,7 @@ class BP_Component {
 	 * Unique slug for the component, for use in query strings and URLs.
 	 *
 	 * @since 1.5.0
-	 * @var string $slug
+	 * @var string
 	 */
 	public $slug = '';
 
@@ -54,7 +55,7 @@ class BP_Component {
 	 * Does the component need a top-level directory?
 	 *
 	 * @since 1.5.0
-	 * @var bool $has_directory
+	 * @var bool
 	 */
 	public $has_directory = false;
 
@@ -62,7 +63,7 @@ class BP_Component {
 	 * The path to the component's files.
 	 *
 	 * @since 1.5.0
-	 * @var string $path
+	 * @var string
 	 */
 	public $path = '';
 
@@ -70,7 +71,7 @@ class BP_Component {
 	 * The WP_Query loop for this component.
 	 *
 	 * @since 1.5.0
-	 * @var WP_Query $query
+	 * @var WP_Query
 	 */
 	public $query = false;
 
@@ -78,7 +79,7 @@ class BP_Component {
 	 * The current ID of the queried object.
 	 *
 	 * @since 1.5.0
-	 * @var string $current_id
+	 * @var string
 	 */
 	public $current_id = '';
 
@@ -86,7 +87,7 @@ class BP_Component {
 	 * Callback for formatting notifications.
 	 *
 	 * @since 1.5.0
-	 * @var callable $notification_callback
+	 * @var callable
 	 */
 	public $notification_callback = '';
 
@@ -94,7 +95,7 @@ class BP_Component {
 	 * WordPress Toolbar links.
 	 *
 	 * @since 1.5.0
-	 * @var array $admin_menu
+	 * @var array
 	 */
 	public $admin_menu = '';
 
@@ -102,7 +103,7 @@ class BP_Component {
 	 * Placeholder text for component directory search box.
 	 *
 	 * @since 1.6.0
-	 * @var string $search_string
+	 * @var string
 	 */
 	public $search_string = '';
 
@@ -110,7 +111,7 @@ class BP_Component {
 	 * Root slug for the component.
 	 *
 	 * @since 1.6.0
-	 * @var string $root_slug
+	 * @var string
 	 */
 	public $root_slug = '';
 
@@ -118,7 +119,6 @@ class BP_Component {
 	 * Metadata tables for the component (if applicable).
 	 *
 	 * @since 2.0.0
-	 *
 	 * @var array
 	 */
 	public $meta_tables = array();
@@ -127,7 +127,6 @@ class BP_Component {
 	 * Global tables for the component (if applicable).
 	 *
 	 * @since 2.0.0
-	 *
 	 * @var array
 	 */
 	public $global_tables = array();
@@ -144,10 +143,33 @@ class BP_Component {
 	 * An array of globalized data for BP Blocks.
 	 *
 	 * @since 9.0.0
-	 *
 	 * @var array
 	 */
 	public $block_globals = array();
+
+	/**
+	 * Menu position of the WP Toolbar's "My Account menu".
+	 *
+	 * @since 1.5.0
+	 * @var int
+	 */
+	public $adminbar_myaccount_order = 90;
+
+	/**
+	 * An array of feature names.
+	 *
+	 * @since 1.5.0
+	 * @var string[]
+	 */
+	public $features = array();
+
+	/**
+	 * Component's directory title.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $directory_title = '';
 
 	/** Methods ***************************************************************/
 
@@ -199,11 +221,6 @@ class BP_Component {
 			if ( ! empty( $params['search_query_arg'] ) ) {
 				$this->search_query_arg = sanitize_title( $params['search_query_arg'] );
 			}
-
-		// Set defaults if not passed.
-		} else {
-			// New component menus are added before the settings menu if not set.
-			$this->adminbar_myaccount_order = 90;
 		}
 
 		// Move on to the next step.

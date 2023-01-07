@@ -99,6 +99,14 @@ abstract class BP_XProfile_Field_Type {
 	public $field_obj = null;
 
 	/**
+	 * Field data visibility.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $visibility;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 2.0.0
