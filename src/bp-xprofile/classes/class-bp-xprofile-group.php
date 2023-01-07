@@ -92,7 +92,7 @@ class BP_XProfile_Group {
 
 		// Get this group.
 		$group = self::get( array(
-			'profile_group_id' => $id
+			'profile_group_id' => $id,
 		) );
 
 		// Bail if group not found.
@@ -213,7 +213,7 @@ class BP_XProfile_Group {
 			// Remove profile data for the groups fields.
 			if ( ! empty( $this->fields ) ) {
 				for ( $i = 0, $count = count( $this->fields ); $i < $count; ++$i ) {
-					BP_XProfile_ProfileData::delete_for_field( $this->fields[$i]->id );
+					BP_XProfile_ProfileData::delete_for_field( $this->fields[ $i ]->id );
 				}
 			}
 		}
@@ -837,7 +837,7 @@ class BP_XProfile_Group {
 
 		// URL to cancel to.
 		$cancel_url = add_query_arg( array(
-			'page' => 'bp-profile-setup'
+			'page' => 'bp-profile-setup',
 		), $users_url );
 
 		// New field group.
@@ -846,7 +846,7 @@ class BP_XProfile_Group {
 			$button	= __( 'Save',                'buddypress' );
 			$action	= add_query_arg( array(
 				'page' => 'bp-profile-setup',
-				'mode' => 'add_group'
+				'mode' => 'add_group',
 			), $users_url );
 
 		// Existing field group.
@@ -856,7 +856,7 @@ class BP_XProfile_Group {
 			$action	= add_query_arg( array(
 				'page'     => 'bp-profile-setup',
 				'mode'     => 'edit_group',
-				'group_id' => (int) $this->id
+				'group_id' => (int) $this->id,
 			), $users_url );
 
 			if ( $this->can_delete ) {
@@ -864,7 +864,7 @@ class BP_XProfile_Group {
 				$delete_url = wp_nonce_url( add_query_arg( array(
 					'page'     => 'bp-profile-setup',
 					'mode'     => 'delete_group',
-					'group_id' => (int) $this->id
+					'group_id' => (int) $this->id,
 				), $users_url ), 'bp_xprofile_delete_group' );
 			}
 		} ?>

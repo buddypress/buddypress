@@ -143,7 +143,7 @@ class BP_XProfile_Data_Template {
 				6 => 'exclude_fields',
 				7 => 'hide_empty_fields',
 				8 => 'fetch_visibility_level',
-				9 => 'update_meta_cache'
+				9 => 'update_meta_cache',
 			);
 
 			$args = bp_core_parse_args_array( $old_args_keys, $function_args );

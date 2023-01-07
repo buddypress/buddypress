@@ -192,7 +192,7 @@ function bp_xprofile_get_field_types() {
 function bp_xprofile_create_field_type( $type ) {
 
 	$field = bp_xprofile_get_field_types();
-	$class = isset( $field[$type] ) ? $field[$type] : '';
+	$class = isset( $field[ $type ] ) ? $field[ $type ] : '';
 
 	/**
 	 * To handle (missing) field types, fallback to a placeholder field object if a type is unknown.
@@ -546,18 +546,18 @@ function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visi
 
 	// Check against a list of registered visibility levels.
 	$allowed_values = bp_xprofile_get_visibility_levels();
-	if ( !array_key_exists( $visibility_level, $allowed_values ) ) {
+	if ( ! array_key_exists( $visibility_level, $allowed_values ) ) {
 		return false;
 	}
 
 	// Stored in an array in usermeta.
 	$current_visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 
-	if ( !$current_visibility_levels ) {
+	if ( ! $current_visibility_levels ) {
 		$current_visibility_levels = array();
 	}
 
-	$current_visibility_levels[$field_id] = $visibility_level;
+	$current_visibility_levels[ $field_id ] = $visibility_level;
 
 	return bp_update_user_meta( $user_id, 'bp_xprofile_visibility_levels', $current_visibility_levels );
 }
@@ -782,7 +782,7 @@ function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
 		$search_terms_nospace = '%' . $search_terms_clean;
 		$search_terms_space   = '%' . $search_terms_clean . ' %';
 	} elseif ( $query->query_vars['search_wildcard'] === 'right' ) {
-		$search_terms_nospace =        $search_terms_clean . '%';
+		$search_terms_nospace = $search_terms_clean . '%';
 		$search_terms_space   = '% ' . $search_terms_clean . '%';
 	} else {
 		$search_terms_nospace = '%' . $search_terms_clean . '%';
@@ -1248,15 +1248,15 @@ function bp_xprofile_get_visibility_levels() {
  * @return array An array of field ids that should be excluded from the profile query
  */
 function bp_xprofile_get_hidden_fields_for_user( $displayed_user_id = 0, $current_user_id = 0 ) {
-	if ( !$displayed_user_id ) {
+	if ( ! $displayed_user_id ) {
 		$displayed_user_id = bp_displayed_user_id();
 	}
 
-	if ( !$displayed_user_id ) {
+	if ( ! $displayed_user_id ) {
 		return array();
 	}
 
-	if ( !$current_user_id ) {
+	if ( ! $current_user_id ) {
 		$current_user_id = bp_loggedin_user_id();
 	}
 
@@ -1305,16 +1305,16 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
 
 		// If the current user and displayed user are friends, show all.
 		} elseif ( bp_is_active( 'friends' ) && friends_check_friendship( $displayed_user_id, $current_user_id ) ) {
-			$hidden_levels = array( 'adminsonly', );
+			$hidden_levels = array( 'adminsonly' );
 
 		// Current user is logged in but not friends, so exclude friends-only.
 		} else {
-			$hidden_levels = array( 'friends', 'adminsonly', );
+			$hidden_levels = array( 'friends', 'adminsonly' );
 		}
 
 	// Current user is not logged in, so exclude friends-only, loggedin, and adminsonly.
 	} else {
-		$hidden_levels = array( 'friends', 'loggedin', 'adminsonly', );
+		$hidden_levels = array( 'friends', 'loggedin', 'adminsonly' );
 	}
 
 	/**
@@ -1342,7 +1342,7 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
  * @return array $field_ids The fields that match the requested visibility levels for the given user.
  */
 function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array() ) {
-	if ( !is_array( $levels ) ) {
+	if ( ! is_array( $levels ) ) {
 		$levels = (array)$levels;
 	}
 
@@ -1356,7 +1356,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 		// If the admin has forbidden custom visibility levels for this field, replace
 		// the user-provided setting with the default specified by the admin.
 		if ( isset( $defaults['allow_custom'] ) && isset( $defaults['default'] ) && 'disabled' == $defaults['allow_custom'] ) {
-			$user_visibility_levels[$d_field_id] = $defaults['default'];
+			$user_visibility_levels[ $d_field_id ] = $defaults['default'];
 		}
 	}
 
@@ -1370,7 +1370,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	// Never allow the fullname field to be excluded.
 	if ( in_array( 1, $field_ids ) ) {
 		$key = array_search( 1, $field_ids );
-		unset( $field_ids[$key] );
+		unset( $field_ids[ $key ] );
 	}
 
 	return $field_ids;
@@ -1386,15 +1386,15 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
  *              the datebox data.
  */
 function bp_xprofile_maybe_format_datebox_post_data( $field_id ) {
-	if ( ! isset( $_POST['field_' . $field_id] ) ) {
-		if ( ! empty( $_POST['field_' . $field_id . '_day'] ) && ! empty( $_POST['field_' . $field_id . '_month'] ) && ! empty( $_POST['field_' . $field_id . '_year'] ) ) {
+	if ( ! isset( $_POST[ 'field_' . $field_id ] ) ) {
+		if ( ! empty( $_POST[ 'field_' . $field_id . '_day' ] ) && ! empty( $_POST[ 'field_' . $field_id . '_month' ] ) && ! empty( $_POST[ 'field_' . $field_id . '_year' ] ) ) {
 			// Concatenate the values.
-			$date_value = $_POST['field_' . $field_id . '_day'] . ' ' . $_POST['field_' . $field_id . '_month'] . ' ' . $_POST['field_' . $field_id . '_year'];
+			$date_value = $_POST[ 'field_' . $field_id . '_day' ] . ' ' . $_POST[ 'field_' . $field_id . '_month' ] . ' ' . $_POST[ 'field_' . $field_id . '_year' ];
 
 			// Check that the concatenated value can be turned into a timestamp.
 			if ( $timestamp = strtotime( $date_value ) ) {
 				// Add the timestamp to the global $_POST that should contain the datebox data.
-				$_POST['field_' . $field_id] = date( 'Y-m-d H:i:s', $timestamp );
+				$_POST[ 'field_' . $field_id ] = date( 'Y-m-d H:i:s', $timestamp );
 			}
 		}
 	}

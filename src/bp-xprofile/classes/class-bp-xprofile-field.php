@@ -282,7 +282,7 @@ class BP_XProfile_Field {
 
 		$int_fields = array(
 			'id', 'is_required', 'group_id', 'parent_id', 'is_default_option',
-			'field_order', 'option_order', 'can_delete'
+			'field_order', 'option_order', 'can_delete',
 		);
 
 		foreach ( $args as $k => $v ) {
@@ -475,8 +475,8 @@ class BP_XProfile_Field {
 				$parent_id = $this->id;
 
 				// Allow plugins to filter the field's child options (i.e. the items in a selectbox).
-				$post_option  = ! empty( $_POST["{$this->type}_option"]           ) ? $_POST["{$this->type}_option"]           : '';
-				$post_default = ! empty( $_POST["isDefault_{$this->type}_option"] ) ? $_POST["isDefault_{$this->type}_option"] : '';
+				$post_option  = ! empty( $_POST[ "{$this->type}_option" ]           ) ? $_POST[ "{$this->type}_option" ] : '';
+				$post_default = ! empty( $_POST[ "isDefault_{$this->type}_option" ] ) ? $_POST[ "isDefault_{$this->type}_option" ] : '';
 
 				/**
 				 * Filters the submitted field option value before saved.
@@ -499,7 +499,7 @@ class BP_XProfile_Field {
 				$defaults = apply_filters( 'xprofile_field_default_before_save', $post_default, $this->type );
 
 				$counter = 1;
-				if ( !empty( $options ) ) {
+				if ( ! empty( $options ) ) {
 					foreach ( (array) $options as $option_key => $option_value ) {
 						$is_default = 0;
 
@@ -1236,18 +1236,18 @@ class BP_XProfile_Field {
 			$action = add_query_arg( array(
 				'page'     => 'bp-profile-setup',
 				'mode'     => 'add_field',
-				'group_id' => (int) $this->group_id
+				'group_id' => (int) $this->group_id,
 			), $users_url . '#tabs-' . (int) $this->group_id );
 
-			if ( !empty( $_POST['saveField'] ) ) {
+			if ( ! empty( $_POST['saveField'] ) ) {
 				$this->name        = $_POST['title'];
 				$this->description = $_POST['description'];
 				$this->is_required = $_POST['required'];
 				$this->type        = $_POST['fieldtype'];
 				$this->field_order = $_POST['field_order'];
 
-				if ( ! empty( $_POST["sort_order_{$this->type}"] ) ) {
-					$this->order_by = $_POST["sort_order_{$this->type}"];
+				if ( ! empty( $_POST[ "sort_order_{$this->type}" ] ) ) {
+					$this->order_by = $_POST[ "sort_order_{$this->type}" ];
 				}
 			}
 
@@ -1259,7 +1259,7 @@ class BP_XProfile_Field {
 				'page'     => 'bp-profile-setup',
 				'mode'     => 'edit_field',
 				'group_id' => (int) $this->group_id,
-				'field_id' => (int) $this->id
+				'field_id' => (int) $this->id,
 			), $users_url . '#tabs-' . (int) $this->group_id );
 		} ?>
 
@@ -1268,7 +1268,7 @@ class BP_XProfile_Field {
 			<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
 			<hr class="wp-header-end">
 
-			<?php if ( !empty( $message ) ) : ?>
+			<?php if ( ! empty( $message ) ) : ?>
 
 				<div id="message" class="error fade notice is-dismissible">
 					<p><?php echo esc_html( $message ); ?></p>
@@ -1418,7 +1418,7 @@ class BP_XProfile_Field {
 		// Setup the URL for deleting
 		$users_url  = bp_get_admin_url( 'users.php' );
 		$cancel_url = add_query_arg( array(
-			'page' => 'bp-profile-setup'
+			'page' => 'bp-profile-setup',
 		), $users_url );
 
 
@@ -1427,7 +1427,7 @@ class BP_XProfile_Field {
 			$delete_url = wp_nonce_url( add_query_arg( array(
 				'page'     => 'bp-profile-setup',
 				'mode'     => 'delete_field',
-				'field_id' => (int) $this->id
+				'field_id' => (int) $this->id,
 			), $users_url ), 'bp_xprofile_delete_field-' . $this->id, 'bp_xprofile_delete_field' );
 		}
 		/**
