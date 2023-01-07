@@ -370,7 +370,7 @@ class BP_XProfile_Query {
 			'IN', 'NOT IN',
 			'BETWEEN', 'NOT BETWEEN',
 			'EXISTS', 'NOT EXISTS',
-			'REGEXP', 'NOT REGEXP', 'RLIKE'
+			'REGEXP', 'NOT REGEXP', 'RLIKE',
 		) ) ) {
 			$clause['compare'] = '=';
 		}

@@ -798,7 +798,7 @@ function bp_core_get_11_0_upgrade_email_schema( $emails ) {
  *
  * @since 2.2.0
  *
- * @global $wpdb
+ * @global wpdb $wpdb WordPress database object.
  */
 function bp_migrate_new_member_activity_component() {
 	global $wpdb;
@@ -920,7 +920,7 @@ function bp_add_activation_redirect() {
  *
  * @since 2.0.0
  *
- * @global WPDB $wpdb
+ * @global wpdb $wpdb WordPress database object.
  */
 function bp_core_maybe_install_signups() {
 	global $wpdb;

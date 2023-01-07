@@ -98,12 +98,9 @@ add_filter( 'bp_core_signup_send_activation_key', 'bp_members_invitations_cancel
  *
  * @since 8.0.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @param bool|WP_Error $user_id True on success, WP_Error on failure.
  */
 function bp_members_invitations_complete_signup( $user_id ) {
-	$bp = buddypress();
 
 	// Check to see if this signup is the result of a valid invitation.
 	$invite = bp_get_members_invitation_from_request();

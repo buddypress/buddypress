@@ -210,8 +210,6 @@ function bp_signup_slug() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
-	 *
 	 * @return string
 	 */
 	function bp_get_signup_slug() {
@@ -247,8 +245,6 @@ function bp_activate_slug() {
 	 * Return the activation slug.
 	 *
 	 * @since 1.5.0
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @return string
 	 */
@@ -311,7 +307,7 @@ function bp_members_invitations_slug() {
  * @since 7.0.0 Added `xprofile_query` parameter. Added `user_ids` parameter.
  * @since 10.0.0 Added `date_query` parameter.
  *
- * @global BP_Core_Members_Template $members_template
+ * @global BP_Core_Members_Template $members_template The main member template loop class.
  *
  * @param array|string $args {
  *     Arguments for limiting the contents of the members loop. Most arguments
@@ -458,7 +454,7 @@ function bp_has_members( $args = '' ) {
  *
  * @since 1.2.0
  *
- * @global BP_Core_Members_Template $members_template
+ * @global BP_Core_Members_Template $members_template The main member template loop class.
  *
  * @return object
  */
@@ -472,7 +468,7 @@ function bp_the_member() {
  *
  * @since 1.2.0
  *
- * @global BP_Core_Members_Template $members_template
+ * @global BP_Core_Members_Template $members_template The main member template loop class.
  *
  * @return bool
  */
@@ -494,7 +490,7 @@ function bp_members_pagination_count() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return string
 	 */
@@ -563,7 +559,7 @@ function bp_members_pagination_links() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return string
 	 */
@@ -593,7 +589,7 @@ function bp_member_user_id() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return int Member ID.
 	 */
@@ -629,7 +625,7 @@ function bp_member_class( $classes = array() ) {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @param array $classes Array of custom classes.
 	 *
@@ -701,7 +697,7 @@ function bp_member_user_nicename() {
 	 *
 	 * @since 1.2.5
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return string Members nicename.
 	 */
@@ -731,7 +727,7 @@ function bp_member_user_login() {
 	 *
 	 * @since 1.2.5
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return string Member's login.
 	 */
@@ -761,7 +757,7 @@ function bp_member_user_email() {
 	 *
 	 * @since 1.2.5
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return string Member's email address.
 	 */
@@ -825,7 +821,7 @@ function bp_member_avatar( $args = '' ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @see bp_core_fetch_avatar() For a description of arguments and
 	 *      return values.
@@ -904,7 +900,7 @@ function bp_member_permalink() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return string
 	 */
@@ -971,7 +967,7 @@ function bp_member_name() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return string The user's fullname for display.
 	 */
@@ -1026,7 +1022,7 @@ function bp_member_last_active( $args = array() ) {
 	 * @since 1.2.0
 	 * @since 2.7.0 Added 'relative' as a parameter to $args.
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @param array $args {
 	 *     Array of optional arguments.
@@ -1099,7 +1095,7 @@ function bp_member_latest_update( $args = '' ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @param array|string $args {
 	 *     Array of optional arguments.
@@ -1182,7 +1178,7 @@ function bp_member_profile_data( $args = '' ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @param array|string $args {
 	 *     Array of config parameters.
@@ -1287,7 +1283,7 @@ function bp_member_registered( $args = array() ) {
 	 * @since 1.2.0
 	 * @since 2.7.0 Added `$args` as a parameter.
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @param array $args {
 	 *     Array of optional parameters.
@@ -1434,8 +1430,6 @@ function bp_total_site_member_count() {
  *
  * @since 1.1.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @todo Move to a back-compat file?
  * @deprecated Does not seem to be called anywhere in BP core.
  */
@@ -1576,8 +1570,6 @@ function bp_displayed_user_has_front_template() {
  * Render the navigation markup for the displayed user.
  *
  * @since 1.1.0
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  */
 function bp_get_displayed_user_nav() {
 	$bp = buddypress();
@@ -1759,8 +1751,6 @@ function bp_displayed_user_email() {
 	 * Get the email address of the displayed user.
 	 *
 	 * @since 1.5.0
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @return string
 	 */
@@ -1947,8 +1937,6 @@ function bp_current_user_id() {
  *
  * @since 1.0.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @return string
  */
 function bp_displayed_user_domain() {
@@ -1968,8 +1956,6 @@ function bp_displayed_user_domain() {
  * Generate the link for the logged-in user's profile.
  *
  * @since 1.0.0
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return string
  */
@@ -1998,8 +1984,6 @@ function bp_displayed_user_fullname() {
 	 * Get the displayed user's display name.
 	 *
 	 * @since 1.2.0
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @return string
 	 */
@@ -2037,8 +2021,6 @@ function bp_loggedin_user_fullname() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
-	 *
 	 * @return string
 	 */
 	function bp_get_loggedin_user_fullname() {
@@ -2066,8 +2048,6 @@ function bp_displayed_user_username() {
 	 * Get the username of the displayed user.
 	 *
 	 * @since 1.2.0
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @return string
 	 */
@@ -2102,8 +2082,6 @@ function bp_loggedin_user_username() {
 	 * Get the username of the logged-in user.
 	 *
 	 * @since 1.2.0
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @return string
 	 */
@@ -2715,8 +2693,6 @@ function bp_signup_avatar_dir_value() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
-	 *
 	 * @return string
 	 */
 	function bp_get_signup_avatar_dir_value() {
@@ -2780,8 +2756,6 @@ function bp_current_signup_step() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
-	 *
 	 * @return string
 	 */
 	function bp_get_current_signup_step() {
@@ -2804,8 +2778,6 @@ function bp_signup_avatar( $args = '' ) {
 	 * Get the user avatar during signup.
 	 *
 	 * @since 1.1.0
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @see bp_core_fetch_avatar() for description of arguments.
 	 *
@@ -3015,8 +2987,6 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
-	 *
 	 * @param string       $component  ID of the component (eg 'friends').
 	 * @param string       $action     Optional. 'action' slug (eg 'invites').
 	 * @param array|string $query_args Optional. Array of URL params to add to the
@@ -3108,8 +3078,6 @@ function bp_avatar_delete_link() {
  *
  * @since 8.0.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @param array|string $args {
  *     Arguments for limiting the contents of the invitations loop. Can be
  *     passed as an associative array, or as a URL query string.
@@ -3188,8 +3156,6 @@ function bp_has_members_invitations( $args = '' ) {
  *
  * @since 8.0.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
- *
  * @return array List of network invitations.
  */
 function bp_the_members_invitations() {
@@ -3200,8 +3166,6 @@ function bp_the_members_invitations() {
  * Get the current network invitation object in the loop.
  *
  * @since 8.0.0
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return object The current network invitation within the loop.
  */
@@ -3221,8 +3185,6 @@ function bp_members_invitations_pagination_count() {
 	 * Return the pagination count for the current network invitation loop.
 	 *
 	 * @since 8.0.0
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @return string HTML for the pagination count.
 	 */
@@ -3263,8 +3225,6 @@ function bp_members_invitations_pagination_links() {
 	 * Return the pagination links for the current network invitations loop.
 	 *
 	 * @since 8.0.0
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 *
 	 * @return string HTML for the pagination links.
 	 */

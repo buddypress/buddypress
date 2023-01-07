@@ -4,6 +4,7 @@
  * @group notifications
  */
 class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
+
 	/**
 	 * @group get
 	 */
@@ -275,12 +276,11 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		) );
 
 		// Check that the correct items are pulled up
-		$expected = array( $n2 );
-		$actual = wp_list_pluck( $n, 'id' );
-		$this->assertEquals( $expected, $actual );
+		$this->assertEquals( [ $n2 ], wp_list_pluck( $n, 'id' ) );
 	}
 
 	/**
+	 * @group get
 	 * @group pagination
 	 * @group BP6229
 	 */
@@ -290,23 +290,159 @@ class BP_Tests_BP_Notifications_Notification_TestCases extends BP_UnitTestCase {
 		$notifications = array();
 		for ( $i = 1; $i <= 6; $i++ ) {
 			$notifications[] = self::factory()->notification->create( array(
-				'component_name' => 'activity',
+				'component_name'    => 'activity',
 				'secondary_item_id' => $i,
-				'user_id' => $u,
-				'is_new' => true,
+				'user_id'           => $u,
+				'is_new'            => true,
 			) );
 		}
 
 		$found = BP_Notifications_Notification::get( array(
-			'user_id' => $u,
-			'is_new' => true,
-			'page' => 2,
+			'user_id'  => $u,
+			'is_new'   => true,
+			'page'     => 2,
 			'per_page' => 2,
 			'order_by' => 'id',
 		) );
 
 		// Check that the correct number of items are pulled up
-		$expected = array( $notifications[2], $notifications[3] );
-		$this->assertEquals( $expected, wp_list_pluck( $found, 'id' ) );
+		$this->assertEquals(
+			[ $notifications[2], $notifications[3] ],
+			wp_list_pluck( $found, 'id' )
+		);
+	}
+
+	/**
+	 * @group get
+	 * @group meta_query
+	 */
+	public function test_get_notifications_meta_query() {
+		$u        = self::factory()->user->create();
+		$meta_key = 'foo';
+		$args     = [
+			'user_id'         => $u,
+			'component_name'  => 'activity',
+			'allow_duplicate' => true,
+		];
+
+		$n1 = bp_notifications_add_notification( $args );
+
+		bp_notifications_add_meta( $n1, $meta_key, 'bar' );
+
+		$n2 = bp_notifications_add_notification( $args );
+
+		$found_1 = BP_Notifications_Notification::get(
+			[
+				'user_id'    => $u,
+				'meta_query' => [
+					[
+						'key'     => $meta_key,
+						'compare' => 'EXISTS'
+					]
+				],
+			]
+		);
+
+		$this->assertEquals( [ $n1 ], wp_list_pluck( $found_1, 'id' ) );
+
+		$found_2 = BP_Notifications_Notification::get(
+			[
+				'user_id'    => $u,
+				'meta_query' => [
+					[
+						'key'     => $meta_key,
+						'compare' => 'NOT EXISTS'
+					]
+				],
+			]
+		);
+
+		$this->assertEquals( [ $n2 ], wp_list_pluck( $found_2, 'id' ) );
+	}
+
+	/**
+	 * @group get
+	 * @group meta_query
+	 */
+	public function test_get_notifications_sorted_sql_with_meta_query() {
+		$u        = self::factory()->user->create();
+		$meta_key = 'foo';
+		$args     = [
+			'user_id'         => $u,
+			'component_name'  => 'activity',
+			'allow_duplicate' => true,
+		];
+
+		$n1 = bp_notifications_add_notification( $args );
+		$n2 = bp_notifications_add_notification( $args );
+		$n3 = bp_notifications_add_notification( $args );
+		$n4 = bp_notifications_add_notification( $args );
+
+		bp_notifications_add_meta( $n1, $meta_key, 'bar' );
+		bp_notifications_add_meta( $n2, $meta_key, 'bar' );
+
+		$found_1 = BP_Notifications_Notification::get(
+			[
+				'user_id'    => $u,
+				'order_by'   => 'id',
+				'sort_order' => 'DESC',
+				'meta_query' => [
+					[
+						'key'     => $meta_key,
+						'compare' => 'EXISTS'
+					]
+				],
+			]
+		);
+
+		$this->assertEquals( [ $n2, $n1 ], wp_list_pluck( $found_1, 'id' ) );
+
+		$found_2 = BP_Notifications_Notification::get(
+			[
+				'user_id'    => $u,
+				'order_by'   => 'id',
+				'sort_order' => 'ASC',
+				'meta_query' => [
+					[
+						'key'     => $meta_key,
+						'compare' => 'EXISTS'
+					]
+				],
+			]
+		);
+
+		$this->assertEquals( [ $n1, $n2 ], wp_list_pluck( $found_2, 'id' ) );
+
+		$found_3 = BP_Notifications_Notification::get(
+			[
+				'user_id'    => $u,
+				'order_by'   => 'id',
+				'sort_order' => 'DESC',
+				'meta_query' => [
+					[
+						'key'     => $meta_key,
+						'compare' => 'NOT EXISTS'
+					]
+				],
+			]
+		);
+
+		$this->assertEquals( [ $n4, $n3 ], wp_list_pluck( $found_3, 'id' ) );
+
+		$found_4 = BP_Notifications_Notification::get(
+			[
+				'user_id'    => $u,
+				'order_by'   => 'id',
+				'sort_order' => 'ASC',
+				'meta_query' => [
+					[
+						'key'     => $meta_key,
+						'compare' => 'NOT EXISTS'
+					]
+				],
+			]
+		);
+
+		$this->assertEquals( [ $n3, $n4 ], wp_list_pluck( $found_4, 'id' ) );
 	}
 }

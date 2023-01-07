@@ -245,7 +245,6 @@ class BP_Invitation {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 */
 	public function populate() {

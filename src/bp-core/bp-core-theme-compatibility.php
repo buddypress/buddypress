@@ -539,7 +539,7 @@ function bp_register_theme_package( $theme = array(), $override = true ) {
  * @since 1.7.0
  *
  * @global WP_Query $wp_query WordPress database access object.
- * @global object $post Current post object.
+ * @global WP_Post $post Current post object.
  *
  * @param array $args Array of optional arguments. Arguments parallel the properties
  *                    of {@link WP_Post}; see that class for more details.
