@@ -243,7 +243,7 @@ function bp_member_total_friend_count() {
 	 *
 	 * Return value is a string of the form "x friends".
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @since 1.2.0
 	 *
@@ -562,7 +562,7 @@ function bp_friend_friendship_id() {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return int ID of the friendship.
 	 */
@@ -597,7 +597,7 @@ function bp_friend_accept_request_link() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return string accept-friendship URL.
 	 */
@@ -634,7 +634,7 @@ function bp_friend_reject_request_link() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global BP_Core_Members_Template $members_template
+	 * @global BP_Core_Members_Template $members_template The main member template loop class.
 	 *
 	 * @return string reject-friendship URL.
 	 */

@@ -124,18 +124,18 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 
 			// Check for updated posted values, but errors preventing them from
 			// being saved first time.
-			if ( isset( $_POST['field_' . $this->field_obj->id] ) && $option_value != $_POST['field_' . $this->field_obj->id] ) {
-				if ( ! empty( $_POST['field_' . $this->field_obj->id] ) ) {
-					$option_value = sanitize_text_field( $_POST['field_' . $this->field_obj->id] );
+			if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $option_value != $_POST[ 'field_' . $this->field_obj->id ] ) {
+				if ( ! empty( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
+					$option_value = sanitize_text_field( $_POST[ 'field_' . $this->field_obj->id ] );
 				}
 			}
 
 			// Run the allowed option name through the before_save filter, so
 			// we'll be sure to get a match.
-			$allowed_options = xprofile_sanitize_data_value_before_save( $options[$k]->name, false, false );
+			$allowed_options = xprofile_sanitize_data_value_before_save( $options[ $k ]->name, false, false );
 			$selected        = '';
 
-			if ( $option_value === $allowed_options || ( empty( $option_value ) && ! empty( $options[$k]->is_default_option ) ) ) {
+			if ( $option_value === $allowed_options || ( empty( $option_value ) && ! empty( $options[ $k ]->is_default_option ) ) ) {
 				$selected = ' checked="checked"';
 			}
 
@@ -143,8 +143,8 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 				$selected,
 				esc_attr( bp_get_the_profile_field_input_name() ),
 				esc_attr( "option_{$options[$k]->id}" ),
-				esc_attr( stripslashes( $options[$k]->name ) ),
-				esc_html( stripslashes( $options[$k]->name ) )
+				esc_attr( stripslashes( $options[ $k ]->name ) ),
+				esc_html( stripslashes( $options[ $k ]->name ) )
 			);
 
 			/**
@@ -158,7 +158,7 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 			 * @param string $selected Current selected value.
 			 * @param string $k        Current index in the foreach loop.
 			 */
-			$html .= apply_filters( 'bp_get_the_profile_field_options_radio', $new_html, $options[$k], $this->field_obj->id, $selected, $k );
+			$html .= apply_filters( 'bp_get_the_profile_field_options_radio', $new_html, $options[ $k ], $this->field_obj->id, $selected, $k );
 		}
 
 		printf( '<div id="%1$s" class="input-options radio-button-options">%2$s</div>',

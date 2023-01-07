@@ -68,7 +68,7 @@ function bp_xprofile_update_meta_cache( $object_ids = array() ) {
 	$uncached_object_ids = array(
 		'group',
 		'field',
-		'data'
+		'data',
 	);
 
 	// Define the cache groups for the 3 types of XProfile metadata.

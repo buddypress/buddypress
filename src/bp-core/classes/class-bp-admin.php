@@ -560,7 +560,7 @@ class BP_Admin {
 	 * @since 1.9.0
 	 * @since 3.0.0 Hooked at priority 100 (was 15).
 	 *
-	 * @param WP_Admin_Bar $wp_admin_bar
+	 * @param WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
 	 */
 	public function admin_bar_about_link( $wp_admin_bar ) {
 		if ( ! is_user_logged_in() ) {
@@ -1528,7 +1528,8 @@ class BP_Admin {
 	 *
 	 * @since 10.0.0
 	 *
-	 * @global int        $paged The current page of the Plugin results.
+	 * @global int $paged The current page of the Plugin results.
+	 *
 	 * @param false|array $args  `false` by default.
 	 * @return array             The "BuddyPress add-ons" args.
 	 */

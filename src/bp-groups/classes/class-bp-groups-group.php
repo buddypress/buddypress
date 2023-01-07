@@ -1747,8 +1747,7 @@ class BP_Groups_Group {
 	 * @since 1.6.0
 	 * @since 10.0.0 Added the `$skip_cache` parameter.
 	 *
-	 * @global BuddyPress $bp   The one true BuddyPress instance.
-	 * @global wpdb       $wpdb WordPress database object.
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param bool $skip_cache Optional. Skip getting count from cache.
 	 *                         Defaults to false.

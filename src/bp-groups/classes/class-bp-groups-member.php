@@ -898,7 +898,7 @@ class BP_Groups_Member {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @global WPDB $wpdb
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param  int $user_id    ID of the user.
 	 * @param  int $group_id   ID of the group.

@@ -3214,7 +3214,7 @@ function bp_group_has_requested_membership( $group = false ) {
  *
  * @since 1.0.0
  *
- * @global object $groups_template
+ * @global BP_Groups_Template $groups_template The main Groups template loop class.
  *
  * @param object|bool $group Optional. Group to check is_member.
  *                           Default: current group in the loop.
@@ -3287,7 +3287,7 @@ function bp_group_is_invited( $group = false ) {
  *
  * @since 1.5.0
  *
- * @global BP_Groups_Template $groups_template Group template loop object.
+ * @global BP_Groups_Template $groups_template The main Groups template loop class.
  *
  * @param BP_Groups_Group|bool $group   Group to check if user is banned.
  * @param int                  $user_id The user ID to check.
@@ -3838,7 +3838,7 @@ add_action( 'bp_groups_directory_group_filter', 'bp_group_backcompat_create_nav_
  *
  * @since 1.0.0
  *
- * @global BP_Groups_Template $groups_template Groups template object.
+ * @global BP_Groups_Template $groups_template The main Groups template loop class.
  *
  * @param object|null $group Group to get status message for. Optional; defaults to current group.
  */
