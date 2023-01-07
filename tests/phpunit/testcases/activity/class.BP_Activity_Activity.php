@@ -101,7 +101,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			[
 				'meta_query' => [
 					[
-						'key' => 'foo',
+						'key'     => 'foo',
 						'compare' => 'EXISTS',
 					],
 				],
@@ -114,7 +114,7 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 			[
 				'meta_query' => [
 					[
-						'key' => 'foo',
+						'key'     => 'foo',
 						'compare' => 'NOT EXISTS',
 					],
 				],
