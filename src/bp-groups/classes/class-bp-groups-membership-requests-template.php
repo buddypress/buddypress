@@ -65,6 +65,14 @@ class BP_Groups_Membership_Requests_Template {
 	public $pag_links;
 
 	/**
+	 * URL argument used for the pagination param.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	public $pag_arg;
+
+	/**
 	 * @since 1.0.0
 	 * @var int
 	 */

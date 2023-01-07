@@ -94,18 +94,34 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	public function test_get_with_meta_query() {
 		$a1 = self::factory()->activity->create();
 		$a2 = self::factory()->activity->create();
+
 		bp_activity_update_meta( $a1, 'foo', 'bar' );
 
-		$activity = BP_Activity_Activity::get( array(
-			'meta_query' => array(
-				array(
-					'key' => 'foo',
-					'value' => 'bar',
-				),
-			),
-		) );
-		$ids = wp_list_pluck( $activity['activities'], 'id' );
-		$this->assertEquals( $ids, array( $a1 ) );
+		$activity = BP_Activity_Activity::get(
+			[
+				'meta_query' => [
+					[
+						'key'     => 'foo',
+						'compare' => 'EXISTS',
+					],
+				],
+			]
+		);
+
+		$this->assertEquals( [ $a1 ], wp_list_pluck( $activity['activities'], 'id' ) );
+
+		$activity = BP_Activity_Activity::get(
+			[
+				'meta_query' => [
+					[
+						'key'     => 'foo',
+						'compare' => 'NOT EXISTS',
+					],
+				],
+			]
+		);
+
+		$this->assertEquals( [ $a2 ], wp_list_pluck( $activity['activities'], 'id' ) );
 	}
 
 	/**

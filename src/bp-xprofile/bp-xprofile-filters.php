@@ -247,7 +247,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 			$filtered_values[] = apply_filters( 'xprofile_filtered_data_value_before_save', $filtered_value, $value, $data_obj );
 		}
 
-		if ( !empty( $reserialize ) ) {
+		if ( ! empty( $reserialize ) ) {
 			$filtered_field_value = serialize( $filtered_values );
 		} else {
 			$filtered_field_value = $filtered_values;

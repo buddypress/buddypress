@@ -85,6 +85,14 @@ class BP_Groups_Component extends BP_Component {
 	public $types = array();
 
 	/**
+	 * Nav for the Group component.
+	 *
+	 * @since 2.6.0
+	 * @var BP_Core_Nav
+	 */
+	public $nav;
+
+	/**
 	 * Current directory group type.
 	 *
 	 * @see groups_directory_groups_setup()

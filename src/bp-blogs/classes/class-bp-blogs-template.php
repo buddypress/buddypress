@@ -74,6 +74,13 @@ class BP_Blogs_Template {
 	public $pag_links = '';
 
 	/**
+	 * URL argument used for the pagination param.
+	 *
+	 * @var string
+	 */
+	public $pag_arg;
+
+	/**
 	 * The total number of blogs matching the query parameters.
 	 *
 	 * @var int

@@ -271,10 +271,14 @@ function bp_activity_get_user_mentionname( $user_id ) {
  *
  * @since 1.9.0
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param string $mentionname Username of user in @-mentions.
  * @return int|bool ID of the user, if one is found. Otherwise false.
  */
 function bp_activity_get_userid_from_mentionname( $mentionname ) {
+	global $wpdb;
+
 	$user_id = false;
 
 	/*
@@ -292,7 +296,6 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
 		// Doing a direct query to use proper regex. Necessary to
 		// account for hyphens + spaces in the same user_login.
 		if ( empty( $userdata ) || ! is_a( $userdata, 'WP_User' ) ) {
-			global $wpdb;
 			$regex   = esc_sql( str_replace( '-', '[ \-]', $mentionname ) );
 			$user_id = $wpdb->get_var( "SELECT ID FROM {$wpdb->users} WHERE user_login REGEXP '{$regex}'" );
 		} else {
@@ -304,7 +307,6 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
 	} else {
 		$user_id = bp_core_get_userid_from_nicename( $mentionname );
 	}
-
 
 	return $user_id;
 }
@@ -1239,8 +1241,6 @@ function bp_activity_total_favorites_for_user( $user_id = 0 ) {
  *
  * @since 1.2.0
  *
- * @global object $wpdb WordPress database access object.
- *
  * @param int    $activity_id ID of the activity item whose metadata is being deleted.
  * @param string $meta_key    Optional. The key of the metadata being deleted. If
  *                            omitted, all metadata associated with the activity
@@ -1409,7 +1409,7 @@ add_action( 'delete_user', 'bp_activity_remove_all_user_data_on_delete_user' );
  *
  * @since 1.6.0
  *
- * @global object $wpdb WordPress database access object.
+ * @global wpdb $wpdb WordPress database object.
  *
  * @param int $user_id ID of the user whose activity is being spammed.
  * @return bool
@@ -1478,7 +1478,7 @@ add_action( 'bp_make_spam_user', 'bp_activity_spam_all_user_data' );
  *
  * @since 1.6.0
  *
- * @global object $wpdb WordPress database access object.
+ * @global wpdb $wpdb WordPress database object.
  *
  * @param int $user_id ID of the user whose activity is being hammed.
  * @return bool

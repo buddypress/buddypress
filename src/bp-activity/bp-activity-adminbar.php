@@ -16,6 +16,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.6.0
  *
+ * @global WP_Admin_Bar $wp_admin_bar Core class used to implement the Toolbar API.
+ *
  * @return null Null if user does not have access to editing functionality.
  */
 function bp_activity_admin_menu() {

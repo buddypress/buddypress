@@ -209,8 +209,8 @@ function bp_core_add_admin_notice( $notice = '', $type = 'updated' ) {
  *   - that no WP page has multiple BP components associated with it.
  * The administrator will be shown a notice for each check that fails.
  *
- * @global WPDB $wpdb WordPress DB object
- * @global WP_Rewrite $wp_rewrite
+ * @global wpdb $wpdb WordPress database object.
+ * @global WP_Rewrite $wp_rewrite WordPress object implementing a rewrite component API.
  *
  * @since 1.2.0
  */

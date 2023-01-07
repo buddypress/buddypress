@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  *
+ * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
+ *
  * @todo Deprecate WP 3.2 Toolbar compatibility when we drop 3.2 support.
  */
 function bp_members_admin_bar_my_account_menu() {
@@ -73,6 +75,8 @@ add_action( 'bp_setup_admin_bar', 'bp_members_admin_bar_my_account_menu', 4 );
  * Add the User Admin top-level menu to user pages.
  *
  * @since 1.5.0
+ *
+ * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
  */
 function bp_members_admin_bar_user_admin_menu() {
 	global $wp_admin_bar;
@@ -184,6 +188,8 @@ add_action( 'add_admin_bar_menus', 'bp_members_remove_edit_page_menu' );
  * Add the "Invitations" menu and submenus.
  *
  * @since 8.0.0
+ *
+ * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
  */
 function bp_members_admin_bar_add_invitations_menu() {
 	global $wp_admin_bar;

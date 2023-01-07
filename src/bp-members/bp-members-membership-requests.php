@@ -421,7 +421,7 @@ add_filter( 'register', 'bp_members_membership_requests_filter_sidebar_register_
  *
  * @since 10.0.0
  *
- * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance, passed by reference
+ * @param WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
  */
 function bp_members_membership_requests_add_toolbar_link( $wp_admin_bar ) {
 	if ( is_user_logged_in() ) {

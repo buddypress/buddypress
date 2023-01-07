@@ -107,7 +107,7 @@ function bp_get_group_by( $field, $value ) {
  *
  * @since 10.0.0
  *
- * @global BP_Groups_Template $groups_template Groups template object.
+ * @global BP_Groups_Template $groups_template The main Groups template loop class.
  *
  * @param false|int|string|object|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
  *                                                       Default: false.
@@ -1257,8 +1257,6 @@ function groups_total_groups_for_user( $user_id = 0 ) {
  * Get the BP_Groups_Group object corresponding to the current group.
  *
  * @since 1.5.0
- *
- * @global BuddyPress $bp The one true BuddyPress instance.
  *
  * @return BP_Groups_Group|bool The current group object or false.
  */
