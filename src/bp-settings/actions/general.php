@@ -19,8 +19,6 @@
  * users accounts already, without knowing their existing password.
  *
  * @since 1.6.0
- *
- * @global BuddyPress $bp
  */
 function bp_settings_action_general() {
 	if ( ! bp_is_post_request() ) {

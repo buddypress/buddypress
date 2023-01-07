@@ -115,8 +115,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global object $wpdb
-	 * @global array $bp
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return bool
 	 */
@@ -150,7 +149,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global object $wpdb
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return bool
 	 */
@@ -274,7 +273,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global object $wpdb
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return boolean
 	 */

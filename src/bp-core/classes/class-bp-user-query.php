@@ -657,7 +657,7 @@ class BP_User_Query {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @global WPDB $wpdb Global WordPress database access object.
+	 * @global wpdb $wpdb WordPress database object.
 	 */
 	public function populate_extras() {
 		global $wpdb;

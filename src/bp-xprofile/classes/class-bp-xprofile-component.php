@@ -222,8 +222,6 @@ class BP_XProfile_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance
-	 *
 	 * @param array $main_nav Array of main nav items to set up.
 	 * @param array $sub_nav  Array of sub nav items to set up.
 	 */

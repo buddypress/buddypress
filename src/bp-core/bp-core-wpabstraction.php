@@ -21,9 +21,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.5.2
  *
- * @global string $wp_version
+ * @global string $wp_version WP Version number.
  *
- * @return double $wp_version
+ * @return double
  */
 function bp_get_major_wp_version() {
 	global $wp_version;

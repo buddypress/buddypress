@@ -98,7 +98,7 @@ function bp_blogs_directory_permalink() {
 /**
  * Rewind the blogs and reset blog index.
  *
- * @global BP_Blogs_Template $blogs_template {@link BP_Blogs_Template}
+ * @global BP_Blogs_Template $blogs_template The main blog template loop class.
  */
 function bp_rewind_blogs() {
 	global $blogs_template;
@@ -119,7 +119,7 @@ function bp_rewind_blogs() {
  * @since 2.0.0 Added $include_blog_ids, $update_meta_cache parameters
  * @since 10.0.0 Added $date_query parameter
  *
- * @global BP_Blogs_Template $blogs_template {@link BP_Blogs_Template}
+ * @global BP_Blogs_Template $blogs_template The main blog template loop class.
  *
  * @param array|string $args {
  *     Arguments for limiting the contents of the blogs loop. Most arguments
@@ -202,7 +202,7 @@ function bp_has_blogs( $args = '' ) {
 /**
  * Determine if there are still blogs left in the loop.
  *
- * @global object $blogs_template {@link BP_Blogs_Template}
+ * @global BP_Blogs_Template $blogs_template The main blog template loop class.
  *
  * @return bool Returns true when blogs are found.
  */
@@ -215,7 +215,7 @@ function bp_blogs() {
 /**
  * Get the current blog object in the loop.
  *
- * @global object $blogs_template {@link BP_Blogs_Template}
+ * @global BP_Blogs_Template $blogs_template The main blog template loop class.
  *
  * @return object The current blog within the loop.
  */
@@ -239,7 +239,7 @@ function bp_blogs_pagination_count() {
  *
  * @since 2.7.0
  *
- * @global object $blogs_template {@link BP_Blogs_Template}
+ * @global BP_Blogs_Template $blogs_template The main blog template loop class.
  *
  * @return string
  */
@@ -280,7 +280,7 @@ function bp_blogs_pagination_links() {
 	/**
 	 * Return the blogs pagination links.
 	 *
-	 * @global object $blogs_template {@link BP_Blogs_Template}
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
 	 *
 	 * @return string HTML pagination links.
 	 */
@@ -592,7 +592,7 @@ function bp_blog_class( $classes = array() ) {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @global BP_Blogs_Template $blogs_template
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
 	 *
 	 * @param array $classes Array of custom classes.
 	 * @return string Row class of the site.
@@ -764,7 +764,7 @@ function bp_blog_latest_post_title() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @global BP_Blogs_Template
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
 	 *
 	 * @return string Post title.
 	 */
@@ -801,7 +801,7 @@ function bp_blog_latest_post_permalink() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @global BP_Blogs_Template
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
 	 *
 	 * @return string URL of the blog's latest post.
 	 */
@@ -837,7 +837,7 @@ function bp_blog_latest_post_content() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @global BP_Blogs_Template
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
 	 *
 	 * @return string Content of the blog's latest post.
 	 */
@@ -876,7 +876,7 @@ function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @global BP_Blogs_Template
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
 	 *
 	 * @param string $size Image version to return. 'thumbnail', 'medium',
 	 *                     'large', or 'post-thumbnail'. Default: 'thumbnail'.

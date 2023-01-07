@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  *
- * @global BP_Messages_Box_Template $messages_template
+ * @global BP_Messages_Box_Template $messages_template The message box template loop class.
  *
  * @param array|string $args {
  *     Array of arguments. All are optional.
@@ -105,7 +105,7 @@ function bp_has_message_threads( $args = array() ) {
 /**
  * Check whether there are more threads to iterate over.
  *
- * @global BP_Messages_Box_Template $messages_template
+ * @global BP_Messages_Box_Template $messages_template The message box template loop class.
  *
  * @return bool
  */
@@ -117,7 +117,7 @@ function bp_message_threads() {
 /**
  * Set up the current thread inside the loop.
  *
- * @global BP_Messages_Box_Template $messages_template
+ * @global BP_Messages_Box_Template $messages_template The message box template loop class.
  *
  * @return BP_Messages_Thread
  */
@@ -135,7 +135,7 @@ function bp_message_thread_id() {
 	/**
 	 * Get the ID of the current thread in the loop.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return int
 	 */
@@ -161,7 +161,7 @@ function bp_message_thread_subject() {
 	/**
 	 * Get the subject of the current thread in the loop.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string
 	 */
@@ -187,7 +187,7 @@ function bp_message_thread_excerpt() {
 	/**
 	 * Generate an excerpt from the current message in the loop.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string
 	 */
@@ -229,7 +229,7 @@ function bp_message_thread_content() {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string The raw content of the last message in the thread.
 	 */
@@ -255,7 +255,7 @@ function bp_message_thread_from() {
 	/**
 	 * Get a link to the page of the current thread's last author.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string
 	 */
@@ -281,7 +281,7 @@ function bp_message_thread_to() {
 	/**
 	 * Generate HTML links to the pages of the current thread's recipients.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string
 	 */
@@ -316,7 +316,7 @@ function bp_message_thread_view_link( $thread_id = 0, $user_id = null ) {
 	 *
 	 * @since 2.9.0 Introduced `$user_id` parameter.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @param int $thread_id Optional. ID of the thread. Default: current
 	 *                       thread being iterated on in the loop.
@@ -369,7 +369,7 @@ function bp_message_thread_delete_link( $user_id = null ) {
 	 *
 	 * @since 2.9.0 Introduced `$user_id` parameter.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @param int|null $user_id Optional. ID of the user relative to whom the link
 	 *                          should be generated. Default: ID of logged-in user.
@@ -527,7 +527,7 @@ function bp_message_css_class() {
 	/**
 	 * Generate the CSS class for the current thread.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string
 	 */
@@ -553,7 +553,7 @@ function bp_message_css_class() {
 /**
  * Check whether the current thread has unread items.
  *
- * @global BP_Messages_Box_Template $messages_template
+ * @global BP_Messages_Box_Template $messages_template The message box template loop class.
  *
  * @return bool True if there are unread items, otherwise false.
  */
@@ -581,7 +581,7 @@ function bp_message_thread_unread_count() {
 	/**
 	 * Get the current thread's unread count.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return int
 	 */
@@ -689,7 +689,7 @@ function bp_message_thread_last_post_date_raw() {
 	/**
 	 * Get the unformatted date of the last post in the current thread.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string
 	 */
@@ -745,7 +745,7 @@ function bp_message_thread_avatar( $args = '' ) {
 	 * @see bp_core_fetch_avatar() For a description of arguments and
 	 *      return values.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @param array|string $args {
 	 *     Arguments are listed here with an explanation of their defaults.
@@ -841,7 +841,7 @@ function bp_messages_pagination() {
 	/**
 	 * Get the pagination HTML for the current thread loop.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string
 	 */
@@ -861,7 +861,7 @@ function bp_messages_pagination() {
 /**
  * Generate the "Viewing message x to y (of z messages)" string for a loop.
  *
- * @global BP_Messages_Box_Template $messages_template
+ * @global BP_Messages_Box_Template $messages_template The message box template loop class.
  */
 function bp_messages_pagination_count() {
 	global $messages_template;
@@ -1105,7 +1105,7 @@ function bp_messages_bulk_management_dropdown() {
  *
  * @since 1.6.0
  *
- * @global BP_Messages_Box_Template $messages_template
+ * @global BP_Messages_Box_Template $messages_template The message box template loop class.
  *
  * @return bool
  */
@@ -1165,7 +1165,7 @@ function bp_message_notice_id() {
 	/**
 	 * Get the ID of the current notice in the loop.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return int
 	 */
@@ -1191,7 +1191,7 @@ function bp_message_notice_post_date() {
 	/**
 	 * Get the post date of the current notice in the loop.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string
 	 */
@@ -1223,7 +1223,7 @@ function bp_message_notice_subject( $notice = null ) {
 	 *
 	 * @since 5.0.0 The $notice parameter has been added.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @param BP_Messages_Notice|null $notice The notice object.
 	 * @return string
@@ -1260,7 +1260,7 @@ function bp_message_notice_text( $notice = null ) {
 	 *
 	 * @since 5.0.0 The $notice parameter has been added.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @param BP_Messages_Notice|null $notice The notice object.
 	 * @return string
@@ -1291,7 +1291,7 @@ function bp_message_notice_delete_link() {
 	/**
 	 * Get the URL for deleting the current notice.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string Delete URL.
 	 */
@@ -1318,7 +1318,7 @@ function bp_message_activate_deactivate_link() {
 	/**
 	 * Get the URL for deactivating the current notice.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string
 	 */
@@ -1350,7 +1350,7 @@ function bp_message_activate_deactivate_text() {
 	/**
 	 * Generate the text ('Deactivate' or 'Activate') for the notice action link.
 	 *
-	 * @global BP_Messages_Box_Template $messages_template
+	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
 	 * @return string
 	 */
@@ -1668,7 +1668,7 @@ function bp_message_get_recipient_usernames() {
 /**
  * Initialize the messages template loop for a specific thread.
  *
- * @global BP_Messages_Thread_Template $thread_template
+ * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
  *
  * @param array|string $args {
  *     Array of arguments. All are optional.
@@ -1721,7 +1721,7 @@ function bp_thread_messages_order() {
 	/**
 	 * Get the 'ASC' or 'DESC' messages order string for this loop.
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return string
 	 */
@@ -1734,7 +1734,7 @@ function bp_thread_messages_order() {
 /**
  * Check whether there are more messages to iterate over.
  *
- * @global BP_Messages_Thread_Template $thread_template
+ * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
  *
  * @return bool
  */
@@ -1747,7 +1747,7 @@ function bp_thread_messages() {
 /**
  * Set up the current thread inside the loop.
  *
- * @global BP_Messages_Thread_Template $thread_template
+ * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
  *
  * @return BP_Messages_Message
  */
@@ -1766,7 +1766,7 @@ function bp_the_thread_id() {
 	/**
 	 * Get the ID of the thread that the current loop belongs to.
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return int
 	 */
@@ -1792,7 +1792,7 @@ function bp_the_thread_subject() {
 	/**
 	 * Get the subject of the thread currently being iterated over.
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return string
 	 */
@@ -1841,7 +1841,7 @@ function bp_get_the_thread_recipients() {
  *
  * @since 2.2.0
  *
- * @global BP_Messages_Thread_Template $thread_template
+ * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
  *
  * @return int
  */
@@ -1889,7 +1889,7 @@ function bp_the_thread_recipients_list() {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return string
 	 */
@@ -1938,7 +1938,7 @@ function bp_the_thread_message_id() {
 	 *
 	 * @since 1.9.0
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return int
 	 */
@@ -1972,7 +1972,7 @@ function bp_the_thread_message_css_class() {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return string
 	 */
@@ -2013,7 +2013,7 @@ function bp_the_thread_message_alt_class() {
 	/**
 	 * Get the CSS class used for message zebra striping.
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return string
 	 */
@@ -2048,7 +2048,7 @@ function bp_the_thread_message_sender_id() {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return int
 	 */
@@ -2081,7 +2081,7 @@ function bp_the_thread_message_sender_avatar( $args = '' ) {
 	/**
 	 * Get the avatar for the current message sender.
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @param array|string $args {
 	 *     Array of arguments. See {@link bp_core_fetch_avatar()} for more
@@ -2135,7 +2135,7 @@ function bp_the_thread_message_sender_link() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return string
 	 */
@@ -2165,7 +2165,7 @@ function bp_the_thread_message_sender_name() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return string
 	 */
@@ -2291,7 +2291,7 @@ function bp_the_thread_message_date_sent() {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return int
 	 */
@@ -2321,7 +2321,7 @@ function bp_the_thread_message_content() {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @global BP_Messages_Thread_Template $thread_template
+	 * @global BP_Messages_Thread_Template $thread_template Message Thread Template Class.
 	 *
 	 * @return string
 	 */
