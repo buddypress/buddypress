@@ -1049,6 +1049,8 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.8.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $meta_query An array of meta_query filters. See the
 	 *                          documentation for WP_Meta_Query for details.
 	 * @return array $sql_array 'join' and 'where' clauses.
@@ -1056,24 +1058,28 @@ class BP_Activity_Activity {
 	public static function get_meta_query_sql( $meta_query = array() ) {
 		global $wpdb;
 
+		// Default array keys & empty values.
 		$sql_array = array(
 			'join'  => '',
 			'where' => '',
 		);
 
-		if ( ! empty( $meta_query ) ) {
-			$activity_meta_query = new WP_Meta_Query( $meta_query );
-
-			// WP_Meta_Query expects the table name at
-			// $wpdb->activitymeta.
-			$wpdb->activitymeta = buddypress()->activity->table_name_meta;
-
-			$meta_sql = $activity_meta_query->get_sql( 'activity', 'a', 'id' );
-
-			// Strip the leading AND - BP handles it in get().
-			$sql_array['where'] = preg_replace( '/^\sAND/', '', $meta_sql['where'] );
-			$sql_array['join']  = $meta_sql['join'];
+		// Bail if no meta query.
+		if ( empty( $meta_query ) ) {
+			return $sql_array;
 		}
+
+		$bp                  = buddypress();
+		$activity_meta_query = new WP_Meta_Query( $meta_query );
+
+		// WP_Meta_Query expects the table name at $wpdb->activitymeta.
+		$wpdb->activitymeta = $bp->activity->table_name_meta;
+
+		$meta_sql = $activity_meta_query->get_sql( 'activity', 'a', 'id' );
+
+		// Strip the leading AND - BP handles it in get().
+		$sql_array['where'] = preg_replace( '/^\sAND/', '', $meta_sql['where'] );
+		$sql_array['join']  = $meta_sql['join'];
 
 		return $sql_array;
 	}
