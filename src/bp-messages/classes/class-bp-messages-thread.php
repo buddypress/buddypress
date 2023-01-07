@@ -249,7 +249,6 @@ class BP_Messages_Thread {
 	 * @since 2.3.0  Added `$thread_id` as a parameter.
 	 * @since 10.0.0 Added `$args` as a parameter.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int   $thread_id Message thread ID.
@@ -338,7 +337,6 @@ class BP_Messages_Thread {
 	 * @since 2.3.0
 	 * @since 10.0.0 Added `$args` as a parameter.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int   $thread_id The message thread ID.
@@ -442,7 +440,6 @@ class BP_Messages_Thread {
 	 * @since 2.7.0 The $user_id parameter was added. Previously the current user
 	 *              was always assumed.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $thread_id The message thread ID.
@@ -603,7 +600,6 @@ class BP_Messages_Thread {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
@@ -828,7 +824,6 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 * @since 9.0.0 Added the `user_id` parameter.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $thread_id The message thread ID.
@@ -874,7 +869,6 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 * @since 9.0.0 Added the `user_id` parameter.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $thread_id The message thread ID.
@@ -950,7 +944,6 @@ class BP_Messages_Thread {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $thread_id The message thread ID.
@@ -975,7 +968,6 @@ class BP_Messages_Thread {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $thread_id The message thread ID.
@@ -998,7 +990,6 @@ class BP_Messages_Thread {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $user_id The user ID.
@@ -1122,7 +1113,6 @@ class BP_Messages_Thread {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return bool

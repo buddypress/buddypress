@@ -119,7 +119,8 @@ function bp_is_page( $page = '' ) {
  * before we had a legitimate update process.
  *
  * @deprecated 1.7.0
- * @global WPDB $wpdb
+ *
+ * @global wpdb $wpdb WordPress database object.
  */
 function bp_update_db_stuff() {
 	global $wpdb;

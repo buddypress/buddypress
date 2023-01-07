@@ -579,7 +579,8 @@ class BP_Component {
 	 *
 	 * @see WP_Admin_Bar::add_menu() for a description of the syntax
 	 *      required by each item in the $wp_admin_nav parameter array.
-	 * @global object $wp_admin_bar
+	 *
+	 * @global WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
 	 *
 	 * @param array $wp_admin_nav An array of nav item arguments. Each item in this parameter
 	 *                            array is passed to {@link WP_Admin_Bar::add_menu()}.
@@ -587,6 +588,7 @@ class BP_Component {
 	 *                            each item.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
+		global $wp_admin_bar;
 
 		// Bail if this is an ajax request.
 		if ( defined( 'DOING_AJAX' ) ) {
@@ -636,9 +638,6 @@ class BP_Component {
 
 			// Set this objects menus.
 			$this->admin_menu = $wp_admin_nav;
-
-			// Define the WordPress global.
-			global $wp_admin_bar;
 
 			// Add each admin menu.
 			foreach( $this->admin_menu as $admin_menu ) {

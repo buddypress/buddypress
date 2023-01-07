@@ -432,7 +432,6 @@ function messages_is_valid_thread( $thread_id ) {
  *
  * @since 2.3.0
  *
- * @global BuddyPress $bp The one true BuddyPress instance.
  * @global wpdb $wpdb WordPress database object.
  *
  * @param  int $message_id ID of the message.

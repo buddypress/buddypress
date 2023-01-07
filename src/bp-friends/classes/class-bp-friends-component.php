@@ -104,8 +104,6 @@ class BP_Friends_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
-	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
 	 * @param array $args See {@link BP_Component::setup_globals()}.
@@ -292,8 +290,6 @@ class BP_Friends_Component extends BP_Component {
 	 * Set up the title for pages and <title>.
 	 *
 	 * @since 1.5.0
-	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 */
 	public function setup_title() {
 

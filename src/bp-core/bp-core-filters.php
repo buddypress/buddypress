@@ -665,7 +665,6 @@ add_filter( 'signup_site_meta', 'bp_core_add_meta_to_multisite_signups' );
  * @since 1.5.0
  *
  * @see wp_title()
- * @global object $bp BuddyPress global settings.
  *
  * @param string $title       Original page title.
  * @param string $sep         How to separate the various items within the page title.

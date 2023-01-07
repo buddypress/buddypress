@@ -271,7 +271,7 @@ function friends_check_friendship( $user_id, $possible_friend_id ) {
  *
  * @since 1.2.0
  *
- * @global BP_Core_Members_Template $members_template
+ * @global BP_Core_Members_Template $members_template The main member template loop class.
  *
  * @param int $user_id            ID of the first user.
  * @param int $possible_friend_id ID of the other user.
