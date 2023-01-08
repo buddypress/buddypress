@@ -190,22 +190,26 @@ class BP_Messages_Thread {
 		$this->messages_order = $r['order'];
 		$this->thread_id      = (int) $thread_id;
 
-		// Get messages for thread.
-		$this->messages = self::get_messages( $this->thread_id, $r );
+		// Get latest message.
+		$latest_message = self::get_latest_thread_message( $this->thread_id );
 
-		if ( empty( $this->messages ) ) {
+		// Bail early if no thread message is found.
+		if ( empty( $latest_message ) ) {
 			return false;
 		}
 
+		// Set latest message data.
+		$this->last_message_id      = $latest_message->id;
+		$this->last_message_date    = $latest_message->date_sent;
+		$this->last_sender_id       = $latest_message->sender_id;
+		$this->last_message_subject = $latest_message->subject;
+		$this->last_message_content = $latest_message->message;
+
+		// Get messages for thread.
+		$this->messages = self::get_messages( $this->thread_id, $r );
+
 		// Messages total count.
 		$this->messages_total_count = self::get_total_thread_message_count( $this->thread_id );
-
-		$last_message_index         = count( $this->messages ) - 1;
-		$this->last_message_id      = $this->messages[ $last_message_index ]->id;
-		$this->last_message_date    = $this->messages[ $last_message_index ]->date_sent;
-		$this->last_sender_id       = $this->messages[ $last_message_index ]->sender_id;
-		$this->last_message_subject = $this->messages[ $last_message_index ]->subject;
-		$this->last_message_content = $this->messages[ $last_message_index ]->message;
 
 		foreach ( (array) $this->messages as $key => $message ) {
 			$this->sender_ids[ $message->sender_id ] = $message->sender_id;
@@ -426,6 +430,55 @@ class BP_Messages_Thread {
 		 * @param array $r          An array of parameters.
 		 */
 		return apply_filters( 'bp_messages_thread_get_messages', (array) $messages, (int) $thread_id, (array) $r );
+	}
+
+	/**
+	 * Get latest thread message.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
+	 * @param integer $thread_id The message thread ID.
+	 * @return object|null
+	 */
+	public static function get_latest_thread_message( $thread_id ) {
+		global $wpdb;
+
+		$thread_id = (int) $thread_id;
+		$cache_key = "{$thread_id}_bp_messages_thread_latest_message";
+		$message   = wp_cache_get( $cache_key, 'bp_messages_threads' );
+
+		// Get latest message and cache it.
+		if ( empty( $message ) ) {
+			$bp      = buddypress();
+			$message = $wpdb->get_row(
+				$wpdb->prepare(
+					"SELECT * FROM {$bp->messages->table_name_messages} WHERE thread_id = %d ORDER BY date_sent DESC",
+					$thread_id
+				)
+			);
+
+			// Cast integers.
+			if ( ! empty( $message ) ) {
+				$message->id        = (int) $message->id;
+				$message->sender_id = (int) $message->sender_id;
+				$message->thread_id = (int) $message->thread_id;
+
+				// Cache message.
+				wp_cache_set( $cache_key, $message, 'bp_messages_threads' );
+			}
+		}
+
+		/**
+		 * Latest thread message.
+		 *
+		 * @since 12.0.0
+		 *
+		 * @param object|null $message   Latest thread message or null.
+		 * @param integer     $thread_id ID of the thread.
+		 */
+		return apply_filters( 'messages_thread_get_latest_message', $message, $thread_id );
 	}
 
 	/**

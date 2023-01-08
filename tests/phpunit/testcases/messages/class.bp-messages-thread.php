@@ -65,27 +65,27 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 		// Default results.
 		$messages = BP_Messages_Thread::get_messages( $m1->thread_id );
-		$this->assertTrue( 100 === count( $messages ) );
+		$this->assertCount( 100, $messages );
 
 		// Get first 10 messages.
 		$messages = BP_Messages_Thread::get_messages( $m1->thread_id, array( 'page' => 1, 'per_page' => 10 ) );
-		$this->assertTrue( 10 === count( $messages ) );
+		$this->assertCount( 10, $messages );
 
 		// Get first 10 messages differently.
 		$thread = new BP_Messages_Thread( $m1->thread_id, 'ASC', array( 'page' => 1, 'per_page' => 10 ) );
-		$this->assertTrue( 10 === count( $thread->messages ) );
+		$this->assertCount( 10, $thread->messages );
 
 		// Get all messages.
 		$messages = BP_Messages_Thread::get_messages( $m1->thread_id, array( 'page' => null, 'per_page' => null ) );
-		$this->assertTrue( 100 === count( $messages ) );
+		$this->assertCount( 100, $messages );
 
 		// Get all mesages differently.
 		$thread = new BP_Messages_Thread( $m1->thread_id, 'ASC', array( 'page' => null, 'per_page' => null ) );
-		$this->assertTrue( 100 === count( $thread->messages ) );
+		$this->assertCount( 100, $thread->messages );
 
 		// Get last message.
 		$messages = BP_Messages_Thread::get_messages( $m1->thread_id, array( 'page' => 100, 'per_page' => 1 ) );
-		$this->assertTrue( 1 === count( $messages ) );
+		$this->assertCount( 1, $messages );
 		$this->assertEquals( $u1, $messages[0]->sender_id );
 		$this->assertEquals( 'Last Message', $messages[0]->subject );
 	}
@@ -195,13 +195,15 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		// create reply
 		$message_2 = self::factory()->message->create_and_get( array(
 			'thread_id'  => $message_1->thread_id,
-			'sender_id'  => $u1,
-			'recipients' => array( $u2 ),
+			'sender_id'  => $u2,
+			'date_sent'  => '2030-10-27 19:21:40',
+			'recipients' => array( $u1 ),
 			'content'    => 'Bar'
 		) );
 
 		// Default sort from constructor.
 		$thread = new BP_Messages_Thread( $message_1->thread_id );
+
 		$this->assertEquals(
 			array( $message_1->id, $message_2->id ),
 			wp_list_pluck( $thread->messages, 'id' )
@@ -595,6 +597,9 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 		$thread_id = $message->thread_id;
 
+		// Populate cache.
+		$thread = BP_Messages_Thread::get_recipients_for_thread( $thread_id );
+
 		// Cache should be populated.
 		$this->assertTrue( (bool) wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' ) );
 
@@ -602,7 +607,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		messages_mark_thread_read( $thread_id, $u2 );
 
 		// Cache should be empty.
-		$this->assertFalse( wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' ) );
+		$this->assertFalse( (bool) wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' ) );
 
 		$thread = new BP_Messages_Thread( $thread_id );
 
@@ -625,6 +630,9 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 		$thread_id = $message->thread_id;
 
+		// Populate cache.
+		$thread = BP_Messages_Thread::get_recipients_for_thread( $thread_id );
+
 		// Cache should be populated.
 		$this->assertTrue( (bool) wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' ) );
 
@@ -632,7 +640,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		messages_mark_thread_unread( $thread_id, $u2 );
 
 		// Cache should be empty.
-		$this->assertFalse( wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' ) );
+		$this->assertFalse( (bool) wp_cache_get( 'thread_recipients_' . $thread_id, 'bp_messages' ) );
 
 		$thread = new BP_Messages_Thread( $thread_id );
 
@@ -733,31 +741,94 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 	}
 
 	/**
-	 * @group last_message
+	 * @group latest_message
 	 */
-	public function test_last_message_populated() {
-		$u1 = self::factory()->user->create();
-		$u2 = self::factory()->user->create();
+	public function test_get_latest_message_data() {
+		$u1      = self::factory()->user->create();
+		$u2      = self::factory()->user->create();
+		$subject = 'Last One';
+		$content = 'Bar and baz';
 
-		$date = bp_core_current_time();
+		$m = self::factory()->message->create_and_get(
+			[
+				'sender_id'  => $u1,
+				'recipients' => [ $u2 ],
+				'subject'    => 'Foo',
+				'content'    => 'Bar',
+			]
+		);
 
-		$message = self::factory()->message->create_and_get( array(
-			'sender_id' => $u1,
-			'recipients' => array( $u2 ),
-			'subject' => 'Foo',
-			'date_sent' => $date,
-			'content' => 'Bar and baz.',
-		) );
+		self::factory()->message->create_many(
+			8,
+			[
+				'thread_id'  => $m->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => [ $u1 ],
+				'subject'    => 'Bar',
+			]
+		);
 
-		$t1 = $message->thread_id;
+		$date = '2030-10-27 19:21:40';
 
-		$thread = new BP_Messages_Thread( $t1 );
+		// Last(est) message.
+		$m2 = self::factory()->message->create_and_get(
+			[
+				'thread_id'  => $m->thread_id,
+				'sender_id'  => $u1,
+				'recipients' => [ $u2 ],
+				'date_sent'  => $date,
+				'subject'    => $subject,
+				'content'    => $content,
+			]
+		);
 
-		$this->assertNotNull( $thread->last_message_id );
-		$this->assertEquals( 'Foo', $thread->last_message_subject );
-		$this->assertEquals( $u1, $thread->last_sender_id );
+		$thread = new BP_Messages_Thread( $m->thread_id, 'ASC', [ 'page' => 1, 'per_page' => 3 ] );
+
+		$this->assertCount( 3, $thread->messages );
+		$this->assertEquals( $m2->id, $thread->last_message_id );
+		$this->assertEquals( $m2->sender_id, $thread->last_sender_id );
 		$this->assertEquals( $date, $thread->last_message_date );
-		$this->assertEquals( 'Bar and baz.', $thread->last_message_content );
+		$this->assertEquals( $subject, $thread->last_message_subject );
+		$this->assertEquals( $content, $thread->last_message_content );
+	}
+
+	/**
+	 * @group latest_message
+	 * @group cache
+	 */
+	public function test_get_latest_message_from_cache() {
+		$u1   = self::factory()->user->create();
+		$u2   = self::factory()->user->create();
+		$date = '2030-10-27 19:21:40';
+
+		$m1 = self::factory()->message->create_and_get(
+			[
+				'sender_id'  => $u1,
+				'recipients' => [ $u2 ],
+				'subject'    => 'Foo',
+			]
+		);
+
+		$m2 = self::factory()->message->create_and_get(
+			[
+				'thread_id'  => $m1->thread_id,
+				'sender_id'  => $u1,
+				'recipients' => [ $u2 ],
+				'date_sent'  => $date,
+				'subject'    => 'Last Message',
+				'content'    => 'Last Message Content',
+			]
+		);
+
+		$thread_id      = $m1->thread_id;
+		$latest_message = wp_cache_get( "{$thread_id}_bp_messages_thread_latest_message", 'bp_messages_threads' );
+
+		$this->assertEquals( $thread_id, $latest_message->thread_id );
+		$this->assertEquals( $m2->id, $latest_message->id );
+		$this->assertEquals( $m2->sender_id, $latest_message->sender_id );
+		$this->assertEquals( $date, $latest_message->date_sent );
+		$this->assertEquals( 'Last Message', $latest_message->subject );
+		$this->assertEquals( 'Last Message Content', $latest_message->message );
 	}
 
 	/**
