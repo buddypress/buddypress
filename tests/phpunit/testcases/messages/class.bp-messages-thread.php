@@ -146,7 +146,7 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 			]
 		);
 
-		$m2 = self::factory()->message->create(
+		self::factory()->message->create(
 			[
 				'thread_id'  => $m1->thread_id,
 				'sender_id'  => $u2,
@@ -169,6 +169,9 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 				'subject'    => 'Last Message',
 			]
 		);
+
+		// Update cache.
+		BP_Messages_Thread::get_total_thread_message_count( $m1->thread_id );
 
 		$this->assertSame( 3, wp_cache_get( $cache_key, 'bp_messages_threads' ) );
 
