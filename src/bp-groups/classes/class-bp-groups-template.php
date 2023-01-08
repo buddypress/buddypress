@@ -21,96 +21,104 @@ class BP_Groups_Template {
 	/**
 	 * The loop iterator.
 	 *
-	 * @var int
 	 * @since 1.2.0
+	 * @var int
 	 */
 	public $current_group = -1;
 
 	/**
 	 * The number of groups returned by the paged query.
 	 *
-	 * @var int
 	 * @since 1.2.0
+	 * @var int
 	 */
 	public $group_count;
 
 	/**
 	 * Array of groups located by the query.
 	 *
-	 * @var array
 	 * @since 1.2.0
+	 * @var array
 	 */
 	public $groups;
 
 	/**
 	 * The group object currently being iterated on.
 	 *
-	 * @var object
 	 * @since 1.2.0
+	 * @var object
 	 */
 	public $group;
 
 	/**
 	 * A flag for whether the loop is currently being iterated.
 	 *
-	 * @var bool
 	 * @since 1.2.0
+	 * @var bool
 	 */
 	public $in_the_loop;
 
 	/**
 	 * The page number being requested.
 	 *
-	 * @var string
 	 * @since 1.2.0
+	 * @var string
 	 */
 	public $pag_page;
 
 	/**
 	 * The number of items being requested per page.
 	 *
-	 * @var string
 	 * @since 1.2.0
+	 * @var string
 	 */
 	public $pag_num;
 
 	/**
+	 * URL argument used for the pagination param.
+	 *
+	 * @since 1.2.0
+	 * @var string
+	 */
+	public $pag_arg;
+
+	/**
 	 * An HTML string containing pagination links.
 	 *
-	 * @var string
 	 * @since 1.2.0
+	 * @var string
 	 */
 	public $pag_links;
 
 	/**
 	 * The total number of groups matching the query parameters.
 	 *
-	 * @var int
 	 * @since 1.2.0
+	 * @var int
 	 */
 	public $total_group_count;
 
 	/**
 	 * Whether the template loop is for a single group page.
 	 *
-	 * @var bool
 	 * @since 1.2.0
+	 * @var bool
 	 */
 	public $single_group = false;
 
 	/**
 	 * Field to sort by.
 	 *
-	 * @var string
 	 * @since 1.2.0
+	 * @var string
 	 */
 	public $sort_by;
 
 	/**
 	 * Sort order.
 	 *
-	 * @var string
 	 * @since 1.2.0
+	 * @var string
 	 */
 	public $order;
 

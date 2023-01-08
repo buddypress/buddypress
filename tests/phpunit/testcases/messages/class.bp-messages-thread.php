@@ -90,6 +90,94 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		$this->assertEquals( 'Last Message', $messages[0]->subject );
 	}
 
+	public function test_get_messages_total_count() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$m1 = self::factory()->message->create_and_get(
+			[
+				'sender_id'  => $u1,
+				'recipients' => [ $u2 ],
+				'subject'    => 'Foo',
+			]
+		);
+
+		self::factory()->message->create_many(
+			98,
+			[
+				'thread_id'  => $m1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => [ $u1 ],
+				'subject'    => 'Bar',
+			]
+		);
+
+		// Last message
+		self::factory()->message->create(
+			[
+				'thread_id'  => $m1->thread_id,
+				'sender_id'  => $u1,
+				'recipients' => [ $u2 ],
+				'subject'    => 'Last Message',
+			]
+		);
+
+		$count = BP_Messages_Thread::get_total_thread_message_count( $m1->thread_id );
+		$this->assertSame( 100, $count );
+
+		$thread = new BP_Messages_Thread( $m1->thread_id );
+		$this->assertSame( 100, $thread->messages_total_count );
+
+		$thread = new BP_Messages_Thread( $m1->thread_id, 'ASC', [ 'page' => 1, 'per_page' => 10 ] );
+		$this->assertCount( 10, $thread->messages );
+		$this->assertSame( 100, $thread->messages_total_count );
+	}
+
+	/**
+	 * @group cache
+	 */
+	public function test_get_messages_total_count_cached() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$m1 = self::factory()->message->create_and_get(
+			[
+				'sender_id'  => $u1,
+				'recipients' => [ $u2 ],
+				'subject'    => 'Foo',
+			]
+		);
+
+		$m2 = self::factory()->message->create(
+			[
+				'thread_id'  => $m1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => [ $u1 ],
+				'subject'    => 'Middle Message',
+			]
+		);
+
+		$cache_key = "{$m1->thread_id}_bp_messages_thread_total_count";
+		$count     = BP_Messages_Thread::get_total_thread_message_count( $m1->thread_id );
+
+		$this->assertSame( 2, $count );
+		$this->assertSame( 2, wp_cache_get( $cache_key, 'bp_messages_threads' ) );
+
+		self::factory()->message->create(
+			[
+				'thread_id'  => $m1->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => [ $u1 ],
+				'subject'    => 'Last Message',
+			]
+		);
+
+		$this->assertSame( 3, wp_cache_get( $cache_key, 'bp_messages_threads' ) );
+
+		// Delete thread.
+		messages_delete_thread( $m1->thread_id );
+
+		$this->assertFalse( wp_cache_get( $cache_key, 'bp_messages_threads' ) );
+	}
+
 	/**
 	 * @group order
 	 */

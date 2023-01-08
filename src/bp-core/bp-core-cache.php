@@ -13,30 +13,36 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/**
- * Prune the WP Super Cache.
- *
- * When WP Super Cache is installed, this function will clear cached pages
- * so that success/error messages or time-sensitive content are not cached.
- *
- * @since 1.0.0
- *
- * @see prune_super_cache()
- *
- * @return int
- */
-function bp_core_clear_cache() {
-	global $cache_path;
+if ( ! function_exists( 'bp_core_clear_cache' ) ) {
 
-	if ( function_exists( 'prune_super_cache' ) ) {
+	/**
+	 * Prune the WP Super Cache.
+	 *
+	 * When WP Super Cache is installed, this function will clear cached pages
+	 * so that success/error messages or time-sensitive content are not cached.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @global string $cache_path Path directory.
+	 *
+	 * @see prune_super_cache()
+	 *
+	 * @return integer
+	 */
+	function bp_core_clear_cache() {
+		global $cache_path;
 
-		/**
-		 * Fires before the pruning of WP Super Cache.
-		 *
-		 * @since 1.0.0
-		 */
-		do_action( 'bp_core_clear_cache' );
-		return prune_super_cache( $cache_path, true );
+		if ( function_exists( 'prune_super_cache' ) ) {
+
+			/**
+			 * Fires before the pruning of WP Super Cache.
+			 *
+			 * @since 1.0.0
+			 */
+			do_action( 'bp_core_clear_cache' );
+
+			return prune_super_cache( $cache_path, true );
+		}
 	}
 }
 
@@ -180,7 +186,7 @@ function bp_get_non_cached_ids( $item_ids, $cache_group ) {
  *
  * @since 1.6.0
  *
- * @global object $wpdb WordPress database object for queries..
+ * @global wpdb $wpdb WordPress database object.
  *
  * @param array $args {
  *     Array of arguments.

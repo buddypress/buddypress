@@ -73,7 +73,6 @@ class BP_Messages_Notice {
 	 *
 	 * Runs during constructor.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @since 1.0.0
@@ -96,7 +95,6 @@ class BP_Messages_Notice {
 	/**
 	 * Saves a notice.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @since 1.0.0
@@ -180,7 +178,6 @@ class BP_Messages_Notice {
 	/**
 	 * Deletes a notice.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @since 1.0.0
@@ -225,7 +222,6 @@ class BP_Messages_Notice {
 	 *
 	 * To get all notices, pass a value of -1 to pag_num.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @since 1.0.0
@@ -277,7 +273,6 @@ class BP_Messages_Notice {
 	/**
 	 * Returns the total number of recorded notices.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @since 1.0.0
@@ -304,7 +299,6 @@ class BP_Messages_Notice {
 	/**
 	 * Returns the active notice that should be displayed on the front end.
 	 *
-	 * @global BuddyPress $bp The one true BuddyPress instance.
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @since 1.0.0
