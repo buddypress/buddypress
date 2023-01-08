@@ -26,12 +26,20 @@ class BP_Messages_Thread {
 	public $thread_id;
 
 	/**
-	 * The current messages.
+	 * The current messages in the message thread.
 	 *
 	 * @since 1.0.0
 	 * @var array
 	 */
 	public $messages;
+
+	/**
+	 * The current messages count in the message thread.
+	 *
+	 * @since 12.0.0
+	 * @var int
+	 */
+	public $messages_total_count;
 
 	/**
 	 * The current recipients in the message thread.
@@ -188,6 +196,9 @@ class BP_Messages_Thread {
 		if ( empty( $this->messages ) ) {
 			return false;
 		}
+
+		// Messages total count.
+		$this->messages_total_count = self::get_total_thread_message_count( $this->thread_id );
 
 		$last_message_index         = count( $this->messages ) - 1;
 		$this->last_message_id      = $this->messages[ $last_message_index ]->id;
@@ -937,6 +948,43 @@ class BP_Messages_Thread {
 		$bp = buddypress();
 
 		return (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(thread_id) FROM {$bp->messages->table_name_recipients} WHERE user_id = %d AND is_deleted = 0 {$exclude_sender} {$type_sql}", $user_id ) );
+	}
+
+	/**
+	 * Returns the total number of messages in a thread.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
+	 * @param integer $thread_id The message thread ID.
+	 * @return integer Total thread message count
+	 */
+	public static function get_total_thread_message_count( $thread_id ) {
+		global $wpdb;
+
+		$cache_key   = "{$thread_id}_bp_messages_thread_total_count";
+		$total_count = wp_cache_get( $cache_key, 'bp_messages_threads' );
+
+		if ( false === $total_count ) {
+			$bp = buddypress();
+
+			$total_count = (int) $wpdb->get_var(
+				$wpdb->prepare( "SELECT COUNT(id) FROM {$bp->messages->table_name_messages} WHERE thread_id = %d", $thread_id )
+			);
+
+			wp_cache_set( $cache_key, $total_count, 'bp_messages_threads' );
+		}
+
+		/**
+		 * Thread messages count.
+		 *
+		 * @since 12.0.0
+		 *
+		 * @param integer $total_count Total thread messages count.
+		 * @param integer $thread_id   ID of the thread.
+		 */
+		return (int) apply_filters( 'messages_thread_get_total_message_count', $total_count, (int) $thread_id );
 	}
 
 	/**
