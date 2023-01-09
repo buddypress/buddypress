@@ -57,7 +57,9 @@ class BP_Activity_Feed {
 	 * @param string $key Property to check.
 	 * @return bool Whether or not data variable exists.
 	 */
-	public function __isset( $key ) { return isset( $this->data[$key] ); }
+	public function __isset( $key ) {
+		return isset( $this->data[ $key ] );
+	}
 
 	/**
 	 * Magic method for getting a certain data variable.
@@ -67,7 +69,9 @@ class BP_Activity_Feed {
 	 * @param string $key Property to get.
 	 * @return mixed Data in variable if available or null.
 	 */
-	public function __get( $key ) { return isset( $this->data[$key] ) ? $this->data[$key] : null; }
+	public function __get( $key ) {
+		return isset( $this->data[ $key ] ) ? $this->data[ $key ] : null;
+	}
 
 	/**
 	 * Magic method for setting a certain data variable.
@@ -77,7 +81,9 @@ class BP_Activity_Feed {
 	 * @param string $key   The property to set.
 	 * @param mixed  $value The value to set.
 	 */
-	public function __set( $key, $value ) { $this->data[$key] = $value; }
+	public function __set( $key, $value ) {
+		$this->data[ $key ] = $value;
+	}
 
 	/**
 	 * Constructor.
@@ -206,7 +212,6 @@ class BP_Activity_Feed {
 				'display_comments' => 'stream',
 			)
 		);
-
 	}
 
 	/**

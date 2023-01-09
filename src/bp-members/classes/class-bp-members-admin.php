@@ -54,32 +54,156 @@ class BP_Members_Admin {
 	/** Other *****************************************************************/
 
 	/**
+	 * Redirect.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $redirect;
+
+	/**
 	 * Screen id for edit user's profile page.
 	 *
+	 * @since 2.0.0
 	 * @var string
 	 */
 	public $user_page = '';
 
 	/**
-	 * Setup BP Members Admin.
+	 * User capability.
 	 *
 	 * @since 2.0.0
-	 *
-	 * @return BP_Members_Admin
+	 * @var string
 	 */
-	public static function register_members_admin() {
-		if ( ! is_admin() ) {
-			return;
-		}
+	public $capability;
 
-		$bp = buddypress();
+	/**
+	 * Show Profile Screen id.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $user_profile;
 
-		if ( empty( $bp->members->admin ) ) {
-			$bp->members->admin = new self;
-		}
+	/**
+	 * Current user ID.
+	 *
+	 * @since 2.0.0
+	 * @var int
+	 */
+	public $current_user_id;
 
-		return $bp->members->admin;
-	}
+	/**
+	 * User ID being edited.
+	 *
+	 * @since 2.0.0
+	 * @var int
+	 */
+	public $user_id = 0;
+
+	/**
+	 * Is a member editing their own profile.
+	 *
+	 * @since 2.0.0
+	 * @var bool
+	 */
+	public $is_self_profile = false;
+
+	/**
+	 * The screen ids to load specific css for.
+	 *
+	 * @since 2.0.0
+	 * @var array
+	 */
+	public $screen_id = array();
+
+	/**
+	 * The stats metabox default position.
+	 *
+	 * @since 2.0.0
+	 * @var stdClass
+	 */
+	public $stats_metabox;
+
+	/**
+	 * Edit user's profile args.
+	 *
+	 * @since 2.0.0
+	 * @var array
+	 */
+	public $edit_profile_args;
+
+	/**
+	 * Edit user's profile URL.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $edit_profile_url = '';
+
+	/**
+	 * Edit URL.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $edit_url = '';
+
+	/**
+	 * Users page.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $users_page = '';
+
+	/**
+	 * Signups page.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $signups_page = '';
+
+	/**
+	 * Users URL.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $users_url;
+
+	/**
+	 * Users screen.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $users_screen;
+
+	/**
+	 * Members' Invite Page.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $members_invites_page = '';
+
+	/**
+	 * Status of BuddyPress network.
+	 *
+	 * @since 2.0.0
+	 * @var bool
+	 */
+	public $subsite_activated;
+
+	/**
+	 * Tools menu.
+	 *
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public $tools_parent = 'tools.php';
 
 	/**
 	 * Constructor method.
@@ -100,16 +224,13 @@ class BP_Members_Admin {
 		$bp = buddypress();
 
 		// Paths and URLs
-		$this->admin_dir = trailingslashit( $bp->plugin_dir  . 'bp-members/admin' ); // Admin path.
-		$this->admin_url = trailingslashit( $bp->plugin_url  . 'bp-members/admin' ); // Admin URL.
+		$this->admin_dir = trailingslashit( $bp->plugin_dir . 'bp-members/admin' ); // Admin path.
+		$this->admin_url = trailingslashit( $bp->plugin_url . 'bp-members/admin' ); // Admin URL.
 		$this->css_url   = trailingslashit( $this->admin_url . 'css' ); // Admin CSS URL.
 		$this->js_url    = trailingslashit( $this->admin_url . 'js'  ); // Admin CSS URL.
 
 		// Capability depends on config.
 		$this->capability = bp_core_do_network_admin() ? 'manage_network_users' : 'edit_users';
-
-		// The Edit Profile Screen id.
-		$this->user_page = '';
 
 		// The Show Profile Screen id.
 		$this->user_profile = is_network_admin() ? 'users' : 'profile';
@@ -117,30 +238,15 @@ class BP_Members_Admin {
 		// The current user id.
 		$this->current_user_id = get_current_user_id();
 
-		// The user id being edited.
-		$this->user_id = 0;
-
-		// Is a member editing their own profile.
-		$this->is_self_profile = false;
-
-		// The screen ids to load specific css for.
-		$this->screen_id = array();
-
 		// The stats metabox default position.
-		$this->stats_metabox = new StdClass();
+		$this->stats_metabox = new stdClass();
 
 		// BuddyPress edit user's profile args.
 		$this->edit_profile_args = array( 'page' => 'bp-profile-edit' );
-		$this->edit_profile_url  = '';
-		$this->edit_url          = '';
 
 		// Data specific to signups.
-		$this->users_page   = '';
-		$this->signups_page = '';
 		$this->users_url    = bp_get_admin_url( 'users.php' );
 		$this->users_screen = bp_core_do_network_admin() ? 'users-network' : 'users';
-
-		$this->members_invites_page = '';
 
 		// Specific config: BuddyPress is not network activated.
 		$this->subsite_activated = (bool) is_multisite() && ! bp_is_network_activated();
@@ -156,8 +262,6 @@ class BP_Members_Admin {
 		 */
 		if ( is_multisite() && bp_core_do_network_admin() ) {
 			$this->tools_parent = 'network-tools';
-		} else {
-			$this->tools_parent = 'tools.php';
 		}
 	}
 
@@ -168,8 +272,7 @@ class BP_Members_Admin {
 	 */
 	private function setup_actions() {
 
-		/** Extended Profile *************************************************
-		 */
+		/** Extended Profile **************************************************/
 
 		// Enqueue all admin JS and CSS.
 		add_action( 'bp_admin_enqueue_scripts', array( $this, 'enqueue_scripts'   )        );
@@ -304,6 +407,27 @@ class BP_Members_Admin {
 				'activate' => 1
 			) );
 		}
+	}
+
+	/**
+	 * Setup BP Members Admin.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return BP_Members_Admin|null
+	 */
+	public static function register_members_admin() {
+		if ( ! is_admin() ) {
+			return null;
+		}
+
+		$bp = buddypress();
+
+		if ( empty( $bp->members->admin ) ) {
+			$bp->members->admin = new self;
+		}
+
+		return $bp->members->admin;
 	}
 
 	/**
@@ -455,7 +579,6 @@ class BP_Members_Admin {
 	 * Create the /user/ admin Profile submenus for all members.
 	 *
 	 * @since 2.1.0
-	 *
 	 */
 	public function user_profile_menu() {
 
@@ -492,7 +615,6 @@ class BP_Members_Admin {
 	 * Create the All Users / Profile > Edit Profile and All Users Signups submenus.
 	 *
 	 * @since 2.0.0
-	 *
 	 */
 	public function admin_menus() {
 

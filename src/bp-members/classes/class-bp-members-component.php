@@ -52,6 +52,21 @@ class BP_Members_Component extends BP_Component {
 	public $nav;
 
 	/**
+	 * Member admin.
+	 *
+	 * @since 2.0.0
+	 * @var BP_Members_Admin
+	 */
+	public $admin;
+
+	/**
+	 * Invitations.
+	 *
+	 * @var stdClass
+	 */
+	public $invitations;
+
+	/**
 	 * Start the members component creation process.
 	 *
 	 * @since 1.5.0
