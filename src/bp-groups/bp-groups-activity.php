@@ -17,14 +17,12 @@ defined( 'ABSPATH' ) || exit;
  * Register activity actions for the Groups component.
  *
  * @since 1.1.0
- *
- * @return false|null False on failure.
  */
 function groups_register_activity_actions() {
 	$bp = buddypress();
 
 	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
+		return;
 	}
 
 	bp_activity_set_action(
@@ -748,13 +746,12 @@ add_filter( 'bp_activity_can_comment_reply', 'bp_groups_filter_activity_can_comm
  *
  * @param int $user_id  ID of the user joining the group.
  * @param int $group_id ID of the group.
- * @return false|null False on failure.
  */
 function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 
 	// Bail if Activity is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
+		return;
 	}
 
 	// Get the group so we can get it's name.
@@ -789,17 +786,16 @@ add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_act
  * @param  int             $group_id       ID of the group.
  * @param  BP_Groups_Group $old_group      Group object before the details had been changed.
  * @param  bool            $notify_members True if the admin has opted to notify group members, otherwise false.
- * @return null|WP_Error|bool|int The ID of the activity on success. False on error.
  */
 function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $notify_members ) {
 
 	// Bail if Activity is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
+		return;
 	}
 
 	if ( ! isset( $old_group->name ) || ! isset( $old_group->slug ) || ! isset( $old_group->description ) ) {
-		return false;
+		return;
 	}
 
 	// If the admin has opted not to notify members, don't post an activity item either.
@@ -849,14 +845,13 @@ function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $n
 	groups_update_groupmeta( $group_id, 'updated_details_' . $time, $changed );
 
 	// Record in activity streams.
-	return groups_record_activity( array(
+	groups_record_activity( array(
 		'type'          => 'group_details_updated',
 		'item_id'       => $group_id,
 		'user_id'       => bp_loggedin_user_id(),
 		'recorded_time' => $time,
 
 	) );
-
 }
 add_action( 'groups_details_updated', 'bp_groups_group_details_updated_add_activity', 10, 3 );
 

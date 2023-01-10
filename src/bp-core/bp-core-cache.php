@@ -26,8 +26,6 @@ if ( ! function_exists( 'bp_core_clear_cache' ) ) {
 	 * @global string $cache_path Path directory.
 	 *
 	 * @see prune_super_cache()
-	 *
-	 * @return integer
 	 */
 	function bp_core_clear_cache() {
 		global $cache_path;
@@ -41,7 +39,7 @@ if ( ! function_exists( 'bp_core_clear_cache' ) ) {
 			 */
 			do_action( 'bp_core_clear_cache' );
 
-			return prune_super_cache( $cache_path, true );
+			prune_super_cache( $cache_path, true );
 		}
 	}
 }

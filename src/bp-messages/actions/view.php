@@ -9,14 +9,12 @@
 
 /**
  * Process a request to view a single message thread.
- *
- * @return bool False if not a single conversation.
  */
 function messages_action_conversation() {
 
 	// Bail if not viewing a single conversation.
 	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'view' ) ) {
-		return false;
+		return;
 	}
 
 	// Get the thread ID from the action variable.

@@ -1133,7 +1133,6 @@ class BP_Groups_Member {
 	 * @since 2.7.0
 	 *
 	 * @param array $group_ids IDs of the groups.
-	 * @return bool True on success.
 	 */
 	public static function prime_group_admins_mods_cache( $group_ids ) {
 		global $wpdb;

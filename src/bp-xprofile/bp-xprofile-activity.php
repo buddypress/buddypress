@@ -17,7 +17,6 @@ defined( 'ABSPATH' ) || exit;
  * Register the activity actions for the Extended Profile component.
  *
  * @since 1.0.0
- *
  */
 function xprofile_register_activity_actions() {
 
@@ -175,7 +174,7 @@ function xprofile_register_activity_action( $key, $value ) {
  * @param bool  $errors     True if validation or saving errors occurred, otherwise false.
  * @param array $old_values Pre-save xprofile field values and visibility levels.
  * @param array $new_values Post-save xprofile field values and visibility levels.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $errors = false, $old_values = array(), $new_values = array() ) {
 
@@ -255,7 +254,19 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 		'type'         => 'updated_profile',
 	) );
 }
-add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 10, 5 );
+
+/**
+ * Add an activity item when a user has updated his profile.
+ *
+ * @param int   $user_id    ID of the user who has updated his profile.
+ * @param array $field_ids  IDs of the fields submitted.
+ * @param bool  $errors     True if validation or saving errors occurred, otherwise false.
+ * @param array $old_values Pre-save xprofile field values and visibility levels.
+ * @param array $new_values Post-save xprofile field values and visibility levels.
+ */
+add_action( 'xprofile_updated_profile', function( $user_id, $field_ids, $errors, $old_values, $new_values ) {
+	bp_xprofile_updated_profile_activity( $user_id, $field_ids, $errors, $old_values, $new_values );
+}, 10, 5 );
 
 /**
  * Add filters for xprofile activity types to Show dropdowns.
@@ -265,8 +276,6 @@ add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 
  */
 function xprofile_activity_filter_options() {
 	?>
-
 	<option value="updated_profile"><?php _e( 'Profile Updates', 'buddypress' ) ?></option>
-
 	<?php
 }

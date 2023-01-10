@@ -876,7 +876,6 @@ class BP_Members_Admin {
 	 *
 	 * @param object|null $user   User to create profile navigation for.
 	 * @param string      $active Which profile to highlight.
-	 * @return string|null
 	 */
 	public function profile_nav( $user = null, $active = 'WordPress' ) {
 
@@ -1684,7 +1683,6 @@ class BP_Members_Admin {
 	 * @since 2.0.0
 	 *
 	 * @param WP_User_Query|null $query The users query.
-	 * @return WP_User_Query|null The users query without the signups.
 	 */
 	public function remove_signups_from_user_query( $query = null ) {
 		global $wpdb;

@@ -9,13 +9,11 @@
 
 /**
  * Process a request to delete a message.
- *
- * @return bool False on failure.
  */
 function messages_action_delete_message() {
 
 	if ( ! bp_is_messages_component() || bp_is_current_action( 'notices' ) || ! bp_is_action_variable( 'delete', 0 ) ) {
-		return false;
+		return;
 	}
 
 	$thread_id = bp_action_variable( 1 );
@@ -24,7 +22,7 @@ function messages_action_delete_message() {
 		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ) );
 	} else {
 		if ( ! check_admin_referer( 'messages_delete_thread' ) ) {
-			return false;
+			return;
 		}
 
 		// Delete message.

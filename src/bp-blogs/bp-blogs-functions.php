@@ -346,7 +346,6 @@ function bp_blogs_is_blog_trackable( $blog_id, $user_id = 0 ) {
  * @param int  $user_id     ID of the user for whom the blog is being recorded.
  * @param bool $no_activity Optional. Whether to skip recording an activity
  *                          item about this blog creation. Default: false.
- * @return false|null Returns false on failure.
  */
 function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 
@@ -356,7 +355,7 @@ function bp_blogs_record_blog( $blog_id, $user_id, $no_activity = false ) {
 
 	// If blog is not recordable, do not record the activity.
 	if ( ! bp_blogs_is_blog_recordable( $blog_id, $user_id ) ) {
-		return false;
+		return;
 	}
 
 	$name = get_blog_option( $blog_id, 'blogname' );
@@ -720,11 +719,10 @@ add_action( 'bp_activity_post_type_updated', 'bp_blogs_update_post_activity_meta
  * @param  WP_Comment|null $comment              The comment object.
  * @param  array           $activity_args        Array of activity arguments.
  * @param  object|null     $activity_post_object The post type tracking args object.
- * @return WP_Error|bool|int Returns false if no activity, the activity id otherwise.
  */
 function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null, $activity_args = array(), $activity_post_object = null ) {
 	if ( empty( $activity_args ) || empty( $comment->post->ID ) || empty( $activity_post_object->comment_action_id ) ) {
-		return false;
+		return;
 	}
 
 	// Set the current blog id.
@@ -841,8 +839,6 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 		 */
 		do_action( 'bp_blogs_new_blog_comment', $comment->comment_ID, $comment, bp_loggedin_user_id() );
 	}
-
-	return $activity_id;
 }
 add_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_comment', 10, 4 );
 
@@ -860,7 +856,6 @@ add_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_com
  * @param int         $user_id The ID of the user.
  * @param string|bool $role    User's WordPress role for this blog ID.
  * @param int         $blog_id Blog ID user is being added to.
- * @return false|null False on failure.
  */
 function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	global $wpdb;
@@ -898,7 +893,7 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 
 	// Bail if no role was found or role is not in the allowed roles array.
 	if ( empty( $role ) || ! in_array( $role, bp_blogs_get_allowed_roles() ) ) {
-		return false;
+		return;
 	}
 
 	// Record the blog activity for this user being added to this blog.
@@ -917,7 +912,7 @@ add_action( 'user_register',    'bp_blogs_add_user_to_blog'        );
  *
  * @since 2.1.0
  *
- * @return string
+ * @return array
  */
 function bp_blogs_get_allowed_roles() {
 
@@ -1044,8 +1039,6 @@ add_action( 'remove_user_from_blog', 'bp_blogs_remove_blog_for_user', 10, 2 );
  * @param int    $comment_id           ID of the comment to be removed.
  * @param object $activity_post_object The post type tracking args object.
  * @param string $activity_type        The post type comment activity type.
- *
- * @return bool True on success. False on error.
  */
 function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_post_object, $activity_type = '' ) {
 	// Remove synced activity comments, if needed.
@@ -1082,9 +1075,6 @@ function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_pos
 
 				// Rebuild activity comment tree.
 				BP_Activity_Activity::rebuild_activity_comment_tree( $activity['activities'][0]->item_id );
-
-				// Set the result.
-				$deleted = true;
 			}
 		}
 	}
@@ -1102,8 +1092,6 @@ function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_pos
 		 */
 		do_action( 'bp_blogs_remove_comment', get_current_blog_id(), $comment_id, bp_loggedin_user_id() );
 	}
-
-	return $deleted;
 }
 add_action( 'bp_activity_post_type_remove_comment', 'bp_blogs_post_type_remove_comment', 10, 4 );
 
@@ -1415,11 +1403,10 @@ function bp_blogs_add_blogmeta( $blog_id, $meta_key, $meta_value, $unique = fals
  * Remove all blog associations for a given user.
  *
  * @param int $user_id ID whose blog data should be removed.
- * @return bool Returns false on failure.
  */
 function bp_blogs_remove_data( $user_id ) {
 	if ( !is_multisite() )
-		return false;
+		return;
 
 	/**
 	 * Fires before all blog associations are removed for a given user.

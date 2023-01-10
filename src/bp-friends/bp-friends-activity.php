@@ -90,13 +90,11 @@ function friends_delete_activity( $args ) {
  * Register the activity actions for bp-friends.
  *
  * @since 1.1.0
- *
- * @return bool False if activity component is not active.
  */
 function friends_register_activity_actions() {
 
 	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
+		return;
 	}
 
 	$bp = buddypress();

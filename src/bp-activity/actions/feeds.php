@@ -11,14 +11,12 @@
  * Load the sitewide activity feed.
  *
  * @since 1.0.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_sitewide_feed() {
 	$bp = buddypress();
 
 	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'feed' ) || bp_is_user() || ! empty( $bp->groups->current_group ) ) {
-		return false;
+		return;
 	}
 
 	$link = bp_get_activity_directory_permalink();
@@ -44,12 +42,10 @@ add_action( 'bp_actions', 'bp_activity_action_sitewide_feed' );
  * Load a user's personal activity feed.
  *
  * @since 1.0.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_personal_feed() {
 	if ( ! bp_is_user_activity() || ! bp_is_current_action( 'feed' ) ) {
-		return false;
+		return;
 	}
 
 	$link = trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() );
@@ -77,12 +73,10 @@ add_action( 'bp_actions', 'bp_activity_action_personal_feed' );
  * Load a user's friends' activity feed.
  *
  * @since 1.0.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_friends_feed() {
 	if ( ! bp_is_active( 'friends' ) || ! bp_is_user_activity() || ! bp_is_current_action( bp_get_friends_slug() ) || ! bp_is_action_variable( 'feed', 0 ) ) {
-		return false;
+		return;
 	}
 
 	$link = trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() );
@@ -110,12 +104,10 @@ add_action( 'bp_actions', 'bp_activity_action_friends_feed' );
  * Load the activity feed for a user's groups.
  *
  * @since 1.2.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_my_groups_feed() {
 	if ( ! bp_is_active( 'groups' ) || ! bp_is_user_activity() || ! bp_is_current_action( bp_get_groups_slug() ) || ! bp_is_action_variable( 'feed', 0 ) ) {
-		return false;
+		return;
 	}
 
 	// Get displayed user's group IDs.
@@ -150,16 +142,14 @@ add_action( 'bp_actions', 'bp_activity_action_my_groups_feed' );
  * Load a user's @mentions feed.
  *
  * @since 1.2.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_mentions_feed() {
 	if ( ! bp_activity_do_mentions() ) {
-		return false;
+		return;
 	}
 
 	if ( ! bp_is_user_activity() || ! bp_is_current_action( 'mentions' ) || ! bp_is_action_variable( 'feed', 0 ) ) {
-		return false;
+		return;
 	}
 
 	$link = trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() . '/mentions' );
@@ -189,12 +179,10 @@ add_action( 'bp_actions', 'bp_activity_action_mentions_feed' );
  * Load a user's favorites feed.
  *
  * @since 1.2.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_favorites_feed() {
 	if ( ! bp_is_user_activity() || ! bp_is_current_action( 'favorites' ) || ! bp_is_action_variable( 'feed', 0 ) ) {
-		return false;
+		return;
 	}
 
 	// Get displayed user's favorite activity IDs.

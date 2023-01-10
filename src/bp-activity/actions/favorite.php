@@ -11,19 +11,17 @@
  * Mark activity as favorite.
  *
  * @since 1.2.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_mark_favorite() {
 	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'favorite' ) )
-		return false;
+		return;
 
 	// Check the nonce.
 	check_admin_referer( 'mark_favorite' );
 
 	$activity_item = new BP_Activity_Activity( bp_action_variable( 0 ) );
 	if ( ! bp_activity_user_can_read( $activity_item, bp_loggedin_user_id() ) ) {
-		return false;
+		return;
 	}
 
 	if ( bp_activity_add_user_favorite( bp_action_variable( 0 ) ) )

@@ -72,8 +72,6 @@ class BP_Admin_Types {
 	 * Register BP Types Admin.
 	 *
 	 * @since 7.0.0
-	 *
-	 * @return BP_Admin_Types
 	 */
 	public static function register_types_admin() {
 		if ( ! is_admin() ) {
@@ -86,7 +84,7 @@ class BP_Admin_Types {
 			$bp->core->types_admin = new self;
 		}
 
-		return $bp->core->types_admin;
+		$bp->core->types_admin;
 	}
 
 	/**
@@ -459,7 +457,6 @@ class BP_Admin_Types {
 	 *
 	 * @param WP_Term $term     The term object for the BP Type.
 	 * @param string  $taxonomy The type taxonomy name.
-	 * @return string           HTML Output.
 	 */
 	public function edit_form_fields( $term = null, $taxonomy = '' ) {
 		if ( ! isset( $term->name ) || ! $term->name || ! $taxonomy ) {
@@ -482,7 +479,7 @@ class BP_Admin_Types {
 			}
 		}
 
-		return $this->add_form_fields( $taxonomy, $type );
+		$this->add_form_fields( $taxonomy, $type );
 	}
 
 	/**

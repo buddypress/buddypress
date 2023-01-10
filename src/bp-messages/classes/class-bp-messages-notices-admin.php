@@ -43,8 +43,6 @@ class BP_Messages_Notices_Admin {
 	 * Create a new instance or access the current instance of this class.
 	 *
 	 * @since 3.0.0
-	 *
-	 * @return BP_Messages_Notices_Admin
 	 */
 	public static function register_notices_admin() {
 
@@ -58,7 +56,7 @@ class BP_Messages_Notices_Admin {
 			$bp->messages->admin = new self;
 		}
 
-		return $bp->messages->admin;
+		$bp->messages->admin;
 	}
 
 	/**

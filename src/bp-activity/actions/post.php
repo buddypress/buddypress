@@ -11,13 +11,11 @@
  * Post user/group activity update.
  *
  * @since 1.2.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_post_update() {
 	// Do not proceed if user is not logged in, not viewing activity, or not posting.
 	if ( !is_user_logged_in() || !bp_is_activity_component() || !bp_is_current_action( 'post' ) )
-		return false;
+		return;
 
 	// Check the nonce.
 	check_admin_referer( 'post_update', '_wpnonce_post_update' );

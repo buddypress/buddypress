@@ -11,14 +11,12 @@
  * Load an individual conversation screen.
  *
  * @since 1.0.0
- *
- * @return bool False on failure.
  */
 function messages_screen_conversation() {
 
 	// Bail if not viewing a single message.
 	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'view' ) ) {
-		return false;
+		return;
 	}
 
 	$thread_id = (int) bp_action_variable( 0 );

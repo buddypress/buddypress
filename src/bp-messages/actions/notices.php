@@ -11,14 +11,12 @@
  * Handle editing of sitewide notices.
  *
  * @since 2.4.0 This function was split from messages_screen_notices(). See #6505.
- *
- * @return bool
  */
 function bp_messages_action_edit_notice() {
 
 	// Bail if not viewing a single notice URL.
 	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'notices' ) ) {
-		return false;
+		return;
 	}
 
 	// Get the notice ID (1|2|3).
@@ -26,12 +24,12 @@ function bp_messages_action_edit_notice() {
 
 	// Bail if notice ID is not numeric.
 	if ( empty( $notice_id ) || ! is_numeric( $notice_id ) ) {
-		return false;
+		return;
 	}
 
 	// Bail if the current user doesn't have administrator privileges.
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
-		return false;
+		return;
 	}
 
 	// Get the action (deactivate|activate|delete).
@@ -97,19 +95,17 @@ add_action( 'bp_actions', 'bp_messages_action_edit_notice' );
  * Handle user dismissal of sitewide notices.
  *
  * @since 9.0.0
- *
- * @return bool False on failure.
  */
 function bp_messages_action_dismiss_notice() {
 
 	// Bail if not viewing a notice dismissal URL.
 	if ( ! bp_is_messages_component() || ! bp_is_current_action( 'notices' ) || 'dismiss' !== sanitize_key( bp_action_variable( 0 ) ) ) {
-		return false;
+		return;
 	}
 
 	// Bail if the current user isn't logged in.
 	if ( ! is_user_logged_in() ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce.

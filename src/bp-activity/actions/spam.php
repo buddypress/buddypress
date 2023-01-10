@@ -13,30 +13,29 @@
  * @since 1.6.0
  *
  * @param int $activity_id Activity id to be deleted. Defaults to 0.
- * @return bool False on failure.
  */
 function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	$bp = buddypress();
 
 	// Not viewing activity, or action is not spam, or Akismet isn't present.
 	if ( !bp_is_activity_component() || !bp_is_current_action( 'spam' ) || empty( $bp->activity->akismet ) )
-		return false;
+		return;
 
 	if ( empty( $activity_id ) && bp_action_variable( 0 ) )
 		$activity_id = (int) bp_action_variable( 0 );
 
 	// Not viewing a specific activity item.
 	if ( empty( $activity_id ) )
-		return false;
+		return;
 
 	// Is the current user allowed to spam items?
 	if ( !bp_activity_user_can_mark_spam() )
-		return false;
+		return;
 
 	// Load up the activity item.
 	$activity = new BP_Activity_Activity( $activity_id );
 	if ( empty( $activity->id ) )
-		return false;
+		return;
 
 	// Check nonce.
 	check_admin_referer( 'bp_activity_akismet_spam_' . $activity->id );

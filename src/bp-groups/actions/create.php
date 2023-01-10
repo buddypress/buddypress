@@ -11,17 +11,15 @@
  * Catch and process group creation form submissions.
  *
  * @since 1.2.0
- *
- * @return bool
  */
 function groups_action_create_group() {
 
 	// If we're not at domain.org/groups/create/ then return false.
 	if ( !bp_is_groups_component() || !bp_is_current_action( 'create' ) )
-		return false;
+		return;
 
 	if ( !is_user_logged_in() )
-		return false;
+		return;
 
 	if ( !bp_user_can_create_groups() ) {
 		bp_core_add_message( __( 'Sorry, you are not allowed to create groups.', 'buddypress' ), 'error' );
@@ -223,7 +221,7 @@ function groups_action_create_group() {
 	// Remove invitations.
 	if ( 'group-invites' === bp_get_groups_current_create_step() && ! empty( $_REQUEST['user_id'] ) && is_numeric( $_REQUEST['user_id'] ) ) {
 		if ( ! check_admin_referer( 'groups_invite_uninvite_user' ) ) {
-			return false;
+			return;
 		}
 
 		$message = __( 'Invite successfully removed', 'buddypress' );

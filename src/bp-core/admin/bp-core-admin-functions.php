@@ -829,7 +829,7 @@ function bp_admin_separator() {
  * @since 1.7.0
  *
  * @param bool $menu_order Menu order.
- * @return bool Always true.
+ * @return bool
  */
 function bp_admin_custom_menu_order( $menu_order = false ) {
 
@@ -847,7 +847,7 @@ function bp_admin_custom_menu_order( $menu_order = false ) {
  * @since 1.7.0
  *
  * @param array $menu_order Menu Order.
- * @return array Modified menu order.
+ * @return array
  */
 function bp_admin_menu_order( $menu_order = array() ) {
 
@@ -1020,7 +1020,7 @@ function bp_admin_do_wp_nav_menu_meta_box( $object = '', $box = array() ) {
 
 	// Remove temporary post type and filter.
 	unregister_post_type( 'bp_nav_menu_item' );
-	remove_filter( 'posts_pre_query', 'bp_admin_get_wp_nav_menu_items', 10, 2 );
+	remove_filter( 'posts_pre_query', 'bp_admin_get_wp_nav_menu_items' );
 
 	$tab_name    = 'bp_nav_menu_item-tab';
 	$current_tab = 'logged-in';

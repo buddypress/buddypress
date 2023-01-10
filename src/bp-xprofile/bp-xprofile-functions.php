@@ -815,13 +815,12 @@ add_action( 'bp_user_query_uid_clauses', 'bp_xprofile_bp_user_query_search', 10,
  *
  * @param int   $user_id ID of the user to sync.
  * @param array $args    Hook's additional arguments.
- * @return bool
  */
 function xprofile_sync_wp_profile( $user_id = 0, ...$args ) {
 
 	// Bail if profile syncing is disabled.
 	if ( bp_disable_profile_sync() ) {
-		return true;
+		return;
 	}
 
 	if ( empty( $user_id ) ) {
@@ -829,7 +828,7 @@ function xprofile_sync_wp_profile( $user_id = 0, ...$args ) {
 	}
 
 	if ( empty( $user_id ) ) {
-		return false;
+		return;
 	}
 
 	$fullname_field_id = (int) bp_xprofile_fullname_field_id();

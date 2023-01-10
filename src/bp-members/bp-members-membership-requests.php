@@ -386,8 +386,6 @@ add_filter( 'bp_members_ms_signup_date_sent_unsent_message', 'bp_members_members
  * Add "Request Membership" link to Widget login form.
  *
  * @since 10.0.0
- *
- * @return string $retval the HTML for the request membership link.
  */
 function bp_members_membership_requests_add_link_to_widget_login_form() {
 	?>
@@ -403,7 +401,7 @@ add_action( 'bp_login_widget_form', 'bp_members_membership_requests_add_link_to_
  * @since 10.0.0
  *
  * @param string $link The HTML code for the link to the Registration or Admin page.
- * @return string      An empty string or the HTML code for the link to the Membership request page.
+ * @return string
  */
 function bp_members_membership_requests_filter_sidebar_register_link( $link ) {
 	// $link should be an empty string when public registration is disabled.
@@ -448,11 +446,11 @@ add_action( 'admin_bar_menu', 'bp_members_membership_requests_add_toolbar_link',
  * @since 10.0.0
  *
  * @param string $link HTML link to the home URL of the current site.
- * @return string      HTML link to the home URL of the current site and the one to request a membership.
+ * @return string
  */
 function bp_members_membership_requests_add_link_wp_login( $link ) {
 	$link_separator = apply_filters( 'login_link_separator', ' | ' );
 
 	return $link . $link_separator . '<a href="' . esc_url( wp_registration_url() ) . '">' . esc_html__( 'Request Membership', 'buddypress' ) . '</a>';
 }
-add_action( 'login_site_html_link', 'bp_members_membership_requests_add_link_wp_login' );
+add_filter( 'login_site_html_link', 'bp_members_membership_requests_add_link_wp_login' );

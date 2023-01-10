@@ -15,14 +15,12 @@ defined( 'ABSPATH' ) || exit;
  * tables are set up.
  *
  * @since 1.0.0
- *
- * @return bool
  */
 function xprofile_add_admin_menu() {
 
 	// Bail if current user cannot moderate community.
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
-		return false;
+		return;
 	}
 
 	add_users_page( _x( 'Profile Fields', 'xProfile admin page title', 'buddypress' ), _x( 'Profile Fields', 'Admin Users menu', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );

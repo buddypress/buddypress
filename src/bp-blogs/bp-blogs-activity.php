@@ -14,8 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Register activity actions for the blogs component.
  *
  * @since 1.0.0
- *
- * @return bool|null Returns false if activity component is not active.
  */
 function bp_blogs_register_activity_actions() {
 	if ( is_multisite() ) {
@@ -677,13 +675,12 @@ add_action( 'bp_blogs_remove_data_for_blog', 'bp_blogs_delete_activity_for_site'
  * @param int $blog_id Optional. Defaults to current blog ID.
  * @param int $user_id Optional. Defaults to the logged-in user ID. This param
  *                     is currently unused in the function (but is passed to hooks).
- * @return bool
  */
 function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 	global $wpdb;
 
 	if ( empty( $wpdb->blogid ) ) {
-		return false;
+		return;
 	}
 
 	$post_id = (int) $post_id;

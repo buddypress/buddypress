@@ -976,6 +976,8 @@ function bp_messages_username_value() {
 			/** This filter is documented in bp-messages-template.php */
 			return apply_filters( 'bp_get_messages_username_value', $_GET['r'] );
 		}
+
+		return '';
 	}
 
 /**

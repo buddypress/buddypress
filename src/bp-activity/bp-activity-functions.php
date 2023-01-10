@@ -159,13 +159,12 @@ function bp_activity_clear_new_mentions( $user_id ) {
  *
  * @param int    $activity_id The unique id for the activity item.
  * @param string $action      Can be 'delete' or 'add'. Defaults to 'add'.
- * @return bool
  */
 function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 
 	// Bail if no activity ID passed.
 	if ( empty( $activity_id ) ) {
-		return false;
+		return;
 	}
 
 	// Get activity object.
@@ -176,7 +175,7 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 
 	// Still empty? Stop now.
 	if ( empty( $usernames ) ) {
-		return false;
+		return;
 	}
 
 	// Increment mention count foreach mentioned user.
@@ -428,13 +427,12 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
  *     @type bool     $activity_comment         Whether to allow comments on the activity items. Defaults to true if
  *                                              the post type does not natively support comments, otherwise false.
  * }
- * @return bool
  */
 function bp_activity_set_post_type_tracking_args( $post_type = '', $args = array() ) {
 	global $wp_post_types;
 
 	if ( empty( $wp_post_types[ $post_type ] ) || ! post_type_supports( $post_type, 'buddypress-activity' ) || ! is_array( $args ) ) {
-		return false;
+		return;
 	}
 
 	$activity_labels = array(
@@ -1360,11 +1358,10 @@ function bp_activity_add_meta( $activity_id, $meta_key, $meta_value, $unique = f
  * @since 1.5.0
  *
  * @param int $user_id ID of the user whose activity is being deleted.
- * @return bool
  */
 function bp_activity_remove_all_user_data( $user_id = 0 ) {
 	if ( empty( $user_id ) ) {
-		return false;
+		return;
 	}
 
 	// Clear the user's activity from the sitewide stream and clear their activity tables.

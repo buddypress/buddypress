@@ -11,12 +11,10 @@
  * Remove activity from favorites.
  *
  * @since 1.2.0
- *
- * @return bool False on failure.
  */
 function bp_activity_action_remove_favorite() {
 	if ( ! is_user_logged_in() || ! bp_is_activity_component() || ! bp_is_current_action( 'unfavorite' ) )
-		return false;
+		return;
 
 	// Check the nonce.
 	check_admin_referer( 'unmark_favorite' );

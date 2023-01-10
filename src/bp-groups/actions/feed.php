@@ -11,8 +11,6 @@
  * Load the activity feed for the current group.
  *
  * @since 1.2.0
- *
- * @return false|null False on failure.
  */
 function groups_action_group_feed() {
 
@@ -20,12 +18,12 @@ function groups_action_group_feed() {
 	$group = groups_get_current_group();
 
 	if ( ! bp_is_active( 'activity' ) || ! bp_is_groups_component() || ! $group || ! bp_is_current_action( 'feed' ) )
-		return false;
+		return;
 
 	// If group isn't public or if logged-in user is not a member of the group, do
 	// not output the group activity feed.
 	if ( ! bp_group_is_visible( $group ) ) {
-		return false;
+		return;
 	}
 
 	// Set up the feed.

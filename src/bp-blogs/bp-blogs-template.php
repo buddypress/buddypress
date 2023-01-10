@@ -1521,8 +1521,6 @@ function bp_blog_create_nav_item() {
  * if so, transform the title button into a Blogs directory nav item.
  *
  * @since 2.2.0
- *
- * @return string|null HTML Output
  */
 function bp_blog_backcompat_create_nav_item() {
 	// Bail if Blogs nav item is already used by bp-legacy.

@@ -44,9 +44,9 @@ add_action( 'admin_notices',                      'bp_admin_notices'            
 add_action( 'admin_enqueue_scripts',              'bp_admin_enqueue_scripts'         );
 add_action( 'customize_controls_enqueue_scripts', 'bp_admin_enqueue_scripts', 8      );
 add_action( 'network_admin_menu',                 'bp_admin_menu'                    );
-add_action( 'custom_menu_order',                  'bp_admin_custom_menu_order'       );
-add_action( 'menu_order',                         'bp_admin_menu_order'              );
 add_action( 'bp_insert_site',                     'bp_new_site',               10, 6 );
+add_filter( 'custom_menu_order',                  'bp_admin_custom_menu_order'       );
+add_filter( 'menu_order',                         'bp_admin_menu_order'              );
 
 // Hook on to admin_init.
 add_action( 'bp_admin_init', 'bp_setup_updater',          1000 );

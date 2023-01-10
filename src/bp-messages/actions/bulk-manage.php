@@ -11,14 +11,11 @@
  * Handle bulk management (mark as read/unread, delete) of message threads.
  *
  * @since 2.2.0
- *
- * @return bool Returns false on failure. Otherwise redirects back to the
- *              message box URL.
  */
 function bp_messages_action_bulk_manage() {
 
 	if ( ! bp_is_messages_component() || bp_is_current_action( 'notices' ) || ! bp_is_action_variable( 'bulk-manage', 0 ) ) {
-		return false;
+		return;
 	}
 
 	$action   = ! empty( $_POST['messages_bulk_action'] ) ? $_POST['messages_bulk_action'] : '';
@@ -33,7 +30,7 @@ function bp_messages_action_bulk_manage() {
 
 	// Check the nonce.
 	if ( ! wp_verify_nonce( $nonce, 'messages_bulk_nonce' ) ) {
-		return false;
+		return;
 	}
 
 	// Make sure the user has access to all notifications before managing them.

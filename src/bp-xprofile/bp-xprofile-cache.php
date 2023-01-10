@@ -52,14 +52,13 @@ function bp_xprofile_get_non_cached_field_ids( $user_id = 0, $field_ids = array(
  *
  * @param array $object_ids Multi-dimensional array of object_ids, keyed by
  *                          object type ('group', 'field', 'data').
- * @return bool
  */
 function bp_xprofile_update_meta_cache( $object_ids = array() ) {
 	global $wpdb;
 
 	// Bail if no objects.
 	if ( empty( $object_ids ) ) {
-		return false;
+		return;
 	}
 
 	$bp = buddypress();
@@ -259,7 +258,6 @@ add_action( 'update_option_bp-xprofile-fullname-field-name', 'xprofile_clear_ful
  * @since 2.4.0
  *
  * @param int|BP_XProfile_Field $field A field ID or a field object.
- * @return bool False on failure.
  */
 function bp_xprofile_clear_field_cache( $field ) {
 	if ( is_numeric( $field ) ) {
@@ -269,7 +267,7 @@ function bp_xprofile_clear_field_cache( $field ) {
 	}
 
 	if ( ! isset( $field_id ) ) {
-		return false;
+		return;
 	}
 
 	wp_cache_delete( $field_id, 'bp_xprofile_fields' );

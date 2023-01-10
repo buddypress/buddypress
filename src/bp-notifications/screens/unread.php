@@ -35,14 +35,12 @@ function bp_notifications_screen_unread() {
  * Handle marking single notifications as read.
  *
  * @since 1.9.0
- *
- * @return bool
  */
 function bp_notifications_action_mark_read() {
 
 	// Bail if not the unread screen.
 	if ( ! bp_is_notifications_component() || ! bp_is_current_action( 'unread' ) ) {
-		return false;
+		return;
 	}
 
 	// Get the action.
@@ -52,7 +50,7 @@ function bp_notifications_action_mark_read() {
 
 	// Bail if no action or no ID.
 	if ( ( 'read' !== $action ) || empty( $id ) || empty( $nonce ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce and mark the notification.

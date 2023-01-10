@@ -164,7 +164,6 @@ class BP_Messages_Thread {
 	 *     @type int|null    $recipients_page     Page of recipients being requested. Default to null, meaning all.
 	 *     @type int|null    $recipients_per_page Recipients to return per page. Defaults to null, meaning all.
 	 * }
-	 * @return bool False if there are no messages.
 	 */
 	public function populate( $thread_id = 0, $order = 'ASC', $args = array() ) {
 
@@ -195,7 +194,7 @@ class BP_Messages_Thread {
 
 		// Bail early if no thread message is found.
 		if ( empty( $latest_message ) ) {
-			return false;
+			return;
 		}
 
 		// Set latest message data.
