@@ -25,8 +25,6 @@ add_filter( 'bp_blog_latest_post_content', 'prepend_attachment' );
  *
  * @since 1.6.0
  *
- *       returned value.
- *
  * @param string $url The original URL (points to wp-signup.php by default).
  * @return string The new URL.
  */
@@ -37,7 +35,8 @@ function bp_blogs_creation_location( $url ) {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param string $value URL for the 'Create a new site' signup page.
+	 * @param string $permalink URL for the 'Create a new site' signup page.
+	 * @param string $url       The original URL (points to wp-signup.php by default).
 	 */
 	return apply_filters( 'bp_blogs_creation_location', trailingslashit( bp_get_blogs_directory_permalink() . 'create' ), $url );
 }
