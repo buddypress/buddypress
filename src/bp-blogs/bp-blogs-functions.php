@@ -1411,7 +1411,7 @@ function bp_blogs_add_blogmeta( $blog_id, $meta_key, $meta_value, $unique = fals
  * @param int $user_id ID whose blog data should be removed.
  */
 function bp_blogs_remove_data( $user_id ) {
-	if ( !is_multisite() ) {
+	if ( ! is_multisite() ) {
 		return;
 	}
 
