@@ -238,7 +238,7 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 		$post = get_post( $activity->secondary_item_id );
 		restore_current_blog();
 
-		if ( ! empty( $post ) && is_a( $post, 'WP_Post' ) ) {
+		if ( ! empty( $post ) && $post instanceof WP_Post ) {
 			$post_url = add_query_arg( 'p', $post->ID, trailingslashit( get_home_url( $activity->item_id ) ) );
 			$action   = apply_filters_deprecated( 'bp_blogs_activity_new_post_action', array( $action, $post, $post_url ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_post' );
 		}
