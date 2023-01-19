@@ -14,8 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Register activity actions for the blogs component.
  *
  * @since 1.0.0
- *
- * @return bool|null Returns false if activity component is not active.
  */
 function bp_blogs_register_activity_actions() {
 	if ( is_multisite() ) {
@@ -240,7 +238,7 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 		$post = get_post( $activity->secondary_item_id );
 		restore_current_blog();
 
-		if ( ! empty( $post ) && ! is_wp_error( $post ) ) {
+		if ( ! empty( $post ) && $post instanceof WP_Post ) {
 			$post_url = add_query_arg( 'p', $post->ID, trailingslashit( get_home_url( $activity->item_id ) ) );
 			$action   = apply_filters_deprecated( 'bp_blogs_activity_new_post_action', array( $action, $post, $post_url ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_post' );
 		}
@@ -352,7 +350,7 @@ function bp_blogs_format_activity_action_new_blog_comment( $action, $activity ) 
 		$comment = get_comment( $activity->secondary_item_id );
 		restore_current_blog();
 
-		if ( ! empty( $comment ) && ! is_wp_error( $comment ) ) {
+		if ( ! empty( $comment ) && $comment instanceof WP_Comment ) {
 			$action = apply_filters_deprecated( 'bp_blogs_activity_new_comment_action', array( $action, $comment, $post_url . '#' . $activity->secondary_item_id ), '2.0.0', 'bp_blogs_format_activity_action_new_blog_comment' );
 		}
 	}
@@ -453,9 +451,9 @@ function bp_blogs_record_activity( $args = '' ) {
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param string $value Generated summary from content for the activity stream.
-		 * @param string $value Content for the activity stream.
-		 * @param array  $r     Array of arguments used for the activity stream item.
+		 * @param string $summary Generated summary from content for the activity stream.
+		 * @param string $content Content for the activity stream.
+		 * @param array  $r       Array of arguments used for the activity stream item.
 		 */
 		$r['content'] = apply_filters( 'bp_blogs_record_activity_content', bp_activity_create_summary( $r['content'], $r ), $r['content'], $r );
 	}
@@ -499,7 +497,7 @@ function bp_blogs_delete_activity( $args = '' ) {
 		)
 	);
 
-	bp_activity_delete_by_item_id( $r );
+	return bp_activity_delete_by_item_id( $r );
 }
 
 /**
@@ -614,8 +612,8 @@ function bp_blogs_record_activity_on_site_creation( $recorded_blog, $is_private,
 			 *
 			 * @since 1.1.0
 			 *
-			 * @param string $value Blog primary link.
-			 * @param int    $value Blog ID.
+			 * @param string $link    Blog primary link.
+			 * @param int    $blog_id Blog ID.
 			 */
 			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', bp_blogs_get_blogmeta( $recorded_blog->blog_id, 'url' ), $recorded_blog->blog_id ),
 			'type'         => 'new_blog',
@@ -677,7 +675,6 @@ add_action( 'bp_blogs_remove_data_for_blog', 'bp_blogs_delete_activity_for_site'
  * @param int $blog_id Optional. Defaults to current blog ID.
  * @param int $user_id Optional. Defaults to the logged-in user ID. This param
  *                     is currently unused in the function (but is passed to hooks).
- * @return bool
  */
 function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 	global $wpdb;
