@@ -264,7 +264,6 @@ class BP_Blogs_Component extends BP_Component {
 	 *
 	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar()
 	 *                            for description.
-	 * @return bool
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
@@ -274,7 +273,7 @@ class BP_Blogs_Component extends BP_Component {
 		 * Comments and posts made by users will still show in their activity.
 		 */
 		if ( ! is_multisite() ) {
-			return false;
+			return;
 		}
 
 		// Menus for logged in user.

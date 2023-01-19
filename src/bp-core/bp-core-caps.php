@@ -20,7 +20,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.1.0
  *
- * @return object
+ * @global WP_Roles $wp_roles WordPress role management object.
+ *
+ * @return array
  */
 function bp_get_current_blog_roles() {
 	global $wp_roles;
@@ -56,6 +58,8 @@ function bp_get_current_blog_roles() {
  * This is called on plugin activation.
  *
  * @since 1.6.0
+ *
+ * @global WP_Roles $wp_roles WordPress role management object.
  */
 function bp_add_caps() {
 	global $wp_roles;
@@ -88,6 +92,8 @@ function bp_add_caps() {
  * This is called on plugin deactivation.
  *
  * @since 1.6.0
+ *
+ * @global WP_Roles $wp_roles WordPress role management object.
  */
 function bp_remove_caps() {
 	global $wp_roles;

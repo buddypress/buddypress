@@ -746,9 +746,7 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 			}
 		}
 
-		if ( empty( $activity_post_object ) ) {
-			$activity_post_object = bp_activity_get_post_type_tracking_args( $comment->post->post_type );
-		}
+		$activity_post_object = bp_activity_get_post_type_tracking_args( $comment->post->post_type );
 
 		if ( isset( $activity_post_object->action_id ) && isset( $activity_post_object->component_id ) ) {
 			// Find the parent 'new_post_type' activity entry.
@@ -828,16 +826,17 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 	bp_blogs_update_blogmeta( $blog_id, 'last_activity', bp_core_current_time() );
 
 	if ( 'new_blog_comment' === $activity_post_object->comment_action_id ) {
+
 		/**
 		 * Fires after BuddyPress has recorded metadata about a published blog post comment.
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param int     $value    Comment ID of the blog post comment being recorded.
-		 * @param WP_Post $post  WP_Comment object for the current blog post.
-		 * @param string  $value ID of the user associated with the current blog post comment.
+		 * @param int        $comment_id Comment ID of the blog post comment being recorded.
+		 * @param WP_Comment $post       WP_Comment object for the current blog post.
+		 * @param int        $user_id    ID of the user associated with the current blog post comment.
 		 */
-		do_action( 'bp_blogs_new_blog_comment', $comment->comment_ID, $comment, bp_loggedin_user_id() );
+		do_action( 'bp_blogs_new_blog_comment', (int) $comment->comment_ID, $comment, bp_loggedin_user_id() );
 	}
 }
 add_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_comment', 10, 4 );
@@ -921,7 +920,7 @@ function bp_blogs_get_allowed_roles() {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param array $value Array of potential roles user needs.
+	 * @param array $roles Array of allowed roles.
 	 */
 	return apply_filters( 'bp_blogs_get_allowed_roles', array( 'contributor', 'author', 'editor', 'administrator' ) );
 }
@@ -1086,9 +1085,9 @@ function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_pos
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param int $value      ID for the blog associated with the removed comment.
+		 * @param int $blog_id    ID for the blog associated with the removed comment.
 		 * @param int $comment_id ID of the comment being removed.
-		 * @param int $value      ID of the current logged in user.
+		 * @param int $user_id    ID of the current logged in user.
 		 */
 		do_action( 'bp_blogs_remove_comment', get_current_blog_id(), $comment_id, bp_loggedin_user_id() );
 	}
@@ -1405,8 +1404,9 @@ function bp_blogs_add_blogmeta( $blog_id, $meta_key, $meta_value, $unique = fals
  * @param int $user_id ID whose blog data should be removed.
  */
 function bp_blogs_remove_data( $user_id ) {
-	if ( !is_multisite() )
+	if ( ! is_multisite() ) {
 		return;
+	}
 
 	/**
 	 * Fires before all blog associations are removed for a given user.
