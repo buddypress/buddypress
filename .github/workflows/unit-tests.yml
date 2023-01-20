@@ -59,7 +59,7 @@ jobs:
       - name: Adapt WP PHPUnit version for WP < 6.1
         run: |
           if [ ${{ env.WP_VERSION }} == '5.7' ]; then
-            composer require wp-phpunit/wp-phpunit:6.0 --dev
+            composer require wp-phpunit/wp-phpunit:6.0 --dev --ignore-platform-reqs
           fi
 
       - name: Cache node modules
