@@ -137,10 +137,10 @@ class BP_Groups_Member_Suggestions extends BP_Members_Suggestions {
 		 * @param BP_Groups_Member_Suggestions $suggestions Instance of the current suggestion class.
 		 */
 		$user_query = apply_filters( 'bp_groups_member_suggestions_query_args', $user_query, $this );
-		if ( is_wp_error( $user_query ) ) {
-			return $user_query;
-		}
 
+		if ( ! is_array( $user_query ) || empty( $user_query ) ) {
+			return [];
+		}
 
 		if ( isset( $user_query['group_id'] ) ) {
 			$user_query = new BP_Group_Member_Query( $user_query );

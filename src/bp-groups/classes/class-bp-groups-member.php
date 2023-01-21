@@ -170,21 +170,30 @@ class BP_Groups_Member {
 	 * Populate the object's properties.
 	 *
 	 * @since 1.6.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 */
 	public function populate() {
 		global $wpdb;
 
-		$bp = buddypress();
+		$bp  = buddypress();
+		$sql = null;
 
-		if ( $this->user_id && $this->group_id && !$this->id )
+		if ( $this->user_id && $this->group_id && ! $this->id ) {
 			$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name_members} WHERE user_id = %d AND group_id = %d", $this->user_id, $this->group_id );
+		}
 
-		if ( !empty( $this->id ) )
+		if ( ! empty( $this->id ) ) {
 			$sql = $wpdb->prepare( "SELECT * FROM {$bp->groups->table_name_members} WHERE id = %d", $this->id );
+		}
 
-		$member = $wpdb->get_row($sql);
+		if ( empty( $sql ) ) {
+			return;
+		}
 
-		if ( !empty( $member ) ) {
+		$member = $wpdb->get_row( $sql );
+
+		if ( ! empty( $member ) ) {
 			$this->id            = (int) $member->id;
 			$this->group_id      = (int) $member->group_id;
 			$this->user_id       = (int) $member->user_id;
@@ -211,7 +220,10 @@ class BP_Groups_Member {
 	public function __get( $key ) {
 		switch ( $key ) {
 			case 'user' :
-				return $this->get_user_object( $this->user_id );
+				return $this->get_user_object();
+
+			default:
+				return null;
 		}
 	}
 
@@ -1132,8 +1144,9 @@ class BP_Groups_Member {
 	 *
 	 * @since 2.7.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $group_ids IDs of the groups.
-	 * @return bool True on success.
 	 */
 	public static function prime_group_admins_mods_cache( $group_ids ) {
 		global $wpdb;
@@ -1239,6 +1252,8 @@ class BP_Groups_Member {
 	 *
 	 * @deprecated 1.6.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int        $group_id            ID of the group being queried for.
 	 * @param bool|int   $limit               Max amount to return.
 	 * @param bool|int   $page                Pagination value.
@@ -1306,9 +1321,12 @@ class BP_Groups_Member {
 			$total_member_count = $wpdb->get_var( apply_filters( 'bp_group_members_count_user_join_filter', $wpdb->prepare( "SELECT COUNT(user_id) FROM {$bp->groups->table_name_members} m WHERE group_id = %d AND is_confirmed = 1 {$banned_sql} {$exclude_admins_sql} {$exclude_sql}", $group_id ) ) );
 		}
 
+		$user_ids = [];
+
 		// Fetch whether or not the user is a friend.
-		foreach ( (array) $members as $user )
+		foreach ( (array) $members as $user ) {
 			$user_ids[] = $user->user_id;
+		}
 
 		$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
 

@@ -987,7 +987,7 @@ class BP_Group_Extension {
 
 		// Catch the edit screen and forward it to the plugin template.
 		if ( bp_is_groups_component() && bp_is_current_action( 'admin' ) && bp_is_action_variable( $screen['slug'], 0 ) ) {
-			$this->call_edit_screen_save( $this->group_id );
+			$this->call_edit_screen_save();
 
 			add_action( 'groups_custom_edit_steps', array( &$this, 'call_edit_screen' ) );
 

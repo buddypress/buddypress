@@ -19,14 +19,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 5.0.0
  */
 class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
+
 	/**
 	 * Construct parameters.
 	 *
 	 * @since 5.0.0
-	 *
-	 * @param array|string $args.
 	 */
-	public function __construct( $args = '' ) {
+	public function __construct() {
 		parent::__construct();
 	}
 

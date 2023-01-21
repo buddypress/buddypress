@@ -517,12 +517,11 @@ class BP_Groups_Group {
 	 *
 	 * @param string $key   Property name.
 	 * @param mixed  $value Property value.
-	 * @return bool
 	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
 			case 'user_has_access' :
-				return $this->user_has_access = (bool) $value;
+				$this->user_has_access = (bool) $value;
 
 			default :
 				$this->{$key} = $value;
@@ -1290,8 +1289,8 @@ class BP_Groups_Group {
 			 *
 			 * @since 2.1.0
 			 *
-			 * @param array  $value Converted 'type' value for order and orderby.
-			 * @param string $value Parsed 'type' value for the get method.
+			 * @param array  $converted_type Converted 'type' value for order and orderby.
+			 * @param string $type_value     Parsed 'type' value for the get method.
 			 */
 			$order_orderby = apply_filters( 'bp_groups_get_orderby', self::convert_type_to_order_orderby( $r['type'] ), $r['type'] );
 
@@ -1339,9 +1338,9 @@ class BP_Groups_Group {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param string $value   Converted 'orderby' term.
-		 * @param string $orderby Original orderby value.
-		 * @param string $value   Parsed 'type' value for the get method.
+		 * @param string $orderby_term  Converted 'orderby' term.
+		 * @param string $orderby       Original orderby value.
+		 * @param string $type_value    Parsed 'type' value for the get method.
 		 */
 		$orderby = apply_filters( 'bp_groups_get_orderby_converted_by_term', self::convert_orderby_to_order_by_term( $orderby ), $orderby, $r['type'] );
 
