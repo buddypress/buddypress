@@ -1611,7 +1611,7 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 	function bp_get_blogs_visit_blog_button( $args = '' ) {
 		$button_args = bp_get_blogs_visit_blog_button_args( $args );
 
-		if ( ! array_filter( $button_args ) ) {
+		if ( ! is_array( $button_args ) || ! array_filter( $button_args ) ) {
 			return '';
 		}
 

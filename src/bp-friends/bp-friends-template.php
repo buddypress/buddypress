@@ -476,7 +476,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 	function bp_get_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
 		$button_args = bp_get_add_friend_button_args( $potential_friend_id );
 
-		if ( ! array_filter( $button_args ) ) {
+		if ( ! is_array( $button_args ) || ! array_filter( $button_args ) ) {
 			return false;
 		}
 

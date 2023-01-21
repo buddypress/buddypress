@@ -3575,7 +3575,7 @@ function bp_send_public_message_button( $args = '' ) {
 	function bp_get_send_public_message_button( $args = '' ) {
 		$button_args = bp_activity_get_public_message_button_args( $args );
 
-		if ( ! array_filter( $button_args ) ) {
+		if ( ! is_array( $button_args ) || ! array_filter( $button_args ) ) {
 			return '';
 		}
 

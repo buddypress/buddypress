@@ -3720,7 +3720,7 @@ function bp_group_join_button( $group = false ) {
 
 		$button_args = bp_groups_get_group_join_button_args( $group );
 
-		if ( ! array_filter( $button_args ) ) {
+		if ( ! is_array( $button_args ) || ! array_filter( $button_args ) ) {
 			return false;
 		}
 
