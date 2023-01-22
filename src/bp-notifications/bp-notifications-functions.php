@@ -471,7 +471,7 @@ function bp_notifications_delete_notifications_from_user( $user_id, $component_n
  * @since 2.5.0
  *
  * @param int $user_id ID of the user who is about to be deleted.
- * @return int|bool
+ * @return int|false The number of rows deleted, or false on error.
  */
 function bp_notifications_delete_notifications_on_user_delete( $user_id ) {
 	return BP_Notifications_Notification::delete( array(
