@@ -471,13 +471,10 @@ function bp_notifications_delete_notifications_from_user( $user_id, $component_n
  * @since 2.5.0
  *
  * @param int $user_id ID of the user who is about to be deleted.
+ * @return int|bool
  */
 function bp_notifications_delete_notifications_on_user_delete( $user_id ) {
-	if ( 'wpmu_delete_user' !== current_action() ) {
-		_doing_it_wrong( __FUNCTION__, __( 'This function is only used once a user is deleted. Please use `bp_notifications_delete_notifications_from_user()` instead.', 'buddypress' ), '12.0.0' );
-	}
-	
-	BP_Notifications_Notification::delete( array(
+	return BP_Notifications_Notification::delete( array(
 		'user_id'           => $user_id,
 		'item_id'           => false,
 		'secondary_item_id' => false,
@@ -485,7 +482,18 @@ function bp_notifications_delete_notifications_on_user_delete( $user_id ) {
 		'component_name'    => false,
 	) );
 }
-add_action( 'wpmu_delete_user', 'bp_notifications_delete_notifications_on_user_delete' );
+
+/**
+ * Callback: Delete a user's notifications when the user is deleted.
+ *
+ * @since 12.0.0
+ *
+ * @param int $user_id ID of the user who is about to be deleted.
+ */
+function bp_notifications_delete_notifications_on_user_delete_callback( $user_id ) {
+	bp_notifications_delete_notifications_on_user_delete( $user_id );
+}
+add_action( 'wpmu_delete_user', 'bp_notifications_delete_notifications_on_user_delete_callback' );
 
 /**
  * Deletes user notifications data on the 'delete_user' hook.
