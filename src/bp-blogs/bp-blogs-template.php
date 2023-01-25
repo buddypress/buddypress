@@ -1594,7 +1594,7 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 		 *
 		 * @param array $button_args Array of arguments to be used for the button to visit a blog.
 		 */
-		return apply_filters( 'bp_get_blogs_visit_blog_button', $button_args );
+		return (array) apply_filters( 'bp_get_blogs_visit_blog_button', $button_args );
 	}
 
 	/**
@@ -1611,7 +1611,7 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 	function bp_get_blogs_visit_blog_button( $args = '' ) {
 		$button_args = bp_get_blogs_visit_blog_button_args( $args );
 
-		if ( ! is_array( $button_args ) || ! array_filter( $button_args ) ) {
+		if ( ! array_filter( $button_args ) ) {
 			return '';
 		}
 

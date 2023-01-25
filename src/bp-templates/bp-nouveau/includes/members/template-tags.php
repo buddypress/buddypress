@@ -321,7 +321,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 			} else {
 				$button_args = bp_get_add_friend_button_args( $user_id );
 
-				if ( $button_args ) {
+				if ( array_filter( $button_args ) ) {
 					$buttons['member_friendship'] = array(
 						'id'                => 'member_friendship',
 						'position'          => 5,
@@ -360,7 +360,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 			if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() ) {
 				$button_args = bp_activity_get_public_message_button_args();
 
-				if ( $button_args ) {
+				if ( array_filter( $button_args ) ) {
 					/*
 					* This button should remain as an anchor link.
 					* Hardcode the use of anchor elements if button arg passed in for other elements.
@@ -391,7 +391,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 			if ( bp_is_active( 'messages' ) ) {
 				$button_args = bp_get_send_message_button_args();
 
-				if ( $button_args ) {
+				if ( array_filter( $button_args ) ) {
 					/*
 					* This button should remain as an anchor link.
 					* Hardcode the use of anchor elements if button arg passed in for other elements.
