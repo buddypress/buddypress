@@ -3699,7 +3699,7 @@ function bp_group_join_button( $group = false ) {
 		 * @param array  $button_args The arguments for the button.
 		 * @param object $group       BuddyPress group object
 		 */
-		return apply_filters( 'bp_get_group_join_button', $button_args, $group );
+		return (array) apply_filters( 'bp_get_group_join_button', $button_args, $group );
 	}
 	/**
 	 * Return button to join a group.

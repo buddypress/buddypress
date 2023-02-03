@@ -1556,7 +1556,7 @@ function bp_send_message_button( $args = '' ) {
 		 *
 		 * @param array $button_args See {@link BP_Button}.
 		 */
-		return apply_filters( 'bp_get_send_message_button_args', $button_args );
+		return (array) apply_filters( 'bp_get_send_message_button_args', $button_args );
 	}
 
 	/**
