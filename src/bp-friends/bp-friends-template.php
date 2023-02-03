@@ -457,9 +457,9 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $button_args Button arguments for add friend button.
+		 * @param array $button_args Button arguments for add friend button.
 		 */
-		return apply_filters( 'bp_get_add_friend_button', $button_args );
+		return (array) apply_filters( 'bp_get_add_friend_button', $button_args );
 	}
 
 	/**

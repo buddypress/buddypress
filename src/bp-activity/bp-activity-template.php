@@ -3558,7 +3558,7 @@ function bp_send_public_message_button( $args = '' ) {
 		 *
 		 * @param array $button_args Array of arguments for the public message button HTML.
 		 */
-		return apply_filters( 'bp_get_send_public_message_button', $button_args );
+		return (array) apply_filters( 'bp_get_send_public_message_button', $button_args );
 	}
 
 	/**

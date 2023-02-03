@@ -1594,7 +1594,7 @@ function bp_blogs_visit_blog_button( $args = '' ) {
 		 *
 		 * @param array $button_args Array of arguments to be used for the button to visit a blog.
 		 */
-		return apply_filters( 'bp_get_blogs_visit_blog_button', $button_args );
+		return (array) apply_filters( 'bp_get_blogs_visit_blog_button', $button_args );
 	}
 
 	/**
