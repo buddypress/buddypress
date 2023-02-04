@@ -759,15 +759,6 @@ class BP_Admin {
 				<div class="bp-hello-content">
 					<div id="dynamic-content"></div>
 					<div id="top-features">
-						<h2>
-							<?php
-							printf(
-									/* Translators: %s is a Partying Face emoji. */
-									esc_html__( 'Happy new year & best wishes for Twenty Twenty-Three %s', 'buddypress' ),
-									wp_staticize_emoji( '🥳' )
-								);
-							?>
-						</h2>
 						<p>
 							<?php esc_html_e( 'Thanks for upgrading BuddyPress to 11.0.0.', 'buddypress' ); ?>
 							<?php esc_html_e( 'This new major version of your site’s community engine introduces around 50 changes mostly acting under the hood to improve performance, consistency and the stability of the plugin.', 'buddypress' ); ?>
