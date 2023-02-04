@@ -784,10 +784,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	 * @group bp_attachments
 	 */
 	public function test_bp_attachments_get_allowed_types() {
-		$supported = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
-		if ( bp_is_running_wp( '5.8.0', '>=' ) ) {
-			$supported[] = 'webp';
-		}
+		$supported = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' );
 
 		$avatar = bp_attachments_get_allowed_types( 'avatar' );
 		$this->assertSame( $supported, $avatar );

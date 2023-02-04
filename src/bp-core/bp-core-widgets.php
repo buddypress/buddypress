@@ -19,10 +19,9 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_core_retain_legacy_widgets() {
 	$theme_supports = current_theme_supports( 'widgets-block-editor' );
-	$wp_supports    = bp_is_running_wp( '5.8.0' );
 
 	/** This filter is documented in wp-includes/widgets.php */
-	$block_widgets_enabled = $theme_supports && apply_filters( 'use_widgets_block_editor', $wp_supports );
+	$block_widgets_enabled = $theme_supports && apply_filters( 'use_widgets_block_editor', true );
 
 	$retain_legacy_widgets = true;
 	if ( $block_widgets_enabled ) {
