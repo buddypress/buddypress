@@ -3,6 +3,7 @@
  * @group groups
  * @group BP_Groups_Group
  */
+#[AllowDynamicProperties]
 class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/** __construct()  ***************************************************/

@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  */
+#[AllowDynamicProperties]
 class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	/**
 	 * Array of group member ids, cached to prevent redundant lookups

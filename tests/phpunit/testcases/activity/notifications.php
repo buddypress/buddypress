@@ -4,6 +4,7 @@
  * @group activity
  * @group notifications
  */
+#[AllowDynamicProperties]
 class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	protected $current_user;
 	protected $u1;

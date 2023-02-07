@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.5.0
  */
+#[AllowDynamicProperties]
 class BP_Core extends BP_Component {
 
 	/**

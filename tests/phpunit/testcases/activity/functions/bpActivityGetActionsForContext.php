@@ -3,6 +3,7 @@
 /**
  * @group activity
  */
+#[AllowDynamicProperties]
 class BP_Tests_Activity_Functions_BpActivityGetActionsForContext extends BP_UnitTestCase {
 	public function set_up() {
 		parent::set_up();

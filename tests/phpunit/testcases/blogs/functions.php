@@ -3,6 +3,7 @@
 /**
  * @group blogs
  */
+#[AllowDynamicProperties]
 class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	/**
 	 * @group blogmeta

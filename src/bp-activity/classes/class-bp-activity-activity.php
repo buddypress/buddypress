@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  */
+#[AllowDynamicProperties]
 class BP_Activity_Activity {
 
 	/** Properties ************************************************************/
@@ -59,7 +60,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	var $primary_link;
+	var $primary_link = '';
 
 	/**
 	 * BuddyPress component the activity item relates to.
@@ -67,7 +68,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $component;
+	var $component = '';
 
 	/**
 	 * Activity type, eg 'new_blog_post'.
@@ -75,7 +76,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $type;
+	var $type = '';
 
 	/**
 	 * Description of the activity, eg 'Alex updated his profile.'.
@@ -83,7 +84,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $action;
+	var $action = '';
 
 	/**
 	 * The content of the activity item.
@@ -91,7 +92,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 * @var string
 	 */
-	var $content;
+	var $content = '';
 
 	/**
 	 * The date the activity item was recorded, in 'Y-m-d h:i:s' format.
@@ -99,7 +100,7 @@ class BP_Activity_Activity {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	var $date_recorded;
+	var $date_recorded = '';
 
 	/**
 	 * Whether the item should be hidden in sitewide streams.

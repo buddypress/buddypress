@@ -3,6 +3,7 @@
 /**
  * @group notifications
  */
+#[AllowDynamicProperties]
 class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 
 	/**

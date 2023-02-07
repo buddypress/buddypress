@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  */
+#[AllowDynamicProperties]
 class BP_XProfile_Field {
 
 	/**
@@ -47,7 +48,7 @@ class BP_XProfile_Field {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public $type;
+	public $type = '';
 
 	/**
 	 * Field name.
@@ -55,7 +56,7 @@ class BP_XProfile_Field {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public $name;
+	public $name = '';
 
 	/**
 	 * Field description.
@@ -63,7 +64,7 @@ class BP_XProfile_Field {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public $description;
+	public $description = '';
 
 	/**
 	 * Required field?
@@ -103,7 +104,7 @@ class BP_XProfile_Field {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public $order_by;
+	public $order_by = '';
 
 	/**
 	 * Is this the default option?

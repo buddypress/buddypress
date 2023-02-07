@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Single message class.
  */
+#[AllowDynamicProperties]
 class BP_Messages_Message {
 
 	/**

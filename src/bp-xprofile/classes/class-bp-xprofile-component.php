@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.5.0
  */
+#[AllowDynamicProperties]
 class BP_XProfile_Component extends BP_Component {
 
 	/**

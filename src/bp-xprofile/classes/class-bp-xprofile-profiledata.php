@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.6.0
  */
+#[AllowDynamicProperties]
 class BP_XProfile_ProfileData {
 
 	/**

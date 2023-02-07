@@ -1,4 +1,5 @@
 <?php
+#[AllowDynamicProperties]
 class BP_UnitTest_Factory extends WP_UnitTest_Factory {
 	public $activity = null;
 

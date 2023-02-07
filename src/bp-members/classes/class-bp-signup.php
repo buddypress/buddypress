@@ -12,6 +12,7 @@
  *
  * @since 2.0.0
  */
+#[AllowDynamicProperties]
 class BP_Signup {
 
 	/**

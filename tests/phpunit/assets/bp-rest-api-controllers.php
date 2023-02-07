@@ -14,6 +14,7 @@ class BP_REST_Mock_Class {
 /**
  * BP Member Cover Image REST Controller's mock.
  */
+#[AllowDynamicProperties]
 class BP_REST_Attachments_Member_Cover_Endpoint extends BP_REST_Mock_Class {
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -28,6 +29,7 @@ class BP_REST_Attachments_Member_Cover_Endpoint extends BP_REST_Mock_Class {
 /**
  * BP Member Avatar REST Controller's mock.
  */
+#[AllowDynamicProperties]
 class BP_REST_Attachments_Member_Avatar_Endpoint extends BP_REST_Mock_Class {
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -42,6 +44,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends BP_REST_Mock_Class {
 /**
  * BP Components REST Controller's mock.
  */
+#[AllowDynamicProperties]
 class BP_REST_Components_Endpoint extends BP_REST_Mock_Class {
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -56,6 +59,7 @@ class BP_REST_Components_Endpoint extends BP_REST_Mock_Class {
 /**
  * BP Members REST Controller's mock.
  */
+#[AllowDynamicProperties]
 class BP_REST_Members_Endpoint extends BP_REST_Mock_Class {
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
