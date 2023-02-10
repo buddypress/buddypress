@@ -5,16 +5,11 @@
  */
 class BP_Tests_Avatars extends BP_UnitTestCase {
 	private $params = array();
-	protected $allowed_image_types = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png' );
-	protected $allowed_image_mimes = array( 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/png' );
+	protected $allowed_image_types = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' );
+	protected $allowed_image_mimes = array( 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/png', 'image/webp' );
 
 	public function set_up() {
 		parent::set_up();
-
-		if ( bp_is_running_wp( '5.8.0', '>=' ) ) {
-			$this->allowed_image_types[] = 'webp';
-			$this->allowed_image_mimes[] = 'image/webp';
-		}
 	}
 
 	private function clean_existing_avatars( $type = 'user' ) {
