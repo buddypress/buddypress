@@ -155,7 +155,7 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 	<div class="thread-content" data-thread-id="{{data.id}}">
 		<div class="thread-subject">
 			<span class="thread-count">({{data.count}})</span>
-			<a class="subject" href="../view/{{data.id}}/">{{data.subject}}</a>
+			<a class="subject" href="./view/{{data.id}}/">{{data.subject}}</a>
 		</div>
 		<p class="excerpt">{{data.excerpt}}</p>
 	</div>
