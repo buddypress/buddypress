@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * BuddyPress Notices Admin class.
  */
+#[AllowDynamicProperties]
 class BP_Messages_Notices_Admin {
 
 	/**

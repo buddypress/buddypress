@@ -19,6 +19,7 @@ if ( !class_exists( 'BP_Admin' ) ) :
  *
  * @since 1.6.0
  */
+#[AllowDynamicProperties]
 class BP_Admin {
 
 	/** Directory *************************************************************/

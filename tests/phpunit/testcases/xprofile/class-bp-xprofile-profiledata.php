@@ -4,6 +4,7 @@
  * @group xprofile
  * @group BP_XProfile_ProfileData
  */
+#[AllowDynamicProperties]
 class BP_Tests_BP_XProfile_ProfileData_TestCases extends BP_UnitTestCase {
 	/**
 	 * @group exists

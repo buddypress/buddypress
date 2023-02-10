@@ -16,7 +16,10 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Creates our Blogs component.
+ *
+ * @since 1.5.0
  */
+#[AllowDynamicProperties]
 class BP_Blogs_Component extends BP_Component {
 
 	/**

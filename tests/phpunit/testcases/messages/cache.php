@@ -4,6 +4,7 @@
  * @group messages
  * @group cache
  */
+#[AllowDynamicProperties]
 class BP_Tests_Message_Cache extends BP_UnitTestCase {
 	/**
 	 * @group bp_messages_update_meta_cache

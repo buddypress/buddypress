@@ -2,6 +2,7 @@
 /**
  * @group activity
  */
+#[AllowDynamicProperties]
 class BP_Tests_Activity_Functions extends BP_UnitTestCase {
 
 	/**

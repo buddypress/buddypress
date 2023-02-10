@@ -3,6 +3,7 @@
  * @group groups
  * @group template
  */
+#[AllowDynamicProperties]
 class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 	public function set_up() {

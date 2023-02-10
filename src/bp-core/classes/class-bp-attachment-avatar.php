@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.3.0
  */
+#[AllowDynamicProperties]
 class BP_Attachment_Avatar extends BP_Attachment {
 
 	/**

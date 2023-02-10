@@ -6,6 +6,7 @@ include_once BP_TESTS_DIR . 'assets/attachment-extensions.php';
  * @group bp_attachments
  * @group BP_Attachment
  */
+#[AllowDynamicProperties]
 class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	private $upload_results;
 	private $image_file;

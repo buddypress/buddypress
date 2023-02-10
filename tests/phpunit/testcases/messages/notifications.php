@@ -4,6 +4,7 @@
  * @group notifications
  * @group messages
  */
+#[AllowDynamicProperties]
 class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 
 	protected $filter_fired;

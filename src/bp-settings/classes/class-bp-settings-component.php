@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.5.0
  */
+#[AllowDynamicProperties]
 class BP_Settings_Component extends BP_Component {
 
 	/**

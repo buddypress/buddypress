@@ -2,6 +2,7 @@
 /**
  * @group members
  */
+#[AllowDynamicProperties]
 class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 	/**

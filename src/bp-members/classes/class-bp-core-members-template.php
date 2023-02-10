@@ -161,7 +161,7 @@ class BP_Core_Members_Template {
 			'per_page'            => 20,
 			'max'                 => false,
 			'user_id'             => false,
-			'search_terms'        => null,
+			'search_terms'        => '',
 			'include'             => false,
 			'populate_extras'     => true,
 			'exclude'             => false,
