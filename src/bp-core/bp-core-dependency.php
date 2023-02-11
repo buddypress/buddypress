@@ -513,10 +513,11 @@ function bp_enqueue_context_scripts( $context = 'embed' ) {
 	 * Filter here & return `true` to restrict BP Assets loading to BP Pages.
 	 *
 	 * @since 11.0.0
+	 * @since 12.0.0 Default value has been switched from `false` to `true`.
 	 *
-	 * @param bool $value False to carry on loading BP Assets "everywhere". True otherwise.
+	 * @param bool $value True to only load BP Assets inside BP generated pages. False otherwise.
 	 */
-	$bp_pages_only = apply_filters( 'bp_enqueue_assets_in_bp_pages_only', false );
+	$bp_pages_only = apply_filters( 'bp_enqueue_assets_in_bp_pages_only', true );
 
 	if ( 'embed' === $context || $bp_pages_only ) {
 		$bp_pages_only_assets = true;
