@@ -622,6 +622,7 @@ class BuddyPress {
 		require $this->plugin_dir . 'bp-core/bp-core-template.php';
 		require $this->plugin_dir . 'bp-core/bp-core-adminbar.php';
 		require $this->plugin_dir . 'bp-core/bp-core-buddybar.php';
+		require $this->plugin_dir . 'bp-core/bp-core-rewrites.php';
 		require $this->plugin_dir . 'bp-core/bp-core-catchuri.php';
 		require $this->plugin_dir . 'bp-core/bp-core-functions.php';
 		require $this->plugin_dir . 'bp-core/bp-core-moderation.php';
