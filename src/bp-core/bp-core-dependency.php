@@ -126,6 +126,21 @@ function bp_register_post_types() {
 }
 
 /**
+ * Fire the 'bp_register_post_statuses' action, where plugins should register post statuses.
+ *
+ * @since 12.0.0
+ */
+function bp_register_post_statuses() {
+
+	/**
+	 * Fires inside the 'bp_register_post_statuses' function, where plugins should register post statuses.
+	 *
+	 * @since 12.0.0
+	 */
+	do_action( 'bp_register_post_statuses' );
+}
+
+/**
  * Fire the 'bp_setup_globals' action, where plugins should initialize global settings.
  *
  * @since 1.2.0

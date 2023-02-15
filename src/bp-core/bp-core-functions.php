@@ -697,6 +697,26 @@ function bp_core_get_directory_pages_stati() {
 }
 
 /**
+ * Get the directory pages post type.
+ *
+ * @since 12.0.0
+ *
+ * @return string The post type to use for directory pages.
+ */
+function bp_core_get_directory_post_type() {
+	$post_type = 'buddypress';
+
+	/**
+	 * Filter here to edit the post type to use for directory pages.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $post_type The post type to use for directory pages.
+	 */
+	return apply_filters( 'bp_core_get_directory_post_type', $post_type );
+}
+
+/**
  * Get names and slugs for BuddyPress component directory pages.
  *
  * @since 1.5.0
@@ -844,7 +864,7 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 				'ping_status'    => 'closed',
 				'post_status'    => 'publish',
 				'post_title'     => $page_name,
-				'post_type'      => 'page',
+				'post_type'      => bp_core_get_directory_post_type(),
 			) );
 		}
 	}
@@ -4890,4 +4910,27 @@ function bp_get_deprecated_functions_versions() {
 	}
 
 	return $latest_deprecated_functions_versions;
+}
+
+/**
+ * Get the BuddyPress Post Type site ID.
+ *
+ * @since 12.0.0
+ *
+ * @return int The site ID the BuddyPress Post Type should be registered on.
+ */
+function bp_get_post_type_site_id() {
+	$site_id = bp_get_root_blog_id();
+
+	/**
+	 * Filter here to edit the site ID.
+	 *
+	 * @todo This will need to be improved to take in account
+	 * specific configurations like multiblog.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param integer $site_id The site ID to register the post type on.
+	 */
+	return (int) apply_filters( 'bp_get_post_type_site_id', $site_id );
 }
