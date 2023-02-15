@@ -34,4 +34,16 @@ class BPTest_Component extends BP_Component {
 	public function setup_globals( $args = array() ) {
 		parent::setup_globals( $this->globals );
 	}
+
+	public function add_rewrite_tags( $rewrite_tags = array() ) {
+		parent::add_rewrite_tags( $rewrite_tags );
+	}
+
+	public function add_rewrite_rules( $rewrite_rules = array() ) {
+		parent::add_rewrite_rules( $rewrite_rules );
+	}
+
+	public function add_permastructs( $permastructs = array() ) {
+		parent::add_permastructs( $permastructs );
+	}
 }

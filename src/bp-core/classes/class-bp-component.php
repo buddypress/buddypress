@@ -60,6 +60,22 @@ class BP_Component {
 	public $has_directory = false;
 
 	/**
+	 * Directory's permalink structure for the component.
+	 *
+	 * @since 12.0.0
+	 * @var string
+	 */
+	public $directory_permastruct = '';
+
+	/**
+	 * List of available rewrite IDs for the component.
+	 *
+	 * @since 12.0.0
+	 * @var array
+	 */
+	public $rewrite_ids = array();
+
+	/**
 	 * The path to the component's files.
 	 *
 	 * @since 1.5.0
@@ -257,6 +273,7 @@ class BP_Component {
 				'slug'                  => $this->id,
 				'root_slug'             => '',
 				'has_directory'         => false,
+				'rewrite_ids'           => array(),
 				'directory_title'       => '',
 				'notification_callback' => '',
 				'search_string'         => '',
@@ -305,6 +322,33 @@ class BP_Component {
 			 * @param bool $value Whether or not there is a top-level directory.
 			 */
 			$this->has_directory = apply_filters( 'bp_' . $this->id . '_has_directory', $r['has_directory'] );
+
+			$rewrite_ids = bp_parse_args(
+				/**
+				 * Filters the component's rewrite IDs if available.
+				 *
+				 * @since 12.0.0
+				 *
+				 * @param array $value The list of rewrite IDs for the component.
+				 */
+				(array) apply_filters( 'bp_' . $this->id. '_rewrite_ids', $r['rewrite_ids'] ),
+				array_fill_keys( array_keys( bp_rewrites_get_default_url_chunks() ), '' )
+			);
+
+			if ( array_filter( $rewrite_ids ) ) {
+				foreach ( $rewrite_ids as $rewrite_id_key => $rewrite_id_value ) {
+					if ( ! $rewrite_id_value ) {
+						continue;
+					}
+
+					$this->rewrite_ids[ sanitize_key( $rewrite_id_key ) ] = 'bp_' . str_replace( 'bp_', '', sanitize_key( $rewrite_id_value ) );
+				}
+			}
+
+			// Set the component's directory permastruct early so that it's available to build links.
+			if ( true === $this->has_directory && isset( $this->rewrite_ids['directory'] ) ) {
+				$this->directory_permastruct = $this->root_slug . '/%' . $this->rewrite_ids['directory'] . '%';
+			}
 
 			/**
 			 * Filters the component's directory title.
@@ -502,10 +546,10 @@ class BP_Component {
 		add_action( 'bp_register_taxonomies',    array( $this, 'register_taxonomies'    ), 10 );
 
 		// Add the rewrite tags.
-		add_action( 'bp_add_rewrite_tags',       array( $this, 'add_rewrite_tags'       ), 10 );
+		add_action( 'bp_add_rewrite_tags',       array( $this, 'add_rewrite_tags'       ), 10, 0 );
 
 		// Add the rewrite rules.
-		add_action( 'bp_add_rewrite_rules',      array( $this, 'add_rewrite_rules'      ), 10 );
+		add_action( 'bp_add_rewrite_rules',      array( $this, 'add_rewrite_rules'      ), 10, 0 );
 
 		// Add the permalink structure.
 		add_action( 'bp_add_permastructs',       array( $this, 'add_permastructs'       ), 10 );
@@ -832,12 +876,35 @@ class BP_Component {
 	}
 
 	/**
-	 * Add any additional rewrite tags.
+	 * Add Component's additional rewrite tags.
 	 *
 	 * @since 1.5.0
+	 * @since 12.0.0 Adds the `$rewrite_tags` parameter.
 	 *
+	 * @param array $rewrite_tags Array of arguments list used to add WordPress rewrite tags.
+	 *                            Each argument key needs to match one of `$this->rewrite_ids` keys.
 	 */
-	public function add_rewrite_tags() {
+	public function add_rewrite_tags( $rewrite_tags = array() ) {
+		if ( array_filter( $this->rewrite_ids ) ) {
+			$chunks = bp_rewrites_get_default_url_chunks();
+
+			foreach ( $this->rewrite_ids as $rewrite_id_key => $rewrite_id_value ) {
+				$rewrite_tag   = '%' . $rewrite_id_value . '%';
+				$rewrite_regex = '';
+
+				if ( isset( $rewrite_tags[ $rewrite_id_key ] ) ) {
+					$rewrite_regex = $rewrite_tags[ $rewrite_id_key ];
+				} elseif ( isset( $chunks[ $rewrite_id_key ]['regex'] ) ) {
+					$rewrite_regex = $chunks[ $rewrite_id_key ]['regex'];
+				}
+
+				if ( ! $rewrite_regex ) {
+					continue;
+				}
+
+				add_rewrite_tag( $rewrite_tag, $rewrite_regex );
+			}
+		}
 
 		/**
 		 * Fires in the add_rewrite_tags method inside BP_Component.
@@ -850,12 +917,76 @@ class BP_Component {
 	}
 
 	/**
-	 * Add any additional rewrite rules.
+	 * Add Component's additional rewrite rules.
 	 *
 	 * @since 1.9.0
+	 * @since 12.0.0 Adds the `$rewrite_rules` parameter.
 	 *
+	 * @param array $rewrite_rules {
+	 *     Array of associative arrays of arguments list used to add WordPress rewrite rules.
+	 *     Each associative array needs to include the following keys.
+	 *
+	 *     @type string $regex    Regular expression to match request against. Required.
+	 *     @type string $query    The corresponding query vars for this rewrite rule. Required.
+	 *     @type int    $order    The insertion order for the rewrite rule. Required.
+	 *     @type string $priority The Priority of the new rule. Accepts 'top' or 'bottom'. Optional.
+	 *                            Default 'top'.
+	 * }
 	 */
-	public function add_rewrite_rules() {
+	public function add_rewrite_rules( $rewrite_rules = array() ) {
+		if ( array_filter( $this->rewrite_ids ) ) {
+			$priority = 'top';
+			$chunks   = array_merge( bp_rewrites_get_default_url_chunks(), $rewrite_rules );
+
+			$rules          = bp_sort_by_key( $chunks, 'order', 'num', true );
+			$reversed_rules = array_reverse( $rules, true );
+
+			$regex = '';
+			$query = '';
+			$match = 1;
+
+			// Build rewrite rules for the component.
+			foreach ( $reversed_rules as $rule_key => $rule_information ) {
+				if ( ! isset( $this->rewrite_ids[ $rule_key ] ) ) {
+					unset( $rules[ $rule_key ] );
+					continue;
+				}
+
+				// The query is already set, use it.
+				if ( isset( $rule_information['query'] ) ) {
+					$rules[ $rule_key ]['regex'] = $rule_information['regex'];
+					$rules[ $rule_key ]['query'] = $rule_information['query'];
+				} elseif ( 'directory' === $rule_key ) {
+					$regex = $this->root_slug;
+					$query = 'index.php?' . $this->rewrite_ids['directory'] . '=1';
+
+					$rules[ $rule_key ]['regex'] = $regex;
+					$rules[ $rule_key ]['query'] = $query;
+				} else {
+					$regex  = trailingslashit( $regex ) . $rule_information['regex'];
+					$query .= '&' . $this->rewrite_ids[ $rule_key ] . '=$matches['. $match .']';
+					$match += 1;
+
+					$rules[ $rule_key ]['regex'] = $regex . '/?$';
+					$rules[ $rule_key ]['query'] = $query;
+				}
+			}
+
+			// Then register the rewrite rules.
+			if ( $rules ) {
+				foreach ( $rules as $rewrite_rule ) {
+					if ( ! isset( $rewrite_rule['regex'] ) || ! isset( $rewrite_rule['query'] ) ) {
+						continue;
+					}
+
+					if ( ! isset( $rewrite_rule['priority'] ) || ! $rewrite_rule['priority'] ) {
+						$rewrite_rule['priority'] = $priority;
+					}
+
+					add_rewrite_rule( $rewrite_rule['regex'], $rewrite_rule['query'], $rewrite_rule['priority'] );
+				}
+			}
+		}
 
 		/**
 		 * Fires in the add_rewrite_rules method inside BP_Component.
@@ -868,12 +999,60 @@ class BP_Component {
 	}
 
 	/**
-	 * Add any permalink structures.
+	 * Add Component's permalink structures.
 	 *
 	 * @since 1.9.0
+	 * @since 12.0.0 Adds the `$permastructs` parameter.
 	 *
+	 * @param array $permastructs {
+	 *      Array of associative arrays of arguments list used to register WordPress additional permalink structures.
+	 *      Each array enty is keyed with the permalink structure.
+	 *      Each associative array needs to include the following keys.
+	 *
+	 *      @type string $permastruct The permalink structure. Required.
+	 *      @type array  $args        The permalink structure arguments. Optional.
+	 * }
 	 */
-	public function add_permastructs() {
+	public function add_permastructs( $permastructs = array() ) {
+		// Always include the directory permastruct when the component has a directory.
+		if ( isset( $this->rewrite_ids['directory'] ) ) {
+			$directory_permastruct = array(
+				$this->rewrite_ids['directory'] => array(
+					'permastruct' => $this->directory_permastruct,
+					'args'        => array(),
+				),
+			);
+
+			$permastructs = array_merge( $directory_permastruct, (array) $permastructs );
+		}
+
+		if ( $permastructs ) {
+			foreach ( $permastructs as $name => $params ) {
+				if ( ! $name || ! isset( $params['permastruct'] ) || ! $params['permastruct'] ) {
+					continue;
+				}
+
+				if ( ! $params['args'] ) {
+					$params['args'] = array();
+				}
+
+				$args = wp_parse_args(
+					$params['args'],
+					array(
+						'with_front'  => false,
+						'ep_mask'     => EP_NONE,
+						'paged'       => true,
+						'feed'        => false,
+						'forcomments' => false,
+						'walk_dirs'   => true,
+						'endpoints'   => false,
+					)
+				);
+
+				// Add the permastruct.
+				add_permastruct( $name, $params['permastruct'], $args );
+			}
+		}
 
 		/**
 		 * Fires in the add_permastructs method inside BP_Component.
@@ -890,10 +1069,12 @@ class BP_Component {
 	 *
 	 * @since 1.9.0
 	 *
-	 *
 	 * @param object $query The main WP_Query.
 	 */
 	public function parse_query( $query ) {
+		if ( is_buddypress() ) {
+			add_filter( 'posts_pre_query', array( $this, 'pre_query' ), 10, 2 );
+		}
 
 		/**
 		 * Fires in the parse_query method inside BP_Component.
@@ -905,6 +1086,29 @@ class BP_Component {
 		 * @param object $query Main WP_Query object. Passed by reference.
 		 */
 		do_action_ref_array( 'bp_' . $this->id . '_parse_query', array( &$query ) );
+	}
+
+	/**
+	 * Make sure to avoid querying for regular posts when displaying a BuddyPress page.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param  null     $retval A null value to use the regular WP Query.
+	 * @param  WP_Query $query  The WP Query object.
+	 * @return null|array Null if not displaying a BuddyPress page.
+	 *                    An array containing the BuddyPress directory post otherwise.
+	 */
+	public function pre_query( $retval = null, $query = null ) {
+		remove_filter( 'posts_pre_query', array( $this, 'pre_query' ), 10 );
+
+		$queried_object = $query->get_queried_object();
+
+		if ( $queried_object instanceof \WP_Post && 'buddypress' === get_post_type( $queried_object ) ) {
+			// Only include the queried directory post into returned posts.
+			$retval = array( $queried_object );
+		}
+
+		return $retval;
 	}
 
 	/**
