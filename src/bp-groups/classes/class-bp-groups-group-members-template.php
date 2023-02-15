@@ -73,6 +73,14 @@ class BP_Groups_Group_Members_Template {
 	public $pag_arg;
 
 	/**
+	 * The type of member being requested. Used for ordering results.
+	 *
+	 * @since 2.3.0
+	 * @var string
+	 */
+	public $type = '';
+
+	/**
 	 * The total number of members.
 	 *
 	 * @var int
