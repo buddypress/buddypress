@@ -165,7 +165,7 @@ class BP_Blogs_Blog {
 	 * Retrieve a set of blog-user associations.
 	 *
 	 * @since 1.2.0
-	 * @since 10.0.0 Converted to array as main function argument. Added $date_query parameter.
+	 * @since 10.0.0 Converted to array as main function argument. Added `$date_query` parameter.
 	 *
 	 * @param array $data {
 	 *     Array of site data to query for.
