@@ -222,14 +222,14 @@ function bp_blogs_format_activity_action_new_blog_post( $action, $activity ) {
 
 		$action = sprintf(
 			/* translators: 1: the activity user link. 2: the blog link. */
-			esc_html_x( '%1$s wrote a new post on the site %2$s', 'Multisite `new_blog_post` activity action', 'buddypress' ),
+			esc_html_x( '%1$s wrote a new post on the site %2$s', 'Multisite `new_blog_post` activity action, since 11.0 only accepts two arguments', 'buddypress' ),
 			$user_link,
 			'<a href="' . esc_url( $blog_url ) . '">' . esc_html( $blog_name ) . '</a>'
 		);
 	} else {
 		$action = sprintf(
 			/* translators: 1: the activity user link. */
-			esc_html_x( '%s wrote a new post', '`new_blog_post` activity action', 'buddypress' ),
+			esc_html_x( '%s wrote a new post', '`new_blog_post` activity action, since 11.0 only accepts one argument', 'buddypress' ),
 			$user_link
 		);
 	}
