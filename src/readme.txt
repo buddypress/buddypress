@@ -4,9 +4,9 @@ Tags:              profiles, groups, activity, direct messaging, notifications, 
 License:           GNU General Public License v2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
-Requires at least: 5.7
+Requires at least: 5.8
 Tested up to:      6.1
-Stable tag:        11.0.0
+Stable tag:        11.1.0
 
 BuddyPress helps site builders & developers add community features to their websites, with user profiles, activity streams, and more!
 
@@ -125,6 +125,9 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
+= 11.1.0 =
+See: https://codex.buddypress.org/releases/version-11.1.0/
+
 = 11.0.0 =
 See: https://codex.buddypress.org/releases/version-11.0.0/
 
@@ -172,12 +175,12 @@ See: https://codex.buddypress.org/releases/version-7-2-0/
 
 = 7.1.0 =
 See: https://codex.buddypress.org/releases/version-7-1-0/
-
-= 7.0.0 =
-See: https://codex.buddypress.org/releases/version-7-0-0/
 
 == Changelog ==
 
+= 11.1.0 =
+See: https://codex.buddypress.org/releases/version-11.1.0/
+
 = 11.0.0 =
 See: https://codex.buddypress.org/releases/version-11.0.0/
 
@@ -225,6 +228,3 @@ See: https://codex.buddypress.org/releases/version-7-2-0/
 
 = 7.1.0 =
 See: https://codex.buddypress.org/releases/version-7-1-0/
-
-= 7.0.0 =
-See: https://codex.buddypress.org/releases/version-7-0-0/
