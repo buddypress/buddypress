@@ -51,9 +51,9 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 			'post_name' => 'foo',
 		) );
 
-		$members_page = get_page_by_path( 'members' );
+		$members_page_id = bp_core_get_directory_page_id( 'members' );
 		wp_update_post( array(
-			'ID' => $members_page->ID,
+			'ID'          => $members_page_id,
 			'post_parent' => $p,
 		) );
 

@@ -853,11 +853,11 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 
 	// Create the pages.
 	foreach ( $pages_to_create as $component_name => $page_name ) {
-		$exists = get_page_by_path( $component_name );
+		$existing_id = bp_core_get_directory_page_id( $component_name );
 
 		// If page already exists, use it.
-		if ( ! empty( $exists ) ) {
-			$pages[ $component_name ] = $exists->ID;
+		if ( ! empty( $existing_id ) ) {
+			$pages[ $component_name ] = (int) $existing_id;
 		} else {
 			$pages[ $component_name ] = wp_insert_post( array(
 				'comment_status' => 'closed',
@@ -904,6 +904,47 @@ function bp_core_get_directory_page_default_titles() {
 	 */
 	return apply_filters( 'bp_core_get_directory_page_default_titles', $page_default_titles );
 }
+
+/**
+ * Make sure Components directory page `post_name` are unique.
+ *
+ * Goal is to avoid a slug conflict between a Page and a Component's directory page `post_name`.
+ *
+ * @since 12.0.0
+ *
+ * @param string $slug          The post slug.
+ * @param int    $post_ID       Post ID.
+ * @param string $post_status   The post status.
+ * @param string $post_type     Post type.
+ * @param int    $post_parent   Post parent ID.
+ * @param string $original_slug The original post slug.
+ */
+function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post_status = '', $post_type = '', $post_parent = 0, $original_slug = '' ) {
+	if ( ( 'buddypress' === $post_type || 'page' === $post_type ) ) {
+		$args = array();
+
+		if ( 'page' === $post_type ) {
+			$args['post_type'] = 'buddypress';
+		} else {
+			$args['post_type'] = 'page';
+		}
+
+		$pages      = get_pages( $args );
+		$post_names = wp_list_pluck( $pages, 'post_name' );
+		if ( in_array( $slug, $post_names, true ) ) {
+			$suffix = 2;
+			do {
+				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
+				$post_name_check = in_array( $alt_post_name, $post_names, true );
+				$suffix++;
+			} while ( $post_name_check );
+			$slug = $alt_post_name;
+		}
+	}
+
+	return $slug;
+}
+add_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10, 6 );
 
 /**
  * Remove the entry from bp_pages when the corresponding WP page is deleted.
