@@ -920,22 +920,30 @@ function bp_core_get_directory_page_default_titles() {
  * @param string $original_slug The original post slug.
  */
 function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post_status = '', $post_type = '', $post_parent = 0, $original_slug = '' ) {
-	if ( ( 'buddypress' === $post_type || 'page' === $post_type ) ) {
-		$args = array();
+	if ( ( 'buddypress' === $post_type || 'page' === $post_type ) && $slug === $original_slug ) {
+		$pages = get_posts(
+			array(
+				'post__not_in' => array( $post_ID ),
+				'post_status'  => array( 'publish', 'bp_restricted' ),
+				'post_type'    => array( 'buddypress', 'page' ),
+			)
+		);
 
-		if ( 'page' === $post_type ) {
-			$args['post_type'] = 'buddypress';
-		} else {
-			$args['post_type'] = 'page';
+		$illegal_names = wp_list_pluck( $pages, 'post_name' );
+		if ( is_multisite() && ! is_subdomain_install() ) {
+			$current_site = get_current_site();
+			$site         = get_site_by_path( $current_site->domain, trailingslashit( $current_site->path ) . $slug );
+
+			if ( isset( $site->blog_id ) && 1 !== $site->blog_id ) {
+				$illegal_names[] = $slug;
+			}
 		}
 
-		$pages      = get_pages( $args );
-		$post_names = wp_list_pluck( $pages, 'post_name' );
-		if ( in_array( $slug, $post_names, true ) ) {
+		if ( in_array( $slug, $illegal_names, true ) ) {
 			$suffix = 2;
 			do {
 				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
-				$post_name_check = in_array( $alt_post_name, $post_names, true );
+				$post_name_check = in_array( $alt_post_name, $illegal_names, true );
 				$suffix++;
 			} while ( $post_name_check );
 			$slug = $alt_post_name;
@@ -1073,13 +1081,15 @@ function bp_core_create_root_component_page() {
 	$new_page_ids = array();
 
 	foreach ( (array) $bp->add_root as $slug ) {
-		$new_page_ids[ $slug ] = wp_insert_post( array(
-			'comment_status' => 'closed',
-			'ping_status'    => 'closed',
-			'post_title'     => ucwords( $slug ),
-			'post_status'    => 'publish',
-			'post_type'      => 'page'
-		) );
+		$new_page_ids[ $slug ] = wp_insert_post(
+			array(
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_title'     => ucwords( $slug ),
+				'post_status'    => 'publish',
+				'post_type'      => bp_core_get_directory_post_type(),
+			)
+		);
 	}
 
 	$page_ids = array_merge( $new_page_ids, bp_core_get_directory_page_ids( 'all' ) );

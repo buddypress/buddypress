@@ -30,7 +30,11 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 
 	public function test_members_directory() {
 		$this->go_to( home_url( bp_get_members_root_slug() ) );
-		$this->assertEquals( bp_get_members_root_slug(), bp_current_component() );
+
+		$pages        = bp_core_get_directory_pages();
+		$component_id = bp_current_component();
+
+		$this->assertEquals( bp_get_members_root_slug(), $pages->{$component_id}->slug );
 	}
 
 	public function test_member_permalink() {

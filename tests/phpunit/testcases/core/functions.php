@@ -565,7 +565,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		restore_current_blog();
 
-		$this->assertFalse( wp_cache_get( 'directory_pages', 'bp' ) );
+		$this->assertFalse( wp_cache_get( 'directory_pages', 'bp_pages' ) );
 	}
 
 	/**
@@ -840,7 +840,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 	/**
 	 * @group bp_core_add_page_mappings
-	 * @ticket 8187
+	 * @ticket BP8187
 	 */
 	public function test_bp_core_add_page_mappings_in_multisite_subdirectory() {
 		if ( ! is_multisite() || is_subdomain_install() ) {

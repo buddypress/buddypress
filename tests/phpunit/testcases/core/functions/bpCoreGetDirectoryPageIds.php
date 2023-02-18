@@ -249,7 +249,7 @@ class BP_Tests_Core_Functions_BpCoreGetDirectoryPageIds extends BP_UnitTestCase 
 		$v = bp_get_option( 'bp-pages' );
 		bp_update_option( 'bp-pages', 'foo' );
 
-		$this->assertFalse( wp_cache_get( 'directory_pages', 'bp' ) );
+		$this->assertFalse( wp_cache_get( 'directory_pages', 'bp_pages' ) );
 
 		bp_update_option( 'bp-pages', $v );
 	}
