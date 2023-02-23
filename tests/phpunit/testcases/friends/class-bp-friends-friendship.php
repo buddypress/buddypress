@@ -191,4 +191,71 @@ class BP_Tests_BP_Friends_Friendship_TestCases extends BP_UnitTestCase {
 
 		$this->assertEquals( $first_query_count, $wpdb->num_queries );
 	}
+
+	/**
+	 * @ticket BP8844
+	 */
+	public function test_get_random_friends() {
+		$user_id = self::factory()->user->create();
+		$friends = self::factory()->user->create_many( 4 );
+
+		foreach ( $friends as $initiator_id ) {
+			friends_add_friend( $initiator_id, $user_id, true );
+		}
+
+		$random = BP_Friends_Friendship::get_random_friends( $user_id, 4 );
+		$this->assertFalse( in_array( $user_id, $random, true ), 'The requested user id should not be listed into random friends' );
+		$this->assertTrue( 4 === count( $random ) );
+	}
+
+	/**
+	 * @ticket BP8844
+	 */
+	public function test_get_friend_user_ids() {
+		$user_id = self::factory()->user->create();
+		$friends = self::factory()->user->create_many( 4 );
+
+		foreach ( $friends as $initiator_id ) {
+			friends_add_friend( $initiator_id, $user_id, true );
+		}
+
+		$friend_user_ids = BP_Friends_Friendship::get_friend_user_ids( $user_id );
+		$this->assertFalse( in_array( $user_id, $friend_user_ids, true ), 'The requested user id should not be listed into random friends' );
+		$this->assertTrue( 4 === count( $friend_user_ids ) );
+	}
+
+	/**
+	 * @ticket BP8844
+	 */
+	public function test_delete_all_for_user() {
+		$user_id = self::factory()->user->create();
+		$friends = self::factory()->user->create_many( 4 );
+
+		foreach ( $friends as $initiator_id ) {
+			friends_add_friend( $initiator_id, $user_id, true );
+		}
+
+		BP_Friends_Friendship::delete_all_for_user( $user_id );
+		$friend_user_ids = BP_Friends_Friendship::get_friendship_ids_for_user( $user_id );
+		$this->assertEmpty( $friend_user_ids );
+	}
+
+	/**
+	 * @ticket BP8844
+	 */
+	public function test_get_friendships() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+
+		friends_add_friend( $u2, $u1, false );
+		friends_add_friend( $u3, $u1, true );
+
+		$friendships = BP_Friends_Friendship::get_friendships( $u1, array( 'initiator_user_id' => $u2 ), 'not' );
+		$friendship = reset( $friendships );
+		$this->assertTrue( $u3 === $friendship->initiator_user_id && 1 === count( $friendships ) );
+
+		$friendships = BP_Friends_Friendship::get_friendships( $u1, array( 'initiator_user_id' => $u3, 'is_confirmed' => 0 ), 'or' );
+		$this->assertTrue( 2 === count( $friendships ) );
+	}
 }
