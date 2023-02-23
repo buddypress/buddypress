@@ -267,6 +267,13 @@ class BP_Friends_Friendship {
 			$user_id = bp_loggedin_user_id();
 		}
 
+		$friendships = array();
+		$operator    = strtoupper( $operator );
+
+		if ( ! in_array( $operator, array( 'AND', 'OR', 'NOT' ), true ) ) {
+			return $friendships;
+		}
+
 		$r = bp_parse_args(
 			$args,
 			array(
@@ -300,18 +307,22 @@ class BP_Friends_Friendship {
 			}
 		}
 
+		$int_keys  = array( 'id', 'initiator_user_id', 'friend_user_id' );
+		$bool_keys = array( 'is_confirmed', 'is_limited' );
+
 		// Assemble filter array.
 		$filters = wp_array_slice_assoc( $r, array( 'id', 'initiator_user_id', 'friend_user_id', 'is_confirmed', 'is_limited' ) );
 		foreach ( $filters as $filter_name => $filter_value ) {
 			if ( is_null( $filter_value ) ) {
 				unset( $filters[ $filter_name ] );
+			} elseif ( in_array( $filter_name, $int_keys, true ) ) {
+				$filters[ $filter_name ] = (int) $filter_value;
+			} else {
+				$filters[ $filter_name ] = (bool) $filter_value;
 			}
 		}
 
 		// Populate friendship array from cache, and normalize.
-		$friendships = array();
-		$int_keys    = array( 'id', 'initiator_user_id', 'friend_user_id' );
-		$bool_keys   = array( 'is_confirmed', 'is_limited' );
 		foreach ( $friendship_ids as $friendship_id ) {
 			// Create a limited BP_Friends_Friendship object (don't fetch the user details).
 			$friendship = new BP_Friends_Friendship( $friendship_id, false, false );
@@ -332,17 +343,17 @@ class BP_Friends_Friendship {
 			}
 
 			// We need to support the same operators as wp_list_filter().
-			if ( 'OR' == $operator || 'NOT' == $operator ) {
+			if ( 'OR' === $operator || 'NOT' === $operator ) {
 				$matched = 0;
 
 				foreach ( $filters as $filter_name => $filter_value ) {
-					if ( isset( $friendship->{$filter_name} ) && $filter_value == $friendship->{$filter_name} ) {
+					if ( isset( $friendship->{$filter_name} ) && $filter_value === $friendship->{$filter_name} ) {
 						$matched++;
 					}
 				}
 
-				if ( ( 'OR' == $operator && $matched > 0 )
-				  || ( 'NOT' == $operator && 0 == $matched ) ) {
+				if ( ( 'OR' === $operator && $matched > 0 )
+				  || ( 'NOT' === $operator && 0 === $matched ) ) {
 					$friendships[ $friendship->id ] = $friendship;
 				}
 
@@ -352,7 +363,7 @@ class BP_Friends_Friendship {
 				 * If any of the filters miss, we move on.
 				 */
 				foreach ( $filters as $filter_name => $filter_value ) {
-					if ( ! isset( $friendship->{$filter_name} ) || $filter_value != $friendship->{$filter_name} ) {
+					if ( ! isset( $friendship->{$filter_name} ) || $filter_value !== $friendship->{$filter_name} ) {
 						continue 2;
 					}
 				}
@@ -428,13 +439,19 @@ class BP_Friends_Friendship {
 		}
 
 		$friendships = self::get_friendships( $user_id, $args );
+		$user_id     = (int) $user_id;
 
 		$fids = array();
 		foreach ( $friendships as $friendship ) {
+			$friend_id = $friendship->friend_user_id;
+			if ( $friendship->friend_user_id === $user_id ) {
+				$friend_id = $friendship->initiator_user_id;
+			}
+
 			if ( ! empty( $assoc_arr ) ) {
-				$fids[] = array( 'user_id' => ( $friendship->friend_user_id == $user_id ) ? $friendship->initiator_user_id : $friendship->friend_user_id );
+				$fids[] = array( 'user_id' => $friend_id );
 			} else {
-				$fids[] = ( $friendship->friend_user_id == $user_id ) ? $friendship->initiator_user_id : $friendship->friend_user_id;
+				$fids[] = $friend_id;
 			}
 		}
 
@@ -632,7 +649,7 @@ class BP_Friends_Friendship {
 		}
 
 		// Can't friend yourself.
-		if ( $initiator_userid === $possible_friend_userid ) {
+		if ( (int) $initiator_userid === (int) $possible_friend_userid ) {
 			return 'not_friends';
 		}
 
@@ -657,6 +674,7 @@ class BP_Friends_Friendship {
 		global $wpdb;
 
 		$bp                  = buddypress();
+		$user_id             = (int) $user_id;
 		$possible_friend_ids = wp_parse_id_list( $possible_friend_ids );
 
 		$fetch = array();
@@ -927,9 +945,17 @@ class BP_Friends_Friendship {
 		$fids    = array();
 		$sql     = $wpdb->prepare( "SELECT friend_user_id, initiator_user_id FROM {$bp->friends->table_name} WHERE (friend_user_id = %d || initiator_user_id = %d) && is_confirmed = 1 ORDER BY rand() LIMIT %d", $user_id, $user_id, $total_friends );
 		$results = $wpdb->get_results( $sql );
+		$user_id = (int) $user_id;
 
 		for ( $i = 0, $count = count( $results ); $i < $count; ++$i ) {
-			$fids[] = ( $results[ $i ]->friend_user_id === $user_id ) ? $results[ $i ]->initiator_user_id : $results[ $i ]->friend_user_id;
+			$friend_user_id    = (int) $results[ $i ]->friend_user_id;
+			$initiator_user_id = (int) $results[ $i ]->initiator_user_id;
+
+			if ( $friend_user_id === $user_id ) {
+				$fids[] = $initiator_user_id;
+			} else {
+				$fids[] = $friend_user_id;
+			}
 		}
 
 		// Remove duplicates.
@@ -1044,7 +1070,8 @@ class BP_Friends_Friendship {
 	public static function delete_all_for_user( $user_id ) {
 		global $wpdb;
 
-		$bp = buddypress();
+		$bp      = buddypress();
+		$user_id = (int) $user_id;
 
 		// Get all friendships, of any status, for the user.
 		$friendships    = self::get_friendships( $user_id );
@@ -1053,7 +1080,11 @@ class BP_Friends_Friendship {
 		foreach ( $friendships as $friendship ) {
 			$friendship_ids[] = $friendship->id;
 			if ( $friendship->is_confirmed ) {
-				$friend_ids[] = ( $friendship->friend_user_id == $user_id ) ? $friendship->initiator_user_id : $friendship->friend_user_id;
+				if ( $friendship->friend_user_id === $user_id ) {
+					$friend_ids[] = $friendship->initiator_user_id;
+				} else {
+					$friend_ids[] = $friendship->friend_user_id;
+				}
 			}
 		}
 
