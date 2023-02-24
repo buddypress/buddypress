@@ -309,16 +309,10 @@ function bp_core_activation_notice() {
 	}
 
 	if ( ! empty( $orphaned_components ) ) {
-		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
-		$notice    = sprintf(
-			'%1$s <a href="%2$s">%3$s</a>',
-			sprintf(
-				// Translators: %s is the comma separated list of components needing a directory page.
-				__( 'The following active BuddyPress Components do not have associated WordPress Pages: %s.', 'buddypress' ),
-				'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $orphaned_components ) ) . '</strong>'
-			),
-			esc_url( $admin_url ),
-			__( 'Repair', 'buddypress' )
+		$notice = sprintf(
+			// Translators: %s is the comma separated list of components needing a directory page.
+			__( 'The following active BuddyPress Components do not have associated BuddyPress Pages: %s.', 'buddypress' ),
+			'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $orphaned_components ) ) . '</strong>'
 		);
 
 		bp_core_add_admin_notice( $notice );
@@ -340,16 +334,10 @@ function bp_core_activation_notice() {
 
 	// If there are duplicates, post a message about them.
 	if ( ! empty( $dupe_names ) ) {
-		$admin_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) );
-		$notice    = sprintf(
-			'%1$s <a href="%2$s">%3$s</a>',
-			sprintf(
-				// Translators: %s is the list of directory pages associated to more than one component.
-				__( 'Each BuddyPress Component needs its own WordPress page. The following WordPress Pages have more than one component associated with them: %s.', 'buddypress' ),
-				'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $dupe_names ) ) . '</strong>'
-			),
-			esc_url( $admin_url ),
-			__( 'Repair', 'buddypress' )
+		$notice = ssprintf(
+			// Translators: %s is the list of directory pages associated to more than one component.
+			__( 'Each BuddyPress Component needs its own BuddyPress page. The following BuddyPress Pages have more than one component associated with them: %s.', 'buddypress' ),
+			'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $dupe_names ) ) . '</strong>'
 		);
 
 		bp_core_add_admin_notice( $notice );
@@ -505,11 +493,6 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
 			'id'   => 'bp-settings',
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
 			'name' => __( 'Options', 'buddypress' ),
-		),
-		'1' => array(
-			'id'   => 'bp-page-settings',
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) ),
-			'name' => __( 'Pages', 'buddypress' ),
 		),
 		'3' => array(
 			'id'   => 'bp-credits',
