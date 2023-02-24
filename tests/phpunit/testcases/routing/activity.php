@@ -20,7 +20,11 @@ class BP_Tests_Routing_Activity extends BP_UnitTestCase {
 
 	function test_activity_directory() {
 		$this->go_to( bp_get_activity_directory_permalink() );
-		$this->assertEquals( bp_get_activity_root_slug(), bp_current_component() );
+
+		$pages        = bp_core_get_directory_pages();
+		$component_id = bp_current_component();
+
+		$this->assertEquals( bp_get_activity_root_slug(), $pages->{$component_id}->slug );
 	}
 
 	/**

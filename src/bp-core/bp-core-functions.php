@@ -697,6 +697,26 @@ function bp_core_get_directory_pages_stati() {
 }
 
 /**
+ * Get the directory pages post type.
+ *
+ * @since 12.0.0
+ *
+ * @return string The post type to use for directory pages.
+ */
+function bp_core_get_directory_post_type() {
+	$post_type = 'buddypress';
+
+	/**
+	 * Filter here to edit the post type to use for directory pages.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $post_type The post type to use for directory pages.
+	 */
+	return apply_filters( 'bp_core_get_directory_post_type', $post_type );
+}
+
+/**
  * Get names and slugs for BuddyPress component directory pages.
  *
  * @since 1.5.0
@@ -833,18 +853,18 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 
 	// Create the pages.
 	foreach ( $pages_to_create as $component_name => $page_name ) {
-		$exists = get_page_by_path( $component_name );
+		$existing_id = bp_core_get_directory_page_id( $component_name );
 
 		// If page already exists, use it.
-		if ( ! empty( $exists ) ) {
-			$pages[ $component_name ] = $exists->ID;
+		if ( ! empty( $existing_id ) ) {
+			$pages[ $component_name ] = (int) $existing_id;
 		} else {
 			$pages[ $component_name ] = wp_insert_post( array(
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
 				'post_status'    => 'publish',
 				'post_title'     => $page_name,
-				'post_type'      => 'page',
+				'post_type'      => bp_core_get_directory_post_type(),
 			) );
 		}
 	}
@@ -886,6 +906,55 @@ function bp_core_get_directory_page_default_titles() {
 }
 
 /**
+ * Make sure Components directory page `post_name` are unique.
+ *
+ * Goal is to avoid a slug conflict between a Page and a Component's directory page `post_name`.
+ *
+ * @since 12.0.0
+ *
+ * @param string $slug          The post slug.
+ * @param int    $post_ID       Post ID.
+ * @param string $post_status   The post status.
+ * @param string $post_type     Post type.
+ * @param int    $post_parent   Post parent ID.
+ * @param string $original_slug The original post slug.
+ */
+function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post_status = '', $post_type = '', $post_parent = 0, $original_slug = '' ) {
+	if ( ( 'buddypress' === $post_type || 'page' === $post_type ) && $slug === $original_slug ) {
+		$pages = get_posts(
+			array(
+				'post__not_in' => array( $post_ID ),
+				'post_status'  => array( 'publish', 'bp_restricted' ),
+				'post_type'    => array( 'buddypress', 'page' ),
+			)
+		);
+
+		$illegal_names = wp_list_pluck( $pages, 'post_name' );
+		if ( is_multisite() && ! is_subdomain_install() ) {
+			$current_site = get_current_site();
+			$site         = get_site_by_path( $current_site->domain, trailingslashit( $current_site->path ) . $slug );
+
+			if ( isset( $site->blog_id ) && 1 !== $site->blog_id ) {
+				$illegal_names[] = $slug;
+			}
+		}
+
+		if ( in_array( $slug, $illegal_names, true ) ) {
+			$suffix = 2;
+			do {
+				$alt_post_name   = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
+				$post_name_check = in_array( $alt_post_name, $illegal_names, true );
+				$suffix++;
+			} while ( $post_name_check );
+			$slug = $alt_post_name;
+		}
+	}
+
+	return $slug;
+}
+add_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10, 6 );
+
+/**
  * Remove the entry from bp_pages when the corresponding WP page is deleted.
  *
  * Bails early on multisite installations when not viewing the root site.
@@ -913,117 +982,6 @@ function bp_core_on_directory_page_delete( $post_id ) {
 	bp_core_update_directory_page_ids( $page_ids );
 }
 add_action( 'delete_post', 'bp_core_on_directory_page_delete' );
-
-/**
- * Create a default component slug from a WP page root_slug.
- *
- * Since 1.5, BP components get their root_slug (the slug used immediately
- * following the root domain) from the slug of a corresponding WP page.
- *
- * E.g. if your BP installation at example.com has its members page at
- * example.com/community/people, $bp->members->root_slug will be
- * 'community/people'.
- *
- * By default, this function creates a shorter version of the root_slug for
- * use elsewhere in the URL, by returning the content after the final '/'
- * in the root_slug ('people' in the example above).
- *
- * Filter on 'bp_core_component_slug_from_root_slug' to override this method
- * in general, or define a specific component slug constant (e.g.
- * BP_MEMBERS_SLUG) to override specific component slugs.
- *
- * @since 1.5.0
- *
- * @param string $root_slug The root slug, which comes from $bp->pages->[component]->slug.
- * @return string The short slug for use in the middle of URLs.
- */
-function bp_core_component_slug_from_root_slug( $root_slug ) {
-	$slug_chunks = explode( '/', $root_slug );
-	$slug        = array_pop( $slug_chunks );
-
-	/**
-	 * Filters the default component slug from a WP page root_slug.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param string $slug      Short slug for use in the middle of URLs.
-	 * @param string $root_slug The root slug which comes from $bp->pages-[component]->slug.
-	 */
-	return apply_filters( 'bp_core_component_slug_from_root_slug', $slug, $root_slug );
-}
-
-/**
- * Add support for a top-level ("root") component.
- *
- * This function originally (pre-1.5) let plugins add support for pages in the
- * root of the install. These root level pages are now handled by actual
- * WordPress pages and this function is now a convenience for compatibility
- * with the new method.
- *
- * @since 1.0.0
- *
- * @param string $slug The slug of the component being added to the root list.
- */
-function bp_core_add_root_component( $slug ) {
-	$bp = buddypress();
-
-	if ( empty( $bp->pages ) ) {
-		$bp->pages = bp_core_get_directory_pages();
-	}
-
-	$match = false;
-
-	// Check if the slug is registered in the $bp->pages global.
-	foreach ( (array) $bp->pages as $key => $page ) {
-		if ( $key == $slug || $page->slug == $slug ) {
-			$match = true;
-		}
-	}
-
-	// Maybe create the add_root array.
-	if ( empty( $bp->add_root ) ) {
-		$bp->add_root = array();
-	}
-
-	// If there was no match, add a page for this root component.
-	if ( empty( $match ) ) {
-		$add_root_items   = $bp->add_root;
-		$add_root_items[] = $slug;
-		$bp->add_root     = $add_root_items;
-	}
-
-	// Make sure that this component is registered as requiring a top-level directory.
-	if ( isset( $bp->{$slug} ) ) {
-		$bp->loaded_components[$bp->{$slug}->slug] = $bp->{$slug}->id;
-		$bp->{$slug}->has_directory = true;
-	}
-}
-
-/**
- * Create WordPress pages to be used as BP component directories.
- *
- * @since 1.5.0
- */
-function bp_core_create_root_component_page() {
-
-	// Get BuddyPress.
-	$bp = buddypress();
-
-	$new_page_ids = array();
-
-	foreach ( (array) $bp->add_root as $slug ) {
-		$new_page_ids[ $slug ] = wp_insert_post( array(
-			'comment_status' => 'closed',
-			'ping_status'    => 'closed',
-			'post_title'     => ucwords( $slug ),
-			'post_status'    => 'publish',
-			'post_type'      => 'page'
-		) );
-	}
-
-	$page_ids = array_merge( $new_page_ids, bp_core_get_directory_page_ids( 'all' ) );
-	bp_core_update_directory_page_ids( $page_ids );
-}
 
 /**
  * Get the 'search' query argument for a given component.
@@ -4819,6 +4777,7 @@ function bp_get_deprecated_functions_versions() {
 		'9.0',
 		'10.0',
 		'11.0',
+		'12.0',
 	);
 
 	/*
@@ -4890,4 +4849,27 @@ function bp_get_deprecated_functions_versions() {
 	}
 
 	return $latest_deprecated_functions_versions;
+}
+
+/**
+ * Get the BuddyPress Post Type site ID.
+ *
+ * @since 12.0.0
+ *
+ * @return int The site ID the BuddyPress Post Type should be registered on.
+ */
+function bp_get_post_type_site_id() {
+	$site_id = bp_get_root_blog_id();
+
+	/**
+	 * Filter here to edit the site ID.
+	 *
+	 * @todo This will need to be improved to take in account
+	 * specific configurations like multiblog.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param integer $site_id The site ID to register the post type on.
+	 */
+	return (int) apply_filters( 'bp_get_post_type_site_id', $site_id );
 }

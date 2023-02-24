@@ -146,7 +146,6 @@ class BP_Admin {
 		require( $this->admin_dir . 'bp-core-admin-settings.php'   );
 		require( $this->admin_dir . 'bp-core-admin-functions.php'  );
 		require( $this->admin_dir . 'bp-core-admin-components.php' );
-		require( $this->admin_dir . 'bp-core-admin-slugs.php'      );
 		require( $this->admin_dir . 'bp-core-admin-tools.php'      );
 		require( $this->admin_dir . 'bp-core-admin-optouts.php'    );
 	}
@@ -274,18 +273,6 @@ class BP_Admin {
 
 		$this->submenu_pages['settings']['bp-components'] = $bp_components_page;
 		$hooks[]                                          = $bp_components_page;
-
-		$bp_page_settings_page = add_submenu_page(
-			$this->settings_page,
-			__( 'BuddyPress Pages', 'buddypress' ),
-			__( 'BuddyPress Pages', 'buddypress' ),
-			$this->capability,
-			'bp-page-settings',
-			'bp_core_admin_slugs_settings'
-		);
-
-		$this->submenu_pages['settings']['bp-page-settings'] = $bp_page_settings_page;
-		$hooks[]                                             = $bp_page_settings_page;
 
 		$bp_settings_page = add_submenu_page(
 			$this->settings_page,
@@ -626,7 +613,6 @@ class BP_Admin {
 	public function admin_head() {
 
 		// Settings pages.
-		remove_submenu_page( $this->settings_page, 'bp-page-settings' );
 		remove_submenu_page( $this->settings_page, 'bp-settings'      );
 		remove_submenu_page( $this->settings_page, 'bp-credits'       );
 

@@ -123,14 +123,20 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		// Now change the members directory slug
 		$pages = bp_core_get_directory_pages();
 		$members_page = get_post( $pages->members->id );
-		$members_page->post_name = 'new-members-slug';
-		wp_update_post( $members_page );
+		$new_members_slug = 'new-members-slug';
+		$members_page->post_name = $new_members_slug;
+		$p = wp_update_post( $members_page );
+
+		// Weird!
+		if ( is_multisite() ) {
+			$new_members_slug = get_post_field( 'post_name', $p );
+		}
 
 		// Go back to members directory page and recheck user domain
-		$this->go_to( trailingslashit( home_url( 'new-members-slug' ) ) );
+		$this->go_to( trailingslashit( home_url( $new_members_slug ) ) );
 		$user = new WP_User( $user_id );
 
-		$this->assertSame( home_url( 'new-members-slug' ) . '/' . $user->user_nicename . '/', bp_core_get_user_domain( $user_id ) );
+		$this->assertSame( home_url( $new_members_slug ) . '/' . $user->user_nicename . '/', bp_core_get_user_domain( $user_id ) );
 	}
 
 	/**

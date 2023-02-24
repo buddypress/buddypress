@@ -116,13 +116,19 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 		$bp = buddypress();
 
 		// Truncate user blogs table.
-		$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name}" );
+		if ( $bp->is_phpunit_running ) {
+			$query_part = 'DELETE FROM';
+		} else {
+			$query_part = 'TRUNCATE';
+		}
+
+		$truncate = $wpdb->query( "{$query_part} {$bp->blogs->table_name}" );
 		if ( is_wp_error( $truncate ) ) {
 			return false;
 		}
 
 		// Truncate user blogmeta table.
-		$truncate = $wpdb->query( "TRUNCATE {$bp->blogs->table_name_blogmeta}" );
+		$truncate = $wpdb->query( "{$query_part} {$bp->blogs->table_name_blogmeta}" );
 		if ( is_wp_error( $truncate ) ) {
 			return false;
 		}

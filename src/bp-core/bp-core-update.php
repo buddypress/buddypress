@@ -291,6 +291,10 @@ function bp_version_updater() {
 			bp_update_to_11_0();
 		}
 
+		// Version 12.0.0.
+		if ( $raw_db_version < 13422 ){
+			bp_update_to_12_0();
+		}
 	}
 
 	/* All done! *************************************************************/
@@ -791,6 +795,74 @@ function bp_core_get_11_0_upgrade_email_schema( $emails ) {
 	}
 
 	return $new_emails;
+}
+
+/**
+ * 12.0.0 update routine.
+ *
+ * - Swith directory page post type from "page" to "buddypress".
+ *
+ * @since 12.0.0
+ */
+function bp_update_to_12_0() {
+	$post_type = bp_core_get_directory_post_type();
+
+	if ( 'page' !== $post_type ) {
+		$directory_pages   = bp_core_get_directory_pages();
+		$nav_menu_item_ids = array();
+
+		// Do not check post slugs nor post types.
+		remove_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10 );
+
+		// Update Directory pages post types.
+		foreach ( $directory_pages as $directory_page ) {
+			$nav_menu_item_ids[] = $directory_page->id;
+
+			// Switch the post type.
+			wp_update_post(
+				array(
+					'ID'          => $directory_page->id,
+					'post_type'   => $post_type,
+					'post_status' => 'publish',
+				)
+			);
+		}
+
+		// Update nav menu items!
+		$nav_menus = wp_get_nav_menus( array( 'hide_empty' => true ) );
+		foreach ( $nav_menus as $nav_menu ) {
+			$items = wp_get_nav_menu_items( $nav_menu->term_id );
+			foreach ( $items as $item ) {
+				if ( 'page' !== $item->object || ! in_array( $item->object_id, $nav_menu_item_ids, true ) ) {
+					continue;
+				}
+
+				wp_update_nav_menu_item(
+					$nav_menu->term_id,
+					$item->ID,
+					array(
+						'menu-item-db-id'       => $item->db_id,
+						'menu-item-object-id'   => $item->object_id,
+						'menu-item-object'      => $post_type,
+						'menu-item-parent-id'   => $item->menu_item_parent,
+						'menu-item-position'    => $item->menu_order,
+						'menu-item-type'        => 'post_type',
+						'menu-item-title'       => $item->title,
+						'menu-item-url'         => $item->url,
+						'menu-item-description' => $item->description,
+						'menu-item-attr-title'  => $item->attr_title,
+						'menu-item-target'      => $item->target,
+						'menu-item-classes'     => implode( ' ', (array) $item->classes ),
+						'menu-item-xfn'         => $item->xfn,
+						'menu-item-status'      => 'publish',
+					)
+				);
+			}
+		}
+
+		// Finally make sure to rebuilt permalinks at next page load.
+		delete_option( 'rewrite_rules' );
+	}
 }
 
 /**

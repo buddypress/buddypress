@@ -542,6 +542,9 @@ class BP_Component {
 		// Register post types.
 		add_action( 'bp_register_post_types',    array( $this, 'register_post_types'    ), 10 );
 
+		// Register post statuses.
+		add_action( 'bp_register_post_statuses', array( $this, 'register_post_statuses' ), 10 );
+
 		// Register taxonomies.
 		add_action( 'bp_register_taxonomies',    array( $this, 'register_taxonomies'    ), 10 );
 
@@ -855,6 +858,23 @@ class BP_Component {
 		 * @since 1.5.0
 		 */
 		do_action( 'bp_' . $this->id . '_register_post_types' );
+	}
+
+	/**
+	 * Set up the component post statuses.
+	 *
+	 * @since 12.0.0
+	 */
+	public function register_post_statuses() {
+
+		/**
+		 * Fires in the `register_post_statuses` method inside BP_Component.
+		 *
+		 * This is a dynamic hook that is based on the component string ID.
+		 *
+		 * @since 12.0.0
+		 */
+		do_action( 'bp_' . $this->id . '_register_post_statuses' );
 	}
 
 	/**

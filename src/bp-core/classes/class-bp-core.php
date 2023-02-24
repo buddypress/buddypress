@@ -323,11 +323,37 @@ class BP_Core extends BP_Component {
 	/**
 	 * Set up post types.
 	 *
-	 * @since BuddyPress (2.4.0)
+	 * @since 2.4.0
+	 * @since 12.0.0 Registers the 'buddypress' post type for component directories.
 	 */
 	public function register_post_types() {
+		// Component directories.
+		if ( (int) get_current_blog_id() === bp_get_post_type_site_id() ) {
+			register_post_type(
+				'buddypress',
+				array(
+					'label'               => _x( 'BuddyPress Directories', 'Post Type label', 'buddypress' ),
+					'labels'              => array(
+						'singular_name' => _x( 'BuddyPress Directory', 'Post Type singular name', 'buddypress' ),
+					),
+					'description'         => __( 'The BuddyPress Post Type used for component directories.', 'buddypress' ),
+					'public'              => false,
+					'hierarchical'        => true,
+					'exclude_from_search' => true,
+					'publicly_queryable'  => false,
+					'show_ui'             => false,
+					'show_in_nav_menus'   => true,
+					'show_in_rest'        => false,
+					'supports'            => array( 'title' ),
+					'has_archive'         => false,
+					'rewrite'             => false,
+					'query_var'           => false,
+					'delete_with_user'    => false,
+				)
+			);
+		}
 
-		// Emails
+		// Emails.
 		if ( bp_is_root_blog() && ! is_network_admin() ) {
 			register_post_type(
 				bp_get_email_post_type(),
@@ -356,6 +382,24 @@ class BP_Core extends BP_Component {
 		}
 
 		parent::register_post_types();
+	}
+
+	/**
+	 * Set up the component post statuses.
+	 *
+	 * @since 12.0.0
+	 */
+	public function register_post_statuses() {
+		register_post_status(
+			'bp_restricted',
+			array(
+				'label'    => _x( 'Restricted to members', '`buddypress` post type post status', 'buddypress' ),
+				'public'   => false,
+				'internal' => true,
+			)
+		);
+
+		parent::register_post_statuses();
 	}
 
 	/**

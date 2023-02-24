@@ -21,35 +21,16 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 
 	function test_members_directory() {
 		$this->go_to( bp_get_members_directory_permalink() );
-		$this->assertEquals( bp_get_members_root_slug(), bp_current_component() );
+
+		$pages        = bp_core_get_directory_pages();
+		$component_id = bp_current_component();
+
+		$this->assertEquals( bp_get_members_root_slug(), $pages->{$component_id}->slug );
 	}
 
 	function test_member_permalink() {
 		$this->go_to( bp_core_get_user_domain( bp_loggedin_user_id() ) );
 		$this->assertTrue( bp_is_my_profile() );
-	}
-
-	/**
-	 * @ticket BP6475
-	 */
-	public function test_member_directory_when_nested_under_wp_page() {
-		$p = self::factory()->post->create( array(
-			'post_type' => 'page',
-			'post_name' => 'foo',
-		) );
-
-		$members_page = get_page_by_path( 'members' );
-
-		wp_update_post( array(
-			'ID' => $members_page->ID,
-			'post_parent' => $p,
-		) );
-
-		$members_page_permalink = bp_get_root_domain() . '/foo/members/';
-		$this->go_to( $members_page_permalink );
-
-		$this->assertTrue( bp_is_members_component() );
-		$this->assertEquals( '', bp_current_action() );
 	}
 
 	/**
