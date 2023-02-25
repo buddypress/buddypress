@@ -306,7 +306,13 @@ class BuddyPress {
 	 * @return mixed
 	 */
 	public function __get( $key ) {
-		return isset( $this->data[ $key ] ) ? $this->data[ $key ] : null;
+		$valid_key = $key;
+		if ( 'root_domain' === $key ) {
+			_doing_it_wrong( 'root_domain', __( 'The root_domain BuddyPress main class property is deprecated since 12.0.0, please use the root_url property instead.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$valid_key = 'root_url';
+		}
+
+		return isset( $this->data[ $valid_key ] ) ? $this->data[ $valid_key ] : null;
 	}
 
 	/**
@@ -318,7 +324,13 @@ class BuddyPress {
 	 * @param mixed  $value Value to set.
 	 */
 	public function __set( $key, $value ) {
-		$this->data[ $key ] = $value;
+		$valid_key = $key;
+		if ( 'root_domain' === $key ) {
+			_doing_it_wrong( 'root_domain', __( 'The root_domain BuddyPress main class property is deprecated since 12.0.0, please use the root_url property instead.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$valid_key = 'root_url';
+		}
+
+		$this->data[ $valid_key ] = $value;
 	}
 
 	/**

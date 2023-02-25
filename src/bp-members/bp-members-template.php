@@ -213,14 +213,11 @@ function bp_signup_slug() {
 	 * @return string
 	 */
 	function bp_get_signup_slug() {
-		$bp = buddypress();
+		$bp   = buddypress();
+		$slug = 'register';
 
 		if ( ! empty( $bp->pages->register->slug ) ) {
 			$slug = $bp->pages->register->slug;
-		} elseif ( defined( 'BP_REGISTER_SLUG' ) ) {
-			$slug = BP_REGISTER_SLUG;
-		} else {
-			$slug = 'register';
 		}
 
 		/**
@@ -249,14 +246,11 @@ function bp_activate_slug() {
 	 * @return string
 	 */
 	function bp_get_activate_slug() {
-		$bp = buddypress();
+		$bp   = buddypress();
+		$slug = 'activate';
 
 		if ( ! empty( $bp->pages->activate->slug ) ) {
 			$slug = $bp->pages->activate->slug;
-		} elseif ( defined( 'BP_ACTIVATION_SLUG' ) ) {
-			$slug = BP_ACTIVATION_SLUG;
-		} else {
-			$slug = 'activate';
 		}
 
 		/**

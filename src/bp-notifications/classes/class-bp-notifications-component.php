@@ -99,11 +99,13 @@ class BP_Notifications_Component extends BP_Component {
 	 * @param array $args See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
-		$bp = buddypress();
+		$bp           = buddypress();
+		$default_slug = $this->id;
 
-		// Define a slug, if necessary.
-		if ( ! defined( 'BP_NOTIFICATIONS_SLUG' ) ) {
-			define( 'BP_NOTIFICATIONS_SLUG', $this->id );
+		// @deprecated.
+		if ( defined( 'BP_NOTIFICATIONS_SLUG' ) ) {
+			_doing_it_wrong( 'BP_NOTIFICATIONS_SLUG', esc_html__( 'Slug constants are deprecated.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$default_slug = BP_NOTIFICATIONS_SLUG;
 		}
 
 		// Global tables for the notifications component.
@@ -120,7 +122,7 @@ class BP_Notifications_Component extends BP_Component {
 		// All globals for the notifications component.
 		// Note that global_tables is included in this array.
 		$args = array(
-			'slug'          => BP_NOTIFICATIONS_SLUG,
+			'slug'          => $default_slug,
 			'has_directory' => false,
 			'search_string' => __( 'Search Notifications...', 'buddypress' ),
 			'global_tables' => $global_tables,

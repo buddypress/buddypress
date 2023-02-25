@@ -145,19 +145,20 @@ class BP_Messages_Component extends BP_Component {
 	/**
 	 * Set up globals for the Messages component.
 	 *
-	 * The BP_MESSAGES_SLUG constant is deprecated, and only used here for
-	 * backwards compatibility.
+	 * The BP_MESSAGES_SLUG constant is deprecated.
 	 *
 	 * @since 1.5.0
 	 *
 	 * @param array $args Not used.
 	 */
 	public function setup_globals( $args = array() ) {
-		$bp = buddypress();
+		$bp           = buddypress();
+		$default_slug = $this->id;
 
-		// Define a slug, if necessary.
-		if ( ! defined( 'BP_MESSAGES_SLUG' ) ) {
-			define( 'BP_MESSAGES_SLUG', $this->id );
+		// @deprecated.
+		if ( defined( 'BP_MESSAGES_SLUG' ) ) {
+			_doing_it_wrong( 'BP_MESSAGES_SLUG', esc_html__( 'Slug constants are deprecated.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$default_slug = BP_MESSAGES_SLUG;
 		}
 
 		// Global tables for messaging component.
@@ -178,7 +179,7 @@ class BP_Messages_Component extends BP_Component {
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
 		parent::setup_globals( array(
-			'slug'                  => BP_MESSAGES_SLUG,
+			'slug'                  => $default_slug,
 			'has_directory'         => false,
 			'notification_callback' => 'messages_format_notifications',
 			'search_string'         => __( 'Search Messages...', 'buddypress' ),

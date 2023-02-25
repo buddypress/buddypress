@@ -743,7 +743,7 @@ function bp_core_get_directory_pages() {
 			$posts_table_name = bp_is_multiblog_mode() ? $wpdb->posts : $wpdb->get_blog_prefix( bp_get_root_blog_id() ) . 'posts';
 			$page_ids_sql     = implode( ',', wp_parse_id_list( $page_ids ) );
 			$page_stati_sql   = '\'' . implode( '\', \'', array_map( 'sanitize_key', bp_core_get_directory_pages_stati() ) ) . '\'';
-			$page_names       = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_title FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status IN ({$page_stati_sql}) " );
+			$page_names       = $wpdb->get_results( "SELECT ID, post_name, post_parent, post_title, post_status FROM {$posts_table_name} WHERE ID IN ({$page_ids_sql}) AND post_status IN ({$page_stati_sql}) " );
 
 			foreach ( (array) $page_ids as $component_id => $page_id ) {
 				foreach ( (array) $page_names as $page_name ) {
@@ -764,7 +764,9 @@ function bp_core_get_directory_pages() {
 							$page_name->post_parent = $parent[0]->post_parent;
 						}
 
-						$pages->{$component_id}->slug = implode( '/', array_reverse( (array) $slug ) );
+						$pages->{$component_id}->slug         = implode( '/', array_reverse( (array) $slug ) );
+						$pages->{$component_id}->custom_slugs = get_post_meta( $page_name->ID, '_bp_component_slugs', true );
+						$pages->{$component_id}->visibility   = $page_name->post_status;
 					}
 
 					unset( $slug );
@@ -1107,21 +1109,24 @@ function bp_do_register_theme_directory() {
  * Eg: http://example.com OR https://example.com
  *
  * @since 1.0.0
+ * @deprecated 12.0.0
  *
  * @return string The domain URL for the blog.
  */
 function bp_core_get_root_domain() {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_rewrites_get_root_url()' );
 
-	$domain = get_home_url( bp_get_root_blog_id() );
+	$domain = bp_rewrites_get_root_url();
 
 	/**
 	 * Filters the domain for the root blog.
 	 *
 	 * @since 1.0.1
+	 * @deprecated 12.0.0 Use {@see 'bp_rewrites_get_root_url'} instead.
 	 *
 	 * @param string $domain The domain URL for the blog.
 	 */
-	return apply_filters( 'bp_core_get_root_domain', $domain );
+	return apply_filters_deprecated( 'bp_core_get_root_domain', array( $domain ), '12.0.0', 'bp_rewrites_get_root_url' );
 }
 
 /**

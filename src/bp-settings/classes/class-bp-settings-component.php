@@ -94,8 +94,7 @@ class BP_Settings_Component extends BP_Component {
 	/**
 	 * Setup globals.
 	 *
-	 * The BP_SETTINGS_SLUG constant is deprecated, and only used here for
-	 * backwards compatibility.
+	 * The BP_SETTINGS_SLUG constant is deprecated.
 	 *
 	 * @since 1.5.0
 	 *
@@ -104,15 +103,17 @@ class BP_Settings_Component extends BP_Component {
 	 * @param array $args See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
+		$default_slug = $this->id;
 
-		// Define a slug, if necessary.
-		if ( ! defined( 'BP_SETTINGS_SLUG' ) ) {
-			define( 'BP_SETTINGS_SLUG', $this->id );
+		// @deprecated.
+		if ( defined( 'BP_SETTINGS_SLUG' ) ) {
+			_doing_it_wrong( 'BP_SETTINGS_SLUG', esc_html__( 'Slug constants are deprecated.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$default_slug = BP_SETTINGS_SLUG;
 		}
 
 		// All globals for settings component.
 		parent::setup_globals( array(
-			'slug'          => BP_SETTINGS_SLUG,
+			'slug'          => $default_slug,
 			'has_directory' => false,
 		) );
 	}

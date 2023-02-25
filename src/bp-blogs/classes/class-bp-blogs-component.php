@@ -43,8 +43,7 @@ class BP_Blogs_Component extends BP_Component {
 	/**
 	 * Set up global settings for the blogs component.
 	 *
-	 * The BP_BLOGS_SLUG constant is deprecated, and only used here for
-	 * backwards compatibility.
+	 * The BP_BLOGS_SLUG constant is deprecated.
 	 *
 	 * @since 1.5.0
 	 *
@@ -53,10 +52,13 @@ class BP_Blogs_Component extends BP_Component {
 	 * @param array $args See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
-		$bp = buddypress();
+		$bp           = buddypress();
+		$default_slug = $this->id;
 
-		if ( ! defined( 'BP_BLOGS_SLUG' ) ) {
-			define ( 'BP_BLOGS_SLUG', $this->id );
+		// @deprecated.
+		if ( defined( 'BP_BLOGS_SLUG' ) ) {
+			_doing_it_wrong( 'BP_BLOGS_SLUG', esc_html__( 'Slug constants are deprecated.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$default_slug = BP_BLOGS_SLUG;
 		}
 
 		// Global tables for messaging component.
@@ -75,9 +77,14 @@ class BP_Blogs_Component extends BP_Component {
 
 		// All globals for blogs component.
 		$args = array(
-			'slug'                  => BP_BLOGS_SLUG,
-			'root_slug'             => isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : BP_BLOGS_SLUG,
+			'slug'                  => $default_slug,
+			'root_slug'             => isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : $default_slug,
 			'has_directory'         => is_multisite(), // Non-multisite installs don't need a top-level Sites directory, since there's only one site.
+			'rewrite_ids'           => array(
+				'directory'                    => 'blogs',
+				'single_item_action'           => 'blogs_action',
+				'single_item_action_variables' => 'blogs_action_variables',
+			),
 			'directory_title'       => isset( $bp->pages->blogs->title ) ? $bp->pages->blogs->title : $default_directory_title,
 			'notification_callback' => 'bp_blogs_format_notifications',
 			'search_string'         => __( 'Search sites...', 'buddypress' ),

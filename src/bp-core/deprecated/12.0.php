@@ -139,3 +139,21 @@ function bp_core_admin_slugs_options() {
 function bp_core_admin_slugs_setup_handler() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 }
+
+/**
+ * Define the slug constants for the Members component.
+ *
+ * Handles the three slug constants used in the Members component -
+ * BP_MEMBERS_SLUG, BP_REGISTER_SLUG, and BP_ACTIVATION_SLUG. If these
+ * constants are not overridden in wp-config.php or bp-custom.php, they are
+ * defined here to match the slug of the corresponding WP pages.
+ *
+ * In general, fallback values are only used during initial BP page creation,
+ * when no slugs have been explicitly defined.
+ *
+ * @since 1.5.0
+ * @deprecated 12.0.0
+ */
+function bp_core_define_slugs() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}

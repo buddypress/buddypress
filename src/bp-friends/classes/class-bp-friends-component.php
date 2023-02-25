@@ -100,8 +100,7 @@ class BP_Friends_Component extends BP_Component {
 	/**
 	 * Set up bp-friends global settings.
 	 *
-	 * The BP_FRIENDS_SLUG constant is deprecated, and only used here for
-	 * backwards compatibility.
+	 * The BP_FRIENDS_SLUG constant is deprecated.
 	 *
 	 * @since 1.5.0
 	 *
@@ -110,17 +109,18 @@ class BP_Friends_Component extends BP_Component {
 	 * @param array $args See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {
-		$bp = buddypress();
+		$bp           = buddypress();
+		$default_slug = $this->id;
 
-		// Deprecated. Do not use.
-		// Defined conditionally to support unit tests.
-		if ( ! defined( 'BP_FRIENDS_DB_VERSION' ) ) {
-			define( 'BP_FRIENDS_DB_VERSION', '1800' );
+		// @deprecated.
+		if ( defined( 'BP_FRIENDS_DB_VERSION' ) ) {
+			_doing_it_wrong( 'BP_FRIENDS_DB_VERSION', esc_html__( 'This constants is not used anymore.', 'buddypress' ), 'BuddyPress 12.0.0' );
 		}
 
-		// Define a slug, if necessary.
-		if ( ! defined( 'BP_FRIENDS_SLUG' ) ) {
-			define( 'BP_FRIENDS_SLUG', $this->id );
+		// @deprecated.
+		if ( defined( 'BP_FRIENDS_SLUG' ) ) {
+			_doing_it_wrong( 'BP_FRIENDS_SLUG', esc_html__( 'Slug constants are deprecated.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$default_slug = BP_FRIENDS_SLUG;
 		}
 
 		// Global tables for the friends component.
@@ -132,7 +132,7 @@ class BP_Friends_Component extends BP_Component {
 		// All globals for the friends component.
 		// Note that global_tables is included in this array.
 		$args = array(
-			'slug'                  => BP_FRIENDS_SLUG,
+			'slug'                  => $default_slug,
 			'has_directory'         => false,
 			'search_string'         => __( 'Search Friends...', 'buddypress' ),
 			'notification_callback' => 'friends_format_notifications',

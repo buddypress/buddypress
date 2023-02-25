@@ -1123,7 +1123,7 @@ class BP_Component {
 
 		$queried_object = $query->get_queried_object();
 
-		if ( $queried_object instanceof \WP_Post && 'buddypress' === get_post_type( $queried_object ) ) {
+		if ( $queried_object instanceof WP_Post && 'buddypress' === get_post_type( $queried_object ) ) {
 			// Only include the queried directory post into returned posts.
 			$retval = array( $queried_object );
 		}
