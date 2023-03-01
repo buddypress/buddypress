@@ -217,9 +217,9 @@ class BP_Core extends BP_Component {
 			$bp->table_prefix = bp_core_get_table_prefix();
 		}
 
-		// The domain for the root of the site where the main blog resides.
-		if ( empty( $bp->root_domain ) ) {
-			$bp->root_domain = bp_core_get_root_domain();
+		// The URL for the root of the site where the main blog resides.
+		if ( empty( $bp->root_url ) ) {
+			$bp->root_url = bp_rewrites_get_root_url();
 		}
 
 		// Fetches all of the core BuddyPress settings in one fell swoop.

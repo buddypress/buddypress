@@ -438,8 +438,7 @@ class BP_Groups_Component extends BP_Component {
 	/**
 	 * Set up component global data.
 	 *
-	 * The BP_GROUPS_SLUG constant is deprecated, and only used here for
-	 * backwards compatibility.
+	 * The BP_GROUPS_SLUG constant is deprecated.
 	 *
 	 * @since 1.5.0
 	 *
@@ -448,11 +447,13 @@ class BP_Groups_Component extends BP_Component {
 	 * @param array $args See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
-		$bp = buddypress();
+		$bp           = buddypress();
+		$default_slug = $this->id;
 
-		// Define a slug, if necessary.
-		if ( ! defined( 'BP_GROUPS_SLUG' ) ) {
-			define( 'BP_GROUPS_SLUG', $this->id );
+		// @deprecated.
+		if ( defined( 'BP_GROUPS_SLUG' ) ) {
+			_doing_it_wrong( 'BP_GROUPS_SLUG', esc_html__( 'Slug constants are deprecated.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$default_slug = BP_GROUPS_SLUG;
 		}
 
 		// Global tables for groups component.
@@ -474,9 +475,18 @@ class BP_Groups_Component extends BP_Component {
 		// All globals for groups component.
 		// Note that global_tables is included in this array.
 		$args = array(
-			'slug'                  => BP_GROUPS_SLUG,
-			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : BP_GROUPS_SLUG,
+			'slug'                  => $default_slug,
+			'root_slug'             => isset( $bp->pages->groups->slug ) ? $bp->pages->groups->slug : $default_slug,
 			'has_directory'         => true,
+			'rewrite_ids'           => array(
+				'directory'                    => 'groups',
+				'directory_type'               => 'groups_type',
+				'create_single_item'           => 'group_create',
+				'create_single_item_variables' => 'group_create_variables',
+				'single_item'                  => 'group',
+				'single_item_action'           => 'group_action',
+				'single_item_action_variables' => 'group_action_variables',
+			),
 			'directory_title'       => isset( $bp->pages->groups->title ) ? $bp->pages->groups->title : $default_directory_title,
 			'notification_callback' => 'groups_format_notifications',
 			'search_string'         => _x( 'Search Groups...', 'Component directory search', 'buddypress' ),

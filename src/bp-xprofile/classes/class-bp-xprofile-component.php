@@ -128,19 +128,20 @@ class BP_XProfile_Component extends BP_Component {
 	/**
 	 * Setup globals.
 	 *
-	 * The BP_XPROFILE_SLUG constant is deprecated, and only used here for
-	 * backwards compatibility.
+	 * The BP_XPROFILE_SLUG constant is deprecated.
 	 *
 	 * @since 1.5.0
 	 *
 	 * @param array $args Array of globals to set up.
 	 */
 	public function setup_globals( $args = array() ) {
-		$bp = buddypress();
+		$bp           = buddypress();
+		$default_slug = 'profile';
 
-		// Define a slug, if necessary.
-		if ( ! defined( 'BP_XPROFILE_SLUG' ) ) {
-			define( 'BP_XPROFILE_SLUG', 'profile' );
+		// @deprecated.
+		if ( defined( 'BP_XPROFILE_SLUG' ) ) {
+			_doing_it_wrong( 'BP_XPROFILE_SLUG', esc_html__( 'Slug constants are deprecated.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$default_slug = BP_XPROFILE_SLUG;
 		}
 
 		// Assign the base group and fullname field names to constants
@@ -208,7 +209,7 @@ class BP_XProfile_Component extends BP_Component {
 		);
 
 		$globals = array(
-			'slug'                  => BP_XPROFILE_SLUG,
+			'slug'                  => $default_slug,
 			'has_directory'         => false,
 			'notification_callback' => 'xprofile_format_notifications',
 			'global_tables'         => $global_tables,

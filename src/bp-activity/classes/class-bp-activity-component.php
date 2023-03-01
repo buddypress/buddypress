@@ -178,8 +178,7 @@ class BP_Activity_Component extends BP_Component {
 	/**
 	 * Set up component global variables.
 	 *
-	 * The BP_ACTIVITY_SLUG constant is deprecated, and only used here for
-	 * backwards compatibility.
+	 * The BP_ACTIVITY_SLUG constant is deprecated.
 	 *
 	 * @since 1.5.0
 	 *
@@ -188,11 +187,13 @@ class BP_Activity_Component extends BP_Component {
 	 * @param array $args See BP_Component::setup_globals() for a description.
 	 */
 	public function setup_globals( $args = array() ) {
-		$bp = buddypress();
+		$bp           = buddypress();
+		$default_slug = $this->id;
 
-		// Define a slug, if necessary.
-		if ( ! defined( 'BP_ACTIVITY_SLUG' ) ) {
-			define( 'BP_ACTIVITY_SLUG', $this->id );
+		// @deprecated.
+		if ( defined( 'BP_ACTIVITY_SLUG' ) ) {
+			_doing_it_wrong( 'BP_ACTIVITY_SLUG', esc_html__( 'Slug constants are deprecated.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$default_slug = BP_ACTIVITY_SLUG;
 		}
 
 		// Global tables for activity component.
@@ -213,9 +214,14 @@ class BP_Activity_Component extends BP_Component {
 		// All globals for activity component.
 		// Note that global_tables is included in this array.
 		$args = array(
-			'slug'                  => BP_ACTIVITY_SLUG,
-			'root_slug'             => isset( $bp->pages->activity->slug ) ? $bp->pages->activity->slug : BP_ACTIVITY_SLUG,
+			'slug'                  => $default_slug,
+			'root_slug'             => isset( $bp->pages->activity->slug ) ? $bp->pages->activity->slug : $default_slug,
 			'has_directory'         => true,
+			'rewrite_ids'           => array(
+				'directory'                    => 'activities',
+				'single_item_action'           => 'activity_action',
+				'single_item_action_variables' => 'activity_action_variables',
+			),
 			'directory_title'       => isset( $bp->pages->activity->title ) ? $bp->pages->activity->title : $default_directory_title,
 			'notification_callback' => 'bp_activity_format_notifications',
 			'search_string'         => __( 'Search Activity...', 'buddypress' ),

@@ -36,7 +36,7 @@ function bp_settings_screen_general() {
  */
 function bp_settings_remove_email_subnav() {
 	if ( ! has_action( 'bp_notification_settings' ) ) {
-		bp_core_remove_subnav_item( BP_SETTINGS_SLUG, 'notifications' );
+		bp_core_remove_subnav_item( bp_get_settings_slug(), 'notifications' );
 	}
 }
 add_action( 'bp_actions', 'bp_settings_remove_email_subnav' );

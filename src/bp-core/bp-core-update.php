@@ -861,7 +861,7 @@ function bp_update_to_12_0() {
 		}
 
 		// Finally make sure to rebuilt permalinks at next page load.
-		delete_option( 'rewrite_rules' );
+		bp_delete_rewrite_rules();
 	}
 }
 

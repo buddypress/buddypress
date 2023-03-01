@@ -275,8 +275,7 @@ class BP_Members_Component extends BP_Component {
 	/**
 	 * Set up bp-members global settings.
 	 *
-	 * The BP_MEMBERS_SLUG constant is deprecated, and only used here for
-	 * backwards compatibility.
+	 * The BP_MEMBERS_SLUG constant is deprecated.
 	 *
 	 * @since 1.5.0
 	 *
@@ -287,14 +286,16 @@ class BP_Members_Component extends BP_Component {
 	public function setup_globals( $args = array() ) {
 		global $wpdb;
 
-		$bp = buddypress();
+		$bp           = buddypress();
+		$default_slug = $this->id;
 
 		/** Component Globals ************************************************
 		 */
 
-		// Define a slug, as a fallback for backpat.
-		if ( !defined( 'BP_MEMBERS_SLUG' ) ) {
-			define( 'BP_MEMBERS_SLUG', $this->id );
+		// @deprecated.
+		if ( defined( 'BP_MEMBERS_SLUG' ) ) {
+			_doing_it_wrong( 'BP_MEMBERS_SLUG', esc_html__( 'Slug constants are deprecated.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			$default_slug = BP_MEMBERS_SLUG;
 		}
 
 		// Fetch the default directory title.
@@ -303,9 +304,20 @@ class BP_Members_Component extends BP_Component {
 
 		// Override any passed args.
 		$args = array(
-			'slug'            => BP_MEMBERS_SLUG,
-			'root_slug'       => isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : BP_MEMBERS_SLUG,
+			'slug'            => $default_slug,
+			'root_slug'       => isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : $default_slug,
 			'has_directory'   => true,
+			'rewrite_ids'     => array(
+				'directory'                    => 'members',
+				'directory_type'               => 'members_type',
+				'single_item'                  => 'member',
+				'single_item_component'        => 'member_component',
+				'single_item_action'           => 'member_action',
+				'single_item_action_variables' => 'member_action_variables',
+				'member_register'              => 'register',
+				'member_activate'              => 'activate',
+				'member_activate_key'          => 'activate_key',
+			),
 			'directory_title' => isset( $bp->pages->members->title ) ? $bp->pages->members->title : $default_directory_title,
 			'search_string'   => __( 'Search Members...', 'buddypress' ),
 			'global_tables'   => array(

@@ -26,51 +26,6 @@ function bp_members_has_directory() {
 }
 
 /**
- * Define the slug constants for the Members component.
- *
- * Handles the three slug constants used in the Members component -
- * BP_MEMBERS_SLUG, BP_REGISTER_SLUG, and BP_ACTIVATION_SLUG. If these
- * constants are not overridden in wp-config.php or bp-custom.php, they are
- * defined here to match the slug of the corresponding WP pages.
- *
- * In general, fallback values are only used during initial BP page creation,
- * when no slugs have been explicitly defined.
- *
- * @since 1.5.0
- */
-function bp_core_define_slugs() {
-	$bp = buddypress();
-
-	// No custom members slug.
-	if ( !defined( 'BP_MEMBERS_SLUG' ) ) {
-		if ( !empty( $bp->pages->members ) ) {
-			define( 'BP_MEMBERS_SLUG', $bp->pages->members->slug );
-		} else {
-			define( 'BP_MEMBERS_SLUG', 'members' );
-		}
-	}
-
-	// No custom registration slug.
-	if ( !defined( 'BP_REGISTER_SLUG' ) ) {
-		if ( !empty( $bp->pages->register ) ) {
-			define( 'BP_REGISTER_SLUG', $bp->pages->register->slug );
-		} else {
-			define( 'BP_REGISTER_SLUG', 'register' );
-		}
-	}
-
-	// No custom activation slug.
-	if ( !defined( 'BP_ACTIVATION_SLUG' ) ) {
-		if ( !empty( $bp->pages->activate ) ) {
-			define( 'BP_ACTIVATION_SLUG', $bp->pages->activate->slug );
-		} else {
-			define( 'BP_ACTIVATION_SLUG', 'activate' );
-		}
-	}
-}
-add_action( 'bp_setup_globals', 'bp_core_define_slugs', 11 );
-
-/**
  * Fetch an array of users based on the parameters passed.
  *
  * Since BuddyPress 1.7, bp_core_get_users() uses BP_User_Query. If you
@@ -1547,20 +1502,10 @@ function bp_core_get_illegal_names( $value = '' ) {
 		'activate',
 	);
 
-	// Core constants.
+	// @todo replace slug constants with custom slugs.
 	$slug_constants = array(
-		'BP_GROUPS_SLUG',
-		'BP_MEMBERS_SLUG',
 		'BP_FORUMS_SLUG',
-		'BP_BLOGS_SLUG',
-		'BP_ACTIVITY_SLUG',
-		'BP_XPROFILE_SLUG',
-		'BP_FRIENDS_SLUG',
 		'BP_SEARCH_SLUG',
-		'BP_SETTINGS_SLUG',
-		'BP_NOTIFICATIONS_SLUG',
-		'BP_REGISTER_SLUG',
-		'BP_ACTIVATION_SLUG',
 	);
 	foreach ( $slug_constants as $constant ) {
 		if ( defined( $constant ) ) {
