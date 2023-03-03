@@ -2049,7 +2049,7 @@ function bp_displayed_user_username() {
 		$bp = buddypress();
 
 		if ( bp_displayed_user_id() ) {
-			$username = bp_core_get_username( bp_displayed_user_id(), $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login );
+			$username = bp_members_get_user_slug( bp_displayed_user_id() );
 		} else {
 			$username = '';
 		}
@@ -2083,7 +2083,7 @@ function bp_loggedin_user_username() {
 		$bp = buddypress();
 
 		if ( bp_loggedin_user_id() ) {
-			$username = bp_core_get_username( bp_loggedin_user_id(), $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
+			$username = bp_members_get_user_slug( bp_loggedin_user_id() );
 		} else {
 			$username = '';
 		}

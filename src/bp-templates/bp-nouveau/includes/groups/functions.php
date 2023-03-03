@@ -253,7 +253,7 @@ function bp_nouveau_prepare_group_potential_invites_for_js( $user ) {
 					)
 				),
 				'user_link' => bp_core_get_userlink( $inviter_id, false, true ),
-				'user_name' => bp_core_get_username( $inviter_id ),
+				'user_name' => bp_members_get_user_slug( $inviter_id ),
 			);
 		}
 

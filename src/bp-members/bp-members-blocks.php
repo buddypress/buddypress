@@ -43,7 +43,7 @@ function bp_members_render_member_block( $attributes = array() ) {
 	$container_classes = array( 'bp-block-member' );
 
 	// Mention variables.
-	$username   = bp_core_get_username( $member_id );
+	$username   = bp_members_get_user_slug( $member_id );
 	$at_mention = '';
 
 	// Avatar variables.
