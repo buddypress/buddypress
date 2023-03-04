@@ -228,7 +228,7 @@ class BP_Members_Component extends BP_Component {
 		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin( bp_loggedin_user_id() );
 
 		// The domain for the user currently logged in. eg: http://example.com/members/andy.
-		$bp->loggedin_user->domain = bp_core_get_user_domain( bp_loggedin_user_id() );
+		$bp->loggedin_user->domain = bp_members_get_user_url( bp_loggedin_user_id() );
 
 		/** Displayed user ***************************************************
 		 */
@@ -240,7 +240,7 @@ class BP_Members_Component extends BP_Component {
 		$bp->displayed_user->fullname = isset( $bp->displayed_user->userdata->display_name ) ? $bp->displayed_user->userdata->display_name : '';
 
 		// The domain for the user currently being displayed.
-		$bp->displayed_user->domain = bp_core_get_user_domain( bp_displayed_user_id() );
+		$bp->displayed_user->domain = bp_members_get_user_url( bp_displayed_user_id() );
 
 		// If A user is displayed, check if there is a front template
 		if ( bp_get_displayed_user() ) {

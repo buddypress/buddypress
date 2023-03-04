@@ -626,7 +626,16 @@ function messages_notification_new_message( $raw_args = array() ) {
 		bp_send_email( 'messages-unread', $ud, array(
 			'tokens' => array(
 				'usermessage' => wp_strip_all_tags( stripslashes( $message ) ),
-				'message.url' => esc_url( bp_core_get_user_domain( $recipient->user_id ) . bp_get_messages_slug() . '/view/' . $thread_id . '/' ),
+				'message.url' => esc_url(
+					bp_members_get_user_url(
+						$recipient->user_id,
+						array(
+							'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
+							'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_messages_view', 'view' ),
+							'single_item_action_variables' => array( $thread_id ),
+						)
+					)
+				),
 				'sender.name' => $sender_name,
 				'usersubject' => sanitize_text_field( stripslashes( $subject ) ),
 				'unsubscribe' => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),

@@ -4,6 +4,18 @@
  * @group nav
  */
 class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
+	protected $permalink_structure = '';
+
+	public function set_up() {
+		parent::set_up();
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
+	}
+
+	public function tear_down() {
+		$this->set_permalink_structure( $this->permalink_structure );
+
+		parent::tear_down();
+	}
 
 	/**
 	 * @expectedIncorrectUsage bp_nav
@@ -14,8 +26,9 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
+		$this->set_permalink_structure( '/%postname%/' );
 
-		$this->go_to( bp_core_get_user_domain( $u ) );
+		$this->go_to( bp_members_get_user_url( $u ) );
 
 		bp_core_new_nav_item( array(
 			'name'                    => 'Foo',
@@ -28,7 +41,12 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$expected = array(
 			'name'                    => 'Foo',
 			'slug'                    => 'foo',
-			'link'                    => trailingslashit( bp_core_get_user_domain( $u ) . 'foo' ),
+			'link'                    => bp_members_get_user_url(
+				$u,
+				array(
+					'single_item_component' => 'foo',
+				)
+			),
 			'css_id'                  => 'foo',
 			'show_for_displayed_user' => true,
 			'position'                => 25,
@@ -146,8 +164,9 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$u2 = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u2 );
+		$this->set_permalink_structure( '/%postname%/' );
 
-		$this->go_to( bp_core_get_user_domain( $u ) );
+		$this->go_to( bp_members_get_user_url( $u ) );
 
 		$expected = array(
 			'name'                    => 'Settings',
@@ -181,8 +200,9 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$u2 = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u2 );
+		$this->set_permalink_structure( '/%postname%/' );
 
-		$this->go_to( bp_core_get_user_domain( $u ) );
+		$this->go_to( bp_members_get_user_url( $u ) );
 
 		bp_core_new_nav_item( array(
 			'name'                    => 'Woof',

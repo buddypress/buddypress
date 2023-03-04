@@ -425,7 +425,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 			return;
 		}
 
-		$user_link = bp_core_get_user_domain( $invite->inviter_id );
+		$user_link = bp_members_get_user_url( $invite->inviter_id );
 
 		printf( '%1$s <strong><a href="%2$s" class="edit">%3$s</a></strong><br/>', $avatar, esc_url( $user_link ), esc_html( $inviter->user_login ) );
 	}

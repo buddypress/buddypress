@@ -1006,7 +1006,7 @@ function bp_activity_user_link() {
 		if ( empty( $activities_template->activity->user_id ) || empty( $activities_template->activity->user_nicename ) || empty( $activities_template->activity->user_login ) ) {
 			$link = $activities_template->activity->primary_link;
 		} else {
-			$link = bp_core_get_user_domain( $activities_template->activity->user_id, $activities_template->activity->user_nicename, $activities_template->activity->user_login );
+			$link = bp_members_get_user_url( $activities_template->activity->user_id );
 		}
 
 		/**
@@ -1539,7 +1539,7 @@ function bp_activity_has_content() {
 			// Set common generated content properties.
 			if ( in_array( $activity_type, array( 'new_avatar', 'new_member', 'friendship_created', 'updated_profile' ), true ) ) {
 				$generated_content->user_url = array(
-					'value'             => bp_core_get_user_domain( $user_id ),
+					'value'             => bp_members_get_user_url( $user_id ),
 					'sanitize_callback' => 'esc_url',
 				);
 
@@ -2254,7 +2254,7 @@ function bp_activity_comment_user_link() {
 	 * @return string $user_link The URL of the activity comment author's profile.
 	 */
 	function bp_get_activity_comment_user_link() {
-		$user_link = bp_core_get_user_domain( bp_get_activity_comment_user_id() );
+		$user_link = bp_members_get_user_url( bp_get_activity_comment_user_id() );
 
 		/**
 		 * Filters the author link for the activity comment currently being displayed.
@@ -3652,7 +3652,7 @@ function bp_activity_comments_user_avatars( $args = array() ) {
 			}
 
 			// Get profile link for this user.
-			$profile_link = bp_core_get_user_domain( $user_id );
+			$profile_link = bp_members_get_user_url( $user_id );
 
 			// Get avatar for this user.
 			$image_html   = bp_core_fetch_avatar( array(

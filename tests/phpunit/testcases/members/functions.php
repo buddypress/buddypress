@@ -4,6 +4,18 @@
  */
 #[AllowDynamicProperties]
 class BP_Tests_Members_Functions extends BP_UnitTestCase {
+	protected $permalink_structure = '';
+
+	public function set_up() {
+		parent::set_up();
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
+	}
+
+	public function tear_down() {
+		$this->set_permalink_structure( $this->permalink_structure );
+
+		parent::tear_down();
+	}
 
 	/**
 	 * @ticket BP4915
@@ -113,12 +125,13 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group object_cache
 	 * @group bp_core_get_directory_pages
 	 */
-	public function test_bp_core_get_user_domain_after_directory_page_update() {
+	public function test_bp_members_get_user_url_after_directory_page_update() {
 		// Generate user
 		$user_id = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$this->set_permalink_structure( '/%postname%/' );
 
 		// Set object cache first for user domain
-		$user_domain = bp_core_get_user_domain( $user_id );
+		$user_domain = bp_members_get_user_url( $user_id );
 
 		// Now change the members directory slug
 		$pages = bp_core_get_directory_pages();
@@ -136,7 +149,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->go_to( trailingslashit( home_url( $new_members_slug ) ) );
 		$user = new WP_User( $user_id );
 
-		$this->assertSame( home_url( $new_members_slug ) . '/' . $user->user_nicename . '/', bp_core_get_user_domain( $user_id ) );
+		$this->assertSame( home_url( $new_members_slug ) . '/' . $user->user_nicename . '/', bp_members_get_user_url( $user_id ) );
 	}
 
 	/**

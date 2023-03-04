@@ -3,11 +3,25 @@
  * @group members
  */
 class BP_Tests_Members_Template extends BP_UnitTestCase {
+	protected $permalink_structure = '';
+
+	public function set_up() {
+		parent::set_up();
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
+	}
+
+	public function tear_down() {
+		$this->set_permalink_structure( $this->permalink_structure );
+
+		parent::tear_down();
+	}
+
 	public function test_bp_has_members_include_on_user_page() {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
+		$this->set_permalink_structure( '/%postname%/' );
 
-		$this->go_to( bp_core_get_user_domain( $u1 ) );
+		$this->go_to( bp_members_get_user_url( $u1 ) );
 
 		global $members_template;
 		bp_has_members( array(
@@ -58,8 +72,17 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 		$this->set_current_user( $u2 );
+		$this->set_permalink_structure( '/%postname%/' );
 
-		$this->go_to( bp_core_get_user_domain( $u2 ) . bp_get_friends_slug() . '/requests/' );
+		$this->go_to(
+			bp_members_get_user_url(
+				$u2,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_friends', bp_get_friends_slug() ),
+					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_friends_requests', 'requests' ),
+				)
+			)
+		);
 		$this->restore_admins();
 
 		global $members_template;
@@ -85,6 +108,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 		$this->set_current_user( $u2 );
+		$this->set_permalink_structure( '/%postname%/' );
 
 		// For some reason, in all the user switching, the cache gets
 		// confused. Never comes up when BP runs normally, because the
@@ -92,7 +116,15 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		// real in BP
 		wp_cache_delete( 'bp_user_domain_' . $u2, 'bp' );
 
-		$this->go_to( bp_core_get_user_domain( $u2 ) . bp_get_friends_slug() . '/requests/' );
+		$this->go_to(
+			bp_members_get_user_url(
+				$u2,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_friends', bp_get_friends_slug() ),
+					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_friends_requests', 'requests' ),
+				)
+			)
+		);
 		$this->restore_admins();
 
 		global $members_template;

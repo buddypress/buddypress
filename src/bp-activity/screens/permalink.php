@@ -35,14 +35,18 @@ function bp_activity_action_permalink_router() {
 	}
 
 	// Do not redirect at default.
-	$redirect = false;
+	$redirect    = false;
+	$path_chunks = array(
+		'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
+		'single_item_action'    => $activity->id,
+	);
 
 	// Redirect based on the type of activity.
 	if ( bp_is_active( 'groups' ) && $activity->component == buddypress()->groups->id ) {
 
 		// Activity is a user update.
 		if ( ! empty( $activity->user_id ) ) {
-			$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id . '/';
+			$redirect = bp_members_get_user_url( $activity->user_id, $path_chunks );
 
 		// Activity is something else.
 		} else {
@@ -55,7 +59,7 @@ function bp_activity_action_permalink_router() {
 
 	// Set redirect to users' activity stream.
 	} elseif ( ! empty( $activity->user_id ) ) {
-		$redirect = bp_core_get_user_domain( $activity->user_id, $activity->user_nicename, $activity->user_login ) . bp_get_activity_slug() . '/' . $activity->id . '/';
+		$redirect = bp_members_get_user_url( $activity->user_id, $path_chunks );
 	}
 
 	// If set, add the original query string back onto the redirect URL.

@@ -784,7 +784,7 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 		'comment_post_ID'      => $parent_activity->secondary_item_id,
 		'comment_author'       => bp_core_get_user_displayname( $params['user_id'] ),
 		'comment_author_email' => $user->user_email,
-		'comment_author_url'   => bp_core_get_user_domain( $params['user_id'], $user->user_nicename, $user->user_login ),
+		'comment_author_url'   => bp_members_get_user_url( $params['user_id'] ),
 		'comment_content'      => $params['content'],
 		'comment_type'         => '', // Could be interesting to add 'BuddyPress' here...
 		'comment_parent'       => (int) $comment_parent,

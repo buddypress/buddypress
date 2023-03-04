@@ -2267,7 +2267,7 @@ function bp_nouveau_get_customizer_link( $args = array() ) {
 
 	} elseif ( ! empty( $r['object'] ) && ! empty( $r['item_id'] ) ) {
 		if ( 'user' === $r['object'] ) {
-			$url = rawurlencode( bp_core_get_user_domain( $r['item_id'] ) );
+			$url = rawurlencode( bp_members_get_user_url( $r['item_id'] ) );
 
 		} elseif ( 'group' === $r['object'] ) {
 			$group = groups_get_group( array( 'group_id' => $r['item_id'] ) );

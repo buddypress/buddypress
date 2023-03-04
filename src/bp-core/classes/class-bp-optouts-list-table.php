@@ -324,7 +324,7 @@ class BP_Optouts_List_Table extends WP_Users_List_Table {
 		if ( ! $inviter ) {
 			return;
 		}
-		$user_link = bp_core_get_user_domain( $optout->user_id );
+		$user_link = bp_members_get_user_url( $optout->user_id );
 		echo $avatar . sprintf( '<strong><a href="%1$s" class="edit">%2$s</a></strong><br/>', esc_url( $user_link ), esc_html( $inviter->user_login ) );
 	}
 

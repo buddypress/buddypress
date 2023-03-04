@@ -337,7 +337,7 @@ function bp_message_thread_view_link( $thread_id = 0, $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$domain = bp_core_get_user_domain( $user_id );
+		$domain = bp_members_get_user_url( $user_id );
 
 		/**
 		 * Filters the permalink of a particular thread.
@@ -382,7 +382,7 @@ function bp_message_thread_delete_link( $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$domain = bp_core_get_user_domain( $user_id );
+		$domain = bp_members_get_user_url( $user_id );
 
 		/**
 		 * Filters the URL for deleting the current thread.
@@ -434,7 +434,7 @@ function bp_the_message_thread_mark_unread_url( $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$domain = bp_core_get_user_domain( $user_id );
+		$domain = bp_members_get_user_url( $user_id );
 
 		// Base unread URL.
 		$url = trailingslashit( $domain . bp_get_messages_slug() . '/' . bp_current_action() . '/unread' );
@@ -496,7 +496,7 @@ function bp_the_message_thread_mark_read_url( $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$domain = bp_core_get_user_domain( $user_id );
+		$domain = bp_members_get_user_url( $user_id );
 
 		// Base read URL.
 		$url = trailingslashit( $domain . bp_get_messages_slug() . '/' . bp_current_action() . '/read' );

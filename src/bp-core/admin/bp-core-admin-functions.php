@@ -1310,7 +1310,7 @@ function bp_core_admin_user_row_actions( $actions, $user_object ) {
 	}
 
 	// Create a "View" link.
-	$url             = bp_core_get_user_domain( $user_id );
+	$url             = bp_members_get_user_url( $user_id );
 	$actions['view'] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), esc_html__( 'View', 'buddypress' ) );
 
 	// Return new actions.

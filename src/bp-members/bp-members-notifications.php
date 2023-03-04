@@ -47,7 +47,7 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 					$text = sprintf( __( '%d members are now members of the site', 'buddypress' ), (int) $total_items );
 				}
 			} else {
-				$link   = add_query_arg( 'welcome', 1, bp_core_get_user_domain( $item_id ) );
+				$link   = add_query_arg( 'welcome', 1, bp_members_get_user_url( $item_id ) );
 				$amount = 'single';
 
 				// This is the inviter whose invitation was accepted.

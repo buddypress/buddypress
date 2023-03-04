@@ -1033,7 +1033,7 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 						<th scope="row" class="uid-column"><?php echo esc_html( $type_user->ID ); ?></th>
 
 						<td class="uname-column">
-							<a style="float: left;" href="<?php echo bp_core_get_user_domain( $type_user->ID ); ?>"><?php echo bp_core_fetch_avatar( array(
+							<a style="float: left;" href="<?php echo bp_members_get_user_url( $type_user->ID ); ?>"><?php echo bp_core_fetch_avatar( array(
 								'item_id' => $type_user->ID,
 								'width'   => '32',
 								'height'  => '32'

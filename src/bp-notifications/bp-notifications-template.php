@@ -62,7 +62,7 @@ function bp_notifications_permalink( $user_id = 0 ) {
 			$user_id = bp_loggedin_user_id();
 			$domain  = bp_loggedin_user_domain();
 		} else {
-			$domain = bp_core_get_user_domain( (int) $user_id );
+			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
 		$retval = trailingslashit( $domain . bp_get_notifications_slug() );
@@ -103,7 +103,7 @@ function bp_notifications_unread_permalink( $user_id = 0 ) {
 			$user_id = bp_loggedin_user_id();
 			$domain  = bp_loggedin_user_domain();
 		} else {
-			$domain = bp_core_get_user_domain( (int) $user_id );
+			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
 		$retval = trailingslashit( $domain . bp_get_notifications_slug() . '/unread' );
@@ -143,7 +143,7 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
 			$user_id = bp_loggedin_user_id();
 			$domain  = bp_loggedin_user_domain();
 		} else {
-			$domain = bp_core_get_user_domain( (int) $user_id );
+			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
 		$retval = trailingslashit( $domain . bp_get_notifications_slug() . '/read' );

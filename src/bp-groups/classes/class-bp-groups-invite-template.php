@@ -292,7 +292,7 @@ class BP_Groups_Invite_Template {
 		);
 
 		$this->invite->user->email     = $this->invite->user->user_email;
-		$this->invite->user->user_url  = bp_core_get_user_domain( $user_id, $this->invite->user->user_nicename, $this->invite->user->user_login );
+		$this->invite->user->user_url  = bp_members_get_user_url( $user_id );
 		$this->invite->user->user_link = "<a href='{$this->invite->user->user_url}'>{$this->invite->user->fullname}</a>";
 
 		/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */

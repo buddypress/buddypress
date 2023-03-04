@@ -15,7 +15,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
-		$user_domain = bp_core_get_user_domain( $u );
+		$user_domain = bp_members_get_user_url( $u );
 
 		$this->go_to( $user_domain );
 
@@ -344,7 +344,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
-		$user_domain = bp_core_get_user_domain( $u );
+		$user_domain = bp_members_get_user_url( $u );
 
 		// Register a subnav on 'bp_setup_nav' hook early (at priority zero).
 		add_action( 'bp_setup_nav', function() use ( $user_domain ) {

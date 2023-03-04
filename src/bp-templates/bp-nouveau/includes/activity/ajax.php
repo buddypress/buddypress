@@ -267,7 +267,7 @@ function bp_nouveau_ajax_delete_activity() {
 
 	// If on a single activity redirect to user's home.
 	if ( ! empty( $_POST['is_single'] ) ) {
-		$response['redirect'] = bp_core_get_user_domain( $activity->user_id );
+		$response['redirect'] = bp_members_get_user_url( $activity->user_id );
 		bp_core_add_message( __( 'Activity deleted successfully', 'buddypress' ) );
 	}
 
@@ -665,7 +665,7 @@ function bp_nouveau_ajax_spam_activity() {
 
 	// If on a single activity redirect to user's home.
 	if ( ! empty( $_POST['is_single'] ) ) {
-		$response['redirect'] = bp_core_get_user_domain( $activity->user_id );
+		$response['redirect'] = bp_members_get_user_url( $activity->user_id );
 		bp_core_add_message( __( 'This activity has been marked as spam and is no longer visible.', 'buddypress' ) );
 	}
 

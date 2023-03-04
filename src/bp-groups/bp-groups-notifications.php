@@ -168,7 +168,7 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 			'group.name'           => $group->name,
 			'group.id'             => $group_id,
 			'group-requests.url'   => esc_url( bp_get_group_permalink( $group ) . 'admin/membership-requests' ),
-			'profile.url'          => esc_url( bp_core_get_user_domain( $requesting_user_id ) ),
+			'profile.url'          => esc_url( bp_members_get_user_url( $requesting_user_id ) ),
 			'requesting-user.id'   => $requesting_user_id,
 			'requesting-user.name' => bp_core_get_user_displayname( $requesting_user_id ),
 			'request.message'      => $request_message,
@@ -336,7 +336,12 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		return;
 	}
 
-	$invited_link = bp_core_get_user_domain( $invited_user_id ) . bp_get_groups_slug();
+	$invited_link = bp_members_get_user_url(
+		$invited_user_id,
+		array(
+			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_groups', bp_get_groups_slug() ),
+		)
+	);
 
 	$unsubscribe_args = array(
 		'user_id'           => $invited_user_id,
@@ -359,7 +364,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 			'group.url'      => bp_get_group_permalink( $group ),
 			'group.name'     => $group->name,
 			'inviter.name'   => bp_core_get_userlink( $inviter_user_id, true, false ),
-			'inviter.url'    => bp_core_get_user_domain( $inviter_user_id ),
+			'inviter.url'    => bp_members_get_user_url( $inviter_user_id ),
 			'inviter.id'     => $inviter_user_id,
 			'invites.url'    => esc_url( $invited_link . '/invites/' ),
 			'invite.message' => $invite_message,
@@ -1251,7 +1256,14 @@ function groups_email_notification_membership_request_completed_by_admin( $user_
 			'group.id'        => $group_id,
 			'group.name'      => $group->name,
 			'group.url'       => esc_url( bp_get_group_permalink( $group ) ),
-			'leave-group.url' => esc_url( bp_core_get_user_domain( $user_id ) . bp_get_groups_slug() ),
+			'leave-group.url' => esc_url(
+				bp_members_get_user_url(
+					$user_id,
+					array(
+						'single_item_component' => bp_rewrites_get_slug( 'members', 'member_groups', bp_get_groups_slug() ),
+					)
+				)
+			),
 		),
 	);
 
