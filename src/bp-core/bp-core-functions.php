@@ -4335,13 +4335,15 @@ function bp_email_unsubscribe_handler() {
 		$unsub_msg   = __( 'Please go to your notifications settings to unsubscribe from emails.', 'buddypress' );
 
 		if ( bp_is_active( 'settings' ) ) {
-			$redirect_to = sprintf(
-				'%s%s/notifications/',
-				bp_core_get_user_domain( get_current_user_id() ),
-				bp_get_settings_slug()
+			$redirect_to = bp_members_get_user_url(
+				get_current_user_id(),
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_settings', bp_get_settings_slug() ),
+					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_settings_notifications', 'notifications' ),
+				)
 			);
 		} else {
-			$redirect_to = bp_core_get_user_domain( get_current_user_id() );
+			$redirect_to = bp_members_get_user_url( get_current_user_id() );
 		}
 
 	// This is an unsubscribe request from a nonmember.
@@ -4367,11 +4369,11 @@ function bp_email_unsubscribe_handler() {
 		if ( bp_is_active( 'settings' ) ) {
 			$redirect_to = sprintf(
 				'%s%s/notifications/',
-				bp_core_get_user_domain( $raw_user_id ),
+				bp_members_get_user_url( $raw_user_id ),
 				bp_get_settings_slug()
 			);
 		} else {
-			$redirect_to = bp_core_get_user_domain( $raw_user_id );
+			$redirect_to = bp_members_get_user_url( $raw_user_id );
 		}
 
 		// Unsubscribe.
@@ -4392,7 +4394,7 @@ function bp_email_unsubscribe_handler() {
 
 		// Template notices are only displayed on BP pages.
 		bp_core_add_message( $message );
-		bp_core_redirect( bp_core_get_user_domain( $raw_user_id ) );
+		bp_core_redirect( bp_members_get_user_url( $raw_user_id ) );
 
 		exit;
 	} else {

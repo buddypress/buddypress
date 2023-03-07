@@ -1638,7 +1638,7 @@ function bp_group_creator_permalink( $group = false ) {
 		 * @param string          $permalink Permalink of the group creator.
 		 * @param BP_Groups_Group $group     The group object.
 		 */
-		return apply_filters( 'bp_get_group_creator_permalink', bp_core_get_user_domain( $group->creator_id ), $group );
+		return apply_filters( 'bp_get_group_creator_permalink', bp_members_get_user_url( $group->creator_id ), $group );
 	}
 
 /**
@@ -1796,7 +1796,7 @@ function bp_group_list_admins( $group = false ) {
 			<?php foreach ( (array) $group->admins as $admin ) { ?>
 				<li>
 					<a
-						href="<?php echo esc_url( bp_core_get_user_domain( $admin->user_id, $admin->user_nicename, $admin->user_login ) ); ?>"
+						href="<?php echo esc_url( bp_members_get_user_url( $admin->user_id ) ); ?>"
 						class="bp-tooltip"
 						data-bp-tooltip="<?php printf( ( '%s' ), bp_core_get_user_displayname( $admin->user_id ) ); ?>"
 					>
@@ -1843,7 +1843,7 @@ function bp_group_list_mods( $group = false ) {
 			<?php foreach ( (array) $group->mods as $mod ) { ?>
 				<li>
 					<a
-						href="<?php echo esc_url( bp_core_get_user_domain( $mod->user_id, $mod->user_nicename, $mod->user_login ) ); ?>"
+						href="<?php echo esc_url( bp_members_get_user_url( $mod->user_id ) ); ?>"
 						class="bp-tooltip"
 						data-bp-tooltip="<?php printf( ( '%s' ), bp_core_get_user_displayname( $mod->user_id ) ); ?>">
 						<?php
@@ -4272,7 +4272,7 @@ function bp_group_member_url() {
 		 *
 		 * @param string $value URL for the current user.
 		 */
-		return apply_filters( 'bp_get_group_member_url', bp_core_get_user_domain( $members_template->member->user_id, $members_template->member->user_nicename, $members_template->member->user_login ) );
+		return apply_filters( 'bp_get_group_member_url', bp_members_get_user_url( $members_template->member->user_id ) );
 	}
 
 /**
@@ -4296,7 +4296,7 @@ function bp_group_member_link() {
 		 *
 		 * @param string $value HTML link for the current user.
 		 */
-		return apply_filters( 'bp_get_group_member_link', '<a href="' . bp_core_get_user_domain( $members_template->member->user_id, $members_template->member->user_nicename, $members_template->member->user_login ) . '">' . $members_template->member->display_name . '</a>' );
+		return apply_filters( 'bp_get_group_member_link', '<a href="' . bp_members_get_user_url( $members_template->member->user_id ) . '">' . $members_template->member->display_name . '</a>' );
 	}
 
 /**
@@ -4320,7 +4320,7 @@ function bp_group_member_domain() {
 		 *
 		 * @param string $value Domain for the current user.
 		 */
-		return apply_filters( 'bp_get_group_member_domain', bp_core_get_user_domain( $members_template->member->user_id, $members_template->member->user_nicename, $members_template->member->user_login ) );
+		return apply_filters( 'bp_get_group_member_domain', bp_members_get_user_url( $members_template->member->user_id ) );
 	}
 
 /**

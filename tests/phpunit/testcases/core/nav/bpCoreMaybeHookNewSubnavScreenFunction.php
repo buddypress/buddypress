@@ -4,6 +4,18 @@
  * @group nav
  */
 class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTestCase {
+	protected $permalink_structure = '';
+
+	public function set_up() {
+		parent::set_up();
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
+	}
+
+	public function tear_down() {
+		$this->set_permalink_structure( $this->permalink_structure );
+
+		parent::tear_down();
+	}
 
 	public function test_user_has_access_true_no_callable_function() {
 		$subnav_item = array(
@@ -56,8 +68,9 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
+		$this->set_permalink_structure( '/%postname%/' );
 
-		$this->go_to( bp_core_get_user_domain( $u ) );
+		$this->go_to( bp_members_get_user_url( $u ) );
 
 		$subnav_item = array(
 			'user_has_access' => false,
@@ -66,7 +79,7 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		// Just test relevant info
 		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
 		$this->assertSame( 'failure', $found['status'] );
-		$this->assertSame( bp_core_get_user_domain( $u ), $found['redirect_args']['root'] );
+		$this->assertSame( bp_members_get_user_url( $u ), $found['redirect_args']['root'] );
 
 		$this->set_current_user( $old_current_user );
 	}
@@ -76,8 +89,9 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$u2 = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u1 );
+		$this->set_permalink_structure( '/%postname%/' );
 
-		$this->go_to( bp_core_get_user_domain( $u2 ) );
+		$this->go_to( bp_members_get_user_url( $u2 ) );
 
 		$old_bp_nav = buddypress()->bp_nav;
 		$old_default_component = buddypress()->default_component;
@@ -103,7 +117,7 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		buddypress()->bp_nav = $old_bp_nav;
 
 		$this->assertSame( 'failure', $found['status'] );
-		$this->assertSame( bp_core_get_user_domain( $u2 ), $found['redirect_args']['root'] );
+		$this->assertSame( bp_members_get_user_url( $u2 ), $found['redirect_args']['root'] );
 	}
 
 	public function test_user_has_access_false_user_logged_in_others_profile_default_component_not_accessible() {
@@ -111,8 +125,9 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$u2 = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u1 );
+		$this->set_permalink_structure( '/%postname%/' );
 
-		$this->go_to( bp_core_get_user_domain( $u2 ) );
+		$this->go_to( bp_members_get_user_url( $u2 ) );
 
 		$old_bp_nav = buddypress()->bp_nav;
 		$old_default_component = buddypress()->default_component;
@@ -139,7 +154,15 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		buddypress()->bp_nav = $old_bp_nav;
 
 		$this->assertSame( 'failure', $found['status'] );
-		$this->assertSame( bp_core_get_user_domain( $u2 ) . bp_get_activity_slug() . '/', $found['redirect_args']['root'] );
+		$this->assertSame(
+			bp_members_get_user_url(
+				$u2,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
+				)
+			),
+			$found['redirect_args']['root']
+		);
 	}
 
 	public function test_user_has_access_false_user_logged_in_group() {

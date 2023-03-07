@@ -157,3 +157,87 @@ function bp_core_admin_slugs_setup_handler() {
 function bp_core_define_slugs() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 }
+
+/**
+ * Return the username for a user based on their user id.
+ *
+ * This function is sensitive to the BP_ENABLE_USERNAME_COMPATIBILITY_MODE,
+ * so it will return the user_login or user_nicename as appropriate.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ *
+ * @param int         $user_id       User ID to check.
+ * @param string|bool $user_nicename Optional. user_nicename of user being checked.
+ * @param string|bool $user_login    Optional. user_login of user being checked.
+ * @return string The username of the matched user or an empty string if no user is found.
+ */
+function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login = false ) {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_members_get_user_slug()' );
+
+	if ( ! $user_id ) {
+		$value = $user_nicename;
+		$field = 'slug';
+
+		if ( ! $user_nicename ) {
+			$value = $user_login;
+			$field = 'login';
+		}
+
+		$user = get_user_by( $field, $value );
+
+		if ( $user instanceof WP_User ) {
+			$user_id = (int) $user->ID;
+		}
+	}
+
+	$username = bp_members_get_user_slug( $user_id );
+
+	/**
+	 * Filters the username based on originally provided user ID.
+	 *
+	 * @since 1.0.1
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $username Username determined by user ID.
+	 */
+	return apply_filters_deprecated( 'bp_core_get_username', array( $username ), '12.0.0', 'bp_members_get_user_slug' );
+}
+
+/**
+ * Return the domain for the passed user: e.g. http://example.com/members/andy/.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ *
+ * @param int         $user_id       The ID of the user.
+ * @param string|bool $user_nicename Optional. user_nicename of the user.
+ * @param string|bool $user_login    Optional. user_login of the user.
+ * @return string
+ */
+function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_login = false ) {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_members_get_user_url()' );
+
+	if ( empty( $user_id ) ) {
+		return;
+	}
+
+	$domain = bp_members_get_user_url( $user_id );
+
+	// Don't use this filter.  Subject to removal in a future release.
+	// Use the 'bp_core_get_user_domain' filter instead.
+	$domain = apply_filters_deprecated( 'bp_core_get_user_domain_pre_cache', array( $domain, $user_id, $user_nicename, $user_login), '12.0.0' );
+
+	/**
+	 * Filters the domain for the passed user.
+	 *
+	 * @since 1.0.1
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $domain        Domain for the passed user.
+	 * @param int    $user_id       ID of the passed user.
+	 * @param string $user_nicename User nicename of the passed user.
+	 * @param string $user_login    User login of the passed user.
+	 */
+	return apply_filters_deprecated( 'bp_core_get_user_domain', array( $domain, $user_id, $user_nicename, $user_login), '12.0.0', 'bp_members_get_user_url' );
+}

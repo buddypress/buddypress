@@ -590,7 +590,7 @@ function bp_core_members_shortlink_redirector( $member_slug ) {
 
 	$user = wp_get_current_user();
 
-	return bp_core_get_username( $user->ID, $user->user_nicename, $user->user_login );
+	return bp_members_get_user_slug( $user->ID );
 }
 add_filter( 'bp_core_set_uri_globals_member_slug', 'bp_core_members_shortlink_redirector' );
 

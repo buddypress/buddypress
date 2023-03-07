@@ -5,6 +5,19 @@
  * @group nav
  */
 class BP_Tests_Core_Nav_BpGetNavMenuItems extends BP_UnitTestCase {
+	protected $permalink_structure = '';
+
+	public function set_up() {
+		parent::set_up();
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
+	}
+
+	public function tear_down() {
+		$this->set_permalink_structure( $this->permalink_structure );
+
+		parent::tear_down();
+	}
+
 	/**
 	 * @ticket BP7110
 	 */
@@ -12,7 +25,9 @@ class BP_Tests_Core_Nav_BpGetNavMenuItems extends BP_UnitTestCase {
 		$users = self::factory()->user->create_many( 2 );
 
 		$this->set_current_user( $users[0] );
-		$user_1_domain = bp_core_get_user_domain( $users[1] );
+		$this->set_permalink_structure( '/%postname%/' );
+
+		$user_1_domain = bp_members_get_user_url( $users[1] );
 		$this->go_to( $user_1_domain );
 
 		$found = bp_get_nav_menu_items();
@@ -36,7 +51,9 @@ class BP_Tests_Core_Nav_BpGetNavMenuItems extends BP_UnitTestCase {
 		$user = self::factory()->user->create();
 
 		$this->set_current_user( 0 );
-		$user_domain = bp_core_get_user_domain( $user );
+		$this->set_permalink_structure( '/%postname%/' );
+
+		$user_domain = bp_members_get_user_url( $user );
 		$this->go_to( $user_domain );
 
 		$found = bp_get_nav_menu_items();

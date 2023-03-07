@@ -901,11 +901,7 @@ function bp_member_permalink() {
 	function bp_get_member_permalink() {
 		global $members_template;
 
-		$permalink = bp_core_get_user_domain(
-			$members_template->member->id,
-			$members_template->member->user_nicename,
-			$members_template->member->user_login
-		);
+		$permalink = bp_members_get_user_url( $members_template->member->id );
 
 		/**
 		 * Filters the permalink for the current member in the loop.
@@ -2049,7 +2045,7 @@ function bp_displayed_user_username() {
 		$bp = buddypress();
 
 		if ( bp_displayed_user_id() ) {
-			$username = bp_core_get_username( bp_displayed_user_id(), $bp->displayed_user->userdata->user_nicename, $bp->displayed_user->userdata->user_login );
+			$username = bp_members_get_user_slug( bp_displayed_user_id() );
 		} else {
 			$username = '';
 		}
@@ -2083,7 +2079,7 @@ function bp_loggedin_user_username() {
 		$bp = buddypress();
 
 		if ( bp_loggedin_user_id() ) {
-			$username = bp_core_get_username( bp_loggedin_user_id(), $bp->loggedin_user->userdata->user_nicename, $bp->loggedin_user->userdata->user_login );
+			$username = bp_members_get_user_slug( bp_loggedin_user_id() );
 		} else {
 			$username = '';
 		}
@@ -3571,7 +3567,7 @@ function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
 			$user_id = bp_loggedin_user_id();
 			$domain  = bp_loggedin_user_domain();
 		} else {
-			$domain = bp_core_get_user_domain( (int) $user_id );
+			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
 		$retval = trailingslashit( $domain . bp_get_members_invitations_slug() . '/list-invites' );
@@ -3610,7 +3606,7 @@ function bp_members_invitations_send_invites_permalink( $user_id = 0 ) {
 			$user_id = bp_loggedin_user_id();
 			$domain  = bp_loggedin_user_domain();
 		} else {
-			$domain = bp_core_get_user_domain( (int) $user_id );
+			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
 		$retval = trailingslashit( $domain . bp_get_members_invitations_slug() . '/send-invites' );

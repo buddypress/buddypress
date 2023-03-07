@@ -20,9 +20,9 @@ class BP_Tests_Activity_Filters extends BP_UnitTestCase {
 		) );
 
 		$u1_mention_name = bp_activity_get_user_mentionname( $u1 );
-		$u1_domain = bp_core_get_user_domain( $u1 );
+		$u1_domain = bp_members_get_user_url( $u1 );
 		$u2_mention_name = bp_activity_get_user_mentionname( $u2 );
-		$u2_domain = bp_core_get_user_domain( $u2 );
+		$u2_domain = bp_members_get_user_url( $u2 );
 
 		// mentions normal text should be replaced
 		$at_name_in_text = sprintf( 'Hello @%s', $u1_mention_name );

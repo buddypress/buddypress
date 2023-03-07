@@ -49,12 +49,18 @@ add_action( 'bp_register_activity_actions', 'xprofile_register_activity_actions'
  * @return string
  */
 function bp_xprofile_format_activity_action_updated_profile( $action, $activity ) {
-
-	// Note for translators: The natural phrasing in English, "Joe updated
-	// his profile", requires that we know Joe's gender, which we don't. If
-	// your language doesn't have this restriction, feel free to use a more
-	// natural translation.
-	$profile_link = trailingslashit( bp_core_get_user_domain( $activity->user_id ) . bp_get_profile_slug() );
+	/*
+	 * Note for translators: The natural phrasing in English, "Joe updated
+	 * his profile", requires that we know Joe's gender, which we don't. If
+	 * your language doesn't have this restriction, feel free to use a more
+	 * natural translation.
+	 */
+	$profile_link = bp_members_get_user_url(
+		$activity->user_id,
+		array(
+			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_profile', bp_get_profile_slug() ),
+		)
+	);
 
 	/* translators: %s: user profile link */
 	$action = sprintf( esc_html__( "%s's profile was updated", 'buddypress' ), '<a href="' . esc_url( $profile_link ) . '">' . bp_core_get_user_displayname( $activity->user_id ) . '</a>' );
@@ -246,7 +252,12 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 	}
 
 	// If we've reached this point, assemble and post the activity item.
-	$profile_link = trailingslashit( bp_core_get_user_domain( $user_id ) . bp_get_profile_slug() );
+	$profile_link = bp_members_get_user_url(
+		$user_id,
+		array(
+			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_profile', bp_get_profile_slug() ),
+		)
+	);
 
 	return (bool) xprofile_record_activity( array(
 		'user_id'      => $user_id,

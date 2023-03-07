@@ -306,7 +306,13 @@ class BP_Tests_XProfile_Activity extends BP_UnitTestCase {
 			'user_id' => $u,
 		) );
 
-		$expected = sprintf( esc_html__( "%s's profile was updated", 'buddypress' ), '<a href="' . bp_core_get_user_domain( $u ) . bp_get_profile_slug() . '/">' . bp_core_get_user_displayname( $u ) . '</a>' );
+		$link     = bp_members_get_user_url(
+			$u,
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_profile', bp_get_profile_slug() ),
+			)
+		);
+		$expected = sprintf( esc_html__( "%s's profile was updated", 'buddypress' ), '<a href="' . esc_url( $link ) . '">' . bp_core_get_user_displayname( $u ) . '</a>' );
 
 		$a_obj = new BP_Activity_Activity( $a );
 

@@ -411,7 +411,7 @@ function bp_activity_screen_notification_settings() {
 					<td>
 						<?php
 						/* translators: %s: the displayed user username */
-						printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_core_get_username( bp_displayed_user_id() ) );
+						printf( __( 'A member mentions you in an update using "@%s"', 'buddypress' ), bp_members_get_user_slug( bp_displayed_user_id() ) );
 						?>
 					</td>
 					<td class="yes"><input type="radio" name="notifications[notification_activity_new_mention]" id="notification-activity-new-mention-yes" value="yes" <?php checked( $mention, 'yes', true ) ?>/><label for="notification-activity-new-mention-yes" class="bp-screen-reader-text"><?php

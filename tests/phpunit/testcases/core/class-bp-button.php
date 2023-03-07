@@ -5,14 +5,28 @@
  * @group BP_Button
  */
 class BP_Tests_BP_Button extends BP_UnitTestCase {
+	protected $permalink_structure = '';
+
+	public function set_up() {
+		parent::set_up();
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
+	}
+
+	public function tear_down() {
+		$this->set_permalink_structure( $this->permalink_structure );
+
+		parent::tear_down();
+	}
+
 	/**
 	 * @group block_self
 	 */
 	public function test_block_self_own_profile() {
 		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
+		$this->set_permalink_structure( '/%postname%/' );
 
-		$this->go_to( bp_core_get_user_domain( $u ) );
+		$this->go_to( bp_members_get_user_url( $u ) );
 
 		$b = new BP_Button( array(
 			'id' => 'foo',
@@ -29,9 +43,10 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	public function test_block_self_others_profile() {
 		$u1 = self::factory()->user->create();
 		$this->set_current_user( $u1 );
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$u2 = self::factory()->user->create();
-		$this->go_to( bp_core_get_user_domain( $u2 ) );
+		$this->go_to( bp_members_get_user_url( $u2 ) );
 
 		$b = new BP_Button( array(
 			'id' => 'foo',
@@ -135,7 +150,8 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 		) );
 
 		$this->set_current_user( $u1 );
-		$this->go_to( bp_core_get_user_domain( $u1 ) );
+		$this->set_permalink_structure( '/%postname%/' );
+		$this->go_to( bp_members_get_user_url( $u1 ) );
 
 		$found = array();
 		if ( bp_has_members() ) {

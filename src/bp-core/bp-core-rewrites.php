@@ -72,8 +72,9 @@ function bp_has_pretty_urls() {
  * @since 12.0.0
  *
  * @param string $component_id The BuddyPress component's ID.
- * @param string $rewrite_id   The view rewrite ID.
- * @param string $default_slug The view default slug.
+ * @param string $rewrite_id   The view rewrite ID, used to find the custom slugs.
+ *                             Eg: `member_profile_edit` will try to find the xProfile edit's slug.
+ * @param string $default_slug The view default slug, used as a fallback.
  * @return string The slug to use for the view belonging to the requested component.
  */
 function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_slug = '' ) {
@@ -83,6 +84,9 @@ function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_sl
 	if ( ! isset( $directory_pages->{$component_id}->custom_slugs ) || ! $rewrite_id ) {
 		return $slug;
 	}
+
+	// Make sure a `bp_` prefix is used.
+	$rewrite_id = 'bp_' . str_replace( 'bp_', '', sanitize_key( $rewrite_id ) );
 
 	$custom_slugs = (array) $directory_pages->{$component_id}->custom_slugs;
 	if ( isset( $custom_slugs[ $rewrite_id ] ) && $custom_slugs[ $rewrite_id ] ) {

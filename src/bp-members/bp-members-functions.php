@@ -139,45 +139,71 @@ function bp_core_get_users( $args = '' ) {
 }
 
 /**
- * Return the domain for the passed user: e.g. http://example.com/members/andy/.
+ * Return the Mmbers single item's URL.
  *
- * @since 1.0.0
+ * @since 12.0.0
  *
- * @param int         $user_id       The ID of the user.
- * @param string|bool $user_nicename Optional. user_nicename of the user.
- * @param string|bool $user_login    Optional. user_login of the user.
- * @return string
+ * @param integer $user_id  The user ID.
+ * @param array   $action {
+ *     An array of arguments. Optional.
+ *
+ *     @type string $single_item_component        The component slug the action is relative to.
+ *     @type string $single_item_action           The slug of the action to perform.
+ *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+ * }
+ * @return string The URL built for the BP Rewrites URL parser.
  */
-function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_login = false ) {
+function bp_members_get_user_url( $user_id = 0, $path_chunks = array() ) {
+	$url  = '';
+	$slug = bp_members_get_user_slug( $user_id );
 
-	if ( empty( $user_id ) ) {
-		return;
+	if ( $slug ) {
+		if ( bp_is_username_compatibility_mode() ) {
+			$slug = rawurlencode( $slug );
+		}
+
+		$supported_chunks = array_fill_keys( array( 'single_item_component', 'single_item_action', 'single_item_action_variables' ), true );
+		$path_chunks      = bp_parse_args(
+			array_intersect_key( $path_chunks, $supported_chunks ),
+			array(
+				'component_id' => 'members',
+				'single_item'  => $slug,
+			)
+		);
+
+		$url = bp_rewrites_get_url( $path_chunks );
 	}
-
-	$username = bp_core_get_username( $user_id, $user_nicename, $user_login );
-
-	if ( bp_is_username_compatibility_mode() ) {
-		$username = rawurlencode( $username );
-	}
-
-	$after_domain = bp_core_enable_root_profiles() ? $username : bp_get_members_root_slug() . '/' . $username;
-	$domain       = trailingslashit( bp_get_root_domain() . '/' . $after_domain );
-
-	// Don't use this filter.  Subject to removal in a future release.
-	// Use the 'bp_core_get_user_domain' filter instead.
-	$domain = apply_filters( 'bp_core_get_user_domain_pre_cache', $domain, $user_id, $user_nicename, $user_login );
 
 	/**
 	 * Filters the domain for the passed user.
 	 *
 	 * @since 1.0.1
+	 * @deprecated 12.0.0
 	 *
 	 * @param string $domain        Domain for the passed user.
 	 * @param int    $user_id       ID of the passed user.
 	 * @param string $user_nicename User nicename of the passed user.
 	 * @param string $user_login    User login of the passed user.
 	 */
-	return apply_filters( 'bp_core_get_user_domain', $domain, $user_id, $user_nicename, $user_login );
+	$url = apply_filters_deprecated( 'bp_core_get_user_domain', array( $url, $user_id, false, false ), '12.0.0', 'bp_members_get_user_url' );
+
+	/**
+	 * Filters the domain for the passed user.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string  $url      The user url.
+	 * @param integer $user_id  The user ID.
+	 * @param string  $slug     The user slug.
+	 * @param array   $path_chunks {
+	 *     An array of arguments. Optional.
+	 *
+	 *     @type string $single_item_component        The component slug the action is relative to.
+	 *     @type string $single_item_action           The slug of the action to perform.
+	 *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+	 * }
+	 */
+	return apply_filters( 'bp_members_get_user_url', $url, $user_id, $slug, $path_chunks );
 }
 
 /**
@@ -273,39 +299,53 @@ function bp_core_get_userid_from_nicename( $user_nicename = '' ) {
 }
 
 /**
- * Return the username for a user based on their user id.
+ * Returns the members single item (member) slug.
  *
- * This function is sensitive to the BP_ENABLE_USERNAME_COMPATIBILITY_MODE,
- * so it will return the user_login or user_nicename as appropriate.
+ * @since 12.0.0
  *
- * @since 1.0.0
- *
- * @param int         $user_id       User ID to check.
- * @param string|bool $user_nicename Optional. user_nicename of user being checked.
- * @param string|bool $user_login    Optional. user_login of user being checked.
- * @return string The username of the matched user or an empty string if no user is found.
+ * @param integer $user_id The User ID.
+ * @return string The member slug.
  */
-function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login = false ) {
+function bp_members_get_user_slug( $user_id = 0 ) {
+	$bp  = buddypress();
+	$lug = '';
 
-	if ( ! $user_nicename && ! $user_login ) {
-		// Pull an audible and maybe use the login over the nicename.
-		if ( bp_is_username_compatibility_mode() ) {
-			$username = get_the_author_meta( 'login', $user_id );
-		} else {
-			$username = get_the_author_meta( 'nicename', $user_id );
-		}
+	$prop = 'user_nicename';
+	if ( bp_is_username_compatibility_mode() ) {
+		$prop = 'user_login';
+	}
+
+	if ( (int) bp_loggedin_user_id() === (int) $user_id ) {
+		$slug = isset( $bp->loggedin_user->userdata->{$prop} ) ? $bp->loggedin_user->userdata->{$prop} : null;
+	} elseif ( (int) bp_displayed_user_id() === (int) $user_id ) {
+		$slug = isset( $bp->displayed_user->userdata->{$prop} ) ? $bp->displayed_user->userdata->{$prop} : null;
 	} else {
-		$username = bp_is_username_compatibility_mode() ? $user_login : $user_nicename;
+		$user = get_user_by( 'id', $user_id );
+
+		if ( $user instanceof WP_User ) {
+			$slug = $user->{$prop};
+		}
 	}
 
 	/**
 	 * Filters the username based on originally provided user ID.
 	 *
 	 * @since 1.0.1
+	 * @deprecated 12.0.0
 	 *
-	 * @param string $username Username determined by user ID.
+	 * @param string $slug Username determined by user ID.
 	 */
-	return apply_filters( 'bp_core_get_username', $username );
+	$slug = apply_filters_deprecated( 'bp_core_get_username', array( $slug ), '12.0.0', 'bp_members_get_user_slug' );
+
+	/**
+	 * Filter here to edit the user's slug.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $slug     The user's slug.
+	 * @param integer $user_id The user ID.
+	 */
+	return apply_filters( 'bp_members_get_user_slug', $slug, $user_id );
 }
 
 /**
@@ -380,7 +420,7 @@ function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false 
 		return $display_name;
 	}
 
-	if ( !$url = bp_core_get_user_domain( $user_id ) ) {
+	if ( !$url = bp_members_get_user_url( $user_id ) ) {
 		return false;
 	}
 
@@ -3315,7 +3355,7 @@ function bp_send_welcome_email( $user_id = 0 ) {
 		return;
 	}
 
-	$profile_url = bp_core_get_user_domain( $user_id );
+	$profile_url = bp_members_get_user_url( $user_id );
 
 	/**
 	 * Use this filter to add/edit/remove tokens to use for your welcome email.

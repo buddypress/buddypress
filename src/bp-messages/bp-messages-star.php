@@ -128,7 +128,7 @@ function bp_the_message_star_action_link( $args = array() ) {
 
 			// Empty or other.
 			default :
-				$user_domain = bp_core_get_user_domain( $r['user_id'] );
+				$user_domain = bp_members_get_user_url( $r['user_id'] );
 				break;
 		}
 

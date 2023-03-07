@@ -6,6 +6,7 @@
  */
 #[AllowDynamicProperties]
 class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
+	protected $permalink_structure = '';
 	protected $current_user;
 	protected $u1;
 	protected $u2;
@@ -14,6 +15,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 
 	public function set_up() {
 		parent::set_up();
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
 		$this->current_user = get_current_user_id();
 		$this->u1 = self::factory()->user->create();
 		$this->u2 = self::factory()->user->create();
@@ -30,6 +32,8 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 
 	public function tear_down() {
 		$this->set_current_user( $this->current_user );
+		$this->set_permalink_structure( $this->permalink_structure );
+
 		parent::tear_down();
 
 		// Restore the filter
@@ -42,6 +46,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 */
 	public function test_bp_activity_remove_screen_notifications_on_single_activity_permalink() {
 		$this->create_notifications();
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -51,7 +56,15 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Go to the activity permalink page
-		$this->go_to( bp_core_get_user_domain( $this->u1 ) . 'activity/' . $this->a1 );
+		$this->go_to(
+			bp_members_get_user_url(
+				$this->u1,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
+					'single_item_action'    => $this->a1,
+				)
+			)
+		);
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -67,6 +80,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 */
 	public function test_bp_activity_remove_screen_notifications_on_single_activity_permalink_logged_out() {
 		$this->create_notifications();
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -79,7 +93,15 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->set_current_user( 0 );
 
 		// Go to the activity permalink page
-		$this->go_to( bp_core_get_user_domain( $this->u1 ) . 'activity/' . $this->a1 );
+		$this->go_to(
+			bp_members_get_user_url(
+				$this->u1,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
+					'single_item_action'    => $this->a1,
+				)
+			)
+		);
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -97,6 +119,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 */
 	public function test_bp_activity_remove_screen_notifications_on_single_activity_permalink_wrong_user() {
 		$this->create_notifications();
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -109,7 +132,15 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->set_current_user( $this->u2 );
 
 		// Go to the activity permalink page
-		$this->go_to( bp_core_get_user_domain( $this->u1 ) . 'activity/' . $this->a1 );
+		$this->go_to(
+			bp_members_get_user_url(
+				$this->u1,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
+					'single_item_action'    => $this->a1,
+				)
+			)
+		);
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -127,6 +158,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 */
 	public function test_bp_activity_remove_screen_notifications_on_mentions() {
 		$this->create_notifications();
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -136,7 +168,15 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Go to the My Activity page
-		$this->go_to( bp_core_get_user_domain( $this->u1 ) . bp_get_activity_slug() . '/mentions/' );
+		$this->go_to(
+			bp_members_get_user_url(
+				$this->u1,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
+					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_activity_mentions', 'mentions' ),
+				)
+			)
+		);
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -152,6 +192,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 */
 	public function test_bp_activity_remove_screen_notifications_on_mentions_logged_out() {
 		$this->create_notifications();
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -164,7 +205,15 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->set_current_user( 0 );
 
 		// Go to the My Activity page
-		$this->go_to( bp_core_get_user_domain( $this->u1 ) . bp_get_activity_slug() . '/mentions/' );
+		$this->go_to(
+			bp_members_get_user_url(
+				$this->u1,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
+					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_activity_mentions', 'mentions' ),
+				)
+			)
+		);
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -183,6 +232,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 */
 	public function test_bp_activity_remove_screen_notifications_on_mentions_wrong_user() {
 		$this->create_notifications();
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -195,7 +245,15 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->set_current_user( $this->u2 );
 
 		// Go to the My Activity page
-		$this->go_to( bp_core_get_user_domain( $this->u1 ) . bp_get_activity_slug() . '/mentions/' );
+		$this->go_to(
+			bp_members_get_user_url(
+				$this->u1,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
+					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_activity_mentions', 'mentions' ),
+				)
+			)
+		);
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -214,6 +272,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 */
 	public function test_bp_activity_at_mention_delete_notification() {
 		$this->create_notifications();
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'item_id' => $this->a1,

@@ -291,25 +291,30 @@ function bp_core_filter_comments( $comments, $post_id ) {
 	global $wpdb;
 
 	foreach( (array) $comments as $comment ) {
-		if ( $comment->user_id )
+		if ( $comment->user_id ) {
 			$user_ids[] = $comment->user_id;
+		}
 	}
 
-	if ( empty( $user_ids ) )
+	if ( empty( $user_ids ) ) {
 		return $comments;
+	}
 
 	$user_ids = implode( ',', wp_parse_id_list( $user_ids ) );
 
-	if ( !$userdata = $wpdb->get_results( "SELECT ID as user_id, user_login, user_nicename FROM {$wpdb->users} WHERE ID IN ({$user_ids})" ) )
+	if ( ! $userdata = $wpdb->get_results( "SELECT ID as user_id, user_login, user_nicename FROM {$wpdb->users} WHERE ID IN ({$user_ids})" ) ) {
 		return $comments;
+	}
 
-	foreach( (array) $userdata as $user )
-		$users[$user->user_id] = bp_core_get_user_domain( $user->user_id, $user->user_nicename, $user->user_login );
+	foreach( (array) $userdata as $user ) {
+		$users[$user->user_id] = bp_members_get_user_url( $user->user_id );
+	}
 
 	foreach( (array) $comments as $i => $comment ) {
-		if ( !empty( $comment->user_id ) ) {
-			if ( !empty( $users[$comment->user_id] ) )
+		if ( ! empty( $comment->user_id ) ) {
+			if ( ! empty( $users[$comment->user_id] ) ) {
 				$comments[$i]->comment_author_url = $users[$comment->user_id];
+			}
 		}
 	}
 
@@ -1232,7 +1237,7 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 			if ( bp_is_active( 'settings' ) && empty( $tokens['unsubscribe'] ) ) {
 				$tokens['unsubscribe'] = esc_url( sprintf(
 					'%s%s/notifications/',
-					bp_core_get_user_domain( $user_obj->ID ),
+					bp_members_get_user_url( $user_obj->ID ),
 					bp_get_settings_slug()
 				) );
 			}

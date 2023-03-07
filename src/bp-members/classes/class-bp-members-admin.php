@@ -1333,7 +1333,7 @@ class BP_Members_Admin {
 			<div id="major-publishing-actions">
 
 				<div id="publishing-action">
-					<a class="button bp-view-profile" href="<?php echo esc_url( bp_core_get_user_domain( $user->ID ) ); ?>" target="_blank"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
+					<a class="button bp-view-profile" href="<?php echo esc_url( bp_members_get_user_url( $user->ID ) ); ?>" target="_blank"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
 					<?php submit_button( esc_html__( 'Update Profile', 'buddypress' ), 'primary', 'save', false ); ?>
 				</div>
 				<div class="clear"></div>
