@@ -770,6 +770,7 @@ class BuddyPress {
 			'BP_Members_Invitations_Template'            => 'members',
 
 			'BP_REST_Messages_Endpoint'                  => 'messages',
+			'BP_REST_Sitewide_Notices_Endpoint'          => 'messages',
 
 			'BP_REST_Notifications_Endpoint'             => 'notifications',
 
