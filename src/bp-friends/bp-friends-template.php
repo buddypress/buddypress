@@ -778,8 +778,8 @@ function bp_friends_get_profile_stats( $args = '' ) {
 			// If friends exist, show some formatted output.
 			$r['output'] = $r['before'];
 
-			/* translators: %d: total friend count */
-			$r['output'] .= sprintf( _n( '%d friend', '%d friends', $r['friends'], 'buddypress' ), '<strong>' . number_format_i18n( $r['friends'] ) . '</strong>' );
+			/* translators: %s: total friend count */
+			$r['output'] .= sprintf( _n( '%s friend', '%s friends', $r['friends'], 'buddypress' ), '<strong>' . number_format_i18n( $r['friends'] ) . '</strong>' );
 			$r['output'] .= $r['after'];
 		}
 	}
