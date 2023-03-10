@@ -4367,10 +4367,12 @@ function bp_email_unsubscribe_handler() {
 	// This is an unsubscribe request from a current member.
 	} else {
 		if ( bp_is_active( 'settings' ) ) {
-			$redirect_to = sprintf(
-				'%s%s/notifications/',
-				bp_members_get_user_url( $raw_user_id ),
-				bp_get_settings_slug()
+			$redirect_to = bp_members_get_user_url(
+				$raw_user_id,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_settings', bp_get_settings_slug() ),
+					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_settings_notifications', 'notifications' ),
+				)
 			);
 		} else {
 			$redirect_to = bp_members_get_user_url( $raw_user_id );

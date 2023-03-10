@@ -340,6 +340,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		$invited_user_id,
 		array(
 			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_groups', bp_get_groups_slug() ),
+			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_groups_invites', 'invites' ),
 		)
 	);
 
@@ -358,7 +359,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 		$invite_message = current( $invitations )->content;
 	}
 
-	$args         = array(
+	$args = array(
 		'tokens' => array(
 			'group'          => $group,
 			'group.url'      => bp_get_group_permalink( $group ),
@@ -366,7 +367,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 			'inviter.name'   => bp_core_get_userlink( $inviter_user_id, true, false ),
 			'inviter.url'    => bp_members_get_user_url( $inviter_user_id ),
 			'inviter.id'     => $inviter_user_id,
-			'invites.url'    => esc_url( $invited_link . '/invites/' ),
+			'invites.url'    => esc_url( $invited_link ),
 			'invite.message' => $invite_message,
 			'unsubscribe'    => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 		),

@@ -1235,11 +1235,15 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 			$tokens['recipient.username'] = $user_obj->user_login;
 
 			if ( bp_is_active( 'settings' ) && empty( $tokens['unsubscribe'] ) ) {
-				$tokens['unsubscribe'] = esc_url( sprintf(
-					'%s%s/notifications/',
-					bp_members_get_user_url( $user_obj->ID ),
-					bp_get_settings_slug()
-				) );
+				$tokens['unsubscribe'] = esc_url(
+					bp_members_get_user_url(
+						$user_obj->ID,
+						array(
+							'single_item_component' => bp_rewrites_get_slug( 'members', 'member_settings', bp_get_settings_slug() ),
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_settings_notifications', 'notifications' ),
+						)
+					)
+				);
 			}
 		}
 	}

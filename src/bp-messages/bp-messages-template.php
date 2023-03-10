@@ -337,7 +337,14 @@ function bp_message_thread_view_link( $thread_id = 0, $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$domain = bp_members_get_user_url( $user_id );
+		$url = bp_members_get_user_url(
+			$user_id,
+			array(
+				'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
+				'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_messages_view', 'view' ),
+				'single_item_action_variables' => array( $thread_id ),
+			)
+		);
 
 		/**
 		 * Filters the permalink of a particular thread.
@@ -346,11 +353,11 @@ function bp_message_thread_view_link( $thread_id = 0, $user_id = null ) {
 		 * @since 2.6.0 Added the `$thread_id` parameter.
 		 * @since 2.9.0 Added the `$user_id` parameter.
 		 *
-		 * @param string $value     Permalink of a particular thread.
+		 * @param string $url       Permalink of a particular thread.
 		 * @param int    $thread_id ID of the thread.
 		 * @param int    $user_id   ID of the user.
 		 */
-		return apply_filters( 'bp_get_message_thread_view_link', trailingslashit( $domain . bp_get_messages_slug() . '/view/' . $thread_id ), $thread_id, $user_id );
+		return apply_filters( 'bp_get_message_thread_view_link', $url, $thread_id, $user_id );
 	}
 
 /**
@@ -382,17 +389,28 @@ function bp_message_thread_delete_link( $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$domain = bp_members_get_user_url( $user_id );
+		$current_action_slug         = bp_current_action();
+		$current_action_rewrite_id   = 'member_messages_' . $current_action_slug;
+		$action_variable_delete_slug = bp_rewrites_get_slug( 'members', $current_action_rewrite_id . '_delete', 'delete' );
+
+		$url = bp_members_get_user_url(
+			$user_id,
+			array(
+				'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
+				'single_item_action'           => bp_rewrites_get_slug( 'members', $current_action_rewrite_id, $current_action_slug ),
+				'single_item_action_variables' => array( $action_variable_delete_slug, $messages_template->thread->thread_id ),
+			)
+		);
 
 		/**
 		 * Filters the URL for deleting the current thread.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value   URL for deleting the current thread.
+		 * @param string $url   URL for deleting the current thread.
 		 * @param int    $user_id ID of the user relative to whom the link should be generated.
 		 */
-		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( trailingslashit( $domain . bp_get_messages_slug() . '/' . bp_current_action() . '/delete/' . $messages_template->thread->thread_id ), 'messages_delete_thread' ), $user_id );
+		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( $url, 'messages_delete_thread' ), $user_id );
 	}
 
 /**
@@ -434,10 +452,19 @@ function bp_the_message_thread_mark_unread_url( $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$domain = bp_members_get_user_url( $user_id );
+		$current_action_slug         = bp_current_action();
+		$current_action_rewrite_id   = 'member_messages_' . $current_action_slug;
+		$action_variable_unread_slug = bp_rewrites_get_slug( 'members', $current_action_rewrite_id . '_unread', 'unread' );
 
 		// Base unread URL.
-		$url = trailingslashit( $domain . bp_get_messages_slug() . '/' . bp_current_action() . '/unread' );
+		$url = bp_members_get_user_url(
+			$user_id,
+			array(
+				'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
+				'single_item_action'           => bp_rewrites_get_slug( 'members', $current_action_rewrite_id, $current_action_slug ),
+				'single_item_action_variables' => array( $action_variable_unread_slug ),
+			)
+		);
 
 		// Add the args to the URL.
 		$url = add_query_arg( $args, $url );
@@ -496,10 +523,19 @@ function bp_the_message_thread_mark_read_url( $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$domain = bp_members_get_user_url( $user_id );
+		$current_action_slug         = bp_current_action();
+		$current_action_rewrite_id   = 'member_messages_' . $current_action_slug;
+		$action_variable_read_slug = bp_rewrites_get_slug( 'members', $current_action_rewrite_id . '_read', 'read' );
 
 		// Base read URL.
-		$url = trailingslashit( $domain . bp_get_messages_slug() . '/' . bp_current_action() . '/read' );
+		$url = bp_members_get_user_url(
+			$user_id,
+			array(
+				'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
+				'single_item_action'           => bp_rewrites_get_slug( 'members', $current_action_rewrite_id, $current_action_slug ),
+				'single_item_action_variables' => array( $action_variable_read_slug ),
+			)
+		);
 
 		// Add the args to the URL.
 		$url = add_query_arg( $args, $url );

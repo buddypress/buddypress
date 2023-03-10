@@ -1943,6 +1943,44 @@ function bp_displayed_user_domain() {
 }
 
 /**
+ * Builds the logged-in user's profile URL.
+ *
+ * @since 12.0.0
+ *
+ * @param array $path_chunks {
+ *     An array of arguments. Optional.
+ *
+ *     @type string $single_item_component        The component slug the action is relative to.
+ *     @type string $single_item_action           The slug of the action to perform.
+ *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+ * }
+ * @return string The logged-in user's profile URL.
+ */
+function bp_loggedin_user_url( $path_chunks = array() ) {
+	if ( ! isset( buddypress()->loggedin_user->domain ) ) {
+		return '';
+	}
+
+	$url = bp_members_get_user_url( bp_loggedin_user_id(), $path_chunks );
+
+	/**
+	 * Filter here to edit the logged-in user's profile URL.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $url         The logged-in user's profile URL.
+	 * @param array  $path_chunks {
+	 *     An array of arguments. Optional.
+	 *
+	 *     @type string $single_item_component        The component slug the action is relative to.
+	 *     @type string $single_item_action           The slug of the action to perform.
+	 *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+	 * }
+	 */
+	return apply_filters( 'bp_loggedin_user_url', $url, $path_chunks );
+}
+
+/**
  * Generate the link for the logged-in user's profile.
  *
  * @since 1.0.0
@@ -1950,16 +1988,31 @@ function bp_displayed_user_domain() {
  * @return string
  */
 function bp_loggedin_user_domain() {
-	$bp = buddypress();
+	/*
+	 * This function is used at many places and we need to review all this
+	 * places during the 12.0 development cycle. Using BP Rewrites means we
+	 * cannot concatenate URL chunks to build our URL anymore. We now need
+	 * to use `bp_loggedin_user_url( $array )` and make sure to use the right
+	 * arguments inside this `$array`.
+	 *
+	 * @todo Once every link reviewed, we'll be able to remove this check
+	 *       and let PHPUnit tell us the one we forgot, eventually!
+	 */
+	if ( ! buddypress()->is_phpunit_running ) {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_loggedin_user_url()' );
+	}
+
+	$url = bp_loggedin_user_url();
 
 	/**
 	 * Filters the generated link for the logged-in user's profile.
 	 *
 	 * @since 1.0.0
+	 * @deprecated 12.0.0 Use {@see 'bp_loggedin_user_url'} instead.
 	 *
-	 * @param string $value Generated link for the logged-in user's profile.
+	 * @param string $url Generated link for the logged-in user's profile.
 	 */
-	return apply_filters( 'bp_loggedin_user_domain', isset( $bp->loggedin_user->domain ) ? $bp->loggedin_user->domain : '' );
+	return apply_filters_deprecated( 'bp_loggedin_user_domain', array( $url ), '12.0.0', 'bp_loggedin_user_url' );
 }
 
 /**
@@ -3565,12 +3618,15 @@ function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
 	function bp_get_members_invitations_list_invites_permalink( $user_id = 0 ) {
 		if ( 0 === $user_id ) {
 			$user_id = bp_loggedin_user_id();
-			$domain  = bp_loggedin_user_domain();
-		} else {
-			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
-		$retval = trailingslashit( $domain . bp_get_members_invitations_slug() . '/list-invites' );
+		$retval = bp_members_get_user_url(
+			(int) $user_id,
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_invitations', bp_get_members_invitations_slug() ),
+				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_invitations_list_invites', 'list-invites' ),
+			)
+		);
 
 		/**
 		 * Filters the members invitations list permalink for a user.
@@ -3604,12 +3660,15 @@ function bp_members_invitations_send_invites_permalink( $user_id = 0 ) {
 	function bp_get_members_invitations_send_invites_permalink( $user_id = 0 ) {
 		if ( 0 === $user_id ) {
 			$user_id = bp_loggedin_user_id();
-			$domain  = bp_loggedin_user_domain();
-		} else {
-			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
-		$retval = trailingslashit( $domain . bp_get_members_invitations_slug() . '/send-invites' );
+		$retval = bp_members_get_user_url(
+			(int) $user_id,
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_invitations', bp_get_members_invitations_slug() ),
+				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_invitations_send_invites', 'send-invites' ),
+			)
+		);
 
 		/**
 		 * Filters the send invitations permalink.

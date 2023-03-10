@@ -144,7 +144,7 @@ function bp_core_get_users( $args = '' ) {
  * @since 12.0.0
  *
  * @param integer $user_id  The user ID.
- * @param array   $action {
+ * @param array   $path_chunks {
  *     An array of arguments. Optional.
  *
  *     @type string $single_item_component        The component slug the action is relative to.
