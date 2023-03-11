@@ -171,7 +171,9 @@ function bp_rewrites_get_url( $args = array() ) {
 			} elseif ( isset( $r['create_single_item'] ) ) {
 				$create_slug = 'create';
 				if ( 'groups' === $component->id ) {
-					$create_slug = bp_rewrites_get_slug( 'groups', 'bp_group_create', 'create' );
+					$create_slug = bp_rewrites_get_slug( 'groups', 'group_create', 'create' );
+				} elseif ( 'blogs' === $component->id ) {
+					$create_slug = bp_rewrites_get_slug( 'blogs', 'blog_create', 'create' );
 				}
 
 				$url = str_replace( '%' . $component->rewrite_ids['directory'] . '%', $create_slug, $component->directory_permastruct );

@@ -9,16 +9,19 @@
 class BP_Core_Nav_BackCompat extends BP_UnitTestCase {
 	protected $bp_nav;
 	protected $bp_options_nav;
+	protected $permalink_structure = '';
 
 	public function set_up() {
 		parent::set_up();
 		$this->bp_nav = buddypress()->bp_nav;
 		$this->bp_options_nav = buddypress()->bp_options_nav;
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
 	}
 
 	public function tear_down() {
 		buddypress()->bp_nav = $this->bp_nav;
 		buddypress()->bp_options_nav = $this->bp_options_nav;
+		$this->set_permalink_structure( $this->permalink_structure );
 		parent::tear_down();
 	}
 
@@ -45,6 +48,7 @@ class BP_Core_Nav_BackCompat extends BP_UnitTestCase {
 	 * Create a group, set up nav item, and go to the group.
 	 */
 	protected function set_up_group() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'slug' => 'testgroup',
 		) );

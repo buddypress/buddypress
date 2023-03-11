@@ -241,3 +241,37 @@ function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_lo
 	 */
 	return apply_filters_deprecated( 'bp_core_get_user_domain', array( $domain, $user_id, $user_nicename, $user_login), '12.0.0', 'bp_members_get_user_url' );
 }
+
+/**
+ * Output blog directory permalink.
+ *
+ * @since 1.5.0
+ * @deprecated 12.0.0
+ */
+function bp_blogs_directory_permalink() {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_blogs_directory_url()' );
+	bp_blogs_directory_url();
+}
+
+/**
+ * Return blog directory permalink.
+ *
+ * @since 1.5.0
+ * @deprecated 12.0.0
+ *
+ * @return string The URL of the Blogs directory.
+ */
+function bp_get_blogs_directory_permalink() {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_blogs_directory_url()' );
+	$url = bp_get_blogs_directory_url();
+
+	/**
+	 * Filters the blog directory permalink.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $value Permalink URL for the blog directory.
+	 */
+	return apply_filters_deprecated( 'bp_get_blogs_directory_permalink', array( $url ), '12.0.0', 'bp_get_blogs_directory_url' );
+}

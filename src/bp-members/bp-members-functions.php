@@ -2523,7 +2523,13 @@ function bp_core_wpsignup_redirect() {
 
 	if ( $is_site_creation ) {
 		if ( bp_is_active( 'blogs' ) ) {
-			$redirect_to = trailingslashit( bp_get_blogs_directory_permalink() . 'create' );
+			$url = bp_get_blogs_directory_url(
+				array(
+					'create_single_item' => 1,
+				)
+			);
+
+			$redirect_to = trailingslashit( $url );
 		} else {
 			// Perform no redirect in this case.
 			$redirect_to = '';

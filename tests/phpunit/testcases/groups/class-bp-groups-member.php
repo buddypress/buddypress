@@ -6,6 +6,17 @@
 class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	static public $user_ids;
 	static public $group_ids;
+	protected $permalink_structure = '';
+
+	public function set_up() {
+		parent::set_up();
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
+	}
+
+	public function tear_down() {
+		parent::tear_down();
+		$this->set_permalink_structure( $this->permalink_structure );
+	}
 
 	public static function wpSetUpBeforeClass( $factory ) {
 		global $wpdb, $bp;
@@ -160,6 +171,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	 * @group bp_groups_user_can_send_invites
 	 */
 	public function test_bp_groups_user_can_send_invites() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$u_nonmembers = self::factory()->user->create();
 		$u_members    = self::factory()->user->create();
 		$u_mods       = self::factory()->user->create();

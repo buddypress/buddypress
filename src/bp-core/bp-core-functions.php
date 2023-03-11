@@ -1115,7 +1115,6 @@ function bp_do_register_theme_directory() {
  */
 function bp_core_get_root_domain() {
 	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_rewrites_get_root_url()' );
-
 	$domain = bp_rewrites_get_root_url();
 
 	/**

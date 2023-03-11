@@ -206,7 +206,7 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		// Just test relevant info
 		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
 		$this->assertSame( 'failure', $found['status'] );
-		$this->assertSame( bp_get_root_domain(), $found['redirect_args']['root'] );
+		$this->assertSame( bp_get_root_url(), $found['redirect_args']['root'] );
 
 		// Clean up
 		$this->set_current_user( $old_current_user );

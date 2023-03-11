@@ -95,30 +95,101 @@ function bp_groups_group_type_base() {
 	}
 
 /**
+ * Output Groups directory's URL.
+ *
+ * @since 12.0.0
+ */
+function bp_groups_directory_url() {
+	echo esc_url( bp_get_groups_directory_url() );
+}
+
+/**
+ * Returns the Groups directory's URL.
+ *
+ * @since 12.0.0
+ *
+ * @param array $path_chunks {
+ *     An array of arguments. Optional.
+ *
+ *     @type int   $create_single_item `1` to get the create a group URL.
+ *     @type array $directory_type     The group type slug.
+ * }
+ * @return string The URL built for the BP Rewrites URL parser.
+ */
+function bp_get_groups_directory_url( $path_chunks = array() ) {
+	$supported_chunks = array_fill_keys( array( 'create_single_item', 'directory_type' ), true );
+
+	$path_chunks = bp_parse_args(
+		array_intersect_key( $path_chunks, $supported_chunks ),
+		array(
+			'component_id' => 'groups'
+		)
+	);
+
+	$url = bp_rewrites_get_url( $path_chunks );
+
+	/**
+	 * Filters the Groups directory's URL.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string  $url The Groups directory's URL.
+	 * @param array   $path_chunks {
+	 *     An array of arguments. Optional.
+	 *
+	 *      @type int   $create_single_item `1` to get the create a group URL.
+	 *      @type array $directory_type     The group type slug.
+	 * }
+	 */
+	return apply_filters( 'bp_get_groups_directory_url', $url, $path_chunks );
+}
+
+/**
  * Output group directory permalink.
  *
  * @since 1.5.0
+ * @deprecated 12.0.0
  */
 function bp_groups_directory_permalink() {
-	echo esc_url( bp_get_groups_directory_permalink() );
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_groups_directory_url()' );
+	bp_groups_directory_url();
 }
 	/**
 	 * Return group directory permalink.
 	 *
 	 * @since 1.5.0
+	 * @deprecated 12.0.0
 	 *
 	 * @return string
 	 */
 	function bp_get_groups_directory_permalink() {
+		/*
+		 * This function is used at many places and we need to review all this
+		 * places during the 12.0 development cycle. Using BP Rewrites means we
+		 * cannot concatenate URL chunks to build our URL anymore. We now need
+		 * to use `bp_get_groups_directory_url( $array )` and make sure to use
+		 * the right arguments inside this `$array`. Morevover as this function
+		 * is also used to build a single group URL, we need to create a new
+		 * function to create single group URLs using BP Rewrites.
+		 *
+		 * @todo Once every link reviewed, we'll be able to remove this check
+		 *       and let PHPUnit tell us the one we forgot, eventually!
+		 */
+		if ( ! buddypress()->is_phpunit_running ) {
+			_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_groups_directory_url()' );
+		}
+
+		$url = bp_get_groups_directory_url();
 
 		/**
 		 * Filters the group directory permalink.
 		 *
 		 * @since 1.5.0
+		 * @deprecated 12.0.0
 		 *
-		 * @param string $value Permalink for the group directory.
+		 * @param string $url Permalink for the group directory.
 		 */
-		return apply_filters( 'bp_get_groups_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_groups_root_slug() ) );
+		return apply_filters_deprecated( 'bp_get_groups_directory_permalink', array( $url ), '12.0.0', 'bp_get_groups_directory_url' );
 	}
 
 /**

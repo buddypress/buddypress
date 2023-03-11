@@ -73,6 +73,7 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$g = self::factory()->group->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$group = groups_get_group( $g );
 

@@ -32,7 +32,7 @@ function bp_blogs_render_recent_posts_block( $attributes = array() ) {
 
 	$classnames           = 'widget_bp_blogs_widget buddypress widget';
 	$wrapper_attributes   = get_block_wrapper_attributes( array( 'class' => $classnames ) );
-	$blogs_directory_link = bp_get_blogs_directory_permalink();
+	$blogs_directory_link = bp_get_blogs_directory_url();
 	$max_posts            = (int) $block_args['maxPosts'];
 	$no_posts             = __( 'Sorry, there were no posts found.', 'buddypress' );
 

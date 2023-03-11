@@ -19,7 +19,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 		'component' => 'blogs',
 		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope
 		'li_class'  => array( 'selected' ),
-		'link'      => bp_get_root_domain() . '/' . bp_get_blogs_root_slug(),
+		'link'      => bp_get_blogs_directory_url(),
 		'text'      => __( 'All Sites', 'buddypress' ),
 		'count'     => bp_get_total_blog_count(),
 		'position'  => 5,
@@ -43,11 +43,17 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 
 		// If the user can create blogs, add the create nav
 		if ( bp_blog_signup_enabled() ) {
+			$url = bp_get_blogs_directory_url(
+				array(
+					'create_single_item' => 1,
+				)
+			);
+
 			$nav_items['create'] = array(
 				'component' => 'blogs',
 				'slug'      => 'create', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array( 'no-ajax', 'site-create', 'create-button' ),
-				'link'      => trailingslashit( bp_get_blogs_directory_permalink() . 'create' ),
+				'link'      => $url,
 				'text'      => __( 'Create a Site', 'buddypress' ),
 				'count'     => false,
 				'position'  => 999,
