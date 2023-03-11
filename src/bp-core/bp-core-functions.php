@@ -1144,7 +1144,7 @@ function bp_core_redirect( $location = '', $status = 302 ) {
 	// empty value for $location, which results in an error. Ensure that we
 	// have a valid URL.
 	if ( empty( $location ) ) {
-		$location = bp_get_root_domain();
+		$location = bp_get_root_url();
 	}
 
 	// Make sure we don't call status_header() in bp_core_do_catch_uri() as this
@@ -2529,7 +2529,7 @@ function bp_core_action_search_site( $slug = '' ) {
 	}
 
 	if ( empty( $_POST['search-terms'] ) ) {
-		bp_core_redirect( bp_get_root_domain() );
+		bp_core_redirect( bp_get_root_url() );
 		return;
 	}
 
@@ -2573,7 +2573,7 @@ function bp_core_action_search_site( $slug = '' ) {
 		}
 
 		if ( empty( $slug ) && 'posts' != $search_which ) {
-			bp_core_redirect( bp_get_root_domain() );
+			bp_core_redirect( bp_get_root_url() );
 			return;
 		}
 	}

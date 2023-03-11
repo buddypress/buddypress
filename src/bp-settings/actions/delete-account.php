@@ -58,7 +58,7 @@ function bp_settings_action_delete_account() {
 		);
 
 		// Redirect to the root domain.
-		bp_core_redirect( bp_get_root_domain() );
+		bp_core_redirect( bp_get_root_url() );
 	}
 }
 add_action( 'bp_actions', 'bp_settings_action_delete_account' );

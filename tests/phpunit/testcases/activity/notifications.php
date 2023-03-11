@@ -388,6 +388,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 * @group bp_activity_comment_reply_add_notification
 	 */
 	public function test_bp_activity_comment_add_notification() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$a = self::factory()->activity->create( array(
 			'user_id' => $this->u1,
 			'component' => buddypress()->activity->id,

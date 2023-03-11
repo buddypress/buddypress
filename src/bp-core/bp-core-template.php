@@ -517,15 +517,20 @@ function bp_styles() {
  * @return string URL action attribute for search forms, eg example.com/search/.
  */
 function bp_search_form_action() {
+	$url = bp_rewrites_get_url(
+		array(
+			'component_id' => bp_get_search_slug(),
+		)
+	);
 
 	/**
 	 * Filters the "action" attribute for search forms.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $value Search form action url.
+	 * @param string $url Search form action url.
 	 */
-	return apply_filters( 'bp_search_form_action', trailingslashit( bp_get_root_domain() . '/' . bp_get_search_slug() ) );
+	return apply_filters( 'bp_search_form_action', $url );
 }
 
 /**
@@ -1396,6 +1401,17 @@ function bp_action_variable( $position = 0 ) {
 	 * @param int         $position        The key of the action variable requested.
 	 */
 	return apply_filters( 'bp_action_variable', $action_variable, $position );
+}
+
+/**
+ * Returns the BP root blog's domain name.
+ *
+ * @since 12.0.0
+ *
+ * @return string The BP root blog's domain name.
+ */
+function bp_get_domain() {
+	return wp_parse_url( bp_get_root_url(), PHP_URL_HOST );
 }
 
 /**

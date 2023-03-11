@@ -779,7 +779,7 @@ function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item, $component
 			// Fall back to the home page.
 			} else {
 				$message     = __( 'You do not have access to this page.', 'buddypress' );
-				$redirect_to = bp_get_root_domain();
+				$redirect_to = bp_get_root_url();
 			}
 
 			$retval['redirect_args'] = array(

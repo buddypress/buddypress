@@ -177,19 +177,6 @@ function bp_members_get_user_url( $user_id = 0, $path_chunks = array() ) {
 	/**
 	 * Filters the domain for the passed user.
 	 *
-	 * @since 1.0.1
-	 * @deprecated 12.0.0
-	 *
-	 * @param string $domain        Domain for the passed user.
-	 * @param int    $user_id       ID of the passed user.
-	 * @param string $user_nicename User nicename of the passed user.
-	 * @param string $user_login    User login of the passed user.
-	 */
-	$url = apply_filters_deprecated( 'bp_core_get_user_domain', array( $url, $user_id, false, false ), '12.0.0', 'bp_members_get_user_url' );
-
-	/**
-	 * Filters the domain for the passed user.
-	 *
 	 * @since 12.0.0
 	 *
 	 * @param string  $url      The user url.
@@ -326,16 +313,6 @@ function bp_members_get_user_slug( $user_id = 0 ) {
 			$slug = $user->{$prop};
 		}
 	}
-
-	/**
-	 * Filters the username based on originally provided user ID.
-	 *
-	 * @since 1.0.1
-	 * @deprecated 12.0.0
-	 *
-	 * @param string $slug Username determined by user ID.
-	 */
-	$slug = apply_filters_deprecated( 'bp_core_get_username', array( $slug ), '12.0.0', 'bp_members_get_user_slug' );
 
 	/**
 	 * Filter here to edit the user's slug.

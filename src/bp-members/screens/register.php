@@ -27,7 +27,7 @@ function bp_core_screen_signup() {
 
 		$redirect_to = bp_is_component_front_page( 'register' )
 			? bp_get_members_directory_permalink()
-			: bp_get_root_domain();
+			: bp_get_root_url();
 
 		/**
 		 * Filters the URL to redirect logged in users to when visiting registration page.
@@ -157,7 +157,7 @@ function bp_core_screen_signup() {
 
 				// This situation doesn't naturally occur so bounce to website root.
 			} else {
-				bp_core_redirect( bp_get_root_domain() );
+				bp_core_redirect( bp_get_root_url() );
 			}
 		}
 

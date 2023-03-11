@@ -238,7 +238,7 @@ function bp_members_invitations_get_registration_welcome_message() {
 			esc_html__( 'Welcome! You are already a member of this site. Please %s to continue.', 'buddypress' ),
 			sprintf(
 				'<a href="%1$s">%2$s</a>',
-				esc_url( wp_login_url( bp_get_root_domain() ) ),
+				esc_url( wp_login_url( bp_get_root_url() ) ),
 				esc_html__( 'log in', 'buddypress' )
 			)
 		);
@@ -310,12 +310,12 @@ function bp_members_invitations_get_modified_registration_disabled_message() {
 				esc_html__( 'Welcome! You are already a member of this site. Please %1$s to continue. If you have forgotten your password, you can %2$s.', 'buddypress' ),
 				sprintf(
 					'<a href="%1$s">%2$s</a>',
-					esc_url( wp_login_url( bp_get_root_domain() ) ),
+					esc_url( wp_login_url( bp_get_root_url() ) ),
 					esc_html__( 'log in', 'buddypress' )
 				),
 				sprintf(
 					'<a href="%1$s">%2$s</a>',
-					esc_url( wp_lostpassword_url( bp_get_root_domain() ) ),
+					esc_url( wp_lostpassword_url( bp_get_root_url() ) ),
 					esc_html__( 'reset it', 'buddypress' )
 				)
 			);

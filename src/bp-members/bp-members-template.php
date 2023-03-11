@@ -140,15 +140,20 @@ function bp_members_directory_permalink() {
 	 * @return string
 	 */
 	function bp_get_members_directory_permalink() {
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id' => 'members',
+			)
+		);
 
 		/**
 		 * Filters the member directory permalink.
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param string $value Members directory permalink.
+		 * @param string $url Members directory permalink.
 		 */
-		return apply_filters( 'bp_get_members_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) );
+		return apply_filters( 'bp_get_members_directory_permalink', $url );
 	}
 
 /**
@@ -185,16 +190,23 @@ function bp_member_type_directory_permalink( $member_type = '' ) {
 			return '';
 		}
 
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id'   => 'members',
+				'directory_type' => $type->directory_slug,
+			)
+		);
+
 		/**
 		 * Filters the member type directory permalink.
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $value       Member type directory permalink.
+		 * @param string $url         Member type directory permalink.
 		 * @param object $type        Member type object.
 		 * @param string $member_type Member type name, as passed to the function.
 		 */
-		return apply_filters( 'bp_get_member_type_directory_permalink', trailingslashit( bp_get_members_directory_permalink() . bp_get_members_member_type_base() . '/' . $type->directory_slug ), $type, $member_type );
+		return apply_filters( 'bp_get_member_type_directory_permalink', $url, $type, $member_type );
 	}
 
 /**
@@ -1457,7 +1469,7 @@ function bp_get_loggedin_user_nav() {
 	}
 
 	// Always add a log out list item to the end of the navigation.
-	$logout_link = '<li><a id="wp-logout" href="' .  wp_logout_url( bp_get_root_domain() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
+	$logout_link = '<li><a id="wp-logout" href="' .  wp_logout_url( bp_get_root_url() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
 
 	echo apply_filters( 'bp_logout_nav_link', $logout_link );
 }
@@ -1923,6 +1935,44 @@ function bp_current_user_id() {
 }
 
 /**
+ * Builds the logged-in user's profile URL.
+ *
+ * @since 12.0.0
+ *
+ * @param array $path_chunks {
+ *     An array of arguments. Optional.
+ *
+ *     @type string $single_item_component        The component slug the action is relative to.
+ *     @type string $single_item_action           The slug of the action to perform.
+ *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+ * }
+ * @return string The logged-in user's profile URL.
+ */
+function bp_displayed_user_url( $path_chunks = array() ) {
+	if ( ! isset( buddypress()->displayed_user->domain ) ) {
+		return '';
+	}
+
+	$url = bp_members_get_user_url( bp_displayed_user_id(), $path_chunks );
+
+	/**
+	 * Filter here to edit the displayed user's profile URL.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $url         The displayed user's profile URL.
+	 * @param array  $path_chunks {
+	 *     An array of arguments. Optional.
+	 *
+	 *     @type string $single_item_component        The component slug the action is relative to.
+	 *     @type string $single_item_action           The slug of the action to perform.
+	 *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+	 * }
+	 */
+	return apply_filters( 'bp_displayed_user_url', $url, $path_chunks );
+}
+
+/**
  * Generate the link for the displayed user's profile.
  *
  * @since 1.0.0
@@ -1930,16 +1980,31 @@ function bp_current_user_id() {
  * @return string
  */
 function bp_displayed_user_domain() {
-	$bp = buddypress();
+	/*
+	 * This function is used at many places and we need to review all this
+	 * places during the 12.0 development cycle. Using BP Rewrites means we
+	 * cannot concatenate URL chunks to build our URL anymore. We now need
+	 * to use `bp_displayed_user_url( $array )` and make sure to use the right
+	 * arguments inside this `$array`.
+	 *
+	 * @todo Once every link reviewed, we'll be able to remove this check
+	 *       and let PHPUnit tell us the one we forgot, eventually!
+	 */
+	if ( ! buddypress()->is_phpunit_running ) {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_displayed_user_url()' );
+	}
+
+	$url = bp_displayed_user_url();
 
 	/**
 	 * Filters the generated link for the displayed user's profile.
 	 *
 	 * @since 1.0.0
+	 * @deprecated 12.0.0
 	 *
-	 * @param string $value Generated link for the displayed user's profile.
+	 * @param string $url Generated link for the displayed user's profile.
 	 */
-	return apply_filters( 'bp_displayed_user_domain', isset( $bp->displayed_user->domain ) ? $bp->displayed_user->domain : '' );
+	return apply_filters_deprecated( 'bp_displayed_user_domain', array( $url ), '12.0.0', 'bp_displayed_user_url' );
 }
 
 /**
@@ -2399,9 +2464,15 @@ function bp_signup_page() {
 	 */
 	function bp_get_signup_page() {
 		if ( bp_has_custom_signup_page() ) {
-			$page = trailingslashit( bp_get_root_domain() . '/' . bp_get_signup_slug() );
+			$page = bp_rewrites_get_url(
+				array(
+					'component_id'    => 'members',
+					'member_register' => 1,
+				)
+			);
+
 		} else {
-			$page = bp_get_root_domain() . '/wp-signup.php';
+			$page = trailingslashit( bp_get_root_url() ) . 'wp-signup.php';
 		}
 
 		/**
@@ -2448,9 +2519,15 @@ function bp_activation_page() {
 	 */
 	function bp_get_activation_page() {
 		if ( bp_has_custom_activation_page() ) {
-			$page = trailingslashit( bp_get_root_domain() . '/' . bp_get_activate_slug() );
+			$page = bp_rewrites_get_url(
+				array(
+					'component_id'    => 'members',
+					'member_activate' => 1,
+				)
+			);
+
 		} else {
-			$page = trailingslashit( bp_get_root_domain() ) . 'wp-activate.php';
+			$page = trailingslashit( bp_get_root_url() ) . 'wp-activate.php';
 		}
 
 		/**

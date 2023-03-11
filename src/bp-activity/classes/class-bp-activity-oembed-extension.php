@@ -85,7 +85,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 */
 	protected function validate_url_to_item_id( $url ) {
 		if ( bp_core_enable_root_profiles() ) {
-			$domain = bp_get_root_domain();
+			$domain = bp_get_root_url();
 		} else {
 			$domain = bp_get_members_directory_permalink();
 		}
@@ -95,19 +95,27 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 			return false;
 		}
 
-		// Check for activity slug.
-		if ( false === strpos( $url, '/' . bp_get_activity_slug() . '/' ) ) {
-			return false;
+		if ( ! bp_has_pretty_urls() ) {
+			$url_query = wp_parse_url( $url, PHP_URL_QUERY );
+
+			if ( $url_query ) {
+				$query_vars = bp_parse_args( $url_query, array() );
+
+				if ( isset( $query_vars['bp_member_action'] ) ) {
+					$activity_id = (int) $query_vars['bp_member_action'];
+				}
+			}
+
+		} elseif ( false !== strpos( $url, '/' . bp_get_activity_slug() . '/' ) ) {
+			// Do more checks.
+			$url = trim( untrailingslashit( $url ) );
+
+			// Grab the activity ID.
+			$activity_id = (int) substr(
+				$url,
+				strrpos( $url, '/' ) + 1
+			);
 		}
-
-		// Do more checks.
-		$url = trim( untrailingslashit( $url ) );
-
-		// Grab the activity ID.
-		$activity_id = (int) substr(
-			$url,
-			strrpos( $url, '/' ) + 1
-		);
 
 		if ( ! empty( $activity_id ) ) {
 			// Check if activity item still exists.
