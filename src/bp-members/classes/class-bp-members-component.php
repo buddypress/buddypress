@@ -814,22 +814,22 @@ class BP_Members_Component extends BP_Component {
 	 */
 	public function add_rewrite_rules( $rewrite_rules = array() ) {
 		$rewrite_rules = array(
-			'directory_type'               => array(
+			'directory_type'      => array(
 				'regex' => $this->root_slug . '/' . bp_get_members_member_type_base() . '/([^/]+)/?$',
 				'order' => 50,
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_type'] . '=$matches[1]',
 			),
-			'member_activate'      => array(
+			'member_activate'     => array(
 				'regex' => bp_get_activate_slug(),
 				'order' => 40,
 				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1',
 			),
-			'member_activate_key'  => array(
+			'member_activate_key' => array(
 				'regex' => bp_get_activate_slug() . '/([^/]+)/?$',
 				'order' => 30,
 				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1&' . $this->rewrite_ids['member_activate_key'] . '=$matches[1]',
 			),
-			'member_register'      => array(
+			'member_register'     => array(
 				'regex' => bp_get_signup_slug(),
 				'order' => 20,
 				'query' => 'index.php?' . $this->rewrite_ids['member_register'] . '=1',
