@@ -243,6 +243,62 @@ function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_lo
 }
 
 /**
+ * Get the link for the logged-in user's profile.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ *
+ * @return string
+ */
+function bp_get_loggedin_user_link() {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_loggedin_user_url()' );
+	$url = bp_loggedin_user_url();
+
+	/**
+	 * Filters the link for the logged-in user's profile.
+	 *
+	 * @since 1.2.4
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $url Link for the logged-in user's profile.
+	 */
+	return apply_filters_depreacated( 'bp_get_loggedin_user_link', array( $url ), '12.0.0', 'bp_loggedin_user_url' );
+}
+
+/**
+ * Get the link for the displayed user's profile.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ *
+ * @return string
+ */
+function bp_get_displayed_user_link() {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_displayed_user_url()' );
+	$url = bp_displayed_user_url();
+
+	/**
+	 * Filters the link for the displayed user's profile.
+	 *
+	 * @since 1.2.4
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $url Link for the displayed user's profile.
+	 */
+	return apply_filters_deprecated( 'bp_get_displayed_user_link', array( $url ), '12.0.0', 'bp_displayed_user_url' );
+}
+
+/**
+ * Alias of {@link bp_displayed_user_domain()}.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_user_link() {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_displayed_user_url()' );
+	bp_displayed_user_url();
+}
+
+/**
  * Output blog directory permalink.
  *
  * @since 1.5.0
@@ -271,7 +327,7 @@ function bp_get_blogs_directory_permalink() {
 	 * @since 1.5.0
 	 * @deprecated 12.0.0
 	 *
-	 * @param string $value Permalink URL for the blog directory.
+	 * @param string $url Permalink URL for the blog directory.
 	 */
 	return apply_filters_deprecated( 'bp_get_blogs_directory_permalink', array( $url ), '12.0.0', 'bp_get_blogs_directory_url' );
 }

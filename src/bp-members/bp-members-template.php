@@ -1863,31 +1863,13 @@ function bp_user_firstname() {
 	}
 
 /**
- * Output the link for the logged-in user's profile.
+ * Alias of {@link bp_displayed_user_id()}.
  *
- * @since 1.2.4
+ * @since 1.0.0
  */
-function bp_loggedin_user_link() {
-	echo esc_url( bp_get_loggedin_user_link() );
+function bp_current_user_id() {
+	return bp_displayed_user_id();
 }
-	/**
-	 * Get the link for the logged-in user's profile.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	function bp_get_loggedin_user_link() {
-
-		/**
-		 * Filters the link for the logged-in user's profile.
-		 *
-		 * @since 1.2.4
-		 *
-		 * @param string $value Link for the logged-in user's profile.
-		 */
-		return apply_filters( 'bp_get_loggedin_user_link', bp_loggedin_user_domain() );
-	}
 
 /**
  * Output the link for the displayed user's profile.
@@ -1895,43 +1877,7 @@ function bp_loggedin_user_link() {
  * @since 1.2.4
  */
 function bp_displayed_user_link() {
-	echo esc_url( bp_get_displayed_user_link() );
-}
-	/**
-	 * Get the link for the displayed user's profile.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	function bp_get_displayed_user_link() {
-
-		/**
-		 * Filters the link for the displayed user's profile.
-		 *
-		 * @since 1.2.4
-		 *
-		 * @param string $value Link for the displayed user's profile.
-		 */
-		return apply_filters( 'bp_get_displayed_user_link', bp_displayed_user_domain() );
-	}
-
-	/**
-	 * Alias of {@link bp_displayed_user_domain()}.
-	 *
-	 * @deprecated
-	 */
-	function bp_user_link() {
-		bp_displayed_user_domain();
-	}
-
-/**
- * Alias of {@link bp_displayed_user_id()}.
- *
- * @since 1.0.0
- */
-function bp_current_user_id() {
-	return bp_displayed_user_id();
+	echo esc_url( bp_displayed_user_url() );
 }
 
 /**
@@ -1949,11 +1895,16 @@ function bp_current_user_id() {
  * @return string The logged-in user's profile URL.
  */
 function bp_displayed_user_url( $path_chunks = array() ) {
-	if ( ! isset( buddypress()->displayed_user->domain ) ) {
-		return '';
+	$bp  = buddypress();
+	$url = '';
+
+	if ( isset( $bp->displayed_user->domain ) ) {
+		$url = $bp->displayed_user->domain;
 	}
 
-	$url = bp_members_get_user_url( bp_displayed_user_id(), $path_chunks );
+	if ( $path_chunks ) {
+		$url = bp_members_get_user_url( bp_displayed_user_id(), $path_chunks );
+	}
 
 	/**
 	 * Filter here to edit the displayed user's profile URL.
@@ -1976,35 +1927,33 @@ function bp_displayed_user_url( $path_chunks = array() ) {
  * Generate the link for the displayed user's profile.
  *
  * @since 1.0.0
+ * @since 12.0.0 This function is now an alias of `bp_displayed_user_url()`.
+ *               You should only use it to get the "home" URL of the displayed
+ *               user's profile page. If you need to build an URL to reach another
+ *               page, we strongly advise you to use `bp_displayed_user_url()`.
  *
  * @return string
  */
 function bp_displayed_user_domain() {
-	/*
-	 * This function is used at many places and we need to review all this
-	 * places during the 12.0 development cycle. Using BP Rewrites means we
-	 * cannot concatenate URL chunks to build our URL anymore. We now need
-	 * to use `bp_displayed_user_url( $array )` and make sure to use the right
-	 * arguments inside this `$array`.
-	 *
-	 * @todo Once every link reviewed, we'll be able to remove this check
-	 *       and let PHPUnit tell us the one we forgot, eventually!
-	 */
-	if ( ! buddypress()->is_phpunit_running ) {
-		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_displayed_user_url()' );
-	}
-
 	$url = bp_displayed_user_url();
 
 	/**
 	 * Filters the generated link for the displayed user's profile.
 	 *
 	 * @since 1.0.0
-	 * @deprecated 12.0.0
 	 *
 	 * @param string $url Generated link for the displayed user's profile.
 	 */
-	return apply_filters_deprecated( 'bp_displayed_user_domain', array( $url ), '12.0.0', 'bp_displayed_user_url' );
+	return apply_filters( 'bp_displayed_user_domain',$url );
+}
+
+/**
+ * Output the link for the logged-in user's profile.
+ *
+ * @since 1.2.4
+ */
+function bp_loggedin_user_link() {
+	echo esc_url( bp_loggedin_user_url() );
 }
 
 /**
@@ -2022,11 +1971,16 @@ function bp_displayed_user_domain() {
  * @return string The logged-in user's profile URL.
  */
 function bp_loggedin_user_url( $path_chunks = array() ) {
-	if ( ! isset( buddypress()->loggedin_user->domain ) ) {
-		return '';
+	$bp  = buddypress();
+	$url = '';
+
+	if ( isset( $bp->loggedin_user->domain ) ) {
+		$url = $bp->loggedin_user->domain;
 	}
 
-	$url = bp_members_get_user_url( bp_loggedin_user_id(), $path_chunks );
+	if ( $path_chunks ) {
+		$url = bp_members_get_user_url( bp_loggedin_user_id(), $path_chunks );
+	}
 
 	/**
 	 * Filter here to edit the logged-in user's profile URL.
@@ -2049,35 +2003,24 @@ function bp_loggedin_user_url( $path_chunks = array() ) {
  * Generate the link for the logged-in user's profile.
  *
  * @since 1.0.0
+ * @since 12.0.0 This function is now an alias of `bp_loggedin_user_url()`.
+ *               You should only use it to get the "home" URL of the logged-in
+ *               user's profile page. If you need to build an URL to reach another
+ *               page, we strongly advise you to use `bp_loggedin_user_url()`.
  *
  * @return string
  */
 function bp_loggedin_user_domain() {
-	/*
-	 * This function is used at many places and we need to review all this
-	 * places during the 12.0 development cycle. Using BP Rewrites means we
-	 * cannot concatenate URL chunks to build our URL anymore. We now need
-	 * to use `bp_loggedin_user_url( $array )` and make sure to use the right
-	 * arguments inside this `$array`.
-	 *
-	 * @todo Once every link reviewed, we'll be able to remove this check
-	 *       and let PHPUnit tell us the one we forgot, eventually!
-	 */
-	if ( ! buddypress()->is_phpunit_running ) {
-		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_loggedin_user_url()' );
-	}
-
 	$url = bp_loggedin_user_url();
 
 	/**
 	 * Filters the generated link for the logged-in user's profile.
 	 *
 	 * @since 1.0.0
-	 * @deprecated 12.0.0 Use {@see 'bp_loggedin_user_url'} instead.
 	 *
 	 * @param string $url Generated link for the logged-in user's profile.
 	 */
-	return apply_filters_deprecated( 'bp_loggedin_user_domain', array( $url ), '12.0.0', 'bp_loggedin_user_url' );
+	return apply_filters( 'bp_loggedin_user_domain', $url );
 }
 
 /**
