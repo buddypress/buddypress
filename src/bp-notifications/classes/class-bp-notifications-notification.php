@@ -683,7 +683,8 @@ class BP_Notifications_Notification {
 
 		// Parse the arguments.
 		$r = self::parse_args( $args );
-
+		if (empty($r['user_id']))
+			return [];
 		// Get BuddyPress.
 		$bp = buddypress();
 

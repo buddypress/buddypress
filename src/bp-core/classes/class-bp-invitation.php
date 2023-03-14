@@ -763,7 +763,8 @@ class BP_Invitation {
 			),
 			'bp_invitations_invitation_get'
 		);
-
+		if (empty($r['user_id']))
+			return [];
 		$sql = array(
 			'select'     => "SELECT",
 			'fields'     => '',
