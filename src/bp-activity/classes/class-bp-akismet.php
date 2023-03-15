@@ -191,12 +191,22 @@ class BP_Akismet {
 	 * @since 1.6.0
 	 */
 	public function add_activity_spam_button() {
-		if ( !bp_activity_user_can_mark_spam() )
+		if ( ! bp_activity_user_can_mark_spam() ) {
 			return;
+		}
 
 		// By default, only handle activity updates and activity comments.
-		if ( !in_array( bp_get_activity_type(), BP_Akismet::get_activity_types() ) )
+		if ( ! in_array( bp_get_activity_type(), BP_Akismet::get_activity_types(), true ) ) {
 			return;
+		}
+
+		$spam_link = bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'activity',
+				'single_item_action'           => 'spam',
+				'single_item_action_variables' => array( bp_get_activity_id() ),
+			)
+		);
 
 		bp_button(
 			array(
@@ -204,7 +214,7 @@ class BP_Akismet {
 				'component'  => 'activity',
 				'id'         => 'activity_make_spam_' . bp_get_activity_id(),
 				'link_class' => 'bp-secondary-action spam-activity confirm button item-button',
-				'link_href'  => wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_slug() . '/spam/' . bp_get_activity_id() . '/', 'bp_activity_akismet_spam_' . bp_get_activity_id() ),
+				'link_href'  => wp_nonce_url( $spam_link, 'bp_activity_akismet_spam_' . bp_get_activity_id() ),
 				'link_text'  => __( 'Spam', 'buddypress' ),
 				'wrapper'    => false,
 			)
@@ -219,13 +229,27 @@ class BP_Akismet {
 	 * @since 1.6.0
 	 */
 	public function add_activity_comment_spam_button() {
-		if ( !bp_activity_user_can_mark_spam() )
+		if ( ! bp_activity_user_can_mark_spam() ) {
 			return;
+		}
 
 		// By default, only handle activity updates and activity comments.
 		$current_comment = bp_activity_current_comment();
-		if ( empty( $current_comment ) || !in_array( $current_comment->type, BP_Akismet::get_activity_types() ) )
+		if ( empty( $current_comment ) || ! in_array( $current_comment->type, BP_Akismet::get_activity_types(), true ) ) {
 			return;
+		}
+
+		$spam_link = add_query_arg(
+			'cid',
+			bp_get_activity_comment_id(),
+			bp_rewrites_get_url(
+				array(
+					'component_id'                 => 'activity',
+					'single_item_action'           => 'spam',
+					'single_item_action_variables' => array( bp_get_activity_comment_id() ),
+				)
+			)
+		);
 
 		bp_button(
 			array(
@@ -233,7 +257,7 @@ class BP_Akismet {
 				'component'  => 'activity',
 				'id'         => 'activity_make_spam_' . bp_get_activity_comment_id(),
 				'link_class' => 'bp-secondary-action spam-activity-comment confirm',
-				'link_href'  => wp_nonce_url( bp_get_root_domain() . '/' . bp_get_activity_slug() . '/spam/' . bp_get_activity_comment_id() . '/?cid=' . bp_get_activity_comment_id(), 'bp_activity_akismet_spam_' . bp_get_activity_comment_id() ),
+				'link_href'  => wp_nonce_url( $spam_link, 'bp_activity_akismet_spam_' . bp_get_activity_comment_id() ),
 				'link_text'  => __( 'Spam', 'buddypress' ),
 				'wrapper'    => false,
 			)

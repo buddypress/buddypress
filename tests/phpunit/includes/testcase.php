@@ -295,7 +295,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 */
 	public function go_to_root() {
 		$blog_1_url = get_blog_option( 1, 'home' );
-		$this->go_to( str_replace( $blog_1_url, '', trailingslashit( bp_get_root_domain() ) ) );
+		$this->go_to( str_replace( $blog_1_url, '', trailingslashit( bp_get_root_url() ) ) );
 	}
 
 	/**

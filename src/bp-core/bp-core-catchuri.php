@@ -631,7 +631,7 @@ add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
  *     @type string $redirect The URL the user will be redirected to after successfully
  *                            logging in. Default: the URL originally requested.
  *     @type string $root     The root URL of the site, used in case of error or mode 1 redirects.
- *                            Default: the value of {@link bp_get_root_domain()}.
+ *                            Default: the value of {@link bp_get_root_url()}.
  *     @type string $message  An error message to display to the user on the log-in page.
  *                            Default: "You must log in to access the page you requested."
  * }
@@ -646,7 +646,7 @@ function bp_core_no_access( $args = '' ) {
 	$defaults = array(
 		'mode'     => 2,                    // 1 = $root, 2 = wp-login.php.
 		'redirect' => $redirect_url,        // the URL you get redirected to when a user successfully logs in.
-		'root'     => bp_get_root_domain(), // the landing page you get redirected to when a user doesn't have access.
+		'root'     => bp_get_root_url(),    // the landing page you get redirected to when a user doesn't have access.
 		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' )
 	);
 
@@ -907,7 +907,7 @@ function bp_get_canonical_url( $args = array() ) {
 		 * type directory.
 		 */
 		if ( false !== $front_page_component && bp_is_current_component( $front_page_component ) && ! bp_current_action() && ! bp_get_current_member_type() ) {
-			$bp->canonical_stack['canonical_url'] = trailingslashit( bp_get_root_domain() );
+			$bp->canonical_stack['canonical_url'] = bp_get_root_url();
 
 		// Except when the front page is set to the registration page
 		// and the current user is logged in. In this case we send to

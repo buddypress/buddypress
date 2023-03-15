@@ -5,16 +5,27 @@
  * @group member_types
  */
 class BP_Tests_Members_Template_BpGetMemberTypeDirectoryPermalink extends BP_UnitTestCase {
+	protected $permalink_structure = '';
+
 	public function set_up() {
 		parent::set_up();
 
 		buddypress()->members->types = array();
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
+	}
+
+	public function tear_down() {
+		parent::tear_down();
+
+		$this->set_permalink_structure( $this->permalink_structure );
 	}
 
 	/**
 	 * @ticket BP6840
 	 */
 	public function test_should_default_to_current_member_type() {
+		$this->set_permalink_structure( '/%postname%/' );
+
 		bp_register_member_type( 'foo', array(
 			'has_directory' => true,
 		) );
@@ -30,6 +41,8 @@ class BP_Tests_Members_Template_BpGetMemberTypeDirectoryPermalink extends BP_Uni
 	 * @ticket BP6840
 	 */
 	public function test_member_type_param_should_override_current_member_type() {
+		$this->set_permalink_structure( '/%postname%/' );
+
 		bp_register_member_type( 'foo', array(
 			'has_directory' => true,
 		) );
@@ -70,6 +83,8 @@ class BP_Tests_Members_Template_BpGetMemberTypeDirectoryPermalink extends BP_Uni
 	 * @ticket BP6840
 	 */
 	public function test_successful_format() {
+		$this->set_permalink_structure( '/%postname%/' );
+
 		bp_register_member_type( 'foo', array(
 			'has_directory' => true,
 		) );

@@ -26,7 +26,7 @@ function bp_core_screen_activation() {
 		// avoid an infinite loop. Otherwise, set to root domain.
 		$redirect_to = bp_is_component_front_page( 'activate' )
 			? bp_get_members_directory_permalink()
-			: bp_get_root_domain();
+			: bp_get_root_url();
 
 		// Trailing slash it, as we expect these URL's to be.
 		$redirect_to = trailingslashit( $redirect_to );

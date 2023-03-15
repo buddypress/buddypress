@@ -144,7 +144,7 @@ function bp_core_get_users( $args = '' ) {
  * @since 12.0.0
  *
  * @param integer $user_id  The user ID.
- * @param array   $action {
+ * @param array   $path_chunks {
  *     An array of arguments. Optional.
  *
  *     @type string $single_item_component        The component slug the action is relative to.
@@ -173,19 +173,6 @@ function bp_members_get_user_url( $user_id = 0, $path_chunks = array() ) {
 
 		$url = bp_rewrites_get_url( $path_chunks );
 	}
-
-	/**
-	 * Filters the domain for the passed user.
-	 *
-	 * @since 1.0.1
-	 * @deprecated 12.0.0
-	 *
-	 * @param string $domain        Domain for the passed user.
-	 * @param int    $user_id       ID of the passed user.
-	 * @param string $user_nicename User nicename of the passed user.
-	 * @param string $user_login    User login of the passed user.
-	 */
-	$url = apply_filters_deprecated( 'bp_core_get_user_domain', array( $url, $user_id, false, false ), '12.0.0', 'bp_members_get_user_url' );
 
 	/**
 	 * Filters the domain for the passed user.
@@ -326,16 +313,6 @@ function bp_members_get_user_slug( $user_id = 0 ) {
 			$slug = $user->{$prop};
 		}
 	}
-
-	/**
-	 * Filters the username based on originally provided user ID.
-	 *
-	 * @since 1.0.1
-	 * @deprecated 12.0.0
-	 *
-	 * @param string $slug Username determined by user ID.
-	 */
-	$slug = apply_filters_deprecated( 'bp_core_get_username', array( $slug ), '12.0.0', 'bp_members_get_user_slug' );
 
 	/**
 	 * Filter here to edit the user's slug.
@@ -2546,7 +2523,13 @@ function bp_core_wpsignup_redirect() {
 
 	if ( $is_site_creation ) {
 		if ( bp_is_active( 'blogs' ) ) {
-			$redirect_to = trailingslashit( bp_get_blogs_directory_permalink() . 'create' );
+			$url = bp_get_blogs_directory_url(
+				array(
+					'create_single_item' => 1,
+				)
+			);
+
+			$redirect_to = trailingslashit( $url );
 		} else {
 			// Perform no redirect in this case.
 			$redirect_to = '';

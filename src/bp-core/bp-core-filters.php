@@ -383,7 +383,7 @@ function bp_core_login_redirect( $redirect_to, $redirect_to_raw, $user ) {
 	 *
 	 * @param string $value URL to redirect to.
 	 */
-	return apply_filters( 'bp_core_login_redirect_to', bp_get_root_domain() );
+	return apply_filters( 'bp_core_login_redirect_to', bp_get_root_url() );
 }
 add_filter( 'bp_login_redirect', 'bp_core_login_redirect', 10, 3 );
 
@@ -1205,7 +1205,7 @@ add_filter( 'bp_email_get_headers', 'bp_email_set_default_headers', 6, 4 );
  */
 function bp_email_set_default_tokens( $tokens, $property_name, $transform, $email ) {
 	$tokens['site.admin-email'] = bp_get_option( 'admin_email' );
-	$tokens['site.url']         = bp_get_root_domain();
+	$tokens['site.url']         = bp_get_root_url();
 	$tokens['email.subject']    = $email->get_subject();
 
 	// These options are escaped with esc_html on the way into the database in sanitize_option().
@@ -1235,11 +1235,15 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 			$tokens['recipient.username'] = $user_obj->user_login;
 
 			if ( bp_is_active( 'settings' ) && empty( $tokens['unsubscribe'] ) ) {
-				$tokens['unsubscribe'] = esc_url( sprintf(
-					'%s%s/notifications/',
-					bp_members_get_user_url( $user_obj->ID ),
-					bp_get_settings_slug()
-				) );
+				$tokens['unsubscribe'] = esc_url(
+					bp_members_get_user_url(
+						$user_obj->ID,
+						array(
+							'single_item_component' => bp_rewrites_get_slug( 'members', 'member_settings', bp_get_settings_slug() ),
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_settings_notifications', 'notifications' ),
+						)
+					)
+				);
 			}
 		}
 	}

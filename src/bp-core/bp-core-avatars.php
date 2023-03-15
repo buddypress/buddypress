@@ -200,7 +200,7 @@ function bp_core_is_default_gravatar( $d = '' ) {
  *                                   of the user's email address; this argument provides it. If not
  *                                   provided, the function will infer it: for users, by getting the
  *                                   user's email from the database, for groups/blogs, by concatenating
- *                                   "{$item_id}-{$object}@{bp_get_root_domain()}". The user query adds
+ *                                   "{$item_id}-{$object}@{bp_get_domain()}". The user query adds
  *                                   overhead, so it's recommended that wrapper functions provide a
  *                                   value for 'email' when querying user IDs. Default: false.
  *     @type bool       $no_grav     Whether to disable the default Gravatar fallback.
@@ -641,7 +641,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 			if ( 'user' == $params['object'] ) {
 				$params['email'] = bp_core_get_user_email( $params['item_id'] );
 			} elseif ( 'group' == $params['object'] || 'blog' == $params['object'] ) {
-				$params['email'] = $params['item_id'] . '-' . $params['object'] . '@' . bp_get_root_domain();
+				$params['email'] = $params['item_id'] . '-' . $params['object'] . '@' . bp_get_domain();
 			}
 		}
 

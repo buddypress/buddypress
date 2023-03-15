@@ -552,8 +552,22 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 				$data_element = 'href';
 			}
 
+			$spam_link = bp_rewrites_get_url(
+				array(
+					'component_id'                 => 'activity',
+					'single_item_action'           => 'spam',
+					'single_item_action_variables' => array( bp_get_activity_id() ),
+				)
+			);
+
 			$buttons['activity_spam']['button_attr'][ $data_element ] = wp_nonce_url(
-				bp_get_root_domain() . '/' . bp_nouveau_get_component_slug( 'activity' ) . '/spam/' . $activity_id . '/',
+				bp_rewrites_get_url(
+					array(
+						'component_id'                 => 'activity',
+						'single_item_action'           => 'spam',
+						'single_item_action_variables' => array( $activity_id ),
+					)
+				),
 				'bp_activity_akismet_spam_' . $activity_id
 			);
 		}
@@ -881,7 +895,17 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 			}
 
 			$buttons['activity_comment_spam']['button_attr'][ $data_element ] = wp_nonce_url(
-				bp_get_root_domain() . '/' . bp_nouveau_get_component_slug( 'activity' ) . '/spam/' . $activity_comment_id . '/?cid=' . $activity_comment_id,
+				add_query_arg(
+					'cid',
+					$activity_comment_id,
+					bp_rewrites_get_url(
+						array(
+							'component_id'                 => 'activity',
+							'single_item_action'           => 'spam',
+							'single_item_action_variables' => array( $activity_comment_id ),
+						)
+					)
+				),
 				'bp_activity_akismet_spam_' . $activity_comment_id
 			);
 		}

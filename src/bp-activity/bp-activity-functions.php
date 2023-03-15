@@ -3262,10 +3262,18 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 	if ( false !== array_search( $activity_obj->type, $use_primary_links ) ) {
 		$link = $activity_obj->primary_link;
 	} else {
-		if ( 'activity_comment' == $activity_obj->type ) {
-			$link = bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $activity_obj->item_id . '/#acomment-' . $activity_obj->id;
+		$path_chunks = array(
+			'component_id'                 => 'activity',
+			'single_item_action'           => 'p',
+			'single_item_action_variables' => array( $activity_obj->id ),
+		);
+
+		if ( 'activity_comment' === $activity_obj->type ) {
+			$path_chunks['single_item_action_variables'] = array( $activity_obj->item_id );
+
+			$link = bp_rewrites_get_url( $path_chunks ) . '#acomment-' . $activity_obj->id;
 		} else {
-			$link = bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/p/' . $activity_obj->id . '/';
+			$link = bp_rewrites_get_url( $path_chunks );
 		}
 	}
 

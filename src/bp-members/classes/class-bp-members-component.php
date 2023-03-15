@@ -215,6 +215,10 @@ class BP_Members_Component extends BP_Component {
 	public function setup_additional_globals() {
 		$bp = buddypress();
 
+		// Set-up Extra permastructs for the register and activate pages.
+		$this->register_permastruct = bp_get_signup_slug() . '/%' . $this->rewrite_ids['member_register'] . '%';
+		$this->activate_permastruct = bp_get_activate_slug() . '/%' . $this->rewrite_ids['member_activate'] . '%';
+
 		/** Logged in user ***************************************************
 		 */
 
@@ -780,6 +784,84 @@ class BP_Members_Component extends BP_Component {
 		) );
 
 		parent::setup_cache_groups();
+	}
+
+	/**
+	 * Add the Registration and Activation rewrite tags.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param array $rewrite_tags Optional. See BP_Component::add_rewrite_tags() for
+	 *                            description.
+	 */
+	public function add_rewrite_tags( $rewrite_tags = array() ) {
+		$rewrite_tags = array(
+			'member_register'     => '([1]{1,})',
+			'member_activate'     => '([1]{1,})',
+			'member_activate_key' => '([^/]+)',
+		);
+
+		parent::add_rewrite_tags( $rewrite_tags );
+	}
+
+	/**
+	 * Add the Registration and Activation rewrite rules.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param array $rewrite_rules Optional. See BP_Component::add_rewrite_rules() for
+	 *                             description.
+	 */
+	public function add_rewrite_rules( $rewrite_rules = array() ) {
+		$rewrite_rules = array(
+			'directory_type'      => array(
+				'regex' => $this->root_slug . '/' . bp_get_members_member_type_base() . '/([^/]+)/?$',
+				'order' => 50,
+				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_type'] . '=$matches[1]',
+			),
+			'member_activate'     => array(
+				'regex' => bp_get_activate_slug(),
+				'order' => 40,
+				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1',
+			),
+			'member_activate_key' => array(
+				'regex' => bp_get_activate_slug() . '/([^/]+)/?$',
+				'order' => 30,
+				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1&' . $this->rewrite_ids['member_activate_key'] . '=$matches[1]',
+			),
+			'member_register'     => array(
+				'regex' => bp_get_signup_slug(),
+				'order' => 20,
+				'query' => 'index.php?' . $this->rewrite_ids['member_register'] . '=1',
+			),
+		);
+
+		parent::add_rewrite_rules( $rewrite_rules );
+	}
+
+	/**
+	 * Add the Registration and Activation permastructs.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param array $permastructs Optional. See BP_Component::add_permastructs() for
+	 *                            description.
+	 */
+	public function add_permastructs( $permastructs = array() ) {
+		$permastructs = array(
+			// Register permastruct.
+			$this->rewrite_ids['member_register'] => array(
+				'permastruct' => $this->register_permastruct,
+				'args'        => array(),
+			),
+			// Activate permastruct.
+			$this->rewrite_ids['member_activate'] => array(
+				'permastruct' => $this->activate_permastruct,
+				'args'        => array(),
+			),
+		);
+
+		parent::add_permastructs( $permastructs );
 	}
 
 	/**

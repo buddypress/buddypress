@@ -86,6 +86,11 @@ function bp_activity_directory_permalink() {
 	 * @return string Activity directory permalink.
 	 */
 	function bp_get_activity_directory_permalink() {
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id' => 'activity',
+			)
+		);
 
 		/**
 		 * Filters the activity directory permalink.
@@ -94,7 +99,7 @@ function bp_activity_directory_permalink() {
 		 *
 		 * @param string $url Permalink url for the activity directory.
 		 */
-		return apply_filters( 'bp_get_activity_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_root_slug() ) );
+		return apply_filters( 'bp_get_activity_directory_permalink', $url );
 	}
 
 /**
@@ -2392,7 +2397,14 @@ function bp_activity_comment_delete_link() {
 	 *                      activity comment.
 	 */
 	function bp_get_activity_comment_delete_link() {
-		$link = wp_nonce_url( trailingslashit( bp_get_activity_directory_permalink() . 'delete/' . bp_get_activity_comment_id() ) . '?cid=' . bp_get_activity_comment_id(), 'bp_activity_delete_link' );
+		$url  = bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'activity',
+				'single_item_action'           => 'delete',
+				'single_item_action_variables' => array( bp_get_activity_comment_id() ),
+			)
+		);
+		$link = wp_nonce_url( add_query_arg( 'cid', bp_get_activity_comment_id(), $url ), 'bp_activity_delete_link' );
 
 		/**
 		 * Filters the link used for deleting the activity comment currently being displayed.
@@ -2991,7 +3003,13 @@ function bp_activity_delete_url() {
 			$activity_id = (int) $activities_template->activity->id;
 		}
 
-		$url = trailingslashit( bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/delete/' . $activity_id );
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'activity',
+				'single_item_action'           => 'delete',
+				'single_item_action_variables' => array( $activity_id ),
+			)
+		);
 
 		// Determine if we're on a single activity page, and customize accordingly.
 		if ( bp_is_activity_component() && is_numeric( bp_current_action() ) ) {
@@ -3869,15 +3887,21 @@ function bp_sitewide_activity_feed_link() {
 	 * @return string The sitewide activity feed link.
 	 */
 	function bp_get_sitewide_activity_feed_link() {
+		$url  = bp_rewrites_get_url(
+			array(
+				'component_id'       => 'activity',
+				'single_item_action' => 'feed',
+			)
+		);
 
 		/**
 		 * Filters the sidewide activity feed link.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value The feed link for sitewide activity.
+		 * @param string $url The feed link for sitewide activity.
 		 */
-		return apply_filters( 'bp_get_sitewide_activity_feed_link', bp_get_root_domain() . '/' . bp_get_activity_root_slug() . '/feed/' );
+		return apply_filters( 'bp_get_sitewide_activity_feed_link', $url );
 	}
 
 /**

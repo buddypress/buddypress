@@ -29,16 +29,21 @@ add_filter( 'bp_blog_latest_post_content', 'prepend_attachment' );
  * @return string The new URL.
  */
 function bp_blogs_creation_location( $url ) {
+	$bp_url = bp_get_blogs_directory_url(
+		array(
+			'create_single_item' => 1,
+		)
+	);
 
 	/**
 	 * Filters the 'Create a new site' link URL.
 	 *
 	 * @since 1.6.0
 	 *
-	 * @param string $permalink URL for the 'Create a new site' signup page.
-	 * @param string $url       The original URL (points to wp-signup.php by default).
+	 * @param string $bp_url URL for the 'Create a new site' signup page.
+	 * @param string $url    The original URL (points to wp-signup.php by default).
 	 */
-	return apply_filters( 'bp_blogs_creation_location', trailingslashit( bp_get_blogs_directory_permalink() . 'create' ), $url );
+	return apply_filters( 'bp_blogs_creation_location', $bp_url, $url );
 }
 add_filter( 'wp_signup_location', 'bp_blogs_creation_location' );
 

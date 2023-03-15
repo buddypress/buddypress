@@ -140,15 +140,20 @@ function bp_members_directory_permalink() {
 	 * @return string
 	 */
 	function bp_get_members_directory_permalink() {
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id' => 'members',
+			)
+		);
 
 		/**
 		 * Filters the member directory permalink.
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param string $value Members directory permalink.
+		 * @param string $url Members directory permalink.
 		 */
-		return apply_filters( 'bp_get_members_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_members_root_slug() ) );
+		return apply_filters( 'bp_get_members_directory_permalink', $url );
 	}
 
 /**
@@ -185,16 +190,23 @@ function bp_member_type_directory_permalink( $member_type = '' ) {
 			return '';
 		}
 
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id'   => 'members',
+				'directory_type' => $type->directory_slug,
+			)
+		);
+
 		/**
 		 * Filters the member type directory permalink.
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $value       Member type directory permalink.
+		 * @param string $url         Member type directory permalink.
 		 * @param object $type        Member type object.
 		 * @param string $member_type Member type name, as passed to the function.
 		 */
-		return apply_filters( 'bp_get_member_type_directory_permalink', trailingslashit( bp_get_members_directory_permalink() . bp_get_members_member_type_base() . '/' . $type->directory_slug ), $type, $member_type );
+		return apply_filters( 'bp_get_member_type_directory_permalink', $url, $type, $member_type );
 	}
 
 /**
@@ -1457,7 +1469,7 @@ function bp_get_loggedin_user_nav() {
 	}
 
 	// Always add a log out list item to the end of the navigation.
-	$logout_link = '<li><a id="wp-logout" href="' .  wp_logout_url( bp_get_root_domain() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
+	$logout_link = '<li><a id="wp-logout" href="' .  wp_logout_url( bp_get_root_url() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
 
 	echo apply_filters( 'bp_logout_nav_link', $logout_link );
 }
@@ -1851,69 +1863,6 @@ function bp_user_firstname() {
 	}
 
 /**
- * Output the link for the logged-in user's profile.
- *
- * @since 1.2.4
- */
-function bp_loggedin_user_link() {
-	echo esc_url( bp_get_loggedin_user_link() );
-}
-	/**
-	 * Get the link for the logged-in user's profile.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	function bp_get_loggedin_user_link() {
-
-		/**
-		 * Filters the link for the logged-in user's profile.
-		 *
-		 * @since 1.2.4
-		 *
-		 * @param string $value Link for the logged-in user's profile.
-		 */
-		return apply_filters( 'bp_get_loggedin_user_link', bp_loggedin_user_domain() );
-	}
-
-/**
- * Output the link for the displayed user's profile.
- *
- * @since 1.2.4
- */
-function bp_displayed_user_link() {
-	echo esc_url( bp_get_displayed_user_link() );
-}
-	/**
-	 * Get the link for the displayed user's profile.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string
-	 */
-	function bp_get_displayed_user_link() {
-
-		/**
-		 * Filters the link for the displayed user's profile.
-		 *
-		 * @since 1.2.4
-		 *
-		 * @param string $value Link for the displayed user's profile.
-		 */
-		return apply_filters( 'bp_get_displayed_user_link', bp_displayed_user_domain() );
-	}
-
-	/**
-	 * Alias of {@link bp_displayed_user_domain()}.
-	 *
-	 * @deprecated
-	 */
-	function bp_user_link() {
-		bp_displayed_user_domain();
-	}
-
-/**
  * Alias of {@link bp_displayed_user_id()}.
  *
  * @since 1.0.0
@@ -1923,43 +1872,157 @@ function bp_current_user_id() {
 }
 
 /**
+ * Output the link for the displayed user's profile.
+ *
+ * @since 1.2.4
+ */
+function bp_displayed_user_link() {
+	echo esc_url( bp_displayed_user_url() );
+}
+
+/**
+ * Builds the logged-in user's profile URL.
+ *
+ * @since 12.0.0
+ *
+ * @param array $path_chunks {
+ *     An array of arguments. Optional.
+ *
+ *     @type string $single_item_component        The component slug the action is relative to.
+ *     @type string $single_item_action           The slug of the action to perform.
+ *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+ * }
+ * @return string The logged-in user's profile URL.
+ */
+function bp_displayed_user_url( $path_chunks = array() ) {
+	$bp  = buddypress();
+	$url = '';
+
+	if ( isset( $bp->displayed_user->domain ) ) {
+		$url = $bp->displayed_user->domain;
+	}
+
+	if ( $path_chunks ) {
+		$url = bp_members_get_user_url( bp_displayed_user_id(), $path_chunks );
+	}
+
+	/**
+	 * Filter here to edit the displayed user's profile URL.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $url         The displayed user's profile URL.
+	 * @param array  $path_chunks {
+	 *     An array of arguments. Optional.
+	 *
+	 *     @type string $single_item_component        The component slug the action is relative to.
+	 *     @type string $single_item_action           The slug of the action to perform.
+	 *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+	 * }
+	 */
+	return apply_filters( 'bp_displayed_user_url', $url, $path_chunks );
+}
+
+/**
  * Generate the link for the displayed user's profile.
  *
  * @since 1.0.0
+ * @since 12.0.0 This function is now an alias of `bp_displayed_user_url()`.
+ *               You should only use it to get the "home" URL of the displayed
+ *               user's profile page. If you need to build an URL to reach another
+ *               page, we strongly advise you to use `bp_displayed_user_url()`.
  *
+ * @todo Deprecating this function would be safer.
  * @return string
  */
 function bp_displayed_user_domain() {
-	$bp = buddypress();
+	$url = bp_displayed_user_url();
 
 	/**
 	 * Filters the generated link for the displayed user's profile.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $value Generated link for the displayed user's profile.
+	 * @param string $url Generated link for the displayed user's profile.
 	 */
-	return apply_filters( 'bp_displayed_user_domain', isset( $bp->displayed_user->domain ) ? $bp->displayed_user->domain : '' );
+	return apply_filters( 'bp_displayed_user_domain',$url );
+}
+
+/**
+ * Output the link for the logged-in user's profile.
+ *
+ * @since 1.2.4
+ */
+function bp_loggedin_user_link() {
+	echo esc_url( bp_loggedin_user_url() );
+}
+
+/**
+ * Builds the logged-in user's profile URL.
+ *
+ * @since 12.0.0
+ *
+ * @param array $path_chunks {
+ *     An array of arguments. Optional.
+ *
+ *     @type string $single_item_component        The component slug the action is relative to.
+ *     @type string $single_item_action           The slug of the action to perform.
+ *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+ * }
+ * @return string The logged-in user's profile URL.
+ */
+function bp_loggedin_user_url( $path_chunks = array() ) {
+	$bp  = buddypress();
+	$url = '';
+
+	if ( isset( $bp->loggedin_user->domain ) ) {
+		$url = $bp->loggedin_user->domain;
+	}
+
+	if ( $path_chunks ) {
+		$url = bp_members_get_user_url( bp_loggedin_user_id(), $path_chunks );
+	}
+
+	/**
+	 * Filter here to edit the logged-in user's profile URL.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $url         The logged-in user's profile URL.
+	 * @param array  $path_chunks {
+	 *     An array of arguments. Optional.
+	 *
+	 *     @type string $single_item_component        The component slug the action is relative to.
+	 *     @type string $single_item_action           The slug of the action to perform.
+	 *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+	 * }
+	 */
+	return apply_filters( 'bp_loggedin_user_url', $url, $path_chunks );
 }
 
 /**
  * Generate the link for the logged-in user's profile.
  *
  * @since 1.0.0
+ * @since 12.0.0 This function is now an alias of `bp_loggedin_user_url()`.
+ *               You should only use it to get the "home" URL of the logged-in
+ *               user's profile page. If you need to build an URL to reach another
+ *               page, we strongly advise you to use `bp_loggedin_user_url()`.
  *
+ * @todo Deprecating this function would be safer.
  * @return string
  */
 function bp_loggedin_user_domain() {
-	$bp = buddypress();
+	$url = bp_loggedin_user_url();
 
 	/**
 	 * Filters the generated link for the logged-in user's profile.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $value Generated link for the logged-in user's profile.
+	 * @param string $url Generated link for the logged-in user's profile.
 	 */
-	return apply_filters( 'bp_loggedin_user_domain', isset( $bp->loggedin_user->domain ) ? $bp->loggedin_user->domain : '' );
+	return apply_filters( 'bp_loggedin_user_domain', $url );
 }
 
 /**
@@ -2346,9 +2409,15 @@ function bp_signup_page() {
 	 */
 	function bp_get_signup_page() {
 		if ( bp_has_custom_signup_page() ) {
-			$page = trailingslashit( bp_get_root_domain() . '/' . bp_get_signup_slug() );
+			$page = bp_rewrites_get_url(
+				array(
+					'component_id'    => 'members',
+					'member_register' => 1,
+				)
+			);
+
 		} else {
-			$page = bp_get_root_domain() . '/wp-signup.php';
+			$page = trailingslashit( bp_get_root_url() ) . 'wp-signup.php';
 		}
 
 		/**
@@ -2395,9 +2464,15 @@ function bp_activation_page() {
 	 */
 	function bp_get_activation_page() {
 		if ( bp_has_custom_activation_page() ) {
-			$page = trailingslashit( bp_get_root_domain() . '/' . bp_get_activate_slug() );
+			$page = bp_rewrites_get_url(
+				array(
+					'component_id'    => 'members',
+					'member_activate' => 1,
+				)
+			);
+
 		} else {
-			$page = trailingslashit( bp_get_root_domain() ) . 'wp-activate.php';
+			$page = trailingslashit( bp_get_root_url() ) . 'wp-activate.php';
 		}
 
 		/**
@@ -3565,12 +3640,15 @@ function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
 	function bp_get_members_invitations_list_invites_permalink( $user_id = 0 ) {
 		if ( 0 === $user_id ) {
 			$user_id = bp_loggedin_user_id();
-			$domain  = bp_loggedin_user_domain();
-		} else {
-			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
-		$retval = trailingslashit( $domain . bp_get_members_invitations_slug() . '/list-invites' );
+		$retval = bp_members_get_user_url(
+			(int) $user_id,
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_invitations', bp_get_members_invitations_slug() ),
+				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_invitations_list_invites', 'list-invites' ),
+			)
+		);
 
 		/**
 		 * Filters the members invitations list permalink for a user.
@@ -3604,12 +3682,15 @@ function bp_members_invitations_send_invites_permalink( $user_id = 0 ) {
 	function bp_get_members_invitations_send_invites_permalink( $user_id = 0 ) {
 		if ( 0 === $user_id ) {
 			$user_id = bp_loggedin_user_id();
-			$domain  = bp_loggedin_user_domain();
-		} else {
-			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
-		$retval = trailingslashit( $domain . bp_get_members_invitations_slug() . '/send-invites' );
+		$retval = bp_members_get_user_url(
+			(int) $user_id,
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_invitations', bp_get_members_invitations_slug() ),
+				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_invitations_send_invites', 'send-invites' ),
+			)
+		);
 
 		/**
 		 * Filters the send invitations permalink.

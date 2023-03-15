@@ -16,12 +16,14 @@
  */
 function bp_activity_action_permalink_router() {
 	// Not viewing activity.
-	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'p' ) )
+	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'p' ) ) {
 		return false;
+	}
 
 	// No activity to display.
-	if ( ! bp_action_variable( 0 ) || ! is_numeric( bp_action_variable( 0 ) ) )
+	if ( ! bp_action_variable( 0 ) || ! is_numeric( bp_action_variable( 0 ) ) ) {
 		return false;
+	}
 
 	// Get the activity details.
 	$activity = bp_activity_get_specific( array( 'activity_ids' => bp_action_variable( 0 ), 'show_hidden' => true ) );
@@ -77,7 +79,7 @@ function bp_activity_action_permalink_router() {
 	 * @param array $value Array with url to redirect to and activity related to the redirect.
 	 */
 	if ( ! $redirect = apply_filters_ref_array( 'bp_activity_permalink_redirect_url', array( $redirect, &$activity ) ) ) {
-		bp_core_redirect( bp_get_root_domain() );
+		bp_core_redirect( bp_get_root_url() );
 	}
 
 	// Redirect to the actual activity permalink page.

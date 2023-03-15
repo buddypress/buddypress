@@ -81,9 +81,8 @@ class BP_Blogs_Component extends BP_Component {
 			'root_slug'             => isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : $default_slug,
 			'has_directory'         => is_multisite(), // Non-multisite installs don't need a top-level Sites directory, since there's only one site.
 			'rewrite_ids'           => array(
-				'directory'                    => 'blogs',
-				'single_item_action'           => 'blogs_action',
-				'single_item_action_variables' => 'blogs_action_variables',
+				'directory'          => 'blogs',
+				'create_single_item' => 'blog_create',
 			),
 			'directory_title'       => isset( $bp->pages->blogs->title ) ? $bp->pages->blogs->title : $default_directory_title,
 			'notification_callback' => 'bp_blogs_format_notifications',
@@ -311,11 +310,17 @@ class BP_Blogs_Component extends BP_Component {
 
 			// Create a Site.
 			if ( bp_blog_signup_enabled() ) {
+				$url = bp_get_blogs_directory_url(
+					array(
+						'create_single_item' => 1,
+					)
+				);
+
 				$wp_admin_nav[] = array(
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-create',
 					'title'    => __( 'Create a Site', 'buddypress' ),
-					'href'     => trailingslashit( bp_get_blogs_directory_permalink() . 'create' ),
+					'href'     => $url,
 					'position' => 99
 				);
 			}
@@ -370,6 +375,44 @@ class BP_Blogs_Component extends BP_Component {
 		) );
 
 		parent::setup_cache_groups();
+	}
+
+	/**
+	 * Add the Blog Create rewrite tags.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param array $rewrite_tags Optional. See BP_Component::add_rewrite_tags() for
+	 *                            description.
+	 */
+	public function add_rewrite_tags( $rewrite_tags = array() ) {
+		$rewrite_tags = array(
+			'create_single_item' => '([1]{1,})',
+		);
+
+		parent::add_rewrite_tags( $rewrite_tags );
+	}
+
+	/**
+	 * Add the Registration and Activation rewrite rules.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param array $rewrite_rules Optional. See BP_Component::add_rewrite_rules() for
+	 *                             description.
+	 */
+	public function add_rewrite_rules( $rewrite_rules = array() ) {
+		$create_slug = bp_rewrites_get_slug( 'blogs', 'blog_create', 'create' );
+
+		$rewrite_rules = array(
+			'create_single_item' => array(
+				'regex' => $this->root_slug . '/' . $create_slug . '/?$',
+				'order' => 50,
+				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['create_single_item'] . '=1',
+			),
+		);
+
+		parent::add_rewrite_rules( $rewrite_rules );
 	}
 
 	/**

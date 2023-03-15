@@ -60,12 +60,14 @@ function bp_notifications_permalink( $user_id = 0 ) {
 	function bp_get_notifications_permalink( $user_id = 0 ) {
 		if ( 0 === $user_id ) {
 			$user_id = bp_loggedin_user_id();
-			$domain  = bp_loggedin_user_domain();
-		} else {
-			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
-		$retval = trailingslashit( $domain . bp_get_notifications_slug() );
+		$retval = bp_members_get_user_url(
+			$user_id,
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_notifications', bp_get_notifications_slug() ),
+			)
+		);
 
 		/**
 		 * Filters the notifications permalink.
@@ -101,12 +103,15 @@ function bp_notifications_unread_permalink( $user_id = 0 ) {
 	function bp_get_notifications_unread_permalink( $user_id = 0 ) {
 		if ( 0 === $user_id ) {
 			$user_id = bp_loggedin_user_id();
-			$domain  = bp_loggedin_user_domain();
-		} else {
-			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
-		$retval = trailingslashit( $domain . bp_get_notifications_slug() . '/unread' );
+		$retval = bp_members_get_user_url(
+			$user_id,
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_notifications', bp_get_notifications_slug() ),
+				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_notifications_unread', 'unread' ),
+			)
+		);
 
 		/**
 		 * Filters the unread notifications permalink.
@@ -141,12 +146,15 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
 	function bp_get_notifications_read_permalink( $user_id = 0 ) {
 		if ( 0 === $user_id ) {
 			$user_id = bp_loggedin_user_id();
-			$domain  = bp_loggedin_user_domain();
-		} else {
-			$domain = bp_members_get_user_url( (int) $user_id );
 		}
 
-		$retval = trailingslashit( $domain . bp_get_notifications_slug() . '/read' );
+		$retval = bp_members_get_user_url(
+			$user_id,
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_notifications', bp_get_notifications_slug() ),
+				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_notifications_read', 'read' ),
+			)
+		);
 
 		/**
 		 * Filters the read notifications permalink.

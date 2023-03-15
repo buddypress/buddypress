@@ -234,7 +234,7 @@ function bp_blocks_get_login_widget_registration_link( $content = '', $args = ar
 		if ( isset( $args['include_pwd_link'] ) && true === $args['include_pwd_link'] ) {
 			$content .= sprintf(
 				'<p class="bp-login-widget-pwd-link"><a href="%1$s">%2$s</a></p>',
-				esc_url( wp_lostpassword_url( bp_get_root_domain() ) ),
+				esc_url( wp_lostpassword_url( bp_get_root_url() ) ),
 				esc_html__( 'Lost your password?', 'buddypress' )
 			);
 		}

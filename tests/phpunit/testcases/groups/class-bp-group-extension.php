@@ -7,6 +7,18 @@ include_once BP_TESTS_DIR . '/assets/group-extensions.php';
  * @group BP_Group_Extension
  */
 class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
+	protected $permalink_structure = '';
+
+	public function set_up() {
+		parent::set_up();
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
+	}
+
+	public function tear_down() {
+		parent::tear_down();
+		$this->set_permalink_structure( $this->permalink_structure );
+	}
+
 	public function test_parse_legacy_properties() {
 		$class_name = 'BPTest_Group_Extension_Parse_Legacy_Properties';
 		$class_slug = sanitize_title( $class_name );
@@ -221,6 +233,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_enable_nav_item_true() {
 		$old_options_nav = buddypress()->bp_options_nav;
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$g = self::factory()->group->create();
 		$g_obj = groups_get_group( $g );
@@ -243,6 +256,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @expectedIncorrectUsage bp_nav
 	 */
 	public function test_enable_nav_item_false() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$old_options_nav = buddypress()->bp_options_nav;
 
 		$g = self::factory()->group->create();
@@ -266,6 +280,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @expectedIncorrectUsage bp_nav
 	 */
 	public function test_visibility_private() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$old_options_nav = buddypress()->bp_options_nav;
 		$old_current_user = get_current_user_id();
 
@@ -310,6 +325,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @see https://buddypress.trac.wordpress.org/ticket/4785
 	 */
 	public function test_visibility_public() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$old_options_nav = buddypress()->bp_options_nav;
 		$old_current_user = get_current_user_id();
 
@@ -347,6 +363,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_visit
 	 */
 	public function test_user_can_visit_inferred_from_enable_nav_item() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$old_current_user = get_current_user_id();
 
 		$g = self::factory()->group->create( array(
@@ -372,6 +389,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_visit
 	 */
 	public function test_user_can_visit_explicit_for_logged_out_user() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( 0 );
 
@@ -412,6 +430,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_visit
 	 */
 	public function test_user_can_visit_explicit_for_logged_in_user() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -454,6 +473,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_visit
 	 */
 	public function test_user_can_visit_explicit_for_group_member() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -498,6 +518,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_visit
 	 */
 	public function test_user_can_visit_explicit_for_group_mod() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -544,6 +565,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_visit
 	 */
 	public function test_user_can_visit_explicit_for_group_admin() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -590,6 +612,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_see_nav_item
 	 */
 	public function test_user_can_see_nav_item_implied() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -631,6 +654,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_see_nav_item
 	 */
 	public function test_user_can_see_nav_item_explicit_for_logged_out_user() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -672,6 +696,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_see_nav_item
 	 */
 	public function test_user_can_see_nav_item_explicit_for_logged_in_user() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -714,6 +739,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_see_nav_item
 	 */
 	public function test_user_can_see_nav_item_explicit_for_group_member() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -758,6 +784,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_see_nav_item
 	 */
 	public function test_user_can_see_nav_item_explicit_for_group_mod() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -804,6 +831,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @group user_can_see_nav_item
 	 */
 	public function test_user_can_see_nav_item_explicit_for_group_admin() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -850,6 +878,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @ticket BP7131
 	 */
 	public function test_widget_on_group_home_page() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -871,6 +900,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @ticket BP7131
 	 */
 	public function test_widget_on_group_members_page() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
 		) );
@@ -892,6 +922,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	 * @ticket BP8558
 	 */
 	public function test_adding_multiple_extension_classes() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$old_options_nav = buddypress()->bp_options_nav;
 
 		$g = self::factory()->group->create();

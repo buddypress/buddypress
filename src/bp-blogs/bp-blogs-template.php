@@ -67,33 +67,52 @@ function bp_blogs_root_slug() {
 	}
 
 /**
- * Output blog directory permalink.
+ * Output Blogs directory's URL.
  *
- * @since 1.5.0
- *
+ * @since 12.0.0
  */
-function bp_blogs_directory_permalink() {
-	echo esc_url( bp_get_blogs_directory_permalink() );
+function bp_blogs_directory_url() {
+	echo esc_url( bp_get_blogs_directory_url() );
 }
-	/**
-	 * Return blog directory permalink.
-	 *
-	 * @since 1.5.0
-	 *
-	 *
-	 * @return string The URL of the Blogs directory.
-	 */
-	function bp_get_blogs_directory_permalink() {
 
-		/**
-		 * Filters the blog directory permalink.
-		 *
-		 * @since 1.5.0
-		 *
-		 * @param string $value Permalink URL for the blog directory.
-		 */
-		return apply_filters( 'bp_get_blogs_directory_permalink', trailingslashit( bp_get_root_domain() . '/' . bp_get_blogs_root_slug() ) );
-	}
+/**
+ * Returns the Blogs directory's URL.
+ *
+ * @since 12.0.0
+ *
+ * @param array $path_chunks {
+ *     An array of arguments. Optional.
+ *
+ *     @type int $create_single_item `1` to get the Blogs create link.
+ * }
+ * @return string The URL built for the BP Rewrites URL parser.
+ */
+function bp_get_blogs_directory_url( $path_chunks = array() ) {
+	$supported_chunks = array_fill_keys( array( 'create_single_item' ), true );
+
+	$path_chunks = bp_parse_args(
+		array_intersect_key( $path_chunks, $supported_chunks ),
+		array(
+			'component_id' => 'blogs'
+		)
+	);
+
+	$url = bp_rewrites_get_url( $path_chunks );
+
+	/**
+	 * Filters the Blogs directory's URL.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string  $url      The Blogs directory's URL.
+	 * @param array   $path_chunks {
+	 *     An array of arguments. Optional.
+	 *
+	 *     @type int $create_single_item `1` to get the Blogs create link.
+	 * }
+	 */
+	return apply_filters( 'bp_get_blogs_directory_url', $url, $path_chunks );
+}
 
 /**
  * Rewind the blogs and reset blog index.
@@ -473,12 +492,14 @@ function bp_blog_permalink() {
 	function bp_get_blog_permalink() {
 		global $blogs_template;
 
-		if ( empty( $blogs_template->blog->domain ) )
-			$permalink = bp_get_root_domain() . $blogs_template->blog->path;
-		else {
+		if ( ! empty( $blogs_template->blog->domain ) ) {
+			$permalink = get_site_url( $blogs_template->blog->blog_id );
+
+		} else {
 			$protocol = 'http://';
-			if ( is_ssl() )
+			if ( is_ssl() ) {
 				$protocol = 'https://';
+			}
 
 			$permalink = $protocol . $blogs_template->blog->domain . $blogs_template->blog->path;
 		}
@@ -1348,14 +1369,20 @@ function bp_create_blog_link() {
 		return;
 	}
 
+	$url = bp_get_blogs_directory_url(
+		array(
+			'create_single_item' => 1,
+		)
+	);
+
 	/**
 	 * Filters "Create a Site" links for users viewing their own profiles.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $value HTML link for creating a site.
+	 * @param string $url HTML link for creating a site.
 	 */
-	echo apply_filters( 'bp_create_blog_link', '<a href="' . trailingslashit( bp_get_blogs_directory_permalink() . 'create' ) . '">' . __( 'Create a Site', 'buddypress' ) . '</a>' );
+	echo apply_filters( 'bp_create_blog_link', '<a href="' . $url . '">' . __( 'Create a Site', 'buddypress' ) . '</a>' );
 }
 
 /**
@@ -1459,12 +1486,18 @@ function bp_blog_create_button() {
 			return false;
 		}
 
+		$url = bp_get_blogs_directory_url(
+			array(
+				'create_single_item' => 1,
+			)
+		);
+
 		$button_args = array(
 			'id'         => 'create_blog',
 			'component'  => 'blogs',
 			'link_text'  => __( 'Create a Site', 'buddypress' ),
 			'link_class' => 'blog-create no-ajax',
-			'link_href'  => trailingslashit( bp_get_blogs_directory_permalink() . 'create' ),
+			'link_href'  => $url,
 			'wrapper'    => false,
 			'block_self' => false,
 		);

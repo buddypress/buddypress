@@ -1115,7 +1115,6 @@ function bp_do_register_theme_directory() {
  */
 function bp_core_get_root_domain() {
 	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_rewrites_get_root_url()' );
-
 	$domain = bp_rewrites_get_root_url();
 
 	/**
@@ -1144,7 +1143,7 @@ function bp_core_redirect( $location = '', $status = 302 ) {
 	// empty value for $location, which results in an error. Ensure that we
 	// have a valid URL.
 	if ( empty( $location ) ) {
-		$location = bp_get_root_domain();
+		$location = bp_get_root_url();
 	}
 
 	// Make sure we don't call status_header() in bp_core_do_catch_uri() as this
@@ -2529,7 +2528,7 @@ function bp_core_action_search_site( $slug = '' ) {
 	}
 
 	if ( empty( $_POST['search-terms'] ) ) {
-		bp_core_redirect( bp_get_root_domain() );
+		bp_core_redirect( bp_get_root_url() );
 		return;
 	}
 
@@ -2573,7 +2572,7 @@ function bp_core_action_search_site( $slug = '' ) {
 		}
 
 		if ( empty( $slug ) && 'posts' != $search_which ) {
-			bp_core_redirect( bp_get_root_domain() );
+			bp_core_redirect( bp_get_root_url() );
 			return;
 		}
 	}
@@ -4367,10 +4366,12 @@ function bp_email_unsubscribe_handler() {
 	// This is an unsubscribe request from a current member.
 	} else {
 		if ( bp_is_active( 'settings' ) ) {
-			$redirect_to = sprintf(
-				'%s%s/notifications/',
-				bp_members_get_user_url( $raw_user_id ),
-				bp_get_settings_slug()
+			$redirect_to = bp_members_get_user_url(
+				$raw_user_id,
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_settings', bp_get_settings_slug() ),
+					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_settings_notifications', 'notifications' ),
+				)
 			);
 		} else {
 			$redirect_to = bp_members_get_user_url( $raw_user_id );
