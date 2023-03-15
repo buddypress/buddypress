@@ -253,53 +253,6 @@ function bp_nouveau_groups_get_group_invites_setting( $user_id = 0 ) {
 }
 
 /**
- * Outputs the group creation numbered steps navbar
- *
- * @since 3.0.0
- *
- * @todo This output isn't localised correctly.
- */
-function bp_nouveau_group_creation_tabs() {
-	$bp = buddypress();
-
-	if ( ! is_array( $bp->groups->group_creation_steps ) ) {
-		return;
-	}
-
-	if ( ! bp_get_groups_current_create_step() ) {
-		$keys                            = array_keys( $bp->groups->group_creation_steps );
-		$bp->groups->current_create_step = array_shift( $keys );
-	}
-
-	$counter = 1;
-
-	foreach ( (array) $bp->groups->group_creation_steps as $slug => $step ) {
-		$is_enabled = bp_are_previous_group_creation_steps_complete( $slug ); ?>
-
-		<li<?php if ( bp_get_groups_current_create_step() === $slug ) : ?> class="current"<?php endif; ?>>
-			<?php if ( $is_enabled ) : ?>
-				<a href="<?php echo esc_url( bp_groups_directory_permalink() . 'create/step/' . $slug . '/' ); ?>">
-					<?php echo (int) $counter; ?> <?php echo esc_html( $step['name'] ); ?>
-				</a>
-			<?php else : ?>
-				<?php echo (int) $counter; ?>. <?php echo esc_html( $step['name'] ); ?>
-			<?php endif ?>
-		</li>
-			<?php
-		$counter++;
-	}
-
-	unset( $is_enabled );
-
-	/**
-	 * Fires at the end of the creation of the group tabs.
-	 *
-	 * @since 1.0.0
-	 */
-	do_action( 'groups_creation_tabs' );
-}
-
-/**
  * Load the requested Create Screen for the new group.
  *
  * @since 3.0.0

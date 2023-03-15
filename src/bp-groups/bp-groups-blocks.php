@@ -383,7 +383,7 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 
 	// Make sure the widget ID is unique.
 	$widget_id             = uniqid( 'groups-list-' );
-	$groups_directory_link = bp_get_groups_directory_permalink();
+	$groups_directory_link = bp_get_groups_directory_url();
 
 	// Set the Block's title.
 	if ( true === $block_args['linkTitle'] ) {

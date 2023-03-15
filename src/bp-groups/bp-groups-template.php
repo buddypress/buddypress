@@ -117,7 +117,7 @@ function bp_groups_directory_url() {
  * @return string The URL built for the BP Rewrites URL parser.
  */
 function bp_get_groups_directory_url( $path_chunks = array() ) {
-	$supported_chunks = array_fill_keys( array( 'create_single_item', 'directory_type' ), true );
+	$supported_chunks = array_fill_keys( array( 'create_single_item', 'create_single_item_variables', 'directory_type' ), true );
 
 	$path_chunks = bp_parse_args(
 		array_intersect_key( $path_chunks, $supported_chunks ),
@@ -3827,7 +3827,11 @@ function bp_group_create_button() {
 			'component'  => 'groups',
 			'link_text'  => __( 'Create a Group', 'buddypress' ),
 			'link_class' => 'group-create no-ajax',
-			'link_href'  => trailingslashit( bp_get_groups_directory_permalink() . 'create' ),
+			'link_href'  => bp_get_groups_directory_url(
+				array(
+					'create_single_item' => 1,
+				)
+			),
 			'wrapper'    => false,
 			'block_self' => false,
 		);
@@ -4889,32 +4893,54 @@ function bp_user_can_create_groups() {
 }
 
 /**
- * @since 1.0.0
+ * Outputs the Group creation tabs.
  *
- * @return bool
+ * @since 1.0.0
  */
 function bp_group_creation_tabs() {
-	$bp = buddypress();
+	$bp           = buddypress();
+	$create_steps = $bp->groups->group_creation_steps;
 
-	if ( !is_array( $bp->groups->group_creation_steps ) ) {
+	if ( ! is_array( $create_steps ) ) {
 		return false;
 	}
 
-	if ( !bp_get_groups_current_create_step() ) {
-		$keys = array_keys( $bp->groups->group_creation_steps );
+	if ( ! bp_get_groups_current_create_step() ) {
+		$keys                            = array_keys( $create_steps );
 		$bp->groups->current_create_step = array_shift( $keys );
 	}
 
 	$counter = 1;
 
-	foreach ( (array) $bp->groups->group_creation_steps as $slug => $step ) {
-		$is_enabled = bp_are_previous_group_creation_steps_complete( $slug ); ?>
+	foreach ( (array) $create_steps as $create_step => $step ) {
+		$is_enabled    = bp_are_previous_group_creation_steps_complete( $create_step );
+		$current_class = '';
+		$step_name     = $step['name'];
 
-		<li<?php if ( bp_get_groups_current_create_step() == $slug ) : ?> class="current"<?php endif; ?>><?php if ( $is_enabled ) : ?><a href="<?php bp_groups_directory_permalink(); ?>create/step/<?php echo $slug ?>/"><?php else: ?><span><?php endif; ?><?php echo $counter ?>. <?php echo $step['name'] ?><?php if ( $is_enabled ) : ?></a><?php else: ?></span><?php endif ?></li><?php
+		if ( bp_get_groups_current_create_step() === $create_step ) {
+			$current_class = ' class="current"';
+		}
+
+		if ( $is_enabled && isset( $create_steps[ $create_step ]['rewrite_id'], $create_steps[ $create_step ]['default_slug'] ) ) {
+			$create_step_slug = bp_rewrites_get_slug( 'groups', 'bp_group_create_step', 'step' );
+			$step_slug        = bp_rewrites_get_slug( 'groups', $create_steps[ $create_step ]['rewrite_id'], $create_steps[ $create_step ]['default_slug'] );
+			$url              = bp_get_groups_directory_url(
+				array(
+					'create_single_item'           => 1,
+					'create_single_item_variables' => array( $create_step_slug, $step_slug ),
+				)
+			);
+
+			$step_name = sprintf( '<a href="%1$s">%2$s. %3$s</a>', esc_url( $url ), absint( $counter ), esc_html( $step_name ) );
+		} else {
+			$step_name = sprintf( '<span>%1$s. %2$s</span>', absint( $counter ), esc_html( $step_name ) );
+		}
+
+
+		printf( '<li%1$s>%2$s</li>', $current_class, $step_name );
 		$counter++;
+		unset( $is_enabled );
 	}
-
-	unset( $is_enabled );
 
 	/**
 	 * Fires at the end of the creation of the group tabs.
@@ -4953,11 +4979,26 @@ function bp_group_creation_form_action() {
  * @return mixed|void
  */
 	function bp_get_group_creation_form_action() {
-		$bp = buddypress();
+		$bp           = buddypress();
+		$create_steps = $bp->groups->group_creation_steps;
+		$url          = '';
 
-		if ( !bp_action_variable( 1 ) ) {
-			$keys = array_keys( $bp->groups->group_creation_steps );
+		if ( ! bp_action_variable( 1 ) ) {
+			$keys = array_keys( $create_steps );
 			$bp->action_variables[1] = array_shift( $keys );
+		}
+
+		$create_step  = bp_action_variable( 1 );
+		if ( $create_step && isset( $create_steps[ $create_step ]['rewrite_id'], $create_steps[ $create_step ]['default_slug'] ) ) {
+			$create_step_slug = bp_rewrites_get_slug( 'groups', 'bp_group_create_step', 'step' );
+			$step_slug        = bp_rewrites_get_slug( 'groups', $create_steps[ $create_step ]['rewrite_id'], $create_steps[ $create_step ]['default_slug'] );
+
+			$url = bp_get_groups_directory_url(
+				array(
+					'create_single_item'           => 1,
+					'create_single_item_variables' => array( $create_step_slug, $step_slug ),
+				)
+			);
 		}
 
 		/**
@@ -4965,9 +5006,9 @@ function bp_group_creation_form_action() {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $value Action to be used with group creation form.
+		 * @param string $url Action to be used with group creation form.
 		 */
-		return apply_filters( 'bp_get_group_creation_form_action', trailingslashit( bp_get_groups_directory_permalink() . 'create/step/' . bp_action_variable( 1 ) ) );
+		return apply_filters( 'bp_get_group_creation_form_action', $url );
 	}
 
 /**
@@ -5297,8 +5338,9 @@ function bp_group_creation_previous_link() {
 	 * @return string
 	 */
 	function bp_get_group_creation_previous_link() {
-		$bp    = buddypress();
-		$steps = array_keys( $bp->groups->group_creation_steps );
+		$create_steps = buddypress()->groups->group_creation_steps;
+		$steps        = array_keys( $create_steps );
+		$url          = '';
 
 		// Loop through steps.
 		foreach ( $steps as $slug ) {
@@ -5313,10 +5355,19 @@ function bp_group_creation_previous_link() {
 		}
 
 		// Generate the URL for the previous step.
-		$group_directory = bp_get_groups_directory_permalink();
-		$create_step     = 'create/step/';
-		$previous_step   = array_pop( $previous_steps );
-		$url             = trailingslashit( $group_directory . $create_step . $previous_step );
+		$previous_step = array_pop( $previous_steps );
+
+		if ( isset( $create_steps[ $previous_step ]['rewrite_id'], $create_steps[ $previous_step ]['default_slug'] ) ) {
+			$create_step_slug = bp_rewrites_get_slug( 'groups', 'bp_group_create_step', 'step' );
+			$previous_step    = bp_rewrites_get_slug( 'groups', $create_steps[ $previous_step ]['rewrite_id'], $create_steps[ $previous_step ]['default_slug'] );
+
+			$url = bp_get_groups_directory_url(
+				array(
+					'create_single_item'           => 1,
+					'create_single_item_variables' => array( $create_step_slug, $previous_step ),
+				)
+			);
+		}
 
 		/**
 		 * Filters the permalink for the previous step with the group creation process.
