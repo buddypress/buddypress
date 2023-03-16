@@ -659,7 +659,7 @@ function bp_groups_admin_edit() {
 		<h1 class="wp-heading-inline"><?php _e( 'Edit Group', 'buddypress' ); ?></h1>
 
 		<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
-			<a class="page-title-action" href="<?php echo esc_url( $create_url ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
+			<a class="page-title-action" href="<?php echo esc_url( $create_url ); ?>"><?php esc_html_e( 'Add New', 'buddypress' ); ?></a>
 		<?php endif; ?>
 
 		<hr class="wp-header-end">
@@ -840,7 +840,7 @@ function bp_groups_admin_index() {
 		<h1 class="wp-heading-inline"><?php _e( 'Groups', 'buddypress' ); ?></h1>
 
 		<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
-			<a class="page-title-action" href="<?php echo esc_url( $create_url ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
+			<a class="page-title-action" href="<?php echo esc_url( $create_url ); ?>"><?php esc_html_e( 'Add New', 'buddypress' ); ?></a>
 		<?php endif; ?>
 
 		<?php if ( !empty( $_REQUEST['s'] ) ) : ?>

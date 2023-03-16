@@ -151,63 +151,6 @@ function bp_get_group( $group = false ) {
 	return $group_obj;
 }
 
-/**
- * Returns the Groups single item's URL.
- *
- * @since 12.0.0
- *
- * @param integer|BP_Groups_Group $group The group ID or the Group object.
- * @param array                   $path_chunks {
- *     An array of arguments. Optional.
- *
- *     @type string $single_item_component        The component slug the action is relative to.
- *     @type string $single_item_action           The slug of the action to perform.
- *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
- * }
- * @return string The URL built for the BP Rewrites URL parser.
- */
-function bp_groups_get_group_url( $group = 0, $path_chunks = array() ) {
-	$url  = '';
-	$slug = groups_get_slug( $group );
-
-	if ( $group instanceof BP_Groups_Group ) {
-		$group_id = (int) $group->id;
-	} else {
-		$group_id = (int) $group;
-	}
-
-	if ( $slug ) {
-		$supported_chunks = array_fill_keys( array( 'single_item_component', 'single_item_action', 'single_item_action_variables' ), true );
-		$path_chunks      = bp_parse_args(
-			array_intersect_key( $path_chunks, $supported_chunks ),
-			array(
-				'component_id' => 'groups',
-				'single_item'  => $slug,
-			)
-		);
-
-		$url = bp_rewrites_get_url( $path_chunks );
-	}
-
-	/**
-	 * Filters the URL for the passed group.
-	 *
-	 * @since 12.0.0
-	 *
-	 * @param string  $url      The group url.
-	 * @param integer $group_id The group ID.
-	 * @param string  $slug     The group slug.
-	 * @param array   $path_chunks {
-	 *     An array of arguments. Optional.
-	 *
-	 *     @type string $single_item_component        The component slug the action is relative to.
-	 *     @type string $single_item_action           The slug of the action to perform.
-	 *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
-	 * }
-	 */
-	return apply_filters( 'bp_groups_get_group_url', $url, $group_id, $slug, $path_chunks );
-}
-
 /** Group Creation, Editing & Deletion ****************************************/
 
 /**
@@ -3390,7 +3333,7 @@ function bp_groups_memberships_personal_data_exporter( $email_address, $page ) {
 			),
 			array(
 				'name'  => __( 'Group URL', 'buddypress' ),
-				'value' => bp_groups_get_group_url( $group ),
+				'value' => bp_get_group_url( $group ),
 			),
 		);
 
@@ -3479,7 +3422,7 @@ function bp_groups_pending_requests_personal_data_exporter( $email_address, $pag
 			),
 			array(
 				'name'  => __( 'Group URL', 'buddypress' ),
-				'value' => bp_groups_get_group_url( $group ),
+				'value' => bp_get_group_url( $group ),
 			),
 			array(
 				'name'  => __( 'Date Sent', 'buddypress' ),
@@ -3545,7 +3488,7 @@ function bp_groups_pending_sent_invitations_personal_data_exporter( $email_addre
 			),
 			array(
 				'name'  => __( 'Group URL', 'buddypress' ),
-				'value' => bp_groups_get_group_url( $group ),
+				'value' => bp_get_group_url( $group ),
 			),
 			array(
 				'name'  => __( 'Sent To', 'buddypress' ),
@@ -3615,7 +3558,7 @@ function bp_groups_pending_received_invitations_personal_data_exporter( $email_a
 			),
 			array(
 				'name'  => __( 'Group URL', 'buddypress' ),
-				'value' => bp_groups_get_group_url( $group ),
+				'value' => bp_get_group_url( $group ),
 			),
 			array(
 				'name'  => __( 'Invited By', 'buddypress' ),
@@ -3789,7 +3732,7 @@ function bp_groups_defer_group_members_count( $defer = true, $group_id = 0 ) {
  *
  * @return array The list of the Group restricted views.
  */
-function bp_get_group_restricted_views() {
+function bp_get_group_restricted_screens() {
 	return array(
 		'bp_group_create'      => array(
 			'rewrite_id' => 'bp_group_create',
@@ -3814,7 +3757,7 @@ function bp_get_group_restricted_views() {
  * @param string $context The display context. Required. Defaults to `read`.
  * @return array          The list of registered Group Extension views.
  */
-function bp_get_group_extension_views( $context = 'read' ) {
+function bp_get_group_extension_screens( $context = 'read' ) {
 	$bp = buddypress();
 
 	$group_extension_views = array(
@@ -3850,7 +3793,7 @@ function bp_get_group_extension_views( $context = 'read' ) {
  * @param string $context The display context. Required. Defaults to `read`.
  * @return array          The list of potential Group views.
  */
-function bp_get_group_views( $context = 'read' ) {
+function bp_get_group_screens( $context = 'read' ) {
 	$views = array(
 		'create' => array(
 			'group-details'     => array(
@@ -4005,7 +3948,7 @@ function bp_get_group_views( $context = 'read' ) {
 
 	$context_views         = array();
 	$custom_views          = apply_filters( 'bp_get_group_custom_' . $context . '_views', $context_views );
-	$group_extension_views = bp_get_group_extension_views( $context );
+	$group_extension_views = bp_get_group_extension_screens( $context );
 
 	if ( $group_extension_views ) {
 		$custom_views = array_merge( $custom_views, $group_extension_views );
@@ -4018,7 +3961,7 @@ function bp_get_group_views( $context = 'read' ) {
 		$existing_rewrite_ids = array_merge(
 			$existing_rewrite_ids,
 			// BP Group Reserved rewrite IDs.
-			array_keys( bp_get_group_restricted_views() )
+			array_keys( bp_get_group_restricted_screens() )
 		);
 
 		foreach ( $valid_custom_views as $key_view => $view ) {

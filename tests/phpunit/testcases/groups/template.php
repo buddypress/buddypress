@@ -1006,7 +1006,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	public function test_bp_bp_get_group_form_action() {
 		$g   = $this->factory->group->create();
 		$p   = 2;
-		$url = bp_groups_get_group_url(
+		$url = bp_get_group_url(
 			$g,
 			array(
 				'single_item_action' => $p,

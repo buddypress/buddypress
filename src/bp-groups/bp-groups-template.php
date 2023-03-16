@@ -1244,7 +1244,64 @@ function bp_group_last_active( $group = false, $args = array() ) {
  *                                                Default: false.
  */
 function bp_group_url( $group = false ) {
-	echo esc_url( bp_groups_get_group_url( $group ) );
+	echo esc_url( bp_get_group_url( $group ) );
+}
+
+/**
+ * Returns the Groups single item's URL.
+ *
+ * @since 12.0.0
+ *
+ * @param integer|BP_Groups_Group $group The group ID or the Group object.
+ * @param array                   $path_chunks {
+ *     An array of arguments. Optional.
+ *
+ *     @type string $single_item_component        The component slug the action is relative to.
+ *     @type string $single_item_action           The slug of the action to perform.
+ *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+ * }
+ * @return string The URL built for the BP Rewrites URL parser.
+ */
+function bp_get_group_url( $group = 0, $path_chunks = array() ) {
+	$url  = '';
+	$slug = groups_get_slug( $group );
+
+	if ( $group instanceof BP_Groups_Group ) {
+		$group_id = (int) $group->id;
+	} else {
+		$group_id = (int) $group;
+	}
+
+	if ( $slug ) {
+		$supported_chunks = array_fill_keys( array( 'single_item_component', 'single_item_action', 'single_item_action_variables' ), true );
+		$path_chunks      = bp_parse_args(
+			array_intersect_key( $path_chunks, $supported_chunks ),
+			array(
+				'component_id' => 'groups',
+				'single_item'  => $slug,
+			)
+		);
+
+		$url = bp_rewrites_get_url( $path_chunks );
+	}
+
+	/**
+	 * Filters the URL for the passed group.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string  $url      The group url.
+	 * @param integer $group_id The group ID.
+	 * @param string  $slug     The group slug.
+	 * @param array   $path_chunks {
+	 *     An array of arguments. Optional.
+	 *
+	 *     @type string $single_item_component        The component slug the action is relative to.
+	 *     @type string $single_item_action           The slug of the action to perform.
+	 *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+	 * }
+	 */
+	return apply_filters( 'bp_get_group_url', $url, $group_id, $slug, $path_chunks );
 }
 
 /**
@@ -1275,17 +1332,17 @@ function bp_group_permalink( $group = false ) {
 		 * This function is used at many places and we need to review all this
 		 * places during the 12.0 development cycle. Using BP Rewrites means we
 		 * cannot concatenate URL chunks to build our URL anymore. We now need
-		 * to use `bp_groups_get_group_url( $group, $array )` and make sure to use
+		 * to use `bp_get_group_url( $group, $array )` and make sure to use
 		 * the right arguments inside this `$array`.
 		 *
 		 * @todo Once every link reviewed, we'll be able to remove this check
 		 *       and let PHPUnit tell us the one we forgot, eventually!
 		 */
 		if ( ! buddypress()->is_phpunit_running ) {
-			_deprecated_function( __FUNCTION__, '12.0.0', 'bp_groups_get_group_url' );
+			_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_group_url' );
 		}
 
-		$url = bp_groups_get_group_url( $group );
+		$url = bp_get_group_url( $group );
 
 		/**
 		 * Filters the permalink for the group.
@@ -1297,7 +1354,7 @@ function bp_group_permalink( $group = false ) {
 		 * @param string          $url   Permalink for the group.
 		 * @param BP_Groups_Group $group The group object.
 		 */
-		return apply_filters_deprecated( 'bp_get_group_permalink', array( $url, $group ), '12.0.0', 'bp_groups_get_group_url' );
+		return apply_filters_deprecated( 'bp_get_group_permalink', array( $url, $group ), '12.0.0', 'bp_get_group_url' );
 	}
 
 /**
@@ -1330,7 +1387,7 @@ function bp_group_link( $group = false ) {
 
 		$link = sprintf(
 			'<a href="%s" class="bp-group-home-link %s-home-link">%s</a>',
-			esc_url( bp_groups_get_group_url( $group ) ),
+			esc_url( bp_get_group_url( $group ) ),
 			esc_attr( bp_get_group_slug( $group ) ),
 			esc_html( bp_get_group_name( $group ) )
 		);
@@ -3223,12 +3280,12 @@ function bp_group_form_action( $page, $group = false ) {
 			return '';
 		}
 
-		$views = bp_get_group_views( 'read' );
+		$views = bp_get_group_screens( 'read' );
 		if ( isset( $views[ $page ]['rewrite_id'] ) ) {
 			$page = bp_rewrites_get_slug( 'groups', $views[ $page ]['rewrite_id'], $page );
 		}
 
-		$url = bp_groups_get_group_url(
+		$url = bp_get_group_url(
 			$group,
 			array(
 				'single_item_action' => $page,
@@ -3595,7 +3652,7 @@ function bp_group_leave_reject_link() {
 		 * @param string $value URL for rejecting a request to leave a group.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_leave_reject_link', bp_groups_get_group_url( $group ), $group );
+		return apply_filters( 'bp_get_group_leave_reject_link', bp_get_group_url( $group ), $group );
 	}
 
 /**
@@ -3755,7 +3812,7 @@ function bp_group_join_button( $group = false ) {
 							'block_self'        => false,
 							'wrapper_class'     => 'group-button ' . $group->status,
 							'wrapper_id'        => 'groupbutton-' . $group->id,
-							'link_href'         => add_query_arg( 'redirect_to', bp_groups_get_group_url( $group ), bp_get_group_accept_invite_link( $group ) ),
+							'link_href'         => add_query_arg( 'redirect_to', bp_get_group_url( $group ), bp_get_group_accept_invite_link( $group ) ),
 							'link_text'         => __( 'Accept Invitation', 'buddypress' ),
 							'link_title'        => __( 'Accept Invitation', 'buddypress' ),
 							'link_class'        => 'group-button accept-invite',
@@ -6669,7 +6726,7 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
 			if ( !empty( $action ) ) {
 				$url = bp_get_group_permalink( $current_group ) . $action;
 			} else {
-				$url = bp_groups_get_group_url( $current_group );
+				$url = bp_get_group_url( $current_group );
 			}
 
 			// Add a slash at the end of our user url.

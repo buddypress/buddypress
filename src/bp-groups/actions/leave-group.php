@@ -46,7 +46,7 @@ function groups_action_leave_group() {
 		}
 
 		$group = groups_get_current_group();
-		$redirect = bp_groups_get_group_url( $group );
+		$redirect = bp_get_group_url( $group );
 
 		if ( ! $group->is_visible ) {
 			$redirect = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() );

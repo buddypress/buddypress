@@ -374,7 +374,7 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 		// Set default Group creation steps.
-		$group_creation_steps = bp_get_group_views( 'create' );
+		$group_creation_steps = bp_get_group_screens( 'create' );
 
 		// If avatar uploads are disabled, remove avatar view.
 		$disabled_avatar_uploads = (int) bp_disable_group_avatar_uploads();
@@ -524,7 +524,7 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 		// Prepare for a redirect to the canonical URL.
-		$bp->canonical_stack['base_url'] = bp_groups_get_group_url( $this->current_group );
+		$bp->canonical_stack['base_url'] = bp_get_group_url( $this->current_group );
 
 		if ( bp_current_action() ) {
 			$bp->canonical_stack['action'] = bp_current_action();
@@ -652,7 +652,7 @@ class BP_Groups_Component extends BP_Component {
 				'item_css_id'         => $this->id
 			), 'groups' );
 
-			$group_link = bp_groups_get_group_url( $this->current_group );
+			$group_link = bp_get_group_url( $this->current_group );
 
 			// Add the "Home" subnav item, as this will always be present.
 			$sub_nav[] = array(
