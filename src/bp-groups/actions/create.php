@@ -200,7 +200,7 @@ function groups_action_create_group() {
 			 */
 			do_action( 'groups_group_create_complete', $bp->groups->new_group_id );
 
-			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+			bp_core_redirect( bp_groups_get_group_url( $bp->groups->current_group ) );
 		} else {
 			/**
 			 * Since we don't know what the next step is going to be (any plugin can insert steps)

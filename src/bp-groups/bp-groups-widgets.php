@@ -67,7 +67,7 @@ function groups_ajax_widget_groups_list() {
 		<?php while ( bp_groups() ) : bp_the_group(); ?>
 			<li <?php bp_group_class(); ?>>
 				<div class="item-avatar">
-					<a href="<?php bp_group_permalink() ?>"><?php bp_group_avatar_thumb() ?></a>
+					<a href="<?php bp_group_url() ?>"><?php bp_group_avatar_thumb() ?></a>
 				</div>
 
 				<div class="item">

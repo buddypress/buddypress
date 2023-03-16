@@ -51,8 +51,8 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 			$changed[] = sprintf(
 				/* translators: 1: the old group permalink. 2: the new group permalink. */
 				_x( '* Permalink changed from "%1$s" to "%2$s".', 'Group update email text', 'buddypress' ),
-				esc_url( bp_get_group_permalink( $old_group ) ),
-				esc_url( bp_get_group_permalink( $group ) )
+				esc_url( bp_groups_get_group_url( $old_group ) ),
+				esc_url( bp_groups_get_group_url( $group ) )
 			);
 		}
 	}
@@ -89,7 +89,7 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 				'changed_text' => $changed_text,
 				'group'        => $group,
 				'group.id'     => $group_id,
-				'group.url'    => esc_url( bp_get_group_permalink( $group ) ),
+				'group.url'    => esc_url( bp_groups_get_group_url( $group ) ),
 				'group.name'   => $group->name,
 				'unsubscribe'  => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 			),
@@ -215,7 +215,7 @@ function groups_notification_membership_request_completed( $requesting_user_id =
 			'group'              => $group,
 			'group.id'           => $group_id,
 			'group.name'         => $group->name,
-			'group.url'          => esc_url( bp_get_group_permalink( $group ) ),
+			'group.url'          => esc_url( bp_groups_get_group_url( $group ) ),
 			'requesting-user.id' => $requesting_user_id,
 		),
 	);
@@ -290,7 +290,7 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 		'tokens' => array(
 			'group'       => $group,
 			'group.id'    => $group_id,
-			'group.url'   => esc_url( bp_get_group_permalink( $group ) ),
+			'group.url'   => esc_url( bp_groups_get_group_url( $group ) ),
 			'group.name'  => $group->name,
 			'promoted_to' => $promoted_to,
 			'user.id'     => $user_id,
@@ -362,7 +362,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	$args = array(
 		'tokens' => array(
 			'group'          => $group,
-			'group.url'      => bp_get_group_permalink( $group ),
+			'group.url'      => bp_groups_get_group_url( $group ),
 			'group.name'     => $group->name,
 			'inviter.name'   => bp_core_get_userlink( $inviter_user_id, true, false ),
 			'inviter.url'    => bp_members_get_user_url( $inviter_user_id ),
@@ -400,7 +400,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$requesting_user_id = $secondary_item_id;
 
 			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
+			$group_link = bp_groups_get_group_url( $group );
 			$amount = 'single';
 
 			// Set up the string and the filter
@@ -506,7 +506,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 
 			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
+			$group_link = bp_groups_get_group_url( $group );
 			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
@@ -597,7 +597,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 
 			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
+			$group_link = bp_groups_get_group_url( $group );
 			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
@@ -687,7 +687,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 
 			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
+			$group_link = bp_groups_get_group_url( $group );
 			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
@@ -771,7 +771,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id = $item_id;
 
 			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
+			$group_link = bp_groups_get_group_url( $group );
 			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
@@ -854,7 +854,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'group_invite':
 			$group_id = $item_id;
 			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
+			$group_link = bp_groups_get_group_url( $group );
 			$amount = 'single';
 
 			$notification_link = bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/?n=1';
@@ -1256,7 +1256,7 @@ function groups_email_notification_membership_request_completed_by_admin( $user_
 			'group'           => $group,
 			'group.id'        => $group_id,
 			'group.name'      => $group->name,
-			'group.url'       => esc_url( bp_get_group_permalink( $group ) ),
+			'group.url'       => esc_url( bp_groups_get_group_url( $group ) ),
 			'leave-group.url' => esc_url(
 				bp_members_get_user_url(
 					$user_id,

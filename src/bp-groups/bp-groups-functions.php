@@ -151,6 +151,63 @@ function bp_get_group( $group = false ) {
 	return $group_obj;
 }
 
+/**
+ * Returns the Groups single item's URL.
+ *
+ * @since 12.0.0
+ *
+ * @param integer|BP_Groups_Group $group The group ID or the Group object.
+ * @param array                   $path_chunks {
+ *     An array of arguments. Optional.
+ *
+ *     @type string $single_item_component        The component slug the action is relative to.
+ *     @type string $single_item_action           The slug of the action to perform.
+ *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+ * }
+ * @return string The URL built for the BP Rewrites URL parser.
+ */
+function bp_groups_get_group_url( $group = 0, $path_chunks = array() ) {
+	$url  = '';
+	$slug = groups_get_slug( $group );
+
+	if ( $group instanceof BP_Groups_Group ) {
+		$group_id = (int) $group->id;
+	} else {
+		$group_id = (int) $group;
+	}
+
+	if ( $slug ) {
+		$supported_chunks = array_fill_keys( array( 'single_item_component', 'single_item_action', 'single_item_action_variables' ), true );
+		$path_chunks      = bp_parse_args(
+			array_intersect_key( $path_chunks, $supported_chunks ),
+			array(
+				'component_id' => 'groups',
+				'single_item'  => $slug,
+			)
+		);
+
+		$url = bp_rewrites_get_url( $path_chunks );
+	}
+
+	/**
+	 * Filters the URL for the passed group.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string  $url      The group url.
+	 * @param integer $group_id The group ID.
+	 * @param string  $slug     The group slug.
+	 * @param array   $path_chunks {
+	 *     An array of arguments. Optional.
+	 *
+	 *     @type string $single_item_component        The component slug the action is relative to.
+	 *     @type string $single_item_action           The slug of the action to perform.
+	 *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+	 * }
+	 */
+	return apply_filters( 'bp_groups_get_group_url', $url, $group_id, $slug, $path_chunks );
+}
+
 /** Group Creation, Editing & Deletion ****************************************/
 
 /**
@@ -3333,7 +3390,7 @@ function bp_groups_memberships_personal_data_exporter( $email_address, $page ) {
 			),
 			array(
 				'name'  => __( 'Group URL', 'buddypress' ),
-				'value' => bp_get_group_permalink( $group ),
+				'value' => bp_groups_get_group_url( $group ),
 			),
 		);
 
@@ -3422,7 +3479,7 @@ function bp_groups_pending_requests_personal_data_exporter( $email_address, $pag
 			),
 			array(
 				'name'  => __( 'Group URL', 'buddypress' ),
-				'value' => bp_get_group_permalink( $group ),
+				'value' => bp_groups_get_group_url( $group ),
 			),
 			array(
 				'name'  => __( 'Date Sent', 'buddypress' ),
@@ -3488,7 +3545,7 @@ function bp_groups_pending_sent_invitations_personal_data_exporter( $email_addre
 			),
 			array(
 				'name'  => __( 'Group URL', 'buddypress' ),
-				'value' => bp_get_group_permalink( $group ),
+				'value' => bp_groups_get_group_url( $group ),
 			),
 			array(
 				'name'  => __( 'Sent To', 'buddypress' ),
@@ -3558,7 +3615,7 @@ function bp_groups_pending_received_invitations_personal_data_exporter( $email_a
 			),
 			array(
 				'name'  => __( 'Group URL', 'buddypress' ),
-				'value' => bp_get_group_permalink( $group ),
+				'value' => bp_groups_get_group_url( $group ),
 			),
 			array(
 				'name'  => __( 'Invited By', 'buddypress' ),

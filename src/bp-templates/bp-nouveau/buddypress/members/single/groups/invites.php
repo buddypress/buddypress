@@ -26,7 +26,7 @@
 
 				<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
 					<div class="item-avatar">
-						<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar(); ?></a>
+						<a href="<?php bp_group_url(); ?>"><?php bp_group_avatar(); ?></a>
 					</div>
 				<?php endif; ?>
 

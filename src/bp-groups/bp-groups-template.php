@@ -1236,15 +1236,29 @@ function bp_group_last_active( $group = false, $args = array() ) {
 	}
 
 /**
+ * Output the URL for the group.
+ *
+ * @since 12.0.0
+ *
+ * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+ *                                                Default: false.
+ */
+function bp_group_url( $group = false ) {
+	echo esc_url( bp_groups_get_group_url( $group ) );
+}
+
+/**
  * Output the permalink for the group.
  *
  * @since 1.0.0
+ * @deprecated 12.0.0
  *
  * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
  *                                                Default: false.
  */
 function bp_group_permalink( $group = false ) {
-	echo bp_get_group_permalink( $group );
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_group_url' );
+	bp_group_url( $group );
 }
 	/**
 	 * Return the permalink for the group.
@@ -1257,22 +1271,33 @@ function bp_group_permalink( $group = false ) {
 	 * @return string
 	 */
 	function bp_get_group_permalink( $group = false ) {
-		$group = bp_get_group( $group );
-
-		if ( empty( $group->id ) ) {
-			return '';
+		/*
+		 * This function is used at many places and we need to review all this
+		 * places during the 12.0 development cycle. Using BP Rewrites means we
+		 * cannot concatenate URL chunks to build our URL anymore. We now need
+		 * to use `bp_groups_get_group_url( $group, $array )` and make sure to use
+		 * the right arguments inside this `$array`.
+		 *
+		 * @todo Once every link reviewed, we'll be able to remove this check
+		 *       and let PHPUnit tell us the one we forgot, eventually!
+		 */
+		if ( ! buddypress()->is_phpunit_running ) {
+			_deprecated_function( __FUNCTION__, '12.0.0', 'bp_groups_get_group_url' );
 		}
+
+		$url = bp_groups_get_group_url( $group );
 
 		/**
 		 * Filters the permalink for the group.
 		 *
 		 * @since 1.0.0
 		 * @since 2.5.0 Added the `$group` parameter.
+		 * @deprecated 12.0.0
 		 *
-		 * @param string          $permalink Permalink for the group.
-		 * @param BP_Groups_Group $group     The group object.
+		 * @param string          $url   Permalink for the group.
+		 * @param BP_Groups_Group $group The group object.
 		 */
-		return apply_filters( 'bp_get_group_permalink', trailingslashit( bp_get_groups_directory_permalink() . bp_get_group_slug( $group ) . '/' ), $group );
+		return apply_filters_deprecated( 'bp_get_group_permalink', array( $url, $group ), '12.0.0', 'bp_groups_get_group_url' );
 	}
 
 /**
@@ -1305,7 +1330,7 @@ function bp_group_link( $group = false ) {
 
 		$link = sprintf(
 			'<a href="%s" class="bp-group-home-link %s-home-link">%s</a>',
-			esc_url( bp_get_group_permalink( $group ) ),
+			esc_url( bp_groups_get_group_url( $group ) ),
 			esc_attr( bp_get_group_slug( $group ) ),
 			esc_html( bp_get_group_name( $group ) )
 		);
@@ -3198,17 +3223,29 @@ function bp_group_form_action( $page, $group = false ) {
 			return '';
 		}
 
+		$views = bp_get_group_views( 'read' );
+		if ( isset( $views[ $page ]['rewrite_id'] ) ) {
+			$page = bp_rewrites_get_slug( 'groups', $views[ $page ]['rewrite_id'], $page );
+		}
+
+		$url = bp_groups_get_group_url(
+			$group,
+			array(
+				'single_item_action' => $page,
+			)
+		);
+
 		/**
 		 * Filters the 'action' attribute for a group form.
 		 *
 		 * @since 1.0.0
 		 * @since 2.5.0 Added the `$group` parameter.
 		 *
-		 * @param string          $value Action attribute for a group form.
+		 * @param string          $url   Action attribute for a group form.
 		 * @param BP_Groups_Group $group The group object.
 		 * @param int|string|bool $page  Page slug.
 		 */
-		return apply_filters( 'bp_group_form_action', trailingslashit( bp_get_group_permalink( $group ) . $page ), $group, $page );
+		return apply_filters( 'bp_group_form_action', $url, $group, $page );
 	}
 
 /**
@@ -3558,7 +3595,7 @@ function bp_group_leave_reject_link() {
 		 * @param string $value URL for rejecting a request to leave a group.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_leave_reject_link', bp_get_group_permalink( $group ), $group );
+		return apply_filters( 'bp_get_group_leave_reject_link', bp_groups_get_group_url( $group ), $group );
 	}
 
 /**
@@ -3718,7 +3755,7 @@ function bp_group_join_button( $group = false ) {
 							'block_self'        => false,
 							'wrapper_class'     => 'group-button ' . $group->status,
 							'wrapper_id'        => 'groupbutton-' . $group->id,
-							'link_href'         => add_query_arg( 'redirect_to', bp_get_group_permalink( $group ), bp_get_group_accept_invite_link( $group ) ),
+							'link_href'         => add_query_arg( 'redirect_to', bp_groups_get_group_url( $group ), bp_get_group_accept_invite_link( $group ) ),
 							'link_text'         => __( 'Accept Invitation', 'buddypress' ),
 							'link_title'        => __( 'Accept Invitation', 'buddypress' ),
 							'link_class'        => 'group-button accept-invite',
@@ -6632,7 +6669,7 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
 			if ( !empty( $action ) ) {
 				$url = bp_get_group_permalink( $current_group ) . $action;
 			} else {
-				$url = bp_get_group_permalink( $current_group );
+				$url = bp_groups_get_group_url( $current_group );
 			}
 
 			// Add a slash at the end of our user url.
