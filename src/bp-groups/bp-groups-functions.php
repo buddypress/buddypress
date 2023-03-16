@@ -3726,11 +3726,11 @@ function bp_groups_defer_group_members_count( $defer = true, $group_id = 0 ) {
 }
 
 /**
- * Returns the Group restricted views.
+ * Returns the Group restricted screens.
  *
  * @since 12.0.0
  *
- * @return array The list of the Group restricted views.
+ * @return array The list of the Group restricted screens.
  */
 function bp_get_group_restricted_screens() {
 	return array(
@@ -3750,80 +3750,80 @@ function bp_get_group_restricted_screens() {
 }
 
 /**
- * Returns all registered Group Extension views.
+ * Returns all registered Group Extension front-end screens.
  *
  * @since 12.0.0
  *
  * @param string $context The display context. Required. Defaults to `read`.
- * @return array          The list of registered Group Extension views.
+ * @return array          The list of registered Group Extension screens.
  */
 function bp_get_group_extension_screens( $context = 'read' ) {
 	$bp = buddypress();
 
-	$group_extension_views = array(
+	$group_extension_screens = array(
 		'create' => array(),
 		'manage' => array(),
 		'read'   => array(),
 	);
 
 	if ( $bp->groups->group_extensions ) {
-		foreach ( $bp->groups->group_extensions as $extension_views ) {
-			if ( ! is_array( $extension_views ) ) {
+		foreach ( $bp->groups->group_extensions as $extension_screens ) {
+			if ( ! is_array( $extension_screens ) ) {
 				continue;
 			}
 
-			foreach ( $extension_views as $ctext => $extension_view ) {
-				$group_extension_views[ $ctext ] = array_merge( $group_extension_views[ $ctext ], $extension_view );
+			foreach ( $extension_screens as $ctext => $extension_screen ) {
+				$group_extension_screens[ $ctext ] = array_merge( $group_extension_screens[ $ctext ], $extension_screen );
 			}
 		}
 	}
 
-	if ( ! array_filter( $group_extension_views ) || ! isset( $group_extension_views[ $context ] ) ) {
+	if ( ! array_filter( $group_extension_screens ) || ! isset( $group_extension_screens[ $context ] ) ) {
 		return array();
 	}
 
-	return $group_extension_views[ $context ];
+	return $group_extension_screens[ $context ];
 }
 
 /**
- * Returns all potential Group views.
+ * Returns all potential Group screens.
  *
  * @since 12.0.0
  *
  * @param string $context The display context. Required. Defaults to `read`.
- * @return array          The list of potential Group views.
+ * @return array          The list of potential Group screens.
  */
 function bp_get_group_screens( $context = 'read' ) {
-	$views = array(
+	$screens = array(
 		'create' => array(
 			'group-details'     => array(
 				'rewrite_id' => 'bp_group_create_group_details',
 				'slug'       => 'group-details',
-				'name'       => _x( 'Details', 'Group create view', 'buddypress' ),
+				'name'       => _x( 'Details', 'Group create screen', 'buddypress' ),
 				'position'   => 0,
 			),
 			'group-settings'    => array(
 				'rewrite_id' => 'bp_group_create_group_settings',
 				'slug'       => 'group-settings',
-				'name'       => _x( 'Settings', 'Group create view', 'buddypress' ),
+				'name'       => _x( 'Settings', 'Group create screen', 'buddypress' ),
 				'position'   => 10,
 			),
 			'group-avatar'      => array(
 				'rewrite_id' => 'bp_group_create_group_avatar',
 				'slug'       => 'group-avatar',
-				'name'       => _x( 'Photo', 'Group create view', 'buddypress' ),
+				'name'       => _x( 'Photo', 'Group create screen', 'buddypress' ),
 				'position'   => 20,
 			),
 			'group-cover-image' => array(
 				'rewrite_id' => 'bp_group_create_group_cover_image',
 				'slug'       => 'group-cover-image',
-				'name'       => _x( 'Cover Image', 'Group create view', 'buddypress' ),
+				'name'       => _x( 'Cover Image', 'Group create screen', 'buddypress' ),
 				'position'   => 25,
 			),
 			'group-invites'     => array(
 				'rewrite_id' => 'bp_group_create_group_invites',
 				'slug'       => 'group-invites',
-				'name'       => _x( 'Invites', 'Group create view', 'buddypress' ),
+				'name'       => _x( 'Invites', 'Group create screen', 'buddypress' ),
 				'position'   => 30,
 			),
 		),
@@ -3831,7 +3831,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'home'               => array(
 				'rewrite_id'      => 'bp_group_read_home',
 				'slug'            => 'home',
-				'name'            => _x( 'Home', 'Group read view', 'buddypress' ),
+				'name'            => _x( 'Home', 'Group read screen', 'buddypress' ),
 				'screen_function' => 'groups_screen_group_home',
 				'position'        => 10,
 				'item_css_id'     => 'home',
@@ -3839,7 +3839,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'request-membership' => array(
 				'rewrite_id'      => 'bp_group_read_request_membership',
 				'slug'            => 'request-membership',
-				'name'            => _x( 'Request Membership', 'Group read view', 'buddypress' ),
+				'name'            => _x( 'Request Membership', 'Group read screen', 'buddypress' ),
 				'screen_function' => 'groups_screen_group_request_membership',
 				'position'        => 30,
 			),
@@ -3847,7 +3847,7 @@ function bp_get_group_screens( $context = 'read' ) {
 				'rewrite_id'      => 'bp_group_read_members',
 				'slug'            => 'members',
 				/* translators: %s: total member count */
-				'name'            => _x( 'Members %s', 'Group read view', 'buddypress' ),
+				'name'            => _x( 'Members %s', 'Group read screen', 'buddypress' ),
 				'screen_function' => 'groups_screen_group_members',
 				'position'        => 60,
 				'user_has_access' => false,
@@ -3857,7 +3857,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'send-invites'       => array(
 				'rewrite_id'      => 'bp_group_read_send_invites',
 				'slug'            => 'send-invites',
-				'name'            => _x( 'Send Invites', 'Group read view', 'buddypress' ),
+				'name'            => _x( 'Send Invites', 'Group read screen', 'buddypress' ),
 				'screen_function' => 'groups_screen_group_invite',
 				'position'        => 70,
 				'user_has_access' => false,
@@ -3867,7 +3867,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'admin'              => array(
 				'rewrite_id'      => 'bp_group_read_admin',
 				'slug'            => 'admin',
-				'name'            => _x( 'Manage', 'Group read view', 'buddypress' ),
+				'name'            => _x( 'Manage', 'Group read screen', 'buddypress' ),
 				'screen_function' => 'groups_screen_group_admin',
 				'position'        => 1000,
 				'user_has_access' => false,
@@ -3879,7 +3879,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'edit-details'        => array(
 				'rewrite_id'        => 'bp_group_manage_edit_details',
 				'slug'              => 'edit-details',
-				'name'              => _x( 'Details', 'Group manage view', 'buddypress' ),
+				'name'              => _x( 'Details', 'Group manage screen', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 0,
 				'user_has_access'   => false,
@@ -3888,7 +3888,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'group-settings'      => array(
 				'rewrite_id'        => 'bp_group_manage_group_settings',
 				'slug'              => 'group-settings',
-				'name'              => _x( 'Settings', 'Group manage view', 'buddypress' ),
+				'name'              => _x( 'Settings', 'Group manage screen', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 10,
 				'user_has_access'   => false,
@@ -3897,7 +3897,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'group-avatar'        => array(
 				'rewrite_id'        => 'bp_group_manage_group_avatar',
 				'slug'              => 'group-avatar',
-				'name'              => _x( 'Photo', 'Group manage view', 'buddypress' ),
+				'name'              => _x( 'Photo', 'Group manage screen', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 20,
 				'user_has_access'   => false,
@@ -3906,7 +3906,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'group-cover-image'   => array(
 				'rewrite_id'        => 'bp_group_manage_group_cover_image',
 				'slug'              => 'group-cover-image',
-				'name'              => _x( 'Cover Image', 'Group manage view', 'buddypress' ),
+				'name'              => _x( 'Cover Image', 'Group manage screen', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 25,
 				'user_has_access'   => false,
@@ -3915,7 +3915,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'manage-members'      => array(
 				'rewrite_id'        => 'bp_group_manage_manage_members',
 				'slug'              => 'manage-members',
-				'name'              => _x( 'Members', 'Group manage view', 'buddypress' ),
+				'name'              => _x( 'Members', 'Group manage screen', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 30,
 				'user_has_access'   => false,
@@ -3924,7 +3924,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'membership-requests' => array(
 				'rewrite_id'        => 'bp_group_manage_membership_requests',
 				'slug'              => 'membership-requests',
-				'name'              => _x( 'Requests', 'Group manage view', 'buddypress' ),
+				'name'              => _x( 'Requests', 'Group manage screen', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 40,
 				'user_has_access'   => false,
@@ -3933,7 +3933,7 @@ function bp_get_group_screens( $context = 'read' ) {
 			'delete-group'        => array(
 				'rewrite_id'        => 'bp_group_manage_delete_group',
 				'slug'              => 'delete-group',
-				'name'              => _x( 'Delete', 'Group manage view', 'buddypress' ),
+				'name'              => _x( 'Delete', 'Group manage screen', 'buddypress' ),
 				'screen_function'   => 'groups_screen_group_admin',
 				'position'          => 1000,
 				'user_has_access'   => false,
@@ -3942,40 +3942,40 @@ function bp_get_group_screens( $context = 'read' ) {
 		),
 	);
 
-	if ( ! isset( $views[ $context ] ) ) {
+	if ( ! isset( $screens[ $context ] ) ) {
 		return array();
 	}
 
-	$context_views         = array();
-	$custom_views          = apply_filters( 'bp_get_group_custom_' . $context . '_views', $context_views );
-	$group_extension_views = bp_get_group_extension_screens( $context );
+	$context_screens         = array();
+	$custom_screens          = apply_filters( 'bp_get_group_custom_' . $context . '_screens', $context_screens );
+	$group_extension_screens = bp_get_group_extension_screens( $context );
 
-	if ( $group_extension_views ) {
-		$custom_views = array_merge( $custom_views, $group_extension_views );
+	if ( $group_extension_screens ) {
+		$custom_screens = array_merge( $custom_screens, $group_extension_screens );
 	}
 
-	if ( $custom_views && ! wp_is_numeric_array( $custom_views ) ) {
-		// The view key (used as default slug) and `rewrite_id` prop need to be unique.
-		$valid_custom_views   = array_diff_key( $custom_views, $views[ $context ] );
-		$existing_rewrite_ids = array_column( $views[ $context ], 'rewrite_id' );
+	if ( $custom_screens && ! wp_is_numeric_array( $custom_screens ) ) {
+		// The screen key (used as default slug) and `rewrite_id` prop need to be unique.
+		$valid_custom_screens   = array_diff_key( $custom_screens, $screens[ $context ] );
+		$existing_rewrite_ids = array_column( $screens[ $context ], 'rewrite_id' );
 		$existing_rewrite_ids = array_merge(
 			$existing_rewrite_ids,
 			// BP Group Reserved rewrite IDs.
 			array_keys( bp_get_group_restricted_screens() )
 		);
 
-		foreach ( $valid_custom_views as $key_view => $view ) {
-			if ( ! isset( $view['rewrite_id'] ) || ! in_array( $view['rewrite_id'], $existing_rewrite_ids, true ) ) {
+		foreach ( $valid_custom_screens as $key_screen => $screen ) {
+			if ( ! isset( $screen['rewrite_id'] ) || ! in_array( $screen['rewrite_id'], $existing_rewrite_ids, true ) ) {
 				continue;
 			}
 
-			unset( $valid_custom_views[ $key_view ] );
+			unset( $valid_custom_screens[ $key_screen ] );
 		}
 
-		$context_views = array_merge( $views[ $context ], $valid_custom_views );
+		$context_screens = array_merge( $screens[ $context ], $valid_custom_screens );
 	} else {
-		$context_views = $views[ $context ];
+		$context_screens = $screens[ $context ];
 	}
 
-	return $context_views;
+	return $context_screens;
 }

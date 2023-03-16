@@ -3,7 +3,7 @@
  * BuddyPress - Members Single Group Invites
  *
  * @since 3.0.0
- * @version 11.0.0
+ * @version 12.0.0
  */
 ?>
 
