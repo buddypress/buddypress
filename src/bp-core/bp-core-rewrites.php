@@ -118,7 +118,7 @@ function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_sl
  * @return string The BuddyPress link.
  */
 function bp_rewrites_get_url( $args = array() ) {
-	$bp   = buddypress();
+	$bp  = buddypress();
 	$url = get_home_url( bp_get_root_blog_id() );
 
 	$r = bp_parse_args(
@@ -158,55 +158,61 @@ function bp_rewrites_get_url( $args = array() ) {
 
 			// Using pretty URLs.
 		} else {
-			if ( ! isset( $component->rewrite_ids['directory'] ) || ! isset( $component->directory_permastruct ) ) {
-				return $url;
-			}
+			if ( isset( $component->rewrite_ids['directory'] ) && isset( $component->directory_permastruct ) ) {
+				if ( isset( $r['member_register'] ) ) {
+					$url = str_replace( '%' . $component->rewrite_ids['member_register'] . '%', '', $component->register_permastruct );
+					unset( $r['member_register'] );
+				} elseif ( isset( $r['member_activate'] ) ) {
+					$url = str_replace( '%' . $component->rewrite_ids['member_activate'] . '%', '', $component->activate_permastruct );
+					unset( $r['member_activate'] );
+				} elseif ( isset( $r['create_single_item'] ) ) {
+					$create_slug = 'create';
+					if ( 'groups' === $component->id ) {
+						$create_slug = bp_rewrites_get_slug( 'groups', 'group_create', 'create' );
+					} elseif ( 'blogs' === $component->id ) {
+						$create_slug = bp_rewrites_get_slug( 'blogs', 'blog_create', 'create' );
+					}
 
-			if ( isset( $r['member_register'] ) ) {
-				$url = str_replace( '%' . $component->rewrite_ids['member_register'] . '%', '', $component->register_permastruct );
-				unset( $r['member_register'] );
-			} elseif ( isset( $r['member_activate'] ) ) {
-				$url = str_replace( '%' . $component->rewrite_ids['member_activate'] . '%', '', $component->activate_permastruct );
-				unset( $r['member_activate'] );
-			} elseif ( isset( $r['create_single_item'] ) ) {
-				$create_slug = 'create';
-				if ( 'groups' === $component->id ) {
-					$create_slug = bp_rewrites_get_slug( 'groups', 'group_create', 'create' );
-				} elseif ( 'blogs' === $component->id ) {
-					$create_slug = bp_rewrites_get_slug( 'blogs', 'blog_create', 'create' );
-				}
-
-				$url = str_replace( '%' . $component->rewrite_ids['directory'] . '%', $create_slug, $component->directory_permastruct );
-				unset( $r['create_single_item'] );
-			} else {
-				$url = str_replace( '%' . $component->rewrite_ids['directory'] . '%', $r['single_item'], $component->directory_permastruct );
-
-				// Remove the members directory slug when root profiles are on.
-				if ( bp_core_enable_root_profiles() && 'members' === $component->id && isset( $r['single_item'] ) && $r['single_item'] ) {
-					$url = str_replace( $bp->members->root_slug . '/', '', $url );
-				}
-
-				unset( $r['single_item'] );
-			}
-
-			$r = array_filter( $r );
-
-			if ( isset( $r['directory_type'] ) && $r['directory_type'] ) {
-				if ( 'members' === $component->id ) {
-					array_unshift( $r, bp_get_members_member_type_base() );
-				} elseif ( 'groups' === $component->id && bp_is_active( 'groups' ) ) {
-					array_unshift( $r, bp_get_groups_group_type_base() );
+					$url = str_replace( '%' . $component->rewrite_ids['directory'] . '%', $create_slug, $component->directory_permastruct );
+					unset( $r['create_single_item'] );
 				} else {
-					unset( $r['directory_type'] );
+					$url = str_replace( '%' . $component->rewrite_ids['directory'] . '%', $r['single_item'], $component->directory_permastruct );
+
+					// Remove the members directory slug when root profiles are on.
+					if ( bp_core_enable_root_profiles() && 'members' === $component->id && isset( $r['single_item'] ) && $r['single_item'] ) {
+						$url = str_replace( $bp->members->root_slug . '/', '', $url );
+					}
+
+					unset( $r['single_item'] );
 				}
-			}
 
-			if ( isset( $r['single_item_action_variables'] ) && $r['single_item_action_variables'] ) {
-				$r['single_item_action_variables'] = join( '/', (array) $r['single_item_action_variables'] );
-			}
+				$r = array_filter( $r );
 
-			if ( isset( $r['create_single_item_variables'] ) && $r['create_single_item_variables'] ) {
-				$r['create_single_item_variables'] = join( '/', (array) $r['create_single_item_variables'] );
+				if ( isset( $r['directory_type'] ) && $r['directory_type'] ) {
+					if ( 'members' === $component->id ) {
+						array_unshift( $r, bp_get_members_member_type_base() );
+					} elseif ( 'groups' === $component->id && bp_is_active( 'groups' ) ) {
+						array_unshift( $r, bp_get_groups_group_type_base() );
+					} else {
+						unset( $r['directory_type'] );
+					}
+				}
+
+				if ( isset( $r['single_item_action_variables'] ) && $r['single_item_action_variables'] ) {
+					$r['single_item_action_variables'] = join( '/', (array) $r['single_item_action_variables'] );
+				}
+
+				if ( isset( $r['create_single_item_variables'] ) && $r['create_single_item_variables'] ) {
+					$r['create_single_item_variables'] = join( '/', (array) $r['create_single_item_variables'] );
+				}
+			} elseif ( isset( $r['community_search'] ) && 1 === $r['community_search'] ) {
+				$r   = array_filter( $r );
+				$url = '';
+
+				unset( $r['community_search'] );
+				array_unshift( $r, bp_get_search_slug() );
+			} else {
+				return $url;
 			}
 
 			$url = get_home_url( bp_get_root_blog_id(), user_trailingslashit( '/' . rtrim( $url, '/' ) . '/' . join( '/', $r ) ) );

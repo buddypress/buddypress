@@ -292,6 +292,10 @@ class BP_Core extends BP_Component {
 		// Is the logged in user is a mod for the current item?
 		bp_update_is_item_mod( false, 'core' );
 
+		$this->rewrite_ids = array(
+			'community_search' => 'bp_search',
+		);
+
 		parent::setup_globals(
 			array(
 				'block_globals' => array(

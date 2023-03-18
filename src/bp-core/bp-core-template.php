@@ -519,7 +519,8 @@ function bp_styles() {
 function bp_search_form_action() {
 	$url = bp_rewrites_get_url(
 		array(
-			'component_id' => bp_get_search_slug(),
+			'component_id'     => 'core',
+			'community_search' => 1,
 		)
 	);
 
