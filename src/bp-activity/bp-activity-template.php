@@ -1227,7 +1227,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				// Only if groups is active.
 				if ( bp_is_active( 'groups' ) ) {
 					$group = groups_get_group( $item_id );
-					$link  = bp_get_group_permalink( $group );
+					$link  = bp_get_group_url( $group );
 					$name  = $group->name;
 				}
 
@@ -1610,7 +1610,7 @@ function bp_activity_has_content() {
 				}
 
 				$generated_content->group_url = array(
-					'value'             => bp_get_group_permalink( $group ),
+					'value'             => bp_get_group_url( $group ),
 					'sanitize_callback' => 'esc_url',
 				);
 

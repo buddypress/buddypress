@@ -588,7 +588,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$base_url   = bp_get_admin_url( 'admin.php?page=bp-groups&amp;gid=' . $item['id'] );
 		$delete_url = wp_nonce_url( $base_url . "&amp;action=delete", 'bp-groups-delete' );
 		$edit_url   = $base_url . '&amp;action=edit';
-		$view_url   = bp_get_group_permalink( $item_obj );
+		$view_url   = bp_get_group_url( $item_obj );
 
 		/**
 		 * Filters the group name for a group's column content.

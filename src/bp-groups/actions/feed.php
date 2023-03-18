@@ -35,7 +35,7 @@ function groups_action_group_feed() {
 		/* translators: 1: Site Name. 2:Group Name. */
 		'title'         => sprintf( _x( '%1$s | %2$s | Activity', 'Group activity RSS title', 'buddypress' ), bp_get_site_name(), bp_get_current_group_name() ),
 
-		'link'          => bp_get_group_permalink( $group ),
+		'link'          => bp_get_group_url( $group ),
 
 		/* translators: %s: Group Name. */
 		'description'   => sprintf( __( "Activity feed for the group, %s.", 'buddypress' ), bp_get_current_group_name() ),

@@ -17,15 +17,17 @@
 function groups_action_create_group() {
 
 	// If we're not at domain.org/groups/create/ then return false.
-	if ( !bp_is_groups_component() || !bp_is_current_action( 'create' ) )
+	if ( ! bp_is_groups_component() || ! bp_is_current_action( 'create' ) ) {
 		return false;
+	}
 
-	if ( !is_user_logged_in() )
+	if ( ! is_user_logged_in() ) {
 		return false;
+	}
 
-	if ( !bp_user_can_create_groups() ) {
+	if ( ! bp_user_can_create_groups() ) {
 		bp_core_add_message( __( 'Sorry, you are not allowed to create groups.', 'buddypress' ), 'error' );
-		bp_core_redirect( bp_get_groups_directory_permalink() );
+		bp_core_redirect( bp_get_groups_directory_url() );
 	}
 
 	$bp = buddypress();
@@ -198,7 +200,7 @@ function groups_action_create_group() {
 			 */
 			do_action( 'groups_group_create_complete', $bp->groups->new_group_id );
 
-			bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+			bp_core_redirect( bp_get_group_url( $bp->groups->current_group ) );
 		} else {
 			/**
 			 * Since we don't know what the next step is going to be (any plugin can insert steps)
@@ -313,27 +315,40 @@ add_action( 'bp_actions', 'groups_action_create_group' );
  */
 function groups_action_sort_creation_steps() {
 
-	if ( !bp_is_groups_component() || !bp_is_current_action( 'create' ) )
+	if ( ! bp_is_groups_component() || ! bp_is_current_action( 'create' ) ) {
 		return false;
+	}
 
 	$bp = buddypress();
 
-	if ( !is_array( $bp->groups->group_creation_steps ) )
+	if ( ! is_array( $bp->groups->group_creation_steps ) ) {
 		return false;
+	}
 
 	foreach ( (array) $bp->groups->group_creation_steps as $slug => $step ) {
-		while ( !empty( $temp[$step['position']] ) )
+		while ( ! empty( $temp[$step['position']] ) ) {
 			$step['position']++;
+		}
 
-		$temp[$step['position']] = array( 'name' => $step['name'], 'slug' => $slug );
+		$temp[ $step['position'] ] = array(
+			'rewrite_id' => $step['rewrite_id'],
+			'name'       => $step['name'],
+			'slug'       => $slug,
+		);
 	}
 
 	// Sort the steps by their position key.
-	ksort($temp);
-	unset($bp->groups->group_creation_steps);
+	ksort( $temp );
+	unset( $bp->groups->group_creation_steps );
 
-	foreach( (array) $temp as $position => $step )
-		$bp->groups->group_creation_steps[$step['slug']] = array( 'name' => $step['name'], 'position' => $position );
+	foreach( (array) $temp as $position => $step ) {
+		$bp->groups->group_creation_steps[ $step['slug'] ] = array(
+			'rewrite_id'   => $step['rewrite_id'],
+			'default_slug' => $step['slug'],
+			'name'         => $step['name'],
+			'position'     => $position
+		);
+	}
 
 	/**
 	 * Fires after group creation sets have been sorted.

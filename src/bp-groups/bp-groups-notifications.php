@@ -51,8 +51,8 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 			$changed[] = sprintf(
 				/* translators: 1: the old group permalink. 2: the new group permalink. */
 				_x( '* Permalink changed from "%1$s" to "%2$s".', 'Group update email text', 'buddypress' ),
-				esc_url( bp_get_group_permalink( $old_group ) ),
-				esc_url( bp_get_group_permalink( $group ) )
+				esc_url( bp_get_group_url( $old_group ) ),
+				esc_url( bp_get_group_url( $group ) )
 			);
 		}
 	}
@@ -89,7 +89,7 @@ function groups_notification_group_updated( $group_id = 0, $old_group = null ) {
 				'changed_text' => $changed_text,
 				'group'        => $group,
 				'group.id'     => $group_id,
-				'group.url'    => esc_url( bp_get_group_permalink( $group ) ),
+				'group.url'    => esc_url( bp_get_group_url( $group ) ),
 				'group.name'   => $group->name,
 				'unsubscribe'  => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 			),
@@ -215,7 +215,7 @@ function groups_notification_membership_request_completed( $requesting_user_id =
 			'group'              => $group,
 			'group.id'           => $group_id,
 			'group.name'         => $group->name,
-			'group.url'          => esc_url( bp_get_group_permalink( $group ) ),
+			'group.url'          => esc_url( bp_get_group_url( $group ) ),
 			'requesting-user.id' => $requesting_user_id,
 		),
 	);
@@ -290,7 +290,7 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 		'tokens' => array(
 			'group'       => $group,
 			'group.id'    => $group_id,
-			'group.url'   => esc_url( bp_get_group_permalink( $group ) ),
+			'group.url'   => esc_url( bp_get_group_url( $group ) ),
 			'group.name'  => $group->name,
 			'promoted_to' => $promoted_to,
 			'user.id'     => $user_id,
@@ -362,7 +362,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	$args = array(
 		'tokens' => array(
 			'group'          => $group,
-			'group.url'      => bp_get_group_permalink( $group ),
+			'group.url'      => esc_url( bp_get_group_url( $group ) ),
 			'group.name'     => $group->name,
 			'inviter.name'   => bp_core_get_userlink( $inviter_user_id, true, false ),
 			'inviter.url'    => bp_members_get_user_url( $inviter_user_id ),
@@ -396,21 +396,34 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 	switch ( $action ) {
 		case 'new_membership_request':
-			$group_id = $item_id;
+			$group_id           = $item_id;
 			$requesting_user_id = $secondary_item_id;
 
-			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
-			$amount = 'single';
+			$group      = groups_get_group( $group_id );
+			$group_link = bp_get_group_url( $group );
+			$amount     = 'single';
 
-			// Set up the string and the filter
-			// because different values are passed to the filters,
-			// we'll return values inline.
+			/*
+			 * Set up the string and the filter
+			 * because different values are passed to the filters,
+			 * we'll return values inline.
+			 */
 			if ( (int) $total_items > 1 ) {
 				/* translators: 1: number of group membership requests. 2: group name. */
-				$text = sprintf( __( '%1$d new membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
-				$amount = 'multiple';
-				$notification_link = $group_link . 'admin/membership-requests/?n=1';
+				$text              = sprintf( __( '%1$d new membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
+				$amount            = 'multiple';
+				$notification_link = add_query_arg(
+					array(
+						'n' => 1,
+					),
+					bp_get_group_url(
+						$group,
+						array(
+							'single_item_action'           => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
+							'single_item_action_variables' => array( bp_rewrites_get_slug( 'groups', 'bp_group_manage_membership_requests', 'membership-requests' ) ),
+						)
+					)
+				);
 
 				if ( 'string' == $format ) {
 
@@ -429,7 +442,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . 's_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $total_items, $group->name, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . 's_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $group_link, $total_items, $group->name, $text, $notification_link );
 				} else {
 
 					/**
@@ -454,9 +467,21 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				}
 			} else {
 				$user_fullname = bp_core_get_user_displayname( $requesting_user_id );
+
 				/* translators: %s: member name */
-				$text = sprintf( __( '%s requests group membership', 'buddypress' ), $user_fullname );
-				$notification_link = $group_link . 'admin/membership-requests/?n=1';
+				$text              = sprintf( __( '%s requests group membership', 'buddypress' ), $user_fullname );
+				$notification_link = $notification_link = add_query_arg(
+					array(
+						'n' => 1,
+					),
+					bp_get_group_url(
+						$group,
+						array(
+							'single_item_action'           => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
+							'single_item_action_variables' => array( bp_rewrites_get_slug( 'groups', 'bp_group_manage_membership_requests', 'membership-requests' ) ),
+						)
+					)
+				);
 
 				if ( 'string' == $format ) {
 
@@ -475,7 +500,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $user_fullname, $group->name, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $group_link, $user_fullname, $group->name, $text, $notification_link );
 				} else {
 
 					/**
@@ -505,14 +530,14 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_accepted':
 			$group_id = $item_id;
 
-			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
-			$amount = 'single';
+			$group      = groups_get_group( $group_id );
+			$group_link = bp_get_group_url( $group );
+			$amount     = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: 1: number of accepted group membership requests. 2: group name. */
-				$text = sprintf( __( '%1$d accepted group membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
-				$amount = 'multiple';
+				$text              = sprintf( __( '%1$d accepted group membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
+				$amount            = 'multiple';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
@@ -529,7 +554,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $total_items, $group->name, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $total_items, $group->name, $text, $notification_link );
 				} else {
 
 					/**
@@ -551,9 +576,9 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				}
 			} else {
 				/* translators: %s: group name. */
-				$text = sprintf( __( 'Membership for group "%s" accepted', 'buddypress' ), $group->name );
-				$filter = 'bp_groups_single_membership_request_accepted_notification';
-				$notification_link = $group_link . '?n=1';
+				$text              = sprintf( __( 'Membership for group "%s" accepted', 'buddypress' ), $group->name );
+				$filter            = 'bp_groups_single_membership_request_accepted_notification';
+				$notification_link = add_query_arg( 'n', 1, $group_link );
 
 				if ( 'string' == $format ) {
 
@@ -569,7 +594,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $group_link, $group->name, $text, $notification_link );
 				} else {
 
 					/**
@@ -596,14 +621,14 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_rejected':
 			$group_id = $item_id;
 
-			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
-			$amount = 'single';
+			$group      = groups_get_group( $group_id );
+			$group_link = bp_get_group_url( $group );
+			$amount     = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: 1: number of accepted group membership requests. 2: group name. */
-				$text = sprintf( __( '%1$d rejected group membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
-				$amount = 'multiple';
+				$text              = sprintf( __( '%1$d rejected group membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
+				$amount            = 'multiple';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
@@ -620,7 +645,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $total_items, $group->name, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $total_items, $group->name, $text, $notification_link );
 				} else {
 
 					/**
@@ -642,8 +667,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				}
 			} else {
 				/* translators: %s: group name. */
-				$text = sprintf( __( 'Membership for group "%s" rejected', 'buddypress' ), $group->name );
-				$notification_link = $group_link . '?n=1';
+				$text              = sprintf( __( 'Membership for group "%s" rejected', 'buddypress' ), $group->name );
+				$notification_link = add_query_arg( 'n', 1, $group_link );
 
 				if ( 'string' == $format ) {
 
@@ -659,7 +684,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $group_link, $group->name, $text, $notification_link );
 				} else {
 
 					/**
@@ -686,14 +711,14 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_admin':
 			$group_id = $item_id;
 
-			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
-			$amount = 'single';
+			$group      = groups_get_group( $group_id );
+			$group_link = bp_get_group_url( $group );
+			$amount     = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: %d: number of groups the user has been promoted admin for */
-				$text = sprintf( __( 'You were promoted to an admin in %d groups', 'buddypress' ), (int) $total_items );
-				$amount = 'multiple';
+				$text              = sprintf( __( 'You were promoted to an admin in %d groups', 'buddypress' ), (int) $total_items );
+				$amount            = 'multiple';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
@@ -708,7 +733,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $total_items, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $total_items, $text, $notification_link );
 				} else {
 					/**
 					 * Filters multiple promoted to group admin notification for non-string format.
@@ -728,8 +753,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				}
 			} else {
 				/* translators: %s: group name. */
-				$text = sprintf( __( 'You were promoted to an admin in the group "%s"', 'buddypress' ), $group->name );
-				$notification_link = $group_link . '?n=1';
+				$text              = sprintf( __( 'You were promoted to an admin in the group "%s"', 'buddypress' ), $group->name );
+				$notification_link = add_query_arg( 'n', 1, $group_link );
 
 				if ( 'string' == $format ) {
 					/**
@@ -744,7 +769,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $group_link, $group->name, $text, $notification_link );
 				} else {
 					/**
 					 * Filters single promoted to group admin notification for non-string format.
@@ -770,14 +795,14 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_mod':
 			$group_id = $item_id;
 
-			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
-			$amount = 'single';
+			$group      = groups_get_group( $group_id );
+			$group_link = bp_get_group_url( $group );
+			$amount     = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: %d: number of groups the user has been promoted mod for */
-				$text = sprintf( __( 'You were promoted to a mod in %d groups', 'buddypress' ), (int) $total_items );
-				$amount = 'multiple';
+				$text              = sprintf( __( 'You were promoted to a mod in %d groups', 'buddypress' ), (int) $total_items );
+				$amount            = 'multiple';
 				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
 
 				if ( 'string' == $format ) {
@@ -792,7 +817,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $total_items, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $total_items, $text, $notification_link );
 				} else {
 					/**
 					 * Filters multiple promoted to group mod notification for non-string format.
@@ -812,8 +837,8 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				}
 			} else {
 				/* translators: %s: group name. */
-				$text = sprintf( __( 'You were promoted to a mod in the group "%s"', 'buddypress' ), $group->name );
-				$notification_link = $group_link . '?n=1';
+				$text              = sprintf( __( 'You were promoted to a mod in the group "%s"', 'buddypress' ), $group->name );
+				$notification_link = add_query_arg( 'n', 1, $group_link );
 
 				if ( 'string' == $format ) {
 					/**
@@ -828,7 +853,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $group_link, $group->name, $text, $notification_link );
 				} else {
 					/**
 					 * Filters single promoted to group admin notification for non-string format.
@@ -852,10 +877,10 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			break;
 
 		case 'group_invite':
-			$group_id = $item_id;
-			$group = groups_get_group( $group_id );
-			$group_link = bp_get_group_permalink( $group );
-			$amount = 'single';
+			$group_id   = $item_id;
+			$group      = groups_get_group( $group_id );
+			$group_link = bp_get_group_url( $group );
+			$amount     = 'single';
 
 			$notification_link = bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/?n=1';
 
@@ -896,7 +921,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				}
 			} else {
 				/* translators: %s: group name. */
-				$text = sprintf( __( 'You have an invitation to the group: %s', 'buddypress' ), $group->name );
+				$text   = sprintf( __( 'You have an invitation to the group: %s', 'buddypress' ), $group->name );
 				$filter = 'bp_groups_single_group_invite_notification';
 
 				if ( 'string' == $format ) {
@@ -912,7 +937,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					 * @param string $text              Notification content.
 					 * @param string $notification_link The permalink for notification.
 					 */
-					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . $notification_link . '">' . $text . '</a>', $group_link, $group->name, $text, $notification_link );
+					return apply_filters( 'bp_groups_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $notification_link ) . '">' . esc_html( $text ) . '</a>', $group_link, $group->name, $text, $notification_link );
 				} else {
 					/**
 					 * Filters single group invitation notification for non-string format.
@@ -1256,7 +1281,7 @@ function groups_email_notification_membership_request_completed_by_admin( $user_
 			'group'           => $group,
 			'group.id'        => $group_id,
 			'group.name'      => $group->name,
-			'group.url'       => esc_url( bp_get_group_permalink( $group ) ),
+			'group.url'       => esc_url( bp_get_group_url( $group ) ),
 			'leave-group.url' => esc_url(
 				bp_members_get_user_url(
 					$user_id,

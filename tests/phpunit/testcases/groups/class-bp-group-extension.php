@@ -241,7 +241,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$class_name = 'BPTest_Group_Extension_Enable_Nav_Item_True';
 		$e = new $class_name();
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e->_register();
 
@@ -265,7 +265,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$class_name = 'BPTest_Group_Extension_Enable_Nav_Item_False';
 		$e = new $class_name();
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e->_register();
 
@@ -294,7 +294,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		// Test as non-logged-in user
 		$this->set_current_user( 0 );
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 		$e->_register();
 		$this->assertFalse( isset( buddypress()->bp_options_nav[ $g_obj->slug ][ $e->slug ] ) );
 
@@ -305,7 +305,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$this->add_user_to_group( $u, $g );
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 		$e->_register();
 		$this->assertTrue( isset( buddypress()->bp_options_nav[ $g_obj->slug ][ $e->slug ] ) );
 
@@ -339,7 +339,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		// Test as non-logged-in user
 		$this->set_current_user( 0 );
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 		$e->_register();
 		$this->assertTrue( isset( buddypress()->bp_options_nav[ $g_obj->slug ][ $e->slug ] ) );
 
@@ -350,7 +350,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$u = self::factory()->user->create();
 		$this->set_current_user( $u );
 		$this->add_user_to_group( $u, $g );
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 		$e->_register();
 		$this->assertTrue( isset( buddypress()->bp_options_nav[ $g_obj->slug ][ $e->slug ] ) );
 
@@ -370,7 +370,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 			'status' => 'public',
 		) );
 		$g_obj = groups_get_group( $g );
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$this->set_current_user( 0 );
 
@@ -397,7 +397,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 			'status' => 'public',
 		) );
 		$g_obj = groups_get_group( $g );
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_Access_Anyone();
 		$e1->_register();
@@ -440,7 +440,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_Access_Anyone();
 		$e1->_register();
@@ -485,7 +485,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$this->add_user_to_group( $u, $g );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_Access_Anyone();
 		$e1->_register();
@@ -532,7 +532,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$gm = new BP_Groups_Member( $u, $g );
 		$gm->promote( 'mod' );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_Access_Anyone();
 		$e1->_register();
@@ -579,7 +579,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$gm = new BP_Groups_Member( $u, $g );
 		$gm->promote( 'admin' );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_Access_Anyone();
 		$e1->_register();
@@ -621,7 +621,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( 0 );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_Access_Anyone();
 		$e1->_register();
@@ -663,7 +663,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( 0 );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_ShowTab_Anyone();
 		$e1->_register();
@@ -706,7 +706,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_ShowTab_Anyone();
 		$e1->_register();
@@ -751,7 +751,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$this->add_user_to_group( $u, $g );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_ShowTab_Anyone();
 		$e1->_register();
@@ -798,7 +798,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$gm = new BP_Groups_Member( $u, $g );
 		$gm->promote( 'mod' );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_ShowTab_Anyone();
 		$e1->_register();
@@ -845,7 +845,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$gm = new BP_Groups_Member( $u, $g );
 		$gm->promote( 'admin' );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_ShowTab_Anyone();
 		$e1->_register();
@@ -884,7 +884,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( $g );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		$e1 = new BPTest_Group_Extension_Widget_Method();
 		$e1->_register();
@@ -906,7 +906,14 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		) );
 		$g_obj = groups_get_group( $g );
 
-		$this->go_to( trailingslashit( bp_get_group_permalink( $g_obj ) ) . 'members/' );
+		$this->go_to(
+			bp_get_group_url(
+				$g_obj,
+				array(
+					'single_item_component' => 'members',
+				)
+			)
+		);
 
 		$e1 = new BPTest_Group_Extension_Widget_Method();
 		$e1->_register();
@@ -938,7 +945,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		bp_register_group_extension( $e_class_name );
 		bp_register_group_extension( $f_class_name );
 
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 		$nav = buddypress()->groups->nav->get_secondary( array(
 			'parent_slug' => $g_obj->slug ,
 		) );

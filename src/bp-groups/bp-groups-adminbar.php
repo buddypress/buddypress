@@ -45,7 +45,7 @@ function bp_groups_group_admin_menu() {
 	$wp_admin_bar->add_node( array(
 		'id'    => $bp->group_admin_menu_id,
 		'title' => __( 'Edit Group', 'buddypress' ),
-		'href'  => bp_get_group_permalink( $bp->groups->current_group )
+		'href'  => bp_get_group_url( $bp->groups->current_group )
 	) );
 
 	// Index of the Manage tabs parent slug.

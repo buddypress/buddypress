@@ -1607,7 +1607,7 @@ function bp_legacy_theme_ajax_joinleave_group() {
 			if ( ! groups_send_membership_request( [ 'user_id' => bp_loggedin_user_id(), 'group_id' => $group->id ] ) ) {
 				_e( 'Error requesting membership', 'buddypress' );
 			} else {
-				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button disabled pending membership-requested" rel="membership-requested" href="' . bp_get_group_permalink( $group ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';
+				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button disabled pending membership-requested" rel="membership-requested" href="' . esc_url( bp_get_group_url( $group ) ) . '">' . __( 'Request Sent', 'buddypress' ) . '</a>';
 			}
 		break;
 

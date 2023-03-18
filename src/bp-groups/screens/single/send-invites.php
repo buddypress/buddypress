@@ -42,7 +42,7 @@ function groups_screen_group_invite() {
 		 * @param int $id ID of the group whose members are being displayed.
 		 */
 		do_action( 'groups_screen_group_invite', $bp->groups->current_group->id );
-		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+		bp_core_redirect( bp_get_group_url( $bp->groups->current_group ) );
 
 	} elseif ( !bp_action_variable( 0 ) ) {
 

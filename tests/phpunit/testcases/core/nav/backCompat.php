@@ -54,7 +54,7 @@ class BP_Core_Nav_BackCompat extends BP_UnitTestCase {
 		) );
 
 		$group = groups_get_group( $g );
-		$group_permalink = bp_get_group_permalink( $group );
+		$group_permalink = bp_get_group_url( $group );
 
 		$this->go_to( $group_permalink );
 
@@ -302,7 +302,7 @@ class BP_Core_Nav_BackCompat extends BP_UnitTestCase {
 			'name' => 'Foo Subnav',
 			'slug' => 'foo-subnav',
 			'parent_slug' => bp_get_current_group_slug(),
-			'parent_url' => bp_get_group_permalink( groups_get_current_group() ),
+			'parent_url' => bp_get_group_url( groups_get_current_group() ),
 			'screen_function' => 'foo_subnav',
 		) );
 

@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 12.0.0
  */
 
 /**
@@ -15,12 +15,12 @@
 do_action( 'bp_before_group_header' ); ?>
 
 <div id="cover-image-container">
-	<a id="header-cover-image" href="<?php echo esc_url( bp_get_group_permalink() ); ?>"></a>
+	<a id="header-cover-image" href="<?php bp_group_url(); ?>"></a>
 
 	<div id="item-header-cover-image">
 		<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
 			<div id="item-header-avatar">
-				<a href="<?php echo esc_url( bp_get_group_permalink() ); ?>">
+				<a href="<?php bp_group_url(); ?>">
 
 					<?php bp_group_avatar(); ?>
 

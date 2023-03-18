@@ -170,20 +170,21 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 		$g = self::factory()->group->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
+		$this->set_permalink_structure( '/%postname%/' );
 
 		$group = groups_get_group( $g );
 
-		$this->go_to( bp_get_group_permalink( $group ) );
+		$this->go_to( bp_get_group_url( $group ) );
 
 		$subnav_item = array(
 			'user_has_access' => false,
-			'no_access_url' => bp_get_group_permalink( $group ),
+			'no_access_url' => bp_get_group_url( $group ),
 		);
 
 		// Just test relevant info
 		$found = bp_core_maybe_hook_new_subnav_screen_function( $subnav_item );
 		$this->assertSame( 'failure', $found['status'] );
-		$this->assertSame( bp_get_group_permalink( $group ), $found['redirect_args']['root'] );
+		$this->assertSame( bp_get_group_url( $group ), $found['redirect_args']['root'] );
 
 		// Clean up
 		$this->set_current_user( $old_current_user );
@@ -197,7 +198,7 @@ class BP_Tests_Core_Nav_BpCoreMaybeHookNewSubnavScreenFunction extends BP_UnitTe
 
 		$group = groups_get_group( $g );
 
-		$this->go_to( bp_get_group_permalink( $group ) );
+		$this->go_to( bp_get_group_url( $group ) );
 
 		$subnav_item = array(
 			'user_has_access' => false,

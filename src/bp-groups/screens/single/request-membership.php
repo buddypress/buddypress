@@ -32,7 +32,7 @@ function groups_screen_group_request_membership() {
 			bp_core_add_message( __( 'There was an error accepting the group invitation. Please try again.', 'buddypress' ), 'error' );
 		}
 
-		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+		bp_core_redirect( bp_get_group_url( $bp->groups->current_group ) );
 	}
 
 	// If the user has submitted a request, send it.
@@ -59,7 +59,7 @@ function groups_screen_group_request_membership() {
 		} else {
 			bp_core_add_message( __( 'Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request.', 'buddypress' ) );
 		}
-		bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) );
+		bp_core_redirect( bp_get_group_url( $bp->groups->current_group ) );
 	}
 
 	/**

@@ -638,6 +638,11 @@ function bp_groups_admin_edit() {
 	// Construct URL for form.
 	$form_url = remove_query_arg( array( 'action', 'deleted', 'no_admins', 'error', 'error_new', 'success_new', 'error_modified', 'success_modified' ), $_SERVER['REQUEST_URI'] );
 	$form_url = add_query_arg( 'action', 'save', $form_url );
+	$create_url = bp_get_groups_directory_url(
+		array(
+			'create_single_item' => 1,
+		)
+	);
 
 	/**
 	 * Fires before the display of the edit form.
@@ -654,7 +659,7 @@ function bp_groups_admin_edit() {
 		<h1 class="wp-heading-inline"><?php _e( 'Edit Group', 'buddypress' ); ?></h1>
 
 		<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
-			<a class="page-title-action" href="<?php echo trailingslashit( bp_get_groups_directory_permalink() . 'create' ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
+			<a class="page-title-action" href="<?php echo esc_url( $create_url ); ?>"><?php esc_html_e( 'Add New', 'buddypress' ); ?></a>
 		<?php endif; ?>
 
 		<hr class="wp-header-end">
@@ -683,9 +688,9 @@ function bp_groups_admin_edit() {
 										<div id="bp-groups-permalink-box">
 											<strong><?php esc_html_e( 'Permalink:', 'buddypress' ) ?></strong>
 											<span id="bp-groups-permalink">
-												<?php bp_groups_directory_permalink(); ?> <input type="text" id="bp-groups-slug" name="bp-groups-slug" value="<?php bp_group_slug( $group ); ?>" autocomplete="off"> /
+												<?php bp_groups_directory_url(); ?> <input type="text" id="bp-groups-slug" name="bp-groups-slug" value="<?php bp_group_slug( $group ); ?>" autocomplete="off"> /
 											</span>
-											<a href="<?php echo bp_group_permalink( $group ) ?>" class="button button-small" id="bp-groups-visit-group"><?php esc_html_e( 'Visit Group', 'buddypress' ) ?></a>
+											<a href="<?php bp_group_url( $group ) ?>" class="button button-small" id="bp-groups-visit-group"><?php esc_html_e( 'Visit Group', 'buddypress' ) ?></a>
 										</div>
 
 										<label for="bp-groups-description" class="screen-reader-text"><?php
@@ -813,6 +818,11 @@ function bp_groups_admin_index() {
 
 	// Prepare the group items for display.
 	$bp_groups_list_table->prepare_items();
+	$create_url = bp_get_groups_directory_url(
+		array(
+			'create_single_item' => 1,
+		)
+	);
 
 	/**
 	 * Fires before the display of messages for the edit form.
@@ -830,7 +840,7 @@ function bp_groups_admin_index() {
 		<h1 class="wp-heading-inline"><?php _e( 'Groups', 'buddypress' ); ?></h1>
 
 		<?php if ( is_user_logged_in() && bp_user_can_create_groups() ) : ?>
-			<a class="page-title-action" href="<?php echo trailingslashit( bp_get_groups_directory_permalink() . 'create' ); ?>"><?php _e( 'Add New', 'buddypress' ); ?></a>
+			<a class="page-title-action" href="<?php echo esc_url( $create_url ); ?>"><?php esc_html_e( 'Add New', 'buddypress' ); ?></a>
 		<?php endif; ?>
 
 		<?php if ( !empty( $_REQUEST['s'] ) ) : ?>

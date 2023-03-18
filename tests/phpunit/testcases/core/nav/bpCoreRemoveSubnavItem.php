@@ -76,13 +76,13 @@ class BP_Tests_Core_Nav_BpCoreRemoveSubnavItem extends BP_UnitTestCase {
 
 		// In group context
 		$g_obj = groups_get_group( $g1 );
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 
 		bp_core_new_subnav_item( array(
 			'name' => 'Clam',
 			'slug' => 'clam',
 			'parent_slug' => bp_get_current_group_slug(),
-			'parent_url' => bp_get_group_permalink( $g_obj ),
+			'parent_url' => bp_get_group_url( $g_obj ),
 			'screen_function' => 'clam_subnav',
 		) );
 

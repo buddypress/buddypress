@@ -3,7 +3,7 @@
  * BuddyPress - Members Single Group Invites
  *
  * @since 3.0.0
- * @version 11.0.0
+ * @version 12.0.0
  */
 ?>
 
@@ -26,7 +26,7 @@
 
 				<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
 					<div class="item-avatar">
-						<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar(); ?></a>
+						<a href="<?php bp_group_url(); ?>"><?php bp_group_avatar(); ?></a>
 					</div>
 				<?php endif; ?>
 

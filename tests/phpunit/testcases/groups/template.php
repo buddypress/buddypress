@@ -5,6 +5,7 @@
  */
 #[AllowDynamicProperties]
 class BP_Tests_Groups_Template extends BP_UnitTestCase {
+	protected $groups_template = null;
 
 	public function set_up() {
 		parent::set_up();
@@ -1005,7 +1006,12 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	public function test_bp_bp_get_group_form_action() {
 		$g   = $this->factory->group->create();
 		$p   = 2;
-		$url = trailingslashit( bp_get_group_permalink( $g ) . $p );
+		$url = bp_get_group_url(
+			$g,
+			array(
+				'single_item_action' => $p,
+			)
+		);
 
 		$this->assertSame( bp_get_group_form_action( $p, $g ), $url );
 	}

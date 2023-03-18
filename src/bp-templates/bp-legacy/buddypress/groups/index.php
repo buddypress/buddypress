@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 12.0.0
  */
 
 /**
@@ -60,7 +60,7 @@ do_action( 'bp_before_directory_groups_page' ); ?>
 		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Groups directory main navigation', 'buddypress' ); ?>">
 			<ul>
 				<li class="selected" id="groups-all">
-					<a href="<?php bp_groups_directory_permalink(); ?>">
+					<a href="<?php bp_groups_directory_url(); ?>">
 						<?php
 						/* translators: %s: all groups count */
 						printf( __( 'All Groups %s', 'buddypress' ), '<span>' . bp_get_total_group_count() . '</span>' );

@@ -730,7 +730,7 @@ class BP_Group_Extension {
 		$user_can_see_nav_item = $this->user_can_see_nav_item();
 
 		if ( $user_can_see_nav_item ) {
-			$group_permalink = bp_get_group_permalink( groups_get_current_group() );
+			$group_permalink = bp_get_group_url( groups_get_current_group() );
 
 			bp_core_create_subnav_link( array(
 				'name'            => ! $this->nav_item_name ? $this->name : $this->nav_item_name,
@@ -749,7 +749,7 @@ class BP_Group_Extension {
 		$user_can_visit = $this->user_can_visit();
 
 		if ( $user_can_visit ) {
-			$group_permalink = bp_get_group_permalink( groups_get_current_group() );
+			$group_permalink = bp_get_group_url( groups_get_current_group() );
 
 			bp_core_register_subnav_screen_function( array(
 				'slug'            => $this->slug,

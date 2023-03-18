@@ -46,7 +46,7 @@ function groups_action_leave_group() {
 		}
 
 		$group = groups_get_current_group();
-		$redirect = bp_get_group_permalink( $group );
+		$redirect = bp_get_group_url( $group );
 
 		if ( ! $group->is_visible ) {
 			$redirect = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() );
@@ -77,7 +77,7 @@ function groups_action_clean_up_invites_requests( $user_id, $group_id ) {
 	/**
 	 * Remove invitations where the deleted user is the sender.
 	 * We'll use groups_uninvite_user() so that notifications will be cleaned up.
-	 */ 
+	 */
 	$pending_invites = groups_get_invites( array(
 		'inviter_id' => $user_id,
 		'item_id'    => $group_id,

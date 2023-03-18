@@ -258,7 +258,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( bp_groups_user_can_send_invites( null, $u_members ) );
 		// In group context
 		$g_obj = groups_get_group( $g );
-		$this->go_to( bp_get_group_permalink( $g_obj ) );
+		$this->go_to( bp_get_group_url( $g_obj ) );
 		groups_update_groupmeta( $g, 'invite_status', 'mods' );
 		$this->assertFalse( bp_groups_user_can_send_invites( null, $u_nonmembers ) );
 		$this->assertFalse( bp_groups_user_can_send_invites( null, $u_members ) );

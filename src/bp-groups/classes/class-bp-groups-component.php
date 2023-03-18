@@ -374,39 +374,22 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 		// Set default Group creation steps.
-		$group_creation_steps = array(
-			'group-details'  => array(
-				'name'       => _x( 'Details', 'Group screen nav', 'buddypress' ),
-				'position'   => 0
-			),
-			'group-settings' => array(
-				'name'       => _x( 'Settings', 'Group screen nav', 'buddypress' ),
-				'position'   => 10
-			)
-		);
+		$group_creation_steps = bp_get_group_screens( 'create' );
 
-		// If avatar uploads are not disabled, add avatar option.
+		// If avatar uploads are disabled, remove avatar view.
 		$disabled_avatar_uploads = (int) bp_disable_group_avatar_uploads();
-		if ( ! $disabled_avatar_uploads && $bp->avatar->show_avatars ) {
-			$group_creation_steps['group-avatar'] = array(
-				'name'     => _x( 'Photo', 'Group screen nav', 'buddypress' ),
-				'position' => 20
-			);
+		if ( $disabled_avatar_uploads || empty( $bp->avatar->show_avatars ) ) {
+			unset( $group_creation_steps['group-avatar'] );
 		}
 
-		if ( bp_group_use_cover_image_header() ) {
-			$group_creation_steps['group-cover-image'] = array(
-				'name'     => _x( 'Cover Image', 'Group screen nav', 'buddypress' ),
-				'position' => 25
-			);
+		// If cover images are disabled, remove its view.
+		if ( ! bp_group_use_cover_image_header() ) {
+			unset( $group_creation_steps['group-cover-image'] );
 		}
 
-		// If invitations are enabled, add invitations.
-		if ( bp_is_active( 'groups', 'invitations' ) ) {
-			$group_creation_steps['group-invites'] = array(
-				'name'     => _x( 'Invites',  'Group screen nav', 'buddypress' ),
-				'position' => 30
-			);
+		// If the invitations feature is not active, remove the corresponding view.
+		if ( ! bp_is_active( 'groups', 'invitations' ) ) {
+			unset( $group_creation_steps['group-invites'] );
 		}
 
 		/**
@@ -414,7 +397,7 @@ class BP_Groups_Component extends BP_Component {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param array $value Array of preconfigured group creation steps.
+		 * @param array $group_creation_steps Array of preconfigured group creation steps.
 		 */
 		$this->group_creation_steps = apply_filters( 'groups_create_group_steps', $group_creation_steps );
 
@@ -541,7 +524,7 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 		// Prepare for a redirect to the canonical URL.
-		$bp->canonical_stack['base_url'] = bp_get_group_permalink( $this->current_group );
+		$bp->canonical_stack['base_url'] = bp_get_group_url( $this->current_group );
 
 		if ( bp_current_action() ) {
 			$bp->canonical_stack['action'] = bp_current_action();
@@ -669,7 +652,7 @@ class BP_Groups_Component extends BP_Component {
 				'item_css_id'         => $this->id
 			), 'groups' );
 
-			$group_link = bp_get_group_permalink( $this->current_group );
+			$group_link = bp_get_group_url( $this->current_group );
 
 			// Add the "Home" subnav item, as this will always be present.
 			$sub_nav[] = array(
@@ -918,7 +901,11 @@ class BP_Groups_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-create',
 					'title'    => _x( 'Create a Group', 'My Account Groups sub nav', 'buddypress' ),
-					'href'     => trailingslashit( bp_get_groups_directory_permalink() . 'create' ),
+					'href'     => bp_get_groups_directory_url(
+						array(
+							'create_single_item' => 1,
+						)
+					),
 					'position' => 90
 				);
 			}
@@ -1008,6 +995,56 @@ class BP_Groups_Component extends BP_Component {
 
 		// Just let BP Component fire 'bp_groups_register_taxonomies'.
 		return parent::register_taxonomies();
+	}
+
+	/**
+	 * Adds the Groups directory type & Group create rewrite tags.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param array $rewrite_tags Optional. See BP_Component::add_rewrite_tags() for
+	 *                            description.
+	 */
+	public function add_rewrite_tags( $rewrite_tags = array() ) {
+		$rewrite_tags = array(
+			'directory_type'               => '([^/]+)',
+			'create_single_item'           => '([1]{1,})',
+			'create_single_item_variables' => '(.+?)',
+		);
+
+		parent::add_rewrite_tags( $rewrite_tags );
+	}
+
+	/**
+	 * Adds the Groups directory type & Group create rewrite rules.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param array $rewrite_rules Optional. See BP_Component::add_rewrite_rules() for
+	 *                             description.
+	 */
+	public function add_rewrite_rules( $rewrite_rules = array() ) {
+		$create_slug = bp_rewrites_get_slug( 'groups', 'group_create', 'create' );
+
+		$rewrite_rules = array(
+			'directory_type'      => array(
+				'regex' => $this->root_slug . '/' . bp_get_groups_group_type_base() . '/([^/]+)/?$',
+				'order' => 50,
+				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_type'] . '=$matches[1]',
+			),
+			'create_single_item' => array(
+				'regex' => $this->root_slug . '/' . $create_slug . '/?$',
+				'order' => 40,
+				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['create_single_item'] . '=1',
+			),
+			'create_single_item_variables' => array(
+				'regex' => $this->root_slug . '/' . $create_slug . '/(.+?)/?$',
+				'order' =>30,
+				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['create_single_item'] . '=1&' . $this->rewrite_ids['create_single_item_variables'] . '=$matches[1]',
+			),
+		);
+
+		parent::add_rewrite_rules( $rewrite_rules );
 	}
 
 	/**

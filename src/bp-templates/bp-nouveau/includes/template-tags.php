@@ -2263,7 +2263,7 @@ function bp_nouveau_get_customizer_link( $args = array() ) {
 		$url = rawurlencode( bp_displayed_user_domain() );
 
 	} elseif ( bp_is_group() ) {
-		$url = rawurlencode( bp_get_group_permalink( groups_get_current_group() ) );
+		$url = rawurlencode( bp_get_group_url( groups_get_current_group() ) );
 
 	} elseif ( ! empty( $r['object'] ) && ! empty( $r['item_id'] ) ) {
 		if ( 'user' === $r['object'] ) {
@@ -2273,7 +2273,7 @@ function bp_nouveau_get_customizer_link( $args = array() ) {
 			$group = groups_get_group( array( 'group_id' => $r['item_id'] ) );
 
 			if ( ! empty( $group->id ) ) {
-				$url = rawurlencode( bp_get_group_permalink( $group ) );
+				$url = rawurlencode( bp_get_group_url( $group ) );
 			}
 		}
 	}

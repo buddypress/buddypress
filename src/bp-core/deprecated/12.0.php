@@ -331,3 +331,14 @@ function bp_get_blogs_directory_permalink() {
 	 */
 	return apply_filters_deprecated( 'bp_get_blogs_directory_permalink', array( $url ), '12.0.0', 'bp_get_blogs_directory_url' );
 }
+
+/**
+ * Outputs the group creation numbered steps navbar
+ *
+ * @since 3.0.0
+ * @deprecated 12.0.0
+ */
+function bp_nouveau_group_creation_tabs() {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_group_creation_tabs()' );
+	bp_group_creation_tabs();
+}

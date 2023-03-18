@@ -100,7 +100,7 @@ class BP_Groups_Widget extends WP_Widget {
 
 		echo $before_widget;
 
-		$title = ! empty( $instance['link_title'] ) ? '<a href="' . bp_get_groups_directory_permalink() . '">' . $title . '</a>' : $title;
+		$title = ! empty( $instance['link_title'] ) ? '<a href="' . esc_url( bp_get_groups_directory_url() ) . '">' . $title . '</a>' : $title;
 
 		echo $before_title . $title . $after_title;
 
@@ -125,20 +125,20 @@ class BP_Groups_Widget extends WP_Widget {
 
 		<?php if ( bp_has_groups( $group_args ) ) : ?>
 			<div class="item-options" id="groups-list-options">
-				<a href="<?php bp_groups_directory_permalink(); ?>" id="newest-groups"<?php if ( $instance['group_default'] == 'newest' ) : ?> class="selected"<?php endif; ?>><?php _e("Newest", 'buddypress') ?></a>
+				<a href="<?php bp_groups_directory_url(); ?>" id="newest-groups"<?php if ( $instance['group_default'] == 'newest' ) : ?> class="selected"<?php endif; ?>><?php _e("Newest", 'buddypress') ?></a>
 				<span class="bp-separator" role="separator"><?php echo esc_html( $separator ); ?></span>
-				<a href="<?php bp_groups_directory_permalink(); ?>" id="recently-active-groups"<?php if ( $instance['group_default'] == 'active' ) : ?> class="selected"<?php endif; ?>><?php _e("Active", 'buddypress') ?></a>
+				<a href="<?php bp_groups_directory_url(); ?>" id="recently-active-groups"<?php if ( $instance['group_default'] == 'active' ) : ?> class="selected"<?php endif; ?>><?php _e("Active", 'buddypress') ?></a>
 				<span class="bp-separator" role="separator"><?php echo esc_html( $separator ); ?></span>
-				<a href="<?php bp_groups_directory_permalink(); ?>" id="popular-groups" <?php if ( $instance['group_default'] == 'popular' ) : ?> class="selected"<?php endif; ?>><?php _e("Popular", 'buddypress') ?></a>
+				<a href="<?php bp_groups_directory_url(); ?>" id="popular-groups" <?php if ( $instance['group_default'] == 'popular' ) : ?> class="selected"<?php endif; ?>><?php _e("Popular", 'buddypress') ?></a>
 				<span class="bp-separator" role="separator"><?php echo esc_html( $separator ); ?></span>
-				<a href="<?php bp_groups_directory_permalink(); ?>" id="alphabetical-groups" <?php if ( $instance['group_default'] == 'alphabetical' ) : ?> class="selected"<?php endif; ?>><?php _e("Alphabetical", 'buddypress') ?></a>
+				<a href="<?php bp_groups_directory_url(); ?>" id="alphabetical-groups" <?php if ( $instance['group_default'] == 'alphabetical' ) : ?> class="selected"<?php endif; ?>><?php _e("Alphabetical", 'buddypress') ?></a>
 			</div>
 
 			<ul id="groups-list" class="item-list" aria-live="polite" aria-relevant="all" aria-atomic="true">
 				<?php while ( bp_groups() ) : bp_the_group(); ?>
 					<li <?php bp_group_class(); ?>>
 						<div class="item-avatar">
-							<a href="<?php bp_group_permalink() ?>" class="bp-tooltip" data-bp-tooltip="<?php bp_group_name() ?>"><?php bp_group_avatar_thumb() ?></a>
+							<a href="<?php bp_group_url() ?>" class="bp-tooltip" data-bp-tooltip="<?php bp_group_name() ?>"><?php bp_group_avatar_thumb() ?></a>
 						</div>
 
 						<div class="item">

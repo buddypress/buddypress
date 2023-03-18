@@ -77,7 +77,7 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 
 		$group = groups_get_group( $g );
 
-		$this->go_to( bp_get_group_permalink( $group ) );
+		$this->go_to( bp_get_group_url( $group ) );
 
 		$this->assertTrue( buddypress()->bp_nav[ $group->slug ]['position'] === -1 );
 

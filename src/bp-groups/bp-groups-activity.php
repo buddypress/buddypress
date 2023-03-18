@@ -106,7 +106,7 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
 	$group      = bp_groups_get_activity_group( $activity->item_id );
-	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
+	$group_link = '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	/* translators: 1: the user link. 2: the group link. */
 	$action = sprintf( esc_html__( '%1$s created the group %2$s', 'buddypress'), $user_link, $group_link );
@@ -135,7 +135,7 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
 	$group      = bp_groups_get_activity_group( $activity->item_id );
-	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
+	$group_link = '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	/* translators: 1: the user link. 2: the group link. */
 	$action = sprintf( esc_html__( '%1$s joined the group %2$s', 'buddypress' ), $user_link, $group_link );
@@ -175,7 +175,7 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
 	$user_link = bp_core_get_userlink( $activity->user_id );
 
 	$group      = bp_groups_get_activity_group( $activity->item_id );
-	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
+	$group_link = '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	/*
 	 * Changed group details are stored in groupmeta, keyed by the activity
@@ -232,7 +232,7 @@ function bp_groups_format_activity_action_group_activity_update( $action, $activ
 	$user_link = bp_core_get_userlink( $activity->user_id );
 	$group     = bp_groups_get_activity_group( $activity->item_id );
 
-	$group_link = '<a href="' . esc_url( bp_get_group_permalink( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
+	$group_link = '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
 	// Set the Activity update posted in a Group action.
 	$action = sprintf(
@@ -769,7 +769,7 @@ function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 	 * @param int    $user_id  ID of the user joining the group.
 	 * @param int    $group_id ID of the group. Passed by reference.
 	 */
-	$action = apply_filters_ref_array( 'groups_activity_membership_accepted_action', array( sprintf( __( '%1$s joined the group %2$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . bp_get_group_permalink( $group ) . '">' . esc_attr( $group->name ) . '</a>' ), $user_id, &$group ) );
+	$action = apply_filters_ref_array( 'groups_activity_membership_accepted_action', array( sprintf( __( '%1$s joined the group %2$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>' ), $user_id, &$group ) );
 
 	// Record in activity streams.
 	groups_record_activity( array(

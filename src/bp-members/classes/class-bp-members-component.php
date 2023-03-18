@@ -787,7 +787,7 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
-	 * Add the Registration and Activation rewrite tags.
+	 * Adds the Members directory type, Registration and Activation rewrite tags.
 	 *
 	 * @since 12.0.0
 	 *
@@ -796,6 +796,7 @@ class BP_Members_Component extends BP_Component {
 	 */
 	public function add_rewrite_tags( $rewrite_tags = array() ) {
 		$rewrite_tags = array(
+			'directory_type'      => '([^/]+)',
 			'member_register'     => '([1]{1,})',
 			'member_activate'     => '([1]{1,})',
 			'member_activate_key' => '([^/]+)',
@@ -805,7 +806,7 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
-	 * Add the Registration and Activation rewrite rules.
+	 * Adds the Registration and Activation rewrite rules.
 	 *
 	 * @since 12.0.0
 	 *
@@ -840,7 +841,7 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
-	 * Add the Registration and Activation permastructs.
+	 * Adds the Registration and Activation permastructs.
 	 *
 	 * @since 12.0.0
 	 *

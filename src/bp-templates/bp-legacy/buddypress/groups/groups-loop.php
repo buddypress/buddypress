@@ -6,7 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 12.0.0
  */
 
 ?>
@@ -58,7 +58,7 @@ do_action( 'bp_before_groups_loop' ); ?>
 		<li <?php bp_group_class(); ?>>
 			<?php if ( ! bp_disable_group_avatar_uploads() ) : ?>
 				<div class="item-avatar">
-					<a href="<?php bp_group_permalink(); ?>"><?php bp_group_avatar( 'type=thumb&width=50&height=50' ); ?></a>
+					<a href="<?php bp_group_url(); ?>"><?php bp_group_avatar( 'type=thumb&width=50&height=50' ); ?></a>
 				</div>
 			<?php endif; ?>
 

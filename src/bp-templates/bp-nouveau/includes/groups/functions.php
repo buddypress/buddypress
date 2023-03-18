@@ -561,7 +561,7 @@ function bp_nouveau_get_groups_directory_nav_items() {
 		'component' => 'groups',
 		'slug'      => 'all', // slug is used because BP_Core_Nav requires it, but it's the scope
 		'li_class'  => array( 'selected' ),
-		'link'      => bp_get_groups_directory_permalink(),
+		'link'      => bp_get_groups_directory_url(),
 		'text'      => __( 'All Groups', 'buddypress' ),
 		'count'     => bp_get_total_group_count(),
 		'position'  => 5,
@@ -590,7 +590,11 @@ function bp_nouveau_get_groups_directory_nav_items() {
 				'component' => 'groups',
 				'slug'      => 'create', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array( 'no-ajax', 'group-create', 'create-button' ),
-				'link'      => trailingslashit( bp_get_groups_directory_permalink() . 'create' ),
+				'link'      => bp_get_groups_directory_url(
+					array(
+						'create_single_item' => 1,
+					)
+				),
 				'text'      => __( 'Create a Group', 'buddypress' ),
 				'count'     => false,
 				'position'  => 999,
