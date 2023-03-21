@@ -433,18 +433,11 @@ function bp_nouveau_prepare_group_for_js( $item ) {
  * @since 3.0.0
  */
 function bp_nouveau_groups_invites_restriction_nav() {
-	$slug        = bp_nouveau_get_component_slug( 'settings' );
-	$user_domain = bp_loggedin_user_domain();
-
-	if ( bp_displayed_user_domain() ) {
-		$user_domain = bp_displayed_user_domain();
-	}
 
 	bp_core_new_subnav_item( array(
 		'name'            => _x( 'Group Invites', 'Group invitations main menu title', 'buddypress' ),
 		'slug'            => 'invites',
-		'parent_url'      => trailingslashit( $user_domain . $slug ),
-		'parent_slug'     => $slug,
+		'parent_slug'     => bp_nouveau_get_component_slug( 'settings' ),
 		'screen_function' => 'bp_nouveau_groups_screen_invites_restriction',
 		'item_css_id'     => 'invites',
 		'position'        => 70,

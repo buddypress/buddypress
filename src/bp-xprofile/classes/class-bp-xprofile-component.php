@@ -229,18 +229,13 @@ class BP_XProfile_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
+		// Stop if there is no user displayed or logged in.
+		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
 			return;
 		}
 
-		$access       = bp_core_can_edit_settings();
-		$slug         = bp_get_profile_slug();
-		$profile_link = trailingslashit( $user_domain . $slug );
+		$access = bp_core_can_edit_settings();
+		$slug   = bp_get_profile_slug();
 
 		// Add 'Profile' to the main navigation.
 		$main_nav = array(
@@ -256,7 +251,6 @@ class BP_XProfile_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => _x( 'View', 'Profile header sub menu', 'buddypress' ),
 			'slug'            => 'public',
-			'parent_url'      => $profile_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'xprofile_screen_display_profile',
 			'position'        => 10,
@@ -266,7 +260,6 @@ class BP_XProfile_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => _x( 'Edit','Profile header sub menu', 'buddypress' ),
 			'slug'            => 'edit',
-			'parent_url'      => $profile_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'xprofile_screen_edit_profile',
 			'position'        => 20,
@@ -293,12 +286,8 @@ class BP_XProfile_Component extends BP_Component {
 			return;
 		}
 
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
+		// Stop if there is no user displayed or logged in.
+		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
 			return;
 		}
 
@@ -308,7 +297,6 @@ class BP_XProfile_Component extends BP_Component {
 		bp_core_new_subnav_item( array(
 			'name'            => _x( 'Profile Visibility', 'Profile settings sub nav', 'buddypress' ),
 			'slug'            => 'profile',
-			'parent_url'      => trailingslashit( $user_domain . $settings_slug ),
 			'parent_slug'     => $settings_slug,
 			'screen_function' => 'bp_xprofile_screen_settings',
 			'position'        => 30,

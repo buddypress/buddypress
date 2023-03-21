@@ -3643,7 +3643,10 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 	// Get the item nav and build the menus.
 	foreach ( $bp->{$component}->nav->get_item_nav() as $nav_menu ) {
 		// Get the correct menu link. See https://buddypress.trac.wordpress.org/ticket/4624.
-		$link = bp_loggedin_user_domain() ? str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $nav_menu->link ) : trailingslashit( bp_displayed_user_domain() . $nav_menu->link );
+		$link = $nav_menu->link;
+		if ( bp_loggedin_user_domain() ) {
+			$link = str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $nav_menu->link );
+		}
 
 		// Add this menu.
 		$menu         = new stdClass;

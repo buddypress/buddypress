@@ -559,8 +559,13 @@ function bp_core_create_subnav_link( $args = '', $component = 'members' ) {
 	);
 
 	// If we don't have the required info we need, don't create this subnav item.
-	if ( empty( $r['name'] ) || empty( $r['slug'] ) || empty( $r['parent_slug'] ) || empty( $r['parent_url'] ) || empty( $r['screen_function'] ) ) {
+	if ( empty( $r['name'] ) || empty( $r['slug'] ) || empty( $r['parent_slug'] ) || empty( $r['screen_function'] ) ) {
 		return false;
+	}
+
+	// Preserve backward compatibility for plugins forcing URLs.
+	if ( empty( $r['link'] ) && ! empty( $r['parent_url'] ) ) {
+		$r['link'] = trailingslashit( $r['parent_url'] . $r['slug'] );
 	}
 
 	// If this is for site admins only and the user is not one, don't create the subnav item.

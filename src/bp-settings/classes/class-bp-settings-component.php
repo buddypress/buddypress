@@ -132,18 +132,13 @@ class BP_Settings_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
+		// Stop if there is no user displayed or logged in.
+		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
 			return;
 		}
 
-		$access        = bp_core_can_edit_settings();
-		$slug          = bp_get_settings_slug();
-		$settings_link = trailingslashit( $user_domain . $slug );
+		$access = bp_core_can_edit_settings();
+		$slug   = bp_get_settings_slug();
 
 		// Add the settings navigation item.
 		$main_nav = array(
@@ -159,7 +154,6 @@ class BP_Settings_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => __( 'General', 'buddypress' ),
 			'slug'            => 'general',
-			'parent_url'      => $settings_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_settings_screen_general',
 			'position'        => 10,
@@ -171,7 +165,6 @@ class BP_Settings_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => __( 'Email', 'buddypress' ),
 			'slug'            => 'notifications',
-			'parent_url'      => $settings_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_settings_screen_notification',
 			'position'        => 20,
@@ -183,7 +176,6 @@ class BP_Settings_Component extends BP_Component {
 			$sub_nav[] = array(
 				'name'            => __( 'Capabilities', 'buddypress' ),
 				'slug'            => 'capabilities',
-				'parent_url'      => $settings_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_settings_screen_capabilities',
 				'position'        => 80,
@@ -205,7 +197,6 @@ class BP_Settings_Component extends BP_Component {
 			$sub_nav[] = array(
 				'name'            => __( 'Export Data', 'buddypress' ),
 				'slug'            => 'data',
-				'parent_url'      => $settings_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_settings_screen_data',
 				'position'        => 89,
@@ -218,7 +209,6 @@ class BP_Settings_Component extends BP_Component {
 			$sub_nav[] = array(
 				'name'            => __( 'Delete Account', 'buddypress' ),
 				'slug'            => 'delete-account',
-				'parent_url'      => $settings_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_settings_screen_delete_account',
 				'position'        => 90,

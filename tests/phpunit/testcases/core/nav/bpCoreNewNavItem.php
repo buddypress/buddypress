@@ -172,7 +172,12 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$expected = array(
 			'name'                    => 'Settings',
 			'slug'                    => 'settings',
-			'link'                    => trailingslashit( bp_loggedin_user_domain() . 'settings' ),
+			'link'                    => bp_members_get_user_url(
+				$u,
+				array(
+					'single_item_component' => 'settings',
+				)
+			),
 			'css_id'                  => 'settings',
 			'show_for_displayed_user' => false,
 			'position'                => 100,
@@ -217,7 +222,12 @@ class BP_Tests_Core_Nav_BpCoreNewNavItem extends BP_UnitTestCase {
 		$expected = array(
 			'name'                    => 'Woof',
 			'slug'                    => 'woof',
-			'link'                    => trailingslashit( bp_loggedin_user_domain() . 'woof' ),
+			'link'                    => bp_members_get_user_url(
+				$u,
+				array(
+					'single_item_component' => 'woof',
+				)
+			),
 			'css_id'                  => 'woof',
 			'show_for_displayed_user' => false,
 			'position'                => 35,

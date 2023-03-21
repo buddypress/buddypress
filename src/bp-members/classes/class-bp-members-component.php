@@ -428,16 +428,14 @@ class BP_Members_Component extends BP_Component {
 	public function get_avatar_cover_image_subnavs() {
 		$subnavs = array();
 
-		$access       = bp_core_can_edit_settings();
-		$slug         = bp_get_profile_slug();
-		$profile_link = bp_get_members_component_link( buddypress()->profile->id );
+		$access = bp_core_can_edit_settings();
+		$slug   = bp_get_profile_slug();
 
 		// Change Avatar.
 		if ( buddypress()->avatar->show_avatars ) {
 			$subnavs[] = array(
 				'name'            => _x( 'Change Profile Photo', 'Profile header sub menu', 'buddypress' ),
 				'slug'            => 'change-avatar',
-				'parent_url'      => $profile_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_members_screen_change_avatar',
 				'position'        => 30,
@@ -450,7 +448,6 @@ class BP_Members_Component extends BP_Component {
 			$subnavs[] = array(
 				'name'            => _x( 'Change Cover Image', 'Profile header sub menu', 'buddypress' ),
 				'slug'            => 'change-cover-image',
-				'parent_url'      => $profile_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_members_screen_change_cover_image',
 				'position'        => 40,
@@ -485,15 +482,6 @@ class BP_Members_Component extends BP_Component {
 		// Bail if XProfile component is active and there's no custom front page for the user.
 		if ( ! bp_displayed_user_has_front_template() && $is_xprofile_active ) {
 			add_action( 'bp_xprofile_setup_nav', array( $this, 'setup_xprofile_nav' ) );
-			return;
-		}
-
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
 			return;
 		}
 
@@ -533,7 +521,6 @@ class BP_Members_Component extends BP_Component {
 		$this->sub_nav = array(
 			'name'            => _x( 'View', 'Member profile view', 'buddypress' ),
 			'slug'            => 'public',
-			'parent_url'      => trailingslashit( $user_domain . $slug ),
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_members_screen_display_profile',
 			'position'        => 10
@@ -555,9 +542,6 @@ class BP_Members_Component extends BP_Component {
 			// We need a dummy subnav for the front page to load.
 			$front_subnav = $this->sub_nav;
 			$front_subnav['parent_slug'] = 'front';
-
-			// In case the subnav is displayed in the front template
-			$front_subnav['parent_url'] = trailingslashit( $user_domain . 'front' );
 
 			// Set the subnav
 			$sub_nav[] = $front_subnav;

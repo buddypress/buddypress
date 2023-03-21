@@ -218,17 +218,12 @@ class BP_Blogs_Component extends BP_Component {
 			return false;
 		}
 
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
+		// Stop if there is no user displayed or logged in.
+		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
 			return;
 		}
 
 		$slug       = bp_get_blogs_slug();
-		$parent_url = trailingslashit( $user_domain . $slug );
 
 		// Add 'Sites' to the main navigation.
 		$count    = (int) bp_get_total_blog_count_for_user();
@@ -254,7 +249,6 @@ class BP_Blogs_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => __( 'My Sites', 'buddypress' ),
 			'slug'            => 'my-sites',
-			'parent_url'      => $parent_url,
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_blogs_screen_my_blogs',
 			'position'        => 10

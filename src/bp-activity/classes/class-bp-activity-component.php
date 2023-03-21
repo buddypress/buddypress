@@ -254,17 +254,7 @@ class BP_Activity_Component extends BP_Component {
 			return;
 		}
 
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
-			return;
-		}
-
-		$slug          = bp_get_activity_slug();
-		$activity_link = trailingslashit( $user_domain . $slug );
+		$slug = bp_get_activity_slug();
 
 		// Add 'Activity' to the main navigation.
 		$main_nav = array(
@@ -280,7 +270,6 @@ class BP_Activity_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => _x( 'Personal', 'Profile activity screen sub nav', 'buddypress' ),
 			'slug'            => 'just-me',
-			'parent_url'      => $activity_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_activity_screen_my_activity',
 			'position'        => 10
@@ -291,7 +280,6 @@ class BP_Activity_Component extends BP_Component {
 			$sub_nav[] = array(
 				'name'            => _x( 'Mentions', 'Profile activity screen sub nav', 'buddypress' ),
 				'slug'            => 'mentions',
-				'parent_url'      => $activity_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_activity_screen_mentions',
 				'position'        => 20,
@@ -304,7 +292,6 @@ class BP_Activity_Component extends BP_Component {
 			$sub_nav[] = array(
 				'name'            => _x( 'Favorites', 'Profile activity screen sub nav', 'buddypress' ),
 				'slug'            => 'favorites',
-				'parent_url'      => $activity_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_activity_screen_favorites',
 				'position'        => 30,
@@ -317,7 +304,6 @@ class BP_Activity_Component extends BP_Component {
 			$sub_nav[] = array(
 				'name'            => _x( 'Friends', 'Profile activity screen sub nav', 'buddypress' ),
 				'slug'            => bp_get_friends_slug(),
-				'parent_url'      => $activity_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_activity_screen_friends',
 				'position'        => 40,
@@ -330,7 +316,6 @@ class BP_Activity_Component extends BP_Component {
 			$sub_nav[] = array(
 				'name'            => _x( 'Groups', 'Profile activity screen sub nav', 'buddypress' ),
 				'slug'            => bp_get_groups_slug(),
-				'parent_url'      => $activity_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_activity_screen_groups',
 				'position'        => 50,

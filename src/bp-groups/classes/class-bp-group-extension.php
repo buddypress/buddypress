@@ -736,7 +736,6 @@ class BP_Group_Extension {
 				'name'            => ! $this->nav_item_name ? $this->name : $this->nav_item_name,
 				'slug'            => $this->slug,
 				'parent_slug'     => bp_get_current_group_slug(),
-				'parent_url'      => $group_permalink,
 				'position'        => $this->nav_item_position,
 				'item_css_id'     => 'nav-' . $this->slug,
 				'screen_function' => array( &$this, '_display_hook' ),
@@ -959,19 +958,15 @@ class BP_Group_Extension {
 			return;
 		}
 
-		$screen = $this->screens['edit'];
-
-		$position = isset( $screen['position'] ) ? (int) $screen['position'] : 10;
-		$position += 40;
-
+		$screen        = $this->screens['edit'];
+		$position      = isset( $screen['position'] ) ? (int) $screen['position'] : 10;
+		$position     += 40;
 		$current_group = groups_get_current_group();
-		$admin_link    = trailingslashit( bp_get_group_permalink( $current_group ) . 'admin' );
 
 		$subnav_args = array(
 			'name'            => $screen['name'],
 			'slug'            => $screen['slug'],
 			'parent_slug'     => $current_group->slug . '_manage',
-			'parent_url'      => $admin_link,
 			'user_has_access' => bp_is_item_admin(),
 			'position'        => $position,
 			'screen_function' => 'groups_screen_group_admin',

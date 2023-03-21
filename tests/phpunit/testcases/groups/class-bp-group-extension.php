@@ -910,7 +910,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 			bp_get_group_url(
 				$g_obj,
 				array(
-					'single_item_component' => 'members',
+					'single_item_action' => 'members',
 				)
 			)
 		);

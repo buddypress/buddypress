@@ -161,18 +161,13 @@ class BP_Friends_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
+		// Stop if there is no user displayed or logged in.
+		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
 			return;
 		}
 
-		$access       = bp_core_can_edit_settings();
-		$slug         = bp_get_friends_slug();
-		$friends_link = trailingslashit( $user_domain . $slug );
+		$access = bp_core_can_edit_settings();
+		$slug   = bp_get_friends_slug();
 
 		// Add 'Friends' to the main navigation.
 		$count = friends_get_total_friend_count();
@@ -201,7 +196,6 @@ class BP_Friends_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => _x( 'Friendships', 'Friends screen sub nav', 'buddypress' ),
 			'slug'            => 'my-friends',
-			'parent_url'      => $friends_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'friends_screen_my_friends',
 			'position'        => 10,
@@ -211,7 +205,6 @@ class BP_Friends_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => _x( 'Requests', 'Friends screen sub nav', 'buddypress' ),
 			'slug'            => 'requests',
-			'parent_url'      => $friends_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'friends_screen_requests',
 			'position'        => 20,
