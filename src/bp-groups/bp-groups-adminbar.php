@@ -56,6 +56,8 @@ function bp_groups_group_admin_menu() {
 		return;
 	}
 
+	$manage_screens = bp_get_group_screens( 'manage' );
+
 	// Build the Group Admin menus.
 	foreach ( $secondary_nav_items as $menu ) {
 		/**
@@ -65,7 +67,7 @@ function bp_groups_group_admin_menu() {
 		 * to also add the link to the "edit screen" of their group component. To do so, set the
 		 * the 'show_in_admin_bar' argument of your edit screen to true
 		 */
-		if ( $menu->show_in_admin_bar ) {
+		if ( $menu->show_in_admin_bar && isset( $manage_screens[ $menu->slug ] ) ) {
 			/* translators: %s the group menu name */
 			$title = sprintf( _x( 'Edit Group %s', 'Group WP Admin Bar manage links', 'buddypress' ), $menu->name );
 
@@ -75,12 +77,20 @@ function bp_groups_group_admin_menu() {
 				$title = sprintf( _x( '%s Group', 'Group WP Admin Bar delete link', 'buddypress' ), $menu->name );
 			}
 
-			$wp_admin_bar->add_node( array(
-				'parent' => $bp->group_admin_menu_id,
-				'id'     => $menu->slug,
-				'title'  => $title,
-				'href'   => bp_get_groups_action_link( 'admin/' . $menu->slug )
-			) );
+			$wp_admin_bar->add_node(
+				array(
+					'parent' => $bp->group_admin_menu_id,
+					'id'     => $menu->slug,
+					'title'  => $title,
+					'href'   => bp_get_group_url(
+						$bp->groups->current_group,
+						array(
+							'single_item_action'           => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
+							'single_item_action_variables' => bp_rewrites_get_slug( 'groups', $manage_screens[ $menu->slug ]['rewrite_id'], $menu->slug ),
+						)
+					),
+				)
+			);
 		}
 	}
 }

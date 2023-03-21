@@ -1273,7 +1273,7 @@ function bp_get_group_url( $group = 0, $path_chunks = array() ) {
 	}
 
 	if ( $slug ) {
-		$supported_chunks = array_fill_keys( array( 'single_item_component', 'single_item_action', 'single_item_action_variables' ), true );
+		$supported_chunks = array_fill_keys( array( 'single_item_action', 'single_item_action_variables' ), true );
 		$path_chunks      = bp_parse_args(
 			array_intersect_key( $path_chunks, $supported_chunks ),
 			array(

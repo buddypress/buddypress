@@ -314,7 +314,7 @@ class BP_Groups_Component extends BP_Component {
 			do_action_ref_array( 'bp_groups_set_current_group', array( $this->current_group ) );
 
 			// Initialize the nav for the groups component.
-			$this->nav = new BP_Core_Nav( $this->current_group->id );
+			$this->nav = new BP_Core_Nav( $this->current_group->id, $this->id );
 
 		// Set current_group to 0 to prevent debug errors.
 		} else {
@@ -746,7 +746,12 @@ class BP_Groups_Component extends BP_Component {
 					'no_access_url'   => $group_link,
 				);
 
-				$admin_link = trailingslashit( $group_link . 'admin' );
+				$admin_link = bp_get_group_url(
+					$this->current_group,
+					array(
+						'single_item_action' => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
+					)
+				);
 
 				// Common params to all nav items.
 				$default_params = array(
