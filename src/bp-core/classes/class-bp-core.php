@@ -292,6 +292,12 @@ class BP_Core extends BP_Component {
 		// Is the logged in user is a mod for the current item?
 		bp_update_is_item_mod( false, 'core' );
 
+		/*
+		 * As the BP Core component is excluded from the BP Component code
+		 * used to set the Rewrite IDs, we need to set it here. As the `search`
+		 * word is already a WordPress rewrite tag, we are not adding a custom
+		 * rule for this component to avoid messing with it.
+		 */
 		$this->rewrite_ids = array(
 			'community_search' => 'bp_search',
 		);
