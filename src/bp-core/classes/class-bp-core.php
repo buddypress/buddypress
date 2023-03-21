@@ -413,6 +413,26 @@ class BP_Core extends BP_Component {
 	}
 
 	/**
+	 * Parse the WP_Query and eventually set the BP Search mechanism.
+	 *
+	 * Search doesn't have an associated page, so we check for it separately.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param WP_Query $query Required. See BP_Component::parse_query() for
+	 *                        description.
+	 */
+	public function parse_query( $query ) {
+		$is_search = $query->get( 'pagename' ) === bp_get_search_slug() || ( isset( $_GET['bp_search'] ) && 1 === (int) $_GET['bp_search'] );
+
+		if ( isset( $_POST['search-terms'] ) && $is_search ) {
+			buddypress()->current_component = bp_get_search_slug();
+		}
+
+		parent::parse_query( $query );
+	}
+
+	/**
 	 * Init the Core controllers of the BP REST API.
 	 *
 	 * @since 9.0.0
