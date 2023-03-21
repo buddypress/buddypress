@@ -161,6 +161,16 @@ add_filter( 'block_editor_rest_api_preload_paths', 'bp_blocks_preload_paths' );
  * @return BP_Block   The BuddyPress block type object.
  */
 function bp_register_block( $args = array() ) {
+	if ( isset( $args['metadata'] ) && is_string( $args['metadata'] ) && file_exists( $args['metadata'] ) ) {
+		$callback = array();
+
+		if ( isset( $args['render_callback'] ) ) {
+			$callback['render_callback'] = $args['render_callback'];
+		}
+
+		return register_block_type_from_metadata( $args['metadata'], $callback );
+	}
+
 	return new BP_Block( $args );
 }
 
