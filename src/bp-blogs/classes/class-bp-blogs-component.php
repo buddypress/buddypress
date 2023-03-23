@@ -283,14 +283,19 @@ class BP_Blogs_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables.
-			$blogs_link = trailingslashit( bp_loggedin_user_domain() . bp_get_blogs_slug() );
+			$blogs_slug        = bp_get_blogs_slug();
+			$custom_blogs_slug = bp_rewrites_get_slug( 'members', 'member_' . $blogs_slug, $blogs_slug );
 
 			// Add the "Sites" sub menu.
 			$wp_admin_nav[] = array(
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => __( 'Sites', 'buddypress' ),
-				'href'   => $blogs_link
+				'href'   => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_blogs_slug,
+					)
+				),
 			);
 
 			// My Sites.
@@ -298,8 +303,13 @@ class BP_Blogs_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-my-sites',
 				'title'    => __( 'My Sites', 'buddypress' ),
-				'href'     => trailingslashit( $blogs_link . 'my-sites' ),
-				'position' => 10
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_blogs_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $blogs_slug . '_my_sites', 'my-sites' ),
+					)
+				),
+				'position' => 10,
 			);
 
 			// Create a Site.

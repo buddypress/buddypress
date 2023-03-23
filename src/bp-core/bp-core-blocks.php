@@ -323,7 +323,7 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 					%2$s
 				</a>
 			</div>',
-			bp_loggedin_user_domain(),
+			bp_loggedin_user_url(),
 			bp_get_loggedin_user_avatar(
 				array(
 					'type'   => 'thumb',

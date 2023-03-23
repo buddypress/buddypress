@@ -829,7 +829,8 @@ class BP_Groups_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables.
-			$groups_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() );
+			$groups_slug        = bp_get_groups_slug();
+			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
 
 			$title   = _x( 'Groups', 'My Account Groups', 'buddypress' );
 			$pending = _x( 'No Pending Invites', 'My Account Groups sub nav', 'buddypress' );
@@ -857,7 +858,11 @@ class BP_Groups_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => $groups_link
+				'href'   => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_groups_slug,
+					)
+				),
 			);
 
 			// My Groups.
@@ -865,8 +870,13 @@ class BP_Groups_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-memberships',
 				'title'    => _x( 'Memberships', 'My Account Groups sub nav', 'buddypress' ),
-				'href'     => trailingslashit( $groups_link . 'my-groups' ),
-				'position' => 10
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_groups_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_my_groups', 'my-groups' ),
+					)
+				),
+				'position' => 10,
 			);
 
 			// Invitations.
@@ -875,8 +885,13 @@ class BP_Groups_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-invites',
 					'title'    => $pending,
-					'href'     => trailingslashit( $groups_link . 'invites' ),
-					'position' => 30
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_groups_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites', 'invites' ),
+						)
+					),
+					'position' => 30,
 				);
 			}
 

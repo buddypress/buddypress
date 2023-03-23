@@ -343,7 +343,8 @@ class BP_Activity_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables.
-			$activity_link = trailingslashit( bp_loggedin_user_domain() . bp_get_activity_slug() );
+			$activity_slug        = bp_get_activity_slug();
+			$custom_activity_slug = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug );
 
 			// Unread message count.
 			if ( bp_activity_do_mentions() ) {
@@ -364,7 +365,11 @@ class BP_Activity_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => _x( 'Activity', 'My Account Activity sub nav', 'buddypress' ),
-				'href'   => $activity_link
+				'href'   => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_activity_slug,
+					)
+				),
 			);
 
 			// Personal.
@@ -372,8 +377,13 @@ class BP_Activity_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-personal',
 				'title'    => _x( 'Personal', 'My Account Activity sub nav', 'buddypress' ),
-				'href'     => trailingslashit( $activity_link . 'just-me' ),
-				'position' => 10
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_activity_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_just_me', 'just-me' ),
+					)
+				),
+				'position' => 10,
 			);
 
 			// Mentions.
@@ -382,8 +392,13 @@ class BP_Activity_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-mentions',
 					'title'    => $title,
-					'href'     => trailingslashit( $activity_link . 'mentions' ),
-					'position' => 20
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_activity_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_mentions', 'mentions' ),
+						)
+					),
+					'position' => 20,
 				);
 			}
 
@@ -393,29 +408,46 @@ class BP_Activity_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-favorites',
 					'title'    => _x( 'Favorites', 'My Account Activity sub nav', 'buddypress' ),
-					'href'     => trailingslashit( $activity_link . 'favorites' ),
-					'position' => 30
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_activity_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_favorites', 'favorites' ),
+						)
+					),
+					'position' => 30,
 				);
 			}
 
 			// Friends?
 			if ( bp_is_active( 'friends' ) ) {
+				$friends_slug   = bp_get_friends_slug();
 				$wp_admin_nav[] = array(
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-friends',
 					'title'    => _x( 'Friends', 'My Account Activity sub nav', 'buddypress' ),
-					'href'     => trailingslashit( $activity_link . bp_get_friends_slug() ),
-					'position' => 40
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_activity_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_' . $friends_slug, $friends_slug ),
+						)
+					),
+					'position' => 40,
 				);
 			}
 
 			// Groups?
 			if ( bp_is_active( 'groups' ) ) {
+				$groups_slug    = bp_get_groups_slug();
 				$wp_admin_nav[] = array(
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-groups',
 					'title'    => _x( 'Groups', 'My Account Activity sub nav', 'buddypress' ),
-					'href'     => trailingslashit( $activity_link . bp_get_groups_slug() ),
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_activity_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_' . $groups_slug, $groups_slug ),
+						)
+					),
 					'position' => 50
 				);
 			}
