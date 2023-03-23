@@ -76,7 +76,7 @@ class BP_Core_Login_Widget extends WP_Widget {
 			do_action( 'bp_before_login_widget_loggedin' ); ?>
 
 			<div class="bp-login-widget-user-avatar">
-				<a href="<?php echo bp_loggedin_user_domain(); ?>">
+				<a href="<?php bp_loggedin_user_link(); ?>">
 					<?php bp_loggedin_user_avatar( 'type=thumb&width=50&height=50' ); ?>
 				</a>
 			</div>

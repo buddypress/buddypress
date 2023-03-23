@@ -299,7 +299,7 @@ class BP_Activity_Activity {
 		}
 
 		if ( empty( $this->primary_link ) ) {
-			$this->primary_link = bp_loggedin_user_domain();
+			$this->primary_link = bp_loggedin_user_url();
 		}
 
 		// If we have an existing ID, update the activity item, otherwise insert it.

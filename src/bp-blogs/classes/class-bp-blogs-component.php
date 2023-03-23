@@ -218,17 +218,12 @@ class BP_Blogs_Component extends BP_Component {
 			return false;
 		}
 
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
+		// Stop if there is no user displayed or logged in.
+		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
 			return;
 		}
 
 		$slug       = bp_get_blogs_slug();
-		$parent_url = trailingslashit( $user_domain . $slug );
 
 		// Add 'Sites' to the main navigation.
 		$count    = (int) bp_get_total_blog_count_for_user();
@@ -254,7 +249,6 @@ class BP_Blogs_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => __( 'My Sites', 'buddypress' ),
 			'slug'            => 'my-sites',
-			'parent_url'      => $parent_url,
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_blogs_screen_my_blogs',
 			'position'        => 10
@@ -289,14 +283,19 @@ class BP_Blogs_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables.
-			$blogs_link = trailingslashit( bp_loggedin_user_domain() . bp_get_blogs_slug() );
+			$blogs_slug        = bp_get_blogs_slug();
+			$custom_blogs_slug = bp_rewrites_get_slug( 'members', 'member_' . $blogs_slug, $blogs_slug );
 
 			// Add the "Sites" sub menu.
 			$wp_admin_nav[] = array(
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => __( 'Sites', 'buddypress' ),
-				'href'   => $blogs_link
+				'href'   => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_blogs_slug,
+					)
+				),
 			);
 
 			// My Sites.
@@ -304,8 +303,13 @@ class BP_Blogs_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-my-sites',
 				'title'    => __( 'My Sites', 'buddypress' ),
-				'href'     => trailingslashit( $blogs_link . 'my-sites' ),
-				'position' => 10
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_blogs_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $blogs_slug . '_my_sites', 'my-sites' ),
+					)
+				),
+				'position' => 10,
 			);
 
 			// Create a Site.

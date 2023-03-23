@@ -2587,7 +2587,7 @@ function bp_core_action_search_site( $slug = '' ) {
 	 */
 	bp_core_redirect( apply_filters( 'bp_core_search_site', home_url( $slug . $query_string . urlencode( $search_terms ) ), $search_terms ) );
 }
-add_action( 'bp_init', 'bp_core_action_search_site', 7 );
+add_action( 'bp_parse_query', 'bp_core_action_search_site', 13, 0 );
 
 /**
  * Remove "prev" and "next" relational links from <head> on BuddyPress pages.

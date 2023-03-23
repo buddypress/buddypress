@@ -530,15 +530,25 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_accepted':
 			$group_id = $item_id;
 
-			$group      = groups_get_group( $group_id );
-			$group_link = bp_get_group_url( $group );
-			$amount     = 'single';
+			$group              = groups_get_group( $group_id );
+			$group_link         = bp_get_group_url( $group );
+			$groups_slug        = bp_get_groups_slug();
+			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
+			$amount             = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: 1: number of accepted group membership requests. 2: group name. */
 				$text              = sprintf( __( '%1$d accepted group membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
 				$amount            = 'multiple';
-				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
+				$notification_link = add_query_arg(
+					'n',
+					1,
+					bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_groups_slug,
+						)
+					)
+				);
 
 				if ( 'string' == $format ) {
 
@@ -621,15 +631,25 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_rejected':
 			$group_id = $item_id;
 
-			$group      = groups_get_group( $group_id );
-			$group_link = bp_get_group_url( $group );
-			$amount     = 'single';
+			$group              = groups_get_group( $group_id );
+			$group_link         = bp_get_group_url( $group );
+			$groups_slug        = bp_get_groups_slug();
+			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
+			$amount             = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: 1: number of accepted group membership requests. 2: group name. */
 				$text              = sprintf( __( '%1$d rejected group membership requests for the group "%2$s"', 'buddypress' ), (int) $total_items, $group->name );
 				$amount            = 'multiple';
-				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
+				$notification_link = add_query_arg(
+					'n',
+					1,
+					bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_groups_slug,
+						)
+					)
+				);
 
 				if ( 'string' == $format ) {
 
@@ -711,15 +731,25 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_admin':
 			$group_id = $item_id;
 
-			$group      = groups_get_group( $group_id );
-			$group_link = bp_get_group_url( $group );
-			$amount     = 'single';
+			$group              = groups_get_group( $group_id );
+			$group_link         = bp_get_group_url( $group );
+			$groups_slug        = bp_get_groups_slug();
+			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
+			$amount             = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: %d: number of groups the user has been promoted admin for */
 				$text              = sprintf( __( 'You were promoted to an admin in %d groups', 'buddypress' ), (int) $total_items );
 				$amount            = 'multiple';
-				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
+				$notification_link = add_query_arg(
+					'n',
+					1,
+					bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_groups_slug,
+						)
+					)
+				);
 
 				if ( 'string' == $format ) {
 					/**
@@ -795,15 +825,25 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_mod':
 			$group_id = $item_id;
 
-			$group      = groups_get_group( $group_id );
-			$group_link = bp_get_group_url( $group );
-			$amount     = 'single';
+			$group              = groups_get_group( $group_id );
+			$group_link         = bp_get_group_url( $group );
+			$groups_slug        = bp_get_groups_slug();
+			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
+			$amount             = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: %d: number of groups the user has been promoted mod for */
 				$text              = sprintf( __( 'You were promoted to a mod in %d groups', 'buddypress' ), (int) $total_items );
 				$amount            = 'multiple';
-				$notification_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() ) . '?n=1';
+				$notification_link = add_query_arg(
+					'n',
+					1,
+					bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_groups_slug,
+						)
+					)
+				);
 
 				if ( 'string' == $format ) {
 					/**
@@ -877,12 +917,22 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			break;
 
 		case 'group_invite':
-			$group_id   = $item_id;
-			$group      = groups_get_group( $group_id );
-			$group_link = bp_get_group_url( $group );
-			$amount     = 'single';
-
-			$notification_link = bp_loggedin_user_domain() . bp_get_groups_slug() . '/invites/?n=1';
+			$group_id           = $item_id;
+			$group              = groups_get_group( $group_id );
+			$group_link         = bp_get_group_url( $group );
+			$groups_slug        = bp_get_groups_slug();
+			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
+			$amount             = 'single';
+			$notification_link  = add_query_arg(
+				'n',
+				1,
+				bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_groups_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites', 'invites' ),
+					)
+				)
+			);
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: %d: number of group invites */

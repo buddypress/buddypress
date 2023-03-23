@@ -292,6 +292,16 @@ class BP_Core extends BP_Component {
 		// Is the logged in user is a mod for the current item?
 		bp_update_is_item_mod( false, 'core' );
 
+		/*
+		 * As the BP Core component is excluded from the BP Component code
+		 * used to set the Rewrite IDs, we need to set it here. As the `search`
+		 * word is already a WordPress rewrite tag, we are not adding a custom
+		 * rule for this component to avoid messing with it.
+		 */
+		$this->rewrite_ids = array(
+			'community_search' => 'bp_search',
+		);
+
 		parent::setup_globals(
 			array(
 				'block_globals' => array(
@@ -400,6 +410,26 @@ class BP_Core extends BP_Component {
 		);
 
 		parent::register_post_statuses();
+	}
+
+	/**
+	 * Parse the WP_Query and eventually set the BP Search mechanism.
+	 *
+	 * Search doesn't have an associated page, so we check for it separately.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param WP_Query $query Required. See BP_Component::parse_query() for
+	 *                        description.
+	 */
+	public function parse_query( $query ) {
+		$is_search = $query->get( 'pagename' ) === bp_get_search_slug() || ( isset( $_GET['bp_search'] ) && 1 === (int) $_GET['bp_search'] );
+
+		if ( isset( $_POST['search-terms'] ) && $is_search ) {
+			buddypress()->current_component = bp_get_search_slug();
+		}
+
+		parent::parse_query( $query );
 	}
 
 	/**

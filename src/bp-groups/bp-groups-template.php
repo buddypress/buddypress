@@ -1273,7 +1273,7 @@ function bp_get_group_url( $group = 0, $path_chunks = array() ) {
 	}
 
 	if ( $slug ) {
-		$supported_chunks = array_fill_keys( array( 'single_item_component', 'single_item_action', 'single_item_action_variables' ), true );
+		$supported_chunks = array_fill_keys( array( 'single_item_action', 'single_item_action_variables' ), true );
 		$path_chunks      = bp_parse_args(
 			array_intersect_key( $path_chunks, $supported_chunks ),
 			array(
@@ -3340,6 +3340,19 @@ function bp_group_admin_form_action( $page = false, $group = false ) {
 			$page = bp_action_variable( 0 );
 		}
 
+		$views = bp_get_group_screens( 'manage' );
+		if ( isset( $views[ $page ]['rewrite_id'] ) ) {
+			$page = bp_rewrites_get_slug( 'groups', $views[ $page ]['rewrite_id'], $page );
+		}
+
+		$url = bp_get_group_url(
+			$group,
+			array(
+				'single_item_action'           => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
+				'single_item_action_variables' => $page,
+			)
+		);
+
 		/**
 		 * Filters the 'action' attribute for a group admin form.
 		 *
@@ -3347,11 +3360,11 @@ function bp_group_admin_form_action( $page = false, $group = false ) {
 		 * @since 2.5.0  Added the `$group` parameter.
 		 * @since 10.0.0 Added the `$page` parameter.
 		 *
-		 * @param string          $value Action attribute for a group admin form.
+		 * @param string          $url   Action attribute for a group admin form.
 		 * @param BP_Groups_Group $group The group object.
 		 * @param int|string|bool $page  Page slug.
 		 */
-		return apply_filters( 'bp_group_admin_form_action', trailingslashit( bp_get_group_permalink( $group ) . 'admin/' . $page ), $group, $page );
+		return apply_filters( 'bp_group_admin_form_action', $url, $group, $page );
 	}
 
 /**
@@ -3525,10 +3538,20 @@ function bp_group_accept_invite_link() {
 			$group =& $groups_template->group;
 		}
 
-		$user_domain = bp_loggedin_user_domain();
+		$groups_slug = bp_get_groups_slug();
+		$path_chunks = array(
+			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
+			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites', 'invites' ),
+			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites_accept', 'accept' ), $group->id ),
+		);
+
 		if ( bp_is_user() ) {
-			$user_domain = bp_displayed_user_domain();
+			$user_domain = bp_displayed_user_url( $path_chunks );
+		} else {
+			$user_domain = bp_loggedin_user_url( $path_chunks );
 		}
+
+		$url = wp_nonce_url( $user_domain, 'groups_accept_invite' );
 
 		/**
 		 * Filters the URL for accepting an invitation to a group.
@@ -3536,10 +3559,10 @@ function bp_group_accept_invite_link() {
 		 * @since 1.0.0
 		 * @since 2.5.0 Added the `$group` parameter.
 		 *
-		 * @param string $value URL for accepting an invitation to a group.
+		 * @param string $url   URL for accepting an invitation to a group.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_accept_invite_link', wp_nonce_url( trailingslashit( $user_domain . bp_get_groups_slug() . '/invites/accept/' . $group->id ), 'groups_accept_invite' ), $group );
+		return apply_filters( 'bp_get_group_accept_invite_link', $url, $group );
 	}
 
 /**
@@ -3566,10 +3589,20 @@ function bp_group_reject_invite_link() {
 			$group =& $groups_template->group;
 		}
 
-		$user_domain = bp_loggedin_user_domain();
+		$groups_slug = bp_get_groups_slug();
+		$path_chunks = array(
+			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
+			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites', 'invites' ),
+			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites_reject', 'reject' ), $group->id ),
+		);
+
 		if ( bp_is_user() ) {
-			$user_domain = bp_displayed_user_domain();
+			$user_domain = bp_displayed_user_url( $path_chunks );
+		} else {
+			$user_domain = bp_loggedin_user_url( $path_chunks );
 		}
+
+		$url = wp_nonce_url( $user_domain, 'groups_reject_invite' );
 
 		/**
 		 * Filters the URL for rejecting an invitation to a group.
@@ -3577,10 +3610,10 @@ function bp_group_reject_invite_link() {
 		 * @since 1.0.0
 		 * @since 2.5.0 Added the `$group` parameter.
 		 *
-		 * @param string $value URL for rejecting an invitation to a group.
+		 * @param string $url   URL for rejecting an invitation to a group.
 		 * @param object $group Group object.
 		 */
-		return apply_filters( 'bp_get_group_reject_invite_link', wp_nonce_url( trailingslashit( $user_domain . bp_get_groups_slug() . '/invites/reject/' . $group->id ), 'groups_reject_invite' ), $group );
+		return apply_filters( 'bp_get_group_reject_invite_link', $url, $group );
 	}
 
 /**

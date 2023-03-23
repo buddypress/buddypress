@@ -29,11 +29,17 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 	$activity_id   = $item_id;
 	$user_id       = $secondary_item_id;
 	$user_fullname = bp_core_get_user_displayname( $user_id );
+	$activity_slug = bp_get_activity_slug();
 
 	switch ( $action ) {
 		case 'new_at_mention':
 			$action_filter = 'at_mentions';
-			$link          = bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/';
+			$link          = bp_loggedin_user_url(
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
+					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_mentions', 'mentions' ),
+				)
+			);
 
 			/* translators: %s: the current user display name */
 			$title  = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );

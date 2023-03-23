@@ -99,11 +99,11 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 		$root_url = $primary_nav->link;
 
 		// Make sure to use the displayed user domain.
-		if ( bp_loggedin_user_domain() ) {
-			$root_url = str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $root_url );
+		if ( bp_loggedin_user_url() ) {
+			$root_url = str_replace( bp_loggedin_user_url(), bp_displayed_user_url(), $root_url );
 		}
 	} else {
-		$root_url = trailingslashit( bp_displayed_user_domain() . $slug );
+		$root_url = $primary_nav->link;
 	}
 
 	// Build default routes list.

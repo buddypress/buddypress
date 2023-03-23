@@ -196,18 +196,13 @@ class BP_Messages_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
+		// Stop if there is no user displayed or logged in.
+		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
 			return;
 		}
 
-		$access        = bp_core_can_edit_settings();
-		$slug          = bp_get_messages_slug();
-		$messages_link = trailingslashit( $user_domain . $slug );
+		$access = bp_core_can_edit_settings();
+		$slug   = bp_get_messages_slug();
 
 		// Only grab count if we're on a user page and current user has access.
 		if ( bp_is_user() && bp_user_has_access() ) {
@@ -241,7 +236,6 @@ class BP_Messages_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => __( 'Inbox', 'buddypress' ),
 			'slug'            => 'inbox',
-			'parent_url'      => $messages_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'messages_screen_inbox',
 			'position'        => 10,
@@ -252,7 +246,6 @@ class BP_Messages_Component extends BP_Component {
 			$sub_nav[] = array(
 				'name'            => __( 'Starred', 'buddypress' ),
 				'slug'            => bp_get_messages_starred_slug(),
-				'parent_url'      => $messages_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_messages_star_screen',
 				'position'        => 11,
@@ -263,7 +256,6 @@ class BP_Messages_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => __( 'Sent', 'buddypress' ),
 			'slug'            => 'sentbox',
-			'parent_url'      => $messages_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'messages_screen_sentbox',
 			'position'        => 20,
@@ -274,7 +266,6 @@ class BP_Messages_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => __( 'Compose', 'buddypress' ),
 			'slug'            => 'compose',
-			'parent_url'      => $messages_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'messages_screen_compose',
 			'position'        => 30,
@@ -285,7 +276,6 @@ class BP_Messages_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => __( 'Notices', 'buddypress' ),
 			'slug'            => 'notices',
-			'parent_url'      => $messages_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'messages_screen_notices',
 			'position'        => 90,

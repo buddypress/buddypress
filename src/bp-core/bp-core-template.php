@@ -519,7 +519,8 @@ function bp_styles() {
 function bp_search_form_action() {
 	$url = bp_rewrites_get_url(
 		array(
-			'component_id' => bp_get_search_slug(),
+			'component_id'     => 'core',
+			'community_search' => 1,
 		)
 	);
 
@@ -3642,7 +3643,10 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 	// Get the item nav and build the menus.
 	foreach ( $bp->{$component}->nav->get_item_nav() as $nav_menu ) {
 		// Get the correct menu link. See https://buddypress.trac.wordpress.org/ticket/4624.
-		$link = bp_loggedin_user_domain() ? str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $nav_menu->link ) : trailingslashit( bp_displayed_user_domain() . $nav_menu->link );
+		$link = $nav_menu->link;
+		if ( bp_loggedin_user_url() ) {
+			$link = str_replace( bp_loggedin_user_url(), bp_displayed_user_url(), $nav_menu->link );
+		}
 
 		// Add this menu.
 		$menu         = new stdClass;

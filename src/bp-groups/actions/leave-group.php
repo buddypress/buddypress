@@ -45,11 +45,16 @@ function groups_action_leave_group() {
 			bp_core_add_message( __( 'You successfully left the group.', 'buddypress' ) );
 		}
 
-		$group = groups_get_current_group();
+		$group    = groups_get_current_group();
 		$redirect = bp_get_group_url( $group );
 
 		if ( ! $group->is_visible ) {
-			$redirect = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() );
+			$groups_slug = bp_get_groups_slug();
+			$redirect    = bp_loggedin_user_url(
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
+				)
+			);
 		}
 
 		bp_core_redirect( $redirect );

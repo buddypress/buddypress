@@ -35,14 +35,26 @@ class BP_Core_Nav {
 	private $object_id;
 
 	/**
+	 * The component ID.
+	 *
+	 * @since 12.0.0
+	 * @var string
+	 */
+	private $component_id;
+
+	/**
 	 * Initializes the Nav belonging to the specified object.
 	 *
 	 * @since 2.6.0
 	 *
 	 * @param int $object_id The item ID to build the nav for. Default is the displayed user ID.
 	 */
-	public function __construct( $object_id = 0 ) {
-		if ( empty( $object_id ) ) {
+	public function __construct( $object_id = 0, $component_id = 'members' ) {
+		if ( bp_is_active( $component_id ) ) {
+			$this->component_id = $component_id;
+		}
+
+		if ( empty( $object_id ) && 'members' === $this->component_id ) {
 			$this->object_id = (int) bp_displayed_user_id();
 		} else {
 			$this->object_id = (int) $object_id;
@@ -135,15 +147,71 @@ class BP_Core_Nav {
 			return false;
 		}
 
+		$path_chunks = array(
+			'component_id' => $this->component_id,
+		);
+
 		// We have a child and the parent exists.
 		if ( ! empty( $args['parent_slug'] ) ) {
-			$slug              = $args['parent_slug'] . '/' . $args['slug'];
-			$args['secondary'] = true;
+			$slug                                 = $args['parent_slug'] . '/' . $args['slug'];
+			$path_chunks['single_item_component'] = $args['parent_slug'];
+			$path_chunks['single_item_action']    = $args['slug'];
+			$args['secondary']                    = true;
 
 		// This is a parent.
 		} else {
-			$slug            = $args['slug'];
-			$args['primary'] = true;
+			$slug                                 = $args['slug'];
+			$path_chunks['single_item_component'] = $slug;
+			$args['primary']                      = true;
+		}
+
+		/*
+		 * This is where we set links using BP Rewrites.
+		 *
+		 * @since 12.0.0
+		 */
+		if ( ! isset( $args['link'] ) || ! $args['link'] ) {
+			if ( 'groups' === $this->component_id ) {
+				if ( isset( $path_chunks['single_item_component'] ) ) {
+					$path_chunks['single_item'] = str_replace( '_manage', '', $path_chunks['single_item_component'] );
+				} else {
+					$path_chunks['single_item'] = groups_get_slug( $this->object_id );
+				}
+
+				$chunk = 'single_item_action';
+				if ( $path_chunks['single_item'] . '_manage' ===  $path_chunks['single_item_component'] ) {
+					$chunk                             = 'single_item_action_variables';
+					$path_chunks[ $chunk ]             = $path_chunks['single_item_action'];
+					$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' );
+					$group_screens = bp_get_group_screens( 'manage' );
+				} else {
+					$group_screens = bp_get_group_screens( 'read' );
+				}
+
+				if ( isset( $group_screens[ $args['slug'] ] ) ) {
+					$args['rewrite_id']    = $group_screens[ $args['slug'] ]['rewrite_id'];
+					$path_chunks[ $chunk ] = bp_rewrites_get_slug( 'groups', $args['rewrite_id'], $args['slug'] );
+
+					if ( 'single_item_action_variables' === $chunk ) {
+						$path_chunks[ $chunk ] = array( $path_chunks[ $chunk ] );
+					}
+				}
+
+				unset( $path_chunks['single_item_component'] );
+				$args['link'] = bp_rewrites_get_url( $path_chunks );
+			} else {
+				$path_chunks['single_item_component'] = bp_rewrites_get_slug( 'members', 'member_' . $path_chunks['single_item_component'], $path_chunks['single_item_component'] );
+
+				if ( isset( $path_chunks['single_item_action'] ) && ! is_numeric( $path_chunks['single_item_action'] ) ) {
+					$path_chunks['single_item_action'] = bp_rewrites_get_slug(
+						'members',
+						'member_' . $path_chunks['single_item_component'] . '_' . $path_chunks['single_item_action'],
+						$path_chunks['single_item_action']
+					);
+				}
+
+				$args['link'] = bp_members_get_user_url( $this->object_id, $path_chunks );
+			}
 		}
 
 		// Add to the nav.

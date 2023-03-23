@@ -153,7 +153,7 @@ function bp_activity_screen_single_activity_permalink() {
 		// Redirect away.
 		} else {
 			bp_core_add_message( __( 'You do not have access to this activity.', 'buddypress' ), 'error' );
-			bp_core_redirect( bp_loggedin_user_domain() );
+			bp_core_redirect( bp_loggedin_user_url() );
 		}
 	}
 

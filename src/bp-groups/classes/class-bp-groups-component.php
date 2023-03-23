@@ -314,7 +314,7 @@ class BP_Groups_Component extends BP_Component {
 			do_action_ref_array( 'bp_groups_set_current_group', array( $this->current_group ) );
 
 			// Initialize the nav for the groups component.
-			$this->nav = new BP_Core_Nav( $this->current_group->id );
+			$this->nav = new BP_Core_Nav( $this->current_group->id, $this->id );
 
 		// Set current_group to 0 to prevent debug errors.
 		} else {
@@ -565,53 +565,41 @@ class BP_Groups_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
-			$user_domain = false;
-		}
+		if ( is_user_logged_in() || bp_displayed_user_id() ) {
+			// Only grab count if we're on a user page.
+			if ( bp_is_user() ) {
+				$class = ( 0 === groups_total_groups_for_user( bp_displayed_user_id() ) ) ? 'no-count' : 'count';
 
-		// Only grab count if we're on a user page.
-		if ( bp_is_user() ) {
-			$class = ( 0 === groups_total_groups_for_user( bp_displayed_user_id() ) ) ? 'no-count' : 'count';
+				$nav_name = sprintf(
+					/* translators: %s: Group count for the current user */
+					_x( 'Groups %s', 'Group screen nav with counter', 'buddypress' ),
+					sprintf(
+						'<span class="%s">%s</span>',
+						esc_attr( $class ),
+						bp_get_total_group_count_for_user()
+					)
+				);
+			} else {
+				$nav_name = _x( 'Groups', 'Group screen nav without counter', 'buddypress' );
+			}
 
-			$nav_name = sprintf(
-				/* translators: %s: Group count for the current user */
-				_x( 'Groups %s', 'Group screen nav with counter', 'buddypress' ),
-				sprintf(
-					'<span class="%s">%s</span>',
-					esc_attr( $class ),
-					bp_get_total_group_count_for_user()
-				)
+			$slug   = bp_get_groups_slug();
+			$access = bp_core_can_edit_settings();
+
+			// Add 'Groups' to the main navigation.
+			$main_nav = array(
+				'name'                => $nav_name,
+				'slug'                => $slug,
+				'position'            => 70,
+				'screen_function'     => 'groups_screen_my_groups',
+				'default_subnav_slug' => 'my-groups',
+				'item_css_id'         => $this->id
 			);
-		} else {
-			$nav_name = _x( 'Groups', 'Group screen nav without counter', 'buddypress' );
-		}
-
-		$slug = bp_get_groups_slug();
-
-		// Add 'Groups' to the main navigation.
-		$main_nav = array(
-			'name'                => $nav_name,
-			'slug'                => $slug,
-			'position'            => 70,
-			'screen_function'     => 'groups_screen_my_groups',
-			'default_subnav_slug' => 'my-groups',
-			'item_css_id'         => $this->id
-		);
-
-		if ( ! empty( $user_domain ) ) {
-			$access      = bp_core_can_edit_settings();
-			$groups_link = trailingslashit( $user_domain . $slug );
 
 			// Add the My Groups nav item.
 			$sub_nav[] = array(
 				'name'            => __( 'Memberships', 'buddypress' ),
 				'slug'            => 'my-groups',
-				'parent_url'      => $groups_link,
 				'parent_slug'     => $slug,
 				'screen_function' => 'groups_screen_my_groups',
 				'position'        => 10,
@@ -623,7 +611,6 @@ class BP_Groups_Component extends BP_Component {
 				$sub_nav[] = array(
 					'name'            => __( 'Invitations', 'buddypress' ),
 					'slug'            => 'invites',
-					'parent_url'      => $groups_link,
 					'parent_slug'     => $slug,
 					'screen_function' => 'groups_screen_group_invites',
 					'user_has_access' => $access,
@@ -658,7 +645,6 @@ class BP_Groups_Component extends BP_Component {
 			$sub_nav[] = array(
 				'name'            =>  _x( 'Home', 'Group screen navigation title', 'buddypress' ),
 				'slug'            => 'home',
-				'parent_url'      => $group_link,
 				'parent_slug'     => $this->current_group->slug,
 				'screen_function' => 'groups_screen_group_home',
 				'position'        => 10,
@@ -673,7 +659,6 @@ class BP_Groups_Component extends BP_Component {
 				$sub_nav[] = array(
 					'name'            => _x( 'Request Membership','Group screen nav', 'buddypress' ),
 					'slug'            => 'request-membership',
-					'parent_url'      => $group_link,
 					'parent_slug'     => $this->current_group->slug,
 					'screen_function' => 'groups_screen_group_request_membership',
 					'position'        => 30
@@ -688,7 +673,6 @@ class BP_Groups_Component extends BP_Component {
 					$sub_nav[] = array(
 						'name'            => _x( 'Activity', 'My Group screen nav', 'buddypress' ),
 						'slug'            => 'activity',
-						'parent_url'      => $group_link,
 						'parent_slug'     => $this->current_group->slug,
 						'screen_function' => 'groups_screen_group_activity',
 						'position'        => 11,
@@ -708,7 +692,6 @@ class BP_Groups_Component extends BP_Component {
 						'<span>' . number_format( $this->current_group->total_member_count ) . '</span>'
 					),
 					'slug'            => 'members',
-					'parent_url'      => $group_link,
 					'parent_slug'     => $this->current_group->slug,
 					'screen_function' => 'groups_screen_group_members',
 					'position'        => 60,
@@ -722,7 +705,6 @@ class BP_Groups_Component extends BP_Component {
 				$sub_nav[] = array(
 					'name'            => _x( 'Send Invites', 'My Group screen nav', 'buddypress' ),
 					'slug'            => 'send-invites',
-					'parent_url'      => $group_link,
 					'parent_slug'     => $this->current_group->slug,
 					'screen_function' => 'groups_screen_group_invite',
 					'item_css_id'     => 'invite',
@@ -737,7 +719,6 @@ class BP_Groups_Component extends BP_Component {
 				$sub_nav[] = array(
 					'name'            => _x( 'Manage', 'My Group screen nav', 'buddypress' ),
 					'slug'            => 'admin',
-					'parent_url'      => $group_link,
 					'parent_slug'     => $this->current_group->slug,
 					'screen_function' => 'groups_screen_group_admin',
 					'position'        => 1000,
@@ -746,11 +727,15 @@ class BP_Groups_Component extends BP_Component {
 					'no_access_url'   => $group_link,
 				);
 
-				$admin_link = trailingslashit( $group_link . 'admin' );
+				$admin_link = bp_get_group_url(
+					$this->current_group,
+					array(
+						'single_item_action' => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
+					)
+				);
 
 				// Common params to all nav items.
 				$default_params = array(
-					'parent_url'        => $admin_link,
 					'parent_slug'       => $this->current_group->slug . '_manage',
 					'screen_function'   => 'groups_screen_group_admin',
 					'user_has_access'   => bp_is_item_admin(),
@@ -844,7 +829,8 @@ class BP_Groups_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables.
-			$groups_link = trailingslashit( bp_loggedin_user_domain() . bp_get_groups_slug() );
+			$groups_slug        = bp_get_groups_slug();
+			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
 
 			$title   = _x( 'Groups', 'My Account Groups', 'buddypress' );
 			$pending = _x( 'No Pending Invites', 'My Account Groups sub nav', 'buddypress' );
@@ -872,7 +858,11 @@ class BP_Groups_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => $groups_link
+				'href'   => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_groups_slug,
+					)
+				),
 			);
 
 			// My Groups.
@@ -880,8 +870,13 @@ class BP_Groups_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-memberships',
 				'title'    => _x( 'Memberships', 'My Account Groups sub nav', 'buddypress' ),
-				'href'     => trailingslashit( $groups_link . 'my-groups' ),
-				'position' => 10
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_groups_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_my_groups', 'my-groups' ),
+					)
+				),
+				'position' => 10,
 			);
 
 			// Invitations.
@@ -890,8 +885,13 @@ class BP_Groups_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-invites',
 					'title'    => $pending,
-					'href'     => trailingslashit( $groups_link . 'invites' ),
-					'position' => 30
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_groups_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites', 'invites' ),
+						)
+					),
+					'position' => 30,
 				);
 			}
 

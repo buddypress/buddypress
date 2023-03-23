@@ -35,15 +35,12 @@ function bp_members_invitations_setup_nav() {
 		)
 	);
 
-	$parent_link = trailingslashit( bp_displayed_user_domain() . bp_get_members_invitations_slug() );
-
 	/* Create two subnav items for community invitations */
 	bp_core_new_subnav_item(
 		array(
 			'name'            => __( 'Send Invites', 'buddypress' ),
 			'slug'            => 'send-invites',
 			'parent_slug'     => bp_get_members_invitations_slug(),
-			'parent_url'      => $parent_link,
 			'screen_function' => 'members_screen_send_invites',
 			'position'        => 10,
 			'user_has_access' => $user_has_access && bp_is_my_profile() && bp_user_can( bp_displayed_user_id(), 'bp_members_invitations_view_send_screen' )
@@ -55,7 +52,6 @@ function bp_members_invitations_setup_nav() {
 			'name'            => __( 'Pending Invites', 'buddypress' ),
 			'slug'            => 'list-invites',
 			'parent_slug'     => bp_get_members_invitations_slug(),
-			'parent_url'      => $parent_link,
 			'screen_function' => 'members_screen_list_sent_invites',
 			'position'        => 20,
 			'user_has_access' => $user_has_access && bp_user_can( bp_displayed_user_id(), 'bp_members_invitations_view_screens' )

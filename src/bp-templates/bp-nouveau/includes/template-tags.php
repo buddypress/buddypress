@@ -1086,10 +1086,8 @@ function bp_nouveau_nav_link() {
 		}
 
 		if ( 'personal' === $bp_nouveau->displayed_nav && ! empty( $nav_item->primary ) ) {
-			if ( bp_loggedin_user_domain() ) {
-				$link = str_replace( bp_loggedin_user_domain(), bp_displayed_user_domain(), $link );
-			} else {
-				$link = trailingslashit( bp_displayed_user_domain() . $link );
+			if ( bp_loggedin_user_url() ) {
+				$link = str_replace( bp_loggedin_user_url(), bp_displayed_user_url(), $link );
 			}
 		}
 

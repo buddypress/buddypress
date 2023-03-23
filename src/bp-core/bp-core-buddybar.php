@@ -160,7 +160,6 @@ function bp_core_create_nav_link( $args = '', $component = 'members' ) {
 		'component_id'            => $r['component_id'],
 		'name'                    => $r['name'],
 		'slug'                    => $r['slug'],
-		'link'                    => trailingslashit( bp_loggedin_user_domain() . $r['slug'] ),
 		'css_id'                  => $r['item_css_id'],
 		'show_for_displayed_user' => $r['show_for_displayed_user'],
 		'position'                => $r['position'],
@@ -560,22 +559,13 @@ function bp_core_create_subnav_link( $args = '', $component = 'members' ) {
 	);
 
 	// If we don't have the required info we need, don't create this subnav item.
-	if ( empty( $r['name'] ) || empty( $r['slug'] ) || empty( $r['parent_slug'] ) || empty( $r['parent_url'] ) || empty( $r['screen_function'] ) )
+	if ( empty( $r['name'] ) || empty( $r['slug'] ) || empty( $r['parent_slug'] ) || empty( $r['screen_function'] ) ) {
 		return false;
+	}
 
-	// Link was not forced, so create one.
-	if ( empty( $r['link'] ) ) {
+	// Preserve backward compatibility for plugins forcing URLs.
+	if ( empty( $r['link'] ) && ! empty( $r['parent_url'] ) ) {
 		$r['link'] = trailingslashit( $r['parent_url'] . $r['slug'] );
-
-		$parent_nav = $bp->{$component}->nav->get_primary( array( 'slug' => $r['parent_slug'] ), false );
-
-		// If this sub item is the default for its parent, skip the slug.
-		if ( $parent_nav ) {
-			$parent_nav_item = reset( $parent_nav );
-			if ( ! empty( $parent_nav_item->default_subnav_slug ) && $r['slug'] === $parent_nav_item->default_subnav_slug ) {
-				$r['link'] = trailingslashit( $r['parent_url'] );
-			}
-		}
 	}
 
 	// If this is for site admins only and the user is not one, don't create the subnav item.
@@ -600,6 +590,7 @@ function bp_core_create_subnav_link( $args = '', $component = 'members' ) {
 		'show_in_admin_bar' => (bool) $r['show_in_admin_bar'],
 	);
 
+	// Add the item to the subnav.
 	buddypress()->{$component}->nav->add_nav( $subnav_item );
 
 	return $subnav_item;

@@ -146,18 +146,13 @@ class BP_Notifications_Component extends BP_Component {
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 
-		// Determine user to use.
-		if ( bp_displayed_user_domain() ) {
-			$user_domain = bp_displayed_user_domain();
-		} elseif ( bp_loggedin_user_domain() ) {
-			$user_domain = bp_loggedin_user_domain();
-		} else {
+		// Stop if there is no user displayed or logged in.
+		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
 			return;
 		}
 
-		$access             = bp_core_can_edit_settings();
-		$slug               = bp_get_notifications_slug();
-		$notifications_link = trailingslashit( $user_domain . $slug );
+		$access = bp_core_can_edit_settings();
+		$slug   = bp_get_notifications_slug();
 
 		// Only grab count if we're on a user page and current user has access.
 		if ( bp_is_user() && bp_user_has_access() ) {
@@ -191,7 +186,6 @@ class BP_Notifications_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => _x( 'Unread', 'Notification screen nav', 'buddypress' ),
 			'slug'            => 'unread',
-			'parent_url'      => $notifications_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_notifications_screen_unread',
 			'position'        => 10,
@@ -202,7 +196,6 @@ class BP_Notifications_Component extends BP_Component {
 		$sub_nav[] = array(
 			'name'            => _x( 'Read', 'Notification screen nav', 'buddypress' ),
 			'slug'            => 'read',
-			'parent_url'      => $notifications_link,
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_notifications_screen_read',
 			'position'        => 20,
