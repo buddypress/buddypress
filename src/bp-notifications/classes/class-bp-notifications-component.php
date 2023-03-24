@@ -220,9 +220,8 @@ class BP_Notifications_Component extends BP_Component {
 
 		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
-
-			// Setup the logged in user variables.
-			$notifications_link = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
+			$notifications_slug        = bp_get_notifications_slug();
+			$custom_notifications_slug = bp_rewrites_get_slug( 'members', 'member_' . $notifications_slug, $notifications_slug );
 
 			// Pending notification requests.
 			$count = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() );
@@ -247,7 +246,11 @@ class BP_Notifications_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => $notifications_link,
+				'href'   => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_notifications_slug,
+					)
+				),
 			);
 
 			// Unread.
@@ -255,7 +258,12 @@ class BP_Notifications_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-unread',
 				'title'    => $unread,
-				'href'     => trailingslashit( $notifications_link . 'unread' ),
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_notifications_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $notifications_slug . '_unread', 'unread' ),
+					)
+				),
 				'position' => 10,
 			);
 
@@ -264,7 +272,12 @@ class BP_Notifications_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-read',
 				'title'    => _x( 'Read', 'My Account Notification sub nav', 'buddypress' ),
-				'href'     => trailingslashit( $notifications_link . 'read' ),
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_notifications_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $notifications_slug . '_read', 'read' ),
+					)
+				),
 				'position' => 20,
 			);
 		}

@@ -43,16 +43,21 @@ function bp_messages_action_create_message() {
 	} else {
 
 		// Setup the link to the logged-in user's messages.
-		$member_messages = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() );
+		$message_slug        = bp_get_messages_slug();
+		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
+		$path_chunks         = array(
+			'single_item_component' => $custom_message_slug,
+		);
 
 		// Site-wide notice.
 		if ( isset( $_POST['send-notice'] ) ) {
 
 			// Attempt to save the notice and redirect to notices.
 			if ( messages_send_notice( $_POST['subject'], $_POST['content'] ) ) {
-				$success     = true;
-				$feedback    = __( 'Notice successfully created.', 'buddypress' );
-				$redirect_to = trailingslashit( $member_messages . 'notices' );
+				$success                           = true;
+				$feedback                          = __( 'Notice successfully created.', 'buddypress' );
+				$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' );
+				$redirect_to = bp_loggedin_user_url( $path_chunks );
 
 			// Notice could not be sent.
 			} else {
@@ -87,10 +92,11 @@ function bp_messages_action_create_message() {
 
 			// Send the message and redirect to it.
 			if ( true === is_int( $send ) ) {
-				$success     = true;
-				$feedback    = __( 'Message successfully sent.', 'buddypress' );
-				$view        = trailingslashit( $member_messages . 'view' );
-				$redirect_to = trailingslashit( $view . $send );
+				$success                                     = true;
+				$feedback                                    = __( 'Message successfully sent.', 'buddypress' );
+				$path_chunks['single_item_action']           = bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_view', 'view' );
+				$path_chunks['single_item_action_variables'] = array( $send );
+				$redirect_to                                 = bp_loggedin_user_url( $path_chunks );
 
 			// Message could not be sent.
 			} else {
