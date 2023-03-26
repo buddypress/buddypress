@@ -187,6 +187,22 @@ class BP_Component {
 	 */
 	public $directory_title = '';
 
+	/**
+	 * Component's main nav items.
+	 *
+	 * @since 12.0.0
+	 * @var array
+	 */
+	public $main_nav = array();
+
+	/**
+	 * Component's main nav sub items.
+	 *
+	 * @since 12.0.0
+	 * @var array
+	 */
+	public $sub_nav  = array();
+
 	/** Methods ***************************************************************/
 
 	/**
@@ -528,7 +544,10 @@ class BP_Component {
 		add_action( 'bp_late_include',           array( $this, 'late_includes'          ) );
 
 		// Setup navigation.
-		add_action( 'bp_setup_nav',              array( $this, 'setup_nav'              ), 10 );
+		add_action( 'bp_setup_nav',              array( $this, 'setup_nav'              ),  9 );
+
+		// Generate navigation.
+		add_action( 'bp_setup_nav',              array( $this, 'generate_nav'           ), 10, 0 );
 
 		// Setup WP Toolbar menus.
 		add_action( 'bp_setup_admin_bar',        array( $this, 'setup_admin_bar'        ), $this->adminbar_myaccount_order );
@@ -597,11 +616,7 @@ class BP_Component {
 	 * Set up component navigation.
 	 *
 	 * @since 1.5.0
-	 *
-	 * @see bp_core_new_nav_item() For a description of the $main_nav
-	 *      parameter formatting.
-	 * @see bp_core_new_subnav_item() For a description of how each item
-	 *      in the $sub_nav parameter array should be formatted.
+	 * @since 12.0.0 Uses `BP_Component::$main_nav` && `BP_Component::$sub_nav` to globalize nav items.
 	 *
 	 * @param array $main_nav Optional. Passed directly to bp_core_new_nav_item().
 	 *                        See that function for a description.
@@ -610,17 +625,55 @@ class BP_Component {
 	 *                        function for a description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-
-		// No sub nav items without a main nav item.
-		if ( !empty( $main_nav ) ) {
+		if ( isset( $main_nav['slug'] ) ) {
 			// Always set the component ID.
-			$main_nav['component_id'] = $this->id;
+			$this->main_nav['component_id'] = $this->id;
 
-			bp_core_new_nav_item( $main_nav, 'members' );
+			if ( ! isset( $main_nav['rewrite_id'] ) ) {
+				$this->main_nav['rewrite_id'] = 'bp_member_' . str_replace( '-', '_', $main_nav['slug'] );
+			} elseif ( ! $main_nav['rewrite_id'] ) {
+				unset( $main_nav['rewrite_id'] );
+			}
+
+			$this->main_nav = array_merge( $this->main_nav, $main_nav );
 
 			// Sub nav items are not required.
-			if ( !empty( $sub_nav ) ) {
+			if ( ! empty( $sub_nav ) ) {
 				foreach( (array) $sub_nav as $nav ) {
+					if ( ! isset( $nav['slug'], $nav['parent_slug'] ) ) {
+						continue;
+					}
+
+					if ( ! isset( $nav['rewrite_id'] ) ) {
+						$nav['rewrite_id'] = 'bp_member_' . str_replace( '-', '_', $nav['parent_slug'] ) . '_' . str_replace( '-', '_', $nav['slug'] );
+					} elseif ( ! $nav['rewrite_id'] ) {
+						unset( $nav['rewrite_id'] );
+					}
+
+					$this->sub_nav[] = $nav;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Generate component navigation using the nav/subnav set up in `BP_Component::setup_nav()`.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @see bp_core_new_nav_item() For a description of the $main_nav
+	 *      parameter formatting.
+	 * @see bp_core_new_subnav_item() For a description of how each item
+	 *      in the $sub_nav parameter array should be formatted.
+	 */
+	public function generate_nav() {
+		// No sub nav items without a main nav item.
+		if ( $this->main_nav ) {
+			bp_core_new_nav_item( $this->main_nav, 'members' );
+
+			// Sub nav items are not required.
+			if ( $this->sub_nav ) {
+				foreach( (array) $this->sub_nav as $nav ) {
 					bp_core_new_subnav_item( $nav, 'members' );
 				}
 			}

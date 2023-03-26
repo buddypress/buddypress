@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 /**
@@ -71,7 +71,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 				<?php if ( is_user_logged_in() && bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) ) : ?>
 
 					<li id="blogs-personal">
-						<a href="<?php echo bp_loggedin_user_domain() . bp_get_blogs_slug(); ?>">
+						<a href="<?php bp_loggedin_user_link( array( bp_get_blogs_slug() ) ); ?>">
 							<?php
 							/* translators: %s: current user blogs count */
 							printf( __( 'My Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) . '</span>' ); ?>

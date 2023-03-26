@@ -6,7 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 12.0.0
  */
 
 /**
@@ -81,10 +81,10 @@ do_action( 'bp_before_directory_activity' ); ?>
 					<?php if ( bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
 
 						<li id="activity-friends">
-							<a href="<?php echo bp_loggedin_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() . '/'; ?>">
+							<a href="<?php bp_loggedin_user_link( array( bp_get_activity_slug(), bp_get_friends_slug() ) ); ?>">
 								<?php
 								/* translators: %s: number of friends */
-								printf( __( 'My Friends %s', 'buddypress' ), '<span>' . bp_get_total_friend_count( bp_loggedin_user_id() ) . '</span>' );
+								printf( esc_html__( 'My Friends %s', 'buddypress' ), '<span>' . bp_get_total_friend_count( bp_loggedin_user_id() ) . '</span>' );
 								?>
 							</a>
 						</li>
@@ -106,17 +106,14 @@ do_action( 'bp_before_directory_activity' ); ?>
 
 					<?php if ( bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) : ?>
 
-						<?php
-						printf(
-							'<li id="activity-groups"><a href="%1$s">%2$s</a></li>',
-							esc_url( bp_loggedin_user_domain() . bp_get_activity_slug() . '/' . bp_get_groups_slug() . '/' ),
-							sprintf(
+						<li id="activity-groups">
+							<a href="<?php bp_loggedin_user_link( array( bp_get_activity_slug(), bp_get_groups_slug() ) ); ?>">
+								<?php
 								/* translators: %s: current user groups count */
-								__( 'My Groups %s', 'buddypress' ),
-								'<span>' . bp_get_total_group_count_for_user( bp_loggedin_user_id() ) . '</span>'
-							)
-						);
-						?>
+								printf( esc_html__( 'My Groups %s', 'buddypress' ), '<span>' . bp_get_total_group_count_for_user( bp_loggedin_user_id() ) . '</span>' );
+								?>
+							</a>
+						</li>
 
 					<?php endif; ?>
 
@@ -134,10 +131,10 @@ do_action( 'bp_before_directory_activity' ); ?>
 				<?php if ( bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) : ?>
 
 					<li id="activity-favorites">
-						<a href="<?php echo bp_loggedin_user_domain() . bp_get_activity_slug() . '/favorites/'; ?>">
+						<a href="<?php bp_loggedin_user_link( array( bp_get_activity_slug(), 'favorites' ) ); ?>">
 							<?php
 							/* translators: %s: number of favorites */
-							printf( __( 'My Favorites %s', 'buddypress' ), '<span>' . bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) . '</span>' );
+							printf( esc_html__( 'My Favorites %s', 'buddypress' ), '<span>' . bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) . '</span>' );
 							?>
 						</a>
 					</li>
@@ -156,15 +153,15 @@ do_action( 'bp_before_directory_activity' ); ?>
 					do_action( 'bp_before_activity_type_tab_mentions' ); ?>
 
 					<li id="activity-mentions">
-						<a href="<?php echo bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/'; ?>">
-							<?php _e( 'Mentions', 'buddypress' ); ?>
+						<a href="<?php bp_loggedin_user_link( array( bp_get_activity_slug(), 'mentions' ) ); ?>">
+							<?php esc_html_e( 'Mentions', 'buddypress' ); ?>
 							<?php if ( bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) : ?>
 								&nbsp;
 								<strong>
 									<span>
 										<?php
 										/* translators: %s: new mentions count */
-										printf( _nx( '%s new', '%s new', bp_get_total_mention_count_for_user( bp_loggedin_user_id() ), 'Number of new activity mentions', 'buddypress' ), bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) );
+										printf( esc_html( _nx( '%s new', '%s new', bp_get_total_mention_count_for_user( bp_loggedin_user_id() ), 'Number of new activity mentions', 'buddypress' ), bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) );
 										?>
 									</span>
 								</strong>

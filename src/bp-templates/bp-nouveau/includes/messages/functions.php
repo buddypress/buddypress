@@ -209,22 +209,29 @@ function bp_nouveau_messages_adjust_nav() {
 }
 
 /**
+ * Replaces the Notices Compose URL.
+ *
  * @since 3.0.0
+ *
+ * @param array $admin_nav The WP Admin Nav.
  */
 function bp_nouveau_messages_adjust_admin_nav( $admin_nav ) {
 	if ( empty( $admin_nav ) ) {
 		return $admin_nav;
 	}
 
-	$user_messages_link = trailingslashit( bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'messages' ) );
-
 	foreach ( $admin_nav as $nav_iterator => $nav ) {
 		$nav_id = str_replace( 'my-account-messages-', '', $nav['id'] );
 
 		if ( 'notices' === $nav_id ) {
-			$admin_nav[ $nav_iterator ]['href'] = esc_url( add_query_arg( array(
-				'page' => 'bp-notices'
-			), bp_get_admin_url( 'users.php' ) ) );
+			$admin_nav[ $nav_iterator ]['href'] = esc_url(
+				add_query_arg(
+					array(
+						'page' => 'bp-notices',
+					),
+					bp_get_admin_url( 'users.php' )
+				)
+			);
 		}
 	}
 
@@ -270,7 +277,7 @@ function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id )
 		'is_new'            => 1,
 		'total_count'       => 1,
 		'content'           => __( 'New sitewide notice', 'buddypress' ),
-		'href'              => bp_loggedin_user_domain(),
+		'href'              => bp_loggedin_user_url(),
 	);
 
 	if ( ! is_array( $notifications ) ) {

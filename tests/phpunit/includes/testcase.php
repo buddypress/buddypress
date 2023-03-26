@@ -192,6 +192,11 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$GLOBALS['bp']->loggedin_user = NULL;
 		$GLOBALS['bp']->pages = bp_core_get_directory_pages();
 
+		foreach ( array_keys( bp_core_get_active_components() ) as $component ) {
+			$GLOBALS['bp']->{$component}->main_nav = array();
+			$GLOBALS['bp']->{$component}->sub_nav = array();
+		}
+
 		parent::go_to( $url );
 
 		do_action( 'bp_init' );

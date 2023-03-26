@@ -1397,8 +1397,7 @@ function bp_message_activate_deactivate_link() {
 			);
 		}
 
-
-		$link = wp_nonce_url( bp_loggedin_user_url( $path_chunks ), 'messages_delete_notice' );
+		$link = wp_nonce_url( bp_loggedin_user_url( $path_chunks ), $nonce );
 
 		/**
 		 * Filters the URL for deactivating the current notice.

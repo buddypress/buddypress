@@ -223,7 +223,7 @@ class BP_Blogs_Component extends BP_Component {
 			return;
 		}
 
-		$slug       = bp_get_blogs_slug();
+		$slug = bp_get_blogs_slug();
 
 		// Add 'Sites' to the main navigation.
 		$count    = (int) bp_get_total_blog_count_for_user();
