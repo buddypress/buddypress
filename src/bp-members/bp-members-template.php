@@ -1952,9 +1952,33 @@ function bp_displayed_user_domain() {
  * Output the link for the logged-in user's profile.
  *
  * @since 1.2.4
+ * @since 12.0.0 Introduced the `$chunk` argument.
+ *
+ * @param array $chunk A list of slugs to append to the URL.
  */
-function bp_loggedin_user_link() {
-	echo esc_url( bp_loggedin_user_url() );
+function bp_loggedin_user_link( $chunks = array() ) {
+	$path_chunks = array();
+	$chunks      = (array) $chunks;
+
+	if ( $chunks ) {
+		$single_item_component = array_shift( $chunks );
+		if ( $single_item_component ) {
+			$path_chunks['single_item_component'] = bp_rewrites_get_slug( 'members', 'member_' . $single_item_component, $single_item_component );
+		}
+
+		$single_item_action = array_shift( $chunks );
+		if ( $single_item_action ) {
+			$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $single_item_component . '_' . $single_item_action, $single_item_action );
+		}
+
+		if ( $chunks ) {
+			foreach ( $chunks as $chunk ) {
+				$path_chunks['single_item_action_variables'][] = bp_rewrites_get_slug( 'members', 'member_' . $single_item_component . '_' . $single_item_action . '_' . $chunk, $chunk );
+			}
+		}
+	}
+
+	echo esc_url( bp_loggedin_user_url( $path_chunks ) );
 }
 
 /**

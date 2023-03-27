@@ -4881,3 +4881,33 @@ function bp_get_post_type_site_id() {
 	 */
 	return (int) apply_filters( 'bp_get_post_type_site_id', $site_id );
 }
+
+/**
+ * Returns registered navigation items for all or a specific component.
+ *
+ * @since 12.0.0
+ *
+ * @param string $component The component ID.
+ * @return array            The list of registered navigation items.
+ */
+function bp_get_component_navigations( $component = '' ) {
+	$args = array();
+	if ( $component ) {
+		$args['id'] = $component;
+	}
+
+	$components  = bp_core_get_active_components( $args, 'objects' );
+	$navigations = array();
+
+	foreach ( $components as $key_component => $component ) {
+		if ( isset( $component->main_nav['rewrite_id'] ) ) {
+			$navigations[ $key_component ]['main_nav'] = $component->main_nav;
+		}
+
+		if ( isset( $component->sub_nav ) && is_array( $component->sub_nav ) && $component->sub_nav ) {
+			$navigations[ $key_component ]['sub_nav'] = $component->sub_nav;
+		}
+	}
+
+	return $navigations;
+}

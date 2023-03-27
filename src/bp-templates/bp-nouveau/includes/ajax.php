@@ -3,7 +3,7 @@
  * Common functions only loaded on AJAX requests.
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -53,19 +53,46 @@ function bp_nouveau_ajax_object_template_loader() {
 			$scope = sanitize_text_field( $post_vars['scope'] );
 		}
 
+		$activity_slug        = bp_nouveau_get_component_slug( 'activity' );
+		$custom_activity_slug = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug );
+
 		// We need to calculate and return the feed URL for each scope.
 		switch ( $scope ) {
 			case 'friends':
-				$feed_url = bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/friends/feed/';
+				$feed_url = bp_loggedin_user_url(
+					array(
+						'single_item_component'        => $custom_activity_slug,
+						'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_friends', 'friends' ),
+						'single_item_action_variables' => array( 'feed' ),
+					)
+				);
 				break;
 			case 'groups':
-				$feed_url = bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/groups/feed/';
+				$feed_url = bp_loggedin_user_url(
+					array(
+						'single_item_component'        => $custom_activity_slug,
+						'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_groups', 'groups' ),
+						'single_item_action_variables' => array( 'feed' ),
+					)
+				);
 				break;
 			case 'favorites':
-				$feed_url = bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/favorites/feed/';
+				$feed_url = bp_loggedin_user_url(
+					array(
+						'single_item_component'        => $custom_activity_slug,
+						'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_favorites', 'favorites' ),
+						'single_item_action_variables' => array( 'feed' ),
+					)
+				);
 				break;
 			case 'mentions':
-				$feed_url = bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/mentions/feed/';
+				$feed_url = bp_loggedin_user_url(
+					array(
+						'single_item_component'        => $custom_activity_slug,
+						'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_mentions', 'mentions' ),
+						'single_item_action_variables' => array( 'feed' ),
+					)
+				);
 
 				// Get user new mentions
 				$new_mentions = bp_get_user_meta( bp_loggedin_user_id(), 'bp_new_mentions', true );

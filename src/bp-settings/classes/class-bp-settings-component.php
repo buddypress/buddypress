@@ -234,16 +234,19 @@ class BP_Settings_Component extends BP_Component {
 
 		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
-
-			// Setup the logged in user variables.
-			$settings_link = trailingslashit( bp_loggedin_user_domain() . bp_get_settings_slug() );
+			$settings_slug        = bp_get_settings_slug();
+			$custom_settings_slug = bp_rewrites_get_slug( 'members', 'member_' . $settings_slug, $settings_slug );
 
 			// Add main Settings menu.
 			$wp_admin_nav[] = array(
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => __( 'Settings', 'buddypress' ),
-				'href'   => $settings_link,
+				'href'   => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_settings_slug,
+					)
+				),
 			);
 
 			// General Account.
@@ -251,7 +254,12 @@ class BP_Settings_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-general',
 				'title'    => __( 'General', 'buddypress' ),
-				'href'     => trailingslashit( $settings_link . 'general' ),
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_settings_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug . '_general', 'general' ),
+					)
+				),
 				'position' => 10,
 			);
 
@@ -261,7 +269,12 @@ class BP_Settings_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-notifications',
 					'title'    => __( 'Email', 'buddypress' ),
-					'href'     => trailingslashit( $settings_link . 'notifications' ),
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_settings_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug . '_notifications', 'notifications' ),
+						)
+					),
 					'position' => 20,
 				);
 			}
@@ -275,7 +288,12 @@ class BP_Settings_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-data',
 					'title'    => __( 'Export Data', 'buddypress' ),
-					'href'     => trailingslashit( $settings_link . 'data' ),
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_settings_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug . '_data', 'data' ),
+						)
+					),
 					'position' => 89,
 				);
 			}
@@ -286,7 +304,12 @@ class BP_Settings_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-delete-account',
 					'title'    => __( 'Delete Account', 'buddypress' ),
-					'href'     => trailingslashit( $settings_link . 'delete-account' ),
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_settings_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug . '_delete_account', 'delete-account' ),
+						)
+					),
 					'position' => 90,
 				);
 			}

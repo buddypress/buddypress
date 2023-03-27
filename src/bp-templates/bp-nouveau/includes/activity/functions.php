@@ -3,7 +3,7 @@
  * Activity functions
  *
  * @since 3.0.0
- * @version 8.0.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -87,7 +87,7 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 			) ),
 			'avatar_width'  => $width,
 			'avatar_height' => $height,
-			'user_domain'   => bp_loggedin_user_domain(),
+			'user_domain'   => bp_loggedin_user_url(),
 			'avatar_alt'    => sprintf(
 				/* translators: %s: member name */
 				__( 'Profile photo of %s', 'buddypress' ),
@@ -219,14 +219,20 @@ function bp_nouveau_get_activity_directory_nav_items() {
 				array( 'bp_before_activity_type_tab_favorites', 'activity', 26 ),
 			)
 		);
+		$activity_slug = bp_nouveau_get_component_slug( 'activity' );
+		$path_chunks   = array(
+			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
+		);
 
 		// If the user has favorite create a nav item
 		if ( bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) {
+			$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_favorites', 'favorites' );
+
 			$nav_items['favorites'] = array(
 				'component' => 'activity',
 				'slug'      => 'favorites', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array(),
-				'link'      => bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/favorites/',
+				'link'      => bp_loggedin_user_url( $path_chunks ),
 				'text'      => __( 'My Favorites', 'buddypress' ),
 				'count'     => false,
 				'position'  => 35,
@@ -235,11 +241,14 @@ function bp_nouveau_get_activity_directory_nav_items() {
 
 		// The friends component is active and user has friends
 		if ( bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) {
+			$friends_slug                      = bp_nouveau_get_component_slug( 'friends' );
+			$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_' . $friends_slug, $friends_slug );
+
 			$nav_items['friends'] = array(
 				'component' => 'activity',
 				'slug'      => 'friends', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array( 'dynamic' ),
-				'link'      => bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/' . bp_nouveau_get_component_slug( 'friends' ) . '/',
+				'link'      =>  bp_loggedin_user_url( $path_chunks ),
 				'text'      => __( 'My Friends', 'buddypress' ),
 				'count'     => '',
 				'position'  => 15,
@@ -248,11 +257,14 @@ function bp_nouveau_get_activity_directory_nav_items() {
 
 		// The groups component is active and user has groups
 		if ( bp_is_active( 'groups' ) && bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) {
+			$groups_slug                       = bp_nouveau_get_component_slug( 'groups' );
+			$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_' . $groups_slug, $groups_slug );
+
 			$nav_items['groups'] = array(
 				'component' => 'activity',
 				'slug'      => 'groups', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array( 'dynamic' ),
-				'link'      => bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/' . bp_nouveau_get_component_slug( 'groups' ) . '/',
+				'link'      => bp_loggedin_user_url( $path_chunks ),
 				'text'      => __( 'My Groups', 'buddypress' ),
 				'count'     => '',
 				'position'  => 25,
@@ -261,7 +273,8 @@ function bp_nouveau_get_activity_directory_nav_items() {
 
 		// Mentions are allowed
 		if ( bp_activity_do_mentions() ) {
-			$deprecated_hooks[] = array( 'bp_before_activity_type_tab_mentions', 'activity', 36 );
+			$deprecated_hooks[]                = array( 'bp_before_activity_type_tab_mentions', 'activity', 36 );
+			$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_mentions', 'mentions' );
 
 			$count = '';
 			if ( bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) {
@@ -272,7 +285,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
 				'component' => 'activity',
 				'slug'      => 'mentions', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array( 'dynamic' ),
-				'link'      => bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/mentions/',
+				'link'      => bp_loggedin_user_url( $path_chunks ),
 				'text'      => __( 'Mentions', 'buddypress' ),
 				'count'     => $count,
 				'position'  => 45,

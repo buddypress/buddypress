@@ -1334,15 +1334,30 @@ function bp_message_notice_delete_link() {
 	function bp_get_message_notice_delete_link() {
 		global $messages_template;
 
+		$message_slug        = bp_get_messages_slug();
+		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
+		$url                 = wp_nonce_url(
+			bp_loggedin_user_url(
+				array(
+					'single_item_component'        => $custom_message_slug,
+					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' ),
+					'single_item_action_variables' => array(
+						bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices_delete', 'delete' ),
+						$messages_template->thread->id,
+					),
+				)
+			),
+			'messages_delete_notice'
+		);
+
 		/**
 		 * Filters the URL for deleting the current notice.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value URL for deleting the current notice.
-		 * @param string $value Text indicating action being executed.
+		 * @param string $url   URL for deleting the current notice.
 		 */
-		return apply_filters( 'bp_get_message_notice_delete_link', wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices/delete/' . $messages_template->thread->id ), 'messages_delete_notice' ) );
+		return apply_filters( 'bp_get_message_notice_delete_link', $url );
 	}
 
 /**
@@ -1361,11 +1376,28 @@ function bp_message_activate_deactivate_link() {
 	function bp_get_message_activate_deactivate_link() {
 		global $messages_template;
 
+		$message_slug        = bp_get_messages_slug();
+		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
+		$path_chunks         = array(
+			'single_item_component' => $custom_message_slug,
+			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' ),
+		);
+
 		if ( 1 === (int) $messages_template->thread->is_active ) {
-			$link = wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices/deactivate/' . $messages_template->thread->id ), 'messages_deactivate_notice' );
+			$nonce                                       = 'messages_deactivate_notice';
+			$path_chunks['single_item_action_variables'] = array(
+				bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices_deactivate', 'deactivate' ),
+				$messages_template->thread->id,
+			);
 		} else {
-			$link = wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices/activate/' . $messages_template->thread->id ), 'messages_activate_notice' );
+			$nonce                                       = 'messages_activate_notice';
+			$path_chunks['single_item_action_variables'] = array(
+				bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices_activate', 'activate' ),
+				$messages_template->thread->id,
+			);
 		}
+
+		$link = wp_nonce_url( bp_loggedin_user_url( $path_chunks ), $nonce );
 
 		/**
 		 * Filters the URL for deactivating the current notice.
@@ -1424,8 +1456,18 @@ function bp_message_notice_dismiss_link() {
 	 * @return string URL for dismissing the current notice for the current user.
 	 */
 	function bp_get_message_notice_dismiss_link() {
-
-		$link = wp_nonce_url( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() . '/notices/dismiss/' ), 'messages_dismiss_notice' );
+		$message_slug        = bp_get_messages_slug();
+		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
+		$link                = wp_nonce_url(
+			bp_loggedin_user_url(
+				array(
+					'single_item_component'        => $custom_message_slug,
+					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' ),
+					'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices_dismiss', 'dismiss' ) ),
+				)
+			),
+			'messages_dismiss_notice'
+		);
 
 		/**
 		 * Filters the URL for dismissing the current notice for the current user.
@@ -1512,14 +1554,30 @@ function bp_send_private_message_link() {
 			return false;
 		}
 
+		$message_slug        = bp_get_messages_slug();
+		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
+		$url                 = wp_nonce_url(
+			add_query_arg(
+				'r',
+				bp_members_get_user_slug( bp_displayed_user_id() ),
+				bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_message_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_compose', 'compose' ),
+					)
+				)
+
+			)
+		);
+
 		/**
 		 * Filters the URL for the Private Message link in member profile headers.
 		 *
 		 * @since 1.2.10
 		 *
-		 * @param string $value URL for the Private Message link in member profile headers.
+		 * @param string $url URL for the Private Message link in member profile headers.
 		 */
-		return apply_filters( 'bp_get_send_private_message_link', wp_nonce_url( bp_loggedin_user_domain() . bp_get_messages_slug() . '/compose/?r=' . bp_members_get_user_slug( bp_displayed_user_id() ) ) );
+		return apply_filters( 'bp_get_send_private_message_link', $url );
 	}
 
 /**

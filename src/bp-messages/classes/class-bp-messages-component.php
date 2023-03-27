@@ -294,9 +294,8 @@ class BP_Messages_Component extends BP_Component {
 
 		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
-
-			// Setup the logged in user variables.
-			$messages_link = trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() );
+			$message_slug        = bp_get_messages_slug();
+			$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
 
 			// Unread message count.
 			$count = messages_get_unread_count( bp_loggedin_user_id() );
@@ -321,7 +320,11 @@ class BP_Messages_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => $messages_link
+				'href'   => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_message_slug,
+					)
+				),
 			);
 
 			// Inbox.
@@ -329,18 +332,29 @@ class BP_Messages_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-inbox',
 				'title'    => $inbox,
-				'href'     => trailingslashit( $messages_link . 'inbox' ),
-				'position' => 10
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_message_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_inbox', 'inbox' ),
+					)
+				),
+				'position' => 10,
 			);
 
 			// Starred.
 			if ( bp_is_active( $this->id, 'star' ) ) {
+				$star_slug      = bp_get_messages_starred_slug();
 				$wp_admin_nav[] = array(
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-starred',
 					'title'    => __( 'Starred', 'buddypress' ),
-					'href'     => trailingslashit( $messages_link . bp_get_messages_starred_slug() ),
-					'position' => 11
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_message_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_' . $star_slug, $star_slug ),
+						)
+					),
+					'position' => 11,
 				);
 			}
 
@@ -349,8 +363,13 @@ class BP_Messages_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-sentbox',
 				'title'    => __( 'Sent', 'buddypress' ),
-				'href'     => trailingslashit( $messages_link . 'sentbox' ),
-				'position' => 20
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_message_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_sentbox', 'sentbox' ),
+					)
+				),
+				'position' => 20,
 			);
 
 			// Compose Message.
@@ -358,8 +377,13 @@ class BP_Messages_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-compose',
 				'title'    => __( 'Compose', 'buddypress' ),
-				'href'     => trailingslashit( $messages_link . 'compose' ),
-				'position' => 30
+				'href'     => bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_message_slug,
+						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_compose', 'compose' ),
+					)
+				),
+				'position' => 30,
 			);
 
 			// Site Wide Notices.
@@ -368,8 +392,13 @@ class BP_Messages_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-notices',
 					'title'    => __( 'Site Notices', 'buddypress' ),
-					'href'     => trailingslashit( $messages_link . 'notices' ),
-					'position' => 90
+					'href'     => bp_loggedin_user_url(
+						array(
+							'single_item_component' => $custom_message_slug,
+							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' ),
+						)
+					),
+					'position' => 90,
 				);
 			}
 		}

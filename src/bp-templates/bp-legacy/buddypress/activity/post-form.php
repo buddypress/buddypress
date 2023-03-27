@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 12.0.0
  */
 
 ?>
@@ -21,7 +21,7 @@
 	do_action( 'bp_before_activity_post_form' ); ?>
 
 	<div id="whats-new-avatar">
-		<a href="<?php echo bp_loggedin_user_domain(); ?>">
+		<a href="<?php bp_loggedin_user_link(); ?>">
 			<?php bp_loggedin_user_avatar( 'width=' . bp_core_avatar_thumb_width() . '&height=' . bp_core_avatar_thumb_height() ); ?>
 		</a>
 	</div>

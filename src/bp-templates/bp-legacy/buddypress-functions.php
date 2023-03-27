@@ -6,7 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage BP_Theme_Compat
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -907,22 +907,50 @@ function bp_legacy_theme_activity_template_loader() {
 	}
 
 	$scope = '';
-	if ( ! empty( $_POST['scope'] ) )
+	if ( ! empty( $_POST['scope'] ) ) {
 		$scope = $_POST['scope'];
+	}
+
+	$activity_slug        = bp_get_activity_slug();
+	$custom_activity_slug = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug );
 
 	// We need to calculate and return the feed URL for each scope.
 	switch ( $scope ) {
 		case 'friends':
-			$feed_url = bp_loggedin_user_domain() . bp_get_activity_slug() . '/friends/feed/';
+			$feed_url = bp_loggedin_user_url(
+				array(
+					'single_item_component'        => $custom_activity_slug,
+					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_friends', 'friends' ),
+					'single_item_action_variables' => array( 'feed' ),
+				)
+			);
 			break;
 		case 'groups':
-			$feed_url = bp_loggedin_user_domain() . bp_get_activity_slug() . '/groups/feed/';
+			$feed_url = bp_loggedin_user_url(
+				array(
+					'single_item_component'        => $custom_activity_slug,
+					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_groups', 'groups' ),
+					'single_item_action_variables' => array( 'feed' ),
+				)
+			);
 			break;
 		case 'favorites':
-			$feed_url = bp_loggedin_user_domain() . bp_get_activity_slug() . '/favorites/feed/';
+			$feed_url = bp_loggedin_user_url(
+				array(
+					'single_item_component'        => $custom_activity_slug,
+					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_favorites', 'favorites' ),
+					'single_item_action_variables' => array( 'feed' ),
+				)
+			);
 			break;
 		case 'mentions':
-			$feed_url = bp_loggedin_user_domain() . bp_get_activity_slug() . '/mentions/feed/';
+			$feed_url = bp_loggedin_user_url(
+				array(
+					'single_item_component'        => $custom_activity_slug,
+					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_mentions', 'mentions' ),
+					'single_item_action_variables' => array( 'feed' ),
+				)
+			);
 
 			if ( isset( $_POST['_wpnonce_activity_filter'] ) && wp_verify_nonce( wp_unslash( $_POST['_wpnonce_activity_filter'] ), 'activity_filter' ) ) {
 				bp_activity_clear_new_mentions( bp_loggedin_user_id() );
@@ -1453,6 +1481,9 @@ function bp_legacy_theme_ajax_addremove_friend() {
 		die( __( 'No member found by that ID.', 'buddypress' ) );
 	}
 
+	$friends_slug        = bp_get_friends_slug();
+	$custom_friends_slug = bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug );
+
 	// Trying to cancel friendship.
 	if ( 'is_friend' == BP_Friends_Friendship::check_is_friend( bp_loggedin_user_id(), $friend_id ) ) {
 		check_ajax_referer( 'friends_remove_friend' );
@@ -1460,7 +1491,14 @@ function bp_legacy_theme_ajax_addremove_friend() {
 		if ( ! friends_remove_friend( bp_loggedin_user_id(), $friend_id ) ) {
 			echo __( 'Friendship could not be canceled.', 'buddypress' );
 		} else {
-			echo '<a id="friend-' . esc_attr( $friend_id ) . '" class="friendship-button not_friends add" rel="add" href="' . wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/add-friend/' . $friend_id, 'friends_add_friend' ) . '">' . __( 'Add Friend', 'buddypress' ) . '</a>';
+			$url = bp_loggedin_user_url(
+				array(
+					'single_item_component'        => $custom_friends_slug,
+					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_add_friend', 'add-friend' ),
+					'single_item_action_variables' => array( $friend_id ),
+				)
+			);
+			echo '<a id="friend-' . esc_attr( $friend_id ) . '" class="friendship-button not_friends add" rel="add" href="' . wp_nonce_url( $url, 'friends_add_friend' ) . '">' . __( 'Add Friend', 'buddypress' ) . '</a>';
 		}
 
 	// Trying to request friendship.
@@ -1470,7 +1508,17 @@ function bp_legacy_theme_ajax_addremove_friend() {
 		if ( ! friends_add_friend( bp_loggedin_user_id(), $friend_id ) ) {
 			echo __(' Friendship could not be requested.', 'buddypress' );
 		} else {
-			echo '<a id="friend-' . esc_attr( $friend_id ) . '" class="remove friendship-button pending_friend requested" rel="remove" href="' . wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/requests/cancel/' . $friend_id . '/', 'friends_withdraw_friendship' ) . '" class="requested">' . __( 'Cancel Friendship Request', 'buddypress' ) . '</a>';
+			$url = bp_loggedin_user_url(
+				array(
+					'single_item_component'        => $custom_friends_slug,
+					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests', 'requests' ),
+					'single_item_action_variables' => array(
+						bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests_cancel', 'cancel' ),
+						$friend_id,
+					),
+				)
+			);
+			echo '<a id="friend-' . esc_attr( $friend_id ) . '" class="remove friendship-button pending_friend requested" rel="remove" href="' . wp_nonce_url( $url, 'friends_withdraw_friendship' ) . '" class="requested">' . __( 'Cancel Friendship Request', 'buddypress' ) . '</a>';
 		}
 
 	// Trying to cancel pending request.
@@ -1478,7 +1526,16 @@ function bp_legacy_theme_ajax_addremove_friend() {
 		check_ajax_referer( 'friends_withdraw_friendship' );
 
 		if ( friends_withdraw_friendship( bp_loggedin_user_id(), $friend_id ) ) {
-			echo '<a id="friend-' . esc_attr( $friend_id ) . '" class="friendship-button not_friends add" rel="add" href="' . wp_nonce_url( bp_loggedin_user_domain() . bp_get_friends_slug() . '/add-friend/' . $friend_id, 'friends_add_friend' ) . '">' . __( 'Add Friend', 'buddypress' ) . '</a>';
+			$url = bp_loggedin_user_url(
+				array(
+					'single_item_component'        => $custom_friends_slug,
+					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_add_friend', 'add-friend' ),
+					'single_item_action_variables' => array(
+						$friend_id,
+					),
+				)
+			);
+			echo '<a id="friend-' . esc_attr( $friend_id ) . '" class="friendship-button not_friends add" rel="add" href="' . wp_nonce_url( $url, 'friends_add_friend' ) . '">' . __( 'Add Friend', 'buddypress' ) . '</a>';
 		} else {
 			echo __("Friendship request could not be cancelled.", 'buddypress');
 		}

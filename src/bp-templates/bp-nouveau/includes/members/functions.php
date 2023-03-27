@@ -77,11 +77,17 @@ function bp_nouveau_get_members_directory_nav_items() {
 	if ( is_user_logged_in() ) {
 		// If friends component is active and the user has friends
 		if ( bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) {
+			$friends_slug = bp_nouveau_get_component_slug( 'friends' );
+			$path_chunks   = array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug ),
+				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_my_friends', 'my-friends' ),
+			);
+
 			$nav_items['personal'] = array(
 				'component' => 'members',
 				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array(),
-				'link'      => bp_loggedin_user_domain() . bp_nouveau_get_component_slug( 'friends' ) . '/my-friends/',
+				'link'      => bp_loggedin_user_url( $path_chunks ),
 				'text'      => __( 'My Friends', 'buddypress' ),
 				'count'     => bp_get_total_friend_count( bp_loggedin_user_id() ),
 				'position'  => 15,

@@ -21,14 +21,22 @@ function messages_screen_conversation() {
 		return false;
 	}
 
-	$thread_id = (int) bp_action_variable( 0 );
+	$thread_id           = (int) bp_action_variable( 0 );
+	$message_slug        = bp_get_messages_slug();
+	$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
 
 	if ( empty( $thread_id ) || ! messages_is_valid_thread( $thread_id ) ) {
 		if ( is_user_logged_in() ) {
 			bp_core_add_message( __( 'The conversation you tried to access is no longer available', 'buddypress' ), 'error' );
 		}
 
-		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() ) );
+		bp_core_redirect(
+			bp_loggedin_user_url(
+				array(
+					'single_item_component' => $custom_message_slug,
+				)
+			)
+		);
 	}
 
 	// No access.
@@ -41,7 +49,14 @@ function messages_screen_conversation() {
 		// Redirect away.
 		} else {
 			bp_core_add_message( __( 'You do not have access to that conversation.', 'buddypress' ), 'error' );
-			bp_core_redirect( trailingslashit( bp_loggedin_user_domain() . bp_get_messages_slug() ) );
+
+			bp_core_redirect(
+				bp_loggedin_user_url(
+					array(
+						'single_item_component' => $custom_message_slug,
+					)
+				)
+			);
 		}
 	}
 
