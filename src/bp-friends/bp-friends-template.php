@@ -88,7 +88,7 @@ function bp_friends_random_friends() {
 			(<?php echo BP_Friends_Friendship::total_friend_count( bp_displayed_user_id() ); ?>)
 			&nbsp;
 			<span>
-				<a href="<?php echo trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() ) ?>">
+				<a href="<?php bp_displayed_user_link( array( bp_get_friends_slug() ) ); ?>">
 					<?php esc_html_e( 'See All', 'buddypress' ) ?>
 				</a>
 			</span>
@@ -202,14 +202,21 @@ function bp_friends_random_members( $total_members = 5 ) {
  * @todo Deprecate
  */
 function bp_friend_search_form() {
+	$label        = __( 'Filter Friends', 'buddypress' );
+	$friends_slug = bp_get_friends_slug();
+	$action       = bp_displayed_user_url(
+		array(
+			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug ),
+			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_my_friends', 'my-friends' ),
+			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_search', 'search' ) ),
+		)
+	);
+	?>
 
-	$action = bp_displayed_user_domain() . bp_get_friends_slug() . '/my-friends/search/';
-	$label  = __( 'Filter Friends', 'buddypress' ); ?>
+		<form action="<?php echo esc_url( $action ) ?>" id="friend-search-form" method="post">
 
-		<form action="<?php echo $action ?>" id="friend-search-form" method="post">
-
-			<label for="friend-search-box" id="friend-search-label"><?php echo $label ?></label>
-			<input type="search" name="friend-search-box" id="friend-search-box" value="<?php echo $value ?>"<?php echo $disabled ?> />
+			<label for="friend-search-box" id="friend-search-label"><?php echo esc_html( $label ); ?></label>
+			<input type="search" name="friend-search-box" id="friend-search-box" value="" />
 
 			<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>
 

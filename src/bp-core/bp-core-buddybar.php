@@ -750,7 +750,7 @@ function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item, $component
 				// publicly accessible.
 				if ( bp_is_my_profile() || ( isset( $parent_nav_default_item ) && $parent_nav_default_item->show_for_displayed_user ) ) {
 					$message     = __( 'You do not have access to that page.', 'buddypress' );
-					$redirect_to = bp_displayed_user_domain();
+					$redirect_to = bp_displayed_user_url();
 
 				// In some cases, the default tab is not accessible to
 				// the logged-in user. So we fall back on a tab that we
@@ -758,13 +758,23 @@ function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item, $component
 				} else {
 					// Try 'activity' first.
 					if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
-						$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_activity_slug() );
+						$activity_slug = bp_get_activity_slug();
+						$redirect_to   = bp_displayed_user_url(
+							array(
+								'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
+							)
+						);
 					// Then try 'profile'.
 					} else {
-						$redirect_to = trailingslashit( bp_displayed_user_domain() . ( 'xprofile' == $bp->profile->id ? 'profile' : $bp->profile->id ) );
+						$profile_slug  = bp_get_profile_slug();
+						$redirect_to   = bp_displayed_user_url(
+							array(
+								'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
+							)
+						);
 					}
 
-					$message     = '';
+					$message = '';
 				}
 
 			// Fall back to the home page.

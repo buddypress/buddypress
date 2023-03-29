@@ -2167,14 +2167,20 @@ function bp_group_all_members_permalink( $group = false ) {
  * @todo Deprecate.
  */
 function bp_group_search_form() {
+	$label       = __('Filter Groups', 'buddypress');
+	$name        = 'group-filter-box';
+	$groups_slug = bp_get_groups_slug();
+	$action      = bp_displayed_user_url(
+		array(
+			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
+			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_my_groups', 'my-groups' ),
+			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_search', 'search' ) ),
+		)
+	);
 
-	$action = bp_displayed_user_domain() . bp_get_groups_slug() . '/my-groups/search/';
-	$label = __('Filter Groups', 'buddypress');
-	$name = 'group-filter-box';
-
-	$search_form_html = '<form action="' . $action . '" id="group-search-form" method="post">
-		<label for="'. $name .'" id="'. $name .'-label">'. $label .'</label>
-		<input type="search" name="'. $name . '" id="'. $name .'" value="'. $value .'"'.  $disabled .' />
+	$search_form_html = '<form action="' . esc_url( $action ) . '" id="group-search-form" method="post">
+		<label for="'. $name .'" id="'. $name .'-label">'. esc_html( $label ) .'</label>
+		<input type="search" name="'. $name . '" id="'. $name .'" value=""/>
 
 		'. wp_nonce_field( 'group-filter-box', '_wpnonce_group_filter', true, false ) .'
 		</form>';
@@ -5734,27 +5740,6 @@ function bp_directory_groups_search_form() {
 	 */
 	echo apply_filters( 'bp_directory_groups_search_form', $search_form_html );
 
-}
-
-/**
- * Displays group header tabs.
- *
- * @since 1.0.0
- *
- * @todo Deprecate?
- */
-function bp_groups_header_tabs() {
-	$user_groups = bp_displayed_user_domain() . bp_get_groups_slug(); ?>
-
-	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/recently-active' ); ?>"><?php _e( 'Recently Active', 'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/recently-joined' ); ?>"><?php _e( 'Recently Joined',  'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'most-popular',    0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/most-popular'    ); ?>"><?php _e( 'Most Popular',     'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'admin-of',        0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/admin-of'        ); ?>"><?php _e( 'Administrator Of', 'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'mod-of',          0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/mod-of'          ); ?>"><?php _e( 'Moderator Of',     'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'alphabetically'     ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/alphabetically'  ); ?>"><?php _e( 'Alphabetically',   'buddypress' ); ?></a></li>
-
-<?php
-	do_action( 'groups_header_tabs' );
 }
 
 /**

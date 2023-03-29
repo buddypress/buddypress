@@ -3908,52 +3908,54 @@ function bp_sitewide_activity_feed_link() {
  * Output the member activity feed link.
  *
  * @since 1.2.0
- *
  */
 function bp_member_activity_feed_link() {
-	echo bp_get_member_activity_feed_link();
+	echo esc_url( bp_get_member_activity_feed_link() );
 }
-
-/**
- * Output the member activity feed link.
- *
- * @since 1.0.0
- * @deprecated 1.2.0
- *
- * @todo properly deprecate in favor of bp_member_activity_feed_link().
- *
- */
-function bp_activities_member_rss_link() { echo bp_get_member_activity_feed_link(); }
 
 	/**
 	 * Return the member activity feed link.
 	 *
 	 * @since 1.2.0
 	 *
-	 *
 	 * @return string $link The member activity feed link.
 	 */
 	function bp_get_member_activity_feed_link() {
+		$activity_slug = bp_get_activity_slug();
+		$path_chunks   = array(
+			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
+		);
 
 		// Single member activity feed link.
 		if ( bp_is_profile_component() || bp_is_current_action( 'just-me' ) ) {
-			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/feed/';
+			$path_chunks['single_item_action'] = 'feed';
+			$link                              = bp_displayed_user_url( $path_chunks );
 
 		// Friend feed link.
 		} elseif ( bp_is_active( 'friends' ) && bp_is_current_action( bp_get_friends_slug() ) ) {
-			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_friends_slug() . '/feed/';
+			$friends_slug                                = bp_get_friends_slug();
+			$path_chunks['single_item_action']           = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_' . $friends_slug, $friends_slug );
+			$path_chunks['single_item_action_variables'] = array( 'feed' );
+			$link                                        = bp_displayed_user_url( $path_chunks );
 
 		// Group feed link.
 		} elseif ( bp_is_active( 'groups'  ) && bp_is_current_action( bp_get_groups_slug()  ) ) {
-			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/' . bp_get_groups_slug() . '/feed/';
+			$groups_slug                                 = bp_get_groups_slug();
+			$path_chunks['single_item_action']           = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_' . $groups_slug, $groups_slug );
+			$path_chunks['single_item_action_variables'] = array( 'feed' );
+			$link                                        = bp_displayed_user_url( $path_chunks );
 
 		// Favorites activity feed link.
 		} elseif ( 'favorites' === bp_current_action() ) {
-			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/favorites/feed/';
+			$path_chunks['single_item_action']           = bp_rewrites_get_slug( 'members', 'member_'  . $activity_slug . '_favorites', 'favorites' );
+			$path_chunks['single_item_action_variables'] = array( 'feed' );
+			$link                                        = bp_displayed_user_url( $path_chunks );
 
 		// Mentions activity feed link.
 		} elseif ( ( 'mentions' === bp_current_action() ) && bp_activity_do_mentions() ) {
-			$link = bp_displayed_user_domain() . bp_get_activity_slug() . '/mentions/feed/';
+			$path_chunks['single_item_action']           = bp_rewrites_get_slug( 'members', 'member_'  . $activity_slug . '_mentions', 'mentions' );
+			$path_chunks['single_item_action_variables'] = array( 'feed' );
+			$link                                        = bp_displayed_user_url( $path_chunks );
 
 		// No feed link.
 		} else {
