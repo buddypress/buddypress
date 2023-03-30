@@ -85,7 +85,7 @@ function bp_members_screen_change_avatar() {
 			do_action( 'bp_members_avatar_uploaded', (int) $args['item_id'], 'crop', $args, $cropped_avatar );
 
 			bp_core_add_message( __( 'Your new profile photo was uploaded successfully.', 'buddypress' ) );
-			bp_core_redirect( bp_displayed_user_domain() );
+			bp_core_redirect( bp_displayed_user_url() );
 		}
 	}
 

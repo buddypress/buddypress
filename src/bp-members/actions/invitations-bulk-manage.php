@@ -76,7 +76,16 @@ function bp_members_invitations_action_bulk_manage() {
 			break;
 	}
 
+	$invite_slug       = bp_get_members_invitations_slug();
+	$action_slug       = bp_current_action();
+	$action_rewrite_id = str_replace( '-', '_', $action_slug );
+
+	$path_chunks = array(
+		'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $invite_slug, $invite_slug ),
+		'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $invite_slug . '_' . $action_rewrite_id, $action_slug ),
+	);
+
 	// Redirect.
-	bp_core_redirect( bp_displayed_user_domain() . bp_get_members_invitations_slug() . '/' . bp_current_action() . '/' );
+	bp_core_redirect( bp_displayed_user_url( $path_chunks ) );
 }
 add_action( 'bp_actions', 'bp_members_invitations_action_bulk_manage' );

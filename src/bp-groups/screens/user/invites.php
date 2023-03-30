@@ -41,7 +41,8 @@ function groups_screen_group_invites() {
 		if ( isset( $_GET['redirect_to'] ) ) {
 			$redirect_to = urldecode( $_GET['redirect_to'] );
 		} else {
-			$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() );
+			$path_chunks = bp_members_get_path_chunks( array( bp_get_groups_slug(), bp_current_action() ) );
+			$redirect_to = bp_displayed_user_url( $path_chunks );
 		}
 
 		bp_core_redirect( $redirect_to );
@@ -60,7 +61,8 @@ function groups_screen_group_invites() {
 		if ( isset( $_GET['redirect_to'] ) ) {
 			$redirect_to = urldecode( $_GET['redirect_to'] );
 		} else {
-			$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_groups_slug() . '/' . bp_current_action() );
+			$path_chunks = bp_members_get_path_chunks( array( bp_get_groups_slug(), bp_current_action() ) );
+			$redirect_to = bp_displayed_user_url( $path_chunks );
 		}
 
 		bp_core_redirect( $redirect_to );

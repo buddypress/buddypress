@@ -3093,15 +3093,18 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
 			$component = 'profile';
 		}
 
+		$path_chunks = array(
+			'single_item_component' => $bp->{$component}->slug,
+		);
+
 		// Append $action to $url if there is no $type.
 		if ( ! empty( $action ) ) {
-			$url = bp_displayed_user_domain() . $bp->{$component}->slug . '/' . $action;
-		} else {
-			$url = bp_displayed_user_domain() . $bp->{$component}->slug;
+			$action_rewrite_id                 = 'member_' . str_replace( '-', '_', $action );
+			$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', $action_rewrite_id, $action );
 		}
 
 		// Add a slash at the end of our user url.
-		$url = trailingslashit( $url );
+		$url = bp_displayed_user_url( $path_chunks );
 
 		// Add possible query arg.
 		if ( ! empty( $query_args ) && is_array( $query_args ) ) {
@@ -3140,15 +3143,26 @@ function bp_avatar_delete_link() {
 	 * @return string
 	 */
 	function bp_get_avatar_delete_link() {
+		$profile_slug = bp_get_profile_slug();
+		$url          = wp_nonce_url(
+			bp_displayed_user_url(
+				array(
+					'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
+					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_change_avatar', 'change-avatar' ),
+					'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_delete_avatar', 'delete-avatar' ) ),
+				)
+			),
+			'bp_delete_avatar_link'
+		);
 
 		/**
 		 * Filters the link used for deleting an avatar.
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $value Nonced URL used for deleting an avatar.
+		 * @param string $url Nonced URL used for deleting an avatar.
 		 */
-		return apply_filters( 'bp_get_avatar_delete_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_profile_slug() . '/change-avatar/delete-avatar/', 'bp_delete_avatar_link' ) );
+		return apply_filters( 'bp_get_avatar_delete_link', $url );
 	}
 
 

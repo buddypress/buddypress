@@ -972,15 +972,17 @@ function bp_messages_form_action() {
 	 * @return string The form action.
 	 */
 	function bp_get_messages_form_action() {
+		$path_chunks = bp_members_get_path_chunks( array( bp_get_messages_slug(), bp_current_action(), bp_action_variable( 0 ) ) );
+		$url         = bp_displayed_user_url( $path_chunks );
 
 		/**
 		 * Filters the form action for Messages HTML forms.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value The form action.
+		 * @param string $url The form action.
 		 */
-		return apply_filters( 'bp_get_messages_form_action', trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() . '/' . bp_action_variable( 0 ) ) );
+		return apply_filters( 'bp_get_messages_form_action',$url );
 	}
 
 /**
@@ -2298,16 +2300,17 @@ function bp_the_thread_delete_link() {
 	 * @return string URL
 	 */
 	function bp_get_the_thread_delete_link() {
+		$path_chunks = bp_members_get_path_chunks( array( bp_get_messages_slug(), 'inbox', 'delete', bp_get_the_thread_id() ) );
+		$url         = wp_nonce_url( bp_displayed_user_url( $path_chunks ), 'messages_delete_thread' );
 
 		/**
 		 * Filters the URL for deleting the current thread.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value URL for deleting the current thread.
-		 * @param string $value Text indicating action being executed.
+		 * @param string $url URL for deleting the current thread.
 		 */
-		return apply_filters( 'bp_get_message_thread_delete_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_messages_slug() . '/inbox/delete/' . bp_get_the_thread_id(), 'messages_delete_thread' ) );
+		return apply_filters( 'bp_get_message_thread_delete_link', $url );
 	}
 
 /**
@@ -2326,16 +2329,17 @@ function bp_the_thread_exit_link() {
 	 * @return string URL
 	 */
 	function bp_get_the_thread_exit_link() {
+		$path_chunks = bp_members_get_path_chunks( array( bp_get_messages_slug(), 'inbox', 'exit', bp_get_the_thread_id() ) );
+		$url         = wp_nonce_url( bp_displayed_user_url( $path_chunks ), 'bp_messages_exit_thread' );
 
 		/**
 		 * Filters the URL to exit the current thread.
 		 *
-		 * @since 1.0.0
+		 * @since 10.0.0
 		 *
-		 * @param string $value URL to exit the current thread.
-		 * @param string $value Text indicating action being executed.
+		 * @param string $url URL to exit the current thread.
 		 */
-		return apply_filters( 'bp_get_the_thread_exit_link', wp_nonce_url( bp_displayed_user_domain() . bp_get_messages_slug() . '/inbox/exit/' . bp_get_the_thread_id(), 'bp_messages_exit_thread' ) );
+		return apply_filters( 'bp_get_the_thread_exit_link', $url );
 	}
 
 /**
