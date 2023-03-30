@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 11.0.0
+ * @version 12.0.0
  */
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
@@ -84,7 +84,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 				esc_html__( 'You may delete your account by visiting the %s page.', 'buddypress' ),
 				sprintf(
 					'<a href="%1$s">%2$s</a>',
-					esc_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/delete-account/' ),
+					esc_url( bp_displayed_user_url( array( bp_get_settings_slug(), 'delete-account' ) ) ),
 					esc_html__( 'Delete Account', 'buddypress' )
 				)
 			);

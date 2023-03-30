@@ -110,6 +110,11 @@ function bp_xprofile_action_settings() {
 	do_action( 'bp_xprofile_settings_after_save' );
 
 	// Redirect to the root domain.
-	bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/profile' );
+	$settings_slug = bp_get_settings_slug();
+	$path_chunks   = array(
+		'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug, $settings_slug ),
+		'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug . '_profile', 'profile' ),
+	);
+	bp_core_redirect( bp_displayed_user_url( $path_chunks ) );
 }
 add_action( 'bp_actions', 'bp_xprofile_action_settings' );

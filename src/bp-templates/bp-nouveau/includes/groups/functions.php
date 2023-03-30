@@ -502,7 +502,7 @@ function bp_nouveau_groups_screen_invites_restriction() {
 			bp_core_add_message( __( 'You are not allowed to perform this action.', 'buddypress' ), 'error' );
 		}
 
-		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'settings' ) ) . 'invites/' );
+		bp_core_redirect( bp_displayed_user_url( array( bp_nouveau_get_component_slug( 'settings' ), 'invites' ) ) );
 	}
 
 	/**

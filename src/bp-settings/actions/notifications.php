@@ -53,6 +53,12 @@ function bp_settings_action_notifications() {
 	 */
 	do_action( 'bp_core_notification_settings_after_save' );
 
-	bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/notifications/' );
+	$settings_slug = bp_get_settings_slug();
+	$path_chunks   = array(
+		'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug, $settings_slug ),
+		'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug . '_notifications', 'notifications' ),
+	);
+
+	bp_core_redirect( bp_displayed_user_url( $path_chunks ) );
 }
 add_action( 'bp_actions', 'bp_settings_action_notifications' );

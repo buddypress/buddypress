@@ -20,9 +20,17 @@ function xprofile_screen_edit_profile() {
 		return false;
 	}
 
+	$profile_slug = bp_get_profile_slug();
+	$path_chunks  = array(
+		'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
+		'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit', 'edit' ),
+	);
+
+
 	// Make sure a group is set.
 	if ( ! bp_action_variable( 1 ) ) {
-		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/1' ) );
+		$path_chunks['single_item_action_variables'] = array( bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit_group', 'group' ), 1 );
+		bp_core_redirect( bp_displayed_user_url( $path_chunks ) );
 	}
 
 	// Check the field group exists.
@@ -42,7 +50,8 @@ function xprofile_screen_edit_profile() {
 
 		// Check we have field ID's.
 		if ( empty( $_POST['field_ids'] ) ) {
-			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . bp_action_variable( 1 ) ) );
+			$path_chunks['single_item_action_variables'] = array( bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit_group', 'group' ), bp_action_variable( 1 ) );
+			bp_core_redirect( bp_displayed_user_url( $path_chunks ) );
 		}
 
 		// Explode the posted field IDs into an array so we know which
@@ -155,7 +164,8 @@ function xprofile_screen_edit_profile() {
 			}
 
 			// Redirect back to the edit screen to display the updates and message.
-			bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_profile_slug() . '/edit/group/' . bp_action_variable( 1 ) ) );
+			$path_chunks['single_item_action_variables'] = array( bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit_group', 'group' ), bp_action_variable( 1 ) );
+			bp_core_redirect( bp_displayed_user_url( $path_chunks ) );
 		}
 	}
 

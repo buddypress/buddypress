@@ -18,10 +18,12 @@ function bp_messages_action_exit_thread() {
 		return false;
 	}
 
-	$thread_id = bp_action_variable( 1 );
+	$thread_id   = bp_action_variable( 1 );
+	$path_chunks = bp_members_get_path_chunks( array( bp_get_messages_slug(), bp_current_action() ) );
+	$redirect    = bp_displayed_user_url( $path_chunks );
 
 	if ( ! $thread_id || ! is_numeric( $thread_id ) || ! messages_check_thread_access( $thread_id ) ) {
-		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ) );
+		bp_core_redirect( $redirect );
 	} else {
 		if ( ! check_admin_referer( 'bp_messages_exit_thread' ) ) {
 			return false;
@@ -34,7 +36,7 @@ function bp_messages_action_exit_thread() {
 			bp_core_add_message( __('You have left the message thread.', 'buddypress') );
 		}
 
-		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ) );
+		bp_core_redirect( $redirect );
 	}
 }
 add_action( 'bp_actions', 'bp_messages_action_exit_thread' );

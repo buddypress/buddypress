@@ -3,7 +3,7 @@
  * BuddyPress - Members Settings ( Group Invites )
  *
  * @since 3.0.0
- * @version 8.0.0
+ * @version 12.0.0
  */
 ?>
 
@@ -20,7 +20,7 @@ if ( 1 === bp_nouveau_groups_get_group_invites_setting() ) {
 ?>
 
 
-<form action="<?php echo esc_url( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'settings' ) . '/invites/' ); ?>" name="account-group-invites-form" id="account-group-invites-form" class="standard-form" method="post">
+<form action="<?php bp_displayed_user_link( array( bp_nouveau_get_component_slug( 'settings' ), 'invites' ) ); ?>" name="account-group-invites-form" id="account-group-invites-form" class="standard-form" method="post">
 
 	<label for="account-group-invites-preferences">
 		<input type="checkbox" name="account-group-invites-preferences" id="account-group-invites-preferences" value="1" <?php checked( 1, bp_nouveau_groups_get_group_invites_setting() ); ?>/>

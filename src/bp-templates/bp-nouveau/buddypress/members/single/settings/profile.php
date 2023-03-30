@@ -16,7 +16,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 	<?php esc_html_e( 'Select who may see your profile details.', 'buddypress' ); ?>
 </p>
 
-<form action="<?php echo esc_url( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'settings' ) . '/profile/' ); ?>" method="post" class="standard-form" id="settings-form">
+<form action="<?php bp_displayed_user_link( array( bp_nouveau_get_component_slug( 'settings' ), 'profile' ) ); ?>" method="post" class="standard-form" id="settings-form">
 
 	<?php if ( bp_xprofile_get_settings_fields() ) : ?>
 

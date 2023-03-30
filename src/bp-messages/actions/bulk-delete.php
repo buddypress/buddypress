@@ -18,10 +18,12 @@ function messages_action_bulk_delete() {
 		return false;
 	}
 
-	$thread_ids = $_POST['thread_ids'];
+	$thread_ids  = $_POST['thread_ids'];
+	$path_chunks = bp_members_get_path_chunks( array( bp_get_messages_slug(), bp_current_action() ) );
+	$redirect    = bp_displayed_user_url( $path_chunks );
 
 	if ( ! $thread_ids || ! messages_check_thread_access( $thread_ids ) ) {
-		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ) );
+		bp_core_redirect( $redirect );
 	} else {
 		if ( ! check_admin_referer( 'messages_delete_thread' ) ) {
 			return false;
@@ -33,7 +35,7 @@ function messages_action_bulk_delete() {
 			bp_core_add_message( __( 'Messages deleted.', 'buddypress' ) );
 		}
 
-		bp_core_redirect( trailingslashit( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ) );
+		bp_core_redirect( $redirect );
 	}
 }
 add_action( 'bp_actions', 'messages_action_bulk_delete' );

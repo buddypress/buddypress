@@ -3,7 +3,7 @@
  * BuddyPress - Members Settings (Export Data)
  *
  * @since 3.1.0
- * @version 11.0.0
+ * @version 12.0.0
  */
 
 bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
@@ -77,7 +77,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 				esc_html__( 'You may delete your account by visiting the %s page.', 'buddypress' ),
 				sprintf(
 					'<a href="%1$s">%2$s</a>',
-					esc_url( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'settings' ) . '/delete-account/' ),
+					esc_url( bp_displayed_user_url( array( bp_nouveau_get_component_slug( 'settings' ), 'delete-account' ) ) ),
 					esc_html__( 'Delete Account', 'buddypress' )
 				)
 			);

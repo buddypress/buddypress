@@ -24,7 +24,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 
 </div>
 
-<form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/delete-account'; ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
+<form action="<?php bp_displayed_user_link( array( bp_get_settings_slug(), 'delete-account' ) ); ?>" name="account-delete-form" id="account-delete-form" class="standard-form" method="post">
 
 	<?php
 

@@ -43,7 +43,10 @@ function bp_messages_action_mark_unread() {
 		bp_core_add_message( __( 'There was a problem marking that message.', 'buddypress' ), 'error' );
 	}
 
+	$path_chunks = bp_members_get_path_chunks( array( bp_get_messages_slug(), bp_current_action() ) );
+	$redirect    = bp_displayed_user_url( $path_chunks );
+
 	// Redirect back to the message box URL.
-	bp_core_redirect( bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() );
+	bp_core_redirect( $redirect );
 }
 add_action( 'bp_actions', 'bp_messages_action_mark_unread' );

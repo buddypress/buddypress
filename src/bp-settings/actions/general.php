@@ -50,6 +50,10 @@ function bp_settings_action_general() {
 	$feedback_type = 'error';                // success|error
 	$feedback      = array();                // array of strings for feedback.
 	$user_id       = bp_displayed_user_id(); // The ID of the user being displayed.
+	$settings_slug = bp_get_settings_slug();
+	$path_chunks   = array(
+		'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug, $settings_slug ),
+	);
 
 	// Nonce check.
 	check_admin_referer( 'bp_settings_general' );
@@ -99,7 +103,11 @@ function bp_settings_action_general() {
 					);
 
 					bp_update_user_meta( $user_id, 'pending_email_change', $pending_email );
-					$verify_link = bp_displayed_user_domain() . bp_get_settings_slug() . '/?verify_email_change=' . $hash;
+					$verify_link = add_query_arg(
+						'verify_email_change',
+						$hash,
+						bp_displayed_user_url( $path_chunks )
+					);
 
 					// Send the verification email.
 					$args = array(
@@ -226,7 +234,8 @@ function bp_settings_action_general() {
 	}
 
 	// Set the URL to redirect the user to.
-	$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_settings_slug() . '/general' );
+	$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $settings_slug . '_general', 'general' );
+	$redirect_to = bp_displayed_user_url( $path_chunks );
 
 	/**
 	 * Fires after the general settings have been saved, and before redirect.
@@ -261,7 +270,11 @@ function bp_settings_verify_email_change() {
 		return;
 	}
 
-	$redirect_to = trailingslashit( bp_displayed_user_domain() . bp_get_settings_slug() );
+	$settings_slug = bp_get_settings_slug();
+	$path_chunks   = array(
+		'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug, $settings_slug )
+	);
+	$redirect_to = bp_displayed_user_url( $path_chunks );
 
 	// Email change is being verified.
 	if ( isset( $_GET['verify_email_change'] ) ) {

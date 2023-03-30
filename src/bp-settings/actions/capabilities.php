@@ -77,7 +77,10 @@ function bp_settings_action_capabilities() {
 	 */
 	do_action( 'bp_settings_capabilities_after_save' );
 
-	// Redirect to the root domain.
-	bp_core_redirect( bp_displayed_user_domain() . bp_get_settings_slug() . '/capabilities/' );
+	$path_chunks = bp_members_get_path_chunks( array( bp_get_settings_slug(), 'capabilities' ) );
+	$redirect    = bp_displayed_user_url( $path_chunks );
+
+	// Redirect to the settings capability page.
+	bp_core_redirect( $redirect );
 }
 add_action( 'bp_actions', 'bp_settings_action_capabilities' );
