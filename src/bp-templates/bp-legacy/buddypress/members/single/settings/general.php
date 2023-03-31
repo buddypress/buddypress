@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 12.0.0
  */
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
@@ -15,9 +15,9 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	_e( 'Account settings', 'buddypress' );
 ?></h2>
 
-<form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/general'; ?>" method="post" class="standard-form" id="settings-form">
+<form action="<?php bp_displayed_user_link( array( bp_get_settings_slug(), 'general' ) ); ?>" method="post" class="standard-form" id="settings-form">
 
-	<?php if ( !is_super_admin() ) : ?>
+	<?php if ( ! is_super_admin() ) : ?>
 
 		<label for="pwd"><?php _e( 'Current Password <span>(required to update email or change current password)</span>', 'buddypress' ); ?></label>
 		<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" <?php bp_form_field_attributes( 'password' ); ?>/> &nbsp;<a href="<?php echo wp_lostpassword_url(); ?>"><?php _e( 'Lost your password?', 'buddypress' ); ?></a>

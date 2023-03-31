@@ -67,7 +67,12 @@ class BP_Core_Friends_Widget extends WP_Widget {
 		}
 
 		$user_id           = bp_displayed_user_id();
-		$link              = trailingslashit( bp_displayed_user_domain() . bp_get_friends_slug() );
+		$friends_slug      = bp_get_friends_slug();
+		$link              = bp_displayed_user_url(
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug ),
+			)
+		);
 		$instance['title'] = sprintf( __( "%s's Friends", 'buddypress' ), bp_get_displayed_user_fullname() );
 
 		if ( empty( $instance['friend_default'] ) ) {

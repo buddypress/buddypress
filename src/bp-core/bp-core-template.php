@@ -3204,7 +3204,7 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 		}
 
 		// If on the user profile's landing page, just use the fullname.
-		if ( bp_is_current_component( $bp->default_component ) && ( bp_get_requested_url() === bp_displayed_user_domain() ) ) {
+		if ( bp_is_current_component( $bp->default_component ) && ( bp_get_requested_url() === bp_displayed_user_url() ) ) {
 			$bp_title_parts[] = $displayed_user_name;
 
 		// Use component name on member pages.

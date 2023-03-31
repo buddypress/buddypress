@@ -2258,7 +2258,7 @@ function bp_nouveau_get_customizer_link( $args = array() ) {
 	$url = '';
 
 	if ( bp_is_user() ) {
-		$url = rawurlencode( bp_displayed_user_domain() );
+		$url = rawurlencode( bp_displayed_user_url() );
 
 	} elseif ( bp_is_group() ) {
 		$url = rawurlencode( bp_get_group_url( groups_get_current_group() ) );
@@ -2698,32 +2698,32 @@ function bp_nouveau_is_feed_enable() {
 				$retval = bp_activity_is_feed_enable( 'personal' );
 
 				if ( $retval ) {
-					$bp_nouveau->activity->current_rss_feed['link'] = trailingslashit( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/feed' );
+					$bp_nouveau->activity->current_rss_feed['link'] = bp_displayed_user_url( array( bp_nouveau_get_component_slug( 'activity' ), 'feed' ) );
 				}
 
 				if ( bp_is_active( 'friends' ) && bp_is_current_action( bp_nouveau_get_component_slug( 'friends' ) ) ) {
 					$retval = bp_activity_is_feed_enable( 'friends' );
 
 					if ( $retval ) {
-						$bp_nouveau->activity->current_rss_feed['link'] = trailingslashit( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/' . bp_nouveau_get_component_slug( 'friends' ) . '/feed' );
+						$bp_nouveau->activity->current_rss_feed['link'] = bp_displayed_user_url( array( bp_nouveau_get_component_slug( 'activity' ), bp_nouveau_get_component_slug( 'friends' ), 'feed' ) );
 					}
 				} elseif ( bp_is_active( 'groups' ) && bp_is_current_action( bp_nouveau_get_component_slug( 'groups' ) ) ) {
 					$retval = bp_activity_is_feed_enable( 'mygroups' );
 
 					if ( $retval ) {
-						$bp_nouveau->activity->current_rss_feed['link'] = trailingslashit( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/' . bp_nouveau_get_component_slug( 'groups' ) . '/feed' );
+						$bp_nouveau->activity->current_rss_feed['link'] = bp_displayed_user_url( array( bp_nouveau_get_component_slug( 'activity' ), bp_nouveau_get_component_slug( 'groups' ), 'feed' ) );
 					}
 				} elseif ( bp_activity_do_mentions() && bp_is_current_action( 'mentions' ) ) {
 					$retval = bp_activity_is_feed_enable( 'mentions' );
 
 					if ( $retval ) {
-						$bp_nouveau->activity->current_rss_feed['link'] = trailingslashit( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/mentions/feed' );
+						$bp_nouveau->activity->current_rss_feed['link'] = bp_displayed_user_url( array( bp_nouveau_get_component_slug( 'activity' ), 'mentions', 'feed' ) );
 					}
 				} elseif ( bp_activity_can_favorite() && bp_is_current_action( 'favorites' ) ) {
 					$retval = bp_activity_is_feed_enable( 'mentions' );
 
 					if ( $retval ) {
-						$bp_nouveau->activity->current_rss_feed['link'] = trailingslashit( bp_displayed_user_domain() . bp_nouveau_get_component_slug( 'activity' ) . '/favorites/feed' );
+						$bp_nouveau->activity->current_rss_feed['link'] = bp_displayed_user_url( array( bp_nouveau_get_component_slug( 'activity' ), 'favorites', 'feed' ) );
 					}
 				}
 			}

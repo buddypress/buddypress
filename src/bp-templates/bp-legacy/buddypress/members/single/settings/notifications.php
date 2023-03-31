@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 12.0.0
  */
 
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
@@ -15,7 +15,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	_e( 'Notification settings', 'buddypress' );
 ?></h2>
 
-<form action="<?php echo bp_displayed_user_domain() . bp_get_settings_slug() . '/notifications'; ?>" method="post" class="standard-form" id="settings-form">
+<form action="<?php bp_displayed_user_link( array( bp_get_settings_slug(), 'notifications' ) ); ?>" method="post" class="standard-form" id="settings-form">
 	<p><?php _e( 'Send an email notice when:', 'buddypress' ); ?></p>
 
 	<?php

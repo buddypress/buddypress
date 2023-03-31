@@ -139,6 +139,41 @@ function bp_core_get_users( $args = '' ) {
 }
 
 /**
+ * Get members path chunks using an array of URL slugs.
+ *
+ * @since 12.0.0
+ *
+ * @param array $chunks An array of URL slugs.
+ * @return array An array of BP Rewrites URL arguments.
+ */
+function bp_members_get_path_chunks( $chunks = array() ) {
+	$path_chunks = array();
+
+	$single_item_component            = array_shift( $chunks );
+	$item_component_rewrite_id_suffix = '';
+	if ( $single_item_component ) {
+		$item_component_rewrite_id_suffix     = str_replace( '-', '_', $single_item_component );
+		$path_chunks['single_item_component'] = bp_rewrites_get_slug( 'members', 'member_' . $item_component_rewrite_id_suffix, $single_item_component );
+	}
+
+	$single_item_action            = array_shift( $chunks );
+	$item_action_rewrite_id_suffix = '';
+	if ( $single_item_action ) {
+		$item_action_rewrite_id_suffix     = str_replace( '-', '_', $single_item_action );
+		$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $item_component_rewrite_id_suffix . '_' . $item_action_rewrite_id_suffix, $single_item_action );
+	}
+
+	if ( $chunks && $item_component_rewrite_id_suffix && $item_component_rewrite_id_suffix ) {
+		foreach ( $chunks as $chunk ) {
+			$item_action_variable_rewrite_id_suffix        =  str_replace( '-', '_', $chunk );
+			$path_chunks['single_item_action_variables'][] = bp_rewrites_get_slug( 'members', 'member_' . $item_component_rewrite_id_suffix . '_' . $item_action_rewrite_id_suffix . '_' . $item_action_variable_rewrite_id_suffix, $chunk );
+		}
+	}
+
+	return $path_chunks;
+}
+
+/**
  * Return the Mmbers single item's URL.
  *
  * @since 12.0.0

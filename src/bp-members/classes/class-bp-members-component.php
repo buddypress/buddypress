@@ -383,7 +383,7 @@ class BP_Members_Component extends BP_Component {
 		 */
 
 		if ( bp_displayed_user_id() ) {
-			$bp->canonical_stack['base_url'] = bp_displayed_user_domain();
+			$bp->canonical_stack['base_url'] = bp_displayed_user_url();
 
 			if ( bp_current_component() ) {
 				$bp->canonical_stack['component'] = bp_current_component();

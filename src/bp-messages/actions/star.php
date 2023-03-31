@@ -38,7 +38,17 @@ function bp_messages_star_action_handler() {
 	) );
 
 	// Redirect back to previous screen.
-	$redirect = wp_get_referer() ? wp_get_referer() : bp_displayed_user_domain() . bp_get_messages_slug();
+	$redirect = wp_get_referer();
+
+	if ( ! $redirect ) {
+		$messages_slug = bp_get_messages_slug();
+		$redirect      = bp_displayed_user_url(
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $messages_slug, $messages_slug ),
+			)
+		);
+	}
+
 	bp_core_redirect( $redirect );
 	die();
 }

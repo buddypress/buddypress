@@ -80,6 +80,19 @@ function bp_settings_pending_email_notice() {
 		return;
 	}
 
+	$settings_slug = bp_get_settings_slug();
+	$dismiss_url   = wp_nonce_url(
+		add_query_arg(
+			'dismiss_email_change',
+			1,
+			bp_displayed_user_url(
+				array(
+					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug, $settings_slug ),
+				)
+			)
+		),
+		'bp_dismiss_email_change'
+	);
 	?>
 
 	<div id="message" class="bp-template-notice error">
@@ -97,7 +110,7 @@ function bp_settings_pending_email_notice() {
 				/* translators: 1: email address. 2: cancel email change url. */
 				__( 'Check your email (%1$s) for the verification link, or <a href="%2$s">cancel the pending change</a>.', 'buddypress' ),
 				'<code>' . esc_html( $pending_email['newemail'] ) . '</code>',
-				esc_url( wp_nonce_url( bp_displayed_user_domain() . bp_get_settings_slug() . '/?dismiss_email_change=1', 'bp_dismiss_email_change' ) )
+				esc_url( $dismiss_url )
 			);
 			?>
 		</p>

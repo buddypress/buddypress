@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 12.0.0
  */
 
 /**
@@ -51,7 +51,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 	 */
 	do_action( 'bp_before_member_messages_threads' ); ?>
 
-	<form action="<?php echo bp_displayed_user_domain() . bp_get_messages_slug() . '/' . bp_current_action() ?>/bulk-manage/" method="post" id="messages-bulk-management">
+	<form action="<?php bp_displayed_user_link( array( bp_get_messages_slug(), bp_current_action(), 'bulk-manage' ) ); ?>" method="post" id="messages-bulk-management">
 
 		<table id="message-threads" class="messages-notices">
 

@@ -342,3 +342,83 @@ function bp_nouveau_group_creation_tabs() {
 	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_group_creation_tabs()' );
 	bp_group_creation_tabs();
 }
+
+/**
+ * Displays group header tabs.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ */
+function bp_groups_header_tabs() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	$user_groups = bp_displayed_user_url() . bp_get_groups_slug(); ?>
+
+	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/recently-active' ); ?>"><?php _e( 'Recently Active', 'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/recently-joined' ); ?>"><?php _e( 'Recently Joined',  'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'most-popular',    0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/most-popular'    ); ?>"><?php _e( 'Most Popular',     'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'admin-of',        0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/admin-of'        ); ?>"><?php _e( 'Administrator Of', 'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'mod-of',          0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/mod-of'          ); ?>"><?php _e( 'Moderator Of',     'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'alphabetically'     ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/alphabetically'  ); ?>"><?php _e( 'Alphabetically',   'buddypress' ); ?></a></li>
+
+<?php
+	/**
+	 * Fires after the markup for the navigation tabs for a user Groups page.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 */
+	do_action_deprecated( 'groups_header_tabs', array(), '12.0.0' );
+}
+
+/**
+ * Output navigation tabs for a user Blogs page.
+ *
+ * Currently unused by BuddyPress.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ */
+function bp_blogs_blog_tabs() {
+
+	// Don't show these tabs on a user's own profile.
+	if ( bp_is_my_profile() ) {
+		return false;
+	} ?>
+
+	<ul class="content-header-nav">
+		<li<?php if ( bp_is_current_action( 'my-blogs' ) || !bp_current_action() ) : ?> class="current"<?php endif; ?>>
+			<a href="<?php bp_displayed_user_link( array( bp_get_blogs_slug(), 'my-blogs' ) ); ?>">
+				<?php
+				/* translators: %s: the User Display Name */
+				printf( esc_html__( "%s's Sites", 'buddypress' ), bp_get_displayed_user_fullname() );
+				?>
+			</a>
+		</li>
+		<li<?php if ( bp_is_current_action( 'recent-posts' ) ) : ?> class="current"<?php endif; ?>>
+			<a href="<?php bp_displayed_user_link( array( bp_get_blogs_slug(), 'recent-posts' ) ); ?>">
+				<?php
+				/* translators: %s: the User Display Name */
+				printf( esc_html__( "%s's Recent Posts", 'buddypress' ), bp_get_displayed_user_fullname() );
+				?>
+			</a>
+		</li>
+		<li<?php if ( bp_is_current_action( 'recent-comments' ) ) : ?> class="current"<?php endif; ?>>
+			<a href="<?php bp_displayed_user_link( array( bp_get_blogs_slug(), 'recent-comments' ) ); ?>">
+				<?php
+				/* translators: %s: the User Display Name */
+				printf( esc_html__( "%s's Recent Comments", 'buddypress' ), bp_get_displayed_user_fullname() );
+				?>
+			</a>
+		</li>
+	</ul>
+
+<?php
+
+	/**
+	 * Fires after the markup for the navigation tabs for a user Blogs page.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 */
+	do_action_deprecated( 'bp_blogs_blog_tabs', array(), '12.0.0' );
+}

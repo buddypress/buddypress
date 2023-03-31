@@ -52,4 +52,13 @@ function bp_activity_get_sitewide( $args = '' ) {
 	return apply_filters( 'bp_activity_get_sitewide', BP_Activity_Activity::get( $args ), $r );
 }
 
-
+/**
+ * Output the member activity feed link.
+ *
+ * @since 1.0.0
+ * @deprecated 1.2.0
+ */
+function bp_activities_member_rss_link() {
+	_deprecated_function( __FUNCTION__, '1.2', 'bp_member_activity_feed_link()' );
+	bp_member_activity_feed_link();
+}
