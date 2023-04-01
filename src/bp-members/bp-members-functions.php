@@ -139,7 +139,7 @@ function bp_core_get_users( $args = '' ) {
 }
 
 /**
- * Get members path chunks using an array of URL slugs.
+ * Get single member's path chunks using an array of URL slugs.
  *
  * @since 12.0.0
  *
@@ -163,10 +163,14 @@ function bp_members_get_path_chunks( $chunks = array() ) {
 		$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $item_component_rewrite_id_suffix . '_' . $item_action_rewrite_id_suffix, $single_item_action );
 	}
 
-	if ( $chunks && $item_component_rewrite_id_suffix && $item_component_rewrite_id_suffix ) {
+	if ( $chunks && $item_component_rewrite_id_suffix && $item_action_rewrite_id_suffix ) {
 		foreach ( $chunks as $chunk ) {
-			$item_action_variable_rewrite_id_suffix        =  str_replace( '-', '_', $chunk );
-			$path_chunks['single_item_action_variables'][] = bp_rewrites_get_slug( 'members', 'member_' . $item_component_rewrite_id_suffix . '_' . $item_action_rewrite_id_suffix . '_' . $item_action_variable_rewrite_id_suffix, $chunk );
+			if ( is_numeric( $chunk ) ) {
+				$path_chunks['single_item_action_variables'][] = $chunk;
+			} else {
+				$item_action_variable_rewrite_id_suffix        =  str_replace( '-', '_', $chunk );
+				$path_chunks['single_item_action_variables'][] = bp_rewrites_get_slug( 'members', 'member_' . $item_component_rewrite_id_suffix . '_' . $item_action_rewrite_id_suffix . '_' . $item_action_variable_rewrite_id_suffix, $chunk );
+			}
 		}
 	}
 

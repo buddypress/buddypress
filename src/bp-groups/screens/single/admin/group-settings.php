@@ -83,7 +83,12 @@ function groups_screen_group_admin_settings() {
 		 */
 		do_action( 'groups_group_settings_edited', $bp->groups->current_group->id );
 
-		bp_core_redirect( bp_get_group_permalink( groups_get_current_group() ) . 'admin/group-settings/' );
+		$redirect = bp_get_group_manage_url(
+			groups_get_current_group(),
+			bp_groups_get_path_chunks( array( 'group-settings' ), 'manage' )
+		);
+
+		bp_core_redirect( $redirect );
 	}
 
 	/**

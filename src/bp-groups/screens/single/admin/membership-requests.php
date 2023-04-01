@@ -71,7 +71,13 @@ function groups_screen_group_admin_requests() {
 		 * @param int    $group_id       The ID of the requested group.
 		 */
 		do_action( 'groups_group_request_managed', $bp->groups->current_group->id, $request_action, $membership_id, $user_id, $group_id );
-		bp_core_redirect( bp_get_group_permalink( groups_get_current_group() ) . 'admin/membership-requests/' );
+
+		$redirect = bp_get_group_manage_url(
+			groups_get_current_group(),
+			bp_groups_get_path_chunks( array( 'membership-requests' ), 'manage' )
+		);
+
+		bp_core_redirect( $redirect );
 	}
 
 	/**
