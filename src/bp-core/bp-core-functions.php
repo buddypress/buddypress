@@ -1290,10 +1290,11 @@ function bp_core_time_diff( $args = array() ) {
 
 	foreach ( array( 'older_date', 'newer_date' ) as $date ) {
 		if ( ! $r[ $date ] ) {
+			$r[ $date ] = 0;
 			continue;
 		}
 
-		if ( ! is_numeric( $r[ $date ] ) ) {
+		if ( preg_match( '/^\d{4}-\d{2}-\d{2}[ ]\d{2}:\d{2}:\d{2}$/', $r[ $date ] ) ) {
 			$time_chunks = explode( ':', str_replace( ' ', ':', $r[ $date ] ) );
 			$date_chunks = explode( '-', str_replace( ' ', '-', $r[ $date ] ) );
 			$r[ $date ]  = gmmktime(
@@ -1304,6 +1305,8 @@ function bp_core_time_diff( $args = array() ) {
 				(int) $date_chunks[2],
 				(int) $date_chunks[0]
 			);
+		} elseif ( ! is_int( $r[ $date ] ) ) {
+			$r[ $date ] = 0;
 		}
 	}
 
