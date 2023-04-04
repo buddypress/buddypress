@@ -3,7 +3,7 @@
  * Groups Template tags
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -1007,9 +1007,8 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		 * @param array  $args    Button arguments.
 		 */
 		$buttons_group = apply_filters( 'bp_nouveau_get_groups_buttons', $buttons, $group, $type, $args );
-
 		if ( ! $buttons_group ) {
-			return $buttons;
+			return array();
 		}
 
 		// It's the first entry of the loop, so build the Group and sort it

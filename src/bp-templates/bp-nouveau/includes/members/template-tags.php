@@ -3,7 +3,7 @@
  * Members template tags
  *
  * @since 3.0.0
- * @version 10.3.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -435,7 +435,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 		 */
 		$buttons_group = apply_filters( 'bp_nouveau_get_members_buttons', $buttons, $user_id, $type, $args );
 		if ( ! $buttons_group ) {
-			return $buttons;
+			return array();
 		}
 
 		// It's the first entry of the loop, so build the Group and sort it
