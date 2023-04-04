@@ -3836,6 +3836,16 @@ function bp_get_group_screens( $context = 'read' ) {
 				'position'        => 10,
 				'item_css_id'     => 'home',
 			),
+			'activity'            => array(
+				'rewrite_id'      => 'bp_group_read_activity',
+				'slug'            => 'activity',
+				'name'            => _x( 'Activity', 'Group read screen', 'buddypress' ),
+				'screen_function' => 'groups_screen_group_activity',
+				'position'        => 11,
+				'user_has_access' => false,
+				'no_access_url'   => '',
+				'item_css_id'     => 'activity',
+			),
 			'request-membership' => array(
 				'rewrite_id'      => 'bp_group_read_request_membership',
 				'slug'            => 'request-membership',
@@ -3978,4 +3988,46 @@ function bp_get_group_screens( $context = 'read' ) {
 	}
 
 	return $context_screens;
+}
+
+/**
+ * Get single group's path chunks using an array of URL slugs.
+ *
+ * @since 12.0.0
+ *
+ * @param array $chunks An array of URL slugs.
+ * @return array An array of BP Rewrites URL arguments.
+ */
+function bp_groups_get_path_chunks( $chunks = array(), $context = 'read' ) {
+	$path_chunks   = array();
+	$group_screens = bp_get_group_screens( $context );
+
+	if ( 'read' === $context ) {
+		$single_item_action = array_shift( $chunks );
+		if ( $single_item_action ) {
+			if ( isset( $group_screens[ $single_item_action ]['rewrite_id'] ) ) {
+				$item_action_rewrite_id            = $group_screens[ $single_item_action ]['rewrite_id'];
+				$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'groups', $item_action_rewrite_id, $single_item_action );
+			} else {
+				$path_chunks['single_item_action'] = $single_item_action;
+			}
+		}
+	}
+
+	if ( $chunks ) {
+		foreach ( $chunks as $chunk ) {
+			if ( is_numeric( $chunk ) ) {
+				$path_chunks['single_item_action_variables'][] = $chunk;
+			} else {
+				if ( isset( $group_screens[ $chunk ]['rewrite_id'] ) ) {
+					$item_action_variable_rewrite_id               = $group_screens[ $chunk ]['rewrite_id'];
+					$path_chunks['single_item_action_variables'][] = bp_rewrites_get_slug( 'groups', $item_action_variable_rewrite_id, $chunk );
+				} else {
+					$path_chunks['single_item_action_variables'][] = $chunk;
+				}
+			}
+		}
+	}
+
+	return $path_chunks;
 }

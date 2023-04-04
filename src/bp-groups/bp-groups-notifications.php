@@ -160,14 +160,15 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 		}
 	}
 
-	$group = groups_get_group( $group_id );
-	$args  = array(
+	$group       = groups_get_group( $group_id );
+	$path_chunks = bp_groups_get_path_chunks( array( 'membership-requests' ), 'manage' );
+	$args        = array(
 		'tokens' => array(
 			'admin.id'             => $admin_id,
 			'group'                => $group,
 			'group.name'           => $group->name,
 			'group.id'             => $group_id,
-			'group-requests.url'   => esc_url( bp_get_group_permalink( $group ) . 'admin/membership-requests' ),
+			'group-requests.url'   => esc_url( bp_get_group_manage_url( $group, $path_chunks ) ),
 			'profile.url'          => esc_url( bp_members_get_user_url( $requesting_user_id ) ),
 			'requesting-user.id'   => $requesting_user_id,
 			'requesting-user.name' => bp_core_get_user_displayname( $requesting_user_id ),

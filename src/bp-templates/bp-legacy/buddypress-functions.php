@@ -1422,9 +1422,12 @@ function bp_legacy_theme_ajax_invite_user() {
 
 		$user = new BP_Core_User( $friend_id );
 
-		$uninvite_url = bp_is_current_action( 'create' )
-			? bp_get_groups_directory_permalink() . 'create/step/group-invites/?user_id=' . $friend_id
-			: bp_get_group_permalink( $group )    . 'send-invites/remove/' . $friend_id;
+		if ( bp_is_current_action( 'create' ) ) {
+			$uninvite_url = bp_get_groups_directory_permalink() . 'create/step/group-invites/?user_id=' . $friend_id;
+		} else {
+			$path_chunks  = bp_groups_get_path_chunks( array( 'send-invites', 'remove', $friend_id ) );
+			$uninvite_url = bp_get_group_url( $group, $path_chunks );
+		}
 
 		echo '<li id="uid-' . esc_attr( $user->id ) . '">';
 		echo $user->avatar_thumb;
@@ -1640,7 +1643,14 @@ function bp_legacy_theme_ajax_joinleave_group() {
 			if ( ! groups_join_group( $group->id ) ) {
 				_e( 'Error joining group', 'buddypress' );
 			} else {
-				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button leave-group" rel="leave" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
+				$leave_url = wp_nonce_url(
+					bp_get_group_url(
+						$group,
+						bp_groups_get_path_chunks( array( 'leave-group' ) )
+					),
+					'groups_leave_group'
+				);
+				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button leave-group" rel="leave" href="' . esc_url( $leave_url ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
 			}
 		break;
 
@@ -1654,7 +1664,14 @@ function bp_legacy_theme_ajax_joinleave_group() {
 			if ( ! groups_accept_invite( bp_loggedin_user_id(), $group->id ) ) {
 				_e( 'Error requesting membership', 'buddypress' );
 			} else {
-				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button leave-group" rel="leave" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'leave-group', 'groups_leave_group' ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
+				$leave_url = wp_nonce_url(
+					bp_get_group_url(
+						$group,
+						bp_groups_get_path_chunks( array( 'leave-group' ) )
+					),
+					'groups_leave_group'
+				);
+				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button leave-group" rel="leave" href="' . esc_url( $leave_url ) . '">' . __( 'Leave Group', 'buddypress' ) . '</a>';
 			}
 		break;
 
@@ -1674,9 +1691,23 @@ function bp_legacy_theme_ajax_joinleave_group() {
 			if ( ! groups_leave_group( $group->id ) ) {
 				_e( 'Error leaving group', 'buddypress' );
 			} elseif ( 'public' === $group->status ) {
-				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button join-group" rel="join" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'join', 'groups_join_group' ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';
+				$join_url = wp_nonce_url(
+					bp_get_group_url(
+						$group,
+						bp_groups_get_path_chunks( array( 'join' ) )
+					),
+					'groups_join_group'
+				);
+				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button join-group" rel="join" href="' . esc_url( $join_url ) . '">' . __( 'Join Group', 'buddypress' ) . '</a>';
 			} else {
-				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button request-membership" rel="join" href="' . wp_nonce_url( bp_get_group_permalink( $group ) . 'request-membership', 'groups_request_membership' ) . '">' . __( 'Request Membership', 'buddypress' ) . '</a>';
+				$request_url = wp_nonce_url(
+					bp_get_group_url(
+						$group,
+						bp_groups_get_path_chunks( array( 'request-membership' ) )
+					),
+					'groups_request_membership'
+				);
+				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button request-membership" rel="join" href="' . esc_url( $request_url ) . '">' . __( 'Request Membership', 'buddypress' ) . '</a>';
 			}
 		break;
 	}

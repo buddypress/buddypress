@@ -55,7 +55,8 @@ function bp_activity_action_permalink_router() {
 
 			// Set redirect to group activity stream.
 			if ( $group = groups_get_group( $activity->item_id ) ) {
-				$redirect = bp_get_group_permalink( $group ) . bp_get_activity_slug() . '/' . $activity->id . '/';
+				$path_chunks = bp_groups_get_path_chunks( array( bp_get_activity_slug(), $activity->id ) );
+				$redirect    = bp_get_group_url( $group, $path_chunks );
 			}
 		}
 

@@ -168,10 +168,15 @@ class BP_Groups_Group_Members_Template {
 		}
 
 		// Assemble the base URL for pagination.
-		$base_url = trailingslashit( bp_get_group_permalink( $current_group ) . bp_current_action() );
+		$chunks = array( bp_current_action() );
 		if ( bp_action_variable() ) {
-			$base_url = trailingslashit( $base_url . bp_action_variable() );
+			$chunks[] = bp_action_variable();
 		}
+
+		$base_url = bp_get_group_url(
+			$current_group,
+			bp_groups_get_path_chunks( $chunks )
+		);
 
 		$members_args = $r;
 

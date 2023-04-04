@@ -32,7 +32,10 @@ function bp_groups_group_access_protection() {
 		} elseif ( is_user_logged_in() ) {
 			$no_access_args = array(
 				'message'  => __( 'You do not have access to this group.', 'buddypress' ),
-				'root'     => bp_get_group_permalink( $current_group ) . 'home/',
+				'root'     => bp_get_group_url(
+					$current_group,
+					bp_groups_get_path_chunks( array( 'home' ) )
+				),
 				'redirect' => false
 			);
 		}

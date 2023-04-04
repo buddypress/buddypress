@@ -299,6 +299,88 @@ function bp_user_link() {
 }
 
 /**
+ * Output the permalink for the group.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ *
+ * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+ *                                                Default: false.
+ */
+function bp_group_permalink( $group = false ) {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_group_url' );
+	bp_group_url( $group );
+}
+/**
+ * Return the permalink for the group.
+ *
+ * @since 1.0.0
+ * @since 10.0.0 Updated to use `bp_get_group`.
+ * @deprecated 12.0.0
+ *
+ * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+ *                                                Default: false.
+ * @return string
+ */
+function bp_get_group_permalink( $group = false ) {
+	$url = bp_get_group_url( $group );
+
+	/**
+	 * Filters the permalink for the group.
+	 *
+	 * @since 1.0.0
+	 * @since 2.5.0 Added the `$group` parameter.
+	 * @deprecated 12.0.0
+	 *
+	 * @param string          $url   Permalink for the group.
+	 * @param BP_Groups_Group $group The group object.
+	 */
+	return apply_filters_deprecated( 'bp_get_group_permalink', array( $url, $group ), '12.0.0', 'bp_get_group_url' );
+}
+
+/**
+ * Output the permalink for the admin section of the group.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ *
+ * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+ *                                                Default: false.
+ */
+function bp_group_admin_permalink( $group = false ) {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_group_manage_url' );
+	bp_group_manage_url( $group );
+}
+
+/**
+ * Return the permalink for the admin section of the group.
+ *
+ * @since 1.0.0
+ * @since 10.0.0 Updated to use `bp_get_group`.
+ * @deprecated 12.0.0
+ *
+ * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+ *                                                Default: false.
+ * @return string
+ */
+function bp_get_group_admin_permalink( $group = false ) {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_group_manage_url' );
+	$permalink = bp_get_group_manage_url( $group );
+
+	/**
+	 * Filters the permalink for the admin section of the group.
+	 *
+	 * @since 1.0.0
+	 * @since 2.5.0 Added the `$group` parameter.
+	 * @deprecated 12.0.0
+	 *
+	 * @param string          $permalink Permalink for the admin section of the group.
+	 * @param BP_Groups_Group $group     The group object.
+	 */
+	return apply_filters_deprecated( 'bp_get_group_admin_permalink', array( $permalink, $group ), '12.0.0', 'bp_get_group_manage_url' );
+}
+
+/**
  * Output blog directory permalink.
  *
  * @since 1.5.0
