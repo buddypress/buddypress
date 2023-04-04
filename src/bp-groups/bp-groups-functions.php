@@ -4014,16 +4014,25 @@ function bp_groups_get_path_chunks( $chunks = array(), $context = 'read' ) {
 		}
 	}
 
+	$key_action_variables = 'single_item_action_variables';
+	if ( 'create' === $context ) {
+		$path_chunks['create_single_item'] = 1;
+		$key_action_variables              = 'create_single_item_variables';
+
+		// Init create action variables with the `step` slug.
+		$path_chunks[ $key_action_variables ][] = bp_rewrites_get_slug( 'groups', 'bp_group_create_step', 'step' );
+	}
+
 	if ( $chunks ) {
 		foreach ( $chunks as $chunk ) {
 			if ( is_numeric( $chunk ) ) {
-				$path_chunks['single_item_action_variables'][] = $chunk;
+				$path_chunks[ $key_action_variables ][] = $chunk;
 			} else {
 				if ( isset( $group_screens[ $chunk ]['rewrite_id'] ) ) {
-					$item_action_variable_rewrite_id               = $group_screens[ $chunk ]['rewrite_id'];
-					$path_chunks['single_item_action_variables'][] = bp_rewrites_get_slug( 'groups', $item_action_variable_rewrite_id, $chunk );
+					$item_action_variable_rewrite_id        = $group_screens[ $chunk ]['rewrite_id'];
+					$path_chunks[ $key_action_variables ][] = bp_rewrites_get_slug( 'groups', $item_action_variable_rewrite_id, $chunk );
 				} else {
-					$path_chunks['single_item_action_variables'][] = $chunk;
+					$path_chunks[ $key_action_variables ][] = $chunk;
 				}
 			}
 		}

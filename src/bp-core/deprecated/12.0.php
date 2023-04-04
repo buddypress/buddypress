@@ -299,6 +299,41 @@ function bp_user_link() {
 }
 
 /**
+ * Output group directory permalink.
+ *
+ * @since 1.5.0
+ * @deprecated 12.0.0
+ */
+function bp_groups_directory_permalink() {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_groups_directory_url()' );
+	bp_groups_directory_url();
+}
+
+/**
+ * Return group directory permalink.
+ *
+ * @since 1.5.0
+ * @deprecated 12.0.0
+ *
+ * @return string
+ */
+function bp_get_groups_directory_permalink() {
+	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_groups_directory_url()' );
+
+	$url = bp_get_groups_directory_url();
+
+	/**
+	 * Filters the group directory permalink.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $url Permalink for the group directory.
+	 */
+	return apply_filters_deprecated( 'bp_get_groups_directory_permalink', array( $url ), '12.0.0', 'bp_get_groups_directory_url' );
+}
+
+/**
  * Output the permalink for the group.
  *
  * @since 1.0.0

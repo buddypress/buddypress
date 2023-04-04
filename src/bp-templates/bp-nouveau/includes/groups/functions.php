@@ -593,11 +593,7 @@ function bp_nouveau_get_groups_directory_nav_items() {
 				'component' => 'groups',
 				'slug'      => 'create', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array( 'no-ajax', 'group-create', 'create-button' ),
-				'link'      => bp_get_groups_directory_url(
-					array(
-						'create_single_item' => 1,
-					)
-				),
+				'link'      => bp_groups_get_create_url(),
 				'text'      => __( 'Create a Group', 'buddypress' ),
 				'count'     => false,
 				'position'  => 999,

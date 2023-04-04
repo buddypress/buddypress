@@ -55,7 +55,13 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	public function test_group_directory_with_type() {
 		$this->set_permalink_structure( '/%postname%/' );
 		bp_groups_register_group_type( 'foo' );
-		$this->go_to( bp_get_groups_directory_permalink() . 'type/foo/' );
+		$this->go_to(
+			bp_get_groups_directory_url(
+				array(
+					'directory_type' => 'foo',
+				)
+			)
+		);
 		$this->assertTrue( bp_is_groups_component() && ! bp_is_group() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_is_action_variable( 'foo', 0 ) );
 	}
 
@@ -65,7 +71,13 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	public function test_group_directory_with_type_that_has_custom_directory_slug() {
 		$this->set_permalink_structure( '/%postname%/' );
 		bp_groups_register_group_type( 'foo', array( 'has_directory' => 'foos' ) );
-		$this->go_to( bp_get_groups_directory_permalink() . 'type/foos/' );
+		$this->go_to(
+			bp_get_groups_directory_url(
+				array(
+					'directory_type' => 'foos',
+				)
+			)
+		);
 		$this->assertTrue( bp_is_groups_component() && ! bp_is_group() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_is_action_variable( 'foos', 0 ) );
 	}
 
@@ -101,7 +113,13 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 			'slug'     => 'ralph',
 		) );
 
-		$this->go_to( bp_get_groups_directory_permalink() . 'ralph' );
+		$this->go_to(
+			bp_get_groups_directory_url(
+				array(
+					'directory_type' => 'ralph',
+				)
+			)
+		);
 
 		$this->assertEquals( $g1, bp_get_current_group_id() );
 	}
@@ -120,7 +138,14 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 			'slug'           => 'sam!',
 			'notify_members' => false,
 		) );
-		$this->go_to( bp_get_groups_directory_permalink() . 'george' );
+
+		$this->go_to(
+			bp_get_groups_directory_url(
+				array(
+					'directory_type' => 'george',
+				)
+			)
+		);
 
 		$this->assertEquals( $g1, bp_get_current_group_id() );
 	}
@@ -147,7 +172,14 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 			'notify_members' => false,
 		) );
 
-		$this->go_to( bp_get_groups_directory_permalink() . 'george' );
+		$this->go_to(
+			bp_get_groups_directory_url(
+				array(
+					'directory_type' => 'george',
+				)
+			)
+		);
+
 		$this->assertEquals( $g2, bp_get_current_group_id() );
 	}
 
