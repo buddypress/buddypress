@@ -74,9 +74,9 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 */
 	public function test_group_directory_should_404_for_group_types_that_have_no_directory() {
 		$this->set_permalink_structure( '/%postname%/' );
-		bp_register_member_type( 'foo', array( 'has_directory' => false ) );
-		$this->go_to( bp_get_members_directory_permalink() . 'type/foo/' );
-		$this->assertTrue( is_404() );
+		bp_groups_register_group_type( 'taz', array( 'has_directory' => false ) );
+		$this->go_to( bp_get_groups_directory_permalink() . 'type/taz/' );
+		$this->assertEmpty( bp_get_current_group_directory_type() );
 	}
 
 	/**
@@ -84,8 +84,8 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 */
 	public function test_group_directory_should_404_for_invalid_group_types() {
 		$this->set_permalink_structure( '/%postname%/' );
-		$this->go_to( bp_get_members_directory_permalink() . 'type/foo/' );
-		$this->assertTrue( is_404() );
+		$this->go_to( bp_get_groups_directory_permalink() . 'type/zat/' );
+		$this->assertEmpty( bp_get_current_group_directory_type() );
 	}
 
 	/**

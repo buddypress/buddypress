@@ -321,29 +321,13 @@ class BP_Groups_Component extends BP_Component {
 			$this->current_group = 0;
 		}
 
-		// Set group type if available.
-		if ( bp_is_groups_directory() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_action_variable() ) {
-			$matched_type  = '';
-			$matched_types = bp_groups_get_group_types(
-				array(
-					'has_directory'  => true,
-					'directory_slug' => bp_action_variable(),
-				)
-			);
-
-			// Set 404 if we do not have a valid group type.
-			if ( ! empty( $matched_types ) ) {
-				$matched_type = reset( $matched_types );
-			}
-
-			// Set our directory type marker.
-			$this->current_directory_type = $matched_type;
-		}
-
 		// Set up variables specific to the group creation process.
 		if ( bp_is_groups_component() && bp_is_current_action( 'create' ) && bp_user_can_create_groups() && isset( $_COOKIE['bp_new_group_id'] ) ) {
 			$bp->groups->new_group_id = (int) $_COOKIE['bp_new_group_id'];
 		}
+
+		// The base slug to filter the groups directory according to a group type.
+		$group_type_base = bp_get_groups_group_type_base();
 
 		/**
 		 * Filters the list of illegal groups names/slugs.
@@ -352,28 +336,50 @@ class BP_Groups_Component extends BP_Component {
 		 *
 		 * @param array $value Array of illegal group names/slugs.
 		 */
-		$this->forbidden_names = apply_filters( 'groups_forbidden_names', array(
-			'my-groups',
-			'create',
-			'invites',
-			'send-invites',
-			'forum',
-			'delete',
-			'add',
-			'admin',
-			'request-membership',
-			'members',
-			'settings',
-			'avatar',
-			$this->slug,
-			$this->root_slug,
-			bp_get_groups_group_type_base(),
-		) );
+		$this->forbidden_names = apply_filters(
+			'groups_forbidden_names',
+			array(
+				'my-groups',
+				'create',
+				'invites',
+				'send-invites',
+				'forum',
+				'delete',
+				'add',
+				'admin',
+				'request-membership',
+				'members',
+				'settings',
+				'avatar',
+				$this->slug,
+				$this->root_slug,
+				$group_type_base,
+			)
+		);
 
 		// If the user was attempting to access a group, but no group by that name was found, 404.
-		if ( bp_is_groups_component() && empty( $this->current_group ) && bp_current_action() && ! in_array( bp_current_action(), $this->forbidden_names ) ) {
-			bp_do_404();
-			return;
+		if ( bp_is_groups_component() && empty( $this->current_group ) && bp_current_action() ) {
+
+			// Set group type if available.
+			if ( bp_is_current_action( bp_get_groups_group_type_base() ) && bp_action_variable() ) {
+				$matched_type  = '';
+				$matched_types = bp_groups_get_group_types(
+					array(
+						'has_directory'  => true,
+						'directory_slug' => bp_action_variable(),
+					)
+				);
+
+				// Set our directory type marker.
+				if ( ! empty( $matched_types ) ) {
+					$this->current_directory_type = reset( $matched_types );
+				}
+			}
+
+			if ( ! $this->current_directory_type && ! in_array( bp_current_action(), $this->forbidden_names, true ) ) {
+				bp_do_404();
+				return;
+			}
 		}
 
 		// Set default Group creation steps.
