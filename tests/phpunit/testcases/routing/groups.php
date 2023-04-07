@@ -87,7 +87,13 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	public function test_group_directory_should_404_for_group_types_that_have_no_directory() {
 		$this->set_permalink_structure( '/%postname%/' );
 		bp_groups_register_group_type( 'taz', array( 'has_directory' => false ) );
-		$this->go_to( bp_get_groups_directory_permalink() . 'type/taz/' );
+		$this->go_to(
+			bp_get_groups_directory_url(
+				array(
+					'directory_type' => 'taz',
+				)
+			)
+		);
 		$this->assertEmpty( bp_get_current_group_directory_type() );
 	}
 
@@ -96,7 +102,13 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 */
 	public function test_group_directory_should_404_for_invalid_group_types() {
 		$this->set_permalink_structure( '/%postname%/' );
-		$this->go_to( bp_get_groups_directory_permalink() . 'type/zat/' );
+		$this->go_to(
+			bp_get_groups_directory_url(
+				array(
+					'directory_type' => 'zat',
+				)
+			)
+		);
 		$this->assertEmpty( bp_get_current_group_directory_type() );
 	}
 
@@ -105,23 +117,21 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 */
 	public function test_group_previous_slug_current_slug_should_resolve() {
 		$this->set_permalink_structure( '/%postname%/' );
-		$g1 = self::factory()->group->create( array(
-			'slug' => 'george',
-		) );
-		groups_edit_base_group_details( array(
-			'group_id' => $g1,
-			'slug'     => 'ralph',
-		) );
-
-		$this->go_to(
-			bp_get_groups_directory_url(
-				array(
-					'directory_type' => 'ralph',
-				)
+		$g1 = self::factory()->group->create(
+			array(
+				'slug' => 'george',
 			)
 		);
 
-		$this->assertEquals( $g1, bp_get_current_group_id() );
+		groups_edit_base_group_details(
+			array(
+				'group_id' => $g1,
+				'slug'     => 'ralph',
+			)
+		);
+
+		$this->go_to( bp_get_group_url( $g1 ) );
+		$this->assertEquals( groups_get_current_group()->slug, 'ralph' );
 	}
 
 	/**
@@ -129,57 +139,73 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 */
 	public function test_group_previous_slug_should_resolve() {
 		$this->set_permalink_structure( '/%postname%/' );
-		$g1 = self::factory()->group->create( array(
-			'slug' => 'george',
-		) );
-
-		groups_edit_base_group_details( array(
-			'group_id'       => $g1,
-			'slug'           => 'sam!',
-			'notify_members' => false,
-		) );
-
-		$this->go_to(
-			bp_get_groups_directory_url(
-				array(
-					'directory_type' => 'george',
-				)
+		$g1 = self::factory()->group->create(
+			array(
+				'slug' => 'george',
 			)
 		);
 
+		groups_edit_base_group_details(
+			array(
+				'group_id'       => $g1,
+				'slug'           => 'sam!',
+				'notify_members' => false,
+			)
+		);
+
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id' => 'groups',
+				'single_item'  => 'george',
+			)
+		);
+
+		$this->go_to( $url );
 		$this->assertEquals( $g1, bp_get_current_group_id() );
 	}
 
 	/**
 	 * @group group_previous_slug
+	 * @group imath
 	 */
 	public function test_group_previous_slug_most_recent_takes_precedence() {
 		$this->set_permalink_structure( '/%postname%/' );
-		$g1 = self::factory()->group->create( array(
-			'slug' => 'george',
-		) );
-		groups_edit_base_group_details( array(
-			'group_id'       => $g1,
-			'slug'           => 'ralph',
-			'notify_members' => false,
-		) );
-		$g2 = self::factory()->group->create( array(
-			'slug' => 'george',
-		) );
-		groups_edit_base_group_details( array(
-			'group_id'       => $g2,
-			'slug'           => 'sam',
-			'notify_members' => false,
-		) );
-
-		$this->go_to(
-			bp_get_groups_directory_url(
-				array(
-					'directory_type' => 'george',
-				)
+		$g1 = self::factory()->group->create(
+			array(
+				'slug' => 'george',
 			)
 		);
 
+		groups_edit_base_group_details(
+			array(
+				'group_id'       => $g1,
+				'slug'           => 'ralph',
+				'notify_members' => false,
+			)
+		);
+
+		$g2 = self::factory()->group->create(
+			array(
+				'slug' => 'george',
+			)
+		);
+
+		groups_edit_base_group_details(
+			array(
+				'group_id'       => $g2,
+				'slug'           => 'sam',
+				'notify_members' => false,
+			)
+		);
+
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id' => 'groups',
+				'single_item'  => 'george',
+			)
+		);
+
+		$this->go_to( $url );
 		$this->assertEquals( $g2, bp_get_current_group_id() );
 	}
 
