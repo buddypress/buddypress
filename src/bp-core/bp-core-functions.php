@@ -1104,31 +1104,6 @@ function bp_do_register_theme_directory() {
 /** URI ***********************************************************************/
 
 /**
- * Return the domain for the root blog.
- *
- * Eg: http://example.com OR https://example.com
- *
- * @since 1.0.0
- * @deprecated 12.0.0
- *
- * @return string The domain URL for the blog.
- */
-function bp_core_get_root_domain() {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_rewrites_get_root_url()' );
-	$domain = bp_rewrites_get_root_url();
-
-	/**
-	 * Filters the domain for the root blog.
-	 *
-	 * @since 1.0.1
-	 * @deprecated 12.0.0 Use {@see 'bp_rewrites_get_root_url'} instead.
-	 *
-	 * @param string $domain The domain URL for the blog.
-	 */
-	return apply_filters_deprecated( 'bp_core_get_root_domain', array( $domain ), '12.0.0', 'bp_rewrites_get_root_url' );
-}
-
-/**
  * Perform a status-safe wp_redirect() that is compatible with BP's URI parser.
  *
  * @since 1.0.0

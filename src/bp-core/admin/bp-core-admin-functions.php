@@ -512,7 +512,12 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
 	 *
 	 * @param array $settings_tabs The BP Admin settings tabs.
 	 */
-	return apply_filters( 'bp_core_get_admin_settings_tabs', $settings_tabs );
+	$settings_tabs = apply_filters( 'bp_core_get_admin_settings_tabs', $settings_tabs );
+
+	// Sort tabs before returning it.
+	ksort( $settings_tabs );
+
+	return $settings_tabs;
 }
 
 /**
@@ -558,7 +563,12 @@ function bp_core_get_admin_tools_tabs( $apply_filters = true ) {
 	 *
 	 * @param array $tools_tabs The BP Admin tools tabs.
 	 */
-	return apply_filters( 'bp_core_get_admin_tools_tabs', $tools_tabs );
+	$tools_tabs = apply_filters( 'bp_core_get_admin_tools_tabs', $tools_tabs );
+
+	// Sort tabs before returning it.
+	ksort( $tools_tabs );
+
+	return $tools_tabs;
 }
 
 /**

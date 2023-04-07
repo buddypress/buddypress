@@ -1452,52 +1452,6 @@ function bp_root_url() {
 }
 
 /**
- * Output the "root domain", the URL of the BP root blog.
- *
- * @since 1.1.0
- * @deprecated 12.0.0
- */
-function bp_root_domain() {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_root_url()' );
-	bp_root_url();
-}
-	/**
-	 * Return the "root domain", the URL of the BP root blog.
-	 *
-	 * @since 1.1.0
-	 * @deprecated 12.0.0
-	 *
-	 * @return string URL of the BP root blog.
-	 */
-	function bp_get_root_domain() {
-		/*
-		 * This function is used at many places and we need to review all this
-		 * places during the 12.0 development cycle. Using BP Rewrites means we
-		 * cannot concatenate URL chunks to build our URL anymore. We now need
-		 * to use `bp_rewrites_get_url( $array )` and make sure to use the right
-		 * arguments inside this `$array`.
-		 *
-		 * @todo Once every link reviewed, we'll be able to remove this check
-		 *       and let PHPUnit tell us the one we forgot, eventually!
-		 */
-		if ( ! buddypress()->is_phpunit_running ) {
-			_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_root_url()' );
-		}
-
-		$domain = bp_get_root_url();
-
-		/**
-		 *  Filters the "root domain", the URL of the BP root blog.
-		 *
-		 * @since 1.2.4
-		 * @deprecated 12.0.0 Use {@see 'bp_get_root_url'} instead.
-		 *
-		 * @param string $domain URL of the BP root blog.
-		 */
-		return apply_filters_deprecated( 'bp_core_get_root_domain', array( $domain ), '12.0.0', 'bp_get_root_url' );
-	}
-
-/**
  * Output the root slug for a given component.
  *
  * @since 1.5.0
