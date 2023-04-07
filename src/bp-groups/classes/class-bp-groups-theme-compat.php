@@ -36,8 +36,9 @@ class BP_Groups_Theme_Compat {
 	public function is_group() {
 
 		// Bail if not looking at a group.
-		if ( ! bp_is_groups_component() )
+		if ( ! bp_is_groups_component() ) {
 			return;
+		}
 
 		// Group Directory.
 		if ( bp_is_groups_directory() ) {
