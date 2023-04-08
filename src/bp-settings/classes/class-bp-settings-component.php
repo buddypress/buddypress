@@ -131,57 +131,61 @@ class BP_Settings_Component extends BP_Component {
 	 *                        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-
-		// Stop if there is no user displayed or logged in.
-		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
-			return;
-		}
-
-		$access = bp_core_can_edit_settings();
 		$slug   = bp_get_settings_slug();
 
 		// Add the settings navigation item.
 		$main_nav = array(
-			'name'                    => __( 'Settings', 'buddypress' ),
-			'slug'                    => $slug,
-			'position'                => 100,
-			'show_for_displayed_user' => $access,
-			'screen_function'         => 'bp_settings_screen_general',
-			'default_subnav_slug'     => 'general',
+			'name'                     => __( 'Settings', 'buddypress' ),
+			'slug'                     => $slug,
+			'position'                 => 100,
+			'screen_function'          => 'bp_settings_screen_general',
+			'default_subnav_slug'      => 'general',
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
 		);
 
 		// Add General Settings nav item.
 		$sub_nav[] = array(
-			'name'            => __( 'General', 'buddypress' ),
-			'slug'            => 'general',
-			'parent_slug'     => $slug,
-			'screen_function' => 'bp_settings_screen_general',
-			'position'        => 10,
-			'user_has_access' => $access,
+			'name'                     => __( 'General', 'buddypress' ),
+			'slug'                     => 'general',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'bp_settings_screen_general',
+			'position'                 => 10,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
 		);
 
 		// Add Email nav item. Formerly called 'Notifications', we
 		// retain the old slug and function names for backward compat.
 		$sub_nav[] = array(
-			'name'            => __( 'Email', 'buddypress' ),
-			'slug'            => 'notifications',
-			'parent_slug'     => $slug,
-			'screen_function' => 'bp_settings_screen_notification',
-			'position'        => 20,
-			'user_has_access' => $access,
+			'name'                     => __( 'Email', 'buddypress' ),
+			'slug'                     => 'notifications',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'bp_settings_screen_notification',
+			'position'                 => 20,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
 		);
 
-		// Add Spam Account nav item.
-		if ( bp_current_user_can( 'bp_moderate' ) ) {
-			$sub_nav[] = array(
-				'name'            => __( 'Capabilities', 'buddypress' ),
-				'slug'            => 'capabilities',
-				'parent_slug'     => $slug,
-				'screen_function' => 'bp_settings_screen_capabilities',
-				'position'        => 80,
-				'user_has_access' => ! bp_is_my_profile(),
-			);
-		}
+		$sub_nav[] = array(
+			'name'                     => _x( 'Profile Visibility', 'Profile settings sub nav', 'buddypress' ),
+			'slug'                     => 'profile',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'bp_xprofile_screen_settings',
+			'position'                 => 30,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
+		);
+
+		$sub_nav[] = array(
+			'name'                     => __( 'Capabilities', 'buddypress' ),
+			'slug'                     => 'capabilities',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'bp_settings_screen_capabilities',
+			'position'                 => 80,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_settings_show_capability_nav',
+			'generate'                 => bp_current_user_can( 'bp_moderate' ),
+		);
 
 		/**
 		 * Filter whether the site should show the "Settings > Data" page.
@@ -195,26 +199,26 @@ class BP_Settings_Component extends BP_Component {
 		// Export Data.
 		if ( true === $show_data_page ) {
 			$sub_nav[] = array(
-				'name'            => __( 'Export Data', 'buddypress' ),
-				'slug'            => 'data',
-				'parent_slug'     => $slug,
-				'screen_function' => 'bp_settings_screen_data',
-				'position'        => 89,
-				'user_has_access' => $access,
+				'name'                     => __( 'Export Data', 'buddypress' ),
+				'slug'                     => 'data',
+				'parent_slug'              => $slug,
+				'screen_function'          => 'bp_settings_screen_data',
+				'position'                 => 89,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_core_can_edit_settings',
 			);
 		}
 
 		// Add Delete Account nav item.
-		if ( ( ! bp_disable_account_deletion() && bp_is_my_profile() ) || bp_current_user_can( 'delete_users' ) ) {
-			$sub_nav[] = array(
-				'name'            => __( 'Delete Account', 'buddypress' ),
-				'slug'            => 'delete-account',
-				'parent_slug'     => $slug,
-				'screen_function' => 'bp_settings_screen_delete_account',
-				'position'        => 90,
-				'user_has_access' => ! user_can( bp_displayed_user_id(), 'delete_users' ),
-			);
-		}
+		$sub_nav[] = array(
+			'name'            => __( 'Delete Account', 'buddypress' ),
+			'slug'            => 'delete-account',
+			'parent_slug'     => $slug,
+			'screen_function' => 'bp_settings_screen_delete_account',
+			'position'        => 90,
+			'user_has_access' => ! user_can( bp_displayed_user_id(), 'delete_users' ),
+			'generate'        => 'bp_settings_show_delete_account_nav',
+		);
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}

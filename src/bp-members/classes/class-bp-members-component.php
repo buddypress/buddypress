@@ -471,101 +471,49 @@ class BP_Members_Component extends BP_Component {
 	 *                        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-
-		// Don't set up navigation if there's no member.
-		if ( ! is_user_logged_in() && ! bp_is_user() ) {
-			return;
-		}
-
-		$is_xprofile_active = bp_is_active( 'xprofile' );
-
-		// Bail if XProfile component is active and there's no custom front page for the user.
-		if ( ! bp_displayed_user_has_front_template() && $is_xprofile_active ) {
-			add_action( 'bp_xprofile_setup_nav', array( $this, 'setup_xprofile_nav' ) );
-			return;
-		}
-
 		// Set slug to profile in case the xProfile component is not active
 		$slug = bp_get_profile_slug();
 
-		// Defaults to empty navs
-		$this->main_nav = array();
-		$this->sub_nav  = array();
+		$main_nav = array(
+			'name'                => _x( 'Profile', 'Member profile main navigation', 'buddypress' ),
+			'slug'                => $slug,
+			'position'            => 20,
+			'screen_function'     => 'bp_members_screen_display_profile',
+			'default_subnav_slug' => 'public',
+			'item_css_id'         => buddypress()->profile->id,
+			'generate'            => ! bp_is_active( 'xprofile' ),
+		);
 
-		if ( ! $is_xprofile_active ) {
-			$this->main_nav = array(
-				'name'                => _x( 'Profile', 'Member profile main navigation', 'buddypress' ),
-				'slug'                => $slug,
-				'position'            => 20,
-				'screen_function'     => 'bp_members_screen_display_profile',
-				'default_subnav_slug' => 'public',
-				'item_css_id'         => buddypress()->profile->id
-			);
-
-		/**
-		 * The xProfile component is active.
-		 *
-		 * We need to make sure the Change Avatar and Change Cover Image subnavs are
-		 * added just like it was the case before.
-		 */
-		} else {
-			add_action( 'bp_xprofile_setup_nav', array( $this, 'setup_xprofile_nav' ) );
-		}
-
-		/**
-		 * Setup the subnav items for the member profile.
-		 *
-		 * This is required in case there's a custom front or in case the xprofile component
-		 * is not active.
-		 */
-		$this->sub_nav = array(
+		$sub_nav[] = array(
 			'name'            => _x( 'View', 'Member profile view', 'buddypress' ),
 			'slug'            => 'public',
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_members_screen_display_profile',
-			'position'        => 10
+			'position'        => 10,
+			'generate'        => ! bp_is_active( 'xprofile' ),
 		);
 
-		/**
-		 * If there's a front template the members component nav
-		 * will be there to display the user's front page.
-		 */
-		if ( bp_displayed_user_has_front_template() ) {
-			$main_nav = array(
-				'name'                => _x( 'Home', 'Member Home page', 'buddypress' ),
-				'slug'                => 'front',
-				'position'            => 5,
-				'screen_function'     => 'bp_members_screen_display_profile',
-				'default_subnav_slug' => 'public',
-			);
+		$sub_nav[] = array(
+			'name'                     => _x( 'Change Profile Photo', 'Profile header sub menu', 'buddypress' ),
+			'slug'                     => 'change-avatar',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'bp_members_screen_change_avatar',
+			'position'                 => 30,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
+			'generate'                 => buddypress()->avatar->show_avatars,
+		);
 
-			// We need a dummy subnav for the front page to load.
-			$front_subnav = $this->sub_nav;
-			$front_subnav['parent_slug'] = 'front';
-
-			// Set the subnav
-			$sub_nav[] = $front_subnav;
-
-			/**
-			 * If the profile component is not active, we need to create a new
-			 * nav to display the WordPress profile.
-			 */
-			if ( ! $is_xprofile_active ) {
-				add_action( 'bp_members_setup_nav', array( $this, 'setup_profile_nav' ) );
-			}
-
-		/**
-		 * If there's no front template and xProfile is not active, the members
-		 * component nav will be there to display the WordPress profile
-		 */
-		} else {
-			$main_nav  = $this->main_nav;
-			$sub_nav   = array( $this->sub_nav );
-
-			if ( ! $is_xprofile_active ) {
-				$sub_nav = array_merge( $sub_nav, $this->get_avatar_cover_image_subnavs() );
-			}
-		}
+		$sub_nav[] = array(
+			'name'                     => _x( 'Change Cover Image', 'Profile header sub menu', 'buddypress' ),
+			'slug'                     => 'change-cover-image',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'bp_members_screen_change_cover_image',
+			'position'                 => 40,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
+			'generate'                 => bp_displayed_user_use_cover_image_header(),
+		);
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
@@ -576,34 +524,20 @@ class BP_Members_Component extends BP_Component {
 	 * used.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 */
 	public function setup_profile_nav() {
-		if ( empty( $this->main_nav ) || empty( $this->sub_nav ) ) {
-			return;
-		}
-
-		// Add the main nav
-		bp_core_new_nav_item( $this->main_nav, 'members' );
-
-		// Add the sub nav item.
-		bp_core_new_subnav_item( $this->sub_nav, 'members' );
-
-		// Get the Avatar and cover image subnavs.
-		$this->setup_xprofile_nav();
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
 	 * Set up the xProfile nav.
 	 *
 	 * @since 6.0.0
+	 * @deprecated 12.0.0
 	 */
 	public function setup_xprofile_nav() {
-		// Get the Avatar and cover image subnavs.
-		$items = $this->get_avatar_cover_image_subnavs();
-
-		foreach ( $items as $item ) {
-			bp_core_new_subnav_item( $item, 'members' );
-		}
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**

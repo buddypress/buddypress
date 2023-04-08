@@ -228,14 +228,7 @@ class BP_XProfile_Component extends BP_Component {
 	 * @param array $sub_nav  Array of sub nav items to set up.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-
-		// Stop if there is no user displayed or logged in.
-		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
-			return;
-		}
-
-		$access = bp_core_can_edit_settings();
-		$slug   = bp_get_profile_slug();
+		$slug = bp_get_profile_slug();
 
 		// Add 'Profile' to the main navigation.
 		$main_nav = array(
@@ -258,17 +251,14 @@ class BP_XProfile_Component extends BP_Component {
 
 		// Edit Profile.
 		$sub_nav[] = array(
-			'name'            => _x( 'Edit','Profile header sub menu', 'buddypress' ),
-			'slug'            => 'edit',
-			'parent_slug'     => $slug,
-			'screen_function' => 'xprofile_screen_edit_profile',
-			'position'        => 20,
-			'user_has_access' => $access,
+			'name'                     => _x( 'Edit','Profile header sub menu', 'buddypress' ),
+			'slug'                     => 'edit',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'xprofile_screen_edit_profile',
+			'position'                 => 20,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
 		);
-
-		// The Settings > Profile nav item can only be set up after
-		// the Settings component has run its own nav routine.
-		add_action( 'bp_settings_setup_nav', array( $this, 'setup_settings_nav' ) );
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
@@ -280,28 +270,10 @@ class BP_XProfile_Component extends BP_Component {
 	 * be loaded in time for BP_XProfile_Component::setup_nav().
 	 *
 	 * @since 2.1.0
+	 * @deprecated 12.0.0
 	 */
 	public function setup_settings_nav() {
-		if ( ! bp_is_active( 'settings' ) ) {
-			return;
-		}
-
-		// Stop if there is no user displayed or logged in.
-		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
-			return;
-		}
-
-		// Get the settings slug.
-		$settings_slug = bp_get_settings_slug();
-
-		bp_core_new_subnav_item( array(
-			'name'            => _x( 'Profile Visibility', 'Profile settings sub nav', 'buddypress' ),
-			'slug'            => 'profile',
-			'parent_slug'     => $settings_slug,
-			'screen_function' => 'bp_xprofile_screen_settings',
-			'position'        => 30,
-			'user_has_access' => bp_core_can_edit_settings(),
-		), 'members' );
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**

@@ -660,20 +660,76 @@ class BP_Component {
 	 * Generate component navigation using the nav/subnav set up in `BP_Component::setup_nav()`.
 	 *
 	 * @since 12.0.0
-	 *
-	 * @see bp_core_new_nav_item() For a description of the $main_nav
-	 *      parameter formatting.
-	 * @see bp_core_new_subnav_item() For a description of how each item
-	 *      in the $sub_nav parameter array should be formatted.
 	 */
 	public function generate_nav() {
+		// Don't generate navigation if there's no member.
+		if ( ! is_user_logged_in() && ! bp_is_user() ) {
+			return;
+		}
+
+		$generate = true;
+		if ( isset( $this->main_nav['generate'] ) ) {
+			$generate = is_callable( $this->main_nav['generate'] ) ? call_user_func( $this->main_nav['generate'] ) : (bool) $this->main_nav['generate'];
+			unset( $this->main_nav['generate'] );
+		}
+
+		if ( bp_displayed_user_has_front_template() ) {
+			bp_core_new_nav_item(
+				array(
+					'name'                => _x( 'Home', 'Member Home page', 'buddypress' ),
+					'slug'                => 'front',
+					'position'            => 5,
+					'screen_function'     => 'bp_members_screen_display_profile',
+					'default_subnav_slug' => 'public',
+				),
+				'members'
+			);
+		}
+
+		if ( 'xprofile' === $this->id ) {
+			$extra_subnavs = wp_list_filter(
+				buddypress()->members->sub_nav,
+				array(
+					'slug'            => 'change-avatar',
+					'screen_function' => 'bp_members_screen_change_cover_image',
+				),
+				'OR'
+			);
+
+			$this->sub_nav = array_merge( $this->sub_nav, $extra_subnavs );
+		}
+
 		// No sub nav items without a main nav item.
-		if ( $this->main_nav ) {
+		if ( $this->main_nav && $generate) {
+			if ( isset( $this->main_nav['user_has_access_callback'] ) && is_callable( $this->main_nav['user_has_access_callback'] ) ) {
+				$this->main_nav['show_for_displayed_user'] = call_user_func( $this->main_nav['user_has_access_callback'] );
+				unset( $this->main_nav['user_has_access_callback'] );
+			}
+
 			bp_core_new_nav_item( $this->main_nav, 'members' );
 
 			// Sub nav items are not required.
 			if ( $this->sub_nav ) {
 				foreach( (array) $this->sub_nav as $nav ) {
+					if ( isset( $nav['user_has_access_callback'] ) && is_callable( $nav['user_has_access_callback'] ) ) {
+						$nav['user_has_access'] = call_user_func( $nav['user_has_access_callback'] );
+						unset( $nav['user_has_access_callback'] );
+					}
+
+					if ( isset( $nav['generate'] ) ) {
+						if ( is_callable( $nav['generate'] ) ) {
+							$generate_sub = call_user_func( $nav['generate'] );
+						} else {
+							$generate_sub = (bool) $nav['generate'];
+						}
+
+						unset( $nav['generate'] );
+
+						if ( ! $generate_sub ) {
+							continue;
+						}
+					}
+
 					bp_core_new_subnav_item( $nav, 'members' );
 				}
 			}
