@@ -223,11 +223,11 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 			'name' => 'bar',
 			'slug' => 'bar',
 			'parent_slug' => 'foo',
-			'parent_url' => bp_get_root_domain() . 'foo/',
+			'parent_url' => bp_get_root_url() . 'foo/',
 			'screen_function' => 'foo',
 		) );
 
-		$expected = bp_get_root_domain() . 'foo/bar/';
+		$expected = bp_get_root_url() . 'foo/bar/';
 		$this->assertSame( $expected, buddypress()->bp_options_nav['foo']['bar']['link'] );
 	}
 
@@ -239,7 +239,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 		bp_core_new_nav_item( array(
 			'name' => 'foo',
 			'slug' => 'foo-parent',
-			'link' => bp_get_root_domain() . 'foo-parent/',
+			'link' => bp_get_root_url() . 'foo-parent/',
 			'default_subnav_slug' => 'bar',
 			'screen_function' => 'foo',
 		) );
@@ -248,11 +248,11 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 			'name' => 'bar',
 			'slug' => 'bar',
 			'parent_slug' => 'foo-parent',
-			'parent_url' => bp_get_root_domain() . '/foo-parent/',
+			'parent_url' => bp_get_root_url() . '/foo-parent/',
 			'screen_function' => 'bar',
 		) );
 
-		$expected = bp_get_root_domain() . '/foo-parent/bar/';
+		$expected = bp_get_root_url() . '/foo-parent/bar/';
 		$this->assertSame( $expected, buddypress()->bp_options_nav['foo-parent']['bar']['link'] );
 	}
 
@@ -295,7 +295,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 			'name' => 'Foo',
 			'slug' => 'foo',
 			'parent_slug' => 'parent',
-			'parent_url' => bp_get_root_domain() . '/parent/',
+			'parent_url' => bp_get_root_url() . '/parent/',
 			'screen_function' => 'foo',
 			'site_admin_only' => true,
 		);
@@ -317,7 +317,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 			'name' => 'Foo',
 			'slug' => 'foo',
 			'parent_slug' => 'parent',
-			'parent_url' => bp_get_root_domain() . '/parent/',
+			'parent_url' => bp_get_root_url() . '/parent/',
 			'screen_function' => 'foo',
 		);
 		bp_core_new_subnav_item( $args );
@@ -339,7 +339,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 			'name' => 'Foo',
 			'slug' => 'foo',
 			'parent_slug' => 'parent',
-			'parent_url' => bp_get_root_domain() . '/parent/',
+			'parent_url' => bp_get_root_url() . '/parent/',
 			'screen_function' => 'foo',
 			'item_css_id' => 'bar',
 		);

@@ -636,13 +636,9 @@ function bp_groups_admin_edit() {
 	$group_name = isset( $group->name ) ? bp_get_group_name( $group ) : '';
 
 	// Construct URL for form.
-	$form_url = remove_query_arg( array( 'action', 'deleted', 'no_admins', 'error', 'error_new', 'success_new', 'error_modified', 'success_modified' ), $_SERVER['REQUEST_URI'] );
-	$form_url = add_query_arg( 'action', 'save', $form_url );
-	$create_url = bp_get_groups_directory_url(
-		array(
-			'create_single_item' => 1,
-		)
-	);
+	$form_url   = remove_query_arg( array( 'action', 'deleted', 'no_admins', 'error', 'error_new', 'success_new', 'error_modified', 'success_modified' ), $_SERVER['REQUEST_URI'] );
+	$form_url   = add_query_arg( 'action', 'save', $form_url );
+	$create_url = bp_groups_get_create_url();
 
 	/**
 	 * Fires before the display of the edit form.
@@ -818,11 +814,7 @@ function bp_groups_admin_index() {
 
 	// Prepare the group items for display.
 	$bp_groups_list_table->prepare_items();
-	$create_url = bp_get_groups_directory_url(
-		array(
-			'create_single_item' => 1,
-		)
-	);
+	$create_url = bp_groups_get_create_url();
 
 	/**
 	 * Fires before the display of messages for the edit form.

@@ -1423,7 +1423,11 @@ function bp_legacy_theme_ajax_invite_user() {
 		$user = new BP_Core_User( $friend_id );
 
 		if ( bp_is_current_action( 'create' ) ) {
-			$uninvite_url = bp_get_groups_directory_permalink() . 'create/step/group-invites/?user_id=' . $friend_id;
+			$uninvite_url = add_query_arg(
+				'user_id',
+				$user_id,
+				bp_get_groups_directory_url( bp_groups_get_path_chunks( array( 'group-invites' ), 'create' ) )
+			);
 		} else {
 			$path_chunks  = bp_groups_get_path_chunks( array( 'send-invites', 'remove', $friend_id ) );
 			$uninvite_url = bp_get_group_url( $group, $path_chunks );
