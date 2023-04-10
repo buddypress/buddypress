@@ -41,7 +41,7 @@ class BP_Groups_Component extends BP_Component {
 	 * @todo Is this used anywhere? Is this a duplicate of $default_extension?
 	 * @var string
 	 */
-	var $default_component;
+	public $default_component;
 
 	/**
 	 * Default group extension.
