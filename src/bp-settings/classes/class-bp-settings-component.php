@@ -119,18 +119,18 @@ class BP_Settings_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up navigation.
+	 * Register component navigation.
 	 *
-	 * @since 1.5.0
+	 * @since 12.0.0
 	 *
-	 * @see BP_Component::setup_nav() for a description of arguments.
+	 * @see `BP_Component::register_nav()` for a description of arguments.
 	 *
-	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 * @param array $main_nav Optional. See `BP_Component::register_nav()` for
 	 *                        description.
-	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+	 * @param array $sub_nav  Optional. See `BP_Component::register_nav()` for
 	 *                        description.
 	 */
-	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
 		$slug   = bp_get_settings_slug();
 
 		// Add the settings navigation item.
@@ -220,7 +220,7 @@ class BP_Settings_Component extends BP_Component {
 			'generate'        => 'bp_settings_show_delete_account_nav',
 		);
 
-		parent::setup_nav( $main_nav, $sub_nav );
+		parent::register_nav( $main_nav, $sub_nav );
 	}
 
 	/**
@@ -228,10 +228,10 @@ class BP_Settings_Component extends BP_Component {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @see BP_Component::setup_nav() for a description of the $wp_admin_nav
+	 * @see `BP_Component::setup_admin_bar()` for a description of the $wp_admin_nav
 	 *      parameter array.
 	 *
-	 * @param array $wp_admin_nav See BP_Component::setup_admin_bar() for a
+	 * @param array $wp_admin_nav See `BP_Component::setup_admin_bar()` for a
 	 *                            description.
 	 */
 	public function setup_admin_bar( $wp_admin_nav = array() ) {

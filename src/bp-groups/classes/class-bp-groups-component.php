@@ -563,72 +563,52 @@ class BP_Groups_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up component navigation.
+	 * Register component navigation.
 	 *
-	 * @since 1.5.0
+	 * @since 12.0.0
 	 *
-	 * @see BP_Component::setup_nav() for a description of arguments.
+	 * @see `BP_Component::register_nav()` for a description of arguments.
 	 *
-	 * @param array $main_nav Optional. See BP_Component::setup_nav() for description.
-	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for description.
+	 * @param array $main_nav Optional. See `BP_Component::register_nav()` for description.
+	 * @param array $sub_nav  Optional. See `BP_Component::register_nav()` for description.
 	 */
-	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
+		$slug = bp_get_groups_slug();
 
-		if ( is_user_logged_in() || bp_displayed_user_id() ) {
-			// Only grab count if we're on a user page.
-			if ( bp_is_user() ) {
-				$class = ( 0 === groups_total_groups_for_user( bp_displayed_user_id() ) ) ? 'no-count' : 'count';
+		// Add 'Groups' to the main navigation.
+		$main_nav = array(
+			'name'                => _x( 'Groups', 'Group screen nav without counter', 'buddypress' ),
+			'slug'                => $slug,
+			'position'            => 70,
+			'screen_function'     => 'groups_screen_my_groups',
+			'default_subnav_slug' => 'my-groups',
+			'item_css_id'         => $this->id
+		);
 
-				$nav_name = sprintf(
-					/* translators: %s: Group count for the current user */
-					_x( 'Groups %s', 'Group screen nav with counter', 'buddypress' ),
-					sprintf(
-						'<span class="%s">%s</span>',
-						esc_attr( $class ),
-						bp_get_total_group_count_for_user()
-					)
-				);
-			} else {
-				$nav_name = _x( 'Groups', 'Group screen nav without counter', 'buddypress' );
-			}
+		// Add the My Groups nav item.
+		$sub_nav[] = array(
+			'name'            => __( 'Memberships', 'buddypress' ),
+			'slug'            => 'my-groups',
+			'parent_slug'     => $slug,
+			'screen_function' => 'groups_screen_my_groups',
+			'position'        => 10,
+			'item_css_id'     => 'groups-my-groups'
+		);
 
-			$slug   = bp_get_groups_slug();
-			$access = bp_core_can_edit_settings();
-
-			// Add 'Groups' to the main navigation.
-			$main_nav = array(
-				'name'                => $nav_name,
-				'slug'                => $slug,
-				'position'            => 70,
-				'screen_function'     => 'groups_screen_my_groups',
-				'default_subnav_slug' => 'my-groups',
-				'item_css_id'         => $this->id
-			);
-
-			// Add the My Groups nav item.
+		if ( bp_is_active( 'groups', 'invitations' ) ) {
+			// Add the Group Invites nav item.
 			$sub_nav[] = array(
-				'name'            => __( 'Memberships', 'buddypress' ),
-				'slug'            => 'my-groups',
-				'parent_slug'     => $slug,
-				'screen_function' => 'groups_screen_my_groups',
-				'position'        => 10,
-				'item_css_id'     => 'groups-my-groups'
+				'name'                     => __( 'Invitations', 'buddypress' ),
+				'slug'                     => 'invites',
+				'parent_slug'              => $slug,
+				'screen_function'          => 'groups_screen_group_invites',
+				'position'                 => 30,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_core_can_edit_settings',
 			);
-
-			if ( bp_is_active( 'groups', 'invitations' ) ) {
-				// Add the Group Invites nav item.
-				$sub_nav[] = array(
-					'name'            => __( 'Invitations', 'buddypress' ),
-					'slug'            => 'invites',
-					'parent_slug'     => $slug,
-					'screen_function' => 'groups_screen_group_invites',
-					'user_has_access' => $access,
-					'position'        => 30
-				);
-			}
-
-			parent::setup_nav( $main_nav, $sub_nav );
 		}
+
+		parent::register_nav( $main_nav, $sub_nav );
 
 		if ( bp_is_groups_component() && bp_is_single_item() ) {
 
@@ -820,6 +800,38 @@ class BP_Groups_Component extends BP_Component {
 			/** This action is documented in bp-groups/bp-groups-loader.php */
 			do_action( 'groups_setup_nav');
 		}
+	}
+
+	/**
+	 * Set up component navigation.
+	 *
+	 * @since 1.5.0
+	 * @since 12.0.0 Used to customize the main navigation name.
+	 *
+	 * @see `BP_Component::setup_nav()` for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See `BP_Component::setup_nav()` for
+	 *                        description.
+	 * @param array $sub_nav  Optional. See `BP_Component::setup_nav()` for
+	 *                        description.
+	 */
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+		// Only grab count if we're on a user page.
+		if ( isset( $this->main_nav['name'] ) && bp_is_user() ) {
+			$class                  = ( 0 === groups_total_groups_for_user( bp_displayed_user_id() ) ) ? 'no-count' : 'count';
+			$this->main_nav['name'] = sprintf(
+				/* translators: %s: Group count for the current user */
+				_x( 'Groups %s', 'Group screen nav with counter', 'buddypress' ),
+				sprintf(
+					'<span class="%s">%s</span>',
+					esc_attr( $class ),
+					bp_get_total_group_count_for_user()
+				)
+			);
+
+		}
+
+		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
 	/**

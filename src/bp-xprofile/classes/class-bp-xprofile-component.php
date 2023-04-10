@@ -220,14 +220,14 @@ class BP_XProfile_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up navigation.
+	 * Register component navigation.
 	 *
-	 * @since 1.5.0
+	 * @since 12.0.0
 	 *
-	 * @param array $main_nav Array of main nav items to set up.
-	 * @param array $sub_nav  Array of sub nav items to set up.
+	 * @param array $main_nav See `BP_Component::register_nav()` for details.
+	 * @param array $sub_nav  See `BP_Component::register_nav()` for details.
 	 */
-	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
 		$slug = bp_get_profile_slug();
 
 		// Add 'Profile' to the main navigation.
@@ -260,7 +260,7 @@ class BP_XProfile_Component extends BP_Component {
 			'user_has_access_callback' => 'bp_core_can_edit_settings',
 		);
 
-		parent::setup_nav( $main_nav, $sub_nav );
+		parent::register_nav( $main_nav, $sub_nav );
 	}
 
 	/**

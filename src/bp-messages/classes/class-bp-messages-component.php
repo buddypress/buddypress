@@ -189,26 +189,105 @@ class BP_Messages_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up navigation for user pages.
+	 * Register component navigation.
 	 *
-	 * @param array $main_nav See {BP_Component::setup_nav()} for details.
-	 * @param array $sub_nav  See {BP_Component::setup_nav()} for details.
+	 * @since 12.0.0
+	 *
+	 * @param array $main_nav See `BP_Component::register_nav()` for details.
+	 * @param array $sub_nav  See `BP_Component::register_nav()` for details.
 	 */
-	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
+		$slug = bp_get_messages_slug();
 
-		// Stop if there is no user displayed or logged in.
-		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
-			return;
+		// Add 'Messages' to the main navigation.
+		$main_nav = array(
+			'name'                     => __( 'Messages', 'buddypress' ),
+			'slug'                     => $slug,
+			'position'                 => 50,
+			'show_for_displayed_user'  => false,
+			'screen_function'          => 'messages_screen_inbox',
+			'default_subnav_slug'      => 'inbox',
+			'item_css_id'              => $this->id,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
+		);
+
+		// Add the subnav items to the profile.
+		$sub_nav[] = array(
+			'name'                     => __( 'Inbox', 'buddypress' ),
+			'slug'                     => 'inbox',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'messages_screen_inbox',
+			'position'                 => 10,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
+		);
+
+		if ( bp_is_active( $this->id, 'star' ) ) {
+			$sub_nav[] = array(
+				'name'                      => __( 'Starred', 'buddypress' ),
+				'slug'                     => bp_get_messages_starred_slug(),
+				'parent_slug'              => $slug,
+				'screen_function'          => 'bp_messages_star_screen',
+				'position'                 => 11,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_core_can_edit_settings',
+			);
 		}
 
-		$access = bp_core_can_edit_settings();
-		$slug   = bp_get_messages_slug();
+		$sub_nav[] = array(
+			'name'                     => __( 'Sent', 'buddypress' ),
+			'slug'                     => 'sentbox',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'messages_screen_sentbox',
+			'position'                 => 20,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
+		);
 
+		// Show "Compose" on the logged-in user's profile only.
+		$sub_nav[] = array(
+			'name'                     => __( 'Compose', 'buddypress' ),
+			'slug'                     => 'compose',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'messages_screen_compose',
+			'position'                 => 30,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_is_my_profile',
+		);
+
+		// Show "Notices" to community admins only.
+		$sub_nav[] = array(
+			'name'                     => __( 'Notices', 'buddypress' ),
+			'slug'                     => 'notices',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'messages_screen_notices',
+			'position'                 => 90,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_current_user_can_moderate',
+		);
+
+		parent::register_nav( $main_nav, $sub_nav );
+	}
+
+	/**
+	 * Set up component navigation.
+	 *
+	 * @since 1.5.0
+	 * @since 12.0.0 Used to customize the main navigation name.
+	 *
+	 * @see `BP_Component::setup_nav()` for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See `BP_Component::setup_nav()` for
+	 *                        description.
+	 * @param array $sub_nav  Optional. See `BP_Component::setup_nav()` for
+	 *                        description.
+	 */
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 		// Only grab count if we're on a user page and current user has access.
-		if ( bp_is_user() && bp_user_has_access() ) {
-			$count    = bp_get_total_unread_messages_count( bp_displayed_user_id() );
-			$class    = ( 0 === $count ) ? 'no-count' : 'count';
-			$nav_name = sprintf(
+		if ( isset( $this->main_nav['name'] ) && bp_is_user() && bp_user_has_access() ) {
+			$count                  = bp_get_total_unread_messages_count( bp_displayed_user_id() );
+			$class                  = ( 0 === $count ) ? 'no-count' : 'count';
+			$this->main_nav['name'] = sprintf(
 				/* translators: %s: Unread message count for the current user */
 				__( 'Messages %s', 'buddypress' ),
 				sprintf(
@@ -217,70 +296,7 @@ class BP_Messages_Component extends BP_Component {
 					bp_core_number_format( $count )
 				)
 			);
-		} else {
-			$nav_name = __( 'Messages', 'buddypress' );
 		}
-
-		// Add 'Messages' to the main navigation.
-		$main_nav = array(
-			'name'                    => $nav_name,
-			'slug'                    => $slug,
-			'position'                => 50,
-			'show_for_displayed_user' => $access,
-			'screen_function'         => 'messages_screen_inbox',
-			'default_subnav_slug'     => 'inbox',
-			'item_css_id'             => $this->id
-		);
-
-		// Add the subnav items to the profile.
-		$sub_nav[] = array(
-			'name'            => __( 'Inbox', 'buddypress' ),
-			'slug'            => 'inbox',
-			'parent_slug'     => $slug,
-			'screen_function' => 'messages_screen_inbox',
-			'position'        => 10,
-			'user_has_access' => $access
-		);
-
-		if ( bp_is_active( $this->id, 'star' ) ) {
-			$sub_nav[] = array(
-				'name'            => __( 'Starred', 'buddypress' ),
-				'slug'            => bp_get_messages_starred_slug(),
-				'parent_slug'     => $slug,
-				'screen_function' => 'bp_messages_star_screen',
-				'position'        => 11,
-				'user_has_access' => $access
-			);
-		}
-
-		$sub_nav[] = array(
-			'name'            => __( 'Sent', 'buddypress' ),
-			'slug'            => 'sentbox',
-			'parent_slug'     => $slug,
-			'screen_function' => 'messages_screen_sentbox',
-			'position'        => 20,
-			'user_has_access' => $access
-		);
-
-		// Show "Compose" on the logged-in user's profile only.
-		$sub_nav[] = array(
-			'name'            => __( 'Compose', 'buddypress' ),
-			'slug'            => 'compose',
-			'parent_slug'     => $slug,
-			'screen_function' => 'messages_screen_compose',
-			'position'        => 30,
-			'user_has_access' => bp_is_my_profile(),
-		);
-
-		// Show "Notices" to community admins only.
-		$sub_nav[] = array(
-			'name'            => __( 'Notices', 'buddypress' ),
-			'slug'            => 'notices',
-			'parent_slug'     => $slug,
-			'screen_function' => 'messages_screen_notices',
-			'position'        => 90,
-			'user_has_access' => bp_current_user_can( 'bp_moderate' )
-		);
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}

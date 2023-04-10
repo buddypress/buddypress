@@ -198,17 +198,18 @@ class BP_Blogs_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up component navigation for bp-blogs.
+	 * Register component navigation.
 	 *
-	 * @see BP_Component::setup_nav() for a description of arguments.
+	 * @since 12.0.0
 	 *
-	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 * @see `BP_Component::register_nav()` for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See `BP_Component::register_nav()` for
 	 *                        description.
-	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+	 * @param array $sub_nav  Optional. See `BP_Component::register_nav()` for
 	 *                        description.
 	 */
-	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
 		/**
 		 * Blog/post/comment menus should not appear on single WordPress setups.
 		 * Although comments and posts made by users will still show on their
@@ -218,27 +219,10 @@ class BP_Blogs_Component extends BP_Component {
 			return false;
 		}
 
-		// Stop if there is no user displayed or logged in.
-		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
-			return;
-		}
-
 		$slug = bp_get_blogs_slug();
 
-		// Add 'Sites' to the main navigation.
-		$count    = (int) bp_get_total_blog_count_for_user();
-		$class    = ( 0 === $count ) ? 'no-count' : 'count';
-		$nav_text = sprintf(
-			/* translators: %s: Site count for the current user */
-			__( 'Sites %s', 'buddypress' ),
-			sprintf(
-				'<span class="%s">%s</span>',
-				esc_attr( $class ),
-				esc_html( $count )
-			)
-		);
 		$main_nav = array(
-			'name'                => $nav_text,
+			'name'                => __( 'Sites', 'buddypress' ),
 			'slug'                => $slug,
 			'position'            => 30,
 			'screen_function'     => 'bp_blogs_screen_my_blogs',
@@ -255,6 +239,39 @@ class BP_Blogs_Component extends BP_Component {
 		);
 
 		// Setup navigation.
+		parent::register_nav( $main_nav, $sub_nav );
+	}
+
+	/**
+	 * Set up component navigation.
+	 *
+	 * @since 1.5.0
+	 * @since 12.0.0 Used to customize the main navigation name.
+	 *
+	 * @see `BP_Component::setup_nav()` for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See `BP_Component::setup_nav()` for
+	 *                        description.
+	 * @param array $sub_nav  Optional. See `BP_Component::setup_nav()` for
+	 *                        description.
+	 */
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+		// Only grab count if we're on a user page.
+		if ( is_multisite() && bp_is_user() && isset( $this->main_nav['name'] ) ) {
+			// Add the number of sites to the main nav.
+			$count                  = (int) bp_get_total_blog_count_for_user();
+			$class                  = ( 0 === $count ) ? 'no-count' : 'count';
+			$this->main_nav['name'] = sprintf(
+				/* translators: %s: Site count for the displayed user */
+				__( 'Sites %s', 'buddypress' ),
+				sprintf(
+					'<span class="%s">%s</span>',
+					esc_attr( $class ),
+					bp_core_number_format( $count )
+				)
+			);
+		}
+
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
 

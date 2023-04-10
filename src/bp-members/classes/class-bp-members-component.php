@@ -422,55 +422,27 @@ class BP_Members_Component extends BP_Component {
 	 * Get the Avatar and Cover image subnavs.
 	 *
 	 * @since 6.0.0
+	 * @deprecated 12.0.0
 	 *
 	 * @return array The Avatar and Cover image subnavs.
 	 */
 	public function get_avatar_cover_image_subnavs() {
-		$subnavs = array();
-
-		$access = bp_core_can_edit_settings();
-		$slug   = bp_get_profile_slug();
-
-		// Change Avatar.
-		if ( buddypress()->avatar->show_avatars ) {
-			$subnavs[] = array(
-				'name'            => _x( 'Change Profile Photo', 'Profile header sub menu', 'buddypress' ),
-				'slug'            => 'change-avatar',
-				'parent_slug'     => $slug,
-				'screen_function' => 'bp_members_screen_change_avatar',
-				'position'        => 30,
-				'user_has_access' => $access
-			);
-		}
-
-		// Change Cover image.
-		if ( bp_displayed_user_use_cover_image_header() ) {
-			$subnavs[] = array(
-				'name'            => _x( 'Change Cover Image', 'Profile header sub menu', 'buddypress' ),
-				'slug'            => 'change-cover-image',
-				'parent_slug'     => $slug,
-				'screen_function' => 'bp_members_screen_change_cover_image',
-				'position'        => 40,
-				'user_has_access' => $access
-			);
-		}
-
-		return $subnavs;
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
-	 * Set up fall-back component navigation if XProfile is inactive.
+	 * Register component navigation.
 	 *
-	 * @since 1.5.0
+	 * @since 12.0.0
 	 *
-	 * @see BP_Component::setup_nav() for a description of arguments.
+	 * @see `BP_Component::register_nav()` for a description of arguments.
 	 *
-	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 * @param array $main_nav Optional. See `BP_Component::register_nav()` for
 	 *                        description.
-	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+	 * @param array $sub_nav  Optional. See `BP_Component::register_nav()` for
 	 *                        description.
 	 */
-	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
 		// Set slug to profile in case the xProfile component is not active
 		$slug = bp_get_profile_slug();
 
@@ -515,7 +487,7 @@ class BP_Members_Component extends BP_Component {
 			'generate'                 => bp_displayed_user_use_cover_image_header(),
 		);
 
-		parent::setup_nav( $main_nav, $sub_nav );
+		parent::register_nav( $main_nav, $sub_nav );
 	}
 
 	/**

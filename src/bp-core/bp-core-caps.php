@@ -304,6 +304,17 @@ function bp_current_user_can( $capability, $args = array() ) {
 }
 
 /**
+ * Callback function to inform whether current user can moderate the community.
+ *
+ * @since 12.0.0
+ *
+ * @return boolean True if current user can moderate the community. False otherwise.
+ */
+function bp_current_user_can_moderate() {
+	return bp_current_user_can( 'bp_moderate' );
+}
+
+/**
  * Check whether the specified user has a given capability on a given site.
  *
  * @since 2.7.0
