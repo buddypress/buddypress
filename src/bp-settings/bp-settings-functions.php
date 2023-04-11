@@ -363,6 +363,17 @@ function bp_settings_data_exporter_items() {
 }
 
 /**
+ * Whether a user can delete self account from front-end.
+ *
+ * @since 12.0.0
+ *
+ * @return boolean True if user can delete self account from front-end. False otherwise.
+ */
+function bp_settings_can_delete_self_account() {
+	return ! user_can( bp_displayed_user_id(), 'delete_users' );
+}
+
+/**
  * Whether to show the Delete account front-end nav.
  *
  * @since 12.0.0

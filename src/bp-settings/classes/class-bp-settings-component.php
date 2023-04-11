@@ -211,13 +211,14 @@ class BP_Settings_Component extends BP_Component {
 
 		// Add Delete Account nav item.
 		$sub_nav[] = array(
-			'name'            => __( 'Delete Account', 'buddypress' ),
-			'slug'            => 'delete-account',
-			'parent_slug'     => $slug,
-			'screen_function' => 'bp_settings_screen_delete_account',
-			'position'        => 90,
-			'user_has_access' => ! user_can( bp_displayed_user_id(), 'delete_users' ),
-			'generate'        => 'bp_settings_show_delete_account_nav',
+			'name'                     => __( 'Delete Account', 'buddypress' ),
+			'slug'                     => 'delete-account',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'bp_settings_screen_delete_account',
+			'position'                 => 90,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_settings_can_delete_self_account',
+			'generate'                 => 'bp_settings_show_delete_account_nav',
 		);
 
 		parent::register_nav( $main_nav, $sub_nav );
