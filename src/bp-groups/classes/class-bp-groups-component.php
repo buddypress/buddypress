@@ -631,105 +631,91 @@ class BP_Groups_Component extends BP_Component {
 			);
 		}
 
+		// Generate the displayed User navigation for the Groupe compnent.
+		parent::setup_nav( $main_nav, $sub_nav );
+
+		// Generate the displayed Group navigation.
 		if ( bp_is_groups_component() && bp_is_single_item() ) {
 			/*
 			 * The top-level Groups item is called 'Memberships' for legacy reasons.
 			 * It does not appear in the interface.
 			 */
-			bp_core_new_nav_item( array(
-				'name'                => __( 'Memberships', 'buddypress' ),
-				'slug'                => $this->current_group->slug,
-				'position'            => -1, // Do not show into the navigation.
-				'screen_function'     => 'groups_screen_group_home',
-				'default_subnav_slug' => $this->default_extension,
-				'item_css_id'         => $this->id
-			), 'groups' );
-
-			$group_link = bp_get_group_url( $this->current_group );
-
-			// Add the "Home" subnav item, as this will always be present.
-			$sub_nav[] = array(
-				'name'            =>  _x( 'Home', 'Group screen navigation title', 'buddypress' ),
-				'slug'            => 'home',
-				'parent_slug'     => $this->current_group->slug,
-				'screen_function' => 'groups_screen_group_home',
-				'position'        => 10,
-				'item_css_id'     => 'home'
+			bp_core_new_nav_item(
+				array(
+					'name'                => __( 'Memberships', 'buddypress' ),
+					'slug'                => $this->current_group->slug,
+					'position'            => -1, // Do not show into the navigation.
+					'screen_function'     => 'groups_screen_group_home',
+					'default_subnav_slug' => $this->default_extension,
+					'item_css_id'         => $this->id
+				),
+				'groups'
 			);
+
+			// Get the "read" screens.
+			$screens    = bp_get_group_screens( 'read' );
+			$group_link = bp_get_group_url( $this->current_group );
+			$sub_nav    = array();
 
 			/*
 			 * If this is a private group, and the user is not a member and does not
-			 * have an outstanding invitation, how a "Request Membership" nav item.
+			 * have an outstanding invitation, only generate the request membership
+			 * nav item if the user can request this membership.
 			 */
-			if ( bp_current_user_can( 'groups_request_membership', array( 'group_id' => $this->current_group->id ) ) ) {
-				$sub_nav[] = array(
-					'name'            => _x( 'Request Membership','Group screen nav', 'buddypress' ),
-					'slug'            => 'request-membership',
-					'parent_slug'     => $this->current_group->slug,
-					'screen_function' => 'groups_screen_group_request_membership',
-					'position'        => 30
-				);
+			if ( ! bp_current_user_can( 'groups_request_membership', array( 'group_id' => $this->current_group->id ) ) ) {
+				unset( $screens['request-membership'] );
 			}
 
-			if ( $this->current_group->front_template || bp_is_active( 'activity' ) ) {
-				// If the theme is using a custom front, create activity subnav.
-				if ( $this->current_group->front_template && bp_is_active( 'activity' ) ) {
-					$sub_nav[] = array(
-						'name'            => _x( 'Activity', 'My Group screen nav', 'buddypress' ),
-						'slug'            => 'activity',
-						'parent_slug'     => $this->current_group->slug,
-						'screen_function' => 'groups_screen_group_activity',
-						'position'        => 11,
-						'user_has_access' => $this->current_group->user_has_access,
-						'item_css_id'     => 'activity',
-						'no_access_url'   => $group_link,
+			// If the invitations feature is not active remove the corresponding nav item.
+			if ( ! bp_is_active( 'groups', 'invitations' ) ) {
+				unset( $screens['send-invites'] );
+			}
+
+			/*
+			 * By default activity is group's home, only keep an activity sub nab if there's
+			 * a custom group's front page and the activity component is active.
+			 */
+			if ( ! $this->current_group->front_template || ! bp_is_active( 'activity' ) ) {
+				unset( $screens['activity'] );
+			}
+
+			/*
+			 * If there's a custom group's front page and the activity component is not active,
+			 * The members screen is use as the group's home page. If it's not the case, remove
+			 * the corresponding nav item.
+			 */
+			if ( ! $this->current_group->front_template && ! bp_is_active( 'activity' ) ) {
+				unset( $screens['members'] );
+			}
+
+			foreach ( $screens as $screen_id => $sub_nav_item ) {
+				$sub_nav_item['parent_slug'] = $this->current_group->slug;
+
+				if ( 'members' === $screen_id ) {
+					$sub_nav_item['name'] = sprintf(
+						$sub_nav_item['name'],
+						'<span>' . number_format( $this->current_group->total_member_count ) . '</span>'
 					);
 				}
 
-				// Only add the members subnav if it's not the home's nav.
-				$sub_nav[] = array(
-					'name'            => sprintf(
-						/* translators: %s: total member count */
-						_x( 'Members %s', 'My Group screen nav', 'buddypress' ),
-						'<span>' . number_format( $this->current_group->total_member_count ) . '</span>'
-					),
-					'slug'            => 'members',
-					'parent_slug'     => $this->current_group->slug,
-					'screen_function' => 'groups_screen_group_members',
-					'position'        => 60,
-					'user_has_access' => $this->current_group->user_has_access,
-					'item_css_id'     => 'members',
-					'no_access_url'   => $group_link,
-				);
-			}
+				if ( isset( $sub_nav_item['no_access_url'] ) ) {
+					$sub_nav_item['no_access_url'] = $group_link;
+				}
 
-			if ( bp_is_active( 'groups', 'invitations' ) ) {
-				$sub_nav[] = array(
-					'name'            => _x( 'Send Invites', 'My Group screen nav', 'buddypress' ),
-					'slug'            => 'send-invites',
-					'parent_slug'     => $this->current_group->slug,
-					'screen_function' => 'groups_screen_group_invite',
-					'item_css_id'     => 'invite',
-					'position'        => 70,
-					'user_has_access' => bp_groups_user_can_send_invites(),
-					'no_access_url'   => $group_link,
-				);
+				if ( isset( $sub_nav_item['user_has_access_callback'] ) && is_callable( $sub_nav_item['user_has_access_callback'] ) ) {
+					$sub_nav_item['user_has_access'] = call_user_func( $sub_nav_item['user_has_access_callback'] );
+					unset( $sub_nav_item['user_has_access_callback'] );
+				}
+
+				// Add the sub nav item.
+				$sub_nav[] = $sub_nav_item;
 			}
 
 			// If the user is a group admin, then show the group admin nav item.
 			if ( bp_is_item_admin() ) {
-				$sub_nav[] = array(
-					'name'            => _x( 'Manage', 'My Group screen nav', 'buddypress' ),
-					'slug'            => 'admin',
-					'parent_slug'     => $this->current_group->slug,
-					'screen_function' => 'groups_screen_group_admin',
-					'position'        => 1000,
-					'user_has_access' => true,
-					'item_css_id'     => 'admin',
-					'no_access_url'   => $group_link,
-				);
-
-				$admin_link = bp_get_group_url(
+				// Get the "manage" screens.
+				$manage_screens    = bp_get_group_screens( 'manage' );
+				$admin_link        = bp_get_group_url(
 					$this->current_group,
 					array(
 						'single_item_action' => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
@@ -744,55 +730,27 @@ class BP_Groups_Component extends BP_Component {
 					'show_in_admin_bar' => true,
 				);
 
-				$sub_nav[] = array_merge( array(
-					'name'     => __( 'Details', 'buddypress' ),
-					'slug'     => 'edit-details',
-					'position' => 0,
-				), $default_params );
-
-				$sub_nav[] = array_merge( array(
-					'name'     => __( 'Settings', 'buddypress' ),
-					'slug'     => 'group-settings',
-					'position' => 10,
-				), $default_params );
-
-				if ( ! bp_disable_group_avatar_uploads() && buddypress()->avatar->show_avatars ) {
-					$sub_nav[] = array_merge( array(
-						'name'     => __( 'Photo', 'buddypress' ),
-						'slug'     => 'group-avatar',
-						'position' => 20,
-					), $default_params );
+				// Only keep the Group's profile photo screen if avatars are enabled.
+				if ( bp_disable_group_avatar_uploads() || ! buddypress()->avatar->show_avatars ) {
+					unset( $manage_screens['group-avatar'] );
 				}
 
-				if ( bp_group_use_cover_image_header() ) {
-					$sub_nav[] = array_merge( array(
-						'name'     => __( 'Cover Image', 'buddypress' ),
-						'slug'     => 'group-cover-image',
-						'position' => 25,
-					), $default_params );
+				// Only keep the Group's cover image screen if cover images are enabled.
+				if ( ! bp_group_use_cover_image_header() ) {
+					unset( $manage_screens['group-cover-image'] );
 				}
 
-				$sub_nav[] = array_merge( array(
-					'name'     => __( 'Members', 'buddypress' ),
-					'slug'     => 'manage-members',
-					'position' => 30,
-				), $default_params );
-
-				if ( 'private' == $this->current_group->status ) {
-					$sub_nav[] = array_merge( array(
-						'name'     => __( 'Requests', 'buddypress' ),
-						'slug'     => 'membership-requests',
-						'position' => 40,
-					), $default_params );
+				// Only keep the membership requests screen for private groups.
+				if ( 'private' !== $this->current_group->status ) {
+					unset( $manage_screens['membership-requests'] );
 				}
 
-				$sub_nav[] = array_merge( array(
-					'name'     => __( 'Delete', 'buddypress' ),
-					'slug'     => 'delete-group',
-					'position' => 1000,
-				), $default_params );
+				foreach ( $manage_screens as $manage_screen_id => $manage_sub_nav_item ) {
+					$sub_nav[] = array_merge( $manage_sub_nav_item, $default_params );
+				}
 			}
 
+			// Finally generate read/manage nav items.
 			foreach ( $sub_nav as $nav ) {
 				bp_core_new_subnav_item( $nav, 'groups' );
 			}
@@ -813,8 +771,6 @@ class BP_Groups_Component extends BP_Component {
 				do_action( 'groups_setup_nav');
 			}
 		}
-
-		parent::setup_nav( $main_nav, $sub_nav );
 	}
 
 	/**

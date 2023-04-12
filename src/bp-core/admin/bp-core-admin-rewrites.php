@@ -199,6 +199,74 @@ function bp_core_admin_rewrites_settings() {
 								<?php endforeach; ?>
 							<?php endif; ?>
 						<?php endif; ?>
+
+						<?php if ( 'groups' === $component_id ) : ?>
+
+							<?php
+							foreach (
+								array(
+									'create' => __( 'Single Group creation steps slugs', 'bp-rewrites' ),
+									'read'   => __( 'Single Group regular screens slugs', 'bp-rewrites' ),
+									'manage' => __( 'Single Group management screens slugs', 'bp-rewrites' ),
+								) as $screen_type => $screen_type_title ) :
+								?>
+
+								<div class="health-check-accordion">
+									<h4 class="health-check-accordion-heading">
+										<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-group-<?php echo esc_attr( $screen_type ); ?>" type="button">
+											<span class="title"><?php echo esc_html( $screen_type_title ); ?></span>
+											<span class="icon"></span>
+										</button>
+									</h4>
+									<div id="health-check-accordion-block-group-<?php echo esc_attr( $screen_type ); ?>" class="health-check-accordion-panel" hidden="hidden">
+										<table class="form-table" role="presentation">
+
+										<?php
+										if ( 'create' === $screen_type ) :
+											foreach ( bp_get_group_restricted_screens() as $group_create_restricted_screen ) :
+												?>
+												<tr>
+													<th scope="row">
+														<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_create_restricted_screen['rewrite_id'] ) ) ); ?>">
+															<?php echo esc_html( $group_create_restricted_screen['name'] ); ?>
+														</label>
+													</th>
+													<td>
+														<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $group_create_restricted_screen['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_create_restricted_screen['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $group_create_restricted_screen['rewrite_id'], $group_create_restricted_screen['slug'] ) ); ?>">
+													</td>
+												</tr>
+												<?php
+											endforeach;
+
+										endif;
+
+										foreach ( bp_get_group_screens( $screen_type ) as $group_screen ) :
+											if ( ! isset( $group_screen['rewrite_id'] ) || ! $group_screen['rewrite_id'] ) {
+												continue;
+											}
+											?>
+												<tr>
+													<th scope="row">
+														<label style="margin-left: 2em; display: inline-block; vertical-align: middle" for="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_screen['rewrite_id'] ) ) ); ?>">
+															<?php
+															printf(
+																/* translators: %s is group view name */
+																esc_html_x( '"%s" slug', 'group view name URL admin label', 'bp-rewrites' ),
+																esc_html( _bp_strip_spans_from_title( $group_screen['name'] ) )
+															);
+															?>
+														</label>
+													</th>
+													<td>
+														<input type="text" class="code" name="<?php printf( 'components[%1$d][_bp_component_slugs][%2$s]', absint( $directory_data->id ), esc_attr( $group_screen['rewrite_id'] ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-slug', sanitize_key( $group_screen['rewrite_id'] ) ) ); ?>" value="<?php echo esc_attr( bp_rewrites_get_slug( $component_id, $group_screen['rewrite_id'], $group_screen['slug'] ) ); ?>">
+													</td>
+												</tr>
+											<?php endforeach; ?>
+										</table>
+									</div>
+								</div>
+							<?php endforeach; ?>
+						<?php endif; ?>
 					</div>
 				<?php endforeach; ?>
 			</form>
