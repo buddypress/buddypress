@@ -543,11 +543,11 @@ class BP_Component {
 		// Load files conditionally, based on certain pages.
 		add_action( 'bp_late_include',           array( $this, 'late_includes'          ) );
 
+		// Generate navigation.
+		add_action( 'bp_setup_nav',              array( $this, 'register_nav'           ),  7 );
+
 		// Setup navigation.
 		add_action( 'bp_setup_nav',              array( $this, 'setup_nav'              ),  9 );
-
-		// Generate navigation.
-		add_action( 'bp_setup_nav',              array( $this, 'generate_nav'           ), 10, 0 );
 
 		// Setup WP Toolbar menus.
 		add_action( 'bp_setup_admin_bar',        array( $this, 'setup_admin_bar'        ), $this->adminbar_myaccount_order );
@@ -613,10 +613,9 @@ class BP_Component {
 	public function setup_canonical_stack() {}
 
 	/**
-	 * Set up component navigation.
+	 * Registers nav items globalizing them into `BP_Component::$main_nav` & `BP_Component::$sub_nav` properties.
 	 *
-	 * @since 1.5.0
-	 * @since 12.0.0 Uses `BP_Component::$main_nav` && `BP_Component::$sub_nav` to globalize nav items.
+	 * @since 12.0.0
 	 *
 	 * @param array $main_nav Optional. Passed directly to bp_core_new_nav_item().
 	 *                        See that function for a description.
@@ -624,7 +623,7 @@ class BP_Component {
 	 *                        which is passed to bp_core_new_subnav_item(). See that
 	 *                        function for a description.
 	 */
-	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
 		if ( isset( $main_nav['slug'] ) ) {
 			// Always set the component ID.
 			$this->main_nav['component_id'] = $this->id;
@@ -657,23 +656,110 @@ class BP_Component {
 	}
 
 	/**
-	 * Generate component navigation using the nav/subnav set up in `BP_Component::setup_nav()`.
+	 * Set up component navigation.
 	 *
-	 * @since 12.0.0
+	 * @since 1.5.0
+	 * @since 12.0.0 Uses the registered navigations to generate it.
 	 *
-	 * @see bp_core_new_nav_item() For a description of the $main_nav
-	 *      parameter formatting.
-	 * @see bp_core_new_subnav_item() For a description of how each item
-	 *      in the $sub_nav parameter array should be formatted.
+	 * @param array $main_nav Optional. Passed directly to bp_core_new_nav_item().
+	 *                        See that function for a description.
+	 * @param array $sub_nav  Optional. Multidimensional array, each item in
+	 *                        which is passed to bp_core_new_subnav_item(). See that
+	 *                        function for a description.
 	 */
-	public function generate_nav() {
-		// No sub nav items without a main nav item.
-		if ( $this->main_nav ) {
-			bp_core_new_nav_item( $this->main_nav, 'members' );
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+		// Use the registered navigations if available.
+		if ( empty( $main_nav ) && $this->main_nav ) {
+			// Don't generate navigation if there's no member.
+			if ( ! is_user_logged_in() && ! bp_is_user() ) {
+				return;
+			}
+
+			$generate = true;
+			if ( isset( $this->main_nav['generate'] ) ) {
+				$generate = is_callable( $this->main_nav['generate'] ) ? call_user_func( $this->main_nav['generate'] ) : (bool) $this->main_nav['generate'];
+				unset( $this->main_nav['generate'] );
+			}
+
+			if ( bp_displayed_user_has_front_template() ) {
+				bp_core_new_nav_item(
+					array(
+						'name'                => _x( 'Home', 'Member Home page', 'buddypress' ),
+						'slug'                => 'front',
+						'position'            => 5,
+						'screen_function'     => 'bp_members_screen_display_profile',
+						'default_subnav_slug' => 'public',
+					),
+					'members'
+				);
+			}
+
+			if ( 'xprofile' === $this->id ) {
+				$extra_subnavs = wp_list_filter(
+					buddypress()->members->sub_nav,
+					array(
+						'slug'            => 'change-avatar',
+						'screen_function' => 'bp_members_screen_change_cover_image',
+					),
+					'OR'
+				);
+
+				$this->sub_nav = array_merge( $this->sub_nav, $extra_subnavs );
+			}
+
+			// No sub nav items without a main nav item.
+			if ( $this->main_nav && $generate) {
+				if ( isset( $this->main_nav['user_has_access_callback'] ) && is_callable( $this->main_nav['user_has_access_callback'] ) ) {
+					$this->main_nav['show_for_displayed_user'] = call_user_func( $this->main_nav['user_has_access_callback'] );
+					unset( $this->main_nav['user_has_access_callback'] );
+				}
+
+				bp_core_new_nav_item( $this->main_nav, 'members' );
+
+				// Sub nav items are not required.
+				if ( $this->sub_nav ) {
+					foreach( (array) $this->sub_nav as $nav ) {
+						if ( isset( $nav['user_has_access_callback'] ) && is_callable( $nav['user_has_access_callback'] ) ) {
+							$nav['user_has_access'] = call_user_func( $nav['user_has_access_callback'] );
+							unset( $nav['user_has_access_callback'] );
+						}
+
+						if ( isset( $nav['generate'] ) ) {
+							if ( is_callable( $nav['generate'] ) ) {
+								$generate_sub = call_user_func( $nav['generate'] );
+							} else {
+								$generate_sub = (bool) $nav['generate'];
+							}
+
+							unset( $nav['generate'] );
+
+							if ( ! $generate_sub ) {
+								continue;
+							}
+						}
+
+						bp_core_new_subnav_item( $nav, 'members' );
+					}
+				}
+			}
+
+			/*
+			 * If the `$main_nav` is populated, it means a plugin is not registering its navigation using
+			 * `BP_Component::register_nav()` to enjoy the BP Rewrites API slug customization. Let's simply
+			 * preverve backward compatibility in this case.
+			 */
+		} elseif ( ! empty( $main_nav ) && ! $this->main_nav ) {
+			// Always set the component ID.
+			$main_nav['component_id'] = $this->id;
+			$this->main_nav           = $main_nav;
+
+			bp_core_new_nav_item( $main_nav, 'members' );
 
 			// Sub nav items are not required.
-			if ( $this->sub_nav ) {
-				foreach( (array) $this->sub_nav as $nav ) {
+			if ( ! empty( $sub_nav ) ) {
+				$this->sub_nav = $sub_nav;
+
+				foreach( (array) $sub_nav as $nav ) {
 					bp_core_new_subnav_item( $nav, 'members' );
 				}
 			}

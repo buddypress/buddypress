@@ -133,32 +133,76 @@ class BP_Notifications_Component extends BP_Component {
 	}
 
 	/**
+	 * Register component navigation.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @see `BP_Component::register_nav()` for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See `BP_Component::register_nav()` for
+	 *                        description.
+	 * @param array $sub_nav  Optional. See `BP_Component::register_nav()` for
+	 *                        description.
+	 */
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
+		$slug   = bp_get_notifications_slug();
+
+		// Add 'Notifications' to the main navigation.
+		$main_nav = array(
+			'name'                     => _x( 'Notifications', 'Profile screen nav', 'buddypress' ),
+			'slug'                     => $slug,
+			'position'                 => 30,
+			'show_for_displayed_user'  => false,
+			'screen_function'          => 'bp_notifications_screen_unread',
+			'default_subnav_slug'      => 'unread',
+			'item_css_id'              => $this->id,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
+		);
+
+		// Add the subnav items to the notifications nav item.
+		$sub_nav[] = array(
+			'name'                     => _x( 'Unread', 'Notification screen nav', 'buddypress' ),
+			'slug'                     => 'unread',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'bp_notifications_screen_unread',
+			'position'                 => 10,
+			'item_css_id'              => 'notifications-my-notifications',
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
+		);
+
+		$sub_nav[] = array(
+			'name'                     => _x( 'Read', 'Notification screen nav', 'buddypress' ),
+			'slug'                     => 'read',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'bp_notifications_screen_read',
+			'position'                 => 20,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
+		);
+
+		parent::register_nav( $main_nav, $sub_nav );
+	}
+
+	/**
 	 * Set up component navigation.
 	 *
 	 * @since 1.9.0
+	 * @since 12.0.0 Used to customize the main navigation name.
 	 *
-	 * @see BP_Component::setup_nav() for a description of arguments.
+	 * @see `BP_Component::setup_nav()` for a description of arguments.
 	 *
-	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 * @param array $main_nav Optional. See `BP_Component::setup_nav()` for
 	 *                        description.
-	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+	 * @param array $sub_nav  Optional. See `BP_Component::setup_nav()` for
 	 *                        description.
 	 */
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-
-		// Stop if there is no user displayed or logged in.
-		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
-			return;
-		}
-
-		$access = bp_core_can_edit_settings();
-		$slug   = bp_get_notifications_slug();
-
 		// Only grab count if we're on a user page and current user has access.
-		if ( bp_is_user() && bp_user_has_access() ) {
-			$count    = bp_notifications_get_unread_notification_count( bp_displayed_user_id() );
-			$class    = ( 0 === $count ) ? 'no-count' : 'count';
-			$nav_name = sprintf(
+		if ( isset( $this->main_nav['name'] ) && bp_is_user() && bp_user_has_access() ) {
+			$count                  = bp_notifications_get_unread_notification_count( bp_displayed_user_id() );
+			$class                  = ( 0 === $count ) ? 'no-count' : 'count';
+			$this->main_nav['name'] = sprintf(
 				/* translators: %s: Unread notification count for the current user */
 				_x( 'Notifications %s', 'Profile screen nav', 'buddypress' ),
 				sprintf(
@@ -167,40 +211,7 @@ class BP_Notifications_Component extends BP_Component {
 					esc_html( $count )
 				)
 			);
-		} else {
-			$nav_name = _x( 'Notifications', 'Profile screen nav', 'buddypress' );
 		}
-
-		// Add 'Notifications' to the main navigation.
-		$main_nav = array(
-			'name'                    => $nav_name,
-			'slug'                    => $slug,
-			'position'                => 30,
-			'show_for_displayed_user' => $access,
-			'screen_function'         => 'bp_notifications_screen_unread',
-			'default_subnav_slug'     => 'unread',
-			'item_css_id'             => $this->id,
-		);
-
-		// Add the subnav items to the notifications nav item.
-		$sub_nav[] = array(
-			'name'            => _x( 'Unread', 'Notification screen nav', 'buddypress' ),
-			'slug'            => 'unread',
-			'parent_slug'     => $slug,
-			'screen_function' => 'bp_notifications_screen_unread',
-			'position'        => 10,
-			'item_css_id'     => 'notifications-my-notifications',
-			'user_has_access' => $access,
-		);
-
-		$sub_nav[] = array(
-			'name'            => _x( 'Read', 'Notification screen nav', 'buddypress' ),
-			'slug'            => 'read',
-			'parent_slug'     => $slug,
-			'screen_function' => 'bp_notifications_screen_read',
-			'position'        => 20,
-			'user_has_access' => $access,
-		);
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}

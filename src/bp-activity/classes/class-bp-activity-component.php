@@ -238,22 +238,16 @@ class BP_Activity_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up component navigation.
+	 * Register component navigation.
 	 *
-	 * @since 1.5.0
+	 * @since 12.0.0
 	 *
-	 * @see BP_Component::setup_nav() for a description of arguments.
+	 * @see `BP_Component::register_nav()` for a description of arguments.
 	 *
-	 * @param array $main_nav Optional. See BP_Component::setup_nav() for description.
-	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for description.
+	 * @param array $main_nav Optional. See `BP_Component::register_nav()` for description.
+	 * @param array $sub_nav  Optional. See `BP_Component::register_nav()` for description.
 	 */
-	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-
-		// Stop if there is no user displayed or logged in.
-		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
-			return;
-		}
-
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
 		$slug = bp_get_activity_slug();
 
 		// Add 'Activity' to the main navigation.
@@ -276,28 +270,26 @@ class BP_Activity_Component extends BP_Component {
 		);
 
 		// Check @mentions.
-		if ( bp_activity_do_mentions() ) {
-			$sub_nav[] = array(
-				'name'            => _x( 'Mentions', 'Profile activity screen sub nav', 'buddypress' ),
-				'slug'            => 'mentions',
-				'parent_slug'     => $slug,
-				'screen_function' => 'bp_activity_screen_mentions',
-				'position'        => 20,
-				'item_css_id'     => 'activity-mentions'
-			);
-		}
+		$sub_nav[] = array(
+			'name'            => _x( 'Mentions', 'Profile activity screen sub nav', 'buddypress' ),
+			'slug'            => 'mentions',
+			'parent_slug'     => $slug,
+			'screen_function' => 'bp_activity_screen_mentions',
+			'position'        => 20,
+			'item_css_id'     => 'activity-mentions',
+			'generate'        => bp_activity_do_mentions(),
+		);
 
 		// Favorite activity items.
-		if ( bp_activity_can_favorite() ) {
-			$sub_nav[] = array(
-				'name'            => _x( 'Favorites', 'Profile activity screen sub nav', 'buddypress' ),
-				'slug'            => 'favorites',
-				'parent_slug'     => $slug,
-				'screen_function' => 'bp_activity_screen_favorites',
-				'position'        => 30,
-				'item_css_id'     => 'activity-favs'
-			);
-		}
+		$sub_nav[] = array(
+			'name'            => _x( 'Favorites', 'Profile activity screen sub nav', 'buddypress' ),
+			'slug'            => 'favorites',
+			'parent_slug'     => $slug,
+			'screen_function' => 'bp_activity_screen_favorites',
+			'position'        => 30,
+			'item_css_id'     => 'activity-favs',
+			'generate'        => bp_activity_can_favorite(),
+		);
 
 		// Additional menu if friends is active.
 		if ( bp_is_active( 'friends' ) ) {
@@ -307,8 +299,8 @@ class BP_Activity_Component extends BP_Component {
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_activity_screen_friends',
 				'position'        => 40,
-				'item_css_id'     => 'activity-friends'
-			) ;
+				'item_css_id'     => 'activity-friends',
+			);
 		}
 
 		// Additional menu if groups is active.
@@ -323,7 +315,7 @@ class BP_Activity_Component extends BP_Component {
 			);
 		}
 
-		parent::setup_nav( $main_nav, $sub_nav );
+		parent::register_nav( $main_nav, $sub_nav );
 	}
 
 	/**

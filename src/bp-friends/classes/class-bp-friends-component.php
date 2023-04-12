@@ -148,43 +148,22 @@ class BP_Friends_Component extends BP_Component {
 	}
 
 	/**
-	 * Set up component navigation.
+	 * Register component navigation.
 	 *
-	 * @since 1.5.0
+	 * @since 12.0.0
 	 *
-	 * @see BP_Component::setup_nav() for a description of arguments.
+	 * @see `BP_Component::register_nav()` for a description of arguments.
 	 *
-	 * @param array $main_nav Optional. See BP_Component::setup_nav() for
+	 * @param array $main_nav Optional. See `BP_Component::register_nav()` for
 	 *                        description.
-	 * @param array $sub_nav  Optional. See BP_Component::setup_nav() for
+	 * @param array $sub_nav  Optional. See `BP_Component::register_nav()` for
 	 *                        description.
 	 */
-	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
-
-		// Stop if there is no user displayed or logged in.
-		if ( ! is_user_logged_in() && ! bp_displayed_user_id() ) {
-			return;
-		}
-
-		$access = bp_core_can_edit_settings();
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
 		$slug   = bp_get_friends_slug();
 
-		// Add 'Friends' to the main navigation.
-		$count = friends_get_total_friend_count();
-		$class = ( 0 === $count ) ? 'no-count' : 'count';
-
-		$main_nav_name = sprintf(
-			/* translators: %s: Friend count for the current user */
-			__( 'Friends %s', 'buddypress' ),
-			sprintf(
-				'<span class="%s">%s</span>',
-				esc_attr( $class ),
-				esc_html( $count )
-			)
-		);
-
 		$main_nav = array(
-			'name'                => $main_nav_name,
+			'name'                => __( 'Friends', 'buddypress' ),
 			'slug'                => $slug,
 			'position'            => 60,
 			'screen_function'     => 'friends_screen_my_friends',
@@ -203,13 +182,46 @@ class BP_Friends_Component extends BP_Component {
 		);
 
 		$sub_nav[] = array(
-			'name'            => _x( 'Requests', 'Friends screen sub nav', 'buddypress' ),
-			'slug'            => 'requests',
-			'parent_slug'     => $slug,
-			'screen_function' => 'friends_screen_requests',
-			'position'        => 20,
-			'user_has_access' => $access,
+			'name'                     => _x( 'Requests', 'Friends screen sub nav', 'buddypress' ),
+			'slug'                     => 'requests',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'friends_screen_requests',
+			'position'                 => 20,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
 		);
+
+		parent::register_nav( $main_nav, $sub_nav );
+	}
+
+	/**
+	 * Set up component navigation.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @see `BP_Component::setup_nav()` for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See `BP_Component::setup_nav()` for
+	 *                        description.
+	 * @param array $sub_nav  Optional. See `BP_Component::setup_nav()` for
+	 *                        description.
+	 */
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+		// Only grab count if we're on a user page.
+		if ( bp_is_user() && isset( $this->main_nav['name'] ) ) {
+			// Add 'Friends' to the main navigation.
+			$count                  = friends_get_total_friend_count();
+			$class                  = ( 0 === $count ) ? 'no-count' : 'count';
+			$this->main_nav['name'] = sprintf(
+				/* translators: %s: Friend count for the current user */
+				__( 'Friends %s', 'buddypress' ),
+				sprintf(
+					'<span class="%s">%s</span>',
+					esc_attr( $class ),
+					esc_html( $count )
+				)
+			);
+		}
 
 		parent::setup_nav( $main_nav, $sub_nav );
 	}
