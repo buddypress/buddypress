@@ -3809,10 +3809,11 @@ function bp_get_group_extension_screens( $context = 'read' ) {
  *
  * @since 12.0.0
  *
- * @param string $context The display context. Required. Defaults to `read`.
- * @return array          The list of potential Group screens.
+ * @param string  $context  The display context. Required. Defaults to `read`.
+ * @param boolean $built_in True to only get builtin screens. False otherwise.
+ * @return array            The list of potential Group screens.
  */
-function bp_get_group_screens( $context = 'read' ) {
+function bp_get_group_screens( $context = 'read', $built_in = false ) {
 	$screens = array(
 		'create' => array(
 			'group-details'     => array(
@@ -3979,6 +3980,11 @@ function bp_get_group_screens( $context = 'read' ) {
 		return array();
 	}
 
+	// We only need built-in screens, do not get custom ones.
+	if ( $built_in ) {
+		return $screens[ $context ];
+	}
+
 	$context_screens         = array();
 	$custom_screens          = apply_filters( 'bp_get_group_custom_' . $context . '_screens', $context_screens );
 	$group_extension_screens = bp_get_group_extension_screens( $context );
@@ -3989,7 +3995,7 @@ function bp_get_group_screens( $context = 'read' ) {
 
 	if ( $custom_screens && ! wp_is_numeric_array( $custom_screens ) ) {
 		// The screen key (used as default slug) and `rewrite_id` prop need to be unique.
-		$valid_custom_screens   = array_diff_key( $custom_screens, $screens[ $context ] );
+		$valid_custom_screens = array_diff_key( $custom_screens, $screens[ $context ] );
 		$existing_rewrite_ids = array_column( $screens[ $context ], 'rewrite_id' );
 		$existing_rewrite_ids = array_merge(
 			$existing_rewrite_ids,

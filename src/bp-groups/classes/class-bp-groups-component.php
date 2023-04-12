@@ -374,7 +374,7 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 		// Set default Group creation steps.
-		$group_creation_steps = bp_get_group_screens( 'create' );
+		$group_creation_steps = bp_get_group_screens( 'create', true );
 
 		// If avatar uploads are disabled, remove avatar view.
 		$disabled_avatar_uploads = (int) bp_disable_group_avatar_uploads();
@@ -653,7 +653,7 @@ class BP_Groups_Component extends BP_Component {
 			);
 
 			// Get the "read" screens.
-			$screens    = bp_get_group_screens( 'read' );
+			$screens    = bp_get_group_screens( 'read', true );
 			$group_link = bp_get_group_url( $this->current_group );
 			$sub_nav    = array();
 
@@ -714,7 +714,7 @@ class BP_Groups_Component extends BP_Component {
 			// If the user is a group admin, then show the group admin nav item.
 			if ( bp_is_item_admin() ) {
 				// Get the "manage" screens.
-				$manage_screens    = bp_get_group_screens( 'manage' );
+				$manage_screens    = bp_get_group_screens( 'manage', true );
 				$admin_link        = bp_get_group_url(
 					$this->current_group,
 					array(
