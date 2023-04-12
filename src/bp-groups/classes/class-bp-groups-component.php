@@ -38,15 +38,6 @@ class BP_Groups_Component extends BP_Component {
 	 * Default group extension.
 	 *
 	 * @since 1.6.0
-	 * @todo Is this used anywhere? Is this a duplicate of $default_extension?
-	 * @var string
-	 */
-	public $default_component;
-
-	/**
-	 * Default group extension.
-	 *
-	 * @since 1.6.0
 	 * @var string
 	 */
 	public $default_extension;
