@@ -3242,9 +3242,9 @@ function bp_group_form_action( $page, $group = false ) {
 			return '';
 		}
 
-		$views = bp_get_group_screens( 'read' );
-		if ( isset( $views[ $page ]['rewrite_id'] ) ) {
-			$page = bp_rewrites_get_slug( 'groups', $views[ $page ]['rewrite_id'], $page );
+		$screens = bp_get_group_screens( 'read' );
+		if ( isset( $screens[ $page ]['rewrite_id'] ) ) {
+			$page = bp_rewrites_get_slug( 'groups', $screens[ $page ]['rewrite_id'], $page );
 		}
 
 		$url = bp_get_group_url(
@@ -3302,9 +3302,9 @@ function bp_group_admin_form_action( $page = false, $group = false ) {
 			$page = bp_action_variable( 0 );
 		}
 
-		$views = bp_get_group_screens( 'manage' );
-		if ( isset( $views[ $page ]['rewrite_id'] ) ) {
-			$page = bp_rewrites_get_slug( 'groups', $views[ $page ]['rewrite_id'], $page );
+		$screens = bp_get_group_screens( 'manage' );
+		if ( isset( $screens[ $page ]['rewrite_id'] ) ) {
+			$page = bp_rewrites_get_slug( 'groups', $screens[ $page ]['rewrite_id'], $page );
 		}
 
 		$url = bp_get_group_url(

@@ -1277,6 +1277,25 @@ function groups_get_current_group() {
 	return apply_filters( 'groups_get_current_group', $current_group );
 }
 
+/**
+ * Can the current user access to the current group?
+ *
+ * @since 12.0.0
+ *
+ * @return boolean True if the current user can access to the current group.
+ *                 False otherwise.
+ */
+function bp_groups_user_can_access_current_group() {
+	$can_access = false;
+
+	$current_group = groups_get_current_group();
+	if ( isset( $current_group->user_has_access ) ) {
+		$can_access = $current_group->user_has_access;
+	}
+
+	return $can_access;
+}
+
 /** Group Avatars *************************************************************/
 
 /**
@@ -3790,10 +3809,11 @@ function bp_get_group_extension_screens( $context = 'read' ) {
  *
  * @since 12.0.0
  *
- * @param string $context The display context. Required. Defaults to `read`.
- * @return array          The list of potential Group screens.
+ * @param string  $context  The display context. Required. Defaults to `read`.
+ * @param boolean $built_in True to only get builtin screens. False otherwise.
+ * @return array            The list of potential Group screens.
  */
-function bp_get_group_screens( $context = 'read' ) {
+function bp_get_group_screens( $context = 'read', $built_in = false ) {
 	$screens = array(
 		'create' => array(
 			'group-details'     => array(
@@ -3836,16 +3856,6 @@ function bp_get_group_screens( $context = 'read' ) {
 				'position'        => 10,
 				'item_css_id'     => 'home',
 			),
-			'activity'            => array(
-				'rewrite_id'      => 'bp_group_read_activity',
-				'slug'            => 'activity',
-				'name'            => _x( 'Activity', 'Group read screen', 'buddypress' ),
-				'screen_function' => 'groups_screen_group_activity',
-				'position'        => 11,
-				'user_has_access' => false,
-				'no_access_url'   => '',
-				'item_css_id'     => 'activity',
-			),
 			'request-membership' => array(
 				'rewrite_id'      => 'bp_group_read_request_membership',
 				'slug'            => 'request-membership',
@@ -3853,36 +3863,50 @@ function bp_get_group_screens( $context = 'read' ) {
 				'screen_function' => 'groups_screen_group_request_membership',
 				'position'        => 30,
 			),
+			'activity'           => array(
+				'rewrite_id'               => 'bp_group_read_activity',
+				'slug'                     => 'activity',
+				'name'                     => _x( 'Activity', 'Group read screen', 'buddypress' ),
+				'screen_function'          => 'groups_screen_group_activity',
+				'position'                 => 11,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_groups_user_can_access_current_group',
+				'no_access_url'            => '',
+				'item_css_id'              => 'activity',
+			),
 			'members'            => array(
-				'rewrite_id'      => 'bp_group_read_members',
-				'slug'            => 'members',
+				'rewrite_id'               => 'bp_group_read_members',
+				'slug'                     => 'members',
 				/* translators: %s: total member count */
-				'name'            => _x( 'Members %s', 'Group read screen', 'buddypress' ),
-				'screen_function' => 'groups_screen_group_members',
-				'position'        => 60,
-				'user_has_access' => false,
-				'no_access_url'   => '',
-				'item_css_id'     => 'members',
+				'name'                     => _x( 'Members %s', 'Group read screen', 'buddypress' ),
+				'screen_function'          => 'groups_screen_group_members',
+				'position'                 => 60,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_groups_user_can_access_current_group',
+				'no_access_url'            => '',
+				'item_css_id'              => 'members',
 			),
 			'send-invites'       => array(
-				'rewrite_id'      => 'bp_group_read_send_invites',
-				'slug'            => 'send-invites',
-				'name'            => _x( 'Send Invites', 'Group read screen', 'buddypress' ),
-				'screen_function' => 'groups_screen_group_invite',
-				'position'        => 70,
-				'user_has_access' => false,
-				'no_access_url'   => '',
-				'item_css_id'     => 'invite',
+				'rewrite_id'               => 'bp_group_read_send_invites',
+				'slug'                     => 'send-invites',
+				'name'                     => _x( 'Send Invites', 'Group read screen', 'buddypress' ),
+				'screen_function'          => 'groups_screen_group_invite',
+				'position'                 => 70,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_groups_user_can_send_invites',
+				'no_access_url'            => '',
+				'item_css_id'              => 'invite',
 			),
 			'admin'              => array(
-				'rewrite_id'      => 'bp_group_read_admin',
-				'slug'            => 'admin',
-				'name'            => _x( 'Manage', 'Group read screen', 'buddypress' ),
-				'screen_function' => 'groups_screen_group_admin',
-				'position'        => 1000,
-				'user_has_access' => false,
-				'no_access_url'   => '',
-				'item_css_id'     => 'admin',
+				'rewrite_id'               => 'bp_group_read_admin',
+				'slug'                     => 'admin',
+				'name'                     => _x( 'Manage', 'Group read screen', 'buddypress' ),
+				'screen_function'          => 'groups_screen_group_admin',
+				'position'                 => 1000,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_is_item_admin',
+				'no_access_url'            => '',
+				'item_css_id'              => 'admin',
 			),
 		),
 		'manage' => array(
@@ -3956,6 +3980,11 @@ function bp_get_group_screens( $context = 'read' ) {
 		return array();
 	}
 
+	// We only need built-in screens, do not get custom ones.
+	if ( $built_in ) {
+		return $screens[ $context ];
+	}
+
 	$context_screens         = array();
 	$custom_screens          = apply_filters( 'bp_get_group_custom_' . $context . '_screens', $context_screens );
 	$group_extension_screens = bp_get_group_extension_screens( $context );
@@ -3966,7 +3995,7 @@ function bp_get_group_screens( $context = 'read' ) {
 
 	if ( $custom_screens && ! wp_is_numeric_array( $custom_screens ) ) {
 		// The screen key (used as default slug) and `rewrite_id` prop need to be unique.
-		$valid_custom_screens   = array_diff_key( $custom_screens, $screens[ $context ] );
+		$valid_custom_screens = array_diff_key( $custom_screens, $screens[ $context ] );
 		$existing_rewrite_ids = array_column( $screens[ $context ], 'rewrite_id' );
 		$existing_rewrite_ids = array_merge(
 			$existing_rewrite_ids,
