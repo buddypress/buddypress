@@ -333,8 +333,8 @@ function bp_core_get_userid_from_nicename( $user_nicename = '' ) {
  * @return string The member slug.
  */
 function bp_members_get_user_slug( $user_id = 0 ) {
-	$bp  = buddypress();
-	$lug = '';
+	$bp   = buddypress();
+	$slug = '';
 
 	$prop = 'user_nicename';
 	if ( bp_is_username_compatibility_mode() ) {
