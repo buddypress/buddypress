@@ -3,7 +3,7 @@
  * Groups classes
  *
  * @since 3.0.0
- * @version 7.0.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -168,6 +168,14 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
  * @since 3.0.0
  */
 class BP_Nouveau_Customizer_Group_Nav extends BP_Core_Nav {
+	/**
+	 * The group being requested.
+	 *
+	 * @since 3.0.0
+	 * @var BP_Groups_Group
+	 */
+	public $group = null;
+
 	/**
 	 * Constructor
 	 *
