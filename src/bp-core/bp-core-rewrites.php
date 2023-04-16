@@ -67,17 +67,38 @@ function bp_has_pretty_urls() {
 }
 
 /**
- * Returns the slug to use for the view belonging to the requested component.
+ * Returns the slug to use for the screen belonging to the requested component.
  *
  * @since 12.0.0
  *
  * @param string $component_id The BuddyPress component's ID.
- * @param string $rewrite_id   The view rewrite ID, used to find the custom slugs.
+ * @param string $rewrite_id   The screen rewrite ID, used to find the custom slugs.
  *                             Eg: `member_profile_edit` will try to find the xProfile edit's slug.
- * @param string $default_slug The view default slug, used as a fallback.
- * @return string The slug to use for the view belonging to the requested component.
+ * @param string $default_slug The screen default slug, used as a fallback.
+ * @return string The slug to use for the screen belonging to the requested component.
  */
 function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_slug = '' ) {
+	/**
+	 * This filter is used by the BP Classic plugin to force `$default_slug` usage.
+	 *
+	 * Using the "Classic" BuddyPress means deprecated functions building URL concatening
+	 * URL chunks are available, we cannot use the BP Rewrites API in this case & as a result
+	 * slug customization is bypassed.
+	 *
+	 * The BP Classic plugin is simply returning the `$default_slug` to bypass slug customization.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $value        An empty string to use as to know whether slug customization should be used.
+	 * @param string $default_slug The screen default slug, used as a fallback.
+	 * @param string $rewrite_id   The screen rewrite ID, used to find the custom slugs.
+	 * @param string $component_id The BuddyPress component's ID.
+	 */
+	$classic_slug = apply_filters( 'bp_rewrites_pre_get_slug', '', $default_slug, $rewrite_id, $component_id );
+	if ( $classic_slug ) {
+		return $classic_slug;
+	}
+
 	$directory_pages = bp_core_get_directory_pages();
 	$slug            = $default_slug;
 
