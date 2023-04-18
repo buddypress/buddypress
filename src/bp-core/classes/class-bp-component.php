@@ -577,7 +577,14 @@ class BP_Component {
 		add_action( 'bp_add_permastructs',       array( $this, 'add_permastructs'       ), 10 );
 
 		// Allow components to parse the main query.
-		add_action( 'bp_parse_query',            array( $this, 'parse_query'            ), 10 );
+		if ( ! bp_has_pretty_urls() ) {
+			/**
+			 * Only fire this hook when pretty links are disabled.
+			 *
+			 * @todo Remove once BP Rewrites merge process is ended.
+			 */
+			add_action( 'bp_parse_query',  array( $this, 'parse_query' ), 10 );
+		}
 
 		// Generate rewrite rules.
 		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
