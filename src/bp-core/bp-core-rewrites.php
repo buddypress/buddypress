@@ -118,6 +118,41 @@ function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_sl
 }
 
 /**
+ * Returns the rewrite ID of a customized slug.
+ *
+ * @since 12.0.0
+ *
+ * @param string $component_id The component ID (eg: `activity` for the BP Activity component).
+ * @param string $slug         The customized slug.
+ * @param string $context      The context for the customized slug, useful when the same slug is used
+ *                             for more than one rewrite ID of the same component.
+ * @return string              The rewrite ID matching the customized slug.
+ */
+function bp_rewrites_get_custom_slug_rewrite_id( $component_id = '', $slug = '', $context = '' ) {
+	$directory_pages = bp_core_get_directory_pages();
+
+	if ( ! isset( $directory_pages->{$component_id}->custom_slugs ) || ! $slug ) {
+		return null;
+	}
+
+	$custom_slugs = (array) $directory_pages->{$component_id}->custom_slugs;
+	$rewrite_ids  = array_keys( $custom_slugs, $slug, true );
+
+	if ( 1 < count( $rewrite_ids ) && isset( $context ) && $context ) {
+		foreach ( $rewrite_ids as $rewrite_id_key => $rewrite_id ) {
+			if ( false !== strpos( $rewrite_id, $context ) ) {
+				continue;
+			}
+
+			unset( $rewrite_ids[ $rewrite_id_key ] );
+		}
+	}
+
+	// Always return the first match.
+	return reset( $rewrite_ids );
+}
+
+/**
  * Builds a BuddyPress link using the WP Rewrite API.
  *
  * @since 12.0.0
@@ -282,4 +317,34 @@ function bp_rewrites_get_root_url() {
 	 * @param string $url The BP root site URL.
 	 */
 	return apply_filters( 'bp_rewrites_get_root_url', $url );
+}
+
+/**
+ * Get needed data to find a member single item from the requested URL.
+ *
+ * @since 12.0.0
+ *
+ * @param string $request The request used during parsing.
+ * @return array          Data to use to find a member single item from the request.
+ */
+function bp_rewrites_get_member_data( $request = '' ) {
+	$member_data = array( 'field' => 'slug' );
+
+	if ( bp_is_username_compatibility_mode() ) {
+		$member_data = array( 'field' => 'login' );
+	}
+
+	if ( bp_core_enable_root_profiles() ) {
+		if ( ! $request ) {
+			$request = $GLOBALS['wp']->request;
+		}
+
+		$request_chunks = explode( '/', ltrim( $request, '/' ) );
+		$member_chunk   = reset( $request_chunks );
+
+		// Try to get an existing member to eventually reset the WP Query.
+		$member_data['object'] = get_user_by( $member_data['field'], $member_chunk );
+	}
+
+	return $member_data;
 }

@@ -758,6 +758,192 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
+	 * Parse the WP_Query and eventually display the component's directory or single item.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param WP_Query $query Required. See BP_Component::parse_query() for
+	 *                        description.
+	 */
+	public function parse_query( $query ) {
+		// Init the current member and member type.
+		$member      = false;
+		$member_type = false;
+		$member_data = bp_rewrites_get_member_data();
+
+		if ( isset( $member_data['object'] ) && $member_data['object'] ) {
+			bp_reset_query( trailingslashit( $this->root_slug ) . $GLOBALS['wp']->request, $query );
+			$member = $member_data['object'];
+
+			// Make sure the Member's screen is fired.
+			add_action( 'bp_screens', 'bp_members_screen_display_profile', 3 );
+		}
+
+		if ( bp_is_directory_homepage( $this->id ) ) {
+			$query->set( $this->rewrite_ids['directory'], 1 );
+		}
+
+		// Which component are we displaying?
+		$is_members_component  = 1 === (int) $query->get( $this->rewrite_ids['directory'] );
+		$is_register_component = 1 === (int) $query->get( $this->rewrite_ids['member_register'] );
+		$is_activate_component = 1 === (int) $query->get( $this->rewrite_ids['member_activate'] );
+
+		// Get BuddyPress main instance.
+		$bp = buddypress();
+
+		if ( $is_members_component ) {
+			$bp->current_component = 'members';
+			$member_slug           = $query->get( $this->rewrite_ids['single_item'] );
+			$member_type_slug      = $query->get( $this->rewrite_ids['directory_type'] );
+
+			if ( $member_slug ) {
+				/**
+				 * Filter the portion of the URI that is the displayed user's slug.
+				 *
+				 * Eg. example.com/ADMIN (when root profiles is enabled)
+				 *     example.com/members/ADMIN (when root profiles isn't enabled)
+				 *
+				 * ADMIN would be the displayed user's slug.
+				 *
+				 * @since 2.6.0
+				 *
+				 * @param string $member_slug
+				 */
+				$member_slug           = apply_filters( 'bp_core_set_uri_globals_member_slug', $member_slug );
+				$bp->current_component = '';
+
+				// Unless root profiles are on, the member shouldn't be set yet.
+				if ( ! $member ) {
+					$member = get_user_by( $member_data['field'], $member_slug );
+
+					if ( ! $member ) {
+						bp_do_404();
+						return;
+					}
+				}
+
+				// If the member is marked as a spammer, 404 (unless logged-in user is a super admin).
+				if ( bp_is_user_spammer( $member->ID ) ) {
+					if ( bp_current_user_can( 'bp_moderate' ) ) {
+						bp_core_add_message( __( 'This user has been marked as a spammer. Only site admins can view this profile.', 'bp-rewrites' ), 'warning' );
+					} else {
+						bp_do_404();
+						return;
+					}
+				}
+
+				// Set the displayed user and the current item.
+				$bp->displayed_user->id = $member->ID;
+				$bp->current_item       = $member_slug;
+
+				// The core userdata of the user who is currently being displayed.
+				if ( ! isset( $bp->displayed_user->userdata ) || ! $bp->displayed_user->userdata ) {
+					$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
+				}
+
+				// Fetch the full name displayed user.
+				if ( ! isset( $bp->displayed_user->fullname ) || ! $bp->displayed_user->fullname ) {
+					$bp->displayed_user->fullname = '';
+					if ( isset( $bp->displayed_user->userdata->display_name ) ) {
+						$bp->displayed_user->fullname = $bp->displayed_user->userdata->display_name;
+					}
+				}
+
+				// The domain for the user currently being displayed.
+				if ( ! isset( $bp->displayed_user->domain ) || ! $bp->displayed_user->domain ) {
+					$bp->displayed_user->domain = bp_members_get_user_url( bp_displayed_user_id() );
+				}
+
+				// If A user is displayed, check if there is a front template.
+				if ( bp_get_displayed_user() ) {
+					$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
+				}
+
+				$member_component = $query->get( $this->rewrite_ids['single_item_component'] );
+				if ( $member_component ) {
+					// Check if the member's component slug has been customized.
+					$item_component_rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'members', $member_component );
+					if ( $item_component_rewrite_id ) {
+						$member_component = str_replace( 'bp_member_', '', $item_component_rewrite_id );
+					}
+
+					$bp->current_component = $member_component;
+				}
+
+				$current_action = $query->get( $this->rewrite_ids['single_item_action'] );
+				if ( $current_action ) {
+					$context = sprintf( 'bp_member_%s_', $bp->current_component );
+
+					// Check if the member's component action slug has been customized.
+					$item_component_action_rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'members', $current_action, $context );
+					if ( $item_component_action_rewrite_id ) {
+						$custom_action_slug = str_replace( $context, '', $item_component_action_rewrite_id );
+
+						// Make sure the action is stored as a slug: underscores need to be replaced by dashes.
+						$current_action = str_replace( '_', '-', $custom_action_slug );
+					}
+
+					$bp->current_action = $current_action;
+				}
+
+				$action_variables = $query->get( $this->rewrite_ids['single_item_action_variables'] );
+				if ( $action_variables ) {
+					if ( ! is_array( $action_variables ) ) {
+						$bp->action_variables = explode( '/', ltrim( $action_variables, '/' ) );
+					} else {
+						$bp->action_variables = $action_variables;
+					}
+				}
+
+				// Is this a member type query?
+			} elseif ( $member_type_slug ) {
+				$member_type = bp_get_member_types(
+					array(
+						'has_directory'  => true,
+						'directory_slug' => $member_type_slug,
+					)
+				);
+
+				if ( $member_type ) {
+					$member_type             = reset( $member_type );
+					$bp->current_member_type = $member_type;
+				} else {
+					$bp->current_component = '';
+					bp_do_404();
+					return;
+				}
+			}
+
+			// Set the BuddyPress queried object.
+			if ( isset( $bp->pages->members->id ) ) {
+				$query->queried_object    = get_post( $bp->pages->members->id );
+				$query->queried_object_id = $query->queried_object->ID;
+
+				if ( $member ) {
+					$query->queried_object->single_item_name = $member->display_name;
+				} elseif ( $member_type ) {
+					$query->queried_object->directory_type_name = $member_type;
+				}
+			}
+
+			// Handle the custom registration page.
+		} elseif ( $is_register_component ) {
+			$bp->current_component = 'register';
+
+			// Handle the custom activation page.
+		} elseif ( $is_activate_component ) {
+			$bp->current_component = 'activate';
+
+			$current_action = $query->get( $this->rewrite_ids['member_activate_key'] );
+			if ( $current_action ) {
+				$bp->current_action = $current_action;
+			}
+		}
+
+		parent::parse_query( $query );
+	}
+
+	/**
 	 * Init the BP REST API.
 	 *
 	 * @since 5.0.0
