@@ -497,6 +497,49 @@ class BP_Activity_Component extends BP_Component {
 	}
 
 	/**
+	 * Parse the WP_Query and eventually display the component's directory or single item.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param WP_Query $query Required. See BP_Component::parse_query() for
+	 *                        description.
+	 */
+	public function parse_query( $query ) {
+		if ( bp_is_directory_homepage( $this->id ) ) {
+			$query->set( $this->rewrite_ids['directory'], 1 );
+		}
+
+		if ( 1 === (int) $query->get( $this->rewrite_ids['directory'] ) ) {
+			$bp = buddypress();
+
+			// Set the Activity component as current.
+			$bp->current_component = 'activity';
+
+			$current_action = $query->get( $this->rewrite_ids['single_item_action'] );
+			if ( $current_action ) {
+				$bp->current_action = $current_action;
+			}
+
+			$action_variables = $query->get( $this->rewrite_ids['single_item_action_variables'] );
+			if ( $action_variables ) {
+				if ( ! is_array( $action_variables ) ) {
+					$bp->action_variables = explode( '/', ltrim( $action_variables, '/' ) );
+				} else {
+					$bp->action_variables = $action_variables;
+				}
+			}
+
+			// Set the BuddyPress queried object.
+			if ( isset( $bp->pages->activity->id ) ) {
+				$query->queried_object    = get_post( $bp->pages->activity->id );
+				$query->queried_object_id = $query->queried_object->ID;
+			}
+		}
+
+		parent::parse_query( $query );
+	}
+
+	/**
 	 * Init the BP REST API.
 	 *
 	 * @since 5.0.0

@@ -578,6 +578,49 @@ function bp_parse_query( $posts_query ) {
 }
 
 /**
+ * Resets the query to fit our permalink structure if needed.
+ *
+ * This is used for specific cases such as Root Member's profile.
+ *
+ * @since 12.0.0
+ *
+ * @param string   $bp_request A specific BuddyPress request.
+ * @param WP_Query $query The WordPress query object.
+ * @return true
+ */
+function bp_reset_query( $bp_request = '', WP_Query $query = null ) {
+	global $wp;
+
+	// Get BuddyPress main instance.
+	$bp = buddypress();
+
+	// Back up request uri.
+	$reset_server_request_uri = '';
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+		$reset_server_request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+	}
+
+	// Temporarly override the request uri.
+	if ( isset( $wp->request ) ) {
+		$_SERVER['REQUEST_URI'] = str_replace( $wp->request, $bp_request, $reset_server_request_uri );
+
+		// Reparse request.
+		$wp->parse_request();
+
+		// Reparse query.
+		bp_remove_all_filters( 'parse_query' );
+		$query->parse_query( $wp->query_vars );
+		bp_restore_all_filters( 'parse_query' );
+	}
+
+	// Restore request uri.
+	$_SERVER['REQUEST_URI'] = $reset_server_request_uri;
+
+	// The query is reset.
+	return true;
+}
+
+/**
  * Possibly intercept the template being loaded.
  *
  * Listens to the 'template_include' filter and waits for any BuddyPress specific

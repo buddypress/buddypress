@@ -204,7 +204,6 @@ function bp_core_add_admin_notice( $notice = '', $type = 'updated' ) {
  * Verify that some BP prerequisites are set up properly, and notify the admin if not.
  *
  * On every Dashboard page, this function checks the following:
- *   - that pretty permalinks are enabled.
  *   - that every BP component that needs a WP page for a directory has one.
  *   - that no WP page has multiple BP components associated with it.
  * The administrator will be shown a notice for each check that fails.
@@ -249,18 +248,6 @@ function bp_core_activation_notice() {
 		if ( empty( $count ) ) {
 			bp_blogs_record_existing_blogs();
 		}
-	}
-
-	// Add notice if no rewrite rules are enabled.
-	if ( empty( $wp_rewrite->permalink_structure ) ) {
-		bp_core_add_admin_notice(
-			sprintf(
-				// Translators: %s is the url to the permalink settings.
-				__( '<strong>BuddyPress is almost ready</strong>. You must <a href="%s">update your permalink structure</a> to something other than the default for it to work.', 'buddypress' ),
-				admin_url( 'options-permalink.php' )
-			),
-			'error'
-		);
 	}
 
 	// Get BuddyPress instance.

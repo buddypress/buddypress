@@ -957,6 +957,28 @@ function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post
 add_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10, 6 );
 
 /**
+ * Checks if a component's directory is set as the site's homepage.
+ *
+ * @since 12.0.0
+ *
+ * @param string   $component The component ID.
+ * @return boolean            True if a component's directory is set as the site's homepage.
+ *                            False otherwise.
+ */
+function bp_is_directory_homepage( $component = '' ) {
+	$is_directory_homepage = false;
+	$is_page_on_front      = 'page' === get_option( 'show_on_front', 'posts' );
+	$page_id_on_front      = get_option( 'page_on_front', 0 );
+	$directory_pages       = bp_core_get_directory_pages();
+
+	if ( $is_page_on_front && isset( $directory_pages->{$component} ) && (int) $page_id_on_front === (int) $directory_pages->{$component}->id ) {
+		$is_directory_homepage = true;
+	}
+
+	return $is_directory_homepage;
+}
+
+/**
  * Remove the entry from bp_pages when the corresponding WP page is deleted.
  *
  * Bails early on multisite installations when not viewing the root site.
