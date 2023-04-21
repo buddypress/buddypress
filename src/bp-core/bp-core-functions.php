@@ -142,27 +142,24 @@ function bp_is_running_wp( $version, $compare = '>=' ) {
 /** Functions *****************************************************************/
 
 /**
- * Get the hook to attach key BP actions to according to the parser in use.
+ * Get the BuddyPress parser in use.
  *
  * @since 12.0.0
+ *
+ * @return string The name of the parser in use.
  */
-function bp_core_get_key_actions_hook() {
+function bp_core_get_query_parser() {
 	/**
 	 * Which parser is in use? `rewrites` or `legacy`?
+	 *
+	 * @todo Remove the Pretty URLs check used during BP Rewrites merge process.
 	 *
 	 * @since 12.0.0
 	 *
 	 * @param string $parser The parser to use to decide the hook to attach key actions to.
 	 *                       Possible values are `rewrites` or `legacy`.
 	 */
-	$parser = apply_filters( 'bp_core_setup_query_parser', 'legacy' );
-	$hook   = 'bp_parse_query';
-
-	if ( 'legacy' === $parser ) {
-		$hook = 'bp_init';
-	}
-
-	return $hook;
+	return apply_filters( 'bp_core_get_query_parser', bp_has_pretty_urls() ? 'legacy' : 'rewrites' );
 }
 
 /**

@@ -87,7 +87,12 @@ add_action( 'bp_init', 'bp_add_permastructs',        40 );
  * @since 12.0.0
  */
 function bp_core_setup_query_parser() {
-	$hook        = bp_core_get_key_actions_hook();
+	$parser = bp_core_get_query_parser();
+	$hook   = 'bp_parse_query';
+	if ( 'legacy' === $parser ) {
+		$hook = 'bp_init';
+	}
+
 	$key_actions = array(
 		'bp_setup_canonical_stack'            => 11,
 		'bp_setup_nav'                        => 12,

@@ -7,6 +7,7 @@
 class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	protected $old_current_user = 0;
 	protected $u;
+	protected $permalink_structure = '';
 
 	public function set_up() {
 		parent::set_up();
@@ -20,15 +21,18 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 		) );
 		$this->u = new WP_User( $uid );
 		$this->set_current_user( $uid );
+		$this->permalink_structure = get_option( 'permalink_structure', '' );
 	}
 
 	public function tear_down() {
 		parent::tear_down();
 		$this->set_current_user( $this->old_current_user );
+		$this->set_permalink_structure( $this->permalink_structure );
 		remove_filter( 'bp_core_enable_root_profiles', '__return_true' );
 	}
 
 	public function test_members_directory() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to( home_url( bp_get_members_root_slug() ) );
 
 		$pages        = bp_core_get_directory_pages();
@@ -38,6 +42,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	}
 
 	public function test_member_permalink() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$domain = home_url( $this->u->user_nicename );
 		$this->go_to( $domain );
 
@@ -50,6 +55,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	 * @ticket BP6475
 	 */
 	public function test_member_permalink_when_members_page_is_nested_under_wp_page() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$p = self::factory()->post->create( array(
 			'post_type' => 'page',
 			'post_name' => 'foo',
@@ -70,6 +76,7 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	}
 
 	public function test_member_activity_page() {
+		$this->set_permalink_structure( '/%postname%/' );
 		$url = home_url( $this->u->user_nicename ) . '/' . bp_get_activity_slug();
 		$this->go_to( $url );
 

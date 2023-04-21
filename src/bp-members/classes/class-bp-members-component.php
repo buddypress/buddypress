@@ -858,9 +858,12 @@ class BP_Members_Component extends BP_Component {
 					$bp->displayed_user->domain = bp_members_get_user_url( bp_displayed_user_id() );
 				}
 
-				// If A user is displayed, check if there is a front template.
+				// If a user is displayed, check if there is a front template and reset navigation.
 				if ( bp_get_displayed_user() ) {
 					$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
+
+					// Reset the nav for the members component.
+					$this->nav = new BP_Core_Nav();
 				}
 
 				$member_component = $query->get( $this->rewrite_ids['single_item_component'] );
