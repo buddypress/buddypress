@@ -71,16 +71,59 @@ add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
 add_action( 'bp_init', 'bp_register_post_types',     2  );
 add_action( 'bp_init', 'bp_register_post_statuses',  2  );
 add_action( 'bp_init', 'bp_register_taxonomies',     2  );
-add_action( 'bp_init', 'bp_core_set_uri_globals',    2  );
 add_action( 'bp_init', 'bp_setup_globals',           4  );
-add_action( 'bp_init', 'bp_setup_canonical_stack',   5  );
-add_action( 'bp_init', 'bp_setup_nav',               6  );
-add_action( 'bp_init', 'bp_setup_title',             8  );
 add_action( 'bp_init', 'bp_blocks_init',             10 );
 add_action( 'bp_init', 'bp_core_load_admin_bar_css', 12 );
 add_action( 'bp_init', 'bp_add_rewrite_tags',        20 );
 add_action( 'bp_init', 'bp_add_rewrite_rules',       30 );
 add_action( 'bp_init', 'bp_add_permastructs',        40 );
+
+/**
+ * Adats BuddyPress key actions starting point according to the request parser in use.
+ *
+ * The legacy request parser needs key actions to hook at `bp_init`, while the BP Rewrites API
+ * needs key actions to hook at `bp_parse_query`.
+ *
+ * @since 12.0.0
+ */
+function bp_core_setup_query_parser() {
+	$hook        = bp_core_get_key_actions_hook();
+	$key_actions = array(
+		'bp_setup_canonical_stack'            => 11,
+		'bp_setup_nav'                        => 12,
+		'bp_core_action_search_site'          => 13,
+		'bp_setup_title'                      => 14,
+		'_bp_maybe_remove_redirect_canonical' => 20,
+		'bp_remove_adjacent_posts_rel_link'   => 20,
+	);
+
+	if ( 'bp_init' === $hook ) {
+		$key_actions['bp_setup_canonical_stack']            = 5;
+		$key_actions['bp_setup_nav']                        = 6;
+		$key_actions['bp_core_action_search_site']          = 7;
+		$key_actions['bp_setup_title']                      = 8;
+		$key_actions['_bp_maybe_remove_redirect_canonical'] = 10;
+		$key_actions['bp_remove_adjacent_posts_rel_link']   = 10;
+
+		/**
+		 *
+		 * @todo This code should be moved to BP Classic.
+		 *
+		 */
+		add_action( $hook, 'bp_core_set_uri_globals', 2 );
+	}
+
+	foreach ( $key_actions as $action => $priority ) {
+		$arguments = 1;
+
+		if ( 'bp_core_action_search_site' === $action ) {
+			$arguments = 0;
+		}
+
+		add_action( $hook, $action, $priority, $arguments );
+	}
+}
+add_action( 'bp_init', 'bp_core_setup_query_parser', 1 );
 
 /**
  * The bp_register_taxonomies hooks - Attached to 'bp_init' @ priority 2 above.

@@ -210,7 +210,7 @@ function bp_rewrites_get_url( $args = array() ) {
 				$qv[ $rewrite_id ] = $r[ $key ];
 			}
 
-			$url = add_query_arg( $qv, $url );
+			$url = add_query_arg( $qv, trailingslashit( $url ) );
 
 			// Using pretty URLs.
 		} else {

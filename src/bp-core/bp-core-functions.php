@@ -142,6 +142,30 @@ function bp_is_running_wp( $version, $compare = '>=' ) {
 /** Functions *****************************************************************/
 
 /**
+ * Get the hook to attach key BP actions to according to the parser in use.
+ *
+ * @since 12.0.0
+ */
+function bp_core_get_key_actions_hook() {
+	/**
+	 * Which parser is in use? `rewrites` or `legacy`?
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $parser The parser to use to decide the hook to attach key actions to.
+	 *                       Possible values are `rewrites` or `legacy`.
+	 */
+	$parser = apply_filters( 'bp_core_setup_query_parser', 'legacy' );
+	$hook   = 'bp_parse_query';
+
+	if ( 'legacy' === $parser ) {
+		$hook = 'bp_init';
+	}
+
+	return $hook;
+}
+
+/**
  * Get the $wpdb base prefix, run through the 'bp_core_get_table_prefix' filter.
  *
  * The filter is intended primarily for use in multinetwork installations.
@@ -2587,7 +2611,6 @@ function bp_core_action_search_site( $slug = '' ) {
 	 */
 	bp_core_redirect( apply_filters( 'bp_core_search_site', home_url( $slug . $query_string . urlencode( $search_terms ) ), $search_terms ) );
 }
-add_action( 'bp_parse_query', 'bp_core_action_search_site', 13, 0 );
 
 /**
  * Remove "prev" and "next" relational links from <head> on BuddyPress pages.
@@ -2606,7 +2629,6 @@ function bp_remove_adjacent_posts_rel_link() {
 
 	remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10 );
 }
-add_action( 'bp_init', 'bp_remove_adjacent_posts_rel_link' );
 
 /**
  * Strip the span count of a menu item or of a title part.
