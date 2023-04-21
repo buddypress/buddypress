@@ -14,62 +14,6 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Get a specific BuddyPress URI segment based on the current URI.
- *
- * You shouldn't really have to use this function unless you need to find a BP
- * URI segment earlier than the `'bp_parse_query'` action.
- *
- * @since 1.0.0
- *
- * @param array $bp_global An array containing the BuddyPress global name. Required.
- * @return string The global value if found. False otherwise.
- */
-function bp_core_get_unfiltered_uri() {
-	// Don't do this on non-root blogs unless multiblog mode is on.
-	if ( ! bp_is_root_blog() && ! bp_is_multiblog_mode() ) {
-		return '';
-	}
-
-	$bp = buddypress();
-
-	// Get existing BuddyPress URI if already calculated.
-	if ( isset( $bp->unfiltered_uri ) && $bp->unfiltered_uri ) {
-		$bp_uri = $bp->unfiltered_uri;
-
-		// calculate the BuddyPress URI.
-	} elseif ( isset( $_SERVER['REQUEST_URI'] ) ) {
-		$requested_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-
-		/**
-		 * Filters the BuddyPress global URI path.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $path Path to set.
-		 */
-		$path = apply_filters( 'bp_uri', $requested_uri );
-
-		// Get the regular site path.
-		$site_path = trim( bp_core_get_site_path(), '/' );
-
-		// Get the multisite subdirectory install site path.
-		if ( is_multisite() && ! is_subdomain_install() ) {
-			$current_blog = get_site();
-			$site_path    = trim( $current_blog->path, '/' );
-		}
-
-		// strip site path from URI.
-		$path   = str_replace( $site_path, '', $path );
-		$bp_uri = explode( '/', trim( wp_parse_url( $path, PHP_URL_PATH ), '/' ) );
-
-		// save for later.
-		$bp->unfiltered_uri = $bp_uri;
-	}
-
-	return $bp_uri;
-}
-
-/**
  * Analyze the URI and break it down into BuddyPress-usable chunks.
  *
  * BuddyPress can use complete custom friendly URIs without the user having to

@@ -79,7 +79,7 @@ add_action( 'bp_init', 'bp_add_rewrite_rules',       30 );
 add_action( 'bp_init', 'bp_add_permastructs',        40 );
 
 /**
- * Adats BuddyPress key actions starting point according to the request parser in use.
+ * Adapt BuddyPress key actions starting point according to the request parser in use.
  *
  * The legacy request parser needs key actions to hook at `bp_init`, while the BP Rewrites API
  * needs key actions to hook at `bp_parse_query`.
