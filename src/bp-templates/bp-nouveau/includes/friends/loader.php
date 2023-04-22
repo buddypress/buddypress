@@ -3,7 +3,7 @@
  * BP Nouveau Friends
  *
  * @since 3.0.0
- * @version 6.1.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -68,6 +68,8 @@ class BP_Nouveau_Friends {
 
 		// Register the friends Notifications filters
 		add_action( 'bp_nouveau_notifications_init_filters', array( $this, 'notification_filters' ) );
+
+		add_action( 'bp_init', array( $this, 'register_ajax_actions' ) );
 	}
 
 	/**
@@ -115,6 +117,19 @@ class BP_Nouveau_Friends {
 
 		foreach ( $notifications as $notification ) {
 			bp_nouveau_notifications_register_filter( $notification );
+		}
+	}
+
+	/**
+	 * Register Friends Ajax actions.
+ 	 *
+	 * @since 12.0.0
+	 */
+	public function register_ajax_actions() {
+		$ajax_actions = array( 'friends_remove_friend', 'friends_add_friend', 'friends_withdraw_friendship', 'friends_accept_friendship', 'friends_reject_friendship' );
+
+		foreach ( $ajax_actions as $ajax_action ) {
+			bp_ajax_register_action( $ajax_action );
 		}
 	}
 }

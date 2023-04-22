@@ -4,7 +4,7 @@
  *
  * @since 3.0.0
  * @package BuddyPress
- * @version 10.0.0
+ * @version 12.0.0
  *
  * @buddypress-template-pack {
  *   Template Pack ID:       nouveau
@@ -176,23 +176,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 		// We need to neutralize the BuddyPress core "bp_core_render_message()" once it has been added.
 		add_action( 'bp_actions', array( $this, 'neutralize_core_template_notices' ), 6 );
 
-		// Scripts & Styles.
-		$registration_params = array(
-			'hook'     => 'bp_enqueue_community_scripts',
-			'priority' => 2,
-		);
-
-		/*
-		 * The WordPress Full Site Editing feature needs Scripts
-		 * and Styles to be registered earlier.
-		 */
-		if ( current_theme_supports( 'block-templates' ) ) {
-			$registration_params['hook']     = 'bp_init';
-			$registration_params['priority'] = 20;
-		}
-
-		// Register theme JS.
-		add_action( $registration_params['hook'], array( $this, 'register_scripts' ), $registration_params['priority'] );
+		// Register scripts & styles.
+		add_action( 'bp_enqueue_community_scripts', array( $this, 'register_scripts' ), 2 );
 
 		// Enqueue theme CSS.
 		add_action( 'bp_enqueue_community_scripts', array( $this, 'enqueue_styles' ) );

@@ -388,6 +388,29 @@ function bp_core_set_uri_globals() {
 }
 
 /**
+ * Sets BuddyPress globals for Ajax requests using the BP Rewrites API.
+ *
+ * @since 12.0.0
+ */
+function bp_core_set_ajax_uri_globals() {
+	if ( ! wp_doing_ajax() || 'rewrites' !== bp_core_get_query_parser() ) {
+		return;
+	}
+
+	$action = '';
+	if ( isset( $_REQUEST['action'] ) ) {
+		$action = wp_unslash( sanitize_text_field( $_REQUEST['action'] ) );
+	}
+
+	// Only set BuddyPress URI globals for registered Ajax actions.
+	if ( ! bp_ajax_action_is_registered( $action ) ) {
+		return;
+	}
+
+	bp_reset_query( bp_get_referer_path(), $GLOBALS['wp_query'] );
+}
+
+/**
  * Are root profiles enabled and allowed?
  *
  * @since 1.6.0

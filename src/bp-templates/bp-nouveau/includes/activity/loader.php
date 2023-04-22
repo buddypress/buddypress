@@ -3,7 +3,7 @@
  * BP Nouveau Activity
  *
  * @since 3.0.0
- * @version 8.0.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -90,6 +90,7 @@ class BP_Nouveau_Activity {
 	 * @since 3.0.0
 	 */
 	protected function setup_actions() {
+		add_action( 'bp_init', 'bp_nouveau_register_activity_ajax_actions' );
 		add_action( 'bp_nouveau_enqueue_scripts', 'bp_nouveau_activity_enqueue_scripts' );
 		add_action( 'bp_nouveau_notifications_init_filters', 'bp_nouveau_activity_notification_filters' );
 

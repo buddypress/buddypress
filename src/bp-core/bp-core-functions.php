@@ -3000,6 +3000,38 @@ function bp_core_get_suggestions( $args ) {
 }
 
 /**
+ * Register Ajax actions needing the BP URI globals to be set.
+ *
+ * @since 12.0.0
+ *
+ * @param string $ajax_action The ajax action needing the BP URI globals to be set.
+ * @return boolean            True if the ajax action was registered. False otherwise.
+ */
+function bp_ajax_register_action( $ajax_action = '' ) {
+	// Checks the ajax action is registered.
+	if ( bp_ajax_action_is_registered( $ajax_action ) ) {
+		return false;
+	}
+
+	buddypress()->ajax_actions[] = $ajax_action;
+	return true;
+}
+
+/**
+ * Is the requested ajax action registered?
+ *
+ * @since 12.0.0
+ *
+ * @param string $ajax_action The ajax action to check.
+ * @return boolean            True if the ajax action is registered. False otherwise
+ */
+function bp_ajax_action_is_registered( $ajax_action = '' ) {
+	$registered_ajax_actions = buddypress()->ajax_actions;
+
+	return in_array( $ajax_action, $registered_ajax_actions, true );
+}
+
+/**
  * AJAX endpoint for Suggestions API lookups.
  *
  * @since 2.1.0

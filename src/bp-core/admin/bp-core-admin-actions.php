@@ -54,7 +54,8 @@ add_action( 'bp_admin_init', 'bp_core_activation_notice', 1010 );
 add_action( 'bp_admin_init', 'bp_register_importers'           );
 add_action( 'bp_admin_init', 'bp_register_admin_style'         );
 add_action( 'bp_admin_init', 'bp_register_admin_settings'      );
-add_action( 'bp_admin_init', 'bp_do_activation_redirect', 1    );
+add_action( 'bp_admin_init', 'bp_do_activation_redirect',    1 );
+add_action( 'bp_admin_init', 'bp_core_set_ajax_uri_globals', 2 );
 
 // Add a new separator.
 add_action( 'bp_admin_menu', 'bp_admin_separator' );

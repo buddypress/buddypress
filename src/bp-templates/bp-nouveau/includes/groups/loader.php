@@ -3,7 +3,7 @@
  * BP Nouveau Groups
  *
  * @since 3.0.0
- * @version 6.1.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -68,6 +68,8 @@ class BP_Nouveau_Groups {
 	 * @since 3.0.0
 	 */
 	protected function setup_actions() {
+		add_action( 'bp_init', 'bp_nouveau_register_groups_ajax_actions' );
+
 		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			add_action( 'groups_setup_nav', 'bp_nouveau_group_setup_nav' );
 		}

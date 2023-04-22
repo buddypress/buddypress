@@ -578,6 +578,30 @@ function bp_parse_query( $posts_query ) {
 }
 
 /**
+ * Parse the query for the Ajax context.
+ *
+ * @since 12.0.0
+ *
+ * @param WP_Query $referer_query WP_Query object.
+ */
+function bp_parse_ajax_referer_query( $referer_query ) {
+	if ( ! wp_doing_ajax() || 'rewrites' !== bp_core_get_query_parser() ) {
+		return;
+	}
+
+	/**
+	 * Fires at the end of the bp_parse_ajax_referer_query function.
+	 *
+	 * Allow BuddyPress components to parse the ajax referer query.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param WP_Query $posts_query WP_Query instance. Passed by reference.
+	 */
+	do_action_ref_array( 'bp_parse_query', array( &$referer_query ) );
+}
+
+/**
  * Resets the query to fit our permalink structure if needed.
  *
  * This is used for specific cases such as Root Member's profile.
@@ -600,8 +624,38 @@ function bp_reset_query( $bp_request = '', WP_Query $query = null ) {
 		$reset_server_request_uri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 	}
 
-	// Temporarly override the request uri.
-	if ( isset( $wp->request ) ) {
+	// Use the BP Rewrites API to parse the ajax referer request.
+	if ( wp_doing_ajax() ) {
+		if ( ! bp_has_pretty_urls() ) {
+			$matched_query = wp_parse_url( $bp_request, PHP_URL_QUERY );
+		} else {
+			// Temporarly override the request uri.
+			$_SERVER['REQUEST_URI'] = $bp_request;
+
+			$wp_ajax = new WP();
+			$wp_ajax->parse_request();
+
+			// Extra step to check for root profiles.
+			$member = bp_rewrites_get_member_data( $wp_ajax->request );
+			if ( isset( $member['object'] ) && $member['object'] ) {
+				$_SERVER['REQUEST_URI'] = trailingslashit( $bp->members->root_slug ) . $wp_ajax->request;
+
+				// Reparse the request.
+				$wp_ajax->parse_request();
+			}
+
+			$matched_query = $wp_ajax->matched_query;
+		}
+
+		// Use a specific function to fire the `bp_parse_query` hook.
+		add_action( 'parse_query', 'bp_parse_ajax_referer_query', 2 );
+
+		// Parse the matched query.
+		$query->parse_query( $matched_query );
+
+		// Use to requery in case of root profiles.
+	} elseif ( isset( $wp->request ) ) {
+		// Temporarly override the request uri.
 		$_SERVER['REQUEST_URI'] = str_replace( $wp->request, $bp_request, $reset_server_request_uri );
 
 		// Reparse request.

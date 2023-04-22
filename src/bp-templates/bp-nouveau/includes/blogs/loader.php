@@ -3,7 +3,7 @@
  * BP Nouveau Blogs
  *
  * @since 3.0.0
- * @version 6.1.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -66,6 +66,8 @@ class BP_Nouveau_Blogs {
 	 * @since 3.0.0
 	 */
 	protected function setup_actions() {
+		add_action( 'bp_init', 'bp_nouveau_register_blogs_ajax_actions' );
+
 		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			// Avoid Notices for BuddyPress Legacy Backcompat
 			remove_action( 'bp_blogs_directory_blog_types', 'bp_blog_backcompat_create_nav_item', 1000 );
