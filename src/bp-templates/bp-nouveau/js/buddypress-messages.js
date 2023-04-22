@@ -1,7 +1,7 @@
 /* global wp, BP_Nouveau, _, Backbone, tinymce, tinyMCE */
 /* jshint devel: true */
 /* @since 3.0.0 */
-/* @version 10.3.0 */
+/* @version 11.2.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
@@ -1354,7 +1354,7 @@ window.bp = window.bp || {};
 		},
 
 		messagesFetched: function( collection, response ) {
-			if ( response.thread && !! response.thread.length ) {
+			if ( response.thread && !! response.thread.id ) {
 				this.options.thread = new Backbone.Model( response.thread );
 			}
 
@@ -1387,12 +1387,12 @@ window.bp = window.bp || {};
 			}
 
 			threadItem = this.options.thread;
-			if ( ! threadItem.has( 'id' ) ) {
+			if ( ! threadItem.id ) {
 				threadItem = this.options.collection.at( 0 );
 			}
 
 			this.reply.set ( {
-				thread_id : threadItem.get( 'id' ),
+				thread_id : threadItem.id,
 				content   : tinyMCE.activeEditor.getContent(),
 				sending   : true
 			} );
