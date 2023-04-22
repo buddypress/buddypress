@@ -654,6 +654,9 @@ window.bp = window.bp || {};
 				} );
 
 				bp.Nouveau.Messages.displayFeedback( feedback, 'error' );
+				self.model.set( 'sending', false, { silent: true } );
+				$( button ).removeClass( 'disabled' ).prop( 'disabled', false );
+
 				return;
 			}
 
@@ -1411,11 +1414,18 @@ window.bp = window.bp || {};
 			this.reply.set( 'sending', false );
 
 			this.collection.add( _.first( reply ) );
+
+			// Remove any existing feedback.
+			bp.Nouveau.Messages.removeFeedback();
 		},
 
 		replyError: function( response ) {
 			if ( response.feedback && response.type ) {
 				bp.Nouveau.Messages.displayFeedback( response.feedback, response.type );
+			}
+
+			if ( this.reply.get( 'sending' ) ) {
+				this.reply.set( 'sending', false );
 			}
 		}
 	} );
