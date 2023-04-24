@@ -66,6 +66,8 @@ class BP_Nouveau_Members {
 		foreach ( $ajax_actions as $ajax_action ) {
 			$action = key( $ajax_action );
 
+			bp_ajax_register_action( $action );
+
 			add_action( 'wp_ajax_' . $action, $ajax_action[ $action ]['function'] );
 
 			if ( ! empty( $ajax_action[ $action ]['nopriv'] ) ) {

@@ -577,7 +577,7 @@ class BP_Component {
 		add_action( 'bp_add_permastructs',       array( $this, 'add_permastructs'       ), 10 );
 
 		// Allow components to parse the main query.
-		if ( ! bp_has_pretty_urls() ) {
+		if ( 'rewrites' === bp_core_get_query_parser() ) {
 			/**
 			 * Only fire this hook when pretty links are disabled.
 			 *
@@ -1272,6 +1272,14 @@ class BP_Component {
 		if ( $queried_object instanceof WP_Post && 'buddypress' === get_post_type( $queried_object ) ) {
 			// Only include the queried directory post into returned posts.
 			$retval = array( $queried_object );
+
+			// Reset some query flags.
+			$query->is_home       = false;
+			$query->is_front_page = false;
+			$query->is_page       = false;
+			$query->is_single     = true;
+			$query->is_archive    = false;
+			$query->is_tax        = false;
 		}
 
 		return $retval;

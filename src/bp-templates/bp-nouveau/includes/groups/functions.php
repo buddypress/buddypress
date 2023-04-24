@@ -1284,3 +1284,16 @@ function bp_nouveau_rest_group_invites_get_items_permissions_check( $retval, $re
 	return $retval;
 }
 add_filter( 'bp_rest_group_invites_get_items_permissions_check', 'bp_nouveau_rest_group_invites_get_items_permissions_check', 10, 2 );
+
+/**
+ * Register Groups Ajax actions.
+ *
+ * @since 12.0.0
+ */
+function bp_nouveau_register_groups_ajax_actions() {
+	$ajax_actions = array( 'groups_filter', 'groups_join_group', 'groups_leave_group', 'groups_accept_invite', 'groups_reject_invite', 'groups_request_membership', 'groups_get_group_potential_invites', 'groups_send_group_invites', 'groups_delete_group_invite' );
+
+	foreach ( $ajax_actions as $ajax_action ) {
+		bp_ajax_register_action( $ajax_action );
+	}
+}

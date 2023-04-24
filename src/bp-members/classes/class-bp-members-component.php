@@ -234,21 +234,25 @@ class BP_Members_Component extends BP_Component {
 		// The domain for the user currently logged in. eg: http://example.com/members/andy.
 		$bp->loggedin_user->domain = bp_members_get_user_url( bp_loggedin_user_id() );
 
-		/** Displayed user ***************************************************
+		/**
+		 * Set the Displayed user for the classic BuddyPress. This should only be the case when the
+		 * legacy parser is on. When BP Rewrites are on, the displayed user is set in
+		 * `BP_Members_Component::parse_query()`.
 		 */
+		if ( bp_displayed_user_id() ) {
+			// The core userdata of the user who is currently being displayed.
+			$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
 
-		// The core userdata of the user who is currently being displayed.
-		$bp->displayed_user->userdata = bp_core_get_core_userdata( bp_displayed_user_id() );
+			// Fetch the full name displayed user.
+			$bp->displayed_user->fullname = isset( $bp->displayed_user->userdata->display_name ) ? $bp->displayed_user->userdata->display_name : '';
 
-		// Fetch the full name displayed user.
-		$bp->displayed_user->fullname = isset( $bp->displayed_user->userdata->display_name ) ? $bp->displayed_user->userdata->display_name : '';
+			// The domain for the user currently being displayed.
+			$bp->displayed_user->domain = bp_members_get_user_url( bp_displayed_user_id() );
 
-		// The domain for the user currently being displayed.
-		$bp->displayed_user->domain = bp_members_get_user_url( bp_displayed_user_id() );
-
-		// If A user is displayed, check if there is a front template
-		if ( bp_get_displayed_user() ) {
-			$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
+			// If A user is displayed, check if there is a front template
+			if ( bp_get_displayed_user() ) {
+				$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
+			}
 		}
 
 		/** Initialize the nav for the members component *********************
@@ -393,7 +397,7 @@ class BP_Members_Component extends BP_Component {
 				$bp->canonical_stack['action'] = bp_current_action();
 			}
 
-			if ( !empty( $bp->action_variables ) ) {
+			if ( ! empty( $bp->action_variables ) ) {
 				$bp->canonical_stack['action_variables'] = bp_action_variables();
 			}
 
@@ -854,9 +858,12 @@ class BP_Members_Component extends BP_Component {
 					$bp->displayed_user->domain = bp_members_get_user_url( bp_displayed_user_id() );
 				}
 
-				// If A user is displayed, check if there is a front template.
+				// If a user is displayed, check if there is a front template and reset navigation.
 				if ( bp_get_displayed_user() ) {
 					$bp->displayed_user->front_template = bp_displayed_user_get_front_template();
+
+					// Reset the nav for the members component.
+					$this->nav = new BP_Core_Nav();
 				}
 
 				$member_component = $query->get( $this->rewrite_ids['single_item_component'] );

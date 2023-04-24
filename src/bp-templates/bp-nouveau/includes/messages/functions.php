@@ -3,7 +3,7 @@
  * Messages functions
  *
  * @since 3.0.0
- * @version 10.3.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -511,4 +511,17 @@ function bp_nouveau_messages_catch_hook_content( $hooks = array() ) {
 	ob_end_clean();
 
 	return $content;
+}
+
+/**
+ * Register Messages Ajax actions.
+ *
+ * @since 12.0.0
+ */
+function bp_nouveau_register_messages_ajax_actions() {
+	$ajax_actions = array( 'messages_send_message', 'messages_send_reply', 'messages_get_user_message_threads', 'messages_thread_read', 'messages_get_thread_messages', 'messages_delete', 'messages_exit', 'messages_unstar', 'messages_star', 'messages_unread', 'messages_read', 'messages_dismiss_sitewide_notice' );
+
+	foreach ( $ajax_actions as $ajax_action ) {
+		bp_ajax_register_action( $ajax_action );
+	}
 }

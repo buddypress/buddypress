@@ -55,7 +55,12 @@ class BP_Nouveau_Notifications {
 	 * @since 3.0.0
 	 */
 	protected function setup_actions() {
-		add_action( 'bp_init', 'bp_nouveau_notifications_init_filters', 20 );
+		$hook = 'bp_parse_query';
+		if ( 'rewrites' !== bp_core_get_query_parser() ) {
+			$hook = 'bp_init';
+		}
+
+		add_action( $hook, 'bp_nouveau_notifications_init_filters', 20 );
 		add_action( 'bp_nouveau_enqueue_scripts', 'bp_nouveau_notifications_enqueue_scripts' );
 
 		$ajax_actions = array(

@@ -568,3 +568,16 @@ function bp_nouveau_activity_excerpt_append_text( $read_more = '' ) {
 	return str_replace( array( '[', ']' ), '', $read_more );
 }
 add_filter( 'bp_activity_excerpt_append_text', 'bp_nouveau_activity_excerpt_append_text', 10, 1 );
+
+/**
+ * Register Activity Ajax actions.
+ *
+ * @since 12.0.0
+ */
+function bp_nouveau_register_activity_ajax_actions() {
+	$ajax_actions = array( 'activity_filter', 'get_single_activity_content', 'activity_mark_fav', 'activity_mark_unfav', 'activity_clear_new_mentions', 'delete_activity', 'new_activity_comment', 'bp_nouveau_get_activity_objects', 'post_update', 'bp_spam_activity' );
+
+	foreach ( $ajax_actions as $ajax_action ) {
+		bp_ajax_register_action( $ajax_action );
+	}
+}

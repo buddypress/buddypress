@@ -184,6 +184,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		 * executes for users that aren't logged in. This is for backpat with BP <1.6.
 		 */
 		foreach( $actions as $name => $function ) {
+			bp_ajax_register_action( $name );
 			add_action( 'wp_ajax_'        . $name, $function );
 			add_action( 'wp_ajax_nopriv_' . $name, $function );
 		}

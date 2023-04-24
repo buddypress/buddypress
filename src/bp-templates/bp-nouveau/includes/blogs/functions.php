@@ -3,7 +3,7 @@
  * Blogs functions
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -225,3 +225,12 @@ function bp_nouveau_blog_loop_item_has_lastest_post( $classes ) {
 	return $classes;
 }
 add_filter( 'bp_get_blog_class', 'bp_nouveau_blog_loop_item_has_lastest_post' );
+
+/**
+ * Register Blogs Ajax actions.
+ *
+ * @since 12.0.0
+ */
+function bp_nouveau_register_blogs_ajax_actions() {
+	bp_ajax_register_action( 'blogs_filter' );
+}

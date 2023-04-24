@@ -200,6 +200,15 @@ class BuddyPress {
 	 */
 	public $profile;
 
+	/**
+	 * BuddyPress Ajax actions.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @var array The list of registered Ajax actions.
+	 */
+	public $ajax_actions = array();
+
 	/** Option Overload *******************************************************/
 
 	/**

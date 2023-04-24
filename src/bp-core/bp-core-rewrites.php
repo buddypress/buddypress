@@ -78,25 +78,23 @@ function bp_has_pretty_urls() {
  * @return string The slug to use for the screen belonging to the requested component.
  */
 function bp_rewrites_get_slug( $component_id = '', $rewrite_id = '', $default_slug = '' ) {
+	$using_legacy = 'legacy' === bp_core_get_query_parser();
+
 	/**
-	 * This filter is used by the BP Classic plugin to force `$default_slug` usage.
-	 *
-	 * Using the "Classic" BuddyPress means deprecated functions building URL concatening
-	 * URL chunks are available, we cannot use the BP Rewrites API in this case & as a result
-	 * slug customization is bypassed.
-	 *
-	 * The BP Classic plugin is simply returning the `$default_slug` to bypass slug customization.
+	 * This filter is used to simply return the `$default_slug` to bypass slug customization
+	 * when the query parser is the legacy one.
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param string $value        An empty string to use as to know whether slug customization should be used.
-	 * @param string $default_slug The screen default slug, used as a fallback.
-	 * @param string $rewrite_id   The screen rewrite ID, used to find the custom slugs.
-	 * @param string $component_id The BuddyPress component's ID.
+	 * @param boolean $using_legacy Whether the legacy URL parser is in use.
+	 *                              In this case, slug customization is not supported.
+	 * @param string  $default_slug The screen default slug, used as a fallback.
+	 * @param string  $rewrite_id   The screen rewrite ID, used to find the custom slugs.
+	 * @param string  $component_id The BuddyPress component's ID.
 	 */
-	$classic_slug = apply_filters( 'bp_rewrites_pre_get_slug', '', $default_slug, $rewrite_id, $component_id );
-	if ( $classic_slug ) {
-		return $classic_slug;
+	$use_default_slug = apply_filters( 'bp_rewrites_pre_get_slug', $using_legacy, $default_slug, $rewrite_id, $component_id );
+	if ( $use_default_slug ) {
+		return $default_slug;
 	}
 
 	$directory_pages = bp_core_get_directory_pages();
@@ -210,7 +208,7 @@ function bp_rewrites_get_url( $args = array() ) {
 				$qv[ $rewrite_id ] = $r[ $key ];
 			}
 
-			$url = add_query_arg( $qv, $url );
+			$url = add_query_arg( $qv, trailingslashit( $url ) );
 
 			// Using pretty URLs.
 		} else {

@@ -388,6 +388,29 @@ function bp_core_set_uri_globals() {
 }
 
 /**
+ * Sets BuddyPress globals for Ajax requests using the BP Rewrites API.
+ *
+ * @since 12.0.0
+ */
+function bp_core_set_ajax_uri_globals() {
+	if ( ! wp_doing_ajax() || 'rewrites' !== bp_core_get_query_parser() ) {
+		return;
+	}
+
+	$action = '';
+	if ( isset( $_REQUEST['action'] ) ) {
+		$action = wp_unslash( sanitize_text_field( $_REQUEST['action'] ) );
+	}
+
+	// Only set BuddyPress URI globals for registered Ajax actions.
+	if ( ! bp_ajax_action_is_registered( $action ) ) {
+		return;
+	}
+
+	bp_reset_query( bp_get_referer_path(), $GLOBALS['wp_query'] );
+}
+
+/**
  * Are root profiles enabled and allowed?
  *
  * @since 1.6.0
@@ -807,28 +830,31 @@ function bp_redirect_canonical() {
 	 *
 	 * @param bool $value Whether or not to do canonical redirects. Default true.
 	 */
-	if ( !bp_is_blog_page() && apply_filters( 'bp_do_redirect_canonical', true ) ) {
+	if ( ! bp_is_blog_page() && apply_filters( 'bp_do_redirect_canonical', true ) ) {
 		// If this is a POST request, don't do a canonical redirect.
 		// This is for backward compatibility with plugins that submit form requests to
 		// non-canonical URLs. Plugin authors should do their best to use canonical URLs in
 		// their form actions.
-		if ( !empty( $_POST ) ) {
+		if ( ! empty( $_POST ) ) {
 			return;
 		}
 
 		// Build the URL in the address bar.
 		$requested_url  = bp_get_requested_url();
+		$query_args     = '';
 
 		// Stash query args.
-		$url_stack      = explode( '?', $requested_url );
-		$req_url_clean  = $url_stack[0];
-		$query_args     = isset( $url_stack[1] ) ? $url_stack[1] : '';
+		if ( bp_has_pretty_urls() ) {
+			$query_args    = wp_parse_url( $requested_url, PHP_URL_QUERY );
+			$req_url_clean = str_replace( '?' . $query_args, '', $requested_url );
+		} else {
+			$req_url_clean = $requested_url;
+		}
 
-		$canonical_url  = bp_get_canonical_url();
+		$canonical_url = bp_get_canonical_url();
 
 		// Only redirect if we've assembled a URL different from the request.
-		if ( $canonical_url !== $req_url_clean ) {
-
+		if ( esc_url( $canonical_url ) !== esc_url( $req_url_clean ) ) {
 			$bp = buddypress();
 
 			// Template messages have been deleted from the cookie by this point, so
@@ -840,7 +866,7 @@ function bp_redirect_canonical() {
 				bp_core_add_message( $message, $message_type );
 			}
 
-			if ( !empty( $query_args ) ) {
+			if ( ! empty( $query_args ) ) {
 				$canonical_url .= '?' . $query_args;
 			}
 
@@ -891,8 +917,6 @@ function bp_get_canonical_url( $args = array() ) {
 		$defaults
 	);
 
-	extract( $r );
-
 	// Special case: when a BuddyPress directory (eg example.com/members)
 	// is set to be the front page, ensure that the current canonical URL
 	// is the home page URL.
@@ -928,38 +952,92 @@ function bp_get_canonical_url( $args = array() ) {
 	if ( empty( $bp->canonical_stack['canonical_url'] ) ) {
 		// Build the URL in the address bar.
 		$requested_url  = bp_get_requested_url();
+		$base_url       = '';
+		$path_chunks    = array();
+		$component_id   = '';
 
-		// Stash query args.
-		$url_stack      = explode( '?', $requested_url );
+		// Get query args.
+		$query_string = wp_parse_url( $requested_url, PHP_URL_QUERY );
+		$query_args   = wp_parse_args( $query_string, array() );
 
 		// Build the canonical URL out of the redirect stack.
-		if ( isset( $bp->canonical_stack['base_url'] ) )
-			$url_stack[0] = $bp->canonical_stack['base_url'];
+		if ( isset( $bp->canonical_stack['base_url'] ) ) {
+			$base_url = $bp->canonical_stack['base_url'];
+		} else {
+			$base_url = $requested_url;
 
-		if ( isset( $bp->canonical_stack['component'] ) )
-			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['component'] );
-
-		if ( isset( $bp->canonical_stack['action'] ) )
-			$url_stack[0] = trailingslashit( $url_stack[0] . $bp->canonical_stack['action'] );
-
-		if ( !empty( $bp->canonical_stack['action_variables'] ) ) {
-			foreach( (array) $bp->canonical_stack['action_variables'] as $av ) {
-				$url_stack[0] = trailingslashit( $url_stack[0] . $av );
+			if ( bp_has_pretty_urls() ) {
+				$base_url = str_replace( '?' . $query_string, '', $requested_url );
 			}
 		}
 
-		// Add trailing slash.
-		$url_stack[0] = trailingslashit( $url_stack[0] );
+		// This is a BP Members URL.
+		if ( isset( $bp->canonical_stack['component'] ) ) {
+			$component_id  = 'members';
+			$path_chunks[] = $bp->canonical_stack['component'];
 
-		// Stash in the $bp global.
-		$bp->canonical_stack['canonical_url'] = implode( '?', $url_stack );
+			if ( $query_args ) {
+				$query_args = array_diff_key(
+					$query_args,
+					array_fill_keys(
+						array( 'bp_members', 'bp_member', 'bp_member_component' ),
+						true
+					)
+				);
+			}
+		} else {
+			$component_id = 'groups';
+		}
+
+		if ( isset( $bp->canonical_stack['action'] ) ) {
+			$path_chunks[]        = $bp->canonical_stack['action'];
+			$action_key           = 'bp_member_action';
+			$action_variables_key = 'bp_member_action_variables';
+
+			if ( 'groups' === $component_id ) {
+				$action_key           = 'bp_group_action';
+				$action_variables_key = 'bp_group_action_variables';
+			}
+
+			if ( ! empty( $bp->canonical_stack['action_variables'] ) ) {
+				$path_chunks = array_merge( $path_chunks, (array) $bp->canonical_stack['action_variables'] );
+			} elseif ( isset( $query_args[ $action_variables_key ] ) ) {
+				unset( $query_args[ $action_variables_key ] );
+			}
+
+			if ( $query_args ) {
+				$query_args = array_diff_key(
+					$query_args,
+					array_fill_keys(
+						array( $action_key, $action_variables_key ),
+						true
+					)
+				);
+			}
+		} elseif ( isset( $query_args['bp_member_action'] ) && 'members' === $component_id ) {
+			unset( $query_args['bp_member_action'] );
+		} elseif( isset( $query_args['bp_group_action'] ) && 'groups' === $component_id ) {
+			unset( $query_args['bp_group_action'] );
+		}
+
+		if ( $path_chunks ) {
+			if ( 'groups' === $component_id ) {
+				$bp->canonical_stack['canonical_url'] = bp_get_group_url(
+					groups_get_current_group(),
+					bp_groups_get_path_chunks( $path_chunks )
+				);
+			} else {
+				$bp->canonical_stack['canonical_url'] = bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) );
+			}
+		} else {
+			$bp->canonical_stack['canonical_url'] = $base_url;
+		}
 	}
 
 	$canonical_url = $bp->canonical_stack['canonical_url'];
 
-	if ( !$include_query_args ) {
-		$canonical_url = array_reverse( explode( '?', $canonical_url ) );
-		$canonical_url = array_pop( $canonical_url );
+	if ( $r['include_query_args'] && $query_args ) {
+		$canonical_url = add_query_arg( $query_args, $canonical_url );
 	}
 
 	/**
@@ -1013,7 +1091,6 @@ function _bp_maybe_remove_redirect_canonical() {
 	if ( ! bp_is_blog_page() )
 		remove_action( 'template_redirect', 'redirect_canonical' );
 }
-add_action( 'bp_init', '_bp_maybe_remove_redirect_canonical' );
 
 /**
  * Rehook maybe_redirect_404() to run later than the default.
