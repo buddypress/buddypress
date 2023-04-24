@@ -19,15 +19,12 @@
 		position: absolute;
 		transform: translate3d(0, 0, 0);
 		visibility: hidden;
-	}
-
-	[data-bp-tooltip]::after {
 		border: 1px solid #737373;
 		border-radius: 1px;
 		box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
 		color: #333;
 		content: attr(data-bp-tooltip);
-		font-family: "Helvetica Neue", helvetica, arial, san-serif;
+		font-family: "Helvetica Neue", Helvetica, Arial, san-serif;
 		font-size: 12px;
 		font-weight: 400;
 		letter-spacing: normal;
@@ -56,7 +53,7 @@
 	padding-left: 1em;
 	border-left: solid 4px #ff853c;
 
-	h2:before {
+	h2::before {
 		border: none;
 		background: none;
 	}

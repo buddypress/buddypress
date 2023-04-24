@@ -34,8 +34,8 @@
 					box-shadow: 1px 0 4px rgba(0, 0, 0, 0.15);
 					padding: 0 1em;
 
-					&:after,
-					&:before {
+					&::after,
+					&::before {
 						position: absolute;
 						left: 15px;
 						display: block;
@@ -46,14 +46,14 @@
 						content: "";
 					}
 
-					&:before {
+					&::before {
 						bottom: -18px;
 						border-top-color: rgba(0, 0, 0, 0.15);
 						border-width: 9px;
 						left: 14px;
 					}
 
-					&:after {
+					&::after {
 						bottom: -16px;
 						border-top-color: #fff;
 						border-width: 8px;

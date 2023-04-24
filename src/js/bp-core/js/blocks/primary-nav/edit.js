@@ -1,36 +1,26 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-	},
-	components: {
-		Disabled,
-		Notice,
-		PanelBody,
-		ToggleControl,
-	},
-	element: {
-		Fragment,
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-	serverSideRender: ServerSideRender,
-} = wp;
+import {
+    InspectorControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import {
+	Disabled,
+	Notice,
+	PanelBody,
+	ToggleControl,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * BuddyPress dependencies.
  */
-const {
-	blockData: {
-		getCurrentWidgetsSidebar,
-	}
-} = bp;
+import { getCurrentWidgetsSidebar } from '@buddypress/block-data';
 
 const editPrimaryNavBlock = ( { attributes, setAttributes, clientId } ) => {
+	const blockProps = useBlockProps();
 	const { displayTitle } = attributes;
 	const currentSidebar = getCurrentWidgetsSidebar( clientId );
 	const disabledSidebars = ['sidebar-buddypress-members', 'sidebar-buddypress-groups'];
@@ -46,7 +36,7 @@ const editPrimaryNavBlock = ( { attributes, setAttributes, clientId } ) => {
 	}
 
 	return (
-		<Fragment>
+		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<ToggleControl
@@ -61,7 +51,7 @@ const editPrimaryNavBlock = ( { attributes, setAttributes, clientId } ) => {
 			<Disabled>
 				<ServerSideRender block="bp/primary-nav" attributes={ attributes } />
 			</Disabled>
-		</Fragment>
+		</div>
 	);
 };
 

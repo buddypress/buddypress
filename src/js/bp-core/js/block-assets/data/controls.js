@@ -1,9 +1,7 @@
 /**
  * WordPress dependencies.
  */
-const {
-	apiFetch,
-} = wp;
+import apiFetch from '@wordpress/api-fetch';
 
 /**
  * Default export for registering the controls with the store.

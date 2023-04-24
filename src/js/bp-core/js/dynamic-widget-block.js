@@ -1,28 +1,19 @@
 /**
- * WordPress dependencies.
- */
-const {
-	url: {
-		addQueryArgs,
-	},
-} = wp;
-
-/**
  * External dependencies.
  */
-const {
-	template,
-} = lodash;
+import { template } from 'lodash';
 
-// Use the bp global.
-window.bp = window.bp || {};
+/**
+ * WordPress dependencies.
+ */
+import { addQueryArgs } from '@wordpress/url';
 
 /**
  * Generic class to be used by Dynamic Widget Blocks.
  *
  * @since 9.0.0
  */
-bp.dynamicWidgetBlock = class bpDynamicWidgetBlock {
+export class dynamicWidgetBlock {
 	constructor( settings, blocks ) {
 		const { path, root, nonce } = settings;
 		this.path = path;
@@ -84,3 +75,5 @@ bp.dynamicWidgetBlock = class bpDynamicWidgetBlock {
 		}
 	}
 };
+
+export default dynamicWidgetBlock;

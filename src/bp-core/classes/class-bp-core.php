@@ -452,6 +452,7 @@ class BP_Core extends BP_Component {
 	 * Register the BP Core Blocks.
 	 *
 	 * @since 9.0.0
+	 * @since 12.0.0 Use the WP Blocks API v2.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.
@@ -460,30 +461,8 @@ class BP_Core extends BP_Component {
 		parent::blocks_init(
 			array(
 				'bp/login-form' => array(
-					'name'               => 'bp/login-form',
-					'editor_script'      => 'bp-login-form-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/login-form.js', dirname( __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-block-editor',
-						'wp-server-side-render',
-					),
-					'style'              => 'bp-login-form-block',
-					'style_url'          => plugins_url( 'css/blocks/login-form.css', dirname( __FILE__ ) ),
-					'attributes'         => array(
-						'title'         => array(
-							'type'    => 'string',
-							'default' => '',
-						),
-						'forgotPwdLink' => array(
-							'type'    => 'boolean',
-							'default' => false,
-						),
-					),
-					'render_callback'    => 'bp_block_render_login_form_block',
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-core/blocks/login-form',
+					'render_callback' => 'bp_block_render_login_form_block',
 				),
 			)
 		);

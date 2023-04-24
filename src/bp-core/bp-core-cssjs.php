@@ -94,9 +94,6 @@ function bp_core_register_common_scripts() {
 
 		// Version 2.7.
 		'bp-livestamp' => array( 'file' => "{$url}vendor/livestamp{$min}.js", 'dependencies' => array( 'jquery', 'moment' ), 'footer' => true ),
-
-		// Version 9.0.
-		'bp-dynamic-widget-block-script' => array( 'file' => "{$url}dynamic-widget-block.js", 'dependencies' => array( 'lodash', 'wp-url' ), 'footer' => true ),
 	);
 
 	/*
@@ -116,6 +113,24 @@ function bp_core_register_common_scripts() {
 		if ( $moment_locale_url ) {
 			$scripts['bp-moment-locale'] = array( 'file' => esc_url( $moment_locale_url ), 'dependencies' => array( 'bp-moment' ), 'footer' => true );
 		}
+	}
+
+	if ( bp_support_blocks() ) {
+		$asset      = array(
+			'dependencies' => array(),
+			'version'      => ''
+		);
+		$asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget-block/index.asset.php';
+
+		if ( file_exists( $asset_path ) ) {
+			$asset = require $asset_path;
+		}
+
+		$scripts['bp-dynamic-widget-block'] = array(
+			'file'         => plugins_url( 'blocks/dynamic-widget-block/index.js', __FILE__ ),
+			'dependencies' => $asset['dependencies'],
+			'footer'       => true,
+		);
 	}
 
 	/**

@@ -1,41 +1,28 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-		BlockControls,
-	},
-	components: {
-		Placeholder,
-		Disabled,
-		PanelBody,
-		SelectControl,
-		ToggleControl,
-		Toolbar,
-		ToolbarButton,
-	},
-	element: {
-		Fragment,
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-	serverSideRender: ServerSideRender,
-} = wp;
+import {
+    InspectorControls,
+	BlockControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import {
+	Placeholder,
+	Disabled,
+	PanelBody,
+	SelectControl,
+	ToggleControl,
+	Toolbar,
+	ToolbarButton,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * BuddyPress dependencies.
  */
-const {
-	blockComponents: {
-		AutoCompleter,
-	},
-	blockData: {
-		isActive,
-	}
-} = bp;
+import { AutoCompleter } from '@buddypress/block-components';
+import { isActive } from '@buddypress/block-data';
 
 /**
  * Internal dependencies.
@@ -51,32 +38,35 @@ const getSlugValue = ( item ) => {
 }
 
 const editGroupBlock = ( { attributes, setAttributes } ) => {
+	const blockProps = useBlockProps();
 	const isAvatarEnabled = isActive( 'groups', 'avatar' );
 	const isCoverImageEnabled = isActive( 'groups', 'cover' );
 	const { avatarSize, displayDescription, displayActionButton, displayCoverImage } = attributes;
 
 	if ( ! attributes.itemID ) {
 		return (
-			<Placeholder
-				icon="buddicons-groups"
-				label={ __( 'BuddyPress Group', 'buddypress' ) }
-				instructions={ __( 'Start typing the name of the group you want to feature into this post.', 'buddypress' ) }
-			>
-				<AutoCompleter
-					component="groups"
-					objectQueryArgs={ { 'show_hidden': false } }
-					slugValue={ getSlugValue }
-					ariaLabel={ __( 'Group\'s name', 'buddypress' ) }
-					placeholder={ __( 'Enter Group\'s name here…', 'buddypress' ) }
-					onSelectItem={ setAttributes }
-					useAvatar={ isAvatarEnabled }
-				/>
-			</Placeholder>
+			<div { ...blockProps }>
+				<Placeholder
+					icon="buddicons-groups"
+					label={ __( 'BuddyPress Group', 'buddypress' ) }
+					instructions={ __( 'Start typing the name of the group you want to feature into this post.', 'buddypress' ) }
+				>
+					<AutoCompleter
+						component="groups"
+						objectQueryArgs={ { 'show_hidden': false } }
+						slugValue={ getSlugValue }
+						ariaLabel={ __( 'Group\'s name', 'buddypress' ) }
+						placeholder={ __( 'Enter Group\'s name here…', 'buddypress' ) }
+						onSelectItem={ setAttributes }
+						useAvatar={ isAvatarEnabled }
+					/>
+				</Placeholder>
+			</div>
 		);
 	}
 
 	return (
-		<Fragment>
+		<div { ...blockProps }>
 			<BlockControls>
 				<Toolbar label={ __( 'Block toolbar', 'buddypress' ) }>
 					<ToolbarButton
@@ -147,7 +137,7 @@ const editGroupBlock = ( { attributes, setAttributes } ) => {
 			<Disabled>
 				<ServerSideRender block="bp/group" attributes={ attributes } />
 			</Disabled>
-		</Fragment>
+		</div>
 	);
 };
 

@@ -1,38 +1,30 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-	},
-	components: {
-		Disabled,
-		PanelBody,
-		RangeControl,
-		SelectControl,
-		TextControl,
-	},
-	element: {
-		Fragment,
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-	serverSideRender: ServerSideRender,
-} = wp;
+import {
+	InspectorControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import {
+	Disabled,
+	PanelBody,
+	RangeControl,
+	SelectControl,
+	TextControl,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * BuddyPress dependencies.
  */
-const {
-	blockData: {
-		currentPostId,
-		activityTypes,
-	}
-} = bp;
+import {
+	currentPostId,
+	activityTypes,
+} from '@buddypress/block-data';
 
 const editDynamicActivitiesBlock = ( { attributes, setAttributes } ) => {
+	const blockProps = useBlockProps();
 	const { postId, maxActivities, type, title } = attributes;
 	const post = currentPostId();
 	const types = activityTypes();
@@ -45,7 +37,7 @@ const editDynamicActivitiesBlock = ( { attributes, setAttributes } ) => {
 	}
 
 	return (
-		<Fragment>
+		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true } className="bp-latest-activities">
 					<TextControl
@@ -79,7 +71,7 @@ const editDynamicActivitiesBlock = ( { attributes, setAttributes } ) => {
 			<Disabled>
 				<ServerSideRender block="bp/latest-activities" attributes={ attributes } />
 			</Disabled>
-		</Fragment>
+		</div>
 	);
 };
 

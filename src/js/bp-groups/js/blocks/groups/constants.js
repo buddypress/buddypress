@@ -1,12 +1,7 @@
 /**
  * WordPress dependencies.
  */
-const {
-	i18n: {
-		__,
-	},
-} = wp;
-
+import { __ } from '@wordpress/i18n';
 /**
  * Avatar sizes.
  *

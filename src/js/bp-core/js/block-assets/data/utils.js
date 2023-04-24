@@ -1,19 +1,12 @@
 /**
- * WordPress dependencies.
- */
-const {
-	data: {
-		useSelect,
-	},
-} = wp;
-
-/**
  * External dependencies.
  */
-const {
-	find,
-	get,
-} = lodash;
+import { find, get } from 'lodash';
+
+/**
+ * WordPress dependencies.
+ */
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies.

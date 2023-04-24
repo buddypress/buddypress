@@ -1,19 +1,15 @@
 /**
  * WordPress dependencies.
  */
-const {
-	i18n: {
-		__,
-		sprintf,
-	},
-} = wp;
+import {
+	__,
+	sprintf,
+} from '@wordpress/i18n';
 
 /**
  * BuddyPress dependencies.
  */
-const {
-	dynamicWidgetBlock,
-} = bp;
+import { dynamicWidgetBlock } from '@buddypress/dynamic-widget-block';
 
 /**
  * Front-end Friends block class.
@@ -27,7 +23,7 @@ class bpFriendsWidgetBlock extends dynamicWidgetBlock {
 		if ( friends && friends.length ) {
 			friends.forEach( ( friend ) => {
 				if ( 'active' === type && friend.last_activity ) {
-					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
+					/* translators: %s: a human time diff. */
 					friend.extra = sprintf( __( 'Active %s', 'buddypress' ), friend.last_activity.timediff );
 				} else if ( 'popular' === type && friend.total_friend_count ) {
 					const friendsCount = parseInt( friend.total_friend_count, 10 );

@@ -18,18 +18,10 @@ module.exports = function( grunt ) {
 		],
 
 		BP_EXCLUDED_JS = [
-			'!**/js/blocks/*.js',
-			'!**/js/blocks/**/*.js',
-			'!**/js/block-*/*.js',
-			'!**/js/block-*/**/*.js',
-			'!**/js/block-*.js',
-			'!**/js/friends.js',
-			'!**/js/dynamic-members.js',
-			'!**/js/dynamic-groups.js',
-			'!**/js/dynamic-widget-block.js',
-			'!**/js/sitewide-notices.js',
+			'!src/js/**',
 			'!**/bp-core/admin/js/dismissible-admin-notices.js',
-			'!**/bp-members/admin/js/admin.js'
+			'!**/bp-members/admin/js/admin.js',
+			'!**/blocks/*/index.js'
 		],
 
 		BP_EXCLUDED_MISC = [
@@ -42,18 +34,8 @@ module.exports = function( grunt ) {
 			'!bp-templates/bp-nouveau/css/twenty*.css',
 			'!bp-templates/bp-nouveau/css/primary-nav.css',
 			'!bp-core/admin/css/hello.css',
-			'!bp-members/css/blocks/member.css',
-			'!bp-groups/css/blocks/group.css',
-			'!bp-members/css/blocks/members.css',
-			'!bp-groups/css/blocks/groups.css',
-			'!bp-core/css/blocks/login-form.css',
-			'!bp-activity/css/blocks/latest-activities.css',
-			'!bp-friends/css/blocks/friends.css',
-			'!bp-members/css/blocks/dynamic-members.css',
-			'!bp-groups/css/blocks/dynamic-groups.css',
-			'!bp-messages/css/blocks/sitewide-notices.css',
-			'!bp-blogs/css/blocks/recent-posts.css',
-			'!bp-members/css/blocks/member-avatar-blocks.css'
+			'!src/js/**',
+			'!**/blocks/*/index.css'
 		],
 
 		sass = require('node-sass');
@@ -146,69 +128,6 @@ module.exports = function( grunt ) {
 				flatten: true,
 				src: ['bp-core/admin/sass/*.scss'],
 				dest: SOURCE_DIR + 'bp-core/admin/css/'
-			},
-			members_blocks: {
-				cwd: SOURCE_DIR,
-				extDot: 'last',
-				expand: true,
-				ext: '.css',
-				flatten: true,
-				src: ['bp-members/sass/blocks/*.scss'],
-				dest: SOURCE_DIR + 'bp-members/css/blocks/'
-			},
-			groups_blocks: {
-				cwd: SOURCE_DIR,
-				extDot: 'last',
-				expand: true,
-				ext: '.css',
-				flatten: true,
-				src: ['bp-groups/sass/blocks/*.scss'],
-				dest: SOURCE_DIR + 'bp-groups/css/blocks/'
-			},
-			core_blocks: {
-				cwd: SOURCE_DIR,
-				extDot: 'last',
-				expand: true,
-				ext: '.css',
-				flatten: true,
-				src: ['bp-core/sass/blocks/*.scss'],
-				dest: SOURCE_DIR + 'bp-core/css/blocks/'
-			},
-			activity_blocks: {
-				cwd: SOURCE_DIR,
-				extDot: 'last',
-				expand: true,
-				ext: '.css',
-				flatten: true,
-				src: ['bp-activity/sass/blocks/*.scss'],
-				dest: SOURCE_DIR + 'bp-activity/css/blocks/'
-			},
-			friends_blocks: {
-				cwd: SOURCE_DIR,
-				extDot: 'last',
-				expand: true,
-				ext: '.css',
-				flatten: true,
-				src: ['bp-friends/sass/blocks/*.scss'],
-				dest: SOURCE_DIR + 'bp-friends/css/blocks/'
-			},
-			messages_blocks: {
-				cwd: SOURCE_DIR,
-				extDot: 'last',
-				expand: true,
-				ext: '.css',
-				flatten: true,
-				src: ['bp-messages/sass/blocks/*.scss'],
-				dest: SOURCE_DIR + 'bp-messages/css/blocks/'
-			},
-			blogs_blocks: {
-				cwd: SOURCE_DIR,
-				extDot: 'last',
-				expand: true,
-				ext: '.css',
-				flatten: true,
-				src: ['bp-blogs/sass/blocks/*.scss'],
-				dest: SOURCE_DIR + 'bp-blogs/css/blocks/'
 			}
 		},
 		rtlcss: {
@@ -267,6 +186,7 @@ module.exports = function( grunt ) {
 		clean: {
 			all: [ BUILD_DIR ],
 			bp_rest: [ BUILD_DIR + 'bp-rest/' ],
+			bp_admin_modern_js: [ 'dist/' ],
 			cli: [
 				BUILD_DIR + 'cli/features/',
 				BUILD_DIR + 'cli/*.{yml,json,lock,xml,xml.dist,md}',
@@ -316,6 +236,14 @@ module.exports = function( grunt ) {
 						return content.replace( /\@since 0\.1\.0/g, '@since 5.0.0' );
 					}
 				}
+			},
+			bp_admin_modern_js: {
+				cwd: 'dist/',
+				dest: SOURCE_DIR,
+				dot: true,
+				expand: true,
+				filter: 'isFile',
+				src: ['bp-activity/**/*.js', 'bp-blogs/**/*.js', 'bp-core/**/*.js', 'bp-friends/**/*.js', 'bp-groups/**/*.js', 'bp-members/**/*.js', 'bp-messages/**/*.js', 'bp-notifications/**/*.js', 'bp-settings/**/*.js', 'bp-xprofile/**/*.js']
 			}
 		},
 		uglify: {
@@ -379,7 +307,7 @@ module.exports = function( grunt ) {
 				extDot: 'last',
 				expand: true,
 				ext: '.min.css',
-				src: BP_CSS
+				src: BP_CSS.concat( ['!**/blocks/*/index.css'] )
 			}
 		},
 		phpunit: {
@@ -420,13 +348,13 @@ module.exports = function( grunt ) {
 				command: 'wp i18n make-pot build build/buddypress.pot --headers=\'{"Project-Id-Version": "BuddyPress", "Report-Msgid-Bugs-To": "https://buddypress.trac.wordpress.org", "Last-Translator": "JOHN JAMES JACOBY <jjj@buddypress.org>", "Language-Team": "ENGLISH <jjj@buddypress.org>"}\'',
 				stdout: true
 			},
-			blocks_src: {
-				command: 'npm run dev',
+			modernJS_src: {
+				command: 'npm run build:admin',
 				cwd: SOURCE_DIR,
 				stdout: true
 			},
-			blocks_build: {
-				command: 'npm run build',
+			blocks_src: {
+				command: 'npm run build:blocks',
 				cwd: SOURCE_DIR,
 				stdout: true
 			}
@@ -467,10 +395,11 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'style', ['stylelint', 'sass', 'postcss', 'rtlcss'] );
 	grunt.registerTask( 'makepot', ['exec:makepot'] );
 	grunt.registerTask( 'commit', ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcompat'] );
-	grunt.registerTask( 'commit:blocks', ['commit', 'exec:blocks_src'] );
+	grunt.registerTask( 'commit:blocks', ['commit', 'exec:blocks_src', 'exec:modernJS_src'] );
 	grunt.registerTask( 'bp_rest', [ 'exec:rest_api', 'copy:bp_rest_components', 'copy:bp_rest_core', 'clean:bp_rest' ] );
-	grunt.registerTask( 'build', ['commit', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'exec:blocks_build', 'cssmin', 'bp_rest', 'makepot', 'exec:bpdefault', 'exec:cli', 'clean:cli'] );
+	grunt.registerTask( 'build', ['commit:blocks', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'cssmin', 'bp_rest', 'makepot', 'exec:bpdefault', 'exec:cli', 'clean:cli'] );
 	grunt.registerTask( 'release', ['build'] );
+	grunt.registerTask( 'move:admin:js', [ 'copy:bp_admin_modern_js', 'clean:bp_admin_modern_js' ] );
 
 	// Testing tasks.
 	grunt.registerMultiTask( 'phpunit', 'Runs PHPUnit tests, including the ajax and multisite tests.', function() {

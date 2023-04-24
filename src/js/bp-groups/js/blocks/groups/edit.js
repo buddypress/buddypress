@@ -1,49 +1,36 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-		BlockControls,
-	},
-	components: {
-		Placeholder,
-		PanelBody,
-		SelectControl,
-		ToggleControl,
-		Button,
-		Dashicon,
-		Tooltip,
-		ToolbarGroup,
-		RangeControl,
-	},
-	element: {
-		createElement,
-		Fragment,
-		useState,
-	},
-	i18n: {
-		__,
-		sprintf,
-		_n,
-	},
-	apiFetch,
-	url: {
-		addQueryArgs,
-	},
-} = wp;
+import apiFetch from '@wordpress/api-fetch';
+import {
+    InspectorControls,
+	BlockControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import {
+	Button,
+	Dashicon,
+	Placeholder,
+	PanelBody,
+	RangeControl,
+	SelectControl,
+	ToggleControl,
+	Tooltip,
+	ToolbarGroup,
+} from '@wordpress/components';
+import { useState } from '@wordpress/element';
+import {
+	__,
+	sprintf,
+	_n,
+} from '@wordpress/i18n';
+import { addQueryArgs } from '@wordpress/url';
 
 /**
  * BuddyPress dependencies.
  */
-const {
-	blockComponents: {
-		AutoCompleter,
-	},
-	blockData: {
-		isActive,
-	}
-} = bp;
+import { AutoCompleter } from '@buddypress/block-components';
+import { isActive } from '@buddypress/block-data';
 
 /**
  * Internal dependencies.
@@ -53,11 +40,11 @@ import { AVATAR_SIZES, EXTRA_INFO, GROUP_STATI } from './constants';
 /**
  * External dependencies.
  */
-const {
+import {
 	reject,
 	remove,
 	sortBy,
-} = lodash;
+} from 'lodash';
 
 const getSlugValue = ( item ) => {
 	if ( item && item.status && GROUP_STATI[ item.status ] ) {
@@ -68,6 +55,7 @@ const getSlugValue = ( item ) => {
 }
 
 const editGroupsBlock = ( { attributes, setAttributes, isSelected } ) => {
+	const blockProps = useBlockProps();
 	const isAvatarEnabled = isActive( 'groups', 'avatar' );
 	const {
 		itemIDs,
@@ -208,7 +196,7 @@ const editGroupsBlock = ( { attributes, setAttributes, isSelected } ) => {
 	}
 
 	return (
-		<Fragment>
+		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<ToggleControl
@@ -289,7 +277,7 @@ const editGroupsBlock = ( { attributes, setAttributes, isSelected } ) => {
 					/>
 				</Placeholder>
 			) }
-		</Fragment>
+		</div>
 	);
 };
 

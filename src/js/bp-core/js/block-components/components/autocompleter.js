@@ -1,23 +1,14 @@
 /**
  * WordPress dependencies.
  */
-const {
-	apiFetch,
-	components: {
-		Popover,
-	},
-	element: {
-		Component,
-		Fragment,
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-	url: {
-		addQueryArgs,
-	},
-} = wp;
+import apiFetch from '@wordpress/api-fetch';
+import { Popover } from '@wordpress/components';
+import {
+	Component,
+	Fragment,
+} from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { addQueryArgs } from '@wordpress/url';
 
 class AutoCompleter extends Component {
 	constructor() {

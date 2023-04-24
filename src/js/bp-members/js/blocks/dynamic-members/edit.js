@@ -1,36 +1,25 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-	},
-	components: {
-		Disabled,
-		PanelBody,
-		RangeControl,
-		SelectControl,
-		TextControl,
-		ToggleControl,
-	},
-	element: {
-		Fragment,
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-	serverSideRender: ServerSideRender,
-} = wp;
+import {
+    InspectorControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import {
+	Disabled,
+	PanelBody,
+	RangeControl,
+	SelectControl,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * BuddyPress dependencies.
  */
-const {
-	blockData: {
-		isActive,
-	}
-} = bp;
+import { isActive } from '@buddypress/block-data';
 
 /**
  * Internal dependencies.
@@ -38,11 +27,12 @@ const {
 import { TYPES } from './constants';
 
 const editDynamicMembersBlock = ( { attributes, setAttributes } ) => {
+	const blockProps = useBlockProps();
 	const { title, maxMembers, memberDefault, linkTitle } = attributes;
 	const sortTypes = !! isActive( 'friends' ) ? TYPES : TYPES.filter( ( type ) => 'popular' !== type.value );
 
 	return (
-		<Fragment>
+		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<TextControl
@@ -82,7 +72,7 @@ const editDynamicMembersBlock = ( { attributes, setAttributes } ) => {
 			<Disabled>
 				<ServerSideRender block="bp/dynamic-members" attributes={ attributes } />
 			</Disabled>
-		</Fragment>
+		</div>
 	);
 };
 

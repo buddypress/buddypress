@@ -1,32 +1,26 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-	},
-	components: {
-		Disabled,
-		PanelBody,
-		RangeControl,
-		TextControl,
-		ToggleControl,
-	},
-	element: {
-		Fragment,
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-	serverSideRender: ServerSideRender,
-} = wp;
+import {
+    InspectorControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import {
+	Disabled,
+	PanelBody,
+	RangeControl,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import ServerSideRender from '@wordpress/server-side-render';
 
 const editRecentPostsBlock = ( { attributes, setAttributes } ) => {
+	const blockProps = useBlockProps();
 	const { title, maxPosts, linkTitle } = attributes;
 
 	return (
-		<Fragment>
+		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<TextControl
@@ -58,7 +52,7 @@ const editRecentPostsBlock = ( { attributes, setAttributes } ) => {
 			<Disabled>
 				<ServerSideRender block="bp/recent-posts" attributes={ attributes } />
 			</Disabled>
-		</Fragment>
+		</div>
 	);
 };
 

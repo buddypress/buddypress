@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/login-form",
+  "title": "Login Form",
+  "category": "widgets",
+  "icon": "admin-users",
+  "description": "Show a Log In form to logged-out visitors, and a Log Out link to those who are logged in.",
+  "keywords": [
+    "BuddyPress",
+    "connexion",
+    "registration",
+    "login",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "forgotPwdLink": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/recent-posts",
+  "title": "Recent Networkwide Posts",
+  "category": "widgets",
+  "icon": "wordpress",
+  "description": "A list of recently published posts from across your network.",
+  "keywords": [
+    "BuddyPress",
+    "blogs",
+    "sites",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Recent Networkwide Posts"
+    },
+    "maxPosts": {
+      "type": "number",
+      "default": 10
+    },
+    "linkTitle": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

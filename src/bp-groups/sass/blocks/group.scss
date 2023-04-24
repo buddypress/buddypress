@@ -80,14 +80,6 @@
 		}
 	}
 
-	&.avatar-none.has-cover {
-		min-height: 200px;
-
-		.item-header-avatar {
-			padding-top: 75px;
-		}
-	}
-
 	&.avatar-full {
 		min-height: 150px;
 
@@ -97,6 +89,25 @@
 
 		.group-description {
 			padding-left: 35px;
+		}
+	}
+
+	&.avatar-thumb {
+
+		.item-header-avatar {
+			width: 70px;
+
+			img.avatar {
+				margin-top: 15px;
+			}
+		}
+	}
+
+	&.avatar-none.has-cover {
+		min-height: 200px;
+
+		.item-header-avatar {
+			padding-top: 75px;
 		}
 	}
 
@@ -111,17 +122,6 @@
 			border: solid 2px #fff;
 			background: rgba(255, 255, 255, 0.8);
 			margin-left: 20px;
-		}
-	}
-
-	&.avatar-thumb {
-
-		.item-header-avatar {
-			width: 70px;
-
-			img.avatar {
-				margin-top: 15px;
-			}
 		}
 	}
 

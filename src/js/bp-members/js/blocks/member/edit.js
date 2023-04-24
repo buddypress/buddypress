@@ -1,41 +1,28 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-		BlockControls,
-	},
-	components: {
-		Placeholder,
-		Disabled,
-		PanelBody,
-		SelectControl,
-		ToggleControl,
-		Toolbar,
-		ToolbarButton,
-	},
-	element: {
-		Fragment,
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-	serverSideRender: ServerSideRender,
-} = wp;
+import {
+    InspectorControls,
+	BlockControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import {
+	Placeholder,
+	Disabled,
+	PanelBody,
+	SelectControl,
+	ToggleControl,
+	Toolbar,
+	ToolbarButton,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * BuddyPress dependencies.
  */
-const {
-	blockComponents: {
-		AutoCompleter,
-	},
-	blockData: {
-		isActive,
-	}
-} = bp;
+import { AutoCompleter } from '@buddypress/block-components';
+import { isActive } from '@buddypress/block-data';
 
 /**
  * Internal dependencies.
@@ -51,6 +38,7 @@ const getSlugValue = ( item ) => {
 }
 
 const editMemberBlock = ( { attributes, setAttributes } ) => {
+	const blockProps = useBlockProps();
 	const isAvatarEnabled = isActive( 'members', 'avatar' );
 	const isMentionEnabled = isActive( 'activity', 'mentions' );
 	const isCoverImageEnabled = isActive( 'members', 'cover' );
@@ -58,25 +46,27 @@ const editMemberBlock = ( { attributes, setAttributes } ) => {
 
 	if ( ! attributes.itemID ) {
 		return (
-			<Placeholder
-				icon="admin-users"
-				label={ __( 'BuddyPress Member', 'buddypress' ) }
-				instructions={ __( 'Start typing the name of the member you want to feature into this post.', 'buddypress' ) }
-			>
-				<AutoCompleter
-					component="members"
-					slugValue={ getSlugValue }
-					ariaLabel={ __( 'Member\'s username', 'buddypress' ) }
-					placeholder={ __( 'Enter Member\'s username here…', 'buddypress' ) }
-					onSelectItem={ setAttributes }
-					useAvatar={ isAvatarEnabled }
-				/>
-			</Placeholder>
+			<div { ...blockProps }>
+				<Placeholder
+					icon="admin-users"
+					label={ __( 'BuddyPress Member', 'buddypress' ) }
+					instructions={ __( 'Start typing the name of the member you want to feature into this post.', 'buddypress' ) }
+				>
+					<AutoCompleter
+						component="members"
+						slugValue={ getSlugValue }
+						ariaLabel={ __( 'Member\'s username', 'buddypress' ) }
+						placeholder={ __( 'Enter Member\'s username here…', 'buddypress' ) }
+						onSelectItem={ setAttributes }
+						useAvatar={ isAvatarEnabled }
+					/>
+				</Placeholder>
+			</div>
 		);
 	}
 
 	return (
-		<Fragment>
+		<div { ...blockProps }>
 			<BlockControls>
 				<Toolbar label={ __( 'Block toolbar', 'buddypress' ) }>
 					<ToolbarButton
@@ -149,7 +139,7 @@ const editMemberBlock = ( { attributes, setAttributes } ) => {
 			<Disabled>
 				<ServerSideRender block="bp/member" attributes={ attributes } />
 			</Disabled>
-		</Fragment>
+		</div>
 	);
 };
 

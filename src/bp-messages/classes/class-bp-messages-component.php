@@ -485,6 +485,7 @@ class BP_Messages_Component extends BP_Component {
 	 * Register the BP Messages Blocks.
 	 *
 	 * @since 9.0.0
+	 * @since 12.0.0 Use the WP Blocks API v2.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.
@@ -493,27 +494,8 @@ class BP_Messages_Component extends BP_Component {
 		parent::blocks_init(
 			array(
 				'bp/sitewide-notices' => array(
-					'name'               => 'bp/sitewide-notices',
-					'editor_script'      => 'bp-sitewide-notices-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/sitewide-notices.js', dirname( __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-block-editor',
-						'wp-server-side-render',
-						'bp-block-data',
-					),
-					'style'              => 'bp-sitewide-notices-block',
-					'style_url'          => plugins_url( 'css/blocks/sitewide-notices.css', dirname( __FILE__ ) ),
-					'attributes'         => array(
-						'title' => array(
-							'type'    => 'string',
-							'default' => '',
-						),
-					),
-					'render_callback'    => 'bp_messages_render_sitewide_notices_block',
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-messages/blocks/sitewide-notices',
+					'render_callback' => 'bp_messages_render_sitewide_notices_block',
 				),
 			)
 		);

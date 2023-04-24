@@ -65,17 +65,29 @@ function bp_groups_get_group_manage_members_script_data( $group_id = 0 ) {
  * Registers a new script to manage the dynamic part of the Dynamic groups widget/block.
  *
  * @since 9.0.0
+ * @since 12.0.0 Uses the `@wordpress/scripts` `index.asset.php` generated file to get dependencies.
  *
  * @param array $scripts Data about the scripts to register.
  * @return array Data about the scripts to register.
  */
 function bp_groups_register_widget_block_scripts( $scripts = array() ) {
+	if ( ! bp_support_blocks() ) {
+		return $scripts;
+	}
+
+	$asset      = array(
+		'dependencies' => array(),
+		'version'      => ''
+	);
+	$asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget/index.asset.php';
+
+	if ( file_exists( $asset_path ) ) {
+		$asset = require $asset_path;
+	}
+
 	$scripts['bp-dynamic-groups-script'] = array(
-		'file'         => plugins_url( 'js/dynamic-groups.js', __FILE__ ),
-		'dependencies' => array(
-			'bp-dynamic-widget-block-script',
-			'wp-i18n',
-		),
+		'file'         => plugins_url( 'blocks/dynamic-widget/index.js', __FILE__ ),
+		'dependencies' => $asset['dependencies'],
 		'footer'       => true,
 	);
 

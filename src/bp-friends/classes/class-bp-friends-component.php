@@ -370,6 +370,7 @@ class BP_Friends_Component extends BP_Component {
 	 * Register the BP Friends Blocks.
 	 *
 	 * @since 9.0.0
+	 * @since 12.0.0 Use the WP Blocks API v2.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.
@@ -378,39 +379,8 @@ class BP_Friends_Component extends BP_Component {
 		parent::blocks_init(
 			array(
 				'bp/friends' => array(
-					'name'               => 'bp/friends',
-					'editor_script'      => 'bp-friends-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/friends.js', dirname( __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-block-editor',
-						'wp-server-side-render',
-						'bp-block-data',
-					),
-					'style'              => 'bp-friends-block',
-					'style_url'          => plugins_url( 'css/blocks/friends.css', dirname( __FILE__ ) ),
-					'attributes'         => array(
-						'maxFriends'    => array(
-							'type'    => 'number',
-							'default' => 5,
-						),
-						'friendDefault' => array(
-							'type'    => 'string',
-							'default' => 'active',
-						),
-						'linkTitle'     => array(
-							'type'    => 'boolean',
-							'default' => false,
-						),
-						'postId'        => array(
-							'type'    => 'number',
-							'default' => 0,
-						),
-					),
-					'render_callback'    => 'bp_friends_render_friends_block',
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-friends/blocks/dynamic-friends',
+					'render_callback' => 'bp_friends_render_friends_block',
 				),
 			)
 		);

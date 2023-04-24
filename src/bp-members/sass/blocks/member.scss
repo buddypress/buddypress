@@ -96,6 +96,18 @@
 		}
 	}
 
+	&.avatar-thumb {
+
+		.member-content {
+			min-height: 50px;
+			align-items: center;
+		}
+
+		.item-header-avatar {
+			width: 70px;
+		}
+	}
+
 	&.avatar-full.has-cover {
 		min-height: 300px;
 
@@ -107,18 +119,6 @@
 			border: solid 2px #fff;
 			background: rgba(255, 255, 255, 0.8);
 			margin-left: 20px;
-		}
-	}
-
-	&.avatar-thumb {
-
-		.member-content {
-			min-height: 50px;
-			align-items: center;
-		}
-
-		.item-header-avatar {
-			width: 70px;
 		}
 	}
 

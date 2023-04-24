@@ -1,35 +1,24 @@
 /**
  * WordPress dependencies.
  */
-const {
-	blockEditor: {
-		InspectorControls,
-	},
-	components: {
-		Disabled,
-		PanelBody,
-		RangeControl,
-		SelectControl,
-		ToggleControl,
-	},
-	element: {
-		Fragment,
-		createElement,
-	},
-	i18n: {
-		__,
-	},
-	serverSideRender: ServerSideRender,
-} = wp;
+import {
+    InspectorControls,
+	useBlockProps,
+} from '@wordpress/block-editor';
+import {
+	Disabled,
+	PanelBody,
+	RangeControl,
+	SelectControl,
+	ToggleControl,
+} from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+import ServerSideRender from '@wordpress/server-side-render';
 
 /**
  * BuddyPress dependencies.
  */
-const {
-	blockData: {
-		currentPostId,
-	}
-} = bp;
+import { currentPostId } from '@buddypress/block-data';
 
 /**
  * Internal dependencies.
@@ -37,6 +26,7 @@ const {
 import { TYPES } from './constants';
 
 const editDynamicFriendsBlock = ( { attributes, setAttributes } ) => {
+	const blockProps = useBlockProps();
 	const { postId, maxFriends, friendDefault, linkTitle } = attributes;
 	const post = currentPostId();
 
@@ -45,7 +35,7 @@ const editDynamicFriendsBlock = ( { attributes, setAttributes } ) => {
 	}
 
 	return (
-		<Fragment>
+		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<RangeControl
@@ -78,7 +68,7 @@ const editDynamicFriendsBlock = ( { attributes, setAttributes } ) => {
 			<Disabled>
 				<ServerSideRender block="bp/friends" attributes={ attributes } />
 			</Disabled>
-		</Fragment>
+		</div>
 	);
 };
 
