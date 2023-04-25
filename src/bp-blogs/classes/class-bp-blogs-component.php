@@ -510,6 +510,7 @@ class BP_Blogs_Component extends BP_Component {
 	 * Register the BP Blogs Blocks.
 	 *
 	 * @since 9.0.0
+	 * @since 12.0.0 Use the WP Blocks API v2.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.
@@ -519,34 +520,8 @@ class BP_Blogs_Component extends BP_Component {
 
 		if ( is_multisite() && bp_is_active( 'activity' ) ) {
 			$blocks['bp/recent-posts'] = array(
-				'name'               => 'bp/recent-posts',
-				'editor_script'      => 'bp-recent-posts-block',
-				'editor_script_url'  => plugins_url( 'js/blocks/recent-posts.js', dirname( __FILE__ ) ),
-				'editor_script_deps' => array(
-					'wp-blocks',
-					'wp-element',
-					'wp-components',
-					'wp-i18n',
-					'wp-block-editor',
-					'wp-server-side-render',
-				),
-				'style'              => 'bp-recent-posts-block',
-				'style_url'          => plugins_url( 'css/blocks/recent-posts.css', dirname( __FILE__ ) ),
-				'attributes'         => array(
-					'title'     => array(
-						'type'    => 'string',
-						'default' => __( 'Recent Networkwide Posts', 'buddypress' ),
-					),
-					'maxPosts'  => array(
-						'type'    => 'number',
-						'default' => 10,
-					),
-					'linkTitle' => array(
-						'type'    => 'boolean',
-						'default' => false,
-					),
-				),
-				'render_callback'    => 'bp_blogs_render_recent_posts_block',
+				'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-blogs/blocks/recent-posts',
+				'render_callback' => 'bp_blogs_render_recent_posts_block',
 			);
 		}
 

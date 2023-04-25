@@ -555,6 +555,7 @@ class BP_Activity_Component extends BP_Component {
 	 * Register the BP Activity Blocks.
 	 *
 	 * @since 7.0.0
+	 * @since 12.0.0 Use the WP Blocks API v2.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.
@@ -562,57 +563,15 @@ class BP_Activity_Component extends BP_Component {
 	public function blocks_init( $blocks = array() ) {
 		$blocks = array(
 			'bp/latest-activities' => array(
-				'name'               => 'bp/latest-activities',
-				'editor_script'      => 'bp-latest-activities-block',
-				'editor_script_url'  => plugins_url( 'js/blocks/latest-activities.js', dirname(  __FILE__ ) ),
-				'editor_script_deps' => array(
-					'wp-blocks',
-					'wp-element',
-					'wp-components',
-					'wp-i18n',
-					'wp-block-editor',
-					'wp-server-side-render',
-					'bp-block-data',
-				),
-				'style'              => 'bp-latest-activities-block',
-				'style_url'          => plugins_url( 'css/blocks/latest-activities.css', dirname(  __FILE__ ) ),
-				'attributes'         => array(
-					'title'         => array(
-						'type'    => 'string',
-						'default' => __( 'Latest updates', 'buddypress' ),
-					),
-					'maxActivities' => array(
-						'type'    => 'number',
-						'default' => 5,
-					),
-					'type'          => array(
-						'type'    => 'array',
-						'default' => array( 'activity_update' ),
-					),
-					'postId'        => array(
-						'type'    => 'number',
-						'default' => 0,
-					),
-				),
-				'render_callback'    => 'bp_activity_render_latest_activities_block',
+				'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-activity/blocks/latest-activities',
+				'render_callback' => 'bp_activity_render_latest_activities_block',
 			),
 		);
 
 		if ( bp_is_active( $this->id, 'embeds' ) ) {
 			$blocks['bp/embed-activity'] = array(
-				'name'               => 'bp/embed-activity',
-				'editor_script'      => 'bp-embed-activity-block',
-				'editor_script_url'  => plugins_url( 'js/blocks/embed-activity.js', dirname(  __FILE__ ) ),
-				'editor_script_deps' => array(
-					'wp-blocks',
-					'wp-element',
-					'wp-i18n',
-					'wp-components',
-					'wp-block-editor',
-					'wp-data',
-					'wp-compose',
-					'bp-block-data',
-				),
+				'metadata' => trailingslashit( buddypress()->plugin_dir ) . 'bp-activity/blocks/embed-activity',
+
 			);
 		}
 

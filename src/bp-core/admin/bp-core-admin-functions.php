@@ -1456,6 +1456,9 @@ add_filter( 'admin_body_class', 'bp_core_admin_body_classes' );
  *
  * @since 5.0.0
  * @since 8.0.0 The `bp_block_category_post_types` filter has been deprecated.
+ * @since 12.0.0 This category is left for third party plugin but not used anymmore.
+ *
+ * @todo deprecate.
  *
  * @param array          $categories Array of block categories.
  * @param string|WP_Post $post       Post being loaded.
@@ -1476,8 +1479,8 @@ function bp_block_category( $categories = array(), $editor_name_or_post = null )
 		array(
 			array(
 				'slug'  => 'buddypress',
-				'title' => __( 'BuddyPress', 'buddypress' ),
-				'icon'  => 'buddicons-buddypress-logo',
+				'title' => __( 'Community blocks', 'buddypress' ),
+				'icon'  => 'buddicons-community',
 			),
 		)
 	);

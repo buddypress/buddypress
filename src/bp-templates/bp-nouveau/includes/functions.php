@@ -1504,35 +1504,15 @@ function bp_nouveau_get_component_slug( $component_id = '' ) {
  * Registers the 'bp/primary-nav' Widget Block.
  *
  * @since 9.0.0
+ * @since 12.0.0 Use the WP Blocks API v2.
  *
  * @param array $blocks The Core Blocks list.
  * @return array The Core Blocks list.
  */
 function bp_nouveau_register_primary_nav_widget_block( $blocks = array() ) {
-	$editor_style = bp_locate_template_asset( 'css/primary-nav.css' );
-
 	$blocks['bp/primary-nav'] = array(
-		'name'               => 'bp/primary-nav',
-		'editor_script'      => 'bp-primary-nav-block',
-		'editor_script_url'  => trailingslashit( buddypress()->plugin_url . 'bp-core' ) . 'js/blocks/primary-nav.js',
-		'editor_script_deps' => array(
-			'wp-blocks',
-			'wp-element',
-			'wp-components',
-			'wp-i18n',
-			'wp-block-editor',
-			'wp-server-side-render',
-			'bp-block-data',
-		),
-		'editor_style'       => 'bp-primary-nav-block',
-		'editor_style_url'   => $editor_style['uri'],
-		'attributes'         => array(
-			'displayTitle' => array(
-				'type'    => 'boolean',
-				'default' => true,
-			),
-		),
-		'render_callback'    => 'bp_nouveau_render_primary_nav_block',
+		'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-core/blocks/primary-nav',
+		'render_callback' => 'bp_nouveau_render_primary_nav_block',
 	);
 
 	return $blocks;

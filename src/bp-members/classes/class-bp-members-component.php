@@ -981,6 +981,7 @@ class BP_Members_Component extends BP_Component {
 	 * Register the BP Members Blocks.
 	 *
 	 * @since 6.0.0
+	 * @since 12.0.0 Use the WP Blocks API v2.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.
@@ -989,185 +990,24 @@ class BP_Members_Component extends BP_Component {
 		parent::blocks_init(
 			array(
 				'bp/member' => array(
-					'name'               => 'bp/member',
-					'editor_script'      => 'bp-member-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/member.js', dirname( __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-block-editor',
-						'wp-server-side-render',
-						'bp-block-components',
-						'bp-block-data',
-					),
-					'style'              => 'bp-member-block',
-					'style_url'          => plugins_url( 'css/blocks/member.css', dirname( __FILE__ ) ),
-					'render_callback'    => 'bp_members_render_member_block',
-					'attributes'         => array(
-						'itemID'              => array(
-							'type'    => 'integer',
-							'default' => 0,
-						),
-						'avatarSize'          => array(
-							'type'    => 'string',
-							'default' => 'full',
-						),
-						'displayMentionSlug'  => array(
-							'type'    => 'boolean',
-							'default' => true,
-						),
-						'displayActionButton' => array(
-							'type'    => 'boolean',
-							'default' => true,
-						),
-						'displayCoverImage'   => array(
-							'type'    => 'boolean',
-							'default' => true,
-						),
-					),
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/member',
+					'render_callback' => 'bp_members_render_member_block',
 				),
 				'bp/members' => array(
-					'name'               => 'bp/members',
-					'editor_script'      => 'bp-members-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/members.js', dirname( __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-api-fetch',
-						'wp-url',
-						'wp-block-editor',
-						'bp-block-components',
-						'bp-block-data',
-						'lodash',
-					),
-					'style'              => 'bp-members-block',
-					'style_url'          => plugins_url( 'css/blocks/members.css', dirname( __FILE__ ) ),
-					'attributes'         => array(
-						'itemIDs'            => array(
-							'type'  => 'array',
-							'items' => array(
-								'type' => 'integer',
-							),
-						),
-						'avatarSize'         => array(
-							'type'    => 'string',
-							'default' => 'full',
-						),
-						'displayMentionSlug' => array(
-							'type'    => 'boolean',
-							'default' => true,
-						),
-						'displayUserName'    => array(
-							'type'    => 'boolean',
-							'default' => true,
-						),
-						'extraData'          => array(
-							'type'    => 'string',
-							'default' => 'none',
-							'enum'    => array( 'last_activity', 'latest_update', 'none' ),
-						),
-						'layoutPreference'   => array(
-							'type'    => 'string',
-							'default' => 'list',
-							'enum'    => array( 'list', 'grid' ),
-						),
-						'columns'            => array(
-							'type'    => 'number',
-							'default' => 2,
-						),
-					),
-					'render_callback'    => 'bp_members_render_members_block',
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/members',
+					'render_callback' => 'bp_members_render_members_block',
 				),
 				'bp/dynamic-members' => array(
-					'name'               => 'bp/dynamic-members',
-					'editor_script'      => 'bp-dynamic-members-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/dynamic-members.js', dirname( __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-block-editor',
-						'wp-server-side-render',
-						'bp-block-data',
-					),
-					'style'              => 'bp-dynamic-members-block',
-					'style_url'          => plugins_url( 'css/blocks/dynamic-members.css', dirname( __FILE__ ) ),
-					'attributes'         => array(
-						'title'         => array(
-							'type'    => 'string',
-							'default' => __( 'Members', 'buddypress' ),
-						),
-						'maxMembers'    => array(
-							'type'    => 'number',
-							'default' => 5,
-						),
-						'memberDefault' => array(
-							'type'    => 'string',
-							'default' => 'active',
-						),
-						'linkTitle'     => array(
-							'type'    => 'boolean',
-							'default' => false,
-						),
-					),
-					'render_callback'    => 'bp_members_render_dynamic_members_block',
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/dynamic-members',
+					'render_callback' => 'bp_members_render_dynamic_members_block',
 				),
 				'bp/online-members'  => array(
-					'name'               => 'bp/online-members',
-					'editor_script'      => 'bp-online-members-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/online-members.js', dirname( __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-block-editor',
-						'wp-server-side-render',
-					),
-					'editor_style'       => 'bp-member-avatar-blocks',
-					'editor_style_url'   => plugins_url( 'css/blocks/member-avatar-blocks.css', dirname( __FILE__ ) ),
-					'attributes'         => array(
-						'title'      => array(
-							'type'    => 'string',
-							'default' => __( 'Who\'s Online', 'buddypress' ),
-						),
-						'maxMembers' => array(
-							'type'    => 'number',
-							'default' => 15,
-						),
-					),
-					'render_callback'    => 'bp_members_render_online_members_block',
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/online-members',
+					'render_callback' => 'bp_members_render_online_members_block',
 				),
 				'bp/active-members'  => array(
-					'name'               => 'bp/active-members',
-					'editor_script'      => 'bp-active-members-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/active-members.js', dirname( __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-block-editor',
-						'wp-server-side-render',
-					),
-					'editor_style'       => 'bp-member-avatar-blocks',
-					'editor_style_url'   => plugins_url( 'css/blocks/member-avatar-blocks.css', dirname( __FILE__ ) ),
-					'attributes'         => array(
-						'title'      => array(
-							'type'    => 'string',
-							'default' => __( 'Recently Active Members', 'buddypress' ),
-						),
-						'maxMembers' => array(
-							'type'    => 'number',
-							'default' => 15,
-						),
-					),
-					'render_callback'    => 'bp_members_render_active_members_block',
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/active-members',
+					'render_callback' => 'bp_members_render_active_members_block',
 				),
 			)
 		);

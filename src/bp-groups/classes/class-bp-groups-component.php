@@ -1212,6 +1212,7 @@ class BP_Groups_Component extends BP_Component {
 	 * Register the BP Groups Blocks.
 	 *
 	 * @since 6.0.0
+	 * @since 12.0.0 Use the WP Blocks API v2.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.
@@ -1220,128 +1221,16 @@ class BP_Groups_Component extends BP_Component {
 		parent::blocks_init(
 			array(
 				'bp/group' => array(
-					'name'               => 'bp/group',
-					'editor_script'      => 'bp-group-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/group.js', dirname(  __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-block-editor',
-						'wp-server-side-render',
-						'bp-block-components',
-						'bp-block-data',
-					),
-					'style'              => 'bp-group-block',
-					'style_url'          => plugins_url( 'css/blocks/group.css', dirname( __FILE__ ) ),
-					'render_callback'    => 'bp_groups_render_group_block',
-					'attributes'         => array(
-						'itemID'              => array(
-							'type'    => 'integer',
-							'default' => 0,
-						),
-						'avatarSize'          => array(
-							'type'    => 'string',
-							'default' => 'full',
-						),
-						'displayDescription'  => array(
-							'type'    => 'boolean',
-							'default' => true,
-						),
-						'displayActionButton' => array(
-							'type'    => 'boolean',
-							'default' => true,
-						),
-						'displayCoverImage'   => array(
-							'type'    => 'boolean',
-							'default' => true,
-						),
-					),
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-groups/blocks/group',
+					'render_callback' => 'bp_groups_render_group_block',
 				),
 				'bp/groups' => array(
-					'name'               => 'bp/groups',
-					'editor_script'      => 'bp-groups-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/groups.js', dirname( __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-api-fetch',
-						'wp-url',
-						'wp-block-editor',
-						'bp-block-components',
-						'bp-block-data',
-						'lodash',
-					),
-					'style'              => 'bp-groups-block',
-					'style_url'          => plugins_url( 'css/blocks/groups.css', dirname( __FILE__ ) ),
-					'attributes'         => array(
-						'itemIDs'          => array(
-							'type'  => 'array',
-							'items' => array(
-								'type' => 'integer',
-							),
-						),
-						'avatarSize'       => array(
-							'type'    => 'string',
-							'default' => 'full',
-						),
-						'displayGroupName' => array(
-							'type'    => 'boolean',
-							'default' => true,
-						),
-						'extraInfo'        => array(
-							'type'    => 'string',
-							'default' => 'none',
-							'enum'    => array( 'description', 'popular', 'active', 'none' ),
-						),
-						'layoutPreference' => array(
-							'type'    => 'string',
-							'default' => 'list',
-							'enum'    => array( 'list', 'grid' ),
-						),
-						'columns'          => array(
-							'type'    => 'number',
-							'default' => 2,
-						),
-					),
-					'render_callback'    => 'bp_groups_render_groups_block',
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-groups/blocks/groups',
+					'render_callback' => 'bp_groups_render_groups_block',
 				),
 				'bp/dynamic-groups' => array(
-					'name'               => 'bp/dynamic-groups',
-					'editor_script'      => 'bp-dynamic-groups-block',
-					'editor_script_url'  => plugins_url( 'js/blocks/dynamic-groups.js', dirname( __FILE__ ) ),
-					'editor_script_deps' => array(
-						'wp-blocks',
-						'wp-element',
-						'wp-components',
-						'wp-i18n',
-						'wp-block-editor',
-						'wp-server-side-render',
-					),
-					'style'              => 'bp-dynamic-groups-block',
-					'style_url'          => plugins_url( 'css/blocks/dynamic-groups.css', dirname( __FILE__ ) ),
-					'attributes'         => array(
-						'title'        => array(
-							'type'    => 'string',
-							'default' => __( 'Groups', 'buddypress' ),
-						),
-						'maxGroups'    => array(
-							'type'    => 'number',
-							'default' => 5,
-						),
-						'groupDefault' => array(
-							'type'    => 'string',
-							'default' => 'active',
-						),
-						'linkTitle'    => array(
-							'type'    => 'boolean',
-							'default' => false,
-						),
-					),
-					'render_callback'    => 'bp_groups_render_dynamic_groups_block',
+					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-groups/blocks/dynamic-groups',
+					'render_callback' => 'bp_groups_render_dynamic_groups_block',
 				),
 			)
 		);

@@ -84,7 +84,7 @@ function messages_autocomplete_init_jsblock() {
  */
 function bp_messages_register_scripts( $scripts = array() ) {
 	$scripts['bp-sitewide-notices-script'] = array(
-		'file'         => plugins_url( 'js/sitewide-notices.js', __FILE__ ),
+		'file'         => plugins_url( 'blocks/close-notices-block/index.js', __FILE__ ),
 		'dependencies' => array(),
 		'footer'       => true,
 	);
