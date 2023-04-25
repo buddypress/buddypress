@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/sitewide-notices",
+  "title": "Sitewide Notices",
+  "category": "widgets",
+  "icon": "megaphone",
+  "description": "Display Sitewide Notices posted by the site administrator.",
+  "keywords": [
+    "BuddyPress",
+    "notices",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

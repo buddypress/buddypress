@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/dynamic-members",
+  "title": "Dynamic Members List",
+  "category": "widgets",
+  "icon": "groups",
+  "description": "A dynamic list of recently active, popular, and newest members.",
+  "keywords": [
+    "BuddyPress",
+    "members",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Members"
+    },
+    "maxMembers": {
+      "type": "number",
+      "default": 5
+    },
+    "memberDefault": {
+      "type": "string",
+      "default": "active"
+    },
+    "linkTitle": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

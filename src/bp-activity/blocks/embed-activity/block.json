@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/embed-activity",
+  "title": "Embed an activity",
+  "category": "embed",
+  "icon": "buddicons-activity",
+  "description": "Add a block that displays the activity content pulled from this or other community sites.",
+  "keywords": [
+    "BuddyPress",
+    "activity",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "url": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "string",
+      "source": "html",
+      "selector": "figcaption"
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

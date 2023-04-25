@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/dynamic-groups",
+  "title": "Dynamic Groups List",
+  "category": "widgets",
+  "icon": "buddicons-groups",
+  "description": "A dynamic list of recently active, popular, newest, or alphabetical groups.",
+  "keywords": [
+    "BuddyPress",
+    "groups",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Groups"
+    },
+    "maxGroups": {
+      "type": "number",
+      "default": 5
+    },
+    "groupDefault": {
+      "type": "string",
+      "default": "active"
+    },
+    "linkTitle": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/active-members",
+  "title": "Recently Active Members",
+  "category": "widgets",
+  "icon": "groups",
+  "description": "Profile photos of recently active members.",
+  "keywords": [
+    "BuddyPress",
+    "members",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Recently Active Members"
+    },
+    "maxMembers": {
+      "type": "number",
+      "default": 15
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

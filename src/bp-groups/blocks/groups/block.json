@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/groups",
+  "title": "Groups",
+  "category": "widgets",
+  "icon": "buddicons-groups",
+  "description": "BuddyPress Groups.",
+  "keywords": [
+    "BuddyPress",
+    "groups",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "itemIDs": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "default": []
+    },
+    "avatarSize": {
+      "type": "string",
+      "default": "full"
+    },
+    "displayGroupName": {
+      "type": "boolean",
+      "default": true
+    },
+    "extraInfo": {
+      "type": "string",
+      "default": "none"
+    },
+    "layoutPreference": {
+      "type": "string",
+      "default": "list"
+    },
+    "columns": {
+      "type": "number",
+      "default": 2
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

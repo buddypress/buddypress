@@ -1,0 +1,40 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/latest-activities",
+  "title": "Latest Activities",
+  "category": "widgets",
+  "icon": "buddicons-activity",
+  "description": "Display the latest updates of the post author (when used into a page or post), of the displayed user (when viewing their profile) or of your community.",
+  "keywords": [
+    "BuddyPress",
+    "activity",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Latest updates"
+    },
+    "maxActivities": {
+      "type": "number",
+      "default": 5
+    },
+    "type": {
+      "type": "array",
+      "default": [
+        "activity_update"
+      ]
+    },
+    "postId": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

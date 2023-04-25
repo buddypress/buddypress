@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/primary-nav",
+  "title": "Primary navigation",
+  "category": "widgets",
+  "icon": "buddicons-community",
+  "description": "Displays BuddyPress primary nav in the sidebar of your site. Make sure to use it as the first widget of the sidebar and only once.",
+  "keywords": [
+    "BuddyPress",
+    "navigation",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "displayTitle": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

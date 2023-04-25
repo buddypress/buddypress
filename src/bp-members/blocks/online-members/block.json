@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/online-members",
+  "title": "Online Members",
+  "category": "widgets",
+  "icon": "groups",
+  "description": "Profile photos of online users.",
+  "keywords": [
+    "BuddyPress",
+    "members",
+    "online",
+    "community"
+  ],
+  "textdomain": "buddypress",
+  "attributes": {
+    "title": {
+      "type": "string",
+      "default": "Online Members"
+    },
+    "maxMembers": {
+      "type": "number",
+      "default": 5
+    }
+  },
+  "supports": {
+    "align": true
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}
