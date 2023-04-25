@@ -3,15 +3,7 @@ src/bp-core/js/vendor/**/*
 src/bp-messages/js/autocomplete/*
 
 // Blocks Scripts
-src/**/js/blocks/*.js
-src/**/js/blocks/**/*.js
-src/**/js/block-*/*.js
-src/**/js/block-*/**/*.js
-src/**/js/block-*.js
-src/**/js/friends.js
-src/**/js/dynamic-members.js
-src/**/js/dynamic-groups.js
-src/**/js/dynamic-widget-block.js
-src/**/js/sitewide-notices.js
+src/js/**
+src/**/blocks/*/index.js
 src/**/bp-core/admin/js/dismissible-admin-notices.js
 src/**/bp-members/admin/js/admin.js
