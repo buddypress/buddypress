@@ -197,6 +197,13 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			$GLOBALS['bp']->{$component}->sub_nav = array();
 		}
 
+		$block_registry = WP_Block_Type_Registry::get_instance();
+		foreach ( array_keys( $block_registry->get_all_registered() ) as $block_name ) {
+			if ( 0 === strpos( $block_name, 'bp/' ) ) {
+				unregister_block_type( $block_name );
+			}
+		}
+
 		parent::go_to( $url );
 
 		do_action( 'bp_init' );
