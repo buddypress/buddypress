@@ -10,7 +10,8 @@ module.exports = function( grunt ) {
 
 		// CSS exclusions, for excluding files from certain tasks, e.g. rtlcss
 		BP_EXCLUDED_CSS = [
-			'!**/*-rtl.css'
+			'!**/*-rtl.css',
+			'!**/blocks/*/index.css'
 		],
 
 		BP_JS = [
