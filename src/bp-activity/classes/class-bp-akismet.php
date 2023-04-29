@@ -707,11 +707,12 @@ class BP_Akismet {
 	 */
 	public function get_activity_history( $activity_id = 0 ) {
 		$history = bp_activity_get_meta( $activity_id, '_bp_akismet_history' );
-		if ( $history === false )
+		if ( $history && is_array( $history ) ) {
+			// Sort it by the time recorded.
+			usort( $history, 'akismet_cmp_time' );
+		} else {
 			$history = array();
-
-		// Sort it by the time recorded.
-		usort( $history, 'akismet_cmp_time' );
+		}
 
 		return $history;
 	}
