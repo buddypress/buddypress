@@ -538,13 +538,13 @@ class BP_Component {
 		// to bp_include with the default priority of 10. This is for backwards
 		// compatibility; henceforth, plugins should register themselves by
 		// extending this base class.
-		add_action( 'bp_include',                array( $this, 'includes'               ), 8 );
+		add_action( 'bp_include',                array( $this, 'includes'               ),  8 );
 
 		// Load files conditionally, based on certain pages.
-		add_action( 'bp_late_include',           array( $this, 'late_includes'          ) );
+		add_action( 'bp_late_include',           array( $this, 'late_includes'          ), 10 );
 
 		// Generate navigation.
-		add_action( 'bp_setup_nav',              array( $this, 'register_nav'           ),  7 );
+		add_action( 'bp_register_nav',           array( $this, 'register_nav'           ),  9 );
 
 		// Setup navigation.
 		add_action( 'bp_setup_nav',              array( $this, 'setup_nav'              ),  9 );

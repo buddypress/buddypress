@@ -159,7 +159,7 @@ function bp_core_get_query_parser() {
 	 * @param string $parser The parser to use to decide the hook to attach key actions to.
 	 *                       Possible values are `rewrites` or `legacy`.
 	 */
-	return apply_filters( 'bp_core_get_query_parser', bp_has_pretty_urls() ? 'legacy' : 'rewrites' );
+	return apply_filters( 'bp_core_get_query_parser', 'rewrites' );
 }
 
 /**

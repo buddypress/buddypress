@@ -156,14 +156,28 @@ function bp_setup_globals() {
 }
 
 /**
- * Fire the 'bp_setup_nav' action, where plugins should register their navigation items.
+ * Fire the 'bp_register_nav' action, where plugins should register their navigation items.
+ *
+ * @since 1.2.0
+ */
+function bp_register_nav() {
+	/**
+	 * Fires inside the 'bp_register_nav' function, where plugins should register their navigation items.
+	 *
+	 * @since 12.0.0
+	 */
+	do_action( 'bp_register_nav' );
+}
+
+/**
+ * Fire the 'bp_setup_nav' action, where navigation items are generated.
  *
  * @since 1.2.0
  */
 function bp_setup_nav() {
 
 	/**
-	 * Fires inside the 'bp_setup_nav' function, where plugins should register their navigation items.
+	 * Fires inside the 'bp_setup_nav' function, where navigation items are generated.
 	 *
 	 * @since 1.2.0
 	 */

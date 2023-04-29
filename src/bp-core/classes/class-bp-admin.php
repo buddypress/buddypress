@@ -146,9 +146,12 @@ class BP_Admin {
 		require $this->admin_dir . 'bp-core-admin-settings.php';
 		require $this->admin_dir . 'bp-core-admin-functions.php';
 		require $this->admin_dir . 'bp-core-admin-components.php';
-		require $this->admin_dir . 'bp-core-admin-rewrites.php';
 		require $this->admin_dir . 'bp-core-admin-tools.php';
 		require $this->admin_dir . 'bp-core-admin-optouts.php';
+
+		if ( 'rewrites' === bp_core_get_query_parser() ) {
+			require $this->admin_dir . 'bp-core-admin-rewrites.php';
+		}
 	}
 
 	/**
@@ -275,17 +278,19 @@ class BP_Admin {
 		$this->submenu_pages['settings']['bp-components'] = $bp_components_page;
 		$hooks[]                                          = $bp_components_page;
 
-		$bp_rewrite_settings_page = add_submenu_page(
-			$this->settings_page,
-			__( 'BuddyPress URLs', 'buddypress' ),
-			__( 'BuddyPress URLs', 'buddypress' ),
-			$this->capability,
-			'bp-rewrites',
-			'bp_core_admin_rewrites_settings'
-		);
+		if ( 'rewrites' === bp_core_get_query_parser() ) {
+			$bp_rewrites_settings_page = add_submenu_page(
+				$this->settings_page,
+				__( 'BuddyPress URLs', 'buddypress' ),
+				__( 'BuddyPress URLs', 'buddypress' ),
+				$this->capability,
+				'bp-rewrites',
+				'bp_core_admin_rewrites_settings'
+			);
 
-		$this->submenu_pages['settings']['bp-rewrites'] = $bp_rewrite_settings_page;
-		$hooks[]                                        = $bp_rewrite_settings_page;
+			$this->submenu_pages['settings']['bp-rewrites'] = $bp_rewrites_settings_page;
+			$hooks[]                                        = $bp_rewrites_settings_page;
+		}
 
 		$bp_settings_page = add_submenu_page(
 			$this->settings_page,
