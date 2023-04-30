@@ -388,34 +388,41 @@ class BP_Members_Component extends BP_Component {
 
 		if ( bp_displayed_user_id() ) {
 			$bp->canonical_stack['base_url'] = bp_displayed_user_url();
+			$action_variables                = (array) bp_action_variables();
+			$path_chunks                     = bp_members_get_path_chunks(
+				array_merge(
+					array( bp_current_component(), bp_current_action() ),
+					array_filter( $action_variables )
+				)
+			);
 
-			if ( bp_current_component() ) {
-				$bp->canonical_stack['component'] = bp_current_component();
-			}
+			if ( isset( $path_chunks['single_item_component'] ) ) {
+				$bp->canonical_stack['component'] = $path_chunks['single_item_component'];
 
-			if ( bp_current_action() ) {
-				$bp->canonical_stack['action'] = bp_current_action();
-			}
+				// The canonical URL will not contain the default component.
+				if ( bp_is_current_component( $bp->default_component ) && ! bp_current_action() ) {
+					unset( $bp->canonical_stack['component'] );
+				} elseif ( isset( $path_chunks['single_item_action'] ) ) {
+					$bp->canonical_stack['action'] = $path_chunks['single_item_action'];
 
-			if ( ! empty( $bp->action_variables ) ) {
-				$bp->canonical_stack['action_variables'] = bp_action_variables();
-			}
+					if ( isset( $path_chunks['single_item_action_variables'] ) ) {
+						$bp->canonical_stack['action_variables'] = $path_chunks['single_item_action_variables'];
+					}
+				}
 
-			// Looking at the single member root/home, so assume the default.
-			if ( ! bp_current_component() ) {
+				// Looking at the single member root/home, so assume the default.
+			} else {
 				$bp->current_component = $bp->default_component;
-
-			// The canonical URL will not contain the default component.
-			} elseif ( bp_is_current_component( $bp->default_component ) && ! bp_current_action() ) {
-				unset( $bp->canonical_stack['component'] );
 			}
 
-			// If we're on a spammer's profile page, only users with the 'bp_moderate' cap
-			// can view subpages on the spammer's profile.
-			//
-			// users without the cap trying to access a spammer's subnav page will get
-			// redirected to the root of the spammer's profile page.  this occurs by
-			// by removing the component in the canonical stack.
+			/*
+			 * If we're on a spammer's profile page, only users with the 'bp_moderate' cap
+			 * can view subpages on the spammer's profile.
+			 *
+			 * users without the cap trying to access a spammer's subnav page will get
+			 * redirected to the root of the spammer's profile page.  this occurs by
+			 * by removing the component in the canonical stack.
+			 */
 			if ( bp_is_user_spammer( bp_displayed_user_id() ) && ! bp_current_user_can( 'bp_moderate' ) ) {
 				unset( $bp->canonical_stack['component'] );
 			}
