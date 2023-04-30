@@ -643,13 +643,14 @@ class BP_Akismet {
 	function history_metabox( $item ) {
 		$history = BP_Akismet::get_activity_history( $item->id );
 
-		if ( empty( $history ) )
-			return;
+		if ( empty( $history ) ) {
+			$message = '&mdash;';
+		} else {
+			/* translators: 1: the human diff time. 2: the akismet history data. */
+			$message = sprintf( _x( '%1$s &mdash; %2$s', 'x hours ago - akismet cleared this item', 'buddypress' ), '<span>' . bp_core_time_since( $history['time'] ) . '</span>', esc_html( $history['message'] ) );
+		}
 
-		echo '<div class="akismet-history"><div>';
-		/* translators: 1: the human diff time. 2: the akismet history data. */
-		printf( _x( '%1$s &mdash; %2$s', 'x hours ago - akismet cleared this item', 'buddypress' ), '<span>' . bp_core_time_since( $history[2] ) . '</span>', esc_html( $history[1] ) );
-		echo '</div></div>';
+		printf( '<div class="akismet-history"><div>%s</div></div>', wp_kses( $message, array( 'span' => true ) ) );
 	}
 
 	/**
@@ -683,11 +684,11 @@ class BP_Akismet {
 	 */
 	public function get_activity_history( $activity_id = 0 ) {
 		$history = bp_activity_get_meta( $activity_id, '_bp_akismet_history' );
-		if ( $history === false )
+		if ( $history && is_array( $history ) && isset( $history['time'] ) ) {
+			$history['time'] = (int) $history['time'];
+		} else {
 			$history = array();
-
-		// Sort it by the time recorded.
-		usort( $history, 'akismet_cmp_time' );
+		}
 
 		return $history;
 	}
