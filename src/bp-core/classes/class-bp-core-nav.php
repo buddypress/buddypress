@@ -200,14 +200,18 @@ class BP_Core_Nav {
 				unset( $path_chunks['single_item_component'] );
 				$args['link'] = bp_rewrites_get_url( $path_chunks );
 			} else {
-				$path_chunks['single_item_component'] = bp_rewrites_get_slug( 'members', 'member_' . $path_chunks['single_item_component'], $path_chunks['single_item_component'] );
+				if ( isset( $path_chunks['single_item_component'] ) ) {
+					// First try to get custom item action slugs.
+					if ( isset( $path_chunks['single_item_action'] ) && ! is_numeric( $path_chunks['single_item_action'] ) ) {
+						$path_chunks['single_item_action'] = bp_rewrites_get_slug(
+							'members',
+							'member_' . $path_chunks['single_item_component'] . '_' . str_replace( '-', '_', $path_chunks['single_item_action'] ),
+							$path_chunks['single_item_action']
+						);
+					}
 
-				if ( isset( $path_chunks['single_item_action'] ) && ! is_numeric( $path_chunks['single_item_action'] ) ) {
-					$path_chunks['single_item_action'] = bp_rewrites_get_slug(
-						'members',
-						'member_' . $path_chunks['single_item_component'] . '_' . $path_chunks['single_item_action'],
-						$path_chunks['single_item_action']
-					);
+					// Then only try to get custom item component slug.
+					$path_chunks['single_item_component'] = bp_rewrites_get_slug( 'members', 'member_' . str_replace( '-', '_', $path_chunks['single_item_component'] ), $path_chunks['single_item_component'] );
 				}
 
 				$args['link'] = bp_members_get_user_url( $this->object_id, $path_chunks );

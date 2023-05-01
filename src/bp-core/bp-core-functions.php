@@ -4956,6 +4956,16 @@ function bp_get_component_navigations( $component = '' ) {
 		}
 
 		if ( isset( $component->sub_nav ) && is_array( $component->sub_nav ) && $component->sub_nav ) {
+			// We possibly need to move some members nav items.
+			if ( 'members' === $key_component && isset( $navigations['profile']['sub_nav'] ) ) {
+				$profile_subnav_slugs = wp_list_pluck( $navigations['profile']['sub_nav'], 'slug' );
+				foreach ( $component->sub_nav as $members_subnav ) {
+					if ( 'profile' === $members_subnav['parent_slug'] && ! in_array( $members_subnav['slug'], $profile_subnav_slugs, true ) ) {
+						$navigations['profile']['sub_nav'][] = $members_subnav;
+					}
+				}
+			}
+
 			$navigations[ $key_component ]['sub_nav'] = $component->sub_nav;
 		}
 	}

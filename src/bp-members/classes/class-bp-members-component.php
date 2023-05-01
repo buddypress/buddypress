@@ -902,11 +902,21 @@ class BP_Members_Component extends BP_Component {
 
 				$action_variables = $query->get( $this->rewrite_ids['single_item_action_variables'] );
 				if ( $action_variables ) {
+					$context = sprintf( 'bp_member_%1$s_%2$s_', $bp->current_component, $bp->current_action );
+
 					if ( ! is_array( $action_variables ) ) {
-						$bp->action_variables = explode( '/', ltrim( $action_variables, '/' ) );
-					} else {
-						$bp->action_variables = $action_variables;
+						$action_variables = explode( '/', ltrim( $action_variables, '/' ) );
 					}
+
+					foreach ( $action_variables as $key_variable => $action_variable ) {
+						$item_component_action_variable_rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'members', $action_variable, $context );
+
+						if ( $item_component_action_variable_rewrite_id ) {
+							$action_variables[ $key_variable ] = str_replace( $context, '', $item_component_action_variable_rewrite_id );
+						}
+					}
+
+					$bp->action_variables = $action_variables;
 				}
 
 				// Is this a member type query?
