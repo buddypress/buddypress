@@ -348,43 +348,48 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 		$this->assertSame( 'bar', buddypress()->bp_options_nav['parent']['foo']['css_id'] );
 	}
 
+	public function screen_callback() {
+		bp_core_load_template( 'members/single/plugins' );
+	}
+
+	public function new_nav_hook() {
+		bp_core_new_subnav_item(
+			array(
+				'name'            => 'Testing',
+				'slug'            => 'testing',
+				'parent_slug'     => bp_get_profile_slug(),
+				'screen_function' => array( $this, 'screen_callback' ),
+				'position'        => 20
+			)
+		);
+	}
+
 	/**
 	 * @ticket BP7931
 	 */
 	public function test_subnav_should_not_404_on_early_bp_setup_nav_priority() {
+		// Register a subnav on 'bp_setup_nav' hook early (at priority zero).
+		add_action( 'bp_setup_nav', array( $this, 'screen_callback' ), 0 );
+
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
 		$this->set_current_user( $u );
 
-		$user_domain = bp_members_get_user_url( $u );
-
-		// Register a subnav on 'bp_setup_nav' hook early (at priority zero).
-		add_action( 'bp_setup_nav', function() use ( $user_domain ) {
-			/*
-			 * Emulate a subnav screen.
-			 *
-			 * The bp_core_load_template() call is imperative for our 404 check to work!
-			 */
-			$screen = function() {
-				bp_core_load_template ('members/single/plugins');
-			};
-
-			// Register the subnav.
-			bp_core_new_subnav_item( array (
-				'name'            => 'Testing',
-				'slug'            => 'testing',
-				'parent_url'      => $user_domain . bp_get_profile_slug (). '/',
-				'parent_slug'     => bp_get_profile_slug (),
-				'screen_function' => $screen,
-				'position'        => 20
-			) );
-		}, 0 );
+		$url = bp_members_get_user_url(
+			$u,
+			array(
+				'single_item_component' => bp_get_profile_slug(),
+				'single_item_action'    => 'testing',
+			)
+		);
 
 		// Emulate visit to our new subnav page.
-		$this->go_to( $user_domain . bp_get_profile_slug () . '/testing/' );
+		$this->go_to( $url );
 
 		// Assert that subnav page does not 404.
 		$this->assertFalse( is_404() );
+
+		remove_action( 'bp_setup_nav', array( $this, 'screen_callback' ), 0 );
 
 		$this->set_current_user( $old_current_user );
 	}

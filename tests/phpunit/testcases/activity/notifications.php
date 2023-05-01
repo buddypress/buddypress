@@ -45,8 +45,8 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	 * @group mentions
 	 */
 	public function test_bp_activity_remove_screen_notifications_on_single_activity_permalink() {
-		$this->create_notifications();
 		$this->set_permalink_structure( '/%postname%/' );
+		$this->create_notifications();
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,
@@ -54,17 +54,16 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 
 		// Double check it's there
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
-
-		// Go to the activity permalink page
-		$this->go_to(
-			bp_members_get_user_url(
-				$this->u1,
-				array(
-					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
-					'single_item_action'    => $this->a1,
-				)
+		$url = bp_members_get_user_url(
+			$this->u1,
+			array(
+				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
+				'single_item_action'    => $this->a1,
 			)
 		);
+
+		// Go to the activity permalink page
+		$this->go_to( $url );
 
 		$notifications = BP_Notifications_Notification::get( array(
 			'user_id' => $this->u1,

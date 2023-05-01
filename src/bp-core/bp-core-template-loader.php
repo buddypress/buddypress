@@ -565,6 +565,11 @@ function bp_parse_query( $posts_query ) {
 		return;
 	}
 
+	// Set some needed URI globals.
+	$bp                        = buddypress();
+	$bp->unfiltered_uri        = explode( '/', $GLOBALS['wp']->request );
+	$bp->unfiltered_uri_offset = 0;
+
 	/**
 	 * Fires at the end of the bp_parse_query function.
 	 *

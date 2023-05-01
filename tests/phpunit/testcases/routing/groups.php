@@ -54,14 +54,21 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 */
 	public function test_group_directory_with_type() {
 		$this->set_permalink_structure( '/%postname%/' );
-		bp_groups_register_group_type( 'foo' );
-		$this->go_to(
-			bp_get_groups_directory_url(
-				array(
-					'directory_type' => 'foo',
-				)
+		bp_groups_register_group_type(
+			'foo',
+			array(
+				'has_directory' => true,
 			)
 		);
+
+		$url = bp_get_groups_directory_url(
+			array(
+				'directory_type' => 'foo',
+			)
+		);
+
+		$this->go_to( $url );
+
 		$this->assertTrue( bp_is_groups_component() && ! bp_is_group() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_is_action_variable( 'foo', 0 ) );
 	}
 
@@ -70,15 +77,17 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	 */
 	public function test_group_directory_with_type_that_has_custom_directory_slug() {
 		$this->set_permalink_structure( '/%postname%/' );
-		bp_groups_register_group_type( 'foo', array( 'has_directory' => 'foos' ) );
-		$this->go_to(
-			bp_get_groups_directory_url(
-				array(
-					'directory_type' => 'foos',
-				)
+		bp_groups_register_group_type( 'bar', array( 'has_directory' => 'bars' ) );
+
+		$url = bp_get_groups_directory_url(
+			array(
+				'directory_type' => 'bars',
 			)
 		);
-		$this->assertTrue( bp_is_groups_component() && ! bp_is_group() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_is_action_variable( 'foos', 0 ) );
+
+		$this->go_to( $url );
+
+		$this->assertTrue( bp_is_groups_component() && ! bp_is_group() && bp_is_current_action( bp_get_groups_group_type_base() ) && bp_is_action_variable( 'bars', 0 ) );
 	}
 
 	/**
@@ -87,6 +96,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 	public function test_group_directory_should_404_for_group_types_that_have_no_directory() {
 		$this->set_permalink_structure( '/%postname%/' );
 		bp_groups_register_group_type( 'taz', array( 'has_directory' => false ) );
+
 		$this->go_to(
 			bp_get_groups_directory_url(
 				array(
@@ -94,6 +104,7 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 				)
 			)
 		);
+
 		$this->assertEmpty( bp_get_current_group_directory_type() );
 	}
 
@@ -166,7 +177,6 @@ class BP_Tests_Routing_Groups extends BP_UnitTestCase {
 
 	/**
 	 * @group group_previous_slug
-	 * @group imath
 	 */
 	public function test_group_previous_slug_most_recent_takes_precedence() {
 		$this->set_permalink_structure( '/%postname%/' );

@@ -55,9 +55,15 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 	 * @ticket BP6475
 	 */
 	public function test_member_permalink_when_members_page_is_nested_under_wp_page() {
+		$this->markTestSkipped();
+
+		/**
+		 * This is no more supported in BuddyPress.
+		 */
+
 		$this->set_permalink_structure( '/%postname%/' );
 		$p = self::factory()->post->create( array(
-			'post_type' => 'page',
+			'post_type' => 'post',
 			'post_name' => 'foo',
 		) );
 
@@ -67,8 +73,8 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 			'post_parent' => $p,
 		) );
 
-		$domain = home_url( $this->u->user_nicename );
-		$this->go_to( $domain );
+		$url = bp_members_get_user_url( $this->u->ID );
+		$this->go_to( $url );
 
 		$this->assertTrue( bp_is_user() );
 		$this->assertTrue( bp_is_my_profile() );

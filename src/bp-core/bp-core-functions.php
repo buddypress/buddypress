@@ -957,7 +957,7 @@ function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post
 			$current_site = get_current_site();
 			$site         = get_site_by_path( $current_site->domain, trailingslashit( $current_site->path ) . $slug );
 
-			if ( isset( $site->blog_id ) && 1 !== $site->blog_id ) {
+			if ( isset( $site->blog_id ) && 1 !== (int) $site->blog_id ) {
 				$illegal_names[] = $slug;
 			}
 		}

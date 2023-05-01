@@ -1147,7 +1147,8 @@ class BP_Groups_Component extends BP_Component {
 					$bp->current_action           = bp_get_groups_group_type_base();
 					$bp->action_variables         = array( $group_type_slug );
 				} else {
-					$bp->current_component = false;
+					$bp->current_component        = false;
+					$this->current_directory_type = '';
 					bp_do_404();
 					return;
 				}
