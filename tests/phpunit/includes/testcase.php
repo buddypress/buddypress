@@ -134,6 +134,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		buddypress()->displayed_user        = new stdClass();
 		buddypress()->loggedin_user         = new stdClass();
 		buddypress()->pages                 = array();
+		buddypress()->groups->types         = array();
 
 		parent::clean_up_global_scope();
 	}
@@ -204,9 +205,10 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			}
 		}
 
+		do_action( 'bp_init' );
+
 		parent::go_to( $url );
 
-		do_action( 'bp_init' );
 		do_action( 'bp_template_redirect' );
 	}
 

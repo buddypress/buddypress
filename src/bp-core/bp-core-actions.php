@@ -72,6 +72,7 @@ add_action( 'bp_init', 'bp_register_post_types',     2  );
 add_action( 'bp_init', 'bp_register_post_statuses',  2  );
 add_action( 'bp_init', 'bp_register_taxonomies',     2  );
 add_action( 'bp_init', 'bp_setup_globals',           4  );
+add_action( 'bp_init', 'bp_register_nav',            5  );
 add_action( 'bp_init', 'bp_blocks_init',             10 );
 add_action( 'bp_init', 'bp_core_load_admin_bar_css', 12 );
 add_action( 'bp_init', 'bp_add_rewrite_tags',        20 );
@@ -109,13 +110,6 @@ function bp_core_setup_query_parser() {
 		$key_actions['bp_setup_title']                      = 8;
 		$key_actions['_bp_maybe_remove_redirect_canonical'] = 10;
 		$key_actions['bp_remove_adjacent_posts_rel_link']   = 10;
-
-		/**
-		 *
-		 * @todo This code should be moved to BP Classic.
-		 *
-		 */
-		add_action( $hook, 'bp_core_set_uri_globals', 2 );
 	}
 
 	foreach ( $key_actions as $action => $priority ) {
@@ -126,6 +120,12 @@ function bp_core_setup_query_parser() {
 		}
 
 		add_action( $hook, $action, $priority, $arguments );
+	}
+
+	// Fire a deprecation notice for following deprecated hooks, if needed.
+	if ( ! function_exists( 'bp_classic' ) ) {
+		apply_filters_deprecated( 'bp_uri', array( '' ), '12.0.0' );
+		do_action_deprecated( 'is_not_buddypress', array(), '12.0.0' );
 	}
 }
 add_action( 'bp_init', 'bp_core_setup_query_parser', 1 );

@@ -178,49 +178,49 @@ class BP_Groups_Component extends BP_Component {
 			if ( is_user_logged_in() &&
 				in_array( bp_current_action(), array( 'create', 'join', 'leave-group' ), true )
 			) {
-				require $this->path . 'bp-groups/actions/' . bp_current_action() . '.php';
+				require_once $this->path . 'bp-groups/actions/' . bp_current_action() . '.php';
 			}
 
 			// Actions - RSS feed handler.
 			if ( bp_is_active( 'activity' ) && bp_is_current_action( 'feed' ) ) {
-				require $this->path . 'bp-groups/actions/feed.php';
+				require_once $this->path . 'bp-groups/actions/feed.php';
 			}
 
 			// Actions - Random group handler.
 			if ( isset( $_GET['random-group'] ) ) {
-				require $this->path . 'bp-groups/actions/random.php';
+				require_once $this->path . 'bp-groups/actions/random.php';
 			}
 
 			// Screens - Directory.
 			if ( bp_is_groups_directory() ) {
-				require $this->path . 'bp-groups/screens/directory.php';
+				require_once $this->path . 'bp-groups/screens/directory.php';
 			}
 
 			// Screens - User profile integration.
 			if ( bp_is_user() ) {
-				require $this->path . 'bp-groups/screens/user/my-groups.php';
+				require_once $this->path . 'bp-groups/screens/user/my-groups.php';
 
 				if ( bp_is_current_action( 'invites' ) ) {
-					require $this->path . 'bp-groups/screens/user/invites.php';
+					require_once $this->path . 'bp-groups/screens/user/invites.php';
 				}
 			}
 
 			// Single group.
 			if ( bp_is_group() ) {
 				// Actions - Access protection.
-				require $this->path . 'bp-groups/actions/access.php';
+				require_once $this->path . 'bp-groups/actions/access.php';
 
 				// Public nav items.
 				if ( in_array( bp_current_action(), array( 'home', 'request-membership', 'activity', 'members', 'send-invites' ), true ) ) {
-					require $this->path . 'bp-groups/screens/single/' . bp_current_action() . '.php';
+					require_once $this->path . 'bp-groups/screens/single/' . bp_current_action() . '.php';
 				}
 
 				// Admin nav items.
 				if ( bp_is_item_admin() && is_user_logged_in() ) {
-					require $this->path . 'bp-groups/screens/single/admin.php';
+					require_once $this->path . 'bp-groups/screens/single/admin.php';
 
 					if ( in_array( bp_get_group_current_admin_tab(), array( 'edit-details', 'group-settings', 'group-avatar', 'group-cover-image', 'manage-members', 'membership-requests', 'delete-group' ), true ) ) {
-						require $this->path . 'bp-groups/screens/single/admin/' . bp_get_group_current_admin_tab() . '.php';
+						require_once $this->path . 'bp-groups/screens/single/admin/' . bp_get_group_current_admin_tab() . '.php';
 					}
 				}
 			}
@@ -553,10 +553,7 @@ class BP_Groups_Component extends BP_Component {
 
 		// Prepare for a redirect to the canonical URL.
 		$bp->canonical_stack['base_url'] = bp_get_group_url( $this->current_group );
-
-		if ( bp_current_action() ) {
-			$bp->canonical_stack['action'] = bp_current_action();
-		}
+		$current_action                  = bp_current_action();
 
 		/**
 		 * If there's no custom front.php template for the group, we need to make sure the canonical stack action
@@ -566,16 +563,42 @@ class BP_Groups_Component extends BP_Component {
 		 * - the current action is 'members' (eg: site.url/groups/single/members) and the Activity component is *not* active.
 		 */
 		if ( ! $this->current_group->front_template && ( bp_is_current_action( 'activity' ) || ( ! bp_is_active( 'activity' ) && bp_is_current_action( 'members' ) ) ) ) {
-			$bp->canonical_stack['action'] = 'home';
+			$current_action = 'home';
 		}
 
-		if ( ! empty( $bp->action_variables ) ) {
-			$bp->canonical_stack['action_variables'] = bp_action_variables();
+		if ( $current_action ) {
+			$context                       = 'read';
+			$path_chunks                   = bp_groups_get_path_chunks( array( $current_action ), $context );
+			$bp->canonical_stack['action'] = $current_action;
+
+			if ( isset( $path_chunks['single_item_action'] ) ) {
+				$bp->canonical_stack['action'] = $path_chunks['single_item_action'];
+			}
+
+			if ( ! empty( $bp->action_variables ) ) {
+				$key_action_variables = 'single_item_action_variables';
+
+				if ( bp_is_group_admin_page() ) {
+					$context = 'manage';
+				} elseif ( bp_is_group_create() ) {
+					$context              = 'create';
+					$key_action_variables = 'create_single_item_variables';;
+				}
+
+				$path_chunks                             = bp_groups_get_path_chunks( $bp->action_variables, $context );
+				$bp->canonical_stack['action_variables'] = bp_action_variables();
+
+				if ( isset( $path_chunks[ $key_action_variables ] ) ) {
+					$bp->canonical_stack['action_variables'] = $path_chunks[ $key_action_variables ];
+				}
+			}
 		}
 
-		// When viewing the default extension, the canonical URL should not have
-		// that extension's slug, unless more has been tacked onto the URL via
-		// action variables.
+		/*
+		 * When viewing the default extension, the canonical URL should not have
+		 * that extension's slug, unless more has been tacked onto the URL via
+		 * action variables.
+		 */
 		if ( bp_is_current_action( $this->default_extension ) && empty( $bp->action_variables ) )  {
 			unset( $bp->canonical_stack['action'] );
 		}
@@ -1124,7 +1147,8 @@ class BP_Groups_Component extends BP_Component {
 					$bp->current_action           = bp_get_groups_group_type_base();
 					$bp->action_variables         = array( $group_type_slug );
 				} else {
-					$bp->current_component = false;
+					$bp->current_component        = false;
+					$this->current_directory_type = '';
 					bp_do_404();
 					return;
 				}

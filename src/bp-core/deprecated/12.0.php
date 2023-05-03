@@ -14,6 +14,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 // These functions has been moved to the BP Classic plugin.
 if ( ! function_exists( 'bp_classic' ) ) {
 	/**
+	 * Analyze the URI and break it down into BuddyPress-usable chunks.
+	 *
+	 * BuddyPress can use complete custom friendly URIs without the user having to
+	 * add new rewrite rules. Custom components are able to use their own custom
+	 * URI structures with very little work.
+	 *
+	 * The URIs are broken down as follows:
+	 *   - http:// example.com / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+	 *   - OUTSIDE ROOT: http:// example.com / sites / buddypress / members / andy / [current_component] / [current_action] / [action_variables] / [action_variables] / ...
+	 *
+	 * Example:
+	 *    - http://example.com/members/andy/profile/edit/group/5/
+	 *    - $bp->current_component: string 'xprofile'
+	 *    - $bp->current_action: string 'edit'
+	 *    - $bp->action_variables: array ['group', 5]
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 */
+	function bp_core_set_uri_globals() {
+		_deprecated_function( __FUNCTION__, '12.0.0' );
+	}
+
+	/**
 	 * Add support for a top-level ("root") component.
 	 *
 	 * This function originally (pre-1.5) let plugins add support for pages in the

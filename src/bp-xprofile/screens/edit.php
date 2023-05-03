@@ -22,8 +22,8 @@ function xprofile_screen_edit_profile() {
 
 	$profile_slug = bp_get_profile_slug();
 	$path_chunks  = array(
-		'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
-		'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit', 'edit' ),
+		'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
+		'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit', 'edit' ),
 	);
 
 

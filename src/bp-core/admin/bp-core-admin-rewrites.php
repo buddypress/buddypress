@@ -29,6 +29,78 @@ function bp_core_admin_rewrites_load() {
 	);
 
 	wp_enqueue_script( 'bp-rewrites-ui' );
+
+	// Handle slugs customization.
+	if ( isset( $_POST['bp-admin-rewrites-submit'] ) ) {
+		check_admin_referer( 'bp-admin-rewrites-setup' );
+
+		$base_url = bp_get_admin_url( add_query_arg( 'page', 'bp-rewrites', 'admin.php' ) );
+
+		if ( ! isset( $_POST['components'] ) ) {
+			wp_safe_redirect( add_query_arg( 'error', 'true', $base_url ) );
+		}
+
+		$directory_pages     = (array) bp_core_get_directory_pages();
+		$current_page_slugs  = wp_list_pluck( $directory_pages, 'slug', 'id' );
+		$current_page_titles = wp_list_pluck( $directory_pages, 'title', 'id' );
+		$reset_rewrites      = false;
+
+		// Data is sanitized inside the foreach loop.
+		$components = wp_unslash( $_POST['components'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+
+		foreach ( $components as $page_id => $posted_data ) {
+			$postarr = array();
+
+			if ( ! isset( $current_page_slugs[ $page_id ] ) ) {
+				continue;
+			}
+
+			$postarr['ID'] = $page_id;
+
+			if ( isset( $posted_data['post_title'] ) ) {
+				$post_title = sanitize_text_field( $posted_data['post_title'] );
+
+				if ( $current_page_titles[ $page_id ] !== $post_title ) {
+					$postarr['post_title'] = $post_title;
+				}
+			}
+
+			if ( isset( $posted_data['post_name'] ) ) {
+				$post_name = sanitize_text_field( $posted_data['post_name'] );
+
+				if ( $current_page_slugs[ $page_id ] !== $post_name ) {
+					$reset_rewrites       = true;
+					$postarr['post_name'] = $post_name;
+				}
+			}
+
+			if ( isset( $posted_data['_bp_component_slugs'] ) && is_array( $posted_data['_bp_component_slugs'] ) ) {
+				$postarr['meta_input']['_bp_component_slugs'] = array_map( 'sanitize_title', $posted_data['_bp_component_slugs'] );
+			}
+
+			if ( isset( $posted_data['_bp_component_slugs']['bp_group_create'] ) ) {
+				$new_current_group_create_slug    = sanitize_text_field( $posted_data['_bp_component_slugs']['bp_group_create'] );
+				$current_group_create_custom_slug = '';
+
+				if ( isset( $directory_pages->groups->custom_slugs['bp_group_create'] ) ) {
+					$current_group_create_custom_slug = $directory_pages->groups->custom_slugs['bp_group_create'];
+				}
+
+				if ( $new_current_group_create_slug !== $current_group_create_custom_slug ) {
+					$reset_rewrites = true;
+				}
+			}
+
+			wp_update_post( $postarr );
+		}
+
+		// Make sure the WP rewrites will be regenarated at next page load.
+		if ( $reset_rewrites ) {
+			bp_delete_rewrite_rules();
+		}
+
+		wp_safe_redirect( add_query_arg( 'updated', 'true', $base_url ) );
+	}
 }
 
 /**
@@ -132,6 +204,27 @@ function bp_core_admin_rewrites_settings() {
 											}
 
 											if ( isset( $navs['sub_nav'] ) ) {
+												if ( 'profile' === $navs['main_nav']['slug'] ) {
+													$edit_subnav = wp_list_filter( $navs['sub_nav'], array( 'slug' => 'edit' ) );
+													$position    = key( $edit_subnav );
+
+													if ( $edit_subnav ) {
+														$edit_subnav = reset( $edit_subnav );
+														array_splice(
+															$navs['sub_nav'],
+															$position + 1,
+															0,
+															array(
+																array(
+																	'name'       => __( 'Field Group', 'buddypress' ),
+																	'slug'       => 'group',
+																	'rewrite_id' => $edit_subnav['rewrite_id'] . '_group',
+																)
+															)
+														);
+													}
+												}
+
 												$members_sub_navigation[ $navs['main_nav']['slug'] ] = array(
 													'name'    => $navs['main_nav']['name'],
 													'sub_nav' => $navs['sub_nav'],
@@ -145,7 +238,7 @@ function bp_core_admin_rewrites_settings() {
 													printf(
 														/* translators: %s is the member primary screen name */
 														esc_html_x( '"%s" slug', 'member primary screen name URL admin label', 'buddypress' ),
-														esc_html( _bp_strip_spans_from_title( $navs['main_nav']['name'] ) )
+														esc_html( $navs['main_nav']['name'] )
 													);
 													?>
 												</label>
@@ -183,7 +276,7 @@ function bp_core_admin_rewrites_settings() {
 																printf(
 																	/* translators: %s is the member secondary view name */
 																	esc_html_x( '"%s" slug', 'member secondary screen name URL admin label', 'buddypress' ),
-																	esc_html( _bp_strip_spans_from_title( $secondary_nav_item['name'] ) )
+																	esc_html( $secondary_nav_item['name'] )
 																);
 																?>
 															</label>
@@ -252,7 +345,7 @@ function bp_core_admin_rewrites_settings() {
 															printf(
 																/* translators: %s is group view name */
 																esc_html_x( '"%s" slug', 'group view name URL admin label', 'buddypress' ),
-																esc_html( _bp_strip_spans_from_title( $group_screen['name'] ) )
+																esc_html( str_replace( ' %s', '', $group_screen['name'] ) )
 															);
 															?>
 														</label>
@@ -269,6 +362,13 @@ function bp_core_admin_rewrites_settings() {
 						<?php endif; ?>
 					</div>
 				<?php endforeach; ?>
+
+				<p class="submit clear">
+					<input class="button-primary" type="submit" name="bp-admin-rewrites-submit" id="bp-admin-rewrites-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ); ?>"/>
+				</p>
+
+				<?php wp_nonce_field( 'bp-admin-rewrites-setup' ); ?>
+
 			</form>
 		</div>
 	</div>

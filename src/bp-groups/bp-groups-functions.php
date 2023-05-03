@@ -4053,6 +4053,11 @@ function bp_groups_get_path_chunks( $chunks = array(), $context = 'read' ) {
 	}
 
 	if ( $chunks ) {
+		// If action variables were added as an array, reset chunks to it.
+		if ( isset( $chunks[0] ) && is_array( $chunks[0] ) ) {
+			$chunks = reset( $chunks );
+		}
+
 		foreach ( $chunks as $chunk ) {
 			if ( is_numeric( $chunk ) ) {
 				$path_chunks[ $key_action_variables ][] = $chunk;

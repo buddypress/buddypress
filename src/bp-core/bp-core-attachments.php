@@ -1647,6 +1647,17 @@ function bp_attachments_cover_image_ajax_delete() {
 add_action( 'wp_ajax_bp_cover_image_delete', 'bp_attachments_cover_image_ajax_delete' );
 
 /**
+ * Register Cover Image ajax actions.
+ *
+ * @since 12.0.0
+ */
+function bp_attachments_cover_register_ajax_actions() {
+	bp_ajax_register_action( 'bp_cover_image_upload' );
+	bp_ajax_register_action( 'bp_cover_image_delete' );
+}
+add_action( 'bp_init', 'bp_attachments_cover_register_ajax_actions' );
+
+/**
  * Returns a file's mime type.
  *
  * @since 11.0.0

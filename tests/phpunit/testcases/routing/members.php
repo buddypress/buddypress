@@ -45,7 +45,8 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 	public function test_member_directory_with_member_type() {
 		$this->set_permalink_structure( '/%postname%/' );
 		bp_register_member_type( 'foo' );
-		$this->go_to( bp_get_members_directory_permalink() . 'type/foo/' );
+		$url = bp_get_member_type_directory_permalink( 'foo' );
+		$this->go_to( $url );
 		$this->assertTrue( bp_is_members_component() );
 	}
 
@@ -58,13 +59,16 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 		bp_register_member_type( 'foo' );
 
 		add_filter( 'bp_members_member_type_base', array( $this, 'filter_member_type_base' ) );
-		$this->go_to( bp_get_members_directory_permalink() . 'buddypress-member-type/foo/' );
+
+		$url = bp_get_member_type_directory_permalink( 'foo' );
+
 		remove_filter( 'bp_members_member_type_base', array( $this, 'filter_member_type_base' ) );
-		$this->assertTrue( bp_is_members_component() );
+
+		$this->assertSame( $url, 'http://example.org/members/bp-member-type/foo/' );
 	}
 
 	public function filter_member_type_base( $base ) {
-		return 'buddypress-member-type';
+		return 'bp-member-type';
 	}
 
 	/**

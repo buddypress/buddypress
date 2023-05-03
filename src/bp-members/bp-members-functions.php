@@ -163,6 +163,11 @@ function bp_members_get_path_chunks( $chunks = array() ) {
 		$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $item_component_rewrite_id_suffix . '_' . $item_action_rewrite_id_suffix, $single_item_action );
 	}
 
+	// If action variables were added as an array, reset chunks to it.
+	if ( isset( $chunks[0] ) && is_array( $chunks[0] ) ) {
+		$chunks = reset( $chunks );
+	}
+
 	if ( $chunks && $item_component_rewrite_id_suffix && $item_action_rewrite_id_suffix ) {
 		foreach ( $chunks as $chunk ) {
 			if ( is_numeric( $chunk ) ) {

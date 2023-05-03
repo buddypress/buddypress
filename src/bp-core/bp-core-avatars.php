@@ -2600,3 +2600,18 @@ function bp_avatar_ajax_delete_previous_avatar() {
 	);
 }
 add_action( 'wp_ajax_bp_avatar_delete_previous', 'bp_avatar_ajax_delete_previous_avatar' );
+
+
+/**
+ * Register Avatar ajax actions.
+ *
+ * @since 12.0.0
+ */
+function bp_avatar_register_ajax_actions() {
+	$ajax_actions = array( 'bp_avatar_upload', 'bp_avatar_set', 'bp_avatar_delete', 'bp_avatar_recycle_previous', 'bp_avatar_delete_previous' );
+
+	foreach ( $ajax_actions as $ajax_action ) {
+		bp_ajax_register_action( $ajax_action );
+	}
+}
+add_action( 'bp_init', 'bp_avatar_register_ajax_actions' );

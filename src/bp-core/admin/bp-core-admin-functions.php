@@ -476,11 +476,6 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components' ), 'admin.php' ) ),
 			'name' => __( 'Components', 'buddypress' ),
 		),
-		'1' => array(
-			'id'   => 'bp-rewrites',
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-rewrites' ), 'admin.php' ) ),
-			'name' => __( 'URLs', 'buddypress' ),
-		),
 		'2' => array(
 			'id'   => 'bp-settings',
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-settings' ), 'admin.php' ) ),
@@ -492,6 +487,14 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
 			'name' => __( 'Credits', 'buddypress' ),
 		),
 	);
+
+	if ( 'rewrites' === bp_core_get_query_parser() ) {
+		$settings_tabs['1'] = array(
+			'id'   => 'bp-rewrites',
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-rewrites' ), 'admin.php' ) ),
+			'name' => __( 'URLs', 'buddypress' ),
+		);
+	}
 
 	if ( ! $apply_filters ) {
 		return $settings_tabs;

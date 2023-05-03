@@ -206,9 +206,6 @@ class BP_Nouveau extends BP_Theme_Compat {
 			add_action( 'bp_widgets_init', array( 'BP_Nouveau_Object_Nav_Widget', 'register_widget' ) );
 		}
 
-		// Set the BP Uri for the Ajax customizer preview.
-		add_filter( 'bp_uri', array( $this, 'customizer_set_uri' ), 10, 1 );
-
 		// Modify "registration disabled" and welcome message if invitations are enabled.
 		add_action( 'bp_nouveau_feedback_messages', array( $this, 'filter_registration_messages' ), 99 );
 
@@ -661,6 +658,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * Set the BP Uri for the customizer in case of Ajax requests.
 	 *
 	 * @since 3.0.0
+	 * @todo deprecate The `bp_uri` filter is not available anymore. Is this function still needed using BP Rewrites?
 	 *
 	 * @param  string $path The BP Uri.
 	 * @return string       The BP Uri.

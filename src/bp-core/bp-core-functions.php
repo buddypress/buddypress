@@ -159,7 +159,7 @@ function bp_core_get_query_parser() {
 	 * @param string $parser The parser to use to decide the hook to attach key actions to.
 	 *                       Possible values are `rewrites` or `legacy`.
 	 */
-	return apply_filters( 'bp_core_get_query_parser', bp_has_pretty_urls() ? 'legacy' : 'rewrites' );
+	return apply_filters( 'bp_core_get_query_parser', 'rewrites' );
 }
 
 /**
@@ -957,7 +957,7 @@ function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post
 			$current_site = get_current_site();
 			$site         = get_site_by_path( $current_site->domain, trailingslashit( $current_site->path ) . $slug );
 
-			if ( isset( $site->blog_id ) && 1 !== $site->blog_id ) {
+			if ( isset( $site->blog_id ) && 1 !== (int) $site->blog_id ) {
 				$illegal_names[] = $slug;
 			}
 		}
@@ -4956,6 +4956,16 @@ function bp_get_component_navigations( $component = '' ) {
 		}
 
 		if ( isset( $component->sub_nav ) && is_array( $component->sub_nav ) && $component->sub_nav ) {
+			// We possibly need to move some members nav items.
+			if ( 'members' === $key_component && isset( $navigations['profile']['sub_nav'] ) ) {
+				$profile_subnav_slugs = wp_list_pluck( $navigations['profile']['sub_nav'], 'slug' );
+				foreach ( $component->sub_nav as $members_subnav ) {
+					if ( 'profile' === $members_subnav['parent_slug'] && ! in_array( $members_subnav['slug'], $profile_subnav_slugs, true ) ) {
+						$navigations['profile']['sub_nav'][] = $members_subnav;
+					}
+				}
+			}
+
 			$navigations[ $key_component ]['sub_nav'] = $component->sub_nav;
 		}
 	}

@@ -55,7 +55,6 @@ class BuddyPress {
 	 *
 	 * The unfiltered URI broken down into chunks.
 	 *
-	 * @see bp_core_set_uri_globals()
 	 * @var array
 	 */
 	public $unfiltered_uri = array();
@@ -485,7 +484,6 @@ class BuddyPress {
 
 		/**
 		 * @var int The current offset of the URI.
-		 * @see bp_core_set_uri_globals()
 		 */
 		$this->unfiltered_uri_offset = 0;
 
