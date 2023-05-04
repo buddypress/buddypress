@@ -669,26 +669,6 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			);
 			break;
 
-		// Pages page.
-		case 'settings_page_bp-page-settings':
-			// Help tabs.
-			$screen->add_help_tab(
-				array(
-					'id'      => 'bp-page-overview',
-					'title'   => __( 'Overview', 'buddypress' ),
-					'content' => bp_core_add_contextual_help_content( 'bp-page-overview' ),
-				)
-			);
-
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="https://codex.buddypress.org/getting-started/configure-components/#settings-buddypress-pages">Managing Pages</a>', 'buddypress' ) . '</p>' .
-				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
-			);
-
-			break;
-
 		// Settings page.
 		case 'settings_page_bp-settings':
 			// Help tabs.
@@ -731,7 +711,6 @@ function bp_core_add_contextual_help( $screen = '' ) {
 	}
 }
 add_action( 'load-settings_page_bp-components', 'bp_core_add_contextual_help' );
-add_action( 'load-settings_page_bp-page-settings', 'bp_core_add_contextual_help' );
 add_action( 'load-settings_page_bp-settings', 'bp_core_add_contextual_help' );
 add_action( 'load-users_page_bp-profile-setup', 'bp_core_add_contextual_help' );
 
@@ -748,10 +727,6 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 	switch ( $tab ) {
 		case 'bp-comp-overview':
 			$retval = __( 'By default, all but four of the BuddyPress components are enabled. You can selectively enable or disable any of the components by using the form below. Your BuddyPress installation will continue to function. However, the features of the disabled components will no longer be accessible to anyone using the site.', 'buddypress' );
-			break;
-
-		case 'bp-page-overview':
-			$retval = __( 'BuddyPress Components use WordPress Pages for their root directory/archive pages. You can change the page associations for each active component by using the form below.', 'buddypress' );
 			break;
 
 		case 'bp-settings-overview':
@@ -1492,6 +1467,9 @@ function bp_block_category( $categories = array(), $editor_name_or_post = null )
  * Select the right `block_categories` filter according to WP version.
  *
  * @since 8.0.0
+ * @since 12.0.0 This category is left for third party plugin but not used anymmore.
+ *
+ * @todo deprecate.
  */
 function bp_block_init_category_filter() {
 	if ( function_exists( 'get_default_block_categories' ) ) {

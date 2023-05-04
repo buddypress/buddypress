@@ -625,3 +625,37 @@ function bp_blogs_blog_tabs() {
 	 */
 	do_action_deprecated( 'bp_blogs_blog_tabs', array(), '12.0.0' );
 }
+
+/**
+ * Dedicated filter to inform about BP components directory page states.
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ *
+ * @param string[] $post_states An array of post display states.
+ * @param WP_Post  $post        The current post object.
+ */
+function bp_admin_display_directory_states( $post_states = array(), $post = null ) {
+	$states = array();
+
+	/**
+	 * Filter here to add BP Directory pages.
+	 *
+	 * Used internaly by BP_Component->admin_directory_states(). Please use the dynamic
+	 * filter in BP_Component->admin_directory_states() to edit the directory state
+	 * according to the component's ID.
+	 *
+	 * @since 10.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param array    $states An empty array.
+	 * @param WP_Post  $post   The current post object.
+	 */
+	$directory_page_states = apply_filters_deprecated( 'bp_admin_display_directory_states', array( $states, $post ), '12.0.0' );
+
+	if ( $directory_page_states ) {
+		$post_states = array_merge( $post_states, $directory_page_states );
+	}
+
+	return $post_states;
+}

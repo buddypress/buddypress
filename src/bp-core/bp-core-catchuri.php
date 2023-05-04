@@ -130,6 +130,9 @@ function bp_core_load_template( $templates ) {
 		$wp_query->is_singular = true;
 		$wp_query->is_404      = false;
 
+		// Check if a BuddyPress component's direcory is set as homepage.
+		$wp_query->is_home = bp_is_directory_homepage( bp_current_component() );
+
 		/**
 		 * Fires before the loading of a located template file.
 		 *
@@ -171,6 +174,9 @@ function bp_core_load_template( $templates ) {
 			$wp_query->is_page     = true;
 			$wp_query->is_singular = true;
 			$wp_query->is_404      = false;
+
+			// Check if a BuddyPress component's direcory is set as homepage.
+			$wp_query->is_home = bp_is_directory_homepage( bp_current_component() );
 		}
 
 		/**
