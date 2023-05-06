@@ -4,7 +4,7 @@
  */
 ?>
 			<div class="wp-embed-footer">
-				<?php the_embed_site_title() ?>
+				<?php the_embed_site_title(); ?>
 
 				<div class="wp-embed-meta">
 					<?php
