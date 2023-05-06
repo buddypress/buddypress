@@ -1405,3 +1405,36 @@ function bp_core_components_subdirectory_reserved_names( $names = array() ) {
 	return array_merge( $names, wp_list_pluck( $bp_pages, 'slug' ) );
 }
 add_filter( 'subdirectory_reserved_names', 'bp_core_components_subdirectory_reserved_names' );
+
+/**
+ * Make sure `buddypress` post type links are built using BP Rewrites.
+ *
+ * @since 12.0.0
+ *
+ * @param string       $link The post type link.
+ * @param WP_Post|null $post The post type object.
+ * @return string            The post type link.
+ */
+function bp_get_post_type_link( $link = '', $post = null ) {
+	if (  'rewrites' === bp_core_get_query_parser() && 'buddypress' === get_post_type( $post ) ) {
+		$bp_pages = (array) buddypress()->pages;
+
+		$bp_current_page = wp_list_filter( $bp_pages, array( 'id' => $post->ID ) );
+		if ( $bp_current_page ) {
+			$args = array(
+				'component_id' => key( $bp_current_page ),
+			);
+
+			if ( 'register' === $args['component_id'] || 'activate' === $args['component_id'] ) {
+				$key_action           = 'member_' . $args['component_id'];
+				$args['component_id'] = 'members';
+				$args[ $key_action ]  = 1;
+			}
+
+			$link = bp_rewrites_get_url( $args );
+		}
+	}
+
+	return $link;
+}
+add_filter( 'post_type_link', 'bp_get_post_type_link', 10, 2 );
