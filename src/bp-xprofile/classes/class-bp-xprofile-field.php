@@ -266,8 +266,6 @@ class BP_XProfile_Field {
 	 * @return BP_XProfile_Field|false Field object if found, otherwise false.
 	 */
 	public static function get_instance( $field_id, $user_id = null, $get_data = true ) {
-		global $wpdb;
-
 		$field_id = (int) $field_id;
 		if ( ! $field_id ) {
 			return false;

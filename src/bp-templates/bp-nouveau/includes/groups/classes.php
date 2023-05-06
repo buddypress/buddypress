@@ -125,7 +125,11 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	}
 
 	/**
+	 * Build the Meta Query to get all members list.
+	 *
 	 * @since 3.0.0
+	 *
+	 * @param BP_User_Query $bp_user_query The User Query object.
 	 */
 	public function build_meta_query( BP_User_Query $bp_user_query ) {
 		if ( isset( $this->query_vars['scope'] ) && 'members' === $this->query_vars['scope'] && isset( $this->query_vars['meta_query'] ) ) {
@@ -143,21 +147,27 @@ class BP_Nouveau_Group_Invite_Query extends BP_User_Query {
 	}
 
 	/**
+	 * Get the list of group invites.
+	 *
 	 * @since 3.0.0
+	 *
+	 * @param integer $user_id  The User ID.
+	 * @param integer $group_id The Group ID.
+	 * @return array            Matching BP_Invitation objects.
 	 */
 	public static function get_inviter_ids( $user_id = 0, $group_id = 0 ) {
-		global $wpdb;
-
 		if ( empty( $group_id ) || empty( $user_id ) ) {
 			return array();
 		}
 
-		return groups_get_invites( array(
-			'user_id'     => $user_id,
-			'item_id'     => $group_id,
-			'invite_sent' => 'sent',
-			'fields'      => 'inviter_ids'
-		) );
+		return groups_get_invites(
+			array(
+				'user_id'     => $user_id,
+				'item_id'     => $group_id,
+				'invite_sent' => 'sent',
+				'fields'      => 'inviter_ids',
+			)
+		);
 	}
 }
 
