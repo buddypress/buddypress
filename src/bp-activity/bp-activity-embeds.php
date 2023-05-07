@@ -347,3 +347,17 @@ EOD;
 	/** This hook is documented in /bp-activity/bp-activity-embeds.php */
 	do_action( 'bp_activity_embed_after_media' );
 }
+
+/**
+ * Make sure the Activity embed template will be used if neded.
+ *
+ * @since 12.0.0
+ *
+ * @param WP_Query $query Required.
+ */
+function bp_activity_parse_embed_query( $query ) {
+	if ( bp_is_single_activity() && $query->get( 'embed' ) ) {
+		$query->is_embed = true;
+	}
+}
+add_action( 'bp_members_parse_query', 'bp_activity_parse_embed_query', 10, 1 );

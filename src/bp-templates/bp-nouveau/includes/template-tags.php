@@ -3,7 +3,7 @@
  * Common template tags
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -1036,10 +1036,25 @@ function bp_nouveau_nav_scope() {
 		$scope      = array();
 
 		if ( 'directory' === $bp_nouveau->displayed_nav ) {
-			$scope = array( 'data-bp-scope' => $nav_item->slug );
+			$scope = array(
+				'data-bp-scope' => $nav_item->slug
+			);
 
 		} elseif ( 'personal' === $bp_nouveau->displayed_nav && ! empty( $nav_item->secondary ) ) {
-			$scope = array( 'data-bp-user-scope' => $nav_item->slug );
+			$rewrite_id = bp_rewrites_get_custom_slug_rewrite_id( 'members', $nav_item->slug, bp_current_component() );
+			$user_scope = $nav_item->slug;
+
+			if ( $rewrite_id ) {
+				$user_scope = str_replace(
+					array( 'bp_member_' . bp_current_component() . '_', '_' ),
+					array( '', '-' ),
+					$rewrite_id
+				);
+			}
+
+			$scope = array(
+				'data-bp-user-scope' => $nav_item->slug
+			);
 
 		} else {
 			/**

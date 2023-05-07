@@ -599,9 +599,6 @@ class BP_Component {
 			add_action( 'bp_blocks_init', array( $this, 'blocks_init' ), 10 );
 		}
 
-		// Set directory page states.
-		add_filter( 'bp_admin_display_directory_states', array( $this, 'admin_directory_states' ), 10, 2 );
-
 		/**
 		 * Fires at the end of the setup_actions method inside BP_Component.
 		 *
@@ -1277,9 +1274,12 @@ class BP_Component {
 			$query->is_home       = false;
 			$query->is_front_page = false;
 			$query->is_page       = false;
-			$query->is_single     = true;
 			$query->is_archive    = false;
 			$query->is_tax        = false;
+
+			if ( ! is_embed() ) {
+				$query->is_single = true;
+			}
 		}
 
 		return $retval;
@@ -1389,26 +1389,14 @@ class BP_Component {
 	 * Add component's directory states.
 	 *
 	 * @since 10.0.0
+	 * @deprecated 12.0.0
 	 *
 	 * @param string[] $states An array of post display states.
 	 * @param WP_Post  $post   The current post object.
 	 * @return array           The component's directory states.
 	 */
 	public function admin_directory_states( $states = array(), $post = null ) {
-		if ( $this->has_directory ) {
-			/**
-			 * Filter here to edit the component's directory states.
-			 *
-			 * This is a dynamic hook that is based on the component string ID.
-			 *
-			 * @since 10.0.0
-			 *
-			 * @param string[] $states An array of post display states.
-			 * @param WP_Post  $post   The current post object.
-			 */
-			return apply_filters( 'bp_' . $this->id . '_admin_directory_states', $states, $post );
-		}
-
+		_deprecated_function( __METHOD__, '12.0.0' );
 		return $states;
 	}
 }

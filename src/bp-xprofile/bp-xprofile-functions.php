@@ -756,7 +756,7 @@ function xprofile_override_user_fullnames() {
 		buddypress()->displayed_user->fullname = bp_core_get_user_displayname( bp_displayed_user_id() );
 	}
 }
-add_action( 'bp_setup_globals', 'xprofile_override_user_fullnames', 100 );
+add_action( 'bp_parse_query', 'xprofile_override_user_fullnames', 100 );
 
 /**
  * When search_terms are passed to BP_User_Query, search against xprofile fields.
