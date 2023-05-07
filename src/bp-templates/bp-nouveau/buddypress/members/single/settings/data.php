@@ -77,7 +77,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 				esc_html__( 'You may delete your account by visiting the %s page.', 'buddypress' ),
 				sprintf(
 					'<a href="%1$s">%2$s</a>',
-					esc_url( bp_displayed_user_url( array( bp_nouveau_get_component_slug( 'settings' ), 'delete-account' ) ) ),
+					esc_url( bp_displayed_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'settings' ), 'delete-account' ) ) ) ),
 					esc_html__( 'Delete Account', 'buddypress' )
 				)
 			);
