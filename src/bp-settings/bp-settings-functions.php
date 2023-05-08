@@ -263,7 +263,7 @@ function bp_settings_get_personal_data_request( $user_id = 0 ) {
  * @return string Formatted date.
  */
 function bp_settings_get_personal_data_expiration_date( WP_User_Request $request ) {
-	/** This filter is documented in wp-admin/includes/file.php */
+	/** This filter is documented in wp-includes/functions.php */
 	$expiration = apply_filters( 'wp_privacy_export_expiration', 3 * DAY_IN_SECONDS );
 
 	return bp_format_time( $request->completed_timestamp + $expiration, true );
@@ -290,7 +290,12 @@ function bp_settings_get_personal_data_confirmation_date( WP_User_Request $reque
  * @return string Export file URL.
  */
 function bp_settings_get_personal_data_export_url( WP_User_Request $request ) {
-	return get_post_meta( $request->ID, '_export_file_url', true );
+	if ( ! bp_settings_personal_data_export_exists( $request ) ) {
+		return '';
+	}
+
+	$file = get_post_meta( $request->ID, '_export_file_name', true );
+	return wp_privacy_exports_url() . $file;
 }
 
 /**
@@ -302,8 +307,12 @@ function bp_settings_get_personal_data_export_url( WP_User_Request $request ) {
  * @return bool
  */
 function bp_settings_personal_data_export_exists( WP_User_Request $request ) {
-	$file = get_post_meta( $request->ID, '_export_file_path', true );
-	return file_exists( $file );
+	$file = get_post_meta( $request->ID, '_export_file_name', true );
+	if ( empty( $file ) ) {
+		return false;
+	}
+
+	return file_exists( wp_privacy_exports_dir() . $file );
 }
 
 /**
