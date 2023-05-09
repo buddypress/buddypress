@@ -303,9 +303,10 @@ function bp_nouveau_format_notice_notification_for_user( $array ) {
 
 /**
  * @since 3.0.0
+ * @deprecated 12.0.0
  */
 function bp_nouveau_unregister_notices_widget() {
-	unregister_widget( 'BP_Messages_Sitewide_Notices_Widget' );
+	_deprecated_function( __FUNCTION__, '12.0.0' );
 }
 
 /**

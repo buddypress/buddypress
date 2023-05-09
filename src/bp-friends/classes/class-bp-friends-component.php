@@ -52,7 +52,6 @@ class BP_Friends_Component extends BP_Component {
 			'filters',
 			'template',
 			'functions',
-			'widgets',
 			'blocks',
 		);
 

@@ -104,7 +104,6 @@ class BP_Members_Component extends BP_Component {
 			'adminbar',
 			'functions',
 			'blocks',
-			'widgets',
 			'cache',
 			'invitations',
 			'notifications',

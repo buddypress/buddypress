@@ -637,7 +637,6 @@ class BuddyPress {
 		require $this->plugin_dir . 'bp-core/bp-core-filters.php';
 		require $this->plugin_dir . 'bp-core/bp-core-attachments.php';
 		require $this->plugin_dir . 'bp-core/bp-core-avatars.php';
-		require $this->plugin_dir . 'bp-core/bp-core-widgets.php';
 		require $this->plugin_dir . 'bp-core/bp-core-template.php';
 		require $this->plugin_dir . 'bp-core/bp-core-adminbar.php';
 		require $this->plugin_dir . 'bp-core/bp-core-buddybar.php';
@@ -751,7 +750,6 @@ class BuddyPress {
 			'BP_Optout'                                  => 'core',
 			'BP_Optouts_List_Table'                      => 'core',
 
-			'BP_Core_Friends_Widget'                     => 'friends',
 			'BP_REST_Friends_Endpoint'                   => 'friends',
 
 			'BP_Group_Extension'                         => 'groups',
@@ -764,9 +762,6 @@ class BuddyPress {
 			'BP_REST_Attachments_Group_Cover_Endpoint'   => 'groups',
 
 			'BP_Core_Members_Template'                   => 'members',
-			'BP_Core_Members_Widget'                     => 'members',
-			'BP_Core_Recently_Active_Widget'             => 'members',
-			'BP_Core_Whos_Online_Widget'                 => 'members',
 			'BP_Registration_Theme_Compat'               => 'members',
 			'BP_Signup'                                  => 'members',
 			'BP_REST_Members_Endpoint'                   => 'members',

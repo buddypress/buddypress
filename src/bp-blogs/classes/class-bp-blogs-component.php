@@ -148,7 +148,6 @@ class BP_Blogs_Component extends BP_Component {
 			$includes[] = 'activity';
 
 			if ( is_multisite() ) {
-				$includes[] = 'widgets';
 				$includes[] = 'blocks';
 			}
 		}

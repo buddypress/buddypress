@@ -663,3 +663,65 @@ function bp_admin_display_directory_states( $post_states = array(), $post = null
 
 	return $post_states;
 }
+
+/**
+ * Should BuddyPress load Legacy Widgets?
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ *
+ * @return bool False if BuddyPress shouldn't load Legacy Widgets. True otherwise.
+ */
+function bp_core_retain_legacy_widgets() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	return false;
+}
+
+/**
+ * Checks whether BuddyPress should unhook Legacy Widget registrations.
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ */
+function bp_core_maybe_unhook_legacy_widgets() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Registers the Login widget.
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ */
+function bp_core_register_login_widget() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Register bp-core widgets.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ */
+function bp_core_register_widgets() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Registers the Recent Posts Legacy Widget.
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ */
+function bp_blogs_register_recent_posts_widget() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Register the widgets for the Blogs component.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_blogs_register_widgets() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
