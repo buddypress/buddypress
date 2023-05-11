@@ -725,3 +725,180 @@ function bp_blogs_register_recent_posts_widget() {
 function bp_blogs_register_widgets() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 }
+
+/**
+ * Registers the Friends Legacy Widget.
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ */
+function bp_friends_register_friends_widget() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Register the friends widget.
+ *
+ * @since 1.9.0
+ * @deprecated 12.0.0
+ */
+function bp_friends_register_widgets() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Process AJAX pagination or filtering for the Friends widget.
+ *
+ * @since 1.9.0
+ * @deprecated 12.0.0
+ */
+function bp_core_ajax_widget_friends() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Injects specific BuddyPress CSS classes into a widget sidebar.
+ *
+ * Helps to standardize styling of BuddyPress widgets within a theme that
+ * does not use dynamic CSS classes in their widget sidebar's 'before_widget'
+ * call.
+ *
+ * @since 2.4.0
+ * @deprecated 12.0.0
+ * @access private
+ *
+ * @global array $wp_registered_widgets Current registered widgets.
+ *
+ * @param array $params Current sidebar params.
+ * @return array
+ */
+function _bp_core_inject_bp_widget_css_class( $params ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Registers the Groups Legacy Widget.
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ */
+function bp_groups_register_groups_widget() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Register widgets for groups component.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ */
+function groups_register_widgets() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * AJAX callback for the Groups List widget.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ */
+function groups_ajax_widget_groups_list() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Registers the Members Legacy Widget.
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ */
+function bp_members_register_members_widget() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Registers the "Who's online?" Legacy Widget.
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ */
+function bp_members_register_whos_online_widget() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Registers the "Recently Active" Legacy Widget.
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ */
+function bp_members_register_recently_active_widget() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Register bp-members widgets.
+ *
+ * Previously, these widgets were registered in bp-core.
+ *
+ * @since 2.2.0
+ * @deprecated 12.0.0
+ */
+function bp_members_register_widgets() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * AJAX request handler for Members widgets.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ *
+ * @see BP_Core_Members_Widget
+ */
+function bp_core_ajax_widget_members() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Returns the upper limit on the "max" item count, for widgets that support it.
+ *
+ * @since 5.0.0
+ * @deprecated 12.0.0
+ *
+ * @param string $widget_class Optional. Class name of the calling widget.
+ * @return int
+ */
+function bp_get_widget_max_count_limit( $widget_class = '' ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	/**
+	 * Filters the upper limit on the "max" item count, for widgets that support it.
+	 *
+	 * @since 5.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param int    $count        Defaults to 50.
+	 * @param string $widget_class Class name of the calling widget.
+	 */
+	return apply_filters_deprecated( 'bp_get_widget_max_count_limit', array( 50, $widget_class ), '12.0.0' );
+}
+
+/**
+ * Registers the Sitewide Notices Legacy Widget.
+ *
+ * @since 10.0.0
+ * @deprecated 12.0.0
+ */
+function bp_messages_register_sitewide_notices_widget() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Register widgets for the Messages component.
+ *
+ * @since 1.9.0
+ * @deprecated 12.0.0
+ */
+function bp_messages_register_widgets() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
