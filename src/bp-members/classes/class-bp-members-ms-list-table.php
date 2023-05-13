@@ -358,7 +358,6 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 		}
 
 		if ( bp_is_active( 'xprofile' ) ) {
-			$profile_field_ids = array();
 
 			// Fetch registration field data once only.
 			if ( ! $this->signup_field_labels ) {

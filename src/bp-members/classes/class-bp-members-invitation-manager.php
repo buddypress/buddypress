@@ -52,8 +52,6 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 				return false;
 			}
 
-			$inviter_ud = bp_core_get_core_userdata( $invitation->inviter_id );
-
 			$invite_url = esc_url(
 				add_query_arg(
 					array(

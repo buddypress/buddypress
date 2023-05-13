@@ -77,7 +77,6 @@ function bp_blogs_comments_clauses_select_by_id( $retval ) {
  * @return bool True to authorize the post to be published, otherwise false.
  */
 function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, $user_id = 0 ) {
-	$bp = buddypress();
 
 	// If blog is not trackable, do not record the activity.
 	if ( ! bp_blogs_is_blog_trackable( $blog_id, $user_id ) ) {
@@ -90,7 +89,7 @@ function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, 
 	 */
 	$sitewide_tags_blog_settings = bp_core_get_root_option( 'sitewide_tags_blog' );
 	if ( ! empty( $sitewide_tags_blog_settings ) ) {
-		$st_options = maybe_unserialize( $sitewide_tags_blog_settings );
+		$st_options   = maybe_unserialize( $sitewide_tags_blog_settings );
 		$tags_blog_id = isset( $st_options['tags_blog_id'] ) ? $st_options['tags_blog_id'] : 0;
 	} else {
 		$tags_blog_id = bp_core_get_root_option( 'sitewide_tags_blog' );
@@ -104,7 +103,7 @@ function bp_blogs_post_pre_publish( $return = true, $blog_id = 0, $post_id = 0, 
 	 *
 	 * @param bool $value Current status of the sitewide tags activity.
 	 */
-	if ( (int) $blog_id == $tags_blog_id && apply_filters( 'bp_blogs_block_sitewide_tags_activity', true ) ) {
+	if ( (int) $blog_id === $tags_blog_id && apply_filters( 'bp_blogs_block_sitewide_tags_activity', true ) ) {
 		return false;
 	}
 

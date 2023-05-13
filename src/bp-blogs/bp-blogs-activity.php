@@ -954,7 +954,6 @@ function bp_blogs_sync_activity_edit_to_post_comment( BP_Activity_Activity $acti
 
 	// Get the comment status.
 	$post_comment_status = wp_get_comment_status( $post_comment_id );
-	$old_comment_status  = $post_comment_status;
 
 	// No need to edit the activity, as it's the activity who's updating the comment.
 	remove_action( 'transition_comment_status', 'bp_activity_transition_post_type_comment_status', 10 );
@@ -1417,7 +1416,6 @@ function bp_blogs_activity_comment_single_action( $retval, $activity ) {
 	$blog_comment_id = bp_activity_get_meta( $activity->id, "bp_blogs_{$post_type}_comment_id" );
 
 	if ( ! empty( $blog_comment_id ) ) {
-		$bp = buddypress();
 
 		// Check if a comment action id is set for the parent activity.
 		$comment_action_id = bp_activity_post_type_get_tracking_arg( $parent_activity->type, 'comment_action_id' );
