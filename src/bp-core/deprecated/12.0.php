@@ -184,6 +184,299 @@ if ( ! function_exists( 'bp_classic' ) ) {
 	function bp_core_admin_slugs_setup_handler() {
 		_deprecated_function( __FUNCTION__, '12.0.0' );
 	}
+
+	/**
+	 * Return the username for a user based on their user id.
+	 *
+	 * This function is sensitive to the BP_ENABLE_USERNAME_COMPATIBILITY_MODE,
+	 * so it will return the user_login or user_nicename as appropriate.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param int         $user_id       User ID to check.
+	 * @param string|bool $user_nicename Optional. user_nicename of user being checked.
+	 * @param string|bool $user_login    Optional. user_login of user being checked.
+	 * @return string The username of the matched user or an empty string if no user is found.
+	 */
+	function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login = false ) {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_members_get_user_slug()' );
+
+		if ( ! $user_id ) {
+			$value = $user_nicename;
+			$field = 'slug';
+
+			if ( ! $user_nicename ) {
+				$value = $user_login;
+				$field = 'login';
+			}
+
+			$user = get_user_by( $field, $value );
+
+			if ( $user instanceof WP_User ) {
+				$user_id = (int) $user->ID;
+			}
+		}
+
+		$username = bp_members_get_user_slug( $user_id );
+
+		/**
+		 * Filters the username based on originally provided user ID.
+		 *
+		 * @since 1.0.1
+		 * @deprecated 12.0.0
+		 *
+		 * @param string $username Username determined by user ID.
+		 */
+		return apply_filters_deprecated( 'bp_core_get_username', array( $username ), '12.0.0', 'bp_members_get_user_slug' );
+	}
+
+	/**
+	 * Return the domain for the passed user: e.g. http://example.com/members/andy/.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param int         $user_id       The ID of the user.
+	 * @param string|bool $user_nicename Optional. user_nicename of the user.
+	 * @param string|bool $user_login    Optional. user_login of the user.
+	 * @return string
+	 */
+	function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_login = false ) {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_members_get_user_url()' );
+
+		if ( empty( $user_id ) ) {
+			return;
+		}
+
+		$domain = bp_members_get_user_url( $user_id );
+
+		// Don't use this filter.  Subject to removal in a future release.
+		// Use the 'bp_core_get_user_domain' filter instead.
+		$domain = apply_filters_deprecated( 'bp_core_get_user_domain_pre_cache', array( $domain, $user_id, $user_nicename, $user_login ), '12.0.0' );
+
+		/**
+		 * Filters the domain for the passed user.
+		 *
+		 * @since 1.0.1
+		 * @deprecated 12.0.0
+		 *
+		 * @param string $domain        Domain for the passed user.
+		 * @param int    $user_id       ID of the passed user.
+		 * @param string $user_nicename User nicename of the passed user.
+		 * @param string $user_login    User login of the passed user.
+		 */
+		return apply_filters_deprecated( 'bp_core_get_user_domain', array( $domain, $user_id, $user_nicename, $user_login ), '12.0.0', 'bp_members_get_user_url' );
+	}
+
+	/**
+	 * Get the link for the logged-in user's profile.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @return string
+	 */
+	function bp_get_loggedin_user_link() {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_loggedin_user_url()' );
+		$url = bp_loggedin_user_url();
+
+		/**
+		 * Filters the link for the logged-in user's profile.
+		 *
+		 * @since 1.2.4
+		 * @deprecated 12.0.0
+		 *
+		 * @param string $url Link for the logged-in user's profile.
+		 */
+		return apply_filters_deprecated( 'bp_get_loggedin_user_link', array( $url ), '12.0.0', 'bp_loggedin_user_url' );
+	}
+
+	/**
+	 * Get the link for the displayed user's profile.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @return string
+	 */
+	function bp_get_displayed_user_link() {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_displayed_user_url()' );
+		$url = bp_displayed_user_url();
+
+		/**
+		 * Filters the link for the displayed user's profile.
+		 *
+		 * @since 1.2.4
+		 * @deprecated 12.0.0
+		 *
+		 * @param string $url Link for the displayed user's profile.
+		 */
+		return apply_filters_deprecated( 'bp_get_displayed_user_link', array( $url ), '12.0.0', 'bp_displayed_user_url' );
+	}
+
+	/**
+	 * Alias of {@link bp_displayed_user_domain()}.
+	 *
+	 * @deprecated 12.0.0
+	 */
+	function bp_user_link() {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_displayed_user_url()' );
+		bp_displayed_user_url();
+	}
+
+	/**
+	 * Output group directory permalink.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 12.0.0
+	 */
+	function bp_groups_directory_permalink() {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_groups_directory_url()' );
+		bp_groups_directory_url();
+	}
+
+	/**
+	 * Return group directory permalink.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 12.0.0
+	 *
+	 * @return string
+	 */
+	function bp_get_groups_directory_permalink() {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_groups_directory_url()' );
+
+		$url = bp_get_groups_directory_url();
+
+		/**
+		 * Filters the group directory permalink.
+		 *
+		 * @since 1.5.0
+		 * @deprecated 12.0.0
+		 *
+		 * @param string $url Permalink for the group directory.
+		 */
+		return apply_filters_deprecated( 'bp_get_groups_directory_permalink', array( $url ), '12.0.0', 'bp_get_groups_directory_url' );
+	}
+
+	/**
+	 * Output the permalink for the group.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+	 *                                                Default: false.
+	 */
+	function bp_group_permalink( $group = false ) {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_group_url()' );
+		bp_group_url( $group );
+	}
+
+	/**
+	 * Return the permalink for the group.
+	 *
+	 * @since 1.0.0
+	 * @since 10.0.0 Updated to use `bp_get_group`.
+	 * @deprecated 12.0.0
+	 *
+	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+	 *                                                Default: false.
+	 * @return string
+	 */
+	function bp_get_group_permalink( $group = false ) {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_group_url()' );
+		$url = bp_get_group_url( $group );
+
+		/**
+		 * Filters the permalink for the group.
+		 *
+		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
+		 * @deprecated 12.0.0
+		 *
+		 * @param string          $url   Permalink for the group.
+		 * @param BP_Groups_Group $group The group object.
+		 */
+		return apply_filters_deprecated( 'bp_get_group_permalink', array( $url, $group ), '12.0.0', 'bp_get_group_url' );
+	}
+
+	/**
+	 * Output the permalink for the admin section of the group.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+	 *                                                Default: false.
+	 */
+	function bp_group_admin_permalink( $group = false ) {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_group_manage_url()' );
+		bp_group_manage_url( $group );
+	}
+
+	/**
+	 * Return the permalink for the admin section of the group.
+	 *
+	 * @since 1.0.0
+	 * @since 10.0.0 Updated to use `bp_get_group`.
+	 * @deprecated 12.0.0
+	 *
+	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+	 *                                                Default: false.
+	 * @return string
+	 */
+	function bp_get_group_admin_permalink( $group = false ) {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_group_manage_url()' );
+		$permalink = bp_get_group_manage_url( $group );
+
+		/**
+		 * Filters the permalink for the admin section of the group.
+		 *
+		 * @since 1.0.0
+		 * @since 2.5.0 Added the `$group` parameter.
+		 * @deprecated 12.0.0
+		 *
+		 * @param string          $permalink Permalink for the admin section of the group.
+		 * @param BP_Groups_Group $group     The group object.
+		 */
+		return apply_filters_deprecated( 'bp_get_group_admin_permalink', array( $permalink, $group ), '12.0.0', 'bp_get_group_manage_url' );
+	}
+
+	/**
+	 * Output blog directory permalink.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 12.0.0
+	 */
+	function bp_blogs_directory_permalink() {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_blogs_directory_url()' );
+		bp_blogs_directory_url();
+	}
+
+	/**
+	 * Return blog directory permalink.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 12.0.0
+	 *
+	 * @return string The URL of the Blogs directory.
+	 */
+	function bp_get_blogs_directory_permalink() {
+		_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_blogs_directory_url()' );
+		$url = bp_get_blogs_directory_url();
+
+		/**
+		 * Filters the blog directory permalink.
+		 *
+		 * @since 1.5.0
+		 * @deprecated 12.0.0
+		 *
+		 * @param string $url Permalink URL for the blog directory.
+		 */
+		return apply_filters_deprecated( 'bp_get_blogs_directory_permalink', array( $url ), '12.0.0', 'bp_get_blogs_directory_url' );
+	}
 }
 
 /**
@@ -245,297 +538,6 @@ function bp_core_define_slugs() {
 }
 
 /**
- * Return the username for a user based on their user id.
- *
- * This function is sensitive to the BP_ENABLE_USERNAME_COMPATIBILITY_MODE,
- * so it will return the user_login or user_nicename as appropriate.
- *
- * @since 1.0.0
- * @deprecated 12.0.0
- *
- * @param int         $user_id       User ID to check.
- * @param string|bool $user_nicename Optional. user_nicename of user being checked.
- * @param string|bool $user_login    Optional. user_login of user being checked.
- * @return string The username of the matched user or an empty string if no user is found.
- */
-function bp_core_get_username( $user_id = 0, $user_nicename = false, $user_login = false ) {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_members_get_user_slug()' );
-
-	if ( ! $user_id ) {
-		$value = $user_nicename;
-		$field = 'slug';
-
-		if ( ! $user_nicename ) {
-			$value = $user_login;
-			$field = 'login';
-		}
-
-		$user = get_user_by( $field, $value );
-
-		if ( $user instanceof WP_User ) {
-			$user_id = (int) $user->ID;
-		}
-	}
-
-	$username = bp_members_get_user_slug( $user_id );
-
-	/**
-	 * Filters the username based on originally provided user ID.
-	 *
-	 * @since 1.0.1
-	 * @deprecated 12.0.0
-	 *
-	 * @param string $username Username determined by user ID.
-	 */
-	return apply_filters_deprecated( 'bp_core_get_username', array( $username ), '12.0.0', 'bp_members_get_user_slug' );
-}
-
-/**
- * Return the domain for the passed user: e.g. http://example.com/members/andy/.
- *
- * @since 1.0.0
- * @deprecated 12.0.0
- *
- * @param int         $user_id       The ID of the user.
- * @param string|bool $user_nicename Optional. user_nicename of the user.
- * @param string|bool $user_login    Optional. user_login of the user.
- * @return string
- */
-function bp_core_get_user_domain( $user_id = 0, $user_nicename = false, $user_login = false ) {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_members_get_user_url()' );
-
-	if ( empty( $user_id ) ) {
-		return;
-	}
-
-	$domain = bp_members_get_user_url( $user_id );
-
-	// Don't use this filter.  Subject to removal in a future release.
-	// Use the 'bp_core_get_user_domain' filter instead.
-	$domain = apply_filters_deprecated( 'bp_core_get_user_domain_pre_cache', array( $domain, $user_id, $user_nicename, $user_login), '12.0.0' );
-
-	/**
-	 * Filters the domain for the passed user.
-	 *
-	 * @since 1.0.1
-	 * @deprecated 12.0.0
-	 *
-	 * @param string $domain        Domain for the passed user.
-	 * @param int    $user_id       ID of the passed user.
-	 * @param string $user_nicename User nicename of the passed user.
-	 * @param string $user_login    User login of the passed user.
-	 */
-	return apply_filters_deprecated( 'bp_core_get_user_domain', array( $domain, $user_id, $user_nicename, $user_login), '12.0.0', 'bp_members_get_user_url' );
-}
-
-/**
- * Get the link for the logged-in user's profile.
- *
- * @since 1.0.0
- * @deprecated 12.0.0
- *
- * @return string
- */
-function bp_get_loggedin_user_link() {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_loggedin_user_url()' );
-	$url = bp_loggedin_user_url();
-
-	/**
-	 * Filters the link for the logged-in user's profile.
-	 *
-	 * @since 1.2.4
-	 * @deprecated 12.0.0
-	 *
-	 * @param string $url Link for the logged-in user's profile.
-	 */
-	return apply_filters_deprecated( 'bp_get_loggedin_user_link', array( $url ), '12.0.0', 'bp_loggedin_user_url' );
-}
-
-/**
- * Get the link for the displayed user's profile.
- *
- * @since 1.0.0
- * @deprecated 12.0.0
- *
- * @return string
- */
-function bp_get_displayed_user_link() {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_displayed_user_url()' );
-	$url = bp_displayed_user_url();
-
-	/**
-	 * Filters the link for the displayed user's profile.
-	 *
-	 * @since 1.2.4
-	 * @deprecated 12.0.0
-	 *
-	 * @param string $url Link for the displayed user's profile.
-	 */
-	return apply_filters_deprecated( 'bp_get_displayed_user_link', array( $url ), '12.0.0', 'bp_displayed_user_url' );
-}
-
-/**
- * Alias of {@link bp_displayed_user_domain()}.
- *
- * @deprecated 12.0.0
- */
-function bp_user_link() {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_displayed_user_url()' );
-	bp_displayed_user_url();
-}
-
-/**
- * Output group directory permalink.
- *
- * @since 1.5.0
- * @deprecated 12.0.0
- */
-function bp_groups_directory_permalink() {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_groups_directory_url()' );
-	bp_groups_directory_url();
-}
-
-/**
- * Return group directory permalink.
- *
- * @since 1.5.0
- * @deprecated 12.0.0
- *
- * @return string
- */
-function bp_get_groups_directory_permalink() {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_groups_directory_url()' );
-
-	$url = bp_get_groups_directory_url();
-
-	/**
-	 * Filters the group directory permalink.
-	 *
-	 * @since 1.5.0
-	 * @deprecated 12.0.0
-	 *
-	 * @param string $url Permalink for the group directory.
-	 */
-	return apply_filters_deprecated( 'bp_get_groups_directory_permalink', array( $url ), '12.0.0', 'bp_get_groups_directory_url' );
-}
-
-/**
- * Output the permalink for the group.
- *
- * @since 1.0.0
- * @deprecated 12.0.0
- *
- * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
- *                                                Default: false.
- */
-function bp_group_permalink( $group = false ) {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_group_url' );
-	bp_group_url( $group );
-}
-/**
- * Return the permalink for the group.
- *
- * @since 1.0.0
- * @since 10.0.0 Updated to use `bp_get_group`.
- * @deprecated 12.0.0
- *
- * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
- *                                                Default: false.
- * @return string
- */
-function bp_get_group_permalink( $group = false ) {
-	$url = bp_get_group_url( $group );
-
-	/**
-	 * Filters the permalink for the group.
-	 *
-	 * @since 1.0.0
-	 * @since 2.5.0 Added the `$group` parameter.
-	 * @deprecated 12.0.0
-	 *
-	 * @param string          $url   Permalink for the group.
-	 * @param BP_Groups_Group $group The group object.
-	 */
-	return apply_filters_deprecated( 'bp_get_group_permalink', array( $url, $group ), '12.0.0', 'bp_get_group_url' );
-}
-
-/**
- * Output the permalink for the admin section of the group.
- *
- * @since 1.0.0
- * @deprecated 12.0.0
- *
- * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
- *                                                Default: false.
- */
-function bp_group_admin_permalink( $group = false ) {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_group_manage_url' );
-	bp_group_manage_url( $group );
-}
-
-/**
- * Return the permalink for the admin section of the group.
- *
- * @since 1.0.0
- * @since 10.0.0 Updated to use `bp_get_group`.
- * @deprecated 12.0.0
- *
- * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
- *                                                Default: false.
- * @return string
- */
-function bp_get_group_admin_permalink( $group = false ) {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_group_manage_url' );
-	$permalink = bp_get_group_manage_url( $group );
-
-	/**
-	 * Filters the permalink for the admin section of the group.
-	 *
-	 * @since 1.0.0
-	 * @since 2.5.0 Added the `$group` parameter.
-	 * @deprecated 12.0.0
-	 *
-	 * @param string          $permalink Permalink for the admin section of the group.
-	 * @param BP_Groups_Group $group     The group object.
-	 */
-	return apply_filters_deprecated( 'bp_get_group_admin_permalink', array( $permalink, $group ), '12.0.0', 'bp_get_group_manage_url' );
-}
-
-/**
- * Output blog directory permalink.
- *
- * @since 1.5.0
- * @deprecated 12.0.0
- */
-function bp_blogs_directory_permalink() {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_blogs_directory_url()' );
-	bp_blogs_directory_url();
-}
-
-/**
- * Return blog directory permalink.
- *
- * @since 1.5.0
- * @deprecated 12.0.0
- *
- * @return string The URL of the Blogs directory.
- */
-function bp_get_blogs_directory_permalink() {
-	_deprecated_function( __FUNCTION__, '12.0.0', 'bp_get_blogs_directory_url()' );
-	$url = bp_get_blogs_directory_url();
-
-	/**
-	 * Filters the blog directory permalink.
-	 *
-	 * @since 1.5.0
-	 * @deprecated 12.0.0
-	 *
-	 * @param string $url Permalink URL for the blog directory.
-	 */
-	return apply_filters_deprecated( 'bp_get_blogs_directory_permalink', array( $url ), '12.0.0', 'bp_get_blogs_directory_url' );
-}
-
-/**
  * Outputs the group creation numbered steps navbar
  *
  * @since 3.0.0
@@ -582,6 +584,7 @@ function bp_groups_header_tabs() {
  * @deprecated 12.0.0
  */
 function bp_blogs_blog_tabs() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
 
 	// Don't show these tabs on a user's own profile.
 	if ( bp_is_my_profile() ) {
@@ -636,6 +639,7 @@ function bp_blogs_blog_tabs() {
  * @param WP_Post  $post        The current post object.
  */
 function bp_admin_display_directory_states( $post_states = array(), $post = null ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
 	$states = array();
 
 	/**
