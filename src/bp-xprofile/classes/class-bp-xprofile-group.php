@@ -84,8 +84,6 @@ class BP_XProfile_Group {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @global wpdb $wpdb WordPress database object.
-	 *
 	 * @param int $id Field group ID.
 	 * @return boolean
 	 */
@@ -467,6 +465,8 @@ class BP_XProfile_Group {
 	 *
 	 * @since 5.0.0
 	 * @since 11.0.0 `$profile_group_id` accepts an array of profile group ids.
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
 	 *    Array of optional arguments.
@@ -524,6 +524,8 @@ class BP_XProfile_Group {
 	 * Gets group field IDs, based on passed parameters.
 	 *
 	 * @since 5.0.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $group_ids Array of group IDs.
 	 * @param array $args {
@@ -616,6 +618,8 @@ class BP_XProfile_Group {
 	 * Get data about a set of groups, based on IDs.
 	 *
 	 * @since 2.0.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $group_ids Array of IDs.
 	 * @return array
@@ -786,6 +790,8 @@ class BP_XProfile_Group {
 	 * Fetch the admin-set preferences for all fields.
 	 *
 	 * @since 1.6.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return array $default_visibility_levels An array, keyed by field_id, of default
 	 *                                          visibility level + allow_custom

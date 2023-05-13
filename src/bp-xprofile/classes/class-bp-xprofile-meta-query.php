@@ -152,6 +152,8 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 	 * "First-order" means that it's an array with a 'key' or 'value'.
 	 *
 	 * @since 2.3.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array  $clause       Query clause, passed by reference.
 	 * @param array  $parent_query Parent query array.

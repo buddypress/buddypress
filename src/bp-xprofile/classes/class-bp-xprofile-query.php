@@ -340,6 +340,8 @@ class BP_XProfile_Query {
 	 * "First-order" means that it's an array with a 'field' or 'value'.
 	 *
 	 * @since 2.2.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $clause       Query clause.
 	 * @param array $parent_query Parent query array.

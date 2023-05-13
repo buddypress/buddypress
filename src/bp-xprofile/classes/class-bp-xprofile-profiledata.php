@@ -76,6 +76,8 @@ class BP_XProfile_ProfileData {
 	 * Populates the XProfile profile data.
 	 *
 	 * @since 1.0.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $field_id Field ID to populate.
 	 * @param int $user_id  User ID to populate for.
@@ -175,6 +177,8 @@ class BP_XProfile_ProfileData {
 	 * Save the data for the XProfile field.
 	 *
 	 * @since 1.0.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return bool
 	 */
@@ -317,6 +321,8 @@ class BP_XProfile_ProfileData {
 	 * @since 2.0.0
 	 * @since 8.0.0 Checks if a null field data is an xProfile WP Field.
 	 *              Adds a new parameter `$field_type_objects` to pass the list of field type objects.
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int   $user_id            ID of user whose data is being queried.
 	 * @param array $field_ids          Array of field IDs to query for.
@@ -474,6 +480,8 @@ class BP_XProfile_ProfileData {
 	 * Get the user's field data id by the id of the xprofile field.
 	 *
 	 * @since 1.6.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $field_id Field ID being queried for.
 	 * @param int $user_id  User ID associated with field.
@@ -507,6 +515,8 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @since 1.0.0
 	 * @since 8.0.0 Checks if a null field data is an xProfile WP Field.
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int            $field_id ID of the field.
 	 * @param int|array|null $user_ids ID or IDs of user(s).
@@ -615,6 +625,9 @@ class BP_XProfile_ProfileData {
 	 * Get profile field values by field name and user ID.
 	 *
 	 * @since 1.0.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
+	 * 
 	 * @deprecated 8.0.0 This function is not used anymore.
 	 *
 	 * @param array|string $fields  Field(s) to get.
@@ -681,6 +694,8 @@ class BP_XProfile_ProfileData {
 	 * Delete field.
 	 *
 	 * @since 1.0.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $field_id ID of the field to delete.
 	 * @return bool
@@ -701,6 +716,8 @@ class BP_XProfile_ProfileData {
 	 * Get time for last XProfile field data update by user.
 	 *
 	 * @since 1.0.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $user_id User ID to get time for.
 	 * @return null|string
@@ -719,6 +736,8 @@ class BP_XProfile_ProfileData {
 	 * Delete all data for provided user ID.
 	 *
 	 * @since 1.0.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $user_id User ID to remove data for.
 	 * @return false|int
@@ -745,6 +764,8 @@ class BP_XProfile_ProfileData {
 	 * Get random field type by user ID.
 	 *
 	 * @since 1.0.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int    $user_id          User ID to query for.
 	 * @param string $exclude_fullname SQL portion used to exclude by field ID.
