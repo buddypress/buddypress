@@ -28,7 +28,7 @@ function groups_screen_group_invites() {
 			$group = groups_get_group( $group_id );
 
 			/* translators: %s: group link */
-			bp_core_add_message( sprintf( __( 'Group invite accepted. Visit %s.', 'buddypress' ), bp_get_group_link( $group ) ) );
+			bp_core_add_message( sprintf( __( 'Group invite accepted. View %s.', 'buddypress' ), bp_get_group_link( $group ) ) );
 
 			if ( bp_is_active( 'activity' ) ) {
 				groups_record_activity( array(
