@@ -477,6 +477,29 @@ if ( ! function_exists( 'bp_classic' ) ) {
 		 */
 		return apply_filters_deprecated( 'bp_get_blogs_directory_permalink', array( $url ), '12.0.0', 'bp_get_blogs_directory_url' );
 	}
+
+	/**
+	 * Returns the upper limit on the "max" item count, for widgets that support it.
+	 *
+	 * @since 5.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $widget_class Optional. Class name of the calling widget.
+	 * @return int
+	 */
+	function bp_get_widget_max_count_limit( $widget_class = '' ) {
+		_deprecated_function( __FUNCTION__, '12.0.0' );
+		/**
+		 * Filters the upper limit on the "max" item count, for widgets that support it.
+		 *
+		 * @since 5.0.0
+		 * @deprecated 12.0.0
+		 *
+		 * @param int    $count        Defaults to 50.
+		 * @param string $widget_class Class name of the calling widget.
+		 */
+		return apply_filters_deprecated( 'bp_get_widget_max_count_limit', array( 50, $widget_class ), '12.0.0' );
+	}
 }
 
 /**
@@ -858,29 +881,6 @@ function bp_members_register_widgets() {
  */
 function bp_core_ajax_widget_members() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
-}
-
-/**
- * Returns the upper limit on the "max" item count, for widgets that support it.
- *
- * @since 5.0.0
- * @deprecated 12.0.0
- *
- * @param string $widget_class Optional. Class name of the calling widget.
- * @return int
- */
-function bp_get_widget_max_count_limit( $widget_class = '' ) {
-	_deprecated_function( __FUNCTION__, '12.0.0' );
-	/**
-	 * Filters the upper limit on the "max" item count, for widgets that support it.
-	 *
-	 * @since 5.0.0
-	 * @deprecated 12.0.0
-	 *
-	 * @param int    $count        Defaults to 50.
-	 * @param string $widget_class Class name of the calling widget.
-	 */
-	return apply_filters_deprecated( 'bp_get_widget_max_count_limit', array( 50, $widget_class ), '12.0.0' );
 }
 
 /**
