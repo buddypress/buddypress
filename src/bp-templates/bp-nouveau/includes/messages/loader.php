@@ -68,9 +68,6 @@ class BP_Nouveau_Messages {
 	protected function setup_actions() {
 		add_action( 'bp_init', 'bp_nouveau_register_messages_ajax_actions' );
 
-		// Notices
-		add_action( 'widgets_init', 'bp_nouveau_unregister_notices_widget' );
-
 		$hook = 'bp_parse_query';
 		if ( 'rewrites' !== bp_core_get_query_parser() ) {
 			$hook = 'bp_init';

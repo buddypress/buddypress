@@ -860,6 +860,20 @@ function bp_update_to_12_0() {
 			}
 		}
 
+		/* Widgets **************************************************/
+		$widget_options = array(
+			'widget_bp_core_login_widget',
+			'widget_bp_core_members_widget',
+			'widget_bp_core_whos_online_widget',
+			'widget_bp_core_recently_active_widget',
+			'widget_bp_groups_widget',
+			'widget_bp_messages_sitewide_notices_widget',
+		);
+
+		foreach ( $widget_options as $widget_option ) {
+			bp_delete_option( $widget_option );
+		}
+
 		// Finally make sure to rebuilt permalinks at next page load.
 		bp_delete_rewrite_rules();
 	}

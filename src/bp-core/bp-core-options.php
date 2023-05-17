@@ -97,14 +97,6 @@ function bp_get_default_options() {
 
 		// Ignore deprecated code.
 		'_bp_ignore_deprecated_code'           => true,
-
-		/* Widgets **************************************************/
-		'widget_bp_core_login_widget'                => false,
-		'widget_bp_core_members_widget'              => false,
-		'widget_bp_core_whos_online_widget'          => false,
-		'widget_bp_core_recently_active_widget'      => false,
-		'widget_bp_groups_widget'                    => false,
-		'widget_bp_messages_sitewide_notices_widget' => false,
 	);
 
 	/**

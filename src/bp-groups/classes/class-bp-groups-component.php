@@ -140,7 +140,6 @@ class BP_Groups_Component extends BP_Component {
 		$includes = array(
 			'cache',
 			'filters',
-			'widgets',
 			'template',
 			'adminbar',
 			'functions',

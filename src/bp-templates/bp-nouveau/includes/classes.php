@@ -10,7 +10,3 @@
 defined( 'ABSPATH' ) || exit;
 
 require plugin_dir_path( __FILE__ ) . 'classes/class-bp-buttons-group.php';
-
-if ( bp_core_retain_legacy_widgets() ) {
-	require plugin_dir_path( __FILE__ ) . 'classes/class-bp-nouveau-object-nav-widget.php';
-}

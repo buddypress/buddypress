@@ -201,11 +201,6 @@ class BP_Nouveau extends BP_Theme_Compat {
 		// Register the Default front pages Dynamic Sidebars.
 		add_action( 'widgets_init', 'bp_nouveau_register_sidebars', 11 );
 
-		// Register the Primary Object nav widget.
-		if ( bp_core_retain_legacy_widgets() ) {
-			add_action( 'bp_widgets_init', array( 'BP_Nouveau_Object_Nav_Widget', 'register_widget' ) );
-		}
-
 		// Modify "registration disabled" and welcome message if invitations are enabled.
 		add_action( 'bp_nouveau_feedback_messages', array( $this, 'filter_registration_messages' ), 99 );
 
