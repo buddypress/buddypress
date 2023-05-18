@@ -607,7 +607,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		// Delete.
 		$actions['delete'] = sprintf( '<a href="%s">%s</a>', esc_url( $delete_url ), __( 'Delete', 'buddypress' ) );
 
-		// Visit.
+		// View.
 		$actions['view']   = sprintf( '<a href="%s">%s</a>', esc_url( $view_url   ), __( 'View',   'buddypress' ) );
 
 		/**

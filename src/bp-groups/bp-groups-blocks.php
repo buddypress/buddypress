@@ -139,7 +139,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
 				<a href="%1$s" class="button large primary button-primary" role="button">%2$s</a>
 			</div>',
 			esc_url( $group_link ),
-			esc_html__( 'Visit Group', 'buddypress' )
+			esc_html__( 'View Group', 'buddypress' )
 		);
 	}
 

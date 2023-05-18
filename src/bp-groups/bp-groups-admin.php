@@ -234,7 +234,7 @@ function bp_groups_admin_load() {
 			'id'      => 'bp-groups-overview-actions',
 			'title'   => __( 'Group Actions', 'buddypress' ),
 			'content' =>
-				'<p>' . __( 'Clicking "Visit" will take you to the group&#8217;s public page. Use this link to see what the group looks like on the front end of your site.', 'buddypress' ) . '</p>' .
+				'<p>' . __( 'Clicking "View" will take you to the group&#8217;s public page. Use this link to see what the group looks like on the front end of your site.', 'buddypress' ) . '</p>' .
 				'<p>' . __( 'Clicking "Edit" will take you to a Dashboard panel where you can manage various details about the group, such as its name and description, its members, and other settings.', 'buddypress' ) . '</p>' .
 				'<p>' . __( 'If you click "Delete" under a specific group, or select a number of groups and then choose Delete from the Bulk Actions menu, you will be led to a page where you&#8217;ll be asked to confirm the permanent deletion of the group(s).', 'buddypress' ) . '</p>',
 		) );
@@ -686,7 +686,7 @@ function bp_groups_admin_edit() {
 											<span id="bp-groups-permalink">
 												<?php bp_groups_directory_url(); ?> <input type="text" id="bp-groups-slug" name="bp-groups-slug" value="<?php bp_group_slug( $group ); ?>" autocomplete="off"> /
 											</span>
-											<a href="<?php bp_group_url( $group ) ?>" class="button button-small" id="bp-groups-visit-group"><?php esc_html_e( 'Visit Group', 'buddypress' ) ?></a>
+											<a href="<?php bp_group_url( $group ) ?>" class="button button-small" id="bp-groups-visit-group"><?php esc_html_e( 'View Group', 'buddypress' ) ?></a>
 										</div>
 
 										<label for="bp-groups-description" class="screen-reader-text"><?php
