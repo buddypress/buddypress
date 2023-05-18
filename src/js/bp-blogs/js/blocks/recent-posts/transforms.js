@@ -18,7 +18,7 @@ const transforms = {
 			type: 'block',
 			blocks: [ 'core/legacy-widget' ],
 			isMatch: ( { idBase, instance } ) => {
-				if ( ! instance?.raw ) {
+				if ( ! instance || ! instance.raw ) {
 					return false;
 				}
 
