@@ -1,0 +1,8 @@
+[
+	{
+		"title": "User Handbook",
+		"slug": "handbook",
+		"markdown_source": "../user/README.md",
+		"parent": null
+	}
+]
