@@ -75,7 +75,6 @@ function bp_core_register_common_scripts() {
 	$scripts = array(
 		// Legacy.
 		'bp-confirm'        => array( 'file' => "{$url}confirm{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
-		'bp-widget-members' => array( 'file' => "{$url}widget-members{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 		'bp-jquery-query'   => array( 'file' => "{$url}jquery-query{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 		'bp-jquery-cookie'  => array( 'file' => "{$url}vendor/jquery-cookie{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
 		'bp-jquery-scroll-to' => array( 'file' => "{$url}vendor/jquery-scroll-to{$min}.js", 'dependencies' => array( 'jquery' ), 'footer' => false ),
@@ -136,8 +135,8 @@ function bp_core_register_common_scripts() {
 	/**
 	 * Filters the BuddyPress Core javascript files to register.
 	 *
-	 * Default handles include 'bp-confirm', 'bp-widget-members',
-	 * 'bp-jquery-query', 'bp-jquery-cookie', and 'bp-jquery-scroll-to'.
+	 * Default handles include 'bp-confirm', 'bp-jquery-query',
+	 * 'bp-jquery-cookie', and 'bp-jquery-scroll-to'.
 	 *
 	 * @since 2.1.0 'jquery-caret', 'jquery-atwho' added.
 	 * @since 2.3.0 'bp-plupload', 'bp-avatar', 'bp-webcam' added.
@@ -454,7 +453,6 @@ function bp_core_get_js_dependencies() {
 	return apply_filters( 'bp_core_get_js_dependencies', array(
 		'jquery',
 		'bp-confirm',
-		'bp-widget-members',
 		'bp-jquery-query',
 		'bp-jquery-cookie',
 		'bp-jquery-scroll-to'

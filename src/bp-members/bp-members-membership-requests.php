@@ -376,14 +376,14 @@ add_filter( 'bp_members_ms_signup_date_sent_unsent_message', 'bp_members_members
 
 /**
  * Filter/add "Request Membership" links in the following locations:
- * - BP login widget,
+ * - BP login block widget,
  * - Sidebar register link,
  * - WP Toolbar,
  * - WP login form.
  *********************************************************************/
 
 /**
- * Add "Request Membership" link to Widget login form.
+ * Add "Request Membership" link to Block Widget login form.
  *
  * @since 10.0.0
  *
