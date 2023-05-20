@@ -563,6 +563,8 @@ add_action( 'bp_pre_user_query', 'bp_xprofile_add_xprofile_query_to_user_query' 
  * Filter meta queries to modify for the xprofile data schema.
  *
  * @since 2.0.0
+ * 
+ * @global wpdb $wpdb WordPress database object.
  *
  * @access private Do not use.
  *

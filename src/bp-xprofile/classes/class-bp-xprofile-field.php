@@ -255,6 +255,8 @@ class BP_XProfile_Field {
 	 * @since 2.4.0
 	 * @since 2.8.0 Added `$user_id` and `$get_data` parameters.
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @static
 	 *
 	 * @param int      $field_id ID of the field.
@@ -925,6 +927,8 @@ class BP_XProfile_Field {
 	/**
 	 * Get the type for provided field ID.
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param int $field_id Field ID to get type of.
 	 * @return bool|null|string
 	 */
@@ -1056,6 +1060,8 @@ class BP_XProfile_Field {
 	 * Gets the IDs of fields applicable for a given member type or array of member types.
 	 *
 	 * @since 2.4.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string|array $member_types Member type or array of member types. Use 'any' to return unrestricted
 	 *                                   fields (those available for anyone, regardless of member type).

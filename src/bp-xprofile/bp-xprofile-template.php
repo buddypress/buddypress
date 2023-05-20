@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 8.0.0  Introduced `$hide_field_types` & `$signup_fields_only` arguments.
  * @since 11.0.0 `$profile_group_id` accepts an array of profile group ids.
  *
- * @global object $profile_template
+ * @global BP_XProfile_Data_Template $profile_template Profile data template object.
  * @see BP_XProfile_Group::get() for full description of `$args` array.
  *
  * @param array|string $args {
@@ -98,6 +98,8 @@ function bp_has_profile( $args = '' ) {
  *
  * @since 1.0.0
  *
+ * @global BP_XProfile_Data_Template $profile_template Profile data template object.
+ *
  * @return mixed
  */
 function bp_profile_groups() {
@@ -110,6 +112,8 @@ function bp_profile_groups() {
  *
  * @since 1.0.0
  *
+ * @global BP_XProfile_Data_Template $profile_template Profile data template object.
+ *
  * @return mixed
  */
 function bp_the_profile_group() {
@@ -121,6 +125,8 @@ function bp_the_profile_group() {
  * Whether or not the group has fields to display.
  *
  * @since 1.0.0
+ *
+ * @global BP_XProfile_Data_Template $profile_template Profile data template object.
  *
  * @return mixed
  */
@@ -146,6 +152,8 @@ function bp_field_css_class( $class = false ) {
 	 * Return the class attribute for a field.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @global BP_XProfile_Data_Template $profile_template Profile data template object.
 	 *
 	 * @param string|bool $class Extra classes to append to class attribute.
 	 * @return string
@@ -208,7 +216,7 @@ function bp_field_css_class( $class = false ) {
  *
  * @since 1.0.0
  *
- * @global object $profile_template
+ * @global BP_XProfile_Data_Template $profile_template Profile data template object.
  *
  * @return mixed
  */
@@ -220,10 +228,10 @@ function bp_field_has_data() {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param bool   $value            Whether or not there is data to display.
-	 * @param object $profile_template Profile template object.
-	 * @param string $value            Profile field being displayed.
-	 * @param string $value            Profile field ID being displayed.
+	 * @param bool                      $value            Whether or not there is data to display.
+	 * @param BP_XProfile_Data_Template $profile_template Profile data template object.
+	 * @param string                    $value            Profile field being displayed.
+	 * @param string                    $value            Profile field ID being displayed.
 	 */
 	return apply_filters( 'bp_field_has_data', $profile_template->field_has_data, $profile_template, $profile_template->field, $profile_template->field->id );
 }
@@ -233,7 +241,7 @@ function bp_field_has_data() {
  *
  * @since 1.0.0
  *
- * @global object $profile_template
+ * @global BP_XProfile_Data_Template $profile_template Profile data template object.
  *
  * @return bool
  */
@@ -245,10 +253,10 @@ function bp_field_has_public_data() {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param bool   $value            Whether or not there is public data to display.
-	 * @param object $profile_template Profile template object.
-	 * @param string $value            Profile field being displayed.
-	 * @param string $value            Profile field ID being displayed.
+	 * @param bool                      $value            Whether or not there is public data to display.
+	 * @param BP_XProfile_Data_Template $profile_template Profile template object.
+	 * @param string                    $value            Profile field being displayed.
+	 * @param string                    $value            Profile field ID being displayed.
 	 */
 	return apply_filters( 'bp_field_has_public_data', ( ! empty( $profile_template->field_has_data ) ), $profile_template, $profile_template->field, $profile_template->field->id );
 }
@@ -266,6 +274,8 @@ function bp_the_profile_group_id() {
 	 * Return the XProfile group ID.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @global object $group Current group of profile fields.
 	 *
 	 * @return int
 	 */
@@ -296,6 +306,8 @@ function bp_the_profile_group_name() {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global object $group Current group of profile fields.
+	 *
 	 * @return string
 	 */
 	function bp_get_the_profile_group_name() {
@@ -324,6 +336,8 @@ function bp_the_profile_group_slug() {
 	 * Return the XProfile group slug.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @global object $group Current group of profile fields.
 	 *
 	 * @return string
 	 */
@@ -354,6 +368,8 @@ function bp_the_profile_group_description() {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global object $group Current group of profile fields.
+	 *
 	 * @return string
 	 */
 	function bp_get_the_profile_group_description() {
@@ -382,6 +398,8 @@ function bp_the_profile_group_edit_form_action() {
 	 * Return the XProfile group edit form action.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @global object $group Current group of profile fields.
 	 *
 	 * @return string
 	 */
@@ -422,6 +440,8 @@ function bp_the_profile_group_field_ids() {
 	 *
 	 * @since 1.1.0
 	 *
+	 * @global object $group Current group of profile fields.
+	 *
 	 * @return string
 	 */
 	function bp_get_the_profile_group_field_ids() {
@@ -450,6 +470,8 @@ function bp_the_profile_field_ids() {
 	 * Generate a comma-separated list of field IDs that are to be submitted on profile edit.
 	 *
 	 * @since 2.1.0
+	 *
+	 * @global BP_XProfile_Data_Template $profile_template Profile data template object.
 	 *
 	 * @return string
 	 */
@@ -480,6 +502,8 @@ function bp_the_profile_field_ids() {
  *
  * @since 1.0.0
  *
+ * @global BP_XProfile_Data_Template $profile_template Profile data template object.
+ *
  * @return mixed
  */
 function bp_profile_fields() {
@@ -491,6 +515,8 @@ function bp_profile_fields() {
  * Sets up the XProfile field.
  *
  * @since 1.0.0
+ *
+ * @global BP_XProfile_Data_Template $profile_template Profile data template object.
  *
  * @return mixed
  */
@@ -512,6 +538,8 @@ function bp_the_profile_field_id() {
 	 * Return the XProfile field ID.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @global object $field Current profile field.
 	 *
 	 * @return int
 	 */
@@ -542,6 +570,8 @@ function bp_the_profile_field_name() {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global object $field Current profile field.
+	 *
 	 * @return string
 	 */
 	function bp_get_the_profile_field_name() {
@@ -570,6 +600,8 @@ function bp_the_profile_field_value() {
 	 * Returns the XProfile field value.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @global object $field Current profile field.
 	 *
 	 * @return string
 	 */
@@ -603,6 +635,8 @@ function bp_the_profile_field_edit_value() {
 	 * Returns the XProfile field edit value.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @global object $field Current profile field.
 	 *
 	 * @return string
 	 */
@@ -652,6 +686,8 @@ function bp_the_profile_field_type() {
 	 *
 	 * @since 1.1.0
 	 *
+	 * @global object $field Current profile field.
+	 *
 	 * @return string
 	 */
 	function bp_get_the_profile_field_type() {
@@ -680,6 +716,8 @@ function bp_the_profile_field_description() {
 	 * Returns the XProfile field description.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @global object $field Current profile field.
 	 *
 	 * @return string
 	 */
@@ -710,6 +748,8 @@ function bp_the_profile_field_input_name() {
 	 *
 	 * @since 1.1.0
 	 *
+	 * @global object $field Current profile field.
+	 *
 	 * @return string
 	 */
 	function bp_get_the_profile_field_input_name() {
@@ -736,6 +776,8 @@ function bp_the_profile_field_input_name() {
  *
  * @since 1.8.0
  *
+ * @global object $field Current profile field.
+ *
  * @return string The _errors action name corresponding to this profile field.
  */
 function bp_get_the_profile_field_errors_action() {
@@ -759,6 +801,7 @@ function bp_the_profile_field_options( $args = array() ) {
 	 *
 	 * @since 1.1.0
 	 *
+	 * @global object $field Current profile field.
 	 *
 	 * @param array $args {
 	 *     Array of optional arguments.
@@ -820,6 +863,8 @@ function bp_the_profile_field_is_required() {
 	 *
 	 * @since 1.1.0
 	 *
+	 * @global object $field Current profile field.
+	 *
 	 * @return bool
 	 */
 	function bp_get_the_profile_field_is_required() {
@@ -856,6 +901,8 @@ function bp_the_profile_field_visibility_level() {
 	 * Return the visibility level of this field.
 	 *
 	 * @since 1.6.0
+	 *
+	 * @global object $field Current profile field.
 	 *
 	 * @return string
 	 */
@@ -894,6 +941,8 @@ function bp_the_profile_field_visibility_level_label() {
 	 * Return the visibility level label of this field.
 	 *
 	 * @since 1.6.0
+	 *
+	 * @global object $field Current profile field.
 	 *
 	 * @return string
 	 */

@@ -762,6 +762,8 @@ add_action( 'bp_parse_query', 'xprofile_override_user_fullnames', 100 );
  * When search_terms are passed to BP_User_Query, search against xprofile fields.
  *
  * @since 2.0.0
+ * 
+ * @global wpdb $wpdb WordPress database object.
  *
  * @param array         $sql   Clauses in the user_id SQL query.
  * @param BP_User_Query $query User query object.
@@ -960,6 +962,8 @@ add_action( 'delete_user', 'xprofile_remove_data_on_delete_user' );
  * Delete a piece of xprofile metadata.
  *
  * @since 1.5.0
+ * 
+ * @global wpdb $wpdb WordPress database object.
  *
  * @param int         $object_id   ID of the object the metadata belongs to.
  * @param string      $object_type Type of object. 'group', 'field', or 'data'.
@@ -1141,6 +1145,8 @@ function bp_xprofile_update_fielddata_meta( $field_data_id, $meta_key, $meta_val
  * Return the field ID for the Full Name xprofile field.
  *
  * @since 2.0.0
+ * 
+ * @global wpdb $wpdb WordPress database object.
  *
  * @return int Field ID.
  */
@@ -1470,6 +1476,8 @@ function bp_xprofile_get_wp_user_keys() {
  * Returns the signup field IDs.
  *
  * @since 8.0.0
+ * 
+ * @global wpdb $wpdb WordPress database object.
  *
  * @return int[] The signup field IDs.
  */

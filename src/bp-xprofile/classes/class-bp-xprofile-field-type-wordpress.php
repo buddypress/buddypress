@@ -155,6 +155,8 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 * to include the WordPress field value into the xProfile fields loop.
 	 *
 	 * @since 8.0.0
+	 * 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param integer $user_id The user ID.
 	 * @param integer $field_id The xProfile field ID.
