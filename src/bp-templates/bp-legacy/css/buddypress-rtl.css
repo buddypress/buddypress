@@ -24,8 +24,7 @@ Hello, this is the BuddyPress Legacy stylesheet.
 		3.8.1 - Cover Image
 	3.9 - Private Messaging Threads
 	3.10 - Extended Profiles
-	3.11 - Widgets
-	3.12 - Tooltips
+	3.11 - Tooltips
 4.0 - Media Queries
 	4.1 - Smartphones Landscape
 	4.2 - Smartphones Portrait
@@ -2003,104 +2002,7 @@ body.register #buddypress div.page ul {
 }
 
 /*--------------------------------------------------------------
-3.11 - Widgets
---------------------------------------------------------------*/
-
-.widget.buddypress span.activity {
-	display: inline-block;
-	font-size: small;
-	padding: 0;
-}
-
-.widget.buddypress div.item-options {
-	font-size: 90%;
-	margin: 0 0 1em;
-	padding: 1em 0;
-}
-
-.widget.buddypress div.item {
-	margin: 0 0 1em;
-}
-
-.widget.buddypress div.item-meta,
-.widget.buddypress div.item-content {
-	font-size: 11px;
-	margin-right: 50px;
-}
-
-.widget.buddypress div.avatar-block:after {
-	clear: both;
-	content: "";
-	display: table;
-}
-
-.widget.buddypress .item-avatar a {
-	float: right;
-	margin-bottom: 15px;
-	margin-left: 10px;
-}
-
-.widget.buddypress div.item-avatar img {
-	display: inline-block;
-	height: 40px;
-	margin: 1px;
-	width: 40px;
-}
-
-.widget.buddypress .item-avatar a,
-.widget.buddypress .item-avatar a:hover,
-.widget.buddypress .item-avatar a:focus,
-.widget.buddypress .item-avatar a:active,
-.widget.buddypress .item-avatar a img {
-	box-shadow: none;
-}
-
-.widget.buddypress #bp-login-widget-form label {
-	display: block;
-	margin: 1rem 0 0.5rem;
-}
-
-.widget.buddypress #bp-login-widget-form #bp-login-widget-submit {
-	margin-left: 10px;
-}
-
-.widget.buddypress .bp-login-widget-user-avatar {
-	float: right;
-}
-
-.bp-login-widget-user-avatar img.avatar {
-	height: 40px;
-	width: 40px;
-}
-
-.widget.buddypress .bp-login-widget-user-links > div {
-	padding-right: 60px;
-}
-
-.widget.buddypress .bp-login-widget-user-links > div {
-	margin-bottom: 0.5rem;
-}
-
-.widget.buddypress .bp-login-widget-user-links > div.bp-login-widget-user-link a {
-	font-weight: 700;
-}
-
-.widget.buddypress #groups-list,
-.widget.buddypress #members-list,
-.widget.buddypress #friends-list {
-	margin-right: 0;
-	padding-right: 0;
-}
-
-.widget.buddypress #groups-list li,
-.widget.buddypress #members-list li,
-.widget.buddypress #friends-list li {
-	clear: both;
-	list-style-type: none;
-}
-
-/*--------------------------------------------------------------
-3.12 - Tooltips
+3.11 - Tooltips
 --------------------------------------------------------------*/
 
 .buddypress .bp-tooltip {
