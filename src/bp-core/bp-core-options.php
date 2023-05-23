@@ -92,9 +92,6 @@ function bp_get_default_options() {
 
 		/* Legacy *********************************************/
 
-		// Do not register the bp-default themes directory.
-		'_bp_retain_bp_default'                => false,
-
 		// Ignore deprecated code.
 		'_bp_ignore_deprecated_code'           => true,
 	);

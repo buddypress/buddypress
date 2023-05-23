@@ -59,7 +59,6 @@ add_action( 'bp_loaded', 'bp_setup_option_filters',     5  );
 add_action( 'bp_loaded', 'bp_setup_cache_groups',       5  );
 add_action( 'bp_loaded', 'bp_setup_widgets',            6  );
 add_action( 'bp_loaded', 'bp_register_theme_packages',  12 );
-add_action( 'bp_loaded', 'bp_register_theme_directory', 14 );
 
 /**
  * The bp_init hook - Attached to 'init' above.
