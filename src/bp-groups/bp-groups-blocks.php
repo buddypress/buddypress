@@ -399,19 +399,19 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 	$item_options = array(
 		'newest'       => array(
 			'class' => '',
-			'label' => __( 'Newest', 'buddypress' ),
+			'label' => _x( 'Newest', 'Groups', 'buddypress' ),
 		),
 		'active'       => array(
 			'class' => '',
-			'label' => __( 'Active', 'buddypress' ),
+			'label' => _x( 'Active', 'Groups', 'buddypress' ),
 		),
 		'popular'      => array(
 			'class' => '',
-			'label' => __( 'Popular', 'buddypress' ),
+			'label' => _x( 'Popular', 'Groups', 'buddypress' ),
 		),
 		'alphabetical' => array(
 			'class' => '',
-			'label' => __( 'Alphabetical', 'buddypress' ),
+			'label' => _x( 'Alphabetical', 'Groups', 'buddypress' ),
 		),
 	);
 
