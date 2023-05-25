@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies.
  */
-import { __ } from '@wordpress/i18n';
+import { _x } from '@wordpress/i18n';
 
 /**
  * Groups ordering types.
@@ -10,19 +10,19 @@ import { __ } from '@wordpress/i18n';
  */
 export const TYPES = [
 	{
-		label: __( 'Newest', 'buddypress' ),
+		label: _x( 'Newest', 'Groups', 'buddypress' ),
 		value: 'newest',
 	},
 	{
-		label: __( 'Active', 'buddypress' ),
+		label: _x( 'Active', 'Groups', 'buddypress' ),
 		value: 'active',
 	},
 	{
-		label: __( 'Popular', 'buddypress' ),
+		label: _x( 'Popular', 'Groups', 'buddypress' ),
 		value: 'popular',
 	},
 	{
-		label: __('Alphabetical', 'buddypress' ),
+		label: _x('Alphabetical', 'Groups', 'buddypress' ),
 		value: 'alphabetical',
 	},
 ];
