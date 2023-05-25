@@ -134,15 +134,15 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 	$item_options = array(
 		'newest'  => array(
 			'class' => '',
-			'label' => __( 'Newest', 'buddypress' ),
+			'label' => _x( 'Newest', 'Friends', 'buddypress' ),
 		),
 		'active'  => array(
 			'class' => '',
-			'label' => __( 'Active', 'buddypress' ),
+			'label' => _x( 'Active', 'Friends', 'buddypress' ),
 		),
 		'popular' => array(
 			'class' => '',
-			'label' => __( 'Popular', 'buddypress' ),
+			'label' => _x( 'Popular', 'Friends', 'buddypress' ),
 		),
 	);
 
