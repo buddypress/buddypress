@@ -420,18 +420,18 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 	$item_options = array(
 		'newest' => array(
 			'class' => '',
-			'label' => __( 'Newest', 'buddypress' ),
+			'label' => _x( 'Newest', 'Members', 'buddypress' ),
 		),
 		'active' => array(
 			'class' => '',
-			'label' => __( 'Active', 'buddypress' ),
+			'label' => _x( 'Active', 'Members', 'buddypress' ),
 		),
 	);
 
 	if ( bp_is_active( 'friends' ) ) {
 		$item_options['popular'] = array(
 			'class' => '',
-			'label' => __( 'Popular', 'buddypress' ),
+			'label' => _x( 'Popular', 'Members', 'buddypress' ),
 		);
 	}
 
