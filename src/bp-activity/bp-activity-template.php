@@ -2119,15 +2119,25 @@ function bp_activity_comments( $args = '' ) {
 
 				$template = bp_locate_template( 'activity/comment.php', false, false );
 
-				// Backward compatibility. In older versions of BP, the markup was
-				// generated in the PHP instead of a template. This ensures that
-				// older themes (which are not children of bp-default and won't
-				// have the new template) will still work.
-				if ( !$template ) {
-					$template = buddypress()->plugin_dir . '/bp-themes/bp-default/activity/comment.php';
+				if ( ! $template ) {
+					/**
+					 * Backward compatibility filter.
+					 *
+					 * In older versions of BP, the markup was generated in the PHP
+					 * instead of a template. This ensures that older themes (which
+					 * are not children of bp-default and won'thave the new template)
+					 * will still work.
+					 *
+					 * @since 12.0.0
+					 *
+					 * @param false $template False to inform the template wasn't found.
+					 */
+					$template = apply_filters( 'bp_activity_recurse_comments_template', $template );
 				}
 
-				load_template( $template, false );
+				if ( $template ) {
+					load_template( $template, false );
+				}
 
 				unset( $activities_template->activity->current_comment );
 			}

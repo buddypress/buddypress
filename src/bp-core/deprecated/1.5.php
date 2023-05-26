@@ -715,3 +715,113 @@ function bp_core_screen_delete_account_title() {
 function bp_core_screen_delete_account_content() {
 	_deprecated_function( __FUNCTION__, '1.5', 'Moved into theme template' );
 }
+
+/**
+ * Since BuddyPress 1.0, this generated the group settings admin/member screen.
+ * As of BuddyPress 1.5 (r4489), and because this function outputs HTML, it was moved into /bp-default/groups/single/admin.php.
+ *
+ * @deprecated 1.5
+ * @deprecated No longer used.
+ * @since 1.0.0
+ * @todo Remove in 1.4
+ *
+ * @param bool $admin_list
+ * @param bool $group
+ */
+function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
+	global $groups_template;
+
+	_deprecated_function( __FUNCTION__, '1.5', 'No longer used. See /bp-default/groups/single/admin.php' );
+
+	if ( empty( $group ) ) {
+		$group =& $groups_template->group;
+	}
+
+
+	if ( $admins = groups_get_group_admins( $group->id ) ) : ?>
+
+		<ul id="admins-list" class="item-list<?php if ( !empty( $admin_list ) ) : ?> single-line<?php endif; ?>">
+
+		<?php foreach ( (array) $admins as $admin ) { ?>
+
+			<?php if ( !empty( $admin_list ) ) : ?>
+
+			<li>
+
+				<?php
+				echo bp_core_fetch_avatar(
+					array(
+						'item_id' => $admin->user_id,
+						'type'    => 'thumb',
+						'width'   => 30,
+						'height'  => 30,
+						'alt'     => sprintf(
+							/* translators: %s: member name */
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_core_get_user_displayname( $admin->user_id )
+						),
+					)
+				);
+				?>
+
+				<h5>
+
+					<?php echo bp_core_get_userlink( $admin->user_id ); ?>
+
+					<span class="small">
+						<a class="button confirm admin-demote-to-member" href="<?php bp_group_member_demote_link($admin->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a>
+					</span>
+				</h5>
+			</li>
+
+			<?php else : ?>
+
+			<li>
+
+				<?php
+				echo bp_core_fetch_avatar(
+					array(
+						'item_id' => $admin->user_id,
+						'type'    => 'thumb',
+						'alt'     => sprintf(
+							/* translators: %s: member name */
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_core_get_user_displayname( $admin->user_id )
+						),
+					)
+				);
+				?>
+
+				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?></h5>
+				<span class="activity">
+					<?php
+					/* translators: %s: human time diff */
+					echo bp_core_get_last_activity( strtotime( $admin->date_modified ), __( 'joined %s', 'buddypress') );
+					?>
+				</span>
+
+				<?php if ( bp_is_active( 'friends' ) ) : ?>
+
+					<div class="action">
+
+						<?php bp_add_friend_button( $admin->user_id ); ?>
+
+					</div>
+
+				<?php endif; ?>
+
+			</li>
+
+			<?php endif;
+		} ?>
+
+		</ul>
+
+	<?php else : ?>
+
+		<div id="message" class="info">
+			<p><?php _e( 'This group has no administrators', 'buddypress' ); ?></p>
+		</div>
+
+	<?php endif;
+}

@@ -540,10 +540,6 @@ class BuddyPress {
 		$this->themes_dir = $this->plugin_dir . 'bp-templates';
 		$this->themes_url = $this->plugin_url . 'bp-templates';
 
-		// Themes (for bp-default).
-		$this->old_themes_dir = $this->plugin_dir . 'bp-themes';
-		$this->old_themes_url = $this->plugin_url . 'bp-themes';
-
 		/** Theme Compat */
 
 		$this->theme_compat = new stdClass(); // Base theme compatibility class.
@@ -849,7 +845,6 @@ class BuddyPress {
 			'register_post_statuses',   // Register post statuses.
 			'register_taxonomies',      // Register taxonomies.
 			'register_views',           // Register the views.
-			'register_theme_directory', // Register the theme directory.
 			'register_theme_packages',  // Register bundled theme packages (bp-themes).
 			'load_textdomain',          // Load textdomain.
 			'add_rewrite_tags',         // Add rewrite tags.
@@ -914,17 +909,14 @@ class BuddyPress {
 	 * registered (and bp-default no longer offered) on new installations.
 	 * Sites using bp-default (or a child theme of bp-default) will
 	 * continue to have bp-themes registered as before.
+	 * Since 12.0, BuddyPress is no longer including BP Default. To find it
+	 * back, you need to install and activate the BP Classic plugin.
 	 *
 	 * @since 1.5.0
-	 *
-	 * @todo Move bp-default to wordpress.org/extend/themes and remove this.
+	 * @deprecated 12.0.0
 	 */
 	public function register_theme_directory() {
-		if ( ! bp_do_register_theme_directory() ) {
-			return;
-		}
-
-		register_theme_directory( $this->old_themes_dir );
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**

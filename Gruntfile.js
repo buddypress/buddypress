@@ -326,11 +326,6 @@ module.exports = function( grunt ) {
 			}
 		},
 		exec: {
-			bpdefault: {
-				command: 'svn export --force https://github.com/buddypress/BP-Default.git/trunk bp-themes/bp-default',
-				cwd: BUILD_DIR,
-				stdout: false
-			},
 			cli: {
 				command: 'svn export --force https://github.com/buddypress/wp-cli-buddypress.git/tags/2.0.1 cli',
 				cwd: BUILD_DIR,
@@ -398,7 +393,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'commit', ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcompat'] );
 	grunt.registerTask( 'commit:blocks', ['commit', 'exec:blocks_src', 'exec:modernJS_src'] );
 	grunt.registerTask( 'bp_rest', [ 'exec:rest_api', 'copy:bp_rest_components', 'copy:bp_rest_core', 'clean:bp_rest' ] );
-	grunt.registerTask( 'build', ['commit:blocks', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'cssmin', 'bp_rest', 'makepot', 'exec:bpdefault', 'exec:cli', 'clean:cli'] );
+	grunt.registerTask( 'build', ['commit:blocks', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'cssmin', 'bp_rest', 'makepot', 'exec:cli', 'clean:cli'] );
 	grunt.registerTask( 'release', ['build'] );
 	grunt.registerTask( 'move:admin:js', [ 'copy:bp_admin_modern_js', 'clean:bp_admin_modern_js' ] );
 

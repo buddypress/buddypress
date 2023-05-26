@@ -500,6 +500,50 @@ if ( ! function_exists( 'bp_classic' ) ) {
 		 */
 		return apply_filters_deprecated( 'bp_get_widget_max_count_limit', array( 50, $widget_class ), '12.0.0' );
 	}
+
+	/**
+	 * Determine whether BuddyPress should register the bp-themes directory.
+	 *
+	 * @since 1.9.0
+	 * @deprecated 12.0.0
+	 *
+	 * @return bool True if bp-themes should be registered, false otherwise.
+	 */
+	function bp_do_register_theme_directory() {
+		_deprecated_function( __FUNCTION__, '12.0.0' );
+		$register = false;
+
+		/**
+		 * Filters whether BuddyPress should register the bp-themes directory.
+		 *
+		 * @since 1.9.0
+		 * @deprecated 12.0.0
+		 *
+		 * @param bool $register If bp-themes should be registered.
+		 */
+		return apply_filters_deprecated( 'bp_do_register_theme_directory', array( $register ), '12.0.0' );
+	}
+
+	/**
+	 * Fire the 'bp_register_theme_directory' action.
+	 *
+	 * The main action used registering theme directories.
+	 *
+	 * @since 1.5.0
+	 * @deprecated 12.0.0
+	 */
+	function bp_register_theme_directory() {
+		_deprecated_function( __FUNCTION__, '12.0.0' );
+		/**
+		 * Fires inside the 'bp_register_theme_directory' function.
+		 *
+		 * The main action used registering theme directories.
+		 *
+		 * @since 1.7.0
+		 * @deprecated 12.0.0
+		 */
+		do_action_deprecated( 'bp_register_theme_directory', array(), '12.0.0' );
+	}
 }
 
 /**
@@ -901,4 +945,109 @@ function bp_messages_register_sitewide_notices_widget() {
  */
 function bp_messages_register_widgets() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
+}
+
+/**
+ * Generate the HTML for a list of group moderators.
+ *
+ * No longer used.
+ *
+ * @deprecated 12.0.0
+ *
+ * @param bool $admin_list
+ * @param bool $group
+ */
+function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
+	global $groups_template;
+
+	if ( empty( $group ) ) {
+		$group =& $groups_template->group;
+	}
+
+	if ( $group_mods = groups_get_group_mods( $group->id ) ) { ?>
+
+		<ul id="mods-list" class="item-list<?php if ( $admin_list ) { ?> single-line<?php } ?>">
+
+		<?php foreach ( (array) $group_mods as $mod ) { ?>
+
+			<?php if ( !empty( $admin_list ) ) { ?>
+
+			<li>
+
+				<?php
+				/* translators: %s: member name */
+				echo bp_core_fetch_avatar(
+					array(
+						'item_id' => $mod->user_id,
+						'type' => 'thumb',
+						'width' => 30,
+						'height' => 30,
+						'alt' => sprintf(
+							/* translators: %s: member name */
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_core_get_user_displayname( $mod->user_id )
+						),
+					)
+				);
+				?>
+
+				<h5>
+					<?php echo bp_core_get_userlink( $mod->user_id ); ?>
+
+					<span class="small">
+						<a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => $mod->user_id ) ) ?>" class="button confirm mod-promote-to-admin"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a>
+						<a class="button confirm mod-demote-to-member" href="<?php bp_group_member_demote_link($mod->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a>
+					</span>
+				</h5>
+			</li>
+
+			<?php } else { ?>
+
+			<li>
+
+				<?php
+				echo bp_core_fetch_avatar(
+					array(
+						'item_id' => $mod->user_id,
+						'type'    => 'thumb',
+						'alt'     => sprintf(
+							/* translators: %s: member name */
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_core_get_user_displayname( $mod->user_id )
+						),
+					)
+				);
+				?>
+
+				<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?></h5>
+
+				<span class="activity">
+					<?php
+					/* translators: %s: human time diff */
+					echo bp_core_get_last_activity( strtotime( $mod->date_modified ), __( 'joined %s', 'buddypress') );
+					?>
+				</span>
+
+				<?php if ( bp_is_active( 'friends' ) ) : ?>
+
+					<div class="action">
+						<?php bp_add_friend_button( $mod->user_id ) ?>
+					</div>
+
+				<?php endif; ?>
+
+			</li>
+
+			<?php } ?>
+		<?php } ?>
+
+		</ul>
+
+	<?php } else { ?>
+
+		<div id="message" class="info">
+			<p><?php _e( 'This group has no moderators', 'buddypress' ); ?></p>
+		</div>
+
+	<?php }
 }
