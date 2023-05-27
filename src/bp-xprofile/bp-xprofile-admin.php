@@ -408,6 +408,9 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
  *
  * @since 1.0.0
  *
+ * @global string $message The feedback message to show.
+ * @global string $type    The type of feedback message to show.
+ *
  * @param int|null $group_id Group ID to manage.
  */
 function xprofile_admin_manage_group( $group_id = null ) {
@@ -474,6 +477,9 @@ function xprofile_admin_manage_group( $group_id = null ) {
  * Handles the deletion of profile data groups.
  *
  * @since 1.0.0
+ *
+ * @global string $message The feedback message to show.
+ * @global string $type    The type of feedback message to show.
  *
  * @param int $group_id ID of the group to delete.
  */
@@ -553,6 +559,10 @@ function xprofile_admin_delete_group_screen( $group_id ) {
  * Handles the adding or editing of profile field data for a user.
  *
  * @since 1.0.0
+ *
+ * @global wpdb   $wpdb    WordPress database object.
+ * @global string $message The feedback message to show.
+ * @global array  $groups  The list of matching xProfile field groups.
  *
  * @param int      $group_id ID of the group.
  * @param int|null $field_id ID of the field being managed.
@@ -1006,6 +1016,8 @@ add_action( 'wp_ajax_xprofile_reorder_groups', 'xprofile_ajax_reorder_field_grou
  *
  * @since 1.5.0
  * @since 8.0.0 Adds the `$is_signup` parameter.
+ *
+ * @global BP_XProfile_Field $field The Admin field.
  *
  * @param BP_XProfile_Field   $admin_field Admin field.
  * @param object $admin_group Admin group object.

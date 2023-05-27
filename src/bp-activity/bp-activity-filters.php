@@ -401,6 +401,8 @@ function bp_activity_make_nofollow_filter( $text ) {
  * @since 1.5.0
  * @since 2.6.0 Added $args parameter.
  *
+ * @global BP_Activity_Template $activities_template The Activity template loop.
+ *
  * @param string $text The original activity entry text.
  * @param array  $args {
  *     Optional parameters. See $options argument of {@link bp_create_excerpt()}

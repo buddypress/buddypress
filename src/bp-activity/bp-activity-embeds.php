@@ -86,6 +86,8 @@ add_action( 'embed_head', 'bp_activity_embed_add_inline_styles', 20 );
  *
  * @since 2.6.0
  *
+ * @global BP_Activity_Template $activities_template The Activity template loop.
+ *
  * @param  int $activity_id The activity ID.
  * @return bool
  */

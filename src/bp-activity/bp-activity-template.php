@@ -413,6 +413,8 @@ function bp_activity_load_more_link() {
 	 * @since 2.1.0
 	 * @since 11.0.0 Adds the `offset_lower` query arg to avoid last displayed activity to be duplicated.
 	 *
+	 * @global BP_Activity_Template $activities_template The Activity template loop.
+	 *
 	 * @return string $link
 	 */
 	function bp_get_activity_load_more_link() {
@@ -2765,6 +2767,7 @@ function bp_activity_thread_permalink() {
 	 *
 	 * @since 1.2.0
 	 *
+	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
 	 * @return string $link The activity thread permalink.
 	 */
