@@ -423,6 +423,14 @@ class BP_Core extends BP_Component {
 	 *                        description.
 	 */
 	public function parse_query( $query ) {
+		/*
+		 * If BP Rewrites are not in use, no need to parse BP URI globals another time.
+		 * Legacy Parser should have already set these.
+		 */
+		if ( 'rewrites' !== bp_core_get_query_parser() ) {
+			return parent::parse_query( $query );
+		}
+
 		$is_search = $query->get( 'pagename' ) === bp_get_search_slug() || ( isset( $_GET['bp_search'] ) && 1 === (int) $_GET['bp_search'] );
 
 		if ( isset( $_POST['search-terms'] ) && $is_search ) {

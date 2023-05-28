@@ -444,7 +444,12 @@ class BP_Blogs_Component extends BP_Component {
 	 *                        description.
 	 */
 	public function parse_query( $query ) {
-		if ( ! is_multisite() ) {
+		/*
+		 * Only Multisite configs have a Sites directory.
+		 * If BP Rewrites are not in use, no need to parse BP URI globals another time.
+		 * Legacy Parser should have already set these.
+		 */
+		if ( ! is_multisite() || 'rewrites' !== bp_core_get_query_parser() ) {
 			return parent::parse_query( $query );
 		}
 
