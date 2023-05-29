@@ -612,74 +612,6 @@ function bp_activity_per_page() {
 	}
 
 /**
- * Output the activities title.
- *
- * @since 1.0.0
- *
- * @todo Deprecate.
- */
-function bp_activities_title() {
-	echo bp_get_activities_title();
-}
-
-	/**
-	 * Return the activities title.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @global string $bp_activity_title
-	 * @todo Deprecate.
-	 *
-	 * @return string The activities title.
-	 */
-	function bp_get_activities_title() {
-		global $bp_activity_title;
-
-		/**
-		 * Filters the activities title for the activity template.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $bp_activity_title The title to be displayed.
-		 */
-		return apply_filters( 'bp_get_activities_title', $bp_activity_title );
-	}
-
-/**
- * {@internal Missing Description}
- *
- * @since 1.0.0
- *
- * @todo Deprecate.
- */
-function bp_activities_no_activity() {
-	echo bp_get_activities_no_activity();
-}
-
-	/**
-	 * {@internal Missing Description}
-	 *
-	 * @since 1.0.0
-	 *
-	 * @global string $bp_activity_no_activity
-	 * @todo Deprecate.
-	 *
-	 * @return string
-	 */
-	function bp_get_activities_no_activity() {
-		global $bp_activity_no_activity;
-
-		/**
-		 * Filters the text used when there is no activity to display.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $bp_activity_no_activity Text to display for no activity.
-		 */
-		return apply_filters( 'bp_get_activities_no_activity', $bp_activity_no_activity );
-	}
-
-/**
  * Output the activity ID.
  *
  * @since 1.2.0
@@ -2050,12 +1982,24 @@ function bp_activity_is_favorite() {
  *
  * @since 1.2.0
  *
- * @todo deprecate $args param
- *
- * @param array|string $args See {@link bp_activity_get_comments} for description.
+ * @param array|string $deprecated See {@link bp_activity_get_comments} for description.
  */
-function bp_activity_comments( $args = '' ) {
-	echo bp_activity_get_comments( $args );
+function bp_activity_comments( $deprecated = '' ) {
+	// Deprecated notice about $args.
+	if ( ! empty( $deprecated ) ) {
+		_deprecated_argument(
+			__FUNCTION__,
+			'12.0.0',
+			sprintf(
+				/* translators: 1: the name of the function. 2: the name of the file. */
+				__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
+				__FUNCTION__,
+				__FILE__
+			)
+		);
+	}
+
+	echo bp_activity_get_comments();
 }
 
 	/**
@@ -2063,17 +2007,30 @@ function bp_activity_comments( $args = '' ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @todo deprecate $args param
 	 * @todo Given that checks for children already happen in bp_activity_recurse_comments(),
 	 *       this function can probably be streamlined or removed.
 	 *
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
-	 * @param string $args Unused. Left over from an earlier implementation.
+	 * @param string $deprecated Unused. Left over from an earlier implementation.
 	 * @return bool
 	 */
-	function bp_activity_get_comments( $args = '' ) {
+	function bp_activity_get_comments( $deprecated = '' ) {
 		global $activities_template;
+
+		// Deprecated notice about $args.
+		if ( ! empty( $deprecated ) ) {
+			_deprecated_argument(
+				__FUNCTION__,
+				'12.0.0',
+				sprintf(
+					/* translators: 1: the name of the function. 2: the name of the file. */
+					__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__FUNCTION__,
+					__FILE__
+				)
+			);
+		}
 
 		if ( empty( $activities_template->activity->children ) ) {
 			return false;

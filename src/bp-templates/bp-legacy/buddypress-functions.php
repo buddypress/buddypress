@@ -620,12 +620,13 @@ endif;
  * the behavior of bp-default.
  *
  * @since 2.0.0
- * @todo Deprecate
+ * @deprecated 12.0.0
  *
  * @param string $title Groups directory title.
  * @return string
  */
 function bp_legacy_theme_group_create_button( $title ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
 	return $title . ' ' . bp_get_group_create_button();
 }
 
@@ -662,12 +663,13 @@ function bp_legacy_groups_admin_screen_hidden_input() {
  * the behavior of bp-default.
  *
  * @since 2.0.0
- * @todo Deprecate
+ * @deprecated 12.0.0
  *
  * @param string $title Sites directory title.
  * @return string
  */
 function bp_legacy_theme_blog_create_button( $title ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
 	return $title . ' ' . bp_get_blog_create_button();
 }
 
