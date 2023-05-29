@@ -505,6 +505,14 @@ class BP_Activity_Component extends BP_Component {
 	 *                        description.
 	 */
 	public function parse_query( $query ) {
+		/*
+		 * If BP Rewrites are not in use, no need to parse BP URI globals another time.
+		 * Legacy Parser should have already set these.
+		 */
+		if ( 'rewrites' !== bp_core_get_query_parser() ) {
+			return parent::parse_query( $query );
+		}
+
 		if ( bp_is_directory_homepage( $this->id ) ) {
 			$query->set( $this->rewrite_ids['directory'], 1 );
 		}

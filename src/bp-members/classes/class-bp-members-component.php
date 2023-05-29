@@ -776,6 +776,14 @@ class BP_Members_Component extends BP_Component {
 	 *                        description.
 	 */
 	public function parse_query( $query ) {
+		/*
+		 * If BP Rewrites are not in use, no need to parse BP URI globals another time.
+		 * Legacy Parser should have already set these.
+		 */
+		if ( 'rewrites' !== bp_core_get_query_parser() ) {
+			return parent::parse_query( $query );
+		}
+
 		// Init the current member and member type.
 		$member      = false;
 		$member_type = false;

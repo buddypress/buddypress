@@ -577,14 +577,7 @@ class BP_Component {
 		add_action( 'bp_add_permastructs',       array( $this, 'add_permastructs'       ), 10 );
 
 		// Allow components to parse the main query.
-		if ( 'rewrites' === bp_core_get_query_parser() ) {
-			/**
-			 * Only fire this hook when pretty links are disabled.
-			 *
-			 * @todo Remove once BP Rewrites merge process is ended.
-			 */
-			add_action( 'bp_parse_query',  array( $this, 'parse_query' ), 10 );
-		}
+		add_action( 'bp_parse_query',  array( $this, 'parse_query' ), 10 );
 
 		// Generate rewrite rules.
 		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
@@ -1235,7 +1228,7 @@ class BP_Component {
 	 * @param object $query The main WP_Query.
 	 */
 	public function parse_query( $query ) {
-		if ( is_buddypress() ) {
+		if ( is_buddypress() && 'rewrites' === bp_core_get_query_parser() ) {
 			add_filter( 'posts_pre_query', array( $this, 'pre_query' ), 10, 2 );
 		}
 
