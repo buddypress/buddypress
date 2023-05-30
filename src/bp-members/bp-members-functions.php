@@ -264,20 +264,6 @@ function bp_core_get_core_userdata( $user_id = 0 ) {
 }
 
 /**
- * Return the ID of a user, based on user_login.
- *
- * No longer used.
- *
- * @todo Deprecate.
- *
- * @param string $user_login user_login of the user being queried.
- * @return int
- */
-function bp_core_get_displayed_userid( $user_login ) {
-	return apply_filters( 'bp_core_get_displayed_userid', bp_core_get_userid( $user_login ) );
-}
-
-/**
  * Return the user ID based on a user's user_login.
  *
  * @since 1.0.0
@@ -1247,26 +1233,6 @@ function bp_last_activity_migrate() {
 	);";
 
 	return $wpdb->query( $sql );
-}
-
-/**
- * Fetch every post that is authored by the given user for the current blog.
- *
- * No longer used in BuddyPress.
- *
- * @todo Deprecate.
- *
- * @param int $user_id ID of the user being queried.
- * @return array Post IDs.
- */
-function bp_core_get_all_posts_for_user( $user_id = 0 ) {
-	global $wpdb;
-
-	if ( empty( $user_id ) ) {
-		$user_id = bp_displayed_user_id();
-	}
-
-	return apply_filters( 'bp_core_get_all_posts_for_user', $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) ) );
 }
 
 /**

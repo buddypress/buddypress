@@ -958,6 +958,7 @@ function bp_messages_register_widgets() {
  * @param bool $group
  */
 function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
 	global $groups_template;
 
 	if ( empty( $group ) ) {
@@ -1050,4 +1051,586 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 		</div>
 
 	<?php }
+}
+
+/**
+ * Output the activities title.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ */
+function bp_activities_title() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	echo bp_get_activities_title();
+}
+
+/**
+ * Return the activities title.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ *
+ * @global string $bp_activity_title
+ *
+ * @return string The activities title.
+ */
+function bp_get_activities_title() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	global $bp_activity_title;
+
+	/**
+	 * Filters the activities title for the activity template.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $bp_activity_title The title to be displayed.
+	 */
+	return apply_filters_deprecated( 'bp_get_activities_title', array( $bp_activity_title ), '12.0.0' );
+}
+
+/**
+ * {@internal Missing Description}
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ */
+function bp_activities_no_activity() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	echo bp_get_activities_no_activity();
+}
+
+/**
+ * {@internal Missing Description}
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ *
+ * @global string $bp_activity_no_activity
+ *
+ * @return string
+ */
+function bp_get_activities_no_activity() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	global $bp_activity_no_activity;
+
+	/**
+	 * Filters the text used when there is no activity to display.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 12.0.0
+	 *
+	 * @param string $bp_activity_no_activity Text to display for no activity.
+	 */
+	return apply_filters_deprecated( 'bp_get_activities_no_activity', array( $bp_activity_no_activity ), '12.0.0' );
+}
+
+/**
+ * Get the 'bp_options_title' property from the BP global.
+ *
+ * Not currently used in BuddyPress.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_get_options_title() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	$bp = buddypress();
+
+	if ( empty( $bp->bp_options_title ) ) {
+		$bp->bp_options_title = __( 'Options', 'buddypress' );
+	}
+
+	echo apply_filters_deprecated( 'bp_get_options_title', array( esc_attr( $bp->bp_options_title ) ), '12.0.0' );
+}
+
+/**
+ * Check to see if there is an options avatar.
+ *
+ * An options avatar is an avatar for something like a group, or a friend.
+ * Basically an avatar that appears in the sub nav options bar.
+ *
+ * @deprecated 12.0.0
+ *
+ * @return bool $value Returns true if an options avatar has been set, otherwise false.
+ */
+function bp_has_options_avatar() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	return (bool) buddypress()->bp_options_avatar;
+}
+
+/**
+ * Output the options avatar.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_get_options_avatar() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	echo apply_filters_deprecated( 'bp_get_options_avatar', array( buddypress()->bp_options_avatar ), '12.0.0' );
+}
+
+/**
+ * Output a comment author's avatar.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_comment_author_avatar() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	global $comment;
+
+	echo apply_filters_deprecated(
+		'bp_comment_author_avatar',
+		array(
+			bp_core_fetch_avatar(
+				array(
+					'item_id' => $comment->user_id,
+					'type'    => 'thumb',
+					'alt'     => sprintf(
+						/* translators: %s: member name */
+						__( 'Profile photo of %s', 'buddypress' ),
+						bp_core_get_user_displayname( $comment->user_id )
+					),
+				)
+			)
+		),
+		'12.0.0'
+	);
+}
+
+/**
+ * Output a post author's avatar.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_post_author_avatar() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	global $post;
+
+	echo apply_filters_deprecated(
+		'bp_post_author_avatar',
+		array(
+			bp_core_fetch_avatar(
+				array(
+					'item_id' => $post->post_author,
+					'type'    => 'thumb',
+					'alt'     => sprintf(
+						/* translators: %s: member name */
+						__( 'Profile photo of %s', 'buddypress' ),
+						bp_core_get_user_displayname( $post->post_author )
+					),
+				)
+			)
+		),
+		'12.0.0'
+	);
+}
+
+/**
+ * Output the avatar cropper <img> markup.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_avatar_cropper() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+?>
+	<img id="avatar-to-crop" class="avatar" src="<?php echo esc_url( buddypress()->avatar_admin->image ); ?>" />
+<?php
+}
+
+/**
+ * Do the 'bp_styles' action, and call wp_print_styles().
+ *
+ * @deprecated 12.0.0
+ */
+function bp_styles() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+
+	do_action_deprecated( 'bp_styles', array(), '12.0.0' );
+	wp_print_styles();
+}
+
+/**
+ * Fire the 'bp_custom_profile_boxes' action.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_custom_profile_boxes() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	do_action( 'bp_custom_profile_boxes' );
+}
+
+/**
+ * Fire the 'bp_custom_profile_sidebar_boxes' action.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_custom_profile_sidebar_boxes() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	do_action_deprecated( 'bp_custom_profile_sidebar_boxes', arrray(), '12.0.0' );
+}
+
+/**
+ * Output whether blog signup is allowed.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_blog_signup_allowed() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	echo bp_get_blog_signup_allowed();
+}
+
+/**
+ * Output a block of random friends.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_friends_random_friends() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+
+	if ( !$friend_ids = wp_cache_get( 'friends_friend_ids_' . bp_displayed_user_id(), 'bp' ) ) {
+		$friend_ids = BP_Friends_Friendship::get_random_friends( bp_displayed_user_id() );
+		wp_cache_set( 'friends_friend_ids_' . bp_displayed_user_id(), $friend_ids, 'bp' );
+	} ?>
+
+	<div class="info-group">
+		<h4>
+			<?php
+			/* translators: %s: member name */
+			bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) );
+			?>
+			&nbsp;
+			(<?php echo BP_Friends_Friendship::total_friend_count( bp_displayed_user_id() ); ?>)
+			&nbsp;
+			<span>
+				<a href="<?php bp_displayed_user_link( array( bp_get_friends_slug() ) ); ?>">
+					<?php esc_html_e( 'See All', 'buddypress' ) ?>
+				</a>
+			</span>
+		</h4>
+
+		<?php if ( $friend_ids ) { ?>
+
+			<ul class="horiz-gallery">
+
+			<?php for ( $i = 0, $count = count( $friend_ids ); $i < $count; ++$i ) { ?>
+
+				<li>
+					<a href="<?php echo bp_members_get_user_url( $friend_ids[$i] ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $friend_ids[$i], 'type' => 'thumb' ) ) ?></a>
+					<h5><?php echo bp_core_get_userlink($friend_ids[$i]) ?></h5>
+				</li>
+
+			<?php } ?>
+
+			</ul>
+
+		<?php } else { ?>
+
+			<div id="message" class="info">
+				<p>
+					<?php
+					/* translators: %s: member name */
+					bp_word_or_name( __( "You haven't added any friend connections yet.", 'buddypress' ), __( "%s hasn't created any friend connections yet.", 'buddypress' ) );
+					?>
+				</p>
+			</div>
+
+		<?php } ?>
+
+		<div class="clear"></div>
+	</div>
+
+<?php
+}
+
+/**
+ * Pull up a group of random members, and display some profile data about them.
+ *
+ * This function is no longer used by BuddyPress core.
+ *
+ * @deprecated 12.0.0
+ *
+ * @param int $total_members The number of members to retrieve.
+ */
+function bp_friends_random_members( $total_members = 5 ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+
+	if ( !$user_ids = wp_cache_get( 'friends_random_users', 'bp' ) ) {
+		$user_ids = BP_Core_User::get_users( 'random', $total_members );
+		wp_cache_set( 'friends_random_users', $user_ids, 'bp' );
+	}
+
+	?>
+
+	<?php if ( $user_ids['users'] ) { ?>
+
+		<ul class="item-list" id="random-members-list">
+
+		<?php for ( $i = 0, $count = count( $user_ids['users'] ); $i < $count; ++$i ) { ?>
+
+			<li>
+				<a href="<?php echo bp_members_get_user_url( $user_ids['users'][$i]->id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $user_ids['users'][$i]->id, 'type' => 'thumb' ) ) ?></a>
+				<h5><?php echo bp_core_get_userlink( $user_ids['users'][$i]->id ) ?></h5>
+
+				<?php if ( bp_is_active( 'xprofile' ) ) { ?>
+
+					<?php $random_data = xprofile_get_random_profile_data( $user_ids['users'][$i]->id, true ); ?>
+
+					<div class="profile-data">
+						<p class="field-name"><?php echo $random_data[0]->name ?></p>
+
+						<?php echo $random_data[0]->value ?>
+
+					</div>
+
+				<?php } ?>
+
+				<div class="action">
+
+					<?php if ( bp_is_active( 'friends' ) ) { ?>
+
+						<?php bp_add_friend_button( $user_ids['users'][$i]->id ) ?>
+
+					<?php } ?>
+
+				</div>
+			</li>
+
+		<?php } ?>
+
+		</ul>
+
+	<?php } else { ?>
+
+		<div id="message" class="info">
+			<p><?php _e( "There aren't enough site members to show a random sample just yet.", 'buddypress' ) ?></p>
+		</div>
+
+	<?php } ?>
+<?php
+}
+
+/**
+ * Display a Friends search form.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_friend_search_form() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	$label        = __( 'Filter Friends', 'buddypress' );
+	$friends_slug = bp_get_friends_slug();
+	$action       = bp_displayed_user_url(
+		array(
+			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug ),
+			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_my_friends', 'my-friends' ),
+			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_search', 'search' ) ),
+		)
+	);
+	?>
+
+		<form action="<?php echo esc_url( $action ) ?>" id="friend-search-form" method="post">
+
+			<label for="friend-search-box" id="friend-search-label"><?php echo esc_html( $label ); ?></label>
+			<input type="search" name="friend-search-box" id="friend-search-box" value="" />
+
+			<?php wp_nonce_field( 'friends_search', '_wpnonce_friend_search' ) ?>
+
+			<input type="hidden" name="initiator" id="initiator" value="<?php echo esc_attr( bp_displayed_user_id() ) ?>" />
+
+		</form>
+
+	<?php
+}
+
+/**
+ * Output the permalink of a group's Members page.
+ *
+ * @since 1.0.0
+ * @since 10.0.0 Added the `$group` parameter.
+ * @deprecated 12.0.0
+ *
+ * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+ *                                                Default: false.
+ */
+function bp_group_all_members_permalink( $group = false ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	echo esc_url( bp_get_group_all_members_permalink( $group ) );
+}
+
+/**
+ * Return the permalink of the Members page of a group.
+ *
+ * @since 1.0.0
+ * @since 10.0.0 Updated to use `bp_get_group`.
+ * @deprecated 12.0.0
+ *
+ * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
+ *                                                Default: false.
+ * @return string
+ */
+function bp_get_group_all_members_permalink( $group = false ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	$path_chunks = bp_groups_get_path_chunks( array( 'members' ) );
+	$url         = bp_get_group_url( $group, $path_chunks );
+
+	/**
+	 * Filters the permalink of the Members page for a group.
+	 *
+	 * @since 1.0.0
+	 * @since 2.5.0 Added the `$group` parameter.
+	 * @deprecated 12.0.0
+	 *
+	 * @param string          $url   Permalink of the Members page for a group.
+	 * @param BP_Groups_Group $group The group object.
+	 */
+	return apply_filters_deprecated( 'bp_get_group_all_members_permalink', array( $url, $group ), '12.0.0' );
+}
+
+/**
+ * Display a Groups search form.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @deprecated 12.0.0
+ */
+function bp_group_search_form() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	$label       = __('Filter Groups', 'buddypress');
+	$name        = 'group-filter-box';
+	$groups_slug = bp_get_groups_slug();
+	$action      = bp_displayed_user_url(
+		array(
+			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
+			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_my_groups', 'my-groups' ),
+			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_search', 'search' ) ),
+		)
+	);
+
+	$search_form_html = '<form action="' . esc_url( $action ) . '" id="group-search-form" method="post">
+		<label for="'. $name .'" id="'. $name .'-label">'. esc_html( $label ) .'</label>
+		<input type="search" name="'. $name . '" id="'. $name .'" value=""/>
+
+		'. wp_nonce_field( 'group-filter-box', '_wpnonce_group_filter', true, false ) .'
+		</form>';
+
+	echo apply_filters( 'bp_group_search_form', $search_form_html );
+}
+
+/**
+ * Determine whether the displayed user has no groups.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @deprecated 12.0.0
+ *
+ * @return bool True if the displayed user has no groups, otherwise false.
+ */
+function bp_group_show_no_groups_message() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+
+	if ( !groups_total_groups_for_user( bp_displayed_user_id() ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Determine whether the current page is a group activity permalink.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @deprecated 12.0.0
+ *
+ * @return bool True if this is a group activity permalink, otherwise false.
+ */
+function bp_group_is_activity_permalink() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+
+	if ( !bp_is_single_item() || !bp_is_groups_component() || !bp_is_current_action( bp_get_activity_slug() ) ) {
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Displays group filter titles.
+ *
+ * @since 1.0.0
+ * @deprecated 12.0.0
+ */
+function bp_groups_filter_title() {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	$current_filter = bp_action_variable( 0 );
+
+	switch ( $current_filter ) {
+		case 'recently-active': default:
+			_e( 'Recently Active', 'buddypress' );
+			break;
+		case 'recently-joined':
+			_e( 'Recently Joined', 'buddypress' );
+			break;
+		case 'most-popular':
+			_e( 'Most Popular', 'buddypress' );
+			break;
+		case 'admin-of':
+			_e( 'Administrator Of', 'buddypress' );
+			break;
+		case 'mod-of':
+			_e( 'Moderator Of', 'buddypress' );
+			break;
+		case 'alphabetically':
+			_e( 'Alphabetically', 'buddypress' );
+		break;
+	}
+
+	do_action_deprecated( 'bp_groups_filter_title', array(), '12.0.0' );
+}
+
+
+/**
+ * Return the ID of a user, based on user_login.
+ *
+ * No longer used.
+ *
+ * @deprecated 12.0.0
+ *
+ * @param string $user_login user_login of the user being queried.
+ * @return int
+ */
+function bp_core_get_displayed_userid( $user_login ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	$id = bp_core_get_userid( $user_login );
+
+	return apply_filters_deprecated( 'bp_core_get_displayed_userid', array( $id ), '12.0.0' );
+}
+
+/**
+ * Fetch every post that is authored by the given user for the current blog.
+ *
+ * No longer used in BuddyPress.
+ *
+ * @deprecated 12.0.0
+ *
+ * @param int $user_id ID of the user being queried.
+ * @return array Post IDs.
+ */
+function bp_core_get_all_posts_for_user( $user_id = 0 ) {
+	_deprecated_function( __FUNCTION__, '12.0.0' );
+	global $wpdb;
+
+	if ( empty( $user_id ) ) {
+		$user_id = bp_displayed_user_id();
+	}
+
+	$all_posts = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_author = %d AND post_status = 'publish' AND post_type = 'post'", $user_id ) );
+
+	return apply_filters( 'bp_core_get_all_posts_for_user', array( $all_posts ), '12.0.0' );
 }

@@ -107,23 +107,6 @@ function bp_get_options_nav( $parent_slug = '' ) {
 }
 
 /**
- * Get the 'bp_options_title' property from the BP global.
- *
- * Not currently used in BuddyPress.
- *
- * @todo Deprecate.
- */
-function bp_get_options_title() {
-	$bp = buddypress();
-
-	if ( empty( $bp->bp_options_title ) ) {
-		$bp->bp_options_title = __( 'Options', 'buddypress' );
-	}
-
-	echo apply_filters( 'bp_get_options_title', esc_attr( $bp->bp_options_title ) );
-}
-
-/**
  * Get the directory title for a component.
  *
  * Used for the <title> element and the page header on the component directory
@@ -159,69 +142,6 @@ function bp_get_directory_title( $component = '' ) {
 }
 
 /** Avatars *******************************************************************/
-
-/**
- * Check to see if there is an options avatar.
- *
- * An options avatar is an avatar for something like a group, or a friend.
- * Basically an avatar that appears in the sub nav options bar.
- *
- * Not currently used in BuddyPress.
- *
- * @return bool $value Returns true if an options avatar has been set, otherwise false.
- */
-function bp_has_options_avatar() {
-	return (bool) buddypress()->bp_options_avatar;
-}
-
-/**
- * Output the options avatar.
- *
- * Not currently used in BuddyPress.
- *
- * @todo Deprecate.
- */
-function bp_get_options_avatar() {
-	echo apply_filters( 'bp_get_options_avatar', buddypress()->bp_options_avatar );
-}
-
-/**
- * Output a comment author's avatar.
- *
- * Not currently used in BuddyPress.
- */
-function bp_comment_author_avatar() {
-	global $comment;
-
-	echo apply_filters( 'bp_comment_author_avatar', bp_core_fetch_avatar( array(
-		'item_id' => $comment->user_id,
-		'type'    => 'thumb',
-		'alt'     => sprintf(
-			/* translators: %s: member name */
-			__( 'Profile photo of %s', 'buddypress' ),
-			bp_core_get_user_displayname( $comment->user_id )
-		),
-	) ) );
-}
-
-/**
- * Output a post author's avatar.
- *
- * Not currently used in BuddyPress.
- */
-function bp_post_author_avatar() {
-	global $post;
-
-	echo apply_filters( 'bp_post_author_avatar', bp_core_fetch_avatar( array(
-		'item_id' => $post->post_author,
-		'type'    => 'thumb',
-		'alt'     => sprintf(
-			/* translators: %s: member name */
-			__( 'Profile photo of %s', 'buddypress' ),
-			bp_core_get_user_displayname( $post->post_author )
-		),
-	) ) );
-}
 
 /**
  * Output the current avatar upload step.
@@ -316,19 +236,6 @@ function bp_avatar_to_crop_src() {
 		 */
 		return apply_filters( 'bp_get_avatar_to_crop_src', $src );
 	}
-
-/**
- * Output the avatar cropper <img> markup.
- *
- * No longer used in BuddyPress.
- *
- * @todo Deprecate.
- */
-function bp_avatar_cropper() {
-?>
-	<img id="avatar-to-crop" class="avatar" src="<?php echo esc_url( buddypress()->avatar_admin->image ); ?>" />
-<?php
-}
 
 /**
  * Output the name of the BP site. Used in RSS headers.
@@ -493,18 +400,6 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 			return apply_filters( 'bp_word_or_name', $nametext );
 		}
 	}
-}
-
-/**
- * Do the 'bp_styles' action, and call wp_print_styles().
- *
- * No longer used in BuddyPress.
- *
- * @todo Deprecate.
- */
-function bp_styles() {
-	do_action( 'bp_styles' );
-	wp_print_styles();
 }
 
 /** Search Form ***************************************************************/
@@ -708,28 +603,6 @@ function bp_search_default_text( $component = '' ) {
 		 */
 		return apply_filters( 'bp_get_search_default_text', $default_text, $component );
 	}
-
-/**
- * Fire the 'bp_custom_profile_boxes' action.
- *
- * No longer used in BuddyPress.
- *
- * @todo Deprecate.
- */
-function bp_custom_profile_boxes() {
-	do_action( 'bp_custom_profile_boxes' );
-}
-
-/**
- * Fire the 'bp_custom_profile_sidebar_boxes' action.
- *
- * No longer used in BuddyPress.
- *
- * @todo Deprecate.
- */
-function bp_custom_profile_sidebar_boxes() {
-	do_action( 'bp_custom_profile_sidebar_boxes' );
-}
 
 /**
  * Output the attributes for a form field.
@@ -1127,14 +1000,6 @@ function bp_total_member_count() {
 	}
 	add_filter( 'bp_get_total_member_count', 'bp_core_number_format' );
 
-/**
- * Output whether blog signup is allowed.
- *
- * @todo Deprecate. It doesn't make any sense to echo a boolean.
- */
-function bp_blog_signup_allowed() {
-	echo bp_get_blog_signup_allowed();
-}
 	/**
 	 * Is blog signup allowed?
 	 *

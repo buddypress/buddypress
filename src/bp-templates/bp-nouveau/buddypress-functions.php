@@ -653,12 +653,14 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * Set the BP Uri for the customizer in case of Ajax requests.
 	 *
 	 * @since 3.0.0
-	 * @todo deprecate The `bp_uri` filter is not available anymore. Is this function still needed using BP Rewrites?
+	 * @deprecated 12.0.0
 	 *
 	 * @param  string $path The BP Uri.
 	 * @return string       The BP Uri.
 	 */
 	public function customizer_set_uri( $path ) {
+		_deprecated_function( __METHOD__, '12.0.0' );
+
 		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 			return $path;
 		}
