@@ -77,15 +77,15 @@ class BP_Notifications_Component extends BP_Component {
 
 		// Actions.
 		if ( bp_is_post_request() ) {
-			require $this->path . 'bp-notifications/actions/bulk-manage.php';
+			require_once $this->path . 'bp-notifications/actions/bulk-manage.php';
 		} elseif ( bp_is_get_request() ) {
-			require $this->path . 'bp-notifications/actions/delete.php';
+			require_once $this->path . 'bp-notifications/actions/delete.php';
 		}
 
 		// Screens.
-		require $this->path . 'bp-notifications/screens/unread.php';
+		require_once $this->path . 'bp-notifications/screens/unread.php';
 		if ( bp_is_current_action( 'read' ) ) {
-			require $this->path . 'bp-notifications/screens/read.php';
+			require_once $this->path . 'bp-notifications/screens/read.php';
 		}
 	}
 

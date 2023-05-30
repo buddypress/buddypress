@@ -111,17 +111,17 @@ class BP_XProfile_Component extends BP_Component {
 
 		// User nav.
 		if ( bp_is_profile_component() ) {
-			require $this->path . 'bp-xprofile/screens/public.php';
+			require_once $this->path . 'bp-xprofile/screens/public.php';
 
 			// Sub-nav items.
 			if ( is_user_logged_in() && 'edit' === bp_current_action() ) {
-				require $this->path . 'bp-xprofile/screens/edit.php';
+				require_once $this->path . 'bp-xprofile/screens/edit.php';
 			}
 		}
 
 		// Settings.
 		if ( is_user_logged_in() && bp_is_user_settings_profile() ) {
-			require $this->path . 'bp-xprofile/screens/settings-profile.php';
+			require_once $this->path . 'bp-xprofile/screens/settings-profile.php';
 		}
 	}
 

@@ -176,19 +176,19 @@ class BP_Blogs_Component extends BP_Component {
 
 		// Actions.
 		if ( isset( $_GET['random-blog'] ) ) {
-			require $this->path . 'bp-blogs/actions/random.php';
+			require_once $this->path . 'bp-blogs/actions/random.php';
 		}
 
 		// Screens.
 		if ( bp_is_user() ) {
-			require $this->path . 'bp-blogs/screens/my-blogs.php';
+			require_once $this->path . 'bp-blogs/screens/my-blogs.php';
 		} else {
 			if ( bp_is_blogs_directory() ) {
-				require $this->path . 'bp-blogs/screens/directory.php';
+				require_once $this->path . 'bp-blogs/screens/directory.php';
 			}
 
 			if ( is_user_logged_in() && bp_is_current_action( 'create' ) ) {
-				require $this->path . 'bp-blogs/screens/create.php';
+				require_once $this->path . 'bp-blogs/screens/create.php';
 			}
 
 			// Theme compatibility.
