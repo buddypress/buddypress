@@ -1513,23 +1513,36 @@ class BP_XProfile_Field {
 	 * @since 2.3.0
 	 */
 	private function name_and_description() {
+		// Set default values.
+		$description = '';
+		$name        = '';
+
+		if ( $this->description ) {
+			$description = $this->description;
+		}
+
+		if ( $this->name ) {
+			$name = $this->name;
+		}
 	?>
 
 		<div id="titlediv">
 			<div class="titlewrap">
 				<label id="title-prompt-text" for="title"><?php echo esc_html_x( 'Name (required)', 'XProfile admin edit field', 'buddypress' ); ?></label>
-				<input type="text" name="title" id="title" value="<?php echo esc_attr( $this->name ); ?>" autocomplete="off" />
+				<input type="text" name="title" id="title" value="<?php echo esc_attr( $name ); ?>" autocomplete="off" />
 			</div>
 		</div>
 
 		<div class="postbox">
 			<h2><?php echo esc_html_x( 'Description', 'XProfile admin edit field', 'buddypress' ); ?></h2>
 			<div class="inside">
-				<label for="description" class="screen-reader-text"><?php
+				<label for="description" class="screen-reader-text">
+					<?php
 					/* translators: accessibility text */
 					esc_html_e( 'Add description', 'buddypress' );
-				?></label>
-				<textarea name="description" id="description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
+					?>
+				</label>
+				<textarea name="description" id="description" rows="8" cols="60"><?php echo esc_textarea( $description ); ?></textarea>
 			</div>
 		</div>
 

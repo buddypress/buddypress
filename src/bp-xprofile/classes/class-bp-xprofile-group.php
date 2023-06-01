@@ -465,7 +465,7 @@ class BP_XProfile_Group {
 	 *
 	 * @since 5.0.0
 	 * @since 11.0.0 `$profile_group_id` accepts an array of profile group ids.
-	 * 
+	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
@@ -524,7 +524,7 @@ class BP_XProfile_Group {
 	 * Gets group field IDs, based on passed parameters.
 	 *
 	 * @since 5.0.0
-	 * 
+	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $group_ids Array of group IDs.
@@ -618,7 +618,7 @@ class BP_XProfile_Group {
 	 * Get data about a set of groups, based on IDs.
 	 *
 	 * @since 2.0.0
-	 * 
+	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $group_ids Array of IDs.
@@ -790,7 +790,7 @@ class BP_XProfile_Group {
 	 * Fetch the admin-set preferences for all fields.
 	 *
 	 * @since 1.6.0
-	 * 
+	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return array $default_visibility_levels An array, keyed by field_id, of default
@@ -849,22 +849,30 @@ class BP_XProfile_Group {
 
 		// New field group.
 		if ( empty( $this->id ) ) {
-			$title	= __( 'Add New Field Group', 'buddypress' );
-			$button	= __( 'Save',                'buddypress' );
-			$action	= add_query_arg( array(
-				'page' => 'bp-profile-setup',
-				'mode' => 'add_group',
-			), $users_url );
+			$title	     = __( 'Add New Field Group', 'buddypress' );
+			$button	     = __( 'Save',                'buddypress' );
+			$action	     = add_query_arg(
+				array(
+					'page' => 'bp-profile-setup',
+					'mode' => 'add_group',
+				),
+				$users_url
+			);
+			$description = '';
 
 		// Existing field group.
 		} else {
-			$title  = __( 'Edit Field Group', 'buddypress' );
-			$button	= __( 'Update',           'buddypress' );
-			$action	= add_query_arg( array(
-				'page'     => 'bp-profile-setup',
-				'mode'     => 'edit_group',
-				'group_id' => (int) $this->id,
-			), $users_url );
+			$title       = __( 'Edit Field Group', 'buddypress' );
+			$button	     = __( 'Update',           'buddypress' );
+			$action	     = add_query_arg(
+				array(
+					'page'     => 'bp-profile-setup',
+					'mode'     => 'edit_group',
+					'group_id' => (int) $this->id,
+				),
+				$users_url
+			);
+			$description = $this->description;
 
 			if ( $this->can_delete ) {
 				// Delete Group URL.
@@ -902,11 +910,13 @@ class BP_XProfile_Group {
 							<div class="postbox">
 								<h2><?php esc_html_e( 'Field Group Description', 'buddypress' ); ?></h2>
 								<div class="inside">
-									<label for="group_description" class="screen-reader-text"><?php
+									<label for="group_description" class="screen-reader-text">
+										<?php
 										/* translators: accessibility text */
 										esc_html_e( 'Add description', 'buddypress' );
-									?></label>
-									<textarea name="group_description" id="group_description" rows="8" cols="60"><?php echo esc_textarea( $this->description ); ?></textarea>
+										?>
+									</label>
+									<textarea name="group_description" id="group_description" rows="8" cols="60"><?php echo esc_textarea( $description ); ?></textarea>
 								</div>
 							</div>
 
