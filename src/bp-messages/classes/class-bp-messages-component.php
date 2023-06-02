@@ -97,32 +97,32 @@ class BP_Messages_Component extends BP_Component {
 			if ( is_user_logged_in() &&
 				in_array( bp_current_action(), array( 'compose', 'notices', 'view' ), true )
 			) {
-				require $this->path . 'bp-messages/actions/' . bp_current_action() . '.php';
+				require_once $this->path . 'bp-messages/actions/' . bp_current_action() . '.php';
 			}
 
 			// Authenticated action variables.
 			if ( is_user_logged_in() && bp_action_variable( 0 ) &&
 				in_array( bp_action_variable( 0 ), array( 'delete', 'read', 'unread', 'bulk-manage', 'bulk-delete', 'exit' ), true )
 			) {
-				require $this->path . 'bp-messages/actions/' . bp_action_variable( 0 ) . '.php';
+				require_once $this->path . 'bp-messages/actions/' . bp_action_variable( 0 ) . '.php';
 			}
 
 			// Authenticated actions - Star.
 			if ( is_user_logged_in() && bp_is_active( $this->id, 'star' ) ) {
 				// Single action.
 				if ( in_array( bp_current_action(), array( 'star', 'unstar' ), true ) ) {
-					require $this->path . 'bp-messages/actions/star.php';
+					require_once $this->path . 'bp-messages/actions/star.php';
 				}
 
 				// Bulk-manage.
 				if ( bp_is_action_variable( 'bulk-manage' ) ) {
-					require $this->path . 'bp-messages/actions/bulk-manage-star.php';
+					require_once $this->path . 'bp-messages/actions/bulk-manage-star.php';
 				}
 			}
 
 			// Screens - User profile integration.
 			if ( bp_is_user() ) {
-				require $this->path . 'bp-messages/screens/inbox.php';
+				require_once $this->path . 'bp-messages/screens/inbox.php';
 
 				/*
 				 * Nav items.
@@ -130,12 +130,12 @@ class BP_Messages_Component extends BP_Component {
 				 * 'view' is not a registered nav item, but we add a screen handler manually.
 				 */
 				if ( bp_is_user_messages() && in_array( bp_current_action(), array( 'sentbox', 'compose', 'notices', 'view' ), true ) ) {
-					require $this->path . 'bp-messages/screens/' . bp_current_action() . '.php';
+					require_once $this->path . 'bp-messages/screens/' . bp_current_action() . '.php';
 				}
 
 				// Nav item - Starred.
 				if ( bp_is_active( $this->id, 'star' ) && bp_is_current_action( bp_get_messages_starred_slug() ) ) {
-					require $this->path . 'bp-messages/screens/starred.php';
+					require_once $this->path . 'bp-messages/screens/starred.php';
 				}
 			}
 		}

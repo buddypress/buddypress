@@ -151,29 +151,29 @@ class BP_Members_Component extends BP_Component {
 		if ( bp_is_members_component() ) {
 			// Actions - Random member handler.
 			if ( isset( $_GET['random-member'] ) ) {
-				require $this->path . 'bp-members/actions/random.php';
+				require_once $this->path . 'bp-members/actions/random.php';
 			}
 
 			// Screens - Directory.
 			if ( bp_is_members_directory() ) {
-				require $this->path . 'bp-members/screens/directory.php';
+				require_once $this->path . 'bp-members/screens/directory.php';
 			}
 		}
 
 		// Members - User main nav screen.
 		if ( bp_is_user() ) {
-			require $this->path . 'bp-members/screens/profile.php';
+			require_once $this->path . 'bp-members/screens/profile.php';
 
 			// Action - Delete avatar.
 			if ( is_user_logged_in()&& bp_is_user_change_avatar() && bp_is_action_variable( 'delete-avatar', 0 ) ) {
-				require $this->path . 'bp-members/actions/delete-avatar.php';
+				require_once $this->path . 'bp-members/actions/delete-avatar.php';
 			}
 
 			// Sub-nav items.
 			if ( is_user_logged_in() &&
 				in_array( bp_current_action(), array( 'change-avatar', 'change-cover-image' ), true )
 			) {
-				require $this->path . 'bp-members/screens/' . bp_current_action() . '.php';
+				require_once $this->path . 'bp-members/screens/' . bp_current_action() . '.php';
 			}
 		}
 
@@ -185,9 +185,9 @@ class BP_Members_Component extends BP_Component {
 		// Registration / Activation.
 		if ( bp_is_register_page() || bp_is_activation_page() ) {
 			if ( bp_is_register_page() ) {
-				require $this->path . 'bp-members/screens/register.php';
+				require_once $this->path . 'bp-members/screens/register.php';
 			} else {
-				require $this->path . 'bp-members/screens/activate.php';
+				require_once $this->path . 'bp-members/screens/activate.php';
 			}
 
 			// Theme compatibility.
@@ -198,11 +198,11 @@ class BP_Members_Component extends BP_Component {
 		if ( is_user_logged_in() && bp_is_user_members_invitations() ) {
 			// Actions.
 			if ( isset( $_POST['members_invitations'] ) ) {
-				require $this->path . 'bp-members/actions/invitations-bulk-manage.php';
+				require_once $this->path . 'bp-members/actions/invitations-bulk-manage.php';
 			}
 
 			// Screens.
-			require $this->path . 'bp-members/screens/invitations.php';
+			require_once $this->path . 'bp-members/screens/invitations.php';
 		}
 	}
 

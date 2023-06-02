@@ -85,13 +85,13 @@ class BP_Friends_Component extends BP_Component {
 			if ( is_user_logged_in() &&
 				in_array( bp_current_action(), array( 'add-friend', 'remove-friend' ), true )
 			) {
-				require $this->path . 'bp-friends/actions/' . bp_current_action() . '.php';
+				require_once $this->path . 'bp-friends/actions/' . bp_current_action() . '.php';
 			}
 
 			// User nav.
-			require $this->path . 'bp-friends/screens/my-friends.php';
+			require_once $this->path . 'bp-friends/screens/my-friends.php';
 			if ( is_user_logged_in() && bp_is_user_friend_requests() ) {
-				require $this->path . 'bp-friends/screens/requests.php';
+				require_once $this->path . 'bp-friends/screens/requests.php';
 			}
 		}
 	}

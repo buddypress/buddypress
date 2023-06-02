@@ -121,22 +121,22 @@ class BP_Activity_Component extends BP_Component {
 			if ( is_user_logged_in() &&
 				in_array( bp_current_action(), array( 'delete', 'spam', 'post', 'reply', 'favorite', 'unfavorite' ), true )
 			) {
-				require $this->path . 'bp-activity/actions/' . bp_current_action() . '.php';
+				require_once $this->path . 'bp-activity/actions/' . bp_current_action() . '.php';
 			}
 
 			// RSS feeds.
 			if ( bp_is_current_action( 'feed' ) || bp_is_action_variable( 'feed', 0 ) ) {
-				require $this->path . 'bp-activity/actions/feeds.php';
+				require_once $this->path . 'bp-activity/actions/feeds.php';
 			}
 
 			// Screens - Directory.
 			if ( bp_is_activity_directory() ) {
-				require $this->path . 'bp-activity/screens/directory.php';
+				require_once $this->path . 'bp-activity/screens/directory.php';
 			}
 
 			// Screens - User main nav.
 			if ( bp_is_user() ) {
-				require $this->path . 'bp-activity/screens/just-me.php';
+				require_once $this->path . 'bp-activity/screens/just-me.php';
 			}
 
 			/**
@@ -162,12 +162,12 @@ class BP_Activity_Component extends BP_Component {
 			$slug = bp_current_action();
 
 			if ( bp_is_user() && isset( $filenames[ $slug ] ) ) {
-				require $this->path . 'bp-activity/screens/' . $filenames[ $slug ] . '.php';
+				require_once $this->path . 'bp-activity/screens/' . $filenames[ $slug ] . '.php';
 			}
 
 			// Screens - Single permalink.
 			if ( bp_is_current_action( 'p' ) || is_numeric( bp_current_action() ) ) {
-				require $this->path . 'bp-activity/screens/permalink.php';
+				require_once $this->path . 'bp-activity/screens/permalink.php';
 			}
 
 			// Theme compatibility.
