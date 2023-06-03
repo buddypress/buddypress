@@ -2463,6 +2463,8 @@ function groups_accept_all_pending_membership_requests( $group_id = 0 ) {
  *
  * @since 1.0.0
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param int         $group_id   ID of the group.
  * @param string|bool $meta_key   The key of the row to delete.
  * @param string|bool $meta_value Optional. Metadata value. If specified, only delete
@@ -3610,6 +3612,8 @@ function bp_groups_pending_received_invitations_personal_data_exporter( $email_a
  * Migrate invitations and requests from pre-5.0 group_members table to invitations table.
  *
  * @since 5.0.0
+ *
+ * @global wpdb $wpdb WordPress database object.
  */
 function bp_groups_migrate_invitations() {
 	global $wpdb;

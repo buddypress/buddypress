@@ -415,6 +415,8 @@ function bp_group_type_list( $group_id = 0, $r = array() ) {
  * @since 7.0.0 Added `$status` parameter.
  * @since 10.0.0 Added `$date_query` parameter.
  *
+ * @global BP_Groups_Template $groups_template The Groups template loop class.
+ *
  * @param array|string $args {
  *     Array of parameters. All items are optional.
  *     @type string       $type               Shorthand for certain orderby/order combinations. 'newest', 'active',
@@ -590,6 +592,8 @@ function bp_has_groups( $args = '' ) {
  *
  * @since 1.0.0
  *
+ * @global BP_Groups_Template $groups_template The Groups template loop class.
+ *
  * @return bool
  */
 function bp_groups() {
@@ -601,6 +605,8 @@ function bp_groups() {
  * Set up the current group inside the loop.
  *
  * @since 1.0.0
+ *
+ * @global BP_Groups_Template $groups_template The Groups template loop class.
  *
  * @return BP_Groups_Group
  */
@@ -695,6 +701,8 @@ function bp_group_class( $classes = array() ) {
 	 * Get the row class of the current group in the loop.
 	 *
 	 * @since 1.7.0
+	 *
+	 * @global BP_Groups_Template $groups_template The Groups template loop class.
 	 *
 	 * @param array $classes Array of custom classes.
 	 * @return string Row class of the group.
@@ -2089,6 +2097,8 @@ function bp_groups_pagination_links() {
 	 *
 	 * @since 1.2.0
 	 *
+	 * @global BP_Groups_Template $groups_template The Groups template loop class.
+	 *
 	 * @return string
 	 */
 	function bp_get_groups_pagination_links() {
@@ -2116,6 +2126,8 @@ function bp_groups_pagination_count() {
 	 * Generate the "Viewing x-y of z groups" pagination message.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @global BP_Groups_Template $groups_template The Groups template loop class.
 	 *
 	 * @return string
 	 */
@@ -2503,6 +2515,9 @@ function bp_group_member_promote_mod_link( $args = '' ) {
 	 *
 	 * @since 1.1.0
 	 *
+	 * @global BP_Groups_Template       $groups_template  The Groups template loop class.
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
+	 *
 	 * @param array|string $args {
 	 *     @type int    $user_id ID of the member to promote. Default:
 	 *                           current member in a group member loop.
@@ -2554,6 +2569,9 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 	 * Generate a URL for promoting a user to admin.
 	 *
 	 * @since 1.1.0
+	 *
+	 * @global BP_Groups_Template       $groups_template  The Groups template loop class.
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @param array|string $args {
 	 *     @type int    $user_id ID of the member to promote. Default:
@@ -2611,6 +2629,8 @@ function bp_group_member_demote_link( $user_id = 0, $group = false ) {
 	 * @since 1.0.0
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
+	 *
 	 * @param int                              $user_id ID of the member to demote. Default: 0.
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
      *                                                Default: false.
@@ -2664,6 +2684,8 @@ function bp_group_member_ban_link( $user_id = 0, $group = false ) {
 	 * @since 1.0.0
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
+	 *
 	 * @param int                              $user_id ID of the member to ban. Default: 0.
 	 * @param false|int|string|BP_Groups_Group $group   (Optional) The Group ID, the Group Slug or the Group object.
      *                                                  Default: false.
@@ -2715,6 +2737,8 @@ function bp_group_member_unban_link( $user_id = 0, $group = false ) {
 	 *
 	 * @since 1.0.0
 	 * @since 10.0.0 Updated to use `bp_get_group`.
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @param int                              $user_id ID of the member to unban. Default: 0.
 	 * @param false|int|string|BP_Groups_Group $group   (Optional) The Group ID, the Group Slug or the Group object.
@@ -2768,6 +2792,8 @@ function bp_group_member_remove_link( $user_id = 0, $group = false ) {
 	 * @since 1.2.6
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
+	 *
 	 * @param int                              $user_id ID of the member to remove. Default: 0.
 	 * @param false|int|string|BP_Groups_Group $group   (Optional) The Group ID, the Group Slug or the Group object.
      *                                                  Default: false.
@@ -2806,6 +2832,8 @@ function bp_group_member_remove_link( $user_id = 0, $group = false ) {
  * HTML admin subnav items for group pages.
  *
  * @since 1.0.0
+ *
+ * @global BP_Core_Members_Template $members_template The Members template loop class.
  *
  * @param object|bool $group Optional. Group object.
  *                           Default: current group in the loop.
@@ -3033,7 +3061,7 @@ function bp_group_has_requested_membership( $group = false ) {
  *
  * @since 1.0.0
  *
- * @global BP_Groups_Template $groups_template The main Groups template loop class.
+ * @global BP_Groups_Template $groups_template The Groups template loop class.
  *
  * @param object|bool $group Optional. Group to check is_member.
  *                           Default: current group in the loop.
@@ -3067,6 +3095,8 @@ function bp_group_is_member( $group = false ) {
  * Check whether the current user has an outstanding invite to the current group in the loop.
  *
  * @since 2.1.0
+ *
+ * @global BP_Core_Members_Template $members_template The Members template loop class.
  *
  * @param object|bool $group Optional. Group data object.
  *                           Default: the current group in the groups loop.
@@ -3106,7 +3136,7 @@ function bp_group_is_invited( $group = false ) {
  *
  * @since 1.5.0
  *
- * @global BP_Groups_Template $groups_template The main Groups template loop class.
+ * @global BP_Groups_Template $groups_template The Groups template loop class.
  *
  * @param BP_Groups_Group|bool $group   Group to check if user is banned.
  * @param int                  $user_id The user ID to check.
@@ -3168,6 +3198,8 @@ function bp_group_accept_invite_link() {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global BP_Groups_Template $groups_template The Groups template loop class.
+	 *
 	 * @param object|bool $group Optional. Group object.
 	 *                           Default: Current group in the loop.
 	 * @return string
@@ -3218,6 +3250,8 @@ function bp_group_reject_invite_link() {
 	 * Generate the URL for rejecting an invitation to a group.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @global BP_Groups_Template $groups_template The Groups template loop class.
 	 *
 	 * @param object|bool $group Optional. Group object.
 	 *                           Default: Current group in the loop.
@@ -3270,6 +3304,8 @@ function bp_group_leave_confirm_link() {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global BP_Groups_Template $groups_template The Groups template loop class.
+	 *
 	 * @param object|bool $group Optional. Group object.
 	 *                           Default: Current group in the loop.
 	 * @return string
@@ -3314,6 +3350,8 @@ function bp_group_leave_reject_link() {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global BP_Groups_Template $groups_template The Groups template loop class.
+	 *
 	 * @param object|bool $group Optional. Group object.
 	 *                           Default: Current group in the loop.
 	 * @return string
@@ -3350,6 +3388,8 @@ function bp_group_send_invite_form_action() {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global BP_Groups_Template $groups_template The Groups template loop class.
+	 *
 	 * @param object|bool $group Optional. Group object.
 	 *                           Default: current group in the loop.
 	 * @return string
@@ -3383,6 +3423,8 @@ function bp_group_send_invite_form_action() {
  *
  * @since 1.0.0
  *
+ * @global BP_Groups_Template $groups_template The Groups template loop class.
+ *
  * @param object|bool $group Optional. Group object.
  *                           Default: current group in the loop.
  * @return bool
@@ -3390,7 +3432,7 @@ function bp_group_send_invite_form_action() {
 function bp_has_friends_to_invite( $group = false ) {
 	global $groups_template;
 
-	if ( !bp_is_active( 'friends' ) ) {
+	if ( ! bp_is_active( 'friends' ) ) {
 		return false;
 	}
 
@@ -3583,6 +3625,8 @@ function bp_group_join_button( $group = false ) {
 	 * @since 1.0.0
 	 * @since 11.0.0 uses `bp_groups_get_group_join_button_args()`.
 	 *
+	 * @global BP_Groups_Template $groups_template The Groups template loop class.
+	 *
 	 * @param object|bool $group Single group object.
 	 * @return false|string
 	 */
@@ -3714,7 +3758,7 @@ add_action( 'bp_groups_directory_group_filter', 'bp_group_backcompat_create_nav_
  *
  * @since 1.0.0
  *
- * @global BP_Groups_Template $groups_template The main Groups template loop class.
+ * @global BP_Groups_Template $groups_template The Groups template loop class.
  *
  * @param object|null $group Group to get status message for. Optional; defaults to current group.
  */
@@ -3864,6 +3908,8 @@ function bp_total_group_count_for_user( $user_id = 0 ) {
  *
  * @since 1.0.0
  *
+ * @global BP_Core_Members_Template $members_template The Members template loop class.
+ *
  * @param array|string $args {
  *     An array of optional arguments.
  *     @type int      $group_id           ID of the group whose members are being queried.
@@ -3949,7 +3995,11 @@ function bp_group_has_members( $args = '' ) {
 }
 
 /**
+ * The list of group members.
+ *
  * @since 1.0.0
+ *
+ * @global BP_Core_Members_Template $members_template The Members template loop class.
  *
  * @return mixed
  */
@@ -3960,7 +4010,11 @@ function bp_group_members() {
 }
 
 /**
+ * The current Member being iterated on.
+ *
  * @since 1.0.0
+ *
+ * @global BP_Core_Members_Template $members_template The Members template loop class.
  *
  * @return mixed
  */
@@ -3984,6 +4038,8 @@ function bp_group_member_avatar( $args = '' ) {
 	 * Return the group member avatar while in the groups members loop.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @param array|string $args {@see bp_core_fetch_avatar()}.
 	 * @return string
@@ -4027,6 +4083,8 @@ function bp_group_member_avatar_thumb( $args = '' ) {
 	 * Return the group member avatar while in the groups members loop.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @param array|string $args {@see bp_core_fetch_avatar()}.
 	 * @return string
@@ -4072,6 +4130,8 @@ function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
+	 *
 	 * @param int $width  Width of avatar to fetch.
 	 * @param int $height Height of avatar to fetch.
 	 * @return string
@@ -4104,13 +4164,19 @@ function bp_group_member_avatar_mini( $width = 30, $height = 30 ) {
 	}
 
 /**
+ * Outputs the group member name.
+ *
  * @since 1.0.0
  */
 function bp_group_member_name() {
 	echo bp_get_group_member_name();
 }
 	/**
+	 * Returns the group member's name.
+	 *
 	 * @since 1.0.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @return mixed|void
 	 */
@@ -4128,13 +4194,19 @@ function bp_group_member_name() {
 	}
 
 /**
+ * Outputs the group member's URL.
+ *
  * @since 1.0.0
  */
 function bp_group_member_url() {
 	echo bp_get_group_member_url();
 }
 	/**
+	 * Returns the group member's URL.
+	 *
 	 * @since 1.0.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @return mixed|void
 	 */
@@ -4152,13 +4224,19 @@ function bp_group_member_url() {
 	}
 
 /**
+ * Outputs the group member's link.
+ *
  * @since 1.0.0
  */
 function bp_group_member_link() {
 	echo bp_get_group_member_link();
 }
 	/**
+	 * Returns the group member's link.
+	 *
 	 * @since 1.0.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @return mixed|void
 	 */
@@ -4176,13 +4254,19 @@ function bp_group_member_link() {
 	}
 
 /**
+ * Outputs the group member's domain.
+ *
  * @since 1.2.0
  */
 function bp_group_member_domain() {
 	echo bp_get_group_member_domain();
 }
 	/**
+	 * Returns the group member's domain.
+	 *
 	 * @since 1.2.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @return mixed|void
 	 */
@@ -4200,13 +4284,19 @@ function bp_group_member_domain() {
 	}
 
 /**
+ * Outputs the group member's friendship status with logged in user.
+ *
  * @since 1.2.0
  */
 function bp_group_member_is_friend() {
 	echo bp_get_group_member_is_friend();
 }
 	/**
+	 * Retruns the group member's friendship status with logged in user.
+	 *
 	 * @since 1.2.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @return mixed|void
 	 */
@@ -4243,6 +4333,8 @@ function bp_group_member_is_banned() {
 	 * Check whether the member is banned from the current group.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @return bool
 	 */
@@ -4301,6 +4393,8 @@ function bp_group_member_joined_since( $args = array() ) {
 	 * @since 1.0.0
 	 * @since 2.7.0 Added $args as a parameter.
 	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
+	 *
 	 * @param array|string $args {
 	 *     Array of optional parameters.
 	 *
@@ -4356,6 +4450,8 @@ function bp_group_member_id() {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
+	 *
 	 * @return int
 	 */
 	function bp_get_group_member_id() {
@@ -4376,7 +4472,11 @@ function bp_group_member_id() {
 	}
 
 /**
+ * Do the list of group members needs a pagination?
+ *
  * @since 1.0.0
+ *
+ * @global BP_Core_Members_Template $members_template The Members template loop class.
  *
  * @return bool
  */
@@ -4410,6 +4510,8 @@ function bp_group_pag_id() {
 	}
 
 /**
+ * Outputs the group members list pagination links.
+ *
  * @since 1.0.0
  */
 function bp_group_member_pagination() {
@@ -4417,7 +4519,11 @@ function bp_group_member_pagination() {
 	wp_nonce_field( 'bp_groups_member_list', '_member_pag_nonce' );
 }
 	/**
-	 * @since 1.0.0
+	 * Returns the group members list pagination links.
+	 *
+	 *  @since 1.0.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @return mixed|void
 	 */
@@ -4435,13 +4541,19 @@ function bp_group_member_pagination() {
 	}
 
 /**
+ * Outputs the group members list pagination count.
+ *
  * @since 1.0.0
  */
 function bp_group_member_pagination_count() {
 	echo bp_get_group_member_pagination_count();
 }
 	/**
+	 * Returns the group members list pagination count.
+	 *
 	 * @since 1.0.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @return mixed|void
 	 */
@@ -4474,6 +4586,8 @@ function bp_group_member_pagination_count() {
 	}
 
 /**
+ * Outputs the group members list pagination links inside the Group's Manage screen.
+ *
  * @since 1.0.0
  */
 function bp_group_member_admin_pagination() {
@@ -4481,7 +4595,11 @@ function bp_group_member_admin_pagination() {
 	wp_nonce_field( 'bp_groups_member_admin_list', '_member_admin_pag_nonce' );
 }
 	/**
+	 * Returns the group members list pagination links inside the Group's Manage screen.
+	 *
 	 * @since 1.0.0
+	 *
+	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @return mixed
 	 */

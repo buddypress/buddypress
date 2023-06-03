@@ -263,6 +263,8 @@ function bp_groups_format_activity_action_group_activity_update( $action, $activ
  *
  * @since 2.0.0
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param array $activities Array of activity items.
  * @return array
  */
