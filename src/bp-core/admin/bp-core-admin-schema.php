@@ -613,7 +613,6 @@ function bp_core_install_invitations() {
 function bp_core_install_nonmember_opt_outs() {
 	$sql             = array();
 	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
-	$bp_prefix       = bp_core_get_table_prefix();
 	$optouts_class   = new BP_Optout();
 	$table_name      = $optouts_class->get_table_name();
 	$sql = "CREATE TABLE {$table_name} (

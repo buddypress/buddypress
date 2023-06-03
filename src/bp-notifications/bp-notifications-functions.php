@@ -928,8 +928,6 @@ function bp_notifications_personal_data_exporter( $email_address, $page ) {
 		'order'    => 'DESC',
 	) );
 
-	$user_data_to_export = array();
-
 	foreach ( $notifications as $notification ) {
 		if ( 'xprofile' === $notification->component_name ) {
 			$component_name = 'profile';

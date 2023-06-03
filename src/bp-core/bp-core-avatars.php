@@ -17,24 +17,27 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_core_set_avatar_constants() {
 
-	$bp = buddypress();
-
-	if ( !defined( 'BP_AVATAR_THUMB_WIDTH' ) )
+	if ( ! defined( 'BP_AVATAR_THUMB_WIDTH' ) ) {
 		define( 'BP_AVATAR_THUMB_WIDTH', 50 );
+	}
 
-	if ( !defined( 'BP_AVATAR_THUMB_HEIGHT' ) )
+	if ( ! defined( 'BP_AVATAR_THUMB_HEIGHT' ) ) {
 		define( 'BP_AVATAR_THUMB_HEIGHT', 50 );
+	}
 
-	if ( !defined( 'BP_AVATAR_FULL_WIDTH' ) )
+	if ( ! defined( 'BP_AVATAR_FULL_WIDTH' ) ) {
 		define( 'BP_AVATAR_FULL_WIDTH', 150 );
+	}
 
-	if ( !defined( 'BP_AVATAR_FULL_HEIGHT' ) )
+	if ( ! defined( 'BP_AVATAR_FULL_HEIGHT' ) ) {
 		define( 'BP_AVATAR_FULL_HEIGHT', 150 );
+	}
 
-	if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_WIDTH' ) )
+	if ( ! defined( 'BP_AVATAR_ORIGINAL_MAX_WIDTH' ) ) {
 		define( 'BP_AVATAR_ORIGINAL_MAX_WIDTH', 450 );
+	}
 
-	if ( !defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
+	if ( ! defined( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE' ) ) {
 		define( 'BP_AVATAR_ORIGINAL_MAX_FILESIZE', bp_attachments_get_max_upload_file_size( 'avatar' ) );
 	}
 
