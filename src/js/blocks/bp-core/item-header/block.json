@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "bp/item-header",
+	"title": "BuddyPress header",
+	"category": "theme",
+	"icon": "id",
+	"description": "Displays the header of a directory or a single item.",
+	"textdomain": "buddypress",
+	"supports": {
+		"align": [ "left", "right", "center", "wide", "full" ],
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "file:index.js"
+}

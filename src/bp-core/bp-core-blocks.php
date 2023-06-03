@@ -462,3 +462,50 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 
 	return $widget_content;
 }
+
+/**
+ * Callback function to render the BP Directory or Single item title.
+ *
+ * @since 12.0.0
+ *
+ * @return string HTML output.
+ */
+function bp_block_render_item_header() {
+	$classnames         = 'buddypress bp-item-header';
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
+	$bp_content         = __( 'This is where the BuddyPress item header will be generated', 'buddypress' );
+
+	if ( bp_is_directory() ) {
+		$bp_content = bp_get_directory_title( bp_current_component() );
+	}
+
+	return sprintf(
+		'<h2 %1$s>%2$s</h2>',
+		$wrapper_attributes,
+		esc_html( $bp_content )
+	);
+}
+
+/**
+ * Callback function to render the BP Directory or Single item body.
+ *
+ * @since 12.0.0
+ *
+ * @return string HTML output.
+ */
+function bp_block_render_item_body() {
+	$classnames         = 'buddypress bp-item-body';
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
+	$bp_content         = __( 'This is where BuddyPress body will be generated.', 'buddypress' );
+	$bp_page            = get_queried_object();
+
+	if ( isset( $bp_page->post_content ) && $bp_page->post_content ) {
+		$bp_content = $bp_page->post_content;
+	}
+
+	return sprintf(
+		'<div %1$s>%2$s</div>',
+		$wrapper_attributes,
+		$bp_content
+	);
+}

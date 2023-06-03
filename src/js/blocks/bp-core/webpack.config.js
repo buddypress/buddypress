@@ -27,6 +27,8 @@ module.exports = {
 			"block-collection/index": './src/js/blocks/bp-core/block-collection/block-collection.js',
 			"login-form/index": './src/js/blocks/bp-core/login-form/login-form.js',
 			"primary-nav/index": './src/js/blocks/bp-core/primary-nav/primary-nav.js',
+			"item-body/index": './src/js/blocks/bp-core/item-body/item-body.js',
+			"item-header/index": './src/js/blocks/bp-core/item-header/item-header.js',
 			"dynamic-widget-block/index": {
 				import: './src/js/blocks/bp-core/dynamic-widget/dynamic-widget-block.js',
 				library: {

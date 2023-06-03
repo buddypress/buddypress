@@ -451,11 +451,21 @@ class BP_Core extends BP_Component {
 	 *                      description.
 	 */
 	public function blocks_init( $blocks = array() ) {
+		$blocks_dir = trailingslashit( buddypress()->plugin_dir ) . 'bp-core/blocks';
+
 		parent::blocks_init(
 			array(
 				'bp/login-form' => array(
-					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-core/blocks/login-form',
+					'metadata'        => $blocks_dir . '/login-form',
 					'render_callback' => 'bp_block_render_login_form_block',
+				),
+				'bp/item-header' => array(
+					'metadata'        => $blocks_dir . '/item-header',
+					'render_callback' => 'bp_block_render_item_header',
+				),
+				'bp/item-body' => array(
+					'metadata'        => $blocks_dir . '/item-body',
+					'render_callback' => 'bp_block_render_item_body',
 				),
 			)
 		);
