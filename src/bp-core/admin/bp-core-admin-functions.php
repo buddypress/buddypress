@@ -1145,7 +1145,6 @@ function bp_email_tax_type_metabox( $post, $box ) {
 	);
 
 	$tax_name = esc_attr( $r['taxonomy'] );
-	$taxonomy = get_taxonomy( $r['taxonomy'] );
 	?>
 	<div id="taxonomy-<?php echo $tax_name; ?>" class="categorydiv">
 		<div id="<?php echo $tax_name; ?>-all" class="tabs-panel">

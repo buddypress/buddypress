@@ -95,7 +95,6 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$filter_query     = false;
 		$include_id       = false;
 		$search_terms     = false;
-		$sort             = 'DESC';
 		$spam             = 'ham_only';
 
 		// Set current page.

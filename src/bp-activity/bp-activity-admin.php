@@ -984,7 +984,6 @@ function bp_activity_admin_get_activity_actions() {
  * @param object $item Activity item.
  */
 function bp_activity_admin_edit_metabox_type( $item ) {
-	$bp = buddypress();
 
 	$actions  = array();
 	$selected = $item->type;
