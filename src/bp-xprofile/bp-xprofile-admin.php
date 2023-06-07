@@ -99,7 +99,12 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 
 		// Delete field.
 		} elseif ( ( false !== $field_id ) && ( in_array( $mode, array( 'delete_field', 'do_delete_field' ), true ) ) ) {
-			xprofile_admin_delete_field( $field_id, 'field' );
+			$delete_data = false;
+			if ( isset( $_GET['delete_data'] ) && $_GET['delete_data'] ) {
+				$delete_data = true;
+			}
+
+			xprofile_admin_delete_field( $field_id, 'field', $delete_data );
 
 		// Delete option.
 		} elseif ( ! empty( $option_id ) && in_array( $mode, array( 'delete_option', 'do_delete_option' ), true ) ) {
@@ -790,7 +795,7 @@ function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
 
 	$field = xprofile_get_field( $field_id, null, false );
 
-	$base_url = remove_query_arg( array( 'mode', 'field_id', 'bp_xprofile_delete_field' ), $_SERVER['REQUEST_URI'] ); ?>
+	$base_url = remove_query_arg( array( 'page', 'mode', 'field_id', 'bp_xprofile_delete_field' ), $_SERVER['REQUEST_URI'] ); ?>
 
 	<div class="wrap">
 		<h1 class="wp-heading-inline">
@@ -808,23 +813,32 @@ function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
 		<p>
 			<?php
 			printf(
-				/* translators: %s is the field type name. */
-				esc_html__( 'You are about to delete the following %s:', 'buddypress' ),
-				$field_type
+				/* translators: 1 is the field type name. 2 is the field name */
+				esc_html__( 'You are about to delete the following %1$s: %2$s.', 'buddypress' ),
+				esc_html( $field_type ),
+				'<strong>' . esc_html( $field->name ) . '</strong>'
 			);
 			?>
 		</p>
 
-		<ul class="bp-xprofile-delete-group-list">
-			<li><?php echo esc_html( $field->name ); ?></li>
-		</ul>
-
-		<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ); ?></strong></p>
-
-		<a class="button-primary" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'mode' => 'do_delete_field', 'field_id' => $field_id ), $base_url ), 'bp_xprofile_delete_field-' . $field_id, 'bp_xprofile_delete_field' ) ); ?>"><?php esc_html_e( 'Delete Permanently', 'buddypress' ); ?></a>
-		<a class="button" href="<?php echo esc_attr( $base_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a>
+		<form action="<?php echo esc_url( $base_url ); ?>" method="get">
+			<label>
+				<input type="checkbox" name="delete_data" value="1" <?php checked( true ); ?>/>
+				<?php esc_html_e( 'Also remove the deleted field corresponding data.', 'buddypress' ); ?>
+			</label>
+			<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ); ?></strong></p>
+			<p>
+				<input type="hidden" name="page" value="bp-profile-setup" />
+				<input type="hidden" name="mode" value="do_delete_field" />
+				<input type="hidden" name="field_id" value="<?php echo esc_attr( $field_id ); ?>" />
+				<?php
+				wp_nonce_field( 'bp_xprofile_delete_field-' . $field_id, 'bp_xprofile_delete_field' );
+				submit_button( __( 'Delete Permanently', 'buddypress' ), 'primary', '', false );
+				?>
+				<a class="button" href="<?php echo esc_attr( $base_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a>
+			</p>
+		</form>
 	</div>
-
 	<?php
 }
 
