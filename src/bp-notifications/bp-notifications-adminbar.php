@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.9.0
  *
- * @param WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API, passed by reference.
+ * @global WP_Admin_Bar $wp_admin_bar The WordPress object implementing a Toolbar API.
  *
  * @return bool
  */

@@ -172,6 +172,8 @@ class BP_Signup {
 	 * Populate the instantiated class with data based on the signup_id provided.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @global wpdb $wpdb The WordPress database object.
 	 */
 	public function populate() {
 		global $wpdb;
@@ -257,6 +259,8 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 * @since 6.0.0 Added a list of allowed orderby parameters.
+	 *
+	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param array $args {
 	 *     The argument to retrieve desired signups.
@@ -442,6 +446,8 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @global wpdb $wpdb The WordPress database object.
+	 *
 	 * @param array $args {
 	 *     Array of arguments for signup addition.
 	 *     @type string     $domain         New user's domain.
@@ -527,6 +533,8 @@ class BP_Signup {
 	 * default behavior.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param string $user_login    User login string.
 	 * @param string $user_password User password.
@@ -641,6 +649,8 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @global wpdb $wpdb The WordPress database object.
+	 *
 	 * @param string $key Activation key.
 	 * @return bool True on success, false on failure.
 	 */
@@ -714,6 +724,8 @@ class BP_Signup {
 	 * email was sent and how many times activation was sent.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param array $args {
 	 *     Array of arguments for the signup update.
@@ -981,6 +993,8 @@ class BP_Signup {
 	 * Delete a pending account.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param array $signup_ids Single ID or list of IDs to delete.
 	 * @return array

@@ -722,6 +722,9 @@ class BP_Members_Admin {
 	 * Highlight the Users menu if on Edit Profile and check if on the user's admin profile.
 	 *
 	 * @since 2.1.0
+	 *
+	 * @global string $submenu_file The name of the submenu file.
+	 * @global string $parent_file  The name of the parent file.
 	 */
 	public function profile_admin_head() {
 		global $submenu_file, $parent_file;
@@ -1683,6 +1686,8 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @global wpdb $wpdb The WordPress database object.
+	 *
 	 * @param WP_User_Query|null $query The users query.
 	 * @return WP_User_Query|null The users query without the signups.
 	 */
@@ -1724,6 +1729,8 @@ class BP_Members_Admin {
 	 * Filter the WP Users List Table views to include 'bp-signups'.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @global string $role The name of the WP Role.
 	 *
 	 * @param array $views WP List Table views.
 	 * @return array The views with the signup view added.
@@ -2762,9 +2769,11 @@ class BP_Members_Admin {
 	/**
 	 * Filter WP Admin users list table to include users of the specified type.
 	 *
-	 * @param WP_Query $query
-	 *
 	 * @since 2.7.0
+	 *
+	 * @global string $pagenow The filename of the current screen.
+	 *
+	 * @param WP_Query $query The WordPress Query object.
 	 */
 	public function users_table_filter_by_type( $query ) {
 		global $pagenow;

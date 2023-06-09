@@ -978,6 +978,8 @@ class BP_Messages_Thread {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @global wpdb $wpdb The WordPress database object.
+	 *
 	 * @param int    $user_id The user ID.
 	 * @param string $box     The type of mailbox to get. Either 'inbox' or 'sentbox'.
 	 *                        Defaults to 'inbox'.

@@ -288,6 +288,8 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @see BP_Component::setup_globals() for description of parameters.
 	 *
+	 * @global wpdb $wpdb The WordPress database object.
+	 *
 	 * @param array $args See {@link BP_Component::setup_globals()}.
 	 */
 	public function setup_globals( $args = array() ) {

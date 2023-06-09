@@ -909,6 +909,8 @@ class BP_Notifications_Notification {
 	 *
 	 * @since 10.0.0
 	 *
+	 * @global wpdb $wpdb The WordPress database object.
+	 *
 	 * @param string $field The name of the db field of the items to update.
 	 *                      Possible values are `id` or `item_id`.
 	 * @param int[]  $items The list of items to update.
@@ -1006,6 +1008,8 @@ class BP_Notifications_Notification {
 	 * Delete notifications using a list of ids/items_ids.
 	 *
 	 * @since 10.0.0
+	 *
+	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param string $field The name of the db field of the items to delete.
 	 *                      Possible values are `id` or `item_id`.

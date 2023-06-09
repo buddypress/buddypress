@@ -879,6 +879,8 @@ add_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
  *
  * @since 1.6.0
  *
+ * @global BP_Core_Members_Template $members_template The Members template loop class.
+ *
  * @param int $user_id The ID for the user.
  * @return bool True if spammer, otherwise false.
  */
@@ -2455,6 +2457,8 @@ add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30, 3 );
  *
  * @since 2.0.0
  *
+ * @global string $error The error message.
+ *
  * @see bp_core_signup_disable_inactive()
  */
 function bp_members_login_resend_activation_email() {
@@ -2624,6 +2628,8 @@ add_action( 'bp_init', 'bp_stop_live_spammer', 5 );
  * Show a custom error message when a logged-in user is marked as a spammer.
  *
  * @since 1.8.0
+ *
+ * @global string $error The error message.
  */
 function bp_live_spammer_login_error() {
 	global $error;
