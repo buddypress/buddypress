@@ -216,8 +216,6 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	 * @return bool|array
 	 */
 	protected function get_nav( $offset ) {
-		$bp = buddypress();
-
 		$component_nav = $this->get_component_nav( $offset );
 		$primary_nav   = $component_nav->get_primary( array( 'slug' => $offset ), false );
 

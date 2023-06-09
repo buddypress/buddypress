@@ -169,8 +169,6 @@ abstract class BP_Invitation_Manager {
 	 * @return bool The result of `run_send_action()`.
 	 */
 	public function send_invitation_by_id( $invitation_id = 0, $args = array() ) {
-		$updated = false;
-
 		$invitation = new BP_Invitation( $invitation_id );
 
 		if ( ! $invitation->id ) {
@@ -327,8 +325,6 @@ abstract class BP_Invitation_Manager {
 	 * @return bool The result of `run_send_action()`.
 	 */
 	public function send_request_notification_by_id( $request_id = 0, $args = array() ) {
-		$updated = false;
-
 		$request = new BP_Invitation( $request_id );
 
 		if ( ! $request->id ) {

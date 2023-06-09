@@ -195,9 +195,9 @@ class BP_Block {
 
 			if ( ! isset( $this->registered_scripts['editor_script'] ) || ! $this->registered_scripts['editor_script'] ) {
 				$this->block = new WP_Error( 'script_registration_error', __( 'The required `editor_script` could not be registered.', 'buddypress' ) );
-			} else {
+
 				// Register the styles.
-				$registered_styles = array();
+			} else {
 
 				foreach ( array( 'editor_style', 'style' ) as $style_handle_key ) {
 					if ( ! isset( $wp_args[ $style_handle_key ] ) || ! $wp_args[ $style_handle_key ] ) {
