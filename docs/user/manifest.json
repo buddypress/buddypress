@@ -1,0 +1,38 @@
+[
+	{
+		"title": "User Handbook",
+		"slug": "handbook",
+		"markdown_source": "../user/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Administration",
+		"slug": "administration",
+		"markdown_source": "../user/administration/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress settings",
+		"slug": "administration-settings",
+		"markdown_source": "../user/administration/settings/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress URLs settings",
+		"slug": "administration-settings-urls",
+		"markdown_source": "../user/administration/settings/urls.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Administration Tools",
+		"slug": "administration-tools",
+		"markdown_source": "../user/administration/tools/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Repair Tool",
+		"slug": "administration-tools-repair",
+		"markdown_source": "../user/administration/settings/repair.md",
+		"parent": null
+	}
+]

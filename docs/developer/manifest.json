@@ -1,0 +1,14 @@
+[
+	{
+		"title": "Add-ons Handbook",
+		"slug": "handbook",
+		"markdown_source": "../developer/README.md",
+		"parent": null
+	},
+	{
+		"title": "Introduction to Add-ons development",
+		"slug": "introduction",
+		"markdown_source": "../developer/introduction/README.md",
+		"parent": null
+	}
+]
