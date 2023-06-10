@@ -3190,7 +3190,6 @@ function bp_activity_filter_links( $args = false ) {
  */
 function bp_activity_can_comment() {
 	global $activities_template;
-	$bp = buddypress();
 
 	// Determine ability to comment based on activity type name.
 	$activity_type = bp_get_activity_type();
