@@ -42,7 +42,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 			);
 
 			/* translators: %s: the current user display name */
-			$title  = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );
+			$text   = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );
 			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
@@ -57,7 +57,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 
 		case 'update_reply':
 			$link   = bp_get_notifications_permalink();
-			$title  = __( 'New Activity reply', 'buddypress' );
+			$text   = __( 'New Activity reply', 'buddypress' );
 			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {
@@ -76,7 +76,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 
 		case 'comment_reply':
 			$link   = bp_get_notifications_permalink();
-			$title  = __( 'New Activity comment reply', 'buddypress' );
+			$text   = __( 'New Activity comment reply', 'buddypress' );
 			$amount = 'single';
 
 			if ( (int) $total_items > 1 ) {

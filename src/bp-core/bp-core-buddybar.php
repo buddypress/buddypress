@@ -119,8 +119,6 @@ function bp_core_new_nav_item( $args, $component = 'members' ) {
  * @return false|array Returns false on failure, new nav item on success.
  */
 function bp_core_create_nav_link( $args = '', $component = 'members' ) {
-	$bp = buddypress();
-
 	$defaults = array(
 		'component_id'            => '',    // The component ID registering this nav item.
 		'name'                    => false, // Display name for the nav item.
@@ -538,8 +536,6 @@ function bp_core_new_subnav_item( $args, $component = null ) {
  * @return false|array Returns false on failure, new BP_Core_Nav_Item instance on success.
  */
 function bp_core_create_subnav_link( $args = '', $component = 'members' ) {
-	$bp = buddypress();
-
 	$r = bp_parse_args(
 		$args,
 		array(

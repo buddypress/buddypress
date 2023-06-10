@@ -519,7 +519,6 @@ class BP_Media_Extractor {
 	 */
 	protected function extract_embeds( $richtext, $plaintext, $extra_args = array() ) {
 		$data   = array( 'has' => array( 'embeds' => 0 ), 'embeds' => array() );
-		$embeds = array();
 
 		if ( ! function_exists( '_wp_oembed_get_object' ) ) {
 			require( ABSPATH . WPINC . '/class-oembed.php' );
