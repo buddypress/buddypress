@@ -110,10 +110,7 @@ function bp_members_edit_profile_url( $url, $user_id, $scheme = 'admin' ) {
 	if ( ! is_admin() && bp_is_active( 'xprofile' ) ) {
 		$profile_link = bp_members_get_user_url(
 			$user_id,
-			array(
-				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_profile', bp_get_profile_slug() ),
-				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_profile_edit', 'edit' ),
-			)
+			bp_members_get_path_chunks( array( bp_get_profile_slug(), 'edit' ) )
 		);
 
 	} else {

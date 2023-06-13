@@ -533,9 +533,8 @@ class BP_Members_Component extends BP_Component {
 	 * @return array                     The Avatar and Cover image admin navs.
 	 */
 	public function get_avatar_cover_image_admin_navs( $admin_bar_menu_id = '' ) {
-		$wp_admin_nav        = array();
-		$profile_slug        = bp_get_profile_slug();
-		$custom_profile_slug = bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug );
+		$wp_admin_nav = array();
+		$profile_slug = bp_get_profile_slug();
 
 		if ( ! $admin_bar_menu_id ) {
 			$admin_bar_menu_id = $this->id;
@@ -547,12 +546,7 @@ class BP_Members_Component extends BP_Component {
 				'parent'   => 'my-account-' . $admin_bar_menu_id,
 				'id'       => 'my-account-' . $admin_bar_menu_id . '-change-avatar',
 				'title'    => _x( 'Change Profile Photo', 'My Account Profile sub nav', 'buddypress' ),
-				'href'     => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_profile_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_change_avatar', 'change-avatar' ),
-					)
-				),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $profile_slug, 'change-avatar' ) ) ),
 				'position' => 30,
 			);
 		}
@@ -563,12 +557,7 @@ class BP_Members_Component extends BP_Component {
 				'parent'   => 'my-account-' . $admin_bar_menu_id,
 				'id'       => 'my-account-' . $admin_bar_menu_id . '-change-cover-image',
 				'title'    => _x( 'Change Cover Image', 'My Account Profile sub nav', 'buddypress' ),
-				'href'     => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_profile_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_change_cover_image', 'change-cover-image' ),
-					)
-				),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $profile_slug, 'change-cover-image' ) ) ),
 				'position' => 40,
 			);
 		}
@@ -586,8 +575,7 @@ class BP_Members_Component extends BP_Component {
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
-			$profile_slug        = bp_get_profile_slug();
-			$custom_profile_slug = bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug );
+			$profile_slug = bp_get_profile_slug();
 
 			if ( ! bp_is_active( 'xprofile' ) ) {
 				// Add the "Profile" sub menu.
@@ -595,11 +583,7 @@ class BP_Members_Component extends BP_Component {
 					'parent' => buddypress()->my_account_menu_id,
 					'id'     => 'my-account-' . $this->id,
 					'title'  => _x( 'Profile', 'My Account Profile', 'buddypress' ),
-					'href'   => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_profile_slug,
-						)
-					),
+					'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $profile_slug ) ) ),
 				);
 
 				// View Profile.
@@ -607,12 +591,7 @@ class BP_Members_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-public',
 					'title'    => _x( 'View', 'My Account Profile sub nav', 'buddypress' ),
-					'href'     => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_profile_slug,
-							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_public', 'public' ),
-						)
-					),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $profile_slug, 'public' ) ) ),
 					'position' => 10,
 				);
 

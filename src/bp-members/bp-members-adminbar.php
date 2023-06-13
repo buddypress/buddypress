@@ -210,20 +210,15 @@ function bp_members_admin_bar_add_invitations_menu() {
 	}
 
 	if ( bp_current_user_can( 'bp_members_invitations_view_screens' ) ) {
-		$bp                 = buddypress();
-		$invite_slug        = bp_get_members_invitations_slug();
-		$custom_invite_slug = bp_rewrites_get_slug( 'members', 'member_' . $invite_slug, $invite_slug );
+		$bp          = buddypress();
+		$invite_slug = bp_get_members_invitations_slug();
 
 		$wp_admin_bar->add_node(
 			array(
 				'id'     => $bp->my_account_menu_id . '-invitations',
 				'parent' => $bp->my_account_menu_id,
 				'title'  => __( 'Invitations', 'buddypress' ),
-				'href'   => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_invite_slug,
-					)
-				),
+				'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $invite_slug ) ) ),
 				'meta'   => array(
 					'class'  => 'ab-sub-secondary'
 				)
@@ -236,12 +231,7 @@ function bp_members_admin_bar_add_invitations_menu() {
 					'id'     => $bp->my_account_menu_id . '-invitations-send',
 					'parent' => $bp->my_account_menu_id . '-invitations',
 					'title'  => __( 'Send Invites', 'buddypress' ),
-					'href'   => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_invite_slug,
-							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $invite_slug . '_send_invites', 'send-invites' ),
-						)
-					),
+					'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $invite_slug, 'send-invites' ) ) ),
 					'meta'   => array(
 						'class'  => 'ab-sub-secondary'
 					)
@@ -254,12 +244,7 @@ function bp_members_admin_bar_add_invitations_menu() {
 				'id'     => $bp->my_account_menu_id . '-invitations-list',
 				'parent' => $bp->my_account_menu_id . '-invitations',
 				'title'  => __( 'Pending Invites', 'buddypress' ),
-				'href'   => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_invite_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $invite_slug . '_list_invites', 'list-invites' ),
-					)
-				),
+				'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $invite_slug, 'list-invites' ) ) ),
 				'meta'   => array(
 					'class'  => 'ab-sub-secondary'
 				)
