@@ -815,13 +815,16 @@ function bp_core_get_directory_pages() {
  * content (eg, the 'groups' page created by BP).
  *
  * @since 1.7.0
+ * @since 12.0.0 Adds the `$return_pages` parameter.
  *
- * @param array  $components Components to create pages for.
- * @param string $existing   'delete' if you want to delete existing page mappings
- *                           and replace with new ones. Otherwise existing page mappings
- *                           are kept, and the gaps filled in with new pages. Default: 'keep'.
+ * @param array   $components   Components to create pages for.
+ * @param string  $existing     'delete' if you want to delete existing page mappings
+ *                              and replace with new ones. Otherwise existing page mappings
+ *                              are kept, and the gaps filled in with new pages. Default: 'keep'.
+ * @param boolean $return_pages Whether to return the page mapping or not.
+ * @return void|array
  */
-function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
+function bp_core_add_page_mappings( $components, $existing = 'keep', $return_pages = false ) {
 
 	// If no value is passed, there's nothing to do.
 	if ( empty( $components ) ) {
@@ -846,6 +849,10 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 	}
 
 	$page_titles = bp_core_get_directory_page_default_titles();
+	if ( $return_pages ) {
+		// In this case the `$components` array uses Page titles as values.
+		$page_titles = bp_parse_args( $page_titles, $components );
+	}
 
 	$pages_to_create = array();
 	foreach ( array_keys( $components ) as $component_name ) {
@@ -898,6 +905,10 @@ function bp_core_add_page_mappings( $components, $existing = 'keep' ) {
 	// If we had to switch_to_blog, go back to the original site.
 	if ( ! bp_is_root_blog() ) {
 		restore_current_blog();
+	}
+
+	if ( $return_pages ) {
+		return $pages;
 	}
 }
 

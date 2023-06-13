@@ -290,18 +290,31 @@ function bp_core_activation_notice() {
 
 	foreach ( $wp_page_components as $component ) {
 		if ( ! isset( $bp->pages->{$component['id']} ) ) {
-			$orphaned_components[] = $component['name'];
+			$orphaned_components[ $component['id'] ] = $component['name'];
 		}
 	}
 
 	if ( ! empty( $orphaned_components ) ) {
-		$notice = sprintf(
+		$notice_type = 'error';
+		$notice      = sprintf(
 			// Translators: %s is the comma separated list of components needing a directory page.
 			__( 'The following active BuddyPress Components do not have associated BuddyPress Pages: %s.', 'buddypress' ),
 			'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $orphaned_components ) ) . '</strong>'
 		);
 
-		bp_core_add_admin_notice( $notice );
+		if ( 'buddypress' === bp_core_get_directory_post_type() ) {
+			$pages               = bp_core_add_page_mappings( $orphaned_components, 'keep', true );
+			$orphaned_components = array_intersect_key( $orphaned_components, $pages );
+
+			$notice_type = 'updated';
+			$notice      = sprintf(
+				// Translators: %s is the comma separated list of components needing a directory page.
+				__( 'A BuddyPress page has been added for the following active BuddyPress Components which did not have associated BuddyPress Pages yet: %s.', 'buddypress' ),
+				'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $orphaned_components ) ) . '</strong>'
+			);
+		}
+
+		bp_core_add_admin_notice( $notice, $notice_type );
 	}
 
 	// BP components cannot share a single WP page. Check for duplicate assignments, and post a message if found.
@@ -320,13 +333,13 @@ function bp_core_activation_notice() {
 
 	// If there are duplicates, post a message about them.
 	if ( ! empty( $dupe_names ) ) {
-		$notice = ssprintf(
+		$notice = sprintf(
 			// Translators: %s is the list of directory pages associated to more than one component.
 			__( 'Each BuddyPress Component needs its own BuddyPress page. The following BuddyPress Pages have more than one component associated with them: %s.', 'buddypress' ),
 			'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $dupe_names ) ) . '</strong>'
 		);
 
-		bp_core_add_admin_notice( $notice );
+		bp_core_add_admin_notice( $notice, 'error' );
 	}
 }
 
