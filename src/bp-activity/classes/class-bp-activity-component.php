@@ -335,13 +335,12 @@ class BP_Activity_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables.
-			$activity_slug        = bp_get_activity_slug();
-			$custom_activity_slug = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug );
+			$activity_slug = bp_get_activity_slug();
 
 			// Unread message count.
 			if ( bp_activity_do_mentions() ) {
 				$count = bp_get_total_mention_count_for_user( bp_loggedin_user_id() );
-				if ( !empty( $count ) ) {
+				if ( ! empty( $count ) ) {
 					$title = sprintf(
 						/* translators: %s: Unread mention count for the current user */
 						_x( 'Mentions %s', 'Toolbar Mention logged in user', 'buddypress' ),
@@ -357,11 +356,7 @@ class BP_Activity_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => _x( 'Activity', 'My Account Activity sub nav', 'buddypress' ),
-				'href'   => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_activity_slug,
-					)
-				),
+				'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug ) ) ),
 			);
 
 			// Personal.
@@ -369,12 +364,7 @@ class BP_Activity_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-personal',
 				'title'    => _x( 'Personal', 'My Account Activity sub nav', 'buddypress' ),
-				'href'     => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_activity_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_just_me', 'just-me' ),
-					)
-				),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, 'just-me' ) ) ),
 				'position' => 10,
 			);
 
@@ -384,12 +374,7 @@ class BP_Activity_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-mentions',
 					'title'    => $title,
-					'href'     => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_activity_slug,
-							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_mentions', 'mentions' ),
-						)
-					),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, 'mentions' ) ) ),
 					'position' => 20,
 				);
 			}
@@ -400,46 +385,29 @@ class BP_Activity_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-favorites',
 					'title'    => _x( 'Favorites', 'My Account Activity sub nav', 'buddypress' ),
-					'href'     => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_activity_slug,
-							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_favorites', 'favorites' ),
-						)
-					),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, 'favorites' ) ) ),
 					'position' => 30,
 				);
 			}
 
 			// Friends?
 			if ( bp_is_active( 'friends' ) ) {
-				$friends_slug   = bp_get_friends_slug();
 				$wp_admin_nav[] = array(
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-friends',
 					'title'    => _x( 'Friends', 'My Account Activity sub nav', 'buddypress' ),
-					'href'     => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_activity_slug,
-							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_' . $friends_slug, $friends_slug ),
-						)
-					),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, bp_get_friends_slug() ) ) ),
 					'position' => 40,
 				);
 			}
 
 			// Groups?
 			if ( bp_is_active( 'groups' ) ) {
-				$groups_slug    = bp_get_groups_slug();
 				$wp_admin_nav[] = array(
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-groups',
 					'title'    => _x( 'Groups', 'My Account Activity sub nav', 'buddypress' ),
-					'href'     => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_activity_slug,
-							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_' . $groups_slug, $groups_slug ),
-						)
-					),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, bp_get_groups_slug() ) ) ),
 					'position' => 50
 				);
 			}
