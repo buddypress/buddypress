@@ -4361,10 +4361,7 @@ function bp_email_unsubscribe_handler() {
 		if ( bp_is_active( 'settings' ) ) {
 			$redirect_to = bp_members_get_user_url(
 				get_current_user_id(),
-				array(
-					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_settings', bp_get_settings_slug() ),
-					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_settings_notifications', 'notifications' ),
-				)
+				bp_members_get_path_chunks( array( bp_get_settings_slug(), 'notifications' ) )
 			);
 		} else {
 			$redirect_to = bp_members_get_user_url( get_current_user_id() );
@@ -4393,10 +4390,7 @@ function bp_email_unsubscribe_handler() {
 		if ( bp_is_active( 'settings' ) ) {
 			$redirect_to = bp_members_get_user_url(
 				$raw_user_id,
-				array(
-					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_settings', bp_get_settings_slug() ),
-					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_settings_notifications', 'notifications' ),
-				)
+				bp_members_get_path_chunks( array( bp_get_settings_slug(), 'notifications' ) )
 			);
 		} else {
 			$redirect_to = bp_members_get_user_url( $raw_user_id );
