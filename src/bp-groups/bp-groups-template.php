@@ -2944,22 +2944,19 @@ function bp_group_form_action( $page, $group = false ) {
 	 */
 	function bp_get_group_form_action( $page, $group = false ) {
 		$group = bp_get_group( $group );
+		$url   = '';
 
 		if ( empty( $group->id ) || empty( $page ) ) {
-			return '';
+			return $url;
 		}
 
 		$screens = bp_get_group_screens( 'read' );
 		if ( isset( $screens[ $page ]['rewrite_id'] ) ) {
-			$page = bp_rewrites_get_slug( 'groups', $screens[ $page ]['rewrite_id'], $page );
+			$url = bp_get_group_url(
+				$group,
+				bp_groups_get_path_chunks( array( $page ) )
+			);
 		}
-
-		$url = bp_get_group_url(
-			$group,
-			array(
-				'single_item_action' => $page,
-			)
-		);
 
 		/**
 		 * Filters the 'action' attribute for a group form.
@@ -3000,9 +2997,10 @@ function bp_group_admin_form_action( $page = false, $group = false ) {
 	 */
 	function bp_get_group_admin_form_action( $page = false, $group = false ) {
 		$group = bp_get_group( $group );
+		$url   = '';
 
 		if ( empty( $group->id ) ) {
-			return '';
+			return $url;
 		}
 
 		if ( empty( $page ) ) {
@@ -3011,16 +3009,11 @@ function bp_group_admin_form_action( $page = false, $group = false ) {
 
 		$screens = bp_get_group_screens( 'manage' );
 		if ( isset( $screens[ $page ]['rewrite_id'] ) ) {
-			$page = bp_rewrites_get_slug( 'groups', $screens[ $page ]['rewrite_id'], $page );
+			$url = bp_get_group_manage_url(
+				$group,
+				bp_groups_get_path_chunks( array( $page ), 'manage' )
+			);
 		}
-
-		$url = bp_get_group_url(
-			$group,
-			array(
-				'single_item_action'           => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
-				'single_item_action_variables' => $page,
-			)
-		);
 
 		/**
 		 * Filters the 'action' attribute for a group admin form.
@@ -3211,12 +3204,7 @@ function bp_group_accept_invite_link() {
 			$group =& $groups_template->group;
 		}
 
-		$groups_slug = bp_get_groups_slug();
-		$path_chunks = array(
-			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
-			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites', 'invites' ),
-			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites_accept', 'accept' ), $group->id ),
-		);
+		$path_chunks = bp_members_get_path_chunks( array( bp_get_groups_slug(), 'invites', array( 'accept', $group->id ) ) );
 
 		if ( bp_is_user() ) {
 			$user_domain = bp_displayed_user_url( $path_chunks );
@@ -3264,12 +3252,7 @@ function bp_group_reject_invite_link() {
 			$group =& $groups_template->group;
 		}
 
-		$groups_slug = bp_get_groups_slug();
-		$path_chunks = array(
-			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
-			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites', 'invites' ),
-			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites_reject', 'reject' ), $group->id ),
-		);
+		$path_chunks = bp_members_get_path_chunks( array( bp_get_groups_slug(), 'invites', array( 'reject', $group->id ) ) );
 
 		if ( bp_is_user() ) {
 			$user_domain = bp_displayed_user_url( $path_chunks );

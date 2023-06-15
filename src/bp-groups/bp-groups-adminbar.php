@@ -82,12 +82,9 @@ function bp_groups_group_admin_menu() {
 					'parent' => $bp->group_admin_menu_id,
 					'id'     => $menu->slug,
 					'title'  => $title,
-					'href'   => bp_get_group_url(
+					'href'   => bp_get_group_manage_url(
 						$bp->groups->current_group,
-						array(
-							'single_item_action'           => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
-							'single_item_action_variables' => bp_rewrites_get_slug( 'groups', $manage_screens[ $menu->slug ]['rewrite_id'], $menu->slug ),
-						)
+						bp_groups_get_path_chunks( array( $menu->slug ), 'manage' )
 					),
 				)
 			);
