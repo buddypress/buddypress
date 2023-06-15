@@ -53,14 +53,9 @@ function friends_screen_requests() {
 	}
 
 	if ( $redirect ) {
-		$friends_slug = bp_get_friends_slug();
-
 		bp_core_redirect(
 			bp_loggedin_user_url(
-				array(
-					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug ),
-					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests', 'requests' ),
-				)
+				bp_members_get_path_chunks( array( bp_get_friends_slug(), 'requests' ) )
 			)
 		);
 	}

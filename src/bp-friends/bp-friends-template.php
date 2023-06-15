@@ -221,8 +221,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 		}
 
 		$friendship_status = bp_is_friend( $potential_friend_id );
-		$friends_slug        = bp_get_friends_slug();
-		$custom_friends_slug = bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug );
+		$friends_slug      = bp_get_friends_slug();
 
 		if ( empty( $friendship_status ) ) {
 			return $button_args;
@@ -238,13 +237,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_class'     => 'friendship-button pending_friend',
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => wp_nonce_url(
-						bp_loggedin_user_url(
-							array(
-								'single_item_component'        => $custom_friends_slug,
-								'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests', 'requests' ),
-								'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests_cancel', 'cancel' ), $potential_friend_id ),
-							)
-						),
+						bp_loggedin_user_url( bp_members_get_path_chunks( array( $friends_slug, 'requests', array( 'cancel', $potential_friend_id ) ) ) ),
 						'friends_withdraw_friendship'
 					),
 					'link_text'         => __( 'Cancel Friendship Request', 'buddypress' ),
@@ -263,12 +256,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'block_self'        => true,
 					'wrapper_class'     => 'friendship-button awaiting_response_friend',
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
-					'link_href'         => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_friends_slug,
-							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests', 'requests' ),
-						)
-					),
+					'link_href'         => bp_loggedin_user_url( bp_members_get_path_chunks( array( $friends_slug, 'requests' ) ) ),
 					'link_text'         => __( 'Friendship Requested', 'buddypress' ),
 					'link_title'        => __( 'Friendship Requested', 'buddypress' ),
 					'link_id'           => 'friend-' . $potential_friend_id,
@@ -286,13 +274,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_class'     => 'friendship-button is_friend',
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => wp_nonce_url(
-						bp_loggedin_user_url(
-							array(
-								'single_item_component'        => $custom_friends_slug,
-								'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_remove_friend', 'remove-friend' ),
-								'single_item_action_variables' => array( $potential_friend_id ),
-							)
-						),
+						bp_loggedin_user_url( bp_members_get_path_chunks( array( $friends_slug, 'remove-friend', array( $potential_friend_id ) ) ) ),
 						'friends_remove_friend'
 					),
 					'link_text'         => __( 'Cancel Friendship', 'buddypress' ),
@@ -312,13 +294,7 @@ function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false 
 					'wrapper_class'     => 'friendship-button not_friends',
 					'wrapper_id'        => 'friendship-button-' . $potential_friend_id,
 					'link_href'         => wp_nonce_url(
-						bp_loggedin_user_url(
-							array(
-								'single_item_component'        => $custom_friends_slug,
-								'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_add_friend', 'add-friend' ),
-								'single_item_action_variables' => array( $potential_friend_id ),
-							)
-						),
+						bp_loggedin_user_url( bp_members_get_path_chunks( array( $friends_slug, 'add-friend', array( $potential_friend_id ) ) ) ),
 						'friends_add_friend'
 					),
 					'link_text'         => __( 'Add Friend', 'buddypress' ),
@@ -487,15 +463,8 @@ function bp_friend_accept_request_link() {
 			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}
 
-		$friends_slug = bp_get_friends_slug();
-		$url          = wp_nonce_url(
-			bp_loggedin_user_url(
-				array(
-					'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug ),
-					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests', 'requests' ),
-					'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests_accept', 'accept' ), $friendship_id ),
-				)
-			),
+		$url = wp_nonce_url(
+			bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_friends_slug(), 'requests', array( 'accept', $friendship_id ) ) ) ),
 			'friends_accept_friendship'
 		);
 
@@ -536,15 +505,8 @@ function bp_friend_reject_request_link() {
 			wp_cache_set( 'friendship_id_' . $members_template->member->id . '_' . bp_loggedin_user_id(), $friendship_id, 'bp' );
 		}
 
-		$friends_slug = bp_get_friends_slug();
-		$url          = wp_nonce_url(
-			bp_loggedin_user_url(
-				array(
-					'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug ),
-					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests', 'requests' ),
-					'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests_reject', 'reject' ), $friendship_id ),
-				)
-			),
+		$url = wp_nonce_url(
+			bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_friends_slug(), 'requests', array( 'reject', $friendship_id ) ) ) ),
 			'friends_reject_friendship'
 		);
 
