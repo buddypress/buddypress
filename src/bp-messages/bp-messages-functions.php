@@ -629,11 +629,7 @@ function messages_notification_new_message( $raw_args = array() ) {
 				'message.url' => esc_url(
 					bp_members_get_user_url(
 						$recipient->user_id,
-						array(
-							'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
-							'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_messages_view', 'view' ),
-							'single_item_action_variables' => array( $thread_id ),
-						)
+						bp_members_get_path_chunks( array( bp_get_messages_slug(), 'view', array( $thread_id ) ) )
 					)
 				),
 				'sender.name' => $sender_name,

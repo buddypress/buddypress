@@ -113,21 +113,14 @@ function bp_the_message_star_action_link( $args = array() ) {
 			'messages_star_action_link'
 		);
 
-		// Check user ID and determine base user slug.
-		$user_slug = bp_members_get_user_slug( $r['user_id'] );
-
-		// Bail if no user domain was calculated.
-		if ( empty( $user_slug ) ) {
+		// Check user ID.
+		$user_id = (int) $r['user_id'];
+		if ( empty( $user_id ) ) {
 			return '';
 		}
 
-		$message_slug        = bp_get_messages_slug();
-		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
-		$path_chunks         = array(
-			'component_id'          => 'members',
-			'single_item'           => $user_slug,
-			'single_item_component' => $custom_message_slug,
-		);
+		// Init path chunks.
+		$path_chunks = array( bp_get_messages_slug() );
 
 		// Define local variables.
 		$retval = $bulk_attr = '';
@@ -174,14 +167,14 @@ function bp_the_message_star_action_link( $args = array() ) {
 			$nonce = wp_create_nonce( "bp-messages-star-{$message_id}" );
 
 			if ( true === $is_starred ) {
-				$action                                      = 'unstar';
-				$bulk_attr                                   = ' data-star-bulk="1"';
-				$path_chunks['single_item_action']           = bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_unstar', 'unstar' );
-				$path_chunks['single_item_action_variables'] = array( $message_id, $nonce, bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_all', 'all' ) );
+				$action        = 'unstar';
+				$bulk_attr     = ' data-star-bulk="1"';
+				$path_chunks[] = $action;
+				$path_chunks[] = array( $message_id, $nonce, 'all' );
 			} else {
-				$action                                      = 'star';
-				$path_chunks['single_item_action']           = bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_star', 'star' );
-				$path_chunks['single_item_action_variables'] = array( $message_id, $nonce );
+				$action        = 'star';
+				$path_chunks[] = $action;
+				$path_chunks[] = array( $message_id, $nonce );
 			}
 
 			$title = $r["title_{$action}_thread"];
@@ -193,19 +186,17 @@ function bp_the_message_star_action_link( $args = array() ) {
 			$nonce      = wp_create_nonce( "bp-messages-star-{$message_id}" );
 
 			if ( true === $is_starred ) {
-				$action                                      = 'unstar';
-				$path_chunks['single_item_action']           = bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_unstar', 'unstar' );
-				$path_chunks['single_item_action_variables'] = array( $message_id, $nonce );
+				$action = 'unstar';
 			} else {
-				$action                                      = 'star';
-				$path_chunks['single_item_action']           = bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_star', 'star' );
-				$path_chunks['single_item_action_variables'] = array( $message_id, $nonce );
+				$action = 'star';
 			}
 
-			$title = $r["title_{$action}"];
+			$path_chunks[] = $action;
+			$path_chunks[] = array( $message_id, $nonce );
+			$title         = $r["title_{$action}"];
 		}
 
-		$url = bp_rewrites_get_url( $path_chunks );
+		$url = bp_members_get_user_url( $user_id, bp_members_get_path_chunks( $path_chunks ) );
 
 		/**
 		 * Filters the star action URL for starring / unstarring a message.

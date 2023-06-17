@@ -309,8 +309,7 @@ class BP_Messages_Component extends BP_Component {
 
 		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
-			$message_slug        = bp_get_messages_slug();
-			$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
+			$message_slug = bp_get_messages_slug();
 
 			// Unread message count.
 			$count = messages_get_unread_count( bp_loggedin_user_id() );
@@ -335,11 +334,7 @@ class BP_Messages_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_message_slug,
-					)
-				),
+				'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $message_slug ) ) ),
 			);
 
 			// Inbox.
@@ -347,28 +342,17 @@ class BP_Messages_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-inbox',
 				'title'    => $inbox,
-				'href'     => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_message_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_inbox', 'inbox' ),
-					)
-				),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $message_slug, 'inbox' ) ) ),
 				'position' => 10,
 			);
 
 			// Starred.
 			if ( bp_is_active( $this->id, 'star' ) ) {
-				$star_slug      = bp_get_messages_starred_slug();
 				$wp_admin_nav[] = array(
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-starred',
 					'title'    => __( 'Starred', 'buddypress' ),
-					'href'     => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_message_slug,
-							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_' . $star_slug, $star_slug ),
-						)
-					),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $message_slug, bp_get_messages_starred_slug() ) ) ),
 					'position' => 11,
 				);
 			}
@@ -378,12 +362,7 @@ class BP_Messages_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-sentbox',
 				'title'    => __( 'Sent', 'buddypress' ),
-				'href'     => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_message_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_sentbox', 'sentbox' ),
-					)
-				),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $message_slug, 'sentbox' ) ) ),
 				'position' => 20,
 			);
 
@@ -392,12 +371,7 @@ class BP_Messages_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-compose',
 				'title'    => __( 'Compose', 'buddypress' ),
-				'href'     => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_message_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_compose', 'compose' ),
-					)
-				),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $message_slug, 'compose' ) ) ),
 				'position' => 30,
 			);
 
@@ -407,12 +381,7 @@ class BP_Messages_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-notices',
 					'title'    => __( 'Site Notices', 'buddypress' ),
-					'href'     => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_message_slug,
-							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' ),
-						)
-					),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $message_slug, 'notices' ) ) ),
 					'position' => 90,
 				);
 			}

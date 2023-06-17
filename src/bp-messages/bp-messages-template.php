@@ -339,11 +339,7 @@ function bp_message_thread_view_link( $thread_id = 0, $user_id = null ) {
 
 		$url = bp_members_get_user_url(
 			$user_id,
-			array(
-				'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
-				'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_messages_view', 'view' ),
-				'single_item_action_variables' => array( $thread_id ),
-			)
+			bp_members_get_path_chunks( array( bp_get_messages_slug(), 'view', array( $thread_id ) ) )
 		);
 
 		/**
@@ -389,17 +385,9 @@ function bp_message_thread_delete_link( $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$current_action_slug         = bp_current_action();
-		$current_action_rewrite_id   = 'member_messages_' . $current_action_slug;
-		$action_variable_delete_slug = bp_rewrites_get_slug( 'members', $current_action_rewrite_id . '_delete', 'delete' );
-
 		$url = bp_members_get_user_url(
 			$user_id,
-			array(
-				'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
-				'single_item_action'           => bp_rewrites_get_slug( 'members', $current_action_rewrite_id, $current_action_slug ),
-				'single_item_action_variables' => array( $action_variable_delete_slug, $messages_template->thread->thread_id ),
-			)
+			bp_members_get_path_chunks( array( bp_get_messages_slug(), bp_current_action(), array( 'delete', $messages_template->thread->thread_id ) ) )
 		);
 
 		/**
@@ -452,18 +440,9 @@ function bp_the_message_thread_mark_unread_url( $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$current_action_slug         = bp_current_action();
-		$current_action_rewrite_id   = 'member_messages_' . $current_action_slug;
-		$action_variable_unread_slug = bp_rewrites_get_slug( 'members', $current_action_rewrite_id . '_unread', 'unread' );
-
-		// Base unread URL.
 		$url = bp_members_get_user_url(
 			$user_id,
-			array(
-				'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
-				'single_item_action'           => bp_rewrites_get_slug( 'members', $current_action_rewrite_id, $current_action_slug ),
-				'single_item_action_variables' => array( $action_variable_unread_slug ),
-			)
+			bp_members_get_path_chunks( array( bp_get_messages_slug(), bp_current_action(), array( 'unread' ) ) )
 		);
 
 		// Add the args to the URL.
@@ -523,18 +502,9 @@ function bp_the_message_thread_mark_read_url( $user_id = null ) {
 			$user_id = bp_loggedin_user_id();
 		}
 
-		$current_action_slug         = bp_current_action();
-		$current_action_rewrite_id   = 'member_messages_' . $current_action_slug;
-		$action_variable_read_slug = bp_rewrites_get_slug( 'members', $current_action_rewrite_id . '_read', 'read' );
-
-		// Base read URL.
 		$url = bp_members_get_user_url(
 			$user_id,
-			array(
-				'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
-				'single_item_action'           => bp_rewrites_get_slug( 'members', $current_action_rewrite_id, $current_action_slug ),
-				'single_item_action_variables' => array( $action_variable_read_slug ),
-			)
+			bp_members_get_path_chunks( array( bp_get_messages_slug(), bp_current_action(), array( 'read' ) ) )
 		);
 
 		// Add the args to the URL.
@@ -1336,19 +1306,8 @@ function bp_message_notice_delete_link() {
 	function bp_get_message_notice_delete_link() {
 		global $messages_template;
 
-		$message_slug        = bp_get_messages_slug();
-		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
-		$url                 = wp_nonce_url(
-			bp_loggedin_user_url(
-				array(
-					'single_item_component'        => $custom_message_slug,
-					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' ),
-					'single_item_action_variables' => array(
-						bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices_delete', 'delete' ),
-						$messages_template->thread->id,
-					),
-				)
-			),
+		$url = wp_nonce_url(
+			bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug(), 'notices', array( 'delete', $messages_template->thread->id ) ) ) ),
 			'messages_delete_notice'
 		);
 
@@ -1378,28 +1337,17 @@ function bp_message_activate_deactivate_link() {
 	function bp_get_message_activate_deactivate_link() {
 		global $messages_template;
 
-		$message_slug        = bp_get_messages_slug();
-		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
-		$path_chunks         = array(
-			'single_item_component' => $custom_message_slug,
-			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' ),
-		);
+		$path_chunks = array( bp_get_messages_slug(), 'notices' );
 
 		if ( 1 === (int) $messages_template->thread->is_active ) {
-			$nonce                                       = 'messages_deactivate_notice';
-			$path_chunks['single_item_action_variables'] = array(
-				bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices_deactivate', 'deactivate' ),
-				$messages_template->thread->id,
-			);
+			$nonce         = 'messages_deactivate_notice';
+			$path_chunks[] = array( 'deactivate', $messages_template->thread->id );
 		} else {
-			$nonce                                       = 'messages_activate_notice';
-			$path_chunks['single_item_action_variables'] = array(
-				bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices_activate', 'activate' ),
-				$messages_template->thread->id,
-			);
+			$nonce         = 'messages_activate_notice';
+			$path_chunks[] = array( 'activate', $messages_template->thread->id );
 		}
 
-		$link = wp_nonce_url( bp_loggedin_user_url( $path_chunks ), $nonce );
+		$link = wp_nonce_url( bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) ), $nonce );
 
 		/**
 		 * Filters the URL for deactivating the current notice.
@@ -1458,16 +1406,8 @@ function bp_message_notice_dismiss_link() {
 	 * @return string URL for dismissing the current notice for the current user.
 	 */
 	function bp_get_message_notice_dismiss_link() {
-		$message_slug        = bp_get_messages_slug();
-		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
-		$link                = wp_nonce_url(
-			bp_loggedin_user_url(
-				array(
-					'single_item_component'        => $custom_message_slug,
-					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' ),
-					'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices_dismiss', 'dismiss' ) ),
-				)
-			),
+		$link = wp_nonce_url(
+			bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug(), 'notices', array( 'dismiss' ) ) ) ),
 			'messages_dismiss_notice'
 		);
 
@@ -1556,19 +1496,11 @@ function bp_send_private_message_link() {
 			return false;
 		}
 
-		$message_slug        = bp_get_messages_slug();
-		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
-		$url                 = wp_nonce_url(
+		$url = wp_nonce_url(
 			add_query_arg(
 				'r',
 				bp_members_get_user_slug( bp_displayed_user_id() ),
-				bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_message_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_compose', 'compose' ),
-					)
-				)
-
+				bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug(), 'compose' ) ) )
 			)
 		);
 

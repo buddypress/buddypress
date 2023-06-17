@@ -21,9 +21,7 @@ function messages_screen_conversation() {
 		return false;
 	}
 
-	$thread_id           = (int) bp_action_variable( 0 );
-	$message_slug        = bp_get_messages_slug();
-	$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
+	$thread_id = (int) bp_action_variable( 0 );
 
 	if ( empty( $thread_id ) || ! messages_is_valid_thread( $thread_id ) ) {
 		if ( is_user_logged_in() ) {
@@ -31,11 +29,7 @@ function messages_screen_conversation() {
 		}
 
 		bp_core_redirect(
-			bp_loggedin_user_url(
-				array(
-					'single_item_component' => $custom_message_slug,
-				)
-			)
+			bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug() ) ) )
 		);
 	}
 
@@ -51,11 +45,7 @@ function messages_screen_conversation() {
 			bp_core_add_message( __( 'You do not have access to that conversation.', 'buddypress' ), 'error' );
 
 			bp_core_redirect(
-				bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_message_slug,
-					)
-				)
+				bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug() ) ) )
 			);
 		}
 	}
