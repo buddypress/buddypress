@@ -64,9 +64,7 @@ function bp_notifications_permalink( $user_id = 0 ) {
 
 		$retval = bp_members_get_user_url(
 			$user_id,
-			array(
-				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_notifications', bp_get_notifications_slug() ),
-			)
+			bp_members_get_path_chunks( array( bp_get_notifications_slug() ) )
 		);
 
 		/**
@@ -107,10 +105,7 @@ function bp_notifications_unread_permalink( $user_id = 0 ) {
 
 		$retval = bp_members_get_user_url(
 			$user_id,
-			array(
-				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_notifications', bp_get_notifications_slug() ),
-				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_notifications_unread', 'unread' ),
-			)
+			bp_members_get_path_chunks( array( bp_get_notifications_slug(), 'unread' ) )
 		);
 
 		/**
@@ -150,10 +145,7 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
 
 		$retval = bp_members_get_user_url(
 			$user_id,
-			array(
-				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_notifications', bp_get_notifications_slug() ),
-				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_notifications_read', 'read' ),
-			)
+			bp_members_get_path_chunks( array( bp_get_notifications_slug(), 'read' ) )
 		);
 
 		/**
