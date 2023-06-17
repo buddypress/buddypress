@@ -27,10 +27,6 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 
 	if ( is_user_logged_in() ) {
 		$my_blogs_count = bp_get_total_blog_count_for_user( bp_loggedin_user_id() );
-		$blogs_slug     = bp_nouveau_get_component_slug( 'blogs' );
-		$path_chunks    = array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $blogs_slug, $blogs_slug ),
-		);
 
 		// If the user has blogs create a nav item
 		if ( $my_blogs_count ) {
@@ -38,7 +34,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
 				'component' => 'blogs',
 				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array(),
-				'link'      => bp_loggedin_user_url( $path_chunks ),
+				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'blogs' ) ) ) ),
 				'text'      => __( 'My Sites', 'buddypress' ),
 				'count'     => $my_blogs_count,
 				'position'  => 15,
