@@ -288,37 +288,30 @@ class BP_XProfile_Component extends BP_Component {
 		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
 			$profile_slug = bp_get_profile_slug();
-			$path_chunks  = array(
-				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
-			);
 
 			// Add the "Profile" sub menu.
 			$wp_admin_nav[] = array(
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => _x( 'Profile', 'My Account Profile', 'buddypress' ),
-				'href'   => bp_loggedin_user_url( $path_chunks ),
+				'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $profile_slug ) ) ),
 			);
-
-			$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_public', 'public' );
 
 			// View Profile.
 			$wp_admin_nav[] = array(
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-public',
 				'title'    => _x( 'View', 'My Account Profile sub nav', 'buddypress' ),
-				'href'     => bp_loggedin_user_url( $path_chunks ),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $profile_slug, 'public' ) ) ),
 				'position' => 10,
 			);
-
-			$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit', 'edit' );
 
 			// Edit Profile.
 			$wp_admin_nav[] = array(
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-edit',
 				'title'    => _x( 'Edit', 'My Account Profile sub nav', 'buddypress' ),
-				'href'     => bp_loggedin_user_url( $path_chunks ),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $profile_slug, 'edit' ) ) ),
 				'position' => 20,
 			);
 		}
@@ -391,20 +384,12 @@ class BP_XProfile_Component extends BP_Component {
 	 * @return array
 	 */
 	public function setup_settings_admin_nav( $wp_admin_nav ) {
-
-		// Setup the logged in user variables.
-		$settings_slug = bp_get_settings_slug();
-		$path_chunks   = array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug, $settings_slug ),
-			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug . '_profile', 'profile' ),
-		);
-
 		// Add the "Profile" subnav item.
 		$wp_admin_nav[] = array(
 			'parent' => 'my-account-' . buddypress()->settings->id,
 			'id'     => 'my-account-' . buddypress()->settings->id . '-profile',
 			'title'  => _x( 'Profile', 'My Account Settings sub nav', 'buddypress' ),
-			'href'   => bp_loggedin_user_url( $path_chunks ),
+			'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_settings_slug(), 'profile' ) ) ),
 		);
 
 		return $wp_admin_nav;

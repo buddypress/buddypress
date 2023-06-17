@@ -57,9 +57,7 @@ function bp_xprofile_format_activity_action_updated_profile( $action, $activity 
 	 */
 	$profile_link = bp_members_get_user_url(
 		$activity->user_id,
-		array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_profile', bp_get_profile_slug() ),
-		)
+		bp_members_get_path_chunks( array( bp_get_profile_slug() ) )
 	);
 
 	/* translators: %s: user profile link */
@@ -254,9 +252,7 @@ function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $
 	// If we've reached this point, assemble and post the activity item.
 	$profile_link = bp_members_get_user_url(
 		$user_id,
-		array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_profile', bp_get_profile_slug() ),
-		)
+		bp_members_get_path_chunks( array( bp_get_profile_slug() ) )
 	);
 
 	return (bool) xprofile_record_activity( array(
