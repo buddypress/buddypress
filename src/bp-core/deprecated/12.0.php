@@ -1423,15 +1423,8 @@ function bp_friends_random_members( $total_members = 5 ) {
  */
 function bp_friend_search_form() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
-	$label        = __( 'Filter Friends', 'buddypress' );
-	$friends_slug = bp_get_friends_slug();
-	$action       = bp_displayed_user_url(
-		array(
-			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug ),
-			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_my_friends', 'my-friends' ),
-			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_search', 'search' ) ),
-		)
-	);
+	$label  = __( 'Filter Friends', 'buddypress' );
+	$action = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_friends_slug(), 'my-friends', array( 'search' ) ) ) );
 	?>
 
 		<form action="<?php echo esc_url( $action ) ?>" id="friend-search-form" method="post">
@@ -1501,16 +1494,9 @@ function bp_get_group_all_members_permalink( $group = false ) {
  */
 function bp_group_search_form() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
-	$label       = __('Filter Groups', 'buddypress');
-	$name        = 'group-filter-box';
-	$groups_slug = bp_get_groups_slug();
-	$action      = bp_displayed_user_url(
-		array(
-			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
-			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_my_groups', 'my-groups' ),
-			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_search', 'search' ) ),
-		)
-	);
+	$label  = __('Filter Groups', 'buddypress');
+	$name   = 'group-filter-box';
+	$action = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug(), 'my-groups', array( 'search' ) ) ) );
 
 	$search_form_html = '<form action="' . esc_url( $action ) . '" id="group-search-form" method="post">
 		<label for="'. $name .'" id="'. $name .'-label">'. esc_html( $label ) .'</label>

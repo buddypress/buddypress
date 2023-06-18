@@ -38,10 +38,7 @@ function bp_activity_action_permalink_router() {
 
 	// Do not redirect at default.
 	$redirect    = false;
-	$path_chunks = array(
-		'single_item_component' => bp_rewrites_get_slug( 'members', 'member_activity', bp_get_activity_slug() ),
-		'single_item_action'    => $activity->id,
-	);
+	$path_chunks = bp_members_get_path_chunks( array( bp_get_activity_slug(), $activity->id ) );
 
 	// Redirect based on the type of activity.
 	if ( bp_is_active( 'groups' ) && $activity->component == buddypress()->groups->id ) {

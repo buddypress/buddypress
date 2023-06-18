@@ -80,15 +80,12 @@ function bp_settings_pending_email_notice() {
 		return;
 	}
 
-	$settings_slug = bp_get_settings_slug();
-	$dismiss_url   = wp_nonce_url(
+	$dismiss_url = wp_nonce_url(
 		add_query_arg(
 			'dismiss_email_change',
 			1,
 			bp_displayed_user_url(
-				array(
-					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug, $settings_slug ),
-				)
+				bp_members_get_path_chunks( array( bp_get_settings_slug() ) )
 			)
 		),
 		'bp_dismiss_email_change'

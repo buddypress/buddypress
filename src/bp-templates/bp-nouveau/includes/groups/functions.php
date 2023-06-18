@@ -463,12 +463,7 @@ function bp_nouveau_groups_invites_restriction_admin_nav( $wp_admin_nav ) {
 		'parent' => 'my-account-' . buddypress()->settings->id,
 		'id'     => 'my-account-' . buddypress()->settings->id . '-invites',
 		'title'  => _x( 'Group Invites', 'Group invitations main menu title', 'buddypress' ),
-		'href'   => bp_loggedin_user_url(
-			array(
-				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug, $settings_slug ),
-				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $settings_slug . '_invites', 'invites' ),
-			)
-		),
+		'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $settings_slug, 'invites' ) ) ),
 	);
 
 	return $wp_admin_nav;
@@ -567,20 +562,14 @@ function bp_nouveau_get_groups_directory_nav_items() {
 
 	if ( is_user_logged_in() ) {
 		$my_groups_count = bp_get_total_group_count_for_user( bp_loggedin_user_id() );
-		$groups_slug     = bp_nouveau_get_component_slug( 'groups' );
-		$path_chunks     = array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
-		);
 
 		// If the user has groups create a nav item
 		if ( $my_groups_count ) {
-			$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_my_groups', 'my-groups' );
-
 			$nav_items['personal'] = array(
 				'component' => 'groups',
 				'slug'      => 'personal', // slug is used because BP_Core_Nav requires it, but it's the scope
 				'li_class'  => array(),
-				'link'      => bp_loggedin_user_url( $path_chunks ),
+				'link'      => bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'groups' ), 'my-groups' ) ) ),
 				'text'      => __( 'My Groups', 'buddypress' ),
 				'count'     => $my_groups_count,
 				'position'  => 15,

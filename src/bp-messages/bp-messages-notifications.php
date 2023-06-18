@@ -24,18 +24,11 @@ defined( 'ABSPATH' ) || exit;
  * @return string|array Formatted notifications.
  */
 function messages_format_notifications( $action, $item_id, $secondary_item_id, $total_items, $format = 'string' ) {
-	$total_items         = (int) $total_items;
-	$text                = '';
-	$message_slug        = bp_get_messages_slug();
-	$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
-	$link                = bp_loggedin_user_url(
-		array(
-			'single_item_component' => $custom_message_slug,
-			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_inbox', 'inbox' ),
-		)
-	);
-	$title               = __( 'Inbox', 'buddypress' );
-	$amount              = 'single';
+	$total_items = (int) $total_items;
+	$text        = '';
+	$link        = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug(), 'inbox' ) ) );
+	$title       = __( 'Inbox', 'buddypress' );
+	$amount      = 'single';
 
 	if ( 'new_message' === $action ) {
 		if ( $total_items > 1 ) {

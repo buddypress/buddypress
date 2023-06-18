@@ -3093,17 +3093,17 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
 			$component = 'profile';
 		}
 
-		$path_chunks = array(
-			'single_item_component' => $bp->{$component}->slug,
-		);
+		$path_chunks = array( $bp->{$component}->slug );
 
-		// Append $action to $url if there is no $type.
+		// Append $action to $url if needed.
 		if ( ! empty( $action ) ) {
-			$action_rewrite_id                 = 'member_' . str_replace( '-', '_', $action );
-			$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', $action_rewrite_id, $action );
+			$path_chunks[] = $action;
 		}
 
-		// Add a slash at the end of our user url.
+		// Check for slugs customization.
+		$path_chunks = bp_members_get_path_chunks( $path_chunks );
+
+		// Generate user url.
 		$url = bp_displayed_user_url( $path_chunks );
 
 		// Add possible query arg.
@@ -3146,11 +3146,7 @@ function bp_avatar_delete_link() {
 		$profile_slug = bp_get_profile_slug();
 		$url          = wp_nonce_url(
 			bp_displayed_user_url(
-				array(
-					'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
-					'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_change_avatar', 'change-avatar' ),
-					'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_delete_avatar', 'delete-avatar' ) ),
-				)
+				bp_members_get_path_chunks( array( $profile_slug, 'change-avatar', array( 'delete-avatar' ) ) )
 			),
 			'bp_delete_avatar_link'
 		);
@@ -3678,10 +3674,7 @@ function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
 
 		$retval = bp_members_get_user_url(
 			(int) $user_id,
-			array(
-				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_invitations', bp_get_members_invitations_slug() ),
-				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_invitations_list_invites', 'list-invites' ),
-			)
+			bp_members_get_path_chunks( array( bp_get_members_invitations_slug(), 'list-invites' ) )
 		);
 
 		/**
@@ -3720,10 +3713,7 @@ function bp_members_invitations_send_invites_permalink( $user_id = 0 ) {
 
 		$retval = bp_members_get_user_url(
 			(int) $user_id,
-			array(
-				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_invitations', bp_get_members_invitations_slug() ),
-				'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_invitations_send_invites', 'send-invites' ),
-			)
+			bp_members_get_path_chunks( array( bp_get_members_invitations_slug(), 'send-invites' ) )
 		);
 
 		/**

@@ -43,21 +43,17 @@ function bp_messages_action_create_message() {
 	} else {
 
 		// Setup the link to the logged-in user's messages.
-		$message_slug        = bp_get_messages_slug();
-		$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
-		$path_chunks         = array(
-			'single_item_component' => $custom_message_slug,
-		);
+		$path_chunks = array( bp_get_messages_slug() );
 
 		// Site-wide notice.
 		if ( isset( $_POST['send-notice'] ) ) {
 
 			// Attempt to save the notice and redirect to notices.
 			if ( messages_send_notice( $_POST['subject'], $_POST['content'] ) ) {
-				$success                           = true;
-				$feedback                          = __( 'Notice successfully created.', 'buddypress' );
-				$path_chunks['single_item_action'] = bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' );
-				$redirect_to = bp_loggedin_user_url( $path_chunks );
+				$success       = true;
+				$feedback      = __( 'Notice successfully created.', 'buddypress' );
+				$path_chunks[] = 'notices';
+				$redirect_to   = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
 
 			// Notice could not be sent.
 			} else {
@@ -92,11 +88,11 @@ function bp_messages_action_create_message() {
 
 			// Send the message and redirect to it.
 			if ( true === is_int( $send ) ) {
-				$success                                     = true;
-				$feedback                                    = __( 'Message successfully sent.', 'buddypress' );
-				$path_chunks['single_item_action']           = bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_view', 'view' );
-				$path_chunks['single_item_action_variables'] = array( $send );
-				$redirect_to                                 = bp_loggedin_user_url( $path_chunks );
+				$success       = true;
+				$feedback      = __( 'Message successfully sent.', 'buddypress' );
+				$path_chunks[] = 'view';
+				$path_chunks[] = array( $send );
+				$redirect_to   = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
 
 			// Message could not be sent.
 			} else {

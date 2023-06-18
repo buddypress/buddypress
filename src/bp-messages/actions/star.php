@@ -41,12 +41,7 @@ function bp_messages_star_action_handler() {
 	$redirect = wp_get_referer();
 
 	if ( ! $redirect ) {
-		$messages_slug = bp_get_messages_slug();
-		$redirect      = bp_displayed_user_url(
-			array(
-				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $messages_slug, $messages_slug ),
-			)
-		);
+		$redirect = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug() ) ) );
 	}
 
 	bp_core_redirect( $redirect );

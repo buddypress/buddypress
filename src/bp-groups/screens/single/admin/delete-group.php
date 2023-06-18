@@ -18,7 +18,7 @@ function groups_screen_group_admin_delete_group() {
 		return false;
 	}
 
-	if ( ! bp_is_item_admin() && !bp_current_user_can( 'bp_moderate' ) ) {
+	if ( ! bp_is_item_admin() && ! bp_current_user_can( 'bp_moderate' ) ) {
 		return false;
 	}
 
@@ -26,11 +26,7 @@ function groups_screen_group_admin_delete_group() {
 
 	if ( isset( $_REQUEST['delete-group-button'] ) && isset( $_REQUEST['delete-group-understand'] ) ) {
 		$groups_slug = bp_get_groups_slug();
-		$redirect    = bp_loggedin_user_url(
-			array(
-				'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
-			)
-		);
+		$redirect    = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) );
 
 		// Check the nonce first.
 		if ( ! check_admin_referer( 'groups_delete_group' ) ) {

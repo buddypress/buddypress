@@ -339,10 +339,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 
 	$invited_link = bp_members_get_user_url(
 		$invited_user_id,
-		array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_groups', bp_get_groups_slug() ),
-			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_groups_invites', 'invites' ),
-		)
+		bp_members_get_path_chunks( array( bp_get_groups_slug(), 'invites' ) )
 	);
 
 	$unsubscribe_args = array(
@@ -417,12 +414,9 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					array(
 						'n' => 1,
 					),
-					bp_get_group_url(
+					bp_get_group_manage_url(
 						$group,
-						array(
-							'single_item_action'           => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
-							'single_item_action_variables' => array( bp_rewrites_get_slug( 'groups', 'bp_group_manage_membership_requests', 'membership-requests' ) ),
-						)
+						bp_groups_get_path_chunks( array( 'membership-requests' ), 'manage' )
 					)
 				);
 
@@ -475,12 +469,9 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 					array(
 						'n' => 1,
 					),
-					bp_get_group_url(
+					bp_get_group_manage_url(
 						$group,
-						array(
-							'single_item_action'           => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
-							'single_item_action_variables' => array( bp_rewrites_get_slug( 'groups', 'bp_group_manage_membership_requests', 'membership-requests' ) ),
-						)
+						bp_groups_get_path_chunks( array( 'membership-requests' ), 'manage' )
 					)
 				);
 
@@ -531,11 +522,9 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_accepted':
 			$group_id = $item_id;
 
-			$group              = groups_get_group( $group_id );
-			$group_link         = bp_get_group_url( $group );
-			$groups_slug        = bp_get_groups_slug();
-			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
-			$amount             = 'single';
+			$group      = groups_get_group( $group_id );
+			$group_link = bp_get_group_url( $group );
+			$amount     = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: 1: number of accepted group membership requests. 2: group name. */
@@ -544,11 +533,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = add_query_arg(
 					'n',
 					1,
-					bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_groups_slug,
-						)
-					)
+					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
 				if ( 'string' == $format ) {
@@ -632,11 +617,9 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'membership_request_rejected':
 			$group_id = $item_id;
 
-			$group              = groups_get_group( $group_id );
-			$group_link         = bp_get_group_url( $group );
-			$groups_slug        = bp_get_groups_slug();
-			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
-			$amount             = 'single';
+			$group      = groups_get_group( $group_id );
+			$group_link = bp_get_group_url( $group );
+			$amount     = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: 1: number of accepted group membership requests. 2: group name. */
@@ -645,11 +628,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = add_query_arg(
 					'n',
 					1,
-					bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_groups_slug,
-						)
-					)
+					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
 				if ( 'string' == $format ) {
@@ -732,11 +711,9 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_admin':
 			$group_id = $item_id;
 
-			$group              = groups_get_group( $group_id );
-			$group_link         = bp_get_group_url( $group );
-			$groups_slug        = bp_get_groups_slug();
-			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
-			$amount             = 'single';
+			$group      = groups_get_group( $group_id );
+			$group_link = bp_get_group_url( $group );
+			$amount     = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: %d: number of groups the user has been promoted admin for */
@@ -745,11 +722,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = add_query_arg(
 					'n',
 					1,
-					bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_groups_slug,
-						)
-					)
+					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
 				if ( 'string' == $format ) {
@@ -826,11 +799,9 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 		case 'member_promoted_to_mod':
 			$group_id = $item_id;
 
-			$group              = groups_get_group( $group_id );
-			$group_link         = bp_get_group_url( $group );
-			$groups_slug        = bp_get_groups_slug();
-			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
-			$amount             = 'single';
+			$group      = groups_get_group( $group_id );
+			$group_link = bp_get_group_url( $group );
+			$amount     = 'single';
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: %d: number of groups the user has been promoted mod for */
@@ -839,11 +810,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 				$notification_link = add_query_arg(
 					'n',
 					1,
-					bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_groups_slug,
-						)
-					)
+					bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) )
 				);
 
 				if ( 'string' == $format ) {
@@ -921,18 +888,11 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			$group_id           = $item_id;
 			$group              = groups_get_group( $group_id );
 			$group_link         = bp_get_group_url( $group );
-			$groups_slug        = bp_get_groups_slug();
-			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
 			$amount             = 'single';
 			$notification_link  = add_query_arg(
 				'n',
 				1,
-				bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_groups_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites', 'invites' ),
-					)
-				)
+				bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug(), 'invites' ) ) )
 			);
 
 			if ( (int) $total_items > 1 ) {
@@ -1336,9 +1296,7 @@ function groups_email_notification_membership_request_completed_by_admin( $user_
 			'leave-group.url' => esc_url(
 				bp_members_get_user_url(
 					$user_id,
-					array(
-						'single_item_component' => bp_rewrites_get_slug( 'members', 'member_groups', bp_get_groups_slug() ),
-					)
+					bp_members_get_path_chunks( array( bp_get_groups_slug() ) )
 				)
 			),
 		),

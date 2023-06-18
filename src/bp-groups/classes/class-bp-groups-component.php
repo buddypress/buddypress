@@ -764,13 +764,7 @@ class BP_Groups_Component extends BP_Component {
 			// If the user is a group admin, then show the group admin nav item.
 			if ( bp_is_item_admin() ) {
 				// Get the "manage" screens.
-				$manage_screens    = bp_get_group_screens( 'manage', true );
-				$admin_link        = bp_get_group_url(
-					$this->current_group,
-					array(
-						'single_item_action' => bp_rewrites_get_slug( 'groups', 'bp_group_read_admin', 'admin' ),
-					)
-				);
+				$manage_screens = bp_get_group_screens( 'manage', true );
 
 				// Common params to all nav items.
 				$default_params = array(
@@ -839,8 +833,7 @@ class BP_Groups_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables.
-			$groups_slug        = bp_get_groups_slug();
-			$custom_groups_slug = bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug );
+			$groups_slug = bp_get_groups_slug();
 
 			$title   = _x( 'Groups', 'My Account Groups', 'buddypress' );
 			$pending = _x( 'No Pending Invites', 'My Account Groups sub nav', 'buddypress' );
@@ -868,11 +861,7 @@ class BP_Groups_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_groups_slug,
-					)
-				),
+				'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $groups_slug ) ) ),
 			);
 
 			// My Groups.
@@ -880,12 +869,7 @@ class BP_Groups_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-memberships',
 				'title'    => _x( 'Memberships', 'My Account Groups sub nav', 'buddypress' ),
-				'href'     => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_groups_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_my_groups', 'my-groups' ),
-					)
-				),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $groups_slug, 'my-groups' ) ) ),
 				'position' => 10,
 			);
 
@@ -895,12 +879,7 @@ class BP_Groups_Component extends BP_Component {
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-invites',
 					'title'    => $pending,
-					'href'     => bp_loggedin_user_url(
-						array(
-							'single_item_component' => $custom_groups_slug,
-							'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug . '_invites', 'invites' ),
-						)
-					),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $groups_slug, 'invites' ) ) ),
 					'position' => 30,
 				);
 			}

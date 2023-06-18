@@ -407,13 +407,7 @@ function bp_the_profile_group_edit_form_action() {
 		global $group;
 
 		// Build the form action URL.
-		$profile_slug = bp_get_profile_slug();
-		$path_chunks  = array(
-			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
-			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit', 'edit' ),
-			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit_group', 'group' ), $group->id ),
-		);
-		$form_action = bp_displayed_user_url( $path_chunks );
+		$form_action = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_profile_slug(), 'edit', array( 'group', $group->id ) ) ) );
 
 		/**
 		 * Filters the action for the XProfile group edit form.
@@ -1128,13 +1122,7 @@ function bp_get_profile_group_tabs() {
 		}
 
 		// Build the profile field group link.
-		$profile_slug = bp_get_profile_slug();
-		$path_chunks  = array(
-			'single_item_component'        => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
-			'single_item_action'           => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit', 'edit' ),
-			'single_item_action_variables' => array( bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit_group', 'group' ), $groups[ $i ]->id ),
-		);
-		$link         = bp_displayed_user_url( $path_chunks );
+		$link = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_profile_slug(), 'edit', array( 'group', $groups[ $i ]->id ) ) ) );
 
 		// Add tab to end of tabs array.
 		$tabs[] = sprintf(
@@ -1292,18 +1280,12 @@ function bp_current_profile_group_id() {
  * @since 1.0.0
  */
 function bp_edit_profile_button() {
-	$profile_slug = bp_get_profile_slug();
-	$path_chunks  = array(
-		'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
-		'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit', 'edit' ),
-	);
-
 	bp_button( array(
 		'id'                => 'edit_profile',
 		'component'         => 'xprofile',
 		'must_be_logged_in' => true,
 		'block_self'        => true,
-		'link_href'         => bp_displayed_user_url( $path_chunks ),
+		'link_href'         => bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_profile_slug(), 'edit' ) ) ),
 		'link_class'        => 'edit',
 		'link_text'         => __( 'Edit Profile', 'buddypress' ),
 	) );

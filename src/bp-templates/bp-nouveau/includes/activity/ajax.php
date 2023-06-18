@@ -114,14 +114,7 @@ function bp_nouveau_ajax_mark_activity_favorite() {
 			$fav_count = (int) bp_get_total_favorite_count_for_user( bp_loggedin_user_id() );
 
 			if ( 1 === $fav_count ) {
-				$activity_slug          = bp_nouveau_get_component_slug( 'activity' );
-				$custom_activity_slug   = bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug );
-				$activity_favorites_url = bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_activity_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_favorites', 'favorites' ),
-					)
-				);
+				$activity_favorites_url = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'activity' ), 'favorites' ) ) );
 
 				$response['directory_tab'] = '<li id="activity-favorites" data-bp-scope="favorites" data-bp-object="activity">
 					<a href="' . esc_url( $activity_favorites_url ). '">

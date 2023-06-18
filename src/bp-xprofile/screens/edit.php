@@ -20,17 +20,11 @@ function xprofile_screen_edit_profile() {
 		return false;
 	}
 
-	$profile_slug = bp_get_profile_slug();
-	$path_chunks  = array(
-		'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
-		'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit', 'edit' ),
-	);
-
-
 	// Make sure a group is set.
 	if ( ! bp_action_variable( 1 ) ) {
-		$path_chunks['single_item_action_variables'] = array( bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit_group', 'group' ), 1 );
-		bp_core_redirect( bp_displayed_user_url( $path_chunks ) );
+		bp_core_redirect(
+			bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_profile_slug(), 'edit', array( 'group', 1 ) ) ) )
+		);
 	}
 
 	// Check the field group exists.
@@ -40,7 +34,8 @@ function xprofile_screen_edit_profile() {
 	}
 
 	// No errors.
-	$errors = false;
+	$errors      = false;
+	$path_chunks = array( bp_get_profile_slug(), 'edit' );
 
 	// Check to see if any new information has been submitted.
 	if ( isset( $_POST['field_ids'] ) ) {
@@ -50,8 +45,8 @@ function xprofile_screen_edit_profile() {
 
 		// Check we have field ID's.
 		if ( empty( $_POST['field_ids'] ) ) {
-			$path_chunks['single_item_action_variables'] = array( bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit_group', 'group' ), bp_action_variable( 1 ) );
-			bp_core_redirect( bp_displayed_user_url( $path_chunks ) );
+			$path_chunks[] = array( 'group', bp_action_variable( 1 ) );
+			bp_core_redirect( bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) ) );
 		}
 
 		// Explode the posted field IDs into an array so we know which
@@ -164,8 +159,8 @@ function xprofile_screen_edit_profile() {
 			}
 
 			// Redirect back to the edit screen to display the updates and message.
-			$path_chunks['single_item_action_variables'] = array( bp_rewrites_get_slug( 'members', 'member_' . $profile_slug . '_edit_group', 'group' ), bp_action_variable( 1 ) );
-			bp_core_redirect( bp_displayed_user_url( $path_chunks ) );
+			$path_chunks[] = array( 'group', bp_action_variable( 1 ) );
+			bp_core_redirect( bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) ) );
 		}
 	}
 

@@ -54,12 +54,7 @@ function bp_activity_action_personal_feed() {
 		return false;
 	}
 
-	$activity_slug = bp_get_activity_slug();
-	$link          = bp_displayed_user_url(
-		array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
-		)
-	);
+	$link = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_activity_slug() ) ) );
 
 	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed(
@@ -94,14 +89,7 @@ function bp_activity_action_friends_feed() {
 		return false;
 	}
 
-	$activity_slug = bp_get_activity_slug();
-	$friends_slug  = bp_get_friends_slug();
-	$link          = bp_displayed_user_url(
-		array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
-			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_' . $friends_slug, $friends_slug ),
-		)
-	);
+	$link = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_activity_slug(), bp_get_friends_slug() ) ) );
 
 	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed(
@@ -137,16 +125,9 @@ function bp_activity_action_my_groups_feed() {
 	}
 
 	// Get displayed user's group IDs.
-	$groups        = groups_get_user_groups();
-	$group_ids     = implode( ',', $groups['groups'] );
-	$activity_slug = bp_get_activity_slug();
-	$groups_slug   = bp_get_groups_slug();
-	$link          = bp_displayed_user_url(
-		array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
-			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_' . $groups_slug, $groups_slug ),
-		)
-	);
+	$groups    = groups_get_user_groups();
+	$group_ids = implode( ',', $groups['groups'] );
+	$link      = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_activity_slug(), bp_get_groups_slug() ) ) );
 
 	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed(
@@ -189,13 +170,7 @@ function bp_activity_action_mentions_feed() {
 		return false;
 	}
 
-	$activity_slug = bp_get_activity_slug();
-	$link          = bp_displayed_user_url(
-		array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
-			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_mentions', 'mentions' ),
-		)
-	);
+	$link = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_activity_slug(), 'mentions' ) ) );
 
 	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed(
@@ -233,15 +208,9 @@ function bp_activity_action_favorites_feed() {
 	}
 
 	// Get displayed user's favorite activity IDs.
-	$favs          = bp_activity_get_user_favorites( bp_displayed_user_id() );
-	$fav_ids       = implode( ',', (array) $favs );
-	$activity_slug = bp_get_activity_slug();
-	$link          = bp_displayed_user_url(
-		array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
-			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_favorites', 'favorites' ),
-		)
-	);
+	$favs    = bp_activity_get_user_favorites( bp_displayed_user_id() );
+	$fav_ids = implode( ',', (array) $favs );
+	$link    = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_activity_slug(), 'favorites' ) ) );
 
 	// Setup the feed.
 	buddypress()->activity->feed = new BP_Activity_Feed(

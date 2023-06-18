@@ -112,9 +112,7 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 
 	$link = bp_members_get_user_url(
 		$user_id,
-		array(
-			'single_item_component' => bp_rewrites_get_slug( 'members', 'member_friends', bp_get_friends_slug() ),
-		)
+		bp_members_get_path_chunks( array( bp_get_friends_slug() ) )
 	);
 
 	/* translators: %s: member name */

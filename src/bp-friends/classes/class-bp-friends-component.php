@@ -241,8 +241,7 @@ class BP_Friends_Component extends BP_Component {
 		if ( is_user_logged_in() ) {
 
 			// Setup the logged in user variables.
-			$friends_slug        = bp_get_friends_slug();
-			$custom_friends_slug = bp_rewrites_get_slug( 'members', 'member_' . $friends_slug, $friends_slug );
+			$friends_slug = bp_get_friends_slug();
 
 			// Pending friend requests.
 			$count = count( friends_get_friendship_request_user_ids( bp_loggedin_user_id() ) );
@@ -267,11 +266,7 @@ class BP_Friends_Component extends BP_Component {
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
 				'title'  => $title,
-				'href'   => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_friends_slug,
-					)
-				),
+				'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $friends_slug ) ) ),
 			);
 
 			// My Friends.
@@ -279,12 +274,7 @@ class BP_Friends_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-friendships',
 				'title'    => _x( 'Friendships', 'My Account Friends menu sub nav', 'buddypress' ),
-				'href'     => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_friends_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_my_friends', 'my-friends' ),
-					)
-				),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $friends_slug, 'my-friends' ) ) ),
 				'position' => 10,
 			);
 
@@ -293,12 +283,7 @@ class BP_Friends_Component extends BP_Component {
 				'parent'   => 'my-account-' . $this->id,
 				'id'       => 'my-account-' . $this->id . '-requests',
 				'title'    => $pending,
-				'href'     => bp_loggedin_user_url(
-					array(
-						'single_item_component' => $custom_friends_slug,
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $friends_slug . '_requests', 'requests' ),
-					)
-				),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $friends_slug, 'requests' ) ) ),
 				'position' => 20,
 			);
 		}

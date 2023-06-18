@@ -86,14 +86,7 @@ function bp_messages_action_edit_notice() {
 	}
 
 	// Redirect.
-	$message_slug        = bp_get_messages_slug();
-	$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
-	$redirect_to         = bp_loggedin_user_url(
-		array(
-			'single_item_component' => $custom_message_slug,
-			'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $message_slug . '_notices', 'notices' ),
-		)
-	);
+	$redirect_to = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug(), 'notices' ) ) );
 
 	bp_core_redirect( $redirect_to );
 }
@@ -137,13 +130,7 @@ function bp_messages_action_dismiss_notice() {
 	bp_core_add_message( $feedback, $type );
 
 	// Redirect.
-	$message_slug        = bp_get_messages_slug();
-	$custom_message_slug = bp_rewrites_get_slug( 'members', 'member_' . $message_slug, $message_slug );
-	$redirect_to         = bp_loggedin_user_url(
-		array(
-			'single_item_component' => $custom_message_slug,
-		)
-	);
+	$redirect_to = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug() ) ) );
 
 	bp_core_redirect( $redirect_to );
 }

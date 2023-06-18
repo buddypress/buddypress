@@ -34,12 +34,7 @@ function bp_activity_format_notifications( $action, $item_id, $secondary_item_id
 	switch ( $action ) {
 		case 'new_at_mention':
 			$action_filter = 'at_mentions';
-			$link          = bp_loggedin_user_url(
-				array(
-					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
-					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug . '_mentions', 'mentions' ),
-				)
-			);
+			$link          = bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, 'mentions' ) ) );
 
 			/* translators: %s: the current user display name */
 			$text   = sprintf( __( '@%s Mentions', 'buddypress' ), bp_get_loggedin_user_username() );

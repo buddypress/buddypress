@@ -29,16 +29,10 @@ function bp_notifications_toolbar_menu() {
 	}
 
 	$notifications = bp_notifications_get_notifications_for_user( bp_loggedin_user_id(), 'object' );
-	$count         = ! empty( $notifications ) ? count( $notifications ) : 0;
-	$alert_class   = (int) $count > 0 ? 'pending-count alert' : 'count no-alert';
-	$menu_title    = '<span id="ab-pending-notifications" class="' . $alert_class . '">' . number_format_i18n( $count ) . '</span>';
-	$notifications_slug        = bp_get_notifications_slug();
-	$custom_notifications_slug = bp_rewrites_get_slug( 'members', 'member_' . $notifications_slug, $notifications_slug );
-	$menu_link                 = bp_loggedin_user_url(
-		array(
-			'single_item_component' => $custom_notifications_slug,
-		)
-	);
+	$count       = ! empty( $notifications ) ? count( $notifications ) : 0;
+	$alert_class = (int) $count > 0 ? 'pending-count alert' : 'count no-alert';
+	$menu_title  = '<span id="ab-pending-notifications" class="' . $alert_class . '">' . number_format_i18n( $count ) . '</span>';
+	$menu_link   = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_notifications_slug() ) ) );
 
 	// Add the top-level Notifications button.
 	$wp_admin_bar->add_node( array(

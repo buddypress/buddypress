@@ -880,10 +880,7 @@ function friends_notification_new_request( $friendship_id, $initiator_id, $frien
 			'friend-requests.url' => esc_url(
 				bp_members_get_user_url(
 					$friend_id,
-					array(
-						'single_item_component' => bp_rewrites_get_slug( 'members', 'member_friends', bp_get_friends_slug() ),
-						'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_friends_requests', 'requests' ),
-					)
+					bp_members_get_path_chunks( array( bp_get_friends_slug(), 'requests' ) )
 				)
 			),
 			'friend.id'           => $friend_id,

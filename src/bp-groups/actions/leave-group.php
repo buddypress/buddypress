@@ -49,12 +49,7 @@ function groups_action_leave_group() {
 		$redirect = bp_get_group_url( $group );
 
 		if ( ! $group->is_visible ) {
-			$groups_slug = bp_get_groups_slug();
-			$redirect    = bp_loggedin_user_url(
-				array(
-					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $groups_slug, $groups_slug ),
-				)
-			);
+			$redirect = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug() ) ) );
 		}
 
 		bp_core_redirect( $redirect );

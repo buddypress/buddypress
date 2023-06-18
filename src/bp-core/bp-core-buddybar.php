@@ -754,20 +754,11 @@ function bp_core_maybe_hook_new_subnav_screen_function( $subnav_item, $component
 				} else {
 					// Try 'activity' first.
 					if ( bp_is_active( 'activity' ) && isset( $bp->pages->activity ) ) {
-						$activity_slug = bp_get_activity_slug();
-						$redirect_to   = bp_displayed_user_url(
-							array(
-								'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $activity_slug, $activity_slug ),
-							)
-						);
-					// Then try 'profile'.
+						$redirect_to = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_activity_slug() ) ) );
+
+						// Then try 'profile'.
 					} else {
-						$profile_slug  = bp_get_profile_slug();
-						$redirect_to   = bp_displayed_user_url(
-							array(
-								'single_item_component' => bp_rewrites_get_slug( 'members', 'member_' . $profile_slug, $profile_slug ),
-							)
-						);
+						$redirect_to = bp_displayed_user_url( bp_members_get_path_chunks( array( bp_get_profile_slug() ) ) );
 					}
 
 					$message = '';
