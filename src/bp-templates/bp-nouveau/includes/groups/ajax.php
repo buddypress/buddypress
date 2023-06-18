@@ -3,7 +3,7 @@
  * Groups Ajax functions
  *
  * @since 3.0.0
- * @version 6.3.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -377,8 +377,6 @@ function bp_nouveau_ajax_get_users_to_invite() {
  * @since 3.0.0
  */
 function bp_nouveau_ajax_send_group_invites() {
-	$bp = buddypress();
-
 	$response = array(
 		'feedback' => __( 'Invites could not be sent. Please try again.', 'buddypress' ),
 		'type'     => 'error',
