@@ -521,7 +521,6 @@ function bp_nouveau_groups_screen_invites_restriction() {
  */
 function bp_nouveau_restrict_rest_group_invite_to_friends( $retval, $request ) {
 	if ( true === $retval && bp_is_active( 'friends' ) ) {
-		$group_id   = $request->get_param( 'group_id' );
 		$user_id    = $request->get_param( 'user_id' );
 		$inviter_id = $request->get_param( 'inviter_id' );
 

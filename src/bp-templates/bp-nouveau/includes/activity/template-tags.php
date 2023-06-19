@@ -3,7 +3,7 @@
  * Activity Template tags
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -551,14 +551,6 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 			} else {
 				$data_element = 'href';
 			}
-
-			$spam_link = bp_rewrites_get_url(
-				array(
-					'component_id'                 => 'activity',
-					'single_item_action'           => 'spam',
-					'single_item_action_variables' => array( bp_get_activity_id() ),
-				)
-			);
 
 			$buttons['activity_spam']['button_attr'][ $data_element ] = wp_nonce_url(
 				bp_rewrites_get_url(

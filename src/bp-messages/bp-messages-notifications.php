@@ -27,7 +27,6 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
 	$total_items = (int) $total_items;
 	$text        = '';
 	$link        = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug(), 'inbox' ) ) );
-	$title       = __( 'Inbox', 'buddypress' );
 	$amount      = 'single';
 
 	if ( 'new_message' === $action ) {

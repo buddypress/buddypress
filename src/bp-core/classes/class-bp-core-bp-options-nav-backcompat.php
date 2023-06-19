@@ -124,11 +124,11 @@ class BP_Core_BP_Options_Nav_BackCompat extends BP_Core_BP_Nav_BackCompat {
 
 			$nav = array();
 
-			if ( empty( $primary_nav ) ) {
+			if ( empty( $secondary_nav ) ) {
 				return $nav;
 			}
 
-			foreach ( $primary_nav as $item ) {
+			foreach ( $secondary_nav as $item ) {
 				$nav[ $item->slug ] = (array) $item;
 			}
 		}

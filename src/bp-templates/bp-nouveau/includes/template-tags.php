@@ -474,11 +474,6 @@ function bp_nouveau_pagination( $position ) {
 			break;
 	}
 
-	$count_class = sprintf( '%1$s-%2$s-count-%3$s', $pagination_type, $screen, $position );
-	$links_class = sprintf( '%1$s-%2$s-links-%3$s', $pagination_type, $screen, $position );
-	?>
-
-	<?php
 	if ( 'bottom' === $position && isset( $bottom_hook ) ) {
 		/**
 		 * Fires after the component directory list.

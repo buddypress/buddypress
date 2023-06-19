@@ -284,7 +284,7 @@ class BP_Block {
 					$translation_domain = apply_filters( 'bp_block_translation_domain', $textdomain, $this->block->editor_script, $name );
 
 					// Try to load the translation.
-					$translated = wp_set_script_translations( $this->block->editor_script, $translation_domain, $translation_dir );
+					wp_set_script_translations( $this->block->editor_script, $translation_domain, $translation_dir );
 				}
 			}
 		}

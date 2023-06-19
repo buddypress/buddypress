@@ -247,20 +247,10 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 			$parent_element = $args['parent_element'];
 		}
 
-		/*
-		 * If we have a arg value for $button_element passed through
-		 * use it to default all the $buttons['button_element'] values
-		 * otherwise default to 'a' (anchor)
-		 * Or override & hardcode the 'element' string on $buttons array.
-		 *
-		 * Icons sets a class for icon display if not using the button element
-		 */
-		$icons = '';
 		if ( ! empty( $args['button_element'] ) ) {
 			$button_element = $args['button_element'] ;
 		} else {
 			$button_element = 'button';
-			$icons = ' icons';
 		}
 
 		// If we pass through parent classes add them to $button array
