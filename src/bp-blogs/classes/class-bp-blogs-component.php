@@ -81,8 +81,10 @@ class BP_Blogs_Component extends BP_Component {
 			'root_slug'             => isset( $bp->pages->blogs->slug ) ? $bp->pages->blogs->slug : $default_slug,
 			'has_directory'         => is_multisite(), // Non-multisite installs don't need a top-level Sites directory, since there's only one site.
 			'rewrite_ids'           => array(
-				'directory'          => 'blogs',
-				'create_single_item' => 'blog_create',
+				'directory'                  => 'blogs',
+				'create_single_item'         => 'blog_create',
+				'directory_action'           => 'blogs_action',
+				'directory_action_variables' => 'blogs_action_variables'
 			),
 			'directory_title'       => isset( $bp->pages->blogs->title ) ? $bp->pages->blogs->title : $default_directory_title,
 			'notification_callback' => 'bp_blogs_format_notifications',
@@ -397,7 +399,9 @@ class BP_Blogs_Component extends BP_Component {
 	 */
 	public function add_rewrite_tags( $rewrite_tags = array() ) {
 		$rewrite_tags = array(
-			'create_single_item' => '([1]{1,})',
+			'create_single_item'         => '([1]{1,})',
+			'directory_action'           => '([^/]+)',
+			'directory_action_variables' => '(.+?)',
 		);
 
 		parent::add_rewrite_tags( $rewrite_tags );
@@ -415,6 +419,16 @@ class BP_Blogs_Component extends BP_Component {
 		$create_slug = bp_rewrites_get_slug( 'blogs', 'blog_create', 'create' );
 
 		$rewrite_rules = array(
+			'directory_action_variables' => array(
+				'regex' => $this->root_slug . '/([^/]+)/(.+?)/?$',
+				'order' => 70,
+				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_action'] . '=$matches[1]&' . $this->rewrite_ids['directory_action_variables'] . '=$matches[2]',
+			),
+			'directory_action'           => array(
+				'regex' => $this->root_slug . '/([^/]+)/?$',
+				'order' => 60,
+				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_action'] . '=$matches[1]',
+			),
 			'create_single_item' => array(
 				'regex' => $this->root_slug . '/' . $create_slug . '/?$',
 				'order' => 50,
@@ -452,23 +466,28 @@ class BP_Blogs_Component extends BP_Component {
 
 		if ( 1 === (int) $query->get( $this->rewrite_ids['directory'] ) ) {
 			$bp->current_component = 'blogs';
+			$is_blog_create        = 1 === (int) $query->get( $this->rewrite_ids['create_single_item'] );
 
-			$current_action = $query->get( $this->rewrite_ids['single_item_action'] );
-			if ( $current_action ) {
-				$bp->current_action = $current_action;
-			}
+			if ( $is_blog_create ) {
+				$bp->current_action = 'create';
+			} else {
+				$current_action = $query->get( $this->rewrite_ids['directory_action'] );
+				if ( $current_action ) {
+					$bp->current_action = $current_action;
+				}
 
-			$action_variables = $query->get( $this->rewrite_ids['single_item_action_variables'] );
-			if ( $action_variables ) {
-				if ( ! is_array( $action_variables ) ) {
-					$bp->action_variables = explode( '/', ltrim( $action_variables, '/' ) );
-				} else {
-					$bp->action_variables = $action_variables;
+				$action_variables = $query->get( $this->rewrite_ids['directory_action_variables'] );
+				if ( $action_variables ) {
+					if ( ! is_array( $action_variables ) ) {
+						$bp->action_variables = explode( '/', ltrim( $action_variables, '/' ) );
+					} else {
+						$bp->action_variables = $action_variables;
+					}
 				}
 			}
 
 			// Set the BuddyPress queried object.
-			if ( isset( $bp->pages->blogs->id ) ) {
+			if ( isset( $bp->pages->blogs->id ) && ( ! bp_current_action() || bp_is_current_action( 'create' ) ) ) {
 				$query->queried_object    = get_post( $bp->pages->blogs->id );
 				$query->queried_object_id = $query->queried_object->ID;
 			}
