@@ -3,6 +3,7 @@
  * Backward compatibility for the $bp->bp_nav global.
  *
  * @since 2.6.0
+ * @deprecated 12.0.0
  */
 
 // Exit if accessed directly.
@@ -15,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * the $bp->bp_nav global.
  *
  * @since 2.6.0
+ * @deprecated 12.0.0
  */
 class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	/**
@@ -56,6 +58,7 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	 * Assign a value to the nav array at the specified offset.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 *
 	 * @param mixed $offset Array offset.
 	 * @param array $value  Nav item.
@@ -67,30 +70,14 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 			__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
 			'2.6.0'
 		);
-
-		$bp = buddypress();
-
-		if ( is_array( $value ) ) {
-			$value = new self( $value );
-		}
-
-		if ( $offset !== null ) {
-			// Temporarily set the backcompat_nav.
-			$this->backcompat_nav[ $offset ] = $value;
-
-			$args = $this->to_array();
-			if ( isset( $args['parent_slug'] ) ) {
-				$this->get_component_nav( $args['parent_slug'] )->edit_nav( $args, $args['slug'], $args['parent_slug'] );
-			} elseif ( isset( $args['slug'] ) ) {
-				$bp->members->nav->edit_nav( $args, $args['slug'] );
-			}
-		}
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
 	 * Get a value of the nav array at the specified offset.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 *
 	 * @param mixed $offset Array offset.
 	 * @return BP_Core_BP_Nav_BackCompat
@@ -102,19 +89,14 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 			__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
 			'2.6.0'
 		);
-
-		$nav = $this->get_nav( $offset );
-		if ( $nav && isset( $nav[ $offset ] ) ) {
-			$this->backcompat_nav[ $offset ] = new self( $nav[ $offset ] );
-		}
-
-		return $this->backcompat_nav[ $offset ];
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
 	 * Check whether nav array has a value at the specified offset.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 *
 	 * @param mixed $offset Array offset.
 	 * @return bool
@@ -126,23 +108,14 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 			__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
 			'2.6.0'
 		);
-
-		if ( isset( $this->backcompat_nav[ $offset ] ) ) {
-			return true;
-		}
-
-		$nav = $this->get_nav( $offset );
-		if ( $nav && isset( $nav[ $offset ] ) ) {
-			return true;
-		}
-
-		return false;
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
 	 * Unset a nav array value at the specified offset.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 *
 	 * @param mixed $offset Array offset.
 	 */
@@ -153,23 +126,19 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 			__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
 			'2.6.0'
 		);
-
-		// For top-level nav items, the backcompat nav hasn't yet been initialized.
-		if ( ! isset( $this->backcompat_nav[ $offset ] ) ) {
-			buddypress()->members->nav->delete_nav( $offset );
-			unset( $this->backcompat_nav[ $offset ] );
-		}
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
 	 * Set the component to which the nav belongs.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 *
 	 * @param string $component
 	 */
 	public function set_component( $component ) {
-		$this->component = $component;
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
@@ -180,20 +149,13 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	 *   - Otherwise, it's a member nav item.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 *
 	 * @param mixed $offset Array offset.
 	 * @return string|array
 	 */
 	public function get_component( $offset = '' ) {
-		if ( ! isset( $this->component ) ) {
-			if ( bp_is_active( 'groups' ) && $offset === bp_get_current_group_slug() ) {
-				$this->component = 'groups';
-			} else {
-				$this->component = 'members';
-			}
-		}
-
-		return $this->component;
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
@@ -202,34 +164,23 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	 * Called when the nav API removes items from the nav array.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 */
 	public function reset() {
-		$this->backcompat_nav = array();
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
 	 * Get the nav object corresponding to the specified offset.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 *
 	 * @param mixed $offset Array offset.
 	 * @return bool|array
 	 */
 	protected function get_nav( $offset ) {
-		$component_nav = $this->get_component_nav( $offset );
-		$primary_nav   = $component_nav->get_primary( array( 'slug' => $offset ), false );
-
-		$nav = array();
-
-		if ( empty( $primary_nav ) ) {
-			return $nav;
-		}
-
-		foreach ( $primary_nav as $item ) {
-			$nav[ $item->slug ] = (array) $item;
-		}
-
-		return $nav;
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
@@ -242,29 +193,24 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	 *   - Otherwise, fall back on 'members'.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 *
 	 * @param string $offset Nav item name.
 	 * @return BP_Core_Nav
 	 */
 	protected function get_component_nav( $offset = '' ) {
-		$component = $this->get_component( $offset );
-
-		$bp = buddypress();
-		if ( ! isset( $bp->{$component}->nav ) ) {
-			return false;
-		}
-
-		return $bp->{$component}->nav;
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
 	/**
 	 * Get the nav data, formatted as a flat array.
 	 *
 	 * @since 2.6.0
+	 * @deprecated 12.0.0
 	 *
 	 * @return array
 	 */
 	protected function to_array() {
-		return $this->backcompat_nav;
+		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 }
