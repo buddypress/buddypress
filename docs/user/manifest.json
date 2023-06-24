@@ -6,6 +6,12 @@
 		"parent": null
 	},
 	{
+		"title": "Getting Started",
+		"slug": "getting-started",
+		"markdown_source": "../user/getting-started/README.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Administration",
 		"slug": "administration",
 		"markdown_source": "../user/administration/README.md",
