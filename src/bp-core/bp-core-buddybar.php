@@ -857,9 +857,16 @@ function bp_core_remove_nav_item( $slug, $component = null ) {
 
 	$screen_functions = $bp->{$component}->nav->delete_nav( $slug );
 
-	// Reset backcompat nav items so that subsequent references will be correct.
-	$bp->bp_nav->reset();
-	$bp->bp_options_nav->reset();
+	/**
+	 * Fires when a nav item was removed from navigation.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param false|callable|array $screen_functions False, the screen function(s) on success.
+	 * @param string               $slug             The slug of the primary navigation item.
+	 * @param string|null          $component        The component the navigation is attached to. Defaults to 'members'.
+	 */
+	do_action( 'bp_core_removed_nav_item', $screen_functions, $slug, $component );
 
 	if ( ! is_array( $screen_functions ) ) {
 		return false;
@@ -906,9 +913,17 @@ function bp_core_remove_subnav_item( $parent_slug, $slug, $component = null ) {
 
 	$screen_functions = $bp->{$component}->nav->delete_nav( $slug, $parent_slug );
 
-	// Reset backcompat nav items so that subsequent references will be correct.
-	$bp->bp_nav->reset();
-	$bp->bp_options_nav->reset();
+	/**
+	 * Fires when a subnav item was removed from navigation.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param false|callable|array $screen_functions False, the screen function(s) on success.
+	 * @param string               $parent_slug The slug of the primary navigation item.
+	 * @param string               $slug        The slug of the secondary item to be removed.
+	 * @param string|null          $component   The component the navigation is attached to. Defaults to 'members'.
+	 */
+	do_action( 'bp_core_removed_subnav_item', $screen_functions, $parent_slug, $slug, $component );
 
 	if ( ! is_array( $screen_functions ) ) {
 		return false;

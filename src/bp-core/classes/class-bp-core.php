@@ -275,9 +275,12 @@ class BP_Core extends BP_Component {
 		 */
 		$bp->grav_default->blog  = apply_filters( 'bp_blog_gravatar_default',  $bp->grav_default->user );
 
-		// Backward compatibility for plugins modifying the legacy bp_nav and bp_options_nav global properties.
-		$bp->bp_nav         = new BP_Core_BP_Nav_BackCompat();
-		$bp->bp_options_nav = new BP_Core_BP_Options_Nav_BackCompat();
+		// Only fully deprecate the legacy navigation globals if BP Classic is not active.
+		if ( ! function_exists( 'bp_classic' ) ) {
+			// Backward compatibility for plugins modifying the legacy bp_nav and bp_options_nav global properties.
+			$bp->bp_nav         = new BP_Core_BP_Nav_BackCompat();
+			$bp->bp_options_nav = new BP_Core_BP_Options_Nav_BackCompat();
+		}
 
 		/**
 		 * Used to determine if user has admin rights on current content. If the
