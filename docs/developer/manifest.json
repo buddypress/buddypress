@@ -10,5 +10,17 @@
 		"slug": "introduction",
 		"markdown_source": "../developer/introduction/README.md",
 		"parent": null
+	},
+	{
+		"title": "BuddyPress Components",
+		"slug": "bp-components",
+		"markdown_source": "../developer/component/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Administration",
+		"slug": "build-bp-component",
+		"markdown_source": "../developer/component/build-component.md",
+		"parent": null
 	}
 ]
