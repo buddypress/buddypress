@@ -6,7 +6,7 @@
  * dealing with user's private messages.
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 // Backward Compatibility for plugins still needing the placeholders to be located into this file.
@@ -155,9 +155,9 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 	<div class="thread-content" data-thread-id="{{data.id}}">
 		<div class="thread-subject">
 			<span class="thread-count">({{data.count}})</span>
-			<a class="subject" href="./view/{{data.id}}/">{{data.subject}}</a>
+			<a class="subject" href="./view/{{data.id}}/">{{{data.subject}}}</a>
 		</div>
-		<p class="excerpt">{{data.excerpt}}</p>
+		<p class="excerpt">{{{data.excerpt}}}</p>
 	</div>
 	<div class="thread-date">
 		<time datetime="{{data.date.toISOString()}}">{{data.display_date}}</time>

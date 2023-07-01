@@ -3,7 +3,7 @@
  * Messages Ajax functions
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -336,8 +336,8 @@ function bp_nouveau_ajax_get_user_message_threads() {
 		$threads->threads[ $i ] = array(
 			'id'            => bp_get_message_thread_id(),
 			'message_id'    => (int) $last_message_id,
-			'subject'       => strip_tags( bp_get_message_thread_subject() ),
-			'excerpt'       => strip_tags( bp_get_message_thread_excerpt() ),
+			'subject'       => bp_get_message_thread_subject(),
+			'excerpt'       => bp_get_message_thread_excerpt(),
 			'content'       => do_shortcode( bp_get_message_thread_content() ),
 			'unread'        => bp_message_thread_has_unread(),
 			'sender_name'   => bp_core_get_user_displayname( $messages_template->thread->last_sender_id ),
