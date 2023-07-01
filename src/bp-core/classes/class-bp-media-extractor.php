@@ -641,7 +641,7 @@ class BP_Media_Extractor {
 			$extension = '.' . $extension;
 
 			foreach ( $links['links'] as $link ) {
-				$path = parse_url( $link['url'], PHP_URL_PATH );
+				$path = (string) wp_parse_url( $link['url'], PHP_URL_PATH );
 
 				// Check this URL's file extension matches that of an accepted audio format.
 				if ( ! $path || substr( untrailingslashit( $path ), -4 ) !== $extension ) {
