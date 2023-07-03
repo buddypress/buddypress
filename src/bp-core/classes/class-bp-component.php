@@ -263,7 +263,9 @@ class BP_Component {
 	 * Set up component global variables.
 	 *
 	 * @since 1.5.0
+	 * @since 2.0.0 Adds the `$directory_title` argument to the `$args` parameter.
 	 * @since 9.0.0 Adds the `$block_globals` argument to the `$args` parameter.
+	 * @since 12.0.0 Adds the `$rewrite_ids` argument to the `$args` parameter.
 	 *
 	 * @param array $args {
 	 *     All values are optional.
@@ -274,12 +276,13 @@ class BP_Component {
 	 *                                           post_name of the directory page). Default: the slug of the directory page
 	 *                                           if one is found, otherwise an empty string.
 	 *     @type bool     $has_directory         Set to true if the component requires an associated WordPress page.
-	 *     @type callable $notification_callback Optional. The callable function that formats the component's notifications.
-	 *     @type string   $search_term           Optional. The placeholder text in the component directory search box. Eg,
-	 *                                           'Search Groups...'.
-	 *     @type array    $global_tables         Optional. An array of database table names.
-	 *     @type array    $meta_tables           Optional. An array of metadata table names.
-	 *     @type array    $block_globals         Optional. An array of globalized data for BP Blocks.
+	 *     @type array    $rewrite_ids           The list of rewrited IDs to use for the component.
+	 *     @type string   $directory_title       The title to use for the directory page.
+	 *     @type callable $notification_callback The callable function that formats the component's notifications.
+	 *     @type string   $search_string         The placeholder text for the directory search box. Eg: 'Search Groups...'.
+	 *     @type array    $global_tables         An array of database table names.
+	 *     @type array    $meta_tables           An array of metadata table names.
+	 *     @type array    $block_globals         An array of globalized data for BP Blocks.
 	 * }
 	 */
 	public function setup_globals( $args = array() ) {
