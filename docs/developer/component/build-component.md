@@ -67,9 +67,14 @@ class BP_Custom_Component extends BP_Component {
 				'search_query_arg'         => 'custom-component-search',
 			)
 		);
+
+		// Informs BuddyPress your component is active.
+		buddypress()->active_components['custom'] = 1;
 	}
 }
 ```
+
+**NB:** please note, you also need to add your component's ID to the BuddyPress active components using `buddypress()->active_components[ $your_component_id ] = 1;`.
 
 ### Setting up your component global variables
 
@@ -163,6 +168,149 @@ class BP_Custom_AddOn_Component extends BP_Component {
 
 Even if you can directly include your files without overriding/calling from your component's method `BP_Component::includes( $files )`, as BuddyPress triggers a dynamic hook at the end of this method, it's a good practice to use it!
 
-### Adding your custom menu items to the Member's page navigation
+### Adding your custom menu items to the single Member's navigation
 
-Here's a method with a more concrete result!
+Here's a method with a more concrete result! Thanks to it, you will be able to create specific pages for your component inside the single Member’s area.
+
+![Single Member’s area](../assets/bp-custom-single-member-area.png)
+
+To get this result, you need to override the `BP_Component::setup_nav()` method from your component’s to define 2 arrays before sending them to `parent::setup_nav( $main_nav, $sub_nav )` as shown below.
+
+```php
+class BP_Custom_AddOn_Component extends BP_Component {
+	public function __construct() { /** Your component’s constructor code. */ }
+	public function setup_globals( $bp_globals = array() ) { /** Your component’s code to set custom/BP globals. */ }
+	public function includes( $files = array() ) { /** Your component’s code to include required files. */ }
+
+	/**
+	 * Add your custom menu items to the single Member's navigation.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param array $main_nav Associative array
+	 * @param array $sub_nav  Optional. Multidimensional Associative array.
+	 */
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+		$parent_url = bp_get_members_component_link( $this->id );
+
+		if ( $parent_url ) {
+			// Member main navigation.
+			$main_nav = array(
+				'name'                => $this->name,
+				'slug'                => $this->slug,
+				'position'            => 100,
+				'screen_function'     => 'bp_custom_add_on_screen_callback',
+				'default_subnav_slug' => 'default-subnav-slug',
+				'item_css_id'         => $this->id,
+			);
+
+			// Member sub navigation.
+			$sub_nav = array(
+				array(
+					'name'            => __( 'Default sub nav name', 'custom-text-domain' ),
+					'slug'            => 'default-subnav-slug',
+					'parent_slug'     => $this->slug,
+					'parent_url'      => $parent_url,
+					'position'        => 10,
+					'screen_function' => 'bp_custom_add_on_screen_callback',
+					'item_css_id'     => 'default-subnav-' . $this->id,
+				),
+				array(
+					'name'            => __( 'Other sub nav name', 'custom-text-domain' ),
+					'slug'            => 'other-subnav-slug',
+					'parent_slug'     => $this->slug,
+					'parent_url'      => $parent_url,
+					'position'        => 20,
+					'screen_function' => 'bp_custom_add_on_screen_callback',
+					'item_css_id'     => 'other-subnav-' . $this->id,
+				),
+			);
+		}
+
+		parent::setup_nav( $main_nav, $sub_nav );
+	}
+}
+```
+
+`BP_Component::setup_nav()` will use these two arrays to generate the single Member’s navigation items for your components using `bp_core_new_nav_item()` for your main navigation item and `bp_core_new_subnav_item()` for your sub navigation items. The `$parent_url` attribute of your sub navigation multidimensional array is only needed for BuddyPress versions that are lower to 12.0.0. `$screen_function` attribute is required for both arrays as the callback function you choose will be triggered to load the BuddyPress single member’s template needed by your Add-on. Most of the time, this callback  function will include `bp_core_load_template( 'members/single/home' );` to do so.
+
+To have the "It works!" content on the component’s single member displayed page, here's the code that was used inside the `functions.php` page that was included previously:
+
+```php
+function bp_custom_add_on_screen_displayed() {
+	echo 'It works!';
+}
+
+/**
+ * The screen function referenced as the `$screen_function` of your
+ * navigation arrays. Of course you can use different screen functions
+ * for each of your sub navigation items.
+ */ 
+function bp_custom_add_on_screen_callback() {
+	bp_core_load_template( 'members/single/home' );
+
+	add_action( 'bp_template_content', 'bp_custom_add_on_screen_displayed' );
+}
+```
+
+By default, unless you filtered how BuddyPress is loading templates, the `buddypress/members/single/plugins.php` of the active BP Template Pack or of your active standalone BuddyPress theme will be loaded to display your Add-on’s content.
+
+### Making sure the URL of your component’s single member pages can be customized.
+
+Using `BP_Component::setup_nav()` to generate your component’s single member navigation **will work for any BuddyPress versions** (well actually those which are >= 1.5.0).
+
+BuddyPress 12.0.0 introduced a major change about how URL requests are parsed and analyzed to serve BuddyPress content. One of the benefits of this change is the ability for the Site Owner to customize every BuddyPress URLs from the `URLs` tab of the BuddyPress settings you can reach from your WordPress Dashboard.
+
+Although BuddyPress built-in components automatically enjoy URL slugs customization, your custom component won't unless you override a specific method which is only available since **BuddyPress 12.0.0**: `BP_Component::register_nav()`. When you override this method you don't need to override `BP_Component::setup_nav()` anymore. Although `BP_Component::register_nav()` accepts the same arguments than `BP_Component::setup_nav()`, it's slightly different as it's fired very early into the BuddyPress loading process. For this reason, if you were familiar with restricting access to some navigation items using functions like `bp_core_can_edit_settings()` or `bp_is_my_profile()` into the `$show_for_displayed_user` argument of your main navigation array or into the `$user_has_access` argument of your sub navigation multidimensional array, you will now need to reference them as callbacks into the `$user_has_access_callback` argument of your main navigation array or your sub navigation multidimensional array. Once BuddyPress URL globals will be analyzed the `BP_Component::setup_nav()` will call these callbacks to eventually restrict access to your component’s single member pages.
+
+```php
+class BP_Custom_AddOn_Component extends BP_Component {
+	public function __construct() { /** Your component’s constructor code. */ }
+	public function setup_globals( $bp_globals = array() ) { /** Your component’s code to set custom/BP globals. */ }
+	public function includes( $files = array() ) { /** Your component’s code to include required files. */ }
+
+	/**
+	 * Register your custom menu items into the single Member's navigation.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param array $main_nav Associative array
+	 * @param array $sub_nav  Optional. Multidimensional Associative array.
+	 */
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
+		parent::register_nav(
+			array(
+				'name'                => $this->name,
+				'slug'                => $this->slug,
+				'position'            => 100,
+				'screen_function'     => 'bp_custom_add_on_screen_callback',
+				'default_subnav_slug' => 'default-subnav-slug',
+				'item_css_id'         => $this->id,
+			),
+			array(
+				array(
+					'name'            => __( 'Default sub nav name', 'custom-text-domain' ),
+					'slug'            => 'default-subnav-slug',
+					'parent_slug'     => $this->slug,
+					'position'        => 10,
+					'screen_function' => 'bp_custom_add_on_screen_callback',
+					'item_css_id'     => 'default-subnav-' . $this->id,
+				),
+				array(
+					'name'                     => __( 'Other sub nav name', 'custom-text-domain' ),
+					'slug'                     => 'other-subnav-slug',
+					'parent_slug'              => $this->slug,
+					'position'                 => 20,
+					'screen_function'          => 'bp_custom_add_on_screen_callback',
+					'item_css_id'              => 'other-subnav-' . $this->id,
+
+					// Let's restrict this page to members viewing their own profile.
+					'user_has_access_callback' => 'bp_is_my_profile',
+				),
+			)
+		);
+	}
+}
+```
+
+In the above code, we are only overriding `BP_Component::register_nav()` to generate the custom component’s single member navigation items and to restrict the access of the "Other sub nav name" sub item we are using the `'bp_is_my_profile'` callback inside the `$user_has_access_callback` argument of the corresponding entry of the multidimensional array.
