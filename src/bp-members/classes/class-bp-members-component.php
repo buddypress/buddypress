@@ -207,6 +207,18 @@ class BP_Members_Component extends BP_Component {
 	}
 
 	/**
+	 * Set up the component actions.
+	 *
+	 * @since 12.0.0
+	 */
+	public function setup_actions() {
+		parent::setup_actions();
+
+		// Check the parsed query is consistent with the Members navigation.
+		add_action( 'bp_parse_query',  array( $this, 'check_parsed_query' ), 999, 0 );
+	}
+
+	/**
 	 * Set up additional globals for the component.
 	 *
 	 * @since 10.0.0
@@ -953,6 +965,37 @@ class BP_Members_Component extends BP_Component {
 		}
 
 		parent::parse_query( $query );
+	}
+
+	/**
+	 * Check the parsed query is consistent with Members navigation.
+	 *
+	 * As the members’ component pages need a valid screen function to load the right BP Template,
+	 * we need to make sure the current single item action exists inside the Members navigation and
+	 * that the corresponding screen function is a valid callback.
+	 *
+	 * @since 12.0.0
+	 */
+	public function check_parsed_query() {
+		$single_item_component = '';
+		if ( bp_is_user() ) {
+			$single_item_component = bp_current_component();
+		}
+
+		$single_item_action = '';
+		if ( $single_item_component ) {
+			$single_item_action = bp_current_action();
+		}
+
+		$bp = buddypress();
+		if ( isset( $bp->{$single_item_component}, $bp->{$single_item_component}->sub_nav ) ) {
+			$screen_functions = wp_list_pluck( $bp->{$single_item_component}->sub_nav, 'screen_function', 'slug' );
+
+			if ( ! $single_item_action || ! isset( $screen_functions[ $single_item_action ] ) || ! is_callable( $screen_functions[ $single_item_action ] ) ) {
+				bp_do_404();
+				return;
+			}
+		}
 	}
 
 	/**
