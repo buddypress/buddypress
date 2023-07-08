@@ -94,6 +94,8 @@ class BP_Custom_Component extends BP_Component {
 	/**
 	 * Setup BP Specific globals and custom ones.
 	 * 
+	 * @since BuddyPress 1.5.0
+	 * 
 	 * @param array $bp_globals {
 	 *     All values are optional.
 	 *     @type string   $slug                  The portion of URL to use for a member's page about your component.
@@ -152,6 +154,8 @@ class BP_Custom_AddOn_Component extends BP_Component {
 
 	/**
 	 * Include your component's required files.
+	 * 
+	 * @since BuddyPress 1.5.0
 	 *
 	 * @param array $files An array of file names located into `$this->path`.
 	 *                     NB: `$this->path` in this example is `/wp-content/plugins/bp-custom/inc`
@@ -170,7 +174,7 @@ Even if you can directly include your files without overriding/calling from your
 
 ### Adding your custom menu items to the single Member's navigation
 
-Here's a method with a more concrete result! Thanks to it, you will be able to create specific pages for your component inside the single Member’s area.
+Here's a method with a more concrete result! Thanks to it, you will be able to create specific pages for your component inside the single Member’s area. 
 
 ![Single Member’s area](../assets/bp-custom-single-member-area.png)
 
@@ -185,7 +189,7 @@ class BP_Custom_AddOn_Component extends BP_Component {
 	/**
 	 * Add your custom menu items to the single Member's navigation.
 	 *
-	 * @since 1.5.0
+	 * @since BuddyPress 1.5.0
 	 *
 	 * @param array $main_nav Associative array
 	 * @param array $sub_nav  Optional. Multidimensional Associative array.
@@ -232,7 +236,7 @@ class BP_Custom_AddOn_Component extends BP_Component {
 }
 ```
 
-`BP_Component::setup_nav()` will use these two arrays to generate the single Member’s navigation items for your components using `bp_core_new_nav_item()` for your main navigation item and `bp_core_new_subnav_item()` for your sub navigation items. The `$parent_url` attribute of your sub navigation multidimensional array is only needed for BuddyPress versions that are lower to 12.0.0. `$screen_function` attribute is required for both arrays as the callback function you choose will be triggered to load the BuddyPress single member’s template needed by your Add-on. Most of the time, this callback  function will include `bp_core_load_template( 'members/single/home' );` to do so.
+`BP_Component::setup_nav()` will use these two arrays to generate the single Member’s navigation items for your components using `bp_core_new_nav_item()` for your main navigation item and `bp_core_new_subnav_item()` for your sub navigation items. The `$parent_url` attribute of your sub navigation multidimensional array is only needed for BuddyPress versions that are lower than 12.0.0. The `$screen_function` attribute is required for both arrays as the callback function you choose will be triggered to load the BuddyPress single member’s template needed by your Add-on. Most of the time, this callback function should include `bp_core_load_template( 'members/single/home' );` to do so.
 
 To have the "It works!" content on the component’s single member displayed page, here's the code that was used inside the `functions.php` page that was included previously:
 
@@ -316,3 +320,105 @@ class BP_Custom_AddOn_Component extends BP_Component {
 In the above code, we are only overriding `BP_Component::register_nav()` to generate the custom component’s single member navigation items and to restrict the access of the "Other sub nav name" sub item we are using the `'bp_is_my_profile'` callback inside the `$user_has_access_callback` argument of the corresponding entry of the multidimensional array. If you go to the `URLs` tab of the BuddyPress settings of your WordPress Dashboard, you'll see you'll be able to customize these component slugs from the Members accordion panel.
 
 ![Single Member’s area](../assets/bp-custom-slug-customize.png)
+
+**PS**: if you need your Add-on to be compatible with BuddyPress 12.0.0 as well as with previous versions of BuddyPress, you can have a look at how the [BP Attachments Add-on](https://github.com/buddypress/bp-attachments/blob/trunk/bp-attachments/classes/class-bp-attachments-component.php) deals with the `register_nav()` & `setup_nav()` methods.
+
+### Adding your custom menu items to the Member's WP Admin Bar navigation
+
+To let the logged in member easily reach their own pages, BuddyPress adds a specific menu to the WP Admin Bar. If your component needs to add its custom menu items to it, you need to override the `BP_Component::setup_admin_bar()` from your component’s class. Once you added your custom menu items arguments in a multidimensional array, as usual, you simply need to send them to `parent::setup_admin_bar()` so that BuddyPress insert them for you. 
+
+**NB**: unlike the `bp_get_members_component_link()` function which help you build a displayed user link in all BuddyPress versions, there's no equivalent function to have the loggedin user URL. In this case you can add the following backward compatibility method to your component's class to build this URL for all BuddyPress versions.
+
+```php
+/**
+ * Get the user logged in URL in BuddyPress >= 12.0.0 and older ones.
+ *
+ * @param array $path_chunks {
+ *     An array of arguments. Optional.
+ *
+ *     @type string $single_item_component        The component slug the action is relative to.
+ *     @type string $single_item_action           The slug of the action to perform.
+ *     @type array  $single_item_action_variables An array of additional informations about the action to perform.
+ * }
+ * @return string The logged in user URL.
+ */
+public function get_loggedin_user_url( $path_chunks = array() ) {
+	$user_url = '';
+
+	// BuddyPress 12.0.0 is being used.
+	if ( function_exists( 'bp_core_get_query_parser' ) ) {
+		$user_url = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
+
+		// An older version of BuddyPress is being used
+	} else {
+		$user_url = bp_loggedin_user_domain();
+
+		if ( $path_chunks ) {
+			$action_variables = end( $path_chunks );
+			if ( is_array( $action_variables ) ) {
+				array_pop( $path_chunks );
+				$path_chunks = array_merge( $path_chunks, $action_variables );
+			}
+
+			$user_url = trailingslashit( $user_url ) . trailingslashit( implode( '/', $path_chunks ) );
+		}
+	}
+
+	return $user_url;
+}
+```
+
+Once this method is in place, you'll just need to use it within your component’s `setup_admin_bar()` method. Another option is to use a specific function for this compatibility task as there’s a good chance you will need it in other parts of your code. You can have some examples of how to achieve this checking the way the [BP Attachments Add-on](https://github.com/buddypress/bp-attachments/blob/trunk/bp-attachments/bp-attachments-compat.php) is making sure to build user URLs for all BuddyPress versions.
+
+```php
+class BP_Custom_AddOn_Component extends BP_Component {
+	public function __construct() { /** Your component’s constructor code. */ }
+	public function setup_globals( $bp_globals = array() ) { /** Your component’s code to set custom/BP globals. */ }
+	public function includes( $files = array() ) { /** Your component’s code to include required files. */ }
+	public function register_nav( $main_nav = array(), $sub_nav = array() ) { /** Your component’s code to register the member’s nav. */ }
+	public function get_loggedin_user_url( $path_chunks = array() ) { /** The backcompat method to get the logged in user URL for your component. */ }
+
+	/**
+	 * Set up the component entries in the WordPress Admin Bar.
+	 *
+	 * @since BuddyPress 1.5.0
+	 *
+	 * @param array $wp_admin_bar A multidimensional array of nav item arguments.
+	 */
+	public function setup_admin_bar( $wp_admin_bar = array() ) {
+		if ( is_user_logged_in() ) {
+
+			// Add the "Custom" sub menu.
+			$wp_admin_bar[] = array(
+				'parent' => buddypress()->my_account_menu_id,
+				'id'     => 'my-account-' . $this->id,
+				'title'  => _x( 'Custom', 'My Account Custom sub nav', 'custom-text-domain' ),
+				'href'   => $this->get_loggedin_user_url( array( $this->slug ) ),
+			);
+
+			// Add the "Default sub nav" sub menu.
+			$wp_admin_bar[] = array(
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . 'default-sub-nav',
+				'title'    => _x( 'Default sub nav name', 'My Account Custom sub nav', 'custom-text-domain' ),
+				'href'     => $this->get_loggedin_user_url( array( $this->slug, 'default-subnav-slug' ) ),
+				'position' => 10,
+			);
+
+			// Add the "Other sub nav" sub menu.
+			$wp_admin_bar[] = array(
+				'parent'   => 'my-account-' . $this->id,
+				'id'       => 'my-account-' . $this->id . 'other-sub-nav',
+				'title'    => _x( 'Other sub nav name', 'My Account Custom sub nav', 'custom-text-domain' ),
+				'href'     => $this->get_loggedin_user_url( array( $this->slug, 'other-subnav-slug' ) ),
+				'position' => 20,
+			);
+		}
+
+		parent::setup_admin_bar( $wp_admin_bar );
+	}
+}
+```
+Here's what you should get:
+
+![WP Admin Bar’s Member menu](../assets/bp-custom-wp-admin-bar.png)
