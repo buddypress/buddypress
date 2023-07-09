@@ -67,14 +67,9 @@ class BP_Custom_Component extends BP_Component {
 				'search_query_arg'         => 'custom-component-search',
 			)
 		);
-
-		// Informs BuddyPress your component is active.
-		buddypress()->active_components['custom'] = 1;
 	}
 }
 ```
-
-**NB:** please note, you also need to add your component's ID to the BuddyPress active components using `buddypress()->active_components[ $your_component_id ] = 1;`.
 
 ### Setting up your component global variables
 
@@ -265,7 +260,7 @@ Using `BP_Component::setup_nav()` to generate your component’s single member n
 
 BuddyPress 12.0.0 introduced a major change about how URL requests are parsed and analyzed to serve BuddyPress content. One of the benefits of this change is the ability for the Site Owner to customize every BuddyPress URLs from the `URLs` tab of the BuddyPress settings you can reach from your WordPress Dashboard.
 
-Although BuddyPress built-in components automatically enjoy URL slugs customization, your custom component won't unless you override a specific method which is only available since **BuddyPress 12.0.0**: `BP_Component::register_nav()`. When you override this method you don't need to override `BP_Component::setup_nav()` anymore. Although `BP_Component::register_nav()` accepts the same arguments than `BP_Component::setup_nav()`, it's slightly different as it's fired very early into the BuddyPress loading process. For this reason, if you were familiar with restricting access to some navigation items using functions like `bp_core_can_edit_settings()` or `bp_is_my_profile()` into the `$show_for_displayed_user` argument of your main navigation array or into the `$user_has_access` argument of your sub navigation multidimensional array, you will now need to reference them as callbacks into the `$user_has_access_callback` argument of your main navigation array or your sub navigation multidimensional array. Once BuddyPress URL globals will be analyzed the `BP_Component::setup_nav()` will call these callbacks to eventually restrict access to your component’s single member pages.
+Although BuddyPress built-in components automatically enjoy URL slugs customization, your custom component won't unless you override a specific method which is only available since **BuddyPress 12.0.0**: `BP_Component::register_nav()`. When you override this method you don't need to override `BP_Component::setup_nav()` anymore. Although `BP_Component::register_nav()` accepts the same arguments than `BP_Component::setup_nav()`, it's slightly different as it's fired very early into the BuddyPress loading process. For this reason, if you were familiar with restricting access to some navigation items using functions like `bp_core_can_edit_settings()` or `bp_is_my_profile()` into the `$show_for_displayed_user` argument of your main navigation array or into the `$user_has_access` argument of your sub navigation multidimensional array, you will now need to reference them as callbacks into the `$user_has_access_callback` argument of your main navigation array or your sub navigation multidimensional array. Once BuddyPress URL globals will be set the `BP_Component::setup_nav()` will call these callbacks to eventually restrict access to your component’s single member pages.
 
 ```php
 class BP_Custom_AddOn_Component extends BP_Component {
