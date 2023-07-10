@@ -255,6 +255,11 @@ class BP_Component {
 			}
 		}
 
+		// Make sure the `buddypress()->active_components` global lists all active components.
+		if ( 'core' !== $this->id && ! isset( buddypress()->active_components[ $this->id ] ) ) {
+			buddypress()->active_components[ $this->id ] = '1';
+		}
+
 		// Move on to the next step.
 		$this->setup_actions();
 	}
