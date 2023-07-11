@@ -259,7 +259,7 @@ function bp_core_activation_notice() {
 	$wp_page_components  = array();
 
 	// Only components with 'has_directory' require a WP page to function.
-	foreach ( array_keys( $bp->loaded_components ) as $component_id ) {
+	foreach ( $bp->loaded_components as $component_slug => $component_id ) {
 		if ( ! empty( $bp->{$component_id}->has_directory ) ) {
 			$wp_page_components[] = array(
 				'id'   => $component_id,
@@ -290,7 +290,18 @@ function bp_core_activation_notice() {
 
 	foreach ( $wp_page_components as $component ) {
 		if ( ! isset( $bp->pages->{$component['id']} ) ) {
-			$orphaned_components[ $component['id'] ] = $component['name'];
+			$component_props = $component;
+			if ( isset( $bp->{$component['id']}->directory_title ) ) {
+				$component_props['title'] = $bp->{$component['id']}->directory_title;
+			} else {
+				$component_props['title'] = $component_props['name'];
+			}
+
+			if ( isset( $bp->{$component['id']}->root_slug ) ) {
+				$component_props['name'] = $bp->{$component['id']}->root_slug;
+			}
+
+			$orphaned_components[ $component['id'] ] = $component_props;
 		}
 	}
 
@@ -299,7 +310,7 @@ function bp_core_activation_notice() {
 		$notice      = sprintf(
 			// Translators: %s is the comma separated list of components needing a directory page.
 			__( 'The following active BuddyPress Components do not have associated BuddyPress Pages: %s.', 'buddypress' ),
-			'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $orphaned_components ) ) . '</strong>'
+			'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', wp_list_pluck( $orphaned_components, 'title' ) ) ) . '</strong>'
 		);
 
 		if ( 'buddypress' === bp_core_get_directory_post_type() ) {
@@ -309,8 +320,8 @@ function bp_core_activation_notice() {
 			$notice_type = 'updated';
 			$notice      = sprintf(
 				// Translators: %s is the comma separated list of components needing a directory page.
-				__( 'A BuddyPress page has been added for the following active BuddyPress Components which did not have associated BuddyPress Pages yet: %s.', 'buddypress' ),
-				'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', $orphaned_components ) ) . '</strong>'
+				__( 'A BuddyPress page has been added for the following active BuddyPress Components which did not have associated BuddyPress Pages yet: %s. You may need to refresh your permalink settings.', 'buddypress' ),
+				'<strong>' . implode( '</strong>, <strong>', array_map( 'esc_html', wp_list_pluck( $orphaned_components, 'title' ) ) ) . '</strong>'
 			);
 		}
 

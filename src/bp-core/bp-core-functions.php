@@ -850,8 +850,13 @@ function bp_core_add_page_mappings( $components, $existing = 'keep', $return_pag
 
 	$page_titles = bp_core_get_directory_page_default_titles();
 	if ( $return_pages ) {
+		$components_title = wp_list_pluck( $components, 'title' );
+		if ( ! $components_title ) {
+			$components_title = $components;
+		}
+
 		// In this case the `$components` array uses Page titles as values.
-		$page_titles = bp_parse_args( $page_titles, $components );
+		$page_titles = bp_parse_args( $page_titles, $components_title );
 	}
 
 	$pages_to_create = array();
@@ -882,20 +887,26 @@ function bp_core_add_page_mappings( $components, $existing = 'keep', $return_pag
 	}
 
 	// Create the pages.
-	foreach ( $pages_to_create as $component_name => $page_name ) {
+	foreach ( $pages_to_create as $component_name => $page_title ) {
 		$existing_id = bp_core_get_directory_page_id( $component_name );
 
 		// If page already exists, use it.
 		if ( ! empty( $existing_id ) ) {
 			$pages[ $component_name ] = (int) $existing_id;
 		} else {
-			$pages[ $component_name ] = wp_insert_post( array(
+			$postarr = array(
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
 				'post_status'    => 'publish',
-				'post_title'     => $page_name,
+				'post_title'     => $page_title,
 				'post_type'      => bp_core_get_directory_post_type(),
-			) );
+			);
+
+			if ( isset( $components[ $component_name ]['name'] ) ) {
+				$postarr['post_name'] = $components[ $component_name ]['name'];
+			}
+
+			$pages[ $component_name ] = wp_insert_post( $postarr );
 		}
 	}
 
