@@ -9,3 +9,4 @@ If you’re new to Add-on development, start by reading the [introduction](./int
 ## Tabld of content
 
 1. [BuddyPress Components](./component/README.md)
+2. [BuddyPress Theme Compatibility](./theme-compat/README.md)

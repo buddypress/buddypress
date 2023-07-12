@@ -1,0 +1,3 @@
+# BuddyPress Theme compatibility
+
+TBD.
