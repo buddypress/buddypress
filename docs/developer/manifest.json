@@ -10,5 +10,23 @@
 		"slug": "introduction",
 		"markdown_source": "../developer/introduction/README.md",
 		"parent": null
+	},
+	{
+		"title": "BuddyPress Components",
+		"slug": "bp-components",
+		"markdown_source": "../developer/component/README.md",
+		"parent": null
+	},
+	{
+		"title": "Building a custom BuddyPress component",
+		"slug": "build-bp-component",
+		"markdown_source": "../developer/component/build-component.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Theme compatibility",
+		"slug": "bp-theme-compat",
+		"markdown_source": "../developer/theme-compat/README.md",
+		"parent": null
 	}
 ]
