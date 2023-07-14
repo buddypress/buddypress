@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "bp/item-avatar",
+	"title": "BuddyPress item avatar",
+	"category": "theme",
+	"icon": "format-image",
+	"description": "Displays the avatar of a BuddyPress item.",
+	"textdomain": "buddypress",
+	"usesContext": [ "itemId", "itemType" ],
+	"attributes": {
+		"size": {
+			"type": "number",
+			"default": 150
+		},
+		"isLink": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"supports": {
+		"align": [ "left", "right", "center" ],
+		"html": false,
+		"reusable": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"editorScript": "file:index.js"
+}

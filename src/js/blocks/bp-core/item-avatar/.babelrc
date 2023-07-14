@@ -1,0 +1,11 @@
+{
+	"presets": ["@wordpress/default"],
+	"plugins": [
+		[
+			"transform-react-jsx",
+			{
+				"pragma": "createElement"
+			}
+		]
+	]
+}

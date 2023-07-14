@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "bp/loop",
+  "title": "BuddyPress loop",
+  "category": "theme",
+  "icon": "image-rotate",
+  "description": "Displays items of a BuddyPress loop.",
+  "textdomain": "buddypress",
+  "attributes": {
+    "object": {
+      "type": "string",
+      "default": "members"
+    }
+  },
+  "supports": {
+    "align": [
+      "left",
+      "right",
+      "center",
+      "wide",
+      "full"
+    ],
+    "reusable": false,
+    "html": false,
+    "spacing": {
+      "margin": true,
+      "padding": true
+    }
+  },
+  "editorScript": "file:index.js",
+  "style": "file:index.css"
+}

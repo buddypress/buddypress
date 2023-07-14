@@ -451,23 +451,39 @@ class BP_Core extends BP_Component {
 	 *                      description.
 	 */
 	public function blocks_init( $blocks = array() ) {
-		$blocks_dir = trailingslashit( buddypress()->plugin_dir ) . 'bp-core/blocks';
-
-		parent::blocks_init(
-			array(
-				'bp/login-form' => array(
-					'metadata'        => $blocks_dir . '/login-form',
-					'render_callback' => 'bp_block_render_login_form_block',
-				),
-				'bp/item-header' => array(
-					'metadata'        => $blocks_dir . '/item-header',
-					'render_callback' => 'bp_block_render_item_header',
-				),
-				'bp/item-body' => array(
-					'metadata'        => $blocks_dir . '/item-body',
-					'render_callback' => 'bp_block_render_item_body',
-				),
+		$blocks_dir  = trailingslashit( buddypress()->plugin_dir ) . 'bp-core/blocks';
+		$core_blocks = array(
+			'bp/login-form' => array(
+				'metadata'        => $blocks_dir . '/login-form',
+				'render_callback' => 'bp_block_render_login_form_block',
 			)
 		);
+
+		// Only register Theme Blocks if the current theme is a block ones and if it supports `buddypress`.
+		if ( bp_theme_compat_is_block_theme() ) {
+			$core_blocks = array_merge(
+				$core_blocks,
+				array(
+					'bp/item-header' => array(
+						'metadata'        => $blocks_dir . '/item-header',
+						'render_callback' => 'bp_block_render_item_header',
+					),
+					'bp/item-body' => array(
+						'metadata'        => $blocks_dir . '/item-body',
+						'render_callback' => 'bp_block_render_item_body',
+					),
+					'bp/item-avatar' => array(
+						'metadata'        => $blocks_dir . '/item-avatar',
+						'render_callback' => 'bp_block_render_item_avatar',
+					),
+					'bp/loop' => array(
+						'metadata'        => $blocks_dir . '/loop',
+						'render_callback' => 'bp_block_render_loop',
+					),
+				)
+			);
+		}
+
+		parent::blocks_init( $core_blocks );
 	}
 }
