@@ -128,6 +128,8 @@ function bp_activity_embed_excerpt( $content = '' ) {
 	 * Generates excerpt for an activity embed item.
 	 *
 	 * @since 2.6.0
+	 * 
+	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
 	 * @param  string $content The content to generate an excerpt for.
 	 * @return string
@@ -164,6 +166,9 @@ function bp_activity_embed_excerpt( $content = '' ) {
  * Outputs the first embedded item in the activity oEmbed template.
  *
  * @since 2.6.0
+ * 
+ * @global BP_Activity_Template $activities_template The Activity template loop.
+ * 
  */
 function bp_activity_embed_media() {
 	// Bail if oEmbed request explicitly hides media.

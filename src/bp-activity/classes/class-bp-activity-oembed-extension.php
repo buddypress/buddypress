@@ -156,6 +156,8 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 * Sets a custom <blockquote> for our oEmbed fallback HTML.
 	 *
 	 * @since 2.6.0
+	 * 
+	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
 	 * @param  int $item_id The activity ID.
 	 * @return string

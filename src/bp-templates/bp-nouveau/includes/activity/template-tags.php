@@ -276,6 +276,8 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 	 *
 	 * @todo This function is too large and needs refactoring and reviewing.
 	 * @since 3.0.0
+	 * 
+	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
 	 * @param array $args See bp_nouveau_wrapper() for the description of parameters.
 	 * @return array      Activity action buttons used into an Activity Loop.
@@ -775,6 +777,8 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 	 * Get the action buttons for the activity comments
 	 *
 	 * @since 3.0.0
+	 * 
+	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
 	 * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
 	 *
