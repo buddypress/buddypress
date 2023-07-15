@@ -420,7 +420,7 @@ function bp_activity_load_more_link() {
 	function bp_get_activity_load_more_link() {
 		global $activities_template;
 
-		$url            = bp_get_requested_url();
+		$url            = remove_query_arg( 'ac', bp_get_requested_url() );
 		$load_more_args = array(
 			$activities_template->pag_arg => $activities_template->pag_page + 1,
 		);
@@ -2609,14 +2609,29 @@ function bp_activity_comment_link() {
 	function bp_get_activity_comment_link() {
 		global $activities_template;
 
+		$query_vars = array();
+
+		if ( isset( $_GET['acpage'] ) ) {
+			$query_vars['acpage'] = (int) wp_unslash( $_GET['acpage'] );
+		}
+
+		if ( isset( $_GET['offset_lower'] ) ) {
+			$query_vars['offset_lower'] = (int) wp_unslash( $_GET['offset_lower'] );
+		}
+
+		// This needs to be the last query var.
+		$query_vars['ac'] = $activities_template->activity->id;
+
+		$url = add_query_arg( $query_vars, bp_get_activity_directory_permalink() );
+
 		/**
 		 * Filters the comment link for the current activity comment.
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param string $value Constructed URL parameters with activity IDs.
+		 * @param string $url Constructed URL parameters with activity IDs.
 		 */
-		return apply_filters( 'bp_get_activity_comment_link', '?ac=' . $activities_template->activity->id . '/#ac-form-' . $activities_template->activity->id );
+		return apply_filters( 'bp_get_activity_comment_link', $url . '/#ac-form-' . $activities_template->activity->id );
 	}
 
 /**
@@ -2650,13 +2665,52 @@ function bp_activity_comment_form_nojs_display() {
 	}
 
 /**
+ * Outputs the URL to cancel a comment.
+ *
+ * @since 12.0.0
+ */
+function bp_activity_comment_cancel_url() {
+	echo esc_url( bp_get_activity_comment_cancel_url() );
+}
+
+/**
+ * Returns the URL to cancel a comment.
+ *
+ * @since 12.0.0
+ *
+ * @return string The URL to cancel a comment.
+ */
+function bp_get_activity_comment_cancel_url() {
+	$query_vars = array();
+
+	if ( isset( $_GET['acpage'] ) ) {
+		$query_vars['acpage'] = (int) wp_unslash( $_GET['acpage'] );
+	}
+
+	if ( isset( $_GET['offset_lower'] ) ) {
+		$query_vars['offset_lower'] = (int) wp_unslash( $_GET['offset_lower'] );
+	}
+
+	$url = add_query_arg( $query_vars, bp_get_activity_directory_permalink() );
+
+	/**
+	 * Filters the cancel comment link for the current activity comment.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param string $url Constructed URL parameters with activity IDs.
+	 */
+	return apply_filters( 'bp_get_activity_comment_cancel_url', $url );
+}
+
+/**
  * Output the activity comment form action.
  *
  * @since 1.2.0
  *
  */
 function bp_activity_comment_form_action() {
-	echo bp_get_activity_comment_form_action();
+	echo esc_url( bp_get_activity_comment_form_action() );
 }
 
 	/**
@@ -2664,19 +2718,24 @@ function bp_activity_comment_form_action() {
 	 *
 	 * @since 1.2.0
 	 *
-	 *
 	 * @return string The activity comment form action.
 	 */
 	function bp_get_activity_comment_form_action() {
+		$url  = bp_rewrites_get_url(
+			array(
+				'component_id'       => 'activity',
+				'single_item_action' => 'reply',
+			)
+		);
 
 		/**
 		 * Filters the activity comment form action URL.
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param string $value URL to use in the comment form's action attribute.
+		 * @param string $url URL to use in the comment form's action attribute.
 		 */
-		return apply_filters( 'bp_get_activity_comment_form_action', home_url( bp_get_activity_root_slug() . '/reply/' ) );
+		return apply_filters( 'bp_get_activity_comment_form_action', $url );
 	}
 
 /**
@@ -2802,14 +2861,24 @@ function bp_activity_favorite_link() {
 	function bp_get_activity_favorite_link() {
 		global $activities_template;
 
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'activity',
+				'single_item_action'           => 'favorite',
+				'single_item_action_variables' => array( $activities_template->activity->id ),
+			)
+		);
+
+		$url = wp_nonce_url( $url, 'mark_favorite' );
+
 		/**
 		 * Filters the activity favorite link.
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param string $value Constructed link for favoriting the activity comment.
+		 * @param string $url Constructed link for favoriting the activity comment.
 		 */
-		return apply_filters( 'bp_get_activity_favorite_link', wp_nonce_url( home_url( bp_get_activity_root_slug() . '/favorite/' . $activities_template->activity->id . '/' ), 'mark_favorite' ) );
+		return apply_filters( 'bp_get_activity_favorite_link', $url );
 	}
 
 /**
@@ -2834,14 +2903,24 @@ function bp_activity_unfavorite_link() {
 	function bp_get_activity_unfavorite_link() {
 		global $activities_template;
 
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'activity',
+				'single_item_action'           => 'unfavorite',
+				'single_item_action_variables' => array( $activities_template->activity->id ),
+			)
+		);
+
+		$url = wp_nonce_url( $url, 'unmark_favorite' );
+
 		/**
 		 * Filters the activity unfavorite link.
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param string $value Constructed link for unfavoriting the activity comment.
+		 * @param string $url Constructed link for unfavoriting the activity comment.
 		 */
-		return apply_filters( 'bp_get_activity_unfavorite_link', wp_nonce_url( home_url( bp_get_activity_root_slug() . '/unfavorite/' . $activities_template->activity->id . '/' ), 'unmark_favorite' ) );
+		return apply_filters( 'bp_get_activity_unfavorite_link', $url );
 	}
 
 /**
@@ -3588,15 +3667,21 @@ function bp_activity_post_form_action() {
 	 * @return string The activity post form action.
 	 */
 	function bp_get_activity_post_form_action() {
+		$url  = bp_rewrites_get_url(
+			array(
+				'component_id'       => 'activity',
+				'single_item_action' => 'post',
+			)
+		);
 
 		/**
 		 * Filters the action url used for the activity post form.
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param string $value URL to be used for the activity post form.
+		 * @param string $url URL to be used for the activity post form.
 		 */
-		return apply_filters( 'bp_get_activity_post_form_action', home_url( bp_get_activity_root_slug() . '/post/' ) );
+		return apply_filters( 'bp_get_activity_post_form_action', $url );
 	}
 
 /**

@@ -934,7 +934,12 @@ function bp_legacy_theme_activity_template_loader() {
 
 			break;
 		default:
-			$feed_url = home_url( bp_get_activity_root_slug() . '/feed/' );
+			$feed_url = bp_rewrites_get_url(
+				array(
+					'component_id'       => 'activity',
+					'single_item_action' => 'feed',
+				)
+			);
 			break;
 	}
 

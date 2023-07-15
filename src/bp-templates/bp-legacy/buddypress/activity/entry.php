@@ -8,7 +8,7 @@
  * @package BuddyPress
  * @subpackage bp-legacy
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 /**
@@ -133,7 +133,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 							?></label>
 							<textarea id="ac-input-<?php bp_activity_id(); ?>" class="ac-input bp-suggestions" name="ac_input_<?php bp_activity_id(); ?>"></textarea>
 						</div>
-						<input type="submit" name="ac_form_submit" value="<?php esc_attr_e( 'Post', 'buddypress' ); ?>" /> &nbsp; <a href="#" class="ac-reply-cancel"><?php _e( 'Cancel', 'buddypress' ); ?></a>
+						<input type="submit" name="ac_form_submit" value="<?php esc_attr_e( 'Post', 'buddypress' ); ?>" /> &nbsp; <a href="<?php bp_activity_comment_cancel_url(); ?>" class="ac-reply-cancel"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a>
 						<input type="hidden" name="comment_form_id" value="<?php bp_activity_id(); ?>" />
 					</div>
 
