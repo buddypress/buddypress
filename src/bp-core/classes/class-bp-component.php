@@ -1124,7 +1124,7 @@ class BP_Component {
 					$regex = $this->root_slug;
 					$query = 'index.php?' . $this->rewrite_ids['directory'] . '=1';
 
-					$rules[ $rule_key ]['regex'] = $regex;
+					$rules[ $rule_key ]['regex'] = $regex . '/?$';
 					$rules[ $rule_key ]['query'] = $query;
 				} else {
 					$regex  = trailingslashit( $regex ) . $rule_information['regex'];
