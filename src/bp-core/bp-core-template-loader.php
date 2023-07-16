@@ -569,7 +569,29 @@ function bp_parse_query( $posts_query ) {
 	$bp = buddypress();
 
 	if ( ! $bp->unfiltered_uri ) {
-		$bp->unfiltered_uri        = explode( '/', $GLOBALS['wp']->request );
+		$unfiltered_uri = explode( '/', $GLOBALS['wp']->request );
+
+		// Make sure to set the BP unfiltered_uri global when plain links are used.
+		if ( ! bp_has_pretty_urls() ) {
+			$bp_directories = array();
+			foreach ( $bp->pages as $component_id => $page_properties ) {
+				if ( isset( $bp->{$component_id}->rewrite_ids['directory'] ) ) {
+					$bp_directories[ $bp->{$component_id}->rewrite_ids['directory'] ] = $page_properties->slug;
+				} elseif ( 'activate' === $component_id || 'register' === $component_id ) {
+					$bp_directories[ 'bp_member_' . $component_id ] = $page_properties->slug;
+				}
+			}
+
+			$url_query_chunks = bp_parse_args( $GLOBALS['wp']->query_string, array() );
+			$directory        = key( $url_query_chunks );
+			if ( isset( $bp_directories[ $directory ] ) ) {
+				$url_query_chunks[ $directory ] = $bp_directories[ $directory ];
+			}
+
+			$unfiltered_uri = array_values( $url_query_chunks );
+		}
+
+		$bp->unfiltered_uri        = $unfiltered_uri;
 		$bp->unfiltered_uri_offset = 0;
 	}
 

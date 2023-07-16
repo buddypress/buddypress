@@ -343,32 +343,38 @@ function bp_core_new_nav_default( $args = '' ) {
 		$parent_nav->slug
 	);
 
-	/**
-	 * Update secondary nav items:
-	 * - The previous default nav item needs to have its slug added to its link property.
-	 * - The new default nav item needs to have its slug removed from its link property.
-	 */
-	$previous_default_subnav = $bp->members->nav->get( $parent_nav->slug . '/' . $parent_nav->default_subnav_slug );
+	// Only edit old & new default subnavs when using the Legacy URL parser.
+	if ( 'rewrites' !== bp_core_get_query_parser() ) {
+		/**
+		 * Update secondary nav items:
+		 * - The previous default nav item needs to have its slug added to its link property.
+		 * - The new default nav item needs to have its slug removed from its link property.
+		 */
+		$previous_default_subnav = $bp->members->nav->get( $parent_nav->slug . '/' . $parent_nav->default_subnav_slug );
 
-	// Edit the link of the previous default nav item.
-	$bp->members->nav->edit_nav(
-		array(
-			'link' => trailingslashit( $previous_default_subnav->link . $previous_default_subnav->slug ),
-		),
-		$previous_default_subnav->slug,
-		$parent_nav->slug
-	);
+		// Edit the link of the previous default nav item.
+		$bp->members->nav->edit_nav(
+			array(
+				'link' => trailingslashit( $previous_default_subnav->link . $previous_default_subnav->slug ),
+			),
+			$previous_default_subnav->slug,
+			$parent_nav->slug
+		);
 
-	$new_default_subnav = $bp->members->nav->get( $parent_nav->slug . '/' . $r['subnav_slug'] );
+		$new_default_subnav = $bp->members->nav->get( $parent_nav->slug . '/' . $r['subnav_slug'] );
 
-	// Edit the link of the new default nav item.
-	$bp->members->nav->edit_nav(
-		array(
-			'link' => rtrim( untrailingslashit( $new_default_subnav->link ), $new_default_subnav->slug ),
-		),
-		$new_default_subnav->slug,
-		$parent_nav->slug
-	);
+		// Make sure the `$new_default_subnav` properties are set.
+		if ( isset( $new_default_subnav->link, $new_default_subnav->slug ) ) {
+			// Edit the link of the new default nav item.
+			$bp->members->nav->edit_nav(
+				array(
+					'link' => rtrim( untrailingslashit( $new_default_subnav->link ), $new_default_subnav->slug ),
+				),
+				$new_default_subnav->slug,
+				$parent_nav->slug
+			);
+		}
+	}
 
 	if ( bp_is_current_component( $parent_nav->slug ) ) {
 
