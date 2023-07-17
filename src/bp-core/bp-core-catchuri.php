@@ -563,7 +563,7 @@ function bp_get_canonical_url( $args = array() ) {
 		 * type directory.
 		 */
 		if ( false !== $front_page_component && bp_is_current_component( $front_page_component ) && ! bp_current_action() && ! bp_get_current_member_type() ) {
-			$bp->canonical_stack['canonical_url'] = bp_get_root_url();
+			$bp->canonical_stack['canonical_url'] = trailingslashit( bp_get_root_url() );
 
 		// Except when the front page is set to the registration page
 		// and the current user is logged in. In this case we send to

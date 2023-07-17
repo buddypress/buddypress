@@ -976,7 +976,7 @@ function bp_core_include_directory_on_front( $pages = array(), $args = array() )
 			}
 
 			$post = (object) array(
-				'ID'                    => $directory->id,
+				'ID'                    => (int) $directory->id,
 				'post_author'           => 0,
 				'post_date'             => $null,
 				'post_date_gmt'         => $null,
