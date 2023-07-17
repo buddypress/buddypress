@@ -2533,51 +2533,69 @@ function bp_core_action_search_site( $slug = '' ) {
 		return;
 	}
 
+	// Set default search URL.
+	$url = bp_get_root_url();
+
 	if ( empty( $_POST['search-terms'] ) ) {
-		bp_core_redirect( bp_get_root_url() );
+		bp_core_redirect( $url );
 		return;
 	}
 
-	$search_terms = stripslashes( $_POST['search-terms'] );
-	$search_which = !empty( $_POST['search-which'] ) ? $_POST['search-which'] : '';
-	$query_string = '/?s=';
+	$search_terms         = sanitize_text_field( wp_unslash( $_POST['search-terms'] ) );
+	$encoded_search_terms = urlencode( $search_terms );
+	$search_which         = '';
+
+	if ( ! empty( $_POST['search-which'] ) ) {
+		$search_which = sanitize_key( wp_unslash( $_POST['search-which'] ) );
+	}
 
 	if ( empty( $slug ) ) {
 		switch ( $search_which ) {
 			case 'posts':
-				$slug = '';
-				$var  = '/?s=';
+				$url = home_url();
 
 				// If posts aren't displayed on the front page, find the post page's slug.
-				if ( 'page' == get_option( 'show_on_front' ) ) {
+				if ( 'page' === get_option( 'show_on_front' ) ) {
 					$page = get_post( get_option( 'page_for_posts' ) );
 
-					if ( !is_wp_error( $page ) && !empty( $page->post_name ) ) {
+					if ( ! is_wp_error( $page ) && ! empty( $page->post_name ) ) {
 						$slug = $page->post_name;
-						$var  = '?s=';
+						$url  = get_post_permalink( $page );
 					}
 				}
+
+				$url = add_query_arg( 's', $encoded_search_terms, $url );
 				break;
 
 			case 'activity':
-				$slug = bp_is_active( 'activity' )  ? bp_get_activity_root_slug()  : '';
+				if ( bp_is_active( 'activity' ) ) {
+					$slug = bp_get_activity_root_slug();
+					$url  = add_query_arg( 'activity_search', $encoded_search_terms, bp_get_activity_directory_permalink() );
+				}
 				break;
 
 			case 'blogs':
-				$slug = bp_is_active( 'blogs' )  ? bp_get_blogs_root_slug()  : '';
+				if ( bp_is_active( 'blogs' ) ) {
+					$slug = bp_get_blogs_root_slug();
+					$url  = add_query_arg( 'sites_search', $encoded_search_terms, bp_get_blogs_directory_url() );
+				}
 				break;
 
 			case 'groups':
-				$slug = bp_is_active( 'groups' ) ? bp_get_groups_root_slug() : '';
+				if ( bp_is_active( 'groups' ) ) {
+					$slug = bp_get_groups_root_slug();
+					$url  = add_query_arg( 'groups_search', $encoded_search_terms, bp_get_groups_directory_url() );
+				}
 				break;
 
 			case 'members':
 			default:
 				$slug = bp_get_members_root_slug();
+				$url  = add_query_arg( 'members_search', $encoded_search_terms, bp_get_members_directory_permalink() );
 				break;
 		}
 
-		if ( empty( $slug ) && 'posts' != $search_which ) {
+		if ( empty( $slug ) && 'posts' !== $search_which ) {
 			bp_core_redirect( bp_get_root_url() );
 			return;
 		}
@@ -2588,10 +2606,10 @@ function bp_core_action_search_site( $slug = '' ) {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $value        URL for use with site searching.
+	 * @param string $url        URL for use with site searching.
 	 * @param array  $search_terms Array of search terms.
 	 */
-	bp_core_redirect( apply_filters( 'bp_core_search_site', home_url( $slug . $query_string . urlencode( $search_terms ) ), $search_terms ) );
+	bp_core_redirect( apply_filters( 'bp_core_search_site', $url, $search_terms ) );
 }
 
 /**
