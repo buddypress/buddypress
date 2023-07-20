@@ -575,16 +575,15 @@ class BP_Groups_Component extends BP_Component {
 			}
 
 			if ( ! empty( $bp->action_variables ) ) {
+				$chunks               = array( $current_action, $bp->action_variables );
 				$key_action_variables = 'single_item_action_variables';
 
 				if ( bp_is_group_admin_page() ) {
 					$context = 'manage';
-				} elseif ( bp_is_group_create() ) {
-					$context              = 'create';
-					$key_action_variables = 'create_single_item_variables';;
+					array_shift( $chunks );
 				}
 
-				$path_chunks                             = bp_groups_get_path_chunks( $bp->action_variables, $context );
+				$path_chunks                             = bp_groups_get_path_chunks( $chunks, $context );
 				$bp->canonical_stack['action_variables'] = bp_action_variables();
 
 				if ( isset( $path_chunks[ $key_action_variables ] ) ) {
