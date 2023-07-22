@@ -1,5 +1,13 @@
-// Livestamp.js / v1.1.2 / (c) 2012 Matt Bradley / MIT License
-(function($, moment) {
+// Livestamp.js / v2.0.0 / (c) 2015 Matt Bradley / MIT License
+(function (plugin) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['jquery', 'moment'], plugin);
+  } else {
+    // Browser globals
+    plugin(jQuery, moment);
+  }
+}(function($, moment) {
   var updateInterval = 1e3,
       paused = false,
       $livestamps = $([]),
@@ -60,6 +68,7 @@
       });
 
       $livestamps = $livestamps.not(toRemove);
+      delete $livestamps.prevObject
     },
 
     pause: function() {
@@ -126,4 +135,4 @@
 
     return livestampLocal[method](this, options);
   };
-})(jQuery, moment);
+}));
