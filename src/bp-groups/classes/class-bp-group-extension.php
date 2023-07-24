@@ -196,14 +196,6 @@ class BP_Group_Extension {
 	public $show_tab_callback = '';
 
 	/**
-	 * List of Group access levels.
-	 *
-	 * @since 12.0.0
-	 * @var string[]
-	 */
-	public $access_levels = array( 'noone', 'admin', 'mod', 'member', 'loggedin', 'anyone' );
-
-	/**
 	 * Whether the current user can visit the tab.
 	 *
 	 * @since 2.1.0
@@ -513,6 +505,7 @@ class BP_Group_Extension {
 	 *                                           tab to group moderators and admins, specify
 	 *                                           `array( 'mod', 'admin' )`. Defaults to 'anyone' for public groups
 	 *                                           and 'member' for private groups.
+	 *    @type string|array  $show_tab_callback The function to execute to set the $show_tab argument.
 	 * }
 	 */
 	public function init( $args = array() ) {
@@ -544,15 +537,12 @@ class BP_Group_Extension {
 				'screens'           => $this->get_default_screens(),
 				'access'            => null,
 				'show_tab'          => null,
+				'show_tab_callback' => '',
 			)
 		);
 
-		$show_tab = $this->params['show_tab'];
-		if ( $show_tab && ! in_array( $show_tab, $this->access_levels, true ) && is_callable( $show_tab ) ) {
-			$this->show_tab_callback = $show_tab;
-
-			// Group Admin can always see.
-			$this->params['show_tab'] = 'admin';
+		if ( $this->params['show_tab_callback'] && is_callable( $this->params['show_tab_callback'] ) ) {
+			$this->show_tab_callback = $this->params['show_tab_callback'];
 		}
 
 		$this->initialized = true;
@@ -866,9 +856,14 @@ class BP_Group_Extension {
 		// Tab Visibility.
 		$this->user_can_see_nav_item = false;
 
+		// Use the provided callback to show or hide the Group extension tab.
+		if ( $this->show_tab_callback ) {
+			$this->params['show_tab'] = call_user_func_array( $this->show_tab_callback, array( $this->group_id ) );
+		}
+
 		/*
 		 * Backward compatibility for components that do not provide
-		 * explicit 'show_tab' parameter.
+		 * explicit 'show_tab_callback' or 'show_tab' parameters.
 		 */
 		if ( empty( $this->params['show_tab'] ) ) {
 			if ( false === $this->params['enable_nav_item'] ) {
@@ -1109,10 +1104,6 @@ class BP_Group_Extension {
 		// Always allow moderators to see nav items, even if explicitly 'noone'
 		if ( ( 'noone' !== $this->params['show_tab'] ) && bp_current_user_can( 'bp_moderate' ) ) {
 			return true;
-		}
-
-		if ( $this->show_tab_callback ) {
-			return call_user_func( $this->show_tab_callback );
 		}
 
 		return $this->user_can_see_nav_item;
