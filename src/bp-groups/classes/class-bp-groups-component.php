@@ -329,6 +329,18 @@ class BP_Groups_Component extends BP_Component {
 	}
 
 	/**
+	 * Set up the component actions.
+	 *
+	 * @since 12.0.0
+	 */
+	public function setup_actions() {
+		parent::setup_actions();
+
+		// Check the parsed query is consistent with the Group’s registered screens.
+		add_action( 'bp_parse_query',  array( $this, 'check_parsed_query' ), 999, 0 );
+	}
+
+	/**
 	 * Set up additional globals for the component.
 	 *
 	 * @since 10.0.0
@@ -1189,6 +1201,30 @@ class BP_Groups_Component extends BP_Component {
 		}
 
 		parent::parse_query( $query );
+	}
+
+	/**
+	 * Check the parsed query is consistent with Group’s registered screens.
+	 *
+	 * @since 12.0.0
+	 */
+	public function check_parsed_query() {
+		if ( bp_is_group() ) {
+			$slug    = bp_current_action();
+			$context = 'read';
+
+			if ( 'admin' === $slug ) {
+				$slug    = bp_action_variable( 0 );
+				$context = 'manage';
+			}
+
+			$registered_group_screens = bp_get_group_screens( $context );
+
+			if ( ! isset( $registered_group_screens[ $slug ] ) ) {
+				bp_do_404();
+				return;
+			}
+		}
 	}
 
 	/**
