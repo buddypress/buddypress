@@ -112,3 +112,67 @@ _(optional)_ The template file that BuddyPress will use as a wrapper to display 
 #### `screens`
 
 _(optional)_ A multi-dimensional array of options related to the three secondary “screens” available to group extensions: `create` (the step dedicated to the extension during the group creation process), `edit` (the subtab dedicated to the extension under the Admin tab of the group), and `admin` (the extension’s metabox that appears on the group page when editing via the Groups Administration Dashboard panels). Each of these screens has a set of configuration options, to be described below. Note that all config values are optional, and you only need to override those values where you want to change the default – BuddyPress will parse your `screens` array, using your provided values when available, otherwise falling back on the defaults.
+
+- `create` – Config options for the `create` screen
+  - `position` – The position of the group extension’s step in the Create a Group process. An integer between `1` and `100` is recommended. Defaults to `81`.
+  - `enabled` – `true` if you want your group extension to have a Create step, otherwise `false`. Defaults to `true`.
+  - `name` – The name of the creation step, as it appears in the step’s navigation tab. Defaults to the general `name` value described above.
+  - `slug` – The string used to create the URL of the creation step. Defaults to the general `slug` value described above.
+  - `screen_callback` – The function BuddyPress will call to display the content of your create screen. BuddyPress attempts to determine this function 
+  automatically; see Methods below. Do not change this value unless you know what you’re doing.
+  - `screen_save_callback` – The function BuddyPress will call after the group extension’s create step has been saved. BuddyPress attempts to determine this 
+  function automatically; see Methods below. Do not change this value unless you know what you’re doing.
+
+- `edit` – Config options for the ‘edit’ screen, a sub item of the Group's Manage item on the front-end.
+  - `submit_text` – The text of the submit button on the edit screen. Defaults to 'Edit'.
+  - `enabled` – `true` if you want your group extension to have a subtab in the Group Adimn area, otherwise `false`. Defaults to `true`.
+  - `name` – The text that appears in the navigation tab for the group extension’s Edit screen. Defaults to the general `name` value described above.
+  - `slug` – The string used to create the URL of the admin tab. Defaults to the general `slug` value described above.
+  - `screen_callback` – The function BuddyPress will call to display the content of your admin tab. BuddyPress attempts to determine this function automatically; 
+  see Methods below. Do not change this value unless you know what you’re doing.
+  - `screen_save_callback` – The function BuddyPress will call after the group extension’s admin tab has been saved. BuddyPress attempts to determine this 
+  function automatically; see Methods below. Do not change this value unless you know what you’re doing.
+
+- `admin` – Config options for the `admin` screen, available from the "Groups" administration menu of your WordPress Dashboard (_Group Admin area_).  
+  - `metabox_context` – The context for your group extension’s metabox. Defaults to `'normal'`. (See [add_meta_box()](https://developer.wordpress.org/reference/functions/add_meta_box/) for more details.)
+  - `metabox_priority` – The priority for your group extension’s metabox. Defaults to `''`. (See [add_meta_box()](https://developer.wordpress.org/reference/functions/add_meta_box/) for more details.)
+  - `enabled` – `true` if you want your group extension to have a subtab in the _Group Admin area_, otherwise `false`. Defaults to `true`.
+  - `name` – The text used as the title for the meta box of your group extension’s Admin screen. Defaults to the general `name` value described above.
+  - `slug` – The string used as the meta box ID (used in the `id` attribute for the meta box). Defaults to the general `slug` value described above.
+  - `screen_callback` – The function BuddyPress will call to display the content for the meta box of your group extension’s Admin screen. BuddyPress attempts to 
+  determine this function automatically; see Methods below. Do not change this value unless you know what you’re doing.
+  - `screen_save_callback` – The function BuddyPress will call to save your group extension’s admin settings during the Group admin settings update. BuddyPress 
+  attempts to determine this function automatically; see Methods below. Do not change this value unless you know what you’re doing.
+
+### Available Methods for your group extension’s class
+
+`BP_Group_Extension` has built-in support for a number of different customization methods, which you can override in your group extension’s class as needed.
+
+#### `display()`
+The most prominent of these methods is `display()`, which BuddyPress uses to generate the output of the add-on’s main tab. It includes the `$group_id` argument so that you can customize your output according to the current displayed group. Your `display()` method should echo markup, which BuddyPress will automatically place into the proper template. As a reminder, below is the code we used in our very basic example of a group extension's class.
+
+```php
+if ( bp_is_active( 'groups' ) ) {
+	class BP_Custom_AddOn_Group_Extension extends BP_Group_Extension {
+		public function __construct() { /* Your group extension's constructor. */ }
+
+		/**
+		 * Outputs the content of your group extension tab.
+		 *
+		 * @param int|null $group_id ID of the displayed group.
+		 */
+		public function display( $group_id = null ) {
+			// You need to echo the markup.
+			printf( '<p>%1$s %2$s</p>', esc_html__( 'It works! The displayed group ID is', 'custom-text-domain' ), $group_id );
+		}
+	}
+}
+```
+
+#### Other screen methods
+For the three “screen” contexts – `create`, `edit`, and `admin` – a flexible system allows you to customize the way that your group extension’s screens work, without unnecessary reproduction of code. Your group extension should, **at minimum**, provide the following two methods if you defined one or more screen context into your configuration array:
+
+- `settings_screen()`: outputs the fallback markup for your `create` / `edit` / `admin` screens.
+- `settings_screen_save()`: called after changes are submitted from the `create` / `edit` / `admin` screens. This method should contain the logic necessary to catch settings form submits, validate submitted settings, and save them to the database.
+
+**NB**: these 2 methods include the `$group_id` argument so that you can customize your output according to the current group being created, edited or adminstrated.
