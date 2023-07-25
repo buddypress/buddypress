@@ -175,4 +175,128 @@ For the three “screen” contexts – `create`, `edit`, and `admin` – a flex
 - `settings_screen()`: outputs the fallback markup for your `create` / `edit` / `admin` screens.
 - `settings_screen_save()`: called after changes are submitted from the `create` / `edit` / `admin` screens. This method should contain the logic necessary to catch settings form submits, validate submitted settings, and save them to the database.
 
-**NB**: these 2 methods include the `$group_id` argument so that you can customize your output according to the current group being created, edited or adminstrated.
+**NB**: these 2 methods include the `$group_id` argument so that you can customize your output/handler according to the current group being created, edited or adminstrated.
+
+Let's improve our example of basic group extension including a feature to let the creator/administrator of the group decide whether they want to "activate" the group extension main tab for their group.
+
+|![Create Screen](../assets/bp-custom-group-extension-create-screen.png)|![Edit Screen](../assets/bp-custom-group-extension-edit-screen.png)|![Admin Screen](../assets/bp-custom-group-extension-admin-screen.png)|
+|:-:|:-:|:-:|
+|Create screen|Edit screen|Admin screen|
+
+As shown above, we need to output a form on the group’s `create`, `edit` & `admin` screens. The first step is to edit the configuration array (`$args`) the `__construct()` method is sending to `BP_Group_Extension::init()` so that it includes a `$screens` argument and a `$show_tab_callback` argument. The first will define the screens we need to add, and the second one will set the callback function to use to check whether to display the group’s extension main tab or not. Here's how the configuration array should look like:
+
+```php
+$args = array(
+	'slug'              => 'custom-group-extension',
+	'name'              => __( 'Custom group extension', 'custom-text-domain' ),
+	'nav_item_position' => 105,
+	'access'            => 'anyone',
+
+	// Set the callback function definining the `$show_tab` argument dynamically.
+	'show_tab_callback' => array( $this, 'show_tab' ),
+
+	// Define the screens using default screen settings.
+	'screens'           => array(
+		'edit'   => array(),
+		'create' => array(),
+		'admin'  => array(),
+	),
+);
+```
+
+**NB**: if you need your group extension to be back compatible with version of BuddyPress < 12.0.0, you'll need to add a conditional statement to use the `$show_tab` argument instead of the `$show_tab_callback` one. Here’s an example of how to add it:
+
+```php
+// BuddyPress < 12.0.0 or BuddyPress >= 12.0.0 with the BP Classic backcompat plugin active.
+if ( ! function_exists( 'bp_core_get_query_parser' ) || 'legacy' === bp_core_get_query_parser() ) {
+	$args['show_tab'] = $this->show_tab();
+	unset( $args['show_tab_callback'] );
+}
+```
+
+**NB**: note that in the above code, we are not setting the callback function but running it. This means as it doesn’t include the `$group_id` in this case, you’ll need to use the `bp_get_current_group_id()` to set it within your `show_tab()` method. For example:
+
+```php
+/**
+ * Checks whether the main group extension’s tab should be displayed.
+ *
+ * @param int|null $group_id ID of the displayed group.
+ * @return string 'anyone' if the group extension’s tab should be displayed. 'noone' otherwise.
+ */
+public function show_tab( $group_id = null ) {
+	if ( ! $group_id ) {
+		$group_id = bp_get_current_group_id();
+	}
+
+	$show_tab = 'noone';
+	if ( $group_id && groups_get_groupmeta( $group_id, 'bp_custom_group_extension_is_active' ) ) {
+		$show_tab = 'anyone';
+	}
+
+	return $show_tab;
+}
+```
+
+The second step is to code the `settings_screen()` & `settings_screen_save()` methods so that each screen will output a form and handle its submission. Here's how these should look like into your group extension’s class:
+
+```php
+if ( bp_is_active( 'groups' ) ) {
+	class BP_Custom_AddOn_Group_Extension extends BP_Group_Extension {
+		public function __construct() { /* Your group extension's constructor. */ }
+		public function display( $group_id = null ) { /* Outputs the content of your group extension tab. */ }
+
+		/**
+		 * Outputs a form to activate the extension on 'edit', 'create' & 'admin' screens.
+		 *
+		 * @param int|null $group_id ID of the displayed group.
+		 */
+		public function settings_screen( $group_id = null ) {
+			$active = (int) groups_get_groupmeta( $group_id, 'bp_custom_group_extension_is_active' );
+			printf(
+				'<label><input type="checkbox" name="bp_custom_group_extension_is_active" value="1" %1$s>%2$s</input></label>
+				<input type="hidden" name="bp_custom_group_extension_was_active" value="%3$s">',
+				checked( $active, true, false ),
+				esc_html__( 'I want to activate the custom group extension!', 'custom-text-domain' ),
+				$active
+			);
+		}
+
+		/**
+		 * Activate or Deactivate the group extension from 'edit', 'create' or 'admin' screens.
+		 *
+		 * @param int|null $group_id ID of the displayed group.
+		 */
+		public function settings_screen_save( $group_id = null ) {
+			$was_active = 0;
+			$is_active  = 0;
+
+			if ( isset( $_REQUEST['bp_custom_group_extension_was_active'] ) ) {
+				$was_active = intval( wp_unslash( $_REQUEST['bp_custom_group_extension_was_active'] ) );
+
+				if ( isset( $_REQUEST['bp_custom_group_extension_is_active'] ) ) {
+					$is_active = intval( wp_unslash( $_REQUEST['bp_custom_group_extension_is_active'] ) );
+				}
+
+				if ( $was_active && ! $is_active ) {
+					groups_delete_groupmeta( $group_id, 'bp_custom_group_extension_is_active' );
+				} elseif ( ! $was_active && $is_active ) {
+					groups_update_groupmeta( $group_id, 'bp_custom_group_extension_is_active', $is_active );
+				}
+			}
+		}
+	}
+}
+```
+
+Finally, If your extension requires further customization to one or more of the screens, BuddyPress provides the following methods, which are context-specific:
+
+- `create_screen()`: outputs the fallback markup for your `create` screen.
+- `create_screen_save()`: called after changes are submitted from the `create` screen. This method should contain the logic necessary to catch settings form submits, validate submitted settings, and save them to the database.
+- `edit_screen()`: outputs the fallback markup for your `edit` screen.
+- `edit_screen_save()`: called after changes are submitted from the `edit` screen. This method should contain the logic necessary to catch settings form submits, validate submitted settings, and save them to the database.
+- `admin_screen()`: outputs the fallback markup for your `admin` screen.
+- `admin_screen_save()`: called after changes are submitted from the `admin` screen. This method should contain the logic necessary to catch settings form submits, validate submitted settings, and save them to the database.
+
+**NB**: these methods include the `$group_id` argument so that you can customize your output/handler according to the current group being updated.
+
+If your extension contains any of these methods, BuddyPress will use them when appropriate. Otherwise, the generic `settings_screen()` or `settings_screen_save()` will be used.
