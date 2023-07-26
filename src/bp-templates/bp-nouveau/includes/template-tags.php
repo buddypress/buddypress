@@ -1513,12 +1513,6 @@ function bp_nouveau_container_classes() {
 
 		// Add classes according to site owners preferences. These are options set via Customizer.
 
-		// These are general site wide Cust options falling outside component checks
-		$general_settings = bp_nouveau_get_temporary_setting( 'avatar_style', bp_nouveau_get_appearance_settings( 'avatar_style' ) );
-		if ( $general_settings ) {
-			$classes[] = 'round-avatars';
-		}
-
 		// Set via earlier switch for component check to provide correct option key.
 		if ( $customizer_option ) {
 			$layout_prefs  = bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );

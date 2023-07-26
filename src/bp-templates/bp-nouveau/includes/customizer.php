@@ -3,7 +3,7 @@
  * Code to hook into the WP Customizer
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 /**
@@ -82,13 +82,6 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 	 * @param array $value Array of Customizer settings.
 	 */
 	$settings = apply_filters( 'bp_nouveau_customizer_settings', array(
-		'bp_nouveau_appearance[avatar_style]' => array(
-			'index'             => 'avatar_style',
-			'capability'        => 'bp_moderate',
-			'sanitize_callback' => 'absint',
-			'transport'         => 'refresh',
-			'type'              => 'option',
-		),
 		'bp_nouveau_appearance[user_front_page]' => array(
 			'index'             => 'user_front_page',
 			'capability'        => 'bp_moderate',
@@ -227,12 +220,6 @@ function bp_nouveau_customize_register( WP_Customize_Manager $wp_customize ) {
 	}
 
 	$controls = array(
-		'bp_site_avatars' => array(
-			'label'      => __( 'Use the round style for member and group avatars.', 'buddypress' ),
-			'section'    => 'bp_nouveau_general_settings',
-			'settings'   => 'bp_nouveau_appearance[avatar_style]',
-			'type'       => 'checkbox',
-		),
 		'user_front_page' => array(
 			'label'      => __( 'Enable default front page for member profiles.', 'buddypress' ),
 			'section'    => 'bp_nouveau_user_front_page',

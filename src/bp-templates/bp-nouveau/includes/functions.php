@@ -3,7 +3,7 @@
  * Common functions
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 // Exit if accessed directly.
@@ -640,7 +640,6 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
  */
 function bp_nouveau_get_appearance_settings( $option = '' ) {
 	$default_args = array(
-		'avatar_style'       => 0,
 		'global_alignment'   => 'alignwide',
 		'user_front_page'    => 0,
 		'user_front_bio'     => 0,
