@@ -189,6 +189,9 @@ class BP_Legacy extends BP_Theme_Compat {
 			add_action( 'wp_ajax_nopriv_' . $name, $function );
 		}
 
+		// Register the heartbeat Ajax action.
+		bp_ajax_register_action( 'heartbeat' );
+
 		add_filter( 'bp_ajax_querystring', 'bp_legacy_theme_ajax_querystring', 10, 2 );
 
 		/** Override **********************************************************/
