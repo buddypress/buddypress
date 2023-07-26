@@ -24,6 +24,12 @@
 		"parent": null
 	},
 	{
+		"title": "Group Extension API",
+		"slug": "bp-group-extension",
+		"markdown_source": "../developer/group-extension/README.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Theme compatibility",
 		"slug": "bp-theme-compat",
 		"markdown_source": "../developer/theme-compat/README.md",
