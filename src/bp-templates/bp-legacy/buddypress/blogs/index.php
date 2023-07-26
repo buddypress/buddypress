@@ -61,7 +61,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Sites directory main navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
 				<li class="selected" id="blogs-all">
-					<a href="<?php bp_blogs_directory_permalink(); ?>">
+					<a href="<?php bp_blogs_directory_url(); ?>">
 						<?php
 						/* translators: %s: all blogs count */
 						printf( __( 'All Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count() . '</span>' ); ?>

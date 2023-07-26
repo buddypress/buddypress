@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 12.0.0
  */
 
 /**
@@ -40,7 +40,7 @@ do_action( 'bp_before_create_blog_content_template' ); ?>
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p><?php _e( 'Site registration is currently disabled', 'buddypress' ); ?></p>
+			<p><?php esc_html_e( 'Site registration is currently disabled', 'buddypress' ); ?></p>
 		</div>
 
 	<?php endif; ?>
