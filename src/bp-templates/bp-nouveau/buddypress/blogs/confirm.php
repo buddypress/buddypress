@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress - Blogs Create
+ * BuddyPress - Blogs Confirm
  *
  * @since 12.0.0
  * @version 12.0.0
