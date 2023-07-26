@@ -177,4 +177,56 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 
 		$profile_template = $reset_profile_template;
 	}
+
+	/**
+	 * @group bp_get_the_profile_field_ids
+	 * @group bp_has_profile
+	 */
+	public function test_bp_get_the_profile_field_ids() {
+		global $profile_template;
+		$reset_profile_template = $profile_template;
+
+		$group     = self::factory()->xprofile_group->create();
+		$fields_in = array(
+			self::factory()->xprofile_field->create(
+				array(
+					'field_group_id' => $group,
+				)
+			),
+			self::factory()->xprofile_field->create(
+				array(
+					'field_group_id' => $group,
+				)
+			)
+		);
+
+		bp_has_profile( array( 'profile_group_id' => $group ) );
+		$this->assertSame( bp_get_the_profile_field_ids(), implode( ',', $fields_in ) );
+
+		foreach ( $fields_in as $field_in_id ) {
+			xprofile_delete_field( $field_in_id );
+		}
+
+		xprofile_delete_field_group( $group );
+
+		$profile_template = $reset_profile_template;
+	}
+
+	/**
+	 * @group bp_get_the_profile_field_ids
+	 */
+	public function test_bp_get_the_profile_field_ids_no_group() {
+		global $profile_template;
+		$reset_profile_template = $profile_template;
+
+		$profile_template = new stdClass();
+
+		$this->assertEquals( '', bp_get_the_profile_field_ids() );
+
+		$profile_template->groups = array();
+
+		$this->assertEquals( '', bp_get_the_profile_field_ids() );
+
+		$profile_template = $reset_profile_template;
+	}
 }
