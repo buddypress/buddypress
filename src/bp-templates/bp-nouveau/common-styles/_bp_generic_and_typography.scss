@@ -141,15 +141,6 @@ body.buddypress { // add weight
 
 @include clearfix-element(".bp-wrap");
 
-// General site avatars round or square ?
-// User set
-.buddypress-wrap.round-avatars {
-
-	.avatar {
-		border-radius: 50%;
-	}
-}
-
 // ====== BP Typographic Elements ======
 
 // === Font sizing ===

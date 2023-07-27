@@ -133,10 +133,6 @@ body.buddypress .buddypress-wrap h2:before {
 	clear: both;
 }
 
-.buddypress-wrap.round-avatars .avatar {
-	border-radius: 50%;
-}
-
 body.buddypress article.page > .entry-header {
 	margin-bottom: 2em;
 	padding: 0;
