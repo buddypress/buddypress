@@ -99,6 +99,31 @@ function bp_nouveau_blogs_create_hook( $when = '', $suffix = '' ) {
 }
 
 /**
+ * Fire specific hooks into the blogs confirm template
+ *
+ * @since 12.0.0
+ *
+ * @param string $when   Optional. Either 'before' or 'after'.
+ * @param string $suffix Optional. Use it to add terms at the end of the hook name.
+ */
+function bp_nouveau_blogs_confirm_hook( $when = '', $suffix = '' ) {
+	$hook = array( 'bp' );
+
+	if ( $when ) {
+		$hook[] = $when;
+	}
+
+	// It's a create a blog hook
+	$hook[] = 'blog_confirmed';
+
+	if ( $suffix ) {
+		$hook[] = $suffix;
+	}
+
+	bp_nouveau_hook( $hook );
+}
+
+/**
  * Fire an isolated hook inside the blogs loop
  *
  * @since 3.0.0

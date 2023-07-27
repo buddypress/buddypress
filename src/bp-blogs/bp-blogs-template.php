@@ -1327,26 +1327,13 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 	$login_url = set_url_scheme( wp_login_url() );
 	restore_current_blog();
 
-	?>
-	<p class="success"><?php esc_html_e( 'Congratulations! You have successfully registered a new site.', 'buddypress' ) ?></p>
-	<p>
-		<?php printf(
-			'%s %s',
-			sprintf(
-				/* translators: %s: the link of the new site */
-				__( '%s is your new site.', 'buddypress' ),
-				sprintf( '<a href="%s">%s</a>', esc_url( $blog_url ), esc_url( $blog_url ) )
-			),
-			sprintf(
-				/* translators: 1: Login URL, 2: User name */
-				__( '<a href="%1$s">Log in</a> as "%2$s" using your existing password.', 'buddypress' ),
-				esc_url( $login_url ),
-				esc_html( $user_name )
-			)
-		); ?>
-	</p>
+	$args = array(
+		'blog_url'  => $blog_url,
+		'login_url' => $login_url,
+		'user_name' => $user_name,
+	);
 
-<?php
+	bp_get_template_part( 'blogs/confirm', null, $args );
 
 	/**
 	 * Fires after the default successful blog registration message markup.
