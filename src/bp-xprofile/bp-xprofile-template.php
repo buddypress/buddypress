@@ -473,13 +473,18 @@ function bp_the_profile_field_ids() {
 		global $profile_template;
 
 		$field_ids = array();
-		foreach ( $profile_template->groups as $group ) {
-			if ( ! empty( $group->fields ) ) {
-				$field_ids = array_merge( $field_ids, wp_list_pluck( $group->fields, 'id' ) );
-			}
-		}
 
-		$field_ids = implode( ',', wp_parse_id_list( $field_ids ) );
+		if ( isset( $profile_template->groups ) && $profile_template->groups ) {
+			foreach ( $profile_template->groups as $group ) {
+				if ( ! empty( $group->fields ) ) {
+					$field_ids = array_merge( $field_ids, wp_list_pluck( $group->fields, 'id' ) );
+				}
+			}
+
+			$field_ids = implode( ',', wp_parse_id_list( $field_ids ) );
+		} else {
+			$field_ids = '';
+		}
 
 		/**
 		 * Filters the comma-separated list of field IDs.
