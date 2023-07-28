@@ -3304,8 +3304,12 @@ function bp_activity_user_can_read( $activity, $user_id = 0 ) {
 		$user_id = bp_loggedin_user_id();
 	}
 
+	if ( ! bp_current_user_can( 'bp_view', array( 'bp_component' => 'activity' ) ) ) {
+		$retval = false;
+	}
+
 	// If activity is from a group, do extra cap checks.
-	if ( bp_is_active( 'groups' ) && buddypress()->groups->id === $activity->component ) {
+	if ( bp_is_active( 'groups' ) && buddypress()->groups->id === $activity->component && bp_current_user_can( 'bp_view', array( 'bp_component' => 'groups' ) ) ) {
 		// Check to see if the user has access to the activity's parent group.
 		$group = groups_get_group( $activity->item_id );
 		if ( $group ) {
@@ -4482,19 +4486,22 @@ function bp_activity_personal_data_exporter( $email_address, $page ) {
  * Checks whether an activity feed is enabled.
  *
  * @since 8.0.0
+ * @since 12.0.0 Added bp_current_user_can( 'bp_view' ) check.
  *
  * @param string $feed_id The feed identifier. Possible values are:
  *                        'sitewide', 'personal', 'friends', 'mygroups', 'mentions', 'favorites'.
  */
 function bp_activity_is_feed_enable( $feed_id = '' ) {
+	$retval = bp_current_user_can( 'bp_view', array( 'bp_component' => 'activity' ) );
+
 	/**
 	 * Filters if BuddyPress should consider feeds enabled. If disabled, it will return early.
 	 *
 	 * @since 1.8.0
 	 * @since 8.0.0 Adds the `$feed_id` parameter.
 	 *
-	 * @param bool   $value   Defaults to true aka feeds are enabled.
+	 * @param bool   $retval  Whether this feed is enabled or not.
 	 * @param string $feed_id The feed identifier.
 	 */
-	return (bool) apply_filters( 'bp_activity_enable_feeds', true, $feed_id );
+	return (bool) apply_filters( 'bp_activity_enable_feeds', $retval, $feed_id );
 }

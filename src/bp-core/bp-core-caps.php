@@ -124,6 +124,7 @@ function bp_remove_caps() {
  * Map community caps to built in WordPress caps.
  *
  * @since 1.6.0
+ * @since 12.0.0 Added mapping for `bp_view` capability.
  *
  * @see WP_User::has_cap() for description of the arguments passed to the
  *      'map_meta_cap' filter.
@@ -136,6 +137,21 @@ function bp_remove_caps() {
  * @return array Actual capabilities for meta capability. See {@link WP_User::has_cap()}.
  */
 function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
+
+	switch ( $cap ) {
+		case 'bp_view' :
+			$caps = array( 'exist' );
+			if ( ! $user_id ) {
+
+				// A BuddyPress component ID may be optionally passed with the `bp_view` check.
+				$component = isset( $args['bp_component'] ) ? $args['bp_component'] : '';
+
+				if ( 'members' === bp_get_community_visibility( $component ) ) {
+					$caps = array( 'do_not_allow' );
+				}
+			}
+			break;
+	}
 
 	/**
 	 * Filters the community caps mapping to be built in WordPress caps.
