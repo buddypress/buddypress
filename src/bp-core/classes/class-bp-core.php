@@ -398,24 +398,6 @@ class BP_Core extends BP_Component {
 	}
 
 	/**
-	 * Set up the component post statuses.
-	 *
-	 * @since 12.0.0
-	 */
-	public function register_post_statuses() {
-		register_post_status(
-			'bp_restricted',
-			array(
-				'label'    => _x( 'Restricted to members', '`buddypress` post type post status', 'buddypress' ),
-				'public'   => false,
-				'internal' => true,
-			)
-		);
-
-		parent::register_post_statuses();
-	}
-
-	/**
 	 * Parse the WP_Query and eventually set the BP Search mechanism.
 	 *
 	 * Search doesn't have an associated page, so we check for it separately.

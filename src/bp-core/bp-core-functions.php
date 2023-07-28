@@ -669,6 +669,28 @@ function bp_core_get_directory_page_id( $component = null ) {
 }
 
 /**
+ * Get the component ID corresponding to a directory page ID.
+ *
+ * @since 12.0.0
+ *
+ * @param int $page_id The ID of the directory page associated with the component.
+ * @return int|false The slug representing the component. False if none is found.
+ */
+function bp_core_get_component_from_directory_page_id( $page_id = 0 ) {
+	$bp_pages = bp_core_get_directory_page_ids( 'all' );
+
+	$component = false;
+	foreach ( $bp_pages as $component_id => $p_id) {
+		if ( $page_id === $p_id ) {
+			$component = $component_id;
+			break;
+		}
+	}
+
+	return $component;
+}
+
+/**
  * Store the list of BP directory pages in the appropriate meta table.
  *
  * The bp-pages data is stored in site_options (falls back to options on non-MS),
@@ -969,7 +991,7 @@ function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post
 		$pages = get_posts(
 			array(
 				'post__not_in' => array( $post_ID ),
-				'post_status'  => array( 'publish', 'bp_restricted' ),
+				'post_status'  => bp_core_get_directory_pages_stati(),
 				'post_type'    => array( 'buddypress', 'page' ),
 			)
 		);
