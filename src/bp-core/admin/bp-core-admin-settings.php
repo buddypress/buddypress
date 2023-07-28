@@ -48,6 +48,60 @@ function bp_admin_setting_callback_account_deletion() {
 }
 
 /**
+ * Choose whether the community is visible to anyone or only to members.
+ *
+ * @since 12.0.0
+ */
+function bp_admin_setting_callback_community_visibility() {
+	$visibility = bp_get_community_visibility( 'all' );
+?>
+	<select name="_bp_community_visibility[global]" id="_bp_community_visibility-global" aria-describedby="_bp_community_visibility_description" autocomplete="off">
+		<option value="anyone" <?php echo selected( $visibility['global'], 'anyone' ); ?>><?php esc_html_e( 'Anyone', 'buddypress' ); ?></option>
+		<option value="members" <?php echo selected( $visibility['global'], 'members' ); ?>><?php esc_html_e( 'Members Only', 'buddypress' ); ?></option>
+	</select>
+
+	<p id="_bp_community_visibility_description" class="description"><?php esc_html_e( 'Choose "Anyone" to allow any visitor access to your community area. Choose "Members Only" to restrict access to your community area to logged-in members only.', 'buddypress' ); ?></p>
+<?php
+}
+
+/**
+ * Sanitize the visibility setting when it is saved.
+ *
+ * @since 12.0.0
+ *
+ * @param mixed $saved_value The value passed to the save function.
+ */
+function bp_admin_sanitize_callback_community_visibility( $saved_value ) {
+	$retval = array();
+
+	// Use the global setting, if it has been passed.
+	$retval['global'] = isset( $saved_value['global'] ) ? $saved_value['global'] : 'anyone';
+	// Ensure the global value is a valid option. Else, assume that the site is open.
+	if ( ! in_array( $retval['global'], array( 'anyone', 'members' ), true ) ) {
+		$retval['global'] = 'anyone';
+	}
+
+	// Keys must be either 'global' or a component ID, but not register or activate.
+	$directory_pages = bp_core_get_directory_pages();
+	foreach ( $directory_pages as $component_id => $component_page ) {
+		if ( in_array( $component_id, array( 'register', 'activate' ), true ) ) {
+			continue;
+		}
+
+		// Use the global value if a specific value hasn't been set.
+		$component_value = isset( $saved_value[ $component_id ] ) ? $saved_value[ $component_id ] : $retval['global'];
+
+		// Valid values are 'anyone' or 'memebers'.
+		if ( ! in_array( $component_value, array( 'anyone', 'members' ), true ) ) {
+			$component_value = $retval['global'];
+		}
+		$retval[ $component_id ] = $component_value;
+	}
+
+	return $retval;
+}
+
+/**
  * Form element to change the active template pack.
  */
 function bp_admin_setting_callback_theme_package_id() {

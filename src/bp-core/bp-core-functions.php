@@ -4971,3 +4971,57 @@ function bp_get_component_navigations( $component = '' ) {
 
 	return $navigations;
 }
+
+/**
+ * Get the community visibility value calculated from the
+ * saved visibility setting.
+ *
+ * @since 12.0.0
+ *
+ * @param string $component Whether we want the visibility for a single component
+ *                          or for all components.
+ *
+ * @return arrary|string $retval The calculated visbility settings for the site.
+ */
+function bp_get_community_visibility( $component = 'global' ) {
+	$retval = ( 'all' === $component ) ? array( 'global' => 'anyone' ) : 'anyone';
+	if ( 'rewrites' !== bp_core_get_query_parser() ) {
+		return $retval;
+	}
+
+	$saved_value = (array) bp_get_option( '_bp_community_visibility', array() );
+
+	// If the global value has not been set, we assume that the site is open.
+	if ( ! isset( $saved_value['global'] ) ) {
+		$saved_value['global'] = 'anyone';
+	}
+
+	if ( 'all' === $component ) {
+		// Build the component list.
+		$retval = array(
+			'global' => $saved_value['global']
+		);
+		$directory_pages = bp_core_get_directory_pages();
+		foreach ( $directory_pages as $component_id => $component_page ) {
+			if ( in_array( $component_id, array( 'register', 'activate' ), true ) ) {
+				continue;
+			}
+			$retval[ $component_id ] = isset( $saved_value[ $component_id ] ) ? $saved_value[ $component_id ] : $saved_value['global'];
+		}
+	} else {
+		// We are checking a particular component.
+		// Fall back to the global value if not set.
+		$retval = isset( $saved_value[ $component ] ) ? $saved_value[ $component ] : $saved_value['global'];
+	}
+
+	/**
+	 * Filter the community visibility value calculated from the
+	 * saved visibility setting.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param arrary|string $retval    The calculated visbility settings for the site.
+	 * @param string        $component The component value to get the visibility for.
+	 */
+	return apply_filters( 'bp_get_community_visibility', $retval, $component );
+}

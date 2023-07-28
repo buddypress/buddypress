@@ -74,6 +74,9 @@ function bp_get_default_options() {
 		// Email unsubscribe salt.
 		'bp-emails-unsubscribe-salt'           => '',
 
+		// Community visibility.
+		'_bp_community_visibility'             => array( 'global' => 'anyone' ),
+
 		/* Groups ************************************************************/
 
 		// @todo Move this into the groups component
