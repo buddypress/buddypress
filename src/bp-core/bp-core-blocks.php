@@ -101,6 +101,16 @@ function bp_register_block_assets() {
 		$asset_collection['version'],
 		false
 	);
+
+	// Adds BP Block Assets to the `bp` global.
+	wp_add_inline_script(
+		'bp-block-data',
+		sprintf(
+			'bp.blockData.embedScriptURL = \'%s\';',
+			esc_url_raw( includes_url( 'js/wp-embed.min.js' ) )
+		),
+		'after'
+	);
 }
 add_action( 'bp_blocks_init', 'bp_register_block_assets', 2 );
 
