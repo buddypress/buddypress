@@ -977,23 +977,27 @@ class BP_Members_Component extends BP_Component {
 	 * @since 12.0.0
 	 */
 	public function check_parsed_query() {
-		$single_item_component = '';
 		if ( bp_is_user() ) {
 			$single_item_component = bp_current_component();
-		}
 
-		$single_item_action = '';
-		if ( $single_item_component ) {
-			$single_item_action = bp_current_action();
-		}
+			$single_item_action = '';
+			if ( $single_item_component ) {
+				$single_item_action = bp_current_action();
+			}
 
-		$bp = buddypress();
-		if ( isset( $bp->{$single_item_component}, $bp->{$single_item_component}->sub_nav ) ) {
-			$screen_functions = wp_list_pluck( $bp->{$single_item_component}->sub_nav, 'screen_function', 'slug' );
-
-			if ( ! $single_item_action || ! isset( $screen_functions[ $single_item_action ] ) || ! is_callable( $screen_functions[ $single_item_action ] ) ) {
-				bp_do_404();
+			// Viewing a single activity.
+			if ( 'activity' === $single_item_component && is_numeric( $single_item_action ) ) {
 				return;
+			}
+
+			$bp = buddypress();
+			if ( isset( $bp->{$single_item_component}, $bp->{$single_item_component}->sub_nav ) ) {
+				$screen_functions = wp_list_pluck( $bp->{$single_item_component}->sub_nav, 'screen_function', 'slug' );
+
+				if ( ! $single_item_action || ! isset( $screen_functions[ $single_item_action ] ) || ! is_callable( $screen_functions[ $single_item_action ] ) ) {
+					bp_do_404();
+					return;
+				}
 			}
 		}
 	}
