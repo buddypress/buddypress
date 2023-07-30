@@ -801,85 +801,100 @@ function bp_core_get_11_0_upgrade_email_schema( $emails ) {
  * 12.0.0 update routine.
  *
  * - Swith directory page post type from "page" to "buddypress".
+ * - Remove Legacy Widgets option.
+ * - Add the default community visibility value.
  *
  * @since 12.0.0
  */
 function bp_update_to_12_0() {
-	$post_type = bp_core_get_directory_post_type();
+	/*
+	 * Only perform the BP Rewrites API & Legacy Widgets upgrade tasks
+	 * when the BP Classic plugin is not active.
+	 */
+	if ( ! function_exists( 'bp_classic' ) ) {
+		$post_type = bp_core_get_directory_post_type();
 
-	if ( 'page' !== $post_type ) {
-		$directory_pages   = bp_core_get_directory_pages();
-		$nav_menu_item_ids = array();
+		if ( 'page' !== $post_type ) {
+			$directory_pages   = bp_core_get_directory_pages();
+			$nav_menu_item_ids = array();
 
-		// Do not check post slugs nor post types.
-		remove_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10 );
+			// Do not check post slugs nor post types.
+			remove_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10 );
 
-		// Update Directory pages post types.
-		foreach ( $directory_pages as $directory_page ) {
-			$nav_menu_item_ids[] = $directory_page->id;
+			// Update Directory pages post types.
+			foreach ( $directory_pages as $directory_page ) {
+				$nav_menu_item_ids[] = $directory_page->id;
 
-			// Switch the post type.
-			wp_update_post(
-				array(
-					'ID'          => $directory_page->id,
-					'post_type'   => $post_type,
-					'post_status' => 'publish',
-				)
-			);
-		}
-
-		// Update nav menu items!
-		$nav_menus = wp_get_nav_menus( array( 'hide_empty' => true ) );
-		foreach ( $nav_menus as $nav_menu ) {
-			$items = wp_get_nav_menu_items( $nav_menu->term_id );
-			foreach ( $items as $item ) {
-				if ( 'page' !== $item->object || ! in_array( $item->object_id, $nav_menu_item_ids, true ) ) {
-					continue;
-				}
-
-				wp_update_nav_menu_item(
-					$nav_menu->term_id,
-					$item->ID,
+				// Switch the post type.
+				wp_update_post(
 					array(
-						'menu-item-db-id'       => $item->db_id,
-						'menu-item-object-id'   => $item->object_id,
-						'menu-item-object'      => $post_type,
-						'menu-item-parent-id'   => $item->menu_item_parent,
-						'menu-item-position'    => $item->menu_order,
-						'menu-item-type'        => 'post_type',
-						'menu-item-title'       => $item->title,
-						'menu-item-url'         => $item->url,
-						'menu-item-description' => $item->description,
-						'menu-item-attr-title'  => $item->attr_title,
-						'menu-item-target'      => $item->target,
-						'menu-item-classes'     => implode( ' ', (array) $item->classes ),
-						'menu-item-xfn'         => $item->xfn,
-						'menu-item-status'      => 'publish',
+						'ID'          => $directory_page->id,
+						'post_type'   => $post_type,
+						'post_status' => 'publish',
 					)
 				);
 			}
+
+			// Update nav menu items!
+			$nav_menus = wp_get_nav_menus( array( 'hide_empty' => true ) );
+			foreach ( $nav_menus as $nav_menu ) {
+				$items = wp_get_nav_menu_items( $nav_menu->term_id );
+				foreach ( $items as $item ) {
+					if ( 'page' !== $item->object || ! in_array( $item->object_id, $nav_menu_item_ids, true ) ) {
+						continue;
+					}
+
+					wp_update_nav_menu_item(
+						$nav_menu->term_id,
+						$item->ID,
+						array(
+							'menu-item-db-id'       => $item->db_id,
+							'menu-item-object-id'   => $item->object_id,
+							'menu-item-object'      => $post_type,
+							'menu-item-parent-id'   => $item->menu_item_parent,
+							'menu-item-position'    => $item->menu_order,
+							'menu-item-type'        => 'post_type',
+							'menu-item-title'       => $item->title,
+							'menu-item-url'         => $item->url,
+							'menu-item-description' => $item->description,
+							'menu-item-attr-title'  => $item->attr_title,
+							'menu-item-target'      => $item->target,
+							'menu-item-classes'     => implode( ' ', (array) $item->classes ),
+							'menu-item-xfn'         => $item->xfn,
+							'menu-item-status'      => 'publish',
+						)
+					);
+				}
+			}
+
+			// Finally make sure to rebuilt permalinks at next page load.
+			bp_delete_rewrite_rules();
 		}
 
-		// Finally make sure to rebuilt permalinks at next page load.
-		bp_delete_rewrite_rules();
-	}
+		// Widgets.
+		$widget_options = array(
+			'widget_bp_core_login_widget',
+			'widget_bp_core_members_widget',
+			'widget_bp_core_whos_online_widget',
+			'widget_bp_core_recently_active_widget',
+			'widget_bp_groups_widget',
+			'widget_bp_messages_sitewide_notices_widget',
+		);
 
-	// Widgets.
-	$widget_options = array(
-		'widget_bp_core_login_widget',
-		'widget_bp_core_members_widget',
-		'widget_bp_core_whos_online_widget',
-		'widget_bp_core_recently_active_widget',
-		'widget_bp_groups_widget',
-		'widget_bp_messages_sitewide_notices_widget',
-	);
-
-	foreach ( $widget_options as $widget_option ) {
-		bp_delete_option( $widget_option );
+		foreach ( $widget_options as $widget_option ) {
+			bp_delete_option( $widget_option );
+		}
 	}
 
 	// Community visibility.
 	bp_update_option( '_bp_community_visibility', array( 'global' => 'anyone' ) );
+
+	/**
+	 * Fires once BuddyPress achieved 12.0 upgrading tasks.
+	 *
+	 * @since 12.0.0
+	 */
+	do_action( 'bp_updated_to_12_0' );
 }
 
 /**
