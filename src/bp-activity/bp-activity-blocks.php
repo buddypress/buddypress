@@ -78,7 +78,7 @@ function bp_activity_render_latest_activities_block( $attributes = array() ) {
 	);
 
 	// Build the activity loop.
-	if ( 'nouveau' === bp_get_theme_compat_id() ) {
+	if ( bp_is_theme_compat_active() && 'nouveau' === bp_get_theme_compat_id() ) {
 		$bp_nouveau = bp_nouveau();
 
 		// Globalize the activity widget arguments.
