@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Callback function to render the Latest Activities Block.
  *
  * @since 9.0.0
- * 
+ *
  * @global BP_Activity_Template $activities_template The Activity template loop.
  *
  * @param array $attributes The block attributes.
@@ -80,7 +80,7 @@ function bp_activity_render_latest_activities_block( $attributes = array() ) {
 	);
 
 	// Build the activity loop.
-	if ( 'nouveau' === bp_get_theme_compat_id() ) {
+	if ( bp_is_theme_compat_active() && 'nouveau' === bp_get_theme_compat_id() ) {
 		$bp_nouveau = bp_nouveau();
 
 		// Globalize the activity widget arguments.
