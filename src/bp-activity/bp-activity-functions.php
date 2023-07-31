@@ -4392,11 +4392,9 @@ add_action( 'transition_comment_status', 'bp_activity_transition_post_type_comme
  * @return array An array of personal data.
  */
 function bp_activity_personal_data_exporter( $email_address, $page ) {
-	$number = 50;
-
-	$email_address = trim( $email_address );
-
-	$data_to_export = array();
+	$number              = 50;
+	$email_address       = trim( $email_address );
+	$user_data_to_export = array();
 
 	$user = get_user_by( 'email', $email_address );
 
@@ -4417,7 +4415,6 @@ function bp_activity_personal_data_exporter( $email_address, $page ) {
 		),
 	) );
 
-	$user_data_to_export = array();
 	$activity_actions    = bp_activity_get_actions();
 
 	foreach ( $activities['activities'] as $activity ) {
@@ -4465,7 +4462,7 @@ function bp_activity_personal_data_exporter( $email_address, $page ) {
 		 */
 		$item_data = apply_filters( 'bp_activity_personal_data_export_item_data', $item_data, $activity );
 
-		$data_to_export[] = array(
+		$user_data_to_export[] = array(
 			'group_id'    => 'bp_activity',
 			'group_label' => __( 'Activity', 'buddypress' ),
 			'item_id'     => "bp-activity-{$activity->id}",
@@ -4477,7 +4474,7 @@ function bp_activity_personal_data_exporter( $email_address, $page ) {
 	$done = count( $activities['activities'] ) < $number;
 
 	return array(
-		'data' => $data_to_export,
+		'data' => $user_data_to_export,
 		'done' => $done,
 	);
 }
