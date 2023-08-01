@@ -1623,7 +1623,8 @@ function bp_core_check_avatar_type( $file ) {
  * @return string The avatar upload directory path.
  */
 function bp_core_get_upload_dir( $type = 'upload_path' ) {
-	$bp = buddypress();
+	$bp     = buddypress();
+	$retval = '';
 
 	switch ( $type ) {
 		case 'upload_path' :
@@ -1639,7 +1640,7 @@ function bp_core_get_upload_dir( $type = 'upload_path' ) {
 			break;
 
 		default :
-			return false;
+			return $retval;
 
 			break;
 	}
@@ -1667,20 +1668,16 @@ function bp_core_get_upload_dir( $type = 'upload_path' ) {
 				$bp->avatar->upload_dir = $upload_dir;
 			}
 
-			// Directory does not exist and cannot be created.
-			if ( ! empty( $upload_dir['error'] ) ) {
-				$retval = '';
-
-			} else {
-				$retval = $upload_dir[$key];
+			// Upload directory exists.
+			if ( isset( $upload_dir[ $key ] ) ) {
+				$retval = $upload_dir[ $key ];
 
 				// If $key is 'baseurl', check to see if we're on SSL
 				// Workaround for WP13941, WP15928, WP19037.
-				if ( $key == 'baseurl' && is_ssl() ) {
+				if ( $key === 'baseurl' && is_ssl() ) {
 					$retval = str_replace( 'http://', 'https://', $retval );
 				}
 			}
-
 		}
 
 		// Stash in $bp for later use.
