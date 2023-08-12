@@ -2807,7 +2807,30 @@ function bp_nav_menu_get_loggedin_pages() {
 	}
 
 	// Pull up a list of items registered in BP's primary nav for the member.
-	$bp_menu_items = $bp->members->nav->get_primary();
+	$bp_menu_items = array();
+
+	if ( 'rewrites' !== bp_core_get_query_parser() ) {
+		$bp_menu_items = $bp->members->nav->get_primary();
+	} else {
+		$members_navigation = bp_get_component_navigations();
+
+		// Remove the members component navigation when needed.
+		if ( bp_is_active( 'xprofile' ) ) {
+			unset( $members_navigation['members'] );
+		}
+
+		foreach ( $members_navigation as $component_id => $member_navigation ) {
+			if ( ! isset( $member_navigation['main_nav'] ) ) {
+				continue;
+			}
+
+			$bp_menu_items[] = array(
+				'name' => $member_navigation['main_nav']['name'],
+				'slug' => $member_navigation['main_nav']['slug'],
+				'link' => bp_loggedin_user_url( bp_members_get_path_chunks( array( $member_navigation['main_nav']['slug'] ) ) ),
+			);
+		}
+	}
 
 	// Some BP nav menu items will not be represented in bp_nav, because
 	// they are not real BP components. We add them manually here.
