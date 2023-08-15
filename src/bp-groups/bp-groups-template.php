@@ -5846,8 +5846,8 @@ function bp_group_request_accept_link() {
 				'action'   => 'accept'
 			),
 			bp_get_group_manage_url(
-				$group,
-				bp_groups_get_path_chunks( array( 'membership-request' ), 'manage' )
+				groups_get_current_group(),
+				bp_groups_get_path_chunks( array( 'membership-requests' ), 'manage' )
 			)
 		);
 
