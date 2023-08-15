@@ -1088,7 +1088,7 @@ function bp_admin_do_wp_nav_menu_meta_box( $object = '', $box = array() ) {
 		$output = str_replace( $tabs_nav[1], $bp_tabs_nav, $output );
 	}
 
-	echo preg_replace( '/\<div\sclass=\".*\"\sid=\"tabs-panel-posttype-bp_nav_menu_item-search\"[^>]*>(.*?)\<\/div\>/s', $all_bp_tabs, $output );
+	echo preg_replace( '/\<div(\sclass=\".*\"\s|\s)id=\"tabs-panel-posttype-bp_nav_menu_item-search\"[^>]*>(.*?)\<\/div\>/s', $all_bp_tabs, $output );
 }
 
 /**
