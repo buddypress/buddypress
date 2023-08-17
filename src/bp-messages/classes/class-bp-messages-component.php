@@ -254,6 +254,17 @@ class BP_Messages_Component extends BP_Component {
 			'user_has_access_callback' => 'bp_is_my_profile',
 		);
 
+		$sub_nav[] = array(
+			'name'                     => __( 'View', 'buddypress' ),
+			'slug'                     => 'view',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'messages_screen_conversation',
+			'position'                 => 0,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_core_can_edit_settings',
+			'generate'                 => false,
+		);
+
 		// Show "Notices" to community admins only.
 		$sub_nav[] = array(
 			'name'                     => __( 'Notices', 'buddypress' ),
