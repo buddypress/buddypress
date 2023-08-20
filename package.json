@@ -37,8 +37,8 @@
 		"stylelint": "~13.13.1"
 	},
 	"engines": {
-		"node": ">=14.15.0",
-		"npm": ">=6.14.8"
+		"node": ">=16.19.1",
+		"npm": ">=8.19.3 <9"
 	},
 	"scripts": {
 		"build:blocks": "npm run build:block:activity && npm run build:block:blogs && npm run build:block:core && npm run build:block:friends && npm run build:block:groups && npm run build:block:members && npm run build:block:messages",
