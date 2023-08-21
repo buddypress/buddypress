@@ -157,7 +157,7 @@ function bp_core_admin_rewrites_settings() {
 						<div class="health-check-accordion">
 							<h4 class="health-check-accordion-heading">
 								<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="health-check-accordion-block-<?php echo esc_attr( $component_id ); ?>-directory" type="button">
-									<span class="title"><?php esc_html_e( 'Directory', 'buddypress' ); ?></span>
+									<span class="title"><?php ( 'activate' === $component_id || 'register' === $component_id ) ? esc_html_e( 'Page', 'buddypress' ) : esc_html_e( 'Directory', 'buddypress' ); ?></span>
 									<span class="icon"></span>
 								</button>
 							</h4>
@@ -166,7 +166,7 @@ function bp_core_admin_rewrites_settings() {
 									<tr>
 										<th scope="row">
 											<label for="<?php echo esc_attr( sprintf( '%s-directory-title', sanitize_key( $component_id ) ) ); ?>">
-												<?php esc_html_e( 'Directory title', 'buddypress' ); ?>
+												<?php ( 'activate' === $component_id || 'register' === $component_id ) ? esc_html_e( 'Page title', 'buddypress' ) : esc_html_e( 'Directory title', 'buddypress' ); ?>
 											</label>
 										</th>
 										<td>
@@ -176,7 +176,7 @@ function bp_core_admin_rewrites_settings() {
 									<tr>
 										<th scope="row">
 											<label for="<?php echo esc_attr( sprintf( '%s-directory-slug', sanitize_key( $component_id ) ) ); ?>">
-												<?php esc_html_e( 'Directory slug', 'buddypress' ); ?>
+												<?php ( 'activate' === $component_id || 'register' === $component_id ) ? esc_html_e( 'Page slug', 'buddypress' ) : esc_html_e( 'Directory slug', 'buddypress' ); ?>
 											</label>
 										</th>
 										<td>
