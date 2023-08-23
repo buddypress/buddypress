@@ -1284,6 +1284,26 @@ class BP_Component {
 					$query->is_single = true;
 				}
 			} else {
+
+				/**
+				 * Use this filter to send the user to the site login screen when the user does
+				 * not have the `bp_view` capability for the current screen or situation.
+				 * The default behavior is for the user to be shown the content in the
+				 * `assets/utils/restricted-access-message.php` file.
+				 *
+				 * Only users that are not logged in will be sent to the login screen,
+				 * else we can cause a redirect loop if the `bp_view` capability is not met
+				 * for a logged-in user.
+				 *
+				 * @since 12.0.0
+				 *
+				 * @param false Whether the user should be redirected to the site login screen.
+				 */
+				$do_redirect_to_login_screen = apply_filters( 'bp_view_no_access_redirect_to_login_screen', false );
+				If ( true === $do_redirect_to_login_screen && ! is_user_logged_in() ) {
+					bp_core_no_access();
+				}
+
 				// The current user may not access the directory page.
 				$bp                    = buddypress();
 				$bp->current_component = 'core';
