@@ -40,5 +40,11 @@
 		"slug": "administration-tools-repair",
 		"markdown_source": "../user/administration/settings/repair.md",
 		"parent": null
+	},
+	{
+		"title": "Navigation menus",
+		"slug": "administration-navigations",
+		"markdown_source": "../user/administration/navigations/README.md",
+		"parent": null
 	}
 ]
