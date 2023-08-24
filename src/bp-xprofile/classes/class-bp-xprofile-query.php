@@ -340,7 +340,7 @@ class BP_XProfile_Query {
 	 * "First-order" means that it's an array with a 'field' or 'value'.
 	 *
 	 * @since 2.2.0
-	 * 
+	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $clause       Query clause.
@@ -524,7 +524,7 @@ class BP_XProfile_Query {
 			$clause_compare  = strtoupper( $clause['compare'] );
 			$sibling_compare = strtoupper( $sibling['compare'] );
 			if ( in_array( $clause_compare, $compatible_compares ) && in_array( $sibling_compare, $compatible_compares ) ) {
-				$alias = $sibling['alias'];
+				$alias = preg_replace( '/\W/', '_', $sibling['alias'] );
 				break;
 			}
 		}
