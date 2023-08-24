@@ -6,7 +6,7 @@ License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
 Requires at least: 5.4
 Tested up to:      6.1
-Stable tag:        10.6.0
+Stable tag:        10.6.1
 
 BuddyPress helps site builders & developers add community features to their websites, with user profiles, activity streams, and more!
 
