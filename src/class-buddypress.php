@@ -349,7 +349,7 @@ class BuddyPress {
 
 		/** Versions */
 
-		$this->version    = '11.2.0';
+		$this->version    = '11.3.1';
 		$this->db_version = 13271;
 
 		/** Loading */
