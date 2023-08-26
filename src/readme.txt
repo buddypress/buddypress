@@ -8,7 +8,7 @@ Requires at least: 5.8
 Tested up to:      6.3
 Stable tag:        11.3.1
 
-BuddyPress helps site builders & developers add community features to their websites, with user profiles, activity streams, and more!
+Get together safely, your own way, in WordPress!
 
 == Description ==
 
@@ -28,12 +28,14 @@ BuddyPress themes are just WordPress themes with additional templates, and with 
 
 BuddyPress also comes with built-in support for Akismet and [bbPress](https://wordpress.org/plugins/bbpress/), two very popular and very powerful WordPress plugins. If you're using either, visit their settings pages and ensure everything is configured to your liking.
 
-= The BuddyPress ecosystem =
+= The BuddyPress Add-ons =
 
-WordPress.org is home to some amazing extensions for BuddyPress, including:
+WordPress.org is home to some amazing Add-ons for BuddyPress, including:
 
-- [rtMedia for WordPress, BuddyPress and bbPress](https://wordpress.org/plugins/buddypress-media/)
-- [BuddyPress Docs](https://wordpress.org/plugins/buddypress-docs/)
+- [BP Attachments](https://wordpress.org/plugins/bp-attachments/)
+- [BP Classic](https://wordpress.org/plugins/bp-classic/)
+
+**NB**: BP Classic is a backwards compatibility Add-on for BuddyPress 12.0 and up bringing back the BP Legacy URL parser, the BP Default theme and BP Legacy widgets.
 
 Search WordPress.org for "BuddyPress" to find them all!
 
