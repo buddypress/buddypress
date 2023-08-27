@@ -419,9 +419,9 @@ add_action( 'bp_setup_cache_groups', 'bp_set_object_type_terms_cache_group' );
 function bp_clear_object_type_terms_cache( $type_id = 0, $taxonomy = '' ) {
 	wp_cache_delete( $taxonomy, 'bp_object_terms' );
 }
-add_action( 'bp_type_inserted', 'bp_clear_object_type_terms_cache' );
-add_action( 'bp_type_updated', 'bp_clear_object_type_terms_cache' );
-add_action( 'bp_type_deleted', 'bp_clear_object_type_terms_cache' );
+add_action( 'bp_type_inserted', 'bp_clear_object_type_terms_cache', 10, 2 );
+add_action( 'bp_type_updated', 'bp_clear_object_type_terms_cache', 10, 2 );
+add_action( 'bp_type_deleted', 'bp_clear_object_type_terms_cache', 10, 2 );
 
 /**
  * Resets all incremented bp_optout caches.
