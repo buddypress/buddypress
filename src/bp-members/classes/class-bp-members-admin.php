@@ -706,7 +706,7 @@ class BP_Members_Admin {
 
 			// Only load JavaScript for BuddyPress profile.
 			if ( get_current_screen()->id == $this->user_page ) {
-				$js = $this->js_url . "admin{$min}.js";
+				$js = $this->js_url . 'admin.js';
 
 				/**
 				 * Filters the JS URL to enqueue in the Members admin area.
