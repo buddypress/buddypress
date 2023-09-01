@@ -23,10 +23,13 @@ We've decided to use this new location because it has some very interesting bene
 
 Each contribution needs to be organized as a Pull Request (PR) to the BuddyPress GitHub main branch (master). If you're familiar with GitHub and use it locally along with your Favorite editor, it's the exact same process than pulling a request for a code contribution.
 
+> [!IMPORTANT]
+> To write documentation resources, you need to use the [GitHub Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) language.
+
 The steps we're detailling below are explaining how you can still contribute to docs if you have no clue about GitHub thanks to their website features.
 
 **NB**: below steps need to be accomplished from your BuddyPress GitHub fork.
 
 #### Create a new branch
 
- 
+ ![Create branch](../assets/04-pr-via-github.com-name-branch.png)

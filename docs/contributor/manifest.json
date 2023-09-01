@@ -4,5 +4,11 @@
 		"slug": "handbook",
 		"markdown_source": "../contributor/README.md",
 		"parent": null
+	},
+	{
+		"title": "Contribute to documentation",
+		"slug": "contribute-to-docs",
+		"markdown_source": "../contributor/docs/README.md",
+		"parent": null
 	}
 ]
