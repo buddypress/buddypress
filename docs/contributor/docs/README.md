@@ -28,7 +28,8 @@ Each contribution needs to be organized as a Pull Request (PR) to the BuddyPress
 
 The steps we're detailling below are explaining how you can still contribute to docs if you have no clue about GitHub thanks to their website features.
 
-**NB**: below steps need to be accomplished from your BuddyPress GitHub fork.
+> [!IMPORTANT]
+> Below steps need to be accomplished from your BuddyPress GitHub fork.
 
 #### Create a new branch
 
