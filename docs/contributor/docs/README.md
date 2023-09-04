@@ -32,4 +32,68 @@ The steps we're detailling below are explaining how you can still contribute to 
 
 #### Create a new branch
 
- ![Create branch](../assets/04-pr-via-github.com-name-branch.png)
+![Create branch](../assets/04-pr-via-github.com-name-branch.png)
+
+Head over to your GitHub fork of BuddyPress. Once there, you'll see a dropdown control to navigate into your branches (first red arrow in the above screenshot) where the current selected one defaults to the `master` branch. Open this dropdown control and start writing the name of the branch you will use to create your Pull Request into the text input (second red arrow in the above screenshot). You'll notice as you type a button to create the branch will appear (third red arrow in the above screenshot). Once you're happy with the name of your branch, click on this button.
+
+You should be redirected to the branch you just created in your GitHub fork and a message should confirm you just did it!
+
+#### Adding a Markdown file
+
+![Branch created](../assets/05-pr-via-github.com-branch-created.png)
+
+Now from the folder navigation tree on the left of the screen, navigate to the folder you want to add a new file to. Then use the "Add file" dropdown control on the right of the screen and select the "Create a new file" option.
+
+![Folder and File creation](../assets/06-pr-via-github.com-new-folder-file.png)
+
+If you need to put your new file inside a new folder under the current active one, you just need to use the `/` (slash) character as a separator between the folder path to create and the name of your Markdown file.
+
+> [!NOTE]
+> If you need the file to be automatically displayed when browsing into the folder, you can use the `README.md` name. 
+
+You now have to write your documentation resource inside the main area (the one having the "Enter file contents here" placeholder). Once you're done, click on the "Commit changes" green button (on the top right of the screen) to display the dialog box to enter your commit message as shown below.
+
+![Commit message](../assets/07-pr-via-github.com-commit-changes.png)
+
+Confirm by clicking on the "Commit changes" green button of this dialog box.
+
+#### Uploading images to the assets directory of the handbook.
+
+![Upload files](../assets/08-pr-via-github.com-upload-files.png)
+
+If you need to include one or more images inside your documentation resource, please use the `assets` directory of the handbook you're contributing to. Once you clicked on the "Upload files" option of the "Add file" dropdown control on the right of the screen, you'll reach the following uploader form.
+
+![Uploader form](../assets/09-pr-via-github.com-uploader-form.png)
+
+Use the drag and drop control or the "choose your files" link to select the images you want to include into your documentation resource. Shortly after you've achieved this step, GitHub will list your uploaded files and you'll just need commit these using the green button.
+
+![Commit uploaded files](../assets/10-pr-via-github.com-commit-upload.png)
+
+#### Edit an existing Markdown file
+
+Open the file you want to edit using the navigation tree on the left of the screen, then using the Edit dropdown control on the right of the screen (see the two red arrows in the screenshot below), select the "Edit in place" option.
+
+![Edit file](../assets/11-pr-via-github.com-edit-file.png)
+
+You'll then be able to edit your file from the editor we've described when explaining how to create a new Markdown file. To confirm your edits, you'll need to use the "Commit changes" green button.
+
+#### Submitting your Pull Request on the BuddyPress master branch
+
+Once you believe your contribution is ready, use the "Contribute" dropdown control to open your pull request as shown below.
+
+![Init PR](../assets/12-pr-via-github.com-pull-request.png)
+
+You'll reach the form to describe and confirm your Pull Request. Please, make sure to allow edits by maintainers before clicking on the "Create pull request" green button.
+
+![Submit PR](../assets/14-pr-via-github.com-pull-request.png)
+
+> [!IMPORTANT]
+> Once a Pull Request is validated by a member of the BuddyPress team, a BP Core Committer will include the changes to the BuddyPress **SVN** repository so that they will be synchronized with the BuddyPress GitHub repository (It’s very important PR are not merged from the BuddyPress GitHub repository).
+
+### Keeping the master branch of your BuddyPress fork up to date.
+
+Before you start building a Pull Request, please make sure the master branch of your BuddyPress fork is up to date with the BuddyPress master branch.
+
+![Sync fork](../assets/01-pr-via-github.com-sync-fork.png)
+
+You can easily do so using the "Sync fork" dropdown control and clicking on the "Update branch" green button.
