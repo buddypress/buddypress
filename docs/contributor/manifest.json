@@ -1,0 +1,14 @@
+[
+	{
+		"title": "Contributor Handbook",
+		"slug": "handbook",
+		"markdown_source": "../contributor/README.md",
+		"parent": null
+	},
+	{
+		"title": "Contribute to documentation",
+		"slug": "contribute-to-documentation",
+		"markdown_source": "../contributor/documentation/README.md",
+		"parent": null
+	}
+]
