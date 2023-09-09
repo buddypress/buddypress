@@ -204,7 +204,7 @@ class BP_Core_User {
 			)
 		);
 
-		/* translators: %s: human time diff of the last time the user was active on the site. */
+		/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 		$this->last_active = bp_core_get_last_activity( bp_get_user_last_activity( $this->id ), _x( 'Active %s', 'last time the user was active', 'buddypress' ) );
 	}
 

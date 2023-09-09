@@ -23,7 +23,7 @@ class bpFriendsWidgetBlock extends dynamicWidgetBlock {
 		if ( friends && friends.length ) {
 			friends.forEach( ( friend ) => {
 				if ( 'active' === type && friend.last_activity ) {
-					/* translators: %s: a human time diff. */
+					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 					friend.extra = sprintf( __( 'Active %s', 'buddypress' ), friend.last_activity.timediff );
 				} else if ( 'popular' === type && friend.total_friend_count ) {
 					const friendsCount = parseInt( friend.total_friend_count, 10 );
@@ -33,8 +33,11 @@ class bpFriendsWidgetBlock extends dynamicWidgetBlock {
 					} else if ( 1 === friendsCount ) {
 						friend.extra = __( '1 friend', 'buddypress' );
 					} else {
-						/* translators: %s: total friend count (more than 1). */
-						friend.extra = sprintf( __( '%s friends', 'buddypress' ), friend.total_friend_count );
+						friend.extra = sprintf(
+							/* translators: %s: total friend count (more than 1). */
+							__( '%s friends', 'buddypress' ),
+							friend.total_friend_count
+						);
 					}
 				} else if ( 'newest' === type && friend.registered_since ) {
 					/* translators: %s is time elapsed since the registration date happened */

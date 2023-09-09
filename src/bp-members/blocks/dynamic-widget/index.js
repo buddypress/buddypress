@@ -1,5 +1,5 @@
 !function(){"use strict";var e=window.wp.i18n,t=window.bp.dynamicWidgetBlock;class s extends t.dynamicWidgetBlock{loop(){let t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[],s=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"",r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:"active";const i=super.useTemplate("bp-dynamic-members-item"),n=document.querySelector("#"+s);let d="";t&&t.length?t.forEach((t=>{if("active"===r&&t.last_activity)
-/* translators: %s: a human time diff. */
+/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 t.extra=(0,e.sprintf)((0,e.__)("Active %s","buddypress"),t.last_activity.timediff);else if("popular"===r&&t.total_friend_count){const s=parseInt(t.total_friend_count,10);t.extra=0===s?(0,e.__)("No friends","buddypress"):1===s?(0,e.__)("1 friend","buddypress"):(0,e.sprintf)((0,e.__)("%s friends","buddypress"),t.total_friend_count)}else"newest"===r&&t.registered_since&&(
 /* translators: %s is time elapsed since the registration date happened */
 t.extra=(0,e.sprintf)((0,e.__)("Registered %s","buddypress"),t.registered_since))
