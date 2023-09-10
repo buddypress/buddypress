@@ -190,7 +190,11 @@ const editMembersBlock = ( { attributes, setAttributes, isSelected } ) => {
 
 						{ 'last_activity' === extraData && member.last_activity && member.last_activity.date && (
 							<time dateTime={ member.last_activity.date }>
-								{ sprintf( __( 'Active %s', 'buddypress' ), member.last_activity.timediff ) }
+								{ sprintf(
+									/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
+									__( 'Active %s', 'buddypress' ),
+									member.last_activity.timediff
+								) }
 							</time>
 						) }
 					</div>

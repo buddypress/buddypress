@@ -171,7 +171,11 @@ const editGroupsBlock = ( { attributes, setAttributes, isSelected } ) => {
 
 						{ 'active' === extraInfo && group.last_activity && group.last_activity_diff && (
 							<time dateTime={ group.last_activity }>
-								{ sprintf( __( 'Active %s', 'buddypress' ), group.last_activity_diff ) }
+								{ sprintf(
+									/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
+									__( 'Active %s', 'buddypress' ),
+									group.last_activity_diff
+								) }
 							</time>
 						) }
 

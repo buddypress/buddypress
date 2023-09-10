@@ -677,7 +677,7 @@ function bp_blog_last_active( $args = array() ) {
 
 		// Backwards compatibility for anyone forcing a 'true' active_format.
 		if ( true === $r['active_format'] ) {
-			/* translators: %s: human time diff of the last time the site was active. */
+			/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
 			$r['active_format'] = _x( 'Active %s', 'last time the site was active', 'buddypress' );
 		}
 
