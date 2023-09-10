@@ -37,7 +37,7 @@ WordPress.org is home to some amazing Add-ons for BuddyPress, including:
 
 **NB**: BP Classic is a backwards compatibility Add-on for BuddyPress 12.0 and up bringing back the BP Legacy URL parser, the BP Default theme and BP Legacy widgets.
 
-Search WordPress.org for "BuddyPress" to find them all!
+Go to [BuddyPress profile on WordPress.org](https://profiles.wordpress.org/buddypress/) to find them all!
 
 = Join our community =
 
@@ -53,9 +53,11 @@ Growing the BuddyPress community means better software for everyone!
 
 To run BuddyPress, we recommend your host supports:
 
-* PHP version 7.2 or greater.
-* MySQL version 5.6 or greater, or, MariaDB version 10.0 or greater.
-* HTTPS support.
+* PHP version 7.4 or greater.
+* MySQL version 5.7 or greater OR MariaDB version 10.4 or greater.
+* HTTPS support
+
+Note: If you are in a legacy environment where you only have older PHP or MySQL versions, WordPress also works with PHP 5.6.20+ and MySQL 5.0+, but these versions have reached official End Of Life and as such may expose your site to security vulnerabilities.
 
 = Automatic installation =
 
