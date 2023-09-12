@@ -581,14 +581,11 @@ class BP_Groups_List_Table extends WP_List_Table {
 			'view'   => '',
 		);
 
-		// We need the group object for some BP functions.
-		$item_obj = (object) $item;
-
 		// Build actions URLs.
 		$base_url   = bp_get_admin_url( 'admin.php?page=bp-groups&amp;gid=' . $item['id'] );
 		$delete_url = wp_nonce_url( $base_url . "&amp;action=delete", 'bp-groups-delete' );
 		$edit_url   = $base_url . '&amp;action=edit';
-		$view_url   = bp_get_group_url( $item_obj );
+		$view_url   = bp_get_group_url( $item['id'] );
 
 		/**
 		 * Filters the group name for a group's column content.
