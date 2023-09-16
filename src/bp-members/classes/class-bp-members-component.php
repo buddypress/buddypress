@@ -991,10 +991,27 @@ class BP_Members_Component extends BP_Component {
 			}
 
 			$bp = buddypress();
-			if ( isset( $bp->{$single_item_component}, $bp->{$single_item_component}->sub_nav ) ) {
-				$screen_functions = wp_list_pluck( $bp->{$single_item_component}->sub_nav, 'screen_function', 'slug' );
+			if ( isset( $bp->{$single_item_component} ) ) {
+				$screen_function = '';
 
-				if ( ! $single_item_action || ! isset( $screen_functions[ $single_item_action ] ) || ! is_callable( $screen_functions[ $single_item_action ] ) ) {
+				if ( isset( $bp->{$single_item_component}->sub_nav ) ) {
+					$screen_functions = wp_list_pluck( $bp->{$single_item_component}->sub_nav, 'screen_function', 'slug' );
+
+					if ( isset( $screen_functions[ $single_item_action ] ) ) {
+						$screen_function = $screen_functions[ $single_item_action ];
+					}
+				}
+
+				// Check if this nav item has been added from outside the Component's class.
+				if ( ! $screen_function ) {
+					$sub_nav = $this->nav->get( $single_item_component . '/' . $single_item_action );
+
+					if ( isset( $sub_nav->screen_function ) && $sub_nav->screen_function ) {
+						$screen_function = $sub_nav->screen_function;
+					}
+				}
+
+				if ( ! $single_item_action || ! $screen_function || ! is_callable( $screen_function ) ) {
 					bp_do_404();
 					return;
 				}
