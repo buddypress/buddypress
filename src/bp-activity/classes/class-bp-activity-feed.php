@@ -410,6 +410,13 @@ class BP_Activity_Feed {
 	protected function output() {
 		$this->http_headers();
 		echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?'.'>';
+
+		/**
+		 * Fires between the xml and rss tags in an Activity feed.
+		 *
+		 * @since 12.0.0
+		 */
+		do_action( 'bp_activity_feed_rss_tag_pre' );
 	?>
 
 <rss version="2.0"
