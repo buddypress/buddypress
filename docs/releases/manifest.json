@@ -1,0 +1,14 @@
+[
+	{
+		"title": "Versions",
+		"slug": "handbook",
+		"markdown_source": "../releases/README.md",
+		"parent": null
+	},
+	{
+		"title": "Version 9.2.0",
+		"slug": "version-9-2-0",
+		"markdown_source": "../version-9-2-0.md",
+		"parent": "handbook"
+	}
+]
