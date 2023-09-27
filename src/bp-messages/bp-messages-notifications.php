@@ -194,6 +194,17 @@ function messages_format_notifications( $action, $item_id, $secondary_item_id, $
  * @param BP_Messages_Message $message Message object.
  */
 function bp_messages_message_sent_add_notification( $message ) {
+
+	/**
+	 * Enable/Disables Notification for New Private Messages
+	 *
+	 * @since 12.0.0
+	 *
+	 */
+	if( ! bp_is_private_message_notification_active() ) {
+		return;
+	}
+
 	if ( ! empty( $message->recipients ) ) {
 		foreach ( (array) $message->recipients as $recipient ) {
 			bp_notifications_add_notification( array(

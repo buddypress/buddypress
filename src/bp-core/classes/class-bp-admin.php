@@ -568,6 +568,18 @@ class BP_Admin {
 				register_setting( 'buddypress', '_bp_enable_akismet', 'intval' );
 			}
 		}
+
+		/* Notification Section **************************************************/
+
+		if ( bp_is_active( 'notifications' ) ) {
+
+			// Add the main section.
+			add_settings_section( 'bp_notifications', __( 'Notifications Settings', 'buddypress' ), 'bp_admin_setting_callback_notifications_section', 'buddypress' );
+
+			// Enable Private Message Notification
+			add_settings_field( 'bp-enable-pm-notifications', __( 'Private Message', 'buddypress' ), 'bp_admin_setting_callback_private_message_notifications', 'buddypress', 'bp_notifications' );
+			register_setting( 'buddypress', 'bp-enable-pm-notifications', 'intval' );
+		}
 	}
 
 	/**

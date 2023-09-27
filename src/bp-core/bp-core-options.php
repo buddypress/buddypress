@@ -697,6 +697,27 @@ function bp_is_activity_heartbeat_active( $default = true ) {
 }
 
 /**
+ * Check whether Private Message Notifications are enabled.
+ *
+ * @since 12.0.0
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *                      Default: true.
+ * @return bool True if Private Message Notifications are enabled, otherwise false.
+ */
+function bp_is_private_message_notification_active( $default = true ) {
+
+	/**
+	 * Filters whether or not Private Message Notificatios are enabled.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param bool $value Whether or not Private Message Notificatios are enabled.
+	 */
+	return (bool) apply_filters( 'bp_is_private_message_notifications_active', (bool) bp_get_option( 'bp-enable-pm-notifications', $default ) );
+}
+
+/**
  * Get the current theme package ID.
  *
  * @since 1.7.0

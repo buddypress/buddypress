@@ -201,6 +201,29 @@ function bp_admin_sanitize_callback_blogforum_comments( $value = false ) {
 	return $value ? 0 : 1;
 }
 
+/** Notification Section *******************************************************************/
+
+/**
+ * Notification settings section description for the settings page.
+ *
+ * @since 12.0.0
+ */
+function bp_admin_setting_callback_notifications_section() { }
+
+/**
+ * Allow Private Message Notification
+ *
+ * @since 12.0.0
+ */
+function bp_admin_setting_callback_private_message_notifications() {
+	?>
+
+	<input id="bp-enable-pm-notifications" name="bp-enable-pm-notifications" type="checkbox" value="1" <?php checked( bp_is_private_message_notification_active( true ) ); ?> />
+	<label for="bp-enable-pm-notifications"><?php _e( 'Allow notifications for new incoming private messages', 'buddypress' ); ?></label>
+
+<?php
+}
+
 /** Members *******************************************************************/
 
 /**
