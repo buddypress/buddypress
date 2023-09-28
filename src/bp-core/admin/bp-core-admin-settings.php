@@ -452,48 +452,49 @@ add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );
 function bp_form_option( $option, $default = '' , $slug = false ) {
 	echo bp_get_form_option( $option, $default, $slug );
 }
-	/**
-	 * Return settings API option
-	 *
-	 * @since 1.6.0
-	 *
-	 *
-	 * @param string $option  Form option to return.
-	 * @param string $default Form option default.
-	 * @param bool   $slug    Form option slug.
-	 * @return string
-	 */
-	function bp_get_form_option( $option, $default = '', $slug = false ) {
 
-		// Get the option and sanitize it.
-		$value = bp_get_option( $option, $default );
+/**
+ * Return settings API option
+ *
+ * @since 1.6.0
+ *
+ *
+ * @param string $option  Form option to return.
+ * @param string $default Form option default.
+ * @param bool   $slug    Form option slug.
+ * @return string
+ */
+function bp_get_form_option( $option, $default = '', $slug = false ) {
 
-		// Slug?
-		if ( true === $slug ) {
+	// Get the option and sanitize it.
+	$value = bp_get_option( $option, $default );
 
-			/**
-			 * Filters the slug value in the form field.
-			 *
-			 * @since 1.6.0
-			 *
-			 * @param string $value Value being returned for the requested option.
-			 */
-			$value = esc_attr( apply_filters( 'editable_slug', $value ) );
-		} else { // Not a slug.
-			$value = esc_attr( $value );
-		}
-
-		// Fallback to default.
-		if ( empty( $value ) )
-			$value = $default;
+	// Slug?
+	if ( true === $slug ) {
 
 		/**
-		 * Filters the settings API option.
+		 * Filters the slug value in the form field.
 		 *
 		 * @since 1.6.0
 		 *
-		 * @param string $value  Value being returned for the requested option.
-		 * @param string $option Option whose value is being requested.
+		 * @param string $value Value being returned for the requested option.
 		 */
-		return apply_filters( 'bp_get_form_option', $value, $option );
+		$value = esc_attr( apply_filters( 'editable_slug', $value ) );
+	} else { // Not a slug.
+		$value = esc_attr( $value );
 	}
+
+	// Fallback to default.
+	if ( empty( $value ) )
+		$value = $default;
+
+	/**
+	 * Filters the settings API option.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $value  Value being returned for the requested option.
+	 * @param string $option Option whose value is being requested.
+	 */
+	return apply_filters( 'bp_get_form_option', $value, $option );
+}
