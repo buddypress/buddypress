@@ -670,7 +670,12 @@ add_action( 'bp_admin_tabs', 'bp_backcompat_admin_tabs', 1, 2 );
  */
 function bp_core_add_contextual_help( $screen = '' ) {
 
-	$screen = get_current_screen();
+	$screen   = get_current_screen();
+	$bp_forum = sprintf(
+		'<a href="%1$s">%2$s</a>',
+		esc_url( 'https://buddypress.org/support/' ),
+		esc_html__( 'Support Forums', 'buddypress' )
+	);
 
 	switch ( $screen->id ) {
 
@@ -685,11 +690,35 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
+			$manage_components = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://codex.buddypress.org/getting-started/configure-components/' ),
+				esc_html__( 'Managing Components', 'buddypress' )
+			);
+
 			// Help panel - sidebar links.
 			$screen->set_help_sidebar(
-				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="https://codex.buddypress.org/getting-started/configure-components/">Managing Components</a>', 'buddypress' ) . '</p>' .
-				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . $manage_components . '</p>' .
+				'<p>' . $bp_forum . '</p>'
+			);
+			break;
+
+		// Component page.
+		case 'settings_page_bp-rewrites':
+			// Help tabs.
+			$screen->add_help_tab(
+				array(
+					'id'      => 'bp-rewrites-overview',
+					'title'   => esc_html__( 'Overview', 'buddypress' ),
+					'content' => bp_core_add_contextual_help_content( 'bp-rewrites-overview' ),
+				)
+			);
+
+			// Help panel - sidebar links.
+			$screen->set_help_sidebar(
+				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . $bp_forum . '</p>'
 			);
 			break;
 
@@ -699,16 +728,22 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			$screen->add_help_tab(
 				array(
 					'id'      => 'bp-settings-overview',
-					'title'   => __( 'Overview', 'buddypress' ),
+					'title'   => esc_html__( 'Overview', 'buddypress' ),
 					'content' => bp_core_add_contextual_help_content( 'bp-settings-overview' ),
 				)
 			);
 
+			$manage_settings = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://codex.buddypress.org/getting-started/configure-components/#settings-buddypress-settings' ),
+				esc_html__( 'Managing Settings', 'buddypress' )
+			);
+
 			// Help panel - sidebar links.
 			$screen->set_help_sidebar(
-				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="https://codex.buddypress.org/getting-started/configure-components/#settings-buddypress-settings">Managing Settings</a>', 'buddypress' ) . '</p>' .
-				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . $manage_settings . '</p>' .
+				'<p>' . $bp_forum . '</p>'
 			);
 
 			break;
@@ -724,17 +759,24 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
+			$manage_profile_fields = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://codex.buddypress.org/administrator-guide/extended-profiles/' ),
+				esc_html__( 'Managing Profile Fields', 'buddypress' )
+			);
+
 			// Help panel - sidebar links.
 			$screen->set_help_sidebar(
-				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="https://codex.buddypress.org/administrator-guide/extended-profiles/">Managing Profile Fields</a>', 'buddypress' ) . '</p>' .
-				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . $manage_profile_fields . '</p>' .
+				'<p>' . $bp_forum . '</p>'
 			);
 
 			break;
 	}
 }
 add_action( 'load-settings_page_bp-components', 'bp_core_add_contextual_help' );
+add_action( 'load-settings_page_bp-rewrites', 'bp_core_add_contextual_help' );
 add_action( 'load-settings_page_bp-settings', 'bp_core_add_contextual_help' );
 add_action( 'load-users_page_bp-profile-setup', 'bp_core_add_contextual_help' );
 
@@ -761,6 +803,10 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 			$retval = __( 'Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.', 'buddypress' ) . '<br /><br />' . __( 'Note: Drag fields from other groups and drop them on the "Signup Fields" tab to include them into your registration form.', 'buddypress' );
 			break;
 
+		case 'bp-rewrites-overview':
+			$retval = __( 'Customize the page titles and URL slugs for the BuddyPress screens on your site.', 'buddypress' ) . '<br /><br />' . __( 'The <strong>title</strong> is the page title displayed above the BuddyPress content. For example, the page title "Members" is shown above the members directory.', 'buddypress' ) . '<br /><br />' . __( 'A <strong>slug</strong> is a portion of the URL itself. For instance, "members" is the members directory slug in the following example URL: <code>https://mysite.org/members</code>. Slugs should only include lowercase letters, numbers, and hyphens.', 'buddypress' );
+			break;
+
 		default:
 			$retval = false;
 			break;
@@ -768,7 +814,13 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 
 	// Wrap text in a paragraph tag.
 	if ( ! empty( $retval ) ) {
-		$retval = '<p>' . $retval . '</p>';
+		$allowed_tags = array(
+			'br'     => true,
+			'code'   => true,
+			'strong' => true,
+		);
+
+		$retval = '<p>' . wp_kses( $retval, $allowed_tags ) . '</p>';
 	}
 
 	return $retval;
