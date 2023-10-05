@@ -177,7 +177,7 @@ function bp_members_membership_requests_notify_site_admins( $signup ) {
 
 		// Bail if member opted out of receiving this email.
 		if ( 'no' === bp_get_user_meta( $admin_id, 'notification_members_membership_request', true ) ) {
-			return;
+			continue;
 		}
 
 		$unsubscribe_args = array(
