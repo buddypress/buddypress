@@ -45,10 +45,15 @@
 	"require-dev": {
 		"buddypress/bp-coding-standards": "dev-trunk",
 		"wp-phpunit/wp-phpunit": "^6.3",
-		"yoast/phpunit-polyfills": "^1.0.1"
+		"yoast/phpunit-polyfills": "^1.0.1",
+		"spatie/phpunit-watcher": "^1.23"
 	},
 	"scripts": {
 		"test": "@php ./vendor/phpunit/phpunit/phpunit",
+		"test:watch": [
+			"Composer\\Config::disableProcessTimeout",
+			"phpunit-watcher watch"
+		],
 		"phpcs" : "@php ./vendor/bin/phpcs"
 	}
 }
