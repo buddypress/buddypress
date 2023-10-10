@@ -1127,7 +1127,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
 				<a href="https://profiles.wordpress.org/lenasterg">Lena Stergatou (lenasterg)</a>,
 				<a href="https://profiles.wordpress.org/imath/">Mathieu Viet (imath)</a>,
-				<a href="https://profiles.wordpress.org/mike80222/">Mike Witt (mike80222)</a>
+				<a href="https://profiles.wordpress.org/mike80222/">Mike Witt (mike80222)</a>,
 				<a href="https://profiles.wordpress.org/niftythree/">Nifty (niftythree)</a>,
 				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
 				<a href="https://profiles.wordpress.org/plugindevs/">Plugin Devs</a>,
