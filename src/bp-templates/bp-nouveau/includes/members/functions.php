@@ -526,8 +526,8 @@ function bp_nouveau_members_loop_additional_info( $additional_info = array(), $a
 
 	$members_template = $GLOBALS['members_template'];
 
-	if ( isset( $members_template->member_count ) && 'all' === $args['scope'] ) {
-		$additional_info['totalItems'] = bp_core_number_format( $members_template->member_count );
+	if ( isset( $members_template->total_member_count ) && 'all' === $args['scope'] ) {
+		$additional_info['totalItems'] = bp_core_number_format( $members_template->total_member_count );
 		$additional_info['navLabel']   = esc_html__( 'All Members', 'buddypress' );
 
 		$nav_labels = array(
