@@ -5,6 +5,7 @@
  * @group cache
  */
 class BP_Tests_Group_Cache extends BP_UnitTestCase {
+
 	/**
 	 * @group bp_groups_update_meta_cache
 	 */
@@ -278,5 +279,48 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 
 		$this->assertEquals( 3, groups_get_total_group_count( true ) );
 		$this->assertEquals( 3, BP_Groups_Group::get_total_group_count() );
+	}
+
+	/**
+	 * @ticket BP9000
+	 */
+	public function test_groups_get_groups_for_user_cache_once_left() {
+		$g = self::factory()->group->create();
+		$u = self::factory()->user->create();
+
+		groups_join_group( $g, $u );
+		$u_groups = groups_get_groups( array( 'user_id' => $u ) );
+		$u_group_ids = wp_list_pluck( $u_groups['groups'], 'id' );
+
+		$this->assertContains( $g, $u_group_ids );
+
+		groups_leave_group( $g, $u );
+		$u_groups = groups_get_groups( array( 'user_id' => $u ) );
+		$u_group_ids = wp_list_pluck( $u_groups['groups'], 'id' );
+
+		$this->assertNotContains( $g, $u_group_ids );
+	}
+
+	/**
+	 * @ticket BP9000
+	 */
+	public function test_groups_get_groups_for_user_cache_once_removed() {
+		$g = self::factory()->group->create();
+		$u = self::factory()->user->create();
+
+		groups_join_group( $g, $u );
+		$u_groups = groups_get_groups( array( 'user_id' => $u ) );
+		$u_group_ids = wp_list_pluck( $u_groups['groups'], 'id' );
+
+		$this->assertContains( $g, $u_group_ids );
+
+		add_filter( 'bp_is_item_admin', '__return_true' );
+		groups_remove_member( $u, $g );
+		remove_filter( 'bp_is_item_admin', '__return_true' );
+
+		$u_groups = groups_get_groups( array( 'user_id' => $u ) );
+		$u_group_ids = wp_list_pluck( $u_groups['groups'], 'id' );
+
+		$this->assertNotContains( $g, $u_group_ids );
 	}
 }
