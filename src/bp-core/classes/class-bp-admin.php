@@ -1120,6 +1120,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/corzel/">corzel</a>,
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
 				<a href="https://profiles.wordpress.org/diabolique/">Diabolique</a>,
+				<a href="https://profiles.wordpress.org/emaralive/">emaralive</a>,
 				<a href="https://profiles.wordpress.org/fawp/">fawp</a>,
 				<a href="https://profiles.wordpress.org/iandunn/">Ian Dunn (iandunn)</a>,
 				<a href="https://profiles.wordpress.org/iamthewebb/">iamthewebb</a>,
@@ -1175,7 +1176,7 @@ class BP_Admin {
 					Jeff Sayre</a>
 				</li>
 				<li class="wp-person" id="wp-person-karmatosed">
-					<a class="web" href="https://profiles.wordpress.org/karmatosed"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ca7d4273a689cdbf524d8332771bb1ca?s=120">
+					<a class="web" href="https://profiles.wordpress.org/karmatosed"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/4fce55e91de5a6e9312723e2f01902d5?s=120">
 					Tammie Lister</a>
 				</li>
 				<li class="wp-person" id="wp-person-modemlooper">

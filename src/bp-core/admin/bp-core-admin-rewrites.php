@@ -28,8 +28,6 @@ function bp_core_admin_rewrites_load() {
 		.site-health-issues-wrapper .health-check-accordion:last-of-type { border-bottom: 1px solid #c3c4c7; }'
 	);
 
-	wp_enqueue_script( 'bp-rewrites-ui' );
-
 	// Handle slugs customization.
 	if ( isset( $_POST['bp-admin-rewrites-submit'] ) ) {
 		check_admin_referer( 'bp-admin-rewrites-setup' );
@@ -112,6 +110,8 @@ function bp_core_admin_rewrites_settings() {
 	$bp              = buddypress();
 	$bp_pages        = $bp->pages;
 	$reordered_pages = array();
+
+	wp_enqueue_script( 'bp-rewrites-ui' );
 
 	if ( isset( $bp_pages->register ) ) {
 		$reordered_pages['register'] = $bp_pages->register;
