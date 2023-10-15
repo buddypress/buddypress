@@ -3764,7 +3764,3 @@ function bp_members_user_pass_required_strength() {
 	 */
 	return (int) apply_filters( 'bp_members_user_pass_required_strength', $default_strength );
 }
-
-function bp_members_get_admins_notifications() {
-	return apply_filters( 'bp_members_get_admins_notifications', array() );
-}

@@ -170,7 +170,7 @@ add_action( 'admin_bar_menu', 'bp_members_admin_bar_user_admin_menu', 99 );
  * @since 11.4.0
  */
 function bp_members_admin_bar_notifications_dropdown( $notifications = array(), $menu_link = '', $type = 'members' ) {
-	if ( ! $menu_link || ( 'admins' === $type && empty( $notifications ) ) ) {
+	if ( ! $menu_link || ( 'admin' === $type && empty( $notifications ) ) ) {
 		return false;
 	}
 
@@ -180,15 +180,19 @@ function bp_members_admin_bar_notifications_dropdown( $notifications = array(), 
 	$alert_class = array( 'count', 'no-alert' );
 
 	if ( ! empty( $notifications ) ) {
-		$count       = count( $notifications );
+		$count       = number_format_i18n( count( $notifications ) );
 		$alert_class = array( 'pending-count', 'alert' );
+
+		if ( 'admin' === $type ) {
+			$count = '!';
+		}
 	};
 
 	$alert_class[] = $type . '-type';
 	$menu_title    = sprintf(
 		'<span id="ab-pending-notifications" class="%1$s">%2$s</span>',
 		implode( ' ', array_map( 'sanitize_html_class', $alert_class ) ),
-		number_format_i18n( $count )
+		$count
 	);
 
 	// Add the top-level Notifications button.
@@ -236,11 +240,25 @@ function bp_members_admin_bar_notifications_menu() {
 	}
 
 	if ( bp_current_user_can( $capability ) ) {
-		$notifications = bp_members_get_admins_notifications();
+		$notifications = bp_core_get_admin_notifications();
 
 		if ( $notifications ) {
-			$menu_link = esc_url( bp_get_admin_url( add_query_arg( 'page', 'bp-components', 'admin.php' ) ) );
-			return bp_members_admin_bar_notifications_dropdown( $notifications, $menu_link, 'admins' );
+			$menu_link = esc_url( bp_get_admin_url( add_query_arg( 'page', 'bp-admin-notifications', 'admin.php' ) ) );
+			$count     = count( $notifications );
+
+			$notifications = array(
+				(object) array(
+					'id'      => 'bp-admin-notifications',
+					'href'    => $menu_link,
+					'content' => sprintf(
+						/* translators: %s: the number of admin notifications */
+						_n( 'You have %s new important admin notification.', 'You have %s new important admin notifications.', $count, 'buddypress' ),
+						number_format_i18n( $count )
+					),
+				),
+			);
+
+			return bp_members_admin_bar_notifications_dropdown( $notifications, $menu_link, 'admin' );
 		}
 	}
 
