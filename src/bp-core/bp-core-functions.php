@@ -5100,20 +5100,20 @@ function bp_core_get_admin_notifications() {
 			             __( 'Thanks to this new tab inside your Dashboard screen to add plugins, you’ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ),
 			'version' => 10.0,
 		),
-		'bp114-prepare-to-rewrites' => (object) array(
-			'id'      => 'bp114-prepare-to-rewrites',
+		'bp114-prepare-for-rewrites' => (object) array(
+			'id'      => 'bp114-prepare-for-rewrites',
 			'href'    => add_query_arg(
 				array(
 					'tab'  => 'bp-add-ons',
 					'show' => 'bp-classic',
-					'n'    => 'bp114-prepare-to-rewrites'
+					'n'    => 'bp114-prepare-for-rewrites'
 				),
 				bp_get_admin_url( 'plugin-install.php' )
 			),
 			'text'    => __( 'Get The BP Classic Add-on', 'buddypress' ),
-			'title'   => __( 'Get ready for the BP Rewrites API: a very important change', 'buddypress' ),
-			'content' => __( 'Our next major version (12.0.0) will completely renew the way BuddyPress URL are built and routed introducing the BP Rewrites API. This important change requires most BuddyPress plugins to adapt their way of dealing with BuddyPress URL.', 'buddypress' ) .
-			             __( 'To prevent any issues with BuddyPress plugins that may not be ready yet for this change, we\'ve built the BP&nbsp;Classic Add-on. If some of your BuddyPress plugins were not updated lately, we strongly advise you to install and activate this Add-on.', 'buddypress' ),
+			'title'   => __( 'Get ready for the brand-new BP Rewrites API!', 'buddypress' ),
+			'content' => __( 'Our next major version (12.0.0) will introduce the BP Rewrites API, which  completely changes the way BuddyPress URLs are built and routed. This fundamental change requires most BuddyPress plugins to update how they deal with BuddyPress URLs. ', 'buddypress' ) .
+			             __( 'To prevent any issues with BuddyPress plugins that may not be ready for the new Rewrites API, we\'ve built the BP&nbsp;Classic Add-on. If some of your BuddyPress plugins have not been updated lately, we strongly advise you to install and activate the Classic Add-on before updating to BuddyPress 12.', 'buddypress' ),
 			'version' => 11.4,
 		)
 	);

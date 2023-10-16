@@ -808,7 +808,7 @@ function bp_core_get_11_0_upgrade_email_schema( $emails ) {
  * @since 11.4.0
  */
 function bp_update_to_11_4() {
-	$unread = array( 'bp114-prepare-to-rewrites' );
+	$unread = array( 'bp114-prepare-for-rewrites' );
 
 	// Check if 10.0 notice was dismissed.
 	$old_dismissed = (bool) bp_get_option( 'bp-dismissed-notice-bp100-welcome-addons', false );
