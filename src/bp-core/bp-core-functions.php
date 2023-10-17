@@ -5112,9 +5112,13 @@ function bp_core_get_admin_notifications() {
 			),
 			'text'    => __( 'Get The BP Classic Add-on', 'buddypress' ),
 			'title'   => __( 'Get ready for the brand-new BP Rewrites API!', 'buddypress' ),
-			'content' => __( 'Our next major version (12.0.0) will introduce the BP Rewrites API, which  completely changes the way BuddyPress URLs are built and routed. This fundamental change requires most BuddyPress plugins to update how they deal with BuddyPress URLs. ', 'buddypress' ) .
-			             __( 'To prevent any issues with BuddyPress plugins that may not be ready for the new Rewrites API, we\'ve built the BP&nbsp;Classic Add-on. If some of your BuddyPress plugins have not been updated lately, we strongly advise you to install and activate the Classic Add-on before updating to BuddyPress 12.', 'buddypress' ),
-			'version' => 11.4,
+			'content' => __( 'Our next major version (12.0.0) will introduce several large changes that could be incompatible with your site\'s configuration. To prevent problems, we\'ve built the BP Classic Add-on, which you may want to proactively install if any of the following cases:', 'buddypress' ) . '<br><br>' .
+				'<strong>' . __( 'Some of your BuddyPress plugins have not been updated lately.', 'buddypress' ) . '</strong><br>' .
+				__( 'BuddyPress 12 introduces the BP Rewrites API, which completely changes the way BuddyPress URLs are built and routed. This fundamental change requires most BuddyPress plugins to update how they deal with BuddyPress URLs. If your BuddyPress plugins have not been updated in the last few months, they are probably not ready for BP 12.', 'buddypress' ) . '<br><br>' .
+				'<strong>' . __( 'You are still using the BP Default theme.', 'buddypress' ) . '</strong><br><br>' .
+				'<strong>' . __( 'You still use a BP Legacy Widget.', 'buddypress' ) . '</strong><br><br>' .
+				__( 'If any of the above items are true, we strongly advise you to install and activate the Classic Add-on before updating to BuddyPress 12.', 'buddypress' ),
+				'version' => 11.4,
 		)
 	);
 

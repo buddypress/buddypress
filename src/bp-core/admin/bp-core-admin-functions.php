@@ -1580,7 +1580,7 @@ function bp_core_admin_format_notifications( $notification = null ) {
 		<div class="bp-welcome-panel-content">
 			<h2><span class="bp-version"><?php echo number_format_i18n( $notification->version, 1 ); ?></span> <?php echo esc_html( $notification->title ); ?></h2>
 			<p class="about-description">
-				<?php echo wp_kses( $notification->content, array( 'a' => array( 'href' => true ) ) ); ?>
+				<?php echo wp_kses( $notification->content, array( 'a' => array( 'href' => true ), 'br' => array(), 'strong' => array() ) ); ?>
 			</p>
 			<div class="bp-admin-notification-action"><a href="<?php echo esc_url( $notification->href ); ?>" class="button button-primary"><?php echo esc_html( $notification->text ); ?></a></div>
 		</div>
