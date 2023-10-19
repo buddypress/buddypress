@@ -42,6 +42,12 @@ TABLE OF CONTENTS:
 	content: "\f448";
 }
 
+.bp-version {
+	color: #fff;
+	background: #d84800;
+	padding: 2px 5px;
+}
+
 .settings_page_bp-credits code,
 .index_page_bp-about code {
 	background-color: #e0e0e0;
@@ -613,8 +619,11 @@ body.post-type-bp-email .categorydiv label {
 }
 
 .buddypress .bp-welcome-panel-content p {
-	padding-bottom: 23px;
 	font-size: 14px;
+}
+
+.buddypress .bp-welcome-panel-content .bp-admin-notification-action {
+	margin: 23px 0;
 }
 
 /*------------------------------------------------------------------------------
@@ -695,6 +704,10 @@ body.bp-is-tabbed-screen #wpcontent {
 	background-color: #fff;
 	padding: 0.5rem 1rem;
 	border-collapse: inherit;
+}
+
+.buddypress-body .form-table.hide {
+	display: none;
 }
 
 /* Media queries */

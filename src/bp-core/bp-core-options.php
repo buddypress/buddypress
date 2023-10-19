@@ -105,6 +105,9 @@ function bp_get_default_options() {
 		'widget_bp_core_recently_active_widget'      => false,
 		'widget_bp_groups_widget'                    => false,
 		'widget_bp_messages_sitewide_notices_widget' => false,
+
+		/* Admin Notifications **************************************/
+		'bp_unread_admin_notifications' => array( 'bp114-prepare-for-rewrites' ),
 	);
 
 	/**

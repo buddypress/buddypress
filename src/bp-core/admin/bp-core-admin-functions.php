@@ -511,12 +511,20 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-page-settings' ), 'admin.php' ) ),
 			'name' => __( 'Pages', 'buddypress' ),
 		),
-		'3' => array(
+		'4' => array(
 			'id'   => 'bp-credits',
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'admin.php' ) ),
 			'name' => __( 'Credits', 'buddypress' ),
 		),
 	);
+
+	if ( bp_core_get_unread_admin_notifications() || ( isset( $_GET['page'] ) && 'bp-admin-notifications' === $_GET['page'] ) ) {
+		$settings_tabs['3'] = array(
+			'id'   => 'bp-admin-notifications',
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-admin-notifications' ), 'admin.php' ) ),
+			'name' => __( 'Notifications', 'buddypress' ),
+		);
+	}
 
 	if ( ! $apply_filters ) {
 		return $settings_tabs;
@@ -1412,7 +1420,7 @@ function bp_core_admin_user_spammed_js() {
  * @since 2.7.0
  */
 function bp_core_admin_notice_dismiss_callback() {
-	if ( ! current_user_can( 'install_plugins' ) ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
 		wp_send_json_error();
 	}
 
@@ -1439,7 +1447,7 @@ function bp_core_admin_notice_dismiss_callback() {
 		wp_send_json_error();
 	}
 
-	bp_update_option( "bp-dismissed-notice-{$notice_id}", true );
+	bp_core_dismiss_admin_notification( $notice_id );
 
 	wp_send_json_success();
 }
@@ -1511,3 +1519,28 @@ function bp_block_init_category_filter() {
 	}
 }
 add_action( 'bp_init', 'bp_block_init_category_filter' );
+
+/**
+ * Outputs an Admin Notification.
+ *
+ * @since 11.4.0
+ *
+ * @param object $notification An Admin Notification object.
+ */
+function bp_core_admin_format_notifications( $notification = null ) {
+	if ( ! isset( $notification->id ) ) {
+		return '';
+	}
+	?>
+	<div class="bp-welcome-panel bp-notice-container">
+		<a class="bp-welcome-panel-close bp-is-dismissible" href="#" data-notice_id="<?php echo esc_attr( $notification->id ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the notification', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+		<div class="bp-welcome-panel-content">
+			<h2><span class="bp-version"><?php echo number_format_i18n( $notification->version, 1 ); ?></span> <?php echo esc_html( $notification->title ); ?></h2>
+			<p class="about-description">
+				<?php echo wp_kses( $notification->content, array( 'a' => array( 'href' => true ), 'br' => array(), 'strong' => array() ) ); ?>
+			</p>
+			<div class="bp-admin-notification-action"><a href="<?php echo esc_url( $notification->href ); ?>" class="button button-primary"><?php echo esc_html( $notification->text ); ?></a></div>
+		</div>
+	</div>
+	<?php
+}
