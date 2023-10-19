@@ -1561,6 +1561,21 @@ class BP_Admin {
 			<?php
 		}
 
+		if ( isset( $_GET['show'] ) && 'bp-classic' === $_GET['show'] ) {
+			wp_add_inline_script(
+				'plugin-install',
+				'
+				( function() {
+					document.onreadystatechange = function()  {
+						if ( document.readyState === "complete" ) {
+							document.querySelector( \'.plugin-card-bp-classic .open-plugin-details-modal\' ).click();
+						}
+					}
+				} )();
+				'
+			);
+		}
+
 		// Display the "buddypress" favorites.
 		display_plugins_table();
 	}
