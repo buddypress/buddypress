@@ -1530,7 +1530,7 @@ class BP_Admin {
 			'page'     => $paged,
 			'per_page' => 10,
 			'locale'   => get_user_locale(),
-			'user'     => 'buddypress',
+			'author'   => 'buddypress',
 		);
 	}
 
