@@ -304,6 +304,19 @@ class BP_Admin {
 		$this->submenu_pages['settings']['bp-settings'] = $bp_settings_page;
 		$hooks[]                                        = $bp_settings_page;
 
+		// Admin notifications.
+		$bp_admin_notifications = add_submenu_page(
+			$this->settings_page,
+			__( 'BuddyPress Admin Notifications', 'buddypress' ),
+			__( 'BuddyPress Admin Notifications', 'buddypress' ),
+			$this->capability,
+			'bp-admin-notifications',
+			array( $this, 'admin_notifications' )
+		);
+
+		$this->submenu_pages['settings']['bp-admin-notifications'] = $bp_admin_notifications;
+		$hooks[]                                                   = $bp_admin_notifications;
+
 		// Credits.
 		$bp_credits_page = add_submenu_page(
 			$this->settings_page,
@@ -641,9 +654,10 @@ class BP_Admin {
 	public function admin_head() {
 
 		// Settings pages.
-		remove_submenu_page( $this->settings_page, 'bp-rewrites' );
-		remove_submenu_page( $this->settings_page, 'bp-settings' );
-		remove_submenu_page( $this->settings_page, 'bp-credits'  );
+		remove_submenu_page( $this->settings_page, 'bp-rewrites'            );
+		remove_submenu_page( $this->settings_page, 'bp-settings'            );
+		remove_submenu_page( $this->settings_page, 'bp-credits'             );
+		remove_submenu_page( $this->settings_page, 'bp-admin-notifications' );
 
 		// Network Admin Tools.
 		remove_submenu_page( 'network-tools', 'network-tools' );
@@ -1555,27 +1569,6 @@ class BP_Admin {
 	 * @since 10.0.0
 	 */
 	public function display_addons_table() {
-		$notice_id = 'bp100-welcome-addons';
-		$dismissed = bp_get_option( "bp-dismissed-notice-{$notice_id}", false );
-
-		if ( ! $dismissed ) {
-			// Enqueue the Script to Ajax Dismiss an Admin notice.
-			wp_enqueue_script( 'bp-dismissible-admin-notices' );
-
-			?>
-			<div class="bp-welcome-panel bp-notice-container">
-				<a class="bp-welcome-panel-close bp-is-dismissible" href="#" data-notice_id="<?php echo esc_attr( $notice_id ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the welcome panel', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
-				<div class="bp-welcome-panel-content">
-					<h2><span class="bp-badge"></span> <?php esc_html_e( 'Hello BuddyPress Add-ons!', 'buddypress' ); ?></h2>
-					<p class="about-description">
-						<?php esc_html_e( 'Add-ons are features as Plugins or Blocks maintained by the BuddyPress development team & hosted on the WordPress.org plugins directory.', 'buddypress' ); ?>
-						<?php esc_html_e( 'Thanks to this new tab inside your Dashboard screen to add plugins, you’ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ); ?>
-					</p>
-				</div>
-			</div>
-			<?php
-		}
-
 		if ( isset( $_GET['show'] ) && 'bp-classic' === $_GET['show'] ) {
 			wp_add_inline_script(
 				'plugin-install',
@@ -1591,8 +1584,43 @@ class BP_Admin {
 			);
 		}
 
+		if ( isset( $_GET['n'] ) && $_GET['n'] ) {
+			$notification_id = sanitize_text_field( wp_unslash( $_GET['n'] ) );
+			bp_core_dismiss_admin_notification( $notification_id );
+		}
+
 		// Display the "buddypress" favorites.
 		display_plugins_table();
+	}
+
+	/**
+	 * Display the Admin Notifications screen.
+	 *
+	 * @since 11.4.0
+	 */
+	public function admin_notifications() {
+		bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Notifications', 'buddypress' ) );
+		$notifications = bp_core_get_admin_notifications();
+		$class         = '';
+
+		if ( $notifications ) {
+			wp_enqueue_script( 'bp-dismissible-admin-notices' );
+			$notifications = array_reverse( bp_sort_by_key( $notifications, 'version', 'num' ) );
+			$class         = 'hide';
+		}
+		?>
+		<div class="buddypress-body admin-notifications">
+			<table id="no-admin-notifications" class="form-table <?php echo sanitize_html_class( $class ); ?>" role="presentation">
+				<tbody>
+					<tr><td><?php esc_html_e( 'No new Admin Notfications', 'buddypress' ); ?></td><tr>
+				</tbody>
+			</table>
+
+			<?php if ( $notifications ) : foreach ( $notifications as $notification ) : ?>
+				<?php bp_core_admin_format_notifications( $notification ); ?>
+			<?php endforeach; endif; ?>
+		</div>
+		<?php
 	}
 }
 endif; // End class_exists check.

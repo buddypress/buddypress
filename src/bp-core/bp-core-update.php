@@ -287,12 +287,17 @@ function bp_version_updater() {
 		}
 
 		// Version 11.0.0.
-		if ( $raw_db_version < 13271 ){
+		if ( $raw_db_version < 13271 ) {
 			bp_update_to_11_0();
 		}
 
+		// Version 11.4.0.
+		if ( $raw_db_version < 13408 ) {
+			bp_update_to_11_4();
+		}
+
 		// Version 12.0.0.
-		if ( $raw_db_version < 13422 ){
+		if ( $raw_db_version < 13422 ) {
 			bp_update_to_12_0();
 		}
 	}
@@ -795,6 +800,27 @@ function bp_core_get_11_0_upgrade_email_schema( $emails ) {
 	}
 
 	return $new_emails;
+}
+
+/**
+ * 11.4.0 update routine.
+ *
+ * @since 11.4.0
+ */
+function bp_update_to_11_4() {
+	$unread = array( 'bp114-prepare-for-rewrites' );
+
+	// Check if 10.0 notice was dismissed.
+	$old_dismissed = (bool) bp_get_option( 'bp-dismissed-notice-bp100-welcome-addons', false );
+	if ( ! $old_dismissed ) {
+		$unread[] = 'bp100-welcome-addons';
+	}
+
+	// Remove the dismissible option.
+	bp_delete_option( 'bp-dismissed-notice-bp100-welcome-addons' );
+
+	// Create unread Admin notifications.
+	bp_update_option( 'bp_unread_admin_notifications', $unread );
 }
 
 /**
