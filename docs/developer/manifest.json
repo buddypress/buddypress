@@ -46,5 +46,17 @@
 		"slug": "bp-ajax-context",
 		"markdown_source": "../developer/execution-contexts/ajax.md",
 		"parent": null
+	},
+	{
+		"title": "BuddyPress Functions",
+		"slug": "bp-functions",
+		"markdown_source": "../developer/functions/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Rewrites Functions",
+		"slug": "rewrites",
+		"markdown_source": "../developer/functions/rewrites.md",
+		"parent": null
 	}
 ]
