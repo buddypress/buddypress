@@ -1128,6 +1128,7 @@ class BP_Admin {
 				?>
 			</h3>
 			<p class="wp-credits-list">
+				<a href="https://profiles.wordpress.org/awol/">awol</a>,
 				<a href="https://profiles.wordpress.org/bouncingsprout/">Ben Roberts (bouncingsprout)</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
 				<a href="https://profiles.wordpress.org/coffee2code/">Scott Reilly (coffee2code)</a>,
