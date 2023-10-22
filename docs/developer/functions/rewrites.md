@@ -10,6 +10,8 @@ These functions help you build BuddyPress URLs whether the WordPress sites is us
 
 This is the BuddyPress base function to build BP URLs. **All** other available BuddyPress functions building BP URLs are finally using this base function. This function is exposing a WordPress filter hook just before returning the built URL. If you need to override all BuddyPress URLs, you can use the `bp_rewrites_get_url` filter to do so, making sure to get the 2 available filter arguments. The first one is the built URL and the second one contains all arguments used to build the URL.
 
+_This function was introduced in version 12.0.0_
+
 #### Arguments
 
 `bp_rewrites_get_url()` accepts only one argument, which is an associative array containing keys referring to BuddyPress objects "hierarchy". Below is the list of most common available keys.
@@ -46,6 +48,8 @@ You need to use `bp_rewrites_get_slug()` to get the customized slugs for the fol
 
 **NB**: when the BP Query Parser is overriden to use the 'legacy' one (eg: when you activated the [BP Classic](https://wordpress.org/plugins/bp-classic/) Add-on) instead of the 'rewrites' one, the default slug is immediately returned.
 
+_This function was introduced in version 12.0.0_
+
 #### Arguments
 
 `bp_rewrites_get_slug()` needs 3 arguments to retrieve the customized slug.
@@ -53,7 +57,7 @@ You need to use `bp_rewrites_get_slug()` to get the customized slugs for the fol
 | Keys | Type | Required | Defaults | Description |
 |---|---|---|---|---|
 |`$component_id`|`string`|Yes|`''`|The BuddyPress component ID the URL is built for. Possible value is one of the BuddyPress active components (eg: `members`)|
-|`$rewrite_id`|`string`|Yes|`''`|The BuddyPress component's Rewrite ID element the URL is built for. This Rewrite ID element is a string concatenation using default BuddyPress slugs behind the singular value of a component (eg: members => member). For instance to get the customized slug for the public profile page of a member, you will use `member_profile_public`|
+|`$rewrite_id`|`string`|Yes|`''`|The BuddyPress component's Rewrite ID element the URL is built for. This Rewrite ID element is a string concatenation using default BuddyPress slugs behind the singular value of a component (eg: members => member) separated by underscores. For instance to get the customized slug for the public profile page of a member, you will use `member_profile_public`. It's important to note that rewrite IDs do not contain `-`, if a default BP slug contains one or more, you need to replace it/them with `_`|
 |`$default_slug`|`string`|Yes|`''`|The BuddyPress component's default slug for the the URL portion. For instance the default slug of the public profile page of a member is `public`|
 
 #### Example of use.
@@ -61,13 +65,103 @@ You need to use `bp_rewrites_get_slug()` to get the customized slugs for the fol
 ```php
 // Init a single member's URL.
 $args = array(
-	'component_id' => 'members',
-	'single_item'  => 'imath' // The user slug (stored in $wpdb->users.user_nicename).
+	'component_id' => 'members', // The BP Members component ID.
+	'single_item'  => 'imath',   // The user slug (stored in $wpdb->users.user_nicename).
 );
 
 // Get the customized part of the URL.
-$args['single_item_component'] = bp_rewrites_get_slug( 'members', 'member_activity', 'activity' );
+$args['single_item_component'] = bp_rewrites_get_slug(
+	'members',         // The BP Members component ID.
+	'member_activity', // The screen rewrite ID.
+	'activity'         // The sub page default slug.
+);
 
 // Outputs the customized URL for the Activity page of the member
 echo bp_rewrites_get_url( $args );
 ```
+
+## Members functions
+
+### `bp_members_get_user_slug()`
+
+Thanks to this function you can get the user's slug (which is stored in `$wpdb->users.user_nicename`) thanks to their user ID. This function is exposing a WordPress filter hook just before returning the user's slug. If you need to override a specific user's slug, you can use the `bp_members_get_user_slug` filter making sure to get the 2 available filter arguments. The first one is the retrieved user's slug and the second one contains the corresponding user ID. `bp_members_get_user_url()` uses this function to build a user's url.
+
+_This function was introduced in version 12.0.0_
+
+#### Arguments
+
+`bp_members_get_user_slug()` requires one argument, the user ID.
+
+| Keys | Type | Required | Defaults | Description |
+|---|---|---|---|---|
+|`$user_id`|`integer`|Yes|`0`|The user ID the slug is retrieved for. Possible value is one of the existing users ID (eg: `134`)|
+
+### `bp_members_get_path_chunks()`
+
+_This function was introduced in version 12.0.0_
+
+### `bp_members_get_user_url()`
+
+_This function was introduced in version 12.0.0_
+
+### `bp_get_members_directory_permalink()` &  `bp_members_directory_permalink()`
+
+_These functions were introduced in version 1.5.0_
+
+### `bp_get_member_type_directory_permalink()` & `bp_member_type_directory_permalink()`
+
+_These functions were introduced in version 2.5.0_
+
+### `bp_get_signup_page()` & `bp_signup_page()`
+
+_These functions were introduced in versions 1.1.0 & 1.0.0_
+
+### `bp_get_activation_page()` & `bp_activation_page()`
+
+_These functions were introduced in versions 1.2.0 & 1.0.0_
+
+## Groups functions
+
+### `groups_get_slug()`
+
+_This function was introduced in version 1.0.0_
+
+### `bp_groups_get_path_chunks()`
+
+_This function was introduced in version 12.0.0_
+
+### `bp_get_group_url()`
+
+_This function was introduced in version 12.0.0_
+
+### `bp_get_group_manage_url()` & `bp_group_manage_url()`
+
+_These functions were introduced in version 12.0.0_
+
+### `bp_get_groups_directory_url` & `bp_groups_directory_url()`
+
+_These functions were introduced in version 12.0.0_
+
+### `bp_get_group_type_directory_permalink()` & `bp_group_type_directory_permalink()`
+
+_These functions were introduced in version 2.7.0_
+
+### `bp_groups_get_create_url()`
+
+_This function was introduced in version 12.0.0_
+
+## Activity functions
+
+### `bp_activity_get_permalink()`
+
+_This function was introduced in version 1.2.0_
+
+### `bp_get_activity_directory_permalink()` & `bp_activity_directory_permalink()`
+
+_This function was introduced in version 1.5.0_
+
+## Blogs functions
+
+### `bp_get_blogs_directory_url()` && `bp_blogs_directory_url()`
+
+_These functions were introduced in version 12.0.0_
