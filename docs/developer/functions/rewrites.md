@@ -16,7 +16,7 @@ _This function was introduced in version 12.0.0_
 
 `bp_rewrites_get_url()` accepts only one argument, which is an associative array containing keys referring to BuddyPress objects "hierarchy". Below is the list of most common available keys.
 
-| Keys | Type | Required | Defaults | Description |
+| Argument's keys | Type | Required | Defaults | Description |
 |---|---|---|---|---|
 |`$component_id`|`string`|No|`''`|The BuddyPress component ID the URL is built for. Possible value is one of the BuddyPress active components (eg: `members`)|
 |`$directory_type`|`string`|No|`''`|BuddyPress members or groups can be organized in types a bit like a taxonomy can organize WordPress posts. Possible values are slugs of the registered group or member types.|
@@ -54,7 +54,7 @@ _This function was introduced in version 12.0.0_
 
 `bp_rewrites_get_slug()` needs 3 arguments to retrieve the customized slug.
 
-| Keys | Type | Required | Defaults | Description |
+| Arguments | Type | Required | Defaults | Description |
 |---|---|---|---|---|
 |`$component_id`|`string`|Yes|`''`|The BuddyPress component ID the URL is built for. Possible value is one of the BuddyPress active components (eg: `members`)|
 |`$rewrite_id`|`string`|Yes|`''`|The BuddyPress component's Rewrite ID element the URL is built for. This Rewrite ID element is a string concatenation using default BuddyPress slugs behind the singular value of a component (eg: members => member) separated by underscores. For instance to get the customized slug for the public profile page of a member, you will use `member_profile_public`. It's important to note that rewrite IDs do not contain `-`, if a default BP slug contains one or more, you need to replace it/them with `_`|
@@ -92,7 +92,7 @@ _This function was introduced in version 12.0.0_
 
 `bp_members_get_user_slug()` requires one argument, the user ID.
 
-| Keys | Type | Required | Defaults | Description |
+| Argument | Type | Required | Defaults | Description |
 |---|---|---|---|---|
 |`$user_id`|`integer`|Yes|`0`|The user ID the slug is retrieved for. Possible value is one of the existing users ID (eg: `134`)|
 
