@@ -227,7 +227,7 @@ _This function was introduced in version 12.0.0_
 | Argument | Type | Required | Defaults | Description |
 |---|---|---|---|---|
 |`$chunks`|`[string]`|Yes|`[]`|The array of path chunks to get the associative array expected by `bp_get_group_url()`, `bp_get_group_manage_url()` or `bp_groups_get_create_url()`|
-|`$chunks`|`string`|No|`'read'`|The context for the URL. Possible values are `'read'`, `'create'`, or `'manage'`.|
+|`$context`|`string`|No|`'read'`|The context for the URL. Possible values are `'read'`, `'create'`, or `'manage'`.|
 
 ```php
 // Example for the "read" context.
@@ -275,7 +275,7 @@ _This function was introduced in version 12.0.0_
 | Argument | Type | Required | Defaults | Description |
 |---|---|---|---|---|
 |`$group`|`integer` or `BP_Groups_Group`|Yes|`0`|The group ID (or the group object) the URL is retrieved for.|
-|`$path_chunks`|`array`|No|`''`|This associative array of arguments is described below|
+|`$path_chunks`|`array`|No|`[]`|This associative array of arguments is described below|
 
 `$path_chunks` list of arguments:
 
@@ -309,7 +309,7 @@ _This function was introduced in version 12.0.0_
 | Argument | Type | Required | Defaults | Description |
 |---|---|---|---|---|
 |`$group`|`integer`, `string` or `BP_Groups_Group`|Yes|`false`|The group ID, a group slug, or the group object the URL is retrieved for.|
-|`$path_chunks`|`array`|No|`''`|This associative array of arguments is described below|
+|`$path_chunks`|`array`|No|`[]`|This associative array of arguments is described below|
 
 `$path_chunks` list of arguments:
 
