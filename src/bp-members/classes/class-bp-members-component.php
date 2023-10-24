@@ -997,6 +997,11 @@ class BP_Members_Component extends BP_Component {
 			}
 
 			$bp = buddypress();
+			if ( ! bp_is_active( $single_item_component ) && ! $bp->members->nav->get_primary( array( 'slug' => $single_item_component ), false ) ) {
+				bp_do_404();
+				return;
+			}
+
 			if ( isset( $bp->{$single_item_component} ) ) {
 				$screen_function = '';
 
