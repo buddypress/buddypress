@@ -36,6 +36,12 @@
 		"parent": null
 	},
 	{
+		"title": "BuddyPress Options",
+		"slug": "administration-settings-options",
+		"markdown_source": "../user/administration/settings/options.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Administration Tools",
 		"slug": "administration-tools",
 		"markdown_source": "../user/administration/tools/README.md",

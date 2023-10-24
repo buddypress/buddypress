@@ -4,4 +4,4 @@ BuddyPress Settings are reachable from the BuddyPress' Settings submenu. From th
 
 - [Components](components.md)
 - [URLs](urls.md)
-- Options
+- [Options](options.md)
