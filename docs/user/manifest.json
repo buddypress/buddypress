@@ -30,6 +30,12 @@
 		"parent": null
 	},
 	{
+		"title": "BuddyPress Components settings",
+		"slug": "administration-settings-components",
+		"markdown_source": "../user/administration/settings/components.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Administration Tools",
 		"slug": "administration-tools",
 		"markdown_source": "../user/administration/tools/README.md",
