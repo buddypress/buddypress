@@ -4025,12 +4025,13 @@ function bp_get_group_screens( $context = 'read', $built_in = false ) {
 }
 
 /**
- * Get single group's path chunks using an array of URL slugs.
+ * Get single Groups item customized path chunks using an array of BP URL default slugs.
  *
  * @since 12.0.0
  *
- * @param array $chunks An array of URL slugs.
- * @return array An array of BP Rewrites URL arguments.
+ * @param array $chunks   An array of BP URL default slugs.
+ * @param string $context Whether to get chunks for the 'read', 'create' or 'manage' contexts.
+ * @return array An associative array containing group's customized path chunks.
  */
 function bp_groups_get_path_chunks( $chunks = array(), $context = 'read' ) {
 	$path_chunks   = array();
