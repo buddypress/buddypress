@@ -8,6 +8,7 @@ If you’re new to Add-on development, start by reading the [introduction](./int
 
 ## Table of content
 
-1. [BuddyPress Components](./component/README.md)
-2. [BuddyPress Group Extension API](./group-extension/README.md)
-3. [BuddyPress Theme Compatibility](./theme-compat/README.md)
+1. [BuddyPress Functions](./functions/README.md)
+2. [BuddyPress Components](./component/README.md)
+3. [BuddyPress Group Extension API](./group-extension/README.md)
+4. [BuddyPress Theme Compatibility](./theme-compat/README.md)
