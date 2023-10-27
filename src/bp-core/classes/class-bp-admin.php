@@ -476,18 +476,14 @@ class BP_Admin {
 	 */
 	public function register_admin_settings() {
 
-		/* Main Section ******************************************************/
+		/* Core Section ******************************************************/
 
-		// Add the main section.
-		add_settings_section( 'bp_main', __( 'Main Settings', 'buddypress' ), 'bp_admin_setting_callback_main_section', 'buddypress' );
+		// Add the Core section.
+		add_settings_section( 'bp_main', __( 'BuddyPress Core', 'buddypress' ), 'bp_admin_setting_callback_main_section', 'buddypress' );
 
 		// Hide toolbar for logged out users setting.
 		add_settings_field( 'hide-loggedout-adminbar', __( 'Toolbar', 'buddypress' ), 'bp_admin_setting_callback_admin_bar', 'buddypress', 'bp_main' );
 		register_setting( 'buddypress', 'hide-loggedout-adminbar', 'intval' );
-
-		// Allow account deletion.
-		add_settings_field( 'bp-disable-account-deletion', __( 'Account Deletion', 'buddypress' ), 'bp_admin_setting_callback_account_deletion', 'buddypress', 'bp_main' );
-		register_setting( 'buddypress', 'bp-disable-account-deletion', 'intval' );
 
 		// Community Visibility
 		if ( 'rewrites' === bp_core_get_query_parser() ) {
@@ -499,10 +495,21 @@ class BP_Admin {
 		add_settings_field( '_bp_theme_package_id', __( 'Template Pack', 'buddypress' ), 'bp_admin_setting_callback_theme_package_id', 'buddypress', 'bp_main', array( 'label_for' => '_bp_theme_package_id' ) );
 		register_setting( 'buddypress', '_bp_theme_package_id', 'sanitize_text_field' );
 
+		/* Account settings Section  *****************************************/
+
+		if ( bp_is_active( 'settings' ) ) {
+			// Add the Settings section.
+			add_settings_section( 'bp_account_settings', _x( 'Account Settings', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_settings_section', 'buddypress' );
+
+			// Allow account deletion.
+			add_settings_field( 'bp-disable-account-deletion', __( 'Account Deletion', 'buddypress' ), 'bp_admin_setting_callback_account_deletion', 'buddypress', 'bp_account_settings' );
+			register_setting( 'buddypress', 'bp-disable-account-deletion', 'intval' );
+		}
+
 		/* Members Section  **************************************************/
 
 		// Add the main section.
-		add_settings_section( 'bp_members', _x( 'Members Settings', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_members_section', 'buddypress' );
+		add_settings_section( 'bp_members', _x( 'Community Members', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_members_section', 'buddypress' );
 
 		// Avatars.
 		add_settings_field( 'bp-disable-avatar-uploads', __( 'Profile Photo Uploads', 'buddypress' ), 'bp_admin_setting_callback_avatar_uploads', 'buddypress', 'bp_members' );
@@ -531,7 +538,7 @@ class BP_Admin {
 		if ( bp_is_active( 'xprofile' ) ) {
 
 			// Add the main section.
-			add_settings_section( 'bp_xprofile', _x( 'Profile Settings', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_xprofile_section', 'buddypress' );
+			add_settings_section( 'bp_xprofile', _x( 'Extended Profiles', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_xprofile_section', 'buddypress' );
 
 			// Profile sync setting.
 			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync', 'buddypress', 'bp_xprofile' );
@@ -543,7 +550,7 @@ class BP_Admin {
 		if ( bp_is_active( 'groups' ) ) {
 
 			// Add the main section.
-			add_settings_section( 'bp_groups', __( 'Groups Settings',  'buddypress' ), 'bp_admin_setting_callback_groups_section', 'buddypress' );
+			add_settings_section( 'bp_groups', __( 'User Groups',  'buddypress' ), 'bp_admin_setting_callback_groups_section', 'buddypress' );
 
 			// Allow subscriptions setting.
 			add_settings_field( 'bp_restrict_group_creation', __( 'Group Creation', 'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
@@ -565,7 +572,7 @@ class BP_Admin {
 		if ( bp_is_active( 'activity' ) ) {
 
 			// Add the main section.
-			add_settings_section( 'bp_activity', __( 'Activity Settings', 'buddypress' ), 'bp_admin_setting_callback_activity_section', 'buddypress' );
+			add_settings_section( 'bp_activity', __( 'Activity Streams', 'buddypress' ), 'bp_admin_setting_callback_activity_section', 'buddypress' );
 
 			// Activity commenting on post and comments.
 			add_settings_field( 'bp-disable-blogforum-comments', __( 'Post Comments', 'buddypress' ), 'bp_admin_setting_callback_blogforum_comments', 'buddypress', 'bp_activity' );
