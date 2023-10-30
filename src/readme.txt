@@ -5,8 +5,8 @@ License:           GNU General Public License v2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
 Requires at least: 5.7
-Tested up to:      6.3
-Stable tag:        11.3.2
+Tested up to:      6.4
+Stable tag:        11.4.0
 
 BuddyPress helps site builders & developers add community features to their websites, with user profiles, activity streams, and more!
 
@@ -125,6 +125,9 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
+= 11.4.0 =
+See: https://codex.buddypress.org/releases/version-11-4-0/
+
 = 11.3.2 =
 See: https://codex.buddypress.org/releases/version-11-3-2/
 
@@ -138,7 +141,7 @@ See: https://codex.buddypress.org/releases/version-11-2-0/
 See: https://codex.buddypress.org/releases/version-11-1-0/
 
 = 11.0.0 =
-See: https://codex.buddypress.org/releases/version-11.0.0/
+See: https://codex.buddypress.org/releases/version-11-0-0/
 
 = 10.6.0 =
 See: https://codex.buddypress.org/releases/version-10-6-0/
@@ -175,6 +178,9 @@ See: https://codex.buddypress.org/releases/version-8-0-0/
 
 == Changelog ==
 
+= 11.4.0 =
+See: https://codex.buddypress.org/releases/version-11-4-0/
+
 = 11.3.2 =
 See: https://codex.buddypress.org/releases/version-11-3-2/
 
@@ -188,7 +194,7 @@ See: https://codex.buddypress.org/releases/version-11-2-0/
 See: https://codex.buddypress.org/releases/version-11-1-0/
 
 = 11.0.0 =
-See: https://codex.buddypress.org/releases/version-11.0.0/
+See: https://codex.buddypress.org/releases/version-11-0-0/
 
 = 10.6.0 =
 See: https://codex.buddypress.org/releases/version-10-6-0/
