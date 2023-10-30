@@ -132,6 +132,9 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 = 11.4.0 =
 See: https://codex.buddypress.org/releases/version-11-4-0/
 
+= 11.3.2 =
+See: https://codex.buddypress.org/releases/version-11-3-2/
+
 = 11.3.1 =
 See: https://codex.buddypress.org/releases/version-11-3-1/
 
@@ -181,6 +184,9 @@ See: https://codex.buddypress.org/releases/version-8-0-0/
 
 = 11.4.0 =
 See: https://codex.buddypress.org/releases/version-11-4-0/
+
+= 11.3.2 =
+See: https://codex.buddypress.org/releases/version-11-3-2/
 
 = 11.3.1 =
 See: https://codex.buddypress.org/releases/version-11-3-1/
