@@ -58,5 +58,11 @@
 		"slug": "rewrites",
 		"markdown_source": "../developer/functions/rewrites.md",
 		"parent": null
+	},
+	{
+		"title": "BuddyPress URI Globals Functions",
+		"slug": "uri-globals",
+		"markdown_source": "../developer/functions/uri-globals.md",
+		"parent": null
 	}
 ]
