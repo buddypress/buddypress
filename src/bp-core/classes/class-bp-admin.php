@@ -816,7 +816,7 @@ class BP_Admin {
 							?>
 						</h2>
 						<p>
-							<?php esc_html_e( 'Among the 79 changes introduced in 12.0.0, the BP Rewrites API is a massive revolution opening the way for a progressive BuddyPress evolution.', 'buddypress' ); ?>
+							<?php esc_html_e( 'Among the 80 changes introduced in 12.0.0, the BP Rewrites API is a massive revolution opening the way for a progressive BuddyPress evolution.', 'buddypress' ); ?>
 							<?php esc_html_e( 'Based on 10 years of experience gained through hard work, we are beginning to reimagine what it means to organize and manage communities within WordPess.', 'buddypress' ); ?>
 							<?php esc_html_e( 'Here are the immediate benefits of the new BP Rewrites API :', 'buddypress' ); ?>
 						</p>
@@ -1108,6 +1108,10 @@ class BP_Admin {
 				?>
 			</h3>
 			<ul class="wp-people-group " id="wp-people-group-noteworthy">
+				<li class="wp-person" id="wp-person-emaralive">
+					<a class="web" href="https://profiles.wordpress.org/emaralive/"><img alt="" class="gravatar" src="//gravatar.com/avatar/310c3a56a7ea3c0816524a33cb8d7105?s=120">
+					emaralive</a>
+				</li>
 				<li class="wp-person" id="wp-person-upadalavipul">
 					<a class="web" href="https://profiles.wordpress.org/upadalavipul/"><img alt="" class="gravatar" src="//gravatar.com/avatar/2d450f193322c17d2138386e45c8ffbf?s=120">
 					Upadala Vipul</a>
