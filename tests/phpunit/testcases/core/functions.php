@@ -874,8 +874,8 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$current_version = (float) bp_get_version();
 		$versions        = bp_get_deprecated_functions_versions();
 
-		// When current version is the initial version, we shouldn't load deprecated functions files.
-		$this->assertTrue( is_array( $versions ) && ! $versions, 'Please check the list of `$deprecated_functions_versions` in `bp_get_deprecated_functions_versions()`. There should be one for each file of the `/src/bp-core/deprecated` directory.' );
+		// When current version is the initial version, we should only load 12.0 deprecated functions file.
+		$this->assertSame( $versions, array( '12.0' ), 'Please check the list of `$deprecated_functions_versions` in `bp_get_deprecated_functions_versions()`. There should be one for each file of the `/src/bp-core/deprecated` directory.' );
 
 		// We should load the 2 lasts deprecated functions files.
 		$this->bp_initial_version = '8.0';

@@ -203,12 +203,20 @@ function bp_version_updater() {
 		$switched_to_root_blog = true;
 	}
 
-	// Install BP schema and activate only Activity and XProfile.
+	// Install BP schema and activate default components.
 	if ( bp_is_install() ) {
 		// Set the first BP major version the plugin was installed.
 		bp_update_option( '_bp_initial_major_version', bp_get_major_version() );
 
-		// Apply schema and set Activity and XProfile components as active.
+		// Add an unread Admin notification.
+		if ( 13422 === bp_get_db_version() ) {
+			$unread   = bp_core_get_unread_admin_notifications();
+			$unread[] = 'bp120-new-installs-warning';
+
+			bp_update_option( 'bp_unread_admin_notifications', $unread );
+		}
+
+		// Apply schema and set default components as active.
 		bp_core_install( $default_components );
 		bp_update_option( 'bp-active-components', $default_components );
 		bp_core_add_page_mappings( $default_components, 'delete' );
