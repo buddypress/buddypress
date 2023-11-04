@@ -5135,7 +5135,7 @@ function bp_core_get_admin_notifications() {
 			'text'    => __( 'Get The BP Classic Add-on', 'buddypress' ),
 			'title'   => __( 'Thank you for installing BuddyPress 12.0!', 'buddypress' ),
 			'content' => __( 'This major version is very specific as it introduces several large changes that could be incompatible with some third party BuddyPress plugins or BuddyPress standalone themes that have not been updated in the last few months.', 'buddypress' ) . '<br><br>' .
-				'<strong>' . __( 'If you plan to install and activate such plugins or themes, to prevent problems, we strongly advise you to install and activate the BP Classic Add-on.', 'buddypress' ) . '</strong>',
+				'<strong>' . __( 'If you plan to install and activate such plugins or themes, to prevent problems, we strongly advise you to install and activate the BP Classic Add-on first.', 'buddypress' ) . '</strong>',
 				'version' => 12.0,
 		),
 	);
