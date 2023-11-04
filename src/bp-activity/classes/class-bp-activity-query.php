@@ -162,7 +162,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 			}
 
 			// Tinyint.
-			if ( ! empty( $column ) && true === in_array( $column, array( 'hide_sitewide', 'is_spam' ) ) ) {
+			if ( ! empty( $column ) && true === in_array( $column, array( 'hide_sitewide', 'is_spam' ) ) && is_int( $value ) ) {
 				$sql_chunks['where'][] = $wpdb->prepare( "{$alias}{$column} = %d", $value );
 
 			} else {
