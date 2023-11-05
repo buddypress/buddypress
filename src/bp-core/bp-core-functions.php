@@ -4885,7 +4885,7 @@ function bp_get_deprecated_functions_versions() {
 	$current_version        = (float) bp_get_version();
 	$load_latest_deprecated = $initial_version < $current_version;
 
-	// We don't load deprecated functions for new installs.
+	// New installs.
 	if ( ! $load_latest_deprecated ) {
 		// Run some additional checks if PHPUnit is running.
 		if ( defined( 'BP_TESTS_DIR' ) ) {
@@ -4904,7 +4904,9 @@ function bp_get_deprecated_functions_versions() {
 				return false;
 			}
 		}
-		return array();
+
+		// Only load 12.0 deprecated functions.
+		return array( '12.0' );
 	}
 
 	// Try to get the first major version that was in used when BuddyPress was fist installed.
@@ -5119,7 +5121,23 @@ function bp_core_get_admin_notifications() {
 				'<strong>' . __( 'You still use a BP Legacy Widget.', 'buddypress' ) . '</strong><br><br>' .
 				__( 'If any of the above items are true, we strongly advise you to install and activate the Classic Add-on before updating to BuddyPress 12.0.0.', 'buddypress' ),
 				'version' => 11.4,
-		)
+		),
+		'bp120-new-installs-warning' => (object) array(
+			'id'      => 'bp120-new-installs-warning',
+			'href'    => add_query_arg(
+				array(
+					'tab'  => 'bp-add-ons',
+					'show' => 'bp-classic',
+					'n'    => 'bp120-new-installs-warning'
+				),
+				bp_get_admin_url( 'plugin-install.php' )
+			),
+			'text'    => __( 'Get The BP Classic Add-on', 'buddypress' ),
+			'title'   => __( 'Thank you for installing BuddyPress 12.0!', 'buddypress' ),
+			'content' => __( 'BuddyPress 12.0 introduces major core changes, overhauling the way that BuddyPress builds and parses URLs.', 'buddypress' ) . '<br><br>' .
+				__( 'If you find that your site is not working correctly with the new version, try installing the new BP Classic Add-on that adds backwards compatibility for plugins and themes that have not yet been updated to work with BuddyPress 12.0.', 'buddypress' ),
+				'version' => 12.0,
+		),
 	);
 
 	// Only keep unread notifications.
