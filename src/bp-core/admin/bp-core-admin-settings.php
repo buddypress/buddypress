@@ -148,10 +148,14 @@ function bp_admin_setting_callback_activity_akismet() {
  * @since 1.6.0
  */
 function bp_admin_setting_callback_blogforum_comments() {
+	$support = post_type_supports( 'post', 'buddypress-activity' );
 ?>
 
-	<input id="bp-disable-blogforum-comments" name="bp-disable-blogforum-comments" type="checkbox" value="1" <?php checked( !bp_disable_blogforum_comments( false ) ); ?> />
-	<label for="bp-disable-blogforum-comments"><?php _e( 'Allow activity stream commenting on posts and comments', 'buddypress' ); ?></label>
+	<input id="bp-disable-blogforum-comments" name="bp-disable-blogforum-comments" type="checkbox" value="1" <?php checked( ! bp_disable_blogforum_comments( false ) ); ?> <?php disabled( ! $support ); ?> />
+	<label for="bp-disable-blogforum-comments"><?php esc_html_e( 'Allow activity stream commenting on posts and comments', 'buddypress' ); ?></label>
+	<?php if ( ! $support ) : ?>
+		<p class="description"><?php esc_html_e( 'Activate the BuddyPress Site Tracking component in order to enable this feature.', 'buddypress' ); ?></p>
+	<?php endif; ?>
 
 <?php
 }
