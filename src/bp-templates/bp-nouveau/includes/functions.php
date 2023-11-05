@@ -640,7 +640,7 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
  */
 function bp_nouveau_get_appearance_settings( $option = '' ) {
 	$default_args = array(
-		'global_alignment'   => 'alignwide',
+		'global_alignment'   => bp_nouveau()->is_block_theme ? 'alignnone' : 'alignwide',
 		'user_front_page'    => 0,
 		'user_front_bio'     => 0,
 		'user_nav_display'   => 0, // O is default (horizontally). 1 is vertically.

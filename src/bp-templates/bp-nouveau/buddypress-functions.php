@@ -80,8 +80,13 @@ class BP_Nouveau extends BP_Theme_Compat {
 			$this->{$property} = $value;
 		}
 
-		$this->includes_dir  = trailingslashit( $this->dir ) . 'includes/';
-		$this->directory_nav = new BP_Core_Nav( bp_get_root_blog_id() );
+		$this->includes_dir   = trailingslashit( $this->dir ) . 'includes/';
+		$this->directory_nav  = new BP_Core_Nav( bp_get_root_blog_id() );
+		$this->is_block_theme = false;
+
+		if ( bp_is_running_wp( '5.9.0', '>=' ) ) {
+			$this->is_block_theme = wp_is_block_theme();
+		}
 	}
 
 	/**
@@ -107,11 +112,20 @@ class BP_Nouveau extends BP_Theme_Compat {
 			}, 0 );
 		}
 
-		add_action( 'bp_customize_register', function() {
-			if ( bp_is_root_blog() && current_user_can( 'customize' ) ) {
-				require bp_nouveau()->includes_dir . 'customizer.php';
-			}
-		}, 0 );
+		// The customizer is only used by classic themes.
+		if ( ! $this->is_block_theme ) {
+			add_action(
+				'bp_customize_register',
+				function() {
+					if ( bp_is_root_blog() && current_user_can( 'customize' ) ) {
+						require bp_nouveau()->includes_dir . 'customizer.php';
+					}
+				},
+				0
+			);
+		} elseif ( wp_using_themes() ) {
+			remove_action( 'customize_register', 'bp_customize_register', 20 );
+		}
 
 		foreach ( bp_core_get_packaged_component_ids() as $component ) {
 			$component_loader = trailingslashit( $this->includes_dir ) . $component . '/loader.php';
