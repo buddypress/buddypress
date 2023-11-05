@@ -661,6 +661,10 @@ body.bp-user #buddypress.twentytwentyfour .item-body h2.screen-heading {
 * @subsection 5.1 - Item Header Global
 *-----------------------------------------------------------
 */
+#buddypress.twentytwentyfour .single-headers #header-cover-image {
+	border-radius: var(--wp--preset--spacing--20);
+}
+
 #buddypress.twentytwentyfour .single-headers #item-header-cover-image h2 {
 	font-weight: 900;
 }
@@ -1536,7 +1540,7 @@ body.bp-user.settings.general #buddypress.twentytwentyfour .wp-pwd:not(.is-open)
 #buddypress.twentytwentyfour .activity-read-more a {
 	background: var(--wp--preset--color--contrast);
 	border: 1px solid var(--wp--preset--color--contrast);
-	border-radius: 0;
+	border-radius: 0.33rem;
 	color: var(--wp--preset--color--base);
 }
 

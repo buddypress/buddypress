@@ -889,6 +889,10 @@ body.bp-user {
 
 	.single-headers {
 
+		#header-cover-image {
+			border-radius: var(--wp--preset--spacing--20);
+		}
+
 		#item-header-cover-image {
 
 			h2 {
@@ -2024,7 +2028,7 @@ body.bp-user.settings.general {
 	.activity-read-more a {
 		background: var(--wp--preset--color--contrast);
 		border: 1px solid var(--wp--preset--color--contrast);
-		border-radius: 0;
+		border-radius: 0.33rem;
 		color: var(--wp--preset--color--base);
 	}
 

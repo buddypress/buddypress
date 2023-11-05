@@ -123,7 +123,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 				},
 				0
 			);
-		} elseif ( wp_using_themes() ) {
+		} elseif ( wp_using_themes() && ! isset( $_GET['bp_customizer'] ) ) {
 			remove_action( 'customize_register', 'bp_customize_register', 20 );
 		}
 
@@ -161,6 +161,10 @@ class BP_Nouveau extends BP_Theme_Compat {
 
 		if ( $avatar_height > $top_offset ) {
 			$top_offset = $avatar_height;
+		}
+
+		if ( $this->is_block_theme ) {
+			$width = (int) wp_get_global_settings( array( 'layout', 'contentSize' ) );
 		}
 
 		bp_set_theme_compat_feature( $this->id, array(
