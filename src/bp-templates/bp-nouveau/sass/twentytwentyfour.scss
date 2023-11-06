@@ -528,7 +528,7 @@ body {
 
 							span:not(.bp-screen-reader-text) {
 								background-color: var(--wp--preset--color--contrast-2);
-								color: var(--wp--preset--color--tertiary);
+								color: var(--wp--preset--color--base);
 								padding: 0.1em 0.3em;
 								border-radius: 50%;
 								font-size: var(--wp--preset--font-size--small);
@@ -548,7 +548,7 @@ body {
 								}
 
 								span:not(.bp-screen-reader-text) {
-									background-color: var(--wp--preset--color--tertiary);
+									background-color: var(--wp--preset--color--base);
 									color: var(--wp--preset--color--contrast-2);
 								}
 							}
@@ -644,6 +644,7 @@ body {
 		li {
 
 			.activity-comments {
+				margin: 0 0.33rem;
 
 				.show-all {
 
@@ -700,13 +701,15 @@ body {
 				}
 
 				.ac-form {
+					margin: 0.33rem;
+					padding-top: 1rem;
 
 					.ac-reply-content {
 
 						.ac-textarea {
 
 							textarea {
-								width: 98%;
+								width: 95%;
 								border-radius: 0;
 
 								&:focus {
@@ -1904,6 +1907,7 @@ body.bp-user.settings.general {
 		background-color: var(--wp--preset--color--base);
 
 		button {
+			border-radius: 0;
 			padding: 5px 0.8em 6px;
 		}
 	}
