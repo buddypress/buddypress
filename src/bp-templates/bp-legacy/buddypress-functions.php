@@ -1277,14 +1277,15 @@ function bp_legacy_theme_mark_activity_favorite() {
 
 	$activity_id   = (int) $_POST['id'];
 	$activity_item = new BP_Activity_Activity( $activity_id );
-	if ( ! bp_activity_user_can_read( $activity_item, bp_loggedin_user_id() ) ) {
+	if ( empty( $activity_item->id ) || ! bp_activity_user_can_read( $activity_item, bp_loggedin_user_id() ) ) {
 		return;
 	}
 
-	if ( bp_activity_add_user_favorite( $_POST['id'] ) )
-		_e( 'Remove Favorite', 'buddypress' );
-	else
-		_e( 'Favorite', 'buddypress' );
+	if ( bp_activity_add_user_favorite( $activity_id ) ) {
+		esc_html_e( 'Remove Favorite', 'buddypress' );
+	} else {
+		esc_html_e( 'Favorite', 'buddypress' );
+	}
 
 	exit;
 }
@@ -1311,10 +1312,13 @@ function bp_legacy_theme_unmark_activity_favorite() {
 		return;
 	}
 
-	if ( bp_activity_remove_user_favorite( $_POST['id'] ) )
-		_e( 'Favorite', 'buddypress' );
-	else
-		_e( 'Remove Favorite', 'buddypress' );
+	$activity_id = (int) $_POST['id'];
+
+	if ( bp_activity_remove_user_favorite( $activity_id ) ) {
+		esc_html_e( 'Favorite', 'buddypress' );
+	} else {
+		esc_html_e( 'Remove Favorite', 'buddypress' );
+	}
 
 	exit;
 }

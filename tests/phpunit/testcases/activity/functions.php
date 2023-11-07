@@ -1466,6 +1466,33 @@ Bar!';
 	}
 
 	/**
+	 * @group favorites
+	 * @group bp_activity_add_user_favorite
+	 */
+	public function test_add_user_favorite_not_an_activity_id() {
+		$u1 = self::factory()->user->create();
+		$a = self::factory()->activity->create();
+
+		// bp_activity_add_user_favorite() requires a logged-in user.
+		$current_user = bp_loggedin_user_id();
+		$this->set_current_user( $u1 );
+
+		// Only favorite for user 1
+		bp_activity_add_user_favorite( $a, $u1 );
+		$user_favorites = array( $a );
+		$this->assertEquals( $user_favorites, bp_activity_get_user_favorites( $u1 ) );
+
+		// Adds something that is not an activity id.
+		bp_activity_add_user_favorite( 'not_an_activity_id', $u1 );
+
+		// The above shouldn't be added.
+		$this->assertEquals( $user_favorites, bp_activity_get_user_favorites( $u1 ) );
+		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
+
+		$this->set_current_user( $current_user );
+	}
+
+	/**
 	 * @group bp_activity_post_update
 	 */
 	public function test_bp_activity_post_update_empty_content() {
