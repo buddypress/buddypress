@@ -222,6 +222,9 @@ function bp_version_updater() {
 		bp_core_add_page_mappings( $default_components, 'delete' );
 		bp_core_install_emails();
 
+		// Force permalinks to be refreshed at next page load.
+		bp_delete_rewrite_rules();
+
 	// Upgrades.
 	} else {
 
