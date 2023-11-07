@@ -904,7 +904,7 @@ function bp_update_to_12_0() {
 				}
 			}
 
-			// Finally make sure to rebuilt permalinks at next page load.
+			// Force permalinks to be refreshed at next page load.
 			bp_delete_rewrite_rules();
 		}
 
