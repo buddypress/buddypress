@@ -67,7 +67,7 @@ In the search field type "BuddyPress" and click Search Plugins. Once you've foun
 
 Once activated:
 
-1. Visit 'Settings > BuddyPress > Components' and adjust the active components to match your community. (You can always toggle these later.)
+1. Visit 'Settings > BuddyPress > Components' and adjust the active components to match your community (you can always toggle these later).
 2. Visit 'Settings > BuddyPress > Pages' and setup your directories and special pages. We create a few automatically, but suggest you customize these to fit the flow and verbiage of your site.
 3. Visit 'Settings > BuddyPress > Settings' and take a moment to match BuddyPress's settings to your expectations. We pick the most common configuration by default, but every community is different.
 
