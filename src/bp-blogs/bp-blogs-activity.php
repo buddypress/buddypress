@@ -1029,8 +1029,8 @@ function bp_blogs_new_blog_comment_query_backpat( $args ) {
 	global $wpdb;
 	$bp = buddypress();
 
-	// If activity comments are disabled for blog posts, stop now!
-	if ( bp_disable_blogforum_comments() ) {
+	// If activity comments are disabled for blog posts or if the action is not a string, stop now!
+	if ( bp_disable_blogforum_comments() || ! is_string( $args['action'] ) ) {
 		return $args;
 	}
 

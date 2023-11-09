@@ -617,6 +617,123 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP9010
+	 * @group post_type_comment_activities
+	 */
+	public function test_bp_blogs_new_blog_comment_query_backpat() {
+		$old_user = get_current_user_id();
+		$u        = self::factory()->user->create();
+		$reset_at = isset( $GLOBALS['activities_template'] ) ? $GLOBALS['activities_template'] : null;
+
+		$this->set_current_user( $u );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// create the blog post
+		$post_id = self::factory()->post->create(
+			array(
+				'post_status' => 'publish',
+				'post_type'   => 'post',
+				'post_title'  => 'Test new_blog_comment_query_backpat',
+			)
+		);
+
+		// Grab the activity ID for the activity comment.
+		$a = bp_activity_get_activity_id(
+			array(
+				'type'      => 'new_blog_post',
+				'component' => buddypress()->blogs->id,
+				'filter'    => array(
+					'item_id'           => get_current_blog_id(),
+					'secondary_item_id' => $post_id
+				),
+			)
+		);
+
+		$c = bp_activity_new_comment(
+			array(
+				'content'     => 'this activity should have the `new_blog_comment` type',
+				'user_id'     => $u,
+				'activity_id' => $a,
+			)
+		);
+
+		// Check activity is fetch.
+		bp_has_activities(
+			array(
+				'action' => 'new_blog_comment',
+			)
+		);
+
+		$ids = wp_list_pluck( $GLOBALS['activities_template']->activities, 'id' );
+		$this->assertEquals( array( $c ), $ids );
+
+		// Reset.
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+		$GLOBALS['activities_template'] = $reset_at;
+		$this->set_current_user( $old_user );
+	}
+
+	/**
+	 * @ticket BP9010
+	 * @group post_type_comment_activities
+	 */
+	public function test_bp_blogs_new_blog_comment_query_backpat_with_array_of_actions() {
+		$old_user = get_current_user_id();
+		$u        = self::factory()->user->create();
+		$reset_at = isset( $GLOBALS['activities_template'] ) ? $GLOBALS['activities_template'] : null;
+
+		$this->set_current_user( $u );
+
+		// let's use activity comments instead of single "new_blog_comment" activity items
+		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
+
+		// create the blog post
+		$post_id = self::factory()->post->create(
+			array(
+				'post_status' => 'publish',
+				'post_type'   => 'post',
+				'post_title'  => 'Test new_blog_comment_query_backpat with an array',
+			)
+		);
+
+		// Grab the activity ID for the activity comment.
+		$a = bp_activity_get_activity_id(
+			array(
+				'type'      => 'new_blog_post',
+				'component' => buddypress()->blogs->id,
+				'filter'    => array(
+					'item_id'           => get_current_blog_id(),
+					'secondary_item_id' => $post_id
+				),
+			)
+		);
+
+		$c = bp_activity_new_comment(
+			array(
+				'content'     => 'Check no fatal error is triggered!',
+				'user_id'     => $u,
+				'activity_id' => $a,
+			)
+		);
+
+		// Check no fatal error is triggered.
+		bp_has_activities(
+			array(
+				'action' => array( 'new_blog_comment', 'new_blog_comment' ),
+			)
+		);
+
+		$this->assertEmpty( $GLOBALS['activities_template']->activities );
+
+		// Reset.
+		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
+		$GLOBALS['activities_template'] = $reset_at;
+		$this->set_current_user( $old_user );
+	}
+
+	/**
 	 * Dopey passthrough method so we can check that the correct values
 	 * are being passed to the filter
 	 */
