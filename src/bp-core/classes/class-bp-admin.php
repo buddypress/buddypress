@@ -823,7 +823,7 @@ class BP_Admin {
 							?>
 						</h2>
 						<p>
-							<?php esc_html_e( 'Among the 80 changes introduced in 12.0.0, the BP Rewrites API is a massive revolution opening the way for a progressive BuddyPress evolution.', 'buddypress' ); ?>
+							<?php esc_html_e( 'Among the 90 changes introduced in 12.0.0, the BP Rewrites API is a massive revolution opening the way for a progressive BuddyPress evolution.', 'buddypress' ); ?>
 							<?php esc_html_e( 'Based on 10 years of experience gained through hard work, we are beginning to reimagine what it means to organize and manage communities within WordPess.', 'buddypress' ); ?>
 							<?php esc_html_e( 'Here are the immediate benefits of the new BP Rewrites API :', 'buddypress' ); ?>
 						</p>
@@ -942,10 +942,10 @@ class BP_Admin {
 						<?php
 						printf(
 							/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
-							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 28, 'buddypress' ),
+							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 31, 'buddypress' ),
 							'<span class="dashicons dashicons-heart"></span>',
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 28 )
+							number_format_i18n( 31 )
 						);
 						?>
 					</p>
@@ -1142,6 +1142,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/awol/">awol</a>,
 				<a href="https://profiles.wordpress.org/bouncingsprout/">Ben Roberts (bouncingsprout)</a>,
 				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
+				<a href="https://profiles.wordpress.org/btwebdesign/">btwebdesign</a>,
 				<a href="https://profiles.wordpress.org/coffee2code/">Scott Reilly (coffee2code)</a>,
 				<a href="https://profiles.wordpress.org/corzel/">corzel</a>,
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
@@ -1150,10 +1151,11 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/fawp/">fawp</a>,
 				<a href="https://profiles.wordpress.org/iandunn/">Ian Dunn (iandunn)</a>,
 				<a href="https://profiles.wordpress.org/iamthewebb/">iamthewebb</a>,
+				<a href="https://profiles.wordpress.org/imath/">Mathieu Viet (imath)</a>,
 				<a href="https://profiles.wordpress.org/jaz_on/">Jason Rouet</a>,
 				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
 				<a href="https://profiles.wordpress.org/lenasterg">Lena Stergatou (lenasterg)</a>,
-				<a href="https://profiles.wordpress.org/imath/">Mathieu Viet (imath)</a>,
+				<a href="https://profiles.wordpress.org/magland/">magland</a>,
 				<a href="https://profiles.wordpress.org/mike80222/">Mike Witt (mike80222)</a>,
 				<a href="https://profiles.wordpress.org/niftythree/">Nifty (niftythree)</a>,
 				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
@@ -1165,6 +1167,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/shailu25/">Shail Mehta (shailu25)</a>,
 				<a href="https://profiles.wordpress.org/shawfactor/">shawfactor</a>,
 				<a href="https://profiles.wordpress.org/sjregan/">sjregan</a>,
+				<a href="https://profiles.wordpress.org/teeboy4real/">teeboy4real</a>,
 				<a href="https://profiles.wordpress.org/upadalavipul/">Upadala Vipul (upadalavipul)</a>,
 				<a href="https://profiles.wordpress.org/vapvarun/">Varun Dubey (vapvarun)</a>.
 			</p>
