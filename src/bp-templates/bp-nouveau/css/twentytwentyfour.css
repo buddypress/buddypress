@@ -98,10 +98,8 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 
 #buddypress.twentytwentyfour .bp-navs li:not(.current):not(.selected) a:focus,
 #buddypress.twentytwentyfour .bp-navs li:not(.current):not(.selected) a:hover {
-	background: var(--wp--preset--color--base);
-	color: var(--wp--preset--color--contrast);
-	outline-offset: -0.25ch;
-	outline: 2px dashed currentColor;
+	background: var(--wp--preset--color--contrast-2);
+	color: var(--wp--preset--color--base);
 }
 
 #buddypress.twentytwentyfour .bp-navs li.selected a,
@@ -172,11 +170,11 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 *-------------------------------------------------------------------------------
 */
 #buddypress.twentytwentyfour .bp-list {
-	border-top: 1px dotted var(--wp--preset--color--contrast);
+	border: none;
 }
 
 #buddypress.twentytwentyfour .bp-list > li {
-	border-bottom: 1px dotted var(--wp--preset--color--contrast);
+	border-bottom: none;
 }
 
 #buddypress.twentytwentyfour .bp-list li:not(.mini) .item-avatar img.avatar {
@@ -192,6 +190,13 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 		max-height: 128px;
 		margin: auto;
 		margin-right: 5%;
+	}
+}
+
+@media screen and (min-width: 46.8em) {
+	#buddypress.twentytwentyfour .bp-list li:not(.mini) .item-block {
+		width: 100%;
+		clear: left;
 	}
 }
 
@@ -227,10 +232,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 */
 #buddypress.twentytwentyfour .activity-list.bp-list {
 	background: inherit;
-	border-left: none;
-	border-right: none;
-	border-top: none;
-	border-bottom: 1px dotted var(--wp--preset--color--contrast);
+	border: none;
 	padding: 0;
 }
 
@@ -238,7 +240,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 	background: inherit;
 	border: none;
 	border-radius: 0;
-	border-top: 1px dotted var(--wp--preset--color--contrast);
+	border-top: none;
 	box-shadow: none;
 }
 
@@ -345,24 +347,21 @@ body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-newest a 
 
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-more a:focus,
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-newest a:focus {
-	color: var(--wp--preset--color--contrast-2);
-	background: transparent;
-	outline-offset: -0.25ch;
-	outline: 2px dashed currentColor;
+	background: var(--wp--preset--color--contrast-2);
 }
 
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-more:hover, body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-more:focus,
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-newest:hover,
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-newest:focus {
-	color: var(--wp--preset--color--contrast-2);
-	background: transparent;
+	color: var(--wp--preset--color--base);
+	background: var(--wp--preset--color--contrast-2);
 }
 
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-more:hover a, body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-more:focus a,
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-newest:hover a,
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .load-newest:focus a {
-	color: var(--wp--preset--color--contrast-2);
-	background: transparent;
+	color: var(--wp--preset--color--base);
+	background: var(--wp--preset--color--contrast-2);
 }
 
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content .activity-header,
@@ -380,7 +379,6 @@ body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-conte
 	text-decoration: underline;
 }
 
-body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content .activity-inner,
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content blockquote {
 	background: inherit;
 	border: 1px dotted var(--wp--preset--color--contrast);
@@ -594,7 +592,7 @@ body.activity-permalink #buddypress.twentytwentyfour .activity-list .activity-it
 */
 #buddypress.twentytwentyfour .groups-list li .group-desc {
 	color: var(--wp--preset--color--contrast-2);
-	border: 1px dotted var(--wp--preset--color--contrast);
+	border-left: 2px solid var(--wp--preset--color--contrast);
 }
 
 #buddypress.twentytwentyfour #groups-dir-list .current-group-type {
@@ -610,10 +608,29 @@ body:not(.logged-in) #buddypress.twentytwentyfour .members-list .user-update {
 	width: inherit;
 }
 
+#buddypress.twentytwentyfour .members-list li .members-meta.action button {
+	padding: 0.7em 0.7em 0.5em;
+}
+
 #buddypress.twentytwentyfour .members-list li .user-update {
-	border: 1px dotted var(--wp--preset--color--contrast);
+	background: var(--wp--preset-color--base-2);
 	color: var(--wp--preset--color--contrast-2);
+	padding: 1em 0;
 	margin: 0 auto 15px;
+	border: none;
+}
+
+#buddypress.twentytwentyfour .members-list li .user-update p.update {
+	border-left: solid 2px var(--wp--preset--color--contrast-2);
+	padding-left: 0.5rem;
+}
+
+@media screen and (min-width: 46.8em) {
+	#buddypress.twentytwentyfour .members-list li .user-update {
+		clear: both;
+		overflow: inherit;
+		width: auto;
+	}
 }
 
 #buddypress.twentytwentyfour #members-dir-list .current-member-type {
@@ -1495,8 +1512,8 @@ body.bp-user.settings.general #buddypress.twentytwentyfour .wp-pwd:not(.is-open)
 #buddypress.twentytwentyfour table#group-members-list-table a:hover,
 #buddypress.twentytwentyfour table#group-members-list-table a:focus {
 	text-decoration: underline;
-	-webkit-text-decoration-style: dashed;
-	text-decoration-style: dashed;
+	-webkit-text-decoration-style: solid;
+	text-decoration-style: solid;
 	text-decoration-thickness: 1px;
 	text-underline-offset: 0.25ch;
 }
@@ -1585,7 +1602,7 @@ body.bp-user.settings.general #buddypress.twentytwentyfour .wp-pwd:not(.is-open)
 #buddypress.twentytwentyfour #bp-messages-reset:focus,
 #buddypress.twentytwentyfour #bp-messages-reset:hover {
 	outline-offset: -0.25ch;
-	outline: 2px dashed currentColor;
+	outline: 2px solid currentColor;
 }
 
 #buddypress.twentytwentyfour input[type="submit"].pending,

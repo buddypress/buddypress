@@ -139,10 +139,8 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 
 			a:focus,
 			a:hover {
-				background: var(--wp--preset--color--base);
-				color: var(--wp--preset--color--contrast);
-				outline-offset: -0.25ch;
-				outline: 2px dashed currentColor;
+				background: var(--wp--preset--color--contrast-2);
+				color: var(--wp--preset--color--base);
 			}
 		}
 
@@ -241,10 +239,10 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 
 	.bp-list {
 
-		border-top: 1px dotted var(--wp--preset--color--contrast);
+		border: none;
 
 		> li {
-			border-bottom: 1px dotted var(--wp--preset--color--contrast);
+			border-bottom: none;
 		}
 	}
 
@@ -268,6 +266,14 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 						max-height: 128px;
 						margin: auto;
 						margin-right: 5%;
+					}
+				}
+
+				@media screen and (min-width: 46.8em) {
+
+					.item-block {
+						width: 100%;
+						clear: left;
 					}
 				}
 			}
@@ -317,17 +323,14 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 
 	.activity-list.bp-list {
 		background: inherit;
-		border-left: none;
-		border-right: none;
-		border-top: none;
-		border-bottom: 1px dotted var(--wp--preset--color--contrast);
+		border: none;
 		padding: 0;
 
 		.activity-item {
 			background: inherit;
 			border: none;
 			border-radius: 0;
-			border-top: 1px dotted var(--wp--preset--color--contrast);
+			border-top: none;
 			box-shadow: none;
 
 			&:not(:first-child) {
@@ -456,21 +459,18 @@ body {
 						color: var(--wp--preset--color--base);
 
 						&:focus {
-							color: var(--wp--preset--color--contrast-2);
-							background: transparent;
-							outline-offset: -0.25ch;
-							outline: 2px dashed currentColor;
+							background: var(--wp--preset--color--contrast-2);
 						}
 					}
 
 					&:hover,
 					&:focus {
-						color: var(--wp--preset--color--contrast-2);
-						background: transparent;
+						color: var(--wp--preset--color--base);
+						background: var(--wp--preset--color--contrast-2);
 
 						a {
-							color: var(--wp--preset--color--contrast-2);
-							background: transparent;
+							color: var(--wp--preset--color--base);
+							background: var(--wp--preset--color--contrast-2);
 						}
 					}
 				}
@@ -490,7 +490,6 @@ body {
 						}
 					}
 
-					.activity-inner,
 					blockquote {
 						background: inherit;
 						border: 1px dotted var(--wp--preset--color--contrast);
@@ -760,7 +759,7 @@ body {
 
 			.group-desc {
 				color: var(--wp--preset--color--contrast-2);
-				border: 1px dotted var(--wp--preset--color--contrast);
+				border-left: 2px solid var(--wp--preset--color--contrast);
 			}
 		}
 	}
@@ -796,10 +795,34 @@ body {
 
 		li {
 
+			.members-meta {
+
+				&.action {
+
+					button {
+						padding: 0.7em 0.7em 0.5em;
+					}
+				}
+			}
+
 			.user-update {
-				border: 1px dotted var(--wp--preset--color--contrast);
+				background: var(--wp--preset-color--base-2);
 				color: var(--wp--preset--color--contrast-2);
+				padding: 1em 0;
 				margin: 0 auto 15px;
+				border: none;
+
+				p.update {
+					border-left: solid 2px var(--wp--preset--color--contrast-2);
+					padding-left: 0.5rem;
+				}
+
+				@media screen and (min-width: 46.8em) {
+
+					clear: both;
+					overflow: inherit;
+					width: auto;
+				}
 			}
 		}
 	}
@@ -1969,7 +1992,7 @@ body.bp-user.settings.general {
 		a:hover,
 		a:focus {
 			text-decoration: underline;
-			text-decoration-style: dashed;
+			text-decoration-style: solid;
 			text-decoration-thickness: 1px;
 			text-underline-offset: 0.25ch;
 		}
@@ -2067,7 +2090,7 @@ body.bp-user.settings.general {
 	#bp-messages-reset:focus,
 	#bp-messages-reset:hover {
 		outline-offset: -0.25ch;
-		outline: 2px dashed currentColor;
+		outline: 2px solid currentColor;
 	}
 
 	input[type="submit"].pending,
