@@ -153,6 +153,8 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 
 #buddypress.twentytwentyfour .subnav-filters > ul {
 	padding-right: 0;
+	margin-block-start: 0;
+	margin-block-end: 0;
 }
 
 /**
@@ -312,7 +314,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 }
 
 #buddypress.twentytwentyfour .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object:not(.selected):hover {
-	background: var(--wp--preset--color--secondary);
+	background: var(--wp--preset--color--contrast);
 }
 
 #buddypress.twentytwentyfour .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object.selected {
@@ -384,6 +386,21 @@ body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-conte
 	border: 1px dotted var(--wp--preset--color--contrast);
 }
 
+body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content .activity-read-more {
+	margin-right: 0;
+	white-space: inherit;
+}
+
+body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content .activity-read-more a {
+	background: none;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: 400;
+	color: var(--wp--preset--color--contrast);
+	text-decoration: underline;
+}
+
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content .activity-meta.action {
 	background: inherit;
 	margin-right: calc(128px + 5%);
@@ -400,7 +417,7 @@ body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-conte
 }
 
 body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content .activity-meta.action .button {
-	background-color: var(--wp--preset--color--tertiary);
+	background-color: var(--wp--preset--color--base-2);
 	padding: 0.7em 0.7em 0.5em;
 }
 
@@ -461,8 +478,14 @@ body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-conte
 	color: var(--wp--preset--color--base);
 }
 
-body .wp-site-blocks #buddypress.twentytwentyfour .activity-list li.mini .activity-meta.action {
-	margin-right: calc(50px + 2%);
+body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content .bp-group-preview-cover,
+body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content .bp-member-preview-cover {
+	background: none;
+}
+
+body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content .bp-group-preview-cover img,
+body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-content .bp-member-preview-cover img {
+	border-radius: var(--wp--preset--spacing--20);
 }
 
 body .wp-site-blocks #buddypress.twentytwentyfour:not(.alignwide) .activity-list .activity-avatar {
@@ -489,8 +512,14 @@ body.activity-permalink #buddypress.twentytwentyfour .activity-list .activity-it
 	border: none;
 }
 
+body.activity-permalink #buddypress.twentytwentyfour .activity-list .activity-item .activity-avatar {
+	right: 0;
+	top: 10px;
+	margin-left: 0.3em;
+}
+
 body.activity-permalink #buddypress.twentytwentyfour .activity-list .activity-item .activity-avatar img.avatar {
-	background: var(--wp--preset--color--white);
+	box-shadow: none;
 }
 
 /**
@@ -535,14 +564,27 @@ body.activity-permalink #buddypress.twentytwentyfour .activity-list .activity-it
 	color: var(--wp--preset--color--contrast-2);
 	display: inline-block;
 	font-size: var(--wp--preset--font-size--small);
+	border-color: var(--wp--preset--color--contrast-2);
+	border: none;
+	border-bottom: solid 1px;
+	padding: 0.2rem;
+	background-color: transparent;
+	border-radius: 0;
 }
 
-#buddypress.twentytwentyfour .bp-list li .activity-comments .activity-meta.action .generic-button a.bp-primary-action {
-	background-color: var(--wp--preset--color--secondary);
+#buddypress.twentytwentyfour .bp-list li .activity-comments .activity-meta.action .generic-button a.bp-primary-action:hover {
+	background-color: var(--wp--preset--color--contrast-2);
+	color: var(--wp--preset--color--base);
 }
 
-#buddypress.twentytwentyfour .bp-list li .activity-comments .activity-meta.action .generic-button a.bp-secondary-action {
-	background-color: var(--wp--preset--color--tertiary);
+#buddypress.twentytwentyfour .bp-list li .activity-comments .activity-meta.action .generic-button a.bp-secondary-action.acomment-delete {
+	color: var(--wp--preset--color--vivid-red);
+	border-color: var(--wp--preset--color--vivid-red);
+}
+
+#buddypress.twentytwentyfour .bp-list li .activity-comments .activity-meta.action .generic-button a.bp-secondary-action.acomment-delete:hover {
+	background-color: var(--wp--preset--color--vivid-red);
+	color: var(--wp--preset--color--base);
 }
 
 #buddypress.twentytwentyfour .bp-list li .activity-comments .acomment-content {
@@ -573,11 +615,21 @@ body.activity-permalink #buddypress.twentytwentyfour .activity-list .activity-it
 
 #buddypress.twentytwentyfour .bp-list li .activity-comments .ac-form .ac-reply-content [type="submit"] {
 	margin-right: calc(50px - 0.5em);
-	background-color: var(--wp--preset--color--secondary);
+	color: var(--wp--preset--color--base);
+	background-color: var(--wp--preset--color--contrast);
+}
+
+#buddypress.twentytwentyfour .bp-list li .activity-comments .ac-form .ac-reply-content [type="submit"]:hover {
+	background-color: var(--wp--preset--color--contrast-2);
 }
 
 #buddypress.twentytwentyfour .bp-list li .activity-comments .ac-form .ac-reply-content [type="button"] {
-	background-color: var(--wp--preset--color--tertiary);
+	background-color: var(--wp--preset--color--base-2);
+}
+
+#buddypress.twentytwentyfour .bp-list li .activity-comments .ac-form .ac-reply-content [type="button"]:hover {
+	color: var(--wp--preset--color--contrast);
+	background-color: var(--wp--preset--color--base);
 }
 
 /**
@@ -608,11 +660,7 @@ body:not(.logged-in) #buddypress.twentytwentyfour .members-list .user-update {
 	width: inherit;
 }
 
-#buddypress.twentytwentyfour .members-list li .members-meta.action button {
-	padding: 0.7em 0.7em 0.5em;
-}
-
-#buddypress.twentytwentyfour .members-list li .user-update {
+#buddypress.twentytwentyfour.buddypress-wrap .members-list li .user-update {
 	background: var(--wp--preset-color--base-2);
 	color: var(--wp--preset--color--contrast-2);
 	padding: 1em 0;
@@ -620,13 +668,17 @@ body:not(.logged-in) #buddypress.twentytwentyfour .members-list .user-update {
 	border: none;
 }
 
-#buddypress.twentytwentyfour .members-list li .user-update p.update {
+#buddypress.twentytwentyfour.buddypress-wrap .members-list li .user-update p.update {
 	border-right: solid 2px var(--wp--preset--color--contrast-2);
 	padding-right: 0.5rem;
 }
 
+#buddypress.twentytwentyfour.buddypress-wrap .members-list li .user-update p.update .activity-read-more a {
+	display: inline-block;
+}
+
 @media screen and (min-width: 46.8em) {
-	#buddypress.twentytwentyfour .members-list li .user-update {
+	#buddypress.twentytwentyfour.buddypress-wrap .members-list li .user-update {
 		clear: both;
 		overflow: inherit;
 		width: auto;
@@ -785,7 +837,7 @@ body.bp-user #buddypress.twentytwentyfour .item-body h2.screen-heading {
 #buddypress.twentytwentyfour .item-body .bp-cover-image-status .success,
 #buddypress.twentytwentyfour .item-body .avatar-history-actions .warning,
 #buddypress.twentytwentyfour .item-body .avatar-history-actions .success {
-	background-color: var(--wp--preset--color--tertiary);
+	background-color: var(--wp--preset--color--base-2);
 	border: none;
 	border-right-width: 4px;
 	border-right-style: solid;
@@ -1085,7 +1137,7 @@ body.bp-user #buddypress.twentytwentyfour .item-body h2.screen-heading {
 }
 
 #buddypress.twentytwentyfour #message-threads > li.unread {
-	border-right: 8px solid var(--wp--preset--color--secondary);
+	border-right: 8px solid var(--wp--preset--color--contrast-2);
 }
 
 #buddypress.twentytwentyfour #message-threads li .thread-cb {
@@ -1359,29 +1411,31 @@ body.bp-user #buddypress.twentytwentyfour .item-body h2.screen-heading {
 	display: inline-block;
 }
 
-#buddypress.twentytwentyfour .select-wrap {
+#buddypress.twentytwentyfour.buddypress-wrap .select-wrap {
 	border: 1px solid var(--wp--preset--color--contrast);
 	background: var(--wp--preset--color--base);
 }
 
-#buddypress.twentytwentyfour .select-wrap select {
+#buddypress.twentytwentyfour.buddypress-wrap .select-wrap select {
 	background: transparent;
 	width: 98%;
 	text-indent: 0;
+	line-height: 2;
+	padding: 3px 10px 3px 25px;
 }
 
-#buddypress.twentytwentyfour .select-wrap span.select-arrow {
+#buddypress.twentytwentyfour.buddypress-wrap .select-wrap span.select-arrow {
 	background: transparent;
 }
 
-#buddypress.twentytwentyfour .select-wrap span.select-arrow:before {
+#buddypress.twentytwentyfour.buddypress-wrap .select-wrap span.select-arrow:before {
 	font-family: dashicons;
 	content: "\f140";
 	color: var(--wp--preset--color--contrast-2);
 	vertical-align: -10%;
 }
 
-#buddypress.twentytwentyfour .select-wrap:focus .select-arrow:before, #buddypress.twentytwentyfour .select-wrap:hover .select-arrow:before {
+#buddypress.twentytwentyfour.buddypress-wrap .select-wrap:focus .select-arrow:before, #buddypress.twentytwentyfour.buddypress-wrap .select-wrap:hover .select-arrow:before {
 	color: var(--wp--preset--color--contrast-2);
 }
 
@@ -1564,11 +1618,15 @@ body.bp-user.settings.general #buddypress.twentytwentyfour .wp-pwd:not(.is-open)
 #buddypress.twentytwentyfour .generic-button a,
 #buddypress.twentytwentyfour .comment-reply-link,
 #buddypress.twentytwentyfour a.bp-title-button,
-#buddypress.twentytwentyfour .activity-read-more a {
+#buddypress.twentytwentyfour .user-update .activity-read-more a {
 	background: var(--wp--preset--color--contrast);
 	border: 1px solid var(--wp--preset--color--contrast);
 	border-radius: 0.33rem;
 	color: var(--wp--preset--color--base);
+	padding-top: 0.4rem;
+	padding-left: 0.8rem;
+	padding-bottom: 0.4rem;
+	padding-right: 0.8rem;
 }
 
 #buddypress.twentytwentyfour button:hover,
@@ -1588,11 +1646,11 @@ body.bp-user.settings.general #buddypress.twentytwentyfour .wp-pwd:not(.is-open)
 #buddypress.twentytwentyfour .generic-button a:hover,
 #buddypress.twentytwentyfour .comment-reply-link:focus,
 #buddypress.twentytwentyfour .comment-reply-link:hover,
-#buddypress.twentytwentyfour .activity-read-more a:focus,
-#buddypress.twentytwentyfour .activity-read-more a:hover {
-	background: transparent;
+#buddypress.twentytwentyfour .user-update .activity-read-more a:focus,
+#buddypress.twentytwentyfour .user-update .activity-read-more a:hover {
+	background: var(--wp--preset--color--contrast-2);
 	border-color: var(--wp--preset--color--contrast);
-	color: var(--wp--preset--color--contrast-2);
+	color: var(--wp--preset--color--base);
 	outline: none;
 	text-decoration: none;
 }
@@ -1708,7 +1766,7 @@ button.pending,
 }
 
 #buddypress.twentytwentyfour #group-create-body .bp-cover-image-status p.warning {
-	background-color: var(--wp--preset--color--tertiary);
+	background-color: var(--wp--preset--color--base-2);
 	border: none;
 	border-right-width: 4px;
 	border-right-style: solid;

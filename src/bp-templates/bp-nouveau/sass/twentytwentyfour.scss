@@ -212,6 +212,8 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 
 		> ul {
 			padding-left: 0;
+			margin-block-start: 0;
+			margin-block-end: 0;
 		}
 	}
 }
@@ -412,7 +414,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 							}
 
 							&:hover {
-								background: var(--wp--preset--color--secondary);
+								background: var(--wp--preset--color--contrast);
 							}
 						}
 
@@ -495,6 +497,21 @@ body {
 						border: 1px dotted var(--wp--preset--color--contrast);
 					}
 
+					.activity-read-more {
+						margin-left: 0;
+						white-space: inherit;
+
+						a {
+							background: none;
+							border: none;
+							font-family: inherit;
+							font-size: inherit;
+							font-weight: 400;
+							color: var(--wp--preset--color--contrast);
+							text-decoration: underline;
+						}
+					}
+
 					.activity-meta.action {
 						background: inherit;
 						margin-left: calc(128px + 5%);
@@ -510,7 +527,7 @@ body {
 						}
 
 						.button {
-							background-color: var(--wp--preset--color--tertiary);
+							background-color: var(--wp--preset--color--base-2);
 							padding: 0.7em 0.7em 0.5em;
 
 							.bp-screen-reader-text {
@@ -571,12 +588,14 @@ body {
 							}
 						}
 					}
-				}
 
-				li.mini {
+					.bp-group-preview-cover,
+					.bp-member-preview-cover {
+						background: none;
 
-					.activity-meta.action {
-						margin-left: calc(50px + 2%);
+						img {
+							border-radius: var(--wp--preset--spacing--20);
+						}
 					}
 				}
 			}
@@ -619,9 +638,12 @@ body {
 					border: none;
 
 					.activity-avatar {
+						left: 0;
+						top: 10px;
+						margin-right: 0.3em;
 
 						img.avatar {
-							background: var(--wp--preset--color--white);
+							box-shadow: none;
 						}
 					}
 				}
@@ -683,13 +705,32 @@ body {
 						color: var(--wp--preset--color--contrast-2);
 						display: inline-block;
 						font-size: var(--wp--preset--font-size--small);
+						border-color: var(--wp--preset--color--contrast-2);
+						border: none;
+						border-bottom: solid 1px;
+						padding: 0.2rem;
+						background-color: transparent;
+						border-radius: 0;
 
 						&.bp-primary-action {
-							background-color: var(--wp--preset--color--secondary);
+
+							&:hover {
+								background-color: var(--wp--preset--color--contrast-2);
+								color: var(--wp--preset--color--base);
+							}
 						}
 
 						&.bp-secondary-action {
-							background-color: var(--wp--preset--color--tertiary);
+
+							&.acomment-delete {
+								color: var(--wp--preset--color--vivid-red);
+								border-color: var(--wp--preset--color--vivid-red);
+
+								&:hover {
+									background-color: var(--wp--preset--color--vivid-red);
+									color: var(--wp--preset--color--base);
+								}
+							}
 						}
 					}
 				}
@@ -726,11 +767,21 @@ body {
 
 						[type="submit"] {
 							margin-left: calc(50px - 0.5em);
-							background-color: var(--wp--preset--color--secondary);
+							color: var(--wp--preset--color--base);
+							background-color: var(--wp--preset--color--contrast);
+
+							&:hover {
+								background-color: var(--wp--preset--color--contrast-2);
+							}
 						}
 
 						[type="button"] {
-							background-color: var(--wp--preset--color--tertiary);
+							background-color: var(--wp--preset--color--base-2);
+
+							&:hover {
+								color: var(--wp--preset--color--contrast);
+								background-color: var(--wp--preset--color--base);
+							}
 						}
 					}
 				}
@@ -791,37 +842,34 @@ body {
 		}
 	}
 
-	.members-list { // ul
+	&.buddypress-wrap {
 
-		li {
+		.members-list { // ul
 
-			.members-meta {
+			li {
 
-				&.action {
+				.user-update {
+					background: var(--wp--preset-color--base-2);
+					color: var(--wp--preset--color--contrast-2);
+					padding: 1em 0;
+					margin: 0 auto 15px;
+					border: none;
 
-					button {
-						padding: 0.7em 0.7em 0.5em;
+					p.update {
+						border-left: solid 2px var(--wp--preset--color--contrast-2);
+						padding-left: 0.5rem;
+
+						.activity-read-more a {
+							display: inline-block;
+						}
 					}
-				}
-			}
 
-			.user-update {
-				background: var(--wp--preset-color--base-2);
-				color: var(--wp--preset--color--contrast-2);
-				padding: 1em 0;
-				margin: 0 auto 15px;
-				border: none;
+					@media screen and (min-width: 46.8em) {
 
-				p.update {
-					border-left: solid 2px var(--wp--preset--color--contrast-2);
-					padding-left: 0.5rem;
-				}
-
-				@media screen and (min-width: 46.8em) {
-
-					clear: both;
-					overflow: inherit;
-					width: auto;
+						clear: both;
+						overflow: inherit;
+						width: auto;
+					}
 				}
 			}
 		}
@@ -1045,7 +1093,7 @@ body.bp-user {
 
 			.warning,
 			.success {
-				background-color: var(--wp--preset--color--tertiary);
+				background-color: var(--wp--preset--color--base-2);
 				border: none;
 				border-left-width: 4px;
 				border-left-style: solid;
@@ -1423,7 +1471,7 @@ body.bp-user {
 			}
 
 			&.unread {
-				border-left: 8px solid var(--wp--preset--color--secondary);
+				border-left: 8px solid var(--wp--preset--color--contrast-2);
 			}
 		}
 
@@ -1784,7 +1832,7 @@ body.bp-user {
 		}
 	}
 
-	.select-wrap {
+	&.buddypress-wrap .select-wrap {
 		border: 1px solid var(--wp--preset--color--contrast);
 		background: var(--wp--preset--color--base);
 
@@ -1792,6 +1840,8 @@ body.bp-user {
 			background: transparent;
 			width: 98%;
 			text-indent: 0;
+			line-height: 2;
+			padding: 3px 25px 3px 10px;
 		}
 
 		span.select-arrow {
@@ -2052,11 +2102,15 @@ body.bp-user.settings.general {
 	.generic-button a,
 	.comment-reply-link,
 	a.bp-title-button,
-	.activity-read-more a {
+	.user-update .activity-read-more a {
 		background: var(--wp--preset--color--contrast);
 		border: 1px solid var(--wp--preset--color--contrast);
 		border-radius: 0.33rem;
 		color: var(--wp--preset--color--base);
+		padding-top: 0.4rem;
+		padding-right: 0.8rem;
+		padding-bottom: 0.4rem;
+		padding-left: 0.8rem;
 	}
 
 	button:hover,
@@ -2076,11 +2130,11 @@ body.bp-user.settings.general {
 	.generic-button a:hover,
 	.comment-reply-link:focus,
 	.comment-reply-link:hover,
-	.activity-read-more a:focus,
-	.activity-read-more a:hover {
-		background: transparent;
+	.user-update .activity-read-more a:focus,
+	.user-update .activity-read-more a:hover {
+		background: var(--wp--preset--color--contrast-2);
 		border-color: var(--wp--preset--color--contrast);
-		color: var(--wp--preset--color--contrast-2);
+		color: var(--wp--preset--color--base);
 		outline: none;
 		text-decoration: none;
 	}
@@ -2220,7 +2274,7 @@ body.bp-user.settings.general {
 		.bp-cover-image-status {
 
 			p.warning {
-				background-color: var(--wp--preset--color--tertiary);
+				background-color: var(--wp--preset--color--base-2);
 				border: none;
 				border-left-width: 4px;
 				border-left-style: solid;
