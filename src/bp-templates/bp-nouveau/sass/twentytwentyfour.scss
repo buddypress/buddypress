@@ -804,6 +804,19 @@ body {
 
 #buddypress.twentytwentyfour {
 
+	&.buddypress-wrap {
+
+		.groups-type-navs {
+
+			.create-button {
+
+				a {
+					border-radius: 0;
+				}
+			}
+		}
+	}
+
 	.groups-list { // ul
 
 		li {
@@ -911,15 +924,23 @@ body {
 				border-bottom: 1px solid var(--wp--preset--color--contrast);
 				box-shadow: none;
 
-				li {
+				ol {
+					padding-inline-start: 0;
 
-					a,
-					span {
-						padding: 0.5em calc(0.5em + 2px);
-						display: block;
+					li {
+
+						a,
+						span {
+							padding: 0.5em calc(0.5em + 2px);
+							display: block;
+						}
 					}
 				}
 			}
+		}
+
+		.creation-step-name {
+			text-align: left;
 		}
 	}
 }

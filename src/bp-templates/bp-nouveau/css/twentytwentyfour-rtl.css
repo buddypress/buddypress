@@ -642,6 +642,10 @@ body.activity-permalink #buddypress.twentytwentyfour .activity-list .activity-it
 * @section 3.3 - Groups Loop
 *----------------------------------------------------------
 */
+#buddypress.twentytwentyfour.buddypress-wrap .groups-type-navs .create-button a {
+	border-radius: 0;
+}
+
 #buddypress.twentytwentyfour .groups-list li .group-desc {
 	color: var(--wp--preset--color--contrast-2);
 	border-right: 2px solid var(--wp--preset--color--contrast);
@@ -708,10 +712,18 @@ body:not(.logged-in) #buddypress.twentytwentyfour .members-list .user-update {
 	box-shadow: none;
 }
 
-#buddypress.twentytwentyfour #group-create-body nav.group-create-links:not(.tabbed-links) li a,
-#buddypress.twentytwentyfour #group-create-body nav.group-create-links:not(.tabbed-links) li span {
+#buddypress.twentytwentyfour #group-create-body nav.group-create-links:not(.tabbed-links) ol {
+	padding-inline-start: 0;
+}
+
+#buddypress.twentytwentyfour #group-create-body nav.group-create-links:not(.tabbed-links) ol li a,
+#buddypress.twentytwentyfour #group-create-body nav.group-create-links:not(.tabbed-links) ol li span {
 	padding: 0.5em calc(0.5em + 2px);
 	display: block;
+}
+
+#buddypress.twentytwentyfour #group-create-body .creation-step-name {
+	text-align: right;
 }
 
 /**
