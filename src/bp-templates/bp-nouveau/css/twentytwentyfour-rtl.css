@@ -179,6 +179,15 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 	border-bottom: none;
 }
 
+#buddypress.twentytwentyfour .bp-list li .list-title a {
+	text-decoration: underline;
+}
+
+#buddypress.twentytwentyfour .bp-list li .list-title a:hover {
+	-webkit-text-decoration-color: var(--wp--preset--color--contrast-2);
+	text-decoration-color: var(--wp--preset--color--contrast-2);
+}
+
 #buddypress.twentytwentyfour .bp-list li:not(.mini) .item-avatar img.avatar {
 	display: block;
 	margin: 0 auto;
@@ -286,6 +295,21 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 	width: fit-content;
 }
 
+#buddypress.twentytwentyfour .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items .bp-remove-item {
+	border: solid 1px var(--wp--preset--color--vivid-red);
+	color: var(--wp--preset--color--base);
+	background: var(--wp--preset--color--vivid-red);
+	padding-top: 0.2rem;
+	padding-left: 0.4rem;
+	padding-bottom: 0.2rem;
+	padding-right: 0.4rem;
+}
+
+#buddypress.twentytwentyfour .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items .bp-remove-item:hover {
+	color: var(--wp--preset--color--vivid-red);
+	background: var(--wp--preset--color--base);
+}
+
 #buddypress.twentytwentyfour .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li {
 	margin-bottom: 0;
 }
@@ -297,7 +321,7 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 #buddypress.twentytwentyfour .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object {
 	padding: 0.5em;
 	border-radius: 0;
-	border-style: dotted;
+	border-style: solid;
 	border-width: 0;
 	border-right-width: 1px;
 	border-left-width: 1px;
@@ -305,16 +329,16 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 
 #buddypress.twentytwentyfour .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object:not(.selected) {
 	background: var(--wp--preset--color--base);
-	color: var(--wp--preset--color--contrast-2);
+	color: var(--wp--preset--color--contrast);
 	border-color: var(--wp--preset--color--contrast-2);
 }
 
 #buddypress.twentytwentyfour .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object:not(.selected):last-child {
-	border-bottom: dotted 1px;
+	border-bottom: solid 1px;
 }
 
 #buddypress.twentytwentyfour .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object:not(.selected):hover {
-	background: var(--wp--preset--color--contrast);
+	background: var(--wp--preset--color--accent);
 }
 
 #buddypress.twentytwentyfour .activity-update-form #whats-new-post-in-box #whats-new-post-in-box-items li.bp-activity-object.selected {
@@ -490,7 +514,7 @@ body .wp-site-blocks #buddypress.twentytwentyfour .activity-list .activity-conte
 
 body .wp-site-blocks #buddypress.twentytwentyfour:not(.alignwide) .activity-list .activity-avatar {
 	margin-right: 0;
-	margin-left: 1em;
+	margin-left: 0.3em;
 	width: auto;
 }
 
@@ -614,7 +638,6 @@ body.activity-permalink #buddypress.twentytwentyfour .activity-list .activity-it
 }
 
 #buddypress.twentytwentyfour .bp-list li .activity-comments .ac-form .ac-reply-content [type="submit"] {
-	margin-right: calc(50px - 0.5em);
 	color: var(--wp--preset--color--base);
 	background-color: var(--wp--preset--color--contrast);
 }
@@ -648,6 +671,7 @@ body.activity-permalink #buddypress.twentytwentyfour .activity-list .activity-it
 
 #buddypress.twentytwentyfour .groups-list li .group-desc {
 	color: var(--wp--preset--color--contrast-2);
+	border: none;
 	border-right: 2px solid var(--wp--preset--color--contrast);
 }
 
@@ -1626,6 +1650,7 @@ body.bp-user.settings.general #buddypress.twentytwentyfour .wp-pwd:not(.is-open)
 #buddypress.twentytwentyfour a.button,
 #buddypress.twentytwentyfour input[type="submit"],
 #buddypress.twentytwentyfour input[type="button"],
+#buddypress.twentytwentyfour input[type="reset"],
 #buddypress.twentytwentyfour ul.button-nav:not(.button-tabs) li a,
 #buddypress.twentytwentyfour .generic-button a,
 #buddypress.twentytwentyfour .comment-reply-link,
@@ -1641,6 +1666,13 @@ body.bp-user.settings.general #buddypress.twentytwentyfour .wp-pwd:not(.is-open)
 	padding-right: 0.8rem;
 }
 
+#buddypress.twentytwentyfour input[type="reset"],
+#buddypress.twentytwentyfour #bp-messages-reset {
+	background: var(--wp--preset--color--accent);
+	border: 1px solid var(--wp--preset--color--accent);
+	color: var(--wp--preset--color--contrast);
+}
+
 #buddypress.twentytwentyfour button:hover,
 #buddypress.twentytwentyfour button:focus,
 #buddypress.twentytwentyfour a.button:focus,
@@ -1649,8 +1681,6 @@ body.bp-user.settings.general #buddypress.twentytwentyfour .wp-pwd:not(.is-open)
 #buddypress.twentytwentyfour input[type="submit"]:hover,
 #buddypress.twentytwentyfour input[type="button"]:focus,
 #buddypress.twentytwentyfour input[type="button"]:hover,
-#buddypress.twentytwentyfour input[type="reset"],
-#buddypress.twentytwentyfour #bp-messages-reset,
 #buddypress.twentytwentyfour .button-nav li a:focus,
 #buddypress.twentytwentyfour .button-nav li a:hover,
 #buddypress.twentytwentyfour .button-nav li.current a,
@@ -1661,7 +1691,7 @@ body.bp-user.settings.general #buddypress.twentytwentyfour .wp-pwd:not(.is-open)
 #buddypress.twentytwentyfour .user-update .activity-read-more a:focus,
 #buddypress.twentytwentyfour .user-update .activity-read-more a:hover {
 	background: var(--wp--preset--color--contrast-2);
-	border-color: var(--wp--preset--color--contrast);
+	border-color: var(--wp--preset--color--contrast-2);
 	color: var(--wp--preset--color--base);
 	outline: none;
 	text-decoration: none;
@@ -1671,8 +1701,10 @@ body.bp-user.settings.general #buddypress.twentytwentyfour .wp-pwd:not(.is-open)
 #buddypress.twentytwentyfour input[type="reset"]:hover,
 #buddypress.twentytwentyfour #bp-messages-reset:focus,
 #buddypress.twentytwentyfour #bp-messages-reset:hover {
-	outline-offset: -0.25ch;
-	outline: 2px solid currentColor;
+	background: var(--wp--preset--color--contrast-3);
+	border: 1px solid var(--wp--preset--color--contrast-3);
+	color: var(--wp--preset--color--base);
+	text-decoration: none;
 }
 
 #buddypress.twentytwentyfour input[type="submit"].pending,

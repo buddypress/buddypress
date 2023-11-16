@@ -252,6 +252,14 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 
 		li {
 
+			.list-title a {
+				text-decoration: underline;
+
+				&:hover {
+					text-decoration-color: var(--wp--preset--color--contrast-2);
+				}
+			}
+
 			&:not(.mini) {
 
 				.item-avatar {
@@ -389,6 +397,21 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 
 			#whats-new-post-in-box-items {
 
+				.bp-remove-item {
+					border: solid 1px var(--wp--preset--color--vivid-red);
+					color: var(--wp--preset--color--base);
+					background: var(--wp--preset--color--vivid-red);
+					padding-top: 0.2rem;
+					padding-right: 0.4rem;
+					padding-bottom: 0.2rem;
+					padding-left: 0.4rem;
+
+					&:hover {
+						color: var(--wp--preset--color--vivid-red);
+						background: var(--wp--preset--color--base);
+					}
+				}
+
 				li {
 					margin-bottom: 0;
 
@@ -399,22 +422,22 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 					&.bp-activity-object {
 						padding: 0.5em;
 						border-radius: 0;
-						border-style: dotted;
+						border-style: solid;
 						border-width: 0;
 						border-left-width: 1px;
 						border-right-width: 1px;
 
 						&:not(.selected) {
 							background: var(--wp--preset--color--base);
-							color: var(--wp--preset--color--contrast-2);
+							color: var(--wp--preset--color--contrast);
 							border-color: var(--wp--preset--color--contrast-2);
 
 							&:last-child {
-								border-bottom: dotted 1px;
+								border-bottom: solid 1px;
 							}
 
 							&:hover {
-								background: var(--wp--preset--color--contrast);
+								background: var(--wp--preset--color--accent);
 							}
 						}
 
@@ -607,7 +630,7 @@ body {
 
 				.activity-avatar {
 					margin-left: 0;
-					margin-right: 1em;
+					margin-right: 0.3em;
 					width: auto;
 
 					img.avatar {
@@ -766,7 +789,6 @@ body {
 						}
 
 						[type="submit"] {
-							margin-left: calc(50px - 0.5em);
 							color: var(--wp--preset--color--base);
 							background-color: var(--wp--preset--color--contrast);
 
@@ -823,6 +845,7 @@ body {
 
 			.group-desc {
 				color: var(--wp--preset--color--contrast-2);
+				border: none;
 				border-left: 2px solid var(--wp--preset--color--contrast);
 			}
 		}
@@ -2119,6 +2142,7 @@ body.bp-user.settings.general {
 	a.button,
 	input[type="submit"],
 	input[type="button"],
+	input[type="reset"],
 	ul.button-nav:not(.button-tabs) li a,
 	.generic-button a,
 	.comment-reply-link,
@@ -2134,6 +2158,13 @@ body.bp-user.settings.general {
 		padding-left: 0.8rem;
 	}
 
+	input[type="reset"],
+	#bp-messages-reset {
+		background: var(--wp--preset--color--accent);
+		border: 1px solid var(--wp--preset--color--accent);
+		color: var(--wp--preset--color--contrast);
+	}
+
 	button:hover,
 	button:focus,
 	a.button:focus,
@@ -2142,8 +2173,6 @@ body.bp-user.settings.general {
 	input[type="submit"]:hover,
 	input[type="button"]:focus,
 	input[type="button"]:hover,
-	input[type="reset"],
-	#bp-messages-reset,
 	.button-nav li a:focus,
 	.button-nav li a:hover,
 	.button-nav li.current a,
@@ -2154,7 +2183,7 @@ body.bp-user.settings.general {
 	.user-update .activity-read-more a:focus,
 	.user-update .activity-read-more a:hover {
 		background: var(--wp--preset--color--contrast-2);
-		border-color: var(--wp--preset--color--contrast);
+		border-color: var(--wp--preset--color--contrast-2);
 		color: var(--wp--preset--color--base);
 		outline: none;
 		text-decoration: none;
@@ -2164,8 +2193,10 @@ body.bp-user.settings.general {
 	input[type="reset"]:hover,
 	#bp-messages-reset:focus,
 	#bp-messages-reset:hover {
-		outline-offset: -0.25ch;
-		outline: 2px solid currentColor;
+		background: var(--wp--preset--color--contrast-3);
+		border: 1px solid var(--wp--preset--color--contrast-3);
+		color: var(--wp--preset--color--base);
+		text-decoration: none;
 	}
 
 	input[type="submit"].pending,
