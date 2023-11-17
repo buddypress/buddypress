@@ -1404,15 +1404,21 @@ function bp_nouveau_get_group_description_excerpt( $group = null, $length = null
 		}
 	}
 
+	if ( $length ) {
+		$excerpt = bp_create_excerpt( $group->description, $length );
+	} else {
+		$excerpt = bp_create_excerpt( $group->description );
+	}
+
 	/**
 	 * Filters the excerpt of a group description.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $value Excerpt of a group description.
-	 * @param object $group Object for group whose description is made into an excerpt.
+	 * @param string $excerpt Excerpt of a group description.
+	 * @param object $group   Object for group whose description is made into an excerpt.
 	 */
-	return apply_filters( 'bp_nouveau_get_group_description_excerpt', bp_create_excerpt( $group->description, $length ), $group );
+	return apply_filters( 'bp_nouveau_get_group_description_excerpt', $excerpt, $group );
 }
 
 /**
