@@ -55,13 +55,12 @@ bp_nouveau_before_loop(); ?>
 								?>
 							</p>
 
+							<?php bp_nouveau_groups_loop_buttons(); ?>
 						</div>
 
 						<div class="group-desc"><p><?php bp_nouveau_group_description_excerpt(); ?></p></div>
 
 						<?php bp_nouveau_groups_loop_item(); ?>
-
-						<?php bp_nouveau_groups_loop_buttons(); ?>
 
 					</div>
 
