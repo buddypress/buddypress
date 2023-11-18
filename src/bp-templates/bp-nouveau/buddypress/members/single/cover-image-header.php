@@ -3,7 +3,7 @@
  * BuddyPress - Users Cover Image Header
  *
  * @since 3.0.0
- * @version 7.0.0
+ * @version 12.0.0
  */
 ?>
 
@@ -25,15 +25,7 @@
 				<h2 class="user-nicename">@<?php bp_displayed_user_mentionname(); ?></h2>
 			<?php endif; ?>
 
-			<?php
-			bp_nouveau_member_header_buttons(
-				array(
-					'container'         => 'ul',
-					'button_element'    => 'button',
-					'container_classes' => array( 'member-header-actions' ),
-				)
-			);
-			?>
+			<?php bp_nouveau_member_header_buttons( array( 'container_classes' => array( 'member-header-actions' ) ) ); ?>
 
 			<?php bp_nouveau_member_hook( 'before', 'header_meta' ); ?>
 
