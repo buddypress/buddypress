@@ -640,7 +640,7 @@ function bp_nouveau_get_temporary_setting( $option = '', $retval = false ) {
  */
 function bp_nouveau_get_appearance_settings( $option = '' ) {
 	$default_args = array(
-		'global_alignment'   => bp_nouveau()->is_block_theme ? 'alignnone' : 'alignwide',
+		'global_alignment'   => 'alignwide',
 		'user_front_page'    => 0,
 		'user_front_bio'     => 0,
 		'user_nav_display'   => 0, // O is default (horizontally). 1 is vertically.
@@ -662,27 +662,33 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
 	}
 
 	if ( bp_is_active( 'groups' ) ) {
-		$default_args = array_merge( $default_args, array(
-			'group_front_page'        => 0,
-			'group_front_boxes'       => 0,
-			'group_front_description' => 0,
-			'group_nav_display'       => 0,       // O is default (horizontally). 1 is vertically.
-			'group_nav_order'         => array(),
-			'group_nav_tabs'          => 0,
-			'group_subnav_tabs'       => 0,
-			'groups_create_tabs'      => bp_nouveau()->is_block_theme ? 0 : 1,
-			'groups_layout'           => 1,
-			'members_group_layout'    => 1,
-			'groups_dir_layout'       => 0,
-			'groups_dir_tabs'         => 0,
-		) );
+		$default_args = array_merge(
+			$default_args,
+			array(
+				'group_front_page'        => 0,
+				'group_front_boxes'       => 0,
+				'group_front_description' => 0,
+				'group_nav_display'       => 0, // O is default (horizontally). 1 is vertically.
+				'group_nav_order'         => array(),
+				'group_nav_tabs'          => 0,
+				'group_subnav_tabs'       => 0,
+				'groups_create_tabs'      => 1,
+				'groups_layout'           => 1,
+				'members_group_layout'    => 1,
+				'groups_dir_layout'       => 0,
+				'groups_dir_tabs'         => 0,
+			)
+		);
 	}
 
 	if ( is_multisite() && bp_is_active( 'blogs' ) ) {
-		$default_args = array_merge( $default_args, array(
-			'sites_dir_layout' => 0,
-			'sites_dir_tabs'   => 0,
-		) );
+		$default_args = array_merge(
+			$default_args,
+			array(
+				'sites_dir_layout' => 0,
+				'sites_dir_tabs'   => 0,
+			)
+		);
 	}
 
 	$settings = bp_parse_args(
@@ -690,6 +696,15 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
 		$default_args,
 		'nouveau_appearance_settings'
 	);
+
+	// Override some settings to better suits block themes.
+	if ( bp_nouveau()->is_block_theme ) {
+		$settings['global_alignment'] = 'alignnone';
+
+		if ( isset( $settings['groups_create_tabs'] ) ) {
+			$settings['groups_create_tabs'] = 0;
+		}
+	}
 
 	if ( ! empty( $option ) ) {
 		if ( isset( $settings[ $option ] ) ) {
