@@ -1073,8 +1073,16 @@ body.bp-user #buddypress.twentytwentyfour .item-body h2.screen-heading {
 	background: var(--wp--preset--color--vivid-red);
 }
 
+#buddypress.twentytwentyfour .bp-invites-content ul#members-list li ul.group-inviters {
+	padding: 1rem 0;
+}
+
 #buddypress.twentytwentyfour .bp-invites-content ul#members-list li ul.group-inviters li {
 	border: none;
+}
+
+#buddypress.twentytwentyfour .bp-invites-content ul#members-list li p.status {
+	font-size: var(--wp--preset--font-size--small);
 }
 
 /*

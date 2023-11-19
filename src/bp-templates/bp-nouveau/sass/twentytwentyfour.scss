@@ -1375,10 +1375,15 @@ body.bp-user {
 				}
 
 				ul.group-inviters {
+					padding: 1rem 0;
 
 					li {
 						border: none;
 					}
+				}
+
+				p.status {
+					font-size: var(--wp--preset--font-size--small);
 				}
 			}
 		}
