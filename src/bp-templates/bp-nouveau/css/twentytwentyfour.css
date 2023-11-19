@@ -829,6 +829,10 @@ body.bp-user #buddypress.twentytwentyfour .item-body h2.screen-heading {
 	margin-block-end: 0;
 }
 
+#buddypress.twentytwentyfour #item-header.groups-header #item-header-cover-image #item-header-content p.bp-group-type-list strong {
+	display: block;
+}
+
 #buddypress.twentytwentyfour #item-header.groups-header .desc-wrap {
 	background: var(--wp--preset--color--base);
 	border: 1px solid var(--wp--preset--color--contrast);
@@ -1378,6 +1382,12 @@ body.bp-user #buddypress.twentytwentyfour .item-body h2.screen-heading {
 
 #buddypress.twentytwentyfour .subnav-filters li.user-messages-search {
 	max-width: 40%;
+	margin-left: 0.5rem;
+}
+
+#buddypress.twentytwentyfour .subnav-filters #bp-messages-prev-page:before,
+#buddypress.twentytwentyfour .subnav-filters #bp-messages-next-page:before {
+	content: none;
 }
 
 #buddypress.twentytwentyfour .subnav-filters button#user_messages_search_submit {
