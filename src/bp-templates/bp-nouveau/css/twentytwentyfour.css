@@ -1376,6 +1376,10 @@ body.bp-user #buddypress.twentytwentyfour .item-body h2.screen-heading {
 	width: 97%;
 }
 
+#buddypress.twentytwentyfour .subnav-filters li.user-messages-search {
+	max-width: 40%;
+}
+
 #buddypress.twentytwentyfour .subnav-filters button#user_messages_search_submit {
 	background-color: var(--wp--preset--color--base);
 	color: var(--wp--preset--color--contrast-2);
