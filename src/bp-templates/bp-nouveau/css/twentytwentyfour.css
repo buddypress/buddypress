@@ -660,6 +660,10 @@ body.activity-permalink #buddypress.twentytwentyfour .activity-list .activity-it
 * @section 3.2 - Blogs Loop
 *----------------------------------------------------------
 */
+#buddypress.twentytwentyfour.buddypress-wrap .sites-type-navs .create-button a {
+	border-radius: 0;
+}
+
 /**
 *----------------------------------------------------------
 * @section 3.3 - Groups Loop
