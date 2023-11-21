@@ -696,6 +696,19 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 	global $wp_settings_fields;
 	$active_components = array_intersect_key( bp_core_get_components(), buddypress()->active_components );
 	$bp_settings       = array();
+	$bp_url_parsers    = array(
+		'rewrites' => __( 'BP Rewrites API', 'buddypress' ),
+		'legacy'   => __( 'Legacy Parser', 'buddypress' ),
+	);
+
+	// Get the current URL parser.
+	$current_parser = bp_core_get_query_parser();
+	if ( isset( $bp_url_parsers[ $current_parser ] ) ) {
+		$bp_url_parser = $bp_url_parsers[ $current_parser ];
+	} else {
+		$bp_url_parser = __( 'Custom', 'buddypress' );
+	}
+
 
 	foreach ( $wp_settings_fields['buddypress'] as $section => $settings ) {
 		$prefix       = '';
@@ -753,6 +766,10 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'template_pack' => array(
 					'label' => __( 'Active template pack', 'buddypress' ),
 					'value' => bp_get_theme_compat_name() . ' ' . bp_get_theme_compat_version(),
+				),
+				'url_parser'    => array(
+					'label' => __( 'URL Parser', 'buddypress' ),
+					'value' => $bp_url_parser,
 				),
 			),
 			$bp_settings
