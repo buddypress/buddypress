@@ -52,6 +52,94 @@ function bp_nouveau_members_enqueue_scripts() {
 	if ( bp_is_user_members_invitations_list() ) {
 		wp_enqueue_script( 'bp-nouveau-member-invites' );
 	}
+
+	if ( bp_is_user() ) {
+		wp_enqueue_script( 'bp-nouveau-priority-menu' );
+		wp_add_inline_style(
+			'bp-nouveau',
+			'ul#member-primary-nav,
+			.bp-navs .primary-nav-more ul {
+				display: inline-block;
+			}
+
+			.bp-navs #member-primary-nav > li {
+				display: inline;
+				position: relative;
+				float:initial;
+			}
+
+			.bp-navs .primary-nav-more {
+				display: inline;
+			}
+
+			.bp-navs #member-primary-nav li a, .bp-navs #member-primary-nav li span,
+			.bp-navs .primary-nav-more ul > li {
+				display: inline-block;
+			}
+
+			.bp-navs .primary-nav-more ul > li {
+				position: relative;
+				float:initial;
+			}
+
+			#buddypress.twentytwentyfour .bp-navs .primary-nav-more ul > li.primary-nav-item-has-children .submenu-expand.primary-nav-more-toggle {
+				position: relative;
+				height: 24px;
+				line-height: 1.2;
+				width: 24px;
+				padding: 0;
+				margin-left: 0.5rem;
+				display: inline-block;
+				margin-right: 0.25rem;
+				border: none;
+				background: none;
+			}
+
+			#buddypress.twentytwentyfour .bp-navs .primary-nav-more ul > li.primary-nav-item-has-children .submenu-expand.primary-nav-more-toggle.is-empty {
+				display: none;
+			}
+
+			.bp-navs .primary-nav-more ul > li.primary-nav-item-has-children .submenu-expand.primary-nav-more-toggle svg {
+				height: 24px;
+				width: 24px;
+				position: relative;
+				top: -0.125rem;
+				vertical-align: text-bottom;
+				background-color: #FFF;
+			}
+
+			.bp-navs .primary-nav-more .sub-menu {
+				background-color: var(--wp--preset--color--accent);
+				color: #fff;
+				list-style: none;
+				padding-left: 0;
+				position: absolute;
+				opacity: 0;
+				left: -9999px;
+				z-index: 99999;
+			}
+
+			.bp-navs .primary-nav-more .sub-menu > li {
+				display: block;
+				float: none;
+				position: relative;
+			}
+
+			.bp-navs .primary-nav-more .primary-nav-item-has-children:hover .sub-menu.hidden-items {
+				right: 0;
+				left: auto;
+				display: table;
+				width: max-content;
+				opacity: 1;
+				position: absolute;
+				animation: fade_in 0.1s forwards;
+			}
+
+			.bp-navs.users-nav {
+				overflow: initial;
+			}'
+		);
+	}
 }
 
 /**

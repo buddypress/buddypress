@@ -371,6 +371,12 @@ class BP_Nouveau extends BP_Theme_Compat {
 					'version'      => $this->version,
 					'footer'       => true,
 				),
+				'bp-nouveau-priority-menu' => array(
+					'file'         => 'js/buddypress-priority-menu%s.js',
+					'dependencies' => array(),
+					'version'      => $this->version,
+					'footer'       => true,
+				)
 			)
 		);
 
