@@ -142,7 +142,7 @@ function bp_is_running_wp( $version, $compare = '>=' ) {
 /** Functions *****************************************************************/
 
 /**
- * Get the BuddyPress parser in use.
+ * Get the BuddyPress URL Parser in use.
  *
  * @since 12.0.0
  *
