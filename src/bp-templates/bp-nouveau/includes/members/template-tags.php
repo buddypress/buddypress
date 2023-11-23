@@ -1056,12 +1056,7 @@ function bp_nouveau_member_hidden_primary_nav() {
 		<ul class="member-nav-items">
 			<li class="primary-nav-item primary-nav-item-has-children">
 				<button class="submenu-expand primary-nav-more-toggle is-empty" tabindex="-1" aria-label="<?php esc_attr_e( 'More', 'buddypress' ); ?>" aria-haspopup="true" aria-expanded="false">
-					<svg class="svg-icon" width="24" height="24" aria-hidden="true" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg">
-						<g fill="none" fill-rule="evenodd">
-							<path d="M0 0h24v24H0z"></path>
-							<path fill="#000" fill-rule="nonzero" d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM6 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
-						</g>
-					</svg>
+					<span class="dashicons dashicons-ellipsis"></span>
 				</button>
 				<ul class="sub-menu hidden-items"></ul>
 			</li>
