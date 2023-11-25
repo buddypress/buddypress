@@ -11,7 +11,7 @@
 
 	<?php if ( bp_nouveau_has_nav( array( 'type' => 'primary' ) ) ) : ?>
 
-		<ul id="member-primary-nav" class="member-nav-items">
+		<ul id="member-primary-nav" class="bp-priority-object-nav-nav-items">
 
 			<?php
 			while ( bp_nouveau_nav_items() ) :

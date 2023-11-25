@@ -1573,6 +1573,10 @@ function bp_nouveau_single_item_nav_classes() {
 		$component  = bp_current_component();
 		$bp_nouveau = bp_nouveau();
 
+		if ( $bp_nouveau->is_block_theme ) {
+			$classes[] = 'bp-priority-nav';
+		}
+
 		// @todo wasn't able to get $customizer_option to pass a string to get_settings
 		// this is a temp workaround but differs from earlier dir approach- bad!
 		if ( bp_is_group() ) {
@@ -1652,6 +1656,10 @@ function bp_nouveau_single_item_subnav_classes() {
 
 		if ( bp_is_group() ) {
 			$classes[] = 'group-subnav';
+		}
+
+		if ( bp_nouveau()->is_block_theme ) {
+			$classes[] = 'bp-priority-nav';
 		}
 
 		if ( ( bp_is_group() && 'send-invites' === bp_current_action() ) || ( bp_is_group_create() && 'group-invites' === bp_get_groups_current_create_step() ) ) {

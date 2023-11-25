@@ -1049,13 +1049,20 @@ function bp_nouveau_get_member_latest_update( $activity_content = '', $args = ar
 }
 add_filter( 'bp_get_member_latest_update', 'bp_nouveau_get_member_latest_update', 10, 3 );
 
-
+/**
+ * Displays an ellipsis to show hidden primary nav items.
+ *
+ * @since 12.0.0
+ */
 function bp_nouveau_member_hidden_primary_nav() {
+	if ( ! bp_nouveau()->is_block_theme ) {
+		return;
+	}
 ?>
 	<div class="primary-nav-more">
-		<ul class="member-nav-items">
+		<ul class="bp-priority-object-nav-nav-items">
 			<li class="primary-nav-item primary-nav-item-has-children">
-				<button class="submenu-expand primary-nav-more-toggle is-empty" tabindex="-1" aria-label="<?php esc_attr_e( 'More', 'buddypress' ); ?>" aria-haspopup="true" aria-expanded="false">
+				<button class="submenu-expand bp-priority-nav-more-toggle is-empty" tabindex="-1" aria-label="<?php esc_attr_e( 'More', 'buddypress' ); ?>" aria-haspopup="true" aria-expanded="false">
 					<span class="dashicons dashicons-ellipsis"></span>
 				</button>
 				<ul class="sub-menu hidden-items"></ul>
@@ -1064,4 +1071,26 @@ function bp_nouveau_member_hidden_primary_nav() {
 	</div>
 <?php
 }
-add_action( 'bp_member_primary_nav', 'bp_nouveau_member_hidden_primary_nav' );
+
+/**
+ * Displays an ellipsis to show hidden secondary nav items.
+ *
+ * @since 12.0.0
+ */
+function bp_nouveau_member_hidden_secondary_nav() {
+	if ( ! bp_nouveau()->is_block_theme ) {
+		return;
+	}
+?>
+	<div class="secondary-nav-more">
+		<ul class="bp-priority-subnav-nav-items">
+			<li class="secondary-nav-item secondary-nav-item-has-children">
+				<button class="submenu-expand bp-priority-nav-more-toggle is-empty" tabindex="-1" aria-label="<?php esc_attr_e( 'More', 'buddypress' ); ?>" aria-haspopup="true" aria-expanded="false">
+					<span class="dashicons dashicons-ellipsis"></span>
+				</button>
+				<ul class="sub-menu hidden-items"></ul>
+			</li>
+		</ul>
+	</div>
+<?php
+}

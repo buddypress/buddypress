@@ -100,32 +100,35 @@
 	/**
 	 * Set menu container variable.
 	 */
-	var navContainer = document.querySelector('#object-nav');
-	var breaks       = [];
+	var priorityNavContainers = document.querySelectorAll('.bp-priority-nav');
+	var breaks                = {
+		'object-nav': [],
+		subnav: [],
+	};
 
 	/**
 	 * Let’s bail if we our menu doesn't exist.
 	 */
-	if ( ! navContainer ) {
+	if ( ! priorityNavContainers ) {
 		return;
 	}
 
 	/**
 	 * Refreshes the list item from the menu depending on the menu size.
 	 */
-	function updateNavigationMenu( container ) {
+	function updateNavigationMenu( container, menu ) {
 
 		/**
 		 * Let’s bail if our menu is empty.
 		 */
-		if ( ! container.parentNode.querySelector('.member-nav-items[id]') ) {
+		if ( ! container.parentNode.querySelector('.bp-priority-' + menu + '-nav-items[id]') ) {
 			return;
 		}
 
 		// Adds the necessary UI to operate the menu.
-		var visibleList  = container.parentNode.querySelector('.member-nav-items[id]');
+		var visibleList  = container.parentNode.querySelector('.bp-priority-' + menu + '-nav-items[id]');
 		var hiddenList   = visibleList.nextElementSibling.querySelector('.hidden-items');
-		var toggleButton = visibleList.nextElementSibling.querySelector('.primary-nav-more-toggle');
+		var toggleButton = visibleList.nextElementSibling.querySelector('.bp-priority-nav-more-toggle');
 
 		if ( isOverflowingNavivation( visibleList, toggleButton, container ) ) {
 			if ( ! visibleList.firstChild ) {
@@ -133,7 +136,7 @@
 			}
 
 			// Record the width of the list.
-			breaks.push( visibleList.offsetWidth );
+			breaks[menu].push( visibleList.offsetWidth );
 			// Move last item to the hidden list.
 			prependElement( hiddenList, ! visibleList.lastChild || null === visibleList.lastChild ? visibleList.previousElementSibling : visibleList.lastChild );
 			// Show the toggle button.
@@ -142,36 +145,42 @@
 		} else {
 
 			// There is space for another item in the nav.
-			if ( getAvailableSpace( toggleButton, container ) > breaks[breaks.length - 1] ) {
+			if ( getAvailableSpace( toggleButton, container ) > breaks[menu][breaks[menu].length - 1] ) {
 				// Move the item to the visible list.
 				visibleList.appendChild( hiddenList.firstChild.nextSibling );
-				breaks.pop();
+				breaks[menu].pop();
 			}
 
 			// Hide the dropdown btn if hidden list is empty.
-			if (breaks.length < 2) {
+			if (breaks[menu].length < 2) {
 				hideButton( toggleButton );
 			}
 		}
 
 		// Recur if the visible list is still overflowing the nav.
 		if ( isOverflowingNavivation( visibleList, toggleButton, container ) ) {
-			updateNavigationMenu( container );
+			updateNavigationMenu( container, menu );
 		}
+	}
+
+	function updateNavigationMenuAll() {
+		priorityNavContainers.forEach( function( navContainer ) {
+			updateNavigationMenu( navContainer, navContainer.getAttribute( 'id' ) );
+		} );
 	}
 
 	/**
 	 * Run our priority+ function as soon as the document is `ready`.
 	 */
 	document.addEventListener( 'DOMContentLoaded', function() {
-		updateNavigationMenu( navContainer );
+		updateNavigationMenuAll();
 	});
 
 	/**
 	 * Run our priority+ function on load.
 	 */
 	window.addEventListener( 'load', function() {
-		updateNavigationMenu( navContainer );
+		updateNavigationMenuAll();
 	});
 
 	/**
@@ -186,7 +195,7 @@
 
 			isResizing = true;
 			setTimeout( function() {
-				updateNavigationMenu( navContainer );
+				updateNavigationMenuAll();
 				isResizing = false;
 			}, 150 );
 		} )
@@ -195,6 +204,6 @@
 	/**
 	 * Run our priority+ function.
 	 */
-	updateNavigationMenu( navContainer );
+	updateNavigationMenuAll();
 
 })();
