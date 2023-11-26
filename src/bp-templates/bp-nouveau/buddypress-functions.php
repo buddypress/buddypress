@@ -186,7 +186,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 			array(
 				'name'     => 'priority_item_nav',
 				'settings' => array(
-					'single_items' => function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ? array( 'member', 'group' ) : array(),
+					'single_items' => $this->is_block_theme ? array( 'member', 'group' ) : array(),
 				),
 			)
 		);
