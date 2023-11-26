@@ -11,7 +11,7 @@
 
 	<?php if ( bp_nouveau_has_nav( array( 'object' => 'group_manage' ) ) ) : ?>
 
-		<ul id="group-secondary-nav"  class="subnav bp-priority-subnav-nav-items">
+		<ul id="group-secondary-nav" class="subnav bp-priority-subnav-nav-items">
 
 			<?php
 			while ( bp_nouveau_nav_items() ) :

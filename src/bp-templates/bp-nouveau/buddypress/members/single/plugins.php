@@ -14,7 +14,7 @@ bp_nouveau_member_hook( 'before', 'plugin_template' ); ?>
 <?php if ( ! bp_is_current_component_core() ) : ?>
 
 	<nav class="<?php bp_nouveau_single_item_subnav_classes(); ?>" id="subnav">
-		<ul id="member-secondary-nav"  class="subnav bp-priority-subnav-nav-items">
+		<ul id="member-secondary-nav" class="subnav bp-priority-subnav-nav-items">
 
 			<?php bp_get_template_part( 'members/single/parts/item-subnav' ); ?>
 
