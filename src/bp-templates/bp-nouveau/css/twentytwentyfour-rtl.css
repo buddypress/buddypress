@@ -1600,6 +1600,7 @@ body.bp-user #buddypress.twentytwentyfour .item-body h2.screen-heading {
 }
 
 #buddypress.twentytwentyfour .standard-form input[type="text"]:not(.small),
+#buddypress.twentytwentyfour .standard-form input[type="email"]:not(.small),
 #buddypress.twentytwentyfour .standard-form textarea {
 	width: 97%;
 }

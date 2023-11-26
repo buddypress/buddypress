@@ -2059,6 +2059,7 @@ body.bp-user {
 		}
 
 		input[type="text"]:not(.small),
+		input[type="email"]:not(.small),
 		textarea {
 			width: 97%;
 		}
