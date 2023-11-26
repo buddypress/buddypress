@@ -6,6 +6,7 @@
     "selector-id-pattern": null,
     "selector-class-pattern": null,
     "no-duplicate-selectors": null,
-    "font-family-no-missing-generic-family-keyword": null
+    "font-family-no-missing-generic-family-keyword": null,
+		"selector-list-comma-newline-after": null,
   }
 }

@@ -271,6 +271,9 @@ class BP_Nouveau extends BP_Theme_Compat {
 			'bp-nouveau' => array(
 				'file' => 'css/buddypress%1$s%2$s.css', 'dependencies' => $css_dependencies, 'version' => $this->version,
 			),
+			'bp-nouveau-priority-nav' => array(
+				'file' => 'css/priority-nav%1$s%2$s.css', 'dependencies' => array( 'dashicons' ), 'version' => $this->version,
+			),
 		) );
 
 		if ( $styles ) {
