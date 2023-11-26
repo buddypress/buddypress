@@ -1,6 +1,6 @@
 # BuddyPress Components settings
 
-The BuddyPress Core & Members components are required ones and are always enabled. The first time you activate ByddyPress, 4 optional components are activated for you, by default: 
+The BuddyPress Core & Members components are required ones and are always enabled. The first time you activate BuddyPress, 4 optional components are activated for you, by default: 
 
 - Extended Profiles, 
 - Account Settings,
