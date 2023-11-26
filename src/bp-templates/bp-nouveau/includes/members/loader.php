@@ -82,8 +82,8 @@ class BP_Nouveau_Members {
 		add_action( 'dynamic_sidebar_after', array( $this, 'user_home_sidebar_unset' ), 10, 1 );
 
 		// Priority navs for Block Themes.
-		add_action( 'bp_member_primary_nav', 'bp_nouveau_member_hidden_primary_nav' );
-		add_action( 'bp_member_secondary_nav', 'bp_nouveau_member_hidden_secondary_nav' );
+		add_action( 'bp_member_primary_nav', 'bp_nouveau_hidden_primary_nav' );
+		add_action( 'bp_member_secondary_nav', 'bp_nouveau_hidden_secondary_nav' );
 	}
 
 	/**

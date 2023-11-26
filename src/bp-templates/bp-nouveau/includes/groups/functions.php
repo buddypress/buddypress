@@ -80,6 +80,11 @@ function bp_nouveau_groups_enqueue_scripts() {
 			bp_groups_get_group_manage_members_script_data( bp_get_current_group_id() )
 		);
 	}
+
+	if ( bp_is_group() && bp_nouveau_single_item_supports_priority_nav( 'group' ) ) {
+		wp_enqueue_script( 'bp-nouveau-priority-menu' );
+		wp_enqueue_style( 'bp-nouveau-priority-nav' );
+	}
 }
 
 /**

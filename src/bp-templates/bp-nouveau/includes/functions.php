@@ -1683,3 +1683,53 @@ function bp_nouveau_get_theme_layout_widths() {
 	 */
 	return apply_filters( 'bp_nouveau_get_theme_layout_widths', $layout_widths );
 }
+
+/**
+ * Get the current displayed object for the priority nav.
+ *
+ * @since 12.0.0
+ *
+ * @return string The current displayed object (`member` or `group`).
+ */
+function bp_nouveau_get_current_priority_nav_object() {
+	$object = '';
+
+	if ( bp_is_user() ) {
+		$object = 'member';
+	} elseif ( bp_is_group() ) {
+		$object = 'group';
+	}
+
+	return $object;
+}
+
+/**
+ * Checks whether a single item supports priority nav.
+ *
+ * @since 12.0.0
+ *
+ * @param string $single_item The single item object name. Possible valuers are 'member' or 'group'.
+ * @return bool True if the single item supports priority nav. False otherwise.
+ */
+function bp_nouveau_single_item_supports_priority_nav( $single_item = '' ) {
+	$retval  = false;
+	$feature = bp_get_theme_compat_feature( 'priority_item_nav' );
+
+	if ( isset( $feature->single_items ) && is_array( $feature->single_items ) ) {
+		$retval = ! empty( $feature->single_items );
+
+		if ( $single_item ) {
+			$retval = in_array( $single_item, $feature->single_items, true );
+		}
+	}
+
+	/**
+	 * Use this filter to disallow/allow the Priority nav support.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param bool   $retval      True if the single item supports priority nav. False otherwise.
+	 * @param string $single_item The single item object name. Possible valuers are 'member' or 'group'.
+	 */
+	return apply_filters( 'bp_nouveau_single_item_supports_priority_nav', $retval, $single_item );
+}

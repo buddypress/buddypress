@@ -167,16 +167,29 @@ class BP_Nouveau extends BP_Theme_Compat {
 			$width = (int) wp_get_global_settings( array( 'layout', 'contentSize' ) );
 		}
 
-		bp_set_theme_compat_feature( $this->id, array(
-			'name'     => 'cover_image',
-			'settings' => array(
-				'components'   => array( 'members', 'groups' ),
-				'width'        => $width,
-				'height'       => $top_offset + round( $avatar_height / 2 ),
-				'callback'     => 'bp_nouveau_theme_cover_image',
-				'theme_handle' => 'bp-nouveau',
-			),
-		) );
+		bp_set_theme_compat_feature(
+			$this->id,
+			array(
+				'name'     => 'cover_image',
+				'settings' => array(
+					'components'   => array( 'members', 'groups' ),
+					'width'        => $width,
+					'height'       => $top_offset + round( $avatar_height / 2 ),
+					'callback'     => 'bp_nouveau_theme_cover_image',
+					'theme_handle' => 'bp-nouveau',
+				),
+			)
+		);
+
+		bp_set_theme_compat_feature(
+			$this->id,
+			array(
+				'name'     => 'priority_item_nav',
+				'settings' => array(
+					'single_items' => function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() ? array( 'member', 'group' ) : array(),
+				),
+			)
+		);
 	}
 
 	/**

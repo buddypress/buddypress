@@ -53,7 +53,7 @@ function bp_nouveau_members_enqueue_scripts() {
 		wp_enqueue_script( 'bp-nouveau-member-invites' );
 	}
 
-	if ( bp_is_user() ) {
+	if ( bp_is_user() && bp_nouveau_single_item_supports_priority_nav( 'member' ) ) {
 		wp_enqueue_script( 'bp-nouveau-priority-menu' );
 		wp_enqueue_style( 'bp-nouveau-priority-nav' );
 	}

@@ -1572,18 +1572,21 @@ function bp_nouveau_single_item_nav_classes() {
 		$classes    = array( 'main-navs', 'no-ajax', 'bp-navs', 'single-screen-navs' );
 		$component  = bp_current_component();
 		$bp_nouveau = bp_nouveau();
-
-		if ( $bp_nouveau->is_block_theme ) {
-			$classes[] = 'bp-priority-nav';
-		}
+		$object     = '';
 
 		// @todo wasn't able to get $customizer_option to pass a string to get_settings
 		// this is a temp workaround but differs from earlier dir approach- bad!
 		if ( bp_is_group() ) {
+			$object   = 'group';
 			$nav_tabs = (int) bp_nouveau_get_temporary_setting( 'group_nav_tabs', bp_nouveau_get_appearance_settings( 'group_nav_tabs' ) );
 
 		} elseif ( bp_is_user() ) {
+			$object   = 'member';
 			$nav_tabs = (int) bp_nouveau_get_temporary_setting( 'user_nav_tabs', bp_nouveau_get_appearance_settings( 'user_nav_tabs' ) );
+		}
+
+		if ( $object && bp_nouveau_single_item_supports_priority_nav( $object ) ) {
+			$classes[] = 'bp-priority-nav';
 		}
 
 		if ( bp_is_group() && 1 === $nav_tabs) {
@@ -1651,14 +1654,16 @@ function bp_nouveau_single_item_subnav_classes() {
 
 		// Set user or group class string
 		if ( bp_is_user() ) {
+			$object    = 'member';
 			$classes[] = 'user-subnav';
 		}
 
 		if ( bp_is_group() ) {
+			$object    = 'group';
 			$classes[] = 'group-subnav';
 		}
 
-		if ( bp_nouveau()->is_block_theme ) {
+		if ( $object && bp_nouveau_single_item_supports_priority_nav( $object ) ) {
 			$classes[] = 'bp-priority-nav';
 		}
 
@@ -2743,4 +2748,54 @@ function bp_nouveau_is_feed_enable() {
 	}
 
 	return $retval;
+}
+
+/**
+ * Displays an ellipsis to show hidden primary nav items.
+ *
+ * @since 12.0.0
+ */
+function bp_nouveau_hidden_primary_nav() {
+	$object = bp_nouveau_get_current_priority_nav_object();
+
+	if ( ! $object || ! bp_nouveau_single_item_supports_priority_nav( $object ) ) {
+		return '';
+	}
+?>
+	<div class="primary-nav-more">
+		<ul class="bp-priority-object-nav-nav-items">
+			<li class="primary-nav-item primary-nav-item-has-children">
+				<button class="submenu-expand bp-priority-nav-more-toggle is-empty" tabindex="-1" aria-label="<?php esc_attr_e( 'More', 'buddypress' ); ?>" aria-haspopup="true" aria-expanded="false">
+					<span class="dashicons dashicons-ellipsis"></span>
+				</button>
+				<ul class="sub-menu hidden-items"></ul>
+			</li>
+		</ul>
+	</div>
+<?php
+}
+
+/**
+ * Displays an ellipsis to show hidden secondary nav items.
+ *
+ * @since 12.0.0
+ */
+function bp_nouveau_hidden_secondary_nav() {
+	$object = bp_nouveau_get_current_priority_nav_object();
+
+	if ( ! $object || ! bp_nouveau_single_item_supports_priority_nav( $object ) ) {
+		return '';
+	}
+?>
+	<div class="secondary-nav-more">
+		<ul class="bp-priority-subnav-nav-items">
+			<li class="secondary-nav-item secondary-nav-item-has-children">
+				<button class="submenu-expand bp-priority-nav-more-toggle is-empty" tabindex="-1" aria-label="<?php esc_attr_e( 'More', 'buddypress' ); ?>" aria-haspopup="true" aria-expanded="false">
+					<span class="dashicons dashicons-ellipsis"></span>
+				</button>
+				<ul class="sub-menu hidden-items"></ul>
+			</li>
+		</ul>
+	</div>
+<?php
 }
