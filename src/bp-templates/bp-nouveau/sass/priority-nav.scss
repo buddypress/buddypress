@@ -60,7 +60,7 @@
 
 								span {
 									position: relative;
-									color: var(--wp--preset--color--contrast);
+									color: #555;
 									display: inline-block;
 									padding-top: 1px;
 								}
@@ -70,8 +70,8 @@
 				}
 
 				.sub-menu {
-					background-color: var(--wp--preset--color--base);
-					color: var(--wp--preset--color--base);
+					background-color: #fff;
+					color: #fff;
 					list-style: none;
 					padding-left: 0;
 					position: absolute;
@@ -99,8 +99,8 @@
 							opacity: 1;
 							position: absolute;
 							animation: fade_in 0.1s forwards;
-							border: 1px solid var(--wp--preset--color--contrast);
-							border-top-color: 1px solid var(--wp--preset--color--base);
+							border: 1px solid #eee;
+							border-top-color: 1px solid #fff;
 
 							a {
 								display: block;

@@ -62,15 +62,15 @@
 #buddypress.buddypress-wrap .bp-navs .secondary-nav-more ul > li.primary-nav-item-has-children .submenu-expand.bp-priority-nav-more-toggle span,
 #buddypress.buddypress-wrap .bp-navs .secondary-nav-more ul > li.secondary-nav-item-has-children .submenu-expand.bp-priority-nav-more-toggle span {
 	position: relative;
-	color: var(--wp--preset--color--contrast);
+	color: #555;
 	display: inline-block;
 	padding-top: 1px;
 }
 
 #buddypress.buddypress-wrap .bp-navs .primary-nav-more .sub-menu,
 #buddypress.buddypress-wrap .bp-navs .secondary-nav-more .sub-menu {
-	background-color: var(--wp--preset--color--base);
-	color: var(--wp--preset--color--base);
+	background-color: #fff;
+	color: #fff;
 	list-style: none;
 	padding-left: 0;
 	position: absolute;
@@ -97,8 +97,8 @@
 	opacity: 1;
 	position: absolute;
 	animation: fade_in 0.1s forwards;
-	border: 1px solid var(--wp--preset--color--contrast);
-	border-top-color: 1px solid var(--wp--preset--color--base);
+	border: 1px solid #eee;
+	border-top-color: 1px solid #fff;
 }
 
 #buddypress.buddypress-wrap .bp-navs .primary-nav-more .primary-nav-item-has-children:hover .sub-menu.hidden-items a,

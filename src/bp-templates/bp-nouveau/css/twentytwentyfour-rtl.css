@@ -132,6 +132,26 @@ Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
 	background-color: var(--wp--preset--color--base);
 }
 
+#buddypress.twentytwentyfour .bp-navs .primary-nav-more ul li.primary-nav-item-has-children .submenu-expand.bp-priority-nav-more-toggle span, #buddypress.twentytwentyfour .bp-navs .primary-nav-more ul li.secondary-nav-item-has-children .submenu-expand.bp-priority-nav-more-toggle span,
+#buddypress.twentytwentyfour .bp-navs .secondary-nav-more ul li.primary-nav-item-has-children .submenu-expand.bp-priority-nav-more-toggle span,
+#buddypress.twentytwentyfour .bp-navs .secondary-nav-more ul li.secondary-nav-item-has-children .submenu-expand.bp-priority-nav-more-toggle span {
+	color: var(--wp--preset--color--contrast);
+}
+
+#buddypress.twentytwentyfour .bp-navs .primary-nav-more ul li.primary-nav-item-has-children .sub-menu, #buddypress.twentytwentyfour .bp-navs .primary-nav-more ul li.secondary-nav-item-has-children .sub-menu,
+#buddypress.twentytwentyfour .bp-navs .secondary-nav-more ul li.primary-nav-item-has-children .sub-menu,
+#buddypress.twentytwentyfour .bp-navs .secondary-nav-more ul li.secondary-nav-item-has-children .sub-menu {
+	background-color: var(--wp--preset--color--base);
+	color: var(--wp--preset--color--base);
+}
+
+#buddypress.twentytwentyfour .bp-navs .primary-nav-more ul li.primary-nav-item-has-children:hover .sub-menu.hidden-items, #buddypress.twentytwentyfour .bp-navs .primary-nav-more ul li.secondary-nav-item-has-children:hover .sub-menu.hidden-items,
+#buddypress.twentytwentyfour .bp-navs .secondary-nav-more ul li.primary-nav-item-has-children:hover .sub-menu.hidden-items,
+#buddypress.twentytwentyfour .bp-navs .secondary-nav-more ul li.secondary-nav-item-has-children:hover .sub-menu.hidden-items {
+	border: 1px solid var(--wp--preset--color--contrast);
+	border-top-color: var(--wp--preset--color--base);
+}
+
 #buddypress.twentytwentyfour #group-invites-container .bp-invites-nav {
 	border-bottom: none;
 }
