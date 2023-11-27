@@ -1,0 +1,2565 @@
+//
+//
+// Twenty Twenty-Four companion stylesheet source.
+//
+//
+// This file compiles to twentytwentyfour.css.
+
+// Import our partials mixins & variables files
+
+@import "../common-styles/_bp-variables";
+@import "../common-styles/_bp-mixins";
+
+/*--------------------------------------------------------------
+Hello, this is the BP Nouveau's Twenty Twenty-Four companion stylesheet.
+
+@since 12.0.0
+@version 12.0.0
+
+----------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+1.0 - BP Generic, Typography & Imagery
+
+2.0 - Navigation - General
+	2.1 - Navs - Object Nav / Sub Nav (item-list-tabs)
+	2.2 - Pagination
+
+3.0 - BP Lists / Loops Generic & filters
+	3.1 - Activity Loop
+		3.1.1 Whats New Activity
+		3.1.2 - Activity Entries
+		3.1.3 - Activity Comments
+	3.2 - Blogs Loop
+	3.3 - Groups Loop
+	3.4 - Members Loop
+
+4.0 - Directories - Members, Groups, Blogs, Register, Activation
+	4.1 - Groups Creation Steps Screens
+5.0 - Single Item screens: User Account & Single Group Screens
+	5.1 - Item Headers: Global
+		5.1.1 - item-header: Groups
+		5.1.2 - item-header: User Accounts
+	5.2 - Item Body: Global
+		5.2.1 - item-body: Groups
+			5.2.1.1 - Management settings screens
+			5.2.1.2 - Group Members list
+			5.2.1.3 - Group Invite list
+			5.2.1.4 - Group Activity
+		5.2.2 - item-body: User Accounts
+			5.2.2.1 - classes, pag, filters
+			5.2.2.2 - Extended Profiles
+			5.2.2.3 - Groups
+			5.2.2.4 - friends
+			5.2.2.5 - Private Messaging Threads
+			5.2.2.6 - Settings
+			5.2.2.7 - Notifications
+
+6.0 - Forms  -  General
+	6.1 - Dir Search
+	6.2 - Registration
+
+7.0 - Tables -  General
+	7.0.1 - Group - Manage Members
+
+8.0 - Classes - Messages, Ajax, Widgets, Buttons, Tooltips
+
+9.0 - Layout Classes.
+--------------------------------------------------------------*/
+
+/**
+*-------------------------------------------------------------------------------
+* @section 1.0 - BP Generic, Typography & Imagery
+*-------------------------------------------------------------------------------
+*/
+
+/**
+*-------------------------------------------------------------------------------
+* @section 2.0 - Navigation - General
+*-------------------------------------------------------------------------------
+*/
+
+/**
+*----------------------------------------------------------
+* @section 2.1 - Navs Object Nav / Sub Nav (bp-list)
+*
+* The main navigational elements for all BP screens
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	img.avatar {
+		border-radius: 90px;
+	}
+
+	&:not(.bp-single-vert-nav) {
+
+		@include medium-max {
+
+			.bp-navs {
+
+				li {
+					background: transparent;
+				}
+			}
+		}
+	}
+
+	.bp-navs {
+
+		li {
+
+			.count {
+				background-color: var(--wp--preset--color--contrast);
+				border: 1px solid var(--wp--preset--color--contrast);
+				border-radius: 50%;
+				color: var(--wp--preset--color--base);
+				padding: 1px 5px;
+			}
+		}
+
+		&:not(.tabbed-links) {
+
+			li.selected,
+			li.current,
+			li a:hover {
+
+				a {
+
+					.count {
+						background-color: var(--wp--preset--color--base);
+						border: 1px solid var(--wp--preset--color--base);
+						color: var(--wp--preset--color--contrast-2);
+					}
+				}
+			}
+		}
+
+		li:not(.current):not(.selected) {
+
+			a:focus,
+			a:hover {
+				background: var(--wp--preset--color--contrast-2);
+				color: var(--wp--preset--color--base);
+			}
+		}
+
+		li.selected,
+		li.current {
+
+			a,
+			a:focus,
+			a:hover {
+				color: var(--wp--preset--color--base);
+				background-color: var(--wp--preset--color--contrast);
+			}
+		}
+
+		&.tabbed-links ul,
+		&.tabbed-links ol {
+			border-bottom: 1px solid var(--wp--preset--color--contrast);
+
+			li.current {
+				border-color: var(--wp--preset--color--contrast) var(--wp--preset--color--contrast) var(--wp--preset--color--base);
+				border-style: solid;
+				border-top-left-radius: 4px;
+				border-top-right-radius: 4px;
+
+				a {
+					color: var(--wp--preset--color--contrast);
+					background-color: var(--wp--preset--color--base);
+				}
+			}
+		}
+
+		.primary-nav-more,
+		.secondary-nav-more {
+
+			ul {
+
+				li {
+
+					&.primary-nav-item-has-children,
+					&.secondary-nav-item-has-children {
+
+						.submenu-expand.bp-priority-nav-more-toggle {
+
+							span {
+								color: var(--wp--preset--color--contrast);
+							}
+						}
+
+						.sub-menu {
+							background-color: var(--wp--preset--color--base);
+							color: var(--wp--preset--color--base);
+						}
+
+						&:hover {
+
+							.sub-menu.hidden-items {
+								border: 1px solid var(--wp--preset--color--contrast);
+								border-top-color: var(--wp--preset--color--base);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	#group-invites-container {
+
+		.bp-invites-nav {
+			border-bottom: none;
+
+			li {
+
+				.count {
+					margin-left: 10px;
+					border-radius: 10%;
+					vertical-align: 10%;
+				}
+			}
+		}
+
+		#send-invites-editor {
+
+			ul {
+				padding-left: 0;
+			}
+		}
+	}
+
+	&.bp-dir-hori-nav:not(.bp-vertical-navs) {
+
+		nav:not(.tabbed-links) {
+			border: none;
+			border-bottom: 1px solid var(--wp--preset--color--contrast);
+			box-shadow: none;
+		}
+	}
+}
+
+#buddypress.twentytwentyfour {
+
+	.subnav-filters {
+
+		> ul {
+			padding-left: 0;
+			margin-block-start: 0;
+			margin-block-end: 0;
+		}
+	}
+}
+
+/**
+*----------------------------------------------------------
+* @section 2.2 - Pagination
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.bp-pagination {
+		color: var(--wp--preset--color--contrast-2);
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 3.0 - BP Lists / Loops Generic
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.bp-list {
+
+		border: none;
+
+		> li {
+			border-bottom: none;
+		}
+	}
+
+	.bp-list {
+
+		li {
+
+			.list-title a {
+				text-decoration: underline;
+
+				&:hover {
+					text-decoration-color: var(--wp--preset--color--contrast-2);
+				}
+			}
+
+			&:not(.mini) {
+
+				.item-avatar {
+
+					img.avatar {
+						display: block;
+						margin: 0 auto;
+						margin-bottom: 1em;
+						max-width: 80%;
+					}
+
+					@include medium-up() {
+						max-width: 128px;
+						max-height: 128px;
+						margin: auto;
+						margin-right: 5%;
+					}
+				}
+
+				@media screen and (min-width: 46.8em) {
+
+					.item-block {
+						width: 100%;
+						clear: left;
+					}
+				}
+			}
+
+			&.mini {
+
+				.item-avatar {
+
+					img.avatar {
+						display: block;
+						margin: 0 auto;
+						max-width: 50px;
+						max-height: 50px;
+						margin-bottom: 1em;
+					}
+
+					@include medium-up() {
+						width: 5%;
+						margin: auto;
+						margin-right: 2%;
+					}
+				}
+
+				.activity-meta {
+
+					&.action {
+						clear: none;
+					}
+				}
+			}
+
+			.meta,
+			.item-meta {
+				color: var(--wp--preset--color--contrast-2);
+			}
+		}
+	}
+}
+
+/**
+*----------------------------------------------------------
+* @section 3.1 - Activity Loop
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.activity-list.bp-list {
+		background: inherit;
+		border: none;
+		padding: 0;
+
+		.activity-item {
+			background: inherit;
+			border: none;
+			border-radius: 0;
+			border-top: none;
+			box-shadow: none;
+
+			&:not(:first-child) {
+				margin-top: 1.5em;
+			}
+
+			.activity-header {
+
+				.time-since,
+				.time-since:hover {
+					color: var(--wp--preset--color--contrast-2);
+				}
+			}
+		}
+	}
+}
+
+/**
+*-----------------------------------------------------
+* @section 3.1.1 - Activity Whats New
+*-----------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.activity-update-form {
+		border: none;
+		box-shadow: none;
+
+		#whats-new-textarea {
+
+			textarea {
+				border: solid 1px var(--wp--preset--color--contrast-2);
+				border-radius: 0;
+
+				&:focus {
+					box-shadow: none;
+				}
+			}
+		}
+
+		#whats-new-post-in-box {
+
+			select,
+			#activity-autocomplete {
+				border: solid 1px var(--wp--preset--color--contrast-2);
+				padding: 0.5em;
+				font-size: var(--wp--preset--font-size--medium);
+			}
+
+			select {
+				width: fit-content;
+			}
+
+			#whats-new-post-in-box-items {
+
+				.bp-remove-item {
+					border: solid 1px var(--wp--preset--color--vivid-red);
+					color: var(--wp--preset--color--base);
+					background: var(--wp--preset--color--vivid-red);
+					padding-top: 0.2rem;
+					padding-right: 0.4rem;
+					padding-bottom: 0.2rem;
+					padding-left: 0.4rem;
+
+					&:hover {
+						color: var(--wp--preset--color--vivid-red);
+						background: var(--wp--preset--color--base);
+					}
+				}
+
+				li {
+					margin-bottom: 0;
+
+					#activity-autocomplete {
+						width: 98%;
+					}
+
+					&.bp-activity-object {
+						padding: 0.5em;
+						border-radius: 0;
+						border-style: solid;
+						border-width: 0;
+						border-left-width: 1px;
+						border-right-width: 1px;
+
+						&:not(.selected) {
+							background: var(--wp--preset--color--base);
+							color: var(--wp--preset--color--contrast);
+							border-color: var(--wp--preset--color--contrast-2);
+
+							&:last-child {
+								border-bottom: solid 1px;
+							}
+
+							&:hover {
+								background: var(--wp--preset--color--accent);
+							}
+						}
+
+						&.selected {
+							border: none;
+							background-color: transparent;
+						}
+					}
+				}
+			}
+		}
+
+		#whats-new-submit {
+			margin-bottom: calc(32px + var(--wp--style--block-gap));
+		}
+	}
+
+	#activity-rss-feed {
+		line-height: 40px;
+	}
+}
+
+/**
+*-----------------------------------------------------
+* @section 3.1.2 - Activity Entries
+*-----------------------------------------------------
+*/
+
+body {
+
+	.wp-site-blocks {
+
+		#buddypress.twentytwentyfour {
+
+			.activity-list {
+
+				.load-more,
+				.load-newest {
+					background-color: var(--wp--preset--color--contrast);
+					color: var(--wp--preset--color--base);
+					border: 1px solid var(--wp--preset--color--contrast);
+
+					a {
+						color: var(--wp--preset--color--base);
+
+						&:focus {
+							background: var(--wp--preset--color--contrast-2);
+						}
+					}
+
+					&:hover,
+					&:focus {
+						color: var(--wp--preset--color--base);
+						background: var(--wp--preset--color--contrast-2);
+
+						a {
+							color: var(--wp--preset--color--base);
+							background: var(--wp--preset--color--contrast-2);
+						}
+					}
+				}
+
+				.activity-content {
+
+					.activity-header,
+					.comment-header {
+						color: var(--wp--preset--color--contrast-2);
+
+						a {
+							font-weight: 600;
+
+							&:hover {
+								text-decoration: underline;
+							}
+						}
+					}
+
+					blockquote {
+						background: inherit;
+						border: 1px solid var(--wp--preset--color--contrast);
+					}
+
+					.activity-read-more {
+						margin-left: 0;
+						white-space: inherit;
+
+						a {
+							background: none;
+							border: none;
+							font-family: inherit;
+							font-size: inherit;
+							font-weight: 400;
+							color: var(--wp--preset--color--contrast);
+							text-decoration: underline;
+						}
+					}
+
+					.activity-meta.action {
+						background: inherit;
+						margin-left: calc(128px + 5%);
+
+						.icons:before {
+							height: auto;
+							width: auto;
+							display: inline;
+						}
+
+						.button:before {
+							content: "";
+						}
+
+						.button {
+							background-color: var(--wp--preset--color--base-2);
+							padding: 0.7em 0.7em 0.5em;
+
+							.bp-screen-reader-text {
+								border: 0;
+								clip: inherit;
+								height: auto;
+								margin: auto;
+								overflow: auto;
+								position: inherit;
+								width: auto;
+								font-size: var(--wp--preset--font-size--small);
+								font-weight: 600;
+							}
+
+							span:not(.bp-screen-reader-text) {
+								background-color: var(--wp--preset--color--contrast-2);
+								color: var(--wp--preset--color--base);
+								padding: 0.1em 0.3em;
+								border-radius: 50%;
+								font-size: var(--wp--preset--font-size--small);
+								vertical-align: text-bottom;
+							}
+
+							&:not(.delete-activity) {
+								color: var(--wp--preset--color--contrast-2);
+							}
+
+							&:hover {
+								background-color: var(--wp--preset--color--contrast-2);
+								color: var(--wp--preset--color--base);
+
+								span {
+									color: var(--wp--preset--color--base);
+								}
+
+								span:not(.bp-screen-reader-text) {
+									background-color: var(--wp--preset--color--base);
+									color: var(--wp--preset--color--contrast-2);
+								}
+							}
+
+							&.delete-activity {
+								color: var(--wp--preset--color--vivid-red);
+								border: solid 1px var(--wp--preset--color--vivid-red);
+
+								span.bp-screen-reader-text {
+									color: var(--wp--preset--color--vivid-red);
+								}
+
+								&:hover {
+									background-color: var(--wp--preset--color--vivid-red);
+									color: var(--wp--preset--color--base);
+
+									span.bp-screen-reader-text {
+										color: var(--wp--preset--color--base);
+									}
+								}
+							}
+						}
+					}
+
+					.bp-group-preview-cover,
+					.bp-member-preview-cover {
+						background: none;
+
+						img {
+							border-radius: var(--wp--preset--spacing--20);
+						}
+					}
+				}
+			}
+		}
+
+		#buddypress.twentytwentyfour:not(.alignwide) {
+
+			.activity-list {
+
+				.activity-avatar {
+					margin-left: 0;
+					margin-right: 0.3em;
+					width: auto;
+
+					img.avatar {
+						max-width: 25px;
+						max-height: 25px;
+						margin-bottom: 0;
+					}
+				}
+
+				.activity-content {
+
+					.activity-meta.action {
+						margin-left: 0;
+					}
+				}
+			}
+		}
+	}
+
+	&.activity-permalink {
+
+		#buddypress.twentytwentyfour {
+
+			.activity-list {
+				border: none;
+
+				.activity-item {
+					border: none;
+
+					.activity-avatar {
+						left: 0;
+						top: 10px;
+						margin-right: 0.3em;
+
+						img.avatar {
+							box-shadow: none;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/**
+*-----------------------------------------------------
+* @section 3.1.3 - Activity Comments
+*-----------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.bp-list {
+
+		li {
+
+			.activity-comments {
+				margin: 0 0.33rem;
+
+				.show-all {
+
+					button {
+						text-decoration: none;
+
+						.icon {
+							display: none;
+						}
+					}
+				}
+
+				.acomment-avatar {
+					width: auto;
+					margin-right: 0;
+
+					img.avatar {
+						max-width: none;
+					}
+				}
+
+				.acomment-meta {
+					color: var(--wp--preset--color--contrast-2);
+
+					a {
+						font-weight: 600;
+
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+				}
+
+				.activity-meta.action {
+
+					.generic-button a {
+						color: var(--wp--preset--color--contrast-2);
+						display: inline-block;
+						font-size: var(--wp--preset--font-size--small);
+						border-color: var(--wp--preset--color--contrast-2);
+						border: none;
+						border-bottom: solid 1px;
+						padding: 0.2rem;
+						background-color: transparent;
+						border-radius: 0;
+
+						&.bp-primary-action {
+
+							&:hover {
+								background-color: var(--wp--preset--color--contrast-2);
+								color: var(--wp--preset--color--base);
+							}
+						}
+
+						&.bp-secondary-action {
+
+							&.acomment-delete {
+								color: var(--wp--preset--color--vivid-red);
+								border-color: var(--wp--preset--color--vivid-red);
+
+								&:hover {
+									background-color: var(--wp--preset--color--vivid-red);
+									color: var(--wp--preset--color--base);
+								}
+							}
+						}
+					}
+				}
+
+				.acomment-content {
+					border-left: 1px solid var(--wp--preset--color--contrast-2);
+					margin: 15px 0 0 5%;
+				}
+
+				.ac-form {
+					margin: 0.33rem;
+					padding-top: 1rem;
+
+					.ac-reply-content {
+
+						.ac-textarea {
+
+							textarea {
+								width: 95%;
+								border-radius: 0;
+
+								&:focus {
+									box-shadow: none;
+								}
+							}
+						}
+
+						[type="submit"],
+						[type="button"] {
+							color: var(--wp--preset--color--contrast-2);
+							display: inline-block;
+							font-size: var(--wp--preset--font-size--small);
+						}
+
+						[type="submit"] {
+							color: var(--wp--preset--color--base);
+							background-color: var(--wp--preset--color--contrast);
+
+							&:hover {
+								background-color: var(--wp--preset--color--contrast-2);
+							}
+						}
+
+						[type="button"] {
+							background-color: var(--wp--preset--color--base-2);
+
+							&:hover {
+								color: var(--wp--preset--color--contrast);
+								background-color: var(--wp--preset--color--base);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/**
+*----------------------------------------------------------
+* @section 3.2 - Blogs Loop
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	&.buddypress-wrap {
+
+		.sites-type-navs {
+
+			.create-button {
+
+				a {
+					border-radius: 0;
+				}
+			}
+		}
+	}
+}
+
+/**
+*----------------------------------------------------------
+* @section 3.3 - Groups Loop
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	&.buddypress-wrap {
+
+		.groups-type-navs {
+
+			.create-button {
+
+				a {
+					border-radius: 0;
+				}
+			}
+		}
+	}
+
+	.groups-list { // ul
+
+		li {
+
+			.group-desc {
+				border: none;
+				padding: 1em 0;
+				margin: 0 auto 15px;
+				clear: both;
+
+				p {
+					color: var(--wp--preset--color--contrast-2);
+					border: none;
+					border-left: 2px solid var(--wp--preset--color--contrast);
+					padding-left: 0.5rem;
+				}
+			}
+		}
+	}
+
+	#groups-dir-list {
+
+		.current-group-type {
+			text-align: center;
+		}
+	}
+}
+
+
+/**
+*----------------------------------------------------------
+* @section 3.4 - Members Loop
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	body:not(.logged-in) & {
+
+		.members-list {
+
+			.user-update {
+				width: inherit;
+			}
+		}
+	}
+
+	&.buddypress-wrap {
+
+		.members-list { // ul
+
+			li {
+
+				.user-update {
+					background: var(--wp--preset-color--base-2);
+					color: var(--wp--preset--color--contrast-2);
+					padding: 1em 0;
+					margin: 0 auto 15px;
+					border: none;
+
+					p.update {
+						border-left: solid 2px var(--wp--preset--color--contrast-2);
+						padding-left: 0.5rem;
+
+						.activity-read-more a {
+							display: inline-block;
+						}
+					}
+
+					@media screen and (min-width: 46.8em) {
+
+						clear: both;
+						overflow: inherit;
+						width: auto;
+					}
+				}
+			}
+		}
+	}
+
+	#members-dir-list {
+
+		.current-member-type {
+			text-align: center;
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 4.0 - Directories
+*-------------------------------------------------------------------------------
+*/
+
+// Nothing special for Registration index screen (directory) so far.
+
+/**
+*----------------------------------------------------------
+* @section 4.1 - Groups Creation Steps
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	#create-group-form {
+
+		#header-cover-image {
+			border-radius: var(--wp--preset--spacing--20);
+		}
+	}
+
+	#group-create-body {
+
+		nav.group-create-links {
+
+			&:not(.tabbed-links) {
+				background: transparent;
+				clear: both;
+				overflow: hidden;
+				border: none;
+				border-bottom: 1px solid var(--wp--preset--color--contrast);
+				box-shadow: none;
+
+				ol {
+					padding-inline-start: 0;
+
+					li {
+
+						a,
+						span {
+							padding: 0.5em calc(0.5em + 2px);
+							display: block;
+						}
+					}
+				}
+			}
+		}
+
+		.creation-step-name {
+			text-align: left;
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 5.0 - Single Item screens: Groups, Users
+*-------------------------------------------------------------------------------
+*/
+
+body.single-item,
+body.bp-user {
+
+	#buddypress.twentytwentyfour {
+
+		.item-body {
+
+			h2.bp-screen-title,
+			h2.screen-heading {
+				border: 0;
+				clip: rect(0 0 0 0);
+				height: 1px;
+				margin: -1px;
+				overflow: hidden;
+				padding: 0;
+				position: absolute;
+				width: 1px;
+				word-wrap: normal !important;
+			}
+		}
+	}
+}
+
+/**
+*-----------------------------------------------------------
+* @subsection 5.1 - Item Header Global
+*-----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.single-headers {
+
+		#header-cover-image {
+			border-radius: var(--wp--preset--spacing--20);
+		}
+
+		#item-header-cover-image {
+
+			h2 {
+				font-weight: 900;
+			}
+		}
+
+		.group-status,
+		.item-meta,
+		.bp-group-type-list,
+		.bp-member-type-list {
+			color: var(--wp--preset--color--contrast-2);
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+/**
+*-----------------------------------------------------
+* @subsection 5.1.1 - item-header Groups
+*
+* Group Specific Item Header
+*-----------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	#item-header {
+
+		&.groups-header {
+
+			#item-header-cover-image {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-evenly;
+
+				#item-header-content {
+					width: 40%;
+
+					p {
+						display: block;
+						margin-block-start: 0;
+						margin-block-end: 0;
+
+						&.bp-group-type-list {
+
+							strong {
+								display: block;
+							}
+						}
+					}
+				}
+			}
+
+			.desc-wrap {
+				background: var(--wp--preset--color--base);
+				border: 1px solid var(--wp--preset--color--contrast);
+
+				.group-description {
+					background: none;
+					box-shadow: none;
+				}
+			}
+		}
+	}
+}
+
+/**
+*-----------------------------------------------------
+* @subsection 5.1.2 - Item Header User Accounts
+*
+* User Accounts Specific Item Header
+*-----------------------------------------------------
+*/
+
+// Nothing specific for the Single User specific header rules so far.
+
+/**
+*-----------------------------------------------------------
+* @subsection 5.2 - Item Body: Global
+*-----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.item-body {
+
+		h2.screen-heading,
+		h2.creation-step-name {
+			font-size: var(--wp--custom--typography--font-size--huge);
+		}
+
+		h3.screen-heading,
+		h3.creation-step-name {
+			font-size: var(--wp--preset--font-size--large);
+		}
+
+		h4.screen-heading,
+		h4.creation-step-name {
+			font-size: var(--wp--preset--font-size--medium);
+		}
+
+		.bp-avatar {
+
+			#avatar-crop-pane {
+				margin-bottom: 1em;
+			}
+		}
+
+		.bp-avatar-nav {
+
+			ul.avatar-nav-items {
+				border-bottom: 1px solid var(--wp--preset--color--contrast);
+
+				li {
+
+					&.current {
+						border: 1px solid var(--wp--preset--color--contrast);
+						border-bottom: 1px solid var(--wp--preset--color--base);
+					}
+				}
+			}
+		}
+
+		#drag-drop-area {
+			border: 4px dashed var(--wp--preset--color--contrast-2);
+
+			.drag-drop-info {
+				color: var(--wp--preset--color--contrast-2);
+			}
+
+			#bp-browse-button {
+				margin: 50px auto 0;
+			}
+		}
+
+		.drag-over {
+
+			#drag-drop-area {
+				border: 4px dashed var(--wp--preset--color--vivid-cyan-blue);
+			}
+		}
+
+		.bp-avatar-status,
+		.bp-cover-image-status,
+		.avatar-history-actions {
+
+			.warning,
+			.success {
+				background-color: var(--wp--preset--color--base-2);
+				border: none;
+				border-left-width: 4px;
+				border-left-style: solid;
+				color: var(--wp--preset--color--contrast);
+			}
+
+			.warning {
+				border-left-color: var(--wp--preset--color--luminous-vivid-orange);
+			}
+
+			.success {
+				border-left-color: var(--wp--preset--color--vivid-green-cyan);
+			}
+
+			.error {
+				border-left-color: var(--wp--preset--color--vivid-red);
+			}
+		}
+
+		.avatar-history-action.delete {
+			background-color: var(--wp--preset--color--vivid-red);
+			color: var(--wp--preset--color--base);
+			border: solid 1px var(--wp--preset--color--vivid-red);
+
+			&:hover {
+				background-color: var(--wp--preset--color--base);
+				color: var(--wp--preset--color--vivid-red);
+			}
+		}
+	}
+}
+
+/**
+*----------------------------------------------------
+* @subsection 5.2.1 - Item Body Groups
+*
+* Groups specific item body rules -  screens
+*----------------------------------------------------
+*/
+
+// Nothing specific for the single screen item-body so far.
+
+/**
+*-----------------------------------------
+* @subsection 5.2.1.1 - Management Settings Screens
+*-----------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.group-settings & {
+
+		.group-settings-selections {
+			margin-bottom: 1em;
+		}
+	}
+
+	#group-manage-members-ui {
+
+		.bp-pagination {
+			padding: 0.4em 0 0.4em 0.5em;
+		}
+
+		#group-members-search-form {
+
+			input[type="search"] {
+				font-size: 16px;
+
+				&:focus {
+					outline-offset: -7px;
+					outline: 2px solid var(--wp--preset--color--contrast-2);
+				}
+			}
+
+			button[type="submit"] {
+				border-width: 1px;
+				border-style: solid;
+				background-clip: border-box;
+
+				&:hover {
+					border-color: var(--wp--preset--color--contrast);
+				}
+			}
+		}
+
+		#group-roles-filter,
+		#group-members-list-table .group-member-edit {
+
+			label {
+				border: 0;
+				clip: rect(0 0 0 0);
+				height: 1px;
+				margin: -1px;
+				overflow: hidden;
+				padding: 0;
+				position: absolute;
+				width: 1px;
+				word-wrap: normal !important;
+			}
+		}
+
+		#group-members-role-filter,
+		#group-members-list-table .group-member-edit select {
+			font-size: 16px;
+			padding: 6px 25px 6px 10px;
+
+			&:focus {
+				outline-offset: 2px;
+				outline: 2px solid var(--wp--preset--color--contrast-2);
+			}
+		}
+	}
+
+	#delete-group-button {
+		border-color: var(--wp--preset--color--vivid-red);
+		color: var(--wp--preset--color--base);
+		background: var(--wp--preset--color--vivid-red);
+
+		&:hover {
+			color: var(--wp--preset--color--vivid-red);
+			background: var(--wp--preset--color--base);
+		}
+	}
+}
+
+/**
+*-----------------------------------------
+* @subsection 5.2.1.2 - Group Members List
+*-----------------------------------------
+*/
+
+/*
+*-----------------------------------------
+* @subsection 5.2.1.3 - Group Invites List
+*-----------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.bp-invites-content {
+
+		ul#members-list {
+			border-top: none;
+			display: flex;
+			flex-wrap: wrap;
+
+			li {
+				border: 1px solid var(--wp--preset--color--contrast);
+
+				&.selected {
+					box-shadow: none;
+					border-style: solid;
+				}
+
+				button.invite-button {
+					border: none;
+					background: none;
+					top: -5px;
+					right: 0;
+
+					.icons:before {
+						border-radius: 50%;
+						width: 32px;
+						height: 32px;
+						color: var(--wp--preset--color--contrast);
+						background: var(--wp--preset--color--base);
+					}
+
+					&:hover {
+
+						.icons:before {
+							color: var(--wp--preset--color--base);
+							background: var(--wp--preset--color--contrast);
+							width: 32px;
+							height: 32px;
+						}
+					}
+
+					&.group-remove-invite-button {
+
+						.icons:before {
+							color: var(--wp--preset--color--vivid-red);
+							background: var(--wp--preset--color--base);
+						}
+
+						&:hover {
+
+							.icons:before {
+								color: var(--wp--preset--color--base);
+								background: var(--wp--preset--color--vivid-red);
+							}
+						}
+					}
+				}
+
+				ul.group-inviters {
+					padding: 1rem 0;
+
+					li {
+						border: none;
+					}
+				}
+
+				p.status {
+					font-size: var(--wp--preset--font-size--small);
+				}
+			}
+		}
+	}
+}
+
+/*
+*-----------------------------------------
+* @subsection 5.2.1.4 - Group Activity
+*-----------------------------------------
+*/
+
+// Nothing particular for the Group's activity.
+
+/**
+*-----------------------------------------------------
+* @subsection 5.2.2 - Item Body User Accounts
+*
+* User Account specific item body rules
+*-----------------------------------------------------
+*/
+
+/**
+*--------------------------------------------
+* @subsection 5.2.2.1 - classes, pag, filters
+*--------------------------------------------
+*/
+
+/**
+*-------------------------------------------
+* @subsection 5.2.2.2 - Extended Profiles
+*-------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.profile {
+
+		table.profile-fields,
+		table.bp-tables-user {
+
+			tr.alt,
+			tr {
+
+				td {
+					background: transparent;
+
+					&.label {
+						border-right-color: var(--wp--preset--color--contrast);
+					}
+				}
+			}
+		}
+
+		&.edit {
+
+			.editfield {
+				background: var(--wp--preset--color--base);
+				border: 1px solid var(--wp--preset--color--contrast);
+
+				p.field-visibility-settings-toggle {
+					margin-top: 1em;
+				}
+
+				.field-visibility-settings {
+
+					.radio {
+
+						label {
+							margin-bottom: 0.5em;
+						}
+					}
+				}
+			}
+
+			.wp-editor-container {
+
+				.mce-toolbar {
+
+					button {
+						color: var(--wp--preset--color--contrast);
+						background: var(--wp--preset--color--base);
+						border-color: var(--wp--preset--color--contrast);
+					}
+				}
+			}
+
+			.button-tabs {
+
+				li {
+					border: solid 2px var(--wp--preset--color--contrast);
+					overflow: hidden;
+
+					a {
+						text-decoration: none;
+					}
+
+					&.current {
+						background-color: var(--wp--preset--color--contrast);
+						color: var(--wp--preset--color--base);
+
+						a {
+							color: var(--wp--preset--color--base);
+						}
+					}
+				}
+			}
+
+			.clear-value {
+				text-decoration: underline;
+			}
+
+			legend {
+				padding: 0;
+			}
+		}
+	}
+
+	.field-visibility-settings,
+	.field-visibility-settings-header {
+		color: var(--wp--preset--color--contrast-2);
+	}
+}
+
+/**
+*-------------------------------------------
+* @subsection 5.2.2.3 - Groups
+*-------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	#group-list {
+
+		&.invites {
+
+			h2.list-title {
+				float: none;
+			}
+
+			.accept {
+				margin-left: 0;
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------
+* @subsection 5.2.2.5 - Private Messaging
+*-------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	#user_messages_select_all {
+		vertical-align: -5px;
+	}
+
+	#user_messages_select_all:checked {
+		vertical-align: -3px;
+	}
+
+	#message-threads {
+		border-top: 1px solid var(--wp--preset--color--contrastt-3);
+
+		> li {
+			border-bottom: 1px solid var(--wp--preset--color--contrast-3);
+
+			&.selected {
+				border: 1px solid var(--wp--preset--color--contrast);
+			}
+
+			&.unread {
+				border-left: 8px solid var(--wp--preset--color--contrast-2);
+			}
+		}
+
+		li {
+
+			.thread-cb {
+				padding-left: 15px;
+			}
+
+			&.unread {
+
+				.thread-cb {
+					padding-left: 7px;
+				}
+			}
+
+			.thread-from,
+			.thread-to {
+
+				img.avatar {
+					width: 32px;
+					height: 32px;
+				}
+
+				.num-recipients {
+					color: var(--wp--preset--color--contrast);
+				}
+			}
+
+			.thread-content {
+
+				.excerpt {
+					color: var(--wp--preset--color--contrast);
+				}
+			}
+
+			.thread-date {
+
+				time {
+					color: var(--wp--preset--color--contrast);
+				}
+			}
+		}
+
+		li.selected {
+			background: transparent;
+			font-weight: bolder;
+			color: var(--wp--preset--color--contrast);
+
+			.thread-subject {
+
+				.subject {
+					color: var(--wp--preset--color--contrast);
+				}
+			}
+		}
+
+		li:not(.selected) {
+			color: var(--wp--preset--color--contrast-2);
+		}
+	}
+
+	.bp-messages-content {
+
+		#thread-preview h2:first-child,
+		#bp-message-thread-header h2:first-child {
+			background-color: var(--wp--preset--color--contrast);
+			color: var(--wp--preset--color--base);
+		}
+
+		#bp-message-thread-list {
+			border-top: none;
+		}
+
+		#thread-preview {
+			border-color: var(--wp--preset--color--contrast);
+
+			dd,
+			.participants-list {
+				padding-left: 0;
+			}
+
+			.preview-pane-header {
+				border-bottom-color: var(--wp--preset--color--contrast);
+			}
+
+			.preview-content {
+
+				.preview-message {
+					background: transparent;
+				}
+			}
+		}
+
+		.single-message-thread-header {
+
+			dd,
+			.participants-list {
+				padding-left: 0;
+			}
+		}
+
+		.thread-participants {
+			max-width: 60%;
+		}
+
+		.actions {
+			max-width: 40%;
+
+			button.bp-tooltip {
+				border: none;
+				background: none;
+
+				&.message-action-delete,
+				&.message-action-exit {
+
+					&:before {
+						width: 32px;
+						height: 32px;
+						color: var(--wp--preset--color--vivid-red);
+						background: var(--wp--preset--color--base);
+					}
+
+					&:hover {
+
+						&:before {
+							border-radius: 50%;
+							color: var(--wp--preset--color--base);
+							background: var(--wp--preset--color--vivid-red);
+						}
+					}
+				}
+			}
+
+			.message-action-unstar:before,
+			.message-action-star:before {
+				color: var(--wp--preset--color--contrast-2);
+			}
+		}
+
+		#bp-message-thread-list {
+
+			li {
+				padding-left: 0;
+
+				.message-metadata {
+					background: transparent;
+					border: 1px solid var(--wp--preset--color--contrast);
+					box-shadow: none;
+
+					* {
+						line-height: 1.6;
+						vertical-align: middle;
+					}
+
+					.user-link {
+						margin-top: 3px;
+						margin-bottom: 3px;
+
+						strong {
+							display: inline-block;
+							margin-top: 2px;
+						}
+
+						&:hover {
+
+							strong {
+								text-decoration: underline;
+							}
+						}
+					}
+
+					time {
+						color: var(--wp--preset--color--contrast-2);
+					}
+				}
+
+				.message-content {
+					background: transparent;
+					margin: 0;
+					width: 100%;
+					padding: 0.5em 0.2em;
+
+					* {
+						padding-left: 0.8em;
+						padding-right: 0.8em;
+					}
+				}
+
+				&:first-child {
+
+					.message-content {
+						border: 1px solid var(--wp--preset--color--contrast);
+						border-top: none;
+					}
+				}
+			}
+		}
+
+		#send-reply {
+
+			.avatar-box {
+
+				img.avatar {
+					display: inline-block;
+					vertical-align: -7px;
+				}
+			}
+		}
+
+		.wp-editor-container {
+
+			.mce-toolbar {
+
+				button {
+					border-radius: 0;
+					color: var(--wp--preset--color--contrast);
+					background: var(--wp--preset--color--base);
+					border-color: var(--wp--preset--color--contrast);
+				}
+			}
+		}
+
+		#bp-messages-reset {
+			border-width: 0;
+			font-size: inherit;
+		}
+
+		#send-to-input {
+			width: 97%;
+		}
+	}
+
+	.subnav-filters {
+
+		li.user-messages-search {
+			max-width: 40%;
+			margin-left: 0.5rem;
+		}
+
+		#bp-messages-prev-page:before,
+		#bp-messages-next-page:before {
+			content: none;
+		}
+
+		button#user_messages_search_submit {
+			background-color: var(--wp--preset--color--base);
+			color: var(--wp--preset--color--contrast-2);
+			border-color: var(--wp--preset--color--base);
+			border-left-color: var(--wp--preset--color--contrast);
+
+			&:hover {
+				background-color: var(--wp--preset--color--contrast);
+				color: var(--wp--preset--color--base);
+				border-color: var(--wp--preset--color--contrast);
+			}
+		}
+
+		.user-messages-bulk-actions {
+
+			.select-wrap {
+
+				select {
+					-webkit-appearance: initial;
+					line-height: 1.5;
+				}
+			}
+
+			.bulk-apply {
+				line-height: 1.5;
+				margin: 0 0 0 10px;
+				padding: 3px 5px;
+				background-color: var(--wp--preset--color--base);
+				color: var(--wp--preset--color--contrast-2);
+
+				&:hover {
+					background-color: var(--wp--preset--color--contrast);
+					color: var(--wp--preset--color--base);
+				}
+
+				span {
+					vertical-align: middle;
+				}
+			}
+		}
+	}
+}
+
+/**
+*------------------------------------------
+* @subsection 5.2.2.6 - Settings
+*------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	&.buddypress-wrap .bp-tables-user tr.alt td,
+	&.buddypress-wrap table.wp-profile-fields tr.alt td {
+		background: transparent;
+	}
+
+	.bp-tables-user.profile-settings {
+		border: solid 1px currentColor;
+		margin-bottom: 1em;
+
+		thead {
+
+			tr {
+				border: none;
+
+				th {
+					text-align: left;
+					border-bottom: solid 1px currentColor;
+				}
+			}
+		}
+	}
+
+	#delete-account-button {
+		border-color: var(--wp--preset--color--vivid-red);
+		color: var(--wp--preset--color--base);
+		background: var(--wp--preset--color--vivid-red);
+
+		&:hover {
+			color: var(--wp--preset--color--vivid-red);
+			background: var(--wp--preset--color--base);
+		}
+	}
+}
+
+/**
+*------------------------------------------
+* @subsection 5.2.2.7 - Notifications
+*------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.notifications-options-nav,
+	.invitations-options-nav {
+		margin-top: 1em;
+	}
+
+	.notifications-options-nav input#notification-bulk-manage,
+	.invitations-options-nav input#invitation-bulk-manage {
+		line-height: 1.2;
+	}
+
+	.bp-tables-user.notifications {
+
+		th {
+			text-align: left;
+		}
+
+		td.notification-actions {
+
+			a.delete {
+				color: var(--wp--preset--color--vivid-red);
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 6.0 - Forms  - General
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	fieldset {
+		padding-top: 0;
+		margin-top: 1em;
+
+		legend {
+			padding: 0 1em;
+			display: inline-block;
+		}
+	}
+
+	&.buddypress-wrap .select-wrap {
+		border: 1px solid var(--wp--preset--color--contrast);
+		background: var(--wp--preset--color--base);
+
+		select {
+			background: transparent;
+			width: 98%;
+			text-indent: 0;
+			line-height: 2;
+			padding: 3px 25px 3px 10px;
+		}
+
+		span.select-arrow {
+			background: transparent;
+
+			&:before {
+				font-family: dashicons;
+				content: "\f140";
+				color: var(--wp--preset--color--contrast-2);
+				vertical-align: -10%;
+			}
+		}
+
+		&:focus,
+		&:hover {
+
+			.select-arrow:before {
+				color: var(--wp--preset--color--contrast-2);
+			}
+		}
+	}
+
+	input[type="checkbox"],
+	input[type="radio"] {
+		width: 25px;
+		height: 25px;
+		vertical-align: top;
+	}
+
+	textarea,
+	input[type="text"],
+	input[type="color"],
+	input[type="date"],
+	input[type="datetime"],
+	input[type="datetime-local"],
+	input[type="email"],
+	input[type="month"],
+	input[type="number"],
+	input[type="range"],
+	input[type="tel"],
+	input[type="time"],
+	input[type="url"],
+	input[type="week"],
+	input[type="password"],
+	input[type="search"],
+	.groups-members-search input[type="text"] {
+		color: var(--wp--preset--color--contrast-2);
+		background: var(--wp--preset--color--base);
+	}
+
+	.subnav-filters {
+
+		input[type="search"] {
+			font-size: 16px;
+			background: transparent;
+		}
+	}
+
+	.bp-dir-search-form,
+	form#group-members-search,
+	form#group_invites_search_form {
+
+		button {
+			background-color: var(--wp--preset--color--base);
+			color: var(--wp--preset--color--contrast-2);
+			border-color: var(--wp--preset--color--base);
+			border-left-color: var(--wp--preset--color--contrast);
+
+			&:hover {
+				background-color: var(--wp--preset--color--contrast);
+				color: var(--wp--preset--color--base);
+				border-color: var(--wp--preset--color--contrast);
+			}
+		}
+	}
+
+	.standard-form {
+
+		p.description {
+			color: var(--wp--preset--color--contrast);
+			background-color: var(--wp--preset--color--base);
+		}
+
+		.datebox-selects {
+
+			label,
+			span.label {
+				display: inline;
+			}
+		}
+
+		input[type="text"]:not(.small),
+		input[type="email"]:not(.small),
+		textarea {
+			width: 97%;
+		}
+	}
+}
+
+body.bp-user.settings.general {
+
+	#buddypress.twentytwentyfour {
+
+		.wp-pwd {
+
+			&:not(.is-open) {
+				display: none;
+			}
+		}
+	}
+}
+
+
+/**
+*----------------------------------------------------------
+* @section 6.1 - Directory Search
+*
+* The Search form & controls in directory pages
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.bp-user & {
+
+		[data-bp-search] {
+
+			form {
+
+				#user_messages_search {
+					padding: 3px 10px;
+				}
+			}
+		}
+	}
+
+	form.bp-dir-search-form,
+	form.bp-messages-search-form,
+	form[data-bp-search].bp-invites-search-form,
+	form#group-members-search {
+		border: 1px solid var(--wp--preset--color--contrast);
+		background-color: var(--wp--preset--color--base);
+
+		button {
+			border-radius: 0;
+			padding: 5px 0.8em 6px;
+		}
+	}
+}
+
+/**
+*----------------------------------------------------------
+* @section 6.2 - Registration
+*----------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	&.extended-default-reg {
+
+		.register-page {
+
+			.default-profile {
+				min-width: 45%;
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 7.0 - Tables - General
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	.bp-tables-user,
+	table.wp-profile-fields,
+	table.forum {
+
+		tbody {
+
+			tr,
+			tr.alt {
+				background: transparent;
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @subsection 7.0.1 - Group - Manage Members
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	table#group-members-list-table {
+		border-collapse: collapse;
+		width: 100%;
+
+		a:hover,
+		a:focus {
+			text-decoration: underline;
+			text-decoration-style: solid;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 0.25ch;
+		}
+
+		.row-actions a {
+			font-size: 90%;
+		}
+
+		th,
+		td {
+			padding: 0.5em;
+			border: 1px solid var(--wp--preset--color--contrast);
+			word-break: break-all;
+
+			&.uname-column {
+				width: 60%;
+			}
+		}
+
+		td {
+
+			img {
+
+				&.avatar {
+					display: block;
+					height: calc(2.25 * 1rem);
+					min-height: inherit;
+					width: calc(2.25 * 1rem);
+				}
+
+				&.alignleft {
+					float: left;
+
+					@media screen and (min-width: 46.8em) {
+
+						margin-right: calc(2 * 1rem);
+					}
+				}
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 8.0 - Classes - Messages, Ajax, Widgets, Buttons
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	button,
+	a.button,
+	input[type="submit"],
+	input[type="button"],
+	input[type="reset"],
+	ul.button-nav:not(.button-tabs) li a,
+	.generic-button a,
+	.comment-reply-link,
+	a.bp-title-button,
+	.user-update .activity-read-more a {
+		background: var(--wp--preset--color--contrast);
+		border: 1px solid var(--wp--preset--color--contrast);
+		border-radius: 0.33rem;
+		color: var(--wp--preset--color--base);
+		padding-top: 0.4rem;
+		padding-right: 0.8rem;
+		padding-bottom: 0.4rem;
+		padding-left: 0.8rem;
+	}
+
+	input[type="reset"],
+	#bp-messages-reset {
+		background: var(--wp--preset--color--accent);
+		border: 1px solid var(--wp--preset--color--accent);
+		color: var(--wp--preset--color--contrast);
+	}
+
+	button:hover,
+	button:focus,
+	a.button:focus,
+	a.button:hover,
+	input[type="submit"]:focus,
+	input[type="submit"]:hover,
+	input[type="button"]:focus,
+	input[type="button"]:hover,
+	.button-nav li a:focus,
+	.button-nav li a:hover,
+	.button-nav li.current a,
+	.generic-button a:focus,
+	.generic-button a:hover,
+	.comment-reply-link:focus,
+	.comment-reply-link:hover,
+	.user-update .activity-read-more a:focus,
+	.user-update .activity-read-more a:hover {
+		background: var(--wp--preset--color--contrast-2);
+		border-color: var(--wp--preset--color--contrast-2);
+		color: var(--wp--preset--color--base);
+		outline: none;
+		text-decoration: none;
+	}
+
+	input[type="reset"]:focus,
+	input[type="reset"]:hover,
+	#bp-messages-reset:focus,
+	#bp-messages-reset:hover {
+		background: var(--wp--preset--color--contrast-3);
+		border: 1px solid var(--wp--preset--color--contrast-3);
+		color: var(--wp--preset--color--base);
+		text-decoration: none;
+	}
+
+	input[type="submit"].pending,
+	input[type="button"].pending,
+	input[type="reset"].pending,
+	input[type="button"].disabled,
+	input[type="reset"].disabled,
+	input[type="submit"][disabled="disabled"],
+	input[type="submit"]:disabled,
+	input[type="submit"]:hover.pending,
+	input[type="button"]:hover.pending,
+	input[type="reset"]:hover.pending,
+	input[type="submit"]:hover.disabled,
+	input[type="button"]:hover.disabled,
+	input[type="reset"]:hover.disabled,
+	button.pending:hover,
+	button.disabled:hover,
+	div.pending a:hover,
+	a.disabled:hover
+	button.pending,
+	button.disabled,
+	div.pending a,
+	a.disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	.blog-button {
+
+		&:after,
+		&:before {
+			display: none;
+		}
+	}
+
+	.create-button {
+
+		a:focus,
+		a:hover {
+			text-decoration: none;
+		}
+	}
+
+	&.bp-dir-vert-nav {
+
+		.create-button {
+
+			a {
+				box-shadow: none;
+				color: var(--wp--preset--color--base);
+				background-color: var(--wp--preset--color--contrast);
+				border-radius: 0;
+				border: 1px solid var(--wp--preset--color--contrast);
+				background-clip: border-box;
+			}
+		}
+	}
+}
+
+#buddypress.twentytwentyfour {
+
+	.warn {
+		color: var(--wp--preset--color--contrast);
+		font-weight: 600;
+	}
+
+	.bp-feedback {
+		color: var(--wp--preset--color--contrast);
+		background: var(--wp--preset--color--base);
+		box-shadow: none;
+
+		&:not(.custom-homepage-info) {
+			margin-top: 1.5em;
+			margin-bottom: 1.5em;
+			border: solid 1px var(--wp--preset--color--contrast);
+		}
+
+		.bp-icon {
+			background-color: var(--wp--preset--color--contrast);
+			color: var(--wp--preset--color--base);
+		}
+
+		a {
+			border-bottom: solid 1px var(--wp--preset--color--contrast);
+		}
+
+		button.bp-tooltip,
+		a.bp-tooltip {
+			border: none;
+			background: none;
+			top: -5px;
+			right: 0;
+
+			.dashicons-dismiss {
+				border-radius: 50%;
+				width: 32px;
+				height: 32px;
+				color: var(--wp--preset--color--contrast);
+				background: var(--wp--preset--color--base);
+			}
+
+			&:hover {
+
+				.dashicons-dismiss {
+					color: var(--wp--preset--color--base);
+					background: var(--wp--preset--color--contrast);
+				}
+			}
+		}
+
+		&.bp-sitewide-notice {
+
+			button.bp-tooltip,
+			a.bp-tooltip {
+				top: 5px;
+				right: 5px;
+			}
+
+			.bp-icon:before {
+				content: "\f16d";
+			}
+		}
+	}
+
+	#group-create-body {
+
+		.bp-cover-image-status {
+
+			p.warning {
+				background-color: var(--wp--preset--color--base-2);
+				border: none;
+				border-left-width: 4px;
+				border-left-style: solid;
+				border-left-color: var(--wp--preset--color--luminous-vivid-orange);
+				color: var(--wp--preset--color--contrast);
+				box-shadow: none;
+			}
+		}
+	}
+}
+
+body.buddypress {
+
+	.site {
+
+		#buddypress.twentytwentyfour {
+
+			.button {
+
+				&.bp-tooltip {
+
+					&:after {
+						content: attr(data-bp-tooltip);
+						word-wrap: break-word;
+						height: auto;
+						width: auto;
+					}
+				}
+			}
+		}
+	}
+}
+
+/**
+*-------------------------------------------------------------------------------
+* @section 9.0 - Layout classes
+*-------------------------------------------------------------------------------
+*/
+
+#buddypress.twentytwentyfour {
+
+	&.bp-single-vert-nav {
+
+		.bp-navs {
+
+			&.vertical {
+
+				li {
+
+					span {
+						background-color: var(--wp--preset--color--contrast);
+						border-radius: 10%;
+						display: inline-block;
+						margin: 3px 0;
+					}
+
+					&.selected,
+					&.current {
+
+						span {
+							background-color: var(--wp--preset--color--base);
+						}
+					}
+				}
+			}
+		}
+
+		.item-body:not(#group-create-body) {
+			background: var(--wp--preset--color--base);
+			border-left: 1px solid var(--wp--preset--color--contrast);
+
+			#subnav:not(.tabbed-links) {
+				background: transparent;
+				border-bottom: 1px solid var(--wp--preset--color--contrast);
+
+				li {
+
+					a {
+						border: none;
+						text-decoration: none;
+					}
+
+					&.current,
+					&.selected {
+						background-color: var(--wp--preset--color--contrast);
+						margin: 0;
+						padding: 10px 0;
+						border-radius: 0;
+					}
+				}
+			}
+		}
+	}
+
+	.grid {
+
+		&.bp-list {
+			border-top: none;
+		}
+
+		> li {
+			border: none;
+
+			.list-wrap {
+				border: 1px solid var(--wp--preset--color--contrast);
+				background: transparent;
+			}
+
+			&:not(.mini) .item-avatar,
+			.item-avatar {
+				margin-right: auto;
+			}
+		}
+	}
+}
