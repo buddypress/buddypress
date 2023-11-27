@@ -90,6 +90,10 @@ class BP_Nouveau_Groups {
 		if ( bp_is_active( 'friends' ) && ! bp_nouveau_groups_disallow_all_members_invites() ) {
 			add_action( 'bp_settings_setup_nav', 'bp_nouveau_groups_invites_restriction_nav' );
 		}
+
+		// Priority navs for Block Themes.
+		add_action( 'bp_group_primary_nav', 'bp_nouveau_hidden_primary_nav' );
+		add_action( 'bp_group_secondary_nav', 'bp_nouveau_hidden_secondary_nav' );
 	}
 
 	/**

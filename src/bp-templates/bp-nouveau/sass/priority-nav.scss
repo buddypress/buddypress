@@ -1,0 +1,137 @@
+// BP priority navigation - single screens primary and secondary navs.
+#buddypress {
+
+	&.buddypress-wrap {
+
+		.bp-navs {
+
+			&.bp-priority-nav {
+				overflow: initial;
+			}
+
+			ul.bp-priority-object-nav-nav-items,
+			ul.bp-priority-subnav-nav-items {
+				display: inline-block;
+
+				> li {
+					display: inline;
+					position: relative;
+					float: initial;
+				}
+
+				li {
+
+					a,
+					span {
+						display: inline-block;
+					}
+				}
+			}
+
+			.primary-nav-more,
+			.secondary-nav-more {
+				float: right;
+				display: inline;
+
+				ul {
+					display: inline-block;
+
+					> li {
+						display: inline-block;
+						position: relative;
+						float: none;
+
+						&.primary-nav-item-has-children,
+						&.secondary-nav-item-has-children {
+
+							.submenu-expand.bp-priority-nav-more-toggle {
+								position: relative;
+								line-height: 1.2;
+								padding: 0.5em calc(0.5em + 2px);
+								margin-left: 0.5rem;
+								display: inline-block;
+								margin-right: 0.25rem;
+								border: none;
+								background: none;
+
+								&.is-empty {
+									display: none;
+								}
+
+								span {
+									position: relative;
+									color: #555;
+									display: inline-block;
+									padding-top: 1px;
+								}
+							}
+						}
+					}
+				}
+
+				.sub-menu {
+					background-color: #fff;
+					color: #fff;
+					list-style: none;
+					padding-left: 0;
+					position: absolute;
+					opacity: 0;
+					left: -9999px;
+					z-index: 99999;
+
+					> li {
+						display: block;
+						float: none;
+						position: relative;
+					}
+				}
+
+				.primary-nav-item-has-children,
+				.secondary-nav-item-has-children {
+
+					&:hover {
+
+						.sub-menu.hidden-items {
+							right: 0;
+							left: auto;
+							display: table;
+							width: max-content;
+							opacity: 1;
+							position: absolute;
+							animation: fade_in 0.1s forwards;
+							border: 1px solid #eee;
+							border-top-color: 1px solid #fff;
+
+							a {
+								display: block;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.subnav {
+
+			&.bp-priority-subnav-nav-items {
+				float: initial;
+			}
+		}
+
+		&:not(.bp-single-vert-nav) {
+
+			.bp-priority-nav {
+
+				> ul {
+
+					> li {
+
+						> a {
+							padding: 0.5em calc(0.5em + 2px);
+						}
+					}
+				}
+			}
+		}
+	}
+}

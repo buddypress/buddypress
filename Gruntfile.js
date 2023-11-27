@@ -34,6 +34,7 @@ module.exports = function( grunt ) {
 			'!bp-templates/bp-nouveau/css/buddypress.css',
 			'!bp-templates/bp-nouveau/css/twenty*.css',
 			'!bp-templates/bp-nouveau/css/primary-nav.css',
+			'!bp-templates/bp-nouveau/sass/priority-nav.scss',
 			'!bp-core/admin/css/hello.css',
 			'!src/js/**',
 			'!**/blocks/*/index.css'
@@ -118,7 +119,7 @@ module.exports = function( grunt ) {
 				expand: true,
 				ext: '.css',
 				flatten: true,
-				src: ['bp-templates/bp-nouveau/sass/buddypress.scss', 'bp-templates/bp-nouveau/sass/twenty*.scss', 'bp-templates/bp-nouveau/sass/primary-nav.scss'],
+				src: ['bp-templates/bp-nouveau/sass/buddypress.scss', 'bp-templates/bp-nouveau/sass/twenty*.scss', 'bp-templates/bp-nouveau/sass/primary-nav.scss', 'bp-templates/bp-nouveau/sass/priority-nav.scss'],
 				dest: SOURCE_DIR + 'bp-templates/bp-nouveau/css/'
 			},
 			admin: {

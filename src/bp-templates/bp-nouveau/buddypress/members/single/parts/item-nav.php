@@ -3,7 +3,7 @@
  * BuddyPress Single Members item Navigation
  *
  * @since 3.0.0
- * @version 3.1.0
+ * @version 12.0.0
  */
 ?>
 
@@ -11,7 +11,7 @@
 
 	<?php if ( bp_nouveau_has_nav( array( 'type' => 'primary' ) ) ) : ?>
 
-		<ul>
+		<ul id="member-primary-nav" class="bp-priority-object-nav-nav-items">
 
 			<?php
 			while ( bp_nouveau_nav_items() ) :
@@ -35,5 +35,7 @@
 		</ul>
 
 	<?php endif; ?>
+
+	<?php bp_nouveau_member_hook( '', 'primary_nav' ); ?>
 
 </nav>

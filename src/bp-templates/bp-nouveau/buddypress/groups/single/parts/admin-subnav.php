@@ -3,7 +3,7 @@
  * BuddyPress Single Groups Admin Navigation
  *
  * @since 3.0.0
- * @version 3.0.0
+ * @version 12.0.0
  */
 ?>
 
@@ -11,7 +11,7 @@
 
 	<?php if ( bp_nouveau_has_nav( array( 'object' => 'group_manage' ) ) ) : ?>
 
-		<ul class="subnav">
+		<ul id="group-secondary-nav" class="subnav bp-priority-subnav-nav-items">
 
 			<?php
 			while ( bp_nouveau_nav_items() ) :
@@ -34,4 +34,5 @@
 
 	<?php endif; ?>
 
-</nav><!-- #isubnav -->
+	<?php bp_nouveau_member_hook( '', 'secondary_nav' ); ?>
+</nav><!-- #subnav -->
