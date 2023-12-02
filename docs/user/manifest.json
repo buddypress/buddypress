@@ -50,13 +50,25 @@
 	{
 		"title": "BuddyPress Repair Tool",
 		"slug": "administration-tools-repair",
-		"markdown_source": "../user/administration/settings/repair.md",
+		"markdown_source": "../user/administration/tools/repair.md",
 		"parent": null
 	},
 	{
 		"title": "Navigation menus",
 		"slug": "administration-navigations",
 		"markdown_source": "../user/administration/navigations/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Administration - Users",
+		"slug": "administration-users",
+		"markdown_source": "../user/administration/users/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress xProfile fields administration",
+		"slug": "administration-users-xprofile",
+		"markdown_source": "../user/administration/users/xprofile.md",
 		"parent": null
 	}
 ]
