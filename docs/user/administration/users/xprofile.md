@@ -98,7 +98,7 @@ From there you can define the name of your group and optionally its description.
 
 Activate the xProfile field group tab you need to modify. Just under the tab, you'll find:
 - on the left: the "Add new field" button will let you populate your group with new fields and clicking on the "Edit Group" button will open the xProfile field group edit form and perform your changes from it;
-- on the right: a red "Delete" link (except for the primary field group) will let you remove existing fields.
+- on the right: a red "Delete Group" link (except for the primary field group) will let you remove existing fields.
 
 ![xProfile field group buttons](../../assets/bp-admin-users-xprofile-08.png)
 
