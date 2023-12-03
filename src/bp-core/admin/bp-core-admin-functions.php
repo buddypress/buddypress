@@ -689,6 +689,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 
 		// Component page.
 		case 'settings_page_bp-components':
+		case 'settings_page_bp-components-network':
 			// Help tabs.
 			$screen->add_help_tab(
 				array(
@@ -714,6 +715,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 
 		// Component page.
 		case 'settings_page_bp-rewrites':
+		case 'settings_page_bp-rewrites-network':
 			// Help tabs.
 			$screen->add_help_tab(
 				array(
@@ -732,6 +734,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 
 		// Settings page.
 		case 'settings_page_bp-settings':
+		case 'settings_page_bp-settings-network':
 			// Help tabs.
 			$screen->add_help_tab(
 				array(
@@ -758,6 +761,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 
 		// Profile fields page.
 		case 'users_page_bp-profile-setup':
+		case 'users_page_bp-profile-setup-network':
 			// Help tabs.
 			$screen->add_help_tab(
 				array(
