@@ -1,6 +1,6 @@
 # BuddyPress Administration - Users
 
-BuddyPress adds various sub-menus to the WordPress Users' one to help you manage community members related features.
+BuddyPress adds various submenus to the Dashboard **Users** menu, as well as, adding a tab to the Profile screen (Extended Profile) in order to help you manage user/member community related features.
 
 - Extended Profile
 - Manage Signups
