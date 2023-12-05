@@ -5,5 +5,5 @@ BuddyPress adds various sub-menus to the WordPress Users' one to help you manage
 - Advanced profile
 - Manage Signups
 - [Profile Fields](./xprofile.md)
-- Member types
+- Member Types
 - Site notices
