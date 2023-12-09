@@ -299,12 +299,14 @@ function bp_core_admin_components_options() {
 function bp_core_admin_components_settings_handler() {
 
 	// Bail if not saving settings.
-	if ( ! isset( $_POST['bp-admin-component-submit'] ) )
+	if ( ! isset( $_POST['bp-admin-component-submit'] ) ) {
 		return;
+	}
 
 	// Bail if nonce fails.
-	if ( ! check_admin_referer( 'bp-admin-component-setup' ) )
+	if ( ! check_admin_referer( 'bp-admin-component-setup' ) ) {
 		return;
+	}
 
 	// Settings form submitted, now save the settings. First, set active components.
 	if ( isset( $_POST['bp_components'] ) ) {
@@ -322,14 +324,27 @@ function bp_core_admin_components_settings_handler() {
 		bp_core_install( $bp->active_components );
 		bp_core_add_page_mappings( $bp->active_components );
 		bp_update_option( 'bp-active-components', $bp->active_components );
+
+		// Force permalinks to be refreshed at next page load if one of the components is using a directory page.
+		if ( array_intersect_key( $bp->active_components, bp_core_get_directory_page_ids( 'active' ) ) ) {
+			bp_delete_rewrite_rules();
+		}
 	}
 
 	// Where are we redirecting to?
-	$base_url = bp_get_admin_url( add_query_arg( array( 'page' => 'bp-components', 'updated' => 'true' ), 'admin.php' ) );
+	$base_url = bp_get_admin_url(
+		add_query_arg(
+			array(
+				'page'    => 'bp-components',
+				'updated' => 'true',
+			),
+			'admin.php'
+		)
+	);
 
 	// Redirect.
-	wp_redirect( $base_url );
-	die();
+	wp_safe_redirect( $base_url );
+	exit;
 }
 add_action( 'bp_admin_init', 'bp_core_admin_components_settings_handler' );
 

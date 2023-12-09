@@ -1014,6 +1014,39 @@ function bp_activity_get_actions_for_context( $context = '' ) {
 /** Favorites ****************************************************************/
 
 /**
+ * Sanitize callback for the User's favorites meta.
+ *
+ * @since 12.0.0
+ *
+ * @param array $value The list of favorited activity IDs.
+ * @return array The sanitized list of favorited activity IDs.
+ */
+function bp_activity_sanitize_user_favorites_meta( $value = array() ) {
+	return array_filter( wp_parse_id_list( $value ) );
+}
+
+/**
+ * Use WordPress Meta API to deal with favorites meta properties and sanitization.
+ *
+ * @since 12.0.0
+ */
+function bp_activity_register_user_favorites_meta() {
+	register_meta(
+		'user',
+		'bp_favorite_activities',
+		array(
+			'single'            => true,
+			'type'              => 'array',
+			'description'       => __( 'The list of Activity IDs a user favorited.', 'buddypress' ),
+			'show_in_rest'      => false, // We're not showing this meta into the WP users REST endpoint.
+			'sanitize_callback' => 'bp_activity_sanitize_user_favorites_meta',
+			'default'           => array(),
+		)
+	);
+}
+add_action( 'bp_init', 'bp_activity_register_user_favorites_meta' );
+
+/**
  * Get a users favorite activity stream items.
  *
  * @since 1.2.0
@@ -1051,19 +1084,27 @@ function bp_activity_get_user_favorites( $user_id = 0 ) {
  * @return bool True on success, false on failure.
  */
 function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
+	// Cast as an integer to make sure we're only saving integers into the user's meta.
+	if ( ! empty( $activity_id ) ) {
+		$activity_id = (int) $activity_id;
+	} else {
+		$activity_id = 0;
+	}
+
+	if ( ! $activity_id ) {
+		return false;
+	}
 
 	// Fallback to logged in user if no user_id is passed.
 	if ( empty( $user_id ) ) {
 		$user_id = bp_loggedin_user_id();
 	}
 
-	$my_favs = bp_get_user_meta( $user_id, 'bp_favorite_activities', true );
-	if ( empty( $my_favs ) || ! is_array( $my_favs ) ) {
-		$my_favs = array();
-	}
+	// Get user's existing favorites.
+	$my_favs = bp_activity_get_user_favorites( $user_id );
 
 	// Bail if the user has already favorited this activity item.
-	if ( in_array( $activity_id, $my_favs ) ) {
+	if ( in_array( $activity_id, $my_favs, true ) ) {
 		return false;
 	}
 
@@ -1071,8 +1112,12 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 	$my_favs[] = $activity_id;
 
 	// Update the total number of users who have favorited this activity.
-	$fav_count = bp_activity_get_meta( $activity_id, 'favorite_count' );
-	$fav_count = !empty( $fav_count ) ? (int) $fav_count + 1 : 1;
+	$fav_count = (int) bp_activity_get_meta( $activity_id, 'favorite_count' );
+	if ( ! empty( $fav_count ) ) {
+		$fav_count += 1;
+	} else {
+		$fav_count = 1;
+	}
 
 	// Update user meta.
 	bp_update_user_meta( $user_id, 'bp_favorite_activities', $my_favs );
@@ -1126,8 +1171,8 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
 		$user_id = bp_loggedin_user_id();
 	}
 
-	$my_favs = bp_get_user_meta( $user_id, 'bp_favorite_activities', true );
-	$my_favs = array_flip( (array) $my_favs );
+	$my_favs = bp_activity_get_user_favorites( $user_id );
+	$my_favs = array_flip( $my_favs );
 
 	// Bail if the user has not previously favorited the item.
 	if ( ! isset( $my_favs[ $activity_id ] ) ) {
@@ -1135,7 +1180,7 @@ function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
 	}
 
 	// Remove the fav from the user's favs.
-	unset( $my_favs[$activity_id] );
+	unset( $my_favs[ $activity_id ] );
 	$my_favs = array_unique( array_flip( $my_favs ) );
 
 	// Update the total number of users who have favorited this activity.

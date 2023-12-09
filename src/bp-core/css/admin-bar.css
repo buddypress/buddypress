@@ -46,6 +46,10 @@
 	color: #fff;
 }
 
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications.alert.admin-type {
+	background-color: #d84800;
+}
+
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications > a {
 	padding: 0 0.5em;
 }

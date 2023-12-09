@@ -325,11 +325,12 @@ add_action( 'bp_groups_member_before_delete', 'bp_groups_clear_user_group_cache_
 function bp_groups_reset_cache_incrementor() {
 	return bp_core_reset_incrementor( 'bp_groups' );
 }
-add_action( 'groups_group_after_save', 'bp_groups_reset_cache_incrementor' );
-add_action( 'bp_groups_delete_group',  'bp_groups_reset_cache_incrementor' );
-add_action( 'updated_group_meta',      'bp_groups_reset_cache_incrementor' );
-add_action( 'deleted_group_meta',      'bp_groups_reset_cache_incrementor' );
-add_action( 'added_group_meta',        'bp_groups_reset_cache_incrementor' );
+add_action( 'groups_group_after_save',    'bp_groups_reset_cache_incrementor' );
+add_action( 'bp_groups_delete_group',     'bp_groups_reset_cache_incrementor' );
+add_action( 'updated_group_meta',         'bp_groups_reset_cache_incrementor' );
+add_action( 'deleted_group_meta',         'bp_groups_reset_cache_incrementor' );
+add_action( 'added_group_meta',           'bp_groups_reset_cache_incrementor' );
+add_action( 'groups_member_after_remove', 'bp_groups_reset_cache_incrementor' );
 
 /**
  * Reset cache incrementor for Groups component when a group's taxonomy terms change.

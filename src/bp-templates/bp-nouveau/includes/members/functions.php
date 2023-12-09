@@ -52,6 +52,11 @@ function bp_nouveau_members_enqueue_scripts() {
 	if ( bp_is_user_members_invitations_list() ) {
 		wp_enqueue_script( 'bp-nouveau-member-invites' );
 	}
+
+	if ( bp_is_user() && bp_nouveau_single_item_supports_priority_nav( 'member' ) ) {
+		wp_enqueue_script( 'bp-nouveau-priority-menu' );
+		wp_enqueue_style( 'bp-nouveau-priority-nav' );
+	}
 }
 
 /**
@@ -526,8 +531,8 @@ function bp_nouveau_members_loop_additional_info( $additional_info = array(), $a
 
 	$members_template = $GLOBALS['members_template'];
 
-	if ( isset( $members_template->member_count ) && 'all' === $args['scope'] ) {
-		$additional_info['totalItems'] = bp_core_number_format( $members_template->member_count );
+	if ( isset( $members_template->total_member_count ) && 'all' === $args['scope'] ) {
+		$additional_info['totalItems'] = bp_core_number_format( $members_template->total_member_count );
 		$additional_info['navLabel']   = esc_html__( 'All Members', 'buddypress' );
 
 		$nav_labels = array(

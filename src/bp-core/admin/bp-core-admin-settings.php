@@ -33,21 +33,6 @@ function bp_admin_setting_callback_admin_bar() {
 }
 
 /**
- * Allow members to delete their accounts setting field.
- *
- * @since 1.6.0
- *
- */
-function bp_admin_setting_callback_account_deletion() {
-?>
-
-	<input id="bp-disable-account-deletion" name="bp-disable-account-deletion" type="checkbox" value="1" <?php checked( !bp_disable_account_deletion( false ) ); ?> />
-	<label for="bp-disable-account-deletion"><?php _e( 'Allow registered members to delete their own accounts', 'buddypress' ); ?></label>
-
-<?php
-}
-
-/**
  * Choose whether the community is visible to anyone or only to members.
  *
  * @since 12.0.0
@@ -163,10 +148,14 @@ function bp_admin_setting_callback_activity_akismet() {
  * @since 1.6.0
  */
 function bp_admin_setting_callback_blogforum_comments() {
+	$support = post_type_supports( 'post', 'buddypress-activity' );
 ?>
 
-	<input id="bp-disable-blogforum-comments" name="bp-disable-blogforum-comments" type="checkbox" value="1" <?php checked( !bp_disable_blogforum_comments( false ) ); ?> />
-	<label for="bp-disable-blogforum-comments"><?php _e( 'Allow activity stream commenting on posts and comments', 'buddypress' ); ?></label>
+	<input id="bp-disable-blogforum-comments" name="bp-disable-blogforum-comments" type="checkbox" value="1" <?php checked( ! bp_disable_blogforum_comments( false ) ); ?> <?php disabled( ! $support ); ?> />
+	<label for="bp-disable-blogforum-comments"><?php esc_html_e( 'Allow activity stream commenting on posts and comments', 'buddypress' ); ?></label>
+	<?php if ( ! $support ) : ?>
+		<p class="description"><?php esc_html_e( 'Activate the BuddyPress Site Tracking component in order to enable this feature.', 'buddypress' ); ?></p>
+	<?php endif; ?>
 
 <?php
 }
@@ -360,6 +349,29 @@ function bp_admin_setting_callback_group_cover_image_uploads() {
 <?php
 }
 
+/** Account settings Section ************************************************************/
+
+/**
+ * Account settings section description for the settings page.
+ *
+ * @since 12.0.0
+ */
+function bp_admin_setting_callback_settings_section() { }
+
+/**
+ * Allow members to delete their accounts setting field.
+ *
+ * @since 1.6.0
+ */
+function bp_admin_setting_callback_account_deletion() {
+?>
+
+	<input id="bp-disable-account-deletion" name="bp-disable-account-deletion" type="checkbox" value="1" <?php checked( ! bp_disable_account_deletion( false ) ); ?> />
+	<label for="bp-disable-account-deletion"><?php esc_html_e( 'Allow registered members to delete their own accounts', 'buddypress' ); ?></label>
+
+<?php
+}
+
 /** Settings Page *************************************************************/
 
 /**
@@ -452,48 +464,50 @@ add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );
 function bp_form_option( $option, $default = '' , $slug = false ) {
 	echo bp_get_form_option( $option, $default, $slug );
 }
-	/**
-	 * Return settings API option
-	 *
-	 * @since 1.6.0
-	 *
-	 *
-	 * @param string $option  Form option to return.
-	 * @param string $default Form option default.
-	 * @param bool   $slug    Form option slug.
-	 * @return string
-	 */
-	function bp_get_form_option( $option, $default = '', $slug = false ) {
 
-		// Get the option and sanitize it.
-		$value = bp_get_option( $option, $default );
+/**
+ * Return settings API option
+ *
+ * @since 1.6.0
+ *
+ *
+ * @param string $option  Form option to return.
+ * @param string $default Form option default.
+ * @param bool   $slug    Form option slug.
+ * @return string
+ */
+function bp_get_form_option( $option, $default = '', $slug = false ) {
 
-		// Slug?
-		if ( true === $slug ) {
+	// Get the option and sanitize it.
+	$value = bp_get_option( $option, $default );
 
-			/**
-			 * Filters the slug value in the form field.
-			 *
-			 * @since 1.6.0
-			 *
-			 * @param string $value Value being returned for the requested option.
-			 */
-			$value = esc_attr( apply_filters( 'editable_slug', $value ) );
-		} else { // Not a slug.
-			$value = esc_attr( $value );
-		}
-
-		// Fallback to default.
-		if ( empty( $value ) )
-			$value = $default;
+	// Slug?
+	if ( true === $slug ) {
 
 		/**
-		 * Filters the settings API option.
+		 * Filters the slug value in the form field.
 		 *
 		 * @since 1.6.0
 		 *
-		 * @param string $value  Value being returned for the requested option.
-		 * @param string $option Option whose value is being requested.
+		 * @param string $value Value being returned for the requested option.
 		 */
-		return apply_filters( 'bp_get_form_option', $value, $option );
+		$value = esc_attr( apply_filters( 'editable_slug', $value ) );
+	} else { // Not a slug.
+		$value = esc_attr( $value );
 	}
+
+	// Fallback to default.
+	if ( empty( $value ) ) {
+		$value = $default;
+	}
+
+	/**
+	 * Filters the settings API option.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $value  Value being returned for the requested option.
+	 * @param string $option Option whose value is being requested.
+	 */
+	return apply_filters( 'bp_get_form_option', $value, $option );
+}

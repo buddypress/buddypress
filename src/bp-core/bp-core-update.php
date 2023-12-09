@@ -203,16 +203,27 @@ function bp_version_updater() {
 		$switched_to_root_blog = true;
 	}
 
-	// Install BP schema and activate only Activity and XProfile.
+	// Install BP schema and activate default components.
 	if ( bp_is_install() ) {
 		// Set the first BP major version the plugin was installed.
 		bp_update_option( '_bp_initial_major_version', bp_get_major_version() );
 
-		// Apply schema and set Activity and XProfile components as active.
+		// Add an unread Admin notification.
+		if ( 13422 === bp_get_db_version() ) {
+			$unread   = bp_core_get_unread_admin_notifications();
+			$unread[] = 'bp120-new-installs-warning';
+
+			bp_update_option( 'bp_unread_admin_notifications', $unread );
+		}
+
+		// Apply schema and set default components as active.
 		bp_core_install( $default_components );
 		bp_update_option( 'bp-active-components', $default_components );
 		bp_core_add_page_mappings( $default_components, 'delete' );
 		bp_core_install_emails();
+
+		// Force permalinks to be refreshed at next page load.
+		bp_delete_rewrite_rules();
 
 	// Upgrades.
 	} else {
@@ -287,12 +298,17 @@ function bp_version_updater() {
 		}
 
 		// Version 11.0.0.
-		if ( $raw_db_version < 13271 ){
+		if ( $raw_db_version < 13271 ) {
 			bp_update_to_11_0();
 		}
 
+		// Version 11.4.0.
+		if ( $raw_db_version < 13408 ) {
+			bp_update_to_11_4();
+		}
+
 		// Version 12.0.0.
-		if ( $raw_db_version < 13422 ){
+		if ( $raw_db_version < 13422 ) {
 			bp_update_to_12_0();
 		}
 	}
@@ -798,6 +814,27 @@ function bp_core_get_11_0_upgrade_email_schema( $emails ) {
 }
 
 /**
+ * 11.4.0 update routine.
+ *
+ * @since 11.4.0
+ */
+function bp_update_to_11_4() {
+	$unread = array( 'bp114-prepare-for-rewrites' );
+
+	// Check if 10.0 notice was dismissed.
+	$old_dismissed = (bool) bp_get_option( 'bp-dismissed-notice-bp100-welcome-addons', false );
+	if ( ! $old_dismissed ) {
+		$unread[] = 'bp100-welcome-addons';
+	}
+
+	// Remove the dismissible option.
+	bp_delete_option( 'bp-dismissed-notice-bp100-welcome-addons' );
+
+	// Create unread Admin notifications.
+	bp_update_option( 'bp_unread_admin_notifications', $unread );
+}
+
+/**
  * 12.0.0 update routine.
  *
  * - Swith directory page post type from "page" to "buddypress".
@@ -867,7 +904,7 @@ function bp_update_to_12_0() {
 				}
 			}
 
-			// Finally make sure to rebuilt permalinks at next page load.
+			// Force permalinks to be refreshed at next page load.
 			bp_delete_rewrite_rules();
 		}
 

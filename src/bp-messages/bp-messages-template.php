@@ -1003,9 +1003,12 @@ function bp_messages_subject_value() {
 	function bp_get_messages_subject_value() {
 
 		// Sanitized in bp-messages-filters.php.
-		$subject = ! empty( $_POST['subject'] )
-			? $_POST['subject']
-			: '';
+		$subject = '';
+		if ( isset( $_POST['subject'] ) && $_POST['subject'] ) {
+			$subject = $_POST['subject'];
+		} elseif ( isset( $_COOKIE['bp_messages_subject'] ) && $_COOKIE['bp_messages_subject'] ) {
+			$subject = $_COOKIE['bp_messages_subject'];
+		}
 
 		/**
 		 * Filters the default value for the subject field.
@@ -1034,9 +1037,12 @@ function bp_messages_content_value() {
 	function bp_get_messages_content_value() {
 
 		// Sanitized in bp-messages-filters.php.
-		$content = ! empty( $_POST['content'] )
-			? $_POST['content']
-			: '';
+		$content = '';
+		if ( isset( $_POST['content'] ) && $_POST['content'] ) {
+			$content = $_POST['content'];
+		} elseif ( isset( $_COOKIE['bp_messages_content'] ) && $_COOKIE['bp_messages_content'] ) {
+			$content = $_COOKIE['bp_messages_content'];
+		}
 
 		/**
 		 * Filters the default value for the content field.
@@ -1679,9 +1685,12 @@ function bp_message_get_recipient_usernames() {
 	function bp_get_message_get_recipient_usernames() {
 
 		// Sanitized in bp-messages-filters.php.
-		$recipients = isset( $_GET['r'] )
-			? $_GET['r']
-			: '';
+		$recipients = '';
+		if ( isset( $_GET['r'] ) && $_GET['r'] ) {
+			$recipients = $_GET['r'];
+		} elseif ( isset( $_COOKIE['bp_messages_send_to'] ) && $_COOKIE['bp_messages_send_to'] ) {
+			$recipients = $_COOKIE['bp_messages_send_to'];
+		}
 
 		/**
 		 * Filters the recipients usernames for prefilling the 'To' field on the Compose screen.

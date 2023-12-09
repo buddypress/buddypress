@@ -6,12 +6,12 @@
  * each activity.
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.0.0
  */
 
 bp_nouveau_activity_hook( 'before', 'comment' ); ?>
 
-<li id="acomment-<?php bp_activity_comment_id(); ?>" class="comment-item" <?php bp_nouveau_activity_data_attribute_id(); ?>>
+<li id="acomment-<?php bp_activity_comment_id(); ?>" class="comment-item" <?php bp_nouveau_activity_comment_data_attribute_id(); ?>>
 	<div class="acomment-avatar item-avatar">
 		<a href="<?php bp_activity_comment_user_link(); ?>">
 			<?php

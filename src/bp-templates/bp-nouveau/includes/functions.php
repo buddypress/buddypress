@@ -662,27 +662,33 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
 	}
 
 	if ( bp_is_active( 'groups' ) ) {
-		$default_args = array_merge( $default_args, array(
-			'group_front_page'        => 0,
-			'group_front_boxes'       => 0,
-			'group_front_description' => 0,
-			'group_nav_display'       => 0,       // O is default (horizontally). 1 is vertically.
-			'group_nav_order'         => array(),
-			'group_nav_tabs'          => 0,
-			'group_subnav_tabs'       => 0,
-			'groups_create_tabs'      => 1,
-			'groups_layout'           => 1,
-			'members_group_layout'    => 1,
-			'groups_dir_layout'       => 0,
-			'groups_dir_tabs'         => 0,
-		) );
+		$default_args = array_merge(
+			$default_args,
+			array(
+				'group_front_page'        => 0,
+				'group_front_boxes'       => 0,
+				'group_front_description' => 0,
+				'group_nav_display'       => 0, // O is default (horizontally). 1 is vertically.
+				'group_nav_order'         => array(),
+				'group_nav_tabs'          => 0,
+				'group_subnav_tabs'       => 0,
+				'groups_create_tabs'      => 1,
+				'groups_layout'           => 1,
+				'members_group_layout'    => 1,
+				'groups_dir_layout'       => 0,
+				'groups_dir_tabs'         => 0,
+			)
+		);
 	}
 
 	if ( is_multisite() && bp_is_active( 'blogs' ) ) {
-		$default_args = array_merge( $default_args, array(
-			'sites_dir_layout' => 0,
-			'sites_dir_tabs'   => 0,
-		) );
+		$default_args = array_merge(
+			$default_args,
+			array(
+				'sites_dir_layout' => 0,
+				'sites_dir_tabs'   => 0,
+			)
+		);
 	}
 
 	$settings = bp_parse_args(
@@ -690,6 +696,15 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
 		$default_args,
 		'nouveau_appearance_settings'
 	);
+
+	// Override some settings to better suits block themes.
+	if ( bp_nouveau()->is_block_theme ) {
+		$settings['global_alignment'] = 'alignnone';
+
+		if ( isset( $settings['groups_create_tabs'] ) ) {
+			$settings['groups_create_tabs'] = 0;
+		}
+	}
 
 	if ( ! empty( $option ) ) {
 		if ( isset( $settings[ $option ] ) ) {
@@ -1667,4 +1682,54 @@ function bp_nouveau_get_theme_layout_widths() {
 	 * @param array $layout_widths The available theme layout widths.
 	 */
 	return apply_filters( 'bp_nouveau_get_theme_layout_widths', $layout_widths );
+}
+
+/**
+ * Get the current displayed object for the priority nav.
+ *
+ * @since 12.0.0
+ *
+ * @return string The current displayed object (`member` or `group`).
+ */
+function bp_nouveau_get_current_priority_nav_object() {
+	$object = '';
+
+	if ( bp_is_user() ) {
+		$object = 'member';
+	} elseif ( bp_is_group() ) {
+		$object = 'group';
+	}
+
+	return $object;
+}
+
+/**
+ * Checks whether a single item supports priority nav.
+ *
+ * @since 12.0.0
+ *
+ * @param string $single_item The single item object name. Possible valuers are 'member' or 'group'.
+ * @return bool True if the single item supports priority nav. False otherwise.
+ */
+function bp_nouveau_single_item_supports_priority_nav( $single_item = '' ) {
+	$retval  = false;
+	$feature = bp_get_theme_compat_feature( 'priority_item_nav' );
+
+	if ( isset( $feature->single_items ) && is_array( $feature->single_items ) ) {
+		$retval = ! empty( $feature->single_items );
+
+		if ( $single_item ) {
+			$retval = in_array( $single_item, $feature->single_items, true );
+		}
+	}
+
+	/**
+	 * Use this filter to disallow/allow the Priority nav support.
+	 *
+	 * @since 12.0.0
+	 *
+	 * @param bool   $retval      True if the single item supports priority nav. False otherwise.
+	 * @param string $single_item The single item object name. Possible valuers are 'member' or 'group'.
+	 */
+	return apply_filters( 'bp_nouveau_single_item_supports_priority_nav', $retval, $single_item );
 }

@@ -34,5 +34,35 @@
 		"slug": "bp-theme-compat",
 		"markdown_source": "../developer/theme-compat/README.md",
 		"parent": null
+	},
+	{
+		"title": "BuddyPress execution contexts",
+		"slug": "bp-execution-contexts",
+		"markdown_source": "../developer/execution-contexts/README.md",
+		"parent": null
+	},
+	{
+		"title": "Using Ajax requests in BuddyPress",
+		"slug": "bp-ajax-context",
+		"markdown_source": "../developer/execution-contexts/ajax.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Functions",
+		"slug": "bp-functions",
+		"markdown_source": "../developer/functions/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Rewrites Functions",
+		"slug": "rewrites",
+		"markdown_source": "../developer/functions/rewrites.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress URI Globals Functions",
+		"slug": "uri-globals",
+		"markdown_source": "../developer/functions/uri-globals.md",
+		"parent": null
 	}
 ]

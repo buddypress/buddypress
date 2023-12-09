@@ -1110,20 +1110,47 @@ function bp_member_latest_update( $args = '' ) {
 	function bp_get_member_latest_update( $args = '' ) {
 		global $members_template;
 
-		$defaults = array(
-			'length'    => 225,
-			'view_link' => true,
-		);
+		if ( ! bp_is_active( 'activity' ) ) {
+			return '';
+		}
 
 		$r = bp_parse_args(
 			$args,
-			$defaults
+			array(
+				'length'    => 225,
+				'view_link' => true,
+			),
+			'member_latest_update'
 		);
 
-		extract( $r );
+		$length    = (int) $r['length'];
+		$view_link = (bool) $r['view_link'];
 
-		if ( !bp_is_active( 'activity' ) || empty( $members_template->member->latest_update ) || !$update = maybe_unserialize( $members_template->member->latest_update ) )
-			return false;
+		// Init default update.
+		$update_content = '';
+		$update         = array(
+			'id'        => 0,
+			'content'   => '',
+			'excerpt'   => '',
+			'permalink' => '',
+		);
+
+		if ( ! empty( $members_template->member->latest_update ) ) {
+			$update = maybe_unserialize( $members_template->member->latest_update );
+		}
+
+		if ( ! empty( $update['content'] ) ) {
+			$excerpt           = trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
+			$update['content'] = trim( strip_tags( $update['content'] ) );
+			$update['excerpt'] = $excerpt;
+		} else {
+			$excerpt = '';
+		}
+
+		if ( isset( $update['id'] ) ) {
+			$activity_id = (int) $update['id'];
+			$update['permalink'] = bp_activity_get_permalink( $activity_id );
+		}
 
 		/**
 		 * Filters the excerpt of the latest update for current member in the loop.
@@ -1131,20 +1158,28 @@ function bp_member_latest_update( $args = '' ) {
 		 * @since 1.2.5
 		 * @since 2.6.0 Added the `$r` parameter.
 		 *
-		 * @param string $value Excerpt of the latest update for current member in the loop.
-		 * @param array  $r     Array of parsed arguments.
+		 * @param string $excerpt Excerpt of the latest update for current member in the loop.
+		 * @param array  $r       Array of parsed arguments.
 		 */
-		$update_content = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) ), $r );
+		$excerpt = apply_filters( 'bp_get_activity_latest_update_excerpt', $excerpt, $r );
 
-		/* translators: %s: the member latest activity update */
-		$update_content = sprintf( _x( '- &quot;%s&quot;', 'member latest update in member directory', 'buddypress' ), $update_content );
+		// If we have an excerpt, set its output and eventually add a link to view the full activity.
+		if ( $excerpt ) {
+			/* translators: %s: the member latest activity update */
+			$update_content = sprintf( _x( '- &quot;%s&quot;', 'member latest update in member directory', 'buddypress' ), $excerpt );
 
-		// If $view_link is true and the text returned by bp_create_excerpt() is different from the original text (ie it's
-		// been truncated), add the "View" link.
-		if ( $view_link && ( $update_content != $update['content'] ) ) {
-			$view = __( 'View', 'buddypress' );
-
-			$update_content .= '<span class="activity-read-more"><a href="' . bp_activity_get_permalink( $update['id'] ) . '" rel="nofollow">' . $view . '</a></span>';
+			/*
+			* If `$view_link` is true and the text returned by `bp_create_excerpt()` is different
+			* from the original text (ie it's been truncated), add the "View" link.
+			*/
+			if ( $view_link && $update['permalink'] && ( strlen( $excerpt ) < strlen( $update['content'] ) ) ) {
+				$update_content      = sprintf(
+					'%1$s<span class="activity-read-more"><a href="%2$s" rel="nofollow">%3$s</a></span>',
+					$update_content . "\n",
+					esc_url( $update['permalink'] ),
+					esc_html__( 'View', 'buddypress' )
+				);
+			}
 		}
 
 		/**
@@ -1152,11 +1187,13 @@ function bp_member_latest_update( $args = '' ) {
 		 *
 		 * @since 1.2.0
 		 * @since 2.6.0 Added the `$r` parameter.
+		 * @since 12.0.0 Added the `$update` parameter.
 		 *
 		 * @param string $update_content Formatted latest update for current member.
 		 * @param array  $r              Array of parsed arguments.
+		 * @param array  $update         Array of the latest activity data.
 		 */
-		return apply_filters( 'bp_get_member_latest_update', $update_content, $r );
+		return apply_filters( 'bp_get_member_latest_update', $update_content, $r, $update );
 	}
 
 /**

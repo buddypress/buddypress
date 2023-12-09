@@ -4,9 +4,9 @@ BuddyPress now uses a new place to create and keep up to date documentation reso
 
 We've decided to use this new location because it has some very interesting benefits:
 
-- We don’t need to wait to put up documentation sites to share documentation resources with users, they can always read it from the [GitHub repository](https://github.com/imath/buddypress/tree/master/docs) that is synchronized with our main repository.
+- We don’t need to wait to put up documentation sites to share documentation resources with users, they can always read it from the [GitHub repository](https://github.com/buddypress/buddypress/tree/master/docs) that is synchronized with our main repository.
 - As explained into our last [feedback post](https://buddypress.org/2023/06/buddypress-community-contribution/): having docs directly inside our repository shows **we acknowledge Documentation is as important as code**.
-- Using GitHub to review documentation contributions is very convenient as the [BP Documentation team members](https://github.com/orgs/buddypress/teams/documentation-team) can ask contributors to improve their work using the GitHub features.
+- Using GitHub to review documentation contributions is very convenient as the BP Documentation team members can ask contributors to improve their work using the GitHub features.
 - & **most importantly**: when committing a new Documentation contribution from our main repository (SVN), we can credit authors so that they are rewarded with a lovely BuddyPress contributor badge on their WordPress profile, just like a code contributor would be.
 
 ## How to contribute to BuddyPress Docs?

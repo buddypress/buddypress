@@ -330,7 +330,10 @@ function bp_core_check_for_disallowed_keys( $user_id = 0, $title = '', $content 
  * @return string IP address.
  */
 function bp_core_current_user_ip() {
-	$retval = preg_replace( '/[^0-9a-fA-F:., ]/', '', $_SERVER['REMOTE_ADDR'] );
+	$retval = '';
+	if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+		$retval = preg_replace( '/[^0-9a-fA-F:., ]/', '', wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+	}
 
 	/**
 	 * Filters the current user's IP address.

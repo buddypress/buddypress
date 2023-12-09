@@ -11,56 +11,6 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Set up the displayed user's Members Invitations nav.
- *
- * @since 8.0.0
- */
-function bp_members_invitations_setup_nav() {
-	if ( ! bp_get_members_invitations_allowed() ) {
-		return;
-	}
-
-	$user_has_access     = bp_user_has_access();
-	$default_subnav_slug = ( bp_is_my_profile() && bp_user_can( bp_displayed_user_id(), 'bp_members_invitations_view_send_screen' ) ) ? 'send-invites' : 'list-invites';
-
-	/* Add 'Invitations' to the main user profile navigation */
-	bp_core_new_nav_item(
-		array(
-			'name'                    => __( 'Invitations', 'buddypress' ),
-			'slug'                    => bp_get_members_invitations_slug(),
-			'position'                => 80,
-			'screen_function'         => 'members_screen_send_invites',
-			'default_subnav_slug'     => $default_subnav_slug,
-			'show_for_displayed_user' => $user_has_access && bp_user_can( bp_displayed_user_id(), 'bp_members_invitations_view_screens' )
-		)
-	);
-
-	/* Create two subnav items for community invitations */
-	bp_core_new_subnav_item(
-		array(
-			'name'            => __( 'Send Invites', 'buddypress' ),
-			'slug'            => 'send-invites',
-			'parent_slug'     => bp_get_members_invitations_slug(),
-			'screen_function' => 'members_screen_send_invites',
-			'position'        => 10,
-			'user_has_access' => $user_has_access && bp_is_my_profile() && bp_user_can( bp_displayed_user_id(), 'bp_members_invitations_view_send_screen' )
-		)
-	);
-
-	bp_core_new_subnav_item(
-		array(
-			'name'            => __( 'Pending Invites', 'buddypress' ),
-			'slug'            => 'list-invites',
-			'parent_slug'     => bp_get_members_invitations_slug(),
-			'screen_function' => 'members_screen_list_sent_invites',
-			'position'        => 20,
-			'user_has_access' => $user_has_access && bp_user_can( bp_displayed_user_id(), 'bp_members_invitations_view_screens' )
-		)
-	);
-}
-add_action( 'bp_setup_nav', 'bp_members_invitations_setup_nav' );
-
-/**
  * When a user joins the network via an invitation, skip sending the activation email.
  *
  * @since 8.0.0
@@ -216,3 +166,27 @@ function bp_members_invitations_maybe_bypass_request_approval( $send, $details )
 }
 add_filter( 'bp_members_membership_requests_bypass_manual_approval', 'bp_members_invitations_maybe_bypass_request_approval', 10, 2 );
 add_filter( 'bp_members_membership_requests_bypass_manual_approval_multisite', 'bp_members_invitations_maybe_bypass_request_approval', 10, 2 );
+
+/**
+ * Whether a user can access invitations screens.
+ * Referred to by BP_Members_Invitations_Component::register_nav().
+ *
+ * @since 12.0.0
+ *
+ * @param bool $access Whether the user can view member invitations screens.
+ */
+function bp_members_invitations_user_can_view_screens() {
+	return bp_user_has_access() && bp_user_can( bp_displayed_user_id(), 'bp_members_invitations_view_screens' );
+}
+
+/**
+ * Whether a user can access the send invitations member screen.
+ * Referred to by BP_Members_Invitations_Component::register_nav().
+ *
+ * @since 12.0.0
+ *
+ * @param bool $access Whether the user can view member invitations send screen.
+ */
+function bp_members_invitations_user_can_view_send_screen() {
+	return bp_is_my_profile() && bp_user_can( bp_displayed_user_id(), 'bp_members_invitations_view_send_screen' );
+}

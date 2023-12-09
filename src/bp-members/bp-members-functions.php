@@ -139,12 +139,12 @@ function bp_core_get_users( $args = '' ) {
 }
 
 /**
- * Get single member's path chunks using an array of URL slugs.
+ * Get single Members item customized path chunks using an array of BP URL default slugs.
  *
  * @since 12.0.0
  *
- * @param array $chunks An array of URL slugs.
- * @return array An array of BP Rewrites URL arguments.
+ * @param array $chunks An array of BP URL default slugs.
+ * @return array An associative array containing member's customized path chunks.
  */
 function bp_members_get_path_chunks( $chunks = array() ) {
 	$path_chunks = array();
@@ -183,7 +183,7 @@ function bp_members_get_path_chunks( $chunks = array() ) {
 }
 
 /**
- * Return the Mmbers single item's URL.
+ * Return the Members single item's URL.
  *
  * @since 12.0.0
  *

@@ -159,27 +159,21 @@ function bp_nouveau_activity_hook( $when = '', $suffix = '' ) {
 }
 
 /**
- * Output the `data-bp-activity-id` or `data-bp-activity-comment-id` attribute
- * according to the activity type.
+ * Output the `data-bp-activity-id` attribute.
  *
  * @since 10.0.0
  */
 function bp_nouveau_activity_data_attribute_id() {
-	$attribute  = 'data-bp-%1$s-id="%2$s"';
-	$type       = 'activity';
-	$id         = (int) bp_get_activity_id();
-	$comment_id = (int) bp_get_activity_comment_id();
+	printf( 'data-bp-activity-id="%d"', (int) bp_get_activity_id() );
+}
 
-	if ( 'activity_comment' === bp_get_activity_type() || $comment_id ) {
-		$type = 'activity-comment';
-
-
-		if ( $comment_id ) {
-			$id = $comment_id;
-		}
-	}
-
-	printf( $attribute, $type, $id );
+/**
+ * Output the `data-bp-activity-comment-id` attribute.
+ *
+ * @since 12.0.0
+ */
+function bp_nouveau_activity_comment_data_attribute_id() {
+	printf( 'data-bp-activity-comment-id="%d"', (int) bp_get_activity_comment_id() );
 }
 
 /**
@@ -276,7 +270,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 	 *
 	 * @todo This function is too large and needs refactoring and reviewing.
 	 * @since 3.0.0
-	 * 
+	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
 	 * @param array $args See bp_nouveau_wrapper() for the description of parameters.
@@ -777,7 +771,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 	 * Get the action buttons for the activity comments
 	 *
 	 * @since 3.0.0
-	 * 
+	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
 	 * @param array $args Optional. See bp_nouveau_wrapper() for the description of parameters.
