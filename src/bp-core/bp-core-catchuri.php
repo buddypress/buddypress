@@ -69,7 +69,7 @@ function bp_core_enable_root_profiles() {
  *   wp-content/themes/[activated_theme]/members/index.php
  *
  * @since 1.0.0
- * @since 12.0.0 Uses `locate_block_template()` to support BuddyPress Block only Themes.
+ * @since 14.0.0 Uses `locate_block_template()` to support BuddyPress Block only Themes.
  *
  * @param array $templates Array of templates to attempt to load.
  */

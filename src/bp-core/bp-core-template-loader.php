@@ -830,7 +830,7 @@ function bp_get_theme_compat_templates() {
 /**
  * Sets Block Theme compatibility if it supports BuddyPress.
  *
- * @since 12.0.0
+ * @since 14.0.0
  */
 function bp_set_block_theme_compat() {
 	if ( bp_is_running_wp( '5.9.0', '>=' ) && wp_is_block_theme() && current_theme_supports( 'buddypress' ) ) {

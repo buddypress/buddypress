@@ -1045,7 +1045,7 @@ function bp_check_theme_template_pack_dependency() {
 /**
  * Informs about whether current theme compat is about a block theme.
  *
- * @since 12.0.0
+ * @since 14.0.0
  *
  * @return boolean True if current theme compat is about a block theme.
  *                 False otherwise.
