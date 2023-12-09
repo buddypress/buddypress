@@ -148,6 +148,14 @@ class BP_Component {
 	public $global_tables = array();
 
 	/**
+	 * Table name.
+	 *
+	 * @since 12.0.0
+	 * @var string
+	 */
+	public $table_name = '';
+
+	/**
 	 * Query argument for component search URLs.
 	 *
 	 * @since 2.4.0
