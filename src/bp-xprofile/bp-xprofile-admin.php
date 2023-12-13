@@ -1201,7 +1201,7 @@ function bp_xprofile_admin_get_signup_field( $signup_field, $field_group = null,
 function bp_xprofile_admin_form_field_types( $select_field_type ) {
 	$categories = array();
 
-	if ( is_null( $select_field_type ) ) {
+	if ( empty( $select_field_type ) ) {
 		$select_field_type = 'textbox';
 	}
 
