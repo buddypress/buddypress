@@ -36,7 +36,7 @@ Once your content is ready, share it with us submitting a [new ticket](https://b
   - Where to insert attached screenshots into your content (if you attached images to the ticket).
   - Other information you think are important.
 - to choose the `Documentation` component in the corresponding selectbox
-- to click on the `I have files to attach to this ticket` if you need to attach your `.md` file and/or screenshots image.
+- to click on the `I have files to attach to this ticket` if you need to attach your `.md` file and/or screenshots.
 
 ![New ticket](../assets/new-svn-ticket.png)
 
