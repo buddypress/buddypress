@@ -11,20 +11,43 @@ We've decided to use this new location because it has some very interesting bene
 
 ## How to contribute to BuddyPress Docs?
 
-**NB**: everything remains totally free!
+**NB**: everything remains totally free and opens to everyone!
 
-### Steps you need to accomplish once
+The most important requirement is to have a [WordPress.org](https://wordpress.org) account. If you're not registered on WordPress.org yet, create a [WordPress.org account](https://login.wordpress.org/register?locale=en_US) & eventually link it to the [WordPress.org’s slack](https://make.wordpress.org/chat/) to chat with the BuddyPress team in the [#buddypress](https://wordpress.slack.com/messages/buddypress) channel.
 
-1. If you're not registered on WordPress.org yet, create a [WordPress.org account](https://login.wordpress.org/register?locale=en_US) & eventually link it to the [WordPress.org’s slack](https://make.wordpress.org/chat/) to attend Docs Chat.
-2. If you don't have a GitHub account yet, [sign up for one here](https://github.com/signup?source=header-repo&source_repo=buddypress%2Fbuddypress).
-3. If you haven't added BuddyPress to your GitHub forks, [fork the BuddyPress GitHub repository](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
+> [!NOTE]
+> To write documentation resources so that they can be displayed immediately into the BuddyPress GitHub repository and synchronized with a documentation website of the [BuddyPress.org network](https://buddypress.org) (in a near future, once we have a v1 ready), you need to use the [GitHub Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) language.
 
-### Steps you need to accomplish for each of your contributions
+That being said, if code writers are very comfortable with Markdown, GitHub and collobarating using Pull Requests, some of you might find it too complex. If so, no worries: our main challenge is to have an up to date **content** for our documentation resources.
+
+### Contributing without GitHub
+
+You can use the writing tool of your choice as long as in the end the content you wrote can be exported into a Markdown file (having the `.md` file extension).
+
+> [!TIP]
+> An interesting free & WYSIWYG tool is [Dropbox Paper](https://paper.dropbox.com/) as it's possible to share a link to your content and/or export your content as a Markdown file.
+
+Once your content is ready, share it with us submitting a [new ticket](https://buddypress.trac.wordpress.org/newticket) on our Trac environment making sure:
+
+- your ticket description informs about:
+  - The link of the outdated page of the [BuddyPress Codex](https://codex.buddypress.org) if it exists.
+  - Where it should be inserted in your opinion.
+  - The link to the content you're suggesting (if it's hosted online).
+  - Where to insert attached screenshots into your content (if you attached images to the ticket).
+  - Other information you think are important.
+- to choose the `Documentation` component in the corresponding selectbox
+- to click on the `I have files to attach to this ticket` if you need to attach your `.md` file and/or screenshots image.
+
+![New ticket](../assets/new-svn-ticket.png)
+
+Once submitted, your ticket will be reviewed by a member of the BuddyPress team. If everything is fine, this member will eventually craft a GitHub Pull Requests out of your content (which will be referenced inside your ticket) or directly add your documentation resource into the right `/docs` folder of the BuddyPress main repository.
+
+### Contributing with GitHub
+
+1. If you don't have a GitHub account yet, [sign up for one here](https://github.com/signup?source=header-repo&source_repo=buddypress%2Fbuddypress).
+2. If you haven't added BuddyPress to your GitHub forks, [fork the BuddyPress GitHub repository](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
 
 Each contribution needs to be organized as a Pull Request (PR) to the BuddyPress GitHub main branch (master). If you're familiar with GitHub and use it locally along with your Favorite editor, it's the exact same process than pulling a request for a code contribution.
-
-> [!IMPORTANT]
-> To write documentation resources, you need to use the [GitHub Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) language.
 
 The steps we're detailling below are explaining how you can still contribute to docs if you have no clue about GitHub thanks to their website features.
 
