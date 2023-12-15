@@ -337,7 +337,7 @@ module.exports = function( grunt ) {
 				stdout: true
 			},
 			rest_api: {
-				command: 'svn export --force https://github.com/buddypress/BP-REST.git/trunk bp-rest',
+				command: 'svn export --force https://github.com/buddypress/BP-REST.git/branches/0.8 bp-rest',
 				cwd: BUILD_DIR,
 				stdout: false
 			},
