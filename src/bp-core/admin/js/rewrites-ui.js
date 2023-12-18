@@ -4,9 +4,9 @@
 
 		accordions.forEach( function( accordion ) {
 			accordion.addEventListener( 'click', function( e ) {
-				e.preventDefault();
-
 				if ( e.target && e.target.matches( 'button.health-check-accordion-trigger' ) ) {
+					e.preventDefault();
+
 					var isExpanded = ( 'true' === e.target.getAttribute( 'aria-expanded' ) ),
 					    panel = document.querySelector( '#' + e.target.getAttribute( 'aria-controls' ) );
 
