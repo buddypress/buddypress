@@ -38,7 +38,10 @@
 
 	.bp-login-widget-register-link {
 		margin-left: 1em;
-		vertical-align: super;
+
+		a {
+			filter: invert(1);
+		}
 	}
 
 	.bp-login-widget-pwd-link {
