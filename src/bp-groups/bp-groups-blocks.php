@@ -136,7 +136,7 @@ function bp_groups_render_group_block( $attributes = array() ) {
 	if ( $display_action_button ) {
 		$action_button = sprintf(
 			'<div class="bp-profile-button">
-				<a href="%1$s" class="button large primary button-primary" role="button">%2$s</a>
+				<a href="%1$s" class="button large primary button-primary wp-block-button__link wp-element-button" role="button">%2$s</a>
 			</div>',
 			esc_url( $group_link ),
 			esc_html__( 'View Group', 'buddypress' )
