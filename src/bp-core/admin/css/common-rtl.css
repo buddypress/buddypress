@@ -15,8 +15,9 @@ TABLE OF CONTENTS:
 2.0 Dashicons
 	2.1 Top level menus
 	2.2 Settings - Components
-	2.3 Tools
-	2.4 Tooltips
+	2.3 Settings - URls
+	2.4 Tools
+	2.5 Tooltips
 3.0 Users
 	3.1 Users List
 	3.2 Site Notices
@@ -307,7 +308,22 @@ TABLE OF CONTENTS:
 }
 
 /*
- * 2.3 Tools
+ * 2.3 Settings - URLs
+ */
+.settings_page_bp-rewrites .bp-directory-url {
+	width: 80%;
+	box-shadow: 0 0 0 transparent;
+	border: 1px solid #8c8f94;
+	background-color: #fff;
+	color: #2c3338;
+}
+
+.settings_page_bp-rewrites .bp-open-permalink .dashicons {
+	vertical-align: sub;
+}
+
+/*
+ * 2.4 Tools
  */
 #adminmenu .toplevel_page_network-tools div.wp-menu-image:before {
 	content: "";
@@ -330,7 +346,7 @@ body.tools_page_bp-optouts .nav-tab-wrapper {
 }
 
 /*
- * 2.4 Tooltips
+ * 2.5 Tooltips
  */
 .bp-tooltip {
 	position: relative;
