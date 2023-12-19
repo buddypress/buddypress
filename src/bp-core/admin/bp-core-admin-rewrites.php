@@ -183,6 +183,37 @@ function bp_core_admin_rewrites_settings() {
 											<input type="text" class="code" name="<?php printf( 'components[%d][post_name]', absint( $directory_data->id ) ); ?>" id="<?php echo esc_attr( sprintf( '%s-directory-slug', sanitize_key( $component_id ) ) ); ?>" value="<?php echo esc_attr( $directory_data->slug ); ?>">
 										</td>
 									</tr>
+									<tr>
+										<th scope="row">
+											<label for="<?php echo esc_attr( sprintf( '%s-directory-url', sanitize_key( $component_id ) ) ); ?>">
+												<?php ( 'activate' === $component_id || 'register' === $component_id ) ? esc_html_e( 'Page permalink', 'buddypress' ) : esc_html_e( 'Directory permalink', 'buddypress' ); ?>
+											</label>
+										</th>
+										<td>
+											<?php
+											$url_args = array(
+												'component_id' => $component_id,
+											);
+
+											if ( 'activate' === $component_id || 'register' === $component_id ) {
+												$url_args = array(
+													'component_id'                        => 'members',
+													sprintf( 'member_%s', $component_id ) => 1,
+												);
+											}
+
+											$permalink = bp_rewrites_get_url( $url_args );
+											?>
+											<input type="text" class="code bp-directory-url" id="<?php echo esc_attr( sprintf( '%s-directory-url', sanitize_key( $component_id ) ) ); ?>" value="<?php echo esc_url( $permalink ); ?>" disabled="disabled">
+
+											<?php if ( 'activate' !== $component_id && 'register' !== $component_id ) : ?>
+												<a href="<?php echo esc_url( $permalink ); ?>" class="button-secondary bp-open-permalink" target="_bp">
+													<?php esc_html_e( 'View', 'buddypress' ); ?> <span class="dashicons dashicons-external" aria-hidden="true"></span>
+													<span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'buddypress' ); ?></span>
+												</a>
+											<?php endif; ?>
+										</td>
+									</tr>
 								</table>
 							</div>
 						</div>
