@@ -271,7 +271,7 @@ function bp_blocks_get_login_widget_registration_link( $content = '', $args = ar
 	if ( isset( $args['form_id'] ) && 'bp-login-widget-form' === $args['form_id'] ) {
 		if ( bp_get_signup_allowed() ) {
 			$content .= sprintf(
-				'<p class="bp-login-widget-register-link"><a href="%1$s">%2$s</a></p>',
+				'<p class="bp-login-widget-register-link"><a href="%1$s" class="wp-block-button__link wp-element-button">%2$s</a></p>',
 				esc_url( bp_get_signup_page() ),
 				esc_html__( 'Register', 'buddypress' )
 			);
@@ -415,17 +415,21 @@ function bp_block_render_login_form_block( $attributes = array() ) {
 
 		add_filter( 'login_form_bottom', 'bp_blocks_get_login_widget_registration_link', 10, 2 );
 
-		$widget_content .= wp_login_form(
-			array(
-				'echo'             => false,
-				'form_id'          => 'bp-login-widget-form',
-				'id_username'      => 'bp-login-widget-user-login',
-				'label_username'   => __( 'Username', 'buddypress' ),
-				'id_password'      => 'bp-login-widget-user-pass',
-				'label_password'   => __( 'Password', 'buddypress' ),
-				'id_remember'      => 'bp-login-widget-rememberme',
-				'id_submit'        => 'bp-login-widget-submit',
-				'include_pwd_link' => $pwd_link,
+		$widget_content .= str_replace(
+			'button button-primary',
+			'wp-block-button__link wp-element-button',
+			wp_login_form(
+				array(
+					'echo'             => false,
+					'form_id'          => 'bp-login-widget-form',
+					'id_username'      => 'bp-login-widget-user-login',
+					'label_username'   => __( 'Username', 'buddypress' ),
+					'id_password'      => 'bp-login-widget-user-pass',
+					'label_password'   => __( 'Password', 'buddypress' ),
+					'id_remember'      => 'bp-login-widget-rememberme',
+					'id_submit'        => 'bp-login-widget-submit',
+					'include_pwd_link' => $pwd_link,
+				)
 			)
 		);
 
