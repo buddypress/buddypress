@@ -1624,7 +1624,6 @@ body.activity-permalink .activity-list .activity-comments {
 .bp-member-preview-cover img,
 .bp-group-preview-cover img {
 	background: #c5c5c5;
-	-o-object-fit: cover;
 	object-fit: cover;
 	border: 0;
 	display: block;
