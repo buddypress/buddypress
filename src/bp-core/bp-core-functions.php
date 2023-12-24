@@ -775,7 +775,14 @@ function bp_core_get_directory_pages() {
 	if ( false === $pages ) {
 
 		// Set pages as standard class.
-		$pages = new stdClass;
+		$pages                 = new stdClass;
+		$switched_to_root_blog = false;
+
+		// Make sure the current blog is set to the root blog.
+		if ( ! bp_is_root_blog() && ! bp_is_multiblog_mode() ) {
+			switch_to_blog( bp_get_root_blog_id() );
+			$switched_to_root_blog = true;
+		}
 
 		// Get pages and IDs.
 		$page_ids = bp_core_get_directory_page_ids();
@@ -815,6 +822,10 @@ function bp_core_get_directory_pages() {
 					unset( $slug );
 				}
 			}
+		}
+
+		if ( $switched_to_root_blog ) {
+			restore_current_blog();
 		}
 
 		wp_cache_set( 'directory_pages', $pages, 'bp_pages' );

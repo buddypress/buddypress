@@ -51,7 +51,7 @@ function bp_rewrites_get_default_url_chunks() {
  * @since 12.0.0
  */
 function bp_delete_rewrite_rules() {
-	delete_option( 'rewrite_rules' );
+	bp_delete_option( 'rewrite_rules' );
 }
 
 /**

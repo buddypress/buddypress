@@ -38,6 +38,14 @@ function bp_core_admin_rewrites_load() {
 			wp_safe_redirect( add_query_arg( 'error', 'true', $base_url ) );
 		}
 
+		$switched_to_root_blog = false;
+
+		// Make sure the current blog is set to the root blog.
+		if ( ! bp_is_root_blog() ) {
+			switch_to_blog( bp_get_root_blog_id() );
+			$switched_to_root_blog = true;
+		}
+
 		$directory_pages     = (array) bp_core_get_directory_pages();
 		$current_page_slugs  = wp_list_pluck( $directory_pages, 'slug', 'id' );
 		$current_page_titles = wp_list_pluck( $directory_pages, 'title', 'id' );
@@ -95,6 +103,10 @@ function bp_core_admin_rewrites_load() {
 		// Make sure the WP rewrites will be regenarated at next page load.
 		if ( $reset_rewrites ) {
 			bp_delete_rewrite_rules();
+		}
+
+		if ( $switched_to_root_blog ) {
+			restore_current_blog();
 		}
 
 		wp_safe_redirect( add_query_arg( 'updated', 'true', $base_url ) );
