@@ -70,5 +70,11 @@
 		"slug": "administration-users-xprofile",
 		"markdown_source": "../user/administration/users/xprofile.md",
 		"parent": null
+	},
+	{
+		"title": "BuddyPress Sign-ups administration",
+		"slug": "administration-user-signups",
+		"markdown_source": "../user/administration/users/signups.md",
+		"parent": null
 	}
 ]
