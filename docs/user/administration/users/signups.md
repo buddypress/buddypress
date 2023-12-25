@@ -6,7 +6,7 @@ BuddyPress is extending the WordPress custom registration processes to improve y
 
 ![Membership settings](../../assets/signup-administration-wp-settings.png)
 
-In regular WordPress sites, the [Membership]([Title](https://wordpress.org/documentation/article/settings-general-screen/#membership)) section of your site’s general settings let you activate a checkbox to define that "anyone can register". 
+In regular WordPress sites, the [Membership](https://wordpress.org/documentation/article/settings-general-screen/#membership) section of your site’s general settings let you activate a checkbox to define that "anyone can register". 
 
 ## WordPress multisite settings
 
