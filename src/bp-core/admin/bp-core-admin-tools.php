@@ -191,9 +191,71 @@ function bp_admin_repair_list() {
  */
 function bp_admin_reset_slugs() {
 	/* translators: %s: the result of the action performed by the repair tool */
-	$statement = __( 'Removing all custom slugs and resetting default ones&hellip; %s', 'buddypress' );
+	$statement    = __( 'Removing all custom slugs and resetting default ones&hellip; %s', 'buddypress' );
+	$components   = buddypress()->active_components;
+	$bp_pages     = bp_get_option( 'bp-pages', array() );
+	$keep         = array_intersect_key( $bp_pages, $components );
+	$delete       = array_diff_key( $bp_pages, $keep );
+	$needs_switch = is_multisite() && ! bp_is_root_blog();
 
-	bp_core_add_page_mappings( buddypress()->active_components, 'delete' );
+	if ( bp_allow_access_to_registration_pages() && isset( $delete['register'], $delete['activate'] ) ) {
+		$keep = array_merge(
+			$keep,
+			array(
+				'register' => $delete['register'],
+				'activate' => $delete['activate'],
+			)
+		);
+	}
+
+	if ( $needs_switch ) {
+		switch_to_blog( bp_get_root_blog_id() );
+	}
+
+	// Remove all inactive components BP Pages and reset active ones slugs.
+	if ( $keep ) {
+		$deleted_pages = get_posts(
+			array(
+				'numberposts' => -1,
+				'post_type'   => bp_core_get_directory_post_type(),
+				'exclude'     => array_values( $keep ),
+				'fields'      => 'ids',
+			)
+		);
+
+		if ( $deleted_pages ) {
+			foreach ( $deleted_pages as $deleted_id ) {
+				wp_delete_post( $deleted_id, true );
+			}
+		}
+
+		foreach ( $keep as $component_id => $directory_page_id ) {
+			if ( ! isset( $components[ $component_id ] ) && 'register' !== $component_id && 'activate' !== $component_id ) {
+				continue;
+			}
+
+			wp_update_post(
+				array(
+					'ID'        => $directory_page_id,
+					'post_name' => $component_id,
+				)
+			);
+		}
+	}
+
+	// Remove all custom slugs.
+	if ( $bp_pages ) {
+		foreach ( $bp_pages as $page_id ) {
+			delete_post_meta( $page_id, '_bp_component_slugs' );
+		}
+	}
+
+	if ( $needs_switch ) {
+		restore_current_blog();
+	}
+
+	// Reset page mapping.
+	bp_core_add_page_mappings( $components );
 
 	// Delete BP Pages cache and rewrite rules.
 	wp_cache_delete( 'directory_pages', 'bp_pages' );
