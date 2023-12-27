@@ -19,6 +19,8 @@ BuddyPress will enable its regular registration workflow if this setting is acti
 
 ### WordPress multisite settings
 
+![Registration settings](../../assets/administration-network-registration-setting.png)
+
 If you are using a WordPress sites network, the [Registration](https://wordpress.org/documentation/article/network-admin-settings-screen/#allow-new-registrations) section of your network settings let you chose whether:
 
 1. Registration is disabled. (default)
