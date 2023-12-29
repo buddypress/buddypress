@@ -45,6 +45,11 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '>=20.10.0'
+
       - name: Log information
         run: |
           echo "$GITHUB_REF"
@@ -65,11 +70,6 @@ jobs:
           if [ ${{ env.WP_VERSION }} == '5.8' ]; then
             composer require wp-phpunit/wp-phpunit:6.0 --dev --ignore-platform-reqs
           fi
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '>=20.10.0'
 
       - name: Cache node modules
         uses: actions/cache@v2
