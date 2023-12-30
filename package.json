@@ -5,18 +5,18 @@
 	},
 	"description": "BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!",
 	"devDependencies": {
-		"@wordpress/babel-preset-default": "^7.12.0",
-		"@wordpress/browserslist-config": "^5.11.0",
-		"@wordpress/scripts": "^26.1.0",
+		"@wordpress/babel-preset-default": "^7.32.0",
+		"@wordpress/browserslist-config": "^5.31.0",
+		"@wordpress/scripts": "^26.19.0",
 		"@wordpress/env": "^5.6.0",
 		"@wordpress/stylelint-config": "~19.1.0",
 		"autoprefixer": "^9.8.8",
-		"grunt": "^1.5.3",
+		"grunt": "^1.6.1",
 		"grunt-check-dependencies": "~1.0.0",
 		"grunt-checktextdomain": "~1.0.1",
 		"grunt-contrib-clean": "~2.0.1",
 		"grunt-contrib-copy": "~1.0.0",
-		"grunt-contrib-cssmin": "^4.0.0",
+		"grunt-contrib-cssmin": "~5.0.0",
 		"grunt-contrib-imagemin": "~4.0.0",
 		"grunt-contrib-jshint": "^3.2.0",
 		"grunt-contrib-uglify": "~5.2.1",
@@ -30,15 +30,15 @@
 		"grunt-sass": "~3.1.0",
 		"grunt-stylelint": "~0.16.0",
 		"matchdep": "~2.0.0",
-		"node-sass": "~6.0.1",
+		"node-sass": "~9.0.0",
 		"phplint": "~2.0.5",
 		"postcss": "^8.4.21",
 		"postcss-scss": "~4.0.0",
 		"stylelint": "~13.13.1"
 	},
 	"engines": {
-		"node": ">=16.19.1",
-		"npm": ">=8.19.3 <9"
+		"node": ">=20.10.0",
+		"npm": ">=10.2.3"
 	},
 	"scripts": {
 		"build:blocks": "npm run build:block:activity && npm run build:block:blogs && npm run build:block:core && npm run build:block:friends && npm run build:block:groups && npm run build:block:members && npm run build:block:messages",

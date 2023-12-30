@@ -14,10 +14,12 @@
 	],
 	"homepage": "https://buddypress.org",
 	"license": "GPL-2.0-or-later",
-	"authors": [ {
-		"name": "BuddyPress Community",
-		"homepage": "https://buddypress.org/about/"
-	} ],
+	"authors": [
+		{
+			"name": "BuddyPress Community",
+			"homepage": "https://buddypress.org/about/"
+		}
+	],
 	"support": {
 		"forum": "https://buddypress.org/support/",
 		"docs": "https://codex.buddypress.org/",
@@ -44,11 +46,11 @@
 	},
 	"require-dev": {
 		"buddypress/bp-coding-standards": "dev-trunk",
-		"wp-phpunit/wp-phpunit": "^6.3",
-		"yoast/phpunit-polyfills": "^1.0.1"
+		"wp-phpunit/wp-phpunit": "^6.4",
+		"yoast/phpunit-polyfills": "^1.0"
 	},
 	"scripts": {
 		"test": "@php ./vendor/phpunit/phpunit/phpunit",
-		"phpcs" : "@php ./vendor/bin/phpcs"
+		"phpcs": "@php ./vendor/bin/phpcs"
 	}
 }
