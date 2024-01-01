@@ -826,3 +826,31 @@ function bp_get_theme_compat_templates() {
 		'index.php'
 	) );
 }
+
+/**
+ * Sets Block Theme compatibility if it supports BuddyPress.
+ *
+ * @since 14.0.0
+ */
+function bp_set_block_theme_compat() {
+	if ( bp_is_running_wp( '5.9.0', '>=' ) && wp_is_block_theme() && current_theme_supports( 'buddypress' ) ) {
+		bp_deregister_template_stack( 'get_stylesheet_directory', 10 );
+		bp_deregister_template_stack( 'get_template_directory', 12 );
+
+		$block_theme     = wp_get_theme();
+		$theme_compat_id = $block_theme->stylesheet;
+
+		bp_register_theme_package(
+			array(
+				'id'             => $theme_compat_id,
+				'name'           => $block_theme->get( 'Name' ),
+				'version'        => $block_theme->get( 'Version' ),
+				'dir'            => '',
+				'url'            => '',
+				'is_block_theme' => true,
+			)
+		);
+
+		bp_setup_theme_compat( $theme_compat_id );
+	}
+}

@@ -1041,3 +1041,17 @@ function bp_check_theme_template_pack_dependency() {
 		return;
 	}
 }
+
+/**
+ * Informs about whether current theme compat is about a block theme.
+ *
+ * @since 14.0.0
+ *
+ * @return boolean True if current theme compat is about a block theme.
+ *                 False otherwise.
+ */
+function bp_theme_compat_is_block_theme() {
+	$theme = buddypress()->theme_compat->theme;
+
+	return isset( $theme->is_block_theme ) && $theme->is_block_theme;
+}

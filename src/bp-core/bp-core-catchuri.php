@@ -69,6 +69,7 @@ function bp_core_enable_root_profiles() {
  *   wp-content/themes/[activated_theme]/members/index.php
  *
  * @since 1.0.0
+ * @since 14.0.0 Uses `locate_block_template()` to support BuddyPress Block only Themes.
  *
  * @param array $templates Array of templates to attempt to load.
  */
@@ -94,7 +95,23 @@ function bp_core_load_template( $templates ) {
 
 	// Only perform template lookup for bp-default themes.
 	if ( ! bp_use_theme_compat_with_current_theme() ) {
-		$template = locate_template( (array) $filtered_templates, false );
+		if ( bp_theme_compat_is_block_theme() ) {
+			// Prevent BuddyPress components from using the BP Theme Compat feature.
+			remove_all_actions( 'bp_setup_theme_compat' );
+
+			$block_templates = array();
+			foreach ( (array) $templates as $template ) {
+				$block_templates[] = 'buddypress/' . $template;
+			}
+
+			$template_type     = 'buddypress';
+			$block_templates[] = $template_type;
+
+			$template = locate_block_template( '', $template_type, $block_templates );
+
+		} else {
+			$template = locate_template( (array) $filtered_templates, false );
+		}
 
 	// Theme compat doesn't require a template lookup.
 	} else {
@@ -123,7 +140,7 @@ function bp_core_load_template( $templates ) {
 		$located_template = '';
 	}
 
-	if ( !empty( $located_template ) ) {
+	if ( ! empty( $located_template ) ) {
 		// Template was located, lets set this as a valid page and not a 404.
 		status_header( 200 );
 		$wp_query->is_page     = true;
