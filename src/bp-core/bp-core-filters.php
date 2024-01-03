@@ -956,6 +956,11 @@ add_filter( 'customize_nav_menu_available_item_types', 'bp_customizer_nav_menus_
  * @return WP_Post[]       Array of page objects, potentially including BP directories.
  */
 function bp_core_include_directory_on_front( $pages = array(), $args = array() ) {
+	// Prevent duplicate "page on front" option values when the 'legacy' BuddyPress URL Parser is in use.
+	if ( 'rewrites' !== bp_core_get_query_parser() ) {
+		return $pages;
+	}
+
 	$is_page_on_front_dropdown = false;
 
 	if ( isset( $args['name'] ) ) {
