@@ -1064,7 +1064,7 @@ class BP_Groups_Component extends BP_Component {
 			return parent::parse_query( $query );
 		}
 
-		if ( home_url( '/' ) === bp_get_requested_url() && bp_is_directory_homepage( $this->id ) ) {
+		if ( bp_is_site_home() && bp_is_directory_homepage( $this->id ) ) {
 			$query->set( $this->rewrite_ids['directory'], 1 );
 		}
 

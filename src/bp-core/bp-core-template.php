@@ -1926,6 +1926,25 @@ function bp_is_blog_page() {
 }
 
 /**
+ * Checks whether the requested URL is site home's one.
+ *
+ * @since 12.1.0
+ *
+ * @return boolean True if the requested URL is site home's one. False otherwise.
+ */
+function bp_is_site_home() {
+	$requested_url = bp_get_requested_url();
+	$home_url      = home_url( '/' );
+
+	if ( is_customize_preview() ) {
+		$requested_url = wp_parse_url( $requested_url, PHP_URL_PATH );
+		$home_url      = wp_parse_url( $home_url, PHP_URL_PATH );
+	}
+
+	return $home_url === $requested_url;
+}
+
+/**
  * Is this a BuddyPress component?
  *
  * You can tell if a page is displaying BP content by whether the
