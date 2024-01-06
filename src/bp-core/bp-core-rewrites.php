@@ -175,7 +175,7 @@ function bp_rewrites_get_url( $args = array() ) {
 	$bp  = buddypress();
 	$url = get_home_url( bp_get_root_blog_id() );
 
-	$r = bp_parse_args(
+	$args = bp_parse_args(
 		$args,
 		array(
 			'component_id'                 => '',
@@ -186,6 +186,8 @@ function bp_rewrites_get_url( $args = array() ) {
 			'single_item_action_variables' => array(),
 		)
 	);
+
+	$r = $args;
 
 	if ( $r['component_id'] && isset( $bp->{$r['component_id']}->rewrite_ids ) ) {
 		$component = $bp->{$r['component_id']};
@@ -274,12 +276,12 @@ function bp_rewrites_get_url( $args = array() ) {
 	}
 
 	/**
-	 * Filter here to edit any BudyPress URL.
+	 * Filter here to edit any BuddyPress URL.
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param string $url The BudyPress URL.
-	 * @param array  $r {
+	 * @param string $url The BuddyPress URL.
+	 * @param array  $args {
 	 *      Optional. An array of arguments.
 	 *
 	 *      @type string $component_id                The BuddyPress component ID. Defaults ''.
@@ -294,7 +296,7 @@ function bp_rewrites_get_url( $args = array() ) {
 	 *      @type array $single_item_action_variables The list of BuddyPress single item's action variable URL chunks. Defaults [].
 	 * }
 	 */
-	return apply_filters( 'bp_rewrites_get_url', $url, $r );
+	return apply_filters( 'bp_rewrites_get_url', $url, $args );
 }
 
 /**
