@@ -296,6 +296,7 @@ function bp_rewrites_get_url( $args = array() ) {
 	 *                                                Eg: the member's Activity mentions page.
 	 *      @type array $single_item_action_variables The list of BuddyPress single item's action variable URL chunks. Defaults [].
 	 * }
+	 * @param array  $args Original arguments used with the function.
 	 */
 	return apply_filters( 'bp_rewrites_get_url', $url, $path_chunks, $args );
 }
