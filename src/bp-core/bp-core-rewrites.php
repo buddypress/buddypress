@@ -175,7 +175,7 @@ function bp_rewrites_get_url( $args = array() ) {
 	$bp  = buddypress();
 	$url = get_home_url( bp_get_root_blog_id() );
 
-	$args = bp_parse_args(
+	$r = bp_parse_args(
 		$args,
 		array(
 			'component_id'                 => '',
