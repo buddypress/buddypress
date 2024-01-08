@@ -282,7 +282,7 @@ function bp_rewrites_get_url( $args = array() ) {
 	 * @since 12.0.0
 	 *
 	 * @param string $url The BuddyPress URL.
-	 * @param array  $args {
+	 * @param array  $path_chunks {
 	 *      Optional. An array of arguments.
 	 *
 	 *      @type string $component_id                The BuddyPress component ID. Defaults ''.
