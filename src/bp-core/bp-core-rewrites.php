@@ -187,7 +187,8 @@ function bp_rewrites_get_url( $args = array() ) {
 		)
 	);
 
-	$r = $args;
+	// Define the path chunks out of parsed arguments to make them available & unchanged for the 'bp_rewrites_get_url' filter.
+	$path_chunks = $r;
 
 	if ( $r['component_id'] && isset( $bp->{$r['component_id']}->rewrite_ids ) ) {
 		$component = $bp->{$r['component_id']};
