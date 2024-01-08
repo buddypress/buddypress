@@ -297,7 +297,7 @@ function bp_rewrites_get_url( $args = array() ) {
 	 *      @type array $single_item_action_variables The list of BuddyPress single item's action variable URL chunks. Defaults [].
 	 * }
 	 */
-	return apply_filters( 'bp_rewrites_get_url', $url, $args );
+	return apply_filters( 'bp_rewrites_get_url', $url, $path_chunks, $args );
 }
 
 /**
