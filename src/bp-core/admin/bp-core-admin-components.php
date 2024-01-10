@@ -384,7 +384,13 @@ function bp_core_admin_get_active_components_from_submitted_settings( $submitted
 	$current_components = buddypress()->active_components;
 
 	// Sanitize the passed components.
-	$submitted = array_filter( (array) $submitted, 'is_string' );
+	$submitted = array_filter(
+		(array) $submitted,
+		function( $value, $key ) {
+			return is_string( $key ) && is_numeric( $value );
+		},
+		ARRAY_FILTER_USE_BOTH
+	);
 
 	switch ( $current_action ) {
 		case 'retired' :
