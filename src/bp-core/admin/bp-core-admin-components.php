@@ -318,7 +318,7 @@ function bp_core_admin_components_settings_handler() {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		require_once( $bp->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
 
-		$submitted = stripslashes_deep( $_POST['bp_components'] );
+		$submitted = wp_unslash( $_POST['bp_components'] );
 		$bp->active_components = bp_core_admin_get_active_components_from_submitted_settings( $submitted );
 
 		bp_core_install( $bp->active_components );
