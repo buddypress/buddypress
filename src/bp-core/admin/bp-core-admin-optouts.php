@@ -274,7 +274,7 @@ function bp_core_optouts_admin() {
 function bp_core_optouts_admin_index() {
 	global $plugin_page, $bp_optouts_list_table;
 
-	$usersearch = ! empty( $_REQUEST['s'] ) ? wp_unslash( $_REQUEST['s'] ) : '';
+	$usersearch = ( ! empty( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ) ? wp_unslash( $_REQUEST['s'] ) : '';
 
 	// Prepare the group items for display.
 	$bp_optouts_list_table->prepare_items();

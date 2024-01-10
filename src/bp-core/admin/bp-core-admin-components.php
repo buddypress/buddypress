@@ -371,7 +371,7 @@ add_action( 'bp_admin_init', 'bp_core_admin_components_settings_handler' );
  * @since 1.7.0
  *
  * @param array $submitted This is the array of component settings coming from the POST
- *                         global. You should stripslashes_deep() before passing to this function.
+ *                         global. You should wp_unslash() before passing to this function.
  * @return array The calculated list of component settings
  */
 function bp_core_admin_get_active_components_from_submitted_settings( $submitted ) {
@@ -382,6 +382,9 @@ function bp_core_admin_get_active_components_from_submitted_settings( $submitted
 	}
 
 	$current_components = buddypress()->active_components;
+
+	// Sanitize the passed components.
+	$submitted = array_filter( (array) $submitted, 'is_string' );
 
 	switch ( $current_action ) {
 		case 'retired' :

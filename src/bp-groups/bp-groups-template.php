@@ -497,6 +497,8 @@ function bp_has_groups( $args = '' ) {
 			// Can be a comma-separated list.
 			$group_type = explode( ',', $_GET['group_type'] );
 		}
+
+		$group_type = array_filter( $group_type, 'is_string' );
 	}
 
 	$status = array();
@@ -507,6 +509,8 @@ function bp_has_groups( $args = '' ) {
 			// Can be a comma-separated list.
 			$status = explode( ',', $_GET['status'] );
 		}
+
+		$status = array_filter( $status, 'is_string' );
 	}
 
 	// Default search string (too soon to escape here).
@@ -515,8 +519,12 @@ function bp_has_groups( $args = '' ) {
 		$search_terms = wp_unslash( $_REQUEST[ $search_query_arg ] );
 	} elseif ( ! empty( $_REQUEST['group-filter-box'] ) ) {
 		$search_terms = $_REQUEST['group-filter-box'];
-	} elseif ( !empty( $_REQUEST['s'] ) ) {
+	} elseif ( ! empty( $_REQUEST['s'] ) ) {
 		$search_terms = $_REQUEST['s'];
+	}
+
+	if ( ! is_string( $search_terms ) ) {
+		$search_terms = false;
 	}
 
 	// Parse defaults and requested arguments.
@@ -3810,16 +3818,16 @@ function bp_group_status_message( $group = null ) {
 function bp_group_hidden_fields() {
 	$query_arg = bp_core_get_component_search_query_arg( 'groups' );
 
-	if ( isset( $_REQUEST[ $query_arg ] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST[ $query_arg ] ) . '" name="search_terms" />';
+	if ( isset( $_REQUEST[ $query_arg ] ) && is_string( $_REQUEST[ $query_arg ] ) ) {
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( wp_unslash( $_REQUEST[ $query_arg ] ) ) . '" name="search_terms" />';
 	}
 
-	if ( isset( $_REQUEST['letter'] ) ) {
-		echo '<input type="hidden" id="selected_letter" value="' . esc_attr( $_REQUEST['letter'] ) . '" name="selected_letter" />';
+	if ( isset( $_REQUEST['letter'] ) && is_string( $_REQUEST['letter'] ) ) {
+		echo '<input type="hidden" id="selected_letter" value="' . esc_attr( wp_unslash( $_REQUEST['letter'] ) ) . '" name="selected_letter" />';
 	}
 
-	if ( isset( $_REQUEST['groups_search'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['groups_search'] ) . '" name="search_terms" />';
+	if ( isset( $_REQUEST['groups_search'] ) && is_string( $_REQUEST['groups_search'] ) ) {
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( wp_unslash( $_REQUEST['groups_search'] ) ) . '" name="search_terms" />';
 	}
 }
 
@@ -3932,7 +3940,7 @@ function bp_group_has_members( $args = '' ) {
 	 */
 	$search_terms_default = false;
 	$search_query_arg = bp_core_get_component_search_query_arg( 'members' );
-	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
+	if ( ! empty( $_REQUEST[ $search_query_arg ] ) && is_string( $_REQUEST[ $search_query_arg ] ) ) {
 		$search_terms_default = wp_unslash( $_REQUEST[ $search_query_arg ] );
 	}
 
@@ -3960,8 +3968,8 @@ function bp_group_has_members( $args = '' ) {
 	if ( '' === $r['search_terms'] ) {
 		// Set the search_terms to false for BP_User_Query efficiency.
 		$r['search_terms'] = false;
-	} elseif ( ! empty( $_REQUEST['s'] ) ) {
-		$r['search_terms'] = $_REQUEST['s'];
+	} elseif ( ! empty( $_REQUEST['s'] ) && is_string( $_REQUEST['s'] ) ) {
+		$r['search_terms'] = wp_unslash( $_REQUEST['s'] );
 	}
 
 	$members_template = new BP_Groups_Group_Members_Template( $r );
@@ -5466,7 +5474,7 @@ function bp_directory_groups_search_form() {
 
 	$query_arg = bp_core_get_component_search_query_arg( 'groups' );
 
-	if ( ! empty( $_REQUEST[ $query_arg ] ) ) {
+	if ( ! empty( $_REQUEST[ $query_arg ] ) && is_string( $_REQUEST[ $query_arg ] ) ) {
 		$search_value = wp_unslash( $_REQUEST[ $query_arg ] );
 	} else {
 		$search_value = bp_get_search_default_text( 'groups' );
