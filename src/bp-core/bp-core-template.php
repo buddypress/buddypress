@@ -1936,7 +1936,7 @@ function bp_is_site_home() {
 	$requested_url = bp_get_requested_url();
 	$home_url      = home_url( '/' );
 
-	if ( is_customize_preview() ) {
+	if ( is_customize_preview() && ! bp_is_email_customizer() ) {
 		$requested_url = wp_parse_url( $requested_url, PHP_URL_PATH );
 		$home_url      = wp_parse_url( $home_url, PHP_URL_PATH );
 	}
