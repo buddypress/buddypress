@@ -392,7 +392,7 @@ abstract class BP_XProfile_Field_Type {
 						$options[] = (object) array(
 							'id'                => -1,
 							'is_default_option' => $is_default_option,
-							'name'              => sanitize_text_field( stripslashes( $_POST[ $type . '_option' ][ $i ] ) ),
+							'name'              => sanitize_text_field( wp_unslash( $_POST[ $type . '_option' ][ $i ] ) ),
 						);
 
 						++$i;

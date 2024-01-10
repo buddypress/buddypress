@@ -512,7 +512,7 @@ function bp_has_groups( $args = '' ) {
 	// Default search string (too soon to escape here).
 	$search_query_arg = bp_core_get_component_search_query_arg( 'groups' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
-		$search_terms = stripslashes( $_REQUEST[ $search_query_arg ] );
+		$search_terms = wp_unslash( $_REQUEST[ $search_query_arg ] );
 	} elseif ( ! empty( $_REQUEST['group-filter-box'] ) ) {
 		$search_terms = $_REQUEST['group-filter-box'];
 	} elseif ( !empty( $_REQUEST['s'] ) ) {
@@ -3933,7 +3933,7 @@ function bp_group_has_members( $args = '' ) {
 	$search_terms_default = false;
 	$search_query_arg = bp_core_get_component_search_query_arg( 'members' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
-		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
+		$search_terms_default = wp_unslash( $_REQUEST[ $search_query_arg ] );
 	}
 
 	$r = bp_parse_args(
@@ -5467,7 +5467,7 @@ function bp_directory_groups_search_form() {
 	$query_arg = bp_core_get_component_search_query_arg( 'groups' );
 
 	if ( ! empty( $_REQUEST[ $query_arg ] ) ) {
-		$search_value = stripslashes( $_REQUEST[ $query_arg ] );
+		$search_value = wp_unslash( $_REQUEST[ $query_arg ] );
 	} else {
 		$search_value = bp_get_search_default_text( 'groups' );
 	}
