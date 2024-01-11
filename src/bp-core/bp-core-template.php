@@ -3781,6 +3781,20 @@ function bp_email_the_salutation( $settings = array() ) {
 	}
 
 /**
+ * Outputs the BP Email's template footer.
+ *
+ * @since 12.1.0
+ */
+function bp_email_footer() {
+	// `the_block_template_skip_link()` was deprecated in WP 6.4.0.
+	if ( bp_is_running_wp( '6.4.0', '>=' ) && has_action( 'wp_footer', 'the_block_template_skip_link' ) ) {
+		remove_action( 'wp_footer', 'the_block_template_skip_link' );
+	}
+
+	wp_footer();
+}
+
+/**
  * Checks if a Widget/Block is active.
  *
  * @since 9.0.0
