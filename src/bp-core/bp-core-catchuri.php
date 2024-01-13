@@ -176,7 +176,10 @@ function bp_core_load_template( $templates ) {
 			$wp_query->is_404      = false;
 
 			// Check if a BuddyPress component's direcory is set as homepage.
-			$wp_query->is_home = bp_is_directory_homepage( bp_current_component() );
+			if ( bp_is_directory_homepage( bp_current_component() ) ) {
+				$wp_query->home          = true;
+				$wp_query->is_front_page = true;
+			}
 		}
 
 		/**
