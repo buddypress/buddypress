@@ -242,7 +242,7 @@ $settings = bp_email_get_appearance_settings();
 </td></tr></table>
 <?php
 if ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) {
-	wp_footer();
+	bp_email_footer();
 }
 ?>
 </body>
