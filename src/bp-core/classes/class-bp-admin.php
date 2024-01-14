@@ -1091,20 +1091,6 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h3 class="wp-people-group"><?php esc_html_e( 'BuddyPress Docs Team', 'buddypress' ); ?></h3>
-			<ul class="wp-people-group " id="wp-people-group-docs-team">
-				<li class="wp-person" id="wp-person-jaz_on">
-					<a class="web" href="https://profiles.wordpress.org/jaz_on/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/156bf201e3860e2d75a9f13a890de950?s=120">
-					Jason Rouet</a>
-					<span class="title"><?php esc_html_e( 'Documentation leader', 'buddypress' ); ?></span>
-				</li>
-				<li class="wp-person" id="wp-person-bouncingsprout">
-					<a class="web" href="https://profiles.wordpress.org/bouncingsprout/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/8f6faaf383a02d2a478339c8dfbf910e?s=120">
-					Ben Roberts</a>
-					<span class="title"><?php esc_html_e( 'Documentation deputy', 'buddypress' ); ?></span>
-				</li>
-			</ul>
-
 			<h3 class="wp-people-group">
 				<?php
 				printf(
