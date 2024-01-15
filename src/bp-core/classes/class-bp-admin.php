@@ -942,10 +942,10 @@ class BP_Admin {
 						<?php
 						printf(
 							/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
-							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 46, 'buddypress' ),
+							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 49, 'buddypress' ),
 							'<span class="dashicons dashicons-heart"></span>',
 							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 46 )
+							number_format_i18n( 49 )
 						);
 						?>
 					</p>
@@ -1091,20 +1091,6 @@ class BP_Admin {
 				</li>
 			</ul>
 
-			<h3 class="wp-people-group"><?php esc_html_e( 'BuddyPress Docs Team', 'buddypress' ); ?></h3>
-			<ul class="wp-people-group " id="wp-people-group-docs-team">
-				<li class="wp-person" id="wp-person-jaz_on">
-					<a class="web" href="https://profiles.wordpress.org/jaz_on/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/156bf201e3860e2d75a9f13a890de950?s=120">
-					Jason Rouet</a>
-					<span class="title"><?php esc_html_e( 'Documentation leader', 'buddypress' ); ?></span>
-				</li>
-				<li class="wp-person" id="wp-person-bouncingsprout">
-					<a class="web" href="https://profiles.wordpress.org/bouncingsprout/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/8f6faaf383a02d2a478339c8dfbf910e?s=120">
-					Ben Roberts</a>
-					<span class="title"><?php esc_html_e( 'Documentation deputy', 'buddypress' ); ?></span>
-				</li>
-			</ul>
-
 			<h3 class="wp-people-group">
 				<?php
 				printf(
@@ -1172,16 +1158,19 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/nekojonez/">Pieterjan Deneys (nekojonez)</a>,
 				<a href="https://profiles.wordpress.org/niftythree/">Nifty (niftythree)</a>,
 				<a href="https://profiles.wordpress.org/nilovelez/">Nilo Velez (nilovelez)</a>,
+				<a href="https://profiles.wordpress.org/perchenet/">perchenet</a>,
 				<a href="https://profiles.wordpress.org/plugindevs/">Plugin Devs</a>,
 				<a href="https://profiles.wordpress.org/psmits1567/">Peter Smits (psmits1567)</a>,
 				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
 				<a href="https://profiles.wordpress.org/rajinsharwar/">Rajin Sharwar (rajinsharwar)</a>,
 				<a href="https://profiles.wordpress.org/raviousprime/">raviousprime</a>,
 				<a href="https://profiles.wordpress.org/espellcaste/">Renato Alves (espellcaste)</a>,
+				<a href="https://profiles.wordpress.org/sabernhardt/">Stephen Bernhardt (sabernhardt)</a>,
 				<a href="https://profiles.wordpress.org/shailu25/">Shail Mehta (shailu25)</a>,
 				<a href="https://profiles.wordpress.org/shawfactor/">shawfactor</a>,
-				<a href="https://profiles.wordpress.org/slaffik/">Slava Abakumov (slaFFik)</a>,
 				<a href="https://profiles.wordpress.org/sjregan/">sjregan</a>,
+				<a href="https://profiles.wordpress.org/slaffik/">Slava Abakumov (slaFFik)</a>,
+				<a href="https://profiles.wordpress.org/strategio/">Pierre Sylvestre (strategio)</a>,
 				<a href="https://profiles.wordpress.org/teeboy4real/">teeboy4real</a>,
 				<a href="https://profiles.wordpress.org/upadalavipul/">Upadala Vipul (upadalavipul)</a>,
 				<a href="https://profiles.wordpress.org/vapvarun/">Varun Dubey (vapvarun)</a>.
