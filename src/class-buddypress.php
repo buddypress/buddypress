@@ -654,7 +654,7 @@ class BuddyPress {
 
 			foreach ( $deprecated_functions_versions as $deprecated_functions_version ) {
 				// Load all or last 2 deprecated versions.
-				require $this->plugin_dir . sprintf( 'bp-core/deprecated/%s.php', $deprecated_functions_version );
+				require $this->plugin_dir . sprintf( 'bp-core/deprecated/%s.php', number_format( $deprecated_functions_version, 1 ) );
 			}
   		}
 
