@@ -4846,30 +4846,30 @@ function bp_get_deprecated_functions_versions() {
 
 	// List of versions containing deprecated functions.
 	$deprecated_functions_versions = array(
-		'1.2',
-		'1.5',
-		'1.6',
-		'1.7',
-		'1.9',
-		'2.0',
-		'2.1',
-		'2.2',
-		'2.3',
-		'2.4',
-		'2.5',
-		'2.6',
-		'2.7',
-		'2.8',
-		'2.9',
-		'3.0',
-		'4.0',
-		'6.0',
-		'7.0',
-		'8.0',
-		'9.0',
-		'10.0',
-		'11.0',
-		'12.0',
+		1.2,
+		1.5,
+		1.6,
+		1.7,
+		1.9,
+		2.0,
+		2.1,
+		2.2,
+		2.3,
+		2.4,
+		2.5,
+		2.6,
+		2.7,
+		2.8,
+		2.9,
+		3.0,
+		4.0,
+		6.0,
+		7.0,
+		8.0,
+		9.0,
+		10.0,
+		11.0,
+		12.0,
 	);
 
 	/*
@@ -4893,8 +4893,8 @@ function bp_get_deprecated_functions_versions() {
 	 * 2 last versions deprecated functions will be loaded for upgraded installs.
 	 */
 	$initial_version        = (float) bp_get_initial_version();
-	$current_version        = (float) bp_get_version();
-	$load_latest_deprecated = $initial_version < bp_get_major_version( $current_version );
+	$current_major_version  = (float) bp_get_major_version( bp_get_version() );
+	$load_latest_deprecated = $initial_version < $current_major_version;
 
 	// New installs.
 	if ( ! $load_latest_deprecated ) {
@@ -4904,7 +4904,7 @@ function bp_get_deprecated_functions_versions() {
 				array_map(
 					function( $file ) {
 						if ( false !== strpos( $file, '.php' ) ) {
-							return str_replace( '.php', '', $file );
+							return (float) str_replace( '.php', '', $file );
 						};
 					},
 					scandir( buddypress()->plugin_dir . 'bp-core/deprecated' )
@@ -4917,7 +4917,7 @@ function bp_get_deprecated_functions_versions() {
 		}
 
 		// Only load 12.0 deprecated functions.
-		return array( '12.0' );
+		return array( 12.0 );
 	}
 
 	$index_first_major = array_search( $initial_version, $deprecated_functions_versions, true );
