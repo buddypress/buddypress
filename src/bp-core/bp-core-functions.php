@@ -4894,7 +4894,7 @@ function bp_get_deprecated_functions_versions() {
 	 */
 	$initial_version        = (float) bp_get_initial_version();
 	$current_version        = (float) bp_get_version();
-	$load_latest_deprecated = $initial_version < $current_version;
+	$load_latest_deprecated = $initial_version < bp_get_major_version( $current_version );
 
 	// New installs.
 	if ( ! $load_latest_deprecated ) {
@@ -4920,13 +4920,7 @@ function bp_get_deprecated_functions_versions() {
 		return array( '12.0' );
 	}
 
-	// Try to get the first major version that was in used when BuddyPress was fist installed.
-	$first_major = '';
-	if ( $initial_version ) {
-		$first_major = bp_get_major_version( $initial_version );
-	}
-
-	$index_first_major = array_search( $first_major, $deprecated_functions_versions, true );
+	$index_first_major = array_search( $initial_version, $deprecated_functions_versions, true );
 	if ( false === $index_first_major ) {
 		return array_splice( $deprecated_functions_versions, -2 );
 	}
@@ -4937,7 +4931,7 @@ function bp_get_deprecated_functions_versions() {
 		$latest_deprecated_functions_versions = array_splice( $latest_deprecated_functions_versions, -2 );
 	}
 
-	$index_initial_version = array_search( $first_major, $latest_deprecated_functions_versions, true );
+	$index_initial_version = array_search( $initial_version, $latest_deprecated_functions_versions, true );
 	if ( false !== $index_initial_version ) {
 		unset( $latest_deprecated_functions_versions[ $index_initial_version ] );
 	}
