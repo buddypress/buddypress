@@ -328,7 +328,7 @@ module.exports = function( grunt ) {
 		},
 		exec: {
 			cli: {
-				command: 'svn export --force https://github.com/buddypress/wp-cli-buddypress.git/tags/2.0.2 cli',
+				command: 'npm run download:cli',
 				cwd: BUILD_DIR,
 				stdout: false
 			},
@@ -337,7 +337,7 @@ module.exports = function( grunt ) {
 				stdout: true
 			},
 			rest_api: {
-				command: 'svn export --force https://github.com/buddypress/BP-REST.git/trunk bp-rest',
+				command: 'npm run download:rest',
 				cwd: BUILD_DIR,
 				stdout: false
 			},
