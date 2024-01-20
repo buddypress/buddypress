@@ -110,6 +110,11 @@
 		.actions,
 		.notification-actions {
 			width: 15%;
+
+			.bp-tooltip {
+
+				@include bp-tooltip-bottom-left;
+			}
 		}
 	}
 

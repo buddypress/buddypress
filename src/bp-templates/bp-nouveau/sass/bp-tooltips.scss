@@ -1,5 +1,10 @@
 // BuddyPress Tooltips
-// @version 4.0.0
+// @version 12.2.0
+
+// Import our partials mixins & variables files
+
+@import "../common-styles/_bp-variables";
+@import "../common-styles/_bp-mixins";
 
 [data-bp-tooltip] {
 	position: relative;
@@ -71,43 +76,8 @@
 	@include bp-tooltip-default;
 }
 
-// Bottom Left Tooltip for mobile and Bottom Right Tooltip for tablet/desktop
-
-.user-list .bp-tooltip {
-
-	@include bp-tooltip-bottom-left;
-
-	@include medium-up() {
-
-		@include bp-tooltip-bottom-right;
-	}
-}
-
 // Bottom Left Tooltip
-
-.activity-list .bp-tooltip,
-.activity-meta-action .bp-tooltip,
-.avatar-block .item-avatar .bp-tooltip,
-.notification-actions .bp-tooltip,
-.participants-list .bp-tooltip {
+.avatar-block .item-avatar .bp-tooltip {
 
 	@include bp-tooltip-bottom-left;
-}
-
-// Bottom Right Tooltip
-
-.bp-invites-content .bp-tooltip,
-.message-metadata .actions .bp-tooltip,
-.single-message-thread-header .actions .bp-tooltip {
-
-	@include bp-tooltip-bottom-right;
-}
-
-.bp-invites-content #send-invites-editor .bp-tooltip {
-
-	// override .bp-invites-content .bp-tooltip
-	&:after {
-		left: 0;
-		right: auto;
-	}
 }

@@ -662,6 +662,9 @@ function bp_members_render_members_avatars_block( $block_args = array() ) {
 			</div>',
 			implode( "\n", $member_avatars )
 		);
+
+		// Only enqueue BP Tooltips if there is some content to style.
+		wp_enqueue_style( 'bp-tooltips' );
 	} else {
 		$widget_content .= sprintf(
 			'<div class="widget-error">

@@ -156,6 +156,9 @@ function bp_activity_render_latest_activities_block( $attributes = array() ) {
 	// Reset the global template loop.
 	$GLOBALS['activities_template'] = $reset_activities_template;
 
+	// Enqueue BP Tooltips.
+	wp_enqueue_style( 'bp-tooltips' );
+
 	// Only add a block wrapper if not loaded into a Widgets sidebar.
 	if ( ! did_action( 'dynamic_sidebar_before' ) ) {
 		return sprintf(

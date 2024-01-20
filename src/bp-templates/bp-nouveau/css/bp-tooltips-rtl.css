@@ -1,0 +1,59 @@
+[data-bp-tooltip] {
+	position: relative;
+}
+
+[data-bp-tooltip]:after {
+	background-color: #fff;
+	display: none;
+	opacity: 0;
+	position: absolute;
+	transform: translate3d(0, 0, 0);
+	visibility: hidden;
+}
+
+[data-bp-tooltip]:after {
+	border: 1px solid #737373;
+	border-radius: 1px;
+	box-shadow: -4px 4px 8px rgba(0, 0, 0, 0.2);
+	color: #333;
+	content: attr(data-bp-tooltip);
+	font-family: "Helvetica Neue", helvetica, arial, san-serif;
+	font-size: 12px;
+	font-weight: 400;
+	letter-spacing: normal;
+	line-height: 1.25;
+	max-width: 200px;
+	padding: 5px 8px;
+	pointer-events: none;
+	text-shadow: none;
+	text-transform: none;
+	transition: all 1.5s ease;
+	white-space: nowrap;
+	word-wrap: break-word;
+	z-index: 100000;
+}
+
+[data-bp-tooltip]:hover:after, [data-bp-tooltip]:active:after, [data-bp-tooltip]:focus:after {
+	display: block;
+	opacity: 1;
+	overflow: visible;
+	visibility: visible;
+}
+
+[data-bp-tooltip=""] {
+	display: none;
+	opacity: 0;
+	visibility: hidden;
+}
+
+.bp-tooltip:after {
+	right: 50%;
+	margin-top: 7px;
+	top: 110%;
+	transform: translate(50%, 0);
+}
+
+.avatar-block .item-avatar .bp-tooltip:after {
+	right: 0;
+	transform: translate(0, 0);
+}

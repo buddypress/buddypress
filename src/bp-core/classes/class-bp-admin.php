@@ -1370,7 +1370,7 @@ class BP_Admin {
 			// Legacy.
 			'bp-admin-common-css' => array(
 				'file'         => $common_css,
-				'dependencies' => array(),
+				'dependencies' => array( 'bp-tooltips' ),
 			),
 
 			// 2.5

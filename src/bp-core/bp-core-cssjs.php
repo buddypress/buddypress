@@ -104,6 +104,14 @@ function bp_core_register_common_styles() {
 	 */
 	$admin_bar_file = apply_filters( 'bp_core_admin_bar_css', "{$url}admin-bar{$min}.css" );
 
+	// Set default BP Tooltips styles.
+	$tooltips_uri      = "{$url}bp-tooltips{$min}.css";
+	$template_tooltips = bp_locate_template_asset( "css/bp-tooltips{$min}.css" );
+
+	if ( isset( $template_tooltips['uri'] ) && $template_tooltips['uri'] ) {
+		$tooltips_uri = $template_tooltips['uri'];
+	}
+
 	/**
 	 * Filters the BuddyPress Core stylesheet files to register.
 	 *
@@ -119,6 +127,10 @@ function bp_core_register_common_styles() {
 		'bp-avatar' => array(
 			'file'         => "{$url}avatar{$min}.css",
 			'dependencies' => array( 'jcrop' )
+		),
+		'bp-tooltips' => array(
+			'file'         => $tooltips_uri,
+			'dependencies' => array()
 		),
 	) );
 

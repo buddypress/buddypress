@@ -56,6 +56,17 @@
 				margin-left: 4px;
 				padding: 4px;
 			}
+
+			// Bottom Left Tooltip for mobile and Bottom Right Tooltip for tablet/desktop
+			.bp-tooltip {
+
+				@include bp-tooltip-bottom-left;
+
+				@include medium-up() {
+
+					@include bp-tooltip-bottom-right;
+				}
+			}
 		}
 
 		img.avatar {
