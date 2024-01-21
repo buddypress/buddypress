@@ -26,7 +26,7 @@ function bp_blogs_render_recent_posts_block( $attributes = array() ) {
 	$block_args = bp_parse_args(
 		$attributes,
 		array(
-			'title'     => __( 'Recent Networkwide Posts', 'buddypress' ),
+			'title'     => '',
 			'maxPosts'  => 10,
 			'linkTitle' => false,
 		)
