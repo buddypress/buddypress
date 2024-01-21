@@ -15,7 +15,7 @@
   "attributes": {
     "title": {
       "type": "string",
-      "default": "Members"
+      "default": ""
     },
     "maxMembers": {
       "type": "number",

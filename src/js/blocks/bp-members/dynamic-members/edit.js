@@ -30,6 +30,11 @@ const editDynamicMembersBlock = ( { attributes, setAttributes } ) => {
 	const blockProps = useBlockProps();
 	const { title, maxMembers, memberDefault, linkTitle } = attributes;
 	const sortTypes = !! isActive( 'friends' ) ? TYPES : TYPES.filter( ( type ) => 'popular' !== type.value );
+	const defaultTitle = title || __( 'Members', 'buddypress' );
+	const ssrAttributes = {
+		...attributes,
+		title: defaultTitle,
+	};
 
 	return (
 		<div { ...blockProps }>
@@ -37,7 +42,7 @@ const editDynamicMembersBlock = ( { attributes, setAttributes } ) => {
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<TextControl
 						label={ __( 'Title', 'buddypress' ) }
-						value={ title }
+						value={ defaultTitle }
 						onChange={ ( text ) => {
 							setAttributes( { title: text } );
 						} }
@@ -70,7 +75,7 @@ const editDynamicMembersBlock = ( { attributes, setAttributes } ) => {
 				</PanelBody>
 			</InspectorControls>
 			<Disabled>
-				<ServerSideRender block="bp/dynamic-members" attributes={ attributes } />
+				<ServerSideRender block="bp/dynamic-members" attributes={ ssrAttributes } />
 			</Disabled>
 		</div>
 	);
