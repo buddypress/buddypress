@@ -25,16 +25,14 @@ import {
 
 const editDynamicActivitiesBlock = ( { attributes, setAttributes } ) => {
 	const blockProps = useBlockProps();
-	const { postId, maxActivities, type, title } = attributes;
-	const post = currentPostId();
+	const { maxActivities, type, title } = attributes;
+	const defaultTitle = title || __( 'Latest activities', 'buddypress' );
 	const types = activityTypes();
-
-	if ( ! postId && post ) {
-		setAttributes( { postId: post } );
-		if ( ! attributes.postId ) {
-			attributes.postId = post;
-		}
-	}
+	const ssrAttributes = {
+		...attributes,
+		title: defaultTitle,
+		postId: currentPostId(),
+	};
 
 	return (
 		<div { ...blockProps }>
@@ -42,7 +40,7 @@ const editDynamicActivitiesBlock = ( { attributes, setAttributes } ) => {
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true } className="bp-latest-activities">
 					<TextControl
 						label={ __( 'Title', 'buddypress' ) }
-						value={ title }
+						value={ defaultTitle }
 						onChange={ ( text ) => {
 							setAttributes( { title: text } );
 						} }
@@ -69,7 +67,7 @@ const editDynamicActivitiesBlock = ( { attributes, setAttributes } ) => {
 				</PanelBody>
 			</InspectorControls>
 			<Disabled>
-				<ServerSideRender block="bp/latest-activities" attributes={ attributes } />
+				<ServerSideRender block="bp/latest-activities" attributes={ ssrAttributes } />
 			</Disabled>
 		</div>
 	);

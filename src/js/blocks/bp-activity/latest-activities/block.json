@@ -11,7 +11,7 @@
 	"attributes": {
 		"title": {
 			"type": "string",
-			"default": "Latest updates"
+			"default": ""
 		},
 		"maxActivities": {
 			"type": "number",
