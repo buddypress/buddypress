@@ -16,7 +16,7 @@
   "attributes": {
     "title": {
       "type": "string",
-      "default": "Recent Networkwide Posts"
+      "default": ""
     },
     "maxPosts": {
       "type": "number",

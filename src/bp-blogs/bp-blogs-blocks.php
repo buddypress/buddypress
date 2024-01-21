@@ -32,6 +32,10 @@ function bp_blogs_render_recent_posts_block( $attributes = array() ) {
 		)
 	);
 
+	if ( ! $block_args['title'] ) {
+		$block_args['title'] = __( 'Recent Networkwide Posts', 'buddypress' );
+	}
+
 	$classnames           = 'widget_bp_blogs_widget buddypress widget';
 	$wrapper_attributes   = get_block_wrapper_attributes( array( 'class' => $classnames ) );
 	$blogs_directory_link = bp_get_blogs_directory_url();
