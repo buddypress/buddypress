@@ -722,7 +722,7 @@ class BP_Members_Component extends BP_Component {
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_type'] . '=$matches[1]',
 			),
 			'member_activate'     => array(
-				'regex' => bp_get_activate_slug(),
+				'regex' => bp_get_activate_slug() . '/?$',
 				'order' => 40,
 				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1',
 			),
@@ -732,7 +732,7 @@ class BP_Members_Component extends BP_Component {
 				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1&' . $this->rewrite_ids['member_activate_key'] . '=$matches[1]',
 			),
 			'member_register'     => array(
-				'regex' => bp_get_signup_slug(),
+				'regex' => bp_get_signup_slug() . '/?$',
 				'order' => 20,
 				'query' => 'index.php?' . $this->rewrite_ids['member_register'] . '=1',
 			),
