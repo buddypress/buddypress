@@ -205,6 +205,14 @@ div.dashicons.big {
 	text-decoration: none;
 }
 
+.bp-hello-social li a.bp-tooltip:after {
+	bottom: 120%;
+	margin-bottom: 20px;
+	margin-top: 0;
+	top: auto;
+	transform: translateX(85%);
+}
+
 /*
  * 4.2 - Header content
  */

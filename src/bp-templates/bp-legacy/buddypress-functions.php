@@ -223,7 +223,7 @@ class BP_Legacy extends BP_Theme_Compat {
 
 		// LTR.
 		if ( ! is_rtl() && isset( $ltr['location'], $ltr['handle'] ) ) {
-			wp_enqueue_style( $ltr['handle'], $ltr['location'], array(), $this->version, 'screen' );
+			wp_enqueue_style( $ltr['handle'], $ltr['location'], array( 'bp-tooltips' ), $this->version, 'screen' );
 
 			if ( $min ) {
 				wp_style_add_data( $ltr['handle'], 'suffix', $min );
@@ -236,7 +236,7 @@ class BP_Legacy extends BP_Theme_Compat {
 
 			if ( isset( $rtl['location'], $rtl['handle'] ) ) {
 				$rtl['handle'] = str_replace( '-css', '-css-rtl', $rtl['handle'] );  // Backwards compatibility.
-				wp_enqueue_style( $rtl['handle'], $rtl['location'], array(), $this->version, 'screen' );
+				wp_enqueue_style( $rtl['handle'], $rtl['location'], array( 'bp-tooltips' ), $this->version, 'screen' );
 
 				if ( $min ) {
 					wp_style_add_data( $rtl['handle'], 'suffix', $min );
@@ -249,7 +249,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		if ( ! is_rtl() && isset( $theme['location'] ) ) {
 			// Use a unique handle.
 			$theme['handle'] = 'bp-' . get_template();
-			wp_enqueue_style( $theme['handle'], $theme['location'], array(), $this->version, 'screen' );
+			wp_enqueue_style( $theme['handle'], $theme['location'], array( 'bp-tooltips' ), $this->version, 'screen' );
 
 			if ( $min ) {
 				wp_style_add_data( $theme['handle'], 'suffix', $min );
@@ -262,7 +262,7 @@ class BP_Legacy extends BP_Theme_Compat {
 
 			if ( isset( $theme_rtl['location'] ) ) {
 				$theme_rtl['handle'] = $theme['handle'] . '-rtl';
-				wp_enqueue_style( $theme_rtl['handle'], $theme_rtl['location'], array(), $this->version, 'screen' );
+				wp_enqueue_style( $theme_rtl['handle'], $theme_rtl['location'], array( 'bp-tooltips' ), $this->version, 'screen' );
 
 				if ( $min ) {
 					wp_style_add_data( $theme_rtl['handle'], 'suffix', $min );

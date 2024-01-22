@@ -1,0 +1,52 @@
+/*--------------------------------------------------------------
+BP Tooltips
+--------------------------------------------------------------*/
+[data-bp-tooltip] {
+	position: relative;
+}
+
+[data-bp-tooltip]:after {
+	background: #fff;
+	border: 1px solid #aaa;
+	border-collapse: separate;
+	border-radius: 1px;
+	box-shadow: -1px 1px 0 1px rgba(132, 132, 132, 0.3);
+	color: #000;
+	content: attr(data-bp-tooltip);
+	display: none;
+	font-family: sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	letter-spacing: normal;
+	line-height: 1.5;
+	margin-top: 10px;
+	max-width: 240px;
+	opacity: 0;
+	padding: 3px 6px;
+	position: absolute;
+	left: 50%;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: none;
+	text-transform: none;
+	top: 100%;
+	transform: translateX(-50%);
+	transition: opacity 2s ease-out;
+	white-space: pre;
+	word-wrap: break-word;
+	z-index: 998;
+}
+
+[data-bp-tooltip]:hover:after, [data-bp-tooltip]:active:after, [data-bp-tooltip]:focus:after {
+	display: inline-block;
+	opacity: 1;
+	overflow: visible;
+	text-decoration: none;
+	z-index: 999;
+}
+
+[data-bp-tooltip=""] {
+	display: none;
+	opacity: 0;
+	visibility: hidden;
+}

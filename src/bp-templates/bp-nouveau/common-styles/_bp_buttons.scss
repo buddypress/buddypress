@@ -156,6 +156,20 @@
 				}
 
 			}
+
+			.bp-tooltip {
+
+				@include bp-tooltip-bottom-right;
+			}
+
+			#send-invites-editor .bp-tooltip {
+
+				// override .bp-invites-content .bp-tooltip
+				&:after {
+					left: 0;
+					right: auto;
+				}
+			}
 		}
 
 		#item-buttons:empty {
