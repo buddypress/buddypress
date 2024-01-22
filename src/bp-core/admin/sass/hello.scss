@@ -227,6 +227,14 @@ div.dashicons {
 
 		a {
 			text-decoration: none;
+
+			&.bp-tooltip:after {
+				bottom: 120%;
+				margin-bottom: 20px;
+				margin-top: 0;
+				top: auto;
+				transform: translateX(-85%);
+			}
 		}
 	}
 }

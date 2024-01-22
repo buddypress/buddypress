@@ -321,6 +321,11 @@
 			content: "";
 			display: table;
 		}
+
+		.actions .bp-tooltip {
+
+			@include bp-tooltip-bottom-right;
+		}
 	}
 
 	.preview-thread-title,

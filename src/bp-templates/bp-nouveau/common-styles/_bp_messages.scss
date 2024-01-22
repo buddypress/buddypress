@@ -69,6 +69,11 @@
 	.message-metadata {
 		overflow: hidden;
 		position: relative;
+
+		.actions .bp-tooltip {
+
+			@include bp-tooltip-bottom-right;
+		}
 	}
 
 	.message-content {
@@ -127,4 +132,9 @@ a.message-action-star:hover {
 .message-action-unstar span.icon:before {
 	color: #fcdd77;
 	content: "\f155";
+}
+
+.participants-list .bp-tooltip {
+
+	@include bp-tooltip-bottom-left;
 }

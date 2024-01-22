@@ -270,7 +270,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		 *
 		 * @param array $value Array of style dependencies. Default Dashicons.
 		 */
-		$css_dependencies = apply_filters( 'bp_nouveau_css_dependencies', array( 'dashicons' ) );
+		$css_dependencies = apply_filters( 'bp_nouveau_css_dependencies', array( 'dashicons', 'bp-tooltips' ) );
 
 		/**
 		 * Filters the styles to enqueue for BuddyPress Nouveau.

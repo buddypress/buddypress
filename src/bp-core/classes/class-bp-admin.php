@@ -1382,7 +1382,7 @@ class BP_Admin {
 			// 3.0
 			'bp-hello-css' => array(
 				'file'         => "{$url}hello{$min}.css",
-				'dependencies' => array( 'bp-admin-common-css', 'thickbox' ),
+				'dependencies' => array( 'bp-admin-common-css', 'thickbox', 'bp-tooltips' ),
 			),
 		) );
 
