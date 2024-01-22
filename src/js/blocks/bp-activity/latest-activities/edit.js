@@ -26,7 +26,7 @@ import {
 const editDynamicActivitiesBlock = ( { attributes, setAttributes } ) => {
 	const blockProps = useBlockProps();
 	const { maxActivities, type, title } = attributes;
-	const defaultTitle = title || __( 'Latest activities', 'buddypress' );
+	const defaultTitle = title || __( 'Latest updates', 'buddypress' );
 	const types = activityTypes();
 	const ssrAttributes = {
 		...attributes,
