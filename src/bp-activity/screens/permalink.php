@@ -62,10 +62,16 @@ function bp_activity_action_permalink_router() {
 		$redirect = bp_members_get_user_url( $activity->user_id, $path_chunks );
 	}
 
-	// If set, add the original query string back onto the redirect URL.
-	if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
+	// Make sure current BP URI query variables are removed.
+	$current_url = remove_query_arg( array( 'bp_activities', 'bp_activity_action', 'bp_activity_action_variables' ) );
+	$extra_args  = wp_parse_url( $current_url, PHP_URL_QUERY );
+
+	// If there are query variables left, add them back onto the redirect URL.
+	if ( $extra_args ) {
 		$query_frags = array();
-		wp_parse_str( $_SERVER['QUERY_STRING'], $query_frags );
+		wp_parse_str( $extra_args, $query_frags );
+
+		// Add extra arguments to the redirect URL.
 		$redirect = add_query_arg( urlencode_deep( $query_frags ), $redirect );
 	}
 
