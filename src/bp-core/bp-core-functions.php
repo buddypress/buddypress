@@ -4699,7 +4699,7 @@ function bp_strip_script_and_style_tags( $string ) {
  */
 function bp_is_large_install() {
 	// Use the Multisite function if available.
-	if ( function_exists( 'wp_is_large_network' ) ) {
+	if ( is_multisite() ) {
 		$is_large = wp_is_large_network( 'users' );
 	} else {
 		$is_large = bp_core_get_total_member_count() > 10000;
@@ -4870,6 +4870,7 @@ function bp_get_deprecated_functions_versions() {
 		10.0,
 		11.0,
 		12.0,
+		14.0,
 	);
 
 	/*

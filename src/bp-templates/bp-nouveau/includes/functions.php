@@ -1662,8 +1662,8 @@ function bp_nouveau_get_theme_layout_widths() {
 		);
 	}
 
-	// `wp_get_global_settings()` has been introduced in WordPress 5.9
-	if ( function_exists( 'wp_get_global_settings' ) ) {
+	// Use Block Theme global settings for Block Themes.
+	if ( wp_is_block_theme() ) {
 		$theme_layouts = wp_get_global_settings( array( 'layout' ) );
 
 		if ( isset( $theme_layouts['wideSize'] ) && $theme_layouts['wideSize'] ) {

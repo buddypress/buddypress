@@ -464,7 +464,7 @@ function bp_get_query_template( $type, $templates = array() ) {
 	 * The current theme is using the WordPress Full Site Editing feature.
 	 * BuddyPress then needs to use the WordPress template canvas to retrieve the community content.
 	 */
-	if ( bp_is_running_wp( '5.9.0', '>=' ) && wp_is_block_theme() ) {
+	if ( wp_is_block_theme() ) {
 		$template = ABSPATH . WPINC . '/template-canvas.php';
 	}
 
@@ -833,7 +833,7 @@ function bp_get_theme_compat_templates() {
  * @since 14.0.0
  */
 function bp_set_block_theme_compat() {
-	if ( bp_is_running_wp( '5.9.0', '>=' ) && wp_is_block_theme() && current_theme_supports( 'buddypress' ) ) {
+	if ( wp_is_block_theme() && current_theme_supports( 'buddypress' ) ) {
 		bp_deregister_template_stack( 'get_stylesheet_directory', 10 );
 		bp_deregister_template_stack( 'get_template_directory', 12 );
 

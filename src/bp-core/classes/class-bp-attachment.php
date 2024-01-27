@@ -643,10 +643,7 @@ abstract class BP_Attachment {
 			'height' => $height,
 		);
 
-		/**
-		 * Make sure the wp_read_image_metadata function is reachable for the old Avatar UI
-		 * or if WordPress < 3.9 (New Avatar UI is not available in this case)
-		 */
+		// Make sure the wp_read_image_metadata function is reachable.
 		if ( ! function_exists( 'wp_read_image_metadata' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/image.php' );
 		}
