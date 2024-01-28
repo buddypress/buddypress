@@ -391,12 +391,16 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 	$block_args = bp_parse_args(
 		$attributes,
 		array(
-			'title'         => __( 'Members', 'buddypress' ),
+			'title'         => '',
 			'maxMembers'    => 5,
 			'memberDefault' => 'active',
 			'linkTitle'     => false,
 		)
 	);
+
+	if ( ! $block_args['title'] ) {
+		$block_args['title'] = __( 'Members', 'buddypress' );
+	}
 
 	$classnames         = 'widget_bp_core_members_widget buddypress widget';
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
@@ -698,7 +702,7 @@ function bp_members_render_online_members_block( $attributes = array() ) {
 	$block_args = bp_parse_args(
 		$attributes,
 		array(
-			'title'      => __( 'Who\'s Online', 'buddypress' ),
+			'title'      => '',
 			'maxMembers' => 15,
 			'noMembers'  => __( 'There are no users currently online', 'buddypress' ),
 			'classname'  => 'widget_bp_core_whos_online_widget',
@@ -707,6 +711,10 @@ function bp_members_render_online_members_block( $attributes = array() ) {
 	);
 
 	$block_args['type'] = 'online';
+
+	if ( ! $block_args['title'] ) {
+		$block_args['title'] = __( 'Who\'s Online', 'buddypress' );
+	}
 
 	return bp_members_render_members_avatars_block( $block_args );
 }
@@ -723,7 +731,7 @@ function bp_members_render_active_members_block( $attributes = array() ) {
 	$block_args = bp_parse_args(
 		$attributes,
 		array(
-			'title'      => __( 'Recently Active Members', 'buddypress' ),
+			'title'      => '',
 			'maxMembers' => 15,
 			'noMembers'  => __( 'There are no recently active members', 'buddypress' ),
 			'classname'  => 'widget_bp_core_recently_active_widget',
@@ -732,6 +740,10 @@ function bp_members_render_active_members_block( $attributes = array() ) {
 	);
 
 	$block_args['type'] = 'active';
+
+	if ( ! $block_args['title'] ) {
+		$block_args['title'] = __( 'Recently Active Members', 'buddypress' );
+	}
 
 	return bp_members_render_members_avatars_block( $block_args );
 }

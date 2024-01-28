@@ -24,6 +24,11 @@ import { TYPES } from './constants';
 const editDynamicGroupsBlock = ( { attributes, setAttributes } ) => {
 	const blockProps = useBlockProps();
 	const { title, maxGroups, groupDefault, linkTitle } = attributes;
+	const defaultTitle = title || __( 'Groups', 'buddypress' );
+	const ssrAttributes = {
+		...attributes,
+		title: defaultTitle,
+	};
 
 	return (
 		<div { ...blockProps }>
@@ -31,7 +36,7 @@ const editDynamicGroupsBlock = ( { attributes, setAttributes } ) => {
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<TextControl
 						label={ __( 'Title', 'buddypress' ) }
-						value={ title }
+						value={ defaultTitle }
 						onChange={ ( text ) => {
 							setAttributes( { title: text } );
 						} }
@@ -64,7 +69,7 @@ const editDynamicGroupsBlock = ( { attributes, setAttributes } ) => {
 				</PanelBody>
 			</InspectorControls>
 			<Disabled>
-				<ServerSideRender block="bp/dynamic-groups" attributes={ attributes } />
+				<ServerSideRender block="bp/dynamic-groups" attributes={ ssrAttributes } />
 			</Disabled>
 		</div>
 	);

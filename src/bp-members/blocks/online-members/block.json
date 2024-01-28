@@ -16,7 +16,7 @@
   "attributes": {
     "title": {
       "type": "string",
-      "default": "Online Members"
+      "default": ""
     },
     "maxMembers": {
       "type": "number",
