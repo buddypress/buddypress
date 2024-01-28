@@ -370,12 +370,16 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 	$block_args = bp_parse_args(
 		$attributes,
 		array(
-			'title'        => __( 'Groups', 'buddypress' ),
+			'title'        => '',
 			'maxGroups'    => 5,
 			'groupDefault' => 'active',
 			'linkTitle'    => false,
 		)
 	);
+
+	if ( ! $block_args['title'] ) {
+		$block_args['title'] = __( 'Groups', 'buddypress' );
+	}
 
 	$classnames         = 'widget_bp_groups_widget buddypress widget';
 	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );

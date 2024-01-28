@@ -18,6 +18,11 @@ import ServerSideRender from '@wordpress/server-side-render';
 const editRecentPostsBlock = ( { attributes, setAttributes } ) => {
 	const blockProps = useBlockProps();
 	const { title, maxPosts, linkTitle } = attributes;
+	const defaultTitle = title || __( 'Recent Networkwide Posts', 'buddypress' );
+	const ssrAttributes = {
+		...attributes,
+		title: defaultTitle,
+	};
 
 	return (
 		<div { ...blockProps }>
@@ -25,7 +30,7 @@ const editRecentPostsBlock = ( { attributes, setAttributes } ) => {
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<TextControl
 						label={ __( 'Title', 'buddypress' ) }
-						value={ title }
+						value={ defaultTitle }
 						onChange={ ( text ) => {
 							setAttributes( { title: text } );
 						} }
@@ -50,7 +55,7 @@ const editRecentPostsBlock = ( { attributes, setAttributes } ) => {
 				</PanelBody>
 			</InspectorControls>
 			<Disabled>
-				<ServerSideRender block="bp/recent-posts" attributes={ attributes } />
+				<ServerSideRender block="bp/recent-posts" attributes={ ssrAttributes } />
 			</Disabled>
 		</div>
 	);

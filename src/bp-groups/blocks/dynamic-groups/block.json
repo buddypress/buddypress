@@ -15,7 +15,7 @@
   "attributes": {
     "title": {
       "type": "string",
-      "default": "Groups"
+      "default": ""
     },
     "maxGroups": {
       "type": "number",

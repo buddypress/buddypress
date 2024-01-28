@@ -26,11 +26,15 @@ function bp_blogs_render_recent_posts_block( $attributes = array() ) {
 	$block_args = bp_parse_args(
 		$attributes,
 		array(
-			'title'     => __( 'Recent Networkwide Posts', 'buddypress' ),
+			'title'     => '',
 			'maxPosts'  => 10,
 			'linkTitle' => false,
 		)
 	);
+
+	if ( ! $block_args['title'] ) {
+		$block_args['title'] = __( 'Recent Networkwide Posts', 'buddypress' );
+	}
 
 	$classnames           = 'widget_bp_blogs_widget buddypress widget';
 	$wrapper_attributes   = get_block_wrapper_attributes( array( 'class' => $classnames ) );

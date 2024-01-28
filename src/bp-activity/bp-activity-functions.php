@@ -921,7 +921,7 @@ function bp_activity_get_types_list() {
 
 	$types = array();
 	foreach ( $actions_array as $component => $actions ) {
-		$new_types = wp_list_pluck( $actions, 'label', 'key' );
+		$new_types = wp_list_pluck( (array) $actions, 'label', 'key' );
 
 		if ( $types ) {
 			// Makes sure activity types are unique.

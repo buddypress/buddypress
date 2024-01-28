@@ -17,6 +17,11 @@ import ServerSideRender from '@wordpress/server-side-render';
 const editActiveMembersBlock = ( { attributes, setAttributes } ) => {
 	const blockProps = useBlockProps();
 	const { title, maxMembers } = attributes;
+	const defaultTitle = title || __( 'Recently Active Members', 'buddypress' );
+	const ssrAttributes = {
+		...attributes,
+		title: defaultTitle,
+	};
 
 	return (
 		<div { ...blockProps }>
@@ -24,7 +29,7 @@ const editActiveMembersBlock = ( { attributes, setAttributes } ) => {
 				<PanelBody title={ __( 'Settings', 'buddypress' ) } initialOpen={ true }>
 					<TextControl
 						label={ __( 'Title', 'buddypress' ) }
-						value={ title }
+						value={ defaultTitle }
 						onChange={ ( text ) => {
 							setAttributes( { title: text } );
 						} }
@@ -42,7 +47,7 @@ const editActiveMembersBlock = ( { attributes, setAttributes } ) => {
 				</PanelBody>
 			</InspectorControls>
 			<Disabled>
-				<ServerSideRender block="bp/active-members" attributes={ attributes } />
+				<ServerSideRender block="bp/active-members" attributes={ ssrAttributes } />
 			</Disabled>
 		</div>
 	);

@@ -15,7 +15,7 @@
   "attributes": {
     "title": {
       "type": "string",
-      "default": "Recently Active Members"
+      "default": ""
     },
     "maxMembers": {
       "type": "number",
