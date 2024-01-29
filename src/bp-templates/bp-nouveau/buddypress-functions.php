@@ -83,10 +83,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		$this->includes_dir   = trailingslashit( $this->dir ) . 'includes/';
 		$this->directory_nav  = new BP_Core_Nav( bp_get_root_blog_id() );
 		$this->is_block_theme = false;
-
-		if ( bp_is_running_wp( '5.9.0', '>=' ) ) {
-			$this->is_block_theme = wp_is_block_theme();
-		}
+		$this->is_block_theme = wp_is_block_theme();
 	}
 
 	/**
