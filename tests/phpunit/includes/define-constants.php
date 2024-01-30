@@ -20,10 +20,7 @@ if ( ! defined( 'BP_TESTS_DIR' ) ) {
  * - Assume that we are inside of a develop.svn.wordpress.org setup, and walk
  *   up the directory tree
  */
-if ( false !== getenv( 'WP_PHPUNIT__DIR' ) && defined( 'BP_USE_WP_ENV_TESTS' ) ) {
-	define( 'WP_TESTS_DIR', getenv( 'WP_PHPUNIT__DIR' ) );
-	define( 'WP_ROOT_DIR', '/var/www/html' );
-} elseif ( false !== getenv( 'WP_TESTS_DIR' ) ) {
+if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 	define( 'WP_TESTS_DIR', getenv( 'WP_TESTS_DIR' ) );
 	define( 'WP_ROOT_DIR', WP_TESTS_DIR );
 } else {
