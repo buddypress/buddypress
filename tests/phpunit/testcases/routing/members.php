@@ -64,7 +64,7 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 
 		remove_filter( 'bp_members_member_type_base', array( $this, 'filter_member_type_base' ) );
 
-		$this->assertSame( $url, 'http://example.org/members/bp-member-type/foo/' );
+		$this->assertSame( $url, 'http://' . trailingslashit( WP_TESTS_DOMAIN ) . 'members/bp-member-type/foo/' );
 	}
 
 	public function filter_member_type_base( $base ) {

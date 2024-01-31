@@ -46,11 +46,11 @@
 	},
 	"require-dev": {
 		"buddypress/bp-coding-standards": "dev-trunk",
-		"wp-phpunit/wp-phpunit": "^6.4",
 		"yoast/phpunit-polyfills": "^1.0"
 	},
 	"scripts": {
 		"test": "@php ./vendor/phpunit/phpunit/phpunit",
+		"test_multi": "@php ./vendor/phpunit/phpunit/phpunit -c tests/phpunit/multisite.xml",
 		"phpcs": "@php ./vendor/bin/phpcs"
 	}
 }

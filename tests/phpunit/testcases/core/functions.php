@@ -833,6 +833,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		}
 
 		$bp = buddypress();
+		$reset_current_site = isset( $GLOBALS['current_site'] ) ? $GLOBALS['current_site'] : null;
 		$reset_bp_pages = $bp->pages;
 		$reset_bp_active_components = $bp->active_components;
 		$reset_option = bp_get_option( 'bp-pages' );
@@ -840,6 +841,10 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$b = self::factory()->blog->create( array(
 			'path'   => '/newcomponent/',
 		) );
+
+		if ( defined( 'WP_HOME' ) ) {
+			$GLOBALS['current_site']->domain = get_site( $b )->domain;
+		}
 
 		$bp->active_components['newcomponent'] = 1;
 		add_filter( 'bp_core_get_directory_page_default_titles', array( $this, 'add_newcomponent_page_title' ) );
@@ -850,6 +855,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$bp_pages = bp_get_option( 'bp-pages' );
 
 		$new_component_page_id = $bp_pages['newcomponent'];
+
 		$this->assertNotSame( 'newcomponent', get_post_field( 'post_name', $new_component_page_id ), 'The component slug should not conflict with subsite name.' );
 
 		// Reset the page mapping.
@@ -857,6 +863,10 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		wp_delete_post( $bp_pages['newcomponent'], true );
 		$bp->pages = $reset_bp_pages;
 		$bp->active_components = $reset_bp_active_components;
+
+		if ( defined( 'WP_HOME' ) ) {
+			$GLOBALS['current_site'] = $reset_current_site;
+		}
 	}
 
 	public function add_newcomponent_page_title( $page_default_titles = array() ) {
