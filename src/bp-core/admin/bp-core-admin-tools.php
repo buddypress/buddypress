@@ -756,9 +756,10 @@ add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resu
  */
 function bp_core_admin_debug_information( $debug_info = array() ) {
 	global $wp_settings_fields;
-	$active_components = array_intersect_key( bp_core_get_components(), buddypress()->active_components );
-	$bp_settings       = array();
-	$bp_url_parsers    = array(
+	$active_components    = array_intersect_key( bp_core_get_components(), buddypress()->active_components );
+	$bp_settings          = array();
+	$non_numeric_settings = array( '_bp_theme_package_id', '_bp_community_visibility' );
+	$bp_url_parsers       = array(
 		'rewrites' => __( 'BP Rewrites API', 'buddypress' ),
 		'legacy'   => __( 'Legacy Parser', 'buddypress' ),
 	);
@@ -770,7 +771,6 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 	} else {
 		$bp_url_parser = __( 'Custom', 'buddypress' );
 	}
-
 
 	foreach ( $wp_settings_fields['buddypress'] as $section => $settings ) {
 		$prefix       = '';
@@ -787,13 +787,13 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				strpos( $bp_setting['id'], 'disable' ) !== false
 			);
 
-			if ( ! isset( $bp_setting['id'] ) || '_bp_theme_package_id' === $bp_setting['id'] ) {
+			if ( ! isset( $bp_setting['id'] ) || in_array( $bp_setting['id'], $non_numeric_settings, true ) ) {
 				continue;
 			}
 
-			$bp_setting_value = bp_get_option( $bp_setting['id'] );
-			if ( '0' === $bp_setting_value || '1' === $bp_setting_value ) {
-				if ( ( $reverse && '0' === $bp_setting_value ) || ( ! $reverse && '1' === $bp_setting_value ) ) {
+			$bp_setting_value = (int) bp_get_option( $bp_setting['id'], 0 );
+			if ( 0 === $bp_setting_value || 1 === $bp_setting_value ) {
+				if ( ( $reverse && 0 === $bp_setting_value ) || ( ! $reverse && 1 === $bp_setting_value ) ) {
 					$bp_setting_value = __( 'Yes', 'buddypress' );
 				} else {
 					$bp_setting_value = __( 'No', 'buddypress' );
@@ -817,21 +817,25 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 		'label'  => __( 'BuddyPress', 'buddypress' ),
 		'fields' => array_merge(
 			array(
-				'version' => array(
+				'version'                     => array(
 					'label' => __( 'Version', 'buddypress' ),
 					'value' => bp_get_version(),
 				),
-				'active_components' => array(
+				'active_components'           => array(
 					'label' => __( 'Active components', 'buddypress' ),
 					'value' => implode( ', ', wp_list_pluck( $active_components, 'title' ) ),
 				),
-				'template_pack' => array(
+				'template_pack'               => array(
 					'label' => __( 'Active template pack', 'buddypress' ),
 					'value' => bp_get_theme_compat_name() . ' ' . bp_get_theme_compat_version(),
 				),
-				'url_parser'    => array(
+				'url_parser'                  => array(
 					'label' => __( 'URL Parser', 'buddypress' ),
 					'value' => $bp_url_parser,
+				),
+				'global_community_visibility' => array(
+					'label' => __( 'Community visibility', 'buddypress' ),
+					'value' => bp_get_community_visibility( 'global' ),
 				),
 			),
 			$bp_settings
