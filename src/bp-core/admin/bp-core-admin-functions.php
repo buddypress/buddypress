@@ -713,7 +713,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			);
 			break;
 
-		// Component page.
+		// Rewrites page.
 		case 'settings_page_bp-rewrites':
 		case 'settings_page_bp-rewrites-network':
 			// Help tabs.
@@ -725,9 +725,16 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
+			$manage_rewrites = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/settings/urls.md' ),
+				esc_html__( 'Managing URLs', 'buddypress' )
+			);
+
 			// Help panel - sidebar links.
 			$screen->set_help_sidebar(
 				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . $manage_rewrites . '</p>' .
 				'<p>' . $bp_forum . '</p>'
 			);
 			break;
