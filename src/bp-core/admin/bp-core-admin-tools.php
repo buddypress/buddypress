@@ -756,10 +756,11 @@ add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resu
  */
 function bp_core_admin_debug_information( $debug_info = array() ) {
 	global $wp_settings_fields;
-	$active_components    = array_intersect_key( bp_core_get_components(), buddypress()->active_components );
-	$bp_settings          = array();
-	$non_numeric_settings = array( '_bp_theme_package_id', '_bp_community_visibility' );
-	$bp_url_parsers       = array(
+
+	$active_components = wp_list_pluck( bp_core_get_active_components( array(), 'objects' ), 'name', 'id' );
+	$bp_settings       = array();
+	$skipped_settings  = array( '_bp_theme_package_id', '_bp_community_visibility' );
+	$bp_url_parsers    = array(
 		'rewrites' => __( 'BP Rewrites API', 'buddypress' ),
 		'legacy'   => __( 'Legacy Parser', 'buddypress' ),
 	);
@@ -776,8 +777,8 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 		$prefix       = '';
 		$component_id = str_replace( 'bp_', '', $section );
 
-		if ( isset( $active_components[ $component_id ]['title'] ) ) {
-			$prefix = $active_components[ $component_id ]['title'] .': ';
+		if ( isset( $active_components[ $component_id ] ) ) {
+			$prefix = $active_components[ $component_id ] .': ';
 		}
 
 		foreach( $settings as $bp_setting ) {
@@ -787,16 +788,30 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				strpos( $bp_setting['id'], 'disable' ) !== false
 			);
 
-			if ( ! isset( $bp_setting['id'] ) || in_array( $bp_setting['id'], $non_numeric_settings, true ) ) {
+			if ( ! isset( $bp_setting['id'] ) || in_array( $bp_setting['id'], $skipped_settings, true ) ) {
 				continue;
 			}
 
-			$bp_setting_value = (int) bp_get_option( $bp_setting['id'], 0 );
-			if ( 0 === $bp_setting_value || 1 === $bp_setting_value ) {
-				if ( ( $reverse && 0 === $bp_setting_value ) || ( ! $reverse && 1 === $bp_setting_value ) ) {
-					$bp_setting_value = __( 'Yes', 'buddypress' );
+			$bp_setting_value = bp_get_option( $bp_setting['id'], 0 );
+
+			if ( is_array( $bp_setting_value ) ) {
+				if ( is_numeric( key( $bp_setting_value ) ) ) {
+					$bp_setting_value = implode( ', ', $bp_setting_value );
 				} else {
-					$bp_setting_value = __( 'No', 'buddypress' );
+					$setting_array    = $bp_setting_value;
+					$bp_setting_value = array();
+					foreach ( $setting_array as $setting_array_key => $setting_array_value ) {
+						$bp_setting_value[ $setting_array_key ] = implode( ', ', $setting_array_value );
+					}
+				}
+			} else {
+				$bp_setting_value = (int) $bp_setting_value;
+				if ( 0 === $bp_setting_value || 1 === $bp_setting_value ) {
+					if ( ( $reverse && 0 === $bp_setting_value ) || ( ! $reverse && 1 === $bp_setting_value ) ) {
+						$bp_setting_value = __( 'Yes', 'buddypress' );
+					} else {
+						$bp_setting_value = __( 'No', 'buddypress' );
+					}
 				}
 			}
 
@@ -813,6 +828,19 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 		}
 	}
 
+	$theme_settings = array();
+	if ( current_theme_supports( 'buddypress' ) ) {
+		$theme_settings['standalone_bptheme'] = array(
+			'label' => __( 'BuddyPress standalone theme', 'buddypress' ),
+			'value' => wp_get_theme()->get( 'Name' ),
+		);
+	} else {
+		$theme_settings['template_pack'] = array(
+			'label' => __( 'Active template pack', 'buddypress' ),
+			'value' => bp_get_theme_compat_name() . ' ' . bp_get_theme_compat_version(),
+		);
+	}
+
 	$debug_info['buddypress'] = array(
 		'label'  => __( 'BuddyPress', 'buddypress' ),
 		'fields' => array_merge(
@@ -823,11 +851,7 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				),
 				'active_components'           => array(
 					'label' => __( 'Active components', 'buddypress' ),
-					'value' => implode( ', ', wp_list_pluck( $active_components, 'title' ) ),
-				),
-				'template_pack'               => array(
-					'label' => __( 'Active template pack', 'buddypress' ),
-					'value' => bp_get_theme_compat_name() . ' ' . bp_get_theme_compat_version(),
+					'value' => implode( ', ', $active_components ),
 				),
 				'url_parser'                  => array(
 					'label' => __( 'URL Parser', 'buddypress' ),
@@ -838,6 +862,7 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 					'value' => bp_get_community_visibility( 'global' ),
 				),
 			),
+			$theme_settings,
 			$bp_settings
 		)
 	);
@@ -845,3 +870,61 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 	return $debug_info;
 }
 add_filter( 'debug_information', 'bp_core_admin_debug_information' );
+
+/**
+ * Adds a BuddyPress section to the Site Health Info Admin Screen help tabs.
+ *
+ * @since 14.0.0
+ */
+function bp_core_admin_debug_information_add_help_tab() {
+	if ( ! bp_is_root_blog() ) {
+		return;
+	}
+
+	if ( isset( $_REQUEST['tab'] ) && 'debug' === sanitize_key( wp_unslash( $_REQUEST['tab'] ) ) ) {
+		$screen = get_current_screen();
+
+		$screen->add_help_tab(
+			array(
+				'id'      => 'bp-debug-settings',
+				'title'   => esc_html__( 'BuddyPress', 'buddypress' ),
+				'content' => bp_core_add_contextual_help_content( 'bp-debug-settings' ),
+			)
+		);
+
+		$help_sidebar = $screen->get_help_sidebar();
+		$bp_links     = sprintf(
+			'<p><a href="%1$s" class="bp-help-sidebar-links">%2$s</a></p>',
+			esc_url( 'https://buddypress.org/support/' ),
+			esc_html__( 'BuddyPress Support Forums', 'buddypress' )
+		);
+
+		$screen->set_help_sidebar( $help_sidebar . $bp_links );
+		wp_add_inline_script(
+			'site-health',
+			'( function() {
+				let bpHelpSidebarLinks;
+
+				document.onreadystatechange = function()  {
+					if ( document.readyState === "complete" ) {
+						bpHelpSidebarLinks = document.querySelector( \'.bp-help-sidebar-links\' ).closest( \'p\')
+						bpHelpSidebarLinks.style.display = \'none\';
+					}
+				}
+
+				document.querySelectorAll( \'.contextual-help-tabs ul li a\' ).forEach(
+					function( a ) {
+						a.addEventListener( \'click\', function( e ) {
+							if ( \'tab-link-bp-debug-settings\' === e.target.parentElement.getAttribute( \'id\' ) ) {
+								bpHelpSidebarLinks.style.display = \'block\';
+							} else {
+								bpHelpSidebarLinks.style.display = \'none\';
+							}
+						} );
+					}
+				);
+			} )();'
+		);
+	}
+}
+add_action( 'admin_head-site-health.php', 'bp_core_admin_debug_information_add_help_tab' );
