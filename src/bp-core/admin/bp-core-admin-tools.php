@@ -757,6 +757,10 @@ add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resu
 function bp_core_admin_debug_information( $debug_info = array() ) {
 	global $wp_settings_fields;
 
+	if ( ! bp_is_root_blog() ) {
+		return $debug_info;
+	}
+
 	$active_components = wp_list_pluck( bp_core_get_active_components( array(), 'objects' ), 'name', 'id' );
 	$bp_settings       = array();
 	$skipped_settings  = array( '_bp_theme_package_id', '_bp_community_visibility' );
