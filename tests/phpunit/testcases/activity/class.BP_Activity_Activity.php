@@ -428,6 +428,100 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 
 	/**
 	 * @group get
+	 * @ticket BP9094
+	 */
+	public function test_get_with_offset_lower() {
+		$now = time();
+		$a1  = self::factory()->activity->create(
+			array(
+				'content' => 'Happy Valentine’s day',
+				'recorded_time' => date( 'Y-m-d H:i:s', $now - 100 ),
+			)
+		);
+		$a2  = self::factory()->activity->create(
+			array(
+				'content' => 'Happy new year',
+				'recorded_time' => date( 'Y-m-d H:i:s', $now - 50 ),
+			)
+		);
+		$a3  = self::factory()->activity->create(
+			array(
+				'content' => 'Happy days',
+				'recorded_time' => date( 'Y-m-d H:i:s', $now - 10 ),
+			)
+		);
+
+		$activity = BP_Activity_Activity::get(
+			array(
+				'filter' => array(
+					'offset_lower' => $a2,
+				),
+			)
+		);
+
+		$ids = wp_list_pluck( $activity['activities'], 'id' );
+		$this->assertEquals( array( $a2, $a1 ), $ids );
+	}
+
+	/**
+	 * @group get
+	 * @ticket BP9094
+	 */
+	public function test_get_with_offset_lower_with_pagination() {
+		$a = self::factory()->activity->create_many(
+			3,
+			array(
+				'type' => 'activity_update',
+			)
+		);
+
+		$stream = BP_Activity_Activity::get(
+			array(
+				'page'              => 1,
+				'per_page'          => 2,
+				'filter' => array(
+					'offset_lower' => end( $a ),
+				),
+			)
+		);
+
+		$page_one_ids                 = wp_list_pluck( $stream['activities'], 'id' );
+		$last_displayed_on_first_page = end( $page_one_ids );
+
+		$a1 = self::factory()->activity->create(
+			array(
+				'content' => 'Ouch this is an Auto Refresh simulation',
+			)
+		);
+
+		$stream = BP_Activity_Activity::get(
+			array(
+				'page'              => 2,
+				'per_page'          => 2,
+			)
+		);
+
+		$page_two_ids                = wp_list_pluck( $stream['activities'], 'id' );
+		$first_displayed_on_page_two = reset( $page_two_ids );
+		$this->assertEquals( $first_displayed_on_page_two, $last_displayed_on_first_page );
+
+		$stream = BP_Activity_Activity::get(
+			array(
+				'page'              => 2,
+				'per_page'          => 2,
+				'filter' => array(
+					'offset_lower' => end( $a ),
+				),
+			)
+		);
+
+		$without_auto_refresh = wp_list_pluck( $stream['activities'], 'id' );
+		$this->assertFalse( in_array( $last_displayed_on_first_page, $without_auto_refresh, true ) );
+		$this->assertSame( array_reverse( $a ), array_merge( $page_one_ids, $without_auto_refresh ) );
+	}
+
+	/**
+	 * @group get
 	 */
 	public function test_get_with_user_id__in() {
 		$u1 = self::factory()->user->create();
