@@ -4,7 +4,7 @@ Keeping your WordPress installation, including BuddyPress, on a supported and cu
 
 ## PHP Version Requirements
 
-BuddyPress is designed to be compatible with PHP versions supported by WordPress. As WordPress continues to evolve, the minimum PHP requirements may change, making it essential for BuddyPress users to stay updated on the current requirements.
+BuddyPress is compatible with PHP versions supported by WordPress. The PHP requirements may change as WordPress evolves, so BuddyPress users must stay updated.
 
 ### Current Recommendations
 
@@ -13,7 +13,7 @@ BuddyPress is designed to be compatible with PHP versions supported by WordPress
 
 ### Future Compatibility
 
-BuddyPress commits to maintaining compatibility with new PHP versions as WordPress adopts them. Future releases of BuddyPress will aim to support new PHP versions soon after they become officially supported by WordPress.
+BuddyPress commits to maintaining compatibility with new PHP versions as WordPress adopts them. Future releases of BuddyPress will aim to support the latest PHP versions soon after WordPress officially supports them.
 
 ## Upgrading PHP
 
