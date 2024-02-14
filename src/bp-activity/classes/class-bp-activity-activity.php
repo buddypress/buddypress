@@ -1978,7 +1978,7 @@ class BP_Activity_Activity {
 
 		if ( ! empty( $filter_array['offset_lower'] ) ) {
 			$sid_sql = absint( $filter_array['offset_lower'] );
-			$filter_sql[] = "a.id < {$sid_sql}";
+			$filter_sql[] = "a.id <= {$sid_sql}";
 		}
 
 		if ( ! empty( $filter_array['since'] ) ) {

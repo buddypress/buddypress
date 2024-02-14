@@ -425,10 +425,16 @@ function bp_activity_load_more_link() {
 			$activities_template->pag_arg => $activities_template->pag_page + 1,
 		);
 
-		// Try to include the offset arg.
-		$last_displayed_activity = reset( $activities_template->activities );
-		if ( isset( $last_displayed_activity->id ) && $last_displayed_activity->id ) {
-			$load_more_args['offset_lower'] = (int) $last_displayed_activity->id;
+		// Use the first posted offset arg to transport it for each following page links.
+		if ( isset( $_POST['offset_lower'] ) && $_POST['offset_lower'] ) {
+			$load_more_args['offset_lower'] = (int) wp_unslash( $_POST['offset_lower'] );
+
+			// Try to include the offset arg to the second page link.
+		} elseif ( 1 === $activities_template->pag_page ) {
+			$last_displayed_activity = reset( $activities_template->activities );
+			if ( isset( $last_displayed_activity->id ) && $last_displayed_activity->id ) {
+				$load_more_args['offset_lower'] = (int) $last_displayed_activity->id;
+			}
 		}
 
 		$link = add_query_arg( $load_more_args, $url );
