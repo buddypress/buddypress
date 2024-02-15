@@ -3,7 +3,7 @@
  * Members functions
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 12.3.0
  */
 
 // Exit if accessed directly.
@@ -493,10 +493,21 @@ function bp_nouveau_get_wp_profile_fields( $user = null ) {
  * @return array The Members single item primary nav ordered.
  */
 function bp_nouveau_member_customizer_nav() {
+	$nav = buddypress()->members->nav;
+
+	if ( ! $nav->get_primary() ) {
+		$nav_items = bp_get_component_navigations();
+
+		// Forces navigation generation.
+		foreach ( $nav_items as $nav_item ) {
+			$nav->add_nav( $nav_item['main_nav'] );
+		}
+	}
+
 	add_filter( '_bp_nouveau_member_reset_front_template', 'bp_nouveau_member_restrict_user_front_templates', 10, 1 );
 
 	if ( bp_displayed_user_get_front_template( buddypress()->loggedin_user ) ) {
-		buddypress()->members->nav->add_nav(
+		$nav->add_nav(
 			array(
 				'name'     => _x( 'Home', 'Member Home page', 'buddypress' ),
 				'slug'     => 'front',
@@ -506,8 +517,6 @@ function bp_nouveau_member_customizer_nav() {
 	}
 
 	remove_filter( '_bp_nouveau_member_reset_front_template', 'bp_nouveau_member_restrict_user_front_templates', 10, 1 );
-
-	$nav = buddypress()->members->nav;
 
 	// Eventually reset the order.
 	bp_nouveau_set_nav_item_order( $nav, bp_nouveau_get_appearance_settings( 'user_nav_order' ) );

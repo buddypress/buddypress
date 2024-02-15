@@ -3,7 +3,7 @@
  * Common functions
  *
  * @since 3.0.0
- * @version 12.0.0
+ * @version 12.3.0
  */
 
 // Exit if accessed directly.
@@ -752,7 +752,10 @@ function bp_nouveau_customizer_grid_choices( $type = 'option' ) {
  * @return array An array of nav items slugs.
  */
 function bp_nouveau_sanitize_nav_order( $option = '' ) {
-	$option = explode( ',', $option );
+	if ( ! is_array( $option ) ) {
+		$option = explode( ',', $option );
+	}
+
 	return array_map( 'sanitize_key', $option );
 }
 
