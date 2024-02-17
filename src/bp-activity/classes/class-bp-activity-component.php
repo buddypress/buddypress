@@ -19,6 +19,13 @@ defined( 'ABSPATH' ) || exit;
  */
 #[AllowDynamicProperties]
 class BP_Activity_Component extends BP_Component {
+	/**
+	 * Types.
+	 *
+	 * @since 14.0.0
+	 * @var array $types
+	 */
+	public $types = array();
 
 	/**
 	 * Start the activity component setup process.

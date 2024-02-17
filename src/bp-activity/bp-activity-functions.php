@@ -311,7 +311,96 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
 	return $user_id;
 }
 
-/** Actions ******************************************************************/
+/** Types ******************************************************************/
+
+/**
+ * Registers an activity type.
+ *
+ * @since 14.0.0
+ *
+ * @param string $type The name key of the activity type.
+ * @param array  $args {
+ *     Array or string of arguments for registering an activity type.
+ *
+ *     @type string[] $components      An array of supported BP components for the activity type.
+ *                                     Default ['activity'].
+ *     @type string   $role            Whether the activity will display content, log or a reaction (eg: activity comment).
+ *                                     Default 'content'.
+ *     @type string   $description     A short descriptive summary of what the post type is.
+ *                                     Default empty.
+ *     @type string[] $labels          A keyed array of labels for this activity type. If not set, activity
+ *                                     labels are using the name key of the activity type. Available labels
+ *                                     are: 'front_filter' & 'admin_filter'.
+ *     @type string   $format_callback Callback for formatting the action string.
+ *                                     Default ''.
+ *     @type string[] $streams         A list of supported stream contexts for the activity type.
+ *                                     List may include 'activity', 'member', 'member_groups', 'group'.
+ *                                     Default ['activity'].
+ *     @type integer  $position        The order of the activity type in front-end dropdowns.
+ *                                     Default 0.
+ *     @type array    $supports        The list of supported features for the activity type.
+ *                                     Default [].
+ * }
+ * @return BP_Activity_Type|WP_Error The registered activity type object on success,
+ *                                   WP_Error object on failure.
+ */
+function bp_register_activity_type( $type, $args = array() ) {
+	$activity_types = buddypress()->activity->types;
+
+	// Sanitize post type name.
+	$type = sanitize_key( $type );
+
+	if ( empty( $type ) || strlen( $type ) > 20 ) {
+		_doing_it_wrong( __FUNCTION__, __( 'BP Activity Type names must be between 1 and 20 characters in length.', 'buddypress' ), '14.0.0' );
+		return new WP_Error( 'activity_type_length_invalid', __( 'BP Activity Type names must be between 1 and 20 characters in length.', 'buddypress' ) );
+	}
+
+	if ( isset( $activity_types[ $type ] ) ) {
+		return new WP_Error( 'activity_type_already_registered', __( 'BP Activity Types are unique. The type you want to register already exists.', 'buddypress' ) );
+	}
+
+	$type_object                           = new BP_Activity_Type( $type, $args );
+	buddypress()->activity->types[ $type ] = $type_object;
+
+	return $type_object;
+}
+
+/**
+ * Unregisters an activity type.
+ *
+ * @since 14.0.0
+ *
+ * @param  string $type The name key of the activity type.
+ * @return bool|WP_Error The registered activity type object on success,
+ *                                   WP_Error object on failure.
+ */
+function bp_unregister_activity_type( $type ) {
+	$activity_types = buddypress()->activity->types;
+
+	// Sanitize post type name.
+	$type = sanitize_key( $type );
+
+	if ( ! isset( $activity_types[ $type ] ) ) {
+		return new WP_Error( 'invalid_activity_type', __( 'Invalid activity type.', 'buddypress' ) );
+	}
+
+	unset( buddypress()->activity->types[ $type ] );
+
+	return true;
+}
+
+/**
+ * Retrieves the list of Activity types having a specific role.
+ *
+ * @since 14.0.0
+ *
+ * @param string $role The requested role for activity types to retrieve.
+ * @return array The list of Activity type name keys having the requested role.
+ */
+function bp_get_activity_types_for_role( $role ) {
+	$types = wp_filter_object_list( buddypress()->activity->types, array( 'role' => $role ), 'and', 'name' );
+	return array_values( $types );
+}
 
 /**
  * Register an activity 'type' and its action description/callback.
@@ -701,6 +790,11 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 	$bp = buddypress();
 
 	switch ( $feature ) {
+		case 'comments' :
+		case 'favorites' :
+			$retval = isset( $bp->activity->types[ $activity_type ]->supports->{$feature} ) && true === $bp->activity->types[ $activity_type ]->supports->{$feature};
+			break;
+
 		/**
 		 * Does this activity type support comment tracking?
 		 *
@@ -1620,12 +1714,44 @@ function bp_activity_register_activity_actions() {
 		array( 'activity', 'group', 'member', 'member_groups' )
 	);
 
+	bp_register_activity_type(
+		'activity_update',
+		array(
+			'components'      => array( 'activity', 'groups' ),
+			'role'            => 'content',
+			'description'     => __( 'Activity updates let members publicly share messages, opinions, ideas: well any text or rich content with other members.', 'buddypress' ),
+			'labels'          => array(
+				'front_filter' => __( 'Updates', 'buddypress' ),
+				'admin_filter' => __( 'Posted a status update', 'buddypress' ),
+			),
+			'format_callback' => 'bp_activity_format_activity_action_activity_update',
+			'streams'         => array( 'activity', 'member', 'member_groups', 'group' ),
+			'supports'        => array( 'comments', 'favorites' ),
+		)
+	);
+
 	bp_activity_set_action(
 		$bp->activity->id,
 		'activity_comment',
 		__( 'Replied to a status update', 'buddypress' ),
 		'bp_activity_format_activity_action_activity_comment',
 		__( 'Activity Comments', 'buddypress' )
+	);
+
+	bp_register_activity_type(
+		'activity_comment',
+		array(
+			'components'      => array( 'activity', 'groups' ),
+			'role'            => 'reaction',
+			'description'     => __( 'Activity comments let members reply to an activity update or another activity comment', 'buddypress' ),
+			'labels'          => array(
+				'front_filter' => __( 'Activity Comments', 'buddypress' ),
+				'admin_filter' => __( 'Replied to a status update', 'buddypress' ),
+			),
+			'format_callback' => 'bp_activity_format_activity_action_activity_comment',
+			'streams'         => array( 'activity', 'member', 'member_groups', 'group' ),
+			'supports'        => array( 'comments' ),
+		)
 	);
 
 	/**

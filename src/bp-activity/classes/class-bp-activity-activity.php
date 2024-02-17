@@ -456,6 +456,11 @@ class BP_Activity_Activity {
 			)
 		);
 
+		/*
+		 * @todo $r['display_comments'] should be deprecated in favor of $r['display_reactions']
+		 */
+		$display_reactions = $r['display_comments'];
+
 		// Select conditions.
 		$select_sql = "SELECT DISTINCT a.id";
 
@@ -636,8 +641,8 @@ class BP_Activity_Activity {
 		// Alter the query based on whether we want to show activity item
 		// comments in the stream like normal comments or threaded below
 		// the activity.
-		if ( false === $r['display_comments'] || 'threaded' === $r['display_comments'] ) {
-			$excluded_types[] = 'activity_comment';
+		if ( false === $display_reactions || 'threaded' === $display_reactions ) {
+			$excluded_types = bp_get_activity_types_for_role( 'reaction' );
 		}
 
 		// Exclude 'last_activity' items unless the 'action' filter has
@@ -825,7 +830,10 @@ class BP_Activity_Activity {
 				bp_activity_update_meta_cache( $activity_ids );
 			}
 
-			if ( $activities && $r['display_comments'] ) {
+			if ( $activities && $display_reactions ) {
+				/*
+				 * This should append all possible reactions.
+				 */
 				$activities = BP_Activity_Activity::append_comments( $activities, $r['spam'] );
 			}
 

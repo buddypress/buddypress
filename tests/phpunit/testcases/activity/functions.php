@@ -2042,4 +2042,71 @@ Bar!';
 
 		$this->assertTrue( 5 === (int) $count_activities['total'] );
 	}
+
+	/**
+	 * @group bp_register_activity_type
+	 */
+	public function test_bp_register_activity_type_no_args() {
+		$type = bp_register_activity_type( 'greeting' );
+
+		$this->assertInstanceOf( 'BP_Activity_Type', $type );
+		$this->assertSame( 'Greeting', $type->labels->front_filter );
+
+		bp_unregister_activity_type( 'greeting' );
+	}
+
+	/**
+	 * @group bp_register_activity_type
+	 * @expectedIncorrectUsage bp_register_activity_type
+	 */
+	public function test_bp_register_activity_type_empty_key() {
+		$type = bp_register_activity_type( '' );
+
+		$this->assertInstanceOf( 'WP_Error', $type );
+	}
+
+	/**
+	 * @group bp_register_activity_type
+	 */
+	public function test_bp_register_activity_type_support_numeric_keys() {
+		$type = bp_register_activity_type(
+			'greetings_support',
+			array(
+				'supports' => array( 'comments', 'favorites' ),
+			)
+		);
+
+		$this->assertTrue( bp_activity_type_supports( 'greetings_support', 'comments' ) );
+		$this->assertTrue( bp_activity_type_supports( 'greetings_support', 'favorites' ) );
+
+		bp_unregister_activity_type( 'greetings_support' );
+	}
+
+	/**
+	 * @group bp_register_activity_type
+	 * @group bp_unregister_activity_type
+	 */
+	public function test_bp_unregister_activity_type() {
+		bp_register_activity_type( 'greeting' );
+		$type = bp_unregister_activity_type( 'greeting' );
+
+		$this->assertTrue( $type );
+	}
+
+	/**
+	 * @group bp_register_activity_type
+	 * @group bp_unregister_activity_type
+	 */
+	public function test_bp_unregister_activity_type_invalid() {
+		$type = bp_unregister_activity_type( 'greeting' );
+
+		$this->assertInstanceOf( 'WP_Error', $type );
+	}
+
+	/**
+	 * @group bp_get_activity_types_for_role
+	 */
+	public function test_bp_get_activity_types_for_role_reaction() {
+		$this->assertTrue( in_array( 'activity_comment', bp_get_activity_types_for_role( 'reaction' ), true ) );
+	}
 }
