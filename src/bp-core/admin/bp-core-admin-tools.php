@@ -1084,7 +1084,8 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 			),
 			'BP_AVATAR_ORIGINAL_MAX_FILESIZE' => array(
 				'label' => 'BP_AVATAR_ORIGINAL_MAX_FILESIZE',
-				'value' => BP_AVATAR_ORIGINAL_MAX_FILESIZE,
+				'value' => size_format( BP_AVATAR_ORIGINAL_MAX_FILESIZE ),
+				'debug' => BP_AVATAR_ORIGINAL_MAX_FILESIZE,
 			),
 			'BP_AVATAR_FULL_HEIGHT' => array(
 				'label' => 'BP_AVATAR_FULL_HEIGHT',
