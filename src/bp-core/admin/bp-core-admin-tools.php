@@ -905,10 +905,6 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'value' => defined( 'BP_LOAD_DEPRECATED' ) && BP_LOAD_DEPRECATED ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
 				'debug' => defined( 'BP_LOAD_DEPRECATED' ) ? BP_LOAD_DEPRECATED : 'undefined',
 			),
-			'BP_FORUMS_PARENT_FORUM_ID' => array(
-				'label' => 'BP_FORUMS_PARENT_FORUM_ID',
-				'value' => BP_FORUMS_PARENT_FORUM_ID,
-			),
 			'BP_ROOT_BLOG' => array(
 				'label' => 'BP_ROOT_BLOG',
 				'value' => BP_ROOT_BLOG,
@@ -970,11 +966,6 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'value' => defined( 'BP_EMBED_DISABLE_ACTIVITY_REPLIES' ) ? BP_EMBED_DISABLE_ACTIVITY_REPLIES : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_EMBED_DISABLE_ACTIVITY_REPLIES' ) ? BP_EMBED_DISABLE_ACTIVITY_REPLIES : 'undefined',
 			),
-			'BP_USE_WP_ADMIN_BAR' => array(
-				'label' => 'BP_USE_WP_ADMIN_BAR',
-				'value' => defined( 'BP_USE_WP_ADMIN_BAR' ) ? BP_USE_WP_ADMIN_BAR : __( 'Undefined', 'buddypress' ),
-				'debug' => defined( 'BP_USE_WP_ADMIN_BAR' ) ? BP_USE_WP_ADMIN_BAR : 'undefined',
-			),
 			'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' => array(
 				'label' => 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE',
 				'value' => defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) ? BP_ENABLE_USERNAME_COMPATIBILITY_MODE : __( 'Undefined', 'buddypress' ),
@@ -1034,10 +1025,20 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'label' => 'BP_AVATAR_THUMB_WIDTH',
 				'value' => BP_AVATAR_THUMB_WIDTH,
 			),
+			'BP_USE_WP_ADMIN_BAR' => array(
+				'label' => 'BP_USE_WP_ADMIN_BAR (deprecated)',
+				'value' => defined( 'BP_USE_WP_ADMIN_BAR' ) ? BP_USE_WP_ADMIN_BAR : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_USE_WP_ADMIN_BAR' ) ? BP_USE_WP_ADMIN_BAR : 'undefined',
+			),
 			'BP_FRIENDS_DB_VERSION' => array(
 				'label' => 'BP_FRIENDS_DB_VERSION (deprecated)',
 				'value' => defined( 'BP_FRIENDS_DB_VERSION' ) ? BP_FRIENDS_DB_VERSION : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_FRIENDS_DB_VERSION' ) ? BP_FRIENDS_DB_VERSION : 'undefined',
+			),
+			'BP_FORUMS_PARENT_FORUM_ID' => array(
+				'label' => 'BP_FORUMS_PARENT_FORUM_ID (deprecated)',
+				'value' => defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ? BP_FORUMS_PARENT_FORUM_ID : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ? BP_FORUMS_PARENT_FORUM_ID : 'undefined',
 			),
 			'BP_MEMBERS_SLUG' => array(
 				'label' => 'BP_MEMBERS_SLUG (deprecated)',
