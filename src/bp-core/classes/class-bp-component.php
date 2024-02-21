@@ -807,12 +807,7 @@ class BP_Component {
 		global $wp_admin_bar;
 
 		// Bail if this is an ajax request.
-		if ( defined( 'DOING_AJAX' ) ) {
-			return;
-		}
-
-		// Do not proceed if BP_USE_WP_ADMIN_BAR constant is not set or is false.
-		if ( ! bp_use_wp_admin_bar() ) {
+		if ( wp_doing_ajax() ) {
 			return;
 		}
 

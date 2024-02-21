@@ -499,36 +499,6 @@ function bp_is_username_compatibility_mode() {
 	return apply_filters( 'bp_is_username_compatibility_mode', defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) && BP_ENABLE_USERNAME_COMPATIBILITY_MODE );
 }
 
-/**
- * Should we use the WP Toolbar?
- *
- * The WP Toolbar, introduced in WP 3.1, is fully supported in BuddyPress as
- * of BP 1.5. For BP 1.6, the WP Toolbar is the default.
- *
- * @since 1.5.0
- *
- * @return bool Default: true. False when WP Toolbar support is disabled.
- */
-function bp_use_wp_admin_bar() {
-
-	// Default to true.
-	$use_admin_bar = true;
-
-	// Has the WP Toolbar constant been explicitly opted into?
-	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) ) {
-		$use_admin_bar = (bool) BP_USE_WP_ADMIN_BAR;
-	}
-
-	/**
-	 * Filters whether or not to use the admin bar.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param bool $use_admin_bar Whether or not to use the admin bar.
-	 */
-	return (bool) apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
-}
-
 
 /**
  * Return the parent forum ID for the Legacy Forums abstraction layer.
