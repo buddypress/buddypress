@@ -29,7 +29,13 @@ function bp_activity_like_action() {
 
 	$feedback        = __( 'Ouch something went wrong when trying to like this activity.', 'buddypress' );
 	$feedback_type   = 'error';
-	$parent_activity = new BP_Activity_Activity( bp_action_variable( 0 ) );
+	$activities      = bp_activity_get_specific(
+		array(
+			'activity_ids'     => bp_action_variable( 0 ),
+			'display_comments' => 'threaded',
+		)
+	);
+	$parent_activity = reset( $activities['activities'] );
 
 	if ( empty( $parent_activity->id ) ) {
 		$feedback = __( 'The activity you want to like does not exist', 'buddypress' );
@@ -38,17 +44,28 @@ function bp_activity_like_action() {
 		$feedback = __( 'You are not allowed to like this activity.', 'buddypress' );
 
 	} else {
-		$like_id = bp_activity_add_reaction(
-			array(
-				'activity_id' => $parent_activity->id,
-			)
-		);
+		$likes = array();
+		if ( isset( $parent_activity->reactions ) ) {
+			$likes = wp_filter_object_list( $parent_activity->reactions, array( 'type' => 'activity_like' ), 'AND', 'user_id' );
+		}
 
-		if ( is_wp_error( $like_id ) ) {
-			$feedback = $like_id->get_error_message();
+		// The user already liked it!
+		if ( in_array( bp_loggedin_user_id(), $likes, true ) ) {
+			$feedback = __( 'Oh wait! You already liked this activity.', 'buddypress' );
+
 		} else {
-			$feedback      = __( 'You successfully liked it!', 'buddypress' );
-			$feedback_type = 'success';
+			$like_id = bp_activity_add_reaction(
+				array(
+					'activity_id' => $parent_activity->id,
+				)
+			);
+
+			if ( is_wp_error( $like_id ) ) {
+				$feedback = $like_id->get_error_message();
+			} else {
+				$feedback      = __( 'You successfully liked it!', 'buddypress' );
+				$feedback_type = 'success';
+			}
 		}
 	}
 

@@ -4350,8 +4350,23 @@ function bp_activity_supports_likes() {
  *
  * @return integer The number of times an activity was liked.
  */
-function bp_activity_get_like_count() {
-	return 0;
+function bp_activity_get_like_count( $activity = null ) {
+	$count = 0;
+
+	if ( $activity instanceof BP_Activity_Activity ) {
+		/*
+		 * @todo Get Like count for a given activity.
+		 */
+
+	} elseif ( isset( $GLOBALS['activities_template']->activity->reactions ) ) {
+		$likes = wp_list_filter( $GLOBALS['activities_template']->activity->reactions, array( 'type' => 'activity_like' ) );
+
+		if ( $likes ) {
+			$count = count( $likes );
+		}
+	}
+
+	return $count;
 }
 
 /**

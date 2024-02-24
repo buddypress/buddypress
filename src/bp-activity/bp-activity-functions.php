@@ -1217,6 +1217,8 @@ function bp_activity_add_reaction( $args = '' ) {
 		)
 	);
 
+	wp_cache_delete( $activity_id, 'bp_activity_reactions' );
+
 	return $reaction_id;
 }
 
@@ -1865,7 +1867,7 @@ function bp_activity_register_activity_actions() {
 			),
 			'format_callback' => 'bp_activity_format_activity_action_activity_comment',
 			'streams'         => array( 'activity', 'member', 'member_groups', 'group' ),
-			'supports'        => array( 'comments', 'likes' ),
+			'supports'        => array( 'comments' ),
 		)
 	);
 
@@ -2493,6 +2495,11 @@ function bp_activity_add( $args = '' ) {
 		$activity->primary_link = bp_activity_generate_primary_link( $activity );
 	}
 
+	if ( 'activity_comment' !== $activity->type && in_array( $activity->type, bp_get_activity_types_for_role( 'reaction' ), true ) ) {
+		$activity->mptt_left  = 2;
+		$activity->mptt_right = 2;
+	}
+
 	$save = $activity->save();
 
 	if ( 'wp_error' === $r['error_type'] && is_wp_error( $save ) ) {
@@ -2501,12 +2508,17 @@ function bp_activity_add( $args = '' ) {
 		return false;
 	}
 
-	// If this is an activity comment, rebuild the tree.
-	if ( 'activity_comment' === $activity->type && ! empty( $activity->item_id ) ) {
-		// Also clear the comment cache for the parent activity ID.
-		wp_cache_delete( $activity->item_id, 'bp_activity_comments' );
+	if ( ! empty( $activity->item_id ) ) {
+		if ( 'activity_comment' === $activity->type ) {
+			// If this is an activity comment, clear the comment cache for the parent activity ID.
+			wp_cache_delete( $activity->item_id, 'bp_activity_comments' );
 
-		BP_Activity_Activity::rebuild_activity_comment_tree( $activity->item_id );
+			// Also, rebuild the tree.
+			BP_Activity_Activity::rebuild_activity_comment_tree( $activity->item_id );
+
+		} elseif ( in_array( $activity->type, bp_get_activity_types_for_role( 'reaction' ), true ) ) {
+			wp_cache_delete( $activity->item_id, 'bp_activity_reactions' );
+		}
 	}
 
 	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );

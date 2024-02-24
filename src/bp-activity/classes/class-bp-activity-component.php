@@ -474,11 +474,14 @@ class BP_Activity_Component extends BP_Component {
 	public function setup_cache_groups() {
 
 		// Global groups.
-		wp_cache_add_global_groups( array(
-			'bp_activity',
-			'bp_activity_comments',
-			'activity_meta'
-		) );
+		wp_cache_add_global_groups(
+			array(
+				'bp_activity',
+				'bp_activity_comments',
+				'bp_activity_reactions',
+				'activity_meta'
+			)
+		);
 
 		parent::setup_cache_groups();
 	}
