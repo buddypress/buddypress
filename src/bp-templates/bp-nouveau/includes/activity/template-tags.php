@@ -440,6 +440,37 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 			);
 		}
 
+		if ( bp_activity_type_supports( $activity_type, 'likes' ) ) {
+			$buttons['activity_like'] =  array(
+				'id'                => 'activity_like',
+				'position'          => 20,
+				'component'         => 'activity',
+				'parent_element'    => $parent_element,
+				'parent_attr'       => $parent_attr,
+				'must_be_logged_in' => true,
+				'button_element'    => $button_element,
+				'button_attr'       => array(
+					'id'              => 'alike-like-' . $activity_id,
+					'class'           => 'button alike-add bp-primary-action bp-tooltip',
+					'data-bp-tooltip' => _x( 'Like', 'button', 'buddypress' ),
+					'aria-expanded'   => 'false',
+				),
+				'link_text'  => sprintf(
+					'<span class="bp-screen-reader-text">%1$s</span> <span class="like-count">%2$s</span>',
+					_x( 'Like', 'link', 'buddypress' ),
+					esc_html( bp_activity_get_like_count() )
+				),
+			);
+
+			// If button element set add href link to data-attr
+			if ( 'button' === $button_element ) {
+				$buttons['activity_like']['button_attr']['data-bp-url'] = bp_get_activity_like_link();
+			} else {
+				$buttons['activity_like']['button_attr']['href'] = bp_get_activity_like_link();
+				$buttons['activity_like']['button_attr']['role'] = 'button';
+			}
+		}
+
 		// The delete button is always created, and removed later on if needed.
 		$delete_args = array();
 

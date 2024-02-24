@@ -816,6 +816,12 @@ window.bp = window.bp || {};
 					comment_content.prop( 'disabled', false );
 				} );
 			}
+
+			// Liking.
+			if ( target.hasClass('alike-add') ) {
+				// Stop event propagation
+				// event.preventDefault();
+			}
 		},
 
 		/**

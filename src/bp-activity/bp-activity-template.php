@@ -4324,3 +4324,73 @@ function bp_activity_show_filters( $context = '' ) {
 		 */
 		return apply_filters( 'bp_get_activity_show_filters', $output, $filters, $context );
 	}
+
+
+/**
+ * Are Activity likes supported by this site?
+ *
+ * @since 14.0.0
+ * @todo Build the function!
+ *
+ * @return boolean True if Activity likes are supported. False otherwise.
+ */
+function bp_activity_supports_likes() {
+	/*
+	 * This is where we'll need to check for:
+	 * current_theme_supports( 'buddypress', ['activity', ['likes'] ] );
+	 */
+	return true;
+}
+
+/**
+ * Informs about the number of times an activity was liked.
+ *
+ * @since 14.0.0
+ * @todo Build the function!
+ *
+ * @return integer The number of times an activity was liked.
+ */
+function bp_activity_get_like_count() {
+	return 0;
+}
+
+/**
+ * Gets the link to like an activity.
+ *
+ * @since 14.0.0
+ *
+ * @param BP_Activity_Activity $activity An activity object. Optional.
+ * @return string The link to like an activity.
+ */
+function bp_get_activity_like_link( $activity = null ) {
+	$url         = '';
+	$activity_id = 0;
+
+	if ( $activity instanceof BP_Activity_Activity ) {
+		$activity_id = (int) $activity->id;
+
+	} elseif ( isset( $GLOBALS['activities_template']->activity->id ) ) {
+		$activity_id = (int) $GLOBALS['activities_template']->activity->id;
+	}
+
+	if ( $activity_id ) {
+		$url = bp_rewrites_get_url(
+			array(
+				'component_id'                 => 'activity',
+				'single_item_action'           => 'like',
+				'single_item_action_variables' => array( $activity_id ),
+			)
+		);
+
+		$url = wp_nonce_url( $url, 'bp_activity_like' );
+	}
+
+	/**
+	 * Filters the link to like an activity.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param string $url Constructed link for liking the activity.
+	 */
+	return apply_filters( 'bp_get_activity_like_link', $url );
+}

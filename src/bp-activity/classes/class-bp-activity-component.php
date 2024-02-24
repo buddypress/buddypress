@@ -126,7 +126,7 @@ class BP_Activity_Component extends BP_Component {
 		if ( bp_is_current_component( 'activity' ) ) {
 			// Authenticated actions - Only fires when JS is disabled.
 			if ( is_user_logged_in() &&
-				in_array( bp_current_action(), array( 'delete', 'spam', 'post', 'reply', 'favorite', 'unfavorite' ), true )
+				in_array( bp_current_action(), array( 'delete', 'spam', 'post', 'reply', 'favorite', 'unfavorite', 'like' ), true )
 			) {
 				require_once $this->path . 'bp-activity/actions/' . bp_current_action() . '.php';
 			}
@@ -153,6 +153,7 @@ class BP_Activity_Component extends BP_Component {
 			 * As a result, we need to map filenames with slugs.
 			 */
 			$filenames = array(
+				'likes'     => 'likes',
 				'favorites' => 'favorites',
 				'mentions'  => 'mentions',
 			);
@@ -285,6 +286,17 @@ class BP_Activity_Component extends BP_Component {
 			'position'        => 20,
 			'item_css_id'     => 'activity-mentions',
 			'generate'        => bp_activity_do_mentions(),
+		);
+
+		// Liked activity items.
+		$sub_nav[] = array(
+			'name'            => _x( 'Likes', 'Profile activity screen sub nav', 'buddypress' ),
+			'slug'            => 'likes',
+			'parent_slug'     => $slug,
+			'screen_function' => 'bp_activity_screen_likes',
+			'position'        => 30,
+			'item_css_id'     => 'activity-likes',
+			'generate'        => bp_activity_supports_likes(),
 		);
 
 		// Favorite activity items.

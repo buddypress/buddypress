@@ -1217,11 +1217,6 @@ function bp_activity_add_reaction( $args = '' ) {
 		)
 	);
 
-	// Bail on failure.
-	if ( is_wp_error( $reaction_id ) ) {
-		return $reaction_id;
-	}
-
 	return $reaction_id;
 }
 
