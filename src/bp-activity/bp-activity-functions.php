@@ -375,18 +375,36 @@ function bp_register_activity_type( $type, $args = array() ) {
  *                                   WP_Error object on failure.
  */
 function bp_unregister_activity_type( $type ) {
+	$type_object = bp_get_activity_type_object( $type );
+
+	if ( is_wp_error( $type_object ) ) {
+		return $type_object;
+	}
+
+	unset( buddypress()->activity->types[ $type_object->name ] );
+
+	return true;
+}
+
+/**
+ * Retrieves the list of Activity types having a specific role.
+ *
+ * @since 14.0.0
+ *
+ * @param string $type The name key of the activity type.
+ * @return WP_Error|BP_Activity_Type The list of Activity type name keys having the requested role.
+ */
+function bp_get_activity_type_object( $type ) {
 	$activity_types = buddypress()->activity->types;
 
-	// Sanitize post type name.
+	// Sanitize activity type name.
 	$type = sanitize_key( $type );
 
 	if ( ! isset( $activity_types[ $type ] ) ) {
 		return new WP_Error( 'invalid_activity_type', __( 'Invalid activity type.', 'buddypress' ) );
 	}
 
-	unset( buddypress()->activity->types[ $type ] );
-
-	return true;
+	return $activity_types[ $type ];
 }
 
 /**
@@ -792,6 +810,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 	switch ( $feature ) {
 		case 'comments' :
 		case 'favorites' :
+		case 'likes' :
 			$retval = isset( $bp->activity->types[ $activity_type ]->supports->{$feature} ) && true === $bp->activity->types[ $activity_type ]->supports->{$feature};
 			break;
 
@@ -1103,6 +1122,107 @@ function bp_activity_get_actions_for_context( $context = '' ) {
 	}
 
 	return $actions;
+}
+
+/** Reactions ****************************************************************/
+
+/**
+ * React to an activity.
+ *
+ * @since 14.0.0
+ *
+ * @param array|string $args {
+ *     An array of arguments.
+ *     @type int    $user_id           Optional. The ID of the user reacting.
+ *                                     Defaults to the ID of the logged-in user.
+ *     @type int    $activity_id       The ID of the parent activity item.
+ *     @type string $reaction_type     Optional. The reaction activity type.
+ *                                     Defaults to 'activity_like'.
+ *     @type bool   $skip_notification Optional. false to send a reaction notification, true otherwise.
+ *                                     Defaults to true.
+ * }
+ * @return WP_Error|int The ID of the reaction on success, otherwise false.
+ */
+function bp_activity_add_reaction( $args = '' ) {
+	$r = bp_parse_args(
+		$args,
+		array(
+			'user_id'           => bp_loggedin_user_id(),
+			'activity_id'       => 0,
+			'reaction_type'     => 'activity_like',
+			'skip_notification' => true,
+		)
+	);
+
+	// Bail if missing necessary data.
+	if ( empty( $r['user_id'] ) || empty( $r['activity_id'] ) ) {
+		return new WP_Error(
+			'activity_reaction_missing_data',
+			__( 'There was an error liking this activity. Please try again.', 'buddypress' )
+		);
+	}
+
+	// Sanitize IDs.
+	$activity_id = (int) $r['activity_id'];
+	$user_id     = (int) $r['user_id'];
+
+	// Get the Activity reaction object.
+	$reaction_object = bp_get_activity_type_object( $r['reaction_type'] );
+	if ( is_wp_error( $reaction_object ) || 'reaction' !== $reaction_object->role ) {
+		return new WP_Error(
+			'activity_reaction_unregistered',
+			__( 'There was an error reacting to this activity. Please try again.', 'buddypress' )
+		);
+	}
+
+	// Get the parent activity.
+	$activity = new BP_Activity_Activity( $activity_id );
+
+	// Bail if the parent activity does not exist.
+	if ( empty( $activity->date_recorded ) ) {
+		return new WP_Error(
+			'activity_reaction_missing_activity',
+			sprintf(
+				__( 'The activity you want to %s no longer exists.', 'buddypress' ),
+				esc_html( $reaction_object->labels->singular_name )
+			)
+		);
+	}
+
+	if ( ! bp_activity_type_supports( $activity->type, 'likes' ) ) {
+		return new WP_Error(
+			'activity_reaction_not_supported',
+			sprintf(
+				__( 'The activity you want to %s does not support this feature.', 'buddypress' ),
+				esc_html( $reaction_object->labels->singular_name )
+			)
+		);
+	}
+
+	// Check to see if the parent activity is hidden, and if so, hide this reaction publicly.
+	$is_hidden = 0;
+	if ( (int) $activity->hide_sitewide === 1 ) {
+		$is_hidden = 1;
+	}
+
+	// Insert the activity reaction.
+	$reaction_id = bp_activity_add(
+		array(
+			'component'         => $activity->component,
+			'type'              => $reaction_object->name,
+			'user_id'           => $user_id,
+			'item_id'           => $activity_id,
+			'hide_sitewide'     => $is_hidden,
+			'error_type'        => 'wp_error',
+		)
+	);
+
+	// Bail on failure.
+	if ( is_wp_error( $reaction_id ) ) {
+		return $reaction_id;
+	}
+
+	return $reaction_id;
 }
 
 /** Favorites ****************************************************************/
@@ -1726,7 +1846,7 @@ function bp_activity_register_activity_actions() {
 			),
 			'format_callback' => 'bp_activity_format_activity_action_activity_update',
 			'streams'         => array( 'activity', 'member', 'member_groups', 'group' ),
-			'supports'        => array( 'comments', 'favorites' ),
+			'supports'        => array( 'comments', 'likes' ),
 		)
 	);
 
@@ -1750,7 +1870,26 @@ function bp_activity_register_activity_actions() {
 			),
 			'format_callback' => 'bp_activity_format_activity_action_activity_comment',
 			'streams'         => array( 'activity', 'member', 'member_groups', 'group' ),
-			'supports'        => array( 'comments' ),
+			'supports'        => array( 'comments', 'likes' ),
+		)
+	);
+
+	bp_register_activity_type(
+		'activity_like',
+		array(
+			'components'      => array( 'activity', 'groups' ),
+			'role'            => 'reaction',
+			'description'     => __( 'Activity likes let members like activity updates or comments', 'buddypress' ),
+			'labels'          => array(
+				'singular_name' => __( 'like', 'buddypress' ),
+				'plural_name'   => __( 'likes', 'buddypress' ),
+				'front_filter'  => __( 'Activity Likes', 'buddypress' ),
+				'admin_filter'  => __( 'Liked a status update', 'buddypress' ),
+				'doing_action'  => __( 'liking', 'buddypress' ),
+				'did_action'    => __( 'liked', 'buddypress' ),
+			),
+			'format_callback' => 'bp_activity_format_activity_action_activity_like',
+			'streams'         => array( 'activity', 'member', 'member_groups', 'group' ),
 		)
 	);
 
@@ -1861,6 +2000,33 @@ function bp_activity_format_activity_action_activity_comment( $action, $activity
 	 * @param BP_Activity_Activity $activity Activity item object.
 	 */
 	return apply_filters( 'bp_activity_comment_action', $action, $activity );
+}
+
+/**
+ * Format 'activity_like' activity actions.
+ *
+ * @since 14.0.0
+ *
+ * @param string $action   Static activity action.
+ * @param object $activity Activity data object.
+ * @return string $action
+ */
+function bp_activity_format_activity_action_activity_like( $action, $activity ) {
+	$action = sprintf(
+		/* translators: %s: the activity author user link */
+		esc_html__( '%s liked an activity', 'buddypress' ),
+		bp_core_get_userlink( $activity->user_id )
+	);
+
+	/**
+	 * Filters the "like" formatted activity action string.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param string               $action   Activity action string value.
+	 * @param BP_Activity_Activity $activity Activity item object.
+	 */
+	return apply_filters( 'bp_activity_like_action', $action, $activity );
 }
 
 /**

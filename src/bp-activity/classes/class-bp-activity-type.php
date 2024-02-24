@@ -167,17 +167,47 @@ final class BP_Activity_Type {
 			$this->description = sprintf( esc_html__( 'No description provided for the %s activity type.', 'buddypress' ), esc_html( $this->name ) );
 		}
 
-		$front_filter = ucfirst( $this->name );
+		$singular_name = ucfirst( $this->name );
+		if ( $r['labels'] && isset( $r['labels']['singular_name'] ) && $r['labels']['singular_name'] ) {
+			$singular_name = esc_html( $r['labels']['singular_name'] );
+		}
+		$this->labels->singular_name = $singular_name;
+
+		$plural_name = ucfirst( $this->name );
+		if ( $r['labels'] && isset( $r['labels']['plural_name'] ) && $r['labels']['plural_name'] ) {
+			$plural_name = esc_html( $r['labels']['plural_name'] );
+		}
+		$this->labels->plural_name = $plural_name;
+
+		$front_filter = $singular_name;
 		if ( $r['labels'] && isset( $r['labels']['front_filter'] ) && $r['labels']['front_filter'] ) {
 			$front_filter = esc_html( $r['labels']['front_filter'] );
 		}
 		$this->labels->front_filter = $front_filter;
 
 		$admin_filter = $front_filter;
-		if (  $r['labels'] && isset( $r['labels']['admin_filter'] ) && $r['labels']['admin_filter'] ) {
+		if ( $r['labels'] && isset( $r['labels']['admin_filter'] ) && $r['labels']['admin_filter'] ) {
 			$admin_filter = esc_html( $r['labels']['admin_filter'] );
 		}
 		$this->labels->admin_filter = $admin_filter;
+
+		$doing_action = sprintf(
+			__( 'adding the activity type: %s', 'buddypress' ),
+			esc_html( $singular_name )
+		);
+		if ( $r['labels'] && isset( $r['labels']['doing_action'] ) && $r['labels']['doing_action'] ) {
+			$doing_action = esc_html( $r['labels']['doing_action'] );
+		}
+		$this->labels->doing_action = $doing_action;
+
+		$did_action = sprintf(
+			__( 'added the activity type: %s', 'buddypress' ),
+			esc_html( $singular_name )
+		);
+		if ( $r['labels'] && isset( $r['labels']['did_action'] ) && $r['labels']['did_action'] ) {
+			$did_action = esc_html( $r['labels']['did_action'] );
+		}
+		$this->labels->did_action = $did_action;
 
 		if ( $r['format_callback'] && is_callable( $r['format_callback'] ) ) {
 			$this->format_callback = $r['format_callback'];
