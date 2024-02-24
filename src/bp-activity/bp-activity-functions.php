@@ -1883,8 +1883,9 @@ function bp_activity_register_activity_actions() {
 				'doing_action'  => __( 'liking', 'buddypress' ),
 				'did_action'    => __( 'liked', 'buddypress' ),
 			),
-			'format_callback' => 'bp_activity_format_activity_action_activity_like',
-			'streams'         => array( 'activity', 'member', 'member_groups', 'group' ),
+			'format_callback'       => 'bp_activity_format_activity_action_activity_like',
+			'primary_link_callback' => 'bp_activity_set_activity_like_primary_link',
+			'streams'               => array( 'activity', 'member', 'member_groups', 'group' ),
 		)
 	);
 
@@ -1907,7 +1908,7 @@ add_action( 'bp_register_activity_actions', 'bp_activity_register_activity_actio
  *
  * @since 2.0.0
  *
- * @param object $activity Activity data object.
+ * @param BP_Activity_Activity $activity Activity data object.
  * @return string|bool Returns false if no callback is found, otherwise returns
  *                     the formatted action string.
  */
@@ -1918,29 +1919,92 @@ function bp_activity_generate_action_string( $activity ) {
 		return false;
 	}
 
-	// Check for registered format callback.
-	$actions = bp_activity_get_actions();
-	if ( empty( $actions->{$activity->component}->{$activity->type}['format_callback'] ) ) {
+	// Init format callback.
+	$format_callback = '';
+
+	// Validate the activity type.
+	$type = bp_get_activity_type_object( $activity->type );
+	if ( is_wp_error( $type ) || ! $type->format_callback ) {
+		// Check for registered legacy format callback.
+		$actions = bp_activity_get_actions();
+
+		if ( ! empty( $actions->{$activity->component}->{$activity->type}['format_callback'] ) ) {
+			$format_callback = $actions->{$activity->component}->{$activity->type}['format_callback'];
+		}
+	} else {
+		$format_callback = $type->format_callback;
+
+		/*
+		 * @todo Some type maybe used by other components.
+		 * `$format_callback` should be an array keyed by component IDs.
+		 */
+		if ( 'groups' === $activity->component ) {
+			$format_callback = 'bp_groups_format_activity_action_group_activity_update';
+		}
+	}
+
+	if ( ! $format_callback ) {
 		return false;
 	}
 
 	// We apply the format_callback as a filter.
-	add_filter( 'bp_activity_generate_action_string', $actions->{$activity->component}->{$activity->type}['format_callback'], 10, 2 );
+	add_filter( 'bp_activity_generate_action_string', $format_callback, 10, 2 );
 
 	/**
 	 * Filters the string for the activity action being returned.
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param BP_Activity_Activity $action   Action string being requested.
+	 * @param string               $action   Action string being requested.
 	 * @param BP_Activity_Activity $activity Activity item object.
 	 */
 	$action = apply_filters( 'bp_activity_generate_action_string', $activity->action, $activity );
 
 	// Remove the filter for future activity items.
-	remove_filter( 'bp_activity_generate_action_string', $actions->{$activity->component}->{$activity->type}['format_callback'], 10 );
+	remove_filter( 'bp_activity_generate_action_string', $format_callback, 10 );
 
 	return $action;
+}
+
+/**
+ * Generate the primary link of an activity item.
+ *
+ * @since 14.0.0
+ *
+ * @param BP_Activity_Activity $activity Activity data object.
+ * @return string|bool Returns false if no callback is found, otherwise returns
+ *                     the activity primary link.
+ */
+function bp_activity_generate_primary_link( $activity ) {
+
+	// Check for valid input.
+	if ( empty( $activity->component ) || empty( $activity->type ) ) {
+		return false;
+	}
+
+	// Validate the activity type.
+	$type = bp_get_activity_type_object( $activity->type );
+	if ( is_wp_error( $type ) || ! $type->primary_link_callback ) {
+		return false;
+	}
+
+	// We apply the format_callback as a filter.
+	add_filter( 'bp_activity_generate_primary_link', $type->primary_link_callback, 10, 2 );
+
+	/**
+	 * Filters the string for the activity action being returned.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param string               $primary_link Activity primary link.
+	 * @param BP_Activity_Activity $activity     Activity item object.
+	 */
+	$primary_link = apply_filters( 'bp_activity_generate_primary_link', $activity->primary_link, $activity );
+
+	// Remove the filter for future activity items.
+	remove_filter( 'bp_activity_generate_primary_link', $type->primary_link_callback, 10 );
+
+	return $primary_link;
 }
 
 /**
@@ -2022,6 +2086,34 @@ function bp_activity_format_activity_action_activity_like( $action, $activity ) 
 	 * @param BP_Activity_Activity $activity Activity item object.
 	 */
 	return apply_filters( 'bp_activity_like_action', $action, $activity );
+}
+
+/**
+ * Generate the primary link for the Activity like.
+ *
+ * @since 14.0.0
+ *
+ * @param string               $primary_link Static activity primary link.
+ * @param BP_Activity_Activity $activity     Activity data object.
+ * @return string The primary link for the Activity like.
+ */
+function bp_activity_set_activity_like_primary_link( $primary_link, $activity ) {
+	// Default is current user's Activity Likes screen.
+	$primary_link = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_activity_slug(), 'likes' ) ) );
+
+	if ( $activity->item_id ) {
+		$primary_link = bp_activity_get_permalink( $activity->item_id );
+	}
+
+	/**
+	 * Filters the generated primary link for the Activity like.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param string               $primary_link Activity primary link.
+	 * @param BP_Activity_Activity $activity     Activity item object.
+	 */
+	return apply_filters( 'bp_activity_set_activity_like_primary_link', $primary_link, $activity );
 }
 
 /**
@@ -2379,16 +2471,27 @@ function bp_activity_add( $args = '' ) {
 	$activity->component         = $r['component'];
 	$activity->type              = $r['type'];
 	$activity->content           = $r['content'];
-	$activity->primary_link      = $r['primary_link'];
 	$activity->item_id           = $r['item_id'];
 	$activity->secondary_item_id = $r['secondary_item_id'];
 	$activity->date_recorded     = $r['recorded_time'];
 	$activity->hide_sitewide     = $r['hide_sitewide'];
 	$activity->is_spam           = $r['is_spam'];
 	$activity->error_type        = $r['error_type'];
-	$activity->action            = ! empty( $r['action'] )
-						? $r['action']
-						: bp_activity_generate_action_string( $activity );
+
+	// Sets the activity action.
+	$activity->action = '';
+	if ( ! empty( $r['action'] ) ) {
+		$activity->action = $r['action'];
+	} else {
+		$activity->action = bp_activity_generate_action_string( $activity );
+	}
+
+	// Sets the activity primary link.
+	if ( ! empty( $r['primary_link'] ) ) {
+		$activity->primary_link = $r['primary_link'];
+	} else {
+		$activity->primary_link = bp_activity_generate_primary_link( $activity );
+	}
 
 	$save = $activity->save();
 

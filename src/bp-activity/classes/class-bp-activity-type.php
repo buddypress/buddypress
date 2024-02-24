@@ -71,6 +71,14 @@ final class BP_Activity_Type {
 	public $format_callback;
 
 	/**
+	 * Activity primary link callback.
+	 *
+	 * @since 14.0.0
+	 * @var string $primary_link_callback
+	 */
+	public $primary_link_callback;
+
+	/**
 	 * Activity type streams.
 	 *
 	 * Possible lists may include 'activity', 'member', 'member_groups', 'group'.
@@ -137,14 +145,15 @@ final class BP_Activity_Type {
 		$r = bp_parse_args(
 			$args,
 			array(
-				'components'      => $default_prop,
-				'role'            => 'content',
-				'description'     => '',
-				'labels'          => array(),
-				'format_callback' => '',
-				'streams'         => $default_prop,
-				'position'        => 0,
-				'supports'        => array(),
+				'components'            => $default_prop,
+				'role'                  => 'content',
+				'description'           => '',
+				'labels'                => array(),
+				'format_callback'       => '',
+				'primary_link_callback' => '',
+				'streams'               => $default_prop,
+				'position'              => 0,
+				'supports'              => array(),
 			),
 			'activity_type_props'
 		);
@@ -213,6 +222,12 @@ final class BP_Activity_Type {
 			$this->format_callback = $r['format_callback'];
 		} else {
 			$this->format_callback = '';
+		}
+
+		if ( $r['primary_link_callback'] && is_callable( $r['primary_link_callback'] ) ) {
+			$this->primary_link_callback = $r['primary_link_callback'];
+		} else {
+			$this->primary_link_callback = '';
 		}
 
 		if ( $r['streams'] && is_array( $r['streams'] ) ) {
