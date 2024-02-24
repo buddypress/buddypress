@@ -2791,7 +2791,22 @@ function bp_nav_menu_get_loggedin_pages() {
 	$bp_menu_items = array();
 
 	if ( 'rewrites' !== bp_core_get_query_parser() ) {
-		$bp_menu_items = $bp->members->nav->get_primary();
+		$primary_items = $bp->members->nav->get_primary();
+
+		foreach( $primary_items as $primary_item ) {
+			$current_user_link = $primary_item['link'];
+
+			// When displaying a user, reset the primary item link.
+			if ( bp_is_user() ) {
+				$current_user_link = bp_loggedin_user_url( bp_members_get_path_chunks( array( $primary_item['slug'] ) ) );
+			}
+
+			$bp_menu_items[] = array(
+				'name' => $primary_item['name'],
+				'slug' => $primary_item['slug'],
+				'link' => $current_user_link,
+			);
+		}
 	} else {
 		$members_navigation = bp_get_component_navigations();
 
