@@ -398,6 +398,17 @@ class BP_Activity_Component extends BP_Component {
 				);
 			}
 
+			// Activity likes.
+			if ( bp_activity_supports_likes() ) {
+				$wp_admin_nav[] = array(
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-likes',
+					'title'    => _x( 'Likes', 'My Account Activity sub nav', 'buddypress' ),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, 'likes' ) ) ),
+					'position' => 30,
+				);
+			}
+
 			// Favorite activity items.
 			if ( bp_activity_can_favorite() ) {
 				$wp_admin_nav[] = array(
@@ -479,7 +490,8 @@ class BP_Activity_Component extends BP_Component {
 				'bp_activity',
 				'bp_activity_comments',
 				'bp_activity_reactions',
-				'activity_meta'
+				'bp_activity_user_likes',
+				'activity_meta',
 			)
 		);
 

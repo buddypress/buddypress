@@ -485,11 +485,6 @@ class BP_Activity_Activity {
 			)
 		);
 
-		/*
-		 * @todo $r['display_comments'] should be deprecated in favor of $r['display_reactions']
-		 */
-		$display_reactions = $r['display_comments'];
-
 		// Select conditions.
 		$select_sql = "SELECT DISTINCT a.id";
 
@@ -666,6 +661,11 @@ class BP_Activity_Activity {
 		if ( ! empty( $date_query_sql ) ) {
 			$where_conditions['date'] = $date_query_sql;
 		}
+
+		/*
+		 * @todo $r['display_comments'] should be deprecated in favor of $r['display_reactions']
+		 */
+		$display_reactions = $r['display_comments'];
 
 		// Alter the query based on whether we want to show activity item
 		// comments in the stream like normal comments or threaded below
@@ -1705,7 +1705,6 @@ class BP_Activity_Activity {
 			return $retval;
 		}
 
-		$wpdb = null;
 		if ( empty( $GLOBALS['wpdb'] ) ) {
 			return array();
 		}
@@ -2240,6 +2239,56 @@ class BP_Activity_Activity {
 
 		// No favorites.
 		return 0;
+	}
+
+	/**
+	 * Returns the activity IDs a user reacted to.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param integer $user_id       Required. The user ID.
+	 *                               Defaults to the current user ID.
+	 * @param string  $reaction_type Required. The activity type key name of the reaction.
+	 *                               Defaults to `activity_like`.
+	 * @return array The activity IDs a user reacted to.
+	 */
+	public static function get_user_reactions( $user_id, $reaction_type ) {
+
+		if ( ! in_array( $reaction_type, bp_get_activity_types_for_role( 'reaction' ), true ) ) {
+			return array();
+		}
+
+		$user_likes_cache = array();
+		if ( 'activity_like' === $reaction_type ) {
+			$user_likes_cache = wp_cache_get( $user_id, 'bp_activity_user_likes' );
+
+			if ( 'none' === $user_likes_cache ) {
+				return array();
+			} elseif ( ! empty( $user_likes_cache ) ) {
+				return (array) $user_likes_cache;
+			}
+		}
+
+		if ( empty( $GLOBALS['wpdb'] ) ) {
+			return array();
+		}
+
+		$wpdb           = $GLOBALS['wpdb'];
+		$activity_table = buddypress()->activity->table_name;
+		$sql            = $wpdb->prepare( "SELECT item_id FROM {$activity_table} WHERE user_id = %d AND type = %s", $user_id, $reaction_type );
+		$activities     = $wpdb->get_col( $sql );
+
+		if ( 'activity_like' === $reaction_type ) {
+			$user_likes_cache_value = $activities;
+
+			if ( ! $activities ) {
+				$user_likes_cache_value = 'none';
+			}
+
+			wp_cache_set( $user_id, $user_likes_cache_value, 'bp_activity_user_likes' );
+		}
+
+		return $activities;
 	}
 
 	/**

@@ -1215,12 +1215,15 @@ function bp_activity_add_reaction( $args = '' ) {
 		$is_hidden = 1;
 	}
 
+	// Sanitize User ID.
+	$user_id = (int) $r['user_id'];
+
 	// Insert the activity reaction.
 	$reaction_id = bp_activity_add(
 		array(
 			'component'         => $activity->component,
 			'type'              => $reaction_object->name,
-			'user_id'           => (int) $r['user_id'],
+			'user_id'           => $user_id,
 			'item_id'           => $activity->id,
 			'primary_link'      => $r['primary_link'],
 			'hide_sitewide'     => $is_hidden,
@@ -1230,7 +1233,43 @@ function bp_activity_add_reaction( $args = '' ) {
 
 	wp_cache_delete( $activity_id, 'bp_activity_reactions' );
 
+	if ( 'activity_like' === $reaction_object->name ) {
+		wp_cache_delete( $user_id, 'bp_activity_user_likes' );
+	}
+
 	return $reaction_id;
+}
+
+/**
+ * Gets the activity IDs a user reacted to.
+ *
+ * @since 14.0.0
+ *
+ * @param integer $user_id       Required. The user ID.
+ *                               Defaults to the current user ID.
+ * @param string  $reaction_type Required. The activity type key name of the reaction.
+ *                               Defaults to `activity_like`.
+ * @return WP_Error|array The activity IDs a user reacted to.
+ */
+function bp_activity_get_user_reactions( $user_id = 0, $reaction_type = 'activity_like' ) {
+	if ( ! $user_id ) {
+		$user_id = bp_loggedin_user_id();
+	}
+
+	if ( ! $reaction_type ) {
+		return array();
+	}
+
+	// Get the Activity reaction object.
+	$reaction_object = bp_get_activity_type_object( $reaction_type );
+	if ( is_wp_error( $reaction_object ) || 'reaction' !== $reaction_object->role ) {
+		return new WP_Error(
+			'activity_reaction_unregistered',
+			__( 'The provided reaction type is not registered as such.', 'buddypress' )
+		);
+	}
+
+	return BP_Activity_Activity::get_user_reactions( $user_id, $reaction_type );
 }
 
 /** Favorites ****************************************************************/

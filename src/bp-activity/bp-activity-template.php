@@ -3356,15 +3356,20 @@ function bp_activity_can_comment_reply( $comment = false ) {
  * @return bool True if comment can receive comments.
  */
 function bp_activity_can_favorite() {
+	/*
+	 * In 14.0.0:
+	 * @todo Move the Favorites feature into BP Classic
+	 */
+	$can_favorite = ! bp_activity_supports_likes();
 
 	/**
 	 * Filters whether or not users can favorite activity items.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param bool $value Whether or not favoriting is enabled.
+	 * @param bool $can_favorite Whether or not favoriting is enabled.
 	 */
-	return apply_filters( 'bp_activity_can_favorite', true );
+	return apply_filters( 'bp_activity_can_favorite', $can_favorite );
 }
 
 /**
