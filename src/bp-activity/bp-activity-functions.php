@@ -1133,13 +1133,16 @@ function bp_activity_get_actions_for_context( $context = '' ) {
  *
  * @param array|string $args {
  *     An array of arguments.
- *     @type int    $user_id           Optional. The ID of the user reacting.
- *                                     Defaults to the ID of the logged-in user.
- *     @type int    $activity_id       The ID of the parent activity item.
- *     @type string $reaction_type     Optional. The reaction activity type.
- *                                     Defaults to 'activity_like'.
- *     @type bool   $skip_notification Optional. false to send a reaction notification, true otherwise.
- *                                     Defaults to true.
+ *     @type int        $user_id           Optional. The ID of the user reacting.
+ *                                         Defaults to the ID of the logged-in user.
+ *     @type object|int $activity          Required. The parent activity object or its ID.
+ *                                         Defaults to 0.
+ *     @type string     $reaction_type     Optional. The reaction activity type.
+ *                                         Defaults to 'activity_like'.
+ *     @type string     $primary_link      Optional. The primary link for the reaction activity type.
+ *                                         Defaults to ''.
+ *     @type bool       $skip_notification Optional. false to send a reaction notification, true otherwise.
+ *                                         Defaults to true.
  * }
  * @return WP_Error|int The ID of the reaction on success, otherwise false.
  */
@@ -1148,23 +1151,20 @@ function bp_activity_add_reaction( $args = '' ) {
 		$args,
 		array(
 			'user_id'           => bp_loggedin_user_id(),
-			'activity_id'       => 0,
+			'activity'          => 0,
 			'reaction_type'     => 'activity_like',
+			'primary_link'      => '',
 			'skip_notification' => true,
 		)
 	);
 
 	// Bail if missing necessary data.
-	if ( empty( $r['user_id'] ) || empty( $r['activity_id'] ) ) {
+	if ( empty( $r['user_id'] ) || empty( $r['activity'] ) ) {
 		return new WP_Error(
 			'activity_reaction_missing_data',
 			__( 'There was an error liking this activity. Please try again.', 'buddypress' )
 		);
 	}
-
-	// Sanitize IDs.
-	$activity_id = (int) $r['activity_id'];
-	$user_id     = (int) $r['user_id'];
 
 	// Get the Activity reaction object.
 	$reaction_object = bp_get_activity_type_object( $r['reaction_type'] );
@@ -1175,8 +1175,18 @@ function bp_activity_add_reaction( $args = '' ) {
 		);
 	}
 
-	// Get the parent activity.
-	$activity = new BP_Activity_Activity( $activity_id );
+	// Init the activity.
+	$activity = null;
+
+	// Try to use the provided parent activity.
+	if ( is_object( $r['activity'] ) ) {
+		$activity = $r['activity'];
+
+		// Get the parent activity.
+	} else {
+		$activity_id = (int) $r['activity'];
+		$activity    = new BP_Activity_Activity( $activity_id );
+	}
 
 	// Bail if the parent activity does not exist.
 	if ( empty( $activity->date_recorded ) ) {
@@ -1189,7 +1199,7 @@ function bp_activity_add_reaction( $args = '' ) {
 		);
 	}
 
-	if ( ! bp_activity_type_supports( $activity->type, 'likes' ) ) {
+	if ( ! bp_activity_type_supports( $activity->type, $reaction_object->feature_name ) ) {
 		return new WP_Error(
 			'activity_reaction_not_supported',
 			sprintf(
@@ -1210,8 +1220,9 @@ function bp_activity_add_reaction( $args = '' ) {
 		array(
 			'component'         => $activity->component,
 			'type'              => $reaction_object->name,
-			'user_id'           => $user_id,
-			'item_id'           => $activity_id,
+			'user_id'           => (int) $r['user_id'],
+			'item_id'           => $activity->id,
+			'primary_link'      => $r['primary_link'],
 			'hide_sitewide'     => $is_hidden,
 			'error_type'        => 'wp_error',
 		)
@@ -1859,6 +1870,7 @@ function bp_activity_register_activity_actions() {
 		'activity_comment',
 		array(
 			'components'      => array( 'activity', 'groups' ),
+			'feature_name'    => 'comments',
 			'role'            => 'reaction',
 			'description'     => __( 'Activity comments let members reply to an activity update or another activity comment', 'buddypress' ),
 			'labels'          => array(
@@ -1876,6 +1888,7 @@ function bp_activity_register_activity_actions() {
 		array(
 			'components'      => array( 'activity', 'groups' ),
 			'role'            => 'reaction',
+			'feature_name'    => 'likes',
 			'description'     => __( 'Activity likes let members like activity updates or comments', 'buddypress' ),
 			'labels'          => array(
 				'singular_name' => __( 'like', 'buddypress' ),
@@ -2497,7 +2510,6 @@ function bp_activity_add( $args = '' ) {
 
 	if ( 'activity_comment' !== $activity->type && in_array( $activity->type, bp_get_activity_types_for_role( 'reaction' ), true ) ) {
 		$activity->mptt_left  = 2;
-		$activity->mptt_right = 2;
 	}
 
 	$save = $activity->save();
@@ -3700,6 +3712,7 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
 		'new_blog_comment',
 		'new_forum_topic',
 		'new_forum_post',
+		'activity_like',
 	);
 
 	if ( ! empty( $bp->activity->track ) ) {

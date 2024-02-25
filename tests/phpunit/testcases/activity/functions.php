@@ -2130,8 +2130,8 @@ Bar!';
 
 		$r1 = bp_activity_add_reaction(
 			array(
-				'user_id'     => $u1,
-				'activity_id' => $a1,
+				'user_id'  => $u1,
+				'activity' => $a1,
 			)
 		);
 

@@ -236,8 +236,6 @@ class BP_Activity_Activity {
 	public function save() {
 		global $wpdb;
 
-		$bp = buddypress();
-
 		$this->id                = apply_filters_ref_array( 'bp_activity_id_before_save',                array( $this->id,                &$this ) );
 		$this->item_id           = apply_filters_ref_array( 'bp_activity_item_id_before_save',           array( $this->item_id,           &$this ) );
 		$this->secondary_item_id = apply_filters_ref_array( 'bp_activity_secondary_item_id_before_save', array( $this->secondary_item_id, &$this ) );
@@ -306,14 +304,45 @@ class BP_Activity_Activity {
 			$this->primary_link = bp_loggedin_user_url();
 		}
 
+		$data = array(
+			'user_id'           => $this->user_id,
+			'component'         => $this->component,
+			'type'              => $this->type,
+			'action'            => $this->action,
+			'content'           => $this->content,
+			'primary_link'      => $this->primary_link,
+			'date_recorded'     => $this->date_recorded,
+			'item_id'           => $this->item_id,
+			'secondary_item_id' => $this->secondary_item_id,
+			'hide_sitewide'     => $this->hide_sitewide,
+			'mptt_left'         => is_null( $this->mptt_left ) ? 0 : $this->mptt_left,
+			'mptt_right'        => is_null( $this->mptt_right ) ? 0 : $this->mptt_right,
+			'is_spam'           => $this->is_spam,
+		);
+
+		$data_format    = array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d', '%d', '%d' );
+		$activity_table = buddypress()->activity->table_name;
+
 		// If we have an existing ID, update the activity item, otherwise insert it.
 		if ( ! empty( $this->id ) ) {
-			$q = $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component = %s, type = %s, action = %s, content = %s, primary_link = %s, date_recorded = %s, item_id = %d, secondary_item_id = %d, hide_sitewide = %d, is_spam = %d WHERE id = %d", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam, $this->id );
+			$q = $wpdb->update(
+				$activity_table,
+				$data,
+				array(
+					'id' => $this->id,
+				),
+				$data_format,
+				array( '%d' )
+			);
 		} else {
-			$q = $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component, type, action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide, is_spam ) VALUES ( %d, %s, %s, %s, %s, %s, %s, %d, %d, %d, %d )", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam );
+			$q = $wpdb->insert(
+				$activity_table,
+				$data,
+				$data_format
+			);
 		}
 
-		if ( false === $wpdb->query( $q ) ) {
+		if ( false === $q ) {
 			return false;
 		}
 
@@ -1691,7 +1720,7 @@ class BP_Activity_Activity {
 				$retval['reactions'] = array();
 				$reaction_types      = array();
 			} else {
-				$reaction_types = array_diff( $reaction_types, array( 'activity_comments' ) );
+				$reaction_types = array_diff( $reaction_types, array( 'activity_comment' ) );
 			}
 		}
 
@@ -1706,7 +1735,7 @@ class BP_Activity_Activity {
 				$retval['comments'] = array();
 				$reaction_types     = array();
 			} else {
-				$reaction_types = array( 'activity_comments' );
+				$reaction_types = array( 'activity_comment' );
 			}
 		}
 
@@ -1725,6 +1754,14 @@ class BP_Activity_Activity {
 			$spam_sql = 'AND a.is_spam = 1';
 		} else {
 			$spam_sql = '';
+		}
+
+		/*
+		 * This manipulation is necessary to be sure to get reactions
+		 * whether the activity was commented or not.
+		 */
+		if ( 3 > $r['mptt_right'] ) {
+			$r['mptt_right'] = 3;
 		}
 
 		// Only include reaction types.

@@ -47,6 +47,16 @@ final class BP_Activity_Type {
 	public $role;
 
 	/**
+	 * The name of the activity feature.
+	 *
+	 * Eg: 'comments', 'likes', etc.
+	 *
+	 * @since 14.0.0
+	 * @var string $feature_name
+	 */
+	public $feature_name;
+
+	/**
 	 * Activity type description.
 	 *
 	 * @since 14.0.0
@@ -147,6 +157,7 @@ final class BP_Activity_Type {
 			array(
 				'components'            => $default_prop,
 				'role'                  => 'content',
+				'feature_name'          => '',
 				'description'           => '',
 				'labels'                => array(),
 				'format_callback'       => '',
@@ -168,6 +179,14 @@ final class BP_Activity_Type {
 			$this->role = $r['role'];
 		} else {
 			$this->role = 'content';
+		}
+
+		if ( 'reaction' === $this->role ) {
+			if ( ! $r['feature_name'] ) {
+				_doing_it_wrong( 'feature_name', __( 'The `feature_name` property of this Activity type (having a reaction role) is required.', 'buddypress' ), 'BuddyPress 14.0.0' );
+			} else {
+				$this->feature_name = sanitize_key( $r['feature_name'] );
+			}
 		}
 
 		if ( $r['description'] ) {

@@ -56,7 +56,8 @@ function bp_activity_like_action() {
 		} else {
 			$like_id = bp_activity_add_reaction(
 				array(
-					'activity_id' => $parent_activity->id,
+					'activity'     => $parent_activity,
+					'primary_link' => bp_activity_get_permalink( $parent_activity->id, $parent_activity ),
 				)
 			);
 
