@@ -1231,7 +1231,7 @@ function bp_activity_add_reaction( $args = '' ) {
 		)
 	);
 
-	wp_cache_delete( $activity_id, 'bp_activity_reactions' );
+	wp_cache_delete( $activity->id, 'bp_activity_reactions' );
 
 	if ( 'activity_like' === $reaction_object->name ) {
 		wp_cache_delete( $user_id, 'bp_activity_user_likes' );
