@@ -1158,20 +1158,23 @@ function bp_activity_add_reaction( $args = '' ) {
 		)
 	);
 
-	// Bail if missing necessary data.
-	if ( empty( $r['user_id'] ) || empty( $r['activity'] ) ) {
-		return new WP_Error(
-			'activity_reaction_missing_data',
-			__( 'There was an error liking this activity. Please try again.', 'buddypress' )
-		);
-	}
-
 	// Get the Activity reaction object.
 	$reaction_object = bp_get_activity_type_object( $r['reaction_type'] );
 	if ( is_wp_error( $reaction_object ) || 'reaction' !== $reaction_object->role ) {
 		return new WP_Error(
 			'activity_reaction_unregistered',
-			__( 'There was an error reacting to this activity. Please try again.', 'buddypress' )
+			__( 'This activity reaction is not registered.', 'buddypress' )
+		);
+	}
+
+	// Bail if missing necessary data.
+	if ( empty( $r['user_id'] ) || empty( $r['activity'] ) ) {
+		return new WP_Error(
+			'activity_reaction_missing_data',
+			sprintf(
+				__( 'There was an error %s. Please try again.', 'buddypress' ),
+				esc_html( $reaction_object->labels->doing_action )
+			)
 		);
 	}
 
@@ -1231,13 +1234,82 @@ function bp_activity_add_reaction( $args = '' ) {
 		)
 	);
 
+	// Clear the activity reactions cache.
 	wp_cache_delete( $activity->id, 'bp_activity_reactions' );
 
-	if ( 'activity_like' === $reaction_object->name ) {
-		wp_cache_delete( $user_id, 'bp_activity_user_likes' );
-	}
+	// Clear the user reactions cache.
+	wp_cache_delete( $user_id, 'bp_activity_user_reactions' );
 
 	return $reaction_id;
+}
+
+/**
+ * Remove an activity reaction.
+ *
+ * @since 14.0.0
+ *
+ * @param integer $reaction_id   The Activity ID of the reaction.
+ * @param string  $reaction_type The Activity reaction key name.
+ * @return boolean|WP_Error True on success, a WP Error object otherwise.
+ */
+function bp_activity_remove_reaction( $reaction_id, $reaction_type = 'activity_like' ) {
+
+	// Get the Activity reaction object.
+	$reaction_object = bp_get_activity_type_object( $reaction_type );
+	if ( is_wp_error( $reaction_object ) || 'reaction' !== $reaction_object->role ) {
+		return new WP_Error(
+			'activity_reaction_unregistered',
+			__( 'This activity reaction is not registered.', 'buddypress' )
+		);
+	}
+
+	// Bail if missing necessary data.
+	if ( empty( $reaction_id ) ) {
+		return new WP_Error(
+			'activity_reaction_missing_data',
+			sprintf(
+				__( 'There was an error %s. Please try again.', 'buddypress' ),
+				esc_html( $reaction_object->labels->undoing_action )
+			)
+		);
+	}
+
+	// Validate the reaction.
+	$reaction = new BP_Activity_Activity( $reaction_id );
+	if ( empty( $reaction->id ) ) {
+		return new WP_Error(
+			'activity_reaction_missing',
+			sprintf(
+				__( 'This %s no longer exists.', 'buddypress' ),
+				esc_html( $reaction_object->labels->singular_name )
+			)
+		);
+	}
+
+	$removed = bp_activity_delete(
+		array(
+			'id' => $reaction->id,
+		)
+	);
+
+	if ( $removed ) {
+		// Clear the activity reactions cache.
+		wp_cache_delete( $reaction->item_id, 'bp_activity_reactions' );
+
+		// Clear the user reactions cache.
+		wp_cache_delete( $reaction->user_id, 'bp_activity_user_reactions' );
+
+	} else {
+		return new WP_Error(
+			'activity_removing_reaction_failed',
+			sprintf(
+				__( '%s the activity failed. Please try again.', 'buddypress' ),
+				esc_html( strtoupper( $reaction_object->labels->undoing_action ) )
+			)
+		);
+	}
+
+	return true;
 }
 
 /**
@@ -1930,16 +2002,19 @@ function bp_activity_register_activity_actions() {
 			'feature_name'    => 'likes',
 			'description'     => __( 'Activity likes let members like activity updates or comments', 'buddypress' ),
 			'labels'          => array(
-				'singular_name' => __( 'like', 'buddypress' ),
-				'plural_name'   => __( 'likes', 'buddypress' ),
-				'front_filter'  => __( 'Activity Likes', 'buddypress' ),
-				'admin_filter'  => __( 'Liked a status update', 'buddypress' ),
-				'doing_action'  => __( 'liking', 'buddypress' ),
-				'did_action'    => __( 'liked', 'buddypress' ),
+				'singular_name'  => __( 'like', 'buddypress' ),
+				'plural_name'    => __( 'likes', 'buddypress' ),
+				'front_filter'   => __( 'Activity Likes', 'buddypress' ),
+				'admin_filter'   => __( 'Liked a status update', 'buddypress' ),
+				'do_action'      => __( 'like', 'buddypress' ),
+				'doing_action'   => __( 'liking', 'buddypress' ),
+				'did_action'     => __( 'liked', 'buddypress' ),
+				'undo_action'    => __( 'dislike', 'buddypress' ),
+				'undoing_action' => __( 'disliking', 'buddypress' ),
+				'undid_action'   => __( 'disliked', 'buddypress' ),
 			),
-			'format_callback'       => 'bp_activity_format_activity_action_activity_like',
-			'primary_link_callback' => 'bp_activity_set_activity_like_primary_link',
-			'streams'               => array( 'activity', 'member', 'member_groups', 'group' ),
+			'format_callback' => 'bp_activity_format_activity_action_activity_like',
+			'streams'         => array( 'activity', 'member', 'member_groups', 'group' ),
 		)
 	);
 
@@ -2021,47 +2096,6 @@ function bp_activity_generate_action_string( $activity ) {
 }
 
 /**
- * Generate the primary link of an activity item.
- *
- * @since 14.0.0
- *
- * @param BP_Activity_Activity $activity Activity data object.
- * @return string|bool Returns false if no callback is found, otherwise returns
- *                     the activity primary link.
- */
-function bp_activity_generate_primary_link( $activity ) {
-
-	// Check for valid input.
-	if ( empty( $activity->component ) || empty( $activity->type ) ) {
-		return false;
-	}
-
-	// Validate the activity type.
-	$type = bp_get_activity_type_object( $activity->type );
-	if ( is_wp_error( $type ) || ! $type->primary_link_callback ) {
-		return false;
-	}
-
-	// We apply the format_callback as a filter.
-	add_filter( 'bp_activity_generate_primary_link', $type->primary_link_callback, 10, 2 );
-
-	/**
-	 * Filters the string for the activity action being returned.
-	 *
-	 * @since 14.0.0
-	 *
-	 * @param string               $primary_link Activity primary link.
-	 * @param BP_Activity_Activity $activity     Activity item object.
-	 */
-	$primary_link = apply_filters( 'bp_activity_generate_primary_link', $activity->primary_link, $activity );
-
-	// Remove the filter for future activity items.
-	remove_filter( 'bp_activity_generate_primary_link', $type->primary_link_callback, 10 );
-
-	return $primary_link;
-}
-
-/**
  * Format 'activity_update' activity actions.
  *
  * @since 2.0.0
@@ -2140,34 +2174,6 @@ function bp_activity_format_activity_action_activity_like( $action, $activity ) 
 	 * @param BP_Activity_Activity $activity Activity item object.
 	 */
 	return apply_filters( 'bp_activity_like_action', $action, $activity );
-}
-
-/**
- * Generate the primary link for the Activity like.
- *
- * @since 14.0.0
- *
- * @param string               $primary_link Static activity primary link.
- * @param BP_Activity_Activity $activity     Activity data object.
- * @return string The primary link for the Activity like.
- */
-function bp_activity_set_activity_like_primary_link( $primary_link, $activity ) {
-	// Default is current user's Activity Likes screen.
-	$primary_link = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_activity_slug(), 'likes' ) ) );
-
-	if ( $activity->item_id ) {
-		$primary_link = bp_activity_get_permalink( $activity->item_id );
-	}
-
-	/**
-	 * Filters the generated primary link for the Activity like.
-	 *
-	 * @since 14.0.0
-	 *
-	 * @param string               $primary_link Activity primary link.
-	 * @param BP_Activity_Activity $activity     Activity item object.
-	 */
-	return apply_filters( 'bp_activity_set_activity_like_primary_link', $primary_link, $activity );
 }
 
 /**
@@ -2524,6 +2530,7 @@ function bp_activity_add( $args = '' ) {
 	$activity->user_id           = $r['user_id'];
 	$activity->component         = $r['component'];
 	$activity->type              = $r['type'];
+	$activity->primary_link      = $r['primary_link'];
 	$activity->content           = $r['content'];
 	$activity->item_id           = $r['item_id'];
 	$activity->secondary_item_id = $r['secondary_item_id'];
@@ -2538,13 +2545,6 @@ function bp_activity_add( $args = '' ) {
 		$activity->action = $r['action'];
 	} else {
 		$activity->action = bp_activity_generate_action_string( $activity );
-	}
-
-	// Sets the activity primary link.
-	if ( ! empty( $r['primary_link'] ) ) {
-		$activity->primary_link = $r['primary_link'];
-	} else {
-		$activity->primary_link = bp_activity_generate_primary_link( $activity );
 	}
 
 	if ( 'activity_comment' !== $activity->type && in_array( $activity->type, bp_get_activity_types_for_role( 'reaction' ), true ) ) {

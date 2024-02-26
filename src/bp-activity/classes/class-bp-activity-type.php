@@ -81,14 +81,6 @@ final class BP_Activity_Type {
 	public $format_callback;
 
 	/**
-	 * Activity primary link callback.
-	 *
-	 * @since 14.0.0
-	 * @var string $primary_link_callback
-	 */
-	public $primary_link_callback;
-
-	/**
 	 * Activity type streams.
 	 *
 	 * Possible lists may include 'activity', 'member', 'member_groups', 'group'.
@@ -161,7 +153,6 @@ final class BP_Activity_Type {
 				'description'           => '',
 				'labels'                => array(),
 				'format_callback'       => '',
-				'primary_link_callback' => '',
 				'streams'               => $default_prop,
 				'position'              => 0,
 				'supports'              => array(),
@@ -219,8 +210,17 @@ final class BP_Activity_Type {
 		}
 		$this->labels->admin_filter = $admin_filter;
 
+		$do_action = sprintf(
+			__( 'add the %s activity type', 'buddypress' ),
+			esc_html( $singular_name )
+		);
+		if ( $r['labels'] && isset( $r['labels']['do_action'] ) && $r['labels']['do_action'] ) {
+			$do_action = esc_html( $r['labels']['do_action'] );
+		}
+		$this->labels->do_action = $do_action;
+
 		$doing_action = sprintf(
-			__( 'adding the activity type: %s', 'buddypress' ),
+			__( 'adding the %s activity type', 'buddypress' ),
 			esc_html( $singular_name )
 		);
 		if ( $r['labels'] && isset( $r['labels']['doing_action'] ) && $r['labels']['doing_action'] ) {
@@ -229,7 +229,7 @@ final class BP_Activity_Type {
 		$this->labels->doing_action = $doing_action;
 
 		$did_action = sprintf(
-			__( 'added the activity type: %s', 'buddypress' ),
+			__( 'added the %s activity type', 'buddypress' ),
 			esc_html( $singular_name )
 		);
 		if ( $r['labels'] && isset( $r['labels']['did_action'] ) && $r['labels']['did_action'] ) {
@@ -237,16 +237,37 @@ final class BP_Activity_Type {
 		}
 		$this->labels->did_action = $did_action;
 
+		$undo_action = sprintf(
+			__( 'remove the %s activity type', 'buddypress' ),
+			esc_html( $singular_name )
+		);
+		if ( $r['labels'] && isset( $r['labels']['undo_action'] ) && $r['labels']['undo_action'] ) {
+			$undo_action = esc_html( $r['labels']['undo_action'] );
+		}
+		$this->labels->undo_action = $undo_action;
+
+		$undoing_action = sprintf(
+			__( 'removing the %s activity type.', 'buddypress' ),
+			esc_html( $singular_name )
+		);
+		if ( $r['labels'] && isset( $r['labels']['undoing_action'] ) && $r['labels']['undoing_action'] ) {
+			$undoing_action = esc_html( $r['labels']['undoing_action'] );
+		}
+		$this->labels->undoing_action = $undoing_action;
+
+		$undid_action = sprintf(
+			__( 'removed the %s activity type', 'buddypress' ),
+			esc_html( $singular_name )
+		);
+		if ( $r['labels'] && isset( $r['labels']['undid_action'] ) && $r['labels']['undid_action'] ) {
+			$undid_action = esc_html( $r['labels']['undid_action'] );
+		}
+		$this->labels->undid_action = $undid_action;
+
 		if ( $r['format_callback'] && is_callable( $r['format_callback'] ) ) {
 			$this->format_callback = $r['format_callback'];
 		} else {
 			$this->format_callback = '';
-		}
-
-		if ( $r['primary_link_callback'] && is_callable( $r['primary_link_callback'] ) ) {
-			$this->primary_link_callback = $r['primary_link_callback'];
-		} else {
-			$this->primary_link_callback = '';
 		}
 
 		if ( $r['streams'] && is_array( $r['streams'] ) ) {

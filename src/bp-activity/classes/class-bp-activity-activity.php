@@ -2258,15 +2258,13 @@ class BP_Activity_Activity {
 			return array();
 		}
 
-		$user_likes_cache = array();
-		if ( 'activity_like' === $reaction_type ) {
-			$user_likes_cache = wp_cache_get( $user_id, 'bp_activity_user_likes' );
+		// Get the user's reactions cache.
+		$user_reactions_cache = wp_cache_get( $user_id, 'bp_activity_user_reactions' );
 
-			if ( 'none' === $user_likes_cache ) {
-				return array();
-			} elseif ( ! empty( $user_likes_cache ) ) {
-				return (array) $user_likes_cache;
-			}
+		if ( 'none' === $user_reactions_cache ) {
+			return array();
+		} elseif ( ! empty( $user_reactions_cache ) ) {
+			return (array) $user_reactions_cache;
 		}
 
 		if ( empty( $GLOBALS['wpdb'] ) ) {
@@ -2278,15 +2276,13 @@ class BP_Activity_Activity {
 		$sql            = $wpdb->prepare( "SELECT item_id FROM {$activity_table} WHERE user_id = %d AND type = %s", $user_id, $reaction_type );
 		$activities     = $wpdb->get_col( $sql );
 
-		if ( 'activity_like' === $reaction_type ) {
-			$user_likes_cache_value = $activities;
-
-			if ( ! $activities ) {
-				$user_likes_cache_value = 'none';
-			}
-
-			wp_cache_set( $user_id, $user_likes_cache_value, 'bp_activity_user_likes' );
+		$user_reactions_cache_value = $activities;
+		if ( ! $activities ) {
+			$user_reactions_cache_value = 'none';
 		}
+
+		// Set the user's reactions cache.
+		wp_cache_set( $user_id, $user_reactions_cache_value, 'bp_activity_user_reactions' );
 
 		return $activities;
 	}

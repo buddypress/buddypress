@@ -38,7 +38,7 @@ function bp_activity_like_action() {
 	$parent_activity = reset( $activities['activities'] );
 
 	if ( empty( $parent_activity->id ) ) {
-		$feedback = __( 'The activity you want to like does not exist', 'buddypress' );
+		$feedback = __( 'The activity you want to like does not exist.', 'buddypress' );
 
 	} elseif ( ! bp_activity_user_can_read( $parent_activity, bp_loggedin_user_id() ) ) {
 		$feedback = __( 'You are not allowed to like this activity.', 'buddypress' );

@@ -4348,11 +4348,44 @@ function bp_activity_supports_likes() {
 }
 
 /**
+ * Return whether an activity is liked by a user.
+ *
+ * @since 14.0.0
+ *
+ * @param integer              The user ID. Optional.
+ *                             Defaults to the current user ID.
+ * @param BP_Activity_Activity The Activity object. Optional.
+ *                             Defaults to the current Activity in the loop.
+ * @return boolean True if the user liked the activity. False otherwise.
+ */
+function bp_activity_is_liked( $user_id = 0, $activity = null ) {
+	$liked = false;
+
+	if ( ! $user_id ) {
+		$user_id = bp_loggedin_user_id();
+	}
+
+	if ( $activity instanceof BP_Activity_Activity ) {
+		/*
+		 * @todo return whether the user liked this activity object.
+		 */
+
+	} elseif ( isset( $GLOBALS['activities_template']->activity->reactions ) ) {
+		$user_like = wp_filter_object_list( $GLOBALS['activities_template']->activity->reactions, array( 'type' => 'activity_like', 'user_id' => bp_loggedin_user_id() ), 'AND', 'user_id' );
+		$liked     =  ! empty( $user_like ) && 1 === count( $user_like );
+	}
+
+	return $liked;
+}
+
+/**
  * Informs about the number of times an activity was liked.
  *
  * @since 14.0.0
  * @todo Build the function!
  *
+ * @param BP_Activity_Activity The Activity object. Optional.
+ *                             Defaults to the current Activity in the loop.
  * @return integer The number of times an activity was liked.
  */
 function bp_activity_get_like_count( $activity = null ) {
@@ -4379,10 +4412,11 @@ function bp_activity_get_like_count( $activity = null ) {
  *
  * @since 14.0.0
  *
+ * @param string               $type     Whether to add or remove the like.
  * @param BP_Activity_Activity $activity An activity object. Optional.
  * @return string The link to like an activity.
  */
-function bp_get_activity_like_link( $activity = null ) {
+function bp_get_activity_like_link( $type = 'add', $activity = null ) {
 	$url         = '';
 	$activity_id = 0;
 
@@ -4393,11 +4427,16 @@ function bp_get_activity_like_link( $activity = null ) {
 		$activity_id = (int) $GLOBALS['activities_template']->activity->id;
 	}
 
+	$slug = 'like';
+	if ( 'remove' === $type ) {
+		$slug = 'dislike';
+	}
+
 	if ( $activity_id ) {
 		$url = bp_rewrites_get_url(
 			array(
 				'component_id'                 => 'activity',
-				'single_item_action'           => 'like',
+				'single_item_action'           => $slug,
 				'single_item_action_variables' => array( $activity_id ),
 			)
 		);
@@ -4410,7 +4449,9 @@ function bp_get_activity_like_link( $activity = null ) {
 	 *
 	 * @since 14.0.0
 	 *
-	 * @param string $url Constructed link for liking the activity.
+	 * @param string $url  Constructed link for liking the activity.
+	 * @param string $type Whether to `add` or `remove` the like.
+	 * @param string $slug The computed slug according to the type (`like` or `dislike`).
 	 */
-	return apply_filters( 'bp_get_activity_like_link', $url );
+	return apply_filters( 'bp_get_activity_like_link', $url, $type, $slug );
 }

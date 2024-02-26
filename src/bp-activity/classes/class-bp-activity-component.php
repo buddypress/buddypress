@@ -126,7 +126,7 @@ class BP_Activity_Component extends BP_Component {
 		if ( bp_is_current_component( 'activity' ) ) {
 			// Authenticated actions - Only fires when JS is disabled.
 			if ( is_user_logged_in() &&
-				in_array( bp_current_action(), array( 'delete', 'spam', 'post', 'reply', 'favorite', 'unfavorite', 'like' ), true )
+				in_array( bp_current_action(), array( 'delete', 'spam', 'post', 'reply', 'favorite', 'unfavorite', 'like', 'dislike' ), true )
 			) {
 				require_once $this->path . 'bp-activity/actions/' . bp_current_action() . '.php';
 			}
@@ -490,7 +490,7 @@ class BP_Activity_Component extends BP_Component {
 				'bp_activity',
 				'bp_activity_comments',
 				'bp_activity_reactions',
-				'bp_activity_user_likes',
+				'bp_activity_user_reactions',
 				'activity_meta',
 			)
 		);
