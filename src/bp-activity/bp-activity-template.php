@@ -4382,7 +4382,6 @@ function bp_activity_is_liked( $user_id = 0, $activity = null ) {
  * Informs about the number of times an activity was liked.
  *
  * @since 14.0.0
- * @todo Build the function!
  *
  * @param BP_Activity_Activity The Activity object. Optional.
  *                             Defaults to the current Activity in the loop.

@@ -2075,12 +2075,12 @@ Bar!';
 		$type = bp_register_activity_type(
 			'greetings_support',
 			array(
-				'supports' => array( 'comments', 'favorites' ),
+				'supports' => array( 'comments', 'likes' ),
 			)
 		);
 
 		$this->assertTrue( bp_activity_type_supports( 'greetings_support', 'comments' ) );
-		$this->assertTrue( bp_activity_type_supports( 'greetings_support', 'favorites' ) );
+		$this->assertTrue( bp_activity_type_supports( 'greetings_support', 'likes' ) );
 
 		bp_unregister_activity_type( 'greetings_support' );
 	}

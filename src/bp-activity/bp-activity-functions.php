@@ -387,12 +387,12 @@ function bp_unregister_activity_type( $type ) {
 }
 
 /**
- * Retrieves the list of Activity types having a specific role.
+ * Retrieves the Activity type object for a specific type.
  *
  * @since 14.0.0
  *
  * @param string $type The name key of the activity type.
- * @return WP_Error|BP_Activity_Type The list of Activity type name keys having the requested role.
+ * @return WP_Error|BP_Activity_Type The Activity type object.
  */
 function bp_get_activity_type_object( $type ) {
 	$activity_types = buddypress()->activity->types;
@@ -809,7 +809,6 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 
 	switch ( $feature ) {
 		case 'comments' :
-		case 'favorites' :
 		case 'likes' :
 			$retval = isset( $bp->activity->types[ $activity_type ]->supports->{$feature} ) && true === $bp->activity->types[ $activity_type ]->supports->{$feature};
 			break;
@@ -1276,7 +1275,7 @@ function bp_activity_remove_reaction( $reaction_id, $reaction_type = 'activity_l
 
 	// Validate the reaction.
 	$reaction = new BP_Activity_Activity( $reaction_id );
-	if ( empty( $reaction->id ) ) {
+	if ( empty( $reaction->id ) || $reaction_type !== $reaction->type ) {
 		return new WP_Error(
 			'activity_reaction_missing',
 			sprintf(
@@ -2547,6 +2546,7 @@ function bp_activity_add( $args = '' ) {
 		$activity->action = bp_activity_generate_action_string( $activity );
 	}
 
+	// Setting the `mptt_left` property to 2 makes it possible to run the same query to get all reactions (including comments).
 	if ( 'activity_comment' !== $activity->type && in_array( $activity->type, bp_get_activity_types_for_role( 'reaction' ), true ) ) {
 		$activity->mptt_left  = 2;
 	}

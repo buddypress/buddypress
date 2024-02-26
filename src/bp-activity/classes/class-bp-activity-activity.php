@@ -1623,6 +1623,14 @@ class BP_Activity_Activity {
 		return true;
 	}
 
+	/**
+	 * Build an associative array of comments and calculate comments depth.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param array $descendants The list of activity comments. Required.
+	 * @return array The list of activity comments.
+	 */
 	public static function build_assoc_array_and_calcultate_depth( $descendants ) {
 		$comments = array();
 		$ref      = array();
@@ -1679,6 +1687,22 @@ class BP_Activity_Activity {
 		return $comments;
 	}
 
+	/**
+	 * Fetch reactions for the activity. Reactions are including comments.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param array $args {
+	 *     An array of arguments.
+	 *
+	 *     @type integer $activity_id         Activity ID to fetch comments for.
+	 *     @type integer $mptt_left           Left-most node boundary.
+	 *     @type integer $mptt_right          Right-most node boundary.
+	 *     @type string  $spam                Optional. 'ham_only' (default), 'spam_only' or 'all'.
+	 *     @type integer $top_level_parent_id Optional. The id of the root-level parent activity item.
+	 * }
+	 * @return array An associative array containing Activity comments and Activity reactions.
+	 */
 	public static function get_activity_reactions( $args = array() ) {
 		$r = bp_parse_args(
 			$args,
@@ -1811,6 +1835,15 @@ class BP_Activity_Activity {
 		return $retval;
 	}
 
+	/**
+	 * Append activity reactions to their associated activity items.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param array  $activities Activities to fetch reactions for.
+	 * @param string $spam       Optional. 'ham_only' (default), 'spam_only' or 'all'.
+	 * @return array The updated activities with nested reactions.
+	 */
 	public static function append_reactions( $activities, $spam = 'ham_only' ) {
 		$activity_reactions = array();
 
