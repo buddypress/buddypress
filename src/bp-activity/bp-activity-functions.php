@@ -1143,7 +1143,7 @@ function bp_activity_get_actions_for_context( $context = '' ) {
  *     @type bool       $skip_notification Optional. false to send a reaction notification, true otherwise.
  *                                         Defaults to true.
  * }
- * @return WP_Error|int The ID of the reaction on success, otherwise false.
+ * @return WP_Error|integer The ID of the reaction on success, otherwise false.
  */
 function bp_activity_add_reaction( $args = '' ) {
 	$r = bp_parse_args(

@@ -4352,30 +4352,35 @@ function bp_activity_supports_likes() {
  *
  * @since 14.0.0
  *
- * @param integer              The user ID. Optional.
+ * @param integer $user_id     The user ID. Optional.
  *                             Defaults to the current user ID.
- * @param BP_Activity_Activity The Activity object. Optional.
- *                             Defaults to the current Activity in the loop.
+ * @param integer $activity_id The Activity object. Optional.
+ *                             Defaults to 0.
  * @return boolean True if the user liked the activity. False otherwise.
  */
-function bp_activity_is_liked( $user_id = 0, $activity = null ) {
-	$liked = false;
-
+function bp_activity_is_liked( $user_id = 0, $activity_id = 0 ) {
 	if ( ! $user_id ) {
 		$user_id = bp_loggedin_user_id();
 	}
 
-	if ( $activity instanceof BP_Activity_Activity ) {
-		/*
-		 * @todo return whether the user liked this activity object.
-		 */
+	if ( $activity_id ) {
+		$user_like = bp_activity_get(
+			array(
+				'type'             => 'activity_like',
+				'filter'           => array(
+					'user_id'    => $user_id,
+					'primary_id' => $activity_id,
+				),
+				'display_comments' => 'stream',
+			)
+		);
+		$user_like = wp_list_pluck( $user_like['activities'], 'user_id' );
 
 	} elseif ( isset( $GLOBALS['activities_template']->activity->reactions ) ) {
 		$user_like = wp_filter_object_list( $GLOBALS['activities_template']->activity->reactions, array( 'type' => 'activity_like', 'user_id' => bp_loggedin_user_id() ), 'AND', 'user_id' );
-		$liked     =  ! empty( $user_like ) && 1 === count( $user_like );
 	}
 
-	return $liked;
+	return ! empty( $user_like ) && 1 === count( $user_like );
 }
 
 /**
@@ -4383,17 +4388,26 @@ function bp_activity_is_liked( $user_id = 0, $activity = null ) {
  *
  * @since 14.0.0
  *
- * @param BP_Activity_Activity The Activity object. Optional.
- *                             Defaults to the current Activity in the loop.
+ * @param integer $activity_id The Activity ID. Optional.
+ *                             Defaults to 0.
  * @return integer The number of times an activity was liked.
  */
-function bp_activity_get_like_count( $activity = null ) {
+function bp_activity_get_like_count( $activity_id = 0 ) {
 	$count = 0;
 
-	if ( $activity instanceof BP_Activity_Activity ) {
-		/*
-		 * @todo Get Like count for a given activity.
-		 */
+	if ( $activity_id ) {
+		$likes = bp_activity_get(
+			array(
+				'type'             => 'activity_like',
+				'filter'           => array(
+					'primary_id' => $activity_id,
+				),
+				'display_comments' => 'stream',
+				'count_total_only' => true,
+			)
+		);
+
+		$count = (int) $likes['total'];
 
 	} elseif ( isset( $GLOBALS['activities_template']->activity->reactions ) ) {
 		$likes = wp_list_filter( $GLOBALS['activities_template']->activity->reactions, array( 'type' => 'activity_like' ) );
