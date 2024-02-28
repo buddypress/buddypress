@@ -809,7 +809,7 @@ function bp_message_thread_avatar( $args = '' ) {
 /**
  * Output the unread messages count for the current inbox.
  *
- * @since 2.6.x Added the `$user_id` paremeter.
+ * @since 2.6.x Added the `$user_id` parameter.
  *
  * @param int $user_id The user ID.
  */
@@ -819,7 +819,7 @@ function bp_total_unread_messages_count( $user_id = 0 ) {
 	/**
 	 * Get the unread messages count for the current inbox.
 	 *
-	 * @since 2.6.x Added the `$user_id` paremeter.
+	 * @since 2.6.x Added the `$user_id` parameter.
 	 *
 	 * @param int $user_id The user ID.
 	 *
@@ -1027,7 +1027,7 @@ function bp_messages_content_value() {
 	echo esc_textarea( bp_get_messages_content_value() );
 }
 	/**
-	 * Get the default value fo the Compose content field.
+	 * Get the default value for the Compose content field.
 	 *
 	 * Will get a value out of $_POST['content'] if available (ie after a
 	 * failed submission).

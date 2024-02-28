@@ -835,7 +835,7 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 	}
 
 	/**
-	 * Fires at the end of the process for hanlding spammer status.
+	 * Fires at the end of the process for handling spammer status.
 	 *
 	 * @since 1.5.5
 	 *
@@ -1587,7 +1587,7 @@ add_filter( 'pre_update_site_option_illegal_names', 'bp_core_get_illegal_names' 
  *   - Is the email address well-formed?
  *   - Is the email address already used?
  *   - If there are disallowed email domains, is the current domain among them?
- *   - If there's an email domain whitelest, is the current domain on it?
+ *   - If there's an email domain whitelist, is the current domain on it?
  *
  * @since 1.6.2
  *
@@ -1621,7 +1621,7 @@ function bp_core_validate_email_address( $user_email ) {
 		}
 	}
 
-	// Is the email alreday in use?
+	// Is the email already in use?
 	if ( email_exists( $user_email ) ) {
 		$errors['in_use'] = 1;
 	}
@@ -2729,7 +2729,7 @@ function bp_get_member_type_tax_labels() {
 			'new_item_name'              => _x( 'New Member Type Name', 'Member type taxonomy new item name label', 'buddypress' ),
 			'separate_items_with_commas' => _x( 'Separate member types with commas', 'Member type taxonomy separate items with commas label', 'buddypress' ),
 			'add_or_remove_items'        => _x( 'Add or remove member types', 'Member type taxonomy add or remove items label', 'buddypress' ),
-			'choose_from_most_used'      => _x( 'Choose from the most used meber types', 'Member type taxonomy choose from most used label', 'buddypress' ),
+			'choose_from_most_used'      => _x( 'Choose from the most used member types', 'Member type taxonomy choose from most used label', 'buddypress' ),
 			'not_found'                  => _x( 'No member types found.', 'Member type taxonomy not found label', 'buddypress' ),
 			'no_terms'                   => _x( 'No member types', 'Member type taxonomy no terms label', 'buddypress' ),
 			'items_list_navigation'      => _x( 'Member Types list navigation', 'Member type taxonomy items list navigation label', 'buddypress' ),
@@ -2899,7 +2899,7 @@ function bp_register_member_type( $member_type, $args = array() ) {
 
 	// Directory slug.
 	if ( $r['has_directory'] ) {
-		// A string value is intepreted as the directory slug. Otherwise fall back on member type.
+		// A string value is interpreted as the directory slug. Otherwise fall back on member type.
 		if ( is_string( $r['has_directory'] ) ) {
 			$directory_slug = $r['has_directory'];
 		} else {
@@ -3457,7 +3457,7 @@ function bp_members_invitations_invite_user( $args = array() ) {
 		'send_invite'   => $r['send_invite'],
 	);
 
-	// Create the invitataion.
+	// Create the invitation.
 	$invites_class = new BP_Members_Invitation_Manager();
 	$created       = $invites_class->add_invitation( $inv_args );
 
