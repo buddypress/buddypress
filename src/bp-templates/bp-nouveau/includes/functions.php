@@ -3,7 +3,7 @@
  * Common functions
  *
  * @since 3.0.0
- * @version 12.0.0
+ * @version 14.0.0
  */
 
 // Exit if accessed directly.
@@ -520,14 +520,14 @@ function bp_nouveau_parse_hooked_options( $hook = '', $filters = array() ) {
 }
 
 /**
- * Get Dropdawn filters for the current component of the one passed in params
+ * Get Dropdown filters for the current component of the one passed in params.
  *
  * @since 3.0.0
  *
- * @param string $context   'directory', 'user' or 'group'
- * @param string $component The BuddyPress component ID
+ * @param string $context   'directory', 'user' or 'group'.
+ * @param string $component The BuddyPress component ID.
  *
- * @return array the dropdown filters
+ * @return array the dropdown filters.
  */
 function bp_nouveau_get_component_filters( $context = '', $component = '' ) {
 	$filters = array();
@@ -752,7 +752,10 @@ function bp_nouveau_customizer_grid_choices( $type = 'option' ) {
  * @return array An array of nav items slugs.
  */
 function bp_nouveau_sanitize_nav_order( $option = '' ) {
-	$option = explode( ',', $option );
+	if ( ! is_array( $option ) ) {
+		$option = explode( ',', $option );
+	}
+
 	return array_map( 'sanitize_key', $option );
 }
 

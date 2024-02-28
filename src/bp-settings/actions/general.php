@@ -103,7 +103,7 @@ function bp_settings_action_general() {
 					$verify_link = add_query_arg(
 						'verify_email_change',
 						$hash,
-						bp_displayed_user_url( $path_chunks )
+						bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) )
 					);
 
 					// Send the verification email.
