@@ -46,11 +46,16 @@
 	},
 	"require-dev": {
 		"buddypress/bp-coding-standards": "dev-trunk",
-		"yoast/phpunit-polyfills": "^1.0"
+		"yoast/phpunit-polyfills": "^1.0",
+		"spatie/phpunit-watcher": "^1.23"
 	},
 	"scripts": {
 		"test": "@php ./vendor/phpunit/phpunit/phpunit",
 		"test_multi": "@php ./vendor/phpunit/phpunit/phpunit -c tests/phpunit/multisite.xml",
-		"phpcs": "@php ./vendor/bin/phpcs"
+		"phpcs": "@php ./vendor/bin/phpcs",
+		"test:watch": [
+			"Composer\\Config::disableProcessTimeout",
+			"phpunit-watcher watch"
+		]
 	}
 }

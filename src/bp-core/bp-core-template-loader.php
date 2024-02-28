@@ -619,6 +619,9 @@ function bp_parse_ajax_referer_query( $referer_query ) {
 		return;
 	}
 
+	// Prevent doing this again.
+	remove_action( 'parse_query', 'bp_parse_ajax_referer_query', 2 );
+
 	/**
 	 * Fires at the end of the bp_parse_ajax_referer_query function.
 	 *
