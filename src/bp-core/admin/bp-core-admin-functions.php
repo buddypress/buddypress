@@ -822,6 +822,10 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 			$retval = __( 'Your users will distinguish themselves through their profile page. Create relevant profile fields that will show on each users profile.', 'buddypress' ) . '<br /><br />' . __( 'Note: Drag fields from other groups and drop them on the "Signup Fields" tab to include them into your registration form.', 'buddypress' );
 			break;
 
+		case 'bp-debug-settings':
+			$retval = __( 'Find all the details about your BuddyPress configuration opening the BuddyPress panel of your Site Health info accordion panels. If you need to ask for support, this information will help the BuddyPress community in giving you the right reply to your issue.', 'buddypress' );
+			break;
+
 		case 'bp-rewrites-overview':
 			$retval = __( 'Customize the page titles and URL slugs for the BuddyPress screens on your site.', 'buddypress' ) . '<br /><br />' . __( 'The <strong>title</strong> is the page title displayed above the BuddyPress content. For example, the page title "Members" is shown above the members directory.', 'buddypress' ) . '<br /><br />' . __( 'A <strong>slug</strong> is a portion of the URL itself. For instance, "members" is the members directory slug in the following example URL: <code>https://mysite.org/members</code>. Slugs should only include lowercase letters, numbers, and hyphens.', 'buddypress' );
 			break;

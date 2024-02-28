@@ -756,8 +756,14 @@ add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resu
  */
 function bp_core_admin_debug_information( $debug_info = array() ) {
 	global $wp_settings_fields;
-	$active_components = array_intersect_key( bp_core_get_components(), buddypress()->active_components );
+
+	if ( ! bp_is_root_blog() ) {
+		return $debug_info;
+	}
+
+	$active_components = wp_list_pluck( bp_core_get_active_components( array(), 'objects' ), 'name', 'id' );
 	$bp_settings       = array();
+	$skipped_settings  = array( '_bp_theme_package_id', '_bp_community_visibility' );
 	$bp_url_parsers    = array(
 		'rewrites' => __( 'BP Rewrites API', 'buddypress' ),
 		'legacy'   => __( 'Legacy Parser', 'buddypress' ),
@@ -771,13 +777,12 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 		$bp_url_parser = __( 'Custom', 'buddypress' );
 	}
 
-
 	foreach ( $wp_settings_fields['buddypress'] as $section => $settings ) {
 		$prefix       = '';
 		$component_id = str_replace( 'bp_', '', $section );
 
-		if ( isset( $active_components[ $component_id ]['title'] ) ) {
-			$prefix = $active_components[ $component_id ]['title'] .': ';
+		if ( isset( $active_components[ $component_id ] ) ) {
+			$prefix = $active_components[ $component_id ] .': ';
 		}
 
 		foreach( $settings as $bp_setting ) {
@@ -787,16 +792,30 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				strpos( $bp_setting['id'], 'disable' ) !== false
 			);
 
-			if ( ! isset( $bp_setting['id'] ) || '_bp_theme_package_id' === $bp_setting['id'] ) {
+			if ( ! isset( $bp_setting['id'] ) || in_array( $bp_setting['id'], $skipped_settings, true ) ) {
 				continue;
 			}
 
-			$bp_setting_value = bp_get_option( $bp_setting['id'] );
-			if ( '0' === $bp_setting_value || '1' === $bp_setting_value ) {
-				if ( ( $reverse && '0' === $bp_setting_value ) || ( ! $reverse && '1' === $bp_setting_value ) ) {
-					$bp_setting_value = __( 'Yes', 'buddypress' );
+			$bp_setting_value = bp_get_option( $bp_setting['id'], 0 );
+
+			if ( is_array( $bp_setting_value ) ) {
+				if ( is_numeric( key( $bp_setting_value ) ) ) {
+					$bp_setting_value = implode( ', ', $bp_setting_value );
 				} else {
-					$bp_setting_value = __( 'No', 'buddypress' );
+					$setting_array    = $bp_setting_value;
+					$bp_setting_value = array();
+					foreach ( $setting_array as $setting_array_key => $setting_array_value ) {
+						$bp_setting_value[ $setting_array_key ] = implode( ', ', $setting_array_value );
+					}
+				}
+			} else {
+				$bp_setting_value = (int) $bp_setting_value;
+				if ( 0 === $bp_setting_value || 1 === $bp_setting_value ) {
+					if ( ( $reverse && 0 === $bp_setting_value ) || ( ! $reverse && 1 === $bp_setting_value ) ) {
+						$bp_setting_value = __( 'Yes', 'buddypress' );
+					} else {
+						$bp_setting_value = __( 'No', 'buddypress' );
+					}
 				}
 			}
 
@@ -813,31 +832,330 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 		}
 	}
 
+	$theme_settings = array();
+	if ( current_theme_supports( 'buddypress' ) ) {
+		$theme_settings['standalone_bptheme'] = array(
+			'label' => __( 'BuddyPress standalone theme', 'buddypress' ),
+			'value' => wp_get_theme()->get( 'Name' ),
+		);
+	} else {
+		$theme_settings['template_pack'] = array(
+			'label' => __( 'Active template pack', 'buddypress' ),
+			'value' => bp_get_theme_compat_name() . ' ' . bp_get_theme_compat_version(),
+		);
+	}
+
 	$debug_info['buddypress'] = array(
 		'label'  => __( 'BuddyPress', 'buddypress' ),
 		'fields' => array_merge(
 			array(
-				'version' => array(
+				'version'                     => array(
 					'label' => __( 'Version', 'buddypress' ),
 					'value' => bp_get_version(),
 				),
-				'active_components' => array(
+				'active_components'           => array(
 					'label' => __( 'Active components', 'buddypress' ),
-					'value' => implode( ', ', wp_list_pluck( $active_components, 'title' ) ),
+					'value' => implode( ', ', $active_components ),
 				),
-				'template_pack' => array(
-					'label' => __( 'Active template pack', 'buddypress' ),
-					'value' => bp_get_theme_compat_name() . ' ' . bp_get_theme_compat_version(),
-				),
-				'url_parser'    => array(
+				'url_parser'                  => array(
 					'label' => __( 'URL Parser', 'buddypress' ),
 					'value' => $bp_url_parser,
 				),
+				'global_community_visibility' => array(
+					'label' => __( 'Community visibility', 'buddypress' ),
+					'value' => bp_get_community_visibility( 'global' ),
+				),
 			),
+			$theme_settings,
 			$bp_settings
+		)
+	);
+
+	$debug_info['buddypress-constants'] = array(
+		'label'       => __( 'BuddyPress Constants', 'buddypress' ),
+		'description' => __( 'These constants can alter where and how parts of BuddyPress are loaded or works.', 'buddypress' ),
+		'fields'      => array(
+			'BP_VERSION' => array(
+				'label' => 'BP_VERSION',
+				'value' => BP_VERSION,
+			),
+			'BP_DB_VERSION' => array(
+				'label' => 'BP_DB_VERSION',
+				'value' => BP_DB_VERSION,
+			),
+			'BP_REQUIRED_PHP_VERSION' => array(
+				'label' => 'BP_REQUIRED_PHP_VERSION',
+				'value' => BP_REQUIRED_PHP_VERSION,
+			),
+			'BP_PLUGIN_DIR' => array(
+				'label' => 'BP_PLUGIN_DIR',
+				'value' => BP_PLUGIN_DIR,
+			),
+			'BP_PLUGIN_URL' => array(
+				'label' => 'BP_PLUGIN_URL',
+				'value' => BP_PLUGIN_URL,
+			),
+			'BP_IGNORE_DEPRECATED' => array(
+				'label' => 'BP_IGNORE_DEPRECATED',
+				'value' => defined( 'BP_IGNORE_DEPRECATED' ) && BP_IGNORE_DEPRECATED ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
+				'debug' => defined( 'BP_IGNORE_DEPRECATED' ) ? BP_IGNORE_DEPRECATED : 'undefined',
+			),
+			'BP_LOAD_DEPRECATED' => array(
+				'label' => 'BP_LOAD_DEPRECATED',
+				'value' => defined( 'BP_LOAD_DEPRECATED' ) && BP_LOAD_DEPRECATED ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
+				'debug' => defined( 'BP_LOAD_DEPRECATED' ) ? BP_LOAD_DEPRECATED : 'undefined',
+			),
+			'BP_ROOT_BLOG' => array(
+				'label' => 'BP_ROOT_BLOG',
+				'value' => BP_ROOT_BLOG,
+			),
+			'BP_ENABLE_MULTIBLOG' => array(
+				'label' => 'BP_ENABLE_MULTIBLOG',
+				'value' => defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
+				'debug' => defined( 'BP_ENABLE_MULTIBLOG' ) ? BP_ENABLE_MULTIBLOG : 'undefined',
+			),
+			'BP_ENABLE_ROOT_PROFILES' => array(
+				'label' => 'BP_ENABLE_ROOT_PROFILES',
+				'value' => defined( 'BP_ENABLE_ROOT_PROFILES' ) && BP_ENABLE_ROOT_PROFILES ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
+				'debug' => defined( 'BP_ENABLE_ROOT_PROFILES' ) ? BP_ENABLE_ROOT_PROFILES : 'undefined',
+			),
+			'BP_DEFAULT_COMPONENT' => array(
+				'label' => 'BP_DEFAULT_COMPONENT',
+				'value' => defined( 'BP_DEFAULT_COMPONENT' ) ? BP_DEFAULT_COMPONENT : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_DEFAULT_COMPONENT' ) ? BP_DEFAULT_COMPONENT : 'undefined',
+			),
+			'BP_XPROFILE_BASE_GROUP_NAME' => array(
+				'label' => 'BP_XPROFILE_BASE_GROUP_NAME',
+				'value' => BP_XPROFILE_BASE_GROUP_NAME,
+			),
+			'BP_XPROFILE_FULLNAME_FIELD_NAME' => array(
+				'label' => 'BP_XPROFILE_FULLNAME_FIELD_NAME',
+				'value' => BP_XPROFILE_FULLNAME_FIELD_NAME,
+			),
+			'BP_MESSAGES_AUTOCOMPLETE_ALL' => array(
+				'label' => 'BP_MESSAGES_AUTOCOMPLETE_ALL',
+				'value' => defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' ) && BP_MESSAGES_AUTOCOMPLETE_ALL ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
+			),
+			'BP_DISABLE_AUTO_GROUP_JOIN' => array(
+				'label' => 'BP_DISABLE_AUTO_GROUP_JOIN',
+				'value' => defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) && BP_DISABLE_AUTO_GROUP_JOIN ? __( 'Disabled', 'buddypress' ) : __( 'Enabled', 'buddypress' ),
+				'debug' => defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) ? BP_DISABLE_AUTO_GROUP_JOIN : 'undefined',
+			),
+			'BP_GROUPS_DEFAULT_EXTENSION' => array(
+				'label' => 'BP_GROUPS_DEFAULT_EXTENSION',
+				'value' => defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'undefined',
+			),
+			'BP_SIGNUPS_SKIP_USER_CREATION' => array(
+				'label' => 'BP_SIGNUPS_SKIP_USER_CREATION',
+				'value' => defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) && BP_SIGNUPS_SKIP_USER_CREATION ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
+				'debug' => defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) ? BP_SIGNUPS_SKIP_USER_CREATION : 'undefined',
+			),
+			'BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH' => array(
+				'label' => 'BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH',
+				'value' => defined( 'BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH' ) ? BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH' ) ? BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH : 'undefined',
+			),
+			'BP_EMBED_DISABLE_PRIVATE_MESSAGES' => array(
+				'label' => 'BP_EMBED_DISABLE_PRIVATE_MESSAGES',
+				'value' => defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) ? BP_EMBED_DISABLE_PRIVATE_MESSAGES : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) ? BP_EMBED_DISABLE_PRIVATE_MESSAGES : 'undefined',
+			),
+			'BP_EMBED_DISABLE_ACTIVITY_REPLIES' => array(
+				'label' => 'BP_EMBED_DISABLE_ACTIVITY_REPLIES',
+				'value' => defined( 'BP_EMBED_DISABLE_ACTIVITY_REPLIES' ) ? BP_EMBED_DISABLE_ACTIVITY_REPLIES : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_EMBED_DISABLE_ACTIVITY_REPLIES' ) ? BP_EMBED_DISABLE_ACTIVITY_REPLIES : 'undefined',
+			),
+			'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' => array(
+				'label' => 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE',
+				'value' => defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) ? BP_ENABLE_USERNAME_COMPATIBILITY_MODE : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) ? BP_ENABLE_USERNAME_COMPATIBILITY_MODE : 'undefined',
+			),
+			'BP_AVATAR_DEFAULT_THUMB' => array(
+				'label' => 'BP_AVATAR_DEFAULT_THUMB',
+				'value' => defined( 'BP_AVATAR_DEFAULT_THUMB' ) ? BP_AVATAR_DEFAULT_THUMB : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_AVATAR_DEFAULT_THUMB' ) ? BP_AVATAR_DEFAULT_THUMB : 'undefined',
+			),
+			'BP_AVATAR_DEFAULT' => array(
+				'label' => 'BP_AVATAR_DEFAULT',
+				'value' => defined( 'BP_AVATAR_DEFAULT' ) ? BP_AVATAR_DEFAULT : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_AVATAR_DEFAULT' ) ? BP_AVATAR_DEFAULT : 'undefined',
+			),
+			'BP_AVATAR_URL' => array(
+				'label' => 'BP_AVATAR_URL',
+				'value' => defined( 'BP_AVATAR_URL' ) ? BP_AVATAR_URL : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_AVATAR_URL' ) ? BP_AVATAR_URL : 'undefined',
+			),
+			'BP_AVATAR_UPLOAD_PATH' => array(
+				'label' => 'BP_AVATAR_UPLOAD_PATH',
+				'value' => defined( 'BP_AVATAR_UPLOAD_PATH' ) ? BP_AVATAR_UPLOAD_PATH : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_AVATAR_UPLOAD_PATH' ) ? BP_AVATAR_UPLOAD_PATH : 'undefined',
+			),
+			'BP_SHOW_AVATARS' => array(
+				'label' => 'BP_SHOW_AVATARS',
+				'value' => defined( 'BP_SHOW_AVATARS' ) && BP_SHOW_AVATARS ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
+				'debug' => defined( 'BP_SHOW_AVATARS' ) ? BP_SHOW_AVATARS : 'undefined',
+			),
+			'BP_AVATAR_ORIGINAL_MAX_FILESIZE' => array(
+				'label' => 'BP_AVATAR_ORIGINAL_MAX_FILESIZE',
+				'value' => BP_AVATAR_ORIGINAL_MAX_FILESIZE,
+			),
+			'BP_AVATAR_ORIGINAL_MAX_WIDTH' => array(
+				'label' => 'BP_AVATAR_ORIGINAL_MAX_WIDTH',
+				'value' => BP_AVATAR_ORIGINAL_MAX_WIDTH,
+			),
+			'BP_AVATAR_ORIGINAL_MAX_FILESIZE' => array(
+				'label' => 'BP_AVATAR_ORIGINAL_MAX_FILESIZE',
+				'value' => size_format( BP_AVATAR_ORIGINAL_MAX_FILESIZE ),
+				'debug' => BP_AVATAR_ORIGINAL_MAX_FILESIZE,
+			),
+			'BP_AVATAR_FULL_HEIGHT' => array(
+				'label' => 'BP_AVATAR_FULL_HEIGHT',
+				'value' => BP_AVATAR_FULL_HEIGHT,
+			),
+			'BP_AVATAR_FULL_WIDTH' => array(
+				'label' => 'BP_AVATAR_FULL_WIDTH',
+				'value' => BP_AVATAR_FULL_WIDTH,
+			),
+			'BP_AVATAR_THUMB_HEIGHT' => array(
+				'label' => 'BP_AVATAR_THUMB_HEIGHT',
+				'value' => BP_AVATAR_THUMB_HEIGHT,
+			),
+			'BP_AVATAR_THUMB_WIDTH' => array(
+				'label' => 'BP_AVATAR_THUMB_WIDTH',
+				'value' => BP_AVATAR_THUMB_WIDTH,
+			),
+			'BP_USE_WP_ADMIN_BAR' => array(
+				'label' => 'BP_USE_WP_ADMIN_BAR (deprecated)',
+				'value' => defined( 'BP_USE_WP_ADMIN_BAR' ) ? BP_USE_WP_ADMIN_BAR : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_USE_WP_ADMIN_BAR' ) ? BP_USE_WP_ADMIN_BAR : 'undefined',
+			),
+			'BP_FRIENDS_DB_VERSION' => array(
+				'label' => 'BP_FRIENDS_DB_VERSION (deprecated)',
+				'value' => defined( 'BP_FRIENDS_DB_VERSION' ) ? BP_FRIENDS_DB_VERSION : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_FRIENDS_DB_VERSION' ) ? BP_FRIENDS_DB_VERSION : 'undefined',
+			),
+			'BP_FORUMS_PARENT_FORUM_ID' => array(
+				'label' => 'BP_FORUMS_PARENT_FORUM_ID (deprecated)',
+				'value' => defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ? BP_FORUMS_PARENT_FORUM_ID : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ? BP_FORUMS_PARENT_FORUM_ID : 'undefined',
+			),
+			'BP_MEMBERS_SLUG' => array(
+				'label' => 'BP_MEMBERS_SLUG (deprecated)',
+				'value' => defined( 'BP_MEMBERS_SLUG' ) ? BP_MEMBERS_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_MEMBERS_SLUG' ) ? BP_MEMBERS_SLUG : 'undefined',
+			),
+			'BP_GROUPS_SLUG' => array(
+				'label' => 'BP_GROUPS_SLUG (deprecated)',
+				'value' => defined( 'BP_GROUPS_SLUG' ) ? BP_GROUPS_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_GROUPS_SLUG' ) ? BP_GROUPS_SLUG : 'undefined',
+			),
+			'BP_MESSAGES_SLUG' => array(
+				'label' => 'BP_MESSAGES_SLUG (deprecated)',
+				'value' => defined( 'BP_MESSAGES_SLUG' ) ? BP_MESSAGES_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_MESSAGES_SLUG' ) ? BP_MESSAGES_SLUG : 'undefined',
+			),
+			'BP_NOTIFICATIONS_SLUG' => array(
+				'label' => 'BP_NOTIFICATIONS_SLUG (deprecated)',
+				'value' => defined( 'BP_NOTIFICATIONS_SLUG' ) ? BP_NOTIFICATIONS_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_NOTIFICATIONS_SLUG' ) ? BP_NOTIFICATIONS_SLUG : 'undefined',
+			),
+			'BP_BLOGS_SLUG' => array(
+				'label' => 'BP_BLOGS_SLUG (deprecated)',
+				'value' => defined( 'BP_BLOGS_SLUG' ) ? BP_BLOGS_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_BLOGS_SLUG' ) ? BP_BLOGS_SLUG : 'undefined',
+			),
+			'BP_FRIENDS_SLUG' => array(
+				'label' => 'BP_FRIENDS_SLUG (deprecated)',
+				'value' => defined( 'BP_FRIENDS_SLUG' ) ? BP_FRIENDS_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_FRIENDS_SLUG' ) ? BP_FRIENDS_SLUG : 'undefined',
+			),
+			'BP_ACTIVITY_SLUG' => array(
+				'label' => 'BP_ACTIVITY_SLUG (deprecated)',
+				'value' => defined( 'BP_ACTIVITY_SLUG' ) ? BP_ACTIVITY_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_ACTIVITY_SLUG' ) ? BP_ACTIVITY_SLUG : 'undefined',
+			),
+			'BP_SETTINGS_SLUG' => array(
+				'label' => 'BP_SETTINGS_SLUG (deprecated)',
+				'value' => defined( 'BP_SETTINGS_SLUG' ) ? BP_SETTINGS_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_SETTINGS_SLUG' ) ? BP_SETTINGS_SLUG : 'undefined',
+			),
+			'BP_XPROFILE_SLUG' => array(
+				'label' => 'BP_XPROFILE_SLUG (deprecated)',
+				'value' => defined( 'BP_XPROFILE_SLUG' ) ? BP_XPROFILE_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_XPROFILE_SLUG' ) ? BP_XPROFILE_SLUG : 'undefined',
+			),
+			'BP_FORUMS_SLUG' => array(
+				'label' => 'BP_FORUMS_SLUG (deprecated)',
+				'value' => defined( 'BP_FORUMS_SLUG' ) ? BP_FORUMS_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_FORUMS_SLUG' ) ? BP_FORUMS_SLUG : 'undefined',
+			),
+			'BP_SEARCH_SLUG' => array(
+				'label' => 'BP_SEARCH_SLUG (deprecated)',
+				'value' => defined( 'BP_SEARCH_SLUG' ) ? BP_SEARCH_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_SEARCH_SLUG' ) ? BP_SEARCH_SLUG : 'undefined',
+			),
 		)
 	);
 
 	return $debug_info;
 }
 add_filter( 'debug_information', 'bp_core_admin_debug_information' );
+
+/**
+ * Adds a BuddyPress section to the Site Health Info Admin Screen help tabs.
+ *
+ * @since 14.0.0
+ */
+function bp_core_admin_debug_information_add_help_tab() {
+	if ( ! bp_is_root_blog() ) {
+		return;
+	}
+
+	if ( isset( $_REQUEST['tab'] ) && 'debug' === sanitize_key( wp_unslash( $_REQUEST['tab'] ) ) ) {
+		$screen = get_current_screen();
+
+		$screen->add_help_tab(
+			array(
+				'id'      => 'bp-debug-settings',
+				'title'   => esc_html__( 'BuddyPress', 'buddypress' ),
+				'content' => bp_core_add_contextual_help_content( 'bp-debug-settings' ),
+			)
+		);
+
+		$help_sidebar = $screen->get_help_sidebar();
+		$bp_links     = sprintf(
+			'<p><a href="%1$s" class="bp-help-sidebar-links">%2$s</a></p>',
+			esc_url( 'https://buddypress.org/support/' ),
+			esc_html__( 'BuddyPress Support Forums', 'buddypress' )
+		);
+
+		$screen->set_help_sidebar( $help_sidebar . $bp_links );
+		wp_add_inline_script(
+			'site-health',
+			'( function() {
+				let bpHelpSidebarLinks;
+
+				document.onreadystatechange = function()  {
+					if ( document.readyState === "complete" ) {
+						bpHelpSidebarLinks = document.querySelector( \'.bp-help-sidebar-links\' ).closest( \'p\')
+						bpHelpSidebarLinks.style.display = \'none\';
+					}
+				}
+
+				document.querySelectorAll( \'.contextual-help-tabs ul li a\' ).forEach(
+					function( a ) {
+						a.addEventListener( \'click\', function( e ) {
+							if ( \'tab-link-bp-debug-settings\' === e.target.parentElement.getAttribute( \'id\' ) ) {
+								bpHelpSidebarLinks.style.display = \'block\';
+							} else {
+								bpHelpSidebarLinks.style.display = \'none\';
+							}
+						} );
+					}
+				);
+			} )();'
+		);
+	}
+}
+add_action( 'admin_head-site-health.php', 'bp_core_admin_debug_information_add_help_tab' );
