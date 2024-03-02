@@ -3,4 +3,4 @@
 - Project organization
 - [Release cycle](./release/README.md)
 - Commit access
-- Version numbering
+- [Version Numbering](./version-numbering.md)

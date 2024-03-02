@@ -12,6 +12,12 @@
 		"parent": null
 	},
 	{
+		"title": "Version Numbering",
+		"slug": "version-numbering",
+		"markdown_source": "../contributor/project/version-numbering.md",
+		"parent": null
+	},
+	{
 		"title": "How a release cycle works?",
 		"slug": "about-release",
 		"markdown_source": "../contributor/project/release/README.md",
