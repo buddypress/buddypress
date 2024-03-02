@@ -1256,6 +1256,31 @@ class BP_Component {
 	}
 
 	/**
+	 * Set the queried BuddyPress object.
+	 *
+	 * @since 12.4.0
+	 *
+	 * @param WP_Query $query Main WP_Query object. Passed by reference.
+	 */
+	public function set_queried_object( &$query ) {
+		$bp             = buddypress();
+		$queried_object = get_post( $bp->pages->{ $this->id }->id );
+
+		// Reset the BP Directory Page if the post weirdly does not exist.
+		if ( is_null( $queried_object ) ) {
+			$queried_object                 = get_post( $bp->pages->{ $this->id } );
+			$queried_object->ID             = (int) $bp->pages->{ $this->id }->id;
+			$queried_object->post_type      = bp_core_get_directory_post_type();
+			$queried_object->post_title     = $bp->pages->{ $this->id }->title;
+			$queried_object->post_name      = $bp->pages->{ $this->id }->name;
+			$queried_object->comment_status = 'closed';
+		}
+
+		$query->queried_object    = $queried_object;
+		$query->queried_object_id = $queried_object->ID;
+	}
+
+	/**
 	 * Make sure to avoid querying for regular posts when displaying a BuddyPress page.
 	 *
 	 * @since 12.0.0

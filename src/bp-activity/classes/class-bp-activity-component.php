@@ -507,8 +507,7 @@ class BP_Activity_Component extends BP_Component {
 
 			// Set the BuddyPress queried object.
 			if ( isset( $bp->pages->activity->id ) ) {
-				$query->queried_object    = get_post( $bp->pages->activity->id );
-				$query->queried_object_id = $query->queried_object->ID;
+				$this->set_queried_object( $query );
 			}
 		}
 

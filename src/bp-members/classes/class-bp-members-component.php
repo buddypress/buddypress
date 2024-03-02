@@ -946,8 +946,7 @@ class BP_Members_Component extends BP_Component {
 
 			// Set the BuddyPress queried object.
 			if ( isset( $bp->pages->members->id ) ) {
-				$query->queried_object    = get_post( $bp->pages->members->id );
-				$query->queried_object_id = $query->queried_object->ID;
+				$this->set_queried_object( $query );
 
 				if ( $member ) {
 					$query->queried_object->single_item_name = $member->display_name;
