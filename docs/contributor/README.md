@@ -2,6 +2,7 @@
 
 Welcome to the BuddyPress Contributor Handbook.
 
+- [About the BuddyPress open source project](./project/README.md)
 - [Contribute to documentation](./documentation/README.md)
 - Contribute to translation
 - Contribute to tests
