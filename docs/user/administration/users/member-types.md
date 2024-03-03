@@ -39,6 +39,7 @@ Activate this checkbox if you want the Member's Member Type information to be di
 ![Add Member Type](../../assets/add-member-type.png)
 
 Once saved, an admin notice at the top of the screen will confirm you successfully added a new member type 👏. And the table on the right part of the screen will contain a new specific row so that you can edit or remove this member type.
+
 ![Member Type Added](../../assets/add-member-type-success.png)
 
 ### Edit Member Type:
@@ -46,9 +47,11 @@ Once saved, an admin notice at the top of the screen will confirm you successful
 ![Edit Member Type](../../assets/edit-member-type.png)
 
 When you need to edit a member type, go back to the Member types administration of your dashboard to find the table listing all available member types. Hover the member type ID you need to edit so that action links will appear right under this ID. Click on the Edit link to reach the Edit form shown below.
+
 ![Update Member Type](../../assets/update-form-member-types.png)
 
 Once you're satisfied with your changes, click on the "Update" blue button to save them. The page will be reloaded to display the same form with applied changes and an Admin notice at the top of the screen will confirm you successfully updated your member type properties. The link inside this notice brings you back to the screen listing all available member types.
+
 ![Member Type Updated](../../assets/edit-member-type-success.png)
 
 ### Delete Member Type:
@@ -73,7 +76,7 @@ Administrators can assign Member Types manually through the WordPress Dashboard 
 
 ![Assign Multiple Member Type](../../assets/multiple-member-types-01.png)
 
-"As shown in the above screenshot, community Administrators can assign multiple member types directly from the user’s WP-Admin/Extended profile page.
+As shown in the above screenshot, community Administrators can assign multiple member types directly from the user’s WP-Admin/Extended profile page.
 
 
 ![Bulk Assign Member Type](../../assets/multiple-member-types-02.png)
