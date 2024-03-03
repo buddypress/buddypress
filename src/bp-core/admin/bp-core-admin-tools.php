@@ -847,8 +847,9 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 
 	$bp_constants = array(
 		'bp_constants' => array(
-			'label' => __( 'Constants', 'buddypress' ),
-			'value' => 'thmarker',
+			'label'   => __( 'Constants', 'buddypress' ),
+			'value'   => 'thmarker',
+			'private' => true,
 		),
 		'BP_VERSION' => array(
 			'label' => 'BP_VERSION',
@@ -1078,8 +1079,9 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 		'fields'      => array_merge(
 			array(
 				'bp_settings' => array(
-					'label' => __( 'Settings', 'buddypress' ),
-					'value' => 'thmarker',
+					'label'   => __( 'Settings', 'buddypress' ),
+					'value'   => 'thmarker',
+					'private' => true,
 				),
 				'version'                     => array(
 					'label' => __( 'Version', 'buddypress' ),
