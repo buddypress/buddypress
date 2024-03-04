@@ -14,7 +14,7 @@ Please confirm that WordPress is installed on your hosting environment. If WordP
 
 ### Step 2: Install BuddyPress
 
-Access your WordPress administrative panel and navigate to `Plugins → Add New`. In the search field, enter `BuddyPress` and press enter. Select `Install Now` on the BuddyPress plugin entry.
+Access your WordPress administrative panel and navigate to `Plugins → Add New`. You can either activate the "Featured" tab and scroll down to find it or use the search field to look for `BuddyPress`. Click on `Install Now` blue button of the BuddyPress plugin card.
 
 ### Step 3: Activate BuddyPress
 
