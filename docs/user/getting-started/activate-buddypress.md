@@ -26,7 +26,7 @@ For administrators who prefer or require a manual installation approach, please 
 
 ### Step 1: Download BuddyPress
 
-Navigate to the [BuddyPress page](https://wordpress.org/plugins/buddypress/) on the WordPress plugin repository and download the most recent version of the plugin.
+Navigate to the [BuddyPress page](https://wordpress.org/plugins/buddypress/) on the WordPress plugin repository and download the most recent version of the plugin. You'll get a zip Archive having a name looking like this `buddypress.VersionNumber.zip`.
 
 ### Step 2: Upload BuddyPress
 
