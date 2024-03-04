@@ -4,7 +4,6 @@ Welcome to the BuddyPress installation guide! BuddyPress is a versatile plugin t
 
 ## Prerequisites
 
-- Confirm compatibility of your server with the **minimum requirements specified by BuddyPress**.
 Please ensure your WordPress installation is current and compatible with the BuddyPress plugin. A good way to quickly find this information is to check the [plugin's official page](https://wordpress.org/plugins/buddypress/) on the WordPress Plugin Directory and look for the required **WordPress Version** as well as the required **PHP Version**. These informations are also available at the top of the [readme.txt](https://plugins.trac.wordpress.org/browser/buddypress/trunk/readme.txt) file that is include in the plugin's package.
 
 ## Automated Installation Procedure
