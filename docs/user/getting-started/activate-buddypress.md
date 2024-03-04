@@ -34,4 +34,4 @@ You can alternatively go to the `Plugins → Add New` administration screen and 
 
 ### Step 3: Activate the Plugin
 
-Log into your WordPress administrative dashboard, proceed to `Plugins → Installed Plugins`, locate BuddyPress in the plugin list, and select `Activate`. Subsequently, you will be directed to the BuddyPress Welcome page for additional configuration.
+Log into your WordPress administrative dashboard, proceed to `Plugins → Installed Plugins`, locate BuddyPress in the plugin list, and select `Activate`. Subsequently, you will be directed to your WordPress Dashboard home page which will show the "Hello BuddyPress" modal window we use to inform about the plugin's version highlights.
