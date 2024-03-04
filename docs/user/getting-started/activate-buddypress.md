@@ -18,7 +18,7 @@ Access your WordPress administrative panel and navigate to `Plugins → Add New`
 
 ### Step 3: Activate BuddyPress
 
-Following installation, select `Activate` to enable BuddyPress on your website. Post-activation, you will be redirected to the BuddyPress Welcome page, where you can configure settings for your new social network.
+Following installation, select `Activate` to enable BuddyPress on your website. Post-activation, you will be redirected to your WordPress Dashboard home page which will show the "Hello BuddyPress" modal window we use to inform about the plugin's version highlights.
 
 ## Manual Installation Process
 
