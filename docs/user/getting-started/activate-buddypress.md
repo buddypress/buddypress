@@ -30,7 +30,7 @@ Navigate to the [BuddyPress page](https://wordpress.org/plugins/buddypress/) on 
 
 ### Step 2: Upload BuddyPress
 
-Utilize your preferred FTP client to upload the BuddyPress plugin folder to the `wp-content/plugins` directory within your WordPress installation on your web server.
+You can alternatively go to the `Plugins → Add New` administration screen and use the WordPress plugin uploader to transfer the zip Archive you downloaded into your plugins directory or unzip the Archive locally and utilize your preferred FTP client to drop the `buddypress` plugin folder into the `wp-content/plugins` directory within your WordPress installation on your web server.
 
 ### Step 3: Activate the Plugin
 
