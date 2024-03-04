@@ -11,7 +11,7 @@ Please ensure your WordPress installation is current and compatible with the Bud
 
 ### Step 1: Confirm WordPress Installation
 
-Please confirm that WordPress is installed on your hosting environment. If WordPress still needs to be installed, please download and install it from the [official WordPress website](https://wordpress.org/).
+Please confirm that WordPress is installed on your hosting environment. If WordPress still needs to be installed, please download and install it from the [official WordPress website](https://wordpress.org/download/).
 
 ### Step 2: Install BuddyPress
 
