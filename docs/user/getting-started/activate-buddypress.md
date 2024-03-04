@@ -1,6 +1,6 @@
 # BuddyPress Installation Guide for Website Administrators
 
-Welcome to the BuddyPress Installation Guide! BuddyPress is a versatile plugin that transforms your WordPress website into a comprehensive social networking platform. This guide will walk you through installing BuddyPress on your WordPress site. Before you begin, please ensure that your server meets BuddyPress's minimum requirements and that your WordPress version is compatible.
+Welcome to the BuddyPress installation guide! BuddyPress is a versatile plugin that enriches your WordPress site with a community environment for your family, friends, colleagues, teammates, customers, in short the people you want to be in touch with. This guide will walk you through installing BuddyPress on your WordPress site. Before you begin, please ensure that your server meets BuddyPress's minimum requirements and that your WordPress version is compatible.
 
 ## Prerequisites
 
