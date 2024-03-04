@@ -8,7 +8,7 @@ BuddyPress is compatible with PHP versions supported by WordPress. The PHP requi
 
 ### Current Recommendations
 
-- **Minimum PHP Version:** BuddyPress requires a minimum PHP version in line with WordPress's minimum requirement. As of the latest WordPress release, PHP 7.4 or higher is recommended.
+- **Minimum PHP Version:** BuddyPress requires a minimum PHP version in line with WordPress's minimum requirement. As of the minimal WordPress version BuddyPress requires (6.1), PHP 5.6 can still be used but 7.4 or higher would be better 😅.
 - **Recommended PHP Version:** For the best performance, security, and access to the latest features, it is advised to run the latest stable version of PHP supported by your hosting environment.
 
 ### Future Compatibility
