@@ -18,6 +18,12 @@
 		"parent": null
 	},
 	{
+		"title": "BuddyPress Installation Guide for Website Administrators",
+		"slug": "activate-buddypress",
+		"markdown_source": "../user/getting-started/activate-buddypress.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Administration",
 		"slug": "administration",
 		"markdown_source": "../user/administration/README.md",
