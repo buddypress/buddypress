@@ -12,6 +12,12 @@
 		"parent": null
 	},
 	{
+		"title": "PHP Version Support",
+		"slug": "php-version-support",
+		"markdown_source": "../user/getting-started/php-version-support.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Administration",
 		"slug": "administration",
 		"markdown_source": "../user/administration/README.md",
@@ -69,6 +75,12 @@
 		"title": "BuddyPress xProfile fields administration",
 		"slug": "administration-users-xprofile",
 		"markdown_source": "../user/administration/users/xprofile.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Member Types",
+		"slug": "administration-users-member-types",
+		"markdown_source": "../user/administration/users/member-types.md",
 		"parent": null
 	},
 	{
