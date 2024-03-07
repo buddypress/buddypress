@@ -11,16 +11,18 @@
  * Handle the display of a group's Change Avatar page.
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function groups_screen_group_admin_avatar() {
 
 	if ( 'group-avatar' !== bp_get_group_current_admin_tab() ) {
-		return false;
+		return;
 	}
 
 	// If the logged-in user doesn't have permission or if avatar uploads are disabled, then stop here.
 	if ( ! bp_is_item_admin() || bp_disable_group_avatar_uploads() || ! buddypress()->avatar->show_avatars ) {
-		return false;
+		return;
 	}
 
 	$bp = buddypress();
@@ -44,7 +46,7 @@ function groups_screen_group_admin_avatar() {
 
 	$bp->avatar_admin->step = 'upload-image';
 
-	if ( !empty( $_FILES ) ) {
+	if ( ! empty( $_FILES ) ) {
 
 		// Check the nonce.
 		check_admin_referer( 'bp_avatar_upload' );

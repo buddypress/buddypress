@@ -11,6 +11,8 @@
  * Show the general settings template.
  *
  * @since 1.5.0
+ *
+ * @return void
  */
 function bp_settings_screen_general() {
 

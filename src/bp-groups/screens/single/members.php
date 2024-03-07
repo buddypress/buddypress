@@ -11,11 +11,13 @@
  * Handle the display of a group's Members page.
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function groups_screen_group_members() {
 
 	if ( ! bp_is_single_item() ) {
-		return false;
+		return;
 	}
 
 	$bp = buddypress();

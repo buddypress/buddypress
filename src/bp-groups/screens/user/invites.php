@@ -11,6 +11,8 @@
  * Handle the loading of a user's Groups > Invites page.
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function groups_screen_group_invites() {
 	$group_id = (int) bp_action_variable( 1 );
@@ -18,7 +20,7 @@ function groups_screen_group_invites() {
 	if ( bp_is_action_variable( 'accept' ) && is_numeric( $group_id ) ) {
 		// Check the nonce.
 		if ( ! check_admin_referer( 'groups_accept_invite' ) ) {
-			return false;
+			return;
 		}
 
 		if ( ! groups_accept_invite( bp_displayed_user_id(), $group_id ) ) {
@@ -49,8 +51,8 @@ function groups_screen_group_invites() {
 
 	} elseif ( bp_is_action_variable( 'reject' ) && is_numeric( $group_id ) ) {
 		// Check the nonce.
-		if ( !check_admin_referer( 'groups_reject_invite' ) )
-			return false;
+		if ( ! check_admin_referer( 'groups_reject_invite' ) )
+			return;
 
 		if ( ! groups_reject_invite( bp_displayed_user_id(), $group_id ) ) {
 			bp_core_add_message( __( 'Group invite could not be rejected', 'buddypress' ), 'error' );
@@ -77,12 +79,17 @@ function groups_screen_group_invites() {
 	 */
 	do_action( 'groups_screen_group_invites', $group_id );
 
-	/**
-	 * Filters the template to load for a users Groups > Invites page.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $value Path to a users Groups > Invites page template.
-	 */
-	bp_core_load_template( apply_filters( 'groups_template_group_invites', 'members/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for a users Groups > Invites page.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value Path to a users Groups > Invites page template.
+		 */
+		apply_filters( 'groups_template_group_invites', 'members/single/home' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }

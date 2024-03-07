@@ -14,10 +14,12 @@
  * Handle the display of a single group activity item.
  *
  * @since 1.2.0
+ *
+ * @return void
  */
 function groups_screen_group_activity_permalink() {
 	if ( ! bp_is_groups_component() || ! bp_is_active( 'activity' ) || ( bp_is_active( 'activity' ) && ! bp_is_current_action( bp_get_activity_slug() ) ) || ! bp_action_variable( 0 ) ) {
-		return false;
+		return;
 	}
 
 	buddypress()->is_single_item = true;

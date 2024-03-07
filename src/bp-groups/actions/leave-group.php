@@ -18,16 +18,16 @@
  *
  * @since 1.2.4
  *
- * @return bool
+ * @return void
  */
 function groups_action_leave_group() {
 	if ( ! bp_is_single_item() || ! bp_is_groups_component() || ! bp_is_current_action( 'leave-group' ) ) {
-		return false;
+		return;
 	}
 
 	// Nonce check.
 	if ( ! check_admin_referer( 'groups_leave_group' ) ) {
-		return false;
+		return;
 	}
 
 	// User wants to leave any group.

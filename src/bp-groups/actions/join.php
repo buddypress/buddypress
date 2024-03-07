@@ -12,17 +12,17 @@
  *
  * @since 1.0.0
  *
- * @return bool
+ * @return void
  */
 function groups_action_join_group() {
 
 	if ( ! bp_is_single_item() || ! bp_is_groups_component() || ! bp_is_current_action( 'join' ) ) {
-		return false;
+		return;
 	}
 
 	// Nonce check.
 	if ( ! check_admin_referer( 'groups_join_group' ) ) {
-		return false;
+		return;
 	}
 
 	$bp = buddypress();

@@ -11,15 +11,17 @@
  * Handle the display of the Delete Group page.
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function groups_screen_group_admin_delete_group() {
 
 	if ( 'delete-group' != bp_get_group_current_admin_tab() ) {
-		return false;
+		return;
 	}
 
 	if ( ! bp_is_item_admin() && ! bp_current_user_can( 'bp_moderate' ) ) {
-		return false;
+		return;
 	}
 
 	$bp = buddypress();
@@ -30,7 +32,7 @@ function groups_screen_group_admin_delete_group() {
 
 		// Check the nonce first.
 		if ( ! check_admin_referer( 'groups_delete_group' ) ) {
-			return false;
+			return;
 		}
 
 		/**

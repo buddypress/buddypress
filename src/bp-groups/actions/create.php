@@ -12,17 +12,17 @@
  *
  * @since 1.2.0
  *
- * @return bool
+ * @return void
  */
 function groups_action_create_group() {
 
 	// If we're not at domain.org/groups/create/ then return false.
 	if ( ! bp_is_groups_component() || ! bp_is_current_action( 'create' ) ) {
-		return false;
+		return;
 	}
 
 	if ( ! is_user_logged_in() ) {
-		return false;
+		return;
 	}
 
 	if ( ! bp_user_can_create_groups() ) {

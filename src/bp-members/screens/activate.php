@@ -11,12 +11,14 @@
  * Handle the loading of the Activate screen.
  *
  * @since 1.1.0
+ *
+ * @return void
  */
 function bp_core_screen_activation() {
 
 	// Bail if not viewing the activation page.
 	if ( ! bp_is_current_component( 'activate' ) ) {
-		return false;
+		return;
 	}
 
 	// If the user is already logged in, redirect away from here.
@@ -52,9 +54,12 @@ function bp_core_screen_activation() {
 	 *
 	 * @since 1.1.1
 	 *
-	 * @param string $value Path to the Member activation template to load.
+	 * @param string[] $value Path to the list of Member activation template to load.
 	 */
-	bp_core_load_template( apply_filters( 'bp_core_template_activate', array( 'activate', 'registration/activate' ) ) );
+	$templates   = apply_filters( 'bp_core_template_activate', array( 'activate', 'registration/activate' ) );
+	$templates[] = 'members/activate';
+
+	bp_core_load_template( $templates );
 }
 add_action( 'bp_screens', 'bp_core_screen_activation' );
 

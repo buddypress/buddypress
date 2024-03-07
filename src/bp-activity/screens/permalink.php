@@ -96,25 +96,27 @@ add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
  *
  * @since 1.2.0
  *
- * @return bool|string Boolean on false or the template for a single activity item on success.
+ * @return void
  */
 function bp_activity_screen_single_activity_permalink() {
 	// No displayed user or not viewing activity component.
 	if ( ! bp_is_activity_component() ) {
-		return false;
+		return;
 	}
 
 	$action = bp_current_action();
 	if ( ! $action || ! is_numeric( $action ) ) {
-		return false;
+		return;
 	}
 
 	// Get the activity details.
-	$activity = bp_activity_get_specific( array(
-		'activity_ids' => $action,
-		'show_hidden'  => true,
-		'spam'         => 'ham_only',
-	) );
+	$activity = bp_activity_get_specific(
+		array(
+			'activity_ids' => $action,
+			'show_hidden'  => true,
+			'spam'         => 'ham_only',
+		)
+	);
 
 	// 404 if activity does not exist.
 	if ( empty( $activity['activities'][0] ) || bp_action_variables() ) {

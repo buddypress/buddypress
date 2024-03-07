@@ -11,10 +11,12 @@
  * Load the 'My Friends' activity page.
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function bp_activity_screen_friends() {
 	if ( ! bp_is_active( 'friends' ) ) {
-		return false;
+		return;
 	}
 
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );

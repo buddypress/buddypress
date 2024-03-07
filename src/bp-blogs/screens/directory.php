@@ -10,7 +10,7 @@
 /**
  * Load the top-level Blogs directory.
  *
- * @since 1.5-beta-1
+ * @since 1.0.0
  */
 function bp_blogs_screen_index() {
 	if ( bp_is_blogs_directory() ) {

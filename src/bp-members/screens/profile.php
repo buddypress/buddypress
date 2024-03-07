@@ -21,12 +21,17 @@ function bp_members_screen_display_profile() {
 	 */
 	do_action( 'bp_members_screen_display_profile' );
 
-	/**
-	 * Filters the template to load for the Member profile page screen.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param string $template Path to the Member template to load.
-	 */
-	bp_core_load_template( apply_filters( 'bp_members_screen_display_profile', 'members/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for the Member profile page screen.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @param string $template Path to the Member template to load.
+		 */
+		apply_filters( 'bp_members_screen_display_profile', 'members/single/home' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }

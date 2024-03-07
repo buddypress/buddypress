@@ -11,11 +11,14 @@
  * Handle the display of a group's admin/edit-details page.
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function groups_screen_group_admin_edit_details() {
 
-	if ( 'edit-details' != bp_get_group_current_admin_tab() )
-		return false;
+	if ( 'edit-details' !== bp_get_group_current_admin_tab() ) {
+		return;
+	}
 
 	if ( bp_is_item_admin() ) {
 
@@ -24,8 +27,9 @@ function groups_screen_group_admin_edit_details() {
 		// If the edit form has been submitted, save the edited details.
 		if ( isset( $_POST['save'] ) ) {
 			// Check the nonce.
-			if ( !check_admin_referer( 'groups_edit_group_details' ) )
-				return false;
+			if ( ! check_admin_referer( 'groups_edit_group_details' ) ) {
+				return;
+			}
 
 			$group_notify_members = isset( $_POST['group-notify-members'] ) ? (int) $_POST['group-notify-members'] : 0;
 

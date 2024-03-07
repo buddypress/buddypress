@@ -11,11 +11,13 @@
  * Handle the display of a group's Send Invites page.
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function groups_screen_group_invite() {
 
 	if ( ! bp_is_single_item() ) {
-		return false;
+		return;
 	}
 
 	$bp = buddypress();
@@ -23,7 +25,7 @@ function groups_screen_group_invite() {
 	if ( bp_is_action_variable( 'send', 0 ) ) {
 
 		if ( ! check_admin_referer( 'groups_send_invites', '_wpnonce_send_invites' ) ) {
-			return false;
+			return;
 		}
 
 		if ( ! empty( $_POST['friends'] ) ) {
@@ -74,6 +76,8 @@ function groups_screen_group_invite() {
  * Remove Invite removes the invitation via AJAX.
  *
  * @since 2.0.0
+ *
+ * @return void
  */
 function groups_remove_group_invite() {
 	if ( ! bp_is_group_invites() ) {
@@ -85,7 +89,7 @@ function groups_remove_group_invite() {
 	}
 
 	if ( ! check_admin_referer( 'groups_invite_uninvite_user' ) ) {
-		return false;
+		return;
 	}
 
 	$friend_id = intval( bp_action_variable( 1 ) );

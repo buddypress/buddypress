@@ -11,10 +11,12 @@
  * Load the 'My Groups' activity page.
  *
  * @since 1.2.0
+ *
+ * @return void
  */
 function bp_activity_screen_groups() {
 	if ( ! bp_is_active( 'groups' ) ) {
-		return false;
+		return;
 	}
 
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
