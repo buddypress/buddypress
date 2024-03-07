@@ -71,12 +71,17 @@ function groups_screen_group_request_membership() {
 	 */
 	do_action( 'groups_screen_group_request_membership', $bp->groups->current_group->id );
 
-	/**
-	 * Filters the template to load for a group's Request Membership page.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $value Path to a group's Request Membership template.
-	 */
-	bp_core_load_template( apply_filters( 'groups_template_group_request_membership', 'groups/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for a group's Request Membership page.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value Path to a group's Request Membership template.
+		 */
+		apply_filters( 'groups_template_group_request_membership', 'groups/single/home' ),
+		'groups/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }

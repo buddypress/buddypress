@@ -70,13 +70,18 @@ function groups_screen_group_admin_delete_group() {
 	 */
 	do_action( 'groups_screen_group_admin_delete_group', $bp->groups->current_group->id );
 
-	/**
-	 * Filters the template to load for the Delete Group page.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $value Path to the Delete Group template.
-	 */
-	bp_core_load_template( apply_filters( 'groups_template_group_admin_delete_group', 'groups/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for the Delete Group page.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value Path to the Delete Group template.
+		 */
+		apply_filters( 'groups_template_group_admin_delete_group', 'groups/single/home' ),
+		'groups/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
 add_action( 'bp_screens', 'groups_screen_group_admin_delete_group' );

@@ -70,14 +70,19 @@ function groups_screen_group_admin_edit_details() {
 		 */
 		do_action( 'groups_screen_group_admin_edit_details', $bp->groups->current_group->id );
 
-		/**
-		 * Filters the template to load for a group's admin/edit-details page.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $value Path to a group's admin/edit-details template.
-		 */
-		bp_core_load_template( apply_filters( 'groups_template_group_admin', 'groups/single/home' ) );
+		$templates = array(
+			/**
+			 * Filters the template to load for a group's admin/edit-details page.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $value Path to a group's admin/edit-details template.
+			 */
+			apply_filters( 'groups_template_group_admin', 'groups/single/home' ),
+			'groups/single/index',
+		);
+
+		bp_core_load_template( $templates );
 	}
 }
 add_action( 'bp_screens', 'groups_screen_group_admin_edit_details' );

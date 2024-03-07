@@ -55,8 +55,13 @@ function groups_action_leave_group() {
 		bp_core_redirect( $redirect );
 	}
 
-	/** This filter is documented in bp-groups/bp-groups-actions.php */
-	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
+	$templates = array(
+		/** This filter is documented in bp-groups/actions/join.php */
+		apply_filters( 'groups_template_group_home', 'groups/single/home' ),
+		'groups/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
 add_action( 'bp_actions', 'groups_action_leave_group' );
 

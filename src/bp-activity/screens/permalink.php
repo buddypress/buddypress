@@ -161,16 +161,18 @@ function bp_activity_screen_single_activity_permalink() {
 		}
 	}
 
-	/**
-	 * Filters the template to load for a single activity screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $template Path to the activity template to load.
-	 */
-	$template = apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' );
+	$templates = array(
+		/**
+		 * Filters the template to load for a single activity screen.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $template Path to the activity template to load.
+		 */
+		apply_filters( 'bp_activity_template_profile_activity_permalink', 'members/single/activity/permalink' ),
+		'members/single/activity',
+	);
 
-	// Load the template.
-	bp_core_load_template( $template );
+	bp_core_load_template( $templates );
 }
 add_action( 'bp_screens', 'bp_activity_screen_single_activity_permalink' );

@@ -25,12 +25,17 @@ function groups_screen_group_home() {
 	 */
 	do_action( 'groups_screen_group_home' );
 
-	/**
-	 * Filters the template to load for a single group's page.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $value Path to a single group's template to load.
-	 */
-	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for a single group's page.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value Path to a single group's template to load.
+		 */
+		apply_filters( 'groups_template_group_home', 'groups/single/home' ),
+		'groups/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }

@@ -13,8 +13,9 @@
  * @since 1.0.0
  */
 function bp_blogs_screen_my_blogs() {
-	if ( !is_multisite() )
+	if ( ! is_multisite() ) {
 		return false;
+	}
 
 	/**
 	 * Fires right before the loading of the My Blogs screen template file.
@@ -23,5 +24,17 @@ function bp_blogs_screen_my_blogs() {
 	 */
 	do_action( 'bp_blogs_screen_my_blogs' );
 
-	bp_core_load_template( apply_filters( 'bp_blogs_template_my_blogs', 'members/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for the "My blogs" screen.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $template Path to the activity template to load.
+		 */
+		apply_filters( 'bp_blogs_template_my_blogs', 'members/single/home' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
