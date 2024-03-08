@@ -619,6 +619,10 @@ function bp_parse_ajax_referer_query( $referer_query ) {
 		return;
 	}
 
+	if ( isset( $_POST['action'] ) && 'heartbeat' === $_POST['action'] && empty( $_POST['data']['bp_heartbeat'] ) ) {
+		return;
+	}
+
 	// Prevent doing this again.
 	remove_action( 'parse_query', 'bp_parse_ajax_referer_query', 2 );
 
