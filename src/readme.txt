@@ -1,7 +1,7 @@
 === BuddyPress ===
 Contributors:      johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
 Donate link:       https://wordpressfoundation.org
-Tags:              profiles, groups, activity, direct messaging, notifications, friends, community, social networking
+Tags:              community, group, members, network, self-hosted
 License:           GNU General Public License v2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
