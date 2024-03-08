@@ -33,6 +33,10 @@ function bp_core_set_ajax_uri_globals() {
 		return;
 	}
 
+	if ( 'heartbeat' === $action && empty( $_REQUEST['data']['bp_heartbeat'] ) ) {
+		return;
+	}
+
 	bp_reset_query( bp_get_referer_path(), $GLOBALS['wp_query'] );
 }
 
