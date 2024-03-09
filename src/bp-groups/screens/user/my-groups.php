@@ -21,12 +21,17 @@ function groups_screen_my_groups() {
 	 */
 	do_action( 'groups_screen_my_groups' );
 
-	/**
-	 * Filters the template to load for the My Groups page.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $value Path to the My Groups page template to load.
-	 */
-	bp_core_load_template( apply_filters( 'groups_template_my_groups', 'members/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for the My Groups page.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value Path to the My Groups page template to load.
+		 */
+		apply_filters( 'groups_template_my_groups', 'members/single/home' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
