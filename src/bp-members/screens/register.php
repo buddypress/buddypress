@@ -292,8 +292,11 @@ function bp_core_screen_signup() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $value Path to the Member registration template to load.
+	 * @param string[] $value Path to the list of Member registration templates to load.
 	 */
-	bp_core_load_template( apply_filters( 'bp_core_template_register', array( 'register', 'registration/register' ) ) );
+	$templates   = apply_filters( 'bp_core_template_register', array( 'register', 'registration/register' ) );
+	$templates[] = 'members/register';
+
+	bp_core_load_template( $templates );
 }
 add_action( 'bp_screens', 'bp_core_screen_signup' );
