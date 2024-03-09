@@ -22,14 +22,19 @@ function bp_activity_screen_mentions() {
 	 */
 	do_action( 'bp_activity_screen_mentions' );
 
-	/**
-	 * Filters the template to load for the "Mentions" screen.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @param string $template Path to the activity template to load.
-	 */
-	bp_core_load_template( apply_filters( 'bp_activity_template_mention_activity', 'members/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for the "Mentions" screen.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param string $template Path to the activity template to load.
+		 */
+		apply_filters( 'bp_activity_template_mention_activity', 'members/single/home' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
 
 /**
@@ -37,9 +42,13 @@ function bp_activity_screen_mentions() {
  *
  * @since 1.5.0
  *
+ * @return void
  */
 function bp_activity_reset_my_new_mentions() {
-	if ( bp_is_my_profile() )
-		bp_activity_clear_new_mentions( bp_loggedin_user_id() );
+	if ( ! bp_is_my_profile() ) {
+		return;
+	}
+
+	bp_activity_clear_new_mentions( bp_loggedin_user_id() );
 }
 add_action( 'bp_activity_screen_mentions', 'bp_activity_reset_my_new_mentions' );

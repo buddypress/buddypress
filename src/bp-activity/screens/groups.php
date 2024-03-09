@@ -11,10 +11,13 @@
  * Load the 'My Groups' activity page.
  *
  * @since 1.2.0
+ *
+ * @return void
  */
 function bp_activity_screen_groups() {
-	if ( !bp_is_active( 'groups' ) )
-		return false;
+	if ( ! bp_is_active( 'groups' ) ) {
+		return;
+	}
 
 	bp_update_is_item_admin( bp_current_user_can( 'bp_moderate' ), 'activity' );
 
@@ -25,12 +28,17 @@ function bp_activity_screen_groups() {
 	 */
 	do_action( 'bp_activity_screen_groups' );
 
-	/**
-	 * Filters the template to load for the "My Groups" screen.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @param string $template Path to the activity template to load.
-	 */
-	bp_core_load_template( apply_filters( 'bp_activity_template_groups_activity', 'members/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for the "My Groups" screen.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param string $template Path to the activity template to load.
+		 */
+		apply_filters( 'bp_activity_template_groups_activity', 'members/single/home' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }

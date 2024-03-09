@@ -21,12 +21,17 @@ function bp_activity_screen_my_activity() {
 	 */
 	do_action( 'bp_activity_screen_my_activity' );
 
-	/**
-	 * Filters the template to load for the "My Activity" screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $template Path to the activity template to load.
-	 */
-	bp_core_load_template( apply_filters( 'bp_activity_template_my_activity', 'members/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for the "My Activity" screen.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $template Path to the activity template to load.
+		 */
+		apply_filters( 'bp_activity_template_my_activity', 'members/single/home' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
