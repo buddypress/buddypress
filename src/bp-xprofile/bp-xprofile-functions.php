@@ -894,7 +894,7 @@ add_action( 'bp_core_activated_user', 'xprofile_sync_wp_profile', 10, 3 );
  * @since 1.2.4
  *
  * @param object $errors Array of errors. Passed by reference.
- * @param bool   $update Whether or not being upated.
+ * @param bool   $update Whether or not being updated.
  * @param object $user   User object whose profile is being synced. Passed by reference.
  */
 function xprofile_sync_bp_profile( &$errors, $update, &$user ) {
@@ -1459,7 +1459,7 @@ function bp_xprofile_personal_data_exporter( $email_address ) {
 }
 
 /**
- * Returns the list of supporterd WordPress field meta keys.
+ * Returns the list of supported WordPress field meta keys.
  *
  * @since 8.0.0
  *
