@@ -67,12 +67,17 @@ function friends_screen_requests() {
 	 */
 	do_action( 'friends_screen_requests' );
 
-	/**
-	 * Filters the template used to display the My Friends page.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $template Path to the friends request template to load.
-	 */
-	bp_core_load_template( apply_filters( 'friends_template_requests', 'members/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template used to display the My Friends page.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $template Path to the friends request template to load.
+		 */
+		apply_filters( 'friends_template_requests', 'members/single/home' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
