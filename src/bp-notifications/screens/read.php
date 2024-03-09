@@ -21,14 +21,19 @@ function bp_notifications_screen_read() {
 	 */
 	do_action( 'bp_notifications_screen_read' );
 
-	/**
-	 * Filters the template to load for the notifications read screen.
-	 *
-	 * @since 1.9.0
-	 *
-	 * @param string $template Path to the notifications read template to load.
-	 */
-	bp_core_load_template( apply_filters( 'bp_notifications_template_read', 'members/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for the notifications read screen.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param string $template Path to the notifications read template to load.
+		 */
+		apply_filters( 'bp_notifications_template_read', 'members/single/home' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
 
 /**
@@ -36,23 +41,23 @@ function bp_notifications_screen_read() {
  *
  * @since 1.9.0
  *
- * @return bool
+ * @return void
  */
 function bp_notifications_action_mark_unread() {
 
 	// Bail if not the read screen.
 	if ( ! bp_is_notifications_component() || ! bp_is_current_action( 'read' ) ) {
-		return false;
+		return;
 	}
 
 	// Get the action.
-	$action = !empty( $_GET['action']          ) ? $_GET['action']          : '';
-	$nonce  = !empty( $_GET['_wpnonce']        ) ? $_GET['_wpnonce']        : '';
-	$id     = !empty( $_GET['notification_id'] ) ? $_GET['notification_id'] : '';
+	$action = ! empty( $_GET['action']          ) ? $_GET['action']          : '';
+	$nonce  = ! empty( $_GET['_wpnonce']        ) ? $_GET['_wpnonce']        : '';
+	$id     = ! empty( $_GET['notification_id'] ) ? $_GET['notification_id'] : '';
 
 	// Bail if no action or no ID.
 	if ( ( 'unread' !== $action ) || empty( $id ) || empty( $nonce ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce and mark the notification.
