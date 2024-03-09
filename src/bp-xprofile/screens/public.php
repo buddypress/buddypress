@@ -25,12 +25,17 @@ function xprofile_screen_display_profile() {
 	 */
 	do_action( 'xprofile_screen_display_profile', $new );
 
-	/**
-	 * Filters the template to load for the XProfile screen.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $template Path to the XProfile template to load.
-	 */
-	bp_core_load_template( apply_filters( 'xprofile_template_display_profile', 'members/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for the XProfile screen.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $template Path to the XProfile template to load.
+		 */
+		apply_filters( 'xprofile_template_display_profile', 'members/single/home' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
