@@ -18,7 +18,7 @@ The most important requirement is to have a [WordPress.org](https://wordpress.or
 > [!NOTE]
 > To write documentation resources so that they can be displayed immediately into the BuddyPress GitHub repository and synchronized with a documentation website of the [BuddyPress.org network](https://buddypress.org) (in a near future, once we have a v1 ready), you need to use the [GitHub Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) language.
 
-That being said, if code writers are very comfortable with Markdown, GitHub and collobarating using Pull Requests, some of you might find it too complex. If so, no worries: our main challenge is to have an up to date **content** for our documentation resources.
+That being said, if code writers are very comfortable with Markdown, GitHub and collaborating using Pull Requests, some of you might find it too complex. If so, no worries: our main challenge is to have an up to date **content** for our documentation resources.
 
 ### Contributing without GitHub
 
@@ -49,7 +49,7 @@ Once submitted, your ticket will be reviewed by a member of the BuddyPress team.
 
 Each contribution needs to be organized as a Pull Request (PR) to the BuddyPress GitHub main branch (master). If you're familiar with GitHub and use it locally along with your Favorite editor, it's the exact same process than pulling a request for a code contribution.
 
-The steps we're detailling below are explaining how you can still contribute to docs if you have no clue about GitHub thanks to their website features.
+The steps we're detailing below are explaining how you can still contribute to docs if you have no clue about GitHub thanks to their website features.
 
 > [!IMPORTANT]
 > Below steps need to be accomplished from your BuddyPress GitHub fork.
