@@ -11,6 +11,8 @@
  * Show the data settings template.
  *
  * @since 4.0.0
+ *
+ * @return void
  */
 function bp_settings_screen_data() {
 
@@ -19,12 +21,17 @@ function bp_settings_screen_data() {
 		return;
 	}
 
-	/**
-	 * Filters the template file path to use for the data settings screen.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @param string $value Directory path to look in for the template file.
-	 */
-	bp_core_load_template( apply_filters( 'bp_settings_screen_data', 'members/single/settings/data' ) );
+	$templates = array(
+		/**
+		 * Filters the template file path to use for the data settings screen.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @param string $value Directory path to look in for the template file.
+		 */
+		apply_filters( 'bp_settings_screen_data', 'members/single/settings/data' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }

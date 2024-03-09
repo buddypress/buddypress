@@ -11,6 +11,8 @@
  * Show the delete-account settings template.
  *
  * @since 1.5.0
+ *
+ * @return void
  */
 function bp_settings_screen_delete_account() {
 
@@ -19,12 +21,17 @@ function bp_settings_screen_delete_account() {
 		return;
 	}
 
-	/**
-	 * Filters the template file path to use for the delete-account settings screen.
-	 *
-	 * @since 1.6.0
-	 *
-	 * @param string $value Directory path to look in for the template file.
-	 */
-	bp_core_load_template( apply_filters( 'bp_settings_screen_delete_account', 'members/single/settings/delete-account' ) );
+	$templates = array(
+		/**
+		 * Filters the template file path to use for the delete-account settings screen.
+		 *
+		 * @since 1.6.0
+		 *
+		 * @param string $value Directory path to look in for the template file.
+		 */
+		apply_filters( 'bp_settings_screen_delete_account', 'members/single/settings/delete-account' ),
+		'members/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
