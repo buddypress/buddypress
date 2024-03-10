@@ -1134,6 +1134,7 @@ class BP_Admin {
 				<a href="https://profiles.wordpress.org/corzel/">corzel</a>,
 				<a href="https://profiles.wordpress.org/dancaragea/">Dan Caragea (dancaragea)</a>,
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
+				<a href="https://profiles.wordpress.org/devmuhib/">Muhibul Haque (devmuhib)</a>,
 				<a href="https://profiles.wordpress.org/diabolique/">Diabolique</a>,
 				<a href="https://profiles.wordpress.org/dj-basstone/">Heikki Paananen (dj-basstone)</a>,
 				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
