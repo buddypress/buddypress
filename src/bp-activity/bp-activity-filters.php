@@ -719,7 +719,7 @@ add_filter( 'bp_activity_set_just-me_scope_args', 'bp_activity_filter_just_me_sc
  *
  * @param array $retval Empty array by default.
  * @param array $filter Current activity arguments.
- * @return array $retval
+ * @return array
  */
 function bp_activity_filter_likes_scope( $retval = array(), $filter = array() ) {
 

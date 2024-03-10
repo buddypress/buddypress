@@ -4462,9 +4462,10 @@ function bp_get_activity_like_link( $type = 'add', $activity = null ) {
 	 *
 	 * @since 14.0.0
 	 *
-	 * @param string $url  Constructed link for liking the activity.
-	 * @param string $type Whether to `add` or `remove` the like.
-	 * @param string $slug The computed slug according to the type (`like` or `dislike`).
+	 * @param string               $url      Constructed link for liking the activity.
+	 * @param string               $type     Whether to `add` or `remove` the like.
+	 * @param string               $slug     The computed slug according to the type (`like` or `dislike`).
+	 * @param BP_Activity_Activity $activity The Activity object to add a like to.
 	 */
-	return apply_filters( 'bp_get_activity_like_link', $url, $type, $slug );
+	return apply_filters( 'bp_get_activity_like_link', $url, $type, $slug, $activity );
 }

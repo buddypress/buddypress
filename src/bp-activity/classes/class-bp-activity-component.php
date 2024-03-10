@@ -23,7 +23,7 @@ class BP_Activity_Component extends BP_Component {
 	 * Types.
 	 *
 	 * @since 14.0.0
-	 * @var array $types
+	 * @var array
 	 */
 	public $types = array();
 

@@ -17,11 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 14.0.0
  *
- * @return bool False on failure.
+ * @return void
  */
 function bp_activity_dislike_action() {
 	if ( ! is_user_logged_in() || ! bp_is_activity_component() || ! bp_is_current_action( 'dislike' ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce.

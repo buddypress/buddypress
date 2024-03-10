@@ -347,7 +347,7 @@ function bp_activity_get_userid_from_mentionname( $mentionname ) {
 function bp_register_activity_type( $type, $args = array() ) {
 	$activity_types = buddypress()->activity->types;
 
-	// Sanitize post type name.
+	// Sanitize the name key of the activity type.
 	$type = sanitize_key( $type );
 
 	if ( empty( $type ) || strlen( $type ) > 20 ) {
@@ -371,8 +371,7 @@ function bp_register_activity_type( $type, $args = array() ) {
  * @since 14.0.0
  *
  * @param  string $type The name key of the activity type.
- * @return bool|WP_Error The registered activity type object on success,
- *                                   WP_Error object on failure.
+ * @return bool|WP_Error True on success. A `WP_Error` object on failure.
  */
 function bp_unregister_activity_type( $type ) {
 	$type_object = bp_get_activity_type_object( $type );
@@ -2101,7 +2100,7 @@ function bp_activity_generate_action_string( $activity ) {
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
- * @return string $action
+ * @return string
  */
 function bp_activity_format_activity_action_activity_update( $action, $activity ) {
 	$action = sprintf(
@@ -2128,7 +2127,7 @@ function bp_activity_format_activity_action_activity_update( $action, $activity 
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
- * @return string $action
+ * @return string
  */
 function bp_activity_format_activity_action_activity_comment( $action, $activity ) {
 	$action = sprintf(
@@ -2155,7 +2154,7 @@ function bp_activity_format_activity_action_activity_comment( $action, $activity
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
- * @return string $action
+ * @return string
  */
 function bp_activity_format_activity_action_activity_like( $action, $activity ) {
 	$action = sprintf(
@@ -2182,7 +2181,7 @@ function bp_activity_format_activity_action_activity_like( $action, $activity ) 
  *
  * @param string $action   Static activity action.
  * @param object $activity Activity data object.
- * @return string $action
+ * @return string
  */
 function bp_activity_format_activity_action_custom_post_type_post( $action, $activity ) {
 	$bp = buddypress();
