@@ -125,7 +125,7 @@ _(optional)_ A multi-dimensional array of options related to the three secondary
 
 - `edit` – Config options for the ‘edit’ screen, a sub item of the Group's Manage item on the front-end.
   - `submit_text` – The text of the submit button on the edit screen. Defaults to 'Edit'.
-  - `enabled` – `true` if you want your group extension to have a subtab in the Group Adimn area, otherwise `false`. Defaults to `true`.
+  - `enabled` – `true` if you want your group extension to have a subtab in the Group Admin area, otherwise `false`. Defaults to `true`.
   - `name` – The text that appears in the navigation tab for the group extension’s Edit screen. Defaults to the general `name` value described above.
   - `slug` – The string used to create the URL of the admin tab. Defaults to the general `slug` value described above.
   - `screen_callback` – The function BuddyPress will call to display the content of your admin tab. BuddyPress attempts to determine this function automatically; 
@@ -175,7 +175,7 @@ For the three “screen” contexts – `create`, `edit`, and `admin` – a flex
 - `settings_screen()`: outputs the fallback markup for your `create` / `edit` / `admin` screens.
 - `settings_screen_save()`: called after changes are submitted from the `create` / `edit` / `admin` screens. This method should contain the logic necessary to catch settings form submits, validate submitted settings, and save them to the database.
 
-**NB**: these 2 methods include the `$group_id` argument so that you can customize your output/handler according to the current group being created, edited or adminstrated.
+**NB**: these 2 methods include the `$group_id` argument so that you can customize your output/handler according to the current group being created, edited or administrated.
 
 Let's improve our example of basic group extension including a feature to let the creator/administrator of the group decide whether they want to "activate" the group extension main tab for their group.
 
@@ -192,7 +192,7 @@ $args = array(
 	'nav_item_position' => 105,
 	'access'            => 'anyone',
 
-	// Set the callback function definining the `$show_tab` argument dynamically.
+	// Set the callback function defining the `$show_tab` argument dynamically.
 	'show_tab_callback' => array( $this, 'show_tab' ),
 
 	// Define the screens using default screen settings.

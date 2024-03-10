@@ -113,7 +113,7 @@ class BP_Custom_Component extends BP_Component {
 			'has_directory' => false,
 		);
 
-		// BP Specigic globals.
+		// BP Specific globals.
 		parent::setup_globals( $bp_globals );
 
 		// Your component's globals (if needed).

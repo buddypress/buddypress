@@ -234,7 +234,7 @@ If you chose to contribute using GitHub “Pull Requests”, the git commands wi
 # Git using Pull Requests
 
 # First make sure your origin master branch is up to date with BuddyPress remote one.
-git fetch usptream/master
+git fetch upstream/master
 
 # If you need to include some changes which happened upstream, merge them!
 git merge origin/master
@@ -415,7 +415,7 @@ svn up
 git pull origin master
 
 # Git using Pull Requests
-git fetch usptream/master
+git fetch upstream/master
 git merge origin/master
 git push origin master
 
