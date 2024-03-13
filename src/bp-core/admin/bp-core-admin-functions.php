@@ -792,12 +792,38 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			);
 
 			break;
+
+		case 'edit-bp_member_type' :
+			// Help tab.
+			$screen->add_help_tab(
+				array(
+					'id'      => 'bp-member-types-overview',
+					'title'   => __( 'Overview', 'buddypress' ),
+					'content' => bp_core_add_contextual_help_content( 'bp-member-types-overview' ),
+				)
+			);
+
+			$manage_member_types = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/users/member-types.md' ),
+				esc_html__( 'Managing Member Types', 'buddypress' )
+			);
+
+			// Help panel - sidebar links.
+			$screen->set_help_sidebar(
+				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
+				'<p>' . $manage_member_types . '</p>' .
+				'<p>' . $bp_forum . '</p>'
+			);
+
+			break;
 	}
 }
 add_action( 'load-settings_page_bp-components', 'bp_core_add_contextual_help' );
 add_action( 'load-settings_page_bp-rewrites', 'bp_core_add_contextual_help' );
 add_action( 'load-settings_page_bp-settings', 'bp_core_add_contextual_help' );
 add_action( 'load-users_page_bp-profile-setup', 'bp_core_add_contextual_help' );
+add_action( 'bp_admin_load_bp_member_type', 'bp_core_add_contextual_help' );
 
 /**
  * Renders contextual help content to contextual help tabs.
@@ -828,6 +854,10 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 
 		case 'bp-rewrites-overview':
 			$retval = __( 'Customize the page titles and URL slugs for the BuddyPress screens on your site.', 'buddypress' ) . '<br /><br />' . __( 'The <strong>title</strong> is the page title displayed above the BuddyPress content. For example, the page title "Members" is shown above the members directory.', 'buddypress' ) . '<br /><br />' . __( 'A <strong>slug</strong> is a portion of the URL itself. For instance, "members" is the members directory slug in the following example URL: <code>https://mysite.org/members</code>. Slugs should only include lowercase letters, numbers, and hyphens.', 'buddypress' );
+			break;
+
+		case 'bp-member-types-overview':
+			$retval = __( 'Member Types in BuddyPress provide a powerful way to classify users within your community. By defining various member types, such as "Students", "Teachers", or "Alumni", you can create a more organized and tailored community environment. This feature is especially useful for communities with diverse user groups, allowing customized interactions, content access, and privileges.', 'buddypress' );
 			break;
 
 		default:
