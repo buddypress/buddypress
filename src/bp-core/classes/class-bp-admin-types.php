@@ -135,6 +135,13 @@ class BP_Admin_Types {
 		add_filter( "manage_{$this->taxonomy}_custom_column", array( $this, 'column_contents' ), 10, 3 );
 		add_filter( "{$this->taxonomy}_row_actions", array( $this, 'row_actions' ), 10, 2 );
 		add_filter( "bulk_actions-{$this->screen_id}", '__return_empty_array', 10, 1 );
+
+		/**
+		 * Fires when a Types Admin Screen is loading.
+		 *
+		 * @since 14.0.0
+		 */
+		do_action( 'bp_admin_load_' . $this->taxonomy );
 	}
 
 	/**
