@@ -100,7 +100,7 @@ function bp_core_admin_rewrites_load() {
 			wp_update_post( $postarr );
 		}
 
-		// Make sure the WP rewrites will be regenarated at next page load.
+		// Make sure the WP rewrites will be regenerated at next page load.
 		if ( $reset_rewrites ) {
 			bp_delete_rewrite_rules();
 		}
@@ -299,7 +299,7 @@ function bp_core_admin_rewrites_settings() {
 									<div class="health-check-accordion">
 										<h4 class="health-check-accordion-heading">
 											<button aria-expanded="false" class="health-check-accordion-trigger" aria-controls="<?php echo esc_attr( sprintf( 'health-check-accordion-block-member-%s-secondary-nav', $members_navigation_slug ) ); ?>" type="button">
-												<?php /* translators: %s is the BP Component name the secondery views belong to. */ ?>
+												<?php /* translators: %s is the BP Component name the secondary views belong to. */ ?>
 												<span class="title"><?php echo esc_html( sprintf( __( 'Single Member %s secondary screens slugs', 'buddypress' ), _bp_strip_spans_from_title( $members_component_navigations['name'] ) ) ); ?></span>
 												<span class="icon"></span>
 											</button>

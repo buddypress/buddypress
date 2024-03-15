@@ -96,7 +96,7 @@ function bp_core_admin_insert_type( $args = array() ) {
 	   );
 	}
 
-	// Get defaulte values for metadata.
+	// Get default values for metadata.
 	$metadata = bp_core_admin_get_type_default_meta_values( $type_taxonomy );
 
 	// Validate metadata
