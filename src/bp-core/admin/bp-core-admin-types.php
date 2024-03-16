@@ -96,7 +96,7 @@ function bp_core_admin_insert_type( $args = array() ) {
 	   );
 	}
 
-	// Get defaulte values for metadata.
+	// Get default values for metadata.
 	$metadata = bp_core_admin_get_type_default_meta_values( $type_taxonomy );
 
 	// Validate metadata
@@ -177,7 +177,7 @@ function bp_core_admin_update_type( $args = array() ) {
 	$type_term_id  = (int) $args['type_term_id'];
 	$type_taxonomy = sanitize_key( $args['taxonomy'] );
 
-	// Get defaulte values for metadata.
+	// Get default values for metadata.
 	$metadata  = bp_core_admin_get_type_default_meta_values( $type_taxonomy );
 
 	// Merge customs with defaults.
@@ -207,7 +207,7 @@ function bp_core_admin_update_type( $args = array() ) {
 	 */
 	do_action( 'bp_type_updated', $type_term_id, $type_taxonomy );
 
-	// Finally informs about the successfull update.
+	// Finally informs about the successful update.
 	return true;
 }
 
@@ -296,6 +296,6 @@ function bp_core_admin_delete_type( $args = array() ) {
 	 */
 	do_action( 'bp_type_deleted', $type_term_id, $type_taxonomy );
 
-	// Finally informs about the successfull delete.
+	// Finally informs about the successful delete.
 	return true;
 }

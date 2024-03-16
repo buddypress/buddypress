@@ -1561,7 +1561,7 @@ add_filter( 'admin_body_class', 'bp_core_admin_body_classes' );
  *
  * @since 5.0.0
  * @since 8.0.0 The `bp_block_category_post_types` filter has been deprecated.
- * @since 12.0.0 This category is left for third party plugin but not used anymmore.
+ * @since 12.0.0 This category is left for third party plugin but not used anymore.
  *
  * @todo deprecate.
  *
