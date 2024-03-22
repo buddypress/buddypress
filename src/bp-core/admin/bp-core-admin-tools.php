@@ -112,12 +112,6 @@ function bp_admin_repair_list() {
 		'bp_admin_repair_count_members',
 	);
 
-	$repair_list[25] = array(
-		'bp-last-activity',
-		__( 'Repair member "last activity" data.', 'buddypress' ),
-		'bp_admin_repair_last_activity',
-	);
-
 	// Friends:
 	// - user friend count.
 	if ( bp_is_active( 'friends' ) ) {
@@ -470,20 +464,6 @@ function bp_admin_repair_count_members() {
 	$statement = __( 'Counting the number of active members on the site&hellip; %s', 'buddypress' );
 	delete_transient( 'bp_active_member_count' );
 	bp_core_get_active_member_count();
-	return array( 0, sprintf( $statement, __( 'Complete!', 'buddypress' ) ) );
-}
-
-/**
- * Repair user last_activity data.
- *
- * Re-runs the migration from usermeta introduced in BP 2.0.
- *
- * @since 2.0.0
- */
-function bp_admin_repair_last_activity() {
-	/* translators: %s: the result of the action performed by the repair tool */
-	$statement = __( 'Determining last activity dates for each user&hellip; %s', 'buddypress' );
-	bp_last_activity_migrate();
 	return array( 0, sprintf( $statement, __( 'Complete!', 'buddypress' ) ) );
 }
 

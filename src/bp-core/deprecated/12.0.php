@@ -1620,3 +1620,16 @@ function bp_core_get_all_posts_for_user( $user_id = 0 ) {
 
 	return apply_filters( 'bp_core_get_all_posts_for_user', array( $all_posts ), '12.0.0' );
 }
+
+/**
+ * Repair user last_activity data.
+ *
+ * Re-runs the migration from usermeta introduced in BP 2.0.
+ *
+ * @since 2.0.0
+ * @deprecated 12.4.0
+ */
+function bp_admin_repair_last_activity() {
+	_deprecated_function( __FUNCTION__, '12.4.0' );
+	return array();
+}
