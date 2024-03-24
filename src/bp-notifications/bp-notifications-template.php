@@ -215,7 +215,7 @@ function bp_has_notifications( $args = '' ) {
 	$search_terms = '';
 
 	if ( isset( $_REQUEST['s'] ) ) {
-		$search_terms = stripslashes( $_REQUEST['s'] );
+		$search_terms = wp_unslash( $_REQUEST['s'] );
 	}
 
 	// Parse the args.

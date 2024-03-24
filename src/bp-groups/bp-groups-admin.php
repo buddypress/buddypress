@@ -836,7 +836,7 @@ function bp_groups_admin_index() {
 		<?php endif; ?>
 
 		<?php if ( !empty( $_REQUEST['s'] ) ) : ?>
-			<span class="subtitle"><?php printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) ); ?></span>
+			<span class="subtitle"><?php printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( wp_unslash( $_REQUEST['s'] ) ), 50 ) ); ?></span>
 		<?php endif; ?>
 
 		<hr class="wp-header-end">

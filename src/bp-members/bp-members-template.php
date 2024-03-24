@@ -391,7 +391,7 @@ function bp_has_members( $args = '' ) {
 	$search_terms_default = null;
 	$search_query_arg = bp_core_get_component_search_query_arg( 'members' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
-		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
+		$search_terms_default = wp_unslash( $_REQUEST[ $search_query_arg ] );
 	}
 
 	// Type: active ( default ) | random | newest | popular | online | alphabetical.
@@ -1406,7 +1406,7 @@ function bp_directory_members_search_form() {
 	$query_arg = bp_core_get_component_search_query_arg( 'members' );
 
 	if ( ! empty( $_REQUEST[ $query_arg ] ) ) {
-		$search_value = stripslashes( $_REQUEST[ $query_arg ] );
+		$search_value = wp_unslash( $_REQUEST[ $query_arg ] );
 	} else {
 		$search_value = bp_get_search_default_text( 'members' );
 	}
@@ -3237,7 +3237,7 @@ function bp_has_members_invitations( $args = '' ) {
 	$search_terms = '';
 
 	if ( isset( $_REQUEST['s'] ) ) {
-		$search_terms = stripslashes( $_REQUEST['s'] );
+		$search_terms = wp_unslash( $_REQUEST['s'] );
 	}
 
 	// Parse the args.

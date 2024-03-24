@@ -241,7 +241,7 @@ function bp_has_activities( $args = '' ) {
 	$search_terms_default = false;
 	$search_query_arg = bp_core_get_component_search_query_arg( 'activity' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
-		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
+		$search_terms_default = wp_unslash( $_REQUEST[ $search_query_arg ] );
 	}
 
 	/*

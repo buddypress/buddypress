@@ -1165,7 +1165,7 @@ function bp_activity_admin_index() {
 				<span class="subtitle">
 					<?php
 					/* translators: %s: the activity search terms */
-					printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) );
+					printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( wp_unslash( $_REQUEST['s'] ) ), 50 ) );
 					?>
 				</span>
 			<?php endif; ?>
