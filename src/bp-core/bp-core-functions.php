@@ -998,12 +998,14 @@ function bp_core_get_directory_page_default_titles() {
  * @param string $original_slug The original post slug.
  */
 function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post_status = '', $post_type = '', $post_parent = 0, $original_slug = '' ) {
-	if ( ( 'buddypress' === $post_type || 'page' === $post_type ) && $slug === $original_slug ) {
+	if ( ( 'buddypress' === $post_type || 'page' === $post_type ) && $slug === $original_slug && ! $post_parent ) {
 		$pages = get_posts(
 			array(
 				'post__not_in' => array( $post_ID ),
 				'post_status'  => bp_core_get_directory_pages_stati(),
 				'post_type'    => array( 'buddypress', 'page' ),
+				'post_parent'  => 0,     // Only get a top level page.
+				'name'         => $slug, // Only get the same name page.
 			)
 		);
 
