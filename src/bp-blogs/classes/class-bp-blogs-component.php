@@ -488,8 +488,7 @@ class BP_Blogs_Component extends BP_Component {
 
 			// Set the BuddyPress queried object.
 			if ( isset( $bp->pages->blogs->id ) && ( ! bp_current_action() || bp_is_current_action( 'create' ) ) ) {
-				$query->queried_object    = get_post( $bp->pages->blogs->id );
-				$query->queried_object_id = $query->queried_object->ID;
+				$this->set_queried_object( $query );
 			}
 		}
 
