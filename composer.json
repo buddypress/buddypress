@@ -34,18 +34,12 @@
 			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
 	},
-	"repositories": [
-		{
-			"url": "https://github.com/buddypress/bp-coding-standards.git",
-			"type": "git"
-		}
-	],
 	"require": {
 		"composer/installers": "^1.10.0",
 		"php": ">=5.6.0"
 	},
 	"require-dev": {
-		"buddypress/bp-coding-standards": "dev-trunk",
+		"buddypress/bp-coding-standards": "0.1.0",
 		"yoast/phpunit-polyfills": "^1.0",
 		"spatie/phpunit-watcher": "^1.23"
 	},
