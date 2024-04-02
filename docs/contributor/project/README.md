@@ -2,5 +2,5 @@
 
 - Project organization
 - [Release cycle](./release/README.md)
-- Commit access
+- [Commit access](./commit-access.md)
 - [Version Numbering](./version-numbering.md)
