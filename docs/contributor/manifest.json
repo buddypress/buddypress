@@ -18,6 +18,12 @@
 		"parent": null
 	},
 	{
+		"title": "BuddyPress commit access",
+		"slug": "commit-access",
+		"markdown_source": "../contributor/project/commit-access.md",
+		"parent": null
+	},
+	{
 		"title": "How a release cycle works?",
 		"slug": "about-release",
 		"markdown_source": "../contributor/project/release/README.md",
