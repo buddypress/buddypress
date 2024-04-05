@@ -10,8 +10,8 @@ There are two code repositories, and you’ll be tasked with compiling the Buddy
 > [!IMPORTANT]
 > We’ll refer to these two repositories like this for the duration of these steps:
 
-`[dev]`   = `buddypress.svn.wordpress.org`
-`[wporg]` = `plugins.svn.wordpress.org/buddypress/`
+- `[dev]`   = `buddypress.svn.wordpress.org`
+- `[wporg]` = `plugins.svn.wordpress.org/buddypress/`
 
 Now that you’re familiar, sit back, relax, put on your headgear, and get ready for a trip to the atmosphere…
 
@@ -20,7 +20,7 @@ Now that you’re familiar, sit back, relax, put on your headgear, and get ready
 > [!NOTE]
 > These tasks are only required for minor/major releases.
 
-1. Create a `Releases` child page on codex called "Version X.Y.Z" so that the permalink looks like `https://codex.buddypress.org/releases/version-1-5-5/`
+1. Create a `Releases` child page on codex called "Version X.Y.Z" so that the permalink looks like `https://codex.buddypress.org/releases/version-12-4-0/`
 2. Review **Noteworthy Contributors** and release contributor credits (props). Change as needed.
 3. If it's a major release, don't forget to find a nice Pizza place to name the release.
 4. Draft an announcement post on [BuddyPress.org](https://buddypress.org) like [this one](https://buddypress.org/2023/12/buddypress-12-0-0-nonno/).
@@ -66,7 +66,7 @@ svn ci -m 'X.Y.Z version bumps'
 > [!CAUTION]
 > Once created, a tag cannot be removed or edited nor trunk merged to it so please ensure all necessary updates to trunk are committed before creating the tag copy from it.
 
-### For major releases (2.7.0), branch from trunk, then tag from new branch.
+### For major releases (12.0.0), branch from trunk, then tag from new branch.
 
 ```bash
 svn cp https://buddypress.svn.wordpress.org/trunk/ https://buddypress.svn.wordpress.org/branches/12.0
