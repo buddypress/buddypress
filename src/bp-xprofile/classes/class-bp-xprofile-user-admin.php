@@ -261,7 +261,7 @@ class BP_XProfile_User_Admin {
 	 * @since 2.0.0
 	 *
 	 * @param WP_User|null $user The WP_User object for the user being edited.
-	 * @param array        $args Aray of arguments for metaboxes.
+	 * @param array        $args Array of arguments for metaboxes.
 	 */
 	public function user_admin_profile_metaboxes( $user = null, $args = array() ) {
 

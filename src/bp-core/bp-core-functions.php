@@ -499,36 +499,6 @@ function bp_is_username_compatibility_mode() {
 	return apply_filters( 'bp_is_username_compatibility_mode', defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) && BP_ENABLE_USERNAME_COMPATIBILITY_MODE );
 }
 
-/**
- * Should we use the WP Toolbar?
- *
- * The WP Toolbar, introduced in WP 3.1, is fully supported in BuddyPress as
- * of BP 1.5. For BP 1.6, the WP Toolbar is the default.
- *
- * @since 1.5.0
- *
- * @return bool Default: true. False when WP Toolbar support is disabled.
- */
-function bp_use_wp_admin_bar() {
-
-	// Default to true.
-	$use_admin_bar = true;
-
-	// Has the WP Toolbar constant been explicitly opted into?
-	if ( defined( 'BP_USE_WP_ADMIN_BAR' ) ) {
-		$use_admin_bar = (bool) BP_USE_WP_ADMIN_BAR;
-	}
-
-	/**
-	 * Filters whether or not to use the admin bar.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param bool $use_admin_bar Whether or not to use the admin bar.
-	 */
-	return (bool) apply_filters( 'bp_use_wp_admin_bar', $use_admin_bar );
-}
-
 
 /**
  * Return the parent forum ID for the Legacy Forums abstraction layer.
@@ -998,12 +968,14 @@ function bp_core_get_directory_page_default_titles() {
  * @param string $original_slug The original post slug.
  */
 function bp_core_set_unique_directory_page_slug( $slug = '', $post_ID = 0, $post_status = '', $post_type = '', $post_parent = 0, $original_slug = '' ) {
-	if ( ( 'buddypress' === $post_type || 'page' === $post_type ) && $slug === $original_slug ) {
+	if ( ( 'buddypress' === $post_type || 'page' === $post_type ) && $slug === $original_slug && ! $post_parent ) {
 		$pages = get_posts(
 			array(
 				'post__not_in' => array( $post_ID ),
 				'post_status'  => bp_core_get_directory_pages_stati(),
 				'post_type'    => array( 'buddypress', 'page' ),
+				'post_parent'  => 0,     // Only get a top level page.
+				'name'         => $slug, // Only get the same name page.
 			)
 		);
 
@@ -2821,7 +2793,23 @@ function bp_nav_menu_get_loggedin_pages() {
 	$bp_menu_items = array();
 
 	if ( 'rewrites' !== bp_core_get_query_parser() ) {
-		$bp_menu_items = $bp->members->nav->get_primary();
+		$primary_items     = $bp->members->nav->get_primary();
+		$user_is_displayed = bp_is_user();
+
+		foreach( $primary_items as $primary_item ) {
+			$current_user_link = $primary_item['link'];
+
+			// When displaying a user, reset the primary item link.
+			if ( $user_is_displayed ) {
+				$current_user_link = bp_loggedin_user_url( bp_members_get_path_chunks( array( $primary_item['slug'] ) ) );
+			}
+
+			$bp_menu_items[] = array(
+				'name' => $primary_item['name'],
+				'slug' => $primary_item['slug'],
+				'link' => $current_user_link,
+			);
+		}
 	} else {
 		$members_navigation = bp_get_component_navigations();
 

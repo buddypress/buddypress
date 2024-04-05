@@ -11,17 +11,19 @@
  * Handle the display of a group's Request Membership page.
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function groups_screen_group_request_membership() {
 
 	if ( ! is_user_logged_in() ) {
-		return false;
+		return;
 	}
 
 	$bp = buddypress();
 
 	if ( 'private' != $bp->groups->current_group->status ) {
-		return false;
+		return;
 	}
 
 	// If the user is already invited, accept invitation.
@@ -40,7 +42,7 @@ function groups_screen_group_request_membership() {
 
 		// Check the nonce.
 		if ( ! check_admin_referer( 'groups_request_membership' ) ) {
-			return false;
+			return;
 		}
 
 		// Default arguments for the membership request.
@@ -59,6 +61,7 @@ function groups_screen_group_request_membership() {
 		} else {
 			bp_core_add_message( __( 'Your membership request was sent to the group administrator successfully. You will be notified when the group administrator responds to your request.', 'buddypress' ) );
 		}
+
 		bp_core_redirect( bp_get_group_url( $bp->groups->current_group ) );
 	}
 
@@ -71,12 +74,17 @@ function groups_screen_group_request_membership() {
 	 */
 	do_action( 'groups_screen_group_request_membership', $bp->groups->current_group->id );
 
-	/**
-	 * Filters the template to load for a group's Request Membership page.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $value Path to a group's Request Membership template.
-	 */
-	bp_core_load_template( apply_filters( 'groups_template_group_request_membership', 'groups/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for a group's Request Membership page.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value Path to a group's Request Membership template.
+		 */
+		apply_filters( 'groups_template_group_request_membership', 'groups/single/home' ),
+		'groups/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }

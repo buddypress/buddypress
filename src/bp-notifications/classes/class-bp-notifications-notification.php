@@ -221,7 +221,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @see wpdb::insert() for further description of paramater formats.
+	 * @see wpdb::insert() for further description of parameter formats.
 	 *
 	 * @param array $data {
 	 *     Array of notification data, passed to {@link wpdb::insert()}.
@@ -249,7 +249,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @see wpdb::update() for further description of paramater formats.
+	 * @see wpdb::update() for further description of parameter formats.
 	 *
 	 * @param array $data         Array of notification data to update, passed to
 	 *                            {@link wpdb::update()}. Accepts any property of a
@@ -273,7 +273,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @see wpdb::delete() for further description of paramater formats.
+	 * @see wpdb::delete() for further description of parameter formats.
 	 *
 	 * @param array $where        Array of WHERE clauses to filter by, passed to
 	 *                            {@link wpdb::delete()}. Accepts any property of a

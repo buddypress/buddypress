@@ -244,4 +244,129 @@ class BP_Tests_Admin_Functions extends BP_UnitTestCase {
 			$this->assertSame( $correct_description, $d_term->description );
 		}
 	}
+
+	public function is_active_filter( $is_active, $component ) {
+		if ( ! $is_active && 'attachments' === $component ) {
+			$is_active = true;
+		}
+
+		return $is_active;
+	}
+
+	/**
+	 * @group bp_core_set_unique_directory_page_slug
+	 * @ticket BP9086
+	 */
+	public function test_bp_core_set_unique_directory_page_slug_for_newpage() {
+		$members_directory_id  = bp_core_get_directory_page_id( 'members' );
+		$directory_name        = get_post_field( 'post_name', $members_directory_id );
+		$page_id               = self::factory()->post->create(
+			array(
+				'post_type' => 'page',
+				'post_name' => 'members'
+			)
+		);
+
+		$page_name = get_post_field( 'post_name', $page_id );
+
+		$this->assertNotSame( $page_name, $directory_name );
+	}
+
+	/**
+	 * @group bp_core_set_unique_directory_page_slug
+	 * @ticket BP9086
+	 */
+	public function test_bp_core_set_unique_directory_page_slug_for_newpage_having_parent() {
+		$members_directory_id = bp_core_get_directory_page_id( 'members' );
+		$directory_name       = get_post_field( 'post_name', $members_directory_id );
+		$parent               = self::factory()->post->create(
+			array(
+				'post_type'   => 'page',
+				'post_name'   => 'parent',
+			)
+		);
+		$page_id              = self::factory()->post->create(
+			array(
+				'post_type'   => 'page',
+				'post_name'   => 'members',
+				'post_parent' => $parent,
+			)
+		);
+
+		$page_name = get_post_field( 'post_name', $page_id );
+
+		$this->assertSame( $page_name, $directory_name );
+	}
+
+	/**
+	 * @group bp_core_set_unique_directory_page_slug
+	 * @ticket BP9086
+	 */
+	public function test_bp_core_set_unique_directory_page_slug_for_newcomponent() {
+		self::factory()->post->create_many( 5, array( 'post_type' => 'page' ) );
+		$page_id = self::factory()->post->create(
+			array(
+				'post_type' => 'page',
+				'post_name' => 'bp-attachments',
+			)
+		);
+
+		$page_name          = get_post_field( 'post_name', $page_id );
+		$orphaned_component = array(
+			'attachments' => array(
+				'name'  => 'bp-attachments',
+				'title' => 'Community Media',
+			)
+		);
+
+		add_filter( 'bp_is_active', array( $this, 'is_active_filter' ), 10, 2 );
+
+		bp_core_add_page_mappings( $orphaned_component, 'keep', true );
+
+		$attachments_directory_id = bp_core_get_directory_page_id( 'attachments' );
+		$directory_name           = get_post_field( 'post_name', $attachments_directory_id );
+
+		$this->assertNotSame( $page_name, $directory_name );
+
+		remove_filter( 'bp_is_active', array( $this, 'is_active_filter' ), 10 );
+	}
+
+	/**
+	 * @group bp_core_set_unique_directory_page_slug
+	 * @ticket BP9086
+	 */
+	public function test_bp_core_set_unique_directory_page_slug_having_parent_for_newcomponent() {
+		$parent  = self::factory()->post->create(
+			array(
+				'post_type'   => 'page',
+				'post_name'   => 'parent',
+			)
+		);
+		$page_id = self::factory()->post->create(
+			array(
+				'post_type'   => 'page',
+				'post_name'   => 'bp-attachments',
+				'post_parent' => $parent,
+			)
+		);
+
+		$page_name          = get_post_field( 'post_name', $page_id );
+		$orphaned_component = array(
+			'attachments' => array(
+				'name'  => 'bp-attachments',
+				'title' => 'Community Media',
+			)
+		);
+
+		add_filter( 'bp_is_active', array( $this, 'is_active_filter' ), 10, 2 );
+
+		bp_core_add_page_mappings( $orphaned_component, 'keep', true );
+
+		$attachments_directory_id = bp_core_get_directory_page_id( 'attachments' );
+		$directory_name           = get_post_field( 'post_name', $attachments_directory_id );
+
+		$this->assertSame( $page_name, $directory_name );
+
+		remove_filter( 'bp_is_active', array( $this, 'is_active_filter' ), 10 );
+	}
 }

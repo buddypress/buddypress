@@ -3770,6 +3770,8 @@ function bp_activity_comments_user_avatars( $args = array() ) {
  *
  * @since 1.7.0
  *
+ * @global BP_Activity_Template $activities_template The Activity template object.
+ *
  * @return bool|array An array of IDs, or false if none are found.
  */
 function bp_activity_get_comments_user_ids() {

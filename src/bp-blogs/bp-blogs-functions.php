@@ -87,6 +87,8 @@ function bp_blogs_get_blogs( $args = '' ) {
  * @since 1.0.0
  * @since 2.6.0 Accepts $args as a parameter.
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param array $args {
  *     Array of arguments.
  *     @type int    $offset   The offset to use.
@@ -860,6 +862,8 @@ add_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_com
  * default, though as of 2.1.0 you can filter 'bp_blogs_get_allowed_roles' to
  * modify this behavior.
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param int         $user_id The ID of the user.
  * @param string|bool $role    User's WordPress role for this blog ID.
  * @param int         $blog_id Blog ID user is being added to.
@@ -935,6 +939,8 @@ function bp_blogs_get_allowed_roles() {
 
 /**
  * Remove a blog-user pair from BP's blog tracker.
+ *
+ * @global wpdb $wpdb WordPress database object.
  *
  * @param int $user_id ID of the user whose blog is being removed.
  * @param int $blog_id Optional. ID of the blog being removed. Default: current blog ID.

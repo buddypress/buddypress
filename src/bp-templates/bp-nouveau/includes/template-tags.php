@@ -161,7 +161,7 @@ function bp_nouveau_has_dismiss_button() {
 }
 
 /**
- * Ouptut the dismiss type.
+ * Output the dismiss type.
  *
  * $type is used to set the data-attr for the button.
  * 'clear' is tested for & used to remove cookies, if set, in buddypress-nouveau.js.
@@ -577,7 +577,7 @@ function bp_nouveau_loop_classes() {
 			'blogs'   => true,
 
 			/*
-			 * Technically not a component but allows us to check the single group members loop as a seperate loop.
+			 * Technically not a component but allows us to check the single group members loop as a separate loop.
 			 */
 			'members_group'   => true,
 			'members_friends' => true,

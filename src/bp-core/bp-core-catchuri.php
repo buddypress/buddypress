@@ -33,6 +33,10 @@ function bp_core_set_ajax_uri_globals() {
 		return;
 	}
 
+	if ( 'heartbeat' === $action && empty( $_REQUEST['data']['bp_heartbeat'] ) ) {
+		return;
+	}
+
 	bp_reset_query( bp_get_referer_path(), $GLOBALS['wp_query'] );
 }
 
@@ -214,16 +218,21 @@ function bp_core_load_template( $templates ) {
  * @since 1.0.0
  */
 function bp_core_catch_profile_uri() {
-	if ( !bp_is_active( 'xprofile' ) ) {
+	if ( ! bp_is_active( 'xprofile' ) ) {
 
-		/**
-		 * Filters the path to redirect users to if XProfile is not enabled.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $value Path to redirect users to.
-		 */
-		bp_core_load_template( apply_filters( 'bp_core_template_display_profile', 'members/single/home' ) );
+		$templates = array(
+			/**
+			 * Filters the path to redirect users to if XProfile is not enabled.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $value Path to redirect users to.
+			 */
+			apply_filters( 'bp_core_template_display_profile', 'members/single/home' ),
+			'members/single/index',
+		);
+
+		bp_core_load_template( $templates );
 	}
 }
 

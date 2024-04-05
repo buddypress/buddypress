@@ -15,7 +15,7 @@ To know if your WordPress version is supported by BuddyPress, please check our [
 
 - BuddyPress does not work on installations where [you give WordPress its own directory](https://wordpress.org/documentation/article/giving-wordpress-its-own-directory/).
 - Folder name for any subdirectory or subdomain WordPress/BuddyPress installation must be in lowercase.
-- PHP must have the GD or imagick modules installed (on the server) to allow re-sizing of images; BP avatar uploads will fail without one of these modules activated (WP will simply fail to create image sizes for posts but won’t show an error)
+- [PHP](./php-version-support.md) must have the GD or imagick modules installed (on the server) to allow re-sizing of images; BP avatar uploads will fail without one of these modules activated (WP will simply fail to create image sizes for posts but won’t show an error)
 
 ## Get BuddyPress!
 
@@ -35,5 +35,5 @@ NB: If you want to contribute to this documentation, you can [fork the BuddyPres
 
 ## Next steps
 
-- Activate BuddyPress
+- [Activate BuddyPress](./activate-buddypress.md)
 - Set up BuddyPress

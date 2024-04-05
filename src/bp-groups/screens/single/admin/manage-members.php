@@ -11,15 +11,17 @@
  * This function handles actions related to member management on the group admin.
  *
  * @since 1.0.0
+ *
+ * @return void
  */
 function groups_screen_group_admin_manage_members() {
 
 	if ( 'manage-members' != bp_get_group_current_admin_tab() ) {
-		return false;
+		return;
 	}
 
 	if ( ! bp_is_item_admin() ) {
-		return false;
+		return;
 	}
 
 	$bp       = buddypress();
@@ -35,7 +37,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Check the nonce first.
 			if ( ! check_admin_referer( 'groups_promote_member' ) ) {
-				return false;
+				return;
 			}
 
 			// Promote a user.
@@ -65,7 +67,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Check the nonce first.
 			if ( ! check_admin_referer( 'groups_demote_member' ) ) {
-				return false;
+				return;
 			}
 
 			// Stop sole admins from abandoning their group.
@@ -98,7 +100,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Check the nonce first.
 			if ( ! check_admin_referer( 'groups_ban_member' ) ) {
-				return false;
+				return;
 			}
 
 			// Ban a user.
@@ -126,7 +128,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Check the nonce first.
 			if ( ! check_admin_referer( 'groups_unban_member' ) ) {
-				return false;
+				return;
 			}
 
 			// Remove a ban for user.
@@ -154,7 +156,7 @@ function groups_screen_group_admin_manage_members() {
 
 			// Check the nonce first.
 			if ( ! check_admin_referer( 'groups_remove_member' ) ) {
-				return false;
+				return;
 			}
 
 			// Remove a user.
@@ -187,13 +189,18 @@ function groups_screen_group_admin_manage_members() {
 	 */
 	do_action( 'groups_screen_group_admin_manage_members', $bp->groups->current_group->id );
 
-	/**
-	 * Filters the template to load for a group's manage members page.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $value Path to a group's manage members template.
-	 */
-	bp_core_load_template( apply_filters( 'groups_template_group_admin_manage_members', 'groups/single/home' ) );
+	$templates = array(
+		/**
+		 * Filters the template to load for a group's manage members page.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value Path to a group's manage members template.
+		 */
+		apply_filters( 'groups_template_group_admin_manage_members', 'groups/single/home' ),
+		'groups/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
 add_action( 'bp_screens', 'groups_screen_group_admin_manage_members' );

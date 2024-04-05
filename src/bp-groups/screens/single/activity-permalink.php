@@ -14,14 +14,22 @@
  * Handle the display of a single group activity item.
  *
  * @since 1.2.0
+ *
+ * @return void
  */
 function groups_screen_group_activity_permalink() {
-	if ( !bp_is_groups_component() || !bp_is_active( 'activity' ) || ( bp_is_active( 'activity' ) && !bp_is_current_action( bp_get_activity_slug() ) ) || !bp_action_variable( 0 ) )
-		return false;
+	if ( ! bp_is_groups_component() || ! bp_is_active( 'activity' ) || ( bp_is_active( 'activity' ) && ! bp_is_current_action( bp_get_activity_slug() ) ) || ! bp_action_variable( 0 ) ) {
+		return;
+	}
 
 	buddypress()->is_single_item = true;
 
-	/** This filter is documented in bp-groups/bp-groups-screens.php */
-	bp_core_load_template( apply_filters( 'groups_template_group_home', 'groups/single/home' ) );
+	$templates = array(
+		/** This filter is documented in bp-groups/screens/home.php */
+		apply_filters( 'groups_template_group_home', 'groups/single/home' ),
+		'groups/single/index',
+	);
+
+	bp_core_load_template( $templates );
 }
 add_action( 'bp_screens', 'groups_screen_group_activity_permalink' );

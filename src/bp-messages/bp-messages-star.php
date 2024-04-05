@@ -232,7 +232,7 @@ function bp_the_message_star_action_link( $args = array() ) {
  *     @type string $action     The star action. Either 'star' or 'unstar'. Default: 'star'.
  *     @type int    $thread_id  The message thread ID. Default: 0. If not zero, this takes precedence over
  *                              $message_id.
- *     @type int    $message_id The indivudal message ID to star or unstar.  Default: 0.
+ *     @type int    $message_id The individual message ID to star or unstar.  Default: 0.
  *     @type int    $user_id    The user ID. Defaults to the logged-in user ID.
  *     @type bool   $bulk       Whether to mark all messages in a thread as a certain action. Only relevant
  *                              when $action is 'unstar' at the moment. Default: false.

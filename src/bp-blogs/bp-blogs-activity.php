@@ -671,6 +671,8 @@ add_action( 'bp_blogs_remove_data_for_blog', 'bp_blogs_delete_activity_for_site'
  *
  * @since 1.0.0
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param int $post_id ID of the post to be removed.
  * @param int $blog_id Optional. Defaults to current blog ID.
  * @param int $user_id Optional. Defaults to the logged-in user ID. This param
@@ -1022,6 +1024,8 @@ add_action( 'trashed_post_comments', 'bp_blogs_remove_activity_meta_for_trashed_
  * @since 2.1.0
  * @since 2.5.0 Used for any synced Post type comments, in wp-admin or front-end contexts.
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @param array $args Arguments passed from bp_parse_args() in bp_has_activities().
  * @return array $args
  */
@@ -1200,6 +1204,8 @@ add_action( 'bp_before_activity_comment', 'bp_blogs_setup_comment_loop_globals_o
  *
  * @since 2.0.0
  *
+ * @global BP_Activity_Template $activities_template The Activity template object.
+ *
  * @param bool $retval Is activity commenting enabled for this activity entry.
  * @return bool
  */
@@ -1330,6 +1336,8 @@ add_filter( 'bp_activity_can_comment_reply', 'bp_blogs_can_comment_reply', 10, 2
  * activity item is a 'new_blog_post' entry.
  *
  * @since 2.0.0
+ *
+ * @global BP_Activity_Template $activities_template The Activity template object.
  *
  * @param string $retval The activity comment permalink.
  * @return string

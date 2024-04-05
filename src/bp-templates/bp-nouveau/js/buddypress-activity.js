@@ -361,7 +361,7 @@ window.bp = window.bp || {};
 
 				// If all parents are hidden, reveal at least one. It seems very risky to manipulate the DOM to keep exactly 5 comments!
 				if ( $( comment_parents ).children( '.bp-hidden' ).length === $( comment_parents ).children( 'li' ).length - 1 && $( comment_parents ).find( 'li.show-all' ).length ) {
-					$( comment_parents ).children( 'li' ).removeClass( 'bp-hidden' ).toggle();
+					$( comment_parents ).children( 'li:not(.show-all)' ).removeClass( 'bp-hidden' ).toggle();
 				}
 			} );
 		},
