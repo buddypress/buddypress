@@ -162,7 +162,6 @@ class BP_Messages_Component extends BP_Component {
 
 		// Global tables for messaging component.
 		$global_tables = array(
-			'table_name_notices'    => $bp->table_prefix . 'bp_messages_notices',
 			'table_name_messages'   => $bp->table_prefix . 'bp_messages_messages',
 			'table_name_recipients' => $bp->table_prefix . 'bp_messages_recipients',
 			'table_name_meta'       => $bp->table_prefix . 'bp_messages_meta',

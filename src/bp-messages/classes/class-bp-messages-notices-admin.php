@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * BuddyPress Notices Admin class.
  */
 #[AllowDynamicProperties]
-class BP_Messages_Notices_Admin {
+class BP_Members_Notices_Admin {
 
 	/**
 	 * The ID returned by `add_users_page()`.
@@ -33,10 +33,10 @@ class BP_Messages_Notices_Admin {
 	public $url = '';
 
 	/**
-	 * The current instance of the BP_Messages_Notices_List_Table class.
+	 * The current instance of the BP_Members_Notices_List_Table class.
 	 *
 	 * @since 3.0.0
-	 * @var BP_Messages_Notices_List_Table|string
+	 * @var BP_Members_Notices_List_Table|string
 	 */
 	public $list_table = '';
 
@@ -45,7 +45,7 @@ class BP_Messages_Notices_Admin {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @return BP_Messages_Notices_Admin
+	 * @return BP_Members_Notices_Admin
 	 */
 	public static function register_notices_admin() {
 
@@ -151,15 +151,15 @@ class BP_Messages_Notices_Admin {
 			$success = false;
 			switch ( $_GET['notice_action'] ) {
 				case 'activate':
-					$notice = new BP_Messages_Notice( $notice_id );
+					$notice = new BP_Members_Notice( $notice_id );
 					$success = $notice->activate();
 					break;
 				case 'deactivate':
-					$notice = new BP_Messages_Notice( $notice_id );
+					$notice = new BP_Members_Notice( $notice_id );
 					$success = $notice->deactivate();
 					break;
 				case 'delete':
-					$notice = new BP_Messages_Notice( $notice_id );
+					$notice = new BP_Members_Notice( $notice_id );
 					$success = $notice->delete();
 					break;
 			}
@@ -178,7 +178,7 @@ class BP_Messages_Notices_Admin {
 			exit();
 		}
 
-		$this->list_table = new BP_Messages_Notices_List_Table( array( 'screen' => get_current_screen()->id ) );
+		$this->list_table = new BP_Members_Notices_List_Table( array( 'screen' => get_current_screen()->id ) );
 	}
 
 	/**

@@ -1251,7 +1251,7 @@ function bp_message_notice_post_date() {
  *
  * @since 5.0.0 The $notice parameter has been added.
  *
- * @param BP_Messages_Notice $notice The notice object.
+ * @param BP_Members_Notice $notice The notice object.
  */
 function bp_message_notice_subject( $notice = null ) {
 	// Escaping is made in `bp-messages/bp-messages-filters.php`.
@@ -1265,7 +1265,7 @@ function bp_message_notice_subject( $notice = null ) {
 	 *
 	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
-	 * @param BP_Messages_Notice|null $notice The notice object.
+	 * @param BP_Members_Notice|null $notice The notice object.
 	 * @return string
 	 */
 	function bp_get_message_notice_subject( $notice = null ) {
@@ -1290,7 +1290,7 @@ function bp_message_notice_subject( $notice = null ) {
  *
  * @since 5.0.0 The $notice parameter has been added.
  *
- * @param BP_Messages_Notice $notice The notice object.
+ * @param BP_Members_Notice $notice The notice object.
  */
 function bp_message_notice_text( $notice = null ) {
 	// Escaping is made in `bp-messages/bp-messages-filters.php`.
@@ -1304,7 +1304,7 @@ function bp_message_notice_text( $notice = null ) {
 	 *
 	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
 	 *
-	 * @param BP_Messages_Notice|null $notice The notice object.
+	 * @param BP_Members_Notice|null $notice The notice object.
 	 * @return string
 	 */
 	function bp_get_message_notice_text( $notice = null ) {
@@ -1487,7 +1487,7 @@ function bp_messages_slug() {
  * Generate markup for currently active notices.
  */
 function bp_message_get_notices() {
-	$notice = BP_Messages_Notice::get_active();
+	$notice = BP_Members_Notice::get_active();
 
 	if ( empty( $notice ) ) {
 		return false;

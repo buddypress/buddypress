@@ -30,7 +30,7 @@ class BP_Tests_BP_Messages_Notice_TestCases extends BP_UnitTestCase {
 		messages_send_notice( $subject, $message );
 
 		// now get the active notice and assert
-		$notice = BP_Messages_Notice::get_active();
+		$notice = BP_Members_Notice::get_active();
 		$this->assertEquals( $subject, $notice->subject );
 		$this->assertEquals( $message, $notice->message );
 
@@ -44,7 +44,7 @@ class BP_Tests_BP_Messages_Notice_TestCases extends BP_UnitTestCase {
 		messages_send_notice( $subject2, $message2 );
 
 		// now get the new active notice
-		BP_Messages_Notice::get_active();
+		BP_Members_Notice::get_active();
 
 		// grab the cache and make sure it equals our new notice
 		$cache = wp_cache_get( 'active_notice', 'bp_messages' );

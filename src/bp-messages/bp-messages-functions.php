@@ -230,7 +230,7 @@ function messages_send_notice( $subject, $message ) {
 		return false;
 	}
 
-	$notice            = new BP_Messages_Notice;
+	$notice            = new BP_Members_Notice;
 	$notice->subject   = $subject;
 	$notice->message   = $message;
 	$notice->date_sent = bp_core_current_time();
@@ -244,7 +244,7 @@ function messages_send_notice( $subject, $message ) {
 	 *
 	 * @param string             $subject Subject of the notice.
 	 * @param string             $message Content of the notice.
-	 * @param BP_Messages_Notice $notice  Notice object sent.
+	 * @param BP_Members_Notice $notice  Notice object sent.
 	 */
 	do_action_ref_array( 'messages_send_notice', array( $subject, $message, $notice ) );
 
@@ -783,9 +783,9 @@ function bp_messages_dismiss_sitewide_notice( $user_id = 0, $notice_id = 0 ) {
 	}
 
 	if ( $notice_id ) {
-		$notice = new BP_Messages_Notice( $notice_id );
+		$notice = new BP_Members_Notice( $notice_id );
 	} else {
-		$notice = BP_Messages_Notice::get_active();
+		$notice = BP_Members_Notice::get_active();
 	}
 
 	// Bail if no notice is set.
