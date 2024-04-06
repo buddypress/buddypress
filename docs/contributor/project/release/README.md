@@ -1,4 +1,4 @@
 # How a release cycle works?
 
 - [Release Leads & Deputies](./leads.md)
-- Prelaunch checklist
+- [Building a new BuddyPress release](./build-checklist.md)

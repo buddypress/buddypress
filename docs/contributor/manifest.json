@@ -36,6 +36,12 @@
 		"parent": null
 	},
 	{
+		"title": "Building a new BuddyPress release",
+		"slug": "about-release-builds",
+		"markdown_source": "../contributor/project/release/build-checklist.md",
+		"parent": null
+	},
+	{
 		"title": "Contribute to documentation",
 		"slug": "contribute-to-documentation",
 		"markdown_source": "../contributor/documentation/README.md",
