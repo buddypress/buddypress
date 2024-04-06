@@ -648,6 +648,16 @@ class BP_Members_Admin {
 			);
 		}
 
+		// Manage user's sitewide notices.
+		$hooks['user_notices'] = $this->user_page = add_submenu_page(
+			$this->user_profile . '.php',
+			__( 'Community notices',  'buddypress' ),
+			__( 'Community notice',  'buddypress' ),
+			'read',
+			'bp-sitewide-notices',
+			array( $this, 'user_notices_admin' )
+		);
+
 		// Only show sign-ups where they belong.
 		if ( ( ! bp_is_network_activated() && ! is_network_admin() ) || ( is_network_admin() && bp_is_network_activated() ) ) {
 
@@ -1236,6 +1246,10 @@ class BP_Members_Admin {
 		}
 	}
 
+	public function user_notices_admin_load() {
+		return '';
+	}
+
 	/**
 	 * Display the user's profile.
 	 *
@@ -1342,6 +1356,29 @@ class BP_Members_Admin {
 			<?php endif; ?>
 
 		</div><!-- .wrap -->
+		<?php
+	}
+
+	public function user_notices_admin() {
+		if ( ! bp_current_user_can( 'edit_users' ) && ! bp_current_user_can( 'bp_moderate' ) && empty( $this->is_self_profile ) ) {
+			die( '-1' );
+		}
+
+		// Get the user ID.
+		$user_id = $this->get_user_id();
+		$user    = get_user_by( 'id', $user_id );
+
+		// Construct title.
+		if ( true === $this->is_self_profile ) {
+			$title = __( 'My community notices',   'buddypress' );
+		} else {
+			/* translators: %s: User's display name. */
+			$title = sprintf( __( '%s’s community notices', 'buddypress' ), $user->display_name );
+		}
+		?>
+		<div class="wrap" id="community-profile-page">
+			<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
+		</div>
 		<?php
 	}
 
