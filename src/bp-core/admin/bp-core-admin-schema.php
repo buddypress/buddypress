@@ -36,6 +36,9 @@ function bp_core_install( $active_components = false ) {
 	// Install the signups table.
 	bp_core_maybe_install_signups();
 
+	// Install the community notices tables.
+	bp_core_install_community_notices();
+
 	// Install the invitations table.
 	bp_core_install_invitations();
 
@@ -631,4 +634,55 @@ function bp_core_install_nonmember_opt_outs() {
 	 * @since 8.0.0
 	 */
 	do_action( 'bp_core_install_nonmember_opt_outs' );
+}
+
+/**
+ * Community Notices are "Modern" Site Wide Notices.
+ *
+ * If the `bp_messages_notices` table exists, we simply need to rename it.
+ *
+ * @since 14.0.0
+ */
+function bp_core_install_community_notices() {
+	$wpdb            = $GLOBALS['wpdb'];
+	$sql             = array();
+	$charset_collate = $wpdb->get_charset_collate();
+	$bp_prefix       = bp_core_get_table_prefix();
+
+	// Used to check whether the Messages Notices table exists or not.
+	$messages_notices_table = $bp_prefix . 'bp_messages_notices';
+
+	// Suppress errors because users shouldn't see what happens next.
+	$old_suppress = $wpdb->suppress_errors();
+
+	// Does the Messages Notices table exists.
+	$table_exists = (bool) $wpdb->get_results( "DESCRIBE {$messages_notices_table};" );
+
+	// Table already exists, so just create the Community notices meta table.
+	if ( true === $table_exists ) {
+		$wpdb->query( "RENAME TABLE {$messages_notices_table} TO {$bp_prefix}bp_community_notices" );
+	} else {
+		$sql[] = "CREATE TABLE {$bp_prefix}bp_community_notices (
+			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			subject varchar(200) NOT NULL,
+			message longtext NOT NULL,
+			date_sent datetime NOT NULL,
+			is_active tinyint(1) NOT NULL DEFAULT '0',
+			KEY is_active (is_active)
+		) {$charset_collate};";
+	}
+
+	// Restore previous error suppression setting.
+	$wpdb->suppress_errors( $old_suppress );
+
+	$sql[] = "CREATE TABLE {$bp_prefix}bp_community_notices_meta (
+		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		notice_id bigint(20) NOT NULL,
+		meta_key varchar(255) DEFAULT NULL,
+		meta_value longtext DEFAULT NULL,
+		KEY notice_id (notice_id),
+		KEY meta_key (meta_key(191))
+	) {$charset_collate};";
+
+	dbDelta( $sql );
 }
