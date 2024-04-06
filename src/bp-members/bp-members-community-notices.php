@@ -1,8 +1,8 @@
 <?php
 /**
- * BuddyPress SiteWide Notices functions.
+ * BuddyPress Community Notices functions.
  *
- * @package buddypress\bp-members\bp-members-sitewide-notices
+ * @package buddypress\bp-members\bp-members-community-notices
  * @since 14.0.0
  */
 
