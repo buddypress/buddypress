@@ -185,7 +185,7 @@ class BP_Messages_Box_Template {
 		$this->search_terms = $r['search_terms'];
 
 		if ( 'notices' === $this->box ) {
-			$this->threads = BP_Messages_Notice::get_notices(
+			$this->threads = BP_Members_Notice::get_notices(
 				array(
 					'pag_num'  => $this->pag_num,
 					'pag_page' => $this->pag_page,
@@ -216,7 +216,7 @@ class BP_Messages_Box_Template {
 			$this->thread_count       = 0;
 			$this->total_thread_count = 0;
 		} else {
-			$total_notice_count = BP_Messages_Notice::get_total_notice_count();
+			$total_notice_count = BP_Members_Notice::get_total_notice_count();
 
 			if ( empty( $r['max'] ) || ( (int) $r['max'] >= (int) $total_notice_count ) ) {
 				if ( 'notices' === $this->box ) {

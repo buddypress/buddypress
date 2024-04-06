@@ -252,7 +252,7 @@ function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id )
 		return $notifications;
 	}
 
-	$notice = BP_Messages_Notice::get_active();
+	$notice = BP_Members_Notice::get_active();
 	if ( empty( $notice->id ) ) {
 		return $notifications;
 	}
@@ -320,7 +320,7 @@ function bp_nouveau_push_sitewide_notices() {
 		return;
 	}
 
-	$notice = BP_Messages_Notice::get_active();
+	$notice = BP_Members_Notice::get_active();
 	if ( empty( $notice ) ) {
 		return;
 	}

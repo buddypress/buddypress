@@ -41,7 +41,7 @@ function bp_messages_action_edit_notice() {
 	check_admin_referer( "messages_{$action}_notice" );
 
 	// Get the notice from database.
-	$notice   = new BP_Messages_Notice( $notice_id );
+	$notice   = new BP_Members_Notice( $notice_id );
 	$success  = false;
 	$feedback = '';
 

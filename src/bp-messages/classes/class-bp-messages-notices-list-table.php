@@ -18,7 +18,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 /**
  * BuddyPress Notices List Table class.
  */
-class BP_Messages_Notices_List_Table extends WP_List_Table {
+class BP_Members_Notices_List_Table extends WP_List_Table {
 
 	/**
 	 * Constructor
@@ -59,13 +59,13 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 		$page     = $this->get_pagenum();
 		$per_page = $this->get_items_per_page( 'bp_notices_per_page' );
 
-		$this->items = BP_Messages_Notice::get_notices( array(
+		$this->items = BP_Members_Notice::get_notices( array(
 			'pag_num'  => $per_page,
 			'pag_page' => $page
 		) );
 
 		$this->set_pagination_args( array(
-			'total_items' => BP_Messages_Notice::get_total_notice_count(),
+			'total_items' => BP_Members_Notice::get_total_notice_count(),
 			'per_page' => $per_page,
 		) );
 	}
