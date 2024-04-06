@@ -102,8 +102,8 @@ class BP_Messages_Notices_Admin {
 		}
 
 		$this->screen_id = add_users_page(
-			_x( 'Site Notices', 'Notices admin page title', 'buddypress' ),
-			_x( 'Site Notices', 'Admin Users menu', 'buddypress' ),
+			_x( 'Manage Community Notices', 'Notices admin page title', 'buddypress' ),
+			_x( 'Manage Community Notices', 'Admin Users menu', 'buddypress' ),
 			'manage_options',
 			'bp-notices',
 			array( $this, 'admin_index' )
