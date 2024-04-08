@@ -185,7 +185,9 @@ class BP_Admin {
 		add_action( 'bp_register_admin_settings', array( $this, 'register_admin_settings' ) );
 
 		// Add a link to BuddyPress Hello in the admin bar.
-		add_action( 'admin_bar_menu', array( $this, 'admin_bar_about_link' ), 100 );
+		if ( bp_current_user_can( 'bp_moderate' ) ) {
+			add_action( 'admin_bar_menu', array( $this, 'admin_bar_about_link' ), 100 );
+		}
 
 		// Add a description of BuddyPress tools in the available tools page.
 		if ( bp_current_user_can( 'bp_moderate' ) ) {
