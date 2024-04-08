@@ -1,0 +1,20 @@
+[
+	{
+		"title": "BuddyPress Handbooks",
+		"slug": "handbooks",
+		"markdown_source": "../README.md",
+		"parent": null
+	},
+	{
+		"title": "Major releases history",
+		"slug": "releases",
+		"markdown_source": "../changelogs/README.md",
+		"parent": null
+	},
+	{
+		"title": "Branch 9.0 ChangeLog",
+		"slug": "branch-9-0",
+		"markdown_source": "../changelogs/branch-9-0.md",
+		"parent": null
+	}
+]
