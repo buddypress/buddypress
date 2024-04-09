@@ -26,7 +26,7 @@ jobs:
             wordpress: '6.4'
           - php: '7.4'
             wordpress: '6.1'
-    uses: alleyinteractive/.github/.github/workflows/php-tests.yml@feature/object-cache
+    uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
     name: "WP: ${{ matrix.wordpress }} - PHP: ${{ matrix.php }}"
     with:
       dependency-versions: ${{ matrix.dependencies }}
