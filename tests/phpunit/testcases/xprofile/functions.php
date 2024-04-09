@@ -698,6 +698,42 @@ Bar!';
 	}
 
 	/**
+	 * @ticket BP9130
+	 */
+	public function test_xprofile_update_keep_parent_id() {
+		$g      = self::factory()->xprofile_group->create();
+		$parent = self::factory()->xprofile_field->create( array(
+			'field_group_id' => $g,
+			'type'           => 'selectbox',
+			'name'           => 'Parent',
+		) );
+
+		$f = xprofile_insert_field(
+			array(
+				'field_group_id' => $g,
+				'parent_id'      => $parent,
+				'type'           => 'option',
+				'name'           => 'Option 1',
+				'option_order'   => 5,
+			)
+		);
+
+		$field = new BP_XProfile_Field( $f );
+
+		$this->assertEquals( $parent, $field->parent_id );
+		$this->assertNotEquals( 0, $field->parent_id );
+
+		$field->name = 'Option 2';
+		$field->save(); // Perform the `UPDATE` query. The reason for the bug.
+
+		// Fetch the new DB value.
+		$field = new BP_XProfile_Field( $f );
+
+		$this->assertNotEquals( 0, $field->parent_id );
+		$this->assertEquals( $parent, $field->parent_id );
+	}
+
+	/**
 	 * @group xprofile_insert_field
 	 */
 	public function test_xprofile_insert_field_type_option_option_order() {
