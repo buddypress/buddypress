@@ -777,11 +777,11 @@ class BP_Media_Extractor {
 			if ( isset( $extra_args['width'] ) ) {
 
 				// A width was specified but not a height, so calculate it assuming a 4:3 ratio.
-				if ( ! isset( $extra_args['height'] ) && ctype_digit( $extra_args['width'] ) ) {
+				if ( ! isset( $extra_args['height'] ) && ctype_digit( (string) $extra_args['width'] ) ) {
 					$extra_args['height'] = round( ( $extra_args['width'] / 4 ) * 3 );
 				}
 
-				if ( ctype_digit( $extra_args['width'] ) ) {
+				if ( ctype_digit( (string) $extra_args['width'] ) ) {
 					$image_size = array( $extra_args['width'], $extra_args['height'] );
 				} else {
 					$image_size = $extra_args['width'];  // E.g. "thumb", "medium".
@@ -876,12 +876,12 @@ class BP_Media_Extractor {
 		if ( $thumb ) {
 			// Validate the size of the images requested.
 			if ( isset( $extra_args['width'] ) ) {
-				if ( ! isset( $extra_args['height'] ) && ctype_digit( $extra_args['width'] ) ) {
+				if ( ! isset( $extra_args['height'] ) && ctype_digit( (string) $extra_args['width'] ) ) {
 					// A width was specified but not a height, so calculate it assuming a 4:3 ratio.
 					$extra_args['height'] = round( ( $extra_args['width'] / 4 ) * 3 );
 				}
 
-				if ( ctype_digit( $extra_args['width'] ) ) {
+				if ( ctype_digit( (string) $extra_args['width'] ) ) {
 					$image_size = array( $extra_args['width'], $extra_args['height'] );
 				} else {
 					$image_size = $extra_args['width'];  // E.g. "thumb", "medium".
