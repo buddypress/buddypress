@@ -16,5 +16,11 @@
 		"slug": "branch-9-0",
 		"markdown_source": "../changelogs/branch-9-0.md",
 		"parent": null
+	},
+	{
+		"title": "Support forums etiquette",
+		"slug": "support-forums-etiquette",
+		"markdown_source": "../etiquette.md",
+		"parent": null
 	}
 ]

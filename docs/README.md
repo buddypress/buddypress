@@ -13,6 +13,6 @@ _Welcome to the BuddyPress Handbooks; if you’re looking for a structured way t
 - Nice to meet you, let us introduce ourselves!
 - [Releases history](./changelogs/README.md)
 - License
-- Etiquette
+- [Support forums etiquette](./etiquette.md)
 - Security
 - Official logos & graphics
