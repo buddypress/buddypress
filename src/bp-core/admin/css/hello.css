@@ -33,6 +33,24 @@ TABLE OF CONTENTS:
 	font-size: 16px;
 }
 
+.bp-hello-content p.has-white-color.has-text-color.has-background.has-medium-font-size {
+	color: #fff;
+	padding: 1.25em 2.375em !important;
+}
+
+.bp-hello-content p a {
+	text-decoration: none;
+}
+
+.bp-hello-content p a:hover {
+	color: #dd823b;
+	text-decoration: underline;
+}
+
+.bp-hello-content p a mark.has-inline-color.has-white-color {
+	color: #fff;
+}
+
 .bp-hello-content ul,
 .bp-hello-content ol {
 	list-style: inherit;
@@ -45,6 +63,27 @@ TABLE OF CONTENTS:
 .bp-hello-content h3 {
 	font-size: 1.1em;
 	font-weight: 500;
+}
+
+.bp-hello-content .wp-container-core-buttons-is-layout-1 {
+	display: flex;
+	justify-content: center;
+}
+
+.bp-hello-content .has-vivid-red-background-color {
+	background-color: #be3631;
+}
+
+.bp-hello-content .wp-block-button.is-style-fill a:hover {
+	text-decoration: underline;
+}
+
+.bp-hello-content .wp-block-button__link {
+	color: #fff;
+	box-shadow: none;
+	text-decoration: none;
+	padding: calc(0.667em + 2px) calc(1.333em + 2px);
+	font-size: 1.125em;
 }
 
 /*------------------------------------------------------------------------------

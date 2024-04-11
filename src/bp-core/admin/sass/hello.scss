@@ -34,6 +34,27 @@ TABLE OF CONTENTS:
 
 	p {
 		font-size: 16px;
+
+		&.has-white-color.has-text-color.has-background.has-medium-font-size {
+			color: #fff;
+			padding: 1.25em 2.375em !important;
+		}
+
+		a {
+			text-decoration: none;
+
+			&:hover {
+				color: #dd823b;
+				text-decoration: underline;
+			}
+
+			mark {
+
+				&.has-inline-color.has-white-color {
+					color: #fff;
+				}
+			}
+		}
 	}
 
 	ul,
@@ -48,6 +69,27 @@ TABLE OF CONTENTS:
 	h3 {
 		font-size: 1.1em;
 		font-weight: 500;
+	}
+
+	.wp-container-core-buttons-is-layout-1 {
+		display: flex;
+		justify-content: center;
+	}
+
+	.has-vivid-red-background-color {
+		background-color: #be3631;
+	}
+
+	.wp-block-button.is-style-fill a:hover {
+		text-decoration: underline;
+	}
+
+	.wp-block-button__link {
+		color: #fff;
+		box-shadow: none;
+		text-decoration: none;
+		padding: calc(0.667em + 2px) calc(1.333em + 2px);
+		font-size: 1.125em;
 	}
 }
 
