@@ -20,9 +20,9 @@ jobs:
         wp_version: ['master']
         include:
           - php: '8.0'
-            wp_version: '6.4'
+            wp_version: 'latest'
           - php: '7.4'
-            wp_version: '6.4'
+            wp_version: 'latest'
           - php: '7.4'
             wp_version: '6.1'
     env:
@@ -85,7 +85,12 @@ jobs:
         run: npm ci --cache ~/.npm
 
       - name: Setup WordPress
-        run: echo "{\"core\":\"WordPress/WordPress#${WP_VERSION}\"}" >> .wp-env.override.json
+        run: |
+          if [ ${{ env.WP_VERSION }} == 'latest' ]; then
+            echo "{\"core\":null}" >> .wp-env.override.json
+          else
+            echo "{\"core\":\"WordPress/WordPress#${WP_VERSION}\"}" >> .wp-env.override.json
+          fi
 
       - name: Install WordPress
         run: |
