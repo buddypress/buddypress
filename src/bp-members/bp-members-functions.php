@@ -1860,19 +1860,15 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		$activation_key = wp_generate_password( 32, false );
 
 		/**
-		 * WordPress's default behavior is to create user accounts
-		 * immediately at registration time. BuddyPress uses a system
-		 * borrowed from WordPress Multisite, where signups are stored
-		 * separately and accounts are only created at the time of
-		 * activation. For backward compatibility with plugins that may
-		 * be anticipating WP's default behavior, BP silently creates
-		 * accounts for registrations (though it does not use them). If
-		 * you know that you are not running any plugins dependent on
-		 * these pending accounts, you may want to save a little DB
-		 * clutter by defining setting the BP_SIGNUPS_SKIP_USER_CREATION
-		 * to true in your wp-config.php file.
+		 * Filter here to keep creating a user when a registration is performed on regular WordPress configs.
+		 *
+		 * @since 14.0.0
+		 * @todo Fully deprecate in 15.0.0
+		 *
+		 * @param boolean $value True to carry on creating a user when a registration is performed.
+		 *                       False otherwise.
 		 */
-		if ( ! defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) || ! BP_SIGNUPS_SKIP_USER_CREATION ) {
+		if ( apply_filters( 'bp_signups_create_user', false ) ) {
 			$user_id = BP_Signup::add_backcompat( $user_login, $user_password, $user_email, $usermeta );
 
 			if ( is_wp_error( $user_id ) ) {
@@ -2017,7 +2013,13 @@ function bp_core_activate_signup( $key ) {
 		if ( ! $user_id ) {
 			$user_id = wp_create_user( $signup->user_login, $password, $signup->user_email );
 
-		// Otherwise, update the existing user's status.
+			/*
+			 * @todo Remove this `elseif` statement in version 15.0.0.
+			 *
+			 * Since 2.0.0 BuddyPress is using the $wpdb->signups table even in regular WordPress configs.
+			 * In 14.0.0, we are deprecating the `BP_SIGNUPS_SKIP_USER_CREATION` as well as creating a user
+			 * each time a registration is performed.
+			 */
 		} elseif ( $key === bp_get_user_meta( $user_id, 'activation_key', true ) || $key === wp_hash( $user_id ) ) {
 
 			// Change the user's status so they become active.
