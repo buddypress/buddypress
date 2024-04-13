@@ -1491,6 +1491,7 @@ class BP_Members_Admin {
 		$types        = bp_get_member_types( array(), 'objects' );
 		$current_type = (array) bp_get_member_type( $user->ID, false );
 		$types_count  = count( array_filter( $current_type ) );
+		$disabled     = ! bp_current_user_can( 'edit_users' ) && ! bp_current_user_can( 'bp_moderate' );
 		?>
 
 		<label for="bp-members-profile-member-type" class="screen-reader-text">
@@ -1503,7 +1504,7 @@ class BP_Members_Admin {
 			<?php foreach ( $types as $type ) : ?>
 				<li>
 					<label class="selectit">
-						<input value="<?php echo esc_attr( $type->name ) ?>" name="bp-members-profile-member-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_type ) ); ?>>
+						<input value="<?php echo esc_attr( $type->name ) ?>" name="bp-members-profile-member-type[]" type="checkbox" <?php checked( true, in_array( $type->name, $current_type ) ); ?> <?php disabled( $disabled ); ?>>
 						<?php echo esc_html( $type->labels['singular_name'] ); ?>
 					</label>
 				</li>
@@ -1530,7 +1531,7 @@ class BP_Members_Admin {
 		check_admin_referer( 'bp-member-type-change-' . $user_id, 'bp-member-type-nonce' );
 
 		// Permission check.
-		if ( ! bp_current_user_can( 'edit_users' ) && ! bp_current_user_can( 'bp_moderate' ) && $user_id != bp_loggedin_user_id() ) {
+		if ( ! bp_current_user_can( 'edit_users' ) && ! bp_current_user_can( 'bp_moderate' ) ) {
 			return;
 		}
 
