@@ -264,7 +264,9 @@ class BP_Blogs_Blog {
 			$include_sql  = " AND b.blog_id IN ({$blog_ids_sql})";
 		}
 
+		$bm_description = '';
 		if ( ! empty( $r['search_terms'] ) ) {
+			$bm_description =" LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_description ON (b.blog_id = bm_description.blog_id AND bm_description.meta_key = 'description') ";
 			$search_terms_like = '%' . bp_esc_like( $r['search_terms'] ) . '%';
 			$search_terms_sql  = $wpdb->prepare( 'AND (bm_name.meta_value LIKE %s OR bm_description.meta_value LIKE %s)', $search_terms_like, $search_terms_like );
 		} else {
@@ -277,12 +279,12 @@ class BP_Blogs_Blog {
 			  {$bp->blogs->table_name} b
 			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm ON (b.blog_id = bm.blog_id)
 			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_name ON (b.blog_id = bm_name.blog_id)
-			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_description ON (b.blog_id = bm_description.blog_id)
+			  ". $bm_description ."
 			  LEFT JOIN {$wpdb->base_prefix}blogs wb ON (b.blog_id = wb.blog_id)
 			  LEFT JOIN {$wpdb->users} u ON (b.user_id = u.ID)
 			WHERE
 			  wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql}
-			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name' AND bm_description.meta_key = 'description'
+			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name' 
 			  {$search_terms_sql} {$user_sql} {$include_sql} {$date_query_sql}
 			GROUP BY b.blog_id {$order_sql} {$pag_sql}
 		" );
@@ -294,10 +296,10 @@ class BP_Blogs_Blog {
 			  LEFT JOIN {$wpdb->base_prefix}blogs wb ON (b.blog_id = wb.blog_id)
 			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm ON (b.blog_id = bm.blog_id)
 			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_name ON (b.blog_id = bm_name.blog_id)
-			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_description ON (b.blog_id = bm_description.blog_id)
+			  ". $bm_description ."
 			WHERE
 			  wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql}
-			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name' AND bm_description.meta_key = 'description'
+			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name' 
 			  {$search_terms_sql} {$user_sql} {$include_sql} {$date_query_sql}
 		" );
 
