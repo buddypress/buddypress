@@ -24,6 +24,92 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP4735
+	 */
+	public function test_user_can_delete_group_activity() {
+		$u1             = self::factory()->user->create();
+		$u2             = self::factory()->user->create();
+		$original_user = bp_loggedin_user_id();
+
+		$this->set_current_user( $u1 );
+
+		$g = self::factory()->group->create();
+
+		$a = self::factory()->activity->create(
+			array(
+				'user_id'   => $u2,
+				'component' => buddypress()->groups->id,
+				'type'      => 'activity_update',
+				'item_id'   => $g,
+				'content'   => 'Random content',
+			)
+		);
+
+		// Activity for group creator.
+		$b = self::factory()->activity->create(
+			array(
+				'user_id'   => $u1,
+				'component' => buddypress()->groups->id,
+				'type'      => 'activity_update',
+				'item_id'   => $g,
+				'content'   => 'Random content',
+			)
+		);
+
+		// Add user to group.
+		self::add_user_to_group( $u2, $g );
+
+		$activity   = self::factory()->activity->get_object_by_id( $a );
+		$activity_b = self::factory()->activity->get_object_by_id( $b );
+
+		// User can delete his own activity.
+		$this->set_current_user( $u2 );
+		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
+
+		// Activity from site admins can't be deleted by non site admins.
+		$this->set_current_user( $u2 );
+		$this->assertFalse( bp_activity_user_can_delete( $activity_b ) );
+
+		// Activity from site admins can be deleted by other site admins.
+		$site_admin = self::factory()->user->create( array( 'role' => 'administrator' ) );
+		$this->set_current_user( $site_admin );
+		$this->assertTrue( bp_activity_user_can_delete( $activity_b ) );
+
+		// Group creator can delete activity.
+		$this->set_current_user( $u1 );
+		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
+
+		// Logged-out user can't delete activity.
+		$this->set_current_user( 0 );
+		$this->assertFalse( bp_activity_user_can_delete( $activity ) );
+
+		// Misc user can't delete activity.
+		$misc_user = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$this->set_current_user( $misc_user );
+		$this->assertFalse( bp_activity_user_can_delete( $activity ) );
+
+		// Misc group member can't delete activity.
+		$misc_user_2 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		self::add_user_to_group( $misc_user_2, $g );
+		$this->set_current_user( $misc_user_2 );
+		$this->assertFalse( bp_activity_user_can_delete( $activity ) );
+
+		// Group mod can delete activity.
+		$misc_user_3 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		self::add_user_to_group( $misc_user_3, $g, [ 'is_mod' => true ] );
+		$this->set_current_user( $misc_user_3 );
+		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
+
+		// Group admin can delete activity.
+		$misc_user_4 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		self::add_user_to_group( $misc_user_4, $g, [ 'is_admin' => true ] );
+		$this->set_current_user( $misc_user_4 );
+		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
+
+		$this->set_current_user( $original_user );
+	}
+
+	/**
 	 * Integration test to make sure meta_query is getting passed through
 	 *
 	 * @group bp_has_groups
