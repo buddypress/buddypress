@@ -2262,7 +2262,7 @@ class BP_Members_Admin {
 	public function signups_admin_index() {
 		global $plugin_page, $bp_members_signup_list_table;
 
-		$usersearch = ! empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
+		$usersearch = ! empty( $_REQUEST['s'] ) ? wp_unslash( $_REQUEST['s'] ) : '';
 
 		// Prepare the group items for display.
 		$bp_members_signup_list_table->prepare_items();
@@ -3161,7 +3161,7 @@ class BP_Members_Admin {
 	public function invitations_admin_index() {
 		global $plugin_page, $bp_members_invitations_list_table;
 
-		$usersearch = ! empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : '';
+		$usersearch = ! empty( $_REQUEST['s'] ) ? wp_unslash( $_REQUEST['s'] ) : '';
 
 		// Prepare the group items for display.
 		$bp_members_invitations_list_table->prepare_items();
