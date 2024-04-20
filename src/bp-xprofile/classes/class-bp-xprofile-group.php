@@ -346,10 +346,12 @@ class BP_XProfile_Group {
 			}
 		}
 
+		$signup_fields_order = bp_xprofile_get_signup_field_ids();
+
 		// Pull field objects from the cache.
 		$fields = array();
 		foreach ( $field_ids as $field_id ) {
-			if ( true === $r['signup_fields_only'] && ! in_array( $field_id, bp_xprofile_get_signup_field_ids(), true ) ) {
+			if ( true === $r['signup_fields_only'] && ! in_array( $field_id, $signup_fields_order, true ) ) {
 				continue;
 			}
 

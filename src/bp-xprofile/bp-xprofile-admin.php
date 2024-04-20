@@ -348,7 +348,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 										 * This function handles the WYSIWYG profile field
 										 * display for the xprofile admin setup screen.
 										 */
-										$signup_fields[ $_signup_field->id ] = bp_xprofile_admin_get_signup_field( $_signup_field, $signup_group, '' );
+										$signup_fields[ $_signup_field->id ] = bp_xprofile_admin_get_signup_field( $_signup_field, $signup_group );
 									}
 								}
 							}
