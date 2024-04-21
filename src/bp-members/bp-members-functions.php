@@ -1858,6 +1858,15 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		$user_login     = preg_replace( '/\s+/', '', sanitize_user( $user_login, true ) );
 		$user_email     = sanitize_email( $user_email );
 		$activation_key = wp_generate_password( 32, false );
+		$create_user    = false;
+
+		// @deprecated.
+		if ( defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) ) {
+			_doing_it_wrong( 'BP_SIGNUPS_SKIP_USER_CREATION', esc_html__( 'the `BP_SIGNUPS_SKIP_USER_CREATION` constant is deprecated as skipping user creation is now the default behavior.', 'buddypress' ), 'BuddyPress 14.0.0' );
+
+			// Creating a user is the opposite of skipping user creation.
+			$create_user = ! BP_SIGNUPS_SKIP_USER_CREATION;
+		}
 
 		/**
 		 * Filter here to keep creating a user when a registration is performed on regular WordPress configs.
@@ -1865,10 +1874,10 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		 * @since 14.0.0
 		 * @todo Fully deprecate in 15.0.0
 		 *
-		 * @param boolean $value True to carry on creating a user when a registration is performed.
-		 *                       False otherwise.
+		 * @param boolean $create_user True to carry on creating a user when a registration is performed.
+		 *                             False otherwise.
 		 */
-		if ( apply_filters( 'bp_signups_create_user', false ) ) {
+		if ( apply_filters( 'bp_signups_create_user', $create_user ) ) {
 			$user_id = BP_Signup::add_backcompat( $user_login, $user_password, $user_email, $usermeta );
 
 			if ( is_wp_error( $user_id ) ) {
