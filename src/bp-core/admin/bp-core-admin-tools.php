@@ -927,7 +927,7 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'debug' => defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'undefined',
 			),
 			'BP_SIGNUPS_SKIP_USER_CREATION' => array(
-				'label' => 'BP_SIGNUPS_SKIP_USER_CREATION',
+				'label' => 'BP_SIGNUPS_SKIP_USER_CREATION (deprecated)',
 				'value' => defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) && BP_SIGNUPS_SKIP_USER_CREATION ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
 				'debug' => defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) ? BP_SIGNUPS_SKIP_USER_CREATION : 'undefined',
 			),
