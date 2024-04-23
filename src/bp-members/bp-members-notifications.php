@@ -240,9 +240,9 @@ function members_screen_notification_settings() {
 		<thead>
 			<tr>
 				<th class="icon"></th>
-				<th class="title"><?php _ex( 'Members', 'Member settings on notification settings page', 'buddypress' ) ?></th>
-				<th class="yes"><?php _e( 'Yes', 'buddypress' ) ?></th>
-				<th class="no"><?php _e( 'No', 'buddypress' )?></th>
+				<th class="title"><?php echo esc_html_x( 'Members', 'Member settings on notification settings page', 'buddypress' ); ?></th>
+				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ) ?></th>
+				<th class="no"><?php esc_html_e( 'No', 'buddypress' )?></th>
 			</tr>
 		</thead>
 

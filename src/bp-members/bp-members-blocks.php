@@ -368,7 +368,8 @@ function bp_members_blocks_add_script_data() {
 		)
 	);
 
-	// Include the common JS template.
+	// Include the common JS template (Escaping is done there).
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_dynamic_template_part( 'assets/widgets/dynamic-members.php' );
 
 	// List the block specific props.

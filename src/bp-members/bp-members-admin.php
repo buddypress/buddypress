@@ -145,7 +145,7 @@ function bp_members_admin_format_xprofile_field_for_display( $value ) {
 function bp_members_admin_preview_signup_profile_info( $signup_field_labels = array(), $signup_object = null ) {
 
 	?>
-	<div id="signup-info-modal-<?php echo $signup_object->id; ?>" style="display:none;">
+	<div id="signup-info-modal-<?php echo esc_attr( $signup_object->id ); ?>" style="display:none;">
 		<h1><?php printf( '%1$s (%2$s)', esc_html( $signup_object->user_name ), esc_html( $signup_object->user_email ) ); ?></h1>
 
 		<?php if ( bp_is_active( 'xprofile' ) && isset( $signup_object->meta ) && $signup_field_labels ) :
@@ -165,7 +165,12 @@ function bp_members_admin_preview_signup_profile_info( $signup_field_labels = ar
 					$field_value = isset( $signup_object->meta[ "field_{$profile_field_id}" ] ) ? $signup_object->meta[ "field_{$profile_field_id}" ] : ''; ?>
 					<tr>
 						<td class="column-fields"><?php echo esc_html( $signup_field_labels[ $profile_field_id ] ); ?></td>
-						<td><?php echo bp_members_admin_format_xprofile_field_for_display( $field_value ); ?></td>
+						<td>
+							<?php
+							// phpcs:ignore WordPress.Security.EscapeOutput
+							echo bp_members_admin_format_xprofile_field_for_display( $field_value );
+							?>
+						</td>
 					</tr>
 				<?php endforeach; else: ?>
 					<tr>

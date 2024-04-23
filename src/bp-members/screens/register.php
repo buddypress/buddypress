@@ -197,16 +197,21 @@ function bp_core_screen_signup() {
 				 * @param string $fieldname The name of the signup field.
 				 */
 				add_action( 'bp_' . $fieldname . '_errors', function() use ( $error_message, $fieldname ) {
-					/**
-					 * Filter here to edit the error message about the invalid field value.
-					 *
-					 * @since 1.5.0
-					 * @since 8.0.0 Adds the `$fieldname` parameter.
-					 *
-					 * @param string $value     Error message wrapped in html.
-					 * @param string $fieldname The name of the signup field.
-					 */
-					echo apply_filters( 'bp_members_signup_error_message', "<div class=\"error\">" . $error_message . "</div>", $fieldname );
+					echo wp_kses(
+						/**
+						 * Filter here to edit the error message about the invalid field value.
+						 *
+						 * @since 1.5.0
+						 * @since 8.0.0 Adds the `$fieldname` parameter.
+						 *
+						 * @param string $value     Error message wrapped in html.
+						 * @param string $fieldname The name of the signup field.
+						 */
+						apply_filters( 'bp_members_signup_error_message', "<div class=\"error\">" . $error_message . "</div>", $fieldname ),
+						array(
+							'div' => array( 'class' => true ),
+						)
+					);
 				} );
 			}
 		} else {
