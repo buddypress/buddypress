@@ -1,19 +1,27 @@
 <?xml version="1.0"?>
-<ruleset>
-	<description>PHP_CodeSniffer standard for the BuddyPress plugin.</description>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="BuddyPress Coding Standards Configuration" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+	<description>BuddyPress Coding Standards Configuration.</description>
 
 	<!-- Load BuddyPress Coding standards -->
 	<rule ref="BuddyPress" />
 
-	<file>./bp-loader.php</file>
-	<file>./src/bp-xprofile</file>
+	<!--
+	Pass some flags to PHPCS:
+	p flag: Show progress of the run.
+	s flag: Show sniff codes in all reports.
+	v flag: Print processed files.
+	-->
+	<arg value="psv" />
 
-	<!-- We are starting with severity of 6. -->
+	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan. -->
+	<arg name="cache" value=".phpcs/cache.json" />
+
+	<!-- Check 20 files in parallel. -->
+	<arg name="parallel" value="20"/>
+
+	<!-- Set severity to 6 to see everything that isn't effectively turned off. -->
 	<arg name="severity" value="6"/>
 
 	<!-- What to exclude -->
 	<exclude-pattern>*/**/tests/</exclude-pattern>
-
-	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan. -->
-	<arg name="cache" value=".phpcs/cache.json" />
 </ruleset>
