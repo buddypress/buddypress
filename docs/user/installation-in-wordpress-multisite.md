@@ -13,9 +13,9 @@ Before diving into the installation process, it's important to ensure that your 
 ## Installation Options
 
 BuddyPress can be installed network-wide, affecting all sites in your multisite network or a single site within your network, allowing for a more tailored setup.
-Case 1: BuddyPress Root Blog on the Main Site
-Case 2: BuddyPress Root Blog on a Secondary Site
-Case 3: BuddyPress at an Individual Site
+- **Case 1:** BuddyPress Root Blog on the Main Site
+- **Case 2:** BuddyPress Root Blog on a Secondary Site
+- **Case 3:** BuddyPress at an Individual Site
 
 ### Network-wide Installation: BuddyPress Root Blog on the Main Site
 
