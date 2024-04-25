@@ -152,7 +152,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 
 		<?php if ( $page instanceof WP_Post ) : ?>
 			<label for="<?php bp_the_profile_field_input_name(); ?>">
-				<input <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+				<input <?php $this->output_edit_field_html_elements( $r ); ?>>
 				<?php
 				printf(
 					/* translators: %s: link to the page the user needs to accept the terms of. */
@@ -188,6 +188,8 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 			<div class="inside">
 				<p>
 					<?php
+					// Escaping is done in `wp_dropdown_pages()`.
+					// phpcs:ignore WordPress.Security.EscapeOutput
 					echo wp_dropdown_pages(
 						array(
 							'name'             => 'bp_xprofile_checkbox_acceptance_page',
@@ -297,17 +299,23 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 			);
 		}
 
-		/**
-		 * Filter here to edit the HTML output.
-		 *
-		 * @since 8.0.0
-		 *
-		 * @param string $html                The HTML output.
-		 * @param int    $field_id            The field ID.
-		 * @param array  $r                   The edit field HTML elements data.
-		 * @param int    $checkbox_acceptance The field value.
-		 */
-		echo apply_filters( 'bp_get_the_profile_field_checkbox_acceptance', $html, $field_id, $checkbox_acceptance );
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		echo apply_filters(
+			/**
+			 * Filter here to edit the HTML output.
+			 *
+			 * @since 8.0.0
+			 *
+			 * @param string $html                The HTML output.
+			 * @param int    $field_id            The field ID.
+			 * @param array  $r                   The edit field HTML elements data.
+			 * @param int    $checkbox_acceptance The field value.
+			 */
+			'bp_get_the_profile_field_checkbox_acceptance',
+			$html,
+			$field_id,
+			$checkbox_acceptance
+		);
 	}
 
 	/**

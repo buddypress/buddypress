@@ -273,7 +273,7 @@ add_action( 'xprofile_updated_profile', 'bp_xprofile_updated_profile_activity', 
 function xprofile_activity_filter_options() {
 	?>
 
-	<option value="updated_profile"><?php _e( 'Profile Updates', 'buddypress' ) ?></option>
+	<option value="updated_profile"><?php esc_html_e( 'Profile Updates', 'buddypress' ) ?></option>
 
 	<?php
 }
