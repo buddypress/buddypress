@@ -1573,16 +1573,16 @@ class BP_XProfile_Field {
 		?>
 
 		<div id="field-type-member-types" class="postbox">
-			<h2><?php _e( 'Member Types', 'buddypress' ); ?></h2>
+			<h2><?php esc_html_e( 'Member Types', 'buddypress' ); ?></h2>
 			<div class="inside">
-				<p class="description"><?php _e( 'This field should be available to:', 'buddypress' ); ?></p>
+				<p class="description"><?php esc_html_e( 'This field should be available to:', 'buddypress' ); ?></p>
 
 				<ul>
 					<?php foreach ( $member_types as $member_type ) : ?>
 					<li>
-						<label for="member-type-<?php echo $member_type->labels['name']; ?>">
-							<input name="member-types[]" id="member-type-<?php echo $member_type->labels['name']; ?>" class="member-type-selector" type="checkbox" value="<?php echo $member_type->name; ?>" <?php checked( in_array( $member_type->name, $field_member_types ) ); ?>/>
-							<?php echo $member_type->labels['name']; ?>
+						<label for="member-type-<?php echo esc_attr( $member_type->labels['name'] ); ?>">
+							<input name="member-types[]" id="member-type-<?php echo esc_attr( $member_type->labels['name'] ); ?>" class="member-type-selector" type="checkbox" value="<?php echo esc_attr( $member_type->name ); ?>" <?php checked( in_array( $member_type->name, $field_member_types ) ); ?>/>
+							<?php echo esc_html( $member_type->labels['name'] ); ?>
 						</label>
 					</li>
 					<?php endforeach; ?>
@@ -1590,12 +1590,12 @@ class BP_XProfile_Field {
 					<li>
 						<label for="member-type-none">
 							<input name="member-types[]" id="member-type-none" class="member-type-selector" type="checkbox" value="null" <?php checked( in_array( 'null', $field_member_types ) ); ?>/>
-							<?php _e( 'Users with no member type', 'buddypress' ); ?>
+							<?php esc_html_e( 'Users with no member type', 'buddypress' ); ?>
 						</label>
 					</li>
 
 				</ul>
-				<p class="description member-type-none-notice<?php if ( ! empty( $field_member_types ) ) : ?> hide<?php endif; ?>"><?php _e( 'Unavailable to all members.', 'buddypress' ) ?></p>
+				<p class="description member-type-none-notice<?php if ( ! empty( $field_member_types ) ) : ?> hide<?php endif; ?>"><?php esc_html_e( 'Unavailable to all members.', 'buddypress' ) ?></p>
 			</div>
 
 			<input type="hidden" name="has-member-types" value="1" />

@@ -430,7 +430,7 @@ abstract class BP_XProfile_Field_Type {
 							<input type="text" name="<?php echo esc_attr( "{$type}_option[{$j}]" ); ?>" id="<?php echo esc_attr( "{$type}_option{$j}" ); ?>" value="<?php echo esc_attr( stripslashes( $options[ $i ]->name ) ); ?>" />
 							<label for="<?php echo esc_attr( "{$type}_option{$default_name}" ); ?>">
 								<input type="<?php echo esc_attr( $control_type ); ?>" id="<?php echo esc_attr( "{$type}_option{$default_name}" ); ?>" name="<?php echo esc_attr( "isDefault_{$type}_option{$default_name}" ); ?>" <?php checked( $options[ $i ]->is_default_option, true ); ?> value="<?php echo esc_attr( $j ); ?>" />
-								<?php _e( 'Default Value', 'buddypress' ); ?>
+								<?php esc_html_e( 'Default Value', 'buddypress' ); ?>
 							</label>
 
 							<?php if ( 1 !== $j ) : ?>
@@ -564,5 +564,18 @@ abstract class BP_XProfile_Field_Type {
 		$r = (array) apply_filters( 'bp_xprofile_field_edit_html_elements', $r, get_class( $this ) );
 
 		return bp_get_form_field_attributes( sanitize_key( bp_get_the_profile_field_name() ), $r );
+	}
+
+	/**
+	 * Output a sanitized and escaped string of the edit field's HTML elements and attributes.
+	 *
+	 * @since 12.4.1
+	 *
+	 * @param array $properties Optional key/value array of attributes for this edit field.
+	 */
+	protected function output_edit_field_html_elements( array $properties = array() ) {
+		// Escaping is done in `bp_get_form_field_attributes()`.
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		echo $this->get_edit_field_html_elements( $properties );
 	}
 }
