@@ -1329,6 +1329,7 @@ class BP_Group_Extension {
 		$screen = ob_get_contents();
 		ob_end_clean();
 
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->maybe_add_submit_button( $screen );
 
 		$this->nonce_field( 'edit' );
@@ -1425,9 +1426,9 @@ class BP_Group_Extension {
 
 		return $screen . sprintf(
 			'<div id="%s"><input type="submit" name="save" value="%s" id="%s"></div>',
-			'bp-group-edit-' . $this->slug . '-submit-wrapper',
-			$this->screens['edit']['submit_text'],
-			'bp-group-edit-' . $this->slug . '-submit'
+			'bp-group-edit-' . esc_attr( $this->slug ) . '-submit-wrapper',
+			esc_attr( $this->screens['edit']['submit_text'] ),
+			'bp-group-edit-' . esc_attr( $this->slug ) . '-submit'
 		);
 	}
 

@@ -329,7 +329,7 @@ function groups_edit_base_group_details( $args = array() ) {
 
 	// Backward compatibility with old method of passing arguments.
 	if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
-		_deprecated_argument( __METHOD__, '2.9.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument( __METHOD__, '2.9.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
 		$old_args_keys = array(
 			0 => 'group_id',
@@ -812,7 +812,7 @@ function groups_get_group_members( $args = array() ) {
 	// Backward compatibility with old method of passing arguments.
 	if ( ! is_array( $args ) || count( $function_args ) > 1 ) {
 		/* translators: 1: the name of the method. 2: the name of the file. */
-		_deprecated_argument( __METHOD__, '2.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument( __METHOD__, '2.0.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
 		$old_args_keys = array(
 			0 => 'group_id',
@@ -1831,7 +1831,7 @@ function groups_delete_invite( $user_id, $group_id, $inviter_id = false ) {
 function groups_send_invites( ...$args ) {
 	// Backward compatibility with old method of passing arguments.
 	if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
-		_deprecated_argument( __METHOD__, '5.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument( __METHOD__, '5.0.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
 		$old_args_keys = array(
 			0 => 'inviter_id',
@@ -2047,8 +2047,9 @@ function groups_promote_member( $user_id, $group_id, $status ) {
  */
 function groups_demote_member( $user_id, $group_id ) {
 
-	if ( ! bp_is_item_admin() )
+	if ( ! bp_is_item_admin() ) {
 		return false;
+	}
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
@@ -2076,8 +2077,9 @@ function groups_demote_member( $user_id, $group_id ) {
  */
 function groups_ban_member( $user_id, $group_id ) {
 
-	if ( ! bp_is_item_admin() )
+	if ( ! bp_is_item_admin() ) {
 		return false;
+	}
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
@@ -2105,8 +2107,9 @@ function groups_ban_member( $user_id, $group_id ) {
  */
 function groups_unban_member( $user_id, $group_id ) {
 
-	if ( ! bp_is_item_admin() )
+	if ( ! bp_is_item_admin() ) {
 		return false;
+	}
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
@@ -2175,7 +2178,7 @@ function groups_remove_member( $user_id, $group_id ) {
 function groups_send_membership_request( ...$args ) {
 	// Backward compatibility with old method of passing arguments.
 	if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
-		_deprecated_argument( __METHOD__, '5.0.0', sprintf( __( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument( __METHOD__, '5.0.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 
 		$old_args_keys = array(
 			0 => 'user_id',
@@ -2250,7 +2253,7 @@ function groups_accept_membership_request( $membership_id, $user_id = 0, $group_
 
 	if ( ! empty( $membership_id ) ) {
 		/* translators: 1: the name of the method. 2: the name of the file. */
-		_deprecated_argument( __METHOD__, '5.0.0', sprintf( __( 'Argument `membership_id` passed to %1$s is deprecated. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument( __METHOD__, '5.0.0', sprintf( esc_html__( 'Argument `membership_id` passed to %1$s is deprecated. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 	}
 
 	if ( ! $user_id || ! $group_id ) {
@@ -2284,7 +2287,7 @@ function groups_reject_membership_request( $membership_id, $user_id = 0, $group_
 
 	if ( ! empty( $membership_id ) ){
 		/* translators: 1: the name of the method. 2: the name of the file. */
-		_deprecated_argument( __METHOD__, '5.0.0', sprintf( __( 'Argument `membership_id` passed to %1$s is deprecated. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument( __METHOD__, '5.0.0', sprintf( esc_html__( 'Argument `membership_id` passed to %1$s is deprecated. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 	}
 
 	if ( ! groups_delete_membership_request( false, $user_id, $group_id ) ) {
@@ -2322,7 +2325,7 @@ function groups_reject_membership_request( $membership_id, $user_id = 0, $group_
 function groups_delete_membership_request( $membership_id, $user_id = 0, $group_id = 0 ) {
 	if ( ! empty( $membership_id ) ){
 		/* translators: 1: the name of the method. 2: the name of the file. */
-		_deprecated_argument( __METHOD__, '5.0.0', sprintf( __( 'Argument `membership_id` passed to %1$s is deprecated. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+		_deprecated_argument( __METHOD__, '5.0.0', sprintf( esc_html__( 'Argument `membership_id` passed to %1$s is deprecated. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
 	}
 
 	if ( empty( $user_id ) || empty( $group_id ) ) {
@@ -2642,7 +2645,7 @@ add_action( 'bp_groups_delete_group', 'bp_groups_update_orphaned_groups_on_group
  * @since 7.0.0
  */
 function bp_group_type_tax_name() {
-	echo bp_get_group_type_tax_name();
+	echo esc_html( bp_get_group_type_tax_name() );
 }
 
 	/**
@@ -2877,7 +2880,7 @@ function bp_groups_register_group_type( $group_type, $args = array() ) {
 	$bp = buddypress();
 
 	if ( isset( $bp->groups->types[ $group_type ] ) ) {
-		return new WP_Error( 'bp_group_type_exists', __( 'Group type already exists.', 'buddypress' ), $group_type );
+		return new WP_Error( 'bp_group_type_exists', esc_html__( 'Group type already exists.', 'buddypress' ), $group_type );
 	}
 
 	$r = bp_parse_args(
