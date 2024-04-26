@@ -348,6 +348,7 @@ function bp_groups_blocks_add_script_data() {
 	);
 
 	// Include the common JS template.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_dynamic_template_part( 'assets/widgets/dynamic-groups.php' );
 
 	// List the block specific props.

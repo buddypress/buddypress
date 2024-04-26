@@ -250,7 +250,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since 1.7.0
 	 */
 	public function no_items() {
-		_e( 'No groups found.', 'buddypress' );
+		esc_html_e( 'No groups found.', 'buddypress' );
 	}
 
 	/**
@@ -261,12 +261,14 @@ class BP_Groups_List_Table extends WP_List_Table {
 	public function display() {
 		$this->display_tablenav( 'top' ); ?>
 
-		<h2 class="screen-reader-text"><?php
-			/* translators: accessibility text */
-			_e( 'Groups list', 'buddypress' );
-		?></h2>
+		<h2 class="screen-reader-text">
+			<?php
+				/* translators: accessibility text */
+				esc_html_e( 'Groups list', 'buddypress' );
+			?>
+		</h2>
 
-		<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
+		<table class="wp-list-table <?php echo esc_attr( implode( ' ', $this->get_table_classes() ) ); ?>" cellspacing="0">
 			<thead>
 				<tr>
 					<?php $this->print_column_headers(); ?>
@@ -333,10 +335,14 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 * @param array  $row_classes Array of classes to apply to the row.
 		 * @param string $value       ID of the current group being displayed.
 		 */
-		$row_classes = apply_filters( 'bp_groups_admin_row_class', $row_classes, $item['id'] );
+		$row_classes = array_map( 'sanitize_html_class', apply_filters( 'bp_groups_admin_row_class', $row_classes, $item['id'] ) );
 		$row_class = ' class="' . implode( ' ', $row_classes ) . '"';
 
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo '<tr' . $row_class . ' id="group-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['id'] ) . '">';
+
+		// Escapes are made into `self::single_row_columns()`.
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->single_row_columns( $item );
 		echo '</tr>';
 
@@ -351,10 +357,12 @@ class BP_Groups_List_Table extends WP_List_Table {
 	public function get_views() {
 		$url_base = bp_get_admin_url( 'admin.php?page=bp-groups' ); ?>
 
-		<h2 class="screen-reader-text"><?php
-			/* translators: accessibility text */
-			_e( 'Filter groups list', 'buddypress' );
-		?></h2>
+		<h2 class="screen-reader-text">
+			<?php
+				/* translators: accessibility text */
+				esc_html_e( 'Filter groups list', 'buddypress' );
+			?>
+		</h2>
 
 		<ul class="subsubsub">
 			<li class="all">
@@ -364,7 +372,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 						esc_html__( 'All %s', 'buddypress' ),
 						sprintf(
 							'<span class="count">(%s)</span>',
-							number_format_i18n( $this->group_counts['all'] )
+							esc_html( number_format_i18n( $this->group_counts['all'] ) )
 						)
 					); ?>
 				</a> |
@@ -373,10 +381,10 @@ class BP_Groups_List_Table extends WP_List_Table {
 				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'public', $url_base ) ); ?>" class="<?php if ( 'public' === $this->view ) echo 'current'; ?>">
 					<?php printf(
 						/* translators: %s is the placeholder for the count html `<span class="count"/>` */
-						_n( 'Public %s', 'Public %s', $this->group_counts['public'], 'buddypress' ),
+						esc_html( _n( 'Public %s', 'Public %s', $this->group_counts['public'], 'buddypress' ) ),
 						sprintf(
 							'<span class="count">(%s)</span>',
-							number_format_i18n( $this->group_counts['public'] )
+							esc_html( number_format_i18n( $this->group_counts['public'] ) )
 						)
 					); ?>
 				</a> |
@@ -385,10 +393,10 @@ class BP_Groups_List_Table extends WP_List_Table {
 				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'private', $url_base ) ); ?>" class="<?php if ( 'private' === $this->view ) echo 'current'; ?>">
 					<?php printf(
 						/* translators: %s is the placeholder for the count html `<span class="count"/>` */
-						_n( 'Private %s', 'Private %s', $this->group_counts['private'], 'buddypress' ),
+						esc_html( _n( 'Private %s', 'Private %s', $this->group_counts['private'], 'buddypress' ) ),
 						sprintf(
 							'<span class="count">(%s)</span>',
-							number_format_i18n( $this->group_counts['private'] )
+							esc_html( number_format_i18n( $this->group_counts['private'] ) )
 						)
 					); ?>
 				</a> |
@@ -397,10 +405,10 @@ class BP_Groups_List_Table extends WP_List_Table {
 				<a href="<?php echo esc_url( add_query_arg( 'group_status', 'hidden', $url_base ) ); ?>" class="<?php if ( 'hidden' === $this->view ) echo 'current'; ?>">
 					<?php printf(
 						/* translators: %s is the placeholder for the count html tag */
-						_n( 'Hidden %s', 'Hidden %s', $this->group_counts['hidden'], 'buddypress' ),
+						esc_html( _n( 'Hidden %s', 'Hidden %s', $this->group_counts['hidden'], 'buddypress' ) ),
 						sprintf(
 							'<span class="count">(%s)</span>',
-							number_format_i18n( $this->group_counts['hidden'] )
+							esc_html( number_format_i18n( $this->group_counts['hidden'] ) )
 						)
 					); ?>
 				</a>
@@ -545,7 +553,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 */
 	public function column_cb( $item = array() ) {
 		/* translators: accessibility text */
-		printf( '<label class="screen-reader-text" for="gid-%1$d">' . __( 'Select group %1$d', 'buddypress' ) . '</label><input type="checkbox" name="gid[]" value="%1$d" id="gid-%1$d" />', $item['id'] );
+		printf( '<label class="screen-reader-text" for="gid-%1$d">' . esc_html__( 'Select group %1$d', 'buddypress' ) . '</label><input type="checkbox" name="gid[]" value="%1$d" id="gid-%1$d" />', intval( $item['id'] ) );
 	}
 
 	/**
@@ -638,7 +646,21 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		$content = sprintf( '<strong><a href="%s">%s</a></strong>', esc_url( $edit_url ), $group_name );
 
-		echo $avatar . ' ' . $content . ' ' . $this->row_actions( $actions );
+		echo wp_kses(
+			$avatar,
+			array(
+				'img' => array(
+					'alt'    => true,
+					'src'    => true,
+					'srcset' => true,
+					'class'  => true,
+					'height' => true,
+					'width'  => true,
+				)
+			)
+		);
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		echo ' ' . $content . ' ' . $this->row_actions( $actions );
 	}
 
 	/**
@@ -650,15 +672,19 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 */
 	public function column_description( $item = array() ) {
 
-		/**
-		 * Filters the markup for the Description column.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $value Markup for the Description column.
-		 * @param array  $item  The current group item in the loop.
-		 */
-		echo apply_filters_ref_array( 'bp_get_group_description', array( $item['description'], $item ) );
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		echo apply_filters_ref_array(
+			/**
+			 * Filters the markup for the Description column.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $value Markup for the Description column.
+			 * @param array  $item  The current group item in the loop.
+			 */
+			'bp_get_group_description',
+			array( $item['description'], $item )
+		);
 	}
 
 	/**
@@ -694,7 +720,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 * @param string $status_desc Markup for the Status column.
 		 * @parma array  $item        The current group item in the loop.
 		 */
-		echo apply_filters_ref_array( 'bp_groups_admin_get_group_status', array( $status_desc, $item ) );
+		echo esc_html( apply_filters_ref_array( 'bp_groups_admin_get_group_status', array( $status_desc, $item ) ) );
 	}
 
 	/**
@@ -714,9 +740,9 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 * @since 1.7.0
 		 *
 		 * @param int   $count Markup for the number of Members column.
-		 * @parma array $item  The current group item in the loop.
+		 * @param array $item  The current group item in the loop.
 		 */
-		echo apply_filters_ref_array( 'bp_groups_admin_get_group_member_count', array( (int) $count, $item ) );
+		echo intval( apply_filters_ref_array( 'bp_groups_admin_get_group_member_count', array( $count, $item ) ) );
 	}
 
 	/**
@@ -735,9 +761,9 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 * @since 1.7.0
 		 *
 		 * @param string $last_active Markup for the Last Active column.
-		 * @parma array  $item        The current group item in the loop.
+		 * @param array  $item        The current group item in the loop.
 		 */
-		echo apply_filters_ref_array( 'bp_groups_admin_get_group_last_active', array( $last_active, $item ) );
+		echo esc_html( apply_filters_ref_array( 'bp_groups_admin_get_group_last_active', array( $last_active, $item ) ) );
 	}
 
 	/**
@@ -804,15 +830,19 @@ class BP_Groups_List_Table extends WP_List_Table {
 		) );
 		remove_filter( 'bp_get_group_type_directory_permalink', array( $this, 'group_type_permalink_use_admin_filter' ), 10 );
 
-		/**
-		 * Filters the markup for the Group Type column.
-		 *
-		 * @since 2.7.0
-		 *
-		 * @param string $retval Markup for the Group Type column.
-		 * @parma array  $item   The current group item in the loop.
-		 */
-		echo apply_filters_ref_array( 'bp_groups_admin_get_group_type_column', array( $retval, $item ) );
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		echo apply_filters_ref_array(
+			/**
+			 * Filters the markup for the Group Type column.
+			 *
+			 * @since 2.7.0
+			 *
+			 * @param string $retval Markup for the Group Type column.
+			 * @parma array  $item   The current group item in the loop.
+			 */
+			'bp_groups_admin_get_group_type_column',
+			array( $retval, $item )
+		);
 	}
 
 	/**
@@ -849,9 +879,9 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$types = bp_groups_get_group_types( array(), 'objects' );
 		?>
 		<div class="alignleft actions">
-			<label class="screen-reader-text" for="<?php echo $id_name; ?>"><?php _e( 'Change group type to&hellip;', 'buddypress' ) ?></label>
-			<select name="<?php echo $id_name; ?>" id="<?php echo $id_name; ?>" style="display:inline-block;float:none;">
-				<option value=""><?php _e( 'Change group type to&hellip;', 'buddypress' ) ?></option>
+			<label class="screen-reader-text" for="<?php echo esc_attr( $id_name ); ?>"><?php esc_html_e( 'Change group type to&hellip;', 'buddypress' ) ?></label>
+			<select name="<?php echo esc_attr( $id_name ); ?>" id="<?php echo esc_attr( $id_name ); ?>" style="display:inline-block;float:none;">
+				<option value=""><?php esc_html_e( 'Change group type to&hellip;', 'buddypress' ) ?></option>
 
 				<?php foreach( $types as $type ) : ?>
 
@@ -859,7 +889,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 				<?php endforeach; ?>
 
-				<option value="remove_group_type"><?php _e( 'No Group Type', 'buddypress' ) ?></option>
+				<option value="remove_group_type"><?php esc_html_e( 'No Group Type', 'buddypress' ) ?></option>
 
 			</select>
 			<?php
