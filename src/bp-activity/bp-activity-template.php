@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  */
 function bp_activity_slug() {
-	echo bp_get_activity_slug();
+	echo esc_url( bp_get_activity_slug() );
 }
 	/**
 	 * Return the activity component slug.
@@ -46,7 +46,7 @@ function bp_activity_slug() {
  *
  */
 function bp_activity_root_slug() {
-	echo bp_get_activity_root_slug();
+	echo esc_url( bp_get_activity_root_slug() );
 }
 	/**
 	 * Return the activity component root slug.
@@ -457,7 +457,7 @@ function bp_activity_load_more_link() {
  * @since 1.0.0
  */
 function bp_activity_pagination_count() {
-	echo bp_get_activity_pagination_count();
+	echo esc_html( bp_get_activity_pagination_count() );
 }
 
 	/**
@@ -494,6 +494,8 @@ function bp_activity_pagination_count() {
  *
  */
 function bp_activity_pagination_links() {
+	// Escaping is done in WordPress's `paginate_links()` function.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_pagination_links();
 }
 
@@ -560,7 +562,7 @@ function bp_activity_has_more_items() {
  *
  */
 function bp_activity_count() {
-	echo bp_get_activity_count();
+	echo intval( bp_get_activity_count() );
 }
 
 	/**
@@ -592,7 +594,7 @@ function bp_activity_count() {
  *
  */
 function bp_activity_per_page() {
-	echo bp_get_activity_per_page();
+	echo intval( bp_get_activity_per_page() );
 }
 
 	/**
@@ -624,7 +626,7 @@ function bp_activity_per_page() {
  *
  */
 function bp_activity_id() {
-	echo bp_get_activity_id();
+	echo intval( bp_get_activity_id() );
 }
 
 	/**
@@ -656,7 +658,7 @@ function bp_activity_id() {
  *
  */
 function bp_activity_item_id() {
-	echo bp_get_activity_item_id();
+	echo intval( bp_get_activity_item_id() );
 }
 
 	/**
@@ -688,7 +690,7 @@ function bp_activity_item_id() {
  *
  */
 function bp_activity_secondary_item_id() {
-	echo bp_get_activity_secondary_item_id();
+	echo intval( bp_get_activity_secondary_item_id() );
 }
 
 	/**
@@ -720,7 +722,7 @@ function bp_activity_secondary_item_id() {
  *
  */
 function bp_activity_date_recorded() {
-	echo bp_get_activity_date_recorded();
+	echo esc_html( bp_get_activity_date_recorded() );
 }
 
 	/**
@@ -752,7 +754,7 @@ function bp_activity_date_recorded() {
  *
  */
 function bp_activity_member_display_name() {
-	echo bp_get_activity_member_display_name();
+	echo esc_html( bp_get_activity_member_display_name() );
 }
 
 	/**
@@ -788,7 +790,7 @@ function bp_activity_member_display_name() {
  *
  */
 function bp_activity_object_name() {
-	echo bp_get_activity_object_name();
+	echo esc_html( bp_get_activity_object_name() );
 }
 
 	/**
@@ -820,7 +822,7 @@ function bp_activity_object_name() {
  *
  */
 function bp_activity_type() {
-	echo bp_get_activity_type();
+	echo esc_html( bp_get_activity_type() );
 }
 
 	/**
@@ -877,7 +879,7 @@ function bp_activity_type_part() {
 	 *       remove redundant echo
 	 *
 	 */
-	function bp_activity_action_name() { echo bp_activity_type(); }
+	function bp_activity_action_name() { bp_activity_type(); }
 
 	/**
 	 * Return the activity type.
@@ -901,7 +903,7 @@ function bp_activity_type_part() {
  *
  */
 function bp_activity_user_id() {
-	echo bp_get_activity_user_id();
+	echo intval( bp_get_activity_user_id() );
 }
 
 	/**
@@ -933,7 +935,7 @@ function bp_activity_user_id() {
  *
  */
 function bp_activity_user_link() {
-	echo bp_get_activity_user_link();
+	echo esc_url( bp_get_activity_user_link() );
 }
 
 	/**
@@ -974,6 +976,7 @@ function bp_activity_user_link() {
  * @param array|string $args See {@link bp_get_activity_avatar()} for description.
  */
 function bp_activity_avatar( $args = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_avatar( $args );
 }
 	/**
@@ -1015,10 +1018,10 @@ function bp_activity_avatar( $args = '' ) {
 		$dn_default  = isset( $current_activity_item->display_name ) ? $current_activity_item->display_name : '';
 
 		// Prepend some descriptive text to alt.
-		$alt_default = __( 'Profile picture', 'buddypress' );
+		$alt_default = esc_html__( 'Profile picture', 'buddypress' );
 		if ( ! empty( $dn_default ) ) {
 			/* translators: %s: member name */
-			$alt_default = sprintf( __( 'Profile picture of %s', 'buddypress' ), $dn_default );
+			$alt_default = sprintf( esc_html__( 'Profile picture of %s', 'buddypress' ), $dn_default );
 		}
 
 		$defaults = array(
@@ -1034,22 +1037,20 @@ function bp_activity_avatar( $args = '' ) {
 			$defaults
 		);
 
-		extract( $r, EXTR_SKIP );
-
-		if ( !isset( $height ) && !isset( $width ) ) {
+		if ( ! isset( $r['height'] ) && ! isset( $r['width'] ) ) {
 
 			// Backpat.
 			if ( isset( $bp->avatar->full->height ) || isset( $bp->avatar->thumb->height ) ) {
-				$height = ( 'full' == $type ) ? $bp->avatar->full->height : $bp->avatar->thumb->height;
+				$r['height'] = ( 'full' == $r['type'] ) ? $bp->avatar->full->height : $bp->avatar->thumb->height;
 			} else {
-				$height = 20;
+				$r['height'] = 20;
 			}
 
 			// Backpat.
 			if ( isset( $bp->avatar->full->width ) || isset( $bp->avatar->thumb->width ) ) {
-				$width = ( 'full' == $type ) ? $bp->avatar->full->width : $bp->avatar->thumb->width;
+				$r['width'] = ( 'full' == $r['type'] ) ? $bp->avatar->full->width : $bp->avatar->thumb->width;
 			} else {
-				$width = 20;
+				$r['width'] = 20;
 			}
 		}
 
@@ -1065,7 +1066,11 @@ function bp_activity_avatar( $args = '' ) {
 		 * @param string $component Component being displayed.
 		 */
 		$object  = apply_filters( 'bp_get_activity_avatar_object_' . $current_activity_item->component, 'user' );
-		$item_id = !empty( $user_id ) ? $user_id : $current_activity_item->user_id;
+		$item_id = $current_activity_item->user_id;
+
+		if ( ! empty( $r['user_id'] ) ) {
+			$item_id = (int) $r['user_id'];
+		}
 
 		/**
 		 * Filters the activity avatar item ID.
@@ -1077,8 +1082,8 @@ function bp_activity_avatar( $args = '' ) {
 		$item_id = apply_filters( 'bp_get_activity_avatar_item_id', $item_id );
 
 		// If this is a user object pass the users' email address for Gravatar so we don't have to prefetch it.
-		if ( 'user' == $object && empty( $user_id ) && empty( $email ) && isset( $current_activity_item->user_email ) ) {
-			$email = $current_activity_item->user_email;
+		if ( 'user' == $object && empty( $r['user_id'] ) && empty( $r['email'] ) && isset( $current_activity_item->user_email ) ) {
+			$r['email'] = $current_activity_item->user_email;
 		}
 
 		/**
@@ -1088,16 +1093,20 @@ function bp_activity_avatar( $args = '' ) {
 		 *
 		 * @param array $value HTML image element containing the activity avatar.
 		 */
-		return apply_filters( 'bp_get_activity_avatar', bp_core_fetch_avatar( array(
-			'item_id' => $item_id,
-			'object'  => $object,
-			'type'    => $type,
-			'alt'     => $alt,
-			'class'   => $class,
-			'width'   => $width,
-			'height'  => $height,
-			'email'   => $email
-		) ) );
+		return apply_filters( 'bp_get_activity_avatar',
+			bp_core_fetch_avatar(
+				array(
+					'item_id' => $item_id,
+					'object'  => $object,
+					'type'    => $r['type'],
+					'alt'     => $r['alt'],
+					'class'   => $r['class'],
+					'width'   => $r['width'],
+					'height'  => $r['height'],
+					'email'   => $r['email'],
+				)
+			)
+		);
 	}
 
 /**
@@ -1110,6 +1119,7 @@ function bp_activity_avatar( $args = '' ) {
  * @param array|string $args See {@link bp_get_activity_secondary_avatar} for description.
  */
 function bp_activity_secondary_avatar( $args = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_secondary_avatar( $args );
 }
 
@@ -1150,8 +1160,6 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			)
 		);
 
-		extract( $r, EXTR_SKIP );
-
 		// Set item_id and object (default to user).
 		switch ( $activities_template->activity->component ) {
 			case 'groups' :
@@ -1171,12 +1179,12 @@ function bp_activity_secondary_avatar( $args = '' ) {
 					$name  = $group->name;
 				}
 
-				if ( empty( $alt ) ) {
-					$alt = __( 'Group logo', 'buddypress' );
+				if ( empty( $r['alt'] ) ) {
+					$r['alt'] = esc_html__( 'Group logo', 'buddypress' );
 
 					if ( ! empty( $name ) ) {
 						/* translators: %s: the Group name */
-						$alt = sprintf( __( 'Group logo of %s', 'buddypress' ), $name );
+						$r['alt'] = sprintf( esc_html__( 'Group logo of %s', 'buddypress' ), $name );
 					}
 				}
 
@@ -1186,9 +1194,9 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$item_id = $activities_template->activity->item_id;
 				$link    = home_url();
 
-				if ( empty( $alt ) ) {
+				if ( empty( $r['alt'] ) ) {
 					/* translators: %s: the blog name */
-					$alt = sprintf( __( 'Profile picture of the author of the site %s', 'buddypress' ), get_blog_option( $item_id, 'blogname' ) );
+					$r['alt'] = sprintf( esc_html__( 'Profile picture of the author of the site %s', 'buddypress' ), esc_html( get_blog_option( $item_id, 'blogname' ) ) );
 				}
 
 				break;
@@ -1197,21 +1205,21 @@ function bp_activity_secondary_avatar( $args = '' ) {
 				$item_id = $activities_template->activity->secondary_item_id;
 				$link    = bp_core_get_userlink( $item_id, false, true );
 
-				if ( empty( $alt ) ) {
+				if ( empty( $r['alt'] ) ) {
 					/* translators: %s: member name */
-					$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $activities_template->activity->secondary_item_id ) );
+					$r['alt'] = sprintf( esc_html__( 'Profile picture of %s', 'buddypress' ), bp_core_get_user_displayname( $activities_template->activity->secondary_item_id ) );
 				}
 
 				break;
 			default :
-				$object  = 'user';
-				$item_id = $activities_template->activity->user_id;
-				$email   = $activities_template->activity->user_email;
-				$link    = bp_core_get_userlink( $item_id, false, true );
+				$object     = 'user';
+				$item_id    = $activities_template->activity->user_id;
+				$r['email'] = $activities_template->activity->user_email;
+				$link       = bp_core_get_userlink( $item_id, false, true );
 
-				if ( empty( $alt ) ) {
+				if ( empty( $r['alt'] ) ) {
 					/* translators: %s: member name */
-					$alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), $activities_template->activity->display_name );
+					$r['alt'] = sprintf( esc_html__( 'Profile picture of %s', 'buddypress' ), esc_html( $activities_template->activity->display_name ) );
 				}
 
 				break;
@@ -1228,7 +1236,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
 		 *
 		 * @param string $object Component being displayed.
 		 */
-		$object  = apply_filters( 'bp_get_activity_secondary_avatar_object_' . $activities_template->activity->component, $object );
+		$object = apply_filters( 'bp_get_activity_secondary_avatar_object_' . $activities_template->activity->component, $object );
 
 		/**
 		 * Filters the activity secondary avatar item ID.
@@ -1245,18 +1253,20 @@ function bp_activity_secondary_avatar( $args = '' ) {
 		}
 
 		// Get the avatar.
-		$avatar = bp_core_fetch_avatar( array(
-			'item_id' => $item_id,
-			'object'  => $object,
-			'type'    => $type,
-			'alt'     => $alt,
-			'class'   => $class,
-			'width'   => $width,
-			'height'  => $height,
-			'email'   => $email
-		) );
+		$avatar = bp_core_fetch_avatar(
+			array(
+				'item_id' => $item_id,
+				'object'  => $object,
+				'type'    => $r['type'],
+				'alt'     => $r['alt'],
+				'class'   => $r['class'],
+				'width'   => $r['width'],
+				'height'  => $r['height'],
+				'email'   => $r['email'],
+			)
+		);
 
-		if ( !empty( $linked ) ) {
+		if ( ! empty( $r['linked'] ) ) {
 
 			/**
 			 * Filters the secondary avatar link for current activity.
@@ -1278,8 +1288,8 @@ function bp_activity_secondary_avatar( $args = '' ) {
 			$avatar = apply_filters( 'bp_get_activity_secondary_avatar', $avatar );
 
 			return sprintf( '<a href="%s" class="%s">%s</a>',
-				$link,
-				$link_class,
+				esc_url( $link ),
+				esc_attr( $r['link_class'] ),
 				$avatar
 			);
 		}
@@ -1296,7 +1306,28 @@ function bp_activity_secondary_avatar( $args = '' ) {
  * @param array $args See bp_get_activity_action().
  */
 function bp_activity_action( $args = array() ) {
-	echo bp_get_activity_action( $args );
+	echo wp_kses(
+		bp_get_activity_action( $args ),
+		array(
+			'p'    => true,
+			'a'    => array(
+				'href'            => true,
+				'class'           => true,
+				'data-bp-tooltip' => true,
+			),
+			'span' => array(
+				'class' => true,
+			),
+			'img'  => array(
+				'src'     => true,
+				'loading' => true,
+				'class'   => true,
+				'alt'     => true,
+				'height'  => true,
+				'width'   => true,
+			),
+		)
+	);
 }
 
 	/**
@@ -1362,6 +1393,8 @@ function bp_activity_action( $args = array() ) {
  * @since 1.2.0
  */
 function bp_activity_content_body() {
+	// Escaping is made in `bp-activity/bp-activity-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_content_body();
 }
 
@@ -1607,6 +1640,7 @@ function bp_activity_has_generated_content_part( $property = '' ) {
  * @param string $property The name of the property to check into the generated content.
  */
 function bp_activity_generated_content_part( $property = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_activity_get_generated_content_part( $property );
 }
 
@@ -1663,6 +1697,8 @@ function bp_activity_generated_content_part( $property = '' ) {
  *
  */
 function bp_activity_content() {
+	// Escaping is made in `bp-activity/bp-activity-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_content();
 }
 
@@ -1841,7 +1877,9 @@ function bp_activity_user_can_delete( $activity = false ) {
  * @param array|string $args See {@link bp_get_activity_parent_content} for description.
  */
 function bp_activity_parent_content( $args = '' ) {
-	echo bp_get_activity_parent_content($args);
+	// Escaping is made in `bp-activity/bp-activity-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo bp_get_activity_parent_content( $args );
 }
 
 	/**
@@ -1905,7 +1943,7 @@ function bp_activity_parent_content( $args = '' ) {
  * @since 1.7.0
  */
 function bp_activity_parent_user_id() {
-	echo bp_get_activity_parent_user_id();
+	echo intval( bp_get_activity_parent_user_id() );
 }
 
 	/**
@@ -1958,6 +1996,7 @@ function bp_activity_parent_user_id() {
  *
  */
 function bp_activity_is_favorite() {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_is_favorite();
 }
 
@@ -1998,13 +2037,14 @@ function bp_activity_comments( $deprecated = '' ) {
 			'12.0.0',
 			sprintf(
 				/* translators: 1: the name of the function. 2: the name of the file. */
-				__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
+				esc_html__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
 				__FUNCTION__,
 				__FILE__
 			)
 		);
 	}
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_activity_get_comments();
 }
 
@@ -2031,7 +2071,7 @@ function bp_activity_comments( $deprecated = '' ) {
 				'12.0.0',
 				sprintf(
 					/* translators: 1: the name of the function. 2: the name of the file. */
-					__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					esc_html__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
 					__FUNCTION__,
 					__FILE__
 				)
@@ -2069,14 +2109,19 @@ function bp_activity_comments( $deprecated = '' ) {
 				return false;
 			}
 
-			/**
-			 * Filters the opening tag for the template that lists activity comments.
-			 *
-			 * @since 1.6.0
-			 *
-			 * @param string $value Opening tag for the HTML markup to use.
-			 */
-			echo apply_filters( 'bp_activity_recurse_comments_start_ul', '<ul>' );
+			// phpcs:ignore WordPress.Security.EscapeOutput
+			echo apply_filters(
+				/**
+				 * Filters the opening tag for the template that lists activity comments.
+				 *
+				 * @since 1.6.0
+				 *
+				 * @param string $value Opening tag for the HTML markup to use.
+				 */
+				'bp_activity_recurse_comments_start_ul',
+				'<ul>'
+			);
+
 			foreach ( (array) $comment->children as $comment_child ) {
 
 				// Put the comment into the global so it's available to filters.
@@ -2107,14 +2152,18 @@ function bp_activity_comments( $deprecated = '' ) {
 				unset( $activities_template->activity->current_comment );
 			}
 
-			/**
-			 * Filters the closing tag for the template that list activity comments.
-			 *
-			 * @since  1.6.0
-			 *
-			 * @param string $value Closing tag for the HTML markup to use.
-			 */
-			echo apply_filters( 'bp_activity_recurse_comments_end_ul', '</ul>' );
+			// phpcs:ignore WordPress.Security.EscapeOutput
+			echo apply_filters(
+				/**
+				 * Filters the closing tag for the template that list activity comments.
+				 *
+				 * @since  1.6.0
+				 *
+				 * @param string $value Closing tag for the HTML markup to use.
+				 */
+				'bp_activity_recurse_comments_end_ul',
+				'</ul>'
+			);
 		}
 
 /**
@@ -2152,7 +2201,7 @@ function bp_activity_current_comment() {
  *
  */
 function bp_activity_comment_id() {
-	echo bp_get_activity_comment_id();
+	echo intval( bp_get_activity_comment_id() );
 }
 
 	/**
@@ -2187,7 +2236,7 @@ function bp_activity_comment_id() {
  *
  */
 function bp_activity_comment_user_id() {
-	echo bp_get_activity_comment_user_id();
+	echo intval( bp_get_activity_comment_user_id() );
 }
 
 	/**
@@ -2222,7 +2271,7 @@ function bp_activity_comment_user_id() {
  *
  */
 function bp_activity_comment_user_link() {
-	echo bp_get_activity_comment_user_link();
+	echo esc_url( bp_get_activity_comment_user_link() );
 }
 
 	/**
@@ -2253,7 +2302,7 @@ function bp_activity_comment_user_link() {
  *
  */
 function bp_activity_comment_name() {
-	echo bp_get_activity_comment_name();
+	echo esc_html( bp_get_activity_comment_name() );
 }
 
 	/**
@@ -2295,7 +2344,7 @@ function bp_activity_comment_name() {
  *
  */
 function bp_activity_comment_date_recorded() {
-	echo bp_get_activity_comment_date_recorded();
+	echo esc_html( bp_get_activity_comment_date_recorded() );
 }
 
 	/**
@@ -2326,7 +2375,7 @@ function bp_activity_comment_date_recorded() {
  *
  */
 function bp_activity_comment_date_recorded_raw() {
-	echo bp_get_activity_comment_date_recorded_raw();
+	echo esc_html( bp_get_activity_comment_date_recorded_raw() );
 }
 
 	/**
@@ -2359,7 +2408,7 @@ function bp_activity_comment_date_recorded_raw() {
  *
  */
 function bp_activity_comment_delete_link() {
-	echo bp_get_activity_comment_delete_link();
+	echo esc_url( bp_get_activity_comment_delete_link() );
 }
 
 	/**
@@ -2398,6 +2447,8 @@ function bp_activity_comment_delete_link() {
  *
  */
 function bp_activity_comment_content() {
+	// Escaping is made in `bp-activity/bp-activity-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_comment_content();
 }
 
@@ -2440,7 +2491,7 @@ function bp_activity_comment_content() {
  *
  */
 function bp_activity_comment_count() {
-	echo bp_activity_get_comment_count();
+	echo intval( bp_activity_get_comment_count() );
 }
 
 	/**
@@ -2463,7 +2514,7 @@ function bp_activity_comment_count() {
 				'1.2',
 				sprintf(
 					/* translators: 1: the name of the function. 2: the name of the file. */
-					__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					esc_html__( '%1$s no longer accepts arguments. See the inline documentation at %2$s for more details.', 'buddypress' ),
 					__FUNCTION__,
 					__FILE__
 				)
@@ -2533,7 +2584,7 @@ function bp_activity_comment_count() {
  *                            when used in activity comment loop.
  */
 function bp_activity_comment_depth( $comment = 0 ) {
-	echo bp_activity_get_comment_depth( $comment );
+	echo intval( bp_activity_get_comment_depth( $comment ) );
 }
 
 	/**
@@ -2600,7 +2651,7 @@ function bp_activity_comment_depth( $comment = 0 ) {
  *
  */
 function bp_activity_comment_link() {
-	echo bp_get_activity_comment_link();
+	echo esc_url( bp_get_activity_comment_link() );
 }
 
 	/**
@@ -2647,6 +2698,7 @@ function bp_activity_comment_link() {
  *
  */
 function bp_activity_comment_form_nojs_display() {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_comment_form_nojs_display();
 }
 
@@ -2751,7 +2803,7 @@ function bp_activity_comment_form_action() {
  *
  */
 function bp_activity_permalink_id() {
-	echo bp_get_activity_permalink_id();
+	echo esc_html( bp_get_activity_permalink_id() );
 }
 
 	/**
@@ -2852,7 +2904,7 @@ function bp_activity_comment_permalink() {
  *
  */
 function bp_activity_favorite_link() {
-	echo bp_get_activity_favorite_link();
+	echo esc_url( bp_get_activity_favorite_link() );
 }
 
 	/**
@@ -2894,7 +2946,7 @@ function bp_activity_favorite_link() {
  *
  */
 function bp_activity_unfavorite_link() {
-	echo bp_get_activity_unfavorite_link();
+	echo esc_url( bp_get_activity_unfavorite_link() );
 }
 
 	/**
@@ -2936,7 +2988,7 @@ function bp_activity_unfavorite_link() {
  *
  */
 function bp_activity_css_class() {
-	echo bp_get_activity_css_class();
+	echo esc_attr( bp_get_activity_css_class() );
 }
 
 	/**
@@ -2994,6 +3046,7 @@ function bp_activity_css_class() {
  *
  */
 function bp_activity_delete_link() {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_delete_link();
 }
 
@@ -3019,7 +3072,7 @@ function bp_activity_delete_link() {
 			$class = 'acomment-delete';
 		}
 
-		$link = '<a href="' . esc_url( $url ) . '" class="button item-button bp-secondary-action ' . $class . ' confirm" rel="nofollow">' . __( 'Delete', 'buddypress' ) . '</a>';
+		$link = '<a href="' . esc_url( $url ) . '" class="button item-button bp-secondary-action ' . esc_attr( $class ) . ' confirm" rel="nofollow">' . esc_html__( 'Delete', 'buddypress' ) . '</a>';
 
 		/**
 		 * Filters the activity delete link.
@@ -3095,6 +3148,8 @@ function bp_activity_delete_url() {
  * @param int $user_id See {@link bp_get_activity_latest_update()} for description.
  */
 function bp_activity_latest_update( $user_id = 0 ) {
+	// Escaping is made in `bp-activity/bp-activity-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_latest_update( $user_id );
 }
 
@@ -3162,6 +3217,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
  * @param array|bool $args See {@link bp_get_activity_filter_links()} for description.
  */
 function bp_activity_filter_links( $args = false ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_filter_links( $args );
 }
 
@@ -3200,11 +3256,11 @@ function bp_activity_filter_links( $args = false ) {
 		foreach ( (array) $components as $component ) {
 
 			// Skip the activity comment filter.
-			if ( 'activity' == $component ) {
+			if ( 'activity' === $component ) {
 				continue;
 			}
 
-			if ( isset( $_GET['afilter'] ) && $component == $_GET['afilter'] ) {
+			if ( isset( $_GET['afilter'] ) && $component === $_GET['afilter'] ) {
 				$selected = ' class="selected"';
 			} else {
 				$selected = '';
@@ -3249,7 +3305,7 @@ function bp_activity_filter_links( $args = false ) {
 		$link = remove_query_arg( 'afilter' , $link );
 
 		if ( isset( $_GET['afilter'] ) ) {
-			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . esc_url( $link ) . '">' . __( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
+			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . esc_url( $link ) . '">' . esc_html__( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';
 		}
 
 		/**
@@ -3377,7 +3433,7 @@ function bp_activity_can_favorite() {
  * @param int $user_id See {@link bp_get_total_favorite_count_for_user()}.
  */
 function bp_total_favorite_count_for_user( $user_id = 0 ) {
-	echo bp_get_total_favorite_count_for_user( $user_id );
+	echo intval( bp_get_total_favorite_count_for_user( $user_id ) );
 }
 
 	/**
@@ -3427,7 +3483,7 @@ function bp_total_favorite_count_for_user( $user_id = 0 ) {
  * @param int $user_id See {@link bp_get_total_mention_count_for_user()}.
  */
 function bp_total_mention_count_for_user( $user_id = 0 ) {
-	echo bp_get_total_mention_count_for_user( $user_id );
+	echo intval( bp_get_total_mention_count_for_user( $user_id ) );
 }
 
 	/**
@@ -3539,6 +3595,7 @@ function bp_activity_recurse_comments_activity_ids( $activity = array(), $activi
  * @param int|string|bool $user_id_or_username See {@link bp_get_mentioned_user_display_name()}.
  */
 function bp_mentioned_user_display_name( $user_id_or_username = false ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_mentioned_user_display_name( $user_id_or_username );
 }
 
@@ -3558,7 +3615,7 @@ function bp_mentioned_user_display_name( $user_id_or_username = false ) {
 
 		// If user somehow has no name, return this really lame string.
 		if ( empty( $name ) ) {
-			$name = __( 'a user', 'buddypress' );
+			$name = esc_html__( 'a user', 'buddypress' );
 		}
 
 		/**
@@ -3582,6 +3639,8 @@ function bp_mentioned_user_display_name( $user_id_or_username = false ) {
  * @param array|string $args See {@link bp_activity_get_public_message_button_args()}.
  */
 function bp_send_public_message_button( $args = '' ) {
+	// Escaping is done in `BP_Core_HTML_Element()`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_send_public_message_button( $args );
 }
 
@@ -3661,7 +3720,7 @@ function bp_send_public_message_button( $args = '' ) {
  *
  */
 function bp_activity_post_form_action() {
-	echo bp_get_activity_post_form_action();
+	echo esc_url( bp_get_activity_post_form_action() );
 }
 
 	/**
@@ -3733,13 +3792,15 @@ function bp_activity_comments_user_avatars( $args = array() ) {
 			$profile_link = bp_members_get_user_url( $user_id );
 
 			// Get avatar for this user.
-			$image_html   = bp_core_fetch_avatar( array(
-				'item_id' => $user_id,
-				'height'  => $r['height'],
-				'html'    => $r['html'],
-				'type'    => $r['type'],
-				'width'   => $r['width']
-			) );
+			$image_html = bp_core_fetch_avatar(
+				array(
+					'item_id' => $user_id,
+					'height'  => $r['height'],
+					'html'    => $r['html'],
+					'type'    => $r['type'],
+					'width'   => $r['width']
+				)
+			);
 
 			// If user has link & avatar, add them to the output array.
 			if ( ! empty( $profile_link ) && ! empty( $image_html ) ) {
@@ -3753,16 +3814,22 @@ function bp_activity_comments_user_avatars( $args = array() ) {
 		}
 	}
 
-	/**
-	 * Filters the list of linked avatars for users who have commented on the current activity item.
-	 *
-	 * @since 1.7.0
-	 *
-	 * @param string $retval HTML markup for the list of avatars.
-	 * @param array  $r      Array of arguments used for each avatar.
-	 * @param array  $output Array of each avatar found, before imploded into single string.
-	 */
-	echo apply_filters( 'bp_activity_comments_user_avatars', $retval, $r, $output );
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo apply_filters(
+		/**
+		 * Filters the list of linked avatars for users who have commented on the current activity item.
+		 *
+		 * @since 1.7.0
+		 *
+		 * @param string $retval HTML markup for the list of avatars.
+		 * @param array  $r      Array of arguments used for each avatar.
+		 * @param array  $output Array of each avatar found, before imploded into single string.
+		 */
+		'bp_activity_comments_user_avatars',
+		$retval,
+		$r,
+		$output
+	);
 }
 
 /**
@@ -3841,7 +3908,7 @@ function bp_activity_get_comments_user_ids() {
  * @since 1.9.0
  */
 function bp_displayed_user_mentionname() {
-	echo bp_get_displayed_user_mentionname();
+	echo esc_html( bp_get_displayed_user_mentionname() );
 }
 	/**
 	 * Get the mentionname for the displayed user.
@@ -3899,9 +3966,11 @@ function bp_activity_types_list( $output = 'select', $args = '' ) {
 		// Switch output based on the element.
 		switch ( $output ) {
 			case 'select' :
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				printf( '<option value="%1$s" %2$s>%3$s</option>', esc_attr( $type ), $selected, esc_html( $description ) );
 				break;
 			case 'checkbox' :
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				printf( '<label style="" for="%1$s[]">%2$s<input type="checkbox" id="%1$s[]" name="%1$s[]" value="%3$s" %4$s/></label>', esc_attr( $args['checkbox_name'] ), esc_html( $description ), esc_attr( $args['checkbox_name'] ), esc_attr( $args['checkbox_name'] ), esc_attr( $type ), $checked );
 				break;
 		}
@@ -3937,7 +4006,7 @@ function bp_activity_types_list( $output = 'select', $args = '' ) {
  *
  */
 function bp_sitewide_activity_feed_link() {
-	echo bp_get_sitewide_activity_feed_link();
+	echo esc_url( bp_get_sitewide_activity_feed_link() );
 }
 
 	/**
@@ -4053,7 +4122,7 @@ function bp_member_activity_feed_link() {
  *
  */
 function bp_activity_feed_item_guid() {
-	echo bp_get_activity_feed_item_guid();
+	echo esc_html( bp_get_activity_feed_item_guid() );
 }
 
 	/**
@@ -4085,6 +4154,7 @@ function bp_activity_feed_item_guid() {
  *
  */
 function bp_activity_feed_item_title() {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_feed_item_title();
 }
 
@@ -4134,7 +4204,7 @@ function bp_activity_feed_item_title() {
  *
  */
 function bp_activity_feed_item_link() {
-	echo bp_get_activity_feed_item_link();
+	echo esc_url( bp_get_activity_feed_item_link() );
 }
 
 	/**
@@ -4170,7 +4240,7 @@ function bp_activity_feed_item_link() {
  *
  */
 function bp_activity_feed_item_date() {
-	echo bp_get_activity_feed_item_date();
+	echo esc_html( bp_get_activity_feed_item_date() );
 }
 
 	/**
@@ -4206,6 +4276,8 @@ function bp_activity_feed_item_date() {
  *
  */
 function bp_activity_feed_item_description() {
+	// Escaping is made in `bp-activity/bp-activity-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_feed_item_description();
 }
 
@@ -4250,7 +4322,7 @@ function bp_activity_feed_item_description() {
 function bp_activity_sitewide_feed() {
 ?>
 
-	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php _e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_sitewide_activity_feed_link() ?>" />
+	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php esc_html_e( 'Site Wide Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_sitewide_activity_feed_link() ?>" />
 
 <?php
 }
@@ -4265,6 +4337,7 @@ add_action( 'bp_head', 'bp_activity_sitewide_feed' );
  *                        'member_groups', 'group'.
  */
 function bp_activity_show_filters( $context = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_activity_show_filters( $context );
 }
 	/**

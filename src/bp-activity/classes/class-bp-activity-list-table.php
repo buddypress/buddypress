@@ -260,7 +260,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since 1.6.0
 	 */
 	function no_items() {
-		_e( 'No activities found.', 'buddypress' );
+		esc_html_e( 'No activities found.', 'buddypress' );
 	}
 
 	/**
@@ -271,12 +271,14 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function display() {
 		$this->display_tablenav( 'top' ); ?>
 
-		<h2 class="screen-reader-text"><?php
-			/* translators: accessibility text */
-			_e( 'Activities list', 'buddypress' );
-		?></h2>
+		<h2 class="screen-reader-text">
+			<?php
+				/* translators: accessibility text */
+				esc_html_e( 'Activities list', 'buddypress' );
+			?>
+		</h2>
 
-		<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
+		<table class="wp-list-table <?php echo esc_attr( implode( ' ', $this->get_table_classes() ) ); ?>" cellspacing="0">
 			<thead>
 				<tr>
 					<?php $this->print_column_headers(); ?>
@@ -308,10 +310,12 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function single_row( $item ) {
 		static $even = false;
 
+		$row_classes = array();
+
 		if ( $even ) {
-			$row_class = ' class="even"';
+			$row_classes = array( 'even' );
 		} else {
-			$row_class = ' class="alternate odd"';
+			$row_classes = array( 'alternate', 'odd' );
 		}
 
 		if ( 'activity_comment' === $item['type'] ) {
@@ -320,7 +324,10 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$root_id = $item['id'];
 		}
 
-		echo '<tr' . $row_class . ' id="activity-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $root_id ) . '">';
+		echo '<tr class="' . implode( ' ', array_map( 'sanitize_html_class', $row_classes ) ) . '" id="activity-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $root_id ) . '">';
+
+		// Escapes are made into `self::single_row_columns()`.
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $this->single_row_columns( $item );
 		echo '</tr>';
 
@@ -335,10 +342,12 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function get_views() {
 		$url_base = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) ); ?>
 
-		<h2 class="screen-reader-text"><?php
-			/* translators: accessibility text */
-			esc_html_e( 'Filter activities list', 'buddypress' );
-		?></h2>
+		<h2 class="screen-reader-text">
+			<?php
+				/* translators: accessibility text */
+				esc_html_e( 'Filter activities list', 'buddypress' );
+			?>
+		</h2>
 
 		<ul class="subsubsub">
 			<li class="all">
@@ -348,7 +357,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 						esc_html__( 'All %s', 'buddypress' ),
 						sprintf(
 							'<span class="count">(%s)</span>',
-							number_format_i18n( $this->all_count )
+							esc_html( number_format_i18n( $this->all_count ) )
 						)
 					); ?>
 				</a> |
@@ -360,7 +369,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 						esc_html__( 'Spam %s', 'buddypress' ),
 						sprintf(
 							'<span class="count">(%s)</span>',
-							number_format_i18n( $this->spam_count )
+							esc_html( number_format_i18n( $this->spam_count ) )
 						)
 					); ?>
 				</a>
@@ -397,11 +406,13 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 *
 		 * @param array $actions Default available actions for bulk operations.
 		 */
-		return apply_filters( 'bp_activity_list_table_get_bulk_actions', array(
-			'bulk_spam'   => __( 'Mark as Spam', 'buddypress' ),
-			'bulk_ham'    => __( 'Not Spam', 'buddypress' ),
-			'bulk_delete' => __( 'Delete Permanently', 'buddypress' ),
-		) );
+		return apply_filters( 'bp_activity_list_table_get_bulk_actions',
+			array(
+				'bulk_spam'   => __( 'Mark as Spam', 'buddypress' ),
+				'bulk_ham'    => __( 'Not Spam', 'buddypress' ),
+				'bulk_delete' => __( 'Delete Permanently', 'buddypress' ),
+			)
+		);
 	}
 
 	/**
@@ -422,13 +433,15 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 *
 		 * @param array $value Array of slugs and titles for the columns.
 		 */
-		return apply_filters( 'bp_activity_list_table_get_columns', array(
-			'cb'       => '<input name type="checkbox" />',
-			'author'   => _x( 'Author', 'Admin SWA column header', 'buddypress' ),
-			'comment'  => _x( 'Activity', 'Admin SWA column header', 'buddypress' ),
-			'action'   => _x( 'Action', 'Admin SWA column header', 'buddypress' ),
-			'response' => _x( 'In Response To', 'Admin SWA column header', 'buddypress' ),
-		) );
+		return apply_filters( 'bp_activity_list_table_get_columns',
+			array(
+				'cb'       => '<input name type="checkbox" />',
+				'author'   => _x( 'Author', 'Admin SWA column header', 'buddypress' ),
+				'comment'  => _x( 'Activity', 'Admin SWA column header', 'buddypress' ),
+				'action'   => _x( 'Action', 'Admin SWA column header', 'buddypress' ),
+				'response' => _x( 'In Response To', 'Admin SWA column header', 'buddypress' ),
+			)
+		);
 	}
 
 	/**
@@ -471,12 +484,14 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$activity_actions = bp_activity_get_actions(); ?>
 
 		<div class="alignleft actions">
-			<label for="activity-type" class="screen-reader-text"><?php
-				/* translators: accessibility text */
-				_e( 'Filter by activity type', 'buddypress' );
-			?></label>
+			<label for="activity-type" class="screen-reader-text">
+				<?php
+					/* translators: accessibility text */
+					esc_html_e( 'Filter by activity type', 'buddypress' );
+				?>
+			</label>
 			<select name="activity_type" id="activity-type">
-				<option value="" <?php selected( ! $selected ); ?>><?php _e( 'View all actions', 'buddypress' ); ?></option>
+				<option value="" <?php selected( ! $selected ); ?>><?php esc_html_e( 'View all actions', 'buddypress' ); ?></option>
 
 				<?php foreach ( $activity_actions as $component => $actions ) : ?>
 					<?php
@@ -572,7 +587,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	function column_cb( $item ) {
 		/* translators: accessibility text */
-		printf( '<label class="screen-reader-text" for="aid-%1$d">' . __( 'Select activity item %1$d', 'buddypress' ) . '</label><input type="checkbox" name="aid[]" value="%1$d" id="aid-%1$d" />', $item['id'] );
+		printf( '<label class="screen-reader-text" for="aid-%1$d">' . esc_html__( 'Select activity item %1$d', 'buddypress' ) . '</label><input type="checkbox" name="aid[]" value="%1$d" id="aid-%1$d" />', intval( $item['id'] ) );
 	}
 
 	/**
@@ -585,7 +600,26 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @param array $item A singular item (one full row).
 	 */
 	function column_author( $item ) {
-		echo '<strong>' . get_avatar( $item['user_id'], '32' ) . ' ' . bp_core_get_userlink( $item['user_id'] ) . '</strong>';
+		$avatar = get_avatar( $item['user_id'], '32' );
+
+		printf(
+			'<strong>%1$s %2$s</strong>',
+			wp_kses(
+				$avatar,
+				array(
+					'img' => array(
+						'alt'    => true,
+						'src'    => true,
+						'srcset' => true,
+						'class'  => true,
+						'height' => true,
+						'width'  => true,
+					)
+				)
+			),
+			// phpcs:ignore WordPress.Security.EscapeOutput
+			bp_core_get_userlink( $item['user_id'] )
+		);
 	}
 
 	/**
@@ -601,10 +635,10 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$actions = bp_activity_admin_get_activity_actions();
 
 		if ( isset( $actions[ $item['type'] ] ) ) {
-			echo $actions[ $item['type'] ];
+			echo esc_html( $actions[ $item['type'] ] );
 		} else {
 			/* translators: %s: the name of the activity type */
-			printf( __( 'Unregistered action - %s', 'buddypress' ), $item['type'] );
+			printf( esc_html__( 'Unregistered action - %s', 'buddypress' ), esc_html( $item['type'] ) );
 		}
 	}
 
@@ -621,10 +655,11 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	function column_comment( $item ) {
 		// Determine what type of item (row) we're dealing with.
-		if ( $item['is_spam'] )
+		if ( $item['is_spam'] ) {
 			$item_status = 'spam';
-		else
+		} else {
 			$item_status = 'all';
+		}
 
 		// Preorder items: Reply | Edit | Spam | Delete Permanently.
 		$actions = array(
@@ -681,15 +716,15 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		printf(
 			/* translators: %s: activity date and time */
-			__( 'Submitted on %s', 'buddypress' ),
+			esc_html__( 'Submitted on %s', 'buddypress' ),
 			sprintf(
 				'<a href="%1$s">%2$s</a>',
-				bp_activity_get_permalink( $item['id'] ),
+				esc_url( bp_activity_get_permalink( $item['id'] ) ),
 				sprintf(
 					/* translators: 1: activity date, 2: activity time */
-					__( '%1$s at %2$s', 'buddypress' ),
-					date_i18n( bp_get_option( 'date_format' ), strtotime( $item['date_recorded'] ) ),
-					get_date_from_gmt( $item['date_recorded'], bp_get_option( 'time_format' ) )
+					esc_html__( '%1$s at %2$s', 'buddypress' ),
+					esc_html( date_i18n( bp_get_option( 'date_format' ), strtotime( $item['date_recorded'] ) ) ),
+					esc_html( get_date_from_gmt( $item['date_recorded'], bp_get_option( 'time_format' ) ) )
 				)
 			)
 		);
@@ -713,15 +748,23 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$content = apply_filters_ref_array( 'bp_get_activity_action', array( $item['action'], &$activity, $r ) );
 		}
 
-		/**
-		 * Filter here to add extra output to the activity content into the Administration.
-		 *
-		 * @since  2.4.0
-		 *
-		 * @param  string $content The activity content.
-		 * @param  array  $item    The activity object converted into an array.
-		 */
-		echo apply_filters( 'bp_activity_admin_comment_content', $content, $item ) . ' ' . $this->row_actions( $actions );
+		// phpcs:disable WordPress.Security.EscapeOutput
+		echo apply_filters(
+			/**
+			 * Filter here to add extra output to the activity content into the Administration.
+			 *
+			 * @since  2.4.0
+			 *
+			 * @param  string $content The activity content.
+			 * @param  array  $item    The activity object converted into an array.
+			 */
+			'bp_activity_admin_comment_content',
+			$content,
+			$item
+		);
+
+		echo ' ' . $this->row_actions( $actions );
+		// phpcs:enable
 	}
 
 	/**
@@ -744,7 +787,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		// Activity permalink.
 		$activity_permalink = '';
 		if ( ! $item['is_spam'] ) {
-			$activity_permalink = '<a href="' . bp_activity_get_permalink( $item['id'], (object) $item ) . '" class="comments-view-item-link">' . __( 'View Activity', 'buddypress' ) . '</a>';
+			$activity_permalink = '<a href="' . esc_url( bp_activity_get_permalink( $item['id'], (object) $item ) ) . '" class="comments-view-item-link">' . esc_html__( 'View Activity', 'buddypress' ) . '</a>';
 		}
 
 		/**
@@ -756,25 +799,44 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 * @param array $item  Current item being displayed.
 		 */
 		if ( empty( $item['item_id'] ) || ! in_array( $item['type'], apply_filters( 'bp_activity_admin_root_activity_types', array( 'activity_comment' ), $item ) ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput
 			echo $activity_permalink;
 
-			$comment_count     = !empty( $item['children'] ) ? bp_activity_recurse_comment_count( (object) $item ) : 0;
+			$comment_count     = ! empty( $item['children'] ) ? bp_activity_recurse_comment_count( (object) $item ) : 0;
 			$root_activity_url = bp_get_admin_url( 'admin.php?page=bp-activity&amp;aid=' . $item['id'] );
 
 			// If the activity has comments, display a link to the activity's permalink, with its comment count in a speech bubble.
 			if ( $comment_count ) {
-				printf( '<a href="%1$s" class="post-com-count post-com-count-approved"><span class="comment-count comment-count-approved">%2$s</span></a>', esc_url( $root_activity_url ), number_format_i18n( $comment_count ) );
+				printf( '<a href="%1$s" class="post-com-count post-com-count-approved"><span class="comment-count comment-count-approved">%2$s</span></a>', esc_url( $root_activity_url ), esc_html( number_format_i18n( $comment_count ) ) );
 			}
 
 		// For non-root activities, display a link to the replied-to activity's author's profile.
 		} else {
-			echo '<strong>' . get_avatar( $this->get_activity_user_id( $item['item_id'] ), '32' ) . ' ' . bp_core_get_userlink( $this->get_activity_user_id( $item['item_id'] ) ) . '</strong><br />';
+			$avatar = get_avatar( $this->get_activity_user_id( $item['item_id'] ), '32' );
+			printf(
+				'<strong>%1$s %2$s</strong><br />',
+				wp_kses(
+					$avatar,
+					array(
+						'img' => array(
+							'alt'    => true,
+							'src'    => true,
+							'srcset' => true,
+							'class'  => true,
+							'height' => true,
+							'width'  => true,
+						)
+					)
+				),
+				// phpcs:ignore WordPress.Security.EscapeOutput
+				bp_core_get_userlink( $this->get_activity_user_id( $item['item_id'] ) )
+			);
+
+			// phpcs:ignore WordPress.Security.EscapeOutput
 			echo $activity_permalink;
 		}
 		?>
-
 		</div>
-
 		<?php
 	}
 
@@ -828,8 +890,9 @@ class BP_Activity_List_Table extends WP_List_Table {
 			 * If, somehow, the referenced activity has been deleted, leaving its associated
 			 * activities as orphans, use the logged in user's ID to avoid errors.
 			 */
-			if ( empty( $activity['activities'] ) )
+			if ( empty( $activity['activities'] ) ) {
 				return bp_loggedin_user_id();
+			}
 
 			// Store the new activity/user ID mapping for any later re-use.
 			$this->activity_user_id[ $activity['activities'][0]->id ] = $activity['activities'][0]->user_id;
@@ -853,7 +916,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @param array $item An array version of the BP_Activity_Activity object.
 	 * @return bool $can_comment
 	 */
-	protected function can_comment( $item  ) {
+	protected function can_comment( $item ) {
 		$can_comment = bp_activity_type_supports( $item['type'], 'comment-reply' );
 
 		if ( ! $this->disable_blogforum_comments && bp_is_active( 'blogs' ) ) {

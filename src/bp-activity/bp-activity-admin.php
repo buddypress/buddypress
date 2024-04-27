@@ -14,11 +14,12 @@
 defined( 'ABSPATH' ) || exit;
 
 // Include WP's list table class.
-if ( !class_exists( 'WP_List_Table' ) ) require( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+if ( ! class_exists( 'WP_List_Table' ) ) require( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 
 // Per_page screen option. Has to be hooked in extremely early.
-if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-activity' == $_REQUEST['page'] )
+if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-activity' == $_REQUEST['page'] ) {
 	add_filter( 'set-screen-option', 'bp_activity_admin_screen_options', 10, 3 );
+}
 
 /**
  * Register the Activity component admin screen.
@@ -76,26 +77,31 @@ function bp_activity_admin_reply() {
 	$root_id   = ! empty( $_REQUEST['root_id'] )   ? (int) $_REQUEST['root_id']   : 0;
 
 	// $parent_id is required.
-	if ( empty( $parent_id ) )
+	if ( empty( $parent_id ) ) {
 		die( '-1' );
+	}
 
 	// If $root_id not set (e.g. for root items), use $parent_id.
-	if ( empty( $root_id ) )
+	if ( empty( $root_id ) ) {
 		$root_id = $parent_id;
+	}
 
 	// Check that a reply has been entered.
-	if ( empty( $_REQUEST['content'] ) )
-		die( __( 'Error: Please type a reply.', 'buddypress' ) );
+	if ( empty( $_REQUEST['content'] ) ) {
+		die( esc_html__( 'Error: Please type a reply.', 'buddypress' ) );
+	}
 
 	// Check parent activity exists.
 	$parent_activity = new BP_Activity_Activity( $parent_id );
-	if ( empty( $parent_activity->component ) )
-		die( __( 'Error: The item you are trying to reply to cannot be found, or it has been deleted.', 'buddypress' ) );
+	if ( empty( $parent_activity->component ) ) {
+		die( esc_html__( 'Error: The item you are trying to reply to cannot be found, or it has been deleted.', 'buddypress' ) );
+	}
 
 	// @todo: Check if user is allowed to create new activity items
 	// if ( ! current_user_can( 'bp_new_activity' ) )
-	if ( ! bp_current_user_can( 'bp_moderate' ) )
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		die( '-1' );
+	}
 
 	// Add new activity comment.
 	$new_activity_id = bp_activity_new_comment( array(
@@ -588,10 +594,11 @@ function bp_activity_admin_load() {
 		do_action_ref_array( 'bp_activity_admin_edit_after', array( &$activity, $error ) );
 
 		// If an error occurred, pass back the activity ID that failed.
-		if ( $error )
+		if ( $error ) {
 			$redirect_to = add_query_arg( 'error', $error, $redirect_to );
-		else
+		} else {
 			$redirect_to = add_query_arg( 'updated', $activity->id, $redirect_to );
+		}
 
 		/**
 		 * Filters URL to redirect to after saving.
@@ -688,13 +695,14 @@ function bp_activity_admin_delete() {
 
 			printf(
 				/* translators: 1: activity type. 2: activity author. 3: activity date and time. */
-				__( '"%1$s" activity submitted by %2$s on %3$s', 'buddypress' ),
+				esc_html__( '"%1$s" activity submitted by %2$s on %3$s', 'buddypress' ),
 				esc_html( $activity_type ),
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				bp_core_get_userlink( $activity->user_id ),
 				sprintf(
 					'<a href="%1$s">%2$s</a>',
 					esc_url( bp_activity_get_permalink( $activity->id, $activity ) ),
-					date_i18n( bp_get_option( 'date_format' ), strtotime( $activity->date_recorded ) )
+					esc_html( date_i18n( bp_get_option( 'date_format' ), strtotime( $activity->date_recorded ) ) )
 				)
 			);
 			?>
@@ -760,7 +768,7 @@ function bp_activity_admin_edit() {
 		<h1 class="wp-heading-inline">
 			<?php
 			/* translators: %s: the activity ID */
-			printf( __( 'Editing Activity (ID #%s)', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) );
+			printf( esc_html__( 'Editing Activity (ID #%s)', 'buddypress' ), esc_html( number_format_i18n( (int) $_REQUEST['aid'] ) ) );
 			?>
 		</h1>
 
@@ -775,23 +783,27 @@ function bp_activity_admin_edit() {
 						<div id="post-body-content">
 							<div id="postdiv">
 								<div id="bp_activity_action" class="activitybox">
-									<h2><?php _e( 'Action', 'buddypress' ); ?></h2>
+									<h2><?php esc_html_e( 'Action', 'buddypress' ); ?></h2>
 									<div class="inside">
-										<label for="bp-activities-action" class="screen-reader-text"><?php
-											/* translators: accessibility text */
-											_e( 'Edit activity action', 'buddypress' );
-										?></label>
+										<label for="bp-activities-action" class="screen-reader-text">
+											<?php
+												/* translators: accessibility text */
+												esc_html_e( 'Edit activity action', 'buddypress' );
+											?>
+										</label>
 										<?php wp_editor( stripslashes( $activity->action ), 'bp-activities-action', array( 'media_buttons' => false, 'textarea_rows' => 7, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
 									</div>
 								</div>
 
 								<div id="bp_activity_content" class="activitybox">
-									<h2><?php _e( 'Content', 'buddypress' ); ?></h2>
+									<h2><?php esc_html_e( 'Content', 'buddypress' ); ?></h2>
 									<div class="inside">
-										<label for="bp-activities-content" class="screen-reader-text"><?php
-											/* translators: accessibility text */
-											_e( 'Edit activity content', 'buddypress' );
-										?></label>
+										<label for="bp-activities-content" class="screen-reader-text">
+											<?php
+												/* translators: accessibility text */
+												esc_html_e( 'Edit activity content', 'buddypress' );
+											?>
+										</label>
 										<?php wp_editor( stripslashes( $activity->content ), 'bp-activities-content', array( 'media_buttons' => false, 'teeny' => true, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ) ) ); ?>
 									</div>
 								</div>
@@ -819,9 +831,9 @@ function bp_activity_admin_edit() {
 			<p><?php
 				printf(
 					'%1$s <a href="%2$s">%3$s</a>',
-					__( 'No activity found with this ID.', 'buddypress' ),
+					esc_html__( 'No activity found with this ID.', 'buddypress' ),
 					esc_url( bp_get_admin_url( 'admin.php?page=bp-activity' ) ),
-					__( 'Go back and try again.', 'buddypress' )
+					esc_html__( 'Go back and try again.', 'buddypress' )
 				);
 			?></p>
 
@@ -851,7 +863,7 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 		<div id="minor-publishing">
 			<div id="minor-publishing-actions">
 				<div id="preview-action">
-					<a class="button preview" href="<?php echo esc_attr( bp_activity_get_permalink( $item->id, $item ) ); ?>" target="_blank"><?php _e( 'View Activity', 'buddypress' ); ?></a>
+					<a class="button preview" href="<?php echo esc_url( bp_activity_get_permalink( $item->id, $item ) ); ?>" target="_blank"><?php esc_html_e( 'View Activity', 'buddypress' ); ?></a>
 				</div>
 
 				<div class="clear"></div>
@@ -859,8 +871,8 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 
 			<div id="misc-publishing-actions">
 				<div class="misc-pub-section" id="comment-status-radio">
-					<label class="approved" for="activity-status-approved"><input type="radio" name="activity_status" id="activity-status-approved" value="ham" <?php checked( $item->is_spam, 0 ); ?>><?php _e( 'Approved', 'buddypress' ); ?></label><br />
-					<label class="spam" for="activity-status-spam"><input type="radio" name="activity_status" id="activity-status-spam" value="spam" <?php checked( $item->is_spam, 1 ); ?>><?php _e( 'Spam', 'buddypress' ); ?></label>
+					<label class="approved" for="activity-status-approved"><input type="radio" name="activity_status" id="activity-status-approved" value="ham" <?php checked( $item->is_spam, 0 ); ?>><?php esc_html_e( 'Approved', 'buddypress' ); ?></label><br />
+					<label class="spam" for="activity-status-spam"><input type="radio" name="activity_status" id="activity-status-spam" value="spam" <?php checked( $item->is_spam, 1 ); ?>><?php esc_html_e( 'Spam', 'buddypress' ); ?></label>
 				</div>
 
 				<div class="misc-pub-section curtime misc-pub-section-last">
@@ -872,9 +884,9 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 					<span id="timestamp">
 						<?php
 						/* translators: %s: the date the activity was submitted on */
-						printf( __( 'Submitted on: %s', 'buddypress' ), '<strong>' . $date . '</strong>' );
+						printf( esc_html__( 'Submitted on: %s', 'buddypress' ), '<strong>' . esc_html( $date ) . '</strong>' );
 						?>
-					</span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php _e( 'Edit', 'buddypress' ); ?></a>
+					</span>&nbsp;<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" tabindex='4'><?php esc_html_e( 'Edit', 'buddypress' ); ?></a>
 
 					<div id='timestampdiv' class='hide-if-js'>
 						<?php touch_time( 1, 0, 5 ); ?>
@@ -911,12 +923,14 @@ function bp_activity_admin_edit_metabox_status( $item ) {
 function bp_activity_admin_edit_metabox_link( $item ) {
 ?>
 
-	<label class="screen-reader-text" for="bp-activities-link"><?php
-		/* translators: accessibility text */
-		_e( 'Link', 'buddypress' );
-	?></label>
+	<label class="screen-reader-text" for="bp-activities-link">
+		<?php
+			/* translators: accessibility text */
+			esc_html_e( 'Link', 'buddypress' );
+		?>
+	</label>
 	<input type="url" name="bp-activities-link" id="bp-activities-link" value="<?php echo esc_url( $item->primary_link ); ?>" aria-describedby="bp-activities-link-description" />
-	<p id="bp-activities-link-description"><?php _e( 'Activity generated by posts and comments uses the link field for a permalink back to the content item.', 'buddypress' ); ?></p>
+	<p id="bp-activities-link-description"><?php esc_html_e( 'Activity generated by posts and comments uses the link field for a permalink back to the content item.', 'buddypress' ); ?></p>
 
 <?php
 }
@@ -931,10 +945,12 @@ function bp_activity_admin_edit_metabox_link( $item ) {
 function bp_activity_admin_edit_metabox_userid( $item ) {
 ?>
 
-	<label class="screen-reader-text" for="bp-activities-userid"><?php
-		/* translators: accessibility text */
-		_e( 'Author ID', 'buddypress' );
-	?></label>
+	<label class="screen-reader-text" for="bp-activities-userid">
+		<?php
+			/* translators: accessibility text */
+			esc_html_e( 'Author ID', 'buddypress' );
+		?>
+	</label>
 	<input type="number" name="bp-activities-userid" id="bp-activities-userid" value="<?php echo esc_attr( $item->user_id ); ?>" min="1" />
 
 <?php
@@ -1019,8 +1035,8 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 			__FUNCTION__,
 			sprintf(
 				/* translators: %s: the name of the activity type */
-				__( 'This activity item has a type (%s) that is not registered using bp_activity_set_action(), so no label is available.', 'buddypress' ),
-				$selected
+				esc_html__( 'This activity item has a type (%s) that is not registered using bp_activity_set_action(), so no label is available.', 'buddypress' ),
+				esc_html( $selected )
 			),
 			'2.0.0'
 		);
@@ -1030,10 +1046,12 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 
 	?>
 
-	<label for="bp-activities-type" class="screen-reader-text"><?php
-		/* translators: accessibility text */
-		esc_html_e( 'Select activity type', 'buddypress' );
-	?></label>
+	<label for="bp-activities-type" class="screen-reader-text">
+		<?php
+			/* translators: accessibility text */
+			esc_html_e( 'Select activity type', 'buddypress' );
+		?>
+	</label>
 	<select name="bp-activities-type" id="bp-activities-type">
 		<?php foreach ( $actions as $k => $v ) : ?>
 			<option value="<?php echo esc_attr( $k ); ?>" <?php selected( $k,  $selected ); ?>><?php echo esc_html( $v ); ?></option>
@@ -1053,14 +1071,14 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 function bp_activity_admin_edit_metabox_itemids( $item ) {
 ?>
 
-	<label for="bp-activities-primaryid"><?php _e( 'Primary Item ID', 'buddypress' ); ?></label>
+	<label for="bp-activities-primaryid"><?php esc_html_e( 'Primary Item ID', 'buddypress' ); ?></label>
 	<input type="number" name="bp-activities-primaryid" id="bp-activities-primaryid" value="<?php echo esc_attr( $item->item_id ); ?>" min="0" />
 	<br />
 
-	<label for="bp-activities-secondaryid"><?php _e( 'Secondary Item ID', 'buddypress' ); ?></label>
+	<label for="bp-activities-secondaryid"><?php esc_html_e( 'Secondary Item ID', 'buddypress' ); ?></label>
 	<input type="number" name="bp-activities-secondaryid" id="bp-activities-secondaryid" value="<?php echo esc_attr( $item->secondary_item_id ); ?>" min="0" />
 
-	<p><?php _e( 'These identify the object that created this activity. For example, the fields could reference a pair of site and comment IDs.', 'buddypress' ); ?></p>
+	<p><?php esc_html_e( 'These identify the object that created this activity. For example, the fields could reference a pair of site and comment IDs.', 'buddypress' ); ?></p>
 
 <?php
 }
@@ -1155,17 +1173,17 @@ function bp_activity_admin_index() {
 			<?php if ( !empty( $_REQUEST['aid'] ) ) : ?>
 				<?php
 				/* translators: %s: the activity ID */
-				printf( __( 'Activity related to ID #%s', 'buddypress' ), number_format_i18n( (int) $_REQUEST['aid'] ) );
+				printf( esc_html__( 'Activity related to ID #%s', 'buddypress' ), esc_html( number_format_i18n( (int) $_REQUEST['aid'] ) ) );
 				?>
 			<?php else : ?>
-				<?php _ex( 'Activity', 'Admin SWA page', 'buddypress' ); ?>
+				<?php echo esc_html_x( 'Activity', 'Admin SWA page', 'buddypress' ); ?>
 			<?php endif; ?>
 
 			<?php if ( !empty( $_REQUEST['s'] ) ) : ?>
 				<span class="subtitle">
 					<?php
 					/* translators: %s: the activity search terms */
-					printf( __( 'Search results for &#8220;%s&#8221;', 'buddypress' ), wp_html_excerpt( esc_html( stripslashes( $_REQUEST['s'] ) ), 50 ) );
+					printf( esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ), esc_html( wp_html_excerpt( stripslashes( $_REQUEST['s'] ) ), 50 ) );
 					?>
 				</span>
 			<?php endif; ?>
@@ -1175,14 +1193,14 @@ function bp_activity_admin_index() {
 
 		<?php // If the user has just made a change to an activity item, display the status messages. ?>
 		<?php if ( !empty( $messages ) ) : ?>
-			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['error'] ) ) ? 'error' : 'updated'; ?> notice is-dismissible"><p><?php echo implode( "<br/>\n", $messages ); ?></p></div>
+			<div id="moderated" class="<?php echo ( ! empty( $_REQUEST['error'] ) ) ? 'error' : 'updated'; ?> notice is-dismissible"><p><?php echo implode( "<br/>\n", array_map( 'esc_html', $messages ) ); ?></p></div>
 		<?php endif; ?>
 
 		<?php // Display each activity on its own row. ?>
 		<?php $bp_activity_list_table->views(); ?>
 
 		<form id="bp-activities-form" action="" method="get">
-			<?php $bp_activity_list_table->search_box( __( 'Search all Activity', 'buddypress' ), 'bp-activity' ); ?>
+			<?php $bp_activity_list_table->search_box( esc_html__( 'Search all Activity', 'buddypress' ), 'bp-activity' ); ?>
 			<input type="hidden" name="page" value="<?php echo esc_attr( $plugin_page ); ?>" />
 			<?php $bp_activity_list_table->display(); ?>
 		</form>
@@ -1193,16 +1211,18 @@ function bp_activity_admin_index() {
 				<td colspan="4">
 					<form method="get" action="">
 
-						<h3 id="bp-replyhead"><?php _e( 'Reply to Activity', 'buddypress' ); ?></h3>
-						<label for="bp-activities" class="screen-reader-text"><?php
-							/* translators: accessibility text */
-							_e( 'Reply', 'buddypress' );
-						?></label>
+						<h3 id="bp-replyhead"><?php esc_html_e( 'Reply to Activity', 'buddypress' ); ?></h3>
+						<label for="bp-activities" class="screen-reader-text">
+							<?php
+								/* translators: accessibility text */
+								esc_html_e( 'Reply', 'buddypress' );
+							?>
+						</label>
 						<?php wp_editor( '', 'bp-activities', array( 'dfw' => false, 'media_buttons' => false, 'quicktags' => array( 'buttons' => 'strong,em,link,block,del,ins,img,code,spell,close' ), 'tinymce' => false, ) ); ?>
 
 						<p id="bp-replysubmit" class="submit">
-							<a href="#" class="cancel button-secondary alignleft"><?php _e( 'Cancel', 'buddypress' ); ?></a>
-							<a href="#" class="save button-primary alignright"><?php _e( 'Reply', 'buddypress' ); ?></a>
+							<a href="#" class="cancel button-secondary alignleft"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a>
+							<a href="#" class="save button-primary alignright"><?php esc_html_e( 'Reply', 'buddypress' ); ?></a>
 
 							<img class="waiting" style="display:none;" src="<?php echo esc_url( admin_url( 'images/wpspin_light.gif' ) ); ?>" alt="" />
 							<span class="error" style="display:none;"></span>
