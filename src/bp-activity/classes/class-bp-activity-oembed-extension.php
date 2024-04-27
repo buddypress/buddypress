@@ -156,7 +156,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 * Sets a custom <blockquote> for our oEmbed fallback HTML.
 	 *
 	 * @since 2.6.0
-	 * 
+	 *
 	 * @global BP_Activity_Template $activities_template The Activity template loop.
 	 *
 	 * @param  int $item_id The activity ID.
@@ -320,15 +320,22 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 				<span class="dashicons dashicons-admin-comments"></span>
 				<?php
 				printf(
-					_n(
-						/* translators: accessibility text */
-						'%s <span class="screen-reader-text">Comment</span>',
-						/* translators: accessibility text */
-						'%s <span class="screen-reader-text">Comments</span>',
-						$count,
-						'buddypress'
+					wp_kses(
+						_n(
+							/* translators: accessibility text */
+							'%s <span class="screen-reader-text">Comment</span>',
+							/* translators: accessibility text */
+							'%s <span class="screen-reader-text">Comments</span>',
+							intval( $count ),
+							'buddypress'
+						),
+						array(
+							'span' => array(
+								'class' => true,
+							),
+						)
 					),
-					number_format_i18n( $count )
+					esc_html( number_format_i18n( $count ) )
 				);
 				?>
 			</a>

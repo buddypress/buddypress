@@ -165,7 +165,7 @@ class BP_Activity_Feed {
 
 			// Check if id is valid.
 			if ( empty( $this->id ) ) {
-				_doing_it_wrong( 'BP_Activity_Feed', __( "RSS feed 'id' must be defined", 'buddypress' ), 'BP 1.8' );
+				_doing_it_wrong( 'BP_Activity_Feed', esc_html__( "RSS feed 'id' must be defined", 'buddypress' ), 'BP 1.8' );
 				return false;
 			}
 
@@ -315,7 +315,7 @@ class BP_Activity_Feed {
 
 				if ( 'activity_comment' == bp_get_activity_action_name() ) :
 			?>
-				<strong><?php _e( 'In reply to', 'buddypress' ) ?></strong> -
+				<strong><?php esc_html_e( 'In reply to', 'buddypress' ) ?></strong> -
 				<?php bp_activity_parent_content() ?>
 			<?php
 				endif;
@@ -409,7 +409,7 @@ class BP_Activity_Feed {
 	 */
 	protected function output() {
 		$this->http_headers();
-		echo '<?xml version="1.0" encoding="' . get_option( 'blog_charset' ) . '"?'.'>';
+		echo '<?xml version="1.0" encoding="' . esc_attr( get_option( 'blog_charset' ) ) . '"?'.'>';
 
 		/**
 		 * Fires between the xml and rss tags in an Activity feed.
@@ -435,16 +435,16 @@ class BP_Activity_Feed {
 >
 
 <channel>
-	<title><?php echo $this->title; ?></title>
-	<link><?php echo $this->link; ?></link>
-	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
-	<description><?php echo $this->description ?></description>
-	<lastBuildDate><?php echo mysql2date( 'D, d M Y H:i:s O', bp_activity_get_last_updated(), false ); ?></lastBuildDate>
-	<generator>https://buddypress.org/?v=<?php bp_version(); ?></generator>
+	<title><?php echo esc_html( $this->title ); ?></title>
+	<link><?php echo esc_url( $this->link ); ?></link>
+	<atom:link href="<?php esc_url( self_link() ); ?>" rel="self" type="application/rss+xml" />
+	<description><?php echo esc_html( $this->description ); ?></description>
+	<lastBuildDate><?php echo esc_html( mysql2date( 'D, d M Y H:i:s O', bp_activity_get_last_updated(), false ) ); ?></lastBuildDate>
+	<generator>https://buddypress.org/?v=<?php esc_html( bp_get_version() ); ?></generator>
 	<language><?php bloginfo_rss( 'language' ); ?></language>
-	<ttl><?php echo $this->ttl; ?></ttl>
-	<sy:updatePeriod><?php echo $this->update_period; ?></sy:updatePeriod>
-	<sy:updateFrequency><?php echo $this->update_frequency; ?></sy:updateFrequency>
+	<ttl><?php echo esc_html( $this->ttl ); ?></ttl>
+	<sy:updatePeriod><?php echo esc_html( $this->update_period ); ?></sy:updatePeriod>
+	<sy:updateFrequency><?php echo esc_html( $this->update_frequency ); ?></sy:updateFrequency>
 	<?php
 
 	/**
@@ -458,9 +458,9 @@ class BP_Activity_Feed {
 		<?php while ( bp_activities() ) : bp_the_activity(); ?>
 			<item>
 				<guid isPermaLink="false"><?php bp_activity_feed_item_guid(); ?></guid>
-				<title><?php echo stripslashes( bp_get_activity_feed_item_title() ); ?></title>
+				<title><?php echo esc_html( stripslashes( bp_get_activity_feed_item_title() ) ); ?></title>
 				<link><?php bp_activity_thread_permalink() ?></link>
-				<pubDate><?php echo mysql2date( 'D, d M Y H:i:s O', bp_get_activity_feed_item_date(), false ); ?></pubDate>
+				<pubDate><?php echo esc_html( mysql2date( 'D, d M Y H:i:s O', bp_get_activity_feed_item_date(), false ) ); ?></pubDate>
 
 				<?php if ( bp_get_activity_feed_item_description() ) : ?>
 					<content:encoded><![CDATA[<?php $this->feed_content(); ?>]]></content:encoded>
