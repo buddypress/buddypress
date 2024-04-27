@@ -360,10 +360,10 @@ function bp_settings_data_exporter_items() {
 		 * @param string $friendly_name Data exporter friendly name.
 		 * @param string $exporter      Internal exporter name.
 		 */
-		$item = apply_filters( 'bp_settings_data_exporter_name', esc_html( $friendly_name ), $exporter );
+		$item = apply_filters( 'bp_settings_data_exporter_name', $friendly_name, $exporter );
 	?>
 
-		<li><?php echo $item; ?></li>
+		<li><?php echo esc_html( $item ); ?></li>
 
 	<?php endforeach; ?>
 	</ul>
