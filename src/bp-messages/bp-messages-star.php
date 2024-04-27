@@ -62,6 +62,7 @@ function bp_messages_is_message_starred( $mid = 0, $user_id = 0 ) {
  * @param array $args See bp_get_the_message_star_action_link() for full documentation.
  */
 function bp_the_message_star_action_link( $args = array() ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_the_message_star_action_link( $args );
 }
 	/**
@@ -329,8 +330,8 @@ add_action( 'bp_enqueue_scripts', 'bp_messages_star_enqueue_scripts' );
 function bp_messages_star_bulk_management_dropdown() {
 ?>
 
-	<option value="star"><?php _e( 'Add star', 'buddypress' ); ?></option>
-	<option value="unstar"><?php _e( 'Remove star', 'buddypress' ); ?></option>
+	<option value="star"><?php esc_html_e( 'Add star', 'buddypress' ); ?></option>
+	<option value="unstar"><?php esc_html_e( 'Remove star', 'buddypress' ); ?></option>
 
 <?php
 }

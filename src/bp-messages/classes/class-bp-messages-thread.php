@@ -1192,7 +1192,7 @@ class BP_Messages_Thread {
 
 		if ( count( $recipients ) >= 5 ) {
 			/* translators: %s: number of message recipients */
-			return sprintf( __( '%s Recipients', 'buddypress' ), number_format_i18n( count( $recipients ) ) );
+			return sprintf( esc_html__( '%s Recipients', 'buddypress' ), number_format_i18n( count( $recipients ) ) );
 		}
 
 		$recipient_links = array();
@@ -1201,7 +1201,7 @@ class BP_Messages_Thread {
 			$recipient_link = bp_core_get_userlink( $recipient->user_id );
 
 			if ( empty( $recipient_link ) ) {
-				$recipient_link = __( 'Deleted User', 'buddypress' );
+				$recipient_link = esc_html__( 'Deleted User', 'buddypress' );
 			}
 
 			$recipient_links[] = $recipient_link;
