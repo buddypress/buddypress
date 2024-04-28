@@ -108,8 +108,6 @@ function bp_nouveau_messages_member_interface() {
  * @since  3.2.0 Move the function into Template Tags and use a template part.
  */
 function bp_nouveau_message_search_form() {
-	$search_form_html = bp_buffer_template_part( 'common/js-templates/messages/search-form', null, false );
-
 	/**
 	 * Filters the private message component search form.
 	 *
@@ -117,5 +115,42 @@ function bp_nouveau_message_search_form() {
 	 *
 	 * @param string $search_form_html HTML markup for the message search form.
 	 */
-	echo apply_filters( 'bp_message_search_form', $search_form_html );
+	$search_form_html = apply_filters(
+		'bp_message_search_form',
+		bp_buffer_template_part( 'common/js-templates/messages/search-form', null, false )
+	);
+
+	echo wp_kses(
+		$search_form_html,
+		array(
+			'form'   => array(
+				'action'         => true,
+				'method'         => true,
+				'id'             => true,
+				'class'          => true,
+				'data-bp-search' => true,
+			),
+			'label'  => array(
+				'for'   => true,
+				'class' => true,
+			),
+			'input'  => array(
+				'type'        => true,
+				'id'          => true,
+				'name'        => true,
+				'placeholder' => true,
+				'class'       => true,
+			),
+			'button' => array(
+				'type'  => true,
+				'name'  => true,
+				'id'    => true,
+				'class' => true,
+			),
+			'span'   => array(
+				'class'       => true,
+				'aria-hidden' => true,
+			),
+		)
+	);
 }

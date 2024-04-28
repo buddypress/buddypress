@@ -478,6 +478,8 @@ function bp_nouveau_member_has_meta() {
  * @return string HTML Output.
  */
 function bp_nouveau_member_meta() {
+	// Escaping is made in `bp_nouveau_get_member_meta()`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo join( "\n", bp_nouveau_get_member_meta() );
 }
 
@@ -514,7 +516,7 @@ function bp_nouveau_member_meta() {
 			// We're in the members loop
 			} else {
 				$meta = array(
-					'last_activity' => sprintf( '%s', bp_get_member_last_active() ),
+					'last_activity' => sprintf( '%s', esc_html( bp_get_member_last_active() ) ),
 				);
 			}
 
@@ -745,6 +747,8 @@ function bp_nouveau_member_description( $user_id = 0 ) {
  * @return string HTML Output
  */
 function bp_nouveau_member_description_edit_link() {
+	// Escaping is made in `bp_nouveau_member_get_description_edit_link()`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_nouveau_member_get_description_edit_link();
 }
 

@@ -430,7 +430,7 @@ class BP_Nouveau_Group_Meta {
 	 */
 	public function __get( $key = '' ) {
 		/* translators: %s is the name of the function to use instead of the deprecated one */
-		_doing_it_wrong( 'bp_nouveau_group_meta', sprintf( __( 'Please use %s instead', 'buddypress' ), 'bp_nouveau_the_group_meta( array( \'keys\' => \'' . $key . '\' ) )' ) , '7.0.0' );
+		_doing_it_wrong( 'bp_nouveau_group_meta', sprintf( esc_html__( 'Please use %s instead', 'buddypress' ), 'bp_nouveau_the_group_meta( array( \'keys\' => \'' . esc_html( $key ) . '\' ) )' ) , '7.0.0' );
 
 		// Backwards compatibility.
 		return bp_nouveau_the_group_meta( array( 'keys' => $key, 'echo' => false ) );

@@ -9,11 +9,11 @@
 bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 
 <h2 class="screen-heading email-settings-screen">
-	<?php _e( 'Email Notifications', 'buddypress' ); ?>
+	<?php esc_html_e( 'Email Notifications', 'buddypress' ); ?>
 </h2>
 
 <p class="bp-help-text email-notifications-info">
-	<?php _e( 'Set your email notification preferences.', 'buddypress' ); ?>
+	<?php esc_html_e( 'Set your email notification preferences.', 'buddypress' ); ?>
 </p>
 
 <form action="<?php bp_displayed_user_link( array( bp_nouveau_get_component_slug( 'settings' ), 'notifications' ) ); ?>" method="post" class="standard-form" id="settings-form">

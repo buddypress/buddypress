@@ -35,15 +35,17 @@
 						<p class="meta group-details">
 							<span class="small">
 							<?php
-							printf(
-								/* translators: %s is the number of Group members */
-								_n(
-									'%s member',
-									'%s members',
-									bp_get_group_total_members( false ),
-									'buddypress'
-								),
-								number_format_i18n( bp_get_group_total_members( false ) )
+							echo esc_html(
+								sprintf(
+									/* translators: %s is the number of Group members */
+									_n(
+										'%s member',
+										'%s members',
+										bp_get_group_total_members( false ),
+										'buddypress'
+									),
+									number_format_i18n( bp_get_group_total_members( false ) )
+								)
 							);
 							?>
 							</span>

@@ -40,7 +40,7 @@
 							</a>
 						</cite>
 
-						<?php echo bp_insert_activity_meta(); ?>
+						<?php bp_output_activity_meta(); ?>
 
 					</footer>
 

@@ -19,7 +19,7 @@
 
 <?php bp_nouveau_member_hook( 'before', 'profile_content' ); ?>
 
-<div class="profile <?php echo bp_current_action(); ?>">
+<div class="profile <?php echo esc_attr( bp_current_action() ); ?>">
 
 <?php
 switch ( bp_current_action() ) :

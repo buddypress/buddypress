@@ -649,14 +649,12 @@ function bp_nouveau_activity_recurse_comments( $comment ) {
 		return;
 	}
 
-	/**
-	 * Filters the opening tag for the template that lists activity comments.
-	 *
-	 * @since 1.6.0
-	 *
-	 * @param string $value Opening tag for the HTML markup to use.
-	 */
-	echo apply_filters( 'bp_activity_recurse_comments_start_ul', '<ul>' );
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo apply_filters(
+		/** This filter is documented in bp-activity/bp-activity-template.php. */
+		'bp_activity_recurse_comments_start_ul',
+		'<ul>'
+	);
 
 	foreach ( (array) $comment->children as $comment_child ) {
 
@@ -682,14 +680,12 @@ function bp_nouveau_activity_recurse_comments( $comment ) {
 		unset( $activities_template->activity->current_comment );
 	}
 
-	/**
-	 * Filters the closing tag for the template that list activity comments.
-	 *
-	 * @since 1.6.0
-	 *
-	 * @param string $value Closing tag for the HTML markup to use.
-	 */
-	echo apply_filters( 'bp_activity_recurse_comments_end_ul', '</ul>' );
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo apply_filters(
+		/** This filter is documented in bp-activity/bp-activity-template.php. */
+		'bp_activity_recurse_comments_end_ul',
+		'</ul>'
+	);
 }
 
 /**
@@ -698,7 +694,20 @@ function bp_nouveau_activity_recurse_comments( $comment ) {
  * @since 3.0.0
  */
 function bp_nouveau_activity_comment_action() {
-	echo bp_nouveau_get_activity_comment_action();
+	echo wp_kses(
+		bp_nouveau_get_activity_comment_action(),
+		array(
+			'a'    => array(
+				'href'  => true,
+				'class' => true,
+			),
+			'time' => array(
+				'datetime'          => true,
+				'class'             => true,
+				'data-bp-timestamp' => true,
+			),
+		)
+	);
 }
 
 	/**
