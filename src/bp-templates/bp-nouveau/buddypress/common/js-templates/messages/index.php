@@ -37,7 +37,7 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 	<label for="send-to-input"><?php esc_html_e( 'Send @Username', 'buddypress' ); ?></label>
 	<input type="text" name="send_to" class="send-to-input" id="send-to-input" />
 
-	<label for="subject"><?php _e( 'Subject', 'buddypress' ); ?></label>
+	<label for="subject"><?php esc_html_e( 'Subject', 'buddypress' ); ?></label>
 	<input type="text" name="subject" id="subject"/>
 
 	<div id="bp-message-content"></div>
@@ -344,7 +344,7 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 
 				<?php bp_nouveau_messages_hook( 'before', 'reply_box' ); ?>
 
-				<label for="message_content" class="bp-screen-reader-text"><?php _e( 'Reply to Message', 'buddypress' ); ?></label>
+				<label for="message_content" class="bp-screen-reader-text"><?php esc_html_e( 'Reply to Message', 'buddypress' ); ?></label>
 				<div id="bp-message-content"></div>
 
 				<?php bp_nouveau_messages_hook( 'after', 'reply_box' ); ?>

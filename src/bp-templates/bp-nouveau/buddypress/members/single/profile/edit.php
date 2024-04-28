@@ -31,9 +31,9 @@ bp_nouveau_xprofile_hook( 'before', 'edit_content' ); ?>
 					<?php
 					printf(
 						/* translators: %s = profile field group name */
-						__( 'Editing "%s" Profile Group', 'buddypress' ),
-						bp_get_the_profile_group_name()
-					)
+						esc_html__( 'Editing "%s" Profile Group', 'buddypress' ),
+						esc_html( bp_get_the_profile_group_name() )
+					);
 					?>
 				</h3>
 

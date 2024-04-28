@@ -186,6 +186,8 @@ function bp_nouveau_dismiss_button_type() {
  * @since 3.0.0
  */
 function bp_nouveau_template_message() {
+	// Escaping is made in `bp-core/bp-core-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_nouveau_get_template_message();
 }
 
@@ -197,30 +199,29 @@ function bp_nouveau_template_message() {
 	 * @return string HTML Output.
 	 */
 	function bp_nouveau_get_template_message() {
-		$bp_nouveau = bp_nouveau();
+		$bp_nouveau       = bp_nouveau();
+		$template_message = '';
+		$type             = '';
 
 		if ( ! empty( $bp_nouveau->user_feedback['message'] ) ) {
-			$user_feedback = $bp_nouveau->user_feedback['message'];
-
-			// @TODO: why is this treated differently?
-			foreach ( array( 'wp_kses_data', 'wp_unslash', 'wptexturize', 'convert_smilies', 'convert_chars' ) as $filter ) {
-				$user_feedback = call_user_func( $filter, $user_feedback );
-			}
-
-			return '<p>' . $user_feedback . '</p>';
+			$template_message = $bp_nouveau->user_feedback['message'];
+			$type             = 'updated';
 
 		} elseif ( ! empty( $bp_nouveau->template_message['message'] ) ) {
-			/**
-			 * Filters the 'template_notices' feedback message content.
-			 *
-			 * @since 1.5.5
-			 *
-			 * @param string $template_message Feedback message content.
-			 * @param string $type             The type of message being displayed.
-			 *                                 Either 'updated' or 'error'.
-			 */
-			return apply_filters( 'bp_core_render_message_content', $bp_nouveau->template_message['message'], bp_nouveau_get_template_message_type() );
+			$template_message = $bp_nouveau->template_message['message'];
+			$type             = bp_nouveau_get_template_message_type();
 		}
+
+		/**
+		 * Filters the 'template_notices' feedback message content.
+		 *
+		 * @since 1.5.5
+		 *
+		 * @param string $template_message Feedback message content.
+		 * @param string $type             The type of message being displayed.
+		 *                                 Either 'updated' or 'error'.
+		 */
+		return apply_filters( 'bp_core_render_message_content', $template_message, $type );
 	}
 
 /**
@@ -1016,7 +1017,9 @@ function bp_nouveau_nav_classes() {
  * @since 3.0.0
  */
 function bp_nouveau_nav_scope() {
-	echo bp_nouveau_get_nav_scope();  // Escaped by bp_get_form_field_attributes().
+	// Escaping is made in `bp_get_form_field_attributes()`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo bp_nouveau_get_nav_scope();
 }
 	/**
 	 * Retrieve the specific scope for the current nav item.
@@ -1916,10 +1919,46 @@ function bp_nouveau_search_default_text( $text = '', $is_attr = true ) {
  */
 function bp_nouveau_search_form() {
 	$search_form_html = bp_buffer_template_part( 'common/search/search-form', null, false );
+	$allowed_html     = array(
+		'div'    => array(
+			'id'             => true,
+			'class'          => true,
+			'data-bp-search' => true,
+		),
+		'form'   => array(
+			'action' => true,
+			'method' => true,
+			'id'     => true,
+			'class'  => true,
+			'role'   => true,
+		),
+		'label'  => array(
+			'for'   => true,
+			'class' => true,
+		),
+		'input'  => array(
+			'type'        => true,
+			'id'          => true,
+			'name'        => true,
+			'placeholder' => true,
+			'class'       => true,
+		),
+		'button' => array(
+			'type'  => true,
+			'name'  => true,
+			'id'    => true,
+			'class' => true,
+		),
+		'span'   => array(
+			'id'          => true,
+			'class'       => true,
+			'aria-hidden' => true,
+		),
+	);
 
 	$objects = bp_nouveau_get_search_objects();
 	if ( empty( $objects['primary'] ) || empty( $objects['secondary'] ) ) {
-		echo $search_form_html;
+		echo wp_kses( $search_form_html, $allowed_html );
 		return;
 	}
 
@@ -1936,7 +1975,7 @@ function bp_nouveau_search_form() {
 		 *
 		 * @param string $search_form_html The HTML output for the directory search form.
 		 */
-		echo apply_filters( "bp_directory_{$objects['secondary']}_search_form", $search_form_html );
+		echo wp_kses( apply_filters( "bp_directory_{$objects['secondary']}_search_form", $search_form_html ), $allowed_html );
 
 		if ( 'activity' === $objects['secondary'] ) {
 			/**
@@ -1979,7 +2018,7 @@ function bp_nouveau_search_form() {
 			 *
 			 * @param string $search_form_html The HTML output for the directory search form.
 			 */
-			echo apply_filters( "bp_group_{$objects['secondary']}_search_form", $search_form_html );
+			echo wp_kses( apply_filters( "bp_group_{$objects['secondary']}_search_form", $search_form_html ), $allowed_html );
 
 		} else {
 			/**
@@ -1989,7 +2028,7 @@ function bp_nouveau_search_form() {
 			 *
 			 * @param string $search_form_html HTML markup for the member search form.
 			 */
-			echo apply_filters( 'bp_directory_members_search_form', $search_form_html );
+			echo wp_kses( apply_filters( 'bp_directory_members_search_form', $search_form_html ), $allowed_html );
 		}
 
 		if ( 'members' === $objects['secondary'] ) {
@@ -2208,7 +2247,9 @@ function bp_nouveau_filter_component() {
  * @since 3.0.0
  */
 function bp_nouveau_filter_options() {
-	echo bp_nouveau_get_filter_options();  // Escaped in inner functions.
+	// Escaping is made in `bp_nouveau_get_filter_options()`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo bp_nouveau_get_filter_options();
 }
 
 	/**
@@ -2414,7 +2455,7 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 				<input type="password" name="signup_password_confirm" id="pass2" class="password-entry-confirm" size="24" value="" <?php bp_form_field_attributes( 'password' ); ?> />
 			</p>
 
-			<p class="description indicator-hint"><?php echo wp_get_password_hint(); ?></p>
+			<p class="description indicator-hint"><?php echo esc_html( wp_get_password_hint() ); ?></p>
 			<?php
 		} else {
 			list( $label, $required, $value, $attribute_type, $type, $class ) = array_values( $attributes );
@@ -2432,8 +2473,10 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 			// Output the label for regular fields
 			if ( 'radio' !== $type ) {
 				if ( $required ) {
-					printf( $label_output, esc_attr( $name ), esc_html( $label ), __( '(required)', 'buddypress' ) );
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					printf( $label_output, esc_attr( $name ), esc_html( $label ), esc_html__( '(required)', 'buddypress' ) );
 				} else {
+					// phpcs:ignore WordPress.Security.EscapeOutput
 					printf( $label_output, esc_attr( $name ), esc_html( $label ) );
 				}
 
@@ -2517,31 +2560,35 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 				esc_attr( $type ),
 				esc_attr( $name ),
 				esc_attr( $id ),
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				$class,  // Constructed safely above.
 				esc_attr( $value ),
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				$attribute_type // Constructed safely above.
 			);
 
 			// Not a radio, let's output the field
 			if ( 'radio' !== $type ) {
 				if ( 'signup_blog_url' !== $name ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput
 					print( $field_output );  // Constructed safely above.
 
 				// If it's the signup blog url, it's specific to Multisite config.
 				} elseif ( is_subdomain_install() ) {
-					// Constructed safely above.
 					printf(
 						'%1$s %2$s . %3$s',
 						is_ssl() ? 'https://' : 'http://',
-						$field_output,
-						bp_signup_get_subdomain_base()
+						// phpcs:ignore WordPress.Security.EscapeOutput
+						$field_output, // Constructed safely above.
+						esc_url( bp_signup_get_subdomain_base() )
 					);
 
 				// Subfolders!
 				} else {
 					printf(
 						'%1$s %2$s',
-						home_url( '/' ),
+						esc_url( home_url( '/' ) ),
+						// phpcs:ignore WordPress.Security.EscapeOutput
 						$field_output  // Constructed safely above.
 					);
 				}
@@ -2549,6 +2596,7 @@ function bp_nouveau_signup_form( $section = 'account_details' ) {
 			// It's a radio, let's output the field inside the label
 			} else {
 				// $label_output and $field_output are constructed safely above.
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				printf( $label_output, esc_attr( $name ), $field_output . ' ' . esc_html( $label ) );
 			}
 		}
@@ -2623,6 +2671,7 @@ function bp_nouveau_submit_button( $action, $object_id = 0 ) {
 	);
 
 	// Output the submit button.
+	// phpcs:disable WordPress.Security.EscapeOutput
 	if ( isset( $submit_data['wrapper'] ) && false === $submit_data['wrapper'] ) {
 		echo $submit_input;
 
@@ -2630,6 +2679,7 @@ function bp_nouveau_submit_button( $action, $object_id = 0 ) {
 	} else {
 		printf( '<div class="submit">%s</div>', $submit_input );
 	}
+	// phpcs:enable
 
 	$nonce = $submit_data['nonce'];
 	if ( isset( $submit_data['nonce_placeholder_value'] ) ) {

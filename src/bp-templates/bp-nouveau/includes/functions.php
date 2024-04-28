@@ -304,7 +304,7 @@ function bp_nouveau_wrapper( $args = array() ) {
 		$container_classes = ' class="' . join( ' ', array_map( 'sanitize_html_class', $r['container_classes'] ) ) . '"';
 	}
 
-	// Print the wrapper and its content.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	printf( '<%1$s%2$s%3$s>%4$s</%1$s>', $container, $container_id, $container_classes, $output );
 }
 

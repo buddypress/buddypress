@@ -32,7 +32,7 @@
 				esc_html__( 'Active %s', 'buddypress' ),
 				sprintf(
 					'<span data-livestamp="%1$s">%2$s</span>',
-					bp_core_get_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ),
+					esc_attr( bp_core_get_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ) ),
 					esc_html( bp_get_group_last_active() )
 				)
 			);
@@ -57,7 +57,7 @@
 	<?php if ( bp_nouveau_group_has_meta_extra() ) : ?>
 		<div class="item-meta">
 
-			<?php echo bp_nouveau_the_group_meta( array( 'keys' => 'extra' ) ); ?>
+			<?php bp_nouveau_the_group_meta( array( 'keys' => 'extra' ) ); ?>
 
 		</div><!-- .item-meta -->
 	<?php endif; ?>

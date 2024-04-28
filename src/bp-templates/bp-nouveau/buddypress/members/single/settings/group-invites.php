@@ -8,7 +8,7 @@
 ?>
 
 <h2 class="screen-heading group-invites-screen">
-	<?php _e( 'Group Invites', 'buddypress' ); ?>
+	<?php esc_html_e( 'Group Invites', 'buddypress' ); ?>
 </h2>
 
 <?php

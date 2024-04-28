@@ -14,14 +14,16 @@
 			<strong><?php esc_html_e( 'Manage the Groups default front page', 'buddypress' ); ?></strong>
 
 			<p>
-			<?php
-			printf(
-				/* translators: 1: link to the customizer option. 2: link to the customizer widgets section. */
-				esc_html__( 'You can set your preferences for the %1$s or add %2$s to it.', 'buddypress' ),
-				bp_nouveau_groups_get_customizer_option_link(),
-				bp_nouveau_groups_get_customizer_widgets_link()
-			);
-			?>
+				<?php
+				printf(
+					/* translators: 1: link to the customizer option. 2: link to the customizer widgets section. */
+					esc_html__( 'You can set your preferences for the %1$s or add %2$s to it.', 'buddypress' ),
+					// phpcs:disable WordPress.Security.EscapeOutput
+					bp_nouveau_groups_get_customizer_option_link(), // Escaped in `bp_nouveau_get_customizer_link()`.
+					bp_nouveau_groups_get_customizer_widgets_link() // Escaped in `bp_nouveau_get_customizer_link()`.
+					// phpcs:enable
+				);
+				?>
 			</p>
 
 		</div><!-- .custom-homepage-info -->

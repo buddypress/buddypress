@@ -1299,6 +1299,45 @@ function bp_activity_secondary_avatar( $args = '' ) {
 	}
 
 /**
+ * Returns the Allowed HTML tags for the activity action.
+ *
+ * @since 12.4.1
+ *
+ * @return array The Allowed HTML tags for the activity action.
+ */
+function bp_activity_action_allowed_html() {
+	return array(
+		'p'    => true,
+		'a'    => array(
+			'href'            => true,
+			'class'           => true,
+			'data-bp-tooltip' => true,
+		),
+		'span' => array(
+			'class'          => true,
+			'data-livestamp' => true,
+		),
+		'img'  => array(
+			'src'     => true,
+			'loading' => true,
+			'class'   => true,
+			'alt'     => true,
+			'height'  => true,
+			'width'   => true,
+		),
+	);
+}
+
+/**
+ * Output Activity metadata.
+ *
+ * @since 12.4.1
+ */
+function bp_output_activity_meta( $content = '' ) {
+	echo wp_kses( bp_insert_activity_meta( $content ), bp_activity_action_allowed_html() );
+}
+
+/**
  * Output the activity action.
  *
  * @since 1.2.0
@@ -1306,28 +1345,7 @@ function bp_activity_secondary_avatar( $args = '' ) {
  * @param array $args See bp_get_activity_action().
  */
 function bp_activity_action( $args = array() ) {
-	echo wp_kses(
-		bp_get_activity_action( $args ),
-		array(
-			'p'    => true,
-			'a'    => array(
-				'href'            => true,
-				'class'           => true,
-				'data-bp-tooltip' => true,
-			),
-			'span' => array(
-				'class' => true,
-			),
-			'img'  => array(
-				'src'     => true,
-				'loading' => true,
-				'class'   => true,
-				'alt'     => true,
-				'height'  => true,
-				'width'   => true,
-			),
-		)
-	);
+	echo wp_kses( bp_get_activity_action( $args ), bp_activity_action_allowed_html() );
 }
 
 	/**
