@@ -364,11 +364,11 @@ class BP_Admin_Types {
 			if ( ! isset( $labels->{ $meta_key } ) || ! $labels->{ $meta_key } ) {
 				_doing_it_wrong(
 					__METHOD__,
-					__( 'Type metadata labels need to be set into the labels argument when registering your taxonomy using the meta key as the label’s key.', 'buddypress' )
+					esc_html__( 'Type metadata labels need to be set into the labels argument when registering your taxonomy using the meta key as the label’s key.', 'buddypress' )
 					. ' ' .
 					sprintf(
 						/* translators: %s is the name of the Type meta key */
-						__( 'As a result, the form elements for the "%s" meta key cannot be displayed', 'buddypress' ), $meta_key ),
+						esc_html__( 'As a result, the form elements for the "%s" meta key cannot be displayed', 'buddypress' ), esc_html( $meta_key ) ),
 					'7.0.0'
 				);
 				continue;
@@ -431,6 +431,7 @@ class BP_Admin_Types {
 						</tr>',
 						esc_attr( $meta_key ),
 						esc_html( $labels->{ $meta_key } ),
+						// phpcs:ignore WordPress.Security.EscapeOutput
 						$checked,
 						esc_html__( 'Yes', 'buddypress' ),
 						esc_html( $meta_schema['description'] )

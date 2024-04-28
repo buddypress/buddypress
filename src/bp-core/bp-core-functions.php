@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.6.0
  */
 function bp_version() {
-	echo bp_get_version();
+	echo esc_html( bp_get_version() );
 }
 	/**
 	 * Return the BuddyPress version.
@@ -37,7 +37,7 @@ function bp_version() {
  * @since 1.6.0
  */
 function bp_db_version() {
-	echo bp_get_db_version();
+	echo esc_html( bp_get_db_version() );
 }
 	/**
 	 * Return the BuddyPress database version.
@@ -56,7 +56,7 @@ function bp_db_version() {
  * @since 1.6.0
  */
 function bp_db_version_raw() {
-	echo bp_get_db_version_raw();
+	echo esc_html( bp_get_db_version_raw() );
 }
 	/**
 	 * Return the BuddyPress database version.
@@ -78,7 +78,7 @@ function bp_db_version_raw() {
  * @param string $version BuddyPress version.
  */
 function bp_major_version( $version = '' ) {
-	echo bp_get_major_version( $version );
+	echo esc_html( bp_get_major_version( $version ) );
 }
 
 	/**
@@ -112,7 +112,7 @@ function bp_major_version( $version = '' ) {
  * @since 11.0.0
  */
 function bp_initial_version() {
-	echo bp_get_initial_version();
+	echo esc_html( bp_get_initial_version() );
 }
 
 	/**
@@ -1600,7 +1600,7 @@ function bp_core_time_old( $birth_date ) {
  * @return string|null
  */
  function bp_core_iso8601_date( $timestamp = '' ) {
-	echo bp_core_get_iso8601_date( $timestamp );
+	echo esc_attr( bp_core_get_iso8601_date( $timestamp ) );
 }
 	/**
 	 * Return an ISO-8601 date from a date string.
@@ -1725,7 +1725,11 @@ function bp_core_render_message() {
 
 		<div id="message" class="bp-template-notice <?php echo esc_attr( $type ); ?>">
 
-			<?php echo $content; ?>
+			<?php
+				// Escaping is done in `bp-core/bp-core-filters.php`.
+				// phpcs:ignore WordPress.Security.EscapeOutput
+				echo $content;
+			?>
 
 		</div>
 
@@ -3194,7 +3198,7 @@ function bp_upload_dir() {
  * @since 2.5.0
  */
 function bp_email_post_type() {
-	echo bp_get_email_post_type();
+	echo esc_html( bp_get_email_post_type() );
 }
 	/**
 	 * Returns the name of the email post type.
@@ -3320,7 +3324,7 @@ function bp_get_taxonomy_common_labels() {
  * @since 2.5.0
  */
 function bp_email_tax_type() {
-	echo bp_get_email_tax_type();
+	echo esc_html( bp_get_email_tax_type() );
 }
 	/**
 	 * Return the name of the email type taxonomy.
@@ -4525,8 +4529,8 @@ function bp_email_unsubscribe_handler() {
 			sprintf( '%1$s %2$s', esc_html( $unsub_msg ), esc_html( $result_msg ) ),
 			esc_html( $unsub_msg ),
 			array(
-				'link_url'  => home_url(),
-				'link_text' => __( 'Go to website\'s home page.', 'buddypress' ),
+				'link_url'  => esc_url( home_url() ),
+				'link_text' => esc_html__( 'Go to website\'s home page.', 'buddypress' ),
 			)
 		);
 	}

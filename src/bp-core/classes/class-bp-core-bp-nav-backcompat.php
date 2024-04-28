@@ -67,7 +67,7 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	public function offsetSet( $offset, $value ) {
 		_doing_it_wrong(
 			'bp_nav',
-			__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
+			esc_html__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
 			'2.6.0'
 		);
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -86,7 +86,7 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	public function offsetGet( $offset ) {
 		_doing_it_wrong(
 			'bp_nav',
-			__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
+			esc_html__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
 			'2.6.0'
 		);
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -105,7 +105,7 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	public function offsetExists( $offset ) {
 		_doing_it_wrong(
 			'bp_nav',
-			__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
+			esc_html__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
 			'2.6.0'
 		);
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -123,7 +123,7 @@ class BP_Core_BP_Nav_BackCompat implements ArrayAccess {
 	public function offsetUnset( $offset ) {
 		_doing_it_wrong(
 			'bp_nav',
-			__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
+			esc_html__( 'The bp_nav and bp_options_nav globals should not be used directly and are deprecated. Please use the BuddyPress nav functions instead.', 'buddypress' ),
 			'2.6.0'
 		);
 		_deprecated_function( __METHOD__, '12.0.0' );

@@ -802,7 +802,7 @@ class BP_Admin {
 						<?php printf(
 							/* translators: %s is the placeholder for the BuddyPress version number. */
 							esc_html__( 'BuddyPress %s', 'buddypress' ),
-							$version
+							esc_html( $version )
 						); ?>
 					</h1>
 				</div>
@@ -820,6 +820,7 @@ class BP_Admin {
 							printf(
 									/* Translators: %s is a raising hands emoji. */
 									esc_html__( 'You now have complete control over all BuddyPress-generated URLs %s', 'buddypress' ),
+									// phpcs:ignore WordPress.Security.EscapeOutput
 									wp_staticize_emoji( '🙌' )
 								);
 							?>
@@ -890,6 +891,7 @@ class BP_Admin {
 							printf(
 									/* Translators: %s is a woman supervillain emoji. */
 									esc_html__( 'Here\'s another benefit of the BP Rewrites API: the new "members only" community visibility level %s', 'buddypress' ),
+									// phpcs:ignore WordPress.Security.EscapeOutput
 									wp_staticize_emoji( '🦹🏻' )
 								);
 							?>
@@ -929,6 +931,7 @@ class BP_Admin {
 								printf(
 									/* Translators: %s is a smiling face with heart-eyes emoji. */
 									esc_html__( 'Many thanks to you for trusting BuddyPress to power your community site %s', 'buddypress' ),
+									// phpcs:ignore WordPress.Security.EscapeOutput
 									wp_staticize_emoji( '😍' )
 								);
 							?>
@@ -942,12 +945,22 @@ class BP_Admin {
 				<div class="bp-hello-social-cta">
 					<p>
 						<?php
-						printf(
-							/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
-							_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 49, 'buddypress' ),
-							'<span class="dashicons dashicons-heart"></span>',
-							esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-							number_format_i18n( 49 )
+						echo wp_kses(
+							sprintf(
+								/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
+								_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 49, 'buddypress' ),
+								'<span class="dashicons dashicons-heart"></span>',
+								esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
+								esc_html( number_format_i18n( 49 ) )
+							),
+							array(
+								'a'    => array(
+									'href' => true,
+								),
+								'span' => array(
+									'class' => true,
+								)
+							)
 						);
 						?>
 					</p>
@@ -1098,7 +1111,7 @@ class BP_Admin {
 				printf(
 					/* translators: %s: BuddyPress version number */
 					esc_html__( 'Noteworthy Contributors to %s', 'buddypress' ),
-					self::display_version()
+					esc_html( self::display_version() )
 				);
 				?>
 			</h3>
@@ -1122,7 +1135,7 @@ class BP_Admin {
 				printf(
 					/* translators: %s: BuddyPress version number */
 					esc_html__( 'All Contributors to BuddyPress %s', 'buddypress' ),
-					self::display_version()
+					esc_html( self::display_version() )
 				);
 				?>
 			</h3>
@@ -1261,13 +1274,13 @@ class BP_Admin {
 		$taxonomy_object = get_taxonomy( bp_get_email_tax_type() );
 
 		if ( is_wp_error( $terms ) || ! $terms  ) {
-			printf( '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">%s</span>', $taxonomy_object->labels->no_terms );
+			printf( '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">%s</span>', esc_html( $taxonomy_object->labels->no_terms ) );
 		} else {
 			$situations = wp_list_pluck( $terms, 'description' );
 
 			// Output each situation as a list item.
 			echo '<ul><li>';
-			echo implode( '</li><li>', $situations );
+			echo implode( '</li><li>', array_map( 'esc_html', $situations ) );
 			echo '</li></ul>';
 		}
 	}

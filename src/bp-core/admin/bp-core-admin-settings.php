@@ -27,7 +27,7 @@ function bp_admin_setting_callback_admin_bar() {
 ?>
 
 	<input id="hide-loggedout-adminbar" name="hide-loggedout-adminbar" type="checkbox" value="1" <?php checked( !bp_hide_loggedout_adminbar( false ) ); ?> />
-	<label for="hide-loggedout-adminbar"><?php _e( 'Show the Toolbar for logged out users', 'buddypress' ); ?></label>
+	<label for="hide-loggedout-adminbar"><?php esc_html_e( 'Show the Toolbar for logged out users', 'buddypress' ); ?></label>
 
 <?php
 }
@@ -108,6 +108,7 @@ function bp_admin_setting_callback_theme_package_id() {
 		);
 	}
 
+	// phpcs:disable WordPress.Security.EscapeOutput
 	if ( $options ) : ?>
 		<select name="_bp_theme_package_id" id="_bp_theme_package_id" aria-describedby="_bp_theme_package_description"><?php echo $options; ?></select>
 		<p id="_bp_theme_package_description" class="description"><?php esc_html_e( 'The selected Template Pack will serve all BuddyPress templates.', 'buddypress' ); ?></p>
@@ -116,6 +117,7 @@ function bp_admin_setting_callback_theme_package_id() {
 		<p><?php esc_html_e( 'No template packages available.', 'buddypress' ); ?></p>
 
 	<?php endif;
+	// phpcs:enable
 }
 
 /** Activity *******************************************************************/
@@ -137,7 +139,7 @@ function bp_admin_setting_callback_activity_akismet() {
 ?>
 
 	<input id="_bp_enable_akismet" name="_bp_enable_akismet" type="checkbox" value="1" <?php checked( bp_is_akismet_active( true ) ); ?> />
-	<label for="_bp_enable_akismet"><?php _e( 'Allow Akismet to scan for activity stream spam', 'buddypress' ); ?></label>
+	<label for="_bp_enable_akismet"><?php esc_html_e( 'Allow Akismet to scan for activity stream spam', 'buddypress' ); ?></label>
 
 <?php
 }
@@ -169,7 +171,7 @@ function bp_admin_setting_callback_heartbeat() {
 ?>
 
 	<input id="_bp_enable_heartbeat_refresh" name="_bp_enable_heartbeat_refresh" type="checkbox" value="1" <?php checked( bp_is_activity_heartbeat_active( true ) ); ?> />
-	<label for="_bp_enable_heartbeat_refresh"><?php _e( 'Automatically check for new items while viewing the activity stream', 'buddypress' ); ?></label>
+	<label for="_bp_enable_heartbeat_refresh"><?php esc_html_e( 'Automatically check for new items while viewing the activity stream', 'buddypress' ); ?></label>
 
 <?php
 }
@@ -207,8 +209,8 @@ function bp_admin_setting_callback_members_section() { }
  */
 function bp_admin_setting_callback_avatar_uploads() {
 ?>
-	<input id="bp-disable-avatar-uploads" name="bp-disable-avatar-uploads" type="checkbox" value="1" <?php checked( !bp_disable_avatar_uploads( false ) ); ?> />
-	<label for="bp-disable-avatar-uploads"><?php _e( 'Allow registered members to upload avatars', 'buddypress' ); ?></label>
+	<input id="bp-disable-avatar-uploads" name="bp-disable-avatar-uploads" type="checkbox" value="1" <?php checked( ! bp_disable_avatar_uploads( false ) ); ?> />
+	<label for="bp-disable-avatar-uploads"><?php esc_html_e( 'Allow registered members to upload avatars', 'buddypress' ); ?></label>
 <?php
 }
 
@@ -221,7 +223,7 @@ function bp_admin_setting_callback_avatar_uploads() {
 function bp_admin_setting_callback_cover_image_uploads() {
 ?>
 	<input id="bp-disable-cover-image-uploads" name="bp-disable-cover-image-uploads" type="checkbox" value="1" <?php checked( ! bp_disable_cover_image_uploads() ); ?> />
-	<label for="bp-disable-cover-image-uploads"><?php _e( 'Allow registered members to upload cover images', 'buddypress' ); ?></label>
+	<label for="bp-disable-cover-image-uploads"><?php esc_html_e( 'Allow registered members to upload cover images', 'buddypress' ); ?></label>
 <?php
 }
 
@@ -233,7 +235,7 @@ function bp_admin_setting_callback_cover_image_uploads() {
 function bp_admin_setting_callback_members_invitations() {
 ?>
 	<input id="bp-enable-members-invitations" name="bp-enable-members-invitations" type="checkbox" value="1" <?php checked( bp_get_members_invitations_allowed() ); ?> />
-	<label for="bp-enable-members-invitations"><?php _e( 'Allow registered members to invite people to join this network', 'buddypress' ); ?></label>
+	<label for="bp-enable-members-invitations"><?php esc_html_e( 'Allow registered members to invite people to join this network', 'buddypress' ); ?></label>
 	<?php if ( ! bp_get_signup_allowed() ) : ?>
 		<p class="description"><?php esc_html_e( 'Public registration is currently disabled. However, invitees will still be able to register if network invitations are enabled.', 'buddypress' ); ?></p>
 	<?php endif; ?>
@@ -295,7 +297,7 @@ function bp_admin_setting_callback_profile_sync() {
 ?>
 
 	<input id="bp-disable-profile-sync" name="bp-disable-profile-sync" type="checkbox" value="1" <?php checked( !bp_disable_profile_sync( false ) ); ?> />
-	<label for="bp-disable-profile-sync"><?php _e( 'Enable BuddyPress to WordPress profile syncing', 'buddypress' ); ?></label>
+	<label for="bp-disable-profile-sync"><?php esc_html_e( 'Enable BuddyPress to WordPress profile syncing', 'buddypress' ); ?></label>
 
 <?php
 }
@@ -319,8 +321,8 @@ function bp_admin_setting_callback_group_creation() {
 ?>
 
 	<input id="bp_restrict_group_creation" name="bp_restrict_group_creation" type="checkbox" aria-describedby="bp_group_creation_description" value="1" <?php checked( !bp_restrict_group_creation( false ) ); ?> />
-	<label for="bp_restrict_group_creation"><?php _e( 'Enable group creation for all users', 'buddypress' ); ?></label>
-	<p class="description" id="bp_group_creation_description"><?php _e( 'Administrators can always create groups, regardless of this setting.', 'buddypress' ); ?></p>
+	<label for="bp_restrict_group_creation"><?php esc_html_e( 'Enable group creation for all users', 'buddypress' ); ?></label>
+	<p class="description" id="bp_group_creation_description"><?php esc_html_e( 'Administrators can always create groups, regardless of this setting.', 'buddypress' ); ?></p>
 
 <?php
 }
@@ -333,7 +335,7 @@ function bp_admin_setting_callback_group_creation() {
 function bp_admin_setting_callback_group_avatar_uploads() {
 ?>
 	<input id="bp-disable-group-avatar-uploads" name="bp-disable-group-avatar-uploads" type="checkbox" value="1" <?php checked( ! bp_disable_group_avatar_uploads() ); ?> />
-	<label for="bp-disable-group-avatar-uploads"><?php _e( 'Allow customizable avatars for groups', 'buddypress' ); ?></label>
+	<label for="bp-disable-group-avatar-uploads"><?php esc_html_e( 'Allow customizable avatars for groups', 'buddypress' ); ?></label>
 <?php
 }
 
@@ -345,7 +347,7 @@ function bp_admin_setting_callback_group_avatar_uploads() {
 function bp_admin_setting_callback_group_cover_image_uploads() {
 ?>
 	<input id="bp-disable-group-cover-image-uploads" name="bp-disable-group-cover-image-uploads" type="checkbox" value="1" <?php checked( ! bp_disable_group_cover_image_uploads() ); ?> />
-	<label for="bp-disable-group-cover-image-uploads"><?php _e( 'Allow customizable cover images for groups', 'buddypress' ); ?></label>
+	<label for="bp-disable-group-cover-image-uploads"><?php esc_html_e( 'Allow customizable cover images for groups', 'buddypress' ); ?></label>
 <?php
 }
 
@@ -462,6 +464,7 @@ add_action( 'bp_admin_init', 'bp_core_admin_settings_save', 100 );
  * @param bool   $slug    Form option slug.
  */
 function bp_form_option( $option, $default = '' , $slug = false ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_form_option( $option, $default, $slug );
 }
 

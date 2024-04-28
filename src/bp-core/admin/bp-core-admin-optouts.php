@@ -437,7 +437,7 @@ function bp_core_optouts_admin_manage( $action = '' ) {
 					<?php
 					$last_modified = mysql2date( 'Y/m/d g:i:s a', $optout->date_modified );
 					/* translators: %s: modification date */
-					printf( esc_html__( 'Date modified: %s', 'buddypress'), $last_modified );
+					printf( esc_html__( 'Date modified: %s', 'buddypress'), esc_html( $last_modified ) );
 					?>
 				</p>
 			</li>

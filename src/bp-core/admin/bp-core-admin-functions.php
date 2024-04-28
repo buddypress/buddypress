@@ -115,9 +115,9 @@ function bp_core_admin_backpat_page() {
 			<?php
 			printf(
 				// Translators: 1: is the url to the BP Components settings screen. 2: is the url to the xProfile administration screen.
-				__( 'Components, Pages, Settings, and Forums, have been moved to <a href="%1$s">Settings &gt; BuddyPress</a>. Profile Fields has been moved into the <a href="%2$s">Users</a> menu.', 'buddypress' ),
+				esc_html__( 'Components, Pages, Settings, and Forums, have been moved to <a href="%1$s">Settings &gt; BuddyPress</a>. Profile Fields has been moved into the <a href="%2$s">Users</a> menu.', 'buddypress' ),
 				esc_url( $settings_url ),
-				bp_get_admin_url( 'users.php?page=bp-profile-setup' )
+				esc_url( bp_get_admin_url( 'users.php?page=bp-profile-setup' ) )
 			);
 			?>
 		</p>
@@ -160,7 +160,19 @@ function bp_core_print_admin_notices() {
 		printf( '<div id="message" class="fade %s notice is-dismissible">', sanitize_html_class( $type ) );
 
 		foreach ( $notices as $notice ) {
-			printf( '<p>%s</p>', $notice['message'] );
+			printf(
+				'<p>%s</p>',
+				wp_kses(
+					$notice['message'],
+					array(
+						'strong' => true,
+						'code'   => true,
+						'a'      => array(
+							'href' => true,
+						),
+					)
+				)
+			);
 		}
 
 		printf( '</div>' );
@@ -422,7 +434,17 @@ function bp_core_admin_tabbed_screen_header( $title = '', $active_tab = '', $con
 			<?php if ( isset( $bp->admin->nav_tabs ) && $bp->admin->nav_tabs ) : ?>
 				<?php foreach ( $bp->admin->nav_tabs as $nav_tab ) : ?>
 
-					<?php echo $nav_tab; ?>
+					<?php
+						echo wp_kses(
+							$nav_tab,
+							array(
+								'a' => array(
+									'href'  => true,
+									'class' => true
+								),
+							)
+						);
+					?>
 
 				<?php endforeach; ?>
 			<?php else : ?>
@@ -471,7 +493,9 @@ function bp_core_admin_tabs( $active_tab = '', $context = 'settings', $echo = tr
 		return $tabs_html;
 	}
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo implode( "\n", $tabs_html );
+
 	/**
 	 * Fires after the output of tabs for the admin area.
 	 *
@@ -650,7 +674,7 @@ function bp_backcompat_admin_tabs( $context = '', $active_tab = '' ) {
 	if ( ! $bp->admin->active_nav_tab || $active_tab !== $bp->admin->active_nav_tab ) {
 		_doing_it_wrong(
 			'bp_core_admin_tabs()',
-			__( 'BuddyPress Settings and Tools Screens are now using a new tabbed header. Please use `bp_core_admin_tabbed_screen_header()` instead of bp_core_admin_tabs() to output tabs.', 'buddypress' ),
+			esc_html__( 'BuddyPress Settings and Tools Screens are now using a new tabbed header. Please use `bp_core_admin_tabbed_screen_header()` instead of bp_core_admin_tabs() to output tabs.', 'buddypress' ),
 			'10.0.0'
 		);
 
@@ -1159,6 +1183,7 @@ function bp_admin_do_wp_nav_menu_meta_box( $object = '', $box = array() ) {
 		$output = str_replace( $tabs_nav[1], $bp_tabs_nav, $output );
 	}
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo preg_replace( '/\<div(\sclass=\".*\"\s|\s)id=\"tabs-panel-posttype-bp_nav_menu_item-search\"[^>]*>(.*?)\<\/div\>/s', $all_bp_tabs, $output );
 }
 
@@ -1240,6 +1265,8 @@ function bp_email_tax_type_metabox( $post, $box ) {
 	);
 
 	$tax_name = esc_attr( $r['taxonomy'] );
+
+	// phpcs:disable WordPress.Security.EscapeOutput
 	?>
 	<div id="taxonomy-<?php echo $tax_name; ?>" class="categorydiv">
 		<div id="<?php echo $tax_name; ?>-all" class="tabs-panel">
@@ -1263,6 +1290,7 @@ function bp_email_tax_type_metabox( $post, $box ) {
 		<p><?php esc_html_e( 'Choose when this email will be sent.', 'buddypress' ); ?></p>
 	</div>
 	<?php
+	// phpcs:enable
 }
 
 /**
@@ -1292,11 +1320,15 @@ function bp_email_plaintext_metabox( $post ) {
 	<label class="screen-reader-text" for="excerpt">
 	<?php
 		/* translators: accessibility text */
-		_e( 'Plain text email content', 'buddypress' );
+		esc_html_e( 'Plain text email content', 'buddypress' );
 	?>
-	</label><textarea rows="5" cols="40" name="excerpt" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
+	</label>
+		<textarea rows="5" cols="40" name="excerpt" id="excerpt"><?php
+			// phpcs:ignore WordPress.Security.EscapeOutput
+			echo $post->post_excerpt; ?>
+		</textarea>
 
-	<p><?php _e( 'Most email clients support HTML email. However, some people prefer to receive plain text email. Enter a plain text alternative version of your email here.', 'buddypress' ); ?></p>
+	<p><?php esc_html_e( 'Most email clients support HTML email. However, some people prefer to receive plain text email. Enter a plain text alternative version of your email here.', 'buddypress' ); ?></p>
 
 	<?php
 }
@@ -1589,7 +1621,7 @@ function bp_core_admin_format_notifications( $notification = null ) {
 	<div class="bp-welcome-panel bp-notice-container">
 		<a class="bp-welcome-panel-close bp-is-dismissible" href="#" data-notice_id="<?php echo esc_attr( $notification->id ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the notification', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
 		<div class="bp-welcome-panel-content">
-			<h2><span class="bp-version"><?php echo number_format_i18n( $notification->version, 1 ); ?></span> <?php echo esc_html( $notification->title ); ?></h2>
+			<h2><span class="bp-version"><?php echo esc_html( number_format_i18n( $notification->version, 1 ) ); ?></span> <?php echo esc_html( $notification->title ); ?></h2>
 			<p class="about-description">
 				<?php echo wp_kses( $notification->content, array( 'a' => array( 'href' => true ), 'br' => array(), 'strong' => array() ) ); ?>
 			</p>

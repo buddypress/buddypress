@@ -414,6 +414,7 @@ function bp_buffer_template_part( $slug, $name = null, $echo = true, $args = arr
 
 	// Echo or return the output buffer contents.
 	if ( true === $echo ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $output;
 	} else {
 		return $output;

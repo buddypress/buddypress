@@ -279,7 +279,7 @@ class BuddyPress {
 	 * @since 1.7.0
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'buddypress' ), '1.7' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'buddypress' ), '1.7' );
 	}
 
 	/**
@@ -288,7 +288,7 @@ class BuddyPress {
 	 * @since 1.7.0
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', 'buddypress' ), '1.7' );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Cheatin&#8217; huh?', 'buddypress' ), '1.7' );
 	}
 
 	/**
@@ -316,7 +316,7 @@ class BuddyPress {
 	public function __get( $key ) {
 		$valid_key = $key;
 		if ( 'root_domain' === $key ) {
-			_doing_it_wrong( 'root_domain', __( 'The root_domain BuddyPress main class property is deprecated since 12.0.0, please use the root_url property instead.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			_doing_it_wrong( 'root_domain', esc_html__( 'The root_domain BuddyPress main class property is deprecated since 12.0.0, please use the root_url property instead.', 'buddypress' ), 'BuddyPress 12.0.0' );
 			$valid_key = 'root_url';
 		}
 
@@ -334,7 +334,7 @@ class BuddyPress {
 	public function __set( $key, $value ) {
 		$valid_key = $key;
 		if ( 'root_domain' === $key ) {
-			_doing_it_wrong( 'root_domain', __( 'The root_domain BuddyPress main class property is deprecated since 12.0.0, please use the root_url property instead.', 'buddypress' ), 'BuddyPress 12.0.0' );
+			_doing_it_wrong( 'root_domain', esc_html__( 'The root_domain BuddyPress main class property is deprecated since 12.0.0, please use the root_url property instead.', 'buddypress' ), 'BuddyPress 12.0.0' );
 			$valid_key = 'root_url';
 		}
 
