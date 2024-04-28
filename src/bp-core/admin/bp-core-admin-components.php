@@ -186,10 +186,12 @@ function bp_core_admin_components_options() {
 	);
 	?>
 
-	<h3 class="screen-reader-text"><?php
-		/* translators: accessibility text */
-		esc_html_e( 'Filter components list', 'buddypress' );
-	?></h3>
+	<h3 class="screen-reader-text">
+		<?php
+			/* translators: accessibility text */
+			esc_html_e( 'Filter components list', 'buddypress' );
+		?>
+	</h3>
 
 	<ul class="subsubsub">
 		<?php foreach ( $component_views as $component_view ) : ?>
@@ -201,44 +203,55 @@ function bp_core_admin_components_options() {
 		<?php endforeach ;?>
 	</ul>
 
-	<h3 class="screen-reader-text"><?php
-		/* translators: accessibility text */
-		esc_html_e( 'Components list', 'buddypress' );
-	?></h3>
+	<h3 class="screen-reader-text">
+		<?php
+			/* translators: accessibility text */
+			esc_html_e( 'Components list', 'buddypress' );
+		?>
+	</h3>
 
 	<table class="wp-list-table widefat plugins">
 		<thead>
 			<tr>
 				<td id="cb" class="manage-column column-cb check-column"><input id="cb-select-all-1" type="checkbox" <?php checked( empty( $inactive_components ) ); ?>>
-					<label class="screen-reader-text" for="cb-select-all-1"><?php
-					/* translators: accessibility text */
-					_e( 'Enable or disable all optional components in bulk', 'buddypress' );
-				?></label></td>
-				<th scope="col" id="name" class="manage-column column-title column-primary"><?php _e( 'Component', 'buddypress' ); ?></th>
-				<th scope="col" id="description" class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
+					<label class="screen-reader-text" for="cb-select-all-1">
+						<?php
+							/* translators: accessibility text */
+							esc_html_e( 'Enable or disable all optional components in bulk', 'buddypress' );
+						?>
+					</label>
+				</td>
+				<th scope="col" id="name" class="manage-column column-title column-primary"><?php esc_html_e( 'Component', 'buddypress' ); ?></th>
+				<th scope="col" id="description" class="manage-column column-description"><?php esc_html_e( 'Description', 'buddypress' ); ?></th>
 			</tr>
 		</thead>
 
 		<tbody id="the-list">
 
-			<?php if ( !empty( $current_components ) ) : ?>
+			<?php if ( ! empty( $current_components ) ) : ?>
 
 				<?php foreach ( $current_components as $name => $labels ) : ?>
 
-					<?php if ( !in_array( $name, array( 'core', 'members' ) ) ) :
+					<?php
+					if ( ! in_array( $name, array( 'core', 'members' ) ) ) {
 						$class = isset( $active_components[esc_attr( $name )] ) ? 'active' : 'inactive';
-					else :
+					} else {
 						$class = 'active';
-					endif; ?>
+					}
+					?>
 
 					<tr id="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( $name ) . ' ' . esc_attr( $class ); ?>">
 						<th scope="row" class="check-column">
 
-							<?php if ( !in_array( $name, array( 'core', 'members' ) ) ) : ?>
+							<?php if ( ! in_array( $name, array( 'core', 'members' ) ) ) : ?>
 
-								<input type="checkbox" id="<?php echo esc_attr( "bp_components[$name]" ); ?>" name="<?php echo esc_attr( "bp_components[$name]" ); ?>" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> /><label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" class="screen-reader-text"><?php
-									/* translators: accessibility text */
-									printf( __( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) ); ?></label>
+								<input type="checkbox" id="<?php echo esc_attr( "bp_components[$name]" ); ?>" name="<?php echo esc_attr( "bp_components[$name]" ); ?>" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> />
+								<label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" class="screen-reader-text">
+									<?php
+										/* translators: accessibility text */
+										printf( esc_html__( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) );
+									?>
+								</label>
 
 							<?php endif; ?>
 
@@ -252,7 +265,22 @@ function bp_core_admin_components_options() {
 
 						<td class="column-description desc">
 							<div class="plugin-description">
-								<p><?php echo $labels['description']; ?></p>
+								<p>
+									<?php
+										echo wp_kses(
+											$labels['description'],
+											array(
+												'a'    => array(
+													'href' => true,
+												),
+												'del'  => true,
+												'span' => array(
+													'class' => true,
+												),
+											)
+										);
+									?>
+								</p>
 							</div>
 
 						</td>
@@ -263,7 +291,7 @@ function bp_core_admin_components_options() {
 			<?php else : ?>
 
 				<tr class="no-items">
-					<td class="colspanchange" colspan="3"><?php _e( 'No components found.', 'buddypress' ); ?></td>
+					<td class="colspanchange" colspan="3"><?php esc_html_e( 'No components found.', 'buddypress' ); ?></td>
 				</tr>
 
 			<?php endif; ?>
@@ -273,12 +301,15 @@ function bp_core_admin_components_options() {
 		<tfoot>
 			<tr>
 				<td class="manage-column column-cb check-column"><input id="cb-select-all-2" type="checkbox" <?php checked( empty( $inactive_components ) ); ?>>
-					<label class="screen-reader-text" for="cb-select-all-2"><?php
-					/* translators: accessibility text */
-					_e( 'Enable or disable all optional components in bulk', 'buddypress' );
-				?></label></td>
-				<th class="manage-column column-title column-primary"><?php _e( 'Component', 'buddypress' ); ?></th>
-				<th class="manage-column column-description"><?php _e( 'Description', 'buddypress' ); ?></th>
+					<label class="screen-reader-text" for="cb-select-all-2">
+						<?php
+							/* translators: accessibility text */
+							esc_html_e( 'Enable or disable all optional components in bulk', 'buddypress' );
+						?>
+					</label>
+				</td>
+				<th class="manage-column column-title column-primary"><?php esc_html_e( 'Component', 'buddypress' ); ?></th>
+				<th class="manage-column column-description"><?php esc_html_e( 'Description', 'buddypress' ); ?></th>
 			</tr>
 		</tfoot>
 

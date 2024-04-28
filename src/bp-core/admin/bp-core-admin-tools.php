@@ -557,7 +557,23 @@ function bp_admin_tools_feedback( $message, $class = false ) {
 
 	$message = '<div id="message" class="' . esc_attr( $class ) . ' notice is-dismissible">' . $message . '</div>';
 	$message = str_replace( "'", "\'", $message );
-	$lambda  = function() use ( $message ) { echo $message; };
+	$lambda  = function() use ( $message ) {
+		echo wp_kses(
+			$message,
+			array(
+				'p'   => true,
+				'ul'  => true,
+				'li'  => true,
+				'div' => array(
+					'id' => true,
+					'class' => true,
+				),
+				'a'   => array(
+					'href' => true,
+				),
+			)
+		);
+	};
 
 	add_action( bp_core_do_network_admin() ? 'network_admin_notices' : 'admin_notices', $lambda );
 
@@ -722,7 +738,7 @@ function bp_core_admin_notice_repopulate_blogs_resume() {
 		return;
 	}
 
-	echo '<div class="error"><p>' . __( 'It looks like you have more sites to record. Resume recording by checking the "Repopulate site tracking records" option.', 'buddypress' ) . '</p></div>';
+	echo '<div class="error"><p>' . esc_html__( 'It looks like you have more sites to record. Resume recording by checking the "Repopulate site tracking records" option.', 'buddypress' ) . '</p></div>';
 }
 add_action( 'network_admin_notices', 'bp_core_admin_notice_repopulate_blogs_resume' );
 

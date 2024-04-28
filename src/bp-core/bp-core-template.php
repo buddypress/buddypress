@@ -91,18 +91,24 @@ function bp_get_options_nav( $parent_slug = '' ) {
 		// List type depends on our current component.
 		$list_type = bp_is_group() ? 'groups' : 'personal';
 
-		/**
-		 * Filters the "options nav", the secondary-level single item navigation menu.
-		 *
-		 * This is a dynamic filter that is dependent on the provided css_id value.
-		 *
-		 * @since 1.1.0
-		 *
-		 * @param string $value         HTML list item for the submenu item.
-		 * @param array  $subnav_item   Submenu array item being displayed.
-		 * @param string $selected_item Current action.
-		 */
-		echo apply_filters( 'bp_get_options_nav_' . $subnav_item->css_id, '<li id="' . esc_attr( $subnav_item->css_id . '-' . $list_type . '-li' ) . '" ' . $selected . '><a id="' . esc_attr( $subnav_item->css_id ) . '" href="' . esc_url( $subnav_item->link ) . '">' . $subnav_item->name . '</a></li>', $subnav_item, $selected_item );
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		echo apply_filters(
+			/**
+			 * Filters the "options nav", the secondary-level single item navigation menu.
+			 *
+			 * This is a dynamic filter that is dependent on the provided css_id value.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param string $value         HTML list item for the submenu item.
+			 * @param array  $subnav_item   Submenu array item being displayed.
+			 * @param string $selected_item Current action.
+			 */
+			'bp_get_options_nav_' . $subnav_item->css_id,
+			'<li id="' . esc_attr( $subnav_item->css_id . '-' . $list_type . '-li' ) . '" ' . $selected . '><a id="' . esc_attr( $subnav_item->css_id ) . '" href="' . esc_url( $subnav_item->link ) . '">' . wp_kses( $subnav_item->name, array( 'span' => array( 'class' => true ) ) ) . '</a></li>',
+			$subnav_item,
+			$selected_item
+		);
 	}
 }
 
@@ -149,7 +155,7 @@ function bp_get_directory_title( $component = '' ) {
  * @since 1.1.0
  */
 function bp_avatar_admin_step() {
-	echo bp_get_avatar_admin_step();
+	echo esc_html( bp_get_avatar_admin_step() );
 }
 	/**
 	 * Return the current avatar upload step.
@@ -181,7 +187,7 @@ function bp_avatar_admin_step() {
  * @since 1.1.0
  */
 function bp_avatar_to_crop() {
-	echo bp_get_avatar_to_crop();
+	echo esc_url( bp_get_avatar_to_crop() );
 }
 	/**
 	 * Return the URL of the avatar to crop.
@@ -212,7 +218,7 @@ function bp_avatar_to_crop() {
  * @since 1.1.0
  */
 function bp_avatar_to_crop_src() {
-	echo bp_get_avatar_to_crop_src();
+	echo esc_attr( bp_get_avatar_to_crop_src() );
 }
 	/**
 	 * Return the relative file path to the avatar to crop.
@@ -243,7 +249,7 @@ function bp_avatar_to_crop_src() {
  * @since 1.0.0
  */
 function bp_site_name() {
-	echo bp_get_site_name();
+	echo esc_html( bp_get_site_name() );
 }
 	/**
 	 * Returns the name of the BP site. Used in RSS headers.
@@ -380,7 +386,7 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 			 *
 			 * @param string $youtext Context-determined string to display.
 			 */
-			echo apply_filters( 'bp_word_or_name', $youtext );
+			echo esc_html( apply_filters( 'bp_word_or_name', $youtext ) );
 		} else {
 
 			/** This filter is documented in bp-core/bp-core-template.php */
@@ -393,7 +399,7 @@ function bp_word_or_name( $youtext, $nametext, $capitalize = true, $echo = true 
 		if ( true == $echo ) {
 
 			/** This filter is documented in bp-core/bp-core-template.php */
-			echo apply_filters( 'bp_word_or_name', $nametext );
+			echo esc_html( apply_filters( 'bp_word_or_name', $nametext ) );
 		} else {
 
 			/** This filter is documented in bp-core/bp-core-template.php */
@@ -557,7 +563,7 @@ function bp_get_search_placeholder( $component = '' ) {
  * @param string $component See {@link bp_get_search_default_text()}.
  */
 function bp_search_default_text( $component = '' ) {
-	echo bp_get_search_default_text( $component );
+	echo esc_attr( bp_get_search_default_text( $component ) );
 }
 	/**
 	 * Return the default text for the search box for a given component.
@@ -613,6 +619,7 @@ function bp_search_default_text( $component = '' ) {
  * @param array  $attributes Array of existing attributes to add.
  */
 function bp_form_field_attributes( $name = '', $attributes = array() ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_form_field_attributes( $name, $attributes );
 }
 	/**
@@ -695,6 +702,8 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
  * @param array|string $args See {@link BP_Button}.
  */
 function bp_button( $args = '' ) {
+	// Escaping is done in `BP_Core_HTML_Element()`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_button( $args );
 }
 	/**
@@ -969,7 +978,7 @@ add_filter( 'bp_create_excerpt', 'force_balance_tags' );
  * @since 1.2.0
  */
 function bp_total_member_count() {
-	echo bp_get_total_member_count();
+	echo esc_html( bp_get_total_member_count() );
 }
 	/**
 	 * Return the total member count in your BP instance.
@@ -1324,7 +1333,7 @@ function bp_root_url() {
  * @param string $component The component name.
  */
 function bp_root_slug( $component = '' ) {
-	echo bp_get_root_slug( $component );
+	echo esc_url( bp_get_root_slug( $component ) );
 }
 	/**
 	 * Get the root slug for given component.
@@ -1454,7 +1463,7 @@ function bp_user_has_access() {
  *
  */
 function bp_search_slug() {
-	echo bp_get_search_slug();
+	echo esc_url( bp_get_search_slug() );
 }
 	/**
 	 * Return the search slug.
@@ -3140,7 +3149,7 @@ function bp_get_title_parts( $seplocation = 'right' ) {
  * @since 1.1.0
  */
 function bp_the_body_class() {
-	echo bp_get_the_body_class();
+	echo implode( ' ', array_map( 'sanitize_html_class', bp_get_the_body_class() ) );
 }
 	/**
 	 * Customize the body class, according to the currently displayed BP content.
@@ -3702,6 +3711,7 @@ function bp_nav_menu( $args = array() ) {
 	$nav_menu = apply_filters( 'bp_nav_menu', $nav_menu, $args );
 
 	if ( ! empty( $args->echo ) ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $nav_menu;
 	} else {
 		return $nav_menu;
@@ -3716,7 +3726,7 @@ function bp_nav_menu( $args = array() ) {
  * @param array $settings Email Settings.
  */
 function bp_email_the_salutation( $settings = array() ) {
-	echo bp_email_get_salutation( $settings );
+	echo esc_html( bp_email_get_salutation( $settings ) );
 }
 
 	/**

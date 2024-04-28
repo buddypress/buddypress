@@ -331,7 +331,7 @@ class BP_Button {
 			if ( 'button' === $r['button_element'] && ! empty( $r['button_attr']['href'] ) ) {
 				_doing_it_wrong(
 					__CLASS__,
-					__( 'The `href` attribute is not available inside the `&lt;button&gt;` tag. Please use a `data-*` attribute to transport a link into this tag.', 'buddypress' ),
+					esc_html__( 'The `href` attribute is not available inside the `&lt;button&gt;` tag. Please use a `data-*` attribute to transport a link into this tag.', 'buddypress' ),
 					'9.0.0'
 				);
 
@@ -443,7 +443,9 @@ class BP_Button {
 	 * @since 1.2.6
 	 */
 	public function display() {
-		if ( !empty( $this->contents ) )
+		if ( ! empty( $this->contents ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput
 			echo $this->contents;
+		}
 	}
 }
