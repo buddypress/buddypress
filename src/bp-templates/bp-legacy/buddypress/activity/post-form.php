@@ -30,20 +30,29 @@
 		<?php
 		if ( bp_is_group() ) {
 			/* translators: 1: group name. 2: member name. */
-			printf( __( 'What\'s new in %1$s, %2$s?', 'buddypress' ), bp_get_group_name(), bp_get_user_firstname( bp_get_loggedin_user_fullname() ) );
+			printf(
+				esc_html__( 'What\'s new in %1$s, %2$s?', 'buddypress' ),
+				esc_html( bp_get_group_name() ),
+				esc_html( bp_get_user_firstname( bp_get_loggedin_user_fullname() ) )
+			);
 		} else {
 			/* translators: %s: member name */
-			printf( __( "What's new, %s?", 'buddypress' ), bp_get_user_firstname( bp_get_loggedin_user_fullname() ) );
+			printf(
+				esc_html__( "What's new, %s?", 'buddypress' ),
+				esc_html( bp_get_user_firstname( bp_get_loggedin_user_fullname() ) )
+			);
 		}
 		?>
 	</p>
 
 	<div id="whats-new-content">
 		<div id="whats-new-textarea">
-			<label for="whats-new" class="bp-screen-reader-text"><?php
-				/* translators: accessibility text */
-				_e( 'Post what\'s new', 'buddypress' );
-			?></label>
+			<label for="whats-new" class="bp-screen-reader-text">
+				<?php
+					/* translators: accessibility text */
+					esc_html_e( 'Post what\'s new', 'buddypress' );
+				?>
+			</label>
 			<textarea class="bp-suggestions" name="whats-new" id="whats-new" cols="50" rows="10"
 				<?php if ( bp_is_group() ) : ?>data-suggestions-group-id="<?php echo esc_attr( (int) bp_get_current_group_id() ); ?>" <?php endif; ?>
 			><?php if ( isset( $_GET['r'] ) ) : ?>@<?php echo esc_textarea( $_GET['r'] ); ?> <?php endif; ?></textarea>
@@ -58,14 +67,16 @@
 
 				<div id="whats-new-post-in-box">
 
-					<?php _e( 'Post in', 'buddypress' ); ?>:
+					<?php esc_html_e( 'Post in', 'buddypress' ); ?>:
 
-					<label for="whats-new-post-in" class="bp-screen-reader-text"><?php
-						/* translators: accessibility text */
-						_e( 'Post in', 'buddypress' );
-					?></label>
+					<label for="whats-new-post-in" class="bp-screen-reader-text">
+						<?php
+							/* translators: accessibility text */
+							esc_html_e( 'Post in', 'buddypress' );
+						?>
+					</label>
 					<select id="whats-new-post-in" name="whats-new-post-in">
-						<option selected="selected" value="0"><?php _e( 'My Profile', 'buddypress' ); ?></option>
+						<option selected="selected" value="0"><?php esc_html_e( 'My Profile', 'buddypress' ); ?></option>
 
 						<?php if ( bp_has_groups( 'user_id=' . bp_loggedin_user_id() . '&type=alphabetical&max=100&per_page=100&populate_extras=0&update_meta_cache=0' ) ) :
 							while ( bp_groups() ) : bp_the_group(); ?>

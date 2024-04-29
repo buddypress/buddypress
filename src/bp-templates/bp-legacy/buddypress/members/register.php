@@ -43,7 +43,7 @@
 			 */
 			do_action( 'bp_before_registration_disabled' ); ?>
 
-				<p><?php _e( 'User registration is currently not allowed.', 'buddypress' ); ?></p>
+				<p><?php esc_html_e( 'User registration is currently not allowed.', 'buddypress' ); ?></p>
 
 			<?php
 
@@ -65,7 +65,7 @@
 
 			</div>
 
-			<p><?php _e( 'Registering for this site is easy. Just fill in the fields below, and we\'ll get a new account set up for you in no time.', 'buddypress' ); ?></p>
+			<p><?php esc_html_e( 'Registering for this site is easy. Just fill in the fields below, and we\'ll get a new account set up for you in no time.', 'buddypress' ); ?></p>
 
 			<?php
 
@@ -80,9 +80,9 @@
 
 				<?php /***** Basic Account Details ******/ ?>
 
-				<h2><?php _e( 'Account Details', 'buddypress' ); ?></h2>
+				<h2><?php esc_html_e( 'Account Details', 'buddypress' ); ?></h2>
 
-				<label for="signup_username"><?php _e( 'Username', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
+				<label for="signup_username"><?php esc_html_e( 'Username', 'buddypress' ); ?> <?php esc_html_e( '(required)', 'buddypress' ); ?></label>
 				<?php
 
 				/**
@@ -93,7 +93,7 @@
 				do_action( 'bp_signup_username_errors' ); ?>
 				<input type="text" name="signup_username" id="signup_username" value="<?php bp_signup_username_value(); ?>" <?php bp_form_field_attributes( 'username' ); ?>/>
 
-				<label for="signup_email"><?php _e( 'Email Address', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
+				<label for="signup_email"><?php esc_html_e( 'Email Address', 'buddypress' ); ?> <?php esc_html_e( '(required)', 'buddypress' ); ?></label>
 				<?php
 
 				/**
@@ -104,7 +104,7 @@
 				do_action( 'bp_signup_email_errors' ); ?>
 				<input type="email" name="signup_email" id="signup_email" value="<?php bp_signup_email_value(); ?>" <?php bp_form_field_attributes( 'email' ); ?>/>
 
-				<label for="signup_password"><?php _e( 'Choose a Password', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
+				<label for="signup_password"><?php esc_html_e( 'Choose a Password', 'buddypress' ); ?> <?php esc_html_e( '(required)', 'buddypress' ); ?></label>
 				<?php
 
 				/**
@@ -116,7 +116,7 @@
 				<input type="password" name="signup_password" id="signup_password" value="" class="password-entry" <?php bp_form_field_attributes( 'password' ); ?>/>
 				<div id="pass-strength-result"></div>
 
-				<label for="signup_password_confirm"><?php _e( 'Confirm Password', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
+				<label for="signup_password_confirm"><?php esc_html_e( 'Confirm Password', 'buddypress' ); ?> <?php esc_html_e( '(required)', 'buddypress' ); ?></label>
 				<?php
 
 				/**
@@ -162,7 +162,7 @@
 
 				<div class="register-section" id="profile-details-section">
 
-					<h2><?php _e( 'Profile Details', 'buddypress' ); ?></h2>
+					<h2><?php esc_html_e( 'Profile Details', 'buddypress' ); ?></h2>
 
 					<?php /* Use the profile field loop to render input fields for the 'base' profile field group */ ?>
 					<?php if ( bp_is_active( 'xprofile' ) ) : if ( bp_has_profile( bp_xprofile_signup_args() ) ) : while ( bp_profile_groups() ) : bp_the_profile_group(); ?>
@@ -188,30 +188,30 @@
 									<?php
 									printf(
 										/* translators: %s: level of visibility */
-										__( 'This field can be seen by: %s', 'buddypress' ),
-										'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+										esc_html__( 'This field can be seen by: %s', 'buddypress' ),
+										'<span class="current-visibility-level">' . esc_html( bp_get_the_profile_field_visibility_level_label() ) . '</span>'
 									);
 									?>
 									</span>
-									<button type="button" class="visibility-toggle-link" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-2" aria-expanded="false"><?php _ex( 'Change', 'Change profile field visibility level', 'buddypress' ); ?></button>
+									<button type="button" class="visibility-toggle-link" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-2" aria-expanded="false"><?php echo esc_html_x( 'Change', 'Change profile field visibility level', 'buddypress' ); ?></button>
 								</p>
 
 								<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
 									<fieldset>
-										<legend><?php _e( 'Who can see this field?', 'buddypress' ) ?></legend>
+										<legend><?php esc_html_e( 'Who can see this field?', 'buddypress' ) ?></legend>
 
 										<?php bp_profile_visibility_radio_buttons() ?>
 
 									</fieldset>
-									<button type="button" class="field-visibility-settings-close"><?php _e( 'Close', 'buddypress' ) ?></button>
+									<button type="button" class="field-visibility-settings-close"><?php esc_html_e( 'Close', 'buddypress' ) ?></button>
 
 								</div>
 							<?php else : ?>
 								<p class="field-visibility-settings-notoggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
 									<?php
 									printf(
-										__( 'This field can be seen by: %s', 'buddypress' ),
-										'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+										esc_html__( 'This field can be seen by: %s', 'buddypress' ),
+										'<span class="current-visibility-level">' . esc_html( bp_get_the_profile_field_visibility_level_label() ) . '</span>'
 									);
 									?>
 								</p>
@@ -272,13 +272,13 @@
 
 				<div class="register-section" id="blog-details-section">
 
-					<h2><?php _e( 'Blog Details', 'buddypress' ); ?></h2>
+					<h2><?php esc_html_e( 'Blog Details', 'buddypress' ); ?></h2>
 
-					<p><label for="signup_with_blog"><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes, I\'d like to create a new site', 'buddypress' ); ?></label></p>
+					<p><label for="signup_with_blog"><input type="checkbox" name="signup_with_blog" id="signup_with_blog" value="1"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?> checked="checked"<?php endif; ?> /> <?php esc_html_e( 'Yes, I\'d like to create a new site', 'buddypress' ); ?></label></p>
 
 					<div id="blog-details"<?php if ( (int) bp_get_signup_with_blog_value() ) : ?>class="show"<?php endif; ?>>
 
-						<label for="signup_blog_url"><?php _e( 'Blog URL', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
+						<label for="signup_blog_url"><?php esc_html_e( 'Blog URL', 'buddypress' ); ?> <?php esc_html_e( '(required)', 'buddypress' ); ?></label>
 						<?php
 
 						/**
@@ -291,10 +291,10 @@
 						<?php if ( is_subdomain_install() ) : ?>
 							http:// <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value(); ?>" /> .<?php bp_signup_subdomain_base(); ?>
 						<?php else : ?>
-							<?php echo home_url( '/' ); ?> <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value(); ?>" />
+							<?php echo esc_url( home_url( '/' ) ); ?> <input type="text" name="signup_blog_url" id="signup_blog_url" value="<?php bp_signup_blog_url_value(); ?>" />
 						<?php endif; ?>
 
-						<label for="signup_blog_title"><?php _e( 'Site Title', 'buddypress' ); ?> <?php _e( '(required)', 'buddypress' ); ?></label>
+						<label for="signup_blog_title"><?php esc_html_e( 'Site Title', 'buddypress' ); ?> <?php esc_html_e( '(required)', 'buddypress' ); ?></label>
 						<?php
 
 						/**
@@ -306,7 +306,7 @@
 						<input type="text" name="signup_blog_title" id="signup_blog_title" value="<?php bp_signup_blog_title_value(); ?>" />
 
 						<fieldset class="register-site">
-							<legend class="label"><?php _e( 'Privacy: I would like my site to appear in search engines, and in public listings around this network.', 'buddypress' ); ?></legend>
+							<legend class="label"><?php esc_html_e( 'Privacy: I would like my site to appear in search engines, and in public listings around this network.', 'buddypress' ); ?></legend>
 							<?php
 
 							/**
@@ -316,8 +316,8 @@
 							 */
 							do_action( 'bp_signup_blog_privacy_errors' ); ?>
 
-							<label for="signup_blog_privacy_public"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php if ( 'public' == bp_get_signup_blog_privacy_value() || !bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'Yes', 'buddypress' ); ?></label>
-							<label for="signup_blog_privacy_private"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_private" value="private"<?php if ( 'private' == bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php _e( 'No', 'buddypress' ); ?></label>
+							<label for="signup_blog_privacy_public"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_public" value="public"<?php if ( 'public' == bp_get_signup_blog_privacy_value() || !bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php esc_html_e( 'Yes', 'buddypress' ); ?></label>
+							<label for="signup_blog_privacy_private"><input type="radio" name="signup_blog_privacy" id="signup_blog_privacy_private" value="private"<?php if ( 'private' == bp_get_signup_blog_privacy_value() ) : ?> checked="checked"<?php endif; ?> /> <?php esc_html_e( 'No', 'buddypress' ); ?></label>
 						</fieldset>
 
 						<?php
@@ -398,11 +398,11 @@
 
 			<div id="template-notices" role="alert" aria-atomic="true">
 				<?php if ( bp_get_membership_requests_required() ) : ?>
-					<p><?php _e( 'You have successfully submitted your membership request! Our site moderators will review your submission and send you an activation email if your request is approved.', 'buddypress' ); ?></p>
+					<p><?php esc_html_e( 'You have successfully submitted your membership request! Our site moderators will review your submission and send you an activation email if your request is approved.', 'buddypress' ); ?></p>
 				<?php elseif ( bp_registration_needs_activation() ) : ?>
-					<p><?php _e( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' ); ?></p>
+					<p><?php esc_html_e( 'You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address.', 'buddypress' ); ?></p>
 				<?php else : ?>
-					<p><?php _e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ); ?></p>
+					<p><?php esc_html_e( 'You have successfully created your account! Please log in using the username and password you have just created.', 'buddypress' ); ?></p>
 				<?php endif; ?>
 			</div>
 

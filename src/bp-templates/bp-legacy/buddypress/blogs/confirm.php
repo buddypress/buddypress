@@ -33,13 +33,13 @@
 				'%s %s',
 				sprintf(
 					/* translators: %s: the link of the new site */
-					__( '%s is your new site.', 'buddypress' ),
+					esc_html__( '%s is your new site.', 'buddypress' ),
 					sprintf( '<a href="%s">%s</a>', esc_url( $args['blog_url'] ), esc_url( $args['blog_url'] ) )
 				),
 				sprintf(
-					/* translators: 1: Login URL, 2: User name */
-					__( '<a href="%1$s">Log in</a> as "%2$s" using your existing password.', 'buddypress' ),
-					esc_url( $args['login_url'] ),
+					/* translators: 1: Login link, 2: User name */
+					esc_html__( '%1$s as "%2$s" using your existing password.', 'buddypress' ),
+					'<a href="' . esc_url( $args['login_url'] ) . '">' . esc_html__( 'Log in', 'buddypress' ) . '</a>',
 					esc_html( $args['user_name'] )
 				)
 			); ?>

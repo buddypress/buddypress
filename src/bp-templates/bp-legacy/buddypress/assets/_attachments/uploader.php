@@ -22,7 +22,7 @@
 			<div id="{{data.drop_element}}">
 				<div class="drag-drop-inside">
 					<p class="drag-drop-info"><?php esc_html_e( 'Drop your file here', 'buddypress' ); ?></p>
-					<p><?php _ex( 'or', 'Uploader: Drop your file here - or - Select your File', 'buddypress' ); ?></p>
+					<p><?php echo esc_html_x( 'or', 'Uploader: Drop your file here - or - Select your File', 'buddypress' ); ?></p>
 					<p class="drag-drop-buttons"><label for="{{data.browse_button}}" class="<?php echo is_admin() ? 'screen-reader-text' : 'bp-screen-reader-text' ;?>"><?php
 						/* translators: accessibility text */
 						esc_html_e( 'Select your File', 'buddypress' );

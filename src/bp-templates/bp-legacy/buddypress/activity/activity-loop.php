@@ -31,7 +31,7 @@ do_action( 'bp_before_activity_loop' ); ?>
 	<?php if ( bp_activity_has_more_items() ) : ?>
 
 		<li class="load-more">
-			<a href="<?php bp_activity_load_more_link() ?>"><?php _e( 'Load More', 'buddypress' ); ?></a>
+			<a href="<?php bp_activity_load_more_link() ?>"><?php esc_html_e( 'Load More', 'buddypress' ); ?></a>
 		</li>
 
 	<?php endif; ?>
@@ -45,7 +45,7 @@ do_action( 'bp_before_activity_loop' ); ?>
 <?php else : ?>
 
 	<div id="message" class="info">
-		<p><?php _e( 'Sorry, there was no activity found. Please try a different filter.', 'buddypress' ); ?></p>
+		<p><?php esc_html_e( 'Sorry, there was no activity found. Please try a different filter.', 'buddypress' ); ?></p>
 	</div>
 
 <?php endif; ?>

@@ -13,7 +13,7 @@
 		<?php if ( bp_activity_is_feed_enable( 'group' ) ) : ?>
 			<li class="feed">
 				<a href="<?php bp_group_activity_feed_link(); ?>" class="bp-tooltip" data-bp-tooltip="<?php esc_attr_e( 'RSS Feed', 'buddypress' ); ?>" aria-label="<?php esc_attr_e( 'RSS Feed', 'buddypress' ); ?>">
-					<?php _e( 'RSS', 'buddypress' ); ?>
+					<?php esc_html_e( 'RSS', 'buddypress' ); ?>
 				</a>
 			</li>
 		<?php endif; ?>
@@ -28,9 +28,9 @@
 		do_action( 'bp_group_activity_syndication_options' ); ?>
 
 		<li id="activity-filter-select" class="last">
-			<label for="activity-filter-by"><?php _e( 'Show:', 'buddypress' ); ?></label>
+			<label for="activity-filter-by"><?php esc_html_e( 'Show:', 'buddypress' ); ?></label>
 			<select id="activity-filter-by">
-				<option value="-1"><?php _e( '&mdash; Everything &mdash;', 'buddypress' ); ?></option>
+				<option value="-1"><?php esc_html_e( '&mdash; Everything &mdash;', 'buddypress' ); ?></option>
 
 				<?php bp_activity_show_filters( 'group' ); ?>
 

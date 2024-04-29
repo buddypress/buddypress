@@ -10,13 +10,15 @@
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
 do_action( 'bp_before_member_settings_template' ); ?>
 
-<h2 class="bp-screen-reader-text"><?php
-	/* translators: accessibility text */
-	_e( 'Notification settings', 'buddypress' );
-?></h2>
+<h2 class="bp-screen-reader-text">
+	<?php
+		/* translators: accessibility text */
+		esc_html_e( 'Notification settings', 'buddypress' );
+	?>
+</h2>
 
 <form action="<?php bp_displayed_user_link( array( bp_get_settings_slug(), 'notifications' ) ); ?>" method="post" class="standard-form" id="settings-form">
-	<p><?php _e( 'Send an email notice when:', 'buddypress' ); ?></p>
+	<p><?php esc_html_e( 'Send an email notice when:', 'buddypress' ); ?></p>
 
 	<?php
 

@@ -16,10 +16,12 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 
 <?php if ( bp_has_members( 'type=alphabetical&include=' . bp_get_friendship_requests() ) ) : ?>
 
-	<h2 class="bp-screen-reader-text"><?php
-		/* translators: accessibility text */
-		_e( 'Friendship requests', 'buddypress' );
-	?></h2>
+	<h2 class="bp-screen-reader-text">
+		<?php
+			/* translators: accessibility text */
+			esc_html_e( 'Friendship requests', 'buddypress' );
+		?>
+	</h2>
 
 	<div id="pag-top" class="pagination no-ajax">
 
@@ -60,8 +62,8 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 				</div>
 
 				<div class="action">
-					<a class="button accept" href="<?php bp_friend_accept_request_link(); ?>"><?php _e( 'Accept', 'buddypress' ); ?></a> &nbsp;
-					<a class="button reject" href="<?php bp_friend_reject_request_link(); ?>"><?php _e( 'Reject', 'buddypress' ); ?></a>
+					<a class="button accept" href="<?php bp_friend_accept_request_link(); ?>"><?php esc_html_e( 'Accept', 'buddypress' ); ?></a> &nbsp;
+					<a class="button reject" href="<?php bp_friend_reject_request_link(); ?>"><?php esc_html_e( 'Reject', 'buddypress' ); ?></a>
 
 					<?php
 
@@ -105,7 +107,7 @@ do_action( 'bp_before_member_friend_requests_content' ); ?>
 <?php else: ?>
 
 	<div id="message" class="info">
-		<p><?php _e( 'You have no pending friendship requests.', 'buddypress' ); ?></p>
+		<p><?php esc_html_e( 'You have no pending friendship requests.', 'buddypress' ); ?></p>
 	</div>
 
 <?php endif;?>

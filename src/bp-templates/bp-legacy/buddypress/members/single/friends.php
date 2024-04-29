@@ -17,11 +17,11 @@
 
 			<li id="members-order-select" class="last filter">
 
-				<label for="members-friends"><?php _e( 'Order By:', 'buddypress' ); ?></label>
+				<label for="members-friends"><?php esc_html_e( 'Order By:', 'buddypress' ); ?></label>
 				<select id="members-friends">
-					<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
-					<option value="newest"><?php _e( 'Newest Registered', 'buddypress' ); ?></option>
-					<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
+					<option value="active"><?php esc_html_e( 'Last Active', 'buddypress' ); ?></option>
+					<option value="newest"><?php esc_html_e( 'Newest Registered', 'buddypress' ); ?></option>
+					<option value="alphabetical"><?php esc_html_e( 'Alphabetical', 'buddypress' ); ?></option>
 
 					<?php
 
@@ -54,15 +54,19 @@ switch ( bp_current_action() ) :
 		do_action( 'bp_before_member_friends_content' ); ?>
 
 		<?php if (is_user_logged_in() ) : ?>
-			<h2 class="bp-screen-reader-text"><?php
-				/* translators: accessibility text */
-				_e( 'My friends', 'buddypress' );
-			?></h2>
+			<h2 class="bp-screen-reader-text">
+				<?php
+					/* translators: accessibility text */
+					esc_html_e( 'My friends', 'buddypress' );
+				?>
+			</h2>
 		<?php else : ?>
-			<h2 class="bp-screen-reader-text"><?php
-				/* translators: accessibility text */
-				_e( 'Friends', 'buddypress' );
-			?></h2>
+			<h2 class="bp-screen-reader-text">
+				<?php
+					/* translators: accessibility text */
+					esc_html_e( 'Friends', 'buddypress' );
+				?>
+			</h2>
 		<?php endif ?>
 
 		<div class="members friends">

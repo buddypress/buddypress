@@ -9,7 +9,7 @@
 
 ?>
 
-<h2 class="bp-screen-reader-text"><?php _e( 'Delete Group', 'buddypress' ); ?></h2>
+<h2 class="bp-screen-reader-text"><?php esc_html_e( 'Delete Group', 'buddypress' ); ?></h2>
 
 <?php
 
@@ -21,10 +21,10 @@
 do_action( 'bp_before_group_delete_admin' ); ?>
 
 <div id="message" class="info">
-	<p><?php _e( 'WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'buddypress' ); ?></p>
+	<p><?php esc_html_e( 'WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back, please be careful with this option.', 'buddypress' ); ?></p>
 </div>
 
-<label for="delete-group-understand"><input type="checkbox" name="delete-group-understand" id="delete-group-understand" value="1" onclick="if(this.checked) { document.getElementById('delete-group-button').disabled = ''; } else { document.getElementById('delete-group-button').disabled = 'disabled'; }" /> <?php _e( 'I understand the consequences of deleting this group.', 'buddypress' ); ?></label>
+<label for="delete-group-understand"><input type="checkbox" name="delete-group-understand" id="delete-group-understand" value="1" onclick="if(this.checked) { document.getElementById('delete-group-button').disabled = ''; } else { document.getElementById('delete-group-button').disabled = 'disabled'; }" /> <?php esc_html_e( 'I understand the consequences of deleting this group.', 'buddypress' ); ?></label>
 
 <?php
 

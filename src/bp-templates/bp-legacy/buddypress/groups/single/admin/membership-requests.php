@@ -9,7 +9,7 @@
 
 ?>
 
-<h2 class="bp-screen-reader-text"><?php _e( 'Manage Membership Requests', 'buddypress' ); ?></h2>
+<h2 class="bp-screen-reader-text"><?php esc_html_e( 'Manage Membership Requests', 'buddypress' ); ?></h2>
 
 <?php
 
