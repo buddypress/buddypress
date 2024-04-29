@@ -147,15 +147,15 @@ function bp_core_get_wp_profile() {
 	$ud = get_userdata( bp_displayed_user_id() ); ?>
 
 <div class="bp-widget wp-profile">
-	<h4><?php _e( 'My Profile', 'buddypress' ) ?></h4>
+	<h4><?php esc_html_e( 'My Profile', 'buddypress' ) ?></h4>
 
 	<table class="wp-profile-fields">
 
 		<?php if ( $ud->display_name ) : ?>
 
 			<tr id="wp_displayname">
-				<td class="label"><?php _e( 'Name', 'buddypress' ); ?></td>
-				<td class="data"><?php echo $ud->display_name; ?></td>
+				<td class="label"><?php esc_html_e( 'Name', 'buddypress' ); ?></td>
+				<td class="data"><?php echo esc_html( $ud->display_name ); ?></td>
 			</tr>
 
 		<?php endif; ?>
@@ -163,8 +163,8 @@ function bp_core_get_wp_profile() {
 		<?php if ( $ud->user_description ) : ?>
 
 			<tr id="wp_desc">
-				<td class="label"><?php _e( 'About Me', 'buddypress' ); ?></td>
-				<td class="data"><?php echo $ud->user_description; ?></td>
+				<td class="label"><?php esc_html_e( 'About Me', 'buddypress' ); ?></td>
+				<td class="data"><?php echo esc_html( $ud->user_description ); ?></td>
 			</tr>
 
 		<?php endif; ?>
@@ -172,8 +172,13 @@ function bp_core_get_wp_profile() {
 		<?php if ( $ud->user_url ) : ?>
 
 			<tr id="wp_website">
-				<td class="label"><?php _e( 'Website', 'buddypress' ); ?></td>
-				<td class="data"><?php echo make_clickable( $ud->user_url ); ?></td>
+				<td class="label"><?php esc_html_e( 'Website', 'buddypress' ); ?></td>
+				<td class="data">
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					echo make_clickable( esc_url( $ud->user_url ) );
+					?>
+				</td>
 			</tr>
 
 		<?php endif; ?>
@@ -181,8 +186,8 @@ function bp_core_get_wp_profile() {
 		<?php if ( $ud->jabber ) : ?>
 
 			<tr id="wp_jabber">
-				<td class="label"><?php _e( 'Jabber', 'buddypress' ); ?></td>
-				<td class="data"><?php echo $ud->jabber; ?></td>
+				<td class="label"><?php esc_html_e( 'Jabber', 'buddypress' ); ?></td>
+				<td class="data"><?php echo esc_html( $ud->jabber ); ?></td>
 			</tr>
 
 		<?php endif; ?>
@@ -190,8 +195,8 @@ function bp_core_get_wp_profile() {
 		<?php if ( $ud->aim ) : ?>
 
 			<tr id="wp_aim">
-				<td class="label"><?php _e( 'AOL Messenger', 'buddypress' ); ?></td>
-				<td class="data"><?php echo $ud->aim; ?></td>
+				<td class="label"><?php esc_html_e( 'AOL Messenger', 'buddypress' ); ?></td>
+				<td class="data"><?php echo esc_html( $ud->aim ); ?></td>
 			</tr>
 
 		<?php endif; ?>
@@ -199,8 +204,8 @@ function bp_core_get_wp_profile() {
 		<?php if ( $ud->yim ) : ?>
 
 			<tr id="wp_yim">
-				<td class="label"><?php _e( 'Yahoo Messenger', 'buddypress' ); ?></td>
-				<td class="data"><?php echo $ud->yim; ?></td>
+				<td class="label"><?php esc_html_e( 'Yahoo Messenger', 'buddypress' ); ?></td>
+				<td class="data"><?php echo esc_html( $ud->yim ); ?></td>
 			</tr>
 
 		<?php endif; ?>
@@ -282,6 +287,7 @@ function bp_search_form_enabled() {
  * @since 1.0.0
  */
 function bp_page_title() {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_page_title();
 }
 	/**
@@ -314,7 +320,9 @@ function bp_page_title() {
 function bp_log_out_link() {
 	_deprecated_function( __FUNCTION__, '1.5', 'wp_logout_url()' );
 
-	$logout_link = '<a href="' . wp_logout_url( bp_get_root_domain() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a>';
+	$logout_link = '<a href="' . esc_url( wp_logout_url( bp_get_root_domain() ) ) . '">' . esc_html__( 'Log Out', 'buddypress' ) . '</a>';
+
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters( 'bp_logout_link', $logout_link );
 }
 
@@ -420,15 +428,16 @@ function bp_search_form() {
 	_deprecated_function( __FUNCTION__, '1.1', 'No longer required.' );
 
 	$form = '
-		<form action="' . bp_search_form_action() . '" method="post" id="search-form">
+		<form action="' . esc_url( bp_search_form_action() ) . '" method="post" id="search-form">
 			<input type="text" id="search-terms" name="search-terms" value="" />
 			' . bp_search_form_type_select() . '
 
-			<input type="submit" name="search-submit" id="search-submit" value="' . __( 'Search', 'buddypress' ) . '" />
+			<input type="submit" name="search-submit" id="search-submit" value="' . esc_attr__( 'Search', 'buddypress' ) . '" />
 			' . wp_nonce_field( 'bp_search_form' ) . '
 		</form>
 	';
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters( 'bp_search_form', $form );
 }
 
@@ -749,6 +758,7 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 			<li>
 
 				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				echo bp_core_fetch_avatar(
 					array(
 						'item_id' => $admin->user_id,
@@ -766,10 +776,13 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 
 				<h5>
 
-					<?php echo bp_core_get_userlink( $admin->user_id ); ?>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					echo bp_core_get_userlink( $admin->user_id );
+					?>
 
 					<span class="small">
-						<a class="button confirm admin-demote-to-member" href="<?php bp_group_member_demote_link($admin->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a>
+						<a class="button confirm admin-demote-to-member" href="<?php bp_group_member_demote_link($admin->user_id) ?>"><?php esc_html_e( 'Demote to Member', 'buddypress' ) ?></a>
 					</span>
 				</h5>
 			</li>
@@ -779,6 +792,7 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 			<li>
 
 				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				echo bp_core_fetch_avatar(
 					array(
 						'item_id' => $admin->user_id,
@@ -792,11 +806,16 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 				);
 				?>
 
-				<h5><?php echo bp_core_get_userlink( $admin->user_id ) ?></h5>
+				<h5>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					echo bp_core_get_userlink( $admin->user_id );
+					?>
+				</h5>
 				<span class="activity">
 					<?php
 					/* translators: %s: human time diff */
-					echo bp_core_get_last_activity( strtotime( $admin->date_modified ), __( 'joined %s', 'buddypress') );
+					echo esc_html( bp_core_get_last_activity( strtotime( $admin->date_modified ), esc_html__( 'joined %s', 'buddypress' ) ) );
 					?>
 				</span>
 
@@ -820,7 +839,7 @@ function bp_group_admin_memberlist( $admin_list = false, $group = false ) {
 	<?php else : ?>
 
 		<div id="message" class="info">
-			<p><?php _e( 'This group has no administrators', 'buddypress' ); ?></p>
+			<p><?php esc_html_e( 'This group has no administrators', 'buddypress' ); ?></p>
 		</div>
 
 	<?php endif;

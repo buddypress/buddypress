@@ -625,12 +625,12 @@ function bp_groups_header_tabs() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 	$user_groups = bp_displayed_user_url() . bp_get_groups_slug(); ?>
 
-	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/recently-active' ); ?>"><?php _e( 'Recently Active', 'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/recently-joined' ); ?>"><?php _e( 'Recently Joined',  'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'most-popular',    0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/most-popular'    ); ?>"><?php _e( 'Most Popular',     'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'admin-of',        0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/admin-of'        ); ?>"><?php _e( 'Administrator Of', 'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'mod-of',          0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/mod-of'          ); ?>"><?php _e( 'Moderator Of',     'buddypress' ); ?></a></li>
-	<li<?php if ( bp_is_action_variable( 'alphabetically'     ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo trailingslashit( $user_groups . '/my-groups/alphabetically'  ); ?>"><?php _e( 'Alphabetically',   'buddypress' ); ?></a></li>
+	<li<?php if ( !bp_action_variable( 0 ) || bp_is_action_variable( 'recently-active', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/recently-active' ) ); ?>"><?php esc_html_e( 'Recently Active', 'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'recently-joined', 0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/recently-joined' ) ); ?>"><?php esc_html_e( 'Recently Joined',  'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'most-popular',    0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/most-popular'    ) ); ?>"><?php esc_html_e( 'Most Popular',     'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'admin-of',        0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/admin-of'        ) ); ?>"><?php esc_html_e( 'Administrator Of', 'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'mod-of',          0 ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/mod-of'          ) ); ?>"><?php esc_html_e( 'Moderator Of',     'buddypress' ); ?></a></li>
+	<li<?php if ( bp_is_action_variable( 'alphabetically'     ) ) : ?> class="current"<?php endif; ?>><a href="<?php echo esc_url( trailingslashit( $user_groups . '/my-groups/alphabetically'  ) ); ?>"><?php esc_html_e( 'Alphabetically',   'buddypress' ); ?></a></li>
 
 <?php
 	/**
@@ -663,7 +663,7 @@ function bp_blogs_blog_tabs() {
 			<a href="<?php bp_displayed_user_link( array( bp_get_blogs_slug(), 'my-blogs' ) ); ?>">
 				<?php
 				/* translators: %s: the User Display Name */
-				printf( esc_html__( "%s's Sites", 'buddypress' ), bp_get_displayed_user_fullname() );
+				printf( esc_html__( "%s's Sites", 'buddypress' ), esc_html( bp_get_displayed_user_fullname() ) );
 				?>
 			</a>
 		</li>
@@ -671,7 +671,7 @@ function bp_blogs_blog_tabs() {
 			<a href="<?php bp_displayed_user_link( array( bp_get_blogs_slug(), 'recent-posts' ) ); ?>">
 				<?php
 				/* translators: %s: the User Display Name */
-				printf( esc_html__( "%s's Recent Posts", 'buddypress' ), bp_get_displayed_user_fullname() );
+				printf( esc_html__( "%s's Recent Posts", 'buddypress' ), esc_html( bp_get_displayed_user_fullname() ) );
 				?>
 			</a>
 		</li>
@@ -679,7 +679,7 @@ function bp_blogs_blog_tabs() {
 			<a href="<?php bp_displayed_user_link( array( bp_get_blogs_slug(), 'recent-comments' ) ); ?>">
 				<?php
 				/* translators: %s: the User Display Name */
-				printf( esc_html__( "%s's Recent Comments", 'buddypress' ), bp_get_displayed_user_fullname() );
+				printf( esc_html__( "%s's Recent Comments", 'buddypress' ), esc_html( bp_get_displayed_user_fullname() ) );
 				?>
 			</a>
 		</li>
@@ -976,7 +976,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 			<li>
 
 				<?php
-				/* translators: %s: member name */
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				echo bp_core_fetch_avatar(
 					array(
 						'item_id' => $mod->user_id,
@@ -993,11 +993,14 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 				?>
 
 				<h5>
-					<?php echo bp_core_get_userlink( $mod->user_id ); ?>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					echo bp_core_get_userlink( $mod->user_id );
+					?>
 
 					<span class="small">
-						<a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => $mod->user_id ) ) ?>" class="button confirm mod-promote-to-admin"><?php _e( 'Promote to Admin', 'buddypress' ); ?></a>
-						<a class="button confirm mod-demote-to-member" href="<?php bp_group_member_demote_link($mod->user_id) ?>"><?php _e( 'Demote to Member', 'buddypress' ) ?></a>
+						<a href="<?php bp_group_member_promote_admin_link( array( 'user_id' => $mod->user_id ) ) ?>" class="button confirm mod-promote-to-admin"><?php esc_html_e( 'Promote to Admin', 'buddypress' ); ?></a>
+						<a class="button confirm mod-demote-to-member" href="<?php bp_group_member_demote_link($mod->user_id) ?>"><?php esc_html_e( 'Demote to Member', 'buddypress' ) ?></a>
 					</span>
 				</h5>
 			</li>
@@ -1007,6 +1010,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 			<li>
 
 				<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				echo bp_core_fetch_avatar(
 					array(
 						'item_id' => $mod->user_id,
@@ -1020,12 +1024,17 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 				);
 				?>
 
-				<h5><?php echo bp_core_get_userlink( $mod->user_id ) ?></h5>
+				<h5>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					echo bp_core_get_userlink( $mod->user_id );
+					?>
+				</h5>
 
 				<span class="activity">
 					<?php
 					/* translators: %s: human time diff */
-					echo bp_core_get_last_activity( strtotime( $mod->date_modified ), __( 'joined %s', 'buddypress') );
+					echo esc_html( bp_core_get_last_activity( strtotime( $mod->date_modified ), esc_html__( 'joined %s', 'buddypress' ) ) );
 					?>
 				</span>
 
@@ -1047,7 +1056,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
 	<?php } else { ?>
 
 		<div id="message" class="info">
-			<p><?php _e( 'This group has no moderators', 'buddypress' ); ?></p>
+			<p><?php esc_html_e( 'This group has no moderators', 'buddypress' ); ?></p>
 		</div>
 
 	<?php }
@@ -1061,7 +1070,7 @@ function bp_group_mod_memberlist( $admin_list = false, $group = false ) {
  */
 function bp_activities_title() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
-	echo bp_get_activities_title();
+	echo esc_html( bp_get_activities_title() );
 }
 
 /**
@@ -1097,7 +1106,7 @@ function bp_get_activities_title() {
  */
 function bp_activities_no_activity() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
-	echo bp_get_activities_no_activity();
+	echo esc_html( bp_get_activities_no_activity() );
 }
 
 /**
@@ -1140,7 +1149,7 @@ function bp_get_options_title() {
 		$bp->bp_options_title = __( 'Options', 'buddypress' );
 	}
 
-	echo apply_filters_deprecated( 'bp_get_options_title', array( esc_attr( $bp->bp_options_title ) ), '12.0.0' );
+	echo esc_html( apply_filters_deprecated( 'bp_get_options_title', array( esc_attr( $bp->bp_options_title ) ), '12.0.0' ) );
 }
 
 /**
@@ -1165,6 +1174,7 @@ function bp_has_options_avatar() {
  */
 function bp_get_options_avatar() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters_deprecated( 'bp_get_options_avatar', array( buddypress()->bp_options_avatar ), '12.0.0' );
 }
 
@@ -1177,6 +1187,7 @@ function bp_comment_author_avatar() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 	global $comment;
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters_deprecated(
 		'bp_comment_author_avatar',
 		array(
@@ -1205,6 +1216,7 @@ function bp_post_author_avatar() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
 	global $post;
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters_deprecated(
 		'bp_post_author_avatar',
 		array(
@@ -1279,6 +1291,7 @@ function bp_custom_profile_sidebar_boxes() {
  */
 function bp_blog_signup_allowed() {
 	_deprecated_function( __FUNCTION__, '12.0.0' );
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_blog_signup_allowed();
 }
 
@@ -1304,7 +1317,7 @@ function bp_friends_random_friends() {
 			bp_word_or_name( __( "My Friends", 'buddypress' ), __( "%s's Friends", 'buddypress' ) );
 			?>
 			&nbsp;
-			(<?php echo BP_Friends_Friendship::total_friend_count( bp_displayed_user_id() ); ?>)
+			(<?php echo esc_html( BP_Friends_Friendship::total_friend_count( bp_displayed_user_id() ) ); ?>)
 			&nbsp;
 			<span>
 				<a href="<?php bp_displayed_user_link( array( bp_get_friends_slug() ) ); ?>">
@@ -1320,8 +1333,18 @@ function bp_friends_random_friends() {
 			<?php for ( $i = 0, $count = count( $friend_ids ); $i < $count; ++$i ) { ?>
 
 				<li>
-					<a href="<?php echo bp_members_get_user_url( $friend_ids[$i] ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $friend_ids[$i], 'type' => 'thumb' ) ) ?></a>
-					<h5><?php echo bp_core_get_userlink($friend_ids[$i]) ?></h5>
+					<a href="<?php echo esc_url( bp_members_get_user_url( $friend_ids[$i] ) ); ?>">
+						<?php
+						// phpcs:ignore WordPress.Security.EscapeOutput
+						echo bp_core_fetch_avatar( array( 'item_id' => $friend_ids[$i], 'type' => 'thumb' ) );
+						?>
+					</a>
+					<h5>
+						<?php
+						// phpcs:ignore WordPress.Security.EscapeOutput
+						echo bp_core_get_userlink($friend_ids[$i]);
+						?>
+					</h5>
 				</li>
 
 			<?php } ?>
@@ -1373,17 +1396,27 @@ function bp_friends_random_members( $total_members = 5 ) {
 		<?php for ( $i = 0, $count = count( $user_ids['users'] ); $i < $count; ++$i ) { ?>
 
 			<li>
-				<a href="<?php echo bp_members_get_user_url( $user_ids['users'][$i]->id ) ?>"><?php echo bp_core_fetch_avatar( array( 'item_id' => $user_ids['users'][$i]->id, 'type' => 'thumb' ) ) ?></a>
-				<h5><?php echo bp_core_get_userlink( $user_ids['users'][$i]->id ) ?></h5>
+				<a href="<?php echo esc_url( bp_members_get_user_url( $user_ids['users'][$i]->id ) ); ?>">
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					echo bp_core_fetch_avatar( array( 'item_id' => $user_ids['users'][$i]->id, 'type' => 'thumb' ) );
+					?>
+				</a>
+				<h5>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					echo bp_core_get_userlink( $user_ids['users'][$i]->id );
+					?>
+				</h5>
 
 				<?php if ( bp_is_active( 'xprofile' ) ) { ?>
 
 					<?php $random_data = xprofile_get_random_profile_data( $user_ids['users'][$i]->id, true ); ?>
 
 					<div class="profile-data">
-						<p class="field-name"><?php echo $random_data[0]->name ?></p>
+						<p class="field-name"><?php echo esc_html( $random_data[0]->name ); ?></p>
 
-						<?php echo $random_data[0]->value ?>
+						<?php echo esc_html( $random_data[0]->value ); ?>
 
 					</div>
 
@@ -1407,7 +1440,7 @@ function bp_friends_random_members( $total_members = 5 ) {
 	<?php } else { ?>
 
 		<div id="message" class="info">
-			<p><?php _e( "There aren't enough site members to show a random sample just yet.", 'buddypress' ) ?></p>
+			<p><?php esc_html_e( "There aren't enough site members to show a random sample just yet.", 'buddypress' ) ?></p>
 		</div>
 
 	<?php } ?>
@@ -1505,6 +1538,7 @@ function bp_group_search_form() {
 		'. wp_nonce_field( 'group-filter-box', '_wpnonce_group_filter', true, false ) .'
 		</form>';
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters( 'bp_group_search_form', $search_form_html );
 }
 
@@ -1558,22 +1592,22 @@ function bp_groups_filter_title() {
 
 	switch ( $current_filter ) {
 		case 'recently-active': default:
-			_e( 'Recently Active', 'buddypress' );
+			esc_html_e( 'Recently Active', 'buddypress' );
 			break;
 		case 'recently-joined':
-			_e( 'Recently Joined', 'buddypress' );
+			esc_html_e( 'Recently Joined', 'buddypress' );
 			break;
 		case 'most-popular':
-			_e( 'Most Popular', 'buddypress' );
+			esc_html_e( 'Most Popular', 'buddypress' );
 			break;
 		case 'admin-of':
-			_e( 'Administrator Of', 'buddypress' );
+			esc_html_e( 'Administrator Of', 'buddypress' );
 			break;
 		case 'mod-of':
-			_e( 'Moderator Of', 'buddypress' );
+			esc_html_e( 'Moderator Of', 'buddypress' );
 			break;
 		case 'alphabetically':
-			_e( 'Alphabetically', 'buddypress' );
+			esc_html_e( 'Alphabetically', 'buddypress' );
 		break;
 	}
 

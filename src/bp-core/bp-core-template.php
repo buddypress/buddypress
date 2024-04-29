@@ -461,7 +461,7 @@ function bp_search_form_type_select() {
 	$options['posts'] = _x( 'Posts', 'search form', 'buddypress' );
 
 	// Eventually this won't be needed and a page will be built to integrate all search results.
-	$selection_box  = '<label for="search-which" class="accessibly-hidden">' . _x( 'Search these:', 'search form', 'buddypress' ) . '</label>';
+	$selection_box  = '<label for="search-which" class="accessibly-hidden">' . esc_html_x( 'Search these:', 'search form', 'buddypress' ) . '</label>';
 	$selection_box .= '<select name="search-which" id="search-which" style="width: auto">';
 
 	/**
@@ -473,7 +473,7 @@ function bp_search_form_type_select() {
 	 */
 	$options = apply_filters( 'bp_search_form_type_select_options', $options );
 	foreach( (array) $options as $option_value => $option_title ) {
-		$selection_box .= sprintf( '<option value="%s">%s</option>', $option_value, $option_title );
+		$selection_box .= sprintf( '<option value="%s">%s</option>', esc_attr( $option_value ), esc_html( $option_title ) );
 	}
 
 	$selection_box .= '</select>';
