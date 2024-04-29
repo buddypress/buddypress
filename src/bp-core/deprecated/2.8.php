@@ -137,11 +137,13 @@ function bp_core_admin_php52_plugin_row( $file, $plugin_data ) {
 		$active_class .= ' not-shiny';
 	}
 
-	echo '<tr class="plugin-update-tr' . $active_class . '" id="' . esc_attr( $response->slug . '-update' ) . '" data-slug="' . esc_attr( $response->slug ) . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . esc_attr( $wp_list_table->get_column_count() ) . '" class="plugin-update colspanchange"><div class="update-message inline notice notice-error notice-alt">';
+	echo '<tr class="plugin-update-tr' . esc_attr( $active_class ) . '" id="' . esc_attr( $response->slug . '-update' ) . '" data-slug="' . esc_attr( $response->slug ) . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . esc_attr( $wp_list_table->get_column_count() ) . '" class="plugin-update colspanchange"><div class="update-message inline notice notice-error notice-alt">';
 
-	printf( $p,
+	printf(
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		$p,
 		esc_html__( 'A BuddyPress update is available, but your system is not compatible.', 'buddypress' ) . ' ' .
-		sprintf( __( 'See <a href="%s">the Codex guide</a> for more information.', 'buddypress' ), 'https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/' )
+		sprintf( esc_html__( 'See %s for more information.', 'buddypress' ), '<a href="https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/">' . esc_html( 'the Codex guide', 'buddypress' ) . '</a>' )
 	);
 
 	echo '</div></td></tr>';
@@ -151,6 +153,8 @@ function bp_core_admin_php52_plugin_row( $file, $plugin_data ) {
 	 * See WP_Plugins_List_Table::single_row().
 	 */
 	$checkbox_id = 'checkbox_' . md5( $plugin_data['Name'] );
+
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo "<script type='text/javascript'>document.getElementById('$checkbox_id').disabled = true;</script>";
 }
 
@@ -203,7 +207,7 @@ function bp_core_admin_php53_admin_notice() {
 			&nbsp;
 			<?php
 			/* translators: %s: the url to a codex page */
-			printf( _x( 'See <a href="%s">the Codex guide</a> for more information.', 'deprecated string', 'buddypress' ), 'https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/' );
+			printf( esc_html_x( 'See %s for more information.', 'deprecated string', 'buddypress' ), '<a href="https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/">' . esc_html( 'the Codex guide', 'buddypress' ) . '</a>' );
 			?>
 		</p>
 		<?php wp_nonce_field( "bp-dismissible-notice-$notice_id", "bp-dismissible-nonce-$notice_id" ); ?>

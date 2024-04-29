@@ -182,7 +182,7 @@ function bp_notifications_buddybar_menu() {
  */
 function bp_blogs_subdomain_base() {
 	_deprecated_function( __FUNCTION__, '2.1', 'bp_signup_subdomain_base()' );
-	echo bp_signup_get_subdomain_base();
+	echo esc_url( bp_signup_get_subdomain_base() );
 }
 
 /**
