@@ -93,7 +93,7 @@
 	<?php else: ?>
 
 		<div id="message" class="info">
-			<p><?php _e( 'There are no pending membership requests.', 'buddypress' ); ?></p>
+			<p><?php esc_html_e( 'There are no pending membership requests.', 'buddypress' ); ?></p>
 		</div>
 
 	<?php endif;

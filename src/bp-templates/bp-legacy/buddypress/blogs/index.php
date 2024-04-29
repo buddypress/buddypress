@@ -64,7 +64,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 					<a href="<?php bp_blogs_directory_url(); ?>">
 						<?php
 						/* translators: %s: all blogs count */
-						printf( __( 'All Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count() . '</span>' ); ?>
+						printf( esc_html__( 'All Sites %s', 'buddypress' ), '<span>' . esc_html( bp_get_total_blog_count() ) . '</span>' ); ?>
 					</a>
 				</li>
 
@@ -74,7 +74,7 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 						<a href="<?php bp_loggedin_user_link( array( bp_get_blogs_slug() ) ); ?>">
 							<?php
 							/* translators: %s: current user blogs count */
-							printf( __( 'My Sites %s', 'buddypress' ), '<span>' . bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) . '</span>' ); ?>
+							printf( esc_html__( 'My Sites %s', 'buddypress' ), '<span>' . esc_html( bp_get_total_blog_count_for_user( bp_loggedin_user_id() ) ) . '</span>' ); ?>
 						</a>
 					</li>
 
@@ -106,11 +106,11 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 
 				<li id="blogs-order-select" class="last filter">
 
-					<label for="blogs-order-by"><?php _e( 'Order By:', 'buddypress' ); ?></label>
+					<label for="blogs-order-by"><?php esc_html_e( 'Order By:', 'buddypress' ); ?></label>
 					<select id="blogs-order-by">
-						<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
-						<option value="newest"><?php _e( 'Newest', 'buddypress' ); ?></option>
-						<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
+						<option value="active"><?php esc_html_e( 'Last Active', 'buddypress' ); ?></option>
+						<option value="newest"><?php esc_html_e( 'Newest', 'buddypress' ); ?></option>
+						<option value="alphabetical"><?php esc_html_e( 'Alphabetical', 'buddypress' ); ?></option>
 
 						<?php
 
@@ -126,10 +126,12 @@ do_action( 'bp_before_directory_blogs_page' ); ?>
 			</ul>
 		</div>
 
-		<h2 class="bp-screen-reader-text"><?php
-			/* translators: accessibility text */
-			_e( 'Sites directory', 'buddypress' );
-		?></h2>
+		<h2 class="bp-screen-reader-text">
+			<?php
+				/* translators: accessibility text */
+				esc_html_e( 'Sites directory', 'buddypress' );
+			?>
+		</h2>
 
 		<div id="blogs-dir-list" class="blogs dir-list">
 

@@ -38,7 +38,7 @@
 	<p class="bp-feedback error">
 		<span class="bp-icon" aria-hidden="true"></span>
 		<span class="bp-help-text">
-			<?php echo apply_filters( 'members_invitations_form_access_restricted', esc_html__( 'Sorry, you are not allowed to send invitations.', 'buddypress' ) ); ?>
+			<?php echo esc_html( apply_filters( 'members_invitations_form_access_restricted', __( 'Sorry, you are not allowed to send invitations.', 'buddypress' ) ) ); ?>
 		</span>
 	</p>
 

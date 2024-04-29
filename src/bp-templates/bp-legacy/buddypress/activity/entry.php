@@ -58,7 +58,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 
 			<?php if ( bp_get_activity_type() == 'activity_comment' ) : ?>
 
-				<a href="<?php bp_activity_thread_permalink(); ?>" class="button view bp-secondary-action"><?php _e( 'View Conversation', 'buddypress' ); ?></a>
+				<a href="<?php bp_activity_thread_permalink(); ?>" class="button view bp-secondary-action"><?php esc_html_e( 'View Conversation', 'buddypress' ); ?></a>
 
 			<?php endif; ?>
 
@@ -69,7 +69,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 					<a href="<?php bp_activity_comment_link(); ?>" class="button acomment-reply bp-primary-action" id="acomment-comment-<?php bp_activity_id(); ?>">
 						<?php
 						/* translators: %s: number of activity comments */
-						printf( __( 'Comment %s', 'buddypress' ), '<span>' . bp_activity_get_comment_count() . '</span>' );
+						printf( esc_html__( 'Comment %s', 'buddypress' ), '<span>' . esc_html( bp_activity_get_comment_count() ) . '</span>' );
 						?>
 					</a>
 
@@ -79,11 +79,11 @@ do_action( 'bp_before_activity_entry' ); ?>
 
 					<?php if ( !bp_get_activity_is_favorite() ) : ?>
 
-						<a href="<?php bp_activity_favorite_link(); ?>" class="button fav bp-secondary-action"><?php _e( 'Favorite', 'buddypress' ); ?></a>
+						<a href="<?php bp_activity_favorite_link(); ?>" class="button fav bp-secondary-action"><?php esc_html_e( 'Favorite', 'buddypress' ); ?></a>
 
 					<?php else : ?>
 
-						<a href="<?php bp_activity_unfavorite_link(); ?>" class="button unfav bp-secondary-action"><?php _e( 'Remove Favorite', 'buddypress' ); ?></a>
+						<a href="<?php bp_activity_unfavorite_link(); ?>" class="button unfav bp-secondary-action"><?php esc_html_e( 'Remove Favorite', 'buddypress' ); ?></a>
 
 					<?php endif; ?>
 
@@ -127,10 +127,12 @@ do_action( 'bp_before_activity_entry' ); ?>
 					<div class="ac-reply-avatar"><?php bp_loggedin_user_avatar( 'width=' . BP_AVATAR_THUMB_WIDTH . '&height=' . BP_AVATAR_THUMB_HEIGHT ); ?></div>
 					<div class="ac-reply-content">
 						<div class="ac-textarea">
-							<label for="ac-input-<?php bp_activity_id(); ?>" class="bp-screen-reader-text"><?php
-								/* translators: accessibility text */
-								_e( 'Comment', 'buddypress' );
-							?></label>
+							<label for="ac-input-<?php bp_activity_id(); ?>" class="bp-screen-reader-text">
+								<?php
+									/* translators: accessibility text */
+									esc_html_e( 'Comment', 'buddypress' );
+								?>
+							</label>
 							<textarea id="ac-input-<?php bp_activity_id(); ?>" class="ac-input bp-suggestions" name="ac_input_<?php bp_activity_id(); ?>"></textarea>
 						</div>
 						<input type="submit" name="ac_form_submit" value="<?php esc_attr_e( 'Post', 'buddypress' ); ?>" /> &nbsp; <a href="<?php bp_activity_comment_cancel_url(); ?>" class="ac-reply-cancel"><?php esc_html_e( 'Cancel', 'buddypress' ); ?></a>

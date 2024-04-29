@@ -68,7 +68,7 @@ do_action( 'bp_before_groups_loop' ); ?>
 					<span class="activity" data-livestamp="<?php bp_core_iso8601_date( bp_get_group_last_active( 0, array( 'relative' => false ) ) ); ?>">
 						<?php
 						/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
-						printf( __( 'Active %s', 'buddypress' ), bp_get_group_last_active() );
+						printf( esc_html__( 'Active %s', 'buddypress' ), esc_html( bp_get_group_last_active() ) );
 						?>
 					</span>
 				</div>
@@ -140,7 +140,7 @@ do_action( 'bp_before_groups_loop' ); ?>
 <?php else: ?>
 
 	<div id="message" class="info">
-		<p><?php _e( 'There were no groups found.', 'buddypress' ); ?></p>
+		<p><?php esc_html_e( 'There were no groups found.', 'buddypress' ); ?></p>
 	</div>
 
 <?php endif; ?>

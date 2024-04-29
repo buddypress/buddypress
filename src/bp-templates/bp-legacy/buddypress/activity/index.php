@@ -60,7 +60,7 @@ do_action( 'bp_before_directory_activity' ); ?>
 				<a href="<?php bp_activity_directory_permalink(); ?>">
 					<?php
 					/* translators: %s: number of members */
-					printf( __( 'All Members %s', 'buddypress' ), '<span>' . bp_get_total_member_count() . '</span>' );
+					printf( esc_html__( 'All Members %s', 'buddypress' ), '<span>' . esc_html( bp_get_total_member_count() ) . '</span>' );
 					?>
 				</a>
 			</li>
@@ -84,7 +84,7 @@ do_action( 'bp_before_directory_activity' ); ?>
 							<a href="<?php bp_loggedin_user_link( array( bp_get_activity_slug(), bp_get_friends_slug() ) ); ?>">
 								<?php
 								/* translators: %s: number of friends */
-								printf( esc_html__( 'My Friends %s', 'buddypress' ), '<span>' . bp_get_total_friend_count( bp_loggedin_user_id() ) . '</span>' );
+								printf( esc_html__( 'My Friends %s', 'buddypress' ), '<span>' . esc_html( bp_get_total_friend_count( bp_loggedin_user_id() ) ) . '</span>' );
 								?>
 							</a>
 						</li>
@@ -110,7 +110,7 @@ do_action( 'bp_before_directory_activity' ); ?>
 							<a href="<?php bp_loggedin_user_link( array( bp_get_activity_slug(), bp_get_groups_slug() ) ); ?>">
 								<?php
 								/* translators: %s: current user groups count */
-								printf( esc_html__( 'My Groups %s', 'buddypress' ), '<span>' . bp_get_total_group_count_for_user( bp_loggedin_user_id() ) . '</span>' );
+								printf( esc_html__( 'My Groups %s', 'buddypress' ), '<span>' . esc_html( bp_get_total_group_count_for_user( bp_loggedin_user_id() ) ) . '</span>' );
 								?>
 							</a>
 						</li>
@@ -134,7 +134,7 @@ do_action( 'bp_before_directory_activity' ); ?>
 						<a href="<?php bp_loggedin_user_link( array( bp_get_activity_slug(), 'favorites' ) ); ?>">
 							<?php
 							/* translators: %s: number of favorites */
-							printf( esc_html__( 'My Favorites %s', 'buddypress' ), '<span>' . bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) . '</span>' );
+							printf( esc_html__( 'My Favorites %s', 'buddypress' ), '<span>' . esc_html( bp_get_total_favorite_count_for_user( bp_loggedin_user_id() ) ) . '</span>' );
 							?>
 						</a>
 					</li>
@@ -161,7 +161,7 @@ do_action( 'bp_before_directory_activity' ); ?>
 									<span>
 										<?php
 										/* translators: %s: new mentions count */
-										printf( esc_html( _nx( '%s new', '%s new', bp_get_total_mention_count_for_user( bp_loggedin_user_id() ), 'Number of new activity mentions', 'buddypress' ), bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) );
+										printf( esc_html( _nx( '%s new', '%s new', bp_get_total_mention_count_for_user( bp_loggedin_user_id() ), 'Number of new activity mentions', 'buddypress' ), esc_html( bp_get_total_mention_count_for_user( bp_loggedin_user_id() ) ) ) );
 										?>
 									</span>
 								</strong>
@@ -204,9 +204,9 @@ do_action( 'bp_before_directory_activity' ); ?>
 			do_action( 'bp_activity_syndication_options' ); ?>
 
 			<li id="activity-filter-select" class="last">
-				<label for="activity-filter-by"><?php _e( 'Show:', 'buddypress' ); ?></label>
+				<label for="activity-filter-by"><?php esc_html_e( 'Show:', 'buddypress' ); ?></label>
 				<select id="activity-filter-by">
-					<option value="-1"><?php _e( '&mdash; Everything &mdash;', 'buddypress' ); ?></option>
+					<option value="-1"><?php esc_html_e( '&mdash; Everything &mdash;', 'buddypress' ); ?></option>
 
 					<?php bp_activity_show_filters(); ?>
 

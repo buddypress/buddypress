@@ -72,7 +72,7 @@
 				do_action( 'bp_group_send_invites_item' ); ?>
 
 				<div class="action">
-					<a class="button remove" href="<?php bp_group_invite_user_remove_invite_url(); ?>" id="<?php bp_group_invite_item_id(); ?>"><?php _e( 'Remove Invite', 'buddypress' ); ?></a>
+					<a class="button remove" href="<?php bp_group_invite_user_remove_invite_url(); ?>" id="<?php bp_group_invite_item_id(); ?>"><?php esc_html_e( 'Remove Invite', 'buddypress' ); ?></a>
 
 					<?php
 
@@ -108,7 +108,7 @@
 	<?php else : ?>
 
 		<div id="message" class="info">
-			<p><?php _e( 'Select friends to invite.', 'buddypress' ); ?></p>
+			<p><?php esc_html_e( 'Select friends to invite.', 'buddypress' ); ?></p>
 		</div>
 
 	<?php endif; ?>

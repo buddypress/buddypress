@@ -57,10 +57,12 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php /* Group creation step 1: Basic group details */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-details' ) ) : ?>
 
-				<h2 class="bp-screen-reader-text"><?php
-					/* translators: accessibility text */
-					_e( 'Group Details', 'buddypress' );
-				?></h2>
+				<h2 class="bp-screen-reader-text">
+					<?php
+						/* translators: accessibility text */
+						esc_html_e( 'Group Details', 'buddypress' );
+					?>
+				</h2>
 
 				<?php
 
@@ -72,12 +74,12 @@ do_action( 'bp_before_create_group_page' ); ?>
 				do_action( 'bp_before_group_details_creation_step' ); ?>
 
 				<div>
-					<label for="group-name"><?php _e( 'Group Name (required)', 'buddypress' ); ?></label>
+					<label for="group-name"><?php esc_html_e( 'Group Name (required)', 'buddypress' ); ?></label>
 					<input type="text" name="group-name" id="group-name" aria-required="true" value="<?php echo esc_attr( bp_get_new_group_name() ); ?>" />
 				</div>
 
 				<div>
-					<label for="group-desc"><?php _e( 'Group Description (required)', 'buddypress' ); ?></label>
+					<label for="group-desc"><?php esc_html_e( 'Group Description (required)', 'buddypress' ); ?></label>
 					<textarea name="group-desc" id="group-desc" aria-required="true"><?php bp_new_group_description(); ?></textarea>
 				</div>
 
@@ -98,10 +100,12 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php /* Group creation step 2: Group settings */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-settings' ) ) : ?>
 
-				<h2 class="bp-screen-reader-text"><?php
-					/* translators: accessibility text */
-					_e( 'Group Settings', 'buddypress' );
-				?></h2>
+				<h2 class="bp-screen-reader-text">
+					<?php
+						/* translators: accessibility text */
+						esc_html_e( 'Group Settings', 'buddypress' );
+					?>
+				</h2>
 
 				<?php
 
@@ -114,32 +118,32 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 				<fieldset class="group-create-privacy">
 
-					<legend><?php _e( 'Privacy Options', 'buddypress' ); ?></legend>
+					<legend><?php esc_html_e( 'Privacy Options', 'buddypress' ); ?></legend>
 
 					<div class="radio">
 
-						<label for="group-status-public"><input type="radio" name="group-status" id="group-status-public" value="public"<?php if ( 'public' == bp_get_new_group_status() || !bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="public-group-description" /> <?php _e( 'This is a public group', 'buddypress' ); ?></label>
+						<label for="group-status-public"><input type="radio" name="group-status" id="group-status-public" value="public"<?php if ( 'public' == bp_get_new_group_status() || ! bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="public-group-description" /> <?php esc_html_e( 'This is a public group', 'buddypress' ); ?></label>
 
 						<ul id="public-group-description">
-							<li><?php _e( 'Any site member can join this group.', 'buddypress' ); ?></li>
-							<li><?php _e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ); ?></li>
-							<li><?php _e( 'Group content and activity will be visible to any site member.', 'buddypress' ); ?></li>
+							<li><?php esc_html_e( 'Any site member can join this group.', 'buddypress' ); ?></li>
+							<li><?php esc_html_e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ); ?></li>
+							<li><?php esc_html_e( 'Group content and activity will be visible to any site member.', 'buddypress' ); ?></li>
 						</ul>
 
-						<label for="group-status-private"><input type="radio" name="group-status" id="group-status-private" value="private"<?php if ( 'private' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="private-group-description" /> <?php _e( 'This is a private group', 'buddypress' ); ?></label>
+						<label for="group-status-private"><input type="radio" name="group-status" id="group-status-private" value="private"<?php if ( 'private' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="private-group-description" /> <?php esc_html_e( 'This is a private group', 'buddypress' ); ?></label>
 
 						<ul id="private-group-description">
-							<li><?php _e( 'Only users who request membership and are accepted can join the group.', 'buddypress' ); ?></li>
-							<li><?php _e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ); ?></li>
-							<li><?php _e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ); ?></li>
+							<li><?php esc_html_e( 'Only users who request membership and are accepted can join the group.', 'buddypress' ); ?></li>
+							<li><?php esc_html_e( 'This group will be listed in the groups directory and in search results.', 'buddypress' ); ?></li>
+							<li><?php esc_html_e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ); ?></li>
 						</ul>
 
-						<label for="group-status-hidden"><input type="radio" name="group-status" id="group-status-hidden" value="hidden"<?php if ( 'hidden' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="hidden-group-description" /> <?php _e('This is a hidden group', 'buddypress' ); ?></label>
+						<label for="group-status-hidden"><input type="radio" name="group-status" id="group-status-hidden" value="hidden"<?php if ( 'hidden' == bp_get_new_group_status() ) { ?> checked="checked"<?php } ?> aria-describedby="hidden-group-description" /> <?php esc_html_e('This is a hidden group', 'buddypress' ); ?></label>
 
 						<ul id="hidden-group-description">
-							<li><?php _e( 'Only users who are invited can join the group.', 'buddypress' ); ?></li>
-							<li><?php _e( 'This group will not be listed in the groups directory or search results.', 'buddypress' ); ?></li>
-							<li><?php _e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ); ?></li>
+							<li><?php esc_html_e( 'Only users who are invited can join the group.', 'buddypress' ); ?></li>
+							<li><?php esc_html_e( 'This group will not be listed in the groups directory or search results.', 'buddypress' ); ?></li>
+							<li><?php esc_html_e( 'Group content and activity will only be visible to members of the group.', 'buddypress' ); ?></li>
 						</ul>
 
 					</div>
@@ -150,17 +154,17 @@ do_action( 'bp_before_create_group_page' ); ?>
 				<?php if ( $group_types = bp_groups_get_group_types( array( 'show_in_create_screen' => true ), 'objects' ) ): ?>
 
 					<fieldset class="group-create-types">
-						<legend><?php _e( 'Group Types', 'buddypress' ); ?></legend>
+						<legend><?php esc_html_e( 'Group Types', 'buddypress' ); ?></legend>
 
-						<p><?php _e( 'Select the types this group should be a part of.', 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'Select the types this group should be a part of.', 'buddypress' ); ?></p>
 
 						<?php foreach ( $group_types as $type ) : ?>
 							<div class="checkbox">
-								<label for="<?php printf( 'group-type-%s', $type->name ); ?>"><input type="checkbox" name="group-types[]" id="<?php printf( 'group-type-%s', $type->name ); ?>" value="<?php echo esc_attr( $type->name ); ?>" <?php checked( true, ! empty( $type->create_screen_checked ) ); ?> /> <?php echo esc_html( $type->labels['name'] ); ?>
+								<label for="<?php printf( 'group-type-%s', esc_attr( $type->name ) ); ?>"><input type="checkbox" name="group-types[]" id="<?php printf( 'group-type-%s', esc_attr( $type->name ) ); ?>" value="<?php echo esc_attr( $type->name ); ?>" <?php checked( true, ! empty( $type->create_screen_checked ) ); ?> /> <?php echo esc_html( $type->labels['name'] ); ?>
 									<?php
 										if ( ! empty( $type->description ) ) {
 											/* translators: Group type description shown when creating a group. */
-											printf( __( '&ndash; %s', 'buddypress' ), '<span class="bp-group-type-desc">' . esc_html( $type->description ) . '</span>' );
+											printf( esc_html__( '&ndash; %s', 'buddypress' ), '<span class="bp-group-type-desc">' . esc_html( $type->description ) . '</span>' );
 										}
 									?>
 								</label>
@@ -176,17 +180,17 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 					<fieldset class="group-create-invitations">
 
-						<legend><?php _e( 'Group Invitations', 'buddypress' ); ?></legend>
+						<legend><?php esc_html_e( 'Group Invitations', 'buddypress' ); ?></legend>
 
-						<p><?php _e( 'Which members of this group are allowed to invite others?', 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'Which members of this group are allowed to invite others?', 'buddypress' ); ?></p>
 
 						<div class="radio">
 
-							<label for="group-invite-status-members"><input type="radio" name="group-invite-status" id="group-invite-status-members" value="members"<?php bp_group_show_invite_status_setting( 'members' ); ?> /> <?php _e( 'All group members', 'buddypress' ); ?></label>
+							<label for="group-invite-status-members"><input type="radio" name="group-invite-status" id="group-invite-status-members" value="members"<?php bp_group_show_invite_status_setting( 'members' ); ?> /> <?php esc_html_e( 'All group members', 'buddypress' ); ?></label>
 
-							<label for="group-invite-status-mods"><input type="radio" name="group-invite-status" id="group-invite-status-mods" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ); ?> /> <?php _e( 'Group admins and mods only', 'buddypress' ); ?></label>
+							<label for="group-invite-status-mods"><input type="radio" name="group-invite-status" id="group-invite-status-mods" value="mods"<?php bp_group_show_invite_status_setting( 'mods' ); ?> /> <?php esc_html_e( 'Group admins and mods only', 'buddypress' ); ?></label>
 
-							<label for="group-invite-status-admins"><input type="radio" name="group-invite-status" id="group-invite-status-admins" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ); ?> /> <?php _e( 'Group admins only', 'buddypress' ); ?></label>
+							<label for="group-invite-status-admins"><input type="radio" name="group-invite-status" id="group-invite-status-admins" value="admins"<?php bp_group_show_invite_status_setting( 'admins' ); ?> /> <?php esc_html_e( 'Group admins only', 'buddypress' ); ?></label>
 
 						</div>
 
@@ -210,10 +214,12 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php /* Group creation step 3: Avatar Uploads */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-avatar' ) ) : ?>
 
-				<h2 class="bp-screen-reader-text"><?php
-					/* translators: accessibility text */
-					_e( 'Group Avatar', 'buddypress' );
-				?></h2>
+				<h2 class="bp-screen-reader-text">
+					<?php
+						/* translators: accessibility text */
+						esc_html_e( 'Group Avatar', 'buddypress' );
+					?>
+				</h2>
 
 				<?php
 
@@ -233,19 +239,21 @@ do_action( 'bp_before_create_group_page' ); ?>
 					</div><!-- .left-menu -->
 
 					<div class="main-column">
-						<p><?php _e( "Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.", 'buddypress' ); ?></p>
+						<p><?php esc_html_e( "Upload an image to use as a profile photo for this group. The image will be shown on the main group page, and in search results.", 'buddypress' ); ?></p>
 
 						<p>
-							<label for="file" class="bp-screen-reader-text"><?php
-								/* translators: accessibility text */
-								_e( 'Select an image', 'buddypress' );
-							?></label>
+							<label for="file" class="bp-screen-reader-text">
+								<?php
+									/* translators: accessibility text */
+									esc_html_e( 'Select an image', 'buddypress' );
+								?>
+							</label>
 							<input type="file" name="file" id="file" />
 							<input type="submit" name="upload" id="upload" value="<?php esc_attr_e( 'Upload Image', 'buddypress' ); ?>" />
 							<input type="hidden" name="action" id="action" value="bp_avatar_upload" />
 						</p>
 
-						<p><?php _e( 'To skip the group profile photo upload process, hit the "Next Step" button.', 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'To skip the group profile photo upload process, hit the "Next Step" button.', 'buddypress' ); ?></p>
 					</div><!-- .main-column -->
 
 					<?php
@@ -260,7 +268,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 				<?php if ( 'crop-image' == bp_get_avatar_admin_step() ) : ?>
 
-					<h4><?php _e( 'Crop Group Profile Photo', 'buddypress' ); ?></h4>
+					<h4><?php esc_html_e( 'Crop Group Profile Photo', 'buddypress' ); ?></h4>
 
 					<img src="<?php bp_avatar_to_crop(); ?>" id="avatar-to-crop" class="avatar" alt="<?php esc_attr_e( 'Profile photo to crop', 'buddypress' ); ?>" />
 
@@ -295,10 +303,12 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php /* Group creation step 4: Cover image */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-cover-image' ) ) : ?>
 
-				<h2 class="bp-screen-reader-text"><?php
-					/* translators: accessibility text */
-					_e( 'Cover Image', 'buddypress' );
-				?></h2>
+				<h2 class="bp-screen-reader-text">
+					<?php
+						/* translators: accessibility text */
+						esc_html_e( 'Cover Image', 'buddypress' );
+					?>
+				</h2>
 
 				<?php
 
@@ -311,7 +321,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 
 				<div id="header-cover-image"></div>
 
-				<p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
+				<p><?php esc_html_e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
 
 				<?php bp_attachments_get_template_part( 'cover-images/index' ); ?>
 
@@ -331,10 +341,12 @@ do_action( 'bp_before_create_group_page' ); ?>
 			<?php /* Group creation step 5: Invite friends to group */ ?>
 			<?php if ( bp_is_group_creation_step( 'group-invites' ) ) : ?>
 
-				<h2 class="bp-screen-reader-text"><?php
-					/* translators: accessibility text */
-					_e( 'Group Invites', 'buddypress' );
-				?></h2>
+				<h2 class="bp-screen-reader-text">
+					<?php
+						/* translators: accessibility text */
+						esc_html_e( 'Group Invites', 'buddypress' );
+					?>
+				</h2>
 
 				<?php
 
@@ -362,7 +374,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 					<div class="main-column">
 
 						<div id="message" class="info">
-							<p><?php _e('Select people to invite from your friends list.', 'buddypress' ); ?></p>
+							<p><?php esc_html_e('Select people to invite from your friends list.', 'buddypress' ); ?></p>
 						</div>
 
 						<?php /* The ID 'friend-list' is important for AJAX support. */ ?>
@@ -380,7 +392,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 									<span class="activity"><?php bp_group_invite_user_last_active(); ?></span>
 
 									<div class="action">
-										<a class="remove" href="<?php bp_group_invite_user_remove_invite_url(); ?>" id="<?php bp_group_invite_item_id(); ?>"><?php _e( 'Remove Invite', 'buddypress' ); ?></a>
+										<a class="remove" href="<?php bp_group_invite_user_remove_invite_url(); ?>" id="<?php bp_group_invite_item_id(); ?>"><?php esc_html_e( 'Remove Invite', 'buddypress' ); ?></a>
 									</div>
 								</li>
 
@@ -397,7 +409,7 @@ do_action( 'bp_before_create_group_page' ); ?>
 				<?php else : ?>
 
 					<div id="message" class="info">
-						<p><?php _e( 'Once you have built up friend connections you will be able to invite others to your group.', 'buddypress' ); ?></p>
+						<p><?php esc_html_e( 'Once you have built up friend connections you will be able to invite others to your group.', 'buddypress' ); ?></p>
 					</div>
 
 				<?php endif; ?>
