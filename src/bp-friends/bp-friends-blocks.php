@@ -193,8 +193,8 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 					'assets/widgets/friends.php',
 					'php',
 					array(
-						'data.link'              => bp_members_get_user_url( $user->ID ),
-						'data.name'              => $user->display_name,
+						'data.link'              => esc_url( bp_members_get_user_url( $user->ID ) ),
+						'data.name'              => esc_html( $user->display_name ),
 						'data.avatar_urls.thumb' => bp_core_fetch_avatar(
 							array(
 								'item_id' => $user->ID,
@@ -205,11 +205,11 @@ function bp_friends_render_friends_block( $attributes = array() ) {
 							sprintf(
 								/* translators: %s: member name */
 								__( 'Profile picture of %s', 'buddypress' ),
-								$user->display_name
+								esc_html( $user->display_name )
 							)
 						),
 						'data.id'                => $user->ID,
-						'data.extra'             => $extra,
+						'data.extra'             => esc_html( $extra ),
 					)
 				);
 			}

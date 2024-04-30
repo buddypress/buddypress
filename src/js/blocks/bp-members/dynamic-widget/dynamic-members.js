@@ -5,6 +5,10 @@ import {
 	__,
 	sprintf,
 } from '@wordpress/i18n';
+import {
+	escapeAttribute,
+	escapeHTML,
+} from '@wordpress/escape-html';
 
 /**
  * BuddyPress dependencies.
@@ -26,25 +30,28 @@ class bpMembersWidgetBlock extends dynamicWidgetBlock {
 			members.forEach( ( member ) => {
 				if ( 'active' === type && member.last_activity ) {
 					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
-					member.extra = sprintf( __( 'Active %s', 'buddypress' ), member.last_activity.timediff );
+					member.extra = escapeHTML( sprintf( __( 'Active %s', 'buddypress' ), member.last_activity.timediff ) );
 				} else if ( 'popular' === type && member.total_friend_count ) {
 					const friendsCount = parseInt( member.total_friend_count, 10 );
 
 					if ( 0 === friendsCount ) {
-						member.extra = __( 'No friends', 'buddypress' );
+						member.extra = escapeHTML( __( 'No friends', 'buddypress' ) );
 					} else if ( 1 === friendsCount ) {
-						member.extra = __( '1 friend', 'buddypress' );
+						member.extra = escapeHTML( __( '1 friend', 'buddypress' ) );
 					} else {
 						/* translators: %s: total friend count (more than 1). */
-						member.extra = sprintf( __( '%s friends', 'buddypress' ), member.total_friend_count );
+						member.extra = escapeHTML( sprintf( __( '%s friends', 'buddypress' ), member.total_friend_count ) );
 					}
 				} else if ( 'newest' === type && member.registered_since ) {
 					/* translators: %s is time elapsed since the registration date happened */
-					member.extra = sprintf( __( 'Registered %s', 'buddypress' ), member.registered_since );
+					member.extra = escapeHTML( sprintf( __( 'Registered %s', 'buddypress' ), member.registered_since ) );
 				}
 
+				// Sanitize user name.
+				member.name = escapeHTML( member.name );
+
 				/* translators: %s: member name */
-				member.avatar_alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), member.name );
+				member.avatar_alt = escapeAttribute( sprintf( __( 'Profile picture of %s', 'buddypress' ), member.name ) );
 
 				output += tmpl( member );
 			} );
