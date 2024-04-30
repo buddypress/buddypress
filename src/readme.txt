@@ -7,7 +7,7 @@ License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
 Requires at least: 5.8
 Tested up to:      6.5
-Stable tag:        12.4.0
+Stable tag:        12.4.1
 
 Get together safely, in your own way, in WordPress.
 
@@ -130,6 +130,9 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
+= 12.4.1 =
+See: https://codex.buddypress.org/releases/version-12-4-1/
+
 = 12.4.0 =
 See: https://codex.buddypress.org/releases/version-12-4-0/
 
@@ -186,6 +189,10 @@ See: https://codex.buddypress.org/releases/version-10-1-0/
 See: https://codex.buddypress.org/releases/version-10-0-0/
 
 == Changelog ==
+
+= 12.4.1 =
+Security fix: The dynamic Members, dynamic Friends & dynamic Groups blocks were vulnerable to a Stored Cross-Site Scripting. Discovered by Wesley (wcraft) from the Wordfence organization.
+See: https://codex.buddypress.org/releases/version-12-4-1/
 
 = 12.4.0 =
 See: https://codex.buddypress.org/releases/version-12-4-0/
