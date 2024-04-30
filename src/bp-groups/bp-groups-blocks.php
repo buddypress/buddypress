@@ -487,11 +487,11 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 							sprintf(
 								/* Translators: %s is the group's name. */
 								__( 'Group Profile photo of %s', 'buddypress' ),
-								$group->name
+								bp_get_group_name( $group )
 							)
 						),
 						'data.id'                => $group->id,
-						'data.extra'             => $extra,
+						'data.extra'             => esc_html( $extra ),
 					)
 				);
 			}
