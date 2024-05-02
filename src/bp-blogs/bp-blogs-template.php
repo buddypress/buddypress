@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  */
 function bp_blogs_slug() {
-	echo esc_url( bp_get_blogs_slug() );
+	echo esc_attr( bp_get_blogs_slug() );
 }
 	/**
 	 * Return the blogs component slug.
@@ -45,7 +45,7 @@ function bp_blogs_slug() {
  *
  */
 function bp_blogs_root_slug() {
-	echo esc_url( bp_get_blogs_root_slug() );
+	echo esc_attr( bp_get_blogs_root_slug() );
 }
 	/**
 	 * Return the blogs component root slug.
@@ -1185,7 +1185,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 				esc_attr( $blogname ),
 				// phpcs:ignore WordPress.Security.EscapeOutput
 				bp_get_form_field_attributes( 'blogname' ),
-				esc_url( bp_signup_get_subdomain_base() )
+				esc_attr( bp_signup_get_subdomain_base() )
 			);
 		}
 		if ( is_wp_error( $errors ) && $errors->get_error_message( 'blogname' ) ) {

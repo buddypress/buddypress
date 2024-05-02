@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.4.0
  */
 function bp_profile_slug() {
-	echo esc_url( bp_get_profile_slug() );
+	echo esc_attr( bp_get_profile_slug() );
 }
 	/**
 	 * Return the profile component slug.
@@ -45,7 +45,7 @@ function bp_profile_slug() {
  * @since 1.5.0
  */
 function bp_members_slug() {
-	echo esc_url( bp_get_members_slug() );
+	echo esc_attr( bp_get_members_slug() );
 }
 	/**
 	 * Return the members component slug.
@@ -72,7 +72,7 @@ function bp_members_slug() {
  * @since 1.5.0
  */
 function bp_members_root_slug() {
-	echo esc_url( bp_get_members_root_slug() );
+	echo esc_attr( bp_get_members_root_slug() );
 }
 	/**
 	 * Return the members component root slug.
@@ -99,7 +99,7 @@ function bp_members_root_slug() {
  * @since 2.5.0
  */
 function bp_members_member_type_base() {
-	echo esc_url( bp_get_members_member_type_base() );
+	echo esc_attr( bp_get_members_member_type_base() );
 }
 	/**
 	 * Get the member type URL base.
@@ -215,7 +215,7 @@ function bp_member_type_directory_permalink( $member_type = '' ) {
  * @since 1.5.0
  */
 function bp_signup_slug() {
-	echo esc_url( bp_get_signup_slug() );
+	echo esc_attr( bp_get_signup_slug() );
 }
 	/**
 	 * Return the sign-up slug.
@@ -248,7 +248,7 @@ function bp_signup_slug() {
  * @since 1.5.0
  */
 function bp_activate_slug() {
-	echo esc_url( bp_get_activate_slug() );
+	echo esc_attr( bp_get_activate_slug() );
 }
 	/**
 	 * Return the activation slug.
@@ -281,7 +281,7 @@ function bp_activate_slug() {
  * @since 8.0.0
  */
 function bp_members_invitations_slug() {
-	echo esc_url( bp_get_members_invitations_slug() );
+	echo esc_attr( bp_get_members_invitations_slug() );
 }
 	/**
 	 * Return the members invitations root slug.
@@ -2737,7 +2737,7 @@ function bp_signup_blog_url_value() {
  * @since 2.1.0
  */
 function bp_signup_subdomain_base() {
-	echo esc_url( bp_signup_get_subdomain_base() );
+	echo esc_attr( bp_signup_get_subdomain_base() );
 }
 	/**
 	 * Return the base URL for subdomain installations of WordPress Multisite.

@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  */
 function bp_activity_slug() {
-	echo esc_url( bp_get_activity_slug() );
+	echo esc_attr( bp_get_activity_slug() );
 }
 	/**
 	 * Return the activity component slug.
@@ -46,7 +46,7 @@ function bp_activity_slug() {
  *
  */
 function bp_activity_root_slug() {
-	echo esc_url( bp_get_activity_root_slug() );
+	echo esc_attr( bp_get_activity_root_slug() );
 }
 	/**
 	 * Return the activity component root slug.
