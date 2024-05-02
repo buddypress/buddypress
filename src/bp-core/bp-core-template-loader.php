@@ -550,6 +550,10 @@ function bp_add_template_stack_locations( $stacks = array() ) {
  * @param WP_Query $posts_query WP_Query object.
  */
 function bp_parse_query( $posts_query ) {
+	// Only run on the root site or if multiblog mode is on.
+	if ( ! bp_is_root_blog() && ! bp_is_multiblog_mode() ) {
+		return;
+	}
 
 	// Bail if $posts_query is not the main loop.
 	if ( ! $posts_query->is_main_query() ) {
