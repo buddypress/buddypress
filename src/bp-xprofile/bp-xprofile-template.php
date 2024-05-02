@@ -330,7 +330,7 @@ function bp_the_profile_group_name() {
  * @since 1.1.0
  */
 function bp_the_profile_group_slug() {
-	echo esc_url( bp_get_the_profile_group_slug() );
+	echo esc_attr( bp_get_the_profile_group_slug() );
 }
 
 	/**

@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.9.0
  */
 function bp_notifications_slug() {
-	echo esc_url( bp_get_notifications_slug() );
+	echo esc_attr( bp_get_notifications_slug() );
 }
 	/**
 	 * Return the notifications component slug.

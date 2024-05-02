@@ -1333,7 +1333,7 @@ function bp_root_url() {
  * @param string $component The component name.
  */
 function bp_root_slug( $component = '' ) {
-	echo esc_url( bp_get_root_slug( $component ) );
+	echo esc_attr( bp_get_root_slug( $component ) );
 }
 	/**
 	 * Get the root slug for given component.
@@ -1463,7 +1463,7 @@ function bp_user_has_access() {
  *
  */
 function bp_search_slug() {
-	echo esc_url( bp_get_search_slug() );
+	echo esc_attr( bp_get_search_slug() );
 }
 	/**
 	 * Return the search slug.
