@@ -52,5 +52,11 @@
 		"slug": "contribute-to-code",
 		"markdown_source": "../contributor/code/README.md",
 		"parent": null
+	},
+	{
+		"title": "Contribute to Support",
+		"slug": "contribute-to-support",
+		"markdown_source": "../contributor/support/README.md",
+		"parent": null
 	}
 ]
