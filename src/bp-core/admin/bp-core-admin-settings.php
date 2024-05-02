@@ -351,6 +351,18 @@ function bp_admin_setting_callback_group_cover_image_uploads() {
 <?php
 }
 
+/**
+ * 'Enable group activity deletions.
+ *
+ * @since 14.0.0
+ */
+function bp_admin_setting_callback_group_activity_deletions() {
+?>
+	<input id="bp-disable-group-activity-deletions" name="bp-disable-group-activity-deletions" type="checkbox" value="1" <?php checked( ! bp_disable_group_activity_deletions() ); ?> />
+	<label for="bp-disable-group-activity-deletions"><?php esc_html_e( "Allow group administrators and moderators to delete activity items from their group's activity stream", 'buddypress' ); ?></label>
+<?php
+}
+
 /** Account settings Section ************************************************************/
 
 /**
