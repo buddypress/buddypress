@@ -1462,7 +1462,7 @@ function bp_message_notice_dismiss_link() {
  *
  */
 function bp_messages_slug() {
-	echo esc_url( bp_get_messages_slug() );
+	echo esc_attr( bp_get_messages_slug() );
 }
 	/**
 	 * Return the messages component slug.

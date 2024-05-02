@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.5.0
  */
 function bp_friends_slug() {
-	echo esc_url( bp_get_friends_slug() );
+	echo esc_attr( bp_get_friends_slug() );
 }
 	/**
 	 * Return the friends component slug.
@@ -43,7 +43,7 @@ function bp_friends_slug() {
  * @since 1.5.0
  */
 function bp_friends_root_slug() {
-	echo esc_url( bp_get_friends_root_slug() );
+	echo esc_attr( bp_get_friends_root_slug() );
 }
 	/**
 	 * Return the friends component root slug.

@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.5.0
  */
 function bp_groups_slug() {
-	echo esc_url( bp_get_groups_slug() );
+	echo esc_attr( bp_get_groups_slug() );
 }
 	/**
 	 * Return the groups component slug.
@@ -43,7 +43,7 @@ function bp_groups_slug() {
  * @since 1.5.0
  */
 function bp_groups_root_slug() {
-	echo esc_url( bp_get_groups_root_slug() );
+	echo esc_attr( bp_get_groups_root_slug() );
 }
 	/**
 	 * Return the groups component root slug.
@@ -70,7 +70,7 @@ function bp_groups_root_slug() {
  * @since 2.7.0
  */
 function bp_groups_group_type_base() {
-	echo esc_url( bp_get_groups_group_type_base() );
+	echo esc_attr( bp_get_groups_group_type_base() );
 }
 	/**
 	 * Get the group type base slug.
@@ -1430,7 +1430,7 @@ function bp_get_group_manage_url( $group = false, $path_chunks = array() ) {
  *                                                Default: false.
  */
 function bp_group_slug( $group = false ) {
-	echo esc_url( bp_get_group_slug( $group ) );
+	echo esc_attr( bp_get_group_slug( $group ) );
 }
 	/**
 	 * Return the slug for the group.
@@ -4509,7 +4509,7 @@ function bp_group_member_needs_pagination() {
  * @since 1.0.0
  */
 function bp_group_pag_id() {
-	echo esc_url( bp_get_group_pag_id() );
+	echo esc_attr( bp_get_group_pag_id() );
 }
 	/**
 	 * @since 1.0.0
@@ -6486,7 +6486,7 @@ function bp_current_group_id() {
  * @since 1.5.0
  */
 function bp_current_group_slug() {
-	echo esc_url( bp_get_current_group_slug() );
+	echo esc_attr( bp_get_current_group_slug() );
 }
 	/**
 	 * Returns the slug of the current group.
