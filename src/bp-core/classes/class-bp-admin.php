@@ -827,7 +827,7 @@ class BP_Admin {
 						</h2>
 						<p>
 							<?php esc_html_e( 'Among the 100 changes introduced in 12.0.0, the BP Rewrites API is a massive revolution opening the way for a progressive BuddyPress evolution.', 'buddypress' ); ?>
-							<?php esc_html_e( 'Based on 10 years of experience gained through hard work, we are beginning to reimagine what it means to organize and manage communities within WordPess.', 'buddypress' ); ?>
+							<?php esc_html_e( 'Based on 10 years of experience gained through hard work, we are beginning to reimagine what it means to organize and manage communities within WordPress.', 'buddypress' ); ?>
 							<?php esc_html_e( 'Here are the immediate benefits of the new BP Rewrites API :', 'buddypress' ); ?>
 						</p>
 						<ol>
