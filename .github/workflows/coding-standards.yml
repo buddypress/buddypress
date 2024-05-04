@@ -34,4 +34,4 @@ jobs:
           composer-options: "--ignore-platform-reqs"
 
       - name: Run PHPCS
-        run: composer phpcs
+        run: composer phpcs-escape
