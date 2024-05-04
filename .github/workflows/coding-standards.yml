@@ -33,6 +33,8 @@ jobs:
         with:
           composer-options: "--ignore-platform-reqs"
 
-      - name: Run PHPCS
+      - name: Run PHPCS Escape
         run: composer phpcs-escape
+
+      - name: Run PHP Compatibility
         run: composer phpcompat
