@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.4']
+        php: ['8.3']
         wp_version: ['latest']
         multisite: [true, false]
         object: ["memcached", "redis"]
@@ -26,16 +26,17 @@ jobs:
       WP_CORE_DIR: /tmp/wordpress
       WP_MULTISITE: ${{ matrix.multisite == true && 1 || 0 }}
 
-    - name: Install WordPress
-      run: |
-        bash <(curl -s "https://raw.githubusercontent.com/alleyinteractive/mantle-ci/HEAD/install-wp-tests.sh") wordpress_unit_tests root '' 127.0.0.1 ${{ matrix.wp_version }} false false true
+    steps:
+      - name: Install WordPress
+        run: |
+          bash <(curl -s "https://raw.githubusercontent.com/alleyinteractive/mantle-ci/HEAD/install-wp-tests.sh") wordpress_unit_tests root '' 127.0.0.1 ${{ matrix.wp_version }} false false true
 
-    - name: Running tests
-      uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
-      with:
-        command: "test"
-        dependency-versions: ${{ matrix.dependencies }}
-        multisite: ${{ matrix.multisite }}
-        php: ${{ matrix.php }}
-        wordpress: ${{ matrix.wp_version }}
-        object-cache: ${{ matrix.object }}
+      - name: Running tests
+        uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
+        with:
+          command: "test"
+          dependency-versions: ${{ matrix.dependencies }}
+          multisite: ${{ matrix.multisite }}
+          php: ${{ matrix.php }}
+          wordpress: ${{ matrix.wp_version }}
+          object-cache: ${{ matrix.object }}
