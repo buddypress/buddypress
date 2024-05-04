@@ -594,7 +594,7 @@ function bp_disable_group_cover_image_uploads( $default = false ) {
  * @since 14.0.0
  *
  * @param bool $default Optional. Fallback value if not found in the database.
- *                      Default: true.
+ *                      Default: false.
  * @return bool True if group activity deletions are disabled, otherwise false.
  */
 function bp_disable_group_activity_deletions( $default = false ) {

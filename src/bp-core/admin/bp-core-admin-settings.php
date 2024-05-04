@@ -447,6 +447,7 @@ function bp_core_admin_settings_save() {
 			'bp-disable-cover-image-uploads',
 			'bp-disable-group-avatar-uploads',
 			'bp-disable-group-cover-image-uploads',
+			'bp-disable-group-activity-deletions',
 			'bp_disable_blogforum_comments',
 			'bp-disable-profile-sync',
 			'bp_restrict_group_creation',
