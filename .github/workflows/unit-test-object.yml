@@ -26,3 +26,4 @@ jobs:
       wordpress: ${{ matrix.wp_version }}
       object-cache: ${{ matrix.object }}
       test-suite: 'core-test-suite'
+      package-directory: 'plugins/buddypress'
