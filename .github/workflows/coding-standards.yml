@@ -6,10 +6,6 @@ jobs:
   phpcs:
     name: PHPCS
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        php: ['8.2']
 
     steps:
       - name: Cancel previous runs of this workflow (pull requests only)
@@ -24,14 +20,15 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
-          tools: composer:v2
+          php-version: 8.3
           coverage: none
+          tools: composer:v2
+
+      - name: Validate Composer
+        run: composer validate --strict
 
       - name: Install dependencies
         uses: ramsey/composer-install@v2
-        with:
-          composer-options: "--ignore-platform-reqs"
 
       - name: Run PHPCS Escape
         run: composer phpcs-escape

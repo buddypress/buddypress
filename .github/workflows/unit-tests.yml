@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2']
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3']
         wp_version: ['master']
         include:
           - php: '8.0'
@@ -38,12 +38,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Check Gitignored files
+        run: if [[ ! -z $(git ls-files -i --exclude-standard) ]]; then exit 1; fi
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: composer:v2
+          extensions: gd, imagick, mysql, zip
           coverage: none
+          tools: composer:v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
