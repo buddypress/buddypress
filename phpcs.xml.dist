@@ -11,7 +11,10 @@
 	s flag: Show sniff codes in all reports.
 	v flag: Print processed files.
 	-->
-	<arg value="psv" />
+	<arg value="sp" />
+
+	<!-- Make it pretty. -->
+	<arg name="colors"/>
 
 	<!-- Whenever possible, cache the scan results and re-use those for unchanged files on the next scan. -->
 	<arg name="cache" value=".phpcs/cache.json" />
@@ -19,8 +22,8 @@
 	<!-- Check 20 files in parallel. -->
 	<arg name="parallel" value="20"/>
 
-	<!-- Set severity to 6 to see everything that isn't effectively turned off. -->
-	<arg name="severity" value="6"/>
+	<!-- Set severity to 1 to see everything that isn't effectively turned off. -->
+	<arg name="severity" value="1"/>
 
 	<!-- What to exclude -->
 	<exclude-pattern>*/**/tests/</exclude-pattern>

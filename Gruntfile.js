@@ -160,6 +160,7 @@ module.exports = function( grunt ) {
 				src: BP_CSS.concat( BP_EXCLUDED_CSS, BP_EXCLUDED_MISC )
 			}
 		},
+		// Remove this when all WPCS issues are resolved.
 		checktextdomain: {
 			options: {
 				correct_domain: false,
@@ -342,8 +343,12 @@ module.exports = function( grunt ) {
 				cwd: BUILD_DIR,
 				stdout: false
 			},
+			phpcs_escape: {
+				command: 'composer run phpcs-escape',
+				stdout: true
+			},
 			phpcompat: {
-				command: './vendor/bin/phpcs -p --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.6- src tests',
+				command: 'composer run phpcompat',
 				stdout: true
 			},
 			rest_api: {
@@ -401,7 +406,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'src', ['checkDependencies', 'jsvalidate:src', 'jshint', 'stylelint', 'sass', 'postcss', 'rtlcss'] );
 	grunt.registerTask( 'style', ['stylelint', 'sass', 'postcss', 'rtlcss'] );
 	grunt.registerTask( 'makepot', ['exec:makepot'] );
-	grunt.registerTask( 'commit', ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcompat'] );
+	grunt.registerTask( 'commit', ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcs_escape', 'exec:phpcompat'] );
 	grunt.registerTask( 'commit:blocks', ['commit', 'exec:blocks_src', 'exec:modernJS_src'] );
 	grunt.registerTask( 'bp_rest', [ 'exec:rest_api', 'copy:bp_rest_components', 'copy:bp_rest_core', 'clean:bp_rest' ] );
 	grunt.registerTask( 'build', ['commit:blocks', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'cssmin', 'bp_rest', 'makepot', 'exec:cli', 'clean:cli'] );
