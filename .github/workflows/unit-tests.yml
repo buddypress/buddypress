@@ -36,7 +36,7 @@ jobs:
           access_token: ${{ github.token }}
 
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Check Gitignored files
         run: if [[ ! -z $(git ls-files -i --exclude-standard) ]]; then exit 1; fi
@@ -65,9 +65,7 @@ jobs:
           composer --version
 
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
-        with:
-          composer-options: "--ignore-platform-reqs"
+        uses: ramsey/composer-install@v3
 
       - name: Cache node modules
         uses: actions/cache@v2
