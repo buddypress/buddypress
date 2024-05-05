@@ -3,7 +3,7 @@
  * Groups Ajax functions
  *
  * @since 3.0.0
- * @version 12.0.0
+ * @version 14.0.0
  */
 
 // Exit if accessed directly.
@@ -74,13 +74,18 @@ function bp_nouveau_ajax_joinleave_group() {
 
 	// Cast gid as integer.
 	$group_id = (int) $_POST['item_id'];
+	$user_id  = bp_loggedin_user_id();
+
+	if ( bp_is_user_groups() && bp_current_user_can_moderate() ) {
+		$user_id = bp_displayed_user_id();
+	}
 
 	$errors = array(
 		'cannot' => sprintf( '<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>%s</p></div>', esc_html__( 'You cannot join this group.', 'buddypress' ) ),
 		'member' => sprintf( '<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>%s</p></div>', esc_html__( 'You are already a member of the group.', 'buddypress' ) ),
 	);
 
-	if ( groups_is_user_banned( bp_loggedin_user_id(), $group_id ) ) {
+	if ( groups_is_user_banned( $user_id, $group_id ) ) {
 		$response['feedback'] = $errors['cannot'];
 
 		wp_send_json_error( $response );
@@ -97,11 +102,11 @@ function bp_nouveau_ajax_joinleave_group() {
 	switch ( $_POST['action'] ) {
 
 		case 'groups_accept_invite':
-			if ( ! groups_check_user_has_invite( bp_displayed_user_id(), $group_id ) ) {
+			if ( ! groups_check_user_has_invite( $user_id, $group_id ) ) {
 				wp_send_json_error( $response );
 			}
 
-			if ( ! groups_accept_invite( bp_displayed_user_id(), $group_id ) ) {
+			if ( ! groups_accept_invite( $user_id, $group_id ) ) {
 				$response = array(
 					'feedback' => sprintf(
 						'<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>%s</p></div>',
@@ -137,7 +142,7 @@ function bp_nouveau_ajax_joinleave_group() {
 			break;
 
 		case 'groups_reject_invite':
-			if ( ! groups_reject_invite( bp_displayed_user_id(), $group_id ) ) {
+			if ( ! groups_reject_invite( $user_id, $group_id ) ) {
 				$response = array(
 					'feedback' => sprintf(
 						'<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>%s</p></div>',
@@ -158,7 +163,7 @@ function bp_nouveau_ajax_joinleave_group() {
 			break;
 
 		case 'groups_join_group':
-			if ( groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {
+			if ( groups_is_user_member( $user_id, $group->id ) ) {
 				$response = array(
 					'feedback' => $errors['member'],
 					'type'     => 'error',
@@ -189,7 +194,7 @@ function bp_nouveau_ajax_joinleave_group() {
 			break;
 
 			case 'groups_request_membership' :
-				if ( ! groups_send_membership_request( [ 'user_id' => bp_loggedin_user_id(), 'group_id' => $group->id ] ) ) {
+				if ( ! groups_send_membership_request( [ 'user_id' => $user_id, 'group_id' => $group->id ] ) ) {
 					$response = array(
 						'feedback' => sprintf(
 							'<div class="bp-feedback error"><span class="bp-icon" aria-hidden="true"></span><p>%s</p></div>',
