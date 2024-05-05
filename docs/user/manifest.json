@@ -94,5 +94,17 @@
 		"slug": "administration-user-signups",
 		"markdown_source": "../user/administration/users/signups.md",
 		"parent": null
+	},
+	{
+		"title": "BuddyPress Emails",
+		"slug": "administration-emails",
+		"markdown_source": "../user/administration/emails/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Email Tokens",
+		"slug": "administration-email-tokens",
+		"markdown_source": "../user/administration/emails/tokens.md",
+		"parent": null
 	}
 ]
