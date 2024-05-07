@@ -1368,12 +1368,15 @@ function bp_nouveau_groups_get_customizer_widgets_link() {
  * @param int $length   Optional. Length of returned string, including ellipsis. Default: 100.
  */
 function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
+	$group = bp_get_group( $group );
+
 	// Escaping is made in `bp-groups/bp-groups-filters.php`.
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters(
 		/** This filter is documented in bp-groups/bp-groups-template.php. */
 		'bp_get_group_description_excerpt',
-		bp_nouveau_get_group_description_excerpt( $group, $length )
+		bp_nouveau_get_group_description_excerpt( $group, $length ),
+		$group
 	);
 }
 
