@@ -25,5 +25,5 @@ jobs:
       php: ${{ matrix.php }}
       wordpress: ${{ matrix.wp_version }}
       object-cache: ${{ matrix.object }}
-      test-suite: 'core-test-suite'
-      package-directory: 'plugins/buddypress'
+      install-core-tests: true
+      working-directory: 'plugins/buddypress'
