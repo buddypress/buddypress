@@ -665,7 +665,7 @@ function bp_groups_admin_edit() {
 
 		<?php // If the user has just made a change to an group, display the status messages. ?>
 		<?php if ( ! empty( $messages ) ) : ?>
-			<div id="moderated" class="<?php echo esc_attr( ( $is_error ) ? 'error' : 'updated' ); ?> notice is-dismissible"><p><?php echo implode( "</p><p>", array_map( 'esc_html', $messages ) ); ?></p></div>
+			<div id="moderated" class="<?php echo esc_attr( ( $is_error ) ? 'error' : 'updated' ); ?> notice is-dismissible"><p><?php echo implode( "</p><p>", array_map( 'wp_kses_post', $messages ) ); ?></p></div>
 		<?php endif; ?>
 
 		<?php if ( $group->id ) : ?>
