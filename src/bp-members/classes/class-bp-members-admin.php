@@ -54,6 +54,14 @@ class BP_Members_Admin {
 	/** Other *****************************************************************/
 
 	/**
+	 * Support forum link.
+	 *
+	 * @since 14.0.0
+	 * @var string
+	 */
+	private $bp_forum = '';
+
+	/**
 	 * Redirect.
 	 *
 	 * @since 2.0.0
@@ -255,6 +263,13 @@ class BP_Members_Admin {
 		if ( ! empty( $this->subsite_activated ) ) {
 			$this->capability = 'manage_network_users';
 		}
+
+		// Support forum link.
+		$this->bp_forum = sprintf(
+			'<a href="%1$s">%2$s</a>',
+			esc_url( 'https://buddypress.org/support/' ),
+			esc_html__( 'Support Forums', 'buddypress' )
+		);
 
 		/*
 		 * For consistency with non-Multisite, we add a Tools menu in
@@ -1878,10 +1893,17 @@ class BP_Members_Admin {
 				'content' => $signup_help_content
 			) );
 
+			$manage_pending_ua = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/users/signups.md#manage-pending-user-accounts' ),
+				esc_html__( 'Managing Pending User Accounts', 'buddypress' )
+			);
+
 			// Help panel - sidebar links.
 			get_current_screen()->set_help_sidebar(
 				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+				'<p>' . $manage_pending_ua . '</p>' .
+				'<p>' . $this->bp_forum . '</p>'
 			);
 
 			// Add accessible hidden headings and text for the Pending Users screen.
