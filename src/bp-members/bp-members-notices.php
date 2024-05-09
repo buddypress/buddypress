@@ -150,3 +150,56 @@ function bp_members_edit_notice() {
 
 	bp_core_redirect( $redirect_to );
 }
+
+
+/**
+ * Prepend a notification about the active Sitewide notice.
+ *
+ * @since 14.0.0
+ *
+ * @param false|array $notifications False if there are no items, an array of notification items otherwise.
+ * @param int         $user_id       The user ID.
+ * @return false|array               False if there are no items, an array of notification items otherwise.
+ */
+function bp_members_get_notice_for_user( $notifications, $user_id ) {
+	if ( ! doing_action( 'admin_bar_menu' ) ) {
+		return $notifications;
+	}
+
+	$notice = BP_Members_Notice::get_active();
+	if ( empty( $notice->id ) ) {
+		return $notifications;
+	}
+
+	$closed_notices = bp_get_user_meta( $user_id, 'closed_notices', true );
+	if ( empty( $closed_notices ) ) {
+		$closed_notices = array();
+	}
+
+	if ( in_array( $notice->id, $closed_notices, true ) ) {
+		return $notifications;
+	}
+
+	$notice_notification = (object) array(
+		'id'                => 0,
+		'user_id'           => $user_id,
+		'item_id'           => $notice->id,
+		'secondary_item_id' => 0,
+		'component_name'    => 'messages',
+		'component_action'  => 'new_notice',
+		'date_notified'     => $notice->date_sent,
+		'is_new'            => 1,
+		'total_count'       => 1,
+		'content'           => __( 'New sitewide notice', 'buddypress' ),
+		'href'              => bp_loggedin_user_url(),
+	);
+
+	if ( ! is_array( $notifications ) ) {
+		$notifications = array( $notice_notification );
+	} else {
+		array_unshift( $notifications, $notice_notification );
+	}
+
+	return $notifications;
+}
+add_filter( 'bp_core_get_notifications_for_user', 'bp_members_get_notice_for_user', 10, 2 );

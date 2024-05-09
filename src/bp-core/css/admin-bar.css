@@ -47,7 +47,21 @@
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications.alert.admin-type {
-	background-color: #d84800;
+	border-radius: 0;
+	background-color: transparent;
+}
+
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications .ab-icon {
+	position: relative;
+	float: none;
+	padding: 0;
+	margin-right: 0;
+}
+
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications .ab-icon:before {
+	content: "\f16d";
+	top: 5px;
+	color: #d84800;
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications > a {

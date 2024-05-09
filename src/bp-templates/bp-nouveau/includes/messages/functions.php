@@ -3,7 +3,7 @@
  * Messages functions
  *
  * @since 3.0.0
- * @version 12.0.0
+ * @version 14.0.0
  */
 
 // Exit if accessed directly.
@@ -198,9 +198,7 @@ function bp_nouveau_messages_adjust_nav() {
 			continue;
 		}
 
-		if ( 'notices' === $secondary_nav_item->slug ) {
-			bp_core_remove_subnav_item( bp_nouveau_get_component_slug( 'messages' ), $secondary_nav_item->slug, 'members' );
-		} elseif ( 'compose' === $secondary_nav_item->slug ) {
+		if ( 'compose' === $secondary_nav_item->slug ) {
 			$bp->members->nav->edit_nav( array(
 				'user_has_access' => bp_is_my_profile()
 			), $secondary_nav_item->slug, bp_nouveau_get_component_slug( 'messages' ) );
@@ -212,29 +210,12 @@ function bp_nouveau_messages_adjust_nav() {
  * Replaces the Notices Compose URL.
  *
  * @since 3.0.0
+ * @deprecated 14.0.0
  *
  * @param array $admin_nav The WP Admin Nav.
  */
-function bp_nouveau_messages_adjust_admin_nav( $admin_nav ) {
-	if ( empty( $admin_nav ) ) {
-		return $admin_nav;
-	}
-
-	foreach ( $admin_nav as $nav_iterator => $nav ) {
-		$nav_id = str_replace( 'my-account-messages-', '', $nav['id'] );
-
-		if ( 'notices' === $nav_id ) {
-			$admin_nav[ $nav_iterator ]['href'] = esc_url(
-				add_query_arg(
-					array(
-						'page' => 'bp-notices',
-					),
-					bp_get_admin_url( 'users.php' )
-				)
-			);
-		}
-	}
-
+function bp_nouveau_messages_adjust_admin_nav( $admin_nav = array() ) {
+	_deprecated_function( __FUNCTION__, '14.0.0' );
 	return $admin_nav;
 }
 
@@ -242,51 +223,15 @@ function bp_nouveau_messages_adjust_admin_nav( $admin_nav ) {
  * Prepend a notification about the active Sitewide notice.
  *
  * @since 3.0.0
+ * @deprecated 14.0.0
  *
  * @param false|array $notifications False if there are no items, an array of notification items otherwise.
  * @param int         $user_id       The user ID.
  * @return false|array               False if there are no items, an array of notification items otherwise.
  */
 function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id ) {
-	if ( ! bp_is_active( 'messages' ) || ! doing_action( 'admin_bar_menu' ) ) {
-		return $notifications;
-	}
-
-	$notice = BP_Members_Notice::get_active();
-	if ( empty( $notice->id ) ) {
-		return $notifications;
-	}
-
-	$closed_notices = bp_get_user_meta( $user_id, 'closed_notices', true );
-	if ( empty( $closed_notices ) ) {
-		$closed_notices = array();
-	}
-
-	if ( in_array( $notice->id, $closed_notices, true ) ) {
-		return $notifications;
-	}
-
-	$notice_notification = (object) array(
-		'id'                => 0,
-		'user_id'           => $user_id,
-		'item_id'           => $notice->id,
-		'secondary_item_id' => 0,
-		'component_name'    => 'messages',
-		'component_action'  => 'new_notice',
-		'date_notified'     => $notice->date_sent,
-		'is_new'            => 1,
-		'total_count'       => 1,
-		'content'           => __( 'New sitewide notice', 'buddypress' ),
-		'href'              => bp_loggedin_user_url(),
-	);
-
-	if ( ! is_array( $notifications ) ) {
-		$notifications = array( $notice_notification );
-	} else {
-		array_unshift( $notifications, $notice_notification );
-	}
-
-	return $notifications;
+	_deprecated_function( __FUNCTION__, '14.0.0' );
+	return false;
 }
 
 /**
