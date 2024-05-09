@@ -72,9 +72,6 @@ class BP_Messages_Component extends BP_Component {
 		if ( bp_is_active( $this->id, 'star' ) ) {
 			$includes[] = 'star';
 		}
-		if ( is_admin() ) {
-			$includes[] = 'admin';
-		}
 
 		parent::includes( $includes );
 	}
@@ -95,7 +92,7 @@ class BP_Messages_Component extends BP_Component {
 		if ( bp_is_messages_component() ) {
 			// Authenticated actions.
 			if ( is_user_logged_in() &&
-				in_array( bp_current_action(), array( 'compose', 'notices', 'view' ), true )
+				in_array( bp_current_action(), array( 'compose', 'view' ), true )
 			) {
 				require_once $this->path . 'bp-messages/actions/' . bp_current_action() . '.php';
 			}
@@ -129,7 +126,7 @@ class BP_Messages_Component extends BP_Component {
 				 *
 				 * 'view' is not a registered nav item, but we add a screen handler manually.
 				 */
-				if ( bp_is_user_messages() && in_array( bp_current_action(), array( 'sentbox', 'compose', 'notices', 'view' ), true ) ) {
+				if ( bp_is_user_messages() && in_array( bp_current_action(), array( 'sentbox', 'compose', 'view' ), true ) ) {
 					require_once $this->path . 'bp-messages/screens/' . bp_current_action() . '.php';
 				}
 
@@ -266,17 +263,6 @@ class BP_Messages_Component extends BP_Component {
 			'generate'                 => false,
 		);
 
-		// Show "Notices" to community admins only.
-		$sub_nav[] = array(
-			'name'                     => __( 'Notices', 'buddypress' ),
-			'slug'                     => 'notices',
-			'parent_slug'              => $slug,
-			'screen_function'          => 'messages_screen_notices',
-			'position'                 => 90,
-			'user_has_access'          => false,
-			'user_has_access_callback' => 'bp_current_user_can_moderate',
-		);
-
 		parent::register_nav( $main_nav, $sub_nav );
 	}
 
@@ -386,17 +372,6 @@ class BP_Messages_Component extends BP_Component {
 				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $message_slug, 'compose' ) ) ),
 				'position' => 30,
 			);
-
-			// Site Wide Notices.
-			if ( bp_current_user_can( 'bp_moderate' ) ) {
-				$wp_admin_nav[] = array(
-					'parent'   => 'my-account-' . $this->id,
-					'id'       => 'my-account-' . $this->id . '-notices',
-					'title'    => __( 'Site Notices', 'buddypress' ),
-					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $message_slug, 'notices' ) ) ),
-					'position' => 90,
-				);
-			}
 		}
 
 		parent::setup_admin_bar( $wp_admin_nav );
