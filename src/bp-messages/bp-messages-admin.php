@@ -5,10 +5,10 @@
  * @package BuddyPress
  * @subpackage MessagesAdmin
  * @since 3.0.0
+ * @deprecated 14.0.0
  */
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-// Load the Sitewide Notices Admin.
-add_action( bp_core_admin_hook(), array( 'BP_Members_Notices_Admin', 'register_notices_admin' ), 9 );
+_deprecated_file( basename( __FILE__ ), '14.0.0', '', esc_html__( 'Notices are now a required feature of the BP Members component.', 'buddypress' ) );

@@ -519,6 +519,17 @@ class BP_Members_Component extends BP_Component {
 			'generate'                 => bp_displayed_user_use_cover_image_header(),
 		);
 
+		// Show "Notices" to community admins only.
+		$sub_nav[] = array(
+			'name'                     => __( 'Community notices', 'buddypress' ),
+			'slug'                     => 'notices',
+			'parent_slug'              => $slug,
+			'screen_function'          => 'messages_screen_notices',
+			'position'                 => 90,
+			'user_has_access'          => false,
+			'user_has_access_callback' => 'bp_current_user_can_moderate',
+		);
+
 		parent::register_nav( $main_nav, $sub_nav );
 	}
 
@@ -625,6 +636,17 @@ class BP_Members_Component extends BP_Component {
 				 */
 			} else {
 				add_filter( 'bp_xprofile_admin_nav', array( $this, 'setup_xprofile_admin_nav' ), 2 );
+			}
+
+			// Site Wide Notices.
+			if ( bp_current_user_can( 'bp_moderate' ) ) {
+				$wp_admin_nav[] = array(
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-notices',
+					'title'    => __( 'Community Notices', 'buddypress' ),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( 'notices' ) ) ),
+					'position' => 90,
+				);
 			}
 		}
 
