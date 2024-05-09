@@ -102,12 +102,6 @@ class BP_Nouveau_Messages {
 
 		// Localize Scripts.
 		add_filter( 'bp_core_get_js_strings', 'bp_nouveau_messages_localize_scripts', 10, 1 );
-
-		// Notices.
-		add_filter( 'bp_core_get_notifications_for_user', 'bp_nouveau_add_notice_notification_for_user', 10, 2 );
-
-		// Messages.
-		add_filter( 'bp_messages_admin_nav', 'bp_nouveau_messages_adjust_admin_nav', 10, 1 );
 	}
 }
 

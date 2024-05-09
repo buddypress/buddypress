@@ -184,7 +184,7 @@ function bp_members_admin_bar_notifications_dropdown( $notifications = array(), 
 		$alert_class = array( 'pending-count', 'alert' );
 
 		if ( 'admin' === $type ) {
-			$count = '!';
+			$count = '<span class="ab-icon" aria-hidden="true"></span>';
 		}
 	};
 
@@ -265,6 +265,12 @@ function bp_members_admin_bar_notifications_menu() {
 	// Use Members notifications if the component is active.
 	if ( bp_is_active( 'notifications' ) ) {
 		return bp_notifications_toolbar_menu();
+	} else {
+		$notices = bp_members_get_notice_for_user( array(), bp_loggedin_user_id() );
+
+		if ( $notices ) {
+			return bp_members_admin_bar_notifications_dropdown( $notices, bp_loggedin_user_url(), 'admin' );
+		}
 	}
 }
 
