@@ -245,7 +245,6 @@ class BP_Members_Notices_Admin {
 					</div>
 				</div><!-- /col-right -->
 			</div><!-- /col-container -->
-
 		</div>
 		<?php
 	}

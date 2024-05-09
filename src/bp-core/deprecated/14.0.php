@@ -86,35 +86,52 @@ function bp_admin_email_add_codex_notice() {
 }
 
 /**
- * Handle save/update of screen options for the Activity component admin screen.
+ * Is the current page the Notices screen?
  *
- * @since 1.6.0
+ * Eg http://example.com/members/joe/messages/notices/.
+ *
+ * @since 1.1.0
  * @deprecated 14.0.0
  *
- * @param string $value     Will always be false unless another plugin filters it first.
- * @param string $option    Screen option name.
- * @param string $new_value Screen option form value.
- * @return string|int Option value. False to abandon update.
+ * @return bool True if the current page is the Notices screen.
  */
-function bp_activity_admin_screen_options( $value, $option, $new_value ) {
-	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_admin_set_screen_options' );
-
-	return bp_admin_set_screen_options( $value, $option, $new_value );
+function bp_is_notices() {
+	_deprecated_function( __FUNCTION__, '14.0.0' );
+	return false;
 }
 
 /**
- * Handle save/update of screen options for the Groups component admin screen.
+ * Handle editing of sitewide notices.
  *
- * @since 1.7.0
+ * @since 2.4.0 This function was split from messages_screen_notices(). See #6505.
  * @deprecated 14.0.0
  *
- * @param string $value     Will always be false unless another plugin filters it first.
- * @param string $option    Screen option name.
- * @param string $new_value Screen option form value.
- * @return string|int Option value. False to abandon update.
+ * @return void
  */
-function bp_groups_admin_screen_options( $value, $option, $new_value ) {
-	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_admin_set_screen_options' );
+function bp_messages_action_edit_notice() {
+	_deprecated_function( __FUNCTION__, '14.0.0' );
+}
 
-	return bp_admin_set_screen_options( $value, $option, $new_value );
+/**
+ * Handle user dismissal of sitewide notices.
+ *
+ * @since 9.0.0
+ * @deprecated 14.0.0
+ *
+ * @return bool False on failure.
+ */
+function bp_messages_action_dismiss_notice() {
+	_deprecated_function( __FUNCTION__, '14.0.0' );
+}
+
+/**
+ * Load the Messages > Notices screen.
+ *
+ * @since 1.0.0
+ * @deprecated 14.0.0
+ *
+ * @return void
+ */
+function messages_screen_notices() {
+	_deprecated_function( __FUNCTION__, '14.0.0' );
 }
