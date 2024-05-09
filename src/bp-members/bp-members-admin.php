@@ -31,9 +31,6 @@ function bp_members_is_community_profile_enabled() {
 // Load the BP Members admin.
 add_action( 'bp_init', array( 'BP_Members_Admin', 'register_members_admin' ) );
 
-// Load the Sitewide Notices Admin.
-add_action( bp_core_admin_hook(), array( 'BP_Members_Notices_Admin', 'register_notices_admin' ), 9 );
-
 /**
  * Create Users submenu to manage BuddyPress types.
  *

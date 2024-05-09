@@ -80,7 +80,11 @@ class BP_Members_Component extends BP_Component {
 			array(
 				'adminbar_myaccount_order' => 20,
 				'search_query_arg'         => 'members_search',
-				'features'                 => array( 'invitations', 'membership_requests' ),
+				'features'                 => array(
+					'invitations',
+					'membership_requests',
+					'notices', // Required.
+				),
 			)
 		);
 	}
@@ -113,7 +117,7 @@ class BP_Members_Component extends BP_Component {
 			$includes[] = 'activity';
 		}
 
-		/**
+		/*
 		 * Duplicate bp_get_membership_requests_required() and
 		 * bp_get_signup_allowed() logic here,
 		 * because those functions are not available yet.
@@ -121,9 +125,20 @@ class BP_Members_Component extends BP_Component {
 		 * bp-members/bp-members-template.php.
 		 */
 		$signup_allowed              = apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
+		$signup_allowed              = apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
 		$membership_requests_enabled = (bool) bp_get_option( 'bp-enable-membership-requests' );
 		if ( bp_is_active( 'members', 'membership_requests' ) && ! $signup_allowed && $membership_requests_enabled ) {
 			$includes[] = 'membership-requests';
+		}
+
+		/*
+		 * This feature is required as BuddyPress is using it to inform Site Admins of important changes.
+		 *
+		 * If you really want to disable it, you can use:
+		 * `add_filter( 'bp_is_members_notices_active', '__return_false' );`
+		 */
+		if ( bp_is_active( 'members', 'notices' ) ) {
+			$includes[] = 'notices';
 		}
 
 		// Include these only if in admin.
@@ -519,17 +534,6 @@ class BP_Members_Component extends BP_Component {
 			'generate'                 => bp_displayed_user_use_cover_image_header(),
 		);
 
-		// Show "Notices" to community admins only.
-		$sub_nav[] = array(
-			'name'                     => __( 'Community notices', 'buddypress' ),
-			'slug'                     => 'notices',
-			'parent_slug'              => $slug,
-			'screen_function'          => 'messages_screen_notices',
-			'position'                 => 90,
-			'user_has_access'          => false,
-			'user_has_access_callback' => 'bp_current_user_can_moderate',
-		);
-
 		parent::register_nav( $main_nav, $sub_nav );
 	}
 
@@ -628,25 +632,35 @@ class BP_Members_Component extends BP_Component {
 
 				$wp_admin_nav = array_merge( $wp_admin_nav, $this->get_avatar_cover_image_admin_navs() );
 
-				/**
-				 * The xProfile is active.
+				/*
 				 *
-				 * Add the Change Avatar and Change Cover Image Admin Bar items
-				 * to the xProfile Admin Bar Menu.
+				 * @todo this part should be in `bp-members/bp-members-notices.php`
 				 */
+				if ( bp_current_user_can( 'bp_moderate' ) && ! bp_is_active( 'notifications' ) && bp_is_active( 'members', 'notices' ) ) {
+					$wp_admin_nav[] = array(
+						'parent'   => 'my-account-' . $this->id,
+						'id'       => 'my-account-' . $this->id . '-notices',
+						'title'    => __( 'Community Notices', 'buddypress' ),
+						'href'     => esc_url(
+							add_query_arg(
+								array(
+									'page' => 'bp-notices',
+								),
+								bp_get_admin_url( 'users.php' )
+							)
+						),
+						'position' => 90,
+					);
+				}
+
+			/**
+			 * The xProfile is active.
+			 *
+			 * Add the Change Avatar and Change Cover Image Admin Bar items
+			 * to the xProfile Admin Bar Menu.
+			 */
 			} else {
 				add_filter( 'bp_xprofile_admin_nav', array( $this, 'setup_xprofile_admin_nav' ), 2 );
-			}
-
-			// Site Wide Notices.
-			if ( bp_current_user_can( 'bp_moderate' ) ) {
-				$wp_admin_nav[] = array(
-					'parent'   => 'my-account-' . $this->id,
-					'id'       => 'my-account-' . $this->id . '-notices',
-					'title'    => __( 'Community Notices', 'buddypress' ),
-					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( 'notices' ) ) ),
-					'position' => 90,
-				);
 			}
 		}
 
@@ -663,10 +677,32 @@ class BP_Members_Component extends BP_Component {
 	 * @return array
 	 */
 	public function setup_xprofile_admin_nav( $wp_admin_nav ) {
-		$items = $this->get_avatar_cover_image_admin_navs( buddypress()->profile->id );
+		$menu_id = buddypress()->profile->id;
+		$items   = $this->get_avatar_cover_image_admin_navs( $menu_id );
 
 		if ( $items ) {
 			$wp_admin_nav = array_merge( $wp_admin_nav, $items );
+
+			/*
+			 *
+			 * @todo this part should be in `bp-members/bp-members-notices.php`
+			 */
+			if ( bp_current_user_can( 'bp_moderate' ) && ! bp_is_active( 'notifications' ) && bp_is_active( 'members', 'notices' ) ) {
+				$wp_admin_nav[] = array(
+					'parent'   => 'my-account-' . $menu_id,
+					'id'       => 'my-account-' . $menu_id . '-notices',
+					'title'    => __( 'Community Notices', 'buddypress' ),
+					'href'     => esc_url(
+						add_query_arg(
+							array(
+								'page' => 'bp-notices',
+							),
+							bp_get_admin_url( 'users.php' )
+						)
+					),
+					'position' => 90,
+				);
+			}
 		}
 
 		return $wp_admin_nav;
