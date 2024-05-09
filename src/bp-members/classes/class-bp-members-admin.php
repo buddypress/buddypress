@@ -166,6 +166,14 @@ class BP_Members_Admin {
 	public $edit_profile_url = '';
 
 	/**
+	 * User's community admin UI.
+	 *
+	 * @since 14.0.0
+	 * @var BP_Members_Notices_Admin
+	 */
+	public $community_notices = null;
+
+	/**
 	 * User's community notices URL.
 	 *
 	 * @since 14.0.0

@@ -49,17 +49,17 @@ class BP_Members_Notices_Admin {
 	 */
 	public static function register_notices_admin() {
 
-		if ( ! is_admin() || ! bp_is_active( 'messages' ) || ! bp_current_user_can( 'bp_moderate' ) ) {
+		if ( ! is_admin() || ! bp_current_user_can( 'bp_moderate' ) ) {
 			return;
 		}
 
 		$bp = buddypress();
 
-		if ( empty( $bp->messages->admin ) ) {
-			$bp->messages->admin = new self;
+		if ( empty( $bp->members->admin->community_notices ) ) {
+			$bp->members->admin->community_notices = new self;
 		}
 
-		return $bp->messages->admin;
+		return $bp->members->admin->community_notices;
 	}
 
 	/**
@@ -97,7 +97,7 @@ class BP_Members_Notices_Admin {
 	 */
 	public function admin_menu() {
 		// Bail if current user cannot moderate community.
-		if ( ! bp_current_user_can( 'bp_moderate' ) || ! bp_is_active( 'messages' ) ) {
+		if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 			return false;
 		}
 
@@ -189,36 +189,12 @@ class BP_Members_Notices_Admin {
 	public function admin_index() {
 		$this->list_table->prepare_items();
 		?>
-		<div class="wrap">
-			<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Site Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
+		<div class="wrap nosubsub">
+			<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Community Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
 			<hr class="wp-header-end">
 
-			<p class="bp-notice-about"><?php esc_html_e( 'Manage notices shown at front end of your site to all logged-in users.', 'buddypress' ); ?></p>
-
-			<div class="bp-new-notice-panel">
-
-				<h2 class="bp-new-notice"><?php esc_html_e( 'Add New Notice', 'buddypress' ); ?></h2>
-
-				<form action="<?php echo esc_url( wp_nonce_url( $this->url, 'new-notice', 'ns-nonce' ) ); ?>" method="post">
-
-					<div>
-						<label for="bp_notice_subject"><?php esc_html_e( 'Subject', 'buddypress' ); ?></label>
-						<input type="text" class="bp-panel-input" id="bp_notice_subject" name="bp_notice[subject]"/>
-
-						<label for="bp_notice_content"><?php esc_html_e( 'Content', 'buddypress' ); ?></label>
-						<textarea class="bp-panel-textarea" id="bp_notice_content" name="bp_notice[content]"></textarea>
-					</div>
-
-					<input type="submit" value="<?php esc_attr_e( 'Publish Notice', 'buddypress' ); ?>" name="bp_notice[send]" class="button button-primary save alignleft">
-
-				</form>
-
-			</div>
-
 			<?php if ( isset( $_GET['success'] ) || isset( $_GET['error'] ) ) : ?>
-
 				<div id="message" class="<?php echo isset( $_GET['success'] ) ? 'updated' : 'error'; ?> notice is-dismissible">
-
 					<p>
 						<?php
 						if ( isset( $_GET['error'] ) ) {
@@ -227,7 +203,7 @@ class BP_Members_Notices_Admin {
 							} else {
 								esc_html_e( 'Notice was not updated. Please try again.', 'buddypress' );
 							}
-						 } else {
+						} else {
 							if ( 'create' === $_GET['success'] ) {
 								esc_html_e( 'Notice successfully created.', 'buddypress' );
 							} else {
@@ -236,14 +212,39 @@ class BP_Members_Notices_Admin {
 						}
 						?>
 					</p>
-
 				</div>
-
 			<?php endif; ?>
 
-			<h2 class="bp-notices-list"><?php esc_html_e( 'Notices List', 'buddypress' ); ?></h2>
-
-			<?php $this->list_table->display(); ?>
+			<div id="col-container" class="wp-clearfix">
+				<div id="col-left">
+					<div class="col-wrap">
+						<div class="form-wrap">
+							<h2 class="bp-new-notice"><?php esc_html_e( 'Add New Notice', 'buddypress' ); ?></h2>
+							<form action="<?php echo esc_url( wp_nonce_url( $this->url, 'new-notice', 'ns-nonce' ) ); ?>" method="post">
+								<div class="form-field form-required">
+									<label for="bp_notice_subject"><?php esc_html_e( 'Subject', 'buddypress' ); ?></label>
+									<input type="text" class="bp-panel-input" id="bp_notice_subject" name="bp_notice[subject]" size="40" aria-required="true" aria-describedby="bp-subject-description" />
+									<p id="bp-subject-description"><?php esc_html_e( 'The subject of your notice.', 'buddypress' ); ?></p>
+								</div>
+								<div class="form-field form-required">
+									<label for="bp_notice_content"><?php esc_html_e( 'Content', 'buddypress' ); ?></label>
+									<textarea class="bp-panel-textarea" id="bp_notice_content" name="bp_notice[content]" rows="5" cols="40" aria-describedby="bp-content-description"></textarea>
+									<p id="bp-content-description"><?php esc_html_e( 'The content of your notice.', 'buddypress' ); ?></p>
+								</div>
+								<p class="submit">
+									<input type="submit" value="<?php esc_attr_e( 'Publish Notice', 'buddypress' ); ?>" name="bp_notice[send]" class="button button-primary save alignleft">
+									<span class="spinner"></span>
+								</p>
+							</form>
+						</div>
+					</div>
+				</div><!-- /col-left -->
+				<div id="col-right">
+					<div class="col-wrap">
+						<?php $this->list_table->display(); ?>
+					</div>
+				</div><!-- /col-right -->
+			</div><!-- /col-container -->
 
 		</div>
 		<?php
