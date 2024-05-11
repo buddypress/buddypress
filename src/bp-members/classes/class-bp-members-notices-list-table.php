@@ -1,10 +1,10 @@
 <?php
 /**
- * BuddyPress messages admin site-wide notices list table class.
+ * BuddyPress members community notices admin list table class.
  *
  * @package BuddyPress
- * @subpackage MessagesClasses
- * @since 3.0.0
+ * @subpackage MembersClasses
+ * @since 14.0.0
  */
 
 // Exit if accessed directly.
@@ -16,14 +16,16 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 }
 
 /**
- * BuddyPress Notices List Table class.
+ * BuddyPress Members Notices List Table class.
+ *
+ * @since 14.0.0
  */
 class BP_Members_Notices_List_Table extends WP_List_Table {
 
 	/**
 	 * Constructor
 	 *
-	 * @since 3.0.0
+	 * @since 14.0.0
 	 *
 	 * @param array $args Arguments passed to the WP_List_Table::constructor.
 	 */
@@ -41,7 +43,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	/**
 	 * Checks the current user's permissions
 	 *
-	 * @since 3.0.0
+	 * @since 14.0.0
 	 */
 	public function ajax_user_can() {
 		return bp_current_user_can( 'bp_moderate' );
@@ -53,7 +55,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	 * Handles filtering of data, sorting, pagination, and any other data
 	 * manipulation required prior to rendering.
 	 *
-	 * @since 3.0.0
+	 * @since 14.0.0
 	 */
 	public function prepare_items() {
 		$page     = $this->get_pagenum();
@@ -74,14 +76,14 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	 * Get a list of columns. The format is:
 	 * 'internal-name' => 'Title'
 	 *
-	 * @since 3.0.0
+	 * @since 14.0.0
 	 *
 	 * @return array
 	 */
 	public function get_columns() {
 		return apply_filters( 'bp_notices_list_table_get_columns', array(
 			'subject'   => _x( 'Subject', 'Admin Notices column header', 'buddypress' ),
-			'message'   => _x( 'Content', 'Admin Notices column header', 'buddypress' ),
+			'target'   => _x( 'Targeted audience', 'Admin Notices column header', 'buddypress' ),
 			'date_sent' => _x( 'Created', 'Admin Notices column header', 'buddypress' ),
 		) );
 	}
@@ -89,7 +91,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	/**
 	 * Generates content for a single row of the table
 	 *
-	 * @since 3.0.0
+	 * @since 14.0.0
 	 *
 	 * @param object $item The current item
 	 */
@@ -108,7 +110,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	/**
 	 * Generates content for the "subject" column.
 	 *
-	 * @since 3.0.0
+	 * @since 14.0.0
 	 *
 	 * @param object $item The current item
 	 */
@@ -155,20 +157,34 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	/**
 	 * Generates content for the "message" column.
 	 *
-	 * @since 3.0.0
+	 * @since 14.0.0
 	 *
 	 * @param object $item The current item
 	 */
-	public function column_message( $item ) {
-		// Escaping is made in `bp-messages/bp-messages-filters.php`.
-		// phpcs:ignore WordPress.Security.EscapeOutput
-		echo apply_filters( 'bp_get_message_notice_text', $item->message );
+	public function column_target( $item ) {
+		$notice_blocks = parse_blocks( $item->message );
+		$notice_block  = reset( $notice_blocks );
+
+		$target_key = 'unknown';
+
+		$targets = array(
+			'unknown'   => _x( 'Unknown', 'Text for a notice missing a targeted audience', 'buddypress'),
+			'community' => __( 'All community members', 'buddypress' ),
+			'admins'    => __( 'All administrators', 'buddypress' ),
+			'writers'   => __( 'All contributors', 'buddypress' ),
+		);
+
+		if ( isset( $notice_block['attrs']['target'] ) ) {
+			$target_key = $notice_block['attrs']['target'];
+		}
+
+		echo esc_html( $targets[ $target_key ] );
 	}
 
 	/**
 	 * Generates content for the "date_sent" column.
 	 *
-	 * @since 3.0.0
+	 * @since 14.0.0
 	 *
 	 * @param object $item The current item
 	 */

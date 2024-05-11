@@ -135,3 +135,45 @@ function bp_messages_action_dismiss_notice() {
 function messages_screen_notices() {
 	_deprecated_function( __FUNCTION__, '14.0.0' );
 }
+
+/**
+ * Send a notice.
+ *
+ * @since 1.0.0
+ * @deprecated 14.0.0
+ *
+ * @param string $subject Subject of the notice.
+ * @param string $message Content of the notice.
+ * @return bool True on success, false on failure.
+ */
+function messages_send_notice( $subject, $message ) {
+	_deprecated_function( __FUNCTION__, '14.0.0' );
+	$notice_id = bp_members_send_notice(
+		array(
+			'title'   => $subject,
+			'content' => $message
+		)
+	);
+
+	if ( ! is_wp_error( $notice_id )  ) {
+		$notice = new BP_Members_Notice( $notice_id );
+		$retval = true;
+	} else {
+		$notice = $notice_id;
+		$retval = false;
+	}
+
+	/**
+	 * Fires after a notice has been successfully sent.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 14.0.0
+	 *
+	 * @param string                     $subject Subject of the notice.
+	 * @param string                     $message Content of the notice.
+	 * @param BP_Members_Notice|WP_Error $notice  Notice object sent. A WP Error if something went wrong.
+	 */
+	do_action_deprecated( 'messages_send_notice', array( $subject, $message, $notice ), '14.0.0' );
+
+	return $retval;
+}
