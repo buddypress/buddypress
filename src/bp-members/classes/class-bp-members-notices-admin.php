@@ -130,10 +130,12 @@ class BP_Members_Notices_Admin {
 				array(
 					'subject' => '',
 					'content' => '',
+					'target'  => '',
+					'link'    => '',
 				)
 			);
 
-			if ( messages_send_notice( $notice['subject'], $notice['content'] ) ) {
+			if ( bp_members_send_notice( $notice ) ) {
 				$redirect_to = add_query_arg( 'success', 'create', $this->url );
 
 			// Notice could not be sent.
@@ -223,13 +225,27 @@ class BP_Members_Notices_Admin {
 							<form action="<?php echo esc_url( wp_nonce_url( $this->url, 'new-notice', 'ns-nonce' ) ); ?>" method="post">
 								<div class="form-field form-required">
 									<label for="bp_notice_subject"><?php esc_html_e( 'Subject', 'buddypress' ); ?></label>
-									<input type="text" class="bp-panel-input" id="bp_notice_subject" name="bp_notice[subject]" size="40" aria-required="true" aria-describedby="bp-subject-description" />
+									<input type="text" class="bp-panel-input regular-text code" id="bp_notice_subject" name="bp_notice[subject]" size="40" aria-required="true" aria-describedby="bp-subject-description" />
 									<p id="bp-subject-description"><?php esc_html_e( 'The subject of your notice.', 'buddypress' ); ?></p>
 								</div>
 								<div class="form-field form-required">
+									<label for="bp_notice_target"><?php esc_html_e( 'Targeted audience', 'buddypress' ); ?></label>
+									<select id="bp_notice_target" name="bp_notice[target]" class="bp-panel-select" aria-required="true" aria-describedby="bp-target-description" required>
+										<option value="community"><?php esc_html_e( 'All community members', 'buddypress' ); ?></option>
+										<option value="admins"><?php esc_html_e( 'All administrators', 'buddypress' ); ?></option>
+										<option value="writers"><?php esc_html_e( 'All contributors', 'buddypress' ); ?></option>
+									</select>
+									<p id="bp-target-description"><?php esc_html_e( 'Choose the people who will be noticed.', 'buddypress' ); ?></p>
+								</div>
+								<div class="form-field form-required">
 									<label for="bp_notice_content"><?php esc_html_e( 'Content', 'buddypress' ); ?></label>
-									<textarea class="bp-panel-textarea" id="bp_notice_content" name="bp_notice[content]" rows="5" cols="40" aria-describedby="bp-content-description"></textarea>
+									<textarea class="bp-panel-textarea regular-text code" id="bp_notice_content" name="bp_notice[content]" rows="5" cols="40" aria-describedby="bp-content-description"></textarea>
 									<p id="bp-content-description"><?php esc_html_e( 'The content of your notice.', 'buddypress' ); ?></p>
+								</div>
+								<div class="form-field">
+									<label for="bp_notice_link"><?php esc_html_e( 'Action link', 'buddypress' ); ?></label>
+									<input type="url" class="bp-panel-input regular-text code" id="bp_notice_link" name="bp_notice[link]" size="40" aria-describedby="bp-link-description" />
+									<p id="bp-link-description"><?php esc_html_e( 'The action link to head user to.', 'buddypress' ); ?></p>
 								</div>
 								<p class="submit">
 									<input type="submit" value="<?php esc_attr_e( 'Publish Notice', 'buddypress' ); ?>" name="bp_notice[send]" class="button button-primary save alignleft">

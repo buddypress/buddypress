@@ -15,6 +15,104 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( bp_core_admin_hook(), array( 'BP_Members_Notices_Admin', 'register_notices_admin' ), 9 );
 
 /**
+ * Send a notice.
+ *
+ * @since 14.0.0
+ *
+ * @param array $args {
+ *     Array of parameters.
+ *     @type string $title   The subject of the notice. Required. Defaults to ''.
+ *     @type string $content The content to be noticed. Required. Defaults to ''.
+ *     @type string $target  The targeted audience. Optional. Defaults to "community".
+ *     @type string $link    The action link of the notice. Optional. Defaults to ''.
+ * }
+ * @return integer|WP_Error The notice ID on success, a WP Error on failure.
+ */
+function bp_members_send_notice( $args = array() ) {
+
+	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+		return new WP_Error( 'bp_notices_unallowed', __( 'You are not allowed to send community notices.', 'buddypress' ) );
+	}
+
+	$r     = bp_parse_args(
+		$args,
+		array(
+			'title'   => '',
+			'content' => '',
+			'target'  => 'community',
+			'link'    => '',
+		)
+	);
+	$attrs = array();
+
+	if ( ! $r['subject'] || ! $r['content'] ) {
+		return new WP_Error( 'bp_notices_missing_data', __( 'The notice subject and content are required fields.', 'buddypress' ) );
+	}
+
+	// Sanitize data.
+	$subject = sanitize_text_field( $r['subject'] );
+	$content = sanitize_textarea_field( $r['content'] );
+
+	$attrs['target'] = 'community';
+	if ( in_array( $r['target'], array( 'community', 'admins', 'writers' ), true ) ) {
+		$attrs['target'] = $r['target'];
+	}
+
+	if ( $r['link'] ) {
+		$attrs['link'] = sanitize_url( $r['link'] );
+	}
+
+
+	// Use the block grammar to save content.
+	$message = serialize_block(
+		array(
+			'blockName'    => 'bp/member-notice',
+			'innerContent' => array( $content ),
+			'attrs'        => $attrs,
+		)
+	);
+
+	$notice            = new BP_Members_Notice();
+	$notice->subject   = sanitize_text_field( $subject );
+	$notice->message   = $message;
+	$notice->date_sent = bp_core_current_time();
+	$notice->is_active = 1;
+
+	// Send it.
+	$notice_id = $notice->save();
+
+	/**
+	 * Fires after a notice has been successfully sent.
+	 *
+	 * Please stop using this hook.
+	 *
+	 * @since 1.0.0
+	 * @deprecated 14.0.0
+	 *
+	 * @param string            $subject Subject of the notice.
+	 * @param string            $content Content of the notice.
+	 * @param BP_Members_Notice $notice  Notice object sent.
+	 */
+	do_action_deprecated( 'messages_send_notice', array( $subject, $content, $notice ), '14.0.0', 'bp_members_notice_sent' );
+
+	$saved_values = get_object_vars( $notice );
+
+	if ( $notice_id ) {
+		/**
+		 * Fires after a notice has been successfully added to the sending queue.
+		 *
+		 * @since 14.0.0
+		 *
+		 * @param integer $notice_id    The notice ID.
+		 * @param array   $saved_values The list of the saved values keyed by object properties.
+		 */
+		do_action( 'bp_members_notice_sent', $notice_id, $saved_values );
+	}
+
+	return $notice_id;
+}
+
+/**
  * Handle user dismissal of sitewide notices.
  *
  * @since 14.0.0
@@ -185,7 +283,7 @@ function bp_members_get_notice_for_user( $notifications, $user_id ) {
 		'user_id'           => $user_id,
 		'item_id'           => $notice->id,
 		'secondary_item_id' => 0,
-		'component_name'    => 'messages',
+		'component_name'    => 'members',
 		'component_action'  => 'new_notice',
 		'date_notified'     => $notice->date_sent,
 		'is_new'            => 1,
