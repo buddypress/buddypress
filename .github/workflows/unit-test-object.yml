@@ -1,0 +1,29 @@
+name: Unit Tests - Object Cache Service
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - 'docs/**'
+
+jobs:
+  tests:
+    name: "Object Service ${{ matrix.object }} - WP: ${{ matrix.wp_version }} - PHP: ${{ matrix.php }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3']
+        wp_version: ['trunk', 'latest', '6.1']
+        multisite: [true, false]
+        object: ["false", "memcached", "redis"]
+    uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
+    with:
+      multisite: ${{ matrix.multisite }}
+      php: ${{ matrix.php }}
+      wordpress: ${{ matrix.wp_version }}
+      object-cache: ${{ matrix.object }}
+      install-core-tests: true
+      working-directory: 'plugins/buddypress'

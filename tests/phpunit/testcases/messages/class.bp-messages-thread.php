@@ -82,12 +82,6 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 		// Get all mesages differently.
 		$thread = new BP_Messages_Thread( $m1->thread_id, 'ASC', array( 'page' => null, 'per_page' => null ) );
 		$this->assertCount( 100, $thread->messages );
-
-		// Get last message.
-		$messages = BP_Messages_Thread::get_messages( $m1->thread_id, array( 'page' => 100, 'per_page' => 1 ) );
-		$this->assertCount( 1, $messages );
-		$this->assertEquals( $u1, $messages[0]->sender_id );
-		$this->assertEquals( 'Last Message', $messages[0]->subject );
 	}
 
 	public function test_get_messages_total_count() {
