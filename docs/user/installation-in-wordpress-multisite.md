@@ -1,46 +1,38 @@
-# BuddyPress Installation Guide for WordPress Multisite
+# BuddyPress Activation Guide for WordPress Multisite
 
-Welcome to the BuddyPress installation guide for WordPress Multisite! This document is designed to help beginners install and configure BuddyPress on their WordPress Multisite network. Whether you're setting up a community site, a social network, or a collaborative space, BuddyPress is a powerful plugin that adds social networking features to your WordPress site.
+Welcome to the BuddyPress activation guide for WordPress Multisite! This document is designed to help beginners configure BuddyPress on their WordPress Multisite network. Whether you're setting up a community site, a social network, or a collaborative space, BuddyPress is a powerful plugin that adds social networking features to your WordPress site.
 
 ## Before You Begin
 
-Before diving into the installation process, it's important to ensure that your hosting environment is ready for BuddyPress:
+Just like there's only one common Users database table shared across your multisite network, BuddyPress only installs a common set a database tables for your network. This means, out of the box, BuddyPress does not provide a way to have more than one instance of it into your network so that you could have different communities for each of your network sites. In other words, activating BuddyPress network widely will only power your network with one BuddyPress instance you can choose to house on the main or a secondary site of your network.
+If you haven't installed the BuddyPress plugin into your WordPress site's plugins directory yet, please read this [documentation page first](https://github.com/buddypress/buddypress/blob/master/docs/user/getting-started/activate-buddypress.md).
 
-- **Check WordPress Version**: BuddyPress requires a specific WordPress version to function correctly. Please make sure your WordPress installation is up to date.
-- **Server Requirements**: Verify your web server meets the minimum requirements for running WordPress and BuddyPress. This information is usually available on the BuddyPress website or your hosting provider.
-- **Backup**: Always back up your website before making significant changes like installing a new plugin. This ensures you can restore your site to its previous state if anything goes wrong.
+## Activation Options
 
-## Installation Options
+BuddyPress can be activated network-wide, affecting all sites in your multisite network or on a single site within your network, allowing for a more tailored setup.
+- **Case 1:** Network-wide activation using the **Main** Site of your network to house your BuddyPress community
+- **Case 2:** Network-wide activation using a **Secondary** Site of your network to house your BuddyPress community
+- **Case 3:** Activating BuddyPress on one of the site of your network only.
 
-BuddyPress can be installed network-wide, affecting all sites in your multisite network or a single site within your network, allowing for a more tailored setup.
-- **Case 1:** BuddyPress Root Blog on the Main Site
-- **Case 2:** BuddyPress Root Blog on a Secondary Site
-- **Case 3:** BuddyPress at an Individual Site
-
-### Network-wide Installation: BuddyPress Root Blog on the Main Site
+### Network-wide activation using the Main Site of your network to house your BuddyPress community
 
 Enabling BuddyPress network-wide allows you to have social networking features across all the sites in your multisite network. BuddyPress is activated across the network but configured to consider the main site as the primary location for all BuddyPress content. This setup is perfect for networks where the main site is the central hub for all community interactions.
 
-#### Step 1: Main Site as BuddyPress Root
 
-1. **Access Network Admin**: From your WordPress dashboard, find and click on the `Network Admin` link, usually located in the top-right corner under `My Sites`.
-2. **Install BuddyPress**: Go to `Plugins` > `Add New`. Search for "BuddyPress" in the plugin repository, then click `Install Now`.
-3. **Activate Plugin**: After installation, click `Activate`. BuddyPress is now activated across your network.
-
-#### Step 2: Network Activate BuddyPress
+#### Step 1: Network Activate BuddyPress
 
 - From the Network Admin dashboard, go to **Plugins**.
 - You will see BuddyPress listed among other installed plugins. Click on **Network Activate** to enable BuddyPress across your entire network.
 
-#### Step 3: Configure BuddyPress
+#### Step 2: Configure BuddyPress from the Network Admin
 
 - In the Network Admin dashboard, navigate to **Settings → BuddyPress**.
 - Configure the components you wish to enable network-wide, such as Friends, Groups, Private Messaging, etc.
 
-### Network-wide Installation: BuddyPress Root Blog on a Secondary Site
+### Network-wide activation using a Secondary Site of your network to house your BuddyPress community
 One way to set up BuddyPress network-wide is to activate it across the entire network. Still, a secondary site should be designated as the main hub for all BuddyPress content and activities. This setup can be especially helpful if the network's main site has a specific function and is not meant to be used for community interactions.
 
-#### Step 1: Identify Root Site and Modify Configuration
+#### Step 1: before Network activating BuddyPress: identify Secondary Site ID and Modify your WordPress Configuration
 
 1. **Access Network Admin Dashboard**:
    - Navigate to `Dashboard → Network Admin`.
@@ -51,29 +43,22 @@ One way to set up BuddyPress network-wide is to activate it across the entire ne
 
 3. **Configure wp-config.php**:
    - Access your server via FTP or your hosting file manager to open the `wp-config.php` file.
-   - Add the following line, replacing `$blog_id` with the actual ID of your chosen site:
+   - Add the following line, replacing `$blog_id` with the actual ID of your chosen site: in the above screenshot it's `4`.
      ```php
-     define('BP_ROOT_BLOG', $blog_id);
+     define('BP_ROOT_BLOG', 4);
      ```
    - Save and close the file.
 
-#### Step 2: Install and Activate BuddyPress
+#### Step 2: Network Activate BuddyPress
 
-1. **Install BuddyPress**:
-   - Go back to the Network Admin dashboard.
-   - Navigate to `Plugins → Add New`.
-   - Search for "BuddyPress", then click `Install Now`.
+- From the Network Admin dashboard, go to **Plugins**.
+- You will see BuddyPress listed among other installed plugins. Click on **Network Activate** to enable BuddyPress across your entire network.
 
-2. **Activate BuddyPress Network-Wide**:
-   - After installation, click `Activate`.
-   - Post activation, you will be directed to the BuddyPress Welcome screen, confirming the successful setup.
+#### Step 3: Configure BuddyPress from the Network Admin
 
-#### Step 3: Configure BuddyPress for Multisite
-
-1. **Configure Network Settings**:
-   - In the Network Admin, navigate to `Settings → BuddyPress`.
-   - Set up and adjust the necessary settings and components, such as user profiles, groups, and site tracking, to suit your network’s needs.
-   - Confirm that all settings are properly saved and effectively applied network-wide, focusing on the newly designated root site.
+- In the Network Admin, navigate to `Settings → BuddyPress`.
+- Set up and adjust the necessary settings and components, such as user profiles, groups, and site tracking, to suit your network’s needs.
+- Confirm that all settings are properly saved and effectively applied network-wide, focusing on the newly designated root site.
 
 Following these steps, you can successfully configure BuddyPress on a secondary site within your WordPress Multisite network, centralizing all BuddyPress activities on your chosen site and preserving the main site's primary functionalities.
 
@@ -81,27 +66,16 @@ Following these steps, you can successfully configure BuddyPress on a secondary 
 
 This guide provides detailed steps for configuring BuddyPress to operate on an individual site within a WordPress Multisite network. This allows for site-specific community features without affecting other sites in the network.
 
-#### Step 1: Install BuddyPress
 
-1. **Access Site Admin Dashboard**:
-   - Navigate to the site dashboard where you want to activate BuddyPress.
+#### Step 2: Activate BuddyPress from the Individual Site's Dashboard
 
-2. **Install BuddyPress**:
-   - Go to `Plugins → Add New`.
-   - Search for "BuddyPress", then click `Install Now`.
-   - Do not activate it yet network-wide. Only proceed to activation in the individual site’s admin area.
-
-#### Step 2: Activate BuddyPress on the Individual Site
-
-1. **Activate BuddyPress Locally**:
-   - In the same site's admin area where BuddyPress was installed, navigate to `Plugins`.
-   - Locate BuddyPress in the list and click `Activate` to enable it for this site.
+- In the same site's admin area, navigate to `Plugins`.
+- Locate BuddyPress in the list and click `Activate` to enable it for this site **only**.
 
 #### Step 3: Configure BuddyPress
 
-1. **Set Up BuddyPress Components**:
-   - After activation, you'll find the BuddyPress settings under `Settings → BuddyPress` in the site’s admin panel.
-   - Configure the necessary components, such as Profiles, Groups, and Activity Streams. You may choose to activate only what's necessary for this site's community.
+- After activation, you'll find the BuddyPress settings under `Settings → BuddyPress` in the site’s admin panel.
+- Configure the necessary components, such as Profiles, Groups, and Activity Streams. You may choose to activate only what's necessary for this site's community.
 
 ## Final Steps
 
