@@ -19,8 +19,20 @@
 	},
 	{
 		"title": "BuddyPress Installation Guide for Website Administrators",
+		"slug": "install-buddypress",
+		"markdown_source": "../user/getting-started/install.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Activation Guide for a regular WordPress Site",
 		"slug": "activate-buddypress",
-		"markdown_source": "../user/getting-started/activate-buddypress.md",
+		"markdown_source": "../user/getting-started/activate.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Activation Guide for WordPress Multisite",
+		"slug": "network-activate-buddypress",
+		"markdown_source": "../user/getting-started/network-activate.md",
 		"parent": null
 	},
 	{

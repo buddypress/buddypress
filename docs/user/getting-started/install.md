@@ -16,9 +16,12 @@ Please confirm that WordPress is installed on your hosting environment. If WordP
 
 Access your WordPress administrative panel and navigate to `Plugins → Add New`. You can either activate the "Featured" tab and scroll down to find it or use the search field to look for `BuddyPress`. Click on `Install Now` blue button of the BuddyPress plugin card.
 
-### Step 3: Activate BuddyPress
+![Regular Admin Screen](../assets/regular-admin-add-new.png)
 
-Following installation, select `Activate` to enable BuddyPress on your website. Post-activation, you will be redirected to your WordPress Dashboard home page which will show the "Hello BuddyPress" modal window we use to inform about the plugin's version highlights.
+> [!NOTE]
+> If you are using a WordPress multisite config, BuddyPress installation happens into the Network administrative panel, inside the `Plugins → Add New` network admin screen.
+
+![Sites Network Admin Screen](../assets/network-admin-add-new-plugin.png)
 
 ## Manual Installation Process
 
@@ -32,10 +35,13 @@ Navigate to the [BuddyPress page](https://wordpress.org/plugins/buddypress/) on 
 
 You can alternatively go to the `Plugins → Add New` administration screen and use the WordPress plugin uploader to transfer the zip Archive you downloaded into your plugins directory or unzip the Archive locally and utilize your preferred FTP client to drop the `buddypress` plugin folder into the `wp-content/plugins` directory within your WordPress installation on your web server.
 
-### Step 3: Activate the Plugin
+![Regular Admin Screen](../assets/regular-admin-upload-plugin.png)
 
-Log into your WordPress administrative dashboard, proceed to `Plugins → Installed Plugins`, locate BuddyPress in the plugin list, and select `Activate`. Subsequently, you will be directed to your WordPress Dashboard home page which will show the "Hello BuddyPress" modal window we use to inform about the plugin's version highlights.
+> [!NOTE]
+> If you are using a WordPress multisite config, BuddyPress installation happens into the Network administrative panel, inside the `Plugins → Add New` network admin screen.
+
+![Sites Network Admin Screen](../assets/network-admin-upload-plugin.png)
 
 ## Next step
 
-- Set up BuddyPress
+- Activate BuddyPress [on a regular WordPress site](./activate.md), [on a multisite WordPress](./network-activate.md).
