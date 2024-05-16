@@ -2721,8 +2721,8 @@ class BP_Members_Admin {
 			$redirect = add_query_arg( array( 'updated' => 'member-type-change-success' ), wp_get_referer() );
 		}
 
-		wp_redirect( $redirect );
-		exit();
+		wp_safe_redirect( $redirect );
+		exit;
 	}
 
 	/**

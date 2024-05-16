@@ -1495,7 +1495,8 @@ function bp_core_admin_user_manage_spammers() {
 
 		$redirect = add_query_arg( array( 'updated' => 'marked-' . $status ), $redirect );
 
-		wp_redirect( $redirect );
+		wp_safe_redirect( $redirect );
+		exit;
 	}
 
 	// Display feedback.
