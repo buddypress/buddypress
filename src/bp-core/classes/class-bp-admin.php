@@ -226,6 +226,7 @@ class BP_Admin {
 
 		// Emails
 		add_filter( 'bp_admin_menu_order', array( $this, 'emails_admin_menu_order' ), 20 );
+		add_action( 'load-edit.php', array( $this, 'post_type_load_edit' ), 20 );
 
 		// Official BuddyPress supported Add-ons.
 		add_filter( 'install_plugins_tabs', array( $this, 'addons_tab' ) );
@@ -1287,6 +1288,19 @@ class BP_Admin {
 			echo implode( '</li><li>', array_map( 'esc_html', $situations ) );
 			echo '</li></ul>';
 		}
+	}
+
+	public function post_type_load_edit() {
+		$screen = '';
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+		}
+
+		if ( ! isset( $screen->post_type ) || bp_get_email_post_type() !== $screen->post_type ) {
+			return;
+		}
+
+		bp_core_add_contextual_help( $screen );
 	}
 
 	/** Helpers ***************************************************************/

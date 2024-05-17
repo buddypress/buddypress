@@ -702,12 +702,8 @@ add_action( 'bp_admin_tabs', 'bp_backcompat_admin_tabs', 1, 2 );
  */
 function bp_core_add_contextual_help( $screen = '' ) {
 
-	$screen   = get_current_screen();
-	$bp_forum = sprintf(
-		'<a href="%1$s">%2$s</a>',
-		esc_url( 'https://buddypress.org/support/' ),
-		esc_html__( 'Support Forums', 'buddypress' )
-	);
+	$screen             = get_current_screen();
+	$documentation_link = '';
 
 	switch ( $screen->id ) {
 
@@ -723,17 +719,10 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
-			$manage_components = sprintf(
+			$documentation_link = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/settings/components.md' ),
 				esc_html__( 'Managing Components', 'buddypress' )
-			);
-
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . $manage_components . '</p>' .
-				'<p>' . $bp_forum . '</p>'
 			);
 			break;
 
@@ -749,17 +738,10 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
-			$manage_rewrites = sprintf(
+			$documentation_link = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/settings/urls.md' ),
 				esc_html__( 'Managing URLs', 'buddypress' )
-			);
-
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . $manage_rewrites . '</p>' .
-				'<p>' . $bp_forum . '</p>'
 			);
 			break;
 
@@ -775,19 +757,11 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
-			$manage_settings = sprintf(
+			$documentation_link = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/settings/options.md' ),
 				esc_html__( 'Managing Settings', 'buddypress' )
 			);
-
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . $manage_settings . '</p>' .
-				'<p>' . $bp_forum . '</p>'
-			);
-
 			break;
 
 		// Profile fields page.
@@ -802,19 +776,11 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
-			$manage_profile_fields = sprintf(
+			$documentation_link = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/users/xprofile.md' ),
 				esc_html__( 'Managing Profile Fields', 'buddypress' )
 			);
-
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . $manage_profile_fields . '</p>' .
-				'<p>' . $bp_forum . '</p>'
-			);
-
 			break;
 
 		case 'edit-bp_member_type' :
@@ -827,20 +793,44 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
-			$manage_member_types = sprintf(
+			$documentation_link = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/users/member-types.md' ),
 				esc_html__( 'Managing Member Types', 'buddypress' )
 			);
+			break;
 
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . $manage_member_types . '</p>' .
-				'<p>' . $bp_forum . '</p>'
+		case 'edit-bp-email':
+			// Help tab.
+			$screen->add_help_tab(
+				array(
+					'id'      => 'bp-emails-overview',
+					'title'   => __( 'Overview', 'buddypress' ),
+					'content' => bp_core_add_contextual_help_content( 'bp-emails-overview' ),
+				)
 			);
 
+			$documentation_link = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/emails/README.md' ),
+				esc_html__( 'Managing BP Emails', 'buddypress' )
+			);
 			break;
+	}
+
+	if ( $documentation_link ) {
+		$bp_forum = sprintf(
+			'<a href="%1$s">%2$s</a>',
+			esc_url( 'https://buddypress.org/support/' ),
+			esc_html__( 'Support Forums', 'buddypress' )
+		);
+
+		// Help panel - sidebar links.
+		$screen->set_help_sidebar(
+			'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
+			'<p>' . $documentation_link . '</p>' .
+			'<p>' . $bp_forum . '</p>'
+		);
 	}
 }
 add_action( 'load-settings_page_bp-components', 'bp_core_add_contextual_help' );
@@ -882,6 +872,10 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 
 		case 'bp-member-types-overview':
 			$retval = __( 'Member Types in BuddyPress provide a powerful way to classify users within your community. By defining various member types, such as "Students", "Teachers", or "Alumni", you can create a more organized and tailored community environment. This feature is especially useful for communities with diverse user groups, allowing customized interactions, content access, and privileges.', 'buddypress' );
+			break;
+
+		case 'bp-emails-overview':
+			$retval = __( 'This screen provides access to all BP Emails. Hovering over a row in the BP Emails list will display action links that allow you to manage the corresponding BP Email.', 'buddypress' );
 			break;
 
 		default:
