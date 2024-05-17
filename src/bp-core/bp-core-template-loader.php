@@ -110,7 +110,10 @@ function bp_get_dynamic_template_part( $template = '', $type = 'js', $tokens = a
 	// Use the BP Theme Compat API to allow template override.
 	$template_path = bp_locate_template( $template );
 	if ( $template_path ) {
-		$template_string = file_get_contents( $template_path );
+		ob_start();
+		load_template( $template_path, false );
+
+		$template_string = ob_get_clean();
 	}
 
 	if ( ! $template_string ) {
