@@ -816,6 +816,23 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				esc_html__( 'Managing BP Emails', 'buddypress' )
 			);
 			break;
+
+		case 'bp-email':
+			// Help tab.
+			$screen->add_help_tab(
+				array(
+					'id'      => 'bp-email-overview',
+					'title'   => __( 'Overview', 'buddypress' ),
+					'content' => bp_core_add_contextual_help_content( 'bp-email-overview' ),
+				)
+			);
+
+			$documentation_link = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/emails/tokens.md' ),
+				esc_html__( 'BP Email tokens usage', 'buddypress' )
+			);
+			break;
 	}
 
 	if ( $documentation_link ) {
@@ -876,6 +893,14 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 
 		case 'bp-emails-overview':
 			$retval = __( 'This screen provides access to all BP Emails. Hovering over a row in the BP Emails list will display action links that allow you to manage the corresponding BP Email.', 'buddypress' );
+			break;
+
+		case 'bp-email-overview':
+			$retval = sprintf(
+				/* Translators: %s contains braces within a code tag. */
+				__( 'Phrases wrapped in braces %s are email tokens. Tokens are variable strings that will get replaced with dynamic content when the email gets sent.', 'buddypress' ),
+				'<code>{{ }}</code>'
+			);
 			break;
 
 		default:
@@ -1249,27 +1274,6 @@ function bp_admin_email_maybe_add_translation_notice() {
 	);
 }
 add_action( 'admin_head-edit.php', 'bp_admin_email_maybe_add_translation_notice' );
-
-/**
- * In emails editor, add notice linking to token documentation on Codex.
- *
- * @since 2.5.0
- */
-function bp_admin_email_add_codex_notice() {
-	if ( get_current_screen()->post_type !== bp_get_email_post_type() ) {
-		return;
-	}
-
-	bp_core_add_admin_notice(
-		sprintf(
-			// Translators: %s is the url to the BuddyPress codex page about BP Email tokens.
-			__( 'Phrases wrapped in braces <code>{{ }}</code> are email tokens. <a href="%s">Learn about tokens on the BuddyPress Codex</a>.', 'buddypress' ),
-			esc_url( 'https://codex.buddypress.org/emails/email-tokens/' )
-		),
-		'error'
-	);
-}
-add_action( 'admin_head-post.php', 'bp_admin_email_add_codex_notice' );
 
 /**
  * Display metabox for email taxonomy type.

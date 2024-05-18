@@ -226,7 +226,8 @@ class BP_Admin {
 
 		// Emails
 		add_filter( 'bp_admin_menu_order', array( $this, 'emails_admin_menu_order' ), 20 );
-		add_action( 'load-edit.php', array( $this, 'post_type_load_edit' ), 20 );
+		add_action( 'load-edit.php', array( $this, 'post_type_load_admin_screen' ), 20 );
+		add_action( 'load-post.php', array( $this, 'post_type_load_admin_screen' ), 20 );
 
 		// Official BuddyPress supported Add-ons.
 		add_filter( 'install_plugins_tabs', array( $this, 'addons_tab' ) );
@@ -1290,8 +1291,13 @@ class BP_Admin {
 		}
 	}
 
-	public function post_type_load_edit() {
-		$screen = '';
+	/**
+	 * Adds BP Custom Post Types Admin screen's help tab.
+	 *
+	 * @since 14.0.0
+	 */
+	public function post_type_load_admin_screen() {
+		$screen = null;
 		if ( function_exists( 'get_current_screen' ) ) {
 			$screen = get_current_screen();
 		}
