@@ -1,7 +1,7 @@
 /**
  * Front-end Sitewide notices block class.
  *
- * @since 9.0.0
+ * @since 14.0.0
  */
 class bpSitewideNoticeBlock {
 	constructor( settings ) {

@@ -205,7 +205,7 @@ function bp_members_admin_bar_notifications_dropdown( $notifications = array(), 
 	if ( 'admin' === $type ) {
 		$menu_args['href']  = false;
 		$menu_args['title'] = sprintf(
-			'<button popovertarget="bp-notices-container" popovertargetaction="toggle">%s</button>',
+			'<button id="bp-notices-toggler" popovertarget="bp-notices-container" popovertargetaction="toggle">%s</button>',
 			$menu_title
 		);
 		$menu_args['meta'] = array(
@@ -218,9 +218,15 @@ function bp_members_admin_bar_notifications_dropdown( $notifications = array(), 
 
 	if ( ! empty( $notifications ) ) {
 		if ( 'admin' === $type ) {
-			$notice = reset( $notifications );
+			// Get the Notices center script.
+			wp_enqueue_script( 'bp-notices-center-script' );
 
+			/*
+			 * If There are notices to display, load the Notice popover once
+			 * the WP Admin Bar has fully been loaded.
+			 */
 			add_action( 'wp_after_admin_bar_render', 'bp_render_active_notice' );
+
 		} else {
 			foreach ( (array) $notifications as $notification ) {
 				$wp_admin_bar->add_node( array(

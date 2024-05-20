@@ -18,6 +18,7 @@ module.exports = {
 			'online-members/index': './src/js/blocks/bp-members/online-members/online-members.js',
 			'close-notices-block/index': './src/js/blocks/bp-members/close-notices-block/sitewide-notices.js',
 			'sitewide-notices/index': './src/js/blocks/bp-members/sitewide-notices/sitewide-notices.js',
+			'notices-center/index': './src/js/blocks/bp-members/notices-center/sitewide-notices.js',
         },
 		output: {
 			filename: '[name].js',
