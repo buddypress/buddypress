@@ -165,10 +165,10 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 		$notice_blocks = parse_blocks( $item->message );
 		$notice_block  = reset( $notice_blocks );
 
-		$target_key = 'unknown';
+		// Default is all members.
+		$target_key = 'community';
 
 		$targets = array(
-			'unknown'   => _x( 'Unknown', 'Text for a notice missing a targeted audience', 'buddypress'),
 			'community' => __( 'All community members', 'buddypress' ),
 			'admins'    => __( 'All administrators', 'buddypress' ),
 			'writers'   => __( 'All contributors', 'buddypress' ),

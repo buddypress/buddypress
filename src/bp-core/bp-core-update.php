@@ -998,6 +998,21 @@ function bp_update_to_14_0() {
 }
 
 /**
+ * 14.0.0 update routine.
+ *
+ * The DB migration tasks are performed by `bp_core_install()`.
+ *
+ * @since 15.0.0
+ */
+function bp_update_to_15_0() {
+	$cached_active_notice = wp_cache_get( 'active_notice', 'bp_messages' );
+	if ( $cached_active_notice ) {
+		wp_cache_set( 'active_notice', $cached_active_notice, 'bp_notices' );
+		wp_cache_delete( 'active_notice', 'bp_messages' );
+	}
+}
+
+/**
  * Updates the component field for new_members type.
  *
  * @since 2.2.0

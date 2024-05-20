@@ -51,6 +51,11 @@
 	background-color: transparent;
 }
 
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices button {
+	all: unset;
+	outline: revert;
+}
+
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications .ab-icon {
 	position: relative;
 	float: none;

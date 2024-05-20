@@ -177,3 +177,56 @@ function messages_send_notice( $subject, $message ) {
 
 	return $retval;
 }
+
+/**
+ * Output the subject of the current notice in the loop.
+ *
+ * @since 5.0.0 The $notice parameter has been added.
+ * @deprecated 14.0.0
+ *
+ * @param BP_Members_Notice $notice The notice object.
+ */
+function bp_message_notice_subject( $notice = null ) {
+	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_notice_title' );
+	return bp_notice_title( $notice );
+}
+/**
+ * Get the subject of the current notice in the loop.
+ *
+ * @since 5.0.0 The $notice parameter has been added.
+ * @deprecated 14.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string
+ */
+function bp_get_message_notice_subject( $notice = null ) {
+	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_get_notice_title' );
+	return bp_get_notice_title( $notice );
+}
+
+/**
+ * Output the text of the current notice in the loop.
+ *
+ * @since 5.0.0 The $notice parameter has been added.
+ * @deprecated 14.0.0
+ *
+ * @param BP_Members_Notice $notice The notice object.
+ */
+function bp_message_notice_text( $notice = null ) {
+	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_notice_content' );
+	return bp_notice_content( $notice );
+}
+
+/**
+ * Get the text of the current notice in the loop.
+ *
+ * @since 5.0.0 The $notice parameter has been added.
+ * @deprecated 14.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string
+ */
+function bp_get_message_notice_text( $notice = null ) {
+	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_get_notice_content' );
+	return bp_get_notice_content( $notice );
+}

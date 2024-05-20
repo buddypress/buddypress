@@ -288,7 +288,7 @@ function bp_members_get_notice_for_user( $notifications, $user_id ) {
 		'date_notified'     => $notice->date_sent,
 		'is_new'            => 1,
 		'total_count'       => 1,
-		'content'           => __( 'New sitewide notice', 'buddypress' ),
+		'content'           => $notice->message,
 		'href'              => bp_loggedin_user_url(),
 	);
 
@@ -301,3 +301,165 @@ function bp_members_get_notice_for_user( $notifications, $user_id ) {
 	return $notifications;
 }
 add_filter( 'bp_core_get_notifications_for_user', 'bp_members_get_notice_for_user', 10, 2 );
+
+/**
+ * Output the title of a notice.
+ *
+ * @since 14.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ */
+function bp_notice_title( $notice = null ) {
+	// Escaping is made in `bp-members/bp-members-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo bp_get_notice_title( $notice );
+}
+
+/**
+ * Get the title of a notice.
+ *
+ * @since 14.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string The notice title.
+ */
+function bp_get_notice_title( $notice = null ) {
+	$notice_title = '';
+
+	if ( ! empty( $notice->subject ) ) {
+		/**
+		 * Stop using this filter, use `bp_get_notice_title` instead.
+		 *
+		 * @since 1.0.0
+		 * @deprecated 14.0.0
+		 *
+		 * @param string $subject Subject of the current notice in the loop.
+		 */
+		$notice_title = apply_filters_deprecated( 'bp_get_message_notice_subject', array( $notice->subject ), '14.0.0', 'bp_get_notice_title' );
+	}
+
+	/**
+	 * Filter the notice title.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param string                 $notice_title The notice title.
+	 * @param BP_Members_Notice|null $notice       The notice object if it exists. Null otherwise.
+	 */
+	return apply_filters( 'bp_get_notice_title', $notice_title, $notice );
+}
+
+/**
+ * Output the content of a notice.
+ *
+ * @since 14.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ */
+function bp_notice_content( $notice = null ) {
+	// Escaping is made in `bp-messages/bp-messages-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo bp_get_notice_content( $notice );
+}
+
+/**
+ * Get the content of a notice.
+ *
+ * @since 14.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string The notice content.
+ */
+function bp_get_notice_content( $notice = null ) {
+	$notice_content = '';
+
+	if ( ! empty( $notice->message ) ) {
+		$notice_data = parse_blocks( $notice->message );
+
+		if ( isset( $notice_data[0]['innerHTML'] ) ) {
+			$notice_content = $notice_data[0]['innerHTML'];
+		} else {
+			$notice_content = $notice->message;
+		}
+
+		$notice_content = apply_filters_deprecated( 'bp_get_message_notice_text', array( $notice_content ), '14.0.0', 'bp_get_notice_content' );
+	}
+
+	/**
+	 * Filters the notice content.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param string                 $notice_content The content of the notice.
+	 * @param BP_Members_Notice|null $notice         The notice object if it exists. Null otherwise.
+	 */
+	return apply_filters( 'bp_get_notice_content', $notice_content, $notice );
+}
+
+/**
+ * Get the type of a notice.
+ *
+ * @since 14.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string The notice content.
+ */
+function bp_get_notice_type( $notice = null ) {
+	$notice_type = 'dashicons-buddicons-community';
+
+	if ( empty( $notice->message ) ) {
+		return;
+	}
+
+	$notice_data = parse_blocks( $notice->message );
+
+	if ( isset( $notice_data[0]['attrs']['target'] ) ) {
+		$target = $notice_data[0]['attrs']['target'];
+
+		if ( 'admins' === $target ) {
+			$notice_type = 'dashicons-dashboard';
+		} elseif ( 'writers' === $target ) {
+			$notice_type = 'dashicons-edit';
+		}
+	}
+
+	/**
+	 * Filters the notice type.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param string                 $notice_type The type of the notice.
+	 * @param BP_Members_Notice|null $notice      The notice object if it exists. Null otherwise.
+	 */
+	return apply_filters( 'bp_get_notice_type', $notice_type, $notice );
+}
+
+/**
+ * Used to render the active notice after the WP Admin Bar.
+ *
+ * @since 14.0.0
+ */
+function bp_render_active_notice() {
+	$notice = BP_Members_Notice::get_active();
+
+	if ( empty( $notice->id ) ) {
+		return;
+	}
+	?>
+	<aside popover="auto" id="bp-notices-container" role="complementary" tabindex="-1">
+		<section>
+			<header class="bp-notice-header">
+				<h2><?php bp_notice_title( $notice ); ?></h2>
+			</header>
+			<div class="bp-notice-body">
+				<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_type( $notice ) ); ?>" ></div>
+				<div class="bp-notice-content">
+					<?php bp_notice_content( $notice ); ?>
+				</div>
+			</div>
+			<footer class="bp-notice-footer">
+			</footer>
+		</section>
+	</aside>
+	<?php
+}
