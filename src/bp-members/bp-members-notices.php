@@ -113,51 +113,57 @@ function bp_members_send_notice( $args = array() ) {
 }
 
 /**
- * Handle user dismissal of sitewide notices.
+ * Dismiss a sitewide notice for a user.
  *
  * @since 14.0.0
  *
- * @return bool False on failure.
+ * @param int $user_id   ID of the user to dismiss the notice for.
+ *                       Defaults to the logged-in user.
+ * @param int $notice_id ID of the notice to be dismissed.
+ *                       Defaults to the currently active notice.
+ * @return bool False on failure, true if notice is dismissed
+ *              (or was already dismissed).
  */
-function bp_members_dismiss_notice() {
-
-	/**
-	 *
-	 *
-	 *
-	 *
-	 * @todo check to see is we still need this code.
-	 *
-	 */
-	return false;
-
-	// Bail if the current user isn't logged in.
-	if ( ! is_user_logged_in() ) {
-		return false;
+function bp_members_dismiss_notice( $user_id = 0, $notice_id = 0 ) {
+	$retval = false;
+	if ( ! $user_id ) {
+		$user_id = bp_loggedin_user_id();
 	}
 
-	// Check the nonce.
-	check_admin_referer( 'messages_dismiss_notice' );
+	// Bail if no user is set.
+	if ( ! $user_id ) {
+		return $retval;
+	}
 
-	// Dismiss the notice.
-	$success = bp_messages_dismiss_sitewide_notice();
-
-	// User feedback.
-	if ( $success ) {
-		$feedback = __( 'Notice has been dismissed.', 'buddypress' );
-		$type     = 'success';
+	if ( $notice_id ) {
+		$notice = new BP_Members_Notice( $notice_id );
 	} else {
-		$feedback = __( 'There was a problem dismissing the notice.', 'buddypress');
-		$type     = 'error';
+		$notice = BP_Members_Notice::get_active();
 	}
 
-	// Add feedback message.
-	bp_core_add_message( $feedback, $type );
+	// Bail if no notice is set.
+	if ( empty( $notice->id ) ) {
+		return $retval;
+	}
 
-	// Redirect.
-	$redirect_to = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug() ) ) );
+	// Fetch the user's closed notices and add the new item.
+	$closed_notices = (array) bp_get_user_meta( $user_id, 'closed_notices', true );
+	$closed_notices = array_filter( $closed_notices );
 
-	bp_core_redirect( $redirect_to );
+	if ( in_array( (int) $notice->id, $closed_notices, true ) ) {
+		// The notice has already been dismissed, so there's nothing to do.
+		$retval = true;
+	} else {
+		// Add the notice to the closed_notices meta.
+		$closed_notices[] = (int) $notice->id;
+		$closed_notices   = array_map( 'absint', array_unique( $closed_notices ) );
+		$success          = bp_update_user_meta( $user_id, 'closed_notices', $closed_notices );
+
+		// The return value from update_user_meta() could be an integer or a boolean.
+		$retval = (bool) $success;
+	}
+
+	return $retval;
 }
 
 /**
