@@ -104,3 +104,29 @@
 		padding: 0 8px;
 	}
 }
+
+body.admin-bar aside#bp-notices-container {
+	margin-right: 0;
+	margin-top: 32px;
+	border: 0;
+	border-color: transparent;
+	background: #fff;
+	box-shadow: 0 0 24px -16px #444;
+	padding: 1em;
+	width: 33%;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-body {
+	display: flex;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-body .bp-notice-type {
+	margin: 0.5em 0;
+	width: 100px;
+	height: fit-content;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-body .bp-notice-type.dashicons:before {
+	font-size: 50px;
+	color: #d84800;
+}
