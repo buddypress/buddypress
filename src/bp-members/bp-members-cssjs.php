@@ -40,6 +40,27 @@ function bp_members_register_scripts( $scripts = array() ) {
 		'footer'       => true,
 	);
 
+	$path = sprintf(
+		'/%1$s/%2$s/sitewide-notices/',
+		bp_rest_namespace(),
+		bp_rest_version()
+	);
+
+	$scripts['bp-sitewide-notices-script'] = array(
+		'file'         => plugins_url( 'blocks/close-notices-block/index.js', __FILE__ ),
+		'dependencies' => array(),
+		'footer'       => true,
+		'localize'     => array(
+			'name' => 'bpSitewideNoticeBlockSettings',
+			'data' => array(
+				'path'        => ltrim( $path, '/' ),
+				'dismissPath' => ltrim( $path, '/' ) . 'dismiss',
+				'root'        => esc_url_raw( get_rest_url() ),
+				'nonce'       => wp_create_nonce( 'wp_rest' ),
+			),
+		),
+	);
+
 	return $scripts;
 }
 add_filter( 'bp_core_register_common_scripts', 'bp_members_register_scripts', 9, 1 );

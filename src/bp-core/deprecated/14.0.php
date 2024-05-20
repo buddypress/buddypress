@@ -230,3 +230,40 @@ function bp_get_message_notice_text( $notice = null ) {
 	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_get_notice_content' );
 	return bp_get_notice_content( $notice );
 }
+
+/**
+ * Output the URL for dismissing the current notice for the current user.
+ *
+ * @since 9.0.0
+ * @deprecated 14.0.0
+ */
+function bp_message_notice_dismiss_link() {
+	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_notice_dismiss_url' );
+	return bp_notice_dismiss_url();
+}
+
+/**
+ * Get the URL for dismissing the current notice for the current user.
+ *
+ * @since 9.0.0
+ * @deprecated 14.0.0
+ * @return string URL for dismissing the current notice for the current user.
+ */
+function bp_get_message_notice_dismiss_link() {
+	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_get_notice_dismiss_url' );
+	return bp_get_notice_dismiss_url();
+}
+
+/**
+ * Callback function to render the BP Sitewide Notices Block.
+ *
+ * @since 9.0.0
+ * @deprecated 14.0.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string HTML output.
+ */
+function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
+	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_members_render_notices_block' );
+	return bp_members_render_notices_block( $attributes = array() );
+}

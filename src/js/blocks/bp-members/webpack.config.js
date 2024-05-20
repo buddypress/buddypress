@@ -16,6 +16,8 @@ module.exports = {
 			'member/index': './src/js/blocks/bp-members/member/member.js',
 			'members/index': './src/js/blocks/bp-members/members/members.js',
 			'online-members/index': './src/js/blocks/bp-members/online-members/online-members.js',
+			'close-notices-block/index': './src/js/blocks/bp-members/close-notices-block/sitewide-notices.js',
+			'sitewide-notices/index': './src/js/blocks/bp-members/sitewide-notices/sitewide-notices.js',
         },
 		output: {
 			filename: '[name].js',

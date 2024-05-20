@@ -1348,36 +1348,6 @@ function bp_message_activate_deactivate_text() {
 	}
 
 /**
- * Output the URL for dismissing the current notice for the current user.
- *
- * @since 9.0.0
- */
-function bp_message_notice_dismiss_link() {
-	echo esc_url( bp_get_message_notice_dismiss_link() );
-}
-	/**
-	 * Get the URL for dismissing the current notice for the current user.
-	 *
-	 * @since 9.0.0
-	 * @return string URL for dismissing the current notice for the current user.
-	 */
-	function bp_get_message_notice_dismiss_link() {
-		$link = wp_nonce_url(
-			bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug(), 'notices', array( 'dismiss' ) ) ) ),
-			'messages_dismiss_notice'
-		);
-
-		/**
-		 * Filters the URL for dismissing the current notice for the current user.
-		 *
-		 * @since 9.0.0
-		 *
-		 * @param string $link URL for dismissing the current notice.
-		 */
-		return apply_filters( 'bp_get_message_notice_dismiss_link', $link );
-	}
-
-/**
  * Output the messages component slug.
  *
  * @since 1.5.0
