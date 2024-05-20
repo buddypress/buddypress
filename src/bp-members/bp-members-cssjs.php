@@ -46,18 +46,30 @@ function bp_members_register_scripts( $scripts = array() ) {
 		bp_rest_version()
 	);
 
+	$notices_data = array(
+		'path'        => ltrim( $path, '/' ),
+		'dismissPath' => ltrim( $path, '/' ) . 'dismiss',
+		'root'        => esc_url_raw( get_rest_url() ),
+		'nonce'       => wp_create_nonce( 'wp_rest' ),
+	);
+
 	$scripts['bp-sitewide-notices-script'] = array(
 		'file'         => plugins_url( 'blocks/close-notices-block/index.js', __FILE__ ),
 		'dependencies' => array(),
 		'footer'       => true,
 		'localize'     => array(
 			'name' => 'bpSitewideNoticeBlockSettings',
-			'data' => array(
-				'path'        => ltrim( $path, '/' ),
-				'dismissPath' => ltrim( $path, '/' ) . 'dismiss',
-				'root'        => esc_url_raw( get_rest_url() ),
-				'nonce'       => wp_create_nonce( 'wp_rest' ),
-			),
+			'data' => $notices_data,
+		),
+	);
+
+	$scripts['bp-notices-center-script'] = array(
+		'file'         => plugins_url( 'blocks/notices-center/index.js', __FILE__ ),
+		'dependencies' => array(),
+		'footer'       => true,
+		'localize'     => array(
+			'name' => 'bpNoticesCenterSettings',
+			'data' => $notices_data,
 		),
 	);
 

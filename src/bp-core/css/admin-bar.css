@@ -56,6 +56,11 @@
 	outline: revert;
 }
 
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices.is-open,
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices.is-open:hover .ab-item {
+	background: #fff;
+}
+
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications .ab-icon {
 	position: relative;
 	float: none;
@@ -110,8 +115,8 @@ body.admin-bar aside#bp-notices-container {
 	margin-top: 32px;
 	border: 0;
 	border-color: transparent;
-	background: #fff;
-	box-shadow: 0 0 24px -16px #444;
+	background: #fefefe;
+	box-shadow: 0 12px 24px -16px #444;
 	padding: 1em;
 	width: 33%;
 }
