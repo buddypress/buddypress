@@ -435,6 +435,49 @@ function bp_get_notice_type( $notice = null ) {
 }
 
 /**
+ * Output the URL for dismissing a notice for the current user.
+ *
+ * @since 14.0.0
+ */
+function bp_notice_dismiss_url() {
+	echo esc_url( bp_get_notice_dismiss_url() );
+}
+
+/**
+ * Get the URL for dismissing the current notice for the current user.
+ *
+ * @since 14.0.0
+ *
+ * @return string URL for dismissing the current notice for the current user.
+ */
+function bp_get_notice_dismiss_url() {
+	$link = wp_nonce_url(
+		add_query_arg( array( 'page' => 'bp-sitewide-notices', 'action' => 'dismiss' ), bp_get_admin_url( 'users.php' ) ),
+		'messages_dismiss_notice'
+	);
+
+	/**
+	 * Filters the URL for dismissing the current notice for the current user.
+	 *
+	 * @since 9.0.0
+	 * @deprecated 14.0.0
+	 *
+	 * @param string $link URL for dismissing the current notice.
+	 */
+	$link = apply_filters_deprecated( 'bp_get_message_notice_dismiss_link', array( $link ), '14.0.0', 'bp_get_notice_dismiss_url' );
+
+
+	/**
+	 * Filters the URL for dismissing the current notice for the current user.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param string $link URL for dismissing the current notice.
+	 */
+	return apply_filters( 'bp_get_notice_dismiss_url', $link );
+}
+
+/**
  * Used to render the active notice after the WP Admin Bar.
  *
  * @since 14.0.0
@@ -462,4 +505,111 @@ function bp_render_active_notice() {
 		</section>
 	</aside>
 	<?php
+}
+
+/**
+ * Callback function to render the BP Sitewide Notices Block.
+ *
+ * @since 14.0.0
+ *
+ * @param array $attributes The block attributes.
+ * @return string HTML output.
+ */
+function bp_members_render_notices_block( $attributes = array() ) {
+	$block_args = bp_parse_args(
+		$attributes,
+		array(
+			'title' => '',
+		),
+		'widget_object_sitewide_notices'
+	);
+
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
+	$feedback_tpl  = '<div class="components-placeholder">' . "\n";
+	$feedback_tpl .= '<div class="components-placeholder__label">%1$s</div>' . "\n";
+	$feedback_tpl .= '<div class="components-placeholder__fieldset">%2$s</div>' . "\n";
+	$feedback_tpl .= '</div>';
+
+	// Don't display the block if there are no Notices to show.
+	$notice = BP_Members_Notice::get_active();
+	if ( empty( $notice->id ) ) {
+		// Previewing the Block inside the editor.
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return sprintf(
+				$feedback_tpl,
+				esc_html__( 'Preview unavailable', 'buddypress' ),
+				esc_html__( 'No active sitewide notices.', 'buddypress' )
+			);
+		}
+
+		return;
+	}
+
+	// Only enqueue common/specific scripts and data once per page load.
+	if ( ! wp_script_is( 'bp-sitewide-notices-script', 'enqueued' ) ) {
+		wp_enqueue_script( 'bp-sitewide-notices-script' );
+	}
+
+	$closed_notices = (array) bp_get_user_meta( bp_loggedin_user_id(), 'closed_notices', true );
+
+	if ( in_array( $notice->id, $closed_notices, true ) ) {
+		// Previewing the Block inside the editor.
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return sprintf(
+				$feedback_tpl,
+				esc_html__( 'Preview unavailable', 'buddypress' ),
+				esc_html__( 'You dismissed the sitewide notice.', 'buddypress' )
+			);
+		}
+
+		return;
+	}
+
+	// There is an active, non-dismissed notice to show.
+	$title = $block_args['title'];
+
+	$classnames         = 'widget_bp_core_sitewide_messages buddypress widget';
+	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => $classnames ) );
+
+	$widget_content = '<div class="bp-sitewide-notice-block">';
+
+	if ( $title ) {
+		$widget_content .= sprintf(
+			'<h2 class="widget-title">%s</h2>',
+			esc_html( $title )
+		);
+	}
+
+	$widget_content .= sprintf(
+		'<div class="bp-sitewide-notice-message info bp-notice" rel="n-%1$d">
+			<strong>%2$s</strong>
+			<a href="%3$s" class="bp-tooltip button dismiss-notice" data-bp-tooltip="%4$s" data-bp-sitewide-notice-id="%5$d"><span class="bp-screen-reader-text">%6$s</span> <span aria-hidden="true">&#x2716;</span></a>
+			%7$s
+		</div>',
+		esc_attr( $notice->id ),
+		bp_get_notice_title( $notice ),
+		esc_url( bp_get_notice_dismiss_url() ),
+		esc_attr__( 'Dismiss this notice', 'buddypress' ),
+		esc_attr( $notice->id ),
+		esc_html__( 'Dismiss this notice', 'buddypress' ),
+		bp_get_notice_content( $notice )
+	);
+
+	$widget_content .= '</div>';
+
+	// Enqueue BP Tooltips.
+	wp_enqueue_style( 'bp-tooltips' );
+
+	if ( ! did_action( 'dynamic_sidebar_before' ) ) {
+		return sprintf(
+			'<div %1$s>%2$s</div>',
+			$wrapper_attributes,
+			$widget_content
+		);
+	}
+
+	return $widget_content;
 }

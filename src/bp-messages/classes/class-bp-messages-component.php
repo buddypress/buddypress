@@ -434,8 +434,7 @@ class BP_Messages_Component extends BP_Component {
 	public function rest_api_init( $controllers = array() ) {
 		parent::rest_api_init(
 			array(
-				'BP_Messages_REST_Controller',
-				'BP_Messages_Sitewide_Notices_REST_Controller',
+				'BP_REST_Messages_Endpoint',
 			)
 		);
 	}
@@ -445,18 +444,12 @@ class BP_Messages_Component extends BP_Component {
 	 *
 	 * @since 9.0.0
 	 * @since 12.0.0 Use the WP Blocks API v2.
+	 * @since 14.0.0 The SiteWide Notice block has been moved to the BP Members component.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.
 	 */
 	public function blocks_init( $blocks = array() ) {
-		parent::blocks_init(
-			array(
-				'bp/sitewide-notices' => array(
-					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-messages/blocks/sitewide-notices',
-					'render_callback' => 'bp_messages_render_sitewide_notices_block',
-				),
-			)
-		);
+		parent::blocks_init( array() );
 	}
 }

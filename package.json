@@ -48,7 +48,6 @@
 		"build:block:friends": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-friends --config src/js/blocks/bp-friends/webpack.config.js",
 		"build:block:groups": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-groups --config src/js/blocks/bp-groups/webpack.config.js",
 		"build:block:members": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-members --config src/js/blocks/bp-members/webpack.config.js",
-		"build:block:messages": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-messages --config src/js/blocks/bp-messages/webpack.config.js",
 		"build:admin": "wp-scripts build --webpack-src-dir=src/js/admin --config src/js/admin/webpack.config.js && grunt move:admin:js",
 		"wp-env": "wp-env",
 		"test-php": "npm run wp-env run cli -- --env-cwd=wp-content/plugins/buddypress composer test",

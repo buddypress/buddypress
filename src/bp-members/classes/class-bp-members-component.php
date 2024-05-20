@@ -1136,6 +1136,14 @@ class BP_Members_Component extends BP_Component {
 			$controllers[] = 'BP_Members_Signup_REST_Controller';
 		}
 
+		if ( bp_is_active( 'members', 'notices' ) ) {
+			$controllers[] = 'BP_REST_Sitewide_Notices_Endpoint';
+		}
+
+		if ( bp_is_active( 'members', 'notices' ) ) {
+			$controllers[] = 'BP_REST_Sitewide_Notices_Endpoint';
+		}
+
 		parent::rest_api_init( $controllers );
 	}
 
@@ -1144,34 +1152,42 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @since 6.0.0
 	 * @since 12.0.0 Use the WP Blocks API v2.
+	 * @since 14.0.0 Add the SiteWide Notice block.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.
 	 */
 	public function blocks_init( $blocks = array() ) {
-		parent::blocks_init(
-			array(
-				'bp/member'          => array(
-					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/member',
-					'render_callback' => 'bp_members_render_member_block',
-				),
-				'bp/members'         => array(
-					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/members',
-					'render_callback' => 'bp_members_render_members_block',
-				),
-				'bp/dynamic-members' => array(
-					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/dynamic-members',
-					'render_callback' => 'bp_members_render_dynamic_members_block',
-				),
-				'bp/online-members'  => array(
-					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/online-members',
-					'render_callback' => 'bp_members_render_online_members_block',
-				),
-				'bp/active-members'  => array(
-					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/active-members',
-					'render_callback' => 'bp_members_render_active_members_block',
-				),
-			)
+		$blocks = array(
+			'bp/member' => array(
+				'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/member',
+				'render_callback' => 'bp_members_render_member_block',
+			),
+			'bp/members' => array(
+				'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/members',
+				'render_callback' => 'bp_members_render_members_block',
+			),
+			'bp/dynamic-members' => array(
+				'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/dynamic-members',
+				'render_callback' => 'bp_members_render_dynamic_members_block',
+			),
+			'bp/online-members'  => array(
+				'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/online-members',
+				'render_callback' => 'bp_members_render_online_members_block',
+			),
+			'bp/active-members'  => array(
+				'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/active-members',
+				'render_callback' => 'bp_members_render_active_members_block',
+			),
 		);
+
+		if ( bp_is_active( 'members', 'notices' ) ) {
+			$blocks['bp/sitewide-notices'] = array(
+				'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/sitewide-notices',
+				'render_callback' => 'bp_members_render_notices_block',
+			);
+		}
+
+		parent::blocks_init( $blocks );
 	}
 }
