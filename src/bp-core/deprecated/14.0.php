@@ -267,3 +267,21 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
 	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_members_render_notices_block' );
 	return bp_members_render_notices_block( $attributes = array() );
 }
+
+/**
+ * Dismiss a sitewide notice for a user.
+ *
+ * @since 9.0.0
+ * @deprecated 14.0.0
+ *
+ * @param int $user_id   ID of the user to dismiss the notice for.
+ *                       Defaults to the logged-in user.
+ * @param int $notice_id ID of the notice to be dismissed.
+ *                       Defaults to the currently active notice.
+ * @return bool False on failure, true if notice is dismissed
+ *              (or was already dismissed).
+ */
+function bp_messages_dismiss_sitewide_notice( $user_id = 0, $notice_id = 0 ) {
+	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_members_dismiss_notice' );
+	return bp_members_dismiss_notice( $user_id, $notice_id );
+}
