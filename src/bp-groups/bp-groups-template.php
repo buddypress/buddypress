@@ -3472,6 +3472,7 @@ function bp_group_join_button( $group = false ) {
 	 * Get the arguments for the Join button group
 	 *
 	 * @since 11.0.0
+	 * @since 14.0.0 Handles the case when a user has an invite to join a public group.
 	 *
 	 * @param BP_Groups_Group $group The group object.
 	 * @return Array The arguments for the Join button group
@@ -3533,26 +3534,50 @@ function bp_group_join_button( $group = false ) {
 					return $button_args;
 
 				case 'public':
-					$url = wp_nonce_url(
-						bp_get_group_url(
-							$group,
-							bp_groups_get_path_chunks( array( 'join' ) )
-						),
-						'groups_join_group'
-					);
 
-					$button_args = array(
-						'id'                => 'join_group',
-						'component'         => 'groups',
-						'must_be_logged_in' => true,
-						'block_self'        => false,
-						'wrapper_class'     => 'group-button ' . $group->status,
-						'wrapper_id'        => 'groupbutton-' . $group->id,
-						'link_href'         => $url,
-						'link_text'         => __( 'Join Group', 'buddypress' ),
-						'link_title'        => __( 'Join Group', 'buddypress' ),
-						'link_class'        => 'group-button join-group',
-					);
+					// Member has outstanding invitation -
+					// show an "Accept Invitation" button.
+					if ( $group->is_invited ) {
+						$url = add_query_arg( 'redirect_to', bp_get_group_url( $group ), bp_get_group_accept_invite_link( $group ) );
+
+						$button_args = array(
+							'id'                => 'accept_invite',
+							'component'         => 'groups',
+							'must_be_logged_in' => true,
+							'block_self'        => false,
+							'wrapper_class'     => 'group-button ' . $group->status,
+							'wrapper_id'        => 'groupbutton-' . $group->id,
+							'link_href'         => $url,
+							'link_text'         => __( 'Accept Invitation', 'buddypress' ),
+							'link_title'        => __( 'Accept Invitation', 'buddypress' ),
+							'link_class'        => 'group-button accept-invite',
+						);
+
+						// Member has no outstanding invitation -
+						// show a "Join Group" button.
+					} else {
+						$url = wp_nonce_url(
+							bp_get_group_url(
+								$group,
+								bp_groups_get_path_chunks( array( 'join' ) )
+							),
+							'groups_join_group'
+						);
+
+						$button_args = array(
+							'id'                => 'join_group',
+							'component'         => 'groups',
+							'must_be_logged_in' => true,
+							'block_self'        => false,
+							'wrapper_class'     => 'group-button ' . $group->status,
+							'wrapper_id'        => 'groupbutton-' . $group->id,
+							'link_href'         => $url,
+							'link_text'         => __( 'Join Group', 'buddypress' ),
+							'link_title'        => __( 'Join Group', 'buddypress' ),
+							'link_class'        => 'group-button join-group',
+						);
+					}
+
 					break;
 
 				case 'private' :
@@ -3573,8 +3598,8 @@ function bp_group_join_button( $group = false ) {
 							'link_class'        => 'group-button accept-invite',
 						);
 
-					// Member has requested membership but request is pending -
-					// show a "Request Sent" button.
+						// Member has requested membership but request is pending -
+						// show a "Request Sent" button.
 					} elseif ( $group->is_pending ) {
 						$button_args = array(
 							'id'                => 'membership_requested',
@@ -3589,8 +3614,8 @@ function bp_group_join_button( $group = false ) {
 							'link_class'        => 'group-button pending membership-requested',
 						);
 
-					// Member has not requested membership yet -
-					// show a "Request Membership" button.
+						// Member has not requested membership yet -
+						// show a "Request Membership" button.
 					} else {
 						$url = wp_nonce_url(
 							bp_get_group_url(
