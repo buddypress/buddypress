@@ -418,7 +418,7 @@ class BP_Members_Notice {
 	 * @return BP_Members_Notice
 	 */
 	public static function get_active() {
-		$notice = wp_cache_get( 'active_notice', 'bp_messages' );
+		$notice = wp_cache_get( 'active_notice', 'bp_notices' );
 
 		if ( false === $notice ) {
 			global $wpdb;
@@ -428,7 +428,7 @@ class BP_Members_Notice {
 			$notice_id = $wpdb->get_var( "SELECT id FROM {$bp->members->table_name_notices} WHERE is_active = 1" );
 			$notice    = new BP_Members_Notice( $notice_id );
 
-			wp_cache_set( 'active_notice', $notice, 'bp_messages' );
+			wp_cache_set( 'active_notice', $notice, 'bp_notices' );
 		}
 
 		/**

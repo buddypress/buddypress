@@ -195,22 +195,41 @@ function bp_members_admin_bar_notifications_dropdown( $notifications = array(), 
 		$count
 	);
 
-	// Add the top-level Notifications button.
-	$wp_admin_bar->add_node( array(
+	$menu_args = array(
 		'parent' => 'top-secondary',
 		'id'     => 'bp-notifications',
 		'title'  => $menu_title,
 		'href'   => $menu_link,
-	) );
+	);
+
+	if ( 'admin' === $type ) {
+		$menu_args['href']  = false;
+		$menu_args['title'] = sprintf(
+			'<button popovertarget="bp-notices-container" popovertargetaction="toggle">%s</button>',
+			$menu_title
+		);
+		$menu_args['meta'] = array(
+			'class' => 'bp-notices bp-notices-inactive',
+		);
+	}
+
+	// Add the top-level Notifications button.
+	$wp_admin_bar->add_node( $menu_args );
 
 	if ( ! empty( $notifications ) ) {
-		foreach ( (array) $notifications as $notification ) {
-			$wp_admin_bar->add_node( array(
-				'parent' => 'bp-notifications',
-				'id'     => 'notification-' . $notification->id,
-				'title'  => $notification->content,
-				'href'   => $notification->href,
-			) );
+		if ( 'admin' === $type ) {
+			$notice = reset( $notifications );
+
+			add_action( 'wp_after_admin_bar_render', 'bp_render_active_notice' );
+		} else {
+			foreach ( (array) $notifications as $notification ) {
+				$wp_admin_bar->add_node( array(
+					'parent' => 'bp-notifications',
+					'id'     => 'notification-' . $notification->id,
+					'title'  => $notification->content,
+					'href'   => $notification->href,
+				) );
+			}
 		}
 	} else {
 		$wp_admin_bar->add_node( array(
