@@ -300,7 +300,7 @@ function groups_notification_promoted_member( $user_id = 0, $group_id = 0 ) {
 	);
 	bp_send_email( 'groups-member-promoted', (int) $user_id, $args );
 }
-add_action( 'groups_promoted_member', 'groups_notification_promoted_member', 10, 2 );
+add_action( 'group_member_promoted', 'groups_notification_promoted_member', 10, 2 );
 
 /**
  * Notify a member they have been invited to a group.
@@ -1055,7 +1055,7 @@ function bp_groups_delete_promotion_notifications( $user_id = 0, $group_id = 0 )
 		bp_notifications_delete_notifications_by_item_id( $user_id, $group_id, buddypress()->groups->id, 'member_promoted_to_mod' );
 	}
 }
-add_action( 'groups_demoted_member', 'bp_groups_delete_promotion_notifications', 10, 2 );
+add_action( 'group_member_demoted', 'bp_groups_delete_promotion_notifications', 10, 2 );
 
 /**
  * Mark notifications read when a member accepts a group invitation.
