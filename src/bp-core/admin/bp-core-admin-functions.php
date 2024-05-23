@@ -833,6 +833,23 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				esc_html__( 'BP Email tokens usage', 'buddypress' )
 			);
 			break;
+
+		case 'tools_page_bp-tools':
+			// Help tab.
+			$screen->add_help_tab(
+				array(
+					'id'      => 'bp-tools-repair-overview',
+					'title'   => __( 'Overview', 'buddypress' ),
+					'content' => bp_core_add_contextual_help_content( 'bp-tools-repair-overview' ),
+				)
+			);
+
+			$documentation_link = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/tools/repair.md' ),
+				esc_html__( 'Using repair tools', 'buddypress' )
+			);
+			break;
 	}
 
 	if ( $documentation_link ) {
@@ -855,6 +872,7 @@ add_action( 'load-settings_page_bp-rewrites', 'bp_core_add_contextual_help' );
 add_action( 'load-settings_page_bp-settings', 'bp_core_add_contextual_help' );
 add_action( 'load-users_page_bp-profile-setup', 'bp_core_add_contextual_help' );
 add_action( 'bp_admin_load_bp_member_type', 'bp_core_add_contextual_help' );
+add_action( 'admin_head-tools_page_bp-tools', 'bp_core_add_contextual_help' );
 
 /**
  * Renders contextual help content to contextual help tabs.
@@ -901,6 +919,10 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 				__( 'Phrases wrapped in braces %s are email tokens. Tokens are variable strings that will get replaced with dynamic content when the email gets sent.', 'buddypress' ),
 				'<code>{{ }}</code>'
 			);
+			break;
+
+		case 'bp-tools-repair-overview':
+			$retval = __( 'This is the administration screen to help you perform an assortment of repair tasks when your BuddyPress relationships are out of sync or conduct other bulk operations.', 'buddypress' );
 			break;
 
 		default:
