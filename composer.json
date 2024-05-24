@@ -48,7 +48,7 @@
 		"phpunit": "@test",
 		"phpcs": "@php ./vendor/bin/phpcs . --basepath=.",
 		"phpcbf": "@php ./vendor/bin/phpcbf . --basepath=.",
-		"phpcs-escape": "@php ./vendor/bin/phpcs src --extensions=php -sp --standard=BuddyPress --sniffs=WordPress.Security.EscapeOutput",
+		"phpcs-escape": "@php ./vendor/bin/phpcs src --extensions=php -sp --standard=BuddyPress --sniffs=WordPress.Security.EscapeOutput,WordPress.Security.SafeRedirect",
 		"phpcompat": "@php ./vendor/bin/phpcs --standard=PHPCompatibilityWP --extensions=php -sp --runtime-set testVersion 5.6- src tests",
 		"test:watch": [
 			"Composer\\Config::disableProcessTimeout",
