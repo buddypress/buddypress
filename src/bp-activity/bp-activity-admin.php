@@ -475,7 +475,7 @@ function bp_activity_admin_load() {
 		 *
 		 * @param string $redirect_to URL to redirect to.
 		 */
-		wp_redirect( apply_filters( 'bp_activity_admin_action_redirect', $redirect_to ) );
+		wp_safe_redirect( apply_filters( 'bp_activity_admin_action_redirect', $redirect_to ) );
 		exit;
 
 
@@ -495,7 +495,7 @@ function bp_activity_admin_load() {
 
 		// If the activity doesn't exist, just redirect back to the index.
 		if ( empty( $activity->component ) ) {
-			wp_redirect( $redirect_to );
+			wp_safe_redirect( $redirect_to );
 			exit;
 		}
 
@@ -607,13 +607,13 @@ function bp_activity_admin_load() {
 		 *
 		 * @param string $redirect_to URL to redirect to.
 		 */
-		wp_redirect( apply_filters( 'bp_activity_admin_edit_redirect', $redirect_to ) );
+		wp_safe_redirect( apply_filters( 'bp_activity_admin_edit_redirect', $redirect_to ) );
 		exit;
 
 
 	// If a referrer and a nonce is supplied, but no action, redirect back.
 	} elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
-		wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), stripslashes( $_SERVER['REQUEST_URI'] ) ) );
+		wp_safe_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), stripslashes( $_SERVER['REQUEST_URI'] ) ) );
 		exit;
 	}
 }
