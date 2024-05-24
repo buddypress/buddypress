@@ -62,6 +62,9 @@ function bp_get_default_options() {
 		// Group Cover image uploads.
 		'bp-disable-group-cover-image-uploads' => false,
 
+		// Allow Group Activity Deletions.
+		'bp-disable-group-activity-deletions'   => false,
+
 		// Allow users to delete their own accounts.
 		'bp-disable-account-deletion'          => false,
 
@@ -583,6 +586,27 @@ function bp_disable_group_cover_image_uploads( $default = false ) {
 	 * @param bool $value Whether or not members are able to upload thier groups cover images.
 	 */
 	return (bool) apply_filters( 'bp_disable_group_cover_image_uploads', (bool) bp_get_option( 'bp-disable-group-cover-image-uploads', $default ) );
+}
+
+/**
+ * Are group activity deletions disabled?
+ *
+ * @since 14.0.0
+ *
+ * @param bool $default Optional. Fallback value if not found in the database.
+ *                      Default: false.
+ * @return bool True if group activity deletions are disabled, otherwise false.
+ */
+function bp_disable_group_activity_deletions( $default = false ) {
+
+	/**
+	 * Filters whether or not group creator, group admin or group mod are able to delete group activity posts.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param bool $value Whether or not group creator, group admin or group mod are able to delete group activity post.
+	 */
+	return (bool) apply_filters( 'bp_disable_group_activity_deletions', (bool) bp_get_option( 'bp-disable-group-activity-deletions', $default ) );
 }
 
 /**

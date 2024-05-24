@@ -569,6 +569,10 @@ class BP_Admin {
 				add_settings_field( 'bp-disable-group-cover-image-uploads', __( 'Group Cover Image Uploads', 'buddypress' ), 'bp_admin_setting_callback_group_cover_image_uploads', 'buddypress', 'bp_groups' );
 				register_setting( 'buddypress', 'bp-disable-group-cover-image-uploads', 'intval' );
 			}
+
+			// Allow group activity deletions.
+			add_settings_field( 'bp-disable-group-activity-deletions', esc_html__( 'Group Activity Deletions', 'buddypress' ), 'bp_admin_setting_callback_group_activity_deletions', 'buddypress', 'bp_groups' );
+			register_setting( 'buddypress', 'bp-disable-group-activity-deletions', 'intval' );
 		}
 
 		/* Activity Section **************************************************/
