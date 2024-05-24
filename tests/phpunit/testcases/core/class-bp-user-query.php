@@ -100,7 +100,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$u3 = $u2 + 1;
 
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		// pass 'user_ids' to user query to trigger this bug
 		$q = new BP_User_Query( array(
@@ -111,7 +111,7 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 		$this->assertNotContains( $u3, $q->user_ids );
 
 		// clean up
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	public function test_bp_user_query_sort_by_popular() {
@@ -861,5 +861,4 @@ class BP_Tests_BP_User_Query_TestCases extends BP_UnitTestCase {
 
 		$this->assertEquals( $u1, $query->user_ids[0] );
 	}
-
 }

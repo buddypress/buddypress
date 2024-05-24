@@ -31,7 +31,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->grant_super_admin( $admin_user );
 
 		// 1. Admin can delete user account
-		$this->set_current_user( $admin_user );
+		self::set_current_user( $admin_user );
 		$user1 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
 		bp_core_delete_account( $user1 );
 		$maybe_user = new WP_User( $user1 );
@@ -50,14 +50,14 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		// User cannot delete other's account
 		$user3 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
 		$user4 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
-		$this->set_current_user( $user3 );
+		self::set_current_user( $user3 );
 		bp_core_delete_account( $user4 );
 		$maybe_user = new WP_User( $user4 );
 		$this->assertNotEquals( 0, $maybe_user->ID );
 		unset( $maybe_user );
 
 		// Cleanup
-		$this->set_current_user( $current_user );
+		self::set_current_user( $current_user );
 		bp_update_option( 'bp-disable-account-deletion', $deletion_disabled );
 	}
 
@@ -746,7 +746,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$key = 'test';
 
 		// Create the signup.
-		$this->factory->signup->create( array(
+		self::factory()->signup->create( array(
 			'user_login'     => 'test',
 			'user_email'     => 'test@example.com',
 			'activation_key' => $key,

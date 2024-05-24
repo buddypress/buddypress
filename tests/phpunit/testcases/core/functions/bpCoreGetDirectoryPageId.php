@@ -14,8 +14,8 @@ class BP_Tests_Core_BpCoreGetDirectoryPageId extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		parent::tear_down();
 		$this->set_permalink_structure( $this->permalink_structure );
+		parent::tear_down();
 	}
 
 	public function test_should_fall_back_on_current_component() {

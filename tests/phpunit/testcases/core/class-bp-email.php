@@ -252,10 +252,6 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 	}
 
 	public function test_sending_email() {
-		require_once( BP_PLUGIN_DIR . '/bp-core/admin/bp-core-admin-schema.php' );
-		bp_core_install_emails();
-
-		$user1  = get_user_by( 'id', $this->u1 );
 		$result = bp_send_email( 'activity-comment', $this->u1, array(
 			'tokens' => array(
 				'comment.id'                => 123,
@@ -295,5 +291,4 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 		// Subject always has to have tokens replaced before sending.
 		$this->assertSame( $name, $email->get_subject( 'replace-tokens' ) );
 	}
-
 }
