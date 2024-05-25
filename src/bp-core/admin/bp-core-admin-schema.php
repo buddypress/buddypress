@@ -660,9 +660,9 @@ function bp_core_install_community_notices() {
 
 	// Table already exists, so just create the Community notices meta table.
 	if ( true === $table_exists ) {
-		$wpdb->query( "RENAME TABLE {$messages_notices_table} TO {$bp_prefix}bp_community_notices" );
+		$wpdb->query( "RENAME TABLE {$messages_notices_table} TO {$bp_prefix}bp_notices" );
 	} else {
-		$sql[] = "CREATE TABLE {$bp_prefix}bp_community_notices (
+		$sql[] = "CREATE TABLE {$bp_prefix}bp_notices (
 			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			subject varchar(200) NOT NULL,
 			message longtext NOT NULL,
@@ -675,7 +675,7 @@ function bp_core_install_community_notices() {
 	// Restore previous error suppression setting.
 	$wpdb->suppress_errors( $old_suppress );
 
-	$sql[] = "CREATE TABLE {$bp_prefix}bp_community_notices_meta (
+	$sql[] = "CREATE TABLE {$bp_prefix}bp_notices_meta (
 		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		notice_id bigint(20) NOT NULL,
 		meta_key varchar(255) DEFAULT NULL,

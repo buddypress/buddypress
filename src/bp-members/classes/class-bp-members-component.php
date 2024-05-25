@@ -367,8 +367,11 @@ class BP_Members_Component extends BP_Component {
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
 				'table_name_optouts'       => bp_core_get_table_prefix() . 'bp_optouts',
 				'table_name_signups'       => $wpdb->base_prefix . 'signups', // Signups is a global WordPress table.
-				'table_name_notices'       => bp_core_get_table_prefix() . 'bp_community_notices',
-				'table_name_notices_meta'  => bp_core_get_table_prefix() . 'bp_community_notices_meta',
+				'table_name_notices'       => bp_core_get_table_prefix() . 'bp_notices',
+				'table_name_notices_meta'  => bp_core_get_table_prefix() . 'bp_notices_meta',
+			),
+			'meta_tables' => array(
+				'notice'  => bp_core_get_table_prefix() . 'bp_notices_meta',
 			),
 			'notification_callback' => 'members_format_notifications',
 			'block_globals'         => array(
