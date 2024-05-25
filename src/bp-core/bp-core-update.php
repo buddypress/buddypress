@@ -1010,6 +1010,8 @@ function bp_update_to_15_0() {
 		wp_cache_set( 'active_notice', $cached_active_notice, 'bp_notices' );
 		wp_cache_delete( 'active_notice', 'bp_messages' );
 	}
+
+	_bp_members_dismissed_notices_migrate();
 }
 
 /**

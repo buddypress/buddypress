@@ -282,15 +282,6 @@ function bp_core_install_private_messaging() {
 				KEY unread_count (unread_count)
 			) {$charset_collate};";
 
-	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_notices (
-				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				subject varchar(200) NOT NULL,
-				message longtext NOT NULL,
-				date_sent datetime NOT NULL,
-				is_active tinyint(1) NOT NULL DEFAULT '0',
-				KEY is_active (is_active)
-			) {$charset_collate};";
-
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_meta (
 				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				message_id bigint(20) NOT NULL,
