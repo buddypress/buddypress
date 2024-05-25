@@ -69,6 +69,84 @@ function bp_members_notices_user_admin_bar() {
 add_action( 'bp_setup_admin_bar', 'bp_members_notices_user_admin_bar' );
 
 /**
+ * Get metadata for a given notice item.
+ *
+ * @since 2.3.0
+ *
+ * @param int    $notice_id ID of the notice item whose metadata is being requested.
+ * @param string $meta_key  Optional. If present, only the metadata matching
+ *                          that meta key will be returned. Otherwise, all metadata for the
+ *                          notice item will be fetched.
+ * @param bool   $single    Optional. If true, return only the first value of the
+ *                          specified meta_key. This parameter has no effect if meta_key is not
+ *                          specified. Default: false.
+ * @return mixed            The meta value(s) being requested.
+ */
+function bp_notices_get_meta( $notice_id = 0, $meta_key = '', $single = false ) {
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	$retval = get_metadata( 'notice', $notice_id, $meta_key, $single );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
+
+	/**
+	 * Filters the metadata for a specified notice item.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param mixed  $retval    The meta values for the notice item.
+	 * @param int    $notice_id ID of the noticce item.
+	 * @param string $meta_key  Meta key for the value being requested.
+	 * @param bool   $single    Whether to return one matched meta key row or all.
+	 */
+	return apply_filters( 'bp_notices_get_meta', $retval, $notice_id, $meta_key, $single );
+}
+
+/**
+ * Update a piece of notice meta.
+ *
+ * @since 14.0.0
+ *
+ * @param  int    $notice_id ID of the notice item whose metadata is being
+ *                                 updated.
+ * @param  string $meta_key        Key of the metadata being updated.
+ * @param  mixed  $meta_value      Value to be set.
+ * @param  mixed  $prev_value      Optional. If specified, only update existing
+ *                                 metadata entries with the specified value.
+ *                                 Otherwise, update all entries.
+ * @return bool|int                Returns false on failure. On successful
+ *                                 update of existing metadata, returns true. On
+ *                                 successful creation of new metadata,  returns
+ *                                 the integer ID of the new metadata row.
+ */
+function bp_notices_update_meta( $notice_id, $meta_key, $meta_value, $prev_value = '' ) {
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	$retval = update_metadata( 'notice', $notice_id, $meta_key, $meta_value, $prev_value );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
+
+	return $retval;
+}
+
+/**
+ * Add a piece of notice metadata.
+ *
+ * @since 14.0.0
+ *
+ * @param int    $notice_id ID of the notice item.
+ * @param string $meta_key        Metadata key.
+ * @param mixed  $meta_value      Metadata value.
+ * @param bool   $unique          Optional. Whether to enforce a single metadata value
+ *                                for the given key. If true, and the object already has a value for
+ *                                the key, no change will be made. Default: false.
+ * @return int|bool               The meta ID on successful update, false on failure.
+ */
+function bp_notices_add_meta( $notice_id, $meta_key, $meta_value, $unique = false ) {
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+	$retval = add_metadata( 'notice', $notice_id, $meta_key, $meta_value, $unique );
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
+
+	return $retval;
+}
+
+/**
  * Send a notice.
  *
  * @since 14.0.0
