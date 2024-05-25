@@ -2006,21 +2006,32 @@ function groups_delete_all_group_invites( $group_id ) {
  * Promote a member to a new status within a group.
  *
  * @since 1.0.0
+ * @since 14.0.0 Adds the `$group_admin_id` parameter.
  *
- * @param int    $user_id  ID of the user.
- * @param int    $group_id ID of the group.
- * @param string $status   The new status. 'mod' or 'admin'.
+ * @param int    $user_id        ID of the user.
+ * @param int    $group_id       ID of the group.
+ * @param string $status         The new status. 'mod' or 'admin'.
+ * @param int    $group_admin_id Optional. The group admin user ID.
  * @return bool True on success, false on failure.
  */
-function groups_promote_member( $user_id, $group_id, $status ) {
+function groups_promote_member( $user_id, $group_id, $status, $group_admin_id = 0 ) {
+	// Carry on using the item admin set by the Web version.
+	if ( ! $group_admin_id ) {
+		$user_can = bp_is_item_admin();
 
-	if ( ! bp_is_item_admin() )
+		// Use the provided Group Admin ID (eg: during a REST API request).
+	} else {
+		$user_can = bp_current_user_can( 'bp_moderate' ) || groups_is_user_admin( $group_admin_id, $group_id );
+	}
+
+	if ( ! $user_can ) {
 		return false;
+	}
 
 	$member = new BP_Groups_Member( $user_id, $group_id );
 
 	// Don't use this action. It's deprecated as of BuddyPress 1.6.
-	do_action( 'groups_premote_member', $group_id, $user_id, $status );
+	do_action_deprecated( 'groups_premote_member', array( $group_id, $user_id, $status ), '1.6' );
 
 	/**
 	 * Fires before the promotion of a user to a new status.
@@ -2033,21 +2044,45 @@ function groups_promote_member( $user_id, $group_id, $status ) {
 	 */
 	do_action( 'groups_promote_member', $group_id, $user_id, $status );
 
-	return $member->promote( $status );
+	if ( ! $member->promote( $status ) ) {
+		return false;
+	}
+
+	/**
+	 * Fires once the group member has been successfully promoted.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param int $user_id  ID of the user being promoted.
+	 * @param int $group_id ID of the group being promoted in.
+	 */
+	do_action( 'group_member_promoted', $user_id, $group_id );
+
+	return true;
 }
 
 /**
  * Demote a user to 'member' status within a group.
  *
  * @since 1.0.0
+ * @since 14.0.0 Adds the `$group_admin_id` parameter.
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ * @param int $group_admin_id Optional. The group admin user ID.
  * @return bool True on success, false on failure.
  */
-function groups_demote_member( $user_id, $group_id ) {
+function groups_demote_member( $user_id, $group_id, $group_admin_id = 0 ) {
+	// Carry on using the item admin set by the Web version.
+	if ( ! $group_admin_id ) {
+		$user_can = bp_is_item_admin();
 
-	if ( ! bp_is_item_admin() ) {
+		// Use the provided Group Admin ID (eg: during a REST API request).
+	} else {
+		$user_can = bp_current_user_can( 'bp_moderate' ) || groups_is_user_admin( $group_admin_id, $group_id );
+	}
+
+	if ( ! $user_can ) {
 		return false;
 	}
 
@@ -2063,21 +2098,45 @@ function groups_demote_member( $user_id, $group_id ) {
 	 */
 	do_action( 'groups_demote_member', $group_id, $user_id );
 
-	return $member->demote();
+	if ( ! $member->demote() ) {
+		return false;
+	}
+
+	/**
+	 * Fires once the group member has been successfully demoted.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param int $user_id  ID of the user being demoted.
+	 * @param int $group_id ID of the group being demoted in.
+	 */
+	do_action( 'group_member_demoted', $user_id, $group_id );
+
+	return true;
 }
 
 /**
  * Ban a member from a group.
  *
  * @since 1.0.0
+ * @since 14.0.0 Adds the `$group_admin_id` parameter.
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ * @param int $group_admin_id Optional. The group admin user ID.
  * @return bool True on success, false on failure.
  */
-function groups_ban_member( $user_id, $group_id ) {
+function groups_ban_member( $user_id, $group_id, $group_admin_id = 0 ) {
+	// Carry on using the item admin set by the Web version.
+	if ( ! $group_admin_id ) {
+		$user_can = bp_is_item_admin();
 
-	if ( ! bp_is_item_admin() ) {
+		// Use the provided Group Admin ID (eg: during a REST API request).
+	} else {
+		$user_can = bp_current_user_can( 'bp_moderate' ) || groups_is_user_admin( $group_admin_id, $group_id );
+	}
+
+	if ( ! $user_can ) {
 		return false;
 	}
 
@@ -2093,21 +2152,45 @@ function groups_ban_member( $user_id, $group_id ) {
 	 */
 	do_action( 'groups_ban_member', $group_id, $user_id );
 
-	return $member->ban();
+	if ( ! $member->ban() ) {
+		return false;
+	}
+
+	/**
+	 * Fires once the group member has been successfully banned.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param int $user_id  ID of the user being banned.
+	 * @param int $group_id ID of the group being banned from.
+	 */
+	do_action( 'group_member_banned', $user_id, $group_id );
+
+	return true;
 }
 
 /**
  * Unban a member from a group.
  *
  * @since 1.0.0
+ * @since 14.0.0 Adds the `$group_admin_id` parameter.
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ * @param int $group_admin_id Optional. The group admin user ID.
  * @return bool True on success, false on failure.
  */
-function groups_unban_member( $user_id, $group_id ) {
+function groups_unban_member( $user_id, $group_id, $group_admin_id = 0 ) {
+	// Carry on using the item admin set by the Web version.
+	if ( ! $group_admin_id ) {
+		$user_can = bp_is_item_admin();
 
-	if ( ! bp_is_item_admin() ) {
+		// Use the provided Group Admin ID (eg: during a REST API request).
+	} else {
+		$user_can = bp_current_user_can( 'bp_moderate' ) || groups_is_user_admin( $group_admin_id, $group_id );
+	}
+
+	if ( ! $user_can ) {
 		return false;
 	}
 
@@ -2123,7 +2206,21 @@ function groups_unban_member( $user_id, $group_id ) {
 	 */
 	do_action( 'groups_unban_member', $group_id, $user_id );
 
-	return $member->unban();
+	if ( ! $member->unban() ) {
+		return false;
+	}
+
+	/**
+	 * Fires once the group member has been successfully unbanned.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param int $user_id  ID of the user being unbanned.
+	 * @param int $group_id ID of the group being unbanned from.
+	 */
+	do_action( 'group_member_unbanned', $user_id, $group_id );
+
+	return true;
 }
 
 /** Group Removal *************************************************************/
@@ -2132,14 +2229,24 @@ function groups_unban_member( $user_id, $group_id ) {
  * Remove a member from a group.
  *
  * @since 1.2.6
+ * @since 14.0.0 Adds the `$group_admin_id` parameter.
  *
  * @param int $user_id  ID of the user.
  * @param int $group_id ID of the group.
+ * @param int $group_admin_id Optional. The group admin user ID.
  * @return bool True on success, false on failure.
  */
-function groups_remove_member( $user_id, $group_id ) {
+function groups_remove_member( $user_id, $group_id, $group_admin_id = 0 ) {
+	// Carry on using the item admin set by the Web version.
+	if ( ! $group_admin_id ) {
+		$user_can = bp_is_item_admin();
 
-	if ( ! bp_is_item_admin() ) {
+		// Use the provided Group Admin ID (eg: during a REST API request).
+	} else {
+		$user_can = bp_current_user_can( 'bp_moderate' ) || groups_is_user_admin( $group_admin_id, $group_id );
+	}
+
+	if ( ! $user_can ) {
 		return false;
 	}
 
@@ -2155,7 +2262,19 @@ function groups_remove_member( $user_id, $group_id ) {
 	 */
 	do_action( 'groups_remove_member', $group_id, $user_id );
 
-	return $member->remove();
+	if ( ! $member->remove() ) {
+		return false;
+	}
+
+	/**
+	 * Fires once the group member has been successfully removed.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param int $user_id  ID of the user being unbanned.
+	 * @param int $group_id ID of the group being removed from.
+	 */
+	do_action( 'group_member_removed', $user_id, $group_id );
 }
 
 /** Group Membership **********************************************************/
