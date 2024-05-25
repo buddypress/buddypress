@@ -62,7 +62,6 @@ class BP_Messages_Component extends BP_Component {
 			'filters',
 			'template',
 			'functions',
-			'blocks',
 		);
 
 		// Conditional includes.

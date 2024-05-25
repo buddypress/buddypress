@@ -632,28 +632,7 @@ class BP_Members_Component extends BP_Component {
 
 				$wp_admin_nav = array_merge( $wp_admin_nav, $this->get_avatar_cover_image_admin_navs() );
 
-				/*
-				 *
-				 * @todo this part should be in `bp-members/bp-members-notices.php`
-				 */
-				if ( bp_current_user_can( 'bp_moderate' ) && ! bp_is_active( 'notifications' ) && bp_is_active( 'members', 'notices' ) ) {
-					$wp_admin_nav[] = array(
-						'parent'   => 'my-account-' . $this->id,
-						'id'       => 'my-account-' . $this->id . '-notices',
-						'title'    => __( 'Community Notices', 'buddypress' ),
-						'href'     => esc_url(
-							add_query_arg(
-								array(
-									'page' => 'bp-notices',
-								),
-								bp_get_admin_url( 'users.php' )
-							)
-						),
-						'position' => 90,
-					);
-				}
-
-			/**
+			/*
 			 * The xProfile is active.
 			 *
 			 * Add the Change Avatar and Change Cover Image Admin Bar items
@@ -682,27 +661,6 @@ class BP_Members_Component extends BP_Component {
 
 		if ( $items ) {
 			$wp_admin_nav = array_merge( $wp_admin_nav, $items );
-
-			/*
-			 *
-			 * @todo this part should be in `bp-members/bp-members-notices.php`
-			 */
-			if ( bp_current_user_can( 'bp_moderate' ) && ! bp_is_active( 'notifications' ) && bp_is_active( 'members', 'notices' ) ) {
-				$wp_admin_nav[] = array(
-					'parent'   => 'my-account-' . $menu_id,
-					'id'       => 'my-account-' . $menu_id . '-notices',
-					'title'    => __( 'Community Notices', 'buddypress' ),
-					'href'     => esc_url(
-						add_query_arg(
-							array(
-								'page' => 'bp-notices',
-							),
-							bp_get_admin_url( 'users.php' )
-						)
-					),
-					'position' => 90,
-				);
-			}
 		}
 
 		return $wp_admin_nav;

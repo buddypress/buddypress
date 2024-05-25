@@ -1,5 +1,5 @@
 /**
- * Front-end Notices center class.
+ * Notices center class.
  *
  * @since 14.0.0
  */
@@ -26,7 +26,7 @@ class bpNoticesCenter {
 	}
 
 	/**
-	 * Activity Wall Class starter.
+	 * Notices Center Class starter.
 	 *
 	 * @since 14.0.0
 	 */

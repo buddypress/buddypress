@@ -15,6 +15,60 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( bp_core_admin_hook(), array( 'BP_Members_Notices_Admin', 'register_notices_admin' ), 9 );
 
 /**
+ * Adds an Admin Bar submenu item to manage community notices.
+ *
+ * @since 14.0.0
+ *
+ * @param array $wp_admin_nav Array of navigation items to add.
+ * @return array Array of navigation items to add.
+ */
+function bp_members_notices_setup_admin_nav( $wp_admin_nav = array() ) {
+	if ( bp_current_user_can( 'bp_moderate' ) && bp_is_active( 'members', 'notices' ) ) {
+		$parent_admin_nav = reset( $wp_admin_nav );
+
+		if ( isset( $parent_admin_nav['id'] ) ) {
+			$wp_admin_nav[] = array(
+				'parent'   => $parent_admin_nav['id'],
+				'id'       => $parent_admin_nav['id'] . '-notices',
+				'title'    => __( 'Community Notices', 'buddypress' ),
+				'href'     => esc_url(
+					add_query_arg(
+						array(
+							'page' => 'bp-notices',
+						),
+						bp_get_admin_url( 'users.php' )
+					)
+				),
+				'position' => 90,
+			);
+		}
+	}
+
+	return $wp_admin_nav;
+}
+
+/**
+ * Choose the best active component's Admin Bar menu to add the "Manage Community Notices"submenu item to.
+ *
+ * 1. Notifications component.
+ * 2. xProfile component (when xProfile component is actice it replaces Members component Admin Bar menu).
+ * 3. Members component.
+ *
+ * @since 14.0.0
+ */
+function bp_members_notices_user_admin_bar() {
+	$filter = 'bp_members_admin_nav';
+	if ( bp_is_active( 'notifications' ) ) {
+		$filter = 'bp_notifications_admin_nav';
+	} elseif ( bp_is_active( 'xprofile' ) ) {
+		$filter = 'bp_xprofile_admin_nav';
+	}
+
+	add_filter( $filter, 'bp_members_notices_setup_admin_nav' );
+}
+add_action( 'bp_setup_admin_bar', 'bp_members_notices_user_admin_bar' );
+
+/**
  * Send a notice.
  *
  * @since 14.0.0
