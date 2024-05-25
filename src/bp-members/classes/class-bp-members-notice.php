@@ -94,23 +94,6 @@ class BP_Members_Notice {
 	}
 
 	/**
-	 * Dispatches a notice to targeted audience.
-	 *
-	 * @since 14.0.0
-	 *
-	 * @param integer $notice_id The ID of the notice to dispatch. Required.
-	 * @param string  $target    The targeted audience. Optional, one of: 'community', 'admins', 'writers'.
-	 *                           Defaults to 'community'.
-	 * @return integer           The number of notice dispatched.
-	 */
-	public function dispatch( $notice_id, $target = 'community' ) {
-		/**
-		 * @todo Loop into members of the targeted audience to add a notice meta for each.
-		 * Use single schedule events in case of large users table.
-		 */
-	}
-
-	/**
 	 * Saves a notice.
 	 *
 	 * @global wpdb $wpdb WordPress database object.

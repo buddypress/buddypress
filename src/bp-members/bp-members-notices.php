@@ -11,6 +11,47 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/**
+ * Migrates the "closed_notices" user meta as "dismissed_by" notice meta.
+ *
+ * @since 14.0.0
+ *
+ * @access private
+ */
+function _bp_members_dismissed_notices_migrate() {
+	global $wpdb;
+
+	/**
+	 * Filters the notices migration batch size.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param int $comment_batch_size The notices migration batch size. Default 100.
+	 */
+	$batch_size = (int) apply_filters( 'bp_migrate_notices_batch_size', 100 );
+
+	$members_dismissed_notices = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT user_id, meta_value as notices FROM {$wpdb->usermeta} WHERE meta_key = 'closed_notices' LIMIT %d",
+			$batch_size
+		)
+	);
+
+	if ( $members_dismissed_notices ) {
+		foreach ( $members_dismissed_notices as $member ) {
+			$notice_ids = wp_parse_id_list( (array) maybe_unserialize( $member->notices ) );
+			bp_delete_user_meta( $member->user_id, 'closed_notices' );
+
+			foreach ( $notice_ids as $notice_id ) {
+				bp_notices_add_meta( $notice_id, 'dismissed_by', $member->user_id );
+			}
+		}
+
+		wp_schedule_single_event( time() + ( 2 * MINUTE_IN_SECONDS ), 'bp_usermeta_closed_notices_migrate_batch' );
+	}
+}
+add_action( 'bp_usermeta_closed_notices_migrate_batch', '_bp_members_dismissed_notices_migrate', 10, 0 );
+
 // Load the Commmunity Notices Admin.
 add_action( bp_core_admin_hook(), array( 'BP_Members_Notices_Admin', 'register_notices_admin' ), 9 );
 
