@@ -93,12 +93,13 @@ class BP_UnitTest_Factory_For_Group extends WP_UnitTest_Factory_For_Thing {
 		parent::__construct( $factory );
 
 		$this->default_generation_definitions = array(
-			'name'         => new WP_UnitTest_Generator_Sequence( 'Group %s' ),
-			'description'  => new WP_UnitTest_Generator_Sequence( 'Group description %s' ),
-			'slug'         => new WP_UnitTest_Generator_Sequence( 'group-slug-%s' ),
-			'status'       => 'public',
-			'enable_forum' => true,
-			'date_created' => bp_core_current_time(),
+			'name'          => new WP_UnitTest_Generator_Sequence( 'Group %s' ),
+			'description'   => new WP_UnitTest_Generator_Sequence( 'Group description %s' ),
+			'slug'          => new WP_UnitTest_Generator_Sequence( 'group-slug-%s' ),
+			'status'        => 'public',
+			'enable_forum'  => true,
+			'date_created'  => bp_core_current_time(),
+			'invite_status' => 'members',
 		);
 	}
 
@@ -130,6 +131,8 @@ class BP_UnitTest_Factory_For_Group extends WP_UnitTest_Factory_For_Thing {
 		groups_update_groupmeta( $group_id, 'total_member_count', 1 );
 		$last_activity = isset( $args['last_activity'] ) ? $args['last_activity'] : bp_core_current_time();
 		groups_update_groupmeta( $group_id, 'last_activity', $last_activity );
+		groups_update_groupmeta( $group_id, 'invite_status', $args['invite_status'] );
+
 
 		return $group_id;
 	}
