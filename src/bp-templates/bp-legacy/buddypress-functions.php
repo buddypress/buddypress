@@ -6,7 +6,7 @@
  *
  * @package BuddyPress
  * @subpackage BP_Theme_Compat
- * @version 12.0.0
+ * @version 14.0.0
  */
 
 // Exit if accessed directly.
@@ -1610,7 +1610,7 @@ function bp_legacy_theme_ajax_joinleave_group() {
 	// Client doesn't distinguish between different request types, so we infer from user status.
 	if ( groups_is_user_member( bp_loggedin_user_id(), $group->id ) ) {
 		$request_type = 'leave_group';
-	} elseif ( groups_check_user_has_invite( bp_loggedin_user_id(), $group->id ) && 'joinleave_group' !== $action ) {
+	} elseif ( groups_check_user_has_invite( bp_loggedin_user_id(), $group->id ) ) {
 		$request_type = 'accept_invite';
 	} elseif ( 'private' === $group->status ) {
 		$request_type = 'request_membership';
@@ -1641,10 +1641,6 @@ function bp_legacy_theme_ajax_joinleave_group() {
 		break;
 
 		case 'accept_invite' :
-			if ( ! bp_current_user_can( 'groups_request_membership', array( 'group_id' => $group->id ) ) ) {
-				esc_html_e( 'Error accepting invitation', 'buddypress' );
-			}
-
 			check_ajax_referer( 'groups_accept_invite' );
 
 			if ( ! groups_accept_invite( bp_loggedin_user_id(), $group->id ) ) {
@@ -1664,7 +1660,7 @@ function bp_legacy_theme_ajax_joinleave_group() {
 		case 'request_membership' :
 			check_ajax_referer( 'groups_request_membership' );
 
-			if ( ! groups_send_membership_request( [ 'user_id' => bp_loggedin_user_id(), 'group_id' => $group->id ] ) ) {
+			if ( ! bp_current_user_can( 'groups_request_membership', array( 'group_id' => $group->id ) ) || ! groups_send_membership_request( [ 'user_id' => bp_loggedin_user_id(), 'group_id' => $group->id ] ) ) {
 				esc_html_e( 'Error requesting membership', 'buddypress' );
 			} else {
 				echo '<a id="group-' . esc_attr( $group->id ) . '" class="group-button disabled pending membership-requested" rel="membership-requested" href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html__( 'Request Sent', 'buddypress' ) . '</a>';
