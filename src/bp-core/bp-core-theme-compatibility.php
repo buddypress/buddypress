@@ -1056,3 +1056,74 @@ function bp_theme_compat_is_block_theme() {
 
 	return isset( $theme->is_block_theme ) && $theme->is_block_theme;
 }
+
+/**
+ * Registers the `buddypress` theme feature.
+ *
+ * @since 14.0.0
+ */
+function bp_register_buddypress_theme_feature() {
+	register_theme_feature(
+		'buddypress',
+		array(
+			'type'        => 'array',
+			'variadic'    => true,
+			'description' => __( 'Whether the Theme supports BuddyPress and possibly BP Modern features', 'buddypress' ),
+		)
+	);
+}
+add_action( 'bp_init', 'bp_register_buddypress_theme_feature' );
+
+/**
+ * Filters the WP theme support API so that it can be used to check whether the
+ * current theme has global BuddyPress and/or BP Component specific support.
+ *
+ * Please do not use in your plugins or themes.
+ *
+ * @since 14.0.0
+ * @access private
+ *
+ * @param bool   $supports Whether the active theme supports the given feature. Default false.
+ * @param array  $args     Array of arguments for the feature.
+ * @param string $feature  The theme feature.
+ * @return boolean True if the feature is supported. False otherwise.
+ */
+function _bp_filter_current_theme_supports( $supports = false, $args = array(), $feature = null ) {
+
+	if ( true === $supports && $args ) {
+		$component         = key( $args[0] );
+		$component_feature = $args[0][ $component ];
+
+		if ( ! is_array( $feature ) ) {
+			$supports = false;
+		} else {
+			$theme_feature = $feature[0];
+
+			// Check the theme is supporting the component's feature.
+			$supports = isset( $theme_feature[ $component ] ) && in_array( $component_feature, $theme_feature[ $component ], true );
+		}
+	}
+
+	return $supports;
+}
+add_filter( 'current_theme_supports-buddypress', '_bp_filter_current_theme_supports', 10, 3 );
+
+/**
+ * BP wrapper function for WP's `current_theme_supports()`.
+ *
+ * @since 14.0.0
+ *
+ * @param array
+ * @return boolean True if the Theme supports BP component specicif features. False otherwise.
+ */
+function bp_current_theme_supports( $args = array() ) {
+	$supports = false;
+
+	if ( $args ) {
+		$supports = current_theme_supports( 'buddypress', $args );
+	} else {
+		$supports = current_theme_supports( 'buddypress' );
+	}
+
+	return apply_filters( 'bp_current_theme_supports', $supports, $args );
+}
