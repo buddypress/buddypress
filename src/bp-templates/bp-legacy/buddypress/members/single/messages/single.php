@@ -28,20 +28,24 @@
 
 				<?php if ( bp_get_thread_recipients_count() <= 1 ) : ?>
 
-					<?php _e( 'You are alone in this conversation.', 'buddypress' ); ?>
+					<?php esc_html_e( 'You are alone in this conversation.', 'buddypress' ); ?>
 
 				<?php elseif ( bp_get_max_thread_recipients_to_list() <= bp_get_thread_recipients_count() ) : ?>
 
 					<?php
 					/* translators: %s: message recipients count */
-					printf( __( 'Conversation between %s recipients.', 'buddypress' ), number_format_i18n( bp_get_thread_recipients_count() ) );
+					printf( esc_html__( 'Conversation between %s recipients.', 'buddypress' ), esc_html( number_format_i18n( bp_get_thread_recipients_count() ) ) );
 					?>
 
 				<?php else : ?>
 
 					<?php
-					/* translators: %s: message recipients list */
-					printf( __( 'Conversation between %s.', 'buddypress' ), bp_get_thread_recipients_list() );
+					printf(
+						/* translators: %s: message recipients list */
+						esc_html__( 'Conversation between %s.', 'buddypress' ),
+						// phpcs:ignore WordPress.Security.EscapeOutput
+						bp_get_thread_recipients_list()
+					);
 					?>
 
 				<?php endif; ?>
@@ -111,7 +115,7 @@
 					<div class="avatar-box">
 						<?php bp_loggedin_user_avatar( 'type=thumb&height=30&width=30' ); ?>
 
-						<strong><?php _e( 'Send a Reply', 'buddypress' ); ?></strong>
+						<strong><?php esc_html_e( 'Send a Reply', 'buddypress' ); ?></strong>
 					</div>
 
 					<?php
@@ -132,10 +136,12 @@
 					 */
 					do_action( 'bp_before_message_reply_box' ); ?>
 
-					<label for="message_content" class="bp-screen-reader-text"><?php
-						/* translators: accessibility text */
-						_e( 'Reply to Message', 'buddypress' );
-					?></label>
+					<label for="message_content" class="bp-screen-reader-text">
+						<?php
+							/* translators: accessibility text */
+							esc_html_e( 'Reply to Message', 'buddypress' );
+						?>
+					</label>
 					<textarea name="content" id="message_content" rows="15" cols="40"></textarea>
 
 					<?php

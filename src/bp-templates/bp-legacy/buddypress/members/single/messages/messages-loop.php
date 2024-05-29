@@ -16,10 +16,12 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 <?php if ( bp_has_message_threads( bp_ajax_querystring( 'messages' ) ) ) : ?>
 
-	<h2 class="bp-screen-reader-text"><?php
-		/* translators: accessibility text */
-		_e( 'Starred messages', 'buddypress' );
-	?></h2>
+	<h2 class="bp-screen-reader-text">
+		<?php
+			/* translators: accessibility text */
+			esc_html_e( 'Starred messages', 'buddypress' );
+		?>
+	</h2>
 
 	<div class="pagination no-ajax" id="user-pag">
 
@@ -57,12 +59,16 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 			<thead>
 				<tr>
-					<th scope="col" class="thread-checkbox bulk-select-all"><input id="select-all-messages" type="checkbox"><label class="bp-screen-reader-text" for="select-all-messages"><?php
-						/* translators: accessibility text */
-						_e( 'Select all', 'buddypress' );
-					?></label></th>
-					<th scope="col" class="thread-from"><?php _e( 'From', 'buddypress' ); ?></th>
-					<th scope="col" class="thread-info"><?php _e( 'Subject', 'buddypress' ); ?></th>
+					<th scope="col" class="thread-checkbox bulk-select-all"><input id="select-all-messages" type="checkbox">
+						<label class="bp-screen-reader-text" for="select-all-messages">
+							<?php
+								/* translators: accessibility text */
+								esc_html_e( 'Select all', 'buddypress' );
+							?>
+						</label>
+					</th>
+					<th scope="col" class="thread-from"><?php esc_html_e( 'From', 'buddypress' ); ?></th>
+					<th scope="col" class="thread-info"><?php esc_html_e( 'Subject', 'buddypress' ); ?></th>
 
 					<?php
 
@@ -77,13 +83,20 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 					do_action( 'bp_messages_inbox_list_header' ); ?>
 
 					<?php if ( bp_is_active( 'messages', 'star' ) ) : ?>
-						<th scope="col" class="thread-star"><span class="message-action-star"><span class="icon"></span> <span class="screen-reader-text"><?php
-							/* translators: accessibility text */
-							_e( 'Star', 'buddypress' );
-						?></span></span></th>
+						<th scope="col" class="thread-star">
+							<span class="message-action-star">
+								<span class="icon"></span>
+								<span class="screen-reader-text">
+								<?php
+									/* translators: accessibility text */
+									esc_html_e( 'Star', 'buddypress' );
+								?>
+								</span>
+							</span>
+						</th>
 					<?php endif; ?>
 
-					<th scope="col" class="thread-options"><?php _e( 'Actions', 'buddypress' ); ?></th>
+					<th scope="col" class="thread-options"><?php esc_html_e( 'Actions', 'buddypress' ); ?></th>
 				</tr>
 			</thead>
 
@@ -95,21 +108,21 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 						<td class="bulk-select-check">
 							<label for="bp-message-thread-<?php bp_message_thread_id(); ?>"><input type="checkbox" name="message_ids[]" id="bp-message-thread-<?php bp_message_thread_id(); ?>" class="message-check" value="<?php bp_message_thread_id(); ?>" /><span class="bp-screen-reader-text"><?php
 								/* translators: accessibility text */
-								_e( 'Select this message', 'buddypress' );
+								esc_html_e( 'Select this message', 'buddypress' );
 							?></span></label>
 						</td>
 
 						<?php if ( 'sentbox' != bp_current_action() ) : ?>
 							<td class="thread-from">
 								<?php bp_message_thread_avatar( array( 'width' => 25, 'height' => 25 ) ); ?>
-								<span class="from"><?php _e( 'From:', 'buddypress' ); ?></span> <?php bp_message_thread_from(); ?>
+								<span class="from"><?php esc_html_e( 'From:', 'buddypress' ); ?></span> <?php bp_message_thread_from(); ?>
 								<?php bp_message_thread_total_and_unread_count(); ?>
 								<span class="activity"><?php bp_message_thread_last_post_date(); ?></span>
 							</td>
 						<?php else: ?>
 							<td class="thread-from">
 								<?php bp_message_thread_avatar( array( 'width' => 25, 'height' => 25 ) ); ?>
-								<span class="to"><?php _e( 'To:', 'buddypress' ); ?></span> <?php bp_message_thread_to(); ?>
+								<span class="to"><?php esc_html_e( 'To:', 'buddypress' ); ?></span> <?php bp_message_thread_to(); ?>
 								<?php bp_message_thread_total_and_unread_count(); ?>
 								<span class="activity"><?php bp_message_thread_last_post_date(); ?></span>
 							</td>
@@ -140,12 +153,12 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 
 						<td class="thread-options">
 							<?php if ( bp_message_thread_has_unread() ) : ?>
-								<a class="read" href="<?php bp_the_message_thread_mark_read_url( bp_displayed_user_id() );?>"><?php _e( 'Read', 'buddypress' ); ?></a>
+								<a class="read" href="<?php bp_the_message_thread_mark_read_url( bp_displayed_user_id() );?>"><?php esc_html_e( 'Read', 'buddypress' ); ?></a>
 							<?php else : ?>
-								<a class="unread" href="<?php bp_the_message_thread_mark_unread_url( bp_displayed_user_id() );?>"><?php _e( 'Unread', 'buddypress' ); ?></a>
+								<a class="unread" href="<?php bp_the_message_thread_mark_unread_url( bp_displayed_user_id() );?>"><?php esc_html_e( 'Unread', 'buddypress' ); ?></a>
 							<?php endif; ?>
 							 |
-							<a class="delete" href="<?php bp_message_thread_delete_link( bp_displayed_user_id() ); ?>"><?php _e( 'Delete', 'buddypress' ); ?></a>
+							<a class="delete" href="<?php bp_message_thread_delete_link( bp_displayed_user_id() ); ?>"><?php esc_html_e( 'Delete', 'buddypress' ); ?></a>
 
 							<?php
 
@@ -192,7 +205,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 <?php else: ?>
 
 	<div id="message" class="info">
-		<p><?php _e( 'Sorry, no messages were found.', 'buddypress' ); ?></p>
+		<p><?php esc_html_e( 'Sorry, no messages were found.', 'buddypress' ); ?></p>
 	</div>
 
 <?php endif;?>

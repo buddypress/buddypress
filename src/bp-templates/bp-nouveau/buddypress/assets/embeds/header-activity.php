@@ -28,6 +28,6 @@
 			<span class="bp-embed-mentionname">@<?php bp_displayed_user_mentionname(); ?> &middot; </span>
 		<?php endif; ?>
 
-		<span class="bp-embed-timestamp"><a href="<?php bp_activity_thread_permalink(); ?>"><?php echo date_i18n( get_option( 'time_format' ) . ' - ' . get_option( 'date_format' ), strtotime( bp_get_activity_date_recorded() ) ); ?></a></span>
+		<span class="bp-embed-timestamp"><a href="<?php bp_activity_thread_permalink(); ?>"><?php echo esc_html( date_i18n( get_option( 'time_format' ) . ' - ' . get_option( 'date_format' ), strtotime( bp_get_activity_date_recorded() ) ) ); ?></a></span>
 	</p>
 </div>

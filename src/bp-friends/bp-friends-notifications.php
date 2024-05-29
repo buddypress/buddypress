@@ -251,14 +251,16 @@ function friends_screen_notification_settings() {
 		$send_requests = 'yes';
 	}
 
-	if ( ! $accept_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_accepted', true ) )
-		$accept_requests = 'yes'; ?>
+	if ( ! $accept_requests = bp_get_user_meta( bp_displayed_user_id(), 'notification_friends_friendship_accepted', true ) ) {
+		$accept_requests = 'yes';
+	}
+	?>
 
 	<table class="notification-settings" id="friends-notification-settings">
 		<thead>
 			<tr>
 				<th class="icon"></th>
-				<th class="title"><?php _ex( 'Friends', 'Friend settings on notification settings page', 'buddypress' ); ?></th>
+				<th class="title"><?php echo esc_html_x( 'Friends', 'Friend settings on notification settings page', 'buddypress' ); ?></th>
 				<th class="yes"><?php esc_html_e( 'Yes', 'buddypress' ); ?></th>
 				<th class="no"><?php esc_html_e( 'No', 'buddypress' ); ?></th>
 			</tr>
@@ -267,7 +269,7 @@ function friends_screen_notification_settings() {
 		<tbody>
 			<tr id="friends-notification-settings-request">
 				<td></td>
-				<td><?php _ex( 'A member sends you a friendship request', 'Friend settings on notification settings page', 'buddypress' ); ?></td>
+				<td><?php echo esc_html_x( 'A member sends you a friendship request', 'Friend settings on notification settings page', 'buddypress' ); ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_request]" id="notification-friends-friendship-request-yes" value="yes" <?php checked( $send_requests, 'yes', true ) ?>/><label for="notification-friends-friendship-request-yes" class="bp-screen-reader-text"><?php
 					/* translators: accessibility text */
 					esc_html_e( 'Yes, send email', 'buddypress' );
@@ -279,7 +281,7 @@ function friends_screen_notification_settings() {
 			</tr>
 			<tr id="friends-notification-settings-accepted">
 				<td></td>
-				<td><?php _ex( 'A member accepts your friendship request', 'Friend settings on notification settings page', 'buddypress' ) ?></td>
+				<td><?php echo esc_html_x( 'A member accepts your friendship request', 'Friend settings on notification settings page', 'buddypress' ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_friends_friendship_accepted]" id="notification-friends-friendship-accepted-yes" value="yes" <?php checked( $accept_requests, 'yes', true ) ?>/><label for="notification-friends-friendship-accepted-yes" class="bp-screen-reader-text"><?php
 					/* translators: accessibility text */
 					esc_html_e( 'Yes, send email', 'buddypress' );

@@ -86,7 +86,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 		/** This action is documented in bp-xprofile/bp-xprofile-classes */
 		do_action( bp_get_the_profile_field_errors_action() ); ?>
 
-		<select <?php echo $this->get_edit_field_html_elements( $r ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-1" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-3">
+		<select <?php $this->output_edit_field_html_elements( $r ); ?> aria-labelledby="<?php bp_the_profile_field_input_name(); ?>-1" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-3">
 			<?php bp_the_profile_field_options( array(
 				'user_id' => $user_id,
 			) ); ?>
@@ -104,14 +104,16 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			}
 
 			$js_clear = sprintf( 'javascript:%1$s( \'%2$s[]\' );', $clear, esc_js( bp_get_the_profile_field_input_name() ) );
+
+			// phpcs:disable WordPress.Security.EscapeOutput
 		?>
 
 			<a class="clear-value" href="<?php echo $js_clear; ?>">
 				<?php esc_html_e( 'Clear', 'buddypress' ); ?>
 			</a>
 
-		<?php endif; ?>
-	<?php
+		<?php endif;
+		// phpcs:enable
 	}
 
 	/**
@@ -181,6 +183,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			$html .= apply_filters( 'bp_get_the_profile_field_options_multiselect', '<option' . $selected . ' value="' . esc_attr( stripslashes( $options[ $k ]->name ) ) . '">' . esc_html( stripslashes( $options[ $k ]->name ) ) . '</option>', $options[ $k ], $this->field_obj->id, $selected, $k );
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $html;
 	}
 
@@ -206,7 +209,7 @@ class BP_XProfile_Field_Type_Multiselectbox extends BP_XProfile_Field_Type {
 			/* translators: accessibility text */
 			esc_html_e( 'Select', 'buddypress' );
 		?></label>
-		<select <?php echo $this->get_edit_field_html_elements( $r ); ?>>
+		<select <?php $this->output_edit_field_html_elements( $r ); ?>>
 			<?php bp_the_profile_field_options(); ?>
 		</select>
 

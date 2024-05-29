@@ -129,7 +129,7 @@
 <?php else: ?>
 
 	<div id="message" class="info">
-		<p><?php _e( 'No members were found.', 'buddypress' ); ?></p>
+		<p><?php esc_html_e( 'No members were found.', 'buddypress' ); ?></p>
 	</div>
 
 <?php endif;

@@ -27,7 +27,7 @@
 					<footer>
 
 						<cite>
-							<a href="<?php bp_activity_user_link(); ?>" class="bp-tooltip" data-bp-tooltip="<?php echo esc_attr( bp_activity_member_display_name() ); ?>">
+							<a href="<?php bp_activity_user_link(); ?>" class="bp-tooltip" data-bp-tooltip="<?php echo esc_attr( bp_get_activity_member_display_name() ); ?>">
 								<?php
 								bp_activity_avatar(
 									array(
@@ -40,7 +40,7 @@
 							</a>
 						</cite>
 
-						<?php echo bp_insert_activity_meta(); ?>
+						<?php bp_output_activity_meta(); ?>
 
 					</footer>
 

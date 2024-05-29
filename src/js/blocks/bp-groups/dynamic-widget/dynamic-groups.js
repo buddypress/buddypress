@@ -5,6 +5,10 @@ import {
 	__,
 	sprintf,
 } from '@wordpress/i18n';
+import {
+	escapeAttribute,
+	escapeHTML,
+} from '@wordpress/escape-html';
 
 /**
  * BuddyPress dependencies.
@@ -26,28 +30,33 @@ class bpGroupsWidgetBlock extends dynamicWidgetBlock {
 			groups.forEach( ( group ) => {
 				if ( 'newest' === type && group.created_since ) {
 					/* translators: %s is time elapsed since the group was created */
-					group.extra = sprintf( __( 'Created %s', 'buddypress' ), group.created_since );
+					group.extra = escapeHTML( sprintf( __( 'Created %s', 'buddypress' ), group.created_since ) );
 				} else if ( 'popular' === type && group.total_member_count ) {
 					const membersCount = parseInt( group.total_member_count, 10 );
 
 					if ( 0 === membersCount ) {
-						group.extra = __( 'No members', 'buddypress' );
+						group.extra = escapeHTML( __( 'No members', 'buddypress' ) );
 					} else if ( 1 === membersCount ) {
-						group.extra = __( '1 member', 'buddypress' );
+						group.extra = escapeHTML( __( '1 member', 'buddypress' ) );
 					} else {
-						group.extra = sprintf(
-							/* translators: %s is the number of Group members (more than 1). */
-							__( '%s members', 'buddypress' ),
-							group.total_member_count
+						group.extra = escapeHTML(
+							sprintf(
+								/* translators: %s is the number of Group members (more than 1). */
+								__( '%s members', 'buddypress' ),
+								group.total_member_count
+							)
 						);
 					}
 				} else {
 					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
-					group.extra = sprintf( __( 'Active %s', 'buddypress' ), group.last_activity_diff );
+					group.extra = escapeHTML( sprintf( __( 'Active %s', 'buddypress' ), group.last_activity_diff ) );
 				}
 
+				// Sanitize group name.
+				group.name = escapeHTML( group.name );
+
 				/* Translators: %s is the group's name. */
-				group.avatar_alt = sprintf( __( 'Group Profile photo of %s', 'buddypress' ), group.name );
+				group.avatar_alt = escapeAttribute( sprintf( __( 'Group Profile photo of %s', 'buddypress' ), group.name ) );
 
 				output += tmpl( group );
 			} );

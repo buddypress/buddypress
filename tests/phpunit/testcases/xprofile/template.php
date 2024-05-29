@@ -93,8 +93,8 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$field_in_1 = self::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $group_1,
-				'type' => 'textbox',
-				'name' => 'InSignupForm1'
+				'type'           => 'textbox',
+				'name'           => 'InSignupForm1'
 			)
 		);
 
@@ -104,8 +104,8 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$field_in_2 = self::factory()->xprofile_field->create(
 			array(
 				'field_group_id' => $group_2,
-				'type' => 'textbox',
-				'name' => 'InSignupForm2'
+				'type'           => 'textbox',
+				'name'           => 'InSignupForm2'
 			)
 		);
 
@@ -119,6 +119,10 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$expected_names = array( 'Name', 'InSignupForm2', 'InSignupForm1' );
 
 		$this->assertSame( $expected_names, $names );
+
+		// Confirm the fields are in the right order.
+		$this->assertSame( 'InSignupForm2', $group->fields[1]->name );
+		$this->assertSame( 'InSignupForm1', $group->fields[2]->name );
 
 		xprofile_delete_field_group( $group_1 );
 		xprofile_delete_field_group( $group_2 );
@@ -138,7 +142,7 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$g2 = self::factory()->xprofile_group->create();
 		$g3 = self::factory()->xprofile_group->create();
 
-		$field_in_1 = self::factory()->xprofile_field->create(
+		self::factory()->xprofile_field->create(
 			[
 				'field_group_id' => $g1,
 				'type'           => 'textbox',
@@ -146,7 +150,7 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 			]
 		);
 
-		$field_in_2 = self::factory()->xprofile_field->create(
+		self::factory()->xprofile_field->create(
 			[
 				'field_group_id' => $g2,
 				'type'           => 'textbox',

@@ -94,13 +94,13 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 	 * @param object $item The current item
 	 */
 	public function single_row( $item ) {
-		$class = '';
 
 		if ( ! empty( $item->is_active ) ) {
-			$class = ' class="notice-active"';
+			echo '<tr class="notice-active">';
+		} else {
+			echo '<tr>';
 		}
 
-		echo "<tr{$class}>";
 		$this->single_row_columns( $item );
 		echo '</tr>';
 	}
@@ -145,7 +145,11 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 				esc_html__( 'Deactivate Notice', 'buddypress' ) );
 		}
 
-		echo '<strong>' . apply_filters( 'bp_get_message_notice_subject', $item->subject ) . '</strong> ' . $this->row_actions( $actions );
+		echo '<strong>' . esc_html( apply_filters( 'bp_get_message_notice_subject', $item->subject ) ) . '</strong> ';
+
+		// BuddyPress relies on WordPress's `WP_List_Table::row_actions()`.
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		echo $this->row_actions( $actions );
 	}
 
 	/**
@@ -156,6 +160,8 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 	 * @param object $item The current item
 	 */
 	public function column_message( $item ) {
+		// Escaping is made in `bp-messages/bp-messages-filters.php`.
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo apply_filters( 'bp_get_message_notice_text', $item->message );
 	}
 
@@ -167,6 +173,6 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 	 * @param object $item The current item
 	 */
 	public function column_date_sent( $item ) {
-		echo apply_filters( 'bp_get_message_notice_post_date', bp_format_time( strtotime( $item->date_sent ) ) );
+		echo esc_html( apply_filters( 'bp_get_message_notice_post_date', bp_format_time( strtotime( $item->date_sent ) ) ) );
 	}
 }

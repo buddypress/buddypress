@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.5.0
  */
 function bp_friends_slug() {
-	echo bp_get_friends_slug();
+	echo esc_attr( bp_get_friends_slug() );
 }
 	/**
 	 * Return the friends component slug.
@@ -43,7 +43,7 @@ function bp_friends_slug() {
  * @since 1.5.0
  */
 function bp_friends_root_slug() {
-	echo bp_get_friends_root_slug();
+	echo esc_attr( bp_get_friends_root_slug() );
 }
 	/**
 	 * Return the friends component root slug.
@@ -80,7 +80,7 @@ add_action( 'bp_directory_members_actions', 'bp_member_add_friend_button' );
  * @since 1.2.0
  */
 function bp_member_total_friend_count() {
-	echo bp_get_member_total_friend_count();
+	echo esc_html( bp_get_member_total_friend_count() );
 }
 	/**
 	 * Return the friend count for the current member in the loop.
@@ -123,7 +123,7 @@ function bp_member_total_friend_count() {
  * @param int $user_id See {@link bp_get_potential_friend_id()}.
  */
 function bp_potential_friend_id( $user_id = 0 ) {
-	echo bp_get_potential_friend_id( $user_id );
+	echo intval( bp_get_potential_friend_id( $user_id ) );
 }
 	/**
 	 * Return the ID of current user in the friend request loop.
@@ -202,6 +202,8 @@ function bp_is_friend( $user_id = 0 ) {
  * @param int|bool $friend_status       See {@link bp_get_add_friend_button()}.
  */
 function bp_add_friend_button( $potential_friend_id = 0, $friend_status = false ) {
+	// Escaping is done in `BP_Core_HTML_Element()`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_add_friend_button( $potential_friend_id, $friend_status );
 }
 
@@ -409,7 +411,7 @@ function bp_get_friendship_requests( $user_id = 0 ) {
  * @since 1.2.0
  */
 function bp_friend_friendship_id() {
-	echo bp_get_friend_friendship_id();
+	echo intval( bp_get_friend_friendship_id() );
 }
 	/**
 	 * Return the ID of the friendship between the logged-in user and the current user in the loop.
@@ -444,7 +446,7 @@ function bp_friend_friendship_id() {
  * @since 1.0.0
  */
 function bp_friend_accept_request_link() {
-	echo bp_get_friend_accept_request_link();
+	echo esc_url( bp_get_friend_accept_request_link() );
 }
 	/**
 	 * Return the URL for accepting the current friendship request in the loop.
@@ -486,7 +488,7 @@ function bp_friend_accept_request_link() {
  * @since 1.0.0
  */
 function bp_friend_reject_request_link() {
-	echo bp_get_friend_reject_request_link();
+	echo esc_url( bp_get_friend_reject_request_link() );
 }
 	/**
 	 * Return the URL for rejecting the current friendship request in the loop.
@@ -530,7 +532,7 @@ function bp_friend_reject_request_link() {
  * @param int $user_id See {@link friends_get_total_friend_count()}.
  */
 function bp_total_friend_count( $user_id = 0 ) {
-	echo bp_get_total_friend_count( $user_id );
+	echo intval( bp_get_total_friend_count( $user_id ) );
 }
 	/**
 	 * Return the total friend count for a given user.
@@ -563,7 +565,7 @@ function bp_total_friend_count( $user_id = 0 ) {
  *                     Default: ID of the logged-in user.
  */
 function bp_friend_total_requests_count( $user_id = 0 ) {
-	echo bp_friend_get_total_requests_count( $user_id );
+	echo intval( bp_friend_get_total_requests_count( $user_id ) );
 }
 	/**
 	 * Return the total friendship request count for a given user.
@@ -601,7 +603,15 @@ function bp_friend_total_requests_count( $user_id = 0 ) {
  * @param array|string $args before|after|user_id.
  */
 function bp_friends_profile_stats( $args = '' ) {
-	echo bp_friends_get_profile_stats( $args );
+	echo wp_kses(
+		bp_friends_get_profile_stats( $args ),
+		array(
+			'li'     => array( 'class' => true ),
+			'div'    => array( 'class' => true ),
+			'strong' => true,
+			'a'      => array( 'href' => true ),
+		)
+	);
 }
 add_action( 'bp_members_admin_user_stats', 'bp_friends_profile_stats', 7, 1 );
 

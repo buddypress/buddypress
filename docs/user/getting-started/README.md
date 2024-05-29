@@ -35,5 +35,5 @@ NB: If you want to contribute to this documentation, you can [fork the BuddyPres
 
 ## Next steps
 
-- [Activate BuddyPress](./activate-buddypress.md)
-- Set up BuddyPress
+- [Install BuddyPress](./install.md)
+- Activate BuddyPress [on a regular WordPress site](./activate.md), [on a multisite WordPress](./network-activate.md).

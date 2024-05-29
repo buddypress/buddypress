@@ -5,6 +5,10 @@ import {
 	__,
 	sprintf,
 } from '@wordpress/i18n';
+import {
+	escapeAttribute,
+	escapeHTML,
+} from '@wordpress/escape-html';
 
 /**
  * BuddyPress dependencies.
@@ -24,28 +28,33 @@ class bpFriendsWidgetBlock extends dynamicWidgetBlock {
 			friends.forEach( ( friend ) => {
 				if ( 'active' === type && friend.last_activity ) {
 					/* translators: %s: last activity timestamp (e.g. "Active 1 hour ago") */
-					friend.extra = sprintf( __( 'Active %s', 'buddypress' ), friend.last_activity.timediff );
+					friend.extra = escapeHTML( sprintf( __( 'Active %s', 'buddypress' ), friend.last_activity.timediff ) );
 				} else if ( 'popular' === type && friend.total_friend_count ) {
 					const friendsCount = parseInt( friend.total_friend_count, 10 );
 
 					if ( 0 === friendsCount ) {
-						friend.extra = __( 'No friends', 'buddypress' );
+						friend.extra = escapeHTML( __( 'No friends', 'buddypress' ) );
 					} else if ( 1 === friendsCount ) {
-						friend.extra = __( '1 friend', 'buddypress' );
+						friend.extra = escapeHTML( __( '1 friend', 'buddypress' ) );
 					} else {
-						friend.extra = sprintf(
-							/* translators: %s: total friend count (more than 1). */
-							__( '%s friends', 'buddypress' ),
-							friend.total_friend_count
+						friend.extra = escapeHTML(
+							sprintf(
+								/* translators: %s: total friend count (more than 1). */
+								__( '%s friends', 'buddypress' ),
+								friend.total_friend_count
+							)
 						);
 					}
 				} else if ( 'newest' === type && friend.registered_since ) {
 					/* translators: %s is time elapsed since the registration date happened */
-					friend.extra = sprintf( __( 'Registered %s', 'buddypress' ), friend.registered_since );
+					friend.extra = escapeHTML( sprintf( __( 'Registered %s', 'buddypress' ), friend.registered_since ) );
 				}
 
+				// Sanitize friend name.
+				friend.name = escapeHTML( friend.name );
+
 				/* translators: %s: member name */
-				friend.avatar_alt = sprintf( __( 'Profile picture of %s', 'buddypress' ), friend.name );
+				friend.avatar_alt = escapeAttribute( sprintf( __( 'Profile picture of %s', 'buddypress' ), friend.name ) );
 
 				output += tmpl( friend );
 			} );

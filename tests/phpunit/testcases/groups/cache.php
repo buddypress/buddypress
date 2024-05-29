@@ -41,6 +41,9 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 				'last_activity' => array(
 					$time,
 				),
+				'invite_status' => array(
+					'members',
+				),
 				'foo' => array(
 					'bar',
 				),
@@ -51,6 +54,9 @@ class BP_Tests_Group_Cache extends BP_UnitTestCase {
 				),
 				'last_activity' => array(
 					$time,
+				),
+				'invite_status' => array(
+					'members',
 				),
 				'foo' => array(
 					'baz',

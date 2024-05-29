@@ -6,32 +6,32 @@ jobs:
   phpcs:
     name: PHPCS
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        php: ['8.2']
 
     steps:
       - name: Cancel previous runs of this workflow (pull requests only)
         if: ${{ github.event_name == 'pull_request' }}
-        uses: styfle/cancel-workflow-action@0.12.0
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ github.token }}
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
-          tools: composer:v2
+          php-version: 8.3
           coverage: none
+          tools: composer:v2
+
+      - name: Validate Composer
+        run: composer validate --strict
 
       - name: Install dependencies
-        uses: ramsey/composer-install@v2
-        with:
-          composer-options: "--ignore-platform-reqs"
+        uses: ramsey/composer-install@v3
 
-      - name: Run PHPCS
-        run: composer phpcs
+      - name: Run PHPCS Escape
+        run: composer phpcs-escape
+
+      - name: Run PHP Compatibility
+        run: composer phpcompat

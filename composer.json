@@ -35,19 +35,21 @@
 		}
 	},
 	"require": {
-		"composer/installers": "^1.10.0",
 		"php": ">=5.6.0"
 	},
 	"require-dev": {
-		"buddypress/bp-coding-standards": "0.1.0",
+		"buddypress/bp-coding-standards": "dev-trunk",
 		"yoast/phpunit-polyfills": "^1.0",
 		"spatie/phpunit-watcher": "^1.23"
 	},
 	"scripts": {
 		"test": "@php ./vendor/phpunit/phpunit/phpunit",
 		"test_multi": "@php ./vendor/phpunit/phpunit/phpunit -c tests/phpunit/multisite.xml",
-		"phpunit": "@php ./vendor/phpunit/phpunit/phpunit",
-		"phpcs": "@php ./vendor/bin/phpcs",
+		"phpunit": "@test",
+		"phpcs": "@php ./vendor/bin/phpcs . --basepath=.",
+		"phpcbf": "@php ./vendor/bin/phpcbf . --basepath=.",
+		"phpcs-escape": "@php ./vendor/bin/phpcs src --extensions=php -sp --standard=BuddyPress --sniffs=WordPress.Security.EscapeOutput,WordPress.Security.SafeRedirect",
+		"phpcompat": "@php ./vendor/bin/phpcs --standard=PHPCompatibilityWP --extensions=php -sp --runtime-set testVersion 5.6- src tests",
 		"test:watch": [
 			"Composer\\Config::disableProcessTimeout",
 			"phpunit-watcher watch"

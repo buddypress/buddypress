@@ -18,8 +18,8 @@ if ( empty( $GLOBALS['profile_template'] ) ) {
 		<?php
 		printf(
 			/* translators: field visibility level, e.g. "...seen by: everyone". */
-			__( 'This field may be seen by: %s', 'buddypress' ),
-			'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+			esc_html__( 'This field may be seen by: %s', 'buddypress' ),
+			'<span class="current-visibility-level">' . esc_html( bp_get_the_profile_field_visibility_level_label() ) . '</span>'
 		);
 		?>
 		<button class="visibility-toggle-link text-button" type="button"><?php echo esc_html_x( 'Change', 'button', 'buddypress' ); ?></button>
@@ -42,7 +42,7 @@ if ( empty( $GLOBALS['profile_template'] ) ) {
 		<?php
 		printf(
 			esc_html__( 'This field may be seen by: %s', 'buddypress' ),
-			'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+			'<span class="current-visibility-level">' . esc_html( bp_get_the_profile_field_visibility_level_label() ) . '</span>'
 		);
 		?>
 	</p>

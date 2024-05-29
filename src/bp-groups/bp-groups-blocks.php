@@ -348,6 +348,7 @@ function bp_groups_blocks_add_script_data() {
 	);
 
 	// Include the common JS template.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_dynamic_template_part( 'assets/widgets/dynamic-groups.php' );
 
 	// List the block specific props.
@@ -486,11 +487,11 @@ function bp_groups_render_dynamic_groups_block( $attributes = array() ) {
 							sprintf(
 								/* Translators: %s is the group's name. */
 								__( 'Group Profile photo of %s', 'buddypress' ),
-								$group->name
+								bp_get_group_name( $group )
 							)
 						),
 						'data.id'                => $group->id,
-						'data.extra'             => $extra,
+						'data.extra'             => esc_html( $extra ),
 					)
 				);
 			}

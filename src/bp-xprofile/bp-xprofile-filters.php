@@ -563,7 +563,7 @@ add_action( 'bp_pre_user_query', 'bp_xprofile_add_xprofile_query_to_user_query' 
  * Filter meta queries to modify for the xprofile data schema.
  *
  * @since 2.0.0
- * 
+ *
  * @global wpdb $wpdb WordPress database object.
  *
  * @access private Do not use.
@@ -728,7 +728,7 @@ function _bp_xprofile_signup_do_backcompat( $args = array() ) {
 	$needed_args   = array_intersect_key( $args, $expected_args );
 
 	if ( 1 === $args['profile_group_id'] || array_diff_key( $expected_args, $needed_args ) ) {
-		_doing_it_wrong( 'bp_has_profile()', __( 'The argument of this function into your custom `members/register.php` template should be bp_xprofile_signup_args()', 'buddypress' ), '8.0.0' );
+		_doing_it_wrong( 'bp_has_profile()', esc_html__( 'The argument of this function into your custom `members/register.php` template should be bp_xprofile_signup_args()', 'buddypress' ), '8.0.0' );
 		$args = $expected_args;
 	}
 

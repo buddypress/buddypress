@@ -435,7 +435,7 @@ function bp_nouveau_group_manage_screen() {
 	if ( 'group-invites' === bp_get_groups_current_create_step() ) {
 		printf(
 			'<form action="%s" method="post" enctype="multipart/form-data">',
-			bp_get_group_creation_form_action()
+			esc_url( bp_get_group_creation_form_action() )
 		);
 	}
 
@@ -448,7 +448,7 @@ function bp_nouveau_group_manage_screen() {
 		$is_group_create ? esc_attr( bp_get_new_group_id() ) : esc_attr( bp_get_group_id() )
 	);
 
-	// The submit actions
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo $output;
 
 	if ( ! $is_group_create ) {
@@ -1088,6 +1088,7 @@ function bp_nouveau_group_meta() {
 	$group_meta = new BP_Nouveau_Group_Meta();
 
 	if ( ! bp_is_group() ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $group_meta->meta;
 	} else {
 		return $group_meta;
@@ -1138,6 +1139,7 @@ function bp_nouveau_the_group_meta( $args = array() ) {
 		return $meta;
 	}
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo $meta;
 }
 
@@ -1364,11 +1366,18 @@ function bp_nouveau_groups_get_customizer_widgets_link() {
  * @param object $group Optional. The group being referenced.
  *                      Defaults to the group currently being iterated on in the groups loop.
  * @param int $length   Optional. Length of returned string, including ellipsis. Default: 100.
- *
- * @return string Excerpt.
  */
 function bp_nouveau_group_description_excerpt( $group = null, $length = null ) {
-	echo bp_nouveau_get_group_description_excerpt( $group, $length );
+	$group = bp_get_group( $group );
+
+	// Escaping is made in `bp-groups/bp-groups-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo apply_filters(
+		/** This filter is documented in bp-groups/bp-groups-template.php. */
+		'bp_get_group_description_excerpt',
+		bp_nouveau_get_group_description_excerpt( $group, $length ),
+		$group
+	);
 }
 
 /**

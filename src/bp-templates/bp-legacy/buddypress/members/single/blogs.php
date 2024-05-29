@@ -16,11 +16,11 @@
 
 		<li id="blogs-order-select" class="last filter">
 
-			<label for="blogs-order-by"><?php _e( 'Order By:', 'buddypress' ); ?></label>
+			<label for="blogs-order-by"><?php esc_html_e( 'Order By:', 'buddypress' ); ?></label>
 			<select id="blogs-order-by">
-				<option value="active"><?php _e( 'Last Active', 'buddypress' ); ?></option>
-				<option value="newest"><?php _e( 'Newest', 'buddypress' ); ?></option>
-				<option value="alphabetical"><?php _e( 'Alphabetical', 'buddypress' ); ?></option>
+				<option value="active"><?php esc_html_e( 'Last Active', 'buddypress' ); ?></option>
+				<option value="newest"><?php esc_html_e( 'Newest', 'buddypress' ); ?></option>
+				<option value="alphabetical"><?php esc_html_e( 'Alphabetical', 'buddypress' ); ?></option>
 
 				<?php
 

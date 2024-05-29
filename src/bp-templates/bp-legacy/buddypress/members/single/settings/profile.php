@@ -14,10 +14,12 @@
  */
 do_action( 'bp_before_member_settings_template' ); ?>
 
-<h2 class="bp-screen-reader-text"><?php
-	/* translators: accessibility text */
-	_e( 'Profile visibility settings', 'buddypress' );
-?></h2>
+<h2 class="bp-screen-reader-text">
+	<?php
+		/* translators: accessibility text */
+		esc_html_e( 'Profile visibility settings', 'buddypress' );
+	?>
+</h2>
 
 <form action="<?php bp_displayed_user_link( array( bp_get_settings_slug(), 'profile' ) ); ?>" method="post" class="standard-form" id="settings-form">
 
@@ -31,7 +33,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 					<thead>
 						<tr>
 							<th class="title field-group-name"><?php bp_the_profile_group_name(); ?></th>
-							<th class="title"><?php _e( 'Visibility', 'buddypress' ); ?></th>
+							<th class="title"><?php esc_html_e( 'Visibility', 'buddypress' ); ?></th>
 						</tr>
 					</thead>
 

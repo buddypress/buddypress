@@ -30,7 +30,10 @@ else : ?>
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 				<li class="member-entry clearfix">
 
-					<?php echo bp_core_fetch_avatar( array( 'item_id' => bp_get_member_user_id(), 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => '' ) ); ?>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					echo bp_core_fetch_avatar( array( 'item_id' => bp_get_member_user_id(), 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => '' ) );
+					?>
 					<p class="list-title member-name">
 						<a href="<?php bp_member_permalink(); ?>"> <?php bp_member_name(); ?></a>
 					</p>
@@ -61,7 +64,10 @@ else : ?>
 				<?php while ( bp_members() ) : bp_the_member(); ?>
 				<li class="members-entry clearfix">
 
-					<?php echo bp_core_fetch_avatar( array( 'item_id' => bp_get_member_user_id(), 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => '' ) ); ?>
+					<?php
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					echo bp_core_fetch_avatar( array( 'item_id' => bp_get_member_user_id(), 'type' => 'thumb', 'width' => 30, 'height' => 30, 'alt' => '' ) );
+					?>
 					<p class="list-title member-name">
 						<a href="<?php bp_member_permalink(); ?>"> <?php bp_member_name(); ?></a>
 					</p>

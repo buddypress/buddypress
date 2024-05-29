@@ -325,8 +325,8 @@ class BP_XProfile_User_Admin {
 
 						<?php
 						printf(
-							__( 'This field can be seen by: %s', 'buddypress' ),
-							'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+							esc_html__( 'This field can be seen by: %s', 'buddypress' ),
+							'<span class="current-visibility-level">' . esc_html( bp_get_the_profile_field_visibility_level_label() ) . '</span>'
 						);
 						?>
 						</span>
@@ -342,7 +342,7 @@ class BP_XProfile_User_Admin {
 
 						<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
 							<fieldset>
-								<legend><?php _e( 'Who can see this field?', 'buddypress' ); ?></legend>
+								<legend><?php esc_html_e( 'Who can see this field?', 'buddypress' ); ?></legend>
 
 								<?php bp_profile_visibility_radio_buttons(); ?>
 
@@ -378,7 +378,7 @@ class BP_XProfile_User_Admin {
 	 */
 	public function user_admin_spammer_metabox( $user = null ) {
 	?>
-		<p><?php printf( __( '%s has been marked as a spammer. All BuddyPress data associated with the user has been removed', 'buddypress' ), esc_html( bp_core_get_user_displayname( $user->ID ) ) ) ;?></p>
+		<p><?php printf( esc_html__( '%s has been marked as a spammer. All BuddyPress data associated with the user has been removed', 'buddypress' ), esc_html( bp_core_get_user_displayname( $user->ID ) ) ) ;?></p>
 	<?php
 	}
 

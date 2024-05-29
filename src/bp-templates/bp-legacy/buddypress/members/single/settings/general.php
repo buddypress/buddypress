@@ -10,27 +10,34 @@
 /** This action is documented in bp-templates/bp-legacy/buddypress/members/single/settings/profile.php */
 do_action( 'bp_before_member_settings_template' ); ?>
 
-<h2 class="bp-screen-reader-text"><?php
-	/* translators: accessibility text */
-	_e( 'Account settings', 'buddypress' );
-?></h2>
+<h2 class="bp-screen-reader-text">
+	<?php
+		/* translators: accessibility text */
+		esc_html_e( 'Account settings', 'buddypress' );
+	?>
+</h2>
 
 <form action="<?php bp_displayed_user_link( array( bp_get_settings_slug(), 'general' ) ); ?>" method="post" class="standard-form" id="settings-form">
 
 	<?php if ( ! is_super_admin() ) : ?>
 
-		<label for="pwd"><?php _e( 'Current Password <span>(required to update email or change current password)</span>', 'buddypress' ); ?></label>
-		<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" <?php bp_form_field_attributes( 'password' ); ?>/> &nbsp;<a href="<?php echo wp_lostpassword_url(); ?>"><?php _e( 'Lost your password?', 'buddypress' ); ?></a>
+		<label for="pwd">
+			<?php
+			/* translators: %s: the required text information. */
+			printf( esc_html__( 'Current Password %s', 'buddypress' ), '<span>' . esc_html_x( '(required to update email or change current password)', 'required text information', 'buddypress' ) . '</span>' );
+			?>
+		</label>
+		<input type="password" name="pwd" id="pwd" size="16" value="" class="settings-input small" <?php bp_form_field_attributes( 'password' ); ?>/> &nbsp;<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php esc_html_e( 'Lost your password?', 'buddypress' ); ?></a>
 
 	<?php endif; ?>
 
-	<label for="email"><?php _e( 'Account Email', 'buddypress' ); ?></label>
-	<input type="email" name="email" id="email" value="<?php echo bp_get_displayed_user_email(); ?>" class="settings-input" <?php bp_form_field_attributes( 'email' ); ?>/>
+	<label for="email"><?php esc_html_e( 'Account Email', 'buddypress' ); ?></label>
+	<input type="email" name="email" id="email" value="<?php echo esc_attr( bp_get_displayed_user_email() ); ?>" class="settings-input" <?php bp_form_field_attributes( 'email' ); ?>/>
 
-	<label for="pass1"><?php _e( 'Change Password <span>(leave blank for no change)</span>', 'buddypress' ); ?></label>
+	<label for="pass1"><?php printf( esc_html__( 'Change Password %s', 'buddypress' ), '<span>' . esc_html__( '(leave blank for no change)', 'buddypress' ) . '</span>' ); ?></label>
 	<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small password-entry" <?php bp_form_field_attributes( 'password' ); ?>/>
 	<div id="pass-strength-result"></div>
-	<label for="pass2"><?php _e( 'Repeat New Password', 'buddypress' );
+	<label for="pass2"><?php esc_html_e( 'Repeat New Password', 'buddypress' );
 	?></label>
 	<input type="password" name="pass2" id="pass2" size="16" value="" class="settings-input small password-entry-confirm" <?php bp_form_field_attributes( 'password' ); ?>/>
 

@@ -88,15 +88,16 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 				}
 
 				$js_clear = sprintf( 'javascript:%1$s( \'%2$s\' );', $clear, esc_js( bp_get_the_profile_field_input_name() ) );
+
+				// phpcs:disable WordPress.Security.EscapeOutput
 			?>
 
 				<a class="clear-value" href="<?php echo $js_clear; ?>">
 					<?php esc_html_e( 'Clear', 'buddypress' ); ?>
 				</a>
 
-			<?php endif; ?>
-
-		<?php
+			<?php endif;
+			// phpcs:enable
 	}
 
 	/**
@@ -161,8 +162,10 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 			$html .= apply_filters( 'bp_get_the_profile_field_options_radio', $new_html, $options[ $k ], $this->field_obj->id, $selected, $k );
 		}
 
-		printf( '<div id="%1$s" class="input-options radio-button-options">%2$s</div>',
+		printf(
+			'<div id="%1$s" class="input-options radio-button-options">%2$s</div>',
 			esc_attr( 'field_' . $this->field_obj->id ),
+			// phpcs:ignore WordPress.Security.EscapeOutput
 			$html
 		);
 	}

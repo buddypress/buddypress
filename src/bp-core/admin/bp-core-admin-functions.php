@@ -115,9 +115,9 @@ function bp_core_admin_backpat_page() {
 			<?php
 			printf(
 				// Translators: 1: is the url to the BP Components settings screen. 2: is the url to the xProfile administration screen.
-				__( 'Components, Pages, Settings, and Forums, have been moved to <a href="%1$s">Settings &gt; BuddyPress</a>. Profile Fields has been moved into the <a href="%2$s">Users</a> menu.', 'buddypress' ),
+				esc_html__( 'Components, Pages, Settings, and Forums, have been moved to <a href="%1$s">Settings &gt; BuddyPress</a>. Profile Fields has been moved into the <a href="%2$s">Users</a> menu.', 'buddypress' ),
 				esc_url( $settings_url ),
-				bp_get_admin_url( 'users.php?page=bp-profile-setup' )
+				esc_url( bp_get_admin_url( 'users.php?page=bp-profile-setup' ) )
 			);
 			?>
 		</p>
@@ -160,7 +160,19 @@ function bp_core_print_admin_notices() {
 		printf( '<div id="message" class="fade %s notice is-dismissible">', sanitize_html_class( $type ) );
 
 		foreach ( $notices as $notice ) {
-			printf( '<p>%s</p>', $notice['message'] );
+			printf(
+				'<p>%s</p>',
+				wp_kses(
+					$notice['message'],
+					array(
+						'strong' => true,
+						'code'   => true,
+						'a'      => array(
+							'href' => true,
+						),
+					)
+				)
+			);
 		}
 
 		printf( '</div>' );
@@ -422,7 +434,17 @@ function bp_core_admin_tabbed_screen_header( $title = '', $active_tab = '', $con
 			<?php if ( isset( $bp->admin->nav_tabs ) && $bp->admin->nav_tabs ) : ?>
 				<?php foreach ( $bp->admin->nav_tabs as $nav_tab ) : ?>
 
-					<?php echo $nav_tab; ?>
+					<?php
+						echo wp_kses(
+							$nav_tab,
+							array(
+								'a' => array(
+									'href'  => true,
+									'class' => true
+								),
+							)
+						);
+					?>
 
 				<?php endforeach; ?>
 			<?php else : ?>
@@ -471,7 +493,9 @@ function bp_core_admin_tabs( $active_tab = '', $context = 'settings', $echo = tr
 		return $tabs_html;
 	}
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo implode( "\n", $tabs_html );
+
 	/**
 	 * Fires after the output of tabs for the admin area.
 	 *
@@ -650,7 +674,7 @@ function bp_backcompat_admin_tabs( $context = '', $active_tab = '' ) {
 	if ( ! $bp->admin->active_nav_tab || $active_tab !== $bp->admin->active_nav_tab ) {
 		_doing_it_wrong(
 			'bp_core_admin_tabs()',
-			__( 'BuddyPress Settings and Tools Screens are now using a new tabbed header. Please use `bp_core_admin_tabbed_screen_header()` instead of bp_core_admin_tabs() to output tabs.', 'buddypress' ),
+			esc_html__( 'BuddyPress Settings and Tools Screens are now using a new tabbed header. Please use `bp_core_admin_tabbed_screen_header()` instead of bp_core_admin_tabs() to output tabs.', 'buddypress' ),
 			'10.0.0'
 		);
 
@@ -678,12 +702,8 @@ add_action( 'bp_admin_tabs', 'bp_backcompat_admin_tabs', 1, 2 );
  */
 function bp_core_add_contextual_help( $screen = '' ) {
 
-	$screen   = get_current_screen();
-	$bp_forum = sprintf(
-		'<a href="%1$s">%2$s</a>',
-		esc_url( 'https://buddypress.org/support/' ),
-		esc_html__( 'Support Forums', 'buddypress' )
-	);
+	$screen             = get_current_screen();
+	$documentation_link = '';
 
 	switch ( $screen->id ) {
 
@@ -699,17 +719,10 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
-			$manage_components = sprintf(
+			$documentation_link = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/settings/components.md' ),
 				esc_html__( 'Managing Components', 'buddypress' )
-			);
-
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . $manage_components . '</p>' .
-				'<p>' . $bp_forum . '</p>'
 			);
 			break;
 
@@ -725,17 +738,10 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
-			$manage_rewrites = sprintf(
+			$documentation_link = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/settings/urls.md' ),
 				esc_html__( 'Managing URLs', 'buddypress' )
-			);
-
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . $manage_rewrites . '</p>' .
-				'<p>' . $bp_forum . '</p>'
 			);
 			break;
 
@@ -751,19 +757,11 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
-			$manage_settings = sprintf(
+			$documentation_link = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/settings/options.md' ),
 				esc_html__( 'Managing Settings', 'buddypress' )
 			);
-
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . $manage_settings . '</p>' .
-				'<p>' . $bp_forum . '</p>'
-			);
-
 			break;
 
 		// Profile fields page.
@@ -778,19 +776,11 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
-			$manage_profile_fields = sprintf(
+			$documentation_link = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/users/xprofile.md' ),
 				esc_html__( 'Managing Profile Fields', 'buddypress' )
 			);
-
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . $manage_profile_fields . '</p>' .
-				'<p>' . $bp_forum . '</p>'
-			);
-
 			break;
 
 		case 'edit-bp_member_type' :
@@ -803,20 +793,78 @@ function bp_core_add_contextual_help( $screen = '' ) {
 				)
 			);
 
-			$manage_member_types = sprintf(
+			$documentation_link = sprintf(
 				'<a href="%1$s">%2$s</a>',
 				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/users/member-types.md' ),
 				esc_html__( 'Managing Member Types', 'buddypress' )
 			);
+			break;
 
-			// Help panel - sidebar links.
-			$screen->set_help_sidebar(
-				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . $manage_member_types . '</p>' .
-				'<p>' . $bp_forum . '</p>'
+		case 'edit-bp-email':
+			// Help tab.
+			$screen->add_help_tab(
+				array(
+					'id'      => 'bp-emails-overview',
+					'title'   => __( 'Overview', 'buddypress' ),
+					'content' => bp_core_add_contextual_help_content( 'bp-emails-overview' ),
+				)
 			);
 
+			$documentation_link = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/emails/README.md' ),
+				esc_html__( 'Managing BP Emails', 'buddypress' )
+			);
 			break;
+
+		case 'bp-email':
+			// Help tab.
+			$screen->add_help_tab(
+				array(
+					'id'      => 'bp-email-overview',
+					'title'   => __( 'Overview', 'buddypress' ),
+					'content' => bp_core_add_contextual_help_content( 'bp-email-overview' ),
+				)
+			);
+
+			$documentation_link = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/emails/tokens.md' ),
+				esc_html__( 'BP Email tokens usage', 'buddypress' )
+			);
+			break;
+
+		case 'tools_page_bp-tools':
+			// Help tab.
+			$screen->add_help_tab(
+				array(
+					'id'      => 'bp-tools-repair-overview',
+					'title'   => __( 'Overview', 'buddypress' ),
+					'content' => bp_core_add_contextual_help_content( 'bp-tools-repair-overview' ),
+				)
+			);
+
+			$documentation_link = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/tools/repair.md' ),
+				esc_html__( 'Using repair tools', 'buddypress' )
+			);
+			break;
+	}
+
+	if ( $documentation_link ) {
+		$bp_forum = sprintf(
+			'<a href="%1$s">%2$s</a>',
+			esc_url( 'https://buddypress.org/support/' ),
+			esc_html__( 'Support Forums', 'buddypress' )
+		);
+
+		// Help panel - sidebar links.
+		$screen->set_help_sidebar(
+			'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
+			'<p>' . $documentation_link . '</p>' .
+			'<p>' . $bp_forum . '</p>'
+		);
 	}
 }
 add_action( 'load-settings_page_bp-components', 'bp_core_add_contextual_help' );
@@ -824,6 +872,7 @@ add_action( 'load-settings_page_bp-rewrites', 'bp_core_add_contextual_help' );
 add_action( 'load-settings_page_bp-settings', 'bp_core_add_contextual_help' );
 add_action( 'load-users_page_bp-profile-setup', 'bp_core_add_contextual_help' );
 add_action( 'bp_admin_load_bp_member_type', 'bp_core_add_contextual_help' );
+add_action( 'admin_head-tools_page_bp-tools', 'bp_core_add_contextual_help' );
 
 /**
  * Renders contextual help content to contextual help tabs.
@@ -858,6 +907,22 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 
 		case 'bp-member-types-overview':
 			$retval = __( 'Member Types in BuddyPress provide a powerful way to classify users within your community. By defining various member types, such as "Students", "Teachers", or "Alumni", you can create a more organized and tailored community environment. This feature is especially useful for communities with diverse user groups, allowing customized interactions, content access, and privileges.', 'buddypress' );
+			break;
+
+		case 'bp-emails-overview':
+			$retval = __( 'This screen provides access to all BP Emails. Hovering over a row in the BP Emails list will display action links that allow you to manage the corresponding BP Email.', 'buddypress' );
+			break;
+
+		case 'bp-email-overview':
+			$retval = sprintf(
+				/* Translators: %s contains braces within a code tag. */
+				__( 'Phrases wrapped in braces %s are email tokens. Tokens are variable strings that will get replaced with dynamic content when the email gets sent.', 'buddypress' ),
+				'<code>{{ }}</code>'
+			);
+			break;
+
+		case 'bp-tools-repair-overview':
+			$retval = __( 'This is the administration screen to help you perform an assortment of repair tasks when your BuddyPress relationships are out of sync or conduct other bulk operations.', 'buddypress' );
 			break;
 
 		default:
@@ -1193,6 +1258,7 @@ function bp_admin_do_wp_nav_menu_meta_box( $object = '', $box = array() ) {
 		$output = str_replace( $tabs_nav[1], $bp_tabs_nav, $output );
 	}
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo preg_replace( '/\<div(\sclass=\".*\"\s|\s)id=\"tabs-panel-posttype-bp_nav_menu_item-search\"[^>]*>(.*?)\<\/div\>/s', $all_bp_tabs, $output );
 }
 
@@ -1232,27 +1298,6 @@ function bp_admin_email_maybe_add_translation_notice() {
 add_action( 'admin_head-edit.php', 'bp_admin_email_maybe_add_translation_notice' );
 
 /**
- * In emails editor, add notice linking to token documentation on Codex.
- *
- * @since 2.5.0
- */
-function bp_admin_email_add_codex_notice() {
-	if ( get_current_screen()->post_type !== bp_get_email_post_type() ) {
-		return;
-	}
-
-	bp_core_add_admin_notice(
-		sprintf(
-			// Translators: %s is the url to the BuddyPress codex page about BP Email tokens.
-			__( 'Phrases wrapped in braces <code>{{ }}</code> are email tokens. <a href="%s">Learn about tokens on the BuddyPress Codex</a>.', 'buddypress' ),
-			esc_url( 'https://codex.buddypress.org/emails/email-tokens/' )
-		),
-		'error'
-	);
-}
-add_action( 'admin_head-post.php', 'bp_admin_email_add_codex_notice' );
-
-/**
  * Display metabox for email taxonomy type.
  *
  * Shows the term description in a list, rather than the term name itself.
@@ -1274,6 +1319,8 @@ function bp_email_tax_type_metabox( $post, $box ) {
 	);
 
 	$tax_name = esc_attr( $r['taxonomy'] );
+
+	// phpcs:disable WordPress.Security.EscapeOutput
 	?>
 	<div id="taxonomy-<?php echo $tax_name; ?>" class="categorydiv">
 		<div id="<?php echo $tax_name; ?>-all" class="tabs-panel">
@@ -1297,6 +1344,7 @@ function bp_email_tax_type_metabox( $post, $box ) {
 		<p><?php esc_html_e( 'Choose when this email will be sent.', 'buddypress' ); ?></p>
 	</div>
 	<?php
+	// phpcs:enable
 }
 
 /**
@@ -1326,11 +1374,15 @@ function bp_email_plaintext_metabox( $post ) {
 	<label class="screen-reader-text" for="excerpt">
 	<?php
 		/* translators: accessibility text */
-		_e( 'Plain text email content', 'buddypress' );
+		esc_html_e( 'Plain text email content', 'buddypress' );
 	?>
-	</label><textarea rows="5" cols="40" name="excerpt" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
+	</label>
+		<textarea rows="5" cols="40" name="excerpt" id="excerpt"><?php
+			// phpcs:ignore WordPress.Security.EscapeOutput
+			echo $post->post_excerpt; ?>
+		</textarea>
 
-	<p><?php _e( 'Most email clients support HTML email. However, some people prefer to receive plain text email. Enter a plain text alternative version of your email here.', 'buddypress' ); ?></p>
+	<p><?php esc_html_e( 'Most email clients support HTML email. However, some people prefer to receive plain text email. Enter a plain text alternative version of your email here.', 'buddypress' ); ?></p>
 
 	<?php
 }
@@ -1463,7 +1515,8 @@ function bp_core_admin_user_manage_spammers() {
 
 		$redirect = add_query_arg( array( 'updated' => 'marked-' . $status ), $redirect );
 
-		wp_redirect( $redirect );
+		wp_safe_redirect( $redirect );
+		exit;
 	}
 
 	// Display feedback.
@@ -1607,7 +1660,7 @@ function bp_core_admin_format_notifications( $notification = null ) {
 	<div class="bp-welcome-panel bp-notice-container">
 		<a class="bp-welcome-panel-close bp-is-dismissible" href="#" data-notice_id="<?php echo esc_attr( $notification->id ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the notification', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
 		<div class="bp-welcome-panel-content">
-			<h2><span class="bp-version"><?php echo number_format_i18n( $notification->version, 1 ); ?></span> <?php echo esc_html( $notification->title ); ?></h2>
+			<h2><span class="bp-version"><?php echo esc_html( number_format_i18n( $notification->version, 1 ) ); ?></span> <?php echo esc_html( $notification->title ); ?></h2>
 			<p class="about-description">
 				<?php echo wp_kses( $notification->content, array( 'a' => array( 'href' => true ), 'br' => array(), 'strong' => array() ) ); ?>
 			</p>

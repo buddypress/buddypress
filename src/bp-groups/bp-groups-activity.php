@@ -650,22 +650,24 @@ function groups_post_update( $args = '' ) {
  * @return bool
  */
 function bp_groups_filter_activity_user_can_delete( $retval, $activity ) {
-	// Bail if no current user.
-	if ( ! is_user_logged_in() ) {
+	// Bail if no current user or group activity deletions are disabled.
+	if ( ! is_user_logged_in() || bp_disable_group_activity_deletions() ) {
 		return $retval;
 	}
 
-	if ( isset( $activity->component ) || 'groups' !== $activity->component ) {
+	if ( ! isset( $activity->component ) || 'groups' !== $activity->component ) {
 		return $retval;
 	}
 
-	// Trust the passed value for administrators.
-	if ( bp_current_user_can( 'bp_moderate' ) ) {
+	// The first conditional statement will trust the passed value for administrators.
+	// The second conditional statement does not allow "site admin" activity posts to be deleted by "non site admins".
+	if ( bp_current_user_can( 'bp_moderate' ) || bp_user_can( $activity->user_id, 'bp_moderate' ) ) {
 		return $retval;
 	}
 
-	// Group administrators or moderators can delete content in that group that doesn't belong to them.
 	$group_id = $activity->item_id;
+
+	// Group administrators or moderators can delete content in which deletions are allowed for that group.
 	if ( groups_is_user_admin( bp_loggedin_user_id(), $group_id ) || groups_is_user_mod( bp_loggedin_user_id(), $group_id ) ) {
 		$retval = true;
 	}

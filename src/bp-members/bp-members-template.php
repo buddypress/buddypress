@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.4.0
  */
 function bp_profile_slug() {
-	echo bp_get_profile_slug();
+	echo esc_attr( bp_get_profile_slug() );
 }
 	/**
 	 * Return the profile component slug.
@@ -45,7 +45,7 @@ function bp_profile_slug() {
  * @since 1.5.0
  */
 function bp_members_slug() {
-	echo bp_get_members_slug();
+	echo esc_attr( bp_get_members_slug() );
 }
 	/**
 	 * Return the members component slug.
@@ -72,7 +72,7 @@ function bp_members_slug() {
  * @since 1.5.0
  */
 function bp_members_root_slug() {
-	echo bp_get_members_root_slug();
+	echo esc_attr( bp_get_members_root_slug() );
 }
 	/**
 	 * Return the members component root slug.
@@ -99,7 +99,7 @@ function bp_members_root_slug() {
  * @since 2.5.0
  */
 function bp_members_member_type_base() {
-	echo esc_url( bp_get_members_member_type_base() );
+	echo esc_attr( bp_get_members_member_type_base() );
 }
 	/**
 	 * Get the member type URL base.
@@ -215,7 +215,7 @@ function bp_member_type_directory_permalink( $member_type = '' ) {
  * @since 1.5.0
  */
 function bp_signup_slug() {
-	echo bp_get_signup_slug();
+	echo esc_attr( bp_get_signup_slug() );
 }
 	/**
 	 * Return the sign-up slug.
@@ -248,7 +248,7 @@ function bp_signup_slug() {
  * @since 1.5.0
  */
 function bp_activate_slug() {
-	echo bp_get_activate_slug();
+	echo esc_attr( bp_get_activate_slug() );
 }
 	/**
 	 * Return the activation slug.
@@ -281,7 +281,7 @@ function bp_activate_slug() {
  * @since 8.0.0
  */
 function bp_members_invitations_slug() {
-	echo bp_get_members_invitations_slug();
+	echo esc_attr( bp_get_members_invitations_slug() );
 }
 	/**
 	 * Return the members invitations root slug.
@@ -489,7 +489,7 @@ function bp_members() {
  * @since 1.2.0
  */
 function bp_members_pagination_count() {
-	echo bp_get_members_pagination_count();
+	echo esc_html( bp_get_members_pagination_count() );
 }
 	/**
 	 * Generate the members pagination count.
@@ -558,6 +558,8 @@ function bp_members_pagination_count() {
  * @since 1.2.0
  */
 function bp_members_pagination_links() {
+	// Escaping is done in WordPress's `paginate_links()` function.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_members_pagination_links();
 }
 	/**
@@ -588,7 +590,7 @@ function bp_members_pagination_links() {
  * @since 1.2.0
  */
 function bp_member_user_id() {
-	echo bp_get_member_user_id();
+	echo intval( bp_get_member_user_id() );
 }
 	/**
 	 * Get the ID of the current member in the loop.
@@ -624,6 +626,7 @@ function bp_member_user_id() {
  * @param array $classes Array of custom classes.
  */
 function bp_member_class( $classes = array() ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_member_class( $classes );
 }
 	/**
@@ -672,7 +675,7 @@ function bp_member_class( $classes = array() ) {
 		// Add current user member types.
 		if ( $member_types = bp_get_member_type( $members_template->member->id, false ) ) {
 			foreach ( $member_types as $member_type ) {
-				$classes[] = sprintf( 'member-type-%s', esc_attr( $member_type ) );
+				$classes[] = sprintf( 'member-type-%s', $member_type );
 			}
 		}
 
@@ -681,9 +684,9 @@ function bp_member_class( $classes = array() ) {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param string $classes Classes to be added to the HTML element.
+		 * @param array $classes Classes to be added to the HTML element.
 		 */
-		$classes = apply_filters( 'bp_get_member_class', $classes );
+		$classes = array_map( 'sanitize_html_class', apply_filters( 'bp_get_member_class', $classes ) );
 		$classes = array_merge( $classes, array() );
 		$retval  = 'class="' . join( ' ', $classes ) . '"';
 
@@ -696,7 +699,7 @@ function bp_member_class( $classes = array() ) {
  * @since 1.2.5
  */
 function bp_member_user_nicename() {
-	echo bp_get_member_user_nicename();
+	echo esc_html( bp_get_member_user_nicename() );
 }
 	/**
 	 * Get the nicename of the current member in the loop.
@@ -726,7 +729,7 @@ function bp_member_user_nicename() {
  * @since 1.2.5
  */
 function bp_member_user_login() {
-	echo bp_get_member_user_login();
+	echo esc_html( bp_get_member_user_login() );
 }
 	/**
 	 * Get the login of the current member in the loop.
@@ -756,7 +759,7 @@ function bp_member_user_login() {
  * @since 1.2.5
  */
 function bp_member_user_email() {
-	echo bp_get_member_user_email();
+	echo esc_html( bp_get_member_user_email() );
 }
 	/**
 	 * Get the email address of the current member in the loop.
@@ -810,6 +813,7 @@ function bp_member_is_loggedin_user() {
  * @param array|string $args See {@link bp_get_member_avatar()}.
  */
 function bp_member_avatar( $args = '' ) {
+	// phpcs:disable WordPress.Security.EscapeOutput
 
 	/**
 	 * Filters a members avatar.
@@ -821,6 +825,7 @@ function bp_member_avatar( $args = '' ) {
 	 * @param array|string $args  See {@link bp_get_member_avatar()}.
 	 */
 	echo apply_filters( 'bp_member_avatar', bp_get_member_avatar( $args ), $args );
+	// phpcs:enable
 }
 	/**
 	 * Get a member's avatar.
@@ -949,6 +954,7 @@ function bp_member_permalink() {
  * @since 1.2.0
  */
 function bp_member_name() {
+	// phpcs:disable WordPress.Security.EscapeOutput
 
 	/**
 	 * Filters the display name of current member in the loop.
@@ -958,6 +964,7 @@ function bp_member_name() {
 	 * @param string $value Display name for current member.
 	 */
 	echo apply_filters( 'bp_member_name', bp_get_member_name() );
+	// phpcs:enable
 }
 	/**
 	 * Get the display name of the current member in the loop.
@@ -1016,7 +1023,7 @@ function bp_member_name() {
  * @param array $args {@see bp_get_member_last_active()}.
  */
 function bp_member_last_active( $args = array() ) {
-	echo bp_get_member_last_active( $args );
+	echo esc_html( bp_get_member_last_active( $args ) );
 }
 	/**
 	 * Return the current member's last active time.
@@ -1090,6 +1097,7 @@ function bp_member_last_active( $args = array() ) {
  * @param array|string $args {@see bp_get_member_latest_update()}.
  */
 function bp_member_latest_update( $args = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_member_latest_update( $args );
 }
 	/**
@@ -1206,6 +1214,7 @@ function bp_member_latest_update( $args = '' ) {
  * @param array|string $args See {@link bp_get_member_profile_data()}.
  */
 function bp_member_profile_data( $args = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_member_profile_data( $args );
 }
 	/**
@@ -1314,7 +1323,7 @@ function bp_member_profile_data( $args = '' ) {
  * @param array $args Optional. {@see bp_get_member_registered()}.
  */
 function bp_member_registered( $args = array() ) {
-	echo bp_get_member_registered( $args );
+	echo esc_html( bp_get_member_registered( $args ) );
 }
 	/**
 	 * Get the 'registered [x days ago]' string for the current member.
@@ -1368,11 +1377,15 @@ function bp_member_registered( $args = array() ) {
  * @since 10.0.0 Updated to get member ID using `bp_get_member_user_id`.
  */
 function bp_member_random_profile_data() {
-	if ( bp_is_active( 'xprofile' ) ) { ?>
-		<?php $random_data = xprofile_get_random_profile_data( bp_get_member_user_id(), true ); ?>
+	if ( bp_is_active( 'xprofile' ) ) {
+		$random_data = xprofile_get_random_profile_data( bp_get_member_user_id(), true );
+		// phpcs:disable WordPress.Security.EscapeOutput
+		?>
 			<strong><?php echo wp_filter_kses( $random_data[0]->name ) ?></strong>
 			<?php echo wp_filter_kses( $random_data[0]->value ) ?>
-	<?php }
+		<?php
+		// phpcs:enable
+	}
 }
 
 /**
@@ -1413,17 +1426,21 @@ function bp_directory_members_search_form() {
 
 	$search_form_html = '<form action="" method="get" id="search-members-form">
 		<label for="members_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
-		<input type="submit" id="members_search_submit" name="members_search_submit" value="' . __( 'Search', 'buddypress' ) . '" />
+		<input type="submit" id="members_search_submit" name="members_search_submit" value="' . esc_html__( 'Search', 'buddypress' ) . '" />
 	</form>';
 
-	/**
-	 * Filters the Members component search form.
-	 *
-	 * @since 1.9.0
-	 *
-	 * @param string $search_form_html HTML markup for the member search form.
-	 */
-	echo apply_filters( 'bp_directory_members_search_form', $search_form_html );
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo apply_filters(
+		/**
+		 * Filters the Members component search form.
+		 *
+		 * @since 1.9.0
+		 *
+		 * @param string $search_form_html HTML markup for the member search form.
+		 */
+		'bp_directory_members_search_form',
+		$search_form_html
+	);
 }
 
 /**
@@ -1432,7 +1449,7 @@ function bp_directory_members_search_form() {
  * @since 1.2.0
  */
 function bp_total_site_member_count() {
-	echo bp_get_total_site_member_count();
+	echo esc_html( bp_get_total_site_member_count() );
 }
 	/**
 	 * Get the total site member count.
@@ -1501,13 +1518,14 @@ function bp_get_loggedin_user_nav() {
 			}
 		}
 
-		// Echo out the final list item.
-		echo apply_filters_ref_array( 'bp_get_loggedin_user_nav_' . $nav_item->css_id, array( '<li id="li-nav-' . $nav_item->css_id . '" ' . $selected . '><a id="my-' . $nav_item->css_id . '" href="' . $nav_item->link . '">' . $nav_item->name . '</a></li>', &$nav_item ) );
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		echo apply_filters_ref_array( 'bp_get_loggedin_user_nav_' . $nav_item->css_id, array( '<li id="li-nav-' . esc_attr( $nav_item->css_id ) . '" ' . $selected . '><a id="my-' . esc_attr( $nav_item->css_id ) . '" href="' . esc_url( $nav_item->link ) . '">' . esc_html( $nav_item->name ) . '</a></li>', &$nav_item ) );
 	}
 
 	// Always add a log out list item to the end of the navigation.
-	$logout_link = '<li><a id="wp-logout" href="' .  wp_logout_url( bp_get_root_url() ) . '">' . __( 'Log Out', 'buddypress' ) . '</a></li>';
+	$logout_link = '<li><a id="wp-logout" href="' .  esc_url( wp_logout_url( bp_get_root_url() ) ) . '">' . esc_html__( 'Log Out', 'buddypress' ) . '</a></li>';
 
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters( 'bp_logout_nav_link', $logout_link );
 }
 
@@ -1629,18 +1647,25 @@ function bp_get_displayed_user_nav() {
 			$link = $user_nav_item->link;
 		}
 
-		/**
-		 * Filters the navigation markup for the displayed user.
-		 *
-		 * This is a dynamic filter that is dependent on the navigation tab component being rendered.
-		 *
-		 * @since 1.1.0
-		 *
-		 * @param string $value         Markup for the tab list item including link.
-		 * @param array  $user_nav_item Array holding parts used to construct tab list item.
-		 *                              Passed by reference.
-		 */
-		echo apply_filters_ref_array( 'bp_get_displayed_user_nav_' . $user_nav_item->css_id, array( '<li id="' . $user_nav_item->css_id . '-personal-li" ' . $selected . '><a id="user-' . $user_nav_item->css_id . '" href="' . $link . '">' . $user_nav_item->name . '</a></li>', &$user_nav_item ) );
+		// phpcs:ignore WordPress.Security.EscapeOutput
+		echo apply_filters_ref_array(
+			/**
+			 * Filters the navigation markup for the displayed user.
+			 *
+			 * This is a dynamic filter that is dependent on the navigation tab component being rendered.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param string $value         Markup for the tab list item including link.
+			 * @param array  $user_nav_item Array holding parts used to construct tab list item.
+			 *                              Passed by reference.
+			 */
+			'bp_get_displayed_user_nav_' . $user_nav_item->css_id,
+			array(
+				'<li id="' . esc_attr( $user_nav_item->css_id ) . '-personal-li" ' . $selected . '><a id="user-' . esc_attr( $user_nav_item->css_id ) . '" href="' . esc_url( $link ) . '">' . wp_kses( $user_nav_item->name, array( 'span' => array( 'class' => true ) ) ) . '</a></li>',
+				&$user_nav_item
+			)
+		);
 	}
 }
 
@@ -1670,6 +1695,7 @@ function bp_displayed_user_use_cover_image_header() {
  * @param array|string $args {@see bp_get_loggedin_user_avatar()}.
  */
 function bp_loggedin_user_avatar( $args = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_loggedin_user_avatar( $args );
 }
 	/**
@@ -1729,6 +1755,7 @@ function bp_loggedin_user_avatar( $args = '' ) {
  * @param array|string $args {@see bp_get_displayed_user_avatar()}.
  */
 function bp_displayed_user_avatar( $args = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_displayed_user_avatar( $args );
 }
 	/**
@@ -1784,7 +1811,7 @@ function bp_displayed_user_avatar( $args = '' ) {
  * @since 1.5.0
  */
 function bp_displayed_user_email() {
-	echo bp_get_displayed_user_email();
+	echo esc_html( bp_get_displayed_user_email() );
 }
 	/**
 	 * Get the email address of the displayed user.
@@ -1823,7 +1850,7 @@ function bp_displayed_user_email() {
  * @param int $user_id See {@link bp_get_last_activity()}.
  */
 function bp_last_activity( $user_id = 0 ) {
-	echo bp_get_last_activity( $user_id );
+	echo esc_html( bp_get_last_activity( $user_id ) );
 }
 	/**
 	 * Get the "active [x days ago]" string for a user.
@@ -1860,7 +1887,7 @@ function bp_last_activity( $user_id = 0 ) {
  * @since 1.2.0
  */
 function bp_user_firstname() {
-	echo bp_get_user_firstname();
+	echo esc_html( bp_get_user_firstname() );
 }
 	/**
 	 * Output the first name of a user.
@@ -1992,7 +2019,7 @@ function bp_displayed_user_domain() {
 	 *
 	 * @param string $url Generated link for the displayed user's profile.
 	 */
-	return apply_filters( 'bp_displayed_user_domain',$url );
+	return apply_filters( 'bp_displayed_user_domain', $url );
 }
 
 /**
@@ -2088,7 +2115,7 @@ function bp_loggedin_user_domain() {
  * @since 1.0.0
  */
 function bp_displayed_user_fullname() {
-	echo bp_get_displayed_user_fullname();
+	echo esc_html( bp_get_displayed_user_fullname() );
 }
 	/**
 	 * Get the displayed user's display name.
@@ -2115,7 +2142,7 @@ function bp_displayed_user_fullname() {
 	 *
 	 * @since 1.0.0
 	 */
-	function bp_user_fullname() { echo bp_get_displayed_user_fullname(); }
+	function bp_user_fullname() { echo esc_html( bp_get_displayed_user_fullname() ); }
 
 
 /**
@@ -2124,7 +2151,7 @@ function bp_displayed_user_fullname() {
  * @since 1.0.0
  */
 function bp_loggedin_user_fullname() {
-	echo bp_get_loggedin_user_fullname();
+	echo esc_html( bp_get_loggedin_user_fullname() );
 }
 	/**
 	 * Get the logged-in user's display name.
@@ -2152,7 +2179,7 @@ function bp_loggedin_user_fullname() {
  * @since 1.2.0
  */
 function bp_displayed_user_username() {
-	echo bp_get_displayed_user_username();
+	echo esc_html( bp_get_displayed_user_username() );
 }
 	/**
 	 * Get the username of the displayed user.
@@ -2186,7 +2213,7 @@ function bp_displayed_user_username() {
  * @since 1.2.0
  */
 function bp_loggedin_user_username() {
-	echo bp_get_loggedin_user_username();
+	echo esc_html( bp_get_loggedin_user_username() );
 }
 	/**
 	 * Get the username of the logged-in user.
@@ -2220,7 +2247,7 @@ function bp_loggedin_user_username() {
  * @since 2.3.0
  */
 function bp_current_member_type_message() {
-	echo bp_get_current_member_type_message();
+	echo wp_kses( bp_get_current_member_type_message(), array( 'strong' => true ) );
 }
 	/**
 	 * Generate the current member type message.
@@ -2253,6 +2280,7 @@ function bp_current_member_type_message() {
  * @param string $member_type Unique member type identifier as used in bp_register_member_type().
  */
 function bp_member_type_directory_link( $member_type = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_member_type_directory_link( $member_type );
 }
 	/**
@@ -2301,6 +2329,7 @@ function bp_member_type_directory_link( $member_type = '' ) {
  * @param array $r       Optional. Member type list arguments. Default empty array.
  */
 function bp_member_type_list( $user_id = 0, $r = array() ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_member_type_list( $user_id, $r );
 }
 	/**
@@ -2576,7 +2605,7 @@ function bp_get_current_activation_key() {
  * @since 1.1.0
  */
 function bp_signup_username_value() {
-	echo bp_get_signup_username_value();
+	echo esc_html( bp_get_signup_username_value() );
 }
 	/**
 	 * Get the username submitted during signup.
@@ -2608,7 +2637,7 @@ function bp_signup_username_value() {
  * @since 1.1.0
  */
 function bp_signup_email_value() {
-	echo bp_get_signup_email_value();
+	echo esc_html( bp_get_signup_email_value() );
 }
 	/**
 	 * Get the email address submitted during signup.
@@ -2646,7 +2675,7 @@ function bp_signup_email_value() {
  * @since 1.1.0
  */
 function bp_signup_with_blog_value() {
-	echo bp_get_signup_with_blog_value();
+	echo intval( bp_get_signup_with_blog_value() );
 }
 	/**
 	 * Get the 'signup_with_blog' value submitted during signup.
@@ -2676,7 +2705,7 @@ function bp_signup_with_blog_value() {
  * @since 1.1.0
  */
 function bp_signup_blog_url_value() {
-	echo bp_get_signup_blog_url_value();
+	echo esc_url( bp_get_signup_blog_url_value() );
 }
 	/**
 	 * Get the 'signup_blog_url' value submitted at signup.
@@ -2708,7 +2737,7 @@ function bp_signup_blog_url_value() {
  * @since 2.1.0
  */
 function bp_signup_subdomain_base() {
-	echo bp_signup_get_subdomain_base();
+	echo esc_attr( bp_signup_get_subdomain_base() );
 }
 	/**
 	 * Return the base URL for subdomain installations of WordPress Multisite.
@@ -2744,7 +2773,7 @@ function bp_signup_subdomain_base() {
  * @since 1.1.0
  */
 function bp_signup_blog_title_value() {
-	echo bp_get_signup_blog_title_value();
+	echo esc_html( bp_get_signup_blog_title_value() );
 }
 	/**
 	 * Get the 'signup_blog_title' value submitted at signup.
@@ -2776,7 +2805,7 @@ function bp_signup_blog_title_value() {
  * @since 1.1.0
  */
 function bp_signup_blog_privacy_value() {
-	echo bp_get_signup_blog_privacy_value();
+	echo esc_html( bp_get_signup_blog_privacy_value() );
 }
 	/**
 	 * Get the 'signup_blog_privacy' value submitted at signup.
@@ -2808,7 +2837,7 @@ function bp_signup_blog_privacy_value() {
  * @since 1.1.0
  */
 function bp_signup_avatar_dir_value() {
-	echo bp_get_signup_avatar_dir_value();
+	echo esc_html( bp_get_signup_avatar_dir_value() );
 }
 	/**
 	 * Get the avatar dir used during signup.
@@ -2821,16 +2850,17 @@ function bp_signup_avatar_dir_value() {
 		$bp = buddypress();
 
 		// Check if signup_avatar_dir is passed.
-		if ( !empty( $_POST['signup_avatar_dir'] ) )
+		if ( ! empty( $_POST['signup_avatar_dir'] ) ) {
 			$signup_avatar_dir = $_POST['signup_avatar_dir'];
 
-		// If not, check if global is set.
-		elseif ( !empty( $bp->signup->avatar_dir ) )
+			// If not, check if global is set.
+		} elseif ( ! empty( $bp->signup->avatar_dir ) ) {
 			$signup_avatar_dir = $bp->signup->avatar_dir;
 
-		// If not, set false.
-		else
+			// If not, set false.
+		} else {
 			$signup_avatar_dir = false;
+		}
 
 		/**
 		 * Filters the avatar dir used during signup.
@@ -2871,7 +2901,7 @@ function bp_signup_requires_privacy_policy_acceptance() {
  * @since 1.1.0
  */
 function bp_current_signup_step() {
-	echo bp_get_current_signup_step();
+	echo esc_html( bp_get_current_signup_step() );
 }
 	/**
 	 * Get the current signup step.
@@ -2894,6 +2924,7 @@ function bp_current_signup_step() {
  * @param array|string $args See {@link bp_get_signup_avatar(}.
  */
 function bp_signup_avatar( $args = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_signup_avatar( $args );
 }
 	/**
@@ -2923,8 +2954,6 @@ function bp_signup_avatar( $args = '' ) {
 			)
 		);
 
-		extract( $r, EXTR_SKIP );
-
 		$signup_avatar_dir = bp_get_signup_avatar_dir_value();
 
 		// Avatar DIR is found.
@@ -2934,10 +2963,10 @@ function bp_signup_avatar( $args = '' ) {
 				'object'     => 'signup',
 				'avatar_dir' => 'avatars/signups',
 				'type'       => 'full',
-				'width'      => $size,
-				'height'     => $size,
-				'alt'        => $alt,
-				'class'      => $class,
+				'width'      => $r['size'],
+				'height'     => $r['size'],
+				'alt'        => $r['alt'],
+				'class'      => $r['class'],
 			) );
 
 			// No avatar DIR was found.
@@ -2961,7 +2990,7 @@ function bp_signup_avatar( $args = '' ) {
 			 */
 			$gravatar_url    = apply_filters( 'bp_gravatar_url', '//www.gravatar.com/avatar/' );
 			$md5_lcase_email = md5( strtolower( bp_get_signup_email_value() ) );
-			$gravatar_img    = '<img src="' . $gravatar_url . $md5_lcase_email . '?d=' . $default_grav . '&amp;s=' . $size . '" width="' . $size . '" height="' . $size . '" alt="' . $alt . '" class="' . $class . '" />';
+			$gravatar_img    = '<img src="' . $gravatar_url . $md5_lcase_email . '?d=' . $default_grav . '&amp;s=' . $r['size'] . '" width="' . esc_attr( $r['size'] ) . '" height="' . esc_attr( $r['size'] ) . '" alt="' . esc_attr( $r['alt'] ) . '" class="' . esc_attr( $r['class'] ) . '" />';
 		}
 
 		/**
@@ -2983,6 +3012,7 @@ function bp_signup_avatar( $args = '' ) {
  * @todo Remove this function. Echoing a bool is pointless.
  */
 function bp_signup_allowed() {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_signup_allowed();
 }
 	/**
@@ -3080,12 +3110,14 @@ function bp_allow_access_to_registration_pages() {
  * @since 1.5.0
  */
 function bp_members_activity_feed() {
-	if ( !bp_is_active( 'activity' ) || !bp_is_user() )
-		return; ?>
-
-	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_displayed_user_fullname() ?> | <?php _e( 'Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_member_activity_feed_link() ?>" />
-
-<?php
+	if ( ! bp_is_active( 'activity' ) || ! bp_is_user() ) {
+		return;
+	}
+	// phpcs:disable WordPress.Security.EscapeOutput
+	?>
+	<link rel="alternate" type="application/rss+xml" title="<?php bloginfo( 'name' ) ?> | <?php bp_displayed_user_fullname() ?> | <?php esc_attr_e( 'Activity RSS Feed', 'buddypress' ) ?>" href="<?php bp_member_activity_feed_link() ?>" />
+	<?php
+	// phpcs:enable
 }
 add_action( 'bp_head', 'bp_members_activity_feed' );
 
@@ -3169,7 +3201,7 @@ function bp_members_component_link( $component, $action = '', $query_args = '', 
  * @since 6.0.0 Moved from /bp-xprofile/bp-xprofile-template.php to this file.
  */
 function bp_avatar_delete_link() {
-	echo bp_get_avatar_delete_link();
+	echo esc_url( bp_get_avatar_delete_link() );
 }
 	/**
 	 * Return an avatar delete link.
@@ -3311,7 +3343,7 @@ function bp_the_members_invitation() {
  * @since 8.0.0
  */
 function bp_members_invitations_pagination_count() {
-	echo bp_get_members_invitations_pagination_count();
+	echo esc_html( bp_get_members_invitations_pagination_count() );
 }
 	/**
 	 * Return the pagination count for the current network invitation loop.
@@ -3351,6 +3383,7 @@ function bp_members_invitations_pagination_count() {
  * @since 8.0.0
  */
 function bp_members_invitations_pagination_links() {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_members_invitations_pagination_links();
 }
 	/**
@@ -3387,16 +3420,22 @@ function bp_the_members_invitation_property( $property = '', $context = 'html' )
 		return;
 	}
 
-	/**
-	 * Use this filter to sanitize the output.
-	 *
-	 * @since 8.0.0
-	 *
-	 * @param int|string $value    The value for the requested property.
-	 * @param string     $property The name of the requested property.
-	 * @param string     $context  The context of display.
-	 */
-	echo apply_filters( 'bp_the_members_invitation_property', bp_get_the_members_invitation_property( $property ), $property, $context );
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo apply_filters(
+		/**
+		 * Use this filter to sanitize the output.
+		 *
+		 * @since 8.0.0
+		 *
+		 * @param int|string $value    The value for the requested property.
+		 * @param string     $property The name of the requested property.
+		 * @param string     $context  The context of display.
+		 */
+		'bp_the_members_invitation_property',
+		bp_get_the_members_invitation_property( $property ),
+		$property,
+		$context
+	);
 }
 	/**
 	 * Return the value for a property of the network invitation currently being iterated on.
@@ -3451,6 +3490,7 @@ function bp_the_members_invitation_property( $property = '', $context = 'html' )
  * @param array|string $args Array of arguments.
  */
 function bp_the_members_invitation_action_links( $args = '' ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_the_members_invitation_action_links( $args );
 }
 	/**
@@ -3507,6 +3547,7 @@ function bp_the_members_invitation_action_links( $args = '' ) {
  * @param int $user_id The user ID.
  */
 function bp_the_members_invitations_resend_link( $user_id = 0 ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_the_members_invitation_delete_link( $user_id );
 }
 	/**
@@ -3526,7 +3567,7 @@ function bp_the_members_invitations_resend_link( $user_id = 0 ) {
 			return;
 		}
 
-		$retval = sprintf( '<a href="%1$s" class="resend secondary confirm bp-tooltip">%2$s</a>', esc_url( bp_get_the_members_invitations_resend_url( $user_id ) ), __( 'Resend', 'buddypress' ) );
+		$retval = sprintf( '<a href="%1$s" class="resend secondary confirm bp-tooltip">%2$s</a>', esc_url( bp_get_the_members_invitations_resend_url( $user_id ) ), esc_html__( 'Resend', 'buddypress' ) );
 
 		/**
 		 * Filters the resend link for the current invitation.
@@ -3598,6 +3639,7 @@ function bp_the_members_invitations_resend_url( $user_id = 0 ) {
  * @param int $user_id The user ID.
  */
 function bp_the_members_invitations_delete_link( $user_id = 0 ) {
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_the_members_invitation_delete_link( $user_id );
 }
 	/**
@@ -3695,7 +3737,7 @@ function bp_the_members_invitations_delete_url( $user_id = 0 ) {
  * @param int $user_id The user ID.
  */
 function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
-	echo bp_get_members_invitations_list_invites_permalink( $user_id );
+	echo esc_url( bp_get_members_invitations_list_invites_permalink( $user_id ) );
 }
 	/**
 	 * Return the members invitations list permalink for a user.
@@ -3733,7 +3775,7 @@ function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
  * @param int $user_id The user ID.
  */
 function bp_members_invitations_send_invites_permalink( $user_id = 0 ) {
-	echo bp_get_members_invitations_send_invites_permalink( $user_id );
+	echo esc_url( bp_get_members_invitations_send_invites_permalink( $user_id ) );
 }
 	/**
 	 * Return the send invitations permalink.

@@ -1136,7 +1136,7 @@ function _bp_get_user_meta_last_activity_warning( $retval, $object_id, $meta_key
 	if ( 'last_activity' === $meta_key ) {
 		// Don't send the warning more than once per pageload.
 		if ( false === $warned ) {
-			_doing_it_wrong( 'get_user_meta( $user_id, \'last_activity\' )', __( 'User last_activity data is no longer stored in usermeta. Use bp_get_user_last_activity() instead.', 'buddypress' ), '2.0.0' );
+			_doing_it_wrong( 'get_user_meta( $user_id, \'last_activity\' )', esc_html__( 'User last_activity data is no longer stored in usermeta. Use bp_get_user_last_activity() instead.', 'buddypress' ), '2.0.0' );
 			$warned = true;
 		}
 
@@ -1171,7 +1171,7 @@ add_filter( 'get_user_metadata', '_bp_get_user_meta_last_activity_warning', 10, 
  */
 function _bp_update_user_meta_last_activity_warning( $meta_id, $object_id, $meta_key, $meta_value ) {
 	if ( 'last_activity' === $meta_key ) {
-		_doing_it_wrong( 'update_user_meta( $user_id, \'last_activity\' )', __( 'User last_activity data is no longer stored in usermeta. Use bp_update_user_last_activity() instead.', 'buddypress' ), '2.0.0' );
+		_doing_it_wrong( 'update_user_meta( $user_id, \'last_activity\' )', esc_html__( 'User last_activity data is no longer stored in usermeta. Use bp_update_user_last_activity() instead.', 'buddypress' ), '2.0.0' );
 		bp_update_user_last_activity( $object_id, $meta_value );
 	}
 }
@@ -1858,21 +1858,26 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
 		$user_login     = preg_replace( '/\s+/', '', sanitize_user( $user_login, true ) );
 		$user_email     = sanitize_email( $user_email );
 		$activation_key = wp_generate_password( 32, false );
+		$create_user    = false;
+
+		// @deprecated.
+		if ( defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) ) {
+			_doing_it_wrong( 'BP_SIGNUPS_SKIP_USER_CREATION', esc_html__( 'the `BP_SIGNUPS_SKIP_USER_CREATION` constant is deprecated as skipping user creation is now the default behavior.', 'buddypress' ), 'BuddyPress 14.0.0' );
+
+			// Creating a user is the opposite of skipping user creation.
+			$create_user = ! BP_SIGNUPS_SKIP_USER_CREATION;
+		}
 
 		/**
-		 * WordPress's default behavior is to create user accounts
-		 * immediately at registration time. BuddyPress uses a system
-		 * borrowed from WordPress Multisite, where signups are stored
-		 * separately and accounts are only created at the time of
-		 * activation. For backward compatibility with plugins that may
-		 * be anticipating WP's default behavior, BP silently creates
-		 * accounts for registrations (though it does not use them). If
-		 * you know that you are not running any plugins dependent on
-		 * these pending accounts, you may want to save a little DB
-		 * clutter by defining setting the BP_SIGNUPS_SKIP_USER_CREATION
-		 * to true in your wp-config.php file.
+		 * Filter here to keep creating a user when a registration is performed on regular WordPress configs.
+		 *
+		 * @since 14.0.0
+		 * @todo Fully deprecate in 15.0.0
+		 *
+		 * @param boolean $create_user True to carry on creating a user when a registration is performed.
+		 *                             False otherwise.
 		 */
-		if ( ! defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) || ! BP_SIGNUPS_SKIP_USER_CREATION ) {
+		if ( apply_filters( 'bp_signups_create_user', $create_user ) ) {
 			$user_id = BP_Signup::add_backcompat( $user_login, $user_password, $user_email, $usermeta );
 
 			if ( is_wp_error( $user_id ) ) {
@@ -2017,7 +2022,13 @@ function bp_core_activate_signup( $key ) {
 		if ( ! $user_id ) {
 			$user_id = wp_create_user( $signup->user_login, $password, $signup->user_email );
 
-		// Otherwise, update the existing user's status.
+			/*
+			 * @todo Remove this `elseif` statement in version 15.0.0.
+			 *
+			 * Since 2.0.0 BuddyPress is using the $wpdb->signups table even in regular WordPress configs.
+			 * In 14.0.0, we are deprecating the `BP_SIGNUPS_SKIP_USER_CREATION` as well as creating a user
+			 * each time a registration is performed.
+			 */
 		} elseif ( $key === bp_get_user_meta( $user_id, 'activation_key', true ) || $key === wp_hash( $user_id ) ) {
 
 			// Change the user's status so they become active.
@@ -2618,8 +2629,8 @@ function bp_stop_live_spammer() {
 		$login_url = apply_filters( 'bp_live_spammer_redirect', add_query_arg( $args, wp_login_url() ) );
 
 		// Redirect user to login page.
-		wp_redirect( $login_url );
-		die();
+		wp_safe_redirect( $login_url );
+		exit;
 	}
 }
 add_action( 'bp_init', 'bp_stop_live_spammer', 5 );
@@ -2674,7 +2685,7 @@ function bp_get_displayed_user() {
  * @since 2.7.0
  */
 function bp_member_type_tax_name() {
-	echo bp_get_member_type_tax_name();
+	echo esc_html( bp_get_member_type_tax_name() );
 }
 	/**
 	 * Return the slug of the member type taxonomy.

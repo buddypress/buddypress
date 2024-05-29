@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.5.0
  */
 function bp_settings_slug() {
-	echo bp_get_settings_slug();
+	echo esc_attr( bp_get_settings_slug() );
 }
 
 /**
@@ -44,7 +44,7 @@ function bp_get_settings_slug() {
  * @since 1.5.0
  */
 function bp_settings_root_slug() {
-	echo bp_get_settings_root_slug();
+	echo esc_attr( bp_get_settings_root_slug() );
 }
 
 /**
@@ -99,7 +99,7 @@ function bp_settings_pending_email_notice() {
 			<?php
 			printf(
 				/* translators: %s: new email address */
-				__( 'There is a pending change of your email address to %s.', 'buddypress' ),
+				esc_html__( 'There is a pending change of your email address to %s.', 'buddypress' ),
 				'<code>' . esc_html( $pending_email['newemail'] ) . '</code>'
 			);
 			?>
@@ -107,9 +107,9 @@ function bp_settings_pending_email_notice() {
 			<?php
 			printf(
 				/* translators: 1: email address. 2: cancel email change url. */
-				__( 'Check your email (%1$s) for the verification link, or <a href="%2$s">cancel the pending change</a>.', 'buddypress' ),
+				esc_html__( 'Check your email (%1$s) for the verification link, or %2$s.', 'buddypress' ),
 				'<code>' . esc_html( $pending_email['newemail'] ) . '</code>',
-				esc_url( $dismiss_url )
+				'<a href="' . esc_url( $dismiss_url ) . '">' . esc_html__( 'cancel the pending change', 'buddypress' ) . '</a>'
 			);
 			?>
 		</p>

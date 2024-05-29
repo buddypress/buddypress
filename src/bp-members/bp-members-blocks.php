@@ -368,7 +368,8 @@ function bp_members_blocks_add_script_data() {
 		)
 	);
 
-	// Include the common JS template.
+	// Include the common JS template (Escaping is done there).
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_dynamic_template_part( 'assets/widgets/dynamic-members.php' );
 
 	// List the block specific props.
@@ -491,8 +492,8 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 					'assets/widgets/dynamic-members.php',
 					'php',
 					array(
-						'data.link'              => bp_members_get_user_url( $user->ID ),
-						'data.name'              => $user->display_name,
+						'data.link'              => esc_url( bp_members_get_user_url( $user->ID ) ),
+						'data.name'              => esc_html( $user->display_name ),
 						'data.avatar_urls.thumb' => bp_core_fetch_avatar(
 							array(
 								'item_id' => $user->ID,
@@ -503,11 +504,11 @@ function bp_members_render_dynamic_members_block( $attributes = array() ) {
 							sprintf(
 								/* translators: %s: member name */
 								__( 'Profile picture of %s', 'buddypress' ),
-								$user->display_name
+								esc_html( $user->display_name )
 							)
 						),
 						'data.id'                => $user->ID,
-						'data.extra'             => $extra,
+						'data.extra'             => esc_html( $extra ),
 					)
 				);
 			}

@@ -54,6 +54,14 @@ class BP_Members_Admin {
 	/** Other *****************************************************************/
 
 	/**
+	 * Support forum link.
+	 *
+	 * @since 14.0.0
+	 * @var string
+	 */
+	private $bp_forum = '';
+
+	/**
 	 * Redirect.
 	 *
 	 * @since 2.0.0
@@ -255,6 +263,13 @@ class BP_Members_Admin {
 		if ( ! empty( $this->subsite_activated ) ) {
 			$this->capability = 'manage_network_users';
 		}
+
+		// Support forum link.
+		$this->bp_forum = sprintf(
+			'<a href="%1$s">%2$s</a>',
+			esc_url( 'https://buddypress.org/support/' ),
+			esc_html__( 'Support Forums', 'buddypress' )
+		);
 
 		/*
 		 * For consistency with non-Multisite, we add a Tools menu in
@@ -922,11 +937,11 @@ class BP_Members_Admin {
 			 */
 			if ( current_user_can( 'edit_user', $user->ID ) ) : ?>
 
-				<a class="nav-tab<?php echo esc_attr( $wp_active ); ?>" href="<?php echo esc_url( $wordpress_url );?>"><?php _e( 'Profile', 'buddypress' ); ?></a>
+				<a class="nav-tab<?php echo esc_attr( $wp_active ); ?>" href="<?php echo esc_url( $wordpress_url );?>"><?php esc_html_e( 'Profile', 'buddypress' ); ?></a>
 
 			<?php endif; ?>
 
-			<a class="nav-tab<?php echo esc_attr( $bp_active ); ?>" href="<?php echo esc_url( $community_url );?>"><?php _e( 'Extended Profile', 'buddypress' ); ?></a>
+			<a class="nav-tab<?php echo esc_attr( $bp_active ); ?>" href="<?php echo esc_url( $community_url );?>"><?php esc_html_e( 'Extended Profile', 'buddypress' ); ?></a>
 		</h2>
 
 		<?php
@@ -949,7 +964,7 @@ class BP_Members_Admin {
 
 		// Can current user edit this profile?
 		if ( ! $this->member_can_edit( $user_id ) ) {
-			wp_die( __( 'You cannot edit the requested user.', 'buddypress' ) );
+			wp_die( esc_html__( 'You cannot edit the requested user.', 'buddypress' ) );
 		}
 
 		// Build redirection URL.
@@ -1247,14 +1262,16 @@ class BP_Members_Admin {
 
 			<?php else : ?>
 
-				<p><?php
+				<p>
+					<?php
 					printf(
 						'%1$s <a href="%2$s">%3$s</a>',
-						__( 'No user found with this ID.', 'buddypress' ),
+						esc_html__( 'No user found with this ID.', 'buddypress' ),
 						esc_url( bp_get_admin_url( 'users.php' ) ),
-						__( 'Go back and try again.', 'buddypress' )
+						esc_html__( 'Go back and try again.', 'buddypress' )
 					);
-				?></p>
+					?>
+				</p>
 
 			<?php endif; ?>
 
@@ -1324,7 +1341,7 @@ class BP_Members_Admin {
 						<span id="timestamp">
 							<?php
 							/* translators: %s: registration date */
-							printf( __( 'Registered on: %s', 'buddypress' ), '<strong>' . $date . '</strong>' );
+							printf( esc_html__( 'Registered on: %s', 'buddypress' ), '<strong>' . esc_html( $date ) . '</strong>' );
 							?>
 						</span>
 					</div>
@@ -1359,7 +1376,7 @@ class BP_Members_Admin {
 		<p>
 			<?php
 			/* translators: %s: member name */
-			printf( __( '%s has been marked as a spammer. All BuddyPress data associated with the user has been removed', 'buddypress' ), esc_html( bp_core_get_user_displayname( $user->ID ) ) );
+			printf( esc_html__( '%s has been marked as a spammer. All BuddyPress data associated with the user has been removed', 'buddypress' ), esc_html( bp_core_get_user_displayname( $user->ID ) ) );
 			?>
 		</p>
 	<?php
@@ -1395,7 +1412,7 @@ class BP_Members_Admin {
 			<li class="bp-members-profile-stats">
 				<?php
 				/* translators: %s: date */
-				printf( __( 'Last active: %1$s', 'buddypress' ), '<strong>' . $date . '</strong>' );
+				printf( esc_html__( 'Last active: %1$s', 'buddypress' ), '<strong>' . esc_html( $date ) . '</strong>' );
 				?>
 			</li>
 
@@ -1434,12 +1451,18 @@ class BP_Members_Admin {
 
 		<div class="avatar">
 
-			<?php echo bp_core_fetch_avatar( array(
-				'item_id' => $user->ID,
-				'object'  => 'user',
-				'type'    => 'full',
-				'title'   => $user->display_name
-			) ); ?>
+			<?php
+			// Escaping is done in `bp_core_fetch_avatar()`.
+			// phpcs:ignore WordPress.Security.EscapeOutput
+			echo bp_core_fetch_avatar(
+				array(
+					'item_id' => $user->ID,
+					'object'  => 'user',
+					'type'    => 'full',
+					'title'   => $user->display_name
+				)
+			);
+			?>
 
 			<?php if ( bp_get_user_has_avatar( $user->ID ) ) :
 
@@ -1870,10 +1893,17 @@ class BP_Members_Admin {
 				'content' => $signup_help_content
 			) );
 
+			$manage_pending_ua = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/users/signups.md#manage-pending-user-accounts' ),
+				esc_html__( 'Managing Pending User Accounts', 'buddypress' )
+			);
+
 			// Help panel - sidebar links.
 			get_current_screen()->set_help_sidebar(
 				'<p><strong>' . esc_html__( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
+				'<p>' . $manage_pending_ua . '</p>' .
+				'<p>' . $this->bp_forum . '</p>'
 			);
 
 			// Add accessible hidden headings and text for the Pending Users screen.
@@ -2170,21 +2200,21 @@ class BP_Members_Admin {
 				case 'do_resend':
 					$notice = array(
 						'class'   => 'error',
-						'message' => esc_html__( 'There was a problem sending the activation emails. Please try again.', 'buddypress' ),
+						'message' => __( 'There was a problem sending the activation emails. Please try again.', 'buddypress' ),
 					);
 					break;
 
 				case 'do_activate':
 					$notice = array(
 						'class'   => 'error',
-						'message' => esc_html__( 'There was a problem activating accounts. Please try again.', 'buddypress' ),
+						'message' => __( 'There was a problem activating accounts. Please try again.', 'buddypress' ),
 					);
 					break;
 
 				case 'do_delete':
 					$notice = array(
 						'class'   => 'error',
-						'message' => esc_html__( 'There was a problem deleting sign-ups. Please try again.', 'buddypress' ),
+						'message' => __( 'There was a problem deleting sign-ups. Please try again.', 'buddypress' ),
 					);
 					break;
 			}
@@ -2224,7 +2254,7 @@ class BP_Members_Admin {
 
 			<?php endif; ?>
 
-				<p><?php echo $notice['message']; ?></p>
+				<p><?php echo esc_html( $notice['message'] ); ?></p>
 
 				<?php if ( ! empty( $_REQUEST['notactivated'] ) || ! empty( $_REQUEST['notdeleted'] ) || ! empty( $_REQUEST['notsent'] ) ) :?>
 
@@ -2306,7 +2336,7 @@ class BP_Members_Admin {
 		?>
 
 		<div class="wrap">
-			<h1 class="wp-heading-inline"><?php _e( 'Users', 'buddypress' ); ?></h1>
+			<h1 class="wp-heading-inline"><?php esc_html_e( 'Users', 'buddypress' ); ?></h1>
 
 			<?php if ( current_user_can( 'create_users' ) ) : ?>
 
@@ -2319,7 +2349,7 @@ class BP_Members_Admin {
 			<?php endif;
 
 			if ( $usersearch ) {
-				printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
+				printf( '<span class="subtitle">' . esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
 			}
 			?>
 
@@ -2492,7 +2522,7 @@ class BP_Members_Admin {
 
 								<tr>
 									<td class="column-fields"><?php esc_html_e( 'Email', 'buddypress' ); ?></td>
-									<td><?php echo sanitize_email( $signup->user_email ); ?></td>
+									<td><?php echo esc_html( $signup->user_email ); ?></td>
 								</tr>
 
 								<?php if ( bp_is_active( 'xprofile' ) && ! empty( $profile_field_ids ) ) : ?>
@@ -2500,7 +2530,12 @@ class BP_Members_Admin {
 										$field_value = isset( $signup->meta[ "field_{$pid}" ] ) ? $signup->meta[ "field_{$pid}" ] : ''; ?>
 										<tr>
 											<td class="column-fields"><?php echo esc_html( $fdata[ $pid ] ); ?></td>
-											<td><?php echo bp_members_admin_format_xprofile_field_for_display( $field_value ); ?></td>
+											<td>
+												<?php
+												// phpcs:ignore WordPress.Security.EscapeOutput
+												echo bp_members_admin_format_xprofile_field_for_display( $field_value );
+												?>
+											</td>
 										</tr>
 
 									<?php endforeach;  ?>
@@ -2539,7 +2574,7 @@ class BP_Members_Admin {
 						<p class="description">
 							<?php
 							/* translators: %s: notification date */
-							printf( esc_html__( 'Last notified: %s', 'buddypress'), $last_notified );
+							printf( esc_html__( 'Last notified: %s', 'buddypress'), esc_html( $last_notified ) );
 							?>
 
 							<?php if ( ! empty( $signup->recently_sent ) ) : ?>
@@ -2594,11 +2629,13 @@ class BP_Members_Admin {
 
 		$id_name = 'bottom' === $which ? 'bp_change_type2' : 'bp_change_type';
 
-		$types = bp_get_member_types( array(), 'objects' ); ?>
+		$types = bp_get_member_types( array(), 'objects' );
 
-		<label class="screen-reader-text" for="<?php echo $id_name; ?>"><?php _e( 'Change member type to&hellip;', 'buddypress' ) ?></label>
+		// phpcs:disable WordPress.Security.EscapeOutput
+		?>
+		<label class="screen-reader-text" for="<?php echo $id_name; ?>"><?php esc_html_e( 'Change member type to&hellip;', 'buddypress' ) ?></label>
 		<select name="<?php echo $id_name; ?>" id="<?php echo $id_name; ?>" style="display:inline-block;float:none;">
-			<option value=""><?php _e( 'Change member type to&hellip;', 'buddypress' ) ?></option>
+			<option value=""><?php esc_html_e( 'Change member type to&hellip;', 'buddypress' ) ?></option>
 
 			<?php foreach( $types as $type ) : ?>
 
@@ -2606,10 +2643,12 @@ class BP_Members_Admin {
 
 			<?php endforeach; ?>
 
-			<option value="remove_member_type"><?php _e( 'No Member Type', 'buddypress' ) ?></option>
+			<option value="remove_member_type"><?php esc_html_e( 'No Member Type', 'buddypress' ) ?></option>
 
 		</select>
 		<?php
+		// phpcs:enable
+
 		wp_nonce_field( 'bp-bulk-users-change-type-' . bp_loggedin_user_id(), 'bp-bulk-users-change-type-nonce' );
 		submit_button( __( 'Change', 'buddypress' ), 'button', 'bp_change_member_type', false );
 	}
@@ -2682,8 +2721,8 @@ class BP_Members_Admin {
 			$redirect = add_query_arg( array( 'updated' => 'member-type-change-success' ), wp_get_referer() );
 		}
 
-		wp_redirect( $redirect );
-		exit();
+		wp_safe_redirect( $redirect );
+		exit;
 	}
 
 	/**
@@ -3132,7 +3171,7 @@ class BP_Members_Admin {
 
 			<?php endif; ?>
 
-				<p><?php echo $notice['message']; ?></p>
+				<p><?php echo esc_html( $notice['message'] ); ?></p>
 			</div>
 
 		<?php endif;
@@ -3208,7 +3247,7 @@ class BP_Members_Admin {
 		<div class="buddypress-body">
 			<?php
 			if ( $usersearch ) {
-				printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
+				printf( '<span class="subtitle">' . esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
 			}
 			?>
 
@@ -3346,7 +3385,7 @@ class BP_Members_Admin {
 								<p class="description">
 									<?php
 									/* translators: %s: notification date */
-									printf( esc_html__( 'Last notified: %s', 'buddypress'), $last_notified );
+									printf( esc_html__( 'Last notified: %s', 'buddypress'), esc_html( $last_notified ) );
 									?>
 								</p>
 

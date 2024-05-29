@@ -11,7 +11,7 @@ Help improve BuddyPress documentation by writing some new helping resources or u
 
 ## Support Forums
 
-The most valuable way to contribute to BuddyPress is to help others learning how to use the software, on our [support forums](https://buddypress.org/support/).
+The most valuable way to contribute to BuddyPress is to help others learning how to use the software, on our [support forums](https://buddypress.org/support/). If you're looking for tips about how to contribute the best way to BuddyPress support forums, you can read [this nice collection of useful links](./support/README.md).
 
 ## Test & Report Bugs
 

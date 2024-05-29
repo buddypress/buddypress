@@ -165,7 +165,7 @@ $settings = bp_email_get_appearance_settings();
 						 */
 						do_action( 'bp_before_email_header' );
 
-						echo bp_get_option( 'blogname' );
+						echo esc_html( bp_get_option( 'blogname' ) );
 
 						/**
 						 * Fires after the display of the email template header.
@@ -215,7 +215,7 @@ $settings = bp_email_get_appearance_settings();
 						do_action( 'bp_before_email_footer' );
 						?>
 
-						<span class="footer_text"><?php echo nl2br( stripslashes( $settings['footer_text'] ) ); ?></span>
+						<span class="footer_text"><?php echo nl2br( esc_html( stripslashes( $settings['footer_text'] ) ) ); ?></span>
 						<br><br>
 						<a href="{{{unsubscribe}}}" style="text-decoration: underline;"><?php echo esc_html_x( 'unsubscribe', 'email', 'buddypress' ); ?></a>
 

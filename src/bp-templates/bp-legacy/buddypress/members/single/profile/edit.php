@@ -27,7 +27,7 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 		<h2>
 			<?php
 			/* translators: %s: profile group name */
-			printf( __( "Editing '%s' Profile Group", 'buddypress' ), bp_get_the_profile_group_name() );
+			printf( esc_html__( "Editing '%s' Profile Group", 'buddypress' ), esc_html( bp_get_the_profile_group_name() ) );
 			?>
 		</h2>
 
@@ -62,29 +62,29 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 					<p class="field-visibility-settings-toggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>"><span id="<?php bp_the_profile_field_input_name(); ?>-2">
 						<?php
 						printf(
-							__( 'This field can be seen by: %s', 'buddypress' ),
-							'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+							esc_html__( 'This field can be seen by: %s', 'buddypress' ),
+							'<span class="current-visibility-level">' . esc_html( bp_get_the_profile_field_visibility_level_label() ) . '</span>'
 						);
 						?>
 						</span>
-						<button type="button" class="visibility-toggle-link" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-2" aria-expanded="false"><?php _ex( 'Change', 'Change profile field visibility level', 'buddypress' ); ?></button>
+						<button type="button" class="visibility-toggle-link" aria-describedby="<?php bp_the_profile_field_input_name(); ?>-2" aria-expanded="false"><?php echo esc_html_x( 'Change', 'Change profile field visibility level', 'buddypress' ); ?></button>
 					</p>
 
 					<div class="field-visibility-settings" id="field-visibility-settings-<?php bp_the_profile_field_id() ?>">
 						<fieldset>
-							<legend><?php _e( 'Who can see this field?', 'buddypress' ) ?></legend>
+							<legend><?php esc_html_e( 'Who can see this field?', 'buddypress' ) ?></legend>
 
 							<?php bp_profile_visibility_radio_buttons() ?>
 
 						</fieldset>
-						<button type="button" class="field-visibility-settings-close"><?php _e( 'Close', 'buddypress' ) ?></button>
+						<button type="button" class="field-visibility-settings-close"><?php esc_html_e( 'Close', 'buddypress' ) ?></button>
 					</div>
 				<?php else : ?>
 					<div class="field-visibility-settings-notoggle" id="field-visibility-settings-toggle-<?php bp_the_profile_field_id() ?>">
 						<?php
 						printf(
-							__( 'This field can be seen by: %s', 'buddypress' ),
-							'<span class="current-visibility-level">' . bp_get_the_profile_field_visibility_level_label() . '</span>'
+							esc_html__( 'This field can be seen by: %s', 'buddypress' ),
+							'<span class="current-visibility-level">' . esc_html( bp_get_the_profile_field_visibility_level_label() ) . '</span>'
 						);
 						?>
 					</div>

@@ -63,3 +63,26 @@ function bp_use_wp_admin_bar() {
 	 */
 	return apply_filters_deprecated( 'bp_use_wp_admin_bar', array( $use_admin_bar ), '14.0.0' );
 }
+
+/**
+ * In emails editor, add notice linking to token documentation on Codex.
+ *
+ * @since 2.5.0
+ * @deprecated 14.0.0
+ */
+function bp_admin_email_add_codex_notice() {
+	_deprecated_function( __FUNCTION__, '14.0.0' );
+
+	if ( get_current_screen()->post_type !== bp_get_email_post_type() ) {
+		return;
+	}
+
+	bp_core_add_admin_notice(
+		sprintf(
+			// Translators: %s is the url to the BuddyPress codex page about BP Email tokens.
+			__( 'Phrases wrapped in braces <code>{{ }}</code> are email tokens. <a href="%s">Learn about tokens on the BuddyPress Codex</a>.', 'buddypress' ),
+			esc_url( 'https://codex.buddypress.org/emails/email-tokens/' )
+		),
+		'error'
+	);
+}

@@ -72,9 +72,8 @@ function bp_activity_embed_add_inline_styles() {
 
 	// Grab contents of CSS file and do some rudimentary CSS protection.
 	$css = file_get_contents( $css['file'] );
-	$css = wp_kses( $css, array( "\'", '\"' ) );
 
-	printf( '<style type="text/css">%s</style>', $css );
+	printf( '<style type="text/css">%s</style>', wp_kses( $css, array( "\'", '\"' ) ) );
 }
 add_action( 'embed_head', 'bp_activity_embed_add_inline_styles', 20 );
 
@@ -121,6 +120,8 @@ function bp_activity_embed_has_activity( $activity_id = 0 ) {
  * @since 2.6.0
  */
 function bp_activity_embed_excerpt( $content = '' ) {
+	// Escaping is made in `bp-activity/bp-activity-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_activity_get_embed_excerpt( $content );
 }
 
@@ -317,7 +318,8 @@ EOD;
 		if ( '' !== $content ) {
 			printf( '<div class="bp-activity-embed-display-media %s" style="max-width:%spx">%s</div>',
 				$thumb_width < $float_width ? 'two-col' : 'one-col',
-				$thumb_width < $float_width ? $width : $thumb_width,
+				$thumb_width < $float_width ? intval( $width ) : intval( $thumb_width ),
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				$content
 			);
 		}

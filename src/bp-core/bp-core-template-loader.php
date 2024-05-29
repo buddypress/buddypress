@@ -110,7 +110,10 @@ function bp_get_dynamic_template_part( $template = '', $type = 'js', $tokens = a
 	// Use the BP Theme Compat API to allow template override.
 	$template_path = bp_locate_template( $template );
 	if ( $template_path ) {
-		$template_string = file_get_contents( $template_path );
+		ob_start();
+		load_template( $template_path, false );
+
+		$template_string = ob_get_clean();
 	}
 
 	if ( ! $template_string ) {
@@ -414,6 +417,7 @@ function bp_buffer_template_part( $slug, $name = null, $echo = true, $args = arr
 
 	// Echo or return the output buffer contents.
 	if ( true === $echo ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $output;
 	} else {
 		return $output;
@@ -549,6 +553,10 @@ function bp_add_template_stack_locations( $stacks = array() ) {
  * @param WP_Query $posts_query WP_Query object.
  */
 function bp_parse_query( $posts_query ) {
+	// Only run on the root site or if multiblog mode is on.
+	if ( ! bp_is_root_blog() && ! bp_is_multiblog_mode() ) {
+		return;
+	}
 
 	// Bail if $posts_query is not the main loop.
 	if ( ! $posts_query->is_main_query() ) {

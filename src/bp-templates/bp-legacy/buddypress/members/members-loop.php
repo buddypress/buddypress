@@ -140,7 +140,7 @@ do_action( 'bp_before_members_loop' ); ?>
 <?php else: ?>
 
 	<div id="message" class="info">
-		<p><?php _e( "Sorry, no members were found.", 'buddypress' ); ?></p>
+		<p><?php esc_html_e( "Sorry, no members were found.", 'buddypress' ); ?></p>
 	</div>
 
 <?php endif; ?>

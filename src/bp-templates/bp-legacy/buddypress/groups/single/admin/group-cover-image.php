@@ -9,7 +9,7 @@
 
 ?>
 
-<h2><?php _e( 'Cover Image', 'buddypress' ); ?></h2>
+<h2><?php esc_html_e( 'Cover Image', 'buddypress' ); ?></h2>
 
 <?php
 
@@ -20,7 +20,7 @@
  */
 do_action( 'bp_before_group_settings_cover_image' ); ?>
 
-<p><?php _e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
+<p><?php esc_html_e( 'The Cover Image will be used to customize the header of your group.', 'buddypress' ); ?></p>
 
 <?php bp_attachments_get_template_part( 'cover-images/index' ); ?>
 
