@@ -281,7 +281,7 @@ your-child-theme/
 │   │           └── profile.php
 ```
 
-###Overriding Template Example
+### Overriding Template Example
 To override activity-loop.php:
 
 Copy activity-loop.php from wp-content/plugins/buddypress/bp-templates/bp-nouveau/buddypress/activity/activity-loop.php.
