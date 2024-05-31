@@ -11,8 +11,6 @@
  * Show the xprofile settings template.
  *
  * @since 2.0.0
- *
- * @return void
  */
 function bp_xprofile_screen_settings() {
 
@@ -41,8 +39,6 @@ function bp_xprofile_screen_settings() {
  * Handles the saving of xprofile field visibilities.
  *
  * @since 1.9.0
- *
- * @return void
  */
 function bp_xprofile_action_settings() {
 

@@ -11,8 +11,6 @@
  * Handle the display of the Delete Group page.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function groups_screen_group_admin_delete_group() {
 

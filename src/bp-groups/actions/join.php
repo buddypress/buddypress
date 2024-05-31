@@ -11,8 +11,6 @@
  * Catch and process "Join Group" button clicks.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function groups_action_join_group() {
 

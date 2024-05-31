@@ -1580,8 +1580,6 @@ class BP_XProfile_Field {
 	 * Private method used to output field Member Type metabox.
 	 *
 	 * @since 2.4.0
-	 *
-	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function member_type_metabox() {
 
@@ -1635,8 +1633,6 @@ class BP_XProfile_Field {
 	 * Private method used to output field visibility metaboxes.
 	 *
 	 * @since 2.3.0
-	 *
-	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function visibility_metabox() {
 
@@ -1684,8 +1680,6 @@ class BP_XProfile_Field {
 	 * Output the metabox for setting if field is required or not.
 	 *
 	 * @since 2.3.0
-	 *
-	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function required_metabox() {
 
@@ -1711,8 +1705,6 @@ class BP_XProfile_Field {
 	 * Private method used to output autolink metabox.
 	 *
 	 * @since 2.5.0
-	 *
-	 * @return void If the field does not support the feature.
 	 */
 	private function autolink_metabox() {
 
@@ -1746,8 +1738,6 @@ class BP_XProfile_Field {
 	 * Output the metabox for setting what type of field this is.
 	 *
 	 * @since 2.3.0
-	 *
-	 * @return void If default field.
 	 */
 	private function type_metabox() {
 
@@ -1789,8 +1779,6 @@ class BP_XProfile_Field {
 	 * Output the metabox for setting the field's position into the signup form.
 	 *
 	 * @since 8.0.0
-	 *
-	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function signup_position_metabox() {
 		// Field types not supporting the feature cannot be added to signups form.
@@ -1829,8 +1817,6 @@ class BP_XProfile_Field {
 	 * Output hidden fields used by default field.
 	 *
 	 * @since 2.3.0
-	 *
-	 * @return void If not default field.
 	 */
 	private function default_field_hidden_inputs() {
 

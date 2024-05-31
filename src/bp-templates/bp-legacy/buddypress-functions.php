@@ -1136,8 +1136,6 @@ function bp_legacy_theme_new_activity_comment() {
  * Deletes an Activity item received via a POST request.
  *
  * @since 1.2.0
- *
- * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_delete_activity() {
 	if ( ! bp_is_post_request() ) {
@@ -1178,8 +1176,6 @@ function bp_legacy_theme_delete_activity() {
  * Deletes an Activity comment received via a POST request.
  *
  * @since 1.2.0
- *
- * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_delete_activity_comment() {
 	if ( ! bp_is_post_request() ) {
@@ -1220,8 +1216,6 @@ function bp_legacy_theme_delete_activity_comment() {
  * AJAX spam an activity item or comment.
  *
  * @since 1.6.0
- *
- * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_spam_activity() {
 	$bp = buddypress();
@@ -1541,8 +1535,6 @@ function bp_legacy_theme_ajax_addremove_friend() {
  * Accept a user friendship request via a POST request.
  *
  * @since 1.2.0
- *
- * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_ajax_accept_friendship() {
 	if ( ! bp_is_post_request() ) {
@@ -1551,8 +1543,9 @@ function bp_legacy_theme_ajax_accept_friendship() {
 
 	check_admin_referer( 'friends_accept_friendship' );
 
-	if ( ! friends_accept_friendship( (int) $_POST['id'] ) )
+	if ( ! friends_accept_friendship( (int) $_POST['id'] ) ) {
 		echo "-1<div id='message' class='error'><p>" . esc_html__( 'There was a problem accepting that request. Please try again.', 'buddypress' ) . '</p></div>';
+	}
 
 	exit;
 }
@@ -1561,8 +1554,6 @@ function bp_legacy_theme_ajax_accept_friendship() {
  * Reject a user friendship request via a POST request.
  *
  * @since 1.2.0
- *
- * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_ajax_reject_friendship() {
 	if ( ! bp_is_post_request() ) {
@@ -1571,8 +1562,9 @@ function bp_legacy_theme_ajax_reject_friendship() {
 
 	check_admin_referer( 'friends_reject_friendship' );
 
-	if ( ! friends_reject_friendship( (int) $_POST['id'] ) )
+	if ( ! friends_reject_friendship( (int) $_POST['id'] ) ) {
 		echo "-1<div id='message' class='error'><p>" . esc_html__( 'There was a problem rejecting that request. Please try again.', 'buddypress' ) . '</p></div>';
+	}
 
 	exit;
 }
@@ -1701,8 +1693,6 @@ function bp_legacy_theme_ajax_joinleave_group() {
  * Close and keep closed site wide notices from an admin in the sidebar, via a POST request.
  *
  * @since 1.2.0
- *
- * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_ajax_close_notice() {
 	if ( ! bp_is_post_request() ) {
@@ -1792,8 +1782,6 @@ function bp_legacy_theme_ajax_messages_send_reply() {
  *
  * @since 1.2.0
  * @deprecated 2.2.0
- *
- * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_ajax_message_markunread() {
 	die( '-1' );
@@ -1806,8 +1794,6 @@ function bp_legacy_theme_ajax_message_markunread() {
  *
  * @since 1.2.0
  * @deprecated 2.2.0
- *
- * @return mixed String on error, void on success.
  */
 function bp_legacy_theme_ajax_message_markread() {
 	die( '-1' );
@@ -1820,8 +1806,6 @@ function bp_legacy_theme_ajax_message_markread() {
  *
  * @since 1.2.0
  * @deprecated 2.2.0
- *
- * @return string|null HTML
  */
 function bp_legacy_theme_ajax_messages_delete() {
 	die( '-1' );

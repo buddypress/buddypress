@@ -413,7 +413,7 @@ function bp_core_get_user_email( $user_id ) {
  *                        Default: false.
  * @param bool $just_link Disable full name and HTML and just return the URL
  *                        text. Default false.
- * @return string|bool The link text based on passed parameters, or false on
+ * @return string|false The link text based on passed parameters, or false on
  *                     no match.
  */
 function bp_core_get_userlink( $user_id, $no_anchor = false, $just_link = false ) {
@@ -1948,12 +1948,14 @@ function bp_core_signup_user( $user_login, $user_password, $user_email, $usermet
  * @param string $user_name   user_login of requesting user.
  * @param string $user_email  Email address of requesting user.
  * @param string $usermeta    Miscellaneous metadata for the user.
- * @return bool
+ * @return bool|null
  */
 function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) {
 	if ( ! is_multisite() || ! function_exists( 'wpmu_signup_blog' ) ) {
 		return false;
 	}
+
+	wpmu_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta );
 
 	/**
 	 * Filters the result of wpmu_signup_blog().
@@ -1963,9 +1965,9 @@ function bp_core_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name,
 	 *
 	 * @since 1.2.2
 	 *
-	 * @param void $value
+	 * @param null $value Null value.
 	 */
-	return apply_filters( 'bp_core_signup_blog', wpmu_signup_blog( $blog_domain, $blog_path, $blog_title, $user_name, $user_email, $usermeta ) );
+	return apply_filters( 'bp_core_signup_blog', null );
 }
 
 /**

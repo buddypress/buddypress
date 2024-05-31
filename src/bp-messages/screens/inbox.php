@@ -11,8 +11,6 @@
  * Load the Messages > Inbox screen.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function messages_screen_inbox() {
 

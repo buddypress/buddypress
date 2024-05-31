@@ -11,14 +11,12 @@
  * Handles bulk management (mark as read/unread, delete) of notifications.
  *
  * @since 2.2.0
- *
- * @return false|void
  */
 function bp_notifications_action_bulk_manage() {
 
 	// Bail if not the read or unread screen.
 	if ( ! bp_is_notifications_component() || ! ( bp_is_current_action( 'read' ) || bp_is_current_action( 'unread' ) ) ) {
-		return false;
+		return;
 	}
 
 	// Get the action.
@@ -28,13 +26,13 @@ function bp_notifications_action_bulk_manage() {
 
 	// Bail if no action or no IDs.
 	if ( ( ! in_array( $action, array( 'delete', 'read', 'unread' ), true ) ) || empty( $notifications ) || empty( $nonce ) ) {
-		return false;
+		return;
 	}
 
 	// Check the nonce.
 	if ( ! wp_verify_nonce( $nonce, 'notifications_bulk_nonce' ) ) {
 		bp_core_add_message( __( 'There was a problem managing your notifications.', 'buddypress' ), 'error' );
-		return false;
+		return;
 	}
 
 	$notifications = wp_parse_id_list( $notifications );

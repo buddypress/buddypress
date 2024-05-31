@@ -11,8 +11,6 @@
  * Handle the loading of the Activate screen.
  *
  * @since 1.1.0
- *
- * @return void
  */
 function bp_core_screen_activation() {
 
@@ -45,9 +43,6 @@ function bp_core_screen_activation() {
 		// Redirect away from the activation page.
 		bp_core_redirect( $redirect_to );
 	}
-
-	// Get BuddyPress.
-	$bp = buddypress();
 
 	/**
 	 * Filters the template to load for the Member activation page screen.
@@ -90,7 +85,6 @@ function bp_members_action_activate_account() {
 		return;
 	}
 
-	$bp       = buddypress();
 	$redirect = bp_get_activation_page();
 
 	/**
@@ -130,6 +124,5 @@ function bp_members_action_activate_account() {
 
 	bp_core_add_message( __( 'Your account is now active!', 'buddypress' ) );
 	bp_core_redirect( add_query_arg( 'activated', '1', $redirect ) );
-
 }
 add_action( 'bp_actions', 'bp_members_action_activate_account' );

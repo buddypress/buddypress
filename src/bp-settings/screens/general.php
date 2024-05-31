@@ -11,8 +11,6 @@
  * Show the general settings template.
  *
  * @since 1.5.0
- *
- * @return void
  */
 function bp_settings_screen_general() {
 
@@ -32,7 +30,6 @@ function bp_settings_screen_general() {
 		apply_filters( 'bp_settings_screen_general_settings', 'members/single/settings/general' ),
 		'members/single/index',
 	);
-
 
 	bp_core_load_template( $templates );
 }

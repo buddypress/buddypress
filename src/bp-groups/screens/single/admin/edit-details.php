@@ -11,8 +11,6 @@
  * Handle the display of a group's admin/edit-details page.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function groups_screen_group_admin_edit_details() {
 
