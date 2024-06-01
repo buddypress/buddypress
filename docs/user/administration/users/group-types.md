@@ -6,15 +6,16 @@ The BuddyPress Group Types feature categorizes community groups into distinct ca
 
 BuddyPress Group Types allow for categorizing and managing groups in a community. This feature enables better organization and targeted interaction. It is useful in educational institutions for differentiating between classes, clubs, and project teams. It helps distinguish between departments, project teams, and interest-based groups in corporate environments, facilitating efficient communication and fostering a sense of community among employees.
 
-## Creating Group Types
+## Managing Group Types
 
-To create a group type, you simply need to open the Group Types submenu of your Dashboard left menu bar. Once you reach the Group Types administration screen, you can use the form on the left part of the screen to define the properties of your group type and click on the "Add new Group Type" blue button at the bottom of the form when you're happy with the properties you defined.
+![Manage Group Types Menu](../../assets/group-type-menu.png)
 
-![Create Group Types Menu](../../assets/group-type-menu.png)
+To manage group types, you simply need to open the corresponding Groups' submenu of your Dashboard left menu bar as shown in the above screenshot.
+
 
 ### Add Group Type:
 
-You'll see in the screenshot below, the form to add your group type. Here are what inputs are used for within BuddyPress:
+Once you reach the Group Types administration screen, you can use the form on the left part of the screen to define the properties of your group type and click on the "Add new Group Type" blue button at the bottom of the form when you're happy with the properties you defined. Here are what inputs are used for within BuddyPress:
 
 #### Group Type ID
 
@@ -22,7 +23,7 @@ It's your unique identifier for your group type. It's a required field and you n
 
 #### Singular name
 
-This name will be shown in various places such as the group's metabox to set their group type (which is available in the WP-Admin extended profile page) or the group's header of their front-end profile pages (if the Show on Group checkbox is activated).
+This name will be shown in various places such as the group's metabox to set their group type (which is available in the WP-Admin screen to edit a specific group) or the group's header of their front-end pages (if the Show on Group checkbox is activated).
 
 #### Plural name
 
@@ -30,15 +31,15 @@ It's the plural form of the group type name.
 
 #### Has Directory View
 
-When this checkbox is active, you'll be able to filter the Groups directory according to a specific group type. FYI, a Group Type URL looks like this `https://site.url/groups/type/groupTypeID`. If you need to use a different URL portion to list groups having a specific Group Type inside the Groups directory, you can use the Custom type directory slug input that appears as soon as you activate the Has Directory View checkbox.
+When this checkbox is active, you'll be able to filter the Groups directory according to a specific group type. FYI, a Group Type URL looks like this `https://site.url/groups/type/groupTypeSlug`. If you need to use a different URL portion to list groups having a specific Group Type inside the Groups directory, you can use the Custom type directory slug input that appears as soon as you activate the Has Directory View checkbox.
 
 #### Show on Group Creation
 
-Activate this checkbox if you want to show this group type during group creation and when a group admin is on the group’s settings page.
+Activate this checkbox if you want to show this group type during group creation and when a group admin is on the group’s settings front-end page.
 
 #### Show on Group
 
-Activate this checkbox if you want the Group's Group Type information to be displayed on their front-end profile pages header.
+Activate this checkbox if you want the Group's Group Type information to be displayed on their front-end pages header.
 
 ![Add Group Type](../../assets/add-group-type.png)
 
@@ -60,9 +61,11 @@ Once you're satisfied with your changes, click on the "Update" blue button to sa
 
 ### Delete Group Type:
 
+Deleting a group type is very similar to editing a group type. The only difference will be that instead of clicking on the "Edit" link, you'll click on the "Delete" one. 
+
 ![Delete Group Type](../../assets/delete-group-type.png)
 
-Deleting a group type is very similar to editing a group type. The only difference will be that instead of clicking on the "Edit" link, you'll click on the "Delete" one. This time, the main Group types administration screen will be directly reloaded and a notice will confirm you successfully deleted the group type. The corresponding row won't be listed in the table on the right part of the screen anymore.
+This time, the main Group types administration screen will be directly reloaded and a notice will confirm you successfully deleted the group type. The corresponding row won't be listed in the table on the right part of the screen anymore.
 
 ![Group Type Deleted](../../assets/delete-group-type-success.png)
 
@@ -77,22 +80,19 @@ Administrators can assign Group Types manually through the WordPress Dashboard o
 
 ### Methods of Assignment:
 
-- **Manual Assignment:** A Group Type metabox is available for administrators to assign or change a group type through the group's admin dashboard profile page.
-- **Bulk Assignment:** Administrators can assign group types to multiple groups at once from the groups listing page, streamlining the process for large user bases. To bulk assign a group type, activate the checkboxes next to the groups' avatars, select a Group Type from the dropdown list, and click the "change" button beside the dropdown.
+![Assign Group Type(s) to a group](../../assets/multiple-group-types-01.png)
+
+- **Manual Assignment:** as show above, a Group Type metabox is available for administrators to assign or change a group type through the WP-Admin screen to edit a specific group. It's also possible to assign or change a group type on the front-end from the Group's settings creation step/management page when you set the "Show on Group Creation" property to checked.
+- **Bulk Assignment:** as show below, administrators can assign group types to multiple groups at once from the WP Admin screen listing all existing groups, streamlining the process for large group directories. To bulk assign a group type, activate the checkboxes next to the groups' avatars, select a Group Type from the dropdown list, and click the "change" button beside the dropdown.
 
 ![Assign Multiple Group Type](../../assets/multiple-group-types-01.png)
 
-As shown in the above screenshot, community Administrators can assign multiple group types directly from the single group edit page at dashboard.
 
 ![Bulk Assign Group Type](../../assets/multiple-group-types-02.png)
 
-To bulk assign a group type to a list of groups:
 
-1. **Activate the checkboxes** next to the groups' avatars.
-2. **Select a Group Type** from the Group Types dropdown list, located above or below the groups table.
-3. **Click the "change" button** immediately to the right of this dropdown list.
 
-**Important:** This action will override any existing group type for the selected groups.
+**Important:** when bulk assigning a group type to groups, groups already having one or more group types will be reassigned to the group type selected for the bulk action.
 
 ![Bulk Assign Group Type](../../assets/multiple-group-types-03.png)
 
