@@ -725,18 +725,18 @@ function bp_is_activity_heartbeat_active( $default = true ) {
  *
  * @since 1.7.0
  *
- * @param string $default Optional. Fallback value if not found in the database.
- *                        Default: 'legacy'.
+ * @param string $package_id Optional. Fallback value if not found in the database.
+ *                           Default: 'legacy'.
  * @return string ID of the theme package.
  */
-function bp_get_theme_package_id( $default = 'legacy' ) {
+function bp_get_theme_package_id( $package_id = 'legacy' ) {
 
 	/**
 	 * Filters the current theme package ID.
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $value The current theme package ID.
+	 * @param string $package_id The current theme package ID.
 	 */
-	return apply_filters( 'bp_get_theme_package_id', bp_get_option( '_bp_theme_package_id', $default ) );
+	return apply_filters( 'bp_get_theme_package_id', bp_get_option( '_bp_theme_package_id', $package_id ) );
 }

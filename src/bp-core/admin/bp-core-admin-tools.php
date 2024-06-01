@@ -263,13 +263,15 @@ function bp_admin_reset_slugs() {
  *
  * @since 2.0.0
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @return array
  */
 function bp_admin_repair_friend_count() {
 	global $wpdb;
 
 	if ( ! bp_is_active( 'friends' ) ) {
-		return;
+		return array( 2, __( 'Friends component is not active.', 'buddypress' ) );
 	}
 
 	/* translators: %s: the result of the action performed by the repair tool */
@@ -289,7 +291,7 @@ function bp_admin_repair_friend_count() {
 	$updated = array();
 	if ( $total_users > 0 ) {
 		$per_query = 500;
-		$offset = 0;
+		$offset    = 0;
 		while ( $offset < $total_users ) {
 			// Only bother updating counts for users who actually have friendships.
 			$friendships = $wpdb->get_results( $wpdb->prepare( "SELECT initiator_user_id, friend_user_id FROM {$bp->friends->table_name} WHERE is_confirmed = 1 AND ( ( initiator_user_id > %d AND initiator_user_id <= %d ) OR ( friend_user_id > %d AND friend_user_id <= %d ) )", $offset, $offset + $per_query, $offset, $offset + $per_query ) );
@@ -322,13 +324,15 @@ function bp_admin_repair_friend_count() {
  *
  * @since 2.0.0
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @return array
  */
 function bp_admin_repair_group_count() {
 	global $wpdb;
 
 	if ( ! bp_is_active( 'groups' ) ) {
-		return;
+		return array( 2, __( 'Groups component is not active.', 'buddypress' ) );
 	}
 
 	/* translators: %s: the result of the action performed by the repair tool */
@@ -347,7 +351,7 @@ function bp_admin_repair_group_count() {
 
 	if ( $total_users > 0 ) {
 		$per_query = 500;
-		$offset = 0;
+		$offset    = 0;
 		while ( $offset < $total_users ) {
 			// But only bother to update counts for users that have groups.
 			$users = $wpdb->get_col( $wpdb->prepare( "SELECT user_id FROM {$bp->groups->table_name_members} WHERE is_confirmed = 1 AND is_banned = 0 AND user_id > %d AND user_id <= %d", $offset, $offset + $per_query ) );
@@ -378,10 +382,10 @@ function bp_admin_repair_blog_records() {
 	$statement = __( 'Repopulating Blogs records&hellip; %s', 'buddypress' );
 
 	// Default to failure text.
-	$result    = __( 'Failed!',   'buddypress' );
+	$result = __( 'Failed!', 'buddypress' );
 
 	// Default to unrepaired.
-	$repair    = false;
+	$repair = false;
 
 	// Run function if blogs component is active.
 	if ( bp_is_active( 'blogs' ) ) {
@@ -411,7 +415,7 @@ function bp_admin_repair_blog_site_icons() {
 
 	if ( ! is_multisite() ) {
 		return array( 0, sprintf( $statement, __( 'Failed!', 'buddypress' ) ) );
- 	}
+	}
 
 	// Run function if blogs component is active.
 	if ( bp_is_active( 'blogs', 'site-icon' ) ) {
@@ -458,6 +462,8 @@ function bp_admin_repair_blog_site_icons() {
  * Recalculate the total number of active site members.
  *
  * @since 2.0.0
+ *
+ * @return array
  */
 function bp_admin_repair_count_members() {
 	/* translators: %s: the result of the action performed by the repair tool */
@@ -473,13 +479,15 @@ function bp_admin_repair_count_members() {
  *
  * @since 6.0.0
  *
+ * @global wpdb $wpdb WordPress database object.
+ *
  * @return array
  */
 function bp_admin_invitations_table() {
 	global $wpdb;
 
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+	require_once buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php';
 
 	/* translators: %s: the result of the action performed by the repair tool */
 	$statement = __( 'Creating the Invitations database table if it does not exist&hellip; %s', 'buddypress' );
@@ -489,8 +497,8 @@ function bp_admin_invitations_table() {
 
 	// Check for existence of invitations table.
 	$table_name = BP_Invitation_Manager::get_table_name();
-	$query = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) );
-	if ( ! $wpdb->get_var( $query ) == $table_name ) {
+	$query      = $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table_name ) );
+	if ( ! $wpdb->get_var( $query ) === $table_name ) {
 		// Early return if table creation failed.
 		return array( 2, sprintf( $statement, $result ) );
 	} else {
@@ -511,9 +519,9 @@ function bp_admin_invitations_table() {
 		$records = $wpdb->get_results( "SELECT id FROM {$bp->groups->table_name_members} WHERE is_confirmed = 0 AND is_banned = 0" );
 		if ( empty( $records ) ) {
 			$migrate_result = __( 'Migrated invitations!', 'buddypress' );
-			return array( 0, sprintf( $statement . ' ' . $migrate_statement , $result, $migrate_result ) );
+			return array( 0, sprintf( $statement . ' ' . $migrate_statement, $result, $migrate_result ) );
 		} else {
-			return array( 2, sprintf( $statement . ' ' . $migrate_statement , $result, $migrate_result ) );
+			return array( 2, sprintf( $statement . ' ' . $migrate_statement, $result, $migrate_result ) );
 		}
 	}
 
@@ -526,14 +534,15 @@ function bp_admin_invitations_table() {
  *
  * @since 2.0.0
  *
- * @param string      $message Feedback message.
- * @param string|bool $class   Unused.
+ * @param string      $message    Feedback message.
+ * @param string|bool $html_class Unused. Defaults to false.
  * @return false|Closure
  */
-function bp_admin_tools_feedback( $message, $class = false ) {
+function bp_admin_tools_feedback( $message, $html_class = false ) {
+	$class = $html_class;
 	if ( is_string( $message ) ) {
 		$message = '<p>' . $message . '</p>';
-		$class = $class ? $class : 'updated';
+		$class   = $class ? $class : 'updated';
 	} elseif ( is_wp_error( $message ) ) {
 		$errors = $message->get_error_messages();
 
@@ -565,7 +574,7 @@ function bp_admin_tools_feedback( $message, $class = false ) {
 				'ul'  => true,
 				'li'  => true,
 				'div' => array(
-					'id' => true,
+					'id'    => true,
 					'class' => true,
 				),
 				'a'   => array(
@@ -591,7 +600,7 @@ function bp_admin_tools_feedback( $message, $class = false ) {
 function bp_core_admin_available_tools_page() {
 	?>
 	<div class="wrap">
-		<h1 class="wp-heading-inline"><?php esc_html_e( 'Tools', 'buddypress' ) ?></h1>
+		<h1 class="wp-heading-inline"><?php esc_html_e( 'Tools', 'buddypress' ); ?></h1>
 		<hr class="wp-header-end">
 
 		<?php
@@ -601,7 +610,8 @@ function bp_core_admin_available_tools_page() {
 		 *
 		 * @since 2.0.0
 		 */
-		do_action( 'bp_network_tool_box' ); ?>
+		do_action( 'bp_network_tool_box' );
+		?>
 
 	</div>
 	<?php
@@ -614,17 +624,17 @@ function bp_core_admin_available_tools_page() {
  */
 function bp_core_admin_available_tools_intro() {
 	$query_arg = array(
-		'page' => 'bp-tools'
+		'page' => 'bp-tools',
 	);
 
-	$page = bp_core_do_network_admin() ? 'admin.php' : 'tools.php' ;
+	$page = bp_core_do_network_admin() ? 'admin.php' : 'tools.php';
 	$url  = add_query_arg( $query_arg, bp_get_admin_url( $page ) );
 	?>
 	<div class="card tool-box bp-tools">
-		<h2><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ) ?></h2>
+		<h2><?php esc_html_e( 'BuddyPress Tools', 'buddypress' ); ?></h2>
 
 		<dl>
-			<dt><?php esc_html_e( 'Repair Tools', 'buddypress' ) ?></dt>
+			<dt><?php esc_html_e( 'Repair Tools', 'buddypress' ); ?></dt>
 			<dd>
 				<?php esc_html_e( 'BuddyPress keeps track of various relationships between users, groups, and activity items. Occasionally these relationships become out of sync, most often after an import, update, or migration.', 'buddypress' ); ?>
 				<?php
@@ -636,7 +646,7 @@ function bp_core_admin_available_tools_intro() {
 				?>
 			</dd>
 
-			<dt><?php esc_html_e( 'Manage Invitations', 'buddypress' ) ?></dt>
+			<dt><?php esc_html_e( 'Manage Invitations', 'buddypress' ); ?></dt>
 			<dd>
 				<?php esc_html_e( 'When enabled, BuddyPress allows your users to invite nonmembers to join your site.', 'buddypress' ); ?>
 				<?php
@@ -649,7 +659,7 @@ function bp_core_admin_available_tools_intro() {
 				?>
 			</dd>
 
-			<dt><?php esc_html_e( 'Manage Opt-outs', 'buddypress' ) ?></dt>
+			<dt><?php esc_html_e( 'Manage Opt-outs', 'buddypress' ); ?></dt>
 			<dd>
 				<?php esc_html_e( 'BuddyPress stores opt-out requests from people who are not members of this site, but have been contacted via communication from this site, and wish to opt-out from future communication.', 'buddypress' ); ?>
 				<?php
@@ -684,13 +694,15 @@ function bp_admin_reinstall_emails() {
 		$switched = true;
 	}
 
-	$emails = get_posts( array(
-		'fields'           => 'ids',
-		'post_status'      => 'publish',
-		'post_type'        => bp_get_email_post_type(),
-		'posts_per_page'   => 200,
-		'suppress_filters' => false,
-	) );
+	$emails = get_posts(
+		array(
+			'fields'           => 'ids',
+			'post_status'      => 'publish',
+			'post_type'        => bp_get_email_post_type(),
+			'posts_per_page'   => 200,
+			'suppress_filters' => false,
+		)
+	);
 
 	if ( $emails ) {
 		foreach ( $emails as $email_id ) {
@@ -698,20 +710,25 @@ function bp_admin_reinstall_emails() {
 		}
 	}
 
+	$email_tax_type = bp_get_email_tax_type();
+
 	// Make sure we have no orphaned email type terms.
-	$email_types = get_terms( bp_get_email_tax_type(), array(
-		'fields'                 => 'ids',
-		'hide_empty'             => false,
-		'update_term_meta_cache' => false,
-	) );
+	$email_types = get_terms(
+		array(
+			'taxonomy'               => $email_tax_type,
+			'fields'                 => 'ids',
+			'hide_empty'             => false,
+			'update_term_meta_cache' => false,
+		)
+	);
 
 	if ( $email_types ) {
 		foreach ( $email_types as $term_id ) {
-			wp_delete_term( (int) $term_id, bp_get_email_tax_type() );
+			wp_delete_term( (int) $term_id, $email_tax_type );
 		}
 	}
 
-	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
+	require_once buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php';
 	bp_core_install_emails();
 
 	if ( $switched ) {
@@ -778,7 +795,7 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 		$component_id = str_replace( 'bp_', '', $section );
 
 		if ( isset( $active_components[ $component_id ] ) ) {
-			$prefix = $active_components[ $component_id ] .': ';
+			$prefix = $active_components[ $component_id ] . ': ';
 		}
 
 		foreach ( $settings as $bp_setting ) {
@@ -864,85 +881,85 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 			),
 			$theme_settings,
 			$bp_settings
-		)
+		),
 	);
 
 	$debug_info['buddypress-constants'] = array(
 		'label'       => __( 'BuddyPress Constants', 'buddypress' ),
 		'description' => __( 'These constants can alter where and how parts of BuddyPress are loaded or works.', 'buddypress' ),
 		'fields'      => array(
-			'BP_VERSION' => array(
+			'BP_VERSION'                            => array(
 				'label' => 'BP_VERSION',
 				'value' => BP_VERSION,
 			),
-			'BP_DB_VERSION' => array(
+			'BP_DB_VERSION'                         => array(
 				'label' => 'BP_DB_VERSION',
 				'value' => BP_DB_VERSION,
 			),
-			'BP_REQUIRED_PHP_VERSION' => array(
+			'BP_REQUIRED_PHP_VERSION'               => array(
 				'label' => 'BP_REQUIRED_PHP_VERSION',
 				'value' => BP_REQUIRED_PHP_VERSION,
 			),
-			'BP_PLUGIN_DIR' => array(
+			'BP_PLUGIN_DIR'                         => array(
 				'label' => 'BP_PLUGIN_DIR',
 				'value' => BP_PLUGIN_DIR,
 			),
-			'BP_PLUGIN_URL' => array(
+			'BP_PLUGIN_URL'                         => array(
 				'label' => 'BP_PLUGIN_URL',
 				'value' => BP_PLUGIN_URL,
 			),
-			'BP_IGNORE_DEPRECATED' => array(
+			'BP_IGNORE_DEPRECATED'                  => array(
 				'label' => 'BP_IGNORE_DEPRECATED',
 				'value' => defined( 'BP_IGNORE_DEPRECATED' ) && BP_IGNORE_DEPRECATED ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
 				'debug' => defined( 'BP_IGNORE_DEPRECATED' ) ? BP_IGNORE_DEPRECATED : 'undefined',
 			),
-			'BP_LOAD_DEPRECATED' => array(
+			'BP_LOAD_DEPRECATED'                    => array(
 				'label' => 'BP_LOAD_DEPRECATED',
 				'value' => defined( 'BP_LOAD_DEPRECATED' ) && BP_LOAD_DEPRECATED ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
 				'debug' => defined( 'BP_LOAD_DEPRECATED' ) ? BP_LOAD_DEPRECATED : 'undefined',
 			),
-			'BP_ROOT_BLOG' => array(
+			'BP_ROOT_BLOG'                          => array(
 				'label' => 'BP_ROOT_BLOG',
 				'value' => BP_ROOT_BLOG,
 			),
-			'BP_ENABLE_MULTIBLOG' => array(
+			'BP_ENABLE_MULTIBLOG'                   => array(
 				'label' => 'BP_ENABLE_MULTIBLOG',
 				'value' => defined( 'BP_ENABLE_MULTIBLOG' ) && BP_ENABLE_MULTIBLOG ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
 				'debug' => defined( 'BP_ENABLE_MULTIBLOG' ) ? BP_ENABLE_MULTIBLOG : 'undefined',
 			),
-			'BP_ENABLE_ROOT_PROFILES' => array(
+			'BP_ENABLE_ROOT_PROFILES'               => array(
 				'label' => 'BP_ENABLE_ROOT_PROFILES',
 				'value' => defined( 'BP_ENABLE_ROOT_PROFILES' ) && BP_ENABLE_ROOT_PROFILES ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
 				'debug' => defined( 'BP_ENABLE_ROOT_PROFILES' ) ? BP_ENABLE_ROOT_PROFILES : 'undefined',
 			),
-			'BP_DEFAULT_COMPONENT' => array(
+			'BP_DEFAULT_COMPONENT'                  => array(
 				'label' => 'BP_DEFAULT_COMPONENT',
 				'value' => defined( 'BP_DEFAULT_COMPONENT' ) ? BP_DEFAULT_COMPONENT : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_DEFAULT_COMPONENT' ) ? BP_DEFAULT_COMPONENT : 'undefined',
 			),
-			'BP_XPROFILE_BASE_GROUP_NAME' => array(
+			'BP_XPROFILE_BASE_GROUP_NAME'           => array(
 				'label' => 'BP_XPROFILE_BASE_GROUP_NAME',
 				'value' => BP_XPROFILE_BASE_GROUP_NAME,
 			),
-			'BP_XPROFILE_FULLNAME_FIELD_NAME' => array(
+			'BP_XPROFILE_FULLNAME_FIELD_NAME'       => array(
 				'label' => 'BP_XPROFILE_FULLNAME_FIELD_NAME',
 				'value' => BP_XPROFILE_FULLNAME_FIELD_NAME,
 			),
-			'BP_MESSAGES_AUTOCOMPLETE_ALL' => array(
+			'BP_MESSAGES_AUTOCOMPLETE_ALL'          => array(
 				'label' => 'BP_MESSAGES_AUTOCOMPLETE_ALL',
 				'value' => defined( 'BP_MESSAGES_AUTOCOMPLETE_ALL' ) && BP_MESSAGES_AUTOCOMPLETE_ALL ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
 			),
-			'BP_DISABLE_AUTO_GROUP_JOIN' => array(
+			'BP_DISABLE_AUTO_GROUP_JOIN'            => array(
 				'label' => 'BP_DISABLE_AUTO_GROUP_JOIN',
 				'value' => defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) && BP_DISABLE_AUTO_GROUP_JOIN ? __( 'Disabled', 'buddypress' ) : __( 'Enabled', 'buddypress' ),
 				'debug' => defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) ? BP_DISABLE_AUTO_GROUP_JOIN : 'undefined',
 			),
-			'BP_GROUPS_DEFAULT_EXTENSION' => array(
+			'BP_GROUPS_DEFAULT_EXTENSION'           => array(
 				'label' => 'BP_GROUPS_DEFAULT_EXTENSION',
 				'value' => defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'undefined',
 			),
-			'BP_SIGNUPS_SKIP_USER_CREATION' => array(
+			'BP_SIGNUPS_SKIP_USER_CREATION'         => array(
 				'label' => 'BP_SIGNUPS_SKIP_USER_CREATION (deprecated)',
 				'value' => defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) && BP_SIGNUPS_SKIP_USER_CREATION ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
 				'debug' => defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) ? BP_SIGNUPS_SKIP_USER_CREATION : 'undefined',
@@ -952,12 +969,12 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'value' => defined( 'BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH' ) ? BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH' ) ? BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH : 'undefined',
 			),
-			'BP_EMBED_DISABLE_PRIVATE_MESSAGES' => array(
+			'BP_EMBED_DISABLE_PRIVATE_MESSAGES'     => array(
 				'label' => 'BP_EMBED_DISABLE_PRIVATE_MESSAGES',
 				'value' => defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) ? BP_EMBED_DISABLE_PRIVATE_MESSAGES : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) ? BP_EMBED_DISABLE_PRIVATE_MESSAGES : 'undefined',
 			),
-			'BP_EMBED_DISABLE_ACTIVITY_REPLIES' => array(
+			'BP_EMBED_DISABLE_ACTIVITY_REPLIES'     => array(
 				'label' => 'BP_EMBED_DISABLE_ACTIVITY_REPLIES',
 				'value' => defined( 'BP_EMBED_DISABLE_ACTIVITY_REPLIES' ) ? BP_EMBED_DISABLE_ACTIVITY_REPLIES : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_EMBED_DISABLE_ACTIVITY_REPLIES' ) ? BP_EMBED_DISABLE_ACTIVITY_REPLIES : 'undefined',
@@ -967,131 +984,127 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'value' => defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) ? BP_ENABLE_USERNAME_COMPATIBILITY_MODE : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_ENABLE_USERNAME_COMPATIBILITY_MODE' ) ? BP_ENABLE_USERNAME_COMPATIBILITY_MODE : 'undefined',
 			),
-			'BP_AVATAR_DEFAULT_THUMB' => array(
+			'BP_AVATAR_DEFAULT_THUMB'               => array(
 				'label' => 'BP_AVATAR_DEFAULT_THUMB',
 				'value' => defined( 'BP_AVATAR_DEFAULT_THUMB' ) ? BP_AVATAR_DEFAULT_THUMB : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_AVATAR_DEFAULT_THUMB' ) ? BP_AVATAR_DEFAULT_THUMB : 'undefined',
 			),
-			'BP_AVATAR_DEFAULT' => array(
+			'BP_AVATAR_DEFAULT'                     => array(
 				'label' => 'BP_AVATAR_DEFAULT',
 				'value' => defined( 'BP_AVATAR_DEFAULT' ) ? BP_AVATAR_DEFAULT : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_AVATAR_DEFAULT' ) ? BP_AVATAR_DEFAULT : 'undefined',
 			),
-			'BP_AVATAR_URL' => array(
+			'BP_AVATAR_URL'                         => array(
 				'label' => 'BP_AVATAR_URL',
 				'value' => defined( 'BP_AVATAR_URL' ) ? BP_AVATAR_URL : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_AVATAR_URL' ) ? BP_AVATAR_URL : 'undefined',
 			),
-			'BP_AVATAR_UPLOAD_PATH' => array(
+			'BP_AVATAR_UPLOAD_PATH'                 => array(
 				'label' => 'BP_AVATAR_UPLOAD_PATH',
 				'value' => defined( 'BP_AVATAR_UPLOAD_PATH' ) ? BP_AVATAR_UPLOAD_PATH : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_AVATAR_UPLOAD_PATH' ) ? BP_AVATAR_UPLOAD_PATH : 'undefined',
 			),
-			'BP_SHOW_AVATARS' => array(
+			'BP_SHOW_AVATARS'                       => array(
 				'label' => 'BP_SHOW_AVATARS',
 				'value' => defined( 'BP_SHOW_AVATARS' ) && BP_SHOW_AVATARS ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
 				'debug' => defined( 'BP_SHOW_AVATARS' ) ? BP_SHOW_AVATARS : 'undefined',
 			),
-			'BP_AVATAR_ORIGINAL_MAX_FILESIZE' => array(
-				'label' => 'BP_AVATAR_ORIGINAL_MAX_FILESIZE',
-				'value' => BP_AVATAR_ORIGINAL_MAX_FILESIZE,
-			),
-			'BP_AVATAR_ORIGINAL_MAX_WIDTH' => array(
+			'BP_AVATAR_ORIGINAL_MAX_WIDTH'          => array(
 				'label' => 'BP_AVATAR_ORIGINAL_MAX_WIDTH',
 				'value' => BP_AVATAR_ORIGINAL_MAX_WIDTH,
 			),
-			'BP_AVATAR_ORIGINAL_MAX_FILESIZE' => array(
+			'BP_AVATAR_ORIGINAL_MAX_FILESIZE'       => array(
 				'label' => 'BP_AVATAR_ORIGINAL_MAX_FILESIZE',
 				'value' => size_format( BP_AVATAR_ORIGINAL_MAX_FILESIZE ),
 				'debug' => BP_AVATAR_ORIGINAL_MAX_FILESIZE,
 			),
-			'BP_AVATAR_FULL_HEIGHT' => array(
+			'BP_AVATAR_FULL_HEIGHT'                 => array(
 				'label' => 'BP_AVATAR_FULL_HEIGHT',
 				'value' => BP_AVATAR_FULL_HEIGHT,
 			),
-			'BP_AVATAR_FULL_WIDTH' => array(
+			'BP_AVATAR_FULL_WIDTH'                  => array(
 				'label' => 'BP_AVATAR_FULL_WIDTH',
 				'value' => BP_AVATAR_FULL_WIDTH,
 			),
-			'BP_AVATAR_THUMB_HEIGHT' => array(
+			'BP_AVATAR_THUMB_HEIGHT'                => array(
 				'label' => 'BP_AVATAR_THUMB_HEIGHT',
 				'value' => BP_AVATAR_THUMB_HEIGHT,
 			),
-			'BP_AVATAR_THUMB_WIDTH' => array(
+			'BP_AVATAR_THUMB_WIDTH'                 => array(
 				'label' => 'BP_AVATAR_THUMB_WIDTH',
 				'value' => BP_AVATAR_THUMB_WIDTH,
 			),
-			'BP_USE_WP_ADMIN_BAR' => array(
+			'BP_USE_WP_ADMIN_BAR'                   => array(
 				'label' => 'BP_USE_WP_ADMIN_BAR (deprecated)',
 				'value' => defined( 'BP_USE_WP_ADMIN_BAR' ) ? BP_USE_WP_ADMIN_BAR : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_USE_WP_ADMIN_BAR' ) ? BP_USE_WP_ADMIN_BAR : 'undefined',
 			),
-			'BP_FRIENDS_DB_VERSION' => array(
+			'BP_FRIENDS_DB_VERSION'                 => array(
 				'label' => 'BP_FRIENDS_DB_VERSION (deprecated)',
 				'value' => defined( 'BP_FRIENDS_DB_VERSION' ) ? BP_FRIENDS_DB_VERSION : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_FRIENDS_DB_VERSION' ) ? BP_FRIENDS_DB_VERSION : 'undefined',
 			),
-			'BP_FORUMS_PARENT_FORUM_ID' => array(
+			'BP_FORUMS_PARENT_FORUM_ID'             => array(
 				'label' => 'BP_FORUMS_PARENT_FORUM_ID (deprecated)',
 				'value' => defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ? BP_FORUMS_PARENT_FORUM_ID : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ? BP_FORUMS_PARENT_FORUM_ID : 'undefined',
 			),
-			'BP_MEMBERS_SLUG' => array(
+			'BP_MEMBERS_SLUG'                       => array(
 				'label' => 'BP_MEMBERS_SLUG (deprecated)',
 				'value' => defined( 'BP_MEMBERS_SLUG' ) ? BP_MEMBERS_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_MEMBERS_SLUG' ) ? BP_MEMBERS_SLUG : 'undefined',
 			),
-			'BP_GROUPS_SLUG' => array(
+			'BP_GROUPS_SLUG'                        => array(
 				'label' => 'BP_GROUPS_SLUG (deprecated)',
 				'value' => defined( 'BP_GROUPS_SLUG' ) ? BP_GROUPS_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_GROUPS_SLUG' ) ? BP_GROUPS_SLUG : 'undefined',
 			),
-			'BP_MESSAGES_SLUG' => array(
+			'BP_MESSAGES_SLUG'                      => array(
 				'label' => 'BP_MESSAGES_SLUG (deprecated)',
 				'value' => defined( 'BP_MESSAGES_SLUG' ) ? BP_MESSAGES_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_MESSAGES_SLUG' ) ? BP_MESSAGES_SLUG : 'undefined',
 			),
-			'BP_NOTIFICATIONS_SLUG' => array(
+			'BP_NOTIFICATIONS_SLUG'                 => array(
 				'label' => 'BP_NOTIFICATIONS_SLUG (deprecated)',
 				'value' => defined( 'BP_NOTIFICATIONS_SLUG' ) ? BP_NOTIFICATIONS_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_NOTIFICATIONS_SLUG' ) ? BP_NOTIFICATIONS_SLUG : 'undefined',
 			),
-			'BP_BLOGS_SLUG' => array(
+			'BP_BLOGS_SLUG'                         => array(
 				'label' => 'BP_BLOGS_SLUG (deprecated)',
 				'value' => defined( 'BP_BLOGS_SLUG' ) ? BP_BLOGS_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_BLOGS_SLUG' ) ? BP_BLOGS_SLUG : 'undefined',
 			),
-			'BP_FRIENDS_SLUG' => array(
+			'BP_FRIENDS_SLUG'                       => array(
 				'label' => 'BP_FRIENDS_SLUG (deprecated)',
 				'value' => defined( 'BP_FRIENDS_SLUG' ) ? BP_FRIENDS_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_FRIENDS_SLUG' ) ? BP_FRIENDS_SLUG : 'undefined',
 			),
-			'BP_ACTIVITY_SLUG' => array(
+			'BP_ACTIVITY_SLUG'                      => array(
 				'label' => 'BP_ACTIVITY_SLUG (deprecated)',
 				'value' => defined( 'BP_ACTIVITY_SLUG' ) ? BP_ACTIVITY_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_ACTIVITY_SLUG' ) ? BP_ACTIVITY_SLUG : 'undefined',
 			),
-			'BP_SETTINGS_SLUG' => array(
+			'BP_SETTINGS_SLUG'                      => array(
 				'label' => 'BP_SETTINGS_SLUG (deprecated)',
 				'value' => defined( 'BP_SETTINGS_SLUG' ) ? BP_SETTINGS_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_SETTINGS_SLUG' ) ? BP_SETTINGS_SLUG : 'undefined',
 			),
-			'BP_XPROFILE_SLUG' => array(
+			'BP_XPROFILE_SLUG'                      => array(
 				'label' => 'BP_XPROFILE_SLUG (deprecated)',
 				'value' => defined( 'BP_XPROFILE_SLUG' ) ? BP_XPROFILE_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_XPROFILE_SLUG' ) ? BP_XPROFILE_SLUG : 'undefined',
 			),
-			'BP_FORUMS_SLUG' => array(
+			'BP_FORUMS_SLUG'                        => array(
 				'label' => 'BP_FORUMS_SLUG (deprecated)',
 				'value' => defined( 'BP_FORUMS_SLUG' ) ? BP_FORUMS_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_FORUMS_SLUG' ) ? BP_FORUMS_SLUG : 'undefined',
 			),
-			'BP_SEARCH_SLUG' => array(
+			'BP_SEARCH_SLUG'                        => array(
 				'label' => 'BP_SEARCH_SLUG (deprecated)',
 				'value' => defined( 'BP_SEARCH_SLUG' ) ? BP_SEARCH_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_SEARCH_SLUG' ) ? BP_SEARCH_SLUG : 'undefined',
 			),
-		)
+		),
 	);
 
 	return $debug_info;
