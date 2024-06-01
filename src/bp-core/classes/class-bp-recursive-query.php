@@ -21,6 +21,7 @@ abstract class BP_Recursive_Query {
 	 * Query arguments passed to the constructor.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $queries = array();

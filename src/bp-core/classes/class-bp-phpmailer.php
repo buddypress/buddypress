@@ -68,7 +68,7 @@ class BP_PHPMailer implements BP_Email_Delivery {
 		 * Content.
 		 */
 		$phpmailer->Subject = $email->get_subject( 'replace-tokens' );
-		$content_plaintext = PHPMailer\PHPMailer\PHPMailer::normalizeBreaks( $email->get_content_plaintext( 'replace-tokens' ) );
+		$content_plaintext  = PHPMailer\PHPMailer\PHPMailer::normalizeBreaks( $email->get_content_plaintext( 'replace-tokens' ) );
 
 		if ( $email->get( 'content_type' ) === 'html' ) {
 			$phpmailer->msgHTML( $email->get_template( 'add-content' ) );
@@ -138,10 +138,6 @@ class BP_PHPMailer implements BP_Email_Delivery {
 			return new WP_Error( $e->getCode(), $e->getMessage(), $email );
 		}
 	}
-
-	/*
-	 * Utility/helper functions.
-	 */
 
 	/**
 	 * Get an appropriate hostname for the email. Varies depending on site configuration.
