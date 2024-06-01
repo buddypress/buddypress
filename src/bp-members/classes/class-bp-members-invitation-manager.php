@@ -141,7 +141,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array $args.
+	 * @param array $args Array of arguments.
 	 * @return bool
 	 */
 	public function allow_invitation( $args ) {

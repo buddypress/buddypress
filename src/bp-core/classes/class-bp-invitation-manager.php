@@ -108,8 +108,6 @@ abstract class BP_Invitation_Manager {
 		 * Is this user allowed to extend invitations in this situation?
 		 *
 		 * @since 5.0.0
-		 *
-		 * @param array $r Describes the invitation to be added.
 		 */
 		if ( ! $this->allow_invitation( $r ) ) {
 			return false;
@@ -162,7 +160,6 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @param int   $invitation_id ID of invitation to send.
 	 * @param array $args          See BP_Invitation::mark_sent().
-	 *
 	 * @return bool
 	 */
 	public function send_invitation_by_id( $invitation_id = 0, $args = array() ) {
@@ -313,12 +310,10 @@ abstract class BP_Invitation_Manager {
 	 * Send a request notification.
 	 *
 	 * @since 5.0.0
-	 * @access public
 	 *
 	 * @param int   $request_id ID of request to send.
 	 * @param array $args       See BP_Invitation::mark_sent().
-	 *
-	 * @return bool The result of `run_send_action()`.
+	 * @return bool
 	 */
 	public function send_request_notification_by_id( $request_id = 0, $args = array() ) {
 		$request = new BP_Invitation( $request_id );
@@ -772,9 +767,10 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
+	 * @param array $args The parameters that describe the invitation.
 	 * @return bool
 	 */
-	public function allow_invitation() {
+	public function allow_invitation( $args ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		return true;
 	}
 
@@ -784,9 +780,10 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
+	 * @param array $args The parameters describing the request.
 	 * @return bool
 	 */
-	public function allow_request() {
+	public function allow_request( $args ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		return true;
 	}
 }

@@ -36,7 +36,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param int $id The ID of the invitation to mark as sent.
+	 * @param BP_Invitation $invitation The invitation to send.
 	 * @return bool True on success, false on failure.
 	 */
 	public function run_send_action( BP_Invitation $invitation ) {
@@ -154,7 +154,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $args.
+	 * @param array $args Array of arguments.
 	 * @return bool
 	 */
 	public function allow_invitation( $args ) {
