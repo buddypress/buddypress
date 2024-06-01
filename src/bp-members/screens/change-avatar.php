@@ -11,8 +11,6 @@
  * Handle the display of the profile Change Avatar page by loading the correct template file.
  *
  * @since 6.0.0
- *
- * @return void
  */
 function bp_members_screen_change_avatar() {
 	// Bail if not the correct screen.

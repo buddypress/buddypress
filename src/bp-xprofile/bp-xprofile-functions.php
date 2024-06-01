@@ -1385,11 +1385,12 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 /**
  * Formats datebox field values passed through a POST request.
  *
+ * This function only changes the global $_POST that should contain
+ * the datebox data.
+ *
  * @since 2.8.0
  *
  * @param int $field_id The id of the current field being looped through.
- * @return void This function only changes the global $_POST that should contain
- *              the datebox data.
  */
 function bp_xprofile_maybe_format_datebox_post_data( $field_id ) {
 	if ( ! isset( $_POST[ 'field_' . $field_id ] ) ) {

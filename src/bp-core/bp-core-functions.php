@@ -825,7 +825,7 @@ function bp_core_get_directory_pages() {
  *                              and replace with new ones. Otherwise existing page mappings
  *                              are kept, and the gaps filled in with new pages. Default: 'keep'.
  * @param boolean $return_pages Whether to return the page mapping or not.
- * @return void|array
+ * @return array|null
  */
 function bp_core_add_page_mappings( $components, $existing = 'keep', $return_pages = false ) {
 

@@ -11,8 +11,6 @@
  * Handle the display of a group's Send Invites page.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function groups_screen_group_invite() {
 
@@ -76,8 +74,6 @@ function groups_screen_group_invite() {
  * Remove Invite removes the invitation via AJAX.
  *
  * @since 2.0.0
- *
- * @return void
  */
 function groups_remove_group_invite() {
 	if ( ! bp_is_group_invites() ) {

@@ -4220,7 +4220,7 @@ function bp_group_member_name() {
 	 *
 	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
-	 * @return mixed|void
+	 * @return string|null
 	 */
 	function bp_get_group_member_name() {
 		global $members_template;
@@ -4250,7 +4250,7 @@ function bp_group_member_url() {
 	 *
 	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_group_member_url() {
 		global $members_template;
@@ -4260,7 +4260,7 @@ function bp_group_member_url() {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value URL for the current user.
+		 * @param string $group_member_url URL for the current user.
 		 */
 		return apply_filters( 'bp_get_group_member_url', bp_members_get_user_url( $members_template->member->user_id ) );
 	}
@@ -4281,7 +4281,7 @@ function bp_group_member_link() {
 	 *
 	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_group_member_link() {
 		global $members_template;
@@ -4291,7 +4291,7 @@ function bp_group_member_link() {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value HTML link for the current user.
+		 * @param string $group_member_link HTML link for the current user.
 		 */
 		return apply_filters( 'bp_get_group_member_link', '<a href="' . esc_url( bp_members_get_user_url( $members_template->member->user_id ) ) . '">' . esc_html( $members_template->member->display_name ) . '</a>' );
 	}
@@ -4311,7 +4311,7 @@ function bp_group_member_domain() {
 	 *
 	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_group_member_domain() {
 		global $members_template;
@@ -4321,7 +4321,7 @@ function bp_group_member_domain() {
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param string $value Domain for the current user.
+		 * @param string $group_member_domain Domain for the current user.
 		 */
 		return apply_filters( 'bp_get_group_member_domain', bp_members_get_user_url( $members_template->member->user_id ) );
 	}
@@ -4341,7 +4341,7 @@ function bp_group_member_is_friend() {
 	 *
 	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_group_member_is_friend() {
 		global $members_template;
@@ -4539,7 +4539,7 @@ function bp_group_pag_id() {
 	/**
 	 * @since 1.0.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_group_pag_id() {
 
@@ -4548,7 +4548,7 @@ function bp_group_pag_id() {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value Value to use for the pag id.
+		 * @param string $pag_id Value to use for the pag id.
 		 */
 		return apply_filters( 'bp_get_group_pag_id', 'pag' );
 	}
@@ -4567,11 +4567,11 @@ function bp_group_member_pagination() {
 	/**
 	 * Returns the group members list pagination links.
 	 *
-	 *  @since 1.0.0
+	 * @since 1.0.0
 	 *
 	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
-	 * @return mixed|void
+	 * @return string|null
 	 */
 	function bp_get_group_member_pagination() {
 		global $members_template;
@@ -4601,7 +4601,7 @@ function bp_group_member_pagination_count() {
 	 *
 	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_group_member_pagination_count() {
 		global $members_template;
@@ -4623,7 +4623,7 @@ function bp_group_member_pagination_count() {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value    "Viewing x-y of z members" text.
+		 * @param string $message  "Viewing x-y of z members" text.
 		 * @param string $from_num Total amount for the low value in the range.
 		 * @param string $to_num   Total amount for the high value in the range.
 		 * @param string $total    Total amount of members found.
@@ -6154,8 +6154,13 @@ function bp_group_requests_pagination_count() {
  *
  * @since 1.1.0
  *
- * @param string $args
- * @return bool|mixed|void
+ * @param string|array $args {
+ *    @type int $group_id ID of the group. Defaults to current group.
+ *    @type int $user_id  ID of the user. Defaults to logged-in user.
+ *    @type int $per_page Number of records to return per page. Default: 10.
+ *    @type int $page     Page of results to return. Default: 1.
+ * }
+ * @return bool
  */
 function bp_group_has_invites( $args = '' ) {
 	global $invites_template, $group_id;
@@ -6195,7 +6200,7 @@ function bp_group_has_invites( $args = '' ) {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param bool                      $value            Whether there are requests to display.
+	 * @param bool                      $invites          Whether there are invites to display.
 	 * @param BP_Groups_Invite_Template $invites_template Object holding the invites query results.
 	 */
 	return apply_filters( 'bp_group_has_invites', $invites_template->has_invites(), $invites_template );
@@ -6233,7 +6238,7 @@ function bp_group_invite_item_id() {
 	/**
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_group_invite_item_id() {
 		global $invites_template;
@@ -6243,7 +6248,7 @@ function bp_group_invite_item_id() {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $value Group invite item ID.
+		 * @param string $group_invite_item_id Group invite item ID.
 		 */
 		return apply_filters( 'bp_get_group_invite_item_id', 'uid-' . $invites_template->invite->user->id );
 	}
@@ -6259,7 +6264,7 @@ function bp_group_invite_user_avatar() {
 	/**
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string|null
 	 */
 	function bp_get_group_invite_user_avatar() {
 		global $invites_template;
@@ -6269,7 +6274,7 @@ function bp_group_invite_user_avatar() {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $value Group invite user avatar.
+		 * @param string $invite_user_avatar Group invite user avatar.
 		 */
 		return apply_filters( 'bp_get_group_invite_user_avatar', $invites_template->invite->user->avatar_thumb );
 	}
@@ -6285,7 +6290,7 @@ function bp_group_invite_user_link() {
 	/**
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string
 	 */
 	function bp_get_group_invite_user_link() {
 		global $invites_template;
@@ -6295,9 +6300,9 @@ function bp_group_invite_user_link() {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $value Group invite user link.
+		 * @param string $user_link Group invite user link.
 		 */
-		return apply_filters( 'bp_get_group_invite_user_link', bp_core_get_userlink( $invites_template->invite->user->id ) );
+		return apply_filters( 'bp_get_group_invite_user_link', (string) bp_core_get_userlink( $invites_template->invite->user->id ) );
 	}
 
 /**
@@ -6310,7 +6315,7 @@ function bp_group_invite_user_last_active() {
 	/**
 	 * @since 1.1.0
 	 *
-	 * @return mixed|void
+	 * @return string|null
 	 */
 	function bp_get_group_invite_user_last_active() {
 		global $invites_template;
@@ -6320,7 +6325,7 @@ function bp_group_invite_user_last_active() {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $value Group invite user's last active time.
+		 * @param string $user_last_active Group invite user's last active time.
 		 */
 		return apply_filters( 'bp_get_group_invite_user_last_active', $invites_template->invite->user->last_active );
 	}

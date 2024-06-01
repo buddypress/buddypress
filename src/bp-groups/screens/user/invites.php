@@ -11,8 +11,6 @@
  * Handle the loading of a user's Groups > Invites page.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function groups_screen_group_invites() {
 	$group_id = (int) bp_action_variable( 1 );

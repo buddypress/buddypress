@@ -11,8 +11,6 @@
  * Catch and process group creation form submissions.
  *
  * @since 1.2.0
- *
- * @return void
  */
 function groups_action_create_group() {
 

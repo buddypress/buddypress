@@ -311,7 +311,6 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	 * @param string        $style    Styles for the row.
 	 * @param string        $role     Role to be assigned to user.
 	 * @param int           $numposts Number of posts.
-	 * @return void
 	 */
 	public function single_row( $invite = null, $style = '', $role = '', $numposts = 0 ) {
 		if ( '' === $style ) {

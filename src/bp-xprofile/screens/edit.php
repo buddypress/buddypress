@@ -12,8 +12,6 @@
  * Also checks to make sure this can only be accessed for the logged in users profile.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function xprofile_screen_edit_profile() {
 

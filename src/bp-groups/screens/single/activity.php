@@ -11,8 +11,6 @@
  * Handle the loading of a single group's activity.
  *
  * @since 2.4.0
- *
- * @return void
  */
 function groups_screen_group_activity() {
 

@@ -11,8 +11,6 @@
  * Load the 'My Friends' activity page.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function bp_activity_screen_friends() {
 	if ( ! bp_is_active( 'friends' ) ) {
