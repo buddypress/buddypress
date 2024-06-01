@@ -85,7 +85,6 @@ Administrators can assign Group Types manually through the WordPress Dashboard o
 - **Manual Assignment:** as show above, a Group Type metabox is available for administrators to assign or change a group type through the WP-Admin screen to edit a specific group. It's also possible to assign or change a group type on the front-end from the Group's settings creation step/management page when you set the "Show on Group Creation" property to checked.
 - **Bulk Assignment:** as show below, administrators can assign group types to multiple groups at once from the WP Admin screen listing all existing groups, streamlining the process for large group directories. To bulk assign a group type, activate the checkboxes next to the groups' avatars, select a Group Type from the dropdown list, and click the "change" button beside the dropdown.
 
-![Assign Multiple Group Type](../../assets/multiple-group-types-01.png)
 
 
 ![Bulk Assign Group Type](../../assets/multiple-group-types-02.png)
