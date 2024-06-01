@@ -7,8 +7,6 @@
  * @since 1.5.0
  */
 
-use Mantle\Support\Stringable;
-
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
