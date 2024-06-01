@@ -39,6 +39,7 @@ class BP_Theme_Compat {
 	 * Template package properties, as passed to the constructor.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var array
 	 */
 	protected $_data = array();
@@ -50,7 +51,7 @@ class BP_Theme_Compat {
 	 *
 	 * @param array $properties Array of properties for BP_Theme_Compat.
 	 */
-	public function __construct( Array $properties = array() ) {
+	public function __construct( array $properties = array() ) {
 		$this->_data = $properties;
 	}
 
@@ -102,7 +103,7 @@ class BP_Theme_Compat {
 	 * @return bool True on success, false on failure.
 	 */
 	public function __set( $property, $value ) {
-		return $this->_data[$property] = $value;
+		return $this->_data[ $property ] = $value;
 	}
 
 	/**
@@ -115,7 +116,7 @@ class BP_Theme_Compat {
 	 *               empty string.
 	 */
 	public function __get( $property ) {
-		return array_key_exists( $property, $this->_data ) ? $this->_data[$property] : '';
+		return array_key_exists( $property, $this->_data ) ? $this->_data[ $property ] : '';
 	}
 
 	/**
