@@ -1982,7 +1982,7 @@ function bp_the_thread_recipients_list() {
 
 		$recipient_links = array();
 
-		foreach( (array) $thread_template->thread->recipients as $recipient ) {
+		foreach ( (array) $thread_template->thread->recipients as $recipient ) {
 			if ( (int) $recipient->user_id !== bp_loggedin_user_id() ) {
 				$recipient_link = bp_core_get_userlink( $recipient->user_id );
 

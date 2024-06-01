@@ -475,7 +475,7 @@ class BP_Core_Nav {
 		$primary_nav_items = $this->get_primary( array( 'show_for_displayed_user' => true ) );
 
 		if ( $primary_nav_items ) {
-			foreach( $primary_nav_items as $key_nav => $primary_nav ) {
+			foreach ( $primary_nav_items as $key_nav => $primary_nav ) {
 				// Try to get the children.
 				$children = $this->get_secondary( array( 'parent_slug' => $primary_nav->slug, 'user_has_access' => true ) );
 

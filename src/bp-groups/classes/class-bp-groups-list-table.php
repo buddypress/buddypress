@@ -883,7 +883,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			<select name="<?php echo esc_attr( $id_name ); ?>" id="<?php echo esc_attr( $id_name ); ?>" style="display:inline-block;float:none;">
 				<option value=""><?php esc_html_e( 'Change group type to&hellip;', 'buddypress' ) ?></option>
 
-				<?php foreach( $types as $type ) : ?>
+				<?php foreach ( $types as $type ) : ?>
 
 					<option value="<?php echo esc_attr( $type->name ); ?>"><?php echo esc_html( $type->labels['singular_name'] ); ?></option>
 

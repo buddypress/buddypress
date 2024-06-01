@@ -312,7 +312,7 @@ class BP_Activity_Template {
 		}
 
 		if ( !empty( $activity_parents['activities'] ) ) {
-			foreach( $activity_parents['activities'] as $parent ) {
+			foreach ( $activity_parents['activities'] as $parent ) {
 				$this->activity_parents[ $parent->id ] = $parent;
 			}
 

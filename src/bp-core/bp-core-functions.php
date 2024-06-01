@@ -207,7 +207,7 @@ function bp_core_get_table_prefix() {
  * @return array $items The sorted array.
  */
 function bp_sort_by_key( $items, $key, $type = 'alpha', $preserve_keys = false ) {
-	$callback = function( $a, $b ) use ( $key, $type ) {
+	$callback = function ( $a, $b ) use ( $key, $type ) {
 		$values = array( 0 => false, 1 => false );
 		foreach ( func_get_args() as $indexi => $index ) {
 			if ( isset( $index->{$key} ) ) {
@@ -2800,7 +2800,7 @@ function bp_nav_menu_get_loggedin_pages() {
 		$primary_items     = $bp->members->nav->get_primary();
 		$user_is_displayed = bp_is_user();
 
-		foreach( $primary_items as $primary_item ) {
+		foreach ( $primary_items as $primary_item ) {
 			$current_user_link = $primary_item['link'];
 
 			// When displaying a user, reset the primary item link.

@@ -2479,8 +2479,8 @@ class BP_Members_Admin {
 				'fetch_fields'      => true,
 			) );
 
-			foreach( $field_groups as $fg ) {
-				foreach( $fg->fields as $f ) {
+			foreach ( $field_groups as $fg ) {
+				foreach ( $fg->fields as $f ) {
 					$fdata[ $f->id ] = $f->name;
 				}
 			}
@@ -2637,7 +2637,7 @@ class BP_Members_Admin {
 		<select name="<?php echo $id_name; ?>" id="<?php echo $id_name; ?>" style="display:inline-block;float:none;">
 			<option value=""><?php esc_html_e( 'Change member type to&hellip;', 'buddypress' ) ?></option>
 
-			<?php foreach( $types as $type ) : ?>
+			<?php foreach ( $types as $type ) : ?>
 
 				<option value="<?php echo esc_attr( $type->name ); ?>"><?php echo esc_html( $type->labels['singular_name'] ); ?></option>
 

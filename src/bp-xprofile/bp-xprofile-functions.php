@@ -393,7 +393,7 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
 
 	if ( is_array( $values ) ) {
 		$data = array();
-		foreach( (array) $values as $value ) {
+		foreach ( (array) $values as $value ) {
 
 			/**
 			 * Filters the field data value for a specific field for the user.
@@ -762,7 +762,7 @@ add_action( 'bp_parse_query', 'xprofile_override_user_fullnames', 100 );
  * When search_terms are passed to BP_User_Query, search against xprofile fields.
  *
  * @since 2.0.0
- * 
+ *
  * @global wpdb $wpdb WordPress database object.
  *
  * @param array         $sql   Clauses in the user_id SQL query.
@@ -962,7 +962,7 @@ add_action( 'delete_user', 'xprofile_remove_data_on_delete_user' );
  * Delete a piece of xprofile metadata.
  *
  * @since 1.5.0
- * 
+ *
  * @global wpdb $wpdb WordPress database object.
  *
  * @param int         $object_id   ID of the object the metadata belongs to.
@@ -1145,7 +1145,7 @@ function bp_xprofile_update_fielddata_meta( $field_data_id, $meta_key, $meta_val
  * Return the field ID for the Full Name xprofile field.
  *
  * @since 2.0.0
- * 
+ *
  * @global wpdb $wpdb WordPress database object.
  *
  * @return int Field ID.
@@ -1358,7 +1358,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	// precedence.
 	$default_visibility_levels = BP_XProfile_Group::fetch_default_visibility_levels();
 
-	foreach( (array) $default_visibility_levels as $d_field_id => $defaults ) {
+	foreach ( (array) $default_visibility_levels as $d_field_id => $defaults ) {
 		// If the admin has forbidden custom visibility levels for this field, replace
 		// the user-provided setting with the default specified by the admin.
 		if ( isset( $defaults['allow_custom'] ) && isset( $defaults['default'] ) && 'disabled' == $defaults['allow_custom'] ) {
@@ -1367,7 +1367,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	}
 
 	$field_ids = array();
-	foreach( $user_visibility_levels as $field_id => $field_visibility ) {
+	foreach ( $user_visibility_levels as $field_id => $field_visibility ) {
 		if ( in_array( $field_visibility, $levels ) ) {
 			$field_ids[] = $field_id;
 		}
@@ -1476,7 +1476,7 @@ function bp_xprofile_get_wp_user_keys() {
  * Returns the signup field IDs.
  *
  * @since 8.0.0
- * 
+ *
  * @global wpdb $wpdb WordPress database object.
  *
  * @return int[] The signup field IDs.

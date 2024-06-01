@@ -305,7 +305,7 @@ function bp_activity_at_name_filter_updates( $activity ) {
 	// We have mentions!
 	if ( ! empty( $usernames ) ) {
 		// Replace @mention text with userlinks.
-		foreach( (array) $usernames as $user_id => $username ) {
+		foreach ( (array) $usernames as $user_id => $username ) {
 			$activity->content = preg_replace( '/(@' . $username . '\b)/', "<a class='bp-suggestions-mention' href='" . bp_members_get_user_url( $user_id ) . "' rel='nofollow'>@$username</a>", $activity->content );
 		}
 
@@ -343,7 +343,7 @@ function bp_activity_at_name_send_emails( $activity ) {
 	unset( $bp->activity->mentioned_users );
 
 	// Send @mentions and setup BP notifications.
-	foreach( (array) $usernames as $user_id => $username ) {
+	foreach ( (array) $usernames as $user_id => $username ) {
 
 		/**
 		 * Filters BuddyPress' ability to send email notifications for @mentions.

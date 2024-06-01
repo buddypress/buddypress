@@ -9,7 +9,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'admin_init', function() {
+add_action( 'admin_init', function () {
 	$ajax_actions = array(
 		array( 'groups_filter'                      => array( 'function' => 'bp_nouveau_ajax_object_template_loader', 'nopriv' => true  ) ),
 		array( 'groups_join_group'                  => array( 'function' => 'bp_nouveau_ajax_joinleave_group', 'nopriv' => false ) ),

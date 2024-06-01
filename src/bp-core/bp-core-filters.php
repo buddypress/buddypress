@@ -290,7 +290,7 @@ add_filter( 'nav_menu_css_class', 'bp_core_menu_highlight_nav_menu_item', 10, 2 
 function bp_core_filter_comments( $comments, $post_id ) {
 	global $wpdb;
 
-	foreach( (array) $comments as $comment ) {
+	foreach ( (array) $comments as $comment ) {
 		if ( $comment->user_id ) {
 			$user_ids[] = $comment->user_id;
 		}
@@ -306,11 +306,11 @@ function bp_core_filter_comments( $comments, $post_id ) {
 		return $comments;
 	}
 
-	foreach( (array) $userdata as $user ) {
+	foreach ( (array) $userdata as $user ) {
 		$users[$user->user_id] = bp_members_get_user_url( $user->user_id );
 	}
 
-	foreach( (array) $comments as $i => $comment ) {
+	foreach ( (array) $comments as $i => $comment ) {
 		if ( ! empty( $comment->user_id ) ) {
 			if ( ! empty( $users[$comment->user_id] ) ) {
 				$comments[$i]->comment_author_url = $users[$comment->user_id];

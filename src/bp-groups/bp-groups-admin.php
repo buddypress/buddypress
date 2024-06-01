@@ -360,7 +360,7 @@ function bp_groups_admin_load() {
 				bp_groups_defer_group_members_count( true );
 			}
 
-			foreach( array_values( $user_names ) as $user_name ) {
+			foreach ( array_values( $user_names ) as $user_name ) {
 				$un = trim( $user_name );
 
 				// Make sure the user exists before attempting

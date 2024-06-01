@@ -305,7 +305,7 @@ function bp_core_check_for_disallowed_keys( $user_id = 0, $title = '', $content 
 		$pattern = "#$word#i";
 
 		// Loop through post data.
-		foreach( $_post as $post_data ) {
+		foreach ( $_post as $post_data ) {
 
 			// Check each user data for current word.
 			if ( preg_match( $pattern, $post_data ) ) {

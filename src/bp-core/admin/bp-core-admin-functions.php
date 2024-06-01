@@ -1406,7 +1406,7 @@ function bp_email_plaintext_metabox( $post ) {
 function bp_admin_wp_nav_menu_restrict_items() {
 	?>
 	<script type="text/javascript">
-	jQuery( '#menu-to-edit').on( 'click', 'a.item-edit', function() {
+	jQuery( '#menu-to-edit').on( 'click', 'a.item-edit', function () {
 		var settings  = jQuery(this).closest( '.menu-item-bar' ).next( '.menu-item-settings' );
 		var css_class = settings.find( '.edit-menu-item-classes' );
 
@@ -1540,8 +1540,8 @@ function bp_core_admin_user_manage_spammers() {
 function bp_core_admin_user_spammed_js() {
 	?>
 	<script type="text/javascript">
-		jQuery( document ).ready( function($) {
-			$( '.row-actions .ham' ).each( function() {
+		jQuery( document ).ready( function ($) {
+			$( '.row-actions .ham' ).each( function () {
 				$( this ).closest( 'tr' ).addClass( 'site-spammed' );
 			});
 		});

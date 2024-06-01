@@ -536,7 +536,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 			if ( 0 < count( $avatar_files ) ) {
 
 				// Check for current avatar.
-				foreach( $avatar_files as $key => $value ) {
+				foreach ( $avatar_files as $key => $value ) {
 					if ( strpos ( $value, $avatar_size )!== false ) {
 						$avatar_url = $avatar_folder_url . '/' . $avatar_files[$key];
 					}
@@ -544,7 +544,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 				// Legacy avatar check.
 				if ( !isset( $avatar_url ) ) {
-					foreach( $avatar_files as $key => $value ) {
+					foreach ( $avatar_files as $key => $value ) {
 						if ( strpos ( $value, $legacy_user_avatar_name )!== false ) {
 							$avatar_url = $avatar_folder_url . '/' . $avatar_files[$key];
 						}
@@ -552,7 +552,7 @@ function bp_core_fetch_avatar( $args = '' ) {
 
 					// Legacy group avatar check.
 					if ( !isset( $avatar_url ) ) {
-						foreach( $avatar_files as $key => $value ) {
+						foreach ( $avatar_files as $key => $value ) {
 							if ( strpos ( $value, $legacy_group_avatar_name )!== false ) {
 								$avatar_url = $avatar_folder_url . '/' . $avatar_files[$key];
 							}
@@ -2312,7 +2312,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 
 	// Add a revision of the current avatar if it's not a mystery man!
 	if ( $current_avatars ) {
-		foreach( $current_avatars as $current_avatar ) {
+		foreach ( $current_avatars as $current_avatar ) {
 			if ( ! isset( $current_avatar->name, $current_avatar->id, $current_avatar->path ) ) {
 				continue;
 			}
@@ -2393,7 +2393,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 				}
 			}
 		} else {
-			foreach( $avatar_types as $type_key => $avatar_path ) {
+			foreach ( $avatar_types as $type_key => $avatar_path ) {
 				$filename  = wp_basename( $avatar_path );
 				$avatar_id = pathinfo( $filename, PATHINFO_FILENAME );
 				$recycle_path = $avatar_dir_path . '/' . str_replace( $avatar_id, $recycle_timestamp . '-bp' . $type_key, $filename );

@@ -103,7 +103,7 @@ function bp_activity_find_mentions( $content ) {
 	$mentioned_users = array();
 
 	// We've found some mentions! Check to see if users exist.
-	foreach( (array) array_values( $usernames ) as $username ) {
+	foreach ( (array) array_values( $usernames ) as $username ) {
 		$user_id = bp_activity_get_userid_from_mentionname( $username );
 
 		// The user ID exists, so let's add it to our array.
@@ -180,7 +180,7 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 	}
 
 	// Increment mention count foreach mentioned user.
-	foreach( (array) array_keys( $usernames ) as $user_id ) {
+	foreach ( (array) array_keys( $usernames ) as $user_id ) {
 		bp_activity_update_mention_count_for_user( $user_id, $activity_id, $action );
 	}
 }
@@ -3255,7 +3255,7 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 
 		// Recursively delete all children of this comment.
 		if ( ! empty( $children ) ) {
-			foreach( (array) $children as $child ) {
+			foreach ( (array) $children as $child ) {
 				bp_activity_delete_children( $activity_id, $child->id );
 			}
 		}
@@ -3852,7 +3852,7 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 	$notifications = BP_Core_Notification::get_all_for_user( $receiver_user_id, 'all' );
 
 	// Don't leave multiple notifications for the same activity item.
-	foreach( $notifications as $notification ) {
+	foreach ( $notifications as $notification ) {
 		if ( $activity_id == $notification->item_id ) {
 			return;
 		}
@@ -4121,7 +4121,7 @@ add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
 function bp_dtheme_embed_read_more( $activity ) {
 	buddypress()->activity->read_more_id = $activity->id;
 
-	add_filter( 'embed_post_id',         function() { return buddypress()->activity->read_more_id; } );
+	add_filter( 'embed_post_id',         function () { return buddypress()->activity->read_more_id; } );
 	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
 	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }

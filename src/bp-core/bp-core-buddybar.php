@@ -967,7 +967,7 @@ function bp_core_reset_subnav_items( $parent_slug, $component = 'members' ) {
 		return;
 	}
 
-	foreach( $subnav_items as $subnav_item ) {
+	foreach ( $subnav_items as $subnav_item ) {
 		$bp->{$component}->nav->delete_nav( $subnav_item->slug, $parent_slug );
 	}
 }

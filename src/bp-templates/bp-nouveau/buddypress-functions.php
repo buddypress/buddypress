@@ -102,7 +102,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 
 		// Load AJAX code only on AJAX requests.
 		} else {
-			add_action( 'admin_init', function() {
+			add_action( 'admin_init', function () {
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX ) {
 					require bp_nouveau()->includes_dir . 'ajax.php';
 				}

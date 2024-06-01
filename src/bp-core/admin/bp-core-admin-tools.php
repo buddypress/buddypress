@@ -557,7 +557,7 @@ function bp_admin_tools_feedback( $message, $class = false ) {
 
 	$message = '<div id="message" class="' . esc_attr( $class ) . ' notice is-dismissible">' . $message . '</div>';
 	$message = str_replace( "'", "\'", $message );
-	$lambda  = function() use ( $message ) {
+	$lambda  = function () use ( $message ) {
 		echo wp_kses(
 			$message,
 			array(
@@ -781,7 +781,7 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 			$prefix = $active_components[ $component_id ] .': ';
 		}
 
-		foreach( $settings as $bp_setting ) {
+		foreach ( $settings as $bp_setting ) {
 			$reverse = (
 				strpos( $bp_setting['id'], 'hide' ) !== false ||
 				strpos( $bp_setting['id'], 'restrict' ) !== false ||
@@ -1129,10 +1129,10 @@ function bp_core_admin_debug_information_add_help_tab() {
 		$screen->set_help_sidebar( $help_sidebar . $bp_links );
 		wp_add_inline_script(
 			'site-health',
-			'( function() {
+			'( function () {
 				let bpHelpSidebarLinks;
 
-				document.onreadystatechange = function()  {
+				document.onreadystatechange = function ()  {
 					if ( document.readyState === "complete" ) {
 						bpHelpSidebarLinks = document.querySelector( \'.bp-help-sidebar-links\' ).closest( \'p\')
 						bpHelpSidebarLinks.style.display = \'none\';
@@ -1141,7 +1141,7 @@ function bp_core_admin_debug_information_add_help_tab() {
 
 				document.querySelectorAll( \'.contextual-help-tabs ul li a\' ).forEach(
 					function( a ) {
-						a.addEventListener( \'click\', function( e ) {
+						a.addEventListener( \'click\', function ( e ) {
 							if ( \'tab-link-bp-debug-settings\' === e.target.parentElement.getAttribute( \'id\' ) ) {
 								bpHelpSidebarLinks.style.display = \'block\';
 							} else {

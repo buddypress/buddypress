@@ -425,7 +425,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 		$field_value = wp_specialchars_decode( $field_value, ENT_QUOTES );
 		$values      = explode( ';', $field_value );
 
-		array_walk( $values, function( &$value, $key ) use ( $field_type, $field ) {
+		array_walk( $values, function ( &$value, $key ) use ( $field_type, $field ) {
 			$value = bp_xprofile_escape_field_data( $value, $field_type, $field->id );
 		} );
 	}
@@ -479,7 +479,7 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 function xprofile_filter_comments( $comments, $post_id = 0 ) {
 
 	// Locate comment authors with WP accounts.
-	foreach( (array) $comments as $comment ) {
+	foreach ( (array) $comments as $comment ) {
 		if ( $comment->user_id ) {
 			$user_ids[] = $comment->user_id;
 		}
@@ -492,13 +492,13 @@ function xprofile_filter_comments( $comments, $post_id = 0 ) {
 
 	// Pull up the xprofile fullname of each commenter.
 	if ( $fullnames = bp_core_get_user_displaynames( $user_ids ) ) {
-		foreach( (array) $fullnames as $user_id => $user_fullname ) {
+		foreach ( (array) $fullnames as $user_id => $user_fullname ) {
 			$users[ $user_id ] = trim( stripslashes( $user_fullname ) );
 		}
 	}
 
 	// Loop through and match xprofile fullname with commenters.
-	foreach( (array) $comments as $i => $comment ) {
+	foreach ( (array) $comments as $i => $comment ) {
 		if ( ! empty( $comment->user_id ) ) {
 			if ( ! empty( $users[ $comment->user_id ] ) ) {
 				$comments[ $i ]->comment_author = $users[ $comment->user_id ];
