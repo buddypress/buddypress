@@ -407,7 +407,7 @@ class BP_Admin {
 			$GLOBALS['menu'][26][2] = esc_url_raw( $email_url );
 		}
 
-		foreach( $hooks as $hook ) {
+		foreach ( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
 
 			if ( 'settings_page_bp-rewrites' === $hook ) {
@@ -424,7 +424,7 @@ class BP_Admin {
 		 */
 		do_action_ref_array( 'bp_admin_submenu_pages', array( &$this->submenu_pages ) );
 
-		foreach( $this->submenu_pages as $subpage_type => $subpage_hooks ) {
+		foreach ( $this->submenu_pages as $subpage_type => $subpage_hooks ) {
 			foreach ( $subpage_hooks as $subpage_hook ) {
 				add_action( "admin_print_styles-{$subpage_hook}", array( $this, 'add_inline_styles' ), 20 );
 
@@ -467,7 +467,7 @@ class BP_Admin {
 			'bp_email_redirect_to_customizer'
 		);
 
-		foreach( $hooks as $hook ) {
+		foreach ( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
 		}
 	}
@@ -1635,8 +1635,8 @@ class BP_Admin {
 			wp_add_inline_script(
 				'plugin-install',
 				'
-				( function() {
-					document.onreadystatechange = function()  {
+				( function () {
+					document.onreadystatechange = function ()  {
 						if ( document.readyState === "complete" ) {
 							document.querySelector( \'.plugin-card-bp-classic .open-plugin-details-modal\' ).click();
 						}

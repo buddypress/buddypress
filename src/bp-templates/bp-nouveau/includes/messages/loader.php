@@ -52,7 +52,7 @@ class BP_Nouveau_Messages {
 
 		// Load AJAX code only on AJAX requests.
 		} else {
-			add_action( 'admin_init', function() {
+			add_action( 'admin_init', function () {
 				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX && 0 === strpos( $_REQUEST['action'], 'messages_' ) ) {
 					require bp_nouveau()->messages->dir . 'ajax.php';
 				}

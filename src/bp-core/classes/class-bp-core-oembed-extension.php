@@ -439,7 +439,7 @@ abstract class BP_Core_oEmbed_Extension {
 			if ( ! empty( $custom_args ) ) {
 				buddypress()->{$this->slug_endpoint}->embedargs_in_progress = array();
 
-				foreach( $custom_args as $arg ) {
+				foreach ( $custom_args as $arg ) {
 					if ( isset( $request[ $arg ] ) ) {
 						buddypress()->{$this->slug_endpoint}->embedargs_in_progress[ $arg ] = $request[ $arg ];
 					}
@@ -539,7 +539,7 @@ abstract class BP_Core_oEmbed_Extension {
 
 			// Add custom route args to iframe.
 			if ( isset( buddypress()->{$this->slug_endpoint}->embedargs_in_progress ) && buddypress()->{$this->slug_endpoint}->embedargs_in_progress ) {
-				foreach( buddypress()->{$this->slug_endpoint}->embedargs_in_progress as $key => $value ) {
+				foreach ( buddypress()->{$this->slug_endpoint}->embedargs_in_progress as $key => $value ) {
 					$url = add_query_arg( $key, $value, $url );
 				}
 			}

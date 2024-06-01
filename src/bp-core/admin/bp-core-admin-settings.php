@@ -431,8 +431,8 @@ function bp_core_admin_settings_save() {
 		// Because many settings are saved with checkboxes, and thus will have no values
 		// in the $_POST array when unchecked, we loop through the registered settings.
 		if ( isset( $wp_settings_fields['buddypress'] ) ) {
-			foreach( (array) $wp_settings_fields['buddypress'] as $section => $settings ) {
-				foreach( $settings as $setting_name => $setting ) {
+			foreach ( (array) $wp_settings_fields['buddypress'] as $section => $settings ) {
+				foreach ( $settings as $setting_name => $setting ) {
 					$value = isset( $_POST[$setting_name] ) ? $_POST[$setting_name] : '';
 
 					bp_update_option( $setting_name, $value );
@@ -454,7 +454,7 @@ function bp_core_admin_settings_save() {
 			'hide-loggedout-adminbar',
 		);
 
-		foreach( $legacy_options as $legacy_option ) {
+		foreach ( $legacy_options as $legacy_option ) {
 			// Note: Each of these options is represented by its opposite in the UI
 			// Ie, the Profile Syncing option reads "Enable Sync", so when it's checked,
 			// the corresponding option should be unset.

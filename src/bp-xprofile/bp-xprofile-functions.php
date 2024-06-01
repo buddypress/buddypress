@@ -393,7 +393,7 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
 
 	if ( is_array( $values ) ) {
 		$data = array();
-		foreach( (array) $values as $value ) {
+		foreach ( (array) $values as $value ) {
 
 			/**
 			 * Filters the field data value for a specific field for the user.
@@ -1358,7 +1358,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	// precedence.
 	$default_visibility_levels = BP_XProfile_Group::fetch_default_visibility_levels();
 
-	foreach( (array) $default_visibility_levels as $d_field_id => $defaults ) {
+	foreach ( (array) $default_visibility_levels as $d_field_id => $defaults ) {
 		// If the admin has forbidden custom visibility levels for this field, replace
 		// the user-provided setting with the default specified by the admin.
 		if ( isset( $defaults['allow_custom'] ) && isset( $defaults['default'] ) && 'disabled' == $defaults['allow_custom'] ) {
@@ -1367,7 +1367,7 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	}
 
 	$field_ids = array();
-	foreach( $user_visibility_levels as $field_id => $field_visibility ) {
+	foreach ( $user_visibility_levels as $field_id => $field_visibility ) {
 		if ( in_array( $field_visibility, $levels ) ) {
 			$field_ids[] = $field_id;
 		}

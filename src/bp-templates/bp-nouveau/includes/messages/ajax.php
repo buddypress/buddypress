@@ -9,7 +9,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'admin_init', function() {
+add_action( 'admin_init', function () {
 	$ajax_actions = array(
 		array(
 			'messages_send_message' => array(
@@ -137,7 +137,7 @@ function bp_nouveau_ajax_messages_send_message() {
 	 * @param array $value Array of trimmed usernames.
 	 * @param array $value Array of un-trimmed usernames submitted.
 	 */
-	$recipients = apply_filters( 'bp_messages_recipients', array_map( function( $username ) {
+	$recipients = apply_filters( 'bp_messages_recipients', array_map( function ( $username ) {
 		return trim( $username, '@' );
 	}, $_POST['send_to'] ) );
 

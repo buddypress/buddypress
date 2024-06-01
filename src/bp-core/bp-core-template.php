@@ -472,7 +472,7 @@ function bp_search_form_type_select() {
 	 * @param array $options Array of options to add to select field.
 	 */
 	$options = apply_filters( 'bp_search_form_type_select_options', $options );
-	foreach( (array) $options as $option_value => $option_title ) {
+	foreach ( (array) $options as $option_value => $option_title ) {
 		$selection_box .= sprintf( '<option value="%s">%s</option>', esc_attr( $option_value ), esc_html( $option_title ) );
 	}
 
@@ -678,7 +678,7 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 		 */
 		$attributes = (array) apply_filters( 'bp_get_form_field_attributes', $attributes, $name );
 
-		foreach( $attributes as $attr => $value ) {
+		foreach ( $attributes as $attr => $value ) {
 			// Numeric keyed array.
 			if (is_numeric( $attr ) ) {
 				$retval .= sprintf( ' %s', esc_attr( $value ) );
@@ -3219,7 +3219,7 @@ function bp_the_body_class() {
 
 			// Add current user member types.
 			if ( $member_types = bp_get_member_type( bp_displayed_user_id(), false ) ) {
-				foreach( $member_types as $member_type ) {
+				foreach ( $member_types as $member_type ) {
 					$bp_classes[] = sprintf( 'member-type-%s', esc_attr( $member_type ) );
 				}
 			}
@@ -3508,7 +3508,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 		if ( ! empty( $nav_menu->children ) ) {
 			$submenus = array();
 
-			foreach( $nav_menu->children as $sub_menu ) {
+			foreach ( $nav_menu->children as $sub_menu ) {
 				$submenu = new stdClass;
 				$submenu->class  = array( 'menu-child' );
 				$submenu->css_id = $sub_menu->css_id;

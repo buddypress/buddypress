@@ -651,7 +651,7 @@ class BP_Component {
 
 			// Sub nav items are not required.
 			if ( ! empty( $sub_nav ) ) {
-				foreach( (array) $sub_nav as $nav ) {
+				foreach ( (array) $sub_nav as $nav ) {
 					if ( ! isset( $nav['slug'], $nav['parent_slug'] ) ) {
 						continue;
 					}
@@ -731,7 +731,7 @@ class BP_Component {
 
 				// Sub nav items are not required.
 				if ( $this->sub_nav ) {
-					foreach( (array) $this->sub_nav as $nav ) {
+					foreach ( (array) $this->sub_nav as $nav ) {
 						if ( isset( $nav['user_has_access_callback'] ) && is_callable( $nav['user_has_access_callback'] ) ) {
 							$nav['user_has_access'] = call_user_func( $nav['user_has_access_callback'] );
 							unset( $nav['user_has_access_callback'] );
@@ -772,7 +772,7 @@ class BP_Component {
 			if ( ! empty( $sub_nav ) ) {
 				$this->sub_nav = $sub_nav;
 
-				foreach( (array) $sub_nav as $nav ) {
+				foreach ( (array) $sub_nav as $nav ) {
 					bp_core_new_subnav_item( $nav, 'members' );
 				}
 			}
@@ -827,7 +827,7 @@ class BP_Component {
 			// Fill in position if one wasn't passed for backpat.
 			$pos = 0;
 			$not_set_pos = 1;
-			foreach( $wp_admin_nav as $key => $nav ) {
+			foreach ( $wp_admin_nav as $key => $nav ) {
 				if ( ! isset( $nav['position'] ) ) {
 					$wp_admin_nav[$key]['position'] = $pos + $not_set_pos;
 
@@ -851,7 +851,7 @@ class BP_Component {
 			$this->admin_menu = $wp_admin_nav;
 
 			// Add each admin menu.
-			foreach( $this->admin_menu as $admin_menu ) {
+			foreach ( $this->admin_menu as $admin_menu ) {
 				$wp_admin_bar->add_node( $admin_menu );
 			}
 		}
@@ -971,7 +971,7 @@ class BP_Component {
 		 * components to play nicely with the WordPress metadata API.
 		 */
 		if ( !empty( $tables ) && is_array( $tables ) ) {
-			foreach( $tables as $meta_prefix => $table_name ) {
+			foreach ( $tables as $meta_prefix => $table_name ) {
 				$wpdb->{$meta_prefix . 'meta'} = $table_name;
 			}
 
@@ -1402,7 +1402,7 @@ class BP_Component {
 			 */
 			$controllers = (array) apply_filters( 'bp_' . $this->id . '_rest_api_controllers', $controllers );
 
-			foreach( $controllers as $controller ) {
+			foreach ( $controllers as $controller ) {
 				if ( ! in_array( $controller, $_controllers, true ) ) {
 					continue;
 				}

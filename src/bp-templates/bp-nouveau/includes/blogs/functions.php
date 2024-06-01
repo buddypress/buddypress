@@ -184,7 +184,7 @@ function bp_nouveau_blogs_customizer_controls( $controls = array() ) {
  */
 function bp_nouveau_get_blog_signup_inline_script() {
 	return '
-		( function( $ ) {
+		( function ( $ ) {
 			if ( $( \'body\' ).hasClass( \'register\' ) ) {
 				var blog_checked = $( \'#signup_with_blog\' );
 
@@ -194,9 +194,9 @@ function bp_nouveau_get_blog_signup_inline_script() {
 				}
 
 				// toggle "Blog Details" block whenever checkbox is checked
-				blog_checked.change( function( event ) {
+				blog_checked.change( function ( event ) {
 					// Toggle HTML5 required attribute.
-					$.each( $( \'#blog-details\' ).find( \'[aria-required]\' ), function( i, input ) {
+					$.each( $( \'#blog-details\' ).find( \'[aria-required]\' ), function ( i, input ) {
 						$( input ).prop( \'required\',  $( event.target ).prop( \'checked\' ) );
 					} );
 

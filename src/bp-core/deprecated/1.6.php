@@ -264,12 +264,12 @@ if ( !function_exists( 'bp_dtheme_register_actions' ) ) :
 		);
 
 		// For each of the problematic hooks, exit at the very end of execution.
-		foreach( $actions as $action ) {
-			add_action( 'wp_ajax_' . $action, function() {
+		foreach ( $actions as $action ) {
+			add_action( 'wp_ajax_' . $action, function () {
 				exit;
 			}, 9999 );
 
-			add_action( 'wp_ajax_nopriv_' . $action, function() {
+			add_action( 'wp_ajax_nopriv_' . $action, function () {
 				exit;
 			}, 9999 );
 		}

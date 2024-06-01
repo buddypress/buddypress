@@ -185,7 +185,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		 * The "wp_ajax_" action is used for logged in users, and "wp_ajax_nopriv_"
 		 * executes for users that aren't logged in. This is for backpat with BP <1.6.
 		 */
-		foreach( $actions as $name => $function ) {
+		foreach ( $actions as $name => $function ) {
 			bp_ajax_register_action( $name );
 			add_action( 'wp_ajax_'        . $name, $function );
 			add_action( 'wp_ajax_nopriv_' . $name, $function );
@@ -1757,7 +1757,7 @@ function bp_legacy_theme_ajax_messages_send_reply() {
 		bp_messages_embed();
 
 		// Add new-message css class.
-		add_filter( 'bp_get_the_thread_message_css_class', function( $retval ) {
+		add_filter( 'bp_get_the_thread_message_css_class', function ( $retval ) {
 			$retval[] = 'new-message';
 			return $retval;
 		} );

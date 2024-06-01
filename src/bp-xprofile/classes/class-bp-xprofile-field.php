@@ -1647,7 +1647,7 @@ class BP_XProfile_Field {
 				<div>
 					<select name="default-visibility" id="default-visibility">
 
-						<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
+						<?php foreach ( bp_xprofile_get_visibility_levels() as $level ) : ?>
 
 							<option value="<?php echo esc_attr( $level['id'] ); ?>" <?php selected( $this->get_default_visibility(), $level['id'] ); ?>>
 								<?php echo esc_html( $level['label'] ); ?>

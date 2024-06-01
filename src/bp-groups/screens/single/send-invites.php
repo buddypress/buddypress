@@ -27,7 +27,7 @@ function groups_screen_group_invite() {
 		}
 
 		if ( ! empty( $_POST['friends'] ) ) {
-			foreach( (array) $_POST['friends'] as $friend ) {
+			foreach ( (array) $_POST['friends'] as $friend ) {
 				groups_invite_user( array( 'user_id' => $friend, 'group_id' => $bp->groups->current_group->id ) );
 			}
 		}

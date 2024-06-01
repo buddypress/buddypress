@@ -28,12 +28,12 @@ function bp_email_init_customizer( WP_Customize_Manager $wp_customize ) {
 	) );
 
 	$sections = bp_email_get_customizer_sections();
-	foreach( $sections as $section_id => $args ) {
+	foreach ( $sections as $section_id => $args ) {
 		$wp_customize->add_section( $section_id, $args );
 	}
 
 	$settings = bp_email_get_customizer_settings();
-	foreach( $settings as $setting_id => $args ) {
+	foreach ( $settings as $setting_id => $args ) {
 		$wp_customize->add_setting( $setting_id, $args );
 	}
 

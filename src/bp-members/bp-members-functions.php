@@ -2103,7 +2103,7 @@ function bp_core_activate_signup( $key ) {
 		if ( ! empty( $user['meta']['profile_field_ids'] ) ) {
 			$profile_field_ids = explode( ',', $user['meta']['profile_field_ids'] );
 
-			foreach( (array) $profile_field_ids as $field_id ) {
+			foreach ( (array) $profile_field_ids as $field_id ) {
 				$current_field = isset( $user['meta']["field_{$field_id}"] ) ? $user['meta']["field_{$field_id}"] : false;
 
 				if ( ! empty( $current_field ) ) {

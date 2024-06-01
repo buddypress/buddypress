@@ -69,7 +69,7 @@ class BP_Core_HTML_Element {
 
 		// Render attributes.
 		$attributes = '';
-		foreach( (array) $r['attr'] as $attr => $val ) {
+		foreach ( (array) $r['attr'] as $attr => $val ) {
 			// If attribute is empty, skip.
 			if ( empty( $val ) ) {
 				continue;
