@@ -372,8 +372,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of accepted parameters.
-	 *
+	 * @param array $args {@see BP_Invitation::get()}.
 	 * @return array Located invitations.
 	 */
 	public function get_invitations( $args = array() ) {
@@ -392,8 +391,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @see BP_Invitation::get_total_count() for a description of accepted parameters.
-	 *
+	 * @param array $args {@see BP_Invitation::get_total_count()}.
 	 * @return int Total number of invitations.
 	 */
 	public function get_invitations_total_count( $args = array() ) {
@@ -412,8 +410,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of accepted parameters.
-	 *
+	 * @param array $args {@see BP_Invitation::get()}.
 	 * @return array Located invitations.
 	 */
 	public function get_requests( $args = array() ) {
@@ -433,8 +430,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of accepted parameters.
-	 *
+	 * @param array $args {@see BP_Invitation::get()}.
 	 * @return int|bool ID of first found invitation or false if none found.
 	 */
 	public function invitation_exists( $args = array() ) {
@@ -453,8 +449,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of accepted parameters.
-	 *
+	 * @param array $args {@see BP_Invitation::get()}.
 	 * @return int|bool ID of existing request or false if none found.
 	 */
 	public function request_exists( $args = array() ) {
@@ -475,29 +470,10 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of
-	 *      accepted update/where arguments.
-	 *
-	 * @param array $args {
-	 *     Invitation characteristics. Some basic info is required to accept an invitation,
-	 *     because we'll need to accept all similar invitations and requests.
-	 *
-	 *     @type int    $user_id           User ID of the invitee.
-	 *                                     Either 'user_id' or 'invitee_email' is required.
-	 *     @type string $invitee_email     Email address of the invitee.
-	 *                                     Either 'user_id' or 'invitee_email' is required.
-	 *     @type int    $item_id           Item ID of the invitation to accept.
-	 *     @type int    $secondary_item_id Optional. Secondary item ID if needed.
-	 *     @type string $invite_sent       Optional. Defaults to only allowing the
-	 *                                     acceptance of sent invitations.
-	 *     @type string $date_modified     Modified time in 'Y-m-d h:i:s' format, GMT.
-	 *                                     Defaults to current time if not specified.
-	 * }
-	 *
+	 * @param array $args {BP_Invitation::get()}.
 	 * @return int|bool Number of rows updated on success, false on failure.
 	 */
 	public function accept_invitation( $args = array() ) {
-
 		$r = bp_parse_args(
 			$args,
 			array(
@@ -538,24 +514,10 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of
-	 *      accepted update/where arguments.
-	 *
-	 * @param array $args {
-	 *     Invitation characteristics. Some basic info is required to accept an invitation,
-	 *     because we'll need to accept all similar invitations and requests.
-	 *
-	 *     @type int    $user_id           User ID of the invitee.
-	 *     @type int    $item_id           Item ID of the invitation to accept.
-	 *     @type int    $secondary_item_id Optional. Secondary item ID if needed.
-	 *     @type string $date_modified     Modified time in 'Y-m-d h:i:s' format, GMT.
-	 *                                     Defaults to current time if not specified.
-	 * }
-	 *
+	 * @param array $args {BP_Invitation::get()}.
 	 * @return bool Number of rows updated on success, false on failure.
 	 */
 	public function accept_request( $args = array() ) {
-
 		$r = bp_parse_args(
 			$args,
 			array(
@@ -593,7 +555,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of
+	 * @see BP_Invitation::update() for a description of
 	 *      accepted update/where arguments.
 	 *
 	 * @param array $update_args Associative array of fields to update,
@@ -606,6 +568,7 @@ abstract class BP_Invitation_Manager {
 	 */
 	public function update_invitation( $update_args = array(), $where_args = array() ) {
 		$update_args['class'] = $this->class_name;
+
 		return BP_Invitation::update( $update_args, $where_args );
 	}
 
@@ -668,10 +631,9 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::mark_accepted()
-	 *      for a description of arguments.
-	 *
-	 * @return bool
+	 * @param int   $id   ID of the invitation to mark as accepted.
+	 * @param array $args {@see BP_Invitation::mark_accepted()}.
+	 * @return int|bool Number of rows updated on success, false on failure.
 	 */
 	public function mark_accepted_by_id( $id, $args ) {
 		return BP_Invitation::mark_accepted( $id, $args );
@@ -684,8 +646,8 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::mark_accepted_by_data()
-	 *      for a description of arguments.
+	 * @param array $args {BP_Invitation::mark_accepted_by_data()}.
+	 * @return int|bool Number of rows updated on success, false on failure.
 	 */
 	public function mark_accepted( $args ) {
 		$args['class'] = $this->class_name;
@@ -699,8 +661,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::delete for a description of arguments.
-	 *
+	 * @param array $args {BP_Invitation::delete()}.
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public function delete( $args ) {
@@ -716,8 +677,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::delete for a description of arguments.
-	 *
+	 * @param array $args {BP_Invitation::delete()}.
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public function delete_requests( $args ) {
@@ -736,11 +696,7 @@ abstract class BP_Invitation_Manager {
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public function delete_all() {
-		return BP_Invitation::delete(
-			array(
-				'class' => $this->class_name,
-			)
-		);
+		return BP_Invitation::delete( array( 'class' => $this->class_name ) );
 	}
 
 	/**

@@ -17,12 +17,12 @@ if ( ! class_exists( 'WP_Date_Query' ) ) {
 /**
  * BuddyPress date query class.
  *
- * Extends the {@link WP_Date_Query} class for use with BuddyPress.
+ * Extends the {@see WP_Date_Query} class for use with BuddyPress.
  *
  * @since 2.1.0
  *
  * @param array $date_query {
- *     Date query arguments.  See first parameter of {@link WP_Date_Query::__construct()}.
+ *     Date query arguments.  See first parameter of {@see WP_Date_Query::__construct()}.
  * }
  * @param string $column The DB column to query against.
  */
