@@ -10,7 +10,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( !class_exists( 'BP_Admin' ) ) :
+if ( class_exists( 'BP_Admin' ) ) {
+	return;
+}
 
 /**
  * Load BuddyPress plugin admin area.
@@ -28,7 +30,7 @@ class BP_Admin {
 	 * Path to the BuddyPress admin directory.
 	 *
 	 * @since 1.6.0
-	 * @var string $admin_dir
+	 * @var string
 	 */
 	public $admin_dir = '';
 
@@ -38,7 +40,7 @@ class BP_Admin {
 	 * URL to the BuddyPress admin directory.
 	 *
 	 * @since 1.6.0
-	 * @var string $admin_url
+	 * @var string
 	 */
 	public $admin_url = '';
 
@@ -46,7 +48,7 @@ class BP_Admin {
 	 * URL to the BuddyPress images directory.
 	 *
 	 * @since 1.6.0
-	 * @var string $images_url
+	 * @var string
 	 */
 	public $images_url = '';
 
@@ -54,7 +56,7 @@ class BP_Admin {
 	 * URL to the BuddyPress admin CSS directory.
 	 *
 	 * @since 1.6.0
-	 * @var string $css_url
+	 * @var string
 	 */
 	public $css_url = '';
 
@@ -72,7 +74,7 @@ class BP_Admin {
 	 * Notices used for user feedback, like saving settings.
 	 *
 	 * @since 1.9.0
-	 * @var array()
+	 * @var array
 	 */
 	public $notices = array();
 
@@ -80,7 +82,7 @@ class BP_Admin {
 	 * BuddyPress admin screens nav tabs.
 	 *
 	 * @since 10.0.0
-	 * @var array()
+	 * @var array
 	 */
 	public $nav_tabs = array();
 
@@ -88,7 +90,7 @@ class BP_Admin {
 	 * BuddyPress admin active nav tab.
 	 *
 	 * @since 10.0.0
-	 * @var string()
+	 * @var string
 	 */
 	public $active_nav_tab = '';
 
@@ -96,7 +98,7 @@ class BP_Admin {
 	 * BuddyPress admin screens submenu pages.
 	 *
 	 * @since 10.0.0
-	 * @var array()
+	 * @var array
 	 */
 	public $submenu_pages = array();
 
@@ -106,7 +108,6 @@ class BP_Admin {
 	 * The main BuddyPress admin loader.
 	 *
 	 * @since 1.6.0
-	 *
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -122,12 +123,12 @@ class BP_Admin {
 	private function setup_globals() {
 		$bp = buddypress();
 
-		// Paths and URLs
-		$this->admin_dir  = trailingslashit( $bp->plugin_dir  . 'bp-core/admin' ); // Admin path.
-		$this->admin_url  = trailingslashit( $bp->plugin_url  . 'bp-core/admin' ); // Admin url.
-		$this->images_url = trailingslashit( $this->admin_url . 'images'        ); // Admin images URL.
-		$this->css_url    = trailingslashit( $this->admin_url . 'css'           ); // Admin css URL.
-		$this->js_url     = trailingslashit( $this->admin_url . 'js'            ); // Admin css URL.
+		// Paths and URLs.
+		$this->admin_dir  = trailingslashit( $bp->plugin_dir . 'bp-core/admin' ); // Admin path.
+		$this->admin_url  = trailingslashit( $bp->plugin_url . 'bp-core/admin' ); // Admin url.
+		$this->images_url = trailingslashit( $this->admin_url . 'images' ); // Admin images URL.
+		$this->css_url    = trailingslashit( $this->admin_url . 'css' ); // Admin css URL.
+		$this->js_url     = trailingslashit( $this->admin_url . 'js' ); // Admin css URL.
 
 		// Main settings page.
 		$this->settings_page = bp_core_do_network_admin() ? 'settings.php' : 'options-general.php';
@@ -158,14 +159,13 @@ class BP_Admin {
 	 * Set up the admin hooks, actions, and filters.
 	 *
 	 * @since 1.6.0
-	 *
 	 */
 	private function setup_actions() {
 
 		/* General Actions ***************************************************/
 
 		// Add some page specific output to the <head>.
-		add_action( 'bp_admin_head',            array( $this, 'admin_head'  ), 999 );
+		add_action( 'bp_admin_head',            array( $this, 'admin_head' ), 999 );
 
 		// Add menu item to settings menu.
 		add_action( 'admin_menu',               array( $this, 'site_admin_menus' ), 5 );
@@ -224,14 +224,14 @@ class BP_Admin {
 		add_filter( 'ms_user_row_actions', 'bp_core_admin_user_row_actions', 10, 2 );
 		add_filter( 'user_row_actions',    'bp_core_admin_user_row_actions', 10, 2 );
 
-		// Emails
+		// Emails.
 		add_filter( 'bp_admin_menu_order', array( $this, 'emails_admin_menu_order' ), 20 );
 		add_action( 'load-edit.php', array( $this, 'post_type_load_admin_screen' ), 20 );
 		add_action( 'load-post.php', array( $this, 'post_type_load_admin_screen' ), 20 );
 
 		// Official BuddyPress supported Add-ons.
 		add_filter( 'install_plugins_tabs', array( $this, 'addons_tab' ) );
-		add_filter( 'install_plugins_table_api_args_bp-add-ons', array( $this,'addons_args' ) );
+		add_filter( 'install_plugins_table_api_args_bp-add-ons', array( $this, 'addons_args' ) );
 	}
 
 	/**
@@ -319,7 +319,7 @@ class BP_Admin {
 		);
 
 		$this->submenu_pages['settings']['bp-admin-notifications'] = $bp_admin_notifications;
-		$hooks[]                                                   = $bp_admin_notifications;
+		$hooks[] = $bp_admin_notifications;
 
 		// Credits.
 		$bp_credits_page = add_submenu_page(
@@ -407,7 +407,7 @@ class BP_Admin {
 			$GLOBALS['menu'][26][2] = esc_url_raw( $email_url );
 		}
 
-		foreach( $hooks as $hook ) {
+		foreach ( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
 
 			if ( 'settings_page_bp-rewrites' === $hook ) {
@@ -424,7 +424,7 @@ class BP_Admin {
 		 */
 		do_action_ref_array( 'bp_admin_submenu_pages', array( &$this->submenu_pages ) );
 
-		foreach( $this->submenu_pages as $subpage_type => $subpage_hooks ) {
+		foreach ( $this->submenu_pages as $subpage_type => $subpage_hooks ) {
 			foreach ( $subpage_hooks as $subpage_hook ) {
 				add_action( "admin_print_styles-{$subpage_hook}", array( $this, 'add_inline_styles' ), 20 );
 
@@ -467,7 +467,7 @@ class BP_Admin {
 			'bp_email_redirect_to_customizer'
 		);
 
-		foreach( $hooks as $hook ) {
+		foreach ( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
 		}
 	}
@@ -476,7 +476,6 @@ class BP_Admin {
 	 * Register the settings.
 	 *
 	 * @since 1.6.0
-	 *
 	 */
 	public function register_admin_settings() {
 
@@ -489,7 +488,7 @@ class BP_Admin {
 		add_settings_field( 'hide-loggedout-adminbar', __( 'Toolbar', 'buddypress' ), 'bp_admin_setting_callback_admin_bar', 'buddypress', 'bp_main' );
 		register_setting( 'buddypress', 'hide-loggedout-adminbar', 'intval' );
 
-		// Community Visibility
+		// Community Visibility.
 		if ( 'rewrites' === bp_core_get_query_parser() ) {
 			add_settings_field( '_bp_community_visibility', __( 'Community Visibility', 'buddypress' ), 'bp_admin_setting_callback_community_visibility', 'buddypress', 'bp_main' );
 			register_setting( 'buddypress', '_bp_community_visibility', 'bp_admin_sanitize_callback_community_visibility' );
@@ -546,7 +545,7 @@ class BP_Admin {
 
 			// Profile sync setting.
 			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync', 'buddypress', 'bp_xprofile' );
-			register_setting  ( 'buddypress', 'bp-disable-profile-sync', 'intval' );
+			register_setting( 'buddypress', 'bp-disable-profile-sync', 'intval' );
 		}
 
 		/* Groups Section ****************************************************/
@@ -611,15 +610,17 @@ class BP_Admin {
 			return;
 		}
 
-		$wp_admin_bar->add_node( array(
-			'parent' => 'wp-logo',
-			'id'     => 'bp-about',
-			'title'  => esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ),
-			'href'   => bp_get_admin_url( '?hello=buddypress' ),
-			'meta'   => array(
-				'class' => 'say-hello-buddypress',
-			),
-		) );
+		$wp_admin_bar->add_node(
+			array(
+				'parent' => 'wp-logo',
+				'id'     => 'bp-about',
+				'title'  => esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ),
+				'href'   => bp_get_admin_url( '?hello=buddypress' ),
+				'meta'   => array(
+					'class' => 'say-hello-buddypress',
+				),
+			)
+		);
 	}
 
 	/**
@@ -634,7 +635,7 @@ class BP_Admin {
 	public function modify_plugin_action_links( $links, $file ) {
 
 		// Return normal links if not BuddyPress.
-		if ( plugin_basename( buddypress()->basename ) != $file ) {
+		if ( plugin_basename( buddypress()->basename ) !== $file ) {
 			return $links;
 		}
 
@@ -779,7 +780,7 @@ class BP_Admin {
 		}
 
 		// Get BuddyPress stable version.
-		$version      =  self::display_version();
+		$version      = self::display_version();
 		$version_slug = 'version-' . str_replace( '.', '-', $version );
 
 		// The BP Classic Add-on's Modal box.
@@ -823,7 +824,7 @@ class BP_Admin {
 					<div id="top-features">
 						<h2>
 							<?php
-							printf(
+								printf(
 									/* Translators: %s is a raising hands emoji. */
 									esc_html__( 'You now have complete control over all BuddyPress-generated URLs %s', 'buddypress' ),
 									// phpcs:ignore WordPress.Security.EscapeOutput
@@ -894,7 +895,7 @@ class BP_Admin {
 
 						<h2>
 							<?php
-							printf(
+								printf(
 									/* Translators: %s is a woman supervillain emoji. */
 									esc_html__( 'Here\'s another benefit of the BP Rewrites API: the new "members only" community visibility level %s', 'buddypress' ),
 									// phpcs:ignore WordPress.Security.EscapeOutput
@@ -965,7 +966,7 @@ class BP_Admin {
 								),
 								'span' => array(
 									'class' => true,
-								)
+								),
 							)
 						);
 						?>
@@ -1283,7 +1284,7 @@ class BP_Admin {
 		$terms           = get_the_terms( $post_id, bp_get_email_tax_type() );
 		$taxonomy_object = get_taxonomy( bp_get_email_tax_type() );
 
-		if ( is_wp_error( $terms ) || ! $terms  ) {
+		if ( is_wp_error( $terms ) || ! $terms ) {
 			printf( '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">%s</span>', esc_html( $taxonomy_object->labels->no_terms ) );
 		} else {
 			$situations = wp_list_pluck( $terms, 'description' );
@@ -1347,7 +1348,7 @@ class BP_Admin {
 			$version = bp_get_version();
 
 			// Check for prerelease hyphen.
-			$pre     = strpos( $version, '-' );
+			$pre = strpos( $version, '-' );
 
 			// Strip prerelease suffix.
 			$display = ( false !== $pre )
@@ -1570,7 +1571,7 @@ class BP_Admin {
 						grid-template-columns: %1$s;
 					}
 					%2$s',
-					implode( " ", $grid_columns ),
+					implode( ' ', $grid_columns ),
 					$help_tab_css
 				)
 			);
@@ -1611,10 +1612,9 @@ class BP_Admin {
 	 *
 	 * @global int $paged The current page of the Plugin results.
 	 *
-	 * @param false|array $args  `false` by default.
-	 * @return array             The "BuddyPress add-ons" args.
+	 * @return array The "BuddyPress add-ons" args.
 	 */
-	public function addons_args( $args = false ) {
+	public function addons_args() {
 		global $paged;
 
 		return array(
@@ -1635,8 +1635,8 @@ class BP_Admin {
 			wp_add_inline_script(
 				'plugin-install',
 				'
-				( function() {
-					document.onreadystatechange = function()  {
+				( function () {
+					document.onreadystatechange = function ()  {
 						if ( document.readyState === "complete" ) {
 							document.querySelector( \'.plugin-card-bp-classic .open-plugin-details-modal\' ).click();
 						}
@@ -1685,4 +1685,3 @@ class BP_Admin {
 		<?php
 	}
 }
-endif; // End class_exists check.

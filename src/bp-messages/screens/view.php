@@ -11,8 +11,6 @@
  * Load an individual conversation screen.
  *
  * @since 1.0.0
- *
- * @return void.
  */
 function messages_screen_conversation() {
 

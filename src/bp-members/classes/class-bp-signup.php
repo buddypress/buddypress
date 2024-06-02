@@ -657,7 +657,7 @@ class BP_Signup {
 	 * @global wpdb $wpdb The WordPress database object.
 	 *
 	 * @param string $key Activation key.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public static function validate( $key = '' ) {
 		global $wpdb;

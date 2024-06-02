@@ -25,7 +25,7 @@ tests_add_filter( 'bp_send_email_delivery_class', '_bp_mock_mailer' );
  */
 $components = array( 'activity', 'blogs', 'friends', 'groups', 'members', 'messages', 'notifications', 'settings', 'xprofile' );
 foreach ( $components as $component ) {
-	add_action( "bp_{$component}_includes", function() use ( $component ) {
+	add_action( "bp_{$component}_includes", function () use ( $component ) {
 		$dirs = array(
 			buddypress()->plugin_dir . 'bp-' . $component . '/actions/',
 			buddypress()->plugin_dir . 'bp-' . $component . '/screens/',

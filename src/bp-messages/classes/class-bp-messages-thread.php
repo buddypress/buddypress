@@ -805,7 +805,7 @@ class BP_Messages_Thread {
 		$total_threads = $wpdb->get_var( implode( ' ', $sql ) );
 
 		// Sort threads by date_sent.
-		foreach( (array) $thread_ids as $thread ) {
+		foreach ( (array) $thread_ids as $thread ) {
 			$sorted_threads[ $thread->thread_id ] = strtotime( $thread->date_sent );
 		}
 
@@ -1235,7 +1235,7 @@ class BP_Messages_Thread {
 
 		$bp = buddypress();
 
-		foreach( (array) $threads as $thread ) {
+		foreach ( (array) $threads as $thread ) {
 			$message_ids = maybe_unserialize( $thread->message_ids );
 
 			if ( ! empty( $message_ids ) ) {

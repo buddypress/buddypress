@@ -1312,7 +1312,7 @@ function bp_blogs_is_blog_hidden( $blog_id ) {
  *                                all objects, ignoring the specified blog_id. Otherwise, only
  *                                delete matching metadata entries for the specified blog.
  *                                Default: false.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_blogs_delete_blogmeta( $blog_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	global $wpdb;

@@ -85,7 +85,7 @@ class BP_XProfile_Group {
 	 * @since 1.0.0
 	 *
 	 * @param int $id Field group ID.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function populate( $id ) {
 
@@ -117,7 +117,7 @@ class BP_XProfile_Group {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function save() {
 		global $wpdb;
@@ -178,7 +178,7 @@ class BP_XProfile_Group {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function delete() {
 		global $wpdb;
@@ -324,7 +324,7 @@ class BP_XProfile_Group {
 
 		$field_ids = self::get_group_field_ids( $group_ids, $r );
 
-		foreach( $groups as $group ) {
+		foreach ( $groups as $group ) {
 			$group->fields = array();
 		}
 
@@ -380,7 +380,7 @@ class BP_XProfile_Group {
 			if ( ! empty( $r['hide_empty_fields'] ) && ! empty( $field_ids ) && ! empty( $field_data ) ) {
 
 				// Loop through the results and find the fields that have data.
-				foreach( (array) $field_data as $data ) {
+				foreach ( (array) $field_data as $data ) {
 
 					// Empty fields may contain a serialized empty array.
 					$maybe_value = maybe_unserialize( $data->value );
@@ -394,7 +394,7 @@ class BP_XProfile_Group {
 				}
 
 				// The remaining members of $field_ids are empty. Remove them.
-				foreach( $fields as $field_key => $field ) {
+				foreach ( $fields as $field_key => $field ) {
 					if ( in_array( $field->id, $field_ids ) ) {
 						unset( $fields[ $field_key ] );
 					}
@@ -408,10 +408,10 @@ class BP_XProfile_Group {
 			if ( ! empty( $fields ) && ! empty( $field_data ) && ! is_wp_error( $field_data ) ) {
 
 				// Loop through fields.
-				foreach( (array) $fields as $field_key => $field ) {
+				foreach ( (array) $fields as $field_key => $field ) {
 
 					// Loop through the data in each field.
-					foreach( (array) $field_data as $data ) {
+					foreach ( (array) $field_data as $data ) {
 
 						// Assign correct data value to the field.
 						if ( $field->id == $data->field_id ) {
@@ -438,12 +438,12 @@ class BP_XProfile_Group {
 		}
 
 		// Merge the field array back in with the group array.
-		foreach( (array) $groups as $group ) {
+		foreach ( (array) $groups as $group ) {
 			// Indexes may have been shifted after previous deletions, so we get a
 			// fresh one each time through the loop.
 			$index = array_search( $group, $groups );
 
-			foreach( (array) $fields as $field ) {
+			foreach ( (array) $fields as $field ) {
 				if ( $group->id === $field->group_id ) {
 					$groups[ $index ]->fields[] = $field;
 				}
@@ -701,7 +701,7 @@ class BP_XProfile_Group {
 	 *
 	 * @global string $message The feedback message to show.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function admin_validate() {
 		global $message;
@@ -724,7 +724,7 @@ class BP_XProfile_Group {
 	 *
 	 * @param  int $field_group_id ID of the group the field belongs to.
 	 * @param  int $position       Field group position.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function update_position( $field_group_id, $position ) {
 		global $wpdb;
@@ -756,7 +756,7 @@ class BP_XProfile_Group {
 		// Get the user's visibility level preferences.
 		$visibility_levels = bp_get_user_meta( $user_id, 'bp_xprofile_visibility_levels', true );
 
-		foreach( (array) $fields as $key => $field ) {
+		foreach ( (array) $fields as $key => $field ) {
 
 			// Does the admin allow this field to be customized?
 			$visibility   = bp_xprofile_get_meta( $field->id, 'field', 'allow_custom_visibility' );

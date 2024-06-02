@@ -11,8 +11,6 @@
  * Handle the display of a group's Send Invites page.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function groups_screen_group_invite() {
 
@@ -29,7 +27,7 @@ function groups_screen_group_invite() {
 		}
 
 		if ( ! empty( $_POST['friends'] ) ) {
-			foreach( (array) $_POST['friends'] as $friend ) {
+			foreach ( (array) $_POST['friends'] as $friend ) {
 				groups_invite_user( array( 'user_id' => $friend, 'group_id' => $bp->groups->current_group->id ) );
 			}
 		}
@@ -76,8 +74,6 @@ function groups_screen_group_invite() {
  * Remove Invite removes the invitation via AJAX.
  *
  * @since 2.0.0
- *
- * @return void
  */
 function groups_remove_group_invite() {
 	if ( ! bp_is_group_invites() ) {

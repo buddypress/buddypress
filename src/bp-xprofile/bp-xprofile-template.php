@@ -1375,7 +1375,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
 
 			<?php if ( bp_current_user_can( 'bp_xprofile_change_field_visibility' ) ) : ?>
 
-				<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
+				<?php foreach ( bp_xprofile_get_visibility_levels() as $level ) : ?>
 
 					<?php
 						// phpcs:ignore WordPress.Security.EscapeOutput

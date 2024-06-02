@@ -265,7 +265,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function save() {
 		global $wpdb;
@@ -386,7 +386,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function delete() {
 		global $wpdb;

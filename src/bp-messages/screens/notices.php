@@ -11,8 +11,6 @@
  * Load the Messages > Notices screen.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function messages_screen_notices() {
 

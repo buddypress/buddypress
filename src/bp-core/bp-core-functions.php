@@ -207,7 +207,7 @@ function bp_core_get_table_prefix() {
  * @return array $items The sorted array.
  */
 function bp_sort_by_key( $items, $key, $type = 'alpha', $preserve_keys = false ) {
-	$callback = function( $a, $b ) use ( $key, $type ) {
+	$callback = function ( $a, $b ) use ( $key, $type ) {
 		$values = array( 0 => false, 1 => false );
 		foreach ( func_get_args() as $indexi => $index ) {
 			if ( isset( $index->{$key} ) ) {
@@ -825,7 +825,7 @@ function bp_core_get_directory_pages() {
  *                              and replace with new ones. Otherwise existing page mappings
  *                              are kept, and the gaps filled in with new pages. Default: 'keep'.
  * @param boolean $return_pages Whether to return the page mapping or not.
- * @return void|array
+ * @return array|null
  */
 function bp_core_add_page_mappings( $components, $existing = 'keep', $return_pages = false ) {
 
@@ -1010,7 +1010,7 @@ add_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10,
  * @since 12.0.0
  *
  * @param string   $component The component ID.
- * @return boolean            True if a component's directory is set as the site's homepage.
+ * @return bool            True if a component's directory is set as the site's homepage.
  *                            False otherwise.
  */
 function bp_is_directory_homepage( $component = '' ) {
@@ -2490,7 +2490,7 @@ function bp_is_get_request() {
  *
  * @see load_textdomain() for a description of return values.
  *
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_core_load_buddypress_textdomain() {
 	$domain = 'buddypress';
@@ -2800,7 +2800,7 @@ function bp_nav_menu_get_loggedin_pages() {
 		$primary_items     = $bp->members->nav->get_primary();
 		$user_is_displayed = bp_is_user();
 
-		foreach( $primary_items as $primary_item ) {
+		foreach ( $primary_items as $primary_item ) {
 			$current_user_link = $primary_item['link'];
 
 			// When displaying a user, reset the primary item link.
@@ -3056,7 +3056,7 @@ function bp_core_get_suggestions( $args ) {
  * @since 12.0.0
  *
  * @param string $ajax_action The ajax action needing the BP URI globals to be set.
- * @return boolean            True if the ajax action was registered. False otherwise.
+ * @return bool            True if the ajax action was registered. False otherwise.
  */
 function bp_ajax_register_action( $ajax_action = '' ) {
 	// Checks the ajax action is registered.
@@ -3074,7 +3074,7 @@ function bp_ajax_register_action( $ajax_action = '' ) {
  * @since 12.0.0
  *
  * @param string $ajax_action The ajax action to check.
- * @return boolean            True if the ajax action is registered. False otherwise
+ * @return bool            True if the ajax action is registered. False otherwise
  */
 function bp_ajax_action_is_registered( $ajax_action = '' ) {
 	$registered_ajax_actions = buddypress()->ajax_actions;
@@ -3461,7 +3461,7 @@ function bp_register_type_meta( $type_tax, $meta_key, array $args ) {
  * @param  integer $type_id    The database ID of the BP Type.
  * @param  string  $taxonomy   The BP Type taxonomy.
  * @param  array   $type_metas An associative array (meta_key=>meta_value).
- * @return boolean             False on failure. True otherwise.
+ * @return bool             False on failure. True otherwise.
  */
 function bp_update_type_metadata( $type_id = 0, $taxonomy = '', $type_metas = array() ) {
 	if ( ! $type_id || ! $taxonomy || ! is_array( $type_metas ) ) {
@@ -4801,7 +4801,7 @@ function bp_user_has_opted_out( $email_address = '' ) {
  * @since 8.0.0
  *
  * @param int $id ID of the optout to delete.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_delete_optout_by_id( $id = 0 ) {
 	$optout_class = new BP_Optout();

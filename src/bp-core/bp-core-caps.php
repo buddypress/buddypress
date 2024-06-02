@@ -70,7 +70,7 @@ function bp_add_caps() {
 	}
 
 	// Loop through available roles and add them.
-	foreach( $wp_roles->role_objects as $role ) {
+	foreach ( $wp_roles->role_objects as $role ) {
 		foreach ( bp_get_caps_for_role( $role->name ) as $cap ) {
 			$role->add_cap( $cap );
 		}
@@ -104,7 +104,7 @@ function bp_remove_caps() {
 	}
 
 	// Loop through available roles and remove them.
-	foreach( $wp_roles->role_objects as $role ) {
+	foreach ( $wp_roles->role_objects as $role ) {
 		foreach ( bp_get_caps_for_role( $role->name ) as $cap ) {
 			$role->remove_cap( $cap );
 		}
@@ -324,7 +324,7 @@ function bp_current_user_can( $capability, $args = array() ) {
  *
  * @since 12.0.0
  *
- * @return boolean True if current user can moderate the community. False otherwise.
+ * @return bool True if current user can moderate the community. False otherwise.
  */
 function bp_current_user_can_moderate() {
 	return bp_current_user_can( 'bp_moderate' );

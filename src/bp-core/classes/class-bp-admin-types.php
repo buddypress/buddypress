@@ -8,11 +8,11 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
-if ( ! class_exists( 'BP_Admin_Types' ) ) :
+if ( class_exists( 'BP_Admin_Types' ) ) {
+	return;
+}
 
 /**
  * Load BuddyPress Types admin area.
@@ -32,7 +32,7 @@ class BP_Admin_Types {
 	 * All registered BuddyPress taxonomies.
 	 *
 	 * @since 7.0.0
-	 * @var array()
+	 * @var array
 	 */
 	public $taxonomies = array();
 
@@ -73,7 +73,7 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @return BP_Admin_Types
+	 * @return BP_Admin_Types|null The BP Types Admin object or null if not in admin.
 	 */
 	public static function register_types_admin() {
 		if ( ! is_admin() ) {
@@ -83,7 +83,7 @@ class BP_Admin_Types {
 		$bp = buddypress();
 
 		if ( empty( $bp->core->types_admin ) ) {
-			$bp->core->types_admin = new self;
+			$bp->core->types_admin = new self();
 		}
 
 		return $bp->core->types_admin;
@@ -129,7 +129,7 @@ class BP_Admin_Types {
 		add_action( "{$this->taxonomy}_add_form_fields", array( $this, 'add_form_fields' ), 10, 1 );
 		add_action( "{$this->taxonomy}_edit_form_fields", array( $this, 'edit_form_fields' ), 10, 2 );
 
-		// Filters
+		// Filters.
 		add_filter( 'bp_core_admin_register_scripts', array( $this, 'register_scripts' ) );
 		add_filter( "manage_{$this->screen_id}_columns", array( $this, 'column_headers' ), 10, 1 );
 		add_filter( "manage_{$this->taxonomy}_custom_column", array( $this, 'column_contents' ), 10, 3 );
@@ -261,6 +261,8 @@ class BP_Admin_Types {
 	/**
 	 * Override the Admin parent file to highlight the right menu.
 	 *
+	 * @global string $parent_file The parent file of the current admin screen.
+	 *
 	 * @since 7.0.0
 	 */
 	public function screen_head() {
@@ -277,6 +279,8 @@ class BP_Admin_Types {
 	 * Registers script.
 	 *
 	 * @since 7.0.0
+	 *
+	 * @param array $scripts The registered scripts.
 	 */
 	public function register_scripts( $scripts = array() ) {
 		// Neutralize WordPress Taxonomy scripts.
@@ -328,8 +332,8 @@ class BP_Admin_Types {
 		$labels          = get_taxonomy_labels( $taxonomy_object );
 
 		// Default values for the Type ID field.
-		$type_id_label   = __( 'Type ID', 'buddypress' );
-		$type_id_desc    = __( 'Enter a lower-case string without spaces or special characters (used internally to identify the type).', 'buddypress' );
+		$type_id_label = __( 'Type ID', 'buddypress' );
+		$type_id_desc  = __( 'Enter a lower-case string without spaces or special characters (used internally to identify the type).', 'buddypress' );
 
 		if ( isset( $labels->bp_type_id_label ) && $labels->bp_type_id_label ) {
 			$type_id_label = $labels->bp_type_id_label;
@@ -375,7 +379,9 @@ class BP_Admin_Types {
 					. ' ' .
 					sprintf(
 						/* translators: %s is the name of the Type meta key */
-						esc_html__( 'As a result, the form elements for the "%s" meta key cannot be displayed', 'buddypress' ), esc_html( $meta_key ) ),
+						esc_html__( 'As a result, the form elements for the "%s" meta key cannot be displayed', 'buddypress' ),
+						esc_html( $meta_key )
+					),
 					'7.0.0'
 				);
 				continue;
@@ -390,7 +396,6 @@ class BP_Admin_Types {
 						if ( isset( $type->labels[ $type_key ] ) ) {
 							$type_prop_value = $type->labels[ $type_key ];
 						}
-
 					} elseif ( isset( $type->{$type_key} ) ) {
 						$type_prop_value = $type->{$type_key};
 					}
@@ -408,7 +413,6 @@ class BP_Admin_Types {
 						esc_attr( $type_prop_value ),
 						esc_html( $meta_schema['description'] )
 					);
-
 				} else {
 					printf(
 						'<div class="form-field bp-types-form form-required term-%1$s-wrap">
@@ -421,41 +425,39 @@ class BP_Admin_Types {
 						esc_html( $meta_schema['description'] )
 					);
 				}
-			} else {
-				if ( isset( $type->name ) ) {
-					$checked = '';
-					if ( isset( $type->{$type_key} ) && true === (bool) $type->{$type_key} ) {
-						$checked = ' checked="checked"';
-					}
-
-					printf(
-						'<tr class="form-field bp-types-form term-%1$s-wrap">
-							<th scope="row"><label for="%1$s">%2$s</label></th>
-							<td>
-								<input name="%1$s" id="%1$s" type="checkbox" value="1"%3$s> %4$s
-								<p class="description">%5$s</p>
-							</td>
-						</tr>',
-						esc_attr( $meta_key ),
-						esc_html( $labels->{ $meta_key } ),
-						// phpcs:ignore WordPress.Security.EscapeOutput
-						$checked,
-						esc_html__( 'Yes', 'buddypress' ),
-						esc_html( $meta_schema['description'] )
-					);
-				} else {
-					printf(
-						'<div class="form-field bp-types-form term-%1$s-wrap">
-							<label for="%1$s">
-								<input name="%1$s" id="%1$s" type="checkbox" value="1"> %2$s
-							</label>
-							<p>%3$s</p>
-						</div>',
-						esc_attr( $meta_key ),
-						esc_html( $labels->{ $meta_key } ),
-						esc_html( $meta_schema['description'] )
-					);
+			} elseif ( isset( $type->name ) ) {
+				$checked = '';
+				if ( isset( $type->{$type_key} ) && true === (bool) $type->{$type_key} ) {
+					$checked = ' checked="checked"';
 				}
+
+				printf(
+					'<tr class="form-field bp-types-form term-%1$s-wrap">
+						<th scope="row"><label for="%1$s">%2$s</label></th>
+						<td>
+							<input name="%1$s" id="%1$s" type="checkbox" value="1"%3$s> %4$s
+							<p class="description">%5$s</p>
+						</td>
+					</tr>',
+					esc_attr( $meta_key ),
+					esc_html( $labels->{ $meta_key } ),
+					// phpcs:ignore WordPress.Security.EscapeOutput
+					$checked,
+					esc_html__( 'Yes', 'buddypress' ),
+					esc_html( $meta_schema['description'] )
+				);
+			} else {
+				printf(
+					'<div class="form-field bp-types-form term-%1$s-wrap">
+						<label for="%1$s">
+							<input name="%1$s" id="%1$s" type="checkbox" value="1"> %2$s
+						</label>
+						<p>%3$s</p>
+					</div>',
+					esc_attr( $meta_key ),
+					esc_html( $labels->{ $meta_key } ),
+					esc_html( $meta_schema['description'] )
+				);
 			}
 		}
 	}
@@ -465,9 +467,8 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param WP_Term $term     The term object for the BP Type.
-	 * @param string  $taxonomy The type taxonomy name.
-	 * @return string           HTML Output.
+	 * @param WP_Term|null $term     The term object for the BP Type.
+	 * @param string       $taxonomy The type taxonomy name.
 	 */
 	public function edit_form_fields( $term = null, $taxonomy = '' ) {
 		if ( ! isset( $term->name ) || ! $term->name || ! $taxonomy ) {
@@ -490,7 +491,7 @@ class BP_Admin_Types {
 			}
 		}
 
-		return $this->add_form_fields( $taxonomy, $type );
+		$this->add_form_fields( $taxonomy, $type );
 	}
 
 	/**
@@ -498,8 +499,8 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param array  $column_headers The column header labels keyed by column ID.
-	 * @return array                 The column header labels keyed by column ID.
+	 * @param array $column_headers The column header labels keyed by column ID.
+	 * @return arrayThe column header labels keyed by column ID.
 	 */
 	public function column_headers( $column_headers = array() ) {
 		if ( isset( $column_headers['name'] ) ) {
@@ -519,10 +520,10 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param string  $string      Blank string.
-	 * @param string  $column_name Name of the column.
-	 * @param int     $type_id     The type's term ID.
-	 * @return string              The Type Plural name.
+	 * @param string $column_content The column content.
+	 * @param string $column_name    Name of the column.
+	 * @param int    $type_id        The type's term ID.
+	 * @return string|null|int
 	 */
 	public function column_contents( $column_content = '', $column_name = '', $type_id = 0 ) {
 		if ( 'plural_name' !== $column_name && 'counts' !== $column_name || ! $type_id ) {
@@ -544,7 +545,8 @@ class BP_Admin_Types {
 				 *
 				 * @since 7.0.0
 				 *
-				 * @param string $value Metadata for the BP Type.
+				 * @param string $meta_data Metadata for the BP Type.
+				 * @param string $type_name The BP Type name.
 				 */
 				$metadata = apply_filters( "{$this->taxonomy}_set_registered_by_code_metada", array(), $type_name );
 
@@ -558,7 +560,7 @@ class BP_Admin_Types {
 			// Set the Totals column.
 		} elseif ( 'counts' === $column_name ) {
 			global $parent_file;
-			$type  = bp_get_term_by( 'id', $type_id, $this->taxonomy );
+			$type = bp_get_term_by( 'id', $type_id, $this->taxonomy );
 			if ( 0 === (int) $type->count ) {
 				return 0;
 			}
@@ -588,9 +590,9 @@ class BP_Admin_Types {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param array   $actions The table row actions.
-	 * @param WP_Term $type    The current BP Type for the row.
-	 * @return array           The table row actions for the current BP type.
+	 * @param array        $actions The table row actions.
+	 * @param WP_Term|null $type    The current BP Type for the row.
+	 * @return array The table row actions for the current BP type.
 	 */
 	public function row_actions( $actions = array(), $type = null ) {
 		if ( ! isset( $type->taxonomy ) || ! $type->taxonomy ) {
@@ -603,8 +605,11 @@ class BP_Admin_Types {
 		 * @see bp_get_member_types_registered_by_code() for an example of use.
 		 *
 		 * @since 7.0.0
+		 *
+		 * @param array        $registered_by_code_types The types registered by code.
+		 * @param WP_Term|null $type                     The current BP Type for the row.
 		 */
-		$registered_by_code_types = apply_filters( "{$type->taxonomy}_registered_by_code", array() );
+		$registered_by_code_types = apply_filters( "{$type->taxonomy}_registered_by_code", array(), $type );
 
 		// Types registered by code cannot be deleted as long as the custom registration code exists.
 		if ( isset( $registered_by_code_types[ $type->name ] ) ) {
@@ -622,5 +627,3 @@ class BP_Admin_Types {
 		return $actions;
 	}
 }
-
-endif;

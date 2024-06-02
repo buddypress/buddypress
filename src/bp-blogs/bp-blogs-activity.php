@@ -483,7 +483,7 @@ function bp_blogs_record_activity( $args = '' ) {
  *     bp_activity_add().
  *     @type string $component Default: 'blogs'.
  * }
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_blogs_delete_activity( $args = '' ) {
 	$r = bp_parse_args(

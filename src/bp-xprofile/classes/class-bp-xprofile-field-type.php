@@ -294,7 +294,6 @@ abstract class BP_XProfile_Field_Type {
 	 * @since 2.0.0
 	 *
 	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
-	 * @return void
 	 */
 	abstract public function edit_field_html( array $raw_properties = array() );
 
@@ -306,7 +305,6 @@ abstract class BP_XProfile_Field_Type {
 	 * @since 2.0.0
 	 *
 	 * @param array $raw_properties Optional key/value array of permitted attributes that you want to add.
-	 * @return void
 	 */
 	abstract public function admin_field_html( array $raw_properties = array() );
 

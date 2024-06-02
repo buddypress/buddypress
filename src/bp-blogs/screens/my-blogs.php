@@ -11,8 +11,6 @@
  * Load the "My Blogs" screen.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function bp_blogs_screen_my_blogs() {
 	if ( ! is_multisite() ) {

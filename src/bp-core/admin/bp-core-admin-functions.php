@@ -46,7 +46,7 @@ function bp_core_admin_backpat_menu() {
 	 * This means that if no third-party plugins have registered their admin pages into the
 	 * 'bp-general-settings' menu, it will only contain one item. Kill it.
 	 */
-	if ( 1 != count( $submenu['bp-general-settings'] ) ) {
+	if ( 1 !== count( $submenu['bp-general-settings'] ) ) {
 		return;
 	}
 
@@ -76,12 +76,12 @@ function bp_core_modify_admin_menu_highlight() {
 	global $plugin_page, $submenu_file;
 
 	// This tweaks the Settings subnav menu to show only one BuddyPress menu item.
-	if ( ! in_array( $plugin_page, array( 'bp-activity', 'bp-general-settings' ) ) ) {
+	if ( ! in_array( $plugin_page, array( 'bp-activity', 'bp-general-settings' ), true ) ) {
 		$submenu_file = 'bp-components';
 	}
 
 	// Network Admin > Tools.
-	if ( in_array( $plugin_page, array( 'bp-tools', 'available-tools' ) ) ) {
+	if ( in_array( $plugin_page, array( 'bp-tools', 'available-tools' ), true ) ) {
 		$submenu_file = $plugin_page;
 	}
 
@@ -440,7 +440,7 @@ function bp_core_admin_tabbed_screen_header( $title = '', $active_tab = '', $con
 							array(
 								'a' => array(
 									'href'  => true,
-									'class' => true
+									'class' => true,
 								),
 							)
 						);
@@ -463,11 +463,13 @@ function bp_core_admin_tabbed_screen_header( $title = '', $active_tab = '', $con
  * @since 1.5.0
  * @since 8.0.0 Adds the `$context` parameter.
  *
- * @param string $active_tab Name of the tab that is active. Optional.
- * @param string $context    The context of use for the tabs. Defaults to 'settings'.
- *                           Possible values are 'settings' & 'tools'.
+ * @param string $active_tab Optional. Name of the tab that is active.
+ * @param string $context    Optional. The context of use for the tabs. Defaults to 'settings'.
+ *                           Possible values are 'settings' or 'tools'.
+ * @param bool   $echo_tabs  Optional. Whether to echo or return the tabs. Default: true.
+ * @return string|null
  */
-function bp_core_admin_tabs( $active_tab = '', $context = 'settings', $echo = true ) {
+function bp_core_admin_tabs( $active_tab = '', $context = 'settings', $echo_tabs = true ) {
 	$tabs_html    = '';
 	$idle_class   = 'buddypress-nav-tab';
 	$active_class = 'buddypress-nav-tab active';
@@ -477,19 +479,19 @@ function bp_core_admin_tabs( $active_tab = '', $context = 'settings', $echo = tr
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param array $value Array of tabs to output to the admin area.
+	 * @param array $admin_tabs Array of tabs to output to the admin area.
 	 */
-	$tabs         = apply_filters( 'bp_core_admin_tabs', bp_core_get_admin_tabs( $active_tab, $context ) );
-	$tabs_html    = array();
+	$tabs      = apply_filters( 'bp_core_admin_tabs', bp_core_get_admin_tabs( $active_tab, $context ) );
+	$tabs_html = array();
 
 	// Loop through tabs and build navigation.
 	foreach ( array_values( $tabs ) as $tab_data ) {
-		$is_current     = (bool) ( $tab_data['name'] == $active_tab );
-		$tab_class      = $is_current ? $active_class : $idle_class;
-		$tabs_html[]    = '<a href="' . esc_url( $tab_data['href'] ) . '" class="' . esc_attr( $tab_class ) . '">' . esc_html( $tab_data['name'] ) . '</a>';
+		$is_current  = (bool) ( $tab_data['name'] === $active_tab );
+		$tab_class   = $is_current ? $active_class : $idle_class;
+		$tabs_html[] = '<a href="' . esc_url( $tab_data['href'] ) . '" class="' . esc_attr( $tab_class ) . '">' . esc_html( $tab_data['name'] ) . '</a>';
 	}
 
-	if ( ! $echo ) {
+	if ( ! $echo_tabs ) {
 		return $tabs_html;
 	}
 
@@ -503,7 +505,8 @@ function bp_core_admin_tabs( $active_tab = '', $context = 'settings', $echo = tr
 	 * @since 8.0.0 Adds the `$context` parameter.
 	 * @since 10.0.0 Adds the `$active_tab` parameter.
 	 *
-	 * @param string $context The context of use for the tabs.
+	 * @param string $context    The context of use for the tabs.
+	 * @param string $active_tab The active tab.
 	 */
 	do_action( 'bp_admin_tabs', $context, $active_tab );
 }
@@ -514,7 +517,7 @@ function bp_core_admin_tabs( $active_tab = '', $context = 'settings', $echo = tr
  * @since 10.0.0
  *
  * @param bool $apply_filters Whether to apply filters or not.
- * @return array              The BP Admin settings tabs.
+ * @return array The BP Admin settings tabs.
  */
 function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
 	$settings_tabs = array(
@@ -576,7 +579,7 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
  * @since 10.0.0
  *
  * @param bool $apply_filters Whether to apply filters or not.
- * @return array              The BP Admin tools tabs.
+ * @return array The BP Admin tools tabs.
  */
 function bp_core_get_admin_tools_tabs( $apply_filters = true ) {
 	$tools_page = 'tools.php';
@@ -783,7 +786,7 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			);
 			break;
 
-		case 'edit-bp_member_type' :
+		case 'edit-bp_member_type':
 			// Help tab.
 			$screen->add_help_tab(
 				array(
@@ -984,8 +987,8 @@ function bp_admin_separator() {
  *
  * @since 1.7.0
  *
- * @param bool $menu_order Menu order.
- * @return bool Always true.
+ * @param bool $menu_order Optional. Menu order. Default: false.
+ * @return bool False if user cannot see admin pages, otherwise true.
  */
 function bp_admin_custom_menu_order( $menu_order = false ) {
 
@@ -1039,11 +1042,11 @@ function bp_admin_menu_order( $menu_order = array() ) {
 	foreach ( (array) $menu_order as $item ) {
 
 		// Position BuddyPress menus above appearance.
-		if ( $last_sep == $item ) {
+		if ( $last_sep === $item ) {
 
 			// Add our custom menus.
 			foreach ( (array) $custom_menus as $custom_menu ) {
-				if ( array_search( $custom_menu, $menu_order ) ) {
+				if ( array_search( $custom_menu, $menu_order, true ) ) {
 					$bp_menu_order[] = $custom_menu;
 				}
 			}
@@ -1052,7 +1055,7 @@ function bp_admin_menu_order( $menu_order = array() ) {
 			$bp_menu_order[] = $last_sep;
 
 			// Skip our menu items.
-		} elseif ( ! in_array( $item, $custom_menus ) ) {
+		} elseif ( ! in_array( $item, $custom_menus, true ) ) {
 			$bp_menu_order[] = $item;
 		}
 	}
@@ -1075,11 +1078,10 @@ function bp_admin_menu_order( $menu_order = array() ) {
  * @return string
  */
 function bp_admin_list_table_current_bulk_action() {
-
 	$action = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
 
 	// If the bottom is set, let it override the action.
-	if ( ! empty( $_REQUEST['action2'] ) && $_REQUEST['action2'] != '-1' ) {
+	if ( ! empty( $_REQUEST['action2'] ) && $_REQUEST['action2'] !== '-1' ) {
 		$action = $_REQUEST['action2'];
 	}
 
@@ -1108,11 +1110,11 @@ function bp_admin_wp_nav_menu_meta_box() {
  *
  * @since 7.0.0
  *
- * @param null     $null     A null value.
+ * @param null     $nil      A null value.
  * @param WP_Query $wp_query The WP_Query instance (passed by reference).
  * @return array   The BP Member nav items to short-circuit WP's query,
  */
-function bp_admin_get_wp_nav_menu_items( $null, $wp_query ) {
+function bp_admin_get_wp_nav_menu_items( $nil, $wp_query ) {
 	if ( isset( $wp_query->query['orderby'], $wp_query->query['order'] ) && 'post_date' === $wp_query->query['orderby'] && 'DESC' === $wp_query->query['order'] ) {
 		return bp_nav_menu_get_loggedin_pages();
 	} elseif ( isset( $wp_query->query['nopaging'] ) && true === $wp_query->query['nopaging'] ) {
@@ -1129,8 +1131,11 @@ function bp_admin_get_wp_nav_menu_items( $null, $wp_query ) {
  * @since 7.0.0 Uses wp_nav_menu_item_post_type_meta_box()
  *
  * @global $nav_menu_selected_id
+ *
+ * @param WP_Post $post The current post object.
+ * @param array   $box     The meta box arguments.
  */
-function bp_admin_do_wp_nav_menu_meta_box( $object = '', $box = array() ) {
+function bp_admin_do_wp_nav_menu_meta_box( $post = '', $box = array() ) {
 	global $nav_menu_selected_id;
 
 	$box['args'] = (object) array(
@@ -1142,12 +1147,12 @@ function bp_admin_do_wp_nav_menu_meta_box( $object = '', $box = array() ) {
 	register_post_type(
 		'bp_nav_menu_item',
 		array(
-			'label'  => 'BuddyPress',
-			'labels' => array(
+			'label'        => 'BuddyPress',
+			'labels'       => array(
 				'search_items' => __( 'Search BuddyPress member menu items', 'buddypress' ),
 				'all_items'    => __( 'All BuddyPress Member menu items', 'buddypress' ),
 			),
-			'public' => true,
+			'public'       => true,
 			'hierarchical' => false,
 			'has_archive'  => false,
 			'rewrite'      => false,
@@ -1161,7 +1166,7 @@ function bp_admin_do_wp_nav_menu_meta_box( $object = '', $box = array() ) {
 	wp_nav_menu_item_post_type_meta_box( 'buddypress', $box );
 	$output = ob_get_clean();
 
-	$get_bp_items = new WP_Query;
+	$get_bp_items = new WP_Query();
 	$all_bp_items = $get_bp_items->query( array( 'nopaging' => true ) );
 	$walker       = new Walker_Nav_Menu_Checklist();
 	$all_bp_tabs  = sprintf(
@@ -1305,15 +1310,8 @@ add_action( 'admin_head-edit.php', 'bp_admin_email_maybe_add_translation_notice'
  * @since 2.5.0
  *
  * @param WP_Post $post Post object.
- * @param array   $box {
- *     Tags meta box arguments.
- *
- *     @type string   $id       Meta box ID.
- *     @type string   $title    Meta box title.
- *     @type callable $callback Meta box display callback.
- * }
  */
-function bp_email_tax_type_metabox( $post, $box ) {
+function bp_email_tax_type_metabox( $post ) {
 	$r = array(
 		'taxonomy' => bp_get_email_tax_type(),
 	);
@@ -1325,7 +1323,7 @@ function bp_email_tax_type_metabox( $post, $box ) {
 	<div id="taxonomy-<?php echo $tax_name; ?>" class="categorydiv">
 		<div id="<?php echo $tax_name; ?>-all" class="tabs-panel">
 			<?php
-			$name = ( $tax_name == 'category' ) ? 'post_category' : 'tax_input[' . $tax_name . ']';
+			$name = ( $tax_name === 'category' ) ? 'post_category' : 'tax_input[' . $tax_name . ']';
 			echo "<input type='hidden' name='{$name}[]' value='0' />"; // Allows for an empty term set to be sent. 0 is an invalid Term ID and will be ignored by empty() checks.
 			?>
 			<ul id="<?php echo $tax_name; ?>checklist" data-wp-lists="list:<?php echo $tax_name; ?>" class="categorychecklist form-no-clear">
@@ -1366,7 +1364,7 @@ add_action( 'add_meta_boxes_' . bp_get_email_post_type(), 'bp_email_custom_metab
  *
  * @since 2.5.0
  *
- * @param WP_Post $post
+ * @param WP_Post $post Post object.
  */
 function bp_email_plaintext_metabox( $post ) {
 	?>
@@ -1377,9 +1375,11 @@ function bp_email_plaintext_metabox( $post ) {
 		esc_html_e( 'Plain text email content', 'buddypress' );
 	?>
 	</label>
-		<textarea rows="5" cols="40" name="excerpt" id="excerpt"><?php
+		<textarea rows="5" cols="40" name="excerpt" id="excerpt">
+		<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput
-			echo $post->post_excerpt; ?>
+			echo $post->post_excerpt;
+		?>
 		</textarea>
 
 	<p><?php esc_html_e( 'Most email clients support HTML email. However, some people prefer to receive plain text email. Enter a plain text alternative version of your email here.', 'buddypress' ); ?></p>
@@ -1406,7 +1406,7 @@ function bp_email_plaintext_metabox( $post ) {
 function bp_admin_wp_nav_menu_restrict_items() {
 	?>
 	<script type="text/javascript">
-	jQuery( '#menu-to-edit').on( 'click', 'a.item-edit', function() {
+	jQuery( '#menu-to-edit').on( 'click', 'a.item-edit', function () {
 		var settings  = jQuery(this).closest( '.menu-item-bar' ).next( '.menu-item-settings' );
 		var css_class = settings.find( '.edit-menu-item-classes' );
 
@@ -1424,8 +1424,8 @@ function bp_admin_wp_nav_menu_restrict_items() {
  *
  * @since 2.0.0
  *
- * @param array  $actions     User row action links.
- * @param object $user_object Current user information.
+ * @param string[] $actions User row action links.
+ * @param WP_User  $user_object WP_User object for the currently listed user.
  * @return array $actions User row action links.
  */
 function bp_core_admin_user_row_actions( $actions, $user_object ) {
@@ -1452,7 +1452,7 @@ function bp_core_admin_user_row_actions( $actions, $user_object ) {
 				$url
 			);
 			$unspam_link    = wp_nonce_url( $url, 'bp-spam-user' );
-			$actions['ham'] = sprintf('<a href="%1$s">%2$s</a>', esc_url( $unspam_link ), esc_html__( 'Not Spam', 'buddypress' ) );
+			$actions['ham'] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $unspam_link ), esc_html__( 'Not Spam', 'buddypress' ) );
 
 			// If not already spammed, create spam link.
 		} else {
@@ -1491,12 +1491,12 @@ function bp_core_admin_user_manage_spammers() {
 	$mode    = isset( $_POST['mode'] ) ? $_POST['mode'] : false;
 
 	// If this is a multisite, bulk request, stop now!
-	if ( 'list' == $mode ) {
+	if ( 'list' === $mode ) {
 		return;
 	}
 
 	// Process a spam/ham request.
-	if ( ! empty( $action ) && in_array( $action, array( 'spam', 'ham' ) ) ) {
+	if ( ! empty( $action ) && in_array( $action, array( 'spam', 'ham' ), true ) ) {
 
 		check_admin_referer( 'bp-spam-user' );
 
@@ -1508,7 +1508,7 @@ function bp_core_admin_user_manage_spammers() {
 
 		$redirect = wp_get_referer();
 
-		$status = ( $action == 'spam' ) ? 'spam' : 'ham';
+		$status = ( $action === 'spam' ) ? 'spam' : 'ham';
 
 		// Process the user.
 		bp_core_process_spammer_status( $user_id, $status );
@@ -1520,7 +1520,7 @@ function bp_core_admin_user_manage_spammers() {
 	}
 
 	// Display feedback.
-	if ( ! empty( $updated ) && in_array( $updated, array( 'marked-spam', 'marked-ham' ) ) ) {
+	if ( ! empty( $updated ) && in_array( $updated, array( 'marked-spam', 'marked-ham' ), true ) ) {
 
 		if ( 'marked-spam' === $updated ) {
 			$notice = __( 'User marked as spammer. Spam users are visible only to site admins.', 'buddypress' );
@@ -1540,8 +1540,8 @@ function bp_core_admin_user_manage_spammers() {
 function bp_core_admin_user_spammed_js() {
 	?>
 	<script type="text/javascript">
-		jQuery( document ).ready( function($) {
-			$( '.row-actions .ham' ).each( function() {
+		jQuery( document ).ready( function ($) {
+			$( '.row-actions .ham' ).each( function () {
 				$( this ).closest( 'tr' ).addClass( 'site-spammed' );
 			});
 		});
@@ -1594,7 +1594,6 @@ add_action( 'wp_ajax_bp_dismiss_notice', 'bp_core_admin_notice_dismiss_callback'
  * @since 2.8.0
  *
  * @param string $classes CSS classes for the body tag in the admin, a space separated string.
- *
  * @return string
  */
 function bp_core_admin_body_classes( $classes ) {
@@ -1613,13 +1612,13 @@ add_filter( 'admin_body_class', 'bp_core_admin_body_classes' );
  * Adds a BuddyPress category to house BuddyPress blocks.
  *
  * @since 5.0.0
- * @since 8.0.0 The `bp_block_category_post_types` filter has been deprecated.
+ * @since 8.0.0  The `bp_block_category_post_types` filter has been deprecated.
  * @since 12.0.0 This category is left for third party plugin but not used anymore.
  *
  * @todo deprecate.
  *
- * @param array          $categories Array of block categories.
- * @param string|WP_Post $post       Post being loaded.
+ * @param array               $categories Array of block categories.
+ * @param string|WP_Post|null $editor_name_or_post Post being loaded.
  */
 function bp_block_category( $categories = array(), $editor_name_or_post = null ) {
 	if ( $editor_name_or_post instanceof WP_Post ) {
@@ -1650,11 +1649,11 @@ add_filter( 'block_categories_all', 'bp_block_category', 1, 2 );
  *
  * @since 11.4.0
  *
- * @param object $notification An Admin Notification object.
+ * @param object|null $notification An Admin Notification object.
  */
 function bp_core_admin_format_notifications( $notification = null ) {
 	if ( ! isset( $notification->id ) ) {
-		return '';
+		return;
 	}
 	?>
 	<div class="bp-welcome-panel bp-notice-container">
@@ -1662,7 +1661,16 @@ function bp_core_admin_format_notifications( $notification = null ) {
 		<div class="bp-welcome-panel-content">
 			<h2><span class="bp-version"><?php echo esc_html( number_format_i18n( $notification->version, 1 ) ); ?></span> <?php echo esc_html( $notification->title ); ?></h2>
 			<p class="about-description">
-				<?php echo wp_kses( $notification->content, array( 'a' => array( 'href' => true ), 'br' => array(), 'strong' => array() ) ); ?>
+				<?php
+				echo wp_kses(
+					$notification->content,
+					array(
+						'a'      => array( 'href' => true ),
+						'br'     => array(),
+						'strong' => array(),
+					)
+				);
+				?>
 			</p>
 			<div class="bp-admin-notification-action"><a href="<?php echo esc_url( $notification->href ); ?>" class="button button-primary"><?php echo esc_html( $notification->text ); ?></a></div>
 		</div>

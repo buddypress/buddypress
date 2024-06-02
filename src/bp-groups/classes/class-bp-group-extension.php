@@ -1291,7 +1291,7 @@ class BP_Group_Extension {
 			if ( '' !== bp_locate_template( array( 'groups/single/home.php' ), false ) ) {
 				$this->edit_screen_template = '/groups/single/home';
 			} else {
-				add_action( 'bp_template_content_header', function() {
+				add_action( 'bp_template_content_header', function () {
 					echo '<ul class="content-header-nav">';
 					bp_group_admin_tabs();
 					echo '</ul>';
@@ -1520,7 +1520,7 @@ class BP_Group_Extension {
 		$screen = $this->screens['admin'];
 
 		$extension_slug = $this->slug;
-		$callback       = function() use ( $extension_slug, $group_id ) {
+		$callback       = function () use ( $extension_slug, $group_id ) {
 			do_action( 'bp_groups_admin_meta_box_content_' . $extension_slug, $group_id );
 		};
 

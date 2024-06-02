@@ -11,8 +11,6 @@
  * Load the "Create a Blog" screen.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function bp_blogs_screen_create_a_blog() {
 

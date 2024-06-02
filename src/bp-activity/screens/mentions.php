@@ -41,8 +41,6 @@ function bp_activity_screen_mentions() {
  * Reset the logged-in user's new mentions data when he visits his mentions screen.
  *
  * @since 1.5.0
- *
- * @return void
  */
 function bp_activity_reset_my_new_mentions() {
 	if ( ! bp_is_my_profile() ) {

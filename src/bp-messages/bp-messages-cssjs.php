@@ -64,7 +64,7 @@ function messages_autocomplete_init_jsblock() {
 		jQuery(document).ready(function() {
 			var acfb = jQuery("ul.first").autoCompletefb({urlLookup: ajaxurl});
 
-			jQuery('#send_message_form').submit( function() {
+			jQuery('#send_message_form').submit( function () {
 				var users = document.getElementById('send-to-usernames').className;
 				document.getElementById('send-to-usernames').value = String(users);
 			});

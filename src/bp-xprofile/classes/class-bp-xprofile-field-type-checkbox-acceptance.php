@@ -226,7 +226,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 *
 	 * @param int   $field_id ID of the field.
 	 * @param array $settings Array of settings.
-	 * @return bool True on success.
+	 * @return bool
 	 */
 	public function admin_save_settings( $field_id, $settings ) {
 		if ( isset( $_POST['bp_xprofile_checkbox_acceptance_page'] ) ) {

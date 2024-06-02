@@ -77,7 +77,7 @@ add_action( 'bp_activity_deleted_activities', 'bp_activity_clear_cache_for_delet
  *
  * @since 2.7.0
  *
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_activity_reset_cache_incrementor() {
 	$without_last_activity = bp_core_reset_incrementor( 'bp_activity' );

@@ -24,7 +24,7 @@ class BP_Invitation {
 	 * The invitation ID.
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var int
 	 */
 	public $id;
@@ -33,7 +33,7 @@ class BP_Invitation {
 	 * The ID of the invited user.
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var int
 	 */
 	public $user_id;
@@ -42,7 +42,7 @@ class BP_Invitation {
 	 * The ID of the user who created the invitation.
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var int
 	 */
 	public $inviter_id;
@@ -52,7 +52,7 @@ class BP_Invitation {
 	 * Used when extending an invitation to someone who does not belong to the site.
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var string
 	 */
 	public $invitee_email;
@@ -61,7 +61,7 @@ class BP_Invitation {
 	 * The name of the related class.
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var string
 	 */
 	public $class;
@@ -71,7 +71,7 @@ class BP_Invitation {
 	 * Example: the group ID if a group invitation
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var int
 	 */
 	public $item_id;
@@ -81,8 +81,8 @@ class BP_Invitation {
 	 * Example: a taxonomy term ID if invited to a site's category-specific RSS feed
 	 *
 	 * @since 5.0.0
-	 * @access public
-	 * @var int
+	 *
+	 * @var int|null
 	 */
 	public $secondary_item_id = null;
 
@@ -90,7 +90,7 @@ class BP_Invitation {
 	 * Invite or request.
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var string
 	 */
 	public $type;
@@ -99,7 +99,7 @@ class BP_Invitation {
 	 * Extra information provided by the requester or inviter.
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var string
 	 */
 	public $content;
@@ -108,7 +108,7 @@ class BP_Invitation {
 	 * The date the invitation was last modified.
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var string
 	 */
 	public $date_modified;
@@ -117,7 +117,7 @@ class BP_Invitation {
 	 * Has the invitation been sent, or is it a draft invite?
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var bool
 	 */
 	public $invite_sent;
@@ -126,7 +126,7 @@ class BP_Invitation {
 	 * Has the invitation been accepted by the invitee?
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var bool
 	 */
 	public $accepted;
@@ -135,7 +135,7 @@ class BP_Invitation {
 	 * Columns in the invitations table.
 	 *
 	 * @since 9.0.0
-	 * @access public
+	 *
 	 * @var array
 	 */
 	public static $columns = array(
@@ -150,7 +150,7 @@ class BP_Invitation {
 		'content',
 		'date_modified',
 		'invite_sent',
-		'accepted'
+		'accepted',
 	);
 
 	/** Public Methods ****************************************************/
@@ -160,8 +160,7 @@ class BP_Invitation {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param int $id Optional. Provide an ID to access an existing
-	 *        invitation item.
+	 * @param int $id Optional. Provide an ID to access an existing invitation item.
 	 */
 	public function __construct( $id = 0 ) {
 		if ( ! empty( $id ) ) {
@@ -177,15 +176,15 @@ class BP_Invitation {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function save() {
 
-		// Return value
+		// Return value.
 		$retval = false;
 
-		// Default data and format
-		$data = array(
+		// Default data and format.
+		$data        = array(
 			'user_id'           => $this->user_id,
 			'inviter_id'        => $this->inviter_id,
 			'invitee_email'     => $this->invitee_email,
@@ -212,7 +211,7 @@ class BP_Invitation {
 		// Update.
 		if ( ! empty( $this->id ) ) {
 			$result = self::_update( $data, array( 'ID' => $this->id ), $data_format, array( '%d' ) );
-		// Insert.
+			// Insert.
 		} else {
 			$result = self::_insert( $data, $data_format );
 		}
@@ -257,7 +256,7 @@ class BP_Invitation {
 		// Cache missed, so query the DB.
 		if ( false === $invitation ) {
 			$invitation = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$invites_table_name} WHERE id = %d", $this->id ) );
-			wp_cache_set( $this->id, $invitation,'bp_invitations' );
+			wp_cache_set( $this->id, $invitation, 'bp_invitations' );
 		}
 
 		// No invitation found so set the ID and bail.
@@ -277,7 +276,6 @@ class BP_Invitation {
 		$this->date_modified     = $invitation->date_modified;
 		$this->invite_sent       = (int) $invitation->invite_sent;
 		$this->accepted          = (int) $invitation->accepted;
-
 	}
 
 	/** Protected Static Methods ******************************************/
@@ -287,19 +285,21 @@ class BP_Invitation {
 	 *
 	 * @since 5.0.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $data {
 	 *     Array of invitation data, passed to {@link wpdb::insert()}.
-	 *	   @type int    $user_id           ID of the invited user.
-	 *	   @type int    $inviter_id        ID of the user who created the invitation.
-	 *	   @type string $invitee_email     Email address of the invited user.
-	 * 	   @type string $class             Name of the related class.
-	 * 	   @type int    $item_id           ID associated with the invitation and component.
-	 * 	   @type int    $secondary_item_id Secondary ID associated with the invitation and
+	 *     @type int    $user_id           ID of the invited user.
+	 *     @type int    $inviter_id        ID of the user who created the invitation.
+	 *     @type string $invitee_email     Email address of the invited user.
+	 *     @type string $class             Name of the related class.
+	 *     @type int    $item_id           ID associated with the invitation and component.
+	 *     @type int    $secondary_item_id Secondary ID associated with the invitation and
 	 *                                     component.
-	 * 	   @type string $content           Extra information provided by the requester
-	 *			                           or inviter.
-	 * 	   @type string $date_modified     Date the invitation was last modified.
-	 * 	   @type int    $invite_sent       Has the invitation been sent, or is it a draft
+	 *     @type string $content           Extra information provided by the requester
+	 *                                     or inviter.
+	 *     @type string $date_modified     Date the invitation was last modified.
+	 *     @type int    $invite_sent       Has the invitation been sent, or is it a draft
 	 *                                     invite?
 	 * }
 	 * @param array $data_format See {@link wpdb::insert()}.
@@ -314,6 +314,8 @@ class BP_Invitation {
 	 * Update invitations.
 	 *
 	 * @since 5.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
@@ -337,6 +339,8 @@ class BP_Invitation {
 	 *
 	 * @since 5.0.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
 	 * @param array $where        Array of WHERE clauses to filter by, passed to
@@ -358,6 +362,8 @@ class BP_Invitation {
 	 *
 	 * @since 5.0.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $args See {@link BP_Invitation::get()} for more details.
 	 * @return string WHERE clause.
 	 */
@@ -369,19 +375,19 @@ class BP_Invitation {
 
 		// id.
 		if ( false !== $args['id'] ) {
-			$id_in = implode( ',', wp_parse_id_list( $args['id'] ) );
+			$id_in                  = implode( ',', wp_parse_id_list( $args['id'] ) );
 			$where_conditions['id'] = "id IN ({$id_in})";
 		}
 
 		// user_id.
 		if ( ! empty( $args['user_id'] ) ) {
-			$user_id_in = implode( ',', wp_parse_id_list( $args['user_id'] ) );
+			$user_id_in                  = implode( ',', wp_parse_id_list( $args['user_id'] ) );
 			$where_conditions['user_id'] = "user_id IN ({$user_id_in})";
 		}
 
 		// inviter_id. 0 can be meaningful, in the case of requests.
 		if ( ! empty( $args['inviter_id'] ) || 0 === $args['inviter_id'] ) {
-			$inviter_id_in = implode( ',', wp_parse_id_list( $args['inviter_id'] ) );
+			$inviter_id_in                  = implode( ',', wp_parse_id_list( $args['inviter_id'] ) );
 			$where_conditions['inviter_id'] = "inviter_id IN ({$inviter_id_in})";
 		}
 
@@ -398,7 +404,7 @@ class BP_Invitation {
 				$email_clean[] = $wpdb->prepare( '%s', $email );
 			}
 
-			$invitee_email_in = implode( ',', $email_clean );
+			$invitee_email_in                  = implode( ',', $email_clean );
 			$where_conditions['invitee_email'] = "invitee_email IN ({$invitee_email_in})";
 		}
 
@@ -415,55 +421,54 @@ class BP_Invitation {
 				$cn_clean[] = $wpdb->prepare( '%s', sanitize_key( $cn ) );
 			}
 
-			$cn_in = implode( ',', $cn_clean );
+			$cn_in                     = implode( ',', $cn_clean );
 			$where_conditions['class'] = "class IN ({$cn_in})";
 		}
 
 		// item_id.
 		if ( ! empty( $args['item_id'] ) ) {
-			$item_id_in = implode( ',', wp_parse_id_list( $args['item_id'] ) );
+			$item_id_in                  = implode( ',', wp_parse_id_list( $args['item_id'] ) );
 			$where_conditions['item_id'] = "item_id IN ({$item_id_in})";
 		}
 
 		// secondary_item_id.
 		if ( ! empty( $args['secondary_item_id'] ) ) {
-			$secondary_item_id_in = implode( ',', wp_parse_id_list( $args['secondary_item_id'] ) );
+			$secondary_item_id_in                  = implode( ',', wp_parse_id_list( $args['secondary_item_id'] ) );
 			$where_conditions['secondary_item_id'] = "secondary_item_id IN ({$secondary_item_id_in})";
 		}
 
 		// Type.
 		if ( ! empty( $args['type'] ) && 'all' !== $args['type'] ) {
-			if ( 'invite' == $args['type'] || 'request' == $args['type'] ) {
-				$type_clean = $wpdb->prepare( '%s', $args['type'] );
+			if ( 'invite' === $args['type'] || 'request' === $args['type'] ) {
+				$type_clean               = $wpdb->prepare( '%s', $args['type'] );
 				$where_conditions['type'] = "type = {$type_clean}";
 			}
 		}
 
 		/**
-		 * invite_sent
 		 * Only create a where statement if something less than "all" has been
 		 * specifically requested.
 		 */
 		if ( ! empty( $args['invite_sent'] ) && 'all' !== $args['invite_sent'] ) {
-			if ( $args['invite_sent'] == 'draft' ) {
-				$where_conditions['invite_sent'] = "invite_sent = 0";
-			} else if ( $args['invite_sent'] == 'sent' ) {
-				$where_conditions['invite_sent'] = "invite_sent = 1";
+			if ( $args['invite_sent'] === 'draft' ) {
+				$where_conditions['invite_sent'] = 'invite_sent = 0';
+			} elseif ( $args['invite_sent'] === 'sent' ) {
+				$where_conditions['invite_sent'] = 'invite_sent = 1';
 			}
 		}
 
 		// Accepted.
 		if ( ! empty( $args['accepted'] ) && 'all' !== $args['accepted'] ) {
-			if ( $args['accepted'] == 'pending' ) {
-				$where_conditions['accepted'] = "accepted = 0";
-			} else if ( $args['accepted'] == 'accepted' ) {
-				$where_conditions['accepted'] = "accepted = 1";
+			if ( $args['accepted'] === 'pending' ) {
+				$where_conditions['accepted'] = 'accepted = 0';
+			} elseif ( $args['accepted'] === 'accepted' ) {
+				$where_conditions['accepted'] = 'accepted = 1';
 			}
 		}
 
 		// search_terms.
 		if ( ! empty( $args['search_terms'] ) ) {
-			$search_terms_like = '%' . bp_esc_like( $args['search_terms'] ) . '%';
+			$search_terms_like                = '%' . bp_esc_like( $args['search_terms'] ) . '%';
 			$where_conditions['search_terms'] = $wpdb->prepare( '( invitee_email LIKE %s OR content LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
@@ -538,10 +543,10 @@ class BP_Invitation {
 
 		// Custom LIMIT.
 		if ( ! empty( $args['page'] ) && ! empty( $args['per_page'] ) ) {
-			$page     = absint( $args['page']     );
+			$page     = absint( $args['page'] );
 			$per_page = absint( $args['per_page'] );
 			$offset   = $per_page * ( $page - 1 );
-			$retval   = $wpdb->prepare( "LIMIT %d, %d", $offset, $per_page );
+			$retval   = $wpdb->prepare( 'LIMIT %d, %d', $offset, $per_page );
 		}
 
 		return $retval;
@@ -596,83 +601,82 @@ class BP_Invitation {
 		// id.
 		if ( ! empty( $args['id'] ) ) {
 			$where_clauses['data']['id'] = absint( $args['id'] );
-			$where_clauses['format'][] = '%d';
+			$where_clauses['format'][]   = '%d';
 		}
 
 		// user_id.
 		if ( ! empty( $args['user_id'] ) ) {
 			$where_clauses['data']['user_id'] = absint( $args['user_id'] );
-			$where_clauses['format'][] = '%d';
+			$where_clauses['format'][]        = '%d';
 		}
 
 		// inviter_id.
 		if ( ! empty( $args['inviter_id'] ) ) {
 			$where_clauses['data']['inviter_id'] = absint( $args['inviter_id'] );
-			$where_clauses['format'][] = '%d';
+			$where_clauses['format'][]           = '%d';
 		}
 
 		// invitee_email.
 		if ( ! empty( $args['invitee_email'] ) ) {
 			$where_clauses['data']['invitee_email'] = $args['invitee_email'];
-			$where_clauses['format'][] = '%s';
+			$where_clauses['format'][]              = '%s';
 		}
 
 		// class.
 		if ( ! empty( $args['class'] ) ) {
 			$where_clauses['data']['class'] = $args['class'];
-			$where_clauses['format'][] = '%s';
+			$where_clauses['format'][]      = '%s';
 		}
 
 		// item_id.
 		if ( ! empty( $args['item_id'] ) ) {
 			$where_clauses['data']['item_id'] = absint( $args['item_id'] );
-			$where_clauses['format'][] = '%d';
+			$where_clauses['format'][]        = '%d';
 		}
 
 		// secondary_item_id.
 		if ( ! empty( $args['secondary_item_id'] ) ) {
 			$where_clauses['data']['secondary_item_id'] = absint( $args['secondary_item_id'] );
-			$where_clauses['format'][] = '%d';
+			$where_clauses['format'][]                  = '%d';
 		}
 
 		// type.
 		if ( ! empty( $args['type'] ) && 'all' !== $args['type'] ) {
-			if ( 'invite' == $args['type'] || 'request' == $args['type'] ) {
+			if ( 'invite' === $args['type'] || 'request' === $args['type'] ) {
 				$where_clauses['data']['type'] = $args['type'];
-				$where_clauses['format'][] = '%s';
+				$where_clauses['format'][]     = '%s';
 			}
 		}
 
 		/**
-		 * invite_sent
 		 * Only create a where statement if something less than "all" has been
 		 * specifically requested.
 		 */
 		if ( isset( $args['invite_sent'] ) && 'all' !== $args['invite_sent'] ) {
-			if ( $args['invite_sent'] == 'draft' ) {
+			if ( $args['invite_sent'] === 'draft' ) {
 				$where_clauses['data']['invite_sent'] = 0;
-				$where_clauses['format'][] = '%d';
-			} else if ( $args['invite_sent'] == 'sent' ) {
+				$where_clauses['format'][]            = '%d';
+			} elseif ( $args['invite_sent'] === 'sent' ) {
 				$where_clauses['data']['invite_sent'] = 1;
-				$where_clauses['format'][] = '%d';
+				$where_clauses['format'][]            = '%d';
 			}
 		}
 
 		// accepted.
 		if ( ! empty( $args['accepted'] ) && 'all' !== $args['accepted'] ) {
-			if ( $args['accepted'] == 'pending' ) {
+			if ( $args['accepted'] === 'pending' ) {
 				$where_clauses['data']['accepted'] = 0;
-				$where_clauses['format'][] = '%d';
-			} else if ( $args['accepted'] == 'accepted' ) {
+				$where_clauses['format'][]         = '%d';
+			} elseif ( $args['accepted'] === 'accepted' ) {
 				$where_clauses['data']['accepted'] = 1;
-				$where_clauses['format'][] = '%d';
+				$where_clauses['format'][]         = '%d';
 			}
 		}
 
-		// date_modified
+		// date_modified.
 		if ( ! empty( $args['date_modified'] ) ) {
 			$where_clauses['data']['date_modified'] = $args['date_modified'];
-			$where_clauses['format'][] = '%s';
+			$where_clauses['format'][]              = '%s';
 		}
 
 		return $where_clauses;
@@ -685,6 +689,8 @@ class BP_Invitation {
 	 *
 	 * @since 5.0.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $args {
 	 *     Associative array of arguments. All arguments but $page and
 	 *     $per_page can be treated as filter values for get_where_sql()
@@ -696,7 +702,7 @@ class BP_Invitation {
 	 *     @type int|array    $inviter_id        ID of user who created the
 	 *                                           invitation. Can be an array of IDs.
 	 *     @type string|array $invitee_email     Email address of invited users
-	 *			                                 being queried. Can be an array of
+	 *                                           being queried. Can be an array of
 	 *                                           addresses.
 	 *     @type string|array $class             Name of the class to filter by.
 	 *                                           Can be an array of class names.
@@ -734,7 +740,7 @@ class BP_Invitation {
 	 *                                           Default: 'all' (return BP_Invitation objects).
 	 * }
 	 *
-	 * @return array BP_Invitation objects | IDs of found invite.
+	 * @return int[]|BP_Invitation[] BP_Invitation objects | IDs of found invite.
 	 */
 	public static function get( $args = array() ) {
 		global $wpdb;
@@ -765,7 +771,7 @@ class BP_Invitation {
 		);
 
 		$sql = array(
-			'select'     => "SELECT",
+			'select'     => 'SELECT',
 			'fields'     => '',
 			'from'       => "FROM {$invites_table_name} i",
 			'where'      => '',
@@ -774,41 +780,47 @@ class BP_Invitation {
 		);
 
 		if ( 'item_ids' === $r['fields'] ) {
-			$sql['fields'] = "DISTINCT i.item_id";
-		} else if ( 'user_ids' === $r['fields'] ) {
-			$sql['fields'] = "DISTINCT i.user_id";
-		} else if ( 'inviter_ids' === $r['fields'] ) {
-			$sql['fields'] = "DISTINCT i.inviter_id";
+			$sql['fields'] = 'DISTINCT i.item_id';
+		} elseif ( 'user_ids' === $r['fields'] ) {
+			$sql['fields'] = 'DISTINCT i.user_id';
+		} elseif ( 'inviter_ids' === $r['fields'] ) {
+			$sql['fields'] = 'DISTINCT i.inviter_id';
 		} else {
 			$sql['fields'] = 'DISTINCT i.id';
 		}
 
 		// WHERE.
-		$sql['where'] = self::get_where_sql( array(
-			'id'                => $r['id'],
-			'user_id'           => $r['user_id'],
-			'inviter_id'		=> $r['inviter_id'],
-			'invitee_email'     => $r['invitee_email'],
-			'class'             => $r['class'],
-			'item_id'           => $r['item_id'],
-			'secondary_item_id' => $r['secondary_item_id'],
-			'type'              => $r['type'],
-			'invite_sent'       => $r['invite_sent'],
-			'accepted'          => $r['accepted'],
-			'search_terms'      => $r['search_terms'],
-		) );
+		$sql['where'] = self::get_where_sql(
+			array(
+				'id'                => $r['id'],
+				'user_id'           => $r['user_id'],
+				'inviter_id'        => $r['inviter_id'],
+				'invitee_email'     => $r['invitee_email'],
+				'class'             => $r['class'],
+				'item_id'           => $r['item_id'],
+				'secondary_item_id' => $r['secondary_item_id'],
+				'type'              => $r['type'],
+				'invite_sent'       => $r['invite_sent'],
+				'accepted'          => $r['accepted'],
+				'search_terms'      => $r['search_terms'],
+			)
+		);
 
 		// ORDER BY.
-		$sql['orderby'] = self::get_order_by_sql( array(
-			'order_by'   => $r['order_by'],
-			'sort_order' => $r['sort_order']
-		) );
+		$sql['orderby'] = self::get_order_by_sql(
+			array(
+				'order_by'   => $r['order_by'],
+				'sort_order' => $r['sort_order'],
+			)
+		);
 
 		// LIMIT %d, %d.
-		$sql['pagination'] = self::get_paged_sql( array(
-			'page'     => $r['page'],
-			'per_page' => $r['per_page'],
-		) );
+		$sql['pagination'] = self::get_paged_sql(
+			array(
+				'page'     => $r['page'],
+				'per_page' => $r['per_page'],
+			)
+		);
 
 		$paged_invites_sql = "{$sql['select']} {$sql['fields']} {$sql['from']} {$sql['where']} {$sql['orderby']} {$sql['pagination']}";
 
@@ -839,7 +851,7 @@ class BP_Invitation {
 
 		$uncached_ids = bp_get_non_cached_ids( $paged_invite_ids, 'bp_invitations' );
 		if ( $uncached_ids ) {
-			$ids_sql = implode( ',', array_map( 'intval', $uncached_ids ) );
+			$ids_sql      = implode( ',', array_map( 'intval', $uncached_ids ) );
 			$data_objects = $wpdb->get_results( "SELECT i.* FROM {$invites_table_name} i WHERE i.id IN ({$ids_sql})" );
 			foreach ( $data_objects as $data_object ) {
 				wp_cache_set( $data_object->id, $data_object, 'bp_invitations' );
@@ -858,6 +870,8 @@ class BP_Invitation {
 	 * Get a count of total invitations matching a set of arguments.
 	 *
 	 * @since 5.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @see BP_Invitation::get() for a description of
 	 *      arguments.
@@ -892,13 +906,13 @@ class BP_Invitation {
 			'bp_invitations_invitation_get_total_count'
 		);
 
-		// Build the query
-		$select_sql = "SELECT COUNT(*)";
+		// Build the query.
+		$select_sql = 'SELECT COUNT(*)';
 		$from_sql   = "FROM {$invites_table_name}";
 		$where_sql  = self::get_where_sql( $r );
 		$sql        = "{$select_sql} {$from_sql} {$where_sql}";
 
-		// Return the queried results
+		// Return the queried results.
 		return $wpdb->get_var( $sql );
 	}
 
@@ -920,7 +934,7 @@ class BP_Invitation {
 	 */
 	public static function update( $update_args = array(), $where_args = array() ) {
 		$update = self::get_query_clauses( $update_args );
-		$where  = self::get_query_clauses( $where_args  );
+		$where  = self::get_query_clauses( $where_args );
 
 		/**
 		 * Fires before an invitation is updated.
@@ -936,9 +950,9 @@ class BP_Invitation {
 		$retval = self::_update( $update['data'], $where['data'], $update['format'], $where['format'] );
 
 		// Clear matching items from the cache.
-		$cache_args = $where_args;
+		$cache_args           = $where_args;
 		$cache_args['fields'] = 'ids';
-		$maybe_cached_ids = self::get( $cache_args );
+		$maybe_cached_ids     = self::get( $cache_args );
 		foreach ( $maybe_cached_ids as $invite_id ) {
 			wp_cache_delete( $invite_id, 'bp_invitations' );
 		}
@@ -983,9 +997,9 @@ class BP_Invitation {
 		do_action( 'bp_invitation_before_delete', $args );
 
 		// Clear matching items from the cache.
-		$cache_args = $args;
+		$cache_args           = $args;
 		$cache_args['fields'] = 'ids';
-		$maybe_cached_ids = self::get( $cache_args );
+		$maybe_cached_ids     = self::get( $cache_args );
 		foreach ( $maybe_cached_ids as $invite_id ) {
 			wp_cache_delete( $invite_id, 'bp_invitations' );
 		}
@@ -1015,12 +1029,10 @@ class BP_Invitation {
 	 *      return value.
 	 *
 	 * @param int $id ID of the invitation item to be deleted.
-	 * @return bool True on success, false on failure.
+	 * @return bool|int Number of rows deleted on success, false on failure.
 	 */
 	public static function delete_by_id( $id ) {
-		return self::delete( array(
-			'id' => $id,
-		) );
+		return self::delete( array( 'id' => $id ) );
 	}
 
 	/** Sent status ***********************************************************/
@@ -1152,5 +1164,4 @@ class BP_Invitation {
 
 		return self::update( $update_args, $args );
 	}
-
 }

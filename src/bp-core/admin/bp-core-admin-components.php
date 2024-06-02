@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Renders the Component Setup admin panel.
  *
  * @since 1.6.0
- *
  */
 function bp_core_admin_components_settings() {
 	bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Components', 'buddypress' ) );
@@ -27,7 +26,7 @@ function bp_core_admin_components_settings() {
 			<?php bp_core_admin_components_options(); ?>
 
 			<p class="submit clear">
-				<input class="button-primary" type="submit" name="bp-admin-component-submit" id="bp-admin-component-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ) ?>"/>
+				<input class="button-primary" type="submit" name="bp-admin-component-submit" id="bp-admin-component-submit" value="<?php esc_attr_e( 'Save Settings', 'buddypress' ); ?>"/>
 			</p>
 
 			<?php wp_nonce_field( 'bp-admin-component-setup' ); ?>
@@ -35,7 +34,7 @@ function bp_core_admin_components_settings() {
 		</form>
 	</div>
 
-<?php
+	<?php
 }
 
 /**
@@ -57,27 +56,27 @@ function bp_core_admin_components_options() {
 	 *
 	 * @param mixed $value Active components.
 	 */
-	$active_components      = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
+	$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
 	// The default components (if none are previously selected).
 	$default_components = array(
-		'xprofile' => array(
+		'xprofile'      => array(
 			'title'       => __( 'Extended Profiles', 'buddypress' ),
-			'description' => __( 'Customize your community with fully editable profile fields that allow your users to describe themselves.', 'buddypress' )
+			'description' => __( 'Customize your community with fully editable profile fields that allow your users to describe themselves.', 'buddypress' ),
 		),
-		'settings' => array(
+		'settings'      => array(
 			'title'       => __( 'Account Settings', 'buddypress' ),
-			'description' => __( 'Allow your users to modify their account and notification settings directly from within their profiles.', 'buddypress' )
+			'description' => __( 'Allow your users to modify their account and notification settings directly from within their profiles.', 'buddypress' ),
 		),
 		'notifications' => array(
 			'title'       => __( 'Notifications', 'buddypress' ),
-			'description' => __( 'Notify members of relevant activity with a toolbar bubble and/or via email, and allow them to customize their notification settings.', 'buddypress' )
+			'description' => __( 'Notify members of relevant activity with a toolbar bubble and/or via email, and allow them to customize their notification settings.', 'buddypress' ),
 		),
 	);
 
 	$optional_components = bp_core_admin_get_components( 'optional' );
 	$required_components = bp_core_admin_get_components( 'required' );
-	$retired_components  = bp_core_admin_get_components( 'retired'  );
+	$retired_components  = bp_core_admin_get_components( 'retired' );
 
 	// Merge optional and required together.
 	$all_components = $optional_components + $required_components;
@@ -86,7 +85,7 @@ function bp_core_admin_components_options() {
 	// deactivated components into activated ones.
 	if ( empty( $active_components ) ) {
 		$deactivated_components = bp_get_option( 'bp-deactivated-components' );
-		if ( !empty( $deactivated_components ) ) {
+		if ( ! empty( $deactivated_components ) ) {
 
 			// Trim off namespace and filename.
 			$trimmed = array();
@@ -96,8 +95,8 @@ function bp_core_admin_components_options() {
 
 			// Loop through the optional components to create an active component array.
 			foreach ( array_keys( (array) $optional_components ) as $ocomponent ) {
-				if ( !in_array( $ocomponent, $trimmed ) ) {
-					$active_components[$ocomponent] = 1;
+				if ( ! in_array( $ocomponent, $trimmed, true ) ) {
+					$active_components[ $ocomponent ] = 1;
 				}
 			}
 		}
@@ -110,34 +109,34 @@ function bp_core_admin_components_options() {
 
 	// Core component is always active.
 	$active_components['core'] = $all_components['core'];
-	$inactive_components       = array_diff( array_keys( $all_components ) , array_keys( $active_components ) );
+	$inactive_components       = array_diff( array_keys( $all_components ), array_keys( $active_components ) );
 
 	/** Display **************************************************************
 	 */
 
 	// Get the total count of all plugins.
 	$all_count = count( $all_components );
-	$page      = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
-	$action    = !empty( $_GET['action'] ) ? $_GET['action'] : 'all';
+	$page      = bp_core_do_network_admin() ? 'settings.php' : 'options-general.php';
+	$action    = ! empty( $_GET['action'] ) ? $_GET['action'] : 'all';
 
-	switch( $action ) {
-		case 'all' :
+	switch ( $action ) {
+		case 'all':
 			$current_components = $all_components;
 			break;
-		case 'active' :
+		case 'active':
 			foreach ( array_keys( $active_components ) as $component ) {
-				$current_components[$component] = $all_components[$component];
+				$current_components[ $component ] = $all_components[ $component ];
 			}
 			break;
-		case 'inactive' :
+		case 'inactive':
 			foreach ( $inactive_components as $component ) {
-				$current_components[$component] = $all_components[$component];
+				$current_components[ $component ] = $all_components[ $component ];
 			}
 			break;
-		case 'mustuse' :
+		case 'mustuse':
 			$current_components = $required_components;
 			break;
-		case 'retired' :
+		case 'retired':
 			$current_components = $retired_components;
 			break;
 	}
@@ -179,7 +178,7 @@ function bp_core_admin_components_options() {
 			'action' => 'retired',
 			'view'   => sprintf(
 				/* translators: %s: the number of retired components */
-				_n( 'Retired <span class="count">(%s)</span>',  'Retired <span class="count">(%s)</span>',  count( $retired_components ),  'buddypress' ),
+				_n( 'Retired <span class="count">(%s)</span>', 'Retired <span class="count">(%s)</span>', count( $retired_components ), 'buddypress' ),
 				number_format_i18n( count( $retired_components ) )
 			),
 		),
@@ -196,11 +195,27 @@ function bp_core_admin_components_options() {
 	<ul class="subsubsub">
 		<?php foreach ( $component_views as $component_view ) : ?>
 			<li>
-				<a href="<?php echo esc_url( add_query_arg( array( 'page' => 'bp-components', 'action' => $component_view['action'] ), bp_get_admin_url( $page ) ) ); ?>" <?php if ( $action === $component_view['action'] ) : ?>class="current"<?php endif; ?>>
+				<a href="
+				<?php
+				echo esc_url(
+					add_query_arg(
+						array(
+							'page'   => 'bp-components',
+							'action' => $component_view['action'],
+						),
+						bp_get_admin_url( $page )
+					)
+				);
+				?>
+							"
+			<?php
+			if ( $action === $component_view['action'] ) :
+				?>
+					class="current"<?php endif; ?>>
 					<?php echo wp_kses( $component_view['view'], array( 'span' => array( 'class' => true ) ) ); ?>
 				</a><?php echo 'retired' !== $component_view['action'] ? ' |' : ''; ?>
 			</li>
-		<?php endforeach ;?>
+		<?php endforeach; ?>
 	</ul>
 
 	<h3 class="screen-reader-text">
@@ -233,8 +248,8 @@ function bp_core_admin_components_options() {
 				<?php foreach ( $current_components as $name => $labels ) : ?>
 
 					<?php
-					if ( ! in_array( $name, array( 'core', 'members' ) ) ) {
-						$class = isset( $active_components[esc_attr( $name )] ) ? 'active' : 'inactive';
+					if ( ! in_array( $name, array( 'core', 'members' ), true ) ) {
+						$class = isset( $active_components[ esc_attr( $name ) ] ) ? 'active' : 'inactive';
 					} else {
 						$class = 'active';
 					}
@@ -243,10 +258,15 @@ function bp_core_admin_components_options() {
 					<tr id="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( $name ) . ' ' . esc_attr( $class ); ?>">
 						<th scope="row" class="check-column">
 
-							<?php if ( ! in_array( $name, array( 'core', 'members' ) ) ) : ?>
+							<?php if ( ! in_array( $name, array( 'core', 'members' ), true ) ) : ?>
 
-								<input type="checkbox" id="<?php echo esc_attr( "bp_components[$name]" ); ?>" name="<?php echo esc_attr( "bp_components[$name]" ); ?>" value="1"<?php checked( isset( $active_components[esc_attr( $name )] ) ); ?> />
-								<label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" class="screen-reader-text">
+								<input
+									type="checkbox"
+									id="<?php echo esc_attr( "bp_components[ $name ]" ); ?>"
+									name="<?php echo esc_attr( "bp_components[ $name ]" ); ?>"
+									value="1"<?php checked( isset( $active_components[ esc_attr( $name ) ] ) ); ?>
+								/>
+								<label for="<?php echo esc_attr( "bp_components[ $name ]" ); ?>" class="screen-reader-text">
 									<?php
 										/* translators: accessibility text */
 										printf( esc_html__( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) );
@@ -257,7 +277,7 @@ function bp_core_admin_components_options() {
 
 						</th>
 						<td class="plugin-title column-primary">
-							<label for="<?php echo esc_attr( "bp_components[$name]" ); ?>">
+							<label for="<?php echo esc_attr( "bp_components[ $name ]" ); ?>">
 								<span aria-hidden="true"></span>
 								<strong><?php echo esc_html( $labels['title'] ); ?></strong>
 							</label>
@@ -346,10 +366,10 @@ function bp_core_admin_components_settings_handler() {
 		$bp = buddypress();
 
 		// Save settings and upgrade schema.
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		require_once( $bp->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		require_once $bp->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php';
 
-		$submitted = stripslashes_deep( $_POST['bp_components'] );
+		$submitted             = stripslashes_deep( $_POST['bp_components'] );
 		$bp->active_components = bp_core_admin_get_active_components_from_submitted_settings( $submitted );
 
 		bp_core_install( $bp->active_components );
@@ -408,14 +428,14 @@ add_action( 'bp_admin_init', 'bp_core_admin_components_settings_handler' );
 function bp_core_admin_get_active_components_from_submitted_settings( $submitted ) {
 	$current_action = 'all';
 
-	if ( isset( $_GET['action'] ) && in_array( $_GET['action'], array( 'active', 'inactive', 'retired' ) ) ) {
+	if ( isset( $_GET['action'] ) && in_array( $_GET['action'], array( 'active', 'inactive', 'retired' ), true ) ) {
 		$current_action = $_GET['action'];
 	}
 
 	$current_components = buddypress()->active_components;
 
 	switch ( $current_action ) {
-		case 'retired' :
+		case 'retired':
 			$retired_components = bp_core_admin_get_components( 'retired' );
 			foreach ( array_keys( $retired_components ) as $retired_component ) {
 				if ( ! isset( $submitted[ $retired_component ] ) ) {
@@ -423,14 +443,13 @@ function bp_core_admin_get_active_components_from_submitted_settings( $submitted
 				}
 			} // Fall through.
 
-
-		case 'inactive' :
+		case 'inactive':
 			$components = array_merge( $submitted, $current_components );
 			break;
 
-		case 'all' :
-		case 'active' :
-		default :
+		case 'all':
+		case 'active':
+		default:
 			$components = $submitted;
 			break;
 	}
@@ -446,7 +465,8 @@ function bp_core_admin_get_active_components_from_submitted_settings( $submitted
  *
  * @since 1.7.0
  *
- * @param string $type Optional; component type to fetch. Default value is 'all', or 'optional', 'retired', 'required'.
+ * @param string $type Optional; Component type to fetch. Defaults to 'all'.
+ *                     Possible values include 'all', 'optional', 'retired', and 'required'.
  * @return array Requested components' data.
  */
 function bp_core_admin_get_components( $type = 'all' ) {
@@ -460,7 +480,7 @@ function bp_core_admin_get_components( $type = 'all' ) {
 	 * @param array  $components Array of component information.
 	 * @param string $type       Type of component list requested.
 	 *                           Possible values include 'all', 'optional',
-	 *                           'retired', 'required'.
+	 *                           'retired', and 'required'.
 	 */
 	return apply_filters( 'bp_core_admin_get_components', $components, $type );
 }

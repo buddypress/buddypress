@@ -178,7 +178,7 @@ class BP_Friends_Friendship {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function save() {
 		global $wpdb;
@@ -735,7 +735,7 @@ class BP_Friends_Friendship {
 		$last_activities = BP_Core_User::get_last_activity( $user_ids );
 
 		// Sort and structure as expected in legacy function.
-		usort( $last_activities, function( $a, $b ) {
+		usort( $last_activities, function ( $a, $b ) {
 			if ( $a['date_recorded'] === $b['date_recorded'] ) {
 				return 0;
 			}

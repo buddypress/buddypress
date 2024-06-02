@@ -118,5 +118,17 @@
 		"slug": "administration-email-tokens",
 		"markdown_source": "../user/administration/emails/tokens.md",
 		"parent": null
+	},
+	{
+		"title": "BuddyPress Administration - Groups",
+		"slug": "administration-groups",
+		"markdown_source": "../user/administration/groups/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Group Types",
+		"slug": "administration-group-types",
+		"markdown_source": "../user/administration/groups/group-types.md",
+		"parent": null
 	}
 ]

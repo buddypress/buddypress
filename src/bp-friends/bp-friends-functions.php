@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
  *                               running friends_add_friend() will result in a friendship request.
  *                               When true, running friends_add_friend() will result in an accepted
  *                               friendship, with no notifications being sent. Default: false.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = false ) {
 
@@ -96,7 +96,7 @@ function friends_add_friend( $initiator_userid, $friend_userid, $force_accept = 
  *
  * @param int $initiator_userid ID of the friendship initiator.
  * @param int $friend_userid    ID of the friend user.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function friends_remove_friend( $initiator_userid, $friend_userid ) {
 
@@ -156,7 +156,7 @@ function friends_remove_friend( $initiator_userid, $friend_userid ) {
  * @since 1.0.0
  *
  * @param int $friendship_id ID of the pending friendship object.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function friends_accept_friendship( $friendship_id ) {
 
@@ -193,7 +193,7 @@ function friends_accept_friendship( $friendship_id ) {
  * @since 1.0.0
  *
  * @param int $friendship_id ID of the pending friendship object.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function friends_reject_friendship( $friendship_id ) {
 	$friendship = new BP_Friends_Friendship( $friendship_id, false, false );
@@ -224,7 +224,7 @@ function friends_reject_friendship( $friendship_id ) {
  * @param int $initiator_userid ID of the friendship initiator - this is the
  *                              user who requested the friendship, and is doing the withdrawing.
  * @param int $friend_userid    ID of the requested friend.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function friends_withdraw_friendship( $initiator_userid, $friend_userid ) {
 	$friendship_id = BP_Friends_Friendship::get_friendship_id( $initiator_userid, $friend_userid );

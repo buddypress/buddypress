@@ -20,17 +20,22 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 * Description of fields indexes for building markup.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var array
 	 */
-	var $db_fields = array( 'id' => 'css_id', 'parent' => 'parent' );
+	public $db_fields = array(
+		'id'     => 'css_id',
+		'parent' => 'parent',
+	);
 
 	/**
 	 * Tree type.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var string
 	 */
-	var $tree_type = array();
+	public $tree_type = array();
 
 	/**
 	 * Display array of elements hierarchically.
@@ -58,20 +63,23 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	public function do_walk( $elements, $max_depth, $args = array() ) {
 		$output = '';
 
-		if ( $max_depth < -1 ) // Invalid parameter.
+		if ( $max_depth < -1 ) { // Invalid parameter.
 			return $output;
+		}
 
-		if ( empty( $elements ) ) // Nothing to walk.
+		if ( empty( $elements ) ) { // Nothing to walk.
 			return $output;
+		}
 
 		$parent_field = $this->db_fields['parent'];
 
 		// Flat display.
-		if ( -1 == $max_depth ) {
+		if ( -1 === $max_depth ) {
 
 			$empty_array = array();
-			foreach ( $elements as $e )
+			foreach ( $elements as $e ) {
 				$this->display_element( $e, $empty_array, 1, 0, $args, $output );
+			}
 
 			return $output;
 		}
@@ -87,10 +95,11 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 
 		foreach ( $elements as $e ) {
 			// BuddyPress: changed '==' to '==='. This is the only change from version in Walker::walk().
-			if ( 0 === $e->$parent_field )
+			if ( 0 === $e->$parent_field ) {
 				$top_level_elements[] = $e;
-			else
-				$children_elements[$e->$parent_field][] = $e;
+			} else {
+				$children_elements[ $e->$parent_field ][] = $e;
+			}
 		}
 
 		/*
@@ -105,29 +114,33 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 			$children_elements  = array();
 
 			foreach ( $elements as $e ) {
-				if ( $root->$parent_field == $e->$parent_field )
+				if ( $root->$parent_field === $e->$parent_field ) {
 					$top_level_elements[] = $e;
-				else
-					$children_elements[$e->$parent_field][] = $e;
+				} else {
+					$children_elements[ $e->$parent_field ][] = $e;
+				}
 			}
 		}
 
-		foreach ( $top_level_elements as $e )
+		foreach ( $top_level_elements as $e ) {
 			$this->display_element( $e, $children_elements, $max_depth, 0, $args, $output );
+		}
 
 		/*
 		 * If we are displaying all levels, and remaining children_elements is not empty,
 		 * then we got orphans, which should be displayed regardless.
 		 */
-		if ( ( $max_depth == 0 ) && count( $children_elements ) > 0 ) {
+		if ( ( 0 === $max_depth ) && count( $children_elements ) > 0 ) {
 			$empty_array = array();
 
-			foreach ( $children_elements as $orphans )
-				foreach ( $orphans as $op )
+			foreach ( $children_elements as $orphans ) {
+				foreach ( $orphans as $op ) {
 					$this->display_element( $op, $empty_array, 1, 0, $args, $output );
-		 }
+				}
+			}
+		}
 
-		 return $output;
+		return $output;
 	}
 
 	/**
@@ -151,13 +164,13 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $output Passed by reference. Used to append
-	 *                       additional content.
-	 * @param object $item   Menu item data object.
-	 * @param int    $depth  Depth of menu item. Used for padding. Optional,
-	 *                       defaults to 0.
-	 * @param array  $args   Optional. See {@link Walker::start_el()}.
-	 * @param int    $id     Menu item ID. Optional.
+	 * @param string   $output Passed by reference. Used to append
+	 *                         dditional content.
+	 * @param object   $item   Menu item data object.
+	 * @param int      $depth  Optional. Depth of menu item. Used for padding.
+	 *                         Defaults to 0.
+	 * @param stdClass $args   Optional. See {@link Walker::start_el()}.
+	 * @param int      $id     Menu item ID. Optional.
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		// If we're someway down the tree, indent the HTML with the appropriate number of tabs.
@@ -168,14 +181,14 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param array  $value Array of classes to be added.
-		 * @param object $item  Menu item data object.
-		 * @param array  $args  Array of arguments for the item.
+		 * @param array    $value Array of classes to be added.
+		 * @param object   $item  Menu item data object.
+		 * @param stdClass $args  An object of wp_nav_menu() arguments.
 		 */
 		$class_names = join( ' ', apply_filters( 'bp_nav_menu_css_class', array_filter( $item->class ), $item, $args ) );
 		$class_names = ! empty( $class_names ) ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
-		// Add HTML ID
+		// Add HTML ID.
 		$id = sanitize_html_class( $item->css_id . '-personal-li' );  // Backpat with BP pre-1.7.
 
 		/**
@@ -183,9 +196,9 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param string $id   ID attribute to be added to the menu item.
-		 * @param object $item Menu item data object.
-		 * @param array  $args Array of arguments for the item.
+		 * @param string   $id   ID attribute to be added to the menu item.
+		 * @param object   $item Menu item data object.
+		 * @param stdClass $args An object of wp_nav_menu() arguments.
 		 */
 		$id = apply_filters( 'bp_nav_menu_item_id', $id, $item, $args );
 		$id = ! empty( $id ) ? ' id="' . esc_attr( $id ) . '"' : '';
@@ -197,7 +210,7 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		$attributes = ! empty( $item->link ) ? ' href="' . esc_url( $item->link ) . '"' : '';
 
 		// Construct the link.
-		$item_output = $args->before;
+		$item_output  = $args->before;
 		$item_output .= '<a' . $attributes . '>';
 
 		/**
@@ -205,10 +218,12 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param string $name  Item text to be applied.
-		 * @param int    $value Post ID the title is for.
+		 * @param string $name    Item text to be applied.
+		 * @param int    $post_id Post ID the title is for.
 		 */
-		$item_output .= $args->link_before . apply_filters( 'the_title', $item->name, 0 ) . $args->link_after;
+		$link_text = apply_filters( 'the_title', $item->name, 0 );
+
+		$item_output .= $args->link_before . $link_text . $args->link_after;
 		$item_output .= '</a>';
 		$item_output .= $args->after;
 
@@ -217,10 +232,10 @@ class BP_Walker_Nav_Menu extends Walker_Nav_Menu {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param string $item_output Constructed output for the menu item to append to output.
-		 * @param object $item        Menu item data object.
-		 * @param int    $depth       Depth of menu item. Used for padding.
-		 * @param array  $args        Array of arguments for the item.
+		 * @param string   $item_output Constructed output for the menu item to append to output.
+		 * @param object   $item        Menu item data object.
+		 * @param int      $depth       Depth of menu item. Used for padding.
+		 * @param stdClass $args        An object of wp_nav_menu() arguments.
 		 */
 		$output .= apply_filters( 'bp_walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}

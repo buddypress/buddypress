@@ -320,7 +320,7 @@ add_action( 'bp_groups_member_before_delete', 'bp_groups_clear_user_group_cache_
  *
  * @since 2.7.0
  *
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_groups_reset_cache_incrementor() {
 	return bp_core_reset_incrementor( 'bp_groups' );
@@ -344,7 +344,7 @@ add_action( 'groups_member_after_remove', 'bp_groups_reset_cache_incrementor' );
  * @param array  $terms     Array of object terms.
  * @param array  $tt_ids    Array of term taxonomy IDs.
  * @param string $taxonomy  Taxonomy slug.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_groups_reset_cache_incrementor_on_group_term_change( $object_id, $terms, $tt_ids, $taxonomy ) {
 	$tax_object = get_taxonomy( $taxonomy );
@@ -367,7 +367,7 @@ add_action( 'bp_set_object_terms', 'bp_groups_reset_cache_incrementor_on_group_t
  * @param int    $object_id ID of the item whose terms are being modified.
  * @param array  $terms     Array of object terms.
  * @param string $taxonomy  Taxonomy slug.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_groups_reset_cache_incrementor_on_group_term_remove( $object_id, $terms, $taxonomy ) {
 	$tax_object = get_taxonomy( $taxonomy );

@@ -196,7 +196,7 @@ function bp_core_screen_signup() {
 				 * @param string $value     Error message wrapped in html.
 				 * @param string $fieldname The name of the signup field.
 				 */
-				add_action( 'bp_' . $fieldname . '_errors', function() use ( $error_message, $fieldname ) {
+				add_action( 'bp_' . $fieldname . '_errors', function () use ( $error_message, $fieldname ) {
 					echo wp_kses(
 						/**
 						 * Filter here to edit the error message about the invalid field value.

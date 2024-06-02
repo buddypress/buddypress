@@ -260,7 +260,7 @@ add_action( 'thread_loop_start', 'bp_messages_screen_conversation_mark_notificat
  * @param int $thread_id ID of the thread being marked as read.
  * @param int $user_id   ID of the user who read the thread.
  * @param int $num_rows  The number of affected rows by the "mark read" update query.
- * @return bool True on success. False otherwise.
+ * @return bool False otherwise.
  */
 function bp_messages_mark_notification_on_mark_thread( $thread_id, $user_id = 0, $num_rows = 0 ) {
 	$unread_messages = array();

@@ -11,8 +11,6 @@
  * Catch and process group creation form submissions.
  *
  * @since 1.2.0
- *
- * @return void
  */
 function groups_action_create_group() {
 
@@ -344,7 +342,7 @@ function groups_action_sort_creation_steps() {
 	ksort( $temp );
 	unset( $bp->groups->group_creation_steps );
 
-	foreach( (array) $temp as $position => $step ) {
+	foreach ( (array) $temp as $position => $step ) {
 		$bp->groups->group_creation_steps[ $step['slug'] ] = array(
 			'rewrite_id'   => $step['rewrite_id'],
 			'default_slug' => $step['slug'],

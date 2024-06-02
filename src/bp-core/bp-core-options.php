@@ -256,7 +256,7 @@ function bp_get_option( $option_name, $default = '' ) {
  *
  * @param string $option_name The option key to be set.
  * @param mixed  $value       The value to be set.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_add_option( $option_name, $value ) {
 	return add_blog_option( bp_get_root_blog_id(), $option_name, $value );
@@ -273,7 +273,7 @@ function bp_add_option( $option_name, $value ) {
  *
  * @param string $option_name The option key to be set.
  * @param mixed  $value       The value to be set.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_update_option( $option_name, $value ) {
 	return update_blog_option( bp_get_root_blog_id(), $option_name, $value );
@@ -289,7 +289,7 @@ function bp_update_option( $option_name, $value ) {
  * @since 1.5.0
  *
  * @param string $option_name The option key to be deleted.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_delete_option( $option_name ) {
 	return delete_blog_option( bp_get_root_blog_id(), $option_name );
@@ -725,18 +725,18 @@ function bp_is_activity_heartbeat_active( $default = true ) {
  *
  * @since 1.7.0
  *
- * @param string $default Optional. Fallback value if not found in the database.
- *                        Default: 'legacy'.
+ * @param string $package_id Optional. Fallback value if not found in the database.
+ *                           Default: 'legacy'.
  * @return string ID of the theme package.
  */
-function bp_get_theme_package_id( $default = 'legacy' ) {
+function bp_get_theme_package_id( $package_id = 'legacy' ) {
 
 	/**
 	 * Filters the current theme package ID.
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $value The current theme package ID.
+	 * @param string $package_id The current theme package ID.
 	 */
-	return apply_filters( 'bp_get_theme_package_id', bp_get_option( '_bp_theme_package_id', $default ) );
+	return apply_filters( 'bp_get_theme_package_id', bp_get_option( '_bp_theme_package_id', $package_id ) );
 }

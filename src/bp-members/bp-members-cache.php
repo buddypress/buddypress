@@ -67,7 +67,7 @@ add_action( 'delete_user', 'bp_members_clear_member_type_cache' );
  *
  * @since 2.7.0
  *
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_members_reset_activity_cache_incrementor() {
 	return bp_core_reset_incrementor( 'bp_activity_with_last_activity' );
@@ -115,7 +115,7 @@ add_action( 'bp_core_signup_after_delete',   'bp_members_delete_signup_cache_mul
  *
  * @since 10.0.0
  *
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_members_reset_signup_cache_incrementor() {
 	return bp_core_reset_incrementor( 'bp_signups' );
