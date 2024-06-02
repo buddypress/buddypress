@@ -26,11 +26,11 @@ function bp_core_admin_menu_init() {
  *
  * The old "bp-general-settings" page was renamed "bp-components".
  *
+ * @since 1.6.0 
+ *
  * @global array $_parent_pages
  * @global array $_registered_pages
  * @global array $submenu
- *
- * @since 1.6.0
  */
 function bp_core_admin_backpat_menu() {
 	global $_parent_pages, $_registered_pages, $submenu;
@@ -67,10 +67,10 @@ add_action( bp_core_admin_hook(), 'bp_core_admin_backpat_menu', 999 );
  * The conditional prevents the behavior when the user is viewing the
  * backpat "Help" page, the Activity page, or any third-party plugins.
  *
+ * @since 1.6.0
+ *
  * @global string $plugin_page
  * @global array $submenu
- *
- * @since 1.6.0
  */
 function bp_core_modify_admin_menu_highlight() {
 	global $plugin_page, $submenu_file;
@@ -220,9 +220,9 @@ function bp_core_add_admin_notice( $notice = '', $type = 'updated' ) {
  *   - that no WP page has multiple BP components associated with it.
  * The administrator will be shown a notice for each check that fails.
  *
- * @global wpdb $wpdb WordPress database object.
- *
  * @since 1.2.0
+ *
+ * @global wpdb $wpdb WordPress database object.
  */
 function bp_core_activation_notice() {
 	global $wpdb;
