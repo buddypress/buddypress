@@ -816,7 +816,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			return $text;
 		}
 
-		$totalLength = mb_strlen( strip_tags( $ending ) );
+		$totalLength = mb_strlen( wp_strip_all_tags( $ending ) );
 		$openTags    = array();
 		$truncate    = '';
 
@@ -866,7 +866,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	} else {
 		// Strip HTML tags if necessary.
 		if ( ! empty( $r['strip_tags'] ) ) {
-			$text = strip_tags( $text );
+			$text = wp_strip_all_tags( $text );
 		}
 
 		// Remove links if necessary.
@@ -3058,14 +3058,14 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 
 		// Use component name on member pages.
 		} else {
-			$bp_title_parts = array_merge( $bp_title_parts, array_map( 'strip_tags', array(
+			$bp_title_parts = array_merge( $bp_title_parts, array_map( 'wp_strip_all_tags', array(
 				$displayed_user_name,
 				$component_name,
 			) ) );
 
 			// If we have a subnav name, add it separately for localization.
 			if ( ! empty( $component_subnav_name ) ) {
-				$bp_title_parts[] = strip_tags( $component_subnav_name );
+				$bp_title_parts[] = wp_strip_all_tags( $component_subnav_name );
 			}
 		}
 

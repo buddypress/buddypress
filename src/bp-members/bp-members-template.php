@@ -1012,7 +1012,7 @@ function bp_member_name() {
 	}
 	add_filter( 'bp_get_member_name', 'wp_filter_kses' );
 	add_filter( 'bp_get_member_name', 'stripslashes'   );
-	add_filter( 'bp_get_member_name', 'strip_tags'     );
+	add_filter( 'bp_get_member_name', 'wp_strip_all_tags' );
 	add_filter( 'bp_get_member_name', 'esc_html'       );
 
 /**
@@ -1148,8 +1148,8 @@ function bp_member_latest_update( $args = '' ) {
 		}
 
 		if ( ! empty( $update['content'] ) ) {
-			$excerpt           = trim( strip_tags( bp_create_excerpt( $update['content'], $length ) ) );
-			$update['content'] = trim( strip_tags( $update['content'] ) );
+			$excerpt           = wp_strip_all_tags( bp_create_excerpt( $update['content'], $length ) );
+			$update['content'] = wp_strip_all_tags( $update['content'] );
 			$update['excerpt'] = $excerpt;
 		} else {
 			$excerpt = '';

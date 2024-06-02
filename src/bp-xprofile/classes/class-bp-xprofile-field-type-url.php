@@ -187,7 +187,7 @@ class BP_XProfile_Field_Type_URL extends BP_XProfile_Field_Type {
 	 * @return string URL converted to a link.
 	 */
 	public static function display_filter( $field_value, $field_id = '' ) {
-		$link      = strip_tags( $field_value );
+		$link      = wp_strip_all_tags( $field_value );
 		$no_scheme = preg_replace( '#^https?://#', '', rtrim( $link, '/' ) );
 		$url_text  = str_replace( $link, $no_scheme, $field_value );
 		return '<a href="' . esc_url( $field_value ) . '" rel="nofollow">' . esc_html( $url_text ) . '</a>';
