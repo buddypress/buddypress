@@ -52,6 +52,8 @@ abstract class BP_Attachment {
 	 * @since 2.4.0 Add the $upload_dir_filter_args argument to the $arguments array
 	 *
 	 * @param array|string $args {
+	 *     Array of upload parameters.
+	 *
 	 *     @type int    $original_max_filesize  Maximum file size in kilobytes. Defaults to php.ini settings.
 	 *     @type array  $allowed_mime_types     List of allowed file extensions (eg: array( 'jpg', 'gif', 'png' ) ).
 	 *                                          Defaults to WordPress allowed mime types.
@@ -68,7 +70,7 @@ abstract class BP_Attachment {
 	public function __construct( $args = '' ) {
 		// Upload action and the file input name are required parameters.
 		if ( empty( $args['action'] ) || empty( $args['file_input'] ) ) {
-			return false;
+			return;
 		}
 
 		// Sanitize the action ID and the file input name.
@@ -91,15 +93,15 @@ abstract class BP_Attachment {
 			if ( 'upload_error_strings' === $key ) {
 				$this->{$key} = $this->set_upload_error_strings( $param );
 
-			// Sanitize the base dir.
+				// Sanitize the base dir.
 			} elseif ( 'base_dir' === $key ) {
 				$this->{$key} = sanitize_title( $param );
 
-			// Sanitize the upload dir filter arg to pass.
+				// Sanitize the upload dir filter arg to pass.
 			} elseif ( 'upload_dir_filter_args' === $key ) {
 				$this->{$key} = (int) $param;
 
-			// Action & File input are already set and sanitized.
+				// Action & File input are already set and sanitized.
 			} elseif ( 'action' !== $key && 'file_input' !== $key ) {
 				$this->{$key} = $param;
 			}
@@ -113,14 +115,13 @@ abstract class BP_Attachment {
 	 * Set upload path and url for the component.
 	 *
 	 * @since 2.3.0
-	 *
 	 */
 	public function set_upload_dir() {
 		// Set the directory, path, & url variables.
-		$this->upload_dir  = bp_upload_dir();
+		$this->upload_dir = bp_upload_dir();
 
 		if ( empty( $this->upload_dir ) ) {
-			return false;
+			return;
 		}
 
 		$this->upload_path = $this->upload_dir['basedir'];
@@ -138,7 +139,7 @@ abstract class BP_Attachment {
 		 */
 		if ( ! empty( $this->base_dir ) ) {
 			$this->upload_path = trailingslashit( $this->upload_path ) . $this->base_dir;
-			$this->url         = trailingslashit( $this->url  ) . $this->base_dir;
+			$this->url         = trailingslashit( $this->url ) . $this->base_dir;
 
 			// Finally create the base dir.
 			$this->create_dir();
@@ -194,7 +195,7 @@ abstract class BP_Attachment {
 				continue;
 			}
 
-			require_once( ABSPATH . "/wp-admin/includes/{$wp_file}.php" );
+			require_once ABSPATH . "/wp-admin/includes/{$wp_file}.php";
 		}
 	}
 
@@ -206,7 +207,7 @@ abstract class BP_Attachment {
 	 * @param array       $file              The appropriate entry the from $_FILES superglobal.
 	 * @param string      $upload_dir_filter A specific filter to be applied to 'upload_dir' (optional).
 	 * @param string|null $time              Optional. Time formatted in 'yyyy/mm'. Default null.
-	 * @return array On success, returns an associative array of file attributes.
+	 * @return false|array On success, returns an associative array of file attributes.
 	 *               On failure, returns an array containing the error message
 	 *               (eg: array( 'error' => $message ) )
 	 */
@@ -256,6 +257,7 @@ abstract class BP_Attachment {
 		 * If the $base_dir was set when constructing the class,
 		 * and no specific filter has been requested, use a default
 		 * filter to create the specific $base dir
+		 *
 		 * @see  BP_Attachment->upload_dir_filter()
 		 */
 		if ( empty( $upload_dir_filter ) && ! empty( $this->base_dir ) ) {
@@ -289,15 +291,15 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param  string $retval Filename.
+	 * @param string $retval Filename.
 	 * @return string
 	 */
 	public function sanitize_utf8_filename( $retval ) {
-		// PHP 5.4+ or with PECL intl 2.0+
+		// PHP 5.4+ or with PECL intl 2.0+ .
 		if ( function_exists( 'transliterator_transliterate' ) && seems_utf8( $retval ) ) {
 			$retval = transliterator_transliterate( 'Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $retval );
 
-		// Older.
+			// Older.
 		} else {
 			// Use WP's built-in function to convert accents to their ASCII equivalent.
 			$retval = remove_accents( $retval );
@@ -317,20 +319,21 @@ abstract class BP_Attachment {
 	 * In case of a multisite, the mime types are already restricted by
 	 * the 'upload_filetypes' setting. BuddyPress will respect this setting.
 	 *
-	 * @see check_upload_mimes()
-	 *
 	 * @since 2.3.0
 	 *
+	 * @see check_upload_mimes()
+	 *
+	 * @return array Valid mime types.
 	 */
 	protected function validate_mime_types() {
-		$wp_mimes = get_allowed_mime_types();
+		$wp_mimes    = get_allowed_mime_types();
 		$valid_mimes = array();
 
 		// Set the allowed mimes for the upload.
 		foreach ( (array) $this->allowed_mime_types as $ext ) {
 			foreach ( $wp_mimes as $ext_pattern => $mime ) {
 				if ( $ext !== '' && strpos( $ext_pattern, $ext ) !== false ) {
-					$valid_mimes[$ext_pattern] = $mime;
+					$valid_mimes[ $ext_pattern ] = $mime;
 				}
 			}
 		}
@@ -387,14 +390,18 @@ abstract class BP_Attachment {
 		 * @param array $value          Array containing the path, URL, and other helpful settings.
 		 * @param array $upload_dir     The original Uploads dir.
 		 */
-		return apply_filters( 'bp_attachment_upload_dir', array(
-			'path'    => $this->upload_path,
-			'url'     => $this->url,
-			'subdir'  => false,
-			'basedir' => $this->upload_path,
-			'baseurl' => $this->url,
-			'error'   => false
-		), $upload_dir );
+		return apply_filters(
+			'bp_attachment_upload_dir',
+			array(
+				'path'    => $this->upload_path,
+				'url'     => $this->url,
+				'subdir'  => false,
+				'basedir' => $this->upload_path,
+				'baseurl' => $this->url,
+				'error'   => false,
+			),
+			$upload_dir
+		);
 	}
 
 	/**
@@ -405,6 +412,7 @@ abstract class BP_Attachment {
 	 *
 	 * @since 2.3.0
 	 *
+	 * @return bool
 	 */
 	public function create_dir() {
 		// Bail if no specific base dir is set.
@@ -431,6 +439,8 @@ abstract class BP_Attachment {
 	 * @since 2.3.0
 	 *
 	 * @param array $args {
+	 *     Array of arguments for the crop method.
+	 *
 	 *     @type string $original_file The source file (absolute path) for the Attachment.
 	 *     @type int    $crop_x        The start x position to crop from.
 	 *     @type int    $crop_y        The start y position to crop from.
@@ -488,17 +498,25 @@ abstract class BP_Attachment {
 		}
 
 		// Check image file types.
-		$check_types = array( 'src_file' => array( 'file' => $r['original_file'], 'error' => _x( 'source file', 'Attachment source file', 'buddypress' ) ) );
+		$check_types = array(
+			'src_file' => array(
+				'file'  => $r['original_file'],
+				'error' => _x( 'source file', 'Attachment source file', 'buddypress' ),
+			),
+		);
 		if ( ! empty( $r['dst_file'] ) ) {
-			$check_types['dst_file'] = array( 'file' => $r['dst_file'], 'error' => _x( 'destination file', 'Attachment destination file', 'buddypress' ) );
+			$check_types['dst_file'] = array(
+				'file'  => $r['dst_file'],
+				'error' => _x( 'destination file', 'Attachment destination file', 'buddypress' ),
+			);
 		}
 
 		// Set supported image types.
 		$supported_image_types = array_fill_keys( bp_attachments_get_allowed_types( 'image' ), 1 );
 
 		foreach ( $check_types as $file ) {
-			$is_image      = wp_check_filetype( $file['file'] );
-			$ext           = $is_image['ext'];
+			$is_image = wp_check_filetype( $file['file'] );
+			$ext      = $is_image['ext'];
 
 			if ( empty( $ext ) || empty( $supported_image_types[ $ext ] ) ) {
 				$wp_error->add(
@@ -537,7 +555,7 @@ abstract class BP_Attachment {
 	 * @return array The javascript localization data.
 	 */
 	public function script_data() {
-		$script_data = array(
+		return array(
 			'action'            => $this->action,
 			'file_data_name'    => $this->file_input,
 			'max_file_size'     => $this->original_max_filesize,
@@ -546,8 +564,6 @@ abstract class BP_Attachment {
 				2 => __( 'File successfully uploaded.', 'buddypress' ),
 			),
 		);
-
-		return $script_data;
 	}
 
 	/**
@@ -556,7 +572,9 @@ abstract class BP_Attachment {
 	 * @since 10.0.0
 	 *
 	 * @param string $attachment_type The attachement type (eg: avatar).
-	 * @param array $args {
+	 * @param array  $args {
+	 *     Optional. Array of arguments for the add_revision method.
+	 *
 	 *     @type string $file_abspath The source file (absolute path) for the attachment.
 	 *     @type string $file_id      Optional. The file ID to use as a suffix for the revision directory.
 	 * }
@@ -598,7 +616,7 @@ abstract class BP_Attachment {
 
 		// Avatars and Cover Images are specific attachments.
 		if ( 'avatar' === $attachment_type || 'cover_image' === $attachment_type ) {
-			$revision_dir  = $dirname . 'history';
+			$revision_dir = $dirname . 'history';
 		}
 
 		// Create the revision directory if it doesn't exist yet.
@@ -630,10 +648,10 @@ abstract class BP_Attachment {
 	 */
 	public static function get_image_data( $file ) {
 		// Try to get image basic data.
-		list( $width, $height, $sourceImageType ) = @getimagesize( $file );
+		list( $width, $height, $source_image_type ) = @getimagesize( $file );
 
 		// No need to carry on if we couldn't get image's basic data.
-		if ( is_null( $width ) || is_null( $height ) || is_null( $sourceImageType ) ) {
+		if ( is_null( $width ) || is_null( $height ) || is_null( $source_image_type ) ) {
 			return false;
 		}
 
@@ -645,7 +663,7 @@ abstract class BP_Attachment {
 
 		// Make sure the wp_read_image_metadata function is reachable.
 		if ( ! function_exists( 'wp_read_image_metadata' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/image.php' );
+			require_once ABSPATH . 'wp-admin/includes/image.php';
 		}
 
 		// Now try to get image's meta data.
@@ -671,6 +689,8 @@ abstract class BP_Attachment {
 	 *
 	 * @param string $attachment_type The attachment type (eg: avatar or cover_image). Required.
 	 * @param array  $args {
+	 *     Optional. Array of arguments for the edit_image method.
+	 *
 	 *     @type string $file     Absolute path to the image file (required).
 	 *     @type int    $max_w    Max width attribute for the editor's resize method (optional).
 	 *     @type int    $max_h    Max height attribute for the editor's resize method (optional).
@@ -737,7 +757,7 @@ abstract class BP_Attachment {
 		if ( true === $r['save'] ) {
 			return $editor->save( $editor->generate_filename() );
 
-		// Need to do some other edit actions or use a specific method to save file.
+			// Need to do some other edit actions or use a specific method to save file.
 		} else {
 			return $editor;
 		}
