@@ -358,7 +358,7 @@ class BP_XProfile_Field {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param boolean $delete_data Whether or not to delete data.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function delete( $delete_data = false ) {
 		global $wpdb;
@@ -415,7 +415,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function save() {
 		global $wpdb;
@@ -987,7 +987,7 @@ class BP_XProfile_Field {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $group_id ID of the field group to delete fields from.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function delete_for_group( $group_id = 0 ) {
 		global $wpdb;
@@ -1048,7 +1048,7 @@ class BP_XProfile_Field {
 	 * @param int      $field_id       ID of the field to update.
 	 * @param int|null $position       Field position to update.
 	 * @param int|null $field_group_id ID of the field group.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function update_position( $field_id, $position = null, $field_group_id = null ) {
 		global $wpdb;
@@ -1166,7 +1166,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global string $message The feedback message to show.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function admin_validate() {
 		global $message;
@@ -1433,7 +1433,7 @@ class BP_XProfile_Field {
 	 * @since 8.0.0
 	 *
 	 * @param string $support The name of the feature.
-	 * @return boolean True if the field type supports the feature. False otherwise.
+	 * @return bool True if the field type supports the feature. False otherwise.
 	 */
 	public function field_type_supports( $support = '' ) {
 		$retval   = true;

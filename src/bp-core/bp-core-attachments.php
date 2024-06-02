@@ -287,7 +287,7 @@ function bp_attachments_check_filetype( $file, $filename, $allowed_mimes ) {
  *     @type int    $crop_x    The horizontal starting point of the crop. Default: 0.
  *     @type int    $crop_y    The vertical starting point of the crop. Default: 0.
  * }
- * @return bool True on success, false otherwise.
+ * @return bool
  */
 function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
 	if ( empty( $type ) || ( $type !== 'avatar' && $type !== 'cover_image' ) ) {

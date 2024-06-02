@@ -323,7 +323,7 @@ function bp_core_set_incremented_cache( $key, $group, $ids ) {
  *
  * @param string $key   Unique key for the query. Usually a SQL string.
  * @param string $group Cache group. Eg 'bp_activity'.
- * @return bool True on successful removal, false on failure.
+ * @return bool
  */
 function bp_core_delete_incremented_cache( $key, $group ) {
 	$cache_key = bp_core_get_incremented_cache_key( $key, $group );
@@ -381,7 +381,7 @@ function bp_core_get_incrementor( $group ) {
  * @since 2.7.0
  *
  * @param string $group Cache group. Eg 'bp_activity'.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_core_reset_incrementor( $group ) {
 	return wp_cache_delete( 'incrementor', $group );

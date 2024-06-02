@@ -143,7 +143,7 @@ function bp_core_admin_insert_type( $args = array() ) {
  *     @type integer $type_term_id The Type's term ID. Required.
  *     @see keys of the array returned by bp_get_type_metadata_schema() for the other arguments.
  * }
- * @return boolean|WP_Error True on success. A WP_Error object otherwise.
+ * @return bool|WP_Error True on success. A WP_Error object otherwise.
  */
 function bp_core_admin_update_type( $args = array() ) {
 	$default_args = array(
@@ -214,7 +214,7 @@ function bp_core_admin_update_type( $args = array() ) {
  *     @type string  $taxonomy     The Type's taxonomy. Required.
  *     @type integer $type_term_id The Type's term ID. Required.
  * }
- * @return boolean|WP_Error True on success. A WP_Error object otherwise.
+ * @return bool|WP_Error True on success. A WP_Error object otherwise.
  */
 function bp_core_admin_delete_type( $args = array() ) {
 	$default_args = array(

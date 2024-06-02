@@ -55,7 +55,7 @@ function bp_xprofile_get_groups( $args = array() ) {
  *    @type string      $description    Field group description.
  *    @type bool        $can_delete     Whether or not the field group can be deleted.
  * }
- * @return boolean
+ * @return bool
  */
 function xprofile_insert_field_group( $args = '' ) {
 
@@ -113,7 +113,7 @@ function xprofile_get_field_group( $field_group_id = 0 ) {
  * @since 1.0.0
  *
  * @param int $field_group_id Field group ID to delete.
- * @return boolean
+ * @return bool
  */
 function xprofile_delete_field_group( $field_group_id = 0 ) {
 
@@ -136,7 +136,7 @@ function xprofile_delete_field_group( $field_group_id = 0 ) {
  *
  * @param int $field_group_id Field group ID to update.
  * @param int $position       Field group position to update to.
- * @return boolean
+ * @return bool
  */
 function xprofile_update_field_group_position( $field_group_id = 0, $position = 0 ) {
 	return BP_XProfile_Group::update_position( $field_group_id, $position );
@@ -427,7 +427,7 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
  * @param int        $user_id     The ID of the user.
  * @param mixed      $value       The value for the field you want to set for the user.
  * @param bool       $is_required Whether or not the field is required.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function xprofile_set_field_data( $field, $user_id, $value, $is_required = false ) {
 
@@ -537,7 +537,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
  * @param int    $field_id         The ID of the xprofile field.
  * @param int    $user_id          The ID of the user to whom the data belongs.
  * @param string $visibility_level What the visibility setting should be.
- * @return bool True on success
+ * @return bool
  */
 function xprofile_set_field_visibility_level( $field_id = 0, $user_id = 0, $visibility_level = '' ) {
 	if ( empty( $field_id ) || empty( $user_id ) || empty( $visibility_level ) ) {
@@ -975,7 +975,7 @@ add_action( 'delete_user', 'xprofile_remove_data_on_delete_user' );
  *                                 for all objects, ignoring the specified object_id. Otherwise, only
  *                                 delete matching metadata entries for the specified object.
  *                                 Default: false.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	global $wpdb;

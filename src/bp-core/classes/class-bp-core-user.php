@@ -854,7 +854,7 @@ class BP_Core_User {
 	 *
 	 * @param int    $user_id ID of the user whose last_activity you are updating.
 	 * @param string $time    MySQL-formatted time string.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public static function update_last_activity( $user_id, $time ) {
 		global $wpdb;
@@ -952,8 +952,7 @@ class BP_Core_User {
 	 * @since 2.0.0
 	 *
 	 * @param int $user_id ID of the user whose activity should be deleted.
-	 * @return bool True on success, false on failure or if no last_activity
-	 *              is found for the user.
+	 * @return bool
 	 */
 	public static function delete_last_activity( $user_id ) {
 		global $wpdb;

@@ -256,7 +256,7 @@ function bp_get_option( $option_name, $default = '' ) {
  *
  * @param string $option_name The option key to be set.
  * @param mixed  $value       The value to be set.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_add_option( $option_name, $value ) {
 	return add_blog_option( bp_get_root_blog_id(), $option_name, $value );
@@ -273,7 +273,7 @@ function bp_add_option( $option_name, $value ) {
  *
  * @param string $option_name The option key to be set.
  * @param mixed  $value       The value to be set.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_update_option( $option_name, $value ) {
 	return update_blog_option( bp_get_root_blog_id(), $option_name, $value );
@@ -289,7 +289,7 @@ function bp_update_option( $option_name, $value ) {
  * @since 1.5.0
  *
  * @param string $option_name The option key to be deleted.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_delete_option( $option_name ) {
 	return delete_blog_option( bp_get_root_blog_id(), $option_name );

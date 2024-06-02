@@ -85,7 +85,7 @@ class BP_XProfile_Group {
 	 * @since 1.0.0
 	 *
 	 * @param int $id Field group ID.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function populate( $id ) {
 
@@ -117,7 +117,7 @@ class BP_XProfile_Group {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function save() {
 		global $wpdb;
@@ -178,7 +178,7 @@ class BP_XProfile_Group {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function delete() {
 		global $wpdb;
@@ -701,7 +701,7 @@ class BP_XProfile_Group {
 	 *
 	 * @global string $message The feedback message to show.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function admin_validate() {
 		global $message;
@@ -724,7 +724,7 @@ class BP_XProfile_Group {
 	 *
 	 * @param  int $field_group_id ID of the group the field belongs to.
 	 * @param  int $position       Field group position.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function update_position( $field_group_id, $position ) {
 		global $wpdb;

@@ -697,7 +697,7 @@ function bp_core_update_member_status( $user_id = 0, $value = 0 ) {
  *                              only be false if WordPress is expected to have
  *                              performed this cleanup independently, as when hooked
  *                              to 'make_spam_user'.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = true ) {
 	global $wpdb;
@@ -1071,7 +1071,7 @@ function bp_is_user_inactive( $user_id = 0 ) {
  *
  * @param int    $user_id Optional. ID of the user being updated.
  * @param string $time    Optional. Time of last activity, in 'Y-m-d H:i:s' format.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_update_user_last_activity( $user_id = 0, $time = '' ) {
 
@@ -1246,7 +1246,7 @@ function bp_last_activity_migrate() {
  *
  * @param int $user_id Optional. ID of the user to be deleted. Default: the
  *                     logged-in user.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_core_delete_account( $user_id = 0 ) {
 
@@ -1343,7 +1343,7 @@ function bp_remove_user_data_on_delete_user_hook( $component, $user_id ) {
  * @since 1.9.0
  *
  * @param int $user_id ID of the user who is about to be deleted.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_core_delete_avatar_on_user_delete( $user_id ) {
 	return bp_core_delete_existing_avatar( array(
@@ -3445,7 +3445,7 @@ function bp_members_invitations_user_has_sent_invites( $user_id = 0 ) {
  *     @type bool   $send_invite   Optional. Whether the invitation should be
  *                                 sent now. Default: false.
  * }
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_members_invitations_invite_user( $args = array() ) {
 	$r = bp_parse_args(
@@ -3493,7 +3493,7 @@ function bp_members_invitations_invite_user( $args = array() ) {
  * @since 8.0.0
  *
  * @param int $id ID of the invitation to resend.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_members_invitation_resend_by_id( $id = 0 ) {
 

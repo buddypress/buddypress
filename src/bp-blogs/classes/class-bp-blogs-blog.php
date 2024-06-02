@@ -71,7 +71,7 @@ class BP_Blogs_Blog {
 	/**
 	 * Save the BP blog data to the database.
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function save() {
 		global $wpdb;

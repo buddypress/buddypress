@@ -812,7 +812,7 @@ function bp_do_theme_compat() {
  * @param int|bool $priority Optional. If present, only those callbacks attached
  *                           at a given priority will be removed. Otherwise, all callbacks
  *                           attached to the tag will be removed, regardless of priority.
- * @return bool True on success.
+ * @return bool
  */
 function bp_remove_all_filters( $tag, $priority = false ) {
 	global $wp_filter, $merged_filters;
@@ -867,7 +867,7 @@ function bp_remove_all_filters( $tag, $priority = false ) {
  * @param int|bool $priority Optional. If present, only those filters that were originally
  *                           attached to the tag with $priority will be restored. Otherwise,
  *                           all available filters will be restored, regardless of priority.
- * @return bool True on success.
+ * @return bool
  */
 function bp_restore_all_filters( $tag, $priority = false ) {
 	global $wp_filter, $merged_filters;
@@ -1047,7 +1047,7 @@ function bp_check_theme_template_pack_dependency() {
  *
  * @since 14.0.0
  *
- * @return boolean True if current theme compat is about a block theme.
+ * @return bool True if current theme compat is about a block theme.
  *                 False otherwise.
  */
 function bp_theme_compat_is_block_theme() {

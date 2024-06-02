@@ -255,7 +255,7 @@ class BP_Groups_Member {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function save() {
 		global $wpdb;
@@ -329,7 +329,7 @@ class BP_Groups_Member {
 	 * @since 1.6.0
 	 *
 	 * @param string $status The new status. 'mod' or 'admin'.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function promote( $status = 'mod' ) {
 		if ( 'mod' == $status ) {
@@ -352,7 +352,7 @@ class BP_Groups_Member {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function demote() {
 		$this->is_mod     = 0;
@@ -367,7 +367,7 @@ class BP_Groups_Member {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function ban() {
 		if ( !empty( $this->is_admin ) )
@@ -384,7 +384,7 @@ class BP_Groups_Member {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function unban() {
 		if ( !empty( $this->is_admin ) )
@@ -421,7 +421,7 @@ class BP_Groups_Member {
 	 *
 	 * @since 1.6.0
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function remove() {
 		global $wpdb;
@@ -490,7 +490,7 @@ class BP_Groups_Member {
 	 *
 	 * @param int $user_id  ID of the user.
 	 * @param int $group_id ID of the group.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public static function delete( $user_id, $group_id ) {
 		global $wpdb;
@@ -1131,7 +1131,7 @@ class BP_Groups_Member {
 	 * @since 2.7.0
 	 *
 	 * @param array $group_ids IDs of the groups.
-	 * @return bool True on success.
+	 * @return bool
 	 */
 	public static function prime_group_admins_mods_cache( $group_ids ) {
 		global $wpdb;

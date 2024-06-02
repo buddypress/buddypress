@@ -258,7 +258,7 @@ add_action( 'bp_members_avatar_uploaded', 'bp_members_new_avatar_activity', 10, 
  *
  * @param int $user_id   The user ID.
  * @param int $timestamp The timestamp when the activity was created.
- * @return bool True on success. False otherwise.
+ * @return bool False otherwise.
  */
 function bp_members_remove_previous_avatar_activity( $user_id = 0, $timestamp = 0 ) {
 	if ( ! $user_id || ! $timestamp || ! bp_is_active( 'activity' ) ) {

@@ -176,7 +176,7 @@ class BP_Invitation {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function save() {
 

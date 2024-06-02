@@ -763,7 +763,7 @@ function bp_core_fetch_avatar( $args = '' ) {
  *                                   Default: false, which falls back on the default location
  *                                   corresponding to the $object.
  * }
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_core_delete_existing_avatar( $args = '' ) {
 
@@ -941,7 +941,7 @@ add_action( 'wp_ajax_bp_avatar_delete', 'bp_avatar_ajax_delete' );
  *
  * @param array  $file              The appropriate entry the from $_FILES superglobal.
  * @param string $upload_dir_filter A filter to be applied to 'upload_dir'.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 

@@ -6767,7 +6767,7 @@ function bp_groups_get_profile_stats( $args = '' ) {
  *
  * @since 5.0.0
  *
- * @return boolean True if the active template pack includes the Group Membership management UI templates.
+ * @return bool True if the active template pack includes the Group Membership management UI templates.
  *                 False otherwise.
  */
 function bp_groups_has_manage_group_members_templates() {

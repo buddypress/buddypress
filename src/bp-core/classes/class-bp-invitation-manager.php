@@ -616,7 +616,7 @@ abstract class BP_Invitation_Manager {
 	 * @since 5.0.0
 	 *
 	 * @param BP_Invitation $invitation The invitation to send.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	abstract public function run_send_action( BP_Invitation $invitation );
 

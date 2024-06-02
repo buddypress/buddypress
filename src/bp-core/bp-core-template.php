@@ -1939,7 +1939,7 @@ function bp_is_blog_page() {
  *
  * @since 12.1.0
  *
- * @return boolean True if the requested URL is site home's one. False otherwise.
+ * @return bool True if the requested URL is site home's one. False otherwise.
  */
 function bp_is_site_home() {
 	$requested_url = bp_get_requested_url();
@@ -3811,7 +3811,7 @@ function bp_email_footer() {
  *
  * @param string $block_name     The Block name to check (eg: 'bp/sitewide-notices'). Optional.
  * @param string $widget_id_base The Widget ID base to check (eg: 'bp_messages_sitewide_notices_widget' ). Optional.
- * @return boolean True if the Widget/Block is active. False otherwise.
+ * @return bool True if the Widget/Block is active. False otherwise.
  */
 function bp_is_widget_block_active( $block_name = '', $widget_id_base = '' ) {
 	$is_active = array(

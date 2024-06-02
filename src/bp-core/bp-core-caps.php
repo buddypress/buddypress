@@ -324,7 +324,7 @@ function bp_current_user_can( $capability, $args = array() ) {
  *
  * @since 12.0.0
  *
- * @return boolean True if current user can moderate the community. False otherwise.
+ * @return bool True if current user can moderate the community. False otherwise.
  */
 function bp_current_user_can_moderate() {
 	return bp_current_user_can( 'bp_moderate' );

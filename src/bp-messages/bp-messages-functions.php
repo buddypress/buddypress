@@ -214,7 +214,7 @@ function messages_new_message( $args = '' ) {
  *
  * @param string $subject Subject of the notice.
  * @param string $message Content of the notice.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function messages_send_notice( $subject, $message ) {
 
@@ -256,7 +256,7 @@ function messages_send_notice( $subject, $message ) {
  * @param int|array $thread_ids Thread ID or array of thread IDs.
  * @param int       $user_id    ID of the user to delete the threads for. Defaults
  *                              to the current logged-in user.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function messages_delete_thread( $thread_ids, $user_id = 0 ) {
 
@@ -462,8 +462,7 @@ function messages_get_message_thread_id( $message_id = 0 ) {
  * @param string|bool $meta_key   Meta key to delete. Default false.
  * @param string|bool $meta_value Meta value to delete. Default false.
  * @param bool        $delete_all Whether or not to delete all meta data.
- *
- * @return bool True on successful delete, false on failure.
+ * @return bool
  */
 function bp_messages_delete_meta( $message_id, $meta_key = false, $meta_value = false, $delete_all = false ) {
 	global $wpdb;
@@ -814,7 +813,7 @@ function bp_messages_dismiss_sitewide_notice( $user_id = 0, $notice_id = 0 ) {
  * @param int|array $thread_ids Thread ID or array of thread IDs.
  * @param int       $user_id    ID of the user to delete the threads for. Defaults
  *                              to the current logged-in user.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_messages_exit_thread( $thread_ids, $user_id = 0 ) {
 
