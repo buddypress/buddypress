@@ -261,9 +261,9 @@ class BP_Admin_Types {
 	/**
 	 * Override the Admin parent file to highlight the right menu.
 	 *
-	 * @global string $parent_file The parent file of the current admin screen.
-	 *
 	 * @since 7.0.0
+	 *
+	 * @global string $parent_file The parent file of the current admin screen.
 	 */
 	public function screen_head() {
 		global $parent_file;
