@@ -705,7 +705,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 			return $path;
 		}
 
-		$uri = parse_url( $path );
+		$uri = wp_parse_url( $path );
 
 		if ( false === strpos( $uri['path'], 'customize.php' ) ) {
 			return $path;
