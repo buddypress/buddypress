@@ -515,15 +515,15 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @group bp_core_process_spammer_status
 	 */
 	public function test_bp_core_process_spammer_status_make_spam_user_filter() {
+		$u1 = self::factory()->user->create();
+
 		add_action( 'make_spam_user', array( $this, 'notification_filter_callback' ) );
 
-		$u1 = self::factory()->user->create();
 		$n = bp_core_process_spammer_status( $u1, 'spam' );
 
 		remove_action( 'make_spam_user', array( $this, 'notification_filter_callback' ) );
 
 		$this->assertSame( 'make_spam_user', $this->filter_fired );
-
 	}
 
 	public function test_bp_core_process_spammer_status_make_ham_user_filter() {
