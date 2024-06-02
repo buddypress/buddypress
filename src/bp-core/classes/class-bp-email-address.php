@@ -2,14 +2,26 @@
 /**
  * Interface for objects that have email address properties (address, name).
  *
- * @since 5.0.0
+ * @package BuddyPress
+ * @subpackage Core
  */
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * BP_Email_Address Interface.
+ *
+ * @since 2.5.0
+ */
 interface BP_Email_Address {
+
 	/**
 	 * Gets the email address of the user.
 	 *
 	 * @since 5.0.0
+	 *
+	 * @return string
 	 */
 	public function get_address();
 
@@ -17,6 +29,8 @@ interface BP_Email_Address {
 	 * Gets the display name of the user.
 	 *
 	 * @since 5.0.0
+	 *
+	 * @return string
 	 */
 	public function get_name();
 

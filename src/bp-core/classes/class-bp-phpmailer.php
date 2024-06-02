@@ -1,16 +1,20 @@
 <?php
 /**
- * Core component classes.
+ * Email delivery implementation using PHPMailer.
  *
  * @package BuddyPress
  * @subpackage Core
+ *
+ * @phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+ * @phpcs:disable Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+ * @phpcs:disable Squiz.Commenting.EmptyCatchComment.Missing
  */
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Email delivery implementation using PHPMailer.
+ * BP_PHPMailer class.
  *
  * @since 2.5.0
  */
@@ -143,6 +147,7 @@ class BP_PHPMailer implements BP_Email_Delivery {
 	 * Get an appropriate hostname for the email. Varies depending on site configuration.
 	 *
 	 * @since 2.5.0
+	 *
 	 * @deprecated 2.5.3 No longer used.
 	 *
 	 * @return string
