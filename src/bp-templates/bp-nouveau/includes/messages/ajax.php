@@ -502,7 +502,7 @@ function bp_nouveau_ajax_get_thread_messages() {
 	if ( empty( $_POST['js_thread'] ) ) {
 		$thread->thread = array(
 			'id'      => bp_get_the_thread_id(),
-			'subject' => strip_tags( bp_get_the_thread_subject() ),
+			'subject' => wp_strip_all_tags( bp_get_the_thread_subject() ),
 		);
 
 		if ( is_array( $thread_template->thread->recipients ) ) {

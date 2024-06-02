@@ -172,7 +172,7 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 	$activity  = new BP_Activity_Activity( $activity_id );
 
 	// Try to find mentions.
-	$usernames = bp_activity_find_mentions( strip_tags( $activity->content ) );
+	$usernames = bp_activity_find_mentions( wp_strip_all_tags( $activity->content ) );
 
 	// Still empty? Stop now.
 	if ( empty( $usernames ) ) {

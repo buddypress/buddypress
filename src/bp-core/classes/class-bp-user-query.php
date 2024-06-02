@@ -243,9 +243,9 @@ class BP_User_Query {
 	/**
 	 * Prepare the query for user_ids.
 	 *
-	 * @global wpdb $wpdb WordPress database object.
-	 *
 	 * @since 1.7.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 */
 	public function prepare_user_ids_query() {
 		global $wpdb;
@@ -537,9 +537,9 @@ class BP_User_Query {
 	 *
 	 * Also used to quickly perform user total counts.
 	 *
-	 * @global wpdb $wpdb WordPress database object.
-	 *
 	 * @since 1.7.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 */
 	public function do_user_ids_query() {
 		global $wpdb;

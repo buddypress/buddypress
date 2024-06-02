@@ -514,7 +514,7 @@ function bp_core_get_user_displayname( $user_id_or_username ) {
 	 */
 	return apply_filters( 'bp_core_get_user_displayname', get_the_author_meta( 'display_name', $user_id ), $user_id );
 }
-add_filter( 'bp_core_get_user_displayname', 'strip_tags', 1 );
+add_filter( 'bp_core_get_user_displayname', 'wp_strip_all_tags', 1 );
 add_filter( 'bp_core_get_user_displayname', 'trim' );
 add_filter( 'bp_core_get_user_displayname', 'stripslashes' );
 add_filter( 'bp_core_get_user_displayname', 'esc_html' );
@@ -646,8 +646,8 @@ function bp_core_get_active_member_count() {
  *
  * @since 5.0.0
  *
- * @param int $user_id The user ID to spam or ham.
- * @param int $value   0 to mark the user as `ham`, 1 to mark as `spam`.
+ * @param int    $user_id The user ID to spam or ham.
+ * @param string $value   '0' to mark the user as `ham`, '1' to mark as `spam`.
  * @return bool          True if the spam status of the member changed.
  *                       False otherwise.
  */
@@ -664,11 +664,17 @@ function bp_core_update_member_status( $user_id = 0, $value = 0 ) {
 		return update_user_status( $user_id, 'spam', $value );
 	}
 
+	if ( $value ) {
+		$value = '1';
+	}
+
 	// Otherwise use the replacement function.
-	$user = wp_update_user( array(
-		'ID'   => $user_id,
-		'spam' => $value,
-	) );
+	$user = wp_update_user(
+		array(
+			'ID'   => $user_id,
+			'spam' => $value,
+		)
+	);
 
 	if ( is_wp_error( $user ) ) {
 		return false;

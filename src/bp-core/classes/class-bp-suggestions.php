@@ -71,6 +71,8 @@ abstract class BP_Suggestions {
 	 * @since 2.1.0
 	 *
 	 * @param array $args {
+	 *     Array of arguments for the suggestions service query.
+	 *
 	 *     @type int    $limit Maximum number of results to display. Optional, default: 16.
 	 *     @type string $type  The name of the suggestion service to use for the request. Mandatory.
 	 *     @type string $term  The suggestion service will try to find results that contain this string.

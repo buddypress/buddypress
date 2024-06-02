@@ -232,7 +232,7 @@ class BP_Button {
 	 *
 	 * @since 1.2.6
 	 *
-	 * @param array|string $args See {@BP_Button}.
+	 * @param array|string $args See `BP_Button`.
 	 */
 	public function __construct( $args = '' ) {
 
@@ -245,13 +245,27 @@ class BP_Button {
 		$r = $this->backward_compatibility_args( $r );
 
 		// Deprecated. Subject to removal in a future release.
+
 		$this->wrapper = $r['wrapper'];
-		if ( !empty( $r['link_id']    ) ) $this->link_id    = ' id="' .    $r['link_id']    . '"';
-		if ( !empty( $r['link_href']  ) ) $this->link_href  = ' href="' .  $r['link_href']  . '"';
-		if ( !empty( $r['link_title'] ) ) $this->link_title = ' title="' . $r['link_title'] . '"';
-		if ( !empty( $r['link_rel']   ) ) $this->link_rel   = ' rel="' .   $r['link_rel']   . '"';
-		if ( !empty( $r['link_class'] ) ) $this->link_class = ' class="' . $r['link_class'] . '"';
-		if ( !empty( $r['link_text']  ) ) $this->link_text  =              $r['link_text'];
+
+		if ( ! empty( $r['link_id'] ) ) {
+			$this->link_id = ' id="' . $r['link_id'] . '"';
+		}
+		if ( ! empty( $r['link_href'] ) ) {
+			$this->link_href = ' href="' . $r['link_href'] . '"';
+		}
+		if ( ! empty( $r['link_title'] ) ) {
+			$this->link_title = ' title="' . $r['link_title'] . '"';
+		}
+		if ( ! empty( $r['link_rel'] ) ) {
+			$this->link_rel = ' rel="' . $r['link_rel'] . '"';
+		}
+		if ( ! empty( $r['link_class'] ) ) {
+			$this->link_class = ' class="' . $r['link_class'] . '"';
+		}
+		if ( ! empty( $r['link_text'] ) ) {
+			$this->link_text = $r['link_text'];
+		}
 
 		// Required button properties.
 		$this->id                = $r['id'];
@@ -261,16 +275,16 @@ class BP_Button {
 
 		// $id and $component are required and component must be active.
 		if ( empty( $r['id'] ) || empty( $r['component'] ) || ! bp_is_active( $this->component ) ) {
-			return false;
+			return;
 		}
 
 		// No button for guests if must be logged in.
-		if ( true == $this->must_be_logged_in && ! is_user_logged_in() ) {
-			return false;
+		if ( true === $this->must_be_logged_in && ! is_user_logged_in() ) {
+			return;
 		}
 
 		// The block_self property.
-		if ( true == $this->block_self ) {
+		if ( true === $this->block_self ) {
 			/*
 			 * No button if you are the current user in a members loop.
 			 *
@@ -278,13 +292,13 @@ class BP_Button {
 			 * profiles.
 			 */
 			if ( bp_get_member_user_id() ) {
-				if ( is_user_logged_in() && bp_loggedin_user_id() == bp_get_member_user_id() ) {
-					return false;
+				if ( is_user_logged_in() && bp_loggedin_user_id() === bp_get_member_user_id() ) {
+					return;
 				}
 
-			// No button if viewing your own profile (and not in a members loop).
+				// No button if viewing your own profile (and not in a members loop).
 			} elseif ( bp_is_my_profile() ) {
-				return false;
+				return;
 			}
 		}
 
@@ -310,18 +324,21 @@ class BP_Button {
 			$this->parent_attr    = $r['parent_attr'];
 
 			// Render parent element attributes.
-			$parent_elem = new BP_Core_HTML_Element( array(
-				'element' => $r['parent_element'],
-				'attr'    => $r['parent_attr']
-			) );
+			$parent_elem = new BP_Core_HTML_Element(
+				array(
+					'element' => $r['parent_element'],
+					'attr'    => $r['parent_attr'],
+				)
+			);
 
 			// Set before and after.
 			$before = $parent_elem->get( 'open_tag' );
 			$after  = $parent_elem->get( 'close_tag' );
 
-		// No parent element.
+			// No parent element.
 		} else {
-			$before = $after = '';
+			$before = '';
+			$after  = '';
 		}
 
 		// Button properties.
@@ -338,11 +355,13 @@ class BP_Button {
 				unset( $r['button_attr']['href'] );
 			}
 
-			$button = new BP_Core_HTML_Element( array(
-				'element'    => $r['button_element'],
-				'attr'       => $r['button_attr'],
-				'inner_html' => ! empty( $r['link_text'] ) ? $r['link_text'] : ''
-			) );
+			$button = new BP_Core_HTML_Element(
+				array(
+					'element'    => $r['button_element'],
+					'attr'       => $r['button_attr'],
+					'inner_html' => ! empty( $r['link_text'] ) ? $r['link_text'] : '',
+				)
+			);
 			$button = $button->contents();
 		}
 
@@ -373,14 +392,20 @@ class BP_Button {
 	 *
 	 * @since 2.7.0.
 	 *
-	 * @param  array $r See {@link BP_Button} class for full documentation.
+	 * @param  array $r See {@see BP_Button} class for full documentation.
 	 * @return array
 	 */
 	protected function backward_compatibility_args( $r = array() ) {
 		// Array of deprecated arguments.
 		$backpat_args = array(
-			'wrapper', 'wrapper_class', 'wrapper_id',
-			'link_href', 'link_class', 'link_id', 'link_rel', 'link_title'
+			'wrapper',
+			'wrapper_class',
+			'wrapper_id',
+			'link_href',
+			'link_class',
+			'link_id',
+			'link_rel',
+			'link_title',
 		);
 
 		foreach ( $backpat_args as $prop ) {
@@ -388,7 +413,8 @@ class BP_Button {
 				continue;
 			}
 
-			$parent = $child = false;
+			$parent = false;
+			$child  = false;
 			$sep    = strpos( $prop, '_' );
 
 			// Check if this is an attribute.
@@ -409,9 +435,9 @@ class BP_Button {
 			if ( false === $child && empty( $r[ "{$parent}_element" ] ) ) {
 				$r[ "{$parent}_element" ] = $r[ $prop ];
 
-			// Set attributes.
+				// Set attributes.
 			} elseif ( true === $child ) {
-				$new_prop = substr( $prop, strpos( $prop, '_' ) +1 );
+				$new_prop = substr( $prop, strpos( $prop, '_' ) + 1 );
 				if ( empty( $r[ "{$parent}_attr" ] ) ) {
 					$r[ "{$parent}_attr" ] = array();
 				}

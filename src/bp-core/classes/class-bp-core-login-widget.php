@@ -6,6 +6,9 @@
  * @subpackage Core
  * @since 1.9.0
  * @deprecated 12.0.0
+ *
+ * @phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.Found
+ * @phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
  */
 
 // Exit if accessed directly.

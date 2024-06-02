@@ -2397,7 +2397,7 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 
 	// Parse home_url() into pieces to remove query-strings, strange characters,
 	// and other funny things that plugins might to do to it.
-	$parsed_home = parse_url( home_url( '/', ( is_ssl() ? 'https' : 'http' ) ) );
+	$parsed_home = wp_parse_url( home_url( '/', ( is_ssl() ? 'https' : 'http' ) ) );
 
 	// Maybe include the port, if it's included in home_url().
 	if ( isset( $parsed_home['port'] ) ) {
@@ -3184,7 +3184,7 @@ function bp_email_post_type() {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $value Email post type name.
+		 * @param string $email_post_type Email post type name.
 		 */
 		return apply_filters( 'bp_get_email_post_type', buddypress()->email_post_type );
 	}

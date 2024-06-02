@@ -103,7 +103,9 @@ class BP_Theme_Compat {
 	 * @return bool
 	 */
 	public function __set( $property, $value ) {
-		return $this->_data[ $property ] = $value;
+		$this->_data[ $property ] = $value;
+
+		return $this->_data[ $property ];
 	}
 
 	/**
