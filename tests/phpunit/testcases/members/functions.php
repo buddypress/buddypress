@@ -5,6 +5,7 @@
 #[AllowDynamicProperties]
 class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	protected $permalink_structure = '';
+	protected $filter_fired = '';
 
 	public function set_up() {
 		parent::set_up();
@@ -506,54 +507,58 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$bp->displayed_user = $displayed_user;
 	}
 
+	public function notification_filter_callback() {
+		$this->filter_fired = current_action();
+	}
+
 	/**
 	 * @group bp_core_process_spammer_status
 	 */
 	public function test_bp_core_process_spammer_status_make_spam_user_filter() {
-		add_filter( 'make_spam_user', array( $this, 'notification_filter_callback' ) );
-
 		$u1 = self::factory()->user->create();
+
+		add_action( 'make_spam_user', array( $this, 'notification_filter_callback' ) );
+
 		$n = bp_core_process_spammer_status( $u1, 'spam' );
 
-		remove_filter( 'make_spam_user', array( $this, 'notification_filter_callback' ) );
+		remove_action( 'make_spam_user', array( $this, 'notification_filter_callback' ) );
 
 		$this->assertSame( 'make_spam_user', $this->filter_fired );
-
 	}
 
 	public function test_bp_core_process_spammer_status_make_ham_user_filter() {
 		$u1 = self::factory()->user->create();
 		$s  = bp_core_process_spammer_status( $u1, 'spam' );
 
-		add_filter( 'make_ham_user', array( $this, 'notification_filter_callback' ) );
+		add_action( 'make_ham_user', array( $this, 'notification_filter_callback' ) );
 
 		$h = bp_core_process_spammer_status( $u1, 'ham' );
 
-		remove_filter( 'make_ham_user', array( $this, 'notification_filter_callback' ) );
+		remove_action( 'make_ham_user', array( $this, 'notification_filter_callback' ) );
 
 		$this->assertSame( 'make_ham_user', $this->filter_fired );
 
 	}
 
 	public function test_bp_core_process_spammer_status_bp_make_spam_user_filter() {
-		add_filter( 'bp_make_spam_user', array( $this, 'notification_filter_callback' ) );
+		add_action( 'bp_make_spam_user', array( $this, 'notification_filter_callback' ) );
 
 		$u1 = self::factory()->user->create();
 		$n = bp_core_process_spammer_status( $u1, 'spam' );
 
-		remove_filter( 'bp_make_spam_user', array( $this, 'notification_filter_callback' ) );
+		remove_action( 'bp_make_spam_user', array( $this, 'notification_filter_callback' ) );
 
 		$this->assertSame( 'bp_make_spam_user', $this->filter_fired );
 
 	}
 
 	public function test_bp_core_process_spammer_status_bp_make_ham_user_filter() {
-		add_filter( 'bp_make_ham_user', array( $this, 'notification_filter_callback' ) );
+		add_action( 'bp_make_ham_user', array( $this, 'notification_filter_callback' ) );
 
 		$u1 = self::factory()->user->create();
 		$n = bp_core_process_spammer_status( $u1, 'ham' );
 
-		remove_filter( 'bp_make_ham_user', array( $this, 'notification_filter_callback' ) );
+		remove_action( 'bp_make_ham_user', array( $this, 'notification_filter_callback' ) );
 
 		$this->assertSame( 'bp_make_ham_user', $this->filter_fired );
 
@@ -582,11 +587,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		// Ensure site isn't marked as spam because there is more than one admin.
 		$site = get_site( $b1 );
 		$this->assertEmpty( $site->spam );
-	}
-
-	public function notification_filter_callback( $value ) {
-		$this->filter_fired = current_filter();
-		return $value;
 	}
 
 	/**
