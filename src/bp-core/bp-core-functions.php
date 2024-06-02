@@ -3184,7 +3184,7 @@ function bp_email_post_type() {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $value Email post type name.
+		 * @param string $email_post_type Email post type name.
 		 */
 		return apply_filters( 'bp_get_email_post_type', buddypress()->email_post_type );
 	}
