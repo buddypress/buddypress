@@ -618,7 +618,7 @@ class BP_Media_Extractor {
 				continue;
 			}
 
-			$path = untrailingslashit( parse_url( $audio['attributes'][ $src_param ], PHP_URL_PATH ) );
+			$path = untrailingslashit( wp_parse_url( $audio['attributes'][ $src_param ], PHP_URL_PATH ) );
 
 			foreach ( $audio_types as $extension ) {
 				$extension = '.' . $extension;
@@ -713,7 +713,7 @@ class BP_Media_Extractor {
 				continue;
 			}
 
-			$path = untrailingslashit( parse_url( $video['attributes'][ $src_param ], PHP_URL_PATH ) );
+			$path = untrailingslashit( wp_parse_url( $video['attributes'][ $src_param ], PHP_URL_PATH ) );
 
 			foreach ( $video_types as $extension ) {
 				$extension = '.' . $extension;
