@@ -301,15 +301,15 @@ function bp_rest_validate_group_types( $value ) {
  *
  * @since 5.0.0
  *
- * @param array|string $list List of strings.
+ * @param array|string $collection List of strings.
  * @return array Sanitized array of strings.
  */
-function bp_rest_sanitize_string_list( $list ) {
-	if ( ! is_array( $list ) ) {
-		$list = preg_split( '/[\s,]+/', $list );
+function bp_rest_sanitize_string_list( $collection ) {
+	if ( ! is_array( $collection ) ) {
+		$collection = preg_split( '/[\s,]+/', $collection );
 	}
 
-	return array_unique( array_map( 'sanitize_text_field', $list ) );
+	return array_unique( array_map( 'sanitize_text_field', $collection ) );
 }
 
 /**

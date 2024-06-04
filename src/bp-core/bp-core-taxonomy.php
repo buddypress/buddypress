@@ -153,7 +153,7 @@ function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	// Different taxonomies must be stored on different sites.
 	$taxonomy_site_map = array();
 	foreach ( (array) $taxonomies as $taxonomy ) {
-		$taxonomy_site_id = bp_get_taxonomy_term_site_id( $taxonomy );
+		$taxonomy_site_id                         = bp_get_taxonomy_term_site_id( $taxonomy );
 		$taxonomy_site_map[ $taxonomy_site_id ][] = $taxonomy;
 	}
 
@@ -241,7 +241,7 @@ function bp_get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 	// Different taxonomies may be stored on different sites.
 	$taxonomy_site_map = array();
 	foreach ( (array) $taxonomies as $taxonomy ) {
-		$taxonomy_site_id = bp_get_taxonomy_term_site_id( $taxonomy );
+		$taxonomy_site_id                         = bp_get_taxonomy_term_site_id( $taxonomy );
 		$taxonomy_site_map[ $taxonomy_site_id ][] = $taxonomy;
 	}
 
@@ -275,10 +275,10 @@ function bp_get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
  *
  * @see get_term_by() for a full description of function and parameters.
  *
- * @param string     $field    Either 'slug', 'name', 'id' (term_id), or 'term_taxonomy_id'
- * @param string|int $value    Search for this term value
+ * @param string     $field    Either 'slug', 'name', 'id' (term_id), or 'term_taxonomy_id'.
+ * @param string|int $value    Search for this term value.
  * @param string     $taxonomy Taxonomy name. Optional, if `$field` is 'term_taxonomy_id'.
- * @param string     $output   Constant OBJECT, ARRAY_A, or ARRAY_N
+ * @param string     $output   Constant OBJECT, ARRAY_A, or ARRAY_N.
  * @param string     $filter   Optional, default is raw or no WordPress defined filter will applied.
  *
  * @return WP_Term|bool WP_Term instance on success. Will return false if `$taxonomy` does not exist
@@ -385,8 +385,8 @@ function bp_insert_term( $term, $taxonomy = '', $args = array() ) {
  *
  * @since 7.0.0
  *
- * @param array  $args {
- *     Array of arguments to query BP Terms.
+ * @param array $args {
+ *    Array of arguments to query BP Terms.
  *     @see `get_terms()` for full description of arguments in case of a member type.
  * }
  * @return array The list of terms matching arguments.
@@ -441,8 +441,8 @@ function bp_get_terms( $args = array() ) {
  *
  * @since 7.0.0
  *
- * @param int     $term_id  The BP Term ID. Required.
- * @param string  $taxonomy The BP Taxonomy Name. Required.
+ * @param int    $term_id  The BP Term ID. Required.
+ * @param string $taxonomy The BP Taxonomy Name. Required.
  * @return bool|WP_Error True on success, WP_Error on failure.
  */
 function bp_delete_term( $term_id = 0, $taxonomy = '' ) {

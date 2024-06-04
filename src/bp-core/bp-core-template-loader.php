@@ -185,7 +185,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 		}
 
 		// Trim off any slashes from the template name.
-		$template_name  = ltrim( $template_name, '/' );
+		$template_name = ltrim( $template_name, '/' );
 
 		// Loop through template stack.
 		foreach ( (array) $template_locations as $template_location ) {
@@ -252,17 +252,17 @@ function bp_locate_template_asset( $filename ) {
 	}
 
 	// Set up data array.
-	$data = array();
+	$data         = array();
 	$data['file'] = $data['uri'] = $located;
 
 	$find = array(
 		get_theme_root(),
-		bp_get_theme_compat_dir()
+		bp_get_theme_compat_dir(),
 	);
 
 	$replace = array(
 		get_theme_root_uri(),
-		bp_get_theme_compat_url()
+		bp_get_theme_compat_url(),
 	);
 
 	// Make sure URI path is relative to site URL.
@@ -339,8 +339,9 @@ function bp_get_template_stack() {
 	global $wp_filter, $merged_filters, $wp_current_filter;
 
 	// Setup some default variables.
-	$tag  = 'bp_template_stack';
-	$args = $stack = array();
+	$tag   = 'bp_template_stack';
+	$args  = array();
+	$stack = array();
 
 	// Add 'bp_template_stack' to the current filter array.
 	$wp_current_filter[] = $tag;
@@ -383,7 +384,7 @@ function bp_get_template_stack() {
 	 *
 	 * @param array $stack Array of registered directories for template locations.
 	 */
-	return (array) apply_filters( 'bp_get_template_stack', $stack ) ;
+	return (array) apply_filters( 'bp_get_template_stack', $stack );
 }
 
 /**
@@ -396,12 +397,12 @@ function bp_get_template_stack() {
  *
  * @param string      $slug See {@link bp_get_template_part()}.
  * @param string|null $name See {@link bp_get_template_part()}.
- * @param bool        $echo If true, template content will be echoed. If false,
+ * @param bool        $ret  If true, template content will be echoed. If false,
  *                          returned. Default: true.
  * @param array       $args See {@link bp_get_template_part()}.
  * @return string|null If $echo, returns the template content.
  */
-function bp_buffer_template_part( $slug, $name = null, $echo = true, $args = array() ) {
+function bp_buffer_template_part( $slug, $name = null, $ret = true, $args = array() ) {
 	ob_start();
 
 	// Remove 'bp_replace_the_content' filter to prevent infinite loops.
@@ -416,7 +417,7 @@ function bp_buffer_template_part( $slug, $name = null, $echo = true, $args = arr
 	$output = ob_get_clean();
 
 	// Echo or return the output buffer contents.
-	if ( true === $echo ) {
+	if ( true === $ret ) {
 		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $output;
 	} else {
@@ -499,7 +500,7 @@ function bp_get_template_locations( $templates = array() ) {
 	$locations = array(
 		'buddypress',
 		'community',
-		''
+		'',
 	);
 
 	/**
@@ -564,7 +565,7 @@ function bp_parse_query( $posts_query ) {
 	}
 
 	// Bail if filters are suppressed on this query.
-	if ( true == $posts_query->get( 'suppress_filters' ) ) {
+	if ( true === $posts_query->get( 'suppress_filters' ) ) {
 		return;
 	}
 
@@ -830,16 +831,19 @@ function bp_load_theme_functions() {
  * @return string Possible root level wrapper template files.
  */
 function bp_get_theme_compat_templates() {
-	return bp_get_query_template( 'buddypress', array(
-		'plugin-buddypress.php',
-		'buddypress.php',
-		'community.php',
-		'generic.php',
-		'page.php',
-		'single.php',
-		'singular.php',
-		'index.php'
-	) );
+	return bp_get_query_template(
+		'buddypress',
+		array(
+			'plugin-buddypress.php',
+			'buddypress.php',
+			'community.php',
+			'generic.php',
+			'page.php',
+			'single.php',
+			'singular.php',
+			'index.php',
+		)
+	);
 }
 
 /**

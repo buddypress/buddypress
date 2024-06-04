@@ -25,8 +25,10 @@ defined( 'ABSPATH' ) || exit;
  */
 function bp_core_check_for_flood( $user_id = 0 ) {
 
+	$throttle_time = bp_get_option( '_bp_throttle_time' );
+
 	// Option disabled. No flood checks.
-	if ( !$throttle_time = bp_get_option( '_bp_throttle_time' ) ) {
+	if ( ! $throttle_time ) {
 		return true;
 	}
 
@@ -36,7 +38,7 @@ function bp_core_check_for_flood( $user_id = 0 ) {
 	}
 
 	$last_posted = get_user_meta( $user_id, '_bp_last_posted', true );
-	if ( isset( $last_posted ) && ( time() < ( $last_posted + $throttle_time ) ) && !current_user_can( 'throttle' ) ) {
+	if ( isset( $last_posted ) && ( time() < ( $last_posted + $throttle_time ) ) && ! current_user_can( 'throttle' ) ) {
 		return false;
 	}
 
@@ -78,7 +80,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '',
 
 	// Define local variable(s).
 	$_post   = array();
-	$matches = '';
+	$matches = array();
 
 	/** User Data ************************************************************
 	 */
@@ -118,7 +120,7 @@ function bp_core_check_for_moderation( $user_id = 0, $title = '', $content = '',
 		if ( isset( $matches[0] ) && is_array( $matches[0] ) ) {
 			foreach ( $matches[0] as $found_url ) {
 				if ( 0 === strpos( $found_url, home_url() ) ) {
-					$num_links -=1;
+					--$num_links;
 				}
 			}
 		}
@@ -297,7 +299,9 @@ function bp_core_check_for_disallowed_keys( $user_id = 0, $title = '', $content 
 		$word = trim( $word );
 
 		// Skip empty lines.
-		if ( empty( $word ) ) { continue; }
+		if ( empty( $word ) ) {
+			continue;
+		}
 
 		// Do some escaping magic so that '#' chars in the
 		// spam words don't break things.
@@ -331,6 +335,7 @@ function bp_core_check_for_disallowed_keys( $user_id = 0, $title = '', $content 
  */
 function bp_core_current_user_ip() {
 	$retval = '';
+
 	if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 		$retval = preg_replace( '/[^0-9a-fA-F:., ]/', '', wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 	}
@@ -353,12 +358,11 @@ function bp_core_current_user_ip() {
  * @return string User agent string.
  */
 function bp_core_current_user_ua() {
+	$retval = '';
 
 	// Sanity check the user agent.
 	if ( ! empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
 		$retval = substr( $_SERVER['HTTP_USER_AGENT'], 0, 254 );
-	} else {
-		$retval = '';
 	}
 
 	/**

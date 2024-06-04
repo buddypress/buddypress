@@ -35,12 +35,12 @@ function bp_setup_theme_compat( $theme = '' ) {
 	$bp = buddypress();
 
 	// Make sure theme package is available, set to default if not.
-	if ( ! isset( $bp->theme_compat->packages[$theme] ) || ! is_a( $bp->theme_compat->packages[$theme], 'BP_Theme_Compat' ) ) {
+	if ( ! isset( $bp->theme_compat->packages[ $theme ] ) || ! is_a( $bp->theme_compat->packages[ $theme ], 'BP_Theme_Compat' ) ) {
 		$theme = 'legacy';
 	}
 
 	// Set the active theme compat theme.
-	$bp->theme_compat->theme = $bp->theme_compat->packages[$theme];
+	$bp->theme_compat->theme = $bp->theme_compat->packages[ $theme ];
 }
 
 /**
@@ -207,17 +207,15 @@ function bp_detect_theme_compat_with_current_theme() {
 	if ( current_theme_supports( 'buddypress' ) ) {
 		$theme_compat = false;
 
-	// If the theme doesn't support BP, do some additional checks.
-	} else {
+		// If the theme doesn't support BP, do some additional checks.
+	} elseif ( in_array( 'bp-default', array( get_template(), get_stylesheet() ), true ) ) {
 		// Bail if theme is a derivative of bp-default.
-		if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) ) {
-			$theme_compat = false;
+		$theme_compat = false;
 
 		// Brute-force check for a BP template.
 		// Examples are clones of bp-default.
-		} elseif ( locate_template( 'members/members-loop.php', false, false ) ) {
-			$theme_compat = false;
-		}
+	} elseif ( locate_template( 'members/members-loop.php', false, false ) ) {
+		$theme_compat = false;
 	}
 
 	// Set a flag in the buddypress() singleton so we don't have to run this again.
@@ -249,7 +247,7 @@ function bp_is_theme_compat_active() {
  * @since 1.7.0
  *
  * @param bool $set True to set the flag to true, false to set it to false.
- * @return bool Returns the value of $set.
+ * @return bool
  */
 function bp_set_theme_compat_active( $set = true ) {
 	buddypress()->theme_compat->active = $set;
@@ -461,16 +459,19 @@ function bp_register_theme_compat_default_features() {
 		$top_offset = $avatar_height;
 	}
 
-	bp_set_theme_compat_feature( 'legacy', array(
-		'name'     => 'cover_image',
-		'settings' => array(
-			'components'   => array( 'members', 'groups' ),
-			'width'        => $bp_content_width,
-			'height'       => $top_offset + round( $avatar_height / 2 ),
-			'callback'     => 'bp_legacy_theme_cover_image',
-			'theme_handle' => $bp_handle,
-		),
-	) );
+	bp_set_theme_compat_feature(
+		'legacy',
+		array(
+			'name'     => 'cover_image',
+			'settings' => array(
+				'components'   => array( 'members', 'groups' ),
+				'width'        => $bp_content_width,
+				'height'       => $top_offset + round( $avatar_height / 2 ),
+				'callback'     => 'bp_legacy_theme_cover_image',
+				'theme_handle' => $bp_handle,
+			),
+		)
+	);
 }
 
 /**
@@ -489,7 +490,7 @@ function bp_is_theme_compat_original_template( $template = '' ) {
 		return false;
 	}
 
-	return (bool) ( $bp->theme_compat->original_template == $template );
+	return (bool) ( $bp->theme_compat->original_template === $template );
 }
 
 /**
@@ -523,8 +524,8 @@ function bp_register_theme_package( $theme = array(), $override = true ) {
 
 	// Only set if the theme package was not previously registered or if the
 	// override flag is set.
-	if ( empty( $bp->theme_compat->packages[$theme->id] ) || ( true === $override ) ) {
-		$bp->theme_compat->packages[$theme->id] = $theme;
+	if ( empty( $bp->theme_compat->packages[ $theme->id ] ) || ( true === $override ) ) {
+		$bp->theme_compat->packages[ $theme->id ] = $theme;
 	}
 }
 
@@ -631,8 +632,8 @@ function bp_theme_compat_reset_post( $args = array() ) {
 	$post = new WP_Post( (object) $dummy );
 
 	// Copy the new post global into the main $wp_query.
-	$wp_query->post       = $post;
-	$wp_query->posts      = array( $post );
+	$wp_query->post  = $post;
+	$wp_query->posts = array( $post );
 
 	// Prevent comments form from appearing.
 	$wp_query->post_count = 1;
@@ -820,36 +821,36 @@ function bp_remove_all_filters( $tag, $priority = false ) {
 	$bp = buddypress();
 
 	// Filters exist.
-	if ( isset( $wp_filter[$tag] ) ) {
+	if ( isset( $wp_filter[ $tag ] ) ) {
 
 		// Filters exist in this priority.
-		if ( ! empty( $priority ) && isset( $wp_filter[$tag][$priority] ) ) {
+		if ( ! empty( $priority ) && isset( $wp_filter[ $tag ][ $priority ] ) ) {
 
 			// Store filters in a backup.
-			$bp->filters->wp_filter[$tag][$priority] = $wp_filter[$tag][$priority];
+			$bp->filters->wp_filter[ $tag ][ $priority ] = $wp_filter[ $tag ][ $priority ];
 
 			// Unset the filters.
-			unset( $wp_filter[$tag][$priority] );
+			unset( $wp_filter[ $tag ][ $priority ] );
 
-		// Priority is empty.
+			// Priority is empty.
 		} else {
 
 			// Store filters in a backup.
-			$bp->filters->wp_filter[$tag] = $wp_filter[$tag];
+			$bp->filters->wp_filter[ $tag ] = $wp_filter[ $tag ];
 
 			// Unset the filters.
-			unset( $wp_filter[$tag] );
+			unset( $wp_filter[ $tag ] );
 		}
 	}
 
 	// Check merged filters.
-	if ( isset( $merged_filters[$tag] ) ) {
+	if ( isset( $merged_filters[ $tag ] ) ) {
 
 		// Store filters in a backup.
-		$bp->filters->merged_filters[$tag] = $merged_filters[$tag];
+		$bp->filters->merged_filters[ $tag ] = $merged_filters[ $tag ];
 
 		// Unset the filters.
-		unset( $merged_filters[$tag] );
+		unset( $merged_filters[ $tag ] );
 	}
 
 	return true;
@@ -875,36 +876,36 @@ function bp_restore_all_filters( $tag, $priority = false ) {
 	$bp = buddypress();
 
 	// Filters exist.
-	if ( isset( $bp->filters->wp_filter[$tag] ) ) {
+	if ( isset( $bp->filters->wp_filter[ $tag ] ) ) {
 
 		// Filters exist in this priority.
-		if ( ! empty( $priority ) && isset( $bp->filters->wp_filter[$tag][$priority] ) ) {
+		if ( ! empty( $priority ) && isset( $bp->filters->wp_filter[ $tag ][ $priority ] ) ) {
 
 			// Store filters in a backup.
-			$wp_filter[$tag][$priority] = $bp->filters->wp_filter[$tag][$priority];
+			$wp_filter[ $tag ][ $priority ] = $bp->filters->wp_filter[ $tag ][ $priority ];
 
 			// Unset the filters.
-			unset( $bp->filters->wp_filter[$tag][$priority] );
+			unset( $bp->filters->wp_filter[ $tag ][ $priority ] );
 
-		// Priority is empty.
+			// Priority is empty.
 		} else {
 
 			// Store filters in a backup.
-			$wp_filter[$tag] = $bp->filters->wp_filter[$tag];
+			$wp_filter[ $tag ] = $bp->filters->wp_filter[ $tag ];
 
 			// Unset the filters.
-			unset( $bp->filters->wp_filter[$tag] );
+			unset( $bp->filters->wp_filter[ $tag ] );
 		}
 	}
 
 	// Check merged filters.
-	if ( isset( $bp->filters->merged_filters[$tag] ) ) {
+	if ( isset( $bp->filters->merged_filters[ $tag ] ) ) {
 
 		// Store filters in a backup.
-		$merged_filters[$tag] = $bp->filters->merged_filters[$tag];
+		$merged_filters[ $tag ] = $bp->filters->merged_filters[ $tag ];
 
 		// Unset the filters.
-		unset( $bp->filters->merged_filters[$tag] );
+		unset( $bp->filters->merged_filters[ $tag ] );
 	}
 
 	return true;
