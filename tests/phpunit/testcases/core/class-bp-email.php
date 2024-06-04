@@ -29,6 +29,39 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 		$this->assertSame( $message, $email->get_subject() );
 	}
 
+	/**
+	 * @ticket BP9169
+	 */
+	public function test_default_content_type() {
+		$email = new BP_Email( 'activity-at-message' );
+
+		$this->assertSame( 'html', $email->get_content_type() );
+	}
+
+	/**
+	 * @ticket BP9169
+	 */
+	public function test_set_content_type_to_plaintext() {
+		$email = new BP_Email( 'activity-at-message' );
+		$email->set_content_type( 'plaintext' );
+
+		$this->assertSame( 'plaintext', $email->get_content_type() );
+	}
+
+	/**
+	 * @ticket BP9169
+	 */
+	public function test_set_content_type_to_plaintext_via_filter() {
+		add_filter( 'bp_email_set_content_type', array( $this, 'bp_disable_html_emails' ) );
+		$email = new BP_Email( 'activity-at-message' );
+		remove_filter( 'bp_email_set_content_type', array( $this, 'bp_disable_html_emails' ) );
+
+		$this->assertSame( 'plaintext', $email->get_content_type() );
+	}
+	public function bp_disable_html_emails( $content_type ) {
+	    return 'plaintext';
+	}
+
 	public function test_valid_html_content() {
 		$message = '<b>test</b>';
 		$email   = new BP_Email( 'activity-at-message' );
@@ -47,6 +80,20 @@ class BP_Tests_Email extends BP_UnitTestCase_Emails {
 		$email->set_content_type( 'plaintext' );
 
 		$this->assertSame( $message, $email->get_content() );
+	}
+
+	/**
+	 * @ticket BP9169
+	 */
+	public function test_plaintext_strip_tags() {
+		$message  = '<b>test</b>';
+		$plainmsg = 'test';
+		$email    = new BP_Email( 'activity-at-message' );
+
+		$email->set_content_plaintext( $message );
+		$email->set_content_type( 'plaintext' );
+
+		$this->assertSame( $plainmsg, $email->get_content() );
 	}
 
 	public function test_valid_template() {

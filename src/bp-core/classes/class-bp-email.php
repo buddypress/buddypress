@@ -197,6 +197,9 @@ class BP_Email {
 		$this->set_from( $from_address, $from_name );
 		$this->set_reply_to( bp_get_option( 'admin_email' ), $from_name );
 
+		// Prefer HTML emails unless filtered to plaintext.
+		$this->set_content_type( $this->content_type );
+
 		/**
 		 * Fires inside __construct() method for BP_Email class.
 		 *
