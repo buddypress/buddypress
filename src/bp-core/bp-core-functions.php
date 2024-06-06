@@ -4786,6 +4786,9 @@ function bp_get_optouts( $args = array() ) {
  * @return bool True if the user has opted out, false otherwise.
  */
 function bp_user_has_opted_out( $email_address = '' ) {
+	if ( ! $email_address ) {
+		return false;
+	}
 	$optout_class = new BP_Optout();
 	$optout_id    = $optout_class->optout_exists(
 		array(
