@@ -314,6 +314,11 @@ function bp_version_updater() {
 		if ( $raw_db_version < 13422 ) {
 			bp_update_to_12_0();
 		}
+
+		// Version 14.0.0.
+		if ( $raw_db_version < 13906 ) {
+			bp_update_to_14_0();
+		}
 	}
 
 	/* All done! *************************************************************/
@@ -935,6 +940,42 @@ function bp_update_to_12_0() {
 	 * @since 12.0.0
 	 */
 	do_action( 'bp_updated_to_12_0' );
+}
+
+/**
+ * 14.0.0 update routine.
+ *
+ * Edit db schema to stop using boolean fields in favor of tinyint ones.
+ * This moves was necessary to support WP Playground.
+ *
+ * @since 14.0.0
+ */
+function bp_update_to_14_0() {
+	global $wpdb;
+	$bp        = buddypress();
+	$bp_prefix = bp_core_get_table_prefix();
+
+	if ( isset( $bp->members->table_name_last_activity ) && $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->members->table_name_last_activity}%'" ) ) {
+		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->members->table_name_last_activity} LIKE 'hide_sitewide'" ) ) {
+			$wpdb->query( "ALTER TABLE {$bp->members->table_name_last_activity} CHANGE hide_sitewide type tinyint(1) DEFAULT 0" );
+		}
+	}
+
+	if ( isset( $bp->friends->table_name ) && $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->friends->table_name}%'" ) ) {
+		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->friends->table_name} LIKE 'is_confirmed'" ) ) {
+			$wpdb->query( "ALTER TABLE {$bp->friends->table_name} CHANGE is_confirmed type tinyint(1) DEFAULT 0" );
+		}
+
+		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->friends->table_name} LIKE 'is_limited'" ) ) {
+			$wpdb->query( "ALTER TABLE {$bp->friends->table_name} CHANGE is_limited type tinyint(1) DEFAULT 0" );
+		}
+	}
+
+	if ( isset( $bp->notifications->table_name ) && $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->notifications->table_name}%'" ) ) {
+		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->notifications->table_name} LIKE 'is_new'" ) ) {
+			$wpdb->query( "ALTER TABLE {$bp->notifications->table_name} CHANGE is_new type tinyint(1) NOT NULL DEFAULT 0" );
+		}
+	}
 }
 
 /**
