@@ -4447,7 +4447,7 @@ function bp_email_unsubscribe_handler() {
 	// This is an unsubscribe request from a nonmember.
 	} else if ( $raw_user_email ) {
 		// Unsubscribe.
-		if ( bp_user_has_opted_out() ) {
+		if ( bp_user_has_opted_out( $raw_user_email ) ) {
 			$result_msg = $emails[ $raw_email_type ]['unsubscribe']['message'];
 			$unsub_msg  = __( 'You have already unsubscribed from all communication from this site.', 'buddypress' );
 		} else {
