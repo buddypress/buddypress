@@ -957,23 +957,23 @@ function bp_update_to_14_0() {
 
 	if ( isset( $bp->members->table_name_last_activity ) && $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->members->table_name_last_activity}%'" ) ) {
 		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->members->table_name_last_activity} LIKE 'hide_sitewide'" ) ) {
-			$wpdb->query( "ALTER TABLE {$bp->members->table_name_last_activity} CHANGE hide_sitewide type tinyint(1) DEFAULT 0" );
+			$wpdb->query( "ALTER TABLE {$bp->members->table_name_last_activity} CHANGE hide_sitewide hide_sitewide tinyint(1) DEFAULT 0" );
 		}
 	}
 
 	if ( isset( $bp->friends->table_name ) && $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->friends->table_name}%'" ) ) {
 		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->friends->table_name} LIKE 'is_confirmed'" ) ) {
-			$wpdb->query( "ALTER TABLE {$bp->friends->table_name} CHANGE is_confirmed type tinyint(1) DEFAULT 0" );
+			$wpdb->query( "ALTER TABLE {$bp->friends->table_name} CHANGE is_confirmed is_confirmed tinyint(1) DEFAULT 0" );
 		}
 
 		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->friends->table_name} LIKE 'is_limited'" ) ) {
-			$wpdb->query( "ALTER TABLE {$bp->friends->table_name} CHANGE is_limited type tinyint(1) DEFAULT 0" );
+			$wpdb->query( "ALTER TABLE {$bp->friends->table_name} CHANGE is_limited is_limited tinyint(1) DEFAULT 0" );
 		}
 	}
 
 	if ( isset( $bp->notifications->table_name ) && $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->notifications->table_name}%'" ) ) {
 		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->notifications->table_name} LIKE 'is_new'" ) ) {
-			$wpdb->query( "ALTER TABLE {$bp->notifications->table_name} CHANGE is_new type tinyint(1) NOT NULL DEFAULT 0" );
+			$wpdb->query( "ALTER TABLE {$bp->notifications->table_name} CHANGE is_new is_new tinyint(1) NOT NULL DEFAULT 0" );
 		}
 	}
 }
