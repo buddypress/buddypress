@@ -54,7 +54,7 @@ function bp_core_admin_components_options() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param mixed $value Active components.
+	 * @param mixed $active_components Active components.
 	 */
 	$active_components = apply_filters( 'bp_active_components', bp_get_option( 'bp-active-components' ) );
 
@@ -183,46 +183,42 @@ function bp_core_admin_components_options() {
 			),
 		),
 	);
+
+	$component_anchor_url = function ( $component_action, $component_view ) use ( $page, $action ) {
+		$component_url = add_query_arg(
+			array(
+				'page'   => 'bp-components',
+				'action' => $component_action,
+			),
+			bp_get_admin_url( $page )
+		);
+
+		$css = $component_action === $action ? 'class="current"' : '';
+
+		return sprintf(
+			'<a href="%s" %s>%s</a>',
+			esc_url( $component_url ),
+			$css,
+			wp_kses( $component_view, array( 'span' => array( 'class' => true ) ) )
+		);
+	}
 	?>
 
 	<h3 class="screen-reader-text">
-		<?php
-			/* translators: accessibility text */
-			esc_html_e( 'Filter components list', 'buddypress' );
-		?>
+		<?php esc_html_e( 'Filter components list', 'buddypress' ); ?>
 	</h3>
 
 	<ul class="subsubsub">
 		<?php foreach ( $component_views as $component_view ) : ?>
 			<li>
-				<a href="
-				<?php
-				echo esc_url(
-					add_query_arg(
-						array(
-							'page'   => 'bp-components',
-							'action' => $component_view['action'],
-						),
-						bp_get_admin_url( $page )
-					)
-				);
-				?>
-							"
-			<?php
-			if ( $action === $component_view['action'] ) :
-				?>
-					class="current"<?php endif; ?>>
-					<?php echo wp_kses( $component_view['view'], array( 'span' => array( 'class' => true ) ) ); ?>
-				</a><?php echo 'retired' !== $component_view['action'] ? ' |' : ''; ?>
+				<?php echo $component_anchor_url( $component_view['action'], $component_view['view'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				<?php echo 'retired' !== $component_view['action'] ? ' |' : ''; ?>
 			</li>
 		<?php endforeach; ?>
 	</ul>
 
 	<h3 class="screen-reader-text">
-		<?php
-			/* translators: accessibility text */
-			esc_html_e( 'Components list', 'buddypress' );
-		?>
+		<?php esc_html_e( 'Components list', 'buddypress' ); ?>
 	</h3>
 
 	<table class="wp-list-table widefat plugins">
@@ -262,11 +258,11 @@ function bp_core_admin_components_options() {
 
 								<input
 									type="checkbox"
-									id="<?php echo esc_attr( "bp_components[ $name ]" ); ?>"
-									name="<?php echo esc_attr( "bp_components[ $name ]" ); ?>"
+									id="<?php echo esc_attr( "bp_components[$name]" ); ?>"
+									name="<?php echo esc_attr( "bp_components[$name]" ); ?>"
 									value="1"<?php checked( isset( $active_components[ esc_attr( $name ) ] ) ); ?>
 								/>
-								<label for="<?php echo esc_attr( "bp_components[ $name ]" ); ?>" class="screen-reader-text">
+								<label for="<?php echo esc_attr( "bp_components[$name]" ); ?>" class="screen-reader-text">
 									<?php
 										/* translators: accessibility text */
 										printf( esc_html__( 'Select %s', 'buddypress' ), esc_html( $labels['title'] ) );
@@ -277,7 +273,7 @@ function bp_core_admin_components_options() {
 
 						</th>
 						<td class="plugin-title column-primary">
-							<label for="<?php echo esc_attr( "bp_components[ $name ]" ); ?>">
+							<label for="<?php echo esc_attr( "bp_components[$name]" ); ?>">
 								<span aria-hidden="true"></span>
 								<strong><?php echo esc_html( $labels['title'] ); ?></strong>
 							</label>
