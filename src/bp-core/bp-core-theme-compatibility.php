@@ -1093,13 +1093,12 @@ function _bp_filter_current_theme_supports( $supports = false, $args = array(), 
 	$is_expected_params = array_filter( array_map( 'is_string', array_keys( $params ) ) );
 
 	if ( true === $supports && $is_expected_params ) {
-		$component         = key( $args[0] );
-		$component_feature = $args[0][ $component ];
-
 		if ( ! is_array( $feature ) ) {
 			$supports = false;
 		} else {
-			$theme_feature = $feature[0];
+			$component         = key( $args[0] );
+			$component_feature = $args[0][ $component ];
+			$theme_feature     = $feature[0];
 
 			// Check the theme is supporting the component's feature.
 			$supports = isset( $theme_feature[ $component ] ) && in_array( $component_feature, $theme_feature[ $component ], true );
