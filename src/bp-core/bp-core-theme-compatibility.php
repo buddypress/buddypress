@@ -1068,7 +1068,7 @@ function bp_register_buddypress_theme_feature() {
 		array(
 			'type'        => 'array',
 			'variadic'    => true,
-			'description' => __( 'Whether the Theme supports BuddyPress and possibly BP Modern features', 'buddypress' ),
+			'description' => __( 'Whether the Theme supports BuddyPress and possibly BP Components specific features', 'buddypress' ),
 		)
 	);
 }
@@ -1083,14 +1083,16 @@ add_action( 'bp_init', 'bp_register_buddypress_theme_feature' );
  * @since 14.0.0
  * @access private
  *
- * @param bool   $supports Whether the active theme supports the given feature. Default false.
- * @param array  $args     Array of arguments for the feature.
- * @param string $feature  The theme feature.
+ * @param bool  $supports Whether the active theme supports the given feature. Default false.
+ * @param array $args     Array of arguments for the feature.
+ * @param mixed $feature  The theme feature.
  * @return boolean True if the feature is supported. False otherwise.
  */
 function _bp_filter_current_theme_supports( $supports = false, $args = array(), $feature = null ) {
+	$params             = reset( $args );
+	$is_expected_params = array_filter( array_map( 'is_string', array_keys( $params ) ) );
 
-	if ( true === $supports && $args ) {
+	if ( true === $supports && $is_expected_params ) {
 		$component         = key( $args[0] );
 		$component_feature = $args[0][ $component ];
 
@@ -1113,17 +1115,23 @@ add_filter( 'current_theme_supports-buddypress', '_bp_filter_current_theme_suppo
  *
  * @since 14.0.0
  *
- * @param array
- * @return boolean True if the Theme supports BP component specicif features. False otherwise.
+ * @param array $args An associative array containing **ONE** feature & keyed by the BP Component ID.
+ * @return boolean True if the theme supports the BP feature. False otherwise.
  */
 function bp_current_theme_supports( $args = array() ) {
-	$supports = false;
-
-	if ( $args ) {
-		$supports = current_theme_supports( 'buddypress', $args );
-	} else {
-		$supports = current_theme_supports( 'buddypress' );
+	if ( is_array( $args ) && $args && ( 1 < count( $args ) || is_array( $args[ key( $args ) ] ) ) ) {
+		_doing_it_wrong( __FUNCTION__, esc_html( 'The function only supports checking 1 feature for a specific component at a time for now.', 'buddypress' ), '14.0.0' );
+		return false;
 	}
 
+	$supports = current_theme_supports( 'buddypress', $args );
+
+	/**
+	 * Filter here to edit BP Theme supports.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param boolean $supports True if the theme supports the BP feature. False otherwise.
+	 */
 	return apply_filters( 'bp_current_theme_supports', $supports, $args );
 }
