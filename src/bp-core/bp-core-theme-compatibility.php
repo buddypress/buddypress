@@ -1056,3 +1056,81 @@ function bp_theme_compat_is_block_theme() {
 
 	return isset( $theme->is_block_theme ) && $theme->is_block_theme;
 }
+
+/**
+ * Registers the `buddypress` theme feature.
+ *
+ * @since 14.0.0
+ */
+function bp_register_buddypress_theme_feature() {
+	register_theme_feature(
+		'buddypress',
+		array(
+			'type'        => 'array',
+			'variadic'    => true,
+			'description' => __( 'Whether the Theme supports BuddyPress and possibly BP Components specific features', 'buddypress' ),
+		)
+	);
+}
+add_action( 'bp_init', 'bp_register_buddypress_theme_feature' );
+
+/**
+ * Filters the WP theme support API so that it can be used to check whether the
+ * current theme has global BuddyPress and/or BP Component specific support.
+ *
+ * Please do not use in your plugins or themes.
+ *
+ * @since 14.0.0
+ * @access private
+ *
+ * @param bool  $supports Whether the active theme supports the given feature. Default false.
+ * @param array $args     Array of arguments for the feature.
+ * @param mixed $feature  The theme feature.
+ * @return boolean True if the feature is supported. False otherwise.
+ */
+function _bp_filter_current_theme_supports( $supports = false, $args = array(), $feature = null ) {
+	$params             = reset( $args );
+	$is_expected_params = array_filter( array_map( 'is_string', array_keys( $params ) ) );
+
+	if ( true === $supports && $is_expected_params ) {
+		if ( ! is_array( $feature ) ) {
+			$supports = false;
+		} else {
+			$component         = key( $args[0] );
+			$component_feature = $args[0][ $component ];
+			$theme_feature     = $feature[0];
+
+			// Check the theme is supporting the component's feature.
+			$supports = isset( $theme_feature[ $component ] ) && in_array( $component_feature, $theme_feature[ $component ], true );
+		}
+	}
+
+	return $supports;
+}
+add_filter( 'current_theme_supports-buddypress', '_bp_filter_current_theme_supports', 10, 3 );
+
+/**
+ * BP wrapper function for WP's `current_theme_supports()`.
+ *
+ * @since 14.0.0
+ *
+ * @param array $args An associative array containing **ONE** feature & keyed by the BP Component ID.
+ * @return boolean True if the theme supports the BP feature. False otherwise.
+ */
+function bp_current_theme_supports( $args = array() ) {
+	if ( is_array( $args ) && $args && ( 1 < count( $args ) || is_array( $args[ key( $args ) ] ) ) ) {
+		_doing_it_wrong( __FUNCTION__, esc_html( 'The function only supports checking 1 feature for a specific component at a time for now.', 'buddypress' ), '14.0.0' );
+		return false;
+	}
+
+	$supports = current_theme_supports( 'buddypress', $args );
+
+	/**
+	 * Filter here to edit BP Theme supports.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param boolean $supports True if the theme supports the BP feature. False otherwise.
+	 */
+	return apply_filters( 'bp_current_theme_supports', $supports, $args );
+}
