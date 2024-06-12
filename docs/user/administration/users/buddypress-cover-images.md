@@ -1,12 +1,12 @@
 # Theme compatibility features
 
-BuddyPress allows members and groups to upload and manage their cover images. This feature enhances the visual appeal of profiles and group pages by providing a customizable background image. Under the hood it uses the BP Theme Compat features API which was developed in order to transpose the WP Theme Supports API into the BP Template Packs word.
+BuddyPress allows members and groups to upload and manage their cover images. This feature enhances the visual appeal of profiles and group pages by providing a customizable background image. Under the hood it uses the BP Theme Compat features API which was developed in order to transpose the WP Theme Supports API into the BP Template Packs world.
 
 ## Theme Compat feature registration
 
 Just like WordPress is allowing themes to opt-in for specific functionalities (eg: the [custom header](https://developer.wordpress.org/themes/functionality/custom-headers/)) using the `add_theme_support()` function inside a `'after_setup_theme'` hook callback function, you need to wait for the `'bp_after_setup_theme'` hook to be fired to register your Theme Compat feature using the `bp_set_theme_compat_feature()` function.
 
-`
+```php
 function set_my_template_pack_features() {
     $template_pack_id = 'my-template-pack-id';
     $feature_args     = array(
@@ -94,7 +94,7 @@ function my_custom_cover_xprofile_cover_image( $settings = array() ) {
 add_filter( 'bp_before_members_cover_image_settings_parse_args', 'my_custom_cover_xprofile_cover_image', 10, 1 );
 ```
 
-In this example, replace 'https://site.url/to/your/default_cover_image.jpg' with the URL of your default cover image.
+In this example, replace `https://site.url/to/your/default_cover_image.jpg` with the URL of your default cover image.
 
 
 ### Disable cover images for members or groups
