@@ -1,40 +1,89 @@
-# BuddyPress Cover Images
+# Theme compatibility features
 
-BuddyPress allows members and groups to upload and manage their cover images. This feature enhances the visual appeal of profiles and group pages by providing a customizable background image. Here’s how you can manage BuddyPress cover images in your theme.
+BuddyPress allows members and groups to upload and manage their cover images. This feature enhances the visual appeal of profiles and group pages by providing a customizable background image. Under the hood it uses the BP Theme Compat features API which was developed in order to transpose the WP Theme Supports API into the BP Template Packs word.
 
-## Table of Contents
+## Theme Compat feature registration
 
-1. [Introduction](#introduction)
-2. [Default Cover Image Sizes](#default-cover-image-sizes)
-3. [Changing Cover Image Sizes](#changing-cover-image-sizes)
-4. [Cover Image Uploading](#cover-image-uploading)
-5. [Overriding Template Files](#overriding-template-files)
-6. [Customizing with CSS](#customizing-with-css)
-7. [Frequently Asked Questions](#frequently-asked-questions)
+Just like WordPress is allowing themes to opt-in for specific functionalities (eg: the [custom header](https://developer.wordpress.org/themes/functionality/custom-headers/)) using the `add_theme_support()` function inside a `'after_setup_theme'` hook callback function, you need to wait for the `'bp_after_setup_theme'` hook to be fired to register your Theme Compat feature using the `bp_set_theme_compat_feature()` function.
 
-## Introduction
+`
+function set_my_template_pack_features() {
+    $template_pack_id = 'my-template-pack-id';
+    $feature_args     = array(
+        'name'    => 'my_theme_compat_feature',
+        'settings' => array(
+            'components' => array( 'groups', 'members' ),
+        ),
+    );
 
-BuddyPress cover images allow users to personalize their profiles and groups by adding a background image. This feature is similar to cover images on social media platforms like Facebook and Twitter. By default, cover images are enabled for both members and groups.
+    // Registers the compat feature into your template pack.
+    bp_set_theme_compat_feature( $template_pack_id, $feature_args );
+}
+add_action( 'bp_after_setup_theme', 'set_my_template_pack_features' );
+`
 
-## Default Cover Image Sizes
+### `bp_set_theme_compat_feature()`
+Use this function to set a Theme Compat feature.
 
-By default, BuddyPress sets the cover image size to 1300px wide by 225px tall. These dimensions ensure that cover images look good on a variety of devices and screen sizes.
+_This function was introduced in version 2.4.0_
 
-## Changing Cover Image Sizes
+#### Arguments
 
-You can change the default cover image sizes by adding a filter in your theme’s `functions.php` file.
+`bp_members_get_user_url()` accepts two arguments: the Template Pack ID and an associative array of settings.
 
-```PHP
+| Argument | Type | Required | Defaults | Description |
+|---|---|---|---|---|
+|`$template_pack_id`|`string`|Yes|`''`|The Template Pack ID to set the feature for|
+|`$feature_args`|`array`|No|`[]`|This associative array of arguments is described below|
+
+`$feature_args` list of arguments:
+
+| Array key | Type | Required | Defaults | Description |
+|---|---|---|---|---|
+|`name`|`string`|No|`''`|The name key of the feature.|
+|`settings`|`array`|No|`[]`|Used to pass as many as needed additional variables. **NB** using a `components` key with an array listing component IDs that the feature is targeting will link it to these components. In this case you can use `bp_is_active( 'members', 'my_theme_compat_feature' )` to check whether you should load the feature's code or not.|
+
+## Getting the Theme Compat feature settings
+
+When you need to get the settings of a registered Theme Compat feature, you can use the `bp_get_theme_compat_feature()` function.
+
+### `bp_get_theme_compat_feature()`
+
+Use this function to get a Theme Compat feature settings. It returns `false` if something went wrong or an object keyed width the settings argument keys containing the settings values.
+
+_This function was introduced in version 2.4.0_
+
+#### Arguments
+
+`bp_get_theme_compat_feature()` accepts one argument: `$name`.
+
+| Argument | Type | Required | Defaults | Description |
+|---|---|---|---|---|
+|`$name`|`string`|Yes|`''`|the name key of the feature|
+
+## About the Cover Image Theme Compat feature
+
+Just like it does it can be a good idea for your Theme Compat feature to include extra filters into your code to let advanced users customize it to better match their theme. Below are examples about how it's possible to modify default cover image settings or completely disable the feature.
+
+### Changing Cover Image Sizes
+
+You can change the default cover image sizes by adding a filter in your  `bp-custom.php` file.
+
+```php
 function my_custom_cover_image_dimensions( $settings = array() ) {
     $settings['width']  = 1400;
     $settings['height'] = 300;
     return $settings;
 }
-add_filter( 'bp_before_xprofile_cover_image_settings_parse_args', 'my_custom_cover_image_dimensions' );
+add_filter( 'bp_before_members_cover_image_settings_parse_args', 'my_custom_cover_image_dimensions' );
 add_filter( 'bp_before_groups_cover_image_settings_parse_args', 'my_custom_cover_image_dimensions' );
 ```
 
 This example changes the cover image size to 1400px wide by 300px tall.
+
+### Changing default cover image
+
+When users haven't customized their cover images yet, this image will be used as a fallback.
 
 ```php
 function my_custom_cover_xprofile_cover_image( $settings = array() ) {
@@ -42,53 +91,17 @@ function my_custom_cover_xprofile_cover_image( $settings = array() ) {
 
     return $settings;
 }
-add_filter( 'bp_before_xprofile_cover_image_settings_parse_args', 'my_custom_cover_xprofile_cover_image', 10, 1 );
+add_filter( 'bp_before_members_cover_image_settings_parse_args', 'my_custom_cover_xprofile_cover_image', 10, 1 );
 ```
 
 In this example, replace 'https://site.url/to/your/default_cover_image.jpg' with the URL of your default cover image.
 
-## Cover Image Uploading
 
-Users can upload cover images through their profile or group settings:
+### Disable cover images for members or groups
 
-1. **For Members:** Go to the profile page, click on the cover image area, and select "Change Cover Image."
-2. **For Groups:** Go to the group page, click on the cover image area, and select "Change Cover Image."
+You can disable cover images by adding a filter to your `bp-custom.php` file.
 
-Follow the prompts to upload the cover image.
-
-# Overriding BuddyPress Templates in a Child Theme
-
-To override the BuddyPress Single Member Cover Image and Group Cover Image templates in your child theme.
-
-## For Single Member Cover Image
-
-**Copy the file from the plugin directory to your child theme:**
-
-    - **Source:** `wp-content/plugins/bp-nouveau/buddypress/members/single/cover-image-header.php`
-    - **Destination:** `wp-content/themes/your-child-theme/buddypress/members/single/cover-image-header.php`
-
-## For Group Cover Image
-
-**Copy the file from the plugin directory to your child theme:**
-
-    - **Source:** `wp-content/plugins/bp-nouveau/buddypress/groups/single/cover-image-header.php`
-    - **Destination:** `wp-content/themes/your-child-theme/buddypress/groups/single/cover-image-header.php`
-
-By following these steps, you can successfully override the BuddyPress templates for single member cover image and group cover image in your child theme.
-
-Edit these files to customize the layout and design of the cover images.
-
-## Customizing with CSS
-
-You can further customize the appearance of cover images using CSS. Add your custom styles to your theme’s stylesheet or a custom CSS plugin.
-
-## Frequently Asked Questions
-
-### How do I disable cover images for members or groups?
-
-You can disable cover images by adding a filter to your theme’s `functions.php` file.
-
-```PHP
+```php
 // For members :
 add_filter( 'bp_is_members_cover_image_active', '__return_false' );
 
