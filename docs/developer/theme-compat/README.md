@@ -1,3 +1,3 @@
 # BuddyPress Theme compatibility
 
-TBD.
+- [Theme compatibility features](./features.md)
