@@ -16,10 +16,10 @@
 		},
 		{
 			"step": "installPlugin",
-            "pluginZipFile": {
-                "resource": "url",
-                "url": "https://downloads.wordpress.org/plugin/buddypress.12.0.0-beta1.zip"
-            }
+			"pluginZipFile": {
+				"resource": "url",
+				"url": "https://downloads.wordpress.org/plugin/buddypress.12.0.0-beta1.zip"
+			}
 		}
 	]
 }
