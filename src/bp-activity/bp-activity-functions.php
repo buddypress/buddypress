@@ -402,7 +402,7 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
  *
  * @since 2.2.0
  *
- * @global $wp_post_types
+ * @global array $wp_post_types
  *
  * @param string $post_type The name of the post type, as registered with WordPress. Eg 'post' or 'page'.
  * @param array  $args {

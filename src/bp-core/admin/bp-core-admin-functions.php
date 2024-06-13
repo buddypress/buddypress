@@ -26,7 +26,7 @@ function bp_core_admin_menu_init() {
  *
  * The old "bp-general-settings" page was renamed "bp-components".
  *
- * @since 1.6.0 
+ * @since 1.6.0
  *
  * @global array $_parent_pages
  * @global array $_registered_pages
@@ -1130,7 +1130,7 @@ function bp_admin_get_wp_nav_menu_items( $nil, $wp_query ) {
  * @since 1.9.0
  * @since 7.0.0 Uses wp_nav_menu_item_post_type_meta_box()
  *
- * @global $nav_menu_selected_id
+ * @global int|string $nav_menu_selected_id
  *
  * @param WP_Post $post The current post object.
  * @param array   $box     The meta box arguments.

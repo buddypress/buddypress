@@ -2131,8 +2131,8 @@ function bp_avatar_is_front_edit() {
  *
  * @since 2.3.0
  *
- * @global $is_safari
- * @global $is_IE
+ * @global bool $is_safari
+ * @global bool $is_IE
  *
  * @return bool True to load the Webcam Avatar UI part. False otherwise.
  */

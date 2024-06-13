@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 8.0.0
  *
- * @global $bp_optouts_list_table BP_Optouts_List_Table List table instance for nonmember opt-outs admin page.
+ * @global object $bp_optouts_list_table List table instance for nonmember opt-outs admin page.
  */
 function bp_core_optouts_admin_load() {
 	global $bp_optouts_list_table;
@@ -290,8 +290,8 @@ function bp_core_optouts_admin() {
  *
  * @since 8.0.0
  *
- * @global $plugin_page
- * @global $bp_optouts_list_table BP_Optouts_List_Table List table instance for nonmember opt-outs admin page.
+ * @global string $plugin_page
+ * @global object $bp_optouts_list_table List table instance for nonmember opt-outs admin page.
  */
 function bp_core_optouts_admin_index() {
 	global $plugin_page, $bp_optouts_list_table;

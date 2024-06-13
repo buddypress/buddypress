@@ -1818,7 +1818,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @global $bp_members_signup_list_table
+	 * @global object $bp_members_signup_list_table
 	 */
 	public function signups_admin_load() {
 		global $bp_members_signup_list_table;
@@ -2286,8 +2286,8 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @global $plugin_page
-	 * @global $bp_members_signup_list_table
+	 * @global string $plugin_page
+	 * @global object $bp_members_signup_list_table
 	 */
 	public function signups_admin_index() {
 		global $plugin_page, $bp_members_signup_list_table;
@@ -2867,7 +2867,7 @@ class BP_Members_Admin {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @global $bp_members_invitations_list_table
+	 * @global object $bp_members_invitations_list_table
 	 */
 	public function members_invitations_admin_load() {
 		global $bp_members_invitations_list_table;
@@ -3194,8 +3194,8 @@ class BP_Members_Admin {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @global $plugin_page
-	 * @global $bp_members_invitations_list_table
+	 * @global string $plugin_page
+	 * @global object $bp_members_invitations_list_table
 	 */
 	public function invitations_admin_index() {
 		global $plugin_page, $bp_members_invitations_list_table;

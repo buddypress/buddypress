@@ -65,7 +65,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 * @since 1.1.0
 							 * @since 2.7.0 Added $section parameter.
 							 *
-							 * @param $section Which list contains this item.
+							 * @param string $section Which list contains this item.
 							 */
 							do_action( 'bp_group_manage_members_admin_item', 'admins-list' ); ?>
 						</div>
@@ -82,7 +82,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @since 2.7.0
 							 *
-							 * @param $section Which list contains this item.
+							 * @param string $section Which list contains this item.
 							 */
 							do_action( 'bp_group_manage_members_admin_actions', 'admins-list' ); ?>
 						</div>
@@ -159,7 +159,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 * @since 1.1.0
 							 * @since 2.7.0 Added $section parameter.
 							 *
-							 * @param $section Which list contains this item.
+							 * @param string $section Which list contains this item.
 							 */
 							do_action( 'bp_group_manage_members_admin_item', 'admins-list' ); ?>
 						</div>
@@ -175,7 +175,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @since 2.7.0
 							 *
-							 * @param $section Which list contains this item.
+							 * @param string $section Which list contains this item.
 							 */
 							do_action( 'bp_group_manage_members_admin_actions', 'mods-list' ); ?>
 
@@ -260,7 +260,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 * @since 1.1.0
 							 * @since 2.7.0 Added $section parameter.
 							 *
-							 * @param $section Which list contains this item.
+							 * @param string $section Which list contains this item.
 							 */
 							do_action( 'bp_group_manage_members_admin_item', 'admins-list' ); ?>
 						</div>
@@ -287,7 +287,7 @@ do_action( 'bp_before_group_manage_members_admin' ); ?>
 							 *
 							 * @since 2.7.0
 							 *
-							 * @param $section Which list contains this item.
+							 * @param string $section Which list contains this item.
 							 */
 							do_action( 'bp_group_manage_members_admin_actions', 'members-list' ); ?>
 						</div>
