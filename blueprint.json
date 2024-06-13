@@ -13,6 +13,13 @@
 			"step": "login",
 			"username": "admin",
 			"password": "password"
+		},
+		{
+			"step": "installPlugin",
+            "pluginZipFile": {
+                "resource": "url",
+                "url": "https://downloads.wordpress.org/plugin/buddypress.12.0.0-beta1.zip"
+            }
 		}
 	]
 }
