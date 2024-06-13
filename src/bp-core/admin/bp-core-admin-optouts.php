@@ -390,15 +390,11 @@ function bp_core_optouts_admin_manage( $action = '' ) {
 	}
 
 	// Get the IDs from the URL.
-	$ids = false;
+	$ids = 0;
 	if ( ! empty( $_POST['optout_ids'] ) ) {
 		$ids = wp_parse_id_list( $_POST['optout_ids'] );
 	} elseif ( ! empty( $_GET['optout_id'] ) ) {
 		$ids = absint( $_GET['optout_id'] );
-	}
-
-	if ( empty( $ids ) ) {
-		return false;
 	}
 
 	// Query for matching optouts, and filter out bad IDs.
