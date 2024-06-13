@@ -26,7 +26,7 @@ function bp_core_admin_menu_init() {
  *
  * The old "bp-general-settings" page was renamed "bp-components".
  *
- * @since 1.6.0 
+ * @since 1.6.0
  *
  * @global array $_parent_pages
  * @global array $_registered_pages
@@ -803,6 +803,23 @@ function bp_core_add_contextual_help( $screen = '' ) {
 			);
 			break;
 
+		case 'edit-bp_group_type':
+			// Help tab.
+			$screen->add_help_tab(
+				array(
+					'id'      => 'bp-group-types-overview',
+					'title'   => __( 'Overview', 'buddypress' ),
+					'content' => bp_core_add_contextual_help_content( 'bp-group-types-overview' ),
+				)
+			);
+
+			$documentation_link = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/groups/group-types.md' ),
+				esc_html__( 'Managing Group Types', 'buddypress' )
+			);
+			break;
+
 		case 'edit-bp-email':
 			// Help tab.
 			$screen->add_help_tab(
@@ -875,6 +892,7 @@ add_action( 'load-settings_page_bp-rewrites', 'bp_core_add_contextual_help' );
 add_action( 'load-settings_page_bp-settings', 'bp_core_add_contextual_help' );
 add_action( 'load-users_page_bp-profile-setup', 'bp_core_add_contextual_help' );
 add_action( 'bp_admin_load_bp_member_type', 'bp_core_add_contextual_help' );
+add_action( 'bp_admin_load_bp_group_type', 'bp_core_add_contextual_help' );
 add_action( 'admin_head-tools_page_bp-tools', 'bp_core_add_contextual_help' );
 
 /**
@@ -910,6 +928,10 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
 
 		case 'bp-member-types-overview':
 			$retval = __( 'Member Types in BuddyPress provide a powerful way to classify users within your community. By defining various member types, such as "Students", "Teachers", or "Alumni", you can create a more organized and tailored community environment. This feature is especially useful for communities with diverse user groups, allowing customized interactions, content access, and privileges.', 'buddypress' );
+			break;
+
+		case 'bp-group-types-overview':
+			$retval = __( 'The Group Types feature categorizes community groups into distinct categories, enhancing the management and personalization of group experiences within the community.', 'buddypress' );
 			break;
 
 		case 'bp-emails-overview':
