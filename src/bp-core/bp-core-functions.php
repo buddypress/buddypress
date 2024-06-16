@@ -2493,11 +2493,15 @@ function bp_is_get_request() {
  * @param  string $locale The current locale for the WordPress site.
  * @return string Absolut path to the translation file to use.
  */
-function bp_load_custom_translation_file( $file, $domain, $locale ) {
+function bp_load_custom_translation_file( $file, $domain, $locale = '' ) {
 	$bp_domain = 'buddypress';
 
 	if ( $domain !== $bp_domain ) {
 		return $file;
+	}
+
+	if ( ! $locale ) {
+		$locale = determine_locale();
 	}
 
 	/**
