@@ -2484,49 +2484,65 @@ function bp_is_get_request() {
 /** Miscellaneous hooks *******************************************************/
 
 /**
- * Load the buddypress translation file for current language.
+ * Override translation file for current language.
  *
- * @since 1.0.2
+ * @since 14.0.0
  *
- * @see load_textdomain() for a description of return values.
- *
- * @return bool
+ * @param  string $file   Absolut path to the translation file to use.
+ * @param  string $domain The text domain to check against `buddypress`.
+ * @param  string $locale The current locale for the WordPress site.
+ * @return string Absolut path to the translation file to use.
  */
-function bp_core_load_buddypress_textdomain() {
-	$domain = 'buddypress';
+function bp_load_custom_translation_file( $file, $domain, $locale ) {
+	$bp_domain = 'buddypress';
+
+	if ( $domain !== $bp_domain ) {
+		return $file;
+	}
 
 	/**
 	 * Filters the locale to be loaded for the language files.
 	 *
 	 * @since 1.0.2
 	 *
-	 * @param string $value Current locale for the install.
+	 * @param string $locale Current locale.
 	 */
-	$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'buddypress_locale', get_locale() ) );
+	$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'buddypress_locale', $locale ) );
 
 	/**
 	 * Filters the locations to load language files from.
 	 *
+	 * Custom translation files can be put in:
+	 * 1. `/wp-content/languages/plugins/buddypress`
+	 * 2. `/wp-content/languages/buddypress`
+	 * 3. `/wp-content/languages`
+	 *
 	 * @since 2.2.0
+	 * @since 14.0.0 Adds a new location.
 	 *
 	 * @param array $value Array of directories to check for language files in.
 	 */
 	$locations = apply_filters( 'buddypress_locale_locations', array(
+		trailingslashit( WP_LANG_DIR . '/plugins/' . $domain  ),
 		trailingslashit( WP_LANG_DIR . '/' . $domain  ),
 		trailingslashit( WP_LANG_DIR ),
 	) );
 
 	// Try custom locations in WP_LANG_DIR.
 	foreach ( $locations as $location ) {
-		if ( load_textdomain( 'buddypress', $location . $mofile_custom ) ) {
-			return true;
+		$custom_file = $location . $mofile_custom;
+
+		// Use the first found.
+		if ( file_exists( $custom_file ) ) {
+			$file = $custom_file;
+			break;
 		}
 	}
 
-	// Default to WP and glotpress.
-	return load_plugin_textdomain( $domain );
+	// Returns the translation file to use.
+	return $file;
 }
-add_action( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
+add_filter( 'load_translation_file', 'bp_load_custom_translation_file', 10, 3 );
 
 /**
  * A JavaScript-free implementation of the search functions in BuddyPress.
