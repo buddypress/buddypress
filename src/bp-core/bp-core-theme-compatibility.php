@@ -1089,8 +1089,11 @@ add_action( 'bp_init', 'bp_register_buddypress_theme_feature' );
  * @return boolean True if the feature is supported. False otherwise.
  */
 function _bp_filter_current_theme_supports( $supports = false, $args = array(), $feature = null ) {
-	$params             = reset( $args );
-	$is_expected_params = array_filter( array_map( 'is_string', array_keys( $params ) ) );
+	$is_expected_params = array();
+
+	if ( isset( $args[0] ) && is_array( $args[0] ) ) {
+		$is_expected_params = array_filter( array_map( 'is_string', array_keys( $args[0] ) ) );
+	}
 
 	if ( true === $supports && $is_expected_params ) {
 		if ( ! is_array( $feature ) ) {
