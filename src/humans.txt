@@ -115,7 +115,7 @@ Favorite Food: Lasagna
 Name: Renato Alves
 Title: Pizzaïolo
 Profiles.w.org: espellcaste
-Favorite Food: tbd
+Favorite Food: Cakes & Lasagna
 
 Name: Varun Dubey
 Title: Dough Commis
