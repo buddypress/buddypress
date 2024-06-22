@@ -19,7 +19,7 @@ Let's discover how you can use both item kinds within the 3 WordPress menu inter
 
 The very first thing you need to give a look at is whether the BP Menu items are available into the Menu Accordion UI. Click on the **Screen Options** tab at the top right of the screen to make them appear.
 
-![BP Menu item checkoxes](../../assets/bp-nav-menus-02.png)
+![BP Menu item checkboxes](../../assets/bp-nav-menus-02.png)
 
 ### BuddyPress Directories
 
