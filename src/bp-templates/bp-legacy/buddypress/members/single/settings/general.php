@@ -34,7 +34,12 @@ do_action( 'bp_before_member_settings_template' ); ?>
 	<label for="email"><?php esc_html_e( 'Account Email', 'buddypress' ); ?></label>
 	<input type="email" name="email" id="email" value="<?php echo esc_attr( bp_get_displayed_user_email() ); ?>" class="settings-input" <?php bp_form_field_attributes( 'email' ); ?>/>
 
-	<label for="pass1"><?php printf( esc_html__( 'Change Password %s', 'buddypress' ), '<span>' . esc_html__( '(leave blank for no change)', 'buddypress' ) . '</span>' ); ?></label>
+	<label for="pass1">
+		<?php
+		/* translators: %s: Information about how to keep password unchanged. */
+		printf( esc_html__( 'Change Password %s', 'buddypress' ), '<span>' . esc_html__( '(leave blank for no change)', 'buddypress' ) . '</span>' );
+		?>
+	</label>
 	<input type="password" name="pass1" id="pass1" size="16" value="" class="settings-input small password-entry" <?php bp_form_field_attributes( 'password' ); ?>/>
 	<div id="pass-strength-result"></div>
 	<label for="pass2"><?php esc_html_e( 'Repeat New Password', 'buddypress' );
