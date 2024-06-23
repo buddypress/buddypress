@@ -2484,6 +2484,54 @@ function bp_is_get_request() {
 /** Miscellaneous hooks *******************************************************/
 
 /**
+ * Looks for the requested file name into a list of custom language locations.
+ *
+ * @since 14.0.0
+ *
+ * @param string $file_name The file name.
+ * @return string A file path or an empty string if no files were found into custom language locations.
+ */
+function bp_get_custom_translation_file( $file_name = '' ) {
+	$file_path = '';
+
+	if ( $file_name ) {
+		/**
+		 * Filters the locations to load language files from.
+		 *
+		 * Custom translation files can be put in:
+		 * 1. `/wp-content/languages/plugins/buddypress`
+		 * 2. `/wp-content/languages/buddypress`
+		 * 3. `/wp-content/languages`
+		 *
+		 * @since 2.2.0
+		 * @since 14.0.0 Adds a new location.
+		 *
+		 * @param array $value Array of directories to check for language files in.
+		 */
+		$locations = apply_filters( 'buddypress_locale_locations',
+			array(
+				trailingslashit( WP_LANG_DIR . '/plugins/buddypress'  ),
+				trailingslashit( WP_LANG_DIR . '/buddypress'  ),
+				trailingslashit( WP_LANG_DIR ),
+			)
+		);
+
+		// Try custom locations in WP_LANG_DIR.
+		foreach ( $locations as $location ) {
+			$custom_file = $location . $file_name;
+
+			// Use the first found.
+			if ( file_exists( $custom_file ) ) {
+				$file_path = $custom_file;
+				break;
+			}
+		}
+	}
+
+	return $file_path;
+}
+
+/**
  * Override translation file for current language.
  *
  * @since 14.0.0
@@ -2504,49 +2552,54 @@ function bp_load_custom_translation_file( $file, $domain, $locale = '' ) {
 		$locale = determine_locale();
 	}
 
-	/**
-	 * Filters the locale to be loaded for the language files.
-	 *
-	 * @since 1.0.2
-	 *
-	 * @param string $locale Current locale.
-	 */
-	$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'buddypress_locale', $locale ) );
+	$mofile_custom = bp_get_custom_translation_file(
+		/**
+		 * Filters the locale to be loaded for the language files.
+		 *
+		 * @since 1.0.2
+		 *
+		 * @param string $locale Current locale.
+		 */
+		sprintf( '%s-%s.mo', $domain, apply_filters( 'buddypress_locale', $locale ) )
+	);
 
-	/**
-	 * Filters the locations to load language files from.
-	 *
-	 * Custom translation files can be put in:
-	 * 1. `/wp-content/languages/plugins/buddypress`
-	 * 2. `/wp-content/languages/buddypress`
-	 * 3. `/wp-content/languages`
-	 *
-	 * @since 2.2.0
-	 * @since 14.0.0 Adds a new location.
-	 *
-	 * @param array $value Array of directories to check for language files in.
-	 */
-	$locations = apply_filters( 'buddypress_locale_locations', array(
-		trailingslashit( WP_LANG_DIR . '/plugins/' . $domain  ),
-		trailingslashit( WP_LANG_DIR . '/' . $domain  ),
-		trailingslashit( WP_LANG_DIR ),
-	) );
-
-	// Try custom locations in WP_LANG_DIR.
-	foreach ( $locations as $location ) {
-		$custom_file = $location . $mofile_custom;
-
-		// Use the first found.
-		if ( file_exists( $custom_file ) ) {
-			$file = $custom_file;
-			break;
-		}
+	if ( $mofile_custom ) {
+		$file = $mofile_custom;
 	}
 
 	// Returns the translation file to use.
 	return $file;
 }
 add_filter( 'load_translation_file', 'bp_load_custom_translation_file', 10, 3 );
+
+/**
+ * Override script translation file for current language.
+ *
+ * @since 14.0.0
+ *
+ * @param string|false $file   Path to the translation file to load. False if there isn't one.
+ * @param string       $handle Name of the script to register a translation domain to.
+ * @param string       $domain The text domain.
+ * @return string Path to the translation file to load.
+ */
+function bp_load_custom_script_translation_file( $file, $handle, $domain ) {
+	$bp_domain = 'buddypress';
+
+	if ( $domain !== $bp_domain ) {
+		return $file;
+	}
+
+	$file_name   = wp_basename( $file );
+	$custom_file = bp_get_custom_translation_file( $file_name );
+
+	if ( $custom_file ) {
+		$file = $custom_file;
+	}
+
+	// Returns the translation file to use.
+	return $file;
+}
+add_filter( 'load_script_translation_file', 'bp_load_custom_script_translation_file', 10, 3 );
 
 /**
  * A JavaScript-free implementation of the search functions in BuddyPress.
