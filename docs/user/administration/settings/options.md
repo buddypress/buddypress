@@ -75,7 +75,7 @@ Enabled by default, this option leaves the possibility to any group administrato
 
 **NB**: Activities about WordPress regular posts or comments are only generated when the Site Tracking component is active. As a result, this option has only an effect when Site Tracking is on.
 
-By default this option is not active, meaning commenting WordPress posts or replying to a comment is only possible from the Posts's single view. When active, it allows your members to add comments to activities about WordPress posts or WordPress comments and these activity comments will be synchronized with regular post comments.
+By default this option is not active, meaning commenting WordPress posts or replying to a comment is only possible from the Post's single view. When active, it allows your members to add comments to activities about WordPress posts or WordPress comments and these activity comments will be synchronized with regular post comments.
 
 ### Activity auto-refresh
 
