@@ -143,7 +143,11 @@ function bp_core_admin_php52_plugin_row( $file, $plugin_data ) {
 		// phpcs:ignore WordPress.Security.EscapeOutput
 		$p,
 		esc_html__( 'A BuddyPress update is available, but your system is not compatible.', 'buddypress' ) . ' ' .
-		sprintf( esc_html__( 'See %s for more information.', 'buddypress' ), '<a href="https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/">' . esc_html__( 'the Codex guide', 'buddypress' ) . '</a>' )
+		sprintf(
+			/* translators: %s: the documentation page link giving more information */
+			esc_html__( 'See %s for more information.', 'buddypress' ),
+			'<a href="https://codex.buddypress.org/getting-started/buddypress-2-8-will-require-php-5-3/">' . esc_html__( 'the Codex guide', 'buddypress' ) . '</a>'
+		)
 	);
 
 	echo '</div></td></tr>';

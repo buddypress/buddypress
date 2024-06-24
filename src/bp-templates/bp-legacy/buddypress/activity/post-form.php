@@ -29,15 +29,15 @@
 	<p class="activity-greeting">
 		<?php
 		if ( bp_is_group() ) {
-			/* translators: 1: group name. 2: member name. */
 			printf(
+				/* translators: 1: group name. 2: member name. */
 				esc_html__( 'What\'s new in %1$s, %2$s?', 'buddypress' ),
 				esc_html( bp_get_group_name() ),
 				esc_html( bp_get_user_firstname( bp_get_loggedin_user_fullname() ) )
 			);
 		} else {
-			/* translators: %s: member name */
 			printf(
+				/* translators: %s: member name */
 				esc_html__( "What's new, %s?", 'buddypress' ),
 				esc_html( bp_get_user_firstname( bp_get_loggedin_user_fullname() ) )
 			);

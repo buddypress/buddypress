@@ -26,8 +26,8 @@ do_action( 'bp_before_activity_comment' ); ?>
 
 	<div class="acomment-meta">
 		<?php
-			/* translators: 1: user profile link, 2: user name, 3: activity permalink, 4: ISO8601 timestamp, 5: activity relative timestamp */
 			printf(
+				/* translators: 1: user profile link, 2: user name, 3: activity permalink, 4: ISO8601 timestamp, 5: activity relative timestamp */
 				esc_html__( '%1$s replied %2$s', 'buddypress' ),
 				'<a href="' . esc_url( bp_get_activity_comment_user_link() ) . '">' . esc_html( bp_get_activity_comment_name() ) . '</a>',
 				'<a href="' . esc_url( bp_get_activity_comment_permalink() ) . '" class="activity-time-since"><span class="time-since" data-livestamp="' . esc_attr( bp_core_get_iso8601_date( bp_get_activity_comment_date_recorded() ) ) . '">' . esc_html( bp_get_activity_comment_date_recorded() ). '</span></a>'
