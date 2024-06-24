@@ -125,7 +125,7 @@ Favorite Food: tbd
 Name: emaralive
 Title: Dough Commis
 Profiles.w.org: emaralive
-Favorite Food: tbd
+Favorite Food: Supreme Pizza
 
 /* THANKS */
 modemlooper, cnorris23, karmatosed, photomatt
