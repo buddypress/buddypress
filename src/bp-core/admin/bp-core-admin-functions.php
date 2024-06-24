@@ -1727,3 +1727,5 @@ add_filter( 'set_screen_option_toplevel_page_bp_groups_per_page', 'bp_admin_set_
 add_filter( 'set_screen_option_toplevel_page_bp_groups_network_per_page', 'bp_admin_set_screen_options', 10, 3 );
 add_filter( 'set_screen_option_tools_page_bp_optouts_per_page', 'bp_admin_set_screen_options', 10, 3 );
 add_filter( 'set_screen_option_tools_page_bp_optouts_network_per_page', 'bp_admin_set_screen_options', 10, 3 );
+add_filter( 'set_screen_option_tools_page_bp_members_invitations_per_page', 'bp_admin_set_screen_options', 10, 3 );
+add_filter( 'set_screen_option_tools_page_bp_members_invitations_network_per_page', 'bp_admin_set_screen_options', 10, 3 );
