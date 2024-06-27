@@ -86,20 +86,6 @@ function bp_admin_email_add_codex_notice() {
 }
 
 /**
- * Load the buddypress translation file for current language.
- *
- * @since 1.0.2
- * @deprecated 14.0.0
- *
- * @return bool
- */
-function bp_core_load_buddypress_textdomain() {
-	_deprecated_function( __FUNCTION__, '14.0.0' );
-
-	return false;
-}
-
-/**
  * Handle save/update of screen options for the Activity component admin screen.
  *
  * @since 1.6.0

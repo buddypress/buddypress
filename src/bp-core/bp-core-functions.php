@@ -2602,6 +2602,32 @@ function bp_load_custom_script_translation_file( $file, $handle, $domain ) {
 add_filter( 'load_script_translation_file', 'bp_load_custom_script_translation_file', 10, 3 );
 
 /**
+ * Load the buddypress translation file for current language.
+ *
+ * @since 1.0.2
+ *
+ * @return void
+ */
+function bp_core_load_buddypress_textdomain() {
+	$domain = 'buddypress';
+
+	/*
+	 * In most cases, WordPress already loaded BuddyPress textdomain
+	 * thanks to the `_load_textdomain_just_in_time()` function.
+	 */
+	if ( is_textdomain_loaded( $domain ) ) {
+		return;
+	}
+
+	/*
+	 * We only need to keep loading BuddyPress textdomain to allow
+	 * the usage of custom `en_US` translation files.
+	 */
+	load_plugin_textdomain( $domain );
+}
+add_action( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
+
+/**
  * A JavaScript-free implementation of the search functions in BuddyPress.
  *
  * @since 1.0.1
