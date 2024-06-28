@@ -1,74 +1,70 @@
-# Customizing Labels, Messages, and URLs in BuddyPress
+# Customizing BuddyPress texts to match your community purpose
 
-## Customizing Labels and Messages
 
-BuddyPress allows you to customize the default labels and messages displayed throughout the site. You can achieve this by creating a custom translation file or using filters.
+BuddyPress is using texts as generic as possible to adapt to a wide range of communities. If your community site needs a very specific lexical field or vocabulary, the best way to reach this level of customization is to override the default translation files provided by the [WordPress Polyglots team](https://translate.wordpress.org/projects/wp-plugins/buddypress/).
 
-### Using Custom Translation Files
+## Your toolkit
 
-1. **Create a Custom Translation File:**
+WordPress is using the [Gettext open source library](https://www.php.net/manual/en/intro.gettext.php) to achieve its internationalization. In short, translatable strings into the source code are extracted into a "Portable Objects Template" file (having a `.pot` extension). Thanks to this kind of file contributors can focus on translating the english string to generate a human readable translation file (having a `.po` extension) as well as a binary file (having a `.po` extension) for the machines to read it faster! In the end WordPress & BuddyPress end users can enjoy the 2 softwares into their own language.
 
-   - Download the BuddyPress .pot file from the BuddyPress repository.
-   - Use a tool like Poedit to create a new .po file and translate the strings you want to customize.
-   - Save your .po file and generate the corresponding .mo file.
+> [!NOTE]
+> The naming convention of the .mo files is based on the ISO-639 language code (e.g. pt for Portuguese) followed by the ISO-3166 country code (e.g. PT for Portugal or BR for Brazil). So, the Brazilian Portuguese file would be called pt_BR.mo, and a non-specific Portuges file would be called pt.mo. Complete lists of codes can be found at [(country codes)](https://www.gnu.org/savannah-checkouts/gnu/gettext/manual/gettext.html#Country-Codes) and [(language codes)](https://www.gnu.org/savannah-checkouts/gnu/gettext/manual/gettext.html#Language-Codes).
 
-2. **Upload the Translation Files:**
+### The `.pot` file is key!
 
-   - Place your custom .mo file in the `/wp-content/languages/plugins/` directory. Make sure the file is named correctly.
+To get the latest version of the BuddyPress translatable strings, you can [view & download it](https://plugins.trac.wordpress.org/browser/buddypress/trunk/buddypress.pot) (link at the bottom of the page) from the WordPress plugin's official repository.
 
-3. **Load the Custom Translation File:**
-   - BuddyPress will automatically load the custom translation file if it is placed in the correct directory and named appropriately.
+### A software to generate `.po` & `.mo` files out of a `.pot` one is required.
 
-### Using Filters to Customize Strings
+[Poedit](https://poedit.net/wordpress) is a free software available for Mac, Windows and Linux OS. You'll need to download, install & use it to build your custom language files.
 
-BuddyPress provides filters that allow you to customize labels and messages programmatically.
+### The default translation file (`.po`) for your local
 
-## Recent Practices to Change Language Strings for BuddyPress
+> [!NOTE]
+> You can skip this tool if you're using the American language, which is the default WordPress language (`en_US`), on your site.
 
-### Using `gettext` Filter
+Getting this `.po` file will save you some time as you'll be able to avoid starting from scratch! Go to the [BuddyPress translation place on WordPress.org](https://translate.wordpress.org/projects/wp-plugins/buddypress/) to pick your language `.po` file for the latest **stable** version of BuddyPress.
+## Create your custom Translation file
 
-The `gettext` filter can be used to change any string in BuddyPress.
+### Custom language files locations
 
-```PHP
-function my_custom_gettext( $translated_text, $text, $domain ) {
-    if ( 'buddypress' === $domain ) {
-        if ( 'Original String' === $text ) {
-            $translated_text = 'Custom String';
-        }
-    }
-    return $translated_text;
-}
-add_filter( 'gettext', 'my_custom_gettext', 20, 3 );
-```
+Official BuddyPress translations are located into the `/wp-content/languages/plugins` directory of your WordPress site. BuddyPress will override these language files by custom ones if you put them into one of these directories:
+ 
+- `/wp-content/languages/plugins/buddypress`
+- `/wp-content/languages/buddypress`
+- `/wp-content/languages`
 
-## Using Loco Translate Plugin to Translate BuddyPress Strings
+### Your site locale is `en_US`
 
-Loco Translate is a popular WordPress plugin that provides an in-browser editing tool for translating WordPress plugins and themes.
+Even if `en_US` is WordPress default locale and all BuddyPress strings are written into this locale into the source code, adapting BuddyPress texts to match your specific community vocabulary can be done by adding a `buddypress-en_US.mo` file into one of the above directories.
 
-### Steps to Translate BuddyPress Using Loco Translate
+Let's take a simple example to illustrate how you can customize BuddyPress default strings. A community site about sport might want to use the `team` term instead of the `group` one. To achieve this customization, below are the steps you need to perform.
 
-1. **Install and Activate Loco Translate:**
+#### Open the `buddypress.pot` file in Poedit
 
-   - Go to `Plugins > Add New` in your WordPress dashboard.
-   - Search for "Loco Translate" and click "Install Now."
-   - Activate the plugin after installation.
+Launch Poedit, use the `New from POT/PO file` command and browse your computers file looking for the latest stable `buddypress.pot` file you [downloaded](https://plugins.trac.wordpress.org/browser/buddypress/trunk/buddypress.pot) when setting your toolkit. Once it's opened, make sure to select the **English (United States)** into the modal window that has popped up. Click on the **Ok** button.
 
-2. **Locate BuddyPress in Loco Translate:**
+#### Fill your `en_US` translation with default BuddyPress strings
 
-   - Navigate to `Loco Translate > Plugins`.
-   - Find "BuddyPress" in the list of plugins and click on it.
+Click on one of the listed rows, then hit the `Cmd+A` or `Ctrl+A` keys of your keyboard to select all rows. From the **Edit** menu, click on the **Copy from Source Text** command to use all default strings as your translation. It will save you some time compared to starting from scratch!
 
-3. **Create a New Translation:**
+#### Carefully replace most `group` then `Group` occurrences by `team` then `Team`
 
-   - Click on "New language."
-   - Select your desired language and location for the translation files. It's recommended to save in `languages/plugins/` to ensure translations are not overwritten during updates.
+Click on one of the listed rows, then use the **Find and Replace** command to display the modal window to enter what needs to be replaced (`group`) and with what (`team`). Check each `group` occurrences hitting the **Next button** and click on the **Replace button** except when you reach a BP Email message content. You'll recognize them thanks to the "Notes from translators" frame: it contains a warning text about the [BP Email tokens](https://github.com/buddypress/buddypress/blob/master/docs/user/administration/emails/tokens.md) shouldn't be translated. For these translations, manually replace `group` occurrences that are not prefixed with brackets `{{`.
+Once you finished these replacements, do the same for the `Group` occurrences: this time you can use the **Replace All** button.
 
-4. **Translate Strings:**
+Finally, save your custom `buddypress-en_US` files into one of the BP Language custom locations.
 
-   - Loco Translate will display a list of all the translatable strings in BuddyPress.
-   - Click on a string to translate it. Enter your translation in the text area provided.
-   - Save your changes periodically by clicking the "Save" button.
+You should see that your Site is now using `team|Team` instead of `group|Group` everywhere in your site 🙌.
 
-5. **Use the Translations:**
-   - Loco Translate will automatically generate and use the .po and .mo files for your translations.
-   - BuddyPress will load these translations, and you will see the customized strings on your site.
+### Your site locale is something different than `en_US` (e.g. `fr_FR`)
+
+#### Open your locale default translation `.po` file in Poedit
+Launch Poedit, use the `Open` command and browse your computers file looking for the default translation `.po` file for your locale you exported from the [BuddyPress translation place on WordPress.org](https://translate.wordpress.org/projects/wp-plugins/buddypress/) when setting your toolkit. Once it's opened, make sure to select the corresponding local into the modal window that has popped up. Click on the **Ok** button.
+
+#### Carefully replace most translated `group` then `Group` occurrences by `team` then `Team` in your locale
+Click on one of the listed rows, then use the **Find and Replace** command to display the modal window to enter what needs to be replaced (`groupe`) and with what (`équipe`). Check each tranlated `group` then `Group` occurrences hitting the **Next button** and click on the **Replace button** to replace it with your locale version of `team` then `Team`. You may need to adapt some other parts of the translated texts to match your locale grammar.
+
+Finally, save your custom `buddypress-xx_XX` files into one of the BP Language custom locations.
+
+Good job! You have customized BuddyPress default strings and/or BuddyPress translations to match your community specific lexical field 💪. 
