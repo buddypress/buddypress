@@ -130,5 +130,17 @@
 		"slug": "administration-group-types",
 		"markdown_source": "../user/administration/groups/group-types.md",
 		"parent": null
+	},
+	{
+		"title": "Advanced BuddyPress customizations",
+		"slug": "advanced",
+		"markdown_source": "../user/advanced/README.md",
+		"parent": null
+	},
+	{
+		"title": "Customizing BuddyPress texts to match your community purpose",
+		"slug": "advanced-texts",
+		"markdown_source": "../user/advanced/texts.md",
+		"parent": null
 	}
 ]

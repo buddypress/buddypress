@@ -4,3 +4,4 @@ Welcome to the BuddyPress User Handbook.
 
 - [Getting started](./getting-started/README.md)
 - [BuddyPress Administration](./administration/README.md)
+- [Advanced customizations](./advanced/README.md)
