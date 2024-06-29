@@ -606,7 +606,7 @@ class BP_Admin {
 	 * @param WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
 	 */
 	public function admin_bar_about_link( $wp_admin_bar ) {
-		if ( ! is_user_logged_in() ) {
+		if ( ! bp_current_user_can( $this->capability ) ) {
 			return;
 		}
 
@@ -615,7 +615,13 @@ class BP_Admin {
 				'parent' => 'wp-logo',
 				'id'     => 'bp-about',
 				'title'  => esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ),
-				'href'   => bp_get_admin_url( '?hello=buddypress' ),
+				'href'   => add_query_arg(
+					array(
+						'page'  => 'bp-components',
+						'hello' => 'buddypress'
+					),
+					bp_get_admin_url( $this->settings_page )
+				),
 				'meta'   => array(
 					'class' => 'say-hello-buddypress',
 				),
@@ -639,10 +645,21 @@ class BP_Admin {
 			return $links;
 		}
 
+		$settings_args = array(
+			'page' => 'bp-components',
+		);
+
+		$about_args = array_merge(
+			$settings_args,
+			array(
+				'hello' => 'buddypress',
+			)
+		);
+
 		// Add a few links to the existing links array.
 		return array_merge( $links, array(
-			'settings' => '<a href="' . esc_url( add_query_arg( array( 'page' => 'bp-components' ), bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
-			'about'    => '<a href="' . esc_url( bp_get_admin_url( '?hello=buddypress' ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
+			'settings' => '<a href="' . esc_url( add_query_arg( $settings_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
+			'about'    => '<a href="' . esc_url( add_query_arg( $about_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
 		) );
 	}
 
@@ -699,7 +716,7 @@ class BP_Admin {
 		wp_enqueue_style( 'bp-admin-common-css' );
 
 		// BuddyPress Hello.
-		if ( 0 === strpos( get_current_screen()->id, 'dashboard' ) && ! empty( $_GET['hello'] ) && $_GET['hello'] === 'buddypress' ) {
+		if ( isset( $this->submenu_pages['settings']['bp-components'] ) && 0 === strpos( get_current_screen()->id, $this->submenu_pages['settings']['bp-components'] ) && ! empty( $_GET['hello'] ) && $_GET['hello'] === 'buddypress' ) {
 			wp_enqueue_style( 'bp-hello-css' );
 			wp_enqueue_script( 'bp-hello-js' );
 			wp_localize_script( 'bp-hello-js', 'bpHelloStrings', array(
@@ -775,7 +792,7 @@ class BP_Admin {
 	 * @since 3.0.0 Now outputs BuddyPress Hello template.
 	 */
 	public function about_screen() {
-		if ( 0 !== strpos( get_current_screen()->id, 'dashboard' ) || empty( $_GET['hello'] ) || $_GET['hello'] !== 'buddypress' ) {
+		if ( ! isset( $this->submenu_pages['settings']['bp-components'] ) || 0 !== strpos( get_current_screen()->id, $this->submenu_pages['settings']['bp-components'] ) || empty( $_GET['hello'] ) || $_GET['hello'] !== 'buddypress' ) {
 			return;
 		}
 
@@ -1476,7 +1493,7 @@ class BP_Admin {
 			// 3.0
 			'bp-hello-js' => array(
 				'file'         => "{$url}hello{$min}.js",
-				'dependencies' => array( 'bp-thickbox', 'wp-api-request' ),
+				'dependencies' => array( 'bp-thickbox', 'wp-api-request', 'underscore', 'plugin-install' ),
 				'footer'       => true,
 			),
 
