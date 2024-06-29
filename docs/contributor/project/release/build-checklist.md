@@ -66,23 +66,22 @@ svn ci -m 'X.Y.Z version bumps'
 > [!CAUTION]
 > Once created, a tag cannot be removed or edited nor trunk merged to it so please ensure all necessary updates to trunk are committed before creating the tag copy from it.
 
-### For major releases (12.0.0), branch from trunk, then tag from new branch.
-
-```bash
-svn cp https://buddypress.svn.wordpress.org/trunk/ https://buddypress.svn.wordpress.org/branches/12.0
-svn cp https://buddypress.svn.wordpress.org/branches/12.0 https://buddypress.svn.wordpress.org/tags/12.0.0
-```
-
-### For minor releases (12.1.0), tag from relevant branch.
-
-```bash
-svn cp https://buddypress.svn.wordpress.org/branches/12.0 https://buddypress.svn.wordpress.org/tags/12.1.0
-```
-
-### For Beta and Release Candidate releases (12.0.0-beta1), create tag from trunk.
+### For Beta (12.0.0-beta1) & first Release Candidate (12.0.0-RC1) releases, create tag from trunk.
 
 ```bash
 svn cp https://buddypress.svn.wordpress.org/trunk https://buddypress.svn.wordpress.org/tags/12.0.0-beta1
+```
+
+#### Additional task for first Release Candidate (12.0.0-RC1) release: branch from trunk.
+
+```bash
+svn cp https://buddypress.svn.wordpress.org/trunk/ https://buddypress.svn.wordpress.org/branches/12.0
+```
+
+### For Release Candidate > 1, major & minor releases, tag from relevant branch.
+
+```bash
+svn cp https://buddypress.svn.wordpress.org/branches/12.0 https://buddypress.svn.wordpress.org/tags/12.1.0
 ```
 
 ## Deploying to `[wporg]`

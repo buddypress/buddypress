@@ -6,6 +6,8 @@ Release leads are supported by the lead developers, the project team, and deputi
 
 For the sake of clarity, BuddyPress release leads and their deputies, between them, can expect to:
 
+- Decide about the release schedule.
+- Define bug/enhancement/task priorities for the milestone.
 - Run our bi-weekly project meeting, and write and publish meeting notes on our [development blog](https://bpdevel.wordpress.com/).
 - Coordinate blog posts and announcements on social media.
 - Make final decisions about whether a proposed feature is able to be put into the release.
