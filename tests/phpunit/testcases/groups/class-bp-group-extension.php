@@ -15,8 +15,8 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		parent::tear_down();
 		$this->set_permalink_structure( $this->permalink_structure );
+		parent::tear_down();
 	}
 
 	public function test_parse_legacy_properties() {
@@ -240,7 +240,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 		$this->go_to( bp_get_group_url( $g_obj ) );
 
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 
 		$e = new BPTest_Group_Extension_Inferred_Access_Settings_EnableNavItem_True();
 		$e->_register();
@@ -250,7 +250,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e2->_register();
 		$this->assertFalse( $e2->user_can_visit() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -259,7 +259,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 	public function test_user_can_visit_explicit_for_logged_out_user() {
 		$this->set_permalink_structure( '/%postname%/' );
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 
 		$g = self::factory()->group->create( array(
 			'status' => 'public',
@@ -291,7 +291,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -306,7 +306,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
 
@@ -334,7 +334,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -349,7 +349,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
 
@@ -379,7 +379,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -394,7 +394,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$m = $this->add_user_to_group( $u, $g );
 		$gm = new BP_Groups_Member( $u, $g );
@@ -426,7 +426,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -441,7 +441,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$m = $this->add_user_to_group( $u, $g );
 		$gm = new BP_Groups_Member( $u, $g );
@@ -473,7 +473,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -487,7 +487,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
 
@@ -515,7 +515,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_visit() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -529,7 +529,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$g_obj = groups_get_group( $g );
 
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
 
@@ -557,7 +557,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -572,7 +572,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->go_to( bp_get_group_url( $g_obj ) );
 
@@ -600,7 +600,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -615,7 +615,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
 
@@ -645,7 +645,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -660,7 +660,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
 		$gm = new BP_Groups_Member( $u, $g );
@@ -692,7 +692,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -707,7 +707,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
 		$gm = new BP_Groups_Member( $u, $g );
@@ -739,7 +739,7 @@ class BP_Tests_Group_Extension_TestCases extends BP_UnitTestCase {
 		$e6->_register();
 		$this->assertFalse( $e6->user_can_see_nav_item() );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**

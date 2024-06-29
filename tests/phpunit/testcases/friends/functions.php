@@ -66,14 +66,14 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// accept friendship
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		friends_accept_friendship( friends_get_friendship_id( $u2, $u1 ) );
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
 		$this->assertEquals( array( $u3 ), $requests );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -123,14 +123,14 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// user 2 withdraws friendship
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		friends_withdraw_friendship( $u2, $u1 );
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
 		$this->assertEquals( array(), $requests );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -151,14 +151,14 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// user 1 rejects friendship
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		friends_reject_friendship( friends_get_friendship_id( $u2, $u1 ) );
 
 		// refetch request count for user 1 and assert
 		$requests = friends_get_friendship_request_user_ids( $u1 );
 		$this->assertEquals( array(), $requests );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -197,7 +197,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		friends_add_friend( $u4, $u1, false );
 
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		$found = array();
 		if ( bp_has_members() ) : while ( bp_members() ) : bp_the_member();
@@ -216,7 +216,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 
 		// clean up
 		$GLOBALS['members_template'] = null;
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -299,7 +299,7 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		 * Also primes the friendship cache in the process.
 		 * @see bp_friends_filter_user_query_populate_extras()
 		 */
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		$this->go_to( bp_get_members_directory_permalink() );
 		ob_start();
 		bp_get_template_part( 'members/members-loop' );
@@ -314,17 +314,17 @@ class BP_Tests_Friends_Functions extends BP_UnitTestCase {
 		 * User 2 needs to be logged in for friends_accept_friendship() to work
 		 * properly.
 		 */
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		friends_accept_friendship( friends_get_friendship_id( $u1, $u2 ) );
 
 		// Afterwards, user 1 decides to cancel friendship.
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		friends_remove_friend( $u1, $u2 );
 
 		// Assert that users are no longer friends.
 		$this->assertEquals( 'not_friends', BP_Friends_Friendship::check_is_friend( $u1, $u2 ) );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**

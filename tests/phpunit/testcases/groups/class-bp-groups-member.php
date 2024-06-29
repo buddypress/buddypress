@@ -14,8 +14,8 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		parent::tear_down();
 		$this->set_permalink_structure( $this->permalink_structure );
+		parent::tear_down();
 	}
 
 	public static function wpSetUpBeforeClass( $factory ) {
@@ -221,7 +221,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_siteadmin ) );
 		// Falling back to current user
-		$this->set_current_user( $u_members );
+		self::set_current_user( $u_members );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, null ) );
 
 		// Test with mod status
@@ -232,9 +232,9 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_siteadmin ) );
 		// Falling back to current user
-		$this->set_current_user( $u_members );
+		self::set_current_user( $u_members );
 		$this->assertFalse( bp_groups_user_can_send_invites( $g, null ) );
-		$this->set_current_user( $u_mods );
+		self::set_current_user( $u_mods );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, null ) );
 
 		// Test with admin status
@@ -245,9 +245,9 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_admins ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_siteadmin ) );
 		// Falling back to current user
-		$this->set_current_user( $u_mods );
+		self::set_current_user( $u_mods );
 		$this->assertFalse( bp_groups_user_can_send_invites( $g, null ) );
-		$this->set_current_user( $u_admins );
+		self::set_current_user( $u_admins );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, null ) );
 
 		// Bad or null parameters
@@ -263,7 +263,7 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->assertFalse( bp_groups_user_can_send_invites( null, $u_members ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( null, $u_mods ) );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -679,12 +679,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$g = self::factory()->group->create();
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		groups_join_group( $g );
 		$membership_id = groups_is_user_member( $u1, $g );
 		$this->assertTrue( is_numeric( $membership_id ) && $membership_id > 0 );
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -753,12 +753,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->add_user_to_group( $u2, $g );
 
 		$before = groups_get_total_member_count( $g );
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		groups_leave_group( $g, $u2 );
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertEquals( $before - 1, $after );
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -773,12 +773,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->add_user_to_group( $u2, $g );
 
 		$before = groups_get_total_member_count( $g );
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		groups_leave_group( $g );
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertEquals( $before - 1, $after );
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -793,12 +793,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->add_user_to_group( $u2, $g );
 
 		$before = groups_get_total_member_count( $g );
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		groups_leave_group( $g, $u2 );
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertEquals( $before - 1, $after );
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -815,12 +815,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->add_user_to_group( $u2, $g );
 
 		$before = groups_get_total_member_count( $g );
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		groups_leave_group( $g, $u2 );
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertEquals( $before - 1, $after );
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -835,12 +835,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$this->add_user_to_group( $u2, $g );
 
 		$before = groups_get_total_member_count( $g );
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		groups_leave_group( $g, $u1 );
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertEquals( $before, $after );
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -857,12 +857,12 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 		$m2->promote( 'admin' );
 
 		$before = groups_get_total_member_count( $g );
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		groups_leave_group( $g, $u1 );
 		$after = groups_get_total_member_count( $g );
 
 		$this->assertEquals( $before - 1, $after );
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -934,11 +934,11 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 			'send_invite' => 1,
 		) );
 
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		$groups = groups_get_invites_for_user();
 		$this->assertEqualSets( array( $g1, $g2, $g3 ), wp_list_pluck( $groups['groups'], 'id' ) );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**

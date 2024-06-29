@@ -62,11 +62,11 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$friendship_id = friends_get_friendship_id( $u2, $u1 );
 
 		// Set current user to u1 to accepte the friendship
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		friends_accept_friendship( $friendship_id );
 
 		// Reset the current user
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 
 		// Random activities
 		$au1 = self::factory()->activity->create( array( 'user_id' => $u1 ) );
@@ -109,11 +109,11 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$friendship_id = friends_get_friendship_id( $u2, $u1 );
 
 		// Set current user to u1 to accept the friendship
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		friends_accept_friendship( $friendship_id );
 
 		// Reset the current user
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 
 		$u1_act = bp_activity_get( array(
 			'component'   => buddypress()->friends->id,
@@ -148,11 +148,11 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$friendship_id = friends_get_friendship_id( $u2, $u1 );
 
 		// Set current user to u1 to accepte the friendship and generate a public activity
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		friends_accept_friendship( $friendship_id );
 
 		// Reset the current user
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 
 		$users[] = self::factory()->user->create();
 		$users[] = self::factory()->user->create();
@@ -198,11 +198,11 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 		$friendship_id = friends_get_friendship_id( $u2, $u1 );
 
 		// Set current user to u1 to accept the friendship
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		friends_accept_friendship( $friendship_id );
 
 		// Reset the current user
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 
 		// Delete $u1.
 		$this->delete_user( $u1 );
@@ -222,13 +222,13 @@ class BP_Tests_Friends_Activity extends BP_UnitTestCase {
 	public function test_delete_user_with_no_activities() {
 		$old_user = get_current_user_id();
 		$u1 = self::factory()->user->create();
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		bp_activity_remove_all_user_data( $u1 );
 		wp_cache_delete( $u1, 'bp_last_activity' );
 		wp_delete_user( $u1 );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(

@@ -9,13 +9,6 @@ class BP_Tests_BP_XProfile_Query extends BP_UnitTestCase {
 	protected $fields = array();
 	protected $users = array();
 
-	public function tear_down() {
-		parent::tear_down();
-		$this->group = '';
-		$this->fields = array();
-		$this->users = array();
-	}
-
 	public function test_no_field() {
 		$this->create_fields( 2 );
 		$this->create_users( 3 );

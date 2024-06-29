@@ -15,9 +15,9 @@ class BP_Tests_XProfile_Field_Type extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		parent::tear_down();
-
 		remove_filter( 'bp_xprofile_get_field_types', array( $this, 'get_field_types' ) );
+
+		parent::tear_down();
 	}
 
 	public function test_unregistered_field_type_returns_textbox() {

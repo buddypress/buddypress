@@ -129,7 +129,7 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		$time      = strtotime( bp_core_current_time() );
 		$prev_time = date( 'Y-m-d H:i:s', $time - ( 121 * HOUR_IN_SECONDS ) );
 
-		$a = self::factory()->activity->create( array(
+		self::factory()->activity->create( array(
 			'component'     => buddypress()->members->id,
 			'type'          => 'new_avatar',
 			'user_id'       => $u,
@@ -160,14 +160,14 @@ class BP_Tests_Members_Activity extends BP_UnitTestCase {
 		$date_recorded  = date( 'Y-m-d H:i:s', $timestamp );
 		$prev_time      = date( 'Y-m-d H:i:s', $prev_timestamp );
 
-		$a1 = self::factory()->activity->create( array(
+		self::factory()->activity->create( array(
 			'component'     => buddypress()->members->id,
 			'type'          => 'new_avatar',
 			'user_id'       => $u,
 			'recorded_time' => $prev_time,
 		) );
 
-		$a2 = self::factory()->activity->create(
+		self::factory()->activity->create(
 			array(
 				'component'     => buddypress()->members->id,
 				'type'          => 'new_avatar',

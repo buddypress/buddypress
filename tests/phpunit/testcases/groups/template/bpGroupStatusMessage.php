@@ -11,7 +11,7 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 	public function set_up() {
 		parent::set_up();
 		$this->current_user = bp_loggedin_user_id();
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 
 		if ( isset( $GLOBALS['groups_template'] ) ) {
 			$this->groups_template = $GLOBALS['groups_template'];
@@ -19,7 +19,7 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		$this->set_current_user( $this->current_user );
+		self::set_current_user( $this->current_user );
 		if ( $this->groups_template ) {
 			$GLOBALS['groups_template'] = $this->groups_template;
 		}
@@ -34,7 +34,7 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$users = self::factory()->user->create_many( 2 );
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 
-		$this->set_current_user( $users[0] );
+		self::set_current_user( $users[0] );
 
 		groups_invite_user( array(
 			'user_id' => $users[0],
@@ -60,7 +60,7 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		if ( bp_has_groups( array( 'include' => array( $g ) ) ) ) {
 			while ( bp_groups() ) {
@@ -97,7 +97,7 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		groups_send_membership_request( array(
 			'user_id'  => $u,
@@ -122,7 +122,7 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$u = self::factory()->user->create();
 		$g = self::factory()->group->create( array( 'status' => 'hidden' ) );
 
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$group = groups_get_group( $g );
 
@@ -139,7 +139,7 @@ class BP_Tests_Groups_Template_Status_Message extends BP_UnitTestCase {
 		$u = self::factory()->user->create();
 		$groups = self::factory()->group->create_many( 2, array( 'status' => 'private' ) );
 
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		// Fake the current group.
 		$GLOBALS['groups_template'] = new stdClass;

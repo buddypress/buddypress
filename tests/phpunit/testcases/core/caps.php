@@ -19,9 +19,8 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
+		self::set_current_user( $this->reset_user_id );
 		parent::tear_down();
-
-		$this->set_current_user( $this->reset_user_id );
 	}
 
 	public function test_bp_current_user_can_should_interpret_integer_second_param_as_a_blog_id() {
@@ -32,7 +31,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
 
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		add_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10, 2 );
 		$can  = bp_current_user_can( 'foo', bp_get_root_blog_id() );
@@ -54,7 +53,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		$b = self::factory()->blog->create();
 		$u = self::factory()->user->create();
 
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		add_filter( 'user_has_cap', array( $this, 'grant_cap_foo' ), 10, 2 );
 		$can  = bp_current_user_can( 'foo', array( 'blog_id' => bp_get_root_blog_id() ) );
@@ -88,7 +87,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 			)
 		);
 
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->assertTrue( bp_current_user_can( 'bp_moderate' ), 'Administrator can `bp_moderate` on default WordPress config' );
 	}
@@ -108,7 +107,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 			)
 		);
 
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->assertTrue( bp_current_user_can( 'bp_moderate' ), 'Users having a `manage_options` cap into their role can `bp_moderate`' );
 
@@ -130,7 +129,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 			)
 		);
 
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		$email = self::factory()->post->create(
 			array(
@@ -140,7 +139,7 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 
 		$this->assertTrue( current_user_can( 'edit_post', $email ), 'Administrator should be able to edit emails they created' );
 
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 
 		$this->assertTrue( current_user_can( 'edit_post', $email ), 'Administrator should be able to edit emails others created when BuddyPress is not network activated' );
 	}
@@ -171,10 +170,10 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		// Swith & restore to reset the roles.
 		switch_to_blog( $this->blog_id );
 
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		$this->assertTrue( bp_current_user_can( 'bp_moderate' ), 'Only Super Admins can `bp_moderate` when BuddyPress is network activated' );
 
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 
 		$this->assertFalse( bp_current_user_can( 'bp_moderate' ), 'Regular Admins cannot `bp_moderate` when BuddyPress is network activated' );
 
@@ -219,10 +218,10 @@ class BP_Tests_Core_Caps extends BP_UnitTestCase {
 		switch_to_blog( $this->blog_id );
 		restore_current_blog();
 
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		$this->assertTrue( current_user_can( 'edit_post', $email ), 'Super Admins should be able to edit emails they created' );
 
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		$this->assertFalse( current_user_can( 'edit_post', $email ), 'Administrator should not be able to edit emails others created when BuddyPress is network activated' );
 
 		grant_super_admin( $u2 );

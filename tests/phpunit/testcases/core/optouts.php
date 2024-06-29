@@ -7,8 +7,8 @@
 	public function test_bp_optouts_add_optout_vanilla() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		// Create a couple of optouts.
 		$args = array(
@@ -27,14 +27,14 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEqualSets( array( $i1, $i2 ), $optouts );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optouts_add_optout_avoid_duplicates() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		// Create an optouts.
 		$args = array(
@@ -47,14 +47,14 @@
 		$i2 = bp_add_optout( $args );
 		$this->assertEquals( $i1, $i2 );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optouts_delete_optout() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$args = array(
 			'email_address'     => 'one@wp.org',
@@ -71,14 +71,14 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertTrue( empty( $optouts ) );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optouts_get_by_search_terms() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		// Create a couple of optouts.
 		$args = array(
@@ -97,14 +97,14 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEqualSets( array( $i1 ), $optouts );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optouts_get_by_email_address_mismatched_case() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		// Create a couple of optouts.
 		$args = array(
@@ -123,14 +123,14 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEqualSets( array( $i1 ), $optouts );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optouts_get_by_search_terms_mismatched_case() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		// Create a couple of optouts.
 		$args = array(
@@ -149,15 +149,15 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEqualSets( array( $i1 ), $optouts );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 
 	public function test_bp_optouts_get_by_email_address_mismatched_case_after_update() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		// Create an opt-out.
 		$args = array(
@@ -178,14 +178,14 @@
 		$optouts = bp_get_optouts( $get_args );
 		$this->assertEqualSets( array( $i1 ), $optouts );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_optout_prevents_bp_email_send() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 		// Create an opt-out.
 		$args = array(
 			'email_address'     => 'test2@example.com',
@@ -198,7 +198,6 @@
 		$email->set_content_html( 'testing' )->set_tokens( array( 'poster.name' => 'example' ) );
 
 		$this->assertTrue( is_wp_error( $email->validate() ) );
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
-
 }

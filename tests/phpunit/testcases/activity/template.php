@@ -11,7 +11,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$bp = buddypress();
 		$u = self::factory()->user->create();
 		$original_user = bp_loggedin_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$a = self::factory()->activity->create( array(
 			'type' => 'activity_update',
@@ -23,12 +23,12 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
 
 		// Logged-out user can't delete
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 		$this->assertFalse( bp_activity_user_can_delete( $activity ) );
 
 		// Miscellaneous user can't delete
 		$misc_user = self::factory()->user->create( array( 'role' => 'subscriber' ) );
-		$this->set_current_user( $misc_user );
+		self::set_current_user( $misc_user );
 		$this->assertFalse( bp_activity_user_can_delete( $activity ) );
 
 		// Item admin can delete
@@ -42,7 +42,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 		$bp->is_single_item = $is_single_item;
 		$bp->is_item_admin = $is_item_admin;
-		$this->set_current_user( $original_user );
+		self::set_current_user( $original_user );
 	}
 
 	/**
@@ -52,7 +52,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		// create an activity update for the user
 		self::factory()->activity->create( array(
@@ -69,7 +69,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		endwhile;
 
 		// reset
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -95,12 +95,12 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		) );
 
 		$current_user = bp_loggedin_user_id();
-		$this->set_current_user( $user_id );
+		self::set_current_user( $user_id );
 
 		bp_activity_add_user_favorite( $a1, $user_id );
 		bp_activity_add_user_favorite( $a2, $user_id );
 
-		$this->set_current_user( $current_user );
+		self::set_current_user( $current_user );
 
 		// groan. It sucks that you have to invoke the global
 		global $activities_template;
@@ -145,7 +145,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		$now = time();
 
@@ -187,7 +187,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 
 		// clean up!
 		$activities_template = null;
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -1006,7 +1006,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
 
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		$g = self::factory()->group->create( array(
 			'status' => 'private',
@@ -1060,7 +1060,7 @@ class BP_Tests_Activity_Template extends BP_UnitTestCase {
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
 
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		$g = self::factory()->group->create( array(
 			'status' => 'hidden',

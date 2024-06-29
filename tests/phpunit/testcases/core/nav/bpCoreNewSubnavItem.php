@@ -49,7 +49,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 
 	public function test_site_admin_only() {
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 
 		$this->assertFalse( bp_core_new_subnav_item( array(
 			'name' => 'foo',
@@ -60,7 +60,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 			'site_admin_only' => true,
 		) ) );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_should_return_false_if_site_admin_only_and_current_user_cannot_bp_moderate() {
@@ -109,7 +109,7 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 
 		$u = self::factory()->user->create();
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$url = bp_members_get_user_url(
 			$u,
@@ -127,6 +127,6 @@ class BP_Tests_Core_Nav_BpCoreNewSubnavItem extends BP_UnitTestCase {
 
 		remove_action( 'bp_setup_nav', array( $this, 'new_nav_hook' ), 0 );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 }

@@ -13,7 +13,7 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 	public function set_up() {
 		parent::set_up();
 		$this->current_user = get_current_user_id();
-		$this->set_current_user( self::factory()->user->create() );
+		self::set_current_user( self::factory()->user->create() );
 
 		$this->requesting_user_id = self::factory()->user->create();
 		$this->group = self::factory()->group->create( array( 'status' =>  'private' ) );
@@ -21,8 +21,9 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
+		self::set_current_user( $this->current_user );
+
 		parent::tear_down();
-		$this->set_current_user( $this->current_user );
 	}
 
 	/**
@@ -298,5 +299,4 @@ class BP_Tests_Groups_Notifications extends BP_UnitTestCase {
 		$this->assertEmpty( $u0_notifications );
 		$this->assertEmpty( $u1_notifications );
 	}
-
 }

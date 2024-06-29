@@ -217,12 +217,12 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		) );
 
 		$old_user = get_current_user_id();
-		$this->set_current_user( $user );
+		self::set_current_user( $user );
 
 		$value = bp_get_profile_field_data( array( 'user_id' => $user, 'field' => $field ) );
 		$this->assertEmpty( $value );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**

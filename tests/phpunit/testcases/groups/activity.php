@@ -104,7 +104,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_name() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details( array(
@@ -126,7 +126,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$expected = sprintf( esc_html__( '%s changed the name of the group %s from "%s" to "%s"', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">Foo</a>', $group->name, 'Foo' );
 		$this->assertSame( $expected, $a['activities'][0]->action );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -136,7 +136,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_description() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details( array(
@@ -158,7 +158,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$expected = sprintf( esc_html__( '%s changed the description of the group %s from "%s" to "%s"', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . $group->name . '</a>', $group->description, 'Bar' );
 		$this->assertSame( $expected, $a['activities'][0]->action );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -168,7 +168,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_slug() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details( array(
@@ -191,7 +191,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$expected = sprintf( __( '%s changed the permalink of the group %s.', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . esc_url( bp_get_group_url( $new_group_details ) ) . '">' . $group->name . '</a>' );
 		$this->assertSame( $expected, $a['activities'][0]->action );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -201,7 +201,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	public function test_bp_groups_format_activity_action_group_details_updated_with_updated_name_and_description() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$group = self::factory()->group->create_and_get();
 		groups_edit_base_group_details( array(
@@ -223,7 +223,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$expected = sprintf( __( '%s changed the name and description of the group %s', 'buddypress' ), bp_core_get_userlink( $u ),  '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">Foo</a>' );
 		$this->assertSame( $expected, $a['activities'][0]->action );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -324,7 +324,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 			'item_id' => $g,
 		) );
 
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		if ( bp_has_activities( array( 'in' => $a ) ) ) {
 			while ( bp_activities() ) : bp_the_activity();
 				// User 1 should be able to comment.
@@ -332,7 +332,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 			endwhile;
 		}
 
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		if ( bp_has_activities( array( 'in' => $a ) ) ) {
 			while ( bp_activities() ) : bp_the_activity();
 				// User 2 should not be able to comment.
@@ -340,7 +340,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 			endwhile;
 		}
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	public function groups_post_update_args( $args = array() ) {
@@ -362,7 +362,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$u2             = self::factory()->user->create();
 		$original_user = bp_loggedin_user_id();
 
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		$g = self::factory()->group->create();
 
@@ -394,50 +394,50 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$activity_b = self::factory()->activity->get_object_by_id( $b );
 
 		// User can delete his own activity.
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
 
 		// Activity from site admins can't be deleted by non site admins.
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		$this->assertFalse( bp_activity_user_can_delete( $activity_b ) );
 
 		// Activity from site admins can be deleted by other site admins.
 		$site_admin = self::factory()->user->create( array( 'role' => 'administrator' ) );
-		$this->set_current_user( $site_admin );
+		self::set_current_user( $site_admin );
 		$this->assertTrue( bp_activity_user_can_delete( $activity_b ) );
 
 		// Group creator can delete activity.
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
 
 		// Logged-out user can't delete activity.
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 		$this->assertFalse( bp_activity_user_can_delete( $activity ) );
 
 		// Misc user can't delete activity.
 		$misc_user = self::factory()->user->create( array( 'role' => 'subscriber' ) );
-		$this->set_current_user( $misc_user );
+		self::set_current_user( $misc_user );
 		$this->assertFalse( bp_activity_user_can_delete( $activity ) );
 
 		// Misc group member can't delete activity.
 		$misc_user_2 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
 		self::add_user_to_group( $misc_user_2, $g );
-		$this->set_current_user( $misc_user_2 );
+		self::set_current_user( $misc_user_2 );
 		$this->assertFalse( bp_activity_user_can_delete( $activity ) );
 
 		// Group mod can delete activity.
 		$misc_user_3 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
 		self::add_user_to_group( $misc_user_3, $g, [ 'is_mod' => true ] );
-		$this->set_current_user( $misc_user_3 );
+		self::set_current_user( $misc_user_3 );
 		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
 
 		// Group admin can delete activity.
 		$misc_user_4 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
 		self::add_user_to_group( $misc_user_4, $g, [ 'is_admin' => true ] );
-		$this->set_current_user( $misc_user_4 );
+		self::set_current_user( $misc_user_4 );
 		$this->assertTrue( bp_activity_user_can_delete( $activity ) );
 
-		$this->set_current_user( $original_user );
+		self::set_current_user( $original_user );
 	}
 
 	/**
@@ -448,7 +448,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$u2            = self::factory()->user->create();
 		$original_user = bp_loggedin_user_id();
 
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		$g  = self::factory()->group->create();
 		$g2 = self::factory()->group->create();
@@ -485,7 +485,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		// Add u2 as Admin of g2.
 		self::add_user_to_group( $u2, $g, [ 'is_admin' => true ] );
 
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		$this->assertFalse( bp_activity_user_can_delete( $activity ), 'Group Admins or Mods shouldn not be able to delete activities that are not attached to a group' );
 
 		$activity = self::factory()->activity->get_object_by_id( $a2 );
@@ -499,6 +499,6 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$activity = self::factory()->activity->get_object_by_id( $a3 );
 		$this->assertFalse( bp_activity_user_can_delete( $activity ), 'Group Admins or Mods should not be able to delete another group activities.' );
 
-		$this->set_current_user( $original_user );
+		self::set_current_user( $original_user );
 	}
 }

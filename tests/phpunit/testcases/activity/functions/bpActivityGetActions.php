@@ -20,7 +20,6 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		parent::tear_down();
 		$bp = buddypress();
 
 		$bp->activity->actions = $this->reset_actions;
@@ -30,6 +29,7 @@ class BP_Tests_Activity_Functions_BpActivityGetActions extends BP_UnitTestCase {
 		} else {
 			unset( $bp->activity->actions_sorted );
 		}
+		parent::tear_down();
 	}
 
 	/**

@@ -520,7 +520,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// create the blog post
@@ -593,7 +593,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertEquals( add_query_arg( 'p', $post_id, home_url( '/' ) ), bp_activity_get_meta( $a2, 'post_url' ) );
 
 		// reset
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -605,7 +605,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// create the blog post
@@ -656,7 +656,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertTrue( empty( $a['activities'][0] ) );
 
 		// reset
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 	}
 
@@ -667,7 +667,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 	public function test_bp_blogs_post_type_remove_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// create the blog post
@@ -765,7 +765,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		// save the current user and override logged-in user
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 		$userdata = get_userdata( $u );
 		$this->activity_saved_comment_count = 0;
 		$this->comment_saved_count = 0;
@@ -818,7 +818,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 
 		$this->activity_saved_comment_count = 0;
 		$this->comment_saved_count = 0;
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -829,7 +829,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		// Save the current user and override logged-in user
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		// Get user details
 		$user = get_userdata( $u );
@@ -878,7 +878,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		// Assert that activity item for blog post was created after adding a comment
 		$this->assertNotNull( $a1, 'Activity item was not created for existing blog post when recording post comment.' );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -1004,7 +1004,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$old_user = get_current_user_id();
 
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		// Create three sites.
 		self::factory()->blog->create_many( 3, array(
@@ -1022,7 +1022,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		) );
 		$this->assertSame( 3, (int) $blogs['total'] );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -1040,7 +1040,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$_POST['blog_public'] = 1;
 
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		// Create three sites.
 		$b = self::factory()->blog->create( array(
@@ -1069,7 +1069,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertEmpty( BP_Blogs_Blog::is_recorded( $b ) );
 
 		$_POST = $reset_post;
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -1087,7 +1087,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$_POST['blog_public'] = 1;
 
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		// Create three sites.
 		$b = self::factory()->blog->create( array(
@@ -1116,7 +1116,7 @@ class BP_Tests_Blogs_Functions extends BP_UnitTestCase {
 		$this->assertSame( $b, reset( $new_blog ), 'The new_blog activity should not be deleted when a contributor is removed from the blog.' );
 
 		$_POST = $reset_post;
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	protected function activity_exists_for_post( $post_id ) {

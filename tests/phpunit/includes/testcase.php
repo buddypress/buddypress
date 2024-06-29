@@ -4,7 +4,18 @@ require_once dirname( __FILE__ ) . '/factory.php';
 
 class BP_UnitTestCase extends WP_UnitTestCase {
 
+	/**
+	 * Temp storage for users who have the bp_moderate capability.
+	 *
+	 * @var array
+	 */
 	protected $temp_has_bp_moderate = array();
+
+	/**
+	 * A cached copy of the SERVER_NAME global.
+	 *
+	 * @var string
+	 */
 	protected static $cached_SERVER_NAME = null;
 
 	/**
@@ -31,8 +42,6 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 * @since 3.0.0
 	 */
 	public static function set_up_before_class() {
-		global $wpdb;
-
 		// Fake WP mail globals, to avoid errors
 		add_filter( 'wp_mail', array( 'BP_UnitTestCase', 'setUp_wp_mail' ) );
 		add_filter( 'wp_mail_from', array( 'BP_UnitTestCase', 'tearDown_wp_mail' ) );
@@ -57,12 +66,10 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		 */
 		bp_core_add_page_mappings( bp_get_option( 'bp-active-components' ), 'delete' );
 
-
-		$this->factory = new BP_UnitTest_Factory;
+		$this->factory = self::factory();
 
 		// Fixes warnings in multisite functions
 		$_SERVER['REMOTE_ADDR'] = '';
-		global $wpdb;
 
 		// Clean up after autocommits.
 		add_action( 'bp_blogs_recorded_existing_blogs', array( $this, 'set_autocommit_flag' ) );
@@ -111,6 +118,9 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 * Multisite-agnostic way to delete a user from the database.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @param int $user_id User ID.
+	 * @return bool True on success, false on failure.
 	 */
 	public static function delete_user( $user_id ) {
 		$deleted = parent::delete_user( $user_id );
@@ -126,15 +136,26 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	public function clean_up_global_scope() {
-		buddypress()->bp_nav                = buddypress()->bp_options_nav = buddypress()->action_variables = buddypress()->canonical_stack = buddypress()->unfiltered_uri = $GLOBALS['bp_unfiltered_uri'] = array();
-		buddypress()->current_component     = buddypress()->current_item = buddypress()->current_action = buddypress()->current_member_type = '';
-		buddypress()->unfiltered_uri_offset = 0;
-		buddypress()->is_single_item        = false;
-		buddypress()->current_user          = new stdClass();
-		buddypress()->displayed_user        = new stdClass();
-		buddypress()->loggedin_user         = new stdClass();
-		buddypress()->pages                 = array();
-		buddypress()->groups->types         = array();
+		$bp = buddypress();
+
+		$GLOBALS['bp_unfiltered_uri'] = array();
+
+		$bp->bp_nav                = array();
+		$bp->bp_options_nav        = array();
+		$bp->action_variables      = array();
+		$bp->canonical_stack       = array();
+		$bp->unfiltered_uri        = array();
+		$bp->current_component     = '';
+		$bp->current_item          = '';
+		$bp->current_action        = '';
+		$bp->current_member_type   = '';
+		$bp->unfiltered_uri_offset = 0;
+		$bp->is_single_item        = false;
+		$bp->current_user          = new stdClass();
+		$bp->displayed_user        = new stdClass();
+		$bp->loggedin_user         = new stdClass();
+		$bp->pages                 = array();
+		$bp->groups->types         = array();
 
 		parent::clean_up_global_scope();
 	}
@@ -222,7 +243,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 
 		$bp->loggedin_user->id = $user_id;
 		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $user_id );
-		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin( $user_id );
+		$bp->loggedin_user->is_super_admin = is_super_admin( $user_id );
 		$bp->loggedin_user->domain         = bp_members_get_user_url( $user_id );
 		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( $user_id );
 
@@ -252,6 +273,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$new_member->inviter_id    = $r['inviter_id'];
 
 		$new_member->save();
+
 		return $new_member->id;
 	}
 
@@ -350,6 +372,32 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Set a flag that an autocommit has taken place inside of a test method.
+	 *
+	 * @since 2.4.0
+	 */
+	public function set_autocommit_flag() {
+		$this->autocommitted = true;
+	}
+
+	/**
+	 * Deactivate a component for the duration of a test.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $component Component name.
+	 */
+	public function deactivate_component( $component ) {
+		if ( ! isset( $component ) ) {
+			return;
+		}
+
+		unset( buddypress()->active_components[ $component ] );
+
+		$this->deactivated_components[] = $component;
+	}
+
+	/**
 	 * Clean up created directories/files
 	 */
 	public function rrmdir( $dir ) {
@@ -371,33 +419,6 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		}
 
 		@rmdir( $dir );
-	}
-
-	/**
-	 * Set a flag that an autocommit has taken place inside of a test method.
-	 *
-	 * @since 2.4.0
-	 */
-	public function set_autocommit_flag() {
-		$this->autocommitted = true;
-	}
-
-	/**
-	 * Deactivate a component for the duration of a test.
-	 *
-	 * @since 2.4.0
-	 *
-	 * @param string $component Component name.
-	 */
-	public function deactivate_component( $component ) {
-		$is_active = isset( buddypress()->active_components[ $component ] );
-
-		if ( ! isset( $component ) ) {
-			return false;
-		}
-
-		unset( buddypress()->active_components[ $component ] );
-		$this->deactivated_components[] = $component;
 	}
 
 	/**

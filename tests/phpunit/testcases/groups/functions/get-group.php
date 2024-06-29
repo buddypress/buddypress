@@ -35,7 +35,7 @@ class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
 	 * @group bp_get_group
 	 */
 	public function test_bp_get_group_with_id() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 
 		$this->assertSame( $g, bp_get_group( $g )->id );
 		$this->assertSame( $g, bp_get_group_by( 'id', $g )->id );
@@ -47,7 +47,7 @@ class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
 	 */
 	public function test_bp_get_group_with_slug() {
 		$slug = 'test-group';
-		$g    = $this->factory->group->create( array( 'slug' => $slug ) );
+		$g    = self::factory()->group->create( array( 'slug' => $slug ) );
 		$g1   = bp_get_group( $slug );
 
 		$this->assertSame( $g, $g1->id );
@@ -63,7 +63,7 @@ class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
 	 * @group bp_get_group
 	 */
 	public function test_bp_get_group_with_object() {
-		$g = $this->factory->group->create_and_get();
+		$g = self::factory()->group->create_and_get();
 
 		$this->assertSame( $g->id, bp_get_group( $g )->id );
 	}
@@ -72,7 +72,7 @@ class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
 	 * @group bp_get_group
 	 */
 	public function test_bp_get_group_from_groups_template() {
-		$g = $this->factory->group->create( array( 'status' => 'private' ) );
+		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 
 		if ( bp_has_groups( array( 'include' => array( $g ) ) ) ) {
 			while ( bp_groups() ) {
@@ -89,7 +89,7 @@ class BP_Tests_Get_Groups_Param extends BP_UnitTestCase {
 	 */
 	public function test_bp_get_group_from_current_group() {
 		$bp = buddypress();
-		$g  = $this->factory->group->create_and_get( array( 'name' => 'foo' ) );
+		$g  = self::factory()->group->create_and_get( array( 'name' => 'foo' ) );
 
 		// Set the current group.
 		$bp->groups->current_group = $g;

@@ -902,12 +902,12 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		// Ban user 1 from group 2
 		// Fool the admin check
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		buddypress()->is_item_admin = true;
 		groups_ban_member( $u1, $g2 );
 
 		// Start the groups loop
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group();
 			$found[] = bp_group_is_user_banned();
 		endwhile; endif;
@@ -918,7 +918,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		// Clean up
 		$GLOBALS['groups_template'] = null;
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -948,7 +948,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		// Ban user 1 from group 2
 		// Fool the admin check
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		buddypress()->is_item_admin = true;
 		groups_ban_member( $u1, $g2 );
 
@@ -965,15 +965,15 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$this->assertEquals( $expected, $found );
 
 		// Clean up
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
 	 * @group bp_group_is_forum_enabled
 	 */
 	public function test_bp_group_is_forum_enabled() {
-		$g1 = $this->factory->group->create( array( 'enable_forum' => 0 ) );
-		$g2 = $this->factory->group->create( array( 'enable_forum' => 1 ) );
+		$g1 = self::factory()->group->create( array( 'enable_forum' => 0 ) );
+		$g2 = self::factory()->group->create( array( 'enable_forum' => 1 ) );
 
 		$this->assertFalse( bp_group_is_forum_enabled( $g1 ) );
 		$this->assertTrue( bp_group_is_forum_enabled( $g2 ) );
@@ -1004,7 +1004,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_get_group_form_action
 	 */
 	public function test_bp_bp_get_group_form_action() {
-		$g   = $this->factory->group->create();
+		$g   = self::factory()->group->create();
 		$p   = 'members';
 		$url = bp_get_group_url(
 			$g,
@@ -1020,8 +1020,8 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_get_group_member_count
 	 */
 	public function test_bp_get_group_member_count_0_members() {
-		$u = $this->factory->user->create();
-		$g = $this->factory->group->create( array( 'creator_id' => $u ) );
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create( array( 'creator_id' => $u ) );
 
 		// Fake the current group.
 		$GLOBALS['groups_template'] = new stdClass;
@@ -1037,7 +1037,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_get_group_member_count
 	 */
 	public function test_bp_get_group_member_count_1_member() {
-		$g = $this->factory->group->create();
+		$g = self::factory()->group->create();
 
 		// Fake the current group.
 		$GLOBALS['groups_template'] = new stdClass;
@@ -1050,9 +1050,9 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 	 * @group bp_get_group_member_count
 	 */
 	public function test_bp_get_group_member_count_2_members() {
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$g  = $this->factory->group->create( array( 'creator_id' => $u1 ) );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g  = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
 		$this->add_user_to_group( $u2, $g );
 

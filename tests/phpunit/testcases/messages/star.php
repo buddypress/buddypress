@@ -154,7 +154,7 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 		) );
 
 		// delete the second thread
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		messages_delete_thread( $t2 );
 
 		// load the starred threads loop
@@ -168,7 +168,7 @@ class BP_Tests_Messages_Star_ extends BP_UnitTestCase {
 		$this->assertFalse( in_array( $t2, $thread_ids ) );
 
 		// reset
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**

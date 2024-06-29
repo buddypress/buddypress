@@ -10,7 +10,7 @@ class BP_Tests_BP_Community_Visibility_TestCases extends BP_UnitTestCase {
 		parent::set_up();
 		$this->old_user = get_current_user_id();
 		$this->logged_in_user = self::factory()->user->create();
-		$this->set_current_user( $this->logged_in_user );
+		self::set_current_user( $this->logged_in_user );
 
 		// Save a typical setting.
 		$setting = array(
@@ -20,10 +20,10 @@ class BP_Tests_BP_Community_Visibility_TestCases extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		parent::tear_down();
-		$this->set_current_user( $this->old_user );
+		self::set_current_user( $this->old_user );
 		// Reset site to totally open.
 		delete_option( '_bp_community_visibility' );
+		parent::tear_down();
 	}
 
 	// Test that logged-in user has access to component marked anyone and component marked members
