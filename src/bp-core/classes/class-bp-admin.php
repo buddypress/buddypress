@@ -892,6 +892,7 @@ class BP_Admin {
 							printf(
 								/* Translators: %s is a black cat emoji. */
 								esc_html__( 'Compared to our previous major version (12.0.0 - the number right after was too intimidating %s), 14.0.0 is a quiet version.', 'buddypress' ),
+								// phpcs:ignore WordPress.Security.EscapeOutput
 								wp_staticize_emoji( '🐈‍⬛' )
 							);
 							echo '&nbsp;';
