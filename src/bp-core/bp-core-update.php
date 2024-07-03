@@ -976,6 +976,18 @@ function bp_update_to_14_0() {
 			$wpdb->query( "ALTER TABLE {$bp->notifications->table_name} CHANGE is_new is_new tinyint(1) NOT NULL DEFAULT 0" );
 		}
 	}
+
+	/*
+	 * Force permalinks to be refreshed at next page load.
+	 *
+	 * This will make sure configs using BP Classic won't include
+	 * unnecessary rewrite rules.
+	 *
+	 * @see https://buddypress.trac.wordpress.org/ticket/9192
+	 */
+	if ( 'rewrites' !== bp_core_get_query_parser() ) {
+		bp_delete_rewrite_rules();
+	}
 }
 
 /**

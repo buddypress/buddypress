@@ -1070,7 +1070,7 @@ class BP_Component {
 	 *                            Each argument key needs to match one of `$this->rewrite_ids` keys.
 	 */
 	public function add_rewrite_tags( $rewrite_tags = array() ) {
-		if ( array_filter( $this->rewrite_ids ) ) {
+		if ( 'rewrites' === bp_core_get_query_parser() && array_filter( $this->rewrite_ids ) ) {
 			$chunks = bp_rewrites_get_default_url_chunks();
 
 			foreach ( $this->rewrite_ids as $rewrite_id_key => $rewrite_id_value ) {
@@ -1119,7 +1119,7 @@ class BP_Component {
 	 * }
 	 */
 	public function add_rewrite_rules( $rewrite_rules = array() ) {
-		if ( array_filter( $this->rewrite_ids ) ) {
+		if ( 'rewrites' === bp_core_get_query_parser() && array_filter( $this->rewrite_ids ) ) {
 			$priority = 'top';
 			$chunks   = array_merge( bp_rewrites_get_default_url_chunks(), $rewrite_rules );
 
@@ -1211,7 +1211,7 @@ class BP_Component {
 			$permastructs = array_merge( $directory_permastruct, (array) $permastructs );
 		}
 
-		if ( $permastructs ) {
+		if ( 'rewrites' === bp_core_get_query_parser() && $permastructs ) {
 			foreach ( $permastructs as $name => $params ) {
 				if ( ! $name || ! isset( $params['permastruct'] ) || ! $params['permastruct'] ) {
 					continue;
