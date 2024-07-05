@@ -388,14 +388,23 @@ function bp_do_activation_redirect() {
 		return;
 	}
 
-	$query_args = array();
+	$settings_page = 'options-general.php';
+	if ( bp_core_do_network_admin() ) {
+		$settings_page = 'settings.php';
+	}
+
+	$query_args = array(
+		'page'  => 'bp-components',
+		'hello' => 'buddypress'
+	);
+
 	if ( get_transient( '_bp_is_new_install' ) ) {
 		$query_args['is_new_install'] = '1';
 		delete_transient( '_bp_is_new_install' );
 	}
 
 	// Redirect to dashboard and trigger the Hello screen.
-	wp_safe_redirect( add_query_arg( $query_args, bp_get_admin_url( '?hello=buddypress' ) ) );
+	wp_safe_redirect( add_query_arg( $query_args, bp_get_admin_url( $settings_page ) ) );
 }
 
 /** UI/Styling ****************************************************************/

@@ -606,7 +606,7 @@ class BP_Admin {
 	 * @param WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
 	 */
 	public function admin_bar_about_link( $wp_admin_bar ) {
-		if ( ! is_user_logged_in() ) {
+		if ( ! bp_current_user_can( $this->capability ) ) {
 			return;
 		}
 
@@ -615,7 +615,13 @@ class BP_Admin {
 				'parent' => 'wp-logo',
 				'id'     => 'bp-about',
 				'title'  => esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ),
-				'href'   => bp_get_admin_url( '?hello=buddypress' ),
+				'href'   => add_query_arg(
+					array(
+						'page'  => 'bp-components',
+						'hello' => 'buddypress'
+					),
+					bp_get_admin_url( $this->settings_page )
+				),
 				'meta'   => array(
 					'class' => 'say-hello-buddypress',
 				),
@@ -639,10 +645,21 @@ class BP_Admin {
 			return $links;
 		}
 
+		$settings_args = array(
+			'page' => 'bp-components',
+		);
+
+		$about_args = array_merge(
+			$settings_args,
+			array(
+				'hello' => 'buddypress',
+			)
+		);
+
 		// Add a few links to the existing links array.
 		return array_merge( $links, array(
-			'settings' => '<a href="' . esc_url( add_query_arg( array( 'page' => 'bp-components' ), bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
-			'about'    => '<a href="' . esc_url( bp_get_admin_url( '?hello=buddypress' ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
+			'settings' => '<a href="' . esc_url( add_query_arg( $settings_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
+			'about'    => '<a href="' . esc_url( add_query_arg( $about_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
 		) );
 	}
 
@@ -699,7 +716,7 @@ class BP_Admin {
 		wp_enqueue_style( 'bp-admin-common-css' );
 
 		// BuddyPress Hello.
-		if ( 0 === strpos( get_current_screen()->id, 'dashboard' ) && ! empty( $_GET['hello'] ) && $_GET['hello'] === 'buddypress' ) {
+		if ( isset( $this->submenu_pages['settings']['bp-components'] ) && 0 === strpos( get_current_screen()->id, $this->submenu_pages['settings']['bp-components'] ) && ! empty( $_GET['hello'] ) && $_GET['hello'] === 'buddypress' ) {
 			wp_enqueue_style( 'bp-hello-css' );
 			wp_enqueue_script( 'bp-hello-js' );
 			wp_localize_script( 'bp-hello-js', 'bpHelloStrings', array(
@@ -775,30 +792,13 @@ class BP_Admin {
 	 * @since 3.0.0 Now outputs BuddyPress Hello template.
 	 */
 	public function about_screen() {
-		if ( 0 !== strpos( get_current_screen()->id, 'dashboard' ) || empty( $_GET['hello'] ) || $_GET['hello'] !== 'buddypress' ) {
+		if ( ! isset( $this->submenu_pages['settings']['bp-components'] ) || 0 !== strpos( get_current_screen()->id, $this->submenu_pages['settings']['bp-components'] ) || empty( $_GET['hello'] ) || $_GET['hello'] !== 'buddypress' ) {
 			return;
 		}
 
 		// Get BuddyPress stable version.
 		$version      = self::display_version();
 		$version_slug = 'version-' . str_replace( '.', '-', $version );
-
-		// The BP Classic Add-on's Modal box.
-		$classic_box = add_query_arg(
-			array(
-				'tab'  => 'bp-add-ons',
-				'show' => 'bp-classic',
-			),
-			network_admin_url( 'plugin-install.php' )
-		);
-
-		// The URLs settings screen.
-		$rewrites_screen = add_query_arg(
-			array(
-				'page' => 'bp-rewrites',
-			),
-			bp_get_admin_url( 'admin.php' )
-		);
 	?>
 
 		<div id="bp-hello-container">
@@ -822,92 +822,82 @@ class BP_Admin {
 				<div class="bp-hello-content">
 					<div id="dynamic-content"></div>
 					<div id="top-features">
-						<h2>
-							<?php
-								printf(
-									/* Translators: %s is a raising hands emoji. */
-									esc_html__( 'You now have complete control over all BuddyPress-generated URLs %s', 'buddypress' ),
-									// phpcs:ignore WordPress.Security.EscapeOutput
-									wp_staticize_emoji( '🙌' )
-								);
-							?>
-						</h2>
 						<p>
-							<?php esc_html_e( 'Among the 100 changes introduced in 12.0.0, the BP Rewrites API is a massive revolution opening the way for a progressive BuddyPress evolution.', 'buddypress' ); ?>
-							<?php esc_html_e( 'Based on 10 years of experience gained through hard work, we are beginning to reimagine what it means to organize and manage communities within WordPress.', 'buddypress' ); ?>
-							<?php esc_html_e( 'Here are the immediate benefits of the new BP Rewrites API :', 'buddypress' ); ?>
+							<?php esc_html_e( 'Thanks for upgrading BuddyPress to 14.0.0. This new major version of your site’s community engine introduces around 80 changes mostly acting under the hood to improve documentation, code formatting, consistency and the stability of the plugin.', 'buddypress' ); ?>
+							<?php esc_html_e( 'Here are five improvements we would like to highlight:', 'buddypress' ); ?>
 						</p>
 						<ol>
 							<li>
+								<?php esc_html_e( 'There’s a new "BuddyPress constants" panel added to the WordPress Site Health information tool. Use it to check whether you’re using deprecated constants in your custom code or third party BP Plugins/Add-ons.', 'buddypress' ); ?>
+								<?php esc_html_e( 'The information in the "BuddyPress" and "BuddyPress constants" panels is also very useful when you need to ask for support.', 'buddypress' ); ?>
+							</li>
+							<li>
 								<?php
 								printf(
-									/* Translators: %s is a the link to the URLs settings screen */
-									esc_html__( 'You can customize each piece of any URL generated by BuddyPress to better reflect your unique community using the new %s.', 'buddypress' ),
+									/* Translators: %s is a the link to the new User Documentation on GitHub */
+									esc_html__( 'Most BuddyPress Admin screens now have a help tab in their top right corner which includes a link to an updated %s.', 'buddypress' ),
 									sprintf(
 										'<a href="%1$s">%2$s</a>',
-										esc_url( $rewrites_screen ),
-										esc_html__( 'URLs settings screen', 'buddypress' )
+										esc_url( 'https://github.com/buddypress/buddypress/tree/master/docs/user/administration#readme' ),
+										esc_html__( 'documentation resource', 'buddypress' )
 									)
 								);
 								?>
 							</li>
 							<li>
-								<?php esc_html_e( 'Pretty or plain, BuddyPress just works no matter which option you choose for your permalink settings.', 'buddypress' ); ?>
+								<?php
+								printf(
+									/* translators: %s is the placeholder for the link to a developer note. */
+									esc_html__( 'Whether BuddyPress is installed on a multisite network or on a single site, %s are now managed the exact same way.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2024/04/21/signups-are-becoming-members-only-after-validating-their-accounts/' ),
+										esc_html__( 'signups', 'buddypress' )
+									)
+								);
+								?>
 							</li>
 							<li>
-								<?php esc_html_e( 'Routing BuddyPress URLs is faster, more reliable, extensible, testable and fully compliant with WordPress best practices.', 'buddypress' ); ?>
+								<?php
+								printf(
+									/* translators: %s is the placeholder for the link to a developer note. */
+									esc_html__( 'Speaking of signups, the %s has been improved so that you can now submit values for any xProfile field registered as part of the Signups profile field group.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2024/05/07/signup-fields-via-the-rest-api/' ),
+										esc_html__( 'BP REST API', 'buddypress' )
+									)
+								);
+								?>
+							</li>
+							<li>
+							<?php
+								printf(
+									/* translators: %s is the placeholder for the link to a developer note. */
+									esc_html__( 'Last but not least, we again offer native support for overriding BuddyPress’s language with your community vocabulary using %s.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2024/06/28/translating-buddypress-texts-into-your-community-vocabulary-is-back-in-14-0-0/' ),
+										esc_html__( 'custom translations', 'buddypress' )
+									)
+								);
+								?>
 							</li>
 						</ol>
 
 						<hr class="bp-hello-divider"/>
 
-						<h2>
+						<p>
 							<?php
 							printf(
-								/* translators: %s is the placeholder for the link to the BuddyPress Add-ons administration page. */
-								esc_html__( 'Do you need to maintain backward compatibility? %s has you covered.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( $classic_box ),
-									esc_html__( 'BP Classic', 'buddypress' )
-								)
+								/* Translators: %s is a black cat emoji. */
+								esc_html__( 'Compared to our previous major version (12.0.0 - the number right after was too intimidating %s), 14.0.0 is a quieter update.', 'buddypress' ),
+								// phpcs:ignore WordPress.Security.EscapeOutput
+								wp_staticize_emoji( '🐈‍⬛' )
 							);
+							echo '&nbsp;';
+							esc_html_e( 'After the huge BP Rewrites API revolution, the humans (us the BP Team) who maintain and support your favorite community plugin needed to catch their breath to get ready for the new round of big changes arriving in 15.0.0.', 'buddypress' );
 							?>
-						</h2>
-
-						<p>
-							<?php esc_html_e( 'Although we chose to extend our beta testing period to 3 months for this major release and  documented what BuddyPress plugin authors need to do to be ready for our core change, some of them might need a little more time to be fully compatible with the latest BuddyPress version.', 'buddypress' ); ?>
-							<?php esc_html_e( 'Or, for instance, you might still use the BP Default theme (which was deprecated 10 years ago) or a BP Legacy Widget.', 'buddypress' ); ?>
-							<?php
-							printf(
-								/* translators: %s is the placeholder for the link to the BuddyPress Add-ons administration page. */
-								esc_html__( 'If so, you can download and activate %s for your backward compatibility needs.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( $classic_box ),
-									esc_html__( 'BP Classic', 'buddypress' )
-								)
-							);
-							?>
-						</p>
-
-						<hr class="bp-hello-divider"/>
-
-						<h2>
-							<?php
-								printf(
-									/* Translators: %s is a woman supervillain emoji. */
-									esc_html__( 'Here\'s another benefit of the BP Rewrites API: the new "members only" community visibility level %s', 'buddypress' ),
-									// phpcs:ignore WordPress.Security.EscapeOutput
-									wp_staticize_emoji( '🦹🏻' )
-								);
-							?>
-						</h2>
-
-						<p>
-							<?php esc_html_e( 'We\'ve heard from BuddyPress end-users that being able to easily restrict access to their community is a necessary feature. And, thanks to the BP Rewrites API, we are now able to make this possible.', 'buddypress' ); ?>
-							<?php esc_html_e( 'With this first iteration, a site admin can now choose whether the community is fully public or is only accessible to logged-in members.', 'buddypress' ); ?>
-							<?php esc_html_e( 'In future versions, we hope to add granularity to this choice, so that community administrators can choose to highlight their members but share activities only inside the community "gates" for example.', 'buddypress' ); ?>
 						</p>
 
 						<hr class="bp-hello-divider"/>
@@ -915,6 +905,24 @@ class BP_Admin {
 						<figure class="bp-hello-aligncenter">
 							<div class="dashicons dashicons-buddicons-buddypress-logo big"></div>
 						</figure>
+
+						<hr class="bp-hello-divider"/>
+
+						<p>
+							<?php
+							esc_html_e( 'Let’s keep in mind BuddyPress is an open source project maintained by volunteers giving freely of their time and energy to help you build great WordPress community sites.', 'buddypress' );
+							echo '&nbsp;';
+							printf(
+									/* Translators: %s is a the link to the new Contributor Documentation on GitHub */
+									esc_html__( 'Don’t hesitate to send us some encouraging words and please consider contributing back to %s.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://github.com/buddypress/buddypress/tree/master/docs/contributor#readme' ),
+										esc_html__( 'the project', 'buddypress' )
+									)
+								);
+							?>
+						</p>
 
 						<hr class="bp-hello-divider"/>
 
@@ -1476,7 +1484,7 @@ class BP_Admin {
 			// 3.0
 			'bp-hello-js' => array(
 				'file'         => "{$url}hello{$min}.js",
-				'dependencies' => array( 'bp-thickbox', 'wp-api-request' ),
+				'dependencies' => array( 'bp-thickbox', 'wp-api-request', 'underscore', 'plugin-install' ),
 				'footer'       => true,
 			),
 
