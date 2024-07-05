@@ -1028,37 +1028,37 @@ class BP_Admin {
 
 			<p class="about-description"><?php esc_html_e( 'Meet the contributors behind BuddyPress:', 'buddypress' ); ?></p>
 
-			<h3 class="wp-people-group"><?php esc_html_e( 'Project Leaders', 'buddypress' ); ?></h3>
+			<h3 class="wp-people-group"><?php esc_html_e( 'Chefs', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-project-leaders">
 				<li class="wp-person" id="wp-person-johnjamesjacoby">
 					<a class="web" href="https://profiles.wordpress.org/johnjamesjacoby/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/7a2644fb53ae2f7bfd7143b504af396c?s=120">
 					John James Jacoby</a>
-					<span class="title"><?php esc_html_e( 'Project Lead', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Grand Chef', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-boonebgorges">
 					<a class="web" href="https://profiles.wordpress.org/boonebgorges/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/9cf7c4541a582729a5fc7ae484786c0c?s=120">
 					Boone B. Gorges</a>
-					<span class="title"><?php esc_html_e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Chef', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-djpaul">
 					<a class="web" href="https://profiles.wordpress.org/djpaul/"><img alt="" class="gravatar" src="https://avatars2.githubusercontent.com/u/1275914?s=120">
 					Paul Gibbs</a>
-					<span class="title"><?php esc_html_e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Chef', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-r-a-y">
 					<a class="web" href="https://profiles.wordpress.org/r-a-y/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=120">
 					Ray</a>
-					<span class="title"><?php esc_html_e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Chef', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-imath">
 					<a class="web" href="https://profiles.wordpress.org/imath/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/8b208ca408dad63888253ee1800d6a03?s=120">
 					Mathieu Viet</a>
-					<span class="title"><?php esc_html_e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Chef', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-mercime">
 					<a class="web" href="https://profiles.wordpress.org/mercime/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/fae451be6708241627983570a1a1817a?s=120">
 					Mercime</a>
-					<span class="title"><?php esc_html_e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Chef', 'buddypress' ); ?></span>
 				</li>
 			</ul>
 
@@ -1067,57 +1067,67 @@ class BP_Admin {
 				<li class="wp-person" id="wp-person-hnla">
 					<a class="web" href="https://profiles.wordpress.org/hnla/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=120">
 					Hugo Ashmore</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-dcavins">
 					<a class="web" href="https://profiles.wordpress.org/dcavins/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/a5fa7e83d59cb45ebb616235a176595a?s=120">
 					David Cavins</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-tw2113">
 					<a class="web" href="https://profiles.wordpress.org/tw2113/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/a5d7c934621fa1c025b83ee79bc62366?s=120">
 					Michael Beckwith</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
-				</li>
-				<li class="wp-person" id="wp-person-henry-wright">
-					<a class="web" href="https://profiles.wordpress.org/henry.wright/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=120">
-					Henry Wright</a>
-					<span class="title"><?php esc_html_e( 'Community Support', 'buddypress' ); ?></span>
-				</li>
-				<li class="wp-person" id="wp-person-danbp">
-					<a class="web" href="https://profiles.wordpress.org/danbp/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0deae2e7003027fbf153500cd3fa5501?s=120">
-					danbp</a>
-					<span class="title"><?php esc_html_e( 'Community Support', 'buddypress' ); ?></span>
-				</li>
-				<li class="wp-person" id="wp-person-shanebp">
-					<a class="web" href="https://profiles.wordpress.org/shanebp/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ffd294ab5833ba14aaf175f9acc71cc4?s=120">
-					shanebp</a>
-					<span class="title"><?php esc_html_e( 'Community Support', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-slaffik">
 					<a class="web" href="https://profiles.wordpress.org/slaffik/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/61fb07ede3247b63f19015f200b3eb2c?s=120">
 					Slava Abakumov</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-offereins">
 					<a class="web" href="https://profiles.wordpress.org/Offereins/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/2404ed0a35bb41aedefd42b0a7be61c1?s=120">
 					Laurens Offereins</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-netweb">
 					<a class="web" href="https://profiles.wordpress.org/netweb/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/97e1620b501da675315ba7cfb740e80f?s=120">
 					Stephen Edgar</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-espellcaste">
 					<a class="web" href="https://profiles.wordpress.org/espellcaste/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/b691e67be0ba5cad6373770656686bc3?s=120">
 					Renato Alves</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-vapvarun">
+					<a class="web" href="https://profiles.wordpress.org/vapvarun/"><img alt="" class="gravatar" src="//gravatar.com/avatar/78a3bf7eb3a1132fc667f96f2631e448?s=120">
+					Varun Dubey</a>
+					<span class="title"><?php esc_html_e( 'Dough Commis', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-emaralive">
+					<a class="web" href="https://profiles.wordpress.org/emaralive/"><img alt="" class="gravatar" src="//gravatar.com/avatar/310c3a56a7ea3c0816524a33cb8d7105?s=120">
+					emaralive</a>
+					<span class="title"><?php esc_html_e( 'Dough Commis', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-henry-wright">
+					<a class="web" href="https://profiles.wordpress.org/henry.wright/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=120">
+					Henry Wright</a>
+					<span class="title"><?php esc_html_e( 'Pizza deliverer', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-danbp">
+					<a class="web" href="https://profiles.wordpress.org/danbp/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0deae2e7003027fbf153500cd3fa5501?s=120">
+					danbp</a>
+					<span class="title"><?php esc_html_e( 'Pizza deliverer', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-shanebp">
+					<a class="web" href="https://profiles.wordpress.org/shanebp/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ffd294ab5833ba14aaf175f9acc71cc4?s=120">
+					shanebp</a>
+					<span class="title"><?php esc_html_e( 'Pizza deliverer', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-venutius">
 					<a class="web" href="https://profiles.wordpress.org/venutius/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/6a7c42a77fd94b82b217a7a97afdddbc?s=120">
 					Venutius</a>
-					<span class="title"><?php esc_html_e( 'Community Support', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizza deliverer', 'buddypress' ); ?></span>
 				</li>
 			</ul>
 
@@ -1131,17 +1141,9 @@ class BP_Admin {
 				?>
 			</h3>
 			<ul class="wp-people-group " id="wp-people-group-noteworthy">
-				<li class="wp-person" id="wp-person-emaralive">
-					<a class="web" href="https://profiles.wordpress.org/emaralive/"><img alt="" class="gravatar" src="//gravatar.com/avatar/310c3a56a7ea3c0816524a33cb8d7105?s=120">
-					emaralive</a>
-				</li>
 				<li class="wp-person" id="wp-person-upadalavipul">
 					<a class="web" href="https://profiles.wordpress.org/upadalavipul/"><img alt="" class="gravatar" src="//gravatar.com/avatar/2d450f193322c17d2138386e45c8ffbf?s=120">
 					Upadala Vipul</a>
-				</li>
-				<li class="wp-person" id="wp-person-vapvarun">
-					<a class="web" href="https://profiles.wordpress.org/vapvarun/"><img alt="" class="gravatar" src="//gravatar.com/avatar/78a3bf7eb3a1132fc667f96f2631e448?s=120">
-					Varun Dubey</a>
 				</li>
 			</ul>
 

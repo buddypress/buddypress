@@ -28,89 +28,108 @@
 
 /* TEAM */
 Name: Andy Peatling
-Title: Founding Developer
-Twitter: apeatling
+Title: Founding Pizzaïolo
+Profiles.w.org: apeatling
+Favorite Food: tbd
 
 Name: John James Jacoby
-Title: Project Lead
-Twitter: jjj
+Title: Grand Chef
+Profiles.w.org: johnjamesjacoby
 Favorite Food: Truffle Lasagna
 
 Name: Boone B. Gorges
-Title: Lead Developer
-Twitter: boone
+Title: Chef
+Profiles.w.org: boonebgorges
 Favorite Pudgy Pie Filling: Cherry
 
 Name: Paul Gibbs
-Title: Lead Developer
-Twitter: pgibbs
+Title: Chef
+Profiles.w.org: djpaul
 Favourite Food: Pizza
 
 Name: Ray
-Title: Core Developer
-Twitter: r-a-y
+Title: Chef
+Profiles.w.org: r-a-y
 Favourite Food: tbd
 
 Name: Mathieu Viet
-Title: Core Developer
-Twitter: imath
-Favorite Food: Spaghetti Bolognese
+Title: Chef
+Profiles.w.org: imath
+Favorite Food: Pepperoni Pizza
 
 Name: Mercime
-Title: Navigator
-Twitter: mercime_one
+Title: Chef
+Profiles.w.org: mercime
 Favorite Food: Paella Valenciana
 
 Name: David Cavins
-Title: Core Developer
-Twitter: daveycavey
+Title: Pizzaïolo
+Profiles.w.org: dcavins
 Favorite Food: Quad-Cities pizza
 
 Name: Michael Beckwith
-Title: Core Developer
-Twitter: tw2113
+Title: Pizzaïolo
+Profiles.w.org: tw2113
 Favorite Food: Jelly Beans
 
 Name: Hugo Ashmore (hnla)
-Title: Core Developer
-Twitter: hnla
+Title: Pizzaïolo
+Profiles.w.org: hnla
 Favourite Food: Sunday Roast or Curries
 
 Name: Henry Wright
-Title: Community Support
-Twitter: henrywright
+Title: Pizza deliverer
+Profiles.w.org: henrywright
 Favourite Food: Broccoli
 
 Name: danbp
-Title: Community Support
-Twitter: danbpfr
+Title: Pizza deliverer
+Profiles.w.org: danbp
 Favorite Food: Saltimbocca alla Romana
 
 Name: shanebp
-Title: Community Support
+Title: Pizza deliverer
+Profiles.w.org: shanebp
+Favorite Food: tbd
 
 Name: Stephen Edgar
-Title: Core Developer
-Twitter: netweb
+Title: Pizzaïolo
+Profiles.w.org: netweb
 Favorite Food: Tacos
 
 Name: Slava Abakumov
-Title: Core Developer
-Twitter: slaFFik
+Title: Pizzaïolo
+Profiles.w.org: slaFFik
 Favorite Food: Cakes
 
 Name: Venutius
-Title: Community Support
+Title: Pizza deliverer
+Profiles.w.org: venutius
 Favourite Food: Apple Crumble
 
 Name: Laurens Offereins
-Title: Core Developer
-Twitter: lmoffereins
+Title: Pizzaïolo
+Profiles.w.org: offereins
 Favorite Food: Lasagna
+
+Name: Renato Alves
+Title: Pizzaïolo
+Profiles.w.org: espellcaste
+Favorite Food: Cakes & Lasagna
+
+Name: Varun Dubey
+Title: Dough Commis
+Profiles.w.org: vapvarun
+Favorite Food: tbd
+
+Name: emaralive
+Title: Dough Commis
+Profiles.w.org: emaralive
+Favorite Food: Supreme Pizza
 
 /* THANKS */
 modemlooper, cnorris23, karmatosed, photomatt
 
 /* META */
-Updated: 2018/04/05
+Updated: 2024/06/22
 See: http://humanstxt.org/
