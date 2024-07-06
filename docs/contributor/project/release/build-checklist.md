@@ -29,14 +29,14 @@ Now that you’re familiar, sit back, relax, put on your headgear, and get ready
 ## Version Bumps (in `[dev]`)
 
 > [!IMPORTANT]
-> For major releases (eg: 12.0.0) or pre-releases (eg: 12.0.0-beta1 or 12.0.0-RC2), switch to: `/trunk/`.
+> For beta-releases (eg: 12.0.0-beta1) and first release candidate, switch to: `/trunk/`.
 
 ```bash
 svn switch https://buddypress.svn.wordpress.org/trunk/
 ```
 
 > [!IMPORTANT]
-> For minor releases (eg: 12.1.0), switch to relative branch: `branches/12.0/`
+> For major, minor and RC > 1 releases (eg: 12.1.0 or 12.0.0-RC2), switch to relative branch: `branches/12.0/`
 
 ```bash
 svn switch https://buddypress.svn.wordpress.org/branches/12.0/
@@ -45,15 +45,15 @@ svn switch https://buddypress.svn.wordpress.org/branches/12.0/
 1. Change version in bp-loader.php (plugin header)
 2. Change version in src/bp-loader.php (plugin header)
 3. Change $this->version (setup_globals()) in class-buddypress.php
-4. Change stable-tag readme.txt (major and minor releases)
-6. Change version in package.json
-7. Use the latest version of npm and: npm install and then npm shrinkwrap
+4. Change version in package.json
+5. Use the latest version of npm and: npm install and then npm shrinkwrap
 
 > [!IMPORTANT]
-> The following two steps are only required when releasing a major or minor version.
+> The following steps are only required when releasing a major or minor version.
 
-1. Change tested-up-to readme.txt
-2. Add “Upgrade Notice” & “Changelog” entries for this version in readme.txt (major and minor releases)
+1. Change stable-tag readme.txt
+2. Change tested-up-to readme.txt
+3. Add “Upgrade Notice” & “Changelog” entries for this version in readme.txt (major and minor releases)
 
 **Commit changes!**
 
@@ -151,8 +151,7 @@ svn ci -m 'Update trunk with X.Y.Z code & create X.Y.Z tag from trunk'
 
 ## Version Bumps (in `[dev]`)
 
-- If it's a major x.0.0 release, bump trunk version numbers to alpha in bp-loader.php (Y.0.0-alpha).
-- Bump relevant branch version numbers to alpha in bp-loader.php (x.1.0-alpha).
+- If it's the first release candidate (eg: 12.0.0-RC1), bump trunk version numbers to alpha in bp-loader.php (14.0.0-alpha).
 - If it's a major or minor release, update `[dev]` trunk's `readme.txt` stable tag and Upgrade/Changelog informations using the `[wporg]` trunk's ones.
 
 🏁 Release built! Great job 👏
