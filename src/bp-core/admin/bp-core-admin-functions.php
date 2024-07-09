@@ -984,32 +984,61 @@ function bp_core_add_contextual_help_content( $tab = '' ) {
  * Add a separator to the WordPress admin menus.
  *
  * @since 1.7.0
+ * @since 14.0.0 Added 'bp_admin_separator' filter.
+ *
+ * @global array $menu
  */
 function bp_admin_separator() {
 
-	// Bail if BuddyPress is not network activated and viewing network admin.
+	// Default to always adding
+	$add = true;
+
+	// Skip if BuddyPress is not network activated and viewing network admin.
 	if ( is_network_admin() && ! bp_is_network_activated() ) {
-		return;
+		$add = false;
 	}
 
-	// Bail if BuddyPress is network activated and viewing site admin.
+	// Skip if BuddyPress is network activated and viewing site admin.
 	if ( ! is_network_admin() && bp_is_network_activated() ) {
-		return;
+		$add = false;
 	}
 
 	// Prevent duplicate separators when no core menu items exist.
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
-		return;
+		$add = false;
 	}
 
-	// Bail if there are no components with admin UI's. Hardcoded for now, until
-	// there's a real API for determining this later.
+	// Bail if there are no components with admin UI's.
 	if ( ! bp_is_active( 'activity' ) && ! bp_is_active( 'groups' ) ) {
+		$add = false;
+	}
+
+	// Force on Site Admin if BuddyPress Core post-types are registered
+	if ( is_blog_admin() && bp_current_user_can( 'bp_moderate' ) ) {
+
+		// See: BP_Core::register_post_types()
+		if ( post_type_exists( bp_get_email_post_type() ) || post_type_exists( 'buddypress' ) ) {
+			$add = true;
+		}
+	}
+
+	/**
+	 * Filters whether a top-level admin menu separator is added.
+	 *
+	 * @since 14.0.0
+	 *
+	 * @param bool $add Default true. May be false if nothing to separate.
+	 */
+	$add = (bool) apply_filters( 'bp_admin_separator', $add );
+
+	// Bail if a separator is not necessary
+	if ( false === $add ) {
 		return;
 	}
 
 	global $menu;
 
+	// Append a separator to the end of the global menu array
 	$menu[] = array( '', 'read', 'separator-buddypress', '', 'wp-menu-separator buddypress' );
 }
 
