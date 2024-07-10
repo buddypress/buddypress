@@ -2552,6 +2552,12 @@ function bp_core_wpsignup_redirect() {
 	} elseif ( $referer ) {
 		$referer_path     = wp_parse_url( $referer, PHP_URL_PATH );
 		$is_site_creation = false !== strpos( $referer_path, 'wp-admin/my-sites.php' );
+	} else {
+		// The WordPress registration setting must allow access.
+		$registration = get_site_option( 'registration' );
+		if ( is_user_logged_in() && in_array( $registration, array( 'blog', 'all' ), true ) ) {
+			$is_site_creation = true;
+		}
 	}
 
 	if ( $is_site_creation ) {
