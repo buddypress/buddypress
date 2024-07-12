@@ -771,6 +771,8 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 * @param WP_Error $expected_error Expected error message.
 	 */
 	public function test_bp_core_validate_user_signup_errors( $user_name, $user_email, $expected_error ) {
+		$this->skipWithMultisite();
+
 		$validate = bp_core_validate_user_signup( $user_name, $user_email );
 
 		$this->assertSame( $user_email, $validate['user_email'] );
