@@ -1734,10 +1734,9 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 		preg_match( '/[0-9]*/', $user_name, $match );
 
 		// Check for valid letters.
-		$letter_match = array();
-		preg_match( '/[a-zA-Z]+/', $user_name, $letter_match );
+		$valid_letters = preg_match( '/[a-zA-Z]+/', $user_name );
 
-		if ( $match[0] == $user_name || empty( $letter_match[0] ) ) {
+		if ( $match[0] == $user_name || ! $valid_letters ) {
 			$errors->add( 'user_name', __( 'Sorry, usernames must have letters too!', 'buddypress' ) );
 		}
 
