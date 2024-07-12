@@ -662,7 +662,6 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	public function test_bp_core_activate_signup_password() {
 		global $wpdb;
 
-
 		$signups = array( 'no-blog' =>
 			array( 'signup_id' => self::factory()->signup->create( array(
 					'user_login'     => 'noblog',
@@ -762,5 +761,40 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		// Assert that user has a role.
 		$user = get_userdata( $user_id );
 		$this->assertNotEmpty( $user->roles );
+	}
+
+	/**
+	 * @dataProvider provider_bp_core_validate_user_signup_errors
+	 *
+	 * @param string $user_name User name to validate.
+	 * @param string $user_email User email to validate.
+	 * @param WP_Error $expected_error Expected error message.
+	 */
+	public function test_bp_core_validate_user_signup_errors( $user_name, $user_email, $expected_error ) {
+		$validate = bp_core_validate_user_signup( $user_name, $user_email );
+
+		$this->assertSame( $user_email, $validate['user_email'] );
+		$this->assertSame( $user_name, $validate['user_name'] );
+		$this->assertSame( $expected_error, $validate['errors']->get_error_message() );
+	}
+
+	/**
+	 * Provider for the test_bp_core_validate_user_signup() test.
+	 *
+	 * @return array[]
+	 */
+	public function provider_bp_core_validate_user_signup_errors() {
+		return array(
+			array( '', 'test@example.com', 'Please enter a username' ),
+			array( '@-t', 'test@example.com', 'Username must be at least 4 characters.' ),
+			array( '@-', 'test@example.com', 'Username must be at least 4 characters.' ),
+			array( '@-@-', 'test@example.com', 'Sorry, usernames must have letters too!' ),
+			array( '4343543', 'test@example.com', 'Sorry, usernames must have letters too!' ),
+			array( 'cool-test', 'example.com', 'Please check your email address.' ),
+			array( 'test&', 'test@example.com', 'Usernames can contain only letters, numbers, ., -, and @' ),
+			array( 'test_', 'test@example.com', 'Sorry, usernames may not contain the character "_"!' ),
+			array( '4te343543', 'test@example.com', '' ),
+			array( 'g4te343543', 'test@example.com', '' ),
+		);
 	}
 }
