@@ -1,6 +1,6 @@
 <?php
 /**
- * Functions related to notifications caching.
+ * BuddyPress Notifications Caching.
  *
  * @package BuddyPress
  * @subpackage NotificationsCache
@@ -24,14 +24,16 @@ defined( 'ABSPATH' ) || exit;
  *                                                notification ids.
  */
 function bp_notifications_update_meta_cache( $notification_ids = false ) {
-	bp_update_meta_cache( array(
-		'object_ids'       => $notification_ids,
-		'object_type'      => buddypress()->notifications->id,
-		'cache_group'      => 'notification_meta',
-		'object_column'    => 'notification_id',
-		'meta_table'       => buddypress()->notifications->table_name_meta,
-		'cache_key_prefix' => 'bp_notifications_meta',
-	) );
+	bp_update_meta_cache(
+		array(
+			'object_ids'       => $notification_ids,
+			'object_type'      => buddypress()->notifications->id,
+			'cache_group'      => 'notification_meta',
+			'object_column'    => 'notification_id',
+			'meta_table'       => buddypress()->notifications->table_name_meta,
+			'cache_key_prefix' => 'bp_notifications_meta',
+		)
+	);
 }
 
 /**
@@ -97,7 +99,7 @@ function bp_notifications_clear_all_for_user_cache_before_update( $update_args, 
 	if ( ! empty( $where_args['user_id'] ) ) {
 		bp_notifications_clear_all_for_user_cache( $where_args['user_id'] );
 
-	// Get user ID from Notification ID.
+		// Get user ID from Notification ID.
 	} elseif ( ! empty( $where_args['id'] ) ) {
 		$n = bp_notifications_get_notification( $where_args['id'] );
 		bp_notifications_clear_all_for_user_cache( $n->user_id );
@@ -113,8 +115,8 @@ function bp_notifications_clear_all_for_user_cache_before_update( $update_args, 
 
 		$ns = BP_Notifications_Notification::get(
 			array(
-				'id'      => $ids,
-				'is_new'  => $is_new,
+				'id'     => $ids,
+				'is_new' => $is_new,
 			)
 		);
 
