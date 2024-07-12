@@ -1710,7 +1710,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 		// User name can't be on the list of illegal names.
 		$illegal_names = get_site_option( 'illegal_names' );
-		if ( in_array( $user_name, (array) $illegal_names ) ) {
+		if ( in_array( $user_name, (array) $illegal_names, true ) ) {
 			$errors->add( 'user_name', __( 'That username is not allowed.', 'buddypress' ) );
 		}
 
@@ -1722,6 +1722,11 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 		// Minimum of 4 characters.
 		if ( strlen( $user_name ) < 4 ) {
 			$errors->add( 'user_name', __( 'Username must be at least 4 characters.', 'buddypress' ) );
+		}
+
+		// Maximum of 60 characters.
+		if ( strlen( $user_name ) > 60 ) {
+			$errors->add( 'user_name', __( 'Username may not be longer than 60 characters.', 'buddypress' ) );
 		}
 
 		// No underscores. @todo Why not?
@@ -1736,7 +1741,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 		// Check for valid letters.
 		$valid_letters = preg_match( '/[a-zA-Z]+/', $user_name );
 
-		if ( $match[0] == $user_name || ! $valid_letters ) {
+		if ( $match[0] === $user_name || ! $valid_letters ) {
 			$errors->add( 'user_name', __( 'Sorry, usernames must have letters too!', 'buddypress' ) );
 		}
 
