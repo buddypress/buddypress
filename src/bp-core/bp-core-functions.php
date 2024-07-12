@@ -5027,7 +5027,7 @@ function bp_get_deprecated_functions_versions() {
 	}
 
 	$index_initial_version = array_search( $initial_version, $latest_deprecated_functions_versions, true );
-	if ( false !== $index_initial_version ) {
+	if ( false !== $index_initial_version && 12.0 !== $initial_version ) {
 		unset( $latest_deprecated_functions_versions[ $index_initial_version ] );
 	}
 
