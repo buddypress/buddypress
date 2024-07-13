@@ -958,6 +958,10 @@ class BP_Members_Admin {
 	 * @since 6.0.0 The `delete_avatar` action is now managed into this method.
 	 */
 	public function user_admin_load() {
+		$bp = buddypress();
+
+		// Traces the current BP Admin screen.
+		$bp->admin->trace_current_screen();
 
 		// Get the user ID.
 		$user_id = $this->get_user_id();

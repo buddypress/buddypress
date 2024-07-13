@@ -5250,3 +5250,25 @@ function bp_core_get_admin_notifications() {
 
 	return $admin_notifications;
 }
+
+/**
+ * Checks whether a BuddyPress admin screen is displayed.
+ *
+ * @since 15.0.0
+ *
+ * @param string $screen_id The specific screen ID to check.
+ * @return boolean True if a BuddyPress admin screen is displayed. False otherwise.
+ */
+function bp_is_admin( $screen_id = '' ) {
+	$bp = buddypress();
+
+	if ( ! isset( $bp->admin->current_screen ) ) {
+		return false;
+	}
+
+	if ( ! $screen_id ) {
+		return ! empty( $bp->admin->current_screen );
+	}
+
+	return $screen_id === $bp->admin->current_screen;
+}
