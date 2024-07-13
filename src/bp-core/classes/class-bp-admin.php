@@ -1142,7 +1142,7 @@ class BP_Admin {
 			</h3>
 			<ul class="wp-people-group " id="wp-people-group-noteworthy">
 				<li class="wp-person" id="wp-person-shailu25">
-					<a class="web" href="https://profiles.wordpress.org/shailu25/"><img alt="" class="gravatar" src="//gravatar.com/avatar/2d450f193322c17d2138386e45c8ffbf?s=120">
+					<a class="web" href="https://profiles.wordpress.org/shailu25/"><img alt="" class="gravatar" src="//gravatar.com/avatar/898d977196c2e4f5db4aab41edf1f5ad?s=120">
 					Shail Mehta</a>
 				</li>
 				<li class="wp-person" id="wp-person-niftythree">
