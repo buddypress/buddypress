@@ -2839,7 +2839,7 @@ function bp_get_group_type_tax_labels() {
 			'back_to_items'                 => _x( '&larr; Back to Group Types', 'Group type taxonomy back to items label', 'buddypress' ),
 
 			// Specific to BuddyPress.
-			'bp_type_id_label'              => _x( 'Group Type ID', 'BP Member type ID label', 'buddypress' ),
+			'bp_type_id_label'              => _x( 'Group Type ID (required)', 'BP Member type ID label', 'buddypress' ),
 			'bp_type_id_description'        => _x( 'Lower-case string, no spaces or special characters. Used to identify the group type.', 'BP Group type ID description', 'buddypress' ),
 			'bp_type_show_in_create_screen' => _x( 'Show on Group Creation', 'BP Group type show in create screen', 'buddypress' ),
 			'bp_type_show_in_list'          => _x( 'Show on Group', 'BP Group type show in list', 'buddypress' ),
