@@ -1357,7 +1357,15 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 	 *
 	 * @since 1.0.0
 	 */
+	/** This action is documented in wp-signup.php */
 	do_action( 'signup_finished' );
+
+	/**
+	 * Fires after the default successful blog registration message markup.
+	 *
+	 * @since 15.0.0
+	 */
+	do_action( 'bp_created_blog' );
 }
 
 /**
