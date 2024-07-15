@@ -56,7 +56,7 @@ function bp_rest_api_is_available() {
 	 *
 	 * @param boolean $value True if the BP REST API is available. False otherwise.
 	 */
-	return apply_filters( 'bp_rest_api_is_available', bp_rest_in_buddypress() ) || bp_rest_is_plugin_active();
+	return apply_filters( 'bp_rest_api_is_available', true );
 }
 
 /**

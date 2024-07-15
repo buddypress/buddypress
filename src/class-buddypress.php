@@ -699,10 +699,10 @@ class BuddyPress {
 		// These classes don't have a name that matches their component.
 		$irregular_map = array(
 			'BP_Akismet'                                 => 'activity',
-			'BP_REST_Activity_Endpoint'                  => 'activity',
+			'BP_REST_Activity_V1_Controller'             => 'activity',
 
-			'BP_REST_Blogs_Endpoint'                     => 'blogs',
-			'BP_REST_Attachments_Blog_Avatar_Endpoint'   => 'blogs',
+			'BP_REST_Blogs_V1_Controller'                     => 'blogs',
+			'BP_REST_Attachments_Blog_Avatar_V1_Controller'   => 'blogs',
 
 			'BP_Admin'                                   => 'core',
 			'BP_Attachment_Avatar'                       => 'core',
@@ -731,42 +731,42 @@ class BuddyPress {
 			'BP_Walker_Nav_Menu'                         => 'core',
 			'BP_Invitation_Manager'                      => 'core',
 			'BP_Invitation'                              => 'core',
-			'BP_REST_Components_Endpoint'                => 'core',
+			'BP_REST_Components_V1_Controller'           => 'core',
 			'BP_REST_Attachments'                        => 'core',
 			'BP_Admin_Types'                             => 'core',
 			'BP_Optout'                                  => 'core',
 			'BP_Optouts_List_Table'                      => 'core',
 
-			'BP_REST_Friends_Endpoint'                   => 'friends',
+			'BP_REST_Friends_V1_Controller'                   => 'friends',
 
 			'BP_Group_Extension'                         => 'groups',
 			'BP_Group_Member_Query'                      => 'groups',
-			'BP_REST_Groups_Endpoint'                    => 'groups',
-			'BP_REST_Group_Membership_Endpoint'          => 'groups',
-			'BP_REST_Group_Invites_Endpoint'             => 'groups',
-			'BP_REST_Group_Membership_Request_Endpoint'  => 'groups',
-			'BP_REST_Attachments_Group_Avatar_Endpoint'  => 'groups',
-			'BP_REST_Attachments_Group_Cover_Endpoint'   => 'groups',
+			'BP_REST_Groups_V1_Controller'                    => 'groups',
+			'BP_REST_Group_Membership_V1_Controller'          => 'groups',
+			'BP_REST_Group_Invites_V1_Controller'             => 'groups',
+			'BP_REST_Group_Membership_Request_V1_Controller'  => 'groups',
+			'BP_REST_Attachments_Group_Avatar_V1_Controller'  => 'groups',
+			'BP_REST_Attachments_Group_Cover_V1_Controller'   => 'groups',
 
 			'BP_Core_Members_Template'                   => 'members',
 			'BP_Registration_Theme_Compat'               => 'members',
 			'BP_Signup'                                  => 'members',
-			'BP_REST_Members_Endpoint'                   => 'members',
-			'BP_REST_Attachments_Member_Avatar_Endpoint' => 'members',
-			'BP_REST_Attachments_Member_Cover_Endpoint'  => 'members',
-			'BP_REST_Signup_Endpoint'                    => 'members',
+			'BP_REST_Members_V1_Controller'                   => 'members',
+			'BP_REST_Attachments_Member_Avatar_V1_Controller' => 'members',
+			'BP_REST_Attachments_Member_Cover_V1_Controller'  => 'members',
+			'BP_REST_Signup_V1_Controller'                    => 'members',
 			'BP_Members_Invitation_Manager'              => 'members',
 			'BP_Members_Invitations_Template'            => 'members',
 			'BP_Members_Invitations_Component'           => 'members',
 
-			'BP_REST_Messages_Endpoint'                  => 'messages',
-			'BP_REST_Sitewide_Notices_Endpoint'          => 'messages',
+			'BP_REST_Messages_V1_Controller'                  => 'messages',
+			'BP_REST_Sitewide_Notices_V1_Controller'          => 'messages',
 
-			'BP_REST_Notifications_Endpoint'             => 'notifications',
+			'BP_REST_Notifications_V1_Controller'             => 'notifications',
 
-			'BP_REST_XProfile_Fields_Endpoint'           => 'xprofile',
-			'BP_REST_XProfile_Field_Groups_Endpoint'     => 'xprofile',
-			'BP_REST_XProfile_Data_Endpoint'             => 'xprofile',
+			'BP_REST_XProfile_Fields_V1_Controller'           => 'xprofile',
+			'BP_REST_XProfile_Field_Groups_V1_Controller'     => 'xprofile',
+			'BP_REST_XProfile_Data_V1_Controller'             => 'xprofile',
 		);
 
 		$component = null;

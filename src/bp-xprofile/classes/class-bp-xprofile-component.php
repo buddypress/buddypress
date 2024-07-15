@@ -404,11 +404,13 @@ class BP_XProfile_Component extends BP_Component {
 	 *                           description.
 	 */
 	public function rest_api_init( $controllers = array() ) {
-		parent::rest_api_init( array(
-			'BP_REST_XProfile_Fields_Endpoint',
-			'BP_REST_XProfile_Field_Groups_Endpoint',
-			'BP_REST_XProfile_Data_Endpoint',
-		) );
+		parent::rest_api_init(
+			array(
+				'BP_REST_XProfile_Fields_V1_Controller',
+				'BP_REST_XProfile_Field_Groups_V1_Controller',
+				'BP_REST_XProfile_Data_V1_Controller',
+			)
+		);
 	}
 
 	/**

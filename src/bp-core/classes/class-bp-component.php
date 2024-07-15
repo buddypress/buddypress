@@ -529,6 +529,7 @@ class BP_Component {
 				);
 
 				foreach ( $paths as $path ) {
+
 					if ( @is_file( $slashed_path . $path ) ) {
 						require $slashed_path . $path;
 						break;
@@ -621,9 +622,7 @@ class BP_Component {
 		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
 
 		// Register BP REST Endpoints.
-		if ( bp_rest_in_buddypress() && bp_rest_api_is_available() ) {
-			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
-		}
+		add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
 
 		// Register BP Blocks.
 		if ( bp_support_blocks() ) {
@@ -1423,6 +1422,10 @@ class BP_Component {
 				if ( ! in_array( $controller, $_controllers, true ) ) {
 					continue;
 				}
+
+				/*if ( ! class_exists( $controller ) ) {
+					continue;
+				}*/
 
 				$component_controller = new $controller();
 				$component_controller->register_routes();

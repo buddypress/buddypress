@@ -454,8 +454,8 @@ class BP_Messages_Component extends BP_Component {
 	public function rest_api_init( $controllers = array() ) {
 		parent::rest_api_init(
 			array(
-				'BP_REST_Messages_Endpoint',
-				'BP_REST_Sitewide_Notices_Endpoint',
+				'BP_REST_Messages_V1_Controller',
+				'BP_REST_Sitewide_Notices_V1_Controller',
 			)
 		);
 	}
