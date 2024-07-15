@@ -1353,7 +1353,7 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 	bp_get_template_part( 'blogs/confirm', null, $args );
 
 	/**
-	 * Fires after the default successful blog registration message markup.
+	 * Fires after a successful blog registration.
 	 *
 	 * @since 1.0.0
 	 */
@@ -1361,11 +1361,13 @@ function bp_blogs_confirm_blog_signup( $domain, $path, $blog_title, $user_name, 
 	do_action( 'signup_finished' );
 
 	/**
-	 * Fires after the default successful blog registration message markup.
+	 * Fires after a successful blog registration.
 	 *
 	 * @since 15.0.0
+	 *
+	 * @param int|null $blog_id ID of the newly created blog.
 	 */
-	do_action( 'bp_created_blog' );
+	do_action( 'bp_created_blog', $blog_id );
 }
 
 /**
