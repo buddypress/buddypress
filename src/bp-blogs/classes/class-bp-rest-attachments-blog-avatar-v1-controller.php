@@ -17,7 +17,7 @@ class BP_REST_Attachments_Blog_Avatar_V1_Controller extends WP_REST_Controller {
 	use BP_REST_Attachments;
 
 	/**
-	 * Reuse some parts of the BP_REST_Blogs_Endpoint class.
+	 * Reuse some parts of the BP_REST_Blogs_V1_Controller class.
 	 *
 	 * @since 6.0.0
 	 *
