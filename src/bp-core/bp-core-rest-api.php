@@ -3,7 +3,7 @@
  * Core REST API functions.
  *
  * @package BuddyPress
- * @subpackage Core
+ * @subpackage Blogs
  * @since 5.0.0
  */
 

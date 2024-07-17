@@ -5,6 +5,7 @@
  * @package BuddyPress
  * @group signup
  * @group signups
+ * @group members
  */
 class BP_Test_REST_Signup_V1_Controller extends WP_Test_REST_Controller_Testcase {
 	protected $endpoint;
@@ -19,6 +20,7 @@ class BP_Test_REST_Signup_V1_Controller extends WP_Test_REST_Controller_Testcase
 		if ( is_multisite() ) {
 			$this->signup_allowed = get_site_option( 'registration' );
 			update_site_option( 'registration', 'all' );
+			bp_update_option( 'users_can_register', 1 );
 		} else {
 			$this->signup_allowed = bp_get_option( 'users_can_register' );
 			bp_update_option( 'users_can_register', 1 );
@@ -29,7 +31,7 @@ class BP_Test_REST_Signup_V1_Controller extends WP_Test_REST_Controller_Testcase
 		$this->endpoint     = new BP_REST_Signup_V1_Controller();
 		$this->bp           = new BP_UnitTestCase();
 		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/signup';
-		$this->user         = static::factory()->user->create(
+		$user               = static::factory()->user->create_and_get(
 			array(
 				'role'       => 'administrator',
 				'user_email' => 'admin@example.com',
@@ -37,8 +39,12 @@ class BP_Test_REST_Signup_V1_Controller extends WP_Test_REST_Controller_Testcase
 			)
 		);
 
+		$this->user = $user->ID;
+
 		if ( is_multisite() ) {
 			grant_super_admin( $this->user );
+
+			$user->add_cap( 'manage_network_users' );
 		}
 
 		$this->signup_id = $this->create_signup();

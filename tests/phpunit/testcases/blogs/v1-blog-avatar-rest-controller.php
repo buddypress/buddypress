@@ -53,7 +53,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_V1_Controller extends WP_Test_REST_Co
 
 		$this->bp::set_current_user( $u );
 
-		$blog_id = $this->bp::factory()->blog->create();
+		$blog_id = self::factory()->blog->create();
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
 		$request->set_param( 'context', 'view' );
@@ -72,7 +72,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_V1_Controller extends WP_Test_REST_Co
 
 		toggle_component_visibility();
 
-		$blog_id = $this->bp::factory()->blog->create();
+		$blog_id = self::factory()->blog->create();
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
@@ -95,7 +95,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_V1_Controller extends WP_Test_REST_Co
 
 		$this->bp::set_current_user( $u );
 
-		$blog_id = $this->bp::factory()->blog->create();
+		$blog_id = self::factory()->blog->create();
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
 		$request->set_param( 'context', 'view' );
@@ -117,7 +117,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_V1_Controller extends WP_Test_REST_Co
 
 		$this->bp::set_current_user( $u );
 
-		$blog_id = $this->bp::factory()->blog->create();
+		$blog_id = self::factory()->blog->create();
 		$expected = array(
 			'full'  => bp_get_blog_avatar( array( 'blog_id' => $blog_id, 'html' => false, 'type' => 'full' ) ),
 			'thumb' => bp_get_blog_avatar( array( 'blog_id' => $blog_id, 'html' => false, 'type' => 'thumb' ) ),
@@ -145,7 +145,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_V1_Controller extends WP_Test_REST_Co
 
 		$this->bp::set_current_user( $u );
 
-		$blog_id = $this->bp::factory()->blog->create( array( 'meta' => array( 'public' => 1 ) ) );
+		$blog_id = self::factory()->blog->create( array( 'meta' => array( 'public' => 1 ) ) );
 
 		$this->bp::set_current_user( $current_user );
 
@@ -208,7 +208,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_V1_Controller extends WP_Test_REST_Co
 	public function test_get_item_schema() {
 		$this->skipWithoutMultisite();
 
-		$blog_id = $this->bp::factory()->blog->create();
+		$blog_id = self::factory()->blog->create();
 
 		// Single.
 		$request    = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
@@ -224,7 +224,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_V1_Controller extends WP_Test_REST_Co
 	public function test_context_param() {
 		$this->skipWithoutMultisite();
 
-		$blog_id = $this->bp::factory()->blog->create();
+		$blog_id = self::factory()->blog->create();
 
 		// Single.
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );

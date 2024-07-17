@@ -1423,9 +1423,17 @@ class BP_Component {
 					continue;
 				}
 
-				/*if ( ! class_exists( $controller ) ) {
-					continue;
-				}*/
+				if ( ! class_exists( $controller ) ) {
+					_doing_it_wrong(
+						__METHOD__,
+						sprintf(
+							// translators: %s: REST API controller class name.
+							esc_html__( 'The REST API controller class %s does not exist.', 'buddypress' ),
+							esc_attr( $controller )
+						),
+						'15.0.0'
+					);
+				}
 
 				$component_controller = new $controller();
 				$component_controller->register_routes();

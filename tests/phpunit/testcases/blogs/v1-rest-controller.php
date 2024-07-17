@@ -47,7 +47,7 @@ class BP_Test_REST_Blogs_V1_Controller extends WP_Test_REST_Controller_Testcase 
 
 		$this->bp::set_current_user( $this->admin );
 
-		$this->bp::factory()->blog->create_many( 2 );
+		self::factory()->blog->create_many( 2 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -72,7 +72,7 @@ class BP_Test_REST_Blogs_V1_Controller extends WP_Test_REST_Controller_Testcase 
 
 		$this->bp::set_current_user( $this->admin );
 
-		$blog_id = $this->bp::factory()->blog->create(
+		$blog_id = self::factory()->blog->create(
 			array( 'title' => 'The Foo Bar Blog' )
 		);
 
@@ -98,7 +98,7 @@ class BP_Test_REST_Blogs_V1_Controller extends WP_Test_REST_Controller_Testcase 
 
 		toggle_component_visibility();
 
-		$blog_id = $this->bp::factory()->blog->create(
+		$blog_id = self::factory()->blog->create(
 			array( 'title' => 'The Foo Bar Blog' )
 		);
 
@@ -130,7 +130,7 @@ class BP_Test_REST_Blogs_V1_Controller extends WP_Test_REST_Controller_Testcase 
 
 		$this->bp::set_current_user( $this->admin );
 
-		$blog_id = $this->bp::factory()->blog->create(
+		$blog_id = self::factory()->blog->create(
 			[
 				'title'  => 'The Foo Bar Blog',
 				'domain' => 'foo-bar',
@@ -176,7 +176,7 @@ class BP_Test_REST_Blogs_V1_Controller extends WP_Test_REST_Controller_Testcase 
 		$this->bp::set_current_user( $this->admin );
 
 		$subdomain = 'cool-site.foo-bar';
-		$blog_id   = $this->bp::factory()->blog->create(
+		$blog_id   = self::factory()->blog->create(
 			[
 				'title'  => 'The Foo Bar Blog',
 				'domain' => $subdomain,
@@ -220,7 +220,8 @@ class BP_Test_REST_Blogs_V1_Controller extends WP_Test_REST_Controller_Testcase 
 	public function test_create_item() {
 		$this->skipWithoutMultisite();
 
-		$old_settings = $settings = buddypress()->site_options;
+		$settings     = buddypress()->site_options;
+		$old_settings = $settings;
 
 		if ( ! is_array( $settings ) ) {
 			$settings = array();
@@ -380,7 +381,7 @@ class BP_Test_REST_Blogs_V1_Controller extends WP_Test_REST_Controller_Testcase 
 		$u = $this->bp::factory()->user->create();
 		$this->bp::set_current_user( $u );
 
-		$blog_id = $this->bp::factory()->blog->create(
+		$blog_id = self::factory()->blog->create(
 			array(
 				'title'   => 'The Foo Bar Blog',
 				'user_id' => $u,

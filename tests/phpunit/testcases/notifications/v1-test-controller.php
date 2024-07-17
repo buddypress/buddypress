@@ -268,7 +268,7 @@ class BP_Test_REST_Notifications_V1_Controller extends WP_Test_REST_Controller_T
 
 		$this->bp::set_current_user( $this->user );
 
-		$blog_id = $this->bp::factory()->blog->create(
+		$blog_id = self::factory()->blog->create(
 			array( 'title' => $blog_title )
 		);
 
