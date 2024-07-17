@@ -622,7 +622,9 @@ class BP_Component {
 		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
 
 		// Register BP REST Endpoints.
-		add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
+		if ( bp_rest_api_is_available() ) {
+			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
+		}
 
 		// Register BP Blocks.
 		if ( bp_support_blocks() ) {

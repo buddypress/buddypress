@@ -11,34 +11,6 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Is the BP REST plugin is active?
- *
- * @since 5.0.0
- *
- * @return bool True if the BP REST plugin is active. False otherwise.
- */
-function bp_rest_is_plugin_active() {
-	return (bool) has_action( 'bp_rest_api_init', 'bp_rest' );
-}
-
-/**
- * Should we use the REST Endpoints of built BuddyPress?
- *
- * If the BP REST plugin is active, it overrides BuddyPress REST enpoints.
- * This allows us to carry on maintaining all the BP REST API endpoints from
- * the BP REST plugin on GitHub.
- *
- * @since 5.0.0
- *
- * @return bool Whether to use the REST Endpoints of built BuddyPress.
- */
-function bp_rest_in_buddypress() {
-	$is_src = defined( 'BP_SOURCE_SUBDIRECTORY' ) && BP_SOURCE_SUBDIRECTORY === 'src';
-
-	return ! $is_src && ! bp_rest_is_plugin_active();
-}
-
-/**
  * Check the availability of the BP REST API.
  *
  * @since 5.0.0
@@ -53,8 +25,9 @@ function bp_rest_api_is_available() {
 	 * The BP REST API requires at least WordPress 4.7.0.
 	 *
 	 * @since 5.0.0
+	 * @since 15.0.0 The API is available by default.
 	 *
-	 * @param boolean $value True if the BP REST API is available. False otherwise.
+	 * @param bool $api_available True if the BP REST API is available. False otherwise.
 	 */
 	return apply_filters( 'bp_rest_api_is_available', true );
 }
@@ -199,7 +172,7 @@ function bp_rest_prepare_date_response( $date_gmt, $date = null ) {
  * @since 5.0.0
  *
  * @param string $value Comma-separated list of group types.
- * @return array|null
+ * @return array|null|string
  */
 function bp_rest_sanitize_member_types( $value ) {
 	if ( empty( $value ) ) {
@@ -211,7 +184,7 @@ function bp_rest_sanitize_member_types( $value ) {
 	$registered_types[] = 'any';
 	$valid_types        = array_intersect( $types, $registered_types );
 
-	return ( ! empty( $valid_types ) ) ? $valid_types : null;
+	return ! empty( $valid_types ) ? $valid_types : null;
 }
 
 /**
@@ -245,6 +218,8 @@ function bp_rest_validate_member_types( $value ) {
 			);
 		}
 	}
+
+	return true;
 }
 
 /**
@@ -294,6 +269,8 @@ function bp_rest_validate_group_types( $value ) {
 			);
 		}
 	}
+
+	return true;
 }
 
 /**

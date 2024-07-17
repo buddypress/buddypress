@@ -462,11 +462,7 @@ class BP_Test_REST_Members_V1_Controller extends WP_Test_REST_Controller_Testcas
 		bp_update_user_last_activity( $u1, $date_last_activity );
 
 		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u1 ) );
-		$request->set_query_params(
-			array(
-				'populate_extras' => true,
-			)
-		);
+		$request->set_query_params( array( 'populate_extras' => true ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );

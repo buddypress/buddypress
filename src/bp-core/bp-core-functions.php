@@ -4965,6 +4965,7 @@ function bp_get_deprecated_functions_versions() {
 		11.0,
 		12.0,
 		14.0,
+		15.0,
 	);
 
 	/*
@@ -4985,29 +4986,31 @@ function bp_get_deprecated_functions_versions() {
 
 	/*
 	 * If the constant is not defined, put our logic in place so that only the
-	 * 2 last versions deprecated functions will be loaded for upgraded installs.
+	 * 2 last versions deprecated functions will be loaded for upgraded installations.
 	 */
 	$initial_version        = (float) bp_get_initial_version();
 	$current_major_version  = (float) bp_get_major_version( bp_get_version() );
 	$load_latest_deprecated = $initial_version < $current_major_version;
 
-	// New installs.
+	// New installations.
 	if ( ! $load_latest_deprecated ) {
 		// Run some additional checks if PHPUnit is running.
 		if ( defined( 'BP_TESTS_DIR' ) ) {
 			$deprecated_files = array_filter(
 				array_map(
-					function( $file ) {
-						if ( false !== strpos( $file, '.php' ) ) {
+					function ( $file ) {
+						if ( str_contains( $file, '.php' ) ) {
 							return (float) str_replace( '.php', '', $file );
-						};
+						}
+
+						return null;
 					},
 					scandir( buddypress()->plugin_dir . 'bp-core/deprecated' )
 				)
 			);
 
 			if ( array_diff( $deprecated_files, $deprecated_functions_versions ) ) {
-				return false;
+				return array();
 			}
 		}
 

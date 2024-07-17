@@ -898,13 +898,13 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		$versions = bp_get_deprecated_functions_versions();
 
-		$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when 12.1.1 was the first installed version.' );
+		$this->assertSame( $versions, array( 12.0 ), '12.0 deprecated functions should be loaded when 12.1.1 was the first installed version.' );
 
 		$this->bp_initial_version = '9.0';
 
 		$versions = bp_get_deprecated_functions_versions();
 
-		$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when 12.0 was updated for a minor release' );
+		$this->assertSame( $versions, array( 14.0, 15.0 ), '14.0 deprecated functions should be loaded when 14.0 was updated for a minor release' );
 
 		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
 
