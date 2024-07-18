@@ -3,7 +3,7 @@
  * Core REST API functions.
  *
  * @package BuddyPress
- * @subpackage Blogs
+ * @subpackage Core
  * @since 5.0.0
  */
 
@@ -25,7 +25,7 @@ function bp_rest_api_is_available() {
 	 * The BP REST API requires at least WordPress 4.7.0.
 	 *
 	 * @since 5.0.0
-	 * @since 15.0.0 The API is available by default.
+	 * @since 15.0.0 The REST API is available by default.
 	 *
 	 * @param bool $api_available True if the BP REST API is available. False otherwise.
 	 */
