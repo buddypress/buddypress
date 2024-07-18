@@ -110,7 +110,7 @@ Once node modules are installed, if you plan to run/write PHP unit tests, you’
 composer install
 ```
 
-You should see that your `~/Plugins/buddypress` directory now contains 1 or 2 more sub directories: `/node_modules` and `/vendor` if you installed the composer packages.
+You should see that your `~/Plugins/buddypress` directory now contains 1 or 2 more subdirectories: `/node_modules` and `/vendor` if you installed the composer packages.
 
 ![Check installs](../assets/code-003-install-tools.png)
 
@@ -120,9 +120,8 @@ Now we can setup the local development environment using this command:
 npm run wp-env start
 ```
 
-The first time you’ll execute this command it will take some time to run and you’ll see that 2 downloads will start:
+The first time you’ll execute this command it will take some time to run, and you’ll see that the following download will start:
 
-- [BP REST](https://github.com/buddypress/BP-REST): it’s the plugin we use to develop the BP REST API.
 - [WordPress](https://core.trac.wordpress.org/browser/trunk): it’s the WordPress development version.
 
 Wait until the Terminal displays the following message:
@@ -175,7 +174,7 @@ npm run test-php-multisite
 
 ### Customizing your BuddyPress local development environment
 
-To develop BuddyPress we use the development version of [WordPress](https://core.trac.wordpress.org/browser/trunk), the development version of the [BP REST API](https://github.com/buddypress/BP-REST) and we set two debugging constants:
+To develop BuddyPress we use the development version of [WordPress](https://core.trac.wordpress.org/browser/trunk), and we set two debugging constants:
 
 ```php
 define( 'WP_DEBUG', true );
@@ -189,7 +188,7 @@ For instance, you could choose to include another plugin like the one we use to 
 ```json
 {
 	"core": "WordPress/WordPress#master",
-	"plugins": [ ".", "buddypress/BP-REST#master", "buddypress/bp-classic#trunk" ],
+	"plugins": [ ".", "buddypress/bp-classic#trunk" ],
 	"config": {
 		"WP_DEBUG": true,
 		"SCRIPT_DEBUG": true
@@ -205,7 +204,7 @@ For your information, the WordPress core contributor handbook includes [great tu
 
 ## Patching BuddyPress
 
-Let’s work with a real bug example (It might has been fixed when you’ll read this page!) to understand how to suggest a fix to the BuddyPress development team. First, open the `~/Plugins/buddypress` directory into your favorite code editor.
+Let’s work with a real bug example (It might have been fixed when you’ll read this page!) to understand how to suggest a fix to the BuddyPress development team. First, open the `~/Plugins/buddypress` directory into your favorite code editor.
 
 ![BP in VSCode](../assets/code-004-vscode-bp.png)
 
