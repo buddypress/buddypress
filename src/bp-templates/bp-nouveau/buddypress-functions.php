@@ -696,7 +696,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * @deprecated 12.0.0
 	 *
 	 * @param  string $path The BP Uri.
-	 * @return string       The BP Uri.
+	 * @return string
 	 */
 	public function customizer_set_uri( $path ) {
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -707,18 +707,18 @@ class BP_Nouveau extends BP_Theme_Compat {
 
 		$uri = wp_parse_url( $path );
 
-		if ( false === strpos( $uri['path'], 'customize.php' ) ) {
+		if ( ! str_contains( $uri['path'], 'customize.php' ) || empty( $uri['query'] ) ) {
 			return $path;
-		} else {
-			$vars = bp_parse_args(
-				$uri['query'],
-				array(),
-				'customizer_set_uri'
-			);
+		}
 
-			if ( ! empty( $vars['url'] ) ) {
-				$path = str_replace( get_site_url(), '', urldecode( $vars['url'] ) );
-			}
+		$vars = bp_parse_args(
+			$uri['query'],
+			array(),
+			'customizer_set_uri'
+		);
+
+		if ( ! empty( $vars['url'] ) ) {
+			$path = str_replace( get_site_url(), '', urldecode( $vars['url'] ) );
 		}
 
 		return $path;
