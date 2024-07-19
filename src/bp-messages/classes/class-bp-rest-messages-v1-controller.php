@@ -844,7 +844,7 @@ class BP_REST_Messages_V1_Controller extends WP_REST_Controller {
 	 */
 	public function prepare_message_for_response( $message, $request ) {
 		$user         = bp_rest_get_user( $message->sender_id );
-		$deleted_user = ( ! $user instanceof WP_User );
+		$deleted_user = ! $user instanceof WP_User;
 		$content      = $deleted_user
 			? esc_html__( '[deleted]', 'buddypress' )
 			: $message->message;

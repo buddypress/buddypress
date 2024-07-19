@@ -351,7 +351,11 @@ class BP_Test_REST_Messages_V1_Controller extends WP_Test_REST_Controller_Testca
 		) );
 
 		// Delete user.
-		wp_delete_user( $deleted_user );
+		if ( is_multisite() ) {
+			wpmu_delete_user( $deleted_user );
+		} else {
+			wp_delete_user( $deleted_user );
+		}
 
 		$this->bp::set_current_user( $u1 );
 
@@ -376,6 +380,7 @@ class BP_Test_REST_Messages_V1_Controller extends WP_Test_REST_Controller_Testca
 		$this->assertStringContainsString( '<p>[deleted]</p>', $all_data['message']['rendered'] );
 		$this->assertStringContainsString( '[deleted]', $all_data['excerpt']['rendered'] );
 		$this->assertTrue( $deleted_recipient[0] );
+		$this->assertCount( 2, $all_data['recipients'] );
 	}
 
 	/**
