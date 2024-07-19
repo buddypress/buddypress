@@ -198,14 +198,20 @@ function bp_message_thread_excerpt() {
 	function bp_get_message_thread_excerpt() {
 		global $messages_template;
 
+		$last_message_excerpt = wp_strip_all_tags( bp_create_excerpt( $messages_template->thread->last_message_content, 75 ) );
+
+		if ( false === bp_core_get_core_userdata( bp_get_the_thread_message_sender_id() ) ) {
+			$last_message_excerpt = esc_html__( '[deleted]', 'buddypress' );
+		}
+
 		/**
 		 * Filters the excerpt of the current thread in the loop.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value Excerpt of the current thread in the loop.
+		 * @param string $last_message_excerpt Excerpt of the current thread in the loop.
 		 */
-		return apply_filters( 'bp_get_message_thread_excerpt', wp_strip_all_tags( bp_create_excerpt( $messages_template->thread->last_message_content, 75 ) ) );
+		return apply_filters( 'bp_get_message_thread_excerpt', $last_message_excerpt );
 	}
 
 /**
@@ -242,6 +248,12 @@ function bp_message_thread_content() {
 	function bp_get_message_thread_content() {
 		global $messages_template;
 
+		$last_message_content = $messages_template->thread->last_message_content;
+
+		if ( false === bp_core_get_core_userdata( bp_get_the_thread_message_sender_id() ) ) {
+			$last_message_content = esc_html__( '[deleted]', 'buddypress' );
+		}
+
 		/**
 		 * Filters the content of the last message in the thread.
 		 *
@@ -249,7 +261,7 @@ function bp_message_thread_content() {
 		 *
 		 * @param string $last_message_content Content of the last message in the thread.
 		 */
-		return apply_filters( 'bp_get_message_thread_content', $messages_template->thread->last_message_content );
+		return apply_filters( 'bp_get_message_thread_content', $last_message_content );
 	}
 
 /**
