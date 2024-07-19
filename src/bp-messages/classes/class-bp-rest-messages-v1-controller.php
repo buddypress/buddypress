@@ -843,6 +843,12 @@ class BP_REST_Messages_V1_Controller extends WP_REST_Controller {
 	 * @return array The Message data for the REST response.
 	 */
 	public function prepare_message_for_response( $message, $request ) {
+		$user         = bp_rest_get_user( $message->sender_id );
+		$deleted_user = ( ! $user instanceof WP_User );
+		$content      = $deleted_user
+			? esc_html__( '[deleted]', 'buddypress' )
+			: $message->message;
+
 		$data = array(
 			'id'        => (int) $message->id,
 			'thread_id' => (int) $message->thread_id,
@@ -853,7 +859,7 @@ class BP_REST_Messages_V1_Controller extends WP_REST_Controller {
 			),
 			'message'   => array(
 				'raw'      => $message->message,
-				'rendered' => apply_filters( 'bp_get_the_thread_message_content', $message->message ),
+				'rendered' => apply_filters( 'bp_get_the_thread_message_content', $content ),
 			),
 			'date_sent' => bp_rest_prepare_date_response( $message->date_sent ),
 		);
@@ -896,20 +902,25 @@ class BP_REST_Messages_V1_Controller extends WP_REST_Controller {
 	public function prepare_recipient_for_response( $recipient, $request ) {
 		$display_name = '';
 		$user_info    = get_userdata( (int) $recipient->user_id );
+		$user_exists  = $user_info instanceof WP_User;
 
-		if ( $user_info instanceof WP_User && ! empty( $user_info->display_name ) ) {
-			$display_name = (string) $user_info->display_name;
+		if ( $user_exists && ! empty( $user_info->display_name ) ) {
+			$display_name = $user_info->display_name;
+		}
+
+		if ( false === $user_exists ) {
+			$display_name = esc_html__( 'Deleted User', 'buddypress' );
 		}
 
 		$data = array(
 			'id'           => (int) $recipient->id,
-			'is_deleted'   => (int) $recipient->is_deleted,
+			'is_deleted'   => $recipient->is_deleted || ! $user_exists,
 			'name'         => $display_name,
-			'sender_only'  => (int) $recipient->sender_only,
+			'sender_only'  => (bool) $recipient->sender_only,
 			'thread_id'    => (int) $recipient->thread_id,
 			'unread_count' => (int) $recipient->unread_count,
 			'user_id'      => (int) $recipient->user_id,
-			'user_link'    => esc_url( bp_members_get_user_url( $recipient->user_id ) ),
+			'user_link'    => $user_exists ? esc_url( bp_members_get_user_url( $recipient->user_id ) ) : '',
 		);
 
 		// Fetch the user avatar urls (Full & thumb).
@@ -947,10 +958,28 @@ class BP_REST_Messages_V1_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function prepare_item_for_response( $thread, $request ) {
-		$excerpt = '';
+		$user_exists = function ( $user_id ) {
+			$user = bp_rest_get_user( $user_id );
+
+			return $user instanceof WP_User;
+		};
+
+		$deleted_user = false === $user_exists( $thread->last_sender_id );
+		$raw_excerpt  = '';
+
 		if ( isset( $thread->last_message_content ) ) {
-			$excerpt = wp_strip_all_tags( bp_create_excerpt( $thread->last_message_content, 75 ) );
+			$raw_excerpt = wp_strip_all_tags( bp_create_excerpt( $thread->last_message_content, 75 ) );
 		}
+
+		$deleted_text = esc_html__( '[deleted]', 'buddypress' );
+
+		$content = $deleted_user
+			? $deleted_text
+			: $thread->last_message_content;
+
+		$excerpt = $deleted_user
+			? $deleted_text
+			: $raw_excerpt;
 
 		$data = array(
 			'id'             => (int) $thread->thread_id,
@@ -961,17 +990,17 @@ class BP_REST_Messages_V1_Controller extends WP_REST_Controller {
 				'rendered' => apply_filters( 'bp_get_message_thread_subject', $thread->last_message_subject ),
 			),
 			'excerpt'        => array(
-				'raw'      => $excerpt,
+				'raw'      => $raw_excerpt,
 				'rendered' => apply_filters( 'bp_get_message_thread_excerpt', $excerpt ),
 			),
 			'message'        => array(
 				'raw'      => $thread->last_message_content,
-				'rendered' => apply_filters( 'bp_get_message_thread_content', $thread->last_message_content ),
+				'rendered' => apply_filters( 'bp_get_the_thread_message_content', $content ),
 			),
 			'date'           => bp_rest_prepare_date_response( $thread->last_message_date, get_date_from_gmt( $thread->last_message_date ) ),
 			'date_gmt'       => bp_rest_prepare_date_response( $thread->last_message_date ),
 			'unread_count'   => ! empty( $thread->unread_count ) ? absint( $thread->unread_count ) : 0,
-			'sender_ids'     => (array) $thread->sender_ids,
+			'sender_ids'     => array_values( $thread->sender_ids ),
 			'recipients'     => array(),
 			'messages'       => array(),
 		);
@@ -1271,7 +1300,7 @@ class BP_REST_Messages_V1_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_schema() {
 		if ( is_null( $this->schema ) ) {
-			$this->schema = array(
+			$schema = array(
 				'$schema'    => 'http://json-schema.org/draft-04/schema#',
 				'title'      => 'bp_messages',
 				'type'       => 'object',
@@ -1396,7 +1425,57 @@ class BP_REST_Messages_V1_Controller extends WP_REST_Controller {
 						'description' => __( 'The list of recipient User Objects involved into the Thread.', 'buddypress' ),
 						'type'        => 'array',
 						'items'       => array(
-							'type' => 'object',
+							'type'       => 'object',
+							'properties' => array(
+								'id'           => array(
+									'description' => __( 'ID of the recipient.', 'buddypress' ),
+									'type'        => 'integer',
+									'context'     => array( 'view', 'edit' ),
+									'readonly'    => true,
+								),
+								'thread_id'    => array(
+									'description' => __( 'Thread ID.', 'buddypress' ),
+									'type'        => 'integer',
+									'context'     => array( 'view', 'edit' ),
+									'readonly'    => true,
+								),
+								'user_id'      => array(
+									'description' => __( 'The user ID of the recipient.', 'buddypress' ),
+									'type'        => 'integer',
+									'context'     => array( 'view', 'edit' ),
+									'readonly'    => true,
+								),
+								'unread_count' => array(
+									'description' => __( 'The unread count for the recipient.', 'buddypress' ),
+									'type'        => 'integer',
+									'context'     => array( 'view', 'edit' ),
+									'readonly'    => true,
+								),
+								'is_deleted'   => array(
+									'description' => __( 'Status of the recipient.', 'buddypress' ),
+									'type'        => 'boolean',
+									'context'     => array( 'view', 'edit' ),
+									'readonly'    => true,
+								),
+								'sender_only'  => array(
+									'description' => __( 'If recipient is the only sender.', 'buddypress' ),
+									'type'        => 'boolean',
+									'context'     => array( 'view', 'edit' ),
+									'readonly'    => true,
+								),
+								'name'         => array(
+									'description' => __( 'Name of the recipient.', 'buddypress' ),
+									'type'        => 'string',
+									'context'     => array( 'view', 'edit' ),
+									'readonly'    => true,
+								),
+								'user_link'    => array(
+									'description' => __( 'The link of the recipient.', 'buddypress' ),
+									'type'        => 'string',
+									'context'     => array( 'view', 'edit' ),
+									'readonly'    => true,
+								),
+							),
 						),
 					),
 					'messages'            => array(
@@ -1420,6 +1499,36 @@ class BP_REST_Messages_V1_Controller extends WP_REST_Controller {
 					),
 				),
 			);
+
+			if ( true === buddypress()->avatar->show_avatars ) {
+				$avatar_properties = array();
+
+				$avatar_properties['full'] = array(
+					/* translators: 1: Full avatar width in pixels. 2: Full avatar height in pixels */
+					'description' => sprintf( __( 'Avatar URL with full image size (%1$d x %2$d pixels).', 'buddypress' ), number_format_i18n( bp_core_avatar_full_width() ), number_format_i18n( bp_core_avatar_full_height() ) ),
+					'type'        => 'string',
+					'format'      => 'uri',
+					'context'     => array( 'view', 'edit' ),
+				);
+
+				$avatar_properties['thumb'] = array(
+					/* translators: 1: Thumb avatar width in pixels. 2: Thumb avatar height in pixels */
+					'description' => sprintf( __( 'Avatar URL with thumb image size (%1$d x %2$d pixels).', 'buddypress' ), number_format_i18n( bp_core_avatar_thumb_width() ), number_format_i18n( bp_core_avatar_thumb_height() ) ),
+					'type'        => 'string',
+					'format'      => 'uri',
+					'context'     => array( 'view', 'edit' ),
+				);
+
+				$schema['properties']['recipients']['items']['properties']['avatar_urls'] = array(
+					'description' => __( 'Avatar URLs for the recipient.', 'buddypress' ),
+					'type'        => 'object',
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
+					'properties'  => $avatar_properties,
+				);
+			}
+
+			$this->schema = $schema;
 		}
 
 		/**

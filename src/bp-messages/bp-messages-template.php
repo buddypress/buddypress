@@ -2233,14 +2233,20 @@ function bp_the_thread_message_sender_link() {
 	function bp_get_the_thread_message_sender_link() {
 		global $thread_template;
 
+		$sender_link = bp_core_get_userlink( $thread_template->message->sender_id, false, true );
+
+		if ( empty( $recipient_link ) ) {
+			$sender_link = '';
+		}
+
 		/**
 		 * Filters the link to the sender of the current message.
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $value Link to the sender of the current message.
+		 * @param string $sender_link Link to the sender of the current message.
 		 */
-		return apply_filters( 'bp_get_the_thread_message_sender_link', bp_core_get_userlink( $thread_template->message->sender_id, false, true ) );
+		return apply_filters( 'bp_get_the_thread_message_sender_link', $sender_link );
 	}
 
 /**

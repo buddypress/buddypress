@@ -78,8 +78,6 @@ class BP_Test_REST_Messages_V1_Controller extends WP_Test_REST_Controller_Testca
 		$data  = $response->get_data();
 		$a_ids = wp_list_pluck( $data, 'id' );
 
-		$a_ids = wp_list_pluck( $data, 'id' );
-
 		$this->assertCount( 1, $a_ids );
 		$this->assertCount( 1, $data[0]['messages'] );
 
@@ -329,6 +327,55 @@ class BP_Test_REST_Messages_V1_Controller extends WP_Test_REST_Controller_Testca
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 		$this->assertSame( 403, $response->get_status() );
+	}
+
+	/**
+	 * @ticket BP9160
+	 * @group get_item
+	 */
+	public function test_get_thread_deleted_messages() {
+		$u1           = static::factory()->user->create();
+		$deleted_user = static::factory()->user->create();
+		$m            = $this->bp::factory()->message->create_and_get( array(
+			'sender_id'  => $deleted_user,
+			'recipients' => array( $u1 ),
+			'subject'    => 'Foo',
+			'content'    => 'Content',
+		) );
+
+		$this->bp::factory()->message->create( array(
+			'thread_id'  => $m->thread_id,
+			'sender_id'  => $u1,
+			'recipients' => array( $deleted_user ),
+			'content'    => 'Bar',
+		) );
+
+		// Delete user.
+		wp_delete_user( $deleted_user );
+
+		$this->bp::set_current_user( $u1 );
+
+		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
+		$request->set_param( 'context', 'view' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$all_data          = current( $response->get_data() );
+		$deleted_recipient = array_values(
+			wp_filter_object_list(
+				$all_data['recipients'],
+				array( 'user_id' => $deleted_user ),
+				'AND',
+				'is_deleted'
+			)
+		);
+
+		$this->assertSame( $deleted_user, $all_data['last_sender_id'] );
+		$this->assertContains( $deleted_user, $all_data['sender_ids'] );
+		$this->assertStringContainsString( '<p>[deleted]</p>', $all_data['message']['rendered'] );
+		$this->assertStringContainsString( '[deleted]', $all_data['excerpt']['rendered'] );
+		$this->assertTrue( $deleted_recipient[0] );
 	}
 
 	/**
@@ -1229,7 +1276,7 @@ class BP_Test_REST_Messages_V1_Controller extends WP_Test_REST_Controller_Testca
 		);
 		$this->assertEquals( bp_rest_prepare_date_response( $thread->last_message_date ), $data['date_gmt'] );
 		$this->assertEquals( $thread->unread_count, $data['unread_count'] );
-		$this->assertEquals( $thread->sender_ids, $data['sender_ids'] );
+		$this->assertEquals( array_values( $thread->sender_ids ), $data['sender_ids'] );
 	}
 
 	public function test_get_item_schema() {
