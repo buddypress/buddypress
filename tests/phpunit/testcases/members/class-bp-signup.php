@@ -594,7 +594,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 		bp_core_signup_send_validation_email( 0, $user_email, $activation_key );
 
-		$signup = new BP_Signup( $s1 );
+		$signup = new BP_Signup( $s1->id );
 		$this->assertEquals( 1, $signup->count_sent );
 	}
 

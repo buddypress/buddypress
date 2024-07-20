@@ -786,16 +786,22 @@ class BP_REST_Signup_V1_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function signup_resend_activation_email( $request ) {
-		$signup_id = $request->get_param( 'id' );
-		$send      = \BP_Signup::resend( array( $signup_id ) );
+		$signup = $this->get_signup_object( $request->get_param( 'id' ) );
+		$send   = $signup::resend( $signup->id );
+
+		if ( empty( $send ) ) {
+			return new WP_Error(
+				'bp_rest_signup_resend_activation_email_fail',
+				__( 'There was a problem performing this action. Please try again.', 'buddypress' ),
+				array( 'status' => 500 )
+			);
+		}
 
 		if ( ! empty( $send['errors'] ) ) {
 			return new WP_Error(
 				'bp_rest_signup_resend_activation_email_fail',
 				__( 'Your account has already been activated.', 'buddypress' ),
-				array(
-					'status' => 500,
-				)
+				array( 'status' => 500 )
 			);
 		}
 

@@ -728,6 +728,8 @@ class BP_Test_REST_Signup_V1_Controller extends WP_Test_REST_Controller_Testcase
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
+		$this->assertEquals( 500, $response->get_status() );
+
 		$error_code = 'bp_rest_signup_resend_activation_email_fail';
 		$error      = $response->as_error();
 		$message    = $error->get_error_message( $error_code );

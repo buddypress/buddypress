@@ -159,7 +159,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param integer $signup_id The ID for the signup being queried.
+	 * @param int $signup_id The ID for the signup being queried.
 	 */
 	public function __construct( $signup_id = 0 ) {
 		if ( ! empty( $signup_id ) ) {
