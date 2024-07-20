@@ -2475,6 +2475,7 @@ add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30, 3 );
  * On the login screen, resends the activation email for a user.
  *
  * @since 2.0.0
+ * @since 15.0.0 Return an error when the activation email resend has been blocked temporarily.
  *
  * @global string $error The error message.
  *
@@ -2488,15 +2489,31 @@ function bp_members_login_resend_activation_email() {
 	}
 
 	// Verify nonce.
-	if ( ! wp_verify_nonce( $_GET['_wpnonce'], 'bp-resend-activation' ) ) {
-		die( 'Security check' );
+	if ( ! wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'bp-resend-activation' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		wp_die( esc_html__( 'There was a problem performing this action. Please try again.', 'buddypress' ) );
 	}
 
-	$signup_id = (int) $_GET['id'];
+	$signups = BP_Signup::get(
+		array( 'include' => (int) $_GET['id'] )
+	);
+
+	// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
+
+	if ( empty( $signups['signups'] ) || ! is_array( $signups['signups'] ) ) {
+		$error = __( '<strong>Error</strong>: Invalid signup id.', 'buddypress' );
+		return;
+	}
+
+	$signup = $signups['signups'][0];
+
+	if ( false === BP_Signup::resend_activation( $signup ) ) {
+		$error = __( '<strong>Error</strong>: Your account activation email resend has been blocked temporarily due to multiple attempts, please try again later.', 'buddypress' );
+		return;
+	}
 
 	// Resend the activation email.
 	// also updates the 'last sent' and '# of emails sent' values.
-	$resend = BP_Signup::resend( array( $signup_id ) );
+	$resend = BP_Signup::resend( $signup->id );
 
 	// Add feedback message.
 	if ( ! empty( $resend['errors'] ) ) {
@@ -2504,6 +2521,8 @@ function bp_members_login_resend_activation_email() {
 	} else {
 		$error = __( 'Activation email resent! Please check your inbox or spam folder.', 'buddypress' );
 	}
+
+	// phpcs:enable WordPress.WP.GlobalVariablesOverride.Prohibited
 }
 add_action( 'login_form_bp-resend-activation', 'bp_members_login_resend_activation_email' );
 
