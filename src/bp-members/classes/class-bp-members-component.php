@@ -1113,7 +1113,7 @@ class BP_Members_Component extends BP_Component {
 	 *
 	 * @since 6.0.0
 	 * @since 12.0.0 Use the WP Blocks API v2.
-	 * @since 14.0.0 Add the SiteWide Notice block.
+	 * @since 15.0.0 Add the SiteWide Notice block.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.

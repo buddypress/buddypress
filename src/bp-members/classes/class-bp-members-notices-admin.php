@@ -1,10 +1,9 @@
 <?php
 /**
- * BuddyPress messages component Site-wide Notices admin screen.
+ * BuddyPress members component Site-wide Notices admin screen.
  *
- * @package BuddyPress
- * @subpackage MessagesClasses
- * @since 3.0.0
+ * @package buddypress\bp-members\classes\class-bp-members-notices-admin
+ * @since 15.0.0
  */
 
 // Exit if accessed directly.
@@ -19,7 +18,7 @@ class BP_Members_Notices_Admin {
 	/**
 	 * The ID returned by `add_users_page()`.
 	 *
-	 * @since 3.0.0
+	 * @since 15.0.0
 	 * @var string
 	 */
 	public $screen_id = '';
@@ -27,7 +26,7 @@ class BP_Members_Notices_Admin {
 	/**
 	 * The URL of the admin screen.
 	 *
-	 * @since 3.0.0
+	 * @since 15.0.0
 	 * @var string
 	 */
 	public $url = '';
@@ -35,7 +34,7 @@ class BP_Members_Notices_Admin {
 	/**
 	 * The current instance of the BP_Members_Notices_List_Table class.
 	 *
-	 * @since 3.0.0
+	 * @since 15.0.0
 	 * @var BP_Members_Notices_List_Table|string
 	 */
 	public $list_table = '';
@@ -43,7 +42,7 @@ class BP_Members_Notices_Admin {
 	/**
 	 * Create a new instance or access the current instance of this class.
 	 *
-	 * @since 3.0.0
+	 * @since 15.0.0
 	 *
 	 * @return BP_Members_Notices_Admin
 	 */
@@ -65,7 +64,7 @@ class BP_Members_Notices_Admin {
 	/**
 	 * Constructor.
 	 *
-	 * @since 3.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -75,7 +74,7 @@ class BP_Members_Notices_Admin {
 	/**
 	 * Populate the classs variables.
 	 *
-	 * @since 3.0.0
+	 * @since 15.0.0
 	 */
 	protected function setup_globals() {
 		$this->url = add_query_arg( array( 'page' => 'bp-notices' ), bp_get_admin_url( 'users.php' ) );
@@ -84,7 +83,7 @@ class BP_Members_Notices_Admin {
 	/**
 	 * Add action hooks.
 	 *
-	 * @since 3.0.0
+	 * @since 15.0.0
 	 */
 	protected function setup_actions() {
 		add_action( bp_core_admin_hook(), array( $this, 'admin_menu' ) );
@@ -93,7 +92,7 @@ class BP_Members_Notices_Admin {
 	/**
 	 * Add the 'Site Notices' admin menu item.
 	 *
-	 * @since 3.0.0
+	 * @since 15.0.0
 	 */
 	public function admin_menu() {
 		// Bail if current user cannot moderate community.
@@ -115,7 +114,7 @@ class BP_Members_Notices_Admin {
 	/**
 	 * Catch save/update requests or load the screen.
 	 *
-	 * @since 3.0.0
+	 * @since 15.0.0
 	 */
 	public function admin_load() {
 		$redirect_to = false;
@@ -186,7 +185,7 @@ class BP_Members_Notices_Admin {
 	/**
 	 * Generate content for the bp-notices admin screen.
 	 *
-	 * @since 3.0.0
+	 * @since 15.0.0
 	 */
 	public function admin_index() {
 		$this->list_table->prepare_items();

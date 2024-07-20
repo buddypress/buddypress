@@ -3,7 +3,7 @@
  * Messages functions
  *
  * @since 3.0.0
- * @version 14.0.0
+ * @version 15.0.0
  */
 
 // Exit if accessed directly.
@@ -210,12 +210,12 @@ function bp_nouveau_messages_adjust_nav() {
  * Replaces the Notices Compose URL.
  *
  * @since 3.0.0
- * @deprecated 14.0.0
+ * @deprecated 15.0.0
  *
  * @param array $admin_nav The WP Admin Nav.
  */
 function bp_nouveau_messages_adjust_admin_nav( $admin_nav = array() ) {
-	_deprecated_function( __FUNCTION__, '14.0.0' );
+	_deprecated_function( __FUNCTION__, '15.0.0' );
 	return $admin_nav;
 }
 
@@ -223,14 +223,14 @@ function bp_nouveau_messages_adjust_admin_nav( $admin_nav = array() ) {
  * Prepend a notification about the active Sitewide notice.
  *
  * @since 3.0.0
- * @deprecated 14.0.0
+ * @deprecated 15.0.0
  *
  * @param false|array $notifications False if there are no items, an array of notification items otherwise.
  * @param int         $user_id       The user ID.
  * @return false|array               False if there are no items, an array of notification items otherwise.
  */
 function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id ) {
-	_deprecated_function( __FUNCTION__, '14.0.0' );
+	_deprecated_function( __FUNCTION__, '15.0.0' );
 	return false;
 }
 

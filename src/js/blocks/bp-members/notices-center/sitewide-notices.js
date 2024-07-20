@@ -1,7 +1,7 @@
 /**
  * Notices center class.
  *
- * @since 14.0.0
+ * @since 15.0.0
  */
 class bpNoticesCenter {
 	constructor( settings ) {
@@ -17,7 +17,7 @@ class bpNoticesCenter {
 	/**
 	 * Catches all notices container clicks.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param {PointerEvent} event The click event.
 	 */
@@ -28,7 +28,7 @@ class bpNoticesCenter {
 	/**
 	 * Notices Center Class starter.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 */
 	start() {
 		// Use event delegation to catch all clicks happening into the Center.
