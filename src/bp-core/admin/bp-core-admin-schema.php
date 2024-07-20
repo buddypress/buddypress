@@ -632,7 +632,7 @@ function bp_core_install_nonmember_opt_outs() {
  *
  * If the `bp_messages_notices` table exists, we simply need to rename it.
  *
- * @since 14.0.0
+ * @since 15.0.0
  */
 function bp_core_install_community_notices() {
 	$wpdb            = $GLOBALS['wpdb'];

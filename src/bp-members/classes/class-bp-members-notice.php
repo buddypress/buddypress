@@ -3,7 +3,7 @@
  * BuddyPress Community Notice Class.
  *
  * @package buddypress\bp-members\classes\class-bp-members-notice
- * @since 14.0.0
+ * @since 15.0.0
  */
 
 // Exit if accessed directly.
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Use this class to create, activate, deactivate or delete notices.
  *
- * @since 14.0.0
+ * @since 15.0.0
  */
 class BP_Members_Notice {
 
@@ -58,7 +58,7 @@ class BP_Members_Notice {
 	/**
 	 * Constructor.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param int|null $id Optional. The ID of the current notice.
 	 */
@@ -76,7 +76,7 @@ class BP_Members_Notice {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 */
 	public function populate() {
 		global $wpdb;
@@ -98,7 +98,7 @@ class BP_Members_Notice {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @return integer|false The Notice ID on success. False otherwise.
 	 */
@@ -113,12 +113,12 @@ class BP_Members_Notice {
 		 * Please stop using this hook.
 		 *
 		 * @since 1.0.0
-		 * @deprecated 14.0.0
+		 * @deprecated 15.0.0
 		 *
 		 * @param string  $subject The notice subject.
 		 * @param integer $id      The notice ID.
 		 */
-		$subject = apply_filters_deprecated( 'messages_notice_subject_before_save', array( $this->subject, $this->id ), '14.0.0', 'bp_members_notice_subject_before_save' );
+		$subject = apply_filters_deprecated( 'messages_notice_subject_before_save', array( $this->subject, $this->id ), '15.0.0', 'bp_members_notice_subject_before_save' );
 
 		/**
 		 * Fires before the current notice message gets saved.
@@ -126,12 +126,12 @@ class BP_Members_Notice {
 		 * Please stop using this hook.
 		 *
 		 * @since 1.0.0
-		 * @deprecated 14.0.0
+		 * @deprecated 15.0.0
 		 *
 		 * @param string  $subject The notice message.
 		 * @param integer $id      The notice ID.
 		 */
-		$message = apply_filters_deprecated( 'messages_notice_message_before_save', array( $this->message, $this->id ), '14.0.0', 'bp_members_notice_message_before_save' );
+		$message = apply_filters_deprecated( 'messages_notice_message_before_save', array( $this->message, $this->id ), '15.0.0', 'bp_members_notice_message_before_save' );
 
 		foreach ( get_object_vars( $this ) as $prop => $value ) {
 			if ( 'id' === $prop ) {
@@ -155,7 +155,7 @@ class BP_Members_Notice {
 			 * - 'bp_members_notice_date_sent_before_save'
 			 * - 'bp_members_notice_is_active_before_save'
 			 *
-			 * @since 14.0.0
+			 * @since 15.0.0
 			 *
 			 * @param string       $value The property value.
 			 * @param integer|null $id    The Notice ID to update or null when it's an insertion.
@@ -169,11 +169,11 @@ class BP_Members_Notice {
 		 * Please stop using this hook.
 		 *
 		 * @since 1.0.0
-		 * @deprecated 14.0.0
+		 * @deprecated 15.0.0
 		 *
 		 * @param BP_Members_Notice $notice Current instance of the message notice item being saved. Passed by reference.
 		 */
-		do_action_deprecated( 'messages_notice_before_save', array( &$this ), '14.0.0' );
+		do_action_deprecated( 'messages_notice_before_save', array( &$this ), '15.0.0' );
 
 		if ( empty( $this->id ) ) {
 			$result = $wpdb->insert(
@@ -225,18 +225,18 @@ class BP_Members_Notice {
 		 * Please do not use this filter anymore.
 		 *
 		 * @since 1.0.0
-		 * @deprecated 14.0.0
+		 * @deprecated 15.0.0
 		 *
 		 * @param BP_Members_Notice $notice Current instance of the notice being saved. Passed by reference.
 		 */
-		do_action_deprecated( 'messages_notice_after_save', array( &$this ), '14.0.0' );
+		do_action_deprecated( 'messages_notice_after_save', array( &$this ), '15.0.0' );
 
 		$saved_values = get_object_vars( $this );
 
 		/**
 		 * Fires after the current notice item has been saved.
 		 *
-		 * @since 14.0.0
+		 * @since 15.0.0
 		 *
 		 * @param integer $id           The saved notice ID.
 		 * @param array   $saved_values The list of the saved values keyed by object properties.
@@ -249,7 +249,7 @@ class BP_Members_Notice {
 	/**
 	 * Activates a notice.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @return bool
 	 */
@@ -261,7 +261,7 @@ class BP_Members_Notice {
 	/**
 	 * Deactivates a notice.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @return bool
 	 */
@@ -275,7 +275,7 @@ class BP_Members_Notice {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @return bool
 	 */
@@ -319,7 +319,7 @@ class BP_Members_Notice {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param array $args {
 	 *     Array of parameters.
@@ -370,7 +370,7 @@ class BP_Members_Notice {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @return int
 	 */
@@ -396,7 +396,7 @@ class BP_Members_Notice {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @return BP_Members_Notice
 	 */

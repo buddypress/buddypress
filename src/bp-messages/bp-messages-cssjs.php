@@ -78,7 +78,7 @@ function messages_autocomplete_init_jsblock() {
  * Registers Messages component scripts.
  *
  * @since 9.0.0
- * @since 14.0.0 Removed the dismissal action script for the Sitewide notice widget/block.
+ * @since 15.0.0 Removed the dismissal action script for the Sitewide notice widget/block.
  *
  * @param array $scripts Data about the scripts to register.
  * @return array Data about the scripts to register.

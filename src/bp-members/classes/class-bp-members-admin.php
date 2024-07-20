@@ -10,7 +10,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( !class_exists( 'BP_Members_Admin' ) ) :
+if ( ! class_exists( 'BP_Members_Admin' ) ) :
 
 /**
  * Load Members admin area.
@@ -96,7 +96,7 @@ class BP_Members_Admin {
 	/**
 	 * Community Notices Screen id.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 * @var string
 	 */
 	public $user_notices;
@@ -152,7 +152,7 @@ class BP_Members_Admin {
 	/**
 	 * User's community notices page args.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 * @var array
 	 */
 	public $user_notices_args;
@@ -168,7 +168,7 @@ class BP_Members_Admin {
 	/**
 	 * User's community admin UI.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 * @var BP_Members_Notices_Admin
 	 */
 	public $community_notices = null;
@@ -176,7 +176,7 @@ class BP_Members_Admin {
 	/**
 	 * User's community notices URL.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 * @var string
 	 */
 	public $user_notices_url = '';
@@ -1318,7 +1318,7 @@ class BP_Members_Admin {
 	/**
 	 * Set up the user's community notices page.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 */
 	public function user_notices_admin_load() {
 		return '';
@@ -1327,7 +1327,7 @@ class BP_Members_Admin {
 	/**
 	 * Set up heading action for user's pages.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 */
 	public function get_heading_action() {
 		if ( ! empty( $this->is_self_profile ) ) {
@@ -1458,7 +1458,7 @@ class BP_Members_Admin {
 	/**
 	 * Display the user's community notices.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 */
 	public function user_notices_admin() {
 		if ( ! bp_current_user_can( 'edit_users' ) && ! bp_current_user_can( 'bp_moderate' ) && empty( $this->is_self_profile ) ) {

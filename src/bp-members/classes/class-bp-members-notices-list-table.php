@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage MembersClasses
- * @since 14.0.0
+ * @since 15.0.0
  */
 
 // Exit if accessed directly.
@@ -18,14 +18,14 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 /**
  * BuddyPress Members Notices List Table class.
  *
- * @since 14.0.0
+ * @since 15.0.0
  */
 class BP_Members_Notices_List_Table extends WP_List_Table {
 
 	/**
 	 * Constructor
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param array $args Arguments passed to the WP_List_Table::constructor.
 	 */
@@ -43,7 +43,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	/**
 	 * Checks the current user's permissions
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 */
 	public function ajax_user_can() {
 		return bp_current_user_can( 'bp_moderate' );
@@ -55,7 +55,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	 * Handles filtering of data, sorting, pagination, and any other data
 	 * manipulation required prior to rendering.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 */
 	public function prepare_items() {
 		$page     = $this->get_pagenum();
@@ -76,22 +76,25 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	 * Get a list of columns. The format is:
 	 * 'internal-name' => 'Title'
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
 	public function get_columns() {
-		return apply_filters( 'bp_notices_list_table_get_columns', array(
-			'subject'   => _x( 'Subject', 'Admin Notices column header', 'buddypress' ),
-			'target'   => _x( 'Targeted audience', 'Admin Notices column header', 'buddypress' ),
-			'date_sent' => _x( 'Created', 'Admin Notices column header', 'buddypress' ),
-		) );
+		return apply_filters(
+			'bp_notices_list_table_get_columns',
+			array(
+				'subject'   => _x( 'Subject', 'Admin Notices column header', 'buddypress' ),
+				'target'   => _x( 'Targeted audience', 'Admin Notices column header', 'buddypress' ),
+				'date_sent' => _x( 'Created', 'Admin Notices column header', 'buddypress' ),
+			)
+		);
 	}
 
 	/**
 	 * Generates content for a single row of the table
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param object $item The current item
 	 */
@@ -110,7 +113,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	/**
 	 * Generates content for the "subject" column.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param object $item The current item
 	 */
@@ -157,7 +160,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	/**
 	 * Generates content for the "message" column.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param object $item The current item
 	 */
@@ -184,7 +187,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	/**
 	 * Generates content for the "date_sent" column.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param object $item The current item
 	 */

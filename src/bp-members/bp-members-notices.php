@@ -3,7 +3,7 @@
  * BuddyPress Notices functions.
  *
  * @package buddypress\bp-members\bp-members-notices
- * @since 14.0.0
+ * @since 15.0.0
  */
 
 // Exit if accessed directly.
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Migrates the "closed_notices" user meta as "dismissed_by" notice meta.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @access private
  */
@@ -24,7 +24,7 @@ function _bp_members_dismissed_notices_migrate() {
 	/**
 	 * Filters the notices migration batch size.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param int $comment_batch_size The notices migration batch size. Default 100.
 	 */
@@ -58,7 +58,7 @@ add_action( bp_core_admin_hook(), array( 'BP_Members_Notices_Admin', 'register_n
 /**
  * Adds an Admin Bar submenu item to manage community notices.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param array $wp_admin_nav Array of navigation items to add.
  * @return array Array of navigation items to add.
@@ -95,7 +95,7 @@ function bp_members_notices_setup_admin_nav( $wp_admin_nav = array() ) {
  * 2. xProfile component (when xProfile component is actice it replaces Members component Admin Bar menu).
  * 3. Members component.
  *
- * @since 14.0.0
+ * @since 15.0.0
  */
 function bp_members_notices_user_admin_bar() {
 	$filter = 'bp_members_admin_nav';
@@ -112,7 +112,7 @@ add_action( 'bp_setup_admin_bar', 'bp_members_notices_user_admin_bar' );
 /**
  * Get metadata for a given notice item.
  *
- * @since 2.3.0
+ * @since 15.0.0
  *
  * @param int    $notice_id ID of the notice item whose metadata is being requested.
  * @param string $meta_key  Optional. If present, only the metadata matching
@@ -131,7 +131,7 @@ function bp_notices_get_meta( $notice_id = 0, $meta_key = '', $single = false ) 
 	/**
 	 * Filters the metadata for a specified notice item.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param mixed  $retval    The meta values for the notice item.
 	 * @param int    $notice_id ID of the noticce item.
@@ -144,7 +144,7 @@ function bp_notices_get_meta( $notice_id = 0, $meta_key = '', $single = false ) 
 /**
  * Update a piece of notice meta.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param  int    $notice_id ID of the notice item whose metadata is being
  *                                 updated.
@@ -169,7 +169,7 @@ function bp_notices_update_meta( $notice_id, $meta_key, $meta_value, $prev_value
 /**
  * Add a piece of notice metadata.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param int    $notice_id ID of the notice item.
  * @param string $meta_key        Metadata key.
@@ -190,7 +190,7 @@ function bp_notices_add_meta( $notice_id, $meta_key, $meta_value, $unique = fals
 /**
  * Send a notice.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param array $args {
  *     Array of parameters.
@@ -260,13 +260,13 @@ function bp_members_send_notice( $args = array() ) {
 	 * Please stop using this hook.
 	 *
 	 * @since 1.0.0
-	 * @deprecated 14.0.0
+	 * @deprecated 15.0.0
 	 *
 	 * @param string            $subject Subject of the notice.
 	 * @param string            $content Content of the notice.
 	 * @param BP_Members_Notice $notice  Notice object sent.
 	 */
-	do_action_deprecated( 'messages_send_notice', array( $subject, $content, $notice ), '14.0.0', 'bp_members_notice_sent' );
+	do_action_deprecated( 'messages_send_notice', array( $subject, $content, $notice ), '15.0.0', 'bp_members_notice_sent' );
 
 	$saved_values = get_object_vars( $notice );
 
@@ -274,7 +274,7 @@ function bp_members_send_notice( $args = array() ) {
 		/**
 		 * Fires after a notice has been successfully added to the sending queue.
 		 *
-		 * @since 14.0.0
+		 * @since 15.0.0
 		 *
 		 * @param integer $notice_id    The notice ID.
 		 * @param array   $saved_values The list of the saved values keyed by object properties.
@@ -288,7 +288,7 @@ function bp_members_send_notice( $args = array() ) {
 /**
  * Dismiss a sitewide notice for a user.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param int $user_id   ID of the user to dismiss the notice for.
  *                       Defaults to the logged-in user.
@@ -432,7 +432,7 @@ function bp_members_edit_notice() {
 /**
  * Prepend a notification about the active Sitewide notice.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param false|array $notifications False if there are no items, an array of notification items otherwise.
  * @param int         $user_id       The user ID.
@@ -484,7 +484,7 @@ add_filter( 'bp_core_get_notifications_for_user', 'bp_members_get_notice_for_use
 /**
  * Output the title of a notice.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
  */
@@ -497,7 +497,7 @@ function bp_notice_title( $notice = null ) {
 /**
  * Get the title of a notice.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
  * @return string The notice title.
@@ -510,17 +510,17 @@ function bp_get_notice_title( $notice = null ) {
 		 * Stop using this filter, use `bp_get_notice_title` instead.
 		 *
 		 * @since 1.0.0
-		 * @deprecated 14.0.0
+		 * @deprecated 15.0.0
 		 *
 		 * @param string $subject Subject of the current notice in the loop.
 		 */
-		$notice_title = apply_filters_deprecated( 'bp_get_message_notice_subject', array( $notice->subject ), '14.0.0', 'bp_get_notice_title' );
+		$notice_title = apply_filters_deprecated( 'bp_get_message_notice_subject', array( $notice->subject ), '15.0.0', 'bp_get_notice_title' );
 	}
 
 	/**
 	 * Filter the notice title.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string                 $notice_title The notice title.
 	 * @param BP_Members_Notice|null $notice       The notice object if it exists. Null otherwise.
@@ -531,7 +531,7 @@ function bp_get_notice_title( $notice = null ) {
 /**
  * Output the content of a notice.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
  */
@@ -544,7 +544,7 @@ function bp_notice_content( $notice = null ) {
 /**
  * Get the content of a notice.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
  * @return string The notice content.
@@ -561,13 +561,13 @@ function bp_get_notice_content( $notice = null ) {
 			$notice_content = $notice->message;
 		}
 
-		$notice_content = apply_filters_deprecated( 'bp_get_message_notice_text', array( $notice_content ), '14.0.0', 'bp_get_notice_content' );
+		$notice_content = apply_filters_deprecated( 'bp_get_message_notice_text', array( $notice_content ), '15.0.0', 'bp_get_notice_content' );
 	}
 
 	/**
 	 * Filters the notice content.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string                 $notice_content The content of the notice.
 	 * @param BP_Members_Notice|null $notice         The notice object if it exists. Null otherwise.
@@ -578,7 +578,7 @@ function bp_get_notice_content( $notice = null ) {
 /**
  * Get the type of a notice.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
  * @return string The notice content.
@@ -605,7 +605,7 @@ function bp_get_notice_type( $notice = null ) {
 	/**
 	 * Filters the notice type.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string                 $notice_type The type of the notice.
 	 * @param BP_Members_Notice|null $notice      The notice object if it exists. Null otherwise.
@@ -616,7 +616,7 @@ function bp_get_notice_type( $notice = null ) {
 /**
  * Output the URL for dismissing a notice for the current user.
  *
- * @since 14.0.0
+ * @since 15.0.0
  */
 function bp_notice_dismiss_url() {
 	echo esc_url( bp_get_notice_dismiss_url() );
@@ -625,7 +625,7 @@ function bp_notice_dismiss_url() {
 /**
  * Get the URL for dismissing the current notice for the current user.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @return string URL for dismissing the current notice for the current user.
  */
@@ -639,17 +639,17 @@ function bp_get_notice_dismiss_url() {
 	 * Filters the URL for dismissing the current notice for the current user.
 	 *
 	 * @since 9.0.0
-	 * @deprecated 14.0.0
+	 * @deprecated 15.0.0
 	 *
 	 * @param string $link URL for dismissing the current notice.
 	 */
-	$link = apply_filters_deprecated( 'bp_get_message_notice_dismiss_link', array( $link ), '14.0.0', 'bp_get_notice_dismiss_url' );
+	$link = apply_filters_deprecated( 'bp_get_message_notice_dismiss_link', array( $link ), '15.0.0', 'bp_get_notice_dismiss_url' );
 
 
 	/**
 	 * Filters the URL for dismissing the current notice for the current user.
 	 *
-	 * @since 14.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $link URL for dismissing the current notice.
 	 */
@@ -659,7 +659,7 @@ function bp_get_notice_dismiss_url() {
 /**
  * Used to render the active notice after the WP Admin Bar.
  *
- * @since 14.0.0
+ * @since 15.0.0
  */
 function bp_render_active_notice() {
 	$notice = BP_Members_Notice::get_active();
@@ -689,7 +689,7 @@ function bp_render_active_notice() {
 /**
  * Callback function to render the BP Sitewide Notices Block.
  *
- * @since 14.0.0
+ * @since 15.0.0
  *
  * @param array $attributes The block attributes.
  * @return string HTML output.

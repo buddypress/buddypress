@@ -5,16 +5,18 @@
  * @package BuddyPress
  * @subpackage MessagesClasses
  * @since 3.0.0
- * @deprecated 14.0.0
+ * @deprecated 15.0.0
  */
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-_deprecated_file( basename( __FILE__ ), '14.0.0', '/wp-content/plugins/buddypress/bp-members/classes/class-bp-members-notices-admin.php', esc_html__( 'Please use `BP_Members_Notices_Admin` instead.', 'buddypress' ) );
+_deprecated_file( basename( __FILE__ ), '15.0.0', '/wp-content/plugins/buddypress/bp-members/classes/class-bp-members-notices-admin.php', esc_html__( 'Please use `BP_Members_Notices_Admin` instead.', 'buddypress' ) );
 
 /**
  * BuddyPress Notices Admin class.
+ *
+ * @deprecated 15.0.0
  */
 #[AllowDynamicProperties]
 class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
@@ -23,6 +25,7 @@ class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
 	 * The ID returned by `add_users_page()`.
 	 *
 	 * @since 3.0.0
+	 * @deprecated 15.0.0
 	 * @var string
 	 */
 	public $screen_id = '';
@@ -31,6 +34,7 @@ class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
 	 * The URL of the admin screen.
 	 *
 	 * @since 3.0.0
+	 * @deprecated 15.0.0
 	 * @var string
 	 */
 	public $url = '';
@@ -39,6 +43,7 @@ class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
 	 * The current instance of the BP_Members_Notices_List_Table class.
 	 *
 	 * @since 3.0.0
+	 * @deprecated 15.0.0
 	 * @var BP_Messages_Notices_List_Table|string
 	 */
 	public $list_table = '';
@@ -47,12 +52,12 @@ class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
 	 * Create a new instance or access the current instance of this class.
 	 *
 	 * @since 3.0.0
-	 * @deprecated 14.0.0
+	 * @deprecated 15.0.0
 	 *
 	 * @return BP_Members_Notices_Admin
 	 */
 	public static function register_notices_admin() {
-		_deprecated_function( __METHOD__, '14.0.0' );
+		_deprecated_function( __METHOD__, '15.0.0' );
 		return parent::register_notices_admin();
 	}
 
@@ -60,10 +65,10 @@ class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
 	 * Constructor.
 	 *
 	 * @since 3.0.0
-	 * @deprecated 14.0.0
+	 * @deprecated 15.0.0
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, '14.0.0' );
+		_deprecated_function( __METHOD__, '15.0.0' );
 		$this->setup_globals();
 		$this->setup_actions();
 	}
@@ -72,10 +77,10 @@ class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
 	 * Populate the classs variables.
 	 *
 	 * @since 3.0.0
-	 * @deprecated 14.0.0
+	 * @deprecated 15.0.0
 	 */
 	protected function setup_globals() {
-		_deprecated_function( __METHOD__, '14.0.0' );
+		_deprecated_function( __METHOD__, '15.0.0' );
 		parent::setup_globals();
 	}
 
@@ -83,10 +88,10 @@ class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
 	 * Add action hooks.
 	 *
 	 * @since 3.0.0
-	 * @deprecated 14.0.0
+	 * @deprecated 15.0.0
 	 */
 	protected function setup_actions() {
-		_deprecated_function( __METHOD__, '14.0.0' );
+		_deprecated_function( __METHOD__, '15.0.0' );
 		parent::setup_actions();
 	}
 
@@ -94,10 +99,10 @@ class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
 	 * Add the 'Site Notices' admin menu item.
 	 *
 	 * @since 3.0.0
-	 * @deprecated 14.0.0
+	 * @deprecated 15.0.0
 	 */
 	public function admin_menu() {
-		_deprecated_function( __METHOD__, '14.0.0' );
+		_deprecated_function( __METHOD__, '15.0.0' );
 		parent::admin_menu();
 	}
 
@@ -105,10 +110,10 @@ class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
 	 * Catch save/update requests or load the screen.
 	 *
 	 * @since 3.0.0
-	 * @deprecated 14.0.0
+	 * @deprecated 15.0.0
 	 */
 	public function admin_load() {
-		_deprecated_function( __METHOD__, '14.0.0' );
+		_deprecated_function( __METHOD__, '15.0.0' );
 		parent::admin_load();
 	}
 
@@ -116,10 +121,10 @@ class BP_Messages_Notices_Admin extends BP_Members_Notices_Admin {
 	 * Generate content for the bp-notices admin screen.
 	 *
 	 * @since 3.0.0
-	 * @deprecated 14.0.0
+	 * @deprecated 15.0.0
 	 */
 	public function admin_index() {
-		_deprecated_function( __METHOD__, '14.0.0' );
+		_deprecated_function( __METHOD__, '15.0.0' );
 		parent::admin_index();
 	}
 }

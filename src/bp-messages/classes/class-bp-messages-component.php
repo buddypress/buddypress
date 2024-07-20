@@ -443,7 +443,7 @@ class BP_Messages_Component extends BP_Component {
 	 *
 	 * @since 9.0.0
 	 * @since 12.0.0 Use the WP Blocks API v2.
-	 * @since 14.0.0 The SiteWide Notice block has been moved to the BP Members component.
+	 * @since 15.0.0 The SiteWide Notice block has been moved to the BP Members component.
 	 *
 	 * @param array $blocks Optional. See BP_Component::blocks_init() for
 	 *                      description.
