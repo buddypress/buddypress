@@ -36,8 +36,8 @@ function bp_core_install( $active_components = false ) {
 	// Install the signups table.
 	bp_core_maybe_install_signups();
 
-	// Install the community notices tables.
-	bp_core_install_community_notices();
+	// Install the Members notices tables.
+	bp_core_install_members_notices();
 
 	// Install the invitations table.
 	bp_core_install_invitations();
@@ -628,13 +628,13 @@ function bp_core_install_nonmember_opt_outs() {
 }
 
 /**
- * Community Notices are "Modern" Site Wide Notices.
+ * Members Notices installation function.
  *
  * If the `bp_messages_notices` table exists, we simply need to rename it.
  *
  * @since 15.0.0
  */
-function bp_core_install_community_notices() {
+function bp_core_install_members_notices() {
 	$wpdb            = $GLOBALS['wpdb'];
 	$sql             = array();
 	$charset_collate = $wpdb->get_charset_collate();

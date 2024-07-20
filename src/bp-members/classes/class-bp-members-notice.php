@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Community Notice Class.
+ * BuddyPress Members Notice Class.
  *
  * @package buddypress\bp-members\classes\class-bp-members-notice
  * @since 15.0.0
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * BuddyPress Community Notice Class.
+ * BuddyPress Members Notice Class.
  *
  * Use this class to create, activate, deactivate or delete notices.
  *

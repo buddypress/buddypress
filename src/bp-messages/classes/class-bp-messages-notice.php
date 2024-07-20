@@ -11,7 +11,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-_deprecated_file( basename( __FILE__ ), '15.0.0', '', __( 'BuddyPress Site-Wide Notices became Community Notices, please use the `BP_Members_Notice()` class instead.', 'buddypress' ) );
+_deprecated_file( basename( __FILE__ ), '15.0.0', '', __( 'BuddyPress Site-Wide Notices became Member Notices, please use the `BP_Members_Notice()` class instead.', 'buddypress' ) );
 
 /**
  * BuddyPress Notices class.

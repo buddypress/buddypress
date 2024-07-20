@@ -54,11 +54,11 @@ class BP_Members_Notices_Admin {
 
 		$bp = buddypress();
 
-		if ( empty( $bp->members->admin->community_notices ) ) {
-			$bp->members->admin->community_notices = new self;
+		if ( empty( $bp->members->admin->notices ) ) {
+			$bp->members->admin->notices = new self;
 		}
 
-		return $bp->members->admin->community_notices;
+		return $bp->members->admin->notices;
 	}
 
 	/**
@@ -101,8 +101,8 @@ class BP_Members_Notices_Admin {
 		}
 
 		$this->screen_id = add_users_page(
-			_x( 'Manage Community Notices', 'Notices admin page title', 'buddypress' ),
-			_x( 'Manage Community Notices', 'Admin Users menu', 'buddypress' ),
+			_x( 'Manage Member Notices', 'Notices admin page title', 'buddypress' ),
+			_x( 'Manage Member Notices', 'Admin Users menu', 'buddypress' ),
 			'manage_options',
 			'bp-notices',
 			array( $this, 'admin_index' )
@@ -191,7 +191,7 @@ class BP_Members_Notices_Admin {
 		$this->list_table->prepare_items();
 		?>
 		<div class="wrap nosubsub">
-			<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Community Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
+			<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Member Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
 			<hr class="wp-header-end">
 
 			<?php if ( isset( $_GET['success'] ) || isset( $_GET['error'] ) ) : ?>

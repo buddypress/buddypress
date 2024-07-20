@@ -94,7 +94,7 @@ class BP_Members_Admin {
 	public $user_profile;
 
 	/**
-	 * Community Notices Screen id.
+	 * Member Notices Screen id.
 	 *
 	 * @since 15.0.0
 	 * @var string
@@ -150,7 +150,7 @@ class BP_Members_Admin {
 	public $edit_profile_args;
 
 	/**
-	 * User's community notices page args.
+	 * User's notices page args.
 	 *
 	 * @since 15.0.0
 	 * @var array
@@ -166,15 +166,15 @@ class BP_Members_Admin {
 	public $edit_profile_url = '';
 
 	/**
-	 * User's community admin UI.
+	 * User's Notices admin UI.
 	 *
 	 * @since 15.0.0
 	 * @var BP_Members_Notices_Admin
 	 */
-	public $community_notices = null;
+	public $notices = null;
 
 	/**
-	 * User's community notices URL.
+	 * User's notices URL.
 	 *
 	 * @since 15.0.0
 	 * @var string
@@ -1316,7 +1316,7 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Set up the user's community notices page.
+	 * Set up the user's notices page.
 	 *
 	 * @since 15.0.0
 	 */
@@ -1456,7 +1456,7 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Display the user's community notices.
+	 * Display the user's notices.
 	 *
 	 * @since 15.0.0
 	 */
