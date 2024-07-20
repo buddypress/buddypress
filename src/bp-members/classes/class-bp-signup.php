@@ -3,7 +3,7 @@
  * Signups Management class.
  *
  * @package BuddyPress
- * @subpackage coreClasses
+ * @subpackage Signup
  * @since 2.0.0
  */
 
@@ -248,8 +248,7 @@ class BP_Signup {
 		 * Set a boolean to track whether an activation link
 		 * was sent in the last day.
 		 */
-		$this->recently_sent = $this->count_sent && ( $diff < 1 * DAY_IN_SECONDS );
-
+		$this->recently_sent = $this->count_sent && ( $diff < DAY_IN_SECONDS );
 	}
 
 	/** Static Methods *******************************************************/
@@ -808,109 +807,6 @@ class BP_Signup {
 	}
 
 	/**
-	 * Resend an activation email.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param array $signup_ids Single ID or list of IDs to resend.
-	 * @return array
-	 */
-	public static function resend( $signup_ids = array() ) {
-		if ( empty( $signup_ids ) || ! is_array( $signup_ids ) ) {
-			return false;
-		}
-
-		$to_resend = self::get(
-			array(
-				'include' => $signup_ids,
-			)
-		);
-
-		if ( ! $signups = $to_resend['signups'] ) {
-			return false;
-		}
-
-		$result = array();
-
-		/**
-		 * Fires before activation emails are resent.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param array $signup_ids Array of IDs to resend activation emails to.
-		 */
-		do_action( 'bp_core_signup_before_resend', $signup_ids );
-
-		foreach ( $signups as $signup ) {
-
-			$meta               = $signup->meta;
-			$meta['sent_date']  = current_time( 'mysql', true );
-			$meta['count_sent'] = $signup->count_sent + 1;
-
-			// Send activation email.
-			if ( is_multisite() ) {
-				// Should we send the user or blog activation email?
-				if ( ! empty( $signup->domain ) || ! empty( $signup->path ) ) {
-					wpmu_signup_blog_notification( $signup->domain, $signup->path, $signup->title, $signup->user_login, $signup->user_email, $signup->activation_key, $meta );
-				} else {
-					wpmu_signup_user_notification( $signup->user_login, $signup->user_email, $signup->activation_key, $meta );
-				}
-			} else {
-
-				// Check user status before sending email.
-				$user_id = email_exists( $signup->user_email );
-
-				if ( ! empty( $user_id ) && 2 != self::check_user_status( $user_id ) ) {
-
-					// Status is not 2, so user's account has been activated.
-					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
-
-					// Repair signups table.
-					self::validate( $signup->activation_key );
-
-					continue;
-
-				// Send the validation email.
-				} else {
-					$salutation = $signup->user_login;
-					if ( bp_is_active( 'xprofile' ) && isset( $meta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
-						$salutation = $meta[ 'field_' . bp_xprofile_fullname_field_id() ];
-					}
-
-					bp_core_signup_send_validation_email( false, $signup->user_email, $signup->activation_key, $salutation );
-				}
-			}
-
-			// Update metas.
-			$result['resent'][] = self::update(
-				array(
-					'signup_id' => $signup->signup_id,
-					'meta'      => $meta,
-				)
-			);
-		}
-
-		/**
-		 * Fires after activation emails are resent.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param array $signup_ids Array of IDs to resend activation emails to.
-		 * @param array $result     Updated metadata related to activation emails.
-		 */
-		do_action( 'bp_core_signup_after_resend', $signup_ids, $result );
-
-		/**
-		 * Filters the result of the metadata for signup activation email resends.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param array $result Updated metadata related to activation emails.
-		 */
-		return apply_filters( 'bp_core_signup_resend', $result );
-	}
-
-	/**
 	 * Activate a pending account.
 	 *
 	 * @since 2.0.0
@@ -1083,5 +979,162 @@ class BP_Signup {
 		 * @param array $result Updated metadata related to deleted pending accounts.
 		 */
 		return apply_filters( 'bp_core_signup_delete', $result );
+	}
+
+	/**
+	 * Resend an activation email.
+	 *
+	 * @since 2.0.0
+	 * @since 15.0.0 Added the ability to resend to a single ID.
+	 *
+	 * @param array $signup_ids Single ID or list of IDs to resend.
+	 * @return array
+	 */
+	public static function resend( $signup_ids = array() ) {
+		if ( empty( $signup_ids ) ) {
+			return array();
+		}
+
+		if ( ! is_array( $signup_ids ) ) {
+			$signup_ids = array( $signup_ids );
+		}
+
+		$to_resend = self::get(
+			array(
+				'include' => wp_parse_id_list( $signup_ids ),
+			)
+		);
+
+		$signups = $to_resend['signups'];
+
+		if ( ! $signups ) {
+			return array();
+		}
+
+		$result = array();
+
+		/**
+		 * Fires before activation emails are resent.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $signup_ids Array of IDs to resend activation emails to.
+		 */
+		do_action( 'bp_core_signup_before_resend', $signup_ids );
+
+		foreach ( $signups as $signup ) {
+
+			$meta               = $signup->meta;
+			$meta['sent_date']  = current_time( 'mysql', true );
+			$meta['count_sent'] = $signup->count_sent + 1;
+
+			// Send activation email.
+			if ( is_multisite() ) {
+				// Should we send the user or blog activation email?
+				if ( ! empty( $signup->domain ) || ! empty( $signup->path ) ) {
+					wpmu_signup_blog_notification( $signup->domain, $signup->path, $signup->title, $signup->user_login, $signup->user_email, $signup->activation_key, $meta );
+				} else {
+					wpmu_signup_user_notification( $signup->user_login, $signup->user_email, $signup->activation_key, $meta );
+				}
+			} else {
+
+				// Check user status before sending email.
+				$user_id = email_exists( $signup->user_email );
+
+				if ( ! empty( $user_id ) && 2 !== self::check_user_status( $user_id ) ) {
+
+					// Status is not 2, so user's account has been activated.
+					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
+
+					// Repair signups table.
+					self::validate( $signup->activation_key );
+
+					continue;
+
+					// Send the validation email.
+				} else {
+					$salutation = $signup->user_login;
+					if ( bp_is_active( 'xprofile' ) && isset( $meta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
+						$salutation = $meta[ 'field_' . bp_xprofile_fullname_field_id() ];
+					}
+
+					bp_core_signup_send_validation_email( false, $signup->user_email, $signup->activation_key, $salutation );
+				}
+			}
+
+			// Update metas.
+			$result['resent'][] = self::update(
+				array(
+					'signup_id' => $signup->signup_id,
+					'meta'      => $meta,
+				)
+			);
+		}
+
+		/**
+		 * Fires after activation emails are resent.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $signup_ids Array of IDs to resend activation emails to.
+		 * @param array $result     Updated metadata related to activation emails.
+		 */
+		do_action( 'bp_core_signup_after_resend', $signup_ids, $result );
+
+		/**
+		 * Filters the result of the metadata for signup activation email resends.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $result Updated metadata related to activation emails.
+		 */
+		return apply_filters( 'bp_core_signup_resend', $result );
+	}
+
+	/**
+	 * Check if an activation email can be resent.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param BP_Signup $signup The signup object.
+	 * @return bool
+	 */
+	public static function resend_activation( $signup ) {
+
+		// Bail if the signup is not a BP_Signup object.
+		if ( ! $signup instanceof BP_Signup ) {
+			return false;
+		}
+
+		// Allow the activation email to be sent if not already.
+		if ( ! $signup->recently_sent || ! $signup->count_sent ) {
+			return true;
+		}
+
+		$sent_at = mysql2date( 'U', $signup->date_sent );
+		$now     = time();
+		$diff    = $now - $sent_at;
+
+		/**
+		 * Filters the lock time for the resend activation.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param int $lock_time The lock time for the resend activation.
+		 */
+		$lock_time = apply_filters( 'bp_core_signup_resend_activation_lock_time', HOUR_IN_SECONDS );
+
+		// If the activation email was sent less than the lock time ago.
+		$retval = false === ( $diff < $lock_time );
+
+		/**
+		 * Filters whether an activation email can be resent.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param bool      $retval Whether an activation email can be resent.
+		 * @param BP_Signup $signup The signup object.
+		 */
+		return apply_filters( 'bp_core_signup_resend_activation', $retval, $signup );
 	}
 }

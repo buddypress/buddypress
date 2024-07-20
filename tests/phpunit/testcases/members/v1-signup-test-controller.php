@@ -693,7 +693,7 @@ class BP_Test_REST_Signup_V1_Controller extends WP_Test_REST_Controller_Testcase
 	/**
 	 * @group resend_item
 	 */
-	public function test_resend_acivation_email_to_active_signup() {
+	public function test_resend_activation_email_to_active_signup() {
 		$signup_id = $this->create_signup();
 		$signup    = new BP_Signup( $signup_id );
 
@@ -713,6 +713,54 @@ class BP_Test_REST_Signup_V1_Controller extends WP_Test_REST_Controller_Testcase
 		} else {
 			$this->assertErrorResponse( 'bp_rest_signup_resend_activation_email_fail', $response, 500 );
 		}
+	}
+
+	/**
+	 * @group resend_item
+	 */
+	public function test_resend_activation_email_to_locked_signup() {
+		$signup_id = $this->create_signup();
+
+		BP_Signup::resend( $signup_id );
+
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/resend' );
+		$request->set_param( 'id', $signup_id );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$error_code = 'bp_rest_signup_resend_activation_email_fail';
+		$error      = $response->as_error();
+		$message    = $error->get_error_message( $error_code );
+
+		$this->assertErrorResponse( $error_code, $response, 500 );
+		$this->assertSame(
+			$message,
+			'Your account activation email resend has been blocked temporarily due to multiple attempts, please try again later.'
+		);
+	}
+
+	/**
+	 * @group resend_item
+	 */
+	public function test_resend_activation_email_to_locked_signup_with_hook() {
+		$signup_id = $this->create_signup();
+
+		BP_Signup::resend( $signup_id );
+
+		add_filter( 'bp_core_signup_resend_activation', '__return_true' );
+
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/resend' );
+		$request->set_param( 'id', $signup_id );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$all_data = $response->get_data();
+
+		$this->assertTrue( $all_data['sent'] );
+
+		remove_filter( 'bp_core_signup_resend_activation', '__return_true' );
 	}
 
 	/**
@@ -763,7 +811,7 @@ class BP_Test_REST_Signup_V1_Controller extends WP_Test_REST_Controller_Testcase
 	}
 
 	protected function create_signup() {
-		return BP_Signup::add(
+		return $this->bp::factory()->signup->create(
 			array(
 				'user_login'     => 'user' . wp_rand( 1, 20 ),
 				'user_email'     => sprintf( 'user%d@example.com', wp_rand( 1, 20 ) ),

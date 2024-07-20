@@ -786,8 +786,6 @@ class BP_REST_Signup_V1_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function signup_resend_activation_email( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		$signup_id = $request->get_param( 'id' );
 		$send      = \BP_Signup::resend( array( $signup_id ) );
 
@@ -820,6 +818,7 @@ class BP_REST_Signup_V1_Controller extends WP_REST_Controller {
 	 * Check if a given request has access to resend the activation email.
 	 *
 	 * @since 9.0.0
+	 * @since 15.0.0 Return an error when the activation email resend has been blocked temporarily.
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -832,9 +831,15 @@ class BP_REST_Signup_V1_Controller extends WP_REST_Controller {
 			$retval = new WP_Error(
 				'bp_rest_invalid_id',
 				__( 'Invalid signup id.', 'buddypress' ),
-				array(
-					'status' => 404,
-				)
+				array( 'status' => 404 )
+			);
+		}
+
+		if ( true === $retval && false === BP_Signup::resend_activation( $signup ) ) {
+			$retval = new WP_Error(
+				'bp_rest_signup_resend_activation_email_fail',
+				__( 'Your account activation email resend has been blocked temporarily due to multiple attempts, please try again later.', 'buddypress' ),
+				array( 'status' => 500 )
 			);
 		}
 

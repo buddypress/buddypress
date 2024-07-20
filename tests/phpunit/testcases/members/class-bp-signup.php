@@ -10,7 +10,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	protected $signup_allowed;
 
 	public function set_up() {
-
 		if ( is_multisite() ) {
 			$this->signup_allowed = get_site_option( 'registration' );
 			update_site_option( 'registration', 'all' );
@@ -365,7 +364,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	public function test_get_queries_should_be_cached() {
 		global $wpdb;
 
-		$s = self::factory()->signup->create();
+		self::factory()->signup->create();
 
 		$found1 = BP_Signup::get(
 			array(
@@ -579,21 +578,62 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 	}
 
+	/**
+	 * @group resend
+	 */
 	public function test_bp_core_signup_send_validation_email_should_increment_sent_count() {
 		$activation_key = wp_generate_password( 32, false );
 		$user_email     = 'accountone@example.com';
-		$s1             = self::factory()->signup->create( array(
+		$s1             = self::factory()->signup->create_and_get( array(
 			'user_login'     => 'accountone',
 			'user_email'     => $user_email,
 			'activation_key' => $activation_key
 		) );
 
-		$signup = new BP_Signup( $s1 );
-		$this->assertEquals( 0, $signup->count_sent );
+		$this->assertEquals( 0, $s1->count_sent );
 
 		bp_core_signup_send_validation_email( 0, $user_email, $activation_key );
 
 		$signup = new BP_Signup( $s1 );
 		$this->assertEquals( 1, $signup->count_sent );
+	}
+
+	/**
+	 * @ticket BP9137
+	 * @group resend
+	 */
+	public function test_bp_core_signup_resend_email_activation() {
+		$s1 = self::factory()->signup->create_and_get(
+			array(
+				'user_login'     => 'user' . wp_rand( 1, 20 ),
+				'user_email'     => sprintf( 'user%d@example.com', wp_rand( 1, 20 ) ),
+				'registered'     => bp_core_current_time(),
+				'activation_key' => wp_generate_password( 32, false ),
+				'meta'           => array(
+					'field_1' => 'Foo Bar',
+				),
+			)
+		);
+
+		BP_Signup::resend( $s1->id );
+
+		$this->assertFalse( BP_Signup::resend_activation( 0 ) );
+		$this->assertFalse( BP_Signup::resend_activation( '' ) );
+		$this->assertTrue( BP_Signup::resend_activation( $s1 ) );
+
+		$s1->count_sent = 0;
+		$this->assertTrue( BP_Signup::resend_activation( $s1 ) );
+
+		$s1->count_sent = 1;
+		$s1->recently_sent = true;
+		$this->assertFalse( BP_Signup::resend_activation( $s1 ) );
+
+		add_filter( 'bp_core_signup_resend_activation', '__return_true' );
+		$this->assertTrue( BP_Signup::resend_activation( $s1 ) );
+		remove_filter( 'bp_core_signup_resend_activation', '__return_true' );
+
+		add_filter( 'bp_core_signup_resend_activation_lock_time', '__return_zero' );
+		$this->assertTrue( BP_Signup::resend_activation( $s1 ) );
+		remove_filter( 'bp_core_signup_resend_activation_lock_time', '__return_zero' );
 	}
 }
