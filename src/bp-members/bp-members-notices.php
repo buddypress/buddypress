@@ -52,11 +52,11 @@ function _bp_members_dismissed_notices_migrate() {
 }
 add_action( 'bp_usermeta_closed_notices_migrate_batch', '_bp_members_dismissed_notices_migrate', 10, 0 );
 
-// Load the Commmunity Notices Admin.
+// Load the Members Notices Admin.
 add_action( bp_core_admin_hook(), array( 'BP_Members_Notices_Admin', 'register_notices_admin' ), 9 );
 
 /**
- * Adds an Admin Bar submenu item to manage community notices.
+ * Adds an Admin Bar submenu item to manage Members notices.
  *
  * @since 15.0.0
  *
@@ -71,7 +71,7 @@ function bp_members_notices_setup_admin_nav( $wp_admin_nav = array() ) {
 			$wp_admin_nav[] = array(
 				'parent'   => $parent_admin_nav['id'],
 				'id'       => $parent_admin_nav['id'] . '-notices',
-				'title'    => __( 'Community Notices', 'buddypress' ),
+				'title'    => __( 'Member Notices', 'buddypress' ),
 				'href'     => esc_url(
 					add_query_arg(
 						array(
@@ -89,7 +89,7 @@ function bp_members_notices_setup_admin_nav( $wp_admin_nav = array() ) {
 }
 
 /**
- * Choose the best active component's Admin Bar menu to add the "Manage Community Notices"submenu item to.
+ * Choose the best active component's Admin Bar menu to add the "Manage Member Notices" submenu item to.
  *
  * 1. Notifications component.
  * 2. xProfile component (when xProfile component is actice it replaces Members component Admin Bar menu).
@@ -204,7 +204,7 @@ function bp_notices_add_meta( $notice_id, $meta_key, $meta_value, $unique = fals
 function bp_members_send_notice( $args = array() ) {
 
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
-		return new WP_Error( 'bp_notices_unallowed', __( 'You are not allowed to send community notices.', 'buddypress' ) );
+		return new WP_Error( 'bp_notices_unallowed', __( 'You are not allowed to send notices.', 'buddypress' ) );
 	}
 
 	$r     = bp_parse_args(

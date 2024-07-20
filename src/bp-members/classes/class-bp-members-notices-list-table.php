@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress members community notices admin list table class.
+ * BuddyPress Members notices admin list table class.
  *
  * @package BuddyPress
  * @subpackage MembersClasses
