@@ -998,7 +998,7 @@ function bp_update_to_14_0() {
 }
 
 /**
- * 14.0.0 update routine.
+ * 15.0.0 update routine.
  *
  * The DB migration tasks are performed by `bp_core_install()`.
  *
