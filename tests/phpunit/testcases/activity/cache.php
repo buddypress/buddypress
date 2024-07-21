@@ -104,13 +104,13 @@ class BP_Tests_Activity_Cache extends BP_UnitTestCase {
 				function ( $a ) {
 					return $a->id;
 				},
-				$first_query['activities'],
+				$first_query['activities']
 			),
 			array_map(
 				function ( $a ) {
 					return $a->id;
 				},
-				$second_query['activities'],
+				$second_query['activities']
 			),
 			'Results of the query are expected to match.'
 		);
