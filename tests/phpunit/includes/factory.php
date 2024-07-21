@@ -15,6 +15,7 @@ class BP_UnitTest_Factory extends WP_UnitTest_Factory {
 		$this->notification = new BP_UnitTest_Factory_For_Notification( $this );
 		$this->signup = new BP_UnitTest_Factory_For_Signup( $this );
 		$this->friendship = new BP_UnitTest_Factory_For_Friendship( $this );
+		$this->optout = new BP_UnitTest_Factory_For_Optout( $this );
 	}
 }
 
@@ -344,5 +345,73 @@ class BP_UnitTest_Factory_For_Friendship extends WP_UnitTest_Factory_For_Thing {
 	 */
 	public function get_object_by_id( $id ) {
 		return new BP_Friends_Friendship( $id );
+	}
+}
+
+/**
+ * Factory for optout.
+ *
+ * @since 15.0.0
+ */
+class BP_UnitTest_Factory_For_Optout extends WP_UnitTest_Factory_For_Thing {
+	/**
+	 * Constructor.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param $factory WP_UnitTest_Factory
+	 */
+	public function __construct( $factory = null ) {
+		parent::__construct( $factory );
+
+		$this->default_generation_definitions = array(
+			'email_address' => new WP_UnitTest_Generator_Sequence( 'user_%s@example.org' ),
+			'user_id'       => 0,
+			'email_type'    => '',
+			'date_modified' => bp_core_current_time(),
+		);
+	}
+
+	/**
+	 * Create optout object.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param array $args Array of arguments.
+	 * @return int
+	 */
+	public function create_object( $args ) {
+		$optout = new BP_Optout();
+
+		$optout->email_address = $args['email_address'];
+		$optout->user_id       = $args['user_id'];
+		$optout->email_type    = $args['email_type'];
+		$optout->date_modified = $args['date_modified'];
+
+		return $optout->save();
+	}
+
+	/**
+	 * Update an optout object.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @todo Implement.
+	 *
+	 * @param int   $id     ID of the optout.
+	 * @param array $fields Fields to update.
+	 */
+	public function update_object( $id, $fields ) {}
+
+	/**
+	 * Get an optout object by its ID.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param int $id ID of the optout.
+	 * @return BP_Optout
+	 */
+	public function get_object_by_id( $id ) {
+		return new BP_Optout( $id );
 	}
 }

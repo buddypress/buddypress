@@ -4823,9 +4823,9 @@ function bp_is_large_install() {
  * @return false|int False on failure, ID of new (or existing) opt-out if successful.
  */
 function bp_add_optout( $args = array() ) {
-	$optout = new BP_Optout();
-	$r      = bp_parse_args(
-		$args, array(
+	$r = bp_parse_args(
+		$args,
+		array(
 			'email_address' => '',
 			'user_id'       => 0,
 			'email_type'    => '',
@@ -4838,6 +4838,8 @@ function bp_add_optout( $args = array() ) {
 	if ( empty( $r['email_address'] ) ) {
 		return false;
 	}
+
+	$optout = new BP_Optout();
 
 	// Avoid creating duplicate opt-outs.
 	$optout_id = $optout->optout_exists(
@@ -4872,8 +4874,7 @@ function bp_add_optout( $args = array() ) {
  * @return array See {@link BP_Optout::get()}.
  */
 function bp_get_optouts( $args = array() ) {
-	$optout_class = new BP_Optout();
-	return $optout_class::get( $args );
+	return BP_Optout::get( $args );
 }
 
 /**
