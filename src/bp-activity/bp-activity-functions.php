@@ -1870,6 +1870,7 @@ function bp_activity_format_activity_action_custom_post_type_comment( $action, $
  *
  * @since 1.2.0
  * @since 2.4.0 Introduced the `$fields` parameter.
+ * @since 15.0.0 Introduced the `cache_results`parameter.
  *
  * @see BP_Activity_Activity::get() For more information on accepted arguments
  *      and the format of the returned value.
@@ -1898,6 +1899,7 @@ function bp_activity_get( $args = '' ) {
 			'exclude'           => false,        // Comma-separated list of activity IDs to exclude.
 			'in'                => false,        // Comma-separated list or array of activity IDs to which you want to limit the query.
 			'spam'              => 'ham_only',   // 'ham_only' (default), 'spam_only' or 'all'.
+			'cache_results'     => true,
 			'update_meta_cache' => true,
 			'count_total'       => false,
 			'count_total_only'  => false,
@@ -1937,6 +1939,7 @@ function bp_activity_get( $args = '' ) {
 			'exclude'           => $r['exclude'],
 			'in'                => $r['in'],
 			'spam'              => $r['spam'],
+			'cache_results'     => $r['cache_results'],
 			'update_meta_cache' => $r['update_meta_cache'],
 			'count_total'       => $r['count_total'],
 			'count_total_only'  => $r['count_total_only'],
@@ -1959,6 +1962,7 @@ function bp_activity_get( $args = '' ) {
  * Fetch specific activity items.
  *
  * @since 1.2.0
+ * @since 15.0.0 Introduced the `cache_results`parameter.
  *
  * @see BP_Activity_Activity::get() For more information on accepted arguments.
  *
@@ -1984,6 +1988,7 @@ function bp_activity_get_specific( $args = '' ) {
 			'show_hidden'       => true,       // When fetching specific items, show all.
 			'sort'              => 'DESC',     // Sort ASC or DESC.
 			'spam'              => 'ham_only', // Retrieve items marked as spam.
+			'cache_results'     => true,
 			'update_meta_cache' => true,
 		),
 		'activity_get_specific'
@@ -1998,6 +2003,7 @@ function bp_activity_get_specific( $args = '' ) {
 		'show_hidden'       => $r['show_hidden'],
 		'sort'              => $r['sort'],
 		'spam'              => $r['spam'],
+		'cache_results'     => $r['cache_results'],
 		'update_meta_cache' => $r['update_meta_cache'],
 	);
 
