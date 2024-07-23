@@ -319,6 +319,11 @@ function bp_version_updater() {
 		if ( $raw_db_version < 13906 ) {
 			bp_update_to_14_0();
 		}
+
+		// Version 15.0.0.
+		if ( $raw_db_version < 13972 ) {
+			bp_update_to_15_0();
+		}
 	}
 
 	/* All done! *************************************************************/
