@@ -31,7 +31,7 @@ class BP_Messages_Notice {
 	 * @deprecated 15.0.0
 	 */
 	public function __construct( $id = null ) {
-		_deprecated_function( __METHOD__, '15.0.0', 'BP_Membes_Notice::__construct()' );
+		_deprecated_function( __METHOD__, '15.0.0', 'BP_Members_Notice::__construct()' );
 	}
 
 	/**
@@ -43,7 +43,7 @@ class BP_Messages_Notice {
 	 * @deprecated 15.0.0
 	 */
 	public function populate() {
-		_deprecated_function( __METHOD__, '15.0.0', 'BP_Membes_Notice::populate()' );
+		_deprecated_function( __METHOD__, '15.0.0', 'BP_Members_Notice::populate()' );
 	}
 
 	/**
@@ -53,7 +53,7 @@ class BP_Messages_Notice {
 	 * @deprecated 15.0.0
 	 */
 	public function save() {
-		_deprecated_function( __METHOD__, '15.0.0', 'BP_Membes_Notice::save()' );
+		_deprecated_function( __METHOD__, '15.0.0', 'BP_Members_Notice::save()' );
 	}
 
 	/**
@@ -63,7 +63,7 @@ class BP_Messages_Notice {
 	 * @deprecated 15.0.0
 	 */
 	public function activate() {
-		_deprecated_function( __METHOD__, '15.0.0', 'BP_Membes_Notice::activate()' );
+		_deprecated_function( __METHOD__, '15.0.0', 'BP_Members_Notice::activate()' );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class BP_Messages_Notice {
 	 * @deprecated 15.0.0
 	 */
 	public function deactivate() {
-		_deprecated_function( __METHOD__, '15.0.0', 'BP_Membes_Notice::deactivate()' );
+		_deprecated_function( __METHOD__, '15.0.0', 'BP_Members_Notice::deactivate()' );
 	}
 
 	/**
@@ -83,7 +83,7 @@ class BP_Messages_Notice {
 	 * @deprecated 15.0.0
 	 */
 	public function delete() {
-		_deprecated_function( __METHOD__, '15.0.0', 'BP_Membes_Notice::delete()' );
+		_deprecated_function( __METHOD__, '15.0.0', 'BP_Members_Notice::delete()' );
 	}
 
 	/** Static Methods ********************************************************/
@@ -97,7 +97,7 @@ class BP_Messages_Notice {
 	 * @deprecated 15.0.0
 	 */
 	public static function get_notices() {
-		_deprecated_function( __METHOD__, '15.0.0', 'BP_Membes_Notice::get_notices()' );
+		_deprecated_function( __METHOD__, '15.0.0', 'BP_Members_Notice::get()' );
 	}
 
 	/**
@@ -107,7 +107,7 @@ class BP_Messages_Notice {
 	 * @deprecated 15.0.0
 	 */
 	public static function get_total_notice_count() {
-		_deprecated_function( __METHOD__, '15.0.0', 'BP_Membes_Notice::get_total_notice_count()' );
+		_deprecated_function( __METHOD__, '15.0.0', 'BP_Members_Notice::get_total_notice_count()' );
 	}
 
 	/**
@@ -117,6 +117,6 @@ class BP_Messages_Notice {
 	 * @deprecated 15.0.0
 	 */
 	public static function get_active() {
-		_deprecated_function( __METHOD__, '15.0.0', 'BP_Membes_Notice::get_active()' );
+		_deprecated_function( __METHOD__, '15.0.0' );
 	}
 }

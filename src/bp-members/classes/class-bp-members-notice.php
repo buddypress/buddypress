@@ -328,30 +328,80 @@ class BP_Members_Notice {
 	 * }
 	 * @return array List of notices to display.
 	 */
-	public static function get_notices( $args = array() ) {
+	public static function get( $args = array() ) {
 		global $wpdb;
 
-		$r = bp_parse_args(
+		$where_sql        = '';
+		$join_sql         = '';
+		$where_conditions = array();
+		$r                = bp_parse_args(
 			$args,
 			array(
-				'pag_num'  => 20, // Number of notices per page.
-				'pag_page' => 1 , // Page number.
+				'user_id'    => 0,
+				'pag_num'    => 20, // Number of notices per page.
+				'pag_page'   => 1 , // Page number.
+				'dismissed'  => false,
+				'meta_query' => array(),
+				'fields'     => 'all',
 			)
 		);
+
+		if ( ! $r['meta_query'] && $r['user_id'] && true === $r['dismissed'] ) {
+			$r['meta_query'] = array(
+				array(
+					'key'     => 'dismissed_by',
+					'value'   => (int) $r['user_id'],
+					'compare' => '=',
+				)
+			);
+		}
+
+		// METADATA.
+		$meta_query_sql = self::get_meta_query_sql( $r['meta_query'] );
+
+		// The meta query.
+		if ( ! empty( $meta_query_sql['where'] ) ) {
+			$where_conditions['meta_query'] = $meta_query_sql['where'];
+		}
+
+		// The meta query.
+		if ( ! empty( $meta_query_sql['join'] ) ) {
+			$join_sql = $meta_query_sql['join'];
+		}
 
 		$limit_sql = '';
 		if ( (int) $r['pag_num'] >= 0 ) {
 			$limit_sql = $wpdb->prepare( "LIMIT %d, %d", (int) ( ( $r['pag_page'] - 1 ) * $r['pag_num'] ), (int) $r['pag_num'] );
 		}
 
+		// Custom WHERE.
+		if ( ! empty( $where_conditions ) ) {
+			$where_sql = 'WHERE ' . implode( ' AND ', $where_conditions );
+		}
+
 		$bp = buddypress();
 
-		$notices = $wpdb->get_results( "SELECT * FROM {$bp->members->table_name_notices} ORDER BY date_sent DESC {$limit_sql}" );
+		if ( 'ids' === $r['fields'] ) {
+			$notices = $wpdb->get_col(
+				"SELECT n.id FROM {$bp->members->table_name_notices} n
+				{$join_sql}
+				{$where_sql}"
+			);
+			$notices = wp_parse_id_list( $notices );
+		} else {
+			$notices = $wpdb->get_results(
+				"SELECT * FROM {$bp->members->table_name_notices} n
+				{$join_sql}
+				{$where_sql}
+				ORDER BY date_sent
+				DESC {$limit_sql}"
+			);
 
-		// Integer casting.
-		foreach ( (array) $notices as $key => $data ) {
-			$notices[ $key ]->id        = (int) $notices[ $key ]->id;
-			$notices[ $key ]->is_active = (int) $notices[ $key ]->is_active;
+			// Integer casting.
+			foreach ( (array) $notices as $key => $data ) {
+				$notices[ $key ]->id = (int) $notices[ $key ]->id;
+				$notices[ $key ]->is_active = (int) $notices[ $key ]->is_active;
+			}
 		}
 
 		/**
@@ -363,6 +413,52 @@ class BP_Members_Notice {
 		 * @param array $r       Array of parameters.
 		 */
 		return apply_filters( 'messages_notice_get_notices', $notices, $r );
+	}
+
+	/**
+	 * Get the SQL for the 'meta_query' param in `BP_Members_Notice::get()`.
+	 *
+	 * We use WP_Meta_Query to do the heavy lifting of parsing the
+	 * meta_query array and creating the necessary SQL clauses. However,
+	 * since `BP_Members_Notice::get()` builds its SQL differently than
+	 * `WP_Query`, we have to alter the return value (stripping the leading
+	 * AND keyword from the 'where' clause).
+	 *
+	 * @since 15.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
+	 * @param  array $meta_query An array of meta_query filters. See the
+	 *                           documentation for WP_Meta_Query for details.
+	 * @return array $sql_array 'join' and 'where' clauses.
+	 */
+	public static function get_meta_query_sql( $meta_query = array() ) {
+		global $wpdb;
+
+		// Default array keys & empty values.
+		$sql_array = array(
+			'join'  => '',
+			'where' => '',
+		);
+
+		// Bail if no meta query.
+		if ( empty( $meta_query ) ) {
+			return $sql_array;
+		}
+
+		$bp       = buddypress();
+		$meta_sql = new WP_Meta_Query( $meta_query );
+
+		// WP_Meta_Query expects the table name at `$wpdb->noticemeta`.
+		$wpdb->noticemeta = $bp->members->table_name_notices_meta;
+
+		$meta_sql = $meta_sql->get_sql( 'notice', 'n', 'id' );
+
+		// Strip the leading AND - it's handled in get().
+		$sql_array['where'] = preg_replace( '/^\sAND/', '', $meta_sql['where'] );
+		$sql_array['join']  = $meta_sql['join'];
+
+		return $sql_array;
 	}
 
 	/**
@@ -408,7 +504,7 @@ class BP_Members_Notice {
 
 			$bp = buddypress();
 
-			$notice_id = $wpdb->get_var( "SELECT id FROM {$bp->members->table_name_notices} WHERE is_active = 1" );
+			$notice_id = $wpdb->get_var( "SELECT id FROM {$bp->members->table_name_notices}  WHERE is_active = 1" );
 			$notice    = new BP_Members_Notice( $notice_id );
 
 			wp_cache_set( 'active_notice', $notice, 'bp_notices' );

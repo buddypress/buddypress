@@ -439,7 +439,7 @@ function bp_members_edit_notice() {
  * @return false|array               False if there are no items, an array of notification items otherwise.
  */
 function bp_members_get_notice_for_user( $notifications, $user_id ) {
-	if ( ! doing_action( 'admin_bar_menu' ) ) {
+	if ( ! doing_action( 'admin_bar_menu' ) && 'bp_core_get_notifications_for_user' !== current_filter() ) {
 		return $notifications;
 	}
 
@@ -448,12 +448,19 @@ function bp_members_get_notice_for_user( $notifications, $user_id ) {
 		return $notifications;
 	}
 
-	$closed_notices = bp_get_user_meta( $user_id, 'closed_notices', true );
-	if ( empty( $closed_notices ) ) {
-		$closed_notices = array();
+	$dismissed_notices = BP_Members_Notice::get(
+		array(
+			'user_id'   => $user_id,
+			'dismissed' => true,
+			'fields'    => 'ids',
+		)
+	);
+
+	if ( empty( $dismissed_notices ) ) {
+		$dismissed_notices = array();
 	}
 
-	if ( in_array( $notice->id, $closed_notices, true ) ) {
+	if ( in_array( $notice->id, $dismissed_notices, true ) ) {
 		return $notifications;
 	}
 
