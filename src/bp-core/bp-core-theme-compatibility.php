@@ -3,7 +3,7 @@
  * BuddyPress Core Theme Compatibility.
  *
  * @package BuddyPress
- * @subpackage ThemeCompatibility
+ * @subpackage Core
  * @since 1.7.0
  */
 
@@ -60,7 +60,7 @@ function bp_get_theme_compat_id() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $id ID of the theme package in use.
+	 * @param string $theme_compat_id ID of the theme package in use.
 	 */
 	return apply_filters( 'bp_get_theme_compat_id', buddypress()->theme_compat->theme->id );
 }
@@ -82,7 +82,7 @@ function bp_get_theme_compat_name() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $name Name of the theme package in use.
+	 * @param string $theme_compat_name Name of the theme package in use.
 	 */
 	return apply_filters( 'bp_get_theme_compat_name', buddypress()->theme_compat->theme->name );
 }
@@ -104,7 +104,7 @@ function bp_get_theme_compat_version() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $version The version string of the theme package in use.
+	 * @param string $theme_compat_version The version string of the theme package in use.
 	 */
 	return apply_filters( 'bp_get_theme_compat_version', buddypress()->theme_compat->theme->version );
 }
@@ -126,7 +126,7 @@ function bp_get_theme_compat_dir() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $dir The absolute path of the theme package in use.
+	 * @param string $theme_compat_dir The absolute path of the theme package in use.
 	 */
 	return apply_filters( 'bp_get_theme_compat_dir', buddypress()->theme_compat->theme->dir );
 }
@@ -149,7 +149,7 @@ function bp_get_theme_compat_url() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $url URL of the theme package in use.
+	 * @param string $theme_compat_url URL of the theme package in use.
 	 */
 	return apply_filters( 'bp_get_theme_compat_url', buddypress()->theme_compat->theme->url );
 }
@@ -169,14 +169,16 @@ function bp_use_theme_compat_with_current_theme() {
 		bp_detect_theme_compat_with_current_theme();
 	}
 
+	$theme_compat_with_current_theme = wp_validate_boolean( buddypress()->theme_compat->use_with_current_theme );
+
 	/**
 	 * Filters whether or not to use theme compat for the active theme.
 	 *
 	 * @since 1.9.0
 	 *
-	 * @param bool $use_with_current_theme True if the current theme needs theme compatibility.
+	 * @param bool $theme_compat_with_current_theme True if the current theme needs theme compatibility.
 	 */
-	return apply_filters( 'bp_use_theme_compat_with_current_theme', buddypress()->theme_compat->use_with_current_theme );
+	return apply_filters( 'bp_use_theme_compat_with_current_theme', $theme_compat_with_current_theme );
 }
 
 /**
@@ -372,7 +374,7 @@ function bp_set_theme_compat_feature( $theme_id, $feature = array() ) {
  * @since 2.4.0
  *
  * @param string $feature The feature (eg: cover_image).
- * @return object The feature settings.
+ * @return false|object The feature settings or false if the feature is not found.
  */
 function bp_get_theme_compat_feature( $feature = '' ) {
 	// Get current theme compat theme.
@@ -481,7 +483,7 @@ function bp_register_theme_compat_default_features() {
  *
  * @param string $template The template name to check.
  * @return bool True if the value of $template is the same as the
- *              "original_template" originally selected by WP. Otherwise false.
+ *              "original_template" originally selected by WP. Otherwise, false.
  */
 function bp_is_theme_compat_original_template( $template = '' ) {
 	$bp = buddypress();
@@ -490,7 +492,7 @@ function bp_is_theme_compat_original_template( $template = '' ) {
 		return false;
 	}
 
-	return (bool) ( $bp->theme_compat->original_template === $template );
+	return $bp->theme_compat->original_template === $template;
 }
 
 /**
@@ -806,8 +808,8 @@ function bp_do_theme_compat() {
  *
  * @since 1.7.0
  *
- * @global WP_filter $wp_filter
- * @global array $merged_filters
+ * @global array $wp_filter      Stores all the filters.
+ * @global array $merged_filters Merges the filter hooks using this function.
  *
  * @param string   $tag      The filter tag to remove filters from.
  * @param int|bool $priority Optional. If present, only those callbacks attached
@@ -861,8 +863,8 @@ function bp_remove_all_filters( $tag, $priority = false ) {
  *
  * @since 1.7.0
  *
- * @global WP_filter $wp_filter
- * @global array $merged_filters
+ * @global array $wp_filter      Stores all the filters.
+ * @global array $merged_filters Merges the filter hooks using this function.
  *
  * @param string   $tag      The tag to which filters should be restored.
  * @param int|bool $priority Optional. If present, only those filters that were originally
@@ -977,8 +979,10 @@ function bp_comments_pre_query( $comment_data, $wp_comment_query ) {
  *
  * @since 1.9.2
  *
+ * @global WP_Query $wp_query WordPress database query object.
+ *
  * @param  string $retval The current post content.
- * @return string $retval
+ * @return string
  */
 function bp_theme_compat_toggle_is_page( $retval = '' ) {
 	global $wp_query;
@@ -1000,7 +1004,8 @@ add_filter( 'bp_replace_the_content', 'bp_theme_compat_toggle_is_page', 9999 );
  * @since 1.9.2
  *
  * @see bp_theme_compat_toggle_is_page()
- * @param object $query The WP_Query object.
+ *
+ * @param WP_Query $query The WP_Query object.
  */
 function bp_theme_compat_loop_end( $query ) {
 
@@ -1118,11 +1123,16 @@ add_filter( 'current_theme_supports-buddypress', '_bp_filter_current_theme_suppo
  * @since 14.0.0
  *
  * @param array $args An associative array containing **ONE** feature & keyed by the BP Component ID.
- * @return boolean True if the theme supports the BP feature. False otherwise.
+ * @return bool True if the theme supports the BP feature. False otherwise.
  */
 function bp_current_theme_supports( $args = array() ) {
 	if ( is_array( $args ) && $args && ( 1 < count( $args ) || is_array( $args[ key( $args ) ] ) ) ) {
-		_doing_it_wrong( __FUNCTION__, esc_html( 'The function only supports checking 1 feature for a specific component at a time for now.', 'buddypress' ), '14.0.0' );
+		_doing_it_wrong(
+			__FUNCTION__,
+			esc_html__( 'The function only supports checking 1 feature for a specific component at a time for now.', 'buddypress' ),
+			'14.0.0'
+		);
+
 		return false;
 	}
 
@@ -1133,7 +1143,7 @@ function bp_current_theme_supports( $args = array() ) {
 	 *
 	 * @since 14.0.0
 	 *
-	 * @param boolean $supports True if the theme supports the BP feature. False otherwise.
+	 * @param bool $supports True if the theme supports the BP feature. False otherwise.
 	 */
 	return apply_filters( 'bp_current_theme_supports', $supports, $args );
 }

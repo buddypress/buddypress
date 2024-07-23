@@ -24,7 +24,7 @@ function bp_rest_is_plugin_active() {
 /**
  * Should we use the REST Endpoints of built BuddyPress?
  *
- * If the BP REST plugin is active, it overrides BuddyPress REST enpoints.
+ * If the BP REST plugin is active, it overrides BuddyPress REST endpoints.
  * This allows us to carry on maintaining all the BP REST API endpoints from
  * the BP REST plugin on GitHub.
  *
@@ -54,7 +54,7 @@ function bp_rest_api_is_available() {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param boolean $value True if the BP REST API is available. False otherwise.
+	 * @param bool $api_is_available True if the BP REST API is available. False otherwise.
 	 */
 	return apply_filters( 'bp_rest_api_is_available', bp_rest_in_buddypress() ) || bp_rest_is_plugin_active();
 }
@@ -203,7 +203,7 @@ function bp_rest_prepare_date_response( $date_gmt, $date = null ) {
  */
 function bp_rest_sanitize_member_types( $value ) {
 	if ( empty( $value ) ) {
-		return $value;
+		return null;
 	}
 
 	$types              = explode( ',', $value );
