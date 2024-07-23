@@ -27,4 +27,17 @@
 
 	<!-- What to exclude -->
 	<exclude-pattern>*/**/tests/</exclude-pattern>
+
+	<!-- Exclude those rules. -->
+	<rule ref="BuddyPress">
+		<exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound" />
+		<exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned" />
+		<exclude name="WordPress.PHP.YodaConditions.NotYoda" />
+		<exclude name="WordPress.NamingConventions.ValidPostTypeSlug.NotStringLiteral" />
+		<exclude name="WordPress.PHP.DontExtract.extract_extract" />
+		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_key" />
+		<exclude name="WordPress.DB.SlowDBQuery.slow_db_query_meta_value" />
+		<exclude name="WordPress.DateTime.RestrictedFunctions.date_date" />
+	</rule>
 </ruleset>
