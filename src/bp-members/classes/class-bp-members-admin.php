@@ -844,8 +844,13 @@ class BP_Members_Admin {
 				wp_style_add_data( 'bp-members-css', 'suffix', $min );
 			}
 
+			$user_page = $this->user_page;
+			if ( is_user_admin() ) {
+				$user_page .= '-user';
+			}
+
 			// Only load JavaScript for BuddyPress profile.
-			if ( get_current_screen()->id == $this->user_page ) {
+			if ( get_current_screen()->id === $user_page ) {
 				$js = $this->js_url . 'admin.js';
 
 				/**
@@ -1297,6 +1302,28 @@ class BP_Members_Admin {
 			return;
 		}
 
+		/**
+		 * In configs where BuddyPress is not network activated,
+		 * regular admins cannot mark a user as a spammer on front
+		 * end. This prevent them to do it in the back end.
+		 *
+		 * Also prevent admins from marking themselves or other
+		 * admins as spammers.
+		 */
+		$can_manage_user_status = ( empty( $this->is_self_profile ) && ( ! in_array( $user->user_login, get_super_admins() ) ) && empty( $this->subsite_activated ) ) || ( ! empty( $this->subsite_activated ) && current_user_can( 'manage_network_users' ) );
+
+		/**
+		 * Use this filter to disable/enable the WP-Admin/Extended profile primary action.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param boolean $disabled True to disable the primary action. False otherwise.
+		 */
+		$disable_primary_action = apply_filters(
+			'bp_members_admin_profile_disable_major_primary_action',
+			! $can_manage_user_status && ! bp_is_active( 'xprofile' ) && ! bp_get_member_types()
+		);
+
 		// Bail if user has not been activated yet (how did you get here?).
 		if ( isset( $user->user_status ) && ( 2 == $user->user_status ) ) : ?>
 
@@ -1314,15 +1341,7 @@ class BP_Members_Admin {
 					// Get the spam status once here to compare against below.
 					$is_spammer = bp_is_user_spammer( $user->ID );
 
-					/**
-					 * In configs where BuddyPress is not network activated,
-					 * regular admins cannot mark a user as a spammer on front
-					 * end. This prevent them to do it in the back end.
-					 *
-					 * Also prevent admins from marking themselves or other
-					 * admins as spammers.
-					 */
-					if ( ( empty( $this->is_self_profile ) && ( ! in_array( $user->user_login, get_super_admins() ) ) && empty( $this->subsite_activated ) ) || ( ! empty( $this->subsite_activated ) && current_user_can( 'manage_network_users' ) ) ) : ?>
+					if ( $can_manage_user_status ) : ?>
 
 						<div class="misc-pub-section" id="comment-status-radio">
 							<label class="approved"><input type="radio" name="user_status" value="ham" <?php checked( $is_spammer, false ); ?>><?php esc_html_e( 'Active', 'buddypress' ); ?></label><br />
@@ -1354,7 +1373,7 @@ class BP_Members_Admin {
 
 				<div id="publishing-action">
 					<a class="button bp-view-profile" href="<?php echo esc_url( bp_members_get_user_url( $user->ID ) ); ?>" target="_blank"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
-					<?php submit_button( esc_html__( 'Update Profile', 'buddypress' ), 'primary', 'save', false ); ?>
+					<?php $disable_primary_action ? '' : submit_button( esc_html__( 'Update Profile', 'buddypress' ), 'primary', 'save', false ); ?>
 				</div>
 				<div class="clear"></div>
 			</div><!-- #major-publishing-actions -->
