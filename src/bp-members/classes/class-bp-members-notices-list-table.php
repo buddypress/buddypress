@@ -61,7 +61,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 		$page     = $this->get_pagenum();
 		$per_page = $this->get_items_per_page( 'bp_notices_per_page' );
 
-		$this->items = BP_Members_Notice::get_notices(
+		$this->items = BP_Members_Notice::get(
 			array(
 				'pag_num'  => $per_page,
 				'pag_page' => $page
