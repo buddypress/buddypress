@@ -108,6 +108,12 @@
 		"parent": null
 	},
 	{
+		"title": "BuddyPress Extended Profile",
+		"slug": "administration-user-profile",
+		"markdown_source": "../user/administration/users/profile.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Emails",
 		"slug": "administration-emails",
 		"markdown_source": "../user/administration/emails/README.md",
