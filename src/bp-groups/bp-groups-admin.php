@@ -127,6 +127,10 @@ add_filter( 'bp_admin_menu_order', 'bp_groups_admin_menu_order' );
  */
 function bp_groups_admin_load() {
 	global $bp_groups_list_table;
+	$bp = buddypress();
+
+	// Traces the current BP Admin screen.
+	$bp->admin->trace_current_screen();
 
 	// Build redirection URL.
 	$redirect_to = remove_query_arg( array( 'action', 'action2', 'gid', 'deleted', 'error', 'updated', 'success_new', 'error_new', 'success_modified', 'error_modified' ), $_SERVER['REQUEST_URI'] );
@@ -246,8 +250,6 @@ function bp_groups_admin_load() {
 			'heading_pagination' => __( 'Groups list navigation', 'buddypress' ),
 		) );
 	}
-
-	$bp = buddypress();
 
 	// Enqueue CSS and JavaScript.
 	wp_enqueue_script( 'bp_groups_admin_js', $bp->plugin_url . "bp-groups/admin/js/admin{$min}.js", array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), bp_get_version(), true );
