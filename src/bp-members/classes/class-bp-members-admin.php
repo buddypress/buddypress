@@ -1376,7 +1376,11 @@ class BP_Members_Admin {
 			<div id="major-publishing-actions">
 
 				<div id="publishing-action">
-					<a class="button bp-view-profile" href="<?php echo esc_url( bp_members_get_user_url( $user->ID ) ); ?>" target="_blank"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
+					<a class="button bp-view-profile" href="<?php echo esc_url( bp_members_get_user_url( $user->ID ) ); ?>" target="_blank">
+						<?php esc_html_e( 'View Profile', 'buddypress' ); ?>
+						<span class="dashicons dashicons-external" aria-hidden="true"></span>
+						<span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'buddypress' ); ?>
+					</a>
 					<?php $disable_primary_action ? '' : submit_button( esc_html__( 'Update Profile', 'buddypress' ), 'primary', 'save', false ); ?>
 				</div>
 				<div class="clear"></div>
@@ -2363,11 +2367,11 @@ class BP_Members_Admin {
 
 			<?php if ( current_user_can( 'create_users' ) ) : ?>
 
-				<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
+				<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New User', 'user', 'buddypress' ); ?></a>
 
 			<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
 
-				<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
+				<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing User', 'user', 'buddypress' ); ?></a>
 
 			<?php endif;
 

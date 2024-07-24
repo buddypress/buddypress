@@ -98,6 +98,10 @@ div#community-profile-page p.not-activated {
 	float: left;
 }
 
+.bp-view-profile .dashicons {
+	vertical-align: sub;
+}
+
 .alt {
 	background: none;
 }
