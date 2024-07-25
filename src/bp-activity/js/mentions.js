@@ -18,22 +18,42 @@ window.bp = window.bp || {};
 	 * of AJAX requests for user mentions.
 	 *
 	 * This function ensures that the `func` is only called after `wait` milliseconds
-	 * have passed since the last time it was invoked. This helps reduce the frequency
-	 * of AJAX requests and improves the efficiency of the @mentions feature.
+	 * have passed since the last invocation, with an optional immediate execution.
+	 * This helps reduce the frequency of AJAX requests and improves the efficiency of the @mentions feature.
 	 *
 	 * @param {Function} func The function to debounce.
 	 * @param {number} wait The number of milliseconds to wait before calling `func`.
+	 * @param {boolean} [immediate=true] Whether to call the function immediately.
 	 * @returns {Function} A debounced version of the provided function.
 	 */
-	function debounce(func, wait) {
-	    let timeout;
-	    return function() {
-	        const context = this;
-	        const args = arguments;
-	        clearTimeout(timeout);
-	        timeout = setTimeout(() => func.apply(context, args), wait);
-	    };
-	}
+	function debounce(func, wait, immediate) { 
+		'use strict'; 
+	 
+		var timeout; 
+		wait      = (typeof wait !== 'undefined') ? wait : 20; 
+	        immediate = (typeof immediate !== 'undefined') ? immediate : true; 
+	 
+		return function() { 
+	 
+			var context = this, args = arguments; 
+			var later = function() { 
+				timeout = null; 
+	 
+				if (!immediate) { 
+					func.apply(context, args); 
+				} 
+			}; 
+	 
+			var callNow = immediate && !timeout; 
+	 
+			clearTimeout(timeout); 
+			timeout = setTimeout(later, wait); 
+	 
+			if (callNow) { 
+				func.apply(context, args); 
+			} 
+		}; 
+	} 
 
 
 	/**
@@ -188,6 +208,12 @@ window.bp = window.bp || {};
 				remoteFilter: debounce(function( query, render_view ) {
 					var self = $( this ),
 						params = {};
+					
+					// Skip AJAX request if query is empty
+					if (!query.trim()) {
+				        	render_view([]); // Return an empty array to indicate no results
+				        	return;
+				    	}
 
 					mentionsItem = mentionsQueryCache[ query ];
 					if ( typeof mentionsItem === 'object' ) {
