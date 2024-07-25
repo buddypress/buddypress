@@ -976,6 +976,10 @@ class BP_Members_Admin {
 			wp_die( esc_html__( 'You cannot edit the requested user.', 'buddypress' ) );
 		}
 
+		if ( $user_id === $this->current_user_id && ! $this->is_self_profile ) {
+			$this->is_self_profile = true;
+		}
+
 		// Build redirection URL.
 		$redirect_to = remove_query_arg( array( 'action', 'error', 'updated', 'spam', 'ham', 'delete_avatar' ), $_SERVER['REQUEST_URI'] );
 		$doaction    = ! empty( $_REQUEST['action'] ) ? $_REQUEST['action'] : false;
@@ -1011,19 +1015,78 @@ class BP_Members_Admin {
 		if ( ! in_array( $doaction, $allowed_actions ) ) {
 			add_screen_option( 'layout_columns', array( 'default' => 2, 'max' => 2, ) );
 
-			get_current_screen()->add_help_tab( array(
+			$show_avatars = buddypress()->avatar->show_avatars;
+			$member_types = bp_get_member_types();
+			$help_content = array(
+				'overview'     => __( 'This is the admin view of a user’s extended profile.', 'buddypress' ),
+				'main_column'  => __( 'In the main column, you can edit the fields of the user’s extended profile.', 'buddypress' ),
+				'right_column' => __( 'In the right-hand column, you can:', 'buddypress' ),
+			);
+
+			$available_actions = array(
+				'status' => __( 'update the user’s status', 'buddypress' ),
+				'avatar' => __( 'delete the user’s profile photo', 'buddypress' ),
+				'types'  => __( 'assign a user to one or more member types', 'buddypress' ),
+				'stats'  => __( 'view recent statistics', 'buddypress' ),
+			);
+
+			if ( ! bp_is_active( 'xprofile' ) ) {
+				$help_content['main_column'] = __( 'In the main column, you can view recent statistics about the user.', 'buddypress' );
+				unset( $available_actions['stats'] );
+			}
+
+			if ( ! $show_avatars )  {
+				unset( $available_actions['avatar'] );
+			}
+
+			if ( ! $member_types ) {
+				unset( $available_actions['types'] );
+			}
+
+			if ( true === $this->is_self_profile ) {
+				$help_content['overview']    = __( 'This is the admin view of your extended profile.', 'buddypress' );
+
+				if ( isset( $available_actions['stats'] ) ) {
+					$help_content['main_column'] = __( 'In the main column, you can edit the fields of your extended profile.', 'buddypress' );
+					$available_actions['stats']  = __( 'view your recent statistics', 'buddypress' );
+				} else {
+					$help_content['main_column'] = __( 'In the main column, you can view your recent statistics.', 'buddypress' );
+				}
+
+				unset( $available_actions['status'] );
+
+				if ( isset( $available_actions['types'] ) ) {
+					$available_actions['types'] = __( 'view the member types you’re assigned to', 'buddypress' );
+				}
+
+				if ( isset( $available_actions['avatar'] ) ) {
+					$available_actions['avatar'] = __( 'edit or delete your profile photo', 'buddypress' );
+				}
+
+			} elseif ( is_multisite() && ! current_user_can( 'manage_network_users' ) ) {
+				unset( $available_actions['status'] );
+			}
+
+			if ( ! $available_actions ) {
+				unset( $help_content['right_column'] );
+			}
+
+			$help_tab_args = array(
 				'id'      => 'bp-profile-edit-overview',
 				'title'   => __( 'Overview', 'buddypress' ),
-				'content' =>
-				'<p>' . __( 'This is the admin view of a user&#39;s profile.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'In the main column, you can edit the fields of the user&#39;s extended profile.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'In the right-hand column, you can update the user&#39;s status, delete the user&#39;s avatar, and view recent statistics.', 'buddypress' ) . '</p>'
-			) );
+				'content' => '<p>' . implode( '&nbsp;', $help_content ) . '</p>',
+			);
+
+			if ( isset( $help_content['right_column'] ) ) {
+				$help_tab_args['content'] .= '<ul><li>' . implode( '</li><li>', $available_actions ) . '</li></ul>';
+			}
+
+			get_current_screen()->add_help_tab( $help_tab_args );
 
 			// Help panel - sidebar links.
 			get_current_screen()->set_help_sidebar(
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="https://codex.buddypress.org/administrator-guide/extended-profiles/">Managing Profiles</a>', 'buddypress' ) . '</p>' .
+				'<p>' . __( '<a href="https://github.com/buddypress/buddypress/blob/master/docs/user/administration/users/profile.md">Using Extended Profile</a>', 'buddypress' ) . '</p>' .
 				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 			);
 
@@ -1078,7 +1141,7 @@ class BP_Members_Admin {
 				sanitize_key( $this->stats_metabox->priority )
 			);
 
-			if ( buddypress()->avatar->show_avatars ) {
+			if ( $show_avatars ) {
 				// Avatar Metabox.
 				add_meta_box(
 					'bp_members_user_admin_avatar',
@@ -1091,7 +1154,6 @@ class BP_Members_Admin {
 			}
 
 			// Member Type metabox. Only added if member types have been registered.
-			$member_types = bp_get_member_types();
 			if ( ! empty( $member_types ) ) {
 				add_meta_box(
 					'bp_members_admin_member_type',
