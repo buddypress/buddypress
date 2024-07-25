@@ -104,7 +104,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	 */
 	public function single_row( $item ) {
 
-		if ( ! empty( $item->is_active ) ) {
+		if ( isset( $item->priority ) && 1 === $item->priority ) {
 			echo '<tr class="notice-active">';
 		} else {
 			echo '<tr>';
@@ -161,7 +161,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 			)
 		);
 
-		if ( ! empty( $item->is_active ) ) {
+		if ( isset( $item->priority ) && 1 === $item->priority ) {
 			/* translators: %s: notice subject */
 			$item->subject = sprintf( _x( 'Active: %s', 'Tag prepended to active site-wide notice titles on WP Admin notices list table', 'buddypress' ), $item->subject );
 			$actions['activate_deactivate'] = sprintf(

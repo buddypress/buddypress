@@ -1150,7 +1150,7 @@ function bp_messages_bulk_management_dropdown() {
 function bp_messages_is_active_notice() {
 	global $messages_template;
 
-	$retval = ! empty( $messages_template->thread->is_active )
+	$retval = isset( $messages_template->thread->priority ) && 1 === $messages_template->thread->priority
 		? true
 		: false;
 
@@ -1295,7 +1295,7 @@ function bp_message_activate_deactivate_link() {
 
 		$path_chunks = array( bp_get_messages_slug(), 'notices' );
 
-		if ( 1 === (int) $messages_template->thread->is_active ) {
+		if ( 1 === (int) $messages_template->thread->priority ) {
 			$nonce         = 'messages_deactivate_notice';
 			$path_chunks[] = array( 'deactivate', $messages_template->thread->id );
 		} else {
@@ -1331,7 +1331,7 @@ function bp_message_activate_deactivate_text() {
 	function bp_get_message_activate_deactivate_text() {
 		global $messages_template;
 
-		if ( 1 === (int) $messages_template->thread->is_active  ) {
+		if ( 1 === (int) $messages_template->thread->priority  ) {
 			$text = __('Deactivate', 'buddypress');
 		} else {
 			$text = __('Activate', 'buddypress');

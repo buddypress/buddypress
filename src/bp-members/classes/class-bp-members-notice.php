@@ -49,11 +49,11 @@ class BP_Members_Notice {
 	public $date_sent;
 
 	/**
-	 * Whether the notice is active or not.
+	 * Priority of the notice.
 	 *
 	 * @var int
 	 */
-	public $is_active;
+	public $priority;
 
 	/**
 	 * Constructor.
@@ -89,7 +89,7 @@ class BP_Members_Notice {
 			$this->subject   = $notice->subject;
 			$this->message   = $notice->message;
 			$this->date_sent = $notice->date_sent;
-			$this->is_active = (int) $notice->is_active;
+			$this->priority = (int) $notice->priority;
 		}
 	}
 
@@ -182,7 +182,7 @@ class BP_Members_Notice {
 					'subject'   => $this->subject,
 					'message'   => $this->message,
 					'date_sent' => $this->date_sent,
-					'is_active' => $this->is_active,
+					'priority'  => $this->priority,
 				),
 				array( '%s', '%s', '%s', '%d' )
 			);
@@ -193,7 +193,7 @@ class BP_Members_Notice {
 					'subject'   => $this->subject,
 					'message'   => $this->message,
 					'date_sent' => $this->date_sent,
-					'is_active' => $this->is_active,
+					'priority'  => $this->priority,
 				),
 				array(
 					'id' => $this->id,
@@ -254,7 +254,7 @@ class BP_Members_Notice {
 	 * @return bool
 	 */
 	public function activate() {
-		$this->is_active = 1;
+		$this->priority = 1;
 		return (bool) $this->save();
 	}
 
@@ -266,7 +266,7 @@ class BP_Members_Notice {
 	 * @return bool
 	 */
 	public function deactivate() {
-		$this->is_active = 0;
+		$this->priority = 2;
 		return (bool) $this->save();
 	}
 
@@ -399,8 +399,8 @@ class BP_Members_Notice {
 
 			// Integer casting.
 			foreach ( (array) $notices as $key => $data ) {
-				$notices[ $key ]->id = (int) $notices[ $key ]->id;
-				$notices[ $key ]->is_active = (int) $notices[ $key ]->is_active;
+				$notices[ $key ]->id       = (int) $notices[ $key ]->id;
+				$notices[ $key ]->priority = (int) $notices[ $key ]->priority;
 			}
 		}
 

@@ -220,11 +220,12 @@ function messages_new_message( $args = '' ) {
 /**
  * Send a notice.
  *
- * @param string $subject Subject of the notice.
- * @param string $message Content of the notice.
+ * @param string  $subject Subject of the notice.
+ * @param string  $message Content of the notice.
+ * @param integer $priority Priority of the notice. Optional.
  * @return bool
  */
-function messages_send_notice( $subject, $message ) {
+function messages_send_notice( $subject, $message, $priority = 2 ) {
 
 	if ( ! bp_current_user_can( 'bp_moderate' ) || empty( $subject ) || empty( $message ) ) {
 		return false;
@@ -234,7 +235,7 @@ function messages_send_notice( $subject, $message ) {
 	$notice->subject   = $subject;
 	$notice->message   = $message;
 	$notice->date_sent = bp_core_current_time();
-	$notice->is_active = 1;
+	$notice->priority  = $priority;
 	$notice->save(); // Send it.
 
 	/**

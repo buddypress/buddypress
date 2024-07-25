@@ -210,10 +210,11 @@ function bp_members_send_notice( $args = array() ) {
 	$r     = bp_parse_args(
 		$args,
 		array(
-			'title'   => '',
-			'content' => '',
-			'target'  => 'community',
-			'link'    => '',
+			'title'    => '',
+			'content'  => '',
+			'target'   => 'community',
+			'link'     => '',
+			'priority' => 2
 		)
 	);
 	$attrs = array();
@@ -249,7 +250,7 @@ function bp_members_send_notice( $args = array() ) {
 	$notice->subject   = sanitize_text_field( $subject );
 	$notice->message   = $message;
 	$notice->date_sent = bp_core_current_time();
-	$notice->is_active = 1;
+	$notice->priority  = (int) $r['priority'];
 
 	// Send it.
 	$notice_id = $notice->save();

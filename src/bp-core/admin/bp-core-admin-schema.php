@@ -651,15 +651,31 @@ function bp_core_install_members_notices() {
 
 	// Table already exists, so just create the Community notices meta table.
 	if ( true === $table_exists ) {
+		$wpdb->query( "ALTER TABLE {$messages_notices_table} DROP KEY is_active" );
+		$wpdb->query( "ALTER TABLE {$messages_notices_table} CHANGE is_active priority tinyint(1) NOT NULL DEFAULT 2" );
 		$wpdb->query( "RENAME TABLE {$messages_notices_table} TO {$bp_prefix}bp_notices" );
+		$wpdb->update(
+			$bp_prefix . 'bp_notices',
+			array(
+				'priority' => 2,
+			),
+			array(
+				'priority' => 0,
+			),
+			array(
+				'%d',
+			),
+			array(
+				'%d',
+			)
+		);
 	} else {
 		$sql[] = "CREATE TABLE {$bp_prefix}bp_notices (
 			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			subject varchar(200) NOT NULL,
 			message longtext NOT NULL,
 			date_sent datetime NOT NULL,
-			is_active tinyint(1) NOT NULL DEFAULT '0',
-			KEY is_active (is_active)
+			priority tinyint(1) NOT NULL DEFAULT 2
 		) {$charset_collate};";
 	}
 
