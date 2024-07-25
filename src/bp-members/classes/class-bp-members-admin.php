@@ -1228,15 +1228,7 @@ class BP_Members_Admin {
 
 			<?php if ( empty( $this->is_self_profile ) ) : ?>
 
-				<?php if ( current_user_can( 'create_users' ) ) : ?>
-
-					<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
-
-				<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
-
-					<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
-
-				<?php endif; ?>
+				<?php $this->get_top_screen_button(); ?>
 
 			<?php endif; ?>
 
@@ -1376,7 +1368,11 @@ class BP_Members_Admin {
 			<div id="major-publishing-actions">
 
 				<div id="publishing-action">
-					<a class="button bp-view-profile" href="<?php echo esc_url( bp_members_get_user_url( $user->ID ) ); ?>" target="_blank"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
+					<a class="button bp-view-profile" href="<?php echo esc_url( bp_members_get_user_url( $user->ID ) ); ?>" target="_blank">
+						<?php esc_html_e( 'View Profile', 'buddypress' ); ?>
+						<span class="dashicons dashicons-external" aria-hidden="true"></span>
+						<span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'buddypress' ); ?>
+					</a>
 					<?php $disable_primary_action ? '' : submit_button( esc_html__( 'Update Profile', 'buddypress' ), 'primary', 'save', false ); ?>
 				</div>
 				<div class="clear"></div>
@@ -2361,15 +2357,8 @@ class BP_Members_Admin {
 		<div class="wrap">
 			<h1 class="wp-heading-inline"><?php esc_html_e( 'Users', 'buddypress' ); ?></h1>
 
-			<?php if ( current_user_can( 'create_users' ) ) : ?>
-
-				<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
-
-			<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
-
-				<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
-
-			<?php endif;
+			<?php
+			$this->get_top_screen_button();
 
 			if ( $usersearch ) {
 				printf( '<span class="subtitle">' . esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
@@ -3437,6 +3426,25 @@ class BP_Members_Admin {
 		</div>
 
 		<?php
+	}
+
+	/**
+	 * Outputs the Top Screen Action button for Users & Profile screens.
+	 *
+	 * @since 15.0.0
+	 */
+	public function get_top_screen_button() {
+		if ( current_user_can( 'create_users' ) ) :
+		?>
+
+			<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New User', 'user', 'buddypress' ); ?></a>
+
+		<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
+
+			<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing User', 'user', 'buddypress' ); ?></a>
+
+		<?php
+		endif;
 	}
 
 }
