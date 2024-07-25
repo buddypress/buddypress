@@ -1325,28 +1325,6 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Set up heading action for user's pages.
-	 *
-	 * @since 15.0.0
-	 */
-	public function get_heading_action() {
-		if ( ! empty( $this->is_self_profile ) ) {
-			return '';
-		}
-
-		if ( current_user_can( 'create_users' ) ) :
-		?>
-			<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
-
-		<?php
-		elseif ( is_multisite() && current_user_can( 'promote_users' ) ) :
-		?>
-			<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
-
-		<?php endif;
-	}
-
-	/**
 	 * Display the user's profile.
 	 *
 	 * @since 2.0.0
@@ -1477,10 +1455,14 @@ class BP_Members_Admin {
 			$title = sprintf( __( 'Edit User %s', 'buddypress' ), $user->display_name );
 		}
 		?>
-		<div class="wrap" id="community-profile-page">
+		<div class="wrap" id="community-notices-page">
 			<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
 
-			<?php $this->get_heading_action(); ?>
+			<?php if ( empty( $this->is_self_profile ) ) : ?>
+
+				<?php $this->get_top_screen_button(); ?>
+
+			<?php endif; ?>
 
 			<hr class="wp-header-end">
 
