@@ -429,6 +429,67 @@ function bp_members_edit_notice() {
 	bp_core_redirect( $redirect_to );
 }
 
+/**
+ * Get the list of Notice IDs the user has dismissed.
+ *
+ * @since 15.0.0
+ *
+ * @param integer $user_id The user ID to get the notices for.
+ * @return array The list of Notice IDs the user has dismissed.
+ */
+function bp_members_get_dismissed_notices_for_user( $user_id ) {
+	return BP_Members_Notice::get(
+		array(
+			'user_id'   => $user_id,
+			'dismissed' => true,
+			'fields'    => 'ids',
+		)
+	);
+}
+
+/**
+ * Get the user's higher priority notice according to the requested page.
+ *
+ * @since 15.0.0
+ *
+ * @param integer $user_id The user ID to get the notice for.
+ * @param integer $page    The page number to get.
+ * @return BP_Members_Notice|null The notice if it exists. Null otherwise.
+ */
+function bp_members_get_user_higher_priority_notice( $user_id, $page = 1 ) {
+	$notice = null;
+
+	// Get notices orderered by priority.
+	$notices = BP_Members_Notice::get(
+		array(
+			'pag_num'    => 1,
+			'pag_page'   => $page,
+			'meta_query' => array(
+				array(
+					'key'     => 'dismissed_by',
+					'value'   => $user_id,
+					'compare' => '!=',
+				)
+			)
+		)
+	);
+
+	$notice_item = reset( $notices );
+	if ( ! empty( $notice_item->id ) ) {
+		$notice = new BP_Members_Notice();
+		$props  = array_keys( get_object_vars( $notice ) );
+
+		foreach ( $notice_item as $prop => $value ) {
+			if ( ! in_array( $prop, $props, true ) ) {
+				continue;
+			}
+
+			$notice->{$prop} = $value;
+		}
+	}
+
+	return $notice;
+}
 
 /**
  * Prepend a notification about the active Sitewide notice.
@@ -444,24 +505,9 @@ function bp_members_get_notice_for_user( $notifications, $user_id ) {
 		return $notifications;
 	}
 
-	$notice = BP_Members_Notice::get_active();
-	if ( empty( $notice->id ) ) {
-		return $notifications;
-	}
+	$notice = bp_members_get_user_higher_priority_notice( $user_id );
 
-	$dismissed_notices = BP_Members_Notice::get(
-		array(
-			'user_id'   => $user_id,
-			'dismissed' => true,
-			'fields'    => 'ids',
-		)
-	);
-
-	if ( empty( $dismissed_notices ) ) {
-		$dismissed_notices = array();
-	}
-
-	if ( in_array( $notice->id, $dismissed_notices, true ) ) {
+	if ( is_null( $notice ) ) {
 		return $notifications;
 	}
 
@@ -670,9 +716,9 @@ function bp_get_notice_dismiss_url() {
  * @since 15.0.0
  */
 function bp_render_active_notice() {
-	$notice = BP_Members_Notice::get_active();
+	$notice = bp_members_get_user_higher_priority_notice( bp_loggedin_user_id() );
 
-	if ( empty( $notice->id ) ) {
+	if ( is_null( $notice ) ) {
 		return;
 	}
 	?>

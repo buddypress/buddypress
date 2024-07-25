@@ -211,14 +211,6 @@ class BP_Members_Notice {
 			$this->id = $wpdb->insert_id;
 		}
 
-		// Now deactivate all notices apart from the new one.
-		$wpdb->query(
-			$wpdb->prepare(
-				"UPDATE {$bp->members->table_name_notices} SET is_active = 0 WHERE id != %d",
-				$this->id
-			)
-		);
-
 		bp_update_user_last_activity( bp_loggedin_user_id(), bp_core_current_time() );
 
 		/**
@@ -393,8 +385,8 @@ class BP_Members_Notice {
 				"SELECT * FROM {$bp->members->table_name_notices} n
 				{$join_sql}
 				{$where_sql}
-				ORDER BY date_sent
-				DESC {$limit_sql}"
+				ORDER BY priority ASC, date_sent DESC
+				{$limit_sql}"
 			);
 
 			// Integer casting.
@@ -504,7 +496,7 @@ class BP_Members_Notice {
 
 			$bp = buddypress();
 
-			$notice_id = $wpdb->get_var( "SELECT id FROM {$bp->members->table_name_notices}  WHERE is_active = 1" );
+			$notice_id = $wpdb->get_var( "SELECT id FROM {$bp->members->table_name_notices}  WHERE priority = 1" );
 			$notice    = new BP_Members_Notice( $notice_id );
 
 			wp_cache_set( 'active_notice', $notice, 'bp_notices' );
