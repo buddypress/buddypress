@@ -880,14 +880,15 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	/**
 	 * @ticket BP8687
 	 * @ticket BP9075
+	 * @ticket BP9210
 	 */
 	public function test_bp_get_deprecated_functions_versions() {
 		$current_version = bp_get_version();
 		$versions        = bp_get_deprecated_functions_versions();
 		$bp              = buddypress();
 
-		// When current major version is the initial version, we should only load 12.0 deprecated functions file.
-		$this->assertSame( $versions, array( 12.0 ), 'Please check the list of `$deprecated_functions_versions` in `bp_get_deprecated_functions_versions()`. There should be one for each file of the `/src/bp-core/deprecated` directory.' );
+		// When current major version is the initial version, we shouldn't load any deprecated functions file.
+		$this->assertSame( $versions, array(), 'Please check the list of `$deprecated_functions_versions` in `bp_get_deprecated_functions_versions()`. There should be one for each file of the `/src/bp-core/deprecated` directory.' );
 
 		$bp->version = '12.1.1';
 
@@ -898,7 +899,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		$versions = bp_get_deprecated_functions_versions();
 
-		$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when 12.1.1 was the first installed version.' );
+		$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when 12.0 was the first installed version.' );
 
 		$this->bp_initial_version = '9.0';
 
@@ -910,7 +911,6 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		$bp->version = $current_version;
 
-		// We should load the 2 lasts deprecated functions files.
 		$this->bp_initial_version = '8.0';
 
 		add_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
@@ -919,18 +919,18 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
 
-		$this->assertTrue( 2 === count( $versions ) );
+		$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when first installed version is < 15.0' );
 
-		// Even if this version does not exist in deprecated functions files, we should load the 2 lasts.
-		$this->bp_initial_version = '1.0';
+		$bp->version = '14.0.0';
+		$this->bp_initial_version = '14.0';
 
 		add_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
 
 		$versions = bp_get_deprecated_functions_versions();
 
-		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
+		$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when first installed version is < 15.0' );
 
-		$this->assertTrue( 2 === count( $versions ) );
+		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
 	}
 
 	/**

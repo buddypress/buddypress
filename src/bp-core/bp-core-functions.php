@@ -5012,8 +5012,12 @@ function bp_get_deprecated_functions_versions() {
 			}
 		}
 
-		// Only load 12.0 deprecated functions.
-		return array( 12.0 );
+		// Load 12.0 deprecated functions only when BP was installed with 12.0 or 14.0.
+		if ( in_array( $initial_version, array( 12.0, 14.0 ) ) ) {
+			return array( 12.0 );
+		}
+
+		return array();
 	}
 
 	$index_first_major = array_search( $initial_version, $deprecated_functions_versions, true );
@@ -5028,8 +5032,12 @@ function bp_get_deprecated_functions_versions() {
 	}
 
 	$index_initial_version = array_search( $initial_version, $latest_deprecated_functions_versions, true );
-	if ( false !== $index_initial_version && 12.0 !== $initial_version ) {
+	if ( false !== $index_initial_version ) {
 		unset( $latest_deprecated_functions_versions[ $index_initial_version ] );
+	}
+
+	if ( $initial_version < 15.0 ) {
+		$latest_deprecated_functions_versions = array_merge( array( 12.0 ), $latest_deprecated_functions_versions );
 	}
 
 	return $latest_deprecated_functions_versions;
