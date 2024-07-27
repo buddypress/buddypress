@@ -8,9 +8,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Callback function to render the BP Member Block.
@@ -246,7 +244,7 @@ function bp_members_render_members_block( $attributes = array() ) {
 				</div>',
 				esc_url( $member_link ),
 				/* translators: %s: member name */
-				sprintf( esc_attr__( 'Profile photo of %s', 'buddypress' ), $member->display_name ),
+				esc_attr( sprintf( __( 'Profile photo of %s', 'buddypress' ), $member->display_name ) ),
 				esc_url(
 					bp_core_fetch_avatar(
 						array(

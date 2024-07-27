@@ -25,9 +25,30 @@ function xprofile_add_admin_menu() {
 		return false;
 	}
 
-	add_users_page( _x( 'Profile Fields', 'xProfile admin page title', 'buddypress' ), _x( 'Profile Fields', 'Admin Users menu', 'buddypress' ), 'manage_options', 'bp-profile-setup', 'xprofile_admin' );
+	$hook = add_users_page(
+		_x( 'Profile Fields', 'xProfile admin page title', 'buddypress' ),
+		_x( 'Profile Fields', 'Admin Users menu', 'buddypress' ),
+		'manage_options',
+		'bp-profile-setup',
+		'xprofile_admin'
+	);
+
+	// Hook into early actions to load our init handler.
+	add_action( "load-$hook", 'bp_xprofile_admin_load' );
 }
 add_action( bp_core_admin_hook(), 'xprofile_add_admin_menu' );
+
+/**
+ * Performs actions early during the xProfile Admin loading process.
+ *
+ * @since 15.0.0
+ */
+function bp_xprofile_admin_load() {
+	$bp = buddypress();
+
+	// Traces the current BP Admin screen.
+	$bp->admin->trace_current_screen();
+}
 
 /**
  * Handles all actions for the admin area for creating, editing and deleting
@@ -1233,7 +1254,7 @@ function bp_xprofile_admin_form_field_types( $select_field_type ) {
 		printf( '<optgroup label="%1$s">', esc_attr( $category ) );  // Already i18n'd in each profile type class.
 
 		// Sort these fields types alphabetically.
-		uasort( $fields, function( $a, $b ) { return strnatcmp( $a[1]->name, $b[1]->name ); } );
+		uasort( $fields, function ( $a, $b ) { return strnatcmp( $a[1]->name, $b[1]->name ); } );
 
 		foreach ( $fields as $field_type_obj ) {
 			$field_name     = $field_type_obj[0];

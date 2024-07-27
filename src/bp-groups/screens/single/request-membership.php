@@ -11,8 +11,6 @@
  * Handle the display of a group's Request Membership page.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function groups_screen_group_request_membership() {
 
@@ -53,7 +51,7 @@ function groups_screen_group_request_membership() {
 
 		// If the member added a message to their request include it into the request arguments.
 		if ( isset( $_POST['group-request-membership-comments'] ) && $_POST['group-request-membership-comments'] ) {
-			$request_args['content'] = strip_tags( wp_unslash( $_POST['group-request-membership-comments'] ) );
+			$request_args['content'] = wp_strip_all_tags( wp_unslash( $_POST['group-request-membership-comments'] ) );
 		}
 
 		if ( ! groups_send_membership_request( $request_args ) ) {

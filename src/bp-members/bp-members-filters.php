@@ -45,7 +45,7 @@ function bp_members_signup_sanitization() {
 	);
 
 	// Add the filters to each field.
-	foreach( $fields as $filter ) {
+	foreach ( $fields as $filter ) {
 		add_filter( $filter, 'esc_html',       1 );
 		add_filter( $filter, 'wp_filter_kses', 2 );
 		add_filter( $filter, 'stripslashes',   3 );

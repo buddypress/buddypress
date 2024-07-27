@@ -148,7 +148,7 @@ function xprofile_delete_activity( $args = '' ) {
  *
  * @param string $key Key.
  * @param string $value Value.
- * @return bool True if success, false on failure.
+ * @return bool
  */
 function xprofile_register_activity_action( $key, $value ) {
 
@@ -179,7 +179,7 @@ function xprofile_register_activity_action( $key, $value ) {
  * @param bool  $errors     True if validation or saving errors occurred, otherwise false.
  * @param array $old_values Pre-save xprofile field values and visibility levels.
  * @param array $new_values Post-save xprofile field values and visibility levels.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_xprofile_updated_profile_activity( $user_id, $field_ids = array(), $errors = false, $old_values = array(), $new_values = array() ) {
 

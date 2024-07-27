@@ -8,9 +8,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Get default values for the taxonomy registered metadata.
@@ -18,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 7.0.0
  *
  * @param string $type_taxonomy The type's taxonomy name.
- * @return array                Default values for the taxonomy registered metadata.
+ * @return array Default values for the taxonomy registered metadata.
  */
 function bp_core_admin_get_type_default_meta_values( $type_taxonomy ) {
 	$metadata_schema = bp_get_type_metadata_schema( false, $type_taxonomy );
@@ -41,7 +39,7 @@ function bp_core_admin_get_type_default_meta_values( $type_taxonomy ) {
  *
  * @since 7.0.0
  *
- * @param array  $args {
+ * @param array $args {
  *     Array of arguments describing the object type.
  *
  *     @type string $taxonomy   The Type's taxonomy. Required.
@@ -64,12 +62,10 @@ function bp_core_admin_insert_type( $args = array() ) {
 	);
 
 	if ( ! $args['bp_type_id'] || ! $args['taxonomy'] ) {
-		 return new WP_Error(
-			 'invalid_type_taxonomy',
-			 __( 'The Type ID value is missing', 'buddypress' ),
-			 array(
-				'message' => 1,
-			 )
+		return new WP_Error(
+			'invalid_type_taxonomy',
+			__( 'The Type ID value is missing', 'buddypress' ),
+			array( 'message' => 1 )
 		);
 	}
 
@@ -81,8 +77,8 @@ function bp_core_admin_insert_type( $args = array() ) {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param boolean $value   True if the type exists. False otherwise.
-	 * @param string  $type_id The Type's ID.
+	 * @param boolean $existing_type True if the type exists. False otherwise.
+	 * @param string  $type_id       The Type's ID.
 	 */
 	$type_exists = apply_filters( "{$type_taxonomy}_check_existing_type", false, $type_id );
 
@@ -90,16 +86,14 @@ function bp_core_admin_insert_type( $args = array() ) {
 		return new WP_Error(
 			'type_already_exists',
 			__( 'The Type already exists', 'buddypress' ),
-			array(
-			   'message' => 5,
-			)
-	   );
+			array( 'message' => 5 )
+		);
 	}
 
 	// Get default values for metadata.
 	$metadata = bp_core_admin_get_type_default_meta_values( $type_taxonomy );
 
-	// Validate metadata
+	// Validate metadata.
 	$metas = array_filter( array_intersect_key( $args, $metadata ) );
 
 	// Insert the Type into the database.
@@ -142,14 +136,14 @@ function bp_core_admin_insert_type( $args = array() ) {
  *
  * @since 7.0.0
  *
- * @param array  $args {
+ * @param array $args {
  *     Array of arguments describing the object type.
  *
  *     @type string  $taxonomy     The Type's taxonomy. Required.
  *     @type integer $type_term_id The Type's term ID. Required.
  *     @see keys of the array returned by bp_get_type_metadata_schema() for the other arguments.
  * }
- * @return boolean|WP_Error True on success. A WP_Error object otherwise.
+ * @return bool|WP_Error True on success. A WP_Error object otherwise.
  */
 function bp_core_admin_update_type( $args = array() ) {
 	$default_args = array(
@@ -165,12 +159,10 @@ function bp_core_admin_update_type( $args = array() ) {
 	);
 
 	if ( ! $args['type_term_id'] || ! $args['taxonomy'] ) {
-		 return new WP_Error(
-			 'invalid_type_taxonomy',
-			 __( 'The Term Type ID value is missing', 'buddypress' ),
-			 array(
-				'message' => 10,
-			)
+		return new WP_Error(
+			'invalid_type_taxonomy',
+			__( 'The Term Type ID value is missing', 'buddypress' ),
+			array( 'message' => 10 )
 		);
 	}
 
@@ -178,7 +170,7 @@ function bp_core_admin_update_type( $args = array() ) {
 	$type_taxonomy = sanitize_key( $args['taxonomy'] );
 
 	// Get default values for metadata.
-	$metadata  = bp_core_admin_get_type_default_meta_values( $type_taxonomy );
+	$metadata = bp_core_admin_get_type_default_meta_values( $type_taxonomy );
 
 	// Merge customs with defaults.
 	$metas = bp_parse_args(
@@ -216,13 +208,13 @@ function bp_core_admin_update_type( $args = array() ) {
  *
  * @since 7.0.0
  *
- * @param array  $args {
+ * @param array $args {
  *     Array of arguments describing the object type.
  *
  *     @type string  $taxonomy     The Type's taxonomy. Required.
  *     @type integer $type_term_id The Type's term ID. Required.
  * }
- * @return boolean|WP_Error True on success. A WP_Error object otherwise.
+ * @return bool|WP_Error True on success. A WP_Error object otherwise.
  */
 function bp_core_admin_delete_type( $args = array() ) {
 	$default_args = array(
@@ -238,12 +230,10 @@ function bp_core_admin_delete_type( $args = array() ) {
 	);
 
 	if ( ! $args['type_term_id'] || ! $args['taxonomy'] ) {
-		 return new WP_Error(
-			 'invalid_type_taxonomy',
-			 __( 'The Term Type ID value is missing', 'buddypress' ),
-			 array(
-				'message' => 10,
-			)
+		return new WP_Error(
+			'invalid_type_taxonomy',
+			__( 'The Term Type ID value is missing', 'buddypress' ),
+			array( 'message' => 10 )
 		);
 	}
 
@@ -255,9 +245,7 @@ function bp_core_admin_delete_type( $args = array() ) {
 		return new WP_Error(
 			'type_doesnotexist',
 			__( 'The type was not deleted: it does not exist.', 'buddypress' ),
-			array(
-			   'message' => 6,
-			)
+			array( 'message' => 6 )
 		);
 	}
 
@@ -268,9 +256,7 @@ function bp_core_admin_delete_type( $args = array() ) {
 		return new WP_Error(
 			'type_register_by_code',
 			__( 'This type is registered using code, deactivate the plugin or remove the custom code before trying to delete it again.', 'buddypress' ),
-			array(
-			   'message' => 7,
-			)
+			array( 'message' => 7 )
 		);
 	}
 
@@ -280,9 +266,7 @@ function bp_core_admin_delete_type( $args = array() ) {
 		return new WP_Error(
 			'type_not_deleted',
 			__( 'There was an error while trying to delete this type.', 'buddypress' ),
-			array(
-			   'message' => 8,
-			)
+			array( 'message' => 8 )
 		);
 	}
 

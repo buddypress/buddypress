@@ -25,6 +25,7 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 	<p>
 		<?php
 		printf(
+			/* Translators: %s is used to output the link to the Gravatar site */
 			esc_html__( 'Your profile photo will be used on your profile and throughout the site. If there is a %s associated with your account email we will use that, or you can upload an image from your computer.', 'buddypress' ),
 			'<a href="http://gravatar.com">Gravatar</a>'
 		);
@@ -94,6 +95,7 @@ do_action( 'bp_before_profile_avatar_upload_content' ); ?>
 	<p>
 		<?php
 		printf(
+			/* Translators: %s is used to output the link to the Gravatar site */
 			esc_html__( 'Your profile photo will be used on your profile and throughout the site. To change your profile photo, please create an account with %s using the same email address as you used to register with this site.', 'buddypress' ),
 			'<a href="https://gravatar.com">Gravatar</a>'
 		);

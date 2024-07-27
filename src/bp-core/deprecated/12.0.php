@@ -7,9 +7,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 // These functions has been moved to the BP Classic plugin.
 if ( ! function_exists( 'bp_classic' ) ) {

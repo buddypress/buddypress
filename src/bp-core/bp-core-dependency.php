@@ -795,7 +795,7 @@ function bp_post_request() {
 	 *
 	 * @param string $action The action being run.
 	 */
-	do_action( 'bp_post_request',   $action );
+	do_action( 'bp_post_request', $action );
 }
 
 /**
@@ -837,5 +837,5 @@ function bp_get_request() {
 	 *
 	 * @param string $action The action being run.
 	 */
-	do_action( 'bp_get_request',   $action );
+	do_action( 'bp_get_request', $action );
 }

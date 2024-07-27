@@ -11,8 +11,6 @@
  * Show the capabilities settings template.
  *
  * @since 1.6.0
- *
- * @return void
  */
 function bp_settings_screen_capabilities() {
 

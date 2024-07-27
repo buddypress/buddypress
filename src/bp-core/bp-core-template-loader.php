@@ -7,7 +7,7 @@
  * would not be robust enough to predict where BuddyPress templates might exist.
  *
  * @package BuddyPress
- * @subpackage TemplateFunctions
+ * @subpackage Core
  * @since 1.7.0
  */
 
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * Get a BuddyPress template part for display in a theme.
  *
  * @since 1.7.0
- * @since 7.0.0 Added $args parameter.
+ * @since 7.0.0 Added `$args` parameter.
  *
  * @param string      $slug Template part slug. Used to generate filenames,
  *                          eg 'friends' for 'friends.php'.
@@ -54,7 +54,7 @@ function bp_get_template_part( $slug, $name = null, $args = array() ) {
 	 * Filters the template parts to be loaded.
 	 *
 	 * @since 1.7.0
-	 * @since 7.0.0 Added $args parameter.
+	 * @since 7.0.0 Added `$args` parameter.
 	 *
 	 * @param array  $templates Array of templates located.
 	 * @param string $slug      Template part slug requested.
@@ -74,7 +74,7 @@ function bp_get_template_part( $slug, $name = null, $args = array() ) {
  * prepended to the slug.
  *
  * @since 2.6.0
- * @since 7.0.0 Added $args parameter.
+ * @since 7.0.0 Added `$args` parameter.
  *
  * @see bp_get_template_part() for full documentation.
  *
@@ -155,7 +155,7 @@ function bp_get_dynamic_template_part( $template = '', $type = 'js', $tokens = a
  * not found in either of those, it looks in the theme-compat folder last.
  *
  * @since 1.7.0
- * @since 7.0.0 Added $args parameter.
+ * @since 7.0.0 Added `$args` parameter.
  *
  * @param string|array $template_names Template file(s) to search for, in order.
  * @param bool         $load           Optional. If true, the template file will be loaded when
@@ -185,7 +185,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 		}
 
 		// Trim off any slashes from the template name.
-		$template_name  = ltrim( $template_name, '/' );
+		$template_name = ltrim( $template_name, '/' );
 
 		// Loop through template stack.
 		foreach ( (array) $template_locations as $template_location ) {
@@ -217,7 +217,7 @@ function bp_locate_template( $template_names, $load = false, $require_once = tru
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param bool $value True to load the template, false otherwise.
+	 * @param bool $load_template True to load the template, false otherwise.
 	 */
 	$load_template = (bool) apply_filters( 'bp_locate_template_and_load', true );
 
@@ -252,17 +252,17 @@ function bp_locate_template_asset( $filename ) {
 	}
 
 	// Set up data array.
-	$data = array();
+	$data         = array();
 	$data['file'] = $data['uri'] = $located;
 
 	$find = array(
 		get_theme_root(),
-		bp_get_theme_compat_dir()
+		bp_get_theme_compat_dir(),
 	);
 
 	$replace = array(
 		get_theme_root_uri(),
-		bp_get_theme_compat_url()
+		bp_get_theme_compat_url(),
 	);
 
 	// Make sure URI path is relative to site URL.
@@ -339,8 +339,9 @@ function bp_get_template_stack() {
 	global $wp_filter, $merged_filters, $wp_current_filter;
 
 	// Setup some default variables.
-	$tag  = 'bp_template_stack';
-	$args = $stack = array();
+	$tag   = 'bp_template_stack';
+	$args  = array();
+	$stack = array();
 
 	// Add 'bp_template_stack' to the current filter array.
 	$wp_current_filter[] = $tag;
@@ -362,7 +363,7 @@ function bp_get_template_stack() {
 
 	// Loop through 'bp_template_stack' filters, and call callback functions.
 	do {
-		foreach( (array) current( $filter ) as $the_ ) {
+		foreach ( (array) current( $filter ) as $the_ ) {
 			if ( ! is_null( $the_['function'] ) ) {
 				$args[1] = $stack;
 				$stack[] = call_user_func_array( $the_['function'], array_slice( $args, 1, (int) $the_['accepted_args'] ) );
@@ -383,25 +384,25 @@ function bp_get_template_stack() {
 	 *
 	 * @param array $stack Array of registered directories for template locations.
 	 */
-	return (array) apply_filters( 'bp_get_template_stack', $stack ) ;
+	return (array) apply_filters( 'bp_get_template_stack', $stack );
 }
 
 /**
  * Put a template part into an output buffer, and return it.
  *
  * @since 1.7.0
- * @since 7.0.0 Added $args parameter.
+ * @since 7.0.0 Added `$args` parameter.
  *
  * @see bp_get_template_part() for a description of $slug, $name and $args params.
  *
  * @param string      $slug See {@link bp_get_template_part()}.
  * @param string|null $name See {@link bp_get_template_part()}.
- * @param bool        $echo If true, template content will be echoed. If false,
+ * @param bool        $ret  If true, template content will be echoed. If false,
  *                          returned. Default: true.
  * @param array       $args See {@link bp_get_template_part()}.
  * @return string|null If $echo, returns the template content.
  */
-function bp_buffer_template_part( $slug, $name = null, $echo = true, $args = array() ) {
+function bp_buffer_template_part( $slug, $name = null, $ret = true, $args = array() ) {
 	ob_start();
 
 	// Remove 'bp_replace_the_content' filter to prevent infinite loops.
@@ -416,7 +417,7 @@ function bp_buffer_template_part( $slug, $name = null, $echo = true, $args = arr
 	$output = ob_get_clean();
 
 	// Echo or return the output buffer contents.
-	if ( true === $echo ) {
+	if ( true === $ret ) {
 		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo $output;
 	} else {
@@ -499,7 +500,7 @@ function bp_get_template_locations( $templates = array() ) {
 	$locations = array(
 		'buddypress',
 		'community',
-		''
+		'',
 	);
 
 	/**
@@ -539,7 +540,7 @@ function bp_add_template_stack_locations( $stacks = array() ) {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param array $value  Array of all template locations registered so far.
+	 * @param array $template_locations  Array of all template locations registered so far.
 	 * @param array $stacks Array of template locations.
 	 */
 	return apply_filters( 'bp_add_template_stack_locations', array_unique( $retval ), $stacks );
@@ -564,7 +565,7 @@ function bp_parse_query( $posts_query ) {
 	}
 
 	// Bail if filters are suppressed on this query.
-	if ( true == $posts_query->get( 'suppress_filters' ) ) {
+	if ( true === $posts_query->get( 'suppress_filters' ) ) {
 		return;
 	}
 
@@ -641,7 +642,7 @@ function bp_parse_ajax_referer_query( $referer_query ) {
 	 *
 	 * @since 12.0.0
 	 *
-	 * @param WP_Query $posts_query WP_Query instance. Passed by reference.
+	 * @param WP_Query $referer_query WP_Query instance. Passed by reference.
 	 */
 	do_action_ref_array( 'bp_parse_query', array( &$referer_query ) );
 }
@@ -653,11 +654,13 @@ function bp_parse_ajax_referer_query( $referer_query ) {
  *
  * @since 12.0.0
  *
+ * @global WP $wp WordPress main instance.
+ *
  * @param string   $bp_request A specific BuddyPress request.
  * @param WP_Query $query The WordPress query object.
  * @return true
  */
-function bp_reset_query( $bp_request = '', WP_Query $query = null ) {
+function bp_reset_query( $bp_request = '', $query = null ) {
 	global $wp;
 
 	// Get BuddyPress main instance.
@@ -674,7 +677,7 @@ function bp_reset_query( $bp_request = '', WP_Query $query = null ) {
 		if ( ! bp_has_pretty_urls() ) {
 			$matched_query = wp_parse_url( $bp_request, PHP_URL_QUERY );
 		} else {
-			// Temporarly override the request uri.
+			// Temporarily override the request uri.
 			$_SERVER['REQUEST_URI'] = $bp_request;
 
 			$wp_ajax = new WP();
@@ -698,9 +701,9 @@ function bp_reset_query( $bp_request = '', WP_Query $query = null ) {
 		// Parse the matched query.
 		$query->parse_query( $matched_query );
 
-		// Use to requery in case of root profiles.
+		// Use to request in case of root profiles.
 	} elseif ( isset( $wp->request ) ) {
-		// Temporarly override the request uri.
+		// Temporarily override the request uri.
 		$_SERVER['REQUEST_URI'] = str_replace( $wp->request, $bp_request, $reset_server_request_uri );
 
 		// Reparse request.
@@ -781,7 +784,7 @@ function bp_set_template_included( $template = false ) {
  *
  * @since 1.8.0
  *
- * @return bool True if yes, false if no.
+ * @return bool
  */
 function bp_is_template_included() {
 	return isset( buddypress()->theme_compat->found_template ) && buddypress()->theme_compat->found_template;
@@ -792,7 +795,8 @@ function bp_is_template_included() {
  *
  * @since 1.7.0
  *
- * @global string $pagenow
+ * @global string $pagenow The current page being loaded.
+ * @global WP_Query $wp_query The WordPress Query object.
  */
 function bp_load_theme_functions() {
 	global $pagenow, $wp_query;
@@ -830,16 +834,19 @@ function bp_load_theme_functions() {
  * @return string Possible root level wrapper template files.
  */
 function bp_get_theme_compat_templates() {
-	return bp_get_query_template( 'buddypress', array(
-		'plugin-buddypress.php',
-		'buddypress.php',
-		'community.php',
-		'generic.php',
-		'page.php',
-		'single.php',
-		'singular.php',
-		'index.php'
-	) );
+	return bp_get_query_template(
+		'buddypress',
+		array(
+			'plugin-buddypress.php',
+			'buddypress.php',
+			'community.php',
+			'generic.php',
+			'page.php',
+			'single.php',
+			'singular.php',
+			'index.php',
+		)
+	);
 }
 
 /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Caching functions specific to BuddyPress Members.
+ * BuddyPress Members Caching.
  *
  * @package BuddyPress
  * @subpackage MembersCache
@@ -20,9 +20,13 @@ defined( 'ABSPATH' ) || exit;
 function bp_members_prefetch_member_type( $bp_user_query ) {
 	$uncached_member_ids = bp_get_non_cached_ids( $bp_user_query->user_ids, 'bp_member_member_type' );
 
-	$member_types = bp_get_object_terms( $uncached_member_ids, bp_get_member_type_tax_name(), array(
-		'fields' => 'all_with_object_id',
-	) );
+	$member_types = bp_get_object_terms(
+		$uncached_member_ids,
+		bp_get_member_type_tax_name(),
+		array(
+			'fields' => 'all_with_object_id',
+		)
+	);
 
 	// Rekey by user ID.
 	$keyed_member_types = array();
@@ -66,11 +70,9 @@ add_action( 'delete_user', 'bp_members_clear_member_type_cache' );
  * Invalidate activity caches when a user's last_activity value is changed.
  *
  * @since 2.7.0
- *
- * @return bool True on success, false on failure.
  */
 function bp_members_reset_activity_cache_incrementor() {
-	return bp_core_reset_incrementor( 'bp_activity_with_last_activity' );
+	bp_core_reset_incrementor( 'bp_activity_with_last_activity' );
 }
 add_action( 'bp_core_user_updated_last_activity', 'bp_members_reset_activity_cache_incrementor' );
 
@@ -84,7 +86,7 @@ add_action( 'bp_core_user_updated_last_activity', 'bp_members_reset_activity_cac
 function bp_members_delete_signup_cache( $signup_id = 0 ) {
 	wp_cache_delete( $signup_id, 'bp_signups' );
 }
-add_action( 'bp_core_signups_after_add',         'bp_members_delete_signup_cache' );
+add_action( 'bp_core_signups_after_add', 'bp_members_delete_signup_cache' );
 add_action( 'bp_core_signups_after_update_meta', 'bp_members_delete_signup_cache' );
 
 /**
@@ -101,9 +103,9 @@ function bp_members_delete_signup_cache_multiples( $signup_ids = array() ) {
 		bp_members_delete_signup_cache( $signup_id );
 	}
 }
-add_action( 'bp_core_signup_after_resend',   'bp_members_delete_signup_cache_multiples' );
+add_action( 'bp_core_signup_after_resend', 'bp_members_delete_signup_cache_multiples' );
 add_action( 'bp_core_signup_after_activate', 'bp_members_delete_signup_cache_multiples' );
-add_action( 'bp_core_signup_after_delete',   'bp_members_delete_signup_cache_multiples' );
+add_action( 'bp_core_signup_after_delete', 'bp_members_delete_signup_cache_multiples' );
 
 /**
  * Reset cache incrementor for BP_Signups.
@@ -114,15 +116,12 @@ add_action( 'bp_core_signup_after_delete',   'bp_members_delete_signup_cache_mul
  *   - A record is deleted.
  *
  * @since 10.0.0
- *
- * @return bool True on success, false on failure.
  */
 function bp_members_reset_signup_cache_incrementor() {
-	return bp_core_reset_incrementor( 'bp_signups' );
+	bp_core_reset_incrementor( 'bp_signups' );
 }
-add_filter( 'bp_core_signups_after_add',         'bp_members_reset_signup_cache_incrementor' );
-add_action( 'bp_core_activated_user',            'bp_members_reset_signup_cache_incrementor' );
-add_action( 'bp_core_signup_after_activate',     'bp_members_reset_signup_cache_incrementor' );
+add_filter( 'bp_core_signups_after_add', 'bp_members_reset_signup_cache_incrementor' );
+add_action( 'bp_core_activated_user', 'bp_members_reset_signup_cache_incrementor' );
+add_action( 'bp_core_signup_after_activate', 'bp_members_reset_signup_cache_incrementor' );
 add_action( 'bp_core_signups_after_update_meta', 'bp_members_reset_signup_cache_incrementor' );
-add_action( 'bp_core_signup_after_delete',       'bp_members_reset_signup_cache_incrementor' );
-
+add_action( 'bp_core_signup_after_delete', 'bp_members_reset_signup_cache_incrementor' );

@@ -65,7 +65,6 @@ class BP_Core_Members_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
-	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -78,7 +77,6 @@ class BP_Core_Members_Widget {
 	 * @deprecated 12.0.0
 	 *
 	 * @param array $instance Widget instance settings.
-	 * @return void
 	 */
 	public function form( $instance ) {
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -91,7 +89,6 @@ class BP_Core_Members_Widget {
 	 * @deprecated 12.0.0
 	 *
 	 * @param array $instance Widget instance settings.
-	 * @return array
 	 */
 	public function parse_settings( $instance = array() ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

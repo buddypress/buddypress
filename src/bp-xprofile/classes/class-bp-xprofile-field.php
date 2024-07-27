@@ -358,7 +358,7 @@ class BP_XProfile_Field {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param boolean $delete_data Whether or not to delete data.
-	 * @return boolean
+	 * @return bool
 	 */
 	public function delete( $delete_data = false ) {
 		global $wpdb;
@@ -415,7 +415,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function save() {
 		global $wpdb;
@@ -987,7 +987,7 @@ class BP_XProfile_Field {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param int $group_id ID of the field group to delete fields from.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function delete_for_group( $group_id = 0 ) {
 		global $wpdb;
@@ -1048,7 +1048,7 @@ class BP_XProfile_Field {
 	 * @param int      $field_id       ID of the field to update.
 	 * @param int|null $position       Field position to update.
 	 * @param int|null $field_group_id ID of the field group.
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function update_position( $field_id, $position = null, $field_group_id = null ) {
 		global $wpdb;
@@ -1166,7 +1166,7 @@ class BP_XProfile_Field {
 	 *
 	 * @global string $message The feedback message to show.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function admin_validate() {
 		global $message;
@@ -1433,7 +1433,7 @@ class BP_XProfile_Field {
 	 * @since 8.0.0
 	 *
 	 * @param string $support The name of the feature.
-	 * @return boolean True if the field type supports the feature. False otherwise.
+	 * @return bool True if the field type supports the feature. False otherwise.
 	 */
 	public function field_type_supports( $support = '' ) {
 		$retval   = true;
@@ -1580,8 +1580,6 @@ class BP_XProfile_Field {
 	 * Private method used to output field Member Type metabox.
 	 *
 	 * @since 2.4.0
-	 *
-	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function member_type_metabox() {
 
@@ -1635,8 +1633,6 @@ class BP_XProfile_Field {
 	 * Private method used to output field visibility metaboxes.
 	 *
 	 * @since 2.3.0
-	 *
-	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function visibility_metabox() {
 
@@ -1651,7 +1647,7 @@ class BP_XProfile_Field {
 				<div>
 					<select name="default-visibility" id="default-visibility">
 
-						<?php foreach( bp_xprofile_get_visibility_levels() as $level ) : ?>
+						<?php foreach ( bp_xprofile_get_visibility_levels() as $level ) : ?>
 
 							<option value="<?php echo esc_attr( $level['id'] ); ?>" <?php selected( $this->get_default_visibility(), $level['id'] ); ?>>
 								<?php echo esc_html( $level['label'] ); ?>
@@ -1684,8 +1680,6 @@ class BP_XProfile_Field {
 	 * Output the metabox for setting if field is required or not.
 	 *
 	 * @since 2.3.0
-	 *
-	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function required_metabox() {
 
@@ -1711,8 +1705,6 @@ class BP_XProfile_Field {
 	 * Private method used to output autolink metabox.
 	 *
 	 * @since 2.5.0
-	 *
-	 * @return void If the field does not support the feature.
 	 */
 	private function autolink_metabox() {
 
@@ -1746,8 +1738,6 @@ class BP_XProfile_Field {
 	 * Output the metabox for setting what type of field this is.
 	 *
 	 * @since 2.3.0
-	 *
-	 * @return void If default field.
 	 */
 	private function type_metabox() {
 
@@ -1789,8 +1779,6 @@ class BP_XProfile_Field {
 	 * Output the metabox for setting the field's position into the signup form.
 	 *
 	 * @since 8.0.0
-	 *
-	 * @return void If default field or if the field does not support the feature.
 	 */
 	private function signup_position_metabox() {
 		// Field types not supporting the feature cannot be added to signups form.
@@ -1829,8 +1817,6 @@ class BP_XProfile_Field {
 	 * Output hidden fields used by default field.
 	 *
 	 * @since 2.3.0
-	 *
-	 * @return void If not default field.
 	 */
 	private function default_field_hidden_inputs() {
 

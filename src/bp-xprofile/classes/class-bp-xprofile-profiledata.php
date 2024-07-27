@@ -281,7 +281,7 @@ class BP_XProfile_ProfileData {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function delete() {
 		global $wpdb;

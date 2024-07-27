@@ -24,7 +24,7 @@ class BP_Optout {
 	 * The opt-out ID.
 	 *
 	 * @since 8.0.0
-	 * @access public
+	 *
 	 * @var int
 	 */
 	public $id;
@@ -34,7 +34,7 @@ class BP_Optout {
 	 * communications from this site.
 	 *
 	 * @since 8.0.0
-	 * @access public
+	 *
 	 * @var string
 	 */
 	public $email_address;
@@ -43,7 +43,7 @@ class BP_Optout {
 	 * The ID of the user that generated the contact that resulted in the opt-out.
 	 *
 	 * @since 8.0.0
-	 * @access public
+	 *
 	 * @var int
 	 */
 	public $user_id;
@@ -53,7 +53,7 @@ class BP_Optout {
 	 * This should be one of the known BP_Email types.
 	 *
 	 * @since 8.0.0
-	 * @access public
+	 *
 	 * @var string
 	 */
 	public $email_type;
@@ -62,7 +62,7 @@ class BP_Optout {
 	 * The date the opt-out was last modified.
 	 *
 	 * @since 8.0.0
-	 * @access public
+	 *
 	 * @var string
 	 */
 	public $date_modified;
@@ -74,8 +74,7 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param int $id Optional. Provide an ID to access an existing
-	 *        optout item.
+	 * @param int $id Optional. Provide an ID to access an existing optout item.
 	 */
 	public function __construct( $id = 0 ) {
 		if ( ! empty( $id ) ) {
@@ -88,7 +87,7 @@ class BP_Optout {
 	 * Get the opt-outs table name.
 	 *
 	 * @since 8.0.0
-	 * @access public
+	 *
 	 * @return string
 	 */
 	public static function get_table_name() {
@@ -102,15 +101,15 @@ class BP_Optout {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function save() {
 
-		// Return value
+		// Return value.
 		$retval = false;
 
-		// Default data and format
-		$data = array(
+		// Default data and format.
+		$data        = array(
 			'email_address_hash' => $this->email_address,
 			'user_id'            => $this->user_id,
 			'email_type'         => sanitize_key( $this->email_type ),
@@ -130,7 +129,7 @@ class BP_Optout {
 		// Update.
 		if ( ! empty( $this->id ) ) {
 			$result = self::_update( $data, array( 'ID' => $this->id ), $data_format, array( '%d' ) );
-		// Insert.
+			// Insert.
 		} else {
 			$result = self::_insert( $data, $data_format );
 		}
@@ -150,7 +149,7 @@ class BP_Optout {
 		 *
 		 * @since 8.0.0
 		 *
-		 * @param BP_optout object $this Characteristics of the opt-out just saved.
+		 * @param BP_optout $bp_optout Characteristics of the opt-out just saved.
 		 */
 		do_action_ref_array( 'bp_optout_after_save', array( &$this ) );
 
@@ -188,7 +187,6 @@ class BP_Optout {
 		$this->user_id       = (int) $optout->user_id;
 		$this->email_type    = sanitize_key( $optout->email_type );
 		$this->date_modified = $optout->date_modified;
-
 	}
 
 	/** Protected Static Methods ******************************************/
@@ -198,29 +196,34 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $data {
 	 *     Array of optout data, passed to {@link wpdb::insert()}.
-	 *	   @type string $email_address     The hashed email address of the user that wishes to opt out of
+	 *     @type string $email_address     The hashed email address of the user that wishes to opt out of
 	 *                                     communications from this site.
-	 *	   @type int    $user_id           The ID of the user that generated the contact that resulted in the opt-out.
-	 * 	   @type string $email_type        The type of email contact that resulted in the opt-out.
-	 * 	   @type string $date_modified     Date the opt-out was last modified.
+	 *     @type int    $user_id           The ID of the user that generated the contact that resulted in the opt-out.
+	 *     @type string $email_type        The type of email contact that resulted in the opt-out.
+	 *     @type string $date_modified     Date the opt-out was last modified.
 	 * }
 	 * @param array $data_format See {@link wpdb::insert()}.
 	 * @return int|false The number of rows inserted, or false on error.
 	 */
 	protected static function _insert( $data = array(), $data_format = array() ) {
 		global $wpdb;
+
 		// We must lowercase and hash the email address at insert.
 		$email                      = strtolower( $data['email_address_hash'] );
 		$data['email_address_hash'] = wp_hash( $email );
-		return $wpdb->insert( BP_Optout::get_table_name(), $data, $data_format );
+		return $wpdb->insert( self::get_table_name(), $data, $data_format );
 	}
 
 	/**
 	 * Update opt-outs.
 	 *
 	 * @since 8.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
@@ -243,13 +246,15 @@ class BP_Optout {
 			$data['email_address_hash'] = wp_hash( $email );
 		}
 
-		return $wpdb->update( BP_Optout::get_table_name(), $data, $where, $data_format, $where_format );
+		return $wpdb->update( self::get_table_name(), $data, $where, $data_format, $where_format );
 	}
 
 	/**
 	 * Delete opt-outs.
 	 *
 	 * @since 8.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @see wpdb::update() for further description of paramater formats.
 	 *
@@ -261,7 +266,7 @@ class BP_Optout {
 	 */
 	protected static function _delete( $where = array(), $where_format = array() ) {
 		global $wpdb;
-		return $wpdb->delete( BP_Optout::get_table_name(), $where, $where_format );
+		return $wpdb->delete( self::get_table_name(), $where, $where_format );
 	}
 
 	/**
@@ -271,6 +276,8 @@ class BP_Optout {
 	 * clause.
 	 *
 	 * @since 8.0.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args See {@link BP_optout::get()} for more details.
 	 * @return string WHERE clause.
@@ -357,7 +364,6 @@ class BP_Optout {
 	 * @return string ORDER BY clause.
 	 */
 	protected static function get_order_by_sql( $args = array() ) {
-
 		$conditions = array();
 		$retval     = '';
 
@@ -397,6 +403,8 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $args See {@link BP_optout::get()} for more details.
 	 * @return string LIMIT clause.
 	 */
@@ -408,10 +416,10 @@ class BP_Optout {
 
 		// Custom LIMIT.
 		if ( ! empty( $args['page'] ) && ! empty( $args['per_page'] ) ) {
-			$page     = absint( $args['page']     );
+			$page     = absint( $args['page'] );
 			$per_page = absint( $args['per_page'] );
 			$offset   = $per_page * ( $page - 1 );
-			$retval   = $wpdb->prepare( "LIMIT %d, %d", $offset, $per_page );
+			$retval   = $wpdb->prepare( 'LIMIT %d, %d', $offset, $per_page );
 		}
 
 		return $retval;
@@ -497,6 +505,8 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @param array $args {
 	 *     Associative array of arguments. All arguments but $page and
 	 *     $per_page can be treated as filter values for get_where_sql()
@@ -504,7 +514,7 @@ class BP_Optout {
 	 *     @type int|array    $id                ID of opt-out.
 	 *                                           Can be an array of IDs.
 	 *     @type string|array $email_address     Email address of users who have opted out
-	 *			                                 being queried. Can be an array of addresses.
+	 *                                           being queried. Can be an array of addresses.
 	 *     @type int|array    $user_id           ID of user whose communication prompted the
 	 *                                           opt-out. Can be an array of IDs.
 	 *     @type string|array $email_type        Name of the emil type to filter by.
@@ -518,19 +528,19 @@ class BP_Optout {
 	 *     @type int          $per_page          Number of items to show per page.
 	 *                                           Default: false (no pagination,
 	 *                                           all items).
-  	 *     @type string       $fields            Which fields to return. Specify 'email_addresses' to
-  	 *                                           fetch a list of opt-out email_addresses.
-  	 *                                           Specify 'user_ids' to
-  	 *                                           fetch a list of opt-out user_ids.
-  	 *                                           Specify 'ids' to fetch a list of opt-out IDs.
- 	 *                                           Default: 'all' (return BP_Optout objects).
+	 *     @type string       $fields            Which fields to return. Specify 'email_addresses' to
+	 *                                           fetch a list of opt-out email_addresses.
+	 *                                           Specify 'user_ids' to
+	 *                                           fetch a list of opt-out user_ids.
+	 *                                           Specify 'ids' to fetch a list of opt-out IDs.
+	 *                                           Default: 'all' (return BP_Optout objects).
 	 * }
 	 *
 	 * @return array BP_Optout objects | IDs of found opt-outs | Email addresses of matches.
 	 */
 	public static function get( $args = array() ) {
 		global $wpdb;
-		$optouts_table_name = BP_Optout::get_table_name();
+		$optouts_table_name = self::get_table_name();
 
 		// Parse the arguments.
 		$r = bp_parse_args(
@@ -551,7 +561,7 @@ class BP_Optout {
 		);
 
 		$sql = array(
-			'select'     => "SELECT",
+			'select'     => 'SELECT',
 			'fields'     => '',
 			'from'       => "FROM {$optouts_table_name} o",
 			'where'      => '',
@@ -560,9 +570,9 @@ class BP_Optout {
 		);
 
 		if ( 'user_ids' === $r['fields'] ) {
-			$sql['fields'] = "DISTINCT o.user_id";
-		} else if ( 'email_addresses' === $r['fields'] ) {
-			$sql['fields'] = "DISTINCT o.email_address_hash";
+			$sql['fields'] = 'DISTINCT o.user_id';
+		} elseif ( 'email_addresses' === $r['fields'] ) {
+			$sql['fields'] = 'DISTINCT o.email_address_hash';
 		} else {
 			$sql['fields'] = 'DISTINCT o.id';
 		}
@@ -582,7 +592,7 @@ class BP_Optout {
 		$sql['orderby'] = self::get_order_by_sql(
 			array(
 				'order_by'   => $r['order_by'],
-				'sort_order' => $r['sort_order']
+				'sort_order' => $r['sort_order'],
 			)
 		);
 
@@ -619,13 +629,13 @@ class BP_Optout {
 		if ( in_array( $r['fields'], array( 'ids', 'user_ids' ), true ) ) {
 			// We only want the field that was found.
 			return array_map( 'intval', $paged_optout_ids );
-		} else if ( 'email_addresses' === $r['fields'] ) {
+		} elseif ( 'email_addresses' === $r['fields'] ) {
 			return $paged_optout_ids;
 		}
 
 		$uncached_ids = bp_get_non_cached_ids( $paged_optout_ids, 'bp_optouts' );
 		if ( $uncached_ids ) {
-			$ids_sql = implode( ',', array_map( 'intval', $uncached_ids ) );
+			$ids_sql      = implode( ',', array_map( 'intval', $uncached_ids ) );
 			$data_objects = $wpdb->get_results( "SELECT o.* FROM {$optouts_table_name} o WHERE o.id IN ({$ids_sql})" );
 			foreach ( $data_objects as $data_object ) {
 				wp_cache_set( $data_object->id, $data_object, 'bp_optouts' );
@@ -645,6 +655,8 @@ class BP_Optout {
 	 *
 	 * @since 8.0.0
 	 *
+	 * @global wpdb $wpdb WordPress database object.
+	 *
 	 * @see BP_optout::get() for a description of
 	 *      arguments.
 	 *
@@ -653,10 +665,10 @@ class BP_Optout {
 	 */
 	public static function get_total_count( $args ) {
 		global $wpdb;
-		$optouts_table_name = BP_Optout::get_table_name();
+		$optouts_table_name = self::get_table_name();
 
 		// Parse the arguments.
-		$r  = bp_parse_args(
+		$r = bp_parse_args(
 			$args,
 			array(
 				'id'            => false,
@@ -673,13 +685,13 @@ class BP_Optout {
 			'bp_optout_get_total_count'
 		);
 
-		// Build the query
-		$select_sql = "SELECT COUNT(*)";
+		// Build the query.
+		$select_sql = 'SELECT COUNT(*)';
 		$from_sql   = "FROM {$optouts_table_name}";
 		$where_sql  = self::get_where_sql( $r );
 		$sql        = "{$select_sql} {$from_sql} {$where_sql}";
 
-		// Return the queried results
+		// Return the queried results.
 		return $wpdb->get_var( $sql );
 	}
 
@@ -701,7 +713,7 @@ class BP_Optout {
 	 */
 	public static function update( $update_args = array(), $where_args = array() ) {
 		$update = self::get_query_clauses( $update_args );
-		$where  = self::get_query_clauses( $where_args  );
+		$where  = self::get_query_clauses( $where_args );
 
 		/**
 		 * Fires before an opt-out is updated.
@@ -735,7 +747,7 @@ class BP_Optout {
 		 */
 		do_action( 'bp_optout_after_update', $where_args, $update_args );
 
-  		return $retval;
+		return $retval;
 	}
 
 	/**
@@ -794,13 +806,14 @@ class BP_Optout {
 	 *
 	 * @see BP_Optout::get() for a description of accepted parameters.
 	 *
+	 * @param array $args Arguments to pass to BP_optout::get().
 	 * @return int|bool ID of first found invitation or false if none found.
 	 */
 	public function optout_exists( $args = array() ) {
 		$exists = false;
 
 		$args['fields'] = 'ids';
-		$optouts        = BP_Optout::get( $args );
+		$optouts        = self::get( $args );
 		if ( $optouts ) {
 			$exists = current( $optouts );
 		}
@@ -817,11 +830,9 @@ class BP_Optout {
 	 *      return value.
 	 *
 	 * @param int $id ID of the opt-out item to be deleted.
-	 * @return bool True on success, false on failure.
+	 * @return bool|int Number of rows deleted on success, false on failure.
 	 */
 	public static function delete_by_id( $id ) {
-		return self::delete( array(
-			'id' => $id,
-		) );
+		return self::delete( array( 'id' => $id ) );
 	}
 }

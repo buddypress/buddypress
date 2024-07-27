@@ -3,7 +3,7 @@
  * BuddyPress - Pending Membership Invitations
  *
  * @since 8.0.0
- * @version 8.0.0
+ * @version 14.0.0
  */
 ?>
 
@@ -40,6 +40,6 @@
 
 <?php else : ?>
 
-	<?php bp_nouveau_user_feedback( 'member-invites-none' ); ?>
+	<?php bp_nouveau_user_feedback( 'member-invitations-none' ); ?>
 
 <?php endif;

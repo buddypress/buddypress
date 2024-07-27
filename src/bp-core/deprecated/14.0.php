@@ -7,9 +7,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Select the right `block_editor_settings` filter according to WP version.
@@ -85,4 +83,38 @@ function bp_admin_email_add_codex_notice() {
 		),
 		'error'
 	);
+}
+
+/**
+ * Handle save/update of screen options for the Activity component admin screen.
+ *
+ * @since 1.6.0
+ * @deprecated 14.0.0
+ *
+ * @param string $value     Will always be false unless another plugin filters it first.
+ * @param string $option    Screen option name.
+ * @param string $new_value Screen option form value.
+ * @return string|int Option value. False to abandon update.
+ */
+function bp_activity_admin_screen_options( $value, $option, $new_value ) {
+	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_admin_set_screen_options' );
+
+	return bp_admin_set_screen_options( $value, $option, $new_value );
+}
+
+/**
+ * Handle save/update of screen options for the Groups component admin screen.
+ *
+ * @since 1.7.0
+ * @deprecated 14.0.0
+ *
+ * @param string $value     Will always be false unless another plugin filters it first.
+ * @param string $option    Screen option name.
+ * @param string $new_value Screen option form value.
+ * @return string|int Option value. False to abandon update.
+ */
+function bp_groups_admin_screen_options( $value, $option, $new_value ) {
+	_deprecated_function( __FUNCTION__, '14.0.0', 'bp_admin_set_screen_options' );
+
+	return bp_admin_set_screen_options( $value, $option, $new_value );
 }

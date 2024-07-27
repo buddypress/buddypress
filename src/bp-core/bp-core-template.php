@@ -472,7 +472,7 @@ function bp_search_form_type_select() {
 	 * @param array $options Array of options to add to select field.
 	 */
 	$options = apply_filters( 'bp_search_form_type_select_options', $options );
-	foreach( (array) $options as $option_value => $option_title ) {
+	foreach ( (array) $options as $option_value => $option_title ) {
 		$selection_box .= sprintf( '<option value="%s">%s</option>', esc_attr( $option_value ), esc_html( $option_title ) );
 	}
 
@@ -678,7 +678,7 @@ function bp_form_field_attributes( $name = '', $attributes = array() ) {
 		 */
 		$attributes = (array) apply_filters( 'bp_get_form_field_attributes', $attributes, $name );
 
-		foreach( $attributes as $attr => $value ) {
+		foreach ( $attributes as $attr => $value ) {
 			// Numeric keyed array.
 			if (is_numeric( $attr ) ) {
 				$retval .= sprintf( ' %s', esc_attr( $value ) );
@@ -816,7 +816,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			return $text;
 		}
 
-		$totalLength = mb_strlen( strip_tags( $ending ) );
+		$totalLength = mb_strlen( wp_strip_all_tags( $ending ) );
 		$openTags    = array();
 		$truncate    = '';
 
@@ -866,7 +866,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	} else {
 		// Strip HTML tags if necessary.
 		if ( ! empty( $r['strip_tags'] ) ) {
-			$text = strip_tags( $text );
+			$text = wp_strip_all_tags( $text );
 		}
 
 		// Remove links if necessary.
@@ -1939,7 +1939,7 @@ function bp_is_blog_page() {
  *
  * @since 12.1.0
  *
- * @return boolean True if the requested URL is site home's one. False otherwise.
+ * @return bool True if the requested URL is site home's one. False otherwise.
  */
 function bp_is_site_home() {
 	$requested_url = bp_get_requested_url();
@@ -3058,14 +3058,14 @@ function bp_get_title_parts( $seplocation = 'right' ) {
 
 		// Use component name on member pages.
 		} else {
-			$bp_title_parts = array_merge( $bp_title_parts, array_map( 'strip_tags', array(
+			$bp_title_parts = array_merge( $bp_title_parts, array_map( 'wp_strip_all_tags', array(
 				$displayed_user_name,
 				$component_name,
 			) ) );
 
 			// If we have a subnav name, add it separately for localization.
 			if ( ! empty( $component_subnav_name ) ) {
-				$bp_title_parts[] = strip_tags( $component_subnav_name );
+				$bp_title_parts[] = wp_strip_all_tags( $component_subnav_name );
 			}
 		}
 
@@ -3219,7 +3219,7 @@ function bp_the_body_class() {
 
 			// Add current user member types.
 			if ( $member_types = bp_get_member_type( bp_displayed_user_id(), false ) ) {
-				foreach( $member_types as $member_type ) {
+				foreach ( $member_types as $member_type ) {
 					$bp_classes[] = sprintf( 'member-type-%s', esc_attr( $member_type ) );
 				}
 			}
@@ -3508,7 +3508,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 		if ( ! empty( $nav_menu->children ) ) {
 			$submenus = array();
 
-			foreach( $nav_menu->children as $sub_menu ) {
+			foreach ( $nav_menu->children as $sub_menu ) {
 				$submenu = new stdClass;
 				$submenu->class  = array( 'menu-child' );
 				$submenu->css_id = $sub_menu->css_id;
@@ -3811,7 +3811,7 @@ function bp_email_footer() {
  *
  * @param string $block_name     The Block name to check (eg: 'bp/sitewide-notices'). Optional.
  * @param string $widget_id_base The Widget ID base to check (eg: 'bp_messages_sitewide_notices_widget' ). Optional.
- * @return boolean True if the Widget/Block is active. False otherwise.
+ * @return bool True if the Widget/Block is active. False otherwise.
  */
 function bp_is_widget_block_active( $block_name = '', $widget_id_base = '' ) {
 	$is_active = array(

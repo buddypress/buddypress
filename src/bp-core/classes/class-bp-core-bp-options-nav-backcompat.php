@@ -2,6 +2,8 @@
 /**
  * Backward compatibility for the $bp->bp_options_nav global.
  *
+ * @package BuddyPress
+ * @subpackage Core
  * @since 2.6.0
  * @deprecated 12.0.0
  */
@@ -10,20 +12,21 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * bp_options_nav backward compatibility class.
- *
  * This class is used to provide backward compatibility for extensions that access and modify
  * the $bp->bp_options_nav global.
+ *
+ * Backward compatibility class for `bp_options_nav`.
  *
  * @since 2.6.0
  * @deprecated 12.0.0
  */
 class BP_Core_BP_Options_Nav_BackCompat extends BP_Core_BP_Nav_BackCompat {
+
 	/**
 	 * Parent slug of the current nav item.
 	 *
 	 * @since 2.6.0
-	 * @access protected
+	 *
 	 * @var string
 	 */
 	protected $parent_slug = '';
@@ -35,7 +38,6 @@ class BP_Core_BP_Options_Nav_BackCompat extends BP_Core_BP_Nav_BackCompat {
 	 * @deprecated 12.0.0
 	 *
 	 * @param mixed $offset Array offset.
-	 * @return BP_Core_BP_Nav_BackCompat
 	 */
 	public function offsetGet( $offset ) {
 		_doing_it_wrong(
@@ -54,6 +56,7 @@ class BP_Core_BP_Options_Nav_BackCompat extends BP_Core_BP_Nav_BackCompat {
 	 *
 	 * @param mixed $offset Array offset.
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetUnset( $offset ) {
 		_doing_it_wrong(
 			'bp_nav',
@@ -68,8 +71,6 @@ class BP_Core_BP_Options_Nav_BackCompat extends BP_Core_BP_Nav_BackCompat {
 	 *
 	 * @since 2.6.0
 	 * @deprecated 12.0.0
-	 *
-	 * @return string
 	 */
 	public function get_parent_slug() {
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -81,7 +82,7 @@ class BP_Core_BP_Options_Nav_BackCompat extends BP_Core_BP_Nav_BackCompat {
 	 * @since 2.6.0
 	 * @deprecated 12.0.0
 	 */
-	public function set_parent_slug( $slug ) {
+	public function set_parent_slug() {
 		_deprecated_function( __METHOD__, '12.0.0' );
 	}
 
@@ -92,7 +93,6 @@ class BP_Core_BP_Options_Nav_BackCompat extends BP_Core_BP_Nav_BackCompat {
 	 * @deprecated 12.0.0
 	 *
 	 * @param mixed $offset Array offset.
-	 * @return bool|array
 	 */
 	public function get_nav( $offset ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

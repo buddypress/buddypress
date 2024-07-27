@@ -118,7 +118,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 	 *     @type mixed             $value          Value passed to xprofile_set_field_data().
 	 *     @type boolean           $is_required    Whether or not the field is required.
 	 * }
-	 * @return boolean Whether to shortcircuit the $bp->profile->table_name_data table.
+	 * @return bool Whether to shortcircuit the $bp->profile->table_name_data table.
 	 */
 	public function set_field_value( $retval = false, $field_args = array() ) {
 		// Check the wp_user_key is valid and supported.

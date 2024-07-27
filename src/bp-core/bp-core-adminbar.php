@@ -31,15 +31,17 @@ function bp_admin_bar_my_account_root() {
 	if ( is_user_logged_in() ) {
 
 		// Add secondary parent item for all BuddyPress components.
-		$wp_admin_bar->add_node( array(
-			'parent'    => 'my-account',
-			'id'        => 'my-account-buddypress',
-			'title'     => __( 'My Account', 'buddypress' ),
-			'group'     => true,
-			'meta'      => array(
-				'class' => 'ab-sub-secondary'
+		$wp_admin_bar->add_node(
+			array(
+				'parent' => 'my-account',
+				'id'     => 'my-account-buddypress',
+				'title'  => __( 'My Account', 'buddypress' ),
+				'group'  => true,
+				'meta'   => array(
+					'class' => 'ab-sub-secondary',
+				),
 			)
-		) );
+		);
 	}
 }
 add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
@@ -51,7 +53,7 @@ add_action( 'admin_bar_menu', 'bp_admin_bar_my_account_root', 100 );
  */
 function bp_core_load_admin_bar() {
 	// Show the Toolbar for logged out users.
-	if ( ! is_user_logged_in() && (int) bp_get_option( 'hide-loggedout-adminbar' ) != 1 ) {
+	if ( ! is_user_logged_in() && (int) bp_get_option( 'hide-loggedout-adminbar' ) !== 1 ) {
 		show_admin_bar( true );
 	}
 }
@@ -67,7 +69,7 @@ add_action( 'init', 'bp_core_load_admin_bar', 9 );
  * @since 1.5.0
  */
 function bp_core_load_admin_bar_css() {
-	add_action( 'bp_enqueue_scripts',       'bp_core_enqueue_admin_bar_css', 1 );
+	add_action( 'bp_enqueue_scripts', 'bp_core_enqueue_admin_bar_css', 1 );
 	add_action( 'bp_admin_enqueue_scripts', 'bp_core_enqueue_admin_bar_css', 1 );
 }
 

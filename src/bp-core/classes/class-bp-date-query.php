@@ -10,21 +10,24 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( class_exists( 'WP_Date_Query' ) ) :
+if ( ! class_exists( 'WP_Date_Query' ) ) {
+	return;
+}
 
 /**
  * BuddyPress date query class.
  *
- * Extends the {@link WP_Date_Query} class for use with BuddyPress.
+ * Extends the {@see WP_Date_Query} class for use with BuddyPress.
  *
  * @since 2.1.0
  *
  * @param array $date_query {
- *     Date query arguments.  See first parameter of {@link WP_Date_Query::__construct()}.
+ *     Date query arguments.  See first parameter of {@see WP_Date_Query::__construct()}.
  * }
  * @param string $column The DB column to query against.
  */
 class BP_Date_Query extends WP_Date_Query {
+
 	/**
 	 * The column to query against. Can be changed via the query arguments.
 	 *
@@ -45,13 +48,13 @@ class BP_Date_Query extends WP_Date_Query {
 	 * Constructor.
 	 *
 	 * @since 2.1.0
-	 * @since 10.0.0 Added $prepend_and argument.
+	 * @since 10.0.0 Added `$prepend_and` argument.
+	 *
+	 * @see WP_Date_Query::__construct()
 	 *
 	 * @param array  $date_query  Date query arguments.
 	 * @param string $column      The DB column to query against.
 	 * @param bool   $prepend_and Whether to prepend the 'AND' operator to the WHERE SQL clause.
-	 *
-	 * @see WP_Date_Query::__construct()
 	 */
 	public function __construct( $date_query, $column = '', $prepend_and = false ) {
 		if ( ! empty( $column ) ) {
@@ -128,10 +131,9 @@ class BP_Date_Query extends WP_Date_Query {
 		// Generate and fetch the WHERE clause for a date query.
 		if ( ! empty( $date_query ) && is_array( $date_query ) && ! empty( $column ) ) {
 			$date_query = new self( $date_query, $column, $prepend_and );
-			$sql = $date_query->get_sql();
+			$sql        = $date_query->get_sql();
 		}
 
 		return $sql;
 	}
 }
-endif;

@@ -45,14 +45,15 @@ function bp_core_set_ajax_uri_globals() {
  *
  * @since 1.6.0
  *
- * @return bool True if yes, false if no.
+ * @return bool
  */
 function bp_core_enable_root_profiles() {
 
 	$retval = false;
 
-	if ( defined( 'BP_ENABLE_ROOT_PROFILES' ) && ( true == BP_ENABLE_ROOT_PROFILES ) )
+	if ( defined( 'BP_ENABLE_ROOT_PROFILES' ) && ( true === BP_ENABLE_ROOT_PROFILES ) ) {
 		$retval = true;
+	}
 
 	/**
 	 * Filters whether or not root profiles are enabled and allowed.
@@ -81,11 +82,13 @@ function bp_core_load_template( $templates ) {
 	global $wp_query;
 
 	// Reset the post.
-	bp_theme_compat_reset_post( array(
-		'ID'          => 0,
-		'is_404'      => true,
-		'post_status' => 'publish',
-	) );
+	bp_theme_compat_reset_post(
+		array(
+			'ID'          => 0,
+			'is_404'      => true,
+			'post_status' => 'publish',
+		)
+	);
 
 	// Set theme compat to false since the reset post function automatically sets
 	// theme compat to true.
@@ -117,7 +120,7 @@ function bp_core_load_template( $templates ) {
 			$template = locate_template( (array) $filtered_templates, false );
 		}
 
-	// Theme compat doesn't require a template lookup.
+		// Theme compat doesn't require a template lookup.
 	} else {
 		$template = '';
 	}
@@ -184,8 +187,8 @@ function bp_core_load_template( $templates ) {
 		// Kill any other output after this.
 		exit();
 
-	// No template found, so setup theme compatibility.
-	// @todo Some other 404 handling if theme compat doesn't kick in.
+		// No template found, so setup theme compatibility.
+		// @todo Some other 404 handling if theme compat doesn't kick in.
 	} else {
 
 		// We know where we are, so reset important $wp_query bits here early.
@@ -290,10 +293,11 @@ function bp_core_catch_no_access() {
 
 	// If coming from bp_core_redirect() and $bp_no_status_set is true,
 	// we are redirecting to an accessible page so skip this check.
-	if ( !empty( $bp->no_status_set ) )
+	if ( ! empty( $bp->no_status_set ) ) {
 		return false;
+	}
 
-	if ( !isset( $wp_query->queried_object ) && !bp_is_blog_page() ) {
+	if ( ! isset( $wp_query->queried_object ) && ! bp_is_blog_page() ) {
 		bp_do_404();
 	}
 }
@@ -309,6 +313,7 @@ add_action( 'bp_template_redirect', 'bp_core_catch_no_access', 1 );
  * @since 1.5.0
  *
  * @param array|string $args {
+ *     Optional. Array of arguments for redirecting user when visiting access controlled areas.
  *     @type int    $mode     Specifies the destination of the redirect. 1 will
  *                            direct to the root domain (home page), which assumes you have a
  *                            log-in form there; 2 directs to wp-login.php. Default: 2.
@@ -331,7 +336,7 @@ function bp_core_no_access( $args = '' ) {
 		'mode'     => 2,                    // 1 = $root, 2 = wp-login.php.
 		'redirect' => $redirect_url,        // the URL you get redirected to when a user successfully logs in.
 		'root'     => bp_get_root_url(),    // the landing page you get redirected to when a user doesn't have access.
-		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' )
+		'message'  => __( 'You must log in to access the page you requested.', 'buddypress' ),
 	);
 
 	$r = bp_parse_args(
@@ -347,27 +352,33 @@ function bp_core_no_access( $args = '' ) {
 	 * @param array $r Array of parsed arguments for redirect determination.
 	 */
 	$r = apply_filters( 'bp_core_no_access', $r );
+
 	extract( $r, EXTR_SKIP );
 
 	/*
 	 * @ignore Ignore these filters and use 'bp_core_no_access' above.
 	 */
-	$mode     = apply_filters( 'bp_no_access_mode',     $mode,     $root,     $redirect, $message );
-	$redirect = apply_filters( 'bp_no_access_redirect', $redirect, $root,     $message,  $mode    );
-	$root     = apply_filters( 'bp_no_access_root',     $root,     $redirect, $message,  $mode    );
-	$message  = apply_filters( 'bp_no_access_message',  $message,  $root,     $redirect, $mode    );
+	$mode     = apply_filters( 'bp_no_access_mode', $mode, $root, $redirect, $message );
+	$redirect = apply_filters( 'bp_no_access_redirect', $redirect, $root, $message, $mode );
+	$root     = apply_filters( 'bp_no_access_root', $root, $redirect, $message, $mode );
+	$message  = apply_filters( 'bp_no_access_message', $message, $root, $redirect, $mode );
 	$root     = trailingslashit( $root );
 
 	switch ( $mode ) {
 
 		// Option to redirect to wp-login.php.
 		// Error message is displayed with bp_core_no_access_wp_login_error().
-		case 2 :
-			if ( !empty( $redirect ) ) {
-				bp_core_redirect( add_query_arg( array(
-					'bp-auth' => 1,
-					'action'  => 'bpnoaccess'
-				), wp_login_url( $redirect ) ) );
+		case 2:
+			if ( ! empty( $redirect ) ) {
+				bp_core_redirect(
+					add_query_arg(
+						array(
+							'bp-auth' => 1,
+							'action'  => 'bpnoaccess',
+						),
+						wp_login_url( $redirect )
+					)
+				);
 			} else {
 				bp_core_redirect( $root );
 			}
@@ -376,15 +387,14 @@ function bp_core_no_access( $args = '' ) {
 
 		// Redirect to root with "redirect_to" parameter.
 		// Error message is displayed with bp_core_add_message().
-		case 1 :
-		default :
-
+		case 1:
+		default:
 			$url = $root;
-			if ( !empty( $redirect ) ) {
+			if ( ! empty( $redirect ) ) {
 				$url = add_query_arg( 'redirect_to', urlencode( $redirect ), $root );
 			}
 
-			if ( !empty( $message ) ) {
+			if ( ! empty( $message ) ) {
 				bp_core_add_message( $message, 'error' );
 			}
 
@@ -501,8 +511,8 @@ function bp_redirect_canonical() {
 		}
 
 		// Build the URL in the address bar.
-		$requested_url  = bp_get_requested_url();
-		$query_args     = '';
+		$requested_url = bp_get_requested_url();
+		$query_args    = '';
 
 		// Stash query args.
 		if ( bp_has_pretty_urls() ) {
@@ -581,8 +591,8 @@ function bp_get_canonical_url( $args = array() ) {
 	// Special case: when a BuddyPress directory (eg example.com/members)
 	// is set to be the front page, ensure that the current canonical URL
 	// is the home page URL.
-	if ( 'page' == get_option( 'show_on_front' ) && $page_on_front = (int) get_option( 'page_on_front' ) ) {
-		$front_page_component = array_search( $page_on_front, bp_core_get_directory_page_ids() );
+	if ( 'page' === get_option( 'show_on_front' ) && $page_on_front = (int) get_option( 'page_on_front' ) ) {
+		$front_page_component = array_search( $page_on_front, bp_core_get_directory_page_ids(), true );
 
 		/*
 		 * If requesting the front page component directory, canonical
@@ -594,10 +604,10 @@ function bp_get_canonical_url( $args = array() ) {
 		if ( false !== $front_page_component && bp_is_current_component( $front_page_component ) && ! bp_current_action() && ! bp_get_current_member_type() ) {
 			$bp->canonical_stack['canonical_url'] = trailingslashit( bp_get_root_url() );
 
-		// Except when the front page is set to the registration page
-		// and the current user is logged in. In this case we send to
-		// the members directory to avoid redirect loops.
-		} elseif ( bp_is_register_page() && 'register' == $front_page_component && is_user_logged_in() ) {
+			// Except when the front page is set to the registration page
+			// and the current user is logged in. In this case we send to
+			// the members directory to avoid redirect loops.
+		} elseif ( bp_is_register_page() && 'register' === $front_page_component && is_user_logged_in() ) {
 
 			/**
 			 * Filters the logged in register page redirect URL.
@@ -612,10 +622,10 @@ function bp_get_canonical_url( $args = array() ) {
 
 	if ( empty( $bp->canonical_stack['canonical_url'] ) ) {
 		// Build the URL in the address bar.
-		$requested_url  = bp_get_requested_url();
-		$base_url       = '';
-		$path_chunks    = array();
-		$component_id   = '';
+		$requested_url = bp_get_requested_url();
+		$base_url      = '';
+		$path_chunks   = array();
+		$component_id  = '';
 
 		// Get query args.
 		$query_string = wp_parse_url( $requested_url, PHP_URL_QUERY );
@@ -677,7 +687,7 @@ function bp_get_canonical_url( $args = array() ) {
 			}
 		} elseif ( isset( $query_args['bp_member_action'] ) && 'members' === $component_id ) {
 			unset( $query_args['bp_member_action'] );
-		} elseif( isset( $query_args['bp_group_action'] ) && 'groups' === $component_id ) {
+		} elseif ( isset( $query_args['bp_group_action'] ) && 'groups' === $component_id ) {
 			unset( $query_args['bp_group_action'] );
 		}
 
@@ -749,8 +759,9 @@ function bp_get_requested_url() {
  * @since 1.6.0
  */
 function _bp_maybe_remove_redirect_canonical() {
-	if ( ! bp_is_blog_page() )
+	if ( ! bp_is_blog_page() ) {
 		remove_action( 'template_redirect', 'redirect_canonical' );
+	}
 }
 
 /**

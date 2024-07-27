@@ -6,8 +6,8 @@ License:           GNU General Public License v2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
 Requires at least: 6.1
-Tested up to:      6.5
-Stable tag:        12.5.0
+Tested up to:      6.6
+Stable tag:        14.0.0
 
 Get together safely, in your own way, in WordPress.
 
@@ -130,6 +130,12 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
+= 14.0.0 =
+See: https://codex.buddypress.org/releases/version-14-0-0/
+
+= 12.5.1 =
+See: https://codex.buddypress.org/releases/version-12-5-1/
+
 = 12.5.0 =
 See: https://codex.buddypress.org/releases/version-12-5-0/
 
@@ -192,6 +198,13 @@ See: https://codex.buddypress.org/releases/version-10-1-0/
 See: https://codex.buddypress.org/releases/version-10-0-0/
 
 == Changelog ==
+
+= 14.0.0 =
+See: https://codex.buddypress.org/releases/version-14-0-0/
+
+= 12.5.1 =
+Security fix: The Members block was vulnerable to a Stored Cross-Site Scripting. Discovered by Wesley (wcraft) from the Wordfence organization.
+See: https://codex.buddypress.org/releases/version-12-5-1/
 
 = 12.5.0 =
 See: https://codex.buddypress.org/releases/version-12-5-0/

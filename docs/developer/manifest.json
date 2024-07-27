@@ -36,6 +36,12 @@
 		"parent": null
 	},
 	{
+		"title": "Theme compatibility features",
+		"slug": "bp-theme-compat-features",
+		"markdown_source": "../developer/theme-compat/features.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress execution contexts",
 		"slug": "bp-execution-contexts",
 		"markdown_source": "../developer/execution-contexts/README.md",

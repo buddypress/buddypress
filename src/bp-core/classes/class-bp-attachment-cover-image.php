@@ -29,22 +29,24 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 		$allowed_types        = bp_attachments_get_allowed_types( 'cover_image' );
 		$max_upload_file_size = bp_attachments_get_max_upload_file_size( 'cover_image' );
 
-		parent::__construct( array(
-			'action'                => 'bp_cover_image_upload',
-			'file_input'            => 'file',
-			'original_max_filesize' => $max_upload_file_size,
-			'base_dir'              => bp_attachments_uploads_dir_get( 'dir' ),
-			'required_wp_files'     => array( 'file', 'image' ),
+		parent::__construct(
+			array(
+				'action'                => 'bp_cover_image_upload',
+				'file_input'            => 'file',
+				'original_max_filesize' => $max_upload_file_size,
+				'base_dir'              => bp_attachments_uploads_dir_get( 'dir' ),
+				'required_wp_files'     => array( 'file', 'image' ),
 
-			// Specific errors for cover images.
-			'upload_error_strings'  => array(
-				/* translators: %s: Max file size for the cover image */
-				11  => sprintf( _x( 'That image is too big. Please upload one smaller than %s', 'cover image upload error', 'buddypress' ), size_format( $max_upload_file_size ) ),
+				// Specific errors for cover images.
+				'upload_error_strings'  => array(
+					/* translators: %s: Max file size for the cover image */
+					11 => sprintf( _x( 'That image is too big. Please upload one smaller than %s', 'cover image upload error', 'buddypress' ), size_format( $max_upload_file_size ) ),
 
-				/* translators: %s: comma separated list of file types allowed for the cover image */
-				12  => sprintf( _nx( 'Please upload only this file type: %s.', 'Please upload only these file types: %s.', count( $allowed_types ), 'cover image upload error', 'buddypress' ), self::get_cover_image_types( $allowed_types ) ),
-			),
-		) );
+					/* translators: %s: comma separated list of file types allowed for the cover image */
+					12 => sprintf( _nx( 'Please upload only this file type: %s.', 'Please upload only these file types: %s.', count( $allowed_types ), 'cover image upload error', 'buddypress' ), self::get_cover_image_types( $allowed_types ) ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -82,7 +84,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 		if ( isset( $file['size'] ) && ( $file['size'] > $this->original_max_filesize ) ) {
 			$file['error'] = 11;
 
-		// File is of invalid type.
+			// File is of invalid type.
 		} elseif ( isset( $file['tmp_name'] ) && isset( $file['name'] ) && ! bp_attachments_check_filetype( $file['tmp_name'], $file['name'], bp_attachments_get_allowed_mimes( 'cover_image' ) ) ) {
 			$file['error'] = 12;
 		}
@@ -137,7 +139,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 		$angles = array(
 			3 => 180,
 			6 => -90,
-			8 =>  90,
+			8 => 90,
 		);
 
 		if ( isset( $cover_data['meta']['orientation'] ) && isset( $angles[ $cover_data['meta']['orientation'] ] ) ) {
@@ -148,15 +150,21 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 		if ( empty( $edit_args ) ) {
 			return false;
 
-		// Add the file to the edit arguments.
+			// Add the file to the edit arguments.
 		} else {
-			$edit_args = array_merge( $edit_args, array( 'file' => $file, 'save' => false ) );
+			$edit_args = array_merge(
+				$edit_args,
+				array(
+					'file' => $file,
+					'save' => false,
+				)
+			);
 		}
 
 		// Get the editor so that we can use a specific save method.
 		$editor = parent::edit_image( 'cover_image', $edit_args );
 
-		if ( is_wp_error( $editor ) )  {
+		if ( is_wp_error( $editor ) ) {
 			return $editor;
 		} elseif ( ! is_a( $editor, 'WP_Image_Editor' ) ) {
 			return false;
@@ -172,7 +180,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 	 * @since 2.4.0
 	 *
 	 * @param string $file The absolute path to the file.
-	 * @return false|string $value The absolute path to the new file name.
+	 * @return false|string
 	 */
 	public function generate_filename( $file = '' ) {
 		if ( empty( $file ) || ! file_exists( $file ) ) {
@@ -207,7 +215,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 				'object'          => 'user',
 				'item_id'         => $item_id,
 				'has_cover_image' => bp_attachments_get_user_has_cover_image( $item_id ),
-				'nonces'  => array(
+				'nonces'          => array(
 					'remove' => wp_create_nonce( 'bp_delete_cover_image' ),
 				),
 			);
@@ -225,7 +233,7 @@ class BP_Attachment_Cover_Image extends BP_Attachment {
 				'object'          => 'group',
 				'item_id'         => bp_get_current_group_id(),
 				'has_cover_image' => bp_attachments_get_group_has_cover_image( $item_id ),
-				'nonces'  => array(
+				'nonces'          => array(
 					'remove' => wp_create_nonce( 'bp_delete_cover_image' ),
 				),
 			);

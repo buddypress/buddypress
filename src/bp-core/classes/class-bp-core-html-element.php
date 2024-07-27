@@ -13,6 +13,7 @@
  * @since 2.7.0
  */
 class BP_Core_HTML_Element {
+
 	/**
 	 * Open tag for an element.
 	 *
@@ -22,7 +23,7 @@ class BP_Core_HTML_Element {
 	 *
 	 * @var string
 	 */
-	public $open_tag   = '';
+	public $open_tag = '';
 
 	/**
 	 * Inner HTML for an element.
@@ -44,7 +45,7 @@ class BP_Core_HTML_Element {
 	 *
 	 * @var string
 	 */
-	public $close_tag  = '';
+	public $close_tag = '';
 
 	/**
 	 * Constructor.
@@ -69,7 +70,7 @@ class BP_Core_HTML_Element {
 
 		// Render attributes.
 		$attributes = '';
-		foreach( (array) $r['attr'] as $attr => $val ) {
+		foreach ( (array) $r['attr'] as $attr => $val ) {
 			// If attribute is empty, skip.
 			if ( empty( $val ) ) {
 				continue;
@@ -90,11 +91,11 @@ class BP_Core_HTML_Element {
 		if ( 'input' === $elem || 'img' === $elem ) {
 			$this->open_tag = sprintf( '<%1$s %2$s />', $elem, $attributes );
 
-		// All other elements.
+			// All other elements.
 		} else {
 			$this->open_tag   = sprintf( '<%1$s %2$s>', $elem, $attributes );
 			$this->inner_html = ! empty( $r['inner_html'] ) ? $r['inner_html'] : '';
-			$this->close_tag  = sprintf( '</%1$s>',	$elem );
+			$this->close_tag  = sprintf( '</%1$s>', $elem );
 		}
 	}
 
@@ -103,7 +104,7 @@ class BP_Core_HTML_Element {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param  string $prop Property name. Either 'open_tag', 'inner_html', 'close_tag'.
+	 * @param string $prop Property name. Either 'open_tag', 'inner_html', 'close_tag'.
 	 * @return string
 	 */
 	public function get( $prop = '' ) {

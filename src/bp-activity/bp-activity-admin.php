@@ -14,11 +14,8 @@
 defined( 'ABSPATH' ) || exit;
 
 // Include WP's list table class.
-if ( ! class_exists( 'WP_List_Table' ) ) require( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
-
-// Per_page screen option. Has to be hooked in extremely early.
-if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-activity' == $_REQUEST['page'] ) {
-	add_filter( 'set-screen-option', 'bp_activity_admin_screen_options', 10, 3 );
+if ( ! class_exists( 'WP_List_Table' ) ) {
+	require ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 /**
@@ -140,28 +137,6 @@ function bp_activity_admin_reply() {
 add_action( 'wp_ajax_bp-activity-admin-reply', 'bp_activity_admin_reply' );
 
 /**
- * Handle save/update of screen options for the Activity component admin screen.
- *
- * @since 1.6.0
- *
- * @param string $value     Will always be false unless another plugin filters it first.
- * @param string $option    Screen option name.
- * @param string $new_value Screen option form value.
- * @return string|int Option value. False to abandon update.
- */
-function bp_activity_admin_screen_options( $value, $option, $new_value ) {
-	if ( 'toplevel_page_bp_activity_per_page' != $option && 'toplevel_page_bp_activity_network_per_page' != $option )
-		return $value;
-
-	// Per page.
-	$new_value = (int) $new_value;
-	if ( $new_value < 1 || $new_value > 999 )
-		return $value;
-
-	return $new_value;
-}
-
-/**
  * Hide the advanced edit meta boxes by default, so we don't clutter the screen.
  *
  * @since 1.6.0
@@ -204,8 +179,11 @@ add_filter( 'default_hidden_meta_boxes', 'bp_activity_admin_edit_hidden_metaboxe
  */
 function bp_activity_admin_load() {
 	global $bp_activity_list_table;
+	$bp = buddypress();
 
-	$bp       = buddypress();
+	// Traces the current BP Admin screen.
+	$bp->admin->trace_current_screen();
+
 	$doaction = bp_admin_list_table_current_bulk_action();
 	$min      = bp_core_get_minified_asset_suffix();
 

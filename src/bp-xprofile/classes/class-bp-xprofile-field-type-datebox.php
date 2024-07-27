@@ -423,7 +423,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 *
 	 * @param int   $field_id ID of the field.
 	 * @param array $settings Array of settings.
-	 * @return bool True on success.
+	 * @return bool
 	 */
 	public function admin_save_settings( $field_id, $settings ) {
 		$existing_settings = self::get_field_settings( $field_id );

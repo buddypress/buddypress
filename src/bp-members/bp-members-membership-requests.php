@@ -50,8 +50,15 @@ function bp_members_membership_requests_cancel_activation_email( $send, $user_id
 	 */
 	$send = apply_filters( 'bp_members_membership_requests_bypass_manual_approval', false, $details );
 
-	// If the registration process has been interrupted, this is a new membership request.
-	if ( ! $send ) {
+	$invites = bp_members_invitations_get_invites(
+		array(
+			'invitee_email' => $user_email,
+			'invite_sent'   => 'sent'
+		)
+	);
+
+	// If the registration process has been interrupted, this is a new membership request or the user was accepting an invitation and we need not send an activation email.
+	if ( ! $send && ! $invites ) {
 		$signup = bp_members_get_signup_by( 'activation_key', $activation_key );
 
 		/**

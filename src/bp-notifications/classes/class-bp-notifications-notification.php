@@ -127,7 +127,7 @@ class BP_Notifications_Notification {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function save() {
 		$retval = false;

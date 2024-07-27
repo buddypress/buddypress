@@ -11,8 +11,6 @@
  * Handle the loading of a single group's page.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function groups_screen_group_home() {
 

@@ -205,7 +205,7 @@ function bp_message_thread_excerpt() {
 		 *
 		 * @param string $value Excerpt of the current thread in the loop.
 		 */
-		return apply_filters( 'bp_get_message_thread_excerpt', strip_tags( bp_create_excerpt( $messages_template->thread->last_message_content, 75 ) ) );
+		return apply_filters( 'bp_get_message_thread_excerpt', wp_strip_all_tags( bp_create_excerpt( $messages_template->thread->last_message_content, 75 ) ) );
 	}
 
 /**
@@ -1982,7 +1982,7 @@ function bp_the_thread_recipients_list() {
 
 		$recipient_links = array();
 
-		foreach( (array) $thread_template->thread->recipients as $recipient ) {
+		foreach ( (array) $thread_template->thread->recipients as $recipient ) {
 			if ( (int) $recipient->user_id !== bp_loggedin_user_id() ) {
 				$recipient_link = bp_core_get_userlink( $recipient->user_id );
 

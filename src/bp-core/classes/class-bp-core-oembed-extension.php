@@ -5,6 +5,8 @@
  * @package BuddyPress
  * @subpackage Core
  * @since 2.6.0
+ *
+ * @phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid
  */
 
 // Exit if accessed directly.
@@ -53,8 +55,6 @@ abstract class BP_Core_oEmbed_Extension {
 	 * Add content for your oEmbed response here.
 	 *
 	 * @since 2.6.0
-	 *
-	 * @return null
 	 */
 	abstract protected function content();
 
@@ -127,7 +127,7 @@ abstract class BP_Core_oEmbed_Extension {
 	 *
 	 * @param int $item_id The item ID to do checks for.
 	 */
-	protected function set_iframe_title( $item_id ) {}
+	protected function set_iframe_title( $item_id ) {} // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 
 	/**
 	 * Do what you need to do here to initialize any custom hooks.
@@ -144,6 +144,8 @@ abstract class BP_Core_oEmbed_Extension {
 	 * override in your extended class.
 	 *
 	 * @since 2.6.0
+	 *
+	 * @return string
 	 */
 	protected function set_permalink() {
 		$url = bp_get_requested_url();
@@ -164,6 +166,8 @@ abstract class BP_Core_oEmbed_Extension {
 	 * Should only be used during the 'embed_html' hook.
 	 *
 	 * @since 2.6.0
+	 *
+	 * @return int
 	 */
 	protected function get_item_id() {
 		return $this->is_page() ? $this->validate_url_to_item_id( $this->set_permalink() ) : buddypress()->{$this->slug_endpoint}->embedid_in_progress;
@@ -188,12 +192,12 @@ abstract class BP_Core_oEmbed_Extension {
 	 * @since 2.6.0
 	 */
 	protected function setup_hooks() {
-		add_action( 'rest_api_init',    array( $this, 'register_route' ) );
+		add_action( 'rest_api_init', array( $this, 'register_route' ) );
 		add_action( 'bp_embed_content', array( $this, 'inject_content' ) );
 
 		add_filter( 'embed_template', array( $this, 'setup_template_parts' ) );
 		add_filter( 'post_embed_url', array( $this, 'filter_embed_url' ) );
-		add_filter( 'embed_html',     array( $this, 'filter_embed_html' ) );
+		add_filter( 'embed_html', array( $this, 'filter_embed_html' ) );
 		add_filter( 'oembed_discovery_links', array( $this, 'add_oembed_discovery_links' ) );
 		add_filter( 'rest_pre_serve_request', array( $this, 'oembed_xml_request' ), 20, 4 );
 	}
@@ -222,20 +226,24 @@ abstract class BP_Core_oEmbed_Extension {
 			'maxwidth' => array(
 				'default'           => $maxwidth,
 				'sanitize_callback' => 'absint',
-			)
+			),
 		);
 
 		// Merge custom arguments here.
 		$args = $args + (array) $this->set_route_args();
 
-		register_rest_route( 'oembed/1.0', "/embed/{$this->slug_endpoint}", array(
+		register_rest_route(
+			'oembed/1.0',
+			"/embed/{$this->slug_endpoint}",
 			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_item' ),
-				'permission_callback' => '__return_true',
-				'args'                => $args
-			),
-		) );
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_item' ),
+					'permission_callback' => '__return_true',
+					'args'                => $args,
+				),
+			)
+		);
 	}
 
 	/**
@@ -254,7 +262,7 @@ abstract class BP_Core_oEmbed_Extension {
 
 		// Set up some BP-specific embed template overrides.
 		add_action( 'get_template_part_embed', array( $this, 'content_buffer_start' ), -999, 2 );
-		add_action( 'get_footer',              array( $this, 'content_buffer_end' ), -999 );
+		add_action( 'get_footer', array( $this, 'content_buffer_end' ), -999 );
 
 		// Return the original WP embed template.
 		return $template;
@@ -340,7 +348,7 @@ abstract class BP_Core_oEmbed_Extension {
 			return $retval;
 		}
 
-		add_filter( 'rest_url' , array( $this, 'filter_rest_url' ) );
+		add_filter( 'rest_url', array( $this, 'filter_rest_url' ) );
 
 		$retval = '<link rel="alternate" type="application/json+oembed" href="' . esc_url( get_oembed_endpoint_url( $permalink ) ) . '" />' . "\n";
 
@@ -348,7 +356,7 @@ abstract class BP_Core_oEmbed_Extension {
 			$retval .= '<link rel="alternate" type="text/xml+oembed" href="' . esc_url( get_oembed_endpoint_url( $permalink, 'xml' ) ) . '" />' . "\n";
 		}
 
-		remove_filter( 'rest_url' , array( $this, 'filter_rest_url' ) );
+		remove_filter( 'rest_url', array( $this, 'filter_rest_url' ) );
 
 		return $retval;
 	}
@@ -356,7 +364,7 @@ abstract class BP_Core_oEmbed_Extension {
 	/**
 	 * Fetch our oEmbed response data to return.
 	 *
-	 * A simplified version of {@link get_oembed_response_data()}.
+	 * A simplified version of {@see get_oembed_response_data()}.
 	 *
 	 * @since 2.6.0
 	 *
@@ -381,10 +389,13 @@ abstract class BP_Core_oEmbed_Extension {
 		);
 
 		/** This filter is documented in /wp-includes/embed.php */
-		$min_max_width = apply_filters( 'oembed_min_max_width', array(
-			'min' => 200,
-			'max' => 600
-		) );
+		$min_max_width = apply_filters(
+			'oembed_min_max_width',
+			array(
+				'min' => 200,
+				'max' => 600,
+			)
+		);
 
 		$width  = min( max( $min_max_width['min'], $width ), $min_max_width['max'] );
 		$height = max( ceil( $width / 16 * 9 ), 200 );
@@ -395,7 +406,7 @@ abstract class BP_Core_oEmbed_Extension {
 		// Set 'html' parameter.
 		if ( 'video' === $data['type'] || 'rich' === $data['type'] ) {
 			// Fake a WP post so we can use get_post_embed_html().
-			$post = new stdClass;
+			$post               = new stdClass();
 			$post->post_content = $data['content'];
 			$post->post_title   = $data['title'];
 
@@ -429,7 +440,7 @@ abstract class BP_Core_oEmbed_Extension {
 			// Add markers to tell that we're embedding a single activity.
 			// This is needed for various oEmbed response data filtering.
 			if ( ! isset( buddypress()->{$this->slug_endpoint} ) || ! buddypress()->{$this->slug_endpoint} ) {
-				buddypress()->{$this->slug_endpoint} = new stdClass;
+				buddypress()->{$this->slug_endpoint} = new stdClass();
 			}
 			buddypress()->{$this->slug_endpoint}->embedurl_in_progress = $url;
 			buddypress()->{$this->slug_endpoint}->embedid_in_progress  = $item_id;
@@ -439,7 +450,7 @@ abstract class BP_Core_oEmbed_Extension {
 			if ( ! empty( $custom_args ) ) {
 				buddypress()->{$this->slug_endpoint}->embedargs_in_progress = array();
 
-				foreach( $custom_args as $arg ) {
+				foreach ( $custom_args as $arg ) {
 					if ( isset( $request[ $arg ] ) ) {
 						buddypress()->{$this->slug_endpoint}->embedargs_in_progress[ $arg ] = $request[ $arg ];
 					}
@@ -539,7 +550,7 @@ abstract class BP_Core_oEmbed_Extension {
 
 			// Add custom route args to iframe.
 			if ( isset( buddypress()->{$this->slug_endpoint}->embedargs_in_progress ) && buddypress()->{$this->slug_endpoint}->embedargs_in_progress ) {
-				foreach( buddypress()->{$this->slug_endpoint}->embedargs_in_progress as $key => $value ) {
+				foreach ( buddypress()->{$this->slug_endpoint}->embedargs_in_progress as $key => $value ) {
 					$url = add_query_arg( $key, $value, $url );
 				}
 			}
@@ -568,7 +579,7 @@ abstract class BP_Core_oEmbed_Extension {
 		// Change 'Embedded WordPress Post' to custom title.
 		$custom_title = $this->set_iframe_title( $item_id );
 		if ( ! empty( $custom_title ) ) {
-			$title_pos = strpos( $retval, 'title=' ) + 7;
+			$title_pos     = strpos( $retval, 'title=' ) + 7;
 			$title_end_pos = strpos( $retval, '"', $title_pos );
 
 			$retval = substr_replace( $retval, esc_attr( $custom_title ), $title_pos, $title_end_pos - $title_pos );
@@ -587,14 +598,16 @@ abstract class BP_Core_oEmbed_Extension {
 		// @todo Maybe use KSES?
 		$fallback_html = $this->set_fallback_html( $item_id );
 
+		$embed_html = $fallback_html . $retval;
+
 		/**
 		 * Dynamic filter to return BP oEmbed HTML.
 		 *
 		 * @since 2.6.0
 		 *
-		 * @var string $retval
+		 * @param string $embed_html Current embed HTML.
 		 */
-		return apply_filters( "bp_{$this->slug_endpoint}_embed_html", $fallback_html . $retval );
+		return apply_filters( "bp_{$this->slug_endpoint}_embed_html", $embed_html );
 	}
 
 	/**

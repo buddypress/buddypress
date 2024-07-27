@@ -3204,7 +3204,7 @@ function bp_activity_latest_update( $user_id = 0 ) {
 		 * @param string $value   The excerpt for the latest update.
 		 * @param int    $user_id ID of the queried user.
 		 */
-		$latest_update = apply_filters( 'bp_get_activity_latest_update_excerpt', trim( strip_tags( bp_create_excerpt( $update['content'], bp_activity_get_excerpt_length() ) ) ), $user_id );
+		$latest_update = apply_filters( 'bp_get_activity_latest_update_excerpt', wp_strip_all_tags( bp_create_excerpt( $update['content'], bp_activity_get_excerpt_length() ) ), $user_id );
 
 		$latest_update = sprintf(
 			'%s <a href="%s">%s</a>',
@@ -4195,14 +4195,14 @@ function bp_activity_feed_item_title() {
 		}
 
 		$content = explode( '<span', $content );
-		$title   = strip_tags( ent2ncr( trim( convert_chars( $content[0] ) ) ) );
+		$title   = wp_strip_all_tags( ent2ncr( trim( convert_chars( $content[0] ) ) ) );
 
 		if ( ':' === substr( $title, -1 ) ) {
 			$title = substr( $title, 0, -1 );
 		}
 
 		if ( 'activity_update' === $activities_template->activity->type ) {
-			$title .= ': ' . strip_tags( ent2ncr( trim( convert_chars( bp_create_excerpt( $activities_template->activity->content, 70, array( 'ending' => " [&#133;]" ) ) ) ) ) );
+			$title .= ': ' . wp_strip_all_tags( ent2ncr( trim( convert_chars( bp_create_excerpt( $activities_template->activity->content, 70, array( 'ending' => " [&#133;]" ) ) ) ) ) );
 		}
 
 		/**

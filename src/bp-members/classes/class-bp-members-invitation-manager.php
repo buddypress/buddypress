@@ -37,7 +37,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 * @since 8.0.0
 	 *
 	 * @param obj BP_Invitation $invitation The invitation to send.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function run_send_action( BP_Invitation $invitation ) {
 		// Notify site admins of the pending request
@@ -91,7 +91,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @param string $type Are we accepting an invitation or request?
 	 * @param array  $r    Parameters that describe the invitation being accepted.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function run_acceptance_action( $type, $r ) {
 		if ( ! $type || ! in_array( $type, array( 'request', 'invite' ), true ) ) {
@@ -141,7 +141,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array $args.
+	 * @param array $args Array of arguments.
 	 * @return bool
 	 */
 	public function allow_invitation( $args ) {

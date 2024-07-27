@@ -11,8 +11,6 @@
  * This function handles actions related to member management on the group admin.
  *
  * @since 1.0.0
- *
- * @return void
  */
 function groups_screen_group_admin_manage_members() {
 
@@ -48,14 +46,15 @@ function groups_screen_group_admin_manage_members() {
 			}
 
 			/**
-			 * Fires before the redirect after a group member has been promoted.
+			 * Fires before the redirect.
 			 *
 			 * @since 1.0.0
+			 * @deprecated 14.0.0
 			 *
 			 * @param int $user_id ID of the user being promoted.
-			 * @param int $id      ID of the group user is promoted within.
+			 * @param int $id      ID of the group is promoted within.
 			 */
-			do_action( 'groups_promoted_member', $user_id, $bp->groups->current_group->id );
+			do_action_deprecated( 'groups_promoted_member', array( $user_id, $bp->groups->current_group->id ), '14.0.0', 'group_member_promoted' );
 
 			bp_core_redirect( $redirect );
 		}
@@ -86,11 +85,12 @@ function groups_screen_group_admin_manage_members() {
 			 * Fires before the redirect after a group member has been demoted.
 			 *
 			 * @since 1.0.0
+			 * @deprecated 14.0.0
 			 *
 			 * @param int $user_id ID of the user being demoted.
-			 * @param int $id      ID of the group user is demoted within.
+			 * @param int $id      ID of the group is demoted within.
 			 */
-			do_action( 'groups_demoted_member', $user_id, $bp->groups->current_group->id );
+			do_action_deprecated( 'groups_demoted_member', array( $user_id, $bp->groups->current_group->id ), '14.0.0', 'group_member_demoted' );
 
 			bp_core_redirect( $redirect );
 		}
@@ -114,11 +114,12 @@ function groups_screen_group_admin_manage_members() {
 			 * Fires before the redirect after a group member has been banned.
 			 *
 			 * @since 1.0.0
+			 * @deprecated 14.0.0
 			 *
 			 * @param int $user_id ID of the user being banned.
 			 * @param int $id      ID of the group user is banned from.
 			 */
-			do_action( 'groups_banned_member', $user_id, $bp->groups->current_group->id );
+			do_action_deprecated( 'groups_banned_member', array( $user_id, $bp->groups->current_group->id ), '14.0.0', 'group_member_banned' );
 
 			bp_core_redirect( $redirect );
 		}
@@ -142,11 +143,12 @@ function groups_screen_group_admin_manage_members() {
 			 * Fires before the redirect after a group member has been unbanned.
 			 *
 			 * @since 1.0.0
+			 * @deprecated 14.0.0
 			 *
 			 * @param int $user_id ID of the user being unbanned.
 			 * @param int $id      ID of the group user is unbanned from.
 			 */
-			do_action( 'groups_unbanned_member', $user_id, $bp->groups->current_group->id );
+			do_action_deprecated( 'groups_unbanned_member', array( $user_id, $bp->groups->current_group->id ), '14.0.0', 'group_member_unbanned' );
 
 			bp_core_redirect( $redirect );
 		}
@@ -170,11 +172,12 @@ function groups_screen_group_admin_manage_members() {
 			 * Fires before the redirect after a group member has been removed.
 			 *
 			 * @since 1.2.6
+			 * @deprecated 14.0.0
 			 *
 			 * @param int $user_id ID of the user being removed.
 			 * @param int $id      ID of the group the user is removed from.
 			 */
-			do_action( 'groups_removed_member', $user_id, $bp->groups->current_group->id );
+			do_action_deprecated( 'groups_removed_member', array( $user_id, $bp->groups->current_group->id ), '14.0.0', 'group_member_removed' );
 
 			bp_core_redirect( $redirect );
 		}

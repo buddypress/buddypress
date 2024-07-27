@@ -11,8 +11,6 @@
  * Handle the display of a group's Change cover image page.
  *
  * @since 2.4.0
- *
- * @return void
  */
 function groups_screen_group_admin_cover_image() {
 	if ( 'group-cover-image' != bp_get_group_current_admin_tab() ) {

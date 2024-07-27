@@ -25,7 +25,7 @@ abstract class BP_Invitation_Manager {
 	 * The name of the related class.
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @var string
 	 */
 	protected $class_name;
@@ -34,11 +34,8 @@ abstract class BP_Invitation_Manager {
 	 * Construct parameters.
 	 *
 	 * @since 5.0.0
-	 *
-	 * @param array|string $args {
-	 * }
 	 */
-	public function __construct( $args = array() ) {
+	public function __construct() {
 		$this->class_name = get_class( $this );
 	}
 
@@ -46,7 +43,7 @@ abstract class BP_Invitation_Manager {
 	 * Get the invitations table name.
 	 *
 	 * @since 5.0.0
-	 * @access public
+	 *
 	 * @return string
 	 */
 	public static function get_table_name() {
@@ -63,24 +60,23 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @param array $args {
 	 *     Array of arguments describing the invitation. All are optional.
-	 *	   @type int    $user_id           ID of the invited user.
-	 *	   @type int    $inviter_id        ID of the user who created the invitation.
-	 *	   @type string $invitee_email     Email address of the invited user.
-	 * 	   @type int    $item_id           ID associated with the invitation and class.
-	 * 	   @type int    $secondary_item_id Secondary ID associated with the
-	 *			                           invitation and class.
-	 * 	   @type string $type              Type of record this is: 'invite' or 'request'.
-	 * 	   @type string $content           Extra information provided by the requester
-	 *			                           or inviter.
-	 * 	   @type string $date_modified     Date the invitation was last modified.
-	 * 	   @type int    $send_invite       Should the invitation also be sent, or is it a
-	 *			                           draft invite?
+	 *     @type int    $user_id           ID of the invited user.
+	 *     @type int    $inviter_id        ID of the user who created the invitation.
+	 *     @type string $invitee_email     Email address of the invited user.
+	 *     @type int    $item_id           ID associated with the invitation and class.
+	 *     @type int    $secondary_item_id Secondary ID associated with the
+	 *                                     invitation and class.
+	 *     @type string $type              Type of record this is: 'invite' or 'request'.
+	 *     @type string $content           Extra information provided by the requester
+	 *                                     or inviter.
+	 *     @type string $date_modified     Date the invitation was last modified.
+	 *     @type int    $send_invite       Should the invitation also be sent, or is it a
+	 *                                     draft invite?
 	 * }
 	 * @return int|bool ID of the newly created invitation on success, false
-	 *         on failure.
+	 *                  on failure.
 	 */
 	public function add_invitation( $args = array() ) {
-
 		$r = bp_parse_args(
 			$args,
 			array(
@@ -112,25 +108,25 @@ abstract class BP_Invitation_Manager {
 		 * Is this user allowed to extend invitations in this situation?
 		 *
 		 * @since 5.0.0
-		 *
-		 * @param array $r Describes the invitation to be added.
 		 */
 		if ( ! $this->allow_invitation( $r ) ) {
 			return false;
 		}
 
 		// Avoid creating duplicate invitations.
-		$invite_id = $this->invitation_exists( array(
-			'user_id'           => $r['user_id'],
-			'invitee_email'     => $r['invitee_email'],
-			'inviter_id'        => $r['inviter_id'],
-			'item_id'           => $r['item_id'],
-			'secondary_item_id' => $r['secondary_item_id'],
-		) );
+		$invite_id = $this->invitation_exists(
+			array(
+				'user_id'           => $r['user_id'],
+				'invitee_email'     => $r['invitee_email'],
+				'inviter_id'        => $r['inviter_id'],
+				'item_id'           => $r['item_id'],
+				'secondary_item_id' => $r['secondary_item_id'],
+			)
+		);
 
 		if ( ! $invite_id ) {
 			// Set up the new invitation as a draft.
-			$invitation                    = new BP_Invitation;
+			$invitation                    = new BP_Invitation();
 			$invitation->user_id           = $r['user_id'];
 			$invitation->inviter_id        = $r['inviter_id'];
 			$invitation->invitee_email     = $r['invitee_email'];
@@ -161,12 +157,10 @@ abstract class BP_Invitation_Manager {
 	 * Send an invitation notification.
 	 *
 	 * @since 5.0.0
-	 * @access public
 	 *
 	 * @param int   $invitation_id ID of invitation to send.
 	 * @param array $args          See BP_Invitation::mark_sent().
-	 *
-	 * @return bool The result of `run_send_action()`.
+	 * @return bool
 	 */
 	public function send_invitation_by_id( $invitation_id = 0, $args = array() ) {
 		$invitation = new BP_Invitation( $invitation_id );
@@ -194,7 +188,7 @@ abstract class BP_Invitation_Manager {
 			'item_id'           => $invitation->item_id,
 			'secondary_item_id' => $invitation->secondary_item_id,
 		);
-		$request = $this->request_exists( $request_args );
+		$request      = $this->request_exists( $request_args );
 
 		if ( ! empty( $request ) ) {
 			// Accept the request.
@@ -219,24 +213,23 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @param array $args {
 	 *     Array of arguments describing the invitation. All are optional.
-	 *	   @type int    $user_id ID of the invited user.
-	 *	   @type int    $inviter_id ID of the user who created the invitation.
-	 * 	   @type string $class Name of the invitations class.
-	 * 	   @type int    $item_id ID associated with the invitation and class.
-	 * 	   @type int    $secondary_item_id secondary ID associated with the
-	 *			        invitation and class.
-	 * 	   @type string $type    Type of record this is: 'invite' or 'request'.
-	 * 	   @type string $content Extra information provided by the requester
-	 *			        or inviter.
-	 * 	   @type string $date_modified Date the invitation was last modified.
-	 * 	   @type int    $invite_sent Has the invitation been sent, or is it a
-	 *			 draft invite?
+	 *     @type int    $user_id ID of the invited user.
+	 *     @type int    $inviter_id ID of the user who created the invitation.
+	 *     @type string $class Name of the invitations class.
+	 *     @type int    $item_id ID associated with the invitation and class.
+	 *     @type int    $secondary_item_id secondary ID associated with the
+	 *                  invitation and class.
+	 *     @type string $type    Type of record this is: 'invite' or 'request'.
+	 *     @type string $content Extra information provided by the requester
+	 *                  or inviter.
+	 *     @type string $date_modified Date the invitation was last modified.
+	 *     @type int    $invite_sent Has the invitation been sent, or is it a
+	 *           draft invite?
 	 * }
 	 * @return int|bool ID of the newly created invitation on success, false
-	 *         on failure.
+	 *                  on failure.
 	 */
 	public function add_request( $args = array() ) {
-
 		$r = bp_parse_args(
 			$args,
 			array(
@@ -288,14 +281,14 @@ abstract class BP_Invitation_Manager {
 		 * A request + a sent invite = acceptance.
 		 */
 		$invite_args = array_merge( $base_args, array( 'invite_sent' => 'sent' ) );
-		$invite = $this->invitation_exists( $invite_args );
+		$invite      = $this->invitation_exists( $invite_args );
 
 		if ( $invite ) {
 			// Accept the invite.
 			return $this->accept_invitation( $base_args );
 		} else {
 			// Set up the new request.
-			$request                    = new BP_Invitation;
+			$request                    = new BP_Invitation();
 			$request->user_id           = $r['user_id'];
 			$request->inviter_id        = $r['inviter_id'];
 			$request->invitee_email     = $r['invitee_email'];
@@ -317,12 +310,10 @@ abstract class BP_Invitation_Manager {
 	 * Send a request notification.
 	 *
 	 * @since 5.0.0
-	 * @access public
 	 *
 	 * @param int   $request_id ID of request to send.
 	 * @param array $args       See BP_Invitation::mark_sent().
-	 *
-	 * @return bool The result of `run_send_action()`.
+	 * @return bool
 	 */
 	public function send_request_notification_by_id( $request_id = 0, $args = array() ) {
 		$request = new BP_Invitation( $request_id );
@@ -343,9 +334,9 @@ abstract class BP_Invitation_Manager {
 			'invitee_email'     => $request->invitee_email,
 			'item_id'           => $request->item_id,
 			'secondary_item_id' => $request->secondary_item_id,
-			'invite_sent'       => 'sent'
+			'invite_sent'       => 'sent',
 		);
-		$invites = $this->invitation_exists( $invite_args );
+		$invites     = $this->invitation_exists( $invite_args );
 
 		if ( ! empty( $invites ) ) {
 			// Accept the request.
@@ -381,8 +372,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of accepted parameters.
-	 *
+	 * @param array $args {@see BP_Invitation::get()}.
 	 * @return array Located invitations.
 	 */
 	public function get_invitations( $args = array() ) {
@@ -401,8 +391,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @see BP_Invitation::get_total_count() for a description of accepted parameters.
-	 *
+	 * @param array $args {@see BP_Invitation::get_total_count()}.
 	 * @return int Total number of invitations.
 	 */
 	public function get_invitations_total_count( $args = array() ) {
@@ -421,8 +410,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of accepted parameters.
-	 *
+	 * @param array $args {@see BP_Invitation::get()}.
 	 * @return array Located invitations.
 	 */
 	public function get_requests( $args = array() ) {
@@ -442,15 +430,14 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of accepted parameters.
-	 *
+	 * @param array $args {@see BP_Invitation::get()}.
 	 * @return int|bool ID of first found invitation or false if none found.
 	 */
 	public function invitation_exists( $args = array() ) {
 		$is_invited = false;
 
 		$args['fields'] = 'ids';
-		$invites = $this->get_invitations( $args );
+		$invites        = $this->get_invitations( $args );
 		if ( $invites ) {
 			$is_invited = current( $invites );
 		}
@@ -462,15 +449,14 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of accepted parameters.
-	 *
+	 * @param array $args {@see BP_Invitation::get()}.
 	 * @return int|bool ID of existing request or false if none found.
 	 */
 	public function request_exists( $args = array() ) {
 		$has_request = false;
 
 		$args['fields'] = 'ids';
-		$requests = $this->get_requests( $args );
+		$requests       = $this->get_requests( $args );
 		if ( $requests ) {
 			$has_request = current( $requests );
 		}
@@ -484,29 +470,10 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of
-	 *      accepted update/where arguments.
-	 *
-	 * @param array $args {
-	 *     Invitation characteristics. Some basic info is required to accept an invitation,
-	 *     because we'll need to accept all similar invitations and requests.
-	 *
-	 *     @type int    $user_id           User ID of the invitee.
-	 *                                     Either 'user_id' or 'invitee_email' is required.
-	 *     @type string $invitee_email     Email address of the invitee.
-	 *                                     Either 'user_id' or 'invitee_email' is required.
-	 *     @type int    $item_id           Item ID of the invitation to accept.
-	 *     @type int    $secondary_item_id Optional. Secondary item ID if needed.
-	 *     @type string $invite_sent       Optional. Defaults to only allowing the
-	 *                                     acceptance of sent invitations.
-	 *     @type string $date_modified     Modified time in 'Y-m-d h:i:s' format, GMT.
-	 *                                     Defaults to current time if not specified.
-	 * }
-	 *
+	 * @param array $args {BP_Invitation::get()}.
 	 * @return int|bool Number of rows updated on success, false on failure.
 	 */
 	public function accept_invitation( $args = array() ) {
-
 		$r = bp_parse_args(
 			$args,
 			array(
@@ -547,24 +514,10 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of
-	 *      accepted update/where arguments.
-	 *
-	 * @param array $args {
-	 *     Invitation characteristics. Some basic info is required to accept an invitation,
-	 *     because we'll need to accept all similar invitations and requests.
-	 *
-	 *     @type int    $user_id           User ID of the invitee.
-	 *     @type int    $item_id           Item ID of the invitation to accept.
-	 *     @type int    $secondary_item_id Optional. Secondary item ID if needed.
-	 *     @type string $date_modified     Modified time in 'Y-m-d h:i:s' format, GMT.
-	 *                                     Defaults to current time if not specified.
-	 * }
-	 *
+	 * @param array $args {BP_Invitation::get()}.
 	 * @return bool Number of rows updated on success, false on failure.
 	 */
 	public function accept_request( $args = array() ) {
-
 		$r = bp_parse_args(
 			$args,
 			array(
@@ -602,19 +555,20 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::get() for a description of
+	 * @see BP_Invitation::update() for a description of
 	 *      accepted update/where arguments.
 	 *
 	 * @param array $update_args Associative array of fields to update,
 	 *              and the values to update them to. Of the format
-	 *              array( 'user_id' => 4 )
+	 *              array( 'user_id' => 4 ).
 	 * @param array $where_args Associative array of columns/values, to
 	 *              determine which invitations should be updated. Formatted as
-	 *              array( 'item_id' => 7 )
+	 *              array( 'item_id' => 7 ).
 	 * @return int|bool Number of rows updated on success, false on failure.
 	 */
 	public function update_invitation( $update_args = array(), $where_args = array() ) {
 		$update_args['class'] = $this->class_name;
+
 		return BP_Invitation::update( $update_args, $where_args );
 	}
 
@@ -625,7 +579,7 @@ abstract class BP_Invitation_Manager {
 	 * @since 5.0.0
 	 *
 	 * @param BP_Invitation $invitation The invitation to send.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	abstract public function run_send_action( BP_Invitation $invitation );
 
@@ -646,7 +600,7 @@ abstract class BP_Invitation_Manager {
 	 *                        invitation. Can be an array of user IDs.
 	 *                        Special cases
 	 *     @type string|array $invitee_email Email address of invited users
-	 *			              being queried. Can be an array of addresses.
+	 *                        being queried. Can be an array of addresses.
 	 *     @type string|array $class Name of the class to
 	 *                        filter by. Can be an array of class names.
 	 *     @type int|array    $item_id ID of associated item. Can be an array
@@ -666,19 +620,20 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param int $id The ID of the invitation to mark as sent.
-	 * @return bool True on success, false on failure.
+	 * @param string $type The type of record being accepted: 'invite' or 'request'.
+	 * @param array  $r    Associative array of arguments.
+	 * @return bool
 	 */
-	abstract public function run_acceptance_action( $type, $r  );
+	abstract public function run_acceptance_action( $type, $r );
 
 	/**
 	 * Mark invitation as accepted by invitation ID.
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::mark_accepted()
-	 *      for a description of arguments.
-	 * @return bool True on success, false on failure.
+	 * @param int   $id   ID of the invitation to mark as accepted.
+	 * @param array $args {@see BP_Invitation::mark_accepted()}.
+	 * @return int|bool Number of rows updated on success, false on failure.
 	 */
 	public function mark_accepted_by_id( $id, $args ) {
 		return BP_Invitation::mark_accepted( $id, $args );
@@ -691,8 +646,8 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::mark_accepted_by_data()
-	 *      for a description of arguments.
+	 * @param array $args {BP_Invitation::mark_accepted_by_data()}.
+	 * @return int|bool Number of rows updated on success, false on failure.
 	 */
 	public function mark_accepted( $args ) {
 		$args['class'] = $this->class_name;
@@ -706,7 +661,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::delete for a description of arguments.
+	 * @param array $args {BP_Invitation::delete()}.
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public function delete( $args ) {
@@ -722,8 +677,7 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @see BP_Invitation::delete for a description of arguments.
-	 *
+	 * @param array $args {BP_Invitation::delete()}.
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public function delete_requests( $args ) {
@@ -742,9 +696,7 @@ abstract class BP_Invitation_Manager {
 	 * @return int|bool Number of rows deleted on success, false on failure.
 	 */
 	public function delete_all() {
-		return BP_Invitation::delete( array(
-			'class' => $this->class_name,
-		) );
+		return BP_Invitation::delete( array( 'class' => $this->class_name ) );
 	}
 
 	/**
@@ -771,10 +723,10 @@ abstract class BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $args The parameters describing the invitation.
-	 * @return bool True if allowed, false to end process.
+	 * @param array $args The parameters that describe the invitation.
+	 * @return bool
 	 */
-	public function allow_invitation( $args ) {
+	public function allow_invitation( $args ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		return true;
 	}
 
@@ -785,10 +737,9 @@ abstract class BP_Invitation_Manager {
 	 * @since 5.0.0
 	 *
 	 * @param array $args The parameters describing the request.
-	 * @return bool True if allowed, false to end process.
+	 * @return bool
 	 */
-	public function allow_request( $args ) {
+	public function allow_request( $args ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 		return true;
 	}
-
 }

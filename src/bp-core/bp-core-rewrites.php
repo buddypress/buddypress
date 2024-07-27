@@ -8,9 +8,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Gets default URL chunks rewrite information.
@@ -327,7 +325,7 @@ function bp_rewrites_get_root_url() {
  * @since 12.0.0
  *
  * @param string $request The request used during parsing.
- * @return array          Data to use to find a member single item from the request.
+ * @return array Data to use to find a member single item from the request.
  */
 function bp_rewrites_get_member_data( $request = '' ) {
 	$member_data = array( 'field' => 'slug' );

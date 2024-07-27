@@ -95,8 +95,6 @@ add_action( 'bp_actions', 'bp_activity_action_permalink_router' );
  * Load the page for a single activity item.
  *
  * @since 1.2.0
- *
- * @return void
  */
 function bp_activity_screen_single_activity_permalink() {
 	// No displayed user or not viewing activity component.

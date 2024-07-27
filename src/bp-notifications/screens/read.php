@@ -40,8 +40,6 @@ function bp_notifications_screen_read() {
  * Handle marking single notifications as unread.
  *
  * @since 1.9.0
- *
- * @return void
  */
 function bp_notifications_action_mark_unread() {
 

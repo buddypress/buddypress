@@ -207,7 +207,7 @@ function bp_core_get_table_prefix() {
  * @return array $items The sorted array.
  */
 function bp_sort_by_key( $items, $key, $type = 'alpha', $preserve_keys = false ) {
-	$callback = function( $a, $b ) use ( $key, $type ) {
+	$callback = function ( $a, $b ) use ( $key, $type ) {
 		$values = array( 0 => false, 1 => false );
 		foreach ( func_get_args() as $indexi => $index ) {
 			if ( isset( $index->{$key} ) ) {
@@ -825,7 +825,7 @@ function bp_core_get_directory_pages() {
  *                              and replace with new ones. Otherwise existing page mappings
  *                              are kept, and the gaps filled in with new pages. Default: 'keep'.
  * @param boolean $return_pages Whether to return the page mapping or not.
- * @return void|array
+ * @return array|null
  */
 function bp_core_add_page_mappings( $components, $existing = 'keep', $return_pages = false ) {
 
@@ -1010,7 +1010,7 @@ add_filter( 'wp_unique_post_slug', 'bp_core_set_unique_directory_page_slug', 10,
  * @since 12.0.0
  *
  * @param string   $component The component ID.
- * @return boolean            True if a component's directory is set as the site's homepage.
+ * @return bool            True if a component's directory is set as the site's homepage.
  *                            False otherwise.
  */
 function bp_is_directory_homepage( $component = '' ) {
@@ -2397,7 +2397,7 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 
 	// Parse home_url() into pieces to remove query-strings, strange characters,
 	// and other funny things that plugins might to do to it.
-	$parsed_home = parse_url( home_url( '/', ( is_ssl() ? 'https' : 'http' ) ) );
+	$parsed_home = wp_parse_url( home_url( '/', ( is_ssl() ? 'https' : 'http' ) ) );
 
 	// Maybe include the port, if it's included in home_url().
 	if ( isset( $parsed_home['port'] ) ) {
@@ -2484,47 +2484,146 @@ function bp_is_get_request() {
 /** Miscellaneous hooks *******************************************************/
 
 /**
+ * Looks for the requested file name into a list of custom language locations.
+ *
+ * @since 14.0.0
+ *
+ * @param string $file_name The file name.
+ * @return string A file path or an empty string if no files were found into custom language locations.
+ */
+function bp_get_custom_translation_file( $file_name = '' ) {
+	$file_path = '';
+
+	if ( $file_name ) {
+		/**
+		 * Filters the locations to load language files from.
+		 *
+		 * Custom translation files can be put in:
+		 * 1. `/wp-content/languages/plugins/buddypress`
+		 * 2. `/wp-content/languages/buddypress`
+		 * 3. `/wp-content/languages`
+		 *
+		 * @since 2.2.0
+		 * @since 14.0.0 Adds a new location.
+		 *
+		 * @param array $value Array of directories to check for language files in.
+		 */
+		$locations = apply_filters( 'buddypress_locale_locations',
+			array(
+				trailingslashit( WP_LANG_DIR . '/plugins/buddypress'  ),
+				trailingslashit( WP_LANG_DIR . '/buddypress'  ),
+				trailingslashit( WP_LANG_DIR ),
+			)
+		);
+
+		// Try custom locations in WP_LANG_DIR.
+		foreach ( $locations as $location ) {
+			$custom_file = $location . $file_name;
+
+			// Use the first found.
+			if ( file_exists( $custom_file ) ) {
+				$file_path = $custom_file;
+				break;
+			}
+		}
+	}
+
+	return $file_path;
+}
+
+/**
+ * Override translation file for current language.
+ *
+ * @since 14.0.0
+ *
+ * @param  string $file   Absolut path to the translation file to use.
+ * @param  string $domain The text domain to check against `buddypress`.
+ * @param  string $locale The current locale for the WordPress site.
+ * @return string Absolut path to the translation file to use.
+ */
+function bp_load_custom_translation_file( $file, $domain, $locale = '' ) {
+	$bp_domain = 'buddypress';
+
+	if ( $domain !== $bp_domain ) {
+		return $file;
+	}
+
+	if ( ! $locale ) {
+		$locale = determine_locale();
+	}
+
+	$mofile_custom = bp_get_custom_translation_file(
+		/**
+		 * Filters the locale to be loaded for the language files.
+		 *
+		 * @since 1.0.2
+		 *
+		 * @param string $locale Current locale.
+		 */
+		sprintf( '%s-%s.mo', $domain, apply_filters( 'buddypress_locale', $locale ) )
+	);
+
+	if ( $mofile_custom ) {
+		$file = $mofile_custom;
+	}
+
+	// Returns the translation file to use.
+	return $file;
+}
+add_filter( 'load_translation_file', 'bp_load_custom_translation_file', 10, 3 );
+
+/**
+ * Override script translation file for current language.
+ *
+ * @since 14.0.0
+ *
+ * @param string|false $file   Path to the translation file to load. False if there isn't one.
+ * @param string       $handle Name of the script to register a translation domain to.
+ * @param string       $domain The text domain.
+ * @return string Path to the translation file to load.
+ */
+function bp_load_custom_script_translation_file( $file, $handle, $domain ) {
+	$bp_domain = 'buddypress';
+
+	if ( $domain !== $bp_domain ) {
+		return $file;
+	}
+
+	$file_name   = wp_basename( $file );
+	$custom_file = bp_get_custom_translation_file( $file_name );
+
+	if ( $custom_file ) {
+		$file = $custom_file;
+	}
+
+	// Returns the translation file to use.
+	return $file;
+}
+add_filter( 'load_script_translation_file', 'bp_load_custom_script_translation_file', 10, 3 );
+
+/**
  * Load the buddypress translation file for current language.
  *
  * @since 1.0.2
  *
- * @see load_textdomain() for a description of return values.
- *
- * @return bool True on success, false on failure.
+ * @return void
  */
 function bp_core_load_buddypress_textdomain() {
 	$domain = 'buddypress';
 
-	/**
-	 * Filters the locale to be loaded for the language files.
-	 *
-	 * @since 1.0.2
-	 *
-	 * @param string $value Current locale for the install.
+	/*
+	 * In most cases, WordPress already loaded BuddyPress textdomain
+	 * thanks to the `_load_textdomain_just_in_time()` function.
 	 */
-	$mofile_custom = sprintf( '%s-%s.mo', $domain, apply_filters( 'buddypress_locale', get_locale() ) );
-
-	/**
-	 * Filters the locations to load language files from.
-	 *
-	 * @since 2.2.0
-	 *
-	 * @param array $value Array of directories to check for language files in.
-	 */
-	$locations = apply_filters( 'buddypress_locale_locations', array(
-		trailingslashit( WP_LANG_DIR . '/' . $domain  ),
-		trailingslashit( WP_LANG_DIR ),
-	) );
-
-	// Try custom locations in WP_LANG_DIR.
-	foreach ( $locations as $location ) {
-		if ( load_textdomain( 'buddypress', $location . $mofile_custom ) ) {
-			return true;
-		}
+	if ( is_textdomain_loaded( $domain ) ) {
+		return;
 	}
 
-	// Default to WP and glotpress.
-	return load_plugin_textdomain( $domain );
+	/*
+	 * We only need to keep loading BuddyPress textdomain to allow
+	 * the usage of custom `en_US` translation files.
+	 */
+	load_plugin_textdomain( $domain );
 }
 add_action( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
 
@@ -2800,7 +2899,7 @@ function bp_nav_menu_get_loggedin_pages() {
 		$primary_items     = $bp->members->nav->get_primary();
 		$user_is_displayed = bp_is_user();
 
-		foreach( $primary_items as $primary_item ) {
+		foreach ( $primary_items as $primary_item ) {
 			$current_user_link = $primary_item['link'];
 
 			// When displaying a user, reset the primary item link.
@@ -3056,7 +3155,7 @@ function bp_core_get_suggestions( $args ) {
  * @since 12.0.0
  *
  * @param string $ajax_action The ajax action needing the BP URI globals to be set.
- * @return boolean            True if the ajax action was registered. False otherwise.
+ * @return bool            True if the ajax action was registered. False otherwise.
  */
 function bp_ajax_register_action( $ajax_action = '' ) {
 	// Checks the ajax action is registered.
@@ -3074,7 +3173,7 @@ function bp_ajax_register_action( $ajax_action = '' ) {
  * @since 12.0.0
  *
  * @param string $ajax_action The ajax action to check.
- * @return boolean            True if the ajax action is registered. False otherwise
+ * @return bool            True if the ajax action is registered. False otherwise
  */
 function bp_ajax_action_is_registered( $ajax_action = '' ) {
 	$registered_ajax_actions = buddypress()->ajax_actions;
@@ -3184,7 +3283,7 @@ function bp_email_post_type() {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $value Email post type name.
+		 * @param string $email_post_type Email post type name.
 		 */
 		return apply_filters( 'bp_get_email_post_type', buddypress()->email_post_type );
 	}
@@ -3461,7 +3560,7 @@ function bp_register_type_meta( $type_tax, $meta_key, array $args ) {
  * @param  integer $type_id    The database ID of the BP Type.
  * @param  string  $taxonomy   The BP Type taxonomy.
  * @param  array   $type_metas An associative array (meta_key=>meta_value).
- * @return boolean             False on failure. True otherwise.
+ * @return bool             False on failure. True otherwise.
  */
 function bp_update_type_metadata( $type_id = 0, $taxonomy = '', $type_metas = array() ) {
 	if ( ! $type_id || ! $taxonomy || ! is_array( $type_metas ) ) {
@@ -4447,7 +4546,7 @@ function bp_email_unsubscribe_handler() {
 	// This is an unsubscribe request from a nonmember.
 	} else if ( $raw_user_email ) {
 		// Unsubscribe.
-		if ( bp_user_has_opted_out() ) {
+		if ( bp_user_has_opted_out( $raw_user_email ) ) {
 			$result_msg = $emails[ $raw_email_type ]['unsubscribe']['message'];
 			$unsub_msg  = __( 'You have already unsubscribed from all communication from this site.', 'buddypress' );
 		} else {
@@ -4786,6 +4885,9 @@ function bp_get_optouts( $args = array() ) {
  * @return bool True if the user has opted out, false otherwise.
  */
 function bp_user_has_opted_out( $email_address = '' ) {
+	if ( ! $email_address ) {
+		return false;
+	}
 	$optout_class = new BP_Optout();
 	$optout_id    = $optout_class->optout_exists(
 		array(
@@ -4801,7 +4903,7 @@ function bp_user_has_opted_out( $email_address = '' ) {
  * @since 8.0.0
  *
  * @param int $id ID of the optout to delete.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_delete_optout_by_id( $id = 0 ) {
 	$optout_class = new BP_Optout();
@@ -4925,7 +5027,7 @@ function bp_get_deprecated_functions_versions() {
 	}
 
 	$index_initial_version = array_search( $initial_version, $latest_deprecated_functions_versions, true );
-	if ( false !== $index_initial_version ) {
+	if ( false !== $index_initial_version && 12.0 !== $initial_version ) {
 		unset( $latest_deprecated_functions_versions[ $index_initial_version ] );
 	}
 
@@ -5147,4 +5249,26 @@ function bp_core_get_admin_notifications() {
 	}
 
 	return $admin_notifications;
+}
+
+/**
+ * Checks whether a BuddyPress admin screen is displayed.
+ *
+ * @since 15.0.0
+ *
+ * @param string $screen_id The specific screen ID to check.
+ * @return boolean True if a BuddyPress admin screen is displayed. False otherwise.
+ */
+function bp_is_admin( $screen_id = '' ) {
+	$bp = buddypress();
+
+	if ( ! isset( $bp->admin->current_screen ) ) {
+		return false;
+	}
+
+	if ( ! $screen_id ) {
+		return ! empty( $bp->admin->current_screen );
+	}
+
+	return $screen_id === $bp->admin->current_screen;
 }

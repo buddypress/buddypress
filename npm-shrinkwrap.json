@@ -1,12 +1,12 @@
 {
 	"name": "buddypress",
-	"version": "14.0.0-alpha",
+	"version": "15.0.0-alpha",
 	"lockfileVersion": 3,
 	"requires": true,
 	"packages": {
 		"": {
 			"name": "buddypress",
-			"version": "14.0.0-alpha",
+			"version": "15.0.0-alpha",
 			"license": "GPL-2.0-or-later",
 			"devDependencies": {
 				"@wordpress/babel-preset-default": "^7.32.0",

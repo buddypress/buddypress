@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * Member directories, the Friends component, etc.
  *
  * @since 1.7.0
- * @since 10.0.0 Added $date_query parameter.
+ * @since 10.0.0 Added `$date_query` parameter.
  *
  * @param array $query {
  *     Query arguments. All items are optional.
@@ -43,7 +43,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type array|string      $member_type         Array or comma-separated list of member types to limit results to.
  *     @type array|string      $member_type__in     Array or comma-separated list of member types to limit results to.
  *     @type array|string      $member_type__not_in Array or comma-separated list of member types that will be
- *			                                             excluded from results.
+ *                                                       excluded from results.
  *     @type string|bool       $meta_key            Limit results to users that have usermeta associated with this meta_key.
  *                                                  Usually used with $meta_value. Default: false.
  *     @type string|bool       $meta_value          When used with $meta_key, limits results to users whose usermeta value
@@ -71,6 +71,7 @@ class BP_User_Query {
 	 * Unaltered params as passed to the constructor.
 	 *
 	 * @since 1.8.0
+	 *
 	 * @var array
 	 */
 	public $query_vars_raw = array();
@@ -79,6 +80,7 @@ class BP_User_Query {
 	 * Array of variables to query with.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var array
 	 */
 	public $query_vars = array();
@@ -87,6 +89,7 @@ class BP_User_Query {
 	 * List of found users and their respective data.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var array
 	 */
 	public $results = array();
@@ -95,6 +98,7 @@ class BP_User_Query {
 	 * Total number of found users for the current query.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var int
 	 */
 	public $total_users = 0;
@@ -103,6 +107,7 @@ class BP_User_Query {
 	 * List of found user IDs.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var array
 	 */
 	public $user_ids = array();
@@ -111,6 +116,7 @@ class BP_User_Query {
 	 * SQL clauses for the user ID query.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var array
 	 */
 	public $uid_clauses = array();
@@ -119,6 +125,7 @@ class BP_User_Query {
 	 * SQL table where the user ID is being fetched from.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var string
 	 */
 	public $uid_table = '';
@@ -127,6 +134,7 @@ class BP_User_Query {
 	 * SQL database column name to order by.
 	 *
 	 * @since 1.7.0
+	 *
 	 * @var string
 	 */
 	public $uid_name = '';
@@ -135,10 +143,13 @@ class BP_User_Query {
 	 * Standard response when the query should not return any rows.
 	 *
 	 * @since 1.7.0
-	 * @var string
+	 *
+	 * @var array
 	 */
-	protected $no_results = array( 'join' => '', 'where' => '0 = 1' );
-
+	protected $no_results = array(
+		'join'  => '',
+		'where' => '0 = 1',
+	);
 
 	/** Methods ***************************************************************/
 
@@ -233,6 +244,8 @@ class BP_User_Query {
 	 * Prepare the query for user_ids.
 	 *
 	 * @since 1.7.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 */
 	public function prepare_user_ids_query() {
 		global $wpdb;
@@ -255,10 +268,10 @@ class BP_User_Query {
 		// Setup the main SQL query container.
 		$sql = array(
 			'select'  => '',
-			'where'   => array('1=1'),
+			'where'   => array( '1=1' ),
 			'orderby' => '',
 			'order'   => '',
-			'limit'   => ''
+			'limit'   => '',
 		);
 
 		/* TYPE **************************************************************/
@@ -270,11 +283,11 @@ class BP_User_Query {
 			// 'online' query happens against the last_activity usermeta key
 			// Filter 'bp_user_query_online_interval' to modify the
 			// number of minutes used as an interval.
-			case 'online' :
-				$this->uid_name = 'user_id';
+			case 'online':
+				$this->uid_name  = 'user_id';
 				$this->uid_table = $bp->members->table_name_last_activity;
-				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
-				$sql['where'][] = $wpdb->prepare( "u.component = %s AND u.type = 'last_activity'", buddypress()->members->id );
+				$sql['select']   = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
+				$sql['where'][]  = $wpdb->prepare( "u.component = %s AND u.type = 'last_activity'", buddypress()->members->id );
 
 				/**
 				 * Filters the threshold for activity timestamp minutes since to indicate online status.
@@ -283,9 +296,9 @@ class BP_User_Query {
 				 *
 				 * @param int $value Amount of minutes for threshold. Default 15.
 				 */
-				$sql['where'][] = $wpdb->prepare( "u.date_recorded >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL %d MINUTE )", apply_filters( 'bp_user_query_online_interval', 15 ) );
-				$sql['orderby'] = "ORDER BY u.date_recorded";
-				$sql['order']   = "DESC";
+				$sql['where'][] = $wpdb->prepare( 'u.date_recorded >= DATE_SUB( UTC_TIMESTAMP(), INTERVAL %d MINUTE )', apply_filters( 'bp_user_query_online_interval', 15 ) );
+				$sql['orderby'] = 'ORDER BY u.date_recorded';
+				$sql['order']   = 'DESC';
 
 				// Date query.
 				$date_query = BP_Date_Query::get_where_sql( $date_query, 'u.date_recorded' );
@@ -297,22 +310,22 @@ class BP_User_Query {
 
 			// 'active', 'newest', and 'random' queries
 			// all happen against the last_activity usermeta key.
-			case 'active' :
-			case 'newest' :
-			case 'random' :
-				$this->uid_name = 'user_id';
+			case 'active':
+			case 'newest':
+			case 'random':
+				$this->uid_name  = 'user_id';
 				$this->uid_table = $bp->members->table_name_last_activity;
-				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
-				$sql['where'][] = $wpdb->prepare( "u.component = %s AND u.type = 'last_activity'", buddypress()->members->id );
+				$sql['select']   = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
+				$sql['where'][]  = $wpdb->prepare( "u.component = %s AND u.type = 'last_activity'", buddypress()->members->id );
 
-				if ( 'newest' == $type ) {
-					$sql['orderby'] = "ORDER BY u.user_id";
-					$sql['order'] = "DESC";
-				} elseif ( 'random' == $type ) {
-					$sql['orderby'] = "ORDER BY rand()";
+				if ( 'newest' === $type ) {
+					$sql['orderby'] = 'ORDER BY u.user_id';
+					$sql['order']   = 'DESC';
+				} elseif ( 'random' === $type ) {
+					$sql['orderby'] = 'ORDER BY rand()';
 				} else {
-					$sql['orderby'] = "ORDER BY u.date_recorded";
-					$sql['order'] = "DESC";
+					$sql['orderby'] = 'ORDER BY u.date_recorded';
+					$sql['order']   = 'DESC';
 				}
 
 				// Date query.
@@ -324,54 +337,53 @@ class BP_User_Query {
 				break;
 
 			// 'popular' sorts by the 'total_friend_count' usermeta.
-			case 'popular' :
-				$this->uid_name = 'user_id';
+			case 'popular':
+				$this->uid_name  = 'user_id';
 				$this->uid_table = $wpdb->usermeta;
-				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
-				$sql['where'][] = $wpdb->prepare( "u.meta_key = %s", bp_get_user_meta_key( 'total_friend_count' ) );
-				$sql['orderby'] = "ORDER BY CONVERT(u.meta_value, SIGNED)";
-				$sql['order']   = "DESC";
+				$sql['select']   = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
+				$sql['where'][]  = $wpdb->prepare( 'u.meta_key = %s', bp_get_user_meta_key( 'total_friend_count' ) );
+				$sql['orderby']  = 'ORDER BY CONVERT(u.meta_value, SIGNED)';
+				$sql['order']    = 'DESC';
 
 				break;
 
 			// 'alphabetical' sorts depend on the xprofile setup.
-			case 'alphabetical' :
-
+			case 'alphabetical':
 				// We prefer to do alphabetical sorts against the display_name field
 				// of wp_users, because the table is smaller and better indexed. We
 				// can do so if xprofile sync is enabled, or if xprofile is inactive.
 				//
 				// @todo remove need for bp_is_active() check.
 				if ( ! bp_disable_profile_sync() || ! bp_is_active( 'xprofile' ) ) {
-					$this->uid_name = 'ID';
+					$this->uid_name  = 'ID';
 					$this->uid_table = $wpdb->users;
-					$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
-					$sql['orderby'] = "ORDER BY u.display_name";
-					$sql['order']   = "ASC";
+					$sql['select']   = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
+					$sql['orderby']  = 'ORDER BY u.display_name';
+					$sql['order']    = 'ASC';
 
-				// When profile sync is disabled, alphabetical sorts must happen against
-				// the xprofile table.
+					// When profile sync is disabled, alphabetical sorts must happen against
+					// the xprofile table.
 				} else {
-					$this->uid_name = 'user_id';
+					$this->uid_name  = 'user_id';
 					$this->uid_table = $bp->profile->table_name_data;
-					$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
-					$sql['where'][] = $wpdb->prepare( "u.field_id = %d", bp_xprofile_fullname_field_id() );
-					$sql['orderby'] = "ORDER BY u.value";
-					$sql['order']   = "ASC";
+					$sql['select']   = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
+					$sql['where'][]  = $wpdb->prepare( 'u.field_id = %d', bp_xprofile_fullname_field_id() );
+					$sql['orderby']  = 'ORDER BY u.value';
+					$sql['order']    = 'ASC';
 				}
 
 				// Alphabetical queries ignore last_activity, while BP uses last_activity
 				// to infer spam/deleted/non-activated users. To ensure that these users
 				// are filtered out, we add an appropriate sub-query.
-				$sql['where'][] = "u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE " . bp_core_get_status_sql( '' ) . " )";
+				$sql['where'][] = "u.{$this->uid_name} IN ( SELECT ID FROM {$wpdb->users} WHERE " . bp_core_get_status_sql( '' ) . ' )';
 
 				break;
 
 			// Any other 'type' falls through.
-			default :
-				$this->uid_name = 'ID';
+			default:
+				$this->uid_name  = 'ID';
 				$this->uid_table = $wpdb->users;
-				$sql['select']  = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
+				$sql['select']   = "SELECT u.{$this->uid_name} as id FROM {$this->uid_table} u";
 
 				// In this case, we assume that a plugin is
 				// handling order, so we leave those clauses
@@ -386,7 +398,7 @@ class BP_User_Query {
 		$include_ids = $this->get_include_ids( $include );
 
 		// An array containing nothing but 0 should always fail.
-		if ( 1 === count( $include_ids ) && 0 == reset( $include_ids ) ) {
+		if ( 1 === count( $include_ids ) && 0 === reset( $include_ids ) ) {
 			$sql['where'][] = $this->no_results['where'];
 		} elseif ( ! empty( $include_ids ) ) {
 			$include_ids    = implode( ',', wp_parse_id_list( $include_ids ) );
@@ -408,8 +420,8 @@ class BP_User_Query {
 			if ( ! empty( $friend_ids ) ) {
 				$sql['where'][] = "u.{$this->uid_name} IN ({$friend_ids})";
 
-			// If the user has no friends, the query should always
-			// return no users.
+				// If the user has no friends, the query should always
+				// return no users.
 			} else {
 				$sql['where'][] = $this->no_results['where'];
 			}
@@ -426,22 +438,24 @@ class BP_User_Query {
 				$search_terms_nospace = '%' . $search_terms;
 				$search_terms_space   = '%' . $search_terms . ' %';
 			} elseif ( $search_wildcard === 'right' ) {
-				$search_terms_nospace =        $search_terms . '%';
+				$search_terms_nospace = $search_terms . '%';
 				$search_terms_space   = '% ' . $search_terms . '%';
 			} else {
 				$search_terms_nospace = '%' . $search_terms . '%';
 				$search_terms_space   = '%' . $search_terms . '%';
 			}
 
-			$matched_user_ids = $wpdb->get_col( $wpdb->prepare(
-				"SELECT ID FROM {$wpdb->users} WHERE ( user_login LIKE %s OR user_login LIKE %s OR user_nicename LIKE %s OR user_nicename LIKE %s )",
-				$search_terms_nospace,
-				$search_terms_space,
-				$search_terms_nospace,
-				$search_terms_space
-			) );
+			$matched_user_ids = $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT ID FROM {$wpdb->users} WHERE ( user_login LIKE %s OR user_login LIKE %s OR user_nicename LIKE %s OR user_nicename LIKE %s )",
+					$search_terms_nospace,
+					$search_terms_space,
+					$search_terms_nospace,
+					$search_terms_space
+				)
+			);
 
-			$match_in_clause = empty( $matched_user_ids) ? 'NULL' : implode( ',', $matched_user_ids );
+			$match_in_clause        = empty( $matched_user_ids ) ? 'NULL' : implode( ',', $matched_user_ids );
 			$sql['where']['search'] = "u.{$this->uid_name} IN ({$match_in_clause})";
 		}
 
@@ -454,7 +468,7 @@ class BP_User_Query {
 		if ( ! empty( $member_type__not_in ) ) {
 			$member_type_clause = $this->get_sql_clause_for_member_types( $member_type__not_in, 'NOT IN' );
 
-		// Member types to include.
+			// Member types to include.
 		} elseif ( ! empty( $member_type ) ) {
 			$member_type_clause = $this->get_sql_clause_for_member_types( $member_type, 'IN' );
 		}
@@ -469,21 +483,21 @@ class BP_User_Query {
 			$meta_sql = $wpdb->prepare( "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s", $meta_key );
 
 			if ( false !== $meta_value ) {
-				$meta_sql .= $wpdb->prepare( " AND meta_value = %s", $meta_value );
+				$meta_sql .= $wpdb->prepare( ' AND meta_value = %s', $meta_value );
 			}
 
 			$found_user_ids = $wpdb->get_col( $meta_sql );
 
 			if ( ! empty( $found_user_ids ) ) {
-				$sql['where'][] = "u.{$this->uid_name} IN (" . implode( ',', wp_parse_id_list( $found_user_ids ) ) . ")";
+				$sql['where'][] = "u.{$this->uid_name} IN (" . implode( ',', wp_parse_id_list( $found_user_ids ) ) . ')';
 			} else {
 				$sql['where'][] = '1 = 0';
 			}
 		}
 
 		// 'per_page', 'page' - handles LIMIT.
-		if ( !empty( $per_page ) && !empty( $page ) ) {
-			$sql['limit'] = $wpdb->prepare( "LIMIT %d, %d", intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
+		if ( ! empty( $per_page ) && ! empty( $page ) ) {
+			$sql['limit'] = $wpdb->prepare( 'LIMIT %d, %d', intval( ( $page - 1 ) * $per_page ), intval( $per_page ) );
 		} else {
 			$sql['limit'] = '';
 		}
@@ -524,12 +538,14 @@ class BP_User_Query {
 	 * Also used to quickly perform user total counts.
 	 *
 	 * @since 1.7.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 */
 	public function do_user_ids_query() {
 		global $wpdb;
 
 		// If counting using SQL_CALC_FOUND_ROWS, set it up here.
-		if ( 'sql_calc_found_rows' == $this->query_vars['count_total'] ) {
+		if ( 'sql_calc_found_rows' === $this->query_vars['count_total'] ) {
 			$this->uid_clauses['select'] = str_replace( 'SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $this->uid_clauses['select'] );
 		}
 
@@ -537,7 +553,7 @@ class BP_User_Query {
 		$this->user_ids = $wpdb->get_col( "{$this->uid_clauses['select']} {$this->uid_clauses['where']} {$this->uid_clauses['orderby']} {$this->uid_clauses['order']} {$this->uid_clauses['limit']}" );
 
 		// Get the total user count.
-		if ( 'sql_calc_found_rows' == $this->query_vars['count_total'] ) {
+		if ( 'sql_calc_found_rows' === $this->query_vars['count_total'] ) {
 
 			/**
 			 * Filters the found user SQL statements before query.
@@ -551,9 +567,9 @@ class BP_User_Query {
 			 * @param string        $value      SQL statement to select FOUND_ROWS().
 			 * @param BP_User_Query $user_query Current BP_User_Query instance.
 			 */
-			$this->total_users = $wpdb->get_var( apply_filters( 'bp_found_user_query', "SELECT FOUND_ROWS()", $this ) );
-		} elseif ( 'count_query' == $this->query_vars['count_total'] ) {
-			$count_select      = preg_replace( '/^SELECT.*?FROM (\S+) u/', "SELECT COUNT(u.{$this->uid_name}) FROM $1 u", $this->uid_clauses['select'] );
+			$this->total_users = $wpdb->get_var( apply_filters( 'bp_found_user_query', 'SELECT FOUND_ROWS()', $this ) );
+		} elseif ( 'count_query' === $this->query_vars['count_total'] ) {
+			$count_select = preg_replace( '/^SELECT.*?FROM (\S+) u/', "SELECT COUNT(u.{$this->uid_name}) FROM $1 u", $this->uid_clauses['select'] );
 
 			/** This filter is documented in bp-core/classes/class-bp-user-query.php */
 			$this->total_users = $wpdb->get_var( apply_filters( 'bp_found_user_query', "{$count_select} {$this->uid_clauses['where']}", $this ) );
@@ -581,17 +597,21 @@ class BP_User_Query {
 		 * @param array         $value      Array of arguments for the user query.
 		 * @param BP_User_Query $user_query Current BP_User_Query instance.
 		 */
-		$wp_user_query = new WP_User_Query( apply_filters( 'bp_wp_user_query_args', array(
+		$wp_user_query = new WP_User_Query(
+			apply_filters(
+				'bp_wp_user_query_args',
+				array(
+					// Relevant.
+					'fields'      => $fields,
+					'include'     => $this->user_ids,
 
-			// Relevant.
-			'fields'      => $fields,
-			'include'     => $this->user_ids,
-
-			// Overrides
-			'blog_id'     => 0,    // BP does not require blog roles.
-			'count_total' => false // We already have a count.
-
-		), $this ) );
+					// Overrides.
+					'blog_id'     => 0,    // BP does not require blog roles.
+					'count_total' => false, // We already have a count.
+				),
+				$this
+			)
+		);
 
 		/*
 		 * We calculate total_users using a standalone query, except
@@ -612,7 +632,7 @@ class BP_User_Query {
 		// Match up to the user ids from the main query.
 		foreach ( $this->user_ids as $key => $uid ) {
 			if ( isset( $r[ $uid ] ) ) {
-				$r[ $uid ]->ID = (int) $uid;
+				$r[ $uid ]->ID          = (int) $uid;
 				$r[ $uid ]->user_status = (int) $r[ $uid ]->user_status;
 
 				$this->results[ $uid ] = $r[ $uid ];
@@ -621,7 +641,7 @@ class BP_User_Query {
 				// (as opposed to 'ID') property.
 				$this->results[ $uid ]->id = (int) $uid;
 
-			// Remove user ID from original user_ids property.
+				// Remove user ID from original user_ids property.
 			} else {
 				unset( $this->user_ids[ $key ] );
 			}
@@ -640,13 +660,13 @@ class BP_User_Query {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param array $include Sanitized array of user IDs, as passed to the 'include'
-	 *                       parameter of the class constructor.
+	 * @param array $include_ids Sanitized array of user IDs, as passed to the 'include'
+	 *                           parameter of the class constructor.
 	 * @return array The list of users to which the main query should be
 	 *               limited.
 	 */
-	public function get_include_ids( $include = array() ) {
-		return $include;
+	public function get_include_ids( $include_ids = array() ) {
+		return $include_ids;
 	}
 
 	/**
@@ -670,7 +690,7 @@ class BP_User_Query {
 		// Bail if the populate_extras flag is set to false
 		// In the case of the 'popular' sort type, we force
 		// populate_extras to true, because we need the friend counts.
-		if ( 'popular' == $this->query_vars['type'] ) {
+		if ( 'popular' === $this->query_vars['type'] ) {
 			$this->query_vars['populate_extras'] = 1;
 		}
 
@@ -706,7 +726,7 @@ class BP_User_Query {
 
 		// Set a last_activity value for each user, even if it's empty.
 		foreach ( $this->results as $user_id => $user ) {
-			$user_last_activity = isset( $last_activities[ $user_id ]['date_recorded'] ) ? $last_activities[ $user_id ]['date_recorded'] : '';
+			$user_last_activity                       = isset( $last_activities[ $user_id ]['date_recorded'] ) ? $last_activities[ $user_id ]['date_recorded'] : '';
 			$this->results[ $user_id ]->last_activity = $user_last_activity;
 		}
 
@@ -715,12 +735,12 @@ class BP_User_Query {
 		// - friend count
 		// - latest update.
 		$total_friend_count_key = bp_get_user_meta_key( 'total_friend_count' );
-		$bp_latest_update_key   = bp_get_user_meta_key( 'bp_latest_update'   );
+		$bp_latest_update_key   = bp_get_user_meta_key( 'bp_latest_update' );
 
 		// Total_friend_count must be set for each user, even if its
 		// value is 0.
 		foreach ( $this->results as $uindex => $user ) {
-			$this->results[$uindex]->total_friend_count = 0;
+			$this->results[ $uindex ]->total_friend_count = 0;
 		}
 
 		// Create, prepare, and run the separate usermeta query.
@@ -730,11 +750,11 @@ class BP_User_Query {
 		// from the meta_key in some cases, so we rejig things here.
 		foreach ( $user_metas as $user_meta ) {
 			switch ( $user_meta->meta_key ) {
-				case $total_friend_count_key :
+				case $total_friend_count_key:
 					$key = 'total_friend_count';
 					break;
 
-				case $bp_latest_update_key :
+				case $bp_latest_update_key:
 					$key = 'latest_update';
 					break;
 			}
@@ -748,13 +768,13 @@ class BP_User_Query {
 		// fetch the resulting values for use in the template functions.
 		if ( ! empty( $this->query_vars['meta_key'] ) ) {
 			$meta_sql = array(
-				'select' => "SELECT user_id, meta_key, meta_value",
+				'select' => 'SELECT user_id, meta_key, meta_value',
 				'from'   => "FROM $wpdb->usermeta",
-				'where'  => $wpdb->prepare( "WHERE meta_key = %s", $this->query_vars['meta_key'] )
+				'where'  => $wpdb->prepare( 'WHERE meta_key = %s', $this->query_vars['meta_key'] ),
 			);
 
 			if ( false !== $this->query_vars['meta_value'] ) {
-				$meta_sql['where'] .= $wpdb->prepare( " AND meta_value = %s", $this->query_vars['meta_value'] );
+				$meta_sql['where'] .= $wpdb->prepare( ' AND meta_value = %s', $this->query_vars['meta_value'] );
 			}
 
 			$metas = $wpdb->get_results( "{$meta_sql['select']} {$meta_sql['from']} {$meta_sql['where']}" );
@@ -777,6 +797,8 @@ class BP_User_Query {
 	 * Get a SQL clause representing member_type include/exclusion.
 	 *
 	 * @since 2.4.0
+	 *
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string|array $member_types Array or comma-separated list of member types.
 	 * @param string       $operator     'IN' or 'NOT IN'.
@@ -802,14 +824,16 @@ class BP_User_Query {
 			}
 		}
 
-		$tax_query = new WP_Tax_Query( array(
+		$tax_query = new WP_Tax_Query(
 			array(
-				'taxonomy' => bp_get_member_type_tax_name(),
-				'field'    => 'name',
-				'operator' => $operator,
-				'terms'    => $types,
-			),
-		) );
+				array(
+					'taxonomy' => bp_get_member_type_tax_name(),
+					'field'    => 'name',
+					'operator' => $operator,
+					'terms'    => $types,
+				),
+			)
+		);
 
 		// Switch to the root blog, where member type taxonomies live.
 		$site_id  = bp_get_taxonomy_term_site_id( bp_get_member_type_tax_name() );
@@ -827,11 +851,11 @@ class BP_User_Query {
 		if ( false !== strpos( $sql_clauses['where'], '0 = 1' ) ) {
 			$clause = $this->no_results['where'];
 
-		// The tax_query clause generated for NOT IN can be used almost as-is. We just trim the leading 'AND'.
+			// The tax_query clause generated for NOT IN can be used almost as-is. We just trim the leading 'AND'.
 		} elseif ( 'NOT IN' === $operator ) {
 			$clause = preg_replace( '/^\s*AND\s*/', '', $sql_clauses['where'] );
 
-		// IN clauses must be converted to a subquery.
+			// IN clauses must be converted to a subquery.
 		} elseif ( preg_match( '/' . $wpdb->term_relationships . '\.term_taxonomy_id IN \([0-9, ]+\)/', $sql_clauses['where'], $matches ) ) {
 			$clause = "u.{$this->uid_name} IN ( SELECT object_id FROM $wpdb->term_relationships WHERE {$matches[0]} )";
 		}

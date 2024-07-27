@@ -10,7 +10,9 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( !class_exists( 'BP_Admin' ) ) :
+if ( class_exists( 'BP_Admin' ) ) {
+	return;
+}
 
 /**
  * Load BuddyPress plugin admin area.
@@ -28,7 +30,7 @@ class BP_Admin {
 	 * Path to the BuddyPress admin directory.
 	 *
 	 * @since 1.6.0
-	 * @var string $admin_dir
+	 * @var string
 	 */
 	public $admin_dir = '';
 
@@ -38,7 +40,7 @@ class BP_Admin {
 	 * URL to the BuddyPress admin directory.
 	 *
 	 * @since 1.6.0
-	 * @var string $admin_url
+	 * @var string
 	 */
 	public $admin_url = '';
 
@@ -46,7 +48,7 @@ class BP_Admin {
 	 * URL to the BuddyPress images directory.
 	 *
 	 * @since 1.6.0
-	 * @var string $images_url
+	 * @var string
 	 */
 	public $images_url = '';
 
@@ -54,7 +56,7 @@ class BP_Admin {
 	 * URL to the BuddyPress admin CSS directory.
 	 *
 	 * @since 1.6.0
-	 * @var string $css_url
+	 * @var string
 	 */
 	public $css_url = '';
 
@@ -72,7 +74,7 @@ class BP_Admin {
 	 * Notices used for user feedback, like saving settings.
 	 *
 	 * @since 1.9.0
-	 * @var array()
+	 * @var array
 	 */
 	public $notices = array();
 
@@ -80,7 +82,7 @@ class BP_Admin {
 	 * BuddyPress admin screens nav tabs.
 	 *
 	 * @since 10.0.0
-	 * @var array()
+	 * @var array
 	 */
 	public $nav_tabs = array();
 
@@ -88,7 +90,7 @@ class BP_Admin {
 	 * BuddyPress admin active nav tab.
 	 *
 	 * @since 10.0.0
-	 * @var string()
+	 * @var string
 	 */
 	public $active_nav_tab = '';
 
@@ -96,9 +98,17 @@ class BP_Admin {
 	 * BuddyPress admin screens submenu pages.
 	 *
 	 * @since 10.0.0
-	 * @var array()
+	 * @var array
 	 */
 	public $submenu_pages = array();
+
+	/**
+	 * The current BP Admin screen being displayed.
+	 *
+	 * @since 15.0.0
+	 * @var array
+	 */
+	public $current_screen = '';
 
 	/** Methods ***************************************************************/
 
@@ -106,7 +116,6 @@ class BP_Admin {
 	 * The main BuddyPress admin loader.
 	 *
 	 * @since 1.6.0
-	 *
 	 */
 	public function __construct() {
 		$this->setup_globals();
@@ -122,12 +131,12 @@ class BP_Admin {
 	private function setup_globals() {
 		$bp = buddypress();
 
-		// Paths and URLs
-		$this->admin_dir  = trailingslashit( $bp->plugin_dir  . 'bp-core/admin' ); // Admin path.
-		$this->admin_url  = trailingslashit( $bp->plugin_url  . 'bp-core/admin' ); // Admin url.
-		$this->images_url = trailingslashit( $this->admin_url . 'images'        ); // Admin images URL.
-		$this->css_url    = trailingslashit( $this->admin_url . 'css'           ); // Admin css URL.
-		$this->js_url     = trailingslashit( $this->admin_url . 'js'            ); // Admin css URL.
+		// Paths and URLs.
+		$this->admin_dir  = trailingslashit( $bp->plugin_dir . 'bp-core/admin' ); // Admin path.
+		$this->admin_url  = trailingslashit( $bp->plugin_url . 'bp-core/admin' ); // Admin url.
+		$this->images_url = trailingslashit( $this->admin_url . 'images' ); // Admin images URL.
+		$this->css_url    = trailingslashit( $this->admin_url . 'css' ); // Admin css URL.
+		$this->js_url     = trailingslashit( $this->admin_url . 'js' ); // Admin css URL.
 
 		// Main settings page.
 		$this->settings_page = bp_core_do_network_admin() ? 'settings.php' : 'options-general.php';
@@ -158,14 +167,13 @@ class BP_Admin {
 	 * Set up the admin hooks, actions, and filters.
 	 *
 	 * @since 1.6.0
-	 *
 	 */
 	private function setup_actions() {
 
 		/* General Actions ***************************************************/
 
 		// Add some page specific output to the <head>.
-		add_action( 'bp_admin_head',            array( $this, 'admin_head'  ), 999 );
+		add_action( 'bp_admin_head',            array( $this, 'admin_head' ), 999 );
 
 		// Add menu item to settings menu.
 		add_action( 'admin_menu',               array( $this, 'site_admin_menus' ), 5 );
@@ -224,14 +232,14 @@ class BP_Admin {
 		add_filter( 'ms_user_row_actions', 'bp_core_admin_user_row_actions', 10, 2 );
 		add_filter( 'user_row_actions',    'bp_core_admin_user_row_actions', 10, 2 );
 
-		// Emails
+		// Emails.
 		add_filter( 'bp_admin_menu_order', array( $this, 'emails_admin_menu_order' ), 20 );
 		add_action( 'load-edit.php', array( $this, 'post_type_load_admin_screen' ), 20 );
 		add_action( 'load-post.php', array( $this, 'post_type_load_admin_screen' ), 20 );
 
 		// Official BuddyPress supported Add-ons.
 		add_filter( 'install_plugins_tabs', array( $this, 'addons_tab' ) );
-		add_filter( 'install_plugins_table_api_args_bp-add-ons', array( $this,'addons_args' ) );
+		add_filter( 'install_plugins_table_api_args_bp-add-ons', array( $this, 'addons_args' ) );
 	}
 
 	/**
@@ -319,7 +327,7 @@ class BP_Admin {
 		);
 
 		$this->submenu_pages['settings']['bp-admin-notifications'] = $bp_admin_notifications;
-		$hooks[]                                                   = $bp_admin_notifications;
+		$hooks[] = $bp_admin_notifications;
 
 		// Credits.
 		$bp_credits_page = add_submenu_page(
@@ -407,8 +415,9 @@ class BP_Admin {
 			$GLOBALS['menu'][26][2] = esc_url_raw( $email_url );
 		}
 
-		foreach( $hooks as $hook ) {
+		foreach ( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
+			add_action( "load-{$hook}", array( $this, 'trace_current_screen' ), 1 );
 
 			if ( 'settings_page_bp-rewrites' === $hook ) {
 				add_action( "load-{$hook}", 'bp_core_admin_rewrites_load' );
@@ -424,7 +433,7 @@ class BP_Admin {
 		 */
 		do_action_ref_array( 'bp_admin_submenu_pages', array( &$this->submenu_pages ) );
 
-		foreach( $this->submenu_pages as $subpage_type => $subpage_hooks ) {
+		foreach ( $this->submenu_pages as $subpage_type => $subpage_hooks ) {
 			foreach ( $subpage_hooks as $subpage_hook ) {
 				add_action( "admin_print_styles-{$subpage_hook}", array( $this, 'add_inline_styles' ), 20 );
 
@@ -467,7 +476,7 @@ class BP_Admin {
 			'bp_email_redirect_to_customizer'
 		);
 
-		foreach( $hooks as $hook ) {
+		foreach ( $hooks as $hook ) {
 			add_action( "admin_head-$hook", 'bp_core_modify_admin_menu_highlight' );
 		}
 	}
@@ -476,7 +485,6 @@ class BP_Admin {
 	 * Register the settings.
 	 *
 	 * @since 1.6.0
-	 *
 	 */
 	public function register_admin_settings() {
 
@@ -489,7 +497,7 @@ class BP_Admin {
 		add_settings_field( 'hide-loggedout-adminbar', __( 'Toolbar', 'buddypress' ), 'bp_admin_setting_callback_admin_bar', 'buddypress', 'bp_main' );
 		register_setting( 'buddypress', 'hide-loggedout-adminbar', 'intval' );
 
-		// Community Visibility
+		// Community Visibility.
 		if ( 'rewrites' === bp_core_get_query_parser() ) {
 			add_settings_field( '_bp_community_visibility', __( 'Community Visibility', 'buddypress' ), 'bp_admin_setting_callback_community_visibility', 'buddypress', 'bp_main' );
 			register_setting( 'buddypress', '_bp_community_visibility', 'bp_admin_sanitize_callback_community_visibility' );
@@ -546,7 +554,7 @@ class BP_Admin {
 
 			// Profile sync setting.
 			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync', 'buddypress', 'bp_xprofile' );
-			register_setting  ( 'buddypress', 'bp-disable-profile-sync', 'intval' );
+			register_setting( 'buddypress', 'bp-disable-profile-sync', 'intval' );
 		}
 
 		/* Groups Section ****************************************************/
@@ -607,19 +615,27 @@ class BP_Admin {
 	 * @param WP_Admin_Bar $wp_admin_bar WordPress object implementing a Toolbar API.
 	 */
 	public function admin_bar_about_link( $wp_admin_bar ) {
-		if ( ! is_user_logged_in() ) {
+		if ( ! bp_current_user_can( $this->capability ) ) {
 			return;
 		}
 
-		$wp_admin_bar->add_node( array(
-			'parent' => 'wp-logo',
-			'id'     => 'bp-about',
-			'title'  => esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ),
-			'href'   => bp_get_admin_url( '?hello=buddypress' ),
-			'meta'   => array(
-				'class' => 'say-hello-buddypress',
-			),
-		) );
+		$wp_admin_bar->add_node(
+			array(
+				'parent' => 'wp-logo',
+				'id'     => 'bp-about',
+				'title'  => esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ),
+				'href'   => add_query_arg(
+					array(
+						'page'  => 'bp-components',
+						'hello' => 'buddypress'
+					),
+					bp_get_admin_url( $this->settings_page )
+				),
+				'meta'   => array(
+					'class' => 'say-hello-buddypress',
+				),
+			)
+		);
 	}
 
 	/**
@@ -634,14 +650,25 @@ class BP_Admin {
 	public function modify_plugin_action_links( $links, $file ) {
 
 		// Return normal links if not BuddyPress.
-		if ( plugin_basename( buddypress()->basename ) != $file ) {
+		if ( plugin_basename( buddypress()->basename ) !== $file ) {
 			return $links;
 		}
 
+		$settings_args = array(
+			'page' => 'bp-components',
+		);
+
+		$about_args = array_merge(
+			$settings_args,
+			array(
+				'hello' => 'buddypress',
+			)
+		);
+
 		// Add a few links to the existing links array.
 		return array_merge( $links, array(
-			'settings' => '<a href="' . esc_url( add_query_arg( array( 'page' => 'bp-components' ), bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
-			'about'    => '<a href="' . esc_url( bp_get_admin_url( '?hello=buddypress' ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
+			'settings' => '<a href="' . esc_url( add_query_arg( $settings_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
+			'about'    => '<a href="' . esc_url( add_query_arg( $about_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
 		) );
 	}
 
@@ -698,7 +725,7 @@ class BP_Admin {
 		wp_enqueue_style( 'bp-admin-common-css' );
 
 		// BuddyPress Hello.
-		if ( 0 === strpos( get_current_screen()->id, 'dashboard' ) && ! empty( $_GET['hello'] ) && $_GET['hello'] === 'buddypress' ) {
+		if ( isset( $this->submenu_pages['settings']['bp-components'] ) && 0 === strpos( get_current_screen()->id, $this->submenu_pages['settings']['bp-components'] ) && ! empty( $_GET['hello'] ) && $_GET['hello'] === 'buddypress' ) {
 			wp_enqueue_style( 'bp-hello-css' );
 			wp_enqueue_script( 'bp-hello-js' );
 			wp_localize_script( 'bp-hello-js', 'bpHelloStrings', array(
@@ -774,30 +801,13 @@ class BP_Admin {
 	 * @since 3.0.0 Now outputs BuddyPress Hello template.
 	 */
 	public function about_screen() {
-		if ( 0 !== strpos( get_current_screen()->id, 'dashboard' ) || empty( $_GET['hello'] ) || $_GET['hello'] !== 'buddypress' ) {
+		if ( ! isset( $this->submenu_pages['settings']['bp-components'] ) || 0 !== strpos( get_current_screen()->id, $this->submenu_pages['settings']['bp-components'] ) || empty( $_GET['hello'] ) || $_GET['hello'] !== 'buddypress' ) {
 			return;
 		}
 
 		// Get BuddyPress stable version.
-		$version      =  self::display_version();
+		$version      = self::display_version();
 		$version_slug = 'version-' . str_replace( '.', '-', $version );
-
-		// The BP Classic Add-on's Modal box.
-		$classic_box = add_query_arg(
-			array(
-				'tab'  => 'bp-add-ons',
-				'show' => 'bp-classic',
-			),
-			network_admin_url( 'plugin-install.php' )
-		);
-
-		// The URLs settings screen.
-		$rewrites_screen = add_query_arg(
-			array(
-				'page' => 'bp-rewrites',
-			),
-			bp_get_admin_url( 'admin.php' )
-		);
 	?>
 
 		<div id="bp-hello-container">
@@ -821,92 +831,82 @@ class BP_Admin {
 				<div class="bp-hello-content">
 					<div id="dynamic-content"></div>
 					<div id="top-features">
-						<h2>
-							<?php
-							printf(
-									/* Translators: %s is a raising hands emoji. */
-									esc_html__( 'You now have complete control over all BuddyPress-generated URLs %s', 'buddypress' ),
-									// phpcs:ignore WordPress.Security.EscapeOutput
-									wp_staticize_emoji( '🙌' )
-								);
-							?>
-						</h2>
 						<p>
-							<?php esc_html_e( 'Among the 100 changes introduced in 12.0.0, the BP Rewrites API is a massive revolution opening the way for a progressive BuddyPress evolution.', 'buddypress' ); ?>
-							<?php esc_html_e( 'Based on 10 years of experience gained through hard work, we are beginning to reimagine what it means to organize and manage communities within WordPress.', 'buddypress' ); ?>
-							<?php esc_html_e( 'Here are the immediate benefits of the new BP Rewrites API :', 'buddypress' ); ?>
+							<?php esc_html_e( 'Thanks for upgrading BuddyPress to 14.0.0. This new major version of your site’s community engine introduces around 80 changes mostly acting under the hood to improve documentation, code formatting, consistency and the stability of the plugin.', 'buddypress' ); ?>
+							<?php esc_html_e( 'Here are five improvements we would like to highlight:', 'buddypress' ); ?>
 						</p>
 						<ol>
 							<li>
+								<?php esc_html_e( 'There’s a new "BuddyPress constants" panel added to the WordPress Site Health information tool. Use it to check whether you’re using deprecated constants in your custom code or third party BP Plugins/Add-ons.', 'buddypress' ); ?>
+								<?php esc_html_e( 'The information in the "BuddyPress" and "BuddyPress constants" panels is also very useful when you need to ask for support.', 'buddypress' ); ?>
+							</li>
+							<li>
 								<?php
 								printf(
-									/* Translators: %s is a the link to the URLs settings screen */
-									esc_html__( 'You can customize each piece of any URL generated by BuddyPress to better reflect your unique community using the new %s.', 'buddypress' ),
+									/* Translators: %s is a the link to the new User Documentation on GitHub */
+									esc_html__( 'Most BuddyPress Admin screens now have a help tab in their top right corner which includes a link to an updated %s.', 'buddypress' ),
 									sprintf(
 										'<a href="%1$s">%2$s</a>',
-										esc_url( $rewrites_screen ),
-										esc_html__( 'URLs settings screen', 'buddypress' )
+										esc_url( 'https://github.com/buddypress/buddypress/tree/master/docs/user/administration#readme' ),
+										esc_html__( 'documentation resource', 'buddypress' )
 									)
 								);
 								?>
 							</li>
 							<li>
-								<?php esc_html_e( 'Pretty or plain, BuddyPress just works no matter which option you choose for your permalink settings.', 'buddypress' ); ?>
+								<?php
+								printf(
+									/* translators: %s is the placeholder for the link to a developer note. */
+									esc_html__( 'Whether BuddyPress is installed on a multisite network or on a single site, %s are now managed the exact same way.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2024/04/21/signups-are-becoming-members-only-after-validating-their-accounts/' ),
+										esc_html__( 'signups', 'buddypress' )
+									)
+								);
+								?>
 							</li>
 							<li>
-								<?php esc_html_e( 'Routing BuddyPress URLs is faster, more reliable, extensible, testable and fully compliant with WordPress best practices.', 'buddypress' ); ?>
+								<?php
+								printf(
+									/* translators: %s is the placeholder for the link to a developer note. */
+									esc_html__( 'Speaking of signups, the %s has been improved so that you can now submit values for any xProfile field registered as part of the Signups profile field group.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2024/05/07/signup-fields-via-the-rest-api/' ),
+										esc_html__( 'BP REST API', 'buddypress' )
+									)
+								);
+								?>
+							</li>
+							<li>
+							<?php
+								printf(
+									/* translators: %s is the placeholder for the link to a developer note. */
+									esc_html__( 'Last but not least, we again offer native support for overriding BuddyPress’s language with your community vocabulary using %s.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://bpdevel.wordpress.com/2024/06/28/translating-buddypress-texts-into-your-community-vocabulary-is-back-in-14-0-0/' ),
+										esc_html__( 'custom translations', 'buddypress' )
+									)
+								);
+								?>
 							</li>
 						</ol>
 
 						<hr class="bp-hello-divider"/>
 
-						<h2>
-							<?php
-							printf(
-								/* translators: %s is the placeholder for the link to the BuddyPress Add-ons administration page. */
-								esc_html__( 'Do you need to maintain backward compatibility? %s has you covered.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( $classic_box ),
-									esc_html__( 'BP Classic', 'buddypress' )
-								)
-							);
-							?>
-						</h2>
-
 						<p>
-							<?php esc_html_e( 'Although we chose to extend our beta testing period to 3 months for this major release and  documented what BuddyPress plugin authors need to do to be ready for our core change, some of them might need a little more time to be fully compatible with the latest BuddyPress version.', 'buddypress' ); ?>
-							<?php esc_html_e( 'Or, for instance, you might still use the BP Default theme (which was deprecated 10 years ago) or a BP Legacy Widget.', 'buddypress' ); ?>
 							<?php
 							printf(
-								/* translators: %s is the placeholder for the link to the BuddyPress Add-ons administration page. */
-								esc_html__( 'If so, you can download and activate %s for your backward compatibility needs.', 'buddypress' ),
-								sprintf(
-									'<a href="%1$s">%2$s</a>',
-									esc_url( $classic_box ),
-									esc_html__( 'BP Classic', 'buddypress' )
-								)
+								/* Translators: %s is a black cat emoji. */
+								esc_html__( 'Compared to our previous major version (12.0.0 - the number right after was too intimidating %s), 14.0.0 is a quieter update.', 'buddypress' ),
+								// phpcs:ignore WordPress.Security.EscapeOutput
+								wp_staticize_emoji( '🐈‍⬛' )
 							);
+							echo '&nbsp;';
+							esc_html_e( 'After the huge BP Rewrites API revolution, the humans (us the BP Team) who maintain and support your favorite community plugin needed to catch their breath to get ready for the new round of big changes arriving in 15.0.0.', 'buddypress' );
 							?>
-						</p>
-
-						<hr class="bp-hello-divider"/>
-
-						<h2>
-							<?php
-							printf(
-									/* Translators: %s is a woman supervillain emoji. */
-									esc_html__( 'Here\'s another benefit of the BP Rewrites API: the new "members only" community visibility level %s', 'buddypress' ),
-									// phpcs:ignore WordPress.Security.EscapeOutput
-									wp_staticize_emoji( '🦹🏻' )
-								);
-							?>
-						</h2>
-
-						<p>
-							<?php esc_html_e( 'We\'ve heard from BuddyPress end-users that being able to easily restrict access to their community is a necessary feature. And, thanks to the BP Rewrites API, we are now able to make this possible.', 'buddypress' ); ?>
-							<?php esc_html_e( 'With this first iteration, a site admin can now choose whether the community is fully public or is only accessible to logged-in members.', 'buddypress' ); ?>
-							<?php esc_html_e( 'In future versions, we hope to add granularity to this choice, so that community administrators can choose to highlight their members but share activities only inside the community "gates" for example.', 'buddypress' ); ?>
 						</p>
 
 						<hr class="bp-hello-divider"/>
@@ -914,6 +914,24 @@ class BP_Admin {
 						<figure class="bp-hello-aligncenter">
 							<div class="dashicons dashicons-buddicons-buddypress-logo big"></div>
 						</figure>
+
+						<hr class="bp-hello-divider"/>
+
+						<p>
+							<?php
+							esc_html_e( 'Let’s keep in mind BuddyPress is an open source project maintained by volunteers giving freely of their time and energy to help you build great WordPress community sites.', 'buddypress' );
+							echo '&nbsp;';
+							printf(
+									/* Translators: %s is a the link to the new Contributor Documentation on GitHub */
+									esc_html__( 'Don’t hesitate to send us some encouraging words and please consider contributing back to %s.', 'buddypress' ),
+									sprintf(
+										'<a href="%1$s">%2$s</a>',
+										esc_url( 'https://github.com/buddypress/buddypress/tree/master/docs/contributor#readme' ),
+										esc_html__( 'the project', 'buddypress' )
+									)
+								);
+							?>
+						</p>
 
 						<hr class="bp-hello-divider"/>
 
@@ -954,10 +972,10 @@ class BP_Admin {
 						echo wp_kses(
 							sprintf(
 								/* translators: 1: heart dashicons. 2: BP Credits screen url. 3: number of BuddyPress contributors to this version. */
-								_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 49, 'buddypress' ),
+								_n( 'Built with %1$s by <a href="%2$s">%3$d volunteer</a>.', 'Built with %1$s by <a href="%2$s">%3$d volunteers</a>.', 47, 'buddypress' ),
 								'<span class="dashicons dashicons-heart"></span>',
 								esc_url( bp_get_admin_url( 'admin.php?page=bp-credits' ) ),
-								esc_html( number_format_i18n( 49 ) )
+								esc_html( number_format_i18n( 47 ) )
 							),
 							array(
 								'a'    => array(
@@ -965,7 +983,7 @@ class BP_Admin {
 								),
 								'span' => array(
 									'class' => true,
-								)
+								),
 							)
 						);
 						?>
@@ -1019,37 +1037,37 @@ class BP_Admin {
 
 			<p class="about-description"><?php esc_html_e( 'Meet the contributors behind BuddyPress:', 'buddypress' ); ?></p>
 
-			<h3 class="wp-people-group"><?php esc_html_e( 'Project Leaders', 'buddypress' ); ?></h3>
+			<h3 class="wp-people-group"><?php esc_html_e( 'Chefs', 'buddypress' ); ?></h3>
 			<ul class="wp-people-group " id="wp-people-group-project-leaders">
 				<li class="wp-person" id="wp-person-johnjamesjacoby">
 					<a class="web" href="https://profiles.wordpress.org/johnjamesjacoby/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/7a2644fb53ae2f7bfd7143b504af396c?s=120">
 					John James Jacoby</a>
-					<span class="title"><?php esc_html_e( 'Project Lead', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Grand Chef', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-boonebgorges">
 					<a class="web" href="https://profiles.wordpress.org/boonebgorges/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/9cf7c4541a582729a5fc7ae484786c0c?s=120">
 					Boone B. Gorges</a>
-					<span class="title"><?php esc_html_e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Chef', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-djpaul">
-					<a class="web" href="https://profiles.wordpress.org/djpaul/"><img alt="" class="gravatar" src="https://avatars2.githubusercontent.com/u/1275914?s=120">
+					<a class="web" href="https://profiles.wordpress.org/djpaul/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3bc9ab796299d67ce83dceb9554f75df?s=120">
 					Paul Gibbs</a>
-					<span class="title"><?php esc_html_e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Chef', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-r-a-y">
 					<a class="web" href="https://profiles.wordpress.org/r-a-y/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3bfa556a62b5bfac1012b6ba5f42ebfa?s=120">
 					Ray</a>
-					<span class="title"><?php esc_html_e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Chef', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-imath">
 					<a class="web" href="https://profiles.wordpress.org/imath/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/8b208ca408dad63888253ee1800d6a03?s=120">
 					Mathieu Viet</a>
-					<span class="title"><?php esc_html_e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Chef', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-mercime">
 					<a class="web" href="https://profiles.wordpress.org/mercime/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/fae451be6708241627983570a1a1817a?s=120">
 					Mercime</a>
-					<span class="title"><?php esc_html_e( 'Lead Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Chef', 'buddypress' ); ?></span>
 				</li>
 			</ul>
 
@@ -1058,57 +1076,67 @@ class BP_Admin {
 				<li class="wp-person" id="wp-person-hnla">
 					<a class="web" href="https://profiles.wordpress.org/hnla/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/3860c955aa3f79f13b92826ae47d07fe?s=120">
 					Hugo Ashmore</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-dcavins">
 					<a class="web" href="https://profiles.wordpress.org/dcavins/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/a5fa7e83d59cb45ebb616235a176595a?s=120">
 					David Cavins</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-tw2113">
 					<a class="web" href="https://profiles.wordpress.org/tw2113/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/a5d7c934621fa1c025b83ee79bc62366?s=120">
 					Michael Beckwith</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
-				</li>
-				<li class="wp-person" id="wp-person-henry-wright">
-					<a class="web" href="https://profiles.wordpress.org/henry.wright/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=120">
-					Henry Wright</a>
-					<span class="title"><?php esc_html_e( 'Community Support', 'buddypress' ); ?></span>
-				</li>
-				<li class="wp-person" id="wp-person-danbp">
-					<a class="web" href="https://profiles.wordpress.org/danbp/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0deae2e7003027fbf153500cd3fa5501?s=120">
-					danbp</a>
-					<span class="title"><?php esc_html_e( 'Community Support', 'buddypress' ); ?></span>
-				</li>
-				<li class="wp-person" id="wp-person-shanebp">
-					<a class="web" href="https://profiles.wordpress.org/shanebp/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ffd294ab5833ba14aaf175f9acc71cc4?s=120">
-					shanebp</a>
-					<span class="title"><?php esc_html_e( 'Community Support', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-slaffik">
 					<a class="web" href="https://profiles.wordpress.org/slaffik/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/61fb07ede3247b63f19015f200b3eb2c?s=120">
 					Slava Abakumov</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-offereins">
 					<a class="web" href="https://profiles.wordpress.org/Offereins/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/2404ed0a35bb41aedefd42b0a7be61c1?s=120">
 					Laurens Offereins</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-netweb">
 					<a class="web" href="https://profiles.wordpress.org/netweb/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/97e1620b501da675315ba7cfb740e80f?s=120">
 					Stephen Edgar</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-espellcaste">
 					<a class="web" href="https://profiles.wordpress.org/espellcaste/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/b691e67be0ba5cad6373770656686bc3?s=120">
 					Renato Alves</a>
-					<span class="title"><?php esc_html_e( 'Core Developer', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizzaïolo', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-vapvarun">
+					<a class="web" href="https://profiles.wordpress.org/vapvarun/"><img alt="" class="gravatar" src="//gravatar.com/avatar/78a3bf7eb3a1132fc667f96f2631e448?s=120">
+					Varun Dubey</a>
+					<span class="title"><?php esc_html_e( 'Dough Commis', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-emaralive">
+					<a class="web" href="https://profiles.wordpress.org/emaralive/"><img alt="" class="gravatar" src="//gravatar.com/avatar/310c3a56a7ea3c0816524a33cb8d7105?s=120">
+					emaralive</a>
+					<span class="title"><?php esc_html_e( 'Dough Commis', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-henry-wright">
+					<a class="web" href="https://profiles.wordpress.org/henry.wright/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0da2f1a9340d6af196b870f6c107a248?s=120">
+					Henry Wright</a>
+					<span class="title"><?php esc_html_e( 'Pizza deliverer', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-danbp">
+					<a class="web" href="https://profiles.wordpress.org/danbp/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/0deae2e7003027fbf153500cd3fa5501?s=120">
+					danbp</a>
+					<span class="title"><?php esc_html_e( 'Pizza deliverer', 'buddypress' ); ?></span>
+				</li>
+				<li class="wp-person" id="wp-person-shanebp">
+					<a class="web" href="https://profiles.wordpress.org/shanebp/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ffd294ab5833ba14aaf175f9acc71cc4?s=120">
+					shanebp</a>
+					<span class="title"><?php esc_html_e( 'Pizza deliverer', 'buddypress' ); ?></span>
 				</li>
 				<li class="wp-person" id="wp-person-venutius">
 					<a class="web" href="https://profiles.wordpress.org/venutius/"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/6a7c42a77fd94b82b217a7a97afdddbc?s=120">
 					Venutius</a>
-					<span class="title"><?php esc_html_e( 'Community Support', 'buddypress' ); ?></span>
+					<span class="title"><?php esc_html_e( 'Pizza deliverer', 'buddypress' ); ?></span>
 				</li>
 			</ul>
 
@@ -1122,17 +1150,17 @@ class BP_Admin {
 				?>
 			</h3>
 			<ul class="wp-people-group " id="wp-people-group-noteworthy">
-				<li class="wp-person" id="wp-person-emaralive">
-					<a class="web" href="https://profiles.wordpress.org/emaralive/"><img alt="" class="gravatar" src="//gravatar.com/avatar/310c3a56a7ea3c0816524a33cb8d7105?s=120">
-					emaralive</a>
+				<li class="wp-person" id="wp-person-shailu25">
+					<a class="web" href="https://profiles.wordpress.org/shailu25/"><img alt="" class="gravatar" src="//gravatar.com/avatar/898d977196c2e4f5db4aab41edf1f5ad?s=120">
+					Shail Mehta</a>
 				</li>
-				<li class="wp-person" id="wp-person-upadalavipul">
-					<a class="web" href="https://profiles.wordpress.org/upadalavipul/"><img alt="" class="gravatar" src="//gravatar.com/avatar/2d450f193322c17d2138386e45c8ffbf?s=120">
-					Upadala Vipul</a>
+				<li class="wp-person" id="wp-person-niftythree">
+					<a class="web" href="https://profiles.wordpress.org/niftythree/"><img alt="" class="gravatar" src="//gravatar.com/avatar/c8d0f5560b6e8f5749d81fc3232d6345?s=120">
+					Nifty</a>
 				</li>
-				<li class="wp-person" id="wp-person-vapvarun">
-					<a class="web" href="https://profiles.wordpress.org/vapvarun/"><img alt="" class="gravatar" src="//gravatar.com/avatar/78a3bf7eb3a1132fc667f96f2631e448?s=120">
-					Varun Dubey</a>
+				<li class="wp-person" id="wp-person-needle">
+					<a class="web" href="https://profiles.wordpress.org/needle/"><img alt="" class="gravatar" src="//gravatar.com/avatar/b4fa5015e88f2b2983e10b776ade83f5?s=120">
+					Christian Wach</a>
 				</li>
 			</ul>
 
@@ -1146,59 +1174,53 @@ class BP_Admin {
 				?>
 			</h3>
 			<p class="wp-credits-list">
-				<a href="https://profiles.wordpress.org/awol/">awol</a>,
-				<a href="https://profiles.wordpress.org/benjamin_zekavica/">Benjamin Zekavica (benjamin_zekavica)</a>
-				<a href="https://profiles.wordpress.org/bkaindl/">Bernhard Kaindl (bkaindl)</a>,
-				<a href="https://profiles.wordpress.org/bouncingsprout/">Ben Roberts (bouncingsprout)</a>,
-				<a href="https://profiles.wordpress.org/boonebgorges/">Boone B Gorges (boonebgorges)</a>,
-				<a href="https://profiles.wordpress.org/btwebdesign/">btwebdesign</a>,
-				<a href="https://profiles.wordpress.org/coffee2code/">Scott Reilly (coffee2code)</a>,
-				<a href="https://profiles.wordpress.org/corzel/">corzel</a>,
-				<a href="https://profiles.wordpress.org/dancaragea/">Dan Caragea (dancaragea)</a>,
+				<a href="https://profiles.wordpress.org/ahegyes/">ahegyes</a>,
+				<a href="https://profiles.wordpress.org/boonebgorges/">Boone Gorges (boonebgorges)</a>,
+				<a href="https://profiles.wordpress.org/chairmanbrando/">chairmanbrando</a>,
 				<a href="https://profiles.wordpress.org/dcavins/">David Cavins (dcavins)</a>,
-				<a href="https://profiles.wordpress.org/devmuhib/">Muhibul Haque (devmuhib)</a>,
-				<a href="https://profiles.wordpress.org/diabolique/">Diabolique</a>,
-				<a href="https://profiles.wordpress.org/dj-basstone/">Heikki Paananen (dj-basstone)</a>,
-				<a href="https://profiles.wordpress.org/DJPaul/">Paul Gibbs (DJPaul)</a>,
+				<a href="https://profiles.wordpress.org/dd32/">Dion Hulse (dd32)</a>,
+				<a href="https://profiles.wordpress.org/djpaul/">Paul Wong-Gibbs (DJPaul)</a>,
+				<a href="https://profiles.wordpress.org/dontdream/">Andrea Tarantini (dontdream)</a>,
 				<a href="https://profiles.wordpress.org/emaralive/">emaralive</a>,
-				<a href="https://profiles.wordpress.org/fanly/">Fanly</a>,
-				<a href="https://profiles.wordpress.org/fawp/">fawp</a>,
-				<a href="https://profiles.wordpress.org/fernandot/">Fernando Tellado (fernandot)</a>,
-				<a href="https://profiles.wordpress.org/iandunn/">Ian Dunn (iandunn)</a>,
-				<a href="https://profiles.wordpress.org/iamthewebb/">iamthewebb</a>,
-				<a href="https://profiles.wordpress.org/imath/">Mathieu Viet (imath)</a>,
-				<a href="https://profiles.wordpress.org/itapress/">itapress</a>,
-				<a href="https://profiles.wordpress.org/jaz_on/">Jason Rouet</a>,
-				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
-				<a href="https://profiles.wordpress.org/kalich5/">Michal Janata (kalich5)</a>,
-				<a href="https://profiles.wordpress.org/koenhuybrechts/">koen Huybrechts (koenhuybrechts)</a>
-				<a href="https://profiles.wordpress.org/lenasterg">Lena Stergatou (lenasterg)</a>,
-				<a href="https://profiles.wordpress.org/lidialab/">Lidia Pellizzaro (lidialab)</a>,
-				<a href="https://profiles.wordpress.org/magland/">magland</a>,
-				<a href="https://profiles.wordpress.org/makoto-a/">Makoto Akai (makoto-a)</a>,
-				<a href="https://profiles.wordpress.org/mehrazmorshed/">Mehraz Morshed (mehrazmorshed)</a>,
-				<a href="https://profiles.wordpress.org/mike80222/">Mike Witt (mike80222)</a>,
-				<a href="https://profiles.wordpress.org/narolainfotech/">narolainfotech</a>,
-				<a href="https://profiles.wordpress.org/nekojonez/">Pieterjan Deneys (nekojonez)</a>,
-				<a href="https://profiles.wordpress.org/niftythree/">Nifty (niftythree)</a>,
-				<a href="https://profiles.wordpress.org/nilovelez/">Nilo Velez (nilovelez)</a>,
-				<a href="https://profiles.wordpress.org/perchenet/">perchenet</a>,
-				<a href="https://profiles.wordpress.org/plugindevs/">Plugin Devs</a>,
-				<a href="https://profiles.wordpress.org/psmits1567/">Peter Smits (psmits1567)</a>,
-				<a href="https://profiles.wordpress.org/pooja9712/">pooja9712</a>,
-				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
-				<a href="https://profiles.wordpress.org/rajinsharwar/">Rajin Sharwar (rajinsharwar)</a>,
-				<a href="https://profiles.wordpress.org/raviousprime/">raviousprime</a>,
 				<a href="https://profiles.wordpress.org/espellcaste/">Renato Alves (espellcaste)</a>,
+				<a href="https://profiles.wordpress.org/gingerbooch/">gingerbooch</a>,
+				<a href="https://profiles.wordpress.org/iandunn/">Ian Dunn (iandunn)</a>,
+				<a href="https://profiles.wordpress.org/imath/">Mathieu Viet (imath)</a>,
+				<a href="https://profiles.wordpress.org/itpathsolutions/">IT Path Solutions (itpathsolutions)</a>,
+				<a href="https://profiles.wordpress.org/jnie/">jnie</a>,
+				<a href="https://profiles.wordpress.org/johndawson155/">johndawson155</a>,
+				<a href="https://profiles.wordpress.org/johnjamesjacoby/">John James Jacoby (johnjamesjacoby)</a>,
+				<a href="https://profiles.wordpress.org/josevarghese/">Jose Varghese (josevarghese)</a>,
+				<a href="https://profiles.wordpress.org/kainelabsteam/">KaineLabs Team (kainelabsteam)</a>,
+				<a href="https://profiles.wordpress.org/lenasterg/">Lena Stergatou (lenasterg)</a>,
+				<a href="https://profiles.wordpress.org/needle/">Christian Wach (needle)</a>,
+				<a href="https://profiles.wordpress.org/nhrrob/">Nazmul Hasan Robin (nhrrob)</a>,
+				<a href="https://profiles.wordpress.org/niftythree/">Nifty (niftythree)</a>,
+				<a href="https://profiles.wordpress.org/nitinp544/">Nitin Patil (nitinp544)</a>,
+				<a href="https://profiles.wordpress.org/pawelhalickiotgs/">pawelhalickiotgs</a>,
+				<a href="https://profiles.wordpress.org/perchenet/">perchenet</a>,
+				<a href="https://profiles.wordpress.org/poojasahgal/">Pooja Sahgal (poojasahgal)</a>,
+				<a href="https://profiles.wordpress.org/r-a-y/">r-a-y</a>,
+				<a href="https://profiles.wordpress.org/respawnsive/">respawnsive</a>,
+				<a href="https://profiles.wordpress.org/roberthemsing/">Rosso Digital (roberthemsing)</a>,
 				<a href="https://profiles.wordpress.org/sabernhardt/">Stephen Bernhardt (sabernhardt)</a>,
 				<a href="https://profiles.wordpress.org/shailu25/">Shail Mehta (shailu25)</a>,
 				<a href="https://profiles.wordpress.org/shawfactor/">shawfactor</a>,
 				<a href="https://profiles.wordpress.org/sjregan/">sjregan</a>,
-				<a href="https://profiles.wordpress.org/slaffik/">Slava Abakumov (slaFFik)</a>,
+				<a href="https://profiles.wordpress.org/slaffik/">Slava Abakumov (Slaffik)</a>,
 				<a href="https://profiles.wordpress.org/strategio/">Pierre Sylvestre (strategio)</a>,
-				<a href="https://profiles.wordpress.org/teeboy4real/">teeboy4real</a>,
-				<a href="https://profiles.wordpress.org/upadalavipul/">Upadala Vipul (upadalavipul)</a>,
-				<a href="https://profiles.wordpress.org/vapvarun/">Varun Dubey (vapvarun)</a>.
+				<a href="https://profiles.wordpress.org/testovac/">testovac</a>,
+				<a href="https://profiles.wordpress.org/vapvarun/">Varun Dubey (vapvarun)</a>,
+				<a href="https://profiles.wordpress.org/yagniksangani/">Yagnik Sangani (yagniksangani)</a>,
+				<a href="https://profiles.wordpress.org/dancaragea/">Dan Caragea (dancaragea)</a>,
+				<a href="https://profiles.wordpress.org/modelaid/">modelaid</a>,
+				<a href="https://profiles.wordpress.org/nekojonez/">Pieterjan Deneys (nekojonez)</a>,
+				<a href="https://profiles.wordpress.org/mehrazmorshed/">Mehraz Morshed (mehrazmorshed)</a>,
+				<a href="https://profiles.wordpress.org/shenyanzhi/">沈唁 (shenyanzhi)</a>,
+				<a href="https://profiles.wordpress.org/haozi/">耗子 (haozi)</a>,
+				<a href="https://profiles.wordpress.org/cyrfer/">cyrfer</a>,
+				<a href="https://profiles.wordpress.org/narolainfotech/">narolainfotech</a>,
+				<a href="https://profiles.wordpress.org/benjamin_zekavica/">Benjamin Zekavica (benjamin_zekavica)</a>.
 			</p>
 
 			<h3 class="wp-people-group"><?php esc_html_e( 'With our thanks to these Open Source projects', 'buddypress' ); ?></h3>
@@ -1234,7 +1256,7 @@ class BP_Admin {
 					Jeff Sayre</a>
 				</li>
 				<li class="wp-person" id="wp-person-karmatosed">
-					<a class="web" href="https://profiles.wordpress.org/karmatosed"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/4fce55e91de5a6e9312723e2f01902d5?s=120">
+					<a class="web" href="https://profiles.wordpress.org/karmatosed"><img alt="" class="gravatar" src="//www.gravatar.com/avatar/ae3b73dbc5228474b0765c38d09176bb?s=120">
 					Tammie Lister</a>
 				</li>
 				<li class="wp-person" id="wp-person-modemlooper">
@@ -1283,7 +1305,7 @@ class BP_Admin {
 		$terms           = get_the_terms( $post_id, bp_get_email_tax_type() );
 		$taxonomy_object = get_taxonomy( bp_get_email_tax_type() );
 
-		if ( is_wp_error( $terms ) || ! $terms  ) {
+		if ( is_wp_error( $terms ) || ! $terms ) {
 			printf( '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">%s</span>', esc_html( $taxonomy_object->labels->no_terms ) );
 		} else {
 			$situations = wp_list_pluck( $terms, 'description' );
@@ -1306,11 +1328,17 @@ class BP_Admin {
 			$screen = get_current_screen();
 		}
 
+		/*
+		 * @todo We should check for any possible post types generated by BuddyPress:
+		 * - BP Email,
+		 * - BP Directories...
+		 */
 		if ( ! isset( $screen->post_type ) || bp_get_email_post_type() !== $screen->post_type ) {
 			return;
 		}
 
 		bp_core_add_contextual_help( $screen );
+		$this->trace_current_screen();
 	}
 
 	/** Helpers ***************************************************************/
@@ -1347,7 +1375,7 @@ class BP_Admin {
 			$version = bp_get_version();
 
 			// Check for prerelease hyphen.
-			$pre     = strpos( $version, '-' );
+			$pre = strpos( $version, '-' );
 
 			// Strip prerelease suffix.
 			$display = ( false !== $pre )
@@ -1475,7 +1503,7 @@ class BP_Admin {
 			// 3.0
 			'bp-hello-js' => array(
 				'file'         => "{$url}hello{$min}.js",
-				'dependencies' => array( 'bp-thickbox', 'wp-api-request' ),
+				'dependencies' => array( 'bp-thickbox', 'wp-api-request', 'underscore', 'plugin-install' ),
 				'footer'       => true,
 			),
 
@@ -1570,7 +1598,7 @@ class BP_Admin {
 						grid-template-columns: %1$s;
 					}
 					%2$s',
-					implode( " ", $grid_columns ),
+					implode( ' ', $grid_columns ),
 					$help_tab_css
 				)
 			);
@@ -1611,11 +1639,11 @@ class BP_Admin {
 	 *
 	 * @global int $paged The current page of the Plugin results.
 	 *
-	 * @param false|array $args  `false` by default.
-	 * @return array             The "BuddyPress add-ons" args.
+	 * @return array The "BuddyPress add-ons" args.
 	 */
-	public function addons_args( $args = false ) {
+	public function addons_args() {
 		global $paged;
+		$this->current_screen = get_current_screen()->id;
 
 		return array(
 			'page'     => $paged,
@@ -1635,8 +1663,8 @@ class BP_Admin {
 			wp_add_inline_script(
 				'plugin-install',
 				'
-				( function() {
-					document.onreadystatechange = function()  {
+				( function () {
+					document.onreadystatechange = function ()  {
 						if ( document.readyState === "complete" ) {
 							document.querySelector( \'.plugin-card-bp-classic .open-plugin-details-modal\' ).click();
 						}
@@ -1684,5 +1712,13 @@ class BP_Admin {
 		</div>
 		<?php
 	}
+
+	/**
+	 * Traces the BP Admin screen being viewed.
+	 *
+	 * @since 15.0.0
+	 */
+	public function trace_current_screen() {
+		$this->current_screen = get_current_screen()->id;
+	}
 }
-endif; // End class_exists check.

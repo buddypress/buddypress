@@ -11,8 +11,6 @@
  * Show the data settings template.
  *
  * @since 4.0.0
- *
- * @return void
  */
 function bp_settings_screen_data() {
 

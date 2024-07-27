@@ -207,7 +207,6 @@ class BP_Tests_BP_Groups_Member_TestCases extends BP_UnitTestCase {
 
 		// Test with no status
 		// In bp_group_get_invite_status(), no status falls back to "members"
-		$this->assertTrue( '' == groups_get_groupmeta( $g, 'invite_status' ) );
 		$this->assertFalse( bp_groups_user_can_send_invites( $g, $u_nonmembers ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_members ) );
 		$this->assertTrue( bp_groups_user_can_send_invites( $g, $u_mods ) );

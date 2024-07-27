@@ -21,6 +21,7 @@ abstract class BP_Recursive_Query {
 	 * Query arguments passed to the constructor.
 	 *
 	 * @since 2.2.0
+	 *
 	 * @var array
 	 */
 	public $queries = array();
@@ -98,7 +99,7 @@ abstract class BP_Recursive_Query {
 					}
 
 					$sql_chunks['join'] = array_merge( $sql_chunks['join'], $clause_sql['join'] );
-				// This is a subquery.
+					// This is a subquery.
 				} else {
 					$clause_sql = $this->get_sql_for_query( $clause, $depth + 1 );
 
@@ -156,7 +157,7 @@ abstract class BP_Recursive_Query {
 			} elseif ( ! is_array( $query ) ) {
 				continue;
 
-			// First-order clause.
+				// First-order clause.
 			} elseif ( $this->is_first_order_clause( $query ) ) {
 				if ( isset( $query['value'] ) && array() === $query['value'] ) {
 					unset( $query['value'] );
@@ -164,7 +165,7 @@ abstract class BP_Recursive_Query {
 
 				$clean_queries[] = $query;
 
-			// Otherwise, it's a nested query, so we recurse.
+				// Otherwise, it's a nested query, so we recurse.
 			} else {
 				$cleaned_query = $this->sanitize_query( $query );
 
@@ -182,15 +183,15 @@ abstract class BP_Recursive_Query {
 		if ( isset( $relation ) && 'OR' === strtoupper( $relation ) ) {
 			$clean_queries['relation'] = 'OR';
 
-		/*
-		 * If there is only a single clause, call the relation 'OR'.
-		 * This value will not actually be used to join clauses, but it
-		 * simplifies the logic around combining key-only queries.
-		 */
+			/*
+			* If there is only a single clause, call the relation 'OR'.
+			* This value will not actually be used to join clauses, but it
+			* simplifies the logic around combining key-only queries.
+			*/
 		} elseif ( 1 === count( $clean_queries ) ) {
 			$clean_queries['relation'] = 'OR';
 
-		// Default to AND.
+			// Default to AND.
 		} else {
 			$clean_queries['relation'] = 'AND';
 		}

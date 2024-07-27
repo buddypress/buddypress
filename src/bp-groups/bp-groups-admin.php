@@ -18,11 +18,6 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 	require ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
-// The per_page screen option. Has to be hooked in extremely early.
-if ( is_admin() && ! empty( $_REQUEST['page'] ) && 'bp-groups' == $_REQUEST['page'] ) {
-	add_filter( 'set-screen-option', 'bp_groups_admin_screen_options', 10, 3 );
-}
-
 /**
  * Register the Groups component admin screen.
  *
@@ -132,6 +127,10 @@ add_filter( 'bp_admin_menu_order', 'bp_groups_admin_menu_order' );
  */
 function bp_groups_admin_load() {
 	global $bp_groups_list_table;
+	$bp = buddypress();
+
+	// Traces the current BP Admin screen.
+	$bp->admin->trace_current_screen();
 
 	// Build redirection URL.
 	$redirect_to = remove_query_arg( array( 'action', 'action2', 'gid', 'deleted', 'error', 'updated', 'success_new', 'error_new', 'success_modified', 'error_modified' ), $_SERVER['REQUEST_URI'] );
@@ -252,8 +251,6 @@ function bp_groups_admin_load() {
 		) );
 	}
 
-	$bp = buddypress();
-
 	// Enqueue CSS and JavaScript.
 	wp_enqueue_script( 'bp_groups_admin_js', $bp->plugin_url . "bp-groups/admin/js/admin{$min}.js", array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), bp_get_version(), true );
 	wp_localize_script( 'bp_groups_admin_js', 'BP_Group_Admin', array(
@@ -360,7 +357,7 @@ function bp_groups_admin_load() {
 				bp_groups_defer_group_members_count( true );
 			}
 
-			foreach( array_values( $user_names ) as $user_name ) {
+			foreach ( array_values( $user_names ) as $user_name ) {
 				$un = trim( $user_name );
 
 				// Make sure the user exists before attempting
@@ -521,30 +518,6 @@ function bp_groups_admin_load() {
 		wp_safe_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), stripslashes( $_SERVER['REQUEST_URI'] ) ) );
 		exit;
 	}
-}
-
-/**
- * Handle save/update of screen options for the Groups component admin screen.
- *
- * @since 1.7.0
- *
- * @param string $value     Will always be false unless another plugin filters it first.
- * @param string $option    Screen option name.
- * @param string $new_value Screen option form value.
- * @return string|int Option value. False to abandon update.
- */
-function bp_groups_admin_screen_options( $value, $option, $new_value ) {
-	if ( 'toplevel_page_bp_groups_per_page' != $option && 'toplevel_page_bp_groups_network_per_page' != $option ) {
-		return $value;
-	}
-
-	// Per page.
-	$new_value = (int) $new_value;
-	if ( $new_value < 1 || $new_value > 999 ) {
-		return $value;
-	}
-
-	return $new_value;
 }
 
 /**
@@ -1504,7 +1477,7 @@ add_action( bp_core_admin_hook(), 'bp_groups_admin_groups_type_change_notice' );
  *
  * @param  boolean $exists  True if the group type already exists. False otherwise.
  * @param  string  $type_id The group type identifier.
- * @return boolean          True if the group type already exists. False otherwise.
+ * @return bool          True if the group type already exists. False otherwise.
  */
 function bp_groups_type_admin_type_exists( $exists = false, $type_id = '' ) {
 	if ( ! $type_id ) {

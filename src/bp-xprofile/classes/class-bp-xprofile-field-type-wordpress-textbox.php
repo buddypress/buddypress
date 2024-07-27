@@ -236,7 +236,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 *
 	 * @param int   $field_id ID of the field.
 	 * @param array $settings Array of settings.
-	 * @return bool True on success.
+	 * @return bool
 	 */
 	public function admin_save_settings( $field_id, $settings ) {
 		$existing_setting = self::get_field_settings( $field_id );

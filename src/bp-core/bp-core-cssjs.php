@@ -281,7 +281,7 @@ function bp_core_add_cropper_inline_js() {
 	?>
 
 	<script type="text/javascript">
-		jQuery( window ).on( 'load', function() {
+		jQuery( window ).on( 'load', function () {
 			jQuery( '#avatar-to-crop' ).Jcrop( {
 				onChange: showPreview,
 				onSelect: updateCoords,

@@ -272,7 +272,6 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	 * @param string      $style         Styles for the row.
 	 * @param string      $role          Role to be assigned to user.
 	 * @param int         $numposts      Numper of posts.
-	 * @return void
 	 */
 	public function single_row( $signup_object = null, $style = '', $role = '', $numposts = 0 ) {
 		if ( '' === $style ) {

@@ -157,7 +157,7 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 			/* translators: %s: number of message recipients */
 			'more' => __( '(and %d others)', 'buddypress' ),
 		),
-		'rootUrl'           => parse_url( $root_url, PHP_URL_PATH ),
+		'rootUrl'           => wp_parse_url( $root_url, PHP_URL_PATH ),
 		'supportedRoutes'   => $routes,
 	);
 

@@ -6,6 +6,9 @@
  * @subpackage Core
  * @since 1.9.0
  * @deprecated 12.0.0
+ *
+ * @phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.Found
+ * @phpcs:disable Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
  */
 
 // Exit if accessed directly.
@@ -55,7 +58,6 @@ class BP_Core_Login_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
-	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		_deprecated_function( __METHOD__, '12.0.0' );
@@ -68,7 +70,6 @@ class BP_Core_Login_Widget {
 	 * @deprecated 12.0.0
 	 *
 	 * @param array $instance Settings for this widget.
-	 * @return void
 	 */
 	public function form( $instance = array() ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

@@ -8,9 +8,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 class BP_Members_Invitations_Component extends BP_Component {
 
 	function __construct() {

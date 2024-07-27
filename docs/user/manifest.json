@@ -108,6 +108,12 @@
 		"parent": null
 	},
 	{
+		"title": "BuddyPress Extended Profile",
+		"slug": "administration-user-profile",
+		"markdown_source": "../user/administration/users/profile.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Emails",
 		"slug": "administration-emails",
 		"markdown_source": "../user/administration/emails/README.md",
@@ -117,6 +123,30 @@
 		"title": "BuddyPress Email Tokens",
 		"slug": "administration-email-tokens",
 		"markdown_source": "../user/administration/emails/tokens.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Administration - Groups",
+		"slug": "administration-groups",
+		"markdown_source": "../user/administration/groups/README.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Group Types",
+		"slug": "administration-group-types",
+		"markdown_source": "../user/administration/groups/group-types.md",
+		"parent": null
+	},
+	{
+		"title": "Advanced BuddyPress customizations",
+		"slug": "advanced",
+		"markdown_source": "../user/advanced/README.md",
+		"parent": null
+	},
+	{
+		"title": "Customizing BuddyPress texts to match your community purpose",
+		"slug": "advanced-texts",
+		"markdown_source": "../user/advanced/texts.md",
 		"parent": null
 	}
 ]

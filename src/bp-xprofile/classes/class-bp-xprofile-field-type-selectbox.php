@@ -116,7 +116,7 @@ class BP_XProfile_Field_Type_Selectbox extends BP_XProfile_Field_Type {
 
 			// Check for updated posted values, but errors preventing them from
 			// being saved first time.
-			foreach( $option_values as $i => $option_value ) {
+			foreach ( $option_values as $i => $option_value ) {
 				if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $_POST[ 'field_' . $this->field_obj->id ] != $option_value ) {
 					if ( ! empty( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
 						$option_values[ $i ] = sanitize_text_field( $_POST[ 'field_' . $this->field_obj->id ] );

@@ -1,6 +1,6 @@
 # BuddyPress Emails
 
-BuddyPress comes with a customizable email API (introduced in version 2.5). This API is primarly used by the BuddyPress Core, Members and optional components to inform members of your community about specific events or interactions they are involved in. We call these events/interactions: "**situations**".
+BuddyPress comes with a customizable email API (introduced in version 2.5). This API is primarily used by the BuddyPress Core, Members and optional components to inform members of your community about specific events or interactions they are involved in. We call these events/interactions: "**situations**".
 
 For instance, the very first email a member will receive is about the "_Recipient has registered for an account_" situation. Concretely, the BuddyPress Members component is using the email the new user filled into the community registration form to send a verification email to make sure there's a human behind this email address. The email's content is containing an activation link to let the new user confirms he's joining your great community site.
 
@@ -48,7 +48,7 @@ You can customize the 3 sections of the BuddyPress Email by clicking on the Cust
 
 ![Screen Options](../../assets/administration-emails-customize-header.png)
 
-Inside this Customizer panel, you can change the Email's global background color, the Email's header background and text color, the highlight color for links and other decorative elements of the entire Email and the hearder's text size.
+Inside this Customizer panel, you can change the Email's global background color, the Email's header background and text color, the highlight color for links and other decorative elements of the entire Email and the header's text size.
 
 ### Body
 

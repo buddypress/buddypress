@@ -1546,7 +1546,7 @@ class BP_Activity_Activity {
 	 *
 	 * @param array $activity_ids Activity IDs whose comments should be deleted.
 	 * @param bool  $delete_meta  Should we delete the activity meta items for these comments.
-	 * @return bool True on success.
+	 * @return bool
 	 */
 	public static function delete_activity_item_comments( $activity_ids = array(), $delete_meta = true ) {
 		global $wpdb;
@@ -1574,7 +1574,7 @@ class BP_Activity_Activity {
 	 * @since 1.2.0
 	 *
 	 * @param array $activity_ids Activity IDs whose meta should be deleted.
-	 * @return bool True on success.
+	 * @return bool
 	 */
 	public static function delete_activity_meta_entries( $activity_ids = array() ) {
 		$activity_ids = wp_parse_id_list( $activity_ids );
@@ -1880,7 +1880,7 @@ class BP_Activity_Activity {
 
 		for ( $i = 0, $count = count( $activities ); $i < $count; ++$i ) {
 			$title                            = explode( '<span', $activities[$i]['content'] );
-			$activity_feed[$i]['title']       = trim( strip_tags( $title[0] ) );
+			$activity_feed[$i]['title']       = wp_strip_all_tags( $title[0] );
 			$activity_feed[$i]['link']        = $activities[$i]['primary_link'];
 			$activity_feed[$i]['description'] = @sprintf( $activities[$i]['content'], '' );
 			$activity_feed[$i]['pubdate']     = $activities[$i]['date_recorded'];
@@ -1896,7 +1896,7 @@ class BP_Activity_Activity {
 	 *
 	 * @see BP_Activity_Activity::get_filter_sql()
 	 *
-	 * @global wpdb $wpdb WordPress database object. 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param string     $field The database field.
 	 * @param array|bool $items The values for the IN clause, or false when none are found.
@@ -2019,7 +2019,7 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global wpdb $wpdb WordPress database object. 
+	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @return string ISO timestamp.
 	 */

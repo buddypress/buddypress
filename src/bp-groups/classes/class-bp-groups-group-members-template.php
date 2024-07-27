@@ -60,7 +60,7 @@ class BP_Groups_Group_Members_Template {
 
 	/**
 	 * @since 1.0.0
-	 * @var array|string|void
+	 * @var array|string|null
 	 */
 	public $pag_links;
 

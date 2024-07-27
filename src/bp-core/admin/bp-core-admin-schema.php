@@ -21,7 +21,6 @@ defined( 'ABSPATH' ) || exit;
  * @param array|bool $active_components Components to install.
  */
 function bp_core_install( $active_components = false ) {
-
 	bp_pre_schema_upgrade();
 
 	// If no components passed, get all the active components from the main site.
@@ -44,32 +43,32 @@ function bp_core_install( $active_components = false ) {
 	bp_core_install_nonmember_opt_outs();
 
 	// Notifications.
-	if ( !empty( $active_components['notifications'] ) ) {
+	if ( ! empty( $active_components['notifications'] ) ) {
 		bp_core_install_notifications();
 	}
 
 	// Friend Connections.
-	if ( !empty( $active_components['friends'] ) ) {
+	if ( ! empty( $active_components['friends'] ) ) {
 		bp_core_install_friends();
 	}
 
 	// Extensible Groups.
-	if ( !empty( $active_components['groups'] ) ) {
+	if ( ! empty( $active_components['groups'] ) ) {
 		bp_core_install_groups();
 	}
 
 	// Private Messaging.
-	if ( !empty( $active_components['messages'] ) ) {
+	if ( ! empty( $active_components['messages'] ) ) {
 		bp_core_install_private_messaging();
 	}
 
 	// Extended Profiles.
-	if ( !empty( $active_components['xprofile'] ) ) {
+	if ( ! empty( $active_components['xprofile'] ) ) {
 		bp_core_install_extended_profiles();
 	}
 
 	// Blog tracking.
-	if ( !empty( $active_components['blogs'] ) ) {
+	if ( ! empty( $active_components['blogs'] ) ) {
 		bp_core_install_blog_tracking();
 	}
 }
@@ -78,7 +77,6 @@ function bp_core_install( $active_components = false ) {
  * Install database tables for the Notifications component.
  *
  * @since 1.0.0
- *
  */
 function bp_core_install_notifications() {
 	$sql             = array();
@@ -93,7 +91,7 @@ function bp_core_install_notifications() {
 				component_name varchar(75) NOT NULL,
 				component_action varchar(75) NOT NULL,
 				date_notified datetime NOT NULL,
-				is_new bool NOT NULL DEFAULT 0,
+				is_new tinyint(1) NOT NULL DEFAULT 0,
 				KEY item_id (item_id),
 				KEY secondary_item_id (secondary_item_id),
 				KEY user_id (user_id),
@@ -119,7 +117,6 @@ function bp_core_install_notifications() {
  * Install database tables for the Activity component.
  *
  * @since 1.0.0
- *
  */
 function bp_core_install_activity_streams() {
 	$sql             = array();
@@ -137,7 +134,7 @@ function bp_core_install_activity_streams() {
 				item_id bigint(20) NOT NULL,
 				secondary_item_id bigint(20) DEFAULT NULL,
 				date_recorded datetime NOT NULL,
-				hide_sitewide bool DEFAULT 0,
+				hide_sitewide tinyint(1) DEFAULT 0,
 				mptt_left int(11) NOT NULL DEFAULT 0,
 				mptt_right int(11) NOT NULL DEFAULT 0,
 				is_spam tinyint(1) NOT NULL DEFAULT 0,
@@ -169,7 +166,6 @@ function bp_core_install_activity_streams() {
  * Install database tables for the Notifications component.
  *
  * @since 1.0.0
- *
  */
 function bp_core_install_friends() {
 	$sql             = array();
@@ -180,8 +176,8 @@ function bp_core_install_friends() {
 				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 				initiator_user_id bigint(20) NOT NULL,
 				friend_user_id bigint(20) NOT NULL,
-				is_confirmed bool DEFAULT 0,
-				is_limited bool DEFAULT 0,
+				is_confirmed tinyint(1) DEFAULT 0,
+				is_limited tinyint(1) DEFAULT 0,
 				date_created datetime NOT NULL,
 				KEY initiator_user_id (initiator_user_id),
 				KEY friend_user_id (friend_user_id)
@@ -194,7 +190,6 @@ function bp_core_install_friends() {
  * Install database tables for the Groups component.
  *
  * @since 1.0.0
- *
  */
 function bp_core_install_groups() {
 	$sql             = array();
@@ -253,7 +248,6 @@ function bp_core_install_groups() {
  * Install database tables for the Messages component.
  *
  * @since 1.0.0
- *
  */
 function bp_core_install_private_messaging() {
 	$sql             = array();
@@ -311,6 +305,7 @@ function bp_core_install_private_messaging() {
  *
  * @since 1.0.0
  *
+ * @global wpdb $wpdb WordPress database object.
  */
 function bp_core_install_extended_profiles() {
 	global $wpdb;
@@ -403,7 +398,6 @@ function bp_core_install_extended_profiles() {
  * Install database tables for the Sites component.
  *
  * @since 1.0.0
- *
  */
 function bp_core_install_blog_tracking() {
 	$sql             = array();
@@ -443,8 +437,8 @@ function bp_core_install_signups() {
 	global $wpdb;
 
 	// Signups is not there and we need it so let's create it.
-	require_once( buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php' );
-	require_once( ABSPATH                  . 'wp-admin/includes/upgrade.php'     );
+	require_once buddypress()->plugin_dir . '/bp-core/admin/bp-core-admin-schema.php';
+	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 	// Never use bp_core_get_table_prefix() for any global users tables.
 	$wpdb->signups = $wpdb->base_prefix . 'signups';
@@ -458,7 +452,7 @@ function bp_core_install_signups() {
 
 	// Filter out all the queries except wp_signups.
 	foreach ( $create_queries as $key => $query ) {
-		if ( preg_match( "|CREATE TABLE ([^ ]*)|", $query, $matches ) ) {
+		if ( preg_match( '|CREATE TABLE ([^ ]*)|', $query, $matches ) ) {
 			if ( trim( $matches[1], '`' ) !== $wpdb->signups ) {
 				unset( $create_queries[ $key ] );
 			}
@@ -539,9 +533,13 @@ function bp_core_install_emails() {
 		$tt_ids = wp_set_object_terms( $post_id, $id, bp_get_email_tax_type() );
 		foreach ( $tt_ids as $tt_id ) {
 			$term = get_term_by( 'term_taxonomy_id', (int) $tt_id, bp_get_email_tax_type() );
-			wp_update_term( (int) $term->term_id, bp_get_email_tax_type(), array(
-				'description' => $descriptions[ $id ],
-			) );
+			wp_update_term(
+				(int) $term->term_id,
+				bp_get_email_tax_type(),
+				array(
+					'description' => $descriptions[ $id ],
+				)
+			);
 		}
 	}
 
@@ -568,7 +566,7 @@ function bp_core_install_invitations() {
 	$sql             = array();
 	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$bp_prefix       = bp_core_get_table_prefix();
-	$sql[] = "CREATE TABLE {$bp_prefix}bp_invitations (
+	$sql[]           = "CREATE TABLE {$bp_prefix}bp_invitations (
 		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		user_id bigint(20) NOT NULL,
 		inviter_id bigint(20) NOT NULL,
@@ -615,7 +613,7 @@ function bp_core_install_nonmember_opt_outs() {
 	$charset_collate = $GLOBALS['wpdb']->get_charset_collate();
 	$optouts_class   = new BP_Optout();
 	$table_name      = $optouts_class->get_table_name();
-	$sql = "CREATE TABLE {$table_name} (
+	$sql             = "CREATE TABLE {$table_name} (
 		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 		email_address_hash varchar(255) NOT NULL,
 		user_id bigint(20) NOT NULL,

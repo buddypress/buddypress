@@ -71,7 +71,7 @@ class BP_Blogs_Blog {
 	/**
 	 * Save the BP blog data to the database.
 	 *
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	public function save() {
 		global $wpdb;
@@ -265,10 +265,16 @@ class BP_Blogs_Blog {
 		}
 
 		if ( ! empty( $r['search_terms'] ) ) {
-			$search_terms_like = '%' . bp_esc_like( $r['search_terms'] ) . '%';
-			$search_terms_sql  = $wpdb->prepare( 'AND (bm_name.meta_value LIKE %s OR bm_description.meta_value LIKE %s)', $search_terms_like, $search_terms_like );
+			$search_terms_left_join = 'LEFT JOIN ' . $bp->blogs->table_name_blogmeta . ' bm_description ON (b.blog_id = bm_description.blog_id)';
+			$search_terms_like      = '%' . bp_esc_like( $r['search_terms'] ) . '%';
+			$search_terms_sql       = $wpdb->prepare(
+				'AND bm_description.meta_key = \'description\' AND (bm_name.meta_value LIKE %s OR bm_description.meta_value LIKE %s)',
+				$search_terms_like,
+				$search_terms_like
+			);
 		} else {
-			$search_terms_sql = '';
+			$search_terms_left_join = '';
+			$search_terms_sql       = '';
 		}
 
 		$paged_blogs = $wpdb->get_results( "
@@ -277,12 +283,12 @@ class BP_Blogs_Blog {
 			  {$bp->blogs->table_name} b
 			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm ON (b.blog_id = bm.blog_id)
 			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_name ON (b.blog_id = bm_name.blog_id)
-			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_description ON (b.blog_id = bm_description.blog_id)
+			  {$search_terms_left_join}
 			  LEFT JOIN {$wpdb->base_prefix}blogs wb ON (b.blog_id = wb.blog_id)
 			  LEFT JOIN {$wpdb->users} u ON (b.user_id = u.ID)
 			WHERE
 			  wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql}
-			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name' AND bm_description.meta_key = 'description'
+			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name'
 			  {$search_terms_sql} {$user_sql} {$include_sql} {$date_query_sql}
 			GROUP BY b.blog_id {$order_sql} {$pag_sql}
 		" );
@@ -294,10 +300,10 @@ class BP_Blogs_Blog {
 			  LEFT JOIN {$wpdb->base_prefix}blogs wb ON (b.blog_id = wb.blog_id)
 			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm ON (b.blog_id = bm.blog_id)
 			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_name ON (b.blog_id = bm_name.blog_id)
-			  LEFT JOIN {$bp->blogs->table_name_blogmeta} bm_description ON (b.blog_id = bm_description.blog_id)
+			  {$search_terms_left_join}
 			WHERE
 			  wb.archived = '0' AND wb.spam = 0 AND wb.mature = 0 AND wb.deleted = 0 {$hidden_sql}
-			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name' AND bm_description.meta_key = 'description'
+			  AND bm.meta_key = 'last_activity' AND bm_name.meta_key = 'name'
 			  {$search_terms_sql} {$user_sql} {$include_sql} {$date_query_sql}
 		" );
 

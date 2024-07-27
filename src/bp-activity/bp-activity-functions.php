@@ -103,7 +103,7 @@ function bp_activity_find_mentions( $content ) {
 	$mentioned_users = array();
 
 	// We've found some mentions! Check to see if users exist.
-	foreach( (array) array_values( $usernames ) as $username ) {
+	foreach ( (array) array_values( $usernames ) as $username ) {
 		$user_id = bp_activity_get_userid_from_mentionname( $username );
 
 		// The user ID exists, so let's add it to our array.
@@ -172,7 +172,7 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 	$activity  = new BP_Activity_Activity( $activity_id );
 
 	// Try to find mentions.
-	$usernames = bp_activity_find_mentions( strip_tags( $activity->content ) );
+	$usernames = bp_activity_find_mentions( wp_strip_all_tags( $activity->content ) );
 
 	// Still empty? Stop now.
 	if ( empty( $usernames ) ) {
@@ -180,7 +180,7 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 	}
 
 	// Increment mention count foreach mentioned user.
-	foreach( (array) array_keys( $usernames ) as $user_id ) {
+	foreach ( (array) array_keys( $usernames ) as $user_id ) {
 		bp_activity_update_mention_count_for_user( $user_id, $activity_id, $action );
 	}
 }
@@ -402,7 +402,7 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
  *
  * @since 2.2.0
  *
- * @global $wp_post_types
+ * @global array $wp_post_types
  *
  * @param string $post_type The name of the post type, as registered with WordPress. Eg 'post' or 'page'.
  * @param array  $args {
@@ -1081,7 +1081,7 @@ function bp_activity_get_user_favorites( $user_id = 0 ) {
  *
  * @param int $activity_id ID of the activity item being favorited.
  * @param int $user_id     ID of the user favoriting the activity item.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
 	// Cast as an integer to make sure we're only saving integers into the user's meta.
@@ -1162,7 +1162,7 @@ function bp_activity_add_user_favorite( $activity_id, $user_id = 0 ) {
  *
  * @param int $activity_id ID of the activity item being unfavorited.
  * @param int $user_id     ID of the user unfavoriting the activity item.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_activity_remove_user_favorite( $activity_id, $user_id = 0 ) {
 
@@ -1296,7 +1296,7 @@ function bp_activity_total_favorites_for_user( $user_id = 0 ) {
  *                            for all objects, ignoring the specified object_id. Otherwise,
  *                            only delete matching metadata entries for the specified
  *                            activity item. Default: false.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_activity_delete_meta( $activity_id, $meta_key = '', $meta_value = '', $delete_all = false ) {
 
@@ -2464,7 +2464,7 @@ function bp_activity_post_type_update( $post = null ) {
  *
  * @param int          $post_id ID of the post being unpublished.
  * @param WP_Post|null $post    Post object.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
 
@@ -2706,18 +2706,18 @@ add_action( 'edit_comment', 'bp_activity_post_type_comment', 10    );
  *
  * @param  int         $comment_id           ID of the comment.
  * @param  object|null $activity_post_object The post type tracking args object.
- * @return bool True on success. False on error.
+ * @return bool
  */
 function bp_activity_post_type_remove_comment( $comment_id = 0, $activity_post_object = null ) {
 	if ( empty( $activity_post_object ) ) {
 		$comment = get_comment( $comment_id );
 		if ( ! $comment ) {
-			return;
+			return false;
 		}
 
 		$post_type = get_post_type( $comment->comment_post_ID );
 		if ( ! $post_type ) {
-			return;
+			return false;
 		}
 
 		// Get the post type tracking args.
@@ -3003,7 +3003,7 @@ function bp_activity_get_activity_id( $args = '' ) {
  *                           filters for item deletion, the argument format is
  *                           the same as BP_Activity_Activity::get().
  *                           See that method for a description.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_activity_delete( $args = '' ) {
 
@@ -3087,7 +3087,7 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * @param array|string $args See BP_Activity_Activity::get for a
 	 *                           description of accepted arguments.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	function bp_activity_delete_by_item_id( $args = '' ) {
 
@@ -3112,7 +3112,7 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 *
 	 * @param int $activity_id ID of the activity item to be deleted.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	function bp_activity_delete_by_activity_id( $activity_id ) {
 		return bp_activity_delete( array( 'id' => $activity_id ) );
@@ -3131,7 +3131,7 @@ function bp_activity_delete( $args = '' ) {
 	 * @param string $content   The activity id.
 	 * @param string $component The activity component.
 	 * @param string $type      The activity type.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	function bp_activity_delete_by_content( $user_id, $content, $component, $type ) {
 		return bp_activity_delete( array(
@@ -3153,7 +3153,7 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * @param int    $user_id   The user id.
 	 * @param string $component The activity component.
-	 * @return bool True on success, false on failure.
+	 * @return bool
 	 */
 	function bp_activity_delete_for_user_by_component( $user_id, $component ) {
 		return bp_activity_delete( array(
@@ -3175,7 +3175,7 @@ function bp_activity_delete( $args = '' ) {
  * @param int $activity_id The ID of the "root" activity, ie the comment's
  *                         oldest ancestor.
  * @param int $comment_id  The ID of the comment to be deleted.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	$deleted = false;
@@ -3255,7 +3255,7 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 
 		// Recursively delete all children of this comment.
 		if ( ! empty( $children ) ) {
-			foreach( (array) $children as $child ) {
+			foreach ( (array) $children as $child ) {
 				bp_activity_delete_children( $activity_id, $child->id );
 			}
 		}
@@ -3339,7 +3339,7 @@ function bp_activity_get_permalink( $activity_id, $activity_obj = false ) {
  *
  * @param  BP_Activity_Activity $activity Activity object.
  * @param  integer              $user_id  User ID.
- * @return boolean True on success, false on failure.
+ * @return bool
  */
 function bp_activity_user_can_read( $activity, $user_id = 0 ) {
 	$retval = true;
@@ -3400,7 +3400,7 @@ function bp_activity_user_can_read( $activity, $user_id = 0 ) {
  * @since 1.2.0
  *
  * @param int $user_id The ID of the user whose activity is being hidden.
- * @return bool True on success, false on failure.
+ * @return bool
  */
 function bp_activity_hide_user_activity( $user_id ) {
 	return BP_Activity_Activity::hide_all_for_user( $user_id );
@@ -3852,7 +3852,7 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 	$notifications = BP_Core_Notification::get_all_for_user( $receiver_user_id, 'all' );
 
 	// Don't leave multiple notifications for the same activity item.
-	foreach( $notifications as $notification ) {
+	foreach ( $notifications as $notification ) {
 		if ( $activity_id == $notification->item_id ) {
 			return;
 		}
@@ -4121,7 +4121,7 @@ add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
 function bp_dtheme_embed_read_more( $activity ) {
 	buddypress()->activity->read_more_id = $activity->id;
 
-	add_filter( 'embed_post_id',         function() { return buddypress()->activity->read_more_id; } );
+	add_filter( 'embed_post_id',         function () { return buddypress()->activity->read_more_id; } );
 	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
 	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }

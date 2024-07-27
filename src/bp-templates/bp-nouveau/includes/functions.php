@@ -1430,7 +1430,7 @@ function bp_nouveau_get_submit_button( $action = '' ) {
  * @param array  $order       A list of slugs ordered (eg: array( 'profile', 'activity', etc..) )
  * @param string $parent_slug A parent slug if it's a secondary nav we are reordering (case of the Groups single item)
  *
- * @return bool True on success. False otherwise.
+ * @return bool False otherwise.
  */
 function bp_nouveau_set_nav_item_order( $nav = null, $order = array(), $parent_slug = '' ) {
 	if ( ! is_object( $nav ) || empty( $order ) || ! is_array( $order ) ) {

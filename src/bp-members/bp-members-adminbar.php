@@ -267,7 +267,24 @@ function bp_members_admin_bar_notifications_menu() {
 		return bp_notifications_toolbar_menu();
 	}
 }
-add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu', 90 );
+
+/**
+ * Keep the Notification toolbar menu at the left of the "My Account" one.
+ *
+ * @since 12.6.0
+ */
+function bp_members_admin_bar_notifications_menu_priority() {
+	/*
+	 * WordPress 6.6 edited the WP Admin style & removed the right float.
+	 * See: https://core.trac.wordpress.org/changeset/58215/
+	 */
+	if ( bp_is_running_wp( '6.6-beta2', '>=' ) ) {
+		bp_members_admin_bar_notifications_menu();
+	} else {
+		add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu', 90 );
+	}
+}
+add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu_priority', 6 );
 
 /**
  * Remove rogue WP core Edit menu when viewing a single user.
