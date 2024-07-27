@@ -94,14 +94,6 @@ class BP_Members_Admin {
 	public $user_profile;
 
 	/**
-	 * Member Notices Screen id.
-	 *
-	 * @since 15.0.0
-	 * @var string
-	 */
-	public $user_notices;
-
-	/**
 	 * Current user ID.
 	 *
 	 * @since 2.0.0
@@ -150,14 +142,6 @@ class BP_Members_Admin {
 	public $edit_profile_args;
 
 	/**
-	 * User's notices page args.
-	 *
-	 * @since 15.0.0
-	 * @var array
-	 */
-	public $user_notices_args;
-
-	/**
 	 * Edit user's profile URL.
 	 *
 	 * @since 2.0.0
@@ -172,14 +156,6 @@ class BP_Members_Admin {
 	 * @var BP_Members_Notices_Admin
 	 */
 	public $notices = null;
-
-	/**
-	 * User's notices URL.
-	 *
-	 * @since 15.0.0
-	 * @var string
-	 */
-	public $user_notices_url = '';
 
 	/**
 	 * Edit URL.
@@ -283,9 +259,6 @@ class BP_Members_Admin {
 
 		// BuddyPress user's edit profile args.
 		$this->edit_profile_args = array( 'page' => 'bp-profile-edit' );
-
-		// BuddyPress user's notices args.
-		$this->user_notices_args = array( 'page' => 'bp-sitewide-notices' );
 
 		// Data specific to signups.
 		$this->users_url    = bp_get_admin_url( 'users.php' );
@@ -645,21 +618,10 @@ class BP_Members_Admin {
 			array( $this, 'user_admin' )
 		);
 
-		// Manage user's sitewide notices.
-		$hooks['user_notices'] = $this->user_notices = add_submenu_page(
-			$this->user_profile . '.php',
-			__( 'Community notices',  'buddypress' ),
-			__( 'Community notice',  'buddypress' ),
-			'exist',
-			'bp-sitewide-notices',
-			array( $this, 'user_notices_admin' )
-		);
-
 		// Setup the screen ID's.
 		$this->screen_id = array(
 			$this->user_page    . '-user',
 			$this->user_profile . '-user',
-			$this->user_notices . '-user',
 		);
 
 		// Loop through new hooks and add method actions.
@@ -668,7 +630,7 @@ class BP_Members_Admin {
 		}
 
 		// Add the profile_admin_head method to proper admin_head actions.
-		foreach ( array( 'profile.php', $this->user_page, $this->user_notices ) as $head ) {
+		foreach ( array( 'profile.php', $this->user_page ) as $head ) {
 			add_action( "admin_head-{$head}", array( $this, 'profile_admin_head' ) );
 		}
 	}
@@ -694,16 +656,6 @@ class BP_Members_Admin {
 				array( $this, 'user_admin' )
 			);
 		}
-
-		// Manage user's sitewide notices.
-		$hooks['user_notices'] = $this->user_notices = add_submenu_page(
-			$this->user_profile . '.php',
-			__( 'Community notices',  'buddypress' ),
-			__( 'Community notice',  'buddypress' ),
-			'read',
-			'bp-sitewide-notices',
-			array( $this, 'user_notices_admin' )
-		);
 
 		// Only show sign-ups where they belong.
 		if ( ( ! bp_is_network_activated() && ! is_network_admin() ) || ( is_network_admin() && bp_is_network_activated() ) ) {
@@ -739,10 +691,9 @@ class BP_Members_Admin {
 
 		// Self profile check is needed for this pages.
 		$page_head = array(
-			$edit_page        . '.php',
-			$profile_page     . '.php',
+			$edit_page . '.php',
+			$profile_page . '.php',
 			$this->user_page,
-			$this->user_notices,
 			$this->users_page . '.php',
 		);
 
@@ -751,7 +702,6 @@ class BP_Members_Admin {
 			$edit_page          .= '-network';
 			$profile_page       .= '-network';
 			$this->user_page    .= '-network';
-			$this->user_notices .= '-network';
 			$this->users_page   .= '-network';
 			$this->signups_page .= '-network';
 
@@ -762,7 +712,6 @@ class BP_Members_Admin {
 		$this->screen_id = array(
 			$edit_page,
 			$this->user_page,
-			$this->user_notices,
 			$profile_page
 		);
 
@@ -809,7 +758,7 @@ class BP_Members_Admin {
 			$this->is_self_profile = true;
 
 		// Is the user attempting to edit their own profile.
-		} elseif ( isset( $_GET['user_id' ] ) || ( isset( $_GET['page'] ) && in_array( $_GET['page'], array( 'bp-profile-edit', 'bp-sitewide-notices' ), true ) ) ) {
+		} elseif ( isset( $_GET['user_id' ] ) || ( isset( $_GET['page'] ) && $_GET['page'] === 'bp-profile-edit' ) ) {
 			$this->is_self_profile = (bool) ( $this->get_user_id() === $this->current_user_id );
 		}
 
@@ -840,7 +789,6 @@ class BP_Members_Admin {
 		$this->edit_url         = admin_url( $edit_page );
 
 		if ( is_user_admin() ) {
-			$this->user_notices_url = add_query_arg( $this->user_notices_args, user_admin_url( 'profile.php' ) );
 			$this->edit_profile_url = add_query_arg( $this->edit_profile_args, user_admin_url( 'profile.php' ) );
 			$this->edit_url         = user_admin_url( 'profile.php' );
 
@@ -850,7 +798,6 @@ class BP_Members_Admin {
 			$this->edit_url         = admin_url( $edit_page );
 
 		} elseif ( is_network_admin() ) {
-			$this->user_notices_url = add_query_arg( $this->user_notices_args, network_admin_url( 'users.php' ) );
 			$this->edit_profile_url = add_query_arg( $this->edit_profile_args, network_admin_url( 'users.php' ) );
 			$this->edit_url         = network_admin_url( $edit_page );
 		}
@@ -868,8 +815,6 @@ class BP_Members_Admin {
 	public function admin_head() {
 		remove_submenu_page( 'users.php',   'bp-profile-edit' );
 		remove_submenu_page( 'profile.php', 'bp-profile-edit' );
-		remove_submenu_page( 'users.php',   'bp-sitewide-notices' );
-		remove_submenu_page( 'profile.php', 'bp-sitewide-notices' );
 
 		// Manage Invitations Tool screen is a tab of BP Tools.
 		if ( is_network_admin() ) {
@@ -984,35 +929,25 @@ class BP_Members_Admin {
 
 		// Conditionally add a referer if it exists in the existing request.
 		if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
-			$wp_http_referer = wp_unslash( $_REQUEST['wp_http_referer'] );
-			$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+			$wp_http_referer               = wp_unslash( $_REQUEST['wp_http_referer'] );
+			$wp_http_referer               = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
 			$query_args['wp_http_referer'] = urlencode( $wp_http_referer );
 		}
 
 		// Setup the profile nav.
 		$nav_items = array(
-			'WordPress'        => array(
+			'WordPress'  => array(
 				'url'      => add_query_arg( $query_args, $this->edit_url ),
 				'label'    => __( 'Profile', 'buddypress' ),
 				'capacity' => 'edit_user',
 				'class'    => 'WordPress' === $active ? ' nav-tab-active' : '',
 			),
-		);
-
-		if ( bp_members_is_community_profile_enabled() ) {
-			$nav_items['BuddyPress'] = array(
+			'BuddyPress' => array(
 				'url'      => add_query_arg( $query_args, $this->edit_profile_url ),
 				'label'    => __( 'Extended Profile', 'buddypress' ),
 				'capacity' => 'exist',
 				'class'    => 'BuddyPress' === $active ? ' nav-tab-active' : '',
-			);
-		}
-
-		$nav_items['CommunityNotices'] = array(
-			'url'      => add_query_arg( $query_args, $this->user_notices_url ),
-			'label'    => __( 'Community notices', 'buddypress' ),
-			'capacity' => 'exist',
-			'class'    => 'CommunityNotices' === $active ? ' nav-tab-active' : '',
+			)
 		);
 		?>
 
@@ -1320,15 +1255,6 @@ class BP_Members_Admin {
 	}
 
 	/**
-	 * Set up the user's notices page.
-	 *
-	 * @since 15.0.0
-	 */
-	public function user_notices_admin_load() {
-		return '';
-	}
-
-	/**
 	 * Display the user's profile.
 	 *
 	 * @since 2.0.0
@@ -1434,50 +1360,6 @@ class BP_Members_Admin {
 			<?php endif; ?>
 
 		</div><!-- .wrap -->
-		<?php
-	}
-
-	/**
-	 * Display the user's notices.
-	 *
-	 * @since 15.0.0
-	 */
-	public function user_notices_admin() {
-		if ( ! bp_current_user_can( 'edit_users' ) && ! bp_current_user_can( 'bp_moderate' ) && empty( $this->is_self_profile ) ) {
-			die( '-1' );
-		}
-
-		// Get the user ID.
-		$user_id = $this->get_user_id();
-		$user    = get_user_by( 'id', $user_id );
-
-		// Construct title.
-		if ( true === $this->is_self_profile ) {
-			$title = __( 'Profile', 'buddypress' );
-		} else {
-			/* translators: %s: User's display name. */
-			$title = sprintf( __( 'Edit User %s', 'buddypress' ), $user->display_name );
-		}
-		?>
-		<div class="wrap" id="community-notices-page">
-			<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
-
-			<?php if ( empty( $this->is_self_profile ) ) : ?>
-
-				<?php $this->get_top_screen_button(); ?>
-
-			<?php endif; ?>
-
-			<hr class="wp-header-end">
-
-			<?php
-			if ( ! empty( $user ) ) {
-				$this->profile_nav( $user, 'CommunityNotices' );
-			}
-			?>
-
-			<p><?php esc_html_e( 'Community notices list', 'buddypress' ); ?></p>
-		</div>
 		<?php
 	}
 
