@@ -975,13 +975,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g = self::factory()->group->create( array( 'creator_id' => $u ) );
 
 		// Instantiate group object.
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 		$group = new BP_Groups_Group( $g );
 
 		// Assert ! empty() check is not false.
 		$this->assertTrue( ! empty( $group->is_member ) );
 
-		$this->set_current_user( $this->old_current_user );
+		self::set_current_user( $this->old_current_user );
 	}
 
 	/** convert_type_to_order_orderby() **********************************/
@@ -1469,11 +1469,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -1500,11 +1500,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -1532,11 +1532,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -1572,11 +1572,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -1609,11 +1609,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -1647,11 +1647,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -2437,13 +2437,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_get_return_ids_only() {
 		$now = time();
-		$g1 = $this->factory->group->create( array(
+		$g1 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60 ),
 		) );
-		$g2 = $this->factory->group->create( array(
+		$g2 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*2 ),
 		) );
-		$g3 = $this->factory->group->create( array(
+		$g3 = self::factory()->group->create( array(
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 60*60*3 ),
 		)  );
 
@@ -2453,7 +2453,6 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 		$this->assertSame( array( $g1, $g2, $g3 ), $groups['groups'] );
 	}
-
 }
 
 /**

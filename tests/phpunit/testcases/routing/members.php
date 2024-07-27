@@ -13,12 +13,13 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 		buddypress()->members->types = array();
 		$this->old_current_user = get_current_user_id();
 		$this->permalink_structure = get_option( 'permalink_structure', '' );
-		$this->set_current_user( self::factory()->user->create( array( 'user_login' => 'paulgibbs', 'role' => 'subscriber' ) ) );
+		self::set_current_user( self::factory()->user->create( array( 'user_login' => 'paulgibbs', 'role' => 'subscriber' ) ) );
 	}
 
 	public function tear_down() {
-		$this->set_current_user( $this->old_current_user );
+		self::set_current_user( $this->old_current_user );
 		$this->set_permalink_structure( $this->permalink_structure );
+
 		parent::tear_down();
 	}
 

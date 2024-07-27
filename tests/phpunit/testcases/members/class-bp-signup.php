@@ -10,7 +10,6 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 	protected $signup_allowed;
 
 	public function set_up() {
-
 		if ( is_multisite() ) {
 			$this->signup_allowed = get_site_option( 'registration' );
 			update_site_option( 'registration', 'all' );

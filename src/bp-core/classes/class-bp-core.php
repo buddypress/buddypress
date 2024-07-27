@@ -329,6 +329,7 @@ class BP_Core extends BP_Component {
 				'bp',
 				'bp_pages',
 				'bp_invitations',
+				'bp_optouts',
 			)
 		);
 

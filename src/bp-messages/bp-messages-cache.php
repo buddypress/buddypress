@@ -2,9 +2,6 @@
 /**
  * BuddyPress Messages Caching.
  *
- * Caching functions handle the clearing of cached objects and pages on specific
- * actions throughout BuddyPress.
- *
  * @package BuddyPress
  * @subpackage MessagesCache
  * @since 1.5.0
@@ -26,25 +23,27 @@ defined( 'ABSPATH' ) || exit;
  *                                           comma-separated list or array of message ids.
  */
 function bp_messages_update_meta_cache( $message_ids = false ) {
-	bp_update_meta_cache( array(
-		'object_ids' 	   => $message_ids,
-		'object_type' 	   => buddypress()->messages->id,
-		'cache_group'      => 'message_meta',
-		'object_column'    => 'message_id',
-		'meta_table' 	   => buddypress()->messages->table_name_meta,
-		'cache_key_prefix' => 'bp_messages_meta'
-	) );
+	bp_update_meta_cache(
+		array(
+			'object_ids'       => $message_ids,
+			'object_type'      => buddypress()->messages->id,
+			'cache_group'      => 'message_meta',
+			'object_column'    => 'message_id',
+			'meta_table'       => buddypress()->messages->table_name_meta,
+			'cache_key_prefix' => 'bp_messages_meta',
+		)
+	);
 }
 
 // List actions to clear super cached pages on, if super cache is installed.
-add_action( 'messages_delete_thread',  'bp_core_clear_cache' );
-add_action( 'messages_send_notice',    'bp_core_clear_cache' );
-add_action( 'messages_message_sent',   'bp_core_clear_cache' );
+add_action( 'messages_delete_thread', 'bp_core_clear_cache' );
+add_action( 'messages_send_notice', 'bp_core_clear_cache' );
+add_action( 'messages_message_sent', 'bp_core_clear_cache' );
 
 // Don't cache message inbox/sentbox/compose as it's too problematic.
 add_action( 'messages_screen_compose', 'bp_core_clear_cache' );
 add_action( 'messages_screen_sentbox', 'bp_core_clear_cache' );
-add_action( 'messages_screen_inbox',   'bp_core_clear_cache' );
+add_action( 'messages_screen_inbox', 'bp_core_clear_cache' );
 
 /**
  * Clear message cache after a message is saved.
@@ -103,8 +102,6 @@ add_action( 'bp_messages_exit_thread', 'bp_messages_clear_cache_on_message_delet
 
 /**
  * Invalidate cache for notices.
- *
- * Currently, invalidates active notice cache.
  *
  * @since 2.0.0
  */
