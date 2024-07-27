@@ -981,7 +981,7 @@ function bp_total_member_count() {
 	echo esc_html( bp_get_total_member_count() );
 }
 	/**
-	 * Return the total member count in your BP instance.
+	 * Return the total member count for the site.
 	 *
 	 * Since BuddyPress 1.6, this function has used bp_core_get_active_member_count(),
 	 * which counts non-spam, non-deleted users who have last_activity.
@@ -999,11 +999,11 @@ function bp_total_member_count() {
 	function bp_get_total_member_count() {
 
 		/**
-		 * Filters the total member count in your BP instance.
+		 * Filters the total member count for the site.
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param int $value Member count.
+		 * @param int $member_count Member count.
 		 */
 		return apply_filters( 'bp_get_total_member_count', bp_core_get_active_member_count() );
 	}

@@ -3380,8 +3380,8 @@ function bp_get_taxonomy_common_args() {
  */
 function bp_get_taxonomy_common_labels() {
 	return array(
-		'bp_type_name'           => _x( 'Plural Name', 'BP Type name label', 'buddypress' ),
-		'bp_type_singular_name'  => _x( 'Singular name', 'BP Type singular name label', 'buddypress' ),
+		'bp_type_name'           => _x( 'Plural Name (required)', 'BP Type name label', 'buddypress' ),
+		'bp_type_singular_name'  => _x( 'Singular Name (required)', 'BP Type singular name label', 'buddypress' ),
 		'bp_type_has_directory'  => _x( 'Has Directory View', 'BP Type has directory checkbox label', 'buddypress' ),
 		'bp_type_directory_slug' => _x( 'Custom type directory slug', 'BP Type slug label', 'buddypress' ),
 	);
@@ -5027,7 +5027,7 @@ function bp_get_deprecated_functions_versions() {
 	}
 
 	$index_initial_version = array_search( $initial_version, $latest_deprecated_functions_versions, true );
-	if ( false !== $index_initial_version ) {
+	if ( false !== $index_initial_version && 12.0 !== $initial_version ) {
 		unset( $latest_deprecated_functions_versions[ $index_initial_version ] );
 	}
 
@@ -5249,4 +5249,26 @@ function bp_core_get_admin_notifications() {
 	}
 
 	return $admin_notifications;
+}
+
+/**
+ * Checks whether a BuddyPress admin screen is displayed.
+ *
+ * @since 15.0.0
+ *
+ * @param string $screen_id The specific screen ID to check.
+ * @return boolean True if a BuddyPress admin screen is displayed. False otherwise.
+ */
+function bp_is_admin( $screen_id = '' ) {
+	$bp = buddypress();
+
+	if ( ! isset( $bp->admin->current_screen ) ) {
+		return false;
+	}
+
+	if ( ! $screen_id ) {
+		return ! empty( $bp->admin->current_screen );
+	}
+
+	return $screen_id === $bp->admin->current_screen;
 }

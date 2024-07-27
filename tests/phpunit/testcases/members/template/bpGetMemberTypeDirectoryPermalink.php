@@ -15,9 +15,9 @@ class BP_Tests_Members_Template_BpGetMemberTypeDirectoryPermalink extends BP_Uni
 	}
 
 	public function tear_down() {
-		parent::tear_down();
-
 		$this->set_permalink_structure( $this->permalink_structure );
+
+		parent::tear_down();
 	}
 
 	/**

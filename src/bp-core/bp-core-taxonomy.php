@@ -87,7 +87,7 @@ function bp_get_taxonomy_term_site_id( $taxonomy = '' ) {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param int    $site_id  Site ID to cehck for.
+	 * @param int    $site_id  Site ID to check for.
 	 * @param string $taxonomy Taxonomy slug to check for.
 	 */
 	return (int) apply_filters( 'bp_get_taxonomy_term_site_id', $site_id, $taxonomy );
@@ -104,7 +104,7 @@ function bp_get_taxonomy_term_site_id( $taxonomy = '' ) {
  * @param string|array $terms     Term or terms to set.
  * @param string       $taxonomy  Taxonomy name.
  * @param bool         $append    Optional. True to append terms to existing terms. Default: false.
- * @return array Array of term taxonomy IDs.
+ * @return int[] Array of term taxonomy IDs.
  */
 function bp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	$site_id = bp_get_taxonomy_term_site_id( $taxonomy );

@@ -280,7 +280,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 
 		// set user to anonymous
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 
 		// now, do the message thread query
 		global $messages_template;
@@ -290,7 +290,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 		$this->assertEquals( 0, $messages_template->thread_count );
 		$this->assertEmpty( $messages_template->threads );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	/**
@@ -461,7 +461,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 
 		// set $u1 as current user.
 		$old_current_user = get_current_user_id();
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 
 		$messages_template = new BP_Messages_Box_Template(
 			array(
@@ -470,7 +470,7 @@ class BP_Tests_Messages_Template extends BP_UnitTestCase {
 			)
 		);
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 
 		$thread = reset( $messages_template->threads );
 

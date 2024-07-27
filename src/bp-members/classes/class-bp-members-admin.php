@@ -762,7 +762,6 @@ class BP_Members_Admin {
 
 		// Editing your own profile, so recheck some vars.
 		if ( true === $this->is_self_profile ) {
-
 			// Use profile.php as the edit page.
 			$edit_page = 'profile.php';
 
@@ -777,11 +776,15 @@ class BP_Members_Admin {
 			$edit_page = 'user-edit.php';
 		}
 
+		$this->edit_profile_url = add_query_arg( $this->edit_profile_args, admin_url( $edit_page ) );
+		$this->edit_url         = admin_url( $edit_page );
+
 		if ( is_user_admin() ) {
 			$this->edit_profile_url = add_query_arg( $this->edit_profile_args, user_admin_url( 'profile.php' ) );
 			$this->edit_url         = user_admin_url( 'profile.php' );
 
-		} elseif ( is_blog_admin() ) {
+			// On a blog of a network, Extended Profile URL needs to rely on the users.php one for the blog Admin.
+		} elseif ( is_blog_admin() && current_user_can( 'remove_users' ) ) {
 			$this->edit_profile_url = add_query_arg( $this->edit_profile_args, admin_url( 'users.php' ) );
 			$this->edit_url         = admin_url( $edit_page );
 
@@ -844,8 +847,13 @@ class BP_Members_Admin {
 				wp_style_add_data( 'bp-members-css', 'suffix', $min );
 			}
 
+			$user_page = $this->user_page;
+			if ( is_user_admin() ) {
+				$user_page .= '-user';
+			}
+
 			// Only load JavaScript for BuddyPress profile.
-			if ( get_current_screen()->id == $this->user_page ) {
+			if ( get_current_screen()->id === $user_page ) {
 				$js = $this->js_url . 'admin.js';
 
 				/**
@@ -958,6 +966,10 @@ class BP_Members_Admin {
 	 * @since 6.0.0 The `delete_avatar` action is now managed into this method.
 	 */
 	public function user_admin_load() {
+		$bp = buddypress();
+
+		// Traces the current BP Admin screen.
+		$bp->admin->trace_current_screen();
 
 		// Get the user ID.
 		$user_id = $this->get_user_id();
@@ -965,6 +977,10 @@ class BP_Members_Admin {
 		// Can current user edit this profile?
 		if ( ! $this->member_can_edit( $user_id ) ) {
 			wp_die( esc_html__( 'You cannot edit the requested user.', 'buddypress' ) );
+		}
+
+		if ( $user_id === $this->current_user_id && ! $this->is_self_profile ) {
+			$this->is_self_profile = true;
 		}
 
 		// Build redirection URL.
@@ -1002,19 +1018,78 @@ class BP_Members_Admin {
 		if ( ! in_array( $doaction, $allowed_actions ) ) {
 			add_screen_option( 'layout_columns', array( 'default' => 2, 'max' => 2, ) );
 
-			get_current_screen()->add_help_tab( array(
+			$show_avatars = buddypress()->avatar->show_avatars;
+			$member_types = bp_get_member_types();
+			$help_content = array(
+				'overview'     => __( 'This is the admin view of a user’s extended profile.', 'buddypress' ),
+				'main_column'  => __( 'In the main column, you can edit the fields of the user’s extended profile.', 'buddypress' ),
+				'right_column' => __( 'In the right-hand column, you can:', 'buddypress' ),
+			);
+
+			$available_actions = array(
+				'status' => __( 'update the user’s status', 'buddypress' ),
+				'avatar' => __( 'delete the user’s profile photo', 'buddypress' ),
+				'types'  => __( 'assign a user to one or more member types', 'buddypress' ),
+				'stats'  => __( 'view recent statistics', 'buddypress' ),
+			);
+
+			if ( ! bp_is_active( 'xprofile' ) ) {
+				$help_content['main_column'] = __( 'In the main column, you can view recent statistics about the user.', 'buddypress' );
+				unset( $available_actions['stats'] );
+			}
+
+			if ( ! $show_avatars )  {
+				unset( $available_actions['avatar'] );
+			}
+
+			if ( ! $member_types ) {
+				unset( $available_actions['types'] );
+			}
+
+			if ( true === $this->is_self_profile ) {
+				$help_content['overview']    = __( 'This is the admin view of your extended profile.', 'buddypress' );
+
+				if ( isset( $available_actions['stats'] ) ) {
+					$help_content['main_column'] = __( 'In the main column, you can edit the fields of your extended profile.', 'buddypress' );
+					$available_actions['stats']  = __( 'view your recent statistics', 'buddypress' );
+				} else {
+					$help_content['main_column'] = __( 'In the main column, you can view your recent statistics.', 'buddypress' );
+				}
+
+				unset( $available_actions['status'] );
+
+				if ( isset( $available_actions['types'] ) ) {
+					$available_actions['types'] = __( 'view the member types you’re assigned to', 'buddypress' );
+				}
+
+				if ( isset( $available_actions['avatar'] ) ) {
+					$available_actions['avatar'] = __( 'edit or delete your profile photo', 'buddypress' );
+				}
+
+			} elseif ( is_multisite() && ! current_user_can( 'manage_network_users' ) ) {
+				unset( $available_actions['status'] );
+			}
+
+			if ( ! $available_actions ) {
+				unset( $help_content['right_column'] );
+			}
+
+			$help_tab_args = array(
 				'id'      => 'bp-profile-edit-overview',
 				'title'   => __( 'Overview', 'buddypress' ),
-				'content' =>
-				'<p>' . __( 'This is the admin view of a user&#39;s profile.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'In the main column, you can edit the fields of the user&#39;s extended profile.', 'buddypress' ) . '</p>' .
-				'<p>' . __( 'In the right-hand column, you can update the user&#39;s status, delete the user&#39;s avatar, and view recent statistics.', 'buddypress' ) . '</p>'
-			) );
+				'content' => '<p>' . implode( '&nbsp;', $help_content ) . '</p>',
+			);
+
+			if ( isset( $help_content['right_column'] ) ) {
+				$help_tab_args['content'] .= '<ul><li>' . implode( '</li><li>', $available_actions ) . '</li></ul>';
+			}
+
+			get_current_screen()->add_help_tab( $help_tab_args );
 
 			// Help panel - sidebar links.
 			get_current_screen()->set_help_sidebar(
 				'<p><strong>' . __( 'For more information:', 'buddypress' ) . '</strong></p>' .
-				'<p>' . __( '<a href="https://codex.buddypress.org/administrator-guide/extended-profiles/">Managing Profiles</a>', 'buddypress' ) . '</p>' .
+				'<p>' . __( '<a href="https://github.com/buddypress/buddypress/blob/master/docs/user/administration/users/profile.md">Using Extended Profile</a>', 'buddypress' ) . '</p>' .
 				'<p>' . __( '<a href="https://buddypress.org/support/">Support Forums</a>', 'buddypress' ) . '</p>'
 			);
 
@@ -1069,7 +1144,7 @@ class BP_Members_Admin {
 				sanitize_key( $this->stats_metabox->priority )
 			);
 
-			if ( buddypress()->avatar->show_avatars ) {
+			if ( $show_avatars ) {
 				// Avatar Metabox.
 				add_meta_box(
 					'bp_members_user_admin_avatar',
@@ -1082,7 +1157,6 @@ class BP_Members_Admin {
 			}
 
 			// Member Type metabox. Only added if member types have been registered.
-			$member_types = bp_get_member_types();
 			if ( ! empty( $member_types ) ) {
 				add_meta_box(
 					'bp_members_admin_member_type',
@@ -1219,15 +1293,7 @@ class BP_Members_Admin {
 
 			<?php if ( empty( $this->is_self_profile ) ) : ?>
 
-				<?php if ( current_user_can( 'create_users' ) ) : ?>
-
-					<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
-
-				<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
-
-					<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
-
-				<?php endif; ?>
+				<?php $this->get_top_screen_button(); ?>
 
 			<?php endif; ?>
 
@@ -1297,6 +1363,28 @@ class BP_Members_Admin {
 			return;
 		}
 
+		/**
+		 * In configs where BuddyPress is not network activated,
+		 * regular admins cannot mark a user as a spammer on front
+		 * end. This prevent them to do it in the back end.
+		 *
+		 * Also prevent admins from marking themselves or other
+		 * admins as spammers.
+		 */
+		$can_manage_user_status = ( empty( $this->is_self_profile ) && ( ! in_array( $user->user_login, get_super_admins() ) ) && empty( $this->subsite_activated ) ) || ( ! empty( $this->subsite_activated ) && current_user_can( 'manage_network_users' ) );
+
+		/**
+		 * Use this filter to disable/enable the WP-Admin/Extended profile primary action.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param boolean $disabled True to disable the primary action. False otherwise.
+		 */
+		$disable_primary_action = apply_filters(
+			'bp_members_admin_profile_disable_major_primary_action',
+			! $can_manage_user_status && ! bp_is_active( 'xprofile' ) && ! bp_get_member_types()
+		);
+
 		// Bail if user has not been activated yet (how did you get here?).
 		if ( isset( $user->user_status ) && ( 2 == $user->user_status ) ) : ?>
 
@@ -1314,15 +1402,7 @@ class BP_Members_Admin {
 					// Get the spam status once here to compare against below.
 					$is_spammer = bp_is_user_spammer( $user->ID );
 
-					/**
-					 * In configs where BuddyPress is not network activated,
-					 * regular admins cannot mark a user as a spammer on front
-					 * end. This prevent them to do it in the back end.
-					 *
-					 * Also prevent admins from marking themselves or other
-					 * admins as spammers.
-					 */
-					if ( ( empty( $this->is_self_profile ) && ( ! in_array( $user->user_login, get_super_admins() ) ) && empty( $this->subsite_activated ) ) || ( ! empty( $this->subsite_activated ) && current_user_can( 'manage_network_users' ) ) ) : ?>
+					if ( $can_manage_user_status ) : ?>
 
 						<div class="misc-pub-section" id="comment-status-radio">
 							<label class="approved"><input type="radio" name="user_status" value="ham" <?php checked( $is_spammer, false ); ?>><?php esc_html_e( 'Active', 'buddypress' ); ?></label><br />
@@ -1353,8 +1433,12 @@ class BP_Members_Admin {
 			<div id="major-publishing-actions">
 
 				<div id="publishing-action">
-					<a class="button bp-view-profile" href="<?php echo esc_url( bp_members_get_user_url( $user->ID ) ); ?>" target="_blank"><?php esc_html_e( 'View Profile', 'buddypress' ); ?></a>
-					<?php submit_button( esc_html__( 'Update Profile', 'buddypress' ), 'primary', 'save', false ); ?>
+					<a class="button bp-view-profile" href="<?php echo esc_url( bp_members_get_user_url( $user->ID ) ); ?>" target="_blank">
+						<?php esc_html_e( 'View Profile', 'buddypress' ); ?>
+						<span class="dashicons dashicons-external" aria-hidden="true"></span>
+						<span class="screen-reader-text"><?php esc_html_e( '(opens in a new tab)', 'buddypress' ); ?>
+					</a>
+					<?php $disable_primary_action ? '' : submit_button( esc_html__( 'Update Profile', 'buddypress' ), 'primary', 'save', false ); ?>
 				</div>
 				<div class="clear"></div>
 			</div><!-- #major-publishing-actions -->
@@ -2338,15 +2422,8 @@ class BP_Members_Admin {
 		<div class="wrap">
 			<h1 class="wp-heading-inline"><?php esc_html_e( 'Users', 'buddypress' ); ?></h1>
 
-			<?php if ( current_user_can( 'create_users' ) ) : ?>
-
-				<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user', 'buddypress' ); ?></a>
-
-			<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
-
-				<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user', 'buddypress' ); ?></a>
-
-			<?php endif;
+			<?php
+			$this->get_top_screen_button();
 
 			if ( $usersearch ) {
 				printf( '<span class="subtitle">' . esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
@@ -3414,6 +3491,25 @@ class BP_Members_Admin {
 		</div>
 
 		<?php
+	}
+
+	/**
+	 * Outputs the Top Screen Action button for Users & Profile screens.
+	 *
+	 * @since 15.0.0
+	 */
+	public function get_top_screen_button() {
+		if ( current_user_can( 'create_users' ) ) :
+		?>
+
+			<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New User', 'user', 'buddypress' ); ?></a>
+
+		<?php elseif ( is_multisite() && current_user_can( 'promote_users' ) ) : ?>
+
+			<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing User', 'user', 'buddypress' ); ?></a>
+
+		<?php
+		endif;
 	}
 
 }

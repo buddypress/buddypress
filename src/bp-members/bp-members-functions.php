@@ -614,6 +614,7 @@ function bp_core_get_active_member_count() {
 	global $wpdb;
 
 	$count = get_transient( 'bp_active_member_count' );
+
 	if ( false === $count ) {
 		$bp = buddypress();
 
@@ -2562,6 +2563,12 @@ function bp_core_wpsignup_redirect() {
 	} elseif ( $referer ) {
 		$referer_path     = wp_parse_url( $referer, PHP_URL_PATH );
 		$is_site_creation = false !== strpos( $referer_path, 'wp-admin/my-sites.php' );
+	} else {
+		// The WordPress registration setting must allow access.
+		$registration = get_site_option( 'registration' );
+		if ( is_user_logged_in() && in_array( $registration, array( 'blog', 'all' ), true ) ) {
+			$is_site_creation = true;
+		}
 	}
 
 	if ( $is_site_creation ) {
@@ -2769,7 +2776,7 @@ function bp_get_member_type_tax_labels() {
 			'back_to_items'              => _x( '&larr; Back to Member Types', 'Member type taxonomy back to items label', 'buddypress' ),
 
 			// Specific to BuddyPress.
-			'bp_type_id_label'           => _x( 'Member Type ID', 'BP Member type ID label', 'buddypress' ),
+			'bp_type_id_label'           => _x( 'Member Type ID (required)', 'BP Member type ID label', 'buddypress' ),
 			'bp_type_id_description'     => _x( 'Enter a lower-case string without spaces or special characters (used internally to identify the member type).', 'BP Member type ID description', 'buddypress' ),
 			'bp_type_show_in_list'       => _x( 'Show on Member', 'BP Member type show in list', 'buddypress' ),
 		)

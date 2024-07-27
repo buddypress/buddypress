@@ -1,12 +1,9 @@
 <?php
 /**
- * BuddyPress Core Caching Functions.
- *
- * Caching functions handle the clearing of cached objects and pages on specific
- * actions throughout BuddyPress.
+ * BuddyPress Core Caching.
  *
  * @package BuddyPress
- * @subpackage Cache
+ * @subpackage Core
  * @since 1.5.0
  */
 
@@ -56,7 +53,7 @@ function bp_core_clear_user_object_cache( $user_id ) {
 }
 
 /**
- * Clear member count caches and transients.
+ * Clear member count caches and/or transients.
  *
  * @since 1.6.0
  */
