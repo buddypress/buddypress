@@ -1057,7 +1057,7 @@ class BP_Groups_Group {
 	 *     @type array        $meta_query         Optional. An array of meta_query conditions.
 	 *                                            See {@link WP_Meta_Query::queries} for description.
 	 *     @type array        $date_query         Optional. Filter results by group last activity date. See first
-	 *                                            paramter of {@link WP_Date_Query::__construct()} for syntax. Only
+	 *                                            parameter of {@link WP_Date_Query::__construct()} for syntax. Only
 	 *                                            applicable if $type is either 'newest' or 'active'.
 	 *     @type array|string $value              Optional. Array or comma-separated list of group IDs. Results
 	 *                                            will be limited to groups within the list. Default: false.
@@ -1065,9 +1065,10 @@ class BP_Groups_Group {
 	 *                                            will be limited to children of the specified groups. Default: null.
 	 *     @type array|string $exclude            Optional. Array or comma-separated list of group IDs.
 	 *                                            Results will exclude the listed groups. Default: false.
-	 *     @type bool         $update_meta_cache  Whether to pre-fetch groupmeta for the returned groups.
+	 *     @type bool         $cache_results      Optional. Whether to cache group information. Default true.
+	 *     @type bool         $update_meta_cache  Optional. Whether to pre-fetch groupmeta for the returned groups.
 	 *                                            Default: true.
-	 *     @type bool         $update_admin_cache Whether to pre-fetch administrator IDs for the returned
+	 *     @type bool         $update_admin_cache Optional. Whether to pre-fetch administrator IDs for the returned
 	 *                                            groups. Default: false.
 	 *     @type bool         $show_hidden        Whether to include hidden groups in results. Default: false.
  	 *     @type array|string $status             Optional. Array or comma-separated list of group statuses to limit
@@ -1134,6 +1135,7 @@ class BP_Groups_Group {
 			'date_query'         => false,
 			'include'            => false,
 			'parent_id'          => null,
+			'cache_results'      => true,
 			'update_meta_cache'  => true,
 			'update_admin_cache' => false,
 			'exclude'            => false,
@@ -1373,24 +1375,37 @@ class BP_Groups_Group {
 		 */
 		$paged_groups_sql = apply_filters( 'bp_groups_get_paged_groups_sql', $paged_groups_sql, $sql, $r );
 
-		$cached = bp_core_get_incremented_cache( $paged_groups_sql, 'bp_groups' );
-		if ( false === $cached ) {
-			$paged_group_ids = $wpdb->get_col( $paged_groups_sql );
-			bp_core_set_incremented_cache( $paged_groups_sql, 'bp_groups', $paged_group_ids );
+		/*
+		 * Ensure the database query is able to be cached.
+		 *
+		 * Random queries are expected to have unpredictable results.
+		 */
+		$query_is_cacheable = 'rand()' !== $orderby;
+
+		if ( $r['cache_results'] && $query_is_cacheable ) {
+			$cached = bp_core_get_incremented_cache( $paged_groups_sql, 'bp_groups' );
+			if ( false === $cached ) {
+				$paged_group_ids = $wpdb->get_col( $paged_groups_sql );
+				bp_core_set_incremented_cache( $paged_groups_sql, 'bp_groups', $paged_group_ids );
+			} else {
+				$paged_group_ids = $cached;
+			}
 		} else {
-			$paged_group_ids = $cached;
+			$paged_group_ids = $wpdb->get_col( $paged_groups_sql );
 		}
 
 		if ( 'ids' === $r['fields'] ) {
 			// We only want the IDs.
 			$paged_groups = array_map( 'intval', $paged_group_ids );
 		} else {
-			$uncached_group_ids = bp_get_non_cached_ids( $paged_group_ids, 'bp_groups' );
-			if ( $uncached_group_ids ) {
-				$group_ids_sql = implode( ',', array_map( 'intval', $uncached_group_ids ) );
-				$group_data_objects = $wpdb->get_results( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id IN ({$group_ids_sql})" );
-				foreach ( $group_data_objects as $group_data_object ) {
-					wp_cache_set( $group_data_object->id, $group_data_object, 'bp_groups' );
+			if ( $r['cache_results'] && $query_is_cacheable ) {
+				$uncached_group_ids = bp_get_non_cached_ids( $paged_group_ids, 'bp_groups' );
+				if ( $uncached_group_ids ) {
+					$group_ids_sql      = implode( ',', array_map( 'intval', $uncached_group_ids ) );
+					$group_data_objects = $wpdb->get_results( "SELECT g.* FROM {$bp->groups->table_name} g WHERE g.id IN ({$group_ids_sql})" );
+					foreach ( $group_data_objects as $group_data_object ) {
+						wp_cache_set( $group_data_object->id, $group_data_object, 'bp_groups' );
+					}
 				}
 			}
 
@@ -1400,12 +1415,12 @@ class BP_Groups_Group {
 			}
 
 			$group_ids = array();
-			foreach ( (array) $paged_groups as $group ) {
+			foreach ( $paged_groups as $group ) {
 				$group_ids[] = $group->id;
 			}
 
 			// Grab all groupmeta.
-			if ( ! empty( $r['update_meta_cache'] ) ) {
+			if ( $r['update_meta_cache'] ) {
 				bp_groups_update_meta_cache( $group_ids );
 			}
 
@@ -1415,9 +1430,7 @@ class BP_Groups_Group {
 			}
 
 			// Set up integer properties needing casting.
-			$int_props = array(
-				'id', 'creator_id', 'enable_forum'
-			);
+			$int_props = array( 'id', 'creator_id', 'enable_forum' );
 
 			// Integer casting.
 			foreach ( $paged_groups as $key => $g ) {
@@ -1425,7 +1438,6 @@ class BP_Groups_Group {
 					$paged_groups[ $key ]->{$int_prop} = (int) $paged_groups[ $key ]->{$int_prop};
 				}
 			}
-
 		}
 
 		// Find the total number of groups in the results set.
@@ -1442,15 +1454,22 @@ class BP_Groups_Group {
 		 */
 		$total_groups_sql = apply_filters( 'bp_groups_get_total_groups_sql', $total_groups_sql, $sql, $r );
 
-		$cached = bp_core_get_incremented_cache( $total_groups_sql, 'bp_groups' );
-		if ( false === $cached ) {
-			$total_groups = (int) $wpdb->get_var( $total_groups_sql );
-			bp_core_set_incremented_cache( $total_groups_sql, 'bp_groups', $total_groups );
+		if ( $r['cache_results'] && $query_is_cacheable ) {
+			$cached = bp_core_get_incremented_cache( $total_groups_sql, 'bp_groups' );
+			if ( false === $cached ) {
+				$total_groups = (int) $wpdb->get_var( $total_groups_sql );
+				bp_core_set_incremented_cache( $total_groups_sql, 'bp_groups', $total_groups );
+			} else {
+				$total_groups = (int) $cached;
+			}
 		} else {
-			$total_groups = (int) $cached;
+			$total_groups = (int) $wpdb->get_var( $total_groups_sql );
 		}
 
-		return array( 'groups' => $paged_groups, 'total' => $total_groups );
+		return array(
+			'groups' => $paged_groups,
+			'total'  => $total_groups,
+		);
 	}
 
 	/**
