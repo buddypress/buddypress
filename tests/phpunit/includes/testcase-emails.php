@@ -14,22 +14,4 @@ class BP_UnitTestCase_Emails extends BP_UnitTestCase {
 		 */
 		bp_core_install_emails();
 	}
-
-	public static function tear_down_after_class() {
-		$emails = get_posts( array(
-			'fields'           => 'ids',
-			'post_status'      => 'any',
-			'post_type'        => bp_get_email_post_type(),
-			'posts_per_page'   => 200,
-			'suppress_filters' => false,
-		) );
-
-		if ( $emails ) {
-			foreach ( $emails as $email_id ) {
-				wp_delete_post( $email_id, true );
-			}
-		}
-
-		parent::tear_down_after_class();
-	}
 }

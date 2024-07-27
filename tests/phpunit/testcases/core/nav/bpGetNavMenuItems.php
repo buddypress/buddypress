@@ -24,7 +24,7 @@ class BP_Tests_Core_Nav_BpGetNavMenuItems extends BP_UnitTestCase {
 	public function test_top_level_link_should_point_to_displayed_user_for_loggedin_user() {
 		$users = self::factory()->user->create_many( 2 );
 
-		$this->set_current_user( $users[0] );
+		self::set_current_user( $users[0] );
 		$this->set_permalink_structure( '/%postname%/' );
 
 		$user_1_domain = bp_members_get_user_url( $users[1] );
@@ -50,7 +50,7 @@ class BP_Tests_Core_Nav_BpGetNavMenuItems extends BP_UnitTestCase {
 	public function test_top_level_link_should_point_to_displayed_user_for_loggedout_user() {
 		$user = self::factory()->user->create();
 
-		$this->set_current_user( 0 );
+		self::set_current_user( 0 );
 		$this->set_permalink_structure( '/%postname%/' );
 
 		$user_domain = bp_members_get_user_url( $user );

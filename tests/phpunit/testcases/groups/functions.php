@@ -60,7 +60,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g2, $u2 );
 
 		// Set the current user so the leave group request goes through.
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		groups_leave_group( $g1, $u2 );
 		$this->assertEquals( 1, bp_get_user_meta( $u2, 'total_group_count', true ) );
 	}
@@ -78,7 +78,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g2, $u2 );
 
 		// Fool the admin check
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		buddypress()->is_item_admin = true;
 
 		groups_ban_member( $u2, $g1 );
@@ -99,7 +99,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g2, $u2 );
 
 		// Fool the admin check
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		buddypress()->is_item_admin = true;
 
 		groups_ban_member( $u2, $g1 );
@@ -139,7 +139,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		$u2 = self::factory()->user->create();
 
 		$current_user = bp_loggedin_user_id();
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 		groups_send_membership_request( array(
@@ -151,7 +151,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 
 		$this->assertEquals( 1, bp_get_user_meta( $u1, 'total_group_count', true ) );
 
-		$this->set_current_user( $current_user );
+		self::set_current_user( $current_user );
 	}
 
 	/**
@@ -167,7 +167,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g2, $u2 );
 
 		// Fool the admin check
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		buddypress()->is_item_admin = true;
 
 		groups_remove_member( $u2, $g1 );
@@ -226,7 +226,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g1, $u2 );
 
 		// Fool the admin check
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		buddypress()->is_item_admin = true;
 
 		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
@@ -247,7 +247,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g1, $u2 );
 
 		// Fool the admin check
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		buddypress()->is_item_admin = true;
 
 		groups_ban_member( $u2, $g1 );
@@ -310,7 +310,7 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 		groups_join_group( $g1, $u2 );
 
 		// Fool the admin check
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		buddypress()->is_item_admin = true;
 
 		groups_remove_member( $u2, $g1 );
@@ -381,14 +381,14 @@ class BP_Tests_Groups_Functions extends BP_UnitTestCase {
 			'user_email' => 'barfoo@buddypress.org',
 		) );
 
-		$this->set_current_user( $u1 );
+		self::set_current_user( $u1 );
 		$g1 = self::factory()->group->create();
 
 		groups_join_group( $g1, $u2 );
 
 		$this->assertEquals( 2, groups_get_total_member_count( $g1 ) );
 
-		$this->set_current_user( $current_user );
+		self::set_current_user( $current_user );
 	}
 
 	/**

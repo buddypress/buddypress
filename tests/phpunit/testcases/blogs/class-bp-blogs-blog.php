@@ -13,7 +13,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$old_user = get_current_user_id();
 
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 		$b = self::factory()->blog->create( array(
 			'title' => 'The Foo Bar Blog',
 			'user_id' => $u,
@@ -43,7 +43,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$old_user = get_current_user_id();
 
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 		$b = self::factory()->blog->create( array(
 			'title' => 'The Foo Bar Blog',
 			'domain' => __METHOD__,
@@ -73,7 +73,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$old_user = get_current_user_id();
 
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 		$b = self::factory()->blog->create( array(
 			'title' => 'The Foo Bar Blog',
 			'user_id' => $u,
@@ -102,7 +102,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$old_user = get_current_user_id();
 
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 		$b = self::factory()->blog->create( array(
 			'title' => 'Foo Bar Blog',
 			'user_id' => $u,
@@ -130,7 +130,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$old_user = get_current_user_id();
 
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 		$bs = array(
 			'foobar' => self::factory()->blog->create( array(
 				'title' => 'Foo Bar Blog',
@@ -175,7 +175,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 		$blogs = BP_Blogs_Blog::get( [ 'type' => 'random', 'user_id' => $u ] );
 		$this->assertTrue( 2 == count( $blogs['blogs'] ) );
 
-		$this->set_current_user( $old_user );
+		self::set_current_user( $old_user );
 	}
 
 	/**
@@ -188,7 +188,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$r = [
 			'user_id' => $u
@@ -229,7 +229,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$r = [
 			'user_id' => $u
@@ -272,7 +272,7 @@ class BP_Tests_BP_Blogs_Blog_TestCases extends BP_UnitTestCase {
 
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		$this->set_current_user( $u );
+		self::set_current_user( $u );
 
 		$r = [
 			'user_id' => $u
