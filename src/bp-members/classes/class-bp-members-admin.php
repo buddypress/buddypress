@@ -620,7 +620,7 @@ class BP_Members_Admin {
 
 		// Setup the screen ID's.
 		$this->screen_id = array(
-			$this->user_page    . '-user',
+			$this->user_page . '-user',
 			$this->user_profile . '-user',
 		);
 

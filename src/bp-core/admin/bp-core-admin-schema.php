@@ -654,21 +654,8 @@ function bp_core_install_members_notices() {
 		$wpdb->query( "ALTER TABLE {$messages_notices_table} DROP KEY is_active" );
 		$wpdb->query( "ALTER TABLE {$messages_notices_table} CHANGE is_active priority tinyint(1) NOT NULL DEFAULT 2" );
 		$wpdb->query( "RENAME TABLE {$messages_notices_table} TO {$bp_prefix}bp_notices" );
-		$wpdb->update(
-			$bp_prefix . 'bp_notices',
-			array(
-				'priority' => 2,
-			),
-			array(
-				'priority' => 0,
-			),
-			array(
-				'%d',
-			),
-			array(
-				'%d',
-			)
-		);
+
+		// Table doesn't exist, let's create it.
 	} else {
 		$sql[] = "CREATE TABLE {$bp_prefix}bp_notices (
 			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,

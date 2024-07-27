@@ -1016,6 +1016,25 @@ function bp_update_to_15_0() {
 		wp_cache_delete( 'active_notice', 'bp_messages' );
 	}
 
+	global $wpdb;
+	$bp_prefix = bp_core_get_table_prefix();
+
+	$wpdb->update(
+		$bp_prefix . 'bp_notices',
+		array(
+			'priority' => 2,
+		),
+		array(
+			'priority' => 0,
+		),
+		array(
+			'%d',
+		),
+		array(
+			'%d',
+		)
+	);
+
 	_bp_members_dismissed_notices_migrate();
 }
 
