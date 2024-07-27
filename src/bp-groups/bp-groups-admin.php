@@ -1512,6 +1512,8 @@ function bp_groups_type_admin_updated_messages( $messages = array() ) {
 		8  => __( 'Sorry, there was an error while trying to delete this Group type.', 'buddypress' ),
 		9  => __( 'Group type successfully deleted.', 'buddypress' ),
 		10 => __( 'Group type could not be updated due to missing required information.', 'buddypress' ),
+		11 => __( 'Please define the Group Type Singular Name field.', 'buddypress' ),
+		12 => __( 'Please define the Group Type Plural Name field.', 'buddypress' ),
 	);
 
 	return $messages;

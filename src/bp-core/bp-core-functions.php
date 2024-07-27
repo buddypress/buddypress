@@ -3380,8 +3380,8 @@ function bp_get_taxonomy_common_args() {
  */
 function bp_get_taxonomy_common_labels() {
 	return array(
-		'bp_type_name'           => _x( 'Plural Name', 'BP Type name label', 'buddypress' ),
-		'bp_type_singular_name'  => _x( 'Singular name', 'BP Type singular name label', 'buddypress' ),
+		'bp_type_name'           => _x( 'Plural Name (required)', 'BP Type name label', 'buddypress' ),
+		'bp_type_singular_name'  => _x( 'Singular Name (required)', 'BP Type singular name label', 'buddypress' ),
 		'bp_type_has_directory'  => _x( 'Has Directory View', 'BP Type has directory checkbox label', 'buddypress' ),
 		'bp_type_directory_slug' => _x( 'Custom type directory slug', 'BP Type slug label', 'buddypress' ),
 	);
