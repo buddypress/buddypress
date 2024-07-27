@@ -762,7 +762,6 @@ class BP_Members_Admin {
 
 		// Editing your own profile, so recheck some vars.
 		if ( true === $this->is_self_profile ) {
-
 			// Use profile.php as the edit page.
 			$edit_page = 'profile.php';
 
@@ -777,11 +776,15 @@ class BP_Members_Admin {
 			$edit_page = 'user-edit.php';
 		}
 
+		$this->edit_profile_url = add_query_arg( $this->edit_profile_args, admin_url( $edit_page ) );
+		$this->edit_url         = admin_url( $edit_page );
+
 		if ( is_user_admin() ) {
 			$this->edit_profile_url = add_query_arg( $this->edit_profile_args, user_admin_url( 'profile.php' ) );
 			$this->edit_url         = user_admin_url( 'profile.php' );
 
-		} elseif ( is_blog_admin() ) {
+			// On a blog of a network, Extended Profile URL needs to rely on the users.php one for the blog Admin.
+		} elseif ( is_blog_admin() && current_user_can( 'remove_users' ) ) {
 			$this->edit_profile_url = add_query_arg( $this->edit_profile_args, admin_url( 'users.php' ) );
 			$this->edit_url         = admin_url( $edit_page );
 
