@@ -56,8 +56,17 @@ function messages_new_message( $args = '' ) {
 		'messages_new_message'
 	);
 
+	// Check if the message content is empty.
+	$content       = $r['content'];
+	$empty_content = false;
+
+	// Any string is considered non-empty.
+	if ( ! is_string( $content ) || '' === $content ) {
+		$empty_content = true;
+	}
+
 	// Bail if no sender or no content.
-	if ( empty( $r['sender_id'] ) || empty( $r['content'] ) ) {
+	if ( empty( $r['sender_id'] ) || $empty_content ) {
 		if ( 'wp_error' === $r['error_type'] ) {
 			if ( empty( $r['sender_id'] ) ) {
 				$error_code = 'messages_empty_sender';
@@ -68,10 +77,9 @@ function messages_new_message( $args = '' ) {
 			}
 
 			return new WP_Error( $error_code, $feedback );
-
-		} else {
-			return false;
 		}
+
+		return false;
 	}
 
 	// Create a new message object.
