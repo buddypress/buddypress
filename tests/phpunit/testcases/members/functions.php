@@ -2,7 +2,7 @@
 /**
  * @group members
  */
-#[AllowDynamicProperties]
+#[\AllowDynamicProperties]
 class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	protected $permalink_structure = '';
 	protected $filter_fired        = '';
