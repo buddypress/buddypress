@@ -600,10 +600,11 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->assertArrayNotHasKey( 'Location', $headers );
 
 		$data = $response->get_data();
+
 		$this->assertNotEmpty( $data );
 
-		$group = $this->endpoint->get_notification_object( $data[0]['id'] );
-		$this->check_notification_data( $group, $data[0] );
+		$group = $this->endpoint->get_notification_object( $data['id'] );
+		$this->check_notification_data( $group, $data );
 	}
 
 	protected function check_create_notification_response( $response ) {
@@ -613,10 +614,11 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->assertEquals( 200, $response->get_status() );
 
 		$data = $response->get_data();
+
 		$this->assertNotEmpty( $data );
 
-		$notification = $this->endpoint->get_notification_object( $data[0]['id'] );
-		$this->check_notification_data( $notification, $data[0] );
+		$notification = $this->endpoint->get_notification_object( $data['id'] );
+		$this->check_notification_data( $notification, $data );
 	}
 
 	public function test_get_item_schema() {
@@ -736,7 +738,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data[0]['bar_field'] );
+		$this->assertTrue( $expected === $update_data['bar_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

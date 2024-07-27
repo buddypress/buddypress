@@ -123,12 +123,7 @@ class BP_REST_Attachments_Group_Cover_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $cover_url, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $cover_url, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -196,7 +191,6 @@ class BP_REST_Attachments_Group_Cover_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		$request->set_param( 'context', 'edit' );
 
 		// Get the image file from $_FILES.
 		$files = $request->get_file_params();
@@ -217,12 +211,7 @@ class BP_REST_Attachments_Group_Cover_Controller extends WP_REST_Controller {
 			return $cover_url;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $cover_url, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $cover_url, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -280,8 +269,6 @@ class BP_REST_Attachments_Group_Cover_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		$cover_url = bp_get_group_cover_url( $this->group );
 		$deleted   = bp_attachments_delete_file(
 			array(

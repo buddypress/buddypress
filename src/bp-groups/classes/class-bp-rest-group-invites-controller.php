@@ -308,11 +308,8 @@ class BP_REST_Group_Invites_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function get_item( $request ) {
-		$invite = $this->fetch_single_invite( $request->get_param( 'invite_id' ) );
-		$retval = $this->prepare_response_for_collection(
-			$this->prepare_item_for_response( $invite, $request )
-		);
-
+		$invite   = $this->fetch_single_invite( $request->get_param( 'invite_id' ) );
+		$retval   = $this->prepare_item_for_response( $invite, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -434,17 +431,8 @@ class BP_REST_Group_Invites_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$invite = new BP_Invitation( $invite_id );
-
-		// Set context.
-		$request->set_param( 'context', 'edit' );
-
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $invite, $request )
-			),
-		);
-
+		$invite   = new BP_Invitation( $invite_id );
+		$retval   = $this->prepare_item_for_response( $invite, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -547,10 +535,9 @@ class BP_REST_Group_Invites_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_item( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		$invite = $this->fetch_single_invite( $request->get_param( 'invite_id' ) );
 		$accept = groups_accept_invite( $invite->user_id, $invite->item_id );
+
 		if ( ! $accept ) {
 			return new WP_Error(
 				'bp_rest_group_invite_cannot_update_item',
@@ -562,15 +549,11 @@ class BP_REST_Group_Invites_Controller extends WP_REST_Controller {
 		}
 
 		$accepted_member = new BP_Groups_Member( $invite->user_id, $invite->item_id );
-
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->group_members_endpoint->prepare_item_for_response( $accepted_member, $request )
-			),
+		$response        = rest_ensure_response(
+			$this->group_members_endpoint->prepare_item_for_response( $accepted_member, $request )
 		);
 
-		$response = rest_ensure_response( $retval );
-		$group    = $this->groups_endpoint->get_group_object( $invite->item_id );
+		$group = $this->groups_endpoint->get_group_object( $invite->item_id );
 
 		/**
 		 * Fires after a group invite is accepted via the REST API.
@@ -657,8 +640,6 @@ class BP_REST_Group_Invites_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		$user_id = bp_loggedin_user_id();
 		$invite  = $this->fetch_single_invite( $request->get_param( 'invite_id' ) );
 

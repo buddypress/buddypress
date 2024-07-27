@@ -518,7 +518,7 @@ class BP_Test_REST_XProfile_Fields_Controller extends WP_Test_REST_Controller_Te
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data[0]['bar_field_key'] );
+		$this->assertTrue( $expected === $update_data['bar_field_key'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -538,10 +538,11 @@ class BP_Test_REST_XProfile_Fields_Controller extends WP_Test_REST_Controller_Te
 		$this->assertEquals( 200, $response->get_status() );
 
 		$data = $response->get_data();
+
 		$this->assertNotEmpty( $data );
 
-		$field = $this->endpoint->get_xprofile_field_object( $data[0]['id'] );
-		$this->check_field_data( $field, $data[0], 'edit' );
+		$field = $this->endpoint->get_xprofile_field_object( $data['id'] );
+		$this->check_field_data( $field, $data, 'edit' );
 	}
 
 	protected function set_field_data( $args = array() ) {

@@ -253,12 +253,7 @@ class BP_REST_XProfile_Fields_Controller extends WP_REST_Controller {
 			}
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $field, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $field, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -369,9 +364,6 @@ class BP_REST_XProfile_Fields_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$args = array(
 			'field_group_id'    => $request->get_param( 'group_id' ),
 			'parent_id'         => $request->get_param( 'parent_id' ),
@@ -419,12 +411,7 @@ class BP_REST_XProfile_Fields_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $field, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $field, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -482,9 +469,6 @@ class BP_REST_XProfile_Fields_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$field = $this->get_xprofile_field_object( $request );
 
 		if ( empty( $field->id ) ) {
@@ -603,9 +587,6 @@ class BP_REST_XProfile_Fields_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		// Get the field before it's deleted.
 		$field    = new BP_XProfile_Field( (int) $request->get_param( 'id' ) );
 		$previous = $this->prepare_item_for_response( $field, $request );

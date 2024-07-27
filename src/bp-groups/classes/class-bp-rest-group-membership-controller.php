@@ -257,7 +257,7 @@ class BP_REST_Group_Membership_Controller extends WP_REST_Controller {
 			}
 
 			// If new role set, promote it too.
-			if ( $saved && 'member' !== $role ) {
+			if ( 'member' !== $role ) {
 				// Make sure to update the group role.
 				if ( groups_promote_member( $user->ID, $group_id, $role ) ) {
 					$group_member = new BP_Groups_Member( $user->ID, $group_id );
@@ -265,15 +265,7 @@ class BP_REST_Group_Membership_Controller extends WP_REST_Controller {
 			}
 		}
 
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $group_member, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $group_member, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -415,14 +407,8 @@ class BP_REST_Group_Membership_Controller extends WP_REST_Controller {
 
 		// Get updated group member.
 		$group_member = new BP_Groups_Member( $user->ID, $group_id );
-
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $group_member, $request )
-			),
-		);
-
-		$response = rest_ensure_response( $retval );
+		$retval       = $this->prepare_item_for_response( $group_member, $request );
+		$response     = rest_ensure_response( $retval );
 
 		/**
 		 * Fires after a group member status is updated via the REST API.

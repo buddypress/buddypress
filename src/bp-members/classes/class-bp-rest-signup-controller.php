@@ -236,13 +236,8 @@ class BP_REST_Signup_Controller extends WP_REST_Controller {
 	 */
 	public function get_item( $request ) {
 		// Get signup.
-		$signup = $this->get_signup_object( $request->get_param( 'id' ) );
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $signup, $request )
-			),
-		);
-
+		$signup   = $this->get_signup_object( $request->get_param( 'id' ) );
+		$retval   = $this->prepare_item_for_response( $signup, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -318,8 +313,6 @@ class BP_REST_Signup_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		// Validate user signup.
 		$signup_validation = bp_core_validate_user_signup( $request->get_param( 'user_login' ), $request->get_param( 'user_email' ) );
 		if ( is_wp_error( $signup_validation['errors'] ) && $signup_validation['errors']->get_error_messages() ) {
@@ -577,12 +570,7 @@ class BP_REST_Signup_Controller extends WP_REST_Controller {
 			bp_core_signup_send_validation_email( false, $signup->user_email, $signup->activation_key, $salutation );
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $signup, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $signup, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -629,8 +617,6 @@ class BP_REST_Signup_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		// Get the signup before it's deleted.
 		$signup   = $this->get_signup_object( $request->get_param( 'id' ) );
 		$previous = $this->prepare_item_for_response( $signup, $request );
@@ -700,8 +686,6 @@ class BP_REST_Signup_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function activate_item( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		// Get the activation key.
 		$activation_key = $request->get_param( 'activation_key' );
 
@@ -719,12 +703,7 @@ class BP_REST_Signup_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $signup, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $signup, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -786,8 +765,6 @@ class BP_REST_Signup_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function signup_resend_activation_email( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		$signup_id = $request->get_param( 'id' );
 		$send      = \BP_Signup::resend( array( $signup_id ) );
 

@@ -301,9 +301,6 @@ class BP_REST_Sitewide_Notices_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$subject = $request->get_param( 'subject' );
 		$message = $request->get_param( 'message' );
 		$success = messages_send_notice( $subject, $message );
@@ -374,9 +371,6 @@ class BP_REST_Sitewide_Notices_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		// Check the notice exists.
 		$notice = $this->get_notice_object( $request->get_param( 'id' ) );
 		if ( ! $notice->id ) {
@@ -537,9 +531,6 @@ class BP_REST_Sitewide_Notices_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		// Get the notice before it's deleted.
 		$notice = $this->get_notice_object( $request->get_param( 'id' ) );
 		if ( ! $notice->id ) {

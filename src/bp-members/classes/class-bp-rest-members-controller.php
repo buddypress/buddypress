@@ -461,8 +461,6 @@ class BP_REST_Members_Controller extends WP_REST_Users_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function delete_current_item( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		$user = bp_rest_get_user( get_current_user_id() );
 
 		if ( ! $user instanceof WP_User ) {

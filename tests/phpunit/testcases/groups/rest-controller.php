@@ -1157,8 +1157,10 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$data = $response->get_data();
 
-		$group = $this->endpoint->get_group_object( $data[0]['id'] );
-		$this->check_group_data( $group, $data[0], 'edit' );
+		$this->assertNotEmpty( $data );
+
+		$group = $this->endpoint->get_group_object( $data['id'] );
+		$this->check_group_data( $group, $data, 'edit' );
 	}
 
 	protected function check_create_group_response( $response ) {
@@ -1169,8 +1171,10 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$data = $response->get_data();
 
-		$group = $this->endpoint->get_group_object( $data[0]['id'] );
-		$this->check_group_data( $group, $data[0], 'edit' );
+		$this->assertNotEmpty( $data );
+
+		$group = $this->endpoint->get_group_object( $data['id'] );
+		$this->check_group_data( $group, $data, 'edit' );
 	}
 
 	public function test_get_item_schema() {
@@ -1317,7 +1321,7 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data[0]['bar_field'] );
+		$this->assertTrue( $expected === $update_data['bar_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

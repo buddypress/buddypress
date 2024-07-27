@@ -255,11 +255,8 @@ class BP_REST_Group_Membership_Request_Controller extends WP_REST_Controller {
 	 */
 	public function get_item( $request ) {
 		$group_request = $this->fetch_single_membership_request( $request->get_param( 'request_id' ) );
-		$retval        = $this->prepare_response_for_collection(
-			$this->prepare_item_for_response( $group_request, $request )
-		);
-
-		$response = rest_ensure_response( $retval );
+		$retval        = $this->prepare_item_for_response( $group_request, $request );
+		$response      = rest_ensure_response( $retval );
 
 		/**
 		 * Fires after a membership request is fetched via the REST API.
@@ -378,17 +375,8 @@ class BP_REST_Group_Membership_Request_Controller extends WP_REST_Controller {
 			);
 		}
 
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
-		$invite = new BP_Invitation( $request_id );
-
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $invite, $request )
-			),
-		);
-
+		$invite   = new BP_Invitation( $request_id );
+		$retval   = $this->prepare_item_for_response( $invite, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -489,17 +477,8 @@ class BP_REST_Group_Membership_Request_Controller extends WP_REST_Controller {
 			);
 		}
 
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$g_member = new BP_Groups_Member( $group_request->user_id, $group_request->item_id );
-
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->group_members_endpoint->prepare_item_for_response( $g_member, $request )
-			),
-		);
-
+		$retval   = $this->group_members_endpoint->prepare_item_for_response( $g_member, $request );
 		$response = rest_ensure_response( $retval );
 		$group    = $this->groups_endpoint->get_group_object( $group_request->item_id );
 
@@ -585,9 +564,6 @@ class BP_REST_Group_Membership_Request_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
 
 		// Get invite.
 		$group_request = $this->fetch_single_membership_request( $request->get_param( 'request_id' ) );

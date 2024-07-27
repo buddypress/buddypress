@@ -132,12 +132,7 @@ class BP_REST_Attachments_Blog_Avatar_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $avatar, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $avatar, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**

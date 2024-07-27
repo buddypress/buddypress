@@ -412,10 +412,11 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 		$this->assertEquals( 200, $response->get_status() );
 
 		$data = $response->get_data();
+
 		$this->assertNotEmpty( $data );
 
-		$field_group = $this->endpoint->get_xprofile_field_group_object( $data[0]['id'] );
-		$this->check_group_data( $field_group, $data[0], 'view', $response->get_links() );
+		$field_group = $this->endpoint->get_xprofile_field_group_object( $data['id'] );
+		$this->check_group_data( $field_group, $data, 'view', $response->get_links() );
 	}
 
 	protected function check_group_data( $group, $data, $context, $links ) {
@@ -544,7 +545,7 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data[0]['bar_group_key'] );
+		$this->assertTrue( $expected === $update_data['bar_group_key'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}

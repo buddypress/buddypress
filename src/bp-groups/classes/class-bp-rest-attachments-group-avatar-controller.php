@@ -137,12 +137,7 @@ class BP_REST_Attachments_Group_Avatar_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $avatar, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $avatar, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -210,7 +205,6 @@ class BP_REST_Attachments_Group_Avatar_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		$request->set_param( 'context', 'edit' );
 
 		// Get the image file from $_FILES.
 		$files = $request->get_file_params();
@@ -231,12 +225,7 @@ class BP_REST_Attachments_Group_Avatar_Controller extends WP_REST_Controller {
 			return $avatar;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $avatar, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $avatar, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -306,7 +295,6 @@ class BP_REST_Attachments_Group_Avatar_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		$request->set_param( 'context', 'edit' );
 		$group_id = (int) $this->group->id;
 
 		if ( ! bp_get_group_has_avatar( $group_id ) ) {

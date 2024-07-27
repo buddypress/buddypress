@@ -1632,7 +1632,7 @@ class BP_Test_REST_Activity_Controller extends WP_Test_REST_Controller_Testcase 
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
-		$this->assertTrue( $expected === $update_data[0]['bar_field'] );
+		$this->assertTrue( $expected === $update_data['bar_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -1691,10 +1691,11 @@ class BP_Test_REST_Activity_Controller extends WP_Test_REST_Controller_Testcase 
 		$this->assertArrayNotHasKey( 'Location', $headers );
 
 		$data = $response->get_data();
+
 		$this->assertNotEmpty( $data );
 
-		$activity = $this->endpoint->get_activity_object( $data[0]['id'] );
-		$this->check_activity_data( $activity, $data[0], 'edit' );
+		$activity = $this->endpoint->get_activity_object( $data['id'] );
+		$this->check_activity_data( $activity, $data, 'edit' );
 	}
 
 	protected function check_create_activity_response( $response ) {
@@ -1705,8 +1706,10 @@ class BP_Test_REST_Activity_Controller extends WP_Test_REST_Controller_Testcase 
 
 		$data = $response->get_data();
 
-		$activity = $this->endpoint->get_activity_object( $data[0]['id'] );
-		$this->check_activity_data( $activity, $data[0], 'edit' );
+		$this->assertNotEmpty( $data );
+
+		$activity = $this->endpoint->get_activity_object( $data['id'] );
+		$this->check_activity_data( $activity, $data, 'edit' );
 	}
 
 	public function test_get_item_schema() {

@@ -261,12 +261,7 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 			$args
 		);
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $thread, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $thread, $request );
 		$response = rest_ensure_response( $retval );
 		$response = bp_rest_response_add_total_headers( $response, $thread->messages_total_count, $args['per_page'] );
 
@@ -345,9 +340,6 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		// Create the message or the reply.
 		$thread_id = messages_new_message( $this->prepare_item_for_database( $request ) );
 
@@ -372,12 +364,7 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $thread, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $thread, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -453,8 +440,6 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
 
 		// Updated user id.
 		$updated_user_id = bp_loggedin_user_id();
@@ -528,14 +513,8 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		// Get the updated thread object.
-		$thread = $this->get_thread_object( $thread->thread_id, $updated_user_id );
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $thread, $request )
-			),
-		);
-
+		$thread   = $this->get_thread_object( $thread->thread_id, $updated_user_id );
+		$retval   = $this->prepare_item_for_response( $thread, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -612,14 +591,8 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 			);
 		}
 
-		// Prepare the message for the REST response.
-		$data = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_message_for_response( $message, $request )
-			),
-		);
-
-		$response = rest_ensure_response( $data );
+		$retval   = $this->prepare_item_for_response( $message, $request );
+		$response = rest_ensure_response( $retval );
 
 		/**
 		 * Fires after a message is starred/unstarred via the REST API.
@@ -698,9 +671,6 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$user_id = bp_loggedin_user_id();
 		if ( ! empty( $request->get_param( 'user_id' ) ) ) {
 			$user_id = $request->get_param( 'user_id' );

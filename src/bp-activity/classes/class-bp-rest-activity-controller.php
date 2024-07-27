@@ -306,12 +306,7 @@ class BP_REST_Activity_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $activity, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $activity, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -369,8 +364,6 @@ class BP_REST_Activity_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		if ( empty( $request->get_param( 'content' ) ) ) {
 			return new WP_Error(
 				'bp_rest_create_activity_empty_content',
@@ -448,12 +441,7 @@ class BP_REST_Activity_Controller extends WP_REST_Controller {
 		// Update current user's last activity.
 		bp_update_user_last_activity();
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $activity, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $activity, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -527,8 +515,6 @@ class BP_REST_Activity_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_item( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		if ( empty( $request->get_param( 'content' ) ) ) {
 			return new WP_Error(
 				'bp_rest_update_activity_empty_content',
@@ -558,12 +544,7 @@ class BP_REST_Activity_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $activity, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $activity, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -633,9 +614,6 @@ class BP_REST_Activity_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		// Get the activity before it's deleted.
 		$activity = $this->get_activity_object( $request );
 		$previous = $this->prepare_item_for_response( $activity, $request );
@@ -795,13 +773,7 @@ class BP_REST_Activity_Controller extends WP_REST_Controller {
 			);
 		}
 
-		// Prepare the response now the user favorites has been updated.
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $activity, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $activity, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -1258,7 +1230,7 @@ class BP_REST_Activity_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param  WP_REST_Request|int $request Request object or ID.
 	 * @return BP_Activity_Activity|string An activity object.
 	 */
 	public function get_activity_object( $request ) {
@@ -1279,7 +1251,7 @@ class BP_REST_Activity_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Edit the type of the some properties for the CREATABLE & EDITABLE methods.
+	 * Edit the type of some properties for the CREATABLE & EDITABLE methods.
 	 *
 	 * @since 5.0.0
 	 *

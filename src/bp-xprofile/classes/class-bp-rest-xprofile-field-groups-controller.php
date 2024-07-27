@@ -266,12 +266,7 @@ class BP_REST_XProfile_Field_Groups_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $field_group, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $field_group, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -329,9 +324,6 @@ class BP_REST_XProfile_Field_Groups_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$args = array(
 			'name'        => $request->get_param( 'name' ),
 			'description' => $request->get_param( 'description' ),
@@ -378,12 +370,7 @@ class BP_REST_XProfile_Field_Groups_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $field_group, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $field_group, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -441,9 +428,6 @@ class BP_REST_XProfile_Field_Groups_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$field_group = $this->get_xprofile_field_group_object( $request );
 
 		if ( empty( $field_group->id ) ) {
@@ -488,12 +472,7 @@ class BP_REST_XProfile_Field_Groups_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $field_group, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $field_group, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -541,9 +520,6 @@ class BP_REST_XProfile_Field_Groups_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		// Get the field group before it's deleted.
 		$field_group = $this->get_xprofile_field_group_object( $request );
 

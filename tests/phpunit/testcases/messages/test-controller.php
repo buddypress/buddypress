@@ -78,8 +78,6 @@ class BP_Test_REST_Messages_Controller extends WP_Test_REST_Controller_Testcase 
 		$data  = $response->get_data();
 		$a_ids = wp_list_pluck( $data, 'id' );
 
-		$a_ids = wp_list_pluck( $data, 'id' );
-
 		$this->assertCount( 1, $a_ids );
 		$this->assertCount( 1, $data[0]['messages'] );
 

@@ -240,12 +240,7 @@ class BP_REST_Components_Controller extends WP_REST_Controller {
 			$component_info = $this->deactivate_helper( $component );
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $component_info, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $component_info, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**

@@ -22,7 +22,7 @@ class BP_REST_XProfile_Data_Controller extends WP_REST_Controller {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @var BP_REST_XProfile_Fields_Endpoint
+	 * @var BP_REST_XProfile_Fields_Controller
 	 */
 	protected $fields_endpoint;
 
@@ -98,14 +98,8 @@ class BP_REST_XProfile_Data_Controller extends WP_REST_Controller {
 	public function get_item( $request ) {
 		// Get Field data.
 		$field_data = $this->get_xprofile_field_data_object( $request->get_param( 'field_id' ), $request->get_param( 'user_id' ) );
-
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $field_data, $request )
-			),
-		);
-
-		$response = rest_ensure_response( $retval );
+		$retval     = $this->prepare_item_for_response( $field_data, $request );
+		$response   = rest_ensure_response( $retval );
 
 		/**
 		 * Fires before a XProfile data is retrieved via the REST API.
@@ -200,9 +194,6 @@ class BP_REST_XProfile_Data_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$field = $this->get_xprofile_field_object( $request->get_param( 'field_id' ) );
 
 		if ( empty( $field->id ) ) {
@@ -248,12 +239,7 @@ class BP_REST_XProfile_Data_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $field_data, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $field_data, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -333,9 +319,6 @@ class BP_REST_XProfile_Data_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$field = $this->get_xprofile_field_object( $request->get_param( 'field_id' ) );
 
 		if ( empty( $field->id ) ) {

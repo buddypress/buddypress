@@ -769,10 +769,11 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->assertEquals( 200, $response->get_status() );
 
 		$data = $response->get_data();
+
 		$this->assertNotEmpty( $data );
 
-		$field_data = $this->endpoint->get_xprofile_field_data_object( $data[0]['field_id'], $data[0]['user_id'] );
-		$this->check_field_data( $field_data, $data[0] );
+		$field_data = $this->endpoint->get_xprofile_field_data_object( $data['field_id'], $data['user_id'] );
+		$this->check_field_data( $field_data, $data );
 	}
 
 	protected function set_field_data( $args = array() ) {

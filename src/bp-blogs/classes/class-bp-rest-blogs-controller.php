@@ -209,12 +209,7 @@ class BP_REST_Blogs_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $blog, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $blog, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -272,8 +267,6 @@ class BP_REST_Blogs_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		$request->set_param( 'context', 'edit' );
-
 		// Get WP_User object.
 		$user = bp_rest_get_user( $request->get_param( 'user_id' ) );
 
@@ -350,12 +343,7 @@ class BP_REST_Blogs_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $blog, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $blog, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**

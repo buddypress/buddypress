@@ -140,7 +140,7 @@ class BP_REST_Friends_Controller extends WP_REST_Controller {
 		$friendships = BP_Friends_Friendship::get_friendships( $user->ID, $args );
 
 		$retval = array();
-		foreach ( (array) $friendships as $friendship ) {
+		foreach ( $friendships as $friendship ) {
 			$retval[] = $this->prepare_response_for_collection(
 				$this->prepare_item_for_response( $friendship, $request )
 			);
@@ -232,12 +232,7 @@ class BP_REST_Friends_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $friendship, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $friendship, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -371,12 +366,7 @@ class BP_REST_Friends_Controller extends WP_REST_Controller {
 			);
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $friendship, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $friendship, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -465,14 +455,8 @@ class BP_REST_Friends_Controller extends WP_REST_Controller {
 
 		// Getting new, updated, friendship object.
 		$friendship = $this->get_friendship_object( $friendship->id );
-
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $friendship, $request )
-			),
-		);
-
-		$response = rest_ensure_response( $retval );
+		$retval     = $this->prepare_item_for_response( $friendship, $request );
+		$response   = rest_ensure_response( $retval );
 
 		/**
 		 * Fires after a friendship is updated via the REST API.

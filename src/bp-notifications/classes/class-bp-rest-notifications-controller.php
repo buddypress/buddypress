@@ -202,13 +202,8 @@ class BP_REST_Notifications_Controller extends WP_REST_Controller {
 	 */
 	public function get_item( $request ) {
 		$notification = $this->get_notification_object( $request );
-		$retval       = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $notification, $request )
-			),
-		);
-
-		$response = rest_ensure_response( $retval );
+		$retval       = $this->prepare_item_for_response( $notification, $request );
+		$response     = rest_ensure_response( $retval );
 
 		/**
 		 * Fires after a notification is fetched via the REST API.
@@ -285,9 +280,6 @@ class BP_REST_Notifications_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$notification_id = bp_notifications_add_notification( $this->prepare_item_for_database( $request ) );
 
 		if ( ! is_numeric( $notification_id ) ) {
@@ -307,12 +299,7 @@ class BP_REST_Notifications_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $notification, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $notification, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -360,9 +347,6 @@ class BP_REST_Notifications_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$notification = $this->get_notification_object( $request );
 		$is_new       = $request->get_param( 'is_new' );
 
@@ -401,12 +385,7 @@ class BP_REST_Notifications_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $notification, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $notification, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -454,9 +433,6 @@ class BP_REST_Notifications_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		// Get the notification before it's deleted.
 		$notification = $this->get_notification_object( $request );
 		$previous     = $this->prepare_item_for_response( $notification, $request );
