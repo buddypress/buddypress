@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/factory.php';
+require_once __DIR__ . '/factory.php';
 
 class BP_UnitTestCase extends WP_UnitTestCase {
 
@@ -46,7 +46,8 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		add_filter( 'wp_mail', array( 'BP_UnitTestCase', 'setUp_wp_mail' ) );
 		add_filter( 'wp_mail_from', array( 'BP_UnitTestCase', 'tearDown_wp_mail' ) );
 
-		$c = self::get_called_class();
+		$c = get_called_class();
+
 		if ( ! method_exists( $c, 'wpSetUpBeforeClass' ) ) {
 			self::commit_transaction();
 			return;
@@ -211,12 +212,12 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	public function go_to( $url ) {
-		$GLOBALS['bp']->loggedin_user = NULL;
-		$GLOBALS['bp']->pages = bp_core_get_directory_pages();
+		$GLOBALS['bp']->loggedin_user = null;
+		$GLOBALS['bp']->pages         = bp_core_get_directory_pages();
 
 		foreach ( array_keys( bp_core_get_active_components() ) as $component ) {
 			$GLOBALS['bp']->{$component}->main_nav = array();
-			$GLOBALS['bp']->{$component}->sub_nav = array();
+			$GLOBALS['bp']->{$component}->sub_nav  = array();
 		}
 
 		$block_registry = WP_Block_Type_Registry::get_instance();
@@ -241,7 +242,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	public static function set_current_user( $user_id ) {
 		$bp = buddypress();
 
-		$bp->loggedin_user->id = $user_id;
+		$bp->loggedin_user->id             = $user_id;
 		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $user_id );
 		$bp->loggedin_user->is_super_admin = is_super_admin( $user_id );
 		$bp->loggedin_user->domain         = bp_members_get_user_url( $user_id );
@@ -251,19 +252,21 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	public static function add_user_to_group( $user_id, $group_id, $args = array() ) {
-		$r = bp_parse_args( $args, array(
-			'date_modified' => bp_core_current_time(),
-			'is_confirmed'  => 1,
-			'is_admin'      => 0,
-			'is_mod'        => 0,
-			'invite_sent'   => 0,
-			'inviter_id'    => 0,
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'date_modified' => bp_core_current_time(),
+				'is_confirmed'  => 1,
+				'is_admin'      => 0,
+				'is_mod'        => 0,
+				'invite_sent'   => 0,
+				'inviter_id'    => 0,
+			)
+		);
 
-		$new_member                = new BP_Groups_Member;
+		$new_member                = new BP_Groups_Member();
 		$new_member->group_id      = $group_id;
 		$new_member->user_id       = $user_id;
-		$new_member->inviter_id    = 0;
 		$new_member->is_admin      = $r['is_admin'];
 		$new_member->is_mod        = $r['is_mod'];
 		$new_member->user_title    = '';
@@ -288,7 +291,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			return;
 		}
 
-		$user = get_userdata( $user_id );
+		$user           = get_userdata( $user_id );
 		$super_admins[] = $user->user_login;
 	}
 
@@ -353,7 +356,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 */
 	public static function tearDown_wp_mail( $args ) {
 		if ( ! empty( self::$cached_SERVER_NAME ) ) {
-			$_SERVER['SERVER_NAME'] = self::$cached_SERVER_NAME;
+			$_SERVER['SERVER_NAME']   = self::$cached_SERVER_NAME;
 			self::$cached_SERVER_NAME = '';
 		} else {
 			$_SERVER['SERVER_NAME'] = WP_TESTS_DOMAIN;
@@ -425,7 +428,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 * Fake an attachment upload (doesn't actually upload a file).
 	 *
 	 * @param string $file Absolute path to valid file.
-	 * @param int $parent Optional. Post ID to attach the new post to.
+	 * @param int    $parent Optional. Post ID to attach the new post to.
 	 * @return int Attachment post ID.
 	 */
 	public function fake_attachment_upload( $file, $parent = 0 ) {
@@ -436,7 +439,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			$type = '';
 		}
 
-		$url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . basename( $file );
+		$url        = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . basename( $file );
 		$attachment = array(
 			'guid'           => 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . $url,
 			'post_content'   => '',
