@@ -20,32 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @return array Data about the scripts to register.
  */
 function bp_members_register_scripts( $scripts = array() ) {
-	if ( ! bp_support_blocks() ) {
-		return $scripts;
-	}
-
-	$asset      = array(
-		'dependencies' => array(),
-		'version'      => ''
-	);
-	$asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget/index.asset.php';
-
-	if ( file_exists( $asset_path ) ) {
-		$asset = require $asset_path;
-	}
-
-	$scripts['bp-dynamic-members-script'] = array(
-		'file'         => plugins_url( 'blocks/dynamic-widget/index.js', __FILE__ ),
-		'dependencies' => $asset['dependencies'],
-		'footer'       => true,
-	);
-
-	$path = sprintf(
-		'/%1$s/%2$s/sitewide-notices/',
-		bp_rest_namespace(),
-		bp_rest_version()
-	);
-
+	$path         = sprintf( '/%1$s/%2$s/sitewide-notices/', bp_rest_namespace(), bp_rest_version() );
 	$notices_data = array(
 		'path'        => ltrim( $path, '/' ),
 		'dismissPath' => ltrim( $path, '/' ) . 'dismiss',
@@ -53,15 +28,33 @@ function bp_members_register_scripts( $scripts = array() ) {
 		'nonce'       => wp_create_nonce( 'wp_rest' ),
 	);
 
-	$scripts['bp-sitewide-notices-script'] = array(
-		'file'         => plugins_url( 'blocks/close-notices-block/index.js', __FILE__ ),
-		'dependencies' => array(),
-		'footer'       => true,
-		'localize'     => array(
-			'name' => 'bpSitewideNoticeBlockSettings',
-			'data' => $notices_data,
-		),
-	);
+	if ( bp_support_blocks() ) {
+		$asset      = array(
+			'dependencies' => array(),
+			'version'      => ''
+		);
+		$asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/dynamic-widget/index.asset.php';
+
+		if ( file_exists( $asset_path ) ) {
+			$asset = require $asset_path;
+		}
+
+		$scripts['bp-dynamic-members-script'] = array(
+			'file'         => plugins_url( 'blocks/dynamic-widget/index.js', __FILE__ ),
+			'dependencies' => $asset['dependencies'],
+			'footer'       => true,
+		);
+
+		$scripts['bp-sitewide-notices-script'] = array(
+			'file'         => plugins_url( 'blocks/close-notices-block/index.js', __FILE__ ),
+			'dependencies' => array(),
+			'footer'       => true,
+			'localize'     => array(
+				'name' => 'bpSitewideNoticeBlockSettings',
+				'data' => $notices_data,
+			),
+		);
+	}
 
 	$scripts['bp-notices-center-script'] = array(
 		'file'         => plugins_url( 'blocks/notices-center/index.js', __FILE__ ),
