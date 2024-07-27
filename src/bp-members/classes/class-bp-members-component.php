@@ -1061,16 +1061,16 @@ class BP_Members_Component extends BP_Component {
 	 */
 	public function rest_api_init( $controllers = array() ) {
 		$controllers = array(
-			'BP_REST_Members_V1_Controller',
-			'BP_REST_Attachments_Member_Avatar_V1_Controller',
+			'BP_REST_Members_Controller',
+			'BP_REST_Attachments_Member_Avatar_Controller',
 		);
 
 		if ( bp_is_active( 'members', 'cover_image' ) ) {
-			$controllers[] = 'BP_REST_Attachments_Member_Cover_V1_Controller';
+			$controllers[] = 'BP_REST_Attachments_Member_Cover_Controller';
 		}
 
 		if ( bp_get_signup_allowed() ) {
-			$controllers[] = 'BP_REST_Signup_V1_Controller';
+			$controllers[] = 'BP_REST_Signup_Controller';
 		}
 
 		parent::rest_api_init( $controllers );

@@ -623,7 +623,7 @@ class BP_Component {
 
 		// Register BP REST Endpoints.
 		if ( bp_rest_api_is_available() ) {
-			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
+			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ) );
 		}
 
 		// Register BP Blocks.

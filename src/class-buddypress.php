@@ -656,7 +656,7 @@ class BuddyPress {
 				// Load all or last 2 deprecated versions.
 				require $this->plugin_dir . sprintf( 'bp-core/deprecated/%s.php', number_format( $deprecated_functions_version, 1 ) );
 			}
-  		}
+		}
 
 		// Load wp-cli module if PHP 5.6+.
 		if (
@@ -674,7 +674,6 @@ class BuddyPress {
 	 * @since 2.5.0
 	 *
 	 * @param string $class Classes to be autoloaded.
-	 * @return string Path of a class.
 	 */
 	public function autoload( $class ) {
 		$class_parts = explode( '_', strtolower( $class ) );
@@ -699,74 +698,66 @@ class BuddyPress {
 		// These classes don't have a name that matches their component.
 		$irregular_map = array(
 			'BP_Akismet'                                 => 'activity',
-			'BP_REST_Activity_V1_Controller'             => 'activity',
-
-			'BP_REST_Blogs_V1_Controller'                     => 'blogs',
-			'BP_REST_Attachments_Blog_Avatar_V1_Controller'   => 'blogs',
-
-			'BP_Admin'                                   => 'core',
-			'BP_Attachment_Avatar'                       => 'core',
-			'BP_Attachment_Cover_Image'                  => 'core',
-			'BP_Attachment'                              => 'core',
-			'BP_Button'                                  => 'core',
-			'BP_Block'                                   => 'core',
-			'BP_Component'                               => 'core',
-			'BP_Customizer_Control_Range'                => 'core',
-			'BP_Date_Query'                              => 'core',
-			'BP_Email_Delivery'                          => 'core',
-			'BP_Email_Address'                           => 'core',
-			'BP_Email_Recipient'                         => 'core',
-			'BP_Email_Sender'                            => 'core',
-			'BP_Email_Participant'                       => 'core',
-			'BP_Email'                                   => 'core',
-			'BP_Embed'                                   => 'core',
-			'BP_Media_Extractor'                         => 'core',
-			'BP_Members_Suggestions'                     => 'core',
-			'BP_PHPMailer'                               => 'core',
-			'BP_Recursive_Query'                         => 'core',
-			'BP_Suggestions'                             => 'core',
-			'BP_Theme_Compat'                            => 'core',
-			'BP_User_Query'                              => 'core',
-			'BP_Walker_Category_Checklist'               => 'core',
-			'BP_Walker_Nav_Menu'                         => 'core',
-			'BP_Invitation_Manager'                      => 'core',
-			'BP_Invitation'                              => 'core',
-			'BP_REST_Components_V1_Controller'           => 'core',
-			'BP_REST_Attachments'                        => 'core',
-			'BP_Admin_Types'                             => 'core',
-			'BP_Optout'                                  => 'core',
-			'BP_Optouts_List_Table'                      => 'core',
-
-			'BP_REST_Friends_V1_Controller'                   => 'friends',
-
-			'BP_Group_Extension'                         => 'groups',
-			'BP_Group_Member_Query'                      => 'groups',
-			'BP_REST_Groups_V1_Controller'                    => 'groups',
-			'BP_REST_Group_Membership_V1_Controller'          => 'groups',
-			'BP_REST_Group_Invites_V1_Controller'             => 'groups',
-			'BP_REST_Group_Membership_Request_V1_Controller'  => 'groups',
-			'BP_REST_Attachments_Group_Avatar_V1_Controller'  => 'groups',
-			'BP_REST_Attachments_Group_Cover_V1_Controller'   => 'groups',
-
-			'BP_Core_Members_Template'                   => 'members',
-			'BP_Registration_Theme_Compat'               => 'members',
-			'BP_Signup'                                  => 'members',
-			'BP_REST_Members_V1_Controller'                   => 'members',
-			'BP_REST_Attachments_Member_Avatar_V1_Controller' => 'members',
-			'BP_REST_Attachments_Member_Cover_V1_Controller'  => 'members',
-			'BP_REST_Signup_V1_Controller'                    => 'members',
-			'BP_Members_Invitation_Manager'              => 'members',
-			'BP_Members_Invitations_Template'            => 'members',
-			'BP_Members_Invitations_Component'           => 'members',
-
-			'BP_REST_Messages_V1_Controller'                  => 'messages',
-			'BP_REST_Sitewide_Notices_V1_Controller'          => 'messages',
-
-			'BP_REST_Notifications_V1_Controller'             => 'notifications',
-
-			'BP_REST_XProfile_Fields_V1_Controller'           => 'xprofile',
-			'BP_REST_XProfile_Field_Groups_V1_Controller'     => 'xprofile',
-			'BP_REST_XProfile_Data_V1_Controller'             => 'xprofile',
+			'BP_REST_Activity_Controller'                  => 'activity',
+			'BP_REST_Blogs_Controller'                     => 'blogs',
+			'BP_REST_Attachments_Blog_Avatar_Controller'   => 'blogs',
+			'BP_Admin'                                     => 'core',
+			'BP_Attachment_Avatar'                         => 'core',
+			'BP_Attachment_Cover_Image'                    => 'core',
+			'BP_Attachment'                                => 'core',
+			'BP_Button'                                    => 'core',
+			'BP_Block'                                     => 'core',
+			'BP_Component'                                 => 'core',
+			'BP_Customizer_Control_Range'                  => 'core',
+			'BP_Date_Query'                                => 'core',
+			'BP_Email_Delivery'                            => 'core',
+			'BP_Email_Address'                             => 'core',
+			'BP_Email_Recipient'                           => 'core',
+			'BP_Email_Sender'                              => 'core',
+			'BP_Email_Participant'                         => 'core',
+			'BP_Email'                                     => 'core',
+			'BP_Embed'                                     => 'core',
+			'BP_Media_Extractor'                           => 'core',
+			'BP_Members_Suggestions'                       => 'core',
+			'BP_PHPMailer'                                 => 'core',
+			'BP_Recursive_Query'                           => 'core',
+			'BP_Suggestions'                               => 'core',
+			'BP_Theme_Compat'                              => 'core',
+			'BP_User_Query'                                => 'core',
+			'BP_Walker_Category_Checklist'                 => 'core',
+			'BP_Walker_Nav_Menu'                           => 'core',
+			'BP_Invitation_Manager'                        => 'core',
+			'BP_Invitation'                                => 'core',
+			'BP_REST_Components_Controller'                => 'core',
+			'BP_REST_Attachments'                          => 'core',
+			'BP_Admin_Types'                               => 'core',
+			'BP_Optout'                                    => 'core',
+			'BP_Optouts_List_Table'                        => 'core',
+			'BP_REST_Friends_Controller'                   => 'friends',
+			'BP_Group_Extension'                           => 'groups',
+			'BP_Group_Member_Query'                        => 'groups',
+			'BP_REST_Groups_Controller'                    => 'groups',
+			'BP_REST_Group_Membership_Controller'          => 'groups',
+			'BP_REST_Group_Invites_Controller'             => 'groups',
+			'BP_REST_Group_Membership_Request_Controller'  => 'groups',
+			'BP_REST_Attachments_Group_Avatar_Controller'  => 'groups',
+			'BP_REST_Attachments_Group_Cover_Controller'   => 'groups',
+			'BP_Core_Members_Template'                     => 'members',
+			'BP_Registration_Theme_Compat'                 => 'members',
+			'BP_Signup'                                    => 'members',
+			'BP_REST_Members_Controller'                   => 'members',
+			'BP_REST_Attachments_Member_Avatar_Controller' => 'members',
+			'BP_REST_Attachments_Member_Cover_Controller'  => 'members',
+			'BP_REST_Signup_Controller'                    => 'members',
+			'BP_Members_Invitation_Manager'                => 'members',
+			'BP_Members_Invitations_Template'              => 'members',
+			'BP_Members_Invitations_Component'             => 'members',
+			'BP_REST_Messages_Controller'                  => 'messages',
+			'BP_REST_Sitewide_Notices_Controller'          => 'messages',
+			'BP_REST_Notifications_Controller'             => 'notifications',
+			'BP_REST_XProfile_Fields_Controller'           => 'xprofile',
+			'BP_REST_XProfile_Field_Groups_Controller'     => 'xprofile',
+			'BP_REST_XProfile_Data_Controller'             => 'xprofile',
 		);
 
 		$component = null;

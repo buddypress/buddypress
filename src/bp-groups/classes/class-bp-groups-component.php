@@ -1238,16 +1238,16 @@ class BP_Groups_Component extends BP_Component {
 	 */
 	public function rest_api_init( $controllers = array() ) {
 		$controllers = array(
-			'BP_REST_Groups_V1_Controller',
-			'BP_REST_Group_Membership_V1_Controller',
-			'BP_REST_Group_Membership_Request_V1_Controller',
-			'BP_REST_Group_Invites_V1_Controller',
-			'BP_REST_Attachments_Group_Avatar_V1_Controller',
+			'BP_REST_Groups_Controller',
+			'BP_REST_Group_Membership_Controller',
+			'BP_REST_Group_Membership_Request_Controller',
+			'BP_REST_Group_Invites_Controller',
+			'BP_REST_Attachments_Group_Avatar_Controller',
 		);
 
 		// Support to Group Cover.
 		if ( bp_is_active( 'groups', 'cover_image' ) ) {
-			$controllers[] = 'BP_REST_Attachments_Group_Cover_V1_Controller';
+			$controllers[] = 'BP_REST_Attachments_Group_Cover_Controller';
 		}
 
 		parent::rest_api_init( $controllers );

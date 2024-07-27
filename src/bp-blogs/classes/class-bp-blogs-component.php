@@ -506,11 +506,11 @@ class BP_Blogs_Component extends BP_Component {
 	 */
 	public function rest_api_init( $controllers = array() ) {
 		if ( is_multisite() ) {
-			$controllers = array( 'BP_REST_Blogs_V1_Controller' );
+			$controllers = array( 'BP_REST_Blogs_Controller' );
 
 			// Support to Blog Avatar.
 			if ( bp_is_active( 'blogs', 'site-icon' ) ) {
-				$controllers[] = 'BP_REST_Attachments_Blog_Avatar_V1_Controller';
+				$controllers[] = 'BP_REST_Attachments_Blog_Avatar_Controller';
 			}
 		}
 
