@@ -763,4 +763,50 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$user = get_userdata( $user_id );
 		$this->assertNotEmpty( $user->roles );
 	}
+
+	/**
+	 * @ticket BP6155
+	 */
+	public function test_bp_core_get_active_member_count_excludes_spammed_users() {
+		$this->assertSame( 0, bp_core_get_active_member_count() );
+		$this->assertSame( 0, bp_get_total_member_count() );
+
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		// The two users were created, but they are not "active" yet.
+		$this->assertSame( 0, bp_core_get_active_member_count() );
+		$this->assertSame( 0, bp_get_total_member_count() );
+
+		// Fake their first activity to make them "active".
+		do_action( 'bp_first_activity_for_member', $u1 );
+		do_action( 'bp_first_activity_for_member', $u2 );
+
+		$this->assertSame( 2, bp_core_get_active_member_count() );
+		$this->assertSame( 2, bp_get_total_member_count() );
+
+		// Spam user 2.
+		if ( is_multisite() ) {
+			wp_update_user( array( 'ID' => $u2, 'spam' => '1' ) );
+		} else {
+			bp_core_process_spammer_status( $u2, 'spam' );
+		}
+
+		// Check if user 2 is a spammer.
+		$this->assertTrue( bp_is_user_spammer( $u2 ) );
+
+		// Recount the active member count.
+		$this->assertSame( 1, bp_core_get_active_member_count() );
+		$this->assertSame( 1, bp_get_total_member_count() );
+
+		// Delete user 1.
+		if ( is_multisite() ) {
+			wpmu_delete_user( $u1 );
+		} else {
+			wp_delete_user( $u1 );
+		}
+
+		$this->assertSame( 0, bp_core_get_active_member_count() );
+		$this->assertSame( 0, bp_get_total_member_count() );
+	}
 }

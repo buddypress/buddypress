@@ -53,7 +53,7 @@ function bp_core_clear_user_object_cache( $user_id ) {
 }
 
 /**
- * Clear member count caches and transients.
+ * Clear member count caches and/or transients.
  *
  * @since 1.6.0
  */
