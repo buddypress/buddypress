@@ -334,12 +334,16 @@ class BP_Members_Admin {
 		add_action( 'admin_menu',               array( $this, 'admin_menus'       ), 5     );
 		add_action( 'network_admin_menu',       array( $this, 'admin_menus'       ), 5     );
 
-		add_action( 'user_admin_menu', array( $this, 'user_profile_menu' ), 5 );
+		if ( bp_members_is_community_profile_enabled() ) {
+			add_action( 'user_admin_menu', array( $this, 'user_profile_menu' ), 5 );
 
-		// Create the Profile Navigation (Profile/Extended Profile & Community notices).
-		add_action( 'edit_user_profile', array( $this, 'profile_nav' ), 99, 1 );
-		add_action( 'show_user_profile', array( $this, 'profile_nav' ), 99, 1 );
-		add_action( "admin_head-site-users.php", array( $this, 'profile_admin_head' ) );
+			// Create the Profile Navigation (Profile/Extended Profile).
+			add_action( 'edit_user_profile', array( $this, 'profile_nav' ), 99, 1 );
+			add_action( 'show_user_profile', array( $this, 'profile_nav' ), 99, 1 );
+
+			// Editing users of a specific site.
+			add_action( "admin_head-site-users.php", array( $this, 'profile_admin_head' ) );
+		}
 
 		// Add a row action to users listing.
 		if ( bp_core_do_network_admin() ) {
@@ -632,16 +636,14 @@ class BP_Members_Admin {
 		$hooks = array();
 
 		// Add the faux "Edit Profile" submenu page.
-		if ( bp_members_is_community_profile_enabled() ) {
-			$hooks['user'] = $this->user_page = add_submenu_page(
-				'profile.php',
-				__( 'Edit Profile',  'buddypress' ),
-				__( 'Edit Profile',  'buddypress' ),
-				'exist',
-				'bp-profile-edit',
-				array( $this, 'user_admin' )
-			);
-		}
+		$hooks['user'] = $this->user_page = add_submenu_page(
+			'profile.php',
+			__( 'Edit Profile',  'buddypress' ),
+			__( 'Edit Profile',  'buddypress' ),
+			'exist',
+			'bp-profile-edit',
+			array( $this, 'user_admin' )
+		);
 
 		// Manage user's sitewide notices.
 		$hooks['user_notices'] = $this->user_notices = add_submenu_page(
@@ -889,19 +891,20 @@ class BP_Members_Admin {
 			return;
 		}
 
-		$min = bp_core_get_minified_asset_suffix();
-		$css = $this->css_url . "admin{$min}.css";
+		if ( bp_members_is_community_profile_enabled() ) {
+			$min = bp_core_get_minified_asset_suffix();
+			$css = $this->css_url . "admin{$min}.css";
 
-		/**
-		 * Filters the CSS URL to enqueue in the Members admin area.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param string $css URL to the CSS admin file to load.
-		 */
-		$css = apply_filters( 'bp_members_admin_css', $css );
+			/**
+			 * Filters the CSS URL to enqueue in the Members admin area.
+			 *
+			 * @since 2.0.0
+			 *
+			 * @param string $css URL to the CSS admin file to load.
+			 */
+			$css = apply_filters( 'bp_members_admin_css', $css );
 
-		wp_enqueue_style( 'bp-members-css', $css, array(), bp_get_version() );
+			wp_enqueue_style( 'bp-members-css', $css, array(), bp_get_version() );
 
 			wp_style_add_data( 'bp-members-css', 'rtl', 'replace' );
 			if ( $min ) {
@@ -917,35 +920,36 @@ class BP_Members_Admin {
 			if ( get_current_screen()->id === $user_page ) {
 				$js = $this->js_url . 'admin.js';
 
-			/**
-			 * Filters the JS URL to enqueue in the Members admin area.
-			 *
-			 * @since 2.0.0
-			 *
-			 * @param string $js URL to the JavaScript admin file to load.
-			 */
-			$js = apply_filters( 'bp_members_admin_js', $js );
-			wp_enqueue_script( 'bp-members-js', $js, array(), bp_get_version(), true );
-
-			if ( ! bp_core_get_root_option( 'bp-disable-avatar-uploads' ) && buddypress()->avatar->show_avatars ) {
 				/**
-				 * Get Thickbox.
+				 * Filters the JS URL to enqueue in the Members admin area.
 				 *
-				 * We cannot simply use add_thickbox() here as WordPress is not playing
-				 * nice with Thickbox width/height see https://core.trac.wordpress.org/ticket/17249
-				 * Using media-upload might be interesting in the future for the send to editor stuff
-				 * and we make sure the tb_window is wide enough
+				 * @since 2.0.0
+				 *
+				 * @param string $js URL to the JavaScript admin file to load.
 				 */
-				wp_enqueue_style ( 'thickbox' );
-				wp_enqueue_script( 'media-upload' );
+				$js = apply_filters( 'bp_members_admin_js', $js );
+				wp_enqueue_script( 'bp-members-js', $js, array(), bp_get_version(), true );
 
-				// Get Avatar Uploader.
-				bp_attachments_enqueue_scripts( 'BP_Attachment_Avatar' );
+				if ( ! bp_core_get_root_option( 'bp-disable-avatar-uploads' ) && buddypress()->avatar->show_avatars ) {
+					/**
+					 * Get Thickbox.
+					 *
+					 * We cannot simply use add_thickbox() here as WordPress is not playing
+					 * nice with Thickbox width/height see https://core.trac.wordpress.org/ticket/17249
+					 * Using media-upload might be interesting in the future for the send to editor stuff
+					 * and we make sure the tb_window is wide enough
+					 */
+					wp_enqueue_style ( 'thickbox' );
+					wp_enqueue_script( 'media-upload' );
+
+					// Get Avatar Uploader.
+					bp_attachments_enqueue_scripts( 'BP_Attachment_Avatar' );
+				}
 			}
 		}
 
 		/**
-		 * Fires after all of the members JavaScript and CSS are enqueued.
+		 * Fires after BP Specific JavaScript and CSS are enqueued.
 		 *
 		 * @since 2.0.0
 		 *
