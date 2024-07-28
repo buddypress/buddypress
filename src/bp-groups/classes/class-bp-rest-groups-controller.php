@@ -240,8 +240,7 @@ class BP_REST_Groups_Controller extends WP_REST_Controller {
 	 */
 	public function get_item( $request ) {
 		$group    = $this->get_group_object( $request );
-		$retval   = $this->prepare_item_for_response( $group, $request );
-		$response = rest_ensure_response( $retval );
+		$response = $this->prepare_item_for_response( $group, $request );
 
 		/**
 		 * Fires after a group is fetched via the REST API.

@@ -534,12 +534,7 @@ class BP_REST_XProfile_Fields_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval = array(
-			$this->prepare_response_for_collection(
-				$this->prepare_item_for_response( $field, $request )
-			),
-		);
-
+		$retval   = $this->prepare_item_for_response( $field, $request );
 		$response = rest_ensure_response( $retval );
 
 		/**
@@ -547,9 +542,9 @@ class BP_REST_XProfile_Fields_Controller extends WP_REST_Controller {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param BP_XProfile_Field  $field      Updated field object.
-		 * @param WP_REST_Response  $response  The response data.
-		 * @param WP_REST_Request   $request   The request sent to the API.
+		 * @param BP_XProfile_Field $field    Updated field object.
+		 * @param WP_REST_Response  $response The response data.
+		 * @param WP_REST_Request   $request  The request sent to the API.
 		 */
 		do_action( 'bp_rest_xprofile_fields_update_item', $field, $response, $request );
 

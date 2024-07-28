@@ -60,6 +60,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		xprofile_set_field_data( $this->field_id, $this->user, 'foo' );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
+		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
@@ -68,7 +69,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$this->assertEquals( $all_data[0]['value']['unserialized'], array( 'foo' ) );
+		$this->assertEquals( $all_data['value']['unserialized'], array( 'foo' ) );
 	}
 
 	/**
@@ -80,6 +81,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		xprofile_set_field_data( $this->field_id, $this->user, 'foo' );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
+		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -107,7 +109,6 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
 		$request->add_header( 'content-type', 'application/json' );
-
 		$params = $this->set_field_data();
 		$request->set_param( 'context', 'edit' );
 		$request->set_body( wp_json_encode( $params ) );
@@ -161,7 +162,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data[0]['value']['unserialized'], [ 'Field', 'Value' ] );
+		$this->assertEquals( $data['value']['unserialized'], [ 'Field', 'Value' ] );
 	}
 
 	/**
@@ -218,7 +219,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data[0]['value']['unserialized'], [ 'Option 1', 'Option 2' ] );
+		$this->assertEquals( $data['value']['unserialized'], [ 'Option 1', 'Option 2' ] );
 	}
 
 	/**
@@ -290,7 +291,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data[0]['value']['unserialized'], [] );
+		$this->assertEquals( $data['value']['unserialized'], [] );
 	}
 
 	/**
@@ -326,11 +327,11 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_field_data( [ 'value' => "I don\'t travel often" ] );
 
-		$request->set_param( 'context', 'edit' );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
@@ -340,8 +341,8 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data[0]['value']['unserialized'], [ "I don\'t travel often" ] );
-		$this->assertEquals( $data[0]['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
+		$this->assertEquals( $data['value']['unserialized'], [ "I don\'t travel often" ] );
+		$this->assertEquals( $data['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
 	}
 
 	/**
@@ -378,11 +379,11 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_field_data( [ 'value' => "I don\'t travel often" ] );
 
-		$request->set_param( 'context', 'edit' );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
@@ -392,8 +393,8 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data[0]['value']['unserialized'], [ "I don\'t travel often" ] );
-		$this->assertEquals( $data[0]['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
+		$this->assertEquals( $data['value']['unserialized'], [ "I don\'t travel often" ] );
+		$this->assertEquals( $data['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
 	}
 
 	/**
@@ -410,10 +411,10 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_field_data( [ 'value' => 'textbox field' ] );
-		$request->set_param( 'context', 'edit' );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
@@ -423,8 +424,8 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data[0]['value']['unserialized'][0], $params['value'] );
-		$this->assertEquals( $data[0]['value']['raw'], 'textbox field' );
+		$this->assertEquals( $data['value']['unserialized'][0], $params['value'] );
+		$this->assertEquals( $data['value']['raw'], 'textbox field' );
 	}
 
 	/**
@@ -444,30 +445,30 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_field_data( [ 'value' => "I don't travel often" ] );
-		$request->set_param( 'context', 'edit' );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
 		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
-		$this->assertEquals( $data[0]['value']['raw'], "I don't travel often" );
+		$this->assertEquals( $data['value']['raw'], "I don't travel often" );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_field_data( [ 'value' => "I don\\'t travel often" ] );
-		$request->set_param( 'context', 'edit' );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
 		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
-		$this->assertEquals( $data[0]['value']['raw'], "I don't travel often" );
+		$this->assertEquals( $data['value']['raw'], "I don't travel often" );
 	}
 
 	/**
@@ -494,10 +495,10 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_field_data( [ 'value' => 'select box' ] );
-		$request->set_param( 'context', 'edit' );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
@@ -507,8 +508,8 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data[0]['value']['unserialized'][0], 'select box' );
-		$this->assertEquals( $data[0]['value']['raw'], 'select box' );
+		$this->assertEquals( $data['value']['unserialized'][0], 'select box' );
+		$this->assertEquals( $data['value']['raw'], 'select box' );
 	}
 
 	/**
@@ -516,6 +517,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_update_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$request->set_body( wp_json_encode( $this->set_field_data() ) );
@@ -532,6 +534,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$request->set_body( wp_json_encode( $this->set_field_data() ) );
@@ -550,6 +553,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $u2 ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$request->set_body( wp_json_encode( $this->set_field_data() ) );
@@ -565,6 +569,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_field_data();
@@ -581,6 +586,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_field_data();
@@ -609,6 +615,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', $f, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
@@ -640,6 +647,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', $f, $u ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
@@ -663,6 +671,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
@@ -685,6 +694,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_delete_item_user_not_logged_in() {
 		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -698,6 +708,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $u );
 
 		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -711,6 +722,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		xprofile_set_field_data( $this->field_id, $this->user, 'foo' );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
+		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 
@@ -719,7 +731,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$this->assertEquals( $all_data[0]['value']['unserialized'], array( 'foo' ) );
+		$this->assertEquals( $all_data['value']['unserialized'], array( 'foo' ) );
 	}
 
 	/**
@@ -741,6 +753,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 
 		// POST
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_field_data( array(
@@ -752,7 +765,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 
 		$create_data = $response->get_data();
 		$this->assertNotEmpty( $create_data );
-		$this->assertTrue( $expected === $create_data[0]['foo_metadata_key'] );
+		$this->assertTrue( $expected === $create_data['foo_metadata_key'] );
 	}
 
 	public function update_additional_field( $value, $data, $attribute ) {

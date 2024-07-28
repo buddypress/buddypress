@@ -20,10 +20,12 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->bp              = new BP_UnitTestCase();
 		$this->endpoint_url    = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->notifications->id;
 		$this->notification_id = $this->bp::factory()->notification->create();
-		$this->user            = static::factory()->user->create( array(
-			'role'       => 'administrator',
-			'user_email' => 'admin@example.com',
-		) );
+		$this->user            = static::factory()->user->create(
+			array(
+				'role'       => 'administrator',
+				'user_email' => 'admin@example.com',
+			)
+		);
 
 		if ( ! $this->server ) {
 			$this->server = rest_get_server();
@@ -50,8 +52,8 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
-		$request->set_query_params( array( 'user_id' => $this->user ) );
 		$request->set_param( 'context', 'view' );
+		$request->set_query_params( array( 'user_id' => $this->user ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -59,6 +61,8 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$all_data = $response->get_data();
 
 		$this->assertNotEmpty( $all_data );
+
+		$this->assertCount( 1, $all_data );
 		$this->assertSame( $notification_id, $all_data[0]['id'] );
 	}
 
@@ -69,14 +73,14 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$u1 = static::factory()->user->create( array( 'role' => 'subscriber' ) );
 		$u2 = static::factory()->user->create( array( 'role' => 'subscriber' ) );
 
-		$this->bp::factory()->notification->create( array( 'user_id' => $u1, ) );
-		$this->bp::factory()->notification->create( array( 'user_id' => $u2, ) );
+		$this->bp::factory()->notification->create( array( 'user_id' => $u1 ) );
+		$this->bp::factory()->notification->create( array( 'user_id' => $u2 ) );
 
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
-		$request->set_query_params( array( 'user_ids' => array( $u1, $u2 ) ) );
 		$request->set_param( 'context', 'view' );
+		$request->set_query_params( array( 'user_ids' => array( $u1, $u2 ) ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -104,8 +108,8 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
-		$request->set_query_params( array( 'user_ids' => array( $u1, $u2 ) ) );
 		$request->set_param( 'context', 'view' );
+		$request->set_query_params( array( 'user_ids' => array( $u1, $u2 ) ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -154,7 +158,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$this->check_notification_data( $notification, $all_data[0] );
+		$this->check_notification_data( $notification, $all_data );
 	}
 
 	/**
@@ -166,13 +170,13 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$notification_id = $this->bp::factory()->notification->create( array( 'user_id' => $this->user ) );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
-		$request->set_query_params( array( '_embed' => 'user' ) );
 		$request->set_param( 'context', 'view' );
+		$request->set_query_params( array( '_embed' => 'user' ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
 
-		$data = $this->server->response_to_data( $response, true )[0];
+		$data = $this->server->response_to_data( $response, true );
 
 		$this->assertNotEmpty( $data['_embedded']['user'] );
 
@@ -192,7 +196,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 			$this->set_notification_data(
 				array(
 					'component_name' => buddypress()->groups->id,
-					'item_id'        => $group_id
+					'item_id'        => $group_id,
 				)
 			)
 		);
@@ -200,19 +204,17 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
-		$request->set_query_params( array( '_embed' => 'group' ) );
 		$request->set_param( 'context', 'view' );
+		$request->set_query_params( array( '_embed' => 'group' ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
 
-		$data = $this->server->response_to_data( $response, true )[0];
+		$data = $this->server->response_to_data( $response, true );
 
 		$this->assertNotEmpty( $data['_embedded']['group'] );
 
-		// Group single endpoint returns an array.
-		// @todo update this when we change the endpoint to return an object only in v2.
-		$embedded_group = current( current( $data['_embedded']['group'] ) );
+		$embedded_group = current( $data['_embedded']['group'] );
 
 		$this->assertNotEmpty( $embedded_group );
 		$this->assertSame( $notification_id, $data['id'] );
@@ -228,7 +230,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 			$this->set_notification_data(
 				array(
 					'component_name' => buddypress()->activity->id,
-					'item_id'        => $activity_id
+					'item_id'        => $activity_id,
 				)
 			)
 		);
@@ -236,19 +238,17 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
-		$request->set_query_params( array( '_embed' => 'activity' ) );
 		$request->set_param( 'context', 'view' );
+		$request->set_query_params( array( '_embed' => 'activity' ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
 
-		$data = $this->server->response_to_data( $response, true )[0];
+		$data = $this->server->response_to_data( $response, true );
 
 		$this->assertNotEmpty( $data['_embedded']['activity'] );
 
-		// Activity single endpoint returns an array.
-		// @todo update this when we change the endpoint to return an object only in v2.
-		$embedded_activity = current( current( $data['_embedded']['activity'] ) );
+		$embedded_activity = current( $data['_embedded']['activity'] );
 
 		$this->assertNotEmpty( $embedded_activity );
 		$this->assertSame( $notification_id, $data['id'] );
@@ -259,10 +259,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	 * @group get_item
 	 */
 	public function test_get_embedded_blog_from_notification_item() {
-
-		// @todo investigate why bp_is_active( 'blogs' ) is failing for this test only
-		// when testing on MU.
-		$this->markTestSkipped();
+		$this->skipWithoutMultisite();
 
 		$blog_title = 'The Foo Bar Blog';
 
@@ -276,25 +273,23 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 			$this->set_notification_data(
 				array(
 					'component_name' => buddypress()->blogs->id,
-					'item_id'        => $blog_id
+					'item_id'        => $blog_id,
 				)
 			)
 		);
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
-		$request->set_query_params( array( '_embed' => 'blog' ) );
 		$request->set_param( 'context', 'view' );
+		$request->set_query_params( array( '_embed' => 'blog' ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
 
-		$data = $this->server->response_to_data( $response, true )[0];
+		$data = $this->server->response_to_data( $response, true );
 
 		$this->assertNotEmpty( $data['_embedded']['blog'] );
 
-		// Blog single endpoint returns an array.
-		// @todo update this when we change the endpoint to return an object only in v2.
-		$embedded_blog = current( current( $data['_embedded']['blog'] ) );
+		$embedded_blog = current( $data['_embedded']['blog'] );
 
 		$this->assertNotEmpty( $embedded_blog );
 		$this->assertSame( $notification_id, $data['id'] );
@@ -341,8 +336,8 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
 
 		$params = $this->set_notification_data();
-		$request->set_body_params( $params );
 		$request->set_param( 'context', 'edit' );
+		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
 
 		$this->check_create_notification_response( $response );
@@ -355,11 +350,11 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_notification_data();
 		$request->set_body( wp_json_encode( $params ) );
-		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$this->check_create_notification_response( $response );
@@ -370,11 +365,11 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_create_item_user_not_logged_in() {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_notification_data();
 		$request->set_body( wp_json_encode( $params ) );
-		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -388,11 +383,11 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
 		$params = $this->set_notification_data();
 		$request->set_body( wp_json_encode( $params ) );
-		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -407,19 +402,20 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_notification_data( [ 'is_new' => 0 ] );
+		$params = $this->set_notification_data( array( 'is_new' => 0 ) );
 		$request->set_body( wp_json_encode( $params ) );
-		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
 
 		$new_data = $response->get_data();
+
 		$this->assertNotEmpty( $new_data );
 
-		$n = $this->endpoint->get_notification_object( $new_data[0]['id'] );
+		$n = $this->endpoint->get_notification_object( $new_data['id'] );
 		$this->assertEquals( $params['is_new'], $n->is_new );
 	}
 
@@ -430,9 +426,10 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_notification_data( [ 'is_new' => 0 ] );
+		$params = $this->set_notification_data( array( 'is_new' => 0 ) );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
@@ -477,7 +474,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_notification_data( [ 'is_new' => 1 ] );
+		$params = $this->set_notification_data( array( 'is_new' => 1 ) );
 		$request->set_body( wp_json_encode( $params ) );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
@@ -514,7 +511,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	public function test_delete_item_invalid_id() {
 		$this->bp::set_current_user( $this->user );
 
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
@@ -525,7 +522,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	 * @group delete_item
 	 */
 	public function test_delete_item_user_not_logged_in() {
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->notification_id ) );
+		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->notification_id ) );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
@@ -557,7 +554,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$notification = $this->endpoint->get_notification_object( $this->notification_id );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $notification->id ) );
-		$request->set_query_params( array( 'context' => 'edit' ) );
+		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -565,7 +562,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$this->check_notification_data( $notification, $all_data[0] );
+		$this->check_notification_data( $notification, $all_data );
 	}
 
 	protected function check_notification_data( $notification, $data ) {
@@ -584,10 +581,13 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	}
 
 	protected function set_notification_data( $args = array() ) {
-		return wp_parse_args( $args, array(
-			'user_id' => $this->user,
-			'is_new'  => 1,
-		) );
+		return wp_parse_args(
+			$args,
+			array(
+				'user_id' => $this->user,
+				'is_new'  => 1,
+			)
+		);
 	}
 
 	protected function check_update_notification_response( $response ) {
@@ -662,7 +662,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 		return bp_notifications_update_meta( $data->id, '_' . $attribute, $value );
 	}
 
-	public function get_additional_field( $data, $attribute )  {
+	public function get_additional_field( $data, $attribute ) {
 		return bp_notifications_get_meta( $data['id'], '_' . $attribute );
 	}
 
@@ -672,38 +672,42 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	public function test_additional_fields() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
-		bp_rest_register_field( 'notifications', 'foo_field', array(
-			'get_callback'    => array( $this, 'get_additional_field' ),
-			'update_callback' => array( $this, 'update_additional_field' ),
-			'schema'          => array(
-				'description' => 'Notification Meta Field',
-				'type'        => 'string',
-				'context'     => array( 'view', 'edit' ),
-			),
-		) );
+		bp_rest_register_field(
+			'notifications',
+			'foo_field',
+			array(
+				'get_callback'    => array( $this, 'get_additional_field' ),
+				'update_callback' => array( $this, 'update_additional_field' ),
+				'schema'          => array(
+					'description' => 'Notification Meta Field',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+				),
+			)
+		);
 
 		$this->bp::set_current_user( $this->user );
 		$expected = 'bar_value';
 
 		// POST
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
 
 		$params = $this->set_notification_data( array( 'foo_field' => $expected ) );
 		$request->set_body_params( $params );
-		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$create_data = $response->get_data();
-		$this->assertTrue( $expected === $create_data[0]['foo_field'] );
+		$this->assertTrue( $expected === $create_data['foo_field'] );
 
 		// GET
-		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $create_data[0]['id'] ) );
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $create_data['id'] ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$get_data = $response->get_data();
-		$this->assertTrue( $expected === $get_data[0]['foo_field'] );
+		$this->assertTrue( $expected === $get_data['foo_field'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -714,15 +718,19 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	public function test_update_additional_fields() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
-		bp_rest_register_field( 'notifications', 'bar_field', array(
-			'get_callback'    => array( $this, 'get_additional_field' ),
-			'update_callback' => array( $this, 'update_additional_field' ),
-			'schema'          => array(
-				'description' => 'Notification Meta Field',
-				'type'        => 'string',
-				'context'     => array( 'view', 'edit' ),
-			),
-		) );
+		bp_rest_register_field(
+			'notifications',
+			'bar_field',
+			array(
+				'get_callback'    => array( $this, 'get_additional_field' ),
+				'update_callback' => array( $this, 'update_additional_field' ),
+				'schema'          => array(
+					'description' => 'Notification Meta Field',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+				),
+			)
+		);
 
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 		$this->bp::set_current_user( $this->user );
@@ -730,11 +738,16 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 
 		// Put
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_notification_data( array( 'is_new' => 0, 'bar_field' => 'foo_value' ) );
+		$params = $this->set_notification_data(
+			array(
+				'is_new'    => 0,
+				'bar_field' => 'foo_value',
+			)
+		);
 		$request->set_body( wp_json_encode( $params ) );
-		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();

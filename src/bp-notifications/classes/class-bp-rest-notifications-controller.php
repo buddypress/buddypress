@@ -202,8 +202,7 @@ class BP_REST_Notifications_Controller extends WP_REST_Controller {
 	 */
 	public function get_item( $request ) {
 		$notification = $this->get_notification_object( $request );
-		$retval       = $this->prepare_item_for_response( $notification, $request );
-		$response     = rest_ensure_response( $retval );
+		$response     = $this->prepare_item_for_response( $notification, $request );
 
 		/**
 		 * Fires after a notification is fetched via the REST API.

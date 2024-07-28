@@ -98,8 +98,7 @@ class BP_REST_XProfile_Data_Controller extends WP_REST_Controller {
 	public function get_item( $request ) {
 		// Get Field data.
 		$field_data = $this->get_xprofile_field_data_object( $request->get_param( 'field_id' ), $request->get_param( 'user_id' ) );
-		$retval     = $this->prepare_item_for_response( $field_data, $request );
-		$response   = rest_ensure_response( $retval );
+		$response   = $this->prepare_item_for_response( $field_data, $request );
 
 		/**
 		 * Fires before a XProfile data is retrieved via the REST API.
@@ -107,8 +106,8 @@ class BP_REST_XProfile_Data_Controller extends WP_REST_Controller {
 		 * @since 5.0.0
 		 *
 		 * @param BP_XProfile_ProfileData $field_data The field data object.
-		 * @param WP_REST_Response      $response  The response data.
-		 * @param WP_REST_Request       $request   The request sent to the API.
+		 * @param WP_REST_Response        $response  The response data.
+		 * @param WP_REST_Request         $request   The request sent to the API.
 		 */
 		do_action( 'bp_rest_xprofile_data_get_item', $field_data, $response, $request );
 
@@ -239,8 +238,7 @@ class BP_REST_XProfile_Data_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval   = $this->prepare_item_for_response( $field_data, $request );
-		$response = rest_ensure_response( $retval );
+		$response = $this->prepare_item_for_response( $field_data, $request );
 
 		/**
 		 * Fires after a XProfile data is saved via the REST API.

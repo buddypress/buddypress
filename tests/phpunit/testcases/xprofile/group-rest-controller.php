@@ -22,10 +22,12 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->profile->id . '/groups';
 		$this->group_id     = $this->bp::factory()->xprofile_group->create();
 
-		$this->user = static::factory()->user->create( array(
-			'role'       => 'administrator',
-			'user_email' => 'admin@example.com',
-		) );
+		$this->user = static::factory()->user->create(
+			array(
+				'role'       => 'administrator',
+				'user_email' => 'admin@example.com',
+			)
+		);
 
 		if ( ! $this->server ) {
 			$this->server = rest_get_server();
@@ -154,7 +156,7 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$this->check_group_data( $field_group, $all_data[0], 'view', $response->get_links() );
+		$this->check_group_data( $field_group, $all_data, 'view', $response->get_links() );
 	}
 
 	/**
@@ -189,7 +191,7 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$this->check_group_data( $field_group, $all_data[0], 'view', $response->get_links() );
+		$this->check_group_data( $field_group, $all_data, 'view', $response->get_links() );
 	}
 
 	/**
@@ -278,16 +280,13 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->group_id ) );
 		$request->add_header( 'content-type', 'application/json' );
-		$request->set_body( wp_json_encode( [ 'name' => $new_name ] ) );
+		$request->set_body( wp_json_encode( array( 'name' => $new_name ) ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertNotInstanceOf( 'WP_Error', $response );
 		$this->assertEquals( 200, $response->get_status() );
 
-		$all_data = $response->get_data();
-		$this->assertNotEmpty( $all_data );
-
-		$object  = end( $all_data );
+		$object  = $response->get_data();
 		$updated = $this->endpoint->get_xprofile_field_group_object( $object['id'] );
 
 		$this->assertSame( $new_name, $updated->name );
@@ -402,7 +401,7 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$this->check_group_data( $group, $all_data[0], 'view', $response->get_links() );
+		$this->check_group_data( $group, $all_data, 'view', $response->get_links() );
 	}
 
 	protected function check_create_field_group_response( $response ) {
@@ -433,11 +432,14 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 	}
 
 	protected function set_field_group_data( $args = array() ) {
-		return wp_parse_args( $args, array(
-			'description' => 'Field Group Description',
-			'name'        => 'Test Field Name',
-			'can_delete'  => true,
-		) );
+		return wp_parse_args(
+			$args,
+			array(
+				'description' => 'Field Group Description',
+				'name'        => 'Test Field Name',
+				'can_delete'  => true,
+			)
+		);
 	}
 
 	public function test_get_item_schema() {
@@ -469,7 +471,7 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 		return bp_xprofile_update_meta( $data->id, 'group', '_' . $attribute, $value );
 	}
 
-	public function get_additional_field( $data, $attribute )  {
+	public function get_additional_field( $data, $attribute ) {
 		return bp_xprofile_get_meta( $data['id'], 'group', '_' . $attribute );
 	}
 
@@ -479,37 +481,42 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 	public function test_additional_fields() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
-		bp_rest_register_field( 'xprofile', 'foo_group_key', array(
-			'get_callback'    => array( $this, 'get_additional_field' ),
-			'update_callback' => array( $this, 'update_additional_field' ),
-			'schema'          => array(
-				'description' => 'xProfile Group Meta Field',
-				'type'        => 'string',
-				'context'     => array( 'view', 'edit' ),
+		bp_rest_register_field(
+			'xprofile',
+			'foo_group_key',
+			array(
+				'get_callback'    => array( $this, 'get_additional_field' ),
+				'update_callback' => array( $this, 'update_additional_field' ),
+				'schema'          => array(
+					'description' => 'xProfile Group Meta Field',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+				),
 			),
-		), 'group' );
+			'group'
+		);
 
 		$this->bp::set_current_user( $this->user );
 		$expected = 'bar_group_value';
 
 		// POST
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
 		$params = $this->set_field_group_data( array( 'foo_group_key' => $expected ) );
 		$request->set_body_params( $params );
-		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$create_data = $response->get_data();
-		$this->assertTrue( $expected === $create_data[0]['foo_group_key'] );
+		$this->assertTrue( $expected === $create_data['foo_group_key'] );
 
 		// GET
-		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $create_data[0]['id'] ) );
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $create_data['id'] ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$get_data = $response->get_data();
-		$this->assertTrue( $expected === $get_data[0]['foo_group_key'] );
+		$this->assertTrue( $expected === $get_data['foo_group_key'] );
 
 		$GLOBALS['wp_rest_additional_fields'] = $registered_fields;
 	}
@@ -520,28 +527,36 @@ class BP_Test_REST_XProfile_Groups_Controller extends WP_Test_REST_Controller_Te
 	public function test_update_additional_fields() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
-		bp_rest_register_field( 'xprofile', 'bar_group_key', array(
-			'get_callback'    => array( $this, 'get_additional_field' ),
-			'update_callback' => array( $this, 'update_additional_field' ),
-			'schema'          => array(
-				'description' => 'xProfile Group Meta Field',
-				'type'        => 'string',
-				'context'     => array( 'view', 'edit' ),
+		bp_rest_register_field(
+			'xprofile',
+			'bar_group_key',
+			array(
+				'get_callback'    => array( $this, 'get_additional_field' ),
+				'update_callback' => array( $this, 'update_additional_field' ),
+				'schema'          => array(
+					'description' => 'xProfile Group Meta Field',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+				),
 			),
-		), 'group' );
+			'group'
+		);
 
 		$this->bp::set_current_user( $this->user );
 		$expected = 'foo_group_value';
 
 		// PUT
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->group_id ) );
+		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
-		$request->set_body( wp_json_encode(
-			array(
-				'name'          => $this->endpoint->get_xprofile_field_group_object( $this->group_id )->name,
-				'bar_group_key' => $expected,
+		$request->set_body(
+			wp_json_encode(
+				array(
+					'name'          => $this->endpoint->get_xprofile_field_group_object( $this->group_id )->name,
+					'bar_group_key' => $expected,
+				)
 			)
-		) );
+		);
 		$response = $this->server->dispatch( $request );
 
 		$update_data = $response->get_data();
