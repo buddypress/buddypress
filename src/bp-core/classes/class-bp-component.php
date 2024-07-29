@@ -907,6 +907,11 @@ class BP_Component {
 			}
 		}
 
+		$action = 'bp_' . $this->id . '_setup_admin_bar';
+		if ( isset( $this->is_feature, $this->component_id ) ) {
+			$action = 'bp_' . $this->component_id . '_' . $this->id . '_setup_admin_bar';
+		}
+
 		/**
 		 * Fires at the end of the setup_admin_bar method inside BP_Component.
 		 *
