@@ -2,7 +2,7 @@
 /* jshint devel: true */
 /* jshint browser: true */
 /* @since 3.0.0 */
-/* @version 10.0.0 */
+/* @version 15.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
@@ -463,9 +463,6 @@ window.bp = window.bp || {};
 			// Buttons.
 			$( '#buddypress [data-bp-list], #buddypress #item-header' ).on( 'click', '[data-bp-btn-action]', this, this.buttonAction );
 
-			// Close notice.
-			$( '#buddypress [data-bp-close]' ).on( 'click', this, this.closeNotice );
-
 			// Pagination.
 			$( '#buddypress [data-bp-list]' ).on( 'click', '[data-bp-pagination] a', this, this.paginateAction );
 
@@ -746,39 +743,6 @@ window.bp = window.bp || {};
 					target.parent().replaceWith( response.data.contents );
 				}
 			} );
-		},
-
-		/**
-		 * [closeNotice description]
-		 * @param  {[type]} event [description]
-		 * @return {[type]}       [description]
-		 */
-		closeNotice: function( event ) {
-			var closeBtn = $( event.currentTarget );
-
-			event.preventDefault();
-
-			// Make sure cookies are removed.
-			if ( 'clear' === closeBtn.data( 'bp-close' ) ) {
-				if ( undefined !== $.cookie( 'bp-message' ) ) {
-					$.removeCookie( 'bp-message' );
-				}
-
-				if ( undefined !== $.cookie( 'bp-message-type' ) ) {
-					$.removeCookie( 'bp-message-type' );
-				}
-			}
-
-			// @todo other cases...
-			// Dismissing site-wide notices.
-			if ( closeBtn.closest( '.bp-feedback' ).hasClass( 'bp-sitewide-notice' ) ) {
-				bp.Nouveau.ajax( {
-					action : 'messages_dismiss_sitewide_notice'
-				}, 'messages' );
-			}
-
-			// Remove the notice.
-			closeBtn.closest( '.bp-feedback' ).remove();
 		},
 
 		paginateAction: function( event ) {

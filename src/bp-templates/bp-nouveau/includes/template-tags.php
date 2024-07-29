@@ -3,7 +3,7 @@
  * Common template tags
  *
  * @since 3.0.0
- * @version 12.0.0
+ * @version 15.0.0
  */
 
 // Exit if accessed directly.
@@ -135,16 +135,18 @@ function bp_nouveau_has_template_message() {
 }
 
 /**
- * Checks if the template notice/feedback message needs a dismiss button
+ * Checks if the template notice/feedback message needs a dismiss button.
  *
  * @todo Dismiss button re-worked to try and prevent buttons on general
  *       BP template notices - Nouveau user_feedback key needs review.
  *
  * @since 3.0.0
+ * @deprecated 15.0.0
  *
  * @return bool True if a template notice needs a dismiss button. False otherwise.
  */
 function bp_nouveau_has_dismiss_button() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
 	$bp_nouveau = bp_nouveau();
 
 	// BP template notices - set 'dismiss' true for a type in `bp_nouveau_template_notices()`
