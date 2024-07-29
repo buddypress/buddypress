@@ -151,6 +151,9 @@ class BP_Component_Feature extends BP_Component {
 		// Setup feature's navigation.
 		add_action( 'bp_setup_nav', array( $this, 'setup_nav' ) );
 
+		// Setup WP Toolbar menus.
+		add_action( 'bp_setup_admin_bar', array( $this, 'setup_admin_bar' ) );
+
 		/**
 		 * Fires at the end of the `setup_actions` method.
 		 *
