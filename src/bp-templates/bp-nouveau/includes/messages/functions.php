@@ -258,40 +258,10 @@ function bp_nouveau_unregister_notices_widget() {
  * Add active sitewide notices to the BP template_message global.
  *
  * @since 3.0.0
+ * @deprecated 15.0.0
  */
 function bp_nouveau_push_sitewide_notices() {
-	// Do not show notices if user is not logged in.
-	if ( ! is_user_logged_in() || ! bp_is_my_profile() ) {
-		return;
-	}
-
-	$notice = BP_Members_Notice::get_active();
-	if ( empty( $notice ) ) {
-		return;
-	}
-
-	$user_id = bp_loggedin_user_id();
-
-	$closed_notices = bp_get_user_meta( $user_id, 'closed_notices', true );
-	if ( empty( $closed_notices ) ) {
-		$closed_notices = array();
-	}
-
-	if ( $notice->id && is_array( $closed_notices ) && ! in_array( $notice->id, $closed_notices, true ) ) {
-		// Inject the notice into the template_message if no other message has priority.
-		$bp = buddypress();
-
-		if ( empty( $bp->template_message ) ) {
-			$message = sprintf(
-				'<strong class="subject">%s</strong>
-				%s',
-				stripslashes( $notice->subject ),
-				stripslashes( $notice->message )
-			);
-			$bp->template_message      = $message;
-			$bp->template_message_type = 'bp-sitewide-notice';
-		}
-	}
+	_deprecated_function( __FUNCTION__, '15.0.0' );
 }
 
 /**
@@ -465,7 +435,7 @@ function bp_nouveau_messages_catch_hook_content( $hooks = array() ) {
  * @since 12.0.0
  */
 function bp_nouveau_register_messages_ajax_actions() {
-	$ajax_actions = array( 'messages_send_message', 'messages_send_reply', 'messages_get_user_message_threads', 'messages_thread_read', 'messages_get_thread_messages', 'messages_delete', 'messages_exit', 'messages_unstar', 'messages_star', 'messages_unread', 'messages_read', 'messages_dismiss_sitewide_notice' );
+	$ajax_actions = array( 'messages_send_message', 'messages_send_reply', 'messages_get_user_message_threads', 'messages_thread_read', 'messages_get_thread_messages', 'messages_delete', 'messages_exit', 'messages_unstar', 'messages_star', 'messages_unread', 'messages_read' );
 
 	foreach ( $ajax_actions as $ajax_action ) {
 		bp_ajax_register_action( $ajax_action );
