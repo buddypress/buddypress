@@ -131,16 +131,6 @@ class BP_Members_Component extends BP_Component {
 			$includes[] = 'membership-requests';
 		}
 
-		/*
-		 * This feature is required as BuddyPress is using it to inform Site Admins of important changes.
-		 *
-		 * If you really want to disable it, you can use:
-		 * `add_filter( 'bp_is_members_notices_active', '__return_false' );`
-		 */
-		if ( bp_is_active( 'members', 'notices' ) ) {
-			$includes[] = 'notices';
-		}
-
 		// Include these only if in admin.
 		if ( is_admin() ) {
 			$includes[] = 'admin';

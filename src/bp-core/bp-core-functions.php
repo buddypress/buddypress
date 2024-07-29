@@ -5098,6 +5098,17 @@ function bp_get_component_navigations( $component = '' ) {
 		if ( isset( $component->sub_nav ) && is_array( $component->sub_nav ) && $component->sub_nav ) {
 			$navigations[ $key_component ]['sub_nav'] = $component->sub_nav;
 		}
+
+		// Include component's feature navigations.
+		foreach ( array_filter( $component->active_features ) as $key_feature => $feature ) {
+			if ( isset( $feature->main_nav['rewrite_id'] ) ) {
+				$navigations[ $key_feature ]['main_nav'] = $feature->main_nav;
+			}
+
+			if ( isset( $feature->sub_nav ) && is_array( $feature->sub_nav ) && $feature->sub_nav ) {
+				$navigations[ $key_feature ]['sub_nav'] = $feature->sub_nav;
+			}
+		}
 	}
 
 	// We possibly need to move some members nav items.
