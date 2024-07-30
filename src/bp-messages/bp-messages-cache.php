@@ -37,7 +37,6 @@ function bp_messages_update_meta_cache( $message_ids = false ) {
 
 // List actions to clear super cached pages on, if super cache is installed.
 add_action( 'messages_delete_thread', 'bp_core_clear_cache' );
-add_action( 'messages_send_notice', 'bp_core_clear_cache' );
 add_action( 'messages_message_sent', 'bp_core_clear_cache' );
 
 // Don't cache message inbox/sentbox/compose as it's too problematic.
@@ -99,14 +98,3 @@ function bp_messages_clear_cache_on_message_delete( $thread_ids, $user_id ) {
 }
 add_action( 'messages_delete_thread', 'bp_messages_clear_cache_on_message_delete', 10, 2 );
 add_action( 'bp_messages_exit_thread', 'bp_messages_clear_cache_on_message_delete', 10, 2 );
-
-/**
- * Invalidate cache for notices.
- *
- * @since 2.0.0
- */
-function bp_notices_clear_cache() {
-	wp_cache_delete( 'active_notice', 'bp_messages' );
-}
-add_action( 'messages_notice_after_save', 'bp_notices_clear_cache' );
-add_action( 'messages_notice_before_delete', 'bp_notices_clear_cache' );
