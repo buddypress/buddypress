@@ -42,6 +42,13 @@ class BP_Members_Notice {
 	public $message;
 
 	/**
+	 * The type of the notice.
+	 *
+	 * @var string
+	 */
+	public $type;
+
+	/**
 	 * The date the notice was created.
 	 *
 	 * @var string
@@ -88,8 +95,9 @@ class BP_Members_Notice {
 		if ( $notice ) {
 			$this->subject   = $notice->subject;
 			$this->message   = $notice->message;
+			$this->type      = $notice->type;
 			$this->date_sent = $notice->date_sent;
-			$this->priority = (int) $notice->priority;
+			$this->priority  = (int) $notice->priority;
 		}
 	}
 
@@ -152,8 +160,9 @@ class BP_Members_Notice {
 			 * NB: this is a dynamic filter. Possible values are:
 			 * - 'bp_members_notice_subject_before_save'
 			 * - 'bp_members_notice_message_before_save'
+			 * - 'bp_members_notice_type_before_save'
 			 * - 'bp_members_notice_date_sent_before_save'
-			 * - 'bp_members_notice_is_active_before_save'
+			 * - 'bp_members_notice_priority_before_save'
 			 *
 			 * @since 15.0.0
 			 *
@@ -181,10 +190,11 @@ class BP_Members_Notice {
 				array(
 					'subject'   => $this->subject,
 					'message'   => $this->message,
+					'type'      => $this->type,
 					'date_sent' => $this->date_sent,
 					'priority'  => $this->priority,
 				),
-				array( '%s', '%s', '%s', '%d' )
+				array( '%s', '%s', '%s', '%s', '%d' )
 			);
 		} else {
 			$result = $wpdb->update(
@@ -192,13 +202,14 @@ class BP_Members_Notice {
 				array(
 					'subject'   => $this->subject,
 					'message'   => $this->message,
+					'type'      => $this->type,
 					'date_sent' => $this->date_sent,
 					'priority'  => $this->priority,
 				),
 				array(
 					'id' => $this->id,
 				),
-				array( '%s', '%s', '%s', '%d' ),
+				array( '%s', '%s', '%s', '%s', '%d' ),
 				array( '%d' )
 			);
 		}
