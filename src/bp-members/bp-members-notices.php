@@ -160,6 +160,7 @@ function bp_members_send_notice( $args = array() ) {
 			'content'  => '',
 			'target'   => 'community',
 			'link'     => '',
+			'text'     => '',
 			'priority' => 2
 		)
 	);
@@ -172,16 +173,19 @@ function bp_members_send_notice( $args = array() ) {
 	// Sanitize data.
 	$subject = sanitize_text_field( $r['subject'] );
 	$content = sanitize_textarea_field( $r['content'] );
+	$target  = 'community';
 
-	$attrs['target'] = 'community';
 	if ( in_array( $r['target'], array( 'community', 'admins', 'contributors' ), true ) ) {
-		$attrs['target'] = $r['target'];
+		$target = $r['target'];
 	}
 
 	if ( $r['link'] ) {
 		$attrs['link'] = sanitize_url( $r['link'] );
 	}
 
+	if ( $r['text'] ) {
+		$attrs['text'] = sanitize_text_field( $r['text'] );
+	}
 
 	// Use the block grammar to save content.
 	$message = serialize_block(
@@ -195,6 +199,7 @@ function bp_members_send_notice( $args = array() ) {
 	$notice            = new BP_Members_Notice();
 	$notice->subject   = sanitize_text_field( $subject );
 	$notice->message   = $message;
+	$notice->target    = $target;
 	$notice->date_sent = bp_core_current_time();
 	$notice->priority  = (int) $r['priority'];
 
@@ -231,6 +236,39 @@ function bp_members_send_notice( $args = array() ) {
 
 	return $notice_id;
 }
+
+/**
+ * Custom kses filtering for Notices content.
+ *
+ * @since 15.0.0
+ *
+ * @param string $content The notice content.
+ * @return string         The filtered notice content.
+ */
+function bp_members_notice_filter_kses( $content ) {
+	$allowedtags      = bp_get_allowedtags();
+	$allowedtags['p'] = array();
+
+	/**
+	 * Filters the allowed HTML tags for BuddyPress Notice content.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param array $allowedtags Array of allowed HTML tags and attributes.
+	 */
+	$allowedtags = apply_filters( 'bp_members_notice_allowed_tags', $allowedtags );
+	return wp_kses( $content, $allowedtags );
+}
+
+/*
+ * Filters applied before notice data is stored into the DB table.
+ */
+add_filter( 'bp_members_notice_subject_before_save', 'wp_filter_kses', 1 );
+add_filter( 'bp_members_notice_subject_before_save', 'force_balance_tags' );
+add_filter( 'bp_members_notice_subject_before_save', 'wp_encode_emoji' );
+add_filter( 'bp_members_notice_message_before_save', 'bp_members_notice_filter_kses' );
+add_filter( 'bp_members_notice_message_before_save', 'force_balance_tags' );
+add_filter( 'bp_members_notice_message_before_save', 'wp_encode_emoji' );
 
 /**
  * Dismiss a sitewide notice for a user.
