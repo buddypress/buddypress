@@ -259,7 +259,16 @@ class BP_Members_Notice {
 	 * @return bool
 	 */
 	public function activate() {
-		$this->priority = 1;
+		// Try to restore the previous priority.
+		$previous_priority = (int) bp_notices_get_meta( $this->id, 'previous_priority', true );
+
+		// Use a regular one by default.
+		if ( ! $previous_priority ) {
+			$previous_priority = 2;
+		}
+
+		// Activate the notice.
+		$this->priority = $previous_priority;
 		return (bool) $this->save();
 	}
 
@@ -271,7 +280,12 @@ class BP_Members_Notice {
 	 * @return bool
 	 */
 	public function deactivate() {
-		$this->priority = 2;
+		// Used to restore the priority on re-activation.
+		$previous_priority = $this->priority;
+		bp_notices_update_meta( $this->id, 'previous_priority', $previous_priority );
+
+		// Deactivating is using a priority of 255.
+		$this->priority = 255;
 		return (bool) $this->save();
 	}
 
@@ -348,6 +362,7 @@ class BP_Members_Notice {
 				'dismissed'  => false,
 				'meta_query' => array(),
 				'fields'     => 'all',
+				'type'       => 'active',
 			)
 		);
 
@@ -372,6 +387,11 @@ class BP_Members_Notice {
 		// The meta query.
 		if ( ! empty( $meta_query_sql['join'] ) ) {
 			$join_sql = $meta_query_sql['join'];
+		}
+
+		// 255 is the value used to deactivate a notice.
+		if ( 'active' === $r['type'] ) {
+			$where_conditions['type'] = 'n.priority != 255';
 		}
 
 		$limit_sql = '';

@@ -147,7 +147,7 @@ function bp_notices_add_meta( $notice_id, $meta_key, $meta_value, $unique = fals
  * }
  * @return integer|WP_Error The notice ID on success, a WP Error on failure.
  */
-function bp_members_send_notice( $args = array() ) {
+function bp_members_publish_notice( $args = array() ) {
 
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return new WP_Error( 'bp_notices_unallowed', __( 'You are not allowed to send notices.', 'buddypress' ) );
@@ -259,16 +259,6 @@ function bp_members_notice_filter_kses( $content ) {
 	$allowedtags = apply_filters( 'bp_members_notice_allowed_tags', $allowedtags );
 	return wp_kses( $content, $allowedtags );
 }
-
-/*
- * Filters applied before notice data is stored into the DB table.
- */
-add_filter( 'bp_members_notice_subject_before_save', 'wp_filter_kses', 1 );
-add_filter( 'bp_members_notice_subject_before_save', 'force_balance_tags' );
-add_filter( 'bp_members_notice_subject_before_save', 'wp_encode_emoji' );
-add_filter( 'bp_members_notice_message_before_save', 'bp_members_notice_filter_kses' );
-add_filter( 'bp_members_notice_message_before_save', 'force_balance_tags' );
-add_filter( 'bp_members_notice_message_before_save', 'wp_encode_emoji' );
 
 /**
  * Dismiss a sitewide notice for a user.
@@ -614,6 +604,25 @@ function bp_get_notice_content( $notice = null ) {
 }
 
 /**
+ * Output the selected target for the notice.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ */
+function bp_notice_target( $notice = null ) {
+	$target_key = bp_get_notice_target( $notice );
+
+	$targets = array(
+		'community'    => __( 'All community members', 'buddypress' ),
+		'admins'       => __( 'All administrators', 'buddypress' ),
+		'contributors' => __( 'All contributors', 'buddypress' ),
+	);
+
+	echo esc_html( $targets[ $target_key ] );
+}
+
+/**
  * Get the notice target.
  *
  * @since 15.0.0
@@ -667,6 +676,51 @@ function bp_get_notice_target_icon( $notice = null ) {
 	 * @param BP_Members_Notice|null $notice      The notice object if it exists. Null otherwise.
 	 */
 	return apply_filters( 'bp_get_notice_target_icon', $target_icon, $notice );
+}
+
+/**
+ * Output the notice priority.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ */
+function bp_notice_priority( $notice = null ) {
+	$priority_key = bp_get_notice_priority( $notice );
+
+	$priorities = array(
+		__( 'Very High', 'buddypress' ),
+		__( 'High', 'buddypress' ),
+		__( 'Regular', 'buddypress' ),
+		__( 'Low', 'buddypress' ),
+	);
+
+	echo esc_html( $priorities[ $priority_key ] );
+}
+
+/**
+ * Get the notice priority.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return integer The notice priority.
+ */
+function bp_get_notice_priority( $notice = null ) {
+	$priority = 2;
+	if ( isset( $notice->priority ) ) {
+		$priority = (int) $notice->priority;
+	}
+
+	/**
+	 * Filters the notice type.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param integer                $priority The notice priority.
+	 * @param BP_Members_Notice|null $notice   The notice object if it exists. Null otherwise.
+	 */
+	return apply_filters( 'bp_get_notice_priority', $priority, $notice );
 }
 
 /**

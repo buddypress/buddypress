@@ -135,7 +135,7 @@ class BP_Members_Notices_Admin {
 				)
 			);
 
-			if ( bp_members_send_notice( $notice ) ) {
+			if ( bp_members_publish_notice( $notice ) ) {
 				$redirect_to = add_query_arg( 'success', 'create', $this->url );
 
 			// Notice could not be sent.
