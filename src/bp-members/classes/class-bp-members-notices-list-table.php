@@ -199,21 +199,13 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 	 * @param object $item The current item
 	 */
 	public function column_target( $item ) {
-		$notice_blocks = parse_blocks( $item->message );
-		$notice_block  = reset( $notice_blocks );
-
-		// Default is all members.
-		$target_key = 'community';
+		$target_key = bp_get_notice_target( $item );
 
 		$targets = array(
-			'community' => __( 'All community members', 'buddypress' ),
-			'admins'    => __( 'All administrators', 'buddypress' ),
-			'writers'   => __( 'All contributors', 'buddypress' ),
+			'community'    => __( 'All community members', 'buddypress' ),
+			'admins'       => __( 'All administrators', 'buddypress' ),
+			'contributors' => __( 'All contributors', 'buddypress' ),
 		);
-
-		if ( isset( $notice_block['attrs']['target'] ) ) {
-			$target_key = $notice_block['attrs']['target'];
-		}
 
 		echo esc_html( $targets[ $target_key ] );
 	}
