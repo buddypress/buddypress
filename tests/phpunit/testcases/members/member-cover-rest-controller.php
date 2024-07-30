@@ -2,7 +2,6 @@
 /**
  * Member Cover Controller Tests.
  *
- * @package BuddyPress
  * @group members
  * @group member-cover
  */
@@ -20,9 +19,11 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 		$this->bp           = new BP_UnitTestCase();
 		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/members/';
 
-		$this->user_id = $this->bp::factory()->user->create( array(
-			'role' => 'administrator',
-		) );
+		$this->user_id = $this->bp::factory()->user->create(
+			array(
+				'role' => 'administrator',
+			)
+		);
 
 		if ( ! $this->server ) {
 			$this->server = rest_get_server();
@@ -99,7 +100,8 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 		// Disabling cover image upload.
 		add_filter( 'bp_disable_cover_image_uploads', '__return_true' );
 
-		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_attachments_member_cover_disabled', $response, 500 );
 
@@ -112,7 +114,8 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 	public function test_create_item_empty_image() {
 		$this->bp::set_current_user( $this->user_id );
 
-		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_attachments_member_cover_no_image_file', $response, 500 );
 	}
@@ -121,7 +124,8 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 	 * @group create_item
 	 */
 	public function test_create_item_user_not_logged_in() {
-		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
@@ -134,7 +138,8 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 
 		$this->bp::set_current_user( $u1 );
 
-		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
@@ -145,7 +150,8 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 	public function test_create_item_invalid_member_id() {
 		$this->bp::set_current_user( $this->user_id );
 
-		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_member_invalid_id', $response, 404 );
 	}
@@ -168,7 +174,8 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 	 * @group delete_item
 	 */
 	public function test_delete_item_user_not_logged_in() {
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
@@ -181,7 +188,8 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 
 		$this->bp::set_current_user( $u1 );
 
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
@@ -192,7 +200,8 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 	public function test_delete_item_invalid_member_id() {
 		$this->bp::set_current_user( $this->user_id );
 
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/cover', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/cover', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_member_invalid_id', $response, 404 );
 	}
@@ -203,7 +212,8 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 	public function test_delete_item_failed() {
 		$this->bp::set_current_user( $this->user_id );
 
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_attachments_member_cover_delete_failed', $response, 500 );
@@ -227,11 +237,13 @@ class BP_Test_REST_Attachments_Member_Cover_Controller extends WP_Test_REST_Cont
 	}
 
 	public function test_context_param() {
-
 		// Single.
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '%d/cover', $this->user_id ) );
 		$response = $this->server->dispatch( $request );
-		$data     = $response->get_data();
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
 	}

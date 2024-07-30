@@ -2,7 +2,6 @@
 /**
  * Components Controller Tests.
  *
- * @package BuddyPress
  * @group components
  */
 class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcase {
@@ -18,10 +17,12 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$this->endpoint     = new BP_REST_Components_Controller();
 		$this->bp           = new BP_UnitTestCase();
 		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/components';
-		$this->user         = static::factory()->user->create( array(
-			'role'       => 'administrator',
-			'user_email' => 'admin@example.com',
-		) );
+		$this->user         = static::factory()->user->create(
+			array(
+				'role'       => 'administrator',
+				'user_email' => 'admin@example.com',
+			)
+		);
 
 		if ( ! $this->server ) {
 			$this->server = rest_get_server();
@@ -78,9 +79,10 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$this->assertEquals( 2, $headers['X-WP-TotalPages'] );
 
 		$all_data = $response->get_data();
+
 		$this->assertNotEmpty( $all_data );
 
-		$this->assertTrue( 10 === count( $all_data ) );
+		$this->assertCount( 10, $all_data );
 	}
 
 	/**
@@ -90,6 +92,7 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$request->set_query_params(
 			array(
 				'status' => 'another',
@@ -105,6 +108,7 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 	 */
 	public function test_get_items_user_is_not_logged_in() {
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, 401 );
@@ -138,6 +142,7 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$request->set_param( 'status', 'active' );
 		$response = $this->server->dispatch( $request );
 		$this->assertEquals( 200, $response->get_status() );
@@ -222,8 +227,15 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$components_info = wp_list_filter( $all_data, array( 'name' => 'messages', 'title' => 'Activity Streams' ), 'or' );
-		$features = wp_list_pluck( $components_info, 'features', 'name' );
+		$components_info = wp_list_filter(
+			$all_data,
+			array(
+				'name'  => 'messages',
+				'title' => 'Activity Streams',
+			),
+			'or'
+		);
+		$features        = wp_list_pluck( $components_info, 'features', 'name' );
 
 		$this->assertTrue( $features['messages']['star'] );
 		$this->assertEmpty( $features['activity'] );
@@ -250,10 +262,12 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
-		$request->set_query_params( array(
-			'name'   => 'blogs',
-			'action' => 'deactivate',
-		) );
+		$request->set_query_params(
+			array(
+				'name'   => 'blogs',
+				'action' => 'deactivate',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -261,7 +275,7 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$this->assertTrue( 'inactive' === $all_data[0]['status'] );
+		$this->assertTrue( 'inactive' === $all_data['status'] );
 	}
 
 	/**
@@ -271,10 +285,12 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
-		$request->set_query_params( array(
-			'name'   => 'blogssss',
-			'action' => 'deactivate',
-		) );
+		$request->set_query_params(
+			array(
+				'name'   => 'blogssss',
+				'action' => 'deactivate',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_component_nonexistent', $response, 404 );
@@ -287,10 +303,12 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
-		$request->set_query_params( array(
-			'name'   => 'blogs',
-			'action' => '',
-		) );
+		$request->set_query_params(
+			array(
+				'name'   => 'blogs',
+				'action' => '',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'rest_invalid_param', $response, 400 );
@@ -303,10 +321,12 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
-		$request->set_query_params( array(
-			'name'   => 'blogs',
-			'action' => 'update',
-		) );
+		$request->set_query_params(
+			array(
+				'name'   => 'blogs',
+				'action' => 'update',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'rest_invalid_param', $response, 400 );
@@ -317,10 +337,12 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 	 */
 	public function test_update_item_user_is_not_logged_in() {
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
-		$request->set_query_params( array(
-			'name'   => 'core',
-			'action' => 'activate',
-		) );
+		$request->set_query_params(
+			array(
+				'name'   => 'core',
+				'action' => 'activate',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, 401 );
@@ -335,10 +357,12 @@ class BP_Test_REST_Components_Controller extends WP_Test_REST_Controller_Testcas
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
-		$request->set_query_params( array(
-			'name'   => 'core',
-			'action' => 'activate',
-		) );
+		$request->set_query_params(
+			array(
+				'name'   => 'core',
+				'action' => 'activate',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, 403 );

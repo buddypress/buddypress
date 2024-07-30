@@ -2,7 +2,6 @@
 /**
  * Signup Controller Tests.
  *
- * @package BuddyPress
  * @group signup
  * @group signups
  * @group members
@@ -239,40 +238,40 @@ class BP_Test_REST_Signup_Controller extends WP_Test_REST_Controller_Testcase {
 		$g1 = $this->bp::factory()->xprofile_group->create();
 
 		$f1 = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'type'           => 'textbox',
 				'name'           => 'field1',
-			]
+			)
 		);
 
 		$f2 = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'type'           => 'checkbox',
 				'name'           => 'field2',
-			]
+			)
 		);
 
 		bp_xprofile_update_field_meta( $f1, 'signup_position', 2 );
 		bp_xprofile_update_field_meta( $f2, 'signup_position', 3 );
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'parent_id'      => $f2,
 				'type'           => 'option',
 				'name'           => 'Option 1',
-			]
+			)
 		);
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'parent_id'      => $f2,
 				'type'           => 'option',
 				'name'           => 'Option 2',
-			]
+			)
 		);
 
 		$fullname_field_id = bp_xprofile_fullname_field_id();
@@ -285,12 +284,12 @@ class BP_Test_REST_Signup_Controller extends WP_Test_REST_Controller_Testcase {
 					array(
 						'field_id'   => $f1,
 						'value'      => 'Field 1 Value',
-						'visibility' => 'public'
+						'visibility' => 'public',
 					),
 					array(
 						'field_id'   => $f2,
 						'value'      => 'Option 2, Option 1,',
-						'visibility' => 'public'
+						'visibility' => 'public',
 					),
 					array(
 						'field_id'   => $fullname_field_id,
@@ -333,40 +332,40 @@ class BP_Test_REST_Signup_Controller extends WP_Test_REST_Controller_Testcase {
 		$g1 = $this->bp::factory()->xprofile_group->create();
 
 		$f1 = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'type'           => 'textbox',
 				'name'           => 'field1',
-			]
+			)
 		);
 
 		$f2 = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'type'           => 'checkbox',
 				'name'           => 'field2',
-			]
+			)
 		);
 
 		bp_xprofile_update_field_meta( $f1, 'signup_position', 2 );
 		bp_xprofile_update_field_meta( $f2, 'signup_position', 3 );
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'parent_id'      => $f2,
 				'type'           => 'option',
 				'name'           => 'Option 1',
-			]
+			)
 		);
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'parent_id'      => $f2,
 				'type'           => 'option',
 				'name'           => 'Option 2',
-			]
+			)
 		);
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
@@ -377,12 +376,12 @@ class BP_Test_REST_Signup_Controller extends WP_Test_REST_Controller_Testcase {
 					array(
 						'field_id'   => $f1,
 						'value'      => 'Field 1 Value',
-						'visibility' => 'public'
+						'visibility' => 'public',
 					),
 					array(
 						'field_id'   => $f2,
 						'value'      => 'Option 1, Option 2',
-						'visibility' => 'public'
+						'visibility' => 'public',
 					),
 				),
 			)
@@ -402,41 +401,41 @@ class BP_Test_REST_Signup_Controller extends WP_Test_REST_Controller_Testcase {
 		$g1 = $this->bp::factory()->xprofile_group->create();
 
 		$f1 = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'type'           => 'textbox',
 				'name'           => 'field1',
 				'is_required'    => true,
-			]
+			)
 		);
 
 		$f2 = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'type'           => 'checkbox',
 				'name'           => 'field2',
-			]
+			)
 		);
 
 		bp_xprofile_update_field_meta( $f1, 'signup_position', 2 );
 		bp_xprofile_update_field_meta( $f2, 'signup_position', 3 );
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'parent_id'      => $f2,
 				'type'           => 'option',
 				'name'           => 'Option 1',
-			]
+			)
 		);
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'parent_id'      => $f2,
 				'type'           => 'option',
 				'name'           => 'Option 2',
-			]
+			)
 		);
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
@@ -448,7 +447,7 @@ class BP_Test_REST_Signup_Controller extends WP_Test_REST_Controller_Testcase {
 					array(
 						'field_id'   => $f2,
 						'value'      => 'Option 1, Option 2',
-						'visibility' => 'public'
+						'visibility' => 'public',
 					),
 					array(
 						'field_id'   => bp_xprofile_fullname_field_id(),
@@ -473,41 +472,41 @@ class BP_Test_REST_Signup_Controller extends WP_Test_REST_Controller_Testcase {
 		$g1 = $this->bp::factory()->xprofile_group->create();
 
 		$f1 = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'type'           => 'textbox',
 				'name'           => 'field1',
 				'is_required'    => true,
-			]
+			)
 		);
 
 		$f2 = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'type'           => 'checkbox',
 				'name'           => 'field2',
-			]
+			)
 		);
 
 		bp_xprofile_update_field_meta( $f1, 'signup_position', 2 );
 		bp_xprofile_update_field_meta( $f2, 'signup_position', 3 );
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'parent_id'      => $f2,
 				'type'           => 'option',
 				'name'           => 'Option 1',
-			]
+			)
 		);
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $g1,
 				'parent_id'      => $f2,
 				'type'           => 'option',
 				'name'           => 'Option 2',
-			]
+			)
 		);
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
@@ -591,10 +590,10 @@ class BP_Test_REST_Signup_Controller extends WP_Test_REST_Controller_Testcase {
 	 * @group activate_item
 	 */
 	public function test_update_item() {
-		$s1 = $this->create_signup();
+		$s1     = $this->create_signup();
 		$signup = new BP_Signup( $s1 );
 
-		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/activate/%s', $signup->activation_key ) );
+		$request  = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/activate/%s', $signup->activation_key ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );

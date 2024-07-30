@@ -2,7 +2,6 @@
 /**
  * Group Avatar Controller Tests.
  *
- * @package BuddyPress
  * @group groups
  * @group group-avatar
  */
@@ -21,17 +20,21 @@ class BP_Test_REST_Attachments_Group_Avatar_Controller extends WP_Test_REST_Cont
 		$this->endpoint     = new BP_REST_Attachments_Group_Avatar_Controller();
 		$this->bp           = new BP_UnitTestCase();
 		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->groups->id . '/';
-		$this->image_file    = BP_TESTS_DIR . 'assets/test-image-large.jpg';
+		$this->image_file   = BP_TESTS_DIR . 'assets/test-image-large.jpg';
 
-		$this->user_id = $this->bp::factory()->user->create( array(
-			'role' => 'administrator',
-		) );
+		$this->user_id = $this->bp::factory()->user->create(
+			array(
+				'role' => 'administrator',
+			)
+		);
 
-		$this->group_id = $this->bp::factory()->group->create( array(
-			'name'        => 'Group Test',
-			'description' => 'Group Description',
-			'creator_id'  => $this->user_id,
-		) );
+		$this->group_id = $this->bp::factory()->group->create(
+			array(
+				'name'        => 'Group Test',
+				'description' => 'Group Description',
+				'creator_id'  => $this->user_id,
+			)
+		);
 
 		if ( ! $this->server ) {
 			$this->server = rest_get_server();
@@ -69,7 +72,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Controller extends WP_Test_REST_Cont
 		$all_data = $response->get_data();
 		$this->assertNotEmpty( $all_data );
 
-		$this->assertTrue( isset( $all_data[0]['full'] ) && isset( $all_data[0]['thumb'] ) );
+		$this->assertTrue( isset( $all_data['full'] ) && isset( $all_data['thumb'] ) );
 	}
 
 	/**
@@ -117,12 +120,12 @@ class BP_Test_REST_Attachments_Group_Avatar_Controller extends WP_Test_REST_Cont
 		}
 
 		$reset_files = $_FILES;
-		$reset_post = $_POST;
+		$reset_post  = $_POST;
 
 		$this->bp::set_current_user( $this->user_id );
 
 		add_filter( 'pre_move_uploaded_file', array( $this, 'copy_file' ), 10, 3 );
-		add_filter( 'bp_core_avatar_dimension', array( $this, 'return_100' ), 10, 1 );
+		add_filter( 'bp_core_avatar_dimension', array( $this, 'return_100' ) );
 
 		$_FILES['file'] = array(
 			'tmp_name' => $this->image_file,
@@ -135,33 +138,36 @@ class BP_Test_REST_Attachments_Group_Avatar_Controller extends WP_Test_REST_Cont
 		$_POST['action'] = 'bp_avatar_upload';
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request->set_param( 'context', 'edit' );
 		$request->set_file_params( $_FILES );
 		$response = $this->server->dispatch( $request );
 
-		remove_filter( 'pre_move_uploaded_file', array( $this, 'copy_file' ), 10, 3 );
-		remove_filter( 'bp_core_avatar_dimension', array( $this, 'return_100' ), 10, 1 );
+		remove_filter( 'pre_move_uploaded_file', array( $this, 'copy_file' ) );
+		remove_filter( 'bp_core_avatar_dimension', array( $this, 'return_100' ) );
 
-		$all_data = $response->get_data();
-		$avatar   = reset( $all_data );
+		$avatar = $response->get_data();
 
-		$this->assertSame( $avatar, array(
-			'full'  => bp_core_fetch_avatar(
-				array(
-					'object'  => 'group',
-					'type'    => 'full',
-					'item_id' => $this->group_id,
-					'html'    => false,
-				)
-			),
-			'thumb' => bp_core_fetch_avatar(
-				array(
-					'object'  => 'group',
-					'type'    => 'thumb',
-					'item_id' => $this->group_id,
-					'html'    => false,
-				)
-			),
-		) );
+		$this->assertSame(
+			$avatar,
+			array(
+				'full'  => bp_core_fetch_avatar(
+					array(
+						'object'  => 'group',
+						'type'    => 'full',
+						'item_id' => $this->group_id,
+						'html'    => false,
+					)
+				),
+				'thumb' => bp_core_fetch_avatar(
+					array(
+						'object'  => 'group',
+						'type'    => 'thumb',
+						'item_id' => $this->group_id,
+						'html'    => false,
+					)
+				),
+			)
+		);
 
 		$_FILES = $reset_files;
 		$_POST  = $reset_post;
@@ -201,7 +207,8 @@ class BP_Test_REST_Attachments_Group_Avatar_Controller extends WP_Test_REST_Cont
 
 		$_POST['action'] = 'bp_avatar_upload';
 
-		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request->set_param( 'context', 'edit' );
 		$request->set_file_params( $_FILES );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_attachments_group_avatar_disabled', $response, 500 );
@@ -309,11 +316,13 @@ class BP_Test_REST_Attachments_Group_Avatar_Controller extends WP_Test_REST_Cont
 	}
 
 	public function test_context_param() {
-
 		// Single.
 		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
-		$data     = $response->get_data();
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
 	}

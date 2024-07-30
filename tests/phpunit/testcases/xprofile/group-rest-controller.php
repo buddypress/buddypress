@@ -2,7 +2,6 @@
 /**
  * XProfile Field Groups Controller Tests.
  *
- * @package BuddyPress
  * @group xprofile
  * @group xprofile-group
  */

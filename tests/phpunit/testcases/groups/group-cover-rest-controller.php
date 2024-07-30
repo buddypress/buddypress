@@ -2,7 +2,6 @@
 /**
  * Group Cover Controller Tests.
  *
- * @package BuddyPress
  * @group groups
  * @group group-cover
  */
@@ -21,17 +20,21 @@ class BP_Test_REST_Attachments_Group_Cover_Controller extends WP_Test_REST_Contr
 		$this->endpoint     = new BP_REST_Attachments_Group_Cover_Controller();
 		$this->bp           = new BP_UnitTestCase();
 		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->groups->id . '/';
-		$this->image_file    = BP_TESTS_DIR . 'assets/test-image-large.jpg';
+		$this->image_file   = BP_TESTS_DIR . 'assets/test-image-large.jpg';
 
-		$this->user_id = $this->bp::factory()->user->create( array(
-			'role' => 'administrator',
-		) );
+		$this->user_id = $this->bp::factory()->user->create(
+			array(
+				'role' => 'administrator',
+			)
+		);
 
-		$this->group_id = $this->bp::factory()->group->create( array(
-			'name'        => 'Group Test',
-			'description' => 'Group Description',
-			'creator_id'  => $this->user_id,
-		) );
+		$this->group_id = $this->bp::factory()->group->create(
+			array(
+				'name'        => 'Group Test',
+				'description' => 'Group Description',
+				'creator_id'  => $this->user_id,
+			)
+		);
 
 		if ( ! $this->server ) {
 			$this->server = rest_get_server();
@@ -150,7 +153,7 @@ class BP_Test_REST_Attachments_Group_Cover_Controller extends WP_Test_REST_Contr
 			'size'     => filesize( $this->image_file ),
 		);
 
-		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', $this->group_id ) );
+		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/cover', $this->group_id ) );
 		$request->set_file_params( $_FILES );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_attachments_group_cover_disabled', $response, 500 );

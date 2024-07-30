@@ -2,7 +2,6 @@
 /**
  * Friends Controller Tests.
  *
- * @package BuddyPress
  * @group friends
  */
 class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
@@ -82,7 +81,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 	 * @group get_items
 	 */
 	public function test_get_items_user_not_logged_in() {
-		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request  = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -94,7 +93,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 	public function test_get_item() {
 		$this->bp::set_current_user( $this->user );
 
-		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
+		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -141,9 +140,9 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
 
 		$params = $this->set_friendship_data(
-			[
+			array(
 				'initiator_id' => $this->user,
-			]
+			)
 		);
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
@@ -168,10 +167,10 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
 		$params = $this->set_friendship_data(
-			[
+			array(
 				'initiator_id' => $u1,
 				'friend_id'    => $u2,
-			]
+			)
 		);
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
@@ -190,10 +189,10 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
 		$params = $this->set_friendship_data(
-			[
+			array(
 				'initiator_id' => $u,
 				'friend_id'    => $this->user,
-			]
+			)
 		);
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
@@ -213,10 +212,10 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
 		$params = $this->set_friendship_data(
-			[
+			array(
 				'initiator_id' => $this->user,
-				'friend_id'    => $user
-			]
+				'friend_id'    => $user,
+			)
 		);
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
@@ -284,7 +283,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
 
 		$params = $this->set_friendship_data();
-		$params = array_merge( $params, [ 'force' => true ] );
+		$params = array_merge( $params, array( 'force' => true ) );
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
 
@@ -307,10 +306,10 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
 
 		$params = $this->set_friendship_data(
-			[
+			array(
 				'initiator_id' => $u,
 				'force'        => true,
-			]
+			)
 		);
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
@@ -357,7 +356,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$this->bp::set_current_user( $this->friend );
 
-		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->user ) );
+		$request  = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->user ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -376,7 +375,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$this->bp::set_current_user( $this->user );
 
-		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
+		$request  = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_friends_cannot_update_item', $response, 500 );
@@ -398,7 +397,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 	 * @group update_item
 	 */
 	public function test_update_item_user_not_logged_in() {
-		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
+		$request  = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -412,7 +411,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$this->bp::set_current_user( $this->friend );
 
-		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->user ) );
+		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->user ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -431,7 +430,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$this->bp::set_current_user( $this->user );
 
-		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
+		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -451,7 +450,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->bp::set_current_user( $this->friend );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->user ) );
-		$request->set_body_params( [ 'force' => true ] );
+		$request->set_body_params( array( 'force' => true ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -471,7 +470,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
-		$request->set_body_params( [ 'force' => true ] );
+		$request->set_body_params( array( 'force' => true ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -491,7 +490,7 @@ class BP_Test_REST_Friends_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
-		$request->set_body_params( [ 'force' => 'true' ] );
+		$request->set_body_params( array( 'force' => 'true' ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );

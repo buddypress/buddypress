@@ -2,7 +2,6 @@
 /**
  * Blogs Controller Tests.
  *
- * @package BuddyPress
  * @group blogs
  */
 class BP_Test_REST_Blogs_Controller extends WP_Test_REST_Controller_Testcase {
@@ -18,9 +17,11 @@ class BP_Test_REST_Blogs_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->endpoint     = new BP_REST_Blogs_Controller();
 		$this->bp           = new BP_UnitTestCase();
 		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->blogs->id;
-		$this->admin        = static::factory()->user->create( array(
-			'role' => 'administrator',
-		) );
+		$this->admin        = static::factory()->user->create(
+			array(
+				'role' => 'administrator',
+			)
+		);
 
 		if ( ! $this->server ) {
 			$this->server = rest_get_server();
@@ -61,7 +62,7 @@ class BP_Test_REST_Blogs_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->assertEquals( 3, $headers['X-WP-Total'] );
 		$this->assertEquals( 1, $headers['X-WP-TotalPages'] );
 		$this->assertTrue( count( $blogs ) === 3 );
-		$this->assertNotEmpty($blogs[0]);
+		$this->assertNotEmpty( $blogs[0] );
 	}
 
 	/**
@@ -106,7 +107,6 @@ class BP_Test_REST_Blogs_Controller extends WP_Test_REST_Controller_Testcase {
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
-
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
 
@@ -131,11 +131,11 @@ class BP_Test_REST_Blogs_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->bp::set_current_user( $this->admin );
 
 		$blog_id = self::factory()->blog->create(
-			[
+			array(
 				'title'  => 'The Foo Bar Blog',
 				'domain' => 'foo-bar',
 				'path'   => '/',
-			]
+			)
 		);
 
 		switch_to_blog( $blog_id );
@@ -177,11 +177,11 @@ class BP_Test_REST_Blogs_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$subdomain = 'cool-site.foo-bar';
 		$blog_id   = self::factory()->blog->create(
-			[
+			array(
 				'title'  => 'The Foo Bar Blog',
 				'domain' => $subdomain,
 				'path'   => '/',
-			]
+			)
 		);
 
 		switch_to_blog( $blog_id );
@@ -227,7 +227,7 @@ class BP_Test_REST_Blogs_Controller extends WP_Test_REST_Controller_Testcase {
 			$settings = array();
 		}
 
-		$settings['registration'] = 'blog';
+		$settings['registration']  = 'blog';
 		buddypress()->site_options = $settings;
 
 		$this->bp::set_current_user( $this->admin );
@@ -278,7 +278,7 @@ class BP_Test_REST_Blogs_Controller extends WP_Test_REST_Controller_Testcase {
 			$settings = array();
 		}
 
-		$settings['registration'] = 'none';
+		$settings['registration']  = 'none';
 		buddypress()->site_options = $settings;
 
 		$this->bp::set_current_user( $this->admin );
@@ -344,20 +344,23 @@ class BP_Test_REST_Blogs_Controller extends WP_Test_REST_Controller_Testcase {
 	}
 
 	protected function set_blog_data( $args = array() ) {
-		return wp_parse_args( $args, array(
-			'name'    => 'Cool Blog',
-			'title'   => 'Blog Name',
-			'user_id' => $this->admin,
-			'data'    => [
-				'public' => 1,
-			],
-		) );
+		return wp_parse_args(
+			$args,
+			array(
+				'name'    => 'Cool Blog',
+				'title'   => 'Blog Name',
+				'user_id' => $this->admin,
+				'data'    => array(
+					'public' => 1,
+				),
+			)
+		);
 	}
 
 	/**
 	 * @group additional_fields
 	 */
-	public function get_additional_field( $data, $attribute )  {
+	public function get_additional_field( $data, $attribute ) {
 		return bp_blogs_get_blogmeta( $data['id'], '_' . $attribute );
 	}
 
@@ -369,14 +372,18 @@ class BP_Test_REST_Blogs_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
-		bp_rest_register_field( 'blogs', 'foo_field', array(
-			'get_callback'    => array( $this, 'get_additional_field' ),
-			'schema'          => array(
-				'description' => 'Blogs single item Meta Field',
-				'type'        => 'string',
-				'context'     => array( 'view', 'edit' ),
-			),
-		) );
+		bp_rest_register_field(
+			'blogs',
+			'foo_field',
+			array(
+				'get_callback' => array( $this, 'get_additional_field' ),
+				'schema'       => array(
+					'description' => 'Blogs single item Meta Field',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+				),
+			)
+		);
 
 		$u = $this->bp::factory()->user->create();
 		$this->bp::set_current_user( $u );

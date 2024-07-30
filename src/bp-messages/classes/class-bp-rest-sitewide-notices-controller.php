@@ -45,7 +45,7 @@ class BP_REST_Sitewide_Notices_Controller extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'create_item' ),
 					'permission_callback' => array( $this, 'create_item_permissions_check' ),
-					'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
+					'args'                => $this->get_endpoint_args_for_item_schema(),
 				),
 				'schema' => array( $this, 'get_item_schema' ),
 			)
@@ -221,10 +221,8 @@ class BP_REST_Sitewide_Notices_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function get_item( $request ) {
-		$notice = $this->get_notice_object( $request->get_param( 'id' ) );
-
-		$retval   = $this->prepare_item_for_response( $notice, $request );
-		$response = rest_ensure_response( $retval );
+		$notice   = $this->get_notice_object( $request->get_param( 'id' ) );
+		$response = $this->prepare_item_for_response( $notice, $request );
 
 		/**
 		 * Fires after a sitewide notice is fetched via the REST API.
@@ -323,8 +321,7 @@ class BP_REST_Sitewide_Notices_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval   = $this->prepare_item_for_response( $notice, $request );
-		$response = rest_ensure_response( $retval );
+		$response = $this->prepare_item_for_response( $notice, $request );
 
 		/**
 		 * Fires after a sitewide notice is created via the REST API.
@@ -400,8 +397,7 @@ class BP_REST_Sitewide_Notices_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval   = $this->prepare_item_for_response( $updated_notice, $request );
-		$response = rest_ensure_response( $retval );
+		$response = $this->prepare_item_for_response( $updated_notice, $request );
 
 		/**
 		 * Fires after a sitewide notice is updated via the REST API.

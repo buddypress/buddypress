@@ -2,7 +2,6 @@
 /**
  * XProfile Field Controller Tests.
  *
- * @package BuddyPress
  * @group xprofile
  * @group xprofile-field
  */
@@ -441,7 +440,7 @@ class BP_Test_REST_XProfile_Fields_Controller extends WP_Test_REST_Controller_Te
 	 * @group delete_item
 	 */
 	public function test_delete_item_without_permission() {
-		$u = static::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$u = static::factory()->user->create();
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->field_id ) );

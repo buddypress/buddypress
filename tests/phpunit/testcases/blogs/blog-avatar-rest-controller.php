@@ -2,7 +2,6 @@
 /**
  * Blog Avatar Controller Tests.
  *
- * @package BuddyPress
  * @group blogs
  * @group blog-avatar
  */
@@ -45,7 +44,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_Controller extends WP_Test_REST_Contr
 	public function test_get_item() {
 		$this->skipWithoutMultisite();
 
-		$u = $this->bp::factory()->user->create();
+		$u        = $this->bp::factory()->user->create();
 		$expected = array(
 			'full'  => get_avatar_url( $u, array( 'size' => 150 ) ),
 			'thumb' => get_avatar_url( $u, array( 'size' => 50 ) ),
@@ -87,8 +86,20 @@ class BP_Test_REST_Attachments_Blog_Avatar_Controller extends WP_Test_REST_Contr
 		$this->skipWithoutMultisite();
 
 		$expected = array(
-			'full'  => bp_blogs_default_avatar( '', array( 'object' => 'blog', 'type' => 'full' ) ),
-			'thumb' => bp_blogs_default_avatar( '', array( 'object' => 'blog', 'type' => 'thumb' ) ),
+			'full'  => bp_blogs_default_avatar(
+				'',
+				array(
+					'object' => 'blog',
+					'type'   => 'full',
+				)
+			),
+			'thumb' => bp_blogs_default_avatar(
+				'',
+				array(
+					'object' => 'blog',
+					'type'   => 'thumb',
+				)
+			),
 		);
 
 		$u = $this->bp::factory()->user->create();
@@ -117,10 +128,22 @@ class BP_Test_REST_Attachments_Blog_Avatar_Controller extends WP_Test_REST_Contr
 
 		$this->bp::set_current_user( $u );
 
-		$blog_id = self::factory()->blog->create();
+		$blog_id  = self::factory()->blog->create();
 		$expected = array(
-			'full'  => bp_get_blog_avatar( array( 'blog_id' => $blog_id, 'html' => false, 'type' => 'full' ) ),
-			'thumb' => bp_get_blog_avatar( array( 'blog_id' => $blog_id, 'html' => false, 'type' => 'thumb' ) ),
+			'full'  => bp_get_blog_avatar(
+				array(
+					'blog_id' => $blog_id,
+					'html'    => false,
+					'type'    => 'full',
+				)
+			),
+			'thumb' => bp_get_blog_avatar(
+				array(
+					'blog_id' => $blog_id,
+					'html'    => false,
+					'type'    => 'thumb',
+				)
+			),
 		);
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
@@ -152,7 +175,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_Controller extends WP_Test_REST_Contr
 		// Remove admins.
 		add_filter( 'bp_blogs_get_blogs', array( $this, 'filter_admin_user_id' ), 10, 1 );
 
-		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
+		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
 		$response = $this->server->dispatch( $request );
 
 		remove_filter( 'bp_blogs_get_blogs', array( $this, 'filter_admin_user_id' ), 10, 1 );

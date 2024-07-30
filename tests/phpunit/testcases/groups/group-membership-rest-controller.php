@@ -2,7 +2,6 @@
 /**
  * Group Membership Controller Tests.
  *
- * @package BuddyPress
  * @group group-membership
  * @group groups
  */
@@ -21,16 +20,20 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$this->endpoint     = new BP_REST_Group_Membership_Controller();
 		$this->bp           = new BP_UnitTestCase();
 		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->groups->id . '/';
-		$this->user         = static::factory()->user->create( array(
-			'role'       => 'administrator',
-			'user_email' => 'admin@example.com',
-		) );
+		$this->user         = static::factory()->user->create(
+			array(
+				'role'       => 'administrator',
+				'user_email' => 'admin@example.com',
+			)
+		);
 
-		$this->group_id = $this->bp::factory()->group->create( array(
-			'name'        => 'Group Test',
-			'description' => 'Group Description',
-			'creator_id'  => $this->user,
-		) );
+		$this->group_id = $this->bp::factory()->group->create(
+			array(
+				'name'        => 'Group Test',
+				'description' => 'Group Description',
+				'creator_id'  => $this->user,
+			)
+		);
 
 		if ( ! $this->server ) {
 			$this->server = rest_get_server();
@@ -60,11 +63,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$u3 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'status' => 'hidden',
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'status' => 'hidden',
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		$this->bp::set_current_user( $u1 );
 
@@ -84,7 +89,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		// Check results.
 		$this->assertCount( 2, $u_ids );
-		$this->assertEqualSets( [ $u1, $u2 ], $u_ids );
+		$this->assertEqualSets( array( $u1, $u2 ), $u_ids );
 		$this->assertNotContains( $u3, $u_ids );
 	}
 
@@ -97,11 +102,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$this->bp::set_current_user( $u1 );
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator' => $u1,
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator' => $u1,
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		// Promote $u2 to a moderator
 		add_filter( 'bp_is_item_admin', '__return_true' );
@@ -112,9 +119,11 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		remove_filter( 'bp_is_item_admin', '__return_true' );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . $g1 . '/members' );
-		$request->set_query_params( array(
-			'roles' => array( 'mod' ),
-		) );
+		$request->set_query_params(
+			array(
+				'roles' => array( 'mod' ),
+			)
+		);
 
 		$response = $this->server->dispatch( $request );
 
@@ -127,7 +136,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		// Check results.
 		$this->assertCount( 1, $u_ids );
-		$this->assertEqualSets( [ $u2 ], $u_ids );
+		$this->assertEqualSets( array( $u2 ), $u_ids );
 		$this->assertNotContains( $u1, $u_ids );
 	}
 
@@ -140,13 +149,15 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator' => $u1,
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator' => $u1,
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
-		$request = new WP_REST_Request( 'GET', $this->endpoint_url . $g1 . '/members' );
+		$request  = new WP_REST_Request( 'GET', $this->endpoint_url . $g1 . '/members' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -163,19 +174,23 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u5 = static::factory()->user->create();
 		$u6 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'status' => 'hidden',
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'status' => 'hidden',
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u2, $u3, $u4, $u5, $u6 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2, $u3, $u4, $u5, $u6 ), $g1 );
 
 		$this->bp::set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . $g1 . '/members' );
-		$request->set_query_params( array(
-			'page'     => 2,
-			'per_page' => 3,
-		) );
+		$request->set_query_params(
+			array(
+				'page'     => 2,
+				'per_page' => 3,
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -191,7 +206,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		// Check results.
 		$this->assertCount( 3, $u_ids );
-		$this->assertEqualSets( [ $u4, $u5, $u6 ], $u_ids );
+		$this->assertEqualSets( array( $u4, $u5, $u6 ), $u_ids );
 	}
 
 	/**
@@ -202,7 +217,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$g1 = $this->bp::factory()->group->create();
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		$member_object = new BP_Groups_Member( $u1, $g1 );
 		$member_object->promote( 'admin' );
@@ -224,17 +239,21 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 	 * @group get_items
 	 */
 	public function test_get_items_has_search_terms() {
-		$u1 = static::factory()->user->create( array(
-			'user_nicename' => 'foo',
-		) );
+		$u1 = static::factory()->user->create(
+			array(
+				'user_nicename' => 'foo',
+			)
+		);
 
-		$u2 = static::factory()->user->create( array(
-			'user_nicename' => 'foo bar',
-		) );
+		$u2 = static::factory()->user->create(
+			array(
+				'user_nicename' => 'foo bar',
+			)
+		);
 
 		$g1 = $this->bp::factory()->group->create();
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		$member_object = new BP_Groups_Member( $u1, $g1 );
 		$member_object->promote( 'admin' );
@@ -252,7 +271,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$this->assertTrue( 'bar' === $this->search_terms );
 
 		$all_data = $response->get_data();
-		$results = wp_list_pluck( $all_data, 'id' );
+		$results  = wp_list_pluck( $all_data, 'id' );
 
 		$this->assertCount( 1, $results );
 		$this->assertSame( $u2, $results[0] );
@@ -290,7 +309,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$this->assertEquals( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
-		$data = reset( $all_data );
+		$data     = reset( $all_data );
 		$this->assertTrue( $data['is_confirmed'] );
 	}
 
@@ -304,9 +323,11 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url . $this->group_id . '/members' );
 		$request->set_param( 'context', 'edit' );
-		$request->set_query_params( array(
-			'user_id' => $u,
-		) );
+		$request->set_query_params(
+			array(
+				'user_id' => $u,
+			)
+		);
 
 		$response = $this->server->dispatch( $request );
 
@@ -356,9 +377,11 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 	public function test_member_can_not_add_himself_to_private_group() {
 		$u = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'status' => 'private',
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'status' => 'private',
+			)
+		);
 
 		$this->bp::set_current_user( $u );
 
@@ -375,17 +398,21 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 	public function test_member_can_not_add_himself_to_hidden_group() {
 		$u = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'status' => 'hidden',
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'status' => 'hidden',
+			)
+		);
 
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url . $g1 . '/members' );
 		$request->set_param( 'context', 'edit' );
-		$request->set_query_params( array(
-			'user_id' => $u,
-		) );
+		$request->set_query_params(
+			array(
+				'user_id' => $u,
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_group_member_failed_to_join', $response, 500 );
@@ -401,9 +428,11 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$this->bp::set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url . $this->group_id . '/members' );
-		$request->set_query_params( array(
-			'user_id' => $u2,
-		) );
+		$request->set_query_params(
+			array(
+				'user_id' => $u2,
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_group_member_failed_to_join', $response, 500 );
@@ -418,11 +447,11 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 	public function test_update_item() {
 		$u = static::factory()->user->create();
 
-		$this->populate_group_with_members( [ $u ], $this->group_id );
+		$this->populate_group_with_members( array( $u ), $this->group_id );
 
 		$this->bp::set_current_user( $this->user );
 
-		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . $this->group_id . '/members/' . $u  );
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . $this->group_id . '/members/' . $u );
 		$request->set_query_params( array( 'action' => 'ban' ) );
 		$response = $this->server->dispatch( $request );
 
@@ -449,7 +478,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Promote $u2 to a group mod.
 		$member_object = new BP_Groups_Member( $u1, $g1 );
@@ -476,7 +505,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Promote $u2 to a group mod.
 		$member_object = new BP_Groups_Member( $u1, $g1 );
@@ -502,7 +531,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Promote $u2 to a group admin.
 		$member_object = new BP_Groups_Member( $u2, $g1 );
@@ -538,7 +567,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		$this->bp::set_current_user( $u2 );
 
@@ -559,7 +588,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Ban $u1.
 		$member_object = new BP_Groups_Member( $u1, $g1 );
@@ -596,7 +625,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		$this->bp::set_current_user( $this->user );
 
@@ -627,7 +656,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Promote $u2 to a group admin.
 		$member_object = new BP_Groups_Member( $u2, $g1 );
@@ -667,7 +696,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Promote $u2 to a group mod.
 		$member_object = new BP_Groups_Member( $u2, $g1 );
@@ -695,15 +724,17 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 	public function test_site_admin_can_promote_member_to_mod() {
 		$u = static::factory()->user->create();
 
-		$this->populate_group_with_members( [ $u ], $this->group_id );
+		$this->populate_group_with_members( array( $u ), $this->group_id );
 
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . $this->group_id . '/members/' . $u );
-		$request->set_query_params( array(
-			'action' => 'promote',
-			'role'   => 'mod',
-		) );
+		$request->set_query_params(
+			array(
+				'action' => 'promote',
+				'role'   => 'mod',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -728,15 +759,17 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1 ], $g1 );
+		$this->populate_group_with_members( array( $u1 ), $g1 );
 
 		$this->bp::set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . $g1 . '/members/' . $u1 );
-		$request->set_query_params( array(
-			'action' => 'promote',
-			'role'   => 'mod',
-		) );
+		$request->set_query_params(
+			array(
+				'action' => 'promote',
+				'role'   => 'mod',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -762,15 +795,17 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		$this->bp::set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . $g1 . '/members/' . $u1 );
-		$request->set_query_params( array(
-			'action' => 'promote',
-			'role'   => 'mod',
-		) );
+		$request->set_query_params(
+			array(
+				'action' => 'promote',
+				'role'   => 'mod',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_group_member_cannot_promote', $response, rest_authorization_required_code() );
@@ -792,10 +827,12 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$this->bp::set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . $g1 . '/members/' . $u1 );
-		$request->set_query_params( array(
-			'action' => 'promote',
-			'role'   => 'mod',
-		) );
+		$request->set_query_params(
+			array(
+				'action' => 'promote',
+				'role'   => 'mod',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_group_member_cannot_promote', $response, rest_authorization_required_code() );
@@ -815,10 +852,12 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$this->bp::set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . $g1 . '/members/' . $u1 );
-		$request->set_query_params( array(
-			'action' => 'promote',
-			'role'   => 'admin',
-		) );
+		$request->set_query_params(
+			array(
+				'action' => 'promote',
+				'role'   => 'admin',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_group_member_cannot_promote', $response, rest_authorization_required_code() );
@@ -835,7 +874,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Promote $u3 to an admin.
 		$member_object = new BP_Groups_Member( $u3, $g1 );
@@ -874,7 +913,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Site admin.
 		$this->bp::set_current_user( $this->user );
@@ -897,7 +936,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Site admin.
 		$this->bp::set_current_user( $this->user );
@@ -920,7 +959,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Promote $u2 to an admin.
 		$member_object = new BP_Groups_Member( $u2, $g1 );
@@ -963,7 +1002,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u3 ) );
 
-		$this->populate_group_with_members( [ $u1, $u2, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2, $u3 ), $g1 );
 
 		// Promote $u2 to an admin.
 		$member_object = new BP_Groups_Member( $u2, $g1 );
@@ -1002,7 +1041,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u3 ) );
 
-		$this->populate_group_with_members( [ $u1, $u2, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2, $u3 ), $g1 );
 
 		// Promote $u2 to an admin.
 		$member_object = new BP_Groups_Member( $u2, $g1 );
@@ -1031,7 +1070,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u3 ) );
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		$group_member = new BP_Groups_Member( $u2, $g1 );
 		$group_member->promote( 'admin' );
@@ -1039,10 +1078,12 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$this->bp::set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . $g1 . '/members/' . $u2 );
-		$request->set_query_params( array(
-			'action' => 'demote',
-			'role'   => 'mod',
-		) );
+		$request->set_query_params(
+			array(
+				'action' => 'demote',
+				'role'   => 'mod',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -1068,7 +1109,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		$this->bp::set_current_user( $u2 );
 
@@ -1090,7 +1131,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		$this->bp::set_current_user( $u2 );
 
@@ -1112,7 +1153,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		$this->bp::set_current_user( $u3 );
 
@@ -1134,7 +1175,7 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 
 		$g1 = $this->bp::factory()->group->create( array( 'creator_id' => $u2 ) );
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		$this->bp::set_current_user( $u3 );
 
@@ -1155,10 +1196,12 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER . '/members/' . $u );
-		$request->set_query_params( array(
-			'action' => 'promote',
-			'role'   => 'mod',
-		) );
+		$request->set_query_params(
+			array(
+				'action' => 'promote',
+				'role'   => 'mod',
+			)
+		);
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_group_invalid_id', $response, 404 );
@@ -1182,11 +1225,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$u3 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u3,
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u3,
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		$this->bp::set_current_user( $this->user );
 
@@ -1212,11 +1257,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$u3 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u3,
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u3,
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		$this->bp::set_current_user( $u1 );
 
@@ -1241,11 +1288,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$u3 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u3,
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u3,
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		$group_member = new BP_Groups_Member( $u1, $g1 );
 		$group_member->ban();
@@ -1266,11 +1315,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$u3 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u3,
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u3,
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		$this->bp::set_current_user( $u1 );
 
@@ -1288,15 +1339,17 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$u3 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u3, // <- group admin.
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u3, // <- group admin.
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		$this->bp::set_current_user( $u3 );
 
-		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . $g1 . '/members/' . $u1 );
+		$request  = new WP_REST_Request( 'DELETE', $this->endpoint_url . $g1 . '/members/' . $u1 );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -1316,11 +1369,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$u3 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u2, // <- group admin.
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u2, // <- group admin.
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Another group admin.
 		$group_member = new BP_Groups_Member( $u3, $g1 );
@@ -1347,11 +1402,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u2, // <- group admin.
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u2, // <- group admin.
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1 ], $g1 );
+		$this->populate_group_with_members( array( $u1 ), $g1 );
 
 		$this->bp::set_current_user( $u2 );
 
@@ -1369,11 +1426,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$u3 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u1, // <- group admin.
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u1, // <- group admin.
+			)
+		);
 
-		$this->populate_group_with_members( [ $u2, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u2, $u3 ), $g1 );
 
 		$group_member = new BP_Groups_Member( $u3, $g1 );
 		$group_member->promote( 'admin' );
@@ -1400,11 +1459,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$u3 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u1, // <- group admin.
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u1, // <- group admin.
+			)
+		);
 
-		$this->populate_group_with_members( [ $u2, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u2, $u3 ), $g1 );
 
 		$this->bp::set_current_user( $this->user );
 
@@ -1422,11 +1483,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u2 = static::factory()->user->create();
 		$u3 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u1, // <- group admin.
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u1, // <- group admin.
+			)
+		);
 
-		$this->populate_group_with_members( [ $u2, $u3 ], $g1 );
+		$this->populate_group_with_members( array( $u2, $u3 ), $g1 );
 
 		$group_member = new BP_Groups_Member( $u3, $g1 );
 		$group_member->promote( 'admin' );
@@ -1452,11 +1515,13 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
 
-		$g1 = $this->bp::factory()->group->create( array(
-			'creator_id' => $u1, // <- group admin.
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'creator_id' => $u1, // <- group admin.
+			)
+		);
 
-		$this->populate_group_with_members( [ $u1, $u2 ], $g1 );
+		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
 		$this->bp::set_current_user( $this->user );
 
@@ -1557,6 +1622,6 @@ class BP_Test_REST_Group_Membership_Controller extends WP_Test_REST_Controller_T
 		$data     = $response->get_data();
 
 		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'embed', 'edit',  ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertEquals( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 }

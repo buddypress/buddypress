@@ -2,7 +2,6 @@
 /**
  * Notifications Controller Tests.
  *
- * @package BuddyPress
  * @group notifications
  */
 class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Testcase {
@@ -70,8 +69,8 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	 * @group get_items
 	 */
 	public function test_admin_can_get_items_from_multiple_users() {
-		$u1 = static::factory()->user->create( array( 'role' => 'subscriber' ) );
-		$u2 = static::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$u1 = static::factory()->user->create();
+		$u2 = static::factory()->user->create();
 
 		$this->bp::factory()->notification->create( array( 'user_id' => $u1 ) );
 		$this->bp::factory()->notification->create( array( 'user_id' => $u2 ) );
@@ -98,9 +97,9 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	 * @group get_items
 	 */
 	public function test_user_can_not_get_items_from_multiple_users() {
-		$u1 = static::factory()->user->create( array( 'role' => 'subscriber' ) );
-		$u2 = static::factory()->user->create( array( 'role' => 'subscriber' ) );
-		$u3 = static::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$u1 = static::factory()->user->create();
+		$u2 = static::factory()->user->create();
+		$u3 = static::factory()->user->create();
 
 		$this->bp::factory()->notification->create( array( 'user_id' => $u1 ) );
 		$this->bp::factory()->notification->create( array( 'user_id' => $u2 ) );
@@ -130,7 +129,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	 * @group get_items
 	 */
 	public function test_get_items_user_cannot_see_notifications_from_others() {
-		$u = static::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$u = static::factory()->user->create();
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
@@ -379,7 +378,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	 * @group create_item
 	 */
 	public function test_create_item_user_cannot_create() {
-		$u = static::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$u = static::factory()->user->create();
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
@@ -453,7 +452,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	public function test_update_item_user_without_access() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
-		$u = static::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$u = static::factory()->user->create();
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
@@ -535,7 +534,7 @@ class BP_Test_REST_Notifications_Controller extends WP_Test_REST_Controller_Test
 	public function test_delete_item_user_without_access() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
-		$u = static::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$u = static::factory()->user->create();
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $notification_id ) );

@@ -2,7 +2,6 @@
 /**
  * XProfile Data Controller Tests.
  *
- * @package BuddyPress
  * @group xprofile
  * @group xprofile-data
  */
@@ -24,12 +23,14 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$this->bp           = new BP_UnitTestCase();
 		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->profile->id . '/';
 		$this->group_id     = $this->bp::factory()->xprofile_group->create();
-		$this->field_id     = $this->bp::factory()->xprofile_field->create( [ 'field_group_id' => $this->group_id ] );
+		$this->field_id     = $this->bp::factory()->xprofile_field->create( array( 'field_group_id' => $this->group_id ) );
 
-		$this->user = static::factory()->user->create( array(
-			'role'       => 'administrator',
-			'user_email' => 'admin@example.com',
-		) );
+		$this->user = static::factory()->user->create(
+			array(
+				'role'       => 'administrator',
+				'user_email' => 'admin@example.com',
+			)
+		);
 
 		if ( ! $this->server ) {
 			$this->server = rest_get_server();
@@ -122,28 +123,28 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_update_checkbox() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'type'           => 'checkbox',
-				'field_group_id' => $this->group_id
-			]
+				'field_group_id' => $this->group_id,
+			)
 		);
 
 		xprofile_insert_field(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Field',
-			]
+			)
 		);
 
 		xprofile_insert_field(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Value',
-			]
+			)
 		);
 
 		$this->bp::set_current_user( $this->user );
@@ -162,7 +163,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data['value']['unserialized'], [ 'Field', 'Value' ] );
+		$this->assertEquals( $data['value']['unserialized'], array( 'Field', 'Value' ) );
 	}
 
 	/**
@@ -170,37 +171,37 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_update_multiselectbox() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'type'           => 'multiselectbox',
-				'field_group_id' => $this->group_id
-			]
+				'field_group_id' => $this->group_id,
+			)
 		);
 
 		xprofile_insert_field(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 1',
-			]
+			)
 		);
 
 		xprofile_insert_field(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 2',
-			]
+			)
 		);
 
 		xprofile_insert_field(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 3',
-			]
+			)
 		);
 
 		$this->bp::set_current_user( $this->user );
@@ -208,7 +209,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $field_id, $this->user ) );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_field_data( [ 'value' => 'Option 1,Option 2' ] );
+		$params = $this->set_field_data( array( 'value' => 'Option 1,Option 2' ) );
 		$request->set_param( 'context', 'edit' );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
@@ -219,7 +220,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data['value']['unserialized'], [ 'Option 1', 'Option 2' ] );
+		$this->assertEquals( $data['value']['unserialized'], array( 'Option 1', 'Option 2' ) );
 	}
 
 	/**
@@ -227,19 +228,19 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_update_multiselectbox_with_invalid_item() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'type'           => 'multiselectbox',
-				'field_group_id' => $this->group_id
-			]
+				'field_group_id' => $this->group_id,
+			)
 		);
 
 		xprofile_insert_field(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 1',
-			]
+			)
 		);
 
 		$this->bp::set_current_user( $this->user );
@@ -247,7 +248,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $field_id, $this->user ) );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_field_data( [ 'value' => 'option 1' ] );
+		$params = $this->set_field_data( array( 'value' => 'option 1' ) );
 		$request->set_param( 'context', 'edit' );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
@@ -260,19 +261,19 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_update_multiselectbox_with_empty_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'type'           => 'multiselectbox',
-				'field_group_id' => $this->group_id
-			]
+				'field_group_id' => $this->group_id,
+			)
 		);
 
 		xprofile_insert_field(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 1',
-			]
+			)
 		);
 
 		xprofile_set_field_data( $field_id, $this->user, 'Option 1' );
@@ -283,7 +284,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/data/%d', $field_id, $this->user ) );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_field_data( [ 'value' => '' ] );
+		$params = $this->set_field_data( array( 'value' => '' ) );
 		$request->set_param( 'context', 'edit' );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
@@ -291,7 +292,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data['value']['unserialized'], [] );
+		$this->assertEquals( $data['value']['unserialized'], array() );
 	}
 
 	/**
@@ -301,27 +302,27 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_update_multiselectbox_with_apostrophe_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'type'           => 'multiselectbox',
-				'field_group_id' => $this->group_id
-			]
+				'field_group_id' => $this->group_id,
+			)
 		);
 		xprofile_insert_field(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 1',
-			]
+			)
 		);
 
 		xprofile_insert_field(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => "I don't travel often",
-			]
+			)
 		);
 
 		$this->bp::set_current_user( $this->user );
@@ -330,7 +331,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_field_data( [ 'value' => "I don\'t travel often" ] );
+		$params = $this->set_field_data( array( 'value' => "I don\'t travel often" ) );
 
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
@@ -341,7 +342,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data['value']['unserialized'], [ "I don\'t travel often" ] );
+		$this->assertEquals( $data['value']['unserialized'], array( "I don\'t travel often" ) );
 		$this->assertEquals( $data['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
 	}
 
@@ -352,28 +353,28 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_update_checkbox_with_apostrophe_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'type'           => 'checkbox',
-				'field_group_id' => $this->group_id
-			]
+				'field_group_id' => $this->group_id,
+			)
 		);
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'Option 1',
-			]
+			)
 		);
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => "I don't travel often",
-			]
+			)
 		);
 
 		$this->bp::set_current_user( $this->user );
@@ -382,7 +383,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_field_data( [ 'value' => "I don\'t travel often" ] );
+		$params = $this->set_field_data( array( 'value' => "I don\'t travel often" ) );
 
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
@@ -393,7 +394,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertEquals( $data['value']['unserialized'], [ "I don\'t travel often" ] );
+		$this->assertEquals( $data['value']['unserialized'], array( "I don\'t travel often" ) );
 		$this->assertEquals( $data['value']['raw'], "a:1:{i:0;s:21:\"I don\\'t travel often\";}" );
 	}
 
@@ -402,10 +403,10 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_update_textbox() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'type'           => 'textbox',
-				'field_group_id' => $this->group_id
-			]
+				'field_group_id' => $this->group_id,
+			)
 		);
 
 		$this->bp::set_current_user( $this->user );
@@ -414,7 +415,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_field_data( [ 'value' => 'textbox field' ] );
+		$params = $this->set_field_data( array( 'value' => 'textbox field' ) );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
@@ -435,11 +436,11 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_update_textbox_with_apostrophe_value() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'type'           => 'textbox',
 				'field_group_id' => $this->group_id,
 				'value'          => 'textbox field',
-			]
+			)
 		);
 
 		$this->bp::set_current_user( $this->user );
@@ -448,7 +449,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_field_data( [ 'value' => "I don't travel often" ] );
+		$params = $this->set_field_data( array( 'value' => "I don't travel often" ) );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
@@ -461,7 +462,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_field_data( [ 'value' => "I don\\'t travel often" ] );
+		$params = $this->set_field_data( array( 'value' => "I don\\'t travel often" ) );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
@@ -476,20 +477,20 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_update_selectbox() {
 		$field_id = $this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'type'           => 'selectbox',
 				'name'           => 'Test Field Name',
-				'field_group_id' => $this->group_id
-			]
+				'field_group_id' => $this->group_id,
+			)
 		);
 
 		$this->bp::factory()->xprofile_field->create(
-			[
+			array(
 				'field_group_id' => $this->group_id,
 				'parent_id'      => $field_id,
 				'type'           => 'option',
 				'name'           => 'select box',
-			]
+			)
 		);
 
 		$this->bp::set_current_user( $this->user );
@@ -498,7 +499,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_field_data( [ 'value' => 'select box' ] );
+		$params = $this->set_field_data( array( 'value' => 'select box' ) );
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
 
@@ -608,13 +609,13 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 */
 	public function test_delete_item() {
 		$g = $this->bp::factory()->xprofile_group->create();
-		$f = $this->bp::factory()->xprofile_field->create( [ 'field_group_id' => $g ] );
+		$f = $this->bp::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 
 		xprofile_set_field_data( $f, $this->user, 'foo' );
 
 		$this->bp::set_current_user( $this->user );
 
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', $f, $this->user ) );
+		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', $f, $this->user ) );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
@@ -638,9 +639,11 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	public function test_delete_item_field_owner_can_delete() {
 		$u = $this->bp::factory()->user->create();
 		$g = $this->bp::factory()->xprofile_group->create();
-		$f = $this->bp::factory()->xprofile_field->create( array(
-			'field_group_id' => $g,
-		) );
+		$f = $this->bp::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $g,
+			)
+		);
 
 		xprofile_set_field_data( $f, $u, 'bar' );
 
@@ -670,7 +673,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	public function test_delete_item_invalid_field_id() {
 		$this->bp::set_current_user( $this->user );
 
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER, $this->user ) );
+		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER, $this->user ) );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
@@ -693,7 +696,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 * @group delete_item
 	 */
 	public function test_delete_item_user_not_logged_in() {
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
+		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
@@ -704,10 +707,10 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 * @group delete_item
 	 */
 	public function test_delete_item_without_permission() {
-		$u = static::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$u = static::factory()->user->create();
 		$this->bp::set_current_user( $u );
 
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
+		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/data/%d', $this->field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
@@ -738,15 +741,20 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	 * @group additional_fields
 	 */
 	public function test_additional_fields() {
-		bp_rest_register_field( 'xprofile', 'foo_metadata_key', array(
-			'get_callback'    => array( $this, 'get_additional_field' ),
-			'update_callback' => array( $this, 'update_additional_field' ),
-			'schema'          => array(
-				'description' => 'xProfile data Meta Field',
-				'type'        => 'string',
-				'context'     => array( 'view', 'edit' ),
+		bp_rest_register_field(
+			'xprofile',
+			'foo_metadata_key',
+			array(
+				'get_callback'    => array( $this, 'get_additional_field' ),
+				'update_callback' => array( $this, 'update_additional_field' ),
+				'schema'          => array(
+					'description' => 'xProfile data Meta Field',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+				),
 			),
-		), 'data' );
+			'data'
+		);
 
 		$this->bp::set_current_user( $this->user );
 		$expected = 'bar_metadata_value';
@@ -756,9 +764,11 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		$request->set_param( 'context', 'edit' );
 		$request->add_header( 'content-type', 'application/json' );
 
-		$params = $this->set_field_data( array(
-			'foo_metadata_key' => $expected,
-		) );
+		$params = $this->set_field_data(
+			array(
+				'foo_metadata_key' => $expected,
+			)
+		);
 
 		$request->set_body( wp_json_encode( $params ) );
 		$response = $this->server->dispatch( $request );
@@ -772,7 +782,7 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 		return bp_xprofile_update_meta( $data->id, 'data', '_' . $attribute, $value );
 	}
 
-	public function get_additional_field( $data, $attribute )  {
+	public function get_additional_field( $data, $attribute ) {
 		return bp_xprofile_get_meta( $data['id'], 'data', '_' . $attribute );
 	}
 
@@ -792,9 +802,9 @@ class BP_Test_REST_XProfile_Data_Controller extends WP_Test_REST_Controller_Test
 	protected function set_field_data( $args = array() ) {
 		return wp_parse_args(
 			$args,
-			[
+			array(
 				'value' => 'Field,Value',
-			]
+			)
 		);
 	}
 

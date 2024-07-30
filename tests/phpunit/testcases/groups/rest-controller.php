@@ -2,7 +2,6 @@
 /**
  * Group Controller Tests.
  *
- * @package BuddyPress
  * @group group
  */
 class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
@@ -19,16 +18,20 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->endpoint     = new BP_REST_Groups_Controller();
 		$this->bp           = new BP_UnitTestCase();
 		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->groups->id;
-		$this->user         = static::factory()->user->create( array(
-			'role'       => 'administrator',
-			'user_email' => 'admin@example.com',
-		) );
+		$this->user         = static::factory()->user->create(
+			array(
+				'role'       => 'administrator',
+				'user_email' => 'admin@example.com',
+			)
+		);
 
-		$this->group_id = $this->bp::factory()->group->create( array(
-			'name'        => 'Group Test',
-			'description' => 'Group Description',
-			'creator_id'  => $this->user,
-		) );
+		$this->group_id = $this->bp::factory()->group->create(
+			array(
+				'name'        => 'Group Test',
+				'description' => 'Group Description',
+				'creator_id'  => $this->user,
+			)
+		);
 
 		if ( ! $this->server ) {
 			$this->server = rest_get_server();
@@ -85,9 +88,11 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 	public function test_get_items_including_hidden_groups() {
 		$u  = static::factory()->user->create();
 		$g1 = $this->bp::factory()->group->create();
-		$g2 = $this->bp::factory()->group->create( array(
-			'status' => 'hidden',
-		) );
+		$g2 = $this->bp::factory()->group->create(
+			array(
+				'status' => 'hidden',
+			)
+		);
 
 		$this->bp::add_user_to_group( $u, $g1 );
 		$this->bp::add_user_to_group( $u, $g2 );
@@ -95,10 +100,12 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
-		$request->set_query_params( array(
-			'show_hidden' => true,
-			'user_id'     => $u,
-		) );
+		$request->set_query_params(
+			array(
+				'show_hidden' => true,
+				'user_id'     => $u,
+			)
+		);
 
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
@@ -119,12 +126,16 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 	 */
 	public function test_get_items_including_private_groups() {
 		$u  = static::factory()->user->create();
-		$g1 = $this->bp::factory()->group->create( array(
-			'status' => 'private',
-		) );
-		$g2 = $this->bp::factory()->group->create( array(
-			'status' => 'hidden',
-		) );
+		$g1 = $this->bp::factory()->group->create(
+			array(
+				'status' => 'private',
+			)
+		);
+		$g2 = $this->bp::factory()->group->create(
+			array(
+				'status' => 'hidden',
+			)
+		);
 
 		$this->bp::add_user_to_group( $u, $g1 );
 		$this->bp::add_user_to_group( $u, $g2 );
@@ -132,10 +143,12 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
-		$request->set_query_params( array(
-			'show_hidden' => true,
-			'user_id'     => $u,
-		) );
+		$request->set_query_params(
+			array(
+				'show_hidden' => true,
+				'user_id'     => $u,
+			)
+		);
 
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
@@ -156,17 +169,21 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 	 */
 	public function test_get_items_not_including_hidden_groups_when_not_using_user_id_param() {
 		$u = static::factory()->user->create();
-		$g = $this->bp::factory()->group->create( array(
-			'status' => 'hidden',
-		) );
+		$g = $this->bp::factory()->group->create(
+			array(
+				'status' => 'hidden',
+			)
+		);
 
 		$this->bp::add_user_to_group( $u, $g );
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
-		$request->set_query_params( array(
-			'show_hidden' => true,
-		) );
+		$request->set_query_params(
+			array(
+				'show_hidden' => true,
+			)
+		);
 
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
@@ -177,8 +194,8 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$data     = $all_data;
 
 		$this->assertCount( 1, wp_list_pluck( $data, 'id' ) );
-		$this->assertSame( [ 'public' ], wp_list_pluck( $data, 'status' ) );
-		$this->assertSame( [ $this->group_id ], wp_list_pluck( $data, 'id' ) );
+		$this->assertSame( array( 'public' ), wp_list_pluck( $data, 'status' ) );
+		$this->assertSame( array( $this->group_id ), wp_list_pluck( $data, 'id' ) );
 	}
 
 	/**
@@ -203,10 +220,12 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
-		$request->set_query_params( array(
-			'per_page' => 5,
-			'user_id'  => $u,
-		) );
+		$request->set_query_params(
+			array(
+				'per_page' => 5,
+				'user_id'  => $u,
+			)
+		);
 
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
@@ -220,11 +239,13 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 
 		// Get results from page 2.
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
-		$request->set_query_params( array(
-			'page'     => 2,
-			'per_page' => 5,
-			'user_id'  => $u,
-		) );
+		$request->set_query_params(
+			array(
+				'page'     => 2,
+				'per_page' => 5,
+				'user_id'  => $u,
+			)
+		);
 
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
@@ -279,7 +300,7 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->assertEquals( 200, $response->get_status() );
 
 		$has_private_datas = false;
-		$admins = wp_list_pluck( $response->get_data(), 'admins' );
+		$admins            = wp_list_pluck( $response->get_data(), 'admins' );
 
 		foreach ( $admins as $admin ) {
 			if ( isset( $admin['user_pass'] ) || isset( $admin['user_email'] ) || isset( $admin['user_activation_key'] ) ) {
@@ -442,9 +463,11 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 	 */
 	public function test_get_hidden_group() {
 		$u = static::factory()->user->create();
-		$g = $this->bp::factory()->group->create( array(
-			'status' => 'hidden',
-		) );
+		$g = $this->bp::factory()->group->create(
+			array(
+				'status' => 'hidden',
+			)
+		);
 
 		$group = $this->endpoint->get_group_object( $g );
 
@@ -467,9 +490,11 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 	 */
 	public function test_get_hidden_group_without_being_from_group() {
 		$u = static::factory()->user->create();
-		$g = $this->bp::factory()->group->create( array(
-			'status' => 'hidden',
-		) );
+		$g = $this->bp::factory()->group->create(
+			array(
+				'status' => 'hidden',
+			)
+		);
 
 		$group = $this->endpoint->get_group_object( $g );
 
@@ -542,7 +567,7 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->assertEquals( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
-		$group = reset( $all_data );
+		$group    = reset( $all_data );
 
 		$this->assertTrue( ! is_null( $group['total_member_count'] ) );
 		$this->assertTrue( ! is_null( $group['last_activity'] ) );
@@ -555,10 +580,12 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 	public function test_render_item() {
 		$this->bp::set_current_user( $this->user );
 
-		$g = $this->bp::factory()->group->create( array(
-			'name'        => 'Group Test',
-			'description' => 'links should be clickable: https://buddypress.org',
-		) );
+		$g = $this->bp::factory()->group->create(
+			array(
+				'name'        => 'Group Test',
+				'description' => 'links should be clickable: https://buddypress.org',
+			)
+		);
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $g ) );
 		$request->set_param( 'context', 'view' );
@@ -794,10 +821,10 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 	 * @group update_item
 	 */
 	public function test_update_item_without_permission() {
-		$u = static::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$u = static::factory()->user->create();
 		$a = $this->bp::factory()->group->create( array( 'creator_id' => $u ) );
 
-		$u2 = static::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$u2 = static::factory()->user->create();
 		$this->bp::set_current_user( $u2 );
 
 		$group = $this->endpoint->get_group_object( $a );
@@ -846,7 +873,7 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$u = static::factory()->user->create();
 
 		// Add user to group as an group admin.
-		$this->bp::add_user_to_group( $u, $this->group_id, [ 'is_admin' => true ] );
+		$this->bp::add_user_to_group( $u, $this->group_id, array( 'is_admin' => true ) );
 
 		$this->bp::set_current_user( $u );
 
@@ -877,7 +904,7 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$u = static::factory()->user->create();
 
 		// Add user to group as a moderator.
-		$this->bp::add_user_to_group( $u, $this->group_id, [ 'is_mod' => true ] );
+		$this->bp::add_user_to_group( $u, $this->group_id, array( 'is_mod' => true ) );
 
 		$this->bp::set_current_user( $u );
 
@@ -967,7 +994,7 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$u = static::factory()->user->create();
 
 		// Add user to group as a moderator.
-		$this->bp::add_user_to_group( $u, $this->group_id, [ 'is_mod' => true ] );
+		$this->bp::add_user_to_group( $u, $this->group_id, array( 'is_mod' => true ) );
 
 		$this->bp::set_current_user( $u );
 
@@ -1000,7 +1027,7 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$u = static::factory()->user->create();
 
 		// Add user to group as a group admin.
-		$this->bp::add_user_to_group( $u, $this->group_id, [ 'is_admin' => true ] );
+		$this->bp::add_user_to_group( $u, $this->group_id, array( 'is_admin' => true ) );
 
 		$this->bp::set_current_user( $u );
 
@@ -1023,10 +1050,12 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$groups = array();
 		foreach ( array( 'public', 'private', 'hidden' ) as $status ) {
-			$groups[ $status ] = $this->bp::factory()->group->create( array(
-				'status'      => $status,
-				'creator_id'  => $u,
-			) );
+			$groups[ $status ] = $this->bp::factory()->group->create(
+				array(
+					'status'     => $status,
+					'creator_id' => $u,
+				)
+			);
 		}
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/me' );
@@ -1048,10 +1077,12 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$groups = array();
 		foreach ( array( 'public', 'private', 'hidden' ) as $status ) {
-			$groups[ $status ] = $this->bp::factory()->group->create( array(
-				'status'      => $status,
-				'creator_id'  => $u,
-			) );
+			$groups[ $status ] = $this->bp::factory()->group->create(
+				array(
+					'status'     => $status,
+					'creator_id' => $u,
+				)
+			);
 		}
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/me' );
@@ -1061,7 +1092,7 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 
 		$this->assertEquals( 200, $response->get_status() );
 
-		$all_data = $response->get_data();
+		$all_data     = $response->get_data();
 		$found_groups = wp_list_pluck( $all_data, 'id' );
 
 		$this->assertEquals( 1, count( $found_groups ) );
@@ -1110,7 +1141,7 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		$this->assertEquals( $group->slug, $data['slug'] );
 		$this->assertEquals( $group->status, $data['status'] );
 		$this->assertEquals( $group->parent_id, $data['parent_id'] );
-		$this->assertEquals( [], $data['types'] );
+		$this->assertEquals( array(), $data['types'] );
 
 		if ( 'view' === $context ) {
 			$this->assertEquals( wpautop( $group->description ), $data['description']['rendered'] );
@@ -1139,12 +1170,15 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 	}
 
 	protected function set_group_data( $args = array() ) {
-		return wp_parse_args( $args, array(
-			'name'        => 'Group Name',
-			'slug'        => 'group-name',
-			'description' => 'Group Description',
-			'creator_id'  => $this->user,
-		) );
+		return wp_parse_args(
+			$args,
+			array(
+				'name'        => 'Group Name',
+				'slug'        => 'group-name',
+				'description' => 'Group Description',
+				'creator_id'  => $this->user,
+			)
+		);
 	}
 
 	protected function check_update_group_response( $response ) {
@@ -1246,7 +1280,7 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 		return groups_update_groupmeta( $data->id, '_' . $attribute, $value );
 	}
 
-	public function get_additional_field( $data, $attribute )  {
+	public function get_additional_field( $data, $attribute ) {
 		return groups_get_groupmeta( $data['id'], '_' . $attribute );
 	}
 
@@ -1256,15 +1290,19 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 	public function test_additional_fields() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
-		bp_rest_register_field( 'groups', 'foo_field', array(
-			'get_callback'    => array( $this, 'get_additional_field' ),
-			'update_callback' => array( $this, 'update_additional_field' ),
-			'schema'          => array(
-				'description' => 'Groups single item Meta Field',
-				'type'        => 'string',
-				'context'     => array( 'view', 'edit' ),
-			),
-		) );
+		bp_rest_register_field(
+			'groups',
+			'foo_field',
+			array(
+				'get_callback'    => array( $this, 'get_additional_field' ),
+				'update_callback' => array( $this, 'update_additional_field' ),
+				'schema'          => array(
+					'description' => 'Groups single item Meta Field',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+				),
+			)
+		);
 
 		$this->bp::set_current_user( $this->user );
 		$expected = 'bar_value';
@@ -1297,15 +1335,19 @@ class BP_Test_REST_Group_Controller extends WP_Test_REST_Controller_Testcase {
 	public function test_update_additional_fields() {
 		$registered_fields = $GLOBALS['wp_rest_additional_fields'];
 
-		bp_rest_register_field( 'groups', 'bar_field', array(
-			'get_callback'    => array( $this, 'get_additional_field' ),
-			'update_callback' => array( $this, 'update_additional_field' ),
-			'schema'          => array(
-				'description' => 'Groups single item Meta Field',
-				'type'        => 'string',
-				'context'     => array( 'view', 'edit' ),
-			),
-		) );
+		bp_rest_register_field(
+			'groups',
+			'bar_field',
+			array(
+				'get_callback'    => array( $this, 'get_additional_field' ),
+				'update_callback' => array( $this, 'update_additional_field' ),
+				'schema'          => array(
+					'description' => 'Groups single item Meta Field',
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+				),
+			)
+		);
 
 		$this->bp::set_current_user( $this->user );
 		$expected = 'foo_value';

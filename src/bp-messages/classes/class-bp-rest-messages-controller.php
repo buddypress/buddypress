@@ -49,7 +49,7 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'create_item' ),
 					'permission_callback' => array( $this, 'create_item_permissions_check' ),
-					'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
+					'args'                => $this->get_endpoint_args_for_item_schema(),
 				),
 				'schema' => array( $this, 'get_item_schema' ),
 			)
@@ -261,8 +261,7 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 			$args
 		);
 
-		$retval   = $this->prepare_item_for_response( $thread, $request );
-		$response = rest_ensure_response( $retval );
+		$response = $this->prepare_item_for_response( $thread, $request );
 		$response = bp_rest_response_add_total_headers( $response, $thread->messages_total_count, $args['per_page'] );
 
 		/**
@@ -364,8 +363,7 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 			return $fields_update;
 		}
 
-		$retval   = $this->prepare_item_for_response( $thread, $request );
-		$response = rest_ensure_response( $retval );
+		$response = $this->prepare_item_for_response( $thread, $request );
 
 		/**
 		 * Fires after a message is created via the REST API.
@@ -514,8 +512,7 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 		}
 
 		$thread   = $this->get_thread_object( $thread->thread_id, $updated_user_id );
-		$retval   = $this->prepare_item_for_response( $thread, $request );
-		$response = rest_ensure_response( $retval );
+		$response = $this->prepare_item_for_response( $thread, $request );
 
 		/**
 		 * Fires after a thread or a message is updated via the REST API.
@@ -564,7 +561,6 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 	public function update_starred( $request ) {
 		$message = $this->get_message_object( $request->get_param( 'id' ) );
 		$user_id = bp_loggedin_user_id();
-		$result  = false;
 		$action  = 'star';
 		$info    = __( 'Sorry, you cannot add the message to your starred box.', 'buddypress' );
 
@@ -585,14 +581,11 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 			return new WP_Error(
 				'bp_rest_user_cannot_update_starred_message',
 				$info,
-				array(
-					'status' => 500,
-				)
+				array( 'status' => 500 )
 			);
 		}
 
-		$retval   = $this->prepare_item_for_response( $message, $request );
-		$response = rest_ensure_response( $retval );
+		$response = $this->prepare_item_for_response( $message, $request );
 
 		/**
 		 * Fires after a message is starred/unstarred via the REST API.
@@ -923,9 +916,9 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 		}
 
 		$data = array(
-			'id'             => (int) $thread->thread_id,
-			'message_id'     => (int) $thread->last_message_id,
-			'last_sender_id' => (int) $thread->last_sender_id,
+			'id'             => (int) isset( $thread->thread_id ) ? $thread->thread_id : 0,
+			'message_id'     => (int) isset( $thread->last_message_id ) ? $thread->last_message_id : 0,
+			'last_sender_id' => (int) isset( $thread->last_sender_id ) ? $thread->last_sender_id : 0,
 			'subject'        => array(
 				'raw'      => $thread->last_message_subject,
 				'rendered' => apply_filters( 'bp_get_message_thread_subject', $thread->last_message_subject ),
@@ -941,7 +934,7 @@ class BP_REST_Messages_Controller extends WP_REST_Controller {
 			'date'           => bp_rest_prepare_date_response( $thread->last_message_date, get_date_from_gmt( $thread->last_message_date ) ),
 			'date_gmt'       => bp_rest_prepare_date_response( $thread->last_message_date ),
 			'unread_count'   => ! empty( $thread->unread_count ) ? absint( $thread->unread_count ) : 0,
-			'sender_ids'     => (array) $thread->sender_ids,
+			'sender_ids'     => (array) isset( $thread->sender_ids ) ? $thread->sender_ids : array(),
 			'recipients'     => array(),
 			'messages'       => array(),
 		);
