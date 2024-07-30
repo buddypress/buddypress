@@ -174,7 +174,7 @@ function bp_members_send_notice( $args = array() ) {
 	$content = sanitize_textarea_field( $r['content'] );
 
 	$attrs['target'] = 'community';
-	if ( in_array( $r['target'], array( 'community', 'admins', 'writers' ), true ) ) {
+	if ( in_array( $r['target'], array( 'community', 'admins', 'contributors' ), true ) ) {
 		$attrs['target'] = $r['target'];
 	}
 
@@ -576,30 +576,48 @@ function bp_get_notice_content( $notice = null ) {
 }
 
 /**
- * Get the type of a notice.
+ * Get the notice target.
  *
  * @since 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
- * @return string The notice content.
+ * @return string The notice target.
  */
-function bp_get_notice_type( $notice = null ) {
-	$notice_type = 'dashicons-buddicons-community';
+function bp_get_notice_target( $notice = null ) {
+	$target = 'community';
 
-	if ( empty( $notice->message ) ) {
-		return;
+	// Community is the default target.
+	if ( ! empty( $notice->target ) && in_array( $notice->target, array( 'community', 'admins', 'contributors' ), true ) ) {
+		$target = $notice->target;
 	}
 
-	$notice_data = parse_blocks( $notice->message );
+	/**
+	 * Filters the notice target.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string                 $target The notice target.
+	 * @param BP_Members_Notice|null $notice The notice object if it exists. Null otherwise.
+	 */
+	return apply_filters( 'bp_get_notice_target', $target, $notice );
+}
 
-	if ( isset( $notice_data[0]['attrs']['target'] ) ) {
-		$target = $notice_data[0]['attrs']['target'];
+/**
+ * Get the notice target icon.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string The notice target icon.
+ */
+function bp_get_notice_target_icon( $notice = null ) {
+	$target_icon = 'dashicons-buddicons-community';
+	$target      = bp_get_notice_target( $notice );
 
-		if ( 'admins' === $target ) {
-			$notice_type = 'dashicons-dashboard';
-		} elseif ( 'writers' === $target ) {
-			$notice_type = 'dashicons-edit';
-		}
+	if ( 'admins' === $target ) {
+		$target_icon = 'dashicons-dashboard';
+	} elseif ( 'contributors' === $target ) {
+		$target_icon = 'dashicons-edit';
 	}
 
 	/**
@@ -607,10 +625,10 @@ function bp_get_notice_type( $notice = null ) {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param string                 $notice_type The type of the notice.
+	 * @param string                 $target_icon The notice target icon.
 	 * @param BP_Members_Notice|null $notice      The notice object if it exists. Null otherwise.
 	 */
-	return apply_filters( 'bp_get_notice_type', $notice_type, $notice );
+	return apply_filters( 'bp_get_notice_target_icon', $target_icon, $notice );
 }
 
 /**
@@ -674,7 +692,7 @@ function bp_render_active_notice() {
 				<h2><?php bp_notice_title( $notice ); ?></h2>
 			</header>
 			<div class="bp-notice-body">
-				<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_type( $notice ) ); ?>" ></div>
+				<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_target_icon( $notice ) ); ?>" ></div>
 				<div class="bp-notice-content">
 					<?php bp_notice_content( $notice ); ?>
 				</div>

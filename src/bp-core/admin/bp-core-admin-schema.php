@@ -653,7 +653,7 @@ function bp_core_install_members_notices() {
 	if ( true === $table_exists ) {
 		$wpdb->query( "ALTER TABLE {$messages_notices_table} DROP KEY is_active" );
 		$wpdb->query( "ALTER TABLE {$messages_notices_table} CHANGE is_active priority tinyint(1) NOT NULL DEFAULT 2, ADD KEY priority (priority)" );
-		$wpdb->query( "ALTER TABLE {$messages_notices_table} ADD COLUMN type varchar(75) NOT NULL DEFAULT 'community' AFTER message, ADD KEY type (type)" );
+		$wpdb->query( "ALTER TABLE {$messages_notices_table} ADD COLUMN target varchar(75) NOT NULL DEFAULT 'community' AFTER message, ADD KEY target (target)" );
 		$wpdb->query( "RENAME TABLE {$messages_notices_table} TO {$bp_prefix}bp_notices" );
 
 		// Table doesn't exist, let's create it.
@@ -662,10 +662,10 @@ function bp_core_install_members_notices() {
 			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			subject varchar(200) NOT NULL,
 			message longtext NOT NULL,
-			type varchar(75) NOT NULL DEFAULT 'community',
+			target varchar(75) NOT NULL DEFAULT 'community',
 			date_sent datetime NOT NULL,
 			priority tinyint(1) NOT NULL DEFAULT 2,
-			KEY type (type),
+			KEY target (target),
 			KEY priority (priority),
 		) {$charset_collate};";
 	}

@@ -127,10 +127,11 @@ class BP_Members_Notices_Admin {
 			$notice = bp_parse_args(
 				$_POST['bp_notice'],
 				array(
-					'subject' => '',
-					'content' => '',
-					'target'  => '',
-					'link'    => '',
+					'subject'  => '',
+					'content'  => '',
+					'target'   => '',
+					'priority' => 2,
+					'link'     => '',
 				)
 			);
 
@@ -232,7 +233,7 @@ class BP_Members_Notices_Admin {
 									<select id="bp_notice_target" name="bp_notice[target]" class="bp-panel-select" aria-required="true" aria-describedby="bp-target-description" required>
 										<option value="community"><?php esc_html_e( 'All community members', 'buddypress' ); ?></option>
 										<option value="admins"><?php esc_html_e( 'All administrators', 'buddypress' ); ?></option>
-										<option value="writers"><?php esc_html_e( 'All contributors', 'buddypress' ); ?></option>
+										<option value="contributors"><?php esc_html_e( 'All contributors', 'buddypress' ); ?></option>
 									</select>
 									<p id="bp-target-description"><?php esc_html_e( 'Choose the people who will be noticed.', 'buddypress' ); ?></p>
 								</div>

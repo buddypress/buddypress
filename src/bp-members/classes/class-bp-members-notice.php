@@ -42,11 +42,13 @@ class BP_Members_Notice {
 	public $message;
 
 	/**
-	 * The type of the notice.
+	 * The notice target.
+	 *
+	 * Possible values are: 'community', 'contributors' & 'admins'.
 	 *
 	 * @var string
 	 */
-	public $type;
+	public $target;
 
 	/**
 	 * The date the notice was created.
@@ -95,7 +97,7 @@ class BP_Members_Notice {
 		if ( $notice ) {
 			$this->subject   = $notice->subject;
 			$this->message   = $notice->message;
-			$this->type      = $notice->type;
+			$this->target    = $notice->target;
 			$this->date_sent = $notice->date_sent;
 			$this->priority  = (int) $notice->priority;
 		}
@@ -160,7 +162,7 @@ class BP_Members_Notice {
 			 * NB: this is a dynamic filter. Possible values are:
 			 * - 'bp_members_notice_subject_before_save'
 			 * - 'bp_members_notice_message_before_save'
-			 * - 'bp_members_notice_type_before_save'
+			 * - 'bp_members_notice_target_before_save'
 			 * - 'bp_members_notice_date_sent_before_save'
 			 * - 'bp_members_notice_priority_before_save'
 			 *
@@ -190,7 +192,7 @@ class BP_Members_Notice {
 				array(
 					'subject'   => $this->subject,
 					'message'   => $this->message,
-					'type'      => $this->type,
+					'target'    => $this->target,
 					'date_sent' => $this->date_sent,
 					'priority'  => $this->priority,
 				),
@@ -202,7 +204,7 @@ class BP_Members_Notice {
 				array(
 					'subject'   => $this->subject,
 					'message'   => $this->message,
-					'type'      => $this->type,
+					'target'    => $this->target,
 					'date_sent' => $this->date_sent,
 					'priority'  => $this->priority,
 				),
