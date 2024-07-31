@@ -134,6 +134,47 @@ function bp_notices_add_meta( $notice_id, $meta_key, $meta_value, $unique = fals
 }
 
 /**
+ * Delete a piece of notice metadata.
+ *
+ * @since 15.0.0
+ *
+ * @param int    $notice_id ID of the notice item.
+ * @param string $meta_key        Metadata key.
+ * @param mixed  $meta_value      Metadata value.
+ * @param bool   $delete_all      If true, delete matching metadata entries for all objects, ignoring the specified object_id.
+ *                                Otherwise, only delete matching metadata entries for the specified object_id. Default: false.
+ * @return bool                   True on successful update, false on failure or partial success.
+ */
+function bp_notices_delete_meta( $notice_id, $meta_key = '', $meta_value = '', $delete_all = false ) {
+	if ( empty( $meta_key ) ) {
+		global $wpdb;
+
+		$table_name = buddypress()->members->table_name_notices_meta;
+		$sql        = "SELECT meta_key FROM {$table_name} WHERE notice_id = %d";
+		$query      = $wpdb->prepare( $sql, $notice_id );
+		$keys       = $wpdb->get_col( $query );
+
+		// With no meta_key, ignore $delete_all.
+		$delete_all = false;
+	} else {
+		$keys = array( $meta_key );
+	}
+
+	add_filter( 'query', 'bp_filter_metaid_column_name' );
+
+	$results = array();
+	foreach ( $keys as $key ) {
+		$results[] = delete_metadata( 'notice', $notice_id, $key, $meta_value, $delete_all );
+	}
+	$result = array_filter( $results );
+
+	remove_filter( 'query', 'bp_filter_metaid_column_name' );
+
+
+	return count( $keys ) === count( $result );
+}
+
+/**
  * Send a notice.
  *
  * @since 15.0.0
@@ -695,7 +736,20 @@ function bp_notice_priority( $notice = null ) {
 		__( 'Low', 'buddypress' ),
 	);
 
-	echo esc_html( $priorities[ $priority_key ] );
+	// It's a deactivated notice.
+	if ( 127 === $priority_key ) {
+		$priority = '&#8212;';
+
+		// Try to get previous priority.
+		$previous_priority = bp_notices_get_meta( $notice->id, 'previous_priority', true );
+		if ( '' !== $previous_priority && isset( $priorities[ $previous_priority ] ) ) {
+			$priority = $priorities[ $previous_priority ];
+		}
+	} else {
+		$priority = $priorities[ $priority_key ];
+	}
+
+	echo esc_html( $priority );
 }
 
 /**

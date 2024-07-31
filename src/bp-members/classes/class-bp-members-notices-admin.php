@@ -187,11 +187,29 @@ class BP_Members_Notices_Admin {
 	}
 
 	/**
-	 * Generate content for the bp-notices admin screen.
+	 * Decides whether to load the Notices or Notice admin output.
 	 *
 	 * @since 15.0.0
 	 */
 	public function admin_index() {
+		$notice_id = 0;
+		if ( isset( $_GET['nid'] ) ) {
+			$notice_id = (int) wp_unslash( $_GET['nid'] );
+		}
+
+		if ( ! $notice_id ) {
+			$this->manage_notices();
+		} else {
+			$this->edit_notice( $notice_id );
+		}
+	}
+
+	/**
+	 * Generate content to manage all notices.
+	 *
+	 * @since 15.0.0
+	 */
+	public function manage_notices() {
 		$this->list_table->prepare_items();
 		?>
 		<div class="wrap nosubsub">
@@ -278,6 +296,22 @@ class BP_Members_Notices_Admin {
 					</div>
 				</div><!-- /col-right -->
 			</div><!-- /col-container -->
+		</div>
+		<?php
+	}
+
+	/**
+	 * Generate content to edit a specific notice.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param integer $id The notice ID. Required.
+	 */
+	public function edit_notice( $id ) {
+		?>
+		<div class="wrap">
+			<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Edit Notice', 'Notice admin page title', 'buddypress' ); ?></h1>
+			<hr class="wp-header-end">
 		</div>
 		<?php
 	}

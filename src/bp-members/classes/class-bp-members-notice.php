@@ -260,11 +260,14 @@ class BP_Members_Notice {
 	 */
 	public function activate() {
 		// Try to restore the previous priority.
-		$previous_priority = (int) bp_notices_get_meta( $this->id, 'previous_priority', true );
+		$previous_priority = bp_notices_get_meta( $this->id, 'previous_priority', true );
 
 		// Use a regular one by default.
-		if ( ! $previous_priority ) {
+		if ( '' === $previous_priority ) {
 			$previous_priority = 2;
+		} else {
+			$previous_priority = (int) $previous_priority;
+			$test = bp_notices_delete_meta( $this->id, 'previous_priority' );
 		}
 
 		// Activate the notice.
@@ -284,8 +287,8 @@ class BP_Members_Notice {
 		$previous_priority = $this->priority;
 		bp_notices_update_meta( $this->id, 'previous_priority', $previous_priority );
 
-		// Deactivating is using a priority of 255.
-		$this->priority = 255;
+		// Deactivating is using a priority of 127.
+		$this->priority = 127;
 		return (bool) $this->save();
 	}
 
@@ -389,9 +392,9 @@ class BP_Members_Notice {
 			$join_sql = $meta_query_sql['join'];
 		}
 
-		// 255 is the value used to deactivate a notice.
+		// 127 is the value used to deactivate a notice.
 		if ( 'active' === $r['type'] ) {
-			$where_conditions['type'] = 'n.priority != 255';
+			$where_conditions['type'] = 'n.priority != 127';
 		}
 
 		$limit_sql = '';
