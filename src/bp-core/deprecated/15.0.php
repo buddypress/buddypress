@@ -73,7 +73,7 @@ function messages_screen_notices() {
  */
 function messages_send_notice( $subject, $message ) {
 	_deprecated_function( __FUNCTION__, '15.0.0' );
-	$notice_id = bp_members_publish_notice(
+	$notice_id = bp_members_save_notice(
 		array(
 			'title'   => $subject,
 			'content' => $message
