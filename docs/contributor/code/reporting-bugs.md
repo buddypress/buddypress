@@ -1,6 +1,6 @@
 # Reporting Bugs
 
-The BuddyPress community relies on contributions from people like you to grow stronger each day. With more users testing and using BuddyPress, we are receiving an increasing number of bug reports, feature suggestions, and enhancement ideas. This guide provides useful information on how to report bugs and features, and how you can help fix them.
+The BuddyPress community relies on contributions from people like you to grow stronger every day. As more users test and use BuddyPress, we are receiving an increasing number of bug reports, feature suggestions, and enhancement ideas. This guide provides useful information on how to report bugs and features and how you can help fix them.
 
 ## Overview of Bug Reporting and Resolution
 
@@ -16,7 +16,7 @@ The BuddyPress community relies on contributions from people like you to grow st
 
 ### Before You Report a Bug
 
-1. **Search for Existing Reports**: Ensure the bug is not already reported by searching Trac.
+1. **Search for Existing Reports**: Ensure the bug still needs to be reported by searching Trac.
    - If found, do not report a duplicate. Instead, add any additional information to the existing report.
    - If the issue is similar but not identical, decide whether to add a note to the existing issue or report a new one.
 2. **Discussion**: If unsure whether it’s a bug, discuss it on the BuddyPress Support Forum or the `#buddypress` Slack channel.
@@ -31,7 +31,7 @@ The BuddyPress community relies on contributions from people like you to grow st
    - **Assign to**: Optionally, take responsibility for the bug by entering your username.
    - **Milestone**: Do not change this; a BuddyPress developer will set it.
    - **Keywords**: Identify affected areas and use standard keywords to flag the bug’s status.
-   - **CC**: Enter your email to receive updates on the bug. Note that reporters are automatically notified.
+   - **CC**: Enter your email to receive updates on the bug. Reporters are automatically notified.
 
 ### Trac Keywords
 
@@ -45,7 +45,7 @@ The BuddyPress community relies on contributions from people like you to grow st
 
 ### Finding Bugs to Fix
 
-Refer to the [Available Reports](https://buddypress.trac.wordpress.org/report/) for links to Trac reports showing which bugs are awaiting a fix.
+Refer to the [Available Reports](https://buddypress.trac.wordpress.org/report/) for links to Trac reports showing which bugs need fixing.
 
 ## Joining the BuddyPress Slack Channel
 
@@ -53,7 +53,7 @@ To discuss bugs and other issues, join the BuddyPress Slack channel by following
 
 1. Visit [chat.wordpress.org](https://chat.wordpress.org).
 2. Scroll to the section “Joining the WordPress team on Slack”.
-3. Click the link that says “I understand. Let’s get started.”
+3. Click the link that says, “I understand. Let’s get started.”
 4. You will be taken to the Slack login webpage.
 5. Enter your WordPress.org username as your “email” with the pre-filled subdomain `chat.wordpress.org`.
 6. Check your email for a confirmation from Slack. (The email will be automatically forwarded to the email address for your WordPress.org account.)
