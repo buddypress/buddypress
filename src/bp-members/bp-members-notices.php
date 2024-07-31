@@ -610,6 +610,24 @@ function bp_notice_content( $notice = null ) {
 	echo bp_get_notice_content( $notice );
 }
 
+function bp_get_parsed_notice_block( $notice = null ) {
+	$parsed_content = array();
+
+	if ( ! isset( $notice->message ) ) {
+		return $parsed_content;
+	}
+
+	$notice_data = parse_blocks( $notice->message );
+	if ( 'bp/member-notice' === $notice_data[0]['blockName'] ) {
+		$parsed_content = reset( $notice_data );
+	} else {
+		$parsed_content['innerHTML'] = $notice->message;
+		$parsed_content['attrs']     = array();
+	}
+
+	return $parsed_content;
+}
+
 /**
  * Get the content of a notice.
  *
@@ -619,18 +637,10 @@ function bp_notice_content( $notice = null ) {
  * @return string The notice content.
  */
 function bp_get_notice_content( $notice = null ) {
-	$notice_content = '';
+	$parsed_content = bp_get_parsed_notice_block( $notice );
 
-	if ( ! empty( $notice->message ) ) {
-		$notice_data = parse_blocks( $notice->message );
-
-		if ( isset( $notice_data[0]['innerHTML'] ) ) {
-			$notice_content = $notice_data[0]['innerHTML'];
-		} else {
-			$notice_content = $notice->message;
-		}
-
-		$notice_content = apply_filters_deprecated( 'bp_get_message_notice_text', array( $notice_content ), '15.0.0', 'bp_get_notice_content' );
+	if ( ! empty( $parsed_content['innerHTML'] ) ) {
+		$notice_content = apply_filters_deprecated( 'bp_get_message_notice_text', array( $parsed_content['innerHTML'] ), '15.0.0', 'bp_get_notice_content' );
 	}
 
 	/**
