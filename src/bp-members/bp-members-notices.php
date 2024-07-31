@@ -175,7 +175,7 @@ function bp_notices_delete_meta( $notice_id, $meta_key = '', $meta_value = '', $
 }
 
 /**
- * Send a notice.
+ * Creates a new notice or updates an existing one.
  *
  * @since 15.0.0
  *
@@ -188,15 +188,17 @@ function bp_notices_delete_meta( $notice_id, $meta_key = '', $meta_value = '', $
  * }
  * @return integer|WP_Error The notice ID on success, a WP Error on failure.
  */
-function bp_members_publish_notice( $args = array() ) {
+function bp_members_save_notice( $args = array() ) {
 
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
 		return new WP_Error( 'bp_notices_unallowed', __( 'You are not allowed to send notices.', 'buddypress' ) );
 	}
 
+	$attrs = array();
 	$r     = bp_parse_args(
 		$args,
 		array(
+			'id'       => 0,
 			'title'    => '',
 			'content'  => '',
 			'target'   => 'community',
@@ -205,7 +207,6 @@ function bp_members_publish_notice( $args = array() ) {
 			'priority' => 2
 		)
 	);
-	$attrs = array();
 
 	if ( ! $r['subject'] || ! $r['content'] ) {
 		return new WP_Error( 'bp_notices_missing_data', __( 'The notice subject and content are required fields.', 'buddypress' ) );
@@ -215,6 +216,7 @@ function bp_members_publish_notice( $args = array() ) {
 	$subject = sanitize_text_field( $r['subject'] );
 	$content = sanitize_textarea_field( $r['content'] );
 	$target  = 'community';
+	$id      = (int) $r['id'];
 
 	if ( in_array( $r['target'], array( 'community', 'admins', 'contributors' ), true ) ) {
 		$target = $r['target'];
@@ -237,14 +239,21 @@ function bp_members_publish_notice( $args = array() ) {
 		)
 	);
 
-	$notice            = new BP_Members_Notice();
+	$previous_notice = null;
+	$notice          = new BP_Members_Notice( $id );
+
+	if ( ! empty( $notice->id ) ) {
+		$previous_notice = clone $notice;
+	}
+
+	// Set the new notice or existing notice new properties.
 	$notice->subject   = sanitize_text_field( $subject );
 	$notice->message   = $message;
 	$notice->target    = $target;
 	$notice->date_sent = bp_core_current_time();
 	$notice->priority  = (int) $r['priority'];
 
-	// Send it.
+	// Create or update it.
 	$notice_id = $notice->save();
 
 	/**
@@ -259,20 +268,21 @@ function bp_members_publish_notice( $args = array() ) {
 	 * @param string            $content Content of the notice.
 	 * @param BP_Members_Notice $notice  Notice object sent.
 	 */
-	do_action_deprecated( 'messages_send_notice', array( $subject, $content, $notice ), '15.0.0', 'bp_members_notice_sent' );
+	do_action_deprecated( 'messages_send_notice', array( $subject, $content, $notice ), '15.0.0', 'bp_members_notice_saved' );
 
-	$saved_values = get_object_vars( $notice );
+	if ( ! is_wp_error( $notice_id ) ) {
+		$saved_values = get_object_vars( $notice );
 
-	if ( $notice_id ) {
 		/**
 		 * Fires after a notice has been successfully added to the sending queue.
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param integer $notice_id    The notice ID.
-		 * @param array   $saved_values The list of the saved values keyed by object properties.
+		 * @param integer                $notice_id       The notice ID.
+		 * @param array                  $saved_values    The list of the saved values keyed by object properties.
+		 * @param BP_Members_Notice|null $previous_notice The previous version of the notice when updating. Null otherwise.
 		 */
-		do_action( 'bp_members_notice_sent', $notice_id, $saved_values );
+		do_action( 'bp_members_notice_saved', $notice_id, $saved_values, $previous_notice );
 	}
 
 	return $notice_id;

@@ -110,7 +110,7 @@ class BP_Members_Notice {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @return integer|false The Notice ID on success. False otherwise.
+	 * @return integer|WP_Error The Notice ID on success. An error object otherwise.
 	 */
 	public function save() {
 		global $wpdb;
@@ -217,7 +217,10 @@ class BP_Members_Notice {
 		}
 
 		if ( ! $result ) {
-			return false;
+			return new WP_Error(
+				'bp_notice_unsaved',
+				__( 'An unexpected error prevented the notice to be saved.', 'buddypress' )
+			);
 		}
 
 		if ( empty( $this->id ) ) {

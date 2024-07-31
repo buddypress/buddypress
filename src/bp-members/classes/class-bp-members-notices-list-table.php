@@ -201,6 +201,11 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 			);
 		}
 
+		// Do not allow BuddyPress notices to be edited.
+		if ( 0 === (int) $item->priority ) {
+			unset( $actions['edit'], $actions['delete'] );
+		}
+
 		echo '<strong>' . bp_get_notice_title( $item ) . '</strong> ';
 
 		// BuddyPress relies on WordPress's `WP_List_Table::row_actions()`.
