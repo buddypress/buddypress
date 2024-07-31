@@ -17,7 +17,7 @@ A: Yes, BuddyPress is compatible with most WordPress themes. However, themes spe
 A: User profiles are managed under the `Users` section in the WordPress admin dashboard. You can view, edit, and manage user information and profile fields.
 
 **Q: How can users upload avatars?**  
-A: Users can upload avatars by navigating to their profile page, clicking on "Change Profile Photo," and uploading an image.
+A: Users can upload avatars by navigating to their profile page, clicking "Change Profile Photo," and uploading an image.
 
 **Q: How do I handle spam registrations and activity?**  
 A: You can use plugins like Akismet or WangGuard to manage and prevent spam registrations and activity. Additionally, enabling CAPTCHA on registration forms can help reduce spam.
@@ -25,7 +25,7 @@ A: You can use plugins like Akismet or WangGuard to manage and prevent spam regi
 ## Features and Functionality
 
 **Q: What are BuddyPress components?**  
-A: BuddyPress components are modular features that you can enable or disable based on your site's needs. These include activity streams, extended profiles, user groups, private messaging, notifications, and more.
+A: BuddyPress components are modular features you can enable or disable based on your site's needs. These include activity streams, extended profiles, user groups, private messaging, and notifications.
 
 **Q: How do I create and manage user groups?**  
 A: User groups can be created and managed from the frontend by users with appropriate permissions. Administrators can also manage groups from the WordPress admin dashboard under `Groups`.
@@ -70,16 +70,16 @@ A: Optimize performance by using caching plugins, optimizing your database, usin
 ## Basic Hosting Issues
 
 **Q: How do I resolve image cropping issues in BuddyPress?**  
-A: Ensure the GD library is installed and properly configured in your PHP setup. Check your theme's image settings and make sure they are compatible with BuddyPress requirements.
+A: Ensure the GD library is installed and configured correctly in your PHP setup. Check your theme's image settings and make sure they are compatible with BuddyPress requirements.
 
 **Q: Why are my image uploads failing in BuddyPress?**  
 A: Image uploads may fail due to incorrect file permissions. Ensure that the `/wp-content/uploads` directory has permissions set to 755. Also, check the server's error logs for any indications of the issue.
 
 **Q: How do I fix avatar upload issues in BuddyPress?**  
-A: Ensure the GD image library is installed and configured correctly. Check the file permissions for the uploads directory and make sure the web server process can write to it. Increase the PHP memory limit if needed.
+A: Ensure the GD image library is installed and configured correctly. Check the file permissions for the uploads directory and ensure the web server can write to it. Increase the PHP memory limit if needed.
 
 **Q: What should I do if my hosting provider limits PHP memory?**  
 A: If you can't increase the PHP memory limit via `php.ini`, `wp-config.php`, or `.htaccess`, contact your hosting provider for assistance. They may require you to upgrade your hosting plan or provide an alternative solution.
 
 **Q: How do I handle hosting-related issues with BuddyPress?**  
-A: For hosting-related issues, ensure your server meets BuddyPress requirements, has proper permissions, and the necessary PHP extensions are installed. If problems persist, consult your hosting provider's support or consider switching to a BuddyPress-friendly host.
+A: For hosting-related issues, ensure your server meets BuddyPress requirements, has proper permissions, and has the necessary PHP extensions installed. If problems persist, consult your hosting provider's support or consider switching to a BuddyPress-friendly host.
