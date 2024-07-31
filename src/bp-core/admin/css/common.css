@@ -428,18 +428,13 @@ body.users_page_bp-signups td.count_sent {
 	width: auto;
 }
 
-.bp-notice-about {
-	font-size: 1em;
-	margin-bottom: 1em;
-}
-
 .bp-new-notice {
 	margin-bottom: 1em;
 	margin-top: 0;
 }
 
-.bp-notices-list {
-	margin-bottom: 0;
+.wp-list-table.notices .notice-inactive td {
+	opacity: 50%;
 }
 
 @media screen and (max-width: 782px) {
