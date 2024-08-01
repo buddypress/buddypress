@@ -5204,16 +5204,16 @@ function bp_core_dismiss_admin_notification( $notification_id = '' ) {
 }
 
 /**
- * @since 11.4.0
+ * List of the BP Admin notifications.
  *
- * @return array The list of Admin notifications.
+ * NB: in 15.0.0 this function is used to create specific Member Notices.
+ *
+ * @since 11.4.0
+ * @todo Deprecate this function once 15.0.0 is released.
+ *
+ * @return array The list of BP Admin notifications.
  */
 function bp_core_get_admin_notifications() {
-	$unreads = bp_core_get_unread_admin_notifications();
-	if ( ! $unreads ) {
-		return array();
-	}
-
 	$admin_notifications = array(
 		'bp100-welcome-addons' => (object) array(
 			'id'      => 'bp100-welcome-addons',
@@ -5226,9 +5226,10 @@ function bp_core_get_admin_notifications() {
 			),
 			'text'    => __( 'Discover BuddyPress Add-ons', 'buddypress' ),
 			'title'   => __( 'Hello BuddyPress Add-ons!', 'buddypress' ),
-			'content' => __( 'Add-ons are features as Plugins or Blocks maintained by the BuddyPress development team & hosted on the WordPress.org plugins directory.', 'buddypress' ) .
+			'content' => __( 'Add-ons are features as Plugins or Blocks maintained by the BuddyPress development team & hosted on the WordPress.org plugins directory.', 'buddypress' ) . "\n" .
 			             __( 'Thanks to this new tab inside your Dashboard screen to add plugins, you’ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ),
 			'version' => 10.0,
+			'date'    => '2022-01-20 18:49:00',
 		),
 		'bp114-prepare-for-rewrites' => (object) array(
 			'id'      => 'bp114-prepare-for-rewrites',
@@ -5242,13 +5243,14 @@ function bp_core_get_admin_notifications() {
 			),
 			'text'    => __( 'Get The BP Classic Add-on', 'buddypress' ),
 			'title'   => __( 'Get ready for the brand-new BP Rewrites API!', 'buddypress' ),
-			'content' => __( 'Our next major version (12.0.0) will introduce several large changes that could be incompatible with your site\'s configuration. To prevent problems, we\'ve built the BP Classic Add-on, which you may want to proactively install if any of the following cases:', 'buddypress' ) . '<br><br>' .
-				'<strong>' . __( 'Some of your BuddyPress plugins have not been updated lately.', 'buddypress' ) . '</strong><br>' .
-				__( 'BuddyPress 12.0.0 introduces the BP Rewrites API, which completely changes the way BuddyPress URLs are built and routed. This fundamental change requires most BuddyPress plugins to update how they deal with BuddyPress URLs. If your BuddyPress plugins have not been updated in the last few months, they are probably not ready for BuddyPress 12.0.0.', 'buddypress' ) . '<br><br>' .
-				'<strong>' . __( 'You are still using the BP Default theme.', 'buddypress' ) . '</strong><br><br>' .
-				'<strong>' . __( 'You still use a BP Legacy Widget.', 'buddypress' ) . '</strong><br><br>' .
+			'content' => __( 'Our next major version (12.0.0) will introduce several large changes that could be incompatible with your site\'s configuration. To prevent problems, we\'ve built the BP Classic Add-on, which you may want to proactively install if any of the following cases:', 'buddypress' ) . "\n\n" .
+				'<strong>' . __( 'Some of your BuddyPress plugins have not been updated lately.', 'buddypress' ) . '</strong>' . "\n" .
+				__( 'BuddyPress 12.0.0 introduces the BP Rewrites API, which completely changes the way BuddyPress URLs are built and routed. This fundamental change requires most BuddyPress plugins to update how they deal with BuddyPress URLs. If your BuddyPress plugins have not been updated in the last few months, they are probably not ready for BuddyPress 12.0.0.', 'buddypress' ) . "\n\n" .
+				'<strong>' . __( 'You are still using the BP Default theme.', 'buddypress' ) . '</strong>' . "\n\n" .
+				'<strong>' . __( 'You still use a BP Legacy Widget.', 'buddypress' ) . '</strong>' . "\n\n" .
 				__( 'If any of the above items are true, we strongly advise you to install and activate the Classic Add-on before updating to BuddyPress 12.0.0.', 'buddypress' ),
-				'version' => 11.4,
+			'version' => 11.4,
+			'date'    => '2023-10-30 20:58:00',
 		),
 		'bp120-new-installs-warning' => (object) array(
 			'id'      => 'bp120-new-installs-warning',
@@ -5262,17 +5264,25 @@ function bp_core_get_admin_notifications() {
 			),
 			'text'    => __( 'Get The BP Classic Add-on', 'buddypress' ),
 			'title'   => __( 'Thank you for installing BuddyPress 12.0!', 'buddypress' ),
-			'content' => __( 'BuddyPress 12.0 introduces major core changes, overhauling the way that BuddyPress builds and parses URLs.', 'buddypress' ) . '<br><br>' .
+			'content' => __( 'BuddyPress 12.0 introduces major core changes, overhauling the way that BuddyPress builds and parses URLs.', 'buddypress' ) . "\n" .
 				__( 'If you find that your site is not working correctly with the new version, try installing the new BP Classic Add-on that adds backwards compatibility for plugins and themes that have not yet been updated to work with BuddyPress 12.0.', 'buddypress' ),
-				'version' => 12.0,
+			'version' => 12.0,
+			'date'    => '2023-12-11 22:57:00',
 		),
 	);
 
-	// Only keep unread notifications.
-	foreach ( array_keys( $admin_notifications ) as $notification_id ) {
-		if ( ! in_array( $notification_id, $unreads, true ) ) {
-			unset( $admin_notifications[ $notification_id ] );
-		}
+	$initial_version = (float) bp_get_initial_version();
+
+	if ( $initial_version > 10.0 ) {
+		unset( $admin_notifications['bp100-welcome-addons'] );
+	}
+
+	if ( $initial_version > 11.0 ) {
+		unset( $admin_notifications['bp114-prepare-for-rewrites'] );
+	}
+
+	if ( $initial_version > 12.0 ) {
+		unset( $admin_notifications['bp120-new-installs-warning'] );
 	}
 
 	return $admin_notifications;

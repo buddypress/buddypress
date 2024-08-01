@@ -101,8 +101,8 @@ class BP_Members_Notices_Admin {
 		}
 
 		$this->screen_id = add_users_page(
-			_x( 'Manage Member Notices', 'Notices admin page title', 'buddypress' ),
-			_x( 'Manage Member Notices', 'Admin Users menu', 'buddypress' ),
+			_x( 'Member Notices', 'Notices admin page title', 'buddypress' ),
+			_x( 'Member Notices', 'Admin Users menu', 'buddypress' ),
 			'manage_options',
 			'bp-notices',
 			array( $this, 'admin_index' )
@@ -119,6 +119,10 @@ class BP_Members_Notices_Admin {
 	public function admin_load() {
 		$redirect_to = false;
 
+		if ( ! bp_current_user_can( 'bp_moderate' ) ) {
+			wp_die( __( 'You are not allowed to manage Member Notices.', 'buddypress' ) );
+		}
+
 		// Catch new notice saves.
 		if ( ! empty( $_POST['bp_notice']['send'] ) || ! empty( $_POST['bp_notice']['update'] ) ) {
 
@@ -128,7 +132,7 @@ class BP_Members_Notices_Admin {
 				$_POST['bp_notice'],
 				array(
 					'id'       => 0,
-					'subject'  => '',
+					'title'    => '',
 					'content'  => '',
 					'target'   => '',
 					'priority' => 2,
@@ -250,7 +254,7 @@ class BP_Members_Notices_Admin {
 				<div class="form-field form-required">
 					<label for="bp_notice_subject"><?php esc_html_e( 'Title', 'buddypress' ); ?></label>
 					<div class="form-input">
-						<input type="text" value="<?php echo esc_attr( $form_values['subject'] ); ?>" class="bp-panel-input regular-text code" id="bp_notice_subject" name="bp_notice[subject]" size="40" aria-required="true" aria-describedby="bp-subject-description" />
+						<input type="text" value="<?php echo esc_attr( $form_values['subject'] ); ?>" class="bp-panel-input regular-text code" id="bp_notice_subject" name="bp_notice[title]" size="40" aria-required="true" aria-describedby="bp-subject-description" />
 						<p id="bp-subject-description"><?php esc_html_e( 'The title of your notice.', 'buddypress' ); ?></p>
 					</div>
 				</div>
