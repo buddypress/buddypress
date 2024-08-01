@@ -211,14 +211,6 @@ function bp_version_updater() {
 		// Set the first BP major version the plugin was installed.
 		bp_update_option( '_bp_initial_major_version', bp_get_major_version() );
 
-		// Add an unread Admin notification.
-		if ( 13422 === bp_get_db_version() ) {
-			$unread   = bp_core_get_unread_admin_notifications();
-			$unread[] = 'bp120-new-installs-warning';
-
-			bp_update_option( 'bp_unread_admin_notifications', $unread );
-		}
-
 		// Apply schema and set default components as active.
 		bp_core_install( $default_components );
 		bp_update_option( 'bp-active-components', $default_components );
@@ -1034,6 +1026,25 @@ function bp_update_to_15_0() {
 			'%d',
 		)
 	);
+
+	$admin_notices = bp_core_get_admin_notifications();
+
+	if ( $admin_notices ) {
+		foreach ( $admin_notices as $admin_notice ) {
+			bp_members_save_notice(
+				array(
+					'title'    => $admin_notice->title,
+					'content'  => $admin_notice->content,
+					'target'   => 'admins',
+					'priority' => 0,
+					'date'     => $admin_notice->date,
+					'link'     => $admin_notice->href,
+					'text'     => $admin_notice->text,
+					'meta'     => array( 'version' => $admin_notice->version ),
+				)
+			);
+		}
+	}
 
 	_bp_members_dismissed_notices_migrate();
 }

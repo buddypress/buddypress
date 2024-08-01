@@ -545,6 +545,11 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'admin.php' ) ),
 			'name' => __( 'Credits', 'buddypress' ),
 		),
+		'5' => array(
+			'id'   => 'bp-admin-notices',
+			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-admin-notices' ), 'admin.php' ) ),
+			'name' => __( 'Notices', 'buddypress' ),
+		),
 	);
 
 	if ( 'rewrites' === bp_core_get_query_parser() ) {
@@ -552,14 +557,6 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
 			'id'   => 'bp-rewrites',
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-rewrites' ), 'admin.php' ) ),
 			'name' => __( 'URLs', 'buddypress' ),
-		);
-	}
-
-	if ( bp_core_get_unread_admin_notifications() || ( isset( $_GET['page'] ) && 'bp-admin-notifications' === $_GET['page'] ) ) {
-		$settings_tabs['3'] = array(
-			'id'   => 'bp-admin-notifications',
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-admin-notifications' ), 'admin.php' ) ),
-			'name' => __( 'Notifications', 'buddypress' ),
 		);
 	}
 

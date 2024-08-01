@@ -175,24 +175,69 @@ function bp_notices_delete_meta( $notice_id, $meta_key = '', $meta_value = '', $
 }
 
 /**
+ * Allowed HTML tags for Notices content.
+ *
+ * @since 15.0.0
+ *
+ * @return array The allowed HTML tags for Notices content.
+ */
+function bp_notice_get_allowed_tags() {
+	$allowedtags      = bp_get_allowedtags();
+	$allowedtags['p'] = array();
+
+	return $allowedtags;
+}
+
+/**
+ * Custom kses filtering for Notices content.
+ *
+ * @since 15.0.0
+ *
+ * @param string $content The notice content.
+ * @return string         The filtered notice content.
+ */
+function bp_members_notice_filter_kses( $content ) {
+
+	/**
+	 * Filters the allowed HTML tags for BuddyPress Notice content.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param array $allowedtags Array of allowed HTML tags and attributes.
+	 */
+	$allowedtags = apply_filters( 'bp_members_notice_allowed_tags', bp_notice_get_allowed_tags() );
+	return wp_kses( $content, $allowedtags );
+}
+
+/**
  * Creates a new notice or updates an existing one.
  *
  * @since 15.0.0
  *
  * @param array $args {
  *     Array of parameters.
- *     @type string $title   The subject of the notice. Required. Defaults to ''.
- *     @type string $content The content to be noticed. Required. Defaults to ''.
- *     @type string $target  The targeted audience. Optional. Defaults to "community".
- *     @type string $link    The action link of the notice. Optional. Defaults to ''.
+ *     @type integer $id       The ID of the notice to update. Optional. Defaults to `0`.
+ *     @type string  $title    The subject of the notice. Required. Defaults to ''.
+ *     @type string  $content  The content to be noticed. Required. Defaults to ''.
+ *     @type string  $target   The targeted audience. Optional. Defaults to "community". Possible values:
+ *                             - 'community': all members will be noticed.
+ *                             - 'contributors': users having a publishing role/cap will be noticed.
+ *                             - 'admins': administrators will be noticed.
+ *     @type integer $priority The notice priority. Optional. Defaults to `2`. Possible values:
+ *                             - `0` is restriced to BuddyPress to inform Site Admins of
+ *                               major plugin changes: please do not use it.
+ *                             - `1` is the highest priority.
+ *                             - `2` is the regular priority.
+ *                             - `3` is the lowest priority.
+ *                             - `127` is used to deactivate a notice.
+ *     @type string  $date     A date string of the format 'Y-m-d h:i:s'. Optional. Defaults to ''.
+ *     @type string  $link     The link of the notice action button. Optional. Defaults to ''.
+ *     @type string  $text     The text of the notice action button. Optional. Defaults to ''.
+ *     @type array   $meta     An array of key-value pairs. Optional. Defaults to ''.
  * }
  * @return integer|WP_Error The notice ID on success, a WP Error on failure.
  */
 function bp_members_save_notice( $args = array() ) {
-
-	if ( ! bp_current_user_can( 'bp_moderate' ) ) {
-		return new WP_Error( 'bp_notices_unallowed', __( 'You are not allowed to send notices.', 'buddypress' ) );
-	}
 
 	$attrs = array();
 	$r     = bp_parse_args(
@@ -202,21 +247,28 @@ function bp_members_save_notice( $args = array() ) {
 			'title'    => '',
 			'content'  => '',
 			'target'   => 'community',
+			'priority' => 2,
+			'date'     => '',
 			'link'     => '',
 			'text'     => '',
-			'priority' => 2
+			'meta'     => array(),
 		)
 	);
 
-	if ( ! $r['subject'] || ! $r['content'] ) {
+	if ( ! $r['title'] || ! $r['content'] ) {
 		return new WP_Error( 'bp_notices_missing_data', __( 'The notice subject and content are required fields.', 'buddypress' ) );
 	}
 
 	// Sanitize data.
-	$subject = sanitize_text_field( $r['subject'] );
-	$content = sanitize_textarea_field( $r['content'] );
+	$title   = sanitize_text_field( $r['title'] );
+	$content = bp_members_notice_filter_kses( $r['content'] );
 	$target  = 'community';
 	$id      = (int) $r['id'];
+	$date    = bp_core_current_time();
+
+	if ( $r['date'] && preg_match( '/^\d{4}-\d{2}-\d{2}[ ]\d{2}:\d{2}:\d{2}$/', $r['date'] ) ) {
+		$date = sanitize_text_field( $r['date'] );
+	}
 
 	if ( in_array( $r['target'], array( 'community', 'admins', 'contributors' ), true ) ) {
 		$target = $r['target'];
@@ -228,6 +280,23 @@ function bp_members_save_notice( $args = array() ) {
 
 	if ( $r['text'] ) {
 		$attrs['text'] = sanitize_text_field( $r['text'] );
+	}
+
+	if ( $r['meta'] && is_array( $r['meta'] ) && ! wp_is_numeric_array( $r['meta'] ) ) {
+		$sanitized_meta = array();
+
+		foreach ( $r['meta'] as $key_meta => $meta_value ) {
+			if ( ! is_string( $meta_value ) && ! is_numeric( $meta_value ) ) {
+				continue;
+			}
+
+			$sanitized_key                    = sanitize_key( $key_meta );
+			$sanitized_meta[ $sanitized_key ] = sanitize_text_field( $meta_value );
+		}
+
+		if ( $sanitized_meta ) {
+			$attrs['meta'] = $sanitized_meta;
+		}
 	}
 
 	// Use the block grammar to save content.
@@ -247,10 +316,10 @@ function bp_members_save_notice( $args = array() ) {
 	}
 
 	// Set the new notice or existing notice new properties.
-	$notice->subject   = sanitize_text_field( $subject );
+	$notice->subject   = $title;
 	$notice->message   = $message;
 	$notice->target    = $target;
-	$notice->date_sent = bp_core_current_time();
+	$notice->date_sent = $date;
 	$notice->priority  = (int) $r['priority'];
 
 	// Create or update it.
@@ -264,11 +333,11 @@ function bp_members_save_notice( $args = array() ) {
 	 * @since 1.0.0
 	 * @deprecated 15.0.0
 	 *
-	 * @param string            $subject Subject of the notice.
+	 * @param string            $title   Title of the notice.
 	 * @param string            $content Content of the notice.
 	 * @param BP_Members_Notice $notice  Notice object sent.
 	 */
-	do_action_deprecated( 'messages_send_notice', array( $subject, $content, $notice ), '15.0.0', 'bp_members_notice_saved' );
+	do_action_deprecated( 'messages_send_notice', array( $title, $content, $notice ), '15.0.0', 'bp_members_notice_saved' );
 
 	if ( ! is_wp_error( $notice_id ) ) {
 		$saved_values = get_object_vars( $notice );
@@ -286,29 +355,6 @@ function bp_members_save_notice( $args = array() ) {
 	}
 
 	return $notice_id;
-}
-
-/**
- * Custom kses filtering for Notices content.
- *
- * @since 15.0.0
- *
- * @param string $content The notice content.
- * @return string         The filtered notice content.
- */
-function bp_members_notice_filter_kses( $content ) {
-	$allowedtags      = bp_get_allowedtags();
-	$allowedtags['p'] = array();
-
-	/**
-	 * Filters the allowed HTML tags for BuddyPress Notice content.
-	 *
-	 * @since 15.0.0
-	 *
-	 * @param array $allowedtags Array of allowed HTML tags and attributes.
-	 */
-	$allowedtags = apply_filters( 'bp_members_notice_allowed_tags', $allowedtags );
-	return wp_kses( $content, $allowedtags );
 }
 
 /**

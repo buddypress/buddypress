@@ -257,7 +257,7 @@ function bp_members_admin_bar_notifications_dropdown( $notifications = array(), 
  * @return bool
  */
 function bp_members_admin_bar_notifications_menu() {
-	$admins_notifications = array();
+	/*$admins_notifications = array();
 	$capability           = 'manage_options';
 
 	if ( bp_core_do_network_admin() ) {
@@ -268,16 +268,16 @@ function bp_members_admin_bar_notifications_menu() {
 		$notifications = bp_core_get_admin_notifications();
 
 		if ( $notifications ) {
-			$menu_link = esc_url( bp_get_admin_url( add_query_arg( 'page', 'bp-admin-notifications', 'admin.php' ) ) );
+			$menu_link = esc_url( bp_get_admin_url( add_query_arg( 'page', 'bp-admin-notices', 'admin.php' ) ) );
 			$count     = count( $notifications );
 
 			$notifications = array(
 				(object) array(
-					'id'      => 'bp-admin-notifications',
+					'id'      => 'bp-admin-notices',
 					'href'    => $menu_link,
 					'content' => sprintf(
-						/* translators: %s: the number of admin notifications */
-						_n( 'You have %s new important admin notification.', 'You have %s new important admin notifications.', $count, 'buddypress' ),
+						/* translators: %s: the number of admin notices */
+						/*_n( 'You have %s new important admin notice.', 'You have %s new important admin notices.', $count, 'buddypress' ),
 						number_format_i18n( $count )
 					),
 				),
@@ -285,7 +285,7 @@ function bp_members_admin_bar_notifications_menu() {
 
 			return bp_members_admin_bar_notifications_dropdown( $notifications, $menu_link, 'admin' );
 		}
-	}
+	}*/
 
 	// Use Members notifications if the component is active.
 	if ( bp_is_active( 'notifications' ) ) {

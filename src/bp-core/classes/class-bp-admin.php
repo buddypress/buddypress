@@ -316,18 +316,18 @@ class BP_Admin {
 		$this->submenu_pages['settings']['bp-settings'] = $bp_settings_page;
 		$hooks[]                                        = $bp_settings_page;
 
-		// Admin notifications.
-		$bp_admin_notifications = add_submenu_page(
+		// Admin notices.
+		$bp_admin_notices = add_submenu_page(
 			$this->settings_page,
-			__( 'BuddyPress Admin Notifications', 'buddypress' ),
-			__( 'BuddyPress Admin Notifications', 'buddypress' ),
+			__( 'BuddyPress Admin Notices', 'buddypress' ),
+			__( 'BuddyPress Admin Notices', 'buddypress' ),
 			$this->capability,
-			'bp-admin-notifications',
-			array( $this, 'admin_notifications' )
+			'bp-admin-notices',
+			array( $this, 'admin_notices' )
 		);
 
-		$this->submenu_pages['settings']['bp-admin-notifications'] = $bp_admin_notifications;
-		$hooks[] = $bp_admin_notifications;
+		$this->submenu_pages['settings']['bp-admin-notices'] = $bp_admin_notices;
+		$hooks[]                                             = $bp_admin_notices;
 
 		// Credits.
 		$bp_credits_page = add_submenu_page(
@@ -696,10 +696,10 @@ class BP_Admin {
 	public function admin_head() {
 
 		// Settings pages.
-		remove_submenu_page( $this->settings_page, 'bp-rewrites'            );
-		remove_submenu_page( $this->settings_page, 'bp-settings'            );
-		remove_submenu_page( $this->settings_page, 'bp-credits'             );
-		remove_submenu_page( $this->settings_page, 'bp-admin-notifications' );
+		remove_submenu_page( $this->settings_page, 'bp-rewrites' );
+		remove_submenu_page( $this->settings_page, 'bp-settings' );
+		remove_submenu_page( $this->settings_page, 'bp-credits' );
+		remove_submenu_page( $this->settings_page, 'bp-admin-notices' );
 
 		// Network Admin Tools.
 		remove_submenu_page( 'network-tools', 'network-tools' );
@@ -1687,28 +1687,25 @@ class BP_Admin {
 	 * Display the Admin Notifications screen.
 	 *
 	 * @since 11.4.0
+	 * @since 15.0.0 Method has been renamed.
 	 */
-	public function admin_notifications() {
-		bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Notifications', 'buddypress' ) );
-		$notifications = bp_core_get_admin_notifications();
-		$class         = '';
-
-		if ( $notifications ) {
-			wp_enqueue_script( 'bp-dismissible-admin-notices' );
-			$notifications = array_reverse( bp_sort_by_key( $notifications, 'version', 'num' ) );
-			$class         = 'hide';
-		}
+	public function admin_notices() {
+		bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Notices', 'buddypress' ) );
+		wp_enqueue_script( 'bp-dismissible-admin-notices' );
 		?>
 		<div class="buddypress-body admin-notifications">
-			<table id="no-admin-notifications" class="form-table <?php echo sanitize_html_class( $class ); ?>" role="presentation">
+			<table id="no-admin-notifications" class="form-table" role="presentation">
 				<tbody>
-					<tr><td><?php esc_html_e( 'No new Admin Notfications', 'buddypress' ); ?></td><tr>
+					<tr><td><?php esc_html_e( 'No unread notices', 'buddypress' ); ?></td><tr>
 				</tbody>
 			</table>
 
-			<?php if ( $notifications ) : foreach ( $notifications as $notification ) : ?>
-				<?php bp_core_admin_format_notifications( $notification ); ?>
-			<?php endforeach; endif; ?>
+			<?php
+			/*
+			 * @todo improve this UI adding a filter to switch between read/unread notices.
+			 * bp_core_admin_format_notifications();
+			 */
+			?>
 		</div>
 		<?php
 	}
