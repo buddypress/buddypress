@@ -1692,19 +1692,52 @@ class BP_Admin {
 	public function admin_notices() {
 		bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Notices', 'buddypress' ) );
 		wp_enqueue_script( 'bp-dismissible-admin-notices' );
+
+		$user_id = bp_loggedin_user_id();
+		$type    = 'unread';
+		$args    = array(
+			'user_id'    => $user_id,
+			'target__in' => array( 'admins' ),
+			'priority'   => 0,
+		);
+
+		if ( isset( $_POST['bp_admin_notices']['filter_value'] ) ) {
+			$type = sanitize_text_field( wp_unslash( $_POST['bp_admin_notices']['filter_value'] ) );
+		}
+
+		if ( 'unread' === $type ) {
+			$args['exclude'] = bp_members_get_dismissed_notices_for_user( $user_id );
+		}
 		?>
-		<div class="buddypress-body admin-notifications">
-			<table id="no-admin-notifications" class="form-table" role="presentation">
-				<tbody>
-					<tr><td><?php esc_html_e( 'No unread notices', 'buddypress' ); ?></td><tr>
-				</tbody>
-			</table>
+		<div class="buddypress-body admin-notices">
+			<div class="wp-filter">
+				<div class="search-form">
+					<form action="" method="post">
+						<select id="admin-notices-filter" name="bp_admin_notices[filter_value]">
+							<option value="unread" <?php selected( 'unread', $type ); ?>><?php esc_html_e( 'Unread', 'buddypress' ); ?></option>
+							<option value="read" <?php selected( 'read', $type ); ?>><?php esc_html_e( 'Dismissed', 'buddypress' ); ?></option>
+						</select>
+						<?php submit_button( __( 'Filter', 'buddypress' ), '', 'bp_admin_notices[filter_action]', false ); ?>
+					</form>
+				</div>
+			</div>
 
 			<?php
-			/*
-			 * @todo improve this UI adding a filter to switch between read/unread notices.
-			 * bp_core_admin_format_notifications();
-			 */
+			$admin_notices = bp_members_get_notices( $args );
+
+			if ( $admin_notices ) {
+				foreach ( $admin_notices as $admin_notice ) {
+					bp_core_admin_format_notice( $admin_notice );
+				}
+			} else {
+				?>
+				<table id="no-admin-notices" class="form-table" role="presentation">
+					<tbody>
+						<tr><td><?php echo esc_html( 'unread' === $type ? __( 'No unread notices', 'buddypress' ) : __( 'No dismissed notices', 'buddypress' ) ); ?></td><tr>
+					</tbody>
+				</table>
+				<?php
+			}
 			?>
 		</div>
 		<?php

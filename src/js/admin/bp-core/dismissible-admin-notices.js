@@ -57,7 +57,7 @@ bp.DismissibleAdminNotices = class {
 						noticeContainer.remove();
 
 						if ( 0 === document.querySelectorAll( '.bp-notice-container' ).length ) {
-							document.querySelector( '#no-admin-notifications' ).classList.remove( 'hide' );
+							document.querySelector( '#no-admin-notices' ).classList.remove( 'hide' );
 						}
 					} else {
 						noticeLink.classList.remove( 'loading' );

@@ -1702,34 +1702,26 @@ function bp_block_category( $categories = array(), $editor_name_or_post = null )
 add_filter( 'block_categories_all', 'bp_block_category', 1, 2 );
 
 /**
- * Outputs an Admin Notification.
+ * Outputs an Admin Notice.
  *
  * @since 11.4.0
+ * @since 15.0.0 Renamed in favor of `bp_core_admin_format_notice`
  *
- * @param object|null $notification An Admin Notification object.
+ * @param object|null $notice An Admin Notice object.
  */
-function bp_core_admin_format_notifications( $notification = null ) {
-	if ( ! isset( $notification->id ) ) {
+function bp_core_admin_format_notice( $notice = null ) {
+	if ( ! isset( $notice->id ) ) {
 		return;
 	}
 	?>
 	<div class="bp-welcome-panel bp-notice-container">
-		<a class="bp-welcome-panel-close bp-is-dismissible" href="#" data-notice_id="<?php echo esc_attr( $notification->id ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the notification', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+		<a class="bp-welcome-panel-close bp-is-dismissible" href="#" data-notice_id="<?php echo esc_attr( $notice->id ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the notification', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
 		<div class="bp-welcome-panel-content">
-			<h2><span class="bp-version"><?php echo esc_html( number_format_i18n( $notification->version, 1 ) ); ?></span> <?php echo esc_html( $notification->title ); ?></h2>
+			<h2><span class="bp-version"><?php bp_admin_notice_version( $notice ); ?></span> <?php bp_notice_title( $notice ); ?></h2>
 			<p class="about-description">
-				<?php
-				echo wp_kses(
-					$notification->content,
-					array(
-						'a'      => array( 'href' => true ),
-						'br'     => array(),
-						'strong' => array(),
-					)
-				);
-				?>
+				<?php bp_notice_content( $notice ); ?>
 			</p>
-			<div class="bp-admin-notification-action"><a href="<?php echo esc_url( $notification->href ); ?>" class="button button-primary"><?php echo esc_html( $notification->text ); ?></a></div>
+			<div class="bp-admin-notice-action"><a href="<?php bp_notice_action_url( $notice ); ?>" class="button button-primary"><?php bp_notice_action_text( $notice ); ?></a></div>
 		</div>
 	</div>
 	<?php
