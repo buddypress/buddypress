@@ -136,7 +136,7 @@ class BP_Members_Notices_Admin {
 					'content'  => '',
 					'target'   => '',
 					'priority' => 2,
-					'link'     => '',
+					'url'     => '',
 					'text'     => '',
 				)
 			);
@@ -225,7 +225,7 @@ class BP_Members_Notices_Admin {
 		$parsed_notice_content = bp_get_parsed_notice_block( $notice );
 		if ( empty( $parsed_notice_content['attrs'] ) ) {
 			$parsed_notice_content['attrs'] = array(
-				'link' => '',
+				'url'  => '',
 				'text' => '',
 			);
 		}
@@ -288,10 +288,10 @@ class BP_Members_Notices_Admin {
 					</div>
 				</div>
 				<div class="form-field">
-					<label for="bp_notice_link"><?php esc_html_e( 'Action button link', 'buddypress' ); ?></label>
+					<label for="bp_notice_url"><?php esc_html_e( 'Action button url', 'buddypress' ); ?></label>
 					<div class="form-input">
-						<input type="url" value="<?php echo esc_url( $form_values['link'] ); ?>" class="bp-panel-input regular-text code" id="bp_notice_link" name="bp_notice[link]" size="40" aria-describedby="bp-link-description" />
-						<p id="bp-link-description"><?php esc_html_e( 'The action button link to head user to.', 'buddypress' ); ?></p>
+						<input type="url" value="<?php echo esc_url( $form_values['url'] ); ?>" class="bp-panel-input regular-text code" id="bp_notice_url" name="bp_notice[url]" size="40" aria-describedby="bp-url-description" />
+						<p id="bp-url-description"><?php esc_html_e( 'The action button url to head user to.', 'buddypress' ); ?></p>
 					</div>
 				</div>
 				<div class="form-field">

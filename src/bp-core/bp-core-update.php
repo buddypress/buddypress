@@ -1040,7 +1040,7 @@ function bp_update_to_15_0() {
 					'target'   => 'admins',
 					'priority' => 0,
 					'date'     => $admin_notice->date,
-					'link'     => $admin_notice->href,
+					'url'      => $admin_notice->href,
 					'text'     => $admin_notice->text,
 					'meta'     => array( 'version' => $admin_notice->version ),
 				)

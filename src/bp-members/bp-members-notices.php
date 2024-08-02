@@ -231,7 +231,7 @@ function bp_members_notice_filter_kses( $content ) {
  *                             - `3` is the lowest priority.
  *                             - `127` is used to deactivate a notice.
  *     @type string  $date     A date string of the format 'Y-m-d h:i:s'. Optional. Defaults to ''.
- *     @type string  $link     The link of the notice action button. Optional. Defaults to ''.
+ *     @type string  $url      The URL of the notice action button. Optional. Defaults to ''.
  *     @type string  $text     The text of the notice action button. Optional. Defaults to ''.
  *     @type array   $meta     An array of key-value pairs. Optional. Defaults to ''.
  * }
@@ -249,7 +249,7 @@ function bp_members_save_notice( $args = array() ) {
 			'target'   => 'community',
 			'priority' => 2,
 			'date'     => '',
-			'link'     => '',
+			'url'     => '',
 			'text'     => '',
 			'meta'     => array(),
 		)
@@ -274,8 +274,8 @@ function bp_members_save_notice( $args = array() ) {
 		$target = $r['target'];
 	}
 
-	if ( $r['link'] ) {
-		$attrs['link'] = sanitize_url( $r['link'] );
+	if ( $r['url'] ) {
+		$attrs['url'] = sanitize_url( $r['url'] );
 	}
 
 	if ( $r['text'] ) {
@@ -501,6 +501,35 @@ function bp_members_edit_notice() {
 }
 
 /**
+ * Get Member notices according to requested arguments.
+ *
+ * @since 15.0.0
+ *
+ * @param array $args See `BP_Memners_Notice->get()` for description.
+ */
+function bp_members_get_notices( $args = array() ) {
+
+	$r = bp_parse_args(
+		$args,
+		array(
+			'user_id'    => 0,
+			'pag_num'    => 20,
+			'pag_page'   => 1,
+			'dismissed'  => false,
+			'meta_query' => array(),
+			'fields'     => 'all',
+			'type'       => 'active',
+			'exclude'    => array(),
+			'target__in' => array(),
+			'priority'   => null,
+		),
+		'members_get_notices'
+	);
+
+	return BP_Members_Notice::get( $r );
+}
+
+/**
  * Get the list of Notice IDs the user has dismissed.
  *
  * @since 15.0.0
@@ -535,13 +564,7 @@ function bp_members_get_user_higher_priority_notice( $user_id, $page = 1 ) {
 		array(
 			'pag_num'    => 1,
 			'pag_page'   => $page,
-			'meta_query' => array(
-				array(
-					'key'     => 'dismissed_by',
-					'value'   => $user_id,
-					'compare' => '!=',
-				)
-			)
+			'exclude'    => bp_members_get_dismissed_notices_for_user( $user_id ),
 		)
 	);
 
@@ -666,6 +689,14 @@ function bp_notice_content( $notice = null ) {
 	echo bp_get_notice_content( $notice );
 }
 
+/**
+ * Get the parsed block content for the Notice.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return array The parsed block content for the Notice.
+ */
 function bp_get_parsed_notice_block( $notice = null ) {
 	$parsed_content = array();
 
@@ -841,6 +872,66 @@ function bp_get_notice_priority( $notice = null ) {
 	 * @param BP_Members_Notice|null $notice   The notice object if it exists. Null otherwise.
 	 */
 	return apply_filters( 'bp_get_notice_priority', $priority, $notice );
+}
+
+/**
+ * Output the Notice Action URL.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ */
+function bp_notice_action_url( $notice = null ) {
+	echo esc_url( bp_get_notice_action_url( $notice ) );
+}
+
+/**
+ * Get the Notice Action URL.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string The Notice Action URL.
+ */
+function bp_get_notice_action_url( $notice = null ) {
+	$url           = '';
+	$parsed_notice = bp_get_parsed_notice_block( $notice );
+
+	if ( isset( $parsed_notice['attrs']['url'] ) ) {
+		$url = $parsed_notice['attrs']['url'];
+	}
+
+	return $url;
+}
+
+/**
+ * Output the Notice Action Text.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ */
+function bp_notice_action_text( $notice = null ) {
+	echo esc_html( bp_get_notice_action_text( $notice ) );
+}
+
+/**
+ * Get the Notice Action Text.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string The Notice Action Text.
+ */
+function bp_get_notice_action_text( $notice = null ) {
+	$text          = '';
+	$parsed_notice = bp_get_parsed_notice_block( $notice );
+
+	if ( isset( $parsed_notice['attrs']['text'] ) ) {
+		$text = $parsed_notice['attrs']['text'];
+	}
+
+	return $text;
 }
 
 /**
@@ -1021,4 +1112,34 @@ function bp_members_render_notices_block( $attributes = array() ) {
 	}
 
 	return $widget_content;
+}
+
+/**
+ * Output the Admin Notice version.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ */
+function bp_admin_notice_version( $notice = null ) {
+	echo esc_html( bp_get_admin_notice_version( $notice ) );
+}
+
+/**
+ * Get the Admin Notice version.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string The Admin Notice version.
+ */
+function bp_get_admin_notice_version( $notice = null ) {
+	$version = '';
+	$parsed_notice = bp_get_parsed_notice_block( $notice );
+
+	if ( isset( $parsed_notice['attrs']['meta']['version'] ) ) {
+		$version = $parsed_notice['attrs']['meta']['version'];
+	}
+
+	return number_format( $version, 1 );
 }

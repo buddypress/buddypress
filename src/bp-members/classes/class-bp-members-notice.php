@@ -369,6 +369,9 @@ class BP_Members_Notice {
 				'meta_query' => array(),
 				'fields'     => 'all',
 				'type'       => 'active',
+				'exclude'    => array(),
+				'target__in' => array(),
+				'priority'   => null,
 			)
 		);
 
@@ -398,6 +401,26 @@ class BP_Members_Notice {
 		// 127 is the value used to deactivate a notice.
 		if ( 'active' === $r['type'] ) {
 			$where_conditions['type'] = 'n.priority != 127';
+		}
+
+		if ( $r['exclude'] ) {
+			$where_conditions['exclude'] = 'n.id NOT IN( ' . implode( ', ', wp_parse_id_list( $r['exclude'] ) ) . ' )';
+		}
+
+		if ( $r['target__in'] ) {
+			$where_conditions['target__in'] = 'n.target IN( \'' . implode( '\', \'', wp_parse_slug_list( $r['target__in'] ) ) . '\' )';
+		}
+
+		if ( ! is_null( $r['priority'] ) && is_numeric( $r['priority'] ) ) {
+			$where_conditions['priority'] = $wpdb->prepare( 'priority = %d', $r['priority'] );
+		}
+
+		if ( $r['user_id'] ) {
+			if ( ! bp_user_can( $r['user_id'], 'edit_posts' ) ) {
+				$where_conditions['user_cap'] = 'n.target = \'community\'';
+			} elseif ( ! bp_user_can( $r['user_id'], 'manage_options' ) ) {
+				$where_conditions['user_cap'] = 'n.target != \'admins\'';
+			}
 		}
 
 		$limit_sql = '';

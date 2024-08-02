@@ -463,6 +463,10 @@ form.edit-notice label {
 	width: 200px;
 }
 
+.buddypress-body.admin-notices .wp-filter .search-form {
+	margin: 11px 0;
+}
+
 @media screen and (max-width: 782px) {
 
 	.bp-new-notice-panel {
@@ -595,7 +599,7 @@ body.post-type-bp-email .categorydiv label {
 	font-size: 14px;
 }
 
-.buddypress .bp-welcome-panel-content .bp-admin-notification-action {
+.buddypress .bp-welcome-panel-content .bp-admin-notice-action {
 	margin: 23px 0;
 }
 
