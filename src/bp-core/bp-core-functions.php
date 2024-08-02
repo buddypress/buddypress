@@ -5320,3 +5320,38 @@ function bp_is_admin( $screen_id = '' ) {
 function bp_is_classic() {
 	return function_exists( 'bp_classic' ) || ( function_exists( 'is_plugin_active' ) && is_plugin_active( 'bp-classic/bp-classic.php' ) );
 }
+
+/**
+ * Get the list of Community Administrator IDs.
+ *
+ * @since 15.0.0
+ *
+ * @return integer[] The list of Community Administrator IDs.
+ */
+function bp_get_admin_ids() {
+	// Get all admin IDs for the BP Root Blog.
+	$admins = get_users(
+		array(
+			'fields'  => 'ID',
+			'role'    => 'Administrator',
+			'blog_id' => bp_get_root_blog_id(),
+			'number'  => -1,
+		)
+	);
+	$admins = array_map( 'intval', $admins );
+
+	// Get super admin IDs.
+	$super_admins = array();
+	if ( is_multisite() && bp_is_network_activated() ) {
+		$super_logins = get_super_admins();
+
+		foreach ( $super_logins as $super_login ) {
+			$super_user = get_user_by( 'login', $super_login );
+			if ( isset( $super_user->ID ) && $super_user->ID ) {
+				$super_admins[] = (int) $super_user->ID;
+			}
+		}
+	}
+
+	return array_unique( array_merge( $admins, $super_admins ) );
+}
