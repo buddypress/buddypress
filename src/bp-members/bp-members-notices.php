@@ -592,7 +592,7 @@ function bp_members_get_dismissed_notices_for_user( $user_id ) {
  * @param integer $page    The page number to get.
  * @return BP_Members_Notice|null The notice if it exists. Null otherwise.
  */
-function bp_members_get_user_higher_priority_notice( $user_id, $page = 1 ) {
+function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
 	$notice           = null;
 	$dismissed_notice = bp_members_get_dismissed_notices_for_user( $user_id );
 
@@ -630,53 +630,6 @@ function bp_members_get_user_higher_priority_notice( $user_id, $page = 1 ) {
 
 	return array( 'item' => $notice, 'count' => (int) $notices_count );
 }
-
-/**
- * Prepend a notification about the active Sitewide notice.
- *
- * @since 15.0.0
- *
- * @param false|array $notifications False if there are no items, an array of notification items otherwise.
- * @param int         $user_id       The user ID.
- * @return false|array               False if there are no items, an array of notification items otherwise.
- */
-function bp_members_get_notice_for_user( $notifications, $user_id ) {
-	if ( ! doing_action( 'admin_bar_menu' ) && 'bp_core_get_notifications_for_user' !== current_filter() ) {
-		return $notifications;
-	}
-
-	$notice = null;
-	$result = bp_members_get_user_higher_priority_notice( $user_id );
-
-	if ( ! isset( $result['item'] ) || is_null( $result['item'] ) ) {
-		return $notifications;
-	} else {
-		$notice = $result['item'];
-	}
-
-	$notice_notification = (object) array(
-		'id'                => 0,
-		'user_id'           => $user_id,
-		'item_id'           => $notice->id,
-		'secondary_item_id' => 0,
-		'component_name'    => 'members',
-		'component_action'  => 'new_notice',
-		'date_notified'     => $notice->date_sent,
-		'is_new'            => 1,
-		'total_count'       => 1,
-		'content'           => $notice->message,
-		'href'              => bp_loggedin_user_url(),
-	);
-
-	if ( ! is_array( $notifications ) ) {
-		$notifications = array( $notice_notification );
-	} else {
-		array_unshift( $notifications, $notice_notification );
-	}
-
-	return $notifications;
-}
-add_filter( 'bp_core_get_notifications_for_user', 'bp_members_get_notice_for_user', 10, 2 );
 
 /**
  * Output the title of a notice.
@@ -1031,10 +984,11 @@ function bp_get_notice_dismiss_url() {
  *
  * @since 15.0.0
  */
-function bp_render_active_notice() {
-	$notice = null;
-	$result = bp_members_get_user_higher_priority_notice( bp_loggedin_user_id() );
-	$count  = 0;
+function bp_render_notices_center() {
+	$notice        = null;
+	$user_id       = bp_loggedin_user_id();
+	$result        = bp_members_get_notices_for_user( $user_id );
+	$notices_count = 0;
 
 	// @todo: make it aware of each notice of the loop.
 	$current_num = 1;
@@ -1043,42 +997,73 @@ function bp_render_active_notice() {
 		return;
 	} else {
 		$notice = $result['item'];
-		$count  = 1;
+		$notices_count  = 1;
 
 		if ( isset( $result['count'] ) ) {
-			$count = $result['count'];
+			$notices_count = $result['count'];
 		}
+	}
+
+	$notifications       = array();
+	$notifications_count = 0;
+
+	if ( bp_is_active( 'notifications' ) ) {
+		$notifications       = bp_notifications_get_notifications_for_user( $user_id, 'object' );
+		$notifications_count = count( $notifications );
 	}
 	?>
 	<aside popover="auto" id="bp-notices-container" role="complementary" tabindex="-1">
-		<section>
-			<h2 class="community-notices-title"><?php esc_html_e( 'Community notices', 'buddypress' ); ?></h2>
-			<article id="notice-<?php echo esc_attr( $notice->id ); ?>">
-				<header class="bp-notice-header">
-					<h3><?php bp_notice_title( $notice ); ?></h2>
-				</header>
-				<div class="bp-notice-body">
-					<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_target_icon( $notice ) ); ?>" ></div>
-					<div class="bp-notice-content">
-						<?php bp_notice_content( $notice ); ?>
+		<?php if ( $notices_count ) : ?>
+			<section class="bp-notices-section">
+				<h2 class="community-notices-title"><?php esc_html_e( 'Community notices', 'buddypress' ); ?></h2>
+				<article id="notice-<?php echo esc_attr( $notice->id ); ?>">
+					<header class="bp-notice-header">
+						<h3><?php bp_notice_title( $notice ); ?></h2>
+					</header>
+					<div class="bp-notice-body">
+						<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_target_icon( $notice ) ); ?>" ></div>
+						<div class="bp-notice-content">
+							<?php bp_notice_content( $notice ); ?>
+						</div>
 					</div>
-				</div>
-				<footer class="bp-notice-footer">
-					<div class="bp-notice-pagination">
-						<span class="bp-notice-current-page">
-							<?php
-							printf(
-								/* translators: 1: the current number notice. 2: the total number of notices. */
-								_n( 'Viewing %1$s/%2$s notice', 'Viewing %1$s/%2$s notices', $count, 'buddypress' ),
-								$current_num,
-								$count
-							);
-							?>
-						</span>
-					</div>
-				</footer>
-			</article>
-		</section>
+					<footer class="bp-notice-footer">
+						<div class="bp-notice-pagination">
+							<span class="bp-notice-current-page">
+								<?php
+								printf(
+									/* translators: 1: the current number notice. 2: the total number of notices. */
+									_n( 'Viewing %1$s/%2$s notice', 'Viewing %1$s/%2$s notices', $notices_count, 'buddypress' ),
+									$current_num,
+									$notices_count
+								);
+								?>
+							</span>
+						</div>
+					</footer>
+				</article>
+			</section>
+		<?php endif; ?>
+		<?php if ( $notifications_count ) : ?>
+
+			<?php if ( $notices_count ) : ?>
+				<hr>
+			<?php endif; ?>
+
+			<section class="bp-notications-section">
+				<h2 class="my-notifications-title"><?php esc_html_e( 'My personal notifications', 'buddypress' ); ?></h2>
+
+				<?php foreach( $notifications as $notification ) : ?>
+					<article id="notification-<?php echo esc_attr( $notification->id ); ?>">
+						<div class="bp-notification-body">
+							<div class="notification">
+								<?php echo esc_html( $notification->content ); ?> &#8212; <a href="<?php echo esc_url( $notification->href ); ?>"><?php esc_html_e( 'View', 'buddypress' ); ?></a>
+							</div>
+						</div>
+					</article>
+				<?php endforeach; ?>
+			</section>
+
+		<?php endif; ?>
 	</aside>
 	<?php
 }

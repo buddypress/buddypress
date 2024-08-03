@@ -42,13 +42,10 @@
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications.alert {
-	background-color: #21759b;
-	color: #fff;
-}
-
-#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications.alert.admin-type {
-	border-radius: 0;
+	font-size: 12px;
 	background-color: transparent;
+	border-radius: 0;
+	color: #fff;
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices button {
@@ -57,8 +54,14 @@
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices.is-open,
-#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices.is-open:hover .ab-item {
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices:hover .ab-item {
 	background: #fff;
+	color: #d84800;
+}
+
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices.is-open #ab-pending-notifications.alert,
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices:hover #ab-pending-notifications.alert {
+	color: #d84800;
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications .ab-icon {
@@ -128,6 +131,7 @@ body.admin-bar aside#bp-notices-container *:not(.dashicons ) {
 }
 
 body.admin-bar aside#bp-notices-container h2.community-notices-title,
+body.admin-bar aside#bp-notices-container h2.my-notifications-title,
 body.admin-bar aside#bp-notices-container .bp-notice-header h3 {
 	color: #1d2327;
 	font-size: 1.3em;
@@ -158,4 +162,11 @@ body.admin-bar aside#bp-notices-container .bp-notice-body .bp-notice-type {
 body.admin-bar aside#bp-notices-container .bp-notice-body .bp-notice-type.dashicons:before {
 	font-size: 50px;
 	color: #d84800;
+}
+
+body.admin-bar aside#bp-notices-container hr {
+	border: none;
+	padding-top: 1em;
+	margin: 1em 0;
+	border-bottom: solid 1px #d84800;
 }

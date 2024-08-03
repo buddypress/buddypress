@@ -210,3 +210,44 @@ function bp_messages_dismiss_sitewide_notice( $user_id = 0, $notice_id = 0 ) {
 	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_members_dismiss_notice' );
 	return bp_members_dismiss_notice( $user_id, $notice_id );
 }
+
+/**
+ * Build the "Notifications" dropdown.
+ *
+ * @since 11.4.0
+ * @deprecated 15.0.0
+ *
+ * @return bool
+ */
+function bp_members_admin_bar_notifications_dropdown( $notifications = array(), $menu_link = '', $type = 'members' ) {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+	return false;
+}
+
+/**
+ * Build the Admin or Members "Notifications" dropdown.
+ *
+ * @since 1.5.0
+ * @deprecated 15.0.0
+ *
+ * @return bool
+ */
+function bp_members_admin_bar_notifications_menu() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+	return false;
+}
+
+/**
+ * Build the "Notifications" dropdown.
+ *
+ * @since 1.9.0
+ * @deprecated 15.0.0
+ *
+ * @global WP_Admin_Bar $wp_admin_bar The WordPress object implementing a Toolbar API.
+ *
+ * @return bool
+ */
+function bp_notifications_toolbar_menu() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+	return false;
+}
