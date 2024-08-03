@@ -347,11 +347,26 @@ class BP_Members_Notice {
 	 * @since 15.0.0
 	 *
 	 * @param array $args {
-	 *     Array of parameters.
-	 *     @type int $pag_num  Number of notices per page. Defaults to 20.
-	 *     @type int $pag_page The page number.  Defaults to 1.
+	 *     An array of arguments.
+	 *
+	 *     @type integer      $user_id          The user ID to get notices for. Defaults to `0`.
+	 *     @type integer      $pag_num          Number of notices per page. Defaults to `20`.
+	 *     @type integer      $pag_page         The page number to retrieve.  Defaults to `1`.
+	 *     @type boolean      $dismissed        `true` to get dismissed notices. False otherwise. Defaults to `false`.
+	 *     @type array        $meta_query       An array describing the Meta Query to perform. Defaults to `[]`.
+	 *     @type string       $fields           Use 'ids' to only get Notice IDs, 'all' otherwise. Defaults to 'all'.
+	 *     @type string       $type             Use 'active' to only get active notices, 'all' to get all notices or
+	 *                                          'inactive' to get inactive notices. Defaults to 'active'.
+	 *     @type array        $exclude          An array of notice IDs to exclude from results. Defaults to `[]`.
+	 *     @type array        $target__in       An array of targeted audiences to include in results. Possible targets
+	 *                                          are 'community', 'contributors', 'admins'. Defaults to `[]`.
+	 *     @type null|integer $priority         Use `1` to get high priority notices, `2` to get regular ones or `3` to
+	 *                                          get low ones. `0` is restriced to BuddyPress usage: please don't use it.
+	 *                                          Defaults to `null`.
+	 *     @type boolean      $count_total_only `true` to only get the total number of notices, `false` otherwise.
+	 *                                          Defaults to `false`.
 	 * }
-	 * @return array List of notices to display.
+	 * @return array|integer List of notices or total number of notices for a count only query.
 	 */
 	public static function get( $args = array() ) {
 		global $wpdb;
@@ -359,20 +374,10 @@ class BP_Members_Notice {
 		$where_sql        = '';
 		$join_sql         = '';
 		$where_conditions = array();
+		$result           = null;
 		$r                = bp_parse_args(
 			$args,
-			array(
-				'user_id'    => 0,
-				'pag_num'    => 20, // Number of notices per page.
-				'pag_page'   => 1 , // Page number.
-				'dismissed'  => false,
-				'meta_query' => array(),
-				'fields'     => 'all',
-				'type'       => 'active',
-				'exclude'    => array(),
-				'target__in' => array(),
-				'priority'   => null,
-			)
+			bp_members_notices_default_query_args()
 		);
 
 		if ( ! $r['meta_query'] && $r['user_id'] && true === $r['dismissed'] ) {
@@ -401,6 +406,8 @@ class BP_Members_Notice {
 		// 127 is the value used to deactivate a notice.
 		if ( 'active' === $r['type'] ) {
 			$where_conditions['type'] = 'n.priority != 127';
+		} elseif ( 'inactive' === $r['type'] ) {
+			$where_conditions['type'] = 'n.priority = 127';
 		}
 
 		if ( $r['exclude'] ) {
@@ -411,7 +418,7 @@ class BP_Members_Notice {
 			$where_conditions['target__in'] = 'n.target IN( \'' . implode( '\', \'', wp_parse_slug_list( $r['target__in'] ) ) . '\' )';
 		}
 
-		if ( ! is_null( $r['priority'] ) && is_numeric( $r['priority'] ) ) {
+		if ( 'inactive' !== $r['type'] && ! is_null( $r['priority'] ) && is_numeric( $r['priority'] ) ) {
 			$where_conditions['priority'] = $wpdb->prepare( 'priority = %d', $r['priority'] );
 		}
 
@@ -436,14 +443,20 @@ class BP_Members_Notice {
 		$bp = buddypress();
 
 		if ( 'ids' === $r['fields'] ) {
-			$notices = $wpdb->get_col(
+			$result = $wpdb->get_col(
 				"SELECT n.id FROM {$bp->members->table_name_notices} n
 				{$join_sql}
 				{$where_sql}"
 			);
-			$notices = wp_parse_id_list( $notices );
+			$result = wp_parse_id_list( $result );
+		} elseif ( true === $r['count_total_only'] ) {
+			$result = $wpdb->get_var(
+				"SELECT COUNT(*) FROM {$bp->members->table_name_notices} n
+				{$join_sql}
+				{$where_sql}"
+			);
 		} else {
-			$notices = $wpdb->get_results(
+			$result = $wpdb->get_results(
 				"SELECT * FROM {$bp->members->table_name_notices} n
 				{$join_sql}
 				{$where_sql}
@@ -452,21 +465,37 @@ class BP_Members_Notice {
 			);
 
 			// Integer casting.
-			foreach ( (array) $notices as $key => $data ) {
-				$notices[ $key ]->id       = (int) $notices[ $key ]->id;
-				$notices[ $key ]->priority = (int) $notices[ $key ]->priority;
+			foreach ( (array) $result as $key => $data ) {
+				$result[ $key ]->id       = (int) $result[ $key ]->id;
+				$result[ $key ]->priority = (int) $result[ $key ]->priority;
 			}
 		}
 
-		/**
-		 * Filters the array of notices, sorted by date and paginated.
-		 *
-		 * @since 2.8.0
-		 *
-		 * @param array $notices List of notices sorted by date and paginated.
-		 * @param array $r       Array of parameters.
-		 */
-		return apply_filters( 'messages_notice_get_notices', $notices, $r );
+		if ( ! $r['count_total_only'] ) {
+			/*
+			 * The 'messages_notice_get_notices' is deprecated as of 15.0.0.
+			 *
+			 * Please use 'bp_members_get_notices' instead.
+			 */
+			$notices = apply_filters_deprecated(
+				'messages_notice_get_notices',
+				array( $result ),
+				'15.0.0',
+				'bp_members_get_notices'
+			);
+
+			/**
+			 * Filters the array of notices, sorted by date and paginated.
+			 *
+			 * @since 15.0.0
+			 *
+			 * @param array|integer $notices List of notices or total number of notices for a count only query.
+			 * @param array $r      The query parameters.
+			 */
+			return apply_filters( 'bp_members_get_notices', $notices, $r );
+		}
+
+		return $result;
 	}
 
 	/**
@@ -518,27 +547,35 @@ class BP_Members_Notice {
 	/**
 	 * Returns the total number of recorded notices.
 	 *
-	 * @global wpdb $wpdb WordPress database object.
-	 *
 	 * @since 15.0.0
 	 *
-	 * @return int
+	 * @param array $args See `BP_Memners_Notice->get()` for description.
+	 * @return integer The total number of recorded notices.
 	 */
-	public static function get_total_notice_count() {
-		global $wpdb;
+	public static function get_total_notice_count( $args = array() ) {
+		// Forces a count query.
+		$args['count_total_only'] = true;
 
-		$bp = buddypress();
-
-		$notice_count = $wpdb->get_var( "SELECT COUNT(id) FROM {$bp->members->table_name_notices}" );
+		/*
+		 * The 'messages_notice_get_total_notice_count' is deprecated as of 15.0.0.
+		 *
+		 * Please use 'bp_members_get_total_notice_count' instead.
+		 */
+		 $notice_count = (int) apply_filters_deprecated(
+			'messages_notice_get_total_notice_count',
+			array( BP_Members_Notice::get( $args ) ),
+			'15.0.0',
+			'bp_members_get_total_notice_count'
+		);
 
 		/**
 		 * Filters the total number of notices.
 		 *
-		 * @since 2.8.0
+		 * @since 15.0.0
 		 *
-		 * @param int $notice_count Total number of recorded notices.
+		 * @param integer $notice_count Total number of recorded notices.
 		 */
-		return apply_filters( 'messages_notice_get_total_notice_count', (int) $notice_count );
+		return apply_filters( 'bp_members_get_total_notice_count', $notice_count );
 	}
 
 	/**

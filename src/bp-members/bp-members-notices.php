@@ -501,28 +501,64 @@ function bp_members_edit_notice() {
 }
 
 /**
+ * Returns Members Notices default query arguments.
+ *
+ * PS: avoids code duplication into `bp_members_get_notices()` & `BP_Members_Notice::get()`.
+ *
+ * @since 15.0.0
+ *
+ * @return array The Members Notices default query arguments.
+ */
+function bp_members_notices_default_query_args() {
+	return array(
+		'user_id'          => 0,
+		'pag_num'          => 20,
+		'pag_page'         => 1,
+		'dismissed'        => false,
+		'meta_query'       => array(),
+		'fields'           => 'all',
+		'type'             => 'active',
+		'exclude'          => array(),
+		'target__in'       => array(),
+		'priority'         => null,
+		'count_total_only' => false,
+	);
+}
+
+/**
+ * Get the total number of notices according to requested arguments.
+ *
+ * @since 15.0.0
+ *
+ * @param array $args See `BP_Memners_Notice->get()` for description.
+ * @return integer The total number of notices for the query arguments.
+ */
+function bp_members_get_notices_count( $args = array() ) {
+	return BP_Members_Notice::get_total_notice_count( $args );
+}
+
+/**
  * Get Member notices according to requested arguments.
  *
  * @since 15.0.0
  *
  * @param array $args See `BP_Memners_Notice->get()` for description.
+ * @return array The list of notices matching the query arguments.
  */
 function bp_members_get_notices( $args = array() ) {
-
+	/**
+	 * 2 dynamic filters you can use to edit args are included as the 3rd parameter.
+	 *
+	 * - Use 'bp_before_members_get_notices_parse_args' to passively filter the args before the parse.
+	 * - Use 'bp_after_members_get_notices_parse_args' to aggressively filter the args after the parse.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param array $args See `BP_Memners_Notice->get()` for description.
+	 */
 	$r = bp_parse_args(
 		$args,
-		array(
-			'user_id'    => 0,
-			'pag_num'    => 20,
-			'pag_page'   => 1,
-			'dismissed'  => false,
-			'meta_query' => array(),
-			'fields'     => 'all',
-			'type'       => 'active',
-			'exclude'    => array(),
-			'target__in' => array(),
-			'priority'   => null,
-		),
+		bp_members_notices_default_query_args(),
 		'members_get_notices'
 	);
 
@@ -557,14 +593,24 @@ function bp_members_get_dismissed_notices_for_user( $user_id ) {
  * @return BP_Members_Notice|null The notice if it exists. Null otherwise.
  */
 function bp_members_get_user_higher_priority_notice( $user_id, $page = 1 ) {
-	$notice = null;
+	$notice           = null;
+	$dismissed_notice = bp_members_get_dismissed_notices_for_user( $user_id );
 
 	// Get notices orderered by priority.
 	$notices = BP_Members_Notice::get(
 		array(
-			'pag_num'    => 1,
-			'pag_page'   => $page,
-			'exclude'    => bp_members_get_dismissed_notices_for_user( $user_id ),
+			'user_id'  => $user_id,
+			'pag_num'  => 1,
+			'pag_page' => $page,
+			'exclude'  => $dismissed_notice,
+		)
+	);
+
+	// Get Total number of notices.
+	$notices_count = bp_members_get_notices_count(
+		array(
+			'user_id'  => $user_id,
+			'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
 		)
 	);
 
@@ -582,7 +628,7 @@ function bp_members_get_user_higher_priority_notice( $user_id, $page = 1 ) {
 		}
 	}
 
-	return $notice;
+	return array( 'item' => $notice, 'count' => (int) $notices_count );
 }
 
 /**
@@ -599,10 +645,13 @@ function bp_members_get_notice_for_user( $notifications, $user_id ) {
 		return $notifications;
 	}
 
-	$notice = bp_members_get_user_higher_priority_notice( $user_id );
+	$notice = null;
+	$result = bp_members_get_user_higher_priority_notice( $user_id );
 
-	if ( is_null( $notice ) ) {
+	if ( ! isset( $result['item'] ) || is_null( $result['item'] ) ) {
 		return $notifications;
+	} else {
+		$notice = $result['item'];
 	}
 
 	$notice_notification = (object) array(
@@ -983,25 +1032,52 @@ function bp_get_notice_dismiss_url() {
  * @since 15.0.0
  */
 function bp_render_active_notice() {
-	$notice = bp_members_get_user_higher_priority_notice( bp_loggedin_user_id() );
+	$notice = null;
+	$result = bp_members_get_user_higher_priority_notice( bp_loggedin_user_id() );
+	$count  = 0;
 
-	if ( is_null( $notice ) ) {
+	// @todo: make it aware of each notice of the loop.
+	$current_num = 1;
+
+	if ( ! isset( $result['item'] ) || is_null( $result['item'] ) ) {
 		return;
+	} else {
+		$notice = $result['item'];
+		$count  = 1;
+
+		if ( isset( $result['count'] ) ) {
+			$count = $result['count'];
+		}
 	}
 	?>
 	<aside popover="auto" id="bp-notices-container" role="complementary" tabindex="-1">
 		<section>
-			<header class="bp-notice-header">
-				<h2><?php bp_notice_title( $notice ); ?></h2>
-			</header>
-			<div class="bp-notice-body">
-				<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_target_icon( $notice ) ); ?>" ></div>
-				<div class="bp-notice-content">
-					<?php bp_notice_content( $notice ); ?>
+			<h2 class="community-notices-title"><?php esc_html_e( 'Community notices', 'buddypress' ); ?></h2>
+			<article id="notice-<?php echo esc_attr( $notice->id ); ?>">
+				<header class="bp-notice-header">
+					<h3><?php bp_notice_title( $notice ); ?></h2>
+				</header>
+				<div class="bp-notice-body">
+					<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_target_icon( $notice ) ); ?>" ></div>
+					<div class="bp-notice-content">
+						<?php bp_notice_content( $notice ); ?>
+					</div>
 				</div>
-			</div>
-			<footer class="bp-notice-footer">
-			</footer>
+				<footer class="bp-notice-footer">
+					<div class="bp-notice-pagination">
+						<span class="bp-notice-current-page">
+							<?php
+							printf(
+								/* translators: 1: the current number notice. 2: the total number of notices. */
+								_n( 'Viewing %1$s/%2$s notice', 'Viewing %1$s/%2$s notices', $count, 'buddypress' ),
+								$current_num,
+								$count
+							);
+							?>
+						</span>
+					</div>
+				</footer>
+			</article>
 		</section>
 	</aside>
 	<?php

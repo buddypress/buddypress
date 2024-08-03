@@ -127,10 +127,16 @@ body.admin-bar aside#bp-notices-container *:not(.dashicons ) {
 	font-size: 13px;
 }
 
-body.admin-bar aside#bp-notices-container .bp-notice-header h2 {
+body.admin-bar aside#bp-notices-container h2.community-notices-title,
+body.admin-bar aside#bp-notices-container .bp-notice-header h3 {
 	color: #1d2327;
 	font-size: 1.3em;
 	margin: 1em 0;
+	font-weight: 800;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-header h3 {
+	font-size: 1.25em;
 	font-weight: 600;
 }
 
