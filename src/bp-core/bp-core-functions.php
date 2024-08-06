@@ -5013,7 +5013,7 @@ function bp_get_deprecated_functions_versions() {
 		}
 
 		// Load 12.0 deprecated functions only when BP was installed with 12.0, 14.0 or 15.0.
-		if ( in_array( $initial_version, array( 12.0, 14.0, 15.0 ) ) ) {
+		if ( in_array( $initial_version, array( 12.0, 14.0, 15.0 ), true ) ) {
 			return array( 12.0 );
 		}
 
