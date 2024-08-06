@@ -949,7 +949,7 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 
 		$versions = bp_get_deprecated_functions_versions();
 
-		// Include 12.0 until version 16.0.
+		// Include 12.0 until version 15.0.
 		if ( $current_version <= (float) 15 ) {
 			$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when first installed version is <= 15.0' );
 		} else {
