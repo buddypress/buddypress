@@ -180,6 +180,18 @@ class BP_Notifications_Component extends BP_Component {
 			'user_has_access_callback' => 'bp_core_can_edit_settings',
 		);
 
+		if ( bp_is_active( 'members', 'notices' ) ) {
+			$sub_nav[] = array(
+				'name'                     => _x( 'Community', 'Notification screen nav', 'buddypress' ),
+				'slug'                     => 'notices',
+				'parent_slug'              => $slug,
+				'screen_function'          => 'bp_members_notices_load_screen',
+				'position'                 => 5,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_core_can_edit_settings',
+			);
+		}
+
 		parent::register_nav( $main_nav, $sub_nav );
 	}
 
@@ -257,6 +269,17 @@ class BP_Notifications_Component extends BP_Component {
 				'title'  => $title,
 				'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $notifications_slug ) ) ),
 			);
+
+			if ( bp_is_active( 'members', 'notices' ) ) {
+				// Community notices.
+				$wp_admin_nav[] = array(
+					'parent'   => 'my-account-' . $this->id,
+					'id'       => 'my-account-' . $this->id . '-community',
+					'title'    => _x( 'Community', 'My Account Notice sub nav', 'buddypress' ),
+					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $notifications_slug, 'notices' ) ) ),
+					'position' => 5,
+				);
+			}
 
 			// Unread.
 			$wp_admin_nav[] = array(
