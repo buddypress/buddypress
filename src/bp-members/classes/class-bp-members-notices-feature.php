@@ -54,7 +54,14 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 			return;
 		}
 
-		if ( bp_is_user() && bp_is_current_component( 'notices' ) ) {
+		$is_notices_screen = bp_is_current_component( 'notices' );
+
+		// When the notifications component is active, we move the notices front-end screen into this component.
+		if ( bp_is_active( 'notifications' ) ) {
+			$is_notices_screen = bp_is_current_component( 'notifications' ) && bp_is_current_action( 'notices' );
+		}
+
+		if ( bp_is_user() && $is_notices_screen ) {
 			require_once buddypress()->members->path . 'bp-members/screens/notices.php';
 		}
 	}
@@ -75,19 +82,19 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 		$notices_slug = $this->slug;
 
 		$main_nav = array(
-			'name'                     => _x( 'Notices', 'Member profile main navigation', 'buddypress' ),
+			'name'                     => _x( 'Notices', 'Member notices main navigation', 'buddypress' ),
 			'slug'                     => $notices_slug,
 			'position'                 => 25,
 			'screen_function'          => 'bp_members_notices_load_screen',
-			'default_subnav_slug'      => 'unread',
+			'default_subnav_slug'      => 'community',
 			'item_css_id'              => $notices_slug,
 			'user_has_access_callback' => 'bp_core_can_edit_settings',
 			'generate'                 => ! bp_is_active( 'notifications' ),
 		);
 
 		$sub_nav[] = array(
-			'name'                     => _x( 'Unread', 'Member profile view', 'buddypress' ),
-			'slug'                     => 'unread',
+			'name'                     => _x( 'Community', 'Member community notices sub nav', 'buddypress' ),
+			'slug'                     => 'community',
 			'parent_slug'              => $notices_slug,
 			'screen_function'          => 'bp_members_notices_load_screen',
 			'position'                 => 10,
@@ -96,18 +103,38 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 			'generate'                 => ! bp_is_active( 'notifications' ),
 		);
 
-		$sub_nav[] = array(
-			'name'                     => _x( 'Read', 'Member profile view', 'buddypress' ),
-			'slug'                     => 'read',
-			'parent_slug'              => $notices_slug,
-			'screen_function'          => 'bp_members_notices_load_screen',
-			'position'                 => 20,
-			'user_has_access'          => false,
-			'user_has_access_callback' => 'bp_core_can_edit_settings',
-			'generate'                 => ! bp_is_active( 'notifications' ),
-		);
-
 		parent::register_nav( $main_nav, $sub_nav );
+	}
+
+	/**
+	 * Return the WP Admin Nav to manage Community notices.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string $selector_id The string to use to customize the nav item ID.
+	 * @return array the WP Admin Nav to manage Community notices.
+	 */
+	public function get_manage_notice_admin_nav( $selector_id = '' ) {
+		$wp_admin_nav = array();
+
+		if ( bp_current_user_can( 'bp_moderate' ) ) {
+			$wp_admin_nav[] = array(
+				'parent'   => 'my-account-' . $selector_id,
+				'id'       => 'my-account-' . $selector_id . '-manage-notices',
+				'title'    => _x( 'Manage Notices', 'My Account Manage Notices sub nav', 'buddypress' ),
+				'href'     => esc_url(
+					add_query_arg(
+						array(
+							'page' => 'bp-notices',
+						),
+						bp_get_admin_url( 'users.php' )
+					)
+				),
+				'position' => 30,
+			);
+		}
+
+		return $wp_admin_nav;
 	}
 
 	/**
@@ -124,7 +151,7 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 	public function setup_admin_bar( $wp_admin_nav = array() ) {
 
 		// Menus for logged in user.
-		if ( is_user_logged_in() ) {
+		if ( is_user_logged_in() && ! bp_is_active( 'notifications' ) ) {
 			$notices_slug = $this->slug;
 
 			// Add the "My Account" sub menus.
@@ -138,39 +165,40 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 			// Unread.
 			$wp_admin_nav[] = array(
 				'parent'   => 'my-account-' . $this->id,
-				'id'       => 'my-account-' . $this->id . '-unread',
-				'title'    => _x( 'Unread', 'My Account Notice sub nav', 'buddypress' ),
-				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $notices_slug, 'unread' ) ) ),
+				'id'       => 'my-account-' . $this->id . '-community',
+				'title'    => _x( 'Community', 'My Account Community notices sub nav', 'buddypress' ),
+				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $notices_slug, 'community' ) ) ),
 				'position' => 10,
 			);
 
-			// Read.
-			$wp_admin_nav[] = array(
-				'parent'   => 'my-account-' . $this->id,
-				'id'       => 'my-account-' . $this->id . '-read',
-				'title'    => _x( 'Read', 'My Account Notice sub nav', 'buddypress' ),
-				'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $notices_slug, 'read' ) ) ),
-				'position' => 20,
-			);
-
-			if ( bp_current_user_can( 'bp_moderate' ) ) {
-				$wp_admin_nav[] = array(
-					'parent'   => 'my-account-' . $this->id,
-					'id'       => 'my-account-' . $this->id . '-manage-notices',
-					'title'    => _x( 'Manage Notices', 'My Account Notice sub nav', 'buddypress' ),
-					'href'     => esc_url(
-						add_query_arg(
-							array(
-								'page' => 'bp-notices',
-							),
-							bp_get_admin_url( 'users.php' )
-						)
-					),
-					'position' => 30,
-				);
-			}
+			$wp_admin_nav = array_merge( $wp_admin_nav, $this->get_manage_notice_admin_nav( $this->id ) );
 		}
 
 		parent::setup_admin_bar( $wp_admin_nav );
+	}
+
+	/**
+	 * Filters the Notifications WP Admin Nav to include one to manage Notices.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param array $wp_admin_nav Array of navigation items to add.
+	 * @return array Array of navigation items to add.
+	 */
+	public function notifications_admin_nav( $wp_admin_nav = array() ) {
+		return array_merge( $wp_admin_nav, $this->get_manage_notice_admin_nav( 'notifications' ) );
+	}
+
+	/**
+	 * Set up action hooks for the Member Notices Feature.
+	 *
+	 * @since 15.0.0
+	 */
+	public function setup_actions() {
+		// Perform default actions.
+		parent::setup_actions();
+
+		// Perform actions specific to this feature.
+		add_filter( 'bp_notifications_admin_nav', array( $this, 'notifications_admin_nav' ) );
 	}
 }
