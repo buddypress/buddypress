@@ -1009,7 +1009,11 @@ function bp_render_notices_center() {
 
 	if ( bp_is_active( 'notifications' ) ) {
 		$notifications       = bp_notifications_get_notifications_for_user( $user_id, 'object' );
-		$notifications_count = count( $notifications );
+		$notifications_count = 0;
+
+		if ( false !== $notifications && is_countable( $notifications ) ) {
+			$notifications_count = count( $notifications );
+		}
 	}
 	?>
 	<aside popover="auto" id="bp-notices-container" role="complementary" tabindex="-1">
