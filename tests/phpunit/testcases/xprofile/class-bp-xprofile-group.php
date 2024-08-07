@@ -10,7 +10,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	 * @ticket BP6552
 	 */
 	public function test_save_should_not_return_false_when_no_fields_have_been_altered() {
-		$g = self::factory()->xprofile_group->create();
+		$g     = self::factory()->xprofile_group->create();
 		$group = new BP_XProfile_Group( $g );
 
 		$saved = $group->save();
@@ -21,7 +21,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	/**
 	 * @ticket BP7916
 	 */
-	public function test_delete() {
+	public function test_delete_xprofile_group() {
 		$g = self::factory()->xprofile_group->create();
 
 		$groups    = bp_xprofile_get_groups();
@@ -42,25 +42,27 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	public function test_fetch_visibility_level() {
 		$u = self::factory()->user->create();
 		$g = self::factory()->xprofile_group->create();
-		$f = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $g,
-		) );
+		$f = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $g,
+			)
+		);
 
 		$f_obj = new BP_XProfile_Field( $f );
 
 		$fields = array(
-			0 => new stdClass,
+			0 => new stdClass(),
 		);
 
-		$fields[0]->id = $f;
-		$fields[0]->name = $f_obj->name;
+		$fields[0]->id          = $f;
+		$fields[0]->name        = $f_obj->name;
 		$fields[0]->description = $f_obj->description;
-		$fields[0]->type = $f_obj->type;
-		$fields[0]->group_id = $f_obj->group_id;
+		$fields[0]->type        = $f_obj->type;
+		$fields[0]->group_id    = $f_obj->group_id;
 		$fields[0]->is_required = $f_obj->is_required;
-		$fields[0]->data = new stdClass;
+		$fields[0]->data        = new stdClass();
 		$fields[0]->data->value = 'foo';
-		$fields[0]->data->id = 123;
+		$fields[0]->data->id    = 123;
 
 		// custom visibility enabled, but no fallback
 		bp_xprofile_update_meta( $f, 'field', 'default_visibility', 'adminsonly' );
@@ -68,7 +70,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$found = BP_XProfile_Group::fetch_visibility_level( $u, $fields );
 
-		$expected = $fields;
+		$expected                      = $fields;
 		$expected[0]->visibility_level = 'adminsonly';
 
 		$this->assertSame( $expected, $found );
@@ -80,7 +82,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$found = BP_XProfile_Group::fetch_visibility_level( $u, $fields );
 
-		$expected = $fields;
+		$expected                      = $fields;
 		$expected[0]->visibility_level = 'public';
 
 		$this->assertSame( $expected, $found );
@@ -92,7 +94,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$found = BP_XProfile_Group::fetch_visibility_level( $u, $fields );
 
-		$expected = $fields;
+		$expected                      = $fields;
 		$expected[0]->visibility_level = 'adminsonly';
 
 		$this->assertSame( $expected, $found );
@@ -106,26 +108,30 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$g2 = self::factory()->xprofile_group->create();
 		$g3 = self::factory()->xprofile_group->create();
 
-		$all = BP_XProfile_Group::get();
+		$all         = BP_XProfile_Group::get();
 		$all_results = array_map( 'absint', wp_list_pluck( $all, 'id' ) );
 
-		$e1 = array( $g1, $g2 );
-		$groups1 = BP_XProfile_Group::get( array(
-			'exclude_groups' => implode( ',', $e1 ),
-		) );
+		$e1      = array( $g1, $g2 );
+		$groups1 = BP_XProfile_Group::get(
+			array(
+				'exclude_groups' => implode( ',', $e1 ),
+			)
+		);
 
 		$r_groups1 = array_map( 'absint', wp_list_pluck( $groups1, 'id' ) );
-		$found1 = array_diff( $all_results, $r_groups1 );
+		$found1    = array_diff( $all_results, $r_groups1 );
 
 		$this->assertSame( $e1, array_merge( $found1, array() ) );
 
-		$e2 = array( $g2, $g3 );
-		$groups2 = BP_XProfile_Group::get( array(
-			'exclude_groups' => $e2,
-		) );
+		$e2      = array( $g2, $g3 );
+		$groups2 = BP_XProfile_Group::get(
+			array(
+				'exclude_groups' => $e2,
+			)
+		);
 
 		$r_groups2 = array_map( 'absint', wp_list_pluck( $groups2, 'id' ) );
-		$found2 = array_diff( $all_results, $r_groups2 );
+		$found2    = array_diff( $all_results, $r_groups2 );
 
 		$this->assertSame( $e2, array_merge( $found2, array() ) );
 	}
@@ -138,15 +144,15 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$g1 = self::factory()->xprofile_group->create();
 		$g2 = self::factory()->xprofile_group->create();
 		$g3 = self::factory()->xprofile_group->create();
-		$e1 = [ $g1, $g2 ];
+		$e1 = array( $g1, $g2 );
 
 		// Comma-separated list of profile group ids.
-		$groups1 = BP_XProfile_Group::get( [ 'profile_group_id' => join( ',', $e1 ) ] );
+		$groups1 = BP_XProfile_Group::get( array( 'profile_group_id' => join( ',', $e1 ) ) );
 
 		$this->assertSame( $e1, array_map( 'absint', wp_list_pluck( $groups1, 'id' ) ) );
 
 		// Array of profile group ids.
-		$groups2 = BP_XProfile_Group::get( [ 'profile_group_id' => $e1 ] );
+		$groups2 = BP_XProfile_Group::get( array( 'profile_group_id' => $e1 ) );
 
 		$this->assertSame( $e1, array_map( 'absint', wp_list_pluck( $groups2, 'id' ) ) );
 	}
@@ -163,10 +169,12 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$field = new BP_XProfile_Field( $f );
 		$field->set_member_types( array( 'foo' ) );
 
-		$found_groups = BP_XProfile_Group::get( array(
-			'user_id' => false,
-			'fetch_fields' => true,
-		) );
+		$found_groups = BP_XProfile_Group::get(
+			array(
+				'user_id'      => false,
+				'fetch_fields' => true,
+			)
+		);
 
 		// The groups aren't indexed, so we have to go looking for it.
 		foreach ( $found_groups as $fg ) {
@@ -190,11 +198,13 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$field = new BP_XProfile_Field( $f );
 		$field->set_member_types( array( 'foo' ) );
 
-		$found_groups = BP_XProfile_Group::get( array(
-			'user_id' => 0,
-			'member_type' => false,
-			'fetch_fields' => true,
-		) );
+		$found_groups = BP_XProfile_Group::get(
+			array(
+				'user_id'      => 0,
+				'member_type'  => false,
+				'fetch_fields' => true,
+			)
+		);
 
 		// The groups aren't indexed, so we have to go looking for it.
 		foreach ( $found_groups as $fg ) {
@@ -211,7 +221,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	 * @ticket BP5192
 	 */
 	public function test_member_type_restrictions_should_be_obeyed_for_nonzero_user_id() {
-		$g = self::factory()->xprofile_group->create();
+		$g  = self::factory()->xprofile_group->create();
 		$f1 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		$f2 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		$f3 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
@@ -237,10 +247,12 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$u = self::factory()->user->create();
 		bp_set_member_type( $u, 'foo' );
 
-		$found_groups = BP_XProfile_Group::get( array(
-			'user_id' => $u,
-			'fetch_fields' => true,
-		) );
+		$found_groups = BP_XProfile_Group::get(
+			array(
+				'user_id'      => $u,
+				'fetch_fields' => true,
+			)
+		);
 
 		// The groups aren't indexed, so we have to go looking for it.
 		foreach ( $found_groups as $fg ) {
@@ -260,7 +272,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	 * @ticket BP5192
 	 */
 	public function test_member_type_restrictions_should_be_obeyed_for_nonzero_user_id_with_no_member_types() {
-		$g = self::factory()->xprofile_group->create();
+		$g  = self::factory()->xprofile_group->create();
 		$f1 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		$f2 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		$f3 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
@@ -280,10 +292,12 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		// User has no member types, so should see f2 and f3 .
 		$u = self::factory()->user->create();
 
-		$found_groups = BP_XProfile_Group::get( array(
-			'user_id' => $u,
-			'fetch_fields' => true,
-		) );
+		$found_groups = BP_XProfile_Group::get(
+			array(
+				'user_id'      => $u,
+				'fetch_fields' => true,
+			)
+		);
 
 		// The groups aren't indexed, so we have to go looking for it.
 		foreach ( $found_groups as $fg ) {
@@ -302,7 +316,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	 * @ticket BP5192
 	 */
 	public function test_member_types_of_provided_user_id_should_take_precedence_over_provided_member_type() {
-		$g = self::factory()->xprofile_group->create();
+		$g  = self::factory()->xprofile_group->create();
 		$f1 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		$f2 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		bp_register_member_type( 'foo' );
@@ -316,11 +330,13 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$u = self::factory()->user->create();
 		bp_set_member_type( $u, 'foo' );
 
-		$found_groups = BP_XProfile_Group::get( array(
-			'user_id' => $u,
-			'member_type' => 'bar',
-			'fetch_fields' => true,
-		) );
+		$found_groups = BP_XProfile_Group::get(
+			array(
+				'user_id'      => $u,
+				'member_type'  => 'bar',
+				'fetch_fields' => true,
+			)
+		);
 
 		// The groups aren't indexed, so we have to go looking for it.
 		foreach ( $found_groups as $fg ) {
@@ -337,7 +353,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	 * @ticket BP5192
 	 */
 	public function test_member_type_single_value_should_be_respected() {
-		$g = self::factory()->xprofile_group->create();
+		$g  = self::factory()->xprofile_group->create();
 		$f1 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		$f2 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		bp_register_member_type( 'foo' );
@@ -348,10 +364,12 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$field2 = new BP_XProfile_Field( $f2 );
 		$field2->set_member_types( array( 'bar' ) );
 
-		$found_groups = BP_XProfile_Group::get( array(
-			'member_type' => 'bar',
-			'fetch_fields' => true,
-		) );
+		$found_groups = BP_XProfile_Group::get(
+			array(
+				'member_type'  => 'bar',
+				'fetch_fields' => true,
+			)
+		);
 
 		// The groups aren't indexed, so we have to go looking for it.
 		foreach ( $found_groups as $fg ) {
@@ -369,7 +387,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	 * @ticket BP5192
 	 */
 	public function test_member_type_array_value_should_be_respected() {
-		$g = self::factory()->xprofile_group->create();
+		$g  = self::factory()->xprofile_group->create();
 		$f1 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		$f2 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		bp_register_member_type( 'foo' );
@@ -380,10 +398,12 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$field2 = new BP_XProfile_Field( $f2 );
 		$field2->set_member_types( array( 'bar' ) );
 
-		$found_groups = BP_XProfile_Group::get( array(
-			'member_type' => array( 'bar' ),
-			'fetch_fields' => true,
-		) );
+		$found_groups = BP_XProfile_Group::get(
+			array(
+				'member_type'  => array( 'bar' ),
+				'fetch_fields' => true,
+			)
+		);
 
 		// The groups aren't indexed, so we have to go looking for it.
 		foreach ( $found_groups as $fg ) {
@@ -401,7 +421,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	 * @ticket BP5192
 	 */
 	public function test_member_type_null_should_be_respected() {
-		$g = self::factory()->xprofile_group->create();
+		$g  = self::factory()->xprofile_group->create();
 		$f1 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		$f2 = self::factory()->xprofile_field->create( array( 'field_group_id' => $g ) );
 		bp_register_member_type( 'foo' );
@@ -410,10 +430,12 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$field1 = new BP_XProfile_Field( $f1 );
 		$field1->set_member_types( array( 'foo' ) );
 
-		$found_groups = BP_XProfile_Group::get( array(
-			'member_type' => array( 'null' ),
-			'fetch_fields' => true,
-		) );
+		$found_groups = BP_XProfile_Group::get(
+			array(
+				'member_type'  => array( 'null' ),
+				'fetch_fields' => true,
+			)
+		);
 
 		// The groups aren't indexed, so we have to go looking for it.
 		foreach ( $found_groups as $fg ) {
@@ -430,9 +452,11 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	 * @group save_xprofile_group_name
 	 */
 	public function test_save_xprofile_group_name() {
-		$g1 = self::factory()->xprofile_group->create( array(
-			'name' => "Test ' Name"
-		) );
+		$g1 = self::factory()->xprofile_group->create(
+			array(
+				'name' => "Test ' Name",
+			)
+		);
 
 		$e1 = new BP_XProfile_Group( $g1 );
 		$e1->save();
@@ -453,9 +477,11 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$pristine_name = "Test \' Name";
 
 		// Create a group
-		$g1 = self::factory()->xprofile_group->create( array(
-			'name' => $pristine_name
-		) );
+		$g1 = self::factory()->xprofile_group->create(
+			array(
+				'name' => $pristine_name,
+			)
+		);
 
 		// Get the field
 		$e1 = new BP_XProfile_Group( $g1 );
@@ -470,7 +496,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$g1 = self::factory()->xprofile_group->create();
 		$g2 = self::factory()->xprofile_group->create();
 
-		$group_ids   = [ 1 ]; // Default group.
+		$group_ids   = array( 1 ); // Default group.
 		$group_ids[] = self::factory()->xprofile_group->create();
 		$group_ids[] = self::factory()->xprofile_group->create();
 		$group_ids[] = self::factory()->xprofile_group->create();
@@ -480,27 +506,27 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$found_1 = BP_XProfile_Group::get_group_ids();
 		$this->assertEqualSets( $group_ids, $found_1 );
 
-		$found_2 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => $g1 ] );
+		$found_2 = BP_XProfile_Group::get_group_ids( array( 'profile_group_id' => $g1 ) );
 		$this->assertCount( 1, $found_2 );
-		$this->assertSame( [ $g1 ], $found_2 );
+		$this->assertSame( array( $g1 ), $found_2 );
 
-		$found_3 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => [ $g1 ] ] );
+		$found_3 = BP_XProfile_Group::get_group_ids( array( 'profile_group_id' => array( $g1 ) ) );
 		$this->assertCount( 1, $found_3 );
-		$this->assertSame( [ $g1 ], $found_3 );
+		$this->assertSame( array( $g1 ), $found_3 );
 
-		$found_4 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => [ $g2 ] ] );
+		$found_4 = BP_XProfile_Group::get_group_ids( array( 'profile_group_id' => array( $g2 ) ) );
 		$this->assertCount( 1, $found_4 );
-		$this->assertSame( [ $g2 ], $found_4 );
+		$this->assertSame( array( $g2 ), $found_4 );
 
-		$found_5 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => [ $g1, $g2 ] ] );
+		$found_5 = BP_XProfile_Group::get_group_ids( array( 'profile_group_id' => array( $g1, $g2 ) ) );
 		$this->assertCount( 2, $found_5 );
-		$this->assertSame( [ $g1, $g2 ], $found_5 );
+		$this->assertSame( array( $g1, $g2 ), $found_5 );
 
-		$found_6 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => join( ',', [ $g1, $g2 ] ) ] );
+		$found_6 = BP_XProfile_Group::get_group_ids( array( 'profile_group_id' => join( ',', array( $g1, $g2 ) ) ) );
 		$this->assertCount( 2, $found_6 );
-		$this->assertSame( [ $g1, $g2 ], $found_6 );
+		$this->assertSame( array( $g1, $g2 ), $found_6 );
 
-		$found_7 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => true ] );
+		$found_7 = BP_XProfile_Group::get_group_ids( array( 'profile_group_id' => true ) );
 		$this->assertEqualSets( $group_ids, $found_7 );
 	}
 
@@ -520,7 +546,7 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$group_ids[] = $g1;
 		$group_ids[] = $g2;
 
-		$params_1 = [ 'exclude_groups' => false ];
+		$params_1 = array( 'exclude_groups' => false );
 
 		// Prime cache.
 		$found_1 = BP_XProfile_Group::get_group_ids( $params_1 );
@@ -533,13 +559,13 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 
 		// Different parameters should trigger a cache miss.
-		$found_3 = BP_XProfile_Group::get_group_ids( [ 'exclude_groups' => [ 0 ] ] );
+		$found_3 = BP_XProfile_Group::get_group_ids( array( 'exclude_groups' => array( 0 ) ) );
 		$this->assertEqualSets( $group_ids, $found_3 );
 		$this->assertNotSame( $num_queries, $wpdb->num_queries );
 
 		// Again, different parameters should trigger a cache miss.
-		$found_4 = BP_XProfile_Group::get_group_ids( [ 'profile_group_id' => [ $g1, $g2 ] ] );
-		$this->assertEqualSets( [ $g1, $g2 ], $found_4 );
+		$found_4 = BP_XProfile_Group::get_group_ids( array( 'profile_group_id' => array( $g1, $g2 ) ) );
+		$this->assertEqualSets( array( $g1, $g2 ), $found_4 );
 		$this->assertNotSame( $num_queries, $wpdb->num_queries );
 	}
 
@@ -550,8 +576,9 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	public function test_group_ids_query_cache_should_be_busted_on_group_delete() {
 		$group_ids    = array( 1 ); // Default group.
 		$group_ids[1] = self::factory()->xprofile_group->create();
-		$group_ids[2] = self::factory()->xprofile_group->create();
-		$group_ids[3] = self::factory()->xprofile_group->create();
+
+		self::factory()->xprofile_group->create();
+		self::factory()->xprofile_group->create();
 
 		// Prime cache.
 		$found = BP_XProfile_Group::get_group_ids();
@@ -573,8 +600,9 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$group_ids    = array( 1 ); // Default group.
 		$group_ids[1] = self::factory()->xprofile_group->create();
-		$group_ids[2] = self::factory()->xprofile_group->create();
-		$group_ids[3] = self::factory()->xprofile_group->create();
+
+		self::factory()->xprofile_group->create();
+		self::factory()->xprofile_group->create();
 
 		// Prime cache.
 		$found = BP_XProfile_Group::get_group_ids();
@@ -585,7 +613,8 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$num_queries = $wpdb->num_queries;
 
-		$found = BP_XProfile_Group::get_group_ids();
+		BP_XProfile_Group::get_group_ids();
+
 		$this->assertNotSame( $num_queries, $wpdb->num_queries );
 	}
 
@@ -598,12 +627,15 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$group_ids    = array( 1 ); // Default group.
 		$group_ids[1] = self::factory()->xprofile_group->create();
-		$group_ids[2] = self::factory()->xprofile_group->create();
-		$group_ids[3] = self::factory()->xprofile_group->create();
 
-		$f = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group_ids[1],
-		) );
+		self::factory()->xprofile_group->create();
+		self::factory()->xprofile_group->create();
+
+		$f     = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group_ids[1],
+			)
+		);
 		$field = new BP_XProfile_Field( $f );
 
 		// Prime cache.
@@ -614,7 +646,8 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$num_queries = $wpdb->num_queries;
 
-		$found = BP_XProfile_Group::get_group_ids();
+		BP_XProfile_Group::get_group_ids();
+
 		$this->assertNotSame( $num_queries, $wpdb->num_queries );
 	}
 
@@ -625,12 +658,15 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	public function test_group_ids_query_cache_should_be_busted_on_field_delete() {
 		$group_ids    = array( 1 ); // Default group.
 		$group_ids[1] = self::factory()->xprofile_group->create();
-		$group_ids[2] = self::factory()->xprofile_group->create();
-		$group_ids[3] = self::factory()->xprofile_group->create();
 
-		$f = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group_ids[1],
-		) );
+		self::factory()->xprofile_group->create();
+		self::factory()->xprofile_group->create();
+
+		$f     = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group_ids[1],
+			)
+		);
 		$field = new BP_XProfile_Field( $f );
 
 		$args = array(
@@ -656,10 +692,13 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$group_id = self::factory()->xprofile_group->create();
 
-		$f = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group_id,
-		) );
-		$field = new BP_XProfile_Field( $f );
+		$f = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group_id,
+			)
+		);
+
+		new BP_XProfile_Field( $f );
 
 		// Prime cache.
 		$found = BP_XProfile_Group::get_group_field_ids( array( $group_id ) );
@@ -681,9 +720,11 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$group_id = self::factory()->xprofile_group->create();
 
-		$f = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group_id,
-		) );
+		$f     = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group_id,
+			)
+		);
 		$field = new BP_XProfile_Field( $f );
 
 		// Prime cache.
@@ -705,9 +746,11 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 	public function test_group_field_ids_query_cache_should_be_busted_on_field_delete() {
 		$group_id = self::factory()->xprofile_group->create();
 
-		$f = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group_id,
-		) );
+		$f     = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group_id,
+			)
+		);
 		$field = new BP_XProfile_Field( $f );
 
 		// Prime cache.
@@ -718,5 +761,29 @@ class BP_Tests_BP_XProfile_Group extends BP_UnitTestCase {
 
 		$found = BP_XProfile_Group::get_group_field_ids( array( $group_id ) );
 		$this->assertNotContains( $f, $found );
+	}
+
+	/**
+	 * @ticket BP8552
+	 * @group cache
+	 */
+	public function test_group_query_getter_with_cache_results() {
+		global $wpdb;
+
+		self::factory()->xprofile_group->create_many( 2 );
+
+		$wpdb->num_queries = 0;
+
+		$first_query = BP_XProfile_Group::get( array( 'cache_results' => true ) );
+
+		$queries_before = get_num_queries();
+
+		$second_query = BP_XProfile_Group::get( array( 'cache_results' => false ) );
+
+		$queries_after = get_num_queries();
+
+		$this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
+		$this->assertSame( 3, $queries_after, 'Assert that the uncached query was run' );
+		$this->assertEquals( $first_query, $second_query, 'Results of the query are expected to match.' );
 	}
 }
