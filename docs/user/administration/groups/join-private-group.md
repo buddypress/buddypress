@@ -1,59 +1,53 @@
-# How to Join a Private Group in BuddyPress
+# Joining BuddyPress Groups
 
-Joining a private group in BuddyPress involves a few steps. Below is a step-by-step guide to help you through the process.
+There are 4 ways to join a BuddyPress Group for a community member:
+1. Directly opting-in from the Groups directory or the Group's single page: this way is only available to **public** groups.
+2. Requesting to become a member of a **private** group from the Groups directory or the Group's single page.
+3. Being invited by another community user who is already a member of the group: this way is available to all kind of groups (public, private or hidden).
+4. Being added to any kind of group (public, private or hidden) by the community Administrator. This 4th way is documented into the Groups Administration chapters.
 
-## Step 1: Find the Group
+## 1. Group's direct membership
 
-1. **Navigate to the Groups Directory**:
+Logged in members can directly become members of any **public** group. The button to join a public group is available at two places:
 
-   - Go to the main navigation menu on your BuddyPress site.
-   - Click on "Groups" to access the Groups Directory.
+- Inside each public Group's description of the Groups directory.
+- Inside the displayed single Group's header.
 
-2. **Search for the Group**:
-   - Use the search bar to find the private group you want to join.
-   - You can also browse through the listed groups to find the one you're interested in.
+|![BP Groups Directory](../../assets/bp-groups-directory-membership-01.png)|![BP Single Group's Header](../../assets/bp-groups-single-membership-02.png)|
+|:-:|:-:|
+|From the Groups Directory|From the Group’s single pages|
 
-## Step 2: Request Membership
+## 2. Group's membership request
 
-1. **Visit the Group's Page**:
+Logged in members can join **private** groups using this two-steps process:
+- first, they request a membership to the private Group admin(s),
+- then, they wait for one of the private Group admins to approve or deny their request.
 
-   - Click on the name of the group you wish to join to visit its page.
+The button to send this request can be found at three places:
+- Inside each private Group's description of the Groups directory.
+- Inside the displayed single Group's header.
+- Using the single Group’s membership request form. The interest of this last place is that members can motivate their request using the optional multiline field.
 
-2. **Request Membership**:
+|![BP Groups Directory](assets/bp-groups-directory-request-membership-05.png)|![BP Single Group's Header](assets/bp-groups-single-request-membership-06.png)|![BP Single Group's membership request form](assets/bp-groups-single-request-membership-07.png)|
+|:-:|:-:|:-:|
+|From the Groups Directory|From the Group’s single pages|From the Group's membership request form|
 
-   - On the group’s page, you will see a button that says "Request Membership".
-   - Click this button to send a membership request to the group admin.
+As shown in the below screen capture, the private Group's admins will be notified a new membership request is awaiting their approval. They'll be able to manage this request from the Group’s management area.
+![Request Sent](../../assets/bp-groups-manage-request-membership-08.png)
 
-   ![Request Membership](../../assets/request-private-group-join.png)
+As soon as this membership request is approved or denied, the corresponding member is notified of the Group's admins decision.
 
-## Step 3: Await Approval
+> [!NOTE]
+> Private Groups require approval from one the Group's admins to join. The members request to join must be approved before they can participate in the group activities and view group content.
+> Only Group Admins have the authority to approve or deny membership requests. If members have questions about their request, it is best to contact one the Group's admins directly.
 
-1. **Wait for Approval**:
+## 3. Group's invitation
 
-   - After requesting membership, you will need to wait for the group admin to approve your request.
+This is the only way for a logged in member to join an **Hidden Group**. All kind of groups (public, private or hidden) include a specific area to let other members of the group to invite their friends (or any member when using the BP Nouveau template pack).
 
-   ![Request Sent](../../assets/request-sent-private-group.png)
+![Group invitations](../assets/bp-members-manage-group-invitations-09.png)
 
-   - The group admin will be notified of your request and will either approve or deny it.
+Above is a screen capture the logged in members profile area where they can manage their group invitations.
 
-2. **Group Admin Options**:
-
-   - Group admin will receive a notification once your request has been reviewed.
-     ![BuddyPress Notification for Group Membership Request](../../assets/bp-notification-private-group-join.png)
-   - If approved, you will become a member of the private group.
-     ![Accept/Reject Group Membership](../../assets/accept-reject-group-join.png)
-
-   - If denied, member can try contacting the group admin for more information.
-
-3. **Member Notification**:
-
-   - The member will be notified based on their request to either approve or deny it.
-
-   ![Request Approved](../../assets/bp-notification-request-accepted-group-join.png)
-
-   ![Request Rejected](../../assets/bp-notification-request-rejected-group-join.png)
-
-## Additional Information
-
-- **Private Groups**: Private groups require approval from a group admin to join. Your request to join must be approved before you can participate in the group activities and view group content.
-- **Group Admins**: Only group admins have the authority to approve or deny membership requests. If you have questions about your request, it is best to contact the admin directly.
+> [!NOTE]
+> Group creators and admins can restrict the power to invite others to join a group to Group's admins and/or mods.
