@@ -34,7 +34,7 @@ add_filter( 'register_url', 'bp_get_signup_page' );
 function bp_members_signup_sanitization() {
 
 	// Filters on sign-up fields.
-	$fields = array (
+	$fields = array(
 		'bp_get_signup_username_value',
 		'bp_get_signup_email_value',
 		'bp_get_signup_with_blog_value',
@@ -46,9 +46,9 @@ function bp_members_signup_sanitization() {
 
 	// Add the filters to each field.
 	foreach ( $fields as $filter ) {
-		add_filter( $filter, 'esc_html',       1 );
+		add_filter( $filter, 'esc_html', 1 );
 		add_filter( $filter, 'wp_filter_kses', 2 );
-		add_filter( $filter, 'stripslashes',   3 );
+		add_filter( $filter, 'stripslashes', 3 );
 	}
 
 	// Sanitize email.
@@ -75,7 +75,7 @@ function bp_members_signup_with_subdirectory_blog( $illegal_names = array() ) {
 	}
 
 	if ( is_network_admin() && isset( $_POST['blog'] ) ) {
-		$blog = $_POST['blog'];
+		$blog   = $_POST['blog'];
 		$domain = '';
 
 		if ( preg_match( '|^([a-zA-Z0-9-])$|', $blog['domain'] ) ) {
@@ -85,7 +85,6 @@ function bp_members_signup_with_subdirectory_blog( $illegal_names = array() ) {
 		if ( username_exists( $domain ) ) {
 			$illegal_names[] = $domain;
 		}
-
 	} else {
 		$illegal_names[] = buddypress()->signup->username;
 	}
@@ -130,6 +129,125 @@ function bp_members_edit_profile_url( $url, $user_id, $scheme = 'admin' ) {
 	return apply_filters( 'bp_members_edit_profile_url', $profile_link, $url, $user_id, $scheme );
 }
 add_filter( 'edit_profile_url', 'bp_members_edit_profile_url', 10, 3 );
+
+/**
+ * Filter BP_User_Query::populate_extras to add last activity.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_User_Query $user_query The BP_User_Query object.
+ */
+function bp_members_filter_user_query_populate_extras_last_activity( $user_query ) {
+	$last_activities = BP_Core_User::get_last_activity( $user_query->user_ids );
+
+	// Set a last_activity value for each user, even if it's empty.
+	foreach ( $user_query->results as $user_id => $user ) {
+		$user_last_activity = isset( $last_activities[ $user_id ]['date_recorded'] )
+			? $last_activities[ $user_id ]['date_recorded']
+			: '';
+
+		$user_query->results[ $user_id ]->last_activity = $user_last_activity;
+	}
+}
+add_action( 'bp_user_query_populate_extras', 'bp_members_filter_user_query_populate_extras_last_activity' );
+
+/**
+ * Filter BP_User_Query::populate_extras to add friend count & latest update.
+ *
+ * @since 15.0.0
+ *
+ * @global wpdb $wpdb WordPress database object.
+ *
+ * @param BP_User_Query $user_query   The BP_User_Query object.
+ * @param string        $user_ids_sql Comma-separated list of user IDs to fetch extra
+ *                                    data for, as determined by BP_User_Query.
+ */
+function bp_members_filter_user_query_populate_extras_friend_count_latest_update( $user_query, $user_ids_sql ) {
+	global $wpdb;
+
+	$total_friend_count_key = bp_get_user_meta_key( 'total_friend_count' );
+	$bp_latest_update_key   = bp_get_user_meta_key( 'bp_latest_update' );
+
+	// Total_friend_count must be set for each user, even if its
+	// value is 0.
+	foreach ( $user_query->results as $uindex => $user ) {
+		$user_query->results[ $uindex ]->total_friend_count = 0;
+	}
+
+	// Create, prepare, and run the separate usermeta query.
+	$user_metas = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT user_id, meta_key, meta_value FROM {$wpdb->usermeta} WHERE meta_key IN (%s,%s) AND user_id IN ({$user_ids_sql})",
+			$total_friend_count_key,
+			$bp_latest_update_key
+		)
+	);
+
+	// The $members_template global expects the index key to be different
+	// from the meta_key in some cases, so we rejig things here.
+	foreach ( $user_metas as $user_meta ) {
+		switch ( $user_meta->meta_key ) {
+			case $total_friend_count_key:
+				$key = 'total_friend_count';
+				break;
+
+			case $bp_latest_update_key:
+				$key = 'latest_update';
+				break;
+		}
+
+		if ( isset( $user_query->results[ $user_meta->user_id ] ) ) {
+			$user_query->results[ $user_meta->user_id ]->{$key} = $user_meta->meta_value;
+		}
+	}
+}
+add_action( 'bp_user_query_populate_extras', 'bp_members_filter_user_query_populate_extras_friend_count_latest_update', 10, 2 );
+
+/**
+ * Filter BP_User_Query::populate_extras to add meta key / value.
+ *
+ * Only added if 'meta_key' or 'meta_value' is passed to the user query.
+ *
+ * @since 15.0.0
+ *
+ * @global wpdb $wpdb WordPress database object.
+ *
+ * @param BP_User_Query $user_query The BP_User_Query object.
+ */
+function bp_members_filter_user_query_populate_extras_meta( $user_query ) {
+	global $wpdb;
+
+	if ( empty( $user_query->query_vars['meta_key'] ) ) {
+		return;
+	}
+
+	$meta_sql = array(
+		'select' => 'SELECT user_id, meta_key, meta_value',
+		'from'   => "FROM $wpdb->usermeta",
+		'where'  => $wpdb->prepare( 'WHERE meta_key = %s', $user_query->query_vars['meta_key'] ),
+	);
+
+	if ( false !== $user_query->query_vars['meta_value'] ) {
+		$meta_sql['where'] .= $wpdb->prepare( ' AND meta_value = %s', $user_query->query_vars['meta_value'] );
+	}
+
+	$metas = $wpdb->get_results( "{$meta_sql['select']} {$meta_sql['from']} {$meta_sql['where']}" );
+
+	if ( empty( $metas ) || ! is_array( $metas ) ) {
+		return;
+	}
+
+	foreach ( $metas as $meta ) {
+		if ( isset( $user_query->results[ $meta->user_id ] ) ) {
+			$user_query->results[ $meta->user_id ]->meta_key = $meta->meta_key;
+
+			if ( ! empty( $meta->meta_value ) ) {
+				$user_query->results[ $meta->user_id ]->meta_value = $meta->meta_value;
+			}
+		}
+	}
+}
+add_action( 'bp_user_query_populate_extras', 'bp_members_filter_user_query_populate_extras_meta' );
 
 /**
  * Filter the bp_user_can value to determine what the user can do in the members component.
@@ -240,7 +358,7 @@ function bp_members_invitations_get_registration_welcome_message() {
 			)
 		);
 
-	// This user can register!
+		// This user can register!
 	} else {
 
 		// Fetch the display names of all inviters to personalize the welcome message.
@@ -301,7 +419,7 @@ function bp_members_invitations_get_modified_registration_disabled_message() {
 			}
 
 			$message = implode( ' ', $message_parts );
-		} else if ( 'nouveau' === bp_get_theme_package_id() ) {
+		} elseif ( 'nouveau' === bp_get_theme_package_id() ) {
 			$message = sprintf(
 				/* translators: 1: The log in link `<a href="login_url">log in</a>`. 2: The lost password link `<a href="lost_password_url">log in</a>` */
 				esc_html__( 'Welcome! You are already a member of this site. Please %1$s to continue. If you have forgotten your password, you can %2$s.', 'buddypress' ),

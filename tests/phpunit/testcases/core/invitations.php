@@ -7,13 +7,112 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
  * @group invitations
  */
  class BP_Tests_Invitations extends BP_UnitTestCase {
+
+	 /**
+	  * @ticket BP8552
+	  * @group cache
+	  */
+	 public function test_invitation_query_with_ids_cache_results() {
+		 global $wpdb;
+
+		 $u1 = self::factory()->user->create();
+		 $u2 = self::factory()->user->create();
+		 $u3 = self::factory()->user->create();
+
+		 $invites_class = new BPTest_Invitation_Manager_Extension();
+
+		 // Create a couple of invitations.
+		 $invite_args = array(
+			 'user_id'           => $u3,
+			 'inviter_id'		=> $u1,
+			 'item_id'           => 1,
+			 'send_invite'       => 'sent',
+		 );
+
+		 $invites_class->add_invitation( $invite_args );
+
+		 $invite_args['inviter_id'] = $u2;
+
+		 $invites_class->add_invitation( $invite_args );
+
+		 $wpdb->num_queries = 0;
+
+		 $first_query = BP_Invitation::get(
+			 array(
+				 'cache_results' => true,
+				 'fields'        => 'ids',
+			 )
+		 );
+
+		 $queries_before = get_num_queries();
+
+		 $second_query = BP_Invitation::get(
+			 array(
+				 'cache_results' => false,
+				 'fields'        => 'ids',
+			 )
+		 );
+
+		 $queries_after = get_num_queries();
+
+		 $this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
+		 $this->assertSame( 2, $queries_after, 'Assert that the uncached query was run' );
+		 $this->assertSameSets( $first_query, $second_query, 'Results of the query are expected to match.' );
+	 }
+
+	 /**
+	  * @ticket BP8552
+	  * @group cache
+	  */
+	 public function test_invitation_query_with_all_cache_results() {
+		 global $wpdb;
+
+		 $u1 = self::factory()->user->create();
+		 $u2 = self::factory()->user->create();
+		 $u3 = self::factory()->user->create();
+
+		 $invites_class = new BPTest_Invitation_Manager_Extension();
+
+		 // Create a couple of invitations.
+		 $invite_args = array(
+			 'user_id'     => $u3,
+			 'inviter_id'  => $u1,
+			 'item_id'     => 1,
+			 'send_invite' => 'sent',
+		 );
+
+		 $invites_class->add_invitation( $invite_args );
+
+		 $invite_args['inviter_id'] = $u2;
+
+		 $invites_class->add_invitation( $invite_args );
+
+		 $wpdb->num_queries = 0;
+
+		 $first_query = BP_Invitation::get(
+			 array( 'cache_results' => true )
+		 );
+
+		 $queries_before = get_num_queries();
+
+		 $second_query = BP_Invitation::get(
+			 array( 'cache_results' => false )
+		 );
+
+		 $queries_after = get_num_queries();
+
+		 $this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
+		 $this->assertSame( 3, $queries_after, 'Assert that the uncached query was run' );
+		 $this->assertEquals( $first_query, $second_query, 'Results of the query are expected to match.' );
+	 }
+
 	public function test_bp_invitations_add_invitation_vanilla() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -35,15 +134,15 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$invites = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $i1, $i2 ), $invites );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_avoid_duplicates() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -59,16 +158,16 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$i2 = $invites_class->add_invitation( $invite_args );
 		$this->assertEquals( $i1, $i2 );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_invite_plus_request_should_accept() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -95,16 +194,16 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$invites = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $i1 ), wp_list_pluck( $invites, 'id' ) );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_unsent_invite_plus_request_should_not_accept() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -131,16 +230,16 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$invites = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array(), wp_list_pluck( $invites, 'id' ) );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_unsent_invite_plus_request_then_send_invite_should_accept() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -172,14 +271,14 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$invites = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $i1, $r1 ), $invites );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_vanilla() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -199,7 +298,7 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$requests = $invites_class->get_requests( $get_requests );
 		$this->assertEqualSets( array( $r1, $r2 ), $requests );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_avoid_duplicates() {
@@ -207,8 +306,8 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		// Create a couple of requests.
 		$request_args = array(
@@ -219,15 +318,15 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		// Attempt to create a duplicate.
 		$this->assertFalse( $invites_class->add_request( $request_args ) );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_request_plus_sent_invite_should_accept() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -257,15 +356,15 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$invites = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $r1, $i1 ), $invites );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_sending_should_clear_cache() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -285,15 +384,15 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$invite = new BP_Invitation( $i1 );
 		$this->assertEquals( 1, $invite->invite_sent );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_get_by_search_terms() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -330,14 +429,14 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$invites = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $i2 ), $invites );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_with_date_modified() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -352,15 +451,15 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$req = new BP_Invitation( $r1 );
 		$this->assertEquals( $time, $req->date_modified );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invite_with_date_modified() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 		$time = gmdate( 'Y-m-d H:i:s', time() - 100 );
@@ -378,16 +477,16 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$inv = new BP_Invitation( $i1 );
 		$this->assertEquals( $time, $inv->date_modified );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_orderby_item_id() {
 		$old_current_user = get_current_user_id();
 
-		$u1 = $this->factory->user->create();
-		$u2 = $this->factory->user->create();
-		$u3 = $this->factory->user->create();
-		$this->set_current_user( $u1 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$u3 = self::factory()->user->create();
+		self::set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -428,6 +527,6 @@ include_once BP_TESTS_DIR . 'assets/invitations-extensions.php';
 		$invites = $invites_class->get_invitations( $get_invites );
 		$this->assertEquals( array( $i3, $i1, $i2 ), $invites );
 
-		$this->set_current_user( $old_current_user );
+		self::set_current_user( $old_current_user );
 	}
 }

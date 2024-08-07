@@ -1,10 +1,21 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/factory.php';
+require_once __DIR__ . '/factory.php';
 
 class BP_UnitTestCase extends WP_UnitTestCase {
 
+	/**
+	 * Temp storage for users who have the bp_moderate capability.
+	 *
+	 * @var array
+	 */
 	protected $temp_has_bp_moderate = array();
+
+	/**
+	 * A cached copy of the SERVER_NAME global.
+	 *
+	 * @var string
+	 */
 	protected static $cached_SERVER_NAME = null;
 
 	/**
@@ -31,13 +42,12 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 * @since 3.0.0
 	 */
 	public static function set_up_before_class() {
-		global $wpdb;
-
 		// Fake WP mail globals, to avoid errors
 		add_filter( 'wp_mail', array( 'BP_UnitTestCase', 'setUp_wp_mail' ) );
 		add_filter( 'wp_mail_from', array( 'BP_UnitTestCase', 'tearDown_wp_mail' ) );
 
-		$c = self::get_called_class();
+		$c = get_called_class();
+
 		if ( ! method_exists( $c, 'wpSetUpBeforeClass' ) ) {
 			self::commit_transaction();
 			return;
@@ -57,12 +67,10 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		 */
 		bp_core_add_page_mappings( bp_get_option( 'bp-active-components' ), 'delete' );
 
-
-		$this->factory = new BP_UnitTest_Factory;
+		$this->factory = self::factory();
 
 		// Fixes warnings in multisite functions
 		$_SERVER['REMOTE_ADDR'] = '';
-		global $wpdb;
 
 		// Clean up after autocommits.
 		add_action( 'bp_blogs_recorded_existing_blogs', array( $this, 'set_autocommit_flag' ) );
@@ -111,6 +119,9 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 * Multisite-agnostic way to delete a user from the database.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @param int $user_id User ID.
+	 * @return bool True on success, false on failure.
 	 */
 	public static function delete_user( $user_id ) {
 		$deleted = parent::delete_user( $user_id );
@@ -126,15 +137,26 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	public function clean_up_global_scope() {
-		buddypress()->bp_nav                = buddypress()->bp_options_nav = buddypress()->action_variables = buddypress()->canonical_stack = buddypress()->unfiltered_uri = $GLOBALS['bp_unfiltered_uri'] = array();
-		buddypress()->current_component     = buddypress()->current_item = buddypress()->current_action = buddypress()->current_member_type = '';
-		buddypress()->unfiltered_uri_offset = 0;
-		buddypress()->is_single_item        = false;
-		buddypress()->current_user          = new stdClass();
-		buddypress()->displayed_user        = new stdClass();
-		buddypress()->loggedin_user         = new stdClass();
-		buddypress()->pages                 = array();
-		buddypress()->groups->types         = array();
+		$bp = buddypress();
+
+		$GLOBALS['bp_unfiltered_uri'] = array();
+
+		$bp->bp_nav                = array();
+		$bp->bp_options_nav        = array();
+		$bp->action_variables      = array();
+		$bp->canonical_stack       = array();
+		$bp->unfiltered_uri        = array();
+		$bp->current_component     = '';
+		$bp->current_item          = '';
+		$bp->current_action        = '';
+		$bp->current_member_type   = '';
+		$bp->unfiltered_uri_offset = 0;
+		$bp->is_single_item        = false;
+		$bp->current_user          = new stdClass();
+		$bp->displayed_user        = new stdClass();
+		$bp->loggedin_user         = new stdClass();
+		$bp->pages                 = array();
+		$bp->groups->types         = array();
 
 		parent::clean_up_global_scope();
 	}
@@ -190,12 +212,12 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	public function go_to( $url ) {
-		$GLOBALS['bp']->loggedin_user = NULL;
-		$GLOBALS['bp']->pages = bp_core_get_directory_pages();
+		$GLOBALS['bp']->loggedin_user = null;
+		$GLOBALS['bp']->pages         = bp_core_get_directory_pages();
 
 		foreach ( array_keys( bp_core_get_active_components() ) as $component ) {
 			$GLOBALS['bp']->{$component}->main_nav = array();
-			$GLOBALS['bp']->{$component}->sub_nav = array();
+			$GLOBALS['bp']->{$component}->sub_nav  = array();
 		}
 
 		$block_registry = WP_Block_Type_Registry::get_instance();
@@ -220,9 +242,9 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	public static function set_current_user( $user_id ) {
 		$bp = buddypress();
 
-		$bp->loggedin_user->id = $user_id;
+		$bp->loggedin_user->id             = $user_id;
 		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $user_id );
-		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin( $user_id );
+		$bp->loggedin_user->is_super_admin = is_super_admin( $user_id );
 		$bp->loggedin_user->domain         = bp_members_get_user_url( $user_id );
 		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( $user_id );
 
@@ -230,19 +252,21 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	public static function add_user_to_group( $user_id, $group_id, $args = array() ) {
-		$r = bp_parse_args( $args, array(
-			'date_modified' => bp_core_current_time(),
-			'is_confirmed'  => 1,
-			'is_admin'      => 0,
-			'is_mod'        => 0,
-			'invite_sent'   => 0,
-			'inviter_id'    => 0,
-		) );
+		$r = bp_parse_args(
+			$args,
+			array(
+				'date_modified' => bp_core_current_time(),
+				'is_confirmed'  => 1,
+				'is_admin'      => 0,
+				'is_mod'        => 0,
+				'invite_sent'   => 0,
+				'inviter_id'    => 0,
+			)
+		);
 
-		$new_member                = new BP_Groups_Member;
+		$new_member                = new BP_Groups_Member();
 		$new_member->group_id      = $group_id;
 		$new_member->user_id       = $user_id;
-		$new_member->inviter_id    = 0;
 		$new_member->is_admin      = $r['is_admin'];
 		$new_member->is_mod        = $r['is_mod'];
 		$new_member->user_title    = '';
@@ -252,6 +276,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$new_member->inviter_id    = $r['inviter_id'];
 
 		$new_member->save();
+
 		return $new_member->id;
 	}
 
@@ -266,7 +291,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			return;
 		}
 
-		$user = get_userdata( $user_id );
+		$user           = get_userdata( $user_id );
 		$super_admins[] = $user->user_login;
 	}
 
@@ -331,7 +356,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 */
 	public static function tearDown_wp_mail( $args ) {
 		if ( ! empty( self::$cached_SERVER_NAME ) ) {
-			$_SERVER['SERVER_NAME'] = self::$cached_SERVER_NAME;
+			$_SERVER['SERVER_NAME']   = self::$cached_SERVER_NAME;
 			self::$cached_SERVER_NAME = '';
 		} else {
 			$_SERVER['SERVER_NAME'] = WP_TESTS_DOMAIN;
@@ -347,6 +372,32 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	public static function commit_transaction() {
 		global $wpdb;
 		$wpdb->query( 'COMMIT;' );
+	}
+
+	/**
+	 * Set a flag that an autocommit has taken place inside of a test method.
+	 *
+	 * @since 2.4.0
+	 */
+	public function set_autocommit_flag() {
+		$this->autocommitted = true;
+	}
+
+	/**
+	 * Deactivate a component for the duration of a test.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $component Component name.
+	 */
+	public function deactivate_component( $component ) {
+		if ( ! isset( $component ) ) {
+			return;
+		}
+
+		unset( buddypress()->active_components[ $component ] );
+
+		$this->deactivated_components[] = $component;
 	}
 
 	/**
@@ -374,37 +425,10 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Set a flag that an autocommit has taken place inside of a test method.
-	 *
-	 * @since 2.4.0
-	 */
-	public function set_autocommit_flag() {
-		$this->autocommitted = true;
-	}
-
-	/**
-	 * Deactivate a component for the duration of a test.
-	 *
-	 * @since 2.4.0
-	 *
-	 * @param string $component Component name.
-	 */
-	public function deactivate_component( $component ) {
-		$is_active = isset( buddypress()->active_components[ $component ] );
-
-		if ( ! isset( $component ) ) {
-			return false;
-		}
-
-		unset( buddypress()->active_components[ $component ] );
-		$this->deactivated_components[] = $component;
-	}
-
-	/**
 	 * Fake an attachment upload (doesn't actually upload a file).
 	 *
 	 * @param string $file Absolute path to valid file.
-	 * @param int $parent Optional. Post ID to attach the new post to.
+	 * @param int    $parent Optional. Post ID to attach the new post to.
 	 * @return int Attachment post ID.
 	 */
 	public function fake_attachment_upload( $file, $parent = 0 ) {
@@ -415,7 +439,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 			$type = '';
 		}
 
-		$url = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . basename( $file );
+		$url        = 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . basename( $file );
 		$attachment = array(
 			'guid'           => 'http://' . WP_TESTS_DOMAIN . '/wp-content/uploads/' . $url,
 			'post_content'   => '',

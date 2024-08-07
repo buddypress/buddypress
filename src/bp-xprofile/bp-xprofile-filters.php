@@ -12,66 +12,66 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-add_filter( 'bp_get_the_profile_group_name',        'wp_filter_kses', 1 );
+add_filter( 'bp_get_the_profile_group_name', 'wp_filter_kses', 1 );
 add_filter( 'bp_get_the_profile_group_description', 'wp_filter_kses', 1 );
-add_filter( 'bp_get_the_profile_field_name',        'wp_filter_kses', 1 );
-add_filter( 'bp_get_the_profile_field_edit_value',  'xprofile_sanitize_data_value_before_display', 1, 3 );
+add_filter( 'bp_get_the_profile_field_name', 'wp_filter_kses', 1 );
+add_filter( 'bp_get_the_profile_field_edit_value', 'xprofile_sanitize_data_value_before_display', 1, 3 );
 add_filter( 'bp_get_the_profile_field_description', 'wp_filter_kses', 1 );
-add_filter( 'bp_get_the_profile_field_value',       'xprofile_sanitize_data_value_before_display', 1, 3 );
+add_filter( 'bp_get_the_profile_field_value', 'xprofile_sanitize_data_value_before_display', 1, 3 );
 
-add_filter( 'bp_get_the_profile_field_value',           'wptexturize'        );
-add_filter( 'bp_get_the_profile_field_value',           'convert_chars'      );
-add_filter( 'bp_get_the_profile_field_value',           'wpautop'            );
-add_filter( 'bp_get_the_profile_field_value',           'force_balance_tags' );
-add_filter( 'bp_get_the_profile_field_value',           'make_clickable'     );
-add_filter( 'bp_get_the_profile_field_value',           'bp_xprofile_escape_field_data', 8, 3 );
-add_filter( 'bp_get_the_profile_field_value',           'convert_smilies', 9 );
-add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value',         1, 2 );
-add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_format_field_value_by_type', 8, 3 );
-add_filter( 'bp_get_the_profile_field_value',           'xprofile_filter_link_profile_data',          9, 3 );
+add_filter( 'bp_get_the_profile_field_value', 'wptexturize' );
+add_filter( 'bp_get_the_profile_field_value', 'convert_chars' );
+add_filter( 'bp_get_the_profile_field_value', 'wpautop' );
+add_filter( 'bp_get_the_profile_field_value', 'force_balance_tags' );
+add_filter( 'bp_get_the_profile_field_value', 'make_clickable' );
+add_filter( 'bp_get_the_profile_field_value', 'bp_xprofile_escape_field_data', 8, 3 );
+add_filter( 'bp_get_the_profile_field_value', 'convert_smilies', 9 );
+add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_format_field_value', 1, 2 );
+add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_format_field_value_by_type', 8, 3 );
+add_filter( 'bp_get_the_profile_field_value', 'xprofile_filter_link_profile_data', 9, 3 );
 
-add_filter( 'bp_get_the_profile_field_edit_value',      'force_balance_tags' );
-add_filter( 'bp_get_the_profile_field_edit_value',      'bp_xprofile_escape_field_data', 10, 3 );
+add_filter( 'bp_get_the_profile_field_edit_value', 'force_balance_tags' );
+add_filter( 'bp_get_the_profile_field_edit_value', 'bp_xprofile_escape_field_data', 10, 3 );
 
-add_filter( 'bp_get_the_profile_group_name',            'stripslashes' );
-add_filter( 'bp_get_the_profile_group_description',     'stripslashes' );
-add_filter( 'bp_get_the_profile_field_value',           'stripslashes' );
-add_filter( 'bp_get_the_profile_field_edit_value',      'stripslashes' );
-add_filter( 'bp_get_the_profile_field_name',            'stripslashes' );
-add_filter( 'bp_get_the_profile_field_description',     'stripslashes' );
+add_filter( 'bp_get_the_profile_group_name', 'stripslashes' );
+add_filter( 'bp_get_the_profile_group_description', 'stripslashes' );
+add_filter( 'bp_get_the_profile_field_value', 'stripslashes' );
+add_filter( 'bp_get_the_profile_field_edit_value', 'stripslashes' );
+add_filter( 'bp_get_the_profile_field_name', 'stripslashes' );
+add_filter( 'bp_get_the_profile_field_description', 'stripslashes' );
 
-add_filter( 'xprofile_get_field_data',                  'xprofile_sanitize_data_value_before_display_from_get_field_data', 1, 2 );
-add_filter( 'xprofile_field_name_before_save',          'wp_filter_kses', 1 );
-add_filter( 'xprofile_field_description_before_save',   'wp_filter_kses', 1 );
+add_filter( 'xprofile_get_field_data', 'xprofile_sanitize_data_value_before_display_from_get_field_data', 1, 2 );
+add_filter( 'xprofile_field_name_before_save', 'wp_filter_kses', 1 );
+add_filter( 'xprofile_field_description_before_save', 'wp_filter_kses', 1 );
 
-add_filter( 'xprofile_get_field_data',                  'force_balance_tags' );
-add_filter( 'xprofile_field_name_before_save',          'force_balance_tags' );
-add_filter( 'xprofile_field_description_before_save',   'force_balance_tags' );
+add_filter( 'xprofile_get_field_data', 'force_balance_tags' );
+add_filter( 'xprofile_field_name_before_save', 'force_balance_tags' );
+add_filter( 'xprofile_field_description_before_save', 'force_balance_tags' );
 
-add_filter( 'xprofile_get_field_data',                  'stripslashes' );
-add_filter( 'xprofile_get_field_data',                  'xprofile_filter_format_field_value_by_field_id', 5, 2 );
+add_filter( 'xprofile_get_field_data', 'stripslashes' );
+add_filter( 'xprofile_get_field_data', 'xprofile_filter_format_field_value_by_field_id', 5, 2 );
 
-add_filter( 'bp_xprofile_set_field_data_pre_validate',  'xprofile_filter_pre_validate_value_by_field_type', 10, 3 );
-add_filter( 'xprofile_data_value_before_save',          'xprofile_sanitize_data_value_before_save', 1, 4 );
+add_filter( 'bp_xprofile_set_field_data_pre_validate', 'xprofile_filter_pre_validate_value_by_field_type', 10, 3 );
+add_filter( 'xprofile_data_value_before_save', 'xprofile_sanitize_data_value_before_save', 1, 4 );
 add_filter( 'xprofile_filtered_data_value_before_save', 'trim', 2 );
 
 // Save field groups.
-add_filter( 'xprofile_group_name_before_save',        'wp_filter_kses' );
+add_filter( 'xprofile_group_name_before_save', 'wp_filter_kses' );
 add_filter( 'xprofile_group_description_before_save', 'wp_filter_kses' );
 
-add_filter( 'xprofile_group_name_before_save',         'stripslashes' );
-add_filter( 'xprofile_group_description_before_save',  'stripslashes' );
+add_filter( 'xprofile_group_name_before_save', 'stripslashes' );
+add_filter( 'xprofile_group_description_before_save', 'stripslashes' );
 
 // Save fields.
-add_filter( 'xprofile_field_name_before_save',         'wp_filter_kses' );
-add_filter( 'xprofile_field_type_before_save',         'wp_filter_kses' );
-add_filter( 'xprofile_field_description_before_save',  'wp_filter_kses' );
-add_filter( 'xprofile_field_order_by_before_save',     'wp_filter_kses' );
+add_filter( 'xprofile_field_name_before_save', 'wp_filter_kses' );
+add_filter( 'xprofile_field_type_before_save', 'wp_filter_kses' );
+add_filter( 'xprofile_field_description_before_save', 'wp_filter_kses' );
+add_filter( 'xprofile_field_order_by_before_save', 'wp_filter_kses' );
 
-add_filter( 'xprofile_field_is_required_before_save',  'absint' );
-add_filter( 'xprofile_field_field_order_before_save',  'absint' );
+add_filter( 'xprofile_field_is_required_before_save', 'absint' );
+add_filter( 'xprofile_field_field_order_before_save', 'absint' );
 add_filter( 'xprofile_field_option_order_before_save', 'absint' );
-add_filter( 'xprofile_field_can_delete_before_save',   'absint' );
+add_filter( 'xprofile_field_can_delete_before_save', 'absint' );
 
 // Save field options.
 add_filter( 'xprofile_field_options_before_save', 'bp_xprofile_sanitize_field_options' );
@@ -137,7 +137,12 @@ function xprofile_filter_kses( $content, $data_obj = null, $field_id = null ) {
 	// If the field supports rich text, we must allow tags that appear in wp_editor().
 	if ( $field_id && bp_xprofile_is_richtext_enabled_for_field( $field_id ) ) {
 		$richtext_tags = array(
-			'img'  => array( 'src' => 1, 'alt' => 1, 'width' => 1, 'height' => 1 ),
+			'img'  => array(
+				'src'    => 1,
+				'alt'    => 1,
+				'width'  => 1,
+				'height' => 1,
+			),
 			'ul'   => array(),
 			'ol'   => array(),
 			'li'   => array(),
@@ -236,7 +241,7 @@ function xprofile_sanitize_data_value_before_save( $field_value, $field_id = 0, 
 		 */
 		$filtered_field_value = apply_filters( 'xprofile_filtered_data_value_before_save', $filtered_field_value, $field_value, $data_obj );
 
-	// Sanitize multiple individual option values.
+		// Sanitize multiple individual option values.
 	} else {
 		$filtered_values = array();
 		foreach ( (array) $field_value as $value ) {
@@ -425,9 +430,12 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 		$field_value = wp_specialchars_decode( $field_value, ENT_QUOTES );
 		$values      = explode( ';', $field_value );
 
-		array_walk( $values, function ( &$value, $key ) use ( $field_type, $field ) {
-			$value = bp_xprofile_escape_field_data( $value, $field_type, $field->id );
-		} );
+		array_walk(
+			$values,
+			function ( &$value, $key ) use ( $field_type, $field ) {
+				$value = bp_xprofile_escape_field_data( $value, $field_type, $field->id );
+			}
+		);
 	}
 
 	if ( ! empty( $values ) ) {
@@ -438,14 +446,14 @@ function xprofile_filter_link_profile_data( $field_value, $field_type = 'textbox
 			if ( preg_match( '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $value ) ) {
 				$new_values[] = make_clickable( $value );
 
-			// Is not clickable.
+				// Is not clickable.
 			} else {
 
 				// More than 5 spaces.
 				if ( count( explode( ' ', $value ) ) > 5 ) {
 					$new_values[] = $value;
 
-				// Less than 5 spaces.
+					// Less than 5 spaces.
 				} else {
 					$query_arg    = bp_core_get_component_search_query_arg( 'members' );
 					$search_url   = add_query_arg( array( $query_arg => urlencode( $value ) ), bp_get_members_directory_permalink() );
@@ -515,10 +523,9 @@ add_filter( 'comments_array', 'xprofile_filter_comments', 10, 2 );
  *
  * @since 1.7.0
  *
- * @param BP_User_Query $user_query   User query to filter.
- * @param string        $user_ids_sql SQL statement to use.
+ * @param BP_User_Query $user_query The BP_User_Query object.
  */
-function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_query, $user_ids_sql = '' ) {
+function bp_xprofile_filter_user_query_populate_extras( $user_query ) {
 
 	if ( ! bp_is_active( 'xprofile' ) ) {
 		return;
@@ -533,16 +540,16 @@ function bp_xprofile_filter_user_query_populate_extras( BP_User_Query $user_quer
 		}
 	}
 }
-add_filter( 'bp_user_query_populate_extras', 'bp_xprofile_filter_user_query_populate_extras', 2, 2 );
+add_action( 'bp_user_query_populate_extras', 'bp_xprofile_filter_user_query_populate_extras', 2 );
 
 /**
  * Parse 'xprofile_query' argument passed to BP_User_Query.
  *
  * @since 2.2.0
  *
- * @param BP_User_Query $q User query object.
+ * @param BP_User_Query $q The BP_User_Query object.
  */
-function bp_xprofile_add_xprofile_query_to_user_query( BP_User_Query $q ) {
+function bp_xprofile_add_xprofile_query_to_user_query( $q ) {
 
 	// Bail if no `xprofile_query` clause.
 	if ( empty( $q->query_vars['xprofile_query'] ) ) {
@@ -554,7 +561,7 @@ function bp_xprofile_add_xprofile_query_to_user_query( BP_User_Query $q ) {
 
 	if ( ! empty( $sql['join'] ) ) {
 		$q->uid_clauses['select'] .= $sql['join'];
-		$q->uid_clauses['where'] .= $sql['where'];
+		$q->uid_clauses['where']  .= $sql['where'];
 	}
 }
 add_action( 'bp_pre_user_query', 'bp_xprofile_add_xprofile_query_to_user_query' );
@@ -608,7 +615,7 @@ function bp_xprofile_filter_meta_query( $q ) {
 		 *   the query results
 		 * - append the 'object type' WHERE clause
 		 */
-		case 'SELECT' :
+		case 'SELECT':
 			$q = str_replace(
 				array(
 					$matches[0],
@@ -629,8 +636,8 @@ function bp_xprofile_filter_meta_query( $q ) {
 		 * - replace 'xprofile_{fieldtype}_id' with 'object_id'
 		 * - append the 'object type' WHERE clause
 		 */
-		case 'UPDATE' :
-		case 'DELETE' :
+		case 'UPDATE':
+		case 'DELETE':
 			$q = str_replace(
 				array(
 					$matches[0],
@@ -649,7 +656,7 @@ function bp_xprofile_filter_meta_query( $q ) {
 		 * - replace 'xprofile_{fieldtype}_id' with 'object_id'
 		 * - ensure that the object_type field gets filled in
 		 */
-		case 'INSERT' :
+		case 'INSERT':
 			$q = str_replace(
 				array(
 					'`' . $matches[0] . '`',
@@ -657,7 +664,7 @@ function bp_xprofile_filter_meta_query( $q ) {
 				),
 				array(
 					'`object_type`,`object_id`',
-					$wpdb->prepare( "VALUES (%s,", $matches[1] ),
+					$wpdb->prepare( 'VALUES (%s,', $matches[1] ),
 				),
 				$q
 			);
@@ -668,7 +675,7 @@ function bp_xprofile_filter_meta_query( $q ) {
 	if ( ! empty( $quoted_matches[0] ) ) {
 		for ( $i = 0; $i < count( $quoted_matches[0] ); $i++ ) {
 			$quote_pos = strpos( $q, '__QUOTE__' );
-			$q = substr_replace( $q, $quoted_matches[0][ $i ], $quote_pos, 9 );
+			$q         = substr_replace( $q, $quoted_matches[0][ $i ], $quote_pos, 9 );
 		}
 	}
 

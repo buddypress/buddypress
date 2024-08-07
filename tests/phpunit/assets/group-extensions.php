@@ -93,7 +93,6 @@ class BPTest_Group_Extension_Setup_Screens_Define_Edit_Screens_Locally extends B
 	function _setup_class_info() {
 		return $this->setup_class_info();
 	}
-
 }
 
 class BPTest_Group_Extension_Access_Root_Property extends BP_Group_Extension {

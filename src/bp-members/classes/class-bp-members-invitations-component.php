@@ -9,9 +9,25 @@
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
+
+/**
+ * BuddyPress Invitations Component Class.
+ *
+ * Invitations are actually a deactivable feature of the Members component. To make sure this feature
+ * page slugs can be customized using the BP Rewrites API, it was decided to extend the `BP_Component`
+ * class to benefit from the improvements added to it during 12.0.0 into the "rewrite" area.
+ * @see `BP_Component::register_nav()`.
+ *
+ * @since 12.0.0
+ */
 class BP_Members_Invitations_Component extends BP_Component {
 
-	function __construct() {
+	/**
+	 * Start the invitations feature creation process.
+	 *
+	 * @since 12.0.0
+	 */
+	public function __construct() {
 		parent::start(
 			'members_invitations',
 			__( 'Members Invitations', 'buddypress' ),

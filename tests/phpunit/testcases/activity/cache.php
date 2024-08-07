@@ -5,6 +5,117 @@
  * @group cache
  */
 class BP_Tests_Activity_Cache extends BP_UnitTestCase {
+
+	/**
+	 * @ticket BP8552
+	 */
+	public function test_activity_query_with_ids_cache_results() {
+		global $wpdb;
+
+		self::factory()->activity->create_many( 2 );
+
+		// Reset.
+		$wpdb->num_queries = 0;
+
+		$first_query = BP_Activity_Activity::get(
+			array(
+				'cache_results' => true,
+				'fields'        => 'ids',
+			)
+		);
+
+		$queries_before = get_num_queries();
+
+		$second_query = BP_Activity_Activity::get(
+			array(
+				'cache_results' => false,
+				'fields'        => 'ids',
+			)
+		);
+
+		$queries_after = get_num_queries();
+
+		$this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
+		$this->assertSame( 2, $queries_after, 'Assert that the uncached query was run' );
+		$this->assertSameSets( $first_query['activities'], $second_query['activities'], 'Results of the query are expected to match.' );
+	}
+
+	/**
+	 * @ticket BP8552
+	 */
+	public function test_activity_query_with_count_total_cache_results() {
+		global $wpdb;
+
+		self::factory()->activity->create_many( 2 );
+
+		// Reset.
+		$wpdb->num_queries = 0;
+
+		$first_query = BP_Activity_Activity::get(
+			array(
+				'cache_results' => true,
+				'count_total'   => true,
+			)
+		);
+
+		$queries_before = get_num_queries();
+
+		$second_query = BP_Activity_Activity::get(
+			array(
+				'cache_results' => false,
+				'count_total'   => true,
+			)
+		);
+
+		$queries_after = get_num_queries();
+
+		$this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
+		$this->assertSame( 9, $queries_after, 'Assert that the uncached query was run' );
+		$this->assertSame( $first_query['total'], $second_query['total'], 'Results of the query are expected to match.' );
+	}
+
+	/**
+	 * @ticket BP8552
+	 */
+	public function test_activity_query_with_all_cache_results() {
+		global $wpdb;
+
+		self::factory()->activity->create_many( 2 );
+
+		// Reset.
+		$wpdb->num_queries = 0;
+
+		$first_query = BP_Activity_Activity::get(
+			array( 'cache_results' => true )
+		);
+
+		$queries_before = get_num_queries();
+
+		$second_query = BP_Activity_Activity::get(
+			array( 'cache_results' => false )
+		);
+
+		$queries_after = get_num_queries();
+
+		$this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
+		$this->assertSame( 7, $queries_after, 'Assert that the uncached query was run' );
+		$this->assertSameSets(
+			array_map(
+				function ( $a ) {
+					return $a->id;
+				},
+				$first_query['activities']
+			),
+			array_map(
+				function ( $a ) {
+					return $a->id;
+				},
+				$second_query['activities']
+			),
+			'Results of the query are expected to match.'
+		);
+	}
+
 	/**
 	 * @group bp_activity_update_meta_cache
 	 */

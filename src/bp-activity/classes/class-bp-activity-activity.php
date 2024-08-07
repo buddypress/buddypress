@@ -382,6 +382,7 @@ class BP_Activity_Activity {
 	 *     @type bool         $display_comments  Whether to include activity comments. Default: false.
 	 *     @type bool         $show_hidden       Whether to show items marked hide_sitewide. Default: false.
 	 *     @type string       $spam              Spam status. Default: 'ham_only'.
+	 *     @type bool         $cache_results     Optional. Whether to cache activity information. Default true.
 	 *     @type bool         $update_meta_cache Whether to pre-fetch metadata for queried activity items. Default: true.
 	 *     @type string|bool  $count_total       If true, an additional DB query is run to count the total activity items
 	 *                                           for the query. Default: false.
@@ -450,8 +451,9 @@ class BP_Activity_Activity {
 				'display_comments'  => false,           // Whether to include activity comments.
 				'show_hidden'       => false,           // Show items marked hide_sitewide.
 				'spam'              => 'ham_only',      // Spam status.
-				'update_meta_cache' => true,            // Whether or not to update meta cache.
-				'count_total'       => false,           // Whether or not to use count_total.
+				'cache_results'     => true,            // Whether to cache activity information.
+				'update_meta_cache' => true,            // Whether to update meta cache.
+				'count_total'       => false,           // Whether to use count_total.
 				'count_total_only'  => false,           // Whether to only get the total count.
 			)
 		);
@@ -493,7 +495,7 @@ class BP_Activity_Activity {
 		}
 
 		// Regular filtering.
-		if ( $r['filter'] && $filter_sql = BP_Activity_Activity::get_filter_sql( $r['filter'] ) ) {
+		if ( $r['filter'] && $filter_sql = self::get_filter_sql( $r['filter'] ) ) {
 			$where_conditions['filter_sql'] = $filter_sql;
 		}
 
@@ -734,16 +736,6 @@ class BP_Activity_Activity {
 				$activity_sql = apply_filters( 'bp_activity_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}, a.id {$sort}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql );
 			}
 
-			/*
-			 * Queries that include 'last_activity' are cached separately,
-			 * since they are generally much less long-lived.
-			 */
-			if ( preg_match( '/a\.type NOT IN \([^\)]*\'last_activity\'[^\)]*\)/', $activity_sql ) ) {
-				$cache_group = 'bp_activity';
-			} else {
-				$cache_group = 'bp_activity_with_last_activity';
-			}
-
 			$activities = $wpdb->get_results( $activity_sql );
 
 			// Integer casting for legacy activity query.
@@ -757,7 +749,6 @@ class BP_Activity_Activity {
 				$activities[ $i ]->mptt_right        = (int) $ac->mptt_right;
 				$activities[ $i ]->is_spam           = (int) $ac->is_spam;
 			}
-
 		} elseif ( ! $only_get_count ) {
 			// Query first for activity IDs.
 			$activity_ids_sql = "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY {$order_by} {$sort}, a.id {$sort}";
@@ -778,22 +769,24 @@ class BP_Activity_Activity {
 			 */
 			$activity_ids_sql = apply_filters( 'bp_activity_paged_activities_sql', $activity_ids_sql, $r );
 
-			/*
-			 * Queries that include 'last_activity' are cached separately,
-			 * since they are generally much less long-lived.
-			 */
-			if ( preg_match( '/a\.type NOT IN \([^\)]*\'last_activity\'[^\)]*\)/', $activity_ids_sql ) ) {
-				$cache_group = 'bp_activity';
-			} else {
-				$cache_group = 'bp_activity_with_last_activity';
-			}
+			if ( $r['cache_results'] ) {
+				/*
+				 * Queries that include 'last_activity' are cached separately,
+				 * since they are generally much less long-lived.
+				 */
+				$cache_group = ( preg_match( '/a\.type NOT IN \([^\)]*\'last_activity\'[^\)]*\)/', $activity_ids_sql ) )
+					? 'bp_activity'
+					: 'bp_activity_with_last_activity';
 
-			$cached = bp_core_get_incremented_cache( $activity_ids_sql, $cache_group );
-			if ( false === $cached ) {
-				$activity_ids = $wpdb->get_col( $activity_ids_sql );
-				bp_core_set_incremented_cache( $activity_ids_sql, $cache_group, $activity_ids );
+				$cached = bp_core_get_incremented_cache( $activity_ids_sql, $cache_group );
+				if ( false === $cached ) {
+					$activity_ids = $wpdb->get_col( $activity_ids_sql );
+					bp_core_set_incremented_cache( $activity_ids_sql, $cache_group, $activity_ids );
+				} else {
+					$activity_ids = $cached;
+				}
 			} else {
-				$activity_ids = $cached;
+				$activity_ids = $wpdb->get_col( $activity_ids_sql );
 			}
 
 			$retval['has_more_items'] = ! empty( $per_page ) && count( $activity_ids ) > $per_page;
@@ -807,7 +800,7 @@ class BP_Activity_Activity {
 			if ( 'ids' === $r['fields'] ) {
 				$activities = array_map( 'intval', $activity_ids );
 			} else {
-				$activities = self::get_activity_data( $activity_ids );
+				$activities = self::get_activity_data( $activity_ids, $r['cache_results'] );
 			}
 		}
 
@@ -817,7 +810,7 @@ class BP_Activity_Activity {
 
 			// Get activity meta.
 			$activity_ids = array();
-			foreach ( (array) $activities as $activity ) {
+			foreach ( $activities as $activity ) {
 				$activity_ids[] = $activity->id;
 			}
 
@@ -825,55 +818,57 @@ class BP_Activity_Activity {
 				bp_activity_update_meta_cache( $activity_ids );
 			}
 
-			if ( $activities && $r['display_comments'] ) {
-				$activities = BP_Activity_Activity::append_comments( $activities, $r['spam'] );
+			if ( $r['display_comments'] ) {
+				$activities = self::append_comments( $activities, $r['spam'] );
 			}
 
 			// Pre-fetch data associated with activity users and other objects.
-			BP_Activity_Activity::prefetch_object_data( $activities );
+			self::prefetch_object_data( $activities );
 
 			// Generate action strings.
-			$activities = BP_Activity_Activity::generate_action_strings( $activities );
+			$activities = self::generate_action_strings( $activities );
 		}
 
 		$retval['activities'] = $activities;
 
 		// Only query the count total if requested.
 		if ( ! empty( $r['count_total'] ) || $only_get_count ) {
+			$total_activities_sql = "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$join_sql} {$where_sql}";
+
 			/**
 			 * Filters the total activities MySQL statement.
 			 *
 			 * @since 1.5.0
 			 *
-			 * @param string $value     MySQL statement used to query for total activities.
-			 * @param string $where_sql MySQL WHERE statement portion.
-			 * @param string $sort      Sort direction for query.
+			 * @param string $total_activities_sql MySQL statement used to query for total activities.
+			 * @param string $where_sql            MySQL WHERE statement portion.
+			 * @param string $sort                 Sort direction for query.
 			 */
-			$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', "SELECT count(DISTINCT a.id) FROM {$bp->activity->table_name} a {$join_sql} {$where_sql}", $where_sql, $sort );
+			$total_activities_sql = apply_filters( 'bp_activity_total_activities_sql', $total_activities_sql, $where_sql, $sort );
 
 			/*
 			 * Queries that include 'last_activity' are cached separately,
 			 * since they are generally much less long-lived.
 			 */
-			if ( preg_match( '/a\.type NOT IN \([^\)]*\'last_activity\'[^\)]*\)/', $total_activities_sql ) ) {
-				$cache_group = 'bp_activity';
-			} else {
-				$cache_group = 'bp_activity_with_last_activity';
-			}
+			$cache_group = ( preg_match( '/a\.type NOT IN \([^\)]*\'last_activity\'[^\)]*\)/', $total_activities_sql ) )
+				? 'bp_activity'
+				: 'bp_activity_with_last_activity';
 
-			$cached = bp_core_get_incremented_cache( $total_activities_sql, $cache_group );
-			if ( false === $cached ) {
-				$total_activities = $wpdb->get_var( $total_activities_sql );
-				bp_core_set_incremented_cache( $total_activities_sql, $cache_group, $total_activities );
+			if ( $r['cache_results'] ) {
+				$cached = bp_core_get_incremented_cache( $total_activities_sql, $cache_group );
+				if ( false === $cached ) {
+					$total_activities = $wpdb->get_var( $total_activities_sql );
+					bp_core_set_incremented_cache( $total_activities_sql, $cache_group, $total_activities );
+				} else {
+					$total_activities = $cached;
+				}
 			} else {
-				$total_activities = $cached;
+				$total_activities = $wpdb->get_var( $total_activities_sql );
 			}
 
 			// If $max is set, only return up to the max results.
-			if ( ! empty( $r['max'] ) ) {
-				if ( (int) $total_activities > (int) $r['max'] ) {
-					$total_activities = $r['max'];
-				}
+			if ( ! empty( $r['max'] ) && ( (int) $total_activities > (int) $r['max'] ) ) {
+				$total_activities = $r['max'];
 			}
 
 			$retval['total'] = $total_activities;
@@ -886,46 +881,71 @@ class BP_Activity_Activity {
 	 * Convert activity IDs to activity objects, as expected in template loop.
 	 *
 	 * @since 2.0.0
+	 * @since 15.0.0 Added the `$cache_results` parameter.
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $activity_ids Array of activity IDs.
+	 * @param bool  $cache_results Optional. Whether to cache activity information. Default true.
 	 * @return array
 	 */
-	protected static function get_activity_data( $activity_ids = array() ) {
+	protected static function get_activity_data( $activity_ids = array(), $cache_results = true ) {
 		global $wpdb;
 
 		// Bail if no activity ID's passed.
-		if ( empty( $activity_ids ) ) {
+		if ( empty( $activity_ids ) || ! is_array( $activity_ids ) ) {
 			return array();
 		}
 
 		// Get BuddyPress.
 		$bp = buddypress();
 
-		$activities   = array();
-		$uncached_ids = bp_get_non_cached_ids( $activity_ids, 'bp_activity' );
+		$activities = array();
 
-		// Prime caches as necessary.
-		if ( ! empty( $uncached_ids ) ) {
-			// Format the activity ID's for use in the query below.
-			$uncached_ids_sql = implode( ',', wp_parse_id_list( $uncached_ids ) );
+		if ( $cache_results ) {
+			$uncached_ids = bp_get_non_cached_ids( $activity_ids, 'bp_activity' );
+
+			// Prime caches as necessary.
+			if ( ! empty( $uncached_ids ) ) {
+				// Format the activity ID's for use in the query below.
+				$uncached_ids_sql = implode( ',', wp_parse_id_list( $uncached_ids ) );
+
+				// Fetch data from activity table.
+				$queried_activity_data = $wpdb->get_results( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$uncached_ids_sql})" );
+
+				// Put that data into the placeholders created earlier,
+				// and add it to the cache.
+				foreach ( (array) $queried_activity_data as $activity_data ) {
+					wp_cache_set( $activity_data->id, $activity_data, 'bp_activity' );
+				}
+			}
+
+			// Now fetch data from the cache.
+			foreach ( $activity_ids as $activity_id ) {
+				// Integer casting.
+				$activity = wp_cache_get( $activity_id, 'bp_activity' );
+				if ( ! empty( $activity ) ) {
+					$activity->id                = (int) $activity->id;
+					$activity->user_id           = (int) $activity->user_id;
+					$activity->item_id           = (int) $activity->item_id;
+					$activity->secondary_item_id = (int) $activity->secondary_item_id;
+					$activity->hide_sitewide     = (int) $activity->hide_sitewide;
+					$activity->mptt_left         = (int) $activity->mptt_left;
+					$activity->mptt_right        = (int) $activity->mptt_right;
+					$activity->is_spam           = (int) $activity->is_spam;
+				}
+
+				$activities[] = $activity;
+			}
+		} else {
+			$activity_ids = implode( ',', wp_parse_id_list( $activity_ids ) );
 
 			// Fetch data from activity table, preserving order.
-			$queried_adata = $wpdb->get_results( "SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$uncached_ids_sql})");
+			$uncached_queried_activity_data = $wpdb->get_results(
+				"SELECT * FROM {$bp->activity->table_name} WHERE id IN ({$activity_ids}) ORDER BY FIELD( {$bp->activity->table_name}.id, {$activity_ids} )"
+			);
 
-			// Put that data into the placeholders created earlier,
-			// and add it to the cache.
-			foreach ( (array) $queried_adata as $adata ) {
-				wp_cache_set( $adata->id, $adata, 'bp_activity' );
-			}
-		}
-
-		// Now fetch data from the cache.
-		foreach ( $activity_ids as $activity_id ) {
-			// Integer casting.
-			$activity = wp_cache_get( $activity_id, 'bp_activity' );
-			if ( ! empty( $activity ) ) {
+			foreach ( $uncached_queried_activity_data as $activity ) {
 				$activity->id                = (int) $activity->id;
 				$activity->user_id           = (int) $activity->user_id;
 				$activity->item_id           = (int) $activity->item_id;
@@ -934,23 +954,25 @@ class BP_Activity_Activity {
 				$activity->mptt_left         = (int) $activity->mptt_left;
 				$activity->mptt_right        = (int) $activity->mptt_right;
 				$activity->is_spam           = (int) $activity->is_spam;
-			}
 
-			$activities[] = $activity;
+				$activities[] = $activity;
+			}
 		}
 
 		// Then fetch user data.
-		$user_query = new BP_User_Query( array(
-			'user_ids'        => wp_list_pluck( $activities, 'user_id' ),
-			'populate_extras' => false,
-		) );
+		$user_query = new BP_User_Query(
+			array(
+				'user_ids'        => wp_list_pluck( $activities, 'user_id' ),
+				'populate_extras' => false,
+			)
+		);
 
 		// Associated located user data with activity items.
 		foreach ( $activities as $a_index => $a_item ) {
 			$a_user_id = intval( $a_item->user_id );
 			$a_user    = isset( $user_query->results[ $a_user_id ] ) ? $user_query->results[ $a_user_id ] : '';
 
-			if ( !empty( $a_user ) ) {
+			if ( ! empty( $a_user ) ) {
 				$activities[ $a_index ]->user_email    = $a_user->user_email;
 				$activities[ $a_index ]->user_nicename = $a_user->user_nicename;
 				$activities[ $a_index ]->user_login    = $a_user->user_login;
@@ -970,7 +992,6 @@ class BP_Activity_Activity {
 	 * @return array
 	 */
 	protected static function append_user_fullnames( $activities ) {
-
 		if ( bp_is_active( 'xprofile' ) && ! empty( $activities ) ) {
 			$activity_user_ids = wp_list_pluck( $activities, 'user_id' );
 

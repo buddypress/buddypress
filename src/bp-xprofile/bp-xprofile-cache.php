@@ -2,9 +2,6 @@
 /**
  * BuddyPress XProfile Caching Functions.
  *
- * Caching functions handle the clearing of cached objects and pages on specific
- * actions throughout BuddyPress.
- *
  * @package BuddyPress
  * @subpackage XProfileCache
  * @since 1.5.0
@@ -54,14 +51,13 @@ function bp_xprofile_get_non_cached_field_ids( $user_id = 0, $field_ids = array(
  *
  * @param array $object_ids Multi-dimensional array of object_ids, keyed by
  *                          object type ('group', 'field', 'data').
- * @return bool
  */
 function bp_xprofile_update_meta_cache( $object_ids = array() ) {
 	global $wpdb;
 
 	// Bail if no objects.
 	if ( empty( $object_ids ) ) {
-		return false;
+		return;
 	}
 
 	$bp = buddypress();
@@ -131,7 +127,7 @@ function bp_xprofile_update_meta_cache( $object_ids = array() ) {
 	}
 
 	// Setup the WHERE query part.
-	$where_sql = implode( " OR ", $where_conditions );
+	$where_sql = implode( ' OR ', $where_conditions );
 
 	// Attempt to query meta values.
 	$meta_list = $wpdb->get_results( "SELECT object_id, object_type, meta_key, meta_value FROM {$bp->profile->table_name_meta} WHERE {$where_sql}" );
@@ -185,11 +181,11 @@ function bp_xprofile_update_meta_cache( $object_ids = array() ) {
  * @param object $group_obj Group object to clear.
  */
 function xprofile_clear_profile_groups_object_cache( $group_obj ) {
-	wp_cache_delete( 'all',          'bp_xprofile_groups' );
+	wp_cache_delete( 'all', 'bp_xprofile_groups' );
 	wp_cache_delete( $group_obj->id, 'bp_xprofile_groups' );
 }
 add_action( 'xprofile_group_after_delete', 'xprofile_clear_profile_groups_object_cache' );
-add_action( 'xprofile_group_after_save',   'xprofile_clear_profile_groups_object_cache' );
+add_action( 'xprofile_group_after_save', 'xprofile_clear_profile_groups_object_cache' );
 
 /**
  * Clear caches when a field object is modified.
@@ -206,10 +202,10 @@ function xprofile_clear_profile_field_object_cache( $field_obj ) {
 	// Modified fields can alter parent group status, in particular when
 	// the group goes from empty to non-empty. Bust its cache, as well as
 	// the global 'all' cache.
-	wp_cache_delete( 'all',                'bp_xprofile_groups' );
+	wp_cache_delete( 'all', 'bp_xprofile_groups' );
 	wp_cache_delete( $field_obj->group_id, 'bp_xprofile_groups' );
 }
-add_action( 'xprofile_fields_saved_field',   'xprofile_clear_profile_field_object_cache' );
+add_action( 'xprofile_fields_saved_field', 'xprofile_clear_profile_field_object_cache' );
 add_action( 'xprofile_fields_deleted_field', 'xprofile_clear_profile_field_object_cache' );
 
 /**
@@ -232,7 +228,7 @@ add_action( 'bp_xprofile_field_set_member_type', 'bp_xprofile_clear_member_type_
 function xprofile_clear_profiledata_object_cache( $data_obj ) {
 	wp_cache_delete( "{$data_obj->user_id}:{$data_obj->field_id}", 'bp_xprofile_data' );
 }
-add_action( 'xprofile_data_after_save',   'xprofile_clear_profiledata_object_cache' );
+add_action( 'xprofile_data_after_save', 'xprofile_clear_profiledata_object_cache' );
 add_action( 'xprofile_data_after_delete', 'xprofile_clear_profiledata_object_cache' );
 
 /**
@@ -261,7 +257,6 @@ add_action( 'update_option_bp-xprofile-fullname-field-name', 'xprofile_clear_ful
  * @since 2.4.0
  *
  * @param int|BP_XProfile_Field $field A field ID or a field object.
- * @return bool False on failure.
  */
 function bp_xprofile_clear_field_cache( $field ) {
 	if ( is_numeric( $field ) ) {
@@ -271,7 +266,7 @@ function bp_xprofile_clear_field_cache( $field ) {
 	}
 
 	if ( ! isset( $field_id ) ) {
-		return false;
+		return;
 	}
 
 	wp_cache_delete( $field_id, 'bp_xprofile_fields' );
@@ -315,7 +310,7 @@ add_action( 'xprofile_updated_profile', 'bp_core_clear_cache' );
 function bp_xprofile_reset_user_mid_cache( $user_id ) {
 	wp_cache_delete( $user_id, 'bp_user_mid' );
 }
-add_action( 'profile_update', 'bp_xprofile_reset_user_mid_cache', 10, 1 );
+add_action( 'profile_update', 'bp_xprofile_reset_user_mid_cache' );
 
 /**
  * Resets the signup field IDs cache.

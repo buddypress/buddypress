@@ -7,6 +7,62 @@
 class BP_Tests_Group_Cache extends BP_UnitTestCase {
 
 	/**
+	 * @ticket BP8552
+	 */
+	public function test_query_cache_results() {
+		global $wpdb;
+
+		self::factory()->group->create_many( 2 );
+
+		// Reset.
+		$wpdb->num_queries = 0;
+
+		$first_query = BP_Groups_Group::get(
+			array(
+				'cache_results' => true,
+				'fields'        => 'ids',
+			)
+		);
+
+		$queries_before = get_num_queries();
+
+		$second_query = BP_Groups_Group::get(
+			array(
+				'cache_results' => false,
+				'fields'        => 'ids',
+			)
+		);
+
+		$queries_after = get_num_queries();
+
+		$this->assertNotSame( $queries_before, $queries_after, 'Assert that queries are run' );
+		$this->assertSame( 4, $queries_after, 'Assert that the uncached query was run' );
+		$this->assertSameSets( $first_query['groups'], $second_query['groups'], 'Results of the query are expected to match.' );
+	}
+
+	/**
+	 * @ticket BP8552
+	 */
+	public function test_random_query_cache_results() {
+		global $wpdb;
+
+		self::factory()->group->create_many( 2 );
+
+		// Reset.
+		$wpdb->num_queries = 0;
+
+		$args = array(
+			'orderby' => 'random',
+			'fields'  => 'ids',
+		);
+
+		BP_Groups_Group::get( $args );
+		BP_Groups_Group::get( $args );
+
+		$this->assertSame( 4, get_num_queries(), 'Assert random group queries are not cached.' );
+	}
+
+	/**
 	 * @group bp_groups_update_meta_cache
 	 */
 	public function test_bp_groups_update_meta_cache() {

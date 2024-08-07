@@ -357,9 +357,6 @@ class BP_Invitation {
 	/**
 	 * Assemble the WHERE clause of a get() SQL statement.
 	 *
-	 * Used by BP_Invitation::get() to create its WHERE
-	 * clause.
-	 *
 	 * @since 5.0.0
 	 *
 	 * @global wpdb $wpdb WordPress database object.
@@ -438,11 +435,9 @@ class BP_Invitation {
 		}
 
 		// Type.
-		if ( ! empty( $args['type'] ) && 'all' !== $args['type'] ) {
-			if ( 'invite' === $args['type'] || 'request' === $args['type'] ) {
-				$type_clean               = $wpdb->prepare( '%s', $args['type'] );
-				$where_conditions['type'] = "type = {$type_clean}";
-			}
+		if ( ! empty( $args['type'] ) && ( 'invite' === $args['type'] || 'request' === $args['type'] ) ) {
+			$type_clean               = $wpdb->prepare( '%s', $args['type'] );
+			$where_conditions['type'] = "type = {$type_clean}";
 		}
 
 		/**
@@ -688,6 +683,7 @@ class BP_Invitation {
 	 * Get invitations, based on provided filter parameters.
 	 *
 	 * @since 5.0.0
+	 * @since 15.0.0 Introduced the `cache_results` parameter.
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
@@ -729,6 +725,7 @@ class BP_Invitation {
 	 *     @type string       $sort_order        Either 'ASC' or 'DESC'.
 	 *     @type string       $order_by          Field to order results by.
 	 *     @type string       $sort_order        ASC or DESC.
+	 *     @type bool         $cache_results     Optional. Whether to cache invitation information. Default true.
 	 *     @type int          $page              Number of the current page of results.
 	 *                                           Default: false (no pagination,
 	 *                                           all items).
@@ -744,6 +741,7 @@ class BP_Invitation {
 	 */
 	public static function get( $args = array() ) {
 		global $wpdb;
+
 		$invites_table_name = BP_Invitation_Manager::get_table_name();
 
 		// Parse the arguments.
@@ -763,6 +761,7 @@ class BP_Invitation {
 				'search_terms'      => '',
 				'order_by'          => false,
 				'sort_order'        => false,
+				'cache_results'     => true,
 				'page'              => false,
 				'per_page'          => false,
 				'fields'            => 'all',
@@ -771,12 +770,9 @@ class BP_Invitation {
 		);
 
 		$sql = array(
-			'select'     => 'SELECT',
-			'fields'     => '',
-			'from'       => "FROM {$invites_table_name} i",
-			'where'      => '',
-			'orderby'    => '',
-			'pagination' => '',
+			'select' => 'SELECT',
+			'from'   => "FROM {$invites_table_name} i",
+			'fields' => 'DISTINCT i.id',
 		);
 
 		if ( 'item_ids' === $r['fields'] ) {
@@ -785,8 +781,6 @@ class BP_Invitation {
 			$sql['fields'] = 'DISTINCT i.user_id';
 		} elseif ( 'inviter_ids' === $r['fields'] ) {
 			$sql['fields'] = 'DISTINCT i.inviter_id';
-		} else {
-			$sql['fields'] = 'DISTINCT i.id';
 		}
 
 		// WHERE.
@@ -829,18 +823,22 @@ class BP_Invitation {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @param string $value Concatenated SQL statement.
-		 * @param array  $sql   Array of SQL parts before concatenation.
-		 * @param array  $r     Array of parsed arguments for the get method.
+		 * @param string $paged_invites_sql Concatenated SQL statement.
+		 * @param array  $sql               Array of SQL parts before concatenation.
+		 * @param array  $r                 Array of parsed arguments for the get method.
 		 */
 		$paged_invites_sql = apply_filters( 'bp_invitations_get_paged_invitations_sql', $paged_invites_sql, $sql, $r );
 
-		$cached = bp_core_get_incremented_cache( $paged_invites_sql, 'bp_invitations' );
-		if ( false === $cached ) {
-			$paged_invite_ids = $wpdb->get_col( $paged_invites_sql );
-			bp_core_set_incremented_cache( $paged_invites_sql, 'bp_invitations', $paged_invite_ids );
+		if ( $r['cache_results'] ) {
+			$cached = bp_core_get_incremented_cache( $paged_invites_sql, 'bp_invitations' );
+			if ( false === $cached ) {
+				$paged_invite_ids = $wpdb->get_col( $paged_invites_sql );
+				bp_core_set_incremented_cache( $paged_invites_sql, 'bp_invitations', $paged_invite_ids );
+			} else {
+				$paged_invite_ids = $cached;
+			}
 		} else {
-			$paged_invite_ids = $cached;
+			$paged_invite_ids = $wpdb->get_col( $paged_invites_sql );
 		}
 
 		// Special return format cases.
@@ -849,12 +847,14 @@ class BP_Invitation {
 			return array_map( 'intval', $paged_invite_ids );
 		}
 
-		$uncached_ids = bp_get_non_cached_ids( $paged_invite_ids, 'bp_invitations' );
-		if ( $uncached_ids ) {
-			$ids_sql      = implode( ',', array_map( 'intval', $uncached_ids ) );
-			$data_objects = $wpdb->get_results( "SELECT i.* FROM {$invites_table_name} i WHERE i.id IN ({$ids_sql})" );
-			foreach ( $data_objects as $data_object ) {
-				wp_cache_set( $data_object->id, $data_object, 'bp_invitations' );
+		if ( $r['cache_results'] ) {
+			$uncached_ids = bp_get_non_cached_ids( $paged_invite_ids, 'bp_invitations' );
+			if ( $uncached_ids ) {
+				$ids_sql      = implode( ',', array_map( 'intval', $uncached_ids ) );
+				$data_objects = $wpdb->get_results( "SELECT i.* FROM {$invites_table_name} i WHERE i.id IN ({$ids_sql})" );
+				foreach ( $data_objects as $data_object ) {
+					wp_cache_set( $data_object->id, $data_object, 'bp_invitations' );
+				}
 			}
 		}
 
@@ -881,6 +881,7 @@ class BP_Invitation {
 	 */
 	public static function get_total_count( $args ) {
 		global $wpdb;
+
 		$invites_table_name = BP_Invitation_Manager::get_table_name();
 
 		$r = bp_parse_args(
@@ -913,7 +914,7 @@ class BP_Invitation {
 		$sql        = "{$select_sql} {$from_sql} {$where_sql}";
 
 		// Return the queried results.
-		return $wpdb->get_var( $sql );
+		return (int) $wpdb->get_var( $sql );
 	}
 
 	/**
