@@ -2283,6 +2283,8 @@ function groups_remove_member( $user_id, $group_id, $group_admin_id = 0 ) {
 	 * @param int $group_id ID of the group being removed from.
 	 */
 	do_action( 'group_member_removed', $user_id, $group_id );
+
+	return true;
 }
 
 /** Group Membership **********************************************************/
