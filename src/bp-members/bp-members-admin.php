@@ -107,6 +107,8 @@ function bp_members_type_admin_updated_messages( $messages = array() ) {
 		8  => __( 'Sorry, there was an error while trying to delete this Member type.', 'buddypress' ),
 		9  => __( 'Member type successfully deleted.', 'buddypress' ),
 		10 => __( 'Member type could not be updated due to missing required information.', 'buddypress' ),
+		11 => __( 'Please define the Member Type Singular Name field.', 'buddypress' ),
+		12 => __( 'Please define the Member Type Plural Name field.', 'buddypress' ),
 	);
 
 	return $messages;

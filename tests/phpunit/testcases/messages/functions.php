@@ -22,11 +22,11 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 		) );
 
 		// get unread count for $u2
-		$this->set_current_user( $u2 );
+		self::set_current_user( $u2 );
 		$this->assertEquals( 1, messages_get_unread_count( $u2 ) );
 
 		// send another message and get recheck unread count
-		$t2 = messages_new_message( array(
+		messages_new_message( array(
 			'sender_id'  => $u1,
 			'recipients' => array( $u2 ),
 			'subject'    => 'A new message',
@@ -39,6 +39,77 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 
 		// recheck unread count
 		$this->assertEquals( 1, messages_get_unread_count( $u2 ) );
+	}
+
+	/**
+	 * @dataProvider provider_new_message_empty_content_options
+	 *
+	 * @ticket BP9175
+	 * @group messages_new_message
+	 */
+	public function test_messages_new_message_empty_content( $content ) {
+		$t1 = messages_new_message(
+			array(
+				'sender_id'  => self::factory()->user->create(),
+				'recipients' => array( self::factory()->user->create() ),
+				'subject'    => 'A new message',
+				'content'    => $content,
+				'error_type' => 'wp_error'
+			)
+		);
+
+		$this->assertSame(
+			'Your message was not sent. Please enter some content.',
+			$t1->get_error_message()
+		);
+	}
+
+	/**
+	 * @dataProvider provider_new_message_irregular_content_options
+	 *
+	 * @ticket BP9175
+	 * @group messages_new_message
+	 */
+	public function test_messages_new_message_irregular_content( $content ) {
+		$t1 = messages_new_message( array(
+			'sender_id'  => self::factory()->user->create(),
+			'recipients' => array( self::factory()->user->create() ),
+			'subject'    => 'A new message',
+			'content'    => $content,
+			'error_type' => 'wp_error'
+		) );
+
+		$this->assertTrue( is_int( $t1 ) );
+	}
+
+	/**
+	 * Provider for the test_messages_new_message_irregular_content_options() test.
+	 *
+	 * @return array
+	 */
+	public function provider_new_message_irregular_content_options() {
+		return array(
+			array( '0' ),
+			array( '00' ),
+			array( 'false' ),
+		);
+	}
+
+	/**
+	 * Provider for the test_messages_new_message_empty_content() test.
+	 *
+	 * @return array
+	 */
+	public function provider_new_message_empty_content_options() {
+		return array(
+			array( '' ),
+			array( "" ),
+			array( null ),
+			array( false ),
+			array( 0 ), // '0' is a valid message content.
+			array( array() ),
+			array( new stdClass() ),
+		);
 	}
 
 	/**

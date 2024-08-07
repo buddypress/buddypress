@@ -101,20 +101,22 @@ class BP_Optout {
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
-	 * @return bool
+	 * @return false|int
 	 */
 	public function save() {
+		global $wpdb;
 
 		// Return value.
 		$retval = false;
 
 		// Default data and format.
-		$data        = array(
+		$data = array(
 			'email_address_hash' => $this->email_address,
 			'user_id'            => $this->user_id,
 			'email_type'         => sanitize_key( $this->email_type ),
 			'date_modified'      => $this->date_modified,
 		);
+
 		$data_format = array( '%s', '%d', '%s', '%s' );
 
 		/**
@@ -122,7 +124,7 @@ class BP_Optout {
 		 *
 		 * @since 8.0.0
 		 *
-		 * @param BP_Optout object $this Characteristics of the opt-out to be saved.
+		 * @param BP_Optout $bp_optout Characteristics of the opt-out to be saved.
 		 */
 		do_action_ref_array( 'bp_optout_before_save', array( &$this ) );
 
@@ -136,8 +138,6 @@ class BP_Optout {
 
 		// Set the opt-out ID if successful.
 		if ( ! empty( $result ) && ! is_wp_error( $result ) ) {
-			global $wpdb;
-
 			$this->id = $wpdb->insert_id;
 			$retval   = $wpdb->insert_id;
 		}
@@ -504,6 +504,7 @@ class BP_Optout {
 	 * Get opt-outs, based on provided filter parameters.
 	 *
 	 * @since 8.0.0
+	 * @since 15.0.0 Introduced the `cache_results` parameter.
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
@@ -525,6 +526,7 @@ class BP_Optout {
 	 *     @type int          $page              Number of the current page of results.
 	 *                                           Default: false (no pagination,
 	 *                                           all items).
+	 *     @type bool         $cache_results     Optional. Whether to cache the optout information. Default: true.
 	 *     @type int          $per_page          Number of items to show per page.
 	 *                                           Default: false (no pagination,
 	 *                                           all items).
@@ -540,6 +542,7 @@ class BP_Optout {
 	 */
 	public static function get( $args = array() ) {
 		global $wpdb;
+
 		$optouts_table_name = self::get_table_name();
 
 		// Parse the arguments.
@@ -555,18 +558,15 @@ class BP_Optout {
 				'sort_order'    => false,
 				'page'          => false,
 				'per_page'      => false,
+				'cache_results' => true,
 				'fields'        => 'all',
 			),
 			'bp_optout_get'
 		);
 
 		$sql = array(
-			'select'     => 'SELECT',
-			'fields'     => '',
-			'from'       => "FROM {$optouts_table_name} o",
-			'where'      => '',
-			'orderby'    => '',
-			'pagination' => '',
+			'select' => 'SELECT',
+			'from'   => "FROM {$optouts_table_name} o",
 		);
 
 		if ( 'user_ids' === $r['fields'] ) {
@@ -611,18 +611,22 @@ class BP_Optout {
 		 *
 		 * @since 8.0.0
 		 *
-		 * @param string $value Concatenated SQL statement.
-		 * @param array  $sql   Array of SQL parts before concatenation.
-		 * @param array  $r     Array of parsed arguments for the get method.
+		 * @param string $paged_optouts_sql Concatenated SQL statement.
+		 * @param array  $sql               Array of SQL parts before concatenation.
+		 * @param array  $r                 Array of parsed arguments for the get method.
 		 */
 		$paged_optouts_sql = apply_filters( 'bp_optouts_get_paged_optouts_sql', $paged_optouts_sql, $sql, $r );
 
-		$cached = bp_core_get_incremented_cache( $paged_optouts_sql, 'bp_optouts' );
-		if ( false === $cached ) {
-			$paged_optout_ids = $wpdb->get_col( $paged_optouts_sql );
-			bp_core_set_incremented_cache( $paged_optouts_sql, 'bp_optouts', $paged_optout_ids );
+		if ( $r['cache_results'] ) {
+			$cached = bp_core_get_incremented_cache( $paged_optouts_sql, 'bp_optouts' );
+			if ( false === $cached ) {
+				$paged_optout_ids = $wpdb->get_col( $paged_optouts_sql );
+				bp_core_set_incremented_cache( $paged_optouts_sql, 'bp_optouts', $paged_optout_ids );
+			} else {
+				$paged_optout_ids = $cached;
+			}
 		} else {
-			$paged_optout_ids = $cached;
+			$paged_optout_ids = $wpdb->get_col( $paged_optouts_sql );
 		}
 
 		// Special return format cases.
@@ -633,12 +637,14 @@ class BP_Optout {
 			return $paged_optout_ids;
 		}
 
-		$uncached_ids = bp_get_non_cached_ids( $paged_optout_ids, 'bp_optouts' );
-		if ( $uncached_ids ) {
-			$ids_sql      = implode( ',', array_map( 'intval', $uncached_ids ) );
-			$data_objects = $wpdb->get_results( "SELECT o.* FROM {$optouts_table_name} o WHERE o.id IN ({$ids_sql})" );
-			foreach ( $data_objects as $data_object ) {
-				wp_cache_set( $data_object->id, $data_object, 'bp_optouts' );
+		if ( $r['cache_results'] ) {
+			$uncached_ids = bp_get_non_cached_ids( $paged_optout_ids, 'bp_optouts' );
+			if ( $uncached_ids ) {
+				$ids_sql      = implode( ',', array_map( 'intval', $uncached_ids ) );
+				$data_objects = $wpdb->get_results( "SELECT o.* FROM {$optouts_table_name} o WHERE o.id IN ({$ids_sql})" );
+				foreach ( $data_objects as $data_object ) {
+					wp_cache_set( $data_object->id, $data_object, 'bp_optouts' );
+				}
 			}
 		}
 

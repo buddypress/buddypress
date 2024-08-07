@@ -2,11 +2,8 @@
 /**
  * BuddyPress Friends Caching.
  *
- * Caching functions handle the clearing of cached objects and pages on specific
- * actions throughout BuddyPress.
- *
  * @package BuddyPress
- * @subpackage FriendsCaching
+ * @subpackage FriendsCache
  * @since 1.5.0
  */
 
@@ -20,12 +17,12 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param int $friendship_id ID of the friendship whose two members should
  *                           have their friends cache busted.
- * @return bool
  */
 function friends_clear_friend_object_cache( $friendship_id ) {
 	$friendship = new BP_Friends_Friendship( $friendship_id );
-	if ( ! $friendship ) {
-		return false;
+
+	if ( empty( $friendship->id ) ) {
+		return;
 	}
 
 	wp_cache_delete( 'friends_friend_ids_' . $friendship->initiator_user_id, 'bp' );
@@ -54,7 +51,7 @@ function bp_friends_clear_bp_friends_friendships_cache( $friendship_id, $initiat
 	wp_cache_delete( $friendship_id, 'bp_friends_friendships' );
 
 	// Clear incremented cache.
-	$friendship = new stdClass;
+	$friendship                    = new stdClass();
 	$friendship->initiator_user_id = $initiator_user_id;
 	$friendship->friend_user_id    = $friend_user_id;
 	bp_friends_delete_cached_friendships_on_friendship_save( $friendship );
@@ -134,7 +131,7 @@ add_action( 'friends_friendship_rejected', 'bp_friends_clear_request_cache_on_re
  *
  * @since 3.0.0
  *
- * @param BP_Friends_Friendship $friendship The friendship object.
+ * @param BP_Friends_Friendship|stdClass $friendship The friendship object.
  */
 function bp_friends_delete_cached_friendships_on_friendship_save( $friendship ) {
 	bp_core_delete_incremented_cache( $friendship->friend_user_id . ':' . $friendship->initiator_user_id, 'bp_friends' );
@@ -143,7 +140,7 @@ function bp_friends_delete_cached_friendships_on_friendship_save( $friendship ) 
 add_action( 'friends_friendship_after_save', 'bp_friends_delete_cached_friendships_on_friendship_save' );
 
 // List actions to clear super cached pages on, if super cache is installed.
-add_action( 'friends_friendship_rejected',  'bp_core_clear_cache' );
-add_action( 'friends_friendship_accepted',  'bp_core_clear_cache' );
-add_action( 'friends_friendship_deleted',   'bp_core_clear_cache' );
+add_action( 'friends_friendship_rejected', 'bp_core_clear_cache' );
+add_action( 'friends_friendship_accepted', 'bp_core_clear_cache' );
+add_action( 'friends_friendship_deleted', 'bp_core_clear_cache' );
 add_action( 'friends_friendship_requested', 'bp_core_clear_cache' );

@@ -4,7 +4,7 @@ BuddyPress adds various submenus to the Dashboard **Users** menu, as well as, ad
 
 ![Users submenus](../../assets/bp-admin-users-submenus.png)
 
-- Extended Profile
+- [Extended Profile](./profile.md)
 - [Manage Sign-ups](./signups.md)
 - [Profile Fields](./xprofile.md)
 - [Member Types](./member-types.md)

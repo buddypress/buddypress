@@ -614,6 +614,7 @@ function bp_core_get_active_member_count() {
 	global $wpdb;
 
 	$count = get_transient( 'bp_active_member_count' );
+
 	if ( false === $count ) {
 		$bp = buddypress();
 
@@ -1620,9 +1621,10 @@ function bp_core_validate_email_address( $user_email ) {
 	// Is the email on the Limited Email Domains list?
 	// Note: This check only works on Multisite.
 	$limited_email_domains = get_site_option( 'limited_email_domains' );
-	if ( is_array( $limited_email_domains ) && empty( $limited_email_domains ) == false ) {
+	if ( is_array( $limited_email_domains ) && ! empty( $limited_email_domains ) ) {
 		$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
-		if ( ! in_array( $emaildomain, $limited_email_domains ) ) {
+
+		if ( ! in_array( $emaildomain, $limited_email_domains, true ) ) {
 			$errors['domain_not_allowed'] = 1;
 		}
 	}
@@ -1632,9 +1634,7 @@ function bp_core_validate_email_address( $user_email ) {
 		$errors['in_use'] = 1;
 	}
 
-	$retval = ! empty( $errors ) ? $errors : true;
-
-	return $retval;
+	return ! empty( $errors ) ? $errors : true;
 }
 
 /**
@@ -1711,8 +1711,8 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 		// User name can't be on the list of illegal names.
 		$illegal_names = get_site_option( 'illegal_names' );
-		if ( in_array( $user_name, (array) $illegal_names ) ) {
-			$errors->add( 'user_name', __( 'That username is not allowed', 'buddypress' ) );
+		if ( in_array( $user_name, (array) $illegal_names, true ) ) {
+			$errors->add( 'user_name', __( 'That username is not allowed.', 'buddypress' ) );
 		}
 
 		// User name must pass WP's validity check.
@@ -1722,25 +1722,36 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 		// Minimum of 4 characters.
 		if ( strlen( $user_name ) < 4 ) {
-			$errors->add( 'user_name',  __( 'Username must be at least 4 characters', 'buddypress' ) );
+			$errors->add( 'user_name', __( 'Username must be at least 4 characters.', 'buddypress' ) );
+		}
+
+		// Maximum of 60 characters.
+		if ( strlen( $user_name ) > 60 ) {
+			$errors->add( 'user_name', __( 'Username may not be longer than 60 characters.', 'buddypress' ) );
 		}
 
 		// No underscores. @todo Why not?
-		if ( false !== strpos( ' ' . $user_name, '_' ) ) {
+		if ( str_contains( ' ' . $user_name, '_' ) ) {
 			$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character "_"!', 'buddypress' ) );
 		}
 
 		// No usernames that are all numeric. @todo Why?
 		$match = array();
 		preg_match( '/[0-9]*/', $user_name, $match );
-		if ( $match[0] == $user_name ) {
+
+		// Check for valid letters.
+		$valid_letters = preg_match( '/[a-zA-Z]+/', $user_name );
+
+		if ( $match[0] === $user_name || ! $valid_letters ) {
 			$errors->add( 'user_name', __( 'Sorry, usernames must have letters too!', 'buddypress' ) );
 		}
 
 		// Check into signups.
-		$signups = BP_Signup::get( array(
-			'user_login' => $user_name,
-		) );
+		$signups = BP_Signup::get(
+			array(
+				'user_login' => $user_name,
+			)
+		);
 
 		$signup = isset( $signups['signups'] ) && ! empty( $signups['signups'][0] ) ? $signups['signups'][0] : false;
 
@@ -2552,6 +2563,12 @@ function bp_core_wpsignup_redirect() {
 	} elseif ( $referer ) {
 		$referer_path     = wp_parse_url( $referer, PHP_URL_PATH );
 		$is_site_creation = false !== strpos( $referer_path, 'wp-admin/my-sites.php' );
+	} else {
+		// The WordPress registration setting must allow access.
+		$registration = get_site_option( 'registration' );
+		if ( is_user_logged_in() && in_array( $registration, array( 'blog', 'all' ), true ) ) {
+			$is_site_creation = true;
+		}
 	}
 
 	if ( $is_site_creation ) {
@@ -2759,7 +2776,7 @@ function bp_get_member_type_tax_labels() {
 			'back_to_items'              => _x( '&larr; Back to Member Types', 'Member type taxonomy back to items label', 'buddypress' ),
 
 			// Specific to BuddyPress.
-			'bp_type_id_label'           => _x( 'Member Type ID', 'BP Member type ID label', 'buddypress' ),
+			'bp_type_id_label'           => _x( 'Member Type ID (required)', 'BP Member type ID label', 'buddypress' ),
 			'bp_type_id_description'     => _x( 'Enter a lower-case string without spaces or special characters (used internally to identify the member type).', 'BP Member type ID description', 'buddypress' ),
 			'bp_type_show_in_list'       => _x( 'Show on Member', 'BP Member type show in list', 'buddypress' ),
 		)

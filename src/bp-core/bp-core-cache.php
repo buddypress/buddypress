@@ -1,12 +1,9 @@
 <?php
 /**
- * BuddyPress Core Caching Functions.
- *
- * Caching functions handle the clearing of cached objects and pages on specific
- * actions throughout BuddyPress.
+ * BuddyPress Core Caching.
  *
  * @package BuddyPress
- * @subpackage Cache
+ * @subpackage Core
  * @since 1.5.0
  */
 
@@ -56,7 +53,7 @@ function bp_core_clear_user_object_cache( $user_id ) {
 }
 
 /**
- * Clear member count caches and transients.
+ * Clear member count caches and/or transients.
  *
  * @since 1.6.0
  */
@@ -310,12 +307,12 @@ function bp_core_get_incremented_cache( $key, $group ) {
  *
  * @param string $key   Unique key for the query. Usually a SQL string.
  * @param string $group Cache group. Eg 'bp_activity'.
- * @param array  $ids   Array of IDs.
+ * @param mixed  $value The value to store.
  * @return bool
  */
-function bp_core_set_incremented_cache( $key, $group, $ids ) {
+function bp_core_set_incremented_cache( $key, $group, $value ) {
 	$cache_key = bp_core_get_incremented_cache_key( $key, $group );
-	return wp_cache_set( $cache_key, $ids, $group );
+	return wp_cache_set( $cache_key, $value, $group );
 }
 
 /**
@@ -324,6 +321,7 @@ function bp_core_set_incremented_cache( $key, $group, $ids ) {
  * A utility function for use by query methods like BP_Activity_Activity::get().
  *
  * @since 3.0.0
+ *
  * @see bp_core_set_incremented_cache()
  *
  * @param string $key   Unique key for the query. Usually a SQL string.
