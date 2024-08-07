@@ -120,6 +120,12 @@ class BP_Nouveau extends BP_Theme_Compat {
 				},
 				0
 			);
+
+			// When BP Classic is activated, regular themes need this filter. 
+			if ( function_exists( 'bp_classic' ) ) {
+				// Set the BP Uri for the Ajax customizer preview.
+				add_filter( 'bp_uri', array( $this, 'customizer_set_uri' ), 10, 1 );
+			}
 		} elseif ( wp_using_themes() && ! isset( $_GET['bp_customizer'] ) ) {
 			remove_action( 'customize_register', 'bp_customize_register', 20 );
 		}
@@ -693,13 +699,12 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 * Set the BP Uri for the customizer in case of Ajax requests.
 	 *
 	 * @since 3.0.0
-	 * @deprecated 12.0.0
+	 * @since 12.0.0 Only fired for regular themes when BP Classic is activated.
 	 *
 	 * @param  string $path The BP Uri.
 	 * @return string
 	 */
 	public function customizer_set_uri( $path ) {
-		_deprecated_function( __METHOD__, '12.0.0' );
 
 		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 			return $path;
