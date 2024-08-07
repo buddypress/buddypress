@@ -878,59 +878,85 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 	}
 
 	/**
+	 * This test acts like a reminder: $deprecated_functions_versions needs to include each versions of the `/src/bp-core/deprecated` directory.
+	 *
+	 * eg:  if `/src/bp-core/deprecated/15.0.php` exists, then $deprecated_functions_versions should include `15.0`.
+	 *
+	 * @group bp_get_deprecated_functions_versions
+	 * @ticket BP9210
+	 */
+	public function test_bp_get_deprecated_functions_versions_array_is_consistent_with_deprecated_files() {
+		// When current major version is the initial version, we shouldn't load any deprecated functions file.
+		$this->assertTrue( false !== bp_get_deprecated_functions_versions(), 'Please check the list of `$deprecated_functions_versions` in `bp_get_deprecated_functions_versions()`. There should be one for each file of the `/src/bp-core/deprecated` directory.' );
+	}
+
+	/**
+	 * @group bp_get_deprecated_functions_versions
 	 * @ticket BP8687
 	 * @ticket BP9075
+	 * @ticket BP9210
 	 */
 	public function test_bp_get_deprecated_functions_versions() {
-		$current_version = bp_get_version();
+		$current_version = (float) bp_get_version();
 		$versions        = bp_get_deprecated_functions_versions();
 		$bp              = buddypress();
 
-		// When current major version is the initial version, we should only load 12.0 deprecated functions file.
-		$this->assertSame( $versions, array( 12.0 ), 'Please check the list of `$deprecated_functions_versions` in `bp_get_deprecated_functions_versions()`. There should be one for each file of the `/src/bp-core/deprecated` directory.' );
-
-		$bp->version = '12.1.1';
-
-		// We should load the 2 lasts deprecated functions files.
-		$this->bp_initial_version = '12.0';
-
 		add_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
 
+		// Fresh install.
+		$this->bp_initial_version = $current_version;
+		$expected_versions        = array();
+
+		// Include 12.0 until version 15.0.
+		if ( $current_version <= (float) 15 ) {
+			$expected_versions = array( 12.0 );
+		}
+
 		$versions = bp_get_deprecated_functions_versions();
 
-		$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when 12.1.1 was the first installed version.' );
+		$this->assertSame( $versions, $expected_versions, 'Deprecated functions are not loaded for fresh installs.' );
 
-		$this->bp_initial_version = '9.0';
+		// BuddyPress updated from previous versions.
+		$expected_versions = array( $current_version - 1, $current_version ); // The 2 last deprecated function files.
+
+		// First BuddyPress installed version is older than 11.0. In this case, the initial version is 0.
+		// See https://buddypress.trac.wordpress.org/changeset/13304
+		$this->bp_initial_version = 0;
 
 		$versions = bp_get_deprecated_functions_versions();
 
-		$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when 12.0 was updated for a minor release' );
+		// Include 12.0 until version 15.0.
+		if ( $current_version <= (float) 15 ) {
+			$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when first installed version is <= 15.0' );
+		} else {
+			$this->assertSame( $versions, $expected_versions, 'The last deprecated function files are loaded for updated BuddyPress.' );
+		}
+
+		// Testing with previous major version.
+		$this->bp_initial_version = $current_version - 1;
+
+		$versions = bp_get_deprecated_functions_versions();
+
+		// Include 12.0 until version 15.0.
+		if ( $current_version <= (float) 15 ) {
+			$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when first installed version is <= 15.0' );
+		} else {
+			$this->assertSame( $versions, $expected_versions, 'The last deprecated function files are loaded for updated BuddyPress.' );
+		}
+
+		// Testing with 2 versions older.
+		$this->bp_initial_version = (float) 15 === $current_version ? (float) 12 : $current_version - 2;
+
+		$versions = bp_get_deprecated_functions_versions();
+
+		// Include 12.0 until version 15.0.
+		if ( $current_version <= (float) 15 ) {
+			$this->assertContains( 12.0, $versions, '12.0 deprecated functions should be loaded when first installed version is <= 15.0' );
+		} else {
+			$this->assertSame( $versions, $expected_versions, 'The last deprecated function files are loaded for updated BuddyPress.' );
+		}
 
 		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
-
-		$bp->version = $current_version;
-
-		// We should load the 2 lasts deprecated functions files.
-		$this->bp_initial_version = '8.0';
-
-		add_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
-
-		$versions = bp_get_deprecated_functions_versions();
-
-		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
-
-		$this->assertTrue( 2 === count( $versions ) );
-
-		// Even if this version does not exist in deprecated functions files, we should load the 2 lasts.
-		$this->bp_initial_version = '1.0';
-
-		add_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
-
-		$versions = bp_get_deprecated_functions_versions();
-
-		remove_filter( 'pre_option__bp_initial_major_version', array( $this, 'override_initial_version' ), 10, 0 );
-
-		$this->assertTrue( 2 === count( $versions ) );
 	}
 
 	/**

@@ -5011,27 +5011,20 @@ function bp_get_deprecated_functions_versions() {
 			}
 		}
 
-		// Only load 12.0 deprecated functions.
-		return array( 12.0 );
+		// Load 12.0 deprecated functions only when BP was installed with 12.0, 14.0 or 15.0.
+		if ( in_array( $initial_version, array( 12.0, 14.0, 15.0 ), true ) ) {
+			return array( 12.0 );
+		}
+
+		return array();
 	}
 
-	$index_first_major = array_search( $initial_version, $deprecated_functions_versions, true );
-	if ( false === $index_first_major ) {
-		return array_splice( $deprecated_functions_versions, -2 );
+	$keep_last = 2;
+	if ( (float) 15 >= $initial_version ) {
+		$keep_last = count( $deprecated_functions_versions ) - array_search( 12.0, $deprecated_functions_versions, true );
 	}
 
-	$latest_deprecated_functions_versions = array_splice( $deprecated_functions_versions, $index_first_major );
-
-	if ( 2 <= count( $latest_deprecated_functions_versions ) ) {
-		$latest_deprecated_functions_versions = array_splice( $latest_deprecated_functions_versions, -2 );
-	}
-
-	$index_initial_version = array_search( $initial_version, $latest_deprecated_functions_versions, true );
-	if ( false !== $index_initial_version && 12.0 !== $initial_version ) {
-		unset( $latest_deprecated_functions_versions[ $index_initial_version ] );
-	}
-
-	return $latest_deprecated_functions_versions;
+	return array_splice( $deprecated_functions_versions, -$keep_last );
 }
 
 /**
