@@ -1,6 +1,6 @@
 # Reporting Bugs
 
-The BuddyPress community relies on contributions from people like you to grow stronger every day. As more users test and use BuddyPress, we are receiving an increasing number of bug reports, feature suggestions, and enhancement ideas. This guide provides useful information on how to report bugs and features and how you can help fix them.
+The BuddyPress community relies on contributions from people like you to grow stronger every day. As more users test and use BuddyPress, we receive more bug reports, feature suggestions, and enhancement ideas. This guide provides helpful information on how to report bugs and features and how you can help fix them.
 
 ## Overview of Bug Reporting and Resolution
 
