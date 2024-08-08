@@ -406,7 +406,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		$locations = array();
 
 		// Ensure the assets can be located when running from /src/.
-		if ( defined( 'BP_SOURCE_SUBDIRECTORY' ) && BP_SOURCE_SUBDIRECTORY === 'src' ) {
+		if ( bp_is_running_from_src_subdirectory() ) {
 			$file = str_replace( '.min', '', $file );
 		}
 
