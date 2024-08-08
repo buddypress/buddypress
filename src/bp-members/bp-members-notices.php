@@ -590,11 +590,11 @@ function bp_members_get_dismissed_notices_for_user( $user_id ) {
  *
  * @param integer $user_id The user ID to get the notice for.
  * @param integer $page    The page number to get.
- * @return BP_Members_Notice|null The notice if it exists. Null otherwise.
+ * @return array The higher priority notice & the notices total count.
  */
 function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
-	$notice           = null;
-	$dismissed_notice = bp_members_get_dismissed_notices_for_user( $user_id );
+	$notice            = null;
+	$dismissed_notices = bp_members_get_dismissed_notices_for_user( $user_id );
 
 	// Get notices orderered by priority.
 	$notices = BP_Members_Notice::get(
@@ -602,7 +602,7 @@ function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
 			'user_id'  => $user_id,
 			'pag_num'  => 1,
 			'pag_page' => $page,
-			'exclude'  => $dismissed_notice,
+			'exclude'  => $dismissed_notices,
 		)
 	);
 
@@ -610,7 +610,7 @@ function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
 	$notices_count = bp_members_get_notices_count(
 		array(
 			'user_id'  => $user_id,
-			'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
+			'exclude'  => $dismissed_notices,
 		)
 	);
 
@@ -629,6 +629,35 @@ function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
 	}
 
 	return array( 'item' => $notice, 'count' => (int) $notices_count );
+}
+
+/**
+ * Output the ID of a notice.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ */
+function bp_notice_id( $notice = null ) {
+	echo esc_attr( bp_get_notice_id( $notice ) );
+}
+
+/**
+ * Get the ID of a notice.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return integer The notice ID.
+ */
+function bp_get_notice_id( $notice = null ) {
+	$notice_id = 0;
+
+	if ( ! empty( $notice->id ) ) {
+		$notice_id = $notice->id;
+	}
+
+	return apply_filters( 'bp_get_notice_id', $notice_id );
 }
 
 /**
@@ -1207,4 +1236,20 @@ function bp_get_admin_notice_version( $notice = null ) {
 	}
 
 	return number_format( $version, 1 );
+}
+
+/**
+ * Output list of notices for the displayed user.
+ *
+ * @since 15.0.0
+ */
+function bp_output_notices() {
+	$notices = bp_members_get_notices_for_user( bp_displayed_user_id() );
+	$notice  = null;
+
+	if ( isset( $notices['item'] ) && $notices['item'] instanceof BP_Members_Notice ) {
+		$notice = $notices['item'];
+	}
+
+	bp_get_template_part( 'members/single/notices/entry', null, array( 'context' => $notice ) );
 }
