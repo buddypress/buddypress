@@ -62,6 +62,12 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 		}
 
 		if ( bp_is_user() && $is_notices_screen ) {
+			$action_variables = bp_action_variables();
+
+			if ( is_array( $action_variables ) && 'dismiss' === $action_variables[0] ) {
+				require_once buddypress()->members->path . 'bp-members/actions/dismiss-notice.php';
+			}
+
 			require_once buddypress()->members->path . 'bp-members/screens/notices.php';
 		}
 	}

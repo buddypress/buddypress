@@ -5180,30 +5180,6 @@ function bp_get_community_visibility( $component = 'global' ) {
 }
 
 /**
- * Returns the list of unread Admin Notification IDs.
- *
- * @since 11.4.0
- *
- * @return array The list of unread Admin Notification IDs.
- */
-function bp_core_get_unread_admin_notifications() {
-	return (array) bp_get_option( 'bp_unread_admin_notifications', array() );
-}
-
-/**
- * Dismisses an Admin Notification.
- *
- * @since 11.4.0
- *
- * @param string $notification_id The Admin Notification to dismiss.
- */
-function bp_core_dismiss_admin_notification( $notification_id = '' ) {
-	$unread    = bp_core_get_unread_admin_notifications();
-	$remaining = array_diff( $unread, array( $notification_id ) );
-	bp_update_option( 'bp_unread_admin_notifications', $remaining );
-}
-
-/**
  * List of the BP Admin notifications.
  *
  * NB: in 15.0.0 this function is used to create specific Member Notices.
