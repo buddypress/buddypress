@@ -1244,12 +1244,22 @@ function bp_get_admin_notice_version( $notice = null ) {
  * @since 15.0.0
  */
 function bp_output_notices() {
-	$notices = bp_members_get_notices_for_user( bp_displayed_user_id() );
-	$notice  = null;
+	$user_id = bp_displayed_user_id();
+	$notices = bp_members_get_notices(
+		array(
+			'user_id' => $user_id,
+			'exclude' => bp_members_get_dismissed_notices_for_user( $user_id )
+		)
+	);
 
-	if ( isset( $notices['item'] ) && $notices['item'] instanceof BP_Members_Notice ) {
-		$notice = $notices['item'];
+	if ( empty( $notices ) ) {
+		?>
+		<p class="bp-notices-no-results"><?php esc_html_e( 'There are no notices to display.', 'buddypress' ); ?></p>
+		<?php
+	} else {
+		// Loop through Notices.
+		foreach ( $notices as $notice ) {
+			bp_get_template_part( 'members/single/notices/entry', null, array( 'context' => $notice ) );
+		}
 	}
-
-	bp_get_template_part( 'members/single/notices/entry', null, array( 'context' => $notice ) );
 }

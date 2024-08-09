@@ -366,7 +366,7 @@ class BP_Members_Notice {
 	 *     @type boolean      $count_total_only `true` to only get the total number of notices, `false` otherwise.
 	 *                                          Defaults to `false`.
 	 * }
-	 * @return array|integer List of notices or total number of notices for a count only query.
+	 * @return array|integer|null List of notices, total number of notices for a count only query or null if nothing was found.
 	 */
 	public static function get( $args = array() ) {
 		global $wpdb;
