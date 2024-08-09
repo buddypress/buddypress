@@ -3,6 +3,7 @@
 /**
  * @group members
  * @group signups
+ * @group signup
  * @group BP_Signup
  */
 class BP_Tests_BP_Signup extends BP_UnitTestCase {

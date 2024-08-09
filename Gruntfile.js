@@ -75,7 +75,7 @@ module.exports = function( grunt ) {
 				 * grunt jshint:core --file=path/to/filename.js
 				 *
 				 * @param {String} filepath
-				 * @returns {Bool}
+				 * @returns {Boolean}
 				 */
 				filter: function( filepath ) {
 					var index, file = grunt.option( 'file' );
@@ -90,11 +90,7 @@ module.exports = function( grunt ) {
 					index = filepath.lastIndexOf( '/' + file );
 
 					// Match only the filename passed from cli
-					if ( filepath === file || ( -1 !== index && index === filepath.length - ( file.length + 1 ) ) ) {
-						return true;
-					}
-
-					return false;
+					return filepath === file || (-1 !== index && index === filepath.length - (file.length + 1));
 				}
 			}
 		},
@@ -198,7 +194,6 @@ module.exports = function( grunt ) {
 		},
 		clean: {
 			all: [ BUILD_DIR ],
-			bp_rest: [ BUILD_DIR + 'bp-rest/' ],
 			bp_admin_modern_js: [ 'dist/' ],
 			cli: [
 				BUILD_DIR + 'cli/features/',
@@ -223,32 +218,6 @@ module.exports = function( grunt ) {
 						src: ['composer.json']
 					}
 				]
-			},
-			bp_rest_components: {
-				cwd: BUILD_DIR + 'bp-rest/includes/',
-				dest: BUILD_DIR,
-				dot: true,
-				expand: true,
-				src: ['**/bp-activity/**', '**/bp-blogs/**', '**/bp-friends/**', '**/bp-groups/**', '**/bp-members/**', '**/bp-messages/**', '**/bp-notifications/**', '**/bp-settings/**', '**/bp-xprofile/**'],
-				options: {
-					process : function( content ) {
-						return content.replace( /\@since 0\.1\.0/g, '@since 5.0.0' );
-					}
-				}
-			},
-			bp_rest_core: {
-				cwd: BUILD_DIR + 'bp-rest/includes/',
-				dest: BUILD_DIR + 'bp-core/classes/',
-				dot: true,
-				expand: true,
-				flatten: true,
-				filter: 'isFile',
-				src: ['**', '!functions.php', '!**/bp-activity/**', '!**/bp-blogs/**', '!**/bp-friends/**', '!**/bp-groups/**', '!**/bp-members/**', '!**/bp-messages/**', '!**/bp-notifications/**', '!**/bp-settings/**', '!**/bp-xprofile/**'],
-				options: {
-					process : function( content ) {
-						return content.replace( /\@since 0\.1\.0/g, '@since 5.0.0' );
-					}
-				}
 			},
 			bp_admin_modern_js: {
 				cwd: 'dist/',
@@ -351,11 +320,6 @@ module.exports = function( grunt ) {
 				command: 'composer run phpcompat',
 				stdout: true
 			},
-			rest_api: {
-				command: 'npm run download:rest',
-				cwd: BUILD_DIR,
-				stdout: false
-			},
 			makepot: {
 				command: 'wp i18n make-pot build build/buddypress.pot --headers=\'{"Project-Id-Version": "BuddyPress", "Report-Msgid-Bugs-To": "https://buddypress.trac.wordpress.org", "Last-Translator": "JOHN JAMES JACOBY <jjj@buddypress.org>", "Language-Team": "ENGLISH <jjj@buddypress.org>"}\'',
 				stdout: true
@@ -408,8 +372,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'makepot', ['exec:makepot'] );
 	grunt.registerTask( 'commit', ['src', 'checktextdomain', 'imagemin', 'phplint', 'exec:phpcs_escape', 'exec:phpcompat'] );
 	grunt.registerTask( 'commit:blocks', ['commit', 'exec:blocks_src', 'exec:modernJS_src'] );
-	grunt.registerTask( 'bp_rest', [ 'exec:rest_api', 'copy:bp_rest_components', 'copy:bp_rest_core', 'clean:bp_rest' ] );
-	grunt.registerTask( 'build', ['commit:blocks', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'cssmin', 'bp_rest', 'makepot', 'exec:cli', 'clean:cli'] );
+	grunt.registerTask( 'build', ['commit:blocks', 'clean:all', 'copy:files', 'uglify:core', 'jsvalidate:build', 'cssmin', 'makepot', 'exec:cli', 'clean:cli'] );
 	grunt.registerTask( 'release', ['build'] );
 	grunt.registerTask( 'move:admin:js', [ 'copy:bp_admin_modern_js', 'clean:bp_admin_modern_js' ] );
 

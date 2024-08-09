@@ -15,6 +15,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 5.0.0
  *
+ * @todo Remove this function in BuddyPress 16.0.0.
+ *
  * @return bool True if the BP REST plugin is active. False otherwise.
  */
 function bp_rest_is_plugin_active() {
@@ -53,10 +55,11 @@ function bp_rest_api_is_available() {
 	 * The BP REST API requires at least WordPress 4.7.0.
 	 *
 	 * @since 5.0.0
+	 * @since 15.0.0 The REST API is available by default.
 	 *
 	 * @param bool $api_is_available True if the BP REST API is available. False otherwise.
 	 */
-	return apply_filters( 'bp_rest_api_is_available', bp_rest_in_buddypress() ) || bp_rest_is_plugin_active();
+	return apply_filters( 'bp_rest_api_is_available', true );
 }
 
 /**
@@ -82,7 +85,7 @@ function bp_rest_api_register_request_script() {
 		'bp-api-request',
 		'bpApiSettings',
 		array(
-			'unexpectedError'   => __( 'An unexpected error occured. Please try again.', 'buddypress' ),
+			'unexpectedError'   => __( 'An unexpected error occurred. Please try again.', 'buddypress' ),
 			'deprecatedWarning' => __( 'The bp.apiRequest function is deprecated since BuddyPress 10.0.0, please use wp.apiRequest instead.', 'buddypress' ),
 		)
 	);
@@ -112,6 +115,7 @@ function bp_rest_namespace() {
  * BuddyPress REST API version.
  *
  * @since 5.0.0
+ * @since 15.0.0 Version is now v2.
  *
  * @return string
  */
@@ -121,10 +125,11 @@ function bp_rest_version() {
 	 * Filter API version.
 	 *
 	 * @since 5.0.0
+	 * @since 15.0.0 Default version is now v2.
 	 *
-	 * @param string $version BuddyPress core version.
+	 * @param string $bp_version BuddyPress REST API version.
 	 */
-	return apply_filters( 'bp_rest_version', 'v1' );
+	return apply_filters( 'bp_rest_version', 'v2' );
 }
 
 /**
@@ -199,7 +204,7 @@ function bp_rest_prepare_date_response( $date_gmt, $date = null ) {
  * @since 5.0.0
  *
  * @param string $value Comma-separated list of group types.
- * @return array|null
+ * @return array|null|string
  */
 function bp_rest_sanitize_member_types( $value ) {
 	if ( empty( $value ) ) {
@@ -211,7 +216,7 @@ function bp_rest_sanitize_member_types( $value ) {
 	$registered_types[] = 'any';
 	$valid_types        = array_intersect( $types, $registered_types );
 
-	return ( ! empty( $valid_types ) ) ? $valid_types : null;
+	return ! empty( $valid_types ) ? $valid_types : null;
 }
 
 /**
@@ -245,6 +250,8 @@ function bp_rest_validate_member_types( $value ) {
 			);
 		}
 	}
+
+	return true;
 }
 
 /**
@@ -252,15 +259,15 @@ function bp_rest_validate_member_types( $value ) {
  *
  * @since 5.0.0
  *
- * @param string $value Comma-separated list of group types.
+ * @param string $group_types Comma-separated list of group types.
  * @return array|null
  */
-function bp_rest_sanitize_group_types( $value ) {
-	if ( empty( $value ) ) {
+function bp_rest_sanitize_group_types( $group_types ) {
+	if ( empty( $group_types ) ) {
 		return null;
 	}
 
-	$types       = explode( ',', $value );
+	$types       = explode( ',', $group_types );
 	$valid_types = array_intersect( $types, bp_groups_get_group_types() );
 
 	return empty( $valid_types ) ? null : $valid_types;
@@ -271,15 +278,15 @@ function bp_rest_sanitize_group_types( $value ) {
  *
  * @since 5.0.0
  *
- * @param  mixed $value Mixed value.
+ * @param  mixed $group_types Mixed value.
  * @return WP_Error|bool
  */
-function bp_rest_validate_group_types( $value ) {
-	if ( empty( $value ) ) {
+function bp_rest_validate_group_types( $group_types ) {
+	if ( empty( $group_types ) ) {
 		return true;
 	}
 
-	$types            = explode( ',', $value );
+	$types            = explode( ',', $group_types );
 	$registered_types = bp_groups_get_group_types();
 	foreach ( $types as $type ) {
 		if ( ! in_array( $type, $registered_types, true ) ) {
@@ -294,6 +301,8 @@ function bp_rest_validate_group_types( $value ) {
 			);
 		}
 	}
+
+	return true;
 }
 
 /**

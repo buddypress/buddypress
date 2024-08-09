@@ -373,13 +373,17 @@ function bp_blog_avatar( $args = '' ) {
 		// Set default value for the `alt` attribute.
 		$alt_attribute = __( 'Site icon for the blog', 'buddypress' );
 
-		if ( ! $blogs_template && isset( $args['blog_id'] ) && $args['blog_id'] ) {
+		$has_current_blog = isset( $blogs_template ) && isset( $blogs_template->blog->blog_id );
+
+		if ( false === $has_current_blog && isset( $args['blog_id'] ) && $args['blog_id'] ) {
 			$blog_id = (int) $args['blog_id'];
-		} else {
+		} else if ( true === $has_current_blog ) {
 			$blog_id = bp_get_blog_id();
 
 			/* translators: %s is the blog name */
 			$alt_attribute = sprintf( __( 'Site icon for %s', 'buddypress' ), bp_get_blog_name() );
+		} else {
+			$blog_id = 0;
 		}
 
 		// Parse the arguments.

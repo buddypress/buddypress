@@ -19,3 +19,23 @@ require WP_TESTS_DIR . '/includes/bootstrap.php';
 // Load the BP-specific testing tools
 require BP_TESTS_DIR . '/includes/testcase.php';
 require BP_TESTS_DIR . '/includes/testcase-emails.php';
+
+/**
+ * Set component visibility.
+ *
+ * @param bool $visibility Visibility.
+ */
+function toggle_component_visibility( $visibility = true ) {
+	$visibility = $visibility ? 'members' : 'anyone';
+
+	update_option(
+		'_bp_community_visibility',
+		array(
+			'global'   => $visibility,
+			'activity' => $visibility,
+			'members'  => $visibility,
+			'groups'   => $visibility,
+			'blogs'    => $visibility,
+		)
+	);
+}

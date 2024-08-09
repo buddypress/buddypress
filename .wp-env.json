@@ -1,6 +1,6 @@
 {
 	"core": "WordPress/WordPress#master",
-	"plugins": [".", "buddypress/BP-REST#master"],
+	"plugins": ["."],
 	"config": {
 		"WP_DEBUG": true,
 		"SCRIPT_DEBUG": true

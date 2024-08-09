@@ -529,6 +529,7 @@ class BP_Component {
 				);
 
 				foreach ( $paths as $path ) {
+
 					if ( @is_file( $slashed_path . $path ) ) {
 						require $slashed_path . $path;
 						break;
@@ -621,8 +622,8 @@ class BP_Component {
 		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
 
 		// Register BP REST Endpoints.
-		if ( bp_rest_in_buddypress() && bp_rest_api_is_available() ) {
-			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
+		if ( bp_rest_api_is_available() ) {
+			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ) );
 		}
 
 		// Register BP Blocks.
@@ -1422,6 +1423,18 @@ class BP_Component {
 			foreach ( $controllers as $controller ) {
 				if ( ! in_array( $controller, $_controllers, true ) ) {
 					continue;
+				}
+
+				if ( ! class_exists( $controller ) ) {
+					_doing_it_wrong(
+						__METHOD__,
+						sprintf(
+							// translators: %s: REST API controller class name.
+							esc_html__( 'The REST API controller class %s does not exist.', 'buddypress' ),
+							esc_attr( $controller )
+						),
+						'15.0.0'
+					);
 				}
 
 				$component_controller = new $controller();
