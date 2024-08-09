@@ -438,7 +438,7 @@ class BP_Admin {
 				add_action( "admin_print_styles-{$subpage_hook}", array( $this, 'add_inline_styles' ), 20 );
 
 				// When BuddyPress is activated on the network, the settings screens need an admin notice when settings have been updated.
-				if ( is_network_admin() && bp_is_network_activated() && 'settings' === $subpage_type && 'settings_page_bp-credits' !== $subpage_hook ) {
+				if ( is_network_admin() && bp_is_network_activated() && 'settings' === $subpage_type && ! in_array( $subpage_hook, array( 'settings_page_bp-credits', 'settings_page_bp-admin-notices' ), true ) ) {
 					add_action( "load-{$subpage_hook}", array( $this, 'admin_load' ) );
 				}
 			}
@@ -1507,20 +1507,6 @@ class BP_Admin {
 				'footer'       => true,
 			),
 
-			// 10.0
-			'bp-dismissible-admin-notices' => array(
-				'file'         => "{$url}dismissible-admin-notices.js",
-				'dependencies' => array(),
-				'footer'       => true,
-				'extra'        => array(
-					'name' => 'bpDismissibleAdminNoticesSettings',
-					'data' => array(
-						'url'    => bp_core_ajax_url(),
-						'nonce'  => wp_create_nonce( 'bp_dismiss_admin_notice' ),
-					),
-				),
-			),
-
 			// 12.0
 			'bp-rewrites-ui' => array(
 				'file' => "{$url}rewrites-ui.js",
@@ -1674,11 +1660,6 @@ class BP_Admin {
 			);
 		}
 
-		if ( isset( $_GET['n'] ) && $_GET['n'] ) {
-			$notification_id = sanitize_text_field( wp_unslash( $_GET['n'] ) );
-			bp_core_dismiss_admin_notification( $notification_id );
-		}
-
 		// Display the "buddypress" favorites.
 		display_plugins_table();
 	}
@@ -1691,7 +1672,6 @@ class BP_Admin {
 	 */
 	public function admin_notices() {
 		bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Notices', 'buddypress' ) );
-		wp_enqueue_script( 'bp-dismissible-admin-notices' );
 
 		$user_id = bp_loggedin_user_id();
 		$type    = 'unread';
@@ -1707,6 +1687,24 @@ class BP_Admin {
 
 		if ( 'unread' === $type ) {
 			$args['exclude'] = bp_members_get_dismissed_notices_for_user( $user_id );
+		} else {
+			$args['dismissed'] = true;
+		}
+
+		// Check dismissal feedback messages.
+		if ( isset( $_GET['bp-dismissed'] ) ) {
+			$class    = empty( $_GET['bp-dismissed'] ) ? 'error' : 'updated';
+			$feedback = __( 'Notice successfully dismissed', 'buddypress' );
+
+			if ( 'error' === $class ) {
+				$feedback = __( 'The notice could not be dismissed', 'buddypress' );
+			}
+
+			printf(
+				'<div id="message" class="%1$s notice is-dismissible"><p>%2$s</p></div>',
+				esc_attr( $class ),
+				esc_html( $feedback )
+			);
 		}
 		?>
 		<div class="buddypress-body admin-notices">
@@ -1727,7 +1725,7 @@ class BP_Admin {
 
 			if ( $admin_notices ) {
 				foreach ( $admin_notices as $admin_notice ) {
-					bp_core_admin_format_notice( $admin_notice );
+					bp_core_admin_format_notice( $admin_notice, $type );
 				}
 			} else {
 				?>

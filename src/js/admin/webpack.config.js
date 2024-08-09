@@ -10,7 +10,6 @@ module.exports = {
     ...defaultConfig,
 	...{
         entry: {
-			'bp-core/admin/js/dismissible-admin-notices': './src/js/admin/bp-core/dismissible-admin-notices.js',
 			'bp-members/admin/js/admin': './src/js/admin/bp-members/admin.js',
         },
 		output: {

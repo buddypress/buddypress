@@ -362,53 +362,57 @@ function bp_members_save_notice( $args = array() ) {
  *
  * @since 15.0.0
  *
- * @param int $user_id   ID of the user to dismiss the notice for.
- *                       Defaults to the logged-in user.
- * @param int $notice_id ID of the notice to be dismissed.
- *                       Defaults to the currently active notice.
- * @return bool False on failure, true if notice is dismissed
- *              (or was already dismissed).
+ * @param int     $user_id     ID of the user to dismiss the notice for. Defaults to the logged-in user.
+ * @param int     $notice_id   ID of the notice to be dismissed.
+ * @param boolean $return_bool Whether to force a boolean return or not. Defaults to `false`.
+ * @return WP_Error|bool False or a WP Error object on failure, true if notice is dismissed
+ *                       (or was already dismissed).
  */
-function bp_members_dismiss_notice( $user_id = 0, $notice_id = 0 ) {
-	$retval = false;
+function bp_members_dismiss_notice( $user_id = 0, $notice_id = 0, $return_bool = false ) {
+	$dismissed = false;
+
 	if ( ! $user_id ) {
 		$user_id = bp_loggedin_user_id();
 	}
 
 	// Bail if no user is set.
 	if ( ! $user_id ) {
-		return $retval;
+		$dismissed = new WP_Error(
+			'notice_dismiss_missing_user',
+			__( 'No user was provided for the notice to dismiss.', 'buddypress' )
+		);
+
+		return $return_bool ? false : $dismissed;
 	}
 
-	if ( $notice_id ) {
-		$notice = new BP_Members_Notice( $notice_id );
-	} else {
-		$notice = BP_Members_Notice::get_active();
-	}
+	$notice = bp_members_get_notice( $notice_id );
 
 	// Bail if no notice is set.
-	if ( empty( $notice->id ) ) {
-		return $retval;
+	if ( is_null( $notice ) ) {
+		$dismissed = new WP_Error(
+			'notice_dismiss_missing_notice',
+			__( 'The notice to dismiss does not exist.', 'buddypress' )
+		);
+
+		return $return_bool ? false : $dismissed;
 	}
 
-	// Fetch the user's closed notices and add the new item.
-	$closed_notices = (array) bp_get_user_meta( $user_id, 'closed_notices', true );
-	$closed_notices = array_filter( $closed_notices );
-
-	if ( in_array( (int) $notice->id, $closed_notices, true ) ) {
-		// The notice has already been dismissed, so there's nothing to do.
-		$retval = true;
-	} else {
-		// Add the notice to the closed_notices meta.
-		$closed_notices[] = (int) $notice->id;
-		$closed_notices   = array_map( 'absint', array_unique( $closed_notices ) );
-		$success          = bp_update_user_meta( $user_id, 'closed_notices', $closed_notices );
-
-		// The return value from update_user_meta() could be an integer or a boolean.
-		$retval = (bool) $success;
+	$dismissed_notices = (array) bp_members_get_dismissed_notices_for_user( $user_id );
+	if ( in_array( $notice->id, $dismissed_notices, true ) ) {
+		return true;
 	}
 
-	return $retval;
+	$dismissed = (bool) bp_notices_add_meta( $notice->id, 'dismissed_by', $user_id );
+	if ( ! $dismissed ) {
+		$dismissed = new WP_Error(
+			'notice_dismiss_failed',
+			__( 'The notice could not be dismissed.', 'buddypress' )
+		);
+
+		return $return_bool ? false : $dismissed;
+	}
+
+	return $dismissed;
 }
 
 /**
@@ -563,6 +567,35 @@ function bp_members_get_notices( $args = array() ) {
 	);
 
 	return BP_Members_Notice::get( $r );
+}
+
+/**
+ * Gets a notice object for the requested ID.
+ *
+ * @since 15.0.0
+ *
+ * @param integer $notice_id The Notice ID.
+ * @return BP_Members_Notice|null The Notice object. Null if not found.
+ */
+function bp_members_get_notice( $notice_id = 0 ) {
+	if ( ! $notice_id ) {
+		return null;
+	}
+
+	$notice = new BP_Members_Notice( $notice_id );
+	if ( ! $notice->id ) {
+		return null;
+	}
+
+	/**
+	 * Filter here to edit the returned notice.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param BP_Members_Notice|null $notice    The Notice object. Null if not found.
+	 * @param integer                $notice_id The Notice ID.
+	 */
+	return apply_filters( 'bp_members_get_notice', $notice, $notice_id );
 }
 
 /**
@@ -969,9 +1002,11 @@ function bp_get_notice_action_text( $notice = null ) {
  * Output the URL for dismissing a notice for the current user.
  *
  * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
  */
-function bp_notice_dismiss_url() {
-	echo esc_url( bp_get_notice_dismiss_url() );
+function bp_notice_dismiss_url( $notice = null ) {
+	echo esc_url( bp_get_notice_dismiss_url( $notice ) );
 }
 
 /**
@@ -979,13 +1014,34 @@ function bp_notice_dismiss_url() {
  *
  * @since 15.0.0
  *
+ * @param BP_Members_Notice|null $notice The notice object.
  * @return string URL for dismissing the current notice for the current user.
  */
-function bp_get_notice_dismiss_url() {
-	$link = wp_nonce_url(
-		add_query_arg( array( 'page' => 'bp-sitewide-notices', 'action' => 'dismiss' ), bp_get_admin_url( 'users.php' ) ),
-		'messages_dismiss_notice'
-	);
+function bp_get_notice_dismiss_url( $notice = null ) {
+	$notice_id = 0;
+	$url       = '';
+
+	if ( isset( $notice->id ) ) {
+		$notice_id = (int) $notice->id;
+
+		$path_chunks = array( 'notices', 'community', 'dismiss', $notice_id );
+		if ( bp_is_active( 'notifications' ) ) {
+			unset( $path_chunks[1] );
+			array_unshift( $path_chunks, bp_get_notifications_slug() );
+		}
+
+		$user_url = '';
+		if ( bp_is_admin() ) {
+			$user_url = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
+		} else {
+			$user_url = bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) );
+		}
+
+		$url = wp_nonce_url(
+			$user_url,
+			'members_dismiss_notice'
+		);
+	}
 
 	/**
 	 * Filters the URL for dismissing the current notice for the current user.
@@ -993,19 +1049,19 @@ function bp_get_notice_dismiss_url() {
 	 * @since 9.0.0
 	 * @deprecated 15.0.0
 	 *
-	 * @param string $link URL for dismissing the current notice.
+	 * @param string $url URL for dismissing the current notice.
 	 */
-	$link = apply_filters_deprecated( 'bp_get_message_notice_dismiss_link', array( $link ), '15.0.0', 'bp_get_notice_dismiss_url' );
-
+	$url = apply_filters_deprecated( 'bp_get_message_notice_dismiss_link', array( $url ), '15.0.0', 'bp_get_notice_dismiss_url' );
 
 	/**
 	 * Filters the URL for dismissing the current notice for the current user.
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param string $link URL for dismissing the current notice.
+	 * @param string $url      Nonced URL for dismissing the current notice.
+	 * @param string $user_url User URL for dismissing the current notice.
 	 */
-	return apply_filters( 'bp_get_notice_dismiss_url', $link );
+	return apply_filters( 'bp_get_notice_dismiss_url', $url, $user_url );
 }
 
 /**

@@ -21,5 +21,7 @@ if ( ! isset( $args['context'] ) ) {
 			<?php bp_notice_content( $args['context'] ); ?>
 		</div>
 	</div>
-	<footer class="bp-notice-footer"></footer>
+	<footer class="bp-notice-footer">
+		<a href="<?php bp_notice_dismiss_url( $args['context'] ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+	</footer>
 </article>

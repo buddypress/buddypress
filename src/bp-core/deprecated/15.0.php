@@ -208,7 +208,7 @@ function bp_messages_render_sitewide_notices_block( $attributes = array() ) {
  */
 function bp_messages_dismiss_sitewide_notice( $user_id = 0, $notice_id = 0 ) {
 	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_members_dismiss_notice' );
-	return bp_members_dismiss_notice( $user_id, $notice_id );
+	return bp_members_dismiss_notice( $user_id, $notice_id, true );
 }
 
 /**
@@ -250,4 +250,39 @@ function bp_members_admin_bar_notifications_menu() {
 function bp_notifications_toolbar_menu() {
 	_deprecated_function( __FUNCTION__, '15.0.0' );
 	return false;
+}
+
+/**
+ * Returns the list of unread Admin Notification IDs.
+ *
+ * @since 11.4.0
+ * @deprecated 15.0.0
+ *
+ * @return array The list of unread Admin Notification IDs.
+ */
+function bp_core_get_unread_admin_notifications() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+	return array();
+}
+
+/**
+ * Dismisses an Admin Notification.
+ *
+ * @since 11.4.0
+ * @deprecated 15.0.0
+ *
+ * @param string $notification_id The Admin Notification to dismiss.
+ */
+function bp_core_dismiss_admin_notification( $notification_id = '' ) {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Catch and process an admin notice dismissal.
+ *
+ * @since 2.7.0
+ * @deprecated 15.0.0
+ */
+function bp_core_admin_notice_dismiss_callback() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
 }
