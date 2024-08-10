@@ -168,6 +168,20 @@ class BP_Members_Notices_Admin {
 					break;
 				case 'delete':
 					$notice = new BP_Members_Notice( $notice_id );
+					if ( 'admins' === bp_get_notice_target( $notice ) ) {
+						$dismissed = array_map( 'intval', (array) bp_notices_get_meta( $notice_id, 'dismissed_by' ) );
+						$admin_ids = bp_get_admin_ids();
+
+						if ( array_diff( $admin_ids, $dismissed ) ) {
+							wp_die(
+								__( 'Some administrators have not dismissed this notice. Please make sure they do to be able to delete this notice.', 'buddypress' ),
+								__( 'BP Admin Notices error', 'buddypress' ),
+								array(
+									'back_link' => true,
+								)
+							);
+						}
+					}
 					$success = $notice->delete();
 					break;
 			}
