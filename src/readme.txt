@@ -4,10 +4,10 @@ Donate link:       https://wordpressfoundation.org
 Tags:              community, group, members, network, self-hosted
 License:           GNU General Public License v2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
-Requires PHP:      5.6
-Requires at least: 6.1
+Requires PHP:      7.0
+Requires at least: 6.4
 Tested up to:      6.6
-Stable tag:        14.0.0
+Stable tag:        15.0.0-alpha
 
 Get together safely, in your own way, in WordPress.
 
@@ -54,7 +54,7 @@ Growing the BuddyPress community means better software for everyone!
 
 To run BuddyPress, we recommend your host supports:
 
-* PHP version 7.4 or greater.
+* PHP version 8.1 or greater.
 * MySQL version 5.7 or greater OR MariaDB version 10.4 or greater.
 * HTTPS support
 
@@ -62,7 +62,7 @@ Note: If you are in a legacy environment where you only have older PHP or MySQL 
 
 = Automatic installation =
 
-Automatic installation is the easiest option as WordPress handles everything itself. To do an automatic install of BuddyPress, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
+Automatic installation is the easiest option as WordPress handles everything itself. To do an automatic installation of BuddyPress, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
 
 In the search field type "BuddyPress" and click Search Plugins. Once you've found it, you can view details about the latest release, such as community reviews, ratings, and description. Install BuddyPress by simply pressing "Install Now".
 

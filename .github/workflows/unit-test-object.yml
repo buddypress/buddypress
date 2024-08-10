@@ -11,12 +11,12 @@ on:
 
 jobs:
   tests:
-    name: "Object Service ${{ matrix.object }} - WP: ${{ matrix.wp_version }} - PHP: ${{ matrix.php }}"
+    name: "WP: ${{ matrix.wp_version }} - PHP: ${{ matrix.php }} - Cache ${{ matrix.object }} - MU: ${{ matrix.multisite }}"
     strategy:
       fail-fast: false
       matrix:
-        php: ['8.3']
-        wp_version: ['trunk', 'latest', '6.1']
+        php: [ '7.4', '8.1', '8.2', '8.3' ]
+        wp_version: [ 'trunk', 'latest', '6.4' ]
         multisite: [true, false]
         object: ["false", "memcached", "redis"]
     uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main

@@ -25,6 +25,12 @@
 	<!-- Set severity to 1 to see everything that isn't effectively turned off. -->
 	<arg name="severity" value="1"/>
 
+    <!-- Check against minimum PHP version, currently 7.0. -->
+    <config name="testVersion" value="7.0-"/>
+
+    <!-- Check against minimum WP version, currently 6.4. -->
+    <config name="minimum_wp_version" value="6.4"/>
+
 	<!-- What to exclude -->
 	<exclude-pattern>*/**/tests/</exclude-pattern>
 
