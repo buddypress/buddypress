@@ -624,13 +624,7 @@ class BP_Admin {
 				'parent' => 'wp-logo',
 				'id'     => 'bp-about',
 				'title'  => esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ),
-				'href'   => add_query_arg(
-					array(
-						'page'  => 'bp-components',
-						'hello' => 'buddypress'
-					),
-					bp_get_admin_url( $this->settings_page )
-				),
+				'href'   => bp_core_admin_get_changelog_url(),
 				'meta'   => array(
 					'class' => 'say-hello-buddypress',
 				),
@@ -654,21 +648,10 @@ class BP_Admin {
 			return $links;
 		}
 
-		$settings_args = array(
-			'page' => 'bp-components',
-		);
-
-		$about_args = array_merge(
-			$settings_args,
-			array(
-				'hello' => 'buddypress',
-			)
-		);
-
 		// Add a few links to the existing links array.
 		return array_merge( $links, array(
-			'settings' => '<a href="' . esc_url( add_query_arg( $settings_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
-			'about'    => '<a href="' . esc_url( add_query_arg( $about_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
+			'settings' => '<a href="' . esc_url( add_query_arg( 'page', 'bp-components', bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
+			'about'    => '<a href="' . esc_url( bp_core_admin_get_changelog_url() ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
 		) );
 	}
 

@@ -367,6 +367,30 @@ function bp_core_activation_notice() {
 }
 
 /**
+ * Returns the URL to access to the Hello Screen modal (changelog).
+ *
+ * @since 15.0.0
+ *
+ * @param array $args List of additional query args to add to default ones.
+ */
+function bp_core_admin_get_changelog_url( $args = array() ) {
+	$settings_page = 'options-general.php';
+	if ( bp_core_do_network_admin() ) {
+		$settings_page = 'settings.php';
+	}
+
+	$query_args = array_merge(
+		$args,
+		array(
+			'page'  => 'bp-components',
+			'hello' => 'buddypress'
+		)
+	);
+
+	return add_query_arg( $query_args, bp_get_admin_url( $settings_page ) );
+}
+
+/**
  * Redirect user to BuddyPress's What's New page on activation.
  *
  * @since 1.7.0
@@ -388,23 +412,15 @@ function bp_do_activation_redirect() {
 		return;
 	}
 
-	$settings_page = 'options-general.php';
-	if ( bp_core_do_network_admin() ) {
-		$settings_page = 'settings.php';
-	}
-
-	$query_args = array(
-		'page'  => 'bp-components',
-		'hello' => 'buddypress'
-	);
+	$query_args = array();
 
 	if ( get_transient( '_bp_is_new_install' ) ) {
 		$query_args['is_new_install'] = '1';
 		delete_transient( '_bp_is_new_install' );
 	}
 
-	// Redirect to dashboard and trigger the Hello screen.
-	wp_safe_redirect( add_query_arg( $query_args, bp_get_admin_url( $settings_page ) ) );
+	// Redirect to Components settings and trigger the Hello screen.
+	wp_safe_redirect( bp_core_admin_get_changelog_url( $query_args ) );
 }
 
 /** UI/Styling ****************************************************************/
@@ -1689,6 +1705,47 @@ function bp_core_admin_format_notice( $notice = null, $type = 'unread' ) {
 		</div>
 	</div>
 	<?php
+}
+
+/**
+ * Adds a notice to all Admins to inform about the BuddyPress install/upgrade.
+ *
+ * @since 15.0.0
+ *
+ * @param string $type Whether it's a fresh install or an upgrade.
+ */
+function bp_core_admin_version_notice( $type = 'upgrade' ) {
+	$current_admin_id = bp_loggedin_user_id();
+
+	$title   = sprintf( __( 'BuddyPress was successfully upgraded to %s', 'buddypress' ), bp_get_version() );
+	if ( 'fresh' === $type ) {
+		$title = sprintf( __( 'BuddyPress %s was successfully installed', 'buddypress' ), bp_get_version() );
+	}
+
+	$notice_id = bp_members_save_notice(
+		array(
+			'title'    => $title,
+			'content'  => sprintf(
+				__( 'To discover what’s new in %s, the BuddyPress Team invites you to discover what she is the most excited about!', 'buddypress' ),
+				bp_get_major_version()
+			),
+			'target'   => 'admins',
+			'priority' => 0,
+			'url'      => bp_core_admin_get_changelog_url(),
+			'text'     => sprintf(
+				__( 'Show me what’s exciting in %s', 'buddypress' ),
+				bp_get_major_version()
+			),
+			'meta'     => array(
+				'version' => bp_get_version()
+			),
+		)
+	);
+
+	// On fresh installs, the Hello screen is displayed.
+	if ( 'fresh' === $type && $current_admin_id ) {
+		bp_notices_add_meta( $notice_id, 'dismissed_by', $current_admin_id );
+	}
 }
 
 /**

@@ -220,6 +220,9 @@ function bp_version_updater() {
 		// Force permalinks to be refreshed at next page load.
 		bp_delete_rewrite_rules();
 
+		// Inform Admins BuddyPress was successfully installed.
+		bp_core_admin_version_notice( 'fresh' );
+
 		// Upgrades.
 	} else {
 
@@ -316,6 +319,9 @@ function bp_version_updater() {
 		if ( $raw_db_version < 13972 ) {
 			bp_update_to_15_0();
 		}
+
+		// Inform Admins BuddyPress was successfully upgraded.
+		bp_core_admin_version_notice( 'upgrade' );
 	}
 
 	/* All done! *************************************************************/
