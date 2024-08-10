@@ -939,6 +939,20 @@ function bp_get_notice_priority( $notice = null ) {
 }
 
 /**
+ * Checks whether the notice has a call to action.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object if it exists. Null otherwise.
+ * @return boolean True if the notice has a call to action. False otherwise.
+ */
+function bp_notice_has_call_to_action( $notice = null ) {
+	$parsed_notice = bp_get_parsed_notice_block( $notice );
+
+	return ! empty( $parsed_notice['attrs']['url'] ) && ! empty( $parsed_notice['attrs']['text'] );
+}
+
+/**
  * Output the Notice Action URL.
  *
  * @since 15.0.0
@@ -963,6 +977,11 @@ function bp_get_notice_action_url( $notice = null ) {
 
 	if ( isset( $parsed_notice['attrs']['url'] ) ) {
 		$url = $parsed_notice['attrs']['url'];
+
+		$dismissed = array_map( 'intval', bp_members_get_dismissed_notices_for_user( bp_loggedin_user_id() ) );
+		if ( ! in_array( $notice->id, $dismissed, true ) ) {
+			$url = bp_get_notice_dismiss_url( $notice, urlencode( $url ) );
+		}
 	}
 
 	return $url;
@@ -1014,10 +1033,11 @@ function bp_notice_dismiss_url( $notice = null ) {
  *
  * @since 15.0.0
  *
- * @param BP_Members_Notice|null $notice The notice object.
+ * @param BP_Members_Notice|null $notice   The notice object.
+ * @param string                 $redirect The URL to redirect the user to.
  * @return string URL for dismissing the current notice for the current user.
  */
-function bp_get_notice_dismiss_url( $notice = null ) {
+function bp_get_notice_dismiss_url( $notice = null, $redirect = '' ) {
 	$notice_id = 0;
 	$url       = '';
 
@@ -1035,6 +1055,10 @@ function bp_get_notice_dismiss_url( $notice = null ) {
 			$user_url = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
 		} else {
 			$user_url = bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) );
+		}
+
+		if ( ! empty( $redirect ) ) {
+			$user_url = add_query_arg( 'redirect_to', $redirect, $user_url );
 		}
 
 		$url = wp_nonce_url(
@@ -1284,11 +1308,11 @@ function bp_admin_notice_version( $notice = null ) {
  * @return string The Admin Notice version.
  */
 function bp_get_admin_notice_version( $notice = null ) {
-	$version = '';
+	$version = 0;
 	$parsed_notice = bp_get_parsed_notice_block( $notice );
 
 	if ( isset( $parsed_notice['attrs']['meta']['version'] ) ) {
-		$version = $parsed_notice['attrs']['meta']['version'];
+		$version = (float) $parsed_notice['attrs']['meta']['version'];
 	}
 
 	return number_format( $version, 1 );

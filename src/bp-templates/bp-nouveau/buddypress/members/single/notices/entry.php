@@ -23,5 +23,8 @@ if ( ! isset( $args['context'] ) ) {
 	</div>
 	<footer class="bp-notice-footer">
 		<a href="<?php bp_notice_dismiss_url( $args['context'] ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+		<?php if ( bp_notice_has_call_to_action( $args['context'] ) ) : ?>
+			<a href="<?php bp_notice_action_url( $args['context'] ); ?>"><?php bp_notice_action_text( $args['context'] ); ?></a>
+		<?php endif; ?>
 	</footer>
 </article>

@@ -457,7 +457,7 @@ class BP_Members_Notice {
 			);
 		} else {
 			$result = $wpdb->get_results(
-				"SELECT * FROM {$bp->members->table_name_notices} n
+				"SELECT n.* FROM {$bp->members->table_name_notices} n
 				{$join_sql}
 				{$where_sql}
 				ORDER BY priority ASC, date_sent DESC

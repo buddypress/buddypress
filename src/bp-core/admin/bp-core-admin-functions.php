@@ -1726,7 +1726,7 @@ function bp_core_admin_version_notice( $type = 'upgrade' ) {
 		array(
 			'title'    => $title,
 			'content'  => sprintf(
-				__( 'To discover what’s new in %s, the BuddyPress Team invites you to discover what she is the most excited about!', 'buddypress' ),
+				__( 'To have a good idea about what’s new in %s, the BuddyPress Team invites you to discover what she is the most excited about!', 'buddypress' ),
 				bp_get_major_version()
 			),
 			'target'   => 'admins',
