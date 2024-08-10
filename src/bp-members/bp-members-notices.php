@@ -516,7 +516,7 @@ function bp_members_edit_notice() {
 function bp_members_notices_default_query_args() {
 	return array(
 		'user_id'          => 0,
-		'pag_num'          => 20,
+		'pag_num'          => 5,
 		'pag_page'         => 1,
 		'dismissed'        => false,
 		'meta_query'       => array(),
@@ -623,17 +623,16 @@ function bp_members_get_dismissed_notices_for_user( $user_id ) {
  *
  * @param integer $user_id The user ID to get the notice for.
  * @param integer $page    The page number to get.
- * @return array The higher priority notice & the notices total count.
+ * @return array The higher priority notices & the notices total count.
  */
 function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
-	$notice            = null;
+	$notices           = array();
 	$dismissed_notices = bp_members_get_dismissed_notices_for_user( $user_id );
 
 	// Get notices orderered by priority.
-	$notices = BP_Members_Notice::get(
+	$notice_items = BP_Members_Notice::get(
 		array(
 			'user_id'  => $user_id,
-			'pag_num'  => 1,
 			'pag_page' => $page,
 			'exclude'  => $dismissed_notices,
 		)
@@ -647,8 +646,7 @@ function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
 		)
 	);
 
-	$notice_item = reset( $notices );
-	if ( ! empty( $notice_item->id ) ) {
+	foreach ( $notice_items as $notice_key => $notice_item ) {
 		$notice = new BP_Members_Notice();
 		$props  = array_keys( get_object_vars( $notice ) );
 
@@ -659,9 +657,11 @@ function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
 
 			$notice->{$prop} = $value;
 		}
+
+		$notices[ $notice_key ] = $notice;
 	}
 
-	return array( 'item' => $notice, 'count' => (int) $notices_count );
+	return array( 'items' => $notices, 'count' => (int) $notices_count );
 }
 
 /**
@@ -1094,18 +1094,16 @@ function bp_get_notice_dismiss_url( $notice = null, $redirect = '' ) {
  * @since 15.0.0
  */
 function bp_render_notices_center() {
-	$notice        = null;
+	$notices       = array();
 	$user_id       = bp_loggedin_user_id();
 	$result        = bp_members_get_notices_for_user( $user_id );
 	$notices_count = 0;
 
 	// @todo: make it aware of each notice of the loop.
-	$current_num = 1;
+	$current_num = 0;
 
-	if ( ! isset( $result['item'] ) || is_null( $result['item'] ) ) {
-		return;
-	} else {
-		$notice = $result['item'];
+	if ( isset( $result['items'] ) && $result['items'] ) {
+		$notices        = $result['items'];
 		$notices_count  = 1;
 
 		if ( isset( $result['count'] ) ) {
@@ -1129,31 +1127,36 @@ function bp_render_notices_center() {
 		<?php if ( $notices_count ) : ?>
 			<section class="bp-notices-section">
 				<h2 class="community-notices-title"><?php esc_html_e( 'Community notices', 'buddypress' ); ?></h2>
-				<article id="notice-<?php echo esc_attr( $notice->id ); ?>">
-					<header class="bp-notice-header">
-						<h3><?php bp_notice_title( $notice ); ?></h2>
-					</header>
-					<div class="bp-notice-body">
-						<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_target_icon( $notice ) ); ?>" ></div>
-						<div class="bp-notice-content">
-							<?php bp_notice_content( $notice ); ?>
-						</div>
-					</div>
-					<footer class="bp-notice-footer">
-						<div class="bp-notice-pagination">
-							<span class="bp-notice-current-page">
-								<?php
-								printf(
-									/* translators: 1: the current number notice. 2: the total number of notices. */
-									_n( 'Viewing %1$s/%2$s notice', 'Viewing %1$s/%2$s notices', $notices_count, 'buddypress' ),
-									$current_num,
-									$notices_count
-								);
-								?>
-							</span>
-						</div>
-					</footer>
-				</article>
+				<div class="bp-notice-items">
+					<?php foreach ( $notices as $notice ) : ?>
+						<article id="notice-<?php echo esc_attr( $notice->id ); ?>">
+							<header class="bp-notice-header">
+								<h3><?php bp_notice_title( $notice ); ?></h2>
+							</header>
+							<div class="bp-notice-body">
+								<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_target_icon( $notice ) ); ?>" ></div>
+								<div class="bp-notice-content">
+									<?php bp_notice_content( $notice ); ?>
+								</div>
+							</div>
+							<footer class="bp-notice-footer">
+								<div class="bp-notice-pagination">
+									<span class="bp-notice-current-page">
+										<?php
+										$current_num += 1;
+										printf(
+											/* translators: 1: the current number notice. 2: the total number of notices. */
+											_n( 'Viewing %1$s/%2$s notice', 'Viewing %1$s/%2$s notices', $notices_count, 'buddypress' ),
+											$current_num,
+											$notices_count
+										);
+										?>
+									</span>
+								</div>
+							</footer>
+						</article>
+					<?php endforeach; ?>
+				</div><!-- .bp-notice-items -->
 			</section>
 		<?php endif; ?>
 		<?php if ( $notifications_count ) : ?>
