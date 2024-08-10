@@ -308,29 +308,53 @@ class BP_Members_Notice {
 		global $wpdb;
 
 		/**
-		 * Fires before the current message item has been deleted.
+		 * Please do not use this filter anymore.
 		 *
 		 * @since 1.0.0
+		 * @deprecated 15.0.0
 		 *
 		 * @param BP_Members_Notice $notice Current instance of the message notice item being deleted.
 		 */
-		do_action( 'messages_notice_before_delete', $this );
+		do_action_deprecated( 'messages_notice_before_delete', array( $this ), '15.0.0', 'members_notice_before_delete' );
+
+		/**
+		 * Fires before the notice item has been deleted.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param BP_Members_Notice $notice Current instance of the notice item being deleted.
+		 */
+		do_action( 'members_notice_before_delete', $this );
 
 		$bp  = buddypress();
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->members->table_name_notices} WHERE id = %d", $this->id );
 
 		if ( ! $wpdb->query( $sql ) ) {
 			return false;
+
+			// Remove all corresponding notice metadata.
+		} else {
+			bp_notices_delete_meta( $this->id );
 		}
 
 		/**
-		 * Fires after the current message item has been deleted.
+		 * Please do not use this filter anymore.
 		 *
 		 * @since 2.8.0
+		 * @deprecated 15.0.0
 		 *
-		 * @param BP_Members_Notice $notice Current instance of the message notice item being deleted.
+		 * @param BP_Members_Notice $notice Current instance of the notice being saved. Passed by reference.
 		 */
-		do_action( 'messages_notice_after_delete', $this );
+		do_action_deprecated( 'messages_notice_after_delete', array( $this ), '15.0.0', 'members_notice_after_delete' );
+
+		/**
+		 * Fires after the notice item has been deleted.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param BP_Members_Notice $notice Current instance of the notice item being deleted.
+		 */
+		do_action( 'members_notice_after_delete', $this );
 
 		return true;
 	}
