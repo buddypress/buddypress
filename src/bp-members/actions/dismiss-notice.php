@@ -29,23 +29,38 @@ function bp_members_notice_action_dismiss() {
 		// Check the nonce.
 		check_admin_referer( 'members_dismiss_notice' );
 
-		$referer          = wp_get_referer();
+		// By default redirect to the referer.
+		$referer     = wp_get_referer();
+		$redirect_to = '';
+
+		// If specified, redirect to the validated URL to redirect to.
+		if ( isset( $_GET['redirect_to'] ) ) {
+			$redirect_to = sanitize_url( wp_unslash( $_GET['redirect_to'] ) );
+
+			if ( wp_http_validate_url( $redirect_to ) ) {
+				$referer = str_replace( 'amp;', '', $redirect_to );
+			}
+		}
+
 		$is_referer_admin = 0 === strpos( wp_parse_url( $referer, PHP_URL_PATH ), '/wp-admin' );
 
-		// Check the notice exists.
+		// Dismiss the notice.
 		$dismissed = bp_members_dismiss_notice( bp_displayed_user_id(), $notice_id );
 
-		if ( is_wp_error( $dismissed ) ) {
-			if ( $is_referer_admin ) {
-				$referer = add_query_arg( 'bp-dismissed', 0, $referer );
+		// Only add feedbacks when the URL to redirect to is not specified.
+		if ( ! $redirect_to ) {
+			if ( is_wp_error( $dismissed ) ) {
+				if ( $is_referer_admin ) {
+					$referer = add_query_arg( 'bp-dismissed', 0, $referer );
+				} else {
+					bp_core_add_message( $dismissed->get_error_message(), 'error' );
+				}
 			} else {
-				bp_core_add_message( $dismissed->get_error_message(), 'error' );
-			}
-		} else {
-			if ( $is_referer_admin ) {
-				$referer = add_query_arg( 'bp-dismissed', $notice_id, $referer );
-			} else {
-				bp_core_add_message( 'The notice was successfully dismissed.' );
+				if ( $is_referer_admin ) {
+					$referer = add_query_arg( 'bp-dismissed', $notice_id, $referer );
+				} else {
+					bp_core_add_message( 'The notice was successfully dismissed.' );
+				}
 			}
 		}
 
