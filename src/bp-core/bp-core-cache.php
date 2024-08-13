@@ -307,12 +307,12 @@ function bp_core_get_incremented_cache( $key, $group ) {
  *
  * @param string $key   Unique key for the query. Usually a SQL string.
  * @param string $group Cache group. Eg 'bp_activity'.
- * @param array  $ids   Array of IDs.
+ * @param mixed  $value The value to store.
  * @return bool
  */
-function bp_core_set_incremented_cache( $key, $group, $ids ) {
+function bp_core_set_incremented_cache( $key, $group, $value ) {
 	$cache_key = bp_core_get_incremented_cache_key( $key, $group );
-	return wp_cache_set( $cache_key, $ids, $group );
+	return wp_cache_set( $cache_key, $value, $group );
 }
 
 /**
@@ -321,6 +321,7 @@ function bp_core_set_incremented_cache( $key, $group, $ids ) {
  * A utility function for use by query methods like BP_Activity_Activity::get().
  *
  * @since 3.0.0
+ *
  * @see bp_core_set_incremented_cache()
  *
  * @param string $key   Unique key for the query. Usually a SQL string.

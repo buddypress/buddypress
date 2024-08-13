@@ -132,6 +132,12 @@
 		"parent": null
 	},
 	{
+		"title": "Groups Administration",
+		"slug": "groups-administration",
+		"markdown_source": "../user/administration/groups/groups.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Group Types",
 		"slug": "administration-group-types",
 		"markdown_source": "../user/administration/groups/group-types.md",
@@ -147,6 +153,24 @@
 		"title": "Customizing BuddyPress texts to match your community purpose",
 		"slug": "advanced-texts",
 		"markdown_source": "../user/advanced/texts.md",
+		"parent": null
+	},
+	{
+		"title": "BuddyPress Components",
+		"slug": "components",
+		"markdown_source": "../user/components/README.md",
+		"parent": null
+	},
+	{
+		"title": "User Groups",
+		"slug": "groups-component",
+		"markdown_source": "../user/components/groups/README.md",
+		"parent": null
+	},
+	{
+		"title": "Joining BuddyPress Groups",
+		"slug": "joining-groups",
+		"markdown_source": "../user/components/groups/joining-groups.md",
 		"parent": null
 	}
 ]

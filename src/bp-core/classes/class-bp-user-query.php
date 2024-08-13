@@ -676,11 +676,9 @@ class BP_User_Query {
 	 * action to loop in the things they want.
 	 *
 	 * @since 1.7.0
-	 *
-	 * @global wpdb $wpdb WordPress database object.
+	 * @since 15.0.0 Some properties were moved into action hooks.
 	 */
 	public function populate_extras() {
-		global $wpdb;
 
 		// Bail if no users.
 		if ( empty( $this->user_ids ) || empty( $this->results ) ) {
@@ -707,12 +705,17 @@ class BP_User_Query {
 		 * Note that anything you add here should query using $user_ids_sql, to
 		 * avoid running multiple queries per user in the loop.
 		 *
-		 * Two BuddyPress components currently do this:
+		 * Three BuddyPress components currently do this:
 		 * - XProfile: To override display names.
-		 * - Friends:  To set whether or not a user is the current users friend.
+		 * - Friends:  To set whether a user is the current users friend.
+		 * - Members:  To set last activity, total friend count, last update,
+		 *             and meta_key/meta_value if passed to the query.
 		 *
 		 * @see bp_xprofile_filter_user_query_populate_extras()
 		 * @see bp_friends_filter_user_query_populate_extras()
+		 * @see bp_members_filter_user_query_populate_extras_last_activity()
+		 * @see bp_members_filter_user_query_populate_extras_friend_count_latest_update()
+		 * @see bp_members_filter_user_query_populate_extras_meta()
 		 *
 		 * @since 1.7.0
 		 *
@@ -720,77 +723,6 @@ class BP_User_Query {
 		 * @param string        $user_ids_sql Comma-separated string of user IDs.
 		 */
 		do_action_ref_array( 'bp_user_query_populate_extras', array( $this, $user_ids_sql ) );
-
-		// Fetch last_active data from the activity table.
-		$last_activities = BP_Core_User::get_last_activity( $this->user_ids );
-
-		// Set a last_activity value for each user, even if it's empty.
-		foreach ( $this->results as $user_id => $user ) {
-			$user_last_activity                       = isset( $last_activities[ $user_id ]['date_recorded'] ) ? $last_activities[ $user_id ]['date_recorded'] : '';
-			$this->results[ $user_id ]->last_activity = $user_last_activity;
-		}
-
-		// Fetch usermeta data
-		// We want the three following pieces of info from usermeta:
-		// - friend count
-		// - latest update.
-		$total_friend_count_key = bp_get_user_meta_key( 'total_friend_count' );
-		$bp_latest_update_key   = bp_get_user_meta_key( 'bp_latest_update' );
-
-		// Total_friend_count must be set for each user, even if its
-		// value is 0.
-		foreach ( $this->results as $uindex => $user ) {
-			$this->results[ $uindex ]->total_friend_count = 0;
-		}
-
-		// Create, prepare, and run the separate usermeta query.
-		$user_metas = $wpdb->get_results( $wpdb->prepare( "SELECT user_id, meta_key, meta_value FROM {$wpdb->usermeta} WHERE meta_key IN (%s,%s) AND user_id IN ({$user_ids_sql})", $total_friend_count_key, $bp_latest_update_key ) );
-
-		// The $members_template global expects the index key to be different
-		// from the meta_key in some cases, so we rejig things here.
-		foreach ( $user_metas as $user_meta ) {
-			switch ( $user_meta->meta_key ) {
-				case $total_friend_count_key:
-					$key = 'total_friend_count';
-					break;
-
-				case $bp_latest_update_key:
-					$key = 'latest_update';
-					break;
-			}
-
-			if ( isset( $this->results[ $user_meta->user_id ] ) ) {
-				$this->results[ $user_meta->user_id ]->{$key} = $user_meta->meta_value;
-			}
-		}
-
-		// When meta_key or meta_value have been passed to the query,
-		// fetch the resulting values for use in the template functions.
-		if ( ! empty( $this->query_vars['meta_key'] ) ) {
-			$meta_sql = array(
-				'select' => 'SELECT user_id, meta_key, meta_value',
-				'from'   => "FROM $wpdb->usermeta",
-				'where'  => $wpdb->prepare( 'WHERE meta_key = %s', $this->query_vars['meta_key'] ),
-			);
-
-			if ( false !== $this->query_vars['meta_value'] ) {
-				$meta_sql['where'] .= $wpdb->prepare( ' AND meta_value = %s', $this->query_vars['meta_value'] );
-			}
-
-			$metas = $wpdb->get_results( "{$meta_sql['select']} {$meta_sql['from']} {$meta_sql['where']}" );
-
-			if ( ! empty( $metas ) ) {
-				foreach ( $metas as $meta ) {
-					if ( isset( $this->results[ $meta->user_id ] ) ) {
-						$this->results[ $meta->user_id ]->meta_key = $meta->meta_key;
-
-						if ( ! empty( $meta->meta_value ) ) {
-							$this->results[ $meta->user_id ]->meta_value = $meta->meta_value;
-						}
-					}
-				}
-			}
-		}
 	}
 
 	/**
