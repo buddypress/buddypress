@@ -15,4 +15,4 @@ _Welcome to the BuddyPress Handbooks; if you’re looking for a structured way t
 - License
 - [Support forums etiquette](./etiquette.md)
 - Security
-- Official logos & graphics
+- [Official logos & graphics](./logo.md)
