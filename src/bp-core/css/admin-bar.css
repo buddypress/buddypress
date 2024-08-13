@@ -121,12 +121,57 @@ body.admin-bar aside#bp-notices-container {
 	background: #fefefe;
 	box-shadow: 0 12px 24px -16px #444;
 	padding: 1em;
-	width: 33%;
+	width: 25%;
+	height: 100%;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notices-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notices-slider {
+	width: 100%;
+	margin: 5px;
+	overflow: hidden;
+	position: relative;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notices-slides {
+	display: flex;
+	overflow-x: scroll;
+	position: relative;
+	scroll-behavior: smooth;
+	scroll-snap-type: x mandatory;
+}
+
+body.admin-bar aside#bp-notices-container .notice-item {
+	display: flex;
+	flex-shrink: 0;
+	width: 100%;
+	scroll-snap-align: center;
+	margin-right: 0px;
+	box-sizing: border-box;
+	background: white;
+	transform-origin: center center;
+	transform: scale(1);
+}
+
+body.admin-bar aside#bp-notices-container .notice-item .bp-notice-actions {
+	display: flex;
+	flex-wrap: nowrap;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-footer {
+	margin: 1em;
 }
 
 body.admin-bar aside#bp-notices-container *:not(.dashicons ) {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-	line-height: 1.5em;
 	font-size: 13px;
 }
 

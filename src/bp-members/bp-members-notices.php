@@ -1127,36 +1127,48 @@ function bp_render_notices_center() {
 		<?php if ( $notices_count ) : ?>
 			<section class="bp-notices-section">
 				<h2 class="community-notices-title"><?php esc_html_e( 'Community notices', 'buddypress' ); ?></h2>
-				<div class="bp-notice-items">
-					<?php foreach ( $notices as $notice ) : ?>
-						<article id="notice-<?php echo esc_attr( $notice->id ); ?>">
-							<header class="bp-notice-header">
-								<h3><?php bp_notice_title( $notice ); ?></h2>
-							</header>
-							<div class="bp-notice-body">
-								<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_target_icon( $notice ) ); ?>" ></div>
-								<div class="bp-notice-content">
-									<?php bp_notice_content( $notice ); ?>
-								</div>
-							</div>
-							<footer class="bp-notice-footer">
-								<div class="bp-notice-pagination">
-									<span class="bp-notice-current-page">
-										<?php
-										$current_num += 1;
-										printf(
-											/* translators: 1: the current number notice. 2: the total number of notices. */
-											_n( 'Viewing %1$s/%2$s notice', 'Viewing %1$s/%2$s notices', $notices_count, 'buddypress' ),
-											$current_num,
-											$notices_count
-										);
-										?>
-									</span>
-								</div>
-							</footer>
-						</article>
-					<?php endforeach; ?>
-				</div><!-- .bp-notice-items -->
+				<div class="bp-notices-container">
+					<div class="bp-notices-slider">
+						<div class="bp-notices-slides">
+							<?php foreach ( $notices as $notice ) : ?>
+								<article id="notice-<?php echo esc_attr( $notice->id ); ?>" class="notice-item">
+									<div class="notice-item-inner">
+										<header class="bp-notice-header">
+											<h3><?php bp_notice_title( $notice ); ?></h2>
+										</header>
+										<div class="bp-notice-body">
+											<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_target_icon( $notice ) ); ?>" ></div>
+											<div class="bp-notice-content">
+												<?php bp_notice_content( $notice ); ?>
+											</div>
+										</div>
+										<div class="bp-notice-actions">
+											<a href="<?php bp_notice_dismiss_url( $notice ); ?>" class="button button-secondary"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+											<?php if ( bp_notice_has_call_to_action( $notice ) ) : ?>
+												<a href="<?php bp_notice_action_url( $notice ); ?>" class="button button-primary"><?php bp_notice_action_text( $notice ); ?></a>
+											<?php endif; ?>
+										</div>
+										<footer class="bp-notice-footer">
+											<div class="bp-notice-pagination">
+												<span class="bp-notice-current-page">
+													<?php
+													$current_num += 1;
+													printf(
+														/* translators: 1: the current number notice. 2: the total number of notices. */
+														_n( 'Viewing %1$s/%2$s notice', 'Viewing %1$s/%2$s notices', $notices_count, 'buddypress' ),
+														$current_num,
+														$notices_count
+													);
+													?>
+												</span>
+											</div>
+										</footer>
+									</div><!-- .notice-item-inner-->
+								</article><!-- .notice-item-->
+							<?php endforeach; ?>
+						</div><!-- .bp-notices-slides-->
+					</div><!-- .bp-notices-slider-->
+				</div><!-- .bp-notices-container -->
 			</section>
 		<?php endif; ?>
 		<?php if ( $notifications_count ) : ?>
