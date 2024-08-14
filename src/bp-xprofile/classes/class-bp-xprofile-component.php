@@ -173,24 +173,24 @@ class BP_XProfile_Component extends BP_Component {
 
 		// Register the visibility levels. See bp_xprofile_get_visibility_levels() to filter.
 		$this->visibility_levels = array(
-			'public' => array(
-				'id'	  => 'public',
+			'public'     => array(
+				'id'    => 'public',
 				'label' => _x( 'Everyone', 'Visibility level setting', 'buddypress' ),
 			),
 			'adminsonly' => array(
-				'id'	  => 'adminsonly',
+				'id'    => 'adminsonly',
 				'label' => _x( 'Only Me', 'Visibility level setting', 'buddypress' ),
 			),
-			'loggedin' => array(
-				'id'	  => 'loggedin',
+			'loggedin'   => array(
+				'id'    => 'loggedin',
 				'label' => _x( 'All Members', 'Visibility level setting', 'buddypress' ),
 			),
 		);
 
 		if ( bp_is_active( 'friends' ) ) {
 			$this->visibility_levels['friends'] = array(
-				'id'	=> 'friends',
-				'label'	=> _x( 'My Friends', 'Visibility level setting', 'buddypress' ),
+				'id'    => 'friends',
+				'label' => _x( 'My Friends', 'Visibility level setting', 'buddypress' ),
 			);
 		}
 
@@ -251,7 +251,7 @@ class BP_XProfile_Component extends BP_Component {
 
 		// Edit Profile.
 		$sub_nav[] = array(
-			'name'                     => _x( 'Edit','Profile header sub menu', 'buddypress' ),
+			'name'                     => _x( 'Edit', 'Profile header sub menu', 'buddypress' ),
 			'slug'                     => 'edit',
 			'parent_slug'              => $slug,
 			'screen_function'          => 'xprofile_screen_edit_profile',
@@ -341,14 +341,16 @@ class BP_XProfile_Component extends BP_Component {
 			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = _x( 'My Profile', 'Page title', 'buddypress' );
 			} else {
-				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => bp_displayed_user_id(),
-					'type'    => 'thumb',
+				$bp->bp_options_avatar = bp_core_fetch_avatar(
+					array(
+						'item_id' => bp_displayed_user_id(),
+						'type'    => 'thumb',
 
-					/* translators: %s: member name */
-					'alt'	  => sprintf( _x( 'Profile picture of %s', 'Avatar alt', 'buddypress' ), bp_get_displayed_user_fullname() ),
-				) );
-				$bp->bp_options_title = bp_get_displayed_user_fullname();
+						/* translators: %s: member name */
+						'alt'     => sprintf( _x( 'Profile picture of %s', 'Avatar alt', 'buddypress' ), bp_get_displayed_user_fullname() ),
+					)
+				);
+				$bp->bp_options_title  = bp_get_displayed_user_fullname();
 			}
 		}
 
@@ -363,14 +365,16 @@ class BP_XProfile_Component extends BP_Component {
 	public function setup_cache_groups() {
 
 		// Global groups.
-		wp_cache_add_global_groups( array(
-			'bp_xprofile',
-			'bp_xprofile_data',
-			'bp_xprofile_fields',
-			'bp_xprofile_groups',
-			'xprofile_meta',
-			'bp_user_mid',
-		) );
+		wp_cache_add_global_groups(
+			array(
+				'bp_xprofile',
+				'bp_xprofile_data',
+				'bp_xprofile_fields',
+				'bp_xprofile_groups',
+				'xprofile_meta',
+				'bp_user_mid',
+			)
+		);
 
 		parent::setup_cache_groups();
 	}
@@ -406,9 +410,9 @@ class BP_XProfile_Component extends BP_Component {
 	public function rest_api_init( $controllers = array() ) {
 		parent::rest_api_init(
 			array(
-				'BP_REST_XProfile_Fields_Controller',
-				'BP_REST_XProfile_Field_Groups_Controller',
-				'BP_REST_XProfile_Data_Controller',
+				'BP_REST_XProfile_Fields_Endpoint',
+				'BP_REST_XProfile_Field_Groups_Endpoint',
+				'BP_REST_XProfile_Data_Endpoint',
 			)
 		);
 	}

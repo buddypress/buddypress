@@ -139,7 +139,7 @@ class BP_Friends_Component extends BP_Component {
 			'block_globals'         => array(
 				'bp/friends' => array(
 					'widget_classnames' => array( 'widget_bp_core_friends_widget', 'buddypress' ),
-				)
+				),
 			),
 		);
 
@@ -159,7 +159,7 @@ class BP_Friends_Component extends BP_Component {
 	 *                        description.
 	 */
 	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
-		$slug   = bp_get_friends_slug();
+		$slug = bp_get_friends_slug();
 
 		$main_nav = array(
 			'name'                => __( 'Friends', 'buddypress' ),
@@ -305,16 +305,18 @@ class BP_Friends_Component extends BP_Component {
 			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = __( 'Friendships', 'buddypress' );
 			} else {
-				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => bp_displayed_user_id(),
-					'type'    => 'thumb',
-					'alt'     => sprintf(
+				$bp->bp_options_avatar = bp_core_fetch_avatar(
+					array(
+						'item_id' => bp_displayed_user_id(),
+						'type'    => 'thumb',
+						'alt'     => sprintf(
 						/* translators: %s: member name */
-						__( 'Profile picture of %s', 'buddypress' ),
-						bp_get_displayed_user_fullname()
-					),
-				) );
-				$bp->bp_options_title = bp_get_displayed_user_fullname();
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_get_displayed_user_fullname()
+						),
+					)
+				);
+				$bp->bp_options_title  = bp_get_displayed_user_fullname();
 			}
 		}
 
@@ -329,11 +331,13 @@ class BP_Friends_Component extends BP_Component {
 	public function setup_cache_groups() {
 
 		// Global groups.
-		wp_cache_add_global_groups( array(
-			'bp_friends_requests',
-			'bp_friends_friendships', // Individual friendship objects are cached here by ID.
-			'bp_friends_friendships_for_user' // All friendship IDs for a single user.
-		) );
+		wp_cache_add_global_groups(
+			array(
+				'bp_friends_requests',
+				'bp_friends_friendships', // Individual friendship objects are cached here by ID.
+				'bp_friends_friendships_for_user', // All friendship IDs for a single user.
+			)
+		);
 
 		parent::setup_cache_groups();
 	}
@@ -347,7 +351,7 @@ class BP_Friends_Component extends BP_Component {
 	 *                           description.
 	 */
 	public function rest_api_init( $controllers = array() ) {
-		parent::rest_api_init( array( 'BP_REST_Friends_Controller' ) );
+		parent::rest_api_init( array( 'BP_REST_Friends_Endpoint' ) );
 	}
 
 	/**

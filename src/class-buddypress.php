@@ -698,66 +698,66 @@ class BuddyPress {
 		// These classes don't have a name that matches their component.
 		$irregular_map = array(
 			'BP_Akismet'                                 => 'activity',
-			'BP_REST_Activity_Controller'                  => 'activity',
-			'BP_REST_Blogs_Controller'                     => 'blogs',
-			'BP_REST_Attachments_Blog_Avatar_Controller'   => 'blogs',
-			'BP_Admin'                                     => 'core',
-			'BP_Attachment_Avatar'                         => 'core',
-			'BP_Attachment_Cover_Image'                    => 'core',
-			'BP_Attachment'                                => 'core',
-			'BP_Button'                                    => 'core',
-			'BP_Block'                                     => 'core',
-			'BP_Component'                                 => 'core',
-			'BP_Customizer_Control_Range'                  => 'core',
-			'BP_Date_Query'                                => 'core',
-			'BP_Email_Delivery'                            => 'core',
-			'BP_Email_Address'                             => 'core',
-			'BP_Email_Recipient'                           => 'core',
-			'BP_Email_Sender'                              => 'core',
-			'BP_Email_Participant'                         => 'core',
-			'BP_Email'                                     => 'core',
-			'BP_Embed'                                     => 'core',
-			'BP_Media_Extractor'                           => 'core',
-			'BP_Members_Suggestions'                       => 'core',
-			'BP_PHPMailer'                                 => 'core',
-			'BP_Recursive_Query'                           => 'core',
-			'BP_Suggestions'                               => 'core',
-			'BP_Theme_Compat'                              => 'core',
-			'BP_User_Query'                                => 'core',
-			'BP_Walker_Category_Checklist'                 => 'core',
-			'BP_Walker_Nav_Menu'                           => 'core',
-			'BP_Invitation_Manager'                        => 'core',
-			'BP_Invitation'                                => 'core',
-			'BP_REST_Components_Controller'                => 'core',
-			'BP_REST_Attachments'                          => 'core',
-			'BP_Admin_Types'                               => 'core',
-			'BP_Optout'                                    => 'core',
-			'BP_Optouts_List_Table'                        => 'core',
-			'BP_REST_Friends_Controller'                   => 'friends',
-			'BP_Group_Extension'                           => 'groups',
-			'BP_Group_Member_Query'                        => 'groups',
-			'BP_REST_Groups_Controller'                    => 'groups',
-			'BP_REST_Group_Membership_Controller'          => 'groups',
-			'BP_REST_Group_Invites_Controller'             => 'groups',
-			'BP_REST_Group_Membership_Request_Controller'  => 'groups',
-			'BP_REST_Attachments_Group_Avatar_Controller'  => 'groups',
-			'BP_REST_Attachments_Group_Cover_Controller'   => 'groups',
-			'BP_Core_Members_Template'                     => 'members',
-			'BP_Registration_Theme_Compat'                 => 'members',
-			'BP_Signup'                                    => 'members',
-			'BP_REST_Members_Controller'                   => 'members',
-			'BP_REST_Attachments_Member_Avatar_Controller' => 'members',
-			'BP_REST_Attachments_Member_Cover_Controller'  => 'members',
-			'BP_REST_Signup_Controller'                    => 'members',
-			'BP_Members_Invitation_Manager'                => 'members',
-			'BP_Members_Invitations_Template'              => 'members',
-			'BP_Members_Invitations_Component'             => 'members',
-			'BP_REST_Messages_Controller'                  => 'messages',
-			'BP_REST_Sitewide_Notices_Controller'          => 'messages',
-			'BP_REST_Notifications_Controller'             => 'notifications',
-			'BP_REST_XProfile_Fields_Controller'           => 'xprofile',
-			'BP_REST_XProfile_Field_Groups_Controller'     => 'xprofile',
-			'BP_REST_XProfile_Data_Controller'             => 'xprofile',
+			'BP_REST_Activity_Endpoint'                  => 'activity',
+			'BP_REST_Blogs_Endpoint'                     => 'blogs',
+			'BP_REST_Attachments_Blog_Avatar_Endpoint'   => 'blogs',
+			'BP_Admin'                                   => 'core',
+			'BP_Attachment_Avatar'                       => 'core',
+			'BP_Attachment_Cover_Image'                  => 'core',
+			'BP_Attachment'                              => 'core',
+			'BP_Button'                                  => 'core',
+			'BP_Block'                                   => 'core',
+			'BP_Component'                               => 'core',
+			'BP_Customizer_Control_Range'                => 'core',
+			'BP_Date_Query'                              => 'core',
+			'BP_Email_Delivery'                          => 'core',
+			'BP_Email_Address'                           => 'core',
+			'BP_Email_Recipient'                         => 'core',
+			'BP_Email_Sender'                            => 'core',
+			'BP_Email_Participant'                       => 'core',
+			'BP_Email'                                   => 'core',
+			'BP_Embed'                                   => 'core',
+			'BP_Media_Extractor'                         => 'core',
+			'BP_Members_Suggestions'                     => 'core',
+			'BP_PHPMailer'                               => 'core',
+			'BP_Recursive_Query'                         => 'core',
+			'BP_Suggestions'                             => 'core',
+			'BP_Theme_Compat'                            => 'core',
+			'BP_User_Query'                              => 'core',
+			'BP_Walker_Category_Checklist'               => 'core',
+			'BP_Walker_Nav_Menu'                         => 'core',
+			'BP_Invitation_Manager'                      => 'core',
+			'BP_Invitation'                              => 'core',
+			'BP_REST_Components_Endpoint'                => 'core',
+			'BP_REST_Attachments'                        => 'core',
+			'BP_Admin_Types'                             => 'core',
+			'BP_Optout'                                  => 'core',
+			'BP_Optouts_List_Table'                      => 'core',
+			'BP_REST_Friends_Endpoint'                   => 'friends',
+			'BP_Group_Extension'                         => 'groups',
+			'BP_Group_Member_Query'                      => 'groups',
+			'BP_REST_Groups_Endpoint'                    => 'groups',
+			'BP_REST_Group_Membership_Endpoint'          => 'groups',
+			'BP_REST_Group_Invites_Endpoint'             => 'groups',
+			'BP_REST_Group_Membership_Request_Endpoint'  => 'groups',
+			'BP_REST_Attachments_Group_Avatar_Endpoint'  => 'groups',
+			'BP_REST_Attachments_Group_Cover_Endpoint'   => 'groups',
+			'BP_Core_Members_Template'                   => 'members',
+			'BP_Registration_Theme_Compat'               => 'members',
+			'BP_Signup'                                  => 'members',
+			'BP_REST_Members_Endpoint'                   => 'members',
+			'BP_REST_Attachments_Member_Avatar_Endpoint' => 'members',
+			'BP_REST_Attachments_Member_Cover_Endpoint'  => 'members',
+			'BP_REST_Signup_Endpoint'                    => 'members',
+			'BP_Members_Invitation_Manager'              => 'members',
+			'BP_Members_Invitations_Template'            => 'members',
+			'BP_Members_Invitations_Component'           => 'members',
+			'BP_REST_Messages_Endpoint'                  => 'messages',
+			'BP_REST_Sitewide_Notices_Endpoint'          => 'messages',
+			'BP_REST_Notifications_Endpoint'             => 'notifications',
+			'BP_REST_XProfile_Fields_Endpoint'           => 'xprofile',
+			'BP_REST_XProfile_Field_Groups_Endpoint'     => 'xprofile',
+			'BP_REST_XProfile_Data_Endpoint'             => 'xprofile',
 		);
 
 		$component = null;
@@ -766,7 +766,7 @@ class BuddyPress {
 		if ( isset( $irregular_map[ $class ] ) ) {
 			$component = $irregular_map[ $class ];
 
-		// Next chunk is usually the component name.
+			// Next chunk is usually the component name.
 		} elseif ( in_array( $class_parts[1], $components, true ) ) {
 			$component = $class_parts[1];
 		}
@@ -779,9 +779,9 @@ class BuddyPress {
 		$class = strtolower( str_replace( '_', '-', $class ) );
 
 		if ( 'bp-rest-attachments' === $class ) {
-			$path = dirname( __FILE__ ) . "/bp-{$component}/classes/trait-attachments.php";
+			$path = __DIR__ . "/bp-{$component}/classes/trait-attachments.php";
 		} else {
-			$path = dirname( __FILE__ ) . "/bp-{$component}/classes/class-{$class}.php";
+			$path = __DIR__ . "/bp-{$component}/classes/class-{$class}.php";
 		}
 
 		// Sanity check.
@@ -868,7 +868,7 @@ class BuddyPress {
 		if ( ! empty( $versions['1.6-single'] ) ) {
 			$this->db_version_raw = (int) $versions['1.6-single'];
 
-		// If no 1.6-single exists, use the max of the others.
+			// If no 1.6-single exists, use the max of the others.
 		} else {
 			$versions['1.2']        = get_site_option( 'bp-core-db-version' );
 			$versions['1.5-multi']  = get_site_option( 'bp-db-version' );

@@ -34,8 +34,8 @@ class BP_Blogs_Component extends BP_Component {
 			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 30,
-				'search_query_arg' => 'sites_search',
-				'features' => array( 'site-icon' )
+				'search_query_arg'         => 'sites_search',
+				'features'                 => array( 'site-icon' ),
 			)
 		);
 	}
@@ -73,7 +73,7 @@ class BP_Blogs_Component extends BP_Component {
 
 		// Fetch the default directory title.
 		$default_directory_titles = bp_core_get_directory_page_default_titles();
-		$default_directory_title  = $default_directory_titles[$this->id];
+		$default_directory_title  = $default_directory_titles[ $this->id ];
 
 		// All globals for blogs component.
 		$args = array(
@@ -84,7 +84,7 @@ class BP_Blogs_Component extends BP_Component {
 				'directory'                  => 'blogs',
 				'create_single_item'         => 'blog_create',
 				'directory_action'           => 'blogs_action',
-				'directory_action_variables' => 'blogs_action_variables'
+				'directory_action_variables' => 'blogs_action_variables',
 			),
 			'directory_title'       => isset( $bp->pages->blogs->title ) ? $bp->pages->blogs->title : $default_directory_title,
 			'notification_callback' => 'bp_blogs_format_notifications',
@@ -228,7 +228,7 @@ class BP_Blogs_Component extends BP_Component {
 			'position'            => 30,
 			'screen_function'     => 'bp_blogs_screen_my_blogs',
 			'default_subnav_slug' => 'my-sites',
-			'item_css_id'         => $this->id
+			'item_css_id'         => $this->id,
 		);
 
 		$sub_nav[] = array(
@@ -236,7 +236,7 @@ class BP_Blogs_Component extends BP_Component {
 			'slug'            => 'my-sites',
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_blogs_screen_my_blogs',
-			'position'        => 10
+			'position'        => 10,
 		);
 
 		// Setup navigation.
@@ -333,7 +333,7 @@ class BP_Blogs_Component extends BP_Component {
 					'id'       => 'my-account-' . $this->id . '-create',
 					'title'    => __( 'Create a Site', 'buddypress' ),
 					'href'     => $url,
-					'position' => 99
+					'position' => 99,
 				);
 			}
 		}
@@ -355,19 +355,21 @@ class BP_Blogs_Component extends BP_Component {
 					$bp->bp_options_title = __( 'My Sites', 'buddypress' );
 				}
 
-			// If we are not viewing the logged in user, set up the current
-			// users avatar and name.
+				// If we are not viewing the logged in user, set up the current
+				// users avatar and name.
 			} else {
-				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => bp_displayed_user_id(),
-					'type'    => 'thumb',
-					'alt'     => sprintf(
+				$bp->bp_options_avatar = bp_core_fetch_avatar(
+					array(
+						'item_id' => bp_displayed_user_id(),
+						'type'    => 'thumb',
+						'alt'     => sprintf(
 						/* translators: %s: member name */
-						__( 'Profile picture of %s', 'buddypress' ),
-						bp_get_displayed_user_fullname()
-					),
-				) );
-				$bp->bp_options_title = bp_get_displayed_user_fullname();
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_get_displayed_user_fullname()
+						),
+					)
+				);
+				$bp->bp_options_title  = bp_get_displayed_user_fullname();
 			}
 		}
 
@@ -382,9 +384,11 @@ class BP_Blogs_Component extends BP_Component {
 	public function setup_cache_groups() {
 
 		// Global groups.
-		wp_cache_add_global_groups( array(
-			'bp_blog_meta'
-		) );
+		wp_cache_add_global_groups(
+			array(
+				'bp_blog_meta',
+			)
+		);
 
 		parent::setup_cache_groups();
 	}
@@ -429,7 +433,7 @@ class BP_Blogs_Component extends BP_Component {
 				'order' => 60,
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_action'] . '=$matches[1]',
 			),
-			'create_single_item' => array(
+			'create_single_item'         => array(
 				'regex' => $this->root_slug . '/' . $create_slug . '/?$',
 				'order' => 50,
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['create_single_item'] . '=1',
@@ -506,11 +510,11 @@ class BP_Blogs_Component extends BP_Component {
 	 */
 	public function rest_api_init( $controllers = array() ) {
 		if ( is_multisite() ) {
-			$controllers = array( 'BP_REST_Blogs_Controller' );
+			$controllers = array( 'BP_REST_Blogs_Endpoint' );
 
 			// Support to Blog Avatar.
 			if ( bp_is_active( 'blogs', 'site-icon' ) ) {
-				$controllers[] = 'BP_REST_Attachments_Blog_Avatar_Controller';
+				$controllers[] = 'BP_REST_Attachments_Blog_Avatar_Endpoint';
 			}
 		}
 
