@@ -22,7 +22,10 @@ class bpNoticesCenter {
 	 * @param {PointerEvent} event The click event.
 	 */
 	catchEvents( event ) {
-		event.preventDefault();
+		// Use the BP REST API to dismiss the notice.
+		if ( event.target.dataset.bpDismissId ) {
+			event.preventDefault();
+		}
 	}
 
 	/**

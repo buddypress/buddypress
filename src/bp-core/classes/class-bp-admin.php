@@ -1656,56 +1656,70 @@ class BP_Admin {
 	public function admin_notices() {
 		bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Notices', 'buddypress' ) );
 
-		$user_id = bp_loggedin_user_id();
-		$type    = 'unread';
-		$args    = array(
-			'user_id'    => $user_id,
-			'target__in' => array( 'admins' ),
-			'priority'   => 0,
-		);
+		$admin_notices = array();
+		$notice_id     = 0;
+		$type          = 'unread';
 
-		if ( isset( $_POST['bp_admin_notices']['filter_value'] ) ) {
-			$type = sanitize_text_field( wp_unslash( $_POST['bp_admin_notices']['filter_value'] ) );
-		}
+		if ( isset( $_GET['nid'] ) ) {
+			$notice_id = (int) wp_unslash( $_GET['nid'] );
 
-		if ( 'unread' === $type ) {
-			$args['exclude'] = bp_members_get_dismissed_notices_for_user( $user_id );
+			// Fetch matching notice.
+			$admin_notices = array( bp_members_get_notice( $notice_id ) );
+
 		} else {
-			$args['dismissed'] = true;
-		}
+			$user_id = bp_loggedin_user_id();
+			$args    = array(
+				'user_id'    => $user_id,
+				'target__in' => array( 'admins' ),
+				'priority'   => 0,
+			);
 
-		// Check dismissal feedback messages.
-		if ( isset( $_GET['bp-dismissed'] ) ) {
-			$class    = empty( $_GET['bp-dismissed'] ) ? 'error' : 'updated';
-			$feedback = __( 'Notice successfully dismissed', 'buddypress' );
-
-			if ( 'error' === $class ) {
-				$feedback = __( 'The notice could not be dismissed', 'buddypress' );
+			if ( isset( $_POST['bp_admin_notices']['filter_value'] ) ) {
+				$type = sanitize_text_field( wp_unslash( $_POST['bp_admin_notices']['filter_value'] ) );
 			}
 
-			printf(
-				'<div id="message" class="%1$s notice is-dismissible"><p>%2$s</p></div>',
-				esc_attr( $class ),
-				esc_html( $feedback )
-			);
+			if ( 'unread' === $type ) {
+				$args['exclude'] = bp_members_get_dismissed_notices_for_user( $user_id );
+			} else {
+				$args['dismissed'] = true;
+			}
+
+			// Check dismissal feedback messages.
+			if ( isset( $_GET['bp-dismissed'] ) ) {
+				$class    = empty( $_GET['bp-dismissed'] ) ? 'error' : 'updated';
+				$feedback = __( 'Notice successfully dismissed', 'buddypress' );
+
+				if ( 'error' === $class ) {
+					$feedback = __( 'The notice could not be dismissed', 'buddypress' );
+				}
+
+				printf(
+					'<div id="message" class="%1$s notice is-dismissible"><p>%2$s</p></div>',
+					esc_attr( $class ),
+					esc_html( $feedback )
+				);
+			}
+
+			// Fetch matching notices.
+			$admin_notices = bp_members_get_notices( $args );
 		}
 		?>
 		<div class="buddypress-body admin-notices">
-			<div class="wp-filter">
-				<div class="search-form">
-					<form action="" method="post">
-						<select id="admin-notices-filter" name="bp_admin_notices[filter_value]">
-							<option value="unread" <?php selected( 'unread', $type ); ?>><?php esc_html_e( 'Unread', 'buddypress' ); ?></option>
-							<option value="read" <?php selected( 'read', $type ); ?>><?php esc_html_e( 'Dismissed', 'buddypress' ); ?></option>
-						</select>
-						<?php submit_button( __( 'Filter', 'buddypress' ), '', 'bp_admin_notices[filter_action]', false ); ?>
-					</form>
+			<?php if ( ! $notice_id ) : ?>
+				<div class="wp-filter">
+					<div class="search-form">
+						<form action="" method="post">
+							<select id="admin-notices-filter" name="bp_admin_notices[filter_value]">
+								<option value="unread" <?php selected( 'unread', $type ); ?>><?php esc_html_e( 'Unread', 'buddypress' ); ?></option>
+								<option value="read" <?php selected( 'read', $type ); ?>><?php esc_html_e( 'Dismissed', 'buddypress' ); ?></option>
+							</select>
+							<?php submit_button( __( 'Filter', 'buddypress' ), '', 'bp_admin_notices[filter_action]', false ); ?>
+						</form>
+					</div>
 				</div>
-			</div>
+			<?php endif; ?>
 
 			<?php
-			$admin_notices = bp_members_get_notices( $args );
-
 			if ( $admin_notices ) {
 				foreach ( $admin_notices as $admin_notice ) {
 					bp_core_admin_format_notice( $admin_notice, $type );

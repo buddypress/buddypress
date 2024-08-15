@@ -177,7 +177,21 @@ body.admin-bar aside#bp-notices-container .notice-item .bp-notice-actions.flex {
 }
 
 body.admin-bar aside#bp-notices-container .bp-notice-footer {
-	margin: 1em 0;
+	border-top: solid 1px #999;
+	margin-top: 2em;
+	padding: 0.5em 1em 0;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-footer .bp-notice-pagination {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	color: #999;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-footer .bp-notice-pagination a {
+	color: #999;
 }
 
 body.admin-bar aside#bp-notices-container * {
