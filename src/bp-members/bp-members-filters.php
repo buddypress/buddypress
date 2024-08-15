@@ -27,12 +27,19 @@ add_filter( 'bp_get_notice_title', 'wptexturize' );
 add_filter( 'bp_get_notice_title', 'convert_chars' );
 add_filter( 'bp_get_notice_title', 'stripslashes_deep' );
 
-add_filter( 'bp_get_notice_content', 'wp_filter_kses', 1 );
+add_filter( 'bp_get_notice_content', 'bp_members_notice_filter_kses', 1 );
 add_filter( 'bp_get_notice_content', 'convert_smilies', 2 );
 add_filter( 'bp_get_notice_content', 'wptexturize' );
 add_filter( 'bp_get_notice_content', 'convert_chars' );
 add_filter( 'bp_get_notice_content', 'wpautop' );
 add_filter( 'bp_get_notice_content', 'stripslashes_deep' );
+
+add_filter( 'bp_get_notice_excerpt', 'bp_members_notice_filter_kses', 1 );
+add_filter( 'bp_get_notice_excerpt', 'convert_smilies', 2 );
+add_filter( 'bp_get_notice_excerpt', 'wptexturize' );
+add_filter( 'bp_get_notice_excerpt', 'convert_chars' );
+add_filter( 'bp_get_notice_excerpt', 'wpautop' );
+add_filter( 'bp_get_notice_excerpt', 'stripslashes_deep' );
 
 /*
  * Filters applied before notice data is stored into the DB table.

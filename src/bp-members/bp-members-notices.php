@@ -748,7 +748,7 @@ function bp_get_notice_title( $notice = null ) {
  * @param BP_Members_Notice|null $notice The notice object.
  */
 function bp_notice_content( $notice = null ) {
-	// Escaping is made in `bp-messages/bp-messages-filters.php`.
+	// Escaping is made in `bp-members/bp-messages-filters.php`.
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_notice_content( $notice );
 }
@@ -785,13 +785,21 @@ function bp_get_parsed_notice_block( $notice = null ) {
  * @since 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
+ * @param boolean                $raw True to get raw content. False otherwise.
  * @return string The notice content.
  */
-function bp_get_notice_content( $notice = null ) {
+function bp_get_notice_content( $notice = null, $raw = false ) {
+	$notice_content = '';
 	$parsed_content = bp_get_parsed_notice_block( $notice );
 
 	if ( ! empty( $parsed_content['innerHTML'] ) ) {
-		$notice_content = apply_filters_deprecated( 'bp_get_message_notice_text', array( $parsed_content['innerHTML'] ), '15.0.0', 'bp_get_notice_content' );
+		$raw_content = $parsed_content['innerHTML'];
+
+		if ( $raw ) {
+			return $raw_content;
+		}
+
+		$notice_content = apply_filters_deprecated( 'bp_get_message_notice_text', array( $raw_content ), '15.0.0', 'bp_get_notice_content' );
 	}
 
 	/**
@@ -803,6 +811,56 @@ function bp_get_notice_content( $notice = null ) {
 	 * @param BP_Members_Notice|null $notice         The notice object if it exists. Null otherwise.
 	 */
 	return apply_filters( 'bp_get_notice_content', $notice_content, $notice );
+}
+
+/**
+ * Output the excerpt of a notice.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ */
+function bp_notice_excerpt( $notice = null ) {
+	// Escaping is made in `bp-members/bp-messages-filters.php`.
+	// phpcs:ignore WordPress.Security.EscapeOutput
+	echo bp_get_notice_excerpt( $notice );
+}
+
+/**
+ * Get the excerpt of a notice.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string The notice excerpt.
+ */
+function bp_get_notice_excerpt( $notice = null ) {
+	$content = bp_get_notice_content( $notice, true );
+	$excerpt = '';
+
+	if ( $content ) {
+		$excerpt = bp_create_excerpt(
+			$content,
+			300,
+			array(
+				'ending' => sprintf(
+					'&hellip; <a href="%1$s">%2$s</a>.',
+					esc_url( bp_get_notice_url( $notice ) ),
+					esc_html__( 'Read more', 'buddypress' )
+				),
+			)
+		);
+	}
+
+	/**
+	 * Filters the notice excerpt.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string                 $excerpt The excerpt of the notice.
+	 * @param BP_Members_Notice|null $notice  The notice object if it exists. Null otherwise.
+	 */
+	return apply_filters( 'bp_get_notice_excerpt', $excerpt, $notice );
 }
 
 /**
@@ -1010,6 +1068,74 @@ function bp_get_notice_action_text( $notice = null ) {
 }
 
 /**
+ * Outputs the URL to list all user’s unread notices.
+ *
+ * @since 15.0.0
+ *
+ * @param integer $user_id The user ID. Optional.
+ *                         Defaults to the logged in user ID.
+ */
+function bp_member_all_notices_url( $user_id = 0 ) {
+	echo esc_url( bp_get_member_all_notices_url( $user_id ) );
+}
+
+/**
+ * Retrieves the URL to list all user’s unread notices.
+ *
+ * @since 15.0.0
+ *
+ * @param integer $user_id The user ID. Optional.
+ *                         Defaults to the logged in user ID.
+ * @return string The URL to list all user’s unread notices.
+ */
+function bp_get_member_all_notices_url( $user_id = 0 ) {
+	$path_chunks = array( 'notices', 'community' );
+	$url         = '';
+
+	if ( bp_is_active( 'notifications' ) ) {
+		unset( $path_chunks[1] );
+		array_unshift( $path_chunks, bp_get_notifications_slug() );
+	}
+
+	if ( $user_id ) {
+		$url = bp_members_get_user_url( $user_id, bp_members_get_path_chunks( $path_chunks ) );
+	} else {
+		$user_id = bp_loggedin_user_id();
+		$url     = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
+	}
+
+	/**
+	 * Filter here to edit the URL.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string  $url     The URL to list all user’s unread notices.
+	 * @param integer $user_id The user ID.
+	 */
+	return apply_filters( 'bp_get_member_all_notices_url', $url, $user_id );
+}
+
+/**
+ * Retrieves the URL to list all BuddyPress notices.
+ *
+ * @since 15.0.0
+ *
+ * @param array $args Extra arguments to add as query vars.
+ * @return string The URL to list all BuddyPress notices.
+ */
+function bp_get_member_buddypress_notices_url( $args = array() ) {
+	$r = bp_parse_args(
+		$args,
+		array(
+			'page' => 'bp-admin-notices'
+		),
+		'buddypress_notices_url'
+	);
+
+	return bp_get_admin_url( add_query_arg( $r, 'admin.php' ) );
+}
+
+/**
  * Output the URL for dismissing a notice for the current user.
  *
  * @since 15.0.0
@@ -1081,25 +1207,72 @@ function bp_get_notice_dismiss_url( $notice = null, $redirect = '' ) {
 }
 
 /**
+ * Get the URL to view a single notice.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice  The notice object.
+ * @param integer                $user_id The user ID. Optional.
+ *                                        Defaults to the logged in user ID.
+ * @return string URL to view a single notice.
+ */
+function bp_get_notice_url( $notice, $user_id = 0 ) {
+	$notice_id = 0;
+	$url       = '';
+
+	if ( isset( $notice->id ) ) {
+		$notice_id = (int) $notice->id;
+
+		if ( 'admins' === bp_get_notice_target( $notice ) && 0 === bp_get_notice_priority( $notice ) && bp_current_user_can( 'manage_options' ) ) {
+			return bp_get_member_buddypress_notices_url( array( 'nid' => $notice_id ) );
+		}
+
+		$path_chunks = array( 'notices', 'community', 'view', $notice_id );
+		if ( bp_is_active( 'notifications' ) ) {
+			unset( $path_chunks[1] );
+			array_unshift( $path_chunks, bp_get_notifications_slug() );
+		}
+
+		if ( $user_id ) {
+			$url = bp_members_get_user_url( $user_id, bp_members_get_path_chunks( $path_chunks ) );
+		} else {
+			$user_id = bp_loggedin_user_id();
+			$url     = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
+		}
+	}
+
+	/**
+	 * Filter here to edit the notice URL.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string  $url     The URL to read a single notice.
+	 * @param integer $user_id The user ID.
+	 */
+	return apply_filters( 'bp_get_notice_url', $url, $user_id, $notice );
+}
+
+/**
  * Used to render the active notice after the WP Admin Bar.
  *
  * @since 15.0.0
  */
 function bp_render_notices_center() {
-	$notices       = array();
-	$user_id       = bp_loggedin_user_id();
-	$result        = bp_members_get_notices_for_user( $user_id );
-	$notices_count = 0;
+	$notices           = array();
+	$user_id           = bp_loggedin_user_id();
+	$result            = bp_members_get_notices_for_user( $user_id );
+	$top_notices_count = 0;
+	$all_notices_count = 0;
 
 	// @todo: make it aware of each notice of the loop.
 	$current_num = 0;
 
 	if ( isset( $result['items'] ) && $result['items'] ) {
-		$notices        = $result['items'];
-		$notices_count  = 1;
+		$notices            = $result['items'];
+		$top_notices_count  = count( $result['items'] );
 
 		if ( isset( $result['count'] ) ) {
-			$notices_count = $result['count'];
+			$all_notices_count = $result['count'];
 		}
 	}
 
@@ -1116,7 +1289,7 @@ function bp_render_notices_center() {
 	}
 	?>
 	<aside popover="auto" id="bp-notices-container" role="complementary" tabindex="-1">
-		<?php if ( $notices_count ) : ?>
+		<?php if ( $top_notices_count ) : ?>
 			<section class="bp-notices-section">
 				<h2 class="community-notices-title"><?php esc_html_e( 'Community notices', 'buddypress' ); ?></h2>
 				<div class="bp-notices-container">
@@ -1130,10 +1303,10 @@ function bp_render_notices_center() {
 										</header>
 										<div class="bp-notice-body">
 											<div class="bp-notice-content">
-												<?php bp_notice_content( $notice ); ?>
+												<?php bp_notice_excerpt( $notice ); ?>
 											</div>
 											<div class="bp-notice-actions <?php echo bp_notice_has_call_to_action( $notice ) ? 'flex' : '' ; ?>">
-												<a href="<?php bp_notice_dismiss_url( $notice ); ?>" class="button button-secondary"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+												<a href="<?php bp_notice_dismiss_url( $notice ); ?>" data-bp-dismiss-id="<?php echo esc_attr( $notice->id ); ?>" class="button button-secondary"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
 												<?php if ( bp_notice_has_call_to_action( $notice ) ) : ?>
 													<a href="<?php bp_notice_action_url( $notice ); ?>" class="button button-primary"><?php bp_notice_action_text( $notice ); ?></a>
 												<?php endif; ?>
@@ -1141,17 +1314,38 @@ function bp_render_notices_center() {
 										</div>
 										<footer class="bp-notice-footer">
 											<div class="bp-notice-pagination">
+												<?php
+												$previous_page = $current_num - 1;
+												$next_page     = $current_num + 1;
+												$current_num  += 1;
+												?>
 												<span class="bp-notice-current-page">
 													<?php
-													$current_num += 1;
 													printf(
 														/* translators: 1: the current number notice. 2: the total number of notices. */
-														_n( 'Top priority notice: %1$s/%2$s', 'Top priority notices: %1$s/%2$s', $notices_count, 'buddypress' ),
+														_n( 'Top priority notice: %1$s/%2$s', 'Top priority notices: %1$s/%2$s', $top_notices_count, 'buddypress' ),
 														$current_num,
-														$notices_count
+														$top_notices_count
 													);
 													?>
 												</span>
+												<?php if ( isset( $notices[ $previous_page ]->id ) ) : ?>
+													<span class="bp-notice-prev-page">
+														<a href="#notice-<?php echo esc_attr( $notices[ $previous_page ]->id ); ?>"><?php esc_html_e( 'Prev.', 'buddypress' ); ?></a>
+													</span>
+												<?php endif; ?>
+												<?php if ( isset( $notices[ $next_page ]->id ) ) : ?>
+													<span class="bp-notice-next-page">
+														<a href="#notice-<?php echo esc_attr( $notices[ $next_page ]->id ); ?>"><?php esc_html_e( 'Next', 'buddypress' ); ?></a>
+													</span>
+												<?php endif; ?>
+												<?php if ( $top_notices_count < $all_notices_count ) : ?>
+													<span class="bp-notice-all-pages">
+														<a href="<?php bp_member_all_notices_url(); ?>">
+															<?php printf( esc_html__( 'View all (%d)', 'buddypress' ), esc_html( $all_notices_count ) ); ?>
+														</a>
+													</span>
+												<?php endif; ?>
 											</div>
 										</footer>
 									</div><!-- .notice-item-inner-->
@@ -1164,7 +1358,7 @@ function bp_render_notices_center() {
 		<?php endif; ?>
 		<?php if ( $notifications_count ) : ?>
 
-			<?php if ( $notices_count ) : ?>
+			<?php if ( $top_notices_count ) : ?>
 				<hr>
 			<?php endif; ?>
 
@@ -1331,12 +1525,22 @@ function bp_get_admin_notice_version( $notice = null ) {
  */
 function bp_output_notices() {
 	$user_id = bp_displayed_user_id();
-	$notices = bp_members_get_notices(
-		array(
-			'user_id' => $user_id,
-			'exclude' => bp_members_get_dismissed_notices_for_user( $user_id )
-		)
-	);
+
+	if ( bp_is_action_variable( 'view', 0 ) ) {
+		$notice_id = (int) bp_action_variable( 1 );
+
+		// Fetch matching notice.
+		$notices = array( bp_members_get_notice( $notice_id ) );
+	} else {
+
+		// Fetch matching notices.
+		$notices = bp_members_get_notices(
+			array(
+				'user_id' => $user_id,
+				'exclude' => bp_members_get_dismissed_notices_for_user( $user_id )
+			)
+		);
+	}
 
 	if ( empty( $notices ) ) {
 		?>
