@@ -159,18 +159,28 @@ body.admin-bar aside#bp-notices-container .notice-item {
 	transform: scale(1);
 }
 
+body.admin-bar aside#bp-notices-container .notice-item .notice-item-inner {
+	width: 100%;
+}
+
 body.admin-bar aside#bp-notices-container .notice-item .bp-notice-actions {
+	text-align: right;
+	padding-right: 1em;
+}
+
+body.admin-bar aside#bp-notices-container .notice-item .bp-notice-actions.flex {
 	display: flex;
 	flex-wrap: nowrap;
-    justify-content: space-around;
-    flex-direction: row;
+	justify-content: space-around;
+	flex-direction: row;
+	padding-right: 0;
 }
 
 body.admin-bar aside#bp-notices-container .bp-notice-footer {
-	margin: 1em;
+	margin: 1em 0;
 }
 
-body.admin-bar aside#bp-notices-container *:not(.dashicons ) {
+body.admin-bar aside#bp-notices-container * {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 13px;
 }
@@ -189,24 +199,37 @@ body.admin-bar aside#bp-notices-container .bp-notice-header h3 {
 	font-weight: 600;
 }
 
-body.admin-bar aside#bp-notices-container .bp-notice-body {
-	display: flex;
+body.admin-bar aside#bp-notices-container article.notice-item .bp-notice-header h3:before {
+	display: inline-block;
+	margin-right: 0.125em;
+	padding-left: 0.25em;
+	width: 1.25em;
+	height: 1.25em;
+	font-size: 1.25em;
+	font-family: dashicons;
+	color: #d84800;
+	vertical-align: top;
+}
+
+body.admin-bar aside#bp-notices-container article.buddypress .bp-notice-header h3:before {
+	content: "\f448";
+}
+
+body.admin-bar aside#bp-notices-container article.community .bp-notice-header h3:before {
+	content: "\f453";
+}
+
+body.admin-bar aside#bp-notices-container article.admins .bp-notice-header h3:before {
+	content: "\f226";
+}
+
+body.admin-bar aside#bp-notices-container article.contributors .bp-notice-header h3:before {
+	content: "\f464";
 }
 
 body.admin-bar aside#bp-notices-container .bp-notice-body p {
 	line-height: 1.5;
     margin: 1em 0;
-}
-
-body.admin-bar aside#bp-notices-container .bp-notice-body .bp-notice-type {
-	margin: 0.5em 0;
-	width: 100px;
-	height: fit-content;
-}
-
-body.admin-bar aside#bp-notices-container .bp-notice-body .bp-notice-type.dashicons:before {
-	font-size: 50px;
-	color: #d84800;
 }
 
 body.admin-bar aside#bp-notices-container hr {
