@@ -852,32 +852,24 @@ function bp_get_notice_target( $notice = null ) {
 }
 
 /**
- * Get the notice target icon.
+ * Get the notice item CSS class.
  *
  * @since 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
- * @return string The notice target icon.
+ * @return string The notice item CSS class.
  */
-function bp_get_notice_target_icon( $notice = null ) {
-	$target_icon = 'dashicons-buddicons-community';
-	$target      = bp_get_notice_target( $notice );
+function bp_notice_item_class( $notice = null ) {
+	$class    = bp_get_notice_target( $notice );
+	$priority = bp_get_notice_priority( $notice );
 
-	if ( 'admins' === $target ) {
-		$target_icon = 'dashicons-dashboard';
-	} elseif ( 'contributors' === $target ) {
-		$target_icon = 'dashicons-edit';
+
+	// Highest priority is restricted to BuddyPress!
+	if ( 0 === $priority ) {
+		$class = 'buddypress';
 	}
 
-	/**
-	 * Filters the notice type.
-	 *
-	 * @since 15.0.0
-	 *
-	 * @param string                 $target_icon The notice target icon.
-	 * @param BP_Members_Notice|null $notice      The notice object if it exists. Null otherwise.
-	 */
-	return apply_filters( 'bp_get_notice_target_icon', $target_icon, $notice );
+	echo esc_attr( $class );
 }
 
 /**
@@ -1131,22 +1123,21 @@ function bp_render_notices_center() {
 					<div class="bp-notices-slider">
 						<div class="bp-notices-slides">
 							<?php foreach ( $notices as $notice ) : ?>
-								<article id="notice-<?php echo esc_attr( $notice->id ); ?>" class="notice-item">
+								<article id="notice-<?php echo esc_attr( $notice->id ); ?>" class="notice-item <?php bp_notice_item_class( $notice ); ?>">
 									<div class="notice-item-inner">
 										<header class="bp-notice-header">
 											<h3><?php bp_notice_title( $notice ); ?></h2>
 										</header>
 										<div class="bp-notice-body">
-											<div class="bp-notice-type dashicons <?php echo esc_attr( bp_get_notice_target_icon( $notice ) ); ?>" ></div>
 											<div class="bp-notice-content">
 												<?php bp_notice_content( $notice ); ?>
 											</div>
-										</div>
-										<div class="bp-notice-actions">
-											<a href="<?php bp_notice_dismiss_url( $notice ); ?>" class="button button-secondary"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
-											<?php if ( bp_notice_has_call_to_action( $notice ) ) : ?>
-												<a href="<?php bp_notice_action_url( $notice ); ?>" class="button button-primary"><?php bp_notice_action_text( $notice ); ?></a>
-											<?php endif; ?>
+											<div class="bp-notice-actions <?php echo bp_notice_has_call_to_action( $notice ) ? 'flex' : '' ; ?>">
+												<a href="<?php bp_notice_dismiss_url( $notice ); ?>" class="button button-secondary"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+												<?php if ( bp_notice_has_call_to_action( $notice ) ) : ?>
+													<a href="<?php bp_notice_action_url( $notice ); ?>" class="button button-primary"><?php bp_notice_action_text( $notice ); ?></a>
+												<?php endif; ?>
+											</div>
 										</div>
 										<footer class="bp-notice-footer">
 											<div class="bp-notice-pagination">
@@ -1155,7 +1146,7 @@ function bp_render_notices_center() {
 													$current_num += 1;
 													printf(
 														/* translators: 1: the current number notice. 2: the total number of notices. */
-														_n( 'Viewing %1$s/%2$s notice', 'Viewing %1$s/%2$s notices', $notices_count, 'buddypress' ),
+														_n( 'Top priority notice: %1$s/%2$s', 'Top priority notices: %1$s/%2$s', $notices_count, 'buddypress' ),
 														$current_num,
 														$notices_count
 													);
