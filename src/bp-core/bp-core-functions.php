@@ -4986,6 +4986,7 @@ function bp_get_deprecated_functions_versions() {
 		11.0,
 		12.0,
 		14.0,
+		15.0,
 	);
 
 	/*
@@ -5295,6 +5296,47 @@ function bp_is_admin( $screen_id = '' ) {
  */
 function bp_is_classic() {
 	return function_exists( 'bp_classic' ) || ( function_exists( 'is_plugin_active' ) && is_plugin_active( 'bp-classic/bp-classic.php' ) );
+}
+
+/**
+ * Adds a notice to all Admins to inform about the BuddyPress install/upgrade.
+ *
+ * @since 15.0.0
+ *
+ * @param string $type Whether it's a fresh install or an upgrade.
+ */
+function bp_core_release_notice( $type = 'upgrade' ) {
+	$current_admin_id = bp_loggedin_user_id();
+
+	$title   = sprintf( __( 'BuddyPress was successfully upgraded to %s', 'buddypress' ), bp_get_version() );
+	if ( 'fresh' === $type ) {
+		$title = sprintf( __( 'BuddyPress %s was successfully installed', 'buddypress' ), bp_get_version() );
+	}
+
+	$notice_id = bp_members_save_notice(
+		array(
+			'title'    => $title,
+			'content'  => sprintf(
+				__( 'To have a good idea about what’s new in %s, the BuddyPress Team invites you to discover what she is the most excited about!', 'buddypress' ),
+				bp_get_major_version()
+			),
+			'target'   => 'admins',
+			'priority' => 0,
+			'url'      => bp_core_admin_get_changelog_url(),
+			'text'     => sprintf(
+				__( 'Show me what’s exciting in %s', 'buddypress' ),
+				bp_get_major_version()
+			),
+			'meta'     => array(
+				'version' => bp_get_version()
+			),
+		)
+	);
+
+	// On fresh installs, the Hello screen is displayed.
+	if ( 'fresh' === $type && $current_admin_id ) {
+		bp_notices_add_meta( $notice_id, 'dismissed_by', $current_admin_id );
+	}
 }
 
 /**

@@ -1708,47 +1708,6 @@ function bp_core_admin_format_notice( $notice = null, $type = 'unread' ) {
 }
 
 /**
- * Adds a notice to all Admins to inform about the BuddyPress install/upgrade.
- *
- * @since 15.0.0
- *
- * @param string $type Whether it's a fresh install or an upgrade.
- */
-function bp_core_admin_version_notice( $type = 'upgrade' ) {
-	$current_admin_id = bp_loggedin_user_id();
-
-	$title   = sprintf( __( 'BuddyPress was successfully upgraded to %s', 'buddypress' ), bp_get_version() );
-	if ( 'fresh' === $type ) {
-		$title = sprintf( __( 'BuddyPress %s was successfully installed', 'buddypress' ), bp_get_version() );
-	}
-
-	$notice_id = bp_members_save_notice(
-		array(
-			'title'    => $title,
-			'content'  => sprintf(
-				__( 'To have a good idea about what’s new in %s, the BuddyPress Team invites you to discover what she is the most excited about!', 'buddypress' ),
-				bp_get_major_version()
-			),
-			'target'   => 'admins',
-			'priority' => 0,
-			'url'      => bp_core_admin_get_changelog_url(),
-			'text'     => sprintf(
-				__( 'Show me what’s exciting in %s', 'buddypress' ),
-				bp_get_major_version()
-			),
-			'meta'     => array(
-				'version' => bp_get_version()
-			),
-		)
-	);
-
-	// On fresh installs, the Hello screen is displayed.
-	if ( 'fresh' === $type && $current_admin_id ) {
-		bp_notices_add_meta( $notice_id, 'dismissed_by', $current_admin_id );
-	}
-}
-
-/**
  * Sets the "per page" screen option for BP Items WP Admin lists.
  *
  * @since 14.0.0
