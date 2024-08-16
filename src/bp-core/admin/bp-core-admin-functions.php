@@ -367,30 +367,6 @@ function bp_core_activation_notice() {
 }
 
 /**
- * Returns the URL to access to the Hello Screen modal (changelog).
- *
- * @since 15.0.0
- *
- * @param array $args List of additional query args to add to default ones.
- */
-function bp_core_admin_get_changelog_url( $args = array() ) {
-	$settings_page = 'options-general.php';
-	if ( bp_core_do_network_admin() ) {
-		$settings_page = 'settings.php';
-	}
-
-	$query_args = array_merge(
-		$args,
-		array(
-			'page'  => 'bp-components',
-			'hello' => 'buddypress'
-		)
-	);
-
-	return add_query_arg( $query_args, bp_get_admin_url( $settings_page ) );
-}
-
-/**
  * Redirect user to BuddyPress's What's New page on activation.
  *
  * @since 1.7.0
@@ -420,7 +396,7 @@ function bp_do_activation_redirect() {
 	}
 
 	// Redirect to Components settings and trigger the Hello screen.
-	wp_safe_redirect( bp_core_admin_get_changelog_url( $query_args ) );
+	wp_safe_redirect( bp_core_get_changelog_url( $query_args ) );
 }
 
 /** UI/Styling ****************************************************************/

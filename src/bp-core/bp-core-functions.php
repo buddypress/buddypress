@@ -5299,6 +5299,30 @@ function bp_is_classic() {
 }
 
 /**
+ * Returns the URL to access to the Hello Screen modal (changelog).
+ *
+ * @since 15.0.0
+ *
+ * @param array $args List of additional query args to add to default ones.
+ */
+function bp_core_get_changelog_url( $args = array() ) {
+	$settings_page = 'options-general.php';
+	if ( bp_core_do_network_admin() ) {
+		$settings_page = 'settings.php';
+	}
+
+	$query_args = array_merge(
+		$args,
+		array(
+			'page'  => 'bp-components',
+			'hello' => 'buddypress'
+		)
+	);
+
+	return add_query_arg( $query_args, bp_get_admin_url( $settings_page ) );
+}
+
+/**
  * Adds a notice to all Admins to inform about the BuddyPress install/upgrade.
  *
  * @since 15.0.0
@@ -5322,7 +5346,7 @@ function bp_core_release_notice( $type = 'upgrade' ) {
 			),
 			'target'   => 'admins',
 			'priority' => 0,
-			'url'      => bp_core_admin_get_changelog_url(),
+			'url'      => bp_core_get_changelog_url(),
 			'text'     => sprintf(
 				__( 'Show me what’s exciting in %s', 'buddypress' ),
 				bp_get_major_version()
