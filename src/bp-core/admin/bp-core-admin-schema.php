@@ -666,7 +666,7 @@ function bp_core_install_members_notices() {
 			date_sent datetime NOT NULL,
 			priority tinyint(1) NOT NULL DEFAULT 2,
 			KEY target (target),
-			KEY priority (priority),
+			KEY priority (priority)
 		) {$charset_collate};";
 	}
 

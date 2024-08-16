@@ -154,6 +154,16 @@ class BP_Component_Feature extends BP_Component {
 		// Setup WP Toolbar menus.
 		add_action( 'bp_setup_admin_bar', array( $this, 'setup_admin_bar' ) );
 
+		// Register BP REST Endpoints.
+		if ( bp_rest_in_buddypress() && bp_rest_api_is_available() ) {
+			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
+		}
+
+		// Register BP Blocks.
+		if ( bp_support_blocks() ) {
+			add_action( 'bp_blocks_init', array( $this, 'blocks_init' ), 10 );
+		}
+
 		/**
 		 * Fires at the end of the `setup_actions` method.
 		 *

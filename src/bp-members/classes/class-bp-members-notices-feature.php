@@ -207,4 +207,37 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 		// Perform actions specific to this feature.
 		add_filter( 'bp_notifications_admin_nav', array( $this, 'notifications_admin_nav' ) );
 	}
+
+	/**
+	 * Register the BP REST API Controller.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param array $controllers Optional. See BP_Component::rest_api_init() for
+	 *                           description.
+	 */
+	public function rest_api_init( $controllers = array() ) {
+		$controllers = array( 'BP_REST_Sitewide_Notices_Endpoint' );
+
+		parent::rest_api_init( $controllers );
+	}
+
+	/**
+	 * Register the Notices Blocks.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param array $blocks Optional. See BP_Component::blocks_init() for
+	 *                      description.
+	 */
+	public function blocks_init( $blocks = array() ) {
+		$blocks = array(
+			'bp/sitewide-notices' => array(
+				'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/sitewide-notices',
+				'render_callback' => 'bp_members_render_notices_block',
+			)
+		);
+
+		parent::blocks_init( $blocks );
+	}
 }

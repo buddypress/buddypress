@@ -1091,10 +1091,6 @@ class BP_Members_Component extends BP_Component {
 			$controllers[] = 'BP_REST_Sitewide_Notices_Endpoint';
 		}
 
-		if ( bp_is_active( 'members', 'notices' ) ) {
-			$controllers[] = 'BP_REST_Sitewide_Notices_Endpoint';
-		}
-
 		parent::rest_api_init( $controllers );
 	}
 
@@ -1131,13 +1127,6 @@ class BP_Members_Component extends BP_Component {
 				'render_callback' => 'bp_members_render_active_members_block',
 			),
 		);
-
-		if ( bp_is_active( 'members', 'notices' ) ) {
-			$blocks['bp/sitewide-notices'] = array(
-				'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/sitewide-notices',
-				'render_callback' => 'bp_members_render_notices_block',
-			);
-		}
 
 		parent::blocks_init( $blocks );
 	}

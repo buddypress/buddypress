@@ -221,7 +221,7 @@ function bp_version_updater() {
 		bp_delete_rewrite_rules();
 
 		// Inform Admins BuddyPress was successfully installed.
-		bp_core_admin_version_notice( 'fresh' );
+		bp_core_release_notice( 'fresh' );
 
 		// Upgrades.
 	} else {
@@ -316,12 +316,12 @@ function bp_version_updater() {
 		}
 
 		// Version 15.0.0.
-		if ( $raw_db_version < 13972 ) {
+		if ( $raw_db_version < 14006 ) {
 			bp_update_to_15_0();
 		}
 
 		// Inform Admins BuddyPress was successfully upgraded.
-		bp_core_admin_version_notice( 'upgrade' );
+		bp_core_release_notice( 'upgrade' );
 	}
 
 	/* All done! *************************************************************/
