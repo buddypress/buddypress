@@ -1,4 +1,5 @@
 # Advanced BuddyPress customizations
 
-- Customizing functionalities
+- Customizing templates
+- [Customizing functionalities](functionalities.md)
 - [Customizing texts](texts.md)
