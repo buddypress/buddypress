@@ -1194,6 +1194,7 @@ function bp_notice_dismiss_url( $notice = null ) {
 function bp_get_notice_dismiss_url( $notice = null, $redirect = '' ) {
 	$notice_id = 0;
 	$url       = '';
+	$user_url  = '';
 
 	if ( isset( $notice->id ) ) {
 		$notice_id = (int) $notice->id;
@@ -1444,7 +1445,7 @@ function bp_members_render_notices_block( $attributes = array() ) {
 	$feedback_tpl .= '</div>';
 
 	// Don't display the block if there are no Notices to show.
-	$notice = BP_Members_Notice::get_active();
+	$notice = bp_get_active_notice_for_user();
 	if ( empty( $notice->id ) ) {
 		// Previewing the Block inside the editor.
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
@@ -1461,21 +1462,6 @@ function bp_members_render_notices_block( $attributes = array() ) {
 	// Only enqueue common/specific scripts and data once per page load.
 	if ( ! wp_script_is( 'bp-sitewide-notices-script', 'enqueued' ) ) {
 		wp_enqueue_script( 'bp-sitewide-notices-script' );
-	}
-
-	$closed_notices = (array) bp_get_user_meta( bp_loggedin_user_id(), 'closed_notices', true );
-
-	if ( in_array( $notice->id, $closed_notices, true ) ) {
-		// Previewing the Block inside the editor.
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
-			return sprintf(
-				$feedback_tpl,
-				esc_html__( 'Preview unavailable', 'buddypress' ),
-				esc_html__( 'You dismissed the sitewide notice.', 'buddypress' )
-			);
-		}
-
-		return;
 	}
 
 	// There is an active, non-dismissed notice to show.
@@ -1501,7 +1487,7 @@ function bp_members_render_notices_block( $attributes = array() ) {
 		</div>',
 		esc_attr( $notice->id ),
 		bp_get_notice_title( $notice ),
-		esc_url( bp_get_notice_dismiss_url() ),
+		esc_url( bp_get_notice_dismiss_url( $notice ) ),
 		esc_attr__( 'Dismiss this notice', 'buddypress' ),
 		esc_attr( $notice->id ),
 		esc_html__( 'Dismiss this notice', 'buddypress' ),
