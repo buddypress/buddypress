@@ -1376,36 +1376,6 @@ function bp_messages_slug() {
 	}
 
 /**
- * Generate markup for currently active notices.
- */
-function bp_message_get_notices() {
-	$notice = BP_Members_Notice::get_active();
-
-	if ( empty( $notice ) ) {
-		return false;
-	}
-
-	$closed_notices = bp_get_user_meta( bp_loggedin_user_id(), 'closed_notices', true );
-
-	if ( empty( $closed_notices ) ) {
-		$closed_notices = array();
-	}
-
-	if ( is_array( $closed_notices ) ) {
-		if ( ! in_array( $notice->id, $closed_notices, true ) && $notice->id ) {
-			?>
-			<div id="message" class="info notice" rel="n-<?php echo esc_attr( $notice->id ); ?>">
-				<strong><?php bp_message_notice_subject( $notice ); ?></strong>
-				<a href="<?php bp_message_notice_dismiss_link(); ?>" id="close-notice" class="bp-tooltip button" data-bp-tooltip="<?php esc_attr_e( 'Dismiss this notice', 'buddypress' ) ?>"><span class="bp-screen-reader-text"><?php esc_html_e( 'Dismiss this notice', 'buddypress' ) ?></span> <span aria-hidden="true">&Chi;</span></a>
-				<?php bp_message_notice_text( $notice ); ?>
-				<?php wp_nonce_field( 'bp_messages_close_notice', 'close-notice-nonce' ); ?>
-			</div>
-			<?php
-		}
-	}
-}
-
-/**
  * Output the URL for the Private Message link in member profile headers.
  */
 function bp_send_private_message_link() {

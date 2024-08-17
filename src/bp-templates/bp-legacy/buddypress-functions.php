@@ -512,7 +512,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		$class = did_action( 'admin_bar_menu' ) ? 'admin-bar-on' : 'admin-bar-off';
 
 		echo '<div id="sitewide-notice" class="' . esc_attr( $class ) . '">';
-		bp_message_get_notices();
+		bp_output_active_notice();
 		echo '</div>';
 	}
 
@@ -1708,13 +1708,13 @@ function bp_legacy_theme_ajax_close_notice() {
 		return;
 	}
 
-	$nonce_check = isset( $_POST['nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['nonce'] ), 'bp_messages_close_notice' );
+	$nonce_check = isset( $_POST['nonce'] ) && wp_verify_nonce( wp_unslash( $_POST['nonce'] ), 'bp_members_close_notice' );
 
 	if ( ! $nonce_check || ! isset( $_POST['notice_id'] ) ) {
 		echo "-1<div id='message' class='error'><p>" . esc_html__( 'There was a problem closing the notice.', 'buddypress' ) . '</p></div>';
 
 	} else {
-		bp_messages_dismiss_sitewide_notice( bp_loggedin_user_id(), (int) $_POST['notice_id'] );
+		bp_members_dismiss_notice( bp_loggedin_user_id(), (int) $_POST['notice_id'], true );
 	}
 
 	exit;

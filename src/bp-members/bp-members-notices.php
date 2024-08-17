@@ -617,6 +617,29 @@ function bp_members_get_dismissed_notices_for_user( $user_id ) {
 }
 
 /**
+ * Casts a standard object as a Notice one.
+ *
+ * @since 15.0.0
+ *
+ * @param object $object A Standard object having all Notice object's props.
+ * @return BP_Members_Notice A Notice object.
+ */
+function bp_get_notice_object( $object ) {
+	$notice = new BP_Members_Notice();
+	$props  = array_keys( get_object_vars( $notice ) );
+
+	foreach ( $object as $prop => $value ) {
+		if ( ! in_array( $prop, $props, true ) ) {
+			continue;
+		}
+
+		$notice->{$prop} = $value;
+	}
+
+	return $notice;
+}
+
+/**
  * Get the user's higher priority notice according to the requested page.
  *
  * @since 15.0.0
@@ -647,21 +670,34 @@ function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
 	);
 
 	foreach ( $notice_items as $notice_key => $notice_item ) {
-		$notice = new BP_Members_Notice();
-		$props  = array_keys( get_object_vars( $notice ) );
-
-		foreach ( $notice_item as $prop => $value ) {
-			if ( ! in_array( $prop, $props, true ) ) {
-				continue;
-			}
-
-			$notice->{$prop} = $value;
-		}
-
-		$notices[ $notice_key ] = $notice;
+		$notices[ $notice_key ] = bp_get_notice_object( $notice_item );
 	}
 
 	return array( 'items' => $notices, 'count' => (int) $notices_count );
+}
+
+/**
+ * Gets the first active notice for the current user.
+ *
+ * Before 15.0.0 the Notices feature was included into the Messages component and was fetching
+ * a unique active notice from DB.
+ *
+ * @since 15.0.0
+ *
+ * @return BP_Members_Notice|null The first active notice object if found. Null otherwise.
+ */
+function bp_get_active_notice_for_user() {
+	if ( ! is_user_logged_in() ) {
+		return null;
+	}
+
+	$notice = BP_Members_Notice::get_active();
+
+	if ( ! isset( $notice->id ) || ! $notice->id ) {
+		return null;
+	}
+
+	return bp_get_notice_object( $notice );
 }
 
 /**
@@ -1169,7 +1205,7 @@ function bp_get_notice_dismiss_url( $notice = null, $redirect = '' ) {
 		}
 
 		$user_url = '';
-		if ( bp_is_admin() ) {
+		if ( ! bp_displayed_user_id() ) {
 			$user_url = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
 		} else {
 			$user_url = bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) );
@@ -1552,4 +1588,32 @@ function bp_output_notices() {
 			bp_get_template_part( 'members/single/notices/entry', null, array( 'context' => $notice ) );
 		}
 	}
+}
+
+/**
+ * Outputs the first active notice.
+ *
+ * @since 15.0.0
+ */
+function bp_output_active_notice() {
+	$notice = bp_get_active_notice_for_user();
+
+	if ( is_null( $notice ) ) {
+		return;
+	}
+	?>
+	<div id="message" class="info notice" rel="n-<?php bp_notice_id( $notice ); ?>">
+		<strong><?php bp_notice_title( $notice ); ?></strong>
+		<a href="<?php bp_notice_dismiss_url( $notice ); ?>" id="close-notice" class="bp-tooltip button" data-bp-tooltip="<?php esc_attr_e( 'Dismiss this notice', 'buddypress' ) ?>"><span class="bp-screen-reader-text"><?php esc_html_e( 'Dismiss this notice', 'buddypress' ) ?></span> <span aria-hidden="true">&Chi;</span></a>
+		<?php bp_notice_content( $notice ); ?>
+
+		<?php if ( bp_notice_has_call_to_action( $notice ) ) : ?>
+			<p class="notice-action">
+				<a href="<?php bp_notice_action_url( $notice ); ?>">&rarr; <?php bp_notice_action_text( $notice ); ?></a>
+			</p>
+		<?php endif; ?>
+
+		<?php wp_nonce_field( 'bp_members_close_notice', 'close-notice-nonce' ); ?>
+	</div>
+	<?php
 }

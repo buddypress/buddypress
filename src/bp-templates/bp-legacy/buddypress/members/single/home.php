@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 15.0.0
  */
 
 ?>
@@ -85,6 +85,9 @@
 
 		elseif ( bp_is_user_profile() ) :
 			bp_get_template_part( 'members/single/profile'  );
+
+		elseif ( bp_is_current_component( 'notices' ) ) :
+			bp_get_template_part( 'members/single/notices' );
 
 		elseif ( bp_is_user_notifications() ) :
 			bp_get_template_part( 'members/single/notifications' );

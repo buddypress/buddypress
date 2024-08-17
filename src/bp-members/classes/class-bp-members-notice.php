@@ -404,6 +404,9 @@ class BP_Members_Notice {
 			bp_members_notices_default_query_args()
 		);
 
+		// Are we trying to get the first active notice.
+		$is_first_active = 1 === $r['pag_num'] && 1 === $r['pag_page'];
+
 		if ( ! $r['meta_query'] && $r['user_id'] && true === $r['dismissed'] ) {
 			$r['meta_query'] = array(
 				array(
@@ -466,6 +469,7 @@ class BP_Members_Notice {
 
 		$bp = buddypress();
 
+		// Get notice IDs.
 		if ( 'ids' === $r['fields'] ) {
 			$result = $wpdb->get_col(
 				"SELECT n.id FROM {$bp->members->table_name_notices} n
@@ -473,12 +477,26 @@ class BP_Members_Notice {
 				{$where_sql}"
 			);
 			$result = wp_parse_id_list( $result );
+
+			// Get the first active notice.
+		} elseif ( $is_first_active ) {
+			$result = $wpdb->get_row(
+				"SELECT n.* FROM {$bp->members->table_name_notices} n
+				{$join_sql}
+				{$where_sql}
+				ORDER BY priority ASC, date_sent DESC
+				{$limit_sql}"
+			);
+
+			// Get the notices count.
 		} elseif ( true === $r['count_total_only'] ) {
 			$result = $wpdb->get_var(
 				"SELECT COUNT(*) FROM {$bp->members->table_name_notices} n
 				{$join_sql}
 				{$where_sql}"
 			);
+
+			// Get all matching notices.
 		} else {
 			$result = $wpdb->get_results(
 				"SELECT n.* FROM {$bp->members->table_name_notices} n
@@ -495,11 +513,13 @@ class BP_Members_Notice {
 			}
 		}
 
-		if ( ! $r['count_total_only'] ) {
-			/*
+		if ( ! $r['count_total_only'] && ! $is_first_active ) {
+			/**
 			 * The 'messages_notice_get_notices' is deprecated as of 15.0.0.
 			 *
 			 * Please use 'bp_members_get_notices' instead.
+			 *
+			 * @deprecated 15.0.0
 			 */
 			$notices = apply_filters_deprecated(
 				'messages_notice_get_notices',
@@ -580,10 +600,12 @@ class BP_Members_Notice {
 		// Forces a count query.
 		$args['count_total_only'] = true;
 
-		/*
+		/**
 		 * The 'messages_notice_get_total_notice_count' is deprecated as of 15.0.0.
 		 *
 		 * Please use 'bp_members_get_total_notice_count' instead.
+		 *
+		 * @deprecated 15.0.0
 		 */
 		 $notice_count = (int) apply_filters_deprecated(
 			'messages_notice_get_total_notice_count',
@@ -612,26 +634,50 @@ class BP_Members_Notice {
 	 * @return BP_Members_Notice
 	 */
 	public static function get_active() {
-		$notice = wp_cache_get( 'active_notice', 'bp_notices' );
+		$notice = false;
+
+		/*
+		 * @todo
+		 *
+		 * $notice = wp_cache_get( 'active_notice', 'bp_notices' );
+		 */
 
 		if ( false === $notice ) {
-			global $wpdb;
+			$user_id = bp_loggedin_user_id();
 
-			$bp = buddypress();
+			$notice = self::get(
+				array(
+					'user_id'  => $user_id,
+					'pag_page' => 1,
+					'pag_num'  => 1,
+					'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
+				)
+			);
 
-			$notice_id = $wpdb->get_var( "SELECT id FROM {$bp->members->table_name_notices}  WHERE priority = 1" );
-			$notice    = new BP_Members_Notice( $notice_id );
-
-			wp_cache_set( 'active_notice', $notice, 'bp_notices' );
+			/*
+			 * @todo
+			 *
+			 * wp_cache_set( 'active_notice', $notice, 'bp_notices' );
+			 */
 		}
+
+		/**
+		 * Please do not use this filter anymore.
+		 *
+		 * @since 2.8.0
+		 * @deprecated 15.0.0
+		 *
+		 * @param BP_Members_Notice $notice The notice object.
+		 */
+		$notice = apply_filters_deprecated( 'messages_notice_get_active', array( $notice ), '15.0.0', 'bp_members_notice_get_active' );
 
 		/**
 		 * Gives ability to filter the active notice that should be displayed on the front end.
 		 *
-		 * @since 2.8.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Members_Notice $notice The notice object.
 		 */
-		return apply_filters( 'messages_notice_get_active', $notice );
+		return apply_filters( 'bp_members_notice_get_active', $notice );
 	}
 }
