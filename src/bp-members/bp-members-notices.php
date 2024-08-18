@@ -1311,7 +1311,7 @@ function bp_render_notices_center() {
 			<?php endif; ?>
 
 			<section class="bp-notications-section">
-				<h2 class="my-notifications-title"><?php esc_html_e( 'My personal notifications', 'buddypress' ); ?></h2>
+				<h2 class="my-notifications-title"><?php esc_html_e( 'Personal notifications', 'buddypress' ); ?></h2>
 
 				<?php foreach( $notifications as $notification ) : ?>
 					<article id="notification-<?php echo esc_attr( $notification->id ); ?>">
