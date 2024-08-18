@@ -1,4 +1,9 @@
 /**
+ * WordPress dependencies.
+ */
+import domReady from '@wordpress/dom-ready';
+
+/**
  * Notices center class.
  *
  * @since 15.0.0
@@ -24,7 +29,12 @@ class bpNoticesCenter {
 	catchEvents( event ) {
 		// Use the BP REST API to dismiss the notice.
 		if ( event.target.dataset.bpDismissId ) {
-			event.preventDefault();
+			//event.preventDefault();
+
+			/*
+			 * @todo: Dismissing notices should be done using the BP REST API.
+			 * The corresponding controller needs to be updated.
+			 */
 		}
 	}
 
@@ -37,24 +47,44 @@ class bpNoticesCenter {
 		// Use event delegation to catch all clicks happening into the Center.
 		this.container.addEventListener( 'click', this.catchEvents.bind( this ), false );
 
-		// Adapt toggler according to popover state.
-		this.container.addEventListener( 'toggle', ( e ) => {
-			if ( 'open' === e.newState ) {
-				if ( ! this.bubble.classList.contains( 'is-open' ) ) {
-					this.bubble.classList.add( 'is-open' );
+		// Take care of browsers not supporting the Popover API.
+		if ( undefined === this.container.popover ) {
+			this.container.remove();
+			console.warn( 'Your browser does not support the Popover API, please update it to its latest version to enjoy BuddyPress Notices.' );
+
+			document.querySelector( '#bp-notices-toggler' ).addEventListener( 'click', ( e ) => {
+				e.preventDefault();
+
+				let url = '';
+				if ( 'BUTTON' !== e.target.nodeName ) {
+					url = e.target.closest( '#bp-notices-toggler' ).dataset.bpFallbackUrl;
+				} else {
+					url = e.target.dataset.bpFallbackUrl;
 				}
-			} else {
-				this.bubble.classList.remove( 'is-open' );
-			}
-		} );
+
+				location.href = url;
+			} );
+
+		} else {
+			this.container.classList.remove( 'no-popover-support' );
+
+			// Adapt toggler according to popover state.
+			this.container.addEventListener( 'toggle', ( e ) => {
+				if ( 'open' === e.newState ) {
+					if ( ! this.bubble.classList.contains( 'is-open' ) ) {
+						this.bubble.classList.add( 'is-open' );
+					}
+				} else {
+					this.bubble.classList.remove( 'is-open' );
+				}
+			} );
+		}
 	}
 }
 
-const settings = window.bpNoticesCenterSettings || {};
-const bpManageNotices = new bpNoticesCenter( settings );
+domReady( function() {
+	const settings = window.bpNoticesCenterSettings || {};
+	const bpManageNotices = new bpNoticesCenter( settings );
 
-if ( 'loading' === document.readyState ) {
-	document.addEventListener( 'DOMContentLoaded', bpManageNotices.start() );
-} else {
 	bpManageNotices.start();
-}
+} );

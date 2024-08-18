@@ -77,10 +77,13 @@ function bp_core_register_common_scripts() {
 	 */
 	$scripts = apply_filters( 'bp_core_register_common_scripts', $scripts );
 
-
-	$version = bp_get_version();
+	$bp_version = bp_get_version();
 	foreach ( $scripts as $id => $script ) {
-		wp_register_script( $id, $script['file'], $script['dependencies'], $version, $script['footer'] );
+		if ( empty( $script['version'] ) ) {
+			$script['version'] = $bp_version;
+		}
+
+		wp_register_script( $id, $script['file'], $script['dependencies'], $script['version'], $script['footer'] );
 
 		if ( isset( $script['localize']['name'], $script['localize']['data'] ) ) {
 			wp_localize_script( $id, $script['localize']['name'], $script['localize']['data'] );
