@@ -8,7 +8,7 @@
  */
 
 /**
- * Handle creating of private messages or sitewide notices
+ * Handle creating of private messages.
  *
  * @since 2.4.0 This function was split from messages_screen_compose(). See #6505.
  *
@@ -28,30 +28,20 @@ function bp_messages_action_create_message() {
 	$redirect_to = '';
 	$feedback    = '';
 	$success     = false;
-	$is_notice   = isset( $_POST['send-notice'] );
 	$path_chunks = array( bp_get_messages_slug() );
 
 	// List required vars and error messages.
 	$required_vars = array(
-		'subject' => __( 'Please enter a subject line.', 'buddypress' ),
-		'content' => __( 'Please enter some content.', 'buddypress' ),
+		'send_to_usernames' => __( 'Please enter a username or Friend\'s name.', 'buddypress' ),
+		'subject'           => __( 'Please enter a subject line.', 'buddypress' ),
+		'content'           => __( 'Please enter some content.', 'buddypress' ),
 	);
-
-	// The username is only needed for private messages.
-	if ( ! $is_notice ) {
-		$required_vars = array_merge(
-			array(
-				'send_to_usernames' => __( 'Please enter a username or Friend\'s name.', 'buddypress' ),
-			),
-			$required_vars
-		);
-	}
 
 	// Calculate whether some required vars are missing.
 	$needed_keys    = array_intersect_key( $_POST, $required_vars );
 	$needs_feedback = count( array_filter( $needed_keys ) ) !== count( $required_vars );
 
-	// Prevent notice errors.
+	// Prevent PHP notices.
 	$required_args = array_map(
 		'wp_unslash',
 		bp_parse_args(
@@ -88,71 +78,49 @@ function bp_messages_action_create_message() {
 		$redirect_to = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
 	} else {
 
-		// Site-wide notice.
-		if ( $is_notice ) {
-
-			// Attempt to save the notice and redirect to notices.
-			if ( messages_send_notice( $required_args['subject'], $required_args['content'] ) ) {
-				$success       = true;
-				$feedback      = __( 'Notice successfully created.', 'buddypress' );
-				$path_chunks[] = 'notices';
-
-				// Notice could not be sent.
-			} else {
-				$success       = false;
-				$path_chunks[] = 'compose';
-				$feedback      = __( 'Notice was not created. Please try again.', 'buddypress' );
-			}
-
-			$redirect_to = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
-
-			// Private conversation.
-		} else {
-
-			// Filter recipients into the format we need - array( 'username/userid', 'username/userid' ).
-			$autocomplete_recipients = array();
-			if ( isset( $_POST['send-to-input'] ) && $_POST['send-to-input'] ) {
-				$autocomplete_recipients = (array) explode( ',', $_POST['send-to-input'] );
-			}
-
-			$typed_recipients = (array) explode( ' ', $required_args['send_to_usernames'] );
-			$recipients       = array_merge( $autocomplete_recipients, $typed_recipients );
-
-			/**
-			 * Filters the array of recipients to receive the composed message.
-			 *
-			 * @since 1.2.10
-			 *
-			 * @param array $recipients Array of recipients to receive message.
-			 */
-			$recipients = apply_filters( 'bp_messages_recipients', $recipients );
-
-			// Attempt to send the message.
-			$send = messages_new_message(
-				array(
-					'recipients' => $recipients,
-					'subject'    => $required_args['subject'],
-					'content'    => $required_args['content'],
-					'error_type' => 'wp_error',
-				)
-			);
-
-			// Send the message and redirect to it.
-			if ( true === is_int( $send ) ) {
-				$success       = true;
-				$feedback      = __( 'Message successfully sent.', 'buddypress' );
-				$path_chunks[] = 'view';
-				$path_chunks[] = array( $send );
-
-				// Message could not be sent.
-			} else {
-				$success       = false;
-				$path_chunks[] = 'compose';
-				$feedback      = $send->get_error_message();
-			}
-
-			$redirect_to = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
+		// Filter recipients into the format we need - array( 'username/userid', 'username/userid' ).
+		$autocomplete_recipients = array();
+		if ( isset( $_POST['send-to-input'] ) && $_POST['send-to-input'] ) {
+			$autocomplete_recipients = (array) explode( ',', $_POST['send-to-input'] );
 		}
+
+		$typed_recipients = (array) explode( ' ', $required_args['send_to_usernames'] );
+		$recipients       = array_merge( $autocomplete_recipients, $typed_recipients );
+
+		/**
+		 * Filters the array of recipients to receive the composed message.
+		 *
+		 * @since 1.2.10
+		 *
+		 * @param array $recipients Array of recipients to receive message.
+		 */
+		$recipients = apply_filters( 'bp_messages_recipients', $recipients );
+
+		// Attempt to send the message.
+		$send = messages_new_message(
+			array(
+				'recipients' => $recipients,
+				'subject'    => $required_args['subject'],
+				'content'    => $required_args['content'],
+				'error_type' => 'wp_error',
+			)
+		);
+
+		// Send the message and redirect to it.
+		if ( true === is_int( $send ) ) {
+			$success       = true;
+			$feedback      = __( 'Message successfully sent.', 'buddypress' );
+			$path_chunks[] = 'view';
+			$path_chunks[] = array( $send );
+
+			// Message could not be sent.
+		} else {
+			$success       = false;
+			$path_chunks[] = 'compose';
+			$feedback      = $send->get_error_message();
+		}
+
+		$redirect_to = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
 	}
 
 	// Feedback.

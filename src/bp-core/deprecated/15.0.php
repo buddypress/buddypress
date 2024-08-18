@@ -296,3 +296,107 @@ function bp_core_dismiss_admin_notification( $notification_id = '' ) {
 function bp_core_admin_notice_dismiss_callback() {
 	_deprecated_function( __FUNCTION__, '15.0.0' );
 }
+
+/**
+ * Return whether or not the notice is currently active.
+ *
+ * @since 1.6.0
+ * @deprecated 15.0.0
+ *
+ * @return bool
+ */
+function bp_messages_is_active_notice() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Output the ID of the current notice in the loop.
+ *
+ * @deprecated 15.0.0
+ */
+function bp_message_notice_id() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Get the ID of the current notice in the loop.
+ *
+ * @deprecated 15.0.0
+ *
+ * @return int
+ */
+function bp_get_message_notice_id() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Output the post date of the current notice in the loop.
+ *
+ * @deprecated 15.0.0
+ */
+function bp_message_notice_post_date() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Get the post date of the current notice in the loop.
+ *
+ * @deprecated 15.0.0
+ */
+function bp_get_message_notice_post_date() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Output the URL for deleting the current notice.
+ *
+ * @deprecated 15.0.0
+ */
+function bp_message_notice_delete_link() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Get the URL for deleting the current notice.
+ *
+ * @deprecated 15.0.0
+ */
+function bp_get_message_notice_delete_link() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Output the URL for deactivating the current notice.
+ *
+ * @deprecated 15.0.0
+ */
+function bp_message_activate_deactivate_link() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Get the URL for deactivating the current notice.
+ *
+ * @deprecated 15.0.0
+ */
+function bp_get_message_activate_deactivate_link() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Output the Deactivate/Activate text for the notice action link.
+ *
+ * @deprecated 15.0.0
+ */
+function bp_message_activate_deactivate_text() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
+
+/**
+ * Generate the text ('Deactivate' or 'Activate') for the notice action link.
+ *
+ * @deprecated 15.0.0
+ */
+function bp_get_message_activate_deactivate_text() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
