@@ -32,7 +32,13 @@ class BP_Tests_BP_Members_Notice_TestCases extends BP_UnitTestCase {
 		// send notice
 		$subject = 'Test notice';
 		$message = 'This is a notice';
-		messages_send_notice( $subject, $message );
+
+		bp_members_save_notice(
+			array(
+				'title'   => $subject,
+				'content' => $message,
+			)
+		);
 
 		// now get the active notice and assert
 		$notice = BP_Members_Notice::get_active();
@@ -46,7 +52,13 @@ class BP_Tests_BP_Members_Notice_TestCases extends BP_UnitTestCase {
 		// create a new notice
 		$subject2 = 'Another notice';
 		$message2 = 'Say what?';
-		messages_send_notice( $subject2, $message2 );
+
+		bp_members_save_notice(
+			array(
+				'title'   => $subject2,
+				'content' => $message2,
+			)
+		);
 
 		// now get the new active notice
 		BP_Members_Notice::get_active();
