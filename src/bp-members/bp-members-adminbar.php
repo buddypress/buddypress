@@ -200,12 +200,13 @@ function bp_members_admin_bar_notices_center_menu() {
 			'parent' => 'top-secondary',
 			'id'     => 'bp-notifications',
 			'title'  => sprintf(
-				'<button id="bp-notices-toggler" popovertarget="bp-notices-container" popovertargetaction="toggle">
+				'<button id="bp-notices-toggler" data-bp-fallback-url="%1$s" popovertarget="bp-notices-container" popovertargetaction="toggle">
 					<span id="ab-pending-notifications" class="pending-count alert">
 						<span class="ab-icon" aria-hidden="true"></span>
-						%s
+						%2$s
 					</span>
 				</button>',
+				esc_url( bp_get_member_all_notices_url() ),
 				number_format_i18n( $count )
 			),
 			'href'   => false,

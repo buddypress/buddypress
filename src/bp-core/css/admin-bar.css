@@ -113,6 +113,10 @@
 	}
 }
 
+body.admin-bar button#bp-notices-toggler {
+	cursor: pointer !important;
+}
+
 body.admin-bar aside#bp-notices-container {
 	margin-right: 0;
 	margin-top: 32px;
@@ -123,6 +127,10 @@ body.admin-bar aside#bp-notices-container {
 	padding: 1em;
 	width: 25%;
 	height: 100%;
+}
+
+body.admin-bar aside#bp-notices-container.no-popover-support {
+	display: none;
 }
 
 body.admin-bar aside#bp-notices-container .bp-notices-container {

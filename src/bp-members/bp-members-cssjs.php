@@ -42,6 +42,7 @@ function bp_members_register_scripts( $scripts = array() ) {
 		$scripts['bp-dynamic-members-script'] = array(
 			'file'         => plugins_url( 'blocks/dynamic-widget/index.js', __FILE__ ),
 			'dependencies' => $asset['dependencies'],
+			'version'      => $asset['version'],
 			'footer'       => true,
 		);
 
@@ -56,9 +57,20 @@ function bp_members_register_scripts( $scripts = array() ) {
 		);
 	}
 
+	$nc_asset = array(
+		'dependencies' => array(),
+		'version'      => ''
+	);
+
+	$nc_asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/notices-center/index.asset.php';
+	if ( file_exists( $nc_asset_path ) ) {
+		$nc_asset = require $nc_asset_path;
+	}
+
 	$scripts['bp-notices-center-script'] = array(
 		'file'         => plugins_url( 'blocks/notices-center/index.js', __FILE__ ),
-		'dependencies' => array(),
+		'dependencies' => $nc_asset['dependencies'],
+		'version'      => $nc_asset['version'],
 		'footer'       => true,
 		'localize'     => array(
 			'name' => 'bpNoticesCenterSettings',

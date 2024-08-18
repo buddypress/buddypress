@@ -1325,7 +1325,7 @@ function bp_render_notices_center() {
 		}
 	}
 	?>
-	<aside popover="auto" id="bp-notices-container" role="complementary" tabindex="-1">
+	<aside popover="auto" id="bp-notices-container" class="no-popover-support" role="complementary" tabindex="-1">
 		<?php if ( $top_notices_count ) : ?>
 			<section class="bp-notices-section">
 				<h2 class="community-notices-title"><?php esc_html_e( 'Community notices', 'buddypress' ); ?></h2>
