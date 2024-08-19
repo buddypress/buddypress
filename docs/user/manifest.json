@@ -6,6 +6,12 @@
 		"parent": null
 	},
 	{
+		"title": "BuddyPress Frequently Asked Questions (FAQ)",
+		"slug": "faq",
+		"markdown_source": "../user/faq.md",
+		"parent": null
+	},
+	{
 		"title": "Getting Started",
 		"slug": "getting-started",
 		"markdown_source": "../user/getting-started/README.md",
