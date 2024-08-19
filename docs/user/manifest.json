@@ -162,6 +162,12 @@
 		"parent": null
 	},
 	{
+		"title": "Customizing functionalities",
+		"slug": "advanced-functionalities",
+		"markdown_source": "../user/advanced/functionalities.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Components",
 		"slug": "components",
 		"markdown_source": "../user/components/README.md",
