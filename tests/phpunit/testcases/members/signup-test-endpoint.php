@@ -6,14 +6,11 @@
  * @group signups
  * @group members
  */
-class BP_Test_REST_Signup_Endpoint extends WP_Test_REST_Controller_Testcase {
-	protected $endpoint;
-	protected $bp;
-	protected $endpoint_url;
-	protected $user;
+class BP_Test_REST_Signup_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $signup_id;
-	protected $server;
 	protected $signup_allowed;
+	protected $handle     = 'signup';
+	protected $controller = 'BP_REST_Signup_Endpoint';
 
 	public function set_up() {
 		if ( is_multisite() ) {
@@ -27,30 +24,7 @@ class BP_Test_REST_Signup_Endpoint extends WP_Test_REST_Controller_Testcase {
 
 		parent::set_up();
 
-		$this->endpoint     = new BP_REST_Signup_Endpoint();
-		$this->bp           = new BP_UnitTestCase();
-		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/signup';
-		$user               = static::factory()->user->create_and_get(
-			array(
-				'role'       => 'administrator',
-				'user_email' => 'admin@example.com',
-				'user_login' => 'admin_user',
-			)
-		);
-
-		$this->user = $user->ID;
-
-		if ( is_multisite() ) {
-			grant_super_admin( $this->user );
-
-			$user->add_cap( 'manage_network_users' );
-		}
-
 		$this->signup_id = $this->create_signup();
-
-		if ( ! $this->server ) {
-			$this->server = rest_get_server();
-		}
 	}
 
 	public function tear_down() {
@@ -278,8 +252,7 @@ class BP_Test_REST_Signup_Endpoint extends WP_Test_REST_Controller_Testcase {
 		$fullname_field_id = bp_xprofile_fullname_field_id();
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
-		$request->set_param( 'context', 'edit' );
-		$params = $this->set_signup_data(
+		$params  = $this->set_signup_data(
 			array(
 				'signup_field_data' => array(
 					array(
@@ -301,13 +274,12 @@ class BP_Test_REST_Signup_Endpoint extends WP_Test_REST_Controller_Testcase {
 			)
 		);
 		$request->set_body_params( $params );
+		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
 
 		$signup = $response->get_data();
-
-		var_dump( $signup );
 
 		$this->assertSame( $signup['user_email'], $params['user_email'] );
 

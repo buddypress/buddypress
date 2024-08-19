@@ -4,31 +4,15 @@
  *
  * @group notifications
  */
-class BP_Test_REST_Notifications_Endpoint extends WP_Test_REST_Controller_Testcase {
-	protected $endpoint;
-	protected $bp;
-	protected $endpoint_url;
-	protected $user;
+class BP_Test_REST_Notifications_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $notification_id;
-	protected $server;
+	protected $controller = 'BP_REST_Notifications_Endpoint';
+	protected $handle     = 'notifications';
 
 	public function set_up() {
 		parent::set_up();
 
-		$this->endpoint        = new BP_REST_Notifications_Endpoint();
-		$this->bp              = new BP_UnitTestCase();
-		$this->endpoint_url    = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->notifications->id;
 		$this->notification_id = $this->bp::factory()->notification->create();
-		$this->user            = static::factory()->user->create(
-			array(
-				'role'       => 'administrator',
-				'user_email' => 'admin@example.com',
-			)
-		);
-
-		if ( ! $this->server ) {
-			$this->server = rest_get_server();
-		}
 	}
 
 	public function test_register_routes() {

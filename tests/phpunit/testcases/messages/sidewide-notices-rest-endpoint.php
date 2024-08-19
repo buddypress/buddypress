@@ -5,30 +5,13 @@
  * @group notices
  * @group messages
  */
-class BP_Test_REST_Sitewide_Notices_Endpoint extends WP_Test_REST_Controller_Testcase {
-	protected $endpoint;
-	protected $bp;
-	protected $endpoint_url;
-	protected $user;
-	protected $server;
+class BP_Test_REST_Sitewide_Notices_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $last_inserted_notice_id;
+	protected $controller = 'BP_REST_Sitewide_Notices_Endpoint';
+	protected $handle     = 'sitewide-notices';
 
 	public function set_up() {
 		parent::set_up();
-
-		$this->endpoint     = new BP_REST_Sitewide_Notices_Endpoint();
-		$this->bp           = new BP_UnitTestCase();
-		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/sitewide-notices';
-		$this->user         = static::factory()->user->create(
-			array(
-				'role'       => 'administrator',
-				'user_email' => 'admin@example.com',
-			)
-		);
-
-		if ( ! $this->server ) {
-			$this->server = rest_get_server();
-		}
 
 		add_action( 'messages_notice_before_save', array( $this, 'add_filter_update_last_active_query' ), 10, 0 );
 		add_action( 'messages_notice_after_save', array( $this, 'set_last_inserted_notice_id' ) );

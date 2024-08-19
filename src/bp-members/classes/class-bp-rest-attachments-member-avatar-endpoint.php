@@ -3,7 +3,7 @@
  * BP_REST_Attachments_Member_Avatar_Endpoint class
  *
  * @package BuddyPress
- * @since 5.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Member Avatar endpoints.
  *
- * @since 5.0.0
+ * @since 15.0.0
  */
 class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	use BP_REST_Attachments;
@@ -19,7 +19,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * BP_Attachment_Avatar Instance.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var BP_Attachment_Avatar
 	 */
@@ -28,7 +28,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Member object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var WP_User
 	 */
@@ -37,7 +37,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Member object type.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var string
 	 */
@@ -46,7 +46,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace       = bp_rest_namespace() . '/' . bp_rest_version();
@@ -57,7 +57,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -94,7 +94,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Fetch an existing member avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -134,7 +134,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a member avatar is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param string            $avatar   The avatar.
 		 * @param WP_REST_Response  $response The response data.
@@ -148,7 +148,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to get a member avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -180,7 +180,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the member avatar `get_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -191,7 +191,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Upload a member avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -222,7 +222,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a member avatar is uploaded via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param stdClass          $avatar   Avatar object.
 		 * @param WP_REST_Response  $response The response data.
@@ -236,7 +236,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to upload a member avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -289,7 +289,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the member avatar `create_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -300,7 +300,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete an existing member avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -363,7 +363,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a member avatar is deleted via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response  $response The response data.
 		 * @param WP_REST_Request   $request  The request sent to the API.
@@ -376,7 +376,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to delete member avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -387,7 +387,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the member avatar `delete_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -398,7 +398,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares avatar data to return as an object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param object          $avatar  Avatar object.
 	 * @param WP_REST_Request $request Full details about the request.
@@ -418,7 +418,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a member avatar value returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response  $response Response.
 		 * @param WP_REST_Request   $request  Request used to generate the response.
@@ -430,7 +430,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the member avatar schema, conforming to JSON Schema.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -470,7 +470,7 @@ class BP_REST_Attachments_Member_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for the `get_item`.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

@@ -4,28 +4,17 @@
  *
  * @group blogs
  */
-class BP_Test_REST_Blogs_Endpoint extends WP_Test_REST_Controller_Testcase {
-	protected $endpoint;
-	protected $bp;
-	protected $endpoint_url;
+class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
+	protected $handle     = 'blogs';
+	protected $controller = 'BP_REST_Blogs_Endpoint';
 	protected $admin;
-	protected $server;
 
 	public function set_up() {
 		parent::set_up();
 
-		$this->endpoint     = new BP_REST_Blogs_Endpoint();
-		$this->bp           = new BP_UnitTestCase();
-		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->blogs->id;
-		$this->admin        = static::factory()->user->create(
-			array(
-				'role' => 'administrator',
-			)
+		$this->admin = static::factory()->user->create(
+			array( 'role' => 'administrator' )
 		);
-
-		if ( ! $this->server ) {
-			$this->server = rest_get_server();
-		}
 	}
 
 	public function test_register_routes() {
@@ -61,7 +50,7 @@ class BP_Test_REST_Blogs_Endpoint extends WP_Test_REST_Controller_Testcase {
 
 		$this->assertEquals( 3, $headers['X-WP-Total'] );
 		$this->assertEquals( 1, $headers['X-WP-TotalPages'] );
-		$this->assertTrue( count( $blogs ) === 3 );
+		$this->assertCount( 3, $blogs );
 		$this->assertNotEmpty( $blogs[0] );
 	}
 
@@ -86,9 +75,9 @@ class BP_Test_REST_Blogs_Endpoint extends WP_Test_REST_Controller_Testcase {
 		$blogs = $response->get_data();
 
 		$this->assertNotEmpty( $blogs );
-		$this->assertSame( $blogs[0]['id'], $blog_id );
-		$this->assertSame( $blogs[0]['name'], 'The Foo Bar Blog' );
-		$this->assertSame( $blogs[0]['user_id'], $this->admin );
+		$this->assertSame( $blogs['id'], $blog_id );
+		$this->assertSame( $blogs['name'], 'The Foo Bar Blog' );
+		$this->assertSame( $blogs['user_id'], $this->admin );
 	}
 
 	/**
@@ -154,7 +143,7 @@ class BP_Test_REST_Blogs_Endpoint extends WP_Test_REST_Controller_Testcase {
 
 		$this->assertEquals( 200, $response->get_status() );
 
-		$data = $this->server->response_to_data( $response, true )[0];
+		$data = $this->server->response_to_data( $response, true );
 
 		$this->assertNotEmpty( $data['_embedded']['post'] );
 
@@ -200,7 +189,7 @@ class BP_Test_REST_Blogs_Endpoint extends WP_Test_REST_Controller_Testcase {
 
 		$this->assertEquals( 200, $response->get_status() );
 
-		$data = $this->server->response_to_data( $response, true )[0];
+		$data = $this->server->response_to_data( $response, true );
 
 		$this->assertNotEmpty( $data['_embedded']['post'] );
 
@@ -234,7 +223,6 @@ class BP_Test_REST_Blogs_Endpoint extends WP_Test_REST_Controller_Testcase {
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/json' );
-
 		$request->set_body( wp_json_encode( $this->set_blog_data() ) );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
@@ -243,8 +231,7 @@ class BP_Test_REST_Blogs_Endpoint extends WP_Test_REST_Controller_Testcase {
 
 		$blogs = $response->get_data();
 
-		$this->assertNotEmpty( $blogs );
-		$this->assertSame( $blogs[0]['name'], 'Blog Name' );
+		$this->assertSame( $blogs['name'], 'Blog Name' );
 
 		buddypress()->site_options = $old_settings;
 	}

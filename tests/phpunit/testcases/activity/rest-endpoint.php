@@ -4,31 +4,15 @@
  *
  * @group activity
  */
-class BP_Test_REST_Activity_Endpoint extends WP_Test_REST_Controller_Testcase {
-	protected $endpoint;
-	protected $bp;
-	protected $endpoint_url;
+class BP_Test_REST_Activity_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $activity_id;
-	protected $user;
-	protected $server;
+	protected $controller = 'BP_REST_Activity_Endpoint';
+	protected $handle     = 'activity';
 
 	public function set_up() {
 		parent::set_up();
-		$this->endpoint     = new BP_REST_Activity_Endpoint();
-		$this->bp           = new BP_UnitTestCase();
-		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->activity->id;
-		$this->activity_id  = $this->bp::factory()->activity->create();
 
-		$this->user = static::factory()->user->create(
-			array(
-				'role'       => 'administrator',
-				'user_email' => 'admin@example.com',
-			)
-		);
-
-		if ( ! $this->server ) {
-			$this->server = rest_get_server();
-		}
+		$this->activity_id = $this->bp::factory()->activity->create();
 	}
 
 	public function test_register_routes() {
@@ -59,7 +43,7 @@ class BP_Test_REST_Activity_Endpoint extends WP_Test_REST_Controller_Testcase {
 
 		$a_ids = wp_list_pluck( $response->get_data(), 'id' );
 
-		$this->assertTrue( count( $a_ids ) === 4 );
+		$this->assertCount( 4, $a_ids );
 		$this->assertContains( $this->activity_id, $a_ids );
 	}
 

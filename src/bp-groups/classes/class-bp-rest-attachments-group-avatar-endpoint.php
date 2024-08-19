@@ -3,7 +3,7 @@
  * BP REST: BP_REST_Attachments_Group_Avatar_Endpoint class
  *
  * @package BuddyPress
- * @since 5.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Group Avatar endpoints.
  *
- * @since 5.0.0
+ * @since 15.0.0
  */
 class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	use BP_REST_Attachments;
@@ -19,7 +19,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Reuse some parts of the BP_REST_Groups_Endpoint class.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var BP_REST_Groups_Endpoint
 	 */
@@ -28,7 +28,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * BP_Attachment_Avatar Instance.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var BP_Attachment_Avatar
 	 */
@@ -37,7 +37,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Hold the group object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var BP_Groups_Group
 	 */
@@ -46,7 +46,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Group object type.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var string
 	 */
@@ -55,7 +55,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace       = bp_rest_namespace() . '/' . bp_rest_version();
@@ -67,7 +67,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -104,7 +104,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Fetch an existing group avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -143,7 +143,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a group avatar is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param string            $avatar   The group avatar.
 		 * @param WP_REST_Response  $response The response data.
@@ -157,7 +157,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to get a group avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -188,7 +188,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the group avatar `get_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -199,7 +199,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Upload a group avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -231,7 +231,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a group avatar is uploaded via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param stdClass          $avatar   The group avatar object.
 		 * @param WP_REST_Response  $response The response data.
@@ -245,7 +245,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to upload a group avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -278,7 +278,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the group avatar `create_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -289,7 +289,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete an existing group avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -352,7 +352,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a group avatar is deleted via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response  $response The response data.
 		 * @param WP_REST_Request   $request  The request sent to the API.
@@ -365,7 +365,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to delete a group avatar.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -376,7 +376,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the group avatar `delete_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -387,7 +387,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares avatar data to return as an object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param stdClass|string $avatar  Avatar object or string with url or image with html.
 	 * @param WP_REST_Request $request Full details about the request.
@@ -407,7 +407,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a group avatar value returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response  $response Response.
 		 * @param WP_REST_Request   $request  Request used to generate the response.
@@ -419,7 +419,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the plugin schema, conforming to JSON Schema.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -459,7 +459,7 @@ class BP_REST_Attachments_Group_Avatar_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for the `get_item`.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

@@ -3,7 +3,7 @@
  * BP_REST_Blogs_Endpoint class
  *
  * @package BuddyPress
- * @since 6.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,14 +14,14 @@ defined( 'ABSPATH' ) || exit;
  * Use /blogs/
  * Use /blogs/{id}
  *
- * @since 6.0.0
+ * @since 15.0.0
  */
 class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -31,7 +31,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -84,7 +84,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve Blogs.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -102,7 +102,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -145,7 +145,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after blogs are fetched via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $blogs     Fetched blogs.
 		 * @param WP_REST_Response $response  The response data.
@@ -159,7 +159,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to blog items.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -180,7 +180,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the blogs `get_items` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -191,7 +191,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve a blog.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -215,7 +215,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a blog is fetched via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param stdClass         $blog     Fetched blog.
 		 * @param WP_REST_Response $response The response data.
@@ -229,7 +229,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to get information about a specific blog.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -250,7 +250,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the blog `get_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -261,7 +261,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Create a new blog.
 	 *
-	 * @since 7.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -303,7 +303,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the meta arguments for the new Blog.
 		 *
-		 * @since 7.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -349,7 +349,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a blog is created via the REST API.
 		 *
-		 * @since 7.0.0
+		 * @since 15.0.0
 		 *
 		 * @param stdClass         $blog     Created blog.
 		 * @param WP_REST_Response $response The response data.
@@ -363,7 +363,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to create a blog.
 	 *
-	 * @since 7.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -394,7 +394,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the blogs `create_item` permissions check.
 		 *
-		 * @since 7.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -405,7 +405,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares blogs data for return as an object.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param stdClass        $blog    Blog object.
 	 * @param WP_REST_Request $request Full details about the request.
@@ -462,7 +462,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a blog returned from the API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response  $response Response generated by the request.
 		 * @param WP_REST_Request   $request  Request used to generate the response.
@@ -474,7 +474,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param stdClass $blog Blog object.
 	 * @return array
@@ -514,7 +514,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter links prepared for the REST response.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array    $links The prepared links of the REST response.
 		 * @param stdClass $blog  The blog object.
@@ -548,7 +548,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get a blog object from a blog_id.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param int $blog_id Blog ID.
 	 * @return stdClass|int
@@ -572,7 +572,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Edit the type of the some properties for the CREATABLE method.
 	 *
-	 * @since 7.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method Optional. HTTP method of the request.
 	 * @return array Endpoint arguments.
@@ -633,7 +633,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 7.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array  $args   Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -644,7 +644,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the blogs schema, conforming to JSON Schema.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -775,7 +775,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the blogs schema.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array $schema The endpoint schema.
 		 */
@@ -785,7 +785,7 @@ class BP_REST_Blogs_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for blogs collections.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

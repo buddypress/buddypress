@@ -5,45 +5,29 @@
  * @group groups
  * @group group-avatar
  */
-class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Controller_Testcase {
-	protected $endpoint;
-	protected $bp;
-	protected $endpoint_url;
+class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $image_file;
-	protected $user_id;
 	protected $group_id;
-	protected $server;
+	protected $controller = 'BP_REST_Attachments_Group_Avatar_Endpoint';
+	protected $handle     = 'groups';
 
 	public function set_up() {
 		parent::set_up();
 
-		$this->endpoint     = new BP_REST_Attachments_Group_Avatar_Endpoint();
-		$this->bp           = new BP_UnitTestCase();
-		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->groups->id . '/';
-		$this->image_file   = BP_TESTS_DIR . 'assets/test-image-large.jpg';
-
-		$this->user_id = $this->bp::factory()->user->create(
-			array(
-				'role' => 'administrator',
-			)
-		);
+		$this->image_file = BP_TESTS_DIR . 'assets/test-image-large.jpg';
 
 		$this->group_id = $this->bp::factory()->group->create(
 			array(
 				'name'        => 'Group Test',
 				'description' => 'Group Description',
-				'creator_id'  => $this->user_id,
+				'creator_id'  => $this->user,
 			)
 		);
-
-		if ( ! $this->server ) {
-			$this->server = rest_get_server();
-		}
 	}
 
 	public function test_register_routes() {
 		$routes   = $this->server->get_routes();
-		$endpoint = $this->endpoint_url . '(?P<group_id>[\d]+)/avatar';
+		$endpoint = $this->endpoint_url . '/(?P<group_id>[\d]+)/avatar';
 
 		// Single.
 		$this->assertArrayHasKey( $endpoint, $routes );
@@ -61,9 +45,9 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->bp::set_current_user( $this->user_id );
+		$this->bp::set_current_user( $this->user );
 
-		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
@@ -81,7 +65,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 	public function test_get_item_with_support_for_the_community_visibility() {
 		toggle_component_visibility();
 
-		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
@@ -92,7 +76,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 	 * @group get_item
 	 */
 	public function test_get_item_invalid_group_id() {
-		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_group_invalid_id', $response, 404 );
 	}
@@ -105,7 +89,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 		// Disable default url.
 		add_filter( 'bp_core_fetch_avatar_url', '__return_false' );
 
-		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_attachments_group_avatar_no_image', $response, 500 );
@@ -122,7 +106,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 		$reset_files = $_FILES;
 		$reset_post  = $_POST;
 
-		$this->bp::set_current_user( $this->user_id );
+		$this->bp::set_current_user( $this->user );
 
 		add_filter( 'pre_move_uploaded_file', array( $this, 'copy_file' ), 10, 3 );
 		add_filter( 'bp_core_avatar_dimension', array( $this, 'return_100' ) );
@@ -137,7 +121,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 
 		$_POST['action'] = 'bp_avatar_upload';
 
-		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$request->set_param( 'context', 'edit' );
 		$request->set_file_params( $_FILES );
 		$response = $this->server->dispatch( $request );
@@ -192,7 +176,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 		$reset_files = $_FILES;
 		$reset_post  = $_POST;
 
-		$this->bp::set_current_user( $this->user_id );
+		$this->bp::set_current_user( $this->user );
 
 		// Disabling group avatar upload.
 		add_filter( 'bp_disable_group_avatar_uploads', '__return_true' );
@@ -207,7 +191,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 
 		$_POST['action'] = 'bp_avatar_upload';
 
-		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$request->set_param( 'context', 'edit' );
 		$request->set_file_params( $_FILES );
 		$response = $this->server->dispatch( $request );
@@ -222,9 +206,9 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 	 * @group create_item
 	 */
 	public function test_create_item_empty_image() {
-		$this->bp::set_current_user( $this->user_id );
+		$this->bp::set_current_user( $this->user );
 
-		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_attachments_group_avatar_no_image_file', $response, 500 );
 	}
@@ -233,7 +217,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 	 * @group create_item
 	 */
 	public function test_create_item_user_not_logged_in() {
-		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
@@ -246,7 +230,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 
 		$this->bp::set_current_user( $u1 );
 
-		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '%d/avatar', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request  = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/avatar', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_group_invalid_id', $response, 404 );
 	}
@@ -269,9 +253,9 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 	 * @group delete_item
 	 */
 	public function test_delete_item_failed() {
-		$this->bp::set_current_user( $this->user_id );
+		$this->bp::set_current_user( $this->user );
 
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_attachments_group_avatar_no_uploaded_avatar', $response, 404 );
@@ -281,7 +265,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 	 * @group delete_item
 	 */
 	public function test_delete_item_user_not_logged_in() {
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
 	}
@@ -290,9 +274,9 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 	 * @group delete_item
 	 */
 	public function test_delete_item_invalid_group() {
-		$this->bp::set_current_user( $this->user_id );
+		$this->bp::set_current_user( $this->user );
 
-		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '%d/avatar', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/avatar', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_group_invalid_id', $response, 404 );
 	}
@@ -305,7 +289,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 	}
 
 	public function test_get_item_schema() {
-		$request    = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request    = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$response   = $this->server->dispatch( $request );
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
@@ -317,7 +301,7 @@ class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends WP_Test_REST_Contro
 
 	public function test_context_param() {
 		// Single.
-		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '%d/avatar', $this->group_id ) );
+		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d/avatar', $this->group_id ) );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );

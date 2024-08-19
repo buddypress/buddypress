@@ -4,30 +4,9 @@
  *
  * @group components
  */
-class BP_Test_REST_Components_Endpoint extends WP_Test_REST_Controller_Testcase {
-	protected $endpoint;
-	protected $bp;
-	protected $endpoint_url;
-	protected $user;
-	protected $server;
-
-	public function set_up() {
-		parent::set_up();
-
-		$this->endpoint     = new BP_REST_Components_Endpoint();
-		$this->bp           = new BP_UnitTestCase();
-		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/components';
-		$this->user         = static::factory()->user->create(
-			array(
-				'role'       => 'administrator',
-				'user_email' => 'admin@example.com',
-			)
-		);
-
-		if ( ! $this->server ) {
-			$this->server = rest_get_server();
-		}
-	}
+class BP_Test_REST_Components_Endpoint extends BP_Test_REST_Controller_Testcase {
+	protected $controller = 'BP_REST_Components_Endpoint';
+	protected $handle     = 'components';
 
 	public function test_register_routes() {
 		$routes = $this->server->get_routes();
@@ -273,9 +252,9 @@ class BP_Test_REST_Components_Endpoint extends WP_Test_REST_Controller_Testcase 
 		$this->assertEquals( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
-		$this->assertNotEmpty( $all_data );
 
-		$this->assertTrue( 'inactive' === $all_data['status'] );
+		$this->assertNotEmpty( $all_data );
+		$this->assertSame( 'inactive', $all_data['status'] );
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * BP_REST_Friends_Endpoint class
  *
  * @package BuddyPress
- * @since 6.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,14 +14,14 @@ defined( 'ABSPATH' ) || exit;
  * /friends/
  * /friends/{id}
  *
- * @since 6.0.0
+ * @since 15.0.0
  */
 class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -31,7 +31,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -90,7 +90,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve friendships.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -110,7 +110,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -152,7 +152,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after friendships are fetched via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $friendships Fetched friendships.
 		 * @param WP_REST_Response $response    The response data.
@@ -166,7 +166,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to friendship items.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -187,7 +187,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the friends `get_items` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -198,7 +198,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve single friendship.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -238,7 +238,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires before a friendship is retrieved via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Friends_Friendship $friendship  The friendship object.
 		 * @param WP_REST_Response      $response    The response data.
@@ -252,7 +252,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to get a friendship.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -273,7 +273,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the friendship `get_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -284,7 +284,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Create a new friendship.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -372,7 +372,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a friendship is created via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Friends_Friendship $friendship The friendship object.
 		 * @param WP_REST_Response      $retval     The response data.
@@ -386,7 +386,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to create a friendship.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -397,7 +397,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the friends `create_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -408,7 +408,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Update, accept, friendship.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -461,7 +461,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a friendship is updated via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Friends_Friendship $friendship Friendship object.
 		 * @param WP_REST_Response      $response   The response data.
@@ -475,7 +475,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update a friendship.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -486,7 +486,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the friendship `update_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -497,7 +497,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Reject/withdraw/remove friendship.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -575,7 +575,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a friendship is deleted via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Friends_Friendship $friendship Friendship object.
 		 * @param WP_REST_Response      $response   The response data.
@@ -589,7 +589,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete a friendship.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -600,7 +600,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the friendship `delete_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -611,7 +611,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares friendship data to return as an object.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Friends_Friendship $friendship Friendship object.
 	 * @param WP_REST_Request       $request    Full details about the request.
@@ -638,7 +638,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a friendship value returned from the API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response      $response   Response generated by the request.
 		 * @param WP_REST_Request       $request    Request used to generate the response.
@@ -650,7 +650,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Friends_Friendship $friendship Friendship object.
 	 * @return array
@@ -679,7 +679,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter links prepared for the REST response.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array                 $links      The prepared links of the REST response.
 		 * @param BP_Friends_Friendship $friendship Friendship object.
@@ -690,7 +690,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get friendship object.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param int $friendship_id Friendship ID.
 	 * @return BP_Friends_Friendship
@@ -702,7 +702,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Edit some arguments for the endpoint's methods.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method Optional. HTTP method of the request.
 	 * @return array Endpoint arguments.
@@ -780,7 +780,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array  $args   Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -791,7 +791,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the friends schema, conforming to JSON Schema.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -844,7 +844,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the friends schema.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array $schema The endpoint schema.
 		 */
@@ -854,7 +854,7 @@ class BP_REST_Friends_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for friends collections.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

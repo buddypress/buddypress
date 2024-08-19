@@ -5,26 +5,13 @@
  * @group blogs
  * @group blog-avatar
  */
-class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends WP_Test_REST_Controller_Testcase {
-	protected $endpoint;
-	protected $bp;
-	protected $endpoint_url;
-	protected $server;
-
-	public function set_up() {
-		parent::set_up();
-		$this->endpoint     = new BP_REST_Attachments_Blog_Avatar_Endpoint();
-		$this->bp           = new BP_UnitTestCase();
-		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->blogs->id . '/';
-
-		if ( ! $this->server ) {
-			$this->server = rest_get_server();
-		}
-	}
+class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends BP_Test_REST_Controller_Testcase {
+	protected $controller = 'BP_REST_Attachments_Blog_Avatar_Endpoint';
+	protected $handle     = 'blogs';
 
 	public function test_register_routes() {
 		$routes   = $this->server->get_routes();
-		$endpoint = $this->endpoint_url . '(?P<id>[\d]+)/avatar';
+		$endpoint = $this->endpoint_url . '/(?P<id>[\d]+)/avatar';
 
 		// Single.
 		$this->assertArrayHasKey( $endpoint, $routes );
@@ -54,13 +41,13 @@ class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends WP_Test_REST_Control
 
 		$blog_id = self::factory()->blog->create();
 
-		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', $blog_id ) );
 		$request->set_param( 'context', 'view' );
 
 		$response = $this->server->dispatch( $request );
 		$all_data = $response->get_data();
 
-		$this->assertSame( $all_data[0], $expected );
+		$this->assertSame( $all_data, $expected );
 	}
 
 	/**
@@ -72,7 +59,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends WP_Test_REST_Control
 		toggle_component_visibility();
 
 		$blog_id = self::factory()->blog->create();
-		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', $blog_id ) );
 		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
@@ -108,14 +95,14 @@ class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends WP_Test_REST_Control
 
 		$blog_id = self::factory()->blog->create();
 
-		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', $blog_id ) );
 		$request->set_param( 'context', 'view' );
 		$request->set_param( 'no_user_gravatar', true );
 
 		$response = $this->server->dispatch( $request );
 		$all_data = $response->get_data();
 
-		$this->assertSame( $all_data[0], $expected );
+		$this->assertSame( $all_data, $expected );
 	}
 
 	/**
@@ -146,14 +133,14 @@ class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends WP_Test_REST_Control
 			),
 		);
 
-		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', $blog_id ) );
 		$request->set_param( 'context', 'view' );
 		$request->set_param( 'no_user_gravatar', true );
 
 		$response = $this->server->dispatch( $request );
 		$all_data = $response->get_data();
 
-		$this->assertSame( $all_data[0], $expected );
+		$this->assertSame( $all_data, $expected );
 	}
 
 	/**
@@ -173,12 +160,12 @@ class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends WP_Test_REST_Control
 		$this->bp::set_current_user( $current_user );
 
 		// Remove admins.
-		add_filter( 'bp_blogs_get_blogs', array( $this, 'filter_admin_user_id' ), 10, 1 );
+		add_filter( 'bp_blogs_get_blogs', array( $this, 'filter_admin_user_id' ) );
 
-		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
+		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', $blog_id ) );
 		$response = $this->server->dispatch( $request );
 
-		remove_filter( 'bp_blogs_get_blogs', array( $this, 'filter_admin_user_id' ), 10, 1 );
+		remove_filter( 'bp_blogs_get_blogs', array( $this, 'filter_admin_user_id' ) );
 
 		$this->assertErrorResponse( 'bp_rest_blog_avatar_get_item_user_failed', $response, 500 );
 	}
@@ -195,7 +182,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends WP_Test_REST_Control
 	public function test_get_item_invalid_blog_id() {
 		$this->skipWithoutMultisite();
 
-		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '%d/avatar', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/avatar', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$response = $this->server->dispatch( $request );
 		$this->assertErrorResponse( 'bp_rest_blog_invalid_id', $response, 404 );
 	}
@@ -234,7 +221,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends WP_Test_REST_Control
 		$blog_id = self::factory()->blog->create();
 
 		// Single.
-		$request    = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
+		$request    = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d/avatar', $blog_id ) );
 		$response   = $this->server->dispatch( $request );
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
@@ -250,7 +237,7 @@ class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends WP_Test_REST_Control
 		$blog_id = self::factory()->blog->create();
 
 		// Single.
-		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '%d/avatar', $blog_id ) );
+		$request  = new WP_REST_Request( 'OPTIONS', sprintf( $this->endpoint_url . '/%d/avatar', $blog_id ) );
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 

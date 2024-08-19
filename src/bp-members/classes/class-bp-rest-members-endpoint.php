@@ -3,7 +3,7 @@
  * BP_REST_Members_Endpoint class
  *
  * @package BuddyPress
- * @since 5.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,14 +14,14 @@ defined( 'ABSPATH' ) || exit;
  * /members/
  * /members/{id}
  *
- * @since 5.0.0
+ * @since 15.0.0
  */
 class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -31,7 +31,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Registers the routes for the objects of the controller.
 	 *
-	 * @since 7.0.0
+	 * @since 15.0.0
 	 *
 	 * @see register_rest_route()
 	 */
@@ -97,7 +97,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Retrieve users.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response
@@ -157,7 +157,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -181,7 +181,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Fires after a list of members is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $members  Fetched members.
 		 * @param WP_REST_Response $response The response data.
@@ -195,7 +195,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Checks if a given request has access to get all users.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -216,7 +216,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filter the members `get_items` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Whether the user has access to members component items.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -227,7 +227,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Retrieves a single member.
 	 *
-	 * @since 7.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -255,7 +255,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Checks if a given request has access to read a user.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -300,7 +300,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filter the members `get_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -311,7 +311,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Checks if a given request has access create members.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -322,7 +322,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filter or override the members `create_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -333,7 +333,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Check if a given request has access to update a member.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -388,7 +388,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filter the members `update_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -399,7 +399,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Check if a given request has access to delete a member.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -410,7 +410,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filter the members `delete_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -421,8 +421,8 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Checks if a given request has access to delete the current user.
 	 *
-	 * @since 5.0.0
-	 * @since 0.7.0 Do implement this method.
+	 * @since 15.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
@@ -443,7 +443,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filter the members `delete_current_item` permissions check.
 		 *
-		 * @since 0.7.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -454,8 +454,8 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Deletes the current user.
 	 *
-	 * @since 5.0.0
-	 * @since 0.7.0 Do implement this method.
+	 * @since 15.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -501,7 +501,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Prepares a single user output for response.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_User         $user    User object.
 	 * @param WP_REST_Request $request Full details about the request.
@@ -524,7 +524,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filters user data returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response $response The response object.
 		 * @param WP_REST_Request  $request  The request object.
@@ -536,7 +536,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Prepares links for the user request.
 	 *
-	 * @since 11.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_User $user      User object.
 	 * @param array   $user_data User data.
@@ -601,7 +601,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filter links prepared for the REST response.
 		 *
-		 * @since 11.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array   $links The prepared links of the REST response.
 		 * @param WP_User $user  The User object.
@@ -614,8 +614,8 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	 *
 	 * This was abstracted to be used in other BuddyPress endpoints.
 	 *
-	 * @since 5.0.0
-	 * @since 7.0.0 Add the `$request` parameter.
+	 * @since 15.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_User         $user    User object.
 	 * @param string          $context The context of the request. Defaults to 'view'.
@@ -774,7 +774,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	 *
 	 * @todo Improve sanitization and schema verification.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return stdClass
@@ -808,7 +808,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filters an user object before it is inserted or updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param stdClass        $prepared_user An object prepared for inserting or updating the database.
 		 * @param WP_REST_Request $request       Request object.
@@ -819,7 +819,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Get XProfile info from the user.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  int $user_id User ID.
 	 * @return array
@@ -867,7 +867,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Can user manage (delete/update) a member?
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_User $user User object.
 	 * @param  string  $action The action to perform (update or delete).
@@ -889,7 +889,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	 * This function makes sure updating the field value thanks to the `id` property of
 	 * the created/updated object type is consistent accross BuddyPress components.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_User         $user    The WordPress user object.
 	 * @param WP_REST_Request $request Full details about the request.
@@ -912,7 +912,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Make sure to retrieve the needed arguments for the endpoint CREATABLE method.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method Optional. HTTP method of the request.
 	 * @return array Endpoint arguments.
@@ -966,7 +966,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array  $args   Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -977,7 +977,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Get the members schema, conforming to JSON Schema.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -1207,7 +1207,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	/**
 	 * Get the query params for collections.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

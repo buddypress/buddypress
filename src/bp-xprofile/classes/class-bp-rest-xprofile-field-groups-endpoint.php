@@ -3,7 +3,7 @@
  * BP_REST_XProfile_Field_Groups_Endpoint class
  *
  * @package BuddyPress
- * @since 5.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,14 +14,14 @@ defined( 'ABSPATH' ) || exit;
  * Use /xprofile/groups
  * Use /xprofile/groups/{id}
  *
- * @since 5.0.0
+ * @since 15.0.0
  */
 class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * XProfile Fields Class.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var BP_REST_XProfile_Fields_Endpoint
 	 */
@@ -30,7 +30,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace       = bp_rest_namespace() . '/' . bp_rest_version();
@@ -41,7 +41,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -98,7 +98,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Edit some properties for the CREATABLE & EDITABLE methods.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method Optional. HTTP method of the request.
 	 * @return array Endpoint arguments.
@@ -123,7 +123,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array  $args   Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -134,7 +134,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve XProfile groups.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response
@@ -175,7 +175,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -202,7 +202,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a list of field groups are fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $field_groups Fetched field groups.
 		 * @param WP_REST_Response $response     The response data.
@@ -216,7 +216,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to XProfile field groups items.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -237,7 +237,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile fields groups `get_items` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Whether the user has access to xprofile field groups.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -248,7 +248,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve single XProfile field group.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -272,7 +272,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a field group is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_XProfile_Group $field_group Fetched field group.
 		 * @param WP_REST_Response  $response    The response data.
@@ -286,7 +286,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to get information about a specific field group.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -307,7 +307,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile fields groups `get_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -318,7 +318,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Create a XProfile field group.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -332,7 +332,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -376,7 +376,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a XProfile field group is created via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_XProfile_Group $field_group Created field group object.
 		 * @param WP_REST_Response  $response    The response data.
@@ -390,7 +390,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to create a XProfile field group.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -411,7 +411,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile fields groups `create_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -422,7 +422,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Update a XProfile field group.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -478,7 +478,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a XProfile field group is updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_XProfile_Group $field_group Updated field group object.
 		 * @param WP_REST_Response  $response    The response data.
@@ -492,7 +492,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to create a XProfile field group.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -503,7 +503,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile fields groups `create_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -514,7 +514,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete a XProfile field group.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -556,7 +556,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a field group is deleted via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_XProfile_Group $field_group Deleted field group.
 		 * @param WP_REST_Response  $response    The response data.
@@ -570,7 +570,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete a field group.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -581,7 +581,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile fields groups `delete_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -592,7 +592,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares single XProfile field group data for return as an object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_XProfile_Group $group   XProfile field group data.
 	 * @param WP_REST_Request   $request Full data about the request.
@@ -629,7 +629,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile field group returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response  $response The response data.
 		 * @param WP_REST_Request   $request  Request used to generate the response.
@@ -641,7 +641,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_XProfile_Group $group XProfile field group.
 	 * @return array
@@ -662,7 +662,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter links prepared for the REST response.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array             $links The prepared links of the REST response.
 		 * @param BP_XProfile_Group $group XProfile field group object.
@@ -673,7 +673,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get XProfile field group object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return BP_XProfile_Group|string XProfile field group object.
@@ -717,7 +717,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the XProfile field group schema, conforming to JSON Schema.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -796,7 +796,7 @@ class BP_REST_XProfile_Field_Groups_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for XProfile field groups.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

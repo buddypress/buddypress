@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage BuddyPress\RestApi
- * @since 5.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
  * Activity endpoints.
  *
  * @extends WP_REST_Controller
- * @since 5.0.0
+ * @since 15.0.0
  */
 class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * User favorites.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var array|null
 	 */
@@ -29,7 +29,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -39,7 +39,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -121,7 +121,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve activities.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response List of activities response data.
@@ -219,7 +219,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request Full data about the request.
@@ -242,7 +242,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a list of activities is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $activities Fetched activities.
 		 * @param WP_REST_Response $response   The response data.
@@ -256,7 +256,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to activity items.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -277,7 +277,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the activity `get_items` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request Full data about the request.
@@ -288,7 +288,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve an activity.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -312,7 +312,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after an activity is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Activity_Activity $activity Fetched activity.
 		 * @param WP_REST_Response     $response The response data.
@@ -326,7 +326,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to get information about a specific activity.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -347,7 +347,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the activity `get_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -358,7 +358,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Create an activity.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -447,7 +447,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after an activity item is created via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Activity_Activity $activity The created activity.
 		 * @param WP_REST_Response     $response The response data.
@@ -461,7 +461,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to create an activity.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -498,7 +498,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the activity `create_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -509,7 +509,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Update an activity.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -550,7 +550,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after an activity is updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Activity_Activity $activity The updated activity.
 		 * @param WP_REST_Response     $response The response data.
@@ -564,7 +564,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update an activity.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -597,7 +597,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the activity `update_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -608,7 +608,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete activity.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -650,7 +650,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after an activity is deleted via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Activity_Activity $activity The deleted activity.
 		 * @param WP_REST_Response     $response The response data.
@@ -664,7 +664,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete an activity.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -697,7 +697,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the activity `delete_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -708,7 +708,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Gets the current user's favorites.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array Array of activity IDs.
 	 */
@@ -728,7 +728,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Adds or removes the activity from the current user's favorites.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -779,7 +779,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after user favorited activities has been updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Activity_Activity $activity       The updated activity.
 		 * @param array                $user_favorites The updated user favorites.
@@ -794,7 +794,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update user favorites.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -815,7 +815,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the activity `update_favorite` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -826,7 +826,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Renders the content of an activity.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Activity_Activity $activity Activity data.
 	 * @return string The rendered activity content.
@@ -872,7 +872,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares activity data for return as an object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Activity_Activity $activity Activity object.
 	 * @param WP_REST_Request      $request  Full details about the request.
@@ -940,7 +940,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter an activity value returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response     $response The response data.
 		 * @param WP_REST_Request      $request  Request used to generate the response.
@@ -952,7 +952,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare activity comments.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  array           $comments Array of comments.
 	 * @param  WP_REST_Request $request  Full details about the request.
@@ -974,7 +974,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter activity comments returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $data     An array of activity comments with proper API response.
 		 * @param array           $comments An array of activity comments.
@@ -986,7 +986,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare an activity for create or update.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return stdClass|WP_Error Object or WP_Error.
@@ -1074,7 +1074,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters an activity before it is inserted or updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param stdClass        $prepared_activity An object prepared for inserting or updating the database.
 		 * @param WP_REST_Request $request Request object.
@@ -1085,7 +1085,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Activity_Activity $activity Activity object.
 	 * @return array
@@ -1163,7 +1163,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter links prepared for the REST response.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array                $links     The prepared links of the REST response.
 		 * @param BP_Activity_Activity $activity  Activity object.
@@ -1174,7 +1174,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Can this user see the activity?
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return boolean
@@ -1189,7 +1189,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Show hidden activity?
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  string $component The component the activity is from.
 	 * @param  int    $item_id   The activity item ID.
@@ -1208,7 +1208,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 			/**
 			 * Filter here to manage hidden activity for the component.
 			 *
-			 * @since 0.7.0
+			 * @since 15.0.0
 			 *
 			 * @param bool   $retval    True to show hidden activities. False otherwise.
 			 * @param string $component The component name/ID.
@@ -1228,7 +1228,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get activity object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request|int $request Request object or ID.
 	 * @return BP_Activity_Activity|string An activity object.
@@ -1253,7 +1253,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Edit the type of some properties for the CREATABLE & EDITABLE methods.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method Optional. HTTP method of the request.
 	 * @return array Endpoint arguments.
@@ -1278,7 +1278,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array  $args   Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -1289,7 +1289,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the plugin schema, conforming to JSON Schema.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -1470,7 +1470,7 @@ class BP_REST_Activity_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for collections of plugins.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

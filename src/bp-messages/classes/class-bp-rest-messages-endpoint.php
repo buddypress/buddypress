@@ -3,7 +3,7 @@
  * BP_REST_Messages_Endpoint class
  *
  * @package BuddyPress
- * @since 5.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,14 +15,14 @@ defined( 'ABSPATH' ) || exit;
  * /messages/{thread_id}
  * /messages/starred/{message_id}
  *
- * @since 5.0.0
+ * @since 15.0.0
  */
 class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -32,7 +32,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -107,7 +107,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve threads.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response
@@ -139,7 +139,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -162,7 +162,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a thread is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Box_Template  $messages_box Fetched thread.
 		 * @param WP_REST_Response          $response     The response data.
@@ -176,7 +176,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to thread items.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -217,7 +217,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the messages `get_items` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -228,7 +228,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get a single thread.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response
@@ -267,7 +267,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a thread is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Thread $thread   Thread object.
 		 * @param WP_REST_Response   $response The response data.
@@ -281,7 +281,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to a thread item.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -322,7 +322,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the messages `get_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -333,7 +333,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Init a Messages Thread or add a reply to an existing Thread.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -368,7 +368,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a message is created via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Thread $thread   Thread object.
 		 * @param WP_REST_Response   $response The response data.
@@ -382,7 +382,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to create a message.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -421,7 +421,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the messages `create_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -432,7 +432,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Update metadata for one of the messages of the thread.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -480,7 +480,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter here to allow more users to edit the message meta (eg: the recipients).
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param boolean             $value           Whether the user can edit the message meta.
 		 *                                             By default: only the sender and a community moderator can.
@@ -517,7 +517,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a thread or a message is updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Message $updated_message The updated message.
 		 * @param WP_REST_Response    $response        The response data.
@@ -531,7 +531,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update a message.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -542,7 +542,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the message `update_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -553,7 +553,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Adds or removes the message from the current user's starred box.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -602,7 +602,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a message is starred/unstarred via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Message $message  Message object.
 		 * @param string              $action   Informs about the update performed.
@@ -618,7 +618,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update user starred messages.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -659,7 +659,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the message `update_starred` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -670,7 +670,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete a thread.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -719,7 +719,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a thread is deleted via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Thread $thread   The thread object.
 		 * @param WP_REST_Response   $response The response data.
@@ -733,7 +733,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete a thread.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -744,7 +744,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the thread `delete_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -755,7 +755,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare a message for create.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request The request sent to the API.
 	 * @return stdClass
@@ -800,7 +800,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters a message before it is inserted via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param stdClass        $prepared_thread An object prepared for inserting into the database.
 		 * @param WP_REST_Request $request Request object.
@@ -811,7 +811,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares message data for the REST response.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Messages_Message $message The Message object.
 	 * @param WP_REST_Request     $request Full details about the request.
@@ -850,7 +850,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a message value returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array               $data    The message value for the REST response.
 		 * @param BP_Messages_Message $message The Message object.
@@ -862,7 +862,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares recipient data for the REST response.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param object          $recipient The recipient object.
 	 * @param WP_REST_Request $request   Full details about the request.
@@ -903,7 +903,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a recipient value returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $data      The recipient value for the REST response.
 		 * @param object          $recipient The recipient object.
@@ -915,7 +915,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares thread data for return as an object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Messages_Thread $thread  The thread object.
 	 * @param WP_REST_Request    $request Full details about the request.
@@ -975,7 +975,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a thread value returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response   $response Response generated by the request.
 		 * @param WP_REST_Request    $request  Request used to generate the response.
@@ -987,7 +987,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Messages_Thread $thread  Thread object.
 	 * @return array
@@ -1019,7 +1019,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter links prepared for the REST response.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array              $links  The prepared links of the REST response.
 		 * @param BP_Messages_Thread $thread The thread object.
@@ -1030,7 +1030,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the thread object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param int $thread_id Thread ID.
 	 * @param int $user_id   User ID.
@@ -1055,7 +1055,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the message object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param int $message_id Message ID.
 	 * @return BP_Messages_Message|string
@@ -1073,7 +1073,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Select the item schema arguments needed for the CREATABLE, EDITABLE and DELETABLE methods.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method Optional. HTTP method of the request.
 	 * @return array Endpoint arguments.
@@ -1229,7 +1229,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array $args Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -1240,7 +1240,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the message schema, conforming to JSON Schema.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -1400,7 +1400,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the message schema.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array $schema The endpoint schema.
 		 */
@@ -1410,7 +1410,7 @@ class BP_REST_Messages_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for Messages collections.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

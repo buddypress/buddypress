@@ -5,34 +5,17 @@
  * @group xprofile
  * @group xprofile-field
  */
-class BP_Test_REST_XProfile_Fields_Endpoint extends WP_Test_REST_Controller_Testcase {
-	protected $endpoint;
-	protected $bp;
-	protected $endpoint_url;
-	protected $user;
-	protected $server;
+class BP_Test_REST_XProfile_Fields_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $group_id;
 	protected $field_id;
+	protected $controller = 'BP_REST_XProfile_Fields_Endpoint';
+	protected $handle     = 'xprofile/fields';
 
 	public function set_up() {
 		parent::set_up();
 
-		$this->endpoint     = new BP_REST_XProfile_Fields_Endpoint();
-		$this->bp           = new BP_UnitTestCase();
-		$this->endpoint_url = '/' . bp_rest_namespace() . '/' . bp_rest_version() . '/' . buddypress()->profile->id . '/fields';
-		$this->group_id     = $this->bp::factory()->xprofile_group->create();
-		$this->field_id     = $this->bp::factory()->xprofile_field->create( array( 'field_group_id' => $this->group_id ) );
-
-		$this->user = static::factory()->user->create(
-			array(
-				'role'       => 'administrator',
-				'user_email' => 'admin@example.com',
-			)
-		);
-
-		if ( ! $this->server ) {
-			$this->server = rest_get_server();
-		}
+		$this->group_id = $this->bp::factory()->xprofile_group->create();
+		$this->field_id = $this->bp::factory()->xprofile_field->create( array( 'field_group_id' => $this->group_id ) );
 	}
 
 	public function test_register_routes() {

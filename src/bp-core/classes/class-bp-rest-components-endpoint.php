@@ -3,7 +3,7 @@
  * BP_REST_Components_Endpoint class
  *
  * @package BuddyPress
- * @since 5.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,14 +11,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Components endpoints.
  *
- * @since 5.0.0
+ * @since 15.0.0
  */
 class BP_REST_Components_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -28,7 +28,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -67,7 +67,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve components.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response
@@ -82,7 +82,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -139,7 +139,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a list of components is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $current_components Fetched components.
 		 * @param WP_REST_Response $response           The response data.
@@ -153,7 +153,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to list components.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -175,7 +175,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the components `get_items` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -186,7 +186,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Activate/Deactivate a component.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -246,7 +246,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a component is updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array             $component_info Component info.
 		 * @param WP_REST_Response  $response       The response data.
@@ -260,7 +260,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update a component.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -271,7 +271,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the components `update_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -282,7 +282,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares component data for return as an object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param array           $component The component and its values.
 	 * @param WP_REST_Request $request   Full details about the request.
@@ -297,7 +297,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a component value returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response $response  The Response data.
 		 * @param WP_REST_Request  $request   Request used to generate the response.
@@ -309,8 +309,8 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Verify Component Status.
 	 *
-	 * @since 5.0.0
-	 * @since 9.0.0 Adds the `$return_type` parameter.
+	 * @since 15.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $name        Component name.
 	 * @param string $return_type Use `string` to get the l10n string. Default.
@@ -343,7 +343,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Deactivate component helper.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $component Component id.
 	 * @return array
@@ -364,7 +364,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Activate component helper.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $component Component id.
 	 * @return array
@@ -396,8 +396,8 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get component info helper.
 	 *
-	 * @since 5.0.0
-	 * @since 9.0.0 Adds a `features` property to component's info.
+	 * @since 15.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $component Component id.
 	 * @return array
@@ -486,7 +486,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 			 *
 			 * The dynamic portion of the filter is filled with the component's ID.
 			 *
-			 * @since 9.0.0
+			 * @since 15.0.0
 			 *
 			 * @param array $features The component's features.
 			 */
@@ -499,7 +499,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Does the component exist?
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $component Component.
 	 * @return bool
@@ -511,7 +511,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the components schema, conforming to JSON Schema.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -574,7 +574,7 @@ class BP_REST_Components_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for collections.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

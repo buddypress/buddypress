@@ -3,7 +3,7 @@
  * BP REST: BP_REST_Attachments_Group_Cover_Endpoint class
  *
  * @package BuddyPress
- * @since 6.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * /groups/<group_id>/cover
  *
- * @since 6.0.0
+ * @since 15.0.0
  */
 class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	use BP_REST_Attachments;
@@ -21,7 +21,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * BP_Attachment_Cover_Image Instance.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @var BP_Attachment_Cover_Image
 	 */
@@ -30,7 +30,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Reuse some parts of the BP_REST_Groups_Endpoint class.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @var BP_REST_Groups_Endpoint
 	 */
@@ -39,7 +39,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Hold the group object.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @var BP_Groups_Group
 	 */
@@ -48,7 +48,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Group object type.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @var string
 	 */
@@ -57,7 +57,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Constructor.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace           = bp_rest_namespace() . '/' . bp_rest_version();
@@ -69,7 +69,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -105,7 +105,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Fetch an existing group cover.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -129,7 +129,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a group cover is fetched via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param string            $cover_url  The group cover url.
 		 * @param WP_REST_Response  $response   The response data.
@@ -143,7 +143,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to get a group cover.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -174,7 +174,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the group cover `get_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -185,7 +185,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Upload a group cover.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -217,7 +217,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a group cover is uploaded via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param string            $cover_url  The group cover url.
 		 * @param WP_REST_Response  $response   The response data.
@@ -231,7 +231,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to upload a group cover.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -252,7 +252,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the group cover `create_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -263,7 +263,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete an existing group cover.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -300,7 +300,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a group cover is deleted via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Groups_Group   $group     The group object.
 		 * @param WP_REST_Response  $response  The response data.
@@ -314,7 +314,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to delete a group cover.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -359,7 +359,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the group cover `delete_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -370,7 +370,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares group cover to return as an object.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string          $cover_url Group cover url.
 	 * @param WP_REST_Request $request   Full details about the request.
@@ -389,7 +389,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a group cover value returned from the API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response  $response  Response.
 		 * @param WP_REST_Request   $request   Request used to generate the response.
@@ -401,7 +401,7 @@ class BP_REST_Attachments_Group_Cover_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the plugin schema, conforming to JSON Schema.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

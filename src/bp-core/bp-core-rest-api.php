@@ -11,11 +11,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Is the BP REST plugin is active?
+ * Is the BP REST plugin active?
  *
  * @since 5.0.0
- *
- * @todo Remove this function in BuddyPress 16.0.0.
  *
  * @return bool True if the BP REST plugin is active. False otherwise.
  */
@@ -24,20 +22,16 @@ function bp_rest_is_plugin_active() {
 }
 
 /**
- * Should we use the REST Endpoints of built BuddyPress?
+ * Should we use BuddyPress core REST Endpoints?
  *
  * If the BP REST plugin is active, it overrides BuddyPress REST endpoints.
- * This allows us to carry on maintaining all the BP REST API endpoints from
- * the BP REST plugin on GitHub.
  *
  * @since 5.0.0
  *
- * @return bool Whether to use the REST Endpoints of built BuddyPress.
+ * @return bool Whether to use BuddyPress core REST endpoints.
  */
 function bp_rest_in_buddypress() {
-	$is_src = defined( 'BP_SOURCE_SUBDIRECTORY' ) && BP_SOURCE_SUBDIRECTORY === 'src';
-
-	return ! $is_src && ! bp_rest_is_plugin_active();
+	return ! bp_rest_is_plugin_active();
 }
 
 /**
@@ -55,11 +49,10 @@ function bp_rest_api_is_available() {
 	 * The BP REST API requires at least WordPress 4.7.0.
 	 *
 	 * @since 5.0.0
-	 * @since 15.0.0 The REST API is available by default.
 	 *
 	 * @param bool $api_is_available True if the BP REST API is available. False otherwise.
 	 */
-	return apply_filters( 'bp_rest_api_is_available', true );
+	return apply_filters( 'bp_rest_api_is_available', bp_rest_in_buddypress() || bp_rest_is_plugin_active() );
 }
 
 /**

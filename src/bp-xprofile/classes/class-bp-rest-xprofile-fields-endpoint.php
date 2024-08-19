@@ -3,7 +3,7 @@
  * BP_REST_XProfile_Fields_Endpoint class
  *
  * @package BuddyPress
- * @since 5.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,14 +14,14 @@ defined( 'ABSPATH' ) || exit;
  * Use /xprofile/fields
  * Use /xprofile/fields/{id}
  *
- * @since 5.0.0
+ * @since 15.0.0
  */
 class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -31,7 +31,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -113,7 +113,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve XProfile fields.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response
@@ -146,7 +146,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -175,7 +175,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a list of XProfile group fields are fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $field_groups Fetched field groups.
 		 * @param WP_REST_Response $response     The response data.
@@ -189,7 +189,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to XProfile fields.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -210,7 +210,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile fields `get_items` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Whether the user has access to xprofile fields.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -221,7 +221,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve single XProfile field.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -259,7 +259,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after XProfile field is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_XProfile_Field $field    Fetched field object.
 		 * @param WP_REST_Response  $response The response data.
@@ -273,7 +273,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to get information about a specific XProfile field.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -294,7 +294,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile fields `get_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Whether the user has access to xprofile fields.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -305,7 +305,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Set additional field properties.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param integer         $field_id The profile field object ID.
 	 * @param WP_REST_Request $request  The request sent to the API.
@@ -358,7 +358,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Create a XProfile field.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -381,7 +381,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -417,7 +417,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a XProfile field is created via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_XProfile_Field $field     Created field object.
 		 * @param WP_REST_Response  $response  The response data.
@@ -431,7 +431,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to create a XProfile field.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -452,7 +452,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile fields `create_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -463,7 +463,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Update a XProfile field.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -499,7 +499,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -540,7 +540,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a XProfile field is updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_XProfile_Field $field    Updated field object.
 		 * @param WP_REST_Response  $response The response data.
@@ -554,7 +554,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update a XProfile field.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -565,7 +565,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile fields `update_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -576,7 +576,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete a XProfile field.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -608,7 +608,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a XProfile field is deleted via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_XProfile_Field $field     Deleted field object.
 		 * @param WP_REST_Response  $response  The response data.
@@ -622,7 +622,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete a XProfile field.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -655,7 +655,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile fields `delete_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -666,7 +666,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares single XProfile field data to return as an object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_XProfile_Field $field   XProfile field object.
 	 * @param WP_REST_Request   $request Full data about the request.
@@ -681,7 +681,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the XProfile field returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response  $response The response data.
 		 * @param WP_REST_Request   $request  Request used to generate the response.
@@ -693,7 +693,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Assembles single XProfile field data to return as an object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_XProfile_Field $field   XProfile field object.
 	 * @param WP_REST_Request   $request Full data about the request.
@@ -758,7 +758,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_XProfile_Field $field XProfile field object.
 	 * @return array
@@ -784,7 +784,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter links prepared for the REST response.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array             $links The prepared links of the REST response.
 		 * @param BP_XProfile_Field $field XProfile field object.
@@ -795,7 +795,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get XProfile field object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request|int $request Request info or integer.
 	 * @return BP_XProfile_Field|string
@@ -821,7 +821,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve the rendered value of a profile field.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  string                    $value         The raw value of the field.
 	 * @param  integer|BP_XProfile_Field $profile_field The ID or the full object for the field.
@@ -850,7 +850,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Apply filters to sanitize XProfile field value.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param string $value Value for the profile field.
 		 * @param string $type  Type for the profile field.
@@ -867,7 +867,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve the unserialized value of a profile field.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  string $value The raw value of the field.
 	 * @return array The unserialized field value.
@@ -888,7 +888,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Edit some properties for the CREATABLE & EDITABLE methods.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method Optional. HTTP method of the request.
 	 * @return array Endpoint arguments.
@@ -951,7 +951,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array  $args   Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -962,7 +962,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the XProfile field schema, conforming to JSON Schema.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -1114,7 +1114,7 @@ class BP_REST_XProfile_Fields_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for the XProfile fields.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

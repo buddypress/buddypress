@@ -3,7 +3,7 @@
  * BP REST: BP_REST_Group_Membership_Endpoint class
  *
  * @package BuddyPress
- * @since 5.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,14 +14,14 @@ defined( 'ABSPATH' ) || exit;
  * Use /groups/{group_id}/members
  * Use /groups/{group_id}/members/{user_id}
  *
- * @since 5.0.0
+ * @since 15.0.0
  */
 class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * Reuse some parts of the BP_REST_Groups_Endpoint class.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var BP_REST_Groups_Endpoint
 	 */
@@ -30,7 +30,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Reuse some parts of the BP_REST_Members_Endpoint class.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @var BP_REST_Members_Endpoint
 	 */
@@ -39,7 +39,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace        = bp_rest_namespace() . '/' . bp_rest_version();
@@ -51,7 +51,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -98,7 +98,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve group members.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response
@@ -128,7 +128,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -151,7 +151,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a list of group members are fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $members  Fetched group members.
 		 * @param BP_Groups_Group  $group    The group object.
@@ -168,7 +168,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	 *
 	 * We are using the same permissions check done on group access.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -200,7 +200,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the group members `get_items` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -211,7 +211,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Add member to a group.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -271,7 +271,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a member is added to a group via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_User          $user         The user.
 		 * @param BP_Groups_Member $group_member The group member object.
@@ -287,7 +287,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to join a group.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -339,7 +339,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the group members `create_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -350,7 +350,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Update user status on a group (add, remove, promote, demote or ban).
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -413,7 +413,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a group member status is updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_User          $user         The updated member.
 		 * @param BP_Groups_Member $group_member The group member object.
@@ -429,7 +429,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update a group member.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -505,7 +505,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the group members `update_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -516,7 +516,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete a group membership.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -553,7 +553,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a group member is deleted via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_User          $user     The updated member.
 		 * @param BP_Groups_Member $member   The group member object.
@@ -569,7 +569,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete a group member.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -647,7 +647,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the group members `delete_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -658,7 +658,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares group member data for return as an object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Groups_Member $group_member Group member object.
 	 * @param WP_REST_Request  $request      Full details about the request.
@@ -699,7 +699,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a group member value returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response $response      The response data.
 		 * @param WP_REST_Request  $request       Request used to generate the response.
@@ -711,7 +711,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Groups_Member $group_member Group member object.
 	 * @return array
@@ -736,7 +736,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter links prepared for the REST response.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array $          links         The prepared links of the REST response.
 		 * @param BP_Groups_Member $group_member Group member object.
@@ -747,7 +747,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * GET arguments for the endpoint's CREATABLE, EDITABLE & DELETABLE methods.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method Optional. HTTP method of the request.
 	 * @return array Endpoint arguments.
@@ -806,7 +806,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array $args Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -817,7 +817,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the group member schema, conforming to JSON Schema.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -891,7 +891,7 @@ class BP_REST_Group_Membership_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for collections of group memberships.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

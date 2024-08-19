@@ -3,7 +3,7 @@
  * BP_REST_Signup_Endpoint class
  *
  * @package BuddyPress
- * @since 6.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,14 +16,14 @@ defined( 'ABSPATH' ) || exit;
  * Use /signup/resend
  * Use /signup/activate/{activation_key}
  *
- * @since 6.0.0
+ * @since 15.0.0
  */
 class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -33,7 +33,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -132,7 +132,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve signups.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response
@@ -154,7 +154,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -177,7 +177,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a list of signups is fetched via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $signups   Fetched signups.
 		 * @param WP_REST_Response $response  The response data.
@@ -191,7 +191,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to signup items.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -218,7 +218,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the signup `get_items` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -229,7 +229,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve single signup.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -243,7 +243,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires before a signup is retrieved via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Signup         $signup    The signup object.
 		 * @param WP_REST_Response  $response  The response data.
@@ -257,7 +257,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to get a signup.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -296,7 +296,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the signup `get_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -307,7 +307,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Create signup.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -515,7 +515,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Allow plugins to add their signup meta specific to the BP REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $meta    The signup meta.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -570,13 +570,12 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 			bp_core_signup_send_validation_email( false, $signup->user_email, $signup->activation_key, $salutation );
 		}
 
-		$retval   = $this->prepare_item_for_response( $signup, $request );
-		$response = rest_ensure_response( $retval );
+		$response = $this->prepare_item_for_response( $signup, $request );
 
 		/**
 		 * Fires after a signup item is created via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Signup        $signup   The created signup.
 		 * @param WP_REST_Response $response The response data.
@@ -590,7 +589,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to create a signup.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true
@@ -600,7 +599,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the signup `create_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true   $value Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -611,7 +610,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete a signup.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -644,7 +643,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a signup is deleted via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Signup        $signup   The deleted signup.
 		 * @param WP_REST_Response $response The response data.
@@ -658,7 +657,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete a signup.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -669,7 +668,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the signup `delete_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -680,7 +679,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Activate a signup.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -709,7 +708,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a signup is activated via the REST API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Signup        $signup   The activated signup.
 		 * @param WP_REST_Response $response The response data.
@@ -723,7 +722,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to activate a signup.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -748,7 +747,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the signup `activate_item` permissions check.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -759,7 +758,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Resend the activation email.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -783,7 +782,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after an activation email was (re)sent via the REST API.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response $response The response data.
 		 * @param WP_REST_Request  $request  The request sent to the API.
@@ -796,7 +795,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to resend the activation email.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -818,7 +817,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the signup resend activation email permissions check.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -829,7 +828,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares signup to return as an object.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  BP_Signup       $signup  Signup object.
 	 * @param  WP_REST_Request $request Full data about the request.
@@ -888,7 +887,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the signup response returned from the API.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response  $response The response data.
 		 * @param WP_REST_Request   $request  Request used to generate the response.
@@ -940,7 +939,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get signup object.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param int|string $identifier Signup identifier.
 	 * @return BP_Signup|false
@@ -968,7 +967,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check a user password for the REST API.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $value The password submitted in the request.
 	 * @return string|WP_Error The sanitized password, if valid, otherwise an error.
@@ -990,7 +989,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Is it possible to signup with a blog?
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @return bool True if blog signup is allowed. False otherwise.
 	 */
@@ -1003,7 +1002,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get site's available locales.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array The list of available locales.
 	 */
@@ -1016,7 +1015,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Edit the type of the some properties for the CREATABLE & EDITABLE methods.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method HTTP method of the request. Default is WP_REST_Server::CREATABLE.
 	 * @return array Endpoint arguments.
@@ -1095,7 +1094,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 6.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array  $args   Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -1106,7 +1105,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the signup schema, conforming to JSON Schema.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -1239,7 +1238,7 @@ class BP_REST_Signup_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for collections.
 	 *
-	 * @since 6.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

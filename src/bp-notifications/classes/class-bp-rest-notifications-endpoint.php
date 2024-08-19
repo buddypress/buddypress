@@ -3,7 +3,7 @@
  * BP_REST_Notifications_Endpoint class
  *
  * @package BuddyPress
- * @since 5.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,14 +11,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notifications endpoints.
  *
- * @since 5.0.0
+ * @since 15.0.0
  */
 class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -28,7 +28,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -92,7 +92,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve notifications.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response
@@ -129,7 +129,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the query arguments for the request.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array           $args    Key value array of query var to query value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -151,7 +151,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after notifications are fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $notifications Fetched notifications.
 		 * @param WP_REST_Response $response      The response data.
@@ -165,7 +165,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to the notifications.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -184,7 +184,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the notifications `get_items` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -195,7 +195,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve a notification.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response
@@ -207,7 +207,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a notification is fetched via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Notifications_Notification $notification Fetched notification.
 		 * @param WP_REST_Response              $response     The response data.
@@ -221,7 +221,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to get information about a specific notification.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return true|WP_Error
@@ -262,7 +262,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the notifications `get_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -273,7 +273,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Create a notification.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -304,7 +304,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a notification is created via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Notifications_Notification  $notification The created notification.
 		 * @param WP_REST_Response               $response     The response data.
@@ -318,7 +318,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Checks if a given request has access to create a notification.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -329,7 +329,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the notifications `create_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -340,7 +340,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Update a notification.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -390,7 +390,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a notification is updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Notifications_Notification $notification The updated notification.
 		 * @param WP_REST_Response              $response     The response data.
@@ -404,7 +404,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update a notification.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error|bool
@@ -415,7 +415,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the notifications `update_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -426,7 +426,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete a notification.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -458,7 +458,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a notification is deleted via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Notifications_Notification $notification The deleted notification.
 		 * @param WP_REST_Response              $response     The response data.
@@ -472,7 +472,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete a notification.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
@@ -483,7 +483,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the notifications `delete_item` permissions check.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param true|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -494,7 +494,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares notification data to return as an object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Notifications_Notification $notification Notification object.
 	 * @param WP_REST_Request               $request      Full details about the request.
@@ -524,7 +524,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter a notification value returned from the API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response              $response     The response data.
 		 * @param WP_REST_Request               $request      Request used to generate the response.
@@ -536,7 +536,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare a notification for create or update.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return stdClass
@@ -597,7 +597,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters a notification before it is inserted or updated via the REST API.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param stdClass        $prepared_notification An object prepared for inserting or updating the database.
 		 * @param WP_REST_Request $request               Full details about the request.
@@ -608,7 +608,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Notifications_Notification $notification Notification item.
 	 * @return array
@@ -682,7 +682,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter links prepared for the REST response.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array                         $links        The prepared links of the REST response.
 		 * @param BP_Notifications_Notification $notification Notification object.
@@ -693,7 +693,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Can this user see the notification?
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param int $notification_id Notification ID.
 	 * @return bool
@@ -712,7 +712,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get a notification object.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param  int|WP_REST_Request $request Full details about the request or an integer.
 	 * @return BP_Notifications_Notification|string A notification object|Empty string.
@@ -732,7 +732,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Select the item schema arguments needed for the EDITABLE method.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method Optional. HTTP method of the request.
 	 * @return array Endpoint arguments.
@@ -756,7 +756,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 5.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array  $args   Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -767,7 +767,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the notification schema, conforming to JSON Schema.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -845,7 +845,7 @@ class BP_REST_Notifications_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for the notifications collections.
 	 *
-	 * @since 5.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */

@@ -3,7 +3,7 @@
  * BP_REST_Sitewide_Notices_Endpoint class
  *
  * @package BuddyPress
- * @since 9.0.0
+ * @since 15.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,14 +11,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Sitewide Notices endpoints.
  *
- * @since 9.0.0
+ * @since 15.0.0
  */
 class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 */
 	public function __construct() {
 		$this->namespace = bp_rest_namespace() . '/' . bp_rest_version();
@@ -28,7 +28,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Register the component routes.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 */
 	public function register_routes() {
 		register_rest_route(
@@ -100,7 +100,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Retrieve sitewide notices.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response
@@ -118,7 +118,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 			/**
 			 * Filter the query arguments for the request.
 			 *
-			 * @since 9.0.0
+			 * @since 15.0.0
 			 *
 			 * @param array           $args    Key value array of query var to query value.
 			 * @param WP_REST_Request $request The request sent to the API.
@@ -164,7 +164,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after notices are fetched via the REST API.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array            $notices  Fetched notices.
 		 * @param WP_REST_Response $response The response data.
@@ -178,7 +178,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request is allowed to get notices.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_Error|bool
@@ -204,7 +204,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the messages `get_items` permissions check.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param bool|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -215,7 +215,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get a single notice by ID.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_REST_Response
@@ -227,7 +227,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a sitewide notice is fetched via the REST API.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Notice $notice  Notice object.
 		 * @param WP_REST_Response   $retval  The response data.
@@ -241,7 +241,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request is allowed to get a sitewide notice.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full data about the request.
 	 * @return WP_Error|bool
@@ -282,7 +282,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the sitewide notices `get_item` permissions check.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param bool|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -293,7 +293,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Create a sitewide notice.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -326,7 +326,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a sitewide notice is created via the REST API.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Notice $notice   Notice object.
 		 * @param WP_REST_Response   $response The response data.
@@ -340,7 +340,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to create a notice.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|bool
@@ -351,7 +351,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the sitewide notices `create_item` permissions check.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param bool|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -362,7 +362,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Update a notice.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -402,7 +402,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a sitewide notice is updated via the REST API.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Notice $updated_notice The notice object.
 		 * @param WP_REST_Response   $response       The response data.
@@ -416,7 +416,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to update a notice.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|bool
@@ -427,7 +427,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the sitewide notices `update_item` permissions check.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param bool|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -438,7 +438,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Dismisses the currently active notice for the current user.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -475,7 +475,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a sitewide notice is dismissed via the REST API.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Notice  $notice   Notice object.
 		 * @param WP_REST_Response    $response The response data.
@@ -489,7 +489,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to dismiss the current notice.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|bool
@@ -510,7 +510,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the sitewide notices `dismiss_notice` permissions check.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param bool|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -521,7 +521,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Delete a sitewide notice.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error
@@ -564,7 +564,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Fires after a sitewide notice is deleted via the REST API.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Notice $notice  Notice object.
 		 * @param WP_REST_Response   $response The response data.
@@ -580,7 +580,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	 * Granular filters are provided in the edit_, create_, and delete_
 	 * permissions checks.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|bool
@@ -601,7 +601,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the notice `manage_item` permissions check.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param bool|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -612,7 +612,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Check if a given request has access to delete a notice.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_Error|bool
@@ -623,7 +623,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter the sitewide notices `create_item` permissions check.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param bool|WP_Error   $retval  Returned value.
 		 * @param WP_REST_Request $request The request sent to the API.
@@ -634,7 +634,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare links for the request.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Messages_Notice $notice Notice object.
 	 * @return array
@@ -655,7 +655,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter links prepared for the REST response.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array              $links   The prepared links of the REST response.
 		 * @param BP_Messages_Notice $notice  Notice object.
@@ -666,7 +666,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepares sitewide notice data for return as an object.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param BP_Messages_Notice $notice  The notice object.
 	 * @param WP_REST_Request    $request Full details about the request.
@@ -699,7 +699,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filter sitewide notice data returned from the API.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param WP_REST_Response   $response Response generated by the request.
 		 * @param WP_REST_Request    $request  Request used to generate the response.
@@ -711,7 +711,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get sitewide notice object.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param int $id Notice ID.
 	 * @return BP_Messages_Notice
@@ -729,7 +729,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Select the item schema arguments needed for the CREATABLE, EDITABLE and DELETABLE methods.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param string $method Optional. HTTP method of the request.
 	 * @return array Endpoint arguments.
@@ -777,7 +777,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the method query arguments.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array $args Query arguments.
 		 * @param string $method HTTP method of the request.
@@ -788,7 +788,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the message schema, conforming to JSON Schema.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -878,7 +878,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the notice schema.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array $schema The endpoint schema.
 		 */
@@ -888,7 +888,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Get the query params for sitewide notices collections.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @return array
 	 */
@@ -899,7 +899,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters the collection query params.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param array $params Query params.
 		 */
@@ -909,7 +909,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 	/**
 	 * Prepare a notice for creation or update.
 	 *
-	 * @since 9.0.0
+	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return BP_Messages_Notice|WP_Error Object or WP_Error.
@@ -956,7 +956,7 @@ class BP_REST_Sitewide_Notices_Endpoint extends WP_REST_Controller {
 		/**
 		 * Filters a notice before it is updated via the REST API.
 		 *
-		 * @since 9.0.0
+		 * @since 15.0.0
 		 *
 		 * @param BP_Messages_Notice $prepared_item A BP_Messages_Notice object prepared for inserting or updating the database.
 		 * @param WP_REST_Request $request Request object.
