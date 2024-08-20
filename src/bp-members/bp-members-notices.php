@@ -249,7 +249,7 @@ function bp_members_save_notice( $args = array() ) {
 			'target'   => 'community',
 			'priority' => 2,
 			'date'     => '',
-			'url'     => '',
+			'url'      => '',
 			'text'     => '',
 			'meta'     => array(),
 		)
