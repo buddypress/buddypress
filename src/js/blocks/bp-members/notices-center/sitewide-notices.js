@@ -32,6 +32,11 @@ class bpNoticesCenter {
 			event.preventDefault();
 
 			const noticeId = parseInt( event.target.dataset.bpDismissId, 10 );
+			const noticeStatus = document.querySelector( 'article#notice-' + noticeId + ' .bp-notice-request-status' );
+
+			// Clean potential notice errors.
+			noticeStatus.classList.remove( 'error' );
+			noticeStatus.querySelector( 'p' ).innerHTML = '';
 
 			// Send a notice request to dismiss the notice.
 			noticesRequest( { action: 'dismiss/' + noticeId, method: 'POST' } ).then( result => {
@@ -44,6 +49,9 @@ class bpNoticesCenter {
 					const wpAdminCount = this.bubble.querySelector( '.count' );
 					wpAdminCount.innerHTML = parseInt( wpAdminCount.innerHTML, 10 ) - 1;
 				}
+			} ).catch( error => {
+				noticeStatus.querySelector( 'p' ).innerHTML = error;
+				noticeStatus.classList.add( 'error' );
 			} );
 		}
 	}

@@ -18,7 +18,12 @@ const noticesRequest = async( options ) => {
 			'X-WP-Nonce' : nonce,
 		}
 	} );
+
 	const result = await response.json();
+	if ( 200 !== response.status && result.message ) {
+		throw new Error( result.message );
+	}
+
 	return result;
 }
 

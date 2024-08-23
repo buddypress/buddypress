@@ -216,6 +216,26 @@ body.admin-bar aside#bp-notices-container .bp-notice-header h3 {
 	font-weight: 800;
 }
 
+body.admin-bar aside#bp-notices-container .bp-notice-request-status {
+	display: none;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-request-status.error {
+	display: block;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-left-color: #d63638;
+	border-left-width: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	margin: 5px 15px 2px;
+	padding: 1px 12px;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-request-status.error p {
+	margin: 0.5em 0;
+	padding: 2px;
+}
+
 body.admin-bar aside#bp-notices-container .bp-notice-header h3 {
 	font-size: 1.25em;
 	font-weight: 600;
