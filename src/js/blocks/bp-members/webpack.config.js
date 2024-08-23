@@ -10,6 +10,13 @@ module.exports = {
     ...defaultConfig,
 	...{
         entry: {
+			'notices-center/controller': {
+				import: './src/js/blocks/bp-members/notices-center/notices-controller.js',
+				library: {
+					name: [ 'bp', 'noticesController' ],
+					type: 'window',
+				},
+			},
             'active-members/index': './src/js/blocks/bp-members/active-members/active-members.js',
 			'dynamic-members/index': './src/js/blocks/bp-members/dynamic-members/dynamic-members.js',
 			'dynamic-widget/index': './src/js/blocks/bp-members/dynamic-widget/dynamic-members.js',
@@ -38,6 +45,8 @@ module.exports = {
 					return [ 'bp', 'blockData' ];
 				} else if ( request === '@buddypress/dynamic-widget-block' ) {
 					return [ 'bp', 'dynamicWidgetBlock' ];
+				} else if ( request === '@buddypress/notices-controller' ) {
+					return [ 'bp', 'noticesController' ];
 				}
 			},
 			requestToHandle( request ) {
@@ -47,6 +56,8 @@ module.exports = {
 					return 'bp-block-data';
 				} else if ( request === '@buddypress/dynamic-widget-block' ) {
 					return 'bp-dynamic-widget-block';
+				}  else if ( request === '@buddypress/notices-controller' ) {
+					return 'bp-notices-controller';
 				}
 			}
 		} )

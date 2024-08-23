@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @return array Data about the scripts to register.
  */
 function bp_members_register_scripts( $scripts = array() ) {
-	$path         = sprintf( '/%1$s/%2$s/sitewide-notices/', bp_rest_namespace(), bp_rest_version() );
+	$path         = sprintf( '/%1$s/%2$s/notices/', bp_rest_namespace(), bp_rest_version() );
 	$notices_data = array(
 		'path'        => ltrim( $path, '/' ),
 		'dismissPath' => ltrim( $path, '/' ) . 'dismiss',
@@ -57,6 +57,16 @@ function bp_members_register_scripts( $scripts = array() ) {
 		);
 	}
 
+	$scripts['bp-notices-controller'] = array(
+		'file'         => plugins_url( 'blocks/notices-center/controller.js', __FILE__ ),
+		'dependencies' => array(),
+		'footer'       => true,
+		'localize'     => array(
+			'name' => 'bpNoticesCenterSettings',
+			'data' => $notices_data,
+		),
+	);
+
 	$nc_asset = array(
 		'dependencies' => array(),
 		'version'      => ''
@@ -72,10 +82,6 @@ function bp_members_register_scripts( $scripts = array() ) {
 		'dependencies' => $nc_asset['dependencies'],
 		'version'      => $nc_asset['version'],
 		'footer'       => true,
-		'localize'     => array(
-			'name' => 'bpNoticesCenterSettings',
-			'data' => $notices_data,
-		),
 	);
 
 	return $scripts;
