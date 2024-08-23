@@ -4,17 +4,17 @@
 import domReady from '@wordpress/dom-ready';
 
 /**
+ * BuddyPress dependencies.
+ */
+import noticesRequest from '@buddypress/notices-controller';
+
+/**
  * Notices center class.
  *
  * @since 15.0.0
  */
 class bpNoticesCenter {
-	constructor( settings ) {
-		const { path, dismissPath, root, nonce } = settings;
-		this.path = path;
-		this.dismissPath = dismissPath;
-		this.root = root;
-		this.nonce = nonce;
+	constructor() {
 		this.container = document.querySelector( '#bp-notices-container' );
 		this.bubble = document.querySelector( '#wp-admin-bar-bp-notifications' );
 	}
@@ -29,12 +29,22 @@ class bpNoticesCenter {
 	catchEvents( event ) {
 		// Use the BP REST API to dismiss the notice.
 		if ( event.target.dataset.bpDismissId ) {
-			//event.preventDefault();
+			event.preventDefault();
 
-			/*
-			 * @todo: Dismissing notices should be done using the BP REST API.
-			 * The corresponding controller needs to be updated.
-			 */
+			const noticeId = parseInt( event.target.dataset.bpDismissId, 10 );
+
+			// Send a notice request to dismiss the notice.
+			noticesRequest( { action: 'dismiss/' + noticeId, method: 'POST' } ).then( result => {
+				if ( true === result.dismissed ) {
+					event.target.closest( 'article#notice-' + noticeId ).remove();
+
+					/*
+					 * @todo: update the pagination and total count.
+					 */
+					const wpAdminCount = this.bubble.querySelector( '.count' );
+					wpAdminCount.innerHTML = parseInt( wpAdminCount.innerHTML, 10 ) - 1;
+				}
+			} );
 		}
 	}
 
@@ -83,8 +93,7 @@ class bpNoticesCenter {
 }
 
 domReady( function() {
-	const settings = window.bpNoticesCenterSettings || {};
-	const bpManageNotices = new bpNoticesCenter( settings );
+	const bpManageNotices = new bpNoticesCenter();
 
 	bpManageNotices.start();
 } );
