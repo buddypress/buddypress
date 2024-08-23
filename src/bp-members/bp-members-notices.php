@@ -1246,6 +1246,7 @@ function bp_render_notices_center() {
 							<?php foreach ( $notices as $notice ) : ?>
 								<article id="notice-<?php echo esc_attr( $notice->id ); ?>" class="notice-item <?php bp_notice_item_class( $notice ); ?>">
 									<div class="notice-item-inner">
+										<div class="bp-notice-request-status"><p></p></div>
 										<header class="bp-notice-header">
 											<h3><?php bp_notice_title( $notice ); ?></h2>
 										</header>
