@@ -54,6 +54,12 @@
 		"parent": null
 	},
 	{
+		"title": "Reporting Bugs",
+		"slug": "report-bugs",
+		"markdown_source": "../contributor/code/report-bugs.md",
+		"parent": null
+	},
+	{
 		"title": "Contribute to Support",
 		"slug": "contribute-to-support",
 		"markdown_source": "../contributor/support/README.md",
