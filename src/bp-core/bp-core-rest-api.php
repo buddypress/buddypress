@@ -56,36 +56,6 @@ function bp_rest_api_is_available() {
 }
 
 /**
- * Register the jQuery.ajax wrapper for BP REST API requests.
- *
- * @since 5.0.0
- * @deprecated 10.0.0
- */
-function bp_rest_api_register_request_script() {
-	if ( ! bp_rest_api_is_available() ) {
-		return;
-	}
-
-	wp_register_script(
-		'bp-api-request',
-		sprintf( '%1$sbp-core/js/bp-api-request%2$s.js', buddypress()->plugin_url, bp_core_get_minified_asset_suffix() ),
-		array( 'jquery', 'wp-api-request' ),
-		bp_get_version(),
-		true
-	);
-
-	wp_localize_script(
-		'bp-api-request',
-		'bpApiSettings',
-		array(
-			'unexpectedError'   => __( 'An unexpected error occurred. Please try again.', 'buddypress' ),
-			'deprecatedWarning' => __( 'The bp.apiRequest function is deprecated since BuddyPress 10.0.0, please use wp.apiRequest instead.', 'buddypress' ),
-		)
-	);
-}
-add_action( 'bp_init', 'bp_rest_api_register_request_script' );
-
-/**
  * BuddyPress REST API namespace.
  *
  * @since 5.0.0
@@ -391,3 +361,64 @@ function bp_rest_register_field( $component_id, $attribute, $args = array(), $ob
 	// Check it has been registered.
 	return isset( $registered_fields[ $attribute ] );
 }
+
+/**
+ * Filter the WP REST API response to return a 404 if the request is for the V1 of the BP REST API.
+ *
+ * @param mixed           $result Response to replace the requested version with. Can be anything
+ *                                a normal endpoint can return, or null to not hijack the request.
+ * @param WP_REST_Server  $server Server instance.
+ * @param WP_REST_Request $request Request used to generate the response.
+ *
+ * @return mixed
+ */
+function bp_rest_api_v1_dispatch_error( $result, $server, $request ) {
+
+	// Bail early if the BP REST plugin is active.
+	if ( bp_rest_is_plugin_active() ) {
+		return $result;
+	}
+
+	$route = $request->get_route();
+
+	if ( empty( $route ) || ! str_contains( $route, 'buddypress/v1' ) ) {
+		return $result;
+	}
+
+	return new WP_Error(
+		'rest_no_route',
+		__( 'The V1 of the BuddyPress REST API is no longer supported, use the V2 instead.', 'buddypress' ),
+		array( 'status' => 404 )
+	);
+}
+add_filter( 'rest_pre_dispatch', 'bp_rest_api_v1_dispatch_error', 10, 3 );
+
+/**
+ * Register the jQuery.ajax wrapper for BP REST API requests.
+ *
+ * @since 5.0.0
+ * @deprecated 10.0.0
+ */
+function bp_rest_api_register_request_script() {
+	if ( ! bp_rest_api_is_available() ) {
+		return;
+	}
+
+	wp_register_script(
+		'bp-api-request',
+		sprintf( '%1$sbp-core/js/bp-api-request%2$s.js', buddypress()->plugin_url, bp_core_get_minified_asset_suffix() ),
+		array( 'jquery', 'wp-api-request' ),
+		bp_get_version(),
+		true
+	);
+
+	wp_localize_script(
+		'bp-api-request',
+		'bpApiSettings',
+		array(
+			'unexpectedError'   => __( 'An unexpected error occurred. Please try again.', 'buddypress' ),
+			'deprecatedWarning' => __( 'The bp.apiRequest function is deprecated since BuddyPress 10.0.0, please use wp.apiRequest instead.', 'buddypress' ),
+		)
+	);
+}
+add_action( 'bp_init', 'bp_rest_api_register_request_script' );

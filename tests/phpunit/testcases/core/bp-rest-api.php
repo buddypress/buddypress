@@ -2,6 +2,9 @@
 /**
  * @group core
  */
+function bp_rest() {
+	return true;
+}
 
 class BP_Tests_REST_API extends BP_UnitTestCase {
 
@@ -9,10 +12,6 @@ class BP_Tests_REST_API extends BP_UnitTestCase {
 		$this->assertFalse( bp_rest_is_plugin_active() );
 		$this->assertTrue( bp_rest_in_buddypress() );
 		$this->assertTrue( bp_rest_api_is_available() );
-
-		function bp_rest() {
-			return true;
-		}
 
 		add_action( 'bp_rest_api_init', 'bp_rest' );
 
@@ -73,13 +72,24 @@ class BP_Tests_REST_API extends BP_UnitTestCase {
 		remove_filter( 'bp_rest_version', $callback );
 	}
 
-	public function test_rest_request_to_v1() {
-		$request = new WP_REST_Request( 'GET', '/buddypress/v1/members/150' );
-		$request->set_param( 'context', 'view' );
-		$response = rest_get_server()->dispatch( $request );
+	public function test_v1_rest_request_error_message() {
+		$endpoint = '/buddypress/v1/members/150';
+		$response = rest_do_request( $endpoint );
 		$data     = $response->get_data();
 
 		$this->assertEquals( 404, $response->get_status(), 'v1 endpoint should return 404 since it is not available.' );
+		$this->assertSame( $data['message'], 'The V1 of the BuddyPress REST API is no longer supported, use the V2 instead.' );
+
+		add_action( 'bp_rest_api_init', 'bp_rest' );
+
+		$this->assertTrue( bp_rest_is_plugin_active() );
+
+		$response = rest_do_request( $endpoint );
+		$data     = $response->get_data();
+
+		$this->assertEquals( 404, $response->get_status() );
 		$this->assertSame( $data['message'], 'No route was found matching the URL and request method.' );
+
+		remove_action( 'bp_rest_api_init', 'bp_rest' );
 	}
 }
