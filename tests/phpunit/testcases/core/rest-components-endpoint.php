@@ -29,9 +29,9 @@ class BP_Test_REST_Components_Endpoint extends BP_Test_REST_Controller_Testcase 
 		$this->assertEquals( 200, $response->get_status() );
 
 		$all_data = $response->get_data();
-		$this->assertNotEmpty( $all_data );
 
-		$this->assertTrue( 10 === count( $all_data ) );
+		$this->assertNotEmpty( $all_data );
+		$this->assertCount( 10, $all_data );
 
 		$component = $this->endpoint->get_component_info( $all_data[0]['name'] );
 		$this->check_component_data( $component, $all_data[0] );
@@ -44,10 +44,9 @@ class BP_Test_REST_Components_Endpoint extends BP_Test_REST_Controller_Testcase 
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$request->set_query_params(
-			array(
-				'per_page' => 5,
-			)
+			array( 'per_page' => 5 )
 		);
 		$response = $this->server->dispatch( $request );
 
@@ -60,7 +59,6 @@ class BP_Test_REST_Components_Endpoint extends BP_Test_REST_Controller_Testcase 
 		$all_data = $response->get_data();
 
 		$this->assertNotEmpty( $all_data );
-
 		$this->assertCount( 10, $all_data );
 	}
 

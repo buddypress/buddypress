@@ -52,7 +52,7 @@ function bp_rest_api_is_available() {
 	 *
 	 * @param bool $api_is_available True if the BP REST API is available. False otherwise.
 	 */
-	return apply_filters( 'bp_rest_api_is_available', bp_rest_in_buddypress() || bp_rest_is_plugin_active() );
+	return apply_filters( 'bp_rest_api_is_available', ( bp_rest_in_buddypress() || bp_rest_is_plugin_active() ) );
 }
 
 /**
@@ -218,7 +218,7 @@ function bp_rest_sanitize_member_types( $value ) {
  * @since 5.0.0
  *
  * @param  mixed $value Mixed value.
- * @return WP_Error|bool
+ * @return WP_Error|true
  */
 function bp_rest_validate_member_types( $value ) {
 	if ( empty( $value ) ) {

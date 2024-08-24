@@ -806,7 +806,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 		}
 
 		/**
-		 * Filters an user object before it is inserted or updated via the REST API.
+		 * Filters a user object before it is inserted or updated via the REST API.
 		 *
 		 * @since 15.0.0
 		 *
@@ -869,8 +869,8 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_User $user User object.
-	 * @param  string  $action The action to perform (update or delete).
+	 * @param WP_User $user User object.
+	 * @param string  $action The action to perform (update or delete).
 	 * @return bool
 	 */
 	protected function can_manage_member( $user, $action = 'delete' ) {
@@ -887,7 +887,7 @@ class BP_REST_Members_Endpoint extends WP_REST_Users_Controller {
 	 * Updates the values of additional fields added to a data object.
 	 *
 	 * This function makes sure updating the field value thanks to the `id` property of
-	 * the created/updated object type is consistent accross BuddyPress components.
+	 * the created/updated object type is consistent across BuddyPress components.
 	 *
 	 * @since 15.0.0
 	 *
