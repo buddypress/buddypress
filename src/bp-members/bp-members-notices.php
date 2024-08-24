@@ -1270,11 +1270,19 @@ function bp_render_notices_center() {
 												?>
 												<span class="bp-notice-current-page">
 													<?php
+													$priority_pagination = sprintf(
+														'<span class="priority-pagination">%1$d/%2$d</span>',
+														intval( $current_num ),
+														intval( $top_notices_count )
+													);
+
 													printf(
-														/* translators: 1: the current number notice. 2: the total number of notices. */
-														_n( 'Top priority notice: %1$s/%2$s', 'Top priority notices: %1$s/%2$s', $top_notices_count, 'buddypress' ),
-														$current_num,
-														$top_notices_count
+														esc_html(
+															/* translators: %s: the priority pagination. */
+															_n( 'Top priority notice: %s', 'Top priority notices: %s', $top_notices_count, 'buddypress' ),
+														),
+														$priority_pagination,
+														$priority_pagination
 													);
 													?>
 												</span>
@@ -1291,7 +1299,16 @@ function bp_render_notices_center() {
 												<?php if ( $top_notices_count < $all_notices_count ) : ?>
 													<span class="bp-notice-all-pages">
 														<a href="<?php bp_member_all_notices_url(); ?>">
-															<?php printf( esc_html__( 'View all (%d)', 'buddypress' ), esc_html( $all_notices_count ) ); ?>
+															<?php
+															printf(
+																/* translators: %d is the total notices count. */
+																esc_html__( 'View all (%s)', 'buddypress' ),
+																sprintf(
+																	'<span class="total-notices-count">%d</span>',
+																	intval(  $all_notices_count )
+																)
+															);
+															?>
 														</a>
 													</span>
 												<?php endif; ?>
