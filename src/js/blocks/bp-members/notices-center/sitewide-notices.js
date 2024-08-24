@@ -29,30 +29,78 @@ class bpNoticesCenter {
 	catchEvents( event ) {
 		// Use the BP REST API to dismiss the notice.
 		if ( event.target.dataset.bpDismissId ) {
-			event.preventDefault();
+			const noticeContainers = document.querySelectorAll( '.notice-item' );
 
-			const noticeId = parseInt( event.target.dataset.bpDismissId, 10 );
-			const noticeStatus = document.querySelector( 'article#notice-' + noticeId + ' .bp-notice-request-status' );
+			// When it's not the last displayed notice, do not refresh the page.
+			if ( 1 < noticeContainers.length ) {
+				event.preventDefault();
 
-			// Clean potential notice errors.
-			noticeStatus.classList.remove( 'error' );
-			noticeStatus.querySelector( 'p' ).innerHTML = '';
+				// Prepare pagination update.
+				let noticesPagination = [];
+				noticeContainers.forEach( ( container ) => {
+					const noticePagination = {
+						id: parseInt( container.getAttribute( 'id' ).replace( 'notice-', '' ), 10 ),
+						prevLink: container.querySelector( '.bp-notice-prev-page a' ),
+						nextLink: container.querySelector( '.bp-notice-next-page a' ),
+						priorityPagination: container.querySelector( '.priority-pagination' ),
+						totalCount: container.querySelector( '.total-notices-count' ),
+					}
 
-			// Send a notice request to dismiss the notice.
-			noticesRequest( { action: 'dismiss/' + noticeId, method: 'POST' } ).then( result => {
-				if ( true === result.dismissed ) {
-					event.target.closest( 'article#notice-' + noticeId ).remove();
+					noticesPagination.push( noticePagination );
+				} );
 
-					/*
-					 * @todo: update the pagination and total count.
-					 */
-					const wpAdminCount = this.bubble.querySelector( '.count' );
-					wpAdminCount.innerHTML = parseInt( wpAdminCount.innerHTML, 10 ) - 1;
-				}
-			} ).catch( error => {
-				noticeStatus.querySelector( 'p' ).innerHTML = error;
-				noticeStatus.classList.add( 'error' );
-			} );
+				const noticeId = parseInt( event.target.dataset.bpDismissId, 10 );
+				const noticeStatus = document.querySelector( 'article#notice-' + noticeId + ' .bp-notice-request-status' );
+
+				// Clean potential notice errors.
+				noticeStatus.classList.remove( 'error' );
+				noticeStatus.querySelector( 'p' ).innerHTML = '';
+
+				// Send a notice request to dismiss the notice.
+				noticesRequest( { action: 'dismiss/' + noticeId, method: 'POST' } ).then( result => {
+					if ( true === result.dismissed ) {
+						event.target.closest( 'article#notice-' + noticeId ).remove();
+
+						// Update WP Admin Bar Notices count.
+						const wpAdminCount = this.bubble.querySelector( '.count' );
+						wpAdminCount.innerHTML = parseInt( wpAdminCount.innerHTML, 10 ) - 1;
+
+						// Update pagination.
+						const noticesPaginationIndex = noticesPagination.findIndex( ( { id } ) => id === noticeId );
+						if ( -1 !== noticesPaginationIndex ) {
+							noticesPagination.splice( noticesPaginationIndex, 1 );
+							noticesPagination.forEach( ( pagination, paginationIndex ) => {
+								if ( 0 === paginationIndex && null !== pagination.prevLink ) {
+									pagination.prevLink.remove();
+									noticesPagination[ paginationIndex ]['prevLink'] = null;
+								} else if ( pagination.prevLink ) {
+									pagination.prevLink.setAttribute( 'href', '#notice-' + noticesPagination[ paginationIndex - 1 ]['id'] );
+									noticesPagination[ paginationIndex ]['prevLink'] = pagination.prevLink;
+								}
+
+								if ( noticesPagination.length - 1 === paginationIndex && null !== pagination.nextLink ) {
+									pagination.nextLink.remove();
+									noticesPagination[ paginationIndex ]['nextLink'] = null;
+								} else if ( pagination.nextLink ) {
+									pagination.nextLink.setAttribute( 'href', '#notice-' + noticesPagination[ paginationIndex + 1 ]['id'] );
+									noticesPagination[ paginationIndex ]['nextLink'] = pagination.nextLink;
+								}
+
+								pagination.priorityPagination.innerHTML = paginationIndex + 1 + '/' + noticesPagination.length;
+								noticesPagination[ paginationIndex ]['priorityPagination'] = pagination.priorityPagination;
+
+								if ( pagination.totalCount ) {
+									pagination.totalCount.innerHTML = parseInt( pagination.totalCount.innerHTML, 10 ) - 1;
+									noticesPagination[ paginationIndex ]['totalCount'] = pagination.totalCount;
+								}
+							} );
+						}
+					}
+				} ).catch( error => {
+					noticeStatus.querySelector( 'p' ).innerHTML = error;
+					noticeStatus.classList.add( 'error' );
+				} );
+			}
 		}
 	}
 
