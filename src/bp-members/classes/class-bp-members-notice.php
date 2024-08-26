@@ -405,7 +405,10 @@ class BP_Members_Notice {
 		);
 
 		// Are we trying to get the first active notice.
-		$is_first_active = 1 === $r['pag_num'] && 1 === $r['pag_page'];
+		$is_first_active = 1 === $r['pag_num'] && 1 === $r['pag_page'] && 'first_active' === $r['type'];
+		if ( $is_first_active ) {
+			$r['type'] = 'active';
+		}
 
 		if ( ! $r['meta_query'] && $r['user_id'] && true === $r['dismissed'] ) {
 			$r['meta_query'] = array(
@@ -650,6 +653,7 @@ class BP_Members_Notice {
 					'user_id'  => $user_id,
 					'pag_page' => 1,
 					'pag_num'  => 1,
+					'type'     => 'first_active',
 					'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
 				)
 			);

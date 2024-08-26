@@ -142,11 +142,11 @@ class BP_Members_Notices_Admin {
 			);
 
 			if ( bp_members_save_notice( $notice ) ) {
-				$redirect_to = add_query_arg( 'success', 'create', $this->url );
+				$redirect_to = add_query_arg( 'bp-success', 'create', $this->url );
 
 			// Notice could not be sent.
 			} else {
-				$redirect_to = add_query_arg( 'error', 'create', $this->url );
+				$redirect_to = add_query_arg( 'bp-error', 'create', $this->url );
 			}
 		}
 
@@ -186,11 +186,11 @@ class BP_Members_Notices_Admin {
 					break;
 			}
 			if ( $success ) {
-				$redirect_to = add_query_arg( 'success', 'update', $this->url );
+				$redirect_to = add_query_arg( 'bp-success', 'update', $this->url );
 
 			// Notice could not be updated.
 			} else {
-				$redirect_to = add_query_arg( 'error', 'update', $this->url );
+				$redirect_to = add_query_arg( 'bp-error', 'update', $this->url );
 			}
 		}
 
@@ -341,18 +341,18 @@ class BP_Members_Notices_Admin {
 			<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Member Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
 			<hr class="wp-header-end">
 
-			<?php if ( isset( $_GET['success'] ) || isset( $_GET['error'] ) ) : ?>
-				<div id="message" class="<?php echo isset( $_GET['success'] ) ? 'updated' : 'error'; ?> notice is-dismissible">
+			<?php if ( isset( $_GET['bp-success'] ) || isset( $_GET['bp-error'] ) ) : ?>
+				<div id="message" class="<?php echo isset( $_GET['bp-success'] ) ? 'updated' : 'error'; ?> notice is-dismissible">
 					<p>
 						<?php
-						if ( isset( $_GET['error'] ) ) {
-							if ( 'create' === $_GET['error'] ) {
+						if ( isset( $_GET['bp-error'] ) ) {
+							if ( 'create' === $_GET['bp-error'] ) {
 								esc_html_e( 'Notice was not created. Please try again.', 'buddypress' );
 							} else {
 								esc_html_e( 'Notice was not updated. Please try again.', 'buddypress' );
 							}
 						} else {
-							if ( 'create' === $_GET['success'] ) {
+							if ( 'create' === $_GET['bp-success'] ) {
 								esc_html_e( 'Notice successfully created.', 'buddypress' );
 							} else {
 								esc_html_e( 'Notice successfully updated.', 'buddypress' );
