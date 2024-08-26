@@ -135,7 +135,7 @@ function bp_activity_find_mentions( $content ) {
  */
 function bp_activity_clear_new_mentions( $user_id ) {
 	bp_delete_user_meta( $user_id, 'bp_new_mention_count' );
-	bp_delete_user_meta( $user_id, 'bp_new_mentions'      );
+	bp_delete_user_meta( $user_id, 'bp_new_mentions' );
 
 	/**
 	 * Fires once mentions has been reset for a given user.
@@ -169,7 +169,7 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 	}
 
 	// Get activity object.
-	$activity  = new BP_Activity_Activity( $activity_id );
+	$activity = new BP_Activity_Activity( $activity_id );
 
 	// Try to find mentions.
 	$usernames = bp_activity_find_mentions( wp_strip_all_tags( $activity->content ) );
@@ -206,7 +206,7 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 
 	// Adjust the mention list and count for the member.
 	$new_mention_count = (int) bp_get_user_meta( $user_id, 'bp_new_mention_count', true );
-	$new_mentions      =       bp_get_user_meta( $user_id, 'bp_new_mentions',      true );
+	$new_mentions      = bp_get_user_meta( $user_id, 'bp_new_mentions', true );
 
 	// Make sure new mentions is an array.
 	if ( empty( $new_mentions ) ) {
@@ -214,18 +214,18 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 	}
 
 	switch ( $action ) {
-		case 'delete' :
+		case 'delete':
 			$key = array_search( $activity_id, $new_mentions );
 
 			if ( $key !== false ) {
-				unset( $new_mentions[$key] );
+				unset( $new_mentions[ $key ] );
 			}
 
 			break;
 
-		case 'add' :
-		default :
-			if ( !in_array( $activity_id, $new_mentions ) ) {
+		case 'add':
+		default:
+			if ( ! in_array( $activity_id, $new_mentions ) ) {
 				$new_mentions[] = (int) $activity_id;
 			}
 
@@ -237,7 +237,7 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 
 	// Resave the user_meta.
 	bp_update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count );
-	bp_update_user_meta( $user_id, 'bp_new_mentions',      $new_mentions );
+	bp_update_user_meta( $user_id, 'bp_new_mentions', $new_mentions );
 
 	return true;
 }
@@ -349,7 +349,7 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
 
 	// Set activity action.
 	if ( ! isset( $bp->activity->actions ) || ! is_object( $bp->activity->actions ) ) {
-		$bp->activity->actions = new stdClass;
+		$bp->activity->actions = new stdClass();
 	}
 
 	// Verify callback.
@@ -358,7 +358,7 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
 	}
 
 	if ( ! isset( $bp->activity->actions->{$component_id} ) || ! is_object( $bp->activity->actions->{$component_id} ) ) {
-		$bp->activity->actions->{$component_id} = new stdClass;
+		$bp->activity->actions->{$component_id} = new stdClass();
 	}
 
 	/**
@@ -375,21 +375,30 @@ function bp_activity_set_action( $component_id, $type, $description, $format_cal
 	 * @param array    $context         Activity stream contexts where the filter should appear. 'activity', 'member',
 	 *                                  'member_groups', 'group'.
 	 */
-	$bp->activity->actions->{$component_id}->{$type} = apply_filters( 'bp_activity_set_action', array(
-		'key'             => $type,
-		'value'           => $description,
-		'format_callback' => $format_callback,
-		'label'           => $label,
-		'context'         => $context,
-		'position'        => $position,
-	), $component_id, $type, $description, $format_callback, $label, $context );
+	$bp->activity->actions->{$component_id}->{$type} = apply_filters(
+		'bp_activity_set_action',
+		array(
+			'key'             => $type,
+			'value'           => $description,
+			'format_callback' => $format_callback,
+			'label'           => $label,
+			'context'         => $context,
+			'position'        => $position,
+		),
+		$component_id,
+		$type,
+		$description,
+		$format_callback,
+		$label,
+		$context
+	);
 
 	// Sort the actions of the affected component.
 	$action_array = (array) $bp->activity->actions->{$component_id};
 	$action_array = bp_sort_by_key( $action_array, 'position', 'num' );
 
 	// Restore keys.
-	$bp->activity->actions->{$component_id} = new stdClass;
+	$bp->activity->actions->{$component_id} = new stdClass();
 	foreach ( $action_array as $key_ordered ) {
 		$bp->activity->actions->{$component_id}->{$key_ordered['key']} = $key_ordered;
 	}
@@ -447,7 +456,7 @@ function bp_activity_set_post_type_tracking_args( $post_type = '', $args = array
 		'bp_activity_comments_admin_filter',
 		'bp_activity_comments_front_filter',
 		'bp_activity_new_comment',
-		'bp_activity_new_comment_ms'
+		'bp_activity_new_comment_ms',
 	);
 
 	// Labels are loaded into the post type object.
@@ -619,8 +628,7 @@ function bp_activity_get_post_types_tracking_args() {
 
 			$post_types_tracking_args[ $track_post_type->action_id ] = $track_post_type;
 		}
-
-	}
+}
 
 	/**
 	 * Filters tracking arguments for all post types.
@@ -706,7 +714,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		 *
 		 * eg. 'new_blog_post' and 'new_blog_comment' will both return true.
 		 */
-		case 'post-type-comment-tracking' :
+		case 'post-type-comment-tracking':
 			// Set the activity track global if not set yet.
 			if ( empty( $bp->activity->track ) ) {
 				$bp->activity->track = bp_activity_get_post_types_tracking_args();
@@ -722,7 +730,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		 *
 		 * eg. 'new_blog_post' will return true; 'new_blog_comment' will return false.
 		 */
-		case 'post-type-comment-reply' :
+		case 'post-type-comment-reply':
 			// Set the activity track global if not set yet.
 			if ( empty( $bp->activity->track ) ) {
 				$bp->activity->track = bp_activity_get_post_types_tracking_args();
@@ -736,7 +744,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		/**
 		 * Does this activity type support comment & reply?
 		 */
-		case 'comment-reply' :
+		case 'comment-reply':
 			// Set the activity track global if not set yet.
 			if ( empty( $bp->activity->track ) ) {
 				$bp->activity->track = bp_activity_get_post_types_tracking_args();
@@ -766,7 +774,7 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
 		/**
 		 * Does this activity type support `generated-content`?
 		 */
-		case 'generated-content' :
+		case 'generated-content':
 			$activity_types = _bp_activity_get_types_by_support( 'generated-content' );
 
 			$retval = in_array( $activity_type, $activity_types, true );
@@ -781,8 +789,8 @@ function bp_activity_type_supports( $activity_type = '', $feature = '' ) {
  *
  * @since 2.5.0
  *
- * @param  string       $activity_type the activity type.
- * @param  string       $arg           the key of the tracking argument.
+ * @param  string $activity_type the activity type.
+ * @param  string $arg           the key of the tracking argument.
  * @return mixed        the value of the tracking arg, false if not found.
  */
 function bp_activity_post_type_get_tracking_arg( $activity_type, $arg = '' ) {
@@ -884,14 +892,14 @@ function bp_activity_get_action( $component_id, $key ) {
  * @return array array( type => description ), ...
  */
 function bp_activity_get_types() {
-	$actions  = array();
+	$actions = array();
 
 	// Walk through the registered actions, and build an array of actions/values.
 	foreach ( bp_activity_get_actions() as $action ) {
 		$action = array_values( (array) $action );
 
 		for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ ) {
-			$actions[ $action[$i]['key'] ] = $action[$i]['value'];
+			$actions[ $action[ $i ]['key'] ] = $action[ $i ]['value'];
 		}
 	}
 
@@ -1416,7 +1424,7 @@ function bp_activity_remove_all_user_data( $user_id = 0 ) {
 	bp_activity_delete( array( 'user_id' => $user_id ) );
 
 	// Remove any usermeta.
-	bp_delete_user_meta( $user_id, 'bp_latest_update'       );
+	bp_delete_user_meta( $user_id, 'bp_latest_update' );
 	bp_delete_user_meta( $user_id, 'bp_favorite_activities' );
 
 	// Execute additional code
@@ -1431,7 +1439,7 @@ function bp_activity_remove_all_user_data( $user_id = 0 ) {
 	 */
 	do_action( 'bp_activity_remove_all_user_data', $user_id );
 }
-add_action( 'wpmu_delete_user',  'bp_activity_remove_all_user_data' );
+add_action( 'wpmu_delete_user', 'bp_activity_remove_all_user_data' );
 
 /**
  * Deletes user activity data on the 'delete_user' hook.
@@ -1468,11 +1476,13 @@ function bp_activity_spam_all_user_data( $user_id = 0 ) {
 	}
 
 	// Get all the user's activities.
-	$activities = bp_activity_get( array(
-		'display_comments' => 'stream',
-		'filter'           => array( 'user_id' => $user_id ),
-		'show_hidden'      => true
-	) );
+	$activities = bp_activity_get(
+		array(
+			'display_comments' => 'stream',
+			'filter'           => array( 'user_id' => $user_id ),
+			'show_hidden'      => true,
+		)
+	);
 
 	$bp = buddypress();
 
@@ -1480,7 +1490,7 @@ function bp_activity_spam_all_user_data( $user_id = 0 ) {
 	foreach ( (array) $activities['activities'] as $activity ) {
 
 		// Create an activity object.
-		$activity_obj = new BP_Activity_Activity;
+		$activity_obj = new BP_Activity_Activity();
 		foreach ( $activity as $k => $v ) {
 			$activity_obj->$k = $v;
 		}
@@ -1537,12 +1547,14 @@ function bp_activity_ham_all_user_data( $user_id = 0 ) {
 	}
 
 	// Get all the user's activities.
-	$activities = bp_activity_get( array(
-		'display_comments' => 'stream',
-		'filter'           => array( 'user_id' => $user_id ),
-		'show_hidden'      => true,
-		'spam'             => 'all'
-	) );
+	$activities = bp_activity_get(
+		array(
+			'display_comments' => 'stream',
+			'filter'           => array( 'user_id' => $user_id ),
+			'show_hidden'      => true,
+			'spam'             => 'all',
+		)
+	);
 
 	$bp = buddypress();
 
@@ -1550,7 +1562,7 @@ function bp_activity_ham_all_user_data( $user_id = 0 ) {
 	foreach ( (array) $activities['activities'] as $activity ) {
 
 		// Create an activity object.
-		$activity_obj = new BP_Activity_Activity;
+		$activity_obj = new BP_Activity_Activity();
 		foreach ( $activity as $k => $v ) {
 			$activity_obj->$k = $v;
 		}
@@ -1778,13 +1790,11 @@ function bp_activity_format_activity_action_custom_post_type_post( $action, $act
 			/* translators: 1: the activity author user link. 2: the post link. 3: the blog link. */
 			$action = sprintf( esc_html_x( '%1$s wrote a new %2$s, on the site %3$s', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_link, $blog_link );
 		}
-	} else {
-		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_action ) ) {
+	} elseif ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_action ) ) {
 			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_action, $user_link, $post_url );
 		} else {
-			/* translators: 1: the activity author user link. 2: the post link. */
-			$action = sprintf( esc_html_x( '%1$s wrote a new %2$s', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_link );
-		}
+		/* translators: 1: the activity author user link. 2: the post link. */
+		$action = sprintf( esc_html_x( '%1$s wrote a new %2$s', 'Activity Custom Post Type post action', 'buddypress' ), $user_link, $post_link );
 	}
 
 	/**
@@ -1832,13 +1842,11 @@ function bp_activity_format_activity_action_custom_post_type_comment( $action, $
 			/* translators: 1: the activity author user link. 2: the post link. 3: the blog link. */
 			$action = sprintf( esc_html_x( '%1$s commented on the %2$s, on the site %3$s', 'Activity Custom Post Type comment action', 'buddypress' ), $user_link, $post_link, $blog_link );
 		}
-	} else {
-		if ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_comment_action ) ) {
+	} elseif ( ! empty( $bp->activity->track[ $activity->type ]->new_post_type_comment_action ) ) {
 			$action = sprintf( $bp->activity->track[ $activity->type ]->new_post_type_comment_action, $user_link, $activity->primary_link );
 		} else {
-			/* translators: 1: the activity author user link. 2: the post link. */
-			$action = sprintf( esc_html_x( '%1$s commented on the %2$s', 'Activity Custom Post Type post comment action', 'buddypress' ), $user_link, $post_link );
-		}
+		/* translators: 1: the activity author user link. 2: the post link. */
+		$action = sprintf( esc_html_x( '%1$s commented on the %2$s', 'Activity Custom Post Type post comment action', 'buddypress' ), $user_link, $post_link );
 	}
 
 	/**
@@ -1915,7 +1923,7 @@ function bp_activity_get( $args = '' ) {
 			 *     'secondary_id' => false, // Secondary object ID to filter on e.g. a post_id.
 			 * );
 			 */
-			'filter' => array()
+			'filter' => array(),
 		),
 		'activity_get'
 	);
@@ -2207,14 +2215,16 @@ function bp_activity_post_update( $args = '' ) {
 	$add_primary_link = apply_filters( 'bp_activity_new_update_primary_link', $primary_link );
 
 	// Now write the values.
-	$activity_id = bp_activity_add( array(
-		'user_id'      => $r['user_id'],
-		'content'      => $add_content,
-		'primary_link' => $add_primary_link,
-		'component'    => buddypress()->activity->id,
-		'type'         => 'activity_update',
-		'error_type'   => $r['error_type']
-	) );
+	$activity_id = bp_activity_add(
+		array(
+			'user_id'      => $r['user_id'],
+			'content'      => $add_content,
+			'primary_link' => $add_primary_link,
+			'component'    => buddypress()->activity->id,
+			'type'         => 'activity_update',
+			'error_type'   => $r['error_type'],
+		)
+	);
 
 	// Bail on failure.
 	if ( false === $activity_id || is_wp_error( $activity_id ) ) {
@@ -2232,10 +2242,14 @@ function bp_activity_post_update( $args = '' ) {
 	$activity_content = apply_filters( 'bp_activity_latest_update_content', $r['content'], $activity_content );
 
 	// Add this update to the "latest update" usermeta so it can be fetched anywhere.
-	bp_update_user_meta( bp_loggedin_user_id(), 'bp_latest_update', array(
-		'id'      => $activity_id,
-		'content' => $activity_content
-	) );
+	bp_update_user_meta(
+		bp_loggedin_user_id(),
+		'bp_latest_update',
+		array(
+			'id'      => $activity_id,
+			'content' => $activity_content,
+		)
+	);
 
 	/**
 	 * Fires at the end of an activity post update, before returning the updated activity item ID.
@@ -2285,13 +2299,15 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 	}
 
 	// Bail if an activity item already exists for this post.
-	$existing = bp_activity_get( array(
-		'filter' => array(
-			'action'       => $activity_post_object->action_id,
-			'primary_id'   => $blog_id,
-			'secondary_id' => $post_id,
+	$existing = bp_activity_get(
+		array(
+			'filter' => array(
+				'action'       => $activity_post_object->action_id,
+				'primary_id'   => $blog_id,
+				'secondary_id' => $post_id,
+			),
 		)
-	) );
+	);
 
 	if ( ! empty( $existing['activities'] ) ) {
 		return;
@@ -2323,7 +2339,7 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 	);
 
 	// Backward compatibility filters for the 'blogs' component.
-	if ( 'blogs' == $activity_post_object->component_id )  {
+	if ( 'blogs' == $activity_post_object->component_id ) {
 		$activity_content      = apply_filters( 'bp_blogs_activity_new_post_content', $post->post_content, $post, $post_url, $post->post_type );
 		$activity_primary_link = apply_filters( 'bp_blogs_activity_new_post_primary_link', $post_url, $post_id, $post->post_type );
 	} else {
@@ -2347,7 +2363,7 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 		$activity_summary = bp_activity_create_summary( $activity_args['content'], $activity_args );
 
 		// Backward compatibility filter for blog posts.
-		if ( 'blogs' == $activity_post_object->component_id )  {
+		if ( 'blogs' == $activity_post_object->component_id ) {
 			$activity_args['content'] = apply_filters( 'bp_blogs_record_activity_content', $activity_summary, $activity_args['content'], $activity_args, $post->post_type );
 		} else {
 			$activity_args['content'] = $activity_summary;
@@ -2355,10 +2371,13 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 	}
 
 	// Set up the action by using the format functions.
-	$action_args = array_merge( $activity_args, array(
-		'post_title' => $post->post_title,
-		'post_url'   => $post_url,
-	) );
+	$action_args = array_merge(
+		$activity_args,
+		array(
+			'post_title' => $post->post_title,
+			'post_url'   => $post_url,
+		)
+	);
 
 	$activity_args['action'] = call_user_func_array( $activity_post_object->format_callback, array( '', (object) $action_args ) );
 
@@ -2367,7 +2386,7 @@ function bp_activity_post_type_publish( $post_id = 0, $post = null, $user_id = 0
 		return;
 	} else {
 		// Backward compatibility filter for the blogs component.
-		if ( 'blogs' == $activity_post_object->component_id )  {
+		if ( 'blogs' == $activity_post_object->component_id ) {
 			$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
 		}
 	}
@@ -2409,12 +2428,14 @@ function bp_activity_post_type_update( $post = null ) {
 		return;
 	}
 
-	$activity_id = bp_activity_get_activity_id( array(
-		'component'         => $activity_post_object->component_id,
-		'item_id'           => get_current_blog_id(),
-		'secondary_item_id' => $post->ID,
-		'type'              => $activity_post_object->action_id,
-	) );
+	$activity_id = bp_activity_get_activity_id(
+		array(
+			'component'         => $activity_post_object->component_id,
+			'item_id'           => get_current_blog_id(),
+			'secondary_item_id' => $post->ID,
+			'type'              => $activity_post_object->action_id,
+		)
+	);
 
 	// Activity ID doesn't exist, so stop!
 	if ( empty( $activity_id ) ) {
@@ -2612,20 +2633,22 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 	}
 
 	// Is this an update ?
-	$activity_id = bp_activity_get_activity_id( array(
-		'user_id'           => $user_id,
-		'component'         => $activity_comment_object->component_id,
-		'type'              => $activity_comment_object->action_id,
-		'item_id'           => $blog_id,
-		'secondary_item_id' => $comment_id,
-	) );
+	$activity_id = bp_activity_get_activity_id(
+		array(
+			'user_id'           => $user_id,
+			'component'         => $activity_comment_object->component_id,
+			'type'              => $activity_comment_object->action_id,
+			'item_id'           => $blog_id,
+			'secondary_item_id' => $comment_id,
+		)
+	);
 
 	// Record this in activity streams.
 	$comment_link = get_comment_link( $post_type_comment->comment_ID );
 
 	// Backward compatibility filters for the 'blogs' component.
-	if ( 'blogs' == $activity_comment_object->component_id )  {
-		$activity_content      = apply_filters_ref_array( 'bp_blogs_activity_new_comment_content',      array( $post_type_comment->comment_content, &$post_type_comment, $comment_link ) );
+	if ( 'blogs' == $activity_comment_object->component_id ) {
+		$activity_content      = apply_filters_ref_array( 'bp_blogs_activity_new_comment_content', array( $post_type_comment->comment_content, &$post_type_comment, $comment_link ) );
 		$activity_primary_link = apply_filters_ref_array( 'bp_blogs_activity_new_comment_primary_link', array( $comment_link, &$post_type_comment ) );
 	} else {
 		$activity_content      = $post_type_comment->comment_content;
@@ -2658,7 +2681,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 			$activity_summary = bp_activity_create_summary( $activity_args['content'], $activity_args );
 
 			// Backward compatibility filter for blog comments.
-			if ( 'blogs' == $activity_post_object->component_id )  {
+			if ( 'blogs' == $activity_post_object->component_id ) {
 				$activity_args['content'] = apply_filters( 'bp_blogs_record_activity_content', $activity_summary, $activity_args['content'], $activity_args, $post_type );
 			} else {
 				$activity_args['content'] = $activity_summary;
@@ -2666,12 +2689,15 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 		}
 
 		// Set up the action by using the format functions.
-		$action_args = array_merge( $activity_args, array(
-			'post_title' => $post_type_comment->post->post_title,
-			'post_url'   => $post_url,
-			'blog_url'   => $blog_url,
-			'blog_name'  => get_blog_option( $blog_id, 'blogname' ),
-		) );
+		$action_args = array_merge(
+			$activity_args,
+			array(
+				'post_title' => $post_type_comment->post->post_title,
+				'post_url'   => $post_url,
+				'blog_url'   => $blog_url,
+				'blog_name'  => get_blog_option( $blog_id, 'blogname' ),
+			)
+		);
 
 		$activity_args['action'] = call_user_func_array( $activity_comment_object->format_callback, array( '', (object) $action_args ) );
 
@@ -2680,7 +2706,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 			return;
 		} else {
 			// Backward compatibility filter for the blogs component.
-			if ( 'blogs' === $activity_post_object->component_id )  {
+			if ( 'blogs' === $activity_post_object->component_id ) {
 				$activity_args['action'] = apply_filters( 'bp_blogs_record_activity_action', $activity_args['action'] );
 			}
 		}
@@ -2703,7 +2729,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 	return $activity_id;
 }
 add_action( 'comment_post', 'bp_activity_post_type_comment', 10, 2 );
-add_action( 'edit_comment', 'bp_activity_post_type_comment', 10    );
+add_action( 'edit_comment', 'bp_activity_post_type_comment', 10 );
 
 /**
  * Remove an activity item when a comment about a post type is deleted.
@@ -2745,13 +2771,15 @@ function bp_activity_post_type_remove_comment( $comment_id = 0, $activity_post_o
 	$deleted = false;
 
 	if ( bp_disable_blogforum_comments() ) {
-		$deleted = bp_activity_delete_by_item_id( array(
-			'item_id'           => get_current_blog_id(),
-			'secondary_item_id' => $comment_id,
-			'component'         => $activity_comment_object->component_id,
-			'type'              => $activity_comment_object->action_id,
-			'user_id'           => false,
-		) );
+		$deleted = bp_activity_delete_by_item_id(
+			array(
+				'item_id'           => get_current_blog_id(),
+				'secondary_item_id' => $comment_id,
+				'component'         => $activity_comment_object->component_id,
+				'type'              => $activity_comment_object->action_id,
+				'user_id'           => false,
+			)
+		);
 	}
 
 	/**
@@ -2845,7 +2873,7 @@ function bp_activity_new_comment( $args = '' ) {
 	$activity_id = $r['activity_id'];
 
 	// Get the parent activity.
-	$activity  = new BP_Activity_Activity( $activity_id );
+	$activity = new BP_Activity_Activity( $activity_id );
 
 	// Bail if the parent activity does not exist.
 	if ( empty( $activity->date_recorded ) ) {
@@ -2859,8 +2887,7 @@ function bp_activity_new_comment( $args = '' ) {
 			$bp->activity->errors['new_comment'] = $error;
 			return false;
 		}
-
-	}
+}
 
 	// Check to see if the parent activity is hidden, and if so, hide this comment publicly.
 	$is_hidden = $activity->hide_sitewide ? 1 : 0;
@@ -2877,18 +2904,20 @@ function bp_activity_new_comment( $args = '' ) {
 	$comment_content = apply_filters( 'bp_activity_comment_content', $r['content'], 'new' );
 
 	// Insert the activity comment.
-	$comment_id = bp_activity_add( array(
-		'id'                => $r['id'],
-		'content'           => $comment_content,
-		'component'         => $bp->activity->id,
-		'type'              => 'activity_comment',
-		'primary_link'      => $r['primary_link'],
-		'user_id'           => $r['user_id'],
-		'item_id'           => $activity_id,
-		'secondary_item_id' => $r['parent_id'],
-		'hide_sitewide'     => $is_hidden,
-		'error_type'        => $r['error_type']
-	) );
+	$comment_id = bp_activity_add(
+		array(
+			'id'                => $r['id'],
+			'content'           => $comment_content,
+			'component'         => $bp->activity->id,
+			'type'              => 'activity_comment',
+			'primary_link'      => $r['primary_link'],
+			'user_id'           => $r['user_id'],
+			'item_id'           => $activity_id,
+			'secondary_item_id' => $r['parent_id'],
+			'hide_sitewide'     => $is_hidden,
+			'error_type'        => $r['error_type'],
+		)
+	);
 
 	// Bail on failure.
 	if ( false === $comment_id || is_wp_error( $comment_id ) ) {
@@ -2907,7 +2936,7 @@ function bp_activity_new_comment( $args = '' ) {
 	}
 	wp_cache_delete( $activity_id, 'bp_activity' );
 
-	if ( empty( $r[ 'skip_notification' ] ) ) {
+	if ( empty( $r['skip_notification'] ) ) {
 		/**
 		 * Fires near the end of an activity comment posting, before the returning of the comment ID.
 		 * Sends a notification to the user @see bp_activity_new_comment_notification_helper().
@@ -3054,7 +3083,7 @@ function bp_activity_delete( $args = '' ) {
 		: $args['user_id'];
 
 	$latest_update = bp_get_user_meta( $user_id, 'bp_latest_update', true );
-	if ( !empty( $latest_update ) ) {
+	if ( ! empty( $latest_update ) ) {
 		if ( in_array( (int) $latest_update['id'], (array) $activity_ids_deleted ) ) {
 			bp_delete_user_meta( $user_id, 'bp_latest_update' );
 		}
@@ -3097,18 +3126,18 @@ function bp_activity_delete( $args = '' ) {
 	 */
 	function bp_activity_delete_by_item_id( $args = '' ) {
 
-		$r = bp_parse_args(
-			$args,
-			array(
-				'item_id'           => false,
-				'component'         => false,
-				'type'              => false,
-				'user_id'           => false,
-				'secondary_item_id' => false,
-			)
-		);
+	$r = bp_parse_args(
+	$args,
+	array(
+        'item_id'           => false,
+        'component'         => false,
+	'type'              => false,
+	'user_id'           => false,
+	'secondary_item_id' => false,
+        )
+);
 
-		return bp_activity_delete( $r );
+return bp_activity_delete( $r );
 	}
 
 	/**
@@ -3116,12 +3145,11 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * @since 1.1.0
 	 *
-	 *
 	 * @param int $activity_id ID of the activity item to be deleted.
 	 * @return bool
 	 */
 	function bp_activity_delete_by_activity_id( $activity_id ) {
-		return bp_activity_delete( array( 'id' => $activity_id ) );
+	return bp_activity_delete( array( 'id' => $activity_id ) );
 	}
 
 	/**
@@ -3132,7 +3160,6 @@ function bp_activity_delete( $args = '' ) {
 	 * @since 1.1.0
 	 * @deprecated 1.2.0
 	 *
-	 *
 	 * @param int    $user_id   The user id.
 	 * @param string $content   The activity id.
 	 * @param string $component The activity component.
@@ -3140,12 +3167,14 @@ function bp_activity_delete( $args = '' ) {
 	 * @return bool
 	 */
 	function bp_activity_delete_by_content( $user_id, $content, $component, $type ) {
-		return bp_activity_delete( array(
-			'user_id'   => $user_id,
-			'content'   => $content,
-			'component' => $component,
-			'type'      => $type
-		) );
+	return bp_activity_delete(
+        array(
+        'user_id'   => $user_id,
+        'content'   => $content,
+        'component' => $component,
+        'type'      => $type,
+	)
+);
 	}
 
 	/**
@@ -3156,16 +3185,17 @@ function bp_activity_delete( $args = '' ) {
 	 * @since 1.1.0
 	 * @deprecated 1.2.0
 	 *
-	 *
 	 * @param int    $user_id   The user id.
 	 * @param string $component The activity component.
 	 * @return bool
 	 */
 	function bp_activity_delete_for_user_by_component( $user_id, $component ) {
-		return bp_activity_delete( array(
-			'user_id'   => $user_id,
-			'component' => $component
-		) );
+	return bp_activity_delete(
+        array(
+        'user_id'   => $user_id,
+        'component' => $component,
+	)
+);
 	}
 
 /**
@@ -3214,7 +3244,12 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	bp_activity_delete_children( $activity_id, $comment_id );
 
 	// Delete the actual comment.
-	if ( ! bp_activity_delete( array( 'id' => $comment_id, 'type' => 'activity_comment' ) ) ) {
+	if ( ! bp_activity_delete(
+		array(
+			'id' => $comment_id,
+			'type' => 'activity_comment',
+		)
+	) ) {
 		return false;
 	} else {
 		$deleted = true;
@@ -3244,34 +3279,35 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 *
 	 * @param int $activity_id The ID of the "root" activity, ie the
 	 *                         comment's oldest ancestor.
 	 * @param int $comment_id  The ID of the comment to be deleted.
 	 */
 	function bp_activity_delete_children( $activity_id, $comment_id ) {
-		// Check if comment still exists.
-		$comment = new BP_Activity_Activity( $comment_id );
-		if ( empty( $comment->id ) ) {
-			return;
+	// Check if comment still exists.
+	$comment = new BP_Activity_Activity( $comment_id );
+	if ( empty( $comment->id ) ) {
+		return;
 		}
 
-		// Get activity children to delete.
-		$children = BP_Activity_Activity::get_child_comments( $comment_id );
+	// Get activity children to delete.
+	$children = BP_Activity_Activity::get_child_comments( $comment_id );
 
-		// Recursively delete all children of this comment.
-		if ( ! empty( $children ) ) {
-			foreach ( (array) $children as $child ) {
-				bp_activity_delete_children( $activity_id, $child->id );
+	// Recursively delete all children of this comment.
+	if ( ! empty( $children ) ) {
+		foreach ( (array) $children as $child ) {
+			bp_activity_delete_children( $activity_id, $child->id );
 			}
 		}
 
-		// Delete the comment itself.
-		bp_activity_delete( array(
-			'secondary_item_id' => $comment_id,
-			'type'              => 'activity_comment',
-			'item_id'           => $activity_id
-		) );
+	// Delete the comment itself.
+	bp_activity_delete(
+        array(
+        'secondary_item_id' => $comment_id,
+        'type'              => 'activity_comment',
+        'item_id'           => $activity_id,
+	)
+);
 	}
 
 /**
@@ -3439,16 +3475,16 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
 	preg_match_all( '/<img[^>]*>/Ui', $content, $matches );
 
 	// Remove <img> tags. Also remove caption shortcodes and caption text if present.
-	$content = preg_replace('|(\[caption(.*?)\])?<img[^>]*>([^\[\[]*\[\/caption\])?|', '', $content );
+	$content = preg_replace( '|(\[caption(.*?)\])?<img[^>]*>([^\[\[]*\[\/caption\])?|', '', $content );
 
-	if ( !empty( $matches ) && !empty( $matches[0] ) ) {
+	if ( ! empty( $matches ) && ! empty( $matches[0] ) ) {
 
 		// Get the SRC value.
-		preg_match( '/<img.*?(src\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i',    $matches[0][0], $src    );
+		preg_match( '/<img.*?(src\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $src );
 
 		// Get the width and height.
 		preg_match( '/<img.*?(height\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $height );
-		preg_match( '/<img.*?(width\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i',  $matches[0][0], $width  );
+		preg_match( '/<img.*?(width\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $width );
 
 		if ( ! empty( $src ) ) {
 			$src = substr( substr( str_replace( 'src=', '', $src[1] ), 0, -1 ), 1 );
@@ -3471,7 +3507,7 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
 			$new_width  = $new_height * $ratio;
 			$image      = '<img src="' . esc_url( $src ) . '" width="' . absint( $new_width ) . '" height="' . absint( $new_height ) . '" alt="' . __( 'Thumbnail', 'buddypress' ) . '" class="align-left thumbnail" />';
 
-			if ( !empty( $link ) ) {
+			if ( ! empty( $link ) ) {
 				$image = '<a href="' . esc_url( $link ) . '">' . $image . '</a>';
 			}
 
@@ -3546,7 +3582,7 @@ function bp_activity_create_summary( $content, $activity ) {
 			esc_html( $content->post_title )
 		);
 
-		$more_text  = sprintf(
+		$more_text = sprintf(
 			'<span>%s</span>',
 			trim( __( ' [&hellip;]', 'buddypress' ) )
 		);
@@ -3575,7 +3611,7 @@ function bp_activity_create_summary( $content, $activity ) {
 	 * @param array  $activity  The data passed to bp_activity_add() or the values from an Activity obj.
 	 */
 	$extractor = apply_filters( 'bp_activity_create_summary_extractor_class', 'BP_Media_Extractor', $content, $activity );
-	$extractor = new $extractor;
+	$extractor = new $extractor();
 
 	/**
 	 * Filter the arguments passed to the media extractor when creating an Activity summary.
@@ -3598,16 +3634,16 @@ function bp_activity_create_summary( $content, $activity ) {
 	}
 
 	$para_count     = substr_count( strtolower( wpautop( $content ) ), '<p>' );
-	$has_audio      = ! empty( $media['has']['audio'] )           && $media['has']['audio'];
-	$has_videos     = ! empty( $media['has']['videos'] )          && $media['has']['videos'];
+	$has_audio      = ! empty( $media['has']['audio'] ) && $media['has']['audio'];
+	$has_videos     = ! empty( $media['has']['videos'] ) && $media['has']['videos'];
 	$has_feat_image = ! empty( $media['has']['featured_images'] ) && $media['has']['featured_images'];
-	$has_galleries  = ! empty( $media['has']['galleries'] )       && $media['has']['galleries'];
-	$has_images     = ! empty( $media['has']['images'] )          && $media['has']['images'];
+	$has_galleries  = ! empty( $media['has']['galleries'] ) && $media['has']['galleries'];
+	$has_images     = ! empty( $media['has']['images'] ) && $media['has']['images'];
 	$has_embeds     = false;
 
 	// Embeds must be subtracted from the paragraph count.
 	if ( ! empty( $media['has']['embeds'] ) ) {
-		$has_embeds = $media['has']['embeds'] > 0;
+		$has_embeds  = $media['has']['embeds'] > 0;
 		$para_count -= $media['has']['embeds'];
 	}
 
@@ -3766,7 +3802,7 @@ function bp_activity_mark_as_spam( &$activity, $source = 'by_a_person' ) {
 	wp_cache_delete( $activity_id, 'bp_activity_comments' );
 
 	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity.
-	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
+	if ( 'by_a_person' == $source && ! empty( $bp->activity->akismet ) ) {
 		remove_action( 'bp_activity_before_save', array( $bp->activity->akismet, 'check_activity' ), 4 );
 
 		// Build data package for Akismet.
@@ -3819,7 +3855,7 @@ function bp_activity_mark_as_ham( &$activity, $source = 'by_a_person' ) {
 	wp_cache_delete( $activity_id, 'bp_activity_comments' );
 
 	// If Akismet is active, and this was a manual spam/ham request, stop Akismet checking the activity.
-	if ( 'by_a_person' == $source && !empty( $bp->activity->akismet ) ) {
+	if ( 'by_a_person' == $source && ! empty( $bp->activity->akismet ) ) {
 		remove_action( 'bp_activity_before_save', array( $bp->activity->akismet, 'check_activity' ), 4 );
 
 		// Build data package for Akismet.
@@ -3901,7 +3937,7 @@ function bp_activity_at_message_notification( $activity_id, $receiver_user_id ) 
 				'mentioned.url'    => $message_link,
 				'poster.name'      => $poster_name,
 				'receiver-user.id' => $receiver_user_id,
-				'unsubscribe' 	   => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
+				'unsubscribe'      => esc_url( bp_email_get_unsubscribe_link( $unsubscribe_args ) ),
 			),
 		);
 
@@ -3987,7 +4023,6 @@ function bp_activity_new_comment_notification( $comment_id = 0, $commenter_id = 
 		do_action( 'bp_activity_sent_reply_to_update_notification', $original_activity, $comment_id, $commenter_id, $params );
 	}
 
-
 	/*
 	 * If this is a reply to another comment, send an email notification to the
 	 * author of the immediate parent comment.
@@ -4067,12 +4102,11 @@ add_action( 'bp_activity_comment_posted', 'bp_activity_new_comment_notification_
  * @see BP_Embed
  * @see bp_embed_activity_cache()
  * @see bp_embed_activity_save_cache()
- *
  */
 function bp_activity_embed() {
-	add_filter( 'embed_post_id',         'bp_get_activity_id'                  );
-	add_filter( 'oembed_dataparse',      'bp_activity_oembed_dataparse', 10, 2 );
-	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
+	add_filter( 'embed_post_id', 'bp_get_activity_id' );
+	add_filter( 'oembed_dataparse', 'bp_activity_oembed_dataparse', 10, 2 );
+	add_filter( 'bp_embed_get_cache', 'bp_embed_activity_cache', 10, 3 );
 	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }
 add_action( 'activity_loop_start', 'bp_activity_embed' );
@@ -4106,11 +4140,10 @@ function bp_activity_oembed_dataparse( $retval, $data ) {
  * @see BP_Embed
  * @see bp_embed_activity_cache()
  * @see bp_embed_activity_save_cache()
- *
  */
 function bp_activity_comment_embed() {
-	add_filter( 'embed_post_id',         'bp_get_activity_comment_id'          );
-	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
+	add_filter( 'embed_post_id', 'bp_get_activity_comment_id' );
+	add_filter( 'bp_embed_get_cache', 'bp_embed_activity_cache', 10, 3 );
 	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }
 add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
@@ -4127,11 +4160,16 @@ add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
 function bp_dtheme_embed_read_more( $activity ) {
 	buddypress()->activity->read_more_id = $activity->id;
 
-	add_filter( 'embed_post_id',         function () { return buddypress()->activity->read_more_id; } );
-	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
+	add_filter(
+		'embed_post_id',
+		function () {
+		return buddypress()->activity->read_more_id;
+		}
+	);
+	add_filter( 'bp_embed_get_cache', 'bp_embed_activity_cache', 10, 3 );
 	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }
-add_action( 'bp_dtheme_get_single_activity_content',       'bp_dtheme_embed_read_more' );
+add_action( 'bp_dtheme_get_single_activity_content', 'bp_dtheme_embed_read_more' );
 add_action( 'bp_legacy_theme_get_single_activity_content', 'bp_dtheme_embed_read_more' );
 
 /**
@@ -4361,12 +4399,14 @@ function bp_activity_transition_post_type_comment_status( $new_status, $old_stat
 
 	// Get the activity.
 	if ( bp_disable_blogforum_comments() ) {
-		$activity_id = bp_activity_get_activity_id( array(
-			'component'         => $activity_comment_object->component_id,
-			'item_id'           => get_current_blog_id(),
-			'secondary_item_id' => $comment->comment_ID,
-			'type'              => $activity_comment_object->action_id,
-		) );
+		$activity_id = bp_activity_get_activity_id(
+			array(
+				'component'         => $activity_comment_object->component_id,
+				'item_id'           => get_current_blog_id(),
+				'secondary_item_id' => $comment->comment_ID,
+				'type'              => $activity_comment_object->action_id,
+			)
+		);
 	} else {
 		$activity_id = get_comment_meta( $comment->comment_ID, 'bp_activity_comment_id', true );
 	}
@@ -4406,13 +4446,13 @@ function bp_activity_transition_post_type_comment_status( $new_status, $old_stat
 	// Spam/ham the activity if it's not already in that state.
 	if ( 'spam_activity' === $action && ! $activity->is_spam ) {
 		bp_activity_mark_as_spam( $activity );
-	} elseif ( 'ham_activity' == $action) {
+	} elseif ( 'ham_activity' == $action ) {
 		bp_activity_mark_as_ham( $activity );
 	}
 
 	// Add "new_post_type_comment" to the allowed activity types, so that the activity's Akismet history is generated.
 	$post_type_comment_action = $activity_comment_object->action_id;
-	$comment_akismet_history = function ( $activity_types ) use ( $post_type_comment_action ) {
+	$comment_akismet_history  = function ( $activity_types ) use ( $post_type_comment_action ) {
 		$activity_types[] = $post_type_comment_action;
 
 		return $activity_types;
@@ -4456,17 +4496,19 @@ function bp_activity_personal_data_exporter( $email_address, $page ) {
 		);
 	}
 
-	$activities = bp_activity_get( array(
-		'display_comments' => 'stream',
-		'per_page'         => $number,
-		'page'             => $page,
-		'show_hidden'      => true,
-		'filter'           => array(
-			'user_id' => $user->ID,
-		),
-	) );
+	$activities = bp_activity_get(
+		array(
+			'display_comments' => 'stream',
+			'per_page'         => $number,
+			'page'             => $page,
+			'show_hidden'      => true,
+			'filter'           => array(
+				'user_id' => $user->ID,
+			),
+		)
+	);
 
-	$activity_actions    = bp_activity_get_actions();
+	$activity_actions = bp_activity_get_actions();
 
 	foreach ( $activities['activities'] as $activity ) {
 		if ( ! empty( $activity_actions->{$activity->component}->{$activity->type}['format_callback'] ) ) {

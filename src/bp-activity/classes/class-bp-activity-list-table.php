@@ -75,12 +75,14 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$this->disable_blogforum_comments = bp_disable_blogforum_comments();
 
 		// Define singular and plural labels, as well as whether we support AJAX.
-		parent::__construct( array(
-			'ajax'     => false,
-			'plural'   => 'activities',
-			'singular' => 'activity',
-			'screen'   => get_current_screen(),
-		) );
+		parent::__construct(
+			array(
+				'ajax'     => false,
+				'plural'   => 'activities',
+				'singular' => 'activity',
+				'screen'   => get_current_screen(),
+			)
+		);
 	}
 
 	/**
@@ -91,11 +93,11 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function prepare_items() {
 
 		// Option defaults.
-		$filter           = array();
-		$filter_query     = false;
-		$include_id       = false;
-		$search_terms     = false;
-		$spam             = 'ham_only';
+		$filter       = array();
+		$filter_query = false;
+		$include_id   = false;
+		$search_terms = false;
+		$spam         = 'ham_only';
 
 		// Set current page.
 		$page = $this->get_pagenum();
@@ -127,7 +129,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 			if ( ! empty( $has_filter_query['filter_query'] ) ) {
 				// Reset the filter.
-				$filter       = array();
+				$filter = array();
 
 				// And use the filter query instead.
 				$filter_query = $has_filter_query['filter_query'];
@@ -151,36 +153,45 @@ class BP_Activity_List_Table extends WP_List_Table {
 		}
 
 		// Get the spam total (ignoring any search query or filter).
-		$spams = bp_activity_get( array(
-			'display_comments' => 'stream',
-			'show_hidden'      => true,
-			'spam'             => 'spam_only',
-			'count_total_only' => true,
-		) );
+		$spams            = bp_activity_get(
+			array(
+				'display_comments' => 'stream',
+				'show_hidden'      => true,
+				'spam'             => 'spam_only',
+				'count_total_only' => true,
+			)
+		);
 		$this->spam_count = $spams['total'];
 		unset( $spams );
 
 		// Get the activities from the database.
-		$activities = bp_activity_get( array(
-			'display_comments' => 'stream',
-			'filter'           => $filter,
-			'in'               => $include_id,
-			'page'             => $page,
-			'per_page'         => $per_page,
-			'search_terms'     => $search_terms,
-			'filter_query'     => $filter_query,
-			'show_hidden'      => true,
-			'spam'             => $spam,
-			'count_total'      => 'count_query',
-		) );
+		$activities = bp_activity_get(
+			array(
+				'display_comments' => 'stream',
+				'filter'           => $filter,
+				'in'               => $include_id,
+				'page'             => $page,
+				'per_page'         => $per_page,
+				'search_terms'     => $search_terms,
+				'filter_query'     => $filter_query,
+				'show_hidden'      => true,
+				'spam'             => $spam,
+				'count_total'      => 'count_query',
+			)
+		);
 
 		// If we're viewing a specific activity, flatten all activities into a single array.
 		if ( $include_id ) {
-			$activities['activities'] = BP_Activity_List_Table::flatten_activity_array( $activities['activities'] );
+			$activities['activities'] = self::flatten_activity_array( $activities['activities'] );
 			$activities['total']      = count( $activities['activities'] );
 
 			// Sort the array by the activity object's date_recorded value.
-			usort( $activities['activities'], function ( $a, $b ) { return $a->date_recorded > $b->date_recorded; } );
+			usort(
+				$activities['activities'],
+				function ( $a, $b ) {
+				return $a->date_recorded > $b->date_recorded;
+				}
+			);
 		}
 
 		// The bp_activity_get function returns an array of objects; cast these to arrays for WP_List_Table.
@@ -189,18 +200,20 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$new_activities[] = (array) $activity_item;
 
 			// Build an array of activity-to-user ID mappings for better efficiency in the In Response To column.
-			$this->activity_user_id[$activity_item->id] = $activity_item->user_id;
+			$this->activity_user_id[ $activity_item->id ] = $activity_item->user_id;
 		}
 
 		// Set raw data to display.
 		$this->items = $new_activities;
 
 		// Store information needed for handling table pagination.
-		$this->set_pagination_args( array(
-			'per_page'    => $per_page,
-			'total_items' => $activities['total'],
-			'total_pages' => ceil( $activities['total'] / $per_page )
-		) );
+		$this->set_pagination_args(
+			array(
+				'per_page'    => $per_page,
+				'total_items' => $activities['total'],
+				'total_pages' => ceil( $activities['total'] / $per_page ),
+			)
+		);
 
 		// Don't truncate activity items; bp_activity_truncate_entry() needs to be used inside a BP_Activity_Template loop.
 		remove_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
@@ -340,7 +353,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @since 1.6.0
 	 */
 	function get_views() {
-		$url_base = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) ); ?>
+		$url_base = add_query_arg( array( 'page' => 'bp-activity' ), bp_get_admin_url( 'admin.php' ) );
+		?>
 
 		<h2 class="screen-reader-text">
 			<?php
@@ -351,27 +365,41 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 		<ul class="subsubsub">
 			<li class="all">
-				<a href="<?php echo esc_url( $url_base ); ?>" class="<?php if ( 'all' === $this->view ) echo 'current'; ?>">
-				<?php printf(
+				<a href="<?php echo esc_url( $url_base ); ?>" class="
+									<?php
+				if ( 'all' === $this->view ) {
+										echo 'current';}
+?>
+">
+				<?php
+				printf(
 						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
-						esc_html__( 'All %s', 'buddypress' ),
-						sprintf(
-							'<span class="count">(%s)</span>',
-							esc_html( number_format_i18n( $this->all_count ) )
-						)
-					); ?>
+					esc_html__( 'All %s', 'buddypress' ),
+					sprintf(
+						'<span class="count">(%s)</span>',
+						esc_html( number_format_i18n( $this->all_count ) )
+					)
+				);
+					?>
 				</a> |
 			</li>
 			<li class="spam">
-				<a href="<?php echo esc_url( add_query_arg( array( 'activity_status' => 'spam' ), $url_base ) ); ?>" class="<?php if ( 'spam' === $this->view ) echo 'current'; ?>">
-					<?php printf(
+				<a href="<?php echo esc_url( add_query_arg( array( 'activity_status' => 'spam' ), $url_base ) ); ?>" class="
+									<?php
+				if ( 'spam' === $this->view ) {
+										echo 'current';}
+?>
+">
+					<?php
+					printf(
 						/* translators: %s is the placeholder for the count html tag `<span class="count"/>` */
 						esc_html__( 'Spam %s', 'buddypress' ),
 						sprintf(
 							'<span class="count">(%s)</span>',
 							esc_html( number_format_i18n( $this->spam_count ) )
 						)
-					); ?>
+					);
+					?>
 				</a>
 			</li>
 
@@ -385,7 +413,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 			 * @param string $url_base Current URL base for view.
 			 * @param string $view     Current view being displayed.
 			 */
-			do_action( 'bp_activity_list_table_get_views', $url_base, $this->view ); ?>
+			do_action( 'bp_activity_list_table_get_views', $url_base, $this->view );
+			?>
 		</ul>
 	<?php
 	}
@@ -406,7 +435,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 *
 		 * @param array $actions Default available actions for bulk operations.
 		 */
-		return apply_filters( 'bp_activity_list_table_get_bulk_actions',
+		return apply_filters(
+			'bp_activity_list_table_get_bulk_actions',
 			array(
 				'bulk_spam'   => __( 'Mark as Spam', 'buddypress' ),
 				'bulk_ham'    => __( 'Not Spam', 'buddypress' ),
@@ -433,7 +463,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		 *
 		 * @param array $value Array of slugs and titles for the columns.
 		 */
-		return apply_filters( 'bp_activity_list_table_get_columns',
+		return apply_filters(
+			'bp_activity_list_table_get_columns',
 			array(
 				'cb'       => '<input name type="checkbox" />',
 				'author'   => _x( 'Author', 'Admin SWA column header', 'buddypress' ),
@@ -481,7 +512,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$selected = ( ! empty( $_REQUEST['activity_type'] ) ) ? $_REQUEST['activity_type'] : '';
 
 		// Get the actions.
-		$activity_actions = bp_activity_get_actions(); ?>
+		$activity_actions = bp_activity_get_actions();
+		?>
 
 		<div class="alignleft actions">
 			<label for="activity-type" class="screen-reader-text">
@@ -511,8 +543,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 						} else {
 							$component_name = buddypress()->$component->name;
 						}
-
-					} else {
+} else {
 						// Prevent warnings by other plugins if a component is disabled but the activity type has been registered.
 						$component_name = ucfirst( $component );
 					}
@@ -525,9 +556,10 @@ class BP_Activity_List_Table extends WP_List_Table {
 							<?php
 
 							// Skip the incorrectly named pre-1.6 action.
-							if ( 'friends_register_activity_action' !== $action_key  ) : ?>
+							if ( 'friends_register_activity_action' !== $action_key ) :
+							?>
 
-								<option value="<?php echo esc_attr( $action_key ); ?>" <?php selected( $action_key,  $selected ); ?>><?php echo esc_html( $action_values[ 'value' ] ); ?></option>
+								<option value="<?php echo esc_attr( $action_key ); ?>" <?php selected( $action_key, $selected ); ?>><?php echo esc_html( $action_values['value'] ); ?></option>
 
 							<?php endif; ?>
 
@@ -560,16 +592,17 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	public function row_actions( $actions, $always_visible = false ) {
 		$action_count = count( $actions );
-		$i = 0;
+		$i            = 0;
 
-		if ( !$action_count )
+		if ( ! $action_count ) {
 			return '';
+		}
 
 		$out = '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-			$out .= "<span class='$action'>$link$sep</span>";
+			$out                          .= "<span class='$action'>$link$sep</span>";
 		}
 		$out .= '</div>';
 
@@ -614,7 +647,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 						'class'  => true,
 						'height' => true,
 						'width'  => true,
-					)
+					),
 				)
 			),
 			// phpcs:ignore WordPress.Security.EscapeOutput
@@ -665,7 +698,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$actions = array(
 			'reply'  => '',
 			'edit'   => '',
-			'spam'   => '', 'unspam' => '',
+			'spam'   => '',
+			'unspam' => '',
 			'delete' => '',
 		);
 
@@ -825,7 +859,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 							'class'  => true,
 							'height' => true,
 							'width'  => true,
-						)
+						),
 					)
 				),
 				// phpcs:ignore WordPress.Security.EscapeOutput
@@ -876,15 +910,21 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	protected function get_activity_user_id( $activity_id ) {
 		// If there is an existing activity/user ID mapping, just return the user ID.
-		if ( ! empty( $this->activity_user_id[$activity_id] ) ) {
-			return $this->activity_user_id[$activity_id];
+		if ( ! empty( $this->activity_user_id[ $activity_id ] ) ) {
+			return $this->activity_user_id[ $activity_id ];
 
 		/*
 		 * We don't have a mapping. This means the $activity_id is not on the current
 		 * page of results, so fetch its details from the database.
 		 */
 		} else {
-			$activity = bp_activity_get_specific( array( 'activity_ids' => $activity_id, 'show_hidden' => true, 'spam' => 'all', ) );
+			$activity = bp_activity_get_specific(
+				array(
+					'activity_ids' => $activity_id,
+					'show_hidden' => true,
+					'spam' => 'all',
+				)
+			);
 
 			/*
 			 * If, somehow, the referenced activity has been deleted, leaving its associated
@@ -960,11 +1000,11 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 * @param array $tree Source array.
 	 * @return array Flattened array.
 	 */
-	public static function flatten_activity_array( $tree ){
+	public static function flatten_activity_array( $tree ) {
 		foreach ( (array) $tree as $node ) {
 			if ( isset( $node->children ) ) {
 
-				foreach ( BP_Activity_List_Table::flatten_activity_array( $node->children ) as $child ) {
+				foreach ( self::flatten_activity_array( $node->children ) as $child ) {
 					$tree[] = $child;
 				}
 

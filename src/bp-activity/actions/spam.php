@@ -19,24 +19,29 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	$bp = buddypress();
 
 	// Not viewing activity, or action is not spam, or Akismet isn't present.
-	if ( !bp_is_activity_component() || !bp_is_current_action( 'spam' ) || empty( $bp->activity->akismet ) )
+	if ( ! bp_is_activity_component() || ! bp_is_current_action( 'spam' ) || empty( $bp->activity->akismet ) ) {
 		return false;
+	}
 
-	if ( empty( $activity_id ) && bp_action_variable( 0 ) )
+	if ( empty( $activity_id ) && bp_action_variable( 0 ) ) {
 		$activity_id = (int) bp_action_variable( 0 );
+	}
 
 	// Not viewing a specific activity item.
-	if ( empty( $activity_id ) )
+	if ( empty( $activity_id ) ) {
 		return false;
+	}
 
 	// Is the current user allowed to spam items?
-	if ( !bp_activity_user_can_mark_spam() )
+	if ( ! bp_activity_user_can_mark_spam() ) {
 		return false;
+	}
 
 	// Load up the activity item.
 	$activity = new BP_Activity_Activity( $activity_id );
-	if ( empty( $activity->id ) )
+	if ( empty( $activity->id ) ) {
 		return false;
+	}
 
 	// Check nonce.
 	check_admin_referer( 'bp_activity_akismet_spam_' . $activity->id );
@@ -69,9 +74,10 @@ function bp_activity_action_spam_activity( $activity_id = 0 ) {
 	do_action( 'bp_activity_action_spam_activity', $activity_id, $activity->user_id );
 
 	// Check for the redirect query arg, otherwise let WP handle things.
-	if ( !empty( $_GET['redirect_to'] ) )
+	if ( ! empty( $_GET['redirect_to'] ) ) {
 		bp_core_redirect( esc_url( $_GET['redirect_to'] ) );
-	else
-		bp_core_redirect( wp_get_referer() );
+	} else {
+bp_core_redirect( wp_get_referer() );
+	}
 }
 add_action( 'bp_actions', 'bp_activity_action_spam_activity' );

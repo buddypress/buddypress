@@ -32,7 +32,7 @@ function bp_activity_action_sitewide_feed() {
 			'title'         => sprintf( __( '%s | Site-Wide Activity', 'buddypress' ), bp_get_site_name() ),
 			'link'          => $link,
 			'description'   => __( 'Activity feed for the entire site.', 'buddypress' ),
-			'activity_args' => 'display_comments=threaded'
+			'activity_args' => 'display_comments=threaded',
 		)
 	);
 
@@ -67,7 +67,7 @@ function bp_activity_action_personal_feed() {
 
 			/* translators: %s: User Display Name */
 			'description'   => sprintf( __( 'Activity feed for %s.', 'buddypress' ), bp_get_displayed_user_fullname() ),
-			'activity_args' => 'user_id=' . bp_displayed_user_id()
+			'activity_args' => 'user_id=' . bp_displayed_user_id(),
 		)
 	);
 
@@ -102,7 +102,7 @@ function bp_activity_action_friends_feed() {
 
 			/* translators: %s: User Display Name */
 			'description'   => sprintf( __( "Activity feed for %s's friends.", 'buddypress' ), bp_get_displayed_user_fullname() ),
-			'activity_args' => 'scope=friends'
+			'activity_args' => 'scope=friends',
 		)
 	);
 
@@ -143,8 +143,8 @@ function bp_activity_action_my_groups_feed() {
 			'activity_args' => array(
 				'object'           => buddypress()->groups->id,
 				'primary_id'       => $group_ids,
-				'display_comments' => 'threaded'
-			)
+				'display_comments' => 'threaded',
+			),
 		)
 	);
 
@@ -182,10 +182,10 @@ function bp_activity_action_mentions_feed() {
 			'link'          => $link,
 
 			/* translators: %s: User Display Name */
-			'description'   => sprintf( __( "Activity feed mentioning %s.", 'buddypress' ), bp_get_displayed_user_fullname() ),
+			'description'   => sprintf( __( 'Activity feed mentioning %s.', 'buddypress' ), bp_get_displayed_user_fullname() ),
 			'activity_args' => array(
-				'search_terms' => '@' . bp_members_get_user_slug( bp_displayed_user_id() )
-			)
+				'search_terms' => '@' . bp_members_get_user_slug( bp_displayed_user_id() ),
+			),
 		)
 	);
 
@@ -223,7 +223,7 @@ function bp_activity_action_favorites_feed() {
 
 			/* translators: %s: User Display Name */
 			'description'   => sprintf( __( "Activity feed of %s's favorites.", 'buddypress' ), bp_get_displayed_user_fullname() ),
-			'activity_args' => 'include=' . $fav_ids
+			'activity_args' => 'include=' . $fav_ids,
 		)
 	);
 

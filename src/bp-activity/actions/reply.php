@@ -48,7 +48,7 @@ function bp_activity_action_post_comment() {
 	 *
 	 * @param string $value Comment content being posted.
 	 */
-	$content = apply_filters( 'bp_activity_post_comment_content', $_POST['ac_input_' . $activity_id] );
+	$content = apply_filters( 'bp_activity_post_comment_content', $_POST[ 'ac_input_' . $activity_id ] );
 
 	if ( empty( $content ) ) {
 		bp_core_add_message( __( 'Please do not leave the comment area blank.', 'buddypress' ), 'error' );
@@ -65,7 +65,7 @@ function bp_activity_action_post_comment() {
 		array(
 			'content'     => $content,
 			'activity_id' => $activity_id,
-			'parent_id'   => false
+			'parent_id'   => false,
 		)
 	);
 

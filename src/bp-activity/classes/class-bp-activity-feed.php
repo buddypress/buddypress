@@ -225,9 +225,9 @@ class BP_Activity_Feed {
 	 * @since 1.8.0
 	 */
 	protected function setup_hooks() {
-		add_action( 'bp_activity_feed_rss_attributes',   array( $this, 'backpat_rss_attributes' ) );
+		add_action( 'bp_activity_feed_rss_attributes', array( $this, 'backpat_rss_attributes' ) );
 		add_action( 'bp_activity_feed_channel_elements', array( $this, 'backpat_channel_elements' ) );
-		add_action( 'bp_activity_feed_item_elements',    array( $this, 'backpat_item_elements' ) );
+		add_action( 'bp_activity_feed_item_elements', array( $this, 'backpat_item_elements' ) );
 	}
 
 	/** BACKPAT HOOKS ********************************************************/
@@ -275,13 +275,13 @@ class BP_Activity_Feed {
 		switch ( $this->id ) {
 
 			// Sitewide and friends feeds use the 'personal' hook.
-			case 'sitewide' :
-			case 'friends' :
+			case 'sitewide':
+			case 'friends':
 				$id = 'personal';
 
 				break;
 
-			default :
+			default:
 				$id = $this->id;
 
 				break;
@@ -310,15 +310,14 @@ class BP_Activity_Feed {
 		switch ( $this->id ) {
 
 			// Also output parent activity item if we're on a specific feed.
-			case 'favorites' :
-			case 'friends' :
-			case 'mentions' :
-			case 'personal' :
-
+			case 'favorites':
+			case 'friends':
+			case 'mentions':
+			case 'personal':
 				if ( 'activity_comment' == bp_get_activity_action_name() ) :
 			?>
-				<strong><?php esc_html_e( 'In reply to', 'buddypress' ) ?></strong> -
-				<?php bp_activity_parent_content() ?>
+				<strong><?php esc_html_e( 'In reply to', 'buddypress' ); ?></strong> -
+				<?php bp_activity_parent_content(); ?>
 			<?php
 				endif;
 
@@ -360,7 +359,7 @@ class BP_Activity_Feed {
 		@header( 'ETag: ' . '"' . $etag . '"' );
 
 		// First commit of BuddyPress! (Easter egg).
-		@header( 'Expires: Tue, 25 Mar 2008 17:13:55 GMT');
+		@header( 'Expires: Tue, 25 Mar 2008 17:13:55 GMT' );
 
 		// Get ETag from supported user agents.
 		if ( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) ) {
@@ -386,8 +385,8 @@ class BP_Activity_Feed {
 
 		// Set 304 status if feed hasn't been updated since last fetch.
 		if ( ( $client_last_modified && $client_etag ) ?
-				 ( ( $client_modified_timestamp >= $modified_timestamp ) && ( $client_etag == $etag ) ) :
-				 ( ( $client_modified_timestamp >= $modified_timestamp ) || ( $client_etag == $etag ) ) ) {
+				( ( $client_modified_timestamp >= $modified_timestamp ) && ( $client_etag == $etag ) ) :
+				( ( $client_modified_timestamp >= $modified_timestamp ) || ( $client_etag == $etag ) ) ) {
 			$status = 304;
 		} else {
 			$status = false;
@@ -413,7 +412,7 @@ class BP_Activity_Feed {
 	 */
 	protected function output() {
 		$this->http_headers();
-		echo '<?xml version="1.0" encoding="' . esc_attr( get_option( 'blog_charset' ) ) . '"?'.'>';
+		echo '<?xml version="1.0" encoding="' . esc_attr( get_option( 'blog_charset' ) ) . '"?' . '>';
 
 		/**
 		 * Fires between the xml and rss tags in an Activity feed.
@@ -435,7 +434,8 @@ class BP_Activity_Feed {
 	 *
 	 * @since 1.8.0
 	 */
-	do_action( 'bp_activity_feed_rss_attributes' ); ?>
+	do_action( 'bp_activity_feed_rss_attributes' );
+	?>
 >
 
 <channel>
@@ -456,14 +456,18 @@ class BP_Activity_Feed {
 	 *
 	 * @since 1.8.0
 	 */
-	do_action( 'bp_activity_feed_channel_elements' ); ?>
+	do_action( 'bp_activity_feed_channel_elements' );
+	?>
 
 	<?php if ( bp_has_activities( $this->activity_args ) ) : ?>
-		<?php while ( bp_activities() ) : bp_the_activity(); ?>
+		<?php
+		while ( bp_activities() ) :
+				bp_the_activity();
+				?>
 			<item>
 				<guid isPermaLink="false"><?php bp_activity_feed_item_guid(); ?></guid>
 				<title><?php echo esc_html( stripslashes( bp_get_activity_feed_item_title() ) ); ?></title>
-				<link><?php bp_activity_thread_permalink() ?></link>
+				<link><?php bp_activity_thread_permalink(); ?></link>
 				<pubDate><?php echo esc_html( mysql2date( 'D, d M Y H:i:s O', bp_get_activity_feed_item_date(), false ) ); ?></pubDate>
 
 				<?php if ( bp_get_activity_feed_item_description() ) : ?>
@@ -481,12 +485,14 @@ class BP_Activity_Feed {
 				 *
 				 * @since 1.8.0
 				 */
-				do_action( 'bp_activity_feed_item_elements' ); ?>
+				do_action( 'bp_activity_feed_item_elements' );
+				?>
 			</item>
-		<?php endwhile; ?>
+				<?php endwhile; ?>
 
 	<?php endif; ?>
 </channel>
-</rss><?php
+</rss>
+<?php
 	}
 }
