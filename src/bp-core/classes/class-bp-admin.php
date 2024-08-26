@@ -1731,12 +1731,11 @@ class BP_Admin {
 							</div>
 						<?php endif; ?>
 						<div class="search-form">
-							<form action="" method="get">
-								<select id="admin-notices-filter" name="type">
-									<option value="unread" <?php selected( 'unread', $type ); ?>><?php esc_html_e( 'Unread', 'buddypress' ); ?></option>
-									<option value="read" <?php selected( 'read', $type ); ?>><?php esc_html_e( 'Dismissed', 'buddypress' ); ?></option>
-								</select>
-								<?php submit_button( __( 'Filter', 'buddypress' ), '', '', false ); ?>
+							<select id="admin-notices-filter" name="type">
+								<option value="unread" <?php selected( 'unread', $type ); ?>><?php esc_html_e( 'Unread', 'buddypress' ); ?></option>
+								<option value="read" <?php selected( 'read', $type ); ?>><?php esc_html_e( 'Dismissed', 'buddypress' ); ?></option>
+							</select>
+							<?php submit_button( __( 'Filter', 'buddypress' ), '', '', false ); ?>
 						</div>
 					</div>
 				<?php endif; ?>
