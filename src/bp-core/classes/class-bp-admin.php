@@ -1674,8 +1674,8 @@ class BP_Admin {
 				'priority'   => 0,
 			);
 
-			if ( isset( $_POST['bp_admin_notices']['filter_value'] ) ) {
-				$type = sanitize_text_field( wp_unslash( $_POST['bp_admin_notices']['filter_value'] ) );
+			if ( isset( $_GET['type'] ) ) {
+				$type = sanitize_text_field( wp_unslash( $_GET['type'] ) );
 			}
 
 			if ( 'unread' === $type ) {
@@ -1700,24 +1700,47 @@ class BP_Admin {
 				);
 			}
 
+			$admin_notices_count = bp_members_get_notices_count( $args );
+
+			// Set pagination.
+			$args['pag_num']  = 5;
+			$args['pag_page'] = 1;
+			if ( isset( $_GET['paged'] ) ) {
+				$args['pag_page'] = (int) wp_unslash( $_GET['paged'] );
+			}
+
+			$total_pages = ceil( (int) $admin_notices_count / (int) $args[ 'pag_num'] );
+
 			// Fetch matching notices.
 			$admin_notices = bp_members_get_notices( $args );
 		}
 		?>
 		<div class="buddypress-body admin-notices">
-			<?php if ( ! $notice_id ) : ?>
-				<div class="wp-filter">
-					<div class="search-form">
-						<form action="" method="post">
-							<select id="admin-notices-filter" name="bp_admin_notices[filter_value]">
-								<option value="unread" <?php selected( 'unread', $type ); ?>><?php esc_html_e( 'Unread', 'buddypress' ); ?></option>
-								<option value="read" <?php selected( 'read', $type ); ?>><?php esc_html_e( 'Dismissed', 'buddypress' ); ?></option>
-							</select>
-							<?php submit_button( __( 'Filter', 'buddypress' ), '', 'bp_admin_notices[filter_action]', false ); ?>
-						</form>
+			<form action="" method="get">
+				<input type="hidden" name="page" value="bp-admin-notices">
+				<?php if ( ! $notice_id ) : ?>
+					<div class="wp-filter">
+						<?php if ( 1 < $total_pages ) : ?>
+							<div class="pagination">
+								<?php if ( 1 < $args['pag_page'] ) : ?>
+									<button type="submit" class="button" name="paged" value="<?php echo intval( $args['pag_page'] - 1 ); ?>"><?php esc_html_e( 'Prev', 'buddypress' ); ?></button>
+								<?php endif; ?>
+								<?php if ( $total_pages > $args[ 'pag_page'] ) : ?>
+									<button type="submit" class="button" name="paged" value="<?php echo intval( $args['pag_page'] + 1 ); ?>"><?php esc_html_e( 'Next', 'buddypress' ); ?></button>
+								<?php endif; ?>
+							</div>
+						<?php endif; ?>
+						<div class="search-form">
+							<form action="" method="get">
+								<select id="admin-notices-filter" name="type">
+									<option value="unread" <?php selected( 'unread', $type ); ?>><?php esc_html_e( 'Unread', 'buddypress' ); ?></option>
+									<option value="read" <?php selected( 'read', $type ); ?>><?php esc_html_e( 'Dismissed', 'buddypress' ); ?></option>
+								</select>
+								<?php submit_button( __( 'Filter', 'buddypress' ), '', '', false ); ?>
+						</div>
 					</div>
-				</div>
-			<?php endif; ?>
+				<?php endif; ?>
+			</form>
 
 			<?php
 			if ( $admin_notices ) {

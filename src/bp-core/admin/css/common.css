@@ -463,8 +463,19 @@ form.edit-notice label {
 	width: 200px;
 }
 
-.buddypress-body.admin-notices .wp-filter .search-form {
+.buddypress-body.admin-notices .wp-filter .search-form,
+.buddypress-body.admin-notices .wp-filter .pagination {
 	margin: 11px 0;
+}
+
+.buddypress-body.admin-notices .wp-filter .pagination {
+	float: left;
+	height: 100%;
+}
+
+.buddypress-body.admin-notices .wp-filter .pagination button {
+	margin: 0 8px 0 0;
+	vertical-align: middle;
 }
 
 @media screen and (max-width: 782px) {
