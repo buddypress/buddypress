@@ -25,19 +25,19 @@ jobs:
             multisite: true
           - php: '8.2'
             wp_version: '6.4'
-            object: 'false'
+            object: ''
             multisite: false
           - php: '8.2'
             wp_version: 'latest'
-            object: 'false'
+            object: ''
             multisite: false
           - php: '7.4'
             wp_version: 'latest'
-            object: 'false'
+            object: ''
             multisite: false
           - php: '7.2'
             wp_version: 'latest'
-            object: 'false'
+            object: ''
             multisite: false
     uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
     with:
