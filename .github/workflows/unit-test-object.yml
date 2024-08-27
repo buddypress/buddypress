@@ -16,14 +16,17 @@ jobs:
       matrix:
         php: [ '7.4', '8.2' ]
         wp_version: [ 'latest' ]
-        multisite: [ false ]
+        multisite: [ 'false' ]
+        object: [ 'false' ]
         include:
           - php: '8.3'
             wp_version: 'trunk'
             object: 'memcached'
+            multisite: false
           - php: '8.3'
             wp_version: 'latest'
             object: 'redis'
+            multisite: false
           - php: '8.3'
             wp_version: '6.4'
             object: 'false'
@@ -31,6 +34,7 @@ jobs:
           - php: '7.0'
             wp_version: 'latest'
             object: 'false'
+            multisite: false
     uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
     with:
       multisite: ${{ matrix.multisite }}
