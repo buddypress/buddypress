@@ -36,9 +36,13 @@ jobs:
             object: ''
             multisite: false
           - php: '7.4'
-            wp_version: 'latest'
+            wp_version: '6.4'
             object: ''
             multisite: false
+         - php: '7.4'
+            wp_version: '6.4'
+            object: ''
+            multisite: true
     uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
     with:
       multisite: ${{ matrix.multisite }}
