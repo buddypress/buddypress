@@ -31,11 +31,11 @@ jobs:
             wp_version: 'latest'
             object: ''
             multisite: false
-          - php: '7.4'
+          - php: '8.1'
             wp_version: 'latest'
             object: ''
             multisite: false
-          - php: '7.2'
+          - php: '7.4'
             wp_version: 'latest'
             object: ''
             multisite: false
