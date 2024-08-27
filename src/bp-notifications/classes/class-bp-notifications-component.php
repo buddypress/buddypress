@@ -211,8 +211,16 @@ class BP_Notifications_Component extends BP_Component {
 	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
 		// Only grab count if we're on a user page and current user has access.
 		if ( isset( $this->main_nav['name'] ) && bp_is_user() && bp_user_has_access() ) {
-			$count                  = bp_notifications_get_unread_notification_count( bp_displayed_user_id() );
-			$class                  = ( 0 === $count ) ? 'no-count' : 'count';
+			$user_id            = bp_displayed_user_id();
+			$count              = bp_notifications_get_unread_notification_count( $user_id );
+
+			if ( bp_is_active( 'members', 'notices' ) ) {
+				$count += BP_Members_Notices_Feature::get_count_data( $user_id );
+			}
+
+			$class = ( 0 === $count ) ? 'no-count' : 'count';
+
+			// Set count information for Notifications main nav.
 			$this->main_nav['name'] = sprintf(
 				/* translators: %s: Unread notification count for the current user */
 				_x( 'Notifications %s', 'Profile screen nav', 'buddypress' ),
@@ -243,9 +251,19 @@ class BP_Notifications_Component extends BP_Component {
 		// Menus for logged in user.
 		if ( is_user_logged_in() ) {
 			$notifications_slug = bp_get_notifications_slug();
+			$user_id            = bp_loggedin_user_id();
+			$notices_count      = 0;
 
 			// Pending notification requests.
-			$count = bp_notifications_get_unread_notification_count( bp_loggedin_user_id() );
+			$count        = bp_notifications_get_unread_notification_count( $user_id );
+			$unread_count = $count;
+
+			// Pending community notices.
+			if ( bp_is_active( 'members', 'notices' ) ) {
+				$notices_count = BP_Members_Notices_Feature::get_count_data( $user_id );
+				$count        += $notices_count;
+			}
+
 			if ( ! empty( $count ) ) {
 				$title = sprintf(
 					/* translators: %s: Unread notification count for the current user */
@@ -255,7 +273,7 @@ class BP_Notifications_Component extends BP_Component {
 				$unread = sprintf(
 					/* translators: %s: Unread notification count for the current user */
 					_x( 'Unread %s', 'My Account Notification pending', 'buddypress' ),
-					'<span class="count">' . bp_core_number_format( $count ) . '</span>'
+					'<span class="count">' . bp_core_number_format( $unread_count ) . '</span>'
 				);
 			} else {
 				$title  = _x( 'Notifications', 'My Account Notification', 'buddypress' );
@@ -271,11 +289,21 @@ class BP_Notifications_Component extends BP_Component {
 			);
 
 			if ( bp_is_active( 'members', 'notices' ) ) {
+				$notice_title = _x( 'Community', 'My Account Notice sub nav', 'buddypress' );
+
+				if ( $notices_count ) {
+					$notice_title = sprintf(
+						/* translators: %s: Unread notices count for the current user */
+						_x( 'Community %s', 'My Account Notice sub nav with count information', 'buddypress' ),
+						'<span class="count">' . bp_core_number_format( $notices_count ) . '</span>'
+					);
+				}
+
 				// Community notices.
 				$wp_admin_nav[] = array(
 					'parent'   => 'my-account-' . $this->id,
 					'id'       => 'my-account-' . $this->id . '-community',
-					'title'    => _x( 'Community', 'My Account Notice sub nav', 'buddypress' ),
+					'title'    => $notice_title,
 					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $notifications_slug, 'notices' ) ) ),
 					'position' => 5,
 				);
