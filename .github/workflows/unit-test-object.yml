@@ -39,7 +39,7 @@ jobs:
             wp_version: '6.4'
             object: ''
             multisite: false
-         - php: '7.4'
+          - php: '7.4'
             wp_version: '6.4'
             object: ''
             multisite: true
