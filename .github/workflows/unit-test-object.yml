@@ -16,13 +16,9 @@ jobs:
       matrix:
         include:
           - php: '8.3'
-            wp_version: 'trunk'
-            object: 'memcached'
-            multisite: false
-          - php: '8.3'
-            wp_version: 'latest'
-            object: 'redis'
-            multisite: true
+            wp_version: [ 'trunk', 'latest' ]
+            object: [ 'memcached', 'redis' ]
+            multisite: [ false, true ]
           - php: '8.2'
             wp_version: '6.4'
             object: ''
