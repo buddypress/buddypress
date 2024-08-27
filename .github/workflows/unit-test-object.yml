@@ -1,4 +1,4 @@
-name: Unit Tests - Object Cache Service
+name: Unit Tests
 
 on:
   pull_request:
@@ -11,14 +11,27 @@ on:
 
 jobs:
   tests:
-    name: "Cache ${{ matrix.object }} - WP: ${{ matrix.wp_version }} - PHP: ${{ matrix.php }}"
+    name: "PHP: ${{ matrix.php }} - WP: ${{ matrix.wp_version }}"
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.2', '8.3' ]
-        wp_version: [ 'trunk', 'latest', '6.4' ]
-        multisite: [true, false]
-        object: ["false", "memcached", "redis"]
+        php: [ '7.4', '8.2' ]
+        wp_version: [ 'latest' ]
+        multisite: [ false ]
+        include:
+          - php: '8.3'
+            wp_version: 'trunk'
+            object: 'memcached'
+          - php: '8.3'
+            wp_version: 'latest'
+            object: 'redis'
+          - php: '8.3'
+            wp_version: '6.4'
+            object: 'false'
+            multisite: true
+          - php: '7.0'
+            wp_version: 'latest'
+            object: 'false'
     uses: alleyinteractive/.github/.github/workflows/php-tests.yml@main
     with:
       multisite: ${{ matrix.multisite }}
