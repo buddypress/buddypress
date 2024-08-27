@@ -14,10 +14,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.2' ]
-        wp_version: [ 'latest' ]
-        multisite: [ 'false' ]
-        object: [ 'false' ]
         include:
           - php: '8.3'
             wp_version: 'trunk'
@@ -26,12 +22,20 @@ jobs:
           - php: '8.3'
             wp_version: 'latest'
             object: 'redis'
-            multisite: false
-          - php: '8.3'
+            multisite: true
+          - php: '8.2'
             wp_version: '6.4'
             object: 'false'
-            multisite: true
-          - php: '7.0'
+            multisite: false
+          - php: '8.2'
+            wp_version: 'latest'
+            object: 'false'
+            multisite: false
+          - php: '7.4'
+            wp_version: 'latest'
+            object: 'false'
+            multisite: false
+          - php: '7.2'
             wp_version: 'latest'
             object: 'false'
             multisite: false
