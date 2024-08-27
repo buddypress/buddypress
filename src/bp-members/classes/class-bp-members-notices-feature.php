@@ -113,6 +113,65 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 	}
 
 	/**
+	 * Returns Notices user's count.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param integer $user_id The user ID. Required.
+	 * @return integer Notices user's count.
+	 */
+	public static function get_count_data( $user_id ) {
+		if ( ! $user_id ) {
+			return 0;
+		}
+
+		return bp_members_get_notices_count(
+			array(
+				'user_id'  => $user_id,
+				'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
+			)
+		);
+	}
+
+	/**
+	 * Set up component navigation.
+	 *
+	 * Wait for navigation generation before adding Notices count information.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @see `BP_Component::setup_nav()` for a description of arguments.
+	 *
+	 * @param array $main_nav Optional. See `BP_Component::setup_nav()` for
+	 *                        description.
+	 * @param array $sub_nav  Optional. See `BP_Component::setup_nav()` for
+	 *                        description.
+	 */
+	public function setup_nav( $main_nav = array(), $sub_nav = array() ) {
+		// Only grab count if we're on a user page and current user has access.
+		if ( isset( $this->main_nav['name'] ) && bp_is_user() && bp_user_has_access() ) {
+			$count = self::get_count_data( bp_displayed_user_id() );
+
+			// Set count information for Notices main nav.
+			if ( $count ) {
+				$class = ( 0 === $count ) ? 'no-count' : 'count';
+
+				$this->main_nav['name'] = sprintf(
+					/* translators: %s: Unread notification count for the current user */
+					_x( 'Notices %s', 'Member notices main navigation with count information', 'buddypress' ),
+					sprintf(
+						'<span class="%s">%s</span>',
+						esc_attr( $class ),
+						esc_html( $count )
+					)
+				);
+			}
+		}
+
+		parent::setup_nav( $main_nav, $sub_nav );
+	}
+
+	/**
 	 * Return the WP Admin Nav to manage Community notices.
 	 *
 	 * @since 15.0.0
@@ -159,12 +218,22 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 		// Menus for logged in user.
 		if ( is_user_logged_in() && ! bp_is_active( 'notifications' ) ) {
 			$notices_slug = $this->slug;
+			$title        = _x( 'Notices', 'My Account Notice nav', 'buddypress' );
+			$count        = self::get_count_data( bp_loggedin_user_id() );
+
+			if ( $count ) {
+				$title = sprintf(
+					/* translators: %s: Unread notices count for the current user */
+					_x( 'Notices %s', 'My Account Notice nav with count information', 'buddypress' ),
+					'<span class="count">' . bp_core_number_format( $count ) . '</span>'
+				);
+			}
 
 			// Add the "My Account" sub menus.
 			$wp_admin_nav[] = array(
 				'parent' => buddypress()->my_account_menu_id,
 				'id'     => 'my-account-' . $this->id,
-				'title'  => _x( 'Notices', 'My Account Notice nav', 'buddypress' ),
+				'title'  => $title,
 				'href'   => bp_loggedin_user_url( bp_members_get_path_chunks( array( $notices_slug ) ) ),
 			);
 
