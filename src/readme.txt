@@ -55,7 +55,7 @@ Growing the BuddyPress community means better software for everyone!
 To run BuddyPress, we recommend your host supports:
 
 * PHP version 8.1 or greater.
-* MySQL version 5.7 or greater OR MariaDB version 10.4 or greater.
+* MySQL version 8.0 or greater OR MariaDB version 10.5 or greater.
 * HTTPS support
 
 Note: If you are in a legacy environment where you only have older PHP or MySQL versions, WordPress also works with PHP 5.6.20+ and MySQL 5.0+, but these versions have reached official End Of Life and as such may expose your site to security vulnerabilities.
