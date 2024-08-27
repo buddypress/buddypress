@@ -560,28 +560,24 @@ function bp_get_notice_object( $object ) {
  * @return array The higher priority notices & the notices total count.
  */
 function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
-	$notices           = array();
-	$dismissed_notices = bp_members_get_dismissed_notices_for_user( $user_id );
-
-	// Get notices orderered by priority.
-	$notice_items = BP_Members_Notice::get(
-		array(
-			'user_id'  => $user_id,
-			'pag_page' => $page,
-			'exclude'  => $dismissed_notices,
-		)
+	$notices  = array();
+	$args     = array(
+		'user_id'  => $user_id,
+		'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
 	);
 
 	// Get Total number of notices.
-	$notices_count = bp_members_get_notices_count(
-		array(
-			'user_id'  => $user_id,
-			'exclude'  => $dismissed_notices,
-		)
-	);
+	$notices_count = bp_members_get_notices_count( $args );
 
-	foreach ( $notice_items as $notice_key => $notice_item ) {
-		$notices[ $notice_key ] = bp_get_notice_object( $notice_item );
+	if ( $notices_count ) {
+		$args['pag_page'] = $page;
+
+		// Get notices orderered by priority.
+		$notice_items = BP_Members_Notice::get( $args );
+
+		foreach ( $notice_items as $notice_key => $notice_item ) {
+			$notices[ $notice_key ] = bp_get_notice_object( $notice_item );
+		}
 	}
 
 	return array( 'items' => $notices, 'count' => (int) $notices_count );
@@ -1475,7 +1471,11 @@ function bp_get_admin_notice_version( $notice = null ) {
  * @since 15.0.0
  */
 function bp_output_notices() {
-	$user_id = bp_displayed_user_id();
+	$user_id       = bp_displayed_user_id();
+	$count         = 0;
+	$notices       = array();
+	$add_args      = array();
+	$selected_type = 'unread';
 
 	if ( bp_is_action_variable( 'view', 0 ) ) {
 		$notice_id = (int) bp_action_variable( 1 );
@@ -1483,24 +1483,131 @@ function bp_output_notices() {
 		// Fetch matching notice.
 		$notices = array( bp_members_get_notice( $notice_id ) );
 	} else {
-
-		// Fetch matching notices.
-		$notices = bp_members_get_notices(
-			array(
-				'user_id' => $user_id,
-				'exclude' => bp_members_get_dismissed_notices_for_user( $user_id )
-			)
+		$args = array(
+			'user_id' => $user_id,
 		);
+
+		if ( isset( $_GET['notice-type'] ) ) {
+			$selected_type = sanitize_text_field( wp_unslash( $_GET['notice-type'] ) );
+		}
+
+		if ( 'unread' === $selected_type ) {
+			$args['exclude'] = bp_members_get_dismissed_notices_for_user( $user_id );
+		} else {
+			$args['dismissed'] = true;
+		}
+
+		// Get Total number of notices.
+		$count = bp_members_get_notices_count( $args );
+		if ( $count ) {
+			$args['pag_page'] = 1;
+			$args['pag_num']  = 5;
+
+			if ( isset( $_GET['notice_page'] ) ) {
+				$args['pag_page'] = (int) wp_unslash( $_GET['notice_page'] );
+			}
+
+			// Fetch matching notices.
+			$notices = bp_members_get_notices( $args );
+		}
 	}
 
-	if ( empty( $notices ) ) {
+	$filter = array(
+		'unread'    => __( 'Unread', 'buddypress' ),
+		'dismissed' => __( 'Dismissed', 'buddypress' ),
+	);
+
+	if ( ! $notices ) {
+		bp_get_template_part(
+			'members/single/notices/pagination',
+			null,
+			array(
+				'filter'   => $filter,
+				'selected' => $selected_type,
+			)
+		);
 		?>
 		<p class="bp-notices-no-results"><?php esc_html_e( 'There are no notices to display.', 'buddypress' ); ?></p>
 		<?php
 	} else {
+		$pagination_count = '';
+		$pagination_links = '';
+		$total_pages      = 0;
+
+		// When a count is available, more than one notices are displayed.
+		if ( $count ) {
+			$start_num   = intval( ( $args['pag_page'] - 1 ) * $args['pag_num'] ) + 1;
+			$to_num      = $start_num + ( $args['pag_num'] - 1 );
+			if ( $start_num + ( $args['pag_num'] - 1 ) > $count ) {
+				$to_num = $count;
+			}
+
+			if ( 1 === $count ) {
+				$pagination_count = __( 'Viewing 1 notifice', 'buddypress' );
+			} else {
+				/* translators: 1: notice from number. 2: notice to number. 3: total notifices. */
+				$pagination_count = sprintf(
+					_n( 'Viewing %1$s - %2$s of %3$s notice', 'Viewing %1$s - %2$s of %3$s notices', $count, 'buddypress' ),
+					bp_core_number_format( $start_num ),
+					bp_core_number_format( $to_num ),
+					bp_core_number_format( $count )
+				);
+
+				$pagination_links = paginate_links(
+					array(
+						'base'      => add_query_arg( 'notice_page', '%#%' ),
+						'format'    => '',
+						'total'     => ceil( (int) $count / (int) $args[ 'pag_num'] ),
+						'current'   => $args['pag_page'],
+						'prev_text' => _x( '&larr;', 'Notices pagination previous text', 'buddypress' ),
+						'next_text' => _x( '&rarr;', 'Notices pagination next text', 'buddypress' ),
+						'mid_size'  => 1,
+					)
+				);
+			}
+
+			bp_get_template_part(
+				'members/single/notices/pagination',
+				null,
+				array(
+					'filter'           => $filter,
+					'selected'         => $selected_type,
+					'pagination_count' => $pagination_count,
+					'pagination_links' => $pagination_links,
+					'pagination_type'  => 'top',
+				)
+			);
+			?>
+
+			<div class="bp-list">
+			<?php
+		}
+
 		// Loop through Notices.
 		foreach ( $notices as $notice ) {
-			bp_get_template_part( 'members/single/notices/entry', null, array( 'context' => $notice ) );
+			bp_get_template_part(
+				'members/single/notices/entry',
+				null,
+				array(
+					'notice' => $notice,
+					'type'   => $selected_type,
+				)
+			);
+		}
+
+		if ( $count ) {
+			?>
+			</div>
+			<?php
+			bp_get_template_part(
+				'members/single/notices/pagination',
+				null,
+				array(
+					'pagination_count' => $pagination_count,
+					'pagination_links' => $pagination_links,
+					'pagination_type'  => 'bottom',
+				)
+			);
 		}
 	}
 }

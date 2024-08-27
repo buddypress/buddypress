@@ -428,18 +428,54 @@ body.users_page_bp-signups td.count_sent {
 	width: auto;
 }
 
-.bp-notice-about {
-	font-size: 1em;
-	margin-bottom: 1em;
-}
-
 .bp-new-notice {
 	margin-bottom: 1em;
 	margin-top: 0;
 }
 
-.bp-notices-list {
-	margin-bottom: 0;
+.wp-list-table.notices .notice-inactive td {
+	opacity: 50%;
+}
+
+form.edit-notice {
+	max-width: 800px;
+	display: table;
+	width: 100%;
+}
+
+form.edit-notice .form-field {
+	display: table-row;
+}
+
+form.edit-notice .form-input {
+	display: table-cell;
+	margin-bottom: 9px;
+	padding: 15px 10px;
+	line-height: 1.3;
+	vertical-align: middle;
+}
+
+form.edit-notice label {
+	font-weight: 600;
+	display: table-cell;
+	vertical-align: top;
+	padding: 20px 0 20px 10px;
+	width: 200px;
+}
+
+.buddypress-body.admin-notices .wp-filter .search-form,
+.buddypress-body.admin-notices .wp-filter .pagination {
+	margin: 11px 0;
+}
+
+.buddypress-body.admin-notices .wp-filter .pagination {
+	float: right;
+	height: 100%;
+}
+
+.buddypress-body.admin-notices .wp-filter .pagination button {
+	margin: 0 0 0 8px;
+	vertical-align: middle;
 }
 
 @media screen and (max-width: 782px) {

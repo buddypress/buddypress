@@ -7,24 +7,24 @@
  * @version 15.0.0
  */
 
-if ( ! isset( $args['context'] ) ) {
+if ( ! isset( $args['notice'] ) ) {
 	return;
 }
 ?>
 
-<article id="notice-<?php bp_notice_id( $args['context'] ); ?>" class="notice-item <?php bp_notice_item_class( $args['context'] ); ?>">
+<article id="notice-<?php bp_notice_id( $args['notice'] ); ?>" class="notice-item <?php bp_notice_item_class( $args['notice'] ); ?>">
 	<header class="bp-notice-header">
-		<h3><?php bp_notice_title( $args['context'] ); ?></h2>
+		<h3><?php bp_notice_title( $args['notice'] ); ?></h2>
 	</header>
 	<div class="bp-notice-body">
 		<div class="bp-notice-content">
-			<?php bp_notice_content( $args['context'] ); ?>
+			<?php bp_notice_content( $args['notice'] ); ?>
 		</div>
 	</div>
 	<footer class="bp-notice-footer">
-		<a href="<?php bp_notice_dismiss_url( $args['context'] ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
-		<?php if ( bp_notice_has_call_to_action( $args['context'] ) ) : ?>
-			<a href="<?php bp_notice_action_url( $args['context'] ); ?>"><?php bp_notice_action_text( $args['context'] ); ?></a>
+		<a href="<?php bp_notice_dismiss_url( $args['notice'] ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+		<?php if ( bp_notice_has_call_to_action( $args['notice'] ) ) : ?>
+			<a href="<?php bp_notice_action_url( $args['notice'] ); ?>"><?php bp_notice_action_text( $args['notice'] ); ?></a>
 		<?php endif; ?>
 	</footer>
 </article>
