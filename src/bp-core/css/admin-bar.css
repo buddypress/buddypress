@@ -160,9 +160,9 @@ body.admin-bar aside#bp-notices-container .notice-item {
 	flex-shrink: 0;
 	width: 100%;
 	scroll-snap-align: center;
-	margin-right: 0px;
+	margin-right: 0;
 	box-sizing: border-box;
-	background: white;
+	background: #fff;
 	transform-origin: center center;
 	transform: scale(1);
 }
@@ -271,7 +271,7 @@ body.admin-bar aside#bp-notices-container article.contributors .bp-notice-header
 
 body.admin-bar aside#bp-notices-container .bp-notice-body p {
 	line-height: 1.5;
-    margin: 1em 0;
+	margin: 1em 0;
 }
 
 body.admin-bar aside#bp-notices-container hr {

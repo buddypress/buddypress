@@ -42,13 +42,26 @@
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications.alert {
-	background-color: #21759b;
+	font-size: 12px;
+	background-color: transparent;
+	border-radius: 0;
 	color: #fff;
 }
 
-#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications.alert.admin-type {
-	border-radius: 0;
-	background-color: transparent;
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices button {
+	all: unset;
+	outline: revert;
+}
+
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices.is-open,
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices:hover .ab-item {
+	background: #fff;
+	color: #d84800;
+}
+
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices.is-open #ab-pending-notifications.alert,
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices:hover #ab-pending-notifications.alert {
+	color: #d84800;
 }
 
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications .ab-icon {
@@ -98,4 +111,172 @@
 	#wpadminbar li#wp-admin-bar-bp-register a {
 		padding: 0 8px;
 	}
+}
+
+body.admin-bar button#bp-notices-toggler {
+	cursor: pointer !important;
+}
+
+body.admin-bar aside#bp-notices-container {
+	margin-left: 0;
+	margin-top: 32px;
+	border: 0;
+	border-color: transparent;
+	background: #fefefe;
+	box-shadow: 0 12px 24px -16px #444;
+	padding: 1em;
+	width: 25%;
+	height: 100%;
+}
+
+body.admin-bar aside#bp-notices-container.no-popover-support {
+	display: none;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notices-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notices-slider {
+	width: 100%;
+	margin: 5px;
+	overflow: hidden;
+	position: relative;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notices-slides {
+	display: flex;
+	overflow-x: scroll;
+	position: relative;
+	scroll-behavior: smooth;
+	scroll-snap-type: x mandatory;
+}
+
+body.admin-bar aside#bp-notices-container .notice-item {
+	display: flex;
+	flex-shrink: 0;
+	width: 100%;
+	scroll-snap-align: center;
+	margin-left: 0;
+	box-sizing: border-box;
+	background: #fff;
+	transform-origin: center center;
+	transform: scale(1);
+}
+
+body.admin-bar aside#bp-notices-container .notice-item .notice-item-inner {
+	width: 100%;
+}
+
+body.admin-bar aside#bp-notices-container .notice-item .bp-notice-actions {
+	text-align: left;
+	padding-left: 1em;
+}
+
+body.admin-bar aside#bp-notices-container .notice-item .bp-notice-actions.flex {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	flex-direction: row;
+	padding-left: 0;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-footer {
+	border-top: solid 1px #999;
+	margin-top: 2em;
+	padding: 0.5em 1em 0;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-footer .bp-notice-pagination {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	color: #999;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-footer .bp-notice-pagination a {
+	color: #999;
+}
+
+body.admin-bar aside#bp-notices-container * {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 13px;
+}
+
+body.admin-bar aside#bp-notices-container h2.community-notices-title,
+body.admin-bar aside#bp-notices-container h2.my-notifications-title,
+body.admin-bar aside#bp-notices-container .bp-notice-header h3 {
+	color: #1d2327;
+	font-size: 1.3em;
+	margin: 1em 0;
+	font-weight: 800;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-request-status {
+	display: none;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-request-status.error {
+	display: block;
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-right-color: #d63638;
+	border-right-width: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+	margin: 5px 15px 2px;
+	padding: 1px 12px;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-request-status.error p {
+	margin: 0.5em 0;
+	padding: 2px;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-header h3 {
+	font-size: 1.25em;
+	font-weight: 600;
+}
+
+body.admin-bar aside#bp-notices-container article.notice-item .bp-notice-header h3:before {
+	display: inline-block;
+	margin-left: 0.125em;
+	padding-right: 0.25em;
+	width: 1.25em;
+	height: 1.25em;
+	font-size: 1.25em;
+	font-family: dashicons;
+	color: #d84800;
+	vertical-align: top;
+}
+
+body.admin-bar aside#bp-notices-container article.buddypress .bp-notice-header h3:before {
+	content: "\f448";
+}
+
+body.admin-bar aside#bp-notices-container article.community .bp-notice-header h3:before {
+	content: "\f453";
+}
+
+body.admin-bar aside#bp-notices-container article.admins .bp-notice-header h3:before {
+	content: "\f226";
+}
+
+body.admin-bar aside#bp-notices-container article.contributors .bp-notice-header h3:before {
+	content: "\f464";
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-body p {
+	line-height: 1.5;
+	margin: 1em 0;
+}
+
+body.admin-bar aside#bp-notices-container hr {
+	border: none;
+	padding-top: 1em;
+	margin: 1em 0;
+	border-bottom: solid 1px #d84800;
 }
