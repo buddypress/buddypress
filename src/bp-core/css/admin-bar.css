@@ -280,3 +280,19 @@ body.admin-bar aside#bp-notices-container hr {
 	margin: 1em 0;
 	border-bottom: solid 1px #d84800;
 }
+
+@media screen and (max-width: 782px) {
+
+	#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications {
+		display: block;
+	}
+
+	#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications span#ab-pending-notifications .count {
+		display: none;
+	}
+
+	body.admin-bar aside#bp-notices-container {
+		margin-top: 46px;
+		width: calc(100% - 2em);
+	}
+}
