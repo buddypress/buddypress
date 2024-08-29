@@ -29,9 +29,9 @@ window.bp = window.bp || {};
 	function debounce(func, wait, immediate) { 
 		'use strict'; 
 	 
-		var timeout; 
-		wait      = (typeof wait !== 'undefined') ? wait : 20; 
-	        immediate = (typeof immediate !== 'undefined') ? immediate : true; 
+		var timeout;
+		wait = (typeof wait !== 'undefined') ? wait : 20;
+		immediate = (typeof immediate !== 'undefined') ? immediate : true;
 	 
 		return function() { 
 	 
@@ -211,9 +211,9 @@ window.bp = window.bp || {};
 					
 					// Skip AJAX request if query is empty
 					if (!query.trim()) {
-				        	render_view([]); // Return an empty array to indicate no results
-				        	return;
-				    	}
+					    render_view([]); // Return an empty array to indicate no results
+					    return;
+					}
 
 					mentionsItem = mentionsQueryCache[ query ];
 					if ( typeof mentionsItem === 'object' ) {
