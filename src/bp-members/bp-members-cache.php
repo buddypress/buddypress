@@ -139,6 +139,7 @@ function bp_members_clear_user_notices_cache( $user_id = 0 ) {
 	wp_cache_delete( $user_id, 'bp_member_first_active_notice' );
 	wp_cache_delete( $user_id, 'bp_member_dismissed_notices' );
 	wp_cache_delete( $user_id, 'bp_member_notices_count' );
+	wp_cache_delete( $user_id, 'bp_member_top_priority_notices' );
 }
 add_action( 'bp_members_notice_after_save', 'bp_members_clear_user_notices_cache', 10, 0 );
 add_action( 'bp_members_notice_after_delete', 'bp_members_clear_user_notices_cache', 10, 0 );

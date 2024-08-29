@@ -139,4 +139,30 @@ class BP_Tests_BP_Members_Notice_TestCases extends BP_UnitTestCase {
 
 		$this->assertFalse( wp_cache_get( $u1, 'bp_member_notices_count' ) );
 	}
+
+	/**
+	 * @group cache
+	 * @group bp_member_top_priority_notices
+	 * @ticket BP9098
+	 */
+	public function test_get_user_notices() {
+		$notices = $this->get_notices();
+
+		$u1 = self::factory()->user->create();
+
+		$user_notices = bp_members_get_notices_for_user( $u1 );
+
+		$this->assertEquals( 3, count( wp_cache_get( $u1, 'bp_member_top_priority_notices' ) ) );
+
+		foreach ( $notices['dismissed'] as $notice_id ) {
+			bp_members_dismiss_notice( $u1, $notice_id );
+		}
+
+		$this->assertFalse( wp_cache_get( $u1, 'bp_member_top_priority_notices' ) );
+
+		bp_members_get_notices_for_user( $u1 );
+		$cache = wp_cache_get( $u1, 'bp_member_top_priority_notices' );
+
+		$this->assertEquals( $notices['unread'], bp_get_notice_id( $cache[0] ) );
+	}
 }
