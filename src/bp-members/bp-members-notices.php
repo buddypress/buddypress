@@ -559,11 +559,10 @@ function bp_get_notice_object( $object ) {
  *
  * @since 15.0.0
  *
- * @param integer $user_id The user ID to get the notice for.
- * @param integer $page    The page number to get.
+ * @param integer $user_id The user ID to get the notice for. Required.
  * @return array The higher priority notices & the notices total count.
  */
-function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
+function bp_members_get_notices_for_user( $user_id ) {
 	$notices  = array();
 	$args     = array(
 		'user_id'  => $user_id,
@@ -573,10 +572,8 @@ function bp_members_get_notices_for_user( $user_id, $page = 1 ) {
 	// Get Total number of notices.
 	$notices_count = bp_members_get_notices_count( $args );
 
+	// Get notices orderered by priority.
 	if ( $notices_count ) {
-		$args['pag_page'] = $page;
-
-		// Get notices orderered by priority.
 		$notice_items = BP_Members_Notice::get( $args );
 
 		foreach ( $notice_items as $notice_key => $notice_item ) {

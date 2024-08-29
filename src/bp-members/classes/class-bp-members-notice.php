@@ -513,13 +513,29 @@ class BP_Members_Notice {
 
 			// Get all matching notices.
 		} else {
-			$result = $wpdb->get_results(
-				"SELECT n.* FROM {$bp->members->table_name_notices} n
-				{$join_sql}
-				{$where_sql}
-				ORDER BY priority ASC, date_sent DESC
-				{$limit_sql}"
-			);
+			$user_result     = false;
+			$is_user_notices = isset( $args['user_id'], $args['exclude'] ) && $args['user_id'] && 1 === $r['pag_page'];
+
+			// Are we getting the user's top priority notices?
+			if ( $is_user_notices ) {
+				$user_result = wp_cache_get( $args['user_id'], 'bp_member_top_priority_notices' );
+			}
+
+			if ( false === $user_result ) {
+				$result = $wpdb->get_results(
+					"SELECT n.* FROM {$bp->members->table_name_notices} n
+					{$join_sql}
+					{$where_sql}
+					ORDER BY priority ASC, date_sent DESC
+					{$limit_sql}"
+				);
+
+				if ( $is_user_notices ) {
+					wp_cache_set( $args['user_id'], $result, 'bp_member_top_priority_notices' );
+				}
+			} else {
+				$result = $user_result;
+			}
 
 			// Integer casting.
 			foreach ( (array) $result as $key => $data ) {
@@ -615,9 +631,10 @@ class BP_Members_Notice {
 		// Forces a count query.
 		$args['count_total_only'] = true;
 		$user_notices_count       = false;
+		$is_user_notices          = isset( $args['user_id'], $args['exclude'] ) && $args['user_id'];
 
 		// We're getting a user's unread notices count.
-		if ( isset( $args['user_id'], $args['exclude'] ) && $args['user_id'] ) {
+		if ( $is_user_notices ) {
 			$user_notices_count = wp_cache_get( $args['user_id'], 'bp_member_notices_count' );
 		}
 
@@ -636,7 +653,9 @@ class BP_Members_Notice {
 				'bp_members_get_total_notice_count'
 			);
 
-			wp_cache_set( $args['user_id'], $notices_count, 'bp_member_notices_count' );
+			if ( $is_user_notices ) {
+				wp_cache_set( $args['user_id'], $notices_count, 'bp_member_notices_count' );
+			}
 
 			// Use cached count.
 		} else {
