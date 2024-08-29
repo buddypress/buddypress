@@ -400,3 +400,13 @@ function bp_message_activate_deactivate_text() {
 function bp_get_message_activate_deactivate_text() {
 	_deprecated_function( __FUNCTION__, '15.0.0' );
 }
+
+/**
+ * Invalidate cache for notices.
+ *
+ * @since 2.0.0
+ * @deprecated 15.0.0
+ */
+function bp_notices_clear_cache() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
+}
