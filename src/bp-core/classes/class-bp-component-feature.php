@@ -154,6 +154,9 @@ class BP_Component_Feature extends BP_Component {
 		// Setup WP Toolbar menus.
 		add_action( 'bp_setup_admin_bar', array( $this, 'setup_admin_bar' ) );
 
+		// Setup cache groups.
+		add_action( 'bp_setup_cache_groups', array( $this, 'setup_cache_groups' ), 10 );
+
 		// Register BP REST Endpoints.
 		if ( bp_rest_in_buddypress() && bp_rest_api_is_available() ) {
 			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );

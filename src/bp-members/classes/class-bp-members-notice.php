@@ -275,7 +275,13 @@ class BP_Members_Notice {
 
 		// Activate the notice.
 		$this->priority = $previous_priority;
-		return (bool) $this->save();
+		$activated      = $this->save();
+
+		if ( is_wp_error( $activated ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -292,7 +298,13 @@ class BP_Members_Notice {
 
 		// Deactivating is using a priority of 127.
 		$this->priority = 127;
-		return (bool) $this->save();
+		$deactivated    = $this->save();
+
+		if ( is_wp_error( $deactivated ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -315,7 +327,7 @@ class BP_Members_Notice {
 		 *
 		 * @param BP_Members_Notice $notice Current instance of the message notice item being deleted.
 		 */
-		do_action_deprecated( 'messages_notice_before_delete', array( $this ), '15.0.0', 'members_notice_before_delete' );
+		do_action_deprecated( 'messages_notice_before_delete', array( $this ), '15.0.0', 'bp_members_notice_before_delete' );
 
 		/**
 		 * Fires before the notice item has been deleted.
@@ -324,7 +336,7 @@ class BP_Members_Notice {
 		 *
 		 * @param BP_Members_Notice $notice Current instance of the notice item being deleted.
 		 */
-		do_action( 'members_notice_before_delete', $this );
+		do_action( 'bp_members_notice_before_delete', $this );
 
 		$bp  = buddypress();
 		$sql = $wpdb->prepare( "DELETE FROM {$bp->members->table_name_notices} WHERE id = %d", $this->id );
@@ -345,7 +357,7 @@ class BP_Members_Notice {
 		 *
 		 * @param BP_Members_Notice $notice Current instance of the notice being saved. Passed by reference.
 		 */
-		do_action_deprecated( 'messages_notice_after_delete', array( $this ), '15.0.0', 'members_notice_after_delete' );
+		do_action_deprecated( 'messages_notice_after_delete', array( $this ), '15.0.0', 'bp_members_notice_after_delete' );
 
 		/**
 		 * Fires after the notice item has been deleted.
@@ -354,7 +366,7 @@ class BP_Members_Notice {
 		 *
 		 * @param BP_Members_Notice $notice Current instance of the notice item being deleted.
 		 */
-		do_action( 'members_notice_after_delete', $this );
+		do_action( 'bp_members_notice_after_delete', $this );
 
 		return true;
 	}
@@ -628,6 +640,41 @@ class BP_Members_Notice {
 	}
 
 	/**
+	 * Returns the list of notice IDs the user dismissed.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param integer $user_id The user ID.
+	 * @return array The list of Notice IDs the user has dismissed.
+	 */
+	public static function get_user_dismissed( $user_id ) {
+		$dismissed = wp_cache_get( $user_id, 'bp_member_dismissed_notices' );
+
+		if ( false === $dismissed ) {
+			$dismissed = self::get(
+				array(
+					'user_id'   => $user_id,
+					'dismissed' => true,
+					'fields'    => 'ids',
+				)
+			);
+
+			// Cache user's first active notice.
+			wp_cache_set( $user_id, $dismissed, 'bp_member_dismissed_notices' );
+		}
+
+		/**
+		 * Gives ability to filter the user's dismissed notices.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param array   $dismissed The list of notice IDs the user dismissed.
+		 * @param integer $user_id   The corresponding user ID.
+		 */
+		return apply_filters( 'bp_members_get_dismissed_notices_for_user', $dismissed, $user_id );
+	}
+
+	/**
 	 * Returns the active notice that should be displayed on the front end.
 	 *
 	 * @global wpdb $wpdb WordPress database object.
@@ -637,32 +684,23 @@ class BP_Members_Notice {
 	 * @return BP_Members_Notice
 	 */
 	public static function get_active() {
-		$notice = false;
-
-		/*
-		 * @todo
-		 *
-		 * $notice = wp_cache_get( 'active_notice', 'bp_notices' );
-		 */
+		$notice  = false;
+		$user_id = bp_loggedin_user_id();
+		$notice  = wp_cache_get( $user_id, 'bp_member_first_active_notice' );
 
 		if ( false === $notice ) {
-			$user_id = bp_loggedin_user_id();
-
 			$notice = self::get(
 				array(
 					'user_id'  => $user_id,
 					'pag_page' => 1,
 					'pag_num'  => 1,
 					'type'     => 'first_active',
-					'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
+					'exclude'  => self::get_user_dismissed( $user_id ),
 				)
 			);
 
-			/*
-			 * @todo
-			 *
-			 * wp_cache_set( 'active_notice', $notice, 'bp_notices' );
-			 */
+			// Cache user's first active notice.
+			wp_cache_set( $user_id, $notice, 'bp_member_first_active_notice' );
 		}
 
 		/**
@@ -676,7 +714,7 @@ class BP_Members_Notice {
 		$notice = apply_filters_deprecated( 'messages_notice_get_active', array( $notice ), '15.0.0', 'bp_members_notice_get_active' );
 
 		/**
-		 * Gives ability to filter the active notice that should be displayed on the front end.
+		 * Gives ability to filter the first active notice for the current user.
 		 *
 		 * @since 15.0.0
 		 *

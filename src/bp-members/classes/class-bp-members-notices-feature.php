@@ -286,6 +286,24 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 	}
 
 	/**
+	 * Setup cache groups.
+	 *
+	 * @since 15.0.0
+	 */
+	public function setup_cache_groups() {
+
+		// Global groups.
+		wp_cache_add_global_groups(
+			array(
+				'bp_member_first_active_notice',
+				'bp_member_dismissed_notices',
+			)
+		);
+
+		parent::setup_cache_groups();
+	}
+
+	/**
 	 * Register the BP REST API Controller.
 	 *
 	 * @since 15.0.0

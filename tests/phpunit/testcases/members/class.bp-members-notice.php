@@ -22,13 +22,9 @@ class BP_Tests_BP_Members_Notice_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
+	 * @ticket BP9098
 	 */
-	public function test_get_active_notices() {
-		/*
-		 * @todo Update this test then remove the skipping instruction.
-		 */
-		$this->markTestSkipped();
-
+	public function test_get_active_notice() {
 		// send notice
 		$subject = 'Test notice';
 		$message = 'This is a notice';
@@ -40,14 +36,17 @@ class BP_Tests_BP_Members_Notice_TestCases extends BP_UnitTestCase {
 			)
 		);
 
+		$u1 = self::factory()->user->create();
+		self::set_current_user( $u1 );
+
 		// now get the active notice and assert
-		$notice = BP_Members_Notice::get_active();
-		$this->assertEquals( $subject, $notice->subject );
-		$this->assertEquals( $message, $notice->message );
+		$notice = bp_get_active_notice_for_user();
+		$this->assertEquals( $subject, bp_get_notice_title( $notice ) );
+		$this->assertEquals( $message, bp_get_notice_content( $notice, true ) );
 
 		// deactivate notice and make sure cache is invalidated
-		$notice->deactivate();
-		$this->assertFalse( wp_cache_get( 'active_notice', 'bp_messages' ) );
+		$test = $notice->deactivate();
+		$this->assertFalse( wp_cache_get( $u1, 'bp_member_first_active_notice' ) );
 
 		// create a new notice
 		$subject2 = 'Another notice';
@@ -64,8 +63,8 @@ class BP_Tests_BP_Members_Notice_TestCases extends BP_UnitTestCase {
 		BP_Members_Notice::get_active();
 
 		// grab the cache and make sure it equals our new notice
-		$cache = wp_cache_get( 'active_notice', 'bp_messages' );
-		$this->assertEquals( $subject2, $cache->subject );
-		$this->assertEquals( $message2, $cache->message );
+		$cache = wp_cache_get( $u1, 'bp_member_first_active_notice' );
+		$this->assertEquals( $subject2, bp_get_notice_title( $cache ) );
+		$this->assertEquals( $message2, bp_get_notice_content( $cache, true ) );
 	}
 }

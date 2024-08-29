@@ -362,8 +362,8 @@ function bp_members_save_notice( $args = array() ) {
  *
  * @since 15.0.0
  *
- * @param int     $user_id     ID of the user to dismiss the notice for. Defaults to the logged-in user.
- * @param int     $notice_id   ID of the notice to be dismissed.
+ * @param integer $user_id     ID of the user to dismiss the notice for. Defaults to the logged-in user.
+ * @param integer $notice_id   ID of the notice to be dismissed.
  * @param boolean $return_bool Whether to force a boolean return or not. Defaults to `false`.
  * @return WP_Error|bool False or a WP Error object on failure, true if notice is dismissed
  *                       (or was already dismissed).
@@ -411,6 +411,16 @@ function bp_members_dismiss_notice( $user_id = 0, $notice_id = 0, $return_bool =
 
 		return $return_bool ? false : $dismissed;
 	}
+
+	/**
+	 * Fires once the user dismissed a notice.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param integer $user_id   ID of the user to dismiss the notice for. Defaults to the logged-in user.
+	 * @param integer $notice_id ID of the notice to be dismissed.
+	 */
+	do_action( 'bp_member_notice_dismissed', $user_id, $notice_id );
 
 	return $dismissed;
 }
@@ -518,13 +528,7 @@ function bp_members_get_notice( $notice_id = 0 ) {
  * @return array The list of Notice IDs the user has dismissed.
  */
 function bp_members_get_dismissed_notices_for_user( $user_id ) {
-	return BP_Members_Notice::get(
-		array(
-			'user_id'   => $user_id,
-			'dismissed' => true,
-			'fields'    => 'ids',
-		)
-	);
+	return BP_Members_Notice::get_user_dismissed( $user_id );
 }
 
 /**
