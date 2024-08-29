@@ -149,10 +149,7 @@ body.admin-bar aside#bp-notices-container .bp-notices-slider {
 
 body.admin-bar aside#bp-notices-container .bp-notices-slides {
 	display: flex;
-	overflow-x: scroll;
 	position: relative;
-	scroll-behavior: smooth;
-	scroll-snap-type: x mandatory;
 }
 
 body.admin-bar aside#bp-notices-container .notice-item {
