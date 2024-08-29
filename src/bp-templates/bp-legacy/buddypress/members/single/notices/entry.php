@@ -22,9 +22,9 @@ if ( ! isset( $args['notice'] ) ) {
 		</div>
 	</div>
 	<footer class="bp-notice-footer">
-		<a href="<?php bp_notice_dismiss_url( $args['notice'] ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+		<a href="<?php bp_notice_dismiss_url( $args['notice'] ); ?>" class="button"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
 		<?php if ( bp_notice_has_call_to_action( $args['notice'] ) ) : ?>
-			<a href="<?php bp_notice_action_url( $args['notice'] ); ?>"><?php bp_notice_action_text( $args['notice'] ); ?></a>
+			<a href="<?php bp_notice_action_url( $args['notice'] ); ?>" class="button"><?php bp_notice_action_text( $args['notice'] ); ?></a>
 		<?php endif; ?>
 	</footer>
 </article>
