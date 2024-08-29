@@ -504,7 +504,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 */
 	public function sitewide_notices() {
 		// Do not show notices if user is not logged in.
-		if ( ! is_user_logged_in() || is_admin() ) {
+		if ( ! is_user_logged_in() || is_admin() || did_action( 'admin_bar_menu' ) ) {
 			return;
 		}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * BP Nouveau User notices pagination
+ * BuddyPress - Member’s Notice Pagination & Filter.
  *
  * @since 15.0.0
  * @version 15.0.0
