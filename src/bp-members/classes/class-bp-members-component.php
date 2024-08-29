@@ -227,8 +227,8 @@ class BP_Members_Component extends BP_Component {
 		$bp = buddypress();
 
 		// Set-up Extra permastructs for the register and activate pages.
-		$this->register_permastruct = bp_get_signup_slug() . '/%' . $this->rewrite_ids['member_register'] . '%';
-		$this->activate_permastruct = bp_get_activate_slug() . '/%' . $this->rewrite_ids['member_activate'] . '%';
+		$this->register_permastruct = bp_get_signup_root_slug() . '/%' . $this->rewrite_ids['member_register'] . '%';
+		$this->activate_permastruct = bp_get_activate_root_slug() . '/%' . $this->rewrite_ids['member_activate'] . '%';
 
 		// Init the User's ID to use to build the Nav for.
 		$user_id = bp_loggedin_user_id();
@@ -725,17 +725,17 @@ class BP_Members_Component extends BP_Component {
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_type'] . '=$matches[1]',
 			),
 			'member_activate'     => array(
-				'regex' => bp_get_activate_slug() . '/?$',
+				'regex' => bp_get_activate_root_slug() . '/?$',
 				'order' => 40,
 				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1',
 			),
 			'member_activate_key' => array(
-				'regex' => bp_get_activate_slug() . '/([^/]+)/?$',
+				'regex' => bp_get_activate_root_slug() . '/([^/]+)/?$',
 				'order' => 30,
 				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1&' . $this->rewrite_ids['member_activate_key'] . '=$matches[1]',
 			),
 			'member_register'     => array(
-				'regex' => bp_get_signup_slug() . '/?$',
+				'regex' => bp_get_signup_root_slug() . '/?$',
 				'order' => 20,
 				'query' => 'index.php?' . $this->rewrite_ids['member_register'] . '=1',
 			),

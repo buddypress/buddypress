@@ -121,4 +121,76 @@ class BP_Tests_Routing_Members extends BP_UnitTestCase {
 
 		$this->assertSame( get_current_user_id(), bp_displayed_user_id() );
 	}
+
+	public function filter_root_slug( $root_slug ) {
+		return 'community/' . $root_slug;
+	}
+
+	/**
+	 * @ticket BP9063
+	 */
+	public function test_members_registration_page_filtered() {
+		$this->set_permalink_structure( '/%postname%/' );
+
+		add_filter( 'bp_members_register_root_slug', array( $this, 'filter_root_slug' ) );
+		bp_delete_rewrite_rules();
+
+		// Regenerate rewrite rules.
+		$this->go_to( home_url() );
+		$bp_registration_url = bp_get_signup_page();
+
+		remove_filter( 'bp_members_register_root_slug', array( $this, 'filter_root_slug' ) );
+
+		$this->go_to( $bp_registration_url );
+
+		$this->assertTrue( false !== strpos( $bp_registration_url, 'community' ) );
+		$this->assertTrue( bp_is_register_page() );
+	}
+
+	/**
+	 * @ticket BP9063
+	 */
+	public function test_members_registration_page() {
+		$this->set_permalink_structure( '/%postname%/' );
+		$bp_registration_url = bp_get_signup_page();
+
+		$this->go_to( $bp_registration_url );
+
+		$this->assertTrue( false === strpos( $bp_registration_url, 'community' ) );
+		$this->assertTrue( bp_is_register_page() );
+	}
+
+	/**
+	 * @ticket BP9063
+	 */
+	public function test_members_activation_page_filtered() {
+		$this->set_permalink_structure( '/%postname%/' );
+
+		add_filter( 'bp_members_activate_root_slug', array( $this, 'filter_root_slug' ) );
+		bp_delete_rewrite_rules();
+
+		// Regenerate rewrite rules.
+		$this->go_to( home_url() );
+		$bp_activation_url = bp_get_activation_page();
+
+		remove_filter( 'bp_members_activate_root_slug', array( $this, 'filter_root_slug' ) );
+
+		$this->go_to( $bp_activation_url );
+
+		$this->assertTrue( false !== strpos( $bp_activation_url, 'community' ) );
+		$this->assertTrue( bp_is_activation_page() );
+	}
+
+	/**
+	 * @ticket BP9063
+	 */
+	public function test_members_activation_page() {
+		$this->set_permalink_structure( '/%postname%/' );
+		$bp_activation_url = bp_get_activation_page();
+
+		$this->go_to( $bp_activation_url );
+
+		$this->assertTrue( false === strpos( $bp_activation_url, 'community' ) );
+		$this->assertTrue( bp_is_activation_page() );
+	}
 }

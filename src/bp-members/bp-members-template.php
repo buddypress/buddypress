@@ -243,6 +243,26 @@ function bp_signup_slug() {
 	}
 
 /**
+ * Returns the registration page root slug.
+ *
+ * This function is used to set the BP Signup rewrite rule and permastruct.
+ *
+ * @since 15.0.0
+ *
+ * @return string The registration page root slug.
+ */
+function bp_get_signup_root_slug() {
+	/**
+	 * Filter here to edit the registration page root slug.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string $register_root_slug The registration page root slug.
+	 */
+	return apply_filters( 'bp_members_register_root_slug', bp_get_signup_slug() );
+}
+
+/**
  * Output the activation slug.
  *
  * @since 1.5.0
@@ -274,6 +294,26 @@ function bp_activate_slug() {
 		 */
 		return apply_filters( 'bp_get_activate_slug', $slug );
 	}
+
+/**
+ * Returns the registration page root slug.
+ *
+ * This function is used to set the BP Signup rewrite rule and permastruct.
+ *
+ * @since 15.0.0
+ *
+ * @return string The registration page root slug.
+ */
+function bp_get_activate_root_slug() {
+	/**
+	 * Filter here to edit the activation page root slug.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string $activate_root_slug The activation page root slug.
+	 */
+	return apply_filters( 'bp_members_activate_root_slug', bp_get_activate_slug() );
+}
 
 /**
  * Output the members invitation pane slug.
