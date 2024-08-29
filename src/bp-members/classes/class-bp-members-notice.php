@@ -614,29 +614,43 @@ class BP_Members_Notice {
 	public static function get_total_notice_count( $args = array() ) {
 		// Forces a count query.
 		$args['count_total_only'] = true;
+		$user_notices_count       = false;
 
-		/**
-		 * The 'messages_notice_get_total_notice_count' is deprecated as of 15.0.0.
-		 *
-		 * Please use 'bp_members_get_total_notice_count' instead.
-		 *
-		 * @deprecated 15.0.0
-		 */
-		 $notice_count = (int) apply_filters_deprecated(
-			'messages_notice_get_total_notice_count',
-			array( BP_Members_Notice::get( $args ) ),
-			'15.0.0',
-			'bp_members_get_total_notice_count'
-		);
+		// We're getting a user's unread notices count.
+		if ( isset( $args['user_id'], $args['exclude'] ) && $args['user_id'] ) {
+			$user_notices_count = wp_cache_get( $args['user_id'], 'bp_member_notices_count' );
+		}
+
+		if ( false === $user_notices_count ) {
+			/**
+			 * The 'messages_notice_get_total_notice_count' is deprecated as of 15.0.0.
+			 *
+			 * Please use 'bp_members_get_total_notice_count' instead.
+			 *
+			 * @deprecated 15.0.0
+			 */
+			$notices_count = (int) apply_filters_deprecated(
+				'messages_notice_get_total_notice_count',
+				array( BP_Members_Notice::get( $args ) ),
+				'15.0.0',
+				'bp_members_get_total_notice_count'
+			);
+
+			wp_cache_set( $args['user_id'], $notices_count, 'bp_member_notices_count' );
+
+			// Use cached count.
+		} else {
+			$notices_count = $user_notices_count;
+		}
 
 		/**
 		 * Filters the total number of notices.
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param integer $notice_count Total number of recorded notices.
+		 * @param integer $notices_count Total number of recorded notices.
 		 */
-		return apply_filters( 'bp_members_get_total_notice_count', $notice_count );
+		return apply_filters( 'bp_members_get_total_notice_count', $notices_count );
 	}
 
 	/**

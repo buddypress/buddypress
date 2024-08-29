@@ -11,7 +11,6 @@ class BP_Tests_BP_Members_Notice_TestCases extends BP_UnitTestCase {
 		parent::set_up();
 
 		$this->old_current_user = get_current_user_id();
-		self::set_current_user( self::factory()->user->create( array( 'role' => 'administrator' ) ) );
 	}
 
 	public function tear_down() {
@@ -22,6 +21,7 @@ class BP_Tests_BP_Members_Notice_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @group cache
+	 * group bp_member_first_active_notice
 	 * @ticket BP9098
 	 */
 	public function test_get_active_notice() {
@@ -66,5 +66,77 @@ class BP_Tests_BP_Members_Notice_TestCases extends BP_UnitTestCase {
 		$cache = wp_cache_get( $u1, 'bp_member_first_active_notice' );
 		$this->assertEquals( $subject2, bp_get_notice_title( $cache ) );
 		$this->assertEquals( $message2, bp_get_notice_content( $cache, true ) );
+	}
+
+	public function get_notices() {
+		return array(
+			'dismissed' => array(
+				bp_members_save_notice(
+					array(
+						'title'   => 'Dismissed Notice #1',
+						'content' => 'Content for first dismissed notice',
+					)
+				),
+				bp_members_save_notice(
+					array(
+						'title'   => 'Dismissed Notice #2',
+						'content' => 'Content for second dismissed notice',
+					)
+				),
+			),
+			'unread' => bp_members_save_notice(
+				array(
+					'title'   => 'Unread Notice',
+					'content' => 'Content for unread notice',
+				)
+			),
+		);
+	}
+
+	/**
+	 * @group cache
+	 * @group bp_member_dismissed_notices
+	 * @ticket BP9098
+	 */
+	public function test_get_dismissed_notices() {
+		$notices = $this->get_notices();
+
+		$u1 = self::factory()->user->create();
+		foreach ( $notices['dismissed'] as $notice_id ) {
+			bp_members_dismiss_notice( $u1, $notice_id );
+		}
+
+		$dismissed = bp_members_get_dismissed_notices_for_user( $u1 );
+
+		$this->assertSame( $notices['dismissed'], wp_cache_get( $u1, 'bp_member_dismissed_notices' ) );
+
+		bp_members_dismiss_notice( $u1, $notices['unread'] );
+		$this->assertFalse( wp_cache_get( $u1, 'bp_member_dismissed_notices' ) );
+	}
+
+	/**
+	 * @group cache
+	 * @group bp_member_notices_count
+	 * @ticket BP9098
+	 */
+	public function test_get_user_notices_count() {
+		$notices = $this->get_notices();
+
+		$u1 = self::factory()->user->create();
+
+		$notices_count = bp_members_get_notices_count(
+			array(
+				'user_id'  => $u1,
+				'exclude'  => array(),
+			)
+		);
+
+		$this->assertEquals( 3, wp_cache_get( $u1, 'bp_member_notices_count' ) );
+
+		foreach ( $notices['dismissed'] as $notice_id ) {
+			bp_members_dismiss_notice( $u1, $notice_id );
+		}
+
+		$this->assertFalse( wp_cache_get( $u1, 'bp_member_notices_count' ) );
 	}
 }

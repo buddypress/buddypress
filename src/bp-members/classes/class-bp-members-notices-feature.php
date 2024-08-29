@@ -297,6 +297,7 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 			array(
 				'bp_member_first_active_notice',
 				'bp_member_dismissed_notices',
+				'bp_member_notices_count',
 			)
 		);
 
