@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array(), 'version' => '078611e16431f0d2ea86');
+<?php return array('dependencies' => array('bp-notices-controller', 'wp-dom-ready'), 'version' => '1cdb2383298afca0572f');
