@@ -21,7 +21,7 @@ When BuddyPress loads a template, it follows this order:
 
 1. **Child Theme**: BuddyPress looks for templates in the child theme directory first. This allows you to customize templates without modifying the parent theme.
 2. **Parent Theme**: If the template is not found in the child theme, BuddyPress will look in the parent theme directory.
-3. **BuddyPress Default**: If neither the child nor the parent theme contains the template, BuddyPress will use its default templates.
+3. **BuddyPress Default**: If neither the child nor the parent theme contains the template, BuddyPress will use its default templates (bp-legacy or bp-nouveau).
 
 ### Customizing BuddyPress Templates
 
