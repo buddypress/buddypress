@@ -512,7 +512,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		$class = did_action( 'admin_bar_menu' ) ? 'admin-bar-on' : 'admin-bar-off';
 
 		echo '<div id="sitewide-notice" class="' . esc_attr( $class ) . '">';
-		bp_output_active_notice();
+		bp_render_active_notice();
 		echo '</div>';
 	}
 
