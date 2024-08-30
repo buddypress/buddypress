@@ -34,11 +34,17 @@
 <?php if ( isset( $args['pagination_count'], $args['pagination_links'], $args['pagination_type'] ) ) : ?>
 	<div class="bp-pagination <?php echo esc_attr( $args['pagination_type'] ); ?> no-ajax">
 		<div class="pag-count <?php echo esc_attr( $args['pagination_type'] ); ?>">
-			<p class="pag-data"><?php echo $args['pagination_count']; ?></p>
+			<p class="pag-data"><?php echo esc_html( $args['pagination_count'] ); ?></p>
 		</div>
 
 		<div class="bp-pagination-links <?php echo esc_attr( $args['pagination_type'] ); ?>">
-			<p class="pag-data"><?php echo $args['pagination_links']; ?></p>
+			<p class="pag-data">
+				<?php
+				// Escaping is done in WordPress's `paginate_links()` function.
+				// phpcs:ignore WordPress.Security.EscapeOutput
+				echo $args['pagination_links'];
+				?>
+			</p>
 		</div>
 	</div>
 <?php endif; ?>

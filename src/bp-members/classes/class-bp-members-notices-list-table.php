@@ -206,6 +206,8 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 			unset( $actions['edit'] );
 		}
 
+		// Escaping is made in `bp-members/bp-members-filters.php`.
+		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo '<strong>' . bp_get_notice_title( $item ) . '</strong> ';
 
 		// BuddyPress relies on WordPress's `WP_List_Table::row_actions()`.
