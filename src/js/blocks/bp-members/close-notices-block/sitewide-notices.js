@@ -1,50 +1,37 @@
 /**
- * Front-end Sitewide notices block class.
+ * WordPress dependencies.
+ */
+import domReady from '@wordpress/dom-ready';
+
+/**
+ * BuddyPress dependencies.
+ */
+import noticesRequest from '@buddypress/notices-controller';
+
+/**
+ * Front-end Notice function to dismiss an item.
  *
  * @since 15.0.0
+ *
+ * @param {PointerEvent} event The click event.
  */
-class bpSitewideNoticeBlock {
-	constructor( settings ) {
-		const { path, dismissPath, root, nonce } = settings;
-		this.path = path;
-		this.dismissPath = dismissPath;
-		this.root = root;
-		this.nonce = nonce;
-	}
+const dismissNotice = ( event ) => {
+	event.preventDefault();
 
-	start() {
-		// Listen to each Block's dismiss button clicks
-		document.querySelectorAll( '.bp-sitewide-notice-block a.dismiss-notice' ).forEach( ( dismissButton ) => {
-			dismissButton.addEventListener( 'click', ( event ) => {
-				event.preventDefault();
+	const noticeId = 'A' !== event.target.nodeName ? event.target.closest( '[data-bp-sitewide-notice-id]' ).dataset.bpSitewideNoticeId : event.target.dataset.bpSitewideNoticeId;
 
-				fetch( this.root + this.dismissPath, {
-					method: 'POST',
-					headers: {
-						'X-WP-Nonce' : this.nonce,
-					}
-				} ).then(
-					( response ) => response.json()
-				).then(
-					( data ) => {
-						if ( 'undefined' !== typeof data && 'undefined' !== typeof data.dismissed && data.dismissed ) {
-							document.querySelectorAll( '.bp-sitewide-notice-block' ).forEach( ( elem ) => {
-								elem.remove();
-							} );
-						}
-					}
-				);
-			} );
-		} );
-	}
+	// Send a notice request to dismiss the notice.
+	noticesRequest( { action: 'dismiss/' + noticeId, method: 'POST' } ).then( result => {
+		if ( true === result.dismissed ) {
+			event.target.closest( '.bp-sitewide-notice-block' ).remove();
+		}
+	} ).catch( error => {
+		console.error( error );
+	} );
 }
 
-// widget_bp_core_sitewide_messages buddypress widget wp-block-bp-sitewide-notices > bp-sitewide-notice > a.dismiss-notice
-const settings = window.bpSitewideNoticeBlockSettings || {};
-const bpSitewideNotice = new bpSitewideNoticeBlock( settings );
-
-if ( 'loading' === document.readyState ) {
-	document.addEventListener( 'DOMContentLoaded', bpSitewideNotice.start() );
-} else {
-	bpSitewideNotice.start();
-}
+domReady( function() {
+	document.querySelectorAll( '.bp-sitewide-notice-block a.dismiss-notice' ).forEach( ( dismissButton ) => {
+		dismissButton.addEventListener( 'click', dismissNotice );
+	} );
+} );

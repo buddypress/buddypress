@@ -28,6 +28,16 @@ function bp_members_register_scripts( $scripts = array() ) {
 		'nonce'       => wp_create_nonce( 'wp_rest' ),
 	);
 
+	$scripts['bp-notices-controller'] = array(
+		'file'         => plugins_url( 'blocks/notices-center/controller.js', __FILE__ ),
+		'dependencies' => array(),
+		'footer'       => true,
+		'localize'     => array(
+			'name' => 'bpNoticesCenterSettings',
+			'data' => $notices_data,
+		),
+	);
+
 	if ( bp_support_blocks() ) {
 		$asset      = array(
 			'dependencies' => array(),
@@ -46,26 +56,23 @@ function bp_members_register_scripts( $scripts = array() ) {
 			'footer'       => true,
 		);
 
+		$cnb_asset = array(
+			'dependencies' => array(),
+			'version'      => ''
+		);
+
+		$cnb_asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/close-notices-block/index.asset.php';
+		if ( file_exists( $cnb_asset_path ) ) {
+			$cnb_asset = require $cnb_asset_path;
+		}
+
 		$scripts['bp-sitewide-notices-script'] = array(
 			'file'         => plugins_url( 'blocks/close-notices-block/index.js', __FILE__ ),
-			'dependencies' => array(),
+			'dependencies' => $cnb_asset['dependencies'],
+			'version'      => $cnb_asset['version'],
 			'footer'       => true,
-			'localize'     => array(
-				'name' => 'bpSitewideNoticeBlockSettings',
-				'data' => $notices_data,
-			),
 		);
 	}
-
-	$scripts['bp-notices-controller'] = array(
-		'file'         => plugins_url( 'blocks/notices-center/controller.js', __FILE__ ),
-		'dependencies' => array(),
-		'footer'       => true,
-		'localize'     => array(
-			'name' => 'bpNoticesCenterSettings',
-			'data' => $notices_data,
-		),
-	);
 
 	$nc_asset = array(
 		'dependencies' => array(),
