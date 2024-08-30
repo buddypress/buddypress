@@ -197,7 +197,7 @@ class BP_Members_Notices_List_Table extends WP_List_Table {
 					)
 				),
 				(int) $item->id,
-				esc_html__( 'Activate', 'Notice Activate Link', 'buddypress' )
+				esc_html_x( 'Activate', 'Notice Activate Link', 'buddypress' )
 			);
 		}
 

@@ -4,6 +4,6 @@ src/bp-messages/js/autocomplete/*
 
 // Blocks Scripts
 src/js/**
-src/**/blocks/*/index.js
+src/**/blocks/*/*.js
 src/**/bp-core/admin/js/dismissible-admin-notices.js
 src/**/bp-members/admin/js/admin.js
