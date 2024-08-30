@@ -174,8 +174,9 @@ function bp_members_admin_bar_notices_center_menu() {
 		return;
 	}
 
-	$user_id       = bp_loggedin_user_id();
-	$notices_count = bp_members_get_notices_count(
+	$user_id        = bp_loggedin_user_id();
+	$all_items_link = bp_get_member_all_notices_url();
+	$notices_count  = bp_members_get_notices_count(
 		array(
 			'user_id'  => $user_id,
 			'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
@@ -185,6 +186,10 @@ function bp_members_admin_bar_notices_center_menu() {
 	$notifications_count = 0;
 	if ( bp_is_active( 'notifications' ) ) {
 		$notifications_count = bp_notifications_get_unread_notification_count( $user_id );
+
+		if ( ! $notices_count ) {
+			$all_items_link = bp_get_notifications_permalink( $user_id );
+		}
 	}
 
 	$count = $notices_count + $notifications_count;
@@ -206,7 +211,7 @@ function bp_members_admin_bar_notices_center_menu() {
 						<span class="count">%2$s</span>
 					</span>
 				</button>',
-				esc_url( bp_get_member_all_notices_url() ),
+				esc_url( $all_items_link ),
 				number_format_i18n( $count )
 			),
 			'href'   => false,
