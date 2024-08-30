@@ -168,6 +168,12 @@
 		"parent": null
 	},
 	{
+		"title": "Customizing BuddyPress base URL",
+		"slug": "advanced-custom-base-url",
+		"markdown_source": "../user/advanced/custom-base-url.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress Components",
 		"slug": "components",
 		"markdown_source": "../user/components/README.md",
