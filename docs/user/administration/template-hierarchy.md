@@ -284,6 +284,6 @@ your-child-theme/
 ### Overriding Template Example
 To override activity-loop.php:
 
-Copy activity-loop.php from wp-content/plugins/buddypress/bp-templates/bp-nouveau/buddypress/activity/activity-loop.php.
+Copy `activity-loop.php from wp-content/plugins/buddypress/bp-templates/bp-nouveau/buddypress/activity/activity-loop.php`.
 Paste it into wp-content/themes/your-child-theme/buddypress/activity/activity-loop.php.
 Make your desired changes in the copied activity-loop.php file in your child theme.
