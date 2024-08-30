@@ -1309,6 +1309,7 @@ function bp_render_notices_center() {
 														intval( $top_notices_count )
 													);
 
+													// phpcs:disable WordPress.Security.EscapeOutput
 													printf(
 														esc_html(
 															/* translators: %s: the priority pagination. */
@@ -1317,6 +1318,7 @@ function bp_render_notices_center() {
 														$priority_pagination,
 														$priority_pagination
 													);
+													// phpcs:enable
 													?>
 												</span>
 												<?php if ( isset( $notices[ $previous_page ]->id ) ) : ?>

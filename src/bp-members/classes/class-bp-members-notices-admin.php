@@ -120,7 +120,7 @@ class BP_Members_Notices_Admin {
 		$redirect_to = false;
 
 		if ( ! bp_current_user_can( 'bp_moderate' ) ) {
-			wp_die( __( 'You are not allowed to manage Member Notices.', 'buddypress' ) );
+			wp_die( esc_html__( 'You are not allowed to manage Member Notices.', 'buddypress' ) );
 		}
 
 		// Catch new notice saves.
@@ -174,8 +174,8 @@ class BP_Members_Notices_Admin {
 
 						if ( array_diff( $admin_ids, $dismissed ) ) {
 							wp_die(
-								__( 'Some administrators have not dismissed this notice. Please make sure they do to be able to delete this notice.', 'buddypress' ),
-								__( 'BP Admin Notices error', 'buddypress' ),
+								esc_html__( 'Some administrators have not dismissed this notice. Please make sure they do to be able to delete this notice.', 'buddypress' ),
+								esc_html__( 'BP Admin Notices error', 'buddypress' ),
 								array(
 									'back_link' => true,
 								)
