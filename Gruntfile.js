@@ -22,7 +22,7 @@ module.exports = function( grunt ) {
 			'!src/js/**',
 			'!**/bp-core/admin/js/dismissible-admin-notices.js',
 			'!**/bp-members/admin/js/admin.js',
-			'!**/blocks/*/index.js'
+			'!**/blocks/*/*.js'
 		],
 
 		BP_EXCLUDED_MISC = [

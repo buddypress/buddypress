@@ -1322,7 +1322,7 @@ function bp_render_notices_center() {
 													printf(
 														esc_html(
 															/* translators: %s: the priority pagination. */
-															_n( 'Top priority notice: %s', 'Top priority notices: %s', $top_notices_count, 'buddypress' ),
+															_n( 'Top priority notice: %s', 'Top priority notices: %s', $top_notices_count, 'buddypress' )
 														),
 														$priority_pagination,
 														$priority_pagination
