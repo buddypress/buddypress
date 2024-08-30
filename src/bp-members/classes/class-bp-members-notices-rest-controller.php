@@ -118,9 +118,13 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 		$context = $request->get_param( 'context' );
 
 		$args = array(
-			'user_id'  => $request->get_param( 'user_id' ),
-			'pag_page' => $request->get_param( 'page' ),
-			'pag_num'  => $request->get_param( 'per_page' ),
+			'user_id'    => $request->get_param( 'user_id' ),
+			'pag_page'   => $request->get_param( 'page' ),
+			'pag_num'    => $request->get_param( 'per_page' ),
+			'status'     => $request->get_param( 'status' ),
+			'type'       => $request->get_param( 'type' ),
+			'target__in' => $request->get_param( 'target' ),
+			'priority'   => $request->get_param( 'priority' ),
 		);
 
 		/**
@@ -134,12 +138,14 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 		$args = apply_filters( 'bp_members_notices_rest_get_items_query_args', $args, $request );
 
 		if ( $args['user_id'] ) {
-			$result  = bp_members_get_notices_for_user( $args['user_id'] );
+			$result  = bp_members_get_notices_for_user( $args['user_id'], $args['status'] );
 			$notices = $result['items'];
 			$count   = $result['count'];
 
 			// All notices are only needed when managing them.
 		} elseif ( 'edit' === $context && bp_current_user_can( 'bp_moderate' ) ) {
+			unset( $args['status'] );
+
 			$notices = bp_members_get_notices( $args );
 
 			// Clean args.
@@ -938,6 +944,60 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 		if ( isset( $params['per_page']['default'] ) ) {
 			$params['per_page']['default'] = 5;
 		}
+
+		$params['user_id'] = array(
+			'description'       => __( 'Limit result set to items concerning a specific user (ID).', 'buddypress' ),
+			'default'           => 0,
+			'type'              => 'integer',
+			'sanitize_callback' => 'absint',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		$params['status'] = array(
+			'description'       => __( 'Limit result set to items with a specific status.', 'buddypress' ),
+			'default'           => 'unread',
+			'type'              => 'string',
+			'items'             => array(
+				'enum' => array( 'unread', 'dismissed' ),
+				'type' => 'string',
+			),
+			'sanitize_callback' => 'sanitize_key',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		$params['type'] = array(
+			'description'       => __( 'Limit result set to items with a specific type.', 'buddypress' ),
+			'default'           => 'active',
+			'type'              => 'string',
+			'items'             => array(
+				'enum' => array( 'active', 'inactive' ),
+				'type' => 'string',
+			),
+			'sanitize_callback' => 'sanitize_key',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		$params['target'] = array(
+			'description'       => __( 'Limit result set to items concerning one or more specific targets.', 'buddypress' ),
+			'type'              => 'array',
+			'items'             => array(
+				'enum' => array( 'community', 'contributors', 'admins' ),
+				'type' => 'string',
+			),
+			'sanitize_callback' => 'wp_parse_list',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		$params['priority'] = array(
+			'description'       => __( 'Limit result set to items having a specific priority.', 'buddypress' ),
+			'type'              => 'integer',
+			'items'             => array(
+				'enum' => array( 1, 2, 3 ),
+				'type' => 'integer',
+			),
+			'sanitize_callback' => 'absint',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
 
 		/**
 		 * Filters the collection query params.

@@ -434,6 +434,8 @@ function bp_members_dismiss_notice( $user_id = 0, $notice_id = 0, $return_bool =
  *
  * @since 15.0.0
  *
+ * @see BP_Members_Notice::get() for description of parameters.
+ *
  * @return array The Members Notices default query arguments.
  */
 function bp_members_notices_default_query_args() {
@@ -457,7 +459,7 @@ function bp_members_notices_default_query_args() {
  *
  * @since 15.0.0
  *
- * @param array $args See `BP_Memners_Notice->get()` for description.
+ * @param array $args See `BP_Members_Notice::get()` for description.
  * @return integer The total number of notices for the query arguments.
  */
 function bp_members_get_notices_count( $args = array() ) {
@@ -469,7 +471,7 @@ function bp_members_get_notices_count( $args = array() ) {
  *
  * @since 15.0.0
  *
- * @param array $args See `BP_Memners_Notice->get()` for description.
+ * @param array $args See `BP_Members_Notice::get()` for description.
  * @return array The list of notices matching the query arguments.
  */
 function bp_members_get_notices( $args = array() ) {
@@ -562,14 +564,21 @@ function bp_get_notice_object( $object ) {
  * @since 15.0.0
  *
  * @param integer $user_id The user ID to get the notice for. Required.
+ * @param string  $status  The status of notices to get. Possible values are `unread` & `dismissed`.
+ *                         Optional.
  * @return array The higher priority notices & the notices total count.
  */
-function bp_members_get_notices_for_user( $user_id ) {
+function bp_members_get_notices_for_user( $user_id, $status = 'unread' ) {
 	$notices  = array();
 	$args     = array(
 		'user_id'  => $user_id,
-		'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
 	);
+
+	if ( 'dismissed' === $status ) {
+		$args['dismissed'] = true;
+	} else {
+		$args['exclude'] = bp_members_get_dismissed_notices_for_user( $user_id );
+	}
 
 	// Get Total number of notices.
 	$notices_count = bp_members_get_notices_count( $args );
