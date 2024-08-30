@@ -55,6 +55,8 @@ add_action( 'bp_usermeta_closed_notices_migrate_batch', '_bp_members_dismissed_n
 // Load the Members Notices Admin.
 add_action( bp_core_admin_hook(), array( 'BP_Members_Notices_Admin', 'register_notices_admin' ), 9 );
 
+/** Notice functions **********************************************************/
+
 /**
  * Get metadata for a given notice item.
  *
@@ -608,6 +610,194 @@ function bp_get_active_notice_for_user() {
 	return bp_get_notice_object( $notice );
 }
 
+/** Notice template tags ******************************************************/
+
+/**
+ * Outputs the URL to list all user’s unread notices.
+ *
+ * @since 15.0.0
+ *
+ * @param integer $user_id The user ID. Optional.
+ *                         Defaults to the logged in user ID.
+ */
+function bp_member_all_notices_url( $user_id = 0 ) {
+	echo esc_url( bp_get_member_all_notices_url( $user_id ) );
+}
+
+/**
+ * Retrieves the URL to list all user’s unread notices.
+ *
+ * @since 15.0.0
+ *
+ * @param integer $user_id The user ID. Optional.
+ *                         Defaults to the logged in user ID.
+ * @return string The URL to list all user’s unread notices.
+ */
+function bp_get_member_all_notices_url( $user_id = 0 ) {
+	$path_chunks = array( 'notices', 'community' );
+	$url         = '';
+
+	if ( bp_is_active( 'notifications' ) ) {
+		unset( $path_chunks[1] );
+		array_unshift( $path_chunks, bp_get_notifications_slug() );
+	}
+
+	if ( $user_id ) {
+		$url = bp_members_get_user_url( $user_id, bp_members_get_path_chunks( $path_chunks ) );
+	} else {
+		$user_id = bp_loggedin_user_id();
+		$url     = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
+	}
+
+	/**
+	 * Filter here to edit the URL.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string  $url     The URL to list all user’s unread notices.
+	 * @param integer $user_id The user ID.
+	 */
+	return apply_filters( 'bp_get_member_all_notices_url', $url, $user_id );
+}
+
+/**
+ * Retrieves the URL to list all BuddyPress notices.
+ *
+ * @since 15.0.0
+ *
+ * @param array $args Extra arguments to add as query vars.
+ * @return string The URL to list all BuddyPress notices.
+ */
+function bp_get_member_buddypress_notices_url( $args = array() ) {
+	$r = bp_parse_args(
+		$args,
+		array(
+			'page' => 'bp-admin-notices'
+		),
+		'buddypress_notices_url'
+	);
+
+	return bp_get_admin_url( add_query_arg( $r, 'admin.php' ) );
+}
+
+/**
+ * Output the URL for dismissing a notice for the current user.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice The notice object.
+ */
+function bp_notice_dismiss_url( $notice = null ) {
+	echo esc_url( bp_get_notice_dismiss_url( $notice ) );
+}
+
+/**
+ * Get the URL for dismissing the current notice for the current user.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice   The notice object.
+ * @param string                 $redirect The URL to redirect the user to.
+ * @return string URL for dismissing the current notice for the current user.
+ */
+function bp_get_notice_dismiss_url( $notice = null, $redirect = '' ) {
+	$notice_id = 0;
+	$url       = '';
+	$user_url  = '';
+
+	if ( isset( $notice->id ) ) {
+		$notice_id = (int) $notice->id;
+
+		$path_chunks = array( 'notices', 'community', 'dismiss', $notice_id );
+		if ( bp_is_active( 'notifications' ) ) {
+			unset( $path_chunks[1] );
+			array_unshift( $path_chunks, bp_get_notifications_slug() );
+		}
+
+		$user_url = '';
+		if ( ! bp_displayed_user_id() ) {
+			$user_url = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
+		} else {
+			$user_url = bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) );
+		}
+
+		if ( ! empty( $redirect ) ) {
+			$user_url = add_query_arg( 'redirect_to', $redirect, $user_url );
+		}
+
+		$url = wp_nonce_url(
+			$user_url,
+			'members_dismiss_notice'
+		);
+	}
+
+	/**
+	 * Filters the URL for dismissing the current notice for the current user.
+	 *
+	 * @since 9.0.0
+	 * @deprecated 15.0.0
+	 *
+	 * @param string $url URL for dismissing the current notice.
+	 */
+	$url = apply_filters_deprecated( 'bp_get_message_notice_dismiss_link', array( $url ), '15.0.0', 'bp_get_notice_dismiss_url' );
+
+	/**
+	 * Filters the URL for dismissing the current notice for the current user.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string $url      Nonced URL for dismissing the current notice.
+	 * @param string $user_url User URL for dismissing the current notice.
+	 */
+	return apply_filters( 'bp_get_notice_dismiss_url', $url, $user_url );
+}
+
+/**
+ * Get the URL to view a single notice.
+ *
+ * @since 15.0.0
+ *
+ * @param BP_Members_Notice|null $notice  The notice object.
+ * @param integer                $user_id The user ID. Optional.
+ *                                        Defaults to the logged in user ID.
+ * @return string URL to view a single notice.
+ */
+function bp_get_notice_url( $notice, $user_id = 0 ) {
+	$notice_id = 0;
+	$url       = '';
+
+	if ( isset( $notice->id ) ) {
+		$notice_id = (int) $notice->id;
+
+		if ( 'admins' === bp_get_notice_target( $notice ) && 0 === bp_get_notice_priority( $notice ) && bp_current_user_can( 'manage_options' ) ) {
+			return bp_get_member_buddypress_notices_url( array( 'nid' => $notice_id ) );
+		}
+
+		$path_chunks = array( 'notices', 'community', 'view', $notice_id );
+		if ( bp_is_active( 'notifications' ) ) {
+			unset( $path_chunks[1] );
+			array_unshift( $path_chunks, bp_get_notifications_slug() );
+		}
+
+		if ( $user_id ) {
+			$url = bp_members_get_user_url( $user_id, bp_members_get_path_chunks( $path_chunks ) );
+		} else {
+			$user_id = bp_loggedin_user_id();
+			$url     = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
+		}
+	}
+
+	/**
+	 * Filter here to edit the notice URL.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string  $url     The URL to read a single notice.
+	 * @param integer $user_id The user ID.
+	 */
+	return apply_filters( 'bp_get_notice_url', $url, $user_id, $notice );
+}
+
 /**
  * Output the ID of a notice.
  *
@@ -1012,190 +1202,36 @@ function bp_get_notice_action_text( $notice = null ) {
 }
 
 /**
- * Outputs the URL to list all user’s unread notices.
- *
- * @since 15.0.0
- *
- * @param integer $user_id The user ID. Optional.
- *                         Defaults to the logged in user ID.
- */
-function bp_member_all_notices_url( $user_id = 0 ) {
-	echo esc_url( bp_get_member_all_notices_url( $user_id ) );
-}
-
-/**
- * Retrieves the URL to list all user’s unread notices.
- *
- * @since 15.0.0
- *
- * @param integer $user_id The user ID. Optional.
- *                         Defaults to the logged in user ID.
- * @return string The URL to list all user’s unread notices.
- */
-function bp_get_member_all_notices_url( $user_id = 0 ) {
-	$path_chunks = array( 'notices', 'community' );
-	$url         = '';
-
-	if ( bp_is_active( 'notifications' ) ) {
-		unset( $path_chunks[1] );
-		array_unshift( $path_chunks, bp_get_notifications_slug() );
-	}
-
-	if ( $user_id ) {
-		$url = bp_members_get_user_url( $user_id, bp_members_get_path_chunks( $path_chunks ) );
-	} else {
-		$user_id = bp_loggedin_user_id();
-		$url     = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
-	}
-
-	/**
-	 * Filter here to edit the URL.
-	 *
-	 * @since 15.0.0
-	 *
-	 * @param string  $url     The URL to list all user’s unread notices.
-	 * @param integer $user_id The user ID.
-	 */
-	return apply_filters( 'bp_get_member_all_notices_url', $url, $user_id );
-}
-
-/**
- * Retrieves the URL to list all BuddyPress notices.
- *
- * @since 15.0.0
- *
- * @param array $args Extra arguments to add as query vars.
- * @return string The URL to list all BuddyPress notices.
- */
-function bp_get_member_buddypress_notices_url( $args = array() ) {
-	$r = bp_parse_args(
-		$args,
-		array(
-			'page' => 'bp-admin-notices'
-		),
-		'buddypress_notices_url'
-	);
-
-	return bp_get_admin_url( add_query_arg( $r, 'admin.php' ) );
-}
-
-/**
- * Output the URL for dismissing a notice for the current user.
+ * Output the Admin Notice version.
  *
  * @since 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
  */
-function bp_notice_dismiss_url( $notice = null ) {
-	echo esc_url( bp_get_notice_dismiss_url( $notice ) );
+function bp_admin_notice_version( $notice = null ) {
+	echo esc_html( bp_get_admin_notice_version( $notice ) );
 }
 
 /**
- * Get the URL for dismissing the current notice for the current user.
+ * Get the Admin Notice version.
  *
  * @since 15.0.0
  *
- * @param BP_Members_Notice|null $notice   The notice object.
- * @param string                 $redirect The URL to redirect the user to.
- * @return string URL for dismissing the current notice for the current user.
+ * @param BP_Members_Notice|null $notice The notice object.
+ * @return string The Admin Notice version.
  */
-function bp_get_notice_dismiss_url( $notice = null, $redirect = '' ) {
-	$notice_id = 0;
-	$url       = '';
-	$user_url  = '';
+function bp_get_admin_notice_version( $notice = null ) {
+	$version = 0;
+	$parsed_notice = bp_get_parsed_notice_block( $notice );
 
-	if ( isset( $notice->id ) ) {
-		$notice_id = (int) $notice->id;
-
-		$path_chunks = array( 'notices', 'community', 'dismiss', $notice_id );
-		if ( bp_is_active( 'notifications' ) ) {
-			unset( $path_chunks[1] );
-			array_unshift( $path_chunks, bp_get_notifications_slug() );
-		}
-
-		$user_url = '';
-		if ( ! bp_displayed_user_id() ) {
-			$user_url = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
-		} else {
-			$user_url = bp_displayed_user_url( bp_members_get_path_chunks( $path_chunks ) );
-		}
-
-		if ( ! empty( $redirect ) ) {
-			$user_url = add_query_arg( 'redirect_to', $redirect, $user_url );
-		}
-
-		$url = wp_nonce_url(
-			$user_url,
-			'members_dismiss_notice'
-		);
+	if ( isset( $parsed_notice['attrs']['meta']['version'] ) ) {
+		$version = (float) $parsed_notice['attrs']['meta']['version'];
 	}
 
-	/**
-	 * Filters the URL for dismissing the current notice for the current user.
-	 *
-	 * @since 9.0.0
-	 * @deprecated 15.0.0
-	 *
-	 * @param string $url URL for dismissing the current notice.
-	 */
-	$url = apply_filters_deprecated( 'bp_get_message_notice_dismiss_link', array( $url ), '15.0.0', 'bp_get_notice_dismiss_url' );
-
-	/**
-	 * Filters the URL for dismissing the current notice for the current user.
-	 *
-	 * @since 15.0.0
-	 *
-	 * @param string $url      Nonced URL for dismissing the current notice.
-	 * @param string $user_url User URL for dismissing the current notice.
-	 */
-	return apply_filters( 'bp_get_notice_dismiss_url', $url, $user_url );
+	return number_format( $version, 1 );
 }
 
-/**
- * Get the URL to view a single notice.
- *
- * @since 15.0.0
- *
- * @param BP_Members_Notice|null $notice  The notice object.
- * @param integer                $user_id The user ID. Optional.
- *                                        Defaults to the logged in user ID.
- * @return string URL to view a single notice.
- */
-function bp_get_notice_url( $notice, $user_id = 0 ) {
-	$notice_id = 0;
-	$url       = '';
-
-	if ( isset( $notice->id ) ) {
-		$notice_id = (int) $notice->id;
-
-		if ( 'admins' === bp_get_notice_target( $notice ) && 0 === bp_get_notice_priority( $notice ) && bp_current_user_can( 'manage_options' ) ) {
-			return bp_get_member_buddypress_notices_url( array( 'nid' => $notice_id ) );
-		}
-
-		$path_chunks = array( 'notices', 'community', 'view', $notice_id );
-		if ( bp_is_active( 'notifications' ) ) {
-			unset( $path_chunks[1] );
-			array_unshift( $path_chunks, bp_get_notifications_slug() );
-		}
-
-		if ( $user_id ) {
-			$url = bp_members_get_user_url( $user_id, bp_members_get_path_chunks( $path_chunks ) );
-		} else {
-			$user_id = bp_loggedin_user_id();
-			$url     = bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) );
-		}
-	}
-
-	/**
-	 * Filter here to edit the notice URL.
-	 *
-	 * @since 15.0.0
-	 *
-	 * @param string  $url     The URL to read a single notice.
-	 * @param integer $user_id The user ID.
-	 */
-	return apply_filters( 'bp_get_notice_url', $url, $user_id, $notice );
-}
+/** Notice rendering functions ************************************************/
 
 /**
  * Used to render the active notice after the WP Admin Bar.
@@ -1437,41 +1473,11 @@ function bp_members_render_notices_block( $attributes = array() ) {
 }
 
 /**
- * Output the Admin Notice version.
- *
- * @since 15.0.0
- *
- * @param BP_Members_Notice|null $notice The notice object.
- */
-function bp_admin_notice_version( $notice = null ) {
-	echo esc_html( bp_get_admin_notice_version( $notice ) );
-}
-
-/**
- * Get the Admin Notice version.
- *
- * @since 15.0.0
- *
- * @param BP_Members_Notice|null $notice The notice object.
- * @return string The Admin Notice version.
- */
-function bp_get_admin_notice_version( $notice = null ) {
-	$version = 0;
-	$parsed_notice = bp_get_parsed_notice_block( $notice );
-
-	if ( isset( $parsed_notice['attrs']['meta']['version'] ) ) {
-		$version = (float) $parsed_notice['attrs']['meta']['version'];
-	}
-
-	return number_format( $version, 1 );
-}
-
-/**
  * Output list of notices for the displayed user.
  *
  * @since 15.0.0
  */
-function bp_output_notices() {
+function bp_render_notices() {
 	$user_id       = bp_displayed_user_id();
 	$count         = 0;
 	$notices       = array();
@@ -1618,7 +1624,7 @@ function bp_output_notices() {
  *
  * @since 15.0.0
  */
-function bp_output_active_notice() {
+function bp_render_active_notice() {
 	$notice = bp_get_active_notice_for_user();
 
 	if ( is_null( $notice ) ) {

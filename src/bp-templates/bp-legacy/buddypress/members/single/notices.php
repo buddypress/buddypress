@@ -19,6 +19,6 @@
 
 <div class="notices">
 
-	<?php bp_output_notices(); ?>
+	<?php bp_render_notices(); ?>
 
 </div><!-- .notices -->

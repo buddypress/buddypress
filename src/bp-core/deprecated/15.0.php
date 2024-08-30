@@ -109,8 +109,8 @@ function messages_send_notice( $subject, $message ) {
  * @deprecated 15.0.0
  */
 function bp_message_get_notices() {
-	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_output_active_notice' );
-	return bp_output_active_notice();
+	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_render_active_notice' );
+	return bp_render_active_notice();
 }
 
 /**
