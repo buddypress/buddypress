@@ -139,6 +139,26 @@ function bp_is_running_wp( $version, $compare = '>=' ) {
 	return version_compare( $GLOBALS['wp_version'], $version, $compare );
 }
 
+/**
+ * Informs whether BuddyPress was loaded from the `src` subdirectory (trunk version).
+ *
+ * @since 15.0.0
+ *
+ * @return boolean True if BuddyPress was loaded from the `src` subdirectory, false otherwise.
+ */
+function bp_is_running_from_src_subdirectory() {
+	$is_src = defined( 'BP_SOURCE_SUBDIRECTORY' ) && BP_SOURCE_SUBDIRECTORY === 'src';
+
+	/**
+	 * Filter here to edit the way BuddyPress was loaded.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param boolean $is_src True if BuddyPress was loaded from the `src` subdirectory, false otherwise.
+	 */
+	return apply_filters( 'bp_is_running_from_src_subdirectory', $is_src );
+}
+
 /** Functions *****************************************************************/
 
 /**
@@ -2766,7 +2786,7 @@ function bp_core_get_minified_asset_suffix() {
 	$ext = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
 	// Ensure the assets can be located when running from /src/.
-	if ( defined( 'BP_SOURCE_SUBDIRECTORY' ) && BP_SOURCE_SUBDIRECTORY === 'src' ) {
+	if ( bp_is_running_from_src_subdirectory() ) {
 		$ext = str_replace( '.min', '', $ext );
 	}
 
@@ -4980,7 +5000,7 @@ function bp_get_deprecated_functions_versions() {
 	 * Unless the `BP_IGNORE_DEPRECATED` constant is used & set to false, the development
 	 * version of BuddyPress do not load deprecated functions.
 	 */
-	if ( defined( 'BP_SOURCE_SUBDIRECTORY' ) && BP_SOURCE_SUBDIRECTORY === 'src' ) {
+	if ( bp_is_running_from_src_subdirectory() ) {
 		return array();
 	}
 
