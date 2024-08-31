@@ -137,7 +137,6 @@ function bp_members_admin_bar_user_admin_menu() {
 				)
 			);
 		}
-
 	}
 
 	if ( bp_is_active( 'settings' ) ) {
@@ -175,13 +174,18 @@ function bp_members_admin_bar_notices_center_menu() {
 	}
 
 	$user_id        = bp_loggedin_user_id();
-	$all_items_link = bp_get_member_all_notices_url();
-	$notices_count  = bp_members_get_notices_count(
-		array(
-			'user_id'  => $user_id,
-			'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
-		)
-	);
+	$all_items_link = '';
+	$notices_count  = 0;
+
+	if ( bp_is_active( 'members', 'notices' ) ) {
+		$all_items_link = bp_get_member_all_notices_url();
+		$notices_count  = bp_members_get_notices_count(
+			array(
+				'user_id'  => $user_id,
+				'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
+			)
+		);
+	}
 
 	$notifications_count = 0;
 	if ( bp_is_active( 'notifications' ) ) {
@@ -241,7 +245,7 @@ function bp_members_admin_bar_notifications_menu_priority() {
 	 * WordPress 6.6 edited the WP Admin style & removed the right float.
 	 * See: https://core.trac.wordpress.org/changeset/58215/
 	 */
-	if ( bp_is_running_wp( '6.6-beta2', '>=' ) ) {
+	if ( bp_is_running_wp( '6.6', '>=' ) ) {
 		bp_members_admin_bar_notices_center_menu();
 	} else {
 		add_action( 'admin_bar_menu', 'bp_members_admin_bar_notices_center_menu', 90 );

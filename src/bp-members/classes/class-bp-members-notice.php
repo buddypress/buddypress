@@ -514,7 +514,7 @@ class BP_Members_Notice {
 			// Get all matching notices.
 		} else {
 			$user_result     = false;
-			$is_user_notices = isset( $args['user_id'], $args['exclude'] ) && $args['user_id'] && 1 === $r['pag_page'];
+			$is_user_notices = isset( $args['user_id'], $args['exclude'] ) && $args['user_id'] && 1 === $r['pag_page'] && 0 !== $r['priority'];
 
 			// Are we getting the user's top priority notices?
 			if ( $is_user_notices ) {

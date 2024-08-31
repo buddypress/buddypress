@@ -126,6 +126,9 @@ body.admin-bar aside#bp-notices-container {
 	box-shadow: 0 12px 24px -16px #444;
 	padding: 1em;
 	width: 25%;
+}
+
+body.admin-bar aside#bp-notices-container.has-notices {
 	height: 100%;
 }
 
@@ -318,11 +321,12 @@ body.admin-bar aside#bp-notices-container .bp-notice-actions a.button-primary:fo
 	box-shadow: 0 0 0 1px #fff, 0 0 0 3px #2271b1;
 }
 
-body.admin-bar aside#bp-notices-container hr {
-	border: none;
-	padding-top: 1em;
-	margin: 1em 0;
-	border-bottom: solid 1px #d84800;
+body.admin-bar aside#bp-notices-container section {
+	margin-bottom: 1.5em;
+}
+
+body.admin-bar aside#bp-notices-container.has-notices section {
+	margin-bottom: 3em;
 }
 
 @media screen and (max-width: 782px) {

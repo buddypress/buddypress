@@ -537,12 +537,15 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-credits' ), 'admin.php' ) ),
 			'name' => __( 'Credits', 'buddypress' ),
 		),
-		'5' => array(
+	);
+
+	if ( bp_is_active( 'members', 'notices' ) ) {
+		$settings_tabs['5'] = array(
 			'id'   => 'bp-admin-notices',
 			'href' => bp_get_member_buddypress_notices_url(),
 			'name' => __( 'Notices', 'buddypress' ),
-		),
-	);
+		);
+	}
 
 	if ( 'rewrites' === bp_core_get_query_parser() ) {
 		$settings_tabs['1'] = array(
