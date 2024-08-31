@@ -275,14 +275,6 @@ class BP_Members_Notices_Feature extends BP_Component_Feature {
 
 		// Perform actions specific to this feature.
 		add_filter( 'bp_notifications_admin_nav', array( $this, 'notifications_admin_nav' ) );
-
-		/*
-		 *
-		 * @todo: this should be removed once BP REST API v2 has been merged into
-		 * BuddyPress Core.
-		 *
-		 */
-		add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
 	}
 
 	/**

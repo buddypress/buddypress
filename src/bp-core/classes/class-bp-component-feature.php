@@ -173,7 +173,9 @@ class BP_Component_Feature extends BP_Component {
 		 * This is a dynamic hook that is based on the component & feature string IDs.
 		 *
 		 * @since 15.0.0
+		 *
+		 * @param BP_Component_Feature $feature_object The Feature object.
 		 */
-		do_action( 'bp_' . $this->component_id . '_' . $this->id . '_setup_actions' );
+		do_action( 'bp_' . $this->component_id . '_' . $this->id . '_setup_actions', $this );
 	}
 }
