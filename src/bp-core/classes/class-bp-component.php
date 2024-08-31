@@ -919,7 +919,7 @@ class BP_Component {
 		 *
 		 * @since 1.5.0
 		 */
-		do_action( 'bp_' . $this->id . '_setup_admin_bar' );
+		do_action( $action );
 	}
 
 	/**

@@ -316,18 +316,20 @@ class BP_Admin {
 		$this->submenu_pages['settings']['bp-settings'] = $bp_settings_page;
 		$hooks[]                                        = $bp_settings_page;
 
-		// Admin notices.
-		$bp_admin_notices = add_submenu_page(
-			$this->settings_page,
-			__( 'BuddyPress Admin Notices', 'buddypress' ),
-			__( 'BuddyPress Admin Notices', 'buddypress' ),
-			$this->capability,
-			'bp-admin-notices',
-			array( $this, 'admin_notices' )
-		);
+		if ( bp_is_active( 'members', 'notices' ) ) {
+			// BuddyPress Admin notices.
+			$bp_admin_notices = add_submenu_page(
+				$this->settings_page,
+				__( 'BuddyPress Admin Notices', 'buddypress' ),
+				__( 'BuddyPress Admin Notices', 'buddypress' ),
+				$this->capability,
+				'bp-admin-notices',
+				array( $this, 'admin_notices' )
+			);
 
-		$this->submenu_pages['settings']['bp-admin-notices'] = $bp_admin_notices;
-		$hooks[]                                             = $bp_admin_notices;
+			$this->submenu_pages['settings']['bp-admin-notices'] = $bp_admin_notices;
+			$hooks[]                                             = $bp_admin_notices;
+		}
 
 		// Credits.
 		$bp_credits_page = add_submenu_page(
