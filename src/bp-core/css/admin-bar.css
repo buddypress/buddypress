@@ -271,6 +271,53 @@ body.admin-bar aside#bp-notices-container .bp-notice-body p {
 	margin: 1em 0;
 }
 
+body.admin-bar aside#bp-notices-container .bp-notice-actions a.button,
+body.admin-bar aside#bp-notices-container .bp-notice-actions a.button-secondary {
+	display: inline-block;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 2.15384615;
+	min-height: 30px;
+	margin: 0;
+	padding: 0 10px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	-webkit-appearance: none;
+	border-radius: 3px;
+	white-space: nowrap;
+	box-sizing: border-box;
+	color: #2271b1;
+	border-color: #2271b1;
+	background: #f6f7f7;
+	vertical-align: top;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-actions a.button:hover,
+body.admin-bar aside#bp-notices-container .bp-notice-actions a.button-secondary:hover {
+	background: #f0f0f1;
+	border-color: #0a4b78;
+	color: #0a4b78;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-actions a.button-primary {
+	background: #2271b1;
+	border-color: #2271b1;
+	color: #fff;
+	text-decoration: none;
+	text-shadow: none;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-actions a.button-primary:hover {
+	background: #135e96;
+	border-color: #135e96;
+	color: #fff;
+}
+
+body.admin-bar aside#bp-notices-container .bp-notice-actions a.button-primary:focus {
+	box-shadow: 0 0 0 1px #fff, 0 0 0 3px #2271b1;
+}
+
 body.admin-bar aside#bp-notices-container hr {
 	border: none;
 	padding-top: 1em;
