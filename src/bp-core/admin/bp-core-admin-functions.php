@@ -1667,7 +1667,7 @@ add_filter( 'block_categories_all', 'bp_block_category', 1, 2 );
  * @param string      $type   Whether formatting is made for 'unread' notices or 'read' one.
  */
 function bp_core_admin_format_notice( $notice = null, $type = 'unread' ) {
-	if ( ! isset( $notice->id ) ) {
+	if ( ! bp_is_active( 'members', 'notices' ) || ! isset( $notice->id ) ) {
 		return;
 	}
 	?>
