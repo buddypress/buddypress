@@ -316,7 +316,7 @@ function bp_version_updater() {
 		}
 
 		// Version 15.0.0.
-		if ( $raw_db_version < 14006 ) {
+		if ( $raw_db_version < 14013 ) {
 			bp_update_to_15_0();
 		}
 
@@ -1032,35 +1032,37 @@ function bp_update_to_15_0() {
 		)
 	);
 
-	$admin_notices = bp_core_get_admin_notifications();
+	if ( bp_is_active( 'members', 'notices' ) ) {
+		$admin_notices = bp_core_get_admin_notifications();
 
-	if ( $admin_notices ) {
-		$admin_ids = bp_get_admin_ids();
+		if ( $admin_notices ) {
+			$admin_ids = bp_get_admin_ids();
 
-		foreach ( $admin_notices as $admin_notice ) {
-			$notice_id = bp_members_save_notice(
-				array(
-					'title'    => $admin_notice->title,
-					'content'  => $admin_notice->content,
-					'target'   => 'admins',
-					'priority' => 0,
-					'date'     => $admin_notice->date,
-					'url'      => $admin_notice->href,
-					'text'     => $admin_notice->text,
-					'meta'     => array( 'version' => $admin_notice->version ),
-				)
-			);
+			foreach ( $admin_notices as $admin_notice ) {
+				$notice_id = bp_members_save_notice(
+					array(
+						'title'    => $admin_notice->title,
+						'content'  => $admin_notice->content,
+						'target'   => 'admins',
+						'priority' => 0,
+						'date'     => $admin_notice->date,
+						'url'      => $admin_notice->href,
+						'text'     => $admin_notice->text,
+						'meta'     => array( 'version' => $admin_notice->version ),
+					)
+				);
 
-			// Dismiss notice for all admins.
-			if ( ! is_wp_error( $notice_id ) ) {
-				foreach ( $admin_ids as $admin_id ) {
-					bp_notices_add_meta( $notice_id, 'dismissed_by', $admin_id );
+				// Dismiss notice for all admins.
+				if ( ! is_wp_error( $notice_id ) ) {
+					foreach ( $admin_ids as $admin_id ) {
+						bp_notices_add_meta( $notice_id, 'dismissed_by', $admin_id );
+					}
 				}
 			}
 		}
-	}
 
-	_bp_members_dismissed_notices_migrate();
+		_bp_members_dismissed_notices_migrate();
+	}
 }
 
 /**

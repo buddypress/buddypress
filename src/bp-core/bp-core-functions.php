@@ -5330,6 +5330,10 @@ function bp_core_get_changelog_url( $args = array() ) {
  * @param string $type Whether it's a fresh install or an upgrade.
  */
 function bp_core_release_notice( $type = 'upgrade' ) {
+	if ( ! bp_is_active( 'members', 'notices' ) ) {
+		return;
+	}
+
 	$current_admin_id = bp_loggedin_user_id();
 
 	$title   = sprintf( __( 'BuddyPress was successfully upgraded to %s', 'buddypress' ), bp_get_version() );

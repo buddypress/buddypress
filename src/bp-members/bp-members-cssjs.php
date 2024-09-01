@@ -56,12 +56,12 @@ function bp_members_register_scripts( $scripts = array() ) {
 			'footer'       => true,
 		);
 
-		$cnb_asset = array(
+		$cnb_asset      = array(
 			'dependencies' => array(),
 			'version'      => ''
 		);
-
 		$cnb_asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/close-notices-block/index.asset.php';
+
 		if ( file_exists( $cnb_asset_path ) ) {
 			$cnb_asset = require $cnb_asset_path;
 		}
@@ -74,12 +74,12 @@ function bp_members_register_scripts( $scripts = array() ) {
 		);
 	}
 
-	$nc_asset = array(
+	$nc_asset      = array(
 		'dependencies' => array(),
 		'version'      => ''
 	);
-
 	$nc_asset_path = trailingslashit( dirname( __FILE__ ) ) . 'blocks/notices-center/index.asset.php';
+
 	if ( file_exists( $nc_asset_path ) ) {
 		$nc_asset = require $nc_asset_path;
 	}
