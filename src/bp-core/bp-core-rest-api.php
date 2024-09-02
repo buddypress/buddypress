@@ -33,9 +33,7 @@ function bp_rest_is_plugin_active() {
  * @return bool Whether to use the REST Endpoints of built BuddyPress.
  */
 function bp_rest_in_buddypress() {
-	$is_src = defined( 'BP_SOURCE_SUBDIRECTORY' ) && BP_SOURCE_SUBDIRECTORY === 'src';
-
-	return ! $is_src && ! bp_rest_is_plugin_active();
+	return ! bp_is_running_from_src_subdirectory() && ! bp_rest_is_plugin_active();
 }
 
 /**

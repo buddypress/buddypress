@@ -19,8 +19,8 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       buddypress
  * Domain Path:       /bp-languages/
- * Requires PHP:      5.6
- * Requires at least: 6.1
+ * Requires PHP:      7.0
+ * Requires at least: 6.4
  * Version:           15.0.0-alpha
  */
 
@@ -33,7 +33,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // Required PHP version.
-define( 'BP_REQUIRED_PHP_VERSION', '5.6.0' );
+define( 'BP_REQUIRED_PHP_VERSION', '7.0.0' );
 
 /**
  * The main function responsible for returning the one true BuddyPress Instance to functions everywhere.
@@ -76,7 +76,7 @@ if ( version_compare( phpversion(), BP_REQUIRED_PHP_VERSION, '<' ) ) {
 	add_action( 'network_admin_notices', 'bp_php_requirements_notice' );
 	return;
 } else {
-	require dirname( __FILE__ ) . '/class-buddypress.php';
+	require __DIR__ . '/class-buddypress.php';
 
 	/*
 	 * Hook BuddyPress early onto the 'plugins_loaded' action.
@@ -88,7 +88,7 @@ if ( version_compare( phpversion(), BP_REQUIRED_PHP_VERSION, '<' ) ) {
 	if ( defined( 'BUDDYPRESS_LATE_LOAD' ) ) {
 		add_action( 'plugins_loaded', 'buddypress', (int) BUDDYPRESS_LATE_LOAD );
 
-	// "And now here's something we hope you'll really like!".
+		// "And now here's something we hope you'll really like!".
 	} else {
 		$GLOBALS['bp'] = buddypress();
 	}

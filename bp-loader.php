@@ -19,8 +19,8 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       buddypress
  * Domain Path:       /bp-languages/
- * Requires PHP:      5.6
- * Requires at least: 6.1
+ * Requires PHP:      7.0
+ * Requires at least: 6.4
  * Version:           15.0.0-alpha
  */
 
@@ -28,11 +28,11 @@
 defined( 'ABSPATH' ) || exit;
 
 // Assume you want to load from build
-$bp_loader = dirname( __FILE__ ) . '/build/bp-loader.php';
+$bp_loader = __DIR__ . '/build/bp-loader.php';
 
 // Load from source if no build exists
 if ( ! file_exists( $bp_loader ) || defined( 'BP_LOAD_SOURCE' ) ) {
-	$bp_loader = dirname( __FILE__ ) . '/src/bp-loader.php';
+	$bp_loader = __DIR__ . '/src/bp-loader.php';
 	$bp_subdir = 'src';
 } else {
 	$bp_subdir = 'build';
@@ -51,7 +51,7 @@ if ( ! defined( 'BP_PLUGIN_URL' ) ) {
 }
 
 // Include BuddyPress
-include( $bp_loader );
+require $bp_loader;
 
 // Unset vars that were invoked in global scope
 unset( $bp_loader, $bp_subdir );
