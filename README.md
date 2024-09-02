@@ -54,7 +54,7 @@ npm run wp-env start
 
 ## Credentials
 
-To login to the site, navigate to http://localhost:8888/wp-admin.
+To log in to the site, navigate to http://localhost:8888/wp-admin.
 
 * Username: `admin`
 * Password: `password`
