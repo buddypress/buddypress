@@ -17,7 +17,7 @@ The most valuable way to contribute to BuddyPress is to help others learning how
 
 Testing BuddyPress [beta](https://buddypress.org/tag/beta/) releases for issues is critical to developing the software and ensuring its quality. It is the key to a safe upgrade for you and every BuddyPress users. It’s also a meaningful way for anyone to contribute — whether you have coding experience or not. If you think you’ve found a bug, it’s a good idea to search Trac first to see if a ticket already exists that you could contribute to. Otherwise, go ahead and open a [new ticket](https://buddypress.trac.wordpress.org/newticket)!
 
-Never written a bug report? The [WordPress Core Contributor Handbook](https://make.wordpress.org/core/handbook/) has an excellent guide on what to do [before you report a bug and how to write a good bug report](https://make.wordpress.org/core/handbook/testing/reporting-bugs/#before-you-report-a-bug).
+Never written a bug report? This documentation page will guide on what to do [before you report a bug and how to write a good bug report](./code/report-bugs.md).
 
 ## Translate BuddyPress
 
