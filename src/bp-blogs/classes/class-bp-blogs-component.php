@@ -217,7 +217,7 @@ class BP_Blogs_Component extends BP_Component {
 		 * activity stream.
 		 */
 		if ( ! is_multisite() ) {
-			return false;
+			return;
 		}
 
 		$slug = bp_get_blogs_slug();
@@ -458,7 +458,8 @@ class BP_Blogs_Component extends BP_Component {
 		 * Legacy Parser should have already set these.
 		 */
 		if ( ! is_multisite() || 'rewrites' !== bp_core_get_query_parser() ) {
-			return parent::parse_query( $query );
+			parent::parse_query( $query );
+			return;
 		}
 
 		// Get the BuddyPress main instance.

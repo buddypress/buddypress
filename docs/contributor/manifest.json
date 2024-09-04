@@ -12,6 +12,12 @@
 		"parent": null
 	},
 	{
+		"title": "The BuddyPress Team",
+		"slug": "bp-team",
+		"markdown_source": "../contributor/project/bp-team.md",
+		"parent": null
+	},
+	{
 		"title": "Version Numbering",
 		"slug": "version-numbering",
 		"markdown_source": "../contributor/project/version-numbering.md",

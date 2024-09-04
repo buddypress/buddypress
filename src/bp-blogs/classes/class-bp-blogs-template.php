@@ -95,26 +95,35 @@ class BP_Blogs_Template {
 	 *
 	 * @see BP_Blogs_Blog::get() for a description of parameters.
 	 *
-	 * @param array $args {
+	 * @param array ...$args {
 	 *     Array of arguments. See {@link BP_Blogs_Blog::get()}.
 	 * }
 	 */
 	public function __construct( ...$args ) {
 		// Backward compatibility with old method of passing arguments.
 		if ( ! is_array( $args[0] ) || count( $args ) > 1 ) {
-			_deprecated_argument( __METHOD__, '10.0.0', sprintf( esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ), __METHOD__, __FILE__ ) );
+			_deprecated_argument(
+				__METHOD__,
+				'10.0.0',
+				sprintf(
+					// translators: 1: the name of the method. 2: the name of the file.
+					esc_html__( 'Arguments passed to %1$s should be in an associative array. See the inline documentation at %2$s for more details.', 'buddypress' ),
+					__METHOD__,
+					__FILE__
+				)
+			);
 
-			$old_args_keys = [
-				0  => 'type',
-				1  => 'page',
-				2  => 'per_page',
-				3  => 'max',
-				4  => 'user_id',
-				5  => 'search_terms',
-				6  => 'page_arg',
-				7  => 'update_meta_cache',
-				8  => 'include_blog_ids',
-			];
+			$old_args_keys = array(
+				0 => 'type',
+				1 => 'page',
+				2 => 'per_page',
+				3 => 'max',
+				4 => 'user_id',
+				5 => 'search_terms',
+				6 => 'page_arg',
+				7 => 'update_meta_cache',
+				8 => 'include_blog_ids',
+			);
 
 			$args = bp_core_parse_args_array( $old_args_keys, $args );
 		} else {
@@ -146,18 +155,20 @@ class BP_Blogs_Template {
 		if ( ! empty( $_REQUEST['letter'] ) ) {
 			$this->blogs = BP_Blogs_Blog::get_by_letter( $_REQUEST['letter'], $this->pag_num, $this->pag_page );
 
-		// Typical blogs query.
+			// Typical blogs query.
 		} else {
-			$this->blogs = bp_blogs_get_blogs( array(
-				'type'              => $r['type'],
-				'per_page'          => $this->pag_num,
-				'page'              => $this->pag_page,
-				'user_id'           => $r['user_id'],
-				'search_terms'      => $r['search_terms'],
-				'update_meta_cache' => $r['update_meta_cache'],
-				'include_blog_ids'  => $r['include_blog_ids'],
-				'date_query'        => $r['date_query']
-			) );
+			$this->blogs = bp_blogs_get_blogs(
+				array(
+					'type'              => $r['type'],
+					'per_page'          => $this->pag_num,
+					'page'              => $this->pag_page,
+					'user_id'           => $r['user_id'],
+					'search_terms'      => $r['search_terms'],
+					'update_meta_cache' => $r['update_meta_cache'],
+					'include_blog_ids'  => $r['include_blog_ids'],
+					'date_query'        => $r['date_query'],
+				)
+			);
 		}
 
 		$max = (int) wp_unslash( $r['max'] );
@@ -184,16 +195,18 @@ class BP_Blogs_Template {
 
 		// Build pagination links based on total blogs and current page number.
 		if ( ! empty( $this->total_blog_count ) && ! empty( $this->pag_num ) ) {
-			$this->pag_links = paginate_links( array(
-				'base'      => add_query_arg( $this->pag_arg, '%#%' ),
-				'format'    => '',
-				'total'     => ceil( (int) $this->total_blog_count / (int) $this->pag_num ),
-				'current'   => (int) $this->pag_page,
-				'prev_text' => _x( '&larr;', 'Blog pagination previous text', 'buddypress' ),
-				'next_text' => _x( '&rarr;', 'Blog pagination next text',     'buddypress' ),
-				'mid_size'  => 1,
-				'add_args'  => array(),
-			) );
+			$this->pag_links = paginate_links(
+				array(
+					'base'      => add_query_arg( $this->pag_arg, '%#%' ),
+					'format'    => '',
+					'total'     => ceil( (int) $this->total_blog_count / (int) $this->pag_num ),
+					'current'   => (int) $this->pag_page,
+					'prev_text' => _x( '&larr;', 'Blog pagination previous text', 'buddypress' ),
+					'next_text' => _x( '&rarr;', 'Blog pagination next text', 'buddypress' ),
+					'mid_size'  => 1,
+					'add_args'  => array(),
+				)
+			);
 		}
 	}
 
@@ -205,7 +218,7 @@ class BP_Blogs_Template {
 	 * @return bool True if there are items in the loop, otherwise false.
 	 */
 	public function has_blogs() {
-		return (bool) ! empty( $this->blog_count );
+		return ! empty( $this->blog_count );
 	}
 
 	/**
@@ -214,7 +227,7 @@ class BP_Blogs_Template {
 	 * @return object The next blog to iterate over.
 	 */
 	public function next_blog() {
-		$this->current_blog++;
+		++$this->current_blog;
 		$this->blog = $this->blogs[ $this->current_blog ];
 
 		return $this->blog;
@@ -270,7 +283,6 @@ class BP_Blogs_Template {
 	 * @see bp_the_blog()
 	 */
 	public function the_blog() {
-
 		$this->in_the_loop = true;
 		$this->blog        = $this->next_blog();
 
