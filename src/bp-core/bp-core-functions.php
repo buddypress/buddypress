@@ -5010,7 +5010,7 @@ function bp_get_deprecated_functions_versions() {
 			);
 
 			if ( array_diff( $deprecated_files, $deprecated_functions_versions ) ) {
-				return array();
+				return false;
 			}
 		}
 
