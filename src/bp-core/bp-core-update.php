@@ -861,7 +861,7 @@ function bp_update_to_12_0() {
 	 * Only perform the BP Rewrites API & Legacy Widgets upgrade tasks
 	 * when the BP Classic plugin is not active.
 	 */
-	if ( ! function_exists( 'bp_classic' ) ) {
+	if ( ! is_bp_classic_active() ) {
 		$post_type = bp_core_get_directory_post_type();
 
 		if ( 'page' !== $post_type ) {

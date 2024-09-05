@@ -122,7 +122,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 			);
 
 			// When BP Classic is activated, regular themes need this filter. 
-			if ( function_exists( 'bp_classic' ) || is_plugin_active( 'bp-classic/bp-classic.php' ) ) {
+			if ( is_bp_classic_active() ) {
 				// Set the BP Uri for the Ajax customizer preview.
 				add_filter( 'bp_uri', array( $this, 'customizer_set_uri' ), 10, 1 );
 			}

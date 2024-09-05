@@ -10,7 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // These functions has been moved to the BP Classic plugin.
-if ( ! function_exists( 'bp_classic' ) ) {
+if ( ! is_bp_classic_active() ) {
 	/**
 	 * Analyze the URI and break it down into BuddyPress-usable chunks.
 	 *
