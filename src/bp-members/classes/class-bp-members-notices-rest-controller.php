@@ -2,14 +2,13 @@
 /**
  * BuddyPress Members Notices feature REST API Controller.
  *
- * @package buddypress\bp-members\classes\class-bp-members-notices-endpoint
+ * @package BuddyPress
+ * @subpackage Members
  * @since 15.0.0
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notices REST API Controller.

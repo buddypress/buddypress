@@ -2,14 +2,13 @@
 /**
  * BuddyPress Members Notice Class.
  *
- * @package buddypress\bp-members\classes\class-bp-members-notice
+ * @package BuddyPress
+ * @subpackage Members
  * @since 15.0.0
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * BuddyPress Members Notice Class.

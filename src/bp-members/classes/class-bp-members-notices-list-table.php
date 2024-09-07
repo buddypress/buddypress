@@ -3,7 +3,7 @@
  * BuddyPress Members notices admin list table class.
  *
  * @package BuddyPress
- * @subpackage MembersClasses
+ * @subpackage Members
  * @since 15.0.0
  */
 
