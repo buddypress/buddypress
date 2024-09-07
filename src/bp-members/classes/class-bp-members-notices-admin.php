@@ -2,7 +2,8 @@
 /**
  * BuddyPress members component Site-wide Notices admin screen.
  *
- * @package buddypress\bp-members\classes\class-bp-members-notices-admin
+ * @package BuddyPress
+ * @subpackage Members
  * @since 15.0.0
  */
 
