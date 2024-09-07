@@ -463,6 +463,12 @@ form.edit-notice label {
 	width: 200px;
 }
 
+.form-invalid.form-required textarea:focus,
+.form-invalid.form-required textarea {
+	border-color: #d63638 !important;
+	box-shadow: 0 0 2px rgba(214, 54, 56, 0.8);
+}
+
 .buddypress-body.admin-notices .wp-filter .search-form,
 .buddypress-body.admin-notices .wp-filter .pagination {
 	margin: 11px 0;

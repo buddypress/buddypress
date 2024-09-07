@@ -205,7 +205,8 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 		);
 
 		if ( is_user_logged_in() ) {
-			if ( 'view' === $context ) {
+			// Users can only get notices targeting them.
+			if ( 'view' === $context && bp_loggedin_user_id() === (int) $request->get_param( 'user_id' ) ) {
 				$retval = true;
 			} elseif ( 'edit' === $context ) {
 				$retval = bp_current_user_can( 'bp_moderate' );
@@ -944,6 +945,10 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 			$params['per_page']['default'] = 5;
 		}
 
+		if ( isset( $params['search'] ) ) {
+			unset( $params['search'] );
+		}
+
 		$params['user_id'] = array(
 			'description'       => __( 'Limit result set to items concerning a specific user (ID).', 'buddypress' ),
 			'default'           => 0,
@@ -1022,8 +1027,8 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 		$prepared_item = bp_members_get_notice( $notice_id );
 
 		// Notice ID.
-		if ( ! empty( $schema['properties']['id'] ) && ! empty( $prepared_item->id ) ) {
-			$prepared_item->id = $prepared_item->id;
+		if ( empty( $schema['properties']['id'] ) ) {
+			unset( $prepared_item->id );
 		}
 
 		// Notice title.
