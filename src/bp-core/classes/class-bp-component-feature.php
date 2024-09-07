@@ -2,14 +2,13 @@
 /**
  * BuddyPress Component's feature Class.
  *
- * @package buddypress\bp-core\classes\class-bp-component-feature
+ * @package BuddyPress
+ * @subpackage Core
  * @since 15.0.0
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 class BP_Component_Feature extends BP_Component {
 
@@ -155,16 +154,16 @@ class BP_Component_Feature extends BP_Component {
 		add_action( 'bp_setup_admin_bar', array( $this, 'setup_admin_bar' ) );
 
 		// Setup cache groups.
-		add_action( 'bp_setup_cache_groups', array( $this, 'setup_cache_groups' ), 10 );
+		add_action( 'bp_setup_cache_groups', array( $this, 'setup_cache_groups' ) );
 
 		// Register BP REST Endpoints.
 		if ( bp_rest_in_buddypress() && bp_rest_api_is_available() ) {
-			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
+			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ) );
 		}
 
 		// Register BP Blocks.
 		if ( bp_support_blocks() ) {
-			add_action( 'bp_blocks_init', array( $this, 'blocks_init' ), 10 );
+			add_action( 'bp_blocks_init', array( $this, 'blocks_init' ) );
 		}
 
 		/**

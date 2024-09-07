@@ -2,21 +2,18 @@
 /**
  * BuddyPress Dismiss Notice Action handler.
  *
- * @package buddypress\bp-members\actions\dismiss-notice
+ * @package BuddyPress
+ * @subpackage Members
  * @since 15.0.0
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Handles a notice dismissal.
  *
  * @since 15.0.0
- *
- * @return void
  */
 function bp_members_notice_action_dismiss() {
 	// Bail if current user is not viewing their pages and is not an Admin.

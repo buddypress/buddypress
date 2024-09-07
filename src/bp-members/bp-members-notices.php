@@ -1280,7 +1280,7 @@ function bp_members_render_notices_block( $attributes = array() ) {
 			);
 		}
 
-		return;
+		return '';
 	}
 
 	// Only enqueue common/specific scripts and data once per page load.

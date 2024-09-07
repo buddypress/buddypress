@@ -1689,10 +1689,10 @@ class BP_Admin {
 			// Check dismissal feedback messages.
 			if ( isset( $_GET['bp-dismissed'] ) ) {
 				$class    = empty( $_GET['bp-dismissed'] ) ? 'error' : 'updated';
-				$feedback = __( 'Notice successfully dismissed', 'buddypress' );
+				$feedback = __( 'Notice successfully dismissed.', 'buddypress' );
 
 				if ( 'error' === $class ) {
-					$feedback = __( 'The notice could not be dismissed', 'buddypress' );
+					$feedback = __( 'The notice could not be dismissed.', 'buddypress' );
 				}
 
 				printf(

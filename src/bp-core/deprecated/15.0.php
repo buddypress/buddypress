@@ -29,8 +29,6 @@ function bp_is_notices() {
  *
  * @since 2.4.0 This function was split from messages_screen_notices(). See #6505.
  * @deprecated 15.0.0
- *
- * @return void
  */
 function bp_messages_action_edit_notice() {
 	_deprecated_function( __FUNCTION__, '15.0.0' );
@@ -54,8 +52,6 @@ function bp_messages_action_dismiss_notice() {
  *
  * @since 1.0.0
  * @deprecated 15.0.0
- *
- * @return void
  */
 function messages_screen_notices() {
 	_deprecated_function( __FUNCTION__, '15.0.0' );
@@ -110,7 +106,7 @@ function messages_send_notice( $subject, $message ) {
  */
 function bp_message_get_notices() {
 	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_render_active_notice' );
-	return bp_render_active_notice();
+	bp_render_active_notice();
 }
 
 /**
@@ -123,7 +119,7 @@ function bp_message_get_notices() {
  */
 function bp_message_notice_subject( $notice = null ) {
 	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_notice_title' );
-	return bp_notice_title( $notice );
+	bp_notice_title( $notice );
 }
 /**
  * Get the subject of the current notice in the loop.
@@ -132,7 +128,7 @@ function bp_message_notice_subject( $notice = null ) {
  * @deprecated 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
- * @return string
+ * @return string The notice title.
  */
 function bp_get_message_notice_subject( $notice = null ) {
 	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_get_notice_title' );
@@ -149,7 +145,7 @@ function bp_get_message_notice_subject( $notice = null ) {
  */
 function bp_message_notice_text( $notice = null ) {
 	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_notice_content' );
-	return bp_notice_content( $notice );
+	bp_notice_content( $notice );
 }
 
 /**
@@ -159,7 +155,7 @@ function bp_message_notice_text( $notice = null ) {
  * @deprecated 15.0.0
  *
  * @param BP_Members_Notice|null $notice The notice object.
- * @return string
+ * @return string The notice content.
  */
 function bp_get_message_notice_text( $notice = null ) {
 	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_get_notice_content' );
@@ -174,7 +170,7 @@ function bp_get_message_notice_text( $notice = null ) {
  */
 function bp_message_notice_dismiss_link() {
 	_deprecated_function( __FUNCTION__, '15.0.0', 'bp_notice_dismiss_url' );
-	return bp_notice_dismiss_url();
+	bp_notice_dismiss_url();
 }
 
 /**
@@ -302,8 +298,6 @@ function bp_core_admin_notice_dismiss_callback() {
  *
  * @since 1.6.0
  * @deprecated 15.0.0
- *
- * @return bool
  */
 function bp_messages_is_active_notice() {
 	_deprecated_function( __FUNCTION__, '15.0.0' );
@@ -322,8 +316,6 @@ function bp_message_notice_id() {
  * Get the ID of the current notice in the loop.
  *
  * @deprecated 15.0.0
- *
- * @return int
  */
 function bp_get_message_notice_id() {
 	_deprecated_function( __FUNCTION__, '15.0.0' );

@@ -2,14 +2,13 @@
 /**
  * BuddyPress Member's notice feature Class.
  *
- * @package buddypress\bp-members\classes\class-bp-members-notices-feature
+ * @package BuddyPress
+ * @subpackage Members
  * @since 15.0.0
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * This feature is required as BuddyPress is using it to inform Site Admins of important changes.
