@@ -1757,6 +1757,7 @@ function bp_admin_removable_query_args( $query_args = array() ) {
 			'bp-dismissed',
 			'bp-success',
 			'bp-error',
+			'bp-error-code',
 		)
 	);
 }

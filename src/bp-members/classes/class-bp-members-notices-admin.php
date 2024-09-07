@@ -137,17 +137,25 @@ class BP_Members_Notices_Admin {
 					'content'  => '',
 					'target'   => '',
 					'priority' => 2,
-					'url'     => '',
+					'url'      => '',
 					'text'     => '',
 				)
 			);
 
-			if ( bp_members_save_notice( $notice ) ) {
-				$redirect_to = add_query_arg( 'bp-success', 'create', $this->url );
+			$created = bp_members_save_notice( $notice );
+
+			if ( is_wp_error( $created ) ) {
+				$redirect_to = add_query_arg(
+					array(
+						'bp-error'      => 'create',
+						'bp-error-code' => $created->get_error_code(),
+					),
+					$this->url
+				);
 
 			// Notice could not be sent.
 			} else {
-				$redirect_to = add_query_arg( 'bp-error', 'create', $this->url );
+				$redirect_to = add_query_arg( 'bp-success', 'create', $this->url );
 			}
 		}
 
@@ -231,8 +239,9 @@ class BP_Members_Notices_Admin {
 	 * @since 15.0.0
 	 *
 	 * @param BP_Members_Notice|null The Notice object when updating. Null otherwise.
+	 * @param boolean $missing_data  Whether Notice title and/or content was missing in the previous submission.
 	 */
-	public function notice_form( $notice = null ) {
+	public function notice_form( $notice = null, $missing_data = false ) {
 		$is_edit    = false;
 		$class_name = 'new-notice';
 		$content    = '';
@@ -266,14 +275,14 @@ class BP_Members_Notices_Admin {
 				<h2 class="bp-new-notice"><?php esc_html_e( 'Add New Notice', 'buddypress' ); ?></h2>
 			<?php endif; ?>
 			<form action="<?php echo esc_url( wp_nonce_url( $this->url, 'save-notice', 'ns-nonce' ) ); ?>" method="post" class="<?php echo esc_attr( $class_name ); ?>">
-				<div class="form-field form-required">
+				<div class="form-field form-required<?php echo $missing_data ? ' form-invalid' : ''; ?>">
 					<label for="bp_notice_subject"><?php esc_html_e( 'Title', 'buddypress' ); ?></label>
 					<div class="form-input">
 						<input type="text" value="<?php echo esc_attr( $form_values['subject'] ); ?>" class="bp-panel-input regular-text code" id="bp_notice_subject" name="bp_notice[title]" size="40" aria-required="true" aria-describedby="bp-subject-description" />
 						<p id="bp-subject-description"><?php esc_html_e( 'The title of your notice.', 'buddypress' ); ?></p>
 					</div>
 				</div>
-				<div class="form-field form-required">
+				<div class="form-field form-required<?php echo $missing_data ? ' form-invalid' : ''; ?>">
 					<label for="bp_notice_content"><?php esc_html_e( 'Content', 'buddypress' ); ?></label>
 					<div class="form-input">
 						<textarea class="bp-panel-textarea regular-text code" id="bp_notice_content" name="bp_notice[content]" rows="5" cols="40" aria-describedby="bp-content-description"><?php echo esc_textarea( $content ); ?></textarea>
@@ -337,6 +346,7 @@ class BP_Members_Notices_Admin {
 	 */
 	public function manage_notices() {
 		$this->list_table->prepare_items();
+		$missing_data = false;
 		?>
 		<div class="wrap nosubsub">
 			<h1 class="wp-heading-inline"><?php echo esc_html_x( 'Member Notices', 'Notices admin page title', 'buddypress' ); ?></h1>
@@ -347,7 +357,10 @@ class BP_Members_Notices_Admin {
 					<p>
 						<?php
 						if ( isset( $_GET['bp-error'] ) ) {
-							if ( 'create' === $_GET['bp-error'] ) {
+							if ( isset( $_GET['bp-error-code'] ) && 'bp_notices_missing_data' === $_GET['bp-error-code'] ) {
+								$missing_data = true;
+								esc_html_e( 'The notice subject and content are required fields.', 'buddypress' );
+							} elseif ( 'create' === $_GET['bp-error'] ) {
 								esc_html_e( 'Notice was not created. Please try again.', 'buddypress' );
 							} else {
 								esc_html_e( 'Notice was not updated. Please try again.', 'buddypress' );
@@ -367,7 +380,7 @@ class BP_Members_Notices_Admin {
 			<div id="col-container" class="wp-clearfix">
 				<div id="col-left">
 					<div class="col-wrap">
-						<?php $this->notice_form(); ?>
+						<?php $this->notice_form( null, $missing_data ); ?>
 					</div>
 				</div><!-- /col-left -->
 				<div id="col-right">
