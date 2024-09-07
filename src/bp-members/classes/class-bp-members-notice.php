@@ -18,6 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 15.0.0
  */
+#[AllowDynamicProperties]
 class BP_Members_Notice {
 
 	/**

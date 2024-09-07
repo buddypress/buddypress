@@ -5304,6 +5304,7 @@ function bp_is_classic() {
  * @since 15.0.0
  *
  * @param array $args List of additional query args to add to default ones.
+ * @return string The URL to access to the Hello Screen modal (changelog).
  */
 function bp_core_get_changelog_url( $args = array() ) {
 	$settings_page = 'options-general.php';
@@ -5399,5 +5400,5 @@ function bp_get_admin_ids() {
 		}
 	}
 
-	return array_unique( array_merge( $admins, $super_admins ) );
+	return wp_parse_id_list( array_merge( $admins, $super_admins ) );
 }

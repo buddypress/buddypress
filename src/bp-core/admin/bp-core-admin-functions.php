@@ -397,6 +397,7 @@ function bp_do_activation_redirect() {
 
 	// Redirect to Components settings and trigger the Hello screen.
 	wp_safe_redirect( bp_core_get_changelog_url( $query_args ) );
+	exit;
 }
 
 /** UI/Styling ****************************************************************/
@@ -1744,7 +1745,7 @@ add_filter( 'plugins_api_result', 'bp_admin_edit_available_addons_properties', 1
 /**
  * Adds BP specific removable query arg to WordPress ones.
  *
- * @since  15.0.0
+ * @since 15.0.0
  *
  * @param array $query_args The removable query args.
  * @return array The removable query args.

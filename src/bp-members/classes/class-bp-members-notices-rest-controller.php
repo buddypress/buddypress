@@ -984,7 +984,7 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 				'enum' => array( 'community', 'contributors', 'admins' ),
 				'type' => 'string',
 			),
-			'sanitize_callback' => 'wp_parse_list',
+			'sanitize_callback' => 'bp_rest_sanitize_string_list',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
