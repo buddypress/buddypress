@@ -105,15 +105,7 @@ svn co https://buddypress.svn.wordpress.org/tags/12.0.0/ . --force --ignore-exte
 Use the latest version of npm and run: `npm install` and then `composer install && grunt build`. (This part can take quite a long time 🧘)
 
 > [!IMPORTANT]
-> If it's a major or minor release: control everything went fine.
-
-+ Copy the content of the `buddypress-to-deploy/build` folder into a new `buddypress` folder.
-+ Zip it.
-+ Test on a WordPress fresh install there are no problems installing this new version of BuddyPress.
-+ Test on a WordPress install already having a previous version of BuddyPress installed and use the WordPress Plugin's Add new screen to check there are no problems upgrading to this new version of BuddyPress.
-
-> [!TIP]
-> If you organized a release party on BuddyPress Slack's channel, don't hesitate to ask other contributors to help you test this new version.
+> If it's a major or minor release: [control everything went fine](./test-checklist.md).
 
 + If lights are green, overwrite the contents of the trunk directory with the contents of `build` in the [wporg] checkout.
 + If it’s a beta or a release candidate, make sure the Stable tag in both trunk and the newly created tag are the same and are the one of current stable version of BuddyPress.
