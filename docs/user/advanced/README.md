@@ -1,6 +1,6 @@
 # Advanced BuddyPress customizations
 
-- Customizing templates
+- [Customizing templates](template-hierarchy.md)
 - [Customizing functionalities](functionalities.md)
 - [Customizing texts](texts.md)
 - [Customizing BP Base URL](custom-base-url.md)
