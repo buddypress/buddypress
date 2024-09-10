@@ -312,9 +312,6 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		$notice_id = bp_members_save_notice(
 			array(
 				'title'    => $request->get_param( 'title' ),
@@ -393,11 +390,9 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
+		$notice = bp_members_get_notice( $request->get_param( 'id' ) );
 
 		// Check the notice exists.
-		$notice = bp_members_get_notice( $request->get_param( 'id' ) );
 		if ( ! $notice->id ) {
 			return new WP_Error(
 				'bp_rest_invalid_id',
@@ -566,11 +561,9 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function delete_item( $request ) {
-		// Setting context.
-		$request->set_param( 'context', 'edit' );
-
 		// Get the notice before it's deleted.
 		$notice = bp_members_get_notice( $request->get_param( 'id' ) );
+
 		if ( is_null( $notice ) ) {
 			return new WP_Error(
 				'bp_rest_invalid_id',
