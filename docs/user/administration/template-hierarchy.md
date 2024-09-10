@@ -1,19 +1,17 @@
-# BuddyPress Template Hierarchy
+# Customizing templates
 
-BuddyPress follows a template hierarchy system that allows you to customize the appearance and functionality of your community site. This document will guide you through the basics of BuddyPress template hierarchy, how to customize templates, and the structure of BuddyPress template files.
+BuddyPress follows a template hierarchy system that allows you to customize the appearance of your community site. This document will guide you through the basics of BuddyPress template hierarchy, how to customize templates, and the structure of BuddyPress template files.
 
-## General Information
+The way you can override default BuddyPress templates with your custom templates has evolved since the first versions of the plugin when a specific and standalone BuddyPress theme was required to display your community content (until version 1.7).
 
-BuddyPress is a powerful plugin for WordPress that transforms your website into a fully-featured social network. It includes features like user profiles, activity streams, user groups, and more. The customization of these features is achieved through templates.
+The current (and most common) way to achieve template overrides is based on the BP Theme Compatibility API and the BP Template Packs which made BuddyPress content integration available in all WordPress themes (even Block only ones!).
 
-### Template Hierarchy Overview
+## BP Template Packs template hierarchy
 
-BuddyPress templates are organized in a hierarchy, meaning that the plugin will look for specific templates in a certain order. This hierarchy allows you to override default templates with your custom versions.
+BuddyPress comes with 2 template packs. By default, the BP Nouveau template pack is active but you can switch back to the BP Legacy one from the "Options" tab of your dashboard's `Settings > BuddyPress` area.
 
-### BuddyPress Template Folders
-
-1. **bp-legacy**: This folder contains the default templates used by BuddyPress.
-2. **bp-nouveau**: This is the newer template pack with improved design and functionality.
+1. `buddypress\bp-templates\bp-legacy`: This folder contains the BP Legacy templates: the ones that were created out of the BP Default standalone theme (deprecated).
+2. `buddypress\bp-templates\bp-nouveau`: this folder contains the BP Nouveau templates which brought an improved design and dynamic UIs for your community area.
 
 ### Template Loading Order
 
@@ -21,15 +19,33 @@ When BuddyPress loads a template, it follows this order:
 
 1. **Child Theme**: BuddyPress looks for templates in the child theme directory first. This allows you to customize templates without modifying the parent theme.
 2. **Parent Theme**: If the template is not found in the child theme, BuddyPress will look in the parent theme directory.
-3. **BuddyPress Default**: If neither the child nor the parent theme contains the template, BuddyPress will use its default templates (bp-legacy or bp-nouveau).
+3. **BP active template pack**: If neither the child nor the parent theme contains the template, BuddyPress will use its own templates (`bp-legacy` or `bp-nouveau`).
 
-### Customizing BuddyPress Templates
+### The BuddyPress base template file
 
-To customize a BuddyPress template:
+The BP Theme Compatibility API is first looking for the best based template file within the active theme, it then picks it to use its `the_content()` template tag as a placeholder to insert what are actually **template parts** from the active BP Template Pack directory.
 
-1. **Copy the Template**: Locate the template file in the BuddyPress plugin directory (either `bp-legacy` or `bp-nouveau`) and copy it to your theme's directory. For example, copy `activity/index.php` from `bp-legacy` to your theme's `buddypress` folder (`wp-content/themes/your-theme/buddypress/activity/index.php`).
+1. `active-wordpress-theme/plugin-buddypress.php`,
+2. `active-wordpress-theme/buddypress.php`,
+3. `active-wordpress-theme/community.php`,
+4. `active-wordpress-theme/generic.php`,
+5. `active-wordpress-theme/page.php` <- most commonly picked,
+6. `active-wordpress-theme/single.php`,
+7. `active-wordpress-theme/singular.php`,
+8. `active-wordpress-theme/index.php`.
 
-2. **Modify the Template**: Edit the copied template file in your theme directory as needed. Your changes will override the default BuddyPress template.
+The `page.php` template is the one that is generally picked: that's because themes including the 4 first ones are not very common. But if you add a new template to the active theme's directory having one of the 4 first file names then it will be the one BuddyPress will pick. That's how you can customize the base template file BuddyPress should use.
+
+> [!TIP]
+> An easy way to customize the base template file is to copy the `page.php` template of your active WordPress theme, rename it `buddypress.php`, remove the unused comment template tags and fine tune your HTML markup from there!
+
+### Customizing BuddyPress Template parts
+
+To customize a BuddyPress template part:
+
+1. **Copy the Template part**: Locate the template file in the BuddyPress plugin directory (either `bp-legacy` or `bp-nouveau`) and copy it to your theme's directory. For example, copy `activity/index.php` from `bp-legacy` to your theme's `buddypress` or `community` folder (`wp-content/themes/your-theme/buddypress/activity/index.php`).
+
+2. **Modify the Template part**: Edit the copied template file in your theme directory as needed. Your changes will override the default BuddyPress template.
 
 ### Common Template Files
 
@@ -46,14 +62,10 @@ BuddyPress template files are organized into several directories, each correspon
 
 - **activity/**: Templates for activity streams
 - **blogs/**: Templates for site tracking
-- **common/**: Shared templates and components
-- **forums/**: Templates for bbPress forums
 - **groups/**: Templates for user groups
 - **members/**: Templates for member profiles and directories
-- **messages/**: Templates for private messaging
-- **settings/**: Templates for user settings
 
-## Directory Structure for Overriding BuddyPress Legacy Templates
+### Directory Structure for Overriding BuddyPress Legacy Templates
 
 Here is the complete directory structure for all the BuddyPress legacy template files. You can copy the necessary files based on your customization needs and override them inside the child theme at the following path.
 
@@ -184,7 +196,7 @@ your-child-theme/
     │       │   └── profile.php
 ```
 
-## Directory Structure for Overriding BuddyPress Nouveau Templates
+### Directory Structure for Overriding BuddyPress Nouveau Templates
 
 Here is the complete directory structure for all the BuddyPress Nouveau template files. Based on your customization needs, you can copy the necessary files.
 
@@ -281,9 +293,10 @@ your-child-theme/
 │   │           └── profile.php
 ```
 
-### Overriding Template Example
-To override activity-loop.php:
+## Standalone BuddyPress theme template hierarchy
 
-Copy `activity-loop.php from wp-content/plugins/buddypress/bp-templates/bp-nouveau/buddypress/activity/activity-loop.php`.
-Paste it into `wp-content/themes/your-child-theme/buddypress/activity/activity-loop.php`.
-Make your desired changes in the copied `activity-loop.php` file in your child theme.
+TBD.
+
+## BuddyPress Block only theme template hierarchy
+
+TBD.
