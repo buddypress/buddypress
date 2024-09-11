@@ -48,6 +48,12 @@
 		"parent": null
 	},
 	{
+		"title": "Testing a release before deploying it",
+		"slug": "about-release-tests",
+		"markdown_source": "../contributor/project/release/test-checklist.md",
+		"parent": null
+	},
+	{
 		"title": "Contribute to documentation",
 		"slug": "contribute-to-documentation",
 		"markdown_source": "../contributor/documentation/README.md",

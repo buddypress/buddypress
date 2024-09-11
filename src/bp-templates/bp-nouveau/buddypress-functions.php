@@ -4,7 +4,7 @@
  *
  * @since 3.0.0
  * @package BuddyPress
- * @version 12.0.0
+ * @version 15.0.0
  *
  * @buddypress-template-pack {
  *   Template Pack ID:       nouveau
@@ -50,7 +50,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {
-			self::$instance = new self;
+			self::$instance = new self();
 		}
 
 		return self::$instance;
@@ -100,13 +100,17 @@ class BP_Nouveau extends BP_Theme_Compat {
 		if ( function_exists( 'tests_add_filter' ) ) {
 			require $this->includes_dir . 'ajax.php';
 
-		// Load AJAX code only on AJAX requests.
+			// Load AJAX code only on AJAX requests.
 		} else {
-			add_action( 'admin_init', function () {
-				if ( defined( 'DOING_AJAX' ) && true === DOING_AJAX ) {
-					require bp_nouveau()->includes_dir . 'ajax.php';
-				}
-			}, 0 );
+			add_action(
+				'admin_init',
+				function () {
+					if ( wp_doing_ajax() ) {
+						require bp_nouveau()->includes_dir . 'ajax.php';
+					}
+				},
+				0
+			);
 		}
 
 		// The customizer is only used by classic themes.
@@ -137,7 +141,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 				continue;
 			}
 
-			require( $component_loader );
+			require $component_loader;
 		}
 
 		/**
@@ -241,8 +245,6 @@ class BP_Nouveau extends BP_Theme_Compat {
 		// Modify "registration disabled" and welcome message if invitations are enabled.
 		add_action( 'bp_nouveau_feedback_messages', array( $this, 'filter_registration_messages' ), 99 );
 
-		/** Override **********************************************************/
-
 		/**
 		 * Fires after all of the BuddyPress theme compat actions have been added.
 		 *
@@ -286,14 +288,21 @@ class BP_Nouveau extends BP_Theme_Compat {
 		 *
 		 * @param array $value Array of styles to enqueue.
 		 */
-		$styles = apply_filters( 'bp_nouveau_enqueue_styles', array(
-			'bp-nouveau' => array(
-				'file' => 'css/buddypress%1$s%2$s.css', 'dependencies' => $css_dependencies, 'version' => $this->version,
-			),
-			'bp-nouveau-priority-nav' => array(
-				'file' => 'css/priority-nav%1$s%2$s.css', 'dependencies' => array( 'dashicons' ), 'version' => $this->version,
-			),
-		) );
+		$styles = apply_filters(
+			'bp_nouveau_enqueue_styles',
+			array(
+				'bp-nouveau'              => array(
+					'file'         => 'css/buddypress%1$s%2$s.css',
+					'dependencies' => $css_dependencies,
+					'version'      => $this->version,
+				),
+				'bp-nouveau-priority-nav' => array(
+					'file'         => 'css/priority-nav%1$s%2$s.css',
+					'dependencies' => array( 'dashicons' ),
+					'version'      => $this->version,
+				),
+			)
+		);
 
 		if ( $styles ) {
 
@@ -387,7 +396,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		$scripts = apply_filters(
 			'bp_nouveau_register_scripts',
 			array(
-				'bp-nouveau' => array(
+				'bp-nouveau'               => array(
 					'file'         => 'js/buddypress-nouveau%s.js',
 					'dependencies' => $dependencies,
 					'version'      => $this->version,
@@ -398,7 +407,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 					'dependencies' => array(),
 					'version'      => $this->version,
 					'footer'       => true,
-				)
+				),
 			)
 		);
 
@@ -492,13 +501,13 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 */
 	public function localize_scripts() {
 		$params = array(
-			'ajaxurl'             => bp_core_ajax_url(),
-			'confirm'             => __( 'Are you sure?', 'buddypress' ),
+			'ajaxurl'           => bp_core_ajax_url(),
+			'confirm'           => __( 'Are you sure?', 'buddypress' ),
 
 			/* translators: %s: number of activity comments */
-			'show_x_comments'     => __( 'Show all %d comments', 'buddypress' ),
-			'unsaved_changes'     => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
-			'object_nav_parent'   => '#buddypress',
+			'show_x_comments'   => __( 'Show all %d comments', 'buddypress' ),
+			'unsaved_changes'   => __( 'Your profile has unsaved changes. If you leave the page, the changes will be lost.', 'buddypress' ),
+			'object_nav_parent' => '#buddypress',
 		);
 
 		// If the Object/Item nav are in the sidebar.
@@ -677,7 +686,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 		}
 
 		foreach ( $nav_items as $nav_item ) {
-			if ( empty( $nav_item['component'] ) || $nav_item['component'] !== bp_current_component() ) {
+			if ( empty( $nav_item['component'] ) || bp_current_component() !== $nav_item['component'] ) {
 				continue;
 			}
 
