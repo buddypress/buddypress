@@ -1361,6 +1361,7 @@ function bp_groups_get_group_roles() {
 		'admin' => (object) array(
 			'id'           => 'admin',
 			'name'         => __( 'Administrator', 'buddypress' ),
+			'plural_name'  => _x( 'administrators', 'group role plural name', 'buddypress' ),
 			'is_admin'     => true,
 			'is_banned'    => false,
 			'is_confirmed' => true,
@@ -1369,6 +1370,7 @@ function bp_groups_get_group_roles() {
 		'mod' => (object) array(
 			'id'           => 'mod',
 			'name'         => __( 'Moderator', 'buddypress' ),
+			'plural_name'  => _x( 'moderators', 'group role plural name', 'buddypress' ),
 			'is_admin'     => false,
 			'is_banned'    => false,
 			'is_confirmed' => true,
@@ -1377,6 +1379,7 @@ function bp_groups_get_group_roles() {
 		'member' => (object) array(
 			'id'           => 'member',
 			'name'         => __( 'Member', 'buddypress' ),
+			'plural_name'  => _x( 'members', 'group role plural name', 'buddypress' ),
 			'is_admin'     => false,
 			'is_banned'    => false,
 			'is_confirmed' => true,
