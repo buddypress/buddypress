@@ -6,7 +6,7 @@
  */
 class BP_Test_REST_Notifications_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $notification_id;
-	protected $controller = 'BP_REST_Notifications_Endpoint';
+	protected $controller = 'BP_Notifications_REST_Controller';
 	protected $handle     = 'notifications';
 
 	public function set_up() {

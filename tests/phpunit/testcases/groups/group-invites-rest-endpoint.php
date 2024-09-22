@@ -8,7 +8,7 @@ class BP_Test_REST_Group_Invites_Endpoint extends BP_Test_REST_Controller_Testca
 	protected $group_id;
 	protected $g1admin;
 	protected $g1;
-	protected $controller = 'BP_REST_Group_Invites_Endpoint';
+	protected $controller = 'BP_Groups_Invites_REST_Controller';
 	protected $handle     = 'groups/invites';
 
 	public function set_up() {

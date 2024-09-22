@@ -1415,7 +1415,7 @@ class BP_Component {
 			 *
 			 * @since 5.0.0
 			 *
-			 * @param array $controllers The list of BP REST API controllers to load.
+			 * @param string[] $controllers The list of BP REST API controllers to load.
 			 */
 			$controllers = (array) apply_filters( 'bp_' . $this->id . '_rest_api_controllers', $controllers );
 

@@ -6,7 +6,7 @@
  */
 class BP_Test_REST_Activity_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $activity_id;
-	protected $controller = 'BP_REST_Activity_Endpoint';
+	protected $controller = 'BP_Activity_REST_Controller';
 	protected $handle     = 'activity';
 
 	public function set_up() {

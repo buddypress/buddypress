@@ -8,7 +8,7 @@
 class BP_Test_REST_XProfile_Fields_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $group_id;
 	protected $field_id;
-	protected $controller = 'BP_REST_XProfile_Fields_Endpoint';
+	protected $controller = 'BP_XProfile_Fields_REST_Controller';
 	protected $handle     = 'xprofile/fields';
 
 	public function set_up() {

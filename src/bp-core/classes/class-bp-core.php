@@ -440,7 +440,7 @@ class BP_Core extends BP_Component {
 	 *                           description.
 	 */
 	public function rest_api_init( $controllers = array() ) {
-		$controllers = array( 'BP_REST_Components_Endpoint' );
+		$controllers = array( 'BP_Core_Components_REST_Controller' );
 
 		parent::rest_api_init( $controllers );
 	}

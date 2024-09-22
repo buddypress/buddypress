@@ -9,13 +9,13 @@ class BP_Test_REST_XProfile_Data_Endpoint extends BP_Test_REST_Controller_Testca
 	protected $group_id;
 	protected $field;
 	protected $field_id;
-	protected $controller = 'BP_REST_XProfile_Data_Endpoint';
+	protected $controller = 'BP_XProfile_Data_REST_Controller';
 	protected $handle     = 'xprofile';
 
 	public function set_up() {
 		parent::set_up();
 
-		$this->field    = new BP_REST_XProfile_Fields_Endpoint();
+		$this->field    = new BP_XProfile_Fields_REST_Controller();
 		$this->group_id = $this->bp::factory()->xprofile_group->create();
 		$this->field_id = $this->bp::factory()->xprofile_field->create( array( 'field_group_id' => $this->group_id ) );
 	}

@@ -7,7 +7,7 @@
 class BP_Test_REST_Friends_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $friend;
 	protected $friendship_id;
-	protected $controller = 'BP_REST_Friends_Endpoint';
+	protected $controller = 'BP_Friends_REST_Controller';
 	protected $handle     = 'friends';
 
 	public function set_up() {

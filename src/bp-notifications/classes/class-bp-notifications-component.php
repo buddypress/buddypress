@@ -339,6 +339,6 @@ class BP_Notifications_Component extends BP_Component {
 	 *                           description.
 	 */
 	public function rest_api_init( $controllers = array() ) {
-		parent::rest_api_init( array( 'BP_REST_Notifications_Endpoint' ) );
+		parent::rest_api_init( array( 'BP_Notifications_REST_Controller' ) );
 	}
 }

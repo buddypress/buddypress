@@ -8,7 +8,7 @@
 class BP_Test_REST_Attachments_Group_Avatar_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $image_file;
 	protected $group_id;
-	protected $controller = 'BP_REST_Attachments_Group_Avatar_Endpoint';
+	protected $controller = 'BP_Groups_Avatar_REST_Controller';
 	protected $handle     = 'groups';
 
 	public function set_up() {

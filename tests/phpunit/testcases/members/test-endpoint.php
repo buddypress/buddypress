@@ -6,7 +6,7 @@
  */
 class BP_Test_REST_Members_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $handle     = 'members';
-	protected $controller = 'BP_REST_Members_Endpoint';
+	protected $controller = 'BP_Members_REST_Controller';
 
 	public function test_register_routes() {
 		$routes = $this->server->get_routes();
@@ -515,7 +515,7 @@ class BP_Test_REST_Members_Endpoint extends BP_Test_REST_Controller_Testcase {
 
 		// Re-initialize the controller to cache-bust schemas from prior test runs.
 		$GLOBALS['wp_rest_server']->override_by_default = true;
-		$controller                                     = new BP_REST_Members_Endpoint();
+		$controller                                     = new BP_Members_REST_Controller();
 		$controller->register_routes();
 		$GLOBALS['wp_rest_server']->override_by_default = false;
 
@@ -968,7 +968,7 @@ class BP_Test_REST_Members_Endpoint extends BP_Test_REST_Controller_Testcase {
 
 		// Re-initialize the controller to cache-bust schemas from prior test runs.
 		$GLOBALS['wp_rest_server']->override_by_default = true;
-		$controller                                     = new BP_REST_Members_Endpoint();
+		$controller                                     = new BP_Members_REST_Controller();
 		$controller->register_routes();
 		$GLOBALS['wp_rest_server']->override_by_default = false;
 

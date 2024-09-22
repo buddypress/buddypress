@@ -527,7 +527,7 @@ class BP_Activity_Component extends BP_Component {
 	 *                           description.
 	 */
 	public function rest_api_init( $controllers = array() ) {
-		parent::rest_api_init( array( 'BP_REST_Activity_Endpoint' ) );
+		parent::rest_api_init( array( 'BP_Activity_REST_Controller' ) );
 	}
 
 	/**
@@ -550,7 +550,6 @@ class BP_Activity_Component extends BP_Component {
 		if ( bp_is_active( $this->id, 'embeds' ) ) {
 			$blocks['bp/embed-activity'] = array(
 				'metadata' => trailingslashit( buddypress()->plugin_dir ) . 'bp-activity/blocks/embed-activity',
-
 			);
 		}
 

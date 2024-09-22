@@ -10,7 +10,7 @@ class BP_Test_REST_Signup_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $signup_id;
 	protected $signup_allowed;
 	protected $handle     = 'signup';
-	protected $controller = 'BP_REST_Signup_Endpoint';
+	protected $controller = 'BP_Members_Signup_REST_Controller';
 
 	public function set_up() {
 		if ( is_multisite() ) {

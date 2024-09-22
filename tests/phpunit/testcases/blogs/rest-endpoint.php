@@ -6,7 +6,7 @@
  */
 class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $handle     = 'blogs';
-	protected $controller = 'BP_REST_Blogs_Endpoint';
+	protected $controller = 'BP_Blogs_REST_Controller';
 	protected $admin;
 
 	public function set_up() {

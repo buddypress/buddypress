@@ -5,7 +5,7 @@
  * @group components
  */
 class BP_Test_REST_Components_Endpoint extends BP_Test_REST_Controller_Testcase {
-	protected $controller = 'BP_REST_Components_Endpoint';
+	protected $controller = 'BP_Core_Components_REST_Controller';
 	protected $handle     = 'components';
 
 	public function test_register_routes() {

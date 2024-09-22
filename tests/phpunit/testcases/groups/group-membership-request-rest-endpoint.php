@@ -9,7 +9,7 @@ class BP_Test_REST_Group_Membership_Request_Endpoint extends BP_Test_REST_Contro
 	protected $group_id;
 	protected $g1admin;
 	protected $g1;
-	protected $controller = 'BP_REST_Group_Membership_Request_Endpoint';
+	protected $controller = 'BP_Groups_Membership_Request_REST_Controller';
 	protected $handle     = 'groups/membership-requests';
 
 	public function set_up() {

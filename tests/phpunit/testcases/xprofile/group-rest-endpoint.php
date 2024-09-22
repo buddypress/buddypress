@@ -7,7 +7,7 @@
  */
 class BP_Test_REST_XProfile_Groups_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $group_id;
-	protected $controller = 'BP_REST_XProfile_Field_Groups_Endpoint';
+	protected $controller = 'BP_XProfile_Field_Groups_REST_Controller';
 	protected $handle     = 'xprofile/groups';
 
 	public function set_up() {

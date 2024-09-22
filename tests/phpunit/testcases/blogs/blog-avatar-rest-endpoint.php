@@ -6,7 +6,7 @@
  * @group blog-avatar
  */
 class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends BP_Test_REST_Controller_Testcase {
-	protected $controller = 'BP_REST_Attachments_Blog_Avatar_Endpoint';
+	protected $controller = 'BP_Blogs_Avatar_REST_Controller';
 	protected $handle     = 'blogs';
 
 	public function test_register_routes() {

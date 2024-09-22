@@ -7,7 +7,7 @@
  */
 class BP_Test_REST_Sitewide_Notices_Endpoint extends BP_Test_REST_Controller_Testcase {
 	protected $last_inserted_notice_id;
-	protected $controller = 'BP_REST_Sitewide_Notices_Endpoint';
+	protected $controller = 'BP_Messages_Sitewide_Notices_REST_Controller';
 	protected $handle     = 'sitewide-notices';
 
 	public function set_up() {
