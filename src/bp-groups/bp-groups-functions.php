@@ -423,15 +423,16 @@ function groups_edit_base_group_details( $args = array() ) {
  */
 function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status = false, $parent_id = false ) {
 
-	$group = groups_get_group( $group_id );
+	$group               = groups_get_group( $group_id );
 	$group->enable_forum = $enable_forum;
 
 	/**
 	 * Before we potentially switch the group status, if it has been changed to public
 	 * from private and there are outstanding membership requests, auto-accept those requests.
 	 */
-	if ( 'private' == $group->status && 'public' == $status )
+	if ( 'private' === $group->status && 'public' === $status ) {
 		groups_accept_all_pending_membership_requests( $group->id );
+	}
 
 	// Now update the status.
 	$group->status = $status;
@@ -441,12 +442,14 @@ function groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_
 		$group->parent_id = $parent_id;
 	}
 
-	if ( !$group->save() )
+	if ( ! $group->save() ) {
 		return false;
+	}
 
 	// Set the invite status.
-	if ( $invite_status )
+	if ( $invite_status ) {
 		groups_update_groupmeta( $group->id, 'invite_status', $invite_status );
+	}
 
 	groups_update_groupmeta( $group->id, 'last_activity', bp_core_current_time() );
 
@@ -1358,6 +1361,7 @@ function bp_groups_get_group_roles() {
 		'admin' => (object) array(
 			'id'           => 'admin',
 			'name'         => __( 'Administrator', 'buddypress' ),
+			'plural_name'  => _x( 'administrators', 'group role plural name', 'buddypress' ),
 			'is_admin'     => true,
 			'is_banned'    => false,
 			'is_confirmed' => true,
@@ -1366,6 +1370,7 @@ function bp_groups_get_group_roles() {
 		'mod' => (object) array(
 			'id'           => 'mod',
 			'name'         => __( 'Moderator', 'buddypress' ),
+			'plural_name'  => _x( 'moderators', 'group role plural name', 'buddypress' ),
 			'is_admin'     => false,
 			'is_banned'    => false,
 			'is_confirmed' => true,
@@ -1374,6 +1379,7 @@ function bp_groups_get_group_roles() {
 		'member' => (object) array(
 			'id'           => 'member',
 			'name'         => __( 'Member', 'buddypress' ),
+			'plural_name'  => _x( 'members', 'group role plural name', 'buddypress' ),
 			'is_admin'     => false,
 			'is_banned'    => false,
 			'is_confirmed' => true,
