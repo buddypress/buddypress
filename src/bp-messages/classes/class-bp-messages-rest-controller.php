@@ -975,7 +975,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			'date'           => bp_rest_prepare_date_response( $thread->last_message_date, get_date_from_gmt( $thread->last_message_date ) ),
 			'date_gmt'       => bp_rest_prepare_date_response( $thread->last_message_date ),
 			'unread_count'   => ! empty( $thread->unread_count ) ? absint( $thread->unread_count ) : 0,
-			'sender_ids'     => array_values( $thread->sender_ids ),
+			'sender_ids'     => wp_parse_id_list( array_values( $thread->sender_ids ) ),
 			'recipients'     => array(),
 			'messages'       => array(),
 		);
@@ -991,7 +991,9 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		}
 
 		// Pluck starred message ids.
-		$data['starred_message_ids'] = array_keys( array_filter( wp_list_pluck( $data['messages'], 'is_starred', 'id' ) ) );
+		$data['starred_message_ids'] = wp_parse_id_list(
+			array_keys( array_filter( wp_list_pluck( $data['messages'], 'is_starred', 'id' ) ) )
+		);
 
 		$context  = ! empty( $request->get_param( 'context' ) ) ? $request->get_param( 'context' ) : 'view';
 		$data     = $this->add_additional_fields_to_object( $data, $request );

@@ -65,8 +65,6 @@ class BP_Test_REST_Messages_Endpoint extends BP_Test_REST_Controller_Testcase {
 		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
-
-		$this->assertCount( 1, $a_ids );
 		$this->assertCount( 1, $data[0]['messages'] );
 
 		// Check the thread data for the requested user id => `$u1`.
@@ -340,19 +338,23 @@ class BP_Test_REST_Messages_Endpoint extends BP_Test_REST_Controller_Testcase {
 	public function test_get_thread_deleted_messages() {
 		$u1           = static::factory()->user->create();
 		$deleted_user = static::factory()->user->create();
-		$m            = $this->bp::factory()->message->create_and_get( array(
-			'sender_id'  => $deleted_user,
-			'recipients' => array( $u1 ),
-			'subject'    => 'Foo',
-			'content'    => 'Content',
-		) );
+		$m            = $this->bp::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $deleted_user,
+				'recipients' => array( $u1 ),
+				'subject'    => 'Foo',
+				'content'    => 'Content',
+			)
+		);
 
-		$this->bp::factory()->message->create( array(
-			'thread_id'  => $m->thread_id,
-			'sender_id'  => $u1,
-			'recipients' => array( $deleted_user ),
-			'content'    => 'Bar',
-		) );
+		$this->bp::factory()->message->create(
+			array(
+				'thread_id'  => $m->thread_id,
+				'sender_id'  => $u1,
+				'recipients' => array( $deleted_user ),
+				'content'    => 'Bar',
+			)
+		);
 
 		// Delete user.
 		if ( is_multisite() ) {
@@ -369,7 +371,7 @@ class BP_Test_REST_Messages_Endpoint extends BP_Test_REST_Controller_Testcase {
 
 		$this->assertEquals( 200, $response->get_status() );
 
-		$all_data          = current( $response->get_data() );
+		$all_data          = $response->get_data();
 		$deleted_recipient = array_values(
 			wp_filter_object_list(
 				$all_data['recipients'],
