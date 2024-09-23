@@ -22,5 +22,11 @@
 		"slug": "support-forums-etiquette",
 		"markdown_source": "../etiquette.md",
 		"parent": null
+	},
+	{
+		"title": "Official BuddyPress Logo",
+		"slug": "logo",
+		"markdown_source": "../logo.md",
+		"parent": null
 	}
 ]

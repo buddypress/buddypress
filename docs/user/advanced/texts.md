@@ -102,7 +102,7 @@ Click on one of the listed rows, then use the **Find and Replace** command to di
 
 ![Find & replace command](../assets/advanced-user-customize-text-14.png)
 
-Check each tranlated `group` then `Group` occurrences hitting the **Next button** and click on the **Replace button** to replace it with your locale version of `team` then `Team`. You may need to adapt some other parts of the translated texts to match your locale grammar.
+Check each translated `group` then `Group` occurrences hitting the **Next button** and click on the **Replace button** to replace it with your locale version of `team` then `Team`. You may need to adapt some other parts of the translated texts to match your locale grammar.
 
 ||![Custom languages location](../assets/advanced-user-customize-text-03.png)||
 |:-:|:-:|:-:|
@@ -121,7 +121,7 @@ The easiest way to do so is to use JSON files WordPress adds into `/wp-content/l
 Once copied, use a text/code Editor to edit this file.
 
 > [!TIP]
-> Using VSCode, you can use the command to restructre & prettify the one line file (Shift + option + F) so it's easier to work with it.
+> Using VSCode, you can use the command to restructure & prettify the one line file (Shift + option + F) so it's easier to work with it.
 
 ![Edit JSON](../assets/advanced-user-customize-text-16.png)
 

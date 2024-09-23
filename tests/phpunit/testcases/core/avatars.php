@@ -8,14 +8,10 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	protected $allowed_image_types = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' );
 	protected $allowed_image_mimes = array( 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/png', 'image/webp' );
 
-	public function set_up() {
-		parent::set_up();
-	}
-
 	private function clean_existing_avatars( $type = 'user' ) {
 		if ( 'user' === $type ) {
 			$avatar_dir = 'avatars';
-		} elseif ( 'group' === $object ) {
+		} elseif ( 'group' === $type ) {
 			$avatar_dir = 'group-avatars';
 		}
 

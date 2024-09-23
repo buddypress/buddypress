@@ -246,8 +246,7 @@ class BP_Component {
 	 * @since 2.4.0 Added $params['search_query_arg'] as a configurable value.
 	 *
 	 * @param string $id   Unique ID. Letters, numbers, and underscores only.
-	 * @param string $name Unique name. This should be a translatable name, eg.
-	 *                     __( 'Groups', 'buddypress' ).
+	 * @param string $name Unique name. This should be a translatable name, e.g. __( 'Groups', 'buddypress' ).
 	 * @param string $path The file path for the component's files. Used by {@link BP_Component::includes()}.
 	 * @param array  $params {
 	 *     Additional parameters used by the component.
@@ -313,7 +312,7 @@ class BP_Component {
 	 *                                           post_name of the directory page). Default: the slug of the directory page
 	 *                                           if one is found, otherwise an empty string.
 	 *     @type bool     $has_directory         Set to true if the component requires an associated WordPress page.
-	 *     @type array    $rewrite_ids           The list of rewrited IDs to use for the component.
+	 *     @type array    $rewrite_ids           The list of rewritten IDs to use for the component.
 	 *     @type string   $directory_title       The title to use for the directory page.
 	 *     @type callable $notification_callback The callable function that formats the component's notifications.
 	 *     @type string   $search_string         The placeholder text for the directory search box. Eg: 'Search Groups...'.
@@ -622,8 +621,8 @@ class BP_Component {
 		add_action( 'bp_generate_rewrite_rules', array( $this, 'generate_rewrite_rules' ), 10 );
 
 		// Register BP REST Endpoints.
-		if ( bp_rest_api_is_available() ) {
-			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ), 10 );
+		if ( bp_rest_in_buddypress() && bp_rest_api_is_available() ) {
+			add_action( 'bp_rest_api_init', array( $this, 'rest_api_init' ) );
 		}
 
 		// Register BP Blocks.
@@ -1416,7 +1415,7 @@ class BP_Component {
 			 *
 			 * @since 5.0.0
 			 *
-			 * @param array $controllers The list of BP REST API controllers to load.
+			 * @param string[] $controllers The list of BP REST API controllers to load.
 			 */
 			$controllers = (array) apply_filters( 'bp_' . $this->id . '_rest_api_controllers', $controllers );
 

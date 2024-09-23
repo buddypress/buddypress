@@ -32,8 +32,8 @@ class BP_Activity_Component extends BP_Component {
 			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 10,
-				'search_query_arg' => 'activity_search',
-				'features' => array( 'embeds' )
+				'search_query_arg'         => 'activity_search',
+				'features'                 => array( 'embeds' ),
 			)
 		);
 	}
@@ -151,11 +151,11 @@ class BP_Activity_Component extends BP_Component {
 			);
 
 			if ( bp_is_active( 'friends' ) ) {
-				$filenames[bp_get_friends_slug()] = 'friends';
+				$filenames[ bp_get_friends_slug() ] = 'friends';
 			}
 
 			if ( bp_is_active( 'groups' ) ) {
-				$filenames[bp_get_groups_slug()] = 'groups';
+				$filenames[ bp_get_groups_slug() ] = 'groups';
 			}
 
 			// The slug is the current action requested.
@@ -209,7 +209,7 @@ class BP_Activity_Component extends BP_Component {
 
 		// Fetch the default directory title.
 		$default_directory_titles = bp_core_get_directory_page_default_titles();
-		$default_directory_title  = $default_directory_titles[$this->id];
+		$default_directory_title  = $default_directory_titles[ $this->id ];
 
 		// All globals for activity component.
 		// Note that global_tables is included in this array.
@@ -230,7 +230,7 @@ class BP_Activity_Component extends BP_Component {
 			'block_globals'         => array(
 				'bp/latest-activities' => array(
 					'widget_classnames' => array( 'wp-block-bp-latest-activities', 'buddypress' ),
-				)
+				),
 			),
 		);
 
@@ -257,7 +257,7 @@ class BP_Activity_Component extends BP_Component {
 			'position'            => 10,
 			'screen_function'     => 'bp_activity_screen_my_activity',
 			'default_subnav_slug' => 'just-me',
-			'item_css_id'         => $this->id
+			'item_css_id'         => $this->id,
 		);
 
 		// Add the subnav items to the activity nav item if we are using a theme that supports this.
@@ -266,7 +266,7 @@ class BP_Activity_Component extends BP_Component {
 			'slug'            => 'just-me',
 			'parent_slug'     => $slug,
 			'screen_function' => 'bp_activity_screen_my_activity',
-			'position'        => 10
+			'position'        => 10,
 		);
 
 		// Check @mentions.
@@ -311,7 +311,7 @@ class BP_Activity_Component extends BP_Component {
 				'parent_slug'     => $slug,
 				'screen_function' => 'bp_activity_screen_groups',
 				'position'        => 50,
-				'item_css_id'     => 'activity-groups'
+				'item_css_id'     => 'activity-groups',
 			);
 		}
 
@@ -408,7 +408,7 @@ class BP_Activity_Component extends BP_Component {
 					'id'       => 'my-account-' . $this->id . '-groups',
 					'title'    => _x( 'Groups', 'My Account Activity sub nav', 'buddypress' ),
 					'href'     => bp_loggedin_user_url( bp_members_get_path_chunks( array( $activity_slug, bp_get_groups_slug() ) ) ),
-					'position' => 50
+					'position' => 50,
 				);
 			}
 		}
@@ -420,7 +420,6 @@ class BP_Activity_Component extends BP_Component {
 	 * Set up the title for pages and <title>.
 	 *
 	 * @since 1.5.0
-	 *
 	 */
 	public function setup_title() {
 
@@ -431,15 +430,17 @@ class BP_Activity_Component extends BP_Component {
 			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = _x( 'My Activity', 'Page and <title>', 'buddypress' );
 			} else {
-				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => bp_displayed_user_id(),
-					'type'    => 'thumb',
-					'alt'	  => sprintf(
+				$bp->bp_options_avatar = bp_core_fetch_avatar(
+					array(
+						'item_id' => bp_displayed_user_id(),
+						'type'    => 'thumb',
+						'alt'     => sprintf(
 						/* translators: %s: member name */
-						__( 'Profile picture of %s', 'buddypress' ),
-						bp_get_displayed_user_fullname()
-					),
-				) );
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_get_displayed_user_fullname()
+						),
+					)
+				);
 				$bp->bp_options_title  = bp_get_displayed_user_fullname();
 			}
 		}
@@ -455,11 +456,13 @@ class BP_Activity_Component extends BP_Component {
 	public function setup_cache_groups() {
 
 		// Global groups.
-		wp_cache_add_global_groups( array(
-			'bp_activity',
-			'bp_activity_comments',
-			'activity_meta'
-		) );
+		wp_cache_add_global_groups(
+			array(
+				'bp_activity',
+				'bp_activity_comments',
+				'activity_meta',
+			)
+		);
 
 		parent::setup_cache_groups();
 	}
@@ -524,7 +527,7 @@ class BP_Activity_Component extends BP_Component {
 	 *                           description.
 	 */
 	public function rest_api_init( $controllers = array() ) {
-		parent::rest_api_init( array( 'BP_REST_Activity_V1_Controller' ) );
+		parent::rest_api_init( array( 'BP_Activity_REST_Controller' ) );
 	}
 
 	/**
@@ -547,7 +550,6 @@ class BP_Activity_Component extends BP_Component {
 		if ( bp_is_active( $this->id, 'embeds' ) ) {
 			$blocks['bp/embed-activity'] = array(
 				'metadata' => trailingslashit( buddypress()->plugin_dir ) . 'bp-activity/blocks/embed-activity',
-
 			);
 		}
 

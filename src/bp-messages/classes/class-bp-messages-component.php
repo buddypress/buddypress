@@ -41,7 +41,7 @@ class BP_Messages_Component extends BP_Component {
 			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 50,
-				'features'                 => array( 'star' )
+				'features'                 => array( 'star' ),
 			)
 		);
 	}
@@ -177,14 +177,16 @@ class BP_Messages_Component extends BP_Component {
 
 		// All globals for messaging component.
 		// Note that global_tables is included in this array.
-		parent::setup_globals( array(
-			'slug'                  => $default_slug,
-			'has_directory'         => false,
-			'notification_callback' => 'messages_format_notifications',
-			'search_string'         => __( 'Search Messages...', 'buddypress' ),
-			'global_tables'         => $global_tables,
-			'meta_tables'           => $meta_tables
-		) );
+		parent::setup_globals(
+			array(
+				'slug'                  => $default_slug,
+				'has_directory'         => false,
+				'notification_callback' => 'messages_format_notifications',
+				'search_string'         => __( 'Search Messages...', 'buddypress' ),
+				'global_tables'         => $global_tables,
+				'meta_tables'           => $meta_tables,
+			)
+		);
 	}
 
 	/**
@@ -223,7 +225,7 @@ class BP_Messages_Component extends BP_Component {
 
 		if ( bp_is_active( $this->id, 'star' ) ) {
 			$sub_nav[] = array(
-				'name'                      => __( 'Starred', 'buddypress' ),
+				'name'                     => __( 'Starred', 'buddypress' ),
 				'slug'                     => bp_get_messages_starred_slug(),
 				'parent_slug'              => $slug,
 				'screen_function'          => 'bp_messages_star_screen',
@@ -324,7 +326,7 @@ class BP_Messages_Component extends BP_Component {
 
 			// Unread message count.
 			$count = messages_get_unread_count( bp_loggedin_user_id() );
-			if ( !empty( $count ) ) {
+			if ( ! empty( $count ) ) {
 				$title = sprintf(
 					/* translators: %s: Unread message count for the current user */
 					__( 'Messages %s', 'buddypress' ),
@@ -337,7 +339,7 @@ class BP_Messages_Component extends BP_Component {
 				);
 			} else {
 				$title = __( 'Messages', 'buddypress' );
-				$inbox = __( 'Inbox',    'buddypress' );
+				$inbox = __( 'Inbox', 'buddypress' );
 			}
 
 			// Add main Messages menu.
@@ -412,13 +414,15 @@ class BP_Messages_Component extends BP_Component {
 			if ( bp_is_my_profile() ) {
 				$bp->bp_options_title = __( 'My Messages', 'buddypress' );
 			} else {
-				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => bp_displayed_user_id(),
-					'type'    => 'thumb',
-					/* translators: %s: member name */
-					'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() )
-				) );
-				$bp->bp_options_title = bp_get_displayed_user_fullname();
+				$bp->bp_options_avatar = bp_core_fetch_avatar(
+					array(
+						'item_id' => bp_displayed_user_id(),
+						'type'    => 'thumb',
+						/* translators: %s: member name */
+						'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() ),
+					)
+				);
+				$bp->bp_options_title  = bp_get_displayed_user_fullname();
 			}
 		}
 
@@ -433,12 +437,14 @@ class BP_Messages_Component extends BP_Component {
 	public function setup_cache_groups() {
 
 		// Global groups.
-		wp_cache_add_global_groups( array(
-			'bp_messages',
-			'bp_messages_threads',
-			'bp_messages_unread_count',
-			'message_meta'
-		) );
+		wp_cache_add_global_groups(
+			array(
+				'bp_messages',
+				'bp_messages_threads',
+				'bp_messages_unread_count',
+				'message_meta',
+			)
+		);
 
 		parent::setup_cache_groups();
 	}
@@ -454,8 +460,8 @@ class BP_Messages_Component extends BP_Component {
 	public function rest_api_init( $controllers = array() ) {
 		parent::rest_api_init(
 			array(
-				'BP_REST_Messages_V1_Controller',
-				'BP_REST_Sitewide_Notices_V1_Controller',
+				'BP_Messages_REST_Controller',
+				'BP_Messages_Sitewide_Notices_REST_Controller',
 			)
 		);
 	}

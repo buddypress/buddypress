@@ -179,8 +179,11 @@ add_filter( 'default_hidden_meta_boxes', 'bp_activity_admin_edit_hidden_metaboxe
  */
 function bp_activity_admin_load() {
 	global $bp_activity_list_table;
+	$bp = buddypress();
 
-	$bp       = buddypress();
+	// Traces the current BP Admin screen.
+	$bp->admin->trace_current_screen();
+
 	$doaction = bp_admin_list_table_current_bulk_action();
 	$min      = bp_core_get_minified_asset_suffix();
 

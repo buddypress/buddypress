@@ -127,9 +127,13 @@ add_filter( 'bp_admin_menu_order', 'bp_groups_admin_menu_order' );
  */
 function bp_groups_admin_load() {
 	global $bp_groups_list_table;
+	$bp = buddypress();
+
+	// Traces the current BP Admin screen.
+	$bp->admin->trace_current_screen();
 
 	// Build redirection URL.
-	$redirect_to = remove_query_arg( array( 'action', 'action2', 'gid', 'deleted', 'error', 'updated', 'success_new', 'error_new', 'success_modified', 'error_modified' ), $_SERVER['REQUEST_URI'] );
+	$redirect_to = remove_query_arg( array( 'action', 'action2', 'gid', 'deleted', 'error', 'updated' ), $_SERVER['REQUEST_URI'] );
 
 	$doaction   = bp_admin_list_table_current_bulk_action();
 	$min        = bp_core_get_minified_asset_suffix();
@@ -247,8 +251,6 @@ function bp_groups_admin_load() {
 		) );
 	}
 
-	$bp = buddypress();
-
 	// Enqueue CSS and JavaScript.
 	wp_enqueue_script( 'bp_groups_admin_js', $bp->plugin_url . "bp-groups/admin/js/admin{$min}.js", array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), bp_get_version(), true );
 	wp_localize_script( 'bp_groups_admin_js', 'BP_Group_Admin', array(
@@ -262,15 +264,21 @@ function bp_groups_admin_load() {
 		wp_style_add_data( 'bp_groups_admin_css', 'suffix', $min );
 	}
 
-
+	// Saving group edits.
 	if ( $doaction && 'save' == $doaction ) {
 		// Get group ID.
-		$group_id = isset( $_REQUEST['gid'] ) ? (int) $_REQUEST['gid'] : '';
+		$group_id = 0;
+		if ( isset( $_REQUEST['gid'] ) ) {
+			$group_id = (int) wp_unslash( $_REQUEST['gid'] );
+		}
 
-		$redirect_to = add_query_arg( array(
-			'gid'    => (int) $group_id,
-			'action' => 'edit'
-		), $redirect_to );
+		$redirect_to = add_query_arg(
+			array(
+				'gid'    => $group_id,
+				'action' => 'edit'
+			),
+			$redirect_to
+		);
 
 		// Check this is a valid form submission.
 		check_admin_referer( 'edit-group_' . $group_id );
@@ -284,38 +292,74 @@ function bp_groups_admin_load() {
 			exit;
 		}
 
-		// Check the form for the updated properties.
-		// Store errors.
-		$error = 0;
-		$success_new = $error_new = $success_modified = $error_modified = array();
+		/*
+		 * Check the form for the updated properties.
+		 * Store errors.
+		 */
+		$error   = array();
+		$updated = array();
 
-		// Name, description and slug must not be empty.
+		// Name must not be empty.
+		$group_name = '';
 		if ( empty( $_POST['bp-groups-name'] ) ) {
-			$error = $error - 1;
+			$error['missing'][] = _x( 'name', 'group admin field', 'buddypress' );
+		} else {
+			$group_name = sanitize_text_field( wp_unslash( $_POST['bp-groups-name'] ) );
 		}
+
+		// Description must not be empty.
+		$group_description = '';
 		if ( empty( $_POST['bp-groups-description'] ) ) {
-			$error = $error - 2;
+			$error['missing'][] = _x( 'description', 'group admin field', 'buddypress' );
+		} else {
+			$group_description = sanitize_textarea_field( wp_unslash( $_POST['bp-groups-description'] ) );
 		}
+
+		//Slug must not be empty.
+		$group_slug = '';
 		if ( empty( $_POST['bp-groups-slug'] ) ) {
-			$error = $error - 4;
+			$error['missing'][] = _x( 'slug', 'group admin field', 'buddypress' );
+		} else {
+			$group_slug = sanitize_title( wp_unslash( $_POST['bp-groups-slug'] ) );
 		}
 
 		/*
 		 * Group name, slug, and description are handled with
 		 * groups_edit_base_group_details().
 		 */
-		if ( ! $error && ! groups_edit_base_group_details( array(
-				'group_id'       => $group_id,
-				'name'           => $_POST['bp-groups-name'],
-				'slug'           => $_POST['bp-groups-slug'],
-				'description'    => $_POST['bp-groups-description'],
-				'notify_members' => false,
-			) ) ) {
-			$error = $group_id;
+		if ( ! $error ) {
+			$updated_group = groups_edit_base_group_details(
+				array(
+					'group_id'       => $group_id,
+					'name'           => $group_name,
+					'slug'           => $group_slug,
+					'description'    => $group_description,
+					'notify_members' => false,
+				)
+			);
+
+			if ( ! $updated_group ) {
+				$error['group_details'] = _x( 'group details', 'group admin group details error', 'buddypress' );
+			} else {
+				if ( $group_name !== $group->name ) {
+					$updated['group_details'][] = _x( 'name', 'group admin field', 'buddypress' );
+				}
+
+				if ( $group_description !== $group->description ) {
+					$updated['group_details'][] = _x( 'description', 'group admin field', 'buddypress' );
+				}
+
+				if ( $group_slug !== $group->slug ) {
+					$updated['group_details'][] = _x( 'slug', 'group admin field', 'buddypress' );
+				}
+			}
 		}
 
 		// Enable discussion forum.
-		$enable_forum   = ( isset( $_POST['group-show-forum'] ) ) ? 1 : 0;
+		$enable_forum = 0;
+		if ( isset( $_POST['group-show-forum'] ) ) {
+			$enable_forum = 1;
+		};
 
 		/**
 		 * Filters the allowed status values for the group.
@@ -325,7 +369,14 @@ function bp_groups_admin_load() {
 		 * @param array $value Array of allowed group statuses.
 		 */
 		$allowed_status = apply_filters( 'groups_allowed_status', array( 'public', 'private', 'hidden' ) );
-		$status         = ( in_array( $_POST['group-status'], (array) $allowed_status ) ) ? $_POST['group-status'] : 'public';
+		$status         = 'public';
+		if ( isset( $_POST['group-status'] ) ) {
+			$sent_status = sanitize_text_field( wp_unslash( $_POST['group-status'] ) );
+
+			if ( in_array( $sent_status, (array) $allowed_status, true ) ) {
+				$status = $sent_status;
+			}
+		}
 
 		/**
 		 * Filters the allowed invite status values for the group.
@@ -334,18 +385,35 @@ function bp_groups_admin_load() {
 		 *
 		 * @param array $value Array of allowed invite statuses.
 		 */
-		$allowed_invite_status = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
-		$invite_status	       = in_array( $_POST['group-invite-status'], (array) $allowed_invite_status ) ? $_POST['group-invite-status'] : 'members';
+		$allowed_invite_status     = apply_filters( 'groups_allowed_invite_status', array( 'members', 'mods', 'admins' ) );
+		$invite_status             = 'members';
+		$is_updating_invite_status = false;
+		if ( isset( $_POST['group-invite-status'] ) ) {
+			$sent_invite_status = sanitize_text_field( wp_unslash( $_POST['group-invite-status'] ) );
 
-		if ( !groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status ) ) {
-			$error = $group_id;
+			if ( in_array( $sent_invite_status, (array) $allowed_invite_status, true ) ) {
+				$invite_status             = $sent_invite_status;
+				$is_updating_invite_status = $invite_status !== groups_get_groupmeta( $group->id, 'invite_status' );
+			}
+		}
+
+		if ( ! groups_edit_group_settings( $group_id, $enable_forum, $status, $invite_status ) ) {
+			$error['group_settings'] = _x( 'group settings', 'group admin group details error', 'buddypress' );
+		} else {
+			if ( $is_updating_invite_status ) {
+				$updated['group_settings'][] = _x( 'group invite status', 'group admin group details updated', 'buddypress' );
+			}
+
+			if ( $status !== $group->status ) {
+				$updated['group_settings'][] = _x( 'group status', 'group admin group details updated', 'buddypress' );
+			}
 		}
 
 		// Process new members.
 		$user_names = array();
-
 		if ( ! empty( $_POST['bp-groups-new-members'] ) ) {
-			$user_names = array_merge( $user_names, explode( ',', $_POST['bp-groups-new-members'] ) );
+			$sent_usernames = array_map( 'sanitize_user', explode( ',', wp_unslash( $_POST['bp-groups-new-members'] ) ) );
+			$user_names     = array_merge( $user_names, $sent_usernames );
 		}
 
 		if ( ! empty( $user_names ) ) {
@@ -363,12 +431,12 @@ function bp_groups_admin_load() {
 				$user = get_user_by( 'slug', $un );
 
 				if ( empty( $user ) ) {
-					$error_new[] = $un;
+					$error['new_user'][] = $un;
 				} else {
 					if ( ! groups_join_group( $group_id, $user->ID ) ) {
-						$error_new[]   = $un;
+						$error['new_user'][] = $un;
 					} else {
-						$success_new[] = $un;
+						$updated['new_user'][] = $un;
 					}
 				}
 			}
@@ -380,11 +448,13 @@ function bp_groups_admin_load() {
 
 		// Process member role changes.
 		if ( ! empty( $_POST['bp-groups-role'] ) && ! empty( $_POST['bp-groups-existing-role'] ) ) {
+			$new_group_role     = array_map( 'sanitize_text_field', (array) wp_unslash( $_POST['bp-groups-role'] ) );
+			$current_group_role = array_map( 'sanitize_text_field', (array) wp_unslash( $_POST['bp-groups-existing-role'] ) );
 
 			// Before processing anything, make sure you're not
 			// attempting to remove the all user admins.
 			$admin_count = 0;
-			foreach ( (array) $_POST['bp-groups-role'] as $new_role ) {
+			foreach ( $new_group_role as $new_role ) {
 				if ( 'admin' == $new_role ) {
 					$admin_count++;
 					break;
@@ -392,33 +462,31 @@ function bp_groups_admin_load() {
 			}
 
 			if ( ! $admin_count ) {
-
-				$redirect_to = add_query_arg( 'no_admins', 1, $redirect_to );
-				$error = $group_id;
+				$error['no_admins'] = 1;
 
 			} else {
 
 				// Process only those users who have had their roles changed.
-				foreach ( (array) $_POST['bp-groups-role'] as $user_id => $new_role ) {
+				foreach ( $new_group_role as $user_id => $new_role ) {
 					$user_id = (int) $user_id;
 
-					$existing_role = isset( $_POST['bp-groups-existing-role'][$user_id] ) ? $_POST['bp-groups-existing-role'][$user_id] : '';
+					$existing_role = isset( $current_group_role[ $user_id ] ) ? $current_group_role[ $user_id ] : '';
 
-					if ( $existing_role != $new_role ) {
+					if ( $existing_role !== $new_role ) {
 						$result = false;
 
 						switch ( $new_role ) {
 							case 'mod' :
 								// Admin to mod is a demotion. Demote to
 								// member, then fall through.
-								if ( 'admin' == $existing_role ) {
-									groups_demote_member( $user_id, $group_id );
+								if ( 'admin' === $existing_role ) {
+									$result = groups_demote_member( $user_id, $group_id );
 								}
 
 							case 'admin' :
 								// If the user was banned, we must
 								// unban first.
-								if ( 'banned' == $existing_role ) {
+								if ( 'banned' === $existing_role ) {
 									groups_unban_member( $user_id, $group_id );
 								}
 
@@ -430,9 +498,9 @@ function bp_groups_admin_load() {
 
 							case 'member' :
 
-								if ( 'admin' == $existing_role || 'mod' == $existing_role ) {
+								if ( 'admin' === $existing_role || 'mod' === $existing_role ) {
 									$result = groups_demote_member( $user_id, $group_id );
-								} elseif ( 'banned' == $existing_role ) {
+								} elseif ( 'banned' === $existing_role ) {
 									$result = groups_unban_member( $user_id, $group_id );
 								}
 
@@ -453,9 +521,9 @@ function bp_groups_admin_load() {
 
 						// Store the success or failure.
 						if ( $result ) {
-							$success_modified[] = $user_id;
+							$updated['roles'][ $new_role ][] = $user_id;
 						} else {
-							$error_modified[]   = $user_id;
+							$error['roles'][ $new_role ][] = $user_id;
 						}
 					}
 				}
@@ -471,34 +539,20 @@ function bp_groups_admin_load() {
 		 */
 		do_action( 'bp_group_admin_edit_after', $group_id );
 
+		$redirect_args = array();
+
 		// Create the redirect URL.
 		if ( $error ) {
 			// This means there was an error updating group details.
-			$redirect_to = add_query_arg( 'error', (int) $error, $redirect_to );
-		} else {
+			$redirect_args['error'] = $error;
+		}
+
+		if ( $updated ) {
 			// Group details were update successfully.
-			$redirect_to = add_query_arg( 'updated', 1, $redirect_to );
+			$redirect_args['updated'] = $updated;
 		}
 
-		if ( !empty( $success_new ) ) {
-			$success_new = implode( ',', array_filter( $success_new, 'urlencode' ) );
-			$redirect_to = add_query_arg( 'success_new', $success_new, $redirect_to );
-		}
-
-		if ( !empty( $error_new ) ) {
-			$error_new = implode( ',', array_filter( $error_new, 'urlencode' ) );
-			$redirect_to = add_query_arg( 'error_new', $error_new, $redirect_to );
-		}
-
-		if ( !empty( $success_modified ) ) {
-			$success_modified = implode( ',', array_filter( $success_modified, 'urlencode' ) );
-			$redirect_to = add_query_arg( 'success_modified', $success_modified, $redirect_to );
-		}
-
-		if ( !empty( $error_modified ) ) {
-			$error_modified = implode( ',', array_filter( $error_modified, 'urlencode' ) );
-			$redirect_to = add_query_arg( 'error_modified', $error_modified, $redirect_to );
-		}
+		$redirect_to = add_query_arg( $redirect_args, $redirect_to );
 
 		/**
 		 * Filters the URL to redirect to after successfully editing a group.
@@ -555,54 +609,119 @@ function bp_groups_admin_edit() {
 	$messages = array();
 
 	// If the user has just made a change to a group, build status messages.
-	if ( ! empty( $_REQUEST['no_admins'] ) || ! empty( $_REQUEST['error'] ) || ! empty( $_REQUEST['updated'] ) || ! empty( $_REQUEST['error_new'] ) || ! empty( $_REQUEST['success_new'] ) || ! empty( $_REQUEST['error_modified'] ) || ! empty( $_REQUEST['success_modified'] ) ) {
-		$no_admins        = ! empty( $_REQUEST['no_admins']        ) ? 1                                             : 0;
-		$errors           = ! empty( $_REQUEST['error']            ) ? $_REQUEST['error']                            : '';
-		$updated          = ! empty( $_REQUEST['updated']          ) ? $_REQUEST['updated']                          : '';
-		$error_new        = ! empty( $_REQUEST['error_new']        ) ? explode( ',', $_REQUEST['error_new'] )        : array();
-		$success_new      = ! empty( $_REQUEST['success_new']      ) ? explode( ',', $_REQUEST['success_new'] )      : array();
-		$error_modified   = ! empty( $_REQUEST['error_modified']   ) ? explode( ',', $_REQUEST['error_modified'] )   : array();
-		$success_modified = ! empty( $_REQUEST['success_modified'] ) ? explode( ',', $_REQUEST['success_modified'] ) : array();
+	if ( ! empty( $_REQUEST['error'] ) || ! empty( $_REQUEST['updated'] ) ) {
+		$group_roles = bp_groups_get_group_roles();
 
-		if ( ! empty( $no_admins ) ) {
-			$messages[] = __( 'You cannot remove all administrators from a group.', 'buddypress' );
-		}
+		// Fake a group role for removed members.
+		$group_roles[] = (object) array(
+			'id' => 'remove',
+		);
 
-		if ( ! empty( $errors ) ) {
-			if ( $errors < 0 ) {
-				$messages[] = __( 'Group name, slug, and description are all required fields.', 'buddypress' );
-			} else {
-				$messages[] = __( 'An error occurred when trying to update your group details.', 'buddypress' );
+		$error = array();
+		if ( ! empty( $_REQUEST['error'] ) ) {
+			$error = (array) wp_unslash( $_REQUEST['error'] );
+
+			foreach ( $error as $error_key => $error_data ) {
+				if ( 'missing' === $error_key ) {
+					$error_data = implode( ', ', $error_data );
+
+					/* translators: %s is a comma separated list of required fields. */
+					$messages['error'][] = sprintf( __( '%s are required fields, please make sure to define their values.', 'buddypress' ), esc_html( $error_data ) );
+
+				} elseif ( 'group_details' === $error_key ) {
+					$messages['error'][] = __( 'An error occurred when trying to update your group details.', 'buddypress' );
+
+				} elseif ( 'group_settings' === $error_key ) {
+					$messages['error'][] = __( 'An error occurred when trying to update your group settings.', 'buddypress' );
+
+				} elseif ( 'new_user' === $error_key ) {
+					$error_data = implode( ', ', $error_data );
+
+					/* translators: %s: comma separated list of usernames */
+					$messages['error'][] = sprintf( __( 'The following users could not be added to the group: %s.', 'buddypress' ), esc_html( $error_data ) );
+
+				} elseif ( 'no_admins' === $error_key ) {
+					$messages['error'][] = __( 'You cannot remove all administrators from a group.', 'buddypress' );
+
+					// Deal with promoted/demoted members.
+				} elseif ( 'roles' === $error_key ) {
+					foreach ( $group_roles as $group_role ) {
+						if ( isset( $error_data[ $group_role->id ] ) ) {
+							$group_members_un = bp_groups_admin_get_usernames_from_ids( $error_data[ $group_role->id ] );
+
+							if ( isset( $group_role->plural_name ) ) {
+								$messages['error'][] = sprintf(
+									/* translators: 1: comma separated list of usernames. 2: group role plural name. */
+									__( 'An error occured when trying to update the following members: %1$s as %2$s.', 'buddypress' ),
+									'<em>' . esc_html( implode( ', ', $group_members_un ) ) . '</em>',
+									esc_html( $group_role->plural_name )
+								);
+
+								// Deal with "banned" role.
+							} elseif ( 'banned' === $group_role->id ) {
+								/* translators: %s: comma separated list of usernames. */
+								$messages['error'][] = sprintf( __( 'An error occured when trying to ban the following members: %s.', 'buddypress' ), '<em>' . esc_html( implode( ', ', $group_members_un ) ) . '</em>' );
+
+								// Deal with fake "remove" role.
+							} elseif ( 'remove' === $group_role->id ) {
+								/* translators: %s: comma separated list of usernames. */
+								$messages['error'][] = sprintf( __( 'An error occured when trying to remove the following members: %s.', 'buddypress' ), '<em>' . esc_html( implode( ', ', $group_members_un ) ) . '</em>' );
+							}
+						}
+					}
+				}
 			}
-
-		} elseif ( ! empty( $updated ) ) {
-			$messages[] = __( 'The group has been updated successfully.', 'buddypress' );
 		}
 
-		if ( ! empty( $error_new ) ) {
-			/* translators: %s: comma separated list of usernames */
-			$messages[] = sprintf( __( 'The following users could not be added to the group: %s', 'buddypress' ), '<em>' . esc_html( implode( ', ', $error_new ) ) . '</em>' );
-		}
+		$updated = array();
+		if ( ! empty( $_REQUEST['updated'] ) ) {
+			$updated = (array) wp_unslash( $_REQUEST['updated'] );
 
-		if ( ! empty( $success_new ) ) {
-			/* translators: %s: comma separated list of usernames */
-			$messages[] = sprintf( __( 'The following users were successfully added to the group: %s', 'buddypress' ), '<em>' . esc_html( implode( ', ', $success_new ) ) . '</em>' );
-		}
+			foreach ( $updated as $updated_key => $updated_data ) {
+				if ( 'roles' === $updated_key ) {
+					foreach ( $group_roles as $group_role ) {
+						if ( isset( $updated_data[ $group_role->id ] ) ) {
+							$group_members_un = bp_groups_admin_get_usernames_from_ids( $updated_data[ $group_role->id ] );
 
-		if ( ! empty( $error_modified ) ) {
-			$error_modified = bp_groups_admin_get_usernames_from_ids( $error_modified );
-			/* translators: %s: comma separated list of usernames */
-			$messages[] = sprintf( __( 'An error occurred when trying to modify the following members: %s', 'buddypress' ), '<em>' . esc_html( implode( ', ', $error_modified ) ) . '</em>' );
-		}
+							if ( isset( $group_role->plural_name ) ) {
+								$messages['updated'][] = sprintf(
+									/* translators: 1: comma separated list of usernames. 2: group role plural name. */
+									__( 'The following members: %1$s are now %2$s.', 'buddypress' ),
+									'<em>' . esc_html( implode( ', ', $group_members_un ) ) . '</em>',
+									esc_html( $group_role->plural_name )
+								);
 
-		if ( ! empty( $success_modified ) ) {
-			$success_modified = bp_groups_admin_get_usernames_from_ids( $success_modified );
-			/* translators: %s: comma separated list of usernames */
-			$messages[] = sprintf( __( 'The following members were successfully modified: %s', 'buddypress' ), '<em>' . esc_html( implode( ', ', $success_modified ) ) . '</em>' );
+								// Deal with "banned" role.
+							} elseif ( 'banned' === $group_role->id ) {
+								/* translators: %s: comma separated list of usernames */
+								$messages['updated'][] = sprintf( __( 'The following members were banned: %s.', 'buddypress' ), '<em>' . esc_html( implode( ', ', $group_members_un ) ) . '</em>' );
+
+								// Deal with fake "remove" role.
+							} elseif ( 'remove' === $group_role->id ) {
+								/* translators: %s: comma separated list of usernames */
+								$messages['updated'][] = sprintf( __( 'The following members were removed: %s.', 'buddypress' ), '<em>' . esc_html( implode( ', ', $group_members_un ) ) . '</em>' );
+							}
+						}
+					}
+				} else {
+					$edited_data = implode( ', ', $updated_data );
+
+					if ( 'group_details' === $updated_key ) {
+						/* translators: %s: comma separated list of group details */
+						$messages['updated'][] = sprintf( __( 'These details about the group were successfully updated: %s.', 'buddypress' ), esc_html( $edited_data ) );
+
+					} elseif ( 'group_settings' === $updated_key ) {
+						/* translators: %s: comma separated list of group settings */
+						$messages['updated'][] = sprintf( __( 'These settings about the group were successfully updated: %s.', 'buddypress' ), esc_html( $edited_data ) );
+
+					} elseif ( 'new_user' === $updated_key ) {
+						/* translators: %s: comma separated list of usernames */
+						$messages['updated'][] = sprintf( __( 'The following users were successfully added to the group: %s.', 'buddypress' ), esc_html( $edited_data ) );
+					}
+				}
+			}
 		}
 	}
-
-	$is_error = ! empty( $no_admins ) || ! empty( $errors ) || ! empty( $error_new ) || ! empty( $error_modified );
 
 	// Get the group from the database.
 	$group = groups_get_group( (int) $_GET['gid'] );
@@ -610,7 +729,7 @@ function bp_groups_admin_edit() {
 	$group_name = isset( $group->name ) ? bp_get_group_name( $group ) : '';
 
 	// Construct URL for form.
-	$form_url   = remove_query_arg( array( 'action', 'deleted', 'no_admins', 'error', 'error_new', 'success_new', 'error_modified', 'success_modified' ), $_SERVER['REQUEST_URI'] );
+	$form_url   = remove_query_arg( array( 'action', 'deleted', 'error', 'updated' ), $_SERVER['REQUEST_URI'] );
 	$form_url   = add_query_arg( 'action', 'save', $form_url );
 	$create_url = bp_groups_get_create_url();
 
@@ -634,9 +753,10 @@ function bp_groups_admin_edit() {
 
 		<hr class="wp-header-end">
 
-		<?php // If the user has just made a change to an group, display the status messages. ?>
 		<?php if ( ! empty( $messages ) ) : ?>
-			<div id="moderated" class="<?php echo esc_attr( ( $is_error ) ? 'error' : 'updated' ); ?> notice is-dismissible"><p><?php echo implode( "</p><p>", array_map( 'wp_kses_post', $messages ) ); ?></p></div>
+			<?php foreach ( $messages as $type => $messages_list ) : ?>
+				<div id="moderated" class="<?php echo esc_attr( $type ); ?> notice is-dismissible"><p><?php echo implode( "</p><p>", array_map( 'wp_kses_post', $messages_list ) ); ?></p></div>
+			<?php endforeach; ?>
 		<?php endif; ?>
 
 		<?php if ( $group->id ) : ?>
@@ -1510,6 +1630,8 @@ function bp_groups_type_admin_updated_messages( $messages = array() ) {
 		8  => __( 'Sorry, there was an error while trying to delete this Group type.', 'buddypress' ),
 		9  => __( 'Group type successfully deleted.', 'buddypress' ),
 		10 => __( 'Group type could not be updated due to missing required information.', 'buddypress' ),
+		11 => __( 'Please define the Group Type Singular Name field.', 'buddypress' ),
+		12 => __( 'Please define the Group Type Plural Name field.', 'buddypress' ),
 	);
 
 	return $messages;

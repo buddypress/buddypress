@@ -44,14 +44,18 @@ function bp_core_admin_get_type_default_meta_values( $type_taxonomy ) {
  *
  *     @type string $taxonomy   The Type's taxonomy. Required.
  *     @type string $bp_type_id Unique string identifier for the member type. Required.
+ *     @type string $bp_type_singular_name Singular name for the member type. Required.
+ *     @type string $bp_type_name Plural name for the member type. Required.
  *     @see keys of the array returned by bp_get_type_metadata_schema() for the other arguments.
  * }
- * @return integer|WP_Error The Type's term ID on success. A WP_Error object otherwise.
+ * @return int|WP_Error The Type's term ID on success. A WP_Error object otherwise.
  */
 function bp_core_admin_insert_type( $args = array() ) {
 	$default_args = array(
 		'taxonomy'   => '',
 		'bp_type_id' => '',
+		'bp_type_singular_name' => '',
+		'bp_type_name' => '',
 	);
 
 	$args = array_map( 'wp_unslash', $args );
@@ -66,6 +70,26 @@ function bp_core_admin_insert_type( $args = array() ) {
 			'invalid_type_taxonomy',
 			__( 'The Type ID value is missing', 'buddypress' ),
 			array( 'message' => 1 )
+		);
+	}
+
+	if ( ! $args['bp_type_singular_name'] ) {
+		return new WP_Error(
+			'empty_field_singular',
+			__( 'The Singular Name value is missing', 'buddypress' ),
+			array(
+				'message' => 11,
+			)
+		);
+	}
+
+	if ( ! $args['bp_type_name'] ) {
+		return new WP_Error(
+			'empty_field_plural',
+			__( 'The Plural Name value is missing', 'buddypress' ),
+			array(
+				'message' => 12,
+			)
 		);
 	}
 
@@ -115,6 +139,8 @@ function bp_core_admin_insert_type( $args = array() ) {
 
 		return $type_term_id;
 	}
+
+	$type_term_id = reset( $type_term_id );
 
 	/**
 	 * Hook here to add code once the type has been inserted.

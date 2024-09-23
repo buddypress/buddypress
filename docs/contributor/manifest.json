@@ -12,6 +12,12 @@
 		"parent": null
 	},
 	{
+		"title": "The BuddyPress Team",
+		"slug": "bp-team",
+		"markdown_source": "../contributor/project/bp-team.md",
+		"parent": null
+	},
+	{
 		"title": "Version Numbering",
 		"slug": "version-numbering",
 		"markdown_source": "../contributor/project/version-numbering.md",
@@ -42,6 +48,12 @@
 		"parent": null
 	},
 	{
+		"title": "Testing a release before deploying it",
+		"slug": "about-release-tests",
+		"markdown_source": "../contributor/project/release/test-checklist.md",
+		"parent": null
+	},
+	{
 		"title": "Contribute to documentation",
 		"slug": "contribute-to-documentation",
 		"markdown_source": "../contributor/documentation/README.md",
@@ -51,6 +63,12 @@
 		"title": "Contribute to code",
 		"slug": "contribute-to-code",
 		"markdown_source": "../contributor/code/README.md",
+		"parent": null
+	},
+	{
+		"title": "Reporting Bugs",
+		"slug": "report-bugs",
+		"markdown_source": "../contributor/code/report-bugs.md",
 		"parent": null
 	},
 	{

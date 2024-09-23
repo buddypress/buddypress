@@ -120,7 +120,7 @@ class BP_Members_Component extends BP_Component {
 		 * The `bp_get_signup_allowed` filter is documented in
 		 * bp-members/bp-members-template.php.
 		 */
-		$signup_allowed = apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
+		$signup_allowed              = apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
 		$membership_requests_enabled = (bool) bp_get_option( 'bp-enable-membership-requests' );
 		if ( bp_is_active( 'members', 'membership_requests' ) && ! $signup_allowed && $membership_requests_enabled ) {
 			$includes[] = 'membership-requests';
@@ -165,7 +165,7 @@ class BP_Members_Component extends BP_Component {
 			require_once $this->path . 'bp-members/screens/profile.php';
 
 			// Action - Delete avatar.
-			if ( is_user_logged_in()&& bp_is_user_change_avatar() && bp_is_action_variable( 'delete-avatar', 0 ) ) {
+			if ( is_user_logged_in() && bp_is_user_change_avatar() && bp_is_action_variable( 'delete-avatar', 0 ) ) {
 				require_once $this->path . 'bp-members/actions/delete-avatar.php';
 			}
 
@@ -215,7 +215,7 @@ class BP_Members_Component extends BP_Component {
 		parent::setup_actions();
 
 		// Check the parsed query is consistent with the Members navigation.
-		add_action( 'bp_parse_query',  array( $this, 'check_parsed_query' ), 999, 0 );
+		add_action( 'bp_parse_query', array( $this, 'check_parsed_query' ), 999, 0 );
 	}
 
 	/**
@@ -227,8 +227,8 @@ class BP_Members_Component extends BP_Component {
 		$bp = buddypress();
 
 		// Set-up Extra permastructs for the register and activate pages.
-		$this->register_permastruct = bp_get_signup_slug() . '/%' . $this->rewrite_ids['member_register'] . '%';
-		$this->activate_permastruct = bp_get_activate_slug() . '/%' . $this->rewrite_ids['member_activate'] . '%';
+		$this->register_permastruct = bp_get_signup_root_slug() . '/%' . $this->rewrite_ids['member_register'] . '%';
+		$this->activate_permastruct = bp_get_activate_root_slug() . '/%' . $this->rewrite_ids['member_activate'] . '%';
 
 		// Init the User's ID to use to build the Nav for.
 		$user_id = bp_loggedin_user_id();
@@ -280,13 +280,13 @@ class BP_Members_Component extends BP_Component {
 		/** Signup ***********************************************************
 		 */
 
-		$bp->signup = new stdClass;
+		$bp->signup = new stdClass();
 
 		/** Profiles Fallback ************************************************
 		 */
 
 		if ( ! bp_is_active( 'xprofile' ) ) {
-			$bp->profile       = new stdClass;
+			$bp->profile       = new stdClass();
 			$bp->profile->slug = 'profile';
 			$bp->profile->id   = 'profile';
 		}
@@ -294,7 +294,7 @@ class BP_Members_Component extends BP_Component {
 		/** Network Invitations **************************************************
 		 */
 
-		$bp->members->invitations = new stdClass;
+		$bp->members->invitations = new stdClass();
 	}
 
 	/**
@@ -327,14 +327,14 @@ class BP_Members_Component extends BP_Component {
 
 		// Fetch the default directory title.
 		$default_directory_titles = bp_core_get_directory_page_default_titles();
-		$default_directory_title  = $default_directory_titles[$this->id];
+		$default_directory_title  = $default_directory_titles[ $this->id ];
 
 		// Override any passed args.
 		$args = array(
-			'slug'            => $default_slug,
-			'root_slug'       => isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : $default_slug,
-			'has_directory'   => true,
-			'rewrite_ids'     => array(
+			'slug'                  => $default_slug,
+			'root_slug'             => isset( $bp->pages->members->slug ) ? $bp->pages->members->slug : $default_slug,
+			'has_directory'         => true,
+			'rewrite_ids'           => array(
 				'directory'                    => 'members',
 				'directory_type'               => 'members_type',
 				'single_item'                  => 'member',
@@ -345,9 +345,9 @@ class BP_Members_Component extends BP_Component {
 				'member_activate'              => 'activate',
 				'member_activate_key'          => 'activate_key',
 			),
-			'directory_title' => isset( $bp->pages->members->title ) ? $bp->pages->members->title : $default_directory_title,
-			'search_string'   => __( 'Search Members...', 'buddypress' ),
-			'global_tables'   => array(
+			'directory_title'       => isset( $bp->pages->members->title ) ? $bp->pages->members->title : $default_directory_title,
+			'search_string'         => __( 'Search Members...', 'buddypress' ),
+			'global_tables'         => array(
 				'table_name_invitations'   => bp_core_get_table_prefix() . 'bp_invitations',
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
 				'table_name_optouts'       => bp_core_get_table_prefix() . 'bp_optouts',
@@ -358,10 +358,10 @@ class BP_Members_Component extends BP_Component {
 				'bp/dynamic-members' => array(
 					'widget_classnames' => array( 'widget_bp_core_members_widget', 'buddypress' ),
 				),
-				'bp/online-members' => array(
+				'bp/online-members'  => array(
 					'widget_classnames' => array( 'widget_bp_core_whos_online_widget', 'buddypress' ),
 				),
-				'bp/active-members' => array(
+				'bp/active-members'  => array(
 					'widget_classnames' => array( 'widget_bp_core_recently_active_widget', 'buddypress' ),
 				),
 			),
@@ -615,12 +615,12 @@ class BP_Members_Component extends BP_Component {
 
 				$wp_admin_nav = array_merge( $wp_admin_nav, $this->get_avatar_cover_image_admin_navs() );
 
-			/**
-			 * The xProfile is active.
-			 *
-			 * Add the Change Avatar and Change Cover Image Admin Bar items
-			 * to the xProfile Admin Bar Menu.
-			 */
+				/**
+				 * The xProfile is active.
+				 *
+				 * Add the Change Avatar and Change Cover Image Admin Bar items
+				 * to the xProfile Admin Bar Menu.
+				 */
 			} else {
 				add_filter( 'bp_xprofile_admin_nav', array( $this, 'setup_xprofile_admin_nav' ), 2 );
 			}
@@ -660,12 +660,14 @@ class BP_Members_Component extends BP_Component {
 			$bp->bp_options_title = __( 'You', 'buddypress' );
 		} elseif ( bp_is_user() ) {
 			$bp->bp_options_title  = bp_get_displayed_user_fullname();
-			$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-				'item_id' => bp_displayed_user_id(),
-				'type'    => 'thumb',
-				/* translators: %s: member name */
-				'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $bp->bp_options_title )
-			) );
+			$bp->bp_options_avatar = bp_core_fetch_avatar(
+				array(
+					'item_id' => bp_displayed_user_id(),
+					'type'    => 'thumb',
+					/* translators: %s: member name */
+					'alt'     => sprintf( __( 'Profile picture of %s', 'buddypress' ), $bp->bp_options_title ),
+				)
+			);
 		}
 
 		parent::setup_title();
@@ -679,10 +681,13 @@ class BP_Members_Component extends BP_Component {
 	public function setup_cache_groups() {
 
 		// Global groups.
-		wp_cache_add_global_groups( array(
-			'bp_last_activity',
-			'bp_member_member_type',
-		) );
+		wp_cache_add_global_groups(
+			array(
+				'bp_last_activity',
+				'bp_member_member_type',
+				'bp_signups',
+			)
+		);
 
 		parent::setup_cache_groups();
 	}
@@ -722,17 +727,17 @@ class BP_Members_Component extends BP_Component {
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_type'] . '=$matches[1]',
 			),
 			'member_activate'     => array(
-				'regex' => bp_get_activate_slug() . '/?$',
+				'regex' => bp_get_activate_root_slug() . '/?$',
 				'order' => 40,
 				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1',
 			),
 			'member_activate_key' => array(
-				'regex' => bp_get_activate_slug() . '/([^/]+)/?$',
+				'regex' => bp_get_activate_root_slug() . '/([^/]+)/?$',
 				'order' => 30,
 				'query' => 'index.php?' . $this->rewrite_ids['member_activate'] . '=1&' . $this->rewrite_ids['member_activate_key'] . '=$matches[1]',
 			),
 			'member_register'     => array(
-				'regex' => bp_get_signup_slug() . '/?$',
+				'regex' => bp_get_signup_root_slug() . '/?$',
 				'order' => 20,
 				'query' => 'index.php?' . $this->rewrite_ids['member_register'] . '=1',
 			),
@@ -1058,16 +1063,16 @@ class BP_Members_Component extends BP_Component {
 	 */
 	public function rest_api_init( $controllers = array() ) {
 		$controllers = array(
-			'BP_REST_Members_V1_Controller',
-			'BP_REST_Attachments_Member_Avatar_V1_Controller',
+			'BP_Members_REST_Controller',
+			'BP_Members_Avatar_REST_Controller',
 		);
 
 		if ( bp_is_active( 'members', 'cover_image' ) ) {
-			$controllers[] = 'BP_REST_Attachments_Member_Cover_V1_Controller';
+			$controllers[] = 'BP_Members_Cover_REST_Controller';
 		}
 
 		if ( bp_get_signup_allowed() ) {
-			$controllers[] = 'BP_REST_Signup_V1_Controller';
+			$controllers[] = 'BP_Members_Signup_REST_Controller';
 		}
 
 		parent::rest_api_init( $controllers );
@@ -1085,11 +1090,11 @@ class BP_Members_Component extends BP_Component {
 	public function blocks_init( $blocks = array() ) {
 		parent::blocks_init(
 			array(
-				'bp/member' => array(
+				'bp/member'          => array(
 					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/member',
 					'render_callback' => 'bp_members_render_member_block',
 				),
-				'bp/members' => array(
+				'bp/members'         => array(
 					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-members/blocks/members',
 					'render_callback' => 'bp_members_render_members_block',
 				),

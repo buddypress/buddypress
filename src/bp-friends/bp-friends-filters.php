@@ -47,7 +47,7 @@ function bp_friends_filter_user_query_populate_extras( $user_query, $user_ids_sq
 		}
 	}
 }
-add_filter( 'bp_user_query_populate_extras', 'bp_friends_filter_user_query_populate_extras', 4, 2 );
+add_action( 'bp_user_query_populate_extras', 'bp_friends_filter_user_query_populate_extras', 4, 2 );
 
 /**
  * Registers Friends personal data exporter.

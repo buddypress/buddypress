@@ -22,13 +22,13 @@ class BP_Tests_BP_Attachment_TestCases extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		parent::tear_down();
 		remove_filter( 'bp_attachment_upload_overrides',     array( $this, 'filter_overrides' ),       10 );
 		remove_filter( 'upload_dir',                         array( $this, 'filter_upload_dir' ),      20 );
 		add_filter( 'bp_attachments_cover_image_upload_dir', array( $this, 'filter_cover_image_dir' ), 10, 2 );
 		$this->upload_results = array();
 		$this->image_file = '';
 		$this->original_upload_dir = array();
+		parent::tear_down();
 	}
 
 	public function filter_overrides( $overrides ) {

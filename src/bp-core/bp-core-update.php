@@ -3,7 +3,7 @@
  * BuddyPress Updater.
  *
  * @package BuddyPress
- * @subpackage Updater
+ * @subpackage Core
  * @since 1.6.0
  */
 
@@ -337,6 +337,8 @@ function bp_version_updater() {
  * `dbDelta()` cannot handle certain operations - like changing indexes - so we do it here instead.
  *
  * @since 2.3.0
+ *
+ * @global wpdb $wpdb WordPress database object.
  */
 function bp_pre_schema_upgrade() {
 	global $wpdb;
@@ -730,6 +732,7 @@ function bp_update_to_8_0() {
  * @since 8.0.0
  *
  * @param array $emails The array of emails schema.
+ * @return array
  */
 function bp_core_get_8_0_upgrade_email_schema( $emails ) {
 	$new_emails = array();
@@ -768,6 +771,7 @@ function bp_update_to_10_0() {
  * @since 10.0.0
  *
  * @param array $emails The array of emails schema.
+ * @return array
  */
 function bp_core_get_10_0_upgrade_email_schema( $emails ) {
 	$new_emails = array();
@@ -806,6 +810,7 @@ function bp_update_to_11_0() {
  * @since 11.0.0
  *
  * @param array $emails The array of emails schema.
+ * @return array
  */
 function bp_core_get_11_0_upgrade_email_schema( $emails ) {
 	$new_emails = array();
@@ -946,14 +951,16 @@ function bp_update_to_12_0() {
  * 14.0.0 update routine.
  *
  * Edit db schema to stop using boolean fields in favor of tinyint ones.
- * This moves was necessary to support WP Playground.
+ * This move was necessary to support WP Playground.
  *
  * @since 14.0.0
+ *
+ * @global wpdb $wpdb WordPress database object.
  */
 function bp_update_to_14_0() {
 	global $wpdb;
-	$bp        = buddypress();
-	$bp_prefix = bp_core_get_table_prefix();
+
+	$bp = buddypress();
 
 	if ( isset( $bp->members->table_name_last_activity ) && $wpdb->get_var( "SHOW TABLES LIKE '%{$bp->members->table_name_last_activity}%'" ) ) {
 		if ( $wpdb->get_var( "SHOW COLUMNS FROM {$bp->members->table_name_last_activity} LIKE 'hide_sitewide'" ) ) {
@@ -999,6 +1006,7 @@ function bp_update_to_14_0() {
  */
 function bp_migrate_new_member_activity_component() {
 	global $wpdb;
+
 	$bp = buddypress();
 
 	// Update the component for the new_member type.

@@ -4,10 +4,10 @@ Donate link:       https://wordpressfoundation.org
 Tags:              community, group, members, network, self-hosted
 License:           GNU General Public License v2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
-Requires PHP:      5.6
-Requires at least: 6.1
-Tested up to:      6.5
-Stable tag:        12.5.1
+Requires PHP:      7.0
+Requires at least: 6.4
+Tested up to:      6.6
+Stable tag:        14.1.0
 
 Get together safely, in your own way, in WordPress.
 
@@ -55,14 +55,14 @@ Growing the BuddyPress community means better software for everyone!
 To run BuddyPress, we recommend your host supports:
 
 * PHP version 7.4 or greater.
-* MySQL version 5.7 or greater OR MariaDB version 10.4 or greater.
+* MySQL version 8.0 or greater OR MariaDB version 10.5 or greater.
 * HTTPS support
 
 Note: If you are in a legacy environment where you only have older PHP or MySQL versions, WordPress also works with PHP 5.6.20+ and MySQL 5.0+, but these versions have reached official End Of Life and as such may expose your site to security vulnerabilities.
 
 = Automatic installation =
 
-Automatic installation is the easiest option as WordPress handles everything itself. To do an automatic install of BuddyPress, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
+Automatic installation is the easiest option as WordPress handles everything itself. To do an automatic installation of BuddyPress, log in to your WordPress dashboard, navigate to the Plugins menu and click Add New.
 
 In the search field type "BuddyPress" and click Search Plugins. Once you've found it, you can view details about the latest release, such as community reviews, ratings, and description. Install BuddyPress by simply pressing "Install Now".
 
@@ -130,6 +130,12 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
+= 14.1.0 =
+See: https://codex.buddypress.org/releases/version-14-1-0/
+
+= 14.0.0 =
+See: https://codex.buddypress.org/releases/version-14-0-0/
+
 = 12.5.1 =
 See: https://codex.buddypress.org/releases/version-12-5-1/
 
@@ -195,6 +201,12 @@ See: https://codex.buddypress.org/releases/version-10-1-0/
 See: https://codex.buddypress.org/releases/version-10-0-0/
 
 == Changelog ==
+
+= 14.1.0 =
+See: https://codex.buddypress.org/releases/version-14-1-0/
+
+= 14.0.0 =
+See: https://codex.buddypress.org/releases/version-14-0-0/
 
 = 12.5.1 =
 Security fix: The Members block was vulnerable to a Stored Cross-Site Scripting. Discovered by Wesley (wcraft) from the Wordfence organization.
