@@ -5295,5 +5295,5 @@ function bp_is_admin( $screen_id = '' ) {
  * @return bool True if bp_classic is active, false otherwise.
  */
 function bp_is_classic() {
-	return function_exists( 'bp_classic' ) || is_plugin_active( 'bp-classic/bp-classic.php' );
+	return function_exists( 'bp_classic' ) || ( function_exists( 'is_plugin_active' ) && is_plugin_active( 'bp-classic/bp-classic.php' ) );
 }
