@@ -429,3 +429,17 @@ function bp_delete_site( $site_id_or_error, $drop_or_site = false ) {
 	do_action( 'bp_delete_site', $site_id, $drop );
 }
 add_action( 'wp_validate_site_deletion', 'bp_delete_site', 10, 2 );
+
+if ( ! function_exists( 'is_plugin_active' ) ) {
+	/**
+	 * Checks if a plugin is active.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param string $plugin Plugin path to check.
+	 * @return bool True if the plugin is active, false otherwise.
+	 */
+	function is_plugin_active( $plugin ) {
+		return in_array( $plugin, (array) get_option( 'active_plugins', array() ), true ) || ( is_multisite() && isset( get_site_option( 'active_sitewide_plugins' )[ $plugin ] ) );
+	}
+}
