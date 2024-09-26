@@ -141,15 +141,35 @@ function bp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
  * Get taxonomy terms for a BuddyPress object.
  *
  * @since 2.2.0
+ * @since 15.0.0 Added a `_doing_it_wrong` check to prevent errors when using the function too early.
  *
- * @see wp_get_object_terms() for a full description of function and parameters.
+ * @see wp_get_object_terms() for a full description of function and parameters
  *
  * @param int|array    $object_ids ID or IDs of objects.
  * @param string|array $taxonomies Name or names of taxonomies to match.
  * @param array        $args       See {@see wp_get_object_terms()}.
- * @return array
+ *
+ * @return WP_Term[]|int[]|string[]
  */
 function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
+
+	// Check if the bp_register_taxonomies hook is set.
+	if ( ! did_action( 'bp_register_taxonomies' ) ) {
+		_doing_it_wrong(
+			__FUNCTION__,
+			sprintf(
+				/* translators: 1: the name of the function. 2: the name of the hook. */
+				esc_html__( 'The %1$s function requires the %2$s hook to be fired before is used.', 'buddypress' ),
+				'<code>bp_get_object_terms</code>',
+				'<code>bp_register_taxonomies</code>'
+			),
+			'15.0.0'
+		);
+
+		// Return empty array since we don't have any taxonomies registered yet.
+		return array();
+	}
+
 	// Different taxonomies must be stored on different sites.
 	$taxonomy_site_map = array();
 	foreach ( (array) $taxonomies as $taxonomy ) {
@@ -160,6 +180,7 @@ function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 	$retval = array();
 	foreach ( $taxonomy_site_map as $taxonomy_site_id => $site_taxonomies ) {
 		$switched = false;
+
 		if ( $taxonomy_site_id !== get_current_blog_id() ) {
 			switch_to_blog( $taxonomy_site_id );
 			bp_register_taxonomies();
@@ -167,7 +188,13 @@ function bp_get_object_terms( $object_ids, $taxonomies, $args = array() ) {
 		}
 
 		$site_terms = wp_get_object_terms( $object_ids, $site_taxonomies, $args );
-		$retval     = array_merge( $retval, $site_terms );
+
+		// Handle the case where wp_get_object_terms() returns an error.
+		if ( is_wp_error( $site_terms ) || empty( $site_terms ) ) {
+			$site_terms = array();
+		}
+
+		$retval = array_merge( $retval, $site_terms );
 
 		if ( $switched ) {
 			restore_current_blog();
