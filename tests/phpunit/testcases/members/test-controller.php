@@ -4,7 +4,7 @@
  *
  * @group members
  */
-class BP_Test_REST_Members_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $handle     = 'members';
 	protected $controller = 'BP_Members_REST_Controller';
 
@@ -30,6 +30,7 @@ class BP_Test_REST_Members_Endpoint extends BP_Test_REST_Controller_Testcase {
 		$u3 = static::factory()->user->create();
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$request->set_query_params(
 			array(
 				'user_ids' => array( $u1, $u2, $u3 ),
@@ -57,6 +58,7 @@ class BP_Test_REST_Members_Endpoint extends BP_Test_REST_Controller_Testcase {
 		$u3 = static::factory()->user->create();
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$request->set_query_params(
 			array(
 				'user_ids' => array( $u1, $u2, $u3 ),
@@ -100,13 +102,13 @@ class BP_Test_REST_Members_Endpoint extends BP_Test_REST_Controller_Testcase {
 		friends_add_friend( $u1, $u3, true );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$request->set_query_params(
 			array(
 				'populate_extras' => true,
 				'user_ids'        => array( $u1, $u2, $u3 ),
 			)
 		);
-		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );

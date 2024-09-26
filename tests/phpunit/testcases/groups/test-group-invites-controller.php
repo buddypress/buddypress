@@ -4,7 +4,7 @@
  *
  * @group group-invites
  */
-class BP_Test_REST_Group_Invites_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Group_Invites_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $group_id;
 	protected $g1admin;
 	protected $g1;

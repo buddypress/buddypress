@@ -4,7 +4,7 @@
  *
  * @group activity
  */
-class BP_Test_REST_Activity_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Activity_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $activity_id;
 	protected $controller = 'BP_Activity_REST_Controller';
 	protected $handle     = 'activity';

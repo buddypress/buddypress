@@ -2,8 +2,9 @@
 
 /**
  * @group testsuite
+ * @group factory
  */
-class BPTests_Testsuite_Factory extends BP_UnitTestCase {
+class BP_Tests_Testsuite_Factory extends BP_UnitTestCase {
 	/**
 	 * @ticket BP7234
 	 */
@@ -43,10 +44,12 @@ class BPTests_Testsuite_Factory extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 
-		$f = self::factory()->friendship->create_and_get( array(
-			'initiator_user_id' => $u1,
-			'friend_user_id' => $u2,
-		) );
+		$f = self::factory()->friendship->create_and_get(
+			array(
+				'initiator_user_id' => $u1,
+				'friend_user_id'    => $u2,
+			)
+		);
 
 		$this->assertSame( $u1, $f->initiator_user_id );
 		$this->assertSame( $u2, $f->friend_user_id );

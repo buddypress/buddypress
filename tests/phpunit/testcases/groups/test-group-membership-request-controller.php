@@ -5,7 +5,7 @@
  * @group group-membership-request
  * @group groups
  */
-class BP_Test_REST_Group_Membership_Request_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Group_Membership_Request_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $group_id;
 	protected $g1admin;
 	protected $g1;
@@ -31,7 +31,8 @@ class BP_Test_REST_Group_Membership_Request_Endpoint extends BP_Test_REST_Contro
 				'user_email' => 'sub@example.com',
 			)
 		);
-		$this->g1      = $this->bp::factory()->group->create(
+
+		$this->g1 = $this->bp::factory()->group->create(
 			array(
 				'name'        => 'Group Test 1',
 				'description' => 'Group Description 1',

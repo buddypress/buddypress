@@ -12,9 +12,9 @@ abstract class BP_Test_REST_Controller_Testcase extends WP_Test_REST_Controller_
 	protected $controller;
 
 	/**
-	 * The endpoint controller.
+	 * The endpoint controller object.
 	 *
-	 * @var WP_REST_Controller
+	 * @var object
 	 */
 	protected $endpoint;
 
@@ -42,9 +42,9 @@ abstract class BP_Test_REST_Controller_Testcase extends WP_Test_REST_Controller_
 	protected $server;
 
 	/**
-	 * The user.
+	 * The user ID.
 	 *
-	 * @var WP_User
+	 * @var int
 	 */
 	protected $user;
 

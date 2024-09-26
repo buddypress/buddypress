@@ -5,7 +5,7 @@
  * @group group-membership
  * @group groups
  */
-class BP_Test_REST_Group_Membership_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $group_id;
 	protected $search_terms;
 	protected $controller = 'BP_Groups_Membership_REST_Controller';

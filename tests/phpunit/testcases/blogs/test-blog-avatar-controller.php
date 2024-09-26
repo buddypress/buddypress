@@ -4,8 +4,9 @@
  *
  * @group blogs
  * @group blog-avatar
+ * @group attachments
  */
-class BP_Test_REST_Attachments_Blog_Avatar_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $controller = 'BP_Blogs_Avatar_REST_Controller';
 	protected $handle     = 'blogs';
 

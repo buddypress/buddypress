@@ -5,7 +5,7 @@
  *
  * @group messages
  */
-class BP_Test_REST_Messages_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $controller = 'BP_Messages_REST_Controller';
 	protected $handle     = 'messages';
 

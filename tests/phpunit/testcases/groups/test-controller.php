@@ -4,10 +4,10 @@
  *
  * @group groups
  */
-class BP_Test_REST_Group_Endpoint extends BP_Test_REST_Controller_Testcase {
-	protected $group_id;
-	protected $controller = 'BP_Groups_REST_Controller';
+class BP_Tests_Group_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $handle     = 'groups';
+	protected $controller = 'BP_Groups_REST_Controller';
+	protected $group_id   = 0;
 
 	public function set_up() {
 		parent::set_up();

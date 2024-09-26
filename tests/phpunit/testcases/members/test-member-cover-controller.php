@@ -4,8 +4,9 @@
  *
  * @group members
  * @group member-cover
+ * @group attachments
  */
-class BP_Test_REST_Attachments_Member_Cover_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $handle = 'members';
 
 	public function test_register_routes() {

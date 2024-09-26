@@ -4,7 +4,7 @@
  *
  * @group notifications
  */
-class BP_Test_REST_Notifications_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $notification_id;
 	protected $controller = 'BP_Notifications_REST_Controller';
 	protected $handle     = 'notifications';

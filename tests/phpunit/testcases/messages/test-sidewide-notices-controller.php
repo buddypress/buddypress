@@ -5,7 +5,7 @@
  * @group notices
  * @group messages
  */
-class BP_Test_REST_Sitewide_Notices_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $last_inserted_notice_id;
 	protected $controller = 'BP_Messages_Sitewide_Notices_REST_Controller';
 	protected $handle     = 'sitewide-notices';
@@ -100,6 +100,7 @@ class BP_Test_REST_Sitewide_Notices_Endpoint extends BP_Test_REST_Controller_Tes
 	 */
 	public function test_get_items() {
 		$this->bp::set_current_user( $this->user );
+
 		$tested = array(
 			'n1' => array(
 				'subject' => 'foo',

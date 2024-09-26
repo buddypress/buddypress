@@ -5,7 +5,7 @@
  * @group xprofile
  * @group xprofile-field
  */
-class BP_Test_REST_XProfile_Fields_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_XProfile_Fields_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $group_id;
 	protected $field_id;
 	protected $controller = 'BP_XProfile_Fields_REST_Controller';

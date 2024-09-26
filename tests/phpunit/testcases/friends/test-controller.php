@@ -4,7 +4,7 @@
  *
  * @group friends
  */
-class BP_Test_REST_Friends_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Friends_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $friend;
 	protected $friendship_id;
 	protected $controller = 'BP_Friends_REST_Controller';
@@ -41,6 +41,7 @@ class BP_Test_REST_Friends_Endpoint extends BP_Test_REST_Controller_Testcase {
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$request->set_query_params(
 			array(
 				'user_id'      => $this->friend,
@@ -63,7 +64,8 @@ class BP_Test_REST_Friends_Endpoint extends BP_Test_REST_Controller_Testcase {
 	 * @group get_items
 	 */
 	public function test_get_items_user_not_logged_in() {
-		$request  = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -75,7 +77,8 @@ class BP_Test_REST_Friends_Endpoint extends BP_Test_REST_Controller_Testcase {
 	public function test_get_item() {
 		$this->bp::set_current_user( $this->user );
 
-		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $this->friend ) );
+		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -95,7 +98,8 @@ class BP_Test_REST_Friends_Endpoint extends BP_Test_REST_Controller_Testcase {
 	public function test_get_item_with_invalid_friend_id() {
 		$this->bp::set_current_user( $this->user );
 
-		$request  = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
+		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_friends_get_item_failed', $response, 404 );
@@ -121,11 +125,7 @@ class BP_Test_REST_Friends_Endpoint extends BP_Test_REST_Controller_Testcase {
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
 
-		$params = $this->set_friendship_data(
-			array(
-				'initiator_id' => $this->user,
-			)
-		);
+		$params = $this->set_friendship_data( array( 'initiator_id' => $this->user ) );
 		$request->set_body_params( $params );
 		$response = $this->server->dispatch( $request );
 

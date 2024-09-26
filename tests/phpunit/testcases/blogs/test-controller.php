@@ -4,18 +4,9 @@
  *
  * @group blogs
  */
-class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $handle     = 'blogs';
 	protected $controller = 'BP_Blogs_REST_Controller';
-	protected $admin;
-
-	public function set_up() {
-		parent::set_up();
-
-		$this->admin = static::factory()->user->create(
-			array( 'role' => 'administrator' )
-		);
-	}
 
 	public function test_register_routes() {
 		$routes = $this->server->get_routes();
@@ -35,7 +26,7 @@ class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
 	public function test_get_items() {
 		$this->skipWithoutMultisite();
 
-		$this->bp::set_current_user( $this->admin );
+		$this->bp::set_current_user( $this->user );
 
 		self::factory()->blog->create_many( 2 );
 
@@ -60,7 +51,7 @@ class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
 	public function test_get_item() {
 		$this->skipWithoutMultisite();
 
-		$this->bp::set_current_user( $this->admin );
+		$this->bp::set_current_user( $this->user );
 
 		$blog_id = self::factory()->blog->create(
 			array( 'title' => 'The Foo Bar Blog' )
@@ -77,7 +68,7 @@ class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
 		$this->assertNotEmpty( $blogs );
 		$this->assertSame( $blogs['id'], $blog_id );
 		$this->assertSame( $blogs['name'], 'The Foo Bar Blog' );
-		$this->assertSame( $blogs['user_id'], $this->admin );
+		$this->assertSame( $blogs['user_id'], $this->user );
 	}
 
 	/**
@@ -117,7 +108,7 @@ class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
 	public function test_get_embedded_latest_post_from_blog_using_subdirectory() {
 		$this->skipWithoutMultisite();
 
-		$this->bp::set_current_user( $this->admin );
+		$this->bp::set_current_user( $this->user );
 
 		$blog_id = self::factory()->blog->create(
 			array(
@@ -162,7 +153,7 @@ class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
 	public function test_get_embedded_latest_post_from_blog_using_subdomain() {
 		$this->skipWithoutMultisite();
 
-		$this->bp::set_current_user( $this->admin );
+		$this->bp::set_current_user( $this->user );
 
 		$subdomain = 'cool-site.foo-bar';
 		$blog_id   = self::factory()->blog->create(
@@ -219,7 +210,7 @@ class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
 		$settings['registration']  = 'blog';
 		buddypress()->site_options = $settings;
 
-		$this->bp::set_current_user( $this->admin );
+		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/json' );
@@ -268,7 +259,7 @@ class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
 		$settings['registration']  = 'none';
 		buddypress()->site_options = $settings;
 
-		$this->bp::set_current_user( $this->admin );
+		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/json' );
@@ -289,7 +280,7 @@ class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
 	public function test_create_item_without_required_field() {
 		$this->skipWithoutMultisite();
 
-		$this->bp::set_current_user( $this->admin );
+		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/json' );
@@ -336,7 +327,7 @@ class BP_Test_REST_Blogs_Endpoint extends BP_Test_REST_Controller_Testcase {
 			array(
 				'name'    => 'Cool Blog',
 				'title'   => 'Blog Name',
-				'user_id' => $this->admin,
+				'user_id' => $this->user,
 				'data'    => array(
 					'public' => 1,
 				),

@@ -6,21 +6,21 @@
  * @group signups
  * @group members
  */
-class BP_Test_REST_Signup_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $signup_id;
 	protected $signup_allowed;
 	protected $handle     = 'signup';
 	protected $controller = 'BP_Members_Signup_REST_Controller';
 
 	public function set_up() {
+		// This currently NEEDs to run before the parent::set_up().
 		if ( is_multisite() ) {
 			$this->signup_allowed = get_site_option( 'registration' );
 			update_site_option( 'registration', 'all' );
-			bp_update_option( 'users_can_register', 1 );
 		} else {
 			$this->signup_allowed = bp_get_option( 'users_can_register' );
-			bp_update_option( 'users_can_register', 1 );
 		}
+		bp_update_option( 'users_can_register', 1 );
 
 		parent::set_up();
 

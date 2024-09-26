@@ -4,8 +4,9 @@
  *
  * @group groups
  * @group group-cover
+ * @group attachments
  */
-class BP_Test_REST_Attachments_Group_Cover_Endpoint extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Group_Cover_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $image_file;
 	protected $group_id;
 	protected $controller = 'BP_Groups_Cover_REST_Controller';
