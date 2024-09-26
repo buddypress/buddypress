@@ -62,6 +62,5 @@
 		<exclude name="WordPress.DB.PreparedSQL.NotPrepared" />
 		<exclude name="WordPress.DB.DirectDatabaseQuery.SchemaChange" />
 		<exclude name="WordPress.DB.DirectDatabaseQuery.DirectQuery" />
-
 	</rule>
 </ruleset>
