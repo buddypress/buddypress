@@ -158,9 +158,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$u6 = static::factory()->user->create();
 
 		$g1 = $this->bp::factory()->group->create(
-			array(
-				'status' => 'hidden',
-			)
+			array( 'status' => 'hidden' )
 		);
 
 		$this->populate_group_with_members( array( $u1, $u2, $u3, $u4, $u5, $u6 ), $g1 );
@@ -189,7 +187,10 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		// Check results.
 		$this->assertCount( 3, $u_ids );
-		$this->assertEqualSets( array( $u4, $u5, $u6 ), $u_ids );
+		$this->assertNotContains( $u1, $u_ids, 'This user is from the first page.' );
+		$this->assertNotContains( $u2, $u_ids, 'This user is from the first page.' );
+		$this->assertNotContains( $u3, $u_ids, 'This user is from the first page.' );
+		$this->assertSame( array( $u4, $u5, $u6 ), $u_ids );
 	}
 
 	/**
@@ -1552,6 +1553,9 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 	/**
 	 * Add member to the group.
+	 *
+	 * @param int[] $members Array of user IDs.
+	 * @param int   $group_id Group ID.
 	 */
 	protected function populate_group_with_members( $members, $group_id ) {
 		foreach ( $members as $member_id ) {
