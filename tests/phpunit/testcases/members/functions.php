@@ -33,7 +33,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 
 		// 1. Admin can delete user account
 		$this->set_current_user( $admin_user );
-		$user1 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$user1 = self::factory()->user->create();
 		bp_core_delete_account( $user1 );
 		$maybe_user = new WP_User( $user1 );
 		$this->assertEquals( 0, $maybe_user->ID );
@@ -49,8 +49,8 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		unset( $maybe_user );
 
 		// User cannot delete other's account
-		$user3 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
-		$user4 = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$user3 = self::factory()->user->create();
+		$user4 = self::factory()->user->create();
 		$this->set_current_user( $user3 );
 		bp_core_delete_account( $user4 );
 		$maybe_user = new WP_User( $user4 );
@@ -128,7 +128,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	 */
 	public function test_bp_members_get_user_url_after_directory_page_update() {
 		// Generate user
-		$user_id = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$user_id = self::factory()->user->create();
 		$this->set_permalink_structure( '/%postname%/' );
 
 		// Set object cache first for user domain

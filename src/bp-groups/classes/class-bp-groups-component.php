@@ -337,7 +337,7 @@ class BP_Groups_Component extends BP_Component {
 		parent::setup_actions();
 
 		// Check the parsed query is consistent with the Group’s registered screens.
-		add_action( 'bp_parse_query',  array( $this, 'check_parsed_query' ), 999, 0 );
+		add_action( 'bp_parse_query', array( $this, 'check_parsed_query' ), 999, 0 );
 	}
 
 	/**
@@ -447,11 +447,14 @@ class BP_Groups_Component extends BP_Component {
 		 *
 		 * @param array $value Array of valid group statuses.
 		 */
-		$this->valid_status = apply_filters( 'groups_valid_status', array(
-			'public',
-			'private',
-			'hidden'
-		) );
+		$this->valid_status = apply_filters(
+			'groups_valid_status',
+			array(
+				'public',
+				'private',
+				'hidden',
+			)
+		);
 
 		// Auto join group when non group member performs group activity.
 		$this->auto_join = defined( 'BP_DISABLE_AUTO_GROUP_JOIN' ) && BP_DISABLE_AUTO_GROUP_JOIN ? false : true;
@@ -482,7 +485,7 @@ class BP_Groups_Component extends BP_Component {
 		$global_tables = array(
 			'table_name'           => $bp->table_prefix . 'bp_groups',
 			'table_name_members'   => $bp->table_prefix . 'bp_groups_members',
-			'table_name_groupmeta' => $bp->table_prefix . 'bp_groups_groupmeta'
+			'table_name_groupmeta' => $bp->table_prefix . 'bp_groups_groupmeta',
 		);
 
 		// Metadata tables for groups component.
@@ -492,7 +495,7 @@ class BP_Groups_Component extends BP_Component {
 
 		// Fetch the default directory title.
 		$default_directory_titles = bp_core_get_directory_page_default_titles();
-		$default_directory_title  = $default_directory_titles[$this->id];
+		$default_directory_title  = $default_directory_titles[ $this->id ];
 
 		// All globals for groups component.
 		// Note that global_tables is included in this array.
@@ -609,7 +612,7 @@ class BP_Groups_Component extends BP_Component {
 		 * that extension's slug, unless more has been tacked onto the URL via
 		 * action variables.
 		 */
-		if ( bp_is_current_action( $this->default_extension ) && empty( $bp->action_variables ) )  {
+		if ( bp_is_current_action( $this->default_extension ) && empty( $bp->action_variables ) ) {
 			unset( $bp->canonical_stack['action'] );
 		}
 	}
@@ -634,7 +637,7 @@ class BP_Groups_Component extends BP_Component {
 			'position'            => 70,
 			'screen_function'     => 'groups_screen_my_groups',
 			'default_subnav_slug' => 'my-groups',
-			'item_css_id'         => $this->id
+			'item_css_id'         => $this->id,
 		);
 
 		// Add the My Groups nav item.
@@ -644,7 +647,7 @@ class BP_Groups_Component extends BP_Component {
 			'parent_slug'     => $slug,
 			'screen_function' => 'groups_screen_my_groups',
 			'position'        => 10,
-			'item_css_id'     => 'groups-my-groups'
+			'item_css_id'     => 'groups-my-groups',
 		);
 
 		if ( bp_is_active( 'groups', 'invitations' ) ) {
@@ -708,7 +711,7 @@ class BP_Groups_Component extends BP_Component {
 					'position'            => -1, // Do not show into the navigation.
 					'screen_function'     => 'groups_screen_group_home',
 					'default_subnav_slug' => $this->default_extension,
-					'item_css_id'         => $this->id
+					'item_css_id'         => $this->id,
 				),
 				'groups'
 			);
@@ -823,7 +826,7 @@ class BP_Groups_Component extends BP_Component {
 			} else {
 
 				/** This action is documented in bp-groups/bp-groups-loader.php */
-				do_action( 'groups_setup_nav');
+				do_action( 'groups_setup_nav' );
 			}
 		}
 	}
@@ -851,7 +854,7 @@ class BP_Groups_Component extends BP_Component {
 
 			if ( bp_is_active( 'groups', 'invitations' ) ) {
 				// Pending group invites.
-				$count   = groups_get_invite_count_for_user();
+				$count = groups_get_invite_count_for_user();
 				if ( $count ) {
 					$title = sprintf(
 						/* translators: %s: Group invitation count for the current user */
@@ -906,7 +909,7 @@ class BP_Groups_Component extends BP_Component {
 							'create_single_item' => 1,
 						)
 					),
-					'position' => 90
+					'position' => 90,
 				);
 			}
 		}
@@ -924,32 +927,36 @@ class BP_Groups_Component extends BP_Component {
 		if ( bp_is_groups_component() ) {
 			$bp = buddypress();
 
-			if ( bp_is_my_profile() && !bp_is_single_item() ) {
+			if ( bp_is_my_profile() && ! bp_is_single_item() ) {
 				$bp->bp_options_title = _x( 'Memberships', 'My Groups page <title>', 'buddypress' );
 
-			} elseif ( !bp_is_my_profile() && !bp_is_single_item() ) {
-				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id' => bp_displayed_user_id(),
-					'type'    => 'thumb',
-					'alt'     => sprintf(
+			} elseif ( ! bp_is_my_profile() && ! bp_is_single_item() ) {
+				$bp->bp_options_avatar = bp_core_fetch_avatar(
+					array(
+						'item_id' => bp_displayed_user_id(),
+						'type'    => 'thumb',
+						'alt'     => sprintf(
 						/* translators: %s: member name */
-						__( 'Profile picture of %s', 'buddypress' ),
-						bp_get_displayed_user_fullname()
-					),
-				) );
-				$bp->bp_options_title = bp_get_displayed_user_fullname();
+							__( 'Profile picture of %s', 'buddypress' ),
+							bp_get_displayed_user_fullname()
+						),
+					)
+				);
+				$bp->bp_options_title  = bp_get_displayed_user_fullname();
 
-			// We are viewing a single group, so set up the
-			// group navigation menu using the $this->current_group global.
+				// We are viewing a single group, so set up the
+				// group navigation menu using the $this->current_group global.
 			} elseif ( bp_is_single_item() ) {
 				$bp->bp_options_title  = $this->current_group->name;
-				$bp->bp_options_avatar = bp_core_fetch_avatar( array(
-					'item_id'    => $this->current_group->id,
-					'object'     => 'group',
-					'type'       => 'thumb',
-					'avatar_dir' => 'group-avatars',
-					'alt'        => __( 'Group Profile Photo', 'buddypress' )
-				) );
+				$bp->bp_options_avatar = bp_core_fetch_avatar(
+					array(
+						'item_id'    => $this->current_group->id,
+						'object'     => 'group',
+						'type'       => 'thumb',
+						'avatar_dir' => 'group-avatars',
+						'alt'        => __( 'Group Profile Photo', 'buddypress' ),
+					)
+				);
 
 				if ( empty( $bp->bp_options_avatar ) ) {
 					$bp->bp_options_avatar = '<img loading="lazy" src="' . esc_url( bp_core_avatar_default_thumb() ) . '" alt="' . esc_attr__( 'No Group Profile Photo', 'buddypress' ) . '" class="avatar" />';
@@ -1027,19 +1034,19 @@ class BP_Groups_Component extends BP_Component {
 		$create_slug = bp_rewrites_get_slug( 'groups', 'group_create', 'create' );
 
 		$rewrite_rules = array(
-			'directory_type'      => array(
+			'directory_type'               => array(
 				'regex' => $this->root_slug . '/' . bp_get_groups_group_type_base() . '/([^/]+)/?$',
 				'order' => 50,
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['directory_type'] . '=$matches[1]',
 			),
-			'create_single_item' => array(
+			'create_single_item'           => array(
 				'regex' => $this->root_slug . '/' . $create_slug . '/?$',
 				'order' => 40,
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['create_single_item'] . '=1',
 			),
 			'create_single_item_variables' => array(
 				'regex' => $this->root_slug . '/' . $create_slug . '/(.+?)/?$',
-				'order' =>30,
+				'order' => 30,
 				'query' => 'index.php?' . $this->rewrite_ids['directory'] . '=1&' . $this->rewrite_ids['create_single_item'] . '=1&' . $this->rewrite_ids['create_single_item_variables'] . '=$matches[1]',
 			),
 		);
@@ -1238,16 +1245,16 @@ class BP_Groups_Component extends BP_Component {
 	 */
 	public function rest_api_init( $controllers = array() ) {
 		$controllers = array(
-			'BP_REST_Groups_Endpoint',
-			'BP_REST_Group_Membership_Endpoint',
-			'BP_REST_Group_Invites_Endpoint',
-			'BP_REST_Group_Membership_Request_Endpoint',
-			'BP_REST_Attachments_Group_Avatar_Endpoint',
+			'BP_Groups_REST_Controller',
+			'BP_Groups_Avatar_REST_Controller',
+			'BP_Groups_Membership_REST_Controller',
+			'BP_Groups_Membership_Request_REST_Controller',
+			'BP_Groups_Invites_REST_Controller',
 		);
 
 		// Support to Group Cover.
 		if ( bp_is_active( 'groups', 'cover_image' ) ) {
-			$controllers[] = 'BP_REST_Attachments_Group_Cover_Endpoint';
+			$controllers[] = 'BP_Groups_Cover_REST_Controller';
 		}
 
 		parent::rest_api_init( $controllers );
@@ -1265,11 +1272,11 @@ class BP_Groups_Component extends BP_Component {
 	public function blocks_init( $blocks = array() ) {
 		parent::blocks_init(
 			array(
-				'bp/group' => array(
+				'bp/group'          => array(
 					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-groups/blocks/group',
 					'render_callback' => 'bp_groups_render_group_block',
 				),
-				'bp/groups' => array(
+				'bp/groups'         => array(
 					'metadata'        => trailingslashit( buddypress()->plugin_dir ) . 'bp-groups/blocks/groups',
 					'render_callback' => 'bp_groups_render_groups_block',
 				),

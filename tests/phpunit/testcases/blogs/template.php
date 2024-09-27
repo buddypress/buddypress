@@ -18,7 +18,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$this->assertEquals( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_blog_last_active() );
 
-		$blogs_template->blog = null;
+		$blogs_template = null;
 	}
 
 	/**
@@ -35,7 +35,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$this->assertEquals( bp_core_get_last_activity( $time, __( 'Active %s', 'buddypress' ) ), bp_get_blog_last_active( array( 'active_format' => true, ) ) );
 
-		$blogs_template->blog = null;
+		$blogs_template = null;
 	}
 
 	/**
@@ -52,7 +52,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$this->assertEquals( bp_core_time_since( $time ), bp_get_blog_last_active( array( 'active_format' => false, ) ) );
 
-		$blogs_template->blog = null;
+		$blogs_template = null;
 	}
 
 	/**
@@ -77,7 +77,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$this->assertSame( sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="foo">bar</a>' ), bp_get_blog_latest_post() );
 
-		$blogs_template->blog = null;
+		$blogs_template = null;
 	}
 
 	/**
@@ -95,7 +95,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$this->assertSame( sprintf( __( 'Latest Post: %s', 'buddypress' ), '<a href="foo">bar</a>' ), bp_get_blog_latest_post( array( 'latest_format' => true, ) ) );
 
-		$blogs_template->blog = null;
+		$blogs_template = null;
 	}
 
 	/**
@@ -113,7 +113,7 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 
 		$this->assertSame( '<a href="foo">bar</a>', bp_get_blog_latest_post( array( 'latest_format' => false, ) ) );
 
-		$blogs_template->blog = null;
+		$blogs_template = null;
 	}
 
 	/**

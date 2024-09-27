@@ -10,11 +10,13 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_can_delete_save() {
 		$group = self::factory()->xprofile_group->create();
-		$field = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group,
-		) );
+		$field = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group,
+			)
+		);
 
-		$f = new BP_XProfile_Field( $field );
+		$f             = new BP_XProfile_Field( $field );
 		$f->can_delete = 0;
 		$f->save();
 
@@ -31,22 +33,26 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		// force some checkbox options for our profile field
 		$_POST['checkbox_option'] = array(
 			1 => 'BuddyPress',
-			2 => 'WordPress'
+			2 => 'WordPress',
 		);
 
 		// checkbox field
-		$f1 = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group,
-			'type' => 'checkbox',
-			'name' => 'Interests'
-		) );
+		$f1 = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group,
+				'type'           => 'checkbox',
+				'name'           => 'Interests',
+			)
+		);
 
 		// textbox field with the same name as our checkbox value
-		$f2 = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group,
-			'type' => 'textbox',
-			'name' => 'BuddyPress'
-		) );
+		$f2 = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group,
+				'type'           => 'textbox',
+				'name'           => 'BuddyPress',
+			)
+		);
 
 		$this->assertEquals( $f2, xprofile_get_field_id_from_name( 'BuddyPress' ) );
 
@@ -104,7 +110,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 			$_POST['title'],
 			$_POST['required'],
 			$_POST['fieldtype'],
-			$_POST['radio_option' ]
+			$_POST['radio_option']
 		);
 	}
 
@@ -112,9 +118,9 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	 * @ticket BP6545
 	 */
 	public function test_newly_created_field_should_have_field_id_property_set() {
-		$field = new BP_XProfile_Field();
+		$field           = new BP_XProfile_Field();
 		$field->group_id = 1;
-		$field->name = 'Foo';
+		$field->name     = 'Foo';
 
 		$new_field_id = $field->save();
 
@@ -128,22 +134,24 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		global $wpdb;
 
 		$group = self::factory()->xprofile_group->create();
-		$field = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group,
-		) );
+		$field = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group,
+			)
+		);
 
 		bp_xprofile_update_meta( $field, 'field', 'default_visibility', 'loggedin' );
 
 		// Initial setup takes just one query.
 		$num_queries = $wpdb->num_queries;
-		$field_obj = new BP_XProfile_Field( $field );
-		$num_queries++;
+		$field_obj   = new BP_XProfile_Field( $field );
+		++$num_queries;
 
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 
 		// Fetching the default_visibility should cause another query.
 		$this->assertSame( 'loggedin', $field_obj->default_visibility );
-		$num_queries++;
+		++$num_queries;
 
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 	}
@@ -155,22 +163,24 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		global $wpdb;
 
 		$group = self::factory()->xprofile_group->create();
-		$field = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group,
-		) );
+		$field = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group,
+			)
+		);
 
 		bp_xprofile_update_meta( $field, 'field', 'allow_custom_visibility', 'disabled' );
 
 		// Initial setup takes just one query.
 		$num_queries = $wpdb->num_queries;
-		$field_obj = new BP_XProfile_Field( $field );
-		$num_queries++;
+		$field_obj   = new BP_XProfile_Field( $field );
+		++$num_queries;
 
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 
 		// Fetching the allow_custom_visibility should cause another query.
 		$this->assertSame( 'disabled', $field_obj->allow_custom_visibility );
-		$num_queries++;
+		++$num_queries;
 
 		$this->assertSame( $num_queries, $wpdb->num_queries );
 	}
@@ -189,12 +199,14 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_update_position_should_invalidate_cache() {
 		$group = self::factory()->xprofile_group->create();
-		$field = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group,
-		) );
+		$field = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group,
+			)
+		);
 
 		// Prime cache.
-		$fetched_field = xprofile_get_field( $field );
+		$fetched_field   = xprofile_get_field( $field );
 		$new_field_order = 12345;
 
 		// Update field position.
@@ -209,17 +221,24 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	 * @ticket BP7351
 	 */
 	public function test_empty_datebox_fields_should_not_return_unix_epoch() {
-		$user  = self::factory()->user->create( array( 'role' => 'subscriber' ) );
+		$user  = self::factory()->user->create();
 		$group = self::factory()->xprofile_group->create();
-		$field = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group,
-			'type' => 'datebox',
-		) );
+		$field = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group,
+				'type'           => 'datebox',
+			)
+		);
 
 		$old_user = get_current_user_id();
 		self::set_current_user( $user );
 
-		$value = bp_get_profile_field_data( array( 'user_id' => $user, 'field' => $field ) );
+		$value = bp_get_profile_field_data(
+			array(
+				'user_id' => $user,
+				'field'   => $field,
+			)
+		);
 		$this->assertEmpty( $value );
 
 		self::set_current_user( $old_user );
@@ -230,9 +249,11 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_delete_field_should_delete_default_field_metadata() {
 		$group = self::factory()->xprofile_group->create();
-		$field = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group
-		) );
+		$field = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group,
+			)
+		);
 
 		$field_obj = new BP_XProfile_Field( $field );
 		$field_obj->delete();
@@ -246,9 +267,11 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 	 */
 	public function test_delete_field_should_delete_custom_field_metadata() {
 		$group = self::factory()->xprofile_group->create();
-		$field = self::factory()->xprofile_field->create( array(
-			'field_group_id' => $group
-		) );
+		$field = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $group,
+			)
+		);
 
 		bp_xprofile_update_meta( $field, 'field', 'custom', 'metadata' );
 
