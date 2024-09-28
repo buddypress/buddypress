@@ -11,7 +11,7 @@
 			"devDependencies": {
 				"@wordpress/babel-preset-default": "^7.32.0",
 				"@wordpress/browserslist-config": "^5.31.0",
-				"@wordpress/env": "^9.4.0",
+				"@wordpress/env": "^10.8.0",
 				"@wordpress/scripts": "^26.19.0",
 				"@wordpress/stylelint-config": "~19.1.0",
 				"autoprefixer": "^9.8.8",
@@ -5030,9 +5030,9 @@
 			}
 		},
 		"node_modules/@wordpress/env": {
-			"version": "9.4.0",
-			"resolved": "https://registry.npmjs.org/@wordpress/env/-/env-9.4.0.tgz",
-			"integrity": "sha512-flF+WLAuf8j97OjFkJU7/l9bzvI7GEUm1MXYdo16kSqxBvOTwVkk2yf5s9nxREJ3gPYahgNYf8cA7uT9Rj2eDQ==",
+			"version": "10.8.0",
+			"resolved": "https://registry.npmjs.org/@wordpress/env/-/env-10.8.0.tgz",
+			"integrity": "sha512-kU66r7y/3AnUd6D4XeWE7h6bVJmzteTKDMMWoIoJsSNI5YP/BmXRa+/dJ4bwk0KFKxfh3tcRBhearGeEa4TGBw==",
 			"dev": true,
 			"dependencies": {
 				"chalk": "^4.0.0",
@@ -5050,6 +5050,10 @@
 			},
 			"bin": {
 				"wp-env": "bin/wp-env"
+			},
+			"engines": {
+				"node": ">=18.12.0",
+				"npm": ">=8.19.2"
 			}
 		},
 		"node_modules/@wordpress/env/node_modules/ansi-styles": {
