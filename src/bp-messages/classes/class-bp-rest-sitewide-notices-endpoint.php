@@ -13,6 +13,6 @@ defined( 'ABSPATH' ) || exit;
 _deprecated_file(
 	basename( __FILE__ ),
 	'15.0.0',
-	'bp-messages/classes/class-bp-messages-sitewide-notices-rest-controller.php',
+	'bp-members/classes/class-bp-members-notices-rest-controller.php',
 	esc_html__( 'The v1 of the BP REST API is deprecated, please use v2.', 'buddypress' )
 );
