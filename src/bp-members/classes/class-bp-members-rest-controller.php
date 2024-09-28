@@ -422,7 +422,6 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	 * Checks if a given request has access to delete the current user.
 	 *
 	 * @since 15.0.0
-	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
@@ -454,7 +453,6 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	/**
 	 * Deletes the current user.
 	 *
-	 * @since 15.0.0
 	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
@@ -614,7 +612,6 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	 *
 	 * This was abstracted to be used in other BuddyPress endpoints.
 	 *
-	 * @since 15.0.0
 	 * @since 15.0.0
 	 *
 	 * @param WP_User         $user    User object.
