@@ -147,14 +147,9 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 
 			$notices = bp_members_get_notices( $args );
 
-			// Clean args.
-			$count_args = array_diff(
-				$args,
-				array(
-					'pag_page' => 0,
-					'pag_num'  => 0,
-				)
-			);
+			// Clean args for count query.
+			$count_args = $args;
+			unset( $count_args['pag_page'], $count_args['pag_num'] );
 
 			$count = bp_members_get_notices_count( $count_args );
 		} else {
@@ -233,7 +228,18 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function get_item( $request ) {
-		$notice   = bp_members_get_notice( $request->get_param( 'id' ) );
+		$notice = bp_members_get_notice( $request->get_param( 'id' ) );
+
+		if ( is_null( $notice ) ) {
+			return new WP_Error(
+				'bp_rest_invalid_id',
+				__( 'Sorry, this notice does not exist.', 'buddypress' ),
+				array(
+					'status' => 404,
+				)
+			);
+		}
+
 		$retval   = $this->prepare_item_for_response( $notice, $request );
 		$response = rest_ensure_response( $retval );
 
@@ -271,7 +277,7 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 
 		if ( is_user_logged_in() ) {
 			$notice = bp_members_get_notice( $request->get_param( 'id' ) );
-			if ( empty( $notice->id ) ) {
+			if ( is_null( $notice ) ) {
 				$retval = new WP_Error(
 					'bp_rest_invalid_id',
 					__( 'Sorry, this notice does not exist.', 'buddypress' ),
@@ -334,8 +340,8 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 			return $notice_id;
 		}
 
-		// The notice we just created will be active.
-		$notice        = bp_members_get_notice( $id );
+		// Create the notice.
+		$notice        = bp_members_get_notice( $notice_id );
 		$fields_update = $this->update_additional_fields_for_object( $notice, $request );
 
 		if ( is_wp_error( $fields_update ) ) {
@@ -393,7 +399,7 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 		$notice = bp_members_get_notice( $request->get_param( 'id' ) );
 
 		// Check the notice exists.
-		if ( ! $notice->id ) {
+		if ( is_null( $notice ) ) {
 			return new WP_Error(
 				'bp_rest_invalid_id',
 				__( 'Sorry, this notice does not exist.', 'buddypress' ),
@@ -462,7 +468,7 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Dismisses the currently active notice for the current user.
+	 * Dismisses the requested notice or the first active notice for the current user.
 	 *
 	 * @since 15.0.0
 	 *
@@ -491,11 +497,21 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 			);
 		}
 
-		// Get Previous active notice.
+		// Get Previous notice.
 		$previous = $this->prepare_item_for_response( $notice, $request );
 
-		// Dismiss the active notice for the current user.
+		// Dismiss the notice for the current user.
 		$dismissed = bp_members_dismiss_notice( bp_loggedin_user_id(), $notice->id );
+
+		if ( is_wp_error( $dismissed ) ) {
+			$dismissed->add_data(
+				array(
+					'status' => 404,
+				)
+			);
+
+			return $dismissed;
+		}
 
 		// Build the response.
 		$response = new WP_REST_Response();
@@ -1025,22 +1041,36 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 		}
 
 		// Notice title.
-		$title = $request->get_param( 'title' );
-		if ( ! empty( $schema['properties']['title'] ) && $title ) {
-			if ( is_string( $title ) ) {
-				$prepared_item->title = $title;
-			} elseif ( isset( $title['raw'] ) ) {
-				$prepared_item->title = $title['raw'];
+		if ( ! empty( $schema['properties']['title'] ) ) {
+			$title = $request->get_param( 'title' );
+
+			if ( ! is_null( $title ) ) {
+				if ( is_string( $title ) ) {
+					$prepared_item->subject = $title;
+					$prepared_item->title   = $title;
+				} elseif ( isset( $title['raw'] ) ) {
+					$prepared_item->subject = $title['raw'];
+					$prepared_item->title   = $title['raw'];
+				}
+			} elseif( ! empty( $prepared_item->subject ) ) {
+				$prepared_item->title = $prepared_item->subject;
 			}
 		}
 
 		// Notice content.
-		$content = $request->get_param( 'content' );
-		if ( ! empty( $schema['properties']['content'] ) && $content ) {
-			if ( is_string( $content ) ) {
-				$prepared_item->content = $content;
-			} elseif ( isset( $content['raw'] ) ) {
-				$prepared_item->content = $content['raw'];
+		if ( ! empty( $schema['properties']['content'] ) ) {
+			$content = $request->get_param( 'content' );
+
+			if ( ! is_null( $content ) ) {
+				if ( is_string( $content ) ) {
+					$prepared_item->message = $content;
+					$prepared_item->content = $content;
+				} elseif ( isset( $content['raw'] ) ) {
+					$prepared_item->message = $content['raw'];
+					$prepared_item->content = $content['raw'];
+				}
+			} elseif( ! empty( $prepared_item->message ) ) {
+				$prepared_item->content = $prepared_item->message;
 			}
 		}
 
@@ -1051,9 +1081,15 @@ class BP_Members_Notices_REST_Controller extends WP_REST_Controller {
 		}
 
 		// Date is set at creation, so nothing to do.
-		$date = $request->get_param( 'date' );
-		if ( ! empty( $schema['properties']['date'] ) && ! is_null( $date ) ) {
-			$prepared_item->date = $date;
+		if ( ! empty( $schema['properties']['date'] ) ) {
+			$date = $request->get_param( 'date' );
+
+			if ( ! is_null( $date ) ) {
+				$prepared_item->date_sent = $date;
+				$prepared_item->date      = $date;
+			} elseif( ! empty( $prepared_item->date_sent ) ) {
+				$prepared_item->date = $prepared_item->date_sent;
+			}
 		}
 
 		// Priority.

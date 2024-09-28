@@ -100,6 +100,8 @@ class BP_Members_Notice {
 			$this->target    = $notice->target;
 			$this->date_sent = $notice->date_sent;
 			$this->priority  = (int) $notice->priority;
+		} else {
+			$this->id = null;
 		}
 	}
 
