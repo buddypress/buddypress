@@ -401,7 +401,12 @@ function bp_members_dismiss_notice( $user_id = 0, $notice_id = 0, $return_bool =
 
 	$dismissed_notices = (array) bp_members_get_dismissed_notices_for_user( $user_id );
 	if ( in_array( $notice->id, $dismissed_notices, true ) ) {
-		return true;
+		$dismissed = new WP_Error(
+			'notice_dismiss_already_dismissed',
+			__( 'This notice has already been dismissed.', 'buddypress' )
+		);
+
+		return $return_bool ? false : $dismissed;
 	}
 
 	$dismissed = (bool) bp_notices_add_meta( $notice->id, 'dismissed_by', $user_id );
