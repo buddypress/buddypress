@@ -2645,7 +2645,7 @@ function bp_core_load_buddypress_textdomain() {
 	 */
 	load_plugin_textdomain( $domain );
 }
-add_action( 'bp_core_loaded', 'bp_core_load_buddypress_textdomain' );
+add_action( 'bp_after_setup_theme', 'bp_core_load_buddypress_textdomain' );
 
 /**
  * A JavaScript-free implementation of the search functions in BuddyPress.
