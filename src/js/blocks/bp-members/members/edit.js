@@ -112,7 +112,7 @@ const editMembersBlock = ( { attributes, setAttributes, isSelected } ) => {
 
 	if ( hasMembers && itemIDs.length !== members.length ) {
 		apiFetch( {
-			path: addQueryArgs( `/buddypress/v1/members`, { populate_extras: true, include: itemIDs } ),
+			path: addQueryArgs( `/buddypress/v2/members`, { populate_extras: true, include: itemIDs } ),
 		} ).then( items => {
 			setMembers(
 				sortBy( items, [ ( item ) => {
