@@ -1008,7 +1008,7 @@ function bp_group_avatar( $args = '', $group = false ) {
 		 * Filters the group avatar.
 		 *
 		 * @since 1.0.0
-		 * @since 10.0.0 Added the `$group` paremeter.
+		 * @since 10.0.0 Added the `$group` parameter.
 		 *
 		 * @param string          $avatar HTML image element holding the group avatar.
 		 * @param array           $r      Array of parsed arguments for the group avatar.
@@ -2286,7 +2286,7 @@ function bp_group_member_count( $group = false ) {
 		 * Filters the "x members" count string for a group.
 		 *
 		 * @since 1.2.0
-		 * @since 10.0.0 Added the `$group` paremeter.
+		 * @since 10.0.0 Added the `$group` parameter.
 		 *
 		 * @param string          $count_string The "x members" count string for a group.
 		 * @param BP_Groups_Group $group        The group object.
@@ -2445,7 +2445,7 @@ function bp_group_get_invite_status( $group = false ) {
 	 * Invite status in this case means who from the group can send invites.
 	 *
 	 * @since 1.5.0
-	 * @since 10.0.0 Added the `$group` paremeter.
+	 * @since 10.0.0 Added the `$group` parameter.
 	 *
 	 * @param string          $invite_status Membership level needed to send an invite.
 	 * @param int             $group_id      ID of the group whose status is being checked.
@@ -2639,7 +2639,7 @@ function bp_group_member_promote_admin_link( $args = '' ) {
  * Output a URL for demoting a user to member.
  *
  * @since 1.0.0
- * @since 10.0.0 Added the `$group` paremeter.
+ * @since 10.0.0 Added the `$group` parameter.
  *
  * @param int                              $user_id ID of the member to demote. Default: 0.
  * @param false|int|string|BP_Groups_Group $group   (Optional) The Group ID, the Group Slug or the Group object.
@@ -2694,7 +2694,7 @@ function bp_group_member_demote_link( $user_id = 0, $group = false ) {
  * Output a URL for banning a member from a group.
  *
  * @since 1.0.0
- * @since 10.0.0 Added the `$group` paremeter.
+ * @since 10.0.0 Added the `$group` parameter.
  *
  * @param int                              $user_id ID of the member. Default: 0.
  * @param false|int|string|BP_Groups_Group $group   (Optional) The Group ID, the Group Slug or the Group object.
@@ -2748,7 +2748,7 @@ function bp_group_member_ban_link( $user_id = 0, $group = false ) {
  * Output a URL for unbanning a member from a group.
  *
  * @since 1.0.0
- * @since 10.0.0 Added the `$group` paremeter.
+ * @since 10.0.0 Added the `$group` parameter.
  *
  * @param int                              $user_id ID of the member to unban. Default: 0.
  * @param false|int|string|BP_Groups_Group $group   (Optional) The Group ID, the Group Slug or the Group object.
@@ -2802,7 +2802,7 @@ function bp_group_member_unban_link( $user_id = 0, $group = false ) {
  * Output a URL for removing a member from a group.
  *
  * @since 1.2.6
- * @since 10.0.0 Added the `$group` paremeter.
+ * @since 10.0.0 Added the `$group` parameter.
  *
  * @param int                              $user_id ID of the member to remove. Default: 0.
  * @param false|int|string|BP_Groups_Group $group   (Optional) The Group ID, the Group Slug or the Group object.
@@ -2947,7 +2947,7 @@ function bp_group_total_for_member() {
  * Output the 'action' attribute for a group form.
  *
  * @since 1.0.0
- * @since 10.0.0 Added the `$group` paremeter.
+ * @since 10.0.0 Added the `$group` parameter.
  *
  * @param string                           $page  Page slug.
  * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
@@ -3000,7 +3000,7 @@ function bp_group_form_action( $page, $group = false ) {
  * Output the 'action' attribute for a group admin form.
  *
  * @since 1.0.0
- * @since 10.0.0 Added the `$group` paremeter.
+ * @since 10.0.0 Added the `$group` parameter.
  *
  * @param false|string|bool                $page  (Optional). Page slug. Default: false.
  * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
