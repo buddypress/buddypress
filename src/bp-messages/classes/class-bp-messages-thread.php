@@ -51,6 +51,14 @@ class BP_Messages_Thread {
 	public $recipients;
 
 	/**
+	 * The user ID of the sender of the message thread.
+	 *
+	 * @since 1.2.0
+	 * @var int
+	 */
+	public $sender_id;
+
+	/**
 	 * The user IDs of all messages in the message thread.
 	 *
 	 * @since 1.2.0
@@ -118,7 +126,7 @@ class BP_Messages_Thread {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @since 10.0.0 Updated the `$args` with new paremeters.
+	 * @since 10.0.0 Updated the `$args` with new parameters.
 	 *
 	 * @param int    $thread_id          The message thread ID.
 	 * @param string $order              The order to sort the messages. Either 'ASC' or 'DESC'.
@@ -148,7 +156,7 @@ class BP_Messages_Thread {
 	 * Used in the constructor.
 	 *
 	 * @since 1.0.0
-	 * @since 10.0.0 Updated the `$args` with new paremeters.
+	 * @since 10.0.0 Updated the `$args` with new parameters.
 	 *
 	 * @param int    $thread_id                   The message thread ID.
 	 * @param string $order                       The order to sort the messages. Either 'ASC' or 'DESC'.
@@ -517,7 +525,7 @@ class BP_Messages_Thread {
 		global $wpdb;
 
 		$thread_id = (int) $thread_id;
-		$user_id = (int) $user_id;
+		$user_id   = (int) $user_id;
 
 		if ( empty( $user_id ) ) {
 			$user_id = bp_loggedin_user_id();
@@ -732,25 +740,25 @@ class BP_Messages_Thread {
 			)
 		);
 
-		$pag_sql = $type_sql = $search_sql = $user_id_sql = $sender_sql = '';
+		$pag_sql        = $type_sql = $search_sql = $user_id_sql = $sender_sql = '';
 		$meta_query_sql = array(
 			'join'  => '',
 			'where' => '',
 		);
 
 		if ( $r['limit'] && $r['page'] ) {
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $r['page'] - 1 ) * $r['limit'] ), intval( $r['limit'] ) );
+			$pag_sql = $wpdb->prepare( ' LIMIT %d, %d', intval( ( $r['page'] - 1 ) * $r['limit'] ), intval( $r['limit'] ) );
 		}
 
 		if ( $r['type'] == 'unread' ) {
-			$type_sql = " AND r.unread_count != 0 ";
+			$type_sql = ' AND r.unread_count != 0 ';
 		} elseif ( $r['type'] == 'read' ) {
-			$type_sql = " AND r.unread_count = 0 ";
+			$type_sql = ' AND r.unread_count = 0 ';
 		}
 
 		if ( ! empty( $r['search_terms'] ) ) {
 			$search_terms_like = '%' . bp_esc_like( $r['search_terms'] ) . '%';
-			$search_sql        = $wpdb->prepare( "AND ( subject LIKE %s OR message LIKE %s )", $search_terms_like, $search_terms_like );
+			$search_sql        = $wpdb->prepare( 'AND ( subject LIKE %s OR message LIKE %s )', $search_terms_like, $search_terms_like );
 		}
 
 		$r['user_id'] = (int) $r['user_id'];
@@ -787,7 +795,7 @@ class BP_Messages_Thread {
 		$bp = buddypress();
 
 		// Set up SQL array.
-		$sql = array();
+		$sql           = array();
 		$sql['select'] = 'SELECT m.thread_id, MAX(m.date_sent) AS date_sent';
 		$sql['from']   = "FROM {$bp->messages->table_name_recipients} r INNER JOIN {$bp->messages->table_name_messages} m ON m.thread_id = r.thread_id {$meta_query_sql['join']}";
 		$sql['where']  = "WHERE {$deleted_sql} {$user_id_sql} {$sender_sql} {$type_sql} {$search_sql} {$meta_query_sql['where']}";

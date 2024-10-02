@@ -570,7 +570,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$this->assertTrue( bp_is_user_spammer( $u ) );
 
-		wp_set_current_user( $u2 );
+		$this->bp::set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u ) );
 		$request->set_param( 'context', 'view' );
@@ -590,7 +590,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$this->assertTrue( bp_is_user_spammer( $u ) );
 
-		wp_set_current_user( $u );
+		$this->bp::set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u ) );
 		$request->set_param( 'context', 'view' );
@@ -610,7 +610,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$this->assertTrue( bp_is_user_spammer( $u ) );
 
-		wp_set_current_user( $this->user );
+		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u ) );
 		$request->set_param( 'context', 'view' );
