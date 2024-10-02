@@ -239,7 +239,7 @@ class BP_Messages_Thread {
 		 * @since 10.0.0 Added `$r` as a parameter.
 		 *
 		 * @param BP_Messages_Thread $thread Current messages thread class.
-		 * @param array              $r      Array of paremeters.
+		 * @param array              $r      Array of parameters.
 		 */
 		do_action( 'bp_messages_thread_post_populate', $this, $r );
 	}
@@ -844,7 +844,7 @@ class BP_Messages_Thread {
 		 *     @type array $threads       Array of threads. Passed by reference.
 		 *     @type int   $total_threads Number of threads found by the query.
 		 * }
-		 *  @param array $r    Array of paremeters.
+		 *  @param array $r    Array of parameters.
 		 */
 		return apply_filters(
 			'bp_messages_thread_current_threads',
