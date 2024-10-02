@@ -36,7 +36,6 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 				'user_ids' => array( $u1, $u2, $u3 ),
 			)
 		);
-		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -64,7 +63,6 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 				'user_ids' => array( $u1, $u2, $u3 ),
 			)
 		);
-		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -114,9 +112,9 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertEquals( 200, $response->get_status() );
 
 		$members = $response->get_data();
-		$this->assertNotEmpty( $members );
 
-		$this->assertTrue( 3 === count( $members ) );
+		$this->assertNotEmpty( $members );
+		$this->assertCount( 3, $members );
 
 		$latest_activities = wp_list_pluck( $members, 'last_activity', 'id' );
 		$this->assertEquals( bp_rest_prepare_date_response( $date_last_activity ), $latest_activities[ $u1 ]['date'] );
@@ -137,6 +135,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$u4 = static::factory()->user->create();
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$request->set_query_params(
 			array(
 				'user_ids' => array( $u1, $u2, $u3, $u4 ),
@@ -145,7 +144,6 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 			)
 		);
 
-		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -182,12 +180,12 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		}
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
 		$request->set_query_params(
 			array(
 				'user_ids' => array( $u1, $u2, $u3 ),
 			)
 		);
-		$request->set_param( 'context', 'view' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -540,6 +538,90 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_member_invalid_id', $response, 404 );
+	}
+
+	/**
+	 * @group get_item
+	 */
+	public function test_get_spammed_user() {
+		$u = static::factory()->user->create();
+
+		// Spam the user.
+		bp_core_process_spammer_status( $u, 'spam' );
+
+		$this->assertTrue( bp_is_user_spammer( $u ) );
+
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u ) );
+		$request->set_param( 'context', 'view' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
+	}
+
+	/**
+	 * @group get_item
+	 */
+	public function test_get_spammed_user_with_random_logged_in_user() {
+		$u  = static::factory()->user->create();
+		$u2 = static::factory()->user->create();
+
+		// Spam the user.
+		bp_core_process_spammer_status( $u, 'spam' );
+
+		$this->assertTrue( bp_is_user_spammer( $u ) );
+
+		wp_set_current_user( $u2 );
+
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u ) );
+		$request->set_param( 'context', 'view' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
+	}
+
+	/**
+	 * @group get_item
+	 */
+	public function test_get_spammed_user_with_spammed_user() {
+		$u = static::factory()->user->create();
+
+		// Spam the user.
+		bp_core_process_spammer_status( $u, 'spam' );
+
+		$this->assertTrue( bp_is_user_spammer( $u ) );
+
+		wp_set_current_user( $u );
+
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u ) );
+		$request->set_param( 'context', 'view' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
+	}
+
+	/**
+	 * @group get_item
+	 */
+	public function test_get_spammed_user_as_admin() {
+		$u = static::factory()->user->create();
+
+		// Spam the user.
+		bp_core_process_spammer_status( $u, 'spam' );
+
+		$this->assertTrue( bp_is_user_spammer( $u ) );
+
+		wp_set_current_user( $this->user );
+
+		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u ) );
+		$request->set_param( 'context', 'view' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$member = $response->get_data();
+
+		$this->assertNotEmpty( $member );
+		$this->assertSame( $u, $member['id'] );
 	}
 
 	/**
