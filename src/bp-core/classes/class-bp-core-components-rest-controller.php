@@ -310,7 +310,6 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 	 * Verify Component Status.
 	 *
 	 * @since 15.0.0
-	 * @since 15.0.0
 	 *
 	 * @param string $name        Component name.
 	 * @param string $return_type Use `string` to get the l10n string. Default.
@@ -396,7 +395,6 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 	/**
 	 * Get component info helper.
 	 *
-	 * @since 15.0.0
 	 * @since 15.0.0
 	 *
 	 * @param string $component Component id.

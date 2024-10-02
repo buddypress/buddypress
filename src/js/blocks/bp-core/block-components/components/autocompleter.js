@@ -33,7 +33,7 @@ class AutoCompleter extends Component {
 			this.setState( { items: [] } );
 		}
 
-		let path= '/buddypress/v1/' + component;
+		let path= '/buddypress/v2/' + component;
 		let queryArgs = {};
 
 		if ( value ) {

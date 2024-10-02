@@ -339,17 +339,20 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function create_item( $request ) {
+		$create_args = $this->prepare_item_for_database( $request );
+
+		// Let's return the original error if possible.
+		$create_args->error_type = 'wp_error';
+
 		// Create the message or the reply.
-		$thread_id = messages_new_message( $this->prepare_item_for_database( $request ) );
+		$thread_id = messages_new_message( $create_args );
 
 		// Validate it created a Thread or was added to it.
-		if ( false === $thread_id ) {
+		if ( $thread_id instanceof WP_Error ) {
 			return new WP_Error(
 				'bp_rest_messages_create_failed',
-				__( 'There was an error trying to create the message.', 'buddypress' ),
-				array(
-					'status' => 500,
-				)
+				$thread_id->get_error_message(),
+				array( 'status' => 500 )
 			);
 		}
 
@@ -779,10 +782,10 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			$prepared_thread->sender_id = bp_loggedin_user_id();
 		}
 
-		if ( ! empty( $schema['properties']['message'] ) && ! empty( $request->get_param( 'message' ) ) ) {
-			$prepared_thread->content = $request->get_param( 'message' );
-		} elseif ( ! empty( $thread->message ) ) {
+		if ( ! empty( $thread->message ) ) {
 			$prepared_thread->message = $thread->message;
+		} elseif ( ! empty( $schema['properties']['message'] ) ) {
+			$prepared_thread->content = $request->get_param( 'message' );
 		}
 
 		if ( ! empty( $schema['properties']['subject'] ) && ! empty( $request->get_param( 'subject' ) ) ) {

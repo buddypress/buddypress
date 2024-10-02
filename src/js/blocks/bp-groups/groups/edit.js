@@ -111,7 +111,7 @@ const editGroupsBlock = ( { attributes, setAttributes, isSelected } ) => {
 
 	if ( hasGroups && itemIDs.length !== groups.length ) {
 		apiFetch( {
-			path: addQueryArgs( `/buddypress/v1/groups`, { populate_extras: true, include: itemIDs } ),
+			path: addQueryArgs( `/buddypress/v2/groups`, { populate_extras: true, include: itemIDs } ),
 		} ).then( items => {
 			setGroups(
 				sortBy( items, [ ( item ) => {

@@ -11,7 +11,7 @@ import {
  */
 export function* getActiveComponents() {
 	const list = yield fetchFromAPI(
-		'/buddypress/v1/components?status=active',
+		'/buddypress/v2/components?status=active',
 		true
 	);
 	yield getActiveComponentsList( list );

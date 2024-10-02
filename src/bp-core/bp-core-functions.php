@@ -5288,3 +5288,14 @@ function bp_is_admin( $screen_id = '' ) {
 
 	return $screen_id === $bp->admin->current_screen;
 }
+
+/**
+ * Common function to check if bp_classic is active or not.
+ *
+ * @since 15.0.0
+ *
+ * @return bool True if bp_classic is active, false otherwise.
+ */
+function bp_is_classic() {
+	return function_exists( 'bp_classic' ) || ( function_exists( 'is_plugin_active' ) && is_plugin_active( 'bp-classic/bp-classic.php' ) );
+}

@@ -169,7 +169,7 @@ function bp_blocks_preload_paths( $paths = array() ) {
 	return array_merge(
 		$paths,
 		array(
-			'/buddypress/v1/components?status=active',
+			'/buddypress/v2/components?status=active',
 		)
 	);
 }

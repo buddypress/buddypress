@@ -122,7 +122,7 @@ function bp_core_setup_query_parser() {
 	}
 
 	// Fire a deprecation notice for following deprecated hooks, if needed.
-	if ( ! function_exists( 'bp_classic' ) ) {
+	if ( ! bp_is_classic() ) {
 		apply_filters_deprecated( 'bp_uri', array( '' ), '12.0.0' );
 		do_action_deprecated( 'is_not_buddypress', array(), '12.0.0' );
 	}

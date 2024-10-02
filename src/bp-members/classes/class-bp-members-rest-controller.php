@@ -243,10 +243,9 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 			$member_query = new BP_User_Query( $args );
 			$member       = reset( $member_query->results );
 
-			$member   = $this->prepare_item_for_response( $member, $request );
-			$response = rest_ensure_response( $member );
+			$member = $this->prepare_item_for_response( $member, $request );
 
-			return $response;
+			return rest_ensure_response( $member );
 		}
 
 		return parent::get_item( $request );
@@ -257,7 +256,7 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error
 	 */
 	public function get_item_permissions_check( $request ) {
@@ -280,19 +279,15 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 						'status' => 404,
 					)
 				);
-			} elseif ( 'edit' === $request->get_param( 'context' ) ) {
-				if ( get_current_user_id() === $user->ID || bp_current_user_can( 'list_users' ) ) {
-					$retval = true;
-				} else {
-					$retval = new WP_Error(
-						'bp_rest_authorization_required',
-						__( 'Sorry, you are not allowed to view members with the edit context.', 'buddypress' ),
-						array(
-							'status' => rest_authorization_required_code(),
-						)
-					);
-				}
-			} else {
+			} elseif ( get_current_user_id() === $user->ID && ! bp_is_user_spammer( $user->ID ) ) {
+				$retval = true;
+			} elseif ( 'edit' === $request->get_param( 'context' ) && ! bp_current_user_can( 'list_users' ) ) {
+				$retval = new WP_Error(
+					'bp_rest_authorization_required',
+					__( 'Sorry, you are not allowed to view members with the edit context.', 'buddypress' ),
+					array( 'status' => rest_authorization_required_code() )
+				);
+			} elseif ( bp_current_user_can( 'bp_moderate' ) || ! bp_is_user_spammer( $user->ID ) ) {
 				$retval = true;
 			}
 		}
@@ -422,7 +417,6 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	 * Checks if a given request has access to delete the current user.
 	 *
 	 * @since 15.0.0
-	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
@@ -454,7 +448,6 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	/**
 	 * Deletes the current user.
 	 *
-	 * @since 15.0.0
 	 * @since 15.0.0
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
@@ -614,7 +607,6 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 	 *
 	 * This was abstracted to be used in other BuddyPress endpoints.
 	 *
-	 * @since 15.0.0
 	 * @since 15.0.0
 	 *
 	 * @param WP_User         $user    User object.
