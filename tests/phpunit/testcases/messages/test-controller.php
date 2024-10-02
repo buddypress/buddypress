@@ -336,6 +336,64 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	/**
+	 * @ticket BP9160
+	 * @group get_item
+	 */
+	public function test_get_thread_deleted_messages() {
+		$u1           = static::factory()->user->create();
+		$deleted_user = static::factory()->user->create();
+		$m            = $this->bp::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $deleted_user,
+				'recipients' => array( $u1 ),
+				'subject'    => 'Foo',
+				'content'    => 'Content',
+			)
+		);
+
+		$this->bp::factory()->message->create(
+			array(
+				'thread_id'  => $m->thread_id,
+				'sender_id'  => $u1,
+				'recipients' => array( $deleted_user ),
+				'content'    => 'Bar',
+			)
+		);
+
+		// Delete user.
+		if ( is_multisite() ) {
+			wpmu_delete_user( $deleted_user );
+		} else {
+			wp_delete_user( $deleted_user );
+		}
+
+		$this->bp::set_current_user( $u1 );
+
+		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
+		$request->set_param( 'context', 'view' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$all_data          = $response->get_data();
+		$deleted_recipient = array_values(
+			wp_filter_object_list(
+				$all_data['recipients'],
+				array( 'user_id' => $deleted_user ),
+				'AND',
+				'is_deleted'
+			)
+		);
+
+		$this->assertSame( $deleted_user, $all_data['last_sender_id'] );
+		$this->assertContains( $deleted_user, $all_data['sender_ids'] );
+		$this->assertStringContainsString( '<p>[deleted]</p>', $all_data['message']['rendered'] );
+		$this->assertStringContainsString( '[deleted]', $all_data['excerpt']['rendered'] );
+		$this->assertTrue( $deleted_recipient[0] );
+		$this->assertCount( 2, $all_data['recipients'] );
+	}
+
+	/**
 	 * @group get_item
 	 */
 	public function test_get_item_user_is_not_logged_in() {
@@ -1382,51 +1440,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	/**
-	 * @group prepare_links
-	 */
-	public function test_prepare_add_links_to_response() {
-		$this->markTestSkipped();
-
-		$u1 = static::factory()->user->create();
-		$u2 = static::factory()->user->create();
-		$m1 = $this->bp::factory()->message->create_and_get(
-			array(
-				'sender_id'  => $u1,
-				'recipients' => array( $u2 ),
-				'subject'    => 'Bar',
-				'content'    => 'Content',
-			)
-		);
-
-		$r1 = $this->bp::factory()->message->create_and_get(
-			array(
-				'thread_id' => $m1->thread_id,
-				'sender_id' => $u2,
-				'content'   => 'Reply',
-			)
-		);
-
-		$this->bp::set_current_user( $u2 );
-
-		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m1->thread_id );
-		$request->set_param( 'context', 'view' );
-		$response = $this->server->dispatch( $request );
-
-		$this->assertEquals( 200, $response->get_status() );
-
-		$get_links = $response->get_data();
-
-		$this->assertNotEmpty( $get_links );
-
-		$links = $get_links['_links'];
-
-		$this->assertEquals( rest_url( $this->endpoint_url . '/' ), $links['collection'][0]['href'] );
-		$this->assertEquals( rest_url( $this->endpoint_url . '/' . $m1->thread_id ), $links['self'][0]['href'] );
-		$this->assertEquals( rest_url( $this->endpoint_url . '/' . bp_get_messages_starred_slug() . '/' . $m1->id ), $links[ $m1->id ][0]['href'] );
-		$this->assertEquals( rest_url( $this->endpoint_url . '/' . bp_get_messages_starred_slug() . '/' . $r1->id ), $links[ $r1->id ][0]['href'] );
-	}
-
-	/**
 	 * @group get_item
 	 */
 	public function test_prepare_item() {
@@ -1445,7 +1458,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 		$this->assertEquals( bp_rest_prepare_date_response( $thread->last_message_date ), $data['date_gmt'] );
 		$this->assertEquals( $thread->unread_count, $data['unread_count'] );
-		$this->assertEquals( $thread->sender_ids, $data['sender_ids'] );
+		$this->assertEquals( array_values( $thread->sender_ids ), $data['sender_ids'] );
 	}
 
 	public function test_get_item_schema() {
