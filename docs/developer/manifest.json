@@ -14,19 +14,37 @@
 	{
 		"title": "BuddyPress Components",
 		"slug": "bp-components",
-		"markdown_source": "../developer/component/README.md",
+		"markdown_source": "../developer/components/README.md",
 		"parent": null
 	},
 	{
 		"title": "Building a custom BuddyPress component",
 		"slug": "build-bp-component",
-		"markdown_source": "../developer/component/build-component.md",
+		"markdown_source": "../developer/components/build-component.md",
+		"parent": null
+	},
+	{
+		"title": "Extending BuddyPress Activity",
+		"slug": "extend-bp-activity",
+		"markdown_source": "../developer/components/activity/README.md",
+		"parent": null
+	},
+	{
+		"title": "Extending BuddyPress Activity Embeds",
+		"slug": "extend-bp-activity-embeds",
+		"markdown_source": "../developer/components/activity/embeds.md",
+		"parent": null
+	},
+	{
+		"title": "Extending BuddyPress Groups",
+		"slug": "extend-bp-groups",
+		"markdown_source": "../developer/components/groups/README.md",
 		"parent": null
 	},
 	{
 		"title": "Group Extension API",
 		"slug": "bp-group-extension",
-		"markdown_source": "../developer/group-extension/README.md",
+		"markdown_source": "../developer/components/groups/extension.md",
 		"parent": null
 	},
 	{

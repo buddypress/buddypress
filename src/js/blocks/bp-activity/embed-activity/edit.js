@@ -92,7 +92,7 @@ const EditEmbedActivity = ( {
 					</form>
 					<div className="components-placeholder__learn-more">
 						<ExternalLink
-							href={ __( 'https://codex.buddypress.org/activity-embeds/', 'buddypress' ) }
+							href={ __( 'https://github.com/buddypress/buddypress/tree/master/docs/user/components/activity/embeds.md', 'buddypress' ) }
 						>
 							{ __( 'Learn more about activity embeds', 'buddypress' ) }
 						</ExternalLink>

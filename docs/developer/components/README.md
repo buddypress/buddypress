@@ -9,7 +9,12 @@ BuddyPress comes with several components that integrate directly with your site,
 
 ## Extending existing components
 
-TBD.
+- [Activity](./activity/README.md)
+- [Groups](./groups/README.md)
+- xProfiles
+- Settings
+- Private messages
+- Notifications
 
 ## Building a custom component
 

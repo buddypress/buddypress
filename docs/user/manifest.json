@@ -175,8 +175,14 @@
 	},
 	{
 		"title": "Customizing templates",
-		"slug": "advanced-templacte-hierarchy",
+		"slug": "advanced-template-hierarchy",
 		"markdown_source": "../user/advanced/template-hierarchy.md",
+		"parent": null
+	},
+	{
+		"title": "Customizing styles",
+		"slug": "advanced-styles",
+		"markdown_source": "../user/advanced/styles.md",
 		"parent": null
 	},
 	{
@@ -195,6 +201,18 @@
 		"title": "Joining BuddyPress Groups",
 		"slug": "joining-groups",
 		"markdown_source": "../user/components/groups/joining-groups.md",
+		"parent": null
+	},
+	{
+		"title": "Activity Streams",
+		"slug": "activity-component",
+		"markdown_source": "../user/components/activity/README.md",
+		"parent": null
+	},
+	{
+		"title": "Activity Embeds",
+		"slug": "embedding-activity",
+		"markdown_source": "../user/components/activity/embeds.md",
 		"parent": null
 	}
 ]
