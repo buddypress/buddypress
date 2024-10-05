@@ -2,13 +2,11 @@
 
 ## Overview
 
-BuddyPress introduced support for embedding single activity items starting from version 2.6.0, utilizing the WordPress oEmbed functionality. This allows activity items to be embedded within WordPress posts or pages by pasting the activity permalink into the editor.
+BuddyPress introduced support for embedding single activity items starting from version 2.6.0, utilizing the WordPress oEmbed functionality. This allows activity items to be embedded within WordPress posts or pages:
+- by pasting the activity permalink into the Classic Editor.
+- by using the BP Activity Embed Block into the Block Editor.
 
-### Embedding Activity Items
-
-Users can embed a BuddyPress activity item by copying the activity permalink and pasting it into a WordPress post or page. The embedded activity will display content, media (if applicable), and comments.
-
----
+The embedded activity will display content, media (if applicable), and comments.
 
 ## Disabling Activity Embeds
 
@@ -24,66 +22,10 @@ add_filter( 'bp_is_activity_embeds_active', '__return_false' );
 
 When an activity item contains media from a registered WordPress oEmbed provider, the media will be displayed in the embedded content. If no oEmbed media is found, BuddyPress will attempt to embed inline video or audio using HTML5.
 
-For a list of supported oEmbed providers, visit [WordPress oEmbed Providers](https://codex.wordpress.org/Embeds).
+For a list of supported oEmbed providers, visit [WordPress oEmbed Providers](https://wordpress.org/documentation/article/embeds/#list-of-sites-you-can-embed-from).
 
 ---
 
-## Overriding Embed Templates
-
-### BuddyPress Legacy Template Pack
-
-To customize how activity embeds are displayed using the Legacy template pack, copy the relevant template files from the BuddyPress plugin directory to your theme.
-
-#### Steps:
-
-1. Copy the embed template files:
-
-   ```bash
-   /wp-content/plugins/buddypress/bp-templates/bp-legacy/buddypress/assets/embeds/
-   ```
-
-   into your theme directory:
-
-   ```bash
-   /wp-content/themes/YOUR-THEME/buddypress/assets/embeds/
-   ```
-
-2. Make your changes to the copied templates. You can override the following templates:
-
-   - `header-activity.php`: Customize the activity header.
-   - `footer.php`: Modify the footer for embeds.
-   - `activity.php`: Customize the main content of embedded activity items.
-
-3. If you want to customize the CSS, copy:
-   ```bash
-   /wp-content/plugins/buddypress/bp-templates/bp-legacy/css/embeds-activity.css
-   ```
-   into your theme directory:
-   ```bash
-   /wp-content/themes/YOUR-THEME/buddypress/css/embeds-activity.css
-   ```
-
-### BuddyPress Nouveau Template Pack
-
-The same process applies to the Nouveau template pack. Copy the embed templates from:
-
-```bash
-/src/bp-templates/bp-nouveau/buddypress/assets/embeds/
-```
-
-To your theme’s BuddyPress folder. This will allow you to override and customize:
-
-- `header-activity.php`
-- `footer.php`
-- `activity.php`
-
-You can also copy and modify the styles in:
-
-```bash
-/src/bp-templates/bp-nouveau/css/embeds-activity.css
-```
-
----
 
 ## REST API Endpoints for Embeds
 
@@ -110,7 +52,7 @@ curl "https://example.com/wp-json/oembed/1.0/embed/activity?url=https://example.
 
 ---
 
-## Extending BuddyPress Embeds
+## Extending BuddyPress Activity Embeds
 
 ### Adding Custom Hooks
 
