@@ -72,6 +72,30 @@
 		"parent": null
 	},
 	{
+		"title": "BuddyPress REST API",
+		"slug": "bp-rest-api",
+		"markdown_source": "../developer/execution-contexts/rest-api/README.md",
+		"parent": null
+	},
+	{
+		"title": "BP REST API Reference",
+		"slug": "bp-rest-api-reference",
+		"markdown_source": "../developer/execution-contexts/rest-api/reference.md",
+		"parent": "bp-rest-api"
+	},
+	{
+		"title": "Components REST API routes",
+		"slug": "bp-rest-api-components",
+		"markdown_source": "../developer/execution-contexts/rest-api/components.md",
+		"parent": "bp-rest-api-reference"
+	},
+	{
+		"title": "Members REST API routes",
+		"slug": "bp-rest-api-members",
+		"markdown_source": "../developer/execution-contexts/rest-api/members.md",
+		"parent": "bp-rest-api-reference"
+	},
+	{
 		"title": "BuddyPress Functions",
 		"slug": "bp-functions",
 		"markdown_source": "../developer/functions/README.md",

@@ -1,4 +1,4 @@
-# Components
+# Components REST API routes
 
 BuddyPress chose a modular approach using components to organize its features. Two components are loaded by default (eg: BuddyPress Core and Community Members) while the majority are optionals. BuddyPress comes with 8 built-in optional components (Account Settings, Activity Streams, Extended Profiles, Friend connections, Notifications, Private messaging, User groups and Site Tracking).
 
@@ -12,7 +12,7 @@ The schema defines all the fields that exist for BuddyPress components.
 | Property | Description |
 | --- | --- |
 | `name` | Key name of the component.  <br />JSON data type: _string_. <br />Context: `view`, `edit`. |
-| `is_active` | Whether the component is active or not.  <br />JSON data type: _boolean_. <br /><br />Default: `false`. Context: `view`, `edit`. |
+| `is_active` | Whether the component is active or not.  <br />JSON data type: _boolean_. <br />Default: `false`. <br />Context: `view`, `edit`. |
 | `status` | Whether the component is active or inactive. <br />JSON data type: _string_. <br />Context: `view`, `edit`.  <br />One of: `active`, `inactive`. |
 | `title` | Title of the component. <br />JSON data type: _string_. <br />Context: `view`, `edit`. |
 | `description` | Description of the component. <br />JSON data type: _string_. <br />Context: `view`, `edit`. |

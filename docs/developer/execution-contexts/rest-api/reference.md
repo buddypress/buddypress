@@ -1,4 +1,4 @@
-# Reference
+# BP REST API Reference
 
 Just like the WordPress REST API, the BP REST API is organized around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer), and is designed to have predictable, resource-oriented URLs and to use HTTP response codes to indicate API errors. The API uses built-in HTTP features, like HTTP authentication and HTTP verbs, which can be understood by off-the-shelf HTTP clients, and supports cross-origin resource sharing to allow you to interact securely with the API from a client-side web application.
 
