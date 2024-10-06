@@ -13,7 +13,7 @@ This API reference provides information on the specific endpoints available thro
 | Resource | Base Route |
 | --- | --- |
 | [Components](./components.md) | `/buddypress/v2/components` |
-| Members | `/buddypress/v2/members` |
+| [Members](./members.md) | `/buddypress/v2/members` |
 | Member Profile Photo | `/buddypress/v2/members/<user_id>/avatar` |
 | Member Profile Cover | `/buddypress/v2/members/<user_id>/cover` |
 | Member Registration | `/buddypress/v2/signup` |
