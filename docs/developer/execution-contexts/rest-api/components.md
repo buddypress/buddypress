@@ -79,7 +79,7 @@ fetch( '/wp-json/buddypress/v2/components?context=edit&status=active', {
 fetch( '/wp-json/buddypress/v2/components', {
 	method: 'PUT',
 	headers: requestHeaders,
-    body: JSON.stringify( { name: 'groups', action: 'activate' } ),
+	body: JSON.stringify( { name: 'groups', action: 'activate' } ),
 } ).then( ( response ) => {
 	return response.json();
 } ).then( ( data ) => {
