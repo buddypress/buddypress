@@ -48,10 +48,11 @@ add_action( 'bp_enqueue_community_scripts', 'example_enqueue_script' );
 
 For developers making their own requests, the nonce will need to be passed with each request. The recommended way to send the nonce value is in the request headers. Below is an example using the JavaScript Fetch API.
 
-```js
+```javascript
 // Set headers.
 const requestHeaders = new Headers( {
 	'X-WP-Nonce': bpRestApi.nonce,
+	'Content-Type': 'application/json',
 } );
 
 // Send & handle the request.
@@ -61,7 +62,7 @@ fetch( '/wp-json/buddypress/v2/components', {
 } ).then( ( response ) => {
 	return response.json();
 } ).then( ( data ) => {
-	 console.log( data )
+	 console.log( data );
 } );
 ```
 
