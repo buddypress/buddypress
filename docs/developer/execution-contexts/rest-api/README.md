@@ -1,7 +1,7 @@
 # BuddyPress REST API (v2)
 
 > [!IMPORTANT]
-> This is the documentation for the BP REST API **v2**. This version was introduced in BuddyPress 15.0.0. The BP REST API v1 is deprecated as of BuddyPress 15.0.0. If you still need to use v1, you can download and activate the archived [BP REST plugin](https://github.com/buddypress/BP-REST) and refer to this [documentation](https://developer.buddypress.org/bp-rest-api/). We strongly advise you to update your code to support **v2** as soon as you can.
+> This is the documentation for the BP REST API **v2**. This version was introduced in BuddyPress 15.0.0. The BP REST API v1 is deprecated as of BuddyPress 15.0.0. If you still need to use v1, you can download and activate the archived [BuddyPress RESTful API plugin](https://github.com/buddypress/BP-REST) and refer to this [documentation](https://developer.buddypress.org/bp-rest-api/). We strongly advise you to update your code to support **v2** as soon as you can.
 
 Just like the WordPress REST API does it for content data types the BP REST API provides API endpoints for BuddyPress community actions data types that allow developers to interact with sites remotely by sending and receiving [JSON](https://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) objects. JSON is an open standard data format that is lightweight and human-readable, and looks like Objects do in JavaScript; hence the name.
 

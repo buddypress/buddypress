@@ -200,7 +200,7 @@ fetch( '/wp-json/buddypress/v2/members/2', {
 | Name | Description |
 | --- | --- |
 | `id` | Unique identifier for the user. **Required**. <br />JSON data type: _integer_. |
-| `force` | Required to be true, as members do not support trashing. <br />JSON data type: _boolean_. <br />Default: `false`. |
+| `force` | Required to be true, as members do not support trashing. **Required**. <br />JSON data type: _boolean_. <br />Default: `false`. |
 | `reassign` | Reassign the deleted member’s posts and links to this user ID. **Required**. <br />JSON data type: _integer_. |
 
 ### Definition
@@ -312,7 +312,7 @@ fetch( '/wp-json/buddypress/v2/members/me', {
 
 | Name | Description |
 | --- | --- |
-| `force` | Required to be true, as members do not support trashing. <br />JSON data type: _boolean_. <br />Default: `false`. |
+| `force` | Required to be true, as members do not support trashing. **Required**. <br />JSON data type: _boolean_. <br />Default: `false`. |
 | `reassign` | Reassign the deleted member’s posts and links to this user ID. **Required**. <br />JSON data type: _integer_. |
 
 ### Definition
