@@ -142,6 +142,9 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
  * @param int           $inviter_id ID of the user who invited this user to the site.
  */
 function bp_members_invitations_accepted_invitation_notification( $invite, $new_user, $inviter_id ) {
+	if ( ! bp_is_active( 'notifications' ) ) {
+		return;
+	}
 
 	// Notify all inviters.
 	$args = array(
@@ -182,7 +185,7 @@ add_action( 'members_invitations_invite_accepted', 'bp_members_invitations_accep
  * @since 8.0.0
  */
 function bp_members_mark_read_accepted_invitation_notification() {
-	if ( false === is_singular() || false === is_user_logged_in() || ! bp_is_user() || empty( $_GET['welcome'] ) ) {
+	if ( false === is_singular() || false === is_user_logged_in() || ! bp_is_user() || empty( $_GET['welcome'] ) || ! bp_is_active( 'notifications' ) ) {
 		return;
 	}
 
@@ -208,7 +211,7 @@ add_action( 'bp_screens', 'bp_members_mark_read_accepted_invitation_notification
 function bp_members_mark_read_submitted_membership_request_notification() {
 
 	$signup_screens = array( 'users_page_bp-signups', 'users_page_bp-signups-network' );
-	if ( ! wp_doing_ajax() && in_array( get_current_screen()->base, $signup_screens, true ) && ! empty( $_GET['mod_req'] ) && ! empty( $_GET['signup_id'] ) ) {
+	if ( ! wp_doing_ajax() && in_array( get_current_screen()->base, $signup_screens, true ) && ! empty( $_GET['mod_req'] ) && ! empty( $_GET['signup_id'] ) && bp_is_active( 'notifications' ) ) {
 		// Mark all notifications about this request as read.
 		BP_Notifications_Notification::update(
 			array(
