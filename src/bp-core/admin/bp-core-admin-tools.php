@@ -774,7 +774,9 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 		return $debug_info;
 	}
 
-	$active_components = wp_list_pluck( bp_core_get_active_components( array(), 'objects' ), 'name', 'id' );
+	$all_components    = bp_core_get_components();
+	$active_components = array_merge( buddypress()->active_components, array( 'core' => '1' ) );
+	$active_components = wp_list_pluck( array_intersect_key( $all_components, $active_components ), 'title' );
 	$bp_settings       = array();
 	$skipped_settings  = array( '_bp_theme_package_id', '_bp_community_visibility' );
 	$bp_url_parsers    = array(
