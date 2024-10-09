@@ -12,3 +12,4 @@ If you’re new to Add-on development, start by reading the [introduction](./int
 2. [BuddyPress Components](./components/README.md)
 3. [BuddyPress Theme Compatibility](./theme-compat/README.md)
 4. [BuddyPress execution contexts](./execution-contexts/README.md)
+5. [BuddyPress REST API (v2)](./execution-contexts/rest-api/README.md)

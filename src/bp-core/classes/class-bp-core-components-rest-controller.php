@@ -431,7 +431,7 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 			'is_active'   => $status['bool'],
 			'title'       => $data['title'],
 			'description' => $data['description'],
-			'features'    => array(),
+			'features'    => null,
 		);
 
 		// Set component's features.
@@ -475,7 +475,7 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 					);
 					break;
 				default:
-					$features = array();
+					$features = null;
 					break;
 			}
 
@@ -552,10 +552,11 @@ class BP_Core_Components_REST_Controller extends WP_REST_Controller {
 						'type'        => 'string',
 					),
 					'features'    => array(
-						'description' => __( 'Information about active features for the component.', 'buddypress' ),
-						'type'        => 'array',
 						'context'     => array( 'view', 'edit' ),
-						'default'     => array(),
+						'description' => __( 'Information about active features for the component.', 'buddypress' ),
+						'type'        => array( 'object', 'null' ),
+						'properties'  => array(),
+						'default'     => null,
 					),
 				),
 			);

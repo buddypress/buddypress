@@ -1118,7 +1118,6 @@ class BP_Members_REST_Controller extends WP_REST_Users_Controller {
 								'format'      => 'date-time',
 							),
 						),
-						'format'      => 'date-time',
 						'context'     => array( 'view', 'edit' ),
 						'readonly'    => true,
 					),
