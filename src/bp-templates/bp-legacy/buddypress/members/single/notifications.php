@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 15.0.0
  */
 
 ?>
@@ -13,14 +13,20 @@
 	<ul>
 		<?php bp_get_options_nav(); ?>
 
-		<li id="members-order-select" class="last filter">
-			<?php bp_notifications_sort_order_form(); ?>
-		</li>
+		<?php if ( ! bp_is_current_action( 'notices' ) ) : ?>
+			<li id="members-order-select" class="last filter">
+				<?php bp_notifications_sort_order_form(); ?>
+			</li>
+		<?php endif; ?>
 	</ul>
 </div>
 
 <?php
 switch ( bp_current_action() ) :
+
+	case 'notices':
+		bp_get_template_part( 'members/single/notices' );
+		break;
 
 	case 'unread' :
 		bp_get_template_part( 'members/single/notifications/unread' );

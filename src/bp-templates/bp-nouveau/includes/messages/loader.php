@@ -3,7 +3,7 @@
  * BP Nouveau Messages
  *
  * @since 3.0.0
- * @version 12.0.0
+ * @version 15.0.0
  */
 
 // Exit if accessed directly.
@@ -68,13 +68,6 @@ class BP_Nouveau_Messages {
 	protected function setup_actions() {
 		add_action( 'bp_init', 'bp_nouveau_register_messages_ajax_actions' );
 
-		$hook = 'bp_parse_query';
-		if ( 'rewrites' !== bp_core_get_query_parser() ) {
-			$hook = 'bp_init';
-		}
-
-		add_action( $hook, 'bp_nouveau_push_sitewide_notices', 99 );
-
 		// Messages
 		add_action( 'bp_messages_setup_nav', 'bp_nouveau_messages_adjust_nav' );
 
@@ -102,12 +95,6 @@ class BP_Nouveau_Messages {
 
 		// Localize Scripts.
 		add_filter( 'bp_core_get_js_strings', 'bp_nouveau_messages_localize_scripts', 10, 1 );
-
-		// Notices.
-		add_filter( 'bp_core_get_notifications_for_user', 'bp_nouveau_add_notice_notification_for_user', 10, 2 );
-
-		// Messages.
-		add_filter( 'bp_messages_admin_nav', 'bp_nouveau_messages_adjust_admin_nav', 10, 1 );
 	}
 }
 

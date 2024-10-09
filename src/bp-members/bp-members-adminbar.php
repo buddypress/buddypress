@@ -137,7 +137,6 @@ function bp_members_admin_bar_user_admin_menu() {
 				)
 			);
 		}
-
 	}
 
 	if ( bp_is_active( 'settings' ) ) {
@@ -165,107 +164,75 @@ function bp_members_admin_bar_user_admin_menu() {
 add_action( 'admin_bar_menu', 'bp_members_admin_bar_user_admin_menu', 99 );
 
 /**
- * Build the "Notifications" dropdown.
+ * Adds a WP Admin Bar menu containing a button to open the Notices Center.
  *
- * @since 11.4.0
+ * @since 15.0.0
  */
-function bp_members_admin_bar_notifications_dropdown( $notifications = array(), $menu_link = '', $type = 'members' ) {
-	if ( ! $menu_link || ( 'admin' === $type && empty( $notifications ) ) ) {
-		return false;
+function bp_members_admin_bar_notices_center_menu() {
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
+
+	$user_id        = bp_loggedin_user_id();
+	$all_items_link = '';
+	$notices_count  = 0;
+
+	if ( bp_is_active( 'members', 'notices' ) ) {
+		$all_items_link = bp_get_member_all_notices_url();
+		$notices_count  = bp_members_get_notices_count(
+			array(
+				'user_id'  => $user_id,
+				'exclude'  => bp_members_get_dismissed_notices_for_user( $user_id ),
+			)
+		);
+	}
+
+	$notifications_count = 0;
+	if ( bp_is_active( 'notifications' ) ) {
+		$notifications_count = bp_notifications_get_unread_notification_count( $user_id );
+
+		if ( ! $notices_count ) {
+			$all_items_link = bp_get_notifications_permalink( $user_id );
+		}
+	}
+
+	$count = $notices_count + $notifications_count;
+	if ( ! $count ) {
+		return;
 	}
 
 	global $wp_admin_bar;
 
-	$count       = 0;
-	$alert_class = array( 'count', 'no-alert' );
-
-	if ( ! empty( $notifications ) ) {
-		$count       = number_format_i18n( count( $notifications ) );
-		$alert_class = array( 'pending-count', 'alert' );
-
-		if ( 'admin' === $type ) {
-			$count = '!';
-		}
-	};
-
-	$alert_class[] = $type . '-type';
-	$menu_title    = sprintf(
-		'<span id="ab-pending-notifications" class="%1$s">%2$s</span>',
-		implode( ' ', array_map( 'sanitize_html_class', $alert_class ) ),
-		$count
+	// Add the top-level Notice center button.
+	$wp_admin_bar->add_node(
+		array(
+			'parent' => 'top-secondary',
+			'id'     => 'bp-notifications',
+			'title'  => sprintf(
+				'<button id="bp-notices-toggler" data-bp-fallback-url="%1$s" popovertarget="bp-notices-container" popovertargetaction="toggle">
+					<span id="ab-pending-notifications" class="pending-count alert">
+						<span class="ab-icon" aria-hidden="true"></span>
+						<span class="count">%2$s</span>
+					</span>
+				</button>',
+				esc_url( $all_items_link ),
+				number_format_i18n( $count )
+			),
+			'href'   => false,
+			'meta'   => array(
+				'class' => 'bp-notices',
+			)
+		)
 	);
 
-	// Add the top-level Notifications button.
-	$wp_admin_bar->add_node( array(
-		'parent' => 'top-secondary',
-		'id'     => 'bp-notifications',
-		'title'  => $menu_title,
-		'href'   => $menu_link,
-	) );
+	// Get the Notices center script.
+	wp_enqueue_script( 'bp-notices-center-script' );
 
-	if ( ! empty( $notifications ) ) {
-		foreach ( (array) $notifications as $notification ) {
-			$wp_admin_bar->add_node( array(
-				'parent' => 'bp-notifications',
-				'id'     => 'notification-' . $notification->id,
-				'title'  => $notification->content,
-				'href'   => $notification->href,
-			) );
-		}
-	} else {
-		$wp_admin_bar->add_node( array(
-			'parent' => 'bp-notifications',
-			'id'     => 'no-notifications',
-			'title'  => __( 'No new notifications', 'buddypress' ),
-			'href'   => $menu_link,
-		) );
-	}
-
-	return true;
-}
-
-/**
- * Build the Admin or Members "Notifications" dropdown.
- *
- * @since 1.5.0
- *
- * @return bool
- */
-function bp_members_admin_bar_notifications_menu() {
-	$admins_notifications = array();
-	$capability           = 'manage_options';
-
-	if ( bp_core_do_network_admin() ) {
-		$capability = 'manage_network_options';
-	}
-
-	if ( bp_current_user_can( $capability ) ) {
-		$notifications = bp_core_get_admin_notifications();
-
-		if ( $notifications ) {
-			$menu_link = esc_url( bp_get_admin_url( add_query_arg( 'page', 'bp-admin-notifications', 'admin.php' ) ) );
-			$count     = count( $notifications );
-
-			$notifications = array(
-				(object) array(
-					'id'      => 'bp-admin-notifications',
-					'href'    => $menu_link,
-					'content' => sprintf(
-						/* translators: %s: the number of admin notifications */
-						_n( 'You have %s new important admin notification.', 'You have %s new important admin notifications.', $count, 'buddypress' ),
-						number_format_i18n( $count )
-					),
-				),
-			);
-
-			return bp_members_admin_bar_notifications_dropdown( $notifications, $menu_link, 'admin' );
-		}
-	}
-
-	// Use Members notifications if the component is active.
-	if ( bp_is_active( 'notifications' ) ) {
-		return bp_notifications_toolbar_menu();
-	}
+	/*
+	 * If There are notices to display, load the Notice popover once
+	 * the WP Admin Bar has fully been loaded.
+	 */
+	add_action( 'wp_after_admin_bar_render', 'bp_render_notices_center' );
 }
 
 /**
@@ -278,10 +245,10 @@ function bp_members_admin_bar_notifications_menu_priority() {
 	 * WordPress 6.6 edited the WP Admin style & removed the right float.
 	 * See: https://core.trac.wordpress.org/changeset/58215/
 	 */
-	if ( bp_is_running_wp( '6.6-beta2', '>=' ) ) {
-		bp_members_admin_bar_notifications_menu();
+	if ( bp_is_running_wp( '6.6', '>=' ) ) {
+		bp_members_admin_bar_notices_center_menu();
 	} else {
-		add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu', 90 );
+		add_action( 'admin_bar_menu', 'bp_members_admin_bar_notices_center_menu', 90 );
 	}
 }
 add_action( 'admin_bar_menu', 'bp_members_admin_bar_notifications_menu_priority', 6 );

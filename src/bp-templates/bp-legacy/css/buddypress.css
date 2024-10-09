@@ -1,7 +1,7 @@
 /*--------------------------------------------------------------
 Hello, this is the BuddyPress Legacy stylesheet.
 
-@version 3.0.0
+@version 15.0.0
 
 ----------------------------------------------------------------
 >>> TABLE OF CONTENTS:
@@ -82,6 +82,16 @@ Hello, this is the BuddyPress Legacy stylesheet.
 
 #buddypress .paged #nav-above {
 	display: block;
+}
+
+#buddypress .notices div#pag-top {
+	border-bottom: 1px solid #eaeaea;
+	margin-bottom: 20px;
+}
+
+#buddypress .notices div#pag-bottom {
+	border-top: 1px solid #eaeaea;
+	margin-top: 20px;
 }
 
 /*--------------------------------------------------------------
@@ -642,6 +652,11 @@ body.activity-permalink #buddypress div.activity-comments div.acomment-content {
 	padding: 10px 15px;
 }
 
+#sitewide-notice p.notice-action {
+	margin-top: 0;
+	padding-top: 0;
+}
+
 #buddypress div#message.error p {
 	background-color: #fdc;
 	border: 1px solid #a00;
@@ -968,6 +983,7 @@ body.no-js #buddypress #messages-bulk-management #select-all-messages {
 #buddypress .standard-form button,
 #buddypress a.button,
 #buddypress input[type="submit"],
+#buddypress button[type="submit"],
 #buddypress input[type="button"],
 #buddypress input[type="reset"],
 #buddypress ul.button-nav li a,
@@ -989,6 +1005,7 @@ a.bp-title-button {
 #buddypress a.button:hover,
 #buddypress a.button:focus,
 #buddypress input[type="submit"]:hover,
+#buddypress button[type="submit"]:hover,
 #buddypress input[type="button"]:hover,
 #buddypress input[type="reset"]:hover,
 #buddypress ul.button-nav li a:hover,
@@ -1573,6 +1590,7 @@ body.no-js #buddypress div#item-header .js-self-profile-button {
 	line-height: 0.8;
 }
 
+#buddypress .bp-list,
 #buddypress ul.item-list {
 	border-top: 1px solid #eaeaea;
 	width: 100%;
@@ -1580,6 +1598,20 @@ body.no-js #buddypress div#item-header .js-self-profile-button {
 	clear: both;
 	margin: 0;
 	padding: 0;
+}
+
+#buddypress .bp-list {
+	border: none;
+}
+
+#buddypress .bp-list article.notice-item {
+	margin-bottom: 2em;
+	padding: 1em 0;
+	border-top: 1px solid #eaeaea;
+}
+
+#buddypress .bp-list article.notice-item:first-child {
+	border-top: none;
 }
 
 body.activity-permalink #buddypress ul.item-list,
@@ -1593,6 +1625,10 @@ body.activity-permalink #buddypress ul.item-list li.activity-item {
 	margin: 0;
 	position: relative;
 	list-style: none;
+}
+
+#buddypress .bp-list article:first-child .bp-notice-header h3 {
+	margin-top: 0;
 }
 
 #buddypress ul.single-line li {
