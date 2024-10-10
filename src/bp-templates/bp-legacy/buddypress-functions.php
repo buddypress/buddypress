@@ -1616,6 +1616,15 @@ function bp_legacy_theme_ajax_joinleave_group() {
 				esc_html_e( 'Error joining group', 'buddypress' );
 			}
 
+			/*
+			 * Ensure that the invite_status key exists, to avoid a group
+			 * being joinable when its creation process was interrupted.
+			 */
+			if ( ! groups_get_groupmeta( $group->id, 'invite_status' ) ) {
+				esc_html_e( 'Error joining group', 'buddypress' );
+				break;
+			}
+
 			check_ajax_referer( 'groups_join_group' );
 
 			if ( ! groups_join_group( $group->id ) ) {

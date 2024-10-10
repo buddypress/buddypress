@@ -18,6 +18,14 @@ function groups_action_join_group() {
 		return;
 	}
 
+	/*
+	 * Ensure that the invite_status key exists, to avoid a group being joinable when its
+	 * creation process was interrupted.
+	 */
+	if ( ! groups_get_groupmeta( bp_get_current_group_id(), 'invite_status' ) ) {
+		return;
+	}
+
 	// Nonce check.
 	if ( ! check_admin_referer( 'groups_join_group' ) ) {
 		return;
