@@ -168,7 +168,7 @@ function bp_nouveau_ajax_joinleave_group() {
 					'feedback' => $errors['member'],
 					'type'     => 'error',
 				);
-			} elseif ( 'public' !== $group->status ) {
+			} elseif ( 'public' !== $group->status || ! groups_get_groupmeta( $group->id, 'invite_status' ) ) {
 				$response = array(
 					'feedback' => $errors['cannot'],
 					'type'     => 'error',

@@ -664,15 +664,7 @@ function groups_join_group( $group, $user_id = 0 ) {
 
 	$group = bp_get_group( $group );
 
-	/*
-	 * When the group create first step is completed, the group's status has not been defined by the
-	 * group creator yet and defaults to public. As the group status & the invite status are set once
-	 * the group create second step is completed, we need to wait for this step to be achieved to let
-	 * users join the group being created otherwise it would be possible for a user to "pre-join" a
-	 * private/hidden group. Checking if the invite status is set is the only way to make sure this
-	 * second step has been completed. If it's not the case, no need to go further.
-	 */
-	if ( empty( $group->id ) || ! groups_get_groupmeta( $group->id, 'invite_status' ) ) {
+	if ( empty( $group->id ) ) {
 		return false;
 	}
 
