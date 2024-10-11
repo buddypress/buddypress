@@ -273,15 +273,22 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 			<div class="bp-messages-hook before-message-meta">{{{data.beforeMeta}}}</div>
 		<# } #>
 
-		<a href="{{data.sender_link}}" class="user-link">
-			<img class="avatar" src="{{{data.sender_avatar}}}" alt="" />
-			<strong>{{data.sender_name}}</strong>
-		</a>
+		<# if ( data.sender_link ) { #>
+			<a href="{{data.sender_link}}" class="user-link">
+				<img class="avatar" src="{{{data.sender_avatar}}}" alt="" />
+				<strong>{{data.sender_name}}</strong>
+			</a>
+		<# } else { #>
+			<div class="user-link">
+				<img class="avatar" src="{{{data.sender_avatar}}}" alt="" />
+				<strong>{{data.sender_name}}</strong>
+			</div>
+		<# } #>
 
 		<time datetime="{{data.date.toISOString()}}" class="activity">{{data.display_date}}</time>
 
-		<div class="actions">
-			<# if ( undefined !== data.star_link ) { #>
+		<# if ( undefined !== data.star_link ) { #>
+			<div class="actions">
 
 				<button type="button" class="message-action-unstar bp-tooltip bp-icons <# if ( false === data.is_starred ) { #>bp-hide<# } #>" data-bp-star-link="{{data.star_link}}" data-bp-action="unstar" data-bp-tooltip="<?php esc_attr_e( 'Unstar Message', 'buddypress' ); ?>">
 					<span class="bp-screen-reader-text"><?php esc_html_e( 'Unstar Message', 'buddypress' ); ?></span>
@@ -291,8 +298,8 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 					<span class="bp-screen-reader-text"><?php esc_html_e( 'Star Message', 'buddypress' ); ?></span>
 				</button>
 
-			<# } #>
-		</div>
+			</div>
+		<# } #>
 
 		<# if ( data.afterMeta ) { #>
 			<div class="bp-messages-hook after-message-meta">{{{data.afterMeta}}}</div>
