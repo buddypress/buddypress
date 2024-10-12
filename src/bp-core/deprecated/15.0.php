@@ -231,19 +231,6 @@ function bp_members_admin_bar_notifications_dropdown( $notifications = array(), 
 }
 
 /**
- * Build the Admin or Members "Notifications" dropdown.
- *
- * @since 1.5.0
- * @deprecated 15.0.0
- *
- * @return bool
- */
-function bp_members_admin_bar_notifications_menu() {
-	_deprecated_function( __FUNCTION__, '15.0.0' );
-	return false;
-}
-
-/**
  * Build the "Notifications" dropdown.
  *
  * @since 1.9.0

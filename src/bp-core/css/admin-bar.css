@@ -48,6 +48,11 @@
 	color: #fff;
 }
 
+#wpadminbar .quicklinks li#wp-admin-bar-bp-notifications #ab-pending-notifications.alert.admin-type {
+	background-color: #d84800;
+	border-radius: 10px;
+}
+
 #wpadminbar .quicklinks li#wp-admin-bar-bp-notifications.bp-notices button {
 	all: unset;
 	outline: revert;
