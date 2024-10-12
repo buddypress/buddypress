@@ -96,6 +96,12 @@
 		"parent": "bp-rest-api-reference"
 	},
 	{
+		"title": "Activity REST API routes",
+		"slug": "bp-rest-api-activity",
+		"markdown_source": "../developer/execution-contexts/rest-api/activity.md",
+		"parent": "bp-rest-api-reference"
+	},
+	{
 		"title": "BuddyPress Functions",
 		"slug": "bp-functions",
 		"markdown_source": "../developer/functions/README.md",
