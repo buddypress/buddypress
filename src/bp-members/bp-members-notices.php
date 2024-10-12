@@ -1419,8 +1419,8 @@ function bp_render_notices() {
 			if ( 1 === $count ) {
 				$pagination_count = __( 'Viewing 1 notifice', 'buddypress' );
 			} else {
-				/* translators: 1: notice from number. 2: notice to number. 3: total notifices. */
 				$pagination_count = sprintf(
+					/* translators: 1: notice from number. 2: notice to number. 3: total notifices. */
 					_n( 'Viewing %1$s - %2$s of %3$s notice', 'Viewing %1$s - %2$s of %3$s notices', $count, 'buddypress' ),
 					bp_core_number_format( $start_num ),
 					bp_core_number_format( $to_num ),

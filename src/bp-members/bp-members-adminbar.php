@@ -202,7 +202,7 @@ function bp_members_admin_bar_notifications_menu() {
 					'id'      => 'notices',
 					'content' => sprintf(
 						/* translators: %s: total notices count */
-						_n( 'Warning: please have a look at this notice', 'Warning: please have a look at these %s notices', $notices_count, 'buddypress' ), number_format_i18n( $notices_count )
+						_n( 'Warning: you have %s unread notice', 'Warning: you have %s unread notices', $notices_count, 'buddypress' ), number_format_i18n( $notices_count )
 					),
 					'href'    => $all_items_link,
 				)
@@ -235,21 +235,25 @@ function bp_members_admin_bar_notifications_menu() {
 	);
 
 	// Add the top-level Notifications button.
-	$wp_admin_bar->add_node( array(
-		'parent' => 'top-secondary',
-		'id'     => 'bp-notifications',
-		'title'  => $menu_title,
-		'href'   => $menu_link,
-	) );
+	$wp_admin_bar->add_node(
+		array(
+			'parent' => 'top-secondary',
+			'id'     => 'bp-notifications',
+			'title'  => $menu_title,
+			'href'   => $all_items_link,
+		)
+	);
 
 	if ( ! empty( $notices ) ) {
 		foreach ( (array) $notices as $notice ) {
-			$wp_admin_bar->add_node( array(
-				'parent' => 'bp-notifications',
-				'id'     => 'notification-' . $notice->id,
-				'title'  => $notice->content,
-				'href'   => $notice->href,
-			) );
+			$wp_admin_bar->add_node(
+				array(
+					'parent' => 'bp-notifications',
+					'id'     => 'notification-' . $notice->id,
+					'title'  => $notice->content,
+					'href'   => $notice->href,
+				)
+			);
 		}
 	}
 }

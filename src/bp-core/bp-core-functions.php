@@ -5337,8 +5337,10 @@ function bp_core_release_notice( $type = 'upgrade' ) {
 
 	$current_admin_id = bp_loggedin_user_id();
 
+	/* translators: %s is the BuddyPress version */
 	$title   = sprintf( __( 'BuddyPress was successfully upgraded to %s', 'buddypress' ), bp_get_version() );
 	if ( 'fresh' === $type ) {
+		/* translators: %s is the BuddyPress version */
 		$title = sprintf( __( 'BuddyPress %s was successfully installed', 'buddypress' ), bp_get_version() );
 	}
 
@@ -5346,6 +5348,7 @@ function bp_core_release_notice( $type = 'upgrade' ) {
 		array(
 			'title'    => $title,
 			'content'  => sprintf(
+				/* translators: %s is the BuddyPress version */
 				__( 'To have a good idea about what’s new in %s, the BuddyPress Team invites you to discover what she is the most excited about!', 'buddypress' ),
 				bp_get_major_version()
 			),
@@ -5353,6 +5356,7 @@ function bp_core_release_notice( $type = 'upgrade' ) {
 			'priority' => 0,
 			'url'      => bp_core_get_changelog_url(),
 			'text'     => sprintf(
+				/* translators: %s is the BuddyPress version */
 				__( 'Show me what’s exciting in %s', 'buddypress' ),
 				bp_get_major_version()
 			),
