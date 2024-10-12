@@ -41,7 +41,7 @@
 		"npm": ">=10.2.3"
 	},
 	"scripts": {
-		"build:blocks": "npm run build:block:activity && npm run build:block:blogs && npm run build:block:core && npm run build:block:friends && npm run build:block:groups && npm run build:block:members && npm run build:block:messages",
+		"build:blocks": "npm run build:block:activity && npm run build:block:blogs && npm run build:block:core && npm run build:block:friends && npm run build:block:groups && npm run build:block:members",
 		"build:block:activity": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-activity --config src/js/blocks/bp-activity/webpack.config.js",
 		"build:block:blogs": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-blogs --config src/js/blocks/bp-blogs/webpack.config.js",
 		"build:block:core": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-core --config src/js/blocks/bp-core/webpack.config.js",
