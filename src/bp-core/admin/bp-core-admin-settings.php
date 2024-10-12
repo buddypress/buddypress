@@ -237,6 +237,9 @@ function bp_admin_setting_callback_cover_image_uploads() {
  * @since 8.0.0
  */
 function bp_admin_setting_callback_members_invitations() {
+	if ( ! bp_is_active( 'members', 'signups' ) ) {
+		return;
+	}
 	?>
 	<input id="bp-enable-members-invitations" name="bp-enable-members-invitations" type="checkbox" value="1" <?php checked( bp_get_members_invitations_allowed() ); ?> />
 	<label for="bp-enable-members-invitations"><?php esc_html_e( 'Allow registered members to invite people to join this network', 'buddypress' ); ?></label>
@@ -258,6 +261,9 @@ function bp_admin_setting_callback_members_invitations() {
  * @since 10.0.0
  */
 function bp_admin_setting_callback_membership_requests() {
+	if ( ! bp_is_active( 'members', 'signups' ) ) {
+		return;
+	}
 	?>
 	<input id="bp-enable-membership-requests" name="bp-enable-membership-requests" type="checkbox" value="1" <?php checked( bp_get_membership_requests_required( 'raw' ) ); ?> <?php disabled( bp_get_signup_allowed() ); ?> />
 	<label for="bp-enable-membership-requests"><?php esc_html_e( 'Allow visitors to request site membership. If enabled, an administrator must approve each new site membership request.', 'buddypress' ); ?></label>

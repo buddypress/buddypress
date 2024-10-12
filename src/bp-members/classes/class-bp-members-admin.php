@@ -658,13 +658,15 @@ class BP_Members_Admin {
 			}
 
 			// Manage signups.
-			$hooks['signups'] = $this->signups_page = add_users_page(
-				$signups_menu_label,
-				$signups_menu_label,
-				$this->capability,
-				'bp-signups',
-				array( $this, 'signups_admin' )
-			);
+			if ( bp_is_active( 'members', 'signups' ) ) {
+				$hooks['signups'] = $this->signups_page = add_users_page(
+					$signups_menu_label,
+					$signups_menu_label,
+					$this->capability,
+					'bp-signups',
+					array( $this, 'signups_admin' )
+				);
+			}
 		}
 
 		$hooks['members_invitations'] = $this->members_invites_page = add_submenu_page(

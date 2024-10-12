@@ -80,7 +80,11 @@ class BP_Members_Component extends BP_Component {
 			array(
 				'adminbar_myaccount_order' => 20,
 				'search_query_arg'         => 'members_search',
-				'features'                 => array( 'invitations', 'membership_requests' ),
+				'features'                 => array(
+					'signups',
+					'invitations',
+					'membership_requests',
+				),
 			)
 		);
 	}
@@ -182,18 +186,6 @@ class BP_Members_Component extends BP_Component {
 			new BP_Members_Theme_Compat();
 		}
 
-		// Registration / Activation.
-		if ( bp_is_register_page() || bp_is_activation_page() ) {
-			if ( bp_is_register_page() ) {
-				require_once $this->path . 'bp-members/screens/register.php';
-			} else {
-				require_once $this->path . 'bp-members/screens/activate.php';
-			}
-
-			// Theme compatibility.
-			new BP_Registration_Theme_Compat();
-		}
-
 		// Invitations.
 		if ( is_user_logged_in() && bp_is_user_members_invitations() ) {
 			// Actions.
@@ -276,11 +268,6 @@ class BP_Members_Component extends BP_Component {
 		 */
 
 		$this->nav = new BP_Core_Nav( $user_id );
-
-		/** Signup ***********************************************************
-		 */
-
-		$bp->signup = new stdClass();
 
 		/** Profiles Fallback ************************************************
 		 */
@@ -685,7 +672,6 @@ class BP_Members_Component extends BP_Component {
 			array(
 				'bp_last_activity',
 				'bp_member_member_type',
-				'bp_signups',
 			)
 		);
 
@@ -1069,10 +1055,6 @@ class BP_Members_Component extends BP_Component {
 
 		if ( bp_is_active( 'members', 'cover_image' ) ) {
 			$controllers[] = 'BP_Members_Cover_REST_Controller';
-		}
-
-		if ( bp_get_signup_allowed() ) {
-			$controllers[] = 'BP_Members_Signup_REST_Controller';
 		}
 
 		parent::rest_api_init( $controllers );

@@ -29,6 +29,10 @@ add_filter( 'bp_blog_latest_post_content', 'prepend_attachment' );
  * @return string The new URL.
  */
 function bp_blogs_creation_location( $url ) {
+	if ( ! bp_is_active( 'members', 'signups' ) ) {
+		return $url;
+	}
+
 	$bp_url = bp_get_blogs_directory_url(
 		array(
 			'create_single_item' => 1,

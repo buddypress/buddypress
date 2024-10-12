@@ -705,6 +705,7 @@ class BuddyPress {
 			'BP_Button'                        => 'core',
 			'BP_Block'                         => 'core',
 			'BP_Component'                     => 'core',
+			'BP_Component_Feature'             => 'core',
 			'BP_Customizer_Control_Range'      => 'core',
 			'BP_Date_Query'                    => 'core',
 			'BP_Email_Delivery'                => 'core',

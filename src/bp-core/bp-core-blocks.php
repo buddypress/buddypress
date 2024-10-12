@@ -259,7 +259,7 @@ function bp_blocks_get_login_widget_registration_link( $content = '', $args = ar
 		if ( bp_get_signup_allowed() ) {
 			$content .= sprintf(
 				'<p class="bp-login-widget-register-link"><a href="%1$s" class="wp-block-button__link wp-element-button">%2$s</a></p>',
-				esc_url( bp_get_signup_page() ),
+				esc_url( wp_registration_url() ),
 				esc_html__( 'Register', 'buddypress' )
 			);
 		}

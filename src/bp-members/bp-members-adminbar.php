@@ -36,14 +36,17 @@ function bp_members_admin_bar_my_account_menu() {
 		$bp->my_account_menu_id = 'my-account-buddypress';
 
 		// Create the main 'My Account' menu.
-		$wp_admin_bar->add_node( array(
-			'id'     => $bp->my_account_menu_id,
-			'group'  => true,
-			'title'  => __( 'Edit My Profile', 'buddypress' ),
-			'href'   => bp_loggedin_user_url(),
-			'meta'   => array(
-			'class'  => 'ab-sub-secondary'
-		) ) );
+		$wp_admin_bar->add_node(
+			array(
+				'id'     => $bp->my_account_menu_id,
+				'group'  => true,
+				'title'  => __( 'Edit My Profile', 'buddypress' ),
+				'href'   => bp_loggedin_user_url(),
+				'meta'   => array(
+					'class'  => 'ab-sub-secondary',
+				),
+			)
+		);
 
 		// Show login and sign-up links.
 	} elseif ( !empty( $wp_admin_bar ) ) {
@@ -51,19 +54,23 @@ function bp_members_admin_bar_my_account_menu() {
 		add_filter( 'show_admin_bar', '__return_true' );
 
 		// Create the main 'My Account' menu.
-		$wp_admin_bar->add_node( array(
-			'id'    => 'bp-login',
-			'title' => __( 'Log In', 'buddypress' ),
-			'href'  => wp_login_url( bp_get_requested_url() )
-		) );
+		$wp_admin_bar->add_node(
+			array(
+				'id'    => 'bp-login',
+				'title' => __( 'Log In', 'buddypress' ),
+				'href'  => wp_login_url( bp_get_requested_url() ),
+			)
+		);
 
 		// Sign up.
 		if ( bp_get_signup_allowed() ) {
-			$wp_admin_bar->add_node( array(
-				'id'    => 'bp-register',
-				'title' => __( 'Register', 'buddypress' ),
-				'href'  => bp_get_signup_page()
-			) );
+			$wp_admin_bar->add_node(
+				array(
+					'id'    => 'bp-register',
+					'title' => __( 'Register', 'buddypress' ),
+					'href'  => wp_registration_url(),
+				)
+			);
 		}
 	}
 }

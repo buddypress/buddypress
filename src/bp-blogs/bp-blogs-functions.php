@@ -1505,6 +1505,10 @@ add_action( 'bp_make_ham_user', 'bp_blogs_restore_data', 10, 1 );
  * @return bool True if blog registration is enabled.
  */
 function bp_blog_signup_enabled() {
+	if ( ! bp_is_active( 'members', 'signups' ) ) {
+		return false;
+	}
+
 	$bp            = buddypress();
 	$retval        = true;
 	$active_signup = 'all';
