@@ -602,17 +602,21 @@ function bp_core_get_admin_tools_tabs( $apply_filters = true ) {
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-tools' ), $tools_page ) ),
 			'name' => __( 'Repair', 'buddypress' ),
 		),
-		'1' => array(
+	);
+
+	if ( bp_is_active( 'members', 'signups' ) ) {
+		$tools_tabs[1] = array(
 			'id'   => 'bp-members-invitations',
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-members-invitations' ), $tools_page ) ),
 			'name' => __( 'Manage Invitations', 'buddypress' ),
-		),
-		'2' => array(
+		);
+
+		$tools_tabs[2] = array(
 			'id'   => 'bp-optouts',
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-optouts' ), $tools_page ) ),
 			'name' => __( 'Manage Opt-outs', 'buddypress' ),
-		),
-	);
+		);
+	}
 
 	if ( ! $apply_filters ) {
 		return $tools_tabs;

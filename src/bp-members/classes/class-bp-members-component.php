@@ -117,17 +117,17 @@ class BP_Members_Component extends BP_Component {
 			$includes[] = 'activity';
 		}
 
-		/**
-		 * Duplicate bp_get_membership_requests_required() and
-		 * bp_get_signup_allowed() logic here,
-		 * because those functions are not available yet.
-		 * The `bp_get_signup_allowed` filter is documented in
-		 * bp-members/bp-members-template.php.
-		 */
-		$signup_allowed              = apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
-		$membership_requests_enabled = (bool) bp_get_option( 'bp-enable-membership-requests' );
-		if ( bp_is_active( 'members', 'membership_requests' ) && ! $signup_allowed && $membership_requests_enabled ) {
-			$includes[] = 'membership-requests';
+		if ( bp_is_active( 'members', 'signups' ) ) {
+			/*
+			* Duplicate `bp_get_membership_requests_required()` and `bp_get_signup_allowed()` logic here,
+			* because those functions are not available yet.
+			* The `bp_get_signup_allowed` filter is documented in bp-members/bp-members-template.php.
+			*/
+			$signup_allowed              = apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
+			$membership_requests_enabled = (bool) bp_get_option( 'bp-enable-membership-requests' );
+			if ( bp_is_active( 'members', 'membership_requests' ) && ! $signup_allowed && $membership_requests_enabled ) {
+				$includes[] = 'membership-requests';
+			}
 		}
 
 		// Include these only if in admin.
@@ -187,7 +187,7 @@ class BP_Members_Component extends BP_Component {
 		}
 
 		// Invitations.
-		if ( is_user_logged_in() && bp_is_user_members_invitations() ) {
+		if ( is_user_logged_in() && bp_is_active( 'members', 'signups' ) && bp_is_user_members_invitations() ) {
 			// Actions.
 			if ( isset( $_POST['members_invitations'] ) ) {
 				require_once $this->path . 'bp-members/actions/invitations-bulk-manage.php';
