@@ -669,14 +669,16 @@ class BP_Members_Admin {
 			}
 		}
 
-		$hooks['members_invitations'] = $this->members_invites_page = add_submenu_page(
-			$this->tools_parent,
-			__( 'Manage Invitations',  'buddypress' ),
-			__( 'Manage Invitations',  'buddypress' ),
-			$this->capability,
-			'bp-members-invitations',
-			array( $this, 'invitations_admin' )
-		);
+		if ( bp_is_active( 'members', 'signups' ) ) {
+			$hooks['members_invitations'] = $this->members_invites_page = add_submenu_page(
+				$this->tools_parent,
+				__( 'Manage Invitations',  'buddypress' ),
+				__( 'Manage Invitations',  'buddypress' ),
+				$this->capability,
+				'bp-members-invitations',
+				array( $this, 'invitations_admin' )
+			);
+		}
 
 		$edit_page         = 'user-edit';
 		$profile_page      = 'profile';
