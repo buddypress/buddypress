@@ -16,7 +16,7 @@ The schema defines all the fields that exist for an activity object.
 | `secondary_item_id` | The ID of some other object also associated with this activity item. <br />JSON data type: _integer_. <br />Context: `embed`, `view`, `edit`. |
 | `user_id` | The ID for the author of the activity item. <br />JSON data type: _integer_. <br />Read only. <br />Context: `embed`, `view`, `edit`. |
 | `link` | The permalink to this activity item on the site. <br />JSON data type: _string_, format: _URI_. <br />Read only. <br />Context: `embed`, `view`, `edit`. |
-| `component` | The active BuddyPress component the activity item relates to. <br />JSON data type: _string_. <br/>One of: the active BuddyPress component names. <br />Context: `embed`, `view`, `edit`. |
+| `component` | The BuddyPress component the activity item relates to. <br />JSON data type: _string_. <br/>One of: the active BuddyPress component names. <br />Context: `embed`, `view`, `edit`. |
 | `type` | The type of the activity (e.g.: `activity_update`). <br />JSON data type: _string_. <br />One of: the registered activity types. <br />Context: `embed`, `view`, `edit`. |
 | `title` | The description of the activity item’s type (eg: Username posted an update). <br />JSON data type: _string_. <br />Read only. <br />Context: `embed`, `view`, `edit`. |
 | `content` | The `raw` and `rendered` contents of the activity item. <br />JSON data type: _object_ (properties: `raw`, `rendered` ). <br />Context: `embed`, `view`, `edit`. |
