@@ -17,7 +17,7 @@ This API reference provides information on the specific endpoints available thro
 | Member Profile Photo | `/buddypress/v2/members/<user_id>/avatar` |
 | Member Profile Cover | `/buddypress/v2/members/<user_id>/cover` |
 | Member Registration | `/buddypress/v2/signup` |
-| Activity | `/buddypress/v2/activity` |
+| [Activity](./activity.md) | `/buddypress/v2/activity` |
 | Extended Profile Groups | `/buddypress/v2/xprofile/groups` |
 | Extended Profile Field | `/buddypress/v2/xprofile/fields` |
 | Extended Profile Data | `/buddypress/v2/xprofile/<field_id>/data/<user_id>` |
