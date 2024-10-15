@@ -1,6 +1,5 @@
-# Extending BuddyPress Activity
+# Extending BuddyPress Members
 
 ## Table of content
 
 1. [Database tables](./db-schema.md)
-2. [Embeds](./embeds.md)

@@ -2,4 +2,5 @@
 
 ## Table of content
 
-1. [BuddyPress Group Extension API](./extension.md)
+1. [Database tables](./db-schema.md)
+2. [BuddyPress Group Extension API](./extension.md)

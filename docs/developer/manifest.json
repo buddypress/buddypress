@@ -36,15 +36,99 @@
 		"parent": null
 	},
 	{
+		"title": "Activity database tables",
+		"slug": "extend-bp-activity-db-schema",
+		"markdown_source": "../developer/components/activity/db-schema.md",
+		"parent": null
+	},
+	{
+		"title": "Extending BuddyPress Blogs",
+		"slug": "extend-bp-blogs",
+		"markdown_source": "../developer/components/blogs/README.md",
+		"parent": null
+	},
+	{
+		"title": "Blogs database tables",
+		"slug": "extend-bp-blogs-db-schema",
+		"markdown_source": "../developer/components/blogs/db-schema.md",
+		"parent": null
+	},
+	{
+		"title": "Extending BuddyPress Friends",
+		"slug": "extend-bp-friends",
+		"markdown_source": "../developer/components/friends/README.md",
+		"parent": null
+	},
+	{
+		"title": "Friends database tables",
+		"slug": "extend-bp-friends-db-schema",
+		"markdown_source": "../developer/components/friends/db-schema.md",
+		"parent": null
+	},
+	{
 		"title": "Extending BuddyPress Groups",
 		"slug": "extend-bp-groups",
 		"markdown_source": "../developer/components/groups/README.md",
 		"parent": null
 	},
 	{
+		"title": "Groups database tables",
+		"slug": "extend-bp-groups-db-schema",
+		"markdown_source": "../developer/components/groups/db-schema.md",
+		"parent": null
+	},
+	{
 		"title": "Group Extension API",
 		"slug": "bp-group-extension",
 		"markdown_source": "../developer/components/groups/extension.md",
+		"parent": null
+	},
+	{
+		"title": "Extending BuddyPress Members",
+		"slug": "extend-bp-members",
+		"markdown_source": "../developer/components/members/README.md",
+		"parent": null
+	},
+	{
+		"title": "Members database tables",
+		"slug": "extend-bp-members-db-schema",
+		"markdown_source": "../developer/components/members/db-schema.md",
+		"parent": null
+	},
+	{
+		"title": "Extending BuddyPress Messages",
+		"slug": "extend-bp-messages",
+		"markdown_source": "../developer/components/messages/README.md",
+		"parent": null
+	},
+	{
+		"title": "Messages database tables",
+		"slug": "extend-bp-messages-db-schema",
+		"markdown_source": "../developer/components/messages/db-schema.md",
+		"parent": null
+	},
+	{
+		"title": "Extending BuddyPress Notifications",
+		"slug": "extend-bp-notifications",
+		"markdown_source": "../developer/components/notifications/README.md",
+		"parent": null
+	},
+	{
+		"title": "Notifications database tables",
+		"slug": "extend-bp-messages-db-schema",
+		"markdown_source": "../developer/components/notifications/db-schema.md",
+		"parent": null
+	},
+	{
+		"title": "Extending BuddyPress xProfile",
+		"slug": "extend-bp-xprofile",
+		"markdown_source": "../developer/components/xprofile/README.md",
+		"parent": null
+	},
+	{
+		"title": "xProfile database tables",
+		"slug": "extend-bp-messages-db-schema",
+		"markdown_source": "../developer/components/xprofile/db-schema.md",
 		"parent": null
 	},
 	{
