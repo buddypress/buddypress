@@ -58,3 +58,34 @@ function bp_delete_site_hook() {
 
 	return $wp_hook;
 }
+
+/**
+ * Register the jQuery.ajax wrapper for BP REST API requests.
+ *
+ * @since 5.0.0
+ * @deprecated 10.0.0
+ */
+function bp_rest_api_register_request_script() {
+	_deprecated_function( __FUNCTION__, '10.0.0' );
+
+	if ( ! bp_rest_api_is_available() ) {
+		return;
+	}
+
+	wp_register_script(
+		'bp-api-request',
+		sprintf( '%1$sbp-core/js/bp-api-request%2$s.js', buddypress()->plugin_url, bp_core_get_minified_asset_suffix() ),
+		array( 'jquery', 'wp-api-request' ),
+		bp_get_version(),
+		true
+	);
+
+	wp_localize_script(
+		'bp-api-request',
+		'bpApiSettings',
+		array(
+			'unexpectedError'   => __( 'An unexpected error occurred. Please try again.', 'buddypress' ),
+			'deprecatedWarning' => __( 'The bp.apiRequest function is deprecated since BuddyPress 10.0.0, please use wp.apiRequest instead.', 'buddypress' ),
+		)
+	);
+}
