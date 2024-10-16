@@ -33,6 +33,10 @@ foreach ( $components as $component ) {
 
 		foreach ( $dirs as $dir ) {
 			foreach ( glob( $dir . "*.php" ) as $file ) {
+				if ( 'messages' === $component && false !== strpos( $file, 'notices' ) ) {
+					continue;
+				}
+
 				require $file;
 			}
 		}

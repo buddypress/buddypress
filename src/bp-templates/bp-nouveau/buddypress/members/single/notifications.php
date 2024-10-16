@@ -3,7 +3,7 @@
  * BuddyPress - Users Notifications
  *
  * @since 3.0.0
- * @version 12.0.0
+ * @version 15.0.0
  */
 ?>
 
@@ -19,6 +19,10 @@
 
 <?php
 switch ( bp_current_action() ) :
+
+	case 'notices':
+		bp_get_template_part( 'members/single/notices' );
+		break;
 
 	case 'unread':
 	case 'read':

@@ -1831,6 +1831,22 @@ button.pending,
 	text-decoration: none;
 }
 
+#buddypress.twentytwentyfour #bp-notice-submit {
+	padding: 11px;
+	border-radius: 0;
+}
+
+#buddypress.twentytwentyfour a.dismiss-notice,
+#buddypress.twentytwentyfour a.dismiss-notice:hover {
+	color: #800;
+	border-color: #fff;
+	background: none;
+}
+
+#buddypress.twentytwentyfour a.dismiss-notice:hover {
+	border-color: #800;
+}
+
 #buddypress.twentytwentyfour.bp-dir-vert-nav .create-button a {
 	box-shadow: none;
 	color: var(--wp--preset--color--base);

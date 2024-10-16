@@ -73,7 +73,7 @@ class BP_Messages_Box_Template {
 	public $user_id = 0;
 
 	/**
-	 * The current "box" view ('notices', 'sentbox', 'inbox').
+	 * The current "box" view ('sentbox', 'inbox').
 	 *
 	 * @var string
 	 */
@@ -184,47 +184,30 @@ class BP_Messages_Box_Template {
 		$this->type         = $r['type'];
 		$this->search_terms = $r['search_terms'];
 
-		if ( 'notices' === $this->box ) {
-			$this->threads = BP_Messages_Notice::get_notices(
-				array(
-					'pag_num'  => $this->pag_num,
-					'pag_page' => $this->pag_page,
-				)
-			);
-		} else {
-			$threads = BP_Messages_Thread::get_current_threads_for_user(
-				array(
-					'user_id'             => $this->user_id,
-					'box'                 => $this->box,
-					'type'                => $this->type,
-					'limit'               => $this->pag_num,
-					'page'                => $this->pag_page,
-					'search_terms'        => $this->search_terms,
-					'meta_query'          => $r['meta_query'],
-					'recipients_page'     => $r['recipients_page'],
-					'recipients_per_page' => $r['recipients_per_page'],
-					'messages_page'       => $r['messages_page'],
-					'messages_per_page'   => $r['messages_per_page'],
-				)
-			);
+		$threads = BP_Messages_Thread::get_current_threads_for_user(
+			array(
+				'user_id'             => $this->user_id,
+				'box'                 => $this->box,
+				'type'                => $this->type,
+				'limit'               => $this->pag_num,
+				'page'                => $this->pag_page,
+				'search_terms'        => $this->search_terms,
+				'meta_query'          => $r['meta_query'],
+				'recipients_page'     => $r['recipients_page'],
+				'recipients_per_page' => $r['recipients_per_page'],
+				'messages_page'       => $r['messages_page'],
+				'messages_per_page'   => $r['messages_per_page'],
+			)
+		);
 
-			$this->threads            = isset( $threads['threads'] ) ? $threads['threads'] : array();
-			$this->total_thread_count = isset( $threads['total'] ) ? $threads['total'] : 0;
-		}
+		$this->threads            = isset( $threads['threads'] ) ? $threads['threads'] : array();
+		$this->total_thread_count = isset( $threads['total'] ) ? $threads['total'] : 0;
 
 		if ( ! $this->threads ) {
 			$this->thread_count       = 0;
 			$this->total_thread_count = 0;
 		} else {
-			$total_notice_count = BP_Messages_Notice::get_total_notice_count();
-
-			if ( empty( $r['max'] ) || ( (int) $r['max'] >= (int) $total_notice_count ) ) {
-				if ( 'notices' === $this->box ) {
-					$this->total_thread_count = (int) $total_notice_count;
-				}
-			} else {
-				$this->total_thread_count = (int) $r['max'];
-			}
+			$this->total_thread_count = (int) $r['max'];
 
 			if ( ! empty( $r['max'] ) ) {
 				if ( (int) $r['max'] >= count( $this->threads ) ) {
@@ -343,38 +326,35 @@ class BP_Messages_Box_Template {
 	 */
 	public function the_message_thread() {
 
-		$this->in_the_loop = true;
-		$this->thread      = $this->next_thread();
+		$this->in_the_loop      = true;
+		$this->thread           = $this->next_thread();
+		$last_message_index     = count( $this->thread->messages ) - 1;
+		$this->thread->messages = array_reverse( (array) $this->thread->messages );
 
-		if ( ! bp_is_current_action( 'notices' ) ) {
-			$last_message_index     = count( $this->thread->messages ) - 1;
-			$this->thread->messages = array_reverse( (array) $this->thread->messages );
-
-			// Set up the last message data.
-			if ( count( $this->thread->messages ) > 1 ) {
-				if ( 'inbox' === $this->box ) {
-					foreach ( (array) $this->thread->messages as $key => $message ) {
-						if ( bp_loggedin_user_id() !== $message->sender_id ) {
-							$last_message_index = $key;
-							break;
-						}
+		// Set up the last message data.
+		if ( count( $this->thread->messages ) > 1 ) {
+			if ( 'inbox' === $this->box ) {
+				foreach ( (array) $this->thread->messages as $key => $message ) {
+					if ( bp_loggedin_user_id() !== $message->sender_id ) {
+						$last_message_index = $key;
+						break;
 					}
-				} elseif ( 'sentbox' === $this->box ) {
-					foreach ( (array) $this->thread->messages as $key => $message ) {
-						if ( bp_loggedin_user_id() === $message->sender_id ) {
-							$last_message_index = $key;
-							break;
-						}
+				}
+			} elseif ( 'sentbox' === $this->box ) {
+				foreach ( (array) $this->thread->messages as $key => $message ) {
+					if ( bp_loggedin_user_id() === $message->sender_id ) {
+						$last_message_index = $key;
+						break;
 					}
 				}
 			}
-
-			$this->thread->last_message_id      = $this->thread->messages[ $last_message_index ]->id;
-			$this->thread->last_message_date    = $this->thread->messages[ $last_message_index ]->date_sent;
-			$this->thread->last_sender_id       = $this->thread->messages[ $last_message_index ]->sender_id;
-			$this->thread->last_message_subject = $this->thread->messages[ $last_message_index ]->subject;
-			$this->thread->last_message_content = $this->thread->messages[ $last_message_index ]->message;
 		}
+
+		$this->thread->last_message_id      = $this->thread->messages[ $last_message_index ]->id;
+		$this->thread->last_message_date    = $this->thread->messages[ $last_message_index ]->date_sent;
+		$this->thread->last_sender_id       = $this->thread->messages[ $last_message_index ]->sender_id;
+		$this->thread->last_message_subject = $this->thread->messages[ $last_message_index ]->subject;
+		$this->thread->last_message_content = $this->thread->messages[ $last_message_index ]->message;
 
 		// Loop has just started.
 		if ( 0 === $this->current_thread ) {
