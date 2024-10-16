@@ -151,6 +151,8 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 
 		$retval = array();
 		foreach ( (array) $messages_box->threads as $thread ) {
+			$messages_box->the_message_thread();
+
 			$retval[] = $this->prepare_response_for_collection(
 				$this->prepare_item_for_response( $thread, $request )
 			);
@@ -160,11 +162,11 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		$response = bp_rest_response_add_total_headers( $response, $messages_box->total_thread_count, $args['per_page'] );
 
 		/**
-		 * Fires after a thread is fetched via the REST API.
+		 * Fires after threads are fetched via the REST API.
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param BP_Messages_Box_Template  $messages_box Fetched thread.
+		 * @param BP_Messages_Box_Template  $messages_box Messages box
 		 * @param WP_REST_Response          $response     The response data.
 		 * @param WP_REST_Request           $request      The request sent to the API.
 		 */
