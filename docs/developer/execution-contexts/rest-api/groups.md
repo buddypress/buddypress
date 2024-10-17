@@ -40,7 +40,7 @@ The schema defines all the fields that exist for a Groups component single item.
 | --- | --- |
 | `context` | Scope under which the request is made; determines fields present in response. <br />JSON data type: _string_. <br/>Default: `view`. <br/>One of: `view`, `embed`, `edit`. |
 | `page` | Current page of the collection. <br />JSON data type: _integer_. <br />Default: `1`. |
-| `per_page` | Maximum number of activity items to be returned in result set. <br />JSON data type: _integer_. <br />Default: `10`. |
+| `per_page` | Maximum number of groups single items to be returned in result set. <br />JSON data type: _integer_. <br />Default: `10`. |
 | `search` | Limit results to those matching a string. <br />JSON data type: _string_. |
 | `exclude` | Ensure result set excludes Groups with specific IDs <br />JSON data type: _array_. <br />Default: `[]`. |
 | `include` | Ensure result set includes Groups with specific IDs. <br />JSON data type: _array_. <br />Default: `[]`. |
