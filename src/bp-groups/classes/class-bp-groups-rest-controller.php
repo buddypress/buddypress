@@ -1126,6 +1126,7 @@ class BP_Groups_REST_Controller extends WP_REST_Controller {
 		if ( WP_REST_Server::CREATABLE === $method || WP_REST_Server::EDITABLE === $method ) {
 			$key                         = 'create_item';
 			$args['description']['type'] = 'string';
+			unset( $args['description']['properties'] );
 
 			// Add group types.
 			$args['types'] = array(
