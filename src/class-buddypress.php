@@ -461,7 +461,7 @@ class BuddyPress {
 		/** Versions */
 
 		$this->version    = '15.0.0-alpha';
-		$this->db_version = 13906;
+		$this->db_version = 14026;
 
 		/** Loading */
 
@@ -705,6 +705,7 @@ class BuddyPress {
 			'BP_Button'                        => 'core',
 			'BP_Block'                         => 'core',
 			'BP_Component'                     => 'core',
+			'BP_Component_Feature'             => 'core',
 			'BP_Customizer_Control_Range'      => 'core',
 			'BP_Date_Query'                    => 'core',
 			'BP_Email_Delivery'                => 'core',

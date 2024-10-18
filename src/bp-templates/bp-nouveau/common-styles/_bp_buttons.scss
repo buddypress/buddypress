@@ -425,4 +425,20 @@
 	.bp-messages-filters ul li #bp-messages-prev-page:before {
 		content: "\f341";
 	}
+
+	button#bp-notice-submit {
+		padding: 11px;
+		border-radius: 0;
+	}
+
+	a.dismiss-notice,
+	a.dismiss-notice:hover {
+		color: #800;
+		border-color: #fff;
+		background: none;
+	}
+
+	a.dismiss-notice:hover {
+		border-color: #800;
+	}
 } // close .buddypress-wrap

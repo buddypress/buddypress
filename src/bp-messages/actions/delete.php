@@ -14,7 +14,7 @@
  */
 function messages_action_delete_message() {
 
-	if ( ! bp_is_messages_component() || bp_is_current_action( 'notices' ) || ! bp_is_action_variable( 'delete', 0 ) ) {
+	if ( ! bp_is_messages_component() || ! bp_is_action_variable( 'delete', 0 ) ) {
 		return false;
 	}
 

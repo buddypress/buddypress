@@ -211,14 +211,6 @@ function bp_version_updater() {
 		// Set the first BP major version the plugin was installed.
 		bp_update_option( '_bp_initial_major_version', bp_get_major_version() );
 
-		// Add an unread Admin notification.
-		if ( 13422 === bp_get_db_version() ) {
-			$unread   = bp_core_get_unread_admin_notifications();
-			$unread[] = 'bp120-new-installs-warning';
-
-			bp_update_option( 'bp_unread_admin_notifications', $unread );
-		}
-
 		// Apply schema and set default components as active.
 		bp_core_install( $default_components );
 		bp_update_option( 'bp-active-components', $default_components );
@@ -227,6 +219,9 @@ function bp_version_updater() {
 
 		// Force permalinks to be refreshed at next page load.
 		bp_delete_rewrite_rules();
+
+		// Inform Admins BuddyPress was successfully installed.
+		bp_core_release_notice( 'fresh' );
 
 		// Upgrades.
 	} else {
@@ -319,6 +314,14 @@ function bp_version_updater() {
 		if ( $raw_db_version < 13906 ) {
 			bp_update_to_14_0();
 		}
+
+		// Version 15.0.0.
+		if ( $raw_db_version < 14013 ) {
+			bp_update_to_15_0();
+		}
+
+		// Inform Admins BuddyPress was successfully upgraded.
+		bp_core_release_notice( 'upgrade' );
 	}
 
 	/* All done! *************************************************************/
@@ -994,6 +997,71 @@ function bp_update_to_14_0() {
 	 */
 	if ( 'rewrites' !== bp_core_get_query_parser() ) {
 		bp_delete_rewrite_rules();
+	}
+}
+
+/**
+ * 15.0.0 update routine.
+ *
+ * The DB migration tasks are performed by `bp_core_install()`.
+ *
+ * @since 15.0.0
+ */
+function bp_update_to_15_0() {
+	$cached_active_notice = wp_cache_get( 'active_notice', 'bp_messages' );
+	if ( $cached_active_notice ) {
+		wp_cache_delete( 'active_notice', 'bp_messages' );
+	}
+
+	global $wpdb;
+	$bp_prefix = bp_core_get_table_prefix();
+
+	$wpdb->update(
+		$bp_prefix . 'bp_notices',
+		array(
+			'priority' => 2,
+		),
+		array(
+			'priority' => 0,
+		),
+		array(
+			'%d',
+		),
+		array(
+			'%d',
+		)
+	);
+
+	if ( bp_is_active( 'members', 'notices' ) ) {
+		$admin_notices = bp_core_get_admin_notifications();
+
+		if ( $admin_notices ) {
+			$admin_ids = bp_get_admin_ids();
+
+			foreach ( $admin_notices as $admin_notice ) {
+				$notice_id = bp_members_save_notice(
+					array(
+						'title'    => $admin_notice->title,
+						'content'  => $admin_notice->content,
+						'target'   => 'admins',
+						'priority' => 0,
+						'date'     => $admin_notice->date,
+						'url'      => $admin_notice->href,
+						'text'     => $admin_notice->text,
+						'meta'     => array( 'version' => $admin_notice->version ),
+					)
+				);
+
+				// Dismiss notice for all admins.
+				if ( ! is_wp_error( $notice_id ) ) {
+					foreach ( $admin_ids as $admin_id ) {
+						bp_notices_add_meta( $notice_id, 'dismissed_by', $admin_id );
+					}
+				}
+			}
+		}
+
+		_bp_members_dismissed_notices_migrate();
 	}
 }
 

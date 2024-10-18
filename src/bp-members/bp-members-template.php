@@ -3868,3 +3868,158 @@ function bp_members_invitations_bulk_management_dropdown() {
 	<input type="submit" id="invitation-bulk-manage" class="button action" value="<?php echo esc_attr_x( 'Apply', 'button', 'buddypress' ); ?>">
 	<?php
 }
+
+/**
+ * Used to render the Notices Center after the WP Admin Bar.
+ *
+ * NB: this function is not into `src/bp-members/bp-members-notices.php` because
+ * it's needed to display Notifications in case the administrator like adventures
+ * & decided to disable the Notices feature (against our recommendations).
+ *
+ * @since 15.0.0
+ */
+function bp_render_notices_center() {
+	$notices           = array();
+	$user_id           = bp_loggedin_user_id();
+	$result            = array();
+	$top_notices_count = 0;
+	$all_notices_count = 0;
+	$current_num       = 0;
+	$classes           = array( 'no-popover-support' );
+
+	if ( bp_is_active( 'members', 'notices' ) ) {
+		$result = bp_members_get_notices_for_user( $user_id );
+
+		if ( isset( $result['items'] ) && $result['items'] ) {
+			array_push( $classes, 'has-notices' );
+			$notices            = $result['items'];
+			$top_notices_count  = count( $result['items'] );
+
+			if ( isset( $result['count'] ) ) {
+				$all_notices_count = $result['count'];
+			}
+		}
+	}
+
+	$notifications       = array();
+	$notifications_count = 0;
+
+	if ( bp_is_active( 'notifications' ) ) {
+		$notifications       = bp_notifications_get_notifications_for_user( $user_id, 'object' );
+		$notifications_count = 0;
+
+		if ( false !== $notifications && is_countable( $notifications ) ) {
+			$notifications_count = count( $notifications );
+		}
+	}
+
+	if ( ! $top_notices_count && ! $notifications_count ) {
+		return;
+	}
+	?>
+	<aside popover="auto" id="bp-notices-container" class="<?php echo join( ' ', array_map( 'sanitize_html_class', $classes ) );?>" role="complementary" tabindex="-1">
+		<?php if ( $top_notices_count ) : ?>
+			<section class="bp-notices-section">
+				<h2 class="community-notices-title"><?php esc_html_e( 'Community notices', 'buddypress' ); ?></h2>
+				<div class="bp-notices-container">
+					<div class="bp-notices-slider">
+						<div class="bp-notices-slides">
+							<?php foreach ( $notices as $notice ) : ?>
+								<article id="notice-<?php echo esc_attr( $notice->id ); ?>" class="notice-item <?php bp_notice_item_class( $notice ); ?>">
+									<div class="notice-item-inner">
+										<div class="bp-notice-request-status"><p></p></div>
+										<header class="bp-notice-header">
+											<h3><?php bp_notice_title( $notice ); ?></h2>
+										</header>
+										<div class="bp-notice-body">
+											<div class="bp-notice-content">
+												<?php bp_notice_excerpt( $notice ); ?>
+											</div>
+											<div class="bp-notice-actions <?php echo bp_notice_has_call_to_action( $notice ) ? 'flex' : '' ; ?>">
+												<a href="<?php bp_notice_dismiss_url( $notice ); ?>" data-bp-dismiss-id="<?php echo esc_attr( $notice->id ); ?>" class="button button-secondary"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+												<?php if ( bp_notice_has_call_to_action( $notice ) ) : ?>
+													<a href="<?php bp_notice_action_url( $notice ); ?>" class="button button-primary"><?php bp_notice_action_text( $notice ); ?></a>
+												<?php endif; ?>
+											</div>
+										</div>
+										<footer class="bp-notice-footer">
+											<div class="bp-notice-pagination">
+												<?php
+												$previous_page = $current_num - 1;
+												$next_page     = $current_num + 1;
+												$current_num  += 1;
+												?>
+												<span class="bp-notice-current-page">
+													<?php
+													$priority_pagination = sprintf(
+														'<span class="priority-pagination">%1$d/%2$d</span>',
+														intval( $current_num ),
+														intval( $top_notices_count )
+													);
+
+													// phpcs:disable WordPress.Security.EscapeOutput
+													printf(
+														esc_html(
+															/* translators: %s: the priority pagination. */
+															_n( 'Top priority notice: %s', 'Top priority notices: %s', $top_notices_count, 'buddypress' )
+														),
+														$priority_pagination,
+														$priority_pagination
+													);
+													// phpcs:enable
+													?>
+												</span>
+												<?php if ( isset( $notices[ $previous_page ]->id ) ) : ?>
+													<span class="bp-notice-prev-page">
+														<a href="#notice-<?php echo esc_attr( $notices[ $previous_page ]->id ); ?>"><?php esc_html_e( 'Prev.', 'buddypress' ); ?></a>
+													</span>
+												<?php endif; ?>
+												<?php if ( isset( $notices[ $next_page ]->id ) ) : ?>
+													<span class="bp-notice-next-page">
+														<a href="#notice-<?php echo esc_attr( $notices[ $next_page ]->id ); ?>"><?php esc_html_e( 'Next', 'buddypress' ); ?></a>
+													</span>
+												<?php endif; ?>
+												<?php if ( $top_notices_count < $all_notices_count ) : ?>
+													<span class="bp-notice-all-pages">
+														<a href="<?php bp_member_all_notices_url(); ?>">
+															<?php
+															printf(
+																/* translators: %d is the total notices count. */
+																esc_html__( 'View all (%s)', 'buddypress' ),
+																sprintf(
+																	'<span class="total-notices-count">%d</span>',
+																	intval(  $all_notices_count )
+																)
+															);
+															?>
+														</a>
+													</span>
+												<?php endif; ?>
+											</div>
+										</footer>
+									</div><!-- .notice-item-inner-->
+								</article><!-- .notice-item-->
+							<?php endforeach; ?>
+						</div><!-- .bp-notices-slides-->
+					</div><!-- .bp-notices-slider-->
+				</div><!-- .bp-notices-container -->
+			</section>
+		<?php endif; ?>
+		<?php if ( $notifications_count ) : ?>
+			<section class="bp-notications-section">
+				<h2 class="my-notifications-title"><?php esc_html_e( 'Personal notifications', 'buddypress' ); ?></h2>
+
+				<?php foreach( $notifications as $notification ) : ?>
+					<article id="notification-<?php echo esc_attr( $notification->id ); ?>">
+						<div class="bp-notification-body">
+							<div class="notification">
+								<?php echo esc_html( $notification->content ); ?> &#8212; <a href="<?php echo esc_url( $notification->href ); ?>"><?php esc_html_e( 'View', 'buddypress' ); ?></a>
+							</div>
+						</div>
+					</article>
+				<?php endforeach; ?>
+			</section>
+		<?php endif; ?>
+	</aside>
+	<?php
+}

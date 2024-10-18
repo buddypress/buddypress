@@ -17,7 +17,7 @@
  */
 function bp_messages_action_bulk_manage() {
 
-	if ( ! bp_is_messages_component() || bp_is_current_action( 'notices' ) || ! bp_is_action_variable( 'bulk-manage', 0 ) ) {
+	if ( ! bp_is_messages_component() || ! bp_is_action_variable( 'bulk-manage', 0 ) ) {
 		return false;
 	}
 
