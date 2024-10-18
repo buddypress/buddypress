@@ -88,7 +88,7 @@ Logged in users can create sitewide activity items. When the Groups component is
 | Name | Description |
 | --- | --- |
 | `primary_item_id` | The ID of some other object primarily associated with this one. <br />JSON data type: _integer_. |
-| `primary_item_id` | The ID of some other object also associated with this one. <br />JSON data type: _integer_. |
+| `secondary_item_id` | The ID of some other object also associated with this one. <br />JSON data type: _integer_. |
 | `link` | The permalink to this activity item on the site. <br />JSON data type: _string_, format: _URI_. |
 | `component` | The active BuddyPress component the activity relates to. <br />JSON data type: _string_. <br />One of: the active BuddyPress component names. <br />Default: `activity`. |
 | `type` | The type of the activity (e.g.: `activity_update`). <br />JSON data type: _string_. <br />One of: the registered activity types. <br />Default: `activity_update`. |
