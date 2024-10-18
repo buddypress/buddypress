@@ -4986,6 +4986,7 @@ function bp_get_deprecated_functions_versions() {
 		11.0,
 		12.0,
 		14.0,
+		15.0,
 	);
 
 	/*
