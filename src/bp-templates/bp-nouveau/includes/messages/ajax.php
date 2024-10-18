@@ -420,7 +420,7 @@ function bp_nouveau_ajax_get_user_message_threads() {
 	// Remove the bp_current_action() override.
 	$bp->current_action = $reset_action;
 
-	// Return the successfull reply.
+	// Return the successful reply.
 	wp_send_json_success( $threads );
 }
 
