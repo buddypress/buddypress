@@ -1,6 +1,6 @@
 /* global wp, BP_Nouveau, _, Backbone */
 /* @since 3.0.0 */
-/* @version 8.0.0 */
+/* @version 15.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
@@ -243,7 +243,12 @@ window.bp = window.bp || {};
 		model: bp.Models.User,
 
 		initialize : function() {
-			this.options = { page: 1, total_page: 0, group_id: BP_Nouveau.group_invites.group_id };
+			this.options = {
+				page: 1,
+				total_page: 0,
+				group_id: BP_Nouveau.group_invites.group_id,
+				canonicalUrl: BP_Nouveau.canonical_url
+			};
 		},
 
 		sync: function( method, model, options ) {

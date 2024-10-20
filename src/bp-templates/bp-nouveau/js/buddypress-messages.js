@@ -1,7 +1,7 @@
 /* global wp, BP_Nouveau, _, Backbone, tinymce, tinyMCE */
 /* jshint devel: true */
 /* @since 3.0.0 */
-/* @version 11.2.0 */
+/* @version 15.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
@@ -259,7 +259,10 @@ window.bp = window.bp || {};
 			var sent = bp.ajax.post(
 				'messages_send_message',
 				_.extend(
-					{ nonce: BP_Nouveau.messages.nonces.send },
+					{
+						nonce: BP_Nouveau.messages.nonces.send,
+						canonicalUrl: BP_Nouveau.canonical_url
+					},
 					this.attributes
 				)
 			);
@@ -291,7 +294,8 @@ window.bp = window.bp || {};
 				_.pick( this.attributes, ['id', 'message_id'] ),
 				{
 					action : 'messages_thread_read',
-					nonce  : BP_Nouveau.nonces.messages
+					nonce  : BP_Nouveau.nonces.messages,
+					canonicalUrl: BP_Nouveau.canonical_url
 				}
 			);
 
@@ -329,7 +333,8 @@ window.bp = window.bp || {};
 
 			if ( 'read' === method ) {
 				options.data = _.extend( options.data, {
-					action: 'messages_get_user_message_threads'
+					action: 'messages_get_user_message_threads',
+					canonicalUrl: BP_Nouveau.canonical_url
 				} );
 
 				return bp.ajax.send( options );
@@ -390,8 +395,9 @@ window.bp = window.bp || {};
 
 			options.data = _.extend( options.data, {
 				action: 'messages_' + action,
-				nonce : BP_Nouveau.nonces.messages,
-				id    : ids
+				nonce: BP_Nouveau.nonces.messages,
+				id: ids,
+				canonicalUrl: BP_Nouveau.canonical_url
 			} );
 
 			return bp.ajax.send( options );
@@ -412,7 +418,8 @@ window.bp = window.bp || {};
 
 			if ( 'read' === method ) {
 				options.data = _.extend( options.data, {
-					action: 'messages_get_thread_messages'
+					action: 'messages_get_thread_messages',
+					canonicalUrl: BP_Nouveau.canonical_url
 				} );
 
 				return bp.ajax.send( options );
@@ -421,7 +428,8 @@ window.bp = window.bp || {};
 			if ( 'create' === method ) {
 				options.data = _.extend( options.data, {
 					action : 'messages_send_reply',
-					nonce  : BP_Nouveau.messages.nonces.send
+					nonce  : BP_Nouveau.messages.nonces.send,
+					canonicalUrl: BP_Nouveau.canonical_url
 				}, model || {} );
 
 				return bp.ajax.send( options );
