@@ -125,7 +125,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 				0
 			);
 
-			// When BP Classic is activated, regular themes need this filter. 
+			// When BP Classic is activated, regular themes need this filter.
 			if ( bp_is_classic() ) {
 				// Set the BP Uri for the Ajax customizer preview.
 				add_filter( 'bp_uri', array( $this, 'customizer_set_uri' ), 10, 1 );
@@ -502,6 +502,7 @@ class BP_Nouveau extends BP_Theme_Compat {
 	public function localize_scripts() {
 		$params = array(
 			'ajaxurl'           => bp_core_ajax_url(),
+			'canonical_url'     => bp_get_canonical_url(),
 			'confirm'           => __( 'Are you sure?', 'buddypress' ),
 
 			/* translators: %s: number of activity comments */
