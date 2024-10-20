@@ -195,7 +195,7 @@ window.bp = window.bp || {};
 			}
 
 			// Extend posted data with stored data and object nonce.
-			var postData = $.extend( {}, bp.Nouveau.getStorage( 'bp-' + object ), { nonce: BP_Nouveau.nonces[object] }, post_data );
+			var postData = $.extend( {}, bp.Nouveau.getStorage( 'bp-' + object ), { nonce: BP_Nouveau.nonces[object], canonicalUrl: BP_Nouveau.canonical_url }, post_data );
 
 			if ( undefined !== BP_Nouveau.customizer_settings ) {
 				postData.customized = BP_Nouveau.customizer_settings;

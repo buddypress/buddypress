@@ -727,6 +727,7 @@ window.bp = window.bp || {};
 			this.model.set( meta, { silent: true } );
 
 			var data = {
+				canonicalUrl: BP_Nouveau.canonical_url,
 				'_wpnonce_post_update': BP_Nouveau.activity.params.post_nonce
 			};
 
