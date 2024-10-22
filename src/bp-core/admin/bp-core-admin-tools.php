@@ -941,11 +941,11 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 			),
 			'BP_XPROFILE_BASE_GROUP_NAME'           => array(
 				'label' => 'BP_XPROFILE_BASE_GROUP_NAME',
-				'value' => BP_XPROFILE_BASE_GROUP_NAME,
+				'value' => defined( 'BP_XPROFILE_BASE_GROUP_NAME' ) ? BP_XPROFILE_BASE_GROUP_NAME : __( 'Undefined', 'buddypress' ),
 			),
 			'BP_XPROFILE_FULLNAME_FIELD_NAME'       => array(
 				'label' => 'BP_XPROFILE_FULLNAME_FIELD_NAME',
-				'value' => BP_XPROFILE_FULLNAME_FIELD_NAME,
+				'value' => defined( 'BP_XPROFILE_FULLNAME_FIELD_NAME' ) ? BP_XPROFILE_FULLNAME_FIELD_NAME : __( 'Undefined', 'buddypress' ),
 			),
 			'BP_MESSAGES_AUTOCOMPLETE_ALL'          => array(
 				'label' => 'BP_MESSAGES_AUTOCOMPLETE_ALL',
@@ -961,11 +961,6 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'value' => defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_GROUPS_DEFAULT_EXTENSION' ) ? BP_GROUPS_DEFAULT_EXTENSION : 'undefined',
 			),
-			'BP_SIGNUPS_SKIP_USER_CREATION'         => array(
-				'label' => 'BP_SIGNUPS_SKIP_USER_CREATION (deprecated)',
-				'value' => defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) && BP_SIGNUPS_SKIP_USER_CREATION ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
-				'debug' => defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) ? BP_SIGNUPS_SKIP_USER_CREATION : 'undefined',
-			),
 			'BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH' => array(
 				'label' => 'BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH',
 				'value' => defined( 'BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH' ) ? BP_MEMBERS_REQUIRED_PASSWORD_STRENGTH : __( 'Undefined', 'buddypress' ),
@@ -975,6 +970,11 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'label' => 'BP_EMBED_DISABLE_PRIVATE_MESSAGES',
 				'value' => defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) ? BP_EMBED_DISABLE_PRIVATE_MESSAGES : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_EMBED_DISABLE_PRIVATE_MESSAGES' ) ? BP_EMBED_DISABLE_PRIVATE_MESSAGES : 'undefined',
+			),
+			'BP_EMBED_DISABLE_ACTIVITY'     => array(
+				'label' => 'BP_EMBED_DISABLE_ACTIVITY',
+				'value' => defined( 'BP_EMBED_DISABLE_ACTIVITY' ) ? BP_EMBED_DISABLE_ACTIVITY : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_EMBED_DISABLE_ACTIVITY' ) ? BP_EMBED_DISABLE_ACTIVITY : 'undefined',
 			),
 			'BP_EMBED_DISABLE_ACTIVITY_REPLIES'     => array(
 				'label' => 'BP_EMBED_DISABLE_ACTIVITY_REPLIES',
@@ -1036,6 +1036,26 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'label' => 'BP_AVATAR_THUMB_WIDTH',
 				'value' => BP_AVATAR_THUMB_WIDTH,
 			),
+			'BP_FORUMS_PARENT_FORUM_ID'             => array(
+				'label' => 'BP_FORUMS_PARENT_FORUM_ID',
+				'value' => defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ? BP_FORUMS_PARENT_FORUM_ID : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ? BP_FORUMS_PARENT_FORUM_ID : 'undefined',
+			),
+			'BP_FORUMS_SLUG'                        => array(
+				'label' => 'BP_FORUMS_SLUG',
+				'value' => defined( 'BP_FORUMS_SLUG' ) ? BP_FORUMS_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_FORUMS_SLUG' ) ? BP_FORUMS_SLUG : 'undefined',
+			),
+			'BP_SEARCH_SLUG'                        => array(
+				'label' => 'BP_SEARCH_SLUG',
+				'value' => defined( 'BP_SEARCH_SLUG' ) ? BP_SEARCH_SLUG : __( 'Undefined', 'buddypress' ),
+				'debug' => defined( 'BP_SEARCH_SLUG' ) ? BP_SEARCH_SLUG : 'undefined',
+			),
+			'BP_SIGNUPS_SKIP_USER_CREATION'         => array(
+				'label' => 'BP_SIGNUPS_SKIP_USER_CREATION (deprecated)',
+				'value' => defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) && BP_SIGNUPS_SKIP_USER_CREATION ? __( 'Enabled', 'buddypress' ) : __( 'Disabled', 'buddypress' ),
+				'debug' => defined( 'BP_SIGNUPS_SKIP_USER_CREATION' ) ? BP_SIGNUPS_SKIP_USER_CREATION : 'undefined',
+			),
 			'BP_USE_WP_ADMIN_BAR'                   => array(
 				'label' => 'BP_USE_WP_ADMIN_BAR (deprecated)',
 				'value' => defined( 'BP_USE_WP_ADMIN_BAR' ) ? BP_USE_WP_ADMIN_BAR : __( 'Undefined', 'buddypress' ),
@@ -1045,11 +1065,6 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'label' => 'BP_FRIENDS_DB_VERSION (deprecated)',
 				'value' => defined( 'BP_FRIENDS_DB_VERSION' ) ? BP_FRIENDS_DB_VERSION : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_FRIENDS_DB_VERSION' ) ? BP_FRIENDS_DB_VERSION : 'undefined',
-			),
-			'BP_FORUMS_PARENT_FORUM_ID'             => array(
-				'label' => 'BP_FORUMS_PARENT_FORUM_ID (deprecated)',
-				'value' => defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ? BP_FORUMS_PARENT_FORUM_ID : __( 'Undefined', 'buddypress' ),
-				'debug' => defined( 'BP_FORUMS_PARENT_FORUM_ID' ) ? BP_FORUMS_PARENT_FORUM_ID : 'undefined',
 			),
 			'BP_MEMBERS_SLUG'                       => array(
 				'label' => 'BP_MEMBERS_SLUG (deprecated)',
@@ -1095,16 +1110,6 @@ function bp_core_admin_debug_information( $debug_info = array() ) {
 				'label' => 'BP_XPROFILE_SLUG (deprecated)',
 				'value' => defined( 'BP_XPROFILE_SLUG' ) ? BP_XPROFILE_SLUG : __( 'Undefined', 'buddypress' ),
 				'debug' => defined( 'BP_XPROFILE_SLUG' ) ? BP_XPROFILE_SLUG : 'undefined',
-			),
-			'BP_FORUMS_SLUG'                        => array(
-				'label' => 'BP_FORUMS_SLUG (deprecated)',
-				'value' => defined( 'BP_FORUMS_SLUG' ) ? BP_FORUMS_SLUG : __( 'Undefined', 'buddypress' ),
-				'debug' => defined( 'BP_FORUMS_SLUG' ) ? BP_FORUMS_SLUG : 'undefined',
-			),
-			'BP_SEARCH_SLUG'                        => array(
-				'label' => 'BP_SEARCH_SLUG (deprecated)',
-				'value' => defined( 'BP_SEARCH_SLUG' ) ? BP_SEARCH_SLUG : __( 'Undefined', 'buddypress' ),
-				'debug' => defined( 'BP_SEARCH_SLUG' ) ? BP_SEARCH_SLUG : 'undefined',
 			),
 		),
 	);
