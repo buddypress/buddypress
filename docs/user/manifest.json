@@ -12,6 +12,12 @@
 		"parent": null
 	},
 	{
+		"title": "Site Health Screen",
+		"slug": "site-health",
+		"markdown_source": "../user/site-health.md",
+		"parent": null
+	},
+	{
 		"title": "Getting Started",
 		"slug": "getting-started",
 		"markdown_source": "../user/getting-started/README.md",
