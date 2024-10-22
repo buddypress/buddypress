@@ -1187,6 +1187,9 @@ add_action( 'wp_ajax_bp_avatar_upload', 'bp_avatar_ajax_upload' );
  * @return array|bool True on success, false on failure.
  */
 function bp_avatar_handle_capture( $data = '', $item_id = 0, $return = 'boolean' ) {
+	$return  = $retval;
+	$item_id = (int) $item_id;
+
 	if ( empty( $data ) || empty( $item_id ) ) {
 		return false;
 	}
@@ -1354,6 +1357,9 @@ function bp_avatar_ajax_set() {
 		wp_send_json_error();
 	}
 
+	// Sanitize object id.
+	$item_id = (int) $avatar_data['item_id'];
+
 	// Capability check.
 	if ( ! bp_attachments_current_user_can( 'edit_avatar', $avatar_data ) ) {
 		wp_send_json_error();
@@ -1367,7 +1373,7 @@ function bp_avatar_ajax_set() {
 			$webcam_avatar = base64_decode( $webcam_avatar );
 		}
 
-		$cropped_webcam_avatar = bp_avatar_handle_capture( $webcam_avatar, $avatar_data['item_id'], 'array' );
+		$cropped_webcam_avatar = bp_avatar_handle_capture( $webcam_avatar, $item_id, 'array' );
 
 		if ( ! $cropped_webcam_avatar ) {
 			wp_send_json_error( array(
@@ -1380,18 +1386,18 @@ function bp_avatar_ajax_set() {
 					bp_core_fetch_avatar(
 						array(
 							'object'  => $avatar_data['object'],
-							'item_id' => $avatar_data['item_id'],
+							'item_id' => $item_id,
 							'html'    => false,
 							'type'    => 'full',
 						)
 					)
 				),
 				'feedback_code' => 2,
-				'item_id'       => $avatar_data['item_id'],
+				'item_id'       => $item_id,
 			);
 
 			/** This action is documented in wp-includes/deprecated.php */
-			do_action_deprecated( 'xprofile_avatar_uploaded', array( (int) $avatar_data['item_id'], $avatar_data['type'], $avatar_data ), '6.0.0', 'bp_members_avatar_uploaded' );
+			do_action_deprecated( 'xprofile_avatar_uploaded', array( $item_id, $avatar_data['type'], $avatar_data ), '6.0.0', 'bp_members_avatar_uploaded' );
 
 			/**
 			 * Fires if the new avatar was successfully captured.
@@ -1404,7 +1410,7 @@ function bp_avatar_ajax_set() {
 			 * @param array  $avatar_data           Array of parameters passed to the crop handler.
 			 * @param array  $cropped_webcam_avatar Array containing the full, thumb avatar and the timestamp.
 			 */
-			do_action( 'bp_members_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $avatar_data, $cropped_webcam_avatar );
+			do_action( 'bp_members_avatar_uploaded', $item_id, $avatar_data['type'], $avatar_data, $cropped_webcam_avatar );
 
 			wp_send_json_success( $return );
 		}
@@ -1425,7 +1431,7 @@ function bp_avatar_ajax_set() {
 
 	// Crop args.
 	$r = array(
-		'item_id'       => $avatar_data['item_id'],
+		'item_id'       => $item_id,
 		'object'        => $avatar_data['object'],
 		'avatar_dir'    => $avatar_dir,
 		'original_file' => $original_file,
@@ -1444,25 +1450,25 @@ function bp_avatar_ajax_set() {
 				bp_core_fetch_avatar(
 					array(
 						'object'  => $avatar_data['object'],
-						'item_id' => $avatar_data['item_id'],
+						'item_id' => $item_id,
 						'html'    => false,
 						'type'    => 'full',
 					)
 				)
 			),
 			'feedback_code' => 2,
-			'item_id'       => $avatar_data['item_id'],
+			'item_id'       => $item_id,
 		);
 
 		if ( 'user' === $avatar_data['object'] ) {
 			/** This action is documented in wp-includes/deprecated.php */
-			do_action_deprecated( 'xprofile_avatar_uploaded', array( (int) $avatar_data['item_id'], $avatar_data['type'], $r ), '6.0.0', 'bp_members_avatar_uploaded' );
+			do_action_deprecated( 'xprofile_avatar_uploaded', array( $item_id, $avatar_data['type'], $r ), '6.0.0', 'bp_members_avatar_uploaded' );
 
 			/** This action is documented in bp-core/bp-core-avatars.php */
-			do_action( 'bp_members_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r, $cropped_avatar );
+			do_action( 'bp_members_avatar_uploaded', $item_id, $avatar_data['type'], $r, $cropped_avatar );
 		} elseif ( 'group' === $avatar_data['object'] ) {
 			/** This action is documented in bp-groups/bp-groups-screens.php */
-			do_action( 'groups_avatar_uploaded', (int) $avatar_data['item_id'], $avatar_data['type'], $r, $cropped_avatar );
+			do_action( 'groups_avatar_uploaded', $item_id, $avatar_data['type'], $r, $cropped_avatar );
 		}
 
 		wp_send_json_success( $return );
