@@ -251,9 +251,10 @@ function bp_message_thread_content() {
 	function bp_get_message_thread_content() {
 		global $messages_template;
 
-		$userlink = bp_core_get_userlink( $messages_template->thread->last_sender_id );
+		$last_user_id = $messages_template->thread->last_sender_id;
+		$user         = get_userdata( (int) $last_user_id );
 
-		if ( empty( $userlink ) ) {
+		if ( ( empty( $user ) || ! $user->exists() ) ) {
 			$last_message_content = esc_html__( '[deleted]', 'buddypress' );
 		} else {
 			$last_message_content = $messages_template->thread->last_message_content;
