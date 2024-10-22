@@ -48,6 +48,12 @@
 		"parent": null
 	},
 	{
+		"title": "Site Health Screen",
+		"slug": "site-health",
+		"markdown_source": "../user/administration/site-health.md",
+		"parent": null
+	},
+	{
 		"title": "BuddyPress settings",
 		"slug": "administration-settings",
 		"markdown_source": "../user/administration/settings/README.md",
