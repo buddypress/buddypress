@@ -7,6 +7,7 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 	private $params = array();
 	protected $allowed_image_types = array( 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp' );
 	protected $allowed_image_mimes = array( 'image/jpeg', 'image/jpeg', 'image/jpeg', 'image/gif', 'image/png', 'image/webp' );
+	protected $capture = array();
 
 	public function set_up() {
 		parent::set_up();
@@ -422,5 +423,28 @@ class BP_Tests_Avatars extends BP_UnitTestCase {
 		) );
 
 		$this->assertFalse( is_dir( $avatar_dir1 ) );
+	}
+
+	public function set_capture( $return, $data ) {
+		$this->capture = $data;
+		return false;
+	}
+
+	/**
+	 * @group bp_avatar_handle_capture
+	 */
+	public function test_bp_avatar_handle_capture() {
+		$u = self::factory()->user->create();
+		$data = 'hello world';
+
+		add_filter( 'bp_core_pre_avatar_handle_crop', array( $this, 'set_capture' ), 10, 2 );
+
+		bp_avatar_handle_capture( $data, $u . '/../../../../../../foobar', 'array' );
+
+		remove_filter( 'bp_core_pre_avatar_handle_crop', array( $this, 'set_capture' ), 10, 2 );
+
+		$expected = '/avatars/' . $u . '/webcam-capture-' . $u . '.png';
+
+		$this->assertEquals( $expected, $this->capture['original_file'] );
 	}
 }
