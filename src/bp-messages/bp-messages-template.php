@@ -290,7 +290,7 @@ function bp_message_thread_from() {
 		$userlink = bp_core_get_userlink( $messages_template->thread->last_sender_id );
 
 		if ( empty( $userlink ) ) {
-			$userlink = esc_html__( '[deleted]', 'buddypress' );
+			$userlink = esc_html__( 'Deleted User', 'buddypress' );
 		}
 
 		/**
