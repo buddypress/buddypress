@@ -199,7 +199,7 @@ function bp_message_thread_excerpt() {
 		global $messages_template;
 
 		$last_user_id = $messages_template->thread->last_sender_id;
-		$user = get_userdata( (int) $last_user_id );
+		$user         = get_userdata( (int) $last_user_id );
 
 		if ( 'sentbox' !== bp_current_action() && ( empty( $user ) || ! $user->exists() ) ) {
 			$thread_excerpt = esc_html__( '[deleted]', 'buddypress' );
