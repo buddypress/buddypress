@@ -165,6 +165,74 @@ function bp_nouveau_ajax_messages_send_message() {
 }
 
 /**
+ * Returns recipient's data for the Backbone UI.
+ *
+ * @since 15.0.0
+ *
+ * @param integer $user_id The User ID.
+ * @return array
+ */
+function bp_nouveau_ajax_get_message_recipients_data( $user_id ) {
+	$user_link   = bp_core_get_userlink( $user_id, false, true );
+	$avatar_args = array(
+		'item_id' => $user_id,
+		'object'  => 'user',
+		'type'    => 'thumb',
+		'width'   => 28,
+		'height'  => 28,
+		'html'    => false,
+	);
+
+	if ( ! $user_link ) {
+		return array(
+			'avatar'    => esc_url( bp_core_avatar_default( 'gravatar', $avatar_args ) ),
+			'user_link' => '',
+			'user_name' => '',
+		);
+	}
+
+	return array(
+		'avatar'    => esc_url( bp_core_fetch_avatar( $avatar_args ) ),
+		'user_link' => esc_url( $user_link ),
+		'user_name' => bp_members_get_user_slug( $user_id ),
+	);
+}
+
+/**
+ * Returns sender's data for the Backbone UI.
+ *
+ * @since 15.0.0
+ *
+ * @param integer $user_id The User ID.
+ * @return array
+ */
+function bp_nouveau_ajax_get_message_sender_data( $user_id ) {
+	$sender_link = bp_core_get_userlink( $user_id, false, true );
+	$avatar_args = array(
+		'item_id' => $user_id,
+		'object'  => 'user',
+		'type'    => 'thumb',
+		'width'   => 32,
+		'height'  => 32,
+		'html'    => false,
+	);
+
+	if ( ! $sender_link ) {
+		return array(
+			'name'   => esc_html__( 'Deleted User', 'buddypress' ),
+			'link'   => $sender_link,
+			'avatar' => esc_url( bp_core_avatar_default( 'gravatar', $avatar_args ) ),
+		);
+	}
+
+	return array(
+		'name'   => esc_html( bp_core_get_user_displayname( $user_id ) ),
+		'link'   => esc_url( $sender_link ),
+		'avatar' => esc_url( bp_core_fetch_avatar( $avatar_args ) ),
+	);
+}
+
+/**
  * @since 3.0.0
  */
 function bp_nouveau_ajax_messages_send_reply() {
@@ -332,6 +400,7 @@ function bp_nouveau_ajax_get_user_message_threads() {
 
 	while ( bp_message_threads() ) : bp_message_thread();
 		$last_message_id = (int) $messages_template->thread->last_message_id;
+		$sender_data     = bp_nouveau_ajax_get_message_sender_data( $messages_template->thread->last_sender_id );
 
 		$threads->threads[ $i ] = array(
 			'id'            => bp_get_message_thread_id(),
@@ -340,16 +409,9 @@ function bp_nouveau_ajax_get_user_message_threads() {
 			'excerpt'       => bp_get_message_thread_excerpt(),
 			'content'       => do_shortcode( bp_get_message_thread_content() ),
 			'unread'        => bp_message_thread_has_unread(),
-			'sender_name'   => bp_core_get_user_displayname( $messages_template->thread->last_sender_id ),
-			'sender_link'   => bp_core_get_userlink( $messages_template->thread->last_sender_id, false, true ),
-			'sender_avatar' => esc_url( bp_core_fetch_avatar( array(
-				'item_id' => $messages_template->thread->last_sender_id,
-				'object'  => 'user',
-				'type'    => 'thumb',
-				'width'   => 32,
-				'height'  => 32,
-				'html'    => false,
-			) ) ),
+			'sender_name'   => $sender_data['name'],
+			'sender_link'   => $sender_data['link'],
+			'sender_avatar' => $sender_data['avatar'],
 			'count'         => bp_get_message_thread_total_count(),
 			'date'          => strtotime( bp_get_message_thread_last_post_date_raw() ) * 1000,
 			'display_date'  => bp_nouveau_get_message_date( bp_get_message_thread_last_post_date_raw() ),
@@ -357,18 +419,7 @@ function bp_nouveau_ajax_get_user_message_threads() {
 
 		if ( is_array( $messages_template->thread->recipients ) ) {
 			foreach ( $messages_template->thread->recipients as $recipient ) {
-				$threads->threads[ $i ]['recipients'][] = array(
-					'avatar' => esc_url( bp_core_fetch_avatar( array(
-						'item_id' => $recipient->user_id,
-						'object'  => 'user',
-						'type'    => 'thumb',
-						'width'   => 28,
-						'height'  => 28,
-						'html'    => false,
-					) ) ),
-					'user_link' => bp_core_get_userlink( $recipient->user_id, false, true ),
-					'user_name' => bp_members_get_user_slug( $recipient->user_id ),
-				);
+				$threads->threads[ $i ]['recipients'][] = bp_nouveau_ajax_get_message_recipients_data( $recipient->user_id );
 			}
 		}
 
@@ -507,18 +558,7 @@ function bp_nouveau_ajax_get_thread_messages() {
 
 		if ( is_array( $thread_template->thread->recipients ) ) {
 			foreach ( $thread_template->thread->recipients as $recipient ) {
-				$thread->thread['recipients'][] = array(
-					'avatar' => esc_url( bp_core_fetch_avatar( array(
-						'item_id' => $recipient->user_id,
-						'object'  => 'user',
-						'type'    => 'thumb',
-						'width'   => 28,
-						'height'  => 28,
-						'html'    => false,
-					) ) ),
-					'user_link' => bp_core_get_userlink( $recipient->user_id, false, true ),
-					'user_name' => bp_members_get_user_slug( $recipient->user_id ),
-				);
+				$thread->thread['recipients'][] = bp_nouveau_ajax_get_message_recipients_data( $recipient->user_id );
 			}
 		}
 	}
@@ -527,20 +567,15 @@ function bp_nouveau_ajax_get_thread_messages() {
 	$i = 0;
 
 	while ( bp_thread_messages() ) : bp_thread_the_message();
+		$sender_data = bp_nouveau_ajax_get_message_sender_data( bp_get_the_thread_message_sender_id() );
+
 		$thread->messages[ $i ] = array(
 			'id'            => bp_get_the_thread_message_id(),
 			'content'       => do_shortcode( bp_get_the_thread_message_content() ),
 			'sender_id'     => bp_get_the_thread_message_sender_id(),
-			'sender_name'   => esc_html( bp_get_the_thread_message_sender_name() ),
-			'sender_link'   => bp_get_the_thread_message_sender_link(),
-			'sender_avatar' => esc_url( bp_core_fetch_avatar( array(
-				'item_id' => bp_get_the_thread_message_sender_id(),
-				'object'  => 'user',
-				'type'    => 'thumb',
-				'width'   => 32,
-				'height'  => 32,
-				'html'    => false,
-			) ) ),
+			'sender_name'   => $sender_data['name'],
+			'sender_link'   => $sender_data['link'],
+			'sender_avatar' => $sender_data['avatar'],
 			'date'          => bp_get_the_thread_message_date_sent() * 1000,
 			'display_date'  => bp_get_the_thread_message_time_since(),
 		);
