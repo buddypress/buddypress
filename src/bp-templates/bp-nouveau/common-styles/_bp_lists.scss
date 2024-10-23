@@ -160,6 +160,16 @@
 
 	} // close li
 
+	article.notice-item {
+		margin-bottom: 2em;
+		padding: 1em 0;
+		border-top: solid 1px #ccc;
+
+		&:first-child {
+			border-top: none;
+		}
+	}
+
 } // close .bp-list
 
 // Ensure there's space between parent act list wrapper and filters bar

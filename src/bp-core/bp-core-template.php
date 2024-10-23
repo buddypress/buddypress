@@ -2913,19 +2913,6 @@ function bp_is_messages_compose_screen() {
 }
 
 /**
- * Is the current page the Notices screen?
- *
- * Eg http://example.com/members/joe/messages/notices/.
- *
- * @since 1.1.0
- *
- * @return bool True if the current page is the Notices screen.
- */
-function bp_is_notices() {
-	return (bool) ( bp_is_user_messages() && bp_is_current_action( 'notices' ) );
-}
-
-/**
  * Is the current page a single Messages conversation thread?
  *
  * @since 1.6.0
@@ -3295,10 +3282,6 @@ function bp_the_body_class() {
 
 		if ( bp_is_messages_compose_screen() ) {
 			$bp_classes[] = 'compose';
-		}
-
-		if ( bp_is_notices() ) {
-			$bp_classes[] = 'notices';
 		}
 
 		if ( bp_is_user_friend_requests() ) {

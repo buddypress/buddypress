@@ -62,18 +62,4 @@ class BP_Tests_Routing_Messages extends BP_UnitTestCase {
 		);
 		$this->assertTrue( bp_is_messages_compose_screen() );
 	}
-
-	function test_member_messages_notices() {
-		$this->set_permalink_structure( '/%postname%/' );
-		$this->go_to(
-			bp_members_get_user_url(
-				bp_loggedin_user_id(),
-				array(
-					'single_item_component' => bp_rewrites_get_slug( 'members', 'member_messages', bp_get_messages_slug() ),
-					'single_item_action'    => bp_rewrites_get_slug( 'members', 'member_messages_notices', 'notices' ),
-				)
-			)
-		);
-		$this->assertTrue( bp_is_notices() );
-	}
 }

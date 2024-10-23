@@ -316,18 +316,20 @@ class BP_Admin {
 		$this->submenu_pages['settings']['bp-settings'] = $bp_settings_page;
 		$hooks[]                                        = $bp_settings_page;
 
-		// Admin notifications.
-		$bp_admin_notifications = add_submenu_page(
-			$this->settings_page,
-			__( 'BuddyPress Admin Notifications', 'buddypress' ),
-			__( 'BuddyPress Admin Notifications', 'buddypress' ),
-			$this->capability,
-			'bp-admin-notifications',
-			array( $this, 'admin_notifications' )
-		);
+		if ( bp_is_active( 'members', 'notices' ) ) {
+			// BuddyPress Admin notices.
+			$bp_admin_notices = add_submenu_page(
+				$this->settings_page,
+				__( 'BuddyPress Admin Notices', 'buddypress' ),
+				__( 'BuddyPress Admin Notices', 'buddypress' ),
+				$this->capability,
+				'bp-admin-notices',
+				array( $this, 'admin_notices' )
+			);
 
-		$this->submenu_pages['settings']['bp-admin-notifications'] = $bp_admin_notifications;
-		$hooks[] = $bp_admin_notifications;
+			$this->submenu_pages['settings']['bp-admin-notices'] = $bp_admin_notices;
+			$hooks[]                                             = $bp_admin_notices;
+		}
 
 		// Credits.
 		$bp_credits_page = add_submenu_page(
@@ -438,7 +440,7 @@ class BP_Admin {
 				add_action( "admin_print_styles-{$subpage_hook}", array( $this, 'add_inline_styles' ), 20 );
 
 				// When BuddyPress is activated on the network, the settings screens need an admin notice when settings have been updated.
-				if ( is_network_admin() && bp_is_network_activated() && 'settings' === $subpage_type && 'settings_page_bp-credits' !== $subpage_hook ) {
+				if ( is_network_admin() && bp_is_network_activated() && 'settings' === $subpage_type && ! in_array( $subpage_hook, array( 'settings_page_bp-credits', 'settings_page_bp-admin-notices' ), true ) ) {
 					add_action( "load-{$subpage_hook}", array( $this, 'admin_load' ) );
 				}
 			}
@@ -624,13 +626,7 @@ class BP_Admin {
 				'parent' => 'wp-logo',
 				'id'     => 'bp-about',
 				'title'  => esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ),
-				'href'   => add_query_arg(
-					array(
-						'page'  => 'bp-components',
-						'hello' => 'buddypress'
-					),
-					bp_get_admin_url( $this->settings_page )
-				),
+				'href'   => bp_core_get_changelog_url(),
 				'meta'   => array(
 					'class' => 'say-hello-buddypress',
 				),
@@ -654,21 +650,10 @@ class BP_Admin {
 			return $links;
 		}
 
-		$settings_args = array(
-			'page' => 'bp-components',
-		);
-
-		$about_args = array_merge(
-			$settings_args,
-			array(
-				'hello' => 'buddypress',
-			)
-		);
-
 		// Add a few links to the existing links array.
 		return array_merge( $links, array(
-			'settings' => '<a href="' . esc_url( add_query_arg( $settings_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
-			'about'    => '<a href="' . esc_url( add_query_arg( $about_args, bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
+			'settings' => '<a href="' . esc_url( add_query_arg( 'page', 'bp-components', bp_get_admin_url( $this->settings_page ) ) ) . '">' . esc_html__( 'Settings', 'buddypress' ) . '</a>',
+			'about'    => '<a href="' . esc_url( bp_core_get_changelog_url() ) . '">' . esc_html_x( 'Hello, BuddyPress!', 'Colloquial alternative to "learn about BuddyPress"', 'buddypress' ) . '</a>'
 		) );
 	}
 
@@ -696,10 +681,10 @@ class BP_Admin {
 	public function admin_head() {
 
 		// Settings pages.
-		remove_submenu_page( $this->settings_page, 'bp-rewrites'            );
-		remove_submenu_page( $this->settings_page, 'bp-settings'            );
-		remove_submenu_page( $this->settings_page, 'bp-credits'             );
-		remove_submenu_page( $this->settings_page, 'bp-admin-notifications' );
+		remove_submenu_page( $this->settings_page, 'bp-rewrites' );
+		remove_submenu_page( $this->settings_page, 'bp-settings' );
+		remove_submenu_page( $this->settings_page, 'bp-credits' );
+		remove_submenu_page( $this->settings_page, 'bp-admin-notices' );
 
 		// Network Admin Tools.
 		remove_submenu_page( 'network-tools', 'network-tools' );
@@ -1507,20 +1492,6 @@ class BP_Admin {
 				'footer'       => true,
 			),
 
-			// 10.0
-			'bp-dismissible-admin-notices' => array(
-				'file'         => "{$url}dismissible-admin-notices.js",
-				'dependencies' => array(),
-				'footer'       => true,
-				'extra'        => array(
-					'name' => 'bpDismissibleAdminNoticesSettings',
-					'data' => array(
-						'url'    => bp_core_ajax_url(),
-						'nonce'  => wp_create_nonce( 'bp_dismiss_admin_notice' ),
-					),
-				),
-			),
-
 			// 12.0
 			'bp-rewrites-ui' => array(
 				'file' => "{$url}rewrites-ui.js",
@@ -1674,11 +1645,6 @@ class BP_Admin {
 			);
 		}
 
-		if ( isset( $_GET['n'] ) && $_GET['n'] ) {
-			$notification_id = sanitize_text_field( wp_unslash( $_GET['n'] ) );
-			bp_core_dismiss_admin_notification( $notification_id );
-		}
-
 		// Display the "buddypress" favorites.
 		display_plugins_table();
 	}
@@ -1687,28 +1653,111 @@ class BP_Admin {
 	 * Display the Admin Notifications screen.
 	 *
 	 * @since 11.4.0
+	 * @since 15.0.0 Method has been renamed.
 	 */
-	public function admin_notifications() {
-		bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Notifications', 'buddypress' ) );
-		$notifications = bp_core_get_admin_notifications();
-		$class         = '';
+	public function admin_notices() {
+		bp_core_admin_tabbed_screen_header( __( 'BuddyPress Settings', 'buddypress' ), __( 'Notices', 'buddypress' ) );
 
-		if ( $notifications ) {
-			wp_enqueue_script( 'bp-dismissible-admin-notices' );
-			$notifications = array_reverse( bp_sort_by_key( $notifications, 'version', 'num' ) );
-			$class         = 'hide';
+		$admin_notices = array();
+		$notice_id     = 0;
+		$type          = 'unread';
+
+		if ( isset( $_GET['nid'] ) ) {
+			$notice_id = (int) wp_unslash( $_GET['nid'] );
+
+			// Fetch matching notice.
+			$admin_notices = array( bp_members_get_notice( $notice_id ) );
+
+		} else {
+			$user_id = bp_loggedin_user_id();
+			$args    = array(
+				'user_id'    => $user_id,
+				'target__in' => array( 'admins' ),
+				'priority'   => 0,
+			);
+
+			if ( isset( $_GET['type'] ) ) {
+				$type = sanitize_text_field( wp_unslash( $_GET['type'] ) );
+			}
+
+			if ( 'unread' === $type ) {
+				$args['exclude'] = bp_members_get_dismissed_notices_for_user( $user_id );
+			} else {
+				$args['dismissed'] = true;
+			}
+
+			// Check dismissal feedback messages.
+			if ( isset( $_GET['bp-dismissed'] ) ) {
+				$class    = empty( $_GET['bp-dismissed'] ) ? 'error' : 'updated';
+				$feedback = __( 'Notice successfully dismissed.', 'buddypress' );
+
+				if ( 'error' === $class ) {
+					$feedback = __( 'The notice could not be dismissed.', 'buddypress' );
+				}
+
+				printf(
+					'<div id="message" class="%1$s notice is-dismissible"><p>%2$s</p></div>',
+					esc_attr( $class ),
+					esc_html( $feedback )
+				);
+			}
+
+			$admin_notices_count = bp_members_get_notices_count( $args );
+
+			// Set pagination.
+			$args['pag_num']  = 5;
+			$args['pag_page'] = 1;
+			if ( isset( $_GET['paged'] ) ) {
+				$args['pag_page'] = (int) wp_unslash( $_GET['paged'] );
+			}
+
+			$total_pages = ceil( (int) $admin_notices_count / (int) $args[ 'pag_num'] );
+
+			// Fetch matching notices.
+			$admin_notices = bp_members_get_notices( $args );
 		}
 		?>
-		<div class="buddypress-body admin-notifications">
-			<table id="no-admin-notifications" class="form-table <?php echo sanitize_html_class( $class ); ?>" role="presentation">
-				<tbody>
-					<tr><td><?php esc_html_e( 'No new Admin Notfications', 'buddypress' ); ?></td><tr>
-				</tbody>
-			</table>
+		<div class="buddypress-body admin-notices">
+			<form action="" method="get">
+				<input type="hidden" name="page" value="bp-admin-notices">
+				<?php if ( ! $notice_id ) : ?>
+					<div class="wp-filter">
+						<?php if ( 1 < $total_pages ) : ?>
+							<div class="pagination">
+								<?php if ( 1 < $args['pag_page'] ) : ?>
+									<button type="submit" class="button" name="paged" value="<?php echo intval( $args['pag_page'] - 1 ); ?>"><?php esc_html_e( 'Prev', 'buddypress' ); ?></button>
+								<?php endif; ?>
+								<?php if ( $total_pages > $args[ 'pag_page'] ) : ?>
+									<button type="submit" class="button" name="paged" value="<?php echo intval( $args['pag_page'] + 1 ); ?>"><?php esc_html_e( 'Next', 'buddypress' ); ?></button>
+								<?php endif; ?>
+							</div>
+						<?php endif; ?>
+						<div class="search-form">
+							<select id="admin-notices-filter" name="type">
+								<option value="unread" <?php selected( 'unread', $type ); ?>><?php esc_html_e( 'Unread', 'buddypress' ); ?></option>
+								<option value="read" <?php selected( 'read', $type ); ?>><?php esc_html_e( 'Dismissed', 'buddypress' ); ?></option>
+							</select>
+							<?php submit_button( __( 'Filter', 'buddypress' ), '', '', false ); ?>
+						</div>
+					</div>
+				<?php endif; ?>
+			</form>
 
-			<?php if ( $notifications ) : foreach ( $notifications as $notification ) : ?>
-				<?php bp_core_admin_format_notifications( $notification ); ?>
-			<?php endforeach; endif; ?>
+			<?php
+			if ( $admin_notices ) {
+				foreach ( $admin_notices as $admin_notice ) {
+					bp_core_admin_format_notice( $admin_notice, $type );
+				}
+			} else {
+				?>
+				<table id="no-admin-notices" class="form-table" role="presentation">
+					<tbody>
+						<tr><td><?php echo esc_html( 'unread' === $type ? __( 'No unread notices', 'buddypress' ) : __( 'No dismissed notices', 'buddypress' ) ); ?></td><tr>
+					</tbody>
+				</table>
+				<?php
+			}
+			?>
 		</div>
 		<?php
 	}

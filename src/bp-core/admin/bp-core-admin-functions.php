@@ -388,23 +388,16 @@ function bp_do_activation_redirect() {
 		return;
 	}
 
-	$settings_page = 'options-general.php';
-	if ( bp_core_do_network_admin() ) {
-		$settings_page = 'settings.php';
-	}
-
-	$query_args = array(
-		'page'  => 'bp-components',
-		'hello' => 'buddypress'
-	);
+	$query_args = array();
 
 	if ( get_transient( '_bp_is_new_install' ) ) {
 		$query_args['is_new_install'] = '1';
 		delete_transient( '_bp_is_new_install' );
 	}
 
-	// Redirect to dashboard and trigger the Hello screen.
-	wp_safe_redirect( add_query_arg( $query_args, bp_get_admin_url( $settings_page ) ) );
+	// Redirect to Components settings and trigger the Hello screen.
+	wp_safe_redirect( bp_core_get_changelog_url( $query_args ) );
+	exit;
 }
 
 /** UI/Styling ****************************************************************/
@@ -547,19 +540,19 @@ function bp_core_get_admin_settings_tabs( $apply_filters = true ) {
 		),
 	);
 
+	if ( bp_is_active( 'members', 'notices' ) ) {
+		$settings_tabs['5'] = array(
+			'id'   => 'bp-admin-notices',
+			'href' => bp_get_member_buddypress_notices_url(),
+			'name' => __( 'Notices', 'buddypress' ),
+		);
+	}
+
 	if ( 'rewrites' === bp_core_get_query_parser() ) {
 		$settings_tabs['1'] = array(
 			'id'   => 'bp-rewrites',
 			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-rewrites' ), 'admin.php' ) ),
 			'name' => __( 'URLs', 'buddypress' ),
-		);
-	}
-
-	if ( bp_core_get_unread_admin_notifications() || ( isset( $_GET['page'] ) && 'bp-admin-notifications' === $_GET['page'] ) ) {
-		$settings_tabs['3'] = array(
-			'id'   => 'bp-admin-notifications',
-			'href' => bp_get_admin_url( add_query_arg( array( 'page' => 'bp-admin-notifications' ), 'admin.php' ) ),
-			'name' => __( 'Notifications', 'buddypress' ),
 		);
 	}
 
@@ -1610,45 +1603,6 @@ function bp_core_admin_user_spammed_js() {
 }
 
 /**
- * Catch and process an admin notice dismissal.
- *
- * @since 2.7.0
- */
-function bp_core_admin_notice_dismiss_callback() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_send_json_error();
-	}
-
-	$nonce_data = array();
-	if ( isset( $_SERVER['HTTP_X_BP_NONCE'] ) ) {
-		$nonce_data = array(
-			'nonce'  => $_SERVER['HTTP_X_BP_NONCE'],
-			'action' => 'bp_dismiss_admin_notice',
-		);
-	} elseif ( isset( $_POST['nonce'] ) ) {
-		$nonce_data['nonce'] = $_POST['nonce'];
-	}
-
-	if ( empty( $nonce_data['nonce'] ) || empty( $_POST['notice_id'] ) ) {
-		wp_send_json_error();
-	}
-
-	$notice_id = wp_unslash( $_POST['notice_id'] );
-	if ( ! isset( $nonce_data['action'] ) ) {
-		$nonce_data['action'] = 'bp-dismissible-notice-' . $notice_id;
-	}
-
-	if ( ! wp_verify_nonce( $nonce_data['nonce'], $nonce_data['action'] ) ) {
-		wp_send_json_error();
-	}
-
-	bp_core_dismiss_admin_notification( $notice_id );
-
-	wp_send_json_success();
-}
-add_action( 'wp_ajax_bp_dismiss_notice', 'bp_core_admin_notice_dismiss_callback' );
-
-/**
  * Add a "buddypress" class to body element of wp-admin.
  *
  * @since 2.8.0
@@ -1705,34 +1659,29 @@ function bp_block_category( $categories = array(), $editor_name_or_post = null )
 add_filter( 'block_categories_all', 'bp_block_category', 1, 2 );
 
 /**
- * Outputs an Admin Notification.
+ * Outputs an Admin Notice.
  *
  * @since 11.4.0
+ * @since 15.0.0 Renamed in favor of `bp_core_admin_format_notice`
  *
- * @param object|null $notification An Admin Notification object.
+ * @param object|null $notice An Admin Notice object.
+ * @param string      $type   Whether formatting is made for 'unread' notices or 'read' one.
  */
-function bp_core_admin_format_notifications( $notification = null ) {
-	if ( ! isset( $notification->id ) ) {
+function bp_core_admin_format_notice( $notice = null, $type = 'unread' ) {
+	if ( ! bp_is_active( 'members', 'notices' ) || ! isset( $notice->id ) ) {
 		return;
 	}
 	?>
 	<div class="bp-welcome-panel bp-notice-container">
-		<a class="bp-welcome-panel-close bp-is-dismissible" href="#" data-notice_id="<?php echo esc_attr( $notification->id ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the notification', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+		<?php if ( 'unread' === $type ) : ?>
+			<a class="bp-welcome-panel-close bp-is-dismissible" href="<?php bp_notice_dismiss_url( $notice ); ?>" data-notice_id="<?php bp_notice_id( $notice ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the notification', 'buddypress' ); ?>"><?php esc_html_e( 'Dismiss', 'buddypress' ); ?></a>
+		<?php endif; ?>
 		<div class="bp-welcome-panel-content">
-			<h2><span class="bp-version"><?php echo esc_html( number_format_i18n( $notification->version, 1 ) ); ?></span> <?php echo esc_html( $notification->title ); ?></h2>
+			<h2><span class="bp-version"><?php bp_admin_notice_version( $notice ); ?></span> <?php bp_notice_title( $notice ); ?></h2>
 			<p class="about-description">
-				<?php
-				echo wp_kses(
-					$notification->content,
-					array(
-						'a'      => array( 'href' => true ),
-						'br'     => array(),
-						'strong' => array(),
-					)
-				);
-				?>
+				<?php bp_notice_content( $notice ); ?>
 			</p>
-			<div class="bp-admin-notification-action"><a href="<?php echo esc_url( $notification->href ); ?>" class="button button-primary"><?php echo esc_html( $notification->text ); ?></a></div>
+			<div class="bp-admin-notice-action"><a href="<?php bp_notice_action_url( $notice ); ?>" class="button button-primary"><?php bp_notice_action_text( $notice ); ?></a></div>
 		</div>
 	</div>
 	<?php
@@ -1792,3 +1741,24 @@ function bp_admin_edit_available_addons_properties( $addons, $action, $args ) {
 	return $addons;
 }
 add_filter( 'plugins_api_result', 'bp_admin_edit_available_addons_properties', 10, 3 );
+
+/**
+ * Adds BP specific removable query arg to WordPress ones.
+ *
+ * @since 15.0.0
+ *
+ * @param array $query_args The removable query args.
+ * @return array The removable query args.
+ */
+function bp_admin_removable_query_args( $query_args = array() ) {
+	return array_merge(
+		$query_args,
+		array(
+			'bp-dismissed',
+			'bp-success',
+			'bp-error',
+			'bp-error-code',
+		)
+	);
+}
+add_filter( 'removable_query_args', 'bp_admin_removable_query_args' );

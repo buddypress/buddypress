@@ -3,48 +3,13 @@
  * Sitewide Notices Controller Tests.
  *
  * @group notices
- * @group messages
+ * @group members
+ * @group members_notices
  */
-class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_Testcase {
+class BP_Tests_Members_Notices_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	protected $last_inserted_notice_id;
-	protected $controller = 'BP_Messages_Sitewide_Notices_REST_Controller';
-	protected $handle     = 'sitewide-notices';
-
-	public function set_up() {
-		parent::set_up();
-
-		add_action( 'messages_notice_before_save', array( $this, 'add_filter_update_last_active_query' ), 10, 0 );
-		add_action( 'messages_notice_after_save', array( $this, 'set_last_inserted_notice_id' ) );
-	}
-
-	public function tear_down() {
-		remove_action( 'messages_notice_before_save', array( $this, 'add_filter_update_last_active_query' ) );
-		remove_action( 'messages_notice_after_save', array( $this, 'set_last_inserted_notice_id' ) );
-
-		parent::tear_down();
-	}
-
-	public function catch_inserted_id( $query ) {
-		preg_match( '/SET is_active = 0 WHERE id != (.*)/', $query, $matches );
-		if ( isset( $matches[1] ) && $matches[1] ) {
-			$this->last_inserted_notice_id = (int) $matches[1];
-		}
-
-		return $query;
-	}
-
-	public function add_filter_update_last_active_query() {
-		add_filter( 'query', array( $this, 'catch_inserted_id' ) );
-	}
-
-	public function set_last_inserted_notice_id( $notice_obj ) {
-		remove_filter( 'query', array( $this, 'catch_inserted_id' ) );
-
-		if ( $this->last_inserted_notice_id ) {
-			$notice_obj->id                = $this->last_inserted_notice_id;
-			$this->last_inserted_notice_id = null;
-		}
-	}
+	protected $controller = 'BP_Members_Notices_REST_Controller';
+	protected $handle     = 'notices';
 
 	public function test_register_routes() {
 		$routes   = $this->server->get_routes();
@@ -61,7 +26,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertCount( 3, $routes[ $single_endpoint ] );
 
 		// Dismiss.
-		$dismiss_endpoint = $endpoint . '/dismiss';
+		$dismiss_endpoint = $endpoint . '/dismiss/(?P<id>[\d]+)';
 
 		$this->assertArrayHasKey( $dismiss_endpoint, $routes );
 		$this->assertCount( 1, $routes[ $dismiss_endpoint ] );
@@ -74,22 +39,13 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 			$props = wp_parse_args(
 				$notice,
 				array(
-					'subject'   => 'example subject',
-					'message'   => 'example message',
-					'date_sent' => bp_core_current_time(),
-					'is_active' => 1,
+					'title'   => 'example title',
+					'content' => 'example content',
 				)
 			);
 
-			$new_notice = new BP_Messages_Notice();
-
-			foreach ( $props as $key => $prop ) {
-				$new_notice->{$key} = $prop;
-			}
-
-			if ( $new_notice->save() ) {
-				$created[] = $new_notice;
-			}
+			$notice_id = bp_members_save_notice( $props );
+			$created[] = bp_members_get_notice( $notice_id );
 		}
 
 		return $created;
@@ -103,16 +59,17 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$tested = array(
 			'n1' => array(
-				'subject' => 'foo',
+				'title'  => 'foo',
 			),
 			'n2' => array(
-				'subject' => 'bar',
+				'title'  => 'bar',
 			),
 		);
 
 		$created = $this->create_notice( $tested );
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
+		$request->set_param( 'target', 'community' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
@@ -121,11 +78,9 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertNotEmpty( $all_data );
 		$this->assertTrue( 2 === count( $all_data ) );
 
-		$data   = wp_list_filter( $all_data, array( 'is_active' => true ) );
-		$data_n = reset( $data );
-
-		$n   = wp_filter_object_list( $created, array( 'id' => $data_n['id'] ), 'and', 'id' );
-		$key = key( $n );
+		$data_n = reset( $all_data );
+		$n      = wp_filter_object_list( $created, array( 'id' => $data_n['id'] ), 'and', 'id' );
+		$key    = key( $n );
 
 		$this->check_notice_data( $created[ $key ], $data_n, 'edit' );
 	}
@@ -137,10 +92,10 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject' => 'foo',
+				'title' => 'foo',
 			),
 			'n2' => array(
-				'subject' => 'bar',
+				'title' => 'bar',
 			),
 		);
 
@@ -159,55 +114,17 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	/**
 	 * @group get_items
 	 */
-	public function test_get_items_view_active() {
-		$this->bp::set_current_user( $this->user );
-		$tested = array(
-			'n1' => array(
-				'subject'   => 'foo',
-				'is_active' => 0,
-			),
-			'n2' => array(
-				'subject' => 'bar',
-			),
-		);
-
-		$created = $this->create_notice( $tested );
-		$n       = wp_filter_object_list( $created, array( 'is_active' => 1 ), 'and', 'id' );
-		$key     = key( $n );
-
+	public function test_get_items_no_items() {
 		$u1 = static::factory()->user->create();
 		$this->bp::set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
-		$response = $this->server->dispatch( $request );
-
-		$this->assertEquals( 200, $response->get_status() );
-
-		$data = $response->get_data();
-
-		$this->assertNotEmpty( $data );
-
-		$this->assertTrue( 1 === count( $data ), 'There should only be one active notice in the view context' );
-
-		$this->check_notice_data( $created[ $key ], $data[0] );
-	}
-
-	/**
-	 * @group get_items
-	 */
-	public function test_get_items_no_active() {
-		$this->bp::set_current_user( $this->user );
-
-		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
-
-		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
-		$request->set_param( 'context', 'view' );
+		$request->set_param( 'user_id', $u1 );
 		$response = $this->server->dispatch( $request );
 
 		$data = $response->get_data();
-		$this->assertTrue( 0 === count( $data ), 'There should be no active notices available' );
+		$this->assertTrue( 0 === count( $data ), 'There should be no notices available' );
 	}
 
 	/**
@@ -217,19 +134,16 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject'   => 'foo',
-				'is_active' => 0,
+				'title' => 'foo',
 			),
 			'n2' => array(
-				'subject' => 'bar',
+				'title' => 'bar',
 			),
 		);
 
 		$created = $this->create_notice( $tested );
-
-		$n   = wp_filter_object_list( $created, array( 'is_active' => 1 ), 'and', 'id' );
-		$id  = current( $n );
-		$key = key( $n );
+		$id      = current( $created )->id;
+		$key     = key( $created );
 
 		$u1 = static::factory()->user->create();
 		$this->bp::set_current_user( $u1 );
@@ -253,19 +167,16 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject'   => 'foo',
-				'is_active' => 0,
+				'title' => 'foo',
 			),
 			'n2' => array(
-				'subject' => 'bar',
+				'title' => 'bar',
 			),
 		);
 
 		$created = $this->create_notice( $tested );
-
-		$n   = wp_filter_object_list( $created, array( 'is_active' => 0 ), 'and', 'id' );
-		$id  = current( $n );
-		$key = key( $n );
+		$id      = current( $created )->id;
+		$key     = key( $created );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $id );
 		$request->set_param( 'context', 'edit' );
@@ -286,18 +197,13 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject'   => 'foo',
-				'is_active' => 0,
-			),
-			'n2' => array(
-				'subject' => 'bar',
+				'title'  => 'foo',
+				'target' => 'contributors',
 			),
 		);
 
 		$created = $this->create_notice( $tested );
-
-		$n  = wp_filter_object_list( $created, array( 'is_active' => 0 ), 'and', 'id' );
-		$id = current( $n );
+		$id      = current( $created )->id;
 
 		$u1 = static::factory()->user->create();
 		$this->bp::set_current_user( $u1 );
@@ -307,42 +213,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
-	}
-
-	/**
-	 * @group get_item
-	 */
-	public function test_get_item_view_active() {
-		$this->bp::set_current_user( $this->user );
-		$tested = array(
-			'n1' => array(
-				'subject'   => 'bar',
-				'is_active' => 0,
-			),
-			'n2' => array(
-				'subject' => 'foo',
-			),
-		);
-
-		$created = $this->create_notice( $tested );
-
-		$n   = wp_filter_object_list( $created, array( 'is_active' => 1 ), 'and', 'id' );
-		$id  = current( $n );
-		$key = key( $n );
-
-		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
-
-		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $id );
-		$request->set_param( 'context', 'view' );
-		$response = $this->server->dispatch( $request );
-
-		$this->assertEquals( 200, $response->get_status() );
-
-		$data = $response->get_data();
-		$this->assertNotEmpty( $data );
-
-		$this->check_notice_data( $created[ $key ], $data );
 	}
 
 	/**
@@ -368,8 +238,8 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$request->set_param( 'context', 'edit' );
 		$request->set_query_params(
 			array(
-				'subject' => 'Foo Bar',
-				'message' => 'Content',
+				'title'   => 'Foo Bar',
+				'content' => 'Content',
 			)
 		);
 
@@ -379,8 +249,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$data = $response->get_data();
 		$this->assertNotEmpty( $data );
 
-		$this->assertTrue( $data['is_active'] );
-		$this->assertSame( 'Content', $data['message']['raw'] );
+		$this->assertSame( 'Content', $data['content']['raw'] );
 	}
 
 	/**
@@ -393,8 +262,8 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$request->set_param( 'context', 'edit' );
 		$request->set_query_params(
 			array(
-				'subject' => 'Foo Bar',
-				'message' => 'Ouch!',
+				'title' => 'Foo Bar',
+				'content' => 'Ouch!',
 			)
 		);
 
@@ -406,21 +275,21 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	/**
 	 * @group create_item
 	 */
-	public function test_create_item_no_subject() {
+	public function test_create_item_no_title() {
 		$this->bp::set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
 		$request->set_query_params(
 			array(
-				'subject' => '',
-				'message' => 'Aïe!',
+				'title'   => '',
+				'content' => 'Aïe!',
 			)
 		);
 
 		$response = $this->server->dispatch( $request );
 
-		$this->assertErrorResponse( 'bp_rest_user_cannot_create_sitewide_notice', $response, 500 );
+		$this->assertErrorResponse( 'bp_notices_missing_data', $response, 500 );
 	}
 
 	/**
@@ -430,8 +299,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject'   => 'Foo Bar',
-				'is_active' => 0,
+				'title' => 'Foo Bar',
 			),
 		);
 
@@ -440,17 +308,14 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $n->id ) );
 		$request->set_param( 'context', 'edit' );
-		$request->set_param( 'is_active', true );
-		$request->set_param( 'message', 'Yeah!' );
+		$request->set_param( 'content', 'Yeah!' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertEquals( 200, $response->get_status() );
-
 		$data = $response->get_data();
 
 		$this->assertNotEmpty( $data );
-		$this->assertTrue( $data['is_active'] );
-		$this->assertSame( 'Yeah!', $data['message']['raw'] );
+		$this->assertSame( 'Yeah!', $data['content']['raw'] );
 	}
 
 	/**
@@ -460,7 +325,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject' => 'Foo Bar',
+				'title' => 'Foo Bar',
 			),
 		);
 
@@ -472,7 +337,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $n->id ) );
 		$request->set_param( 'context', 'edit' );
-		$request->set_param( 'message', 'Ouch!' );
+		$request->set_param( 'content', 'Ouch!' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_authorization_required', $response, rest_authorization_required_code() );
@@ -481,11 +346,11 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	/**
 	 * @group update_item
 	 */
-	public function test_update_item_no_message() {
+	public function test_update_item_no_content() {
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject' => 'Foo Bar',
+				'title' => 'Foo Bar',
 			),
 		);
 
@@ -494,10 +359,10 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $n->id ) );
 		$request->set_param( 'context', 'edit' );
-		$request->set_param( 'message', '' );
+		$request->set_param( 'content', '' );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertErrorResponse( 'bp_rest_sitewide_notices_update_failed', $response, 500 );
+		$this->assertErrorResponse( 'bp_notices_missing_data', $response, 500 );
 	}
 
 	/**
@@ -508,7 +373,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
-		$request->set_param( 'message', 'Ouch!' );
+		$request->set_param( 'content', 'Ouch!' );
 		$response = $this->server->dispatch( $request );
 
 		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
@@ -521,7 +386,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject' => 'Foo Bar',
+				'title' => 'Foo Bar',
 			),
 		);
 
@@ -538,7 +403,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['deleted'] );
-		$this->assertTrue( $data['previous']['subject']['raw'] === 'Foo Bar' );
+		$this->assertTrue( $data['previous']['title']['raw'] === 'Foo Bar' );
 	}
 
 	/**
@@ -548,7 +413,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject' => 'Ouch!',
+				'title' => 'Ouch!',
 			),
 		);
 
@@ -585,7 +450,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject' => 'Taz',
+				'title' => 'Taz',
 			),
 		);
 
@@ -595,7 +460,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$u1 = static::factory()->user->create();
 		$this->bp::set_current_user( $u1 );
 
-		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/dismiss' );
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/dismiss/' . $n->id );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
@@ -605,32 +470,33 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertNotEmpty( $data );
 		$this->assertTrue( $data['dismissed'] );
-		$this->assertTrue( $data['previous']['subject']['rendered'] === 'Taz' );
-		$this->assertContains( $n->id, bp_get_user_meta( $u1, 'closed_notices', true ) );
+		$this->assertTrue( $data['previous']['title']['rendered'] === 'Taz' );
+		$this->assertContains( $n->id, bp_members_get_dismissed_notices_for_user( $u1 ) );
 	}
 
 	/**
 	 * @group dismiss_item
 	 */
-	public function test_dismiss_item_no_actives() {
+	public function test_dismiss_item_already_dismissed() {
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject'   => 'Taz',
-				'is_active' => 0,
+				'title' => 'Taz',
 			),
 		);
 
-		$this->create_notice( $tested );
+		$notice    = $this->create_notice( $tested );
+		$notice_id = current( $notice )->id;
 
 		$u1 = static::factory()->user->create();
 		$this->bp::set_current_user( $u1 );
 
-		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/dismiss' );
-		$request->set_param( 'context', 'edit' );
+		bp_members_dismiss_notice( $u1, $notice_id );
+
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/dismiss/' . $notice_id  );
 		$response = $this->server->dispatch( $request );
 
-		$this->assertErrorResponse( 'bp_rest_invalid_id', $response, 404 );
+		$this->assertErrorResponse( 'notice_dismiss_already_dismissed', $response, 404 );
 	}
 
 	/**
@@ -640,15 +506,16 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->bp::set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
-				'subject' => 'Taz',
+				'title' => 'Taz',
 			),
 		);
 
-		$this->create_notice( $tested );
+		$notice    = $this->create_notice( $tested );
+		$notice_id = current( $notice )->id;
 
 		$this->bp::set_current_user( 0 );
 
-		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/dismiss' );
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/dismiss/' . $notice_id );
 		$request->set_param( 'context', 'edit' );
 		$response = $this->server->dispatch( $request );
 
@@ -666,13 +533,12 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertEquals( $notice->id, $data['id'] );
 
 		if ( 'edit' === $context ) {
-			$this->assertEquals( $notice->subject, $data['subject']['raw'] );
-			$this->assertEquals( $notice->message, $data['message']['raw'] );
-			$this->assertEquals( (bool) $notice->is_active, $data['is_active'] );
+			$this->assertEquals( $notice->subject, $data['title']['raw'] );
+			$this->assertEquals( bp_get_notice_content( $notice, true ), $data['content']['raw'] );
 		}
 
-		$this->assertEquals( apply_filters( 'bp_get_message_notice_subject', wp_staticize_emoji( $notice->subject ) ), $data['subject']['rendered'] );
-		$this->assertEquals( apply_filters( 'bp_get_message_notice_text', wp_staticize_emoji( $notice->message ) ), $data['message']['rendered'] );
+		$this->assertEquals( apply_filters( 'bp_get_notice_title', wp_staticize_emoji( $notice->subject ) ), $data['title']['rendered'] );
+		$this->assertEquals( wp_staticize_emoji( bp_get_notice_content( $notice ) ), $data['content']['rendered'] );
 		$this->assertEquals(
 			bp_rest_prepare_date_response( $notice->date_sent, get_date_from_gmt( $notice->date_sent ) ),
 			$data['date']
@@ -686,13 +552,16 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$data       = $response->get_data();
 		$properties = $data['schema']['properties'];
 
-		$this->assertEquals( 6, count( $properties ) );
+		$this->assertEquals( 9, count( $properties ) );
 		$this->assertArrayHasKey( 'id', $properties );
-		$this->assertArrayHasKey( 'subject', $properties );
-		$this->assertArrayHasKey( 'message', $properties );
+		$this->assertArrayHasKey( 'title', $properties );
+		$this->assertArrayHasKey( 'content', $properties );
+		$this->assertArrayHasKey( 'target', $properties );
 		$this->assertArrayHasKey( 'date', $properties );
 		$this->assertArrayHasKey( 'date_gmt', $properties );
-		$this->assertArrayHasKey( 'is_active', $properties );
+		$this->assertArrayHasKey( 'priority', $properties );
+		$this->assertArrayHasKey( 'action_url', $properties );
+		$this->assertArrayHasKey( 'action_text', $properties );
 	}
 
 	public function test_context_param() {
@@ -701,7 +570,6 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$response = $this->server->dispatch( $request );
 		$data     = $response->get_data();
 
-		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
-		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+		$this->assertEquals( array( 'view', 'embed', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
 }

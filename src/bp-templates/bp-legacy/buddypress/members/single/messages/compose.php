@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 15.0.0
  */
 
 ?>
@@ -31,10 +31,6 @@
 			<input type="text" name="send-to-input" class="send-to-input" id="send-to-input" />
 		</li>
 	</ul>
-
-	<?php if ( bp_current_user_can( 'bp_moderate' ) ) : ?>
-		<p><label for="send-notice"><input type="checkbox" id="send-notice" name="send-notice" value="1" /> <?php esc_html_e( "This is a notice to all users.", 'buddypress' ); ?></label></p>
-	<?php endif; ?>
 
 	<label for="subject"><?php esc_html_e( 'Subject', 'buddypress' ); ?></label>
 	<input type="text" name="subject" id="subject" value="<?php bp_messages_subject_value(); ?>" />
