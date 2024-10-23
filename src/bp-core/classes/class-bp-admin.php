@@ -156,7 +156,11 @@ class BP_Admin {
 		require $this->admin_dir . 'bp-core-admin-functions.php';
 		require $this->admin_dir . 'bp-core-admin-components.php';
 		require $this->admin_dir . 'bp-core-admin-tools.php';
-		require $this->admin_dir . 'bp-core-admin-optouts.php';
+
+		if ( bp_is_active( 'members', 'signups' ) ) {
+			require $this->admin_dir . 'bp-core-admin-optouts.php';
+		}
+
 
 		if ( 'rewrites' === bp_core_get_query_parser() ) {
 			require $this->admin_dir . 'bp-core-admin-rewrites.php';
@@ -384,17 +388,19 @@ class BP_Admin {
 		$this->submenu_pages['tools']['bp-tools'] = $bp_repair_tools;
 		$hooks[]                                  = $bp_repair_tools;
 
-		$bp_optouts_tools = add_submenu_page(
-			$tools_parent,
-			__( 'Manage Opt-outs', 'buddypress' ),
-			__( 'Manage Opt-outs', 'buddypress' ),
-			$this->capability,
-			'bp-optouts',
-			'bp_core_optouts_admin'
-		);
+		if ( bp_is_active( 'members', 'signups' ) ) {
+			$bp_optouts_tools = add_submenu_page(
+				$tools_parent,
+				__( 'Manage Opt-outs', 'buddypress' ),
+				__( 'Manage Opt-outs', 'buddypress' ),
+				$this->capability,
+				'bp-optouts',
+				'bp_core_optouts_admin'
+			);
 
-		$this->submenu_pages['tools']['bp-optouts'] = $bp_optouts_tools;
-		$hooks[]                                    = $bp_optouts_tools;
+			$this->submenu_pages['tools']['bp-optouts'] = $bp_optouts_tools;
+			$hooks[]                                    = $bp_optouts_tools;
+		}
 
 		// For network-wide configs, add a link to (the root site's) Emails screen.
 		if ( is_network_admin() && bp_is_network_activated() ) {
@@ -533,16 +539,18 @@ class BP_Admin {
 			register_setting( 'buddypress', 'bp-disable-cover-image-uploads', 'intval' );
 		}
 
-		// Community Invitations.
-		if ( bp_is_active( 'members', 'invitations' ) ) {
-			add_settings_field( 'bp-enable-members-invitations', __( 'Invitations', 'buddypress' ), 'bp_admin_setting_callback_members_invitations', 'buddypress', 'bp_members' );
-			register_setting( 'buddypress', 'bp-enable-members-invitations', 'intval' );
-		}
+		if ( bp_is_active( 'members', 'signups' ) ) {
+			// Community Invitations.
+			if ( bp_is_active( 'members', 'invitations' ) ) {
+				add_settings_field( 'bp-enable-members-invitations', __( 'Invitations', 'buddypress' ), 'bp_admin_setting_callback_members_invitations', 'buddypress', 'bp_members' );
+				register_setting( 'buddypress', 'bp-enable-members-invitations', 'intval' );
+			}
 
-		// Membership requests.
-		if ( bp_is_active( 'members', 'membership_requests' ) ) {
-			add_settings_field( 'bp-enable-membership-requests', __( 'Membership Requests', 'buddypress' ), 'bp_admin_setting_callback_membership_requests', 'buddypress', 'bp_members' );
-			register_setting( 'buddypress', 'bp-enable-membership-requests', 'intval' );
+			// Membership requests.
+			if ( bp_is_active( 'members', 'membership_requests' ) ) {
+				add_settings_field( 'bp-enable-membership-requests', __( 'Membership Requests', 'buddypress' ), 'bp_admin_setting_callback_membership_requests', 'buddypress', 'bp_members' );
+				register_setting( 'buddypress', 'bp-enable-membership-requests', 'intval' );
+			}
 		}
 
 		/* XProfile Section **************************************************/
