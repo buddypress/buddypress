@@ -2,7 +2,7 @@
 /* jshint devel: true */
 /* jshint browser: true */
 /* @since 3.0.0 */
-/* @version 10.0.0 */
+/* @version 15.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
@@ -195,7 +195,7 @@ window.bp = window.bp || {};
 			}
 
 			// Extend posted data with stored data and object nonce.
-			var postData = $.extend( {}, bp.Nouveau.getStorage( 'bp-' + object ), { nonce: BP_Nouveau.nonces[object] }, post_data );
+			var postData = $.extend( {}, bp.Nouveau.getStorage( 'bp-' + object ), { nonce: BP_Nouveau.nonces[object], canonicalUrl: BP_Nouveau.canonical_url }, post_data );
 
 			if ( undefined !== BP_Nouveau.customizer_settings ) {
 				postData.customized = BP_Nouveau.customizer_settings;

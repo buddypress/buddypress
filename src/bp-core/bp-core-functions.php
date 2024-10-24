@@ -1666,7 +1666,8 @@ function bp_core_setup_message() {
 	// Get BuddyPress.
 	$bp = buddypress();
 
-	if ( empty( $bp->template_message ) && isset( $_COOKIE['bp-message'] ) ) {
+	// For a mysterious reason WP Playground seems to add a 'deleted' value to `$_COOKIE['bp-message']` when not set.
+	if ( empty( $bp->template_message ) && isset( $_COOKIE['bp-message'] ) && 'deleted' !== $_COOKIE['bp-message'] ) {
 		$bp->template_message = stripslashes( $_COOKIE['bp-message'] );
 	}
 
