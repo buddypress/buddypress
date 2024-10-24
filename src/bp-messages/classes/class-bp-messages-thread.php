@@ -1194,7 +1194,7 @@ class BP_Messages_Thread {
 	 * @since 1.0.0
 	 *
 	 * @param array $recipients Array containing the message recipients (array of objects).
-	 * @return string String of message recipent userlinks.
+	 * @return string String of message recipient userlinks.
 	 */
 	public static function get_recipient_links( $recipients ) {
 
@@ -1215,7 +1215,7 @@ class BP_Messages_Thread {
 			$recipient_links[] = $recipient_link;
 		}
 
-		return implode( ', ', (array) $recipient_links );
+		return implode( ', ', $recipient_links );
 	}
 
 	/**
