@@ -47,8 +47,8 @@ class BP_Custom_Component extends BP_Component {
 			// Your component ID.
 			'custom',
 
-			// Your component Name.
-			__( 'Custom component', 'custom-text-domain' ),
+			// The raw name for your component. Do not use translatable strings here.
+			'Custom component',
 
 			/*
 			 * The path from where additional files should be included.
