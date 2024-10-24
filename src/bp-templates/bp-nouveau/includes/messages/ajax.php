@@ -194,7 +194,7 @@ function bp_nouveau_ajax_get_message_recipients_data( $user_id ) {
 	return array(
 		'avatar'    => esc_url( bp_core_fetch_avatar( $avatar_args ) ),
 		'user_link' => esc_url( $user_link ),
-		'user_name' => bp_members_get_user_slug( $user_id ),
+		'user_name' => esc_html( bp_core_get_user_displayname( $user_id ) ),
 	);
 }
 

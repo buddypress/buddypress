@@ -130,21 +130,37 @@ if ( ! did_action( '_bp_nouveau_messages_print_placeholders' ) ) {
 
 	<# if ( ! data.recipientsCount ) { #>
 		<div class="thread-from">
-			<a class="user-link" href="{{data.sender_link}}">
-				<img class="avatar" src="{{{data.sender_avatar}}}" alt="" />
-				<span class="bp-screen-reader-text"><?php esc_html_e( 'From:', 'buddypress' ); ?></span>
-				<span class="user-name">{{data.sender_name}}</span>
-			</a>
+			<# if ( data.sender_link ) { #>
+				<a class="user-link" href="{{data.sender_link}}">
+					<img class="avatar" src="{{{data.sender_avatar}}}" alt="" />
+					<span class="bp-screen-reader-text"><?php esc_html_e( 'From:', 'buddypress' ); ?></span>
+					<span class="user-name">{{data.sender_name}}</span>
+				</a>
+			<# } else { #>
+				<div class="user-link">
+					<img class="avatar" src="{{{data.sender_avatar}}}" alt="" />
+					<span class="bp-screen-reader-text"><?php esc_html_e( 'From:', 'buddypress' ); ?></span>
+					<span class="user-name">{{data.sender_name}}</span>
+				</div>
+			<# } #>
 		</div>
 	<# } else {
 		var recipient = _.first( data.recipients );
 		#>
 		<div class="thread-to">
-			<a class="user-link" href="{{recipient.user_link}}">
-				<img class="avatar" src="{{{recipient.avatar}}}" alt="" />
-				<span class="bp-screen-reader-text"><?php esc_html_e( 'To:', 'buddypress' ); ?></span>
-				<span class="user-name">{{recipient.user_name}}</span>
-			</a>
+			<# if ( recipient.user_link ) { #>
+				<a class="user-link" href="{{recipient.user_link}}">
+					<img class="avatar" src="{{{recipient.avatar}}}" alt="" />
+					<span class="bp-screen-reader-text"><?php esc_html_e( 'To:', 'buddypress' ); ?></span>
+					<span class="user-name">{{recipient.user_name}}</span>
+				</a>
+			<# } else { #>
+				<div class="user-link">
+					<img class="avatar" src="{{{recipient.avatar}}}" alt="" />
+					<span class="bp-screen-reader-text"><?php esc_html_e( 'To:', 'buddypress' ); ?></span>
+					<span class="user-name">{{recipient.user_name}}</span>
+				</div>
+			<# } #>
 
 			<# if ( data.toOthers ) { #>
 				<span class="num-recipients">{{data.toOthers}}</span>
