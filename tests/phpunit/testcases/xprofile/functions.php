@@ -1420,4 +1420,47 @@ Bar!';
 		$this->assertEquals( 'barfoo', $updated_u->first_name );
 		$this->assertEquals( '', $updated_u->last_name );
 	}
+
+	/**
+	 * @ticket BP9207
+	 */
+	public function test_bp_xprofile_get_signup_field_ids() {
+		add_filter( 'bp_get_signup_allowed', '__return_true' );
+		$signup_test_group = self::factory()->xprofile_group->create();
+
+		$third = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $signup_test_group,
+				'type'           => 'textbox',
+				'name'           => 'thirdPosition'
+			)
+		);
+
+		$first = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $signup_test_group,
+				'type'           => 'textbox',
+				'name'           => 'firstPosition'
+			)
+		);
+
+		$tenth = self::factory()->xprofile_field->create(
+			array(
+				'field_group_id' => $signup_test_group,
+				'type'           => 'textbox',
+				'name'           => 'tenthPosition'
+			)
+		);
+
+		// Set order.
+		bp_xprofile_update_field_meta( $first, 'signup_position', 1 );
+		bp_xprofile_update_field_meta( 1, 'signup_position', 2 );
+		bp_xprofile_update_field_meta( $third, 'signup_position', 3 );
+		bp_xprofile_update_field_meta( $tenth, 'signup_position', 10 );
+
+		$this->assertSame( bp_xprofile_get_signup_field_ids(), array( $first, 1, $third, $tenth ) );
+
+		xprofile_delete_field_group( $signup_test_group );
+		remove_filter( 'bp_get_signup_allowed', '__return_true' );
+	}
 }
