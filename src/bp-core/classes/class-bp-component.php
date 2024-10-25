@@ -29,7 +29,12 @@ class BP_Component {
 	/** Variables *************************************************************/
 
 	/**
-	 * Translatable name for the component.
+	 * Raw name for the component.
+	 *
+	 * Do not use translatable strings here as this part is set before WP's `init` hook.
+	 *
+	 * @since 1.5.0
+	 * @since 14.3.0 Changed the variable inline documentation summary and added a description.
 	 *
 	 * @internal
 	 *
@@ -244,10 +249,10 @@ class BP_Component {
 	 * @since 1.9.0 Added $params as a parameter.
 	 * @since 2.3.0 Added $params['features'] as a configurable value.
 	 * @since 2.4.0 Added $params['search_query_arg'] as a configurable value.
+	 * @since 14.3.0 Changed the `$name` parameter's description.
 	 *
 	 * @param string $id   Unique ID. Letters, numbers, and underscores only.
-	 * @param string $name Unique name. This should be a translatable name, eg.
-	 *                     __( 'Groups', 'buddypress' ).
+	 * @param string $name Unique raw name for the component (do not use translatable strings).
 	 * @param string $path The file path for the component's files. Used by {@link BP_Component::includes()}.
 	 * @param array  $params {
 	 *     Additional parameters used by the component.

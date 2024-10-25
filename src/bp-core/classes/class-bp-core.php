@@ -28,7 +28,7 @@ class BP_Core extends BP_Component {
 	public function __construct() {
 		parent::start(
 			'core',
-			__( 'BuddyPress Core', 'buddypress' ),
+			'BuddyPress Core',
 			buddypress()->plugin_dir
 		);
 

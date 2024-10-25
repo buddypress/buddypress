@@ -14,7 +14,7 @@ class BP_Members_Invitations_Component extends BP_Component {
 	function __construct() {
 		parent::start(
 			'members_invitations',
-			__( 'Members Invitations', 'buddypress' ),
+			'Members Invitations',
 			'',
 			array()
 		);
