@@ -214,6 +214,15 @@ class BP_Component {
 	public $features = array();
 
 	/**
+	 * The array of active feature objects.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @var object[]
+	 */
+	public $active_features = array();
+
+	/**
 	 * Component's directory title.
 	 *
 	 * @since 2.0.0
@@ -543,6 +552,21 @@ class BP_Component {
 			}
 		}
 
+		// Include potential features.
+		foreach ( $this->features as $feature ) {
+			if ( ! bp_is_active( $this->id, $feature ) ) {
+				continue;
+			}
+
+			$feature_class = 'BP_' . ucfirst( $this->id ) . '_' . ucfirst( $feature ) . '_Feature';
+
+			if ( class_exists( $feature_class, true ) ) {
+				$this->active_features[ $feature ] = new $feature_class;
+			} else {
+				$this->active_features[ $feature ] = null;
+			}
+		}
+
 		/**
 		 * Fires at the end of the includes method inside BP_Component.
 		 *
@@ -806,14 +830,19 @@ class BP_Component {
 			}
 		}
 
+		$action = 'bp_' . $this->id . '_setup_nav';
+		if ( isset( $this->is_feature, $this->component_id ) ) {
+			$action = 'bp_' . $this->component_id . '_' . $this->id . '_setup_nav';
+		}
+
 		/**
 		 * Fires at the end of the setup_nav method inside BP_Component.
 		 *
-		 * This is a dynamic hook that is based on the component string ID.
+		 * This is a dynamic hook that is based on the component/feature string IDs.
 		 *
 		 * @since 1.5.0
 		 */
-		do_action( 'bp_' . $this->id . '_setup_nav' );
+		do_action( $action );
 	}
 
 	/**
@@ -884,6 +913,11 @@ class BP_Component {
 			}
 		}
 
+		$action = 'bp_' . $this->id . '_setup_admin_bar';
+		if ( isset( $this->is_feature, $this->component_id ) ) {
+			$action = 'bp_' . $this->component_id . '_' . $this->id . '_setup_admin_bar';
+		}
+
 		/**
 		 * Fires at the end of the setup_admin_bar method inside BP_Component.
 		 *
@@ -891,7 +925,7 @@ class BP_Component {
 		 *
 		 * @since 1.5.0
 		 */
-		do_action( 'bp_' . $this->id . '_setup_admin_bar' );
+		do_action( $action );
 	}
 
 	/**

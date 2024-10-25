@@ -3,7 +3,7 @@
  * Members template tags
  *
  * @since 3.0.0
- * @version 12.0.0
+ * @version 15.0.0
  */
 
 // Exit if accessed directly.
@@ -585,6 +585,7 @@ function bp_nouveau_member_extra_content() {
  * Load the appropriate content for the single member pages
  *
  * @since 3.0.0
+ * @since 15.0.0 Adds the notices template to the templates conditional.
  */
 function bp_nouveau_member_template_part() {
 	/**
@@ -614,6 +615,8 @@ function bp_nouveau_member_template_part() {
 			$template = 'profile';
 		} elseif ( bp_is_user_notifications() ) {
 			$template = 'notifications';
+		} elseif ( bp_is_current_component( 'notices' ) ) {
+			$template = 'notices';
 		} elseif ( bp_is_user_members_invitations() ) {
 			$template = 'invitations';
 		} elseif ( bp_is_user_settings() ) {

@@ -75,20 +75,16 @@ function messages_autocomplete_init_jsblock() {
 }
 
 /**
- * Registers a new script to manage the dismissal action for the Sitewide notice widget/block.
+ * Registers Messages component scripts.
  *
  * @since 9.0.0
+ * @since 15.0.0 Removed the dismissal action script for the Sitewide notice widget/block.
  *
  * @param array $scripts Data about the scripts to register.
  * @return array Data about the scripts to register.
  */
 function bp_messages_register_scripts( $scripts = array() ) {
-	$scripts['bp-sitewide-notices-script'] = array(
-		'file'         => plugins_url( 'blocks/close-notices-block/index.js', __FILE__ ),
-		'dependencies' => array(),
-		'footer'       => true,
-	);
-
+	// There might be some scripts to load for the Messages component in the future.
 	return $scripts;
 }
 add_filter( 'bp_core_register_common_scripts', 'bp_messages_register_scripts', 9, 1 );

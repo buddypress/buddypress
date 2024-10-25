@@ -12,11 +12,45 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-/**
+/*
  * Escape commonly used fullname output functions.
  */
 add_filter( 'bp_displayed_user_fullname', 'esc_html' );
 add_filter( 'bp_get_loggedin_user_fullname', 'esc_html' );
+
+/*
+ * Escape Member's notice template tags output.
+ */
+add_filter( 'bp_get_notice_title', 'wp_filter_kses', 1 );
+add_filter( 'bp_get_notice_title', 'convert_smilies', 2 );
+add_filter( 'bp_get_notice_title', 'wptexturize' );
+add_filter( 'bp_get_notice_title', 'convert_chars' );
+add_filter( 'bp_get_notice_title', 'stripslashes_deep' );
+
+add_filter( 'bp_get_notice_content', 'bp_members_notice_filter_kses', 1 );
+add_filter( 'bp_get_notice_content', 'convert_smilies', 2 );
+add_filter( 'bp_get_notice_content', 'wptexturize' );
+add_filter( 'bp_get_notice_content', 'convert_chars' );
+add_filter( 'bp_get_notice_content', 'wpautop' );
+add_filter( 'bp_get_notice_content', 'stripslashes_deep' );
+
+add_filter( 'bp_get_notice_excerpt', 'bp_members_notice_filter_kses', 1 );
+add_filter( 'bp_get_notice_excerpt', 'convert_smilies', 2 );
+add_filter( 'bp_get_notice_excerpt', 'wptexturize' );
+add_filter( 'bp_get_notice_excerpt', 'convert_chars' );
+add_filter( 'bp_get_notice_excerpt', 'wpautop' );
+add_filter( 'bp_get_notice_excerpt', 'stripslashes_deep' );
+
+/*
+ * Filters applied before notice data is stored into the DB table.
+ */
+add_filter( 'bp_members_notice_subject_before_save', 'wp_filter_kses', 1 );
+add_filter( 'bp_members_notice_subject_before_save', 'force_balance_tags' );
+add_filter( 'bp_members_notice_subject_before_save', 'wp_encode_emoji' );
+add_filter( 'bp_members_notice_message_before_save', 'bp_members_notice_filter_kses' );
+add_filter( 'bp_members_notice_message_before_save', 'force_balance_tags' );
+add_filter( 'bp_members_notice_message_before_save', 'wp_encode_emoji' );
+
 
 // Filter the user registration URL to point to BuddyPress's registration page.
 add_filter( 'register_url', 'bp_get_signup_page' );

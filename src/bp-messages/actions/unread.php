@@ -17,7 +17,7 @@
  */
 function bp_messages_action_mark_unread() {
 
-	if ( ! bp_is_messages_component() || bp_is_current_action( 'notices' ) || ! bp_is_action_variable( 'unread', 0 ) ) {
+	if ( ! bp_is_messages_component() || ! bp_is_action_variable( 'unread', 0 ) ) {
 		return false;
 	}
 

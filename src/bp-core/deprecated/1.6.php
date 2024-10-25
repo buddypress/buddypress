@@ -276,3 +276,28 @@ if ( !function_exists( 'bp_dtheme_register_actions' ) ) :
 	}
 	add_action( 'after_setup_theme', 'bp_die_legacy_ajax_callbacks', 20 );
 endif;
+
+/**
+ * Output a string for the active notice.
+ *
+ * Since 1.6 this function has been deprecated in favor of text in the theme.
+ *
+ * @since 1.0.0
+ * @deprecated 1.6.0
+ */
+function bp_message_is_active_notice() {
+	_deprecated_function( __FUNCTION__, '1.6.0' );
+}
+
+/**
+ * Returns a string for the active notice.
+ *
+ * Since 1.6 this function has been deprecated in favor of text in the
+ * theme.
+ *
+ * @since 1.0.0
+ * @deprecated 1.6.0
+ */
+function bp_get_message_is_active_notice() {
+	_deprecated_function( __FUNCTION__, '1.6.0' );
+}

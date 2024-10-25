@@ -41,14 +41,13 @@
 		"npm": ">=10.2.3"
 	},
 	"scripts": {
-		"build:blocks": "npm run build:block:activity && npm run build:block:blogs && npm run build:block:core && npm run build:block:friends && npm run build:block:groups && npm run build:block:members && npm run build:block:messages",
+		"build:blocks": "npm run build:block:activity && npm run build:block:blogs && npm run build:block:core && npm run build:block:friends && npm run build:block:groups && npm run build:block:members",
 		"build:block:activity": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-activity --config src/js/blocks/bp-activity/webpack.config.js",
 		"build:block:blogs": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-blogs --config src/js/blocks/bp-blogs/webpack.config.js",
 		"build:block:core": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-core --config src/js/blocks/bp-core/webpack.config.js",
 		"build:block:friends": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-friends --config src/js/blocks/bp-friends/webpack.config.js",
 		"build:block:groups": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-groups --config src/js/blocks/bp-groups/webpack.config.js",
 		"build:block:members": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-members --config src/js/blocks/bp-members/webpack.config.js",
-		"build:block:messages": "wp-scripts build --webpack-src-dir=src/js/blocks/bp-messages --config src/js/blocks/bp-messages/webpack.config.js",
 		"build:admin": "wp-scripts build --webpack-src-dir=src/js/admin --config src/js/admin/webpack.config.js && grunt move:admin:js",
 		"wp-env": "wp-env",
 		"test-php": "npm run wp-env run cli -- --env-cwd=wp-content/plugins/buddypress composer test",

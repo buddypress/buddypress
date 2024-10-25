@@ -3,7 +3,7 @@
  * Messages Ajax functions
  *
  * @since 3.0.0
- * @version 12.0.0
+ * @version 15.0.0
  */
 
 // Exit if accessed directly.
@@ -75,12 +75,6 @@ add_action( 'admin_init', function () {
 			'messages_read' => array(
 				'function' => 'bp_nouveau_ajax_readunread_thread_messages',
 				'nopriv'   => false,
-			),
-		),
-		array(
-			'messages_dismiss_sitewide_notice'  => array(
-				'function' => 'bp_nouveau_ajax_dismiss_sitewide_notice',
-				'nopriv' => false,
 			),
 		),
 	);
@@ -803,8 +797,10 @@ function bp_nouveau_ajax_readunread_thread_messages() {
 
 /**
  * @since 3.0.0
+ * @deprecated 15.0.0
  */
 function bp_nouveau_ajax_dismiss_sitewide_notice() {
+	_deprecated_function( __FUNCTION__, '15.0.0' );
 	if ( empty( $_POST['action'] ) ) {
 		wp_send_json_error();
 	}

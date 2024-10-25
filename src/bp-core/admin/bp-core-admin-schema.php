@@ -36,6 +36,9 @@ function bp_core_install( $active_components = false ) {
 	// Install the signups table.
 	bp_core_maybe_install_signups();
 
+	// Install the Members notices tables.
+	bp_core_install_members_notices();
+
 	// Install the invitations table.
 	bp_core_install_invitations();
 
@@ -277,15 +280,6 @@ function bp_core_install_private_messaging() {
 				KEY is_deleted (is_deleted),
 				KEY sender_only (sender_only),
 				KEY unread_count (unread_count)
-			) {$charset_collate};";
-
-	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_notices (
-				id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-				subject varchar(200) NOT NULL,
-				message longtext NOT NULL,
-				date_sent datetime NOT NULL,
-				is_active tinyint(1) NOT NULL DEFAULT '0',
-				KEY is_active (is_active)
 			) {$charset_collate};";
 
 	$sql[] = "CREATE TABLE {$bp_prefix}bp_messages_meta (
@@ -631,4 +625,62 @@ function bp_core_install_nonmember_opt_outs() {
 	 * @since 8.0.0
 	 */
 	do_action( 'bp_core_install_nonmember_opt_outs' );
+}
+
+/**
+ * Members Notices installation function.
+ *
+ * If the `bp_messages_notices` table exists, we simply need to rename it.
+ *
+ * @since 15.0.0
+ */
+function bp_core_install_members_notices() {
+	$wpdb            = $GLOBALS['wpdb'];
+	$sql             = array();
+	$charset_collate = $wpdb->get_charset_collate();
+	$bp_prefix       = bp_core_get_table_prefix();
+
+	// Used to check whether the Messages Notices table exists or not.
+	$messages_notices_table = $bp_prefix . 'bp_messages_notices';
+
+	// Suppress errors because users shouldn't see what happens next.
+	$old_suppress = $wpdb->suppress_errors();
+
+	// Does the Messages Notices table exists.
+	$table_exists = (bool) $wpdb->get_results( "DESCRIBE {$messages_notices_table};" );
+
+	// Table already exists, so just create the Community notices meta table.
+	if ( true === $table_exists ) {
+		$wpdb->query( "ALTER TABLE {$messages_notices_table} DROP KEY is_active" );
+		$wpdb->query( "ALTER TABLE {$messages_notices_table} CHANGE is_active priority tinyint(1) NOT NULL DEFAULT 2, ADD KEY priority (priority)" );
+		$wpdb->query( "ALTER TABLE {$messages_notices_table} ADD COLUMN target varchar(75) NOT NULL DEFAULT 'community' AFTER message, ADD KEY target (target)" );
+		$wpdb->query( "RENAME TABLE {$messages_notices_table} TO {$bp_prefix}bp_notices" );
+
+		// Table doesn't exist, let's create it.
+	} else {
+		$sql[] = "CREATE TABLE {$bp_prefix}bp_notices (
+			id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			subject varchar(200) NOT NULL,
+			message longtext NOT NULL,
+			target varchar(75) NOT NULL DEFAULT 'community',
+			date_sent datetime NOT NULL,
+			priority tinyint(1) NOT NULL DEFAULT 2,
+			KEY target (target),
+			KEY priority (priority)
+		) {$charset_collate};";
+	}
+
+	// Restore previous error suppression setting.
+	$wpdb->suppress_errors( $old_suppress );
+
+	$sql[] = "CREATE TABLE {$bp_prefix}bp_notices_meta (
+		id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+		notice_id bigint(20) NOT NULL,
+		meta_key varchar(255) DEFAULT NULL,
+		meta_value longtext DEFAULT NULL,
+		KEY notice_id (notice_id),
+		KEY meta_key (meta_key(191))
+	) {$charset_collate};";
+
+	dbDelta( $sql );
 }

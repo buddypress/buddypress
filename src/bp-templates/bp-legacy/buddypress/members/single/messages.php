@@ -4,7 +4,7 @@
  *
  * @package BuddyPress
  * @subpackage bp-legacy
- * @version 3.0.0
+ * @version 15.0.0
  */
 
 ?>
@@ -76,37 +76,6 @@ switch ( bp_current_action() ) :
 	// Compose
 	case 'compose' :
 		bp_get_template_part( 'members/single/messages/compose' );
-		break;
-
-	// Sitewide Notices
-	case 'notices' :
-
-		/**
-		 * Fires before the member messages content for notices.
-		 *
-		 * @since 1.2.0
-		 */
-		do_action( 'bp_before_member_messages_content' ); ?>
-
-		<h2 class="bp-screen-reader-text">
-			<?php
-				/* translators: accessibility text */
-				esc_html_e( 'Sitewide Notices', 'buddypress' );
-			?>
-		</h2>
-
-		<div class="messages">
-			<?php bp_get_template_part( 'members/single/messages/notices-loop' ); ?>
-		</div><!-- .messages -->
-
-		<?php
-
-		/**
-		 * Fires after the member messages content for inbox and sentbox.
-		 *
-		 * @since 1.2.0
-		 */
-		do_action( 'bp_after_member_messages_content' );
 		break;
 
 	// Any other

@@ -11,11 +11,11 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Retrieve private message threads for display in inbox/sentbox/notices.
+ * Retrieve private message threads for display in inbox or sentbox.
  *
  * Similar to WordPress's have_posts() function, this function is responsible
  * for querying the database and retrieving private messages for display inside
- * the theme via individual template parts for a member's inbox/sentbox/notices.
+ * the theme via individual template parts for a member's inbox or sentbox.
  *
  * @since 1.0.0
  *
@@ -35,8 +35,7 @@ defined( 'ABSPATH' ) || exit;
  *                                         the value of $_REQUEST['s'].
  *     @type string   $page_arg            URL argument used for the pagination param.
  *                                         Default: 'mpage'.
- *     @type array    $meta_query          Meta query arguments. Only applicable if $box is
- *                                         not 'notices'. See WP_Meta_Query more details.
+ *     @type array    $meta_query          Meta query arguments. See WP_Meta_Query more details.
  *     @type int|null $recipients_page     Page of recipients being requested. Default to null, meaning all.
  *     @type int|null $recipients_per_page Recipients to return per page. Defaults to null, meaning all.
  *     @type int|null $messages_page       Page of messages being requested. Default to null, meaning all.
@@ -51,7 +50,6 @@ function bp_has_message_threads( $args = array() ) {
 	$current_action = bp_current_action();
 	switch ( $current_action ) {
 		case 'sentbox':
-		case 'notices':
 		case 'inbox':
 			$default_box = $current_action;
 			break;
@@ -91,7 +89,7 @@ function bp_has_message_threads( $args = array() ) {
 	$messages_template = new BP_Messages_Box_Template( $r );
 
 	/**
-	 * Filters if there are any message threads to display in inbox/sentbox/notices.
+	 * Filters if there are any message threads to display in inbox or sentbox.
 	 *
 	 * @since 1.1.0
 	 *
@@ -1095,7 +1093,7 @@ function bp_messages_options() {
 		<option value="all"><?php echo esc_html_x('All', 'Message dropdown filter', 'buddypress') ?></option>
 	</select> &nbsp;
 
-	<?php if ( ! bp_is_current_action( 'sentbox' ) && ! bp_is_current_action( 'notices' ) ) : ?>
+	<?php if ( ! bp_is_current_action( 'sentbox' ) ) : ?>
 
 		<a href="#" id="mark_as_read"><?php echo esc_html_x('Mark as Read', 'Message management markup', 'buddypress') ?></a> &nbsp;
 		<a href="#" id="mark_as_unread"><?php echo esc_html_x('Mark as Unread', 'Message management markup', 'buddypress') ?></a> &nbsp;
@@ -1139,323 +1137,6 @@ function bp_messages_bulk_management_dropdown() {
 }
 
 /**
- * Return whether or not the notice is currently active.
- *
- * @since 1.6.0
- *
- * @global BP_Messages_Box_Template $messages_template The message box template loop class.
- *
- * @return bool
- */
-function bp_messages_is_active_notice() {
-	global $messages_template;
-
-	$retval = ! empty( $messages_template->thread->is_active )
-		? true
-		: false;
-
-	/**
-	 * Filters whether or not the notice is currently active.
-	 *
-	 * @since 2.1.0
-	 *
-	 * @param bool $retval Whether or not the notice is currently active.
-	 */
-	return apply_filters( 'bp_messages_is_active_notice', $retval );
-}
-
-/**
- * Output a string for the active notice.
- *
- * Since 1.6 this function has been deprecated in favor of text in the theme.
- *
- * @since 1.0.0
- * @deprecated 1.6.0
- */
-function bp_message_is_active_notice() {
-	echo esc_html( bp_get_message_is_active_notice() );
-}
-	/**
-	 * Returns a string for the active notice.
-	 *
-	 * Since 1.6 this function has been deprecated in favor of text in the
-	 * theme.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 1.6.0
-	 * @return string
-	 */
-	function bp_get_message_is_active_notice() {
-
-		$string = bp_messages_is_active_notice()
-			? __( 'Currently Active', 'buddypress' )
-			: '';
-
-		return apply_filters( 'bp_get_message_is_active_notice', $string );
-	}
-
-/**
- * Output the ID of the current notice in the loop.
- */
-function bp_message_notice_id() {
-	echo intval( bp_get_message_notice_id() );
-}
-	/**
-	 * Get the ID of the current notice in the loop.
-	 *
-	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
-	 *
-	 * @return int
-	 */
-	function bp_get_message_notice_id() {
-		global $messages_template;
-
-		/**
-		 * Filters the ID of the current notice in the loop.
-		 *
-		 * @since 1.5.0
-		 *
-		 * @param int $id ID of the current notice in the loop.
-		 */
-		return apply_filters( 'bp_get_message_notice_id', (int) $messages_template->thread->id );
-	}
-
-/**
- * Output the post date of the current notice in the loop.
- */
-function bp_message_notice_post_date() {
-	echo esc_html( bp_get_message_notice_post_date() );
-}
-	/**
-	 * Get the post date of the current notice in the loop.
-	 *
-	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
-	 *
-	 * @return string
-	 */
-	function bp_get_message_notice_post_date() {
-		global $messages_template;
-
-		/**
-		 * Filters the post date of the current notice in the loop.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $value Formatted post date of the current notice in the loop.
-		 */
-		return apply_filters( 'bp_get_message_notice_post_date', bp_format_time( strtotime( $messages_template->thread->date_sent ) ) );
-	}
-
-/**
- * Output the subject of the current notice in the loop.
- *
- * @since 5.0.0 The $notice parameter has been added.
- *
- * @param BP_Messages_Notice $notice The notice object.
- */
-function bp_message_notice_subject( $notice = null ) {
-	// Escaping is made in `bp-messages/bp-messages-filters.php`.
-	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo bp_get_message_notice_subject( $notice );
-}
-	/**
-	 * Get the subject of the current notice in the loop.
-	 *
-	 * @since 5.0.0 The $notice parameter has been added.
-	 *
-	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
-	 *
-	 * @param BP_Messages_Notice|null $notice The notice object.
-	 * @return string
-	 */
-	function bp_get_message_notice_subject( $notice = null ) {
-		global $messages_template;
-
-		if ( ! isset( $notice->subject ) ) {
-			$notice =& $messages_template->thread;
-		}
-
-		/**
-		 * Filters the subject of the current notice in the loop.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $subject Subject of the current notice in the loop.
-		 */
-		return apply_filters( 'bp_get_message_notice_subject', $notice->subject );
-	}
-
-/**
- * Output the text of the current notice in the loop.
- *
- * @since 5.0.0 The $notice parameter has been added.
- *
- * @param BP_Messages_Notice $notice The notice object.
- */
-function bp_message_notice_text( $notice = null ) {
-	// Escaping is made in `bp-messages/bp-messages-filters.php`.
-	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo bp_get_message_notice_text( $notice );
-}
-	/**
-	 * Get the text of the current notice in the loop.
-	 *
-	 * @since 5.0.0 The $notice parameter has been added.
-	 *
-	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
-	 *
-	 * @param BP_Messages_Notice|null $notice The notice object.
-	 * @return string
-	 */
-	function bp_get_message_notice_text( $notice = null ) {
-		global $messages_template;
-
-		if ( ! isset( $notice->subject ) ) {
-			$notice =& $messages_template->thread;
-		}
-
-		/**
-		 * Filters the text of the current notice in the loop.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $message Text for the current notice in the loop.
-		 */
-		return apply_filters( 'bp_get_message_notice_text', $notice->message );
-	}
-
-/**
- * Output the URL for deleting the current notice.
- */
-function bp_message_notice_delete_link() {
-	echo esc_url( bp_get_message_notice_delete_link() );
-}
-	/**
-	 * Get the URL for deleting the current notice.
-	 *
-	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
-	 *
-	 * @return string Delete URL.
-	 */
-	function bp_get_message_notice_delete_link() {
-		global $messages_template;
-
-		$url = wp_nonce_url(
-			bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug(), 'notices', array( 'delete', $messages_template->thread->id ) ) ) ),
-			'messages_delete_notice'
-		);
-
-		/**
-		 * Filters the URL for deleting the current notice.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $url   URL for deleting the current notice.
-		 */
-		return apply_filters( 'bp_get_message_notice_delete_link', $url );
-	}
-
-/**
- * Output the URL for deactivating the current notice.
- */
-function bp_message_activate_deactivate_link() {
-	echo esc_url( bp_get_message_activate_deactivate_link() );
-}
-	/**
-	 * Get the URL for deactivating the current notice.
-	 *
-	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
-	 *
-	 * @return string
-	 */
-	function bp_get_message_activate_deactivate_link() {
-		global $messages_template;
-
-		$path_chunks = array( bp_get_messages_slug(), 'notices' );
-
-		if ( 1 === (int) $messages_template->thread->is_active ) {
-			$nonce         = 'messages_deactivate_notice';
-			$path_chunks[] = array( 'deactivate', $messages_template->thread->id );
-		} else {
-			$nonce         = 'messages_activate_notice';
-			$path_chunks[] = array( 'activate', $messages_template->thread->id );
-		}
-
-		$link = wp_nonce_url( bp_loggedin_user_url( bp_members_get_path_chunks( $path_chunks ) ), $nonce );
-
-		/**
-		 * Filters the URL for deactivating the current notice.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $link URL for deactivating the current notice.
-		 */
-		return apply_filters( 'bp_get_message_activate_deactivate_link', $link );
-	}
-
-/**
- * Output the Deactivate/Activate text for the notice action link.
- */
-function bp_message_activate_deactivate_text() {
-	echo esc_html( bp_get_message_activate_deactivate_text() );
-}
-	/**
-	 * Generate the text ('Deactivate' or 'Activate') for the notice action link.
-	 *
-	 * @global BP_Messages_Box_Template $messages_template The message box template loop class.
-	 *
-	 * @return string
-	 */
-	function bp_get_message_activate_deactivate_text() {
-		global $messages_template;
-
-		if ( 1 === (int) $messages_template->thread->is_active  ) {
-			$text = __('Deactivate', 'buddypress');
-		} else {
-			$text = __('Activate', 'buddypress');
-		}
-
-		/**
-		 * Filters the "Deactivate" or "Activate" text for notice action links.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $text Text used for notice action links.
-		 */
-		return apply_filters( 'bp_message_activate_deactivate_text', $text );
-	}
-
-/**
- * Output the URL for dismissing the current notice for the current user.
- *
- * @since 9.0.0
- */
-function bp_message_notice_dismiss_link() {
-	echo esc_url( bp_get_message_notice_dismiss_link() );
-}
-	/**
-	 * Get the URL for dismissing the current notice for the current user.
-	 *
-	 * @since 9.0.0
-	 * @return string URL for dismissing the current notice for the current user.
-	 */
-	function bp_get_message_notice_dismiss_link() {
-		$link = wp_nonce_url(
-			bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_messages_slug(), 'notices', array( 'dismiss' ) ) ) ),
-			'messages_dismiss_notice'
-		);
-
-		/**
-		 * Filters the URL for dismissing the current notice for the current user.
-		 *
-		 * @since 9.0.0
-		 *
-		 * @param string $link URL for dismissing the current notice.
-		 */
-		return apply_filters( 'bp_get_message_notice_dismiss_link', $link );
-	}
-
-/**
  * Output the messages component slug.
  *
  * @since 1.5.0
@@ -1482,36 +1163,6 @@ function bp_messages_slug() {
 		 */
 		return apply_filters( 'bp_get_messages_slug', buddypress()->messages->slug );
 	}
-
-/**
- * Generate markup for currently active notices.
- */
-function bp_message_get_notices() {
-	$notice = BP_Messages_Notice::get_active();
-
-	if ( empty( $notice ) ) {
-		return false;
-	}
-
-	$closed_notices = bp_get_user_meta( bp_loggedin_user_id(), 'closed_notices', true );
-
-	if ( empty( $closed_notices ) ) {
-		$closed_notices = array();
-	}
-
-	if ( is_array( $closed_notices ) ) {
-		if ( ! in_array( $notice->id, $closed_notices, true ) && $notice->id ) {
-			?>
-			<div id="message" class="info notice" rel="n-<?php echo esc_attr( $notice->id ); ?>">
-				<strong><?php bp_message_notice_subject( $notice ); ?></strong>
-				<a href="<?php bp_message_notice_dismiss_link(); ?>" id="close-notice" class="bp-tooltip button" data-bp-tooltip="<?php esc_attr_e( 'Dismiss this notice', 'buddypress' ) ?>"><span class="bp-screen-reader-text"><?php esc_html_e( 'Dismiss this notice', 'buddypress' ) ?></span> <span aria-hidden="true">&Chi;</span></a>
-				<?php bp_message_notice_text( $notice ); ?>
-				<?php wp_nonce_field( 'bp_messages_close_notice', 'close-notice-nonce' ); ?>
-			</div>
-			<?php
-		}
-	}
-}
 
 /**
  * Output the URL for the Private Message link in member profile headers.

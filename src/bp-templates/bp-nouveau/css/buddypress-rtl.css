@@ -999,6 +999,16 @@ body.buddypress article.page > .entry-header:not(.alignwide):not(.alignfull) .en
 	}
 }
 
+.bp-list article.notice-item {
+	margin-bottom: 2em;
+	padding: 1em 0;
+	border-top: solid 1px #ccc;
+}
+
+.bp-list article.notice-item:first-child {
+	border-top: none;
+}
+
 @media screen and (min-width: 32em) {
 	#activity-stream {
 		clear: both;
@@ -4524,6 +4534,22 @@ body.no-js .buddypress #messages-bulk-management #select-all-messages {
 .buddypress-wrap .bp-invites-filters ul li #bp-invites-prev-page:before,
 .buddypress-wrap .bp-messages-filters ul li #bp-messages-prev-page:before {
 	content: "\f341";
+}
+
+.buddypress-wrap button#bp-notice-submit {
+	padding: 11px;
+	border-radius: 0;
+}
+
+.buddypress-wrap a.dismiss-notice,
+.buddypress-wrap a.dismiss-notice:hover {
+	color: #800;
+	border-color: #fff;
+	background: none;
+}
+
+.buddypress-wrap a.dismiss-notice:hover {
+	border-color: #800;
 }
 
 .buddypress-wrap .warn {

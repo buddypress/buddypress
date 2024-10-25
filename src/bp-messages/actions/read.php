@@ -17,7 +17,7 @@
  */
 function bp_messages_action_mark_read() {
 
-	if ( ! bp_is_messages_component() || bp_is_current_action( 'notices' ) || ! bp_is_action_variable( 'read', 0 ) ) {
+	if ( ! bp_is_messages_component() || ! bp_is_action_variable( 'read', 0 ) ) {
 		return false;
 	}
 

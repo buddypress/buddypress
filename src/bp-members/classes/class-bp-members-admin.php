@@ -10,7 +10,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( !class_exists( 'BP_Members_Admin' ) ) :
+if ( ! class_exists( 'BP_Members_Admin' ) ) :
 
 /**
  * Load Members admin area.
@@ -134,7 +134,7 @@ class BP_Members_Admin {
 	public $stats_metabox;
 
 	/**
-	 * Edit user's profile args.
+	 * User's edit profile page args.
 	 *
 	 * @since 2.0.0
 	 * @var array
@@ -148,6 +148,14 @@ class BP_Members_Admin {
 	 * @var string
 	 */
 	public $edit_profile_url = '';
+
+	/**
+	 * User's Notices admin UI.
+	 *
+	 * @since 15.0.0
+	 * @var BP_Members_Notices_Admin
+	 */
+	public $notices = null;
 
 	/**
 	 * Edit URL.
@@ -249,7 +257,7 @@ class BP_Members_Admin {
 		// The stats metabox default position.
 		$this->stats_metabox = new stdClass();
 
-		// BuddyPress edit user's profile args.
+		// BuddyPress user's edit profile args.
 		$this->edit_profile_args = array( 'page' => 'bp-profile-edit' );
 
 		// Data specific to signups.
@@ -300,11 +308,11 @@ class BP_Members_Admin {
 		add_action( 'network_admin_menu',       array( $this, 'admin_menus'       ), 5     );
 
 		if ( bp_members_is_community_profile_enabled() ) {
-			add_action( 'user_admin_menu', array( $this, 'user_profile_menu' ), 5     );
+			add_action( 'user_admin_menu', array( $this, 'user_profile_menu' ), 5 );
 
 			// Create the Profile Navigation (Profile/Extended Profile).
-			add_action( 'edit_user_profile',        array( $this, 'profile_nav'       ), 99, 1 );
-			add_action( 'show_user_profile',        array( $this, 'profile_nav'       ), 99, 1 );
+			add_action( 'edit_user_profile', array( $this, 'profile_nav' ), 99, 1 );
+			add_action( 'show_user_profile', array( $this, 'profile_nav' ), 99, 1 );
 
 			// Editing users of a specific site.
 			add_action( "admin_head-site-users.php", array( $this, 'profile_admin_head' ) );
@@ -612,8 +620,8 @@ class BP_Members_Admin {
 
 		// Setup the screen ID's.
 		$this->screen_id = array(
-			$this->user_page    . '-user',
-			$this->user_profile . '-user'
+			$this->user_page . '-user',
+			$this->user_profile . '-user',
 		);
 
 		// Loop through new hooks and add method actions.
@@ -622,8 +630,9 @@ class BP_Members_Admin {
 		}
 
 		// Add the profile_admin_head method to proper admin_head actions.
-		add_action( "admin_head-{$this->user_page}", array( $this, 'profile_admin_head' ) );
-		add_action( "admin_head-profile.php",        array( $this, 'profile_admin_head' ) );
+		foreach ( array( 'profile.php', $this->user_page ) as $head ) {
+			add_action( "admin_head-{$head}", array( $this, 'profile_admin_head' ) );
+		}
 	}
 
 	/**
@@ -682,8 +691,8 @@ class BP_Members_Admin {
 
 		// Self profile check is needed for this pages.
 		$page_head = array(
-			$edit_page        . '.php',
-			$profile_page     . '.php',
+			$edit_page . '.php',
+			$profile_page . '.php',
 			$this->user_page,
 			$this->users_page . '.php',
 		);
@@ -749,7 +758,7 @@ class BP_Members_Admin {
 			$this->is_self_profile = true;
 
 		// Is the user attempting to edit their own profile.
-		} elseif ( isset( $_GET['user_id' ] ) || ( isset( $_GET['page'] ) && ( 'bp-profile-edit' === $_GET['page'] ) ) ) {
+		} elseif ( isset( $_GET['user_id' ] ) || ( isset( $_GET['page'] ) && $_GET['page'] === 'bp-profile-edit' ) ) {
 			$this->is_self_profile = (bool) ( $this->get_user_id() === $this->current_user_id );
 		}
 
@@ -885,7 +894,7 @@ class BP_Members_Admin {
 		}
 
 		/**
-		 * Fires after all of the members JavaScript and CSS are enqueued.
+		 * Fires after BP Specific JavaScript and CSS are enqueued.
 		 *
 		 * @since 2.0.0
 		 *
@@ -920,38 +929,47 @@ class BP_Members_Admin {
 
 		// Conditionally add a referer if it exists in the existing request.
 		if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
-			$wp_http_referer = wp_unslash( $_REQUEST['wp_http_referer'] );
-			$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+			$wp_http_referer               = wp_unslash( $_REQUEST['wp_http_referer'] );
+			$wp_http_referer               = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
 			$query_args['wp_http_referer'] = urlencode( $wp_http_referer );
 		}
 
-		// Setup the two distinct "edit" URL's.
-		$community_url = add_query_arg( $query_args, $this->edit_profile_url );
-		$wordpress_url = add_query_arg( $query_args, $this->edit_url         );
-
-		$bp_active = false;
-		$wp_active = ' nav-tab-active';
-		if ( 'BuddyPress' === $active ) {
-			$bp_active = ' nav-tab-active';
-			$wp_active = false;
-		} ?>
+		// Setup the profile nav.
+		$nav_items = array(
+			'WordPress'  => array(
+				'url'      => add_query_arg( $query_args, $this->edit_url ),
+				'label'    => __( 'Profile', 'buddypress' ),
+				'capacity' => 'edit_user',
+				'class'    => 'WordPress' === $active ? ' nav-tab-active' : '',
+			),
+			'BuddyPress' => array(
+				'url'      => add_query_arg( $query_args, $this->edit_profile_url ),
+				'label'    => __( 'Extended Profile', 'buddypress' ),
+				'capacity' => 'exist',
+				'class'    => 'BuddyPress' === $active ? ' nav-tab-active' : '',
+			)
+		);
+		?>
 
 		<h2 id="profile-nav" class="nav-tab-wrapper">
 			<?php
-			/**
-			 * In configs where BuddyPress is not network activated, as regular
-			 * admins do not have the capacity to edit other users, we must add
-			 * this check.
-			 */
-			if ( current_user_can( 'edit_user', $user->ID ) ) : ?>
+			foreach ( $nav_items as $nav_item ) :
+				/**
+				 * In configs where BuddyPress is not network activated, as regular
+				 * admins do not have the capacity to edit other users, we must add
+				 * this check.
+				 */
+				if ( ! current_user_can( $nav_item['capacity'], $user->ID ) ) {
+					continue;
+				}
+				?>
 
-				<a class="nav-tab<?php echo esc_attr( $wp_active ); ?>" href="<?php echo esc_url( $wordpress_url );?>"><?php esc_html_e( 'Profile', 'buddypress' ); ?></a>
+				<a class="nav-tab<?php echo esc_attr( $nav_item['class'] ); ?>" href="<?php echo esc_url( $nav_item['url'] );?>"><?php echo esc_html( $nav_item['label'] ); ?></a>
 
-			<?php endif; ?>
-
-			<a class="nav-tab<?php echo esc_attr( $bp_active ); ?>" href="<?php echo esc_url( $community_url );?>"><?php esc_html_e( 'Extended Profile', 'buddypress' ); ?></a>
+			<?php
+			endforeach;
+			?>
 		</h2>
-
 		<?php
 	}
 
@@ -1253,7 +1271,7 @@ class BP_Members_Admin {
 
 		// Construct title.
 		if ( true === $this->is_self_profile ) {
-			$title = __( 'Profile',   'buddypress' );
+			$title = __( 'Profile', 'buddypress' );
 		} else {
 			/* translators: %s: User's display name. */
 			$title = sprintf( __( 'Edit User %s', 'buddypress' ), $user->display_name );

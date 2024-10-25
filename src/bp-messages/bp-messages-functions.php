@@ -218,40 +218,6 @@ function messages_new_message( $args = '' ) {
 }
 
 /**
- * Send a notice.
- *
- * @param string $subject Subject of the notice.
- * @param string $message Content of the notice.
- * @return bool
- */
-function messages_send_notice( $subject, $message ) {
-
-	if ( ! bp_current_user_can( 'bp_moderate' ) || empty( $subject ) || empty( $message ) ) {
-		return false;
-	}
-
-	$notice            = new BP_Messages_Notice;
-	$notice->subject   = $subject;
-	$notice->message   = $message;
-	$notice->date_sent = bp_core_current_time();
-	$notice->is_active = 1;
-	$notice->save(); // Send it.
-
-	/**
-	 * Fires after a notice has been successfully sent.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string             $subject Subject of the notice.
-	 * @param string             $message Content of the notice.
-	 * @param BP_Messages_Notice $notice  Notice object sent.
-	 */
-	do_action_ref_array( 'messages_send_notice', array( $subject, $message, $notice ) );
-
-	return true;
-}
-
-/**
  * Deletes message thread(s) for a given user.
  *
  * Note that "deleting" a thread for a user means removing it from the user's
@@ -757,60 +723,6 @@ function bp_messages_personal_data_exporter( $email_address, $page ) {
 		'data' => $data_to_export,
 		'done' => true,
 	);
-}
-
-/**
- * Dismiss a sitewide notice for a user.
- *
- * @since 9.0.0
- *
- * @param int $user_id   ID of the user to dismiss the notice for.
- *                       Defaults to the logged-in user.
- * @param int $notice_id ID of the notice to be dismissed.
- *                       Defaults to the currently active notice.
- * @return bool False on failure, true if notice is dismissed
- *              (or was already dismissed).
- */
-function bp_messages_dismiss_sitewide_notice( $user_id = 0, $notice_id = 0 ) {
-	$retval = false;
-	if ( ! $user_id ) {
-		$user_id = bp_loggedin_user_id();
-	}
-
-	// Bail if no user is set.
-	if ( ! $user_id ) {
-		return $retval;
-	}
-
-	if ( $notice_id ) {
-		$notice = new BP_Messages_Notice( $notice_id );
-	} else {
-		$notice = BP_Messages_Notice::get_active();
-	}
-
-	// Bail if no notice is set.
-	if ( empty( $notice->id ) ) {
-		return $retval;
-	}
-
-	// Fetch the user's closed notices and add the new item.
-	$closed_notices = (array) bp_get_user_meta( $user_id, 'closed_notices', true );
-	$closed_notices = array_filter( $closed_notices );
-
-	if ( in_array( (int) $notice->id, $closed_notices, true ) ) {
-		// The notice has already been dismissed, so there's nothing to do.
-		$retval = true;
-	} else {
-		// Add the notice to the closed_notices meta.
-		$closed_notices[] = (int) $notice->id;
-		$closed_notices   = array_map( 'absint', array_unique( $closed_notices ) );
-		$success          = bp_update_user_meta( $user_id, 'closed_notices', $closed_notices );
-
-		// The return value from update_user_meta() could be an integer or a boolean.
-		$retval = (bool) $success;
-	}
-
-	return $retval;
 }
 
 /**

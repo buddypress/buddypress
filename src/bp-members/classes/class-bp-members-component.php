@@ -80,7 +80,11 @@ class BP_Members_Component extends BP_Component {
 			array(
 				'adminbar_myaccount_order' => 20,
 				'search_query_arg'         => 'members_search',
-				'features'                 => array( 'invitations', 'membership_requests' ),
+				'features'                 => array(
+					'invitations',
+					'membership_requests',
+					'notices', // Must use!
+				),
 			)
 		);
 	}
@@ -113,13 +117,14 @@ class BP_Members_Component extends BP_Component {
 			$includes[] = 'activity';
 		}
 
-		/**
+		/*
 		 * Duplicate bp_get_membership_requests_required() and
 		 * bp_get_signup_allowed() logic here,
 		 * because those functions are not available yet.
 		 * The `bp_get_signup_allowed` filter is documented in
 		 * bp-members/bp-members-template.php.
 		 */
+		$signup_allowed              = apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
 		$signup_allowed              = apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
 		$membership_requests_enabled = (bool) bp_get_option( 'bp-enable-membership-requests' );
 		if ( bp_is_active( 'members', 'membership_requests' ) && ! $signup_allowed && $membership_requests_enabled ) {
@@ -352,6 +357,11 @@ class BP_Members_Component extends BP_Component {
 				'table_name_last_activity' => bp_core_get_table_prefix() . 'bp_activity',
 				'table_name_optouts'       => bp_core_get_table_prefix() . 'bp_optouts',
 				'table_name_signups'       => $wpdb->base_prefix . 'signups', // Signups is a global WordPress table.
+				'table_name_notices'       => bp_core_get_table_prefix() . 'bp_notices',
+				'table_name_notices_meta'  => bp_core_get_table_prefix() . 'bp_notices_meta',
+			),
+			'meta_tables' => array(
+				'notice'  => bp_core_get_table_prefix() . 'bp_notices_meta',
 			),
 			'notification_callback' => 'members_format_notifications',
 			'block_globals'         => array(
@@ -615,12 +625,12 @@ class BP_Members_Component extends BP_Component {
 
 				$wp_admin_nav = array_merge( $wp_admin_nav, $this->get_avatar_cover_image_admin_navs() );
 
-				/**
-				 * The xProfile is active.
-				 *
-				 * Add the Change Avatar and Change Cover Image Admin Bar items
-				 * to the xProfile Admin Bar Menu.
-				 */
+			/*
+			 * The xProfile is active.
+			 *
+			 * Add the Change Avatar and Change Cover Image Admin Bar items
+			 * to the xProfile Admin Bar Menu.
+			 */
 			} else {
 				add_filter( 'bp_xprofile_admin_nav', array( $this, 'setup_xprofile_admin_nav' ), 2 );
 			}
@@ -639,7 +649,8 @@ class BP_Members_Component extends BP_Component {
 	 * @return array
 	 */
 	public function setup_xprofile_admin_nav( $wp_admin_nav ) {
-		$items = $this->get_avatar_cover_image_admin_navs( buddypress()->profile->id );
+		$menu_id = buddypress()->profile->id;
+		$items   = $this->get_avatar_cover_image_admin_navs( $menu_id );
 
 		if ( $items ) {
 			$wp_admin_nav = array_merge( $wp_admin_nav, $items );
