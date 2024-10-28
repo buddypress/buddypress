@@ -198,14 +198,23 @@ function bp_message_thread_excerpt() {
 	function bp_get_message_thread_excerpt() {
 		global $messages_template;
 
+		$last_user_id = $messages_template->thread->last_sender_id;
+		$user         = get_userdata( (int) $last_user_id );
+
+		if ( 'sentbox' !== bp_current_action() && ( empty( $user ) || ! $user->exists() ) ) {
+			$thread_excerpt = esc_html__( '[deleted]', 'buddypress' );
+		} else {
+			$thread_excerpt = wp_strip_all_tags( bp_create_excerpt( $messages_template->thread->last_message_content, 75 ) );
+		}
+
 		/**
 		 * Filters the excerpt of the current thread in the loop.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value Excerpt of the current thread in the loop.
+		 * @param string $thread_excerpt Excerpt of the current thread in the loop.
 		 */
-		return apply_filters( 'bp_get_message_thread_excerpt', wp_strip_all_tags( bp_create_excerpt( $messages_template->thread->last_message_content, 75 ) ) );
+		return apply_filters( 'bp_get_message_thread_excerpt', $thread_excerpt );
 	}
 
 /**
@@ -242,6 +251,15 @@ function bp_message_thread_content() {
 	function bp_get_message_thread_content() {
 		global $messages_template;
 
+		$last_user_id = $messages_template->thread->last_sender_id;
+		$user         = get_userdata( (int) $last_user_id );
+
+		if ( ( empty( $user ) || ! $user->exists() ) ) {
+			$last_message_content = esc_html__( '[deleted]', 'buddypress' );
+		} else {
+			$last_message_content = $messages_template->thread->last_message_content;
+		}
+
 		/**
 		 * Filters the content of the last message in the thread.
 		 *
@@ -249,14 +267,14 @@ function bp_message_thread_content() {
 		 *
 		 * @param string $last_message_content Content of the last message in the thread.
 		 */
-		return apply_filters( 'bp_get_message_thread_content', $messages_template->thread->last_message_content );
+		return apply_filters( 'bp_get_message_thread_content', $last_message_content );
 	}
 
 /**
  * Output a link to the page of the current thread's last author.
  */
 function bp_message_thread_from() {
-	// Esaping is made in `bp_core_get_userlink()` && in `bp_core_get_user_displayname()`.
+	// Escaping is made in `bp_core_get_userlink()` && in `bp_core_get_user_displayname()`.
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_message_thread_from();
 }
@@ -270,14 +288,20 @@ function bp_message_thread_from() {
 	function bp_get_message_thread_from() {
 		global $messages_template;
 
+		$userlink = bp_core_get_userlink( $messages_template->thread->last_sender_id );
+
+		if ( empty( $userlink ) ) {
+			$userlink = esc_html__( 'Deleted User', 'buddypress' );
+		}
+
 		/**
 		 * Filters the link to the page of the current thread's last author.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value Link to the page of the current thread's last author.
+		 * @param string $userlink Link to the page of the current thread's last author.
 		 */
-		return apply_filters( 'bp_get_message_thread_from', bp_core_get_userlink( $messages_template->thread->last_sender_id ) );
+		return apply_filters( 'bp_get_message_thread_from', $userlink );
 	}
 
 /**
@@ -303,7 +327,7 @@ function bp_message_thread_to() {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value HTML links to the pages of the current thread's recipients.
+		 * @param string $recipients_links HTML links to the pages of the current thread's recipients.
 		 */
 		return apply_filters( 'bp_message_thread_to', BP_Messages_Thread::get_recipient_links( $messages_template->thread->recipients ) );
 	}
@@ -2233,14 +2257,20 @@ function bp_the_thread_message_sender_link() {
 	function bp_get_the_thread_message_sender_link() {
 		global $thread_template;
 
+		$sender_link = bp_core_get_userlink( $thread_template->message->sender_id, false, true );
+
+		if ( empty( $sender_link ) ) {
+			$sender_link = '';
+		}
+
 		/**
 		 * Filters the link to the sender of the current message.
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param string $value Link to the sender of the current message.
+		 * @param string $sender_link Link to the sender of the current message.
 		 */
-		return apply_filters( 'bp_get_the_thread_message_sender_link', bp_core_get_userlink( $thread_template->message->sender_id, false, true ) );
+		return apply_filters( 'bp_get_the_thread_message_sender_link', $sender_link );
 	}
 
 /**
