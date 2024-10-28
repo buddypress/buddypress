@@ -344,7 +344,6 @@ class BP_Messages_Box_Template {
 	 * @see bp_message_thread()
 	 */
 	public function the_message_thread() {
-
 		$this->in_the_loop = true;
 		$this->thread      = $this->next_thread();
 

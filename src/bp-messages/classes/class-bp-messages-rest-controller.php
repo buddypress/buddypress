@@ -62,6 +62,12 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			$this->namespace,
 			$thread_endpoint,
 			array(
+				'args'        => array(
+					'id' => array(
+						'description' => __( 'A unique numeric ID for the Thread.', 'buddypress' ),
+						'type'        => 'integer',
+					),
+				),
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_item' ),
@@ -152,6 +158,8 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 
 		$retval = array();
 		foreach ( (array) $messages_box->threads as $thread ) {
+			$messages_box->the_message_thread();
+
 			$retval[] = $this->prepare_response_for_collection(
 				$this->prepare_item_for_response( $thread, $request )
 			);
@@ -161,11 +169,11 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		$response = bp_rest_response_add_total_headers( $response, $messages_box->total_thread_count, $args['per_page'] );
 
 		/**
-		 * Fires after a thread is fetched via the REST API.
+		 * Fires after threads are fetched via the REST API.
 		 *
 		 * @since 15.0.0
 		 *
-		 * @param BP_Messages_Box_Template  $messages_box Fetched thread.
+		 * @param BP_Messages_Box_Template  $messages_box Messages box
 		 * @param WP_REST_Response          $response     The response data.
 		 * @param WP_REST_Request           $request      The request sent to the API.
 		 */
@@ -1117,13 +1125,13 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 	 */
 	public function get_endpoint_args_for_item_schema( $method = WP_REST_Server::CREATABLE ) {
 		$args                      = parent::get_endpoint_args_for_item_schema( $method );
-		$args['id']['description'] = __( 'ID of the Messages Thread.', 'buddypress' );
+		$args['id']['description'] = __( 'A unique numeric ID for the Thread.', 'buddypress' );
 
 		if ( WP_REST_Server::CREATABLE === $method ) {
 			$key = 'create_item';
 
 			// Edit the Thread ID description and default properties.
-			$args['id']['description'] = __( 'ID of the Messages Thread. Required when replying to an existing Thread.', 'buddypress' );
+			$args['id']['description'] = __( 'A unique numeric ID for the Thread. Required when replying to an existing Thread.', 'buddypress' );
 			$args['id']['default']     = 0;
 
 			// Add the sender_id argument.
@@ -1156,7 +1164,18 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			unset( $args['subject']['properties'], $args['message']['properties'] );
 
 		} else {
+			unset( $args['sender_id'], $args['subject'], $args['message'], $args['recipients'] );
+
+			$args['user_id'] = array(
+				'description'       => __( 'The user ID to get the thread for.', 'buddypress' ),
+				'required'          => false,
+				'type'              => 'integer',
+				'sanitize_callback' => 'absint',
+				'validate_callback' => 'rest_validate_request_arg',
+			);
+
 			if ( WP_REST_Server::EDITABLE === $method ) {
+				unset( $args['message'], $args['recipients'], $args['subject'] );
 				$key = 'update_item';
 
 				$args['read'] = array(
@@ -1188,31 +1207,10 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 
 			if ( WP_REST_Server::DELETABLE === $method ) {
 				$key = 'delete_item';
-
-				$args['user_id'] = array(
-					'description'       => __( 'The user ID to remove from the thread', 'buddypress' ),
-					'required'          => true,
-					'type'              => 'integer',
-					'sanitize_callback' => 'absint',
-					'validate_callback' => 'rest_validate_request_arg',
-					'default'           => bp_loggedin_user_id(),
-				);
-
-				unset( $args['sender_id'], $args['subject'], $args['message'], $args['recipients'] );
 			}
 
 			if ( WP_REST_Server::READABLE === $method ) {
-				unset( $args['sender_id'], $args['subject'], $args['message'], $args['recipients'] );
-
 				$key = 'get_item';
-
-				$args['user_id'] = array(
-					'description'       => __( 'The user ID to get the thread for.', 'buddypress' ),
-					'required'          => false,
-					'type'              => 'integer',
-					'sanitize_callback' => 'absint',
-					'validate_callback' => 'rest_validate_request_arg',
-				);
 
 				$args['recipients_page'] = array(
 					'description'       => __( 'Current page of the recipients collection.', 'buddypress' ),
@@ -1291,6 +1289,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 					'id'                  => array(
 						'context'     => array( 'view', 'edit' ),
 						'description' => __( 'A unique numeric ID for the Thread.', 'buddypress' ),
+						'readonly'    => true,
 						'type'        => 'integer',
 					),
 					'message_id'          => array(
@@ -1376,7 +1375,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 					),
 					'date'                => array(
 						'context'     => array( 'view', 'edit' ),
-						'description' => __( 'Dat of the latest message of the Thread, in the site\'s timezone.', 'buddypress' ),
+						'description' => __( 'Date of the latest message of the Thread, in the site\'s timezone.', 'buddypress' ),
 						'readonly'    => true,
 						'type'        => array( 'string', 'null' ),
 						'format'      => 'date-time',
@@ -1405,7 +1404,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 					),
 					'recipients'          => array(
 						'context'     => array( 'view', 'edit' ),
-						'description' => __( 'The list of recipient User Objects involved into the Thread.', 'buddypress' ),
+						'description' => __( 'The list of Avatar URLs for the recipient involved into the Thread.', 'buddypress' ),
 						'type'        => 'array',
 						'items'       => array(
 							'type' => 'object',
