@@ -28,7 +28,7 @@ This API reference provides information on the specific endpoints available thro
 | Group Membership | `/buddypress/v2/groups/<group_id>/members` |
 | Group Membership Requests | `/buddypress/v2/groups/<group_id>/membership-request` |
 | Group Invites | `/buddypress/v2/groups/<group_id>/invites` |
-| Private Messaging | `/buddypress/v2/messages` |
+| [Private Messaging](./messages.md) | `/buddypress/v2/messages` |
 | Screen Notifications | `/buddypress/v2/notifications` |
 | User Blogs | `/buddypress/v2/blogs` |
 | Blog Profile Photo | `/buddypress/v2/blogs/<id>/avatar` |
