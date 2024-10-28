@@ -798,8 +798,18 @@ class BP_Messages_Thread {
 		$bp = buddypress();
 
 		if ( ! empty( $r['includes'] ) && is_array( $r['includes'] ) ) {
-			$includes_ids = implode( ',', wp_parse_id_list( $r['includes'] ) );
-			$includes_sql = "AND r.thread_id IN (SELECT thread_id FROM {$bp->messages->table_name_recipients} WHERE user_id in ({$includes_ids}))";
+			$includes_ids = array_filter(
+				wp_parse_id_list( $r['includes'] ),
+				function ( $recipient_id ) use ( $r ) {
+					// Filter out the current user ID, if available.
+					return $recipient_id !== $r['user_id'];
+				}
+			);
+
+			if ( ! empty( $includes_ids ) ) {
+				$includes_ids = implode( ',', $includes_ids );
+				$includes_sql = "AND r.thread_id IN (SELECT thread_id FROM {$bp->messages->table_name_recipients} WHERE user_id in ({$includes_ids}))";
+			}
 		}
 
 		// Set up SQL array.
