@@ -112,7 +112,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -134,7 +134,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites     = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $i1, $i2 ), $invites );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_avoid_duplicates() {
@@ -142,7 +142,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -158,7 +158,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$i2 = $invites_class->add_invitation( $invite_args );
 		$this->assertEquals( $i1, $i2 );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_invite_plus_request_should_accept() {
@@ -168,7 +168,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
 
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -203,7 +203,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$this->assertNotEmpty( $invite_ids );
 		$this->assertEqualSets( array( $i1 ), $invite_ids );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_unsent_invite_plus_request_should_not_accept() {
@@ -212,7 +212,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -239,7 +239,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites     = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array(), wp_list_pluck( $invites, 'id' ) );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invitation_unsent_invite_plus_request_then_send_invite_should_accept() {
@@ -248,7 +248,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -280,14 +280,14 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites     = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $i1, $r1 ), $invites );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_vanilla() {
 		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -307,7 +307,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$requests     = $invites_class->get_requests( $get_requests );
 		$this->assertEqualSets( array( $r1, $r2 ), $requests );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_avoid_duplicates() {
@@ -316,7 +316,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
 		$u1 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		// Create a couple of requests.
 		$request_args = array(
@@ -327,7 +327,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		// Attempt to create a duplicate.
 		$this->assertFalse( $invites_class->add_request( $request_args ) );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_request_plus_sent_invite_should_accept() {
@@ -335,7 +335,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -365,7 +365,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites     = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $r1, $i1 ), $invites );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_sending_should_clear_cache() {
@@ -373,7 +373,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -393,7 +393,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invite = new BP_Invitation( $i1 );
 		$this->assertEquals( 1, $invite->invite_sent );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_get_by_search_terms() {
@@ -401,7 +401,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -438,14 +438,14 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites     = $invites_class->get_invitations( $get_invites );
 		$this->assertEqualSets( array( $i2 ), $invites );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_request_with_date_modified() {
 		$old_current_user = get_current_user_id();
 
 		$u1 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -460,7 +460,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$req = new BP_Invitation( $r1 );
 		$this->assertEquals( $time, $req->date_modified );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_add_invite_with_date_modified() {
@@ -468,7 +468,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 		$time          = gmdate( 'Y-m-d H:i:s', time() - 100 );
@@ -486,7 +486,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$inv = new BP_Invitation( $i1 );
 		$this->assertEquals( $time, $inv->date_modified );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_bp_invitations_orderby_item_id() {
@@ -495,7 +495,7 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$u1 = self::factory()->user->create();
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$invites_class = new BPTest_Invitation_Manager_Extension();
 
@@ -536,6 +536,6 @@ class BP_Tests_Invitations extends BP_UnitTestCase {
 		$invites                   = $invites_class->get_invitations( $get_invites );
 		$this->assertEquals( array( $i3, $i1, $i2 ), $invites );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 }

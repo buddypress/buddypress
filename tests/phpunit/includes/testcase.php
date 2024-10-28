@@ -154,7 +154,7 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 		$bp->is_single_item        = false;
 		$bp->current_user          = new stdClass();
 		$bp->displayed_user        = new stdClass();
-		$bp->loggedin_user         = new stdClass();
+		$bp->loggedin_user         = new BP_LoggedIn_User();
 		$bp->pages                 = array();
 		$bp->groups->types         = array();
 
@@ -238,16 +238,10 @@ class BP_UnitTestCase extends WP_UnitTestCase {
 	 * WP's core tests use wp_set_current_user() to change the current
 	 * user during tests. BP caches the current user differently, so we
 	 * have to do a bit more work to change it
+	 *
+	 * @deprecated 15.0.0
 	 */
 	public static function set_current_user( $user_id ) {
-		$bp = buddypress();
-
-		$bp->loggedin_user->id             = $user_id;
-		$bp->loggedin_user->fullname       = bp_core_get_user_displayname( $user_id );
-		$bp->loggedin_user->is_super_admin = is_super_admin( $user_id );
-		$bp->loggedin_user->domain         = bp_members_get_user_url( $user_id );
-		$bp->loggedin_user->userdata       = bp_core_get_core_userdata( $user_id );
-
 		wp_set_current_user( $user_id );
 	}
 

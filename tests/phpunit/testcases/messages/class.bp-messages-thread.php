@@ -571,13 +571,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 		// Mark thread as read
 		$current_user = get_current_user_id();
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		messages_mark_thread_read( $t1 );
 
 		// Cache should be empty.
 		$this->assertFalse( wp_cache_get( 'thread_recipients_' . $t1, 'bp_messages' ) );
 
-		self::set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -673,13 +673,13 @@ class BP_Tests_BP_Messages_Thread extends BP_UnitTestCase {
 
 		// Mark thread as unread
 		$current_user = get_current_user_id();
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		messages_mark_thread_unread( $t1 );
 
 		// Cache should be empty.
 		$this->assertFalse( wp_cache_get( 'thread_recipients_' . $t1, 'bp_messages' ) );
 
-		self::set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 	}
 
 	/**

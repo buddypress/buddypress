@@ -32,7 +32,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 */
 	public function test_get_items() {
 		$notification_id = $this->bp::factory()->notification->create( array( 'user_id' => $this->user ) );
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -59,7 +59,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->bp::factory()->notification->create( array( 'user_id' => $u1 ) );
 		$this->bp::factory()->notification->create( array( 'user_id' => $u2 ) );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -88,7 +88,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$this->bp::factory()->notification->create( array( 'user_id' => $u1 ) );
 		$this->bp::factory()->notification->create( array( 'user_id' => $u2 ) );
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -114,7 +114,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 */
 	public function test_get_items_user_cannot_see_notifications_from_others() {
 		$u = static::factory()->user->create();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -127,7 +127,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$notification = $this->endpoint->get_notification_object( $this->notification_id );
 		$this->assertEquals( $this->notification_id, $notification->id );
@@ -148,7 +148,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group get_item
 	 */
 	public function test_get_embedded_user_from_notification_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$notification_id = $this->bp::factory()->notification->create( array( 'user_id' => $this->user ) );
 
@@ -184,7 +184,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
 		$request->set_param( 'context', 'view' );
@@ -218,7 +218,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
 		$request->set_param( 'context', 'view' );
@@ -248,7 +248,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 
 		$blog_title = 'The Foo Bar Blog';
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$blog_id = self::factory()->blog->create(
 			array( 'title' => $blog_title )
@@ -302,7 +302,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 		$u               = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
 		$request->set_param( 'context', 'view' );
@@ -315,7 +315,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/x-www-form-urlencoded' );
@@ -332,7 +332,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group create_item
 	 */
 	public function test_rest_create_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -365,7 +365,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 */
 	public function test_create_item_user_cannot_create() {
 		$u = static::factory()->user->create();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -384,7 +384,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	public function test_update_item() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -408,7 +408,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group update_item
 	 */
 	public function test_update_item_invalid_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -439,7 +439,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
 		$u = static::factory()->user->create();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -454,7 +454,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	public function test_update_item_same_status() {
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
 		$request->add_header( 'content-type', 'application/json' );
@@ -475,7 +475,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$notification    = $this->endpoint->get_notification_object( $notification_id );
 
 		$this->assertEquals( $notification_id, $notification->id );
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -494,7 +494,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group delete_item
 	 */
 	public function test_delete_item_invalid_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -521,7 +521,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
 
 		$u = static::factory()->user->create();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $notification_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -534,7 +534,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group prepare_item
 	 */
 	public function test_prepare_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$notification = $this->endpoint->get_notification_object( $this->notification_id );
 
@@ -671,7 +671,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$expected = 'bar_value';
 
 		// POST
@@ -718,7 +718,7 @@ class BP_Tests_Notifications_REST_Controller extends BP_Test_REST_Controller_Tes
 		);
 
 		$notification_id = $this->bp::factory()->notification->create( $this->set_notification_data() );
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$expected = 'foo_value';
 
 		// Put

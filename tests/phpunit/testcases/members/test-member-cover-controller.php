@@ -74,7 +74,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group create_item
 	 */
 	public function test_create_item_with_upload_disabled() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		// Disabling cover image upload.
 		add_filter( 'bp_disable_cover_image_uploads', '__return_true' );
@@ -91,7 +91,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group create_item
 	 */
 	public function test_create_item_empty_image() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/cover', $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -115,7 +115,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	public function test_create_item_unauthorized_user() {
 		$u1 = $this->bp::factory()->user->create();
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/cover', $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -127,7 +127,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group create_item
 	 */
 	public function test_create_item_invalid_member_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/cover', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -165,7 +165,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	public function test_delete_item_unauthorized_user() {
 		$u1 = $this->bp::factory()->user->create();
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/cover', $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -177,7 +177,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group delete_item
 	 */
 	public function test_delete_item_invalid_member_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/cover', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -189,7 +189,7 @@ class BP_Tests_Member_Cover_REST_Controller extends BP_Test_REST_Controller_Test
 	 * @group delete_item
 	 */
 	public function test_delete_item_failed() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/cover', $this->user ) );
 		$request->set_param( 'context', 'edit' );

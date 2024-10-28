@@ -71,7 +71,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		friends_add_friend( $u1, $u2 );
 
 		$old_user = get_current_user_id();
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		$this->set_permalink_structure( '/%postname%/' );
 
 		$this->go_to(
@@ -94,7 +94,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$request_ids = wp_list_pluck( $requests, 'ID' );
 		$this->assertEquals( $request_ids, array( $u1 ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -107,7 +107,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$u2 = self::factory()->user->create();
 
 		$old_user = get_current_user_id();
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		$this->set_permalink_structure( '/%postname%/' );
 
 		// For some reason, in all the user switching, the cache gets
@@ -136,7 +136,7 @@ class BP_Tests_Members_Template extends BP_UnitTestCase {
 		$request_ids = wp_list_pluck( $requests, 'ID' );
 		$this->assertEquals( array(), $request_ids );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**

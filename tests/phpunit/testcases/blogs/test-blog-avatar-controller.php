@@ -38,7 +38,7 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 			'thumb' => get_avatar_url( $u, array( 'size' => 50 ) ),
 		);
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$blog_id = self::factory()->blog->create();
 
@@ -92,7 +92,7 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 
 		$u = $this->bp::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$blog_id = self::factory()->blog->create();
 
@@ -114,7 +114,7 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 
 		$u = $this->bp::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$blog_id  = self::factory()->blog->create();
 		$expected = array(
@@ -154,11 +154,11 @@ class BP_Tests_Blog_Avatar_REST_Controller extends BP_Test_REST_Controller_Testc
 
 		$u = $this->bp::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$blog_id = self::factory()->blog->create( array( 'meta' => array( 'public' => 1 ) ) );
 
-		$this->bp::set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 
 		// Remove admins.
 		add_filter( 'bp_blogs_get_blogs', array( $this, 'filter_admin_user_id' ) );

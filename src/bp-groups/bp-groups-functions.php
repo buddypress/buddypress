@@ -1452,7 +1452,7 @@ function groups_is_user_member( $user_id, $group_id ) {
 	) );
 
 	if ( isset( $user_groups[ $group_id ] ) ) {
-		$is_member = $user_groups[ $group_id ]->id;
+		$is_member = (int) $user_groups[ $group_id ]->id;
 	}
 
 	return $is_member;

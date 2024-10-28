@@ -33,7 +33,7 @@ class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 		$u = self::factory()->user->create();
 
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertFalse( bp_group_is_visible( $g ) );
 	}
@@ -42,7 +42,7 @@ class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 		$u = self::factory()->user->create();
 
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->add_user_to_group( $u, $g );
 
@@ -56,7 +56,7 @@ class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {
 		$GLOBALS['groups_template'] = new stdClass;
 		$GLOBALS['groups_template']->group = null;
 
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertFalse( bp_group_is_visible() );
 	}
@@ -65,7 +65,7 @@ class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {
 		$g = self::factory()->group->create( array( 'status' => 'private' ) );
 		$u = self::factory()->user->create( array( 'role' => 'administrator' ) );
 
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertTrue( bp_group_is_visible( $g ) );
 	}
@@ -98,7 +98,7 @@ class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {
 
 		$u = self::factory()->user->create( array( 'role' => 'administrator' ) );
 
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertTrue( bp_group_is_visible( $slug ) );
 	}
@@ -111,7 +111,7 @@ class BP_Tests_Groups_Template_Is_Visible extends BP_UnitTestCase {
 		$GLOBALS['groups_template'] = new stdClass;
 		$GLOBALS['groups_template']->group = groups_get_group( $g );
 
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertTrue( bp_group_is_visible() );
 	}

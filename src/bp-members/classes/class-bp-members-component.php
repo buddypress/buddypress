@@ -233,28 +233,13 @@ class BP_Members_Component extends BP_Component {
 		// Init the User's ID to use to build the Nav for.
 		$user_id = bp_loggedin_user_id();
 
-		/** Logged in user ***************************************************
-		 */
-
-		// The core userdata of the user who is currently logged in.
-		$bp->loggedin_user->userdata = bp_core_get_core_userdata( $user_id );
-
-		// Fetch the full name for the logged in user.
-		$bp->loggedin_user->fullname = isset( $bp->loggedin_user->userdata->display_name ) ? $bp->loggedin_user->userdata->display_name : '';
-
-		// Hits the DB on single WP installs so get this separately.
-		$bp->loggedin_user->is_super_admin = $bp->loggedin_user->is_site_admin = is_super_admin( $user_id );
-
-		// The domain for the user currently logged in. eg: http://example.com/members/andy.
-		$bp->loggedin_user->domain = bp_members_get_user_url( $user_id );
-
 		/**
 		 * Set the Displayed user for the classic BuddyPress. This should only be the case when the
 		 * legacy parser is on. When BP Rewrites are on, the displayed user is set in
 		 * `BP_Members_Component::parse_query()`.
 		 */
 		if ( bp_displayed_user_id() ) {
-			// We're viewing a speciific user, switch the ID to use for the Nav to this one.
+			// We're viewing a specific user, switch the ID to use for the Nav to this one.
 			$user_id = bp_displayed_user_id();
 
 			// The core userdata of the user who is currently being displayed.

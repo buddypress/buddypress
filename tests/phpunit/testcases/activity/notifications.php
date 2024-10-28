@@ -19,7 +19,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->current_user = get_current_user_id();
 		$this->u1 = self::factory()->user->create();
 		$this->u2 = self::factory()->user->create();
-		self::set_current_user( $this->u1 );
+		wp_set_current_user( $this->u1 );
 
 		/**
 		 * Tests suite in WP < 4.0 does not include the WP_UnitTestCase->_restore_hooks() function
@@ -31,7 +31,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		self::set_current_user( $this->current_user );
+		wp_set_current_user( $this->current_user );
 		$this->set_permalink_structure( $this->permalink_structure );
 
 		// Restore the filter
@@ -89,7 +89,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Log out
-		self::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		// Go to the activity permalink page
 		$this->go_to(
@@ -109,7 +109,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		// Should be untouched
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
-		self::set_current_user( $this->u1 );
+		wp_set_current_user( $this->u1 );
 	}
 
 	/**
@@ -128,7 +128,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Switch user
-		self::set_current_user( $this->u2 );
+		wp_set_current_user( $this->u2 );
 
 		// Go to the activity permalink page
 		$this->go_to(
@@ -148,7 +148,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		// Should be untouched
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
-		self::set_current_user( $this->u1 );
+		wp_set_current_user( $this->u1 );
 	}
 
 	/**
@@ -201,7 +201,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Log out
-		self::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		// Go to the My Activity page
 		$this->go_to(
@@ -222,7 +222,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// clean up
-		self::set_current_user( $this->u1 );
+		wp_set_current_user( $this->u1 );
 	}
 
 	/**
@@ -241,7 +241,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// Log out
-		self::set_current_user( $this->u2 );
+		wp_set_current_user( $this->u2 );
 
 		// Go to the My Activity page
 		$this->go_to(
@@ -262,7 +262,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertEquals( array( $this->a1 ), wp_list_pluck( $notifications, 'item_id' ) );
 
 		// clean up
-		self::set_current_user( $this->u1 );
+		wp_set_current_user( $this->u1 );
 	}
 
 	/**
@@ -443,7 +443,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		) ) );
 
 		// Attempt to mark 'comment_reply' notifications as read for user 2.
-		self::set_current_user( $this->u2 );
+		wp_set_current_user( $this->u2 );
 		foreach ( $u2_notifications as $i => $n ) {
 			$n = bp_activity_format_notifications( $n->component_action, $n->item_id, $n->secondary_item_id, 1, 'array', $n->id );
 			if ( ! empty( $n['link'] ) ) {
@@ -470,7 +470,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$u2 = self::factory()->user->create();
 		$u3 = self::factory()->user->create();
 
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 		$userdata = get_userdata( $u1 );
 
 		// let's use activity comments instead of single "new_blog_comment" activity items
@@ -486,7 +486,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 			'post_title'  => 'Test post',
 		) );
 
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		$userdata = get_userdata( $u2 );
 
 		$c1 = wp_new_comment( array(
@@ -502,7 +502,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		// Approve the comment
 		self::factory()->comment->update_object( $c1, array( 'comment_approved' => 1 ) );
 
-		self::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 		$userdata = get_userdata( $u3 );
 
 		$c2 = wp_new_comment( array(
@@ -542,7 +542,7 @@ class BP_Tests_Activity_Notifications extends BP_UnitTestCase {
 		$this->assertNotEmpty( $n2 );
 
 		// Reset.
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 		remove_filter( 'comment_flood_filter', '__return_false' );
 	}

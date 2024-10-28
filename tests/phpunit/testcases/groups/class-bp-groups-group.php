@@ -975,13 +975,13 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		$g = self::factory()->group->create( array( 'creator_id' => $u ) );
 
 		// Instantiate group object.
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 		$group = new BP_Groups_Group( $g );
 
 		// Assert ! empty() check is not false.
 		$this->assertTrue( ! empty( $group->is_member ) );
 
-		self::set_current_user( $this->old_current_user );
+		wp_set_current_user( $this->old_current_user );
 	}
 
 	/** convert_type_to_order_orderby() **********************************/
@@ -1469,11 +1469,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		self::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -1500,11 +1500,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -1532,11 +1532,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -1572,11 +1572,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -1609,11 +1609,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -1647,11 +1647,11 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 		}
 
 		$old_user = get_current_user_id();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertEquals( $expected, BP_Groups_Group::get_group_extras( $paged_groups, $group_ids ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -1744,74 +1744,78 @@ class BP_Tests_BP_Groups_Group_TestCases extends BP_UnitTestCase {
 
 	/**
 	 * @ticket BP5451
+	 * @ticket BP7658
 	 */
 	public function test_is_member_property() {
-		$users = self::factory()->user->create_many( 2 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g  = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
-		$g = self::factory()->group->create( array(
-			'creator_id' => $users[0],
-		) );
-
-		wp_set_current_user( $users[1] );
+		wp_set_current_user( $u2 );
 
 		$group_a = new BP_Groups_Group( $g );
+
+		// $u2 IS NOT a member of $g yet.
 		$this->assertFalse( $group_a->is_member );
 
-		$this->add_user_to_group( $users[1], $g );
+		// Now $u2 IS a member of $g.
+		$this->add_user_to_group( $u2, $g );
+
 		$group_b = new BP_Groups_Group( $g );
-		$this->assertFalse( $group_b->is_member );
+
+		// $u2 IS a member of $g. This returns the ID of the membership, not the User id or boolean.
+		$this->assertTrue( (bool) $group_b->is_member );
 	}
 
 	/**
 	 * @ticket BP5451
+	 * @ticket BP7658
 	 */
 	public function test_is_invited_property() {
-		$users = self::factory()->user->create_many( 2 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g  = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
-		$g = self::factory()->group->create( array(
-			'creator_id' => $users[0],
-		) );
-
-		wp_set_current_user( $users[1] );
+		wp_set_current_user( $u2 );
 
 		$group_a = new BP_Groups_Group( $g );
+
 		$this->assertFalse( $group_a->is_invited );
 
 		groups_invite_user( array(
-			'user_id'    => $users[1],
+			'user_id'    => $u2,
 			'group_id'   => $g,
-			'inviter_id' => $users[0],
+			'inviter_id' => $u1,
 			'send_invite' => 1
 		) );
 
 		$group_b = new BP_Groups_Group( $g );
-		$this->assertFalse( $group_b->is_invited );
+
+		$this->assertTrue( wp_validate_boolean( $group_b->is_invited ) );
 	}
 
 	/**
 	 * @ticket BP5451
 	 */
 	public function test_is_pending_property() {
-		$users = self::factory()->user->create_many( 2 );
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+		$g  = self::factory()->group->create( array( 'creator_id' => $u1 ) );
 
-		$g = self::factory()->group->create( array(
-			'creator_id' => $users[0],
-		) );
-
-		wp_set_current_user( $users[1] );
+		wp_set_current_user( $u2 );
 
 		$group_a = new BP_Groups_Group( $g );
+
 		$this->assertFalse( $group_a->is_pending );
 
 		groups_send_membership_request( array(
-			'user_id' => $users[1],
+			'user_id' => $u2,
 			'group_id' => $g
 		) );
 
 		$group_b = new BP_Groups_Group( $g );
 		$this->assertFalse( $group_b->is_pending );
 	}
-
 
 	/**
 	 * @group group_types

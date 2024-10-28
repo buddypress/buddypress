@@ -100,7 +100,7 @@ class BP_Core_User {
 	public $total_friends;
 
 	/**
-	 * The total number of blog posts posted by the user.
+	 * The total number of blog posts published by the user.
 	 *
 	 * @var integer
 	 * @deprecated No longer used

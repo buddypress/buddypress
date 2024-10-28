@@ -22,7 +22,7 @@ class BP_Tests_Messages_Functions extends BP_UnitTestCase {
 		) );
 
 		// get unread count for $u2
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		$this->assertEquals( 1, messages_get_unread_count( $u2 ) );
 
 		// send another message and get recheck unread count

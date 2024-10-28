@@ -902,12 +902,12 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		// Ban user 1 from group 2
 		// Fool the admin check
 		$old_user = get_current_user_id();
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		buddypress()->is_item_admin = true;
 		groups_ban_member( $u1, $g2 );
 
 		// Start the groups loop
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 		if ( bp_has_groups() ) : while ( bp_groups() ) : bp_the_group();
 			$found[] = bp_group_is_user_banned();
 		endwhile; endif;
@@ -918,7 +918,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 
 		// Clean up
 		$GLOBALS['groups_template'] = null;
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -948,7 +948,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		// Ban user 1 from group 2
 		// Fool the admin check
 		$old_user = get_current_user_id();
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		buddypress()->is_item_admin = true;
 		groups_ban_member( $u1, $g2 );
 
@@ -965,7 +965,7 @@ class BP_Tests_Groups_Template extends BP_UnitTestCase {
 		$this->assertEquals( $expected, $found );
 
 		// Clean up
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**

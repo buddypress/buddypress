@@ -144,9 +144,9 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 
 		// delete thread
 		// to outright delete a thread, both recipients must delete it
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 		messages_delete_thread( $t1 );
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		messages_delete_thread( $t1 );
 
 		// assert empty meta cache
@@ -154,7 +154,7 @@ class BP_Tests_Message_Cache extends BP_UnitTestCase {
 		$this->assertEmpty( wp_cache_get( $m2, 'message_meta' ) );
 
 		// cleanup
-		self::set_current_user( $this->old_current_user );
+		wp_set_current_user( $this->old_current_user );
 	}
 
 	/**
