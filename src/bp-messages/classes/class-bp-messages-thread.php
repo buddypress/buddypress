@@ -672,6 +672,7 @@ class BP_Messages_Thread {
 	 * Get current message threads for a user.
 	 *
 	 * @since 1.0.0
+	 * @since 15.0.0 Added the `$includes` parameter.
 	 *
 	 * @global wpdb $wpdb WordPress database object.
 	 *
@@ -684,6 +685,7 @@ class BP_Messages_Thread {
 	 *                                         or 'read'. Defaults to 'all'.
 	 *     @type int      $limit               The number of messages to get. Defaults to null.
 	 *     @type int      $page                The page number to get. Defaults to null.
+	 *     @type array    $includes            Filter threads by recipient IDs.
 	 *     @type string   $search_terms        The search term to use. Defaults to ''.
 	 *     @type array    $meta_query          Meta query arguments. See WP_Meta_Query for more details.
 	 *     @type int|null $recipients_page     Page of recipients being requested. Default to null, meaning all.
@@ -730,6 +732,7 @@ class BP_Messages_Thread {
 				'box'                 => 'inbox',
 				'type'                => 'all',
 				'limit'               => null,
+				'includes'            => array(),
 				'page'                => null,
 				'recipients_page'     => null,
 				'recipients_per_page' => null,
@@ -740,7 +743,7 @@ class BP_Messages_Thread {
 			)
 		);
 
-		$pag_sql        = $type_sql = $search_sql = $user_id_sql = $sender_sql = '';
+		$pag_sql        = $type_sql = $search_sql = $user_id_sql = $includes_sql = $sender_sql = '';
 		$meta_query_sql = array(
 			'join'  => '',
 			'where' => '',
@@ -794,11 +797,16 @@ class BP_Messages_Thread {
 
 		$bp = buddypress();
 
+		if ( ! empty( $r['includes'] ) && is_array( $r['includes'] ) ) {
+			$includes_ids = implode( ',', wp_parse_id_list( $r['includes'] ) );
+			$includes_sql = "AND r.thread_id IN (SELECT thread_id FROM {$bp->messages->table_name_recipients} WHERE user_id in ({$includes_ids}))";
+		}
+
 		// Set up SQL array.
 		$sql           = array();
 		$sql['select'] = 'SELECT m.thread_id, MAX(m.date_sent) AS date_sent';
 		$sql['from']   = "FROM {$bp->messages->table_name_recipients} r INNER JOIN {$bp->messages->table_name_messages} m ON m.thread_id = r.thread_id {$meta_query_sql['join']}";
-		$sql['where']  = "WHERE {$deleted_sql} {$user_id_sql} {$sender_sql} {$type_sql} {$search_sql} {$meta_query_sql['where']}";
+		$sql['where']  = "WHERE {$deleted_sql} {$user_id_sql} {$sender_sql} {$includes_sql} {$type_sql} {$search_sql} {$meta_query_sql['where']}";
 		$sql['misc']   = "GROUP BY m.thread_id ORDER BY date_sent DESC {$pag_sql}";
 
 		// Get thread IDs.
@@ -810,6 +818,7 @@ class BP_Messages_Thread {
 		// Adjust $sql to work for thread total.
 		$sql['select'] = 'SELECT COUNT( DISTINCT m.thread_id )';
 		unset( $sql['misc'] );
+
 		$total_threads = $wpdb->get_var( implode( ' ', $sql ) );
 
 		// Sort threads by date_sent.
@@ -840,11 +849,11 @@ class BP_Messages_Thread {
 		 *
 		 * @since 2.2.0
 		 *
-		 * @param array $value {
-		 *     @type array $threads       Array of threads. Passed by reference.
-		 *     @type int   $total_threads Number of threads found by the query.
+		 * @param array $results {
+		 *     @type BP_Messages_Thread[] $threads       Array of threads. Passed by reference.
+		 *     @type int                  $total_threads Number of threads found by the query.
 		 * }
-		 *  @param array $r    Array of parameters.
+		 *  @param array $r Array of parameters.
 		 */
 		return apply_filters(
 			'bp_messages_thread_current_threads',

@@ -118,6 +118,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			'box'                 => $request->get_param( 'box' ),
 			'type'                => $request->get_param( 'type' ),
 			'page'                => $request->get_param( 'page' ),
+			'includes'            => $request->get_param( 'includes' ),
 			'per_page'            => $request->get_param( 'per_page' ),
 			'search_terms'        => $request->get_param( 'search' ),
 			'recipients_page'     => $request->get_param( 'recipients_page' ),
@@ -1540,7 +1541,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		}
 
 		$params['box'] = array(
-			'description'       => __( 'Filter the result by box.', 'buddypress' ),
+			'description'       => __( 'Filter threads by the mailbox type.', 'buddypress' ),
 			'default'           => 'inbox',
 			'type'              => 'string',
 			'enum'              => $boxes,
@@ -1549,7 +1550,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		);
 
 		$params['type'] = array(
-			'description'       => __( 'Filter the result by thread status.', 'buddypress' ),
+			'description'       => __( 'Filter threads by its status.', 'buddypress' ),
 			'default'           => 'all',
 			'type'              => 'string',
 			'enum'              => array( 'all', 'read', 'unread' ),
@@ -1563,6 +1564,14 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 			'type'              => 'integer',
 			'required'          => true,
 			'sanitize_callback' => 'absint',
+			'validate_callback' => 'rest_validate_request_arg',
+		);
+
+		$params['includes'] = array(
+			'description'       => __( 'Filter threads by recipient IDs.', 'buddypress' ),
+			'default'           => [],
+			'type'              => 'array',
+			'sanitize_callback' => 'wp_parse_id_list',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 

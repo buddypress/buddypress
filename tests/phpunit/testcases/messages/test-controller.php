@@ -71,7 +71,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertCount( 1, $a_ids );
 		$this->assertCount( 1, $data[0]['messages'] );
 
-		// Check the thread data for the requested user id => `$u1`.
 		$this->check_thread_data( $this->endpoint->get_thread_object( $data[0]['id'], $u1 ), $data[0] );
 	}
 
@@ -142,6 +141,66 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		// Recipients.
 		$this->assertCount( 1, $all_data[0]['recipients'] );
 		$this->assertCount( 1, $all_data[1]['recipients'] );
+	}
+
+	/**
+	 * @group get_items
+	 */
+	public function test_filter_threads_by_recipients() {
+		$u1 = static::factory()->user->create();
+		$u2 = static::factory()->user->create();
+		$u3 = static::factory()->user->create();
+
+		$thread = $this->bp::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $u1,
+				'recipients' => array( $u2 ),
+				'subject'    => 'First Thread',
+			)
+		);
+
+		$this->bp::factory()->message->create(
+			array(
+				'thread_id'  => $thread->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => array( $u1 ),
+			)
+		);
+
+		$thread2 = $this->bp::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $u1,
+				'recipients' => array( $u3 ),
+				'subject'    => 'Second Thread',
+			)
+		);
+
+		$this->bp::factory()->message->create(
+			array(
+				'thread_id'  => $thread2->thread_id,
+				'sender_id'  => $u3,
+				'recipients' => array( $u1 ),
+			)
+		);
+
+		$this->bp::set_current_user( $this->user );
+
+		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
+		$request->set_param( 'user_id', $u1 );
+		$request->set_param( 'includes', array( $u3 ) );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$data = $response->get_data();
+
+		$this->assertNotEmpty( $data );
+
+		$a_ids = wp_list_pluck( $data, 'id' );
+
+		$this->assertCount( 1, $a_ids );
+		$this->assertSame( $thread2->thread_id, $a_ids[0] );
 	}
 
 	/**
