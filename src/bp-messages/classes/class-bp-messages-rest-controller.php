@@ -1568,7 +1568,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 
 		$params['includes'] = array(
 			'description'       => __( 'Filter threads by recipient IDs.', 'buddypress' ),
-			'default'           => [],
+			'default'           => array(),
 			'type'              => 'array',
 			'sanitize_callback' => 'wp_parse_id_list',
 			'validate_callback' => 'rest_validate_request_arg',
