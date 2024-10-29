@@ -2,6 +2,7 @@
 /**
  * Deprecated functions.
  *
+ * @package BuddyPress
  * @deprecated 2.4.0
  */
 

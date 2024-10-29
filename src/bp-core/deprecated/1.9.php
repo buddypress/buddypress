@@ -6,7 +6,7 @@
  * Use bp-notifications instead.
  *
  * @package BuddyPress
- * @subpackage MembersNotifications
+ * @deprecated 1.9.0
  */
 
 // Exit if accessed directly.
