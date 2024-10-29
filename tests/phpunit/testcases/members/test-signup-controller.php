@@ -890,4 +890,23 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
 		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
 	}
+
+	public function test_bp_rest_api_signup_disabled_feature_dispatch_error() {
+		// Disable signups registration.
+		bp_update_option( 'users_can_register', 0 );
+
+		if  ( is_multisite() ) {
+			update_site_option( 'registration', '' );
+		}
+
+		$request  = new WP_REST_Request( 'OPTIONS', $this->endpoint_url );
+		$response = $this->server->dispatch( $request );
+		$data     = $response->get_data();
+
+		$this->assertEquals( 403, $response->get_status() );
+		$this->assertSame(
+			$data['message'],
+			'BuddyPress: The user signup feature is currently disabled. Please activate this feature to proceed.',
+		);
+	}
 }
