@@ -906,7 +906,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertEquals( 403, $response->get_status() );
 		$this->assertSame(
 			$data['message'],
-			'BuddyPress: The user signup feature is currently disabled. Please activate this feature to proceed.',
+			'BuddyPress: The user signup feature is currently disabled. Please activate this feature to proceed.'
 		);
 	}
 }
