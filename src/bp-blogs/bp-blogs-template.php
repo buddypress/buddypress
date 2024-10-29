@@ -359,7 +359,7 @@ function bp_blog_avatar( $args = '' ) {
 	 *     @type int      $admin_user_id The Blog Admin user ID. Default: 0.
 	 *     @type bool     $html          Default: true.
 	 * }
-	 * @return string User avatar string.
+	 * @return string|bool User avatar string. False if avatars are turned off.
 	 */
 	function bp_get_blog_avatar( $args = '' ) {
 		global $blogs_template;
@@ -373,11 +373,9 @@ function bp_blog_avatar( $args = '' ) {
 		// Set default value for the `alt` attribute.
 		$alt_attribute = __( 'Site icon for the blog', 'buddypress' );
 
-		$has_current_blog = isset( $blogs_template ) && isset( $blogs_template->blog->blog_id );
-
-		if ( false === $has_current_blog && isset( $args['blog_id'] ) && $args['blog_id'] ) {
+		if ( ! empty( $args['blog_id'] ) ) {
 			$blog_id = (int) $args['blog_id'];
-		} else if ( true === $has_current_blog ) {
+		} else if ( isset( $blogs_template->blog->blog_id ) ) {
 			$blog_id = bp_get_blog_id();
 
 			/* translators: %s is the blog name */
@@ -535,6 +533,12 @@ function bp_blog_name() {
 	function bp_get_blog_name() {
 		global $blogs_template;
 
+		$name = '';
+
+		if ( ! empty( $blogs_template->blog->name ) ) {
+			$name = $blogs_template->blog->name;
+		}
+
 		/**
 		 * Filters the name of the current blog in the loop.
 		 *
@@ -542,7 +546,7 @@ function bp_blog_name() {
 		 *
 		 * @param string $name Name of the current blog in the loop.
 		 */
-		return apply_filters( 'bp_get_blog_name', $blogs_template->blog->name );
+		return apply_filters( 'bp_get_blog_name', $name );
 	}
 
 /**
