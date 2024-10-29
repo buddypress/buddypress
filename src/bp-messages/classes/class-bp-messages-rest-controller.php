@@ -1549,7 +1549,7 @@ class BP_Messages_REST_Controller extends WP_REST_Controller {
 		);
 
 		$params['type'] = array(
-			'description'       => __( 'Filter threads by its status.', 'buddypress' ),
+			'description'       => __( 'Filter threads by the status.', 'buddypress' ),
 			'default'           => 'all',
 			'type'              => 'string',
 			'enum'              => array( 'all', 'read', 'unread' ),
