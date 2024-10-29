@@ -209,6 +209,42 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	/**
 	 * @group create_item
 	 */
+	public function test_creating_multiple_pending_accounts_with_different_usernames() {
+		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
+
+		$params = $this->set_signup_data( array( 'user_login' => 'user1' ) );
+		$request->set_body_params( $params );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$signup = $response->get_data();
+
+		$this->assertSame( $signup['user_login'], $params['user_login'] );
+		$this->assertSame( $signup['user_email'], $params['user_email'] );
+		$this->assertTrue( ! isset( $signup['activation_key'] ) );
+
+		// Test with the same email.
+		$params = $this->set_signup_data( array( 'user_login' => 'user2' ) );
+		$request->set_body_params( $params );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'bp_rest_signup_validation_failed', $response, 500, 'This user\'s email is already registered.' );
+
+		// Test with a different email.
+		$params = $this->set_signup_data( array( 'user_login' => 'user2', 'user_email' => 'user2@example.com' ) );
+		$request->set_body_params( $params );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+	}
+
+	/**
+	 * @group create_item
+	 */
 	public function test_create_item_with_signup_fields() {
 		$g1 = $this->bp::factory()->xprofile_group->create();
 
@@ -663,7 +699,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	/**
 	 * @group resend_item
 	 */
-	public function test_resend_acivation_email_to_active_signup() {
+	public function test_resend_activation_email_to_active_signup() {
 		$signup_id = $this->create_signup();
 		$signup    = new BP_Signup( $signup_id );
 
@@ -683,6 +719,56 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		} else {
 			$this->assertErrorResponse( 'bp_rest_signup_resend_activation_email_fail', $response, 500 );
 		}
+	}
+
+	/**
+	 * @group resend_item
+	 */
+	public function test_resend_activation_email_to_locked_signup() {
+		$signup_id = $this->create_signup();
+
+		BP_Signup::resend( $signup_id );
+
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/resend' );
+		$request->set_param( 'id', $signup_id );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 500, $response->get_status() );
+
+		$error_code = 'bp_rest_signup_resend_activation_email_fail';
+		$error      = $response->as_error();
+		$message    = $error->get_error_message( $error_code );
+
+		$this->assertErrorResponse( $error_code, $response, 500 );
+		$this->assertSame(
+			$message,
+			"You've reached the limit for resending your account activation email. Please wait a few minutes and try again. If you continue to experience issues, contact support for assistance."
+		);
+	}
+
+	/**
+	 * @group resend_item
+	 */
+	public function test_resend_activation_email_to_locked_signup_with_hook() {
+		$signup_id = $this->create_signup();
+
+		BP_Signup::resend( $signup_id );
+
+		add_filter( 'bp_core_signup_resend_activation_lock_time', '__return_zero' );
+
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/resend' );
+		$request->set_param( 'id', $signup_id );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$all_data = $response->get_data();
+
+		$this->assertTrue( $all_data['sent'] );
+
+		remove_filter( 'bp_core_signup_resend_activation_lock_time', '__return_zero' );
 	}
 
 	/**
@@ -733,7 +819,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	}
 
 	protected function create_signup() {
-		return BP_Signup::add(
+		return $this->bp::factory()->signup->create(
 			array(
 				'user_login'     => 'user' . wp_rand( 1, 20 ),
 				'user_email'     => sprintf( 'user%d@example.com', wp_rand( 1, 20 ) ),

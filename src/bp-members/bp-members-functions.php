@@ -1592,11 +1592,13 @@ add_filter( 'pre_update_site_option_illegal_names', 'bp_core_get_illegal_names' 
  *
  * Performs the following checks:
  *   - Is the email address well-formed?
- *   - Is the email address already used?
+ *   - Is the email address already used in a user?
+ *   - Is the email address already used in a signup?
  *   - If there are disallowed email domains, is the current domain among them?
- *   - If there's an email domain whitelist, is the current domain on it?
+ *   - If there's an email domain allowlist, is the current domain on it?
  *
  * @since 1.6.2
+ * @since 15.0.0 Check if the email address is already used in a signup.
  *
  * @param string $user_email The email being checked.
  * @return bool|array True if the address passes all checks; otherwise an array
@@ -1629,9 +1631,22 @@ function bp_core_validate_email_address( $user_email ) {
 		}
 	}
 
-	// Is the email already in use?
+	// Is the email already in use in a user?
 	if ( email_exists( $user_email ) ) {
 		$errors['in_use'] = 1;
+	}
+
+	// Is the email already in use in a signup?
+	if ( ! isset( $errors['in_use'] ) ) {
+		$signups = BP_Signup::get(
+			array( 'user_email' => $user_email )
+		);
+
+		$signup = isset( $signups['signups'] ) && ! empty( $signups['signups'][0] );
+
+		if ( $signup ) {
+			$errors['in_use'] = 1;
+		}
 	}
 
 	return ! empty( $errors ) ? $errors : true;
@@ -1748,22 +1763,22 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 
 		// Check into signups.
 		$signups = BP_Signup::get(
-			array(
-				'user_login' => $user_name,
-			)
+			array( 'user_login' => $user_name )
 		);
 
-		$signup = isset( $signups['signups'] ) && ! empty( $signups['signups'][0] ) ? $signups['signups'][0] : false;
+		$signup           = isset( $signups['signups'] ) && ! empty( $signups['signups'][0] );
+		$user_name_exists = ( empty( $signup ) && username_exists( $user_name ) ) || ! empty( $signup );
 
 		// Check if the username has been used already.
-		if ( username_exists( $user_name ) || ! empty( $signup ) ) {
+		if ( true === $user_name_exists ) {
 			$errors->add( 'user_name', __( 'Sorry, that username already exists!', 'buddypress' ) );
 		}
 
-		// Validate the email address and process the validation results into
-		// error messages.
-		$validate_email = bp_core_validate_email_address( $user_email );
-		bp_core_add_validation_error_messages( $errors, $validate_email );
+		// Validate the email address.
+		bp_core_add_validation_error_messages(
+			$errors,
+			bp_core_validate_email_address( $user_email )
+		);
 
 		// Assemble the return array.
 		$result = array(
@@ -1772,7 +1787,7 @@ function bp_core_validate_user_signup( $user_name, $user_email ) {
 			'errors'     => $errors,
 		);
 
-		// Apply WPMU legacy filter.
+		/** This filter is documented in wp-includes/ms-functions.php */
 		$result = apply_filters( 'wpmu_validate_user_signup', $result );
 	}
 
@@ -2486,6 +2501,7 @@ add_filter( 'authenticate', 'bp_core_signup_disable_inactive', 30, 3 );
  * On the login screen, resends the activation email for a user.
  *
  * @since 2.0.0
+ * @since 15.0.0 Return an error when the activation email resend has been blocked temporarily.
  *
  * @global string $error The error message.
  *
@@ -2499,15 +2515,31 @@ function bp_members_login_resend_activation_email() {
 	}
 
 	// Verify nonce.
-	if ( ! wp_verify_nonce( $_GET['_wpnonce'], 'bp-resend-activation' ) ) {
-		die( 'Security check' );
+	if ( ! wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), 'bp-resend-activation' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		wp_die( esc_html__( 'There was a problem performing this action. Please try again.', 'buddypress' ) );
 	}
 
-	$signup_id = (int) $_GET['id'];
+	$signups = BP_Signup::get(
+		array( 'include' => (int) $_GET['id'] )
+	);
+
+	// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
+
+	if ( empty( $signups['signups'] ) || ! is_array( $signups['signups'] ) || empty( $signups['signups'][0] ) ) {
+		$error = __( '<strong>Error</strong>: Invalid signup id.', 'buddypress' );
+		return;
+	}
+
+	$signup = $signups['signups'][0];
+
+	if ( false === BP_Signup::allow_activation_resend( $signup ) ) {
+		$error = __( '<strong>Error</strong>: You\'ve reached the limit for resending your account activation email. Please wait a few minutes and try again. If you continue to experience issues, contact support for assistance.', 'buddypress' );
+		return;
+	}
 
 	// Resend the activation email.
 	// also updates the 'last sent' and '# of emails sent' values.
-	$resend = BP_Signup::resend( array( $signup_id ) );
+	$resend = BP_Signup::resend( $signup->id );
 
 	// Add feedback message.
 	if ( ! empty( $resend['errors'] ) ) {
@@ -2515,6 +2547,8 @@ function bp_members_login_resend_activation_email() {
 	} else {
 		$error = __( 'Activation email resent! Please check your inbox or spam folder.', 'buddypress' );
 	}
+
+	// phpcs:enable WordPress.WP.GlobalVariablesOverride.Prohibited
 }
 add_action( 'login_form_bp-resend-activation', 'bp_members_login_resend_activation_email' );
 

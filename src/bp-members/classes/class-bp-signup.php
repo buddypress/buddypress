@@ -3,7 +3,7 @@
  * Signups Management class.
  *
  * @package BuddyPress
- * @subpackage coreClasses
+ * @subpackage Signup
  * @since 2.0.0
  */
 
@@ -159,7 +159,7 @@ class BP_Signup {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param integer $signup_id The ID for the signup being queried.
+	 * @param int $signup_id The ID for the signup being queried.
 	 */
 	public function __construct( $signup_id = 0 ) {
 		if ( ! empty( $signup_id ) ) {
@@ -248,8 +248,7 @@ class BP_Signup {
 		 * Set a boolean to track whether an activation link
 		 * was sent in the last day.
 		 */
-		$this->recently_sent = $this->count_sent && ( $diff < 1 * DAY_IN_SECONDS );
-
+		$this->recently_sent = $this->count_sent && ( $diff < DAY_IN_SECONDS );
 	}
 
 	/** Static Methods *******************************************************/
@@ -826,23 +825,30 @@ class BP_Signup {
 	 * Resend an activation email.
 	 *
 	 * @since 2.0.0
+	 * @since 15.0.0 Added the ability to resend to a single ID.
 	 *
-	 * @param array $signup_ids Single ID or list of IDs to resend.
+	 * @param array|int $signup_ids Single ID or list of IDs to resend.
 	 * @return array
 	 */
 	public static function resend( $signup_ids = array() ) {
-		if ( empty( $signup_ids ) || ! is_array( $signup_ids ) ) {
-			return false;
+		if ( empty( $signup_ids ) ) {
+			return array();
+		}
+
+		if ( ! is_array( $signup_ids ) ) {
+			$signup_ids = array( $signup_ids );
 		}
 
 		$to_resend = self::get(
 			array(
-				'include' => $signup_ids,
+				'include' => wp_parse_id_list( $signup_ids ),
 			)
 		);
 
-		if ( ! $signups = $to_resend['signups'] ) {
-			return false;
+		$signups = $to_resend['signups'];
+
+		if ( ! $signups ) {
+			return array();
 		}
 
 		$result = array();
@@ -875,7 +881,7 @@ class BP_Signup {
 				// Check user status before sending email.
 				$user_id = email_exists( $signup->user_email );
 
-				if ( ! empty( $user_id ) && 2 != self::check_user_status( $user_id ) ) {
+				if ( ! empty( $user_id ) && 2 !== self::check_user_status( $user_id ) ) {
 
 					// Status is not 2, so user's account has been activated.
 					$result['errors'][ $signup->signup_id ] = array( $signup->user_login, esc_html__( 'the sign-up has already been activated.', 'buddypress' ) );
@@ -885,7 +891,7 @@ class BP_Signup {
 
 					continue;
 
-				// Send the validation email.
+					// Send the validation email.
 				} else {
 					$salutation = $signup->user_login;
 					if ( bp_is_active( 'xprofile' ) && isset( $meta[ 'field_' . bp_xprofile_fullname_field_id() ] ) ) {
@@ -906,7 +912,7 @@ class BP_Signup {
 		}
 
 		/**
-		 * Fires after activation emails are resent.
+		 * Fires after activation email(s) are/is resent.
 		 *
 		 * @since 2.0.0
 		 *
@@ -923,6 +929,44 @@ class BP_Signup {
 		 * @param array $result Updated metadata related to activation emails.
 		 */
 		return apply_filters( 'bp_core_signup_resend', $result );
+	}
+
+	/**
+	 * Check if an activation email can be resent.
+	 *
+	 * @since 15.0.0
+	 *
+	 * @param BP_Signup $signup The signup object.
+	 * @return bool
+	 */
+	public static function allow_activation_resend( $signup ) {
+
+		// Bail if the signup is not a BP_Signup object.
+		if ( ! $signup instanceof BP_Signup ) {
+			return false;
+		}
+
+		// Allow the activation email to be sent if not already.
+		if ( ! $signup->recently_sent || ! $signup->count_sent ) {
+			return true;
+		}
+
+		$sent_at = mysql2date( 'U', $signup->date_sent );
+		$now     = time();
+		$diff    = $now - $sent_at;
+
+		/**
+		 * Filters the lock time for the resend activation.
+		 *
+		 * @since 15.0.0
+		 *
+		 * @param float|int $lock_time The lock time for the resend activation. Default: 1 hour.
+		 * @param BP_Signup $signup The signup object.
+		 */
+		$lock_time = apply_filters( 'bp_core_signup_resend_activation_lock_time', HOUR_IN_SECONDS, $signup );
+
+		// If the activation email was sent less than the lock time ago.
+		return false === ( $diff < $lock_time );
 	}
 
 	/**

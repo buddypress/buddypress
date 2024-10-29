@@ -392,3 +392,41 @@ function bp_rest_api_v1_dispatch_error( $result, $server, $request ) {
 	);
 }
 add_filter( 'rest_pre_dispatch', 'bp_rest_api_v1_dispatch_error', 10, 3 );
+
+/**
+ * Filter the WP REST API response to return a 403 if the signup feature is disabled.
+ *
+ * @since 15.0.0
+ *
+ * @param mixed           $result Response to replace the requested version with. Can be anything
+ *                                a normal endpoint can return, or null to not hijack the request.
+ * @param WP_REST_Server  $server Server instance.
+ * @param WP_REST_Request $request Request used to generate the response.
+ *
+ * @return mixed
+ */
+function bp_rest_api_signup_disabled_feature_dispatch_error( $result, $server, $request ) {
+
+	// Bail early if the BP REST plugin is active.
+	if ( bp_rest_is_plugin_active() ) {
+		return $result;
+	}
+
+	$route = $request->get_route();
+
+	if ( empty( $route ) || ! str_contains( $route, 'buddypress/v2/signup' ) ) {
+		return $result;
+	}
+
+	// Bail early if signups are allowed.
+	if ( bp_get_signup_allowed() ) {
+		return $result;
+	}
+
+	return new WP_Error(
+		'rest_no_route',
+		__( 'BuddyPress: The user signup feature is currently disabled. Please activate this feature to proceed.', 'buddypress' ),
+		array( 'status' => 403 )
+	);
+}
+add_filter( 'rest_pre_dispatch', 'bp_rest_api_signup_disabled_feature_dispatch_error', 10, 3 );

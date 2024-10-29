@@ -50,7 +50,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 			),
 		);
 
-		$signup = BP_Signup::add( $args );
+		$signup = self::factory()->signup->create( $args );
 		$this->assertNotEmpty( $signup );
 
 		$s = new BP_Signup( $signup );
@@ -69,7 +69,7 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 		bp_xprofile_update_field_meta( 1, 'default_visibility', 'adminsonly' );
 
 		// Add new signup without a custom field visibility set for field_1.
-		$signup = BP_Signup::add( array(
+		$signup = self::factory()->signup->create( array(
 			'title' => 'Foo bar',
 			'user_login' => 'user1',
 			'user_email' => 'user1@example.com',
@@ -483,10 +483,10 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 				'meta1' => 'meta2',
 			),
 		);
-		$s1 = BP_Signup::add( $args );
+		$s1 = self::factory()->signup->create( $args );
 
 		$args['meta']['field_1'] = 'Fozz';
-		$s2 = BP_Signup::add( $args );
+		$s2 = self::factory()->signup->create( $args );
 
 		// Should find both.
 		$found1 = BP_Signup::get( array(
@@ -532,10 +532,10 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 				'meta1' => 'meta2',
 			),
 		);
-		$s1 = BP_Signup::add( $args );
+		$s1 = self::factory()->signup->create( $args );
 
 		$args['meta']['field_1'] = 'Fozz';
-		$s2 = BP_Signup::add( $args );
+		$s2 = self::factory()->signup->create( $args );
 
 		// Should find both.
 		$found1 = BP_Signup::get( array(
@@ -636,21 +636,58 @@ class BP_Tests_BP_Signup extends BP_UnitTestCase {
 
 	}
 
+	/**
+	 * @group resend
+	 */
 	public function test_bp_core_signup_send_validation_email_should_increment_sent_count() {
 		$activation_key = wp_generate_password( 32, false );
 		$user_email     = 'accountone@example.com';
-		$s1             = self::factory()->signup->create( array(
+		$s1             = self::factory()->signup->create_and_get( array(
 			'user_login'     => 'accountone',
 			'user_email'     => $user_email,
 			'activation_key' => $activation_key
 		) );
 
-		$signup = new BP_Signup( $s1 );
-		$this->assertEquals( 0, $signup->count_sent );
+		$this->assertEquals( 0, $s1->count_sent );
 
 		bp_core_signup_send_validation_email( 0, $user_email, $activation_key );
 
-		$signup = new BP_Signup( $s1 );
+		$signup = new BP_Signup( $s1->id );
 		$this->assertEquals( 1, $signup->count_sent );
+	}
+
+	/**
+	 * @ticket BP9137
+	 * @group resend
+	 */
+	public function test_bp_core_signup_resend_email_activation() {
+		$s1 = self::factory()->signup->create_and_get(
+			array(
+				'user_login'     => 'user' . wp_rand( 1, 20 ),
+				'user_email'     => sprintf( 'user%d@example.com', wp_rand( 1, 20 ) ),
+				'registered'     => bp_core_current_time(),
+				'activation_key' => wp_generate_password( 32, false ),
+				'meta'           => array(
+					'field_1' => 'Foo Bar',
+				),
+			)
+		);
+
+		BP_Signup::resend( $s1->id );
+
+		$this->assertFalse( BP_Signup::allow_activation_resend( 0 ) );
+		$this->assertFalse( BP_Signup::allow_activation_resend( '' ) );
+		$this->assertTrue( BP_Signup::allow_activation_resend( $s1 ) );
+
+		$s1->count_sent = 0;
+		$this->assertTrue( BP_Signup::allow_activation_resend( $s1 ) );
+
+		$s1->count_sent = 1;
+		$s1->recently_sent = true;
+		$this->assertFalse( BP_Signup::allow_activation_resend( $s1 ) );
+
+		add_filter( 'bp_core_signup_resend_activation_lock_time', '__return_zero' );
+		$this->assertTrue( BP_Signup::allow_activation_resend( $s1 ) );
+		remove_filter( 'bp_core_signup_resend_activation_lock_time', '__return_zero' );
 	}
 }

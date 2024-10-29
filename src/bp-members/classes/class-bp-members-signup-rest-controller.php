@@ -764,16 +764,22 @@ class BP_Members_Signup_REST_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function signup_resend_activation_email( $request ) {
-		$signup_id = $request->get_param( 'id' );
-		$send      = \BP_Signup::resend( array( $signup_id ) );
+		$signup = $this->get_signup_object( $request->get_param( 'id' ) );
+		$send   = $signup::resend( $signup->id );
+
+		if ( empty( $send ) ) {
+			return new WP_Error(
+				'bp_rest_signup_resend_activation_email_fail',
+				__( 'There was a problem performing this action. Please try again.', 'buddypress' ),
+				array( 'status' => 500 )
+			);
+		}
 
 		if ( ! empty( $send['errors'] ) ) {
 			return new WP_Error(
 				'bp_rest_signup_resend_activation_email_fail',
 				__( 'Your account has already been activated.', 'buddypress' ),
-				array(
-					'status' => 500,
-				)
+				array( 'status' => 500 )
 			);
 		}
 
@@ -808,9 +814,15 @@ class BP_Members_Signup_REST_Controller extends WP_REST_Controller {
 			$retval = new WP_Error(
 				'bp_rest_invalid_id',
 				__( 'Invalid signup id.', 'buddypress' ),
-				array(
-					'status' => 404,
-				)
+				array( 'status' => 404 )
+			);
+		}
+
+		if ( true === $retval && false === BP_Signup::allow_activation_resend( $signup ) ) {
+			$retval = new WP_Error(
+				'bp_rest_signup_resend_activation_email_fail',
+				__( 'You\'ve reached the limit for resending your account activation email. Please wait a few minutes and try again. If you continue to experience issues, contact support for assistance.', 'buddypress' ),
+				array( 'status' => 500 )
 			);
 		}
 
@@ -975,7 +987,7 @@ class BP_Members_Signup_REST_Controller extends WP_REST_Controller {
 	public function check_user_password( $value ) {
 		$password = (string) $value;
 
-		if ( empty( $password ) || false !== strpos( $password, '\\' ) ) {
+		if ( empty( $password ) || str_contains( $password, '\\' ) ) {
 			return new WP_Error(
 				'rest_user_invalid_password',
 				__( 'Passwords cannot be empty or contain the "\\" character.', 'buddypress' ),

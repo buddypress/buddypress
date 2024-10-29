@@ -3065,7 +3065,7 @@ function bp_signup_allowed() {
 	function bp_get_signup_allowed() {
 
 		/**
-		 * Filters whether or not new signups are allowed.
+		 * Filters whether new signups are allowed.
 		 *
 		 * @since 1.5.0
 		 *
