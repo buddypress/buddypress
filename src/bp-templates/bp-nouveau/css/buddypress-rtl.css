@@ -3639,14 +3639,9 @@ body.buddypress.settings.data #buddypress.buddypress-wrap .item-body p a {
 .buddypress-wrap .standard-form textarea[required],
 .buddypress-wrap .standard-form select[required] {
 	box-shadow: none;
+	border-color: #d6d6d6;
 	border-width: 2px;
 	outline: 0;
-}
-
-.buddypress-wrap .standard-form input[required]:invalid,
-.buddypress-wrap .standard-form textarea[required]:invalid,
-.buddypress-wrap .standard-form select[required]:invalid {
-	border-color: #b71717;
 }
 
 .buddypress-wrap .standard-form input[required]:valid,
