@@ -2,10 +2,10 @@
 
 The amount of available options is up to the BuddyPress Components you chose to activate. You'll always get the BuddyPress Core and Community Members sections as they refer to required components. 4 optional components are allowing some of their behaviors to be customized using specific options:
 
-- Account Settings,
-- Extended Profiles,
-- User Groups,
-- & Activity Streams.
+- Account Settings
+- Extended Profiles
+- User Groups
+- Activity Streams
 
 ![BP Options tab screenshot](../../assets/bp-settings-customize-options.png)
 
@@ -59,15 +59,20 @@ Enabled by default, this option (if active) will make sure the WordPress user di
 
 ### Group Creation
 
-Enabled by default, this option leaves the possibility to any member of your community to create one or more groups. Administrators can always create groups even if this option is not active.
+Enabled by default, this option leaves the possibility for any member of your community to create one or more groups. Administrators can always create groups even if this option is not active.
 
 ### Group photo upload
 
-Enabled by default, this option leaves the possibility to any group administrator to upload an image and use it as the group's photo. This photo will be used at various places into the community area to better identify your groups singularity.
+Enabled by default, this option leaves the possibility for any group administrator to upload an image and use it as the group's photo. This photo will be used at various places into the community area to better identify your groups singularity.
 
 ### Group cover image upload
 
-Enabled by default, this option leaves the possibility to any group administrator to upload an image and use it as the group's cover image. This image will only be used into the header part of your Groups single pages.
+Enabled by default, this option leaves the possibility for any group administrator to upload an image and use it as the group's cover image. This image will only be used into the header part of your Groups single pages.
+
+### Group Activity Deletions
+
+Enabled by default, this option leaves the possibility for any group administrator or moderator to delete activity items from their group's activity stream.
+
 
 ## Activity Streams
 
