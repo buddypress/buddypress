@@ -71,7 +71,7 @@ Enabled by default, this option leaves the possibility for any group administrat
 
 ### Group Activity Deletions
 
-Enabled by default, this option leaves the possibility for any group administrator or moderstor to delete activity items from their group's activity stream.
+Enabled by default, this option leaves the possibility for any group administrator or moderator to delete activity items from their group's activity stream.
 
 
 ## Activity Streams
