@@ -9,3 +9,4 @@ BuddyPress Administration happens inside your WordPress Dashboard. BuddyPress ad
 - Activity
 - [Groups](./groups/README.md)
 - [Emails](./emails/README.md)
+- [Site Health Screen](site-health.md)
