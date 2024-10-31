@@ -1131,6 +1131,7 @@ class BP_Groups_Group {
 			'group_type'         => '',
 			'group_type__in'     => '',
 			'group_type__not_in' => '',
+			'tax_query'          => false,
 			'meta_query'         => false,
 			'date_query'         => false,
 			'include'            => false,
@@ -1249,6 +1250,16 @@ class BP_Groups_Group {
 
 		if ( ! empty( $group_type_clause ) ) {
 			$where_conditions['group_type'] = $group_type_clause;
+		}
+
+		$tax_query_sql = self::get_tax_query_sql( $r['tax_query'] );
+
+		if ( ! empty( $tax_query_sql['join'] ) ) {
+			$sql['from'] .= $tax_query_sql['join'];
+		}
+
+		if ( ! empty( $tax_query_sql['where'] ) ) {
+			$where_conditions['tax_query'] = $tax_query_sql['where'];
 		}
 
 		if ( ! empty( $r['user_id'] ) ) {
@@ -1481,8 +1492,8 @@ class BP_Groups_Group {
 	 * @since 1.8.0
 	 *
 	 * @param array $meta_query An array of meta_query filters. See the
-	 *                          documentation for {@link WP_Meta_Query} for details.
-	 * @return array $sql_array 'join' and 'where' clauses.
+	 *                          documentation for {@link WP_Meta_Query} for more details.
+	 * @return array
 	 */
 	protected static function get_meta_query_sql( $meta_query = array() ) {
 		global $wpdb;
@@ -1492,17 +1503,43 @@ class BP_Groups_Group {
 			'where' => '',
 		);
 
-		if ( ! empty( $meta_query ) ) {
-			$groups_meta_query = new WP_Meta_Query( $meta_query );
-
-			// WP_Meta_Query expects the table name at
-			// $wpdb->group.
-			$wpdb->groupmeta = buddypress()->groups->table_name_groupmeta;
-
-			$meta_sql = $groups_meta_query->get_sql( 'group', 'g', 'id' );
-			$sql_array['join']  = $meta_sql['join'];
-			$sql_array['where'] = self::strip_leading_and( $meta_sql['where'] );
+		if ( empty( $meta_query ) ) {
+			return $sql_array;
 		}
+
+		$groups_meta_query = new WP_Meta_Query( $meta_query );
+
+		// WP_Meta_Query expects the table name at $wpdb->group.
+		$wpdb->groupmeta = buddypress()->groups->table_name_groupmeta;
+
+		$meta_sql           = $groups_meta_query->get_sql( 'group', 'g', 'id' );
+		$sql_array['join']  = $meta_sql['join'];
+		$sql_array['where'] = self::strip_leading_and( $meta_sql['where'] );
+
+		return $sql_array;
+	}
+
+	/**
+	 * Get the SQL for the 'tax_query' param in BP_Groups_Group::get().
+	 *
+	 * @param array $tax_query An array of tax query arguments. See the
+	 *                         documentation for {@link WP_Tax_Query} for more details.
+	 * @return array
+	 */
+	protected static function get_tax_query_sql( $tax_query = array() ) {
+		$sql_array = array(
+			'join'  => '',
+			'where' => '',
+		);
+
+		if ( empty( $tax_query ) || ! is_array( $tax_query ) ) {
+			return $sql_array;
+		}
+
+		$tax_query          = new WP_Tax_Query( $tax_query );
+		$tax_query_sql      = $tax_query->get_sql( 'g', 'id' );
+		$sql_array['join']  = $tax_query_sql['join'];
+		$sql_array['where'] = self::strip_leading_and( $tax_query_sql['where'] );
 
 		return $sql_array;
 	}
