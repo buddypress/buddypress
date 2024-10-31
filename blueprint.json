@@ -5,14 +5,21 @@
 		"php": "8.2",
 		"wp": "latest"
 	},
-	"phpExtensionBundles": [
-		"kitchen-sink"
-	],
+	"login": true,
+	"siteOptions": {
+		"blogname": "BuddyPress stable Playground"
+	},
 	"steps": [
 		{
-			"step": "login",
-			"username": "admin",
-			"password": "password"
+			"step": "installPlugin",
+			"pluginData": {
+				"resource": "wordpress.org/plugins",
+				"slug": "buddypress"
+			}
+		},
+		{
+			"step": "activateTheme",
+			"themeFolderName": "twentytwentyfour"
 		}
 	]
 }
