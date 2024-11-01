@@ -105,7 +105,6 @@ class BP_Members_Component extends BP_Component {
 			'functions',
 			'blocks',
 			'cache',
-			'invitations',
 			'notifications',
 		);
 
@@ -193,17 +192,6 @@ class BP_Members_Component extends BP_Component {
 			// Theme compatibility.
 			new BP_Registration_Theme_Compat();
 		}
-
-		// Invitations.
-		if ( is_user_logged_in() && bp_is_user_members_invitations() ) {
-			// Actions.
-			if ( isset( $_POST['members_invitations'] ) ) {
-				require_once $this->path . 'bp-members/actions/invitations-bulk-manage.php';
-			}
-
-			// Screens.
-			require_once $this->path . 'bp-members/screens/invitations.php';
-		}
 	}
 
 	/**
@@ -290,11 +278,6 @@ class BP_Members_Component extends BP_Component {
 			$bp->profile->slug = 'profile';
 			$bp->profile->id   = 'profile';
 		}
-
-		/** Network Invitations **************************************************
-		 */
-
-		$bp->members->invitations = new stdClass();
 	}
 
 	/**

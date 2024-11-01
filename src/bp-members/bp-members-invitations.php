@@ -175,7 +175,7 @@ add_filter( 'bp_members_membership_requests_bypass_manual_approval_multisite', '
 
 /**
  * Whether a user can access invitations screens.
- * Referred to by BP_Members_Invitations_Component::register_nav().
+ * Referred to by BP_Members_Invitations_Feature::register_nav().
  *
  * @since 12.0.0
  *
@@ -187,7 +187,7 @@ function bp_members_invitations_user_can_view_screens() {
 
 /**
  * Whether a user can access the send invitations member screen.
- * Referred to by BP_Members_Invitations_Component::register_nav().
+ * Referred to by BP_Members_Invitations_Feature::register_nav().
  *
  * @since 12.0.0
  *
