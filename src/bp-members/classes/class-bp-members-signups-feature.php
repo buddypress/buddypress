@@ -59,11 +59,6 @@ class BP_Members_Signups_Feature extends BP_Component_Feature {
 	 * @since 15.0.0
 	 */
 	public function late_includes() {
-		// Bail if PHPUnit is running.
-		if ( defined( 'BP_TESTS_DIR' ) ) {
-			return;
-		}
-
 		// Registration / Activation.
 		if ( bp_is_register_page() || bp_is_activation_page() ) {
 			if ( bp_is_register_page() ) {

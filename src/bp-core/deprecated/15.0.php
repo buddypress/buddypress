@@ -14,8 +14,6 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.1.0
  * @deprecated 15.0.0
- *
- * @todo Remove this function. Echoing a bool is pointless.
  */
 function bp_signup_allowed() {
 	_deprecated_function( __FUNCTION__, '15.0.0' );
