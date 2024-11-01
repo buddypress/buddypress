@@ -103,8 +103,8 @@ class BP_Component_Feature extends BP_Component {
 				'15.0.0'
 			);
 		} else {
-			$this->component_id             = $component_id;
-			$this->path                     = trailingslashit( buddypress()->{$this->component_id}->path ) . 'bp-' . $this->component_id;
+			$this->component_id = $component_id;
+			$this->path         = trailingslashit( buddypress()->{$this->component_id}->path ) . 'bp-' . $this->component_id;
 
 			// Sets the position for our menu under the WP Toolbar's "My Account" menu.
 			if ( ! empty( $params['adminbar_myaccount_order'] ) ) {
