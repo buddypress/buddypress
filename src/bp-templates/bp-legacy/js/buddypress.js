@@ -1,6 +1,6 @@
 /* jshint undef: false, unused:false */
 /* @version 1.7.0 */
-/* @version 10.0.0 */
+/* @version 15.0.0 */
 // AJAX Functions
 var jq = jQuery;
 
@@ -175,13 +175,14 @@ jq( function() {
 
 		post_data = jq.extend( {
 			action: 'post_update',
-			'cookie': bp_get_cookies(),
+			cookie: bp_get_cookies(),
 			'_wpnonce_post_update': jq('#_wpnonce_post_update').val(),
-			'content': content,
-			'object': object,
+			content: content,
+			object: object,
 			'item_id': item_id,
-			'since': last_date_recorded,
-			'_bp_as_nonce': jq('#_bp_as_nonce').val() || ''
+			since: last_date_recorded,
+			'_bp_as_nonce': jq('#_bp_as_nonce').val() || '',
+			canonicalUrl: BP_DTheme.canonical_url
 		}, inputs );
 
 		jq.post( ajaxurl, post_data, function( response ) {
@@ -315,9 +316,10 @@ jq( function() {
 
 			jq.post( ajaxurl, {
 				action: 'activity_mark_' + type,
-				'cookie': bp_get_cookies(),
-				'id': parent_id,
-				nonce: nonce
+				cookie: bp_get_cookies(),
+				id: parent_id,
+				nonce: nonce,
+				canonicalUrl: BP_DTheme.canonical_url
 			},
 			function(response) {
 				target.removeClass('loading');
@@ -376,9 +378,10 @@ jq( function() {
 
 			jq.post( ajaxurl, {
 				action: 'delete_activity',
-				'cookie': bp_get_cookies(),
-				'id': id,
-				'_wpnonce': nonce
+				cookie: bp_get_cookies(),
+				id: id,
+				'_wpnonce': nonce,
+				canonicalUrl: BP_DTheme.canonical_url
 			},
 			function(response) {
 
@@ -407,9 +410,10 @@ jq( function() {
 
 			jq.post( ajaxurl, {
 				action: 'bp_spam_activity',
-				'cookie': encodeURIComponent( document.cookie ),
-				'id': li.attr( 'id' ).substr( 9, li.attr( 'id' ).length ),
-				'_wpnonce': target.attr( 'href' ).split( '_wpnonce=' )[1]
+				cookie: encodeURIComponent( document.cookie ),
+				id: li.attr( 'id' ).substr( 9, li.attr( 'id' ).length ),
+				'_wpnonce': target.attr( 'href' ).split( '_wpnonce=' )[1],
+				canonicalUrl: BP_DTheme.canonical_url
 			},
 
 			function(response) {
@@ -449,10 +453,11 @@ jq( function() {
 
 			load_more_args = {
 				action: 'activity_get_older_updates',
-				'cookie': bp_get_cookies(),
-				'page': oldest_page,
+				cookie: bp_get_cookies(),
+				page: oldest_page,
 				'offset_lower': offsetLower,
-				'exclude_just_posted': just_posted.join(',')
+				'exclude_just_posted': just_posted.join(','),
+				canonicalUrl: BP_DTheme.canonical_url
 			};
 
 			load_more_search = bp_get_querystring('s');
@@ -518,7 +523,8 @@ jq( function() {
 
 		jq.post( ajaxurl, {
 			action: 'get_single_activity_content',
-			'activity_id': a_id
+			'activity_id': a_id,
+			canonicalUrl: BP_DTheme.canonical_url
 		},
 		function(response) {
 			jq(a_inner).slideUp(300).html(response).slideDown(300);
@@ -624,11 +630,12 @@ jq( function() {
 
 			ajaxdata = {
 				action: 'new_activity_comment',
-				'cookie': bp_get_cookies(),
+				cookie: bp_get_cookies(),
 				'_wpnonce_new_activity_comment': jq('#_wpnonce_new_activity_comment' + '_' + form_id[2] ).val(),
 				'comment_id': comment_id,
 				'form_id': form_id[2],
-				'content': content.val()
+				content: content.val(),
+				canonicalUrl: BP_DTheme.canonical_url
 			};
 
 			// Akismet
@@ -708,9 +715,10 @@ jq( function() {
 
 			jq.post( ajaxurl, {
 				action: 'delete_activity_comment',
-				'cookie': bp_get_cookies(),
+				cookie: bp_get_cookies(),
 				'_wpnonce': nonce,
-				'id': comment_id
+				id: comment_id,
+				canonicalUrl: BP_DTheme.canonical_url
 			},
 			function(response) {
 				/* Check for errors and append if found. */
@@ -766,9 +774,10 @@ jq( function() {
 
 			jq.post( ajaxurl, {
 				action: 'bp_spam_activity_comment',
-				'cookie': encodeURIComponent( document.cookie ),
+				cookie: encodeURIComponent( document.cookie ),
 				'_wpnonce': link_href.split( '_wpnonce=' )[1],
-				'id': link_href.split( 'cid=' )[1].split( '&' )[0]
+				id: link_href.split( 'cid=' )[1].split( '&' )[0],
+				canonicalUrl: BP_DTheme.canonical_url
 			},
 
 			function ( response ) {
@@ -1090,10 +1099,11 @@ jq( function() {
 		jq.post( ajaxurl, {
 			action: 'groups_invite_user',
 			'friend_action': friend_action,
-			'cookie': bp_get_cookies(),
+			cookie: bp_get_cookies(),
 			'_wpnonce': jq('#_wpnonce_invite_uninvite_user').val(),
 			'friend_id': friend_id,
-			'group_id': jq('#group_id').val()
+			'group_id': jq('#group_id').val(),
+			canonicalUrl: BP_DTheme.canonical_url
 		},
 		function(response)
 		{
@@ -1137,10 +1147,11 @@ jq( function() {
 		jq.post( ajaxurl, {
 			action: 'groups_invite_user',
 			'friend_action': 'uninvite',
-			'cookie': bp_get_cookies(),
+			cookie: bp_get_cookies(),
 			'_wpnonce': jq('#_wpnonce_invite_uninvite_user').val(),
 			'friend_id': friend_id,
-			'group_id': jq('#group_id').val()
+			'group_id': jq('#group_id').val(),
+			canonicalUrl: BP_DTheme.canonical_url
 		},
 		function()
 		{
@@ -1224,9 +1235,10 @@ jq( function() {
 
 		jq.post( ajaxurl, {
 			action: action,
-			'cookie': bp_get_cookies(),
-			'id': id,
-			'_wpnonce': nonce
+			cookie: bp_get_cookies(),
+			id: id,
+			'_wpnonce': nonce,
+			canonicalUrl: BP_DTheme.canonical_url
 		},
 		function(response) {
 			button.removeClass('loading');
@@ -1266,9 +1278,10 @@ jq( function() {
 
 		jq.post( ajaxurl, {
 			action: 'addremove_friend',
-			'cookie': bp_get_cookies(),
-			'fid': fid,
-			'_wpnonce': nonce
+			cookie: bp_get_cookies(),
+			fid: fid,
+			'_wpnonce': nonce,
+			canonicalUrl: BP_DTheme.canonical_url
 		},
 		function(response)
 		{
@@ -1328,9 +1341,10 @@ jq( function() {
 
 		jq.post( ajaxurl, {
 			action: 'joinleave_group',
-			'cookie': bp_get_cookies(),
-			'gid': gid,
-			'_wpnonce': nonce
+			cookie: bp_get_cookies(),
+			gid: gid,
+			'_wpnonce': nonce,
+			canonicalUrl: BP_DTheme.canonical_url
 		},
 		function(response)
 		{
@@ -1447,13 +1461,14 @@ jq( function() {
 
 			jq.post( ajaxurl, {
 				action: 'messages_send_reply',
-				'cookie': bp_get_cookies(),
+				cookie: bp_get_cookies(),
 				'_wpnonce': jq('#send_message_nonce').val(),
 
-				'content': jq('#message_content').val(),
+				content: jq('#message_content').val(),
 				'send_to': jq('#send_to').val(),
-				'subject': jq('#subject').val(),
-				'thread_id': jq('#thread_id').val()
+				subject: jq('#subject').val(),
+				'thread_id': jq('#thread_id').val(),
+				canonicalUrl: BP_DTheme.canonical_url
 			},
 			function(response)
 			{
@@ -1537,8 +1552,9 @@ jq( function() {
 			action: 'messages_star',
 			'message_id': link.data('message-id'),
 			'star_status': link.data('star-status'),
-			'nonce': link.data('star-nonce'),
-			'bulk': link.data('star-bulk')
+			nonce: link.data('star-nonce'),
+			bulk: link.data('star-bulk'),
+			canonicalUrl: BP_DTheme.canonical_url
 		},
 		function(response) {
 			if ( 1 === parseInt( response, 10 ) ) {
@@ -1659,7 +1675,8 @@ jq( function() {
 		jq.post( ajaxurl, {
 			action: 'messages_close_notice',
 			'notice_id': jq('.notice').attr('rel').substr( 2, jq('.notice').attr('rel').length ),
-			nonce: jq( '#close-notice-nonce' ).val()
+			nonce: jq( '#close-notice-nonce' ).val(),
+			canonicalUrl: BP_DTheme.canonical_url
 		},
 		function(response) {
 			jq('#close-notice').removeClass('loading');
@@ -1917,14 +1934,15 @@ function bp_filter_request( object, filter, scope, target, search_terms, page, e
 
 	bp_ajax_request = jq.post( ajaxurl, {
 		action: object + '_filter',
-		'cookie': cookie,
-		'object': object,
-		'filter': filter,
-		'search_terms': search_terms,
-		'scope': scope,
-		'page': page,
-		'extras': extras,
-		'template': template
+		cookie: cookie,
+		object: object,
+		filter: filter,
+		search_terms: search_terms,
+		scope: scope,
+		page: page,
+		extras: extras,
+		template: template,
+		canonicalUrl: BP_DTheme.canonical_url
 	},
 	function(response)
 	{
@@ -1981,10 +1999,11 @@ function bp_activity_request(scope, filter) {
 
 	bp_ajax_request = jq.post( ajaxurl, {
 		action: 'activity_widget_filter',
-		'cookie': cookie,
+		cookie: cookie,
 		'_wpnonce_activity_filter': jq('#_wpnonce_activity_filter').val(),
-		'scope': scope,
-		'filter': filter
+		scope: scope,
+		filter: filter,
+		canonicalUrl: BP_DTheme.canonical_url
 	},
 	function(response)
 	{

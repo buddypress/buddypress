@@ -1,24 +1,25 @@
 {
 	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"landingPage": "\/wp-admin\/admin.php?page=bp-components",
 	"preferredVersions": {
 		"php": "8.2",
 		"wp": "latest"
 	},
-	"phpExtensionBundles": [
-		"kitchen-sink"
-	],
+	"login": true,
+	"siteOptions": {
+		"blogname": "BuddyPress 14.0.0-beta2 Playground"
+	},
 	"steps": [
 		{
-			"step": "login",
-			"username": "admin",
-			"password": "password"
-		},
-		{
 			"step": "installPlugin",
-			"pluginZipFile": {
+			"pluginData": {
 				"resource": "url",
 				"url": "https://downloads.wordpress.org/plugin/buddypress.14.0.0-beta2.zip"
 			}
+		},
+		{
+			"step": "activateTheme",
+			"themeFolderName": "twentytwentyfour"
 		}
 	]
 }
