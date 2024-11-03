@@ -45,7 +45,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * Array of group member ids, cached to prevent redundant lookups.
 	 *
 	 * @since 1.8.1
-	 * @var null|array Null if not yet defined, otherwise an array of ints.
+	 * @var null|array Null if not yet defined, otherwise an array of integers.
 	 */
 	protected $group_member_ids;
 
@@ -100,7 +100,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 */
 	public function do_wp_user_query() {
 		if ( ! $this->query_vars_raw['count'] ) {
-			return parent::do_wp_user_query();
+			parent::do_wp_user_query();
 		}
 
 		/**
@@ -108,7 +108,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		 *
 		 * @since 10.3.0
 		 *
-		 * @param array         $value      Array of arguments for the user query.
+		 * @param array         $arguments  Array of arguments for the user query.
 		 * @param BP_User_Query $user_query Current BP_User_Query instance.
 		 */
 		$wp_user_query = new WP_User_Query(
@@ -121,7 +121,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 					// Overrides
 					'blog_id'     => 0,    // BP does not require blog roles.
-					'count_total' => false // We already have a count.
+					'count_total' => false, // We already have a count.
 
 				),
 				$this
@@ -144,11 +144,11 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @param array $include Existing group IDs in the $include parameter,
-	 *                       as calculated in BP_User_Query.
+	 * @param array $include_ids Existing group IDs in the `$include_ids` parameter,
+	 *                           as calculated in BP_User_Query.
 	 * @return array
 	 */
-	public function get_include_ids( $include = array() ) {
+	public function get_include_ids( $include_ids = array() ) {
 		// The following args are specific to group member queries, and
 		// are not present in the query_vars of a normal BP_User_Query.
 		// We loop through to make sure that defaults are set (though
@@ -175,8 +175,8 @@ class BP_Group_Member_Query extends BP_User_Query {
 			return array( 0 );
 		}
 
-		if ( ! empty( $include ) ) {
-			$group_member_ids = array_intersect( $include, $group_member_ids );
+		if ( ! empty( $include_ids ) ) {
+			$group_member_ids = array_intersect( $include_ids, $group_member_ids );
 		}
 
 		return $group_member_ids;
@@ -186,6 +186,8 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * Get the members of the queried group.
 	 *
 	 * @since 1.8.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @return array $ids User IDs of relevant group member ids.
 	 */
@@ -207,18 +209,18 @@ class BP_Group_Member_Query extends BP_User_Query {
 		/* WHERE clauses *****************************************************/
 
 		// Group id.
-		$group_ids = wp_parse_id_list( $this->query_vars['group_id'] );
-		$group_ids = implode( ',', $group_ids );
+		$group_ids      = wp_parse_id_list( $this->query_vars['group_id'] );
+		$group_ids      = implode( ',', $group_ids );
 		$sql['where'][] = "group_id IN ({$group_ids})";
 
 		// If is_confirmed.
-		$is_confirmed = ! empty( $this->query_vars['is_confirmed'] ) ? 1 : 0;
-		$sql['where'][] = $wpdb->prepare( "is_confirmed = %d", $is_confirmed );
+		$is_confirmed   = ! empty( $this->query_vars['is_confirmed'] ) ? 1 : 0;
+		$sql['where'][] = $wpdb->prepare( 'is_confirmed = %d', $is_confirmed );
 
 		// If invite_sent.
 		if ( ! is_null( $this->query_vars['invite_sent'] ) ) {
-			$invite_sent = ! empty( $this->query_vars['invite_sent'] ) ? 1 : 0;
-			$sql['where'][] = $wpdb->prepare( "invite_sent = %d", $invite_sent );
+			$invite_sent    = ! empty( $this->query_vars['invite_sent'] ) ? 1 : 0;
+			$sql['where'][] = $wpdb->prepare( 'invite_sent = %d', $invite_sent );
 		}
 
 		// If inviter_id.
@@ -227,19 +229,19 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 			// Empty: inviter_id = 0. (pass false, 0, or empty array).
 			if ( empty( $inviter_id ) ) {
-				$sql['where'][] = "inviter_id = 0";
+				$sql['where'][] = 'inviter_id = 0';
 
-			// The string 'any' matches any non-zero value (inviter_id != 0).
+				// The string 'any' matches any non-zero value (inviter_id != 0).
 			} elseif ( 'any' === $inviter_id ) {
-				$sql['where'][] = "inviter_id != 0";
+				$sql['where'][] = 'inviter_id != 0';
 
-			// Assume that a list of inviter IDs has been passed.
+				// Assume that a list of inviter IDs has been passed.
 			} else {
 				// Parse and sanitize.
 				$inviter_ids = wp_parse_id_list( $inviter_id );
 				if ( ! empty( $inviter_ids ) ) {
 					$inviter_ids_sql = implode( ',', $inviter_ids );
-					$sql['where'][] = "inviter_id IN ({$inviter_ids_sql})";
+					$sql['where'][]  = "inviter_id IN ({$inviter_ids_sql})";
 				}
 			}
 		}
@@ -247,7 +249,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// Role information is stored as follows: admins have
 		// is_admin = 1, mods have is_mod = 1, banned have is_banned =
 		// 1, and members have all three set to 0.
-		$roles = !empty( $this->query_vars['group_role'] ) ? $this->query_vars['group_role'] : array();
+		$roles = ! empty( $this->query_vars['group_role'] ) ? $this->query_vars['group_role'] : array();
 		if ( is_string( $roles ) ) {
 			$roles = explode( ',', $roles );
 		}
@@ -276,8 +278,8 @@ class BP_Group_Member_Query extends BP_User_Query {
 				$roles_sql = '(' . implode( ' AND ', $role_columns ) . ')';
 			}
 
-		// When querying for a set of roles *not* containing 'member',
-		// simply construct a list of is_* = 1 clauses.
+			// When querying for a set of roles *not* containing 'member',
+			// simply construct a list of is_* = 1 clauses.
 		} else {
 			$role_columns = array();
 			foreach ( $roles as $role ) {
@@ -299,7 +301,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		// of 'type'. If the 'type' value is not 'last_joined' or
 		// 'first_joined', the order will be overridden in
 		// BP_Group_Member_Query::set_orderby().
-		$sql['orderby'] = "ORDER BY date_modified";
+		$sql['orderby'] = 'ORDER BY date_modified';
 		$sql['order']   = 'first_joined' === $this->query_vars['type'] ? 'ASC' : 'DESC';
 
 		$group_member_ids = $wpdb->get_col( "{$sql['select']} {$sql['where']} {$sql['orderby']} {$sql['order']}" );
@@ -326,14 +328,14 @@ class BP_Group_Member_Query extends BP_User_Query {
 				if ( empty( $inviter_id ) ) {
 					$invite_args['type'] = 'request';
 
-				/*
-				* The string 'any' matches any non-zero value (inviter_id != 0).
-				* These are invitations, not requests.
-				*/
+					/*
+					* The string 'any' matches any non-zero value (inviter_id != 0).
+					* These are invitations, not requests.
+					*/
 				} elseif ( 'any' === $inviter_id ) {
 					$invite_args['type'] = 'invite';
 
-				// Assume that a list of inviter IDs has been passed.
+					// Assume that a list of inviter IDs has been passed.
 				} else {
 					$invite_args['type'] = 'invite';
 					// Parse and sanitize.
@@ -406,10 +408,10 @@ class BP_Group_Member_Query extends BP_User_Query {
 			}
 
 			// The first param in the FIELD() clause is the sort column id.
-			$gm_ids = array_merge( array( 'u.id' ), wp_parse_id_list( $gm_ids ) );
+			$gm_ids     = array_merge( array( 'u.id' ), wp_parse_id_list( $gm_ids ) );
 			$gm_ids_sql = implode( ',', $gm_ids );
 
-			$query->uid_clauses['orderby'] = "ORDER BY FIELD(" . $gm_ids_sql . ")";
+			$query->uid_clauses['orderby'] = 'ORDER BY FIELD(' . $gm_ids_sql . ')';
 		}
 
 		// Prevent this filter from running on future BP_User_Query
@@ -421,14 +423,16 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 * Fetch additional data required in bp_group_has_members() loops.
 	 *
 	 * Additional data fetched:
-	 *      - is_banned
-	 *      - date_modified
+	 *  - is_banned
+	 *  - date_modified
 	 *
 	 * @since 1.8.0
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @param BP_User_Query $query        BP_User_Query object. Because we're
 	 *                                    filtering the current object, we use
-	 *                                    $this inside of the method instead.
+	 *                                    $this inside the method instead.
 	 * @param string        $user_ids_sql Sanitized, comma-separated string of
 	 *                                    the user ids returned by the main query.
 	 */
@@ -456,11 +460,13 @@ class BP_Group_Member_Query extends BP_User_Query {
 		}
 
 		// Add accurate invitation info from the invitations table.
-		$invites = groups_get_invites( array(
-			'user_id' => $user_ids_sql,
-			'item_id' => $this->query_vars['group_id'],
-			'type'    => 'all',
-		) );
+		$invites = groups_get_invites(
+			array(
+				'user_id' => $user_ids_sql,
+				'item_id' => $this->query_vars['group_id'],
+				'type'    => 'all',
+			)
+		);
 		foreach ( $invites as $invite ) {
 			if ( isset( $this->results[ $invite->user_id ] ) ) {
 				$this->results[ $invite->user_id ]->comments      = $invite->content;
@@ -503,6 +509,8 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 *
 	 * @since 2.1.0
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @param BP_User_Query $query  BP_User_Query object.
 	 * @param array         $gm_ids array of group member ids.
 	 * @return array
@@ -531,7 +539,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 		$sql['where'] = array(
 			'user_id IN (' . implode( ',', wp_parse_id_list( $gm_ids ) ) . ')',
 			'item_id = ' . absint( $query->query_vars['group_id'] ),
-			$wpdb->prepare( "component = %s", buddypress()->groups->id ),
+			$wpdb->prepare( 'component = %s', buddypress()->groups->id ),
 		);
 
 		$sql['where'] = 'WHERE ' . implode( ' AND ', $sql['where'] );
@@ -551,7 +559,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	 */
 	public function populate_extras() {
 		if ( ! $this->query_vars_raw['count'] ) {
-			return parent::populate_extras();
+			parent::populate_extras();
 		}
 
 		// Validate active users.

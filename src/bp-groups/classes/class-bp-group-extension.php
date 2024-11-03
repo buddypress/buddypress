@@ -10,7 +10,10 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-if ( ! class_exists( 'BP_Group_Extension', false ) ) :
+if ( class_exists( 'BP_Group_Extension', false ) ) {
+	return;
+}
+
 /**
  * API for creating group extensions without having to hardcode the content into
  * the theme.
@@ -766,11 +769,11 @@ class BP_Group_Extension {
 		);
 
 		foreach ( $screens as $context => &$screen ) {
-			$screen['enabled']     = true;
-			$screen['name']        = $this->name;
-			$screen['slug']        = $this->slug;
+			$screen['enabled'] = true;
+			$screen['name']    = $this->name;
+			$screen['slug']    = $this->slug;
 
-			$screen['screen_callback']      = $this->get_screen_callback( $context, 'screen'      );
+			$screen['screen_callback']      = $this->get_screen_callback( $context, 'screen' );
 			$screen['screen_save_callback'] = $this->get_screen_callback( $context, 'screen_save' );
 		}
 
@@ -886,7 +889,6 @@ class BP_Group_Extension {
 				} else {
 					$this->params['show_tab'] = 'anyone';
 				}
-
 			} else {
 				/*
 				 * No show_tab or enable_nav_item value is
@@ -926,28 +928,28 @@ class BP_Group_Extension {
 	protected function user_meets_access_condition( $access_condition ) {
 
 		switch ( $access_condition ) {
-			case 'admin' :
+			case 'admin':
 				$meets_condition = groups_is_user_admin( bp_loggedin_user_id(), $this->group_id );
 				break;
 
-			case 'mod' :
+			case 'mod':
 				$meets_condition = groups_is_user_mod( bp_loggedin_user_id(), $this->group_id );
 				break;
 
-			case 'member' :
+			case 'member':
 				$meets_condition = groups_is_user_member( bp_loggedin_user_id(), $this->group_id );
 				break;
 
-			case 'loggedin' :
+			case 'loggedin':
 				$meets_condition = is_user_logged_in();
 				break;
 
-			case 'noone' :
+			case 'noone':
 				$meets_condition = false;
 				break;
 
-			case 'anyone' :
-			default :
+			case 'anyone':
+			default:
 				$meets_condition = true;
 				break;
 		}
@@ -1034,18 +1036,18 @@ class BP_Group_Extension {
 
 			// When we are viewing the extension display page, set the title and options title.
 			if ( bp_is_current_action( $this->slug ) ) {
-				add_filter( 'bp_group_user_has_access',   array( $this, 'group_access_protection' ), 10, 2 );
+				add_filter( 'bp_group_user_has_access', array( $this, 'group_access_protection' ), 10, 2 );
 
 				$extension_name = $this->name;
 				add_action(
 					'bp_template_content_header',
-					function() use ( $extension_name ) {
+					function () use ( $extension_name ) {
 						echo esc_attr( $extension_name );
 					}
 				);
 				add_action(
 					'bp_template_title',
-					function() use ( $extension_name ) {
+					function () use ( $extension_name ) {
 						echo esc_attr( $extension_name );
 					}
 				);
@@ -1291,11 +1293,14 @@ class BP_Group_Extension {
 			if ( '' !== bp_locate_template( array( 'groups/single/home.php' ), false ) ) {
 				$this->edit_screen_template = '/groups/single/home';
 			} else {
-				add_action( 'bp_template_content_header', function () {
-					echo '<ul class="content-header-nav">';
-					bp_group_admin_tabs();
-					echo '</ul>';
-				} );
+				add_action(
+					'bp_template_content_header',
+					function () {
+						echo '<ul class="content-header-nav">';
+						bp_group_admin_tabs();
+						echo '</ul>';
+					}
+				);
 				add_action( 'bp_template_content', array( &$this, 'call_edit_screen' ) );
 				$this->edit_screen_template = '/groups/single/plugins';
 			}
@@ -1379,7 +1384,7 @@ class BP_Group_Extension {
 			 *
 			 * @param string $value URL to redirect to.
 			 */
-			$redirect_to = apply_filters( 'bp_group_extension_edit_screen_save_redirect', bp_get_requested_url( ) );
+			$redirect_to = apply_filters( 'bp_group_extension_edit_screen_save_redirect', bp_get_requested_url() );
 
 			bp_core_redirect( $redirect_to );
 			die();
@@ -1389,7 +1394,7 @@ class BP_Group_Extension {
 	/**
 	 * Load the template that houses the Edit screen.
 	 *
-	 * Separated out into a callback so that it can run after all other
+	 * Separated out into a callback so that it can run after all others
 	 * Group Extensions have had a chance to register their navigation, to
 	 * avoid missing tabs.
 	 *
@@ -1400,7 +1405,7 @@ class BP_Group_Extension {
 	 * @see BP_Group_Extension::setup_edit_hooks()
 	 */
 	public function call_edit_screen_template_loader() {
-		bp_core_load_template( $this->edit_screen_template );
+		bp_core_load_template( (array) $this->edit_screen_template );
 	}
 
 	/**
@@ -1772,48 +1777,48 @@ class BP_Group_Extension {
 		}
 
 		switch ( $key ) {
-			case 'enable_create_step' :
+			case 'enable_create_step':
 				$this->screens['create']['enabled'] = $value;
 				break;
 
-			case 'enable_edit_item' :
+			case 'enable_edit_item':
 				$this->screens['edit']['enabled'] = $value;
 				break;
 
-			case 'enable_admin_item' :
+			case 'enable_admin_item':
 				$this->screens['admin']['enabled'] = $value;
 				break;
 
-			case 'create_step_position' :
+			case 'create_step_position':
 				$this->screens['create']['position'] = $value;
 				break;
 
 			// Note: 'admin' becomes 'edit' to distinguish from Dashboard 'admin'.
-			case 'admin_name' :
+			case 'admin_name':
 				$this->screens['edit']['name'] = $value;
 				break;
 
-			case 'admin_slug' :
+			case 'admin_slug':
 				$this->screens['edit']['slug'] = $value;
 				break;
 
-			case 'create_name' :
+			case 'create_name':
 				$this->screens['create']['name'] = $value;
 				break;
 
-			case 'create_slug' :
+			case 'create_slug':
 				$this->screens['create']['slug'] = $value;
 				break;
 
-			case 'admin_metabox_context' :
+			case 'admin_metabox_context':
 				$this->screens['admin']['metabox_context'] = $value;
 				break;
 
-			case 'admin_metabox_priority' :
+			case 'admin_metabox_priority':
 				$this->screens['admin']['metabox_priority'] = $value;
 				break;
 
-			default :
+			default:
 				$this->data[ $key ] = $value;
 				break;
 		}
@@ -1886,48 +1891,48 @@ class BP_Group_Extension {
 			$value = $this->{$property};
 
 			switch ( $property ) {
-				case 'enable_create_step' :
+				case 'enable_create_step':
 					$lpc['screens']['create']['enabled'] = (bool) $value;
 					break;
 
-				case 'enable_edit_item' :
+				case 'enable_edit_item':
 					$lpc['screens']['edit']['enabled'] = (bool) $value;
 					break;
 
-				case 'enable_admin_item' :
+				case 'enable_admin_item':
 					$lpc['screens']['admin']['enabled'] = (bool) $value;
 					break;
 
-				case 'create_step_position' :
+				case 'create_step_position':
 					$lpc['screens']['create']['position'] = $value;
 					break;
 
 				// Note: 'admin' becomes 'edit' to distinguish from Dashboard 'admin'.
-				case 'admin_name' :
+				case 'admin_name':
 					$lpc['screens']['edit']['name'] = $value;
 					break;
 
-				case 'admin_slug' :
+				case 'admin_slug':
 					$lpc['screens']['edit']['slug'] = $value;
 					break;
 
-				case 'create_name' :
+				case 'create_name':
 					$lpc['screens']['create']['name'] = $value;
 					break;
 
-				case 'create_slug' :
+				case 'create_slug':
 					$lpc['screens']['create']['slug'] = $value;
 					break;
 
-				case 'admin_metabox_context' :
+				case 'admin_metabox_context':
 					$lpc['screens']['admin']['metabox_context'] = $value;
 					break;
 
-				case 'admin_metabox_priority' :
+				case 'admin_metabox_priority':
 					$lpc['screens']['admin']['metabox_priority'] = $value;
 					break;
 
-				default :
+				default:
 					$lpc[ $property ] = $value;
 					break;
 			}
@@ -1959,57 +1964,55 @@ class BP_Group_Extension {
 
 		foreach ( $properties as $property ) {
 			switch ( $property ) {
-				case 'enable_create_step' :
+				case 'enable_create_step':
 					$lp['enable_create_step'] = $params['screens']['create']['enabled'];
 					break;
 
-				case 'enable_edit_item' :
+				case 'enable_edit_item':
 					$lp['enable_edit_item'] = $params['screens']['edit']['enabled'];
 					break;
 
-				case 'enable_admin_item' :
+				case 'enable_admin_item':
 					$lp['enable_admin_item'] = $params['screens']['admin']['enabled'];
 					break;
 
-				case 'create_step_position' :
+				case 'create_step_position':
 					$lp['create_step_position'] = $params['screens']['create']['position'];
 					break;
 
 				// Note: 'admin' becomes 'edit' to distinguish from Dashboard 'admin'.
-				case 'admin_name' :
+				case 'admin_name':
 					$lp['admin_name'] = $params['screens']['edit']['name'];
 					break;
 
-				case 'admin_slug' :
+				case 'admin_slug':
 					$lp['admin_slug'] = $params['screens']['edit']['slug'];
 					break;
 
-				case 'create_name' :
+				case 'create_name':
 					$lp['create_name'] = $params['screens']['create']['name'];
 					break;
 
-				case 'create_slug' :
+				case 'create_slug':
 					$lp['create_slug'] = $params['screens']['create']['slug'];
 					break;
 
-				case 'admin_metabox_context' :
+				case 'admin_metabox_context':
 					$lp['admin_metabox_context'] = $params['screens']['admin']['metabox_context'];
 					break;
 
-				case 'admin_metabox_priority' :
+				case 'admin_metabox_priority':
 					$lp['admin_metabox_priority'] = $params['screens']['admin']['metabox_priority'];
 					break;
 
-				default :
+				default:
 					// All other items get moved over.
 					$lp[ $property ] = $params[ $property ];
 
 					// Also reapply to the object, for backpat.
 					$this->{$property} = $params[ $property ];
-
 					break;
 			}
 		}
 	}
 }
-endif; // End class_exists check.
