@@ -37,7 +37,13 @@ function bp_core_set_ajax_uri_globals() {
 		return;
 	}
 
-	bp_reset_query( bp_get_referer_path(), $GLOBALS['wp_query'] );
+	$referer = bp_get_referer_path();
+	if ( ! $referer && isset( $_REQUEST['canonicalUrl'] ) ) {
+		$canonical_url = esc_url_raw( wp_unslash( $_REQUEST['canonicalUrl'] ) );
+		$referer       = wp_validate_redirect( wp_parse_url( $canonical_url, PHP_URL_PATH ) );
+	}
+
+	bp_reset_query( $referer, $GLOBALS['wp_query'] );
 }
 
 /**

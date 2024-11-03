@@ -18,7 +18,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 	}
 
 	public function tear_down() {
-		self::set_current_user( $this->reset_user_id );
+		wp_set_current_user( $this->reset_user_id );
 
 		parent::tear_down();
 	}
@@ -30,7 +30,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 		// Dummy thread ID
 		$t = 12;
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		// Admin
 		$n = self::factory()->notification->create( array(
@@ -54,7 +54,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 		// Dummy thread ID
 		$t = 12;
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		// Admin
 		$n = self::factory()->notification->create( array(
@@ -78,7 +78,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 		// Dummy thread ID
 		$t = 12;
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		// Admin
 		$n = self::factory()->notification->create( array(
@@ -102,7 +102,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 		// Dummy thread ID
 		$t = 12;
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		// Admin
 		$n = self::factory()->notification->create( array(
@@ -188,7 +188,7 @@ class BP_Tests_Messages_Notifications extends BP_UnitTestCase {
 			'id'
 		);
 
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		// Mark a thread read.
 		bp_messages_mark_notification_on_mark_thread( $m1->thread_id, $u1, count( $unreadn ) );

@@ -1415,7 +1415,7 @@ Bar!';
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
 		$current_user = bp_loggedin_user_id();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
 
@@ -1423,7 +1423,7 @@ Bar!';
 		$this->assertSame( array( $a ), bp_activity_get_user_favorites( $u ) );
 		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
 
-		self::set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1436,10 +1436,10 @@ Bar!';
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
 		$current_user = bp_loggedin_user_id();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 		$this->assertTrue( bp_activity_add_user_favorite( $a, $u ) );
 
-		self::set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1453,7 +1453,7 @@ Bar!';
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
 		$current_user = bp_loggedin_user_id();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		// Only favorite for user 1
 		bp_activity_add_user_favorite( $a, $u1 );
@@ -1462,7 +1462,7 @@ Bar!';
 		$this->assertFalse( bp_activity_remove_user_favorite( $a, $u2 ) );
 		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
 
-		self::set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1475,7 +1475,7 @@ Bar!';
 
 		// bp_activity_add_user_favorite() requires a logged-in user.
 		$current_user = bp_loggedin_user_id();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		// Only favorite for user 1
 		bp_activity_add_user_favorite( $a, $u1 );
@@ -1489,7 +1489,7 @@ Bar!';
 		$this->assertEquals( $user_favorites, bp_activity_get_user_favorites( $u1 ) );
 		$this->assertEquals( 1, bp_activity_get_meta( $a, 'favorite_count' ) );
 
-		self::set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -1620,7 +1620,7 @@ Bar!';
 
 		$this->assertTrue( bp_activity_user_can_read( $o, $u ) );
 
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
 	}
 
@@ -1658,7 +1658,7 @@ Bar!';
 
 		bp_activity_mark_as_spam( $o );
 
-		self::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		$this->assertTrue( bp_activity_user_can_read( $o, $u2 ) );
 	}
 

@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * the theme via individual template parts for a member's inbox/sentbox/notices.
  *
  * @since 1.0.0
+ * @since 15.0.0 Added the `$includes` parameter.
  *
  * @global BP_Messages_Box_Template $messages_template The message box template loop class.
  *
@@ -31,6 +32,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type int      $max                 Max results to return. Default: false.
  *     @type string   $type                Type of messages to return. Values: 'all', 'read', 'unread'
  *                                         Default: 'all'
+ *     @type array    $includes            Filter threads by recipient IDs.
  *     @type string   $search_terms        Terms to which to limit results. Default:
  *                                         the value of $_REQUEST['s'].
  *     @type string   $page_arg            URL argument used for the pagination param.
@@ -79,6 +81,7 @@ function bp_has_message_threads( $args = array() ) {
 			'search_terms'        => $search_terms,
 			'page_arg'            => 'mpage', // See https://buddypress.trac.wordpress.org/ticket/3679.
 			'meta_query'          => array(),
+			'includes'            => array(),
 			'recipients_page'     => null,
 			'recipients_per_page' => null,
 			'messages_page'       => null,
@@ -95,7 +98,7 @@ function bp_has_message_threads( $args = array() ) {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param bool                     $value             Whether or not the message has threads.
+	 * @param bool                     $has_threads       Whether or not the message has threads.
 	 * @param BP_Messages_Box_Template $messages_template Current message box template object.
 	 * @param array                    $r                 Array of parsed arguments passed into function.
 	 */

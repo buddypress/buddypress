@@ -99,7 +99,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group get_items
 	 */
 	public function test_get_items() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$tested = array(
 			'n1' => array(
@@ -134,7 +134,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group get_items
 	 */
 	public function test_get_items_no_edit_access() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject' => 'foo',
@@ -147,7 +147,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->create_notice( $tested );
 
 		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -160,7 +160,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group get_items
 	 */
 	public function test_get_items_view_active() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject'   => 'foo',
@@ -176,7 +176,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$key     = key( $n );
 
 		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -197,10 +197,10 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group get_items
 	 */
 	public function test_get_items_no_active() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -214,7 +214,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject'   => 'foo',
@@ -232,7 +232,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$key = key( $n );
 
 		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $id );
 		$request->set_param( 'context', 'view' );
@@ -250,7 +250,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group get_item
 	 */
 	public function test_get_item_admin_access() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject'   => 'foo',
@@ -283,7 +283,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group get_item
 	 */
 	public function test_get_item_no_access() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject'   => 'foo',
@@ -300,7 +300,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$id = current( $n );
 
 		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $id );
 		$request->set_param( 'context', 'view' );
@@ -313,7 +313,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group get_item
 	 */
 	public function test_get_item_view_active() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject'   => 'bar',
@@ -331,7 +331,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$key = key( $n );
 
 		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $id );
 		$request->set_param( 'context', 'view' );
@@ -349,7 +349,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group get_item
 	 */
 	public function test_get_item_with_invalid_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER );
 		$request->set_param( 'context', 'view' );
@@ -362,7 +362,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group create_item
 	 */
 	public function test_create_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -387,7 +387,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group create_item
 	 */
 	public function test_create_item_no_access() {
-		$this->bp::set_current_user( static::factory()->user->create() );
+		wp_set_current_user( static::factory()->user->create() );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -407,7 +407,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group create_item
 	 */
 	public function test_create_item_no_subject() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -427,7 +427,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group update_item
 	 */
 	public function test_update_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject'   => 'Foo Bar',
@@ -457,7 +457,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group update_item
 	 */
 	public function test_update_item_no_access() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject' => 'Foo Bar',
@@ -468,7 +468,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$n       = current( $created );
 
 		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $n->id ) );
 		$request->set_param( 'context', 'edit' );
@@ -482,7 +482,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group update_item
 	 */
 	public function test_update_item_no_message() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject' => 'Foo Bar',
@@ -504,7 +504,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group update_item
 	 */
 	public function test_update_item_with_invalid_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -518,7 +518,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject' => 'Foo Bar',
@@ -545,7 +545,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group delete_item
 	 */
 	public function test_delete_item_no_access() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject' => 'Ouch!',
@@ -556,7 +556,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$n       = current( $created );
 
 		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $n->id ) );
 		$request->set_param( 'context', 'edit' );
@@ -569,7 +569,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group delete_item
 	 */
 	public function test_delete_item_with_invalid_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -582,7 +582,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group dismiss_item
 	 */
 	public function test_dismiss_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject' => 'Taz',
@@ -593,7 +593,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$n       = current( $created );
 
 		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/dismiss' );
 		$request->set_param( 'context', 'edit' );
@@ -613,7 +613,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group dismiss_item
 	 */
 	public function test_dismiss_item_no_actives() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject'   => 'Taz',
@@ -624,7 +624,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 		$this->create_notice( $tested );
 
 		$u1 = static::factory()->user->create();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/dismiss' );
 		$request->set_param( 'context', 'edit' );
@@ -637,7 +637,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 	 * @group dismiss_item
 	 */
 	public function test_dismiss_item_not_logged_in() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$tested = array(
 			'n1' => array(
 				'subject' => 'Taz',
@@ -646,7 +646,7 @@ class BP_Tests_Sitewide_Notices_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->create_notice( $tested );
 
-		$this->bp::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/dismiss' );
 		$request->set_param( 'context', 'edit' );

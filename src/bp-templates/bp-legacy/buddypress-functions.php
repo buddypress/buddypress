@@ -324,6 +324,7 @@ class BP_Legacy extends BP_Theme_Compat {
 
 			// Settings.
 			'store_filter_settings' => $store_filter_settings,
+			'canonical_url'         => bp_get_canonical_url(),
 		) );
 		wp_localize_script( $asset['handle'], 'BP_DTheme', $params );
 

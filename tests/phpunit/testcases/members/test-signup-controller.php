@@ -55,7 +55,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group get_items
 	 */
 	public function test_get_items() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$s1     = $this->create_signup();
 		$signup = $this->endpoint->get_signup_object( $s1 );
@@ -75,7 +75,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group get_items
 	 */
 	public function test_get_paginated_items() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$s1 = $this->create_signup();
 		$s2 = $this->create_signup();
@@ -118,7 +118,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_get_items_unauthorized_user() {
 		$u = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -131,7 +131,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$signup = $this->endpoint->get_signup_object( $this->signup_id );
 		$this->assertEquals( $this->signup_id, $signup->id );
@@ -151,7 +151,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group get_item
 	 */
 	public function test_get_item_with_invalid_signup_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'view' );
@@ -177,7 +177,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_get_item_unauthorized_user() {
 		$u = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%s', $this->signup_id ) );
 		$request->set_param( 'context', 'view' );
@@ -204,6 +204,42 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$this->assertSame( $signup['user_login'], $params['user_login'] );
 		$this->assertSame( $signup['user_email'], $params['user_email'] );
 		$this->assertTrue( ! isset( $signup['activation_key'] ) );
+	}
+
+	/**
+	 * @group create_item
+	 */
+	public function test_creating_multiple_pending_accounts_with_different_usernames() {
+		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
+
+		$params = $this->set_signup_data( array( 'user_login' => 'user1' ) );
+		$request->set_body_params( $params );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$signup = $response->get_data();
+
+		$this->assertSame( $signup['user_login'], $params['user_login'] );
+		$this->assertSame( $signup['user_email'], $params['user_email'] );
+		$this->assertTrue( ! isset( $signup['activation_key'] ) );
+
+		// Test with the same email.
+		$params = $this->set_signup_data( array( 'user_login' => 'user2' ) );
+		$request->set_body_params( $params );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertErrorResponse( 'bp_rest_signup_validation_failed', $response, 500, 'This user\'s email is already registered.' );
+
+		// Test with a different email.
+		$params = $this->set_signup_data( array( 'user_login' => 'user2', 'user_email' => 'user2@example.com' ) );
+		$request->set_body_params( $params );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
 	}
 
 	/**
@@ -588,7 +624,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$signup = $this->endpoint->get_signup_object( $this->signup_id );
 		$this->assertEquals( $this->signup_id, $signup->id );
@@ -608,7 +644,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group delete_item
 	 */
 	public function test_delete_item_invalid_signup_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -633,7 +669,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 */
 	public function test_delete_item_unauthorized_user() {
 		$u = static::factory()->user->create();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->signup_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -663,7 +699,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	/**
 	 * @group resend_item
 	 */
-	public function test_resend_acivation_email_to_active_signup() {
+	public function test_resend_activation_email_to_active_signup() {
 		$signup_id = $this->create_signup();
 		$signup    = new BP_Signup( $signup_id );
 
@@ -688,6 +724,56 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	/**
 	 * @group resend_item
 	 */
+	public function test_resend_activation_email_to_locked_signup() {
+		$signup_id = $this->create_signup();
+
+		BP_Signup::resend( $signup_id );
+
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/resend' );
+		$request->set_param( 'id', $signup_id );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 500, $response->get_status() );
+
+		$error_code = 'bp_rest_signup_resend_activation_email_fail';
+		$error      = $response->as_error();
+		$message    = $error->get_error_message( $error_code );
+
+		$this->assertErrorResponse( $error_code, $response, 500 );
+		$this->assertSame(
+			$message,
+			"You've reached the limit for resending your account activation email. Please wait a few minutes and try again. If you continue to experience issues, contact support for assistance."
+		);
+	}
+
+	/**
+	 * @group resend_item
+	 */
+	public function test_resend_activation_email_to_locked_signup_with_hook() {
+		$signup_id = $this->create_signup();
+
+		BP_Signup::resend( $signup_id );
+
+		add_filter( 'bp_core_signup_resend_activation_lock_time', '__return_zero' );
+
+		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/resend' );
+		$request->set_param( 'id', $signup_id );
+		$request->set_param( 'context', 'edit' );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$all_data = $response->get_data();
+
+		$this->assertTrue( $all_data['sent'] );
+
+		remove_filter( 'bp_core_signup_resend_activation_lock_time', '__return_zero' );
+	}
+
+	/**
+	 * @group resend_item
+	 */
 	public function test_resend_activation_email_invalid_signup_id() {
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/resend' );
 		$request->set_param( 'id', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER );
@@ -698,7 +784,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	}
 
 	public function test_prepare_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$signup = $this->endpoint->get_signup_object( $this->signup_id );
 		$this->assertEquals( $this->signup_id, $signup->id );
@@ -733,7 +819,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	}
 
 	protected function create_signup() {
-		return BP_Signup::add(
+		return $this->bp::factory()->signup->create(
 			array(
 				'user_login'     => 'user' . wp_rand( 1, 20 ),
 				'user_email'     => sprintf( 'user%d@example.com', wp_rand( 1, 20 ) ),
@@ -803,5 +889,24 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 
 		$this->assertEquals( 'view', $data['endpoints'][0]['args']['context']['default'] );
 		$this->assertEquals( array( 'view', 'edit' ), $data['endpoints'][0]['args']['context']['enum'] );
+	}
+
+	public function test_bp_rest_api_signup_disabled_feature_dispatch_error() {
+		// Disable signups registration.
+		bp_update_option( 'users_can_register', 0 );
+
+		if  ( is_multisite() ) {
+			update_site_option( 'registration', '' );
+		}
+
+		$request  = new WP_REST_Request( 'OPTIONS', $this->endpoint_url );
+		$response = $this->server->dispatch( $request );
+		$data     = $response->get_data();
+
+		$this->assertEquals( 403, $response->get_status() );
+		$this->assertSame(
+			$data['message'],
+			'BuddyPress: The user signup feature is currently disabled. Please activate this feature to proceed.'
+		);
 	}
 }

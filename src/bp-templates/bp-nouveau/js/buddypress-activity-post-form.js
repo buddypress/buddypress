@@ -1,6 +1,6 @@
 /* global BP_Nouveau, _, Backbone */
 /* @since 3.0.0 */
-/* @version 8.0.0 */
+/* @version 15.0.0 */
 window.wp = window.wp || {};
 window.bp = window.bp || {};
 
@@ -727,6 +727,7 @@ window.bp = window.bp || {};
 			this.model.set( meta, { silent: true } );
 
 			var data = {
+				canonicalUrl: BP_Nouveau.canonical_url,
 				'_wpnonce_post_update': BP_Nouveau.activity.params.post_nonce
 			};
 

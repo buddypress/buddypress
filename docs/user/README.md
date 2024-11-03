@@ -7,3 +7,4 @@ Welcome to the BuddyPress User Handbook.
 - [The BuddyPress Components](./components/README.md)
 - [BuddyPress Administration](./administration/README.md)
 - [Advanced customizations](./advanced/README.md)
+

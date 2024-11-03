@@ -53,7 +53,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -71,7 +71,6 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		$this->assertCount( 1, $a_ids );
 		$this->assertCount( 1, $data[0]['messages'] );
 
-		// Check the thread data for the requested user id => `$u1`.
 		$this->check_thread_data( $this->endpoint->get_thread_object( $data[0]['id'], $u1 ), $data[0] );
 	}
 
@@ -117,7 +116,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -145,6 +144,67 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	}
 
 	/**
+	 * @BP9157
+	 * @group get_items
+	 */
+	public function test_filter_threads_by_recipients() {
+		$u1 = static::factory()->user->create();
+		$u2 = static::factory()->user->create();
+		$u3 = static::factory()->user->create();
+
+		$thread = $this->bp::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $u1,
+				'recipients' => array( $u2 ),
+				'subject'    => 'First Thread',
+			)
+		);
+
+		$this->bp::factory()->message->create(
+			array(
+				'thread_id'  => $thread->thread_id,
+				'sender_id'  => $u2,
+				'recipients' => array( $u1 ),
+			)
+		);
+
+		$thread2 = $this->bp::factory()->message->create_and_get(
+			array(
+				'sender_id'  => $u1,
+				'recipients' => array( $u3 ),
+				'subject'    => 'Second Thread',
+			)
+		);
+
+		$this->bp::factory()->message->create(
+			array(
+				'thread_id'  => $thread2->thread_id,
+				'sender_id'  => $u3,
+				'recipients' => array( $u1 ),
+			)
+		);
+
+		$this->bp::set_current_user( $this->user );
+
+		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
+		$request->set_param( 'context', 'view' );
+		$request->set_param( 'user_id', $u1 );
+		$request->set_param( 'includes', array( $u3 ) );
+		$response = $this->server->dispatch( $request );
+
+		$this->assertEquals( 200, $response->get_status() );
+
+		$data = $response->get_data();
+
+		$this->assertNotEmpty( $data );
+
+		$a_ids = wp_list_pluck( $data, 'id' );
+
+		$this->assertCount( 1, $a_ids );
+		$this->assertSame( $thread2->thread_id, $a_ids[0] );
+	}
+
+	/**
 	 * @group get_item
 	 */
 	public function test_get_item() {
@@ -159,7 +219,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'view' );
@@ -209,7 +269,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'view' );
@@ -243,7 +303,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'view' );
@@ -283,7 +343,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'edit' );
@@ -325,7 +385,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'view' );
@@ -367,7 +427,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			wp_delete_user( $deleted_user );
 		}
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'view' );
@@ -421,7 +481,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 * @group get_item
 	 */
 	public function test_get_item_invalid_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER );
 		$request->set_param( 'context', 'view' );
@@ -436,7 +496,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	public function test_create_item() {
 		$u = static::factory()->user->create();
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -487,7 +547,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 * @group create_item
 	 */
 	public function test_create_item_with_empty_content_options( $content ) {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -511,7 +571,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 * @group create_item
 	 */
 	public function test_create_item_with_null_content() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -538,7 +598,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 * @group create_item
 	 */
 	public function test_create_item_with_irregular_content_options( $content ) {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -588,7 +648,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 * @group create_item
 	 */
 	public function test_create_item_with_no_recipients() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->set_param( 'context', 'edit' );
@@ -622,7 +682,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $m->thread_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -658,7 +718,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		// Update to read.
 		messages_mark_thread_read( $m->thread_id, $u2 );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $m->thread_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -711,7 +771,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 * @group update_item
 	 */
 	public function test_update_item_invalid_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -736,7 +796,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $m->thread_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -763,7 +823,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $m->thread_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -793,7 +853,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'edit' );
@@ -824,7 +884,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'edit' );
@@ -895,7 +955,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		bp_messages_star_set_action(
 			array(
@@ -950,7 +1010,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . bp_get_messages_starred_slug() . '/' . $r1->id );
 		$request->set_param( 'context', 'edit' );
@@ -989,7 +1049,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . bp_get_messages_starred_slug() . '/' . $m->id );
 		$request->set_param( 'context', 'edit' );
@@ -1048,7 +1108,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . bp_get_messages_starred_slug() . '/' . $m->id );
 		$request->set_param( 'context', 'edit' );
@@ -1064,7 +1124,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 	 * @group starred
 	 */
 	public function test_update_starred_using_invalid_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . bp_get_messages_starred_slug() . '/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER );
 		$request->set_param( 'context', 'edit' );
@@ -1115,7 +1175,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 
 		$expected = 'boz_value';
 		bp_messages_update_meta( $m1->id, '_taz_field', $expected );
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		// GET
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m1->thread_id );
@@ -1154,7 +1214,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 		);
 
 		$u = static::factory()->user->create();
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$expected = 'bar_value';
 
 		// POST
@@ -1214,7 +1274,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 		$expected = 'foo_value';
 
 		// POST a reply.
@@ -1295,7 +1355,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		$expected = 'taz_value';
 
 		// Update the last message.
@@ -1366,7 +1426,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 		$expected = 'up_value';
 
 		// Update the last message.
@@ -1407,7 +1467,7 @@ class BP_Tests_Messages_REST_Controller extends BP_Test_REST_Controller_Testcase
 			)
 		);
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $m->thread_id );
 		$request->set_param( 'context', 'view' );

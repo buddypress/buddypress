@@ -443,6 +443,40 @@ class BP_Tests_Blogs_Template extends BP_UnitTestCase {
 		$this->assertTrue( $avatar === $expected );
 	}
 
+	/**
+	 * @BP9228
+	 * @group avatar
+	 * @group BP_Blogs_Template
+	 * @group bp_get_blog_avatar
+	 */
+	public function test_bp_get_blog_default_avatar_inside_blogs_template() {
+		$this->skipWithoutMultisite();
+
+		$b1 = self::factory()->blog->create();
+		$b2 = self::factory()->blog->create();
+
+		// Fake the global
+		global $blogs_template;
+
+		$blogs_template = new stdClass;
+		$blogs_template->blog = new stdClass;
+		$blogs_template->blog->blog_id = $b1;
+
+		$expected = buddypress()->plugin_url . "bp-core/images/mystery-blog.png";
+
+		// Get from global blog_id.
+		$avatar = bp_get_blog_avatar();
+		$this->assertTrue( str_contains( $avatar, "blog-{$b1}-avatar" ) );
+		$this->assertTrue( str_contains( $avatar, $expected ) );
+
+		// Get from the blog_id passed in, instead of global.
+		$avatar = bp_get_blog_avatar( array( 'blog_id' => $b2 ) );
+		$this->assertTrue( str_contains( $avatar, "blog-{$b2}-avatar" ) );
+		$this->assertTrue( str_contains( $avatar, $expected ) );
+
+		$blogs_template = null;
+	}
+
 	public function filter_blog_avatar() {
 		return BP_TESTS_DIR . 'assets/upside-down.jpg';
 	}

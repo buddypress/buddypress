@@ -3053,15 +3053,15 @@ function bp_signup_avatar( $args = '' ) {
  */
 function bp_get_signup_allowed() {
 
-	/**
-	 * Filters whether new signups are allowed.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @param bool $signup_allowed Whether or not new signups are allowed.
-	 */
-	return apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
-}
+		/**
+		 * Filters whether new signups are allowed.
+		 *
+		 * @since 1.5.0
+		 *
+		 * @param bool $signup_allowed Whether or not new signups are allowed.
+		 */
+		return apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
+	}
 
 /**
  * Are users allowed to invite users to join this site?
