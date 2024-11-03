@@ -777,15 +777,15 @@ class BP_Tests_Core_Functions extends BP_UnitTestCase {
 		$cover_image = bp_attachments_get_allowed_types( 'cover_image' );
 		$this->assertSame( $supported, $cover_image );
 
-		$images = bp_attachments_get_allowed_types( 'image/' );
+		$documents = bp_attachments_get_allowed_types( 'document' );
 
-		foreach ( $images as $image ) {
-			if ( 'image' !== wp_ext2type( $image ) ) {
-				$not_image = $image;
+		foreach ( $documents as $document ) {
+			if ( 'document' !== wp_ext2type( $document ) ) {
+				$not_document = $document;
 			}
 		}
 
-		$this->assertTrue( empty( $not_image ) );
+		$this->assertTrue( empty( $not_document ) );
 	}
 
 	public function test_emails_should_have_correct_link_color() {

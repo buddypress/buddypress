@@ -54,7 +54,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request  = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $g1 . '/members' );
 		$response = $this->server->dispatch( $request );
@@ -83,7 +83,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$g1 = $this->bp::factory()->group->create(
 			array(
@@ -163,7 +163,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u2, $u3, $u4, $u5, $u6 ), $g1 );
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/' . $g1 . '/members' );
 		$request->set_query_params(
@@ -206,7 +206,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$member_object = new BP_Groups_Member( $u1, $g1 );
 		$member_object->promote( 'admin' );
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		add_filter( 'bp_rest_group_members_get_items_query_args', array( $this, 'group_members_query_args' ) );
 
@@ -242,7 +242,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$member_object = new BP_Groups_Member( $u1, $g1 );
 		$member_object->promote( 'admin' );
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		add_filter( 'bp_rest_group_members_get_items_query_args', array( $this, 'group_members_query_args' ) );
 
@@ -284,7 +284,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$u = static::factory()->user->create();
 		$g = $this->bp::factory()->group->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url . '/' . $g . '/members' );
 		$request->set_param( 'context', 'edit' );
@@ -304,7 +304,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 	public function test_create_item_as_admin() {
 		$u = static::factory()->user->create( array( 'role' => 'administrator' ) );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url . '/' . $this->group_id . '/members' );
 		$request->set_param( 'context', 'edit' );
@@ -332,7 +332,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 	public function test_member_can_add_himself_to_public_group() {
 		$u = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url . '/' . $this->group_id . '/members' );
 
@@ -364,7 +364,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 			)
 		);
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url . '/' . $g1 . '/members' );
 		$request->set_param( 'context', 'edit' );
@@ -386,7 +386,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 			)
 		);
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url . '/' . $g1 . '/members' );
 		$request->set_param( 'context', 'edit' );
@@ -407,7 +407,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url . '/' . $this->group_id . '/members' );
 		$request->set_param( 'context', 'edit' );
@@ -432,7 +432,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u ), $this->group_id );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $this->group_id . '/members/' . $u );
 		$request->set_param( 'context', 'edit' );
@@ -467,7 +467,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$member_object = new BP_Groups_Member( $u1, $g1 );
 		$member_object->promote( 'mod' );
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u3 );
 		$request->set_param( 'context', 'edit' );
@@ -495,7 +495,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$member_object = new BP_Groups_Member( $u1, $g1 );
 		$member_object->promote( 'mod' );
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u4 );
 		$request->set_param( 'context', 'edit' );
@@ -522,7 +522,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$member_object = new BP_Groups_Member( $u2, $g1 );
 		$member_object->promote( 'admin' );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -554,7 +554,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u4 );
 		$request->set_param( 'context', 'edit' );
@@ -582,7 +582,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertTrue( (bool) $member_object->is_banned );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -613,7 +613,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u4 );
 		$request->set_param( 'context', 'edit' );
@@ -654,7 +654,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertTrue( (bool) $member_object->is_banned );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -694,7 +694,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->assertTrue( (bool) $member_object->is_banned );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -713,7 +713,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u ), $this->group_id );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $this->group_id . '/members/' . $u );
 		$request->set_param( 'context', 'edit' );
@@ -748,7 +748,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1 ), $g1 );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -784,7 +784,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -812,7 +812,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		// Promote $u2 to a mod.
 		$this->bp::add_user_to_group( $u2, $g1, array( 'is_mod' => true ) );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -838,7 +838,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		// Promote $u1 to a mod.
 		$this->bp::add_user_to_group( $u1, $g1, array( 'is_mod' => true ) );
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -873,7 +873,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertTrue( (bool) $member_object->is_admin );
 
 		// Site admin.
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u2 );
 		$request->set_param( 'context', 'edit' );
@@ -907,7 +907,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Site admin.
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u2 );
 		$request->set_param( 'context', 'edit' );
@@ -931,7 +931,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
 		// Site admin.
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $this->user );
 		$request->set_param( 'context', 'edit' );
@@ -965,7 +965,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertTrue( (bool) $member_object->is_admin );
 
 		// Site admin.
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u2 );
 		$request->set_param( 'context', 'edit' );
@@ -1005,7 +1005,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertTrue( (bool) $member_object->is_mod );
 
 		// Site admin.
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u2 );
 		$request->set_param( 'context', 'edit' );
@@ -1045,7 +1045,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$this->assertTrue( (bool) $member_object->is_mod );
 
 		// Site admin.
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -1071,7 +1071,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$group_member = new BP_Groups_Member( $u2, $g1 );
 		$group_member->promote( 'admin' );
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u2 );
 		$request->set_param( 'context', 'edit' );
@@ -1108,7 +1108,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u2 );
 		$request->set_param( 'context', 'edit' );
@@ -1131,7 +1131,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -1154,7 +1154,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -1177,7 +1177,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u3 ), $g1 );
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . $g1 . '/members/' . $u3 );
 		$request->set_param( 'context', 'edit' );
@@ -1194,7 +1194,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 	public function test_update_item_invalid_group_id() {
 		$u = static::factory()->user->create();
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url . '/' . REST_TESTS_IMPOSSIBLY_HIGH_NUMBER . '/members/' . $u );
 		$request->set_param( 'context', 'edit' );
@@ -1236,7 +1236,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -1269,7 +1269,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -1303,7 +1303,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$group_member = new BP_Groups_Member( $u1, $g1 );
 		$group_member->ban();
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -1328,7 +1328,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $u2 );
 		$request->set_param( 'context', 'edit' );
@@ -1353,7 +1353,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -1388,7 +1388,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$group_member = new BP_Groups_Member( $u3, $g1 );
 		$group_member->promote( 'admin' );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $u2 );
 		$request->set_param( 'context', 'edit' );
@@ -1418,7 +1418,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1 ), $g1 );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $u2 );
 		$request->set_param( 'context', 'edit' );
@@ -1446,7 +1446,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$group_member = new BP_Groups_Member( $u3, $g1 );
 		$group_member->promote( 'admin' );
 
-		$this->bp::set_current_user( $u3 );
+		wp_set_current_user( $u3 );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -1477,7 +1477,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u2, $u3 ), $g1 );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $this->user );
 		$request->set_param( 'context', 'edit' );
@@ -1505,7 +1505,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 		$group_member = new BP_Groups_Member( $u3, $g1 );
 		$group_member->promote( 'admin' );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );
@@ -1535,7 +1535,7 @@ class BP_Tests_Group_Membership_REST_Controller extends BP_Test_REST_Controller_
 
 		$this->populate_group_with_members( array( $u1, $u2 ), $g1 );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/' . $g1 . '/members/' . $u1 );
 		$request->set_param( 'context', 'edit' );

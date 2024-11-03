@@ -20,12 +20,12 @@ class BP_Tests_Routing_Members_Root_Profiles extends BP_UnitTestCase {
 			'user_nicename' => 'boone',
 		) );
 		$this->u = new WP_User( $uid );
-		self::set_current_user( $uid );
+		wp_set_current_user( $uid );
 		$this->permalink_structure = get_option( 'permalink_structure', '' );
 	}
 
 	public function tear_down() {
-		self::set_current_user( $this->old_current_user );
+		wp_set_current_user( $this->old_current_user );
 		$this->set_permalink_structure( $this->permalink_structure );
 		remove_filter( 'bp_core_enable_root_profiles', '__return_true' );
 

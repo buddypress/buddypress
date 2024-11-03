@@ -3045,34 +3045,23 @@ function bp_signup_avatar( $args = '' ) {
 	}
 
 /**
- * Output whether signup is allowed.
+ * Is user signup allowed?
  *
  * @since 1.1.0
  *
- * @todo Remove this function. Echoing a bool is pointless.
+ * @return bool
  */
-function bp_signup_allowed() {
-	// phpcs:ignore WordPress.Security.EscapeOutput
-	echo bp_get_signup_allowed();
-}
-	/**
-	 * Is user signup allowed?
-	 *
-	 * @since 1.1.0
-	 *
-	 * @return bool
-	 */
-	function bp_get_signup_allowed() {
+function bp_get_signup_allowed() {
 
-		/**
-		 * Filters whether or not new signups are allowed.
-		 *
-		 * @since 1.5.0
-		 *
-		 * @param bool $signup_allowed Whether or not new signups are allowed.
-		 */
-		return apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
-	}
+	/**
+	 * Filters whether new signups are allowed.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param bool $signup_allowed Whether or not new signups are allowed.
+	 */
+	return apply_filters( 'bp_get_signup_allowed', (bool) bp_get_option( 'users_can_register' ) );
+}
 
 /**
  * Are users allowed to invite users to join this site?

@@ -3,8 +3,7 @@
  * Deprecated Functions
  *
  * @package BuddyPress
- * @subpackage Core
- * @deprecated Since 1.5.0
+ * @deprecated 1.5.0
  */
 
 // Exit if accessed directly.

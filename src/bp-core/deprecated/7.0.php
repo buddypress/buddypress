@@ -3,6 +3,7 @@
 /**
  * Deprecated functions.
  *
+ * @package BuddyPress
  * @deprecated 7.0.0
  */
 

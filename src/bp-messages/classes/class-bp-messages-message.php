@@ -139,16 +139,40 @@ class BP_Messages_Message {
 
 		// If we have no thread_id then this is the first message of a new thread.
 		if ( empty( $this->thread_id ) ) {
-			$this->thread_id = (int) $wpdb->get_var( "SELECT MAX(thread_id) FROM {$bp->messages->table_name_messages}" ) + 1;
-			$new_thread      = true;
+			$new_thread           = true;
+			$insert_message_query = $wpdb->prepare(
+				"INSERT INTO {$bp->messages->table_name_messages} "
+				. "( thread_id, sender_id, subject, message, date_sent ) "
+				. "VALUES ( " . "( SELECT IFNULL(MAX(m.thread_id), 0) FROM {$bp->messages->table_name_messages} m ) + 1, " . "%d, %s, %s, %s )",
+				$this->sender_id,
+				$this->subject,
+				$this->message,
+				$this->date_sent
+			);
+		} else { // Add a new message to an existing thread.
+			$insert_message_query = $wpdb->prepare(
+				"INSERT INTO {$bp->messages->table_name_messages} "
+				. "( thread_id, sender_id, subject, message, date_sent ) "
+				. "VALUES ( %d, %d, %s, %s, %s )",
+				$this->thread_id,
+				$this->sender_id,
+				$this->subject,
+				$this->message,
+				$this->date_sent
+			);
 		}
 
 		// First insert the message into the messages table.
-		if ( ! $wpdb->query( $wpdb->prepare( "INSERT INTO {$bp->messages->table_name_messages} ( thread_id, sender_id, subject, message, date_sent ) VALUES ( %d, %d, %s, %s, %s )", $this->thread_id, $this->sender_id, $this->subject, $this->message, $this->date_sent ) ) ) {
+		if ( ! $wpdb->query( $insert_message_query ) ) {
 			return false;
 		}
 
 		$this->id = $wpdb->insert_id;
+
+		// For new threads fetch the thread_id that was generated during the insert query
+		if ( $new_thread ) {
+			$this->thread_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT thread_id FROM {$bp->messages->table_name_messages} WHERE id=%d", $this->id ) );
+		}
 
 		$recipient_ids = array();
 

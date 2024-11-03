@@ -231,7 +231,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		);
 
 		$old_user = get_current_user_id();
-		self::set_current_user( $user );
+		wp_set_current_user( $user );
 
 		$value = bp_get_profile_field_data(
 			array(
@@ -241,7 +241,7 @@ class BP_Tests_BP_XProfile_Field_TestCases extends BP_UnitTestCase {
 		);
 		$this->assertEmpty( $value );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**

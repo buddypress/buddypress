@@ -111,11 +111,11 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 
 	public function set_up() {
 		parent::set_up();
-		self::set_current_user( self::$current_user );
+		wp_set_current_user( self::$current_user );
 	}
 
 	public function tear_down() {
-		self::set_current_user( self::$old_user_id );
+		wp_set_current_user( self::$old_user_id );
 		parent::tear_down();
 	}
 
@@ -268,7 +268,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		$this->assertTrue( is_wp_error( $suggestions ) );
 
 		// "alpaca red" is in the hidden group
-		self::set_current_user( self::$user_ids['alpaca red'] );
+		wp_set_current_user( self::$user_ids['alpaca red'] );
 		$suggestions = bp_core_get_suggestions( array(
 			'group_id' => self::$group_ids['hidden'],
 			'type'     => 'members',
@@ -288,7 +288,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		$this->assertTrue( is_wp_error( $suggestions ) );
 
 		// "caterpillar" is in the private group
-		self::set_current_user( self::$user_ids['caterpillar'] );
+		wp_set_current_user( self::$user_ids['caterpillar'] );
 		$suggestions = bp_core_get_suggestions( array(
 			'group_id' => self::$group_ids['private'],
 			'type'     => 'members',
@@ -327,7 +327,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		$this->assertTrue( is_wp_error( $suggestions ) );
 
 
-		self::set_current_user( self::$user_ids['caterpillar'] );
+		wp_set_current_user( self::$user_ids['caterpillar'] );
 
 		// "cat" is in the private group, so won't show up here.
 		$suggestions = bp_core_get_suggestions( array(
@@ -358,7 +358,7 @@ class BP_Tests_Suggestions_Authenticated extends BP_UnitTestCase {
 		$this->assertTrue( is_wp_error( $suggestions ) );
 
 
-		self::set_current_user( self::$user_ids['alpaca red'] );
+		wp_set_current_user( self::$user_ids['alpaca red'] );
 
 		// "alpaca red" is in the hidden group, so won't show up here.
 		$suggestions = bp_core_get_suggestions( array(

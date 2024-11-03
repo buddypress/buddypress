@@ -727,6 +727,7 @@ class BuddyPress {
 			'BP_Invitation'                    => 'core',
 			'BP_REST_Attachments'              => 'core',
 			'BP_Admin_Types'                   => 'core',
+			'BP_LoggedIn_User'                 => 'core',
 			'BP_Optout'                        => 'core',
 			'BP_Optouts_List_Table'            => 'core',
 			'BP_Group_Extension'               => 'groups',

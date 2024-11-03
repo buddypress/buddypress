@@ -23,7 +23,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	 */
 	public function test_block_self_own_profile() {
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 		$this->set_permalink_structure( '/%postname%/' );
 
 		$this->go_to( bp_members_get_user_url( $u ) );
@@ -42,7 +42,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 	 */
 	public function test_block_self_others_profile() {
 		$u1 = self::factory()->user->create();
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 		$this->set_permalink_structure( '/%postname%/' );
 
 		$u2 = self::factory()->user->create();
@@ -69,7 +69,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$found = array();
 		if ( bp_has_members() ) {
@@ -109,7 +109,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$found = array();
 		if ( bp_has_members() ) {
@@ -149,7 +149,7 @@ class BP_Tests_BP_Button extends BP_UnitTestCase {
 			'last_activity' => date( 'Y-m-d H:i:s', $now - 100 ),
 		) );
 
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 		$this->set_permalink_structure( '/%postname%/' );
 		$this->go_to( bp_members_get_user_url( $u1 ) );
 

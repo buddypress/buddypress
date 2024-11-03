@@ -748,10 +748,6 @@ function xprofile_override_user_fullnames() {
 		return;
 	}
 
-	if ( bp_loggedin_user_id() ) {
-		buddypress()->loggedin_user->fullname = bp_core_get_user_displayname( bp_loggedin_user_id() );
-	}
-
 	if ( bp_displayed_user_id() ) {
 		buddypress()->displayed_user->fullname = bp_core_get_user_displayname( bp_displayed_user_id() );
 	}
@@ -1477,6 +1473,7 @@ function bp_xprofile_get_wp_user_keys() {
  * Returns the signup field IDs.
  *
  * @since 8.0.0
+ * @since 15.0.0 The SQL request was adapted to support WP Playground's SQLite DB.
  *
  * @global wpdb $wpdb WordPress database object.
  *
@@ -1489,12 +1486,22 @@ function bp_xprofile_get_signup_field_ids() {
 		global $wpdb;
 		$bp = buddypress();
 
-		$signup_field_ids = $wpdb->get_col( "SELECT object_id FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND meta_key = 'signup_position' ORDER BY CONVERT(meta_value, SIGNED) ASC" );
+		// WP Playground's SQLite DB does not support CONVERT AS SIGNED.
+		$results          = $wpdb->get_results( "SELECT object_id, meta_value FROM {$bp->profile->table_name_meta} WHERE object_type = 'field' AND meta_key = 'signup_position'" );
+		$signup_field_ids = array();
+
+		foreach ( $results as $result ) {
+			$index                      = (int) $result->meta_value;
+			$signup_field_ids[ $index ] = (int) $result->object_id;
+		}
+
+		// Sort.
+		ksort( $signup_field_ids );
 
 		wp_cache_set( 'signup_fields', $signup_field_ids, 'bp_xprofile' );
 	}
 
-	return array_map( 'intval', $signup_field_ids );
+	return array_values( $signup_field_ids );
 }
 
 /**

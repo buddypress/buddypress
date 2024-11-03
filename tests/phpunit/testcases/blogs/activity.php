@@ -299,7 +299,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_sync_add_from_activity_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// let's use activity comments instead of single "new_blog_comment" activity items
@@ -337,7 +337,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -347,7 +347,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_sync_delete_from_activity_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// let's use activity comments instead of single "new_blog_comment" activity items
@@ -385,7 +385,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -395,7 +395,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_sync_activity_edit_to_post_comment_spam_unspam_activity_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// let's use activity comments instead of single "new_blog_comment" activity items
@@ -445,7 +445,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -455,7 +455,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_sync_activity_edit_to_post_comment_spam_activity_comment_unspam_post_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// let's use activity comments instead of single "new_blog_comment" activity items
@@ -502,7 +502,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -512,7 +512,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_bp_blogs_sync_activity_edit_to_post_comment_trash_comment_ham_activity() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// let's use activity comments instead of single "new_blog_comment" activity items
@@ -559,7 +559,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		// reset
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -569,7 +569,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 	public function test_spammed_activity_comment_should_not_create_post_comment() {
 		$old_user = get_current_user_id();
 		$u = self::factory()->user->create();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 		$userdata = get_userdata( $u );
 
 		// let's use activity comments instead of single "new_blog_comment" activity items.
@@ -613,7 +613,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 		remove_action( 'bp_activity_before_save', array( $this, 'set_activity_to_spam' ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -625,7 +625,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$u        = self::factory()->user->create();
 		$reset_at = isset( $GLOBALS['activities_template'] ) ? $GLOBALS['activities_template'] : null;
 
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		// let's use activity comments instead of single "new_blog_comment" activity items
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -672,7 +672,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		// Reset.
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 		$GLOBALS['activities_template'] = $reset_at;
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -684,7 +684,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		$u        = self::factory()->user->create();
 		$reset_at = isset( $GLOBALS['activities_template'] ) ? $GLOBALS['activities_template'] : null;
 
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		// let's use activity comments instead of single "new_blog_comment" activity items
 		add_filter( 'bp_disable_blogforum_comments', '__return_false' );
@@ -730,7 +730,7 @@ class BP_Tests_Blogs_Activity extends BP_UnitTestCase {
 		// Reset.
 		remove_filter( 'bp_disable_blogforum_comments', '__return_false' );
 		$GLOBALS['activities_template'] = $reset_at;
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
