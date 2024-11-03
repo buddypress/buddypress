@@ -18,7 +18,7 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 			)
 		);
 
-		self::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		bp_has_profile(
 			array(
@@ -31,7 +31,7 @@ class BP_Tests_xProfile_Template extends BP_UnitTestCase {
 		$field = reset( $group->fields );
 		$this->assertEquals( 'Foo Bar', $field->data->value, 'The primary field should be the Name one and its value should be the same than the display name, by default' );
 
-		self::set_current_user( $prev_user );
+		wp_set_current_user( $prev_user );
 		$profile_template = $reset_profile_template;
 	}
 

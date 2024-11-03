@@ -250,11 +250,11 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 			'status'      => 'public'
 		) );
 		$old_user = get_current_user_id();
-		self::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		$this->assertTrue( bp_user_can( 0, 'groups_access_group', array( 'group_id' => $g1 ) ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	public function test_user_can_access_public_group_if_not_a_member() {
@@ -271,11 +271,11 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 			'status'      => 'private'
 		) );
 		$old_user = get_current_user_id();
-		self::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		$this->assertFalse( bp_user_can( 0, 'groups_access_group', array( 'group_id' => $g1 ) ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	public function test_user_cannot_access_private_group_if_not_a_member() {
@@ -302,11 +302,11 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 			'status'      => 'hidden'
 		) );
 		$old_user = get_current_user_id();
-		self::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		$this->assertFalse( bp_user_can( 0, 'groups_access_group', array( 'group_id' => $g1 ) ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	public function test_user_cannot_access_hidden_group_if_not_a_member() {
@@ -333,11 +333,11 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 			'status'      => 'public'
 		) );
 		$old_user = get_current_user_id();
-		self::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		$this->assertTrue( bp_user_can( 0, 'groups_see_group', array( 'group_id' => $g1 ) ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	public function test_user_can_see_public_group() {
@@ -354,11 +354,11 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 			'status'      => 'private'
 		) );
 		$old_user = get_current_user_id();
-		self::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		$this->assertTrue( bp_user_can( 0, 'groups_see_group', array( 'group_id' => $g1 ) ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	public function test_user_can_see_private_group() {
@@ -375,11 +375,11 @@ class BP_Tests_Groups_User_Can_Filter extends BP_UnitTestCase {
 			'status'      => 'hidden'
 		) );
 		$old_user = get_current_user_id();
-		self::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		$this->assertFalse( bp_user_can( 0, 'groups_see_group', array( 'group_id' => $g1 ) ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	public function test_user_cannot_see_hidden_group_if_not_a_member() {

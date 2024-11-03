@@ -40,7 +40,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		xprofile_set_field_data( $this->field_id, $this->user, 'foo' );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/data/%d', $this->field_id, $this->user ) );
@@ -89,7 +89,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group update_item
 	 */
 	public function test_update_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $this->field_id, $this->user ) );
 		$request->add_header( 'content-type', 'application/json' );
@@ -130,7 +130,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $field_id, $this->user ) );
 		$request->add_header( 'content-type', 'application/json' );
@@ -187,7 +187,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $field_id, $this->user ) );
 		$request->add_header( 'content-type', 'application/json' );
@@ -226,7 +226,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $field_id, $this->user ) );
 		$request->add_header( 'content-type', 'application/json' );
@@ -261,7 +261,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 
 		xprofile_set_field_data( $field_id, $this->user, 'Option 1' );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		// Clear selected options.
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $field_id, $this->user ) );
@@ -308,7 +308,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -360,7 +360,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -392,7 +392,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -426,7 +426,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -476,7 +476,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -515,7 +515,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 */
 	public function test_update_item_user_without_permission() {
 		$u = static::factory()->user->create();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $this->field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -534,7 +534,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $this->field_id, $u2 ) );
 		$request->set_param( 'context', 'edit' );
@@ -550,7 +550,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group update_item
 	 */
 	public function test_update_item_invalid_field_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -567,7 +567,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group update_item
 	 */
 	public function test_update_item_invalid_member_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', sprintf( $this->endpoint_url . '/%d/data/%d', $this->field_id, REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -596,7 +596,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 
 		xprofile_set_field_data( $f, $this->user, 'foo' );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/data/%d', $f, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -630,7 +630,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 
 		xprofile_set_field_data( $f, $u, 'bar' );
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/data/%d', $f, $u ) );
 		$request->set_param( 'context', 'edit' );
@@ -654,7 +654,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group delete_item
 	 */
 	public function test_delete_item_invalid_field_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/data/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -667,7 +667,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group delete_item
 	 */
 	public function test_delete_item_invalid_user_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request  = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/data/%d', $this->field_id, REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$response = $this->server->dispatch( $request );
@@ -691,7 +691,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 */
 	public function test_delete_item_without_permission() {
 		$u = static::factory()->user->create();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d/data/%d', $this->field_id, $this->user ) );
 		$request->set_param( 'context', 'edit' );
@@ -704,7 +704,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 	 * @group prepare_item
 	 */
 	public function test_prepare_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		xprofile_set_field_data( $this->field_id, $this->user, 'foo' );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d/data/%d', $this->field_id, $this->user ) );
@@ -739,7 +739,7 @@ class BP_Tests_XProfile_Data_REST_Controller extends BP_Test_REST_Controller_Tes
 			'data'
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		$expected = 'bar_metadata_value';
 
 		// POST

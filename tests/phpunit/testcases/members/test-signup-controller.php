@@ -55,7 +55,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group get_items
 	 */
 	public function test_get_items() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$s1     = $this->create_signup();
 		$signup = $this->endpoint->get_signup_object( $s1 );
@@ -75,7 +75,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group get_items
 	 */
 	public function test_get_paginated_items() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$s1 = $this->create_signup();
 		$s2 = $this->create_signup();
@@ -118,7 +118,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_get_items_unauthorized_user() {
 		$u = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -131,7 +131,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group get_item
 	 */
 	public function test_get_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$signup = $this->endpoint->get_signup_object( $this->signup_id );
 		$this->assertEquals( $this->signup_id, $signup->id );
@@ -151,7 +151,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group get_item
 	 */
 	public function test_get_item_with_invalid_signup_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'view' );
@@ -177,7 +177,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_get_item_unauthorized_user() {
 		$u = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%s', $this->signup_id ) );
 		$request->set_param( 'context', 'view' );
@@ -588,7 +588,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group delete_item
 	 */
 	public function test_delete_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$signup = $this->endpoint->get_signup_object( $this->signup_id );
 		$this->assertEquals( $this->signup_id, $signup->id );
@@ -608,7 +608,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 * @group delete_item
 	 */
 	public function test_delete_item_invalid_signup_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -633,7 +633,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	 */
 	public function test_delete_item_unauthorized_user() {
 		$u = static::factory()->user->create();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $this->signup_id ) );
 		$request->set_param( 'context', 'edit' );
@@ -698,7 +698,7 @@ class BP_Tests_Signup_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	}
 
 	public function test_prepare_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$signup = $this->endpoint->get_signup_object( $this->signup_id );
 		$this->assertEquals( $this->signup_id, $signup->id );

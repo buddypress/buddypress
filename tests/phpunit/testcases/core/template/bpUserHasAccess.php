@@ -21,7 +21,7 @@ class BP_Tests_Core_Template_BpUserHasAccess extends BP_UnitTestCase {
 		$users = self::factory()->user->create_many( 2 );
 
 		$this->grant_bp_moderate( $users[0] );
-		self::set_current_user( $users[0] );
+		wp_set_current_user( $users[0] );
 		$this->set_permalink_structure( '/%postname%/' );
 
 		$this->go_to( bp_members_get_user_url( $users[1] ) );
@@ -32,7 +32,7 @@ class BP_Tests_Core_Template_BpUserHasAccess extends BP_UnitTestCase {
 	public function test_should_return_false_on_anothers_profile_for_user_without_bp_moderate() {
 		$users = self::factory()->user->create_many( 2 );
 
-		self::set_current_user( $users[0] );
+		wp_set_current_user( $users[0] );
 		$this->set_permalink_structure( '/%postname%/' );
 
 		$this->go_to( bp_members_get_user_url( $users[1] ) );
@@ -43,7 +43,7 @@ class BP_Tests_Core_Template_BpUserHasAccess extends BP_UnitTestCase {
 	public function test_should_return_true_on_own_profile() {
 		$users = self::factory()->user->create_many( 2 );
 
-		self::set_current_user( $users[0] );
+		wp_set_current_user( $users[0] );
 		$this->set_permalink_structure( '/%postname%/' );
 
 		$this->go_to( bp_members_get_user_url( $users[0] ) );

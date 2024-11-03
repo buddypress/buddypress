@@ -13,11 +13,11 @@ class BP_Tests_Walker_Nav_Menu extends BP_UnitTestCase {
 		$this->reset_user_id = get_current_user_id();
 
 		$this->user_id = self::factory()->user->create();
-		self::set_current_user( $this->user_id );
+		wp_set_current_user( $this->user_id );
 	}
 
 	public function tear_down() {
-		self::set_current_user( $this->reset_user_id );
+		wp_set_current_user( $this->reset_user_id );
 		parent::tear_down();
 	}
 

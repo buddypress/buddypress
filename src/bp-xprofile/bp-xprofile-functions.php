@@ -748,10 +748,6 @@ function xprofile_override_user_fullnames() {
 		return;
 	}
 
-	if ( bp_loggedin_user_id() ) {
-		buddypress()->loggedin_user->fullname = bp_core_get_user_displayname( bp_loggedin_user_id() );
-	}
-
 	if ( bp_displayed_user_id() ) {
 		buddypress()->displayed_user->fullname = bp_core_get_user_displayname( bp_displayed_user_id() );
 	}

@@ -78,7 +78,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		// Set current user.
 		$current_user = get_current_user_id();
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		// u2 is the only one to have a latest_update.
 		$a1 = bp_activity_post_update(
@@ -94,7 +94,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		// u1 is the only one to have a last activity
 		bp_update_user_last_activity( $u1, $date_last_activity );
 
-		$this->bp::set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 
 		// u1 and u3 are friends.
 		friends_add_friend( $u1, $u3, true );
@@ -421,7 +421,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		// Set current user.
 		$current_user = get_current_user_id();
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$a1 = bp_activity_post_update(
 			array(
@@ -453,7 +453,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertEquals( $member['latest_update']['id'], $a1 );
 		$this->assertEquals( 1, $member['total_friend_count'] );
 
-		$this->bp::set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -462,7 +462,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	public function test_get_item_me_extras() {
 		// Set current user.
 		$current_user = get_current_user_id();
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url . '/me' );
 		$request->set_query_params(
@@ -479,7 +479,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$this->assertEquals( 'right now', $me['last_activity']['timediff'] );
 
-		$this->bp::set_current_user( $current_user );
+		wp_set_current_user( $current_user );
 	}
 
 	/**
@@ -570,7 +570,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$this->assertTrue( bp_is_user_spammer( $u ) );
 
-		$this->bp::set_current_user( $u2 );
+		wp_set_current_user( $u2 );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u ) );
 		$request->set_param( 'context', 'view' );
@@ -590,7 +590,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$this->assertTrue( bp_is_user_spammer( $u ) );
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u ) );
 		$request->set_param( 'context', 'view' );
@@ -610,7 +610,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 
 		$this->assertTrue( bp_is_user_spammer( $u ) );
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', sprintf( $this->endpoint_url . '/%d', $u ) );
 		$request->set_param( 'context', 'view' );
@@ -656,7 +656,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	 */
 	public function test_create_item_without_permission() {
 		$u = static::factory()->user->create();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$params = array(
 			'password'   => 'testpassword',
@@ -724,7 +724,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	 * @group update_item
 	 */
 	public function test_update_item_invalid_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'context', 'edit' );
@@ -749,7 +749,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $u2 ) );
 		$request->set_param( 'context', 'edit' );
@@ -777,7 +777,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 			)
 		);
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		bp_register_member_type( 'membertypeone' );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $u ) );
@@ -806,7 +806,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 			)
 		);
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 		bp_register_member_type( 'membertypeone' );
 
 		$request = new WP_REST_Request( 'PUT', sprintf( $this->endpoint_url . '/%d', $u ) );
@@ -826,7 +826,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	 * @group update_item
 	 */
 	public function test_update_item_member_type_as_admin_user() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 		bp_register_member_type( 'membertypeone' );
 		bp_register_member_type( 'membertypetwo' );
 
@@ -874,7 +874,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	 * @group delete_item
 	 */
 	public function test_delete_item_invalid_id() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', REST_TESTS_IMPOSSIBLY_HIGH_NUMBER ) );
 		$request->set_param( 'force', true );
@@ -905,7 +905,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$u1 = static::factory()->user->create();
 		$u2 = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u1 );
+		wp_set_current_user( $u1 );
 
 		$request = new WP_REST_Request( 'DELETE', sprintf( $this->endpoint_url . '/%d', $u2 ) );
 		$request->set_param( 'force', true );
@@ -921,7 +921,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	public function test_delete_current_item() {
 		$u            = static::factory()->user->create( array( 'display_name' => 'Deleted User' ) );
 		$current_user = get_current_user_id();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'DELETE', $this->endpoint_url . '/me' );
 		$request->set_param( 'force', true );
@@ -936,11 +936,11 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 		$this->assertTrue( $data['deleted'] );
 		$this->assertEquals( 'Deleted User', $data['previous']['name'] );
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 	}
 
 	public function test_prepare_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request();
 		$request->set_param( 'context', 'view' );
@@ -1001,7 +1001,7 @@ class BP_Tests_Members_REST_Controller extends BP_Test_REST_Controller_Testcase 
 	}
 
 	protected function allow_user_to_manage_multisite() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		if ( is_multisite() ) {
 			update_site_option( 'site_admins', array( wp_get_current_user()->user_login ) );

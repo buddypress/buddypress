@@ -9,11 +9,11 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$duser = self::factory()->user->create();
 
 		$old_current_user = bp_loggedin_user_id();
-		self::set_current_user( 0 );
+		wp_set_current_user( 0 );
 
 		$this->assertEquals( array( 'friends', 'loggedin', 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_get_hidden_field_types_for_user_loggedin() {
@@ -21,11 +21,11 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$cuser = self::factory()->user->create();
 
 		$old_current_user = bp_loggedin_user_id();
-		self::set_current_user( $cuser );
+		wp_set_current_user( $cuser );
 
 		$this->assertEquals( array( 'friends', 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_get_hidden_field_types_for_user_friends() {
@@ -34,11 +34,11 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		friends_add_friend( $duser, $cuser, true );
 
 		$old_current_user = bp_loggedin_user_id();
-		self::set_current_user( $cuser );
+		wp_set_current_user( $cuser );
 
 		$this->assertEquals( array( 'adminsonly' ), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	public function test_get_hidden_field_types_for_user_admin() {
@@ -47,12 +47,12 @@ class BP_Tests_XProfile_Functions extends BP_UnitTestCase {
 		$this->grant_bp_moderate( $cuser );
 
 		$old_current_user = bp_loggedin_user_id();
-		self::set_current_user( $cuser );
+		wp_set_current_user( $cuser );
 
 		$this->assertEquals( array(), bp_xprofile_get_hidden_field_types_for_user( $duser, bp_loggedin_user_id() ) );
 
 		$this->revoke_bp_moderate( $cuser );
-		self::set_current_user( $old_current_user );
+		wp_set_current_user( $old_current_user );
 	}
 
 	/**

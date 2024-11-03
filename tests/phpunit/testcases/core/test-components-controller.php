@@ -20,7 +20,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group get_items
 	 */
 	public function test_get_items() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -41,7 +41,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group get_items
 	 */
 	public function test_get_items_paginated() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -66,7 +66,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group get_items
 	 */
 	public function test_get_items_invalid_status() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -97,7 +97,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	public function test_get_items_without_permission() {
 		$u = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -116,7 +116,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 			)
 		);
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -135,7 +135,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group get_items
 	 */
 	public function test_get_items_active_component_features() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'GET', $this->endpoint_url );
 		$request->set_param( 'context', 'view' );
@@ -156,7 +156,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group get_items
 	 */
 	public function test_get_items_inactive_component_features() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		add_filter( 'bp_is_messages_star_active', '__return_false' );
 
@@ -189,7 +189,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group get_items
 	 */
 	public function test_get_items_inactive_component() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		add_filter( 'bp_is_active', array( $this, 'deactivate_activity_component' ), 10, 2 );
 
@@ -236,7 +236,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group update_item
 	 */
 	public function test_update_item() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
 		$request->set_query_params(
@@ -259,7 +259,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group update_item
 	 */
 	public function test_update_item_nonexistent_component() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
 		$request->set_query_params(
@@ -277,7 +277,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group update_item
 	 */
 	public function test_update_item_empty_action() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
 		$request->set_query_params(
@@ -295,7 +295,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	 * @group update_item
 	 */
 	public function test_update_item_invalid_action() {
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
 		$request->set_query_params(
@@ -331,7 +331,7 @@ class BP_Tests_Components_REST_Controller extends BP_Test_REST_Controller_Testca
 	public function test_update_item_without_permission() {
 		$u = static::factory()->user->create();
 
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$request = new WP_REST_Request( 'PUT', $this->endpoint_url );
 		$request->set_query_params(

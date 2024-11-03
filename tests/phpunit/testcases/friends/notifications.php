@@ -11,14 +11,14 @@ class BP_Tests_Friends_Notifications extends BP_UnitTestcase {
 	public function set_up() {
 		parent::set_up();
 		$this->current_user = get_current_user_id();
-		self::set_current_user( self::factory()->user->create() );
+		wp_set_current_user( self::factory()->user->create() );
 
 		$this->friend = self::factory()->user->create();
 		$this->filter_fired = '';
 	}
 
 	public function tear_down() {
-		self::set_current_user( $this->current_user );
+		wp_set_current_user( $this->current_user );
 		parent::tear_down();
 	}
 

@@ -98,7 +98,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 
 		// Switch user so we have access to non-public blogs
 		$old_user = get_current_user_id();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$b1 = self::factory()->blog->create();
 		$b2 = self::factory()->blog->create();
@@ -176,7 +176,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 			$this->assertSame( $v, $b2_found[ $k ] );
 		}
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**
@@ -192,7 +192,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 
 		// Switch user so we have access to non-public blogs
 		$old_user = get_current_user_id();
-		self::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$b1 = self::factory()->blog->create();
 		$b2 = self::factory()->blog->create();
@@ -229,7 +229,7 @@ class BP_Tests_Blogs_Cache extends BP_UnitTestCase {
 		$this->assertFalse( wp_cache_get( $b1, 'bp_blog_meta' ) );
 		$this->assertFalse( wp_cache_get( $b2, 'bp_blog_meta' ) );
 
-		self::set_current_user( $old_user );
+		wp_set_current_user( $old_user );
 	}
 
 	/**

@@ -26,7 +26,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_get_items() {
 		$this->skipWithoutMultisite();
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		self::factory()->blog->create_many( 2 );
 
@@ -51,7 +51,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_get_item() {
 		$this->skipWithoutMultisite();
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$blog_id = self::factory()->blog->create(
 			array( 'title' => 'The Foo Bar Blog' )
@@ -108,7 +108,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_get_embedded_latest_post_from_blog_using_subdirectory() {
 		$this->skipWithoutMultisite();
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$blog_id = self::factory()->blog->create(
 			array(
@@ -153,7 +153,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_get_embedded_latest_post_from_blog_using_subdomain() {
 		$this->skipWithoutMultisite();
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$subdomain = 'cool-site.foo-bar';
 		$blog_id   = self::factory()->blog->create(
@@ -210,7 +210,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$settings['registration']  = 'blog';
 		buddypress()->site_options = $settings;
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/json' );
@@ -259,7 +259,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		$settings['registration']  = 'none';
 		buddypress()->site_options = $settings;
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/json' );
@@ -280,7 +280,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 	public function test_create_item_without_required_field() {
 		$this->skipWithoutMultisite();
 
-		$this->bp::set_current_user( $this->user );
+		wp_set_current_user( $this->user );
 
 		$request = new WP_REST_Request( 'POST', $this->endpoint_url );
 		$request->add_header( 'content-type', 'application/json' );
@@ -364,7 +364,7 @@ class BP_Tests_Blogs_REST_Controller extends BP_Test_REST_Controller_Testcase {
 		);
 
 		$u = $this->bp::factory()->user->create();
-		$this->bp::set_current_user( $u );
+		wp_set_current_user( $u );
 
 		$blog_id = self::factory()->blog->create(
 			array(

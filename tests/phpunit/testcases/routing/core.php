@@ -11,12 +11,12 @@ class BP_Tests_Routing_Core extends BP_UnitTestCase {
 		parent::set_up();
 
 		$this->old_current_user = get_current_user_id();
-		self::set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
+		wp_set_current_user( self::factory()->user->create( array( 'role' => 'subscriber' ) ) );
 		$this->permalink_structure = get_option( 'permalink_structure', '' );
 	}
 
 	public function tear_down() {
-		self::set_current_user( $this->old_current_user );
+		wp_set_current_user( $this->old_current_user );
 		$this->set_permalink_structure( $this->permalink_structure );
 
 		parent::tear_down();

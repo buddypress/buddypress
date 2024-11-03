@@ -124,7 +124,7 @@ class BP_Groups_Group {
 	 * Is the current user a member of this group?
 	 *
 	 * @since 1.2.0
-	 * @var bool
+	 * @var int|bool
 	 */
 	protected $is_member;
 
@@ -620,7 +620,7 @@ class BP_Groups_Group {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @return bool|int
+	 * @return bool|int ID of the membership if the user is member, otherwise false.
 	 */
 	protected function get_is_member() {
 		if ( isset( $this->is_member ) ) {
@@ -628,6 +628,7 @@ class BP_Groups_Group {
 		}
 
 		$this->is_member = groups_is_user_member( bp_loggedin_user_id(), $this->id );
+
 		return $this->is_member;
 	}
 
