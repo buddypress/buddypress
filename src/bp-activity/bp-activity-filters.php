@@ -3,7 +3,7 @@
  * Filters related to the Activity component.
  *
  * @package BuddyPress
- * @subpackage ActivityFilters
+ * @subpackage Activity
  * @since 1.0.0
  */
 

@@ -6,7 +6,7 @@
  * for the user and for this specific component.
  *
  * @package BuddyPress
- * @subpackage MembersNotifications
+ * @subpackage Members
  * @since 8.0.0
  */
 

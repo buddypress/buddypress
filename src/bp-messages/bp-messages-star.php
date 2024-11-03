@@ -3,7 +3,7 @@
  * Functions related to starring private messages.
  *
  * @package BuddyPress
- * @subpackage MessagesStar
+ * @subpackage Messages
  * @since 2.3.0
  */
 

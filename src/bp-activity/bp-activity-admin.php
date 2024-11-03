@@ -6,7 +6,7 @@
  * help text, on which this implementation is heavily based.
  *
  * @package BuddyPress
- * @subpackage ActivityAdmin
+ * @subpackage Activity
  * @since 1.6.0
  */
 

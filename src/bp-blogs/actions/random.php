@@ -3,7 +3,7 @@
  * Blogs: Random blog action handler
  *
  * @package BuddyPress
- * @subpackage BlogsActions
+ * @subpackage Blogs
  * @since 3.0.0
  */
 

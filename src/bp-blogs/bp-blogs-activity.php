@@ -3,7 +3,7 @@
  * BuddyPress Blogs Activity.
  *
  * @package BuddyPress
- * @subpackage BlogsActivity
+ * @subpackage Blogs
  * @since 1.5.0
  */
 

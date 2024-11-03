@@ -3,7 +3,7 @@
  * Friends: User's "Friends" screen handler
  *
  * @package BuddyPress
- * @subpackage FriendsScreens
+ * @subpackage Friends
  * @since 3.0.0
  */
 

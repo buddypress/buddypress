@@ -3,7 +3,7 @@
  * BuddyPress Membersip Invitations
  *
  * @package BuddyPress
- * @subpackage MembersInvitations
+ * @subpackage Members
  * @since 8.0.0
  */
 

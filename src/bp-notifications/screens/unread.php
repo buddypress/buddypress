@@ -3,7 +3,7 @@
  * Notifications: User's "Notifications" screen handler.
  *
  * @package BuddyPress
- * @subpackage NotificationsScreens
+ * @subpackage Notifications
  * @since 3.0.0
  */
 

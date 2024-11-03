@@ -3,7 +3,7 @@
  * Activity: Reply action
  *
  * @package BuddyPress
- * @subpackage ActivityActions
+ * @subpackage Activity
  * @since 3.0.0
  */
 

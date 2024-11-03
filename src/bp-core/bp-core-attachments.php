@@ -3,7 +3,7 @@
  * BuddyPress Attachments functions.
  *
  * @package BuddyPress
- * @subpackage Attachments
+ * @subpackage Core
  * @since 2.3.0
  */
 

@@ -3,7 +3,7 @@
  * Core component template tag functions.
  *
  * @package BuddyPress
- * @subpackage TemplateFunctions
+ * @subpackage Core
  * @since 1.5.0
  */
 

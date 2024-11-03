@@ -3,7 +3,7 @@
  * BuddyPress Activity Template Functions.
  *
  * @package BuddyPress
- * @subpackage ActivityTemplate
+ * @subpackage Activity
  * @since 1.5.0
  */
 

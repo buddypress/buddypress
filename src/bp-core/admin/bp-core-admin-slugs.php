@@ -3,7 +3,7 @@
  * BuddyPress Admin Slug Functions.
  *
  * @package BuddyPress
- * @subpackage CoreAdministration
+ * @subpackage Core
  * @since 2.3.0
  * @deprecated 12.0.0
  */

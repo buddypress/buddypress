@@ -8,7 +8,7 @@
  * true or false on success or failure.
  *
  * @package BuddyPress
- * @subpackage FriendsFunctions
+ * @subpackage Friends
  * @since 1.5.0
  */
 

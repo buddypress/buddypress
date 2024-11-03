@@ -3,7 +3,7 @@
  * BuddyPress Friends Caching.
  *
  * @package BuddyPress
- * @subpackage FriendsCache
+ * @subpackage Friends
  * @since 1.5.0
  */
 

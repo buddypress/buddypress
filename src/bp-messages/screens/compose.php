@@ -3,7 +3,7 @@
  * Messages: User's "Messages > Compose" screen handler.
  *
  * @package BuddyPress
- * @subpackage MessageScreens
+ * @subpackage Messages
  * @since 3.0.0
  */
 

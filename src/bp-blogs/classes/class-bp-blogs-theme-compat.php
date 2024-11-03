@@ -3,7 +3,7 @@
  * BuddyPress Blogs Theme Compatibility.
  *
  * @package BuddyPress
- * @subpackage BlogsScreens
+ * @subpackage Blogs
  * @since 1.5.0
  */
 

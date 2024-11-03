@@ -3,7 +3,7 @@
  * BuddyPress Friends Widgets.
  *
  * @package BuddyPress
- * @subpackage FriendsWidgets
+ * @subpackage Friends
  * @since 1.9.0
  * @deprecated 12.0.0
  */

@@ -5,7 +5,7 @@
  * An activity stream component, for users, groups, and site tracking.
  *
  * @package BuddyPress
- * @subpackage ActivityCore
+ * @subpackage Activity
  * @since 1.5.0
  */
 

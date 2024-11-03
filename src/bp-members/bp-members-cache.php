@@ -3,7 +3,7 @@
  * BuddyPress Members Caching.
  *
  * @package BuddyPress
- * @subpackage MembersCache
+ * @subpackage Members
  * @since 2.2.0
  */
 

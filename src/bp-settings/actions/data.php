@@ -3,7 +3,7 @@
  * Settings: Data management action handler.
  *
  * @package BuddyPress
- * @subpackage SettingsActions
+ * @subpackage Settings
  * @since 4.0.0
  */
 

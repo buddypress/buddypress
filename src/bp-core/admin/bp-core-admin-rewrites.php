@@ -3,7 +3,7 @@
  * BuddyPress Admin URLs/Rewrites Functions.
  *
  * @package BuddyPress
- * @subpackage Admin
+ * @subpackage Core
  * @since 12.0.0
  */
 

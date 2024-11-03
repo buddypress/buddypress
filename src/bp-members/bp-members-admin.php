@@ -3,7 +3,7 @@
  * BuddyPress Members Admin
  *
  * @package BuddyPress
- * @subpackage MembersAdmin
+ * @subpackage Members
  * @since 2.0.0
  */
 

@@ -3,7 +3,7 @@
  * BuddyPress Common Admin Functions.
  *
  * @package BuddyPress
- * @subpackage CoreAdministration
+ * @subpackage Core
  * @since 2.3.0
  */
 

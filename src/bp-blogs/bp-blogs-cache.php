@@ -3,7 +3,7 @@
  * BuddyPress Blogs Caching.
  *
  * @package BuddyPress
- * @subpackage BlogsCache
+ * @subpackage Blogs
  * @since 1.5.0
  */
 

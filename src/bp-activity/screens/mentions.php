@@ -3,7 +3,7 @@
  * Activity: User's "Activity > Mentions" screen handler
  *
  * @package BuddyPress
- * @subpackage ActivityScreens
+ * @subpackage Activity
  * @since 3.0.0
  */
 

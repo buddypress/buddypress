@@ -3,7 +3,7 @@
  * BuddyPress Messages CSS and JS.
  *
  * @package BuddyPress
- * @subpackage MessagesScripts
+ * @subpackage Messages
  * @since 1.0.0
  */
 

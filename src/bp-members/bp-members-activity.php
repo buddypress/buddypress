@@ -3,7 +3,7 @@
  * BuddyPress Member Activity
  *
  * @package BuddyPress
- * @subpackage MembersActivity
+ * @subpackage Members
  * @since 2.2.0
  */
 

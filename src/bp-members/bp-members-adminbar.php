@@ -5,7 +5,7 @@
  * Handles the member functions related to the WordPress Toolbar.
  *
  * @package BuddyPress
- * @subpackage MembersAdminBar
+ * @subpackage Members
  * @since 1.5.0
  */
 

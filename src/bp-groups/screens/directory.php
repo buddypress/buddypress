@@ -3,7 +3,7 @@
  * Groups: Directory screen handler
  *
  * @package BuddyPress
- * @subpackage GroupScreens
+ * @subpackage Groups
  * @since 3.0.0
  */
 

@@ -3,7 +3,7 @@
  * BuddyPress Friend Filters.
  *
  * @package BuddyPress
- * @subpackage FriendsFilters
+ * @subpackage Friends
  * @since 1.7.0
  */
 

@@ -3,7 +3,7 @@
  * BuddyPress Settings Functions
  *
  * @package BuddyPress
- * @subpackage SettingsFunctions
+ * @subpackage Settings
  * @since 1.5.0
  */
 

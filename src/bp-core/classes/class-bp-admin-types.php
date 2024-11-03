@@ -3,7 +3,7 @@
  * BuddyPress Types Admin Class.
  *
  * @package BuddyPress
- * @subpackage CoreAdministration
+ * @subpackage Core
  * @since 7.0.0
  */
 

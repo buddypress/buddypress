@@ -7,7 +7,7 @@
  * information from those blogs to make querying blogs in bulk more performant.
  *
  * @package BuddyPress
- * @subpackage BlogsCore
+ * @subpackage Blogs
  * @since 1.5.0
  */
 

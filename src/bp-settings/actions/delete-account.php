@@ -3,7 +3,7 @@
  * Settings: Account deletion action handler.
  *
  * @package BuddyPress
- * @subpackage SettingsActions
+ * @subpackage Settings
  * @since 3.0.0
  */
 

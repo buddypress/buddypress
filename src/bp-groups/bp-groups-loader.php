@@ -7,7 +7,7 @@
  * Comes preconfigured with an activity stream, discussion forums, and settings.
  *
  * @package BuddyPress
- * @subpackage GroupsLoader
+ * @subpackage Groups
  * @since 1.5.0
  */
 

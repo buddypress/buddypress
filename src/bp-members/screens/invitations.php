@@ -3,7 +3,7 @@
  * BuddyPress Members: Invitations screens
  *
  * @package BuddyPress
- * @subpackage MembersScreens
+ * @subpackage Members
  * @since 8.0.0
  */
 

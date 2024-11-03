@@ -3,7 +3,7 @@
  * BuddyPress Groups Widget.
  *
  * @package BuddyPress
- * @subpackage GroupsWidgets
+ * @subpackage Groups
  * @since 1.0.0
  * @deprecated 12.0.0
  */

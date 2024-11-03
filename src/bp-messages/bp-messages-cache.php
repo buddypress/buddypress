@@ -3,7 +3,7 @@
  * BuddyPress Messages Caching.
  *
  * @package BuddyPress
- * @subpackage MessagesCache
+ * @subpackage Messages
  * @since 1.5.0
  */
 

@@ -6,7 +6,7 @@
  * for the user and for this specific component.
  *
  * @package BuddyPress
- * @subpackage FriendsActivity
+ * @subpackage Friends
  * @since 1.5.0
  */
 

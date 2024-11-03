@@ -3,7 +3,7 @@
  * BuddyPress Messages Notifications.
  *
  * @package BuddyPress
- * @subpackage MessagesNotifications
+ * @subpackage Messages
  * @since 1.0.0
  */
 

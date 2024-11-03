@@ -3,7 +3,7 @@
  * BuddyPress Membership Invitation List Table class.
  *
  * @package BuddyPress
- * @subpackage MembersAdminClasses
+ * @subpackage Members
  * @since 8.0.0
  */
 

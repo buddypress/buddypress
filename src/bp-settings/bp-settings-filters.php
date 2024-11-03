@@ -3,7 +3,7 @@
  * Filters related to the Settings component.
  *
  * @package BuddyPress
- * @subpackage SettingsFilters
+ * @subpackage Settings
  * @since 4.0.0
  */
 

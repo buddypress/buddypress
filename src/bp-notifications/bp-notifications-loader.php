@@ -5,7 +5,7 @@
  * Initializes the Notifications component.
  *
  * @package BuddyPress
- * @subpackage NotificationsLoader
+ * @subpackage Notifications
  * @since 1.9.0
  */
 

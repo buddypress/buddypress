@@ -3,7 +3,7 @@
  * BuddyPress Friends Classes.
  *
  * @package BuddyPress
- * @subpackage FriendsFriendship
+ * @subpackage Friends
  * @since 1.0.0
  */
 

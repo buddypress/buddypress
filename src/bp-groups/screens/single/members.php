@@ -3,7 +3,7 @@
  * Groups: Single group "Members" screen handler
  *
  * @package BuddyPress
- * @subpackage GroupsScreens
+ * @subpackage Groups
  * @since 3.0.0
  */
 

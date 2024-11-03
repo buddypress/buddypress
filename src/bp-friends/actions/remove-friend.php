@@ -3,7 +3,7 @@
  * Friends: Remove action.
  *
  * @package BuddyPress
- * @subpackage FriendsActions
+ * @subpackage Friends
  * @since 3.0.0
  */
 

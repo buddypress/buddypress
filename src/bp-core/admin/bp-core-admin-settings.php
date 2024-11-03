@@ -3,7 +3,7 @@
  * BuddyPress Admin Settings.
  *
  * @package BuddyPress
- * @subpackage CoreAdministration
+ * @subpackage Core
  * @since 2.3.0
  */
 

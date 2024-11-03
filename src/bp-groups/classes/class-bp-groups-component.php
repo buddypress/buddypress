@@ -3,7 +3,7 @@
  * BuddyPress Groups Component Class.
  *
  * @package BuddyPress
- * @subpackage GroupsLoader
+ * @subpackage Groups
  * @since 1.5.0
  */
 

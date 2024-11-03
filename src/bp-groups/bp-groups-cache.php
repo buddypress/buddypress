@@ -3,7 +3,7 @@
  * BuddyPress Groups Caching.
  *
  * @package BuddyPress
- * @subpackage GroupsCache
+ * @subpackage Groups
  * @since 1.5.0
  */
 

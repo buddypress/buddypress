@@ -3,7 +3,7 @@
  * BP Friends Blocks Functions.
  *
  * @package BuddyPress
- * @subpackage FriendsBlocks
+ * @subpackage Friends
  * @since 9.0.0
  */
 

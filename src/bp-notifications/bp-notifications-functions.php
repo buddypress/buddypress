@@ -5,7 +5,7 @@
  * Functions and filters used in the Notifications component.
  *
  * @package BuddyPress
- * @subpackage NotificationsFunctions
+ * @subpackage Notifications
  * @since 1.9.0
  */
 

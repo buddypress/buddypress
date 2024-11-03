@@ -3,7 +3,7 @@
  * BuddyPress Members component admin screens.
  *
  * @package BuddyPress
- * @subpackage MessagesAdmin
+ * @subpackage Messages
  * @since 3.0.0
  */
 

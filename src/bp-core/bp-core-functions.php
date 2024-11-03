@@ -3,7 +3,7 @@
  * BuddyPress Common Functions.
  *
  * @package BuddyPress
- * @subpackage Functions
+ * @subpackage Core
  * @since 1.5.0
  */
 

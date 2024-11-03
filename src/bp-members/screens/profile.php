@@ -3,7 +3,7 @@
  * Members: Profile screen handler
  *
  * @package BuddyPress
- * @subpackage MembersScreens
+ * @subpackage Members
  * @since 3.0.0
  */
 

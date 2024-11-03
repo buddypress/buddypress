@@ -3,7 +3,7 @@
  * BP Blogs Blocks Functions.
  *
  * @package BuddyPress
- * @subpackage BlogsBlocks
+ * @subpackage Blogs
  * @since 9.0.0
  */
 

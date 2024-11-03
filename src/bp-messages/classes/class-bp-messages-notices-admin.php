@@ -3,7 +3,7 @@
  * BuddyPress messages component Site-wide Notices admin screen.
  *
  * @package BuddyPress
- * @subpackage MessagesClasses
+ * @subpackage Messages
  * @since 3.0.0
  */
 

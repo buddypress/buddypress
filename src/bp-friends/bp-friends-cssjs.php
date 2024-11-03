@@ -3,7 +3,7 @@
  * BP Friends component CSS/JS.
  *
  * @package BuddyPress
- * @subpackage FriendsScripts
+ * @subpackage Friends
  * @since 9.0.0
  */
 

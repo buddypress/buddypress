@@ -3,7 +3,7 @@
  * Activity: Directory screen handler
  *
  * @package BuddyPress
- * @subpackage ActivityScreens
+ * @subpackage Activity
  * @since 3.0.0
  */
 

@@ -8,7 +8,7 @@
  * true or false on success or failure.
  *
  * @package BuddyPress
- * @subpackage MessagesFunctions
+ * @subpackage Messages
  * @since 1.5.0
  */
 

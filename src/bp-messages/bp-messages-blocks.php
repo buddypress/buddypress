@@ -3,7 +3,7 @@
  * BP Messages Blocks Functions.
  *
  * @package BuddyPress
- * @subpackage MessagesBlocks
+ * @subpackage Messages
  * @since 9.0.0
  */
 

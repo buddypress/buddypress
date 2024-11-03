@@ -3,7 +3,7 @@
  * Groups component CSS/JS
  *
  * @package BuddyPress
- * @subpackage GroupsScripts
+ * @subpackage Groups
  * @since 5.0.0
  */
 

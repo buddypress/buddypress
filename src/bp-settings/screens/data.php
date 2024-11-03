@@ -3,7 +3,7 @@
  * Settings: User's "Settings > Export Data" screen handler.
  *
  * @package BuddyPress
- * @subpackage SettingsScreens
+ * @subpackage Settings
  * @since 4.0.0
  */
 

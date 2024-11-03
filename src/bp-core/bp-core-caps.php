@@ -3,7 +3,7 @@
  * BuddyPress Capabilities.
  *
  * @package BuddyPress
- * @subpackage Capabilities
+ * @subpackage Core
  * @since 1.6.0
  */
 

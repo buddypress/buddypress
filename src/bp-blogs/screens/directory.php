@@ -3,7 +3,7 @@
  * Blogs: Directory screen handler
  *
  * @package BuddyPress
- * @subpackage BlogsScreens
+ * @subpackage Blogs
  * @since 3.0.0
  */
 

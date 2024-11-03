@@ -3,7 +3,7 @@
  * BuddyPress Member Theme Compat.
  *
  * @package BuddyPress
- * @subpackage MembersScreens
+ * @subpackage Members
  * @since 1.7.0
  */
 

@@ -3,7 +3,7 @@
  * BuddyPress Messages Widgets.
  *
  * @package BuddyPress
- * @subpackage MessagesWidgets
+ * @subpackage Messages
  * @since 1.9.0
  * @deprecated 12.0.0
  */

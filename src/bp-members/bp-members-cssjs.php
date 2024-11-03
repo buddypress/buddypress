@@ -3,7 +3,7 @@
  * BP Members component CSS/JS.
  *
  * @package BuddyPress
- * @subpackage MembersScripts
+ * @subpackage Members
  * @since 9.0.0
  */
 

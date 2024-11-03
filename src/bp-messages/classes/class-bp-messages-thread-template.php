@@ -3,7 +3,7 @@
  * BuddyPress Messages Thread Template Class.
  *
  * @package BuddyPress
- * @subpackage MessagesClasses
+ * @subpackage Messages
  * @since 1.5.0
  */
 

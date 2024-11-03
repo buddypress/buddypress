@@ -3,7 +3,7 @@
  * BuddyPress Core Theme Compatibility Base Class.
  *
  * @package BuddyPress
- * @subpackage ThemeCompatibility
+ * @subpackage Core
  * @since 1.7.0
  */
 

@@ -6,7 +6,7 @@
  * See {@link https://buddypress.trac.wordpress.org/ticket/2579}
  *
  * @package BuddyPress
- * @subpackage GroupsScreens
+ * @subpackage Groups
  * @since 3.0.0
  */
 

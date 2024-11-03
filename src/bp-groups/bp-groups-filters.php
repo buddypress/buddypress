@@ -3,7 +3,7 @@
  * BuddyPress Groups Filters.
  *
  * @package BuddyPress
- * @subpackage GroupsFilters
+ * @subpackage Groups
  * @since 1.0.0
  */
 

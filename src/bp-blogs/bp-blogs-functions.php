@@ -3,7 +3,7 @@
  * Blogs component functions.
  *
  * @package BuddyPress
- * @subpackage BlogsFunctions
+ * @subpackage Blogs
  * @since 1.5.0
  */
 

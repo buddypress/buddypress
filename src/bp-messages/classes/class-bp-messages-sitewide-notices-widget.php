@@ -3,7 +3,7 @@
  * BuddyPress Messages Sitewide Notices Widget.
  *
  * @package BuddyPress
- * @subpackage MessagesClasses
+ * @subpackage Messages
  * @since 1.9.0
  * @deprecated 12.0.0
  */

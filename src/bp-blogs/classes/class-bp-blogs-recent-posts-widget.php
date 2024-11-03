@@ -3,7 +3,7 @@
  * BuddyPress Blogs Recent Posts Widget.
  *
  * @package BuddyPress
- * @subpackage BlogsWidgets
+ * @subpackage Blogs
  * @since 1.0.0
  * @deprecated 12.0.0
  */

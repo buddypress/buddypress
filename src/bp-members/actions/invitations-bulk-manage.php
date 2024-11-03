@@ -3,7 +3,7 @@
  * Member Invitations: Bulk-manage action handler
  *
  * @package BuddyPress
- * @subpackage MembersActions
+ * @subpackage Members
  * @since 8.0.0
  */
 

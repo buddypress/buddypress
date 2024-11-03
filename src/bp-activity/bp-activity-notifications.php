@@ -3,7 +3,7 @@
  * BuddyPress Activity Notifications.
  *
  * @package BuddyPress
- * @subpackage ActivityNotifications
+ * @subpackage Activity
  * @since 1.2.0
  */
 

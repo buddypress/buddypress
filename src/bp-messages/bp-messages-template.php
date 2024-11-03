@@ -3,7 +3,7 @@
  * BuddyPress Messages Template Tags.
  *
  * @package BuddyPress
- * @subpackage MessagesTemplate
+ * @subpackage Messages
  * @since 1.5.0
  */
 

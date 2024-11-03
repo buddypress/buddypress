@@ -3,7 +3,7 @@
  * BuddyPress Membership Requests
  *
  * @package BuddyPress
- * @subpackage MembersMembershipRequest
+ * @subpackage Members
  * @since 10.0.0
  */
 

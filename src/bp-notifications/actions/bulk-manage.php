@@ -3,7 +3,7 @@
  * Notifications: Bulk-manage action handler.
  *
  * @package BuddyPress
- * @subpackage NotificationsActions
+ * @subpackage Notifications
  * @since 3.0.0
  */
 

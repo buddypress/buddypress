@@ -3,7 +3,7 @@
  * BuddyPress Messages Classes.
  *
  * @package BuddyPress
- * @subpackage MessagesClasses
+ * @subpackage Messages
  * @since 1.0.0
  */
 

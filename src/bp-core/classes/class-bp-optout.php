@@ -3,7 +3,7 @@
  * BuddyPress Nonmember Opt-out Class
  *
  * @package BuddyPress
- * @subpackage Nonmember Opt-outs
+ * @subpackage Core
  *
  * @since 8.0.0
  */

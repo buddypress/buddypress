@@ -3,7 +3,7 @@
  * BuddyPress Members Recently Active widget.
  *
  * @package BuddyPress
- * @subpackage MembersWidgets
+ * @subpackage Members
  * @since 1.0.3
  * @deprecated 12.0.0
  */

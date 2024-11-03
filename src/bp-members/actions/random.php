@@ -3,7 +3,7 @@
  * Members: Random member action handler
  *
  * @package BuddyPress
- * @subpackage MembersActions
+ * @subpackage Members
  * @since 3.0.0
  */
 

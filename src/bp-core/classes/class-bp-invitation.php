@@ -3,7 +3,7 @@
  * BuddyPress Invitation Class
  *
  * @package BuddyPress
- * @subpackage Invitations
+ * @subpackage Core
  *
  * @since 5.0.0
  */

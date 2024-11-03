@@ -3,7 +3,7 @@
  * BuddyPress Members Widgets.
  *
  * @package BuddyPress
- * @subpackage MembersWidgets
+ * @subpackage Members
  * @since 2.2.0
  * @deprecated 12.0.0
  */

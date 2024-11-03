@@ -3,7 +3,7 @@
  * Members: Change Cover Image screen handler
  *
  * @package BuddyPress
- * @subpackage MembersScreens
+ * @subpackage Members
  * @since 6.0.0
  */
 

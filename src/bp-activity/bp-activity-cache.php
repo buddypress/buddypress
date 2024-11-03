@@ -3,7 +3,7 @@
  * BuddyPress Activity Caching.
  *
  * @package BuddyPress
- * @subpackage ActivityCache
+ * @subpackage Activity
  * @since 1.6.0
  */
 

@@ -12,7 +12,7 @@
  *  - Admin: More in {@link bp_Admin::setup_actions()} in admin.php
  *
  * @package BuddyPress
- * @subpackage Admin
+ * @subpackage Core
  * @since 2.3.0
  * @see bp-core-actions.php
  * @see bp-core-filters.php

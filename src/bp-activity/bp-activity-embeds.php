@@ -5,7 +5,7 @@
  * @since 2.6.0
  *
  * @package BuddyPress
- * @subpackage ActivityEmbeds
+ * @subpackage Activity
  */
 
 // Exit if accessed directly.

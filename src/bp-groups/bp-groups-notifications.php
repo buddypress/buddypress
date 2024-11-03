@@ -6,7 +6,7 @@
  * for the user and for this specific component.
  *
  * @package BuddyPress
- * @subpackage GroupsActivity
+ * @subpackage Groups
  * @since 1.0.0
  */
 

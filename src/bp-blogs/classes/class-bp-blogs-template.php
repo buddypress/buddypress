@@ -3,7 +3,7 @@
  * BuddyPress Blogs Template Class.
  *
  * @package BuddyPress
- * @subpackage BlogsTemplate
+ * @subpackage Blogs
  * @since 1.5.0
  */
 

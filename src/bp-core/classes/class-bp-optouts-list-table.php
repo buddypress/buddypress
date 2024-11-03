@@ -3,7 +3,7 @@
  * BuddyPress Opt-outs List Table class.
  *
  * @package BuddyPress
- * @subpackage CoreAdminClasses
+ * @subpackage Core
  * @since 8.0.0
  */
 

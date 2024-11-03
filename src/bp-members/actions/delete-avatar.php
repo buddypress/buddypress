@@ -3,7 +3,7 @@
  * Members: Avatar deletion action handler
  *
  * @package BuddyPress
- * @subpackage MembersActions
+ * @subpackage Members
  * @since 6.0.0
  */
 

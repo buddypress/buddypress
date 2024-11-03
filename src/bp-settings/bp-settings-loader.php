@@ -3,7 +3,7 @@
  * BuddyPress Settings Loader.
  *
  * @package BuddyPress
- * @subpackage SettingsLoader
+ * @subpackage Settings
  * @since 1.5.0
  */
 

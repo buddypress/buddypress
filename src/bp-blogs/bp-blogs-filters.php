@@ -3,7 +3,7 @@
  * Filters related to the Blogs component.
  *
  * @package BuddyPress
- * @subpackage BlogFilters
+ * @subpackage Blogs
  * @since 1.6.0
  */
 

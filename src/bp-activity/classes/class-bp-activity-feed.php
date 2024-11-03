@@ -3,7 +3,7 @@
  * BuddyPress Activity Classes.
  *
  * @package BuddyPress
- * @subpackage ActivityFeeds
+ * @subpackage Activity
  * @since 1.8.0
  */
 

@@ -3,7 +3,7 @@
  * BP Groups Blocks Functions.
  *
  * @package BuddyPress
- * @subpackage GroupsBlocks
+ * @subpackage Groups
  * @since 6.0.0
  */
 

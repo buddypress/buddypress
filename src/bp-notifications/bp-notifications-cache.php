@@ -3,7 +3,7 @@
  * BuddyPress Notifications Caching.
  *
  * @package BuddyPress
- * @subpackage NotificationsCache
+ * @subpackage Notifications
  * @since 2.0.0
  */
 

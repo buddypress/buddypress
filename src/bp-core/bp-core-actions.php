@@ -7,7 +7,7 @@
  * developers understand at a glance the order in which things occur.
  *
  * @package BuddyPress
- * @subpackage Hooks
+ * @subpackage Core
  * @since 1.6.0
  */
 

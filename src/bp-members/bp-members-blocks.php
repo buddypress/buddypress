@@ -3,7 +3,7 @@
  * BP Members Blocks Functions.
  *
  * @package BuddyPress
- * @subpackage MembersBlocks
+ * @subpackage Members
  * @since 6.0.0
  */
 
