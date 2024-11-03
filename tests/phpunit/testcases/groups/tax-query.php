@@ -216,8 +216,8 @@ class BP_Tests_BP_Groups_Group_Query_TaxQuery extends BP_UnitTestCase {
 				array(
 					'taxonomy' => $taxonomy,
 					'slug'     => 'foo',
-					'name'     => 'Foo',
-				),
+					'name'     => 'Foo'
+				)
 			)
 		);
 
@@ -228,7 +228,7 @@ class BP_Tests_BP_Groups_Group_Query_TaxQuery extends BP_UnitTestCase {
 					'taxonomy' => $taxonomy,
 					'slug'     => 'bar',
 					'name'     => 'Bar',
-				),
+				)
 			)
 		);
 
