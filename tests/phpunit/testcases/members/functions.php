@@ -847,7 +847,7 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 	}
 
 	/**
-	 * Provider for the test_bp_core_validate_user_signup() test.
+	 * Provider for the test_bp_core_validate_user_signup_errors() test.
 	 *
 	 * @return array[]
 	 */
