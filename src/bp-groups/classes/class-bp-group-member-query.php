@@ -101,6 +101,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	public function do_wp_user_query() {
 		if ( ! $this->query_vars_raw['count'] ) {
 			parent::do_wp_user_query();
+			return;
 		}
 
 		/**
@@ -530,7 +531,6 @@ class BP_Group_Member_Query extends BP_User_Query {
 
 		$sql = array(
 			'select'  => "SELECT user_id, max( date_recorded ) as date_recorded FROM {$activity_table}",
-			'where'   => array(),
 			'groupby' => 'GROUP BY user_id',
 			'orderby' => 'ORDER BY date_recorded',
 			'order'   => 'DESC',
@@ -560,6 +560,7 @@ class BP_Group_Member_Query extends BP_User_Query {
 	public function populate_extras() {
 		if ( ! $this->query_vars_raw['count'] ) {
 			parent::populate_extras();
+			return;
 		}
 
 		// Validate active users.
