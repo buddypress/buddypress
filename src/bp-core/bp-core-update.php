@@ -485,9 +485,6 @@ function bp_update_to_2_0() {
 
 		// Maybe install the signups table.
 		bp_core_maybe_install_signups();
-
-		// Run the migration script.
-		bp_members_migrate_signups();
 	}
 
 	/* Add BP options to the options table ***********************************/
