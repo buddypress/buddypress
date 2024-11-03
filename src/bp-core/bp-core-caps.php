@@ -151,6 +151,9 @@ function bp_map_meta_caps( $caps, $cap, $user_id, $args ) {
 				}
 			}
 			break;
+		case 'bp_manage_users_and_membership_requests' :
+			$caps = bp_core_do_network_admin() ? array( 'manage_network_users' ) : array( 'edit_users' );
+			break;
 	}
 
 	/**
