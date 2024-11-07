@@ -1140,11 +1140,17 @@ function bp_core_admin_debug_information_add_help_tab() {
 		);
 
 		$help_sidebar = $screen->get_help_sidebar();
-		$bp_links     = sprintf(
+		$bp_docs      = sprintf(
+			'<p><a href="%1$s" class="bp-help-sidebar-links">%2$s</a></p>',
+			esc_url( 'https://github.com/buddypress/buddypress/blob/master/docs/user/administration/site-health.md' ),
+			esc_html__( 'BuddyPress Site Health Documentation', 'buddypress' )
+		);
+		$bp_forums    = sprintf(
 			'<p><a href="%1$s" class="bp-help-sidebar-links">%2$s</a></p>',
 			esc_url( 'https://buddypress.org/support/' ),
 			esc_html__( 'BuddyPress Support Forums', 'buddypress' )
 		);
+		$bp_links     =  $bp_docs . $bp_forums;
 
 		$screen->set_help_sidebar( $help_sidebar . $bp_links );
 		wp_add_inline_script(
@@ -1154,8 +1160,10 @@ function bp_core_admin_debug_information_add_help_tab() {
 
 				document.onreadystatechange = function ()  {
 					if ( document.readyState === "complete" ) {
-						bpHelpSidebarLinks = document.querySelector( \'.bp-help-sidebar-links\' ).closest( \'p\')
-						bpHelpSidebarLinks.style.display = \'none\';
+						bpHelpSidebarLinks = document.querySelectorAll( \'.bp-help-sidebar-links\' );
+						bpHelpSidebarLinks.forEach( ( bpHelpSidebarLink ) => {
+							bpHelpSidebarLink.parentNode.style.display = \'none\';
+						} );
 					}
 				}
 
@@ -1163,9 +1171,13 @@ function bp_core_admin_debug_information_add_help_tab() {
 					function( a ) {
 						a.addEventListener( \'click\', function ( e ) {
 							if ( \'tab-link-bp-debug-settings\' === e.target.parentElement.getAttribute( \'id\' ) ) {
-								bpHelpSidebarLinks.style.display = \'block\';
+								bpHelpSidebarLinks.forEach( ( bpHelpSidebarLink ) => {
+									bpHelpSidebarLink.parentNode.style.display = \'block\';
+								} );
 							} else {
-								bpHelpSidebarLinks.style.display = \'none\';
+								bpHelpSidebarLinks.forEach( ( bpHelpSidebarLink ) => {
+									bpHelpSidebarLink.parentNode.style.display = \'none\';
+								} );
 							}
 						} );
 					}
