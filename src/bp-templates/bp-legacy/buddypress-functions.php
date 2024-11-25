@@ -711,13 +711,18 @@ function bp_legacy_theme_blog_create_nav() {
  * @return string Query string for the component loops.
  */
 function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
-	if ( empty( $object ) )
+	if ( empty( $object ) ) {
 		return '';
+	}
 
 	// Set up the cookies passed on this AJAX request. Store a local var to avoid conflicts.
 	if ( ! empty( $_POST['cookie'] ) ) {
 		$_BP_COOKIE = bp_parse_args(
 			str_replace( '; ', '&', urldecode( $_POST['cookie'] ) )
+		);
+	} elseif ( ! empty( $_POST['data']['bp_heartbeat'] ) ) {
+		$_BP_COOKIE = bp_parse_args(
+			str_replace( '; ', '&', urldecode( $_POST['data']['bp_heartbeat'] ) )
 		);
 	} else {
 		$_BP_COOKIE = &$_COOKIE;
@@ -754,13 +759,15 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 		}
 
 		// Activity stream scope only on activity directory.
-		if ( 'all' != $_BP_COOKIE['bp-' . $object . '-scope'] && ! bp_displayed_user_id() && ! bp_is_single_item() )
+		if ( 'all' != $_BP_COOKIE['bp-' . $object . '-scope'] && ! bp_displayed_user_id() && ! bp_is_single_item() ) {
 			$qs[] = 'scope=' . urlencode( $_BP_COOKIE['bp-' . $object . '-scope'] );
+		}
 	}
 
 	// If page and search_terms have been passed via the AJAX post request, use those.
-	if ( ! empty( $_POST['page'] ) && '-1' != $_POST['page'] )
+	if ( ! empty( $_POST['page'] ) && '-1' != $_POST['page'] ) {
 		$qs[] = 'page=' . absint( $_POST['page'] );
+	}
 
 	// Excludes activity just posted and avoids duplicate ids.
 	if ( ! empty( $_POST['exclude_just_posted'] ) ) {
@@ -778,31 +785,37 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	}
 
 	$object_search_text = bp_get_search_default_text( $object );
-	if ( ! empty( $_POST['search_terms'] ) && is_string( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] )
+	if ( ! empty( $_POST['search_terms'] ) && is_string( $_POST['search_terms'] ) && $object_search_text != $_POST['search_terms'] && 'false' != $_POST['search_terms'] && 'undefined' != $_POST['search_terms'] ) {
 		$qs[] = 'search_terms=' . urlencode( $_POST['search_terms'] );
+	}
 
 	// Now pass the querystring to override default values.
 	$query_string = empty( $qs ) ? '' : join( '&', (array) $qs );
 
 	$object_filter = '';
-	if ( isset( $_BP_COOKIE['bp-' . $object . '-filter'] ) )
+	if ( isset( $_BP_COOKIE['bp-' . $object . '-filter'] ) ) {
 		$object_filter = $_BP_COOKIE['bp-' . $object . '-filter'];
+	}
 
 	$object_scope = '';
-	if ( isset( $_BP_COOKIE['bp-' . $object . '-scope'] ) )
+	if ( isset( $_BP_COOKIE['bp-' . $object . '-scope'] ) ) {
 		$object_scope = $_BP_COOKIE['bp-' . $object . '-scope'];
+	}
 
 	$object_page = '';
-	if ( isset( $_BP_COOKIE['bp-' . $object . '-page'] ) )
+	if ( isset( $_BP_COOKIE['bp-' . $object . '-page'] ) ) {
 		$object_page = $_BP_COOKIE['bp-' . $object . '-page'];
+	}
 
 	$object_search_terms = '';
-	if ( isset( $_BP_COOKIE['bp-' . $object . '-search-terms'] ) )
+	if ( isset( $_BP_COOKIE['bp-' . $object . '-search-terms'] ) ) {
 		$object_search_terms = $_BP_COOKIE['bp-' . $object . '-search-terms'];
+	}
 
 	$object_extras = '';
-	if ( isset( $_BP_COOKIE['bp-' . $object . '-extras'] ) )
+	if ( isset( $_BP_COOKIE['bp-' . $object . '-extras'] ) ) {
 		$object_extras = $_BP_COOKIE['bp-' . $object . '-extras'];
+	}
 
 	/**
 	 * Filters the AJAX query string for the component loops.
