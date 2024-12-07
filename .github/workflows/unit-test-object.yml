@@ -15,6 +15,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - php: '8.4'
+            wp_version: 'trunk'
+            object: 'redis'
+            multisite: true
           - php: '8.3'
             wp_version: 'trunk'
             object: 'redis'
