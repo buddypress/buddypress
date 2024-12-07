@@ -34,7 +34,7 @@ npm install
 npm run wp-env start
 ```
 
-Your WordPress community site will be accessible at http://localhost:8888. You can see configurations in the `.wp-env.json` file located at the root of the project directory. You can [override](https://developer.wordpress.org/block-editor/packages/packages-env/#wp-env-override-json) these configurations using a `.wp-env.override.json` file located at the root of the project repository.
+Your WordPress community site will be accessible at http://localhost:8888.
 
 #### To stop the development environment
 

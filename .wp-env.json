@@ -1,8 +1,0 @@
-{
-	"core": "WordPress/WordPress#master",
-	"plugins": ["."],
-	"config": {
-		"WP_DEBUG": true,
-		"SCRIPT_DEBUG": true
-	}
-}

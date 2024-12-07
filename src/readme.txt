@@ -6,8 +6,8 @@ License:           GNU General Public License v2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      7.0
 Requires at least: 6.4
-Tested up to:      6.6
-Stable tag:        14.2.1
+Tested up to:      6.7
+Stable tag:        14.3.3
 
 Get together safely, in your own way, in WordPress.
 
@@ -129,6 +129,12 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 8. **Notifications** - Keep your members up-to-date with relevant activity via toolbar and email notifications.
 
 == Upgrade Notice ==
+
+= 14.3.3 =
+See: https://codex.buddypress.org/releases/version-14-3-3/
+
+= 14.3.1 =
+See: https://codex.buddypress.org/releases/version-14-3-1/
 
 = 14.2.1 =
 See: https://codex.buddypress.org/releases/version-14-2-1/
