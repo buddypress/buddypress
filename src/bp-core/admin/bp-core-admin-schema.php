@@ -575,7 +575,7 @@ function bp_core_install_invitations() {
 		item_id bigint(20) NOT NULL,
 		secondary_item_id bigint(20) DEFAULT NULL,
 		type varchar(12) NOT NULL DEFAULT 'invite',
-		content longtext DEFAULT '',
+		content longtext DEFAULT NULL,
 		date_modified datetime NOT NULL,
 		invite_sent tinyint(1) NOT NULL DEFAULT '0',
 		accepted tinyint(1) NOT NULL DEFAULT '0',
