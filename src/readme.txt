@@ -211,6 +211,12 @@ See: https://codex.buddypress.org/releases/version-10-0-0/
 
 == Changelog ==
 
+= 14.3.3 =
+See: https://codex.buddypress.org/releases/version-14-3-3/
+
+= 14.3.1 =
+See: https://codex.buddypress.org/releases/version-14-3-1/
+
 = 14.2.1 =
 See: https://codex.buddypress.org/releases/version-14-2-1/
 
