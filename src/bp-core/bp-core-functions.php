@@ -1642,12 +1642,15 @@ function bp_core_add_message( $message, $type = '' ) {
  * @since 1.1.0
  */
 function bp_core_setup_message() {
+	if ( ! is_user_logged_in() ) {
+		return;
+	}
 
 	// Get BuddyPress.
 	$bp = buddypress();
 
 	if ( empty( $bp->template_message ) && isset( $_COOKIE['bp-message'] ) ) {
-		$bp->template_message = stripslashes( $_COOKIE['bp-message'] );
+		$bp->template_message = strip_shortcodes( stripslashes( $_COOKIE['bp-message'] ) );
 	}
 
 	if ( empty( $bp->template_message_type ) && isset( $_COOKIE['bp-message-type'] ) ) {
