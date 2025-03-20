@@ -1,5 +1,5 @@
 === BuddyPress ===
-Contributors:      johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp
+Contributors:      johnjamesjacoby, DJPaul, boonebgorges, r-a-y, imath, mercime, tw2113, dcavins, hnla, karmatosed, slaFFik, dimensionmedia, henrywright, netweb, offereins, espellcaste, modemlooper, danbp, Venutius, apeatling, shanebp, emaralive
 Donate link:       https://wordpressfoundation.org
 Tags:              community, group, members, network, self-hosted
 License:           GNU General Public License v2 or later
