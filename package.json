@@ -6,17 +6,17 @@
 	"description": "BuddyPress adds community features to WordPress. Member Profiles, Activity Streams, Direct Messaging, Notifications, and more!",
 	"devDependencies": {
 		"@babel/core": "~7.18.2",
-		"@wordpress/babel-preset-default": "^7.1.1",
-		"@wordpress/browserslist-config": "~4.1.0",
-		"@wordpress/env": "^5.6.0",
+		"@wordpress/babel-preset-default": "^7.32.0",
+		"@wordpress/browserslist-config": "^5.31.0",
+		"@wordpress/env": "^9.4.0",
 		"@wordpress/stylelint-config": "~19.1.0",
 		"autoprefixer": "^9.8.8",
-		"grunt": "^1.5.3",
+		"grunt": "^1.6.1",
 		"grunt-check-dependencies": "~1.0.0",
 		"grunt-checktextdomain": "~1.0.1",
 		"grunt-contrib-clean": "~2.0.1",
 		"grunt-contrib-copy": "~1.0.0",
-		"grunt-contrib-cssmin": "^4.0.0",
+		"grunt-contrib-cssmin": "~5.0.0",
 		"grunt-contrib-imagemin": "~4.0.0",
 		"grunt-contrib-jshint": "^3.2.0",
 		"grunt-contrib-uglify": "~5.2.1",
@@ -30,10 +30,10 @@
 		"grunt-sass": "~3.1.0",
 		"grunt-stylelint": "~0.16.0",
 		"matchdep": "~2.0.0",
-		"node-sass": "~6.0.1",
+		"node-sass": "~9.0.0",
 		"parcel-bundler": "~1.12.5",
 		"phplint": "~2.0.5",
-		"postcss": "~8.3.6",
+		"postcss": "^8.4.21",
 		"postcss-scss": "~4.0.0",
 		"stylelint": "~13.13.1"
 	},
@@ -59,7 +59,10 @@
 		"test-php": "npm run wp-env run phpunit 'php /var/www/html/wp-content/plugins/buddypress/vendor/phpunit/phpunit/phpunit -c /var/www/html/wp-content/plugins/buddypress/tests/phpunit/env.xml'",
 		"test-php:group": "npm run wp-env run phpunit 'php /var/www/html/wp-content/plugins/buddypress/vendor/phpunit/phpunit/phpunit -c /var/www/html/wp-content/plugins/buddypress/tests/phpunit/env.xml --group $npm_confi_g'",
 		"test-php-multisite": "npm run wp-env run phpunit 'php /var/www/html/wp-content/plugins/buddypress/vendor/phpunit/phpunit/phpunit -c /var/www/html/wp-content/plugins/buddypress/tests/phpunit/env.multisite.xml'",
-		"test-php-multisite:group": "npm run wp-env run phpunit 'php /var/www/html/wp-content/plugins/buddypress/vendor/phpunit/phpunit/phpunit -c /var/www/html/wp-content/plugins/buddypress/tests/phpunit/env.multisite.xml --group $npm_confi_g'"
+		"test-php-multisite:group": "npm run wp-env run phpunit 'php /var/www/html/wp-content/plugins/buddypress/vendor/phpunit/phpunit/phpunit -c /var/www/html/wp-content/plugins/buddypress/tests/phpunit/env.multisite.xml --group $npm_confi_g'",
+		"download:cli": "curl -L -o 'cli-archive.zip' https://github.com/buddypress/wp-cli-buddypress/archive/2.0.2.zip && unzip -qq cli-archive.zip && mv wp-cli-buddypress-2.0.2 build/cli && rm cli-archive.zip",
+		"download:rest": "curl -L -o 'rest-archive.zip' https://github.com/buddypress/BP-REST/archive/0.7.zip && unzip -qq rest-archive.zip && mv BP-REST-0.7 build/bp-rest && rm rest-archive.zip",
+		"download:bpdefault": "curl -L -o 'bpdefault-archive.zip' https://github.com/buddypress/BP-Default/archive/pre-bp-classic.zip && unzip -qq bpdefault-archive.zip -d bp-themes && mv bp-themes/BP-Default-pre-bp-classic bp-themes/bp-default && mv bp-themes build/ && rm bpdefault-archive.zip"
 	},
 	"keywords": [
 		"activity",
@@ -78,7 +81,7 @@
 		"type": "svn",
 		"url": "https://buddypress.svn.wordpress.org/trunk/"
 	},
-	"version": "11.4.3",
+	"version": "11.4.4",
 	"browserslist": [
 		"extends @wordpress/browserslist-config"
 	]

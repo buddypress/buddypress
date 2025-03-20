@@ -398,12 +398,12 @@ module.exports = function( grunt ) {
 		},
 		exec: {
 			bpdefault: {
-				command: 'svn export --force https://github.com/buddypress/BP-Default.git/trunk bp-themes/bp-default',
+				command: 'npm run download:bpdefault',
 				cwd: BUILD_DIR,
 				stdout: false
 			},
 			cli: {
-				command: 'svn export --force https://github.com/buddypress/wp-cli-buddypress.git/tags/2.0.1 cli',
+				command: 'npm run download:cli',
 				cwd: BUILD_DIR,
 				stdout: false
 			},
@@ -412,7 +412,7 @@ module.exports = function( grunt ) {
 				stdout: true
 			},
 			rest_api: {
-				command: 'svn export --force https://github.com/buddypress/BP-REST.git/branches/0.7 bp-rest',
+				command: 'npm run download:rest',
 				cwd: BUILD_DIR,
 				stdout: false
 			},
