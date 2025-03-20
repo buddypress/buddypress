@@ -28,7 +28,7 @@ class BP_Activity_Component extends BP_Component {
 	public function __construct() {
 		parent::start(
 			'activity',
-			__( 'Activity Streams', 'buddypress' ),
+			'Activity Streams',
 			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 10,

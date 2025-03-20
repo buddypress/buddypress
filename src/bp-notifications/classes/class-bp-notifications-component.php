@@ -28,7 +28,7 @@ class BP_Notifications_Component extends BP_Component {
 	public function __construct() {
 		parent::start(
 			'notifications',
-			_x( 'Notifications', 'Page <title>', 'buddypress' ),
+			'Notifications',
 			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 30,

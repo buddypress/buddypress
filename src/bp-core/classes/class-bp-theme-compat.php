@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * extending this class.
  *
  * @since 1.7.0
+ * @since 14.3.0 Changed the `$name` property's description.
  *
  * @todo We should probably do something similar to BP_Component::start().
  * @todo If this is only intended to be extended, it should be abstract.
@@ -25,7 +26,7 @@ defined( 'ABSPATH' ) || exit;
  * @param array $properties {
  *     An array of properties describing the theme compat package.
  *     @type string $id      ID of the package. Must be unique.
- *     @type string $name    Name of the theme. This should match the name given
+ *     @type string $name    Raw name for the theme. This should match the name given
  *                           in style.css.
  *     @type string $version Theme version. Used for busting script and style
  *                           browser caches.

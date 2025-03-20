@@ -47,7 +47,7 @@ class BP_XProfile_Component extends BP_Component {
 	public function __construct() {
 		parent::start(
 			'xprofile',
-			_x( 'Extended Profiles', 'Component page <title>', 'buddypress' ),
+			'Extended Profiles',
 			buddypress()->plugin_dir,
 			array(
 				'adminbar_myaccount_order' => 20,
