@@ -668,6 +668,56 @@ function bp_notifications_mark_notifications_by_ids( $ids, $is_new = false ) {
 /** Helpers *******************************************************************/
 
 /**
+ * Mark a batch of notifications as read or unread or delete them.
+ *
+ * @since 14.3.4
+ *
+ * @param string $user_id          Action to run on notifications.
+ * @param array  $notification_ids IDs of the notifications to change.
+ * @return bool True if the action run returned true.
+ */
+function bp_notifications_bulk_manage_notifications( $action, $notification_ids = array() ) {
+	$notification_ids = wp_parse_id_list( $notification_ids );
+	if ( empty( $notification_ids ) ) {
+		return false;
+	}
+
+	if ( ! current_user_can( 'bp_manage' ) ) {
+		// Regular users can only manage their own notifications.
+		$all_user_notifications     = BP_Notifications_Notification::get(
+			array(
+				'user_id'           => bp_loggedin_user_id(),
+				'is_new'            => 'both', // Allow unread and read notices to be found.
+				'update_meta_cache' => false,
+			)
+		);
+		$all_user_notifications_ids = wp_list_pluck( $all_user_notifications, 'id' );
+		$notification_ids           = array_intersect( $notification_ids, $all_user_notifications_ids );
+		if ( empty( $notification_ids ) ) {
+			return false;
+		}
+	}
+
+	// Delete, mark as read or unread depending on the 'action'.
+	$result = false;
+	switch ( $action ) {
+		case 'delete':
+			$result = bp_notifications_delete_notifications_by_ids( $notification_ids );
+			break;
+
+		case 'read':
+			$result = bp_notifications_mark_notifications_by_ids( $notification_ids, false );
+			break;
+
+		case 'unread':
+			$result = bp_notifications_mark_notifications_by_ids( $notification_ids, true );
+			break;
+	}
+
+	return ( bool ) $result;
+}
+
+/**
  * Check if a user has access to a specific notification.
  *
  * Used before deleting a notification for a user.
