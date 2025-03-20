@@ -22,7 +22,7 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 
 		<label for="pwd">
 			<?php
-			/* translators: %s: email requirement explanations */
+			/* translators: %s: the required text information. */
 			printf( esc_html__( 'Current Password %s', 'buddypress' ), '<span>' . esc_html__( '(required to update email or change current password)', 'buddypress' ) . '</span>' );
 			?>
 		</label>
