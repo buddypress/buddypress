@@ -2,7 +2,7 @@
 
 Releasing BuddyPress to the world is a big deal, and takes quite a few manual steps to ensure safe & comfortable updates & upgrades are had by all. Below are the steps release leads go through with each & every release.
 
-Note: These steps vary slightly depending on major/minor/urgency of the deployment to WordPress.org. For questions, or if something is not clear, please ping [@JJJ](https://profiles.wordpress.org/johnjamesjacoby), [@boone](https://profiles.wordpress.org/boonebgorges/), [@djpaul](https://profiles.wordpress.org/djpaul/) or [@imath](https://profiles.wordpress.org/imath/) on [Slack](https://wordpress.slack.com/messages/buddypress). They are mad enough to comprehend how & why all this works the way it does. (We keep planning to automate this, but until then, please enjoy this extremely long and intimidating list of responsibilities.)
+Note: These steps vary slightly depending on major/minor/urgency of the deployment to WordPress.org. For questions, or if something is not clear, please ping [@JJJ](https://profiles.wordpress.org/johnjamesjacoby), [@boone](https://profiles.wordpress.org/boonebgorges/) or [@djpaul](https://profiles.wordpress.org/djpaul/) on [Slack](https://wordpress.slack.com/messages/buddypress). They are mad enough to comprehend how & why all this works the way it does. (We keep planning to automate this, but until then, please enjoy this extremely long and intimidating list of responsibilities.)
 
 ## Prologue
 There are two code repositories, and you’ll be tasked with compiling the BuddyPress codebase from the development repo to the deployment repo. They are separate because BuddyPress is deployed to almost all end-users from the public WordPress.org plugin repository in a way that requires some development assets to be pre-compiled (it’s not a literal 1-to-1 copy) and because BuddyPress is lucky enough to have its own Trac instance on WordPress.org.
@@ -107,6 +107,8 @@ Use the latest version of npm and run: `npm install` and then `composer install 
 > [!IMPORTANT]
 > If it's a major or minor release: [control everything went fine](./test-checklist.md).
 
+**If you are updating the "current" version**:
+
 + If lights are green, overwrite the contents of the trunk directory with the contents of `build` in the [wporg] checkout.
 + If it’s a beta or a release candidate, make sure the Stable tag in both trunk and the newly created tag are the same and are the one of current stable version of BuddyPress.
 + Run `svn stat` to check if you need to`svn add` or `svn delete` files.
@@ -116,6 +118,19 @@ Use the latest version of npm and run: `npm install` and then `composer install 
 
 ```bash
 svn ci -m 'Update trunk with X.Y.Z code & create X.Y.Z tag from trunk'
+```
+
+**If you are updating a previous version** (backporting security fixes for instance):
+
++ Ensure that there is a branch ready to use for the version you are releasing. **If you need to create a branch that doesn't exist**, search the SVN log for the  revision that created the newest release of that version. You can search like this, for instance: `svn log --search 12.5`. With the revision number found in the log search, you can create a new branch from the state of `trunk` at that release, like this: `svn cp -r3259416 trunk branches/12.0`.
++ If lights are green, overwrite the contents of the branch directory for the version you are building (like `branches/12.0`) with the contents of `build` in the [wporg] checkout.
++ Run `svn stat` to check if you need to`svn add` or `svn delete` files.
++ Create an svn tag from the branch you updated above  using a command like `svn cp branches/12 tags/12.5.0`.
++ Make sure the Stable tag in `readme.txt` in `trunk` still matches the "current" version, not the older version you are fixing.
++ Commit & 🤞!
+
+```bash
+svn ci -m 'Update branches/12.0 with 12.5.3 code & create 12.5.3 tag from branches/12.0'
 ```
 
 > [!IMPORTANT]
