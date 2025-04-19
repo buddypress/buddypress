@@ -155,7 +155,7 @@ function bp_settings_action_general() {
 
 				if ( ! $pass_error->get_error_message() ) {
 					// Password change attempt is successful.
-					if ( ( ! empty( $_POST['pwd'] ) && wp_unslash( $_POST['pwd'] ) !== $pass ) || is_super_admin() )  {
+					if ( ( ! empty( $_POST['pwd'] ) && wp_unslash( $_POST['pwd'] ) !== $pass ) || is_super_admin() ) {
 						$update_user['user_pass'] = $_POST['pass1'];
 						$pass_error               = false;
 						$pass_changed             = true;
@@ -195,19 +195,19 @@ function bp_settings_action_general() {
 
 	// Email feedback.
 	switch ( $email_error ) {
-		case 'invalid' :
-			$feedback['email_invalid']  = __( 'That email address is invalid. Check the formatting and try again.', 'buddypress' );
+		case 'invalid':
+			$feedback['email_invalid'] = __( 'That email address is invalid. Check the formatting and try again.', 'buddypress' );
 			break;
-		case 'blocked' :
-			$feedback['email_blocked']  = __( 'That email address is currently unavailable for use.', 'buddypress' );
+		case 'blocked':
+			$feedback['email_blocked'] = __( 'That email address is currently unavailable for use.', 'buddypress' );
 			break;
-		case 'taken' :
-			$feedback['email_taken']    = __( 'That email address is already taken.', 'buddypress' );
+		case 'taken':
+			$feedback['email_taken'] = __( 'That email address is already taken.', 'buddypress' );
 			break;
-		case 'empty' :
-			$feedback['email_empty']    = __( 'Email address cannot be empty.', 'buddypress' );
+		case 'empty':
+			$feedback['email_empty'] = __( 'Email address cannot be empty.', 'buddypress' );
 			break;
-		case false :
+		case false:
 			// No change.
 			break;
 	}
@@ -217,7 +217,7 @@ function bp_settings_action_general() {
 	}
 
 	// No errors so show a simple success message.
-	if ( ( ( false === $email_error ) || ( false == $pass_error ) ) && ( ( true === $pass_changed ) || ( true === $email_changed ) ) ) {
+	if ( ( ( false === $email_error ) || ( false === $pass_error ) ) && ( ( true === $pass_changed ) || ( true === $email_changed ) ) ) {
 		$feedback[]    = __( 'Your settings have been saved.', 'buddypress' );
 		$feedback_type = 'success';
 
@@ -296,10 +296,12 @@ function bp_settings_verify_email_change() {
 			return;
 		}
 
-		$email_changed = wp_update_user( array(
-			'ID'         => $user_id,
-			'user_email' => trim( $pending_email['newemail'] ),
-		) );
+		$email_changed = wp_update_user(
+			array(
+				'ID'         => $user_id,
+				'user_email' => trim( $pending_email['newemail'] ),
+			)
+		);
 
 		if ( $email_changed ) {
 			// Delete the pending email change key.

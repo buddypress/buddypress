@@ -51,6 +51,10 @@
 		<exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
 		<exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
 
+		<!-- Usually harmless, let's skip them. -->
+		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
+		<exclude name="Squiz.PHP.CommentedOutCode.Found" />
+
 		<exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotValidated" />
 		<exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotSanitized" />
 		<exclude name="WordPress.Security.NonceVerification.Missing" />

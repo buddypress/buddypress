@@ -42,11 +42,13 @@ class BP_Settings_Component extends BP_Component {
 	 * @param array $includes Array of values to include. Not used.
 	 */
 	public function includes( $includes = array() ) {
-		parent::includes( array(
-			'template',
-			'filters',
-			'functions',
-		) );
+		parent::includes(
+			array(
+				'template',
+				'filters',
+				'functions',
+			)
+		);
 	}
 
 	/**
@@ -112,10 +114,12 @@ class BP_Settings_Component extends BP_Component {
 		}
 
 		// All globals for settings component.
-		parent::setup_globals( array(
-			'slug'          => $default_slug,
-			'has_directory' => false,
-		) );
+		parent::setup_globals(
+			array(
+				'slug'          => $default_slug,
+				'has_directory' => false,
+			)
+		);
 	}
 
 	/**
@@ -131,7 +135,7 @@ class BP_Settings_Component extends BP_Component {
 	 *                        description.
 	 */
 	public function register_nav( $main_nav = array(), $sub_nav = array() ) {
-		$slug   = bp_get_settings_slug();
+		$slug = bp_get_settings_slug();
 
 		// Add the settings navigation item.
 		$main_nav = array(

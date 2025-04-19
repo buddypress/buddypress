@@ -88,14 +88,15 @@ function bp_settings_sanitize_notification_settings( $settings = array() ) {
  * @return array
  */
 function bp_settings_get_registered_notification_keys() {
-
 	ob_start();
+
 	/**
 	 * Fires at the start of the building of the notification keys allowed list.
 	 *
 	 * @since 1.0.0
 	 */
 	do_action( 'bp_notification_settings' );
+
 	$screen = ob_get_clean();
 
 	$matched = preg_match_all( '/<input[^>]+name="notifications\[([^\]]+)\]/', $screen, $matches );
@@ -113,12 +114,12 @@ function bp_settings_get_registered_notification_keys() {
  * Finds and exports personal data associated with an email address from the Settings component.
  *
  * @since 4.0.0
+ * @since 15.0.0 The `$page` parameter was removed since it was unused.
  *
- * @param string $email_address  The user's email address.
- * @param int    $page           Batch number.
+ * @param string $email_address The user's email address.
  * @return array An array of personal data.
  */
-function bp_settings_personal_data_exporter( $email_address, $page ) {
+function bp_settings_personal_data_exporter( $email_address ) {
 	$email_address = trim( $email_address );
 
 	$data_to_export = array();
@@ -238,20 +239,22 @@ function bp_settings_get_personal_data_request( $user_id = 0 ) {
 		return false;
 	}
 
-	$query = new WP_Query( array(
-		'author'        => (int) $user_id,
-		'post_type'     => 'user_request',
-		'post_status'   => 'any',
-		'post_name__in' => array(
-			'export_personal_data',
-		),
-	) );
+	$query = new WP_Query(
+		array(
+			'author'        => (int) $user_id,
+			'post_type'     => 'user_request',
+			'post_status'   => 'any',
+			'post_name__in' => array(
+				'export_personal_data',
+			),
+		)
+	);
 
 	if ( ! empty( $query->post ) ) {
 		return wp_get_user_request( $query->post->ID );
-	} else {
-		return false;
 	}
+
+	return false;
 }
 
 /**
@@ -327,15 +330,19 @@ function bp_settings_personal_data_export_exists( WP_User_Request $request ) {
 function bp_settings_data_exporter_items() {
 	/** This filter is documented in /wp-admin/includes/ajax-actions.php */
 	$exporters             = apply_filters( 'wp_privacy_personal_data_exporters', array() );
-	$custom_friendly_names = apply_filters( 'bp_settings_data_custom_friendly_names', array(
-		'wordpress-comments' => _x( 'Comments', 'WP Comments data exporter friendly name', 'buddypress' ),
-		'wordpress-media'    => _x( 'Media', 'WP Media data exporter friendly name', 'buddypress' ),
-		'wordpress-user'     => _x( 'Personal information', 'WP Media data exporter friendly name', 'buddypress' ),
-	) );
+	$custom_friendly_names = apply_filters(
+		'bp_settings_data_custom_friendly_names',
+		array(
+			'wordpress-comments' => _x( 'Comments', 'WP Comments data exporter friendly name', 'buddypress' ),
+			'wordpress-media'    => _x( 'Media', 'WP Media data exporter friendly name', 'buddypress' ),
+			'wordpress-user'     => _x( 'Personal information', 'WP Media data exporter friendly name', 'buddypress' ),
+		)
+	);
 
 ?>
 	<ul>
-	<?php foreach ( $exporters as $exporter => $data ) :
+	<?php
+	foreach ( $exporters as $exporter => $data ) :
 		// Use the exporter friendly name by default.
 		$friendly_name = $data['exporter_friendly_name'];
 

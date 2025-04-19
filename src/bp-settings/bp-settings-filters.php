@@ -7,8 +7,8 @@
  * @since 4.0.0
  */
 
-// Personal data export.
-add_filter( 'wp_privacy_personal_data_exporters', 'bp_settings_register_personal_data_exporter' );
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Registers Settings personal data exporter.
@@ -28,3 +28,4 @@ function bp_settings_register_personal_data_exporter( $exporters ) {
 
 	return $exporters;
 }
+add_filter( 'wp_privacy_personal_data_exporters', 'bp_settings_register_personal_data_exporter' );
