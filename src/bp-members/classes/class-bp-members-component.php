@@ -773,10 +773,12 @@ class BP_Members_Component extends BP_Component {
 			return parent::parse_query( $query );
 		}
 
+		$request = apply_filters('bp_members_parse_query_request',  $GLOBALS['wp']->request);
+
 		// Init the current member and member type.
 		$member      = false;
 		$member_type = false;
-		$member_data = bp_rewrites_get_member_data();
+		$member_data = bp_rewrites_get_member_data($request);
 
 		if ( isset( $member_data['object'] ) && $member_data['object'] ) {
 			bp_reset_query( trailingslashit( $this->root_slug ) . $GLOBALS['wp']->request, $query );
