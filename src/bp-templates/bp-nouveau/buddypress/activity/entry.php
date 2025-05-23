@@ -31,6 +31,8 @@ bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 
 		</div>
 
+		<?php bp_nouveau_activity_hook( 'before', 'content' ); ?>
+
 		<?php if ( bp_nouveau_activity_has_content() ) : ?>
 
 			<div class="activity-inner">
@@ -40,6 +42,8 @@ bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 			</div>
 
 		<?php endif; ?>
+
+		<?php bp_nouveau_activity_hook( 'after', 'content' ); ?>
 
 		<?php bp_nouveau_activity_entry_buttons(); ?>
 
