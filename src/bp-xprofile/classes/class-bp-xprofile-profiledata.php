@@ -126,6 +126,7 @@ class BP_XProfile_ProfileData {
 	public function exists() {
 		global $wpdb;
 
+		// Check cache first.
 		$cache_key = "{$this->user_id}:{$this->field_id}";
 		$cached    = wp_cache_get( $cache_key, 'bp_xprofile_data' );
 		$retval    = false;
