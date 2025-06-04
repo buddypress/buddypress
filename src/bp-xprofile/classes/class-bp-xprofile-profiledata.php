@@ -135,9 +135,9 @@ class BP_XProfile_ProfileData {
 			$retval = true;
 		} else {
 			$bp     = buddypress();
-			$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
+			$dbval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
 
-			if ( ! is_wp_error( $retval ) && ! empty( $retval ) ) {
+			if ( ! is_wp_error( $dbval ) && ! empty( $dbval ) ) {
 				$retval = true;
 			}
 		}
