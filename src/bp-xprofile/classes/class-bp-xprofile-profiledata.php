@@ -126,15 +126,19 @@ class BP_XProfile_ProfileData {
 	public function exists() {
 		global $wpdb;
 
-		// Check cache first.
 		$cache_key = "{$this->user_id}:{$this->field_id}";
 		$cached    = wp_cache_get( $cache_key, 'bp_xprofile_data' );
+		$retval    = false;
 
 		if ( $cached && ! empty( $cached->id ) ) {
 			$retval = true;
 		} else {
 			$bp     = buddypress();
 			$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
+
+			if ( ! is_wp_error( $retval ) && ! empty( $retval ) ) {
+				$retval = true;
+			}
 		}
 
 		/**
@@ -145,7 +149,7 @@ class BP_XProfile_ProfileData {
 		 * @param bool                    $retval       Whether or not data already exists.
 		 * @param BP_XProfile_ProfileData $profile_data Instance of the current BP_XProfile_ProfileData class.
 		 */
-		return apply_filters_ref_array( 'xprofile_data_exists', array( (bool)$retval, $this ) );
+		return apply_filters_ref_array( 'xprofile_data_exists', array( $retval, $this ) );
 	}
 
 	/**
