@@ -753,7 +753,8 @@ function bp_blog_latest_post( $args = array() ) {
 			)
 		);
 
-		$retval = bp_get_blog_latest_post_title();
+		$retval  = bp_get_blog_latest_post_title();
+		$post_id = bp_get_blog_latest_post_id();
 
 		if ( ! empty( $retval ) ) {
 			if ( ! empty( $r['latest_format'] ) ) {
@@ -768,12 +769,12 @@ function bp_blog_latest_post( $args = array() ) {
 				$retval = sprintf(
 					/* translators: %s: the title of the latest post */
 					__( 'Latest Post: %s', 'buddypress' ),
-					'<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>'
+					'<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval, $post_id ) . '</a>'
 				);
 			} else {
 
 				/** This filter is documented in bp-blogs/bp-blogs-template.php */
-				$retval = '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>';
+				$retval = '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval, $post_id ) . '</a>';
 			}
 		}
 
@@ -787,6 +788,45 @@ function bp_blog_latest_post( $args = array() ) {
 		 * @param array  $r      Array of parsed arguments.
 		 */
 		return apply_filters( 'bp_get_blog_latest_post', $retval, $r );
+	}
+
+	/**
+	 * Output the ID of the latest post on the current blog in the loop.
+	 *
+	 * @since 14.3.4
+	 *
+	 * @see bp_get_blog_latest_post_id()
+	 */
+	function bp_blog_latest_post_id() {
+		echo esc_html( bp_get_blog_latest_post_id() );
+	}
+
+	/**
+	 * Return the ID of the latest post on the current blog in the loop.
+	 *
+	 * @since 14.3.4
+	 *
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
+	 *
+	 * @return string Post ID.
+	 */
+	function bp_get_blog_latest_post_id() {
+		global $blogs_template;
+
+		$retval = '';
+
+		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->ID ) ) {
+			$retval = $blogs_template->blog->latest_post->ID;
+		}
+
+		/**
+		 * Filters the title text of the latest post on the current blog in the loop.
+		 *
+		 * @since 1.7.0
+		 *
+		 * @param string $retval Title text for the latest post.
+		 */
+		return apply_filters( 'bp_get_blog_latest_post_id', $retval );
 	}
 
 /**
