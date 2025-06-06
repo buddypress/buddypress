@@ -798,7 +798,7 @@ function bp_blog_latest_post( $args = array() ) {
 	 * @see bp_get_blog_latest_post_id()
 	 */
 	function bp_blog_latest_post_id() {
-		echo bp_get_blog_latest_post_id();
+		echo (int) bp_get_blog_latest_post_id();
 	}
 
 	/**
