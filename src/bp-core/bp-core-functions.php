@@ -5226,7 +5226,7 @@ function bp_core_get_admin_notifications() {
 			'text'    => __( 'Discover BuddyPress Add-ons', 'buddypress' ),
 			'title'   => __( 'Hello BuddyPress Add-ons!', 'buddypress' ),
 			'content' => __( 'Add-ons are features as Plugins or Blocks maintained by the BuddyPress development team & hosted on the WordPress.org plugins directory.', 'buddypress' ) .
-			             __( 'Thanks to this new tab inside your Dashboard screen to add plugins, you\'ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ),
+			             __( 'Thanks to this new tab inside your Dashboard screen to add plugins, you’ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ),
 			'version' => 10.0,
 		),
 		'bp114-prepare-for-rewrites' => (object) array(
