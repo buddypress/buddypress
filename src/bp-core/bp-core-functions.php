@@ -1316,6 +1316,7 @@ function bp_core_time_diff( $args = array() ) {
 		1
 	);
 
+	// Use site timezone for MySQL datetime strings.
 	foreach ( array( 'older_date', 'newer_date' ) as $date ) {
 		if ( ! $r[ $date ] ) {
 			$r[ $date ] = 0;
@@ -1323,16 +1324,23 @@ function bp_core_time_diff( $args = array() ) {
 		}
 
 		if ( preg_match( '/^\d{4}-\d{2}-\d{2}[ ]\d{2}:\d{2}:\d{2}$/', $r[ $date ] ) ) {
-			$time_chunks = explode( ':', str_replace( ' ', ':', $r[ $date ] ) );
-			$date_chunks = explode( '-', str_replace( ' ', '-', $r[ $date ] ) );
-			$r[ $date ]  = gmmktime(
-				(int) $time_chunks[1],
-				(int) $time_chunks[2],
-				(int) $time_chunks[3],
-				(int) $date_chunks[1],
-				(int) $date_chunks[2],
-				(int) $date_chunks[0]
-			);
+			// Use site timezone if available (WP 5.3+), fallback to UTC.
+			if ( function_exists( 'wp_timezone' ) ) {
+				$dt = date_create( $r[ $date ], wp_timezone() );
+				$r[ $date ] = $dt ? $dt->getTimestamp() : 0;
+			} else {
+				// Fallback for older WP: use gmmktime (UTC)
+				$time_chunks = explode( ':', str_replace( ' ', ':', $r[ $date ] ) );
+				$date_chunks = explode( '-', str_replace( ' ', '-', $r[ $date ] ) );
+				$r[ $date ]  = gmmktime(
+					(int) $time_chunks[1],
+					(int) $time_chunks[2],
+					(int) $time_chunks[3],
+					(int) $date_chunks[1],
+					(int) $date_chunks[2],
+					(int) $date_chunks[0]
+				);
+			}
 		} elseif ( ! is_int( $r[ $date ] ) ) {
 			$r[ $date ] = 0;
 		}
@@ -5218,7 +5226,7 @@ function bp_core_get_admin_notifications() {
 			'text'    => __( 'Discover BuddyPress Add-ons', 'buddypress' ),
 			'title'   => __( 'Hello BuddyPress Add-ons!', 'buddypress' ),
 			'content' => __( 'Add-ons are features as Plugins or Blocks maintained by the BuddyPress development team & hosted on the WordPress.org plugins directory.', 'buddypress' ) .
-			             __( 'Thanks to this new tab inside your Dashboard screen to add plugins, you’ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ),
+			             __( 'Thanks to this new tab inside your Dashboard screen to add plugins, you\'ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ),
 			'version' => 10.0,
 		),
 		'bp114-prepare-for-rewrites' => (object) array(
