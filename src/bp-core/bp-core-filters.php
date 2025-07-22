@@ -1257,7 +1257,8 @@ function bp_email_set_default_tokens( $tokens, $property_name, $transform, $emai
 		if ( $user_obj ) {
 			$tokens['recipient.username'] = $user_obj->user_login;
 
-			if ( bp_is_active( 'settings' ) && empty( $tokens['unsubscribe'] ) ) {
+			// Only set unsubscribe link if both 'settings' and 'notifications' components are active.
+			if ( bp_is_active( 'settings' ) && bp_is_active( 'notifications' ) && empty( $tokens['unsubscribe'] ) ) {
 				$tokens['unsubscribe'] = esc_url(
 					bp_members_get_user_url(
 						$user_obj->ID,
