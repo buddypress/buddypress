@@ -4577,10 +4577,18 @@ function bp_email_unsubscribe_handler() {
 
 		// Unsubscribe.
 		$meta_key = $emails[ $raw_email_type ]['unsubscribe']['meta_key'];
-		bp_update_user_meta( $raw_user_id, $meta_key, 'no' );
+
+		if ( 'no' !== bp_get_user_meta( $raw_user_id, $meta_key, true ) ) {
+			bp_update_user_meta( $raw_user_id, $meta_key, 'no' );
+		}
 
 		$result_msg = $emails[ $raw_email_type ]['unsubscribe']['message'];
-		$unsub_msg  = __( 'You can change this or any other email notification preferences in your email settings.', 'buddypress' );
+
+		if ( bp_is_active( 'settings' ) ) {
+			$unsub_msg = __( 'You can change this or any other email notification preferences in your email settings.', 'buddypress' );
+		} else {
+			$unsub_msg = '';
+		}
 	}
 
 	if ( $raw_user_id && $redirect_to ) {
@@ -4592,8 +4600,19 @@ function bp_email_unsubscribe_handler() {
 		);
 
 		// Template notices are only displayed on BP pages.
-		bp_core_add_message( $message );
-		bp_core_redirect( bp_members_get_user_url( $raw_user_id ) );
+		if ( is_user_logged_in() ) {
+			bp_core_add_message( $message );
+			bp_core_redirect( bp_members_get_user_url( $raw_user_id ) );
+		} else {
+			wp_die(
+				sprintf( '%1$s <a href="%2$s">%3$s</a>', esc_html( $result_msg ), esc_url( $redirect_to ), esc_html( $unsub_msg ) ),
+				esc_html( $unsub_msg ),
+				array(
+					'link_url'  => esc_url( home_url() ),
+					'link_text' => esc_html__( 'Go to website\'s home page.', 'buddypress' ),
+				)
+			);
+		}
 
 		exit;
 	} else {
