@@ -56,7 +56,7 @@
 		"test-php-multisite": "npm run wp-env run cli -- --env-cwd=wp-content/plugins/buddypress composer test_multi",
 		"test-php-multisite:group": "npm run wp-env run cli -- --env-cwd=wp-content/plugins/buddypress composer test_multi -- -- --group ",
 		"download:cli": "curl -L -o 'cli-archive.zip' https://github.com/buddypress/wp-cli-buddypress/archive/3.0.1.zip && unzip -qq cli-archive.zip && mv wp-cli-buddypress-3.0.1 build/cli && rm cli-archive.zip",
-		"download:rest": "curl -L -o 'rest-archive.zip' https://github.com/buddypress/BP-REST/archive/0.9.zip && unzip -qq rest-archive.zip && mv BP-REST-0.9 build/bp-rest && rm rest-archive.zip"
+		"download:rest": "curl -L -o 'rest-archive.zip' https://github.com/buddypress/BP-REST/archive/refs/heads/pre-bp15.zip && unzip -qq rest-archive.zip && mv BP-REST-pre-bp15 build/bp-rest && rm rest-archive.zip"
 	},
 	"keywords": [
 		"activity",
