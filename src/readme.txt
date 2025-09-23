@@ -6,8 +6,8 @@ License:           GNU General Public License v2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
 Requires at least: 5.8
-Tested up to:      6.5
-Stable tag:        12.5.3
+Tested up to:      6.8
+Stable tag:        12.6.0
 
 Get together safely, in your own way, in WordPress.
 
@@ -130,6 +130,9 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
+= 12.6.0 =
+See: https://codex.buddypress.org/releases/version-12-6-0/
+
 = 12.5.3 =
 See: https://codex.buddypress.org/releases/version-12-5-3/
 
@@ -198,6 +201,9 @@ See: https://codex.buddypress.org/releases/version-10-1-0/
 See: https://codex.buddypress.org/releases/version-10-0-0/
 
 == Changelog ==
+
+= 12.6.0 =
+See: https://codex.buddypress.org/releases/version-12-6-0/
 
 = 12.5.3 =
 Security fix: Ensure that non-admin user owns the notifications that she is attempting to manage.
