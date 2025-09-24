@@ -78,7 +78,7 @@ Enabled by default, this option leaves the possibility for any group administrat
 
 ### Akismet
 
-If the **Akismet** plugin is active on your site, BuddyPress shows an additional option in the *Activity* / *Activity Streams* settings to enable Akismet scanning of activity items. When enabled, BuddyPress will send activity items to Akismet for spam checking; items flagged as spam will be handled according to the usual Akismet/WordPress behaviour (i.e. hidden or marked as spam). If you do not want activity items scanned by Akismet, uncheck this option.
+When the **Akismet** plugin is active on your site, this option is available to enable or disable Akismet scanning of activity item content. When enabled, BuddyPress will send content from activity items to Akismet for spam checking; items flagged as spam will be handled according to the usual Akismet/WordPress behaviour (i.e. hidden or marked as spam). If you do not want activity item content to be scanned by Akismet, uncheck this option.
 
 This integration has been part of BuddyPress’ Activity component since BuddyPress 1.7 — see the Codex for background on the Akismet integration.
 
