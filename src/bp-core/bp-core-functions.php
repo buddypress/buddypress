@@ -4441,7 +4441,7 @@ function bp_email_unsubscribe_handler() {
 		// Template notices are only displayed on BP pages.
 		if ( is_user_logged_in() ) {
 			bp_core_add_message( $message );
-			bp_core_redirect( bp_members_get_user_url( $raw_user_id ) );
+			bp_core_redirect( bp_core_get_user_domain( $raw_user_id ) );
 		} else {
 			wp_die(
 				sprintf( '%1$s <a href="%2$s">%3$s</a>', esc_html( $result_msg ), esc_url( $redirect_to ), esc_html( $unsub_msg ) ),
