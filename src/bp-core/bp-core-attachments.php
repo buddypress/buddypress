@@ -530,7 +530,7 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 	} else {
 		$file = false;
 
-		// Open the directory and get the first file.
+		// Open the directory.
 		$att_dir = opendir( $type_dir );
 		if ( $att_dir ) {
 
@@ -541,6 +541,9 @@ function bp_attachments_get_attachment( $data = 'url', $args = array() ) {
 					break;
 				}
 			}
+
+			// Close the directory.
+			closedir( $att_dir );
 		}
 
 		if ( empty( $file ) ) {
@@ -1345,13 +1348,19 @@ function bp_attachments_cover_image_generate_file( $args = array(), $cover_image
 	// Do some clean up with old cover image, now a new one is set.
 	$cover_basename = wp_basename( $cover_file );
 
-	if ( $att_dir = opendir( $args['cover_image_dir'] ) ) {
+	// Open the directory.
+	$att_dir = opendir( $args['cover_image_dir'] );
+	if ( $att_dir ) {
+
 		while ( false !== ( $attachment_file = readdir( $att_dir ) ) ) {
 			// Skip directories and the new cover image.
 			if ( 2 < strlen( $attachment_file ) && 0 !== strpos( $attachment_file, '.' ) && $cover_basename !== $attachment_file ) {
 				@unlink( $args['cover_image_dir'] . '/' . $attachment_file );
 			}
 		}
+
+		// Close the directory.
+		closedir( $att_dir );
 	}
 
 	// Finally return needed data.

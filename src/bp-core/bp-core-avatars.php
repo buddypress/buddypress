@@ -525,8 +525,9 @@ function bp_core_fetch_avatar( $args = '' ) {
 	// Check for directory.
 	if ( ! $params['force_default'] && file_exists( $avatar_folder_dir ) ) {
 
-		// Open directory.
-		if ( $av_dir = opendir( $avatar_folder_dir ) ) {
+		// Open the directory.
+		$av_dir = opendir( $avatar_folder_dir );
+		if ( $av_dir ) {
 
 			// Stash files in an array once to check for one that matches.
 			$avatar_files = array();
@@ -565,10 +566,10 @@ function bp_core_fetch_avatar( $args = '' ) {
 					}
 				}
 			}
-		}
 
-		// Close the avatar directory.
-		closedir( $av_dir );
+			// Close the directory.
+			closedir( $av_dir );
+		}
 
 		// If we found a locally uploaded avatar.
 		if ( isset( $avatar_url ) ) {
@@ -855,14 +856,19 @@ function bp_core_delete_existing_avatar( $args = '' ) {
 		return false;
 	}
 
-	if ( $av_dir = opendir( $avatar_folder_dir ) ) {
+	// Open the directory.
+	$av_dir = opendir( $avatar_folder_dir );
+	if ( $av_dir ) {
+
 		while ( false !== ( $avatar_file = readdir( $av_dir ) ) ) {
 			if ( ( preg_match( '/-bpfull/', $avatar_file ) || preg_match( '/-bpthumb/', $avatar_file ) ) && '.' !== $avatar_file && '..' !== $avatar_file ) {
 				@unlink( $avatar_folder_dir . '/' . $avatar_file );
 			}
 		}
+
+		// Close the directory.
+		closedir( $av_dir );
 	}
-	closedir( $av_dir );
 
 	@rmdir( $avatar_folder_dir );
 
