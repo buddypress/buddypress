@@ -1666,7 +1666,12 @@ class BP_Activity_Activity {
 		// We store the string 'none' to cache the fact that the
 		// activity item has no comments.
 		if ( 'none' === $comments_cache ) {
-			return false;
+			/*
+			When the activity item was cached and has no comments, we still need to return an empty array, just
+			like how the rest of the function returns an empty array when there are no comments. Other functions depend on this being the case.
+			For example, line 2618 in bp-activity-template.php in the function bp_activity_get_comment_depth will throw an error if this is not the case.
+			*/
+			return $comments;
 
 			// A true cache miss.
 		} elseif ( empty( $comments_cache ) ) {
