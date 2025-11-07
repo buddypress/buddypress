@@ -1,6 +1,6 @@
 <?php
 /**
- * BuddyPress Membersip Invitations
+ * BuddyPress Membership Invitations
  *
  * @package BuddyPress
  * @subpackage Members
