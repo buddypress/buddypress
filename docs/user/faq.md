@@ -122,7 +122,8 @@ Visit:
 - [BuddyPress Support Forums](https://buddypress.org/support/)
 - [WordPress.org Support Forums](https://wordpress.org/support/forums/)
 
-Please follow the [support etiquette](./etiquette.md).
+Please make sure to follow our [support forums etiquette](../../docs/etiquette.md)  
+and the [WordPress.org forum guidelines](https://wordpress.org/support/guidelines/).
 
 ---
 
@@ -143,6 +144,26 @@ See the detailed documentation at:
 ### How can I optimize BuddyPress performance?
 Use caching plugins, a CDN, database optimization, and high-quality hosting.  
 Large communities benefit greatly from Redis or Memcached object caching.
+
+---
+
+## Basic Hosting Issues
+
+### How do I resolve image cropping issues in BuddyPress?
+Ensure the GD library is installed and configured correctly in your PHP setup.  
+Check your theme’s image settings and make sure they are compatible with BuddyPress requirements.
+
+### What should I do if my hosting provider limits PHP memory?
+If you can’t increase the PHP memory limit via `php.ini`, `wp-config.php`, or `.htaccess`,  
+contact your hosting provider for assistance.  
+They may require you to upgrade your hosting plan or provide an alternative solution.
+
+### How do I handle hosting-related issues with BuddyPress?
+For hosting-related issues, make sure your server meets the  
+[WordPress requirements](https://wordpress.org/about/requirements/)  
+and the [BuddyPress PHP version support requirements](./getting-started/php-version-support.md).  
+Your server should have proper file and directory permissions and the necessary PHP extensions installed.  
+If problems persist, consult your hosting provider’s support or consider switching to a BuddyPress-friendly host.
 
 ---
 
