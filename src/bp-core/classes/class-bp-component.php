@@ -1264,6 +1264,11 @@ class BP_Component {
 	 */
 	public function parse_query( $query ) {
 		if ( is_buddypress() && 'rewrites' === bp_core_get_query_parser() ) {
+			// 'is_home' should always be false when on a BP page.
+			if ( $query->is_main_query() ) {
+				$query->is_home = false;
+			}
+
 			add_filter( 'posts_pre_query', array( $this, 'pre_query' ), 10, 2 );
 		}
 
