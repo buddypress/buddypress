@@ -2596,7 +2596,7 @@ function bp_activity_comment_count() {
  * Output the depth of the current activity comment.
  *
  * @since 2.0.0
- * @since 2.8.0 Added $comment as a parameter.
+ * @since 2.8.0 Added `$comment` as a parameter.
  *
  * @param object|int $comment Object of the activity comment or activity comment ID. Usually unnecessary
  *                            when used in activity comment loop.
@@ -2609,9 +2609,9 @@ function bp_activity_comment_depth( $comment = 0 ) {
 	 * Return the current activity comment depth.
 	 *
 	 * @since 2.0.0
-	 * @since 2.8.0 Added $comment as a parameter.
+	 * @since 2.8.0 Added `$comment` as a parameter.
 	 *
-	 * @param  object|int $comment Object of the activity comment or activity comment ID. Usually unnecessary
+	 * @param object|int $comment Object of the activity comment or activity comment ID. Usually unnecessary
 	 *                             when used in activity comment loop.
 	 * @return int
 	 */
@@ -2656,10 +2656,12 @@ function bp_activity_comment_depth( $comment = 0 ) {
 		 * Filters the comment depth of the current activity comment.
 		 *
 		 * @since 2.0.0
+		 * @since 15.0.0 Added `$comment` as a parameter.
 		 *
-		 * @param int $depth Depth for the current activity comment.
+		 * @param int        $depth Depth for the current activity comment.
+		 * @param object|int $comment Object of the activity comment or activity comment ID.
 		 */
-		return apply_filters( 'bp_activity_get_comment_depth', $depth );
+		return apply_filters( 'bp_activity_get_comment_depth', $depth, $comment );
 	}
 
 /**
