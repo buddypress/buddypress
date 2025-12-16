@@ -972,13 +972,13 @@ function bp_core_avatar_handle_upload( $file, $upload_dir_filter ) {
 	/**
 	 * Filters whether or not to handle uploading.
 	 *
-	 * If you want to override this function, make sure you return false.
+	 * If you want to override this function, make sure you return `false`.
 	 *
 	 * @since 1.2.4
 	 *
-	 * @param bool   $value             Whether or not to crop.
+	 * @param bool   $pre_filter        Whether or not to crop. Defaults to true.
 	 * @param array  $file              Appropriate entry from $_FILES superglobal.
-	 * @parma string $upload_dir_filter A filter to be applied to 'upload_dir'.
+	 * @param string $upload_dir_filter A filter to be applied to 'upload_dir'.
 	 */
 	if ( ! apply_filters( 'bp_core_pre_avatar_handle_upload', true, $file, $upload_dir_filter ) ) {
 		return true;
@@ -2223,7 +2223,7 @@ function bp_avatar_history_is_disabled() {
 	 * @since 10.0.0
 	 *
 	 * @param bool $avatar_history True to disable avatar history. False otherwise.
-	 *                    Default: `false`.
+	 *                             Default: `false`.
 	 */
 	return apply_filters( 'bp_disable_avatar_history', false );
 }
@@ -2275,6 +2275,24 @@ function bp_avatar_get_version( $item_id = 0, $object = 'user', $timestamp = '',
  * @return array          The list of previous uploaded avatars.
  */
 function bp_avatar_get_avatars_history( $item_id = 0, $object = 'user', $type = 'full' ) {
+	/**
+	 * Filter to short-circuit the avatars history retrieval process.
+	 *
+	 * If you want to override this function, make sure you return something other than `null`.
+	 *
+	 * @since 14.5.0
+	 *
+	 * @param null|array $pre_filter Null to proceed with the default handling, or an array of avatars to override it.
+	 * @param int        $item_id    The item ID we need the avatar version for.
+	 * @param string     $object     The object the item ID relates to.
+	 * @param string     $type       Get the `full`, `thumb` or `both` versions.
+	 */
+	$pre_filter = apply_filters( 'bp_pre_avatar_get_avatars_history', null, $item_id, $object, $type );
+
+	if ( null !== $pre_filter ) {
+		return $pre_filter;
+	}
+
 	if ( ! $item_id ) {
 		return array();
 	}

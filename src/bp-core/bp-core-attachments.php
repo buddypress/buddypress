@@ -723,7 +723,7 @@ function bp_attachments_enqueue_scripts( $class_name = '' ) {
 
 	// Enqueue me just once per page, please.
 	if ( did_action( 'bp_attachments_enqueue_scripts' ) ) {
-		return;
+		return null;
 	}
 
 	if ( ! $class || ! class_exists( $class ) ) {
