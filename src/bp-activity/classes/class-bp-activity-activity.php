@@ -1766,14 +1766,14 @@ class BP_Activity_Activity {
 						$direct_parent = new BP_Activity_Activity( $parent_id );
 						if ( isset( $direct_parent->secondary_item_id ) ) {
 							// If the direct parent is not an activity update, that means we've reached
-							// the parent activity item (eg. new_blog_post).
+							// the parent activity item (e.g. new_blog_post).
 							if ( 'activity_update' !== $direct_parent->type ) {
 								$parent_id = $r->item_id;
 
 							} else {
 								$parent_id = $direct_parent->secondary_item_id;
 							}
-} else {
+						} else {
 							// Something went wrong.  Short-circuit the depth calculation.
 							$parent_id = $r->item_id;
 						}
