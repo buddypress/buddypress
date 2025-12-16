@@ -2596,7 +2596,7 @@ function bp_activity_comment_count() {
  * Output the depth of the current activity comment.
  *
  * @since 2.0.0
- * @since 2.8.0 Added $comment as a parameter.
+ * @since 2.8.0 Added `$comment` as a parameter.
  *
  * @param object|int $comment Object of the activity comment or activity comment ID. Usually unnecessary
  *                            when used in activity comment loop.
@@ -2609,9 +2609,9 @@ function bp_activity_comment_depth( $comment = 0 ) {
 	 * Return the current activity comment depth.
 	 *
 	 * @since 2.0.0
-	 * @since 2.8.0 Added $comment as a parameter.
+	 * @since 2.8.0 Added `$comment` as a parameter.
 	 *
-	 * @param  object|int $comment Object of the activity comment or activity comment ID. Usually unnecessary
+	 * @param object|int $comment Object of the activity comment or activity comment ID. Usually unnecessary
 	 *                             when used in activity comment loop.
 	 * @return int
 	 */
@@ -2634,20 +2634,15 @@ function bp_activity_comment_depth( $comment = 0 ) {
 				// Fetch the entire root comment tree... ugh.
 				$comments = BP_Activity_Activity::get_activity_comments( $comment->item_id, 1, constant( 'PHP_INT_MAX' ) );
 
-				// Recursively find our comment object from the comment tree.
-				$iterator  = new RecursiveArrayIterator( $comments );
-				$recursive = new RecursiveIteratorIterator( $iterator, RecursiveIteratorIterator::SELF_FIRST );
-				foreach ( $recursive as $cid => $cobj ) {
-					// Skip items that are not a comment object.
-					if ( ! is_numeric( $cid ) || ! is_object( $cobj ) ) {
-						continue;
-					}
+				if ( ! is_array( $comments ) ) {
+					$comments = [];
+				}
 
-					// We found the activity comment! Set the depth.
-					if ( $cid === $comment->id && isset( $cobj->depth ) ) {
-						$depth = $cobj->depth;
-						break;
-					}
+				// Recursively find our comment object from the comment tree.
+				$comment_in_tree = BP_Activity_Activity::find_comment_in_tree( $comments, $comment->id );
+
+				if ( is_object( $comment_in_tree ) && isset( $comment_in_tree->depth ) ) {
+					$depth = $comment_in_tree->depth;
 				}
 			}
 		}
@@ -2656,10 +2651,12 @@ function bp_activity_comment_depth( $comment = 0 ) {
 		 * Filters the comment depth of the current activity comment.
 		 *
 		 * @since 2.0.0
+		 * @since 15.0.0 Added `$comment` as a parameter.
 		 *
-		 * @param int $depth Depth for the current activity comment.
+		 * @param int        $depth Depth for the current activity comment.
+		 * @param object|int $comment Object of the activity comment or activity comment ID.
 		 */
-		return apply_filters( 'bp_activity_get_comment_depth', $depth );
+		return apply_filters( 'bp_activity_get_comment_depth', $depth, $comment );
 	}
 
 /**
