@@ -296,7 +296,11 @@ abstract class BP_Attachment {
 	 */
 	public function sanitize_utf8_filename( $retval ) {
 		// PHP 5.4+ or with PECL intl 2.0+ .
-		if ( function_exists( 'transliterator_transliterate' ) && seems_utf8( $retval ) ) {
+		if (
+			function_exists( 'transliterator_transliterate' )
+			// wp_is_valid_utf8 is added in WP 6.9.
+			&& function_exists( 'wp_is_valid_utf8' ) ? wp_is_valid_utf8( $retval ) : seems_utf8( $retval )
+		) {
 			$retval = transliterator_transliterate( 'Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $retval );
 
 			// Older.
@@ -305,7 +309,11 @@ abstract class BP_Attachment {
 			$retval = remove_accents( $retval );
 
 			// Still here? use iconv().
-			if ( function_exists( 'iconv' ) && seems_utf8( $retval ) ) {
+			if (
+				function_exists( 'iconv' )
+				// wp_is_valid_utf8 is added in WP 6.9.
+				&& function_exists( 'wp_is_valid_utf8' ) ? wp_is_valid_utf8( $retval ) : seems_utf8( $retval )
+			) {
 				$retval = iconv( 'UTF-8', 'ASCII//TRANSLIT//IGNORE', $retval );
 			}
 		}
