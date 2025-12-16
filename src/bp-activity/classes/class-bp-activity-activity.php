@@ -1651,7 +1651,7 @@ class BP_Activity_Activity {
 	 * @param int    $right               Right-most node boundary.
 	 * @param string $spam                Optional. 'ham_only' (default), 'spam_only' or 'all'.
 	 * @param int    $top_level_parent_id Optional. The id of the root-level parent activity item.
-	 * @return array The updated activities with nested comments.
+	 * @return array|false The updated activities with nested comments. False if no comments are found.
 	 */
 	public static function get_activity_comments( $activity_id, $left, $right, $spam = 'ham_only', $top_level_parent_id = 0 ) {
 		global $wpdb;
@@ -1766,7 +1766,7 @@ class BP_Activity_Activity {
 						$direct_parent = new BP_Activity_Activity( $parent_id );
 						if ( isset( $direct_parent->secondary_item_id ) ) {
 							// If the direct parent is not an activity update, that means we've reached
-							// the parent activity item (eg. new_blog_post).
+							// the parent activity item (e.g. new_blog_post).
 							if ( 'activity_update' !== $direct_parent->type ) {
 								$parent_id = $r->item_id;
 
@@ -2116,5 +2116,43 @@ class BP_Activity_Activity {
 		$bp = buddypress();
 
 		return $wpdb->get_var( $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET hide_sitewide = 1 WHERE user_id = %d", $user_id ) );
+	}
+
+	/**
+	 * Recursively find a comment object from a nested comment tree.
+	 *
+	 * @since 14.5.0
+	 *
+	 * @param array $comments  Array of comment objects with nested children.
+	 * @param int   $target_id The comment ID to find.
+	 * @return object|false The comment object if found, false otherwise.
+	 */
+	public static function find_comment_in_tree( $comments, $target_id ) {
+
+		if ( ! is_array( $comments ) ) {
+			return false;
+		}
+
+		foreach ( $comments as $comment_id => $comment ) {
+			// Skip items that are not a comment object.
+			if ( ! is_numeric( $comment_id ) || ! is_object( $comment ) ) {
+				continue;
+			}
+
+			if ( (int) $comment_id === (int) $target_id ) {
+				return $comment;
+			}
+
+			// Recurse into children if they exist.
+			if ( ! empty( $comment->children ) && is_array( $comment->children ) ) {
+				$found = self::find_comment_in_tree( $comment->children, $target_id );
+
+				if ( false !== $found ) {
+					return $found;
+				}
+			}
+		}
+
+		return false;
 	}
 }

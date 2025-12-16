@@ -2634,20 +2634,15 @@ function bp_activity_comment_depth( $comment = 0 ) {
 				// Fetch the entire root comment tree... ugh.
 				$comments = BP_Activity_Activity::get_activity_comments( $comment->item_id, 1, constant( 'PHP_INT_MAX' ) );
 
-				// Recursively find our comment object from the comment tree.
-				$iterator  = new RecursiveArrayIterator( $comments );
-				$recursive = new RecursiveIteratorIterator( $iterator, RecursiveIteratorIterator::SELF_FIRST );
-				foreach ( $recursive as $cid => $cobj ) {
-					// Skip items that are not a comment object.
-					if ( ! is_numeric( $cid ) || ! is_object( $cobj ) ) {
-						continue;
-					}
+				if ( ! is_array( $comments ) ) {
+					$comments = [];
+				}
 
-					// We found the activity comment! Set the depth.
-					if ( $cid === $comment->id && isset( $cobj->depth ) ) {
-						$depth = $cobj->depth;
-						break;
-					}
+				// Recursively find our comment object from the comment tree.
+				$comment_in_tree = BP_Activity_Activity::find_comment_in_tree( $comments, $comment->id );
+
+				if ( is_object( $comment_in_tree ) && isset( $comment_in_tree->depth ) ) {
+					$depth = $comment_in_tree->depth;
 				}
 			}
 		}
