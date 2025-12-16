@@ -593,7 +593,7 @@ function bp_parse_query( $posts_query ) {
 
 			$url_query_chunks = bp_parse_args( $GLOBALS['wp']->query_string, array() );
 			$directory        = key( $url_query_chunks );
-			if ( isset( $bp_directories[ $directory ] ) ) {
+			if ( isset( $directory, $bp_directories[ $directory ] ) ) {
 				$url_query_chunks[ $directory ] = $bp_directories[ $directory ];
 			}
 

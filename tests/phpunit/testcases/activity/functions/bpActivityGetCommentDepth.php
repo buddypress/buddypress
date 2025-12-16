@@ -40,10 +40,12 @@ class BP_Tests_Activity_Functions_BpActivityGetCommentDepth extends BP_UnitTestC
 		// Instantiate activity loop, which also includes activity comments.
 		bp_has_activities( 'display_comments=threaded' );
 
-		// Loop through activity comments generated in activity loop.
-		$recursive = new RecursiveIteratorIterator( new RecursiveArrayIterator( $GLOBALS['activities_template']->activities[0]->children ), RecursiveIteratorIterator::SELF_FIRST );
-		foreach ( $recursive as $aid => $a ) {
-			if ( ! is_numeric( $aid ) || ! is_object( $a ) ) {
+		$children = $GLOBALS['activities_template']->activities[0]->children;
+
+		foreach ( array( $comment_one, $comment_one_one, $comment_two ) as $aid ) {
+			$a = BP_Activity_Activity::find_comment_in_tree( $children, $aid );
+
+			if ( false === $a ) {
 				continue;
 			}
 
@@ -65,7 +67,6 @@ class BP_Tests_Activity_Functions_BpActivityGetCommentDepth extends BP_UnitTestC
 					$this->assertSame( bp_activity_get_comment_depth(), 2 );
 					break;
 			}
-
 		}
 
 		// Clean up after ourselves!
