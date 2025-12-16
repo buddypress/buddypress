@@ -704,9 +704,9 @@ class BP_Activity_Activity {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param bool                 $value Whether to use legacy structure or not.
-		 * @param BP_Activity_Activity $value Current method being called.
-		 * @param array                $r     Parsed arguments passed into method.
+		 * @param bool   $use_legacy_activity_query Whether to use legacy structure or not.
+		 * @param string $method Current method being called.
+		 * @param array  $r     Parsed arguments passed into method.
 		 */
 		if ( ! $only_get_count && apply_filters( 'bp_use_legacy_activity_query', false, __METHOD__, $r ) ) {
 
