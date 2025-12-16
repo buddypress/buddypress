@@ -15,6 +15,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - php: '8.5'
+            wp_version: 'trunk'
+            object: 'redis'
+            multisite: false
+          - php: '8.5'
+            wp_version: '6.9'
+            object: 'memcached'
+            multisite: true
           - php: '8.4'
             wp_version: 'trunk'
             object: 'redis'
@@ -29,10 +37,6 @@ jobs:
             multisite: false
           - php: '8.2'
             wp_version: '6.4'
-            object: ''
-            multisite: false
-          - php: '8.2'
-            wp_version: 'latest'
             object: ''
             multisite: false
           - php: '8.1'
