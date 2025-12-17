@@ -888,9 +888,6 @@ function bp_core_delete_existing_avatar( $args = '' ) {
  * Ajax delete an avatar for a given object and item id.
  *
  * @since 2.3.0
- *
- * @return string|null A JSON object containing success data if the avatar was deleted,
- *                     error message otherwise.
  */
 function bp_avatar_ajax_delete() {
 	if ( ! bp_is_post_request() ) {
@@ -924,7 +921,7 @@ function bp_avatar_ajax_delete() {
 		)
 	) ) {
 		$return = array(
-			'avatar'        => esc_url(
+			'avatar'        => esc_url_raw(
 				bp_core_fetch_avatar(
 					array(
 						'object'  => $avatar_data['object'],
@@ -1424,7 +1421,7 @@ function bp_avatar_ajax_set() {
 
 		} else {
 			$return = array(
-				'avatar'        => esc_url(
+				'avatar'        => esc_url_raw(
 					bp_core_fetch_avatar(
 						array(
 							'object'  => $avatar_data['object'],
@@ -1488,7 +1485,7 @@ function bp_avatar_ajax_set() {
 
 	if ( $cropped_avatar ) {
 		$return = array(
-			'avatar'        => esc_url(
+			'avatar'        => esc_url_raw(
 				bp_core_fetch_avatar(
 					array(
 						'object'  => $avatar_data['object'],
@@ -1782,7 +1779,7 @@ function bp_core_avatar_url() {
  * @since 1.0.0
  *
  * @param int $user_id ID of the user whose avatar is being checked.
- * @return bool True if the user has uploaded a local avatar. Otherwise false.
+ * @return bool True if the user has uploaded a local avatar. Otherwise, false.
  */
 function bp_get_user_has_avatar( $user_id = 0 ) {
 
@@ -2073,8 +2070,6 @@ function bp_core_avatar_default_thumb( $type = 'gravatar', $params = array() ) {
  * @param WP_Query|null $posts_query The main query object.
  */
 function bp_core_avatar_reset_query( $posts_query = null ) {
-	$reset_w = false;
-
 	// Group's avatar edit screen.
 	if ( bp_is_group_admin_page() ) {
 		$reset_w = bp_is_group_admin_screen( 'group-avatar' );
@@ -2434,10 +2429,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 		// Init recycle vars.
 		$recycle_timestamp = bp_core_current_time( true, 'timestamp' );
 		$recycle_errors    = array();
-		$avatar_types      = array(
-			'full'  => '',
-			'thumb' => '',
-		);
+		$avatar_types      = array();
 
 		// Use the found previous avatar.
 		$avatar                = $avatars[ $avatar_id ];
@@ -2523,7 +2515,7 @@ function bp_avatar_ajax_recycle_previous_avatar() {
 	}
 
 	$return = array(
-		'avatar'        => esc_url(
+		'avatar'        => esc_url_raw(
 			bp_core_fetch_avatar(
 				array(
 					'object'  => $object,
@@ -2621,13 +2613,9 @@ function bp_avatar_ajax_delete_previous_avatar() {
 		);
 	}
 
-	$avatar_types = array(
-		'full'  => '',
-		'thumb' => '',
-	);
-
 	// Use the found previous avatar.
 	$avatar                = $avatars[ $avatar_id ];
+	$avatar_types          = array();
 	$avatar_types['full']  = $avatar->path;
 	$avatar_types['thumb'] = str_replace( $suffix, '-bpthumb', $avatar->path );
 
