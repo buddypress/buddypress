@@ -185,14 +185,14 @@ function bp_nouveau_ajax_get_message_recipients_data( $user_id ) {
 
 	if ( ! $user_link ) {
 		return array(
-			'avatar'    => esc_url( bp_core_avatar_default( 'gravatar', $avatar_args ) ),
+			'avatar' => esc_url_raw( bp_core_avatar_default( 'gravatar', $avatar_args ) ),
 			'user_link' => '',
 			'user_name' => '',
 		);
 	}
 
 	return array(
-		'avatar'    => esc_url( bp_core_fetch_avatar( $avatar_args ) ),
+		'avatar' => esc_url_raw( bp_core_fetch_avatar( $avatar_args ) ),
 		'user_link' => esc_url( $user_link ),
 		'user_name' => esc_html( bp_core_get_user_displayname( $user_id ) ),
 	);
@@ -221,14 +221,14 @@ function bp_nouveau_ajax_get_message_sender_data( $user_id ) {
 		return array(
 			'name'   => esc_html__( 'Deleted User', 'buddypress' ),
 			'link'   => $sender_link,
-			'avatar' => esc_url( bp_core_avatar_default( 'gravatar', $avatar_args ) ),
+			'avatar' => esc_url_raw( bp_core_avatar_default( 'gravatar', $avatar_args ) ),
 		);
 	}
 
 	return array(
 		'name'   => esc_html( bp_core_get_user_displayname( $user_id ) ),
 		'link'   => esc_url( $sender_link ),
-		'avatar' => esc_url( bp_core_fetch_avatar( $avatar_args ) ),
+		'avatar' => esc_url_raw( bp_core_fetch_avatar( $avatar_args ) ),
 	);
 }
 
@@ -301,7 +301,7 @@ function bp_nouveau_ajax_messages_send_reply() {
 		'sender_id'     => bp_get_the_thread_message_sender_id(),
 		'sender_name'   => esc_html( bp_get_the_thread_message_sender_name() ),
 		'sender_link'   => bp_get_the_thread_message_sender_link(),
-		'sender_avatar' => esc_url( bp_core_fetch_avatar( array(
+		'sender_avatar' => esc_url_raw( bp_core_fetch_avatar( array(
 			'item_id' => bp_get_the_thread_message_sender_id(),
 			'object'  => 'user',
 			'type'    => 'thumb',
