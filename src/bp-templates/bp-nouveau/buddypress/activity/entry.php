@@ -6,7 +6,7 @@
  * each activity.
  *
  * @since 3.0.0
- * @version 10.0.0
+ * @version 14.0.0
  */
 
 bp_nouveau_activity_hook( 'before', 'entry' ); ?>
@@ -31,6 +31,8 @@ bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 
 		</div>
 
+		<?php bp_nouveau_activity_hook( 'before', 'entry_content' ); ?>
+
 		<?php if ( bp_nouveau_activity_has_content() ) : ?>
 
 			<div class="activity-inner">
@@ -40,6 +42,8 @@ bp_nouveau_activity_hook( 'before', 'entry' ); ?>
 			</div>
 
 		<?php endif; ?>
+
+		<?php bp_nouveau_activity_hook( 'after', 'entry_content' ); ?>
 
 		<?php bp_nouveau_activity_entry_buttons(); ?>
 
