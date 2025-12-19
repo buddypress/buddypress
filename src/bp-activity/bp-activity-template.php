@@ -2634,10 +2634,6 @@ function bp_activity_comment_depth( $comment = 0 ) {
 				// Fetch the entire root comment tree... ugh.
 				$comments = BP_Activity_Activity::get_activity_comments( $comment->item_id, 1, constant( 'PHP_INT_MAX' ) );
 
-				if ( ! is_array( $comments ) ) {
-					$comments = [];
-				}
-
 				// Recursively find our comment object from the comment tree.
 				$comment_in_tree = BP_Activity_Activity::find_comment_in_tree( $comments, $comment->id );
 

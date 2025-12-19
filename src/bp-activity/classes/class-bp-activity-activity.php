@@ -1614,8 +1614,6 @@ class BP_Activity_Activity {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @global wpdb $wpdb WordPress database object.
-	 *
 	 * @param array  $activities Activities to fetch comments for.
 	 * @param string $spam       Optional. 'ham_only' (default), 'spam_only' or 'all'.
 	 * @return array The updated activities with nested comments.
@@ -1651,7 +1649,7 @@ class BP_Activity_Activity {
 	 * @param int    $right               Right-most node boundary.
 	 * @param string $spam                Optional. 'ham_only' (default), 'spam_only' or 'all'.
 	 * @param int    $top_level_parent_id Optional. The id of the root-level parent activity item.
-	 * @return array|false The updated activities with nested comments. False if no comments are found.
+	 * @return array The updated activities with nested comments.
 	 */
 	public static function get_activity_comments( $activity_id, $left, $right, $spam = 'ham_only', $top_level_parent_id = 0 ) {
 		global $wpdb;
@@ -1668,7 +1666,7 @@ class BP_Activity_Activity {
 		// We store the string 'none' to cache the fact that the
 		// activity item has no comments.
 		if ( 'none' === $comments_cache ) {
-			return false;
+			return $comments;
 
 			// A true cache miss.
 		} elseif ( empty( $comments_cache ) ) {
