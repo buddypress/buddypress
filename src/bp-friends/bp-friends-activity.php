@@ -153,7 +153,22 @@ function bp_friends_format_activity_action_friendship_accepted( $action, $activi
 	// avoid having to build this object if it's not necessary.
 	if ( has_filter( 'friends_activity_friendship_accepted_action' ) ) {
 		$friendship = new BP_Friends_Friendship( $activity->item_id );
-		$action     = apply_filters( 'friends_activity_friendsip_accepted_action', $action, $friendship );
+
+		/**
+		 * Filters the 'friendship_accepted' activity action format.
+		 *
+		 * @since 2.0.0
+		 * @deprecated 15.0.0
+		 *
+		 * @param string                $action     String text for the 'friendship_accepted' action.
+		 * @param BP_Friends_Friendship $friendship Friendship object.
+		 */
+		$action = apply_filters_deprecated(
+			'friends_activity_friendship_accepted_action',
+			array( $action, $friendship ),
+			'15.0.0',
+			'bp_friends_format_activity_action_friendship_accepted'
+		);
 	}
 
 	/**
@@ -188,7 +203,22 @@ function bp_friends_format_activity_action_friendship_created( $action, $activit
 	// avoid having to build this object if it's not necessary.
 	if ( has_filter( 'friends_activity_friendship_accepted_action' ) ) {
 		$friendship = new BP_Friends_Friendship( $activity->item_id );
-		$action     = apply_filters( 'friends_activity_friendsip_accepted_action', $action, $friendship );
+
+		/**
+		 * Filters the 'friendship_created' activity action format.
+		 *
+		 * @since 2.0.0
+		 * @deprecated 15.0.0
+		 *
+		 * @param string                $action     String text for the 'friendship_created' action.
+		 * @param BP_Friends_Friendship $friendship Friendship object.
+		 */
+		$action = apply_filters_deprecated(
+			'friends_activity_friendship_accepted_action',
+			array( $action, $friendship ),
+			'15.0.0',
+			'bp_friends_format_activity_action_friendship_created'
+		);
 	}
 
 	/**
