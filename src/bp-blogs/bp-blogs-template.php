@@ -491,9 +491,23 @@ function bp_blog_avatar( $args = '' ) {
 		return apply_filters( 'bp_get_blog_avatar', $avatar, $blog_id, $r );
 	}
 
+/**
+ * Output the permalink of the current blog in the loop.
+ *
+ * @since 1.0.0
+ */
 function bp_blog_permalink() {
 	echo esc_url( bp_get_blog_permalink() );
 }
+	/**
+	 * Return the permalink of the current blog in the loop.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
+	 *
+	 * @return string
+	 */
 	function bp_get_blog_permalink() {
 		global $blogs_template;
 
@@ -527,6 +541,8 @@ function bp_blog_name() {
 }
 	/**
 	 * Return the name of the current blog in the loop.
+	 *
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
 	 *
 	 * @return string The name of the current blog in the loop.
 	 */
@@ -562,6 +578,8 @@ function bp_blog_id() {
 	 *
 	 * @since 1.7.0
 	 *
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
+	 *
 	 * @return int ID of the current blog in the loop.
 	 */
 	function bp_get_blog_id() {
@@ -593,6 +611,8 @@ function bp_blog_description() {
 }
 	/**
 	 * Return the description of the current blog in the loop.
+	 *
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
 	 *
 	 * @return string Description of the current blog in the loop.
 	 */
@@ -652,9 +672,8 @@ function bp_blog_class( $classes = array() ) {
 		 */
 		$classes = array_map( 'sanitize_html_class', apply_filters( 'bp_get_blog_class', $classes ) );
 		$classes = array_merge( $classes, array() );
-		$retval  = 'class="' . join( ' ', $classes ) . '"';
 
-		return $retval;
+		return 'class="' . join( ' ', $classes ) . '"';
 	}
 
 /**
@@ -753,7 +772,8 @@ function bp_blog_latest_post( $args = array() ) {
 			)
 		);
 
-		$retval = bp_get_blog_latest_post_title();
+		$retval  = bp_get_blog_latest_post_title();
+		$post_id = bp_get_blog_latest_post_id();
 
 		if ( ! empty( $retval ) ) {
 			if ( ! empty( $r['latest_format'] ) ) {
@@ -768,12 +788,12 @@ function bp_blog_latest_post( $args = array() ) {
 				$retval = sprintf(
 					/* translators: %s: the title of the latest post */
 					__( 'Latest Post: %s', 'buddypress' ),
-					'<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>'
+					'<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval, $post_id ) . '</a>'
 				);
 			} else {
 
 				/** This filter is documented in bp-blogs/bp-blogs-template.php */
-				$retval = '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval ) . '</a>';
+				$retval = '<a href="' . $blogs_template->blog->latest_post->guid . '">' . apply_filters( 'the_title', $retval, $post_id ) . '</a>';
 			}
 		}
 
@@ -787,6 +807,48 @@ function bp_blog_latest_post( $args = array() ) {
 		 * @param array  $r      Array of parsed arguments.
 		 */
 		return apply_filters( 'bp_get_blog_latest_post', $retval, $r );
+	}
+
+/**
+ * Output the ID of the latest post on the current blog in the loop.
+ *
+ * @since 14.5.0
+ *
+ * @see bp_get_blog_latest_post_id()
+ */
+function bp_blog_latest_post_id() {
+	echo bp_get_blog_latest_post_id();
+}
+	/**
+	 * Return the ID of the latest post on the current blog in the loop.
+	 *
+	 * @since 14.5.0
+	 *
+	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
+	 *
+	 * @return int
+	 */
+	function bp_get_blog_latest_post_id() {
+		global $blogs_template;
+
+		$latest_post_id = 0;
+
+		if (
+			! empty( $blogs_template->blog->latest_post )
+			&& ! empty( $blogs_template->blog->latest_post->ID )
+			&& is_int( $blogs_template->blog->latest_post->ID )
+		) {
+			$latest_post_id = $blogs_template->blog->latest_post->ID;
+		}
+
+		/**
+		 * Filters the ID of the latest post on the current blog in the loop.
+		 *
+		 * @since 14.5.0
+		 *
+		 * @param int $latest_post_id ID of the latest post.
+		 */
+		return (int) apply_filters( 'bp_get_blog_latest_post_id', (int) $latest_post_id );
 	}
 
 /**
@@ -813,8 +875,9 @@ function bp_blog_latest_post_title() {
 
 		$retval = '';
 
-		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->post_title ) )
+		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->post_title ) ) {
 			$retval = $blogs_template->blog->latest_post->post_title;
+		}
 
 		/**
 		 * Filters the title text of the latest post on the current blog in the loop.
@@ -841,17 +904,15 @@ function bp_blog_latest_post_permalink() {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @global BP_Blogs_Template $blogs_template The main blog template loop class.
-	 *
 	 * @return string URL of the blog's latest post.
 	 */
 	function bp_get_blog_latest_post_permalink() {
-		global $blogs_template;
+		$retval  = '';
+		$post_id = bp_get_blog_latest_post_id();
 
-		$retval = '';
-
-		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->ID ) )
-			$retval = add_query_arg( 'p', $blogs_template->blog->latest_post->ID, bp_get_blog_permalink() );
+		if ( ! empty( $post_id ) ) {
+			$retval = add_query_arg( 'p', $post_id, bp_get_blog_permalink() );
+		}
 
 		/**
 		 * Filters the permalink of the latest post on the current blog in the loop.
