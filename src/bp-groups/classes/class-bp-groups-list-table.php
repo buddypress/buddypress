@@ -218,13 +218,17 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * Get an array of all the columns on the page.
 	 *
 	 * @since 1.7.0
+	 * @since 14.5.0 The list of hidden columns are set.
 	 *
 	 * @return array Array of column headers.
 	 */
 	public function get_column_info() {
+		$columns = $this->get_columns();
+		$hidden  = get_hidden_columns( $this->screen );
+
 		$this->_column_headers = array(
-			$this->get_columns(),
-			array(),
+			$columns,
+			$hidden,
 			$this->get_sortable_columns(),
 			$this->get_default_primary_column_name(),
 		);
