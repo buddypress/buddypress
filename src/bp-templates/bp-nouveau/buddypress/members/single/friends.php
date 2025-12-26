@@ -29,7 +29,7 @@ switch ( bp_current_action() ) :
 		bp_nouveau_member_hook( 'before', 'friends_content' );
 		?>
 
-		<div class="members friends" data-bp-list="members">
+		<div class="members friends" data-bp-list="friends">
 
 			<div id="bp-ajax-loader"><?php bp_nouveau_user_feedback( 'member-friends-loading' ); ?></div>
 
