@@ -106,11 +106,11 @@ class BP_XProfile_ProfileData {
 			$this->last_updated = $profiledata->last_updated;
 
 			// If the value is serializable, do not stripslashes.
-			$this->value        = is_serialized( $profiledata->value ) ? $profiledata->value : stripslashes( $profiledata->value );
+			$this->value = is_serialized( $profiledata->value ) ? $profiledata->value : stripslashes( $profiledata->value );
 		} else {
 			// When no row is found, we'll need to set these properties manually.
-			$this->field_id	    = (int) $field_id;
-			$this->user_id	    = (int) $user_id;
+			$this->field_id = (int) $field_id;
+			$this->user_id  = (int) $user_id;
 		}
 	}
 
@@ -129,12 +129,17 @@ class BP_XProfile_ProfileData {
 		// Check cache first.
 		$cache_key = "{$this->user_id}:{$this->field_id}";
 		$cached    = wp_cache_get( $cache_key, 'bp_xprofile_data' );
+		$retval    = false;
 
 		if ( $cached && ! empty( $cached->id ) ) {
 			$retval = true;
 		} else {
-			$bp     = buddypress();
-			$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
+			$bp    = buddypress();
+			$dbval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_data} WHERE user_id = %d AND field_id = %d", $this->user_id, $this->field_id ) );
+
+			if ( ! is_wp_error( $dbval ) && ! empty( $dbval ) ) {
+				$retval = true;
+			}
 		}
 
 		/**
@@ -145,7 +150,7 @@ class BP_XProfile_ProfileData {
 		 * @param bool                    $retval       Whether or not data already exists.
 		 * @param BP_XProfile_ProfileData $profile_data Instance of the current BP_XProfile_ProfileData class.
 		 */
-		return apply_filters_ref_array( 'xprofile_data_exists', array( (bool)$retval, $this ) );
+		return (bool) apply_filters_ref_array( 'xprofile_data_exists', array( $retval, $this ) );
 	}
 
 	/**
@@ -163,6 +168,10 @@ class BP_XProfile_ProfileData {
 		$bp     = buddypress();
 		$retval = $wpdb->get_row( $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id = %d", $this->field_id ) );
 
+		if ( is_wp_error( $retval ) || empty( $retval ) ) {
+			$retval = false;
+		}
+
 		/**
 		 * Filters whether or not data is for a valid field.
 		 *
@@ -171,7 +180,7 @@ class BP_XProfile_ProfileData {
 		 * @param bool                    $retval       Whether or not data is valid.
 		 * @param BP_XProfile_ProfileData $profile_data Instance of the current BP_XProfile_ProfileData class.
 		 */
-		return apply_filters_ref_array( 'xprofile_data_is_valid_field', array( (bool)$retval, $this ) );
+		return (bool) apply_filters_ref_array( 'xprofile_data_is_valid_field', array( (bool) $retval, $this ) );
 	}
 
 	/**
