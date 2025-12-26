@@ -670,7 +670,7 @@ function bp_group_id( $group = false ) {
 	 * @since 10.0.0 Updated to use `bp_get_group`.
 	 *
 	 * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
-	 *                                   Default: false.
+	 *                                                Default: false.
 	 * @return int
 	 */
 	function bp_get_group_id( $group = false ) {
@@ -697,7 +697,7 @@ function bp_group_id( $group = false ) {
  *
  * @since 1.7.0
  *
- * @param array $classes Array of custom classes.
+ * @param string[] $classes Array of custom classes.
  */
 function bp_group_class( $classes = array() ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -710,7 +710,7 @@ function bp_group_class( $classes = array() ) {
 	 *
 	 * @global BP_Groups_Template $groups_template The Groups template loop class.
 	 *
-	 * @param array $classes Array of custom classes.
+	 * @param string[] $classes Array of custom classes.
 	 * @return string Row class of the group.
 	 */
 	function bp_get_group_class( $classes = array() ) {
@@ -726,11 +726,22 @@ function bp_group_class( $classes = array() ) {
 			$classes[] = 'bp-single-group';
 		}
 
-		// Group type - public, private, hidden.
-		$classes[] = sanitize_key( $groups_template->group->status );
+		// Possible values include: public, private, hidden, etc.
+		$group_status = sanitize_key( $groups_template->group->status );
+		$classes[]    = 'bp-group-status-' . $group_status;
+
+		/**
+		 * Will be removed in a future release.
+		 *
+		 * @deprecated Use the `bp-group-status-{status}` class instead.
+		 *
+		 * @see https://buddypress.trac.wordpress.org/ticket/9316
+		 */
+		$classes[] = $group_status;
 
 		// Add current group types.
-		if ( $group_types = bp_groups_get_group_type( bp_get_group_id(), false ) ) {
+		$group_types = bp_groups_get_group_type( bp_get_group_id(), false );
+		if ( is_array( $group_types ) ) {
 			foreach ( $group_types as $group_type ) {
 				$classes[] = sprintf( 'group-type-%s', esc_attr( $group_type ) );
 			}
@@ -767,13 +778,14 @@ function bp_group_class( $classes = array() ) {
 		 *
 		 * @since 1.7.0
 		 *
-		 * @param array $classes Array of determined classes for the row.
+		 * @param string[] $classes Array of determined classes for the row.
 		 */
-		$classes = array_map( 'sanitize_html_class', apply_filters( 'bp_get_group_class', $classes ) );
-		$classes = array_merge( $classes, array() );
-		$retval = 'class="' . join( ' ', $classes ) . '"';
+		$classes = apply_filters( 'bp_get_group_class', $classes );
 
-		return $retval;
+		$classes = array_map( 'sanitize_html_class', $classes );
+		$classes = array_merge( $classes, array() );
+
+		return 'class="' . join( ' ', $classes ) . '"';
 	}
 
 /**
