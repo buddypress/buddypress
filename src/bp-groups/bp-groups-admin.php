@@ -41,7 +41,7 @@ function bp_groups_add_admin_menu() {
 add_action( bp_core_admin_hook(), 'bp_groups_add_admin_menu' );
 
 /**
- * Redirects the user on the Goups network admin screen when BuddyPress is network activated.
+ * Redirects the user on the Groups network admin screen when BuddyPress is network activated.
  *
  * @since 7.0.0
  */
@@ -57,6 +57,11 @@ function bp_group_site_admin_network_admin_redirect() {
  */
 function bp_groups_admin_types_menu() {
 	if ( ! bp_is_root_blog() ) {
+		return;
+	}
+
+	// Bail if the bp_group_type taxonomy is disabled.
+	if ( ! taxonomy_exists( 'bp_group_type' ) ) {
 		return;
 	}
 
@@ -105,11 +110,12 @@ add_action( 'bp_admin_menu', 'bp_groups_admin_types_menu' );
  *
  * @since 1.7.0
  *
- * @param array $custom_menus Array of BP top-level menu items.
- * @return array Menu item array, with Groups added.
+ * @param string[] $custom_menus Array of BP top-level menu items.
+ * @return string[] Menu item array, with Groups added.
  */
 function bp_groups_admin_menu_order( $custom_menus = array() ) {
-	array_push( $custom_menus, 'bp-groups' );
+	$custom_menus[] = 'bp-groups';
+
 	return $custom_menus;
 }
 add_filter( 'bp_admin_menu_order', 'bp_groups_admin_menu_order' );
