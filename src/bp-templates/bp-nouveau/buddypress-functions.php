@@ -227,11 +227,8 @@ class BP_Nouveau extends BP_Theme_Compat {
 		add_action( 'bp_enqueue_community_scripts', array( $this, 'localize_scripts' ) );
 		remove_action( 'bp_enqueue_community_scripts', 'bp_core_confirmation_js' );
 
-		/** This filter is documented in bp-core/bp-core-dependency.php */
-		if ( is_buddypress() || ! apply_filters( 'bp_enqueue_assets_in_bp_pages_only', true ) ) {
-			// Body no-js class.
-			add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
-		}
+		// Body no-js class.
+		add_filter( 'body_class', array( $this, 'add_nojs_body_class' ), 20, 1 );
 
 		// Ajax querystring.
 		add_filter( 'bp_ajax_querystring', 'bp_nouveau_ajax_querystring', 10, 2 );
@@ -483,12 +480,17 @@ class BP_Nouveau extends BP_Theme_Compat {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $classes Array of classes to append to body tag.
-	 *
-	 * @return array $classes
+	 * @param string[] $classes Array of classes to append to body tag.
+	 * @return string[]
 	 */
 	public function add_nojs_body_class( $classes ) {
+		/** This filter is documented in bp-core/bp-core-dependency.php */
+		if ( ! is_buddypress() || apply_filters( 'bp_enqueue_assets_in_bp_pages_only', true ) ) {
+			return $classes;
+		}
+
 		$classes[] = 'no-js';
+
 		return array_unique( $classes );
 	}
 
