@@ -158,27 +158,33 @@ class BP_Settings_Component extends BP_Component {
 			'user_has_access_callback' => 'bp_core_can_edit_settings',
 		);
 
-		// Add Email nav item. Formerly called 'Notifications', we
-		// retain the old slug and function names for backward compat.
-		$sub_nav[] = array(
-			'name'                     => __( 'Email', 'buddypress' ),
-			'slug'                     => 'notifications',
-			'parent_slug'              => $slug,
-			'screen_function'          => 'bp_settings_screen_notification',
-			'position'                 => 20,
-			'user_has_access'          => false,
-			'user_has_access_callback' => 'bp_core_can_edit_settings',
-		);
+		/**
+		 * Add Email nav item. Formely called 'Notifications', we
+		 * retain the old slug and function names for backward compat.
+		 */
+		if ( bp_is_active( 'notifications' ) ) {
+			$sub_nav[] = array(
+				'name'                     => __( 'Email', 'buddypress' ),
+				'slug'                     => 'notifications',
+				'parent_slug'              => $slug,
+				'screen_function'          => 'bp_settings_screen_notification',
+				'position'                 => 20,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_core_can_edit_settings',
+			);
+		}
 
-		$sub_nav[] = array(
-			'name'                     => _x( 'Profile Visibility', 'Profile settings sub nav', 'buddypress' ),
-			'slug'                     => 'profile',
-			'parent_slug'              => $slug,
-			'screen_function'          => 'bp_xprofile_screen_settings',
-			'position'                 => 30,
-			'user_has_access'          => false,
-			'user_has_access_callback' => 'bp_core_can_edit_settings',
-		);
+		if ( bp_is_active( 'xprofile' ) ) {
+			$sub_nav[] = array(
+				'name'                     => _x( 'Profile Visibility', 'Profile settings sub nav', 'buddypress' ),
+				'slug'                     => 'profile',
+				'parent_slug'              => $slug,
+				'screen_function'          => 'bp_xprofile_screen_settings',
+				'position'                 => 30,
+				'user_has_access'          => false,
+				'user_has_access_callback' => 'bp_core_can_edit_settings',
+			);
+		}
 
 		$sub_nav[] = array(
 			'name'                     => __( 'Capabilities', 'buddypress' ),
