@@ -965,6 +965,11 @@ function bp_core_include_directory_on_front( $pages = array(), $args = array() )
 		return $pages;
 	}
 
+	// BP pages are only relevant on the root blog in multisite.
+	if ( ! bp_is_root_blog() ) {
+		return $pages;
+	}
+
 	$is_page_on_front_dropdown = false;
 
 	if ( isset( $args['name'] ) ) {
