@@ -913,6 +913,5 @@ function bp_groups_leave_group_delete_recent_activity( $group_id, $user_id ) {
 		) );
 	}
 }
-add_action( 'groups_leave_group',   'bp_groups_leave_group_delete_recent_activity', 10, 2 );
 add_action( 'groups_remove_member', 'bp_groups_leave_group_delete_recent_activity', 10, 2 );
 add_action( 'groups_ban_member',    'bp_groups_leave_group_delete_recent_activity', 10, 2 );
