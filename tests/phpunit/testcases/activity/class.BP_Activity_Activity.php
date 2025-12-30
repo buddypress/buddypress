@@ -975,7 +975,8 @@ class BP_Tests_Activity_Class extends BP_UnitTestCase {
 	 */
 	public function test_nonexistent_activity_should_have_id_0_after_population() {
 		$a = self::factory()->activity->create();
-		bp_activity_delete_by_activity_id( $a );
+
+		bp_activity_delete( array( 'id' => $a ) );
 
 		$a_obj = new BP_Activity_Activity( $a );
 		$this->assertSame( 0, $a_obj->id );

@@ -2997,7 +2997,7 @@ function bp_activity_get_activity_id( $args = '' ) {
  * The action passes one parameter that is a single activity ID or an
  * array of activity IDs depending on the number deleted.
  *
- * If you are deleting an activity comment please use bp_activity_delete_comment();
+ * If you are deleting an activity comment please use `bp_activity_delete_comment()`;
  *
  * @since 1.0.0
  *
@@ -3082,84 +3082,6 @@ function bp_activity_delete( $args = '' ) {
 	return true;
 }
 
-	/**
-	 * Delete an activity item by activity id.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @deprecated 1.2.0 You should use `bp_activity_delete()` instead.
-	 *
-	 * @param array|string $args See BP_Activity_Activity::get for a
-	 *                           description of accepted arguments.
-	 * @return bool
-	 */
-	function bp_activity_delete_by_item_id( $args = '' ) {
-		$r = bp_parse_args(
-			$args,
-			array(
-				'item_id'           => false,
-				'component'         => false,
-				'type'              => false,
-				'user_id'           => false,
-				'secondary_item_id' => false,
-			)
-		);
-
-		return bp_activity_delete( $r );
-	}
-
-	/**
-	 * Delete an activity item by activity id.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param int $activity_id ID of the activity item to be deleted.
-	 * @return bool
-	 */
-	function bp_activity_delete_by_activity_id( $activity_id ) {
-		return bp_activity_delete( array( 'id' => $activity_id ) );
-	}
-
-	/**
-	 * Delete an activity item by its content.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @deprecated 1.2.0 You should use bp_activity_delete() instead.
-	 *
-	 * @param int    $user_id   The user id.
-	 * @param string $content   The activity id.
-	 * @param string $component The activity component.
-	 * @param string $type      The activity type.
-	 * @return bool
-	 */
-	function bp_activity_delete_by_content( $user_id, $content, $component, $type ) {
-		return bp_activity_delete( array(
-			'user_id'   => $user_id,
-			'content'   => $content,
-			'component' => $component,
-			'type'      => $type
-		) );
-	}
-
-	/**
-	 * Delete a user's activity for a component.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @deprecated 1.2.0 You should use bp_activity_delete() instead.
-	 *
-	 * @param int    $user_id   The user id.
-	 * @param string $component The activity component.
-	 * @return bool
-	 */
-	function bp_activity_delete_for_user_by_component( $user_id, $component ) {
-		return bp_activity_delete( array(
-			'user_id'   => $user_id,
-			'component' => $component
-		) );
-	}
-
 /**
  * Delete an activity comment.
  *
@@ -3230,7 +3152,6 @@ function bp_activity_delete_comment( $activity_id, $comment_id ) {
 
 	return $deleted;
 }
-
 	/**
 	 * Delete an activity comment's children.
 	 *

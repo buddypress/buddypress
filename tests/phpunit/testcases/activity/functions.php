@@ -1393,7 +1393,7 @@ Bar!';
 		$u = self::factory()->user->create();
 		$a = self::factory()->activity->create();
 
-		bp_activity_delete_by_activity_id( $a );
+		bp_activity_delete( array( 'id' => $a ) );
 
 		$c = bp_activity_new_comment( array(
 			'activity_id' => $a,
@@ -1567,9 +1567,6 @@ Bar!';
 		$this->assertEquals( $a, bp_activity_get_activity_id( $args ) );
 	}
 
-	/**
-	 * @group bp_activity_delete_by_item_id
-	 */
 	public function test_bp_activity_delete_by_item_id() {
 		$args = array(
 			'user_id' => 5,
@@ -1581,7 +1578,7 @@ Bar!';
 
 		$a = self::factory()->activity->create( $args );
 
-		$this->assertTrue( bp_activity_delete_by_item_id( $args ) );
+		$this->assertTrue( bp_activity_delete( $args ) );
 
 		$found = bp_activity_get_specific( array(
 			'activity_ids' => array( $a ),
