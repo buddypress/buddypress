@@ -17,15 +17,14 @@ defined( 'ABSPATH' ) || exit;
  * Register activity actions for the Groups component.
  *
  * @since 1.1.0
- *
- * @return false|null False on failure.
  */
 function groups_register_activity_actions() {
-	$bp = buddypress();
 
 	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
+		return;
 	}
+
+	$bp = buddypress();
 
 	bp_activity_set_action(
 		$bp->groups->id,
@@ -103,8 +102,7 @@ function bp_groups_get_activity_group( $group_id = 0 ) {
  * @return string
  */
 function bp_groups_format_activity_action_created_group( $action, $activity ) {
-	$user_link = bp_core_get_userlink( $activity->user_id );
-
+	$user_link  = bp_core_get_userlink( $activity->user_id );
 	$group      = bp_groups_get_activity_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
@@ -132,8 +130,7 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
  * @return string
  */
 function bp_groups_format_activity_action_joined_group( $action, $activity ) {
-	$user_link = bp_core_get_userlink( $activity->user_id );
-
+	$user_link  = bp_core_get_userlink( $activity->user_id );
 	$group      = bp_groups_get_activity_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
@@ -172,8 +169,7 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
  * @return string
  */
 function bp_groups_format_activity_action_group_details_updated( $action, $activity ) {
-	$user_link = bp_core_get_userlink( $activity->user_id );
-
+	$user_link  = bp_core_get_userlink( $activity->user_id );
 	$group      = bp_groups_get_activity_group( $activity->item_id );
 	$group_link = '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>';
 
@@ -345,7 +341,7 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 		);
 	}
 
-	$retval = array(
+	return array(
 		'relation' => 'AND',
 		array(
 			'relation' => 'AND',
@@ -367,8 +363,6 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 			'show_hidden' => true
 		),
 	);
-
-	return $retval;
 }
 add_filter( 'bp_activity_set_groups_scope_args', 'bp_groups_filter_activity_scope', 10, 2 );
 
@@ -406,7 +400,7 @@ function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
 		)
 	);
 
-	$retval = array(
+	return array(
 		'relation' => 'OR',
 
 		// Allow hidden items for items unconnected to groups.
@@ -480,8 +474,6 @@ function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
 			'show_hidden'      => true,
 		),
 	);
-
-	return $retval;
 }
 add_filter( 'bp_activity_set_favorites_scope_args', 'bp_groups_filter_activity_favorites_scope', 20, 2 );
 
@@ -645,8 +637,8 @@ function groups_post_update( $args = '' ) {
  *
  * @since 6.0.0
  *
- * @param  bool   $retval   True if item can receive comments.
- * @param  object $activity Activity item being checked.
+ * @param bool   $retval   True if item can receive comments.
+ * @param object $activity Activity item being checked.
  * @return bool
  */
 function bp_groups_filter_activity_user_can_delete( $retval, $activity ) {
@@ -683,8 +675,8 @@ add_filter( 'bp_activity_user_can_delete', 'bp_groups_filter_activity_user_can_d
  *
  * @since 3.0.0
  *
- * @param  bool                      $retval   True if item can receive comments.
- * @param  null|BP_Activity_Activity $activity Null by default. Pass an activity object to check against that instead.
+ * @param bool                      $retval   True if item can receive comments.
+ * @param null|BP_Activity_Activity $activity Null by default. Pass an activity object to check against that instead.
  * @return bool
  */
 function bp_groups_filter_activity_can_comment( $retval, $activity = null ) {
@@ -718,7 +710,7 @@ function bp_groups_filter_activity_can_comment( $retval, $activity = null ) {
 
 	return $retval;
 }
-add_filter( 'bp_activity_can_comment', 'bp_groups_filter_activity_can_comment', 99, 1 );
+add_filter( 'bp_activity_can_comment', 'bp_groups_filter_activity_can_comment', 99 );
 
 /**
  * Function used to determine if a user can reply on a group activity comment.
@@ -727,8 +719,8 @@ add_filter( 'bp_activity_can_comment', 'bp_groups_filter_activity_can_comment', 
  *
  * @since 3.0.0
  *
- * @param  bool        $retval  True if activity comment can be replied to.
- * @param  object|bool $comment Current activity comment object. If empty, parameter is boolean false.
+ * @param bool        $retval  True if activity comment can be replied to.
+ * @param object|bool $comment Current activity comment object. If empty, parameter is boolean false.
  * @return bool
  */
 function bp_groups_filter_activity_can_comment_reply( $retval, $comment ) {
@@ -752,16 +744,15 @@ add_filter( 'bp_activity_can_comment_reply', 'bp_groups_filter_activity_can_comm
  *
  * @param int $user_id  ID of the user joining the group.
  * @param int $group_id ID of the group.
- * @return false|null False on failure.
  */
 function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 
 	// Bail if Activity is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
+		return;
 	}
 
-	// Get the group so we can get it's name.
+	// Get the group so we can get its name.
 	$group = groups_get_group( $group_id );
 
 	/**
@@ -790,20 +781,19 @@ add_action( 'groups_membership_accepted', 'bp_groups_membership_accepted_add_act
  *
  * @since 2.2.0
  *
- * @param  int             $group_id       ID of the group.
- * @param  BP_Groups_Group $old_group      Group object before the details had been changed.
- * @param  bool            $notify_members True if the admin has opted to notify group members, otherwise false.
- * @return null|WP_Error|bool|int The ID of the activity on success. False on error.
+ * @param int             $group_id       ID of the group.
+ * @param BP_Groups_Group $old_group      Group object before the details had been changed.
+ * @param bool            $notify_members True if the admin has opted to notify group members, otherwise false.
  */
 function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $notify_members ) {
 
 	// Bail if Activity is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
+		return;
 	}
 
 	if ( ! isset( $old_group->name ) || ! isset( $old_group->slug ) || ! isset( $old_group->description ) ) {
-		return false;
+		return;
 	}
 
 	// If the admin has opted not to notify members, don't post an activity item either.
@@ -811,9 +801,7 @@ function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $n
 		return;
 	}
 
-	$group = groups_get_group( array(
-		'group_id' => $group_id,
-	) );
+	$group = groups_get_group( $group_id );
 
 	/*
 	 * Store the changed data, which will be used to generate the activity
@@ -850,17 +838,17 @@ function bp_groups_group_details_updated_add_activity( $group_id, $old_group, $n
 	}
 
 	$time = bp_core_current_time();
+
 	groups_update_groupmeta( $group_id, 'updated_details_' . $time, $changed );
 
 	// Record in activity streams.
-	return groups_record_activity( array(
+	groups_record_activity( array(
 		'type'          => 'group_details_updated',
 		'item_id'       => $group_id,
 		'user_id'       => bp_loggedin_user_id(),
 		'recorded_time' => $time,
 
 	) );
-
 }
 add_action( 'groups_details_updated', 'bp_groups_group_details_updated_add_activity', 10, 3 );
 
@@ -879,7 +867,7 @@ function bp_groups_delete_group_delete_all_activity( $group_id ) {
 		) );
 	}
 }
-add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_activity', 10 );
+add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_activity' );
 
 /**
  * Delete group member activity if they leave or are removed within 5 minutes of membership modification.
