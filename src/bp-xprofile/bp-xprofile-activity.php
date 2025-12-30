@@ -116,16 +116,13 @@ function xprofile_record_activity( $args = '' ) {
  *
  * @since 1.0.0
  *
- *                            for a specific activity.
- *
  * @param array|string $args Containing all variables used after bp_parse_args() call.
- * @return bool
  */
 function xprofile_delete_activity( $args = '' ) {
 
 	// Bail if activity component is not active.
 	if ( ! bp_is_active( 'activity' ) ) {
-		return false;
+		return;
 	}
 
 	// Parse the arguments.
@@ -138,7 +135,7 @@ function xprofile_delete_activity( $args = '' ) {
 	);
 
 	// Delete the activity item.
-	bp_activity_delete_by_item_id( $r );
+	bp_activity_delete( $r );
 }
 
 /**

@@ -68,8 +68,7 @@ function friends_record_activity( $args = '' ) {
  *     @type int    $item_id ID of the 'item' associated with the activity item.
  *                           For Friends activity items, this is usually the user ID of one
  *                           of the friends.
- *     @type string $type    The 'type' of the activity item (eg
- *                           'friendship_accepted').
+ *     @type string $type    The 'type' of the activity item (e.g.: 'friendship_accepted').
  *     @type int    $user_id ID of the user associated with the activity item.
  * }
  */
@@ -78,12 +77,17 @@ function friends_delete_activity( $args ) {
 		return;
 	}
 
-	bp_activity_delete_by_item_id( array(
-		'component' => buddypress()->friends->id,
-		'item_id'   => $args['item_id'],
-		'type'      => $args['type'],
-		'user_id'   => $args['user_id'],
-	) );
+	$r = bp_parse_args(
+		$args,
+		array(
+			'component' => buddypress()->friends->id,
+			'item_id'   => false,
+			'type'      => false,
+			'user_id'   => false,
+		)
+	);
+
+	bp_activity_delete( $r );
 }
 
 /**

@@ -497,7 +497,7 @@ function bp_blogs_delete_activity( $args = '' ) {
 		)
 	);
 
-	return bp_activity_delete_by_item_id( $r );
+	return bp_activity_delete( $r );
 }
 
 /**

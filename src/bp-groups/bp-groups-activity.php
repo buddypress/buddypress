@@ -860,12 +860,18 @@ add_action( 'groups_details_updated', 'bp_groups_group_details_updated_add_activ
  * @param int $group_id ID of the group.
  */
 function bp_groups_delete_group_delete_all_activity( $group_id ) {
-	if ( bp_is_active( 'activity' ) ) {
-		bp_activity_delete_by_item_id( array(
+
+	// Bail if Activity component is not active.
+	if ( ! bp_is_active( 'activity' ) ) {
+		return;
+	}
+
+	bp_activity_delete(
+		array(
 			'item_id'   => $group_id,
 			'component' => buddypress()->groups->id
-		) );
-	}
+		)
+	);
 }
 add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_activity' );
 
