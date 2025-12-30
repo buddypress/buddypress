@@ -1915,7 +1915,7 @@ function bp_activity_get( $args = '' ) {
 			 *     'secondary_id' => false, // Secondary object ID to filter on e.g. a post_id.
 			 * );
 			 */
-			'filter' => array()
+			'filter' => array(),
 		),
 		'activity_get'
 	);
@@ -3042,7 +3042,7 @@ function bp_activity_delete( $args = '' ) {
 	// Adjust the new mention count of any mentioned member.
 	bp_activity_adjust_mention_count( $args['id'], 'delete' );
 
-	$activity_ids_deleted = BP_Activity_Activity::delete( $args );
+	$activity_ids_deleted = (array) BP_Activity_Activity::delete( $args );
 	if ( empty( $activity_ids_deleted ) ) {
 		return false;
 	}
@@ -3053,10 +3053,8 @@ function bp_activity_delete( $args = '' ) {
 		: $args['user_id'];
 
 	$latest_update = bp_get_user_meta( $user_id, 'bp_latest_update', true );
-	if ( !empty( $latest_update ) ) {
-		if ( in_array( (int) $latest_update['id'], (array) $activity_ids_deleted ) ) {
-			bp_delete_user_meta( $user_id, 'bp_latest_update' );
-		}
+	if ( ! empty( $latest_update ) && in_array( (int) $latest_update['id'], $activity_ids_deleted, true ) ) {
+		bp_delete_user_meta( $user_id, 'bp_latest_update' );
 	}
 
 	/**
@@ -3076,8 +3074,6 @@ function bp_activity_delete( $args = '' ) {
 	 * @param array $activity_ids_deleted Array of affected activity item IDs.
 	 */
 	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
-
-	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 
 	return true;
 }

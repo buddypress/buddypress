@@ -66,6 +66,8 @@ function bp_activity_clear_cache_for_deleted_activity( $deleted_ids ) {
 	foreach ( (array) $deleted_ids as $deleted_id ) {
 		wp_cache_delete( $deleted_id, 'bp_activity' );
 	}
+
+	wp_cache_delete( 'bp_activity_sitewide_front', 'bp' );
 }
 add_action( 'bp_activity_deleted_activities', 'bp_activity_clear_cache_for_deleted_activity' );
 

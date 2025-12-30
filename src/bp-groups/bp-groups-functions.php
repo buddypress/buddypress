@@ -662,7 +662,6 @@ function groups_leave_group( $group, $user_id = 0 ) {
  * @return bool
  */
 function groups_join_group( $group, $user_id = 0 ) {
-
 	$group = bp_get_group( $group );
 
 	if ( empty( $group->id ) ) {
@@ -703,17 +702,6 @@ function groups_join_group( $group, $user_id = 0 ) {
 		return false;
 	}
 
-	// Record this in activity streams.
-	if ( bp_is_active( 'activity' ) ) {
-		groups_record_activity(
-			array(
-				'type'    => 'joined_group',
-				'item_id' => $group_id,
-				'user_id' => $user_id,
-			)
-		);
-	}
-
 	/**
 	 * Fires after a user joins a group.
 	 *
@@ -739,7 +727,6 @@ function groups_join_group( $group, $user_id = 0 ) {
  *                                          Default: the current group's ID.
  */
 function groups_update_last_activity( $group = 0 ) {
-
 	$group = bp_get_group( $group );
 
 	if ( empty( $group->id ) ) {
