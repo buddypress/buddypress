@@ -873,10 +873,12 @@ add_action( 'groups_details_updated', 'bp_groups_group_details_updated_add_activ
  */
 function bp_groups_delete_group_delete_all_activity( $group_id ) {
 	if ( bp_is_active( 'activity' ) ) {
-		bp_activity_delete_by_item_id( array(
-			'item_id'   => $group_id,
-			'component' => buddypress()->groups->id
-		) );
+		bp_activity_delete(
+			array(
+				'item_id'   => $group_id,
+				'component' => buddypress()->groups->id
+			)
+		);
 	}
 }
 add_action( 'groups_delete_group', 'bp_groups_delete_group_delete_all_activity', 10 );

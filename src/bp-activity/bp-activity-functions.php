@@ -2470,7 +2470,6 @@ function bp_activity_post_type_update( $post = null ) {
  *
  * @param int          $post_id ID of the post being unpublished.
  * @param WP_Post|null $post    Post object.
- * @return bool
  */
 function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
 
@@ -2497,7 +2496,7 @@ function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
 		'user_id'           => false,
 	);
 
-	$deleted = bp_activity_delete_by_item_id( $delete_activity_args );
+	$deleted = bp_activity_delete( $delete_activity_args );
 
 	/**
 	 * Fires after the unpublishing for the custom post type.
@@ -2506,15 +2505,13 @@ function bp_activity_post_type_unpublish( $post_id = 0, $post = null ) {
 	 *
 	 * @param array   $delete_activity_args Array of arguments for activity deletion.
 	 * @param WP_Post $post                 Post object.
-	 * @param bool    $activity             Whether or not the activity was successfully deleted.
+	 * @param bool    $deleted              Whether or not the activity was successfully deleted.
 	 */
 	do_action( 'bp_activity_post_type_unpublished', $delete_activity_args, $post, $deleted );
-
-	return $deleted;
 }
 
 /**
- * Create an activity item for a newly posted post type comment.
+ * Create an activity item for a newly published post type comment.
  *
  * @since 2.5.0
  *
@@ -2745,13 +2742,15 @@ function bp_activity_post_type_remove_comment( $comment_id = 0, $activity_post_o
 	$deleted = false;
 
 	if ( bp_disable_blogforum_comments() ) {
-		$deleted = bp_activity_delete_by_item_id( array(
-			'item_id'           => get_current_blog_id(),
-			'secondary_item_id' => $comment_id,
-			'component'         => $activity_comment_object->component_id,
-			'type'              => $activity_comment_object->action_id,
-			'user_id'           => false,
-		) );
+		$deleted = bp_activity_delete(
+			array(
+				'item_id'           => get_current_blog_id(),
+				'secondary_item_id' => $comment_id,
+				'component'         => $activity_comment_object->component_id,
+				'type'              => $activity_comment_object->action_id,
+				'user_id'           => false,
+			)
+		);
 	}
 
 	/**
@@ -3086,17 +3085,15 @@ function bp_activity_delete( $args = '' ) {
 	/**
 	 * Delete an activity item by activity id.
 	 *
-	 * You should use bp_activity_delete() instead.
-	 *
 	 * @since 1.1.0
-	 * @deprecated 1.2.0
+	 *
+	 * @deprecated 1.2.0 You should use `bp_activity_delete()` instead.
 	 *
 	 * @param array|string $args See BP_Activity_Activity::get for a
 	 *                           description of accepted arguments.
 	 * @return bool
 	 */
 	function bp_activity_delete_by_item_id( $args = '' ) {
-
 		$r = bp_parse_args(
 			$args,
 			array(
@@ -3116,7 +3113,6 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * @since 1.1.0
 	 *
-	 *
 	 * @param int $activity_id ID of the activity item to be deleted.
 	 * @return bool
 	 */
@@ -3127,11 +3123,9 @@ function bp_activity_delete( $args = '' ) {
 	/**
 	 * Delete an activity item by its content.
 	 *
-	 * You should use bp_activity_delete() instead.
-	 *
 	 * @since 1.1.0
-	 * @deprecated 1.2.0
 	 *
+	 * @deprecated 1.2.0 You should use bp_activity_delete() instead.
 	 *
 	 * @param int    $user_id   The user id.
 	 * @param string $content   The activity id.
@@ -3151,11 +3145,9 @@ function bp_activity_delete( $args = '' ) {
 	/**
 	 * Delete a user's activity for a component.
 	 *
-	 * You should use bp_activity_delete() instead.
-	 *
 	 * @since 1.1.0
-	 * @deprecated 1.2.0
 	 *
+	 * @deprecated 1.2.0 You should use bp_activity_delete() instead.
 	 *
 	 * @param int    $user_id   The user id.
 	 * @param string $component The activity component.
