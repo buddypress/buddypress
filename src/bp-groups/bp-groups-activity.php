@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * Register activity actions for the Groups component.
  *
  * @since 1.1.0
+ * @since 15.0.0 Added the  `rejoined_group` action.
  */
 function groups_register_activity_actions() {
 
@@ -85,8 +86,8 @@ add_action( 'bp_register_activity_actions', 'groups_register_activity_actions' )
  *
  * @since 5.0.0
  *
- * @param integer $group_id The group ID the activity is linked to.
- * @return BP_Groups_Group  The group object the activity belongs to.
+ * @param int $group_id The group ID the activity is linked to.
+ * @return BP_Groups_Group
  */
 function bp_groups_get_activity_group( $group_id = 0 ) {
 	// If displaying a specific group, check the activity belongs to it.
@@ -106,8 +107,8 @@ function bp_groups_get_activity_group( $group_id = 0 ) {
  *
  * @since 2.0.0
  *
- * @param string $action   Static activity action.
- * @param object $activity Activity data object.
+ * @param string               $action   Static activity action.
+ * @param BP_Activity_Activity $activity Activity data object.
  * @return string
  */
 function bp_groups_format_activity_action_created_group( $action, $activity ) {
@@ -123,8 +124,8 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param string $action   The 'created_group' activity action.
-	 * @param object $activity Activity data object.
+	 * @param string               $action   The 'created_group' activity action.
+	 * @param BP_Activity_Activity $activity Activity data object.
 	 */
 	return apply_filters( 'groups_activity_created_group_action', $action, $activity );
 }
@@ -134,8 +135,8 @@ function bp_groups_format_activity_action_created_group( $action, $activity ) {
  *
  * @since 2.0.0
  *
- * @param string $action   Static activity action.
- * @param object $activity Activity data object.
+ * @param string               $action   Static activity action.
+ * @param BP_Activity_Activity $activity Activity data object.
  * @return string
  */
 function bp_groups_format_activity_action_joined_group( $action, $activity ) {
@@ -162,8 +163,8 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $action   The 'joined_group' activity actions.
-	 * @param object $activity Activity data object.
+	 * @param string               $action   The 'joined_group' activity actions.
+	 * @param BP_Activity_Activity $activity Activity data object.
 	 */
 	return apply_filters( 'bp_groups_format_activity_action_joined_group', $action, $activity );
 }
@@ -201,8 +202,8 @@ function bp_groups_format_activity_action_rejoined_group( $action, $activity ) {
  *
  * @since 2.2.0
  *
- * @param  string $action   Static activity action.
- * @param  object $activity Activity data object.
+ * @param  string               $action   Static activity action.
+ * @param  BP_Activity_Activity $activity Activity data object.
  * @return string
  */
 function bp_groups_format_activity_action_group_details_updated( $action, $activity ) {
@@ -246,8 +247,8 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $action   The 'group_details_updated' activity actions.
-	 * @param object $activity Activity data object.
+	 * @param string               $action   The 'group_details_updated' activity actions.
+	 * @param BP_Activity_Activity $activity Activity data object.
 	 */
 	return apply_filters( 'bp_groups_format_activity_action_joined_group', $action, $activity );
 }
@@ -257,8 +258,8 @@ function bp_groups_format_activity_action_group_details_updated( $action, $activ
  *
  * @since 5.0.0
  *
- * @param string $action   Static activity action.
- * @param object $activity Activity data object.
+ * @param string               $action   Static activity action.
+ * @param BP_Activity_Activity $activity Activity data object.
  * @return string          The formatted action for activity updates posted in a Group.
  */
 function bp_groups_format_activity_action_group_activity_update( $action, $activity ) {
@@ -283,8 +284,8 @@ function bp_groups_format_activity_action_group_activity_update( $action, $activ
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param string $action   The Group's activity update action.
-	 * @param object $activity Activity data object.
+	 * @param string               $action   The Group's activity update action.
+	 * @param BP_Activity_Activity $activity Activity data object.
 	 */
 	return apply_filters( 'bp_groups_format_activity_action_group_activity_update', $action, $activity );
 }
@@ -374,7 +375,7 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 	if ( ! empty( $user_id ) && ( $user_id !== bp_loggedin_user_id() ) ) {
 		$show_hidden = array(
 			'column' => 'hide_sitewide',
-			'value'  => 0
+			'value'  => 0,
 		);
 	}
 
@@ -384,12 +385,12 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 			'relation' => 'AND',
 			array(
 				'column' => 'component',
-				'value'  => buddypress()->groups->id
+				'value'  => buddypress()->groups->id,
 			),
 			array(
 				'column'  => 'item_id',
 				'compare' => 'IN',
-				'value'   => (array) $groups['groups']
+				'value'   => (array) $groups['groups'],
 			),
 		),
 		$show_hidden,
@@ -397,7 +398,7 @@ function bp_groups_filter_activity_scope( $retval = array(), $filter = array() )
 		// Overrides.
 		'override' => array(
 			'filter'      => array( 'user_id' => 0 ),
-			'show_hidden' => true
+			'show_hidden' => true,
 		),
 	);
 }
@@ -409,7 +410,7 @@ add_filter( 'bp_activity_set_groups_scope_args', 'bp_groups_filter_activity_scop
  * @since 4.3.0
 
  * @param array $retval Query arguments.
- * @param array $filter
+ * @param array $filter Current activity arguments.
  * @return array
  */
 function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {
