@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * Output the blogs component slug.
  *
  * @since 1.5.0
- *
  */
 function bp_blogs_slug() {
 	echo esc_attr( bp_get_blogs_slug() );
@@ -24,7 +23,7 @@ function bp_blogs_slug() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @return string The 'blogs' slug.
+	 * @return string
 	 */
 	function bp_get_blogs_slug() {
 
@@ -42,7 +41,6 @@ function bp_blogs_slug() {
  * Output the blogs component root slug.
  *
  * @since 1.5.0
- *
  */
 function bp_blogs_root_slug() {
 	echo esc_attr( bp_get_blogs_root_slug() );
@@ -817,7 +815,7 @@ function bp_blog_latest_post( $args = array() ) {
  * @see bp_get_blog_latest_post_id()
  */
 function bp_blog_latest_post_id() {
-	echo bp_get_blog_latest_post_id();
+	echo intval( bp_get_blog_latest_post_id() );
 }
 	/**
 	 * Return the ID of the latest post on the current blog in the loop.
@@ -1568,7 +1566,6 @@ function bp_blog_create_nav_item() {
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo bp_get_blog_create_nav_item();
 }
-
 	/**
 	 * Get the Create a Site nav item.
 	 *
@@ -1577,15 +1574,13 @@ function bp_blog_create_nav_item() {
 	 * @return string
 	 */
 	function bp_get_blog_create_nav_item() {
-		// Get the create a site button.
 		$create_blog_button = bp_get_blog_create_button();
+		$output             = '';
 
 		// Make sure the button is available.
-		if ( empty( $create_blog_button ) ) {
-			return;
+		if ( ! empty( $create_blog_button ) ) {
+			$output = '<li id="blog-create-nav">' . $create_blog_button . '</li>';
 		}
-
-		$output = '<li id="blog-create-nav">' . $create_blog_button . '</li>';
 
 		/**
 		 * Filters the Create A Site nav item output.
