@@ -48,7 +48,6 @@ function bp_core_set_ajax_uri_globals() {
  * @return bool
  */
 function bp_core_enable_root_profiles() {
-
 	$retval = false;
 
 	if ( defined( 'BP_ENABLE_ROOT_PROFILES' ) && ( true === BP_ENABLE_ROOT_PROFILES ) ) {
@@ -154,7 +153,7 @@ function bp_core_load_template( $templates ) {
 		$wp_query->is_singular = true;
 		$wp_query->is_404      = false;
 
-		// Check if a BuddyPress component's direcory is set as homepage.
+		// Check if a BuddyPress component's directory is set as homepage.
 		$wp_query->is_home = bp_is_directory_homepage( bp_current_component() );
 
 		/**
@@ -173,7 +172,9 @@ function bp_core_load_template( $templates ) {
 		 *
 		 * @param string $located_template Template found to be loaded.
 		 */
-		load_template( apply_filters( 'bp_load_template', $located_template ) );
+		$bp_load_template = apply_filters( 'bp_load_template', $located_template );
+
+		load_template( $bp_load_template );
 
 		/**
 		 * Fires after the loading of a located template file.
