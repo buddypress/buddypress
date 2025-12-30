@@ -173,8 +173,8 @@ function bp_groups_format_activity_action_joined_group( $action, $activity ) {
  *
  * @since 15.0.0
  *
- * @param string $action   Static activity action.
- * @param object $activity Activity data object.
+ * @param string               $action   Static activity action.
+ * @param BP_Activity_Activity $activity Activity data object.
  * @return string
  */
 function bp_groups_format_activity_action_rejoined_group( $action, $activity ) {
@@ -190,8 +190,8 @@ function bp_groups_format_activity_action_rejoined_group( $action, $activity ) {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param string $action   The 'rejoined_group' activity action.
-	 * @param object $activity Activity data object.
+	 * @param string               $action   The 'rejoined_group' activity action.
+	 * @param BP_Activity_Activity $activity Activity data object.
 	 */
 	return apply_filters( 'bp_groups_format_activity_action_rejoined_group', $action, $activity );
 }
@@ -771,7 +771,7 @@ function bp_groups_filter_activity_can_comment_reply( $retval, $comment ) {
 add_filter( 'bp_activity_can_comment_reply', 'bp_groups_filter_activity_can_comment_reply', 99, 2 );
 
 /**
- * Add an activity stream item when a member joins a group.
+ * Add an activity stream item when a member joins a group via a group invitation.
  *
  * @since 1.9.0
  *

@@ -2296,7 +2296,7 @@ function groups_remove_member( $user_id, $group_id, $group_admin_id = 0 ) {
 	 *
 	 * @since 14.0.0
 	 *
-	 * @param int $user_id  ID of the user being unbanned.
+	 * @param int $user_id  ID of the user being removed from.
 	 * @param int $group_id ID of the group being removed from.
 	 */
 	do_action( 'group_member_removed', $user_id, $group_id );
