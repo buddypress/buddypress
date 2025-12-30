@@ -3042,7 +3042,7 @@ function bp_activity_delete( $args = '' ) {
 	// Adjust the new mention count of any mentioned member.
 	bp_activity_adjust_mention_count( $args['id'], 'delete' );
 
-	$activity_ids_deleted = (array) BP_Activity_Activity::delete( $args );
+	$activity_ids_deleted = wp_parse_id_list( BP_Activity_Activity::delete( $args ) );
 	if ( empty( $activity_ids_deleted ) ) {
 		return false;
 	}
@@ -3071,7 +3071,7 @@ function bp_activity_delete( $args = '' ) {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array $activity_ids_deleted Array of affected activity item IDs.
+	 * @param int[] $activity_ids_deleted Array of affected activity item IDs.
 	 */
 	do_action( 'bp_activity_deleted_activities', $activity_ids_deleted );
 

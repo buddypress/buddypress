@@ -60,7 +60,7 @@ add_action( 'bp_activity_after_save', 'bp_activity_clear_cache_for_activity' );
  *
  * @since 2.0.0
  *
- * @param array $deleted_ids IDs of deleted activity items.
+ * @param int[] $deleted_ids IDs of deleted activity items.
  */
 function bp_activity_clear_cache_for_deleted_activity( $deleted_ids ) {
 	foreach ( (array) $deleted_ids as $deleted_id ) {
