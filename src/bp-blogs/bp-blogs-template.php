@@ -809,7 +809,7 @@ function bp_blog_latest_post( $args = array() ) {
  * @see bp_get_blog_latest_post_id()
  */
 function bp_blog_latest_post_id() {
-	echo bp_get_blog_latest_post_id();
+	echo intval( bp_get_blog_latest_post_id() );
 }
 	/**
 	 * Return the ID of the latest post on the current blog in the loop.
