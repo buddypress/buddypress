@@ -21,7 +21,7 @@ class BP_Tests_Groups_Types extends BP_UnitTestCase {
 	}
 
 	public static function wpTearDownAfterClass() {
-		self::delete_user( self::$u1 );
+		self::delete_user( (int) self::$u1 );
 	}
 
 	public function test_groups_register_type_should_fail_for_existing_group_type() {
