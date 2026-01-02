@@ -643,48 +643,6 @@ function bp_core_get_active_member_count() {
 }
 
 /**
- * Update the spam status of the member on multisite configs.
- *
- * @since 5.0.0
- *
- * @param int    $user_id The user ID to spam or ham.
- * @param string $value   '0' to mark the user as `ham`, '1' to mark as `spam`.
- * @return bool          True if the spam status of the member changed.
- *                       False otherwise.
- */
-function bp_core_update_member_status( $user_id = 0, $value = 0 ) {
-	if ( ! is_multisite() || ! $user_id ) {
-		return false;
-	}
-
-	/**
-	 * The `update_user_status()` function is deprecated since WordPress 5.3.0.
-	 * Continue to use it if WordPress current major version is lower than 5.3.
-	 */
-	if ( bp_get_major_wp_version() < 5.3 ) {
-		return update_user_status( $user_id, 'spam', $value );
-	}
-
-	if ( $value ) {
-		$value = '1';
-	}
-
-	// Otherwise use the replacement function.
-	$user = wp_update_user(
-		array(
-			'ID'   => $user_id,
-			'spam' => $value,
-		)
-	);
-
-	if ( is_wp_error( $user ) ) {
-		return false;
-	}
-
-	return true;
-}
-
-/**
  * Process a spammed or unspammed user.
  *
  * This function is called from three places:
@@ -711,24 +669,24 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 
 	// Bail if no user ID.
 	if ( empty( $user_id ) ) {
-		return;
+		return false;
 	}
 
 	// Bail if user ID is super admin.
 	if ( is_super_admin( $user_id ) ) {
-		return;
+		return false;
 	}
 
 	// Get the functions file.
 	if ( is_multisite() ) {
-		require_once( ABSPATH . 'wp-admin/includes/ms.php' );
+		require_once ABSPATH . 'wp-admin/includes/ms.php';
 	}
 
-	$is_spam = ( 'spam' == $status );
+	$is_spam = 'spam' === $status;
 
 	// Only you can prevent infinite loops.
 	remove_action( 'make_spam_user', 'bp_core_mark_user_spam_admin' );
-	remove_action( 'make_ham_user',  'bp_core_mark_user_ham_admin' );
+	remove_action( 'make_ham_user', 'bp_core_mark_user_ham_admin' );
 
 	// Force the cleanup of WordPress content and status for multisite configs.
 	if ( $do_wp_cleanup ) {
@@ -777,37 +735,46 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 				update_blog_status( $site_id, 'spam', $is_spam );
 			}
 		}
-
-		// Finally, mark this user as a spammer.
-		bp_core_update_member_status( $user_id, $is_spam );
 	}
 
-	// Update the user status.
-	$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $user_id ) );
+	// Update user status on multisite configs.
+	if ( is_multisite() ) {
+		$updated_user = wp_update_user(
+			array(
+				'ID'   => $user_id,
+				'spam' => $is_spam ? '1' : '0',
+			)
+		);
 
-	// Clean user cache.
-	clean_user_cache( $user_id );
+		if ( is_wp_error( $updated_user ) ) {
+			return false;
+		}
+	} else {
+		// We need to perform the query as WordPress sends an error when using `wp_update_user()` for non-multisite configs.
+		$wpdb->update( $wpdb->users, array( 'user_status' => $is_spam ), array( 'ID' => $user_id ) );
 
-	if ( ! is_multisite() ) {
+		// Clean user cache.
+		clean_user_cache( $user_id );
+
 		// Call multisite actions in single site mode for good measure.
 		if ( true === $is_spam ) {
 
 			/**
-			 * Fires at end of processing spammer in Dashboard if not multisite and user is spam.
+			 * Fires at end of processing spammer in Dashboard if not multisite and user IS spam.
 			 *
 			 * @since 1.5.0
 			 *
-			 * @param int $value user ID.
+			 * @param int $user_id user ID.
 			 */
 			do_action( 'make_spam_user', $user_id );
 		} else {
 
 			/**
-			 * Fires at end of processing spammer in Dashboard if not multisite and user is not spam.
+			 * Fires at end of processing spammer in Dashboard if not multisite and user IS NOT spam.
 			 *
 			 * @since 1.5.0
 			 *
-			 * @param int $value user ID.
+			 * @param int $user_id user ID.
 			 */
 			do_action( 'make_ham_user', $user_id );
 		}
@@ -826,7 +793,7 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param int $value Displayed user ID.
+		 * @param int $user_id Displayed user ID.
 		 */
 		do_action( 'bp_make_spam_user', $user_id );
 	} else {
@@ -836,7 +803,7 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param int $value Displayed user ID.
+		 * @param int $user_id Displayed user ID.
 		 */
 		do_action( 'bp_make_ham_user', $user_id );
 	}
@@ -857,6 +824,7 @@ function bp_core_process_spammer_status( $user_id, $status, $do_wp_cleanup = tru
 
 	return true;
 }
+
 /**
  * Hook to WP's make_spam_user and run our custom BP spam functions.
  *

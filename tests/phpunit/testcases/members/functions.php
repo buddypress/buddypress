@@ -477,7 +477,12 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$bp->displayed_user->id = $u1;
 
 		// Bulk spam in network admin uses update_user_status
-		bp_core_update_member_status( $u1, '1' );
+		wp_update_user(
+			array(
+				'ID'   => $u1,
+				'spam' => '1',
+			)
+		);
 
 		$this->assertTrue( bp_is_user_spammer( $u1 ) );
 
@@ -508,7 +513,12 @@ class BP_Tests_Members_Functions extends BP_UnitTestCase {
 		$this->assertTrue( bp_is_user_spammer( $u1 ) );
 
 		// Bulk unspam in network admin uses update_user_status
-		bp_core_update_member_status( $u1, '0' );
+		wp_update_user(
+			array(
+				'ID'   => $u1,
+				'spam' => '0',
+			)
+		);
 
 		$this->assertFalse( bp_is_user_spammer( $u1 ) );
 
