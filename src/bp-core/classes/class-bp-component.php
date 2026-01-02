@@ -1329,7 +1329,7 @@ class BP_Component {
 				 *
 				 * @since 12.0.0
 				 *
-				 * @param false Whether the user should be redirected to the site login screen.
+				 * @param bool $view_no_access_redirect Whether the user should be redirected to the site login screen.
 				 */
 				$do_redirect_to_login_screen = apply_filters( 'bp_view_no_access_redirect_to_login_screen', false );
 				if ( true === $do_redirect_to_login_screen && ! is_user_logged_in() ) {
