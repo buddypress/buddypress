@@ -662,7 +662,6 @@ function groups_leave_group( $group, $user_id = 0 ) {
  * @return bool
  */
 function groups_join_group( $group, $user_id = 0 ) {
-
 	$group = bp_get_group( $group );
 
 	if ( empty( $group->id ) ) {
@@ -703,17 +702,6 @@ function groups_join_group( $group, $user_id = 0 ) {
 		return false;
 	}
 
-	// Record this in activity streams.
-	if ( bp_is_active( 'activity' ) ) {
-		groups_record_activity(
-			array(
-				'type'    => 'joined_group',
-				'item_id' => $group_id,
-				'user_id' => $user_id,
-			)
-		);
-	}
-
 	/**
 	 * Fires after a user joins a group.
 	 *
@@ -739,7 +727,6 @@ function groups_join_group( $group, $user_id = 0 ) {
  *                                          Default: the current group's ID.
  */
 function groups_update_last_activity( $group = 0 ) {
-
 	$group = bp_get_group( $group );
 
 	if ( empty( $group->id ) ) {
@@ -2309,7 +2296,7 @@ function groups_remove_member( $user_id, $group_id, $group_admin_id = 0 ) {
 	 *
 	 * @since 14.0.0
 	 *
-	 * @param int $user_id  ID of the user being unbanned.
+	 * @param int $user_id  ID of the user being removed from.
 	 * @param int $group_id ID of the group being removed from.
 	 */
 	do_action( 'group_member_removed', $user_id, $group_id );
