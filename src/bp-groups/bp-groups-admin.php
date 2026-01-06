@@ -1285,7 +1285,7 @@ function bp_groups_admin_edit_metabox_status( $item ) {
  *
  * @param BP_Groups_Group|null $group The BP_Groups_Group object corresponding to the group being edited.
  */
-function bp_groups_admin_edit_metabox_group_type( BP_Groups_Group $group = null ) {
+function bp_groups_admin_edit_metabox_group_type( $group = null ) {
 
 	// Bail if no group ID.
 	if ( empty( $group->id ) ) {
