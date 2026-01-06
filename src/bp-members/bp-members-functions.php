@@ -1345,6 +1345,41 @@ function bp_core_delete_avatar_on_delete_user( $user_id ) {
 add_action( 'delete_user', 'bp_core_delete_avatar_on_delete_user' );
 
 /**
+ * Delete a user's cover image when the user is deleted.
+ *
+ * @since 1.9.0
+ *
+ * @param int $user_id ID of the user who is about to be deleted.
+ * @return bool
+ */
+function bp_core_delete_cover_image_on_user_delete( $user_id ) {
+	return bp_attachments_delete_file(
+		array(
+			'item_id'    => $user_id,
+			'object_dir' => 'members',
+			'type'       => 'cover-image',
+		)
+	);
+}
+add_action( 'wpmu_delete_user', 'bp_core_delete_cover_image_on_user_delete' );
+
+/**
+ * Deletes cover image data on the 'delete_user' hook.
+ *
+ * @since 6.0.0
+ *
+ * @param int $user_id The ID of the deleted user.
+ */
+function bp_core_delete_cover_image_on_delete_user( $user_id ) {
+	if ( ! bp_remove_user_data_on_delete_user_hook( 'cover_image', $user_id ) ) {
+		return;
+	}
+
+	bp_core_delete_cover_image_on_user_delete( $user_id );
+}
+add_action( 'delete_user', 'bp_core_delete_cover_image_on_delete_user' );
+
+/**
  * Multibyte-safe ucfirst() support.
  *
  * Uses multibyte functions when available on the PHP build.
