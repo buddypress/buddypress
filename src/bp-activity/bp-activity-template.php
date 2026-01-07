@@ -1908,7 +1908,7 @@ function bp_activity_parent_content( $args = '' ) {
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param string $args Unused. Left over from an earlier implementation.
-	 * @return mixed False on failure, otherwise the activity parent content.
+	 * @return string|false False on failure, otherwise the activity parent content.
 	 */
 	function bp_get_activity_parent_content( $args = '' ) {
 		global $activities_template;
