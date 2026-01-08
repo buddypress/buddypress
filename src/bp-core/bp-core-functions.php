@@ -1316,6 +1316,7 @@ function bp_core_time_diff( $args = array() ) {
 		1
 	);
 
+	// Use site timezone for MySQL datetime strings.
 	foreach ( array( 'older_date', 'newer_date' ) as $date ) {
 		if ( ! $r[ $date ] ) {
 			$r[ $date ] = 0;
@@ -1323,16 +1324,23 @@ function bp_core_time_diff( $args = array() ) {
 		}
 
 		if ( preg_match( '/^\d{4}-\d{2}-\d{2}[ ]\d{2}:\d{2}:\d{2}$/', $r[ $date ] ) ) {
-			$time_chunks = explode( ':', str_replace( ' ', ':', $r[ $date ] ) );
-			$date_chunks = explode( '-', str_replace( ' ', '-', $r[ $date ] ) );
-			$r[ $date ]  = gmmktime(
-				(int) $time_chunks[1],
-				(int) $time_chunks[2],
-				(int) $time_chunks[3],
-				(int) $date_chunks[1],
-				(int) $date_chunks[2],
-				(int) $date_chunks[0]
-			);
+			// Use site timezone if available (WP 5.3+), fallback to UTC.
+			if ( function_exists( 'wp_timezone' ) ) {
+				$dt = date_create( $r[ $date ], wp_timezone() );
+				$r[ $date ] = $dt ? $dt->getTimestamp() : 0;
+			} else {
+				// Fallback for older WP: use gmmktime (UTC)
+				$time_chunks = explode( ':', str_replace( ' ', ':', $r[ $date ] ) );
+				$date_chunks = explode( '-', str_replace( ' ', '-', $r[ $date ] ) );
+				$r[ $date ]  = gmmktime(
+					(int) $time_chunks[1],
+					(int) $time_chunks[2],
+					(int) $time_chunks[3],
+					(int) $date_chunks[1],
+					(int) $date_chunks[2],
+					(int) $date_chunks[0]
+				);
+			}
 		} elseif ( ! is_int( $r[ $date ] ) ) {
 			$r[ $date ] = 0;
 		}
