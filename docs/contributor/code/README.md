@@ -189,7 +189,7 @@ For instance, you could choose to include another plugin like the one we use to 
 ```json
 {
 	"core": "WordPress/WordPress#master",
-	"plugins": [ ".", "buddypress/BP-REST#master", "buddypress/bp-classic#trunk" ],
+	"plugins": [ ".", "buddypress/BP-REST#pre-bp15", "buddypress/bp-classic#trunk" ],
 	"config": {
 		"WP_DEBUG": true,
 		"SCRIPT_DEBUG": true
