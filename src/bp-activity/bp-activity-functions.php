@@ -159,7 +159,7 @@ function bp_activity_clear_new_mentions( $user_id ) {
  *
  * @param int    $activity_id The unique id for the activity item.
  * @param string $action      Can be 'delete' or 'add'. Defaults to 'add'.
- * @return bool
+ * @return bool True on success. False otherwise.
  */
 function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 
@@ -196,7 +196,7 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
  * @param int    $user_id     The user ID.
  * @param int    $activity_id The unique ID for the activity item.
  * @param string $action      'delete' or 'add'. Default: 'add'.
- * @return bool
+ * @return bool True on success. False otherwise.
  */
 function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $action = 'add' ) {
 
