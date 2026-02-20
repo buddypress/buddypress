@@ -529,6 +529,7 @@ function groups_record_activity( $args = '' ) {
 			'secondary_item_id' => false,
 			'recorded_time'     => bp_core_current_time(),
 			'hide_sitewide'     => $hide_sitewide,
+			'privacy'           => 'public',
 			'error_type'        => 'bool',
 		),
 		'groups_record_activity'
@@ -550,6 +551,7 @@ function groups_record_activity( $args = '' ) {
  *                            ID of the logged-in user.
  *     @type int    $group_id Optional. ID of the group to be affiliated with the
  *                            update. Default: ID of the current group.
+ *     @type string $privacy  Optional. Activity privacy value. Default: 'public'.
  * }
  * @return WP_Error|bool|int Returns the ID of the new activity item on success, or false on failure.
  */
@@ -562,6 +564,7 @@ function groups_post_update( $args = '' ) {
 			'content'    => false,
 			'user_id'    => bp_loggedin_user_id(),
 			'group_id'   => 0,
+			'privacy'    => 'public',
 			'error_type' => 'bool',
 		),
 		'groups_post_update'
@@ -610,6 +613,7 @@ function groups_post_update( $args = '' ) {
 		'content'    => $content_filtered,
 		'type'       => 'activity_update',
 		'item_id'    => $group_id,
+		'privacy'    => $r['privacy'],
 		'error_type' => $r['error_type'],
 	) );
 

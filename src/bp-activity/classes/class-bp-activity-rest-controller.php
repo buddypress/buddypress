@@ -895,6 +895,7 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 			'status'            => $activity->is_spam ? 'spam' : 'published',
 			'title'             => $activity->action,
 			'type'              => $activity->type,
+			'privacy'           => isset( $activity->privacy ) ? (string) $activity->privacy : 'public',
 			'hidden'            => (bool) $activity->hide_sitewide,
 			'favorited'         => in_array( $activity->id, $this->get_user_favorites(), true ),
 		);
@@ -1069,6 +1070,17 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 			}
 
 			$prepared_activity->hide_sitewide = $is_hidden;
+		}
+
+		// Activity privacy.
+		if ( ! empty( $schema['properties']['privacy'] ) ) {
+			$privacy = $request->get_param( 'privacy' );
+
+			if ( ! is_null( $privacy ) ) {
+				$prepared_activity->privacy = $privacy;
+			} elseif ( isset( $activity->privacy ) ) {
+				$prepared_activity->privacy = $activity->privacy;
+			}
 		}
 
 		/**
@@ -1417,6 +1429,14 @@ class BP_Activity_REST_Controller extends WP_REST_Controller {
 						'context'     => array( 'edit', 'embed' ),
 						'description' => __( 'Whether the activity object should be sitewide hidden or not.', 'buddypress' ),
 						'type'        => 'boolean',
+					),
+					'privacy'           => array(
+						'context'     => array( 'view', 'edit', 'embed' ),
+						'description' => __( 'The privacy level of the activity object.', 'buddypress' ),
+						'type'        => 'string',
+						'arg_options' => array(
+							'sanitize_callback' => 'sanitize_text_field',
+						),
 					),
 					'favorited'         => array(
 						'context'     => array( 'view', 'edit', 'embed' ),

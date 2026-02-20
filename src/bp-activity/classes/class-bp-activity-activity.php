@@ -135,6 +135,14 @@ class BP_Activity_Activity {
 	var $is_spam;
 
 	/**
+	 * The privacy level of the activity item.
+	 *
+	 * @since 15.1.0
+	 * @var string
+	 */
+	var $privacy = 'public';
+
+	/**
 	 * Error holder.
 	 *
 	 * @since 2.6.0
@@ -207,6 +215,7 @@ class BP_Activity_Activity {
 		$this->mptt_left         = (int) $row->mptt_left;
 		$this->mptt_right        = (int) $row->mptt_right;
 		$this->is_spam           = (int) $row->is_spam;
+		$this->privacy           = isset( $row->privacy ) ? (string) $row->privacy : 'public';
 
 		// Generate dynamic 'action' when possible.
 		$action = bp_activity_generate_action_string( $this );
@@ -252,6 +261,7 @@ class BP_Activity_Activity {
 		$this->mptt_left         = apply_filters_ref_array( 'bp_activity_mptt_left_before_save', array( $this->mptt_left, &$this ) );
 		$this->mptt_right        = apply_filters_ref_array( 'bp_activity_mptt_right_before_save', array( $this->mptt_right, &$this ) );
 		$this->is_spam           = apply_filters_ref_array( 'bp_activity_is_spam_before_save', array( $this->is_spam, &$this ) );
+		$this->privacy           = apply_filters_ref_array( 'bp_activity_privacy_before_save', array( $this->privacy, &$this ) );
 
 		/**
 		 * Fires before the current activity item gets saved.
@@ -308,9 +318,9 @@ class BP_Activity_Activity {
 
 		// If we have an existing ID, update the activity item, otherwise insert it.
 		if ( ! empty( $this->id ) ) {
-			$q = $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component = %s, type = %s, action = %s, content = %s, primary_link = %s, date_recorded = %s, item_id = %d, secondary_item_id = %d, hide_sitewide = %d, is_spam = %d WHERE id = %d", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam, $this->id );
+			$q = $wpdb->prepare( "UPDATE {$bp->activity->table_name} SET user_id = %d, component = %s, type = %s, action = %s, content = %s, primary_link = %s, date_recorded = %s, item_id = %d, secondary_item_id = %d, hide_sitewide = %d, is_spam = %d, privacy = %s WHERE id = %d", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam, $this->privacy, $this->id );
 		} else {
-			$q = $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component, type, action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide, is_spam ) VALUES ( %d, %s, %s, %s, %s, %s, %s, %d, %d, %d, %d )", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam );
+			$q = $wpdb->prepare( "INSERT INTO {$bp->activity->table_name} ( user_id, component, type, action, content, primary_link, date_recorded, item_id, secondary_item_id, hide_sitewide, is_spam, privacy ) VALUES ( %d, %s, %s, %s, %s, %s, %s, %d, %d, %d, %d, %s )", $this->user_id, $this->component, $this->type, $this->action, $this->content, $this->primary_link, $this->date_recorded, $this->item_id, $this->secondary_item_id, $this->hide_sitewide, $this->is_spam, $this->privacy );
 		}
 
 		if ( false === $wpdb->query( $q ) ) {
@@ -382,6 +392,7 @@ class BP_Activity_Activity {
 	 *     @type bool         $display_comments  Whether to include activity comments. Default: false.
 	 *     @type bool         $show_hidden       Whether to show items marked hide_sitewide. Default: false.
 	 *     @type string       $spam              Spam status. Default: 'ham_only'.
+	 *     @type string|array $privacy           Activity privacy value(s) to include. Default: false.
 	 *     @type bool         $cache_results     Optional. Whether to cache activity information. Default true.
 	 *     @type bool         $update_meta_cache Whether to pre-fetch metadata for queried activity items. Default: true.
 	 *     @type string|bool  $count_total       If true, an additional DB query is run to count the total activity items
@@ -451,6 +462,7 @@ class BP_Activity_Activity {
 				'display_comments'  => false,           // Whether to include activity comments.
 				'show_hidden'       => false,           // Show items marked hide_sitewide.
 				'spam'              => 'ham_only',      // Spam status.
+				'privacy'           => false,           // Filter by activity privacy value(s).
 				'cache_results'     => true,            // Whether to cache activity information.
 				'update_meta_cache' => true,            // Whether to update meta cache.
 				'count_total'       => false,           // Whether to use count_total.
@@ -550,6 +562,13 @@ class BP_Activity_Activity {
 			$where_conditions['spam_sql'] = 'a.is_spam = 1';
 		}
 
+		if ( ! empty( $r['privacy'] ) ) {
+			$privacy_sql = self::get_in_operator_sql( 'a.privacy', $r['privacy'] );
+			if ( $privacy_sql ) {
+				$where_conditions['privacy_sql'] = $privacy_sql;
+			}
+		}
+
 		// Searching.
 		if ( $r['search_terms'] ) {
 			$search_terms_like              = '%' . bp_esc_like( $r['search_terms'] ) . '%';
@@ -592,6 +611,7 @@ class BP_Activity_Activity {
 			case 'mptt_left':
 			case 'mptt_right':
 			case 'is_spam':
+			case 'privacy':
 				break;
 
 			default:
@@ -933,6 +953,7 @@ class BP_Activity_Activity {
 					$activity->mptt_left         = (int) $activity->mptt_left;
 					$activity->mptt_right        = (int) $activity->mptt_right;
 					$activity->is_spam           = (int) $activity->is_spam;
+					$activity->privacy           = isset( $activity->privacy ) ? (string) $activity->privacy : 'public';
 				}
 
 				$activities[] = $activity;
@@ -954,6 +975,7 @@ class BP_Activity_Activity {
 				$activity->mptt_left         = (int) $activity->mptt_left;
 				$activity->mptt_right        = (int) $activity->mptt_right;
 				$activity->is_spam           = (int) $activity->is_spam;
+				$activity->privacy           = isset( $activity->privacy ) ? (string) $activity->privacy : 'public';
 
 				$activities[] = $activity;
 			}

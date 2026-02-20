@@ -47,7 +47,7 @@ class BP_Activity_Query extends BP_Recursive_Query {
 	 */
 	public $db_columns = array(
 		'id', 'user_id', 'component', 'type', 'action', 'content', 'primary_link',
-		'item_id', 'secondary_item_id', 'hide_sitewide', 'is_spam',
+		'item_id', 'secondary_item_id', 'hide_sitewide', 'is_spam', 'privacy',
 	);
 
 	/**
