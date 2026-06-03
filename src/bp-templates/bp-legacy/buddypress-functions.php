@@ -477,7 +477,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 */
 	public function add_nojs_body_class( $classes ) {
 		/** This filter is documented in bp-core/bp-core-dependency.php */
-		if ( ! is_buddypress() || apply_filters( 'bp_enqueue_assets_in_bp_pages_only', true ) ) {
+		if ( ! is_buddypress() && apply_filters( 'bp_enqueue_assets_in_bp_pages_only', true ) ) {
 			return $classes;
 		}
 
