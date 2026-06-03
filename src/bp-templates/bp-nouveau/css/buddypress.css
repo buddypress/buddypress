@@ -2148,6 +2148,32 @@ form.ac-form .ac-reply-content input {
 	border: 1px solid #eee;
 }
 
+.register-page .signup-form .wp-pwd .password-input-wrapper {
+	display: inline-block;
+}
+.register-page .signup-form .wp-pwd .caps-warning {
+	display: none;
+	position: relative;
+	background: #fcf9e8;
+	border: 1px solid #f0c33c;
+	color: #1d2327;
+	padding: 6px 10px;
+	top: -8px;
+}
+
+.register-page .signup-form .wp-pwd .caps-icon {
+	display: inline-flex;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.register-page .signup-form .wp-pwd .caps-warning-text {
+	vertical-align: middle;
+}
+
 body.buddypress.register.js .user-pass2-wrap {
 	display: none;
 }
