@@ -1113,6 +1113,10 @@ function bp_core_filter_edit_post_link( $edit_link = '', $post_id = 0 ) {
  * @return string
  */
 function bp_core_add_loading_lazy_attribute( $content = '' ) {
+	if ( ! is_string( $content ) || '' === $content ) {
+		return $content;
+	}
+
 	if ( false === strpos( $content, '<img ' ) && false === strpos( $content, '<iframe ' ) ) {
 		return $content;
 	}

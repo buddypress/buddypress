@@ -752,11 +752,12 @@ function _bp_xprofile_signup_do_backcompat( $args = array() ) {
  * @param string $template_name The needed template name.
  */
 function _bp_xprofile_signup_check_backcompat( $template = '', $template_name = '' ) {
-	if ( 'members/register.php' !== $template_name ) {
+	if ( 'members/register.php' !== $template_name || empty( $template ) || ! is_string( $template ) ) {
 		return;
 	}
 
-	if ( 0 !== strpos( $template, buddypress()->theme_compat->theme->dir ) ) {
+	$theme_dir = isset( buddypress()->theme_compat->theme->dir ) ? buddypress()->theme_compat->theme->dir : '';
+	if ( $theme_dir && 0 !== strpos( $template, $theme_dir ) ) {
 		add_filter( 'bp_after_has_profile_parse_args', '_bp_xprofile_signup_do_backcompat', 100 );
 	}
 }

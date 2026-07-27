@@ -466,7 +466,7 @@ function bp_sanitize_pagination_arg( $page_arg = '', $page = 1 ) {
  * @return string The sanitized value 'DESC' or 'ASC'.
  */
 function bp_esc_sql_order( $order = '' ) {
-	$order = strtoupper( trim( $order ) );
+	$order = strtoupper( trim( (string) $order ) );
 	return 'DESC' === $order ? 'DESC' : 'ASC';
 }
 

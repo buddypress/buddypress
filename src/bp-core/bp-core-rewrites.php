@@ -339,7 +339,7 @@ function bp_rewrites_get_member_data( $request = '' ) {
 			$request = $GLOBALS['wp']->request;
 		}
 
-		$request_chunks = explode( '/', ltrim( $request, '/' ) );
+		$request_chunks = explode( '/', ltrim( (string) $request, '/' ) );
 		$member_chunk   = reset( $request_chunks );
 
 		// Try to get an existing member to eventually reset the WP Query.
