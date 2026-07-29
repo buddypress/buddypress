@@ -7,7 +7,7 @@ License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
 Requires at least: 5.8
 Tested up to:      6.8
-Stable tag:        12.7.1
+Stable tag:        12.7.2
 
 Get together safely, in your own way, in WordPress.
 
@@ -130,8 +130,8 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
-= 12.7.1 =
-See: https://codex.buddypress.org/releases/version-12-7-1/
+= 12.7.2 =
+See: https://codex.buddypress.org/releases/version-12-7-2/
 
 = 12.7.0 =
 See: https://codex.buddypress.org/releases/version-12-7-0/
@@ -208,8 +208,8 @@ See: https://codex.buddypress.org/releases/version-10-0-0/
 
 == Changelog ==
 
-= 12.7.1 =
-See: https://codex.buddypress.org/releases/version-12-7-1/
+= 12.7.2 =
+See: https://codex.buddypress.org/releases/version-12-7-2/
 
 = 12.7.0 =
 See: https://codex.buddypress.org/releases/version-12-7-0/
