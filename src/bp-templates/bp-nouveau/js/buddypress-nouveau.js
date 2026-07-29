@@ -859,7 +859,7 @@ window.bp = window.bp || {};
 					}
 
 					// Ensure we override user-profile.js.
-					setTimeout( () => {
+					setTimeout( function() {
 						$( '#submit' ).prop( 'disabled', true );
 					}, 1 );
 
