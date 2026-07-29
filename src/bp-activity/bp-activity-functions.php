@@ -3353,6 +3353,11 @@ function bp_activity_user_can_read( $activity, $user_id = 0 ) {
 		$retval = false;
 	}
 
+	// Get parent activity item for activity comment.
+	if ( 'activity_comment' === $activity->type ) {
+		$activity = new BP_Activity_Activity( $activity->item_id );
+	}
+
 	// If activity is from a group, do extra cap checks.
 	if ( bp_is_active( 'groups' ) && buddypress()->groups->id === $activity->component && bp_current_user_can( 'bp_view', array( 'bp_component' => 'groups' ) ) ) {
 		// Check to see if the user has access to the activity's parent group.
@@ -3380,6 +3385,11 @@ function bp_activity_user_can_read( $activity, $user_id = 0 ) {
 	// Site moderators can view anything.
 	if ( bp_current_user_can( 'bp_moderate' ) ) {
 		$retval = true;
+	}
+
+	// Activity comments as parent are not allowed.
+	if ( 'activity_comment' === $activity->type ) {
+		$retval = false;
 	}
 
 	/**

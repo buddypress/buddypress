@@ -858,6 +858,10 @@ function bp_legacy_theme_object_template_loader() {
 		return;
 	}
 
+	if ( ! bp_current_user_can( 'bp_view', array( 'bp_component' => $object ) ) ) {
+		return;
+	}
+
 	/**
 	 * AJAX requests happen too early to be seen by bp_update_is_directory()
 	 * so we do it manually here to ensure templates load with the correct
@@ -924,6 +928,10 @@ function bp_legacy_theme_requests_template_loader() {
  */
 function bp_legacy_theme_activity_template_loader() {
 	if ( ! bp_is_post_request() ) {
+		return;
+	}
+
+	if ( ! bp_current_user_can( 'bp_view', array( 'bp_component' => 'activity' ) ) ) {
 		return;
 	}
 
@@ -1366,6 +1374,11 @@ function bp_legacy_theme_get_single_activity_content() {
 
 	if ( empty( $activity ) ) {
 		exit; // @todo: error?
+	}
+
+	// Ensure that the user is allowed to read the activity item.
+	if ( ! bp_activity_user_can_read( $activity ) ) {
+		exit;
 	}
 
 	/**
