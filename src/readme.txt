@@ -7,7 +7,7 @@ License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 Requires PHP:      5.6
 Requires at least: 6.1
 Tested up to:      7.0
-Stable tag:        14.5.0
+Stable tag:        14.5.1
 
 Get together safely, in your own way, in WordPress.
 
@@ -130,10 +130,13 @@ Try <a href="https://wordpress.org/plugins/bbpress/">bbPress</a>. It integrates 
 
 == Upgrade Notice ==
 
-= 14.5.0=
+= 14.5.1 =
+See: https://codex.buddypress.org/releases/version-14-5-1/
+
+= 14.5.0 =
 See: https://codex.buddypress.org/releases/version-14-5-0/
 
-= 14.4.0=
+= 14.4.0 =
 See: https://codex.buddypress.org/releases/version-14-4-0/
 
 = 14.3.4 =
@@ -220,7 +223,10 @@ See: https://codex.buddypress.org/releases/version-10-0-0/
 
 == Changelog ==
 
-= 14.5.0=
+= 14.5.1 =
+See: https://codex.buddypress.org/releases/version-14-5-1/
+
+= 14.5.0 =
 See: https://codex.buddypress.org/releases/version-14-5-0/
 
 = 14.4.0 =
@@ -245,14 +251,14 @@ See: https://codex.buddypress.org/releases/version-14-1-0/
 See: https://codex.buddypress.org/releases/version-14-0-0/
 
 = 12.5.1 =
-Security fix: The Members block was vulnerable to a Stored Cross-Site Scripting. Discovered by Wesley (wcraft) from the Wordfence organization.
+Security fix: The Members block was vulnerable to a Stored Cross-Site Scripting. Discovered by Wesley (wcraft) from the Wordfence organization.
 See: https://codex.buddypress.org/releases/version-12-5-1/
 
 = 12.5.0 =
 See: https://codex.buddypress.org/releases/version-12-5-0/
 
 = 12.4.1 =
-Security fix: The dynamic Members, dynamic Friends & dynamic Groups blocks were vulnerable to a Stored Cross-Site Scripting. Discovered by Wesley (wcraft) from the Wordfence organization.
+Security fix: The dynamic Members, dynamic Friends & dynamic Groups blocks were vulnerable to a Stored Cross-Site Scripting. Discovered by Wesley (wcraft) from the Wordfence organization.
 See: https://codex.buddypress.org/releases/version-12-4-1/
 
 = 12.4.0 =
