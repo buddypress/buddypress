@@ -653,12 +653,13 @@ function bp_parse_ajax_referer_query( $referer_query ) {
  * This is used for specific cases such as Root Member's profile.
  *
  * @since 12.0.0
+ * @since 14.5.1 Make nullable type parameter compatible with PHP 8.4.
  *
  * @param string   $bp_request A specific BuddyPress request.
  * @param WP_Query $query The WordPress query object.
  * @return true
  */
-function bp_reset_query( $bp_request = '', WP_Query $query = null ) {
+function bp_reset_query( $bp_request = '', $query = null ) {
 	global $wp;
 
 	// Get BuddyPress main instance.
