@@ -114,7 +114,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 			$activity = new BP_Activity_Activity( $activity_id );
 
 			// Okay, we're good to go!
-			if ( ! empty( $activity->component ) && 0 === (int) $activity->is_spam ) {
+			if ( ! empty( $activity->component ) && 0 === (int) $activity->is_spam && bp_activity_user_can_read( $activity ) ) {
 				return $activity_id;
 			}
 		}

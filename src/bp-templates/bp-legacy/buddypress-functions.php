@@ -1332,6 +1332,11 @@ function bp_legacy_theme_get_single_activity_content() {
 	if ( empty( $activity ) )
 		exit; // @todo: error?
 
+	// Ensure that the user is allowed to read the activity item.
+	if ( ! bp_activity_user_can_read( $activity ) ) {
+		exit;
+	}
+
 	/**
 	 * Fires before the return of an activity's full, non-excerpted content via a POST request.
 	 *
