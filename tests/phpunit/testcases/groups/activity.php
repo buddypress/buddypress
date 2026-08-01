@@ -8,6 +8,131 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	protected $groups_post_update_args;
 
 	/**
+	 * When a user leaves a group, a 'left_group' activity should be created.
+	 *
+	 * @ticket BP9305
+	 */
+	public function test_bp_group_activity_entry_left_group_created() {
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
+
+		groups_join_group( $g, $u );
+		groups_leave_group( $g, $u );
+
+		$activities = bp_activity_get(
+			array(
+				'component' => buddypress()->groups->id,
+				'type'      => 'left_group',
+				'user_id'   => $u,
+				'item_id'   => $g,
+			)
+		);
+
+		$this->assertNotEmpty( $activities['activities'], 'No left_group activity found.' );
+	}
+
+	/**
+	 * When a user rejoins a group, a 'rejoined_group' activity should be created.
+	 *
+	 * @ticket BP9305
+	 */
+	public function test_bp_group_activity_entry_rejoined_group_created() {
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
+
+		groups_join_group( $g, $u );
+		groups_leave_group( $g, $u );
+		groups_join_group( $g, $u );
+
+		$activities = bp_activity_get(
+			array(
+				'component' => buddypress()->groups->id,
+				'type'      => 'rejoined_group',
+				'user_id'   => $u,
+				'item_id'   => $g,
+			)
+		);
+
+		$this->assertNotEmpty( $activities['activities'], 'No rejoined_group activity found after rejoining.' );
+	}
+
+	/**
+	 * When a admin removes a user from a group, the following activity types are removed:
+	 * - joined_group
+	 * - left_group
+	 * - rejoined_group
+	 *
+	 * @ticket BP9305
+	 */
+	public function test_bp_group_activity_entries_are_removed_when_admin_removes_user() {
+		$admin = self::factory()->user->create();
+		$u     = self::factory()->user->create();
+		$g     = self::factory()->group->create();
+
+		self::add_user_to_group( $admin, $g, array( 'is_admin' => true ) );
+
+		// Group admin adds user to group.
+		groups_join_group( $g, $u );
+
+		// Group admin removes user from group.
+		groups_remove_member( $u, $g, $admin );
+
+		// Check all three activity types are not present.
+		$activity_types = array( 'joined_group', 'left_group', 'rejoined_group' );
+
+		foreach ( $activity_types as $type ) {
+			$activities = bp_activity_get(
+				array(
+					'component' => buddypress()->groups->id,
+					'type'      => $type,
+					'user_id'   => $u,
+					'item_id'   => $g,
+				)
+			);
+
+			$this->assertEmpty( $activities['activities'], "Activity of type {$type} should not exist after mod removed user." );
+		}
+	}
+
+	/**
+	 * When a admin ban a user from a group, the following activity types are removed:
+	 * - joined_group
+	 * - left_group
+	 * - rejoined_group
+	 *
+	 * @ticket BP9305
+	 */
+	public function test_bp_group_activity_entries_are_removed_when_admin_bans_user() {
+		$admin = self::factory()->user->create();
+		$u     = self::factory()->user->create();
+		$g     = self::factory()->group->create();
+
+		self::add_user_to_group( $admin, $g, array( 'is_admin' => true ) );
+
+		// Group admin adds user to group.
+		groups_join_group( $g, $u );
+
+		// Group admin bans user from group.
+		groups_ban_member( $u, $g, $admin );
+
+		// Check all three activity types are not present.
+		$activity_types = array( 'joined_group', 'left_group', 'rejoined_group' );
+
+		foreach ( $activity_types as $type ) {
+			$activities = bp_activity_get(
+				array(
+					'component' => buddypress()->groups->id,
+					'type'      => $type,
+					'user_id'   => $u,
+					'item_id'   => $g,
+				)
+			);
+
+			$this->assertEmpty( $activities['activities'], "Activity of type {$type} should not exist after mod removed user." );
+		}
+	}
+
+	/**
 	 * @group activity_action
 	 * @group bp_groups_format_activity_action_created_group
 	 */
@@ -56,6 +181,32 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 	}
 
 	/**
+	 * @ticket BP9305
+	 *
+	 * @group activity_action
+	 * @group bp_groups_format_activity_action_rejoined_group
+	 */
+	public function test_bp_groups_format_activity_action_rejoined_group() {
+		$u = self::factory()->user->create();
+		$g = self::factory()->group->create();
+		$a = self::factory()->activity->create(
+			array(
+				'component' => buddypress()->groups->id,
+				'type'      => 'rejoined_group',
+				'user_id'   => $u,
+				'item_id'   => $g,
+			)
+		);
+
+		$a_obj = new BP_Activity_Activity( $a );
+		$g_obj = groups_get_group( $g );
+
+		$expected = sprintf( __( '%1$s rejoined the group %2$s', 'buddypress' ), bp_core_get_userlink( $u ), '<a href="' . esc_url( bp_get_group_url( $g_obj ) ) . '">' . $g_obj->name . '</a>' );
+
+		$this->assertSame( $expected, $a_obj->action );
+	}
+
+	/**
 	 * @group activity_action
 	 * @group bp_groups_format_activity_action_group_details_updated
 	 */
@@ -79,7 +230,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertTrue( empty( $a['activities'] ) );
+		$this->assertEmpty( $a['activities'] );
 	}
 
 	/**
@@ -106,7 +257,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 			)
 		);
 
-		$this->assertTrue( empty( $a['activities'] ) );
+		$this->assertEmpty( $a['activities'] );
 	}
 
 	/**
@@ -295,11 +446,11 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 			'error_type' => 'wp_error',
 		);
 
-		add_filter( 'bp_before_groups_record_activity_parse_args', array( $this, 'groups_post_update_args' ), 10, 1 );
+		add_filter( 'bp_before_groups_record_activity_parse_args', array( $this, 'groups_post_update_args' ) );
 
 		groups_post_update( $activity_args );
 
-		remove_filter( 'bp_before_groups_record_activity_parse_args', array( $this, 'groups_post_update_args' ), 10, 1 );
+		remove_filter( 'bp_before_groups_record_activity_parse_args', array( $this, 'groups_post_update_args' ) );
 
 		$expected = array_merge( $activity_args, array( 'item_id' => $g ) );
 		unset( $expected['group_id'] );
@@ -329,7 +480,7 @@ class BP_Tests_Groups_Activity extends BP_UnitTestCase {
 		$a_obj = new BP_Activity_Activity( $a );
 
 		$this->assertSame( $a_obj->item_id, $g );
-		$this->assertSame( $a_obj->component, 'groups' );
+		$this->assertSame( 'groups', $a_obj->component );
 
 		unset( $bp->groups->current_group );
 	}

@@ -310,18 +310,16 @@ add_action( 'bp_screens', 'bp_activity_remove_screen_notifications_for_non_menti
  *
  * @since 2.0.0
  *
- * @param array $activity_ids_deleted IDs of deleted activity items.
+ * @param int[] $activity_ids_deleted IDs of deleted activity items.
  */
-function bp_activity_at_mention_delete_notification( $activity_ids_deleted = array() ) {
+function bp_activity_at_mention_delete_notification( $activity_ids_deleted ) {
 	// Let's delete all without checking if content contains any mentions
 	// to avoid a query to get the activity.
-	if ( ! empty( $activity_ids_deleted ) ) {
-		foreach ( $activity_ids_deleted as $activity_id ) {
-			bp_notifications_delete_all_notifications_by_type( $activity_id, buddypress()->activity->id );
-		}
+	foreach ( (array) $activity_ids_deleted as $activity_id ) {
+		bp_notifications_delete_all_notifications_by_type( $activity_id, buddypress()->activity->id );
 	}
 }
-add_action( 'bp_activity_deleted_activities', 'bp_activity_at_mention_delete_notification', 10 );
+add_action( 'bp_activity_deleted_activities', 'bp_activity_at_mention_delete_notification' );
 
 /**
  * Add a notification for post comments to the post author or post commenter.
