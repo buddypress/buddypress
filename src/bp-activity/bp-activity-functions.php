@@ -2057,6 +2057,7 @@ function bp_activity_get_specific( $args = '' ) {
  *     @type bool     $hide_sitewide     Should the item be hidden on sitewide streams?
  *                                       Default: false.
  *     @type bool     $is_spam           Should the item be marked as spam? Default: false.
+ *     @type string   $privacy           The activity privacy value. Default: 'public'.
  *     @type string   $error_type        Optional. Error type. Either 'bool' or 'wp_error'. Default: 'bool'.
  * }
  * @return WP_Error|bool|int The ID of the activity on success. False on error.
@@ -2078,6 +2079,7 @@ function bp_activity_add( $args = '' ) {
 			'recorded_time'     => bp_core_current_time(), // The GMT time that this activity was recorded.
 			'hide_sitewide'     => false,                  // Should this be hidden on the sitewide activity stream?
 			'is_spam'           => false,                  // Is this activity item to be marked as spam?
+			'privacy'           => 'public',               // Activity privacy value.
 			'error_type'        => 'bool',
 		),
 		'activity_add'
@@ -2104,6 +2106,7 @@ function bp_activity_add( $args = '' ) {
 	$activity->date_recorded     = $r['recorded_time'];
 	$activity->hide_sitewide     = $r['hide_sitewide'];
 	$activity->is_spam           = $r['is_spam'];
+	$activity->privacy           = $r['privacy'];
 	$activity->error_type        = $r['error_type'];
 	$activity->action            = ! empty( $r['action'] )
 						? $r['action']
@@ -2150,6 +2153,7 @@ function bp_activity_add( $args = '' ) {
  *     An array of arguments.
  *     @type string $content    The content of the activity update.
  *     @type int    $user_id    Optional. Defaults to the logged-in user.
+ *     @type string $privacy    Optional. Activity privacy value. Default: 'public'.
  *     @type string $error_type Optional. Error type to return. Either 'bool' or 'wp_error'. Defaults to
  *                              'bool' for boolean. 'wp_error' will return a WP_Error object.
  * }
@@ -2163,6 +2167,7 @@ function bp_activity_post_update( $args = '' ) {
 		array(
 			'content'    => false,
 			'user_id'    => bp_loggedin_user_id(),
+			'privacy'    => 'public',
 			'error_type' => 'bool',
 		),
 		'activity_post_update'
@@ -2213,6 +2218,7 @@ function bp_activity_post_update( $args = '' ) {
 		'primary_link' => $add_primary_link,
 		'component'    => buddypress()->activity->id,
 		'type'         => 'activity_update',
+		'privacy'      => $r['privacy'],
 		'error_type'   => $r['error_type']
 	) );
 
