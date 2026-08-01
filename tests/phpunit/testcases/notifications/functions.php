@@ -501,4 +501,61 @@ class BP_Tests_Notifications_Functions extends BP_UnitTestCase {
 		$this->assertEquals( $n, $n_obj->id );
 		$this->assertTrue( 1 === (int) $n_obj->is_new );
 	}
+
+	/**
+	 * @group bulk_manage_notifications
+	 */
+	public function test_bp_notifications_bulk_manage_notifications_user_must_own_items() {
+		$u1 = self::factory()->user->create();
+		$u2 = self::factory()->user->create();
+
+		// Create notifications
+		$n1 = self::factory()->notification->create( array(
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message',
+			'item_id'           => 99,
+			'user_id'           => $u1,
+		) );
+		$n2 = self::factory()->notification->create( array(
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message',
+			'item_id'           => 100,
+			'user_id'           => $u1,
+		) );
+		$n3 = self::factory()->notification->create( array(
+			'component_name'    => 'messages',
+			'component_action'  => 'new_message',
+			'item_id'           => 101,
+			'user_id'           => $u2,
+		) );
+
+		wp_set_current_user( $u2 );
+		// Attempt to mark all as read.
+		bp_notifications_bulk_manage_notifications( 'read', array( $n1, $n2, $n3 ) );
+
+		// Check status of $n2 (which shouldn't be affected).
+		$n_get = BP_Notifications_Notification::get(
+			array(
+				'id'               => $n2,
+				'component_name'   => 'messages',
+				'component_action' => 'new_message',
+				'is_new'           => 'both',
+			)
+		);
+		$n_obj = reset( $n_get );
+		$this->assertTrue( 1 === (int) $n_obj->is_new );
+
+		// Check status of $n3 (which should be affected).
+		$n_get = BP_Notifications_Notification::get(
+			array(
+				'id'               => $n3,
+				'component_name'   => 'messages',
+				'component_action' => 'new_message',
+				'is_new'           => 'both',
+			)
+		);
+		$n_obj = reset( $n_get );
+		$this->assertTrue( 0 === (int) $n_obj->is_new );
+	}
+
 }
