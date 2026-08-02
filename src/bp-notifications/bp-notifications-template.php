@@ -1029,7 +1029,7 @@ function bp_notifications_sort_order_form() {
 
 		<select id="notifications-sort-order-list" name="sort_order" onchange="this.form.submit();">
 			<option value="DESC" <?php selected( $selected, 'DESC' ); ?>><?php esc_html_e( 'Newest First', 'buddypress' ); ?></option>
-			<option value="ASC"  <?php selected( $selected, 'ASC'  ); ?>><?php esc_html_e( 'Oldest First', 'buddypress' ); ?></option>
+			<option value="ASC"  <?php selected( $selected, 'ASC' ); ?>><?php esc_html_e( 'Oldest First', 'buddypress' ); ?></option>
 		</select>
 
 		<noscript>

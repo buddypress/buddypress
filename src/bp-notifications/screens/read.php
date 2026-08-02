@@ -49,8 +49,8 @@ function bp_notifications_action_mark_unread() {
 	}
 
 	// Get the action.
-	$action = ! empty( $_GET['action']          ) ? $_GET['action'] : '';
-	$nonce  = ! empty( $_GET['_wpnonce']        ) ? $_GET['_wpnonce'] : '';
+	$action = ! empty( $_GET['action'] ) ? $_GET['action'] : '';
+	$nonce  = ! empty( $_GET['_wpnonce'] ) ? $_GET['_wpnonce'] : '';
 	$id     = ! empty( $_GET['notification_id'] ) ? $_GET['notification_id'] : '';
 
 	// Bail if no action or no ID.
