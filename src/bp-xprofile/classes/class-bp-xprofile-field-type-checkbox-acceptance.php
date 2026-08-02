@@ -173,7 +173,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 	 * @param string            $control_type  Control type.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
-		$type = array_search( get_class( $this ), bp_xprofile_get_field_types() );
+		$type = array_search( get_class( $this ), bp_xprofile_get_field_types(), true );
 
 		if ( false === $type ) {
 			return;

@@ -471,7 +471,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 	 *                                         field's child options.
 	 */
 	public function admin_new_field_html( BP_XProfile_Field $current_field, $control_type = '' ) {
-		$type = array_search( get_class( $this ), bp_xprofile_get_field_types() );
+		$type = array_search( get_class( $this ), bp_xprofile_get_field_types(), true );
 
 		if ( false === $type ) {
 			return;
