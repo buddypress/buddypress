@@ -5194,6 +5194,8 @@ function bp_core_dismiss_admin_notification( $notification_id = '' ) {
 }
 
 /**
+ * Gets unread administration notifications.
+ *
  * @since 11.4.0
  *
  * @return array The list of Admin notifications.

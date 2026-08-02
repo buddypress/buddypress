@@ -977,6 +977,8 @@ function xprofile_ajax_reorder_fields() {
 		}
 	} else {
 		/**
+		 * Reorders profile fields.
+		*
 		 * @todo there's something going wrong here.
 		 * moving a field to another tab when there's only the fullname field fails.
 		 */

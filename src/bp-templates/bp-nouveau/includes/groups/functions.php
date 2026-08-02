@@ -192,6 +192,8 @@ function bp_nouveau_groups_localize_scripts( $params = array() ) {
 }
 
 /**
+ * Gets group invitation inviter IDs.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_groups_get_inviter_ids( $user_id, $group_id ) {
@@ -203,6 +205,8 @@ function bp_nouveau_groups_get_inviter_ids( $user_id, $group_id ) {
 }
 
 /**
+ * Prepares potential group invitation data for JavaScript.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_prepare_group_potential_invites_for_js( $user ) {
@@ -279,6 +283,8 @@ function bp_nouveau_prepare_group_potential_invites_for_js( $user ) {
 }
 
 /**
+ * Gets potential group invitations.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_get_group_potential_invites( $args = array() ) {
@@ -551,6 +557,8 @@ function bp_nouveau_restrict_rest_group_invite_to_friends( $retval, $request ) {
 add_filter( 'bp_rest_group_invites_create_item_permissions_check', 'bp_nouveau_restrict_rest_group_invite_to_friends', 10, 2 );
 
 /**
+ * Gets the Groups directory navigation items.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_get_groups_directory_nav_items() {

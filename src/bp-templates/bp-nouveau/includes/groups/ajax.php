@@ -261,6 +261,8 @@ function bp_nouveau_ajax_joinleave_group() {
 }
 
 /**
+ * Gets users available for group invitations.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_get_users_to_invite() {
@@ -381,6 +383,8 @@ function bp_nouveau_ajax_get_users_to_invite() {
 }
 
 /**
+ * Sends group invitations.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_send_group_invites() {
@@ -468,6 +472,8 @@ function bp_nouveau_ajax_send_group_invites() {
 }
 
 /**
+ * Removes a group invitation.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_remove_group_invite() {

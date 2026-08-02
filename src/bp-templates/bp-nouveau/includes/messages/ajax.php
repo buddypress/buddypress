@@ -99,6 +99,8 @@ add_action( 'admin_init', function () {
 }, 12 );
 
 /**
+ * Sends a message.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_messages_send_message() {
@@ -235,6 +237,8 @@ function bp_nouveau_ajax_get_message_sender_data( $user_id ) {
 }
 
 /**
+ * Sends a message reply.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_messages_send_reply() {
@@ -350,6 +354,8 @@ function bp_nouveau_ajax_messages_send_reply() {
 }
 
 /**
+ * Gets message threads for the current user.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_get_user_message_threads() {
@@ -478,6 +484,8 @@ function bp_nouveau_ajax_get_user_message_threads() {
 }
 
 /**
+ * Marks a message thread as read.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_messages_thread_read() {
@@ -508,6 +516,8 @@ function bp_nouveau_ajax_messages_thread_read() {
 }
 
 /**
+ * Gets messages in a thread.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_get_thread_messages() {
@@ -644,6 +654,8 @@ function bp_nouveau_ajax_get_thread_messages() {
 }
 
 /**
+ * Deletes message threads.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_delete_thread_messages() {
@@ -677,6 +689,8 @@ function bp_nouveau_ajax_delete_thread_messages() {
 }
 
 /**
+ * Stars or unstars message threads.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_star_thread_messages() {
@@ -776,6 +790,8 @@ function bp_nouveau_ajax_star_thread_messages() {
 }
 
 /**
+ * Marks message threads as read or unread.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_readunread_thread_messages() {
@@ -839,6 +855,8 @@ function bp_nouveau_ajax_readunread_thread_messages() {
 }
 
 /**
+ * Dismisses a sitewide notice.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_ajax_dismiss_sitewide_notice() {

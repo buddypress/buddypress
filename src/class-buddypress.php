@@ -476,6 +476,8 @@ class BuddyPress {
 		/** Toolbar */
 
 		/**
+		 * The primary toolbar ID.
+		*
 		 * @var string The primary toolbar ID.
 		 */
 		$this->my_account_menu_id = '';
@@ -483,11 +485,15 @@ class BuddyPress {
 		/** URIs */
 
 		/**
+		 * The current offset of the URI.
+		*
 		 * @var int The current offset of the URI.
 		 */
 		$this->unfiltered_uri_offset = 0;
 
 		/**
+		 * Whether status headers have already been sent.
+		*
 		 * @var bool Are status headers already sent?
 		 */
 		$this->no_status_set = false;
@@ -495,21 +501,29 @@ class BuddyPress {
 		/** Components */
 
 		/**
+		 * The current BuddyPress component.
+		*
 		 * @var string Name of the current BuddyPress component (primary).
 		 */
 		$this->current_component = '';
 
 		/**
+		 * The current BuddyPress item.
+		*
 		 * @var string Name of the current BuddyPress item (secondary).
 		 */
 		$this->current_item = '';
 
 		/**
+		 * The current BuddyPress action.
+		*
 		 * @var string Name of the current BuddyPress action (tertiary).
 		 */
 		$this->current_action = '';
 
 		/**
+		 * Whether a single BuddyPress item is displayed.
+		*
 		 * @var bool Displaying custom 2nd level navigation menu (I.E a group).
 		 */
 		$this->is_single_item = false;

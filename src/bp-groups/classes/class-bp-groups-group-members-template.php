@@ -17,48 +17,64 @@ defined( 'ABSPATH' ) || exit;
 class BP_Groups_Group_Members_Template {
 
 	/**
+	 * Current member position in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $current_member = -1;
 
 	/**
+	 * Number of members in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $member_count;
 
 	/**
+	 * Group members in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var array
 	 */
 	public $members;
 
 	/**
+	 * Current group member in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var object
 	 */
 	public $member;
 
 	/**
+	 * Whether the loop is active.
+	 *
 	 * @since 1.0.0
 	 * @var bool
 	 */
 	public $in_the_loop;
 
 	/**
+	 * Current pagination page.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_page;
 
 	/**
+	 * Number of members per pagination page.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_num;
 
 	/**
+	 * Pagination links.
+	 *
 	 * @since 1.0.0
 	 * @var array|string|null
 	 */
@@ -88,6 +104,8 @@ class BP_Groups_Group_Members_Template {
 	public $total_member_count;
 
 	/**
+	 * Total number of groups.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */

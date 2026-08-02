@@ -191,6 +191,8 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 }
 
 /**
+ * Gets the Activity directory navigation items.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_get_activity_directory_nav_items() {
@@ -358,6 +360,8 @@ function bp_nouveau_get_activity_filters() {
 }
 
 /**
+ * Adds secondary avatars to activity actions.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
@@ -380,6 +384,8 @@ function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
 }
 
 /**
+ * Adds the newest class to Activity scope navigation items.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_activity_scope_newest_class( $classes = '' ) {

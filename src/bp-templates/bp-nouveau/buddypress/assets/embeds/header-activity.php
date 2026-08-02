@@ -1,5 +1,7 @@
 <?php
 /**
+ * Activity embed header template.
+ *
  * @package BuddyPress
  * @subpackage bp-nouveau
  * @version 3.0.0

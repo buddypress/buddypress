@@ -12,6 +12,8 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * Gets the Sites directory navigation items.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_get_blogs_directory_nav_items() {

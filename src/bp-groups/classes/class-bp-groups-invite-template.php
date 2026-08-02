@@ -17,24 +17,32 @@ defined( 'ABSPATH' ) || exit;
 class BP_Groups_Invite_Template {
 
 	/**
+	 * Current invitation position in the loop.
+	 *
 	 * @since 1.1.0
 	 * @var int
 	 */
 	public $current_invite = -1;
 
 	/**
+	 * Number of invitations in the loop.
+	 *
 	 * @since 1.1.0
 	 * @var int
 	 */
 	public $invite_count;
 
 	/**
+	 * Group invitations in the loop.
+	 *
 	 * @since 1.1.0
 	 * @var array
 	 */
 	public $invites;
 
 	/**
+	 * Current group invitation in the loop.
+	 *
 	 * @since 1.1.0
 	 * @var object
 	 */
@@ -49,24 +57,32 @@ class BP_Groups_Invite_Template {
 	public $invite_data = array();
 
 	/**
+	 * Whether the loop is active.
+	 *
 	 * @since 1.1.0
 	 * @var bool
 	 */
 	public $in_the_loop;
 
 	/**
+	 * Current pagination page.
+	 *
 	 * @since 1.1.0
 	 * @var int
 	 */
 	public $pag_page;
 
 	/**
+	 * Number of invitations per pagination page.
+	 *
 	 * @since 1.1.0
 	 * @var int
 	 */
 	public $pag_num;
 
 	/**
+	 * Pagination links.
+	 *
 	 * @since 1.1.0
 	 * @var string
 	 */
@@ -81,6 +97,8 @@ class BP_Groups_Invite_Template {
 	public $pag_arg;
 
 	/**
+	 * Total number of invitations.
+	 *
 	 * @since 1.1.0
 	 * @var int
 	 */

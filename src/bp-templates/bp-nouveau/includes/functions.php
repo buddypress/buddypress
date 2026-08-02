@@ -167,6 +167,8 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
 }
 
 /**
+ * Builds a BuddyPress Nouveau AJAX button.
+ *
  * @since 3.0.0
  *
  * @return string
@@ -376,6 +378,8 @@ function bp_nouveau_register_sidebars() {
 }
 
 /**
+ * Checks whether object navigation is in the sidebar.
+ *
  * @since 3.0.0
  *
  * @return bool
@@ -385,6 +389,8 @@ function bp_nouveau_is_object_nav_in_sidebar() {
 }
 
 /**
+ * Checks whether the current user can perform a BuddyPress Nouveau action.
+ *
  * @since 3.0.0
  *
  * @return bool

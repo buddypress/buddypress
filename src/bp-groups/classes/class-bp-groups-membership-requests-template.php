@@ -17,48 +17,64 @@ defined( 'ABSPATH' ) || exit;
 class BP_Groups_Membership_Requests_Template {
 
 	/**
+	 * Current membership request position in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $current_request = -1;
 
 	/**
+	 * Number of membership requests in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $request_count;
 
 	/**
+	 * Membership requests in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var array
 	 */
 	public $requests;
 
 	/**
+	 * Current membership request in the loop.
+	 *
 	 * @since 1.0.0
 	 * @var object
 	 */
 	public $request;
 
 	/**
+	 * Whether the loop is active.
+	 *
 	 * @sine 1.0.0
 	 * @var bool
 	 */
 	public $in_the_loop;
 
 	/**
+	 * Current pagination page.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_page;
 
 	/**
+	 * Number of membership requests per pagination page.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */
 	public $pag_num;
 
 	/**
+	 * Pagination links.
+	 *
 	 * @since 1.0.0
 	 * @var array|string|null
 	 */
@@ -73,6 +89,8 @@ class BP_Groups_Membership_Requests_Template {
 	public $pag_arg;
 
 	/**
+	 * Total number of membership requests.
+	 *
 	 * @since 1.0.0
 	 * @var int
 	 */

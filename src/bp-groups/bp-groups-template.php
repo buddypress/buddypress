@@ -4544,12 +4544,16 @@ function bp_group_member_needs_pagination() {
 }
 
 /**
+ * Displays the group pagination ID.
+ *
  * @since 1.0.0
  */
 function bp_group_pag_id() {
 	echo esc_attr( bp_get_group_pag_id() );
 }
 	/**
+	 * Gets the group pagination ID.
+	 *
 	 * @since 1.0.0
 	 *
 	 * @return string
@@ -5105,6 +5109,8 @@ function bp_new_group_id() {
 }
 
 	/**
+	 * Gets the new group ID.
+	 *
 	 * @since 1.1.0
 	 *
 	 * @return int
@@ -5883,6 +5889,8 @@ function bp_group_has_membership_requests( $args = '' ) {
 }
 
 /**
+ * Checks whether membership requests are available.
+ *
  * @since 1.0.0
  *
  * @return mixed
@@ -5894,6 +5902,8 @@ function bp_group_membership_requests() {
 }
 
 /**
+ * Sets up the current membership request.
+ *
  * @since 1.0.0
  *
  * @return mixed
@@ -5905,6 +5915,8 @@ function bp_group_the_membership_request() {
 }
 
 /**
+ * Displays the requesting user avatar thumbnail.
+ *
  * @since 1.0.0
  */
 function bp_group_request_user_avatar_thumb() {
@@ -6220,6 +6232,8 @@ function bp_group_has_invites( $args = '' ) {
 }
 
 /**
+ * Checks whether group invitations are available.
+ *
  * @since 1.1.0
  *
  * @return mixed
@@ -6231,6 +6245,8 @@ function bp_group_invites() {
 }
 
 /**
+ * Sets up the current group invitation.
+ *
  * @since 1.1.0
  *
  * @return mixed
@@ -6242,6 +6258,8 @@ function bp_group_the_invite() {
 }
 
 /**
+ * Displays the group invitation item ID.
+ *
  * @since 1.1.0
  */
 function bp_group_invite_item_id() {
@@ -6249,6 +6267,8 @@ function bp_group_invite_item_id() {
 }
 
 	/**
+	 * Gets the group invitation item ID.
+	 *
 	 * @since 1.1.0
 	 *
 	 * @return string
@@ -6267,6 +6287,8 @@ function bp_group_invite_item_id() {
 	}
 
 /**
+ * Displays the group invitation user avatar.
+ *
  * @since 1.1.0
  */
 function bp_group_invite_user_avatar() {
@@ -6275,6 +6297,8 @@ function bp_group_invite_user_avatar() {
 }
 
 	/**
+	 * Gets the group invitation user avatar.
+	 *
 	 * @since 1.1.0
 	 *
 	 * @return string|null
@@ -6293,6 +6317,8 @@ function bp_group_invite_user_avatar() {
 	}
 
 /**
+ * Displays the group invitation user link.
+ *
  * @since 1.1.0
  */
 function bp_group_invite_user_link() {
@@ -6301,6 +6327,8 @@ function bp_group_invite_user_link() {
 }
 
 	/**
+	 * Gets the group invitation user link.
+	 *
 	 * @since 1.1.0
 	 *
 	 * @return string
@@ -6319,6 +6347,8 @@ function bp_group_invite_user_link() {
 	}
 
 /**
+ * Displays the group invitation user last active time.
+ *
  * @since 1.1.0
  */
 function bp_group_invite_user_last_active() {
@@ -6326,6 +6356,8 @@ function bp_group_invite_user_last_active() {
 }
 
 	/**
+	 * Gets the group invitation user last active time.
+	 *
 	 * @since 1.1.0
 	 *
 	 * @return string|null
@@ -6344,6 +6376,8 @@ function bp_group_invite_user_last_active() {
 	}
 
 /**
+ * Displays the group invitation removal URL.
+ *
  * @since 1.1.0
  */
 function bp_group_invite_user_remove_invite_url() {
@@ -6351,6 +6385,8 @@ function bp_group_invite_user_remove_invite_url() {
 }
 
 	/**
+	 * Gets the group invitation removal URL.
+	 *
 	 * @since 1.1.0
 	 *
 	 * @return string

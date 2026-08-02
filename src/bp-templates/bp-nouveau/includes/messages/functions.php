@@ -184,6 +184,8 @@ function bp_nouveau_messages_localize_scripts( $params = array() ) {
 }
 
 /**
+ * Adjusts Messages navigation items.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_messages_adjust_nav() {
@@ -304,6 +306,8 @@ function bp_nouveau_format_notice_notification_for_user( $array ) {
 }
 
 /**
+ * Unregisters the notices widget.
+ *
  * @since 3.0.0
  * @deprecated 12.0.0
  */
@@ -381,6 +385,8 @@ function bp_nouveau_messages_mce_buttons( $buttons = array() ) {
 }
 
 /**
+ * Adds the mentions initialization callback to TinyMCE.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_messages_at_on_tinymce_init( $settings, $editor_id ) {
@@ -393,6 +399,8 @@ function bp_nouveau_messages_at_on_tinymce_init( $settings, $editor_id ) {
 }
 
 /**
+ * Gets a formatted message date.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_get_message_date( $date ) {
@@ -440,6 +448,8 @@ function bp_nouveau_get_message_date( $date ) {
 }
 
 /**
+ * Gets Messages bulk actions.
+ *
  * @since 3.0.0
  */
 function bp_nouveau_messages_get_bulk_actions() {

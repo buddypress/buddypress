@@ -22,6 +22,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class BP_Nouveau_Nav_Customize_Control extends WP_Customize_Control {
 	/**
+	 * The control type.
+	 *
 	 * @var string
 	 */
 	public $type = '';
