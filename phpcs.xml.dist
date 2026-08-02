@@ -34,6 +34,7 @@
 	<!-- What to exclude -->
 	<exclude-pattern>*/**/tests/</exclude-pattern>
 	<exclude-pattern>*/**/deprecated/</exclude-pattern>
+	<exclude-pattern>*/src/bp-*/blocks/*/index.asset.php</exclude-pattern>
 
 	<!-- Exclude those rules. -->
 	<rule ref="BuddyPress">
@@ -48,8 +49,7 @@
 		<exclude name="WordPress.DateTime.RestrictedFunctions.date_date" />
 
 		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound" />
-		<exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
-		<exclude name="Generic.WhiteSpace.ScopeIndent.IncorrectExact" />
+		<exclude name="Generic.WhiteSpace.ScopeIndent" />
 
 		<!-- Usually harmless, let's skip them. -->
 		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
