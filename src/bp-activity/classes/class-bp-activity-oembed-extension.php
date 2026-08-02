@@ -321,6 +321,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 				<?php
 				printf(
 					wp_kses(
+						/* translators: %s: number of comments */
 						_n(
 							/* translators: accessibility text */
 							'%s <span class="screen-reader-text">Comment</span>',

@@ -641,7 +641,11 @@ class BP_Groups_List_Table extends WP_List_Table {
 				'object'     => 'group',
 				'type'       => 'thumb',
 				'avatar_dir' => 'group-avatars',
-				'alt'        => sprintf( __( 'Group logo of %s', 'buddypress' ), $group_name ),
+				'alt'        => sprintf(
+					/* translators: %s: the Group name */
+					__( 'Group logo of %s', 'buddypress' ),
+					$group_name
+				),
 				'width'      => '32',
 				'height'     => '32',
 				'title'      => $group_name

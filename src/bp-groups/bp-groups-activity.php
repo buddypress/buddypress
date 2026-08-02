@@ -764,7 +764,19 @@ function bp_groups_membership_accepted_add_activity( $user_id, $group_id ) {
 	 * @param int    $user_id  ID of the user joining the group.
 	 * @param int    $group_id ID of the group. Passed by reference.
 	 */
-	$action = apply_filters_ref_array( 'groups_activity_membership_accepted_action', array( sprintf( __( '%1$s joined the group %2$s', 'buddypress' ), bp_core_get_userlink( $user_id ), '<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>' ), $user_id, &$group ) );
+	$action = apply_filters_ref_array(
+		'groups_activity_membership_accepted_action',
+		array(
+			sprintf(
+				/* translators: 1: the user link. 2: the group link. */
+				__( '%1$s joined the group %2$s', 'buddypress' ),
+				bp_core_get_userlink( $user_id ),
+				'<a href="' . esc_url( bp_get_group_url( $group ) ) . '">' . esc_html( $group->name ) . '</a>'
+			),
+			$user_id,
+			&$group,
+		)
+	);
 
 	// Record in activity streams.
 	groups_record_activity( array(

@@ -23,7 +23,15 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 		<?php if ( bp_settings_personal_data_export_exists( $request ) ) : ?>
 
 			<p><?php esc_html_e( 'Your request for an export of personal data has been completed.', 'buddypress' ); ?></p>
-			<p><?php printf( esc_html__( 'You may download your personal data by clicking on the link below. For privacy and security, we will automatically delete the file on %s, so please download it before then.', 'buddypress' ), esc_html( bp_settings_get_personal_data_expiration_date( $request ) ) ); ?></p>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: expiration date */
+					esc_html__( 'You may download your personal data by clicking on the link below. For privacy and security, we will automatically delete the file on %s, so please download it before then.', 'buddypress' ),
+					esc_html( bp_settings_get_personal_data_expiration_date( $request ) )
+				);
+				?>
+			</p>
 
 			<p><strong><?php printf( '<a href="%1$s">%2$s</a>', esc_url( bp_settings_get_personal_data_export_url( $request ) ), esc_html__( 'Download personal data', 'buddypress' ) ); ?></strong></p>
 
@@ -41,7 +49,15 @@ bp_nouveau_member_hook( 'before', 'settings_template' ); ?>
 
 	<?php elseif ( 'request-confirmed' === $request->status ) : ?>
 
-		<p><?php printf( esc_html__( 'You previously requested an export of your personal data on %s.', 'buddypress' ), esc_html( bp_settings_get_personal_data_confirmation_date( $request ) ) ); ?></p>
+		<p>
+			<?php
+			printf(
+				/* translators: %s: confirmation date */
+				esc_html__( 'You previously requested an export of your personal data on %s.', 'buddypress' ),
+				esc_html( bp_settings_get_personal_data_confirmation_date( $request ) )
+			);
+			?>
+		</p>
 		<p><?php esc_html_e( 'You will receive a link to download your export via email once we are able to fulfill your request.', 'buddypress' ); ?></p>
 
 	<?php endif; ?>

@@ -318,7 +318,11 @@ class BP_Groups_Invite_Template {
 
 		if ( bp_is_active( 'groups' ) ) {
 			$total_groups                     = BP_Groups_Member::total_group_count( $user_id );
-			$this->invite->user->total_groups = sprintf( _n( '%d group', '%d groups', $total_groups, 'buddypress' ), $total_groups );
+			$this->invite->user->total_groups = sprintf(
+				/* translators: %d: number of groups */
+				_n( '%d group', '%d groups', $total_groups, 'buddypress' ),
+				$total_groups
+			);
 		}
 
 		if ( bp_is_active( 'friends' ) ) {

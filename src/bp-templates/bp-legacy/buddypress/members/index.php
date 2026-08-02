@@ -59,10 +59,30 @@ do_action( 'bp_before_directory_members_page' ); ?>
 
 		<div class="item-list-tabs" aria-label="<?php esc_attr_e( 'Members directory main navigation', 'buddypress' ); ?>" role="navigation">
 			<ul>
-				<li class="selected" id="members-all"><a href="<?php bp_members_directory_permalink(); ?>"><?php printf( esc_html__( 'All Members %s', 'buddypress' ), '<span>' . esc_html( bp_get_total_member_count() ) . '</span>' ); ?></a></li>
+				<li class="selected" id="members-all">
+					<a href="<?php bp_members_directory_permalink(); ?>">
+						<?php
+						printf(
+							/* translators: %s: total member count */
+							esc_html__( 'All Members %s', 'buddypress' ),
+							'<span>' . esc_html( bp_get_total_member_count() ) . '</span>'
+						);
+						?>
+					</a>
+				</li>
 
 				<?php if ( is_user_logged_in() && bp_is_active( 'friends' ) && bp_get_total_friend_count( bp_loggedin_user_id() ) ) : ?>
-					<li id="members-personal"><a href="<?php bp_loggedin_user_link( array( bp_get_friends_slug(), 'my-friends' ) ); ?>"><?php printf( esc_html__( 'My Friends %s', 'buddypress' ), '<span>' . esc_html( bp_get_total_friend_count( bp_loggedin_user_id() ) ) . '</span>' ); ?></a></li>
+					<li id="members-personal">
+						<a href="<?php bp_loggedin_user_link( array( bp_get_friends_slug(), 'my-friends' ) ); ?>">
+							<?php
+							printf(
+								/* translators: %s: total friend count */
+								esc_html__( 'My Friends %s', 'buddypress' ),
+								'<span>' . esc_html( bp_get_total_friend_count( bp_loggedin_user_id() ) ) . '</span>'
+							);
+							?>
+						</a>
+					</li>
 				<?php endif; ?>
 
 				<?php

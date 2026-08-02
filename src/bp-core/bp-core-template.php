@@ -337,7 +337,12 @@ function bp_format_time( $time = '', $exclude_time = false, $gmt = true ) {
 		$formatted_time = date_i18n( bp_get_option( 'time_format' ), $calculated_time, $gmt );
 
 		// Return string formatted with date and time.
-		$formatted_date = sprintf( esc_html__( '%1$s at %2$s', 'buddypress' ), $formatted_date, $formatted_time );
+		$formatted_date = sprintf(
+			/* translators: 1: activity date, 2: activity time */
+			esc_html__( '%1$s at %2$s', 'buddypress' ),
+			$formatted_date,
+			$formatted_time
+		);
 	}
 
 	/**

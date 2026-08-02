@@ -68,7 +68,11 @@ do_action( 'bp_before_group_settings_admin' ); ?>
 					<input type="checkbox" name="group-types[]" id="<?php printf( 'group-type-%s', esc_attr( $type->name ) ); ?>" value="<?php echo esc_attr( $type->name ); ?>" <?php checked( bp_groups_has_group_type( bp_get_current_group_id(), $type->name ) ); ?>/> <?php echo esc_html( $type->labels['name'] ); ?>
 					<?php
 						if ( ! empty( $type->description ) ) {
-							printf( esc_html__( '&ndash; %s', 'buddypress' ), '<span class="bp-group-type-desc">' . esc_html( $type->description ) . '</span>' );
+							printf(
+								/* translators: %s: group type description */
+								esc_html__( '&ndash; %s', 'buddypress' ),
+								'<span class="bp-group-type-desc">' . esc_html( $type->description ) . '</span>'
+							);
 						}
 					?>
 				</label>

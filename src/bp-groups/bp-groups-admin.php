@@ -942,7 +942,15 @@ function bp_groups_admin_index() {
 		<?php endif; ?>
 
 		<?php if ( ! empty( $_REQUEST['s'] ) ) : ?>
-			<span class="subtitle"><?php printf( esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ), esc_html( wp_html_excerpt( stripslashes( $_REQUEST['s'] ), 50 ) ) ); ?></span>
+			<?php
+			printf(
+				'<span class="subtitle">' .
+				/* translators: %s: the group search terms */
+				esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ) .
+				'</span>',
+				esc_html( wp_html_excerpt( stripslashes( $_REQUEST['s'] ), 50 ) )
+			);
+			?>
 		<?php endif; ?>
 
 		<hr class="wp-header-end">

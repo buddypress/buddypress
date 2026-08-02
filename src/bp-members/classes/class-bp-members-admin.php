@@ -2258,8 +2258,8 @@ class BP_Members_Admin {
 					if ( ! empty( $_REQUEST['notdeleted'] ) ) {
 						$notdeleted         = absint( $_REQUEST['notdeleted'] );
 						$notice['message'] .= sprintf(
+							/* translators: %s: number of sign-ups that were not deleted */
 							_nx(
-								/* translators: %s: number of deleted signups not deleted */
 								'%s sign-up was not deleted.', '%s sign-ups were not deleted.',
 								$notdeleted,
 								'signup notdeleted',
@@ -2425,7 +2425,13 @@ class BP_Members_Admin {
 			$this->get_top_screen_button();
 
 			if ( $usersearch ) {
-				printf( '<span class="subtitle">' . esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
+				printf(
+					'<span class="subtitle">' .
+					/* translators: %s: the member search terms */
+					esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ) .
+					'</span>',
+					esc_html( $usersearch )
+				);
 			}
 			?>
 
@@ -3122,8 +3128,8 @@ class BP_Members_Admin {
 					if ( ! empty( $_REQUEST['resent'] ) ) {
 						$resent             = absint( $_REQUEST['resent'] );
 						$notice['message'] .= sprintf(
+							/* translators: %s: number of invitation emails sent */
 							_nx(
-								/* translators: %s: number of invitation emails sent */
 								'%s invtitation email successfully sent! ', '%s invitation emails successfully sent! ',
 								$resent,
 								'members invitation resent',
@@ -3136,8 +3142,8 @@ class BP_Members_Admin {
 					if ( ! empty( $_REQUEST['notsent'] ) ) {
 						$notsent            = absint( $_REQUEST['notsent'] );
 						$notice['message'] .= sprintf(
+							/* translators: %s: number of unsent invitation emails */
 							_nx(
-								/* translators: %s: number of unsent invitation emails */
 								'%s invitation email was not sent.', '%s invitation emails were not sent.',
 								$notsent,
 								'members invitation notsent',
@@ -3162,8 +3168,8 @@ class BP_Members_Admin {
 					if ( ! empty( $_REQUEST['deleted'] ) ) {
 						$deleted            = absint( $_REQUEST['deleted'] );
 						$notice['message'] .= sprintf(
+							/* translators: %s: number of deleted invitations */
 							_nx(
-								/* translators: %s: number of deleted invitations */
 								'%s invitation successfully deleted!', '%s invitations successfully deleted!',
 								$deleted,
 								'members invitation deleted',
@@ -3176,8 +3182,8 @@ class BP_Members_Admin {
 					if ( ! empty( $_REQUEST['notdeleted'] ) ) {
 						$notdeleted         = absint( $_REQUEST['notdeleted'] );
 						$notice['message'] .= sprintf(
+							/* translators: %s: number of invitations that failed to be deleted */
 							_nx(
-								/* translators: %s: number of invitations that failed to be deleted */
 								'%s invitation was not deleted.', '%s invitations were not deleted.',
 								$notdeleted,
 								'members invitation notdeleted',
@@ -3323,7 +3329,13 @@ class BP_Members_Admin {
 		<div class="buddypress-body">
 			<?php
 			if ( $usersearch ) {
-				printf( '<span class="subtitle">' . esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ) . '</span>', esc_html( $usersearch ) );
+				printf(
+					'<span class="subtitle">' .
+					/* translators: %s: the member search terms */
+					esc_html__( 'Search results for &#8220;%s&#8221;', 'buddypress' ) .
+					'</span>',
+					esc_html( $usersearch )
+				);
 			}
 			?>
 
