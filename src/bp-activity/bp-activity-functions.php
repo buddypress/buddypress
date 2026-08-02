@@ -1969,7 +1969,7 @@ function bp_activity_get( $args = '' ) {
  * @param array|string $args {
  *     An array of arguments.
  *     All arguments and defaults are shared with BP_Activity_Activity::get(),
- *     except for the following:
+ *     except for the following argument.
  *     @type string|int|array Single activity ID, comma-separated list of IDs,
  *                            or array of IDs.
  * }

@@ -74,6 +74,7 @@ function bp_attachments_uploads_dir_get( $data = '' ) {
  * @since 3.0.0
  *
  * @param array $args {
+ *     An array of cover image upload directory arguments.
  *    @type int    $object_id        The ID of the object (Required).
  *    @type string $object_directory The object directory (eg: members, groups) (Required).
  * }
@@ -286,6 +287,7 @@ function bp_attachments_check_filetype( $file, $filename, $allowed_mimes ) {
  *
  * @param string $type The attachment type to create (avatar or cover_image). Default: avatar.
  * @param array  $args {
+ *     An array of arguments.
  *     @type int    $item_id   The ID of the object (Required). Default: 0.
  *     @type string $object    The object type (eg: group, user, blog) (Required). Default: 'user'.
  *     @type string $component The component for the object (eg: groups, members, blogs). Default: ''.
@@ -457,6 +459,7 @@ function bp_attachments_create_item_type( $type = 'avatar', $args = array() ) {
  *
  * @param string $data whether to get the url or the path.
  * @param array  $args {
+ *     An array of arguments.
  *     @type string $object_dir  The object dir (eg: members/groups). Defaults to members.
  *     @type int    $item_id     The object id (eg: a user or a group id). Defaults to current user.
  *     @type string $type        The type of the attachment which is also the subdir where files are saved.
@@ -1288,6 +1291,7 @@ function bp_attachments_get_group_has_cover_image( $group_id = 0 ) {
  * @since 2.4.0
  *
  * @param array                          $args {
+ *     An array of arguments.
  *     @type string $file            The absolute path to the image. Required.
  *     @type string $component       The component for the object (eg: groups, members). Required.
  *     @type string $cover_image_dir The Cover image dir to write the image into. Required.

@@ -1075,7 +1075,7 @@ function groups_get_user_groups( $user_id = 0, $pag_num = 0, $pag_page = 0 ) {
  *     @param string    $orderby      Field to order by. Accepts 'id' (membership ID), 'group_id', 'date_modified'.
  *                                    Default: 'group_id'.
  *     @param string    $order        Sort order. Accepts 'ASC' or 'DESC'. Default: 'ASC'.
- * }
+ * }.
  * @return array Array of matching group memberships, keyed by group ID.
  */
 function bp_get_user_groups( $user_id, $args = array() ) {

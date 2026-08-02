@@ -3276,7 +3276,7 @@ function bp_avatar_delete_link() {
  *     passed as an associative array, or as a URL query string.
  *
  *     See {@link BP_Invitations_Invitation::get()} for detailed
- *     information on the arguments.  In addition, also supports:
+ *     information on the arguments. It also supports the following arguments.
  *
  *     @type int    $max      Optional. Max items to display. Default: false.
  *     @type string $page_arg URL argument to use for pagination.
@@ -3528,6 +3528,7 @@ function bp_the_members_invitation_action_links( $args = '' ) {
 	 * @since 8.0.0
 	 *
 	 * @param array|string $args {
+	 *     Arguments.
 	 *     @type string $before  HTML before the links.
 	 *     @type string $after   HTML after the links.
 	 *     @type string $sep     HTML between the links.

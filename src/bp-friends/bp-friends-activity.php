@@ -26,8 +26,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param array|string $args {
  *     An array of arguments for the new activity item. Accepts all parameters
- *     of {@link bp_activity_add()}. The one difference is the following
- *     argument, which has a different default here:
+ *     of {@link bp_activity_add()}. The following argument has a different
+ *     default.
  *     @type string $component Default: the id of your Friends component
  *                             (usually 'friends').
  * }

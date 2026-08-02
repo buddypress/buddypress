@@ -725,7 +725,7 @@ function bp_nouveau_get_appearance_settings( $option = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $type 'option' to get the labels, 'classes' to get the classes
+ * @param string $type 'option' to get the labels, 'classes' to get the classes.
  *
  * @return array The list of labels or classes preserving keys.
  */
@@ -1428,9 +1428,9 @@ function bp_nouveau_get_submit_button( $action = '' ) {
  *
  * @since 3.0.0
  *
- * @param object $nav         The BuddyPress Item Nav object to reorder
- * @param array  $order       A list of slugs ordered (eg: array( 'profile', 'activity', etc..) )
- * @param string $parent_slug A parent slug if it's a secondary nav we are reordering (case of the Groups single item)
+ * @param object $nav         The BuddyPress Item Nav object to reorder.
+ * @param array  $order       A list of slugs ordered (eg: array( 'profile', 'activity', etc..) ).
+ * @param string $parent_slug A parent slug if it's a secondary nav we are reordering (case of the Groups single item).
  *
  * @return bool False otherwise.
  */

@@ -87,7 +87,7 @@ add_filter( 'bp_core_signup_send_activation_key', 'bp_members_membership_request
  * @param string $user_login       User login name.
  * @param string $user_email       User email address.
  * @param string $activation_key   Activation key created in wpmu_signup_user().
- * @param bool   $is_signup_resend Is the site admin sending this email?
+ * @param bool   $is_signup_resend Whether the site admin is sending this email.
  * @return bool Whether or not to send the activation key.
  */
 function bp_members_membership_requests_cancel_activation_email_multisite( $send = true, $user_login = '', $user_email = '', $activation_key = '', $is_signup_resend = false ) {

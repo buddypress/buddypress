@@ -548,7 +548,7 @@ class BP_Legacy extends BP_Theme_Compat {
 	 * @since 2.2.0
 	 *
 	 * @param  array $templates Array of templates.
-	 *                         to use the defined page template for component's directory and its single items
+	 *                         to use the defined page template for component's directory and its single items.
 	 * @return array
 	 */
 	public function theme_compat_page_templates( $templates = array() ) {

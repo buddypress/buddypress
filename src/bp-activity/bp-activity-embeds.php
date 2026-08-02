@@ -29,7 +29,7 @@ add_action( 'bp_loaded', 'bp_activity_setup_oembed' );
  *
  * @since 2.6.0
  *
- * @param  string $text Embed excerpt
+ * @param  string $text Embed excerpt.
  * @return string
  */
 function bp_activity_embed_excerpt_onclick_location_filter( $text ) {

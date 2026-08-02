@@ -84,6 +84,7 @@ class BP_Groups_Membership_Requests_Template {
 	 * @since 1.5.0
 	 *
 	 * @param array $args {
+	 *     An array of arguments.
 	 *     @type int $group_id ID of the group whose membership requests
 	 *                         are being queried. Default: current group id.
 	 *     @type int $per_page Number of records to return per page of

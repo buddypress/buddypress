@@ -81,8 +81,8 @@ function bp_nouveau_after_members_directory_content() {
  *
  * @since 3.0.0
  *
- * @param string $when   'before' or 'after'
- * @param string $suffix Use it to add terms at the end of the hook name
+ * @param string $when   'before' or 'after'.
+ * @param string $suffix Use it to add terms at the end of the hook name.
  */
 function bp_nouveau_member_hook( $when = '', $suffix = '' ) {
 	$hook = array( 'bp' );

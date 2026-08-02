@@ -560,8 +560,8 @@ add_action( 'update_option_comment_moderation', 'bp_blogs_update_option_comment_
  *
  * @since 2.7.0
  *
- * @param int|string $old_value Old value
- * @param int|string $new_value New value
+ * @param int|string $old_value Old value.
+ * @param int|string $new_value New value.
  */
 function bp_blogs_update_option_site_icon( $old_value, $new_value ) {
 	$blog_id = get_current_blog_id();

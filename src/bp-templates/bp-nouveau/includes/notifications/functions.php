@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  *
- * @param  array $scripts  The array of scripts to register
+ * @param  array $scripts  The array of scripts to register.
  * @return array  The same array with the specific notifications scripts.
  */
 function bp_nouveau_notifications_register_scripts( $scripts = array() ) {

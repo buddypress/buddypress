@@ -1385,6 +1385,7 @@ class BP_Activity_Activity {
 	 * @global wpdb $wpdb WordPress database object.
 	 *
 	 * @param array $args {
+	 *     An array of activity item deletion arguments.
 	 *     @int    $id                Optional. The ID of a specific item to delete.
 	 *     @string $action            Optional. The action to filter by.
 	 *     @string $content           Optional. The content to filter by.

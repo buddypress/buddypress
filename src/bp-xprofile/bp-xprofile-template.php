@@ -22,8 +22,8 @@ defined( 'ABSPATH' ) || exit;
  * @see BP_XProfile_Group::get() for full description of `$args` array.
  *
  * @param array|string $args {
- *     Array of arguments. See BP_XProfile_Group::get() for full description. Those arguments whose defaults differ
- *     from that method are described here:
+ *     Array of arguments. See BP_XProfile_Group::get() for full description.
+ *     The arguments with different defaults are described below.
  *     @type int            $user_id                Default: ID of the displayed user.
  *     @type string|array   $member_type            Default: 'any'.
  *     @type int|int[]|bool $profile_group_id       Default: false.
@@ -1011,7 +1011,7 @@ function bp_unserialize_profile_field( $value ) {
  *
  * @since 1.2.0
  *
- * @param string|array $args Array of arguments for field data. See {@link bp_get_profile_field_data}
+ * @param string|array $args Array of arguments for field data. See {@link bp_get_profile_field_data}.
  */
 function bp_profile_field_data( $args = '' ) {
 	// Escaping is made in `bp-xprofile/bp-xprofile-filters.php`.
@@ -1322,7 +1322,7 @@ function bp_edit_profile_button() {
  *
  * @since 1.6.0
  *
- * @param array|string $args Args for the radio buttons. See {@link bp_profile_get_visibility_radio_buttons}
+ * @param array|string $args Args for the radio buttons. See {@link bp_profile_get_visibility_radio_buttons}.
  */
 function bp_profile_visibility_radio_buttons( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -1420,7 +1420,7 @@ function bp_profile_visibility_radio_buttons( $args = '' ) {
  *
  * @since 2.0.0
  *
- * @param array|string $args Args for the select list. See {@link bp_profile_get_settings_visibility_select}
+ * @param array|string $args Args for the select list. See {@link bp_profile_get_settings_visibility_select}.
  */
 function bp_profile_settings_visibility_select( $args = '' ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput

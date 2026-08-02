@@ -91,7 +91,7 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param object $item The current item
+	 * @param object $item The current item.
 	 */
 	public function single_row( $item ) {
 
@@ -110,7 +110,7 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param object $item The current item
+	 * @param object $item The current item.
 	 */
 	public function column_subject( $item ) {
 		$actions = array(
@@ -157,7 +157,7 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param object $item The current item
+	 * @param object $item The current item.
 	 */
 	public function column_message( $item ) {
 		// Escaping is made in `bp-messages/bp-messages-filters.php`.
@@ -170,7 +170,7 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param object $item The current item
+	 * @param object $item The current item.
 	 */
 	public function column_date_sent( $item ) {
 		echo esc_html( apply_filters( 'bp_get_message_notice_post_date', bp_format_time( strtotime( $item->date_sent ) ) ) );

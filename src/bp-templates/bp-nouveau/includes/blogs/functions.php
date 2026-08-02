@@ -85,7 +85,7 @@ function bp_nouveau_get_blogs_directory_nav_items() {
  *
  * @since 3.0.0
  *
- * @param string $context 'directory' or 'user'
+ * @param string $context 'directory' or 'user'.
  *
  * @return array the filters
  */

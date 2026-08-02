@@ -312,7 +312,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
  *
  * @since 3.0.0
  *
- * @param string $output  HTML output
+ * @param string $output  HTML output.
  * @param array  $filters Optional.
  * @param string $context
  *

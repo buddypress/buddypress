@@ -2355,8 +2355,8 @@ function bp_nouveau_get_customizer_link( $args = array() ) {
  *
  * @since 3.0.0
  *
- * @param string $when   'before' or 'after'
- * @param string $prefix Use it to add terms before the hook name
+ * @param string $when   'before' or 'after'.
+ * @param string $prefix Use it to add terms before the hook name.
  */
 function bp_nouveau_signup_hook( $when = '', $prefix = '' ) {
 	$hook = array( 'bp' );
@@ -2387,8 +2387,8 @@ function bp_nouveau_signup_hook( $when = '', $prefix = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $when   'before' or 'after'
- * @param string $prefix Use it to add terms before the hook name
+ * @param string $when   'before' or 'after'.
+ * @param string $suffix Use it to add terms before the hook name.
  */
 function bp_nouveau_activation_hook( $when = '', $suffix = '' ) {
 	$hook = array( 'bp' );

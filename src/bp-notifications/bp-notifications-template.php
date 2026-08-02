@@ -176,7 +176,7 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
  *     passed as an associative array, or as a URL query string.
  *
  *     See {@link BP_Notifications_Notification::get()} for detailed
- *     information on the arguments.  In addition, also supports:
+ *     information on the arguments. It also supports the following arguments.
  *
  *     @type int    $max      Optional. Max items to display. Default: false.
  *     @type string $page_arg URL argument to use for pagination.
@@ -893,6 +893,7 @@ function bp_the_notification_action_links( $args = '' ) {
 	 * @since 2.6.0 Added $user_id as a parameter to $args.
 	 *
 	 * @param array|string $args {
+	 *     Arguments.
 	 *     @type string $before  HTML before the links.
 	 *     @type string $after   HTML after the links.
 	 *     @type string $sep     HTML between the links.

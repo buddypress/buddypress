@@ -197,7 +197,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param  int $item_id The activity ID
+	 * @param  int $item_id The activity ID.
 	 * @return string
 	 */
 	protected function set_iframe_title( $item_id ) {

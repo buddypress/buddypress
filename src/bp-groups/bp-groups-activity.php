@@ -490,8 +490,8 @@ add_filter( 'bp_activity_set_favorites_scope_args', 'bp_groups_filter_activity_f
  *
  * @param array|string $args {
  *     An array of arguments for the new activity item. Accepts all parameters
- *     of {@link bp_activity_add()}. However, this wrapper provides some
- *     additional defaults, as described below:
+ *     of {@link bp_activity_add()}. This wrapper provides the following
+ *     additional defaults.
  *     @type string $component     Default: the id of your Groups component
  *                                 (usually 'groups').
  *     @type bool   $hide_sitewide Default: True if the current group is not

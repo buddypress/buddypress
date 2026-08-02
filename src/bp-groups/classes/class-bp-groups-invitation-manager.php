@@ -63,7 +63,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param string $type Are we accepting an invitation or request?
+	 * @param string $type Whether an invitation or request is being accepted.
 	 * @param array  $r    Parameters that describe the invitation being accepted.
 	 * @return bool
 	 */

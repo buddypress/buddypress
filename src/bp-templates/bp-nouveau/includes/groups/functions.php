@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Provide a convenience function to add markup wrapper for message strings
  *
- * @param string $message The message text string
- * @param string $type    The message type - 'error, 'info', 'warning', success'
+ * @param string $message The message text string.
+ * @param string $type    The message type - 'error, 'info', 'warning', success'.
  *
  * @return string
  *
@@ -126,7 +126,7 @@ add_filter( 'bp_is_groups_invitations_active', 'bp_nouveau_is_groups_invitations
  *
  * @since 3.0.0
  *
- * @param array $params Associative array containing the JS Strings needed by scripts
+ * @param array $params Associative array containing the JS Strings needed by scripts.
  *
  * @return array The same array with specific strings for the Group's Invite UI if needed.
  */
@@ -384,7 +384,7 @@ function bp_nouveau_group_setup_nav() {
  * @since 3.0.0
  * @deprecated 6.3.0
  *
- * @param string $message The message to send with the invite
+ * @param string $message The message to send with the invite.
  */
 function bp_nouveau_groups_invites_custom_message( $message = '' ) {
 	_deprecated_function( __FUNCTION__, '6.3.0' );
@@ -618,7 +618,7 @@ function bp_nouveau_get_groups_directory_nav_items() {
  *
  * @since 3.0.0
  *
- * @param string $context 'directory' or 'user'
+ * @param string $context 'directory' or 'user'.
  *
  * @return array the filters
  */
@@ -1146,7 +1146,7 @@ function bp_nouveau_groups_remove_home_widget_filters() {
  *
  * @since 3.0.0
  *
- * @param string $id Optional. The screen id
+ * @param string $id Optional. The screen id.
  *
  * @return mixed An array containing the hook dynamic part, the nonce, and eventually a specific template.
  *               False if it's not a core create screen.
@@ -1190,7 +1190,7 @@ function bp_nouveau_group_get_core_create_screens( $id = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $id Optional. The screen id
+ * @param string $id Optional. The screen id.
  *
  * @return mixed An array containing the hook dynamic part and the nonce.
  *               False if it's not a core manage screen.

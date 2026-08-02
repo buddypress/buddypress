@@ -1337,6 +1337,7 @@ function bp_activity_action( $args = array() ) {
 	 * @global BP_Activity_Template $activities_template The main activity template loop class.
 	 *
 	 * @param array $args {
+	 *     An array of arguments.
 	 *     @type bool $no_timestamp Whether to exclude the timestamp.
 	 * }
 	 *
@@ -3189,6 +3190,7 @@ function bp_activity_filter_links( $args = false ) {
 	 * @since 1.1.0
 	 *
 	 * @param array|bool $args {
+	 *     Arguments or false.
 	 *     @type string $style The type of markup to use for the links.
 	 *                         'list', 'paragraph', or 'span'. Default: 'list'.
 	 * }

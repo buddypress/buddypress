@@ -928,7 +928,7 @@ function bp_group_status( $group = false ) {
  *
  * @param array|string                     $args {
  *                          See {@link bp_get_group_avatar()} for description of arguments.
- *                     }
+ *                     }.
  * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
  *                                                Default: false.
  */
@@ -1826,7 +1826,7 @@ function bp_is_group_creator( $group = false, $user_id = 0 ) {
  * @param array                            $args  {
  *     Array of optional arguments. See {@link bp_get_group_creator_avatar()}
  *     for description.
- * }
+ * }.
  */
 function bp_group_creator_avatar( $group = false, $args = array() ) {
 	// phpcs:ignore WordPress.Security.EscapeOutput
@@ -2556,6 +2556,7 @@ function bp_group_member_promote_mod_link( $args = '' ) {
 	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @param array|string $args {
+	 *     An array of arguments.
 	 *     @type int    $user_id ID of the member to promote. Default:
 	 *                           current member in a group member loop.
 	 *     @type object $group   Group object. Default: current group.
@@ -2611,6 +2612,7 @@ function bp_group_member_promote_admin_link( $args = '' ) {
 	 * @global BP_Core_Members_Template $members_template The Members template loop class.
 	 *
 	 * @param array|string $args {
+	 *     An array of arguments.
 	 *     @type int    $user_id ID of the member to promote. Default:
 	 *                           current member in a group member loop.
 	 *     @type object $group   Group object. Default: current group.
@@ -4437,8 +4439,7 @@ function bp_group_member_css_class() {
  * @since 1.0.0
  * @since 2.7.0 Added $args as a parameter.
  *
- * @param array|string $args {@see bp_get_group_member_joined_since()}
- * @return string|null
+ * @param array|string $args {@see bp_get_group_member_joined_since()}.
  */
 function bp_group_member_joined_since( $args = array() ) {
 	echo esc_html( bp_get_group_member_joined_since( $args ) );
@@ -5846,6 +5847,7 @@ function bp_custom_group_fields() {
  * @since 1.0.0
  *
  * @param array|string $args {
+ *     Arguments.
  *     @type int $group_id ID of the group. Defaults to current group.
  *     @type int $per_page Number of records to return per page. Default: 10.
  *     @type int $page     Page of results to return. Default: 1.
@@ -6165,6 +6167,7 @@ function bp_group_requests_pagination_count() {
  * @since 1.1.0
  *
  * @param string|array $args {
+ *     Arguments.
  *    @type int $group_id ID of the group. Defaults to current group.
  *    @type int $user_id  ID of the user. Defaults to logged-in user.
  *    @type int $per_page Number of records to return per page. Default: 10.
@@ -6702,7 +6705,7 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
  *
  * @since 2.0.0
  *
- * @param array|string $args before|after|user_id
+ * @param array|string $args Arguments for the before, after, and user ID values.
  */
 function bp_groups_profile_stats( $args = '' ) {
 	echo wp_kses(
@@ -6722,7 +6725,7 @@ add_action( 'bp_members_admin_user_stats', 'bp_groups_profile_stats', 8, 1 );
  *
  * @since 2.0.0
  *
- * @param array|string $args before|after|user_id
+ * @param array|string $args Arguments for the before, after, and user ID values.
  * @return string HTML for stats output.
  */
 function bp_groups_get_profile_stats( $args = '' ) {

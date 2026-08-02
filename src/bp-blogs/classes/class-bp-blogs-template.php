@@ -97,7 +97,7 @@ class BP_Blogs_Template {
 	 *
 	 * @param array ...$args {
 	 *     Array of arguments. See {@link BP_Blogs_Blog::get()}.
-	 * }
+	 * }.
 	 */
 	public function __construct( ...$args ) {
 		// Backward compatibility with old method of passing arguments.
