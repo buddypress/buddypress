@@ -149,7 +149,7 @@ function bp_get_groups_directory_url( $path_chunks = array() ) {
  *
  * @since 12.0.0
  *
- * @param array $chunks array A list of create action variables.
+ * @param array $action_variables A list of create action variables.
  * @return string The group create URL.
  */
 function bp_groups_get_create_url( $action_variables = array() ) {
@@ -1253,7 +1253,7 @@ function bp_group_last_active( $group = false, $args = array() ) {
  *
  * @param false|int|string|BP_Groups_Group $group (Optional) The Group ID, the Group Slug or the Group object.
  *                                                Default: false.
- * @param array                            $chunk (Optional) A list of slugs to append to the URL.
+ * @param array                            $chunks (Optional) A list of slugs to append to the URL.
  */
 function bp_group_url( $group = false, $chunks = array() ) {
 	$path_chunks = array();
@@ -6669,10 +6669,9 @@ function bp_current_group_description() {
  *
  * @since 1.2.0
  *
- * @param string $action
- * @param string $query_args
- * @param bool   $nonce
- * @return string|null
+ * @param string $action     Group component action.
+ * @param string $query_args Query arguments to append.
+ * @param bool   $nonce      Whether to include a nonce.
  */
 function bp_groups_action_link( $action = '', $query_args = '', $nonce = false ) {
 	echo esc_url( bp_get_groups_action_link( $action, $query_args, $nonce ) );
@@ -6682,9 +6681,9 @@ function bp_groups_action_link( $action = '', $query_args = '', $nonce = false )
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param string $action
-	 * @param string $query_args
-	 * @param bool   $nonce
+	 * @param string $action     Group component action.
+	 * @param string $query_args Query arguments to append.
+	 * @param bool   $nonce      Whether to include a nonce.
 	 * @return string
 	 */
 	function bp_get_groups_action_link( $action = '', $query_args = '', $nonce = false ) {

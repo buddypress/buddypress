@@ -380,8 +380,6 @@ function bp_core_optouts_admin_index() {
  * @since 8.0.0
  *
  * @param string $action Delete or resend optout.
- *
- * @return null|false
  */
 function bp_core_optouts_admin_manage( $action = '' ) {
 	$capability = bp_core_do_network_admin() ? 'manage_network_options' : 'manage_options';

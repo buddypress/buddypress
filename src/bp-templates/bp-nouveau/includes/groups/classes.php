@@ -427,7 +427,7 @@ class BP_Nouveau_Group_Meta {
 	 *
 	 * @since 7.0.0
 	 *
-	 * @param string $key
+	 * @param string $key Deprecated object property name.
 	 * @return string
 	 */
 	public function __get( $key = '' ) {

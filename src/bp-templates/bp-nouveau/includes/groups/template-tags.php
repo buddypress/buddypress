@@ -202,8 +202,6 @@ function bp_nouveau_group_print_invites_placeholders() {
  * Load the Group Invites UI.
  *
  * @since 3.0.0
- *
- * @return string HTML Output.
  */
 function bp_nouveau_group_invites_interface() {
 	/**

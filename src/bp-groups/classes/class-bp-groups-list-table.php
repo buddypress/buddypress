@@ -300,7 +300,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 * @since 2.7.0
 	 * @access protected
 	 *
-	 * @param string $which
+	 * @param string $which Position of the controls: top or bottom.
 	 */
 	protected function extra_tablenav( $which ) {
 		/**

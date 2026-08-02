@@ -146,6 +146,7 @@ class BP_Nouveau_Members {
  * Launch the Members loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Nouveau instance.
  */
 function bp_nouveau_members( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

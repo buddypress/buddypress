@@ -1443,8 +1443,6 @@ function bp_nouveau_directory_nav_object() {
  * Output main BuddyPress container classes.
  *
  * @since 3.0.0
- *
- * @return string CSS classes
  */
 function bp_nouveau_container_classes() {
 	echo esc_attr( bp_nouveau_get_container_classes() );
@@ -2649,6 +2647,7 @@ function bp_nouveau_signup_privacy_policy_acceptance_section() {
  * @since 3.0.0
  *
  * @param string $action The action to get the submit button for. Required.
+ * @param int    $object_id ID of the object for the button nonce.
  */
 function bp_nouveau_submit_button( $action, $object_id = 0 ) {
 	$submit_data = bp_nouveau_get_submit_button( $action );

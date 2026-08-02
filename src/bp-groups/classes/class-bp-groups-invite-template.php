@@ -109,7 +109,7 @@ class BP_Groups_Invite_Template {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array $args
+	 * @param array $args Arguments for the invitations template.
 	 */
 	public function __construct( $args = array() ) {
 		$function_args = func_get_args();

@@ -168,6 +168,9 @@ add_action( 'admin_bar_menu', 'bp_members_admin_bar_user_admin_menu', 99 );
  * Build the "Notifications" dropdown.
  *
  * @since 11.4.0
+ * @param array  $notifications Notifications to display.
+ * @param string $menu_link     Notifications menu link.
+ * @param string $type          Context in which to build the dropdown.
  */
 function bp_members_admin_bar_notifications_dropdown( $notifications = array(), $menu_link = '', $type = 'members' ) {
 	if ( ! $menu_link || ( 'admin' === $type && empty( $notifications ) ) ) {

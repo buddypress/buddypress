@@ -24,7 +24,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array|string $args.
+	 * @param array|string $args Arguments for the invitation.
 	 */
 	public function __construct( $args = '' ) {
 		parent::__construct();
@@ -138,7 +138,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 * @see BP_Invitation::mark_accepted_by_data()
 	 *      for a description of arguments.
 	 *
-	 * @param array $args.
+	 * @param array $args Arguments for the invitation.
 	 */
 	public function mark_accepted( $args ) {
 		// Delete all existing invitations/requests to this group for this user.
@@ -181,7 +181,7 @@ class BP_Groups_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $args.
+	 * @param array $args Arguments for the membership request.
 	 * @return bool.
 	 */
 	public function allow_request( $args ) {

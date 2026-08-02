@@ -111,8 +111,6 @@ function bp_nouveau_after_activity_post_form() {
  * Display the displayed user activity post form if needed
  *
  * @since 3.0.0
- *
- * @return string HTML.
  */
 function bp_nouveau_activity_member_post_form() {
 

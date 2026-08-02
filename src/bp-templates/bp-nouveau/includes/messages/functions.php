@@ -299,7 +299,7 @@ function bp_nouveau_add_notice_notification_for_user( $notifications, $user_id )
  * @since 3.0.0
  * @deprecated 10.0.0
  *
- * @param array $array.
+ * @param array $array Notice notification arguments.
  */
 function bp_nouveau_format_notice_notification_for_user( $array ) {
 	_deprecated_function( __FUNCTION__, '10.0.0' );
@@ -388,6 +388,8 @@ function bp_nouveau_messages_mce_buttons( $buttons = array() ) {
  * Adds the mentions initialization callback to TinyMCE.
  *
  * @since 3.0.0
+ * @param array  $settings  TinyMCE initialization settings.
+ * @param string $editor_id TinyMCE editor ID.
  */
 function bp_nouveau_messages_at_on_tinymce_init( $settings, $editor_id ) {
 	// We only apply the mentions init to the visual post editor in the WP dashboard.
@@ -402,6 +404,7 @@ function bp_nouveau_messages_at_on_tinymce_init( $settings, $editor_id ) {
  * Gets a formatted message date.
  *
  * @since 3.0.0
+ * @param string $date Message date to format.
  */
 function bp_nouveau_get_message_date( $date ) {
 	$now  = bp_core_current_time( true, 'timestamp' );

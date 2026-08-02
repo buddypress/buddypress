@@ -166,7 +166,6 @@ abstract class BP_XProfile_Field_Type {
 	 * @deprecated 7.0.0 Use set_allowed_values() instead.
 	 *
 	 * @param string|array $values Whitelisted values.
-	 * @return BP_XProfile_Field_Type
 	 */
 	public function set_whitelist_values( $values ) {
 		_deprecated_function( __METHOD__, '7.0.0', 'BP_XProfile_Field_Type::set_allowed_values()' );

@@ -600,6 +600,7 @@ function bp_blogs_comments_open( $activity ) {
  * @param BP_Blogs_Blog $recorded_blog Current site being recorded. Passed by reference.
  * @param bool          $is_private    Whether the current site being recorded is private.
  * @param bool          $is_recorded   Whether the current site was recorded.
+ * @param bool          $no_activity Whether to skip recording the activity.
  */
 function bp_blogs_record_activity_on_site_creation( $recorded_blog, $is_private, $is_recorded, $no_activity ) {
 	// Only record this activity if the blog is public.
@@ -629,6 +630,7 @@ add_action( 'bp_blogs_new_blog', 'bp_blogs_record_activity_on_site_creation', 10
  * @since 2.6.0
  *
  * @param int $blog_id Site ID.
+ * @param int $user_id ID of the user whose activity may be removed.
  */
 function bp_blogs_delete_new_blog_activity_for_site( $blog_id, $user_id = 0 ) {
 	$args = array(

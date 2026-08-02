@@ -195,6 +195,8 @@ function bp_nouveau_groups_localize_scripts( $params = array() ) {
  * Gets group invitation inviter IDs.
  *
  * @since 3.0.0
+ * @param int $user_id  ID of the invited user.
+ * @param int $group_id ID of the group.
  */
 function bp_nouveau_groups_get_inviter_ids( $user_id, $group_id ) {
 	if ( empty( $user_id ) || empty( $group_id ) ) {
@@ -208,6 +210,7 @@ function bp_nouveau_groups_get_inviter_ids( $user_id, $group_id ) {
  * Prepares potential group invitation data for JavaScript.
  *
  * @since 3.0.0
+ * @param WP_User $user User to prepare.
  */
 function bp_nouveau_prepare_group_potential_invites_for_js( $user ) {
 	$bp    = buddypress();
@@ -286,6 +289,7 @@ function bp_nouveau_prepare_group_potential_invites_for_js( $user ) {
  * Gets potential group invitations.
  *
  * @since 3.0.0
+ * @param array $args Arguments for retrieving potential invitees.
  */
 function bp_nouveau_get_group_potential_invites( $args = array() ) {
 	$r = bp_parse_args(
@@ -418,6 +422,7 @@ function bp_nouveau_groups_invites_custom_message( $message = '' ) {
  * Format a Group for a json reply
  *
  * @since 3.0.0
+ * @param BP_Groups_Group $item Group to prepare.
  */
 function bp_nouveau_prepare_group_for_js( $item ) {
 	if ( empty( $item->id ) ) {

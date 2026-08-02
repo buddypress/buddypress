@@ -672,7 +672,7 @@ function bp_notifications_mark_notifications_by_ids( $ids, $is_new = false ) {
  *
  * @since 14.3.4
  *
- * @param string $user_id          Action to run on notifications.
+ * @param string $action           Action to run on notifications.
  * @param array  $notification_ids IDs of the notifications to change.
  * @return bool True if the action run returned true.
  */

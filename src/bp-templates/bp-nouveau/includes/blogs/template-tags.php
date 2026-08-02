@@ -176,7 +176,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $type Type of Group of buttons to get.
+	 * @param array $args Arguments used to build the buttons.
 	 *
 	 * @return array
 	 */

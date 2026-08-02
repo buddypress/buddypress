@@ -372,7 +372,7 @@ add_filter( 'bp_activity_set_groups_scope_args', 'bp_groups_filter_activity_scop
  * @since 4.3.0
 
  * @param array $retval Query arguments.
- * @param array $filter
+ * @param array $filter Activity query filter arguments.
  * @return array
  */
 function bp_groups_filter_activity_favorites_scope( $retval, $filter ) {

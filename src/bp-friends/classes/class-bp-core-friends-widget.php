@@ -65,7 +65,6 @@ class BP_Core_Friends_Widget {
 	 *
 	 * @param array $new_instance The parameters saved by the user.
 	 * @param array $old_instance The parameters as previously saved to the database.
-	 * @return array $instance The processed settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

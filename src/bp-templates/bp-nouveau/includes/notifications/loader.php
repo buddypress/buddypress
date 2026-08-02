@@ -105,6 +105,7 @@ class BP_Nouveau_Notifications {
  * Launch the Notifications loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Nouveau instance.
  */
 function bp_nouveau_notifications( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

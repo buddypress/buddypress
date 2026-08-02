@@ -1562,6 +1562,8 @@ function bp_blogs_get_signup_form_submitted_vars() {
  * @since 7.0.0 Add the blog_name and blog_title parameters.
  *              The function has been moved into `bp-blogs/bp-blogs-functions.php`.
  *
+ * @param string $blog_name  Site name to validate.
+ * @param string $blog_title Site title to validate.
  * @return array Contains the new site data and error messages.
  */
 function bp_blogs_validate_blog_form( $blog_name = '', $blog_title = '' ) {

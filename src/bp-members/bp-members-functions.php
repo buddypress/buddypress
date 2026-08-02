@@ -1295,7 +1295,7 @@ function bp_core_delete_account( $user_id = 0 ) {
  *
  * @since 6.0.0
  *
- * @param string $data_type Type of data to be removed.
+ * @param string $component Type of user data to remove.
  * @param int    $user_id   ID of the user, as passed to 'delete_user'.
  * @return bool
  */
@@ -3058,6 +3058,8 @@ add_filter( bp_get_member_type_tax_name() . '_registered_by_code', 'bp_get_membe
  *
  * @since 7.0.0
  *
+ * @param array  $metadata Existing member type metadata.
+ * @param string $type     Member type name.
  * @return array The member type metadata.
  */
 function bp_set_registered_by_code_member_type_metadata( $metadata = array(), $type = '' ) {

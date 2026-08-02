@@ -24,7 +24,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array|string $args.
+	 * @param array|string $args Arguments for the invitation.
 	 */
 	public function __construct( $args = '' ) {
 		parent::__construct();
@@ -163,7 +163,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 	 *
 	 * @since 8.0.0
 	 *
-	 * @param array $args.
+	 * @param array $args Arguments for the membership request.
 	 * @return bool.
 	 */
 	public function allow_request( $args ) {

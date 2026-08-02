@@ -212,6 +212,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 	 *
 	 * @since 3.0.0
 	 *
+	 * @param array $args Arguments used to build the buttons.
 	 * @return array
 	 */
 	function bp_nouveau_get_members_buttons( $args ) {
@@ -476,8 +477,6 @@ function bp_nouveau_member_has_meta() {
  * Display the member meta.
  *
  * @since 3.0.0
- *
- * @return string HTML Output.
  */
 function bp_nouveau_member_meta() {
 	// Escaping is made in `bp_nouveau_get_member_meta()`.
@@ -637,8 +636,6 @@ function bp_nouveau_member_template_part() {
  * Use the appropriate Member header and enjoy a template hierarchy
  *
  * @since 3.0.0
- *
- * @return string HTML Output
  */
 function bp_nouveau_member_header_template_part() {
 	$template = 'member-header';
@@ -709,8 +706,6 @@ function bp_nouveau_members_get_customizer_widgets_link() {
  * @since 3.0.0
  *
  * @param int $user_id Optional.
- *
- * @return string HTML output.
  */
 function bp_nouveau_member_description( $user_id = 0 ) {
 	if ( ! $user_id ) {
@@ -745,8 +740,6 @@ function bp_nouveau_member_description( $user_id = 0 ) {
  * @since 3.0.0
  *
  * @todo replace with Ajax feature
- *
- * @return string HTML Output
  */
 function bp_nouveau_member_description_edit_link() {
 	// Escaping is made in `bp_nouveau_member_get_description_edit_link()`.
@@ -786,6 +779,7 @@ function bp_nouveau_member_description_edit_link() {
  * before and after the WP User's Profile.
  *
  * @since 3.0.0
+ * @param string $type Whether to fire hooks before or after the profile loop.
  */
 function bp_nouveau_wp_profile_hooks( $type = 'before' ) {
 	if ( 'before' === $type ) {

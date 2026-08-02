@@ -188,6 +188,7 @@ class BP_Nouveau_Groups {
  * Launch the Groups loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Nouveau instance.
  */
 function bp_nouveau_groups( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

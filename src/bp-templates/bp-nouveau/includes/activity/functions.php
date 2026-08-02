@@ -316,7 +316,7 @@ function bp_nouveau_get_activity_directory_nav_items() {
  *
  * @param string $output  HTML output.
  * @param array  $filters Optional.
- * @param string $context
+ * @param string $context Activity scope context.
  *
  * @return array
  */
@@ -363,6 +363,8 @@ function bp_nouveau_get_activity_filters() {
  * Adds secondary avatars to activity actions.
  *
  * @since 3.0.0
+ * @param string               $action   Activity action HTML.
+ * @param BP_Activity_Activity $activity Activity object.
  */
 function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
 	switch ( $activity->component ) {
@@ -387,6 +389,7 @@ function bp_nouveau_activity_secondary_avatars( $action, $activity ) {
  * Adds the newest class to Activity scope navigation items.
  *
  * @since 3.0.0
+ * @param string $classes Classes for the activity scope item.
  */
 function bp_nouveau_activity_scope_newest_class( $classes = '' ) {
 	if ( ! is_user_logged_in() ) {

@@ -127,7 +127,7 @@ class BP_Groups_Template {
 	 *
 	 * @see BP_Groups_Group::get() for an in-depth description of arguments.
 	 *
-	 * @param array $args {
+	 * @param array ...$args {
 	 *     Array of arguments. Accepts all arguments accepted by
 	 *     {@link BP_Groups_Group::get()}. In cases where the default
 	 *     values of the params differ, they have been discussed below.

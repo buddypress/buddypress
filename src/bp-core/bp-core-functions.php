@@ -1586,8 +1586,7 @@ function bp_core_time_old( $birth_date ) {
  *
  * @since 2.7.0
  *
- * @param string String of date to convert. Timezone should be UTC before using this.
- * @return string|null
+ * @param string $timestamp String of date to convert. Timezone should be UTC before using this.
  */
  function bp_core_iso8601_date( $timestamp = '' ) {
 	echo esc_attr( bp_core_get_iso8601_date( $timestamp ) );
@@ -1597,7 +1596,7 @@ function bp_core_time_old( $birth_date ) {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string String of date to convert. Timezone should be UTC before using this.
+	 * @param string $timestamp String of date to convert. Timezone should be UTC before using this.
 	 * @return string
 	 */
 	 function bp_core_get_iso8601_date( $timestamp = '' ) {
@@ -4630,8 +4629,7 @@ function bp_email_unsubscribe_handler() {
  *
  * @since 2.7.0
  *
- * @param string $redirect_to The URL to which the unsubscribe query string is appended.
- * @param array  $args {
+ * @param array $args {
  *     Used to build unsubscribe query string.
  *
  *    @type string $notification_type Which notification type is being sent.

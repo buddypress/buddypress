@@ -171,6 +171,11 @@ function bp_nouveau_ajax_querystring( $query_string, $object ) {
  *
  * @since 3.0.0
  *
+ * @param string      $output Existing button output.
+ * @param object|null $button Button data object.
+ * @param string      $before Markup to prepend to the button.
+ * @param string      $after  Markup to append to the button.
+ * @param array       $r      Button arguments.
  * @return string
  */
 function bp_nouveau_ajax_button( $output = '', $button = null, $before = '', $after = '', $r = array() ) {
@@ -393,6 +398,7 @@ function bp_nouveau_is_object_nav_in_sidebar() {
  *
  * @since 3.0.0
  *
+ * @param string $capability Capability to check.
  * @return bool
  */
 function bp_nouveau_current_user_can( $capability = '' ) {
@@ -491,8 +497,8 @@ function bp_nouveau_parse_hooked_dir_nav( $hook = '', $component = '', $position
  *
  * @since 3.0.0
  *
- * @param string $hook
- * @param array  $filters
+ * @param string $hook    Hook name to run.
+ * @param array  $filters Existing filter options.
  *
  * @return array
  */

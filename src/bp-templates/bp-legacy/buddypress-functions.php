@@ -649,8 +649,6 @@ function bp_legacy_theme_group_create_nav() {
  * Renders the group ID hidden input on group admin screens.
  *
  * @since 2.7.0
- *
- * @return string|null html
  */
 function bp_legacy_groups_admin_screen_hidden_input() {
 	?>
@@ -886,8 +884,6 @@ function bp_legacy_theme_object_template_loader() {
  * Load messages template loop when searched on the private message page
  *
  * @since 1.6.0
- *
- * @return string|null Prints template loop for the Messages component.
  */
 function bp_legacy_theme_messages_template_loader() {
 	bp_get_template_part( 'members/single/messages/messages-loop' );
@@ -2101,8 +2097,6 @@ function bp_legacy_theme_cover_image( $params = array() ) {
  * Add a search box to a single group's manage members screen.
  *
  * @since 2.7.0
- *
- * @return string|null HTML for the search form.
  */
 function bp_legacy_theme_group_manage_members_add_search() {
 	if ( bp_is_action_variable( 'manage-members' ) ) :

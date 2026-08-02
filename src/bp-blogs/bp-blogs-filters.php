@@ -179,7 +179,7 @@ add_filter( 'bp_core_avatar_default_thumb', 'bp_blogs_default_avatar', 10, 2 );
  * @see bp_blogs_update_blogmeta()
  * @see bp_blogs_add_blogmeta()
  *
- * @param string $retval
+ * @param string $retval Metadata column name.
  *
  * @return string
  */

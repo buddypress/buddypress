@@ -554,6 +554,7 @@ function xprofile_admin_delete_group( $group_id ) {
  * Display the delete confirmation screen of profile data groups.
  *
  * @since 7.0.0
+ * @param int $group_id ID of the profile field group to delete.
  */
 function xprofile_admin_delete_group_screen( $group_id ) {
 
@@ -811,6 +812,8 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
  * Display the delete confirmation screen of xprofile field/option.
  *
  * @since 7.0.0
+ * @param int    $field_id   ID of the profile field to delete.
+ * @param string $field_type Type of the profile field to delete.
  */
 function xprofile_admin_delete_field_screen( $field_id, $field_type ) {
 	if ( ! bp_current_user_can( 'bp_moderate' ) ) {

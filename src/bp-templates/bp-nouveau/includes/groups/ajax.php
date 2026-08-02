@@ -39,8 +39,6 @@ add_action( 'admin_init', function () {
  * Join or leave a group when clicking the "join/leave" button via a POST request.
  *
  * @since 3.0.0
- *
- * @return string HTML
  */
 function bp_nouveau_ajax_joinleave_group() {
 	$response = array(

@@ -117,6 +117,7 @@ class BP_Nouveau_Messages {
  * Launch the Messages loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Nouveau instance.
  */
 function bp_nouveau_messages( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

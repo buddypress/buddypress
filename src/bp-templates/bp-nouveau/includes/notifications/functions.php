@@ -177,10 +177,9 @@ function bp_nouveau_notifications_sort( $filters = array() ) {
  * @since 3.0.0
  *
  * @param  string $link        The action link.
- * @param  string $bp_tooltip  The data-bp-attribute of the link.
- * @param  string $aria_label  The aria-label attribute of the link.
- * @param  string $dashicon    The dashicon class.
- * @return string              Link Output.
+ * @param  string $bp_tooltip The data-bp-attribute of the link.
+ * @param  string $dashicon   The dashicon class.
+ * @return string             Link Output.
  */
 function bp_nouveau_notifications_dashiconified_link( $link = '', $bp_tooltip = '', $dashicon = '' ) {
 	preg_match( '/<a\s[^>]*>(.*)<\/a>/siU', $link, $match );

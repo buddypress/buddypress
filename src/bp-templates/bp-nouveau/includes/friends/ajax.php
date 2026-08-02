@@ -60,8 +60,6 @@ add_action( 'admin_init', function () {
  * Friend/un-friend a user via a POST request.
  *
  * @since 3.0.0
- *
- * @return string HTML
  */
 function bp_nouveau_ajax_addremove_friend() {
 	$response = array(

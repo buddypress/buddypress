@@ -72,6 +72,7 @@ class BP_Nouveau_xProfile {
  * Launch the xProfile loader class.
  *
  * @since 3.0.0
+ * @param BP_Nouveau|null $bp_nouveau Nouveau instance.
  */
 function bp_nouveau_xprofile( $bp_nouveau = null ) {
 	if ( is_null( $bp_nouveau ) ) {

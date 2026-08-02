@@ -277,7 +277,8 @@ add_action( 'bp_core_signup_after_delete', 'bp_members_membership_requests_delet
  *
  * @since 10.0.0
  *
- * @return string $retval the HTML for the request membership link.
+ * @param array $buttons Registration form buttons.
+ * @return array Registration form buttons.
  */
 function bp_members_membership_requests_filter_complete_signup_button( $buttons ) {
 
@@ -393,8 +394,6 @@ add_filter( 'bp_members_ms_signup_date_sent_unsent_message', 'bp_members_members
  * Add "Request Membership" link to Block Widget login form.
  *
  * @since 10.0.0
- *
- * @return string $retval the HTML for the request membership link.
  */
 function bp_members_membership_requests_add_link_to_widget_login_form() {
 	?>

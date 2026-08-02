@@ -812,7 +812,7 @@ add_action( 'bp_user_query_uid_clauses', 'bp_xprofile_bp_user_query_search', 10,
  * @since 9.2.0 Adds the $args arguments to catch hook's additional arguments.
  *
  * @param int   $user_id ID of the user to sync.
- * @param array $args    Hook's additional arguments.
+ * @param array ...$args Hook's additional arguments.
  * @return bool
  */
 function xprofile_sync_wp_profile( $user_id = 0, ...$args ) {

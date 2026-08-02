@@ -393,7 +393,7 @@ class BP_Members_Admin {
 	 * @since 2.7.0
 	 *
 	 * @param string $option_name Current option name; value is always 'registration'.
-	 * @param string $value
+	 * @param string $value New registration setting value.
 	 */
 	public function multisite_registration_on( $option_name, $value ) {
 		// Is registration enabled or are network invitations enabled?
@@ -411,8 +411,8 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $old_value
-	 * @param string $value
+	 * @param string $old_value Previous registration setting value.
+	 * @param string $value     New registration setting value.
 	 */
 	public function single_site_registration_on( $old_value, $value ) {
 		// Single site.
@@ -2844,9 +2844,9 @@ class BP_Members_Admin {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string $retval
-	 * @param string $column_name
-	 * @param int    $user_id
+	 * @param string $retval      Existing column output.
+	 * @param string $column_name Column being rendered.
+	 * @param int    $user_id     ID of the user being rendered.
 	 *
 	 * @return string Member type as a link to filter all users.
 	 */

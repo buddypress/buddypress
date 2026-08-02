@@ -58,7 +58,6 @@ class BP_Blogs_Recent_Posts_Widget {
 	 *
 	 * @param array $new_instance The new instance options.
 	 * @param array $old_instance The old instance options.
-	 * @return array $instance The parsed options to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		_deprecated_function( __METHOD__, '12.0.0' );

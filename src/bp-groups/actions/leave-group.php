@@ -67,6 +67,8 @@ add_action( 'bp_actions', 'groups_action_leave_group' );
  * Clean up requests/invites when a member leaves a group.
  *
  * @since 5.0.0
+ * @param int $user_id  ID of the member leaving the group.
+ * @param int $group_id ID of the group being left.
  */
 function groups_action_clean_up_invites_requests( $user_id, $group_id ) {
 

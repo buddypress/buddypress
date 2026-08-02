@@ -216,6 +216,7 @@ function bp_nouveau_get_blog_signup_inline_script() {
  * Adds a class if blog item has a latest post.
  *
  * @since 3.0.0
+ * @param array $classes Classes for the current site item.
  */
 function bp_nouveau_blog_loop_item_has_lastest_post( $classes ) {
 	if ( bp_get_blog_latest_post_title() ) {

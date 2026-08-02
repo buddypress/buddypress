@@ -196,7 +196,7 @@ function bp_groups_default_avatar( $avatar, $params ) {
  * @since 3.0.0
  *
  * @param bool   $retval     Whether or not the current user has the capability.
- * @param int    $user_id
+ * @param int    $user_id    ID of the user whose capability is being checked.
  * @param string $capability The capability being checked for.
  * @param int    $site_id    Site ID. Defaults to the BP root blog.
  * @param array  $args       Array of extra arguments passed.

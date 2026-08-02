@@ -118,6 +118,7 @@ function bp_activity_embed_has_activity( $activity_id = 0 ) {
  * Outputs excerpt for an activity embed item.
  *
  * @since 2.6.0
+ * @param string $content Activity content to excerpt.
  */
 function bp_activity_embed_excerpt( $content = '' ) {
 	// Escaping is made in `bp-activity/bp-activity-filters.php`.

@@ -1312,6 +1312,7 @@ function bp_activity_action_allowed_html() {
  * Output Activity metadata.
  *
  * @since 12.4.1
+ * @param string $content Activity content to which metadata is added.
  */
 function bp_output_activity_meta( $content = '' ) {
 	echo wp_kses( bp_insert_activity_meta( $content ), bp_activity_action_allowed_html() );

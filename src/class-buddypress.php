@@ -359,8 +359,8 @@ class BuddyPress {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $name
-	 * @param array  $args
+	 * @param string $name Method name.
+	 * @param array  $args Method arguments.
 	 *
 	 * @return null
 	 */

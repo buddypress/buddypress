@@ -77,9 +77,9 @@ add_filter( 'bp_map_meta_caps', 'bp_xprofile_map_meta_caps', 10, 4 );
  *
  * @since 2.7.1
  *
- * @param bool   $user_can
- * @param int    $user_id
- * @param string $capability
+ * @param bool   $user_can    Whether the user can perform the action.
+ * @param int    $user_id     ID of the user being checked.
+ * @param string $capability  Capability being checked.
  * @return bool
  */
 function bp_xprofile_grant_bp_xprofile_change_field_visibility_for_logged_out_users( $user_can, $user_id, $capability ) {

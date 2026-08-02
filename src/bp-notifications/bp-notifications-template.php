@@ -136,6 +136,7 @@ function bp_notifications_read_permalink( $user_id = 0 ) {
 	 *
 	 * @since 1.9.0
 	 *
+	 * @param int $user_id ID of the user.
 	 * @return string Read notifications permalink.
 	 */
 	function bp_get_notifications_read_permalink( $user_id = 0 ) {

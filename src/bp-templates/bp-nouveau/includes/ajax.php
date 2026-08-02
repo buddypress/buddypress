@@ -15,8 +15,6 @@ defined( 'ABSPATH' ) || exit;
  * Load the template loop for the current object.
  *
  * @since 3.0.0
- *
- * @return string Template loop for the specified object
  */
 function bp_nouveau_ajax_object_template_loader() {
 	$response = array(

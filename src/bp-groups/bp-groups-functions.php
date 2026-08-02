@@ -1857,7 +1857,7 @@ function groups_delete_invite( $user_id, $group_id, $inviter_id = false ) {
  * @since 1.0.0
  * @since 5.0.0 Parameters changed to associative array.
  *
- * @param array $args {
+ * @param array ...$args {
  *     An array of optional arguments.
  *     @type int    $user_id       ID of the invited user.
  *     @type string $invitee_email Email address of the invited user, if not a member of the site.
@@ -1957,7 +1957,6 @@ function groups_get_invites_for_group( $user_id, $group_id, $sent = null ) {
  *
  * @since 5.0.0
  *
- * @param int   $group_id ID of the group.
  * @param array $args     Invitation arguments.
  *                        See BP_Invitation::get() for list.
  *
@@ -2324,7 +2323,7 @@ function groups_remove_member( $user_id, $group_id, $group_admin_id = 0 ) {
  *
  * @since 1.0.0
  *
- * @param array|string $args {
+ * @param array|string ...$args {
  *     Array of arguments.
  *     @type int    $user_id       ID of the user being invited.
  *     @type int    $group_id      ID of the group to which the user is being invited.
@@ -2506,7 +2505,6 @@ function groups_delete_membership_request( $membership_id, $user_id = 0, $group_
  *
  * @since 5.0.0
  *
- * @param int   $group_id ID of the group.
  * @param array $args     Invitation arguments.
  *                        See BP_Invitation::get() for list.
  *
@@ -3221,6 +3219,8 @@ add_filter( bp_get_group_type_tax_name() . '_registered_by_code', 'bp_get_group_
  *
  * @since 7.0.0
  *
+ * @param array  $metadata Existing group type metadata.
+ * @param string $type     Group type name.
  * @return array The group type metadata.
  */
 function bp_set_registered_by_code_group_type_metadata( $metadata = array(), $type = '' ) {

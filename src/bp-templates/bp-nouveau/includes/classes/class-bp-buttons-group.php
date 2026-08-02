@@ -58,9 +58,8 @@ class BP_Buttons_Group {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array the list of buttons to sort.
-	 *
-	 * @return array the list of buttons sorted.
+	 * @param array $buttons List of buttons to sort.
+	 * @return array List of sorted buttons.
 	 */
 	public function sort( $buttons ) {
 		$sorted = array();

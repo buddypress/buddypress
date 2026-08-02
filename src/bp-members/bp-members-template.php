@@ -1981,7 +1981,7 @@ function bp_current_user_id() {
  * @since 1.2.4
  * @since 12.0.0 Introduced the `$chunk` argument.
  *
- * @param array $chunk A list of slugs to append to the URL.
+ * @param array $chunks A list of slugs to append to the URL.
  */
 function bp_displayed_user_link( $chunks = array() ) {
 	$path_chunks = array();
@@ -2068,7 +2068,7 @@ function bp_displayed_user_domain() {
  * @since 1.2.4
  * @since 12.0.0 Introduced the `$chunk` argument.
  *
- * @param array $chunk A list of slugs to append to the URL.
+ * @param array $chunks A list of slugs to append to the URL.
  */
 function bp_loggedin_user_link( $chunks = array() ) {
 	$path_chunks = array();
@@ -3471,6 +3471,7 @@ function bp_the_members_invitation_property( $property = '', $context = 'html' )
 	 *
 	 * @since 8.0.0
 	 *
+	 * @param string $property Invitation property to return.
 	 * @return int ID of the current network invitation.
 	 */
 	function bp_get_the_members_invitation_property( $property = 'id' ) {
@@ -3774,6 +3775,7 @@ function bp_members_invitations_list_invites_permalink( $user_id = 0 ) {
 	 *
 	 * @since 8.0.0
 	 *
+	 * @param int $user_id ID of the user.
 	 * @return string Members invitations list permalink for a user.
 	 */
 	function bp_get_members_invitations_list_invites_permalink( $user_id = 0 ) {
