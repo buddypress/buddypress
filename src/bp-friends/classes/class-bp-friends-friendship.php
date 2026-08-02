@@ -588,7 +588,7 @@ class BP_Friends_Friendship {
 
 		$pag_sql = '';
 		if ( ! empty( $limit ) && ! empty( $page ) ) {
-			$pag_sql = $wpdb->prepare( " LIMIT %d, %d", intval( ( $page - 1 ) * $limit ), intval( $limit ) );
+			$pag_sql = $wpdb->prepare( ' LIMIT %d, %d', intval( ( $page - 1 ) * $limit ), intval( $limit ) );
 		}
 
 		$friend_ids = self::get_friend_user_ids( $user_id );
