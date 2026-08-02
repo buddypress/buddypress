@@ -199,7 +199,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 		// We prefer to avoid joins if possible. Look for an existing join compatible with this clause.
 		$alias = $this->find_compatible_table_alias( $clause, $parent_query );
 		if ( false === $alias ) {
-			$i = count( $this->table_aliases );
+			$i     = count( $this->table_aliases );
 			$alias = $i ? 'mt' . $i : $this->meta_table;
 
 			// JOIN clauses for NOT EXISTS have their own syntax.
@@ -233,7 +233,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 		}
 
 		// Ensure unique clause keys, so none are overwritten.
-		$iterator = 1;
+		$iterator        = 1;
 		$clause_key_base = $clause_key;
 		while ( isset( $this->clauses[ $clause_key ] ) ) {
 			$clause_key = $clause_key_base . '-' . $iterator;
@@ -269,25 +269,25 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 				case 'IN' :
 				case 'NOT IN' :
 					$meta_compare_string = '(' . substr( str_repeat( ',%s', count( $meta_value ) ), 1 ) . ')';
-					$where = $wpdb->prepare( $meta_compare_string, $meta_value );
+					$where               = $wpdb->prepare( $meta_compare_string, $meta_value );
 					break;
 
 				case 'BETWEEN' :
 				case 'NOT BETWEEN' :
 					$meta_value = array_slice( $meta_value, 0, 2 );
-					$where = $wpdb->prepare( '%s AND %s', $meta_value );
+					$where      = $wpdb->prepare( '%s AND %s', $meta_value );
 					break;
 
 				case 'LIKE' :
 				case 'NOT LIKE' :
 					$meta_value = '%' . $wpdb->esc_like( $meta_value ) . '%';
-					$where = $wpdb->prepare( '%s', $meta_value );
+					$where      = $wpdb->prepare( '%s', $meta_value );
 					break;
 
 				// EXISTS with a value is interpreted as '='.
 				case 'EXISTS' :
 					$meta_compare = '=';
-					$where = $wpdb->prepare( '%s', $meta_value );
+					$where        = $wpdb->prepare( '%s', $meta_value );
 					break;
 
 				// 'value' is ignored for NOT EXISTS.

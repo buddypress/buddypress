@@ -216,7 +216,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 	 */
 	function bp_nouveau_get_members_buttons( $args ) {
 		$buttons = array();
-		$type = ( ! empty( $args['type'] ) ) ? $args['type'] : '';
+		$type    = ( ! empty( $args['type'] ) ) ? $args['type'] : '';
 
 		// @todo Not really sure why BP Legacy needed to do this...
 		if ( 'profile' === $type && is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
@@ -340,7 +340,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 					if ( 'button' === $button_element && 'awaiting_response' !== $button_args['id'] ) {
 						$buttons['member_friendship']['button_attr']['data-bp-nonce'] = $button_args['link_href'];
 					} else {
-						$buttons['member_friendship']['button_element'] = 'a';
+						$buttons['member_friendship']['button_element']      = 'a';
 						$buttons['member_friendship']['button_attr']['href'] = $button_args['link_href'];
 					}
 				}
@@ -432,7 +432,7 @@ function bp_nouveau_members_loop_buttons( $args = array() ) {
 
 		// It's the first entry of the loop, so build the Group and sort it
 		if ( ! isset( bp_nouveau()->members->member_buttons ) || ! is_a( bp_nouveau()->members->member_buttons, 'BP_Buttons_Group' ) ) {
-			$sort = true;
+			$sort                                 = true;
 			bp_nouveau()->members->member_buttons = new BP_Buttons_Group( $buttons_group );
 
 		// It's not the first entry, the order is set, we simply need to update the Buttons Group

@@ -751,7 +751,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	if ( ! empty( $_BP_COOKIE['bp-' . $object . '-scope'] ) ) {
 		if ( 'personal' == $_BP_COOKIE['bp-' . $object . '-scope'] ) {
 			$user_id = ( bp_displayed_user_id() ) ? bp_displayed_user_id() : bp_loggedin_user_id();
-			$qs[] = 'user_id=' . $user_id;
+			$qs[]    = 'user_id=' . $user_id;
 		}
 
 		// Activity stream scope only on activity directory.
@@ -768,7 +768,7 @@ function bp_legacy_theme_ajax_querystring( $query_string, $object ) {
 	// Excludes activity just posted and avoids duplicate ids.
 	if ( ! empty( $_POST['exclude_just_posted'] ) ) {
 		$just_posted = wp_parse_id_list( $_POST['exclude_just_posted'] );
-		$qs[] = 'exclude=' . implode( ',', $just_posted );
+		$qs[]        = 'exclude=' . implode( ',', $just_posted );
 	}
 
 	// To get newest activities.
@@ -1021,12 +1021,12 @@ function bp_legacy_theme_post_update() {
 
 	// Try to get the object from posted variables.
 	if ( ! empty( $_POST['object'] ) ) {
-		$object  = sanitize_key( $_POST['object'] );
+		$object = sanitize_key( $_POST['object'] );
 
 	// If the object is not set and we're in a group, set the item id and the object
 	} elseif ( bp_is_group() ) {
 		$item_id = bp_get_current_group_id();
-		$object = 'groups';
+		$object  = 'groups';
 	}
 
 	if ( ! $object && bp_is_active( 'activity' ) ) {
@@ -1050,7 +1050,7 @@ function bp_legacy_theme_post_update() {
 
 	$last_recorded = ! empty( $_POST['since'] ) ? date( 'Y-m-d H:i:s', intval( $_POST['since'] ) ) : 0;
 	if ( $last_recorded ) {
-		$activity_args = array( 'since' => $last_recorded );
+		$activity_args               = array( 'since' => $last_recorded );
 		$bp->activity->last_recorded = $last_recorded;
 		add_filter( 'bp_get_activity_css_class', 'bp_activity_newest_class', 10, 1 );
 	} else {
@@ -1126,17 +1126,17 @@ function bp_legacy_theme_new_activity_comment() {
 
 	// Swap the current comment with the activity item we just loaded.
 	if ( isset( $activities_template->activities[0] ) ) {
-		$activities_template->activity = new stdClass();
+		$activities_template->activity                  = new stdClass();
 		$activities_template->activity->id              = $activities_template->activities[0]->item_id;
 		$activities_template->activity->current_comment = $activities_template->activities[0];
 
 		// Because the whole tree has not been loaded, we manually
 		// determine depth.
-		$depth = 1;
+		$depth     = 1;
 		$parent_id = (int) $activities_template->activities[0]->secondary_item_id;
 		while ( $parent_id !== (int) $activities_template->activities[0]->item_id ) {
 			$depth++;
-			$p_obj = new BP_Activity_Activity( $parent_id );
+			$p_obj     = new BP_Activity_Activity( $parent_id );
 			$parent_id = (int) $p_obj->secondary_item_id;
 		}
 		$activities_template->activity->current_comment->depth = $depth;
@@ -1418,7 +1418,7 @@ function bp_legacy_theme_ajax_invite_user() {
 		return;
 	}
 
-	$group_id = (int) $_POST['group_id'];
+	$group_id  = (int) $_POST['group_id'];
 	$friend_id = (int) $_POST['friend_id'];
 
 	if ( 'invite' == $_POST['friend_action'] ) {

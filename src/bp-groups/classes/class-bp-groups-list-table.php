@@ -340,7 +340,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 * @param string $value       ID of the current group being displayed.
 		 */
 		$row_classes = array_map( 'sanitize_html_class', apply_filters( 'bp_groups_admin_row_class', $row_classes, $item['id'] ) );
-		$row_class = ' class="' . implode( ' ', $row_classes ) . '"';
+		$row_class   = ' class="' . implode( ' ', $row_classes ) . '"';
 
 		// phpcs:ignore WordPress.Security.EscapeOutput
 		echo '<tr' . $row_class . ' id="group-' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $item['id'] ) . '">';
@@ -530,7 +530,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 	 */
 	public function row_actions( $actions, $always_visible = false ) {
 		$action_count = count( $actions );
-		$i = 0;
+		$i            = 0;
 
 		if ( !$action_count )
 			return '';
@@ -539,7 +539,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		foreach ( $actions as $action => $link ) {
 			++$i;
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
-			$out .= "<span class='$action'>$link$sep</span>";
+			$out                          .= "<span class='$action'>$link$sep</span>";
 		}
 		$out .= '</div>';
 
@@ -614,13 +614,13 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		// Rollover actions.
 		// Edit.
-		$actions['edit']   = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url   ), __( 'Edit', 'buddypress' ) );
+		$actions['edit'] = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url   ), __( 'Edit', 'buddypress' ) );
 
 		// Delete.
 		$actions['delete'] = sprintf( '<a href="%s">%s</a>', esc_url( $delete_url ), __( 'Delete', 'buddypress' ) );
 
 		// View.
-		$actions['view']   = sprintf( '<a href="%s">%s</a>', esc_url( $view_url   ), __( 'View', 'buddypress' ) );
+		$actions['view'] = sprintf( '<a href="%s">%s</a>', esc_url( $view_url   ), __( 'View', 'buddypress' ) );
 
 		/**
 		 * Filters the actions that will be shown for the column content.
@@ -636,7 +636,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$avatar = '';
 
 		if ( buddypress()->avatar->show_avatars ) {
-			$avatar  = bp_core_fetch_avatar( array(
+			$avatar = bp_core_fetch_avatar( array(
 				'item_id'    => $item['id'],
 				'object'     => 'group',
 				'type'       => 'thumb',
@@ -878,7 +878,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 			return;
 		}
 		$displayed = true;
-		$id_name = 'bottom' === $which ? 'bp_change_type2' : 'bp_change_type';
+		$id_name   = 'bottom' === $which ? 'bp_change_type2' : 'bp_change_type';
 
 		$types = bp_groups_get_group_types( array(), 'objects' );
 		?>

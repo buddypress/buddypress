@@ -230,7 +230,7 @@ class BP_Groups_Group {
 		global $wpdb;
 
 		// Get BuddyPress.
-		$bp    = buddypress();
+		$bp = buddypress();
 
 		// Check cache for group data.
 		$group = wp_cache_get( $this->id, 'bp_groups' );
@@ -576,13 +576,13 @@ class BP_Groups_Group {
 	 * @since 2.7.0
 	 */
 	protected function set_up_admins_and_mods() {
-		$admin_ids = BP_Groups_Member::get_group_administrator_ids( $this->id );
+		$admin_ids         = BP_Groups_Member::get_group_administrator_ids( $this->id );
 		$admin_ids_plucked = wp_list_pluck( $admin_ids, 'user_id' );
 
-		$mod_ids = BP_Groups_Member::get_group_moderator_ids( $this->id );
+		$mod_ids         = BP_Groups_Member::get_group_moderator_ids( $this->id );
 		$mod_ids_plucked = wp_list_pluck( $mod_ids, 'user_id' );
 
-		$admin_mod_ids = array_merge( $admin_ids_plucked, $mod_ids_plucked );
+		$admin_mod_ids   = array_merge( $admin_ids_plucked, $mod_ids_plucked );
 		$admin_mod_users = array();
 
 		if ( ! empty( $admin_mod_ids ) ) {
@@ -594,19 +594,19 @@ class BP_Groups_Group {
 
 		$admin_objects = $mod_objects = array();
 		foreach ( $admin_mod_users as $admin_mod_user ) {
-			$obj = new stdClass();
-			$obj->user_id = $admin_mod_user->ID;
-			$obj->user_login = $admin_mod_user->user_login;
-			$obj->user_email = $admin_mod_user->user_email;
+			$obj                = new stdClass();
+			$obj->user_id       = $admin_mod_user->ID;
+			$obj->user_login    = $admin_mod_user->user_login;
+			$obj->user_email    = $admin_mod_user->user_email;
 			$obj->user_nicename = $admin_mod_user->user_nicename;
 
 			if ( in_array( $admin_mod_user->ID, $admin_ids_plucked, true ) ) {
-				$obj->is_admin = 1;
-				$obj->is_mod = 0;
+				$obj->is_admin   = 1;
+				$obj->is_mod     = 0;
 				$admin_objects[] = $obj;
 			} else {
 				$obj->is_admin = 0;
-				$obj->is_mod = 1;
+				$obj->is_mod   = 1;
 				$mod_objects[] = $obj;
 			}
 		}
@@ -764,7 +764,7 @@ class BP_Groups_Group {
 			return false;
 		}
 
-		$args = array(
+		$args   = array(
 			'meta_query'         => array(
 				array(
 					'key'   => 'previous_slug',
@@ -856,9 +856,9 @@ class BP_Groups_Group {
 
 		// Modify the results to match the old format.
 		$paged_groups = array();
-		$i = 0;
+		$i            = 0;
 		foreach ( $groups['groups'] as $group ) {
-			$paged_groups[ $i ] = new stdClass;
+			$paged_groups[ $i ]           = new stdClass;
 			$paged_groups[ $i ]->group_id = $group->id;
 			$i++;
 		}
@@ -898,9 +898,9 @@ class BP_Groups_Group {
 
 		// Modify the results to match the old format.
 		$paged_groups = array();
-		$i = 0;
+		$i            = 0;
 		foreach ( $groups['groups'] as $group ) {
-			$paged_groups[ $i ] = new stdClass;
+			$paged_groups[ $i ]           = new stdClass;
 			$paged_groups[ $i ]->group_id = $group->id;
 			$i++;
 		}
@@ -1174,8 +1174,8 @@ class BP_Groups_Group {
 			if ( ! is_array( $r['status'] ) ) {
 				$r['status'] = preg_split( '/[\s,]+/', $r['status'] );
 			}
-			$r['status'] = array_map( 'sanitize_title', $r['status'] );
-			$status_in = "'" . implode( "','", $r['status'] ) . "'";
+			$r['status']                = array_map( 'sanitize_title', $r['status'] );
+			$status_in                  = "'" . implode( "','", $r['status'] ) . "'";
 			$where_conditions['status'] = "g.status IN ({$status_in})";
 		} elseif ( empty( $r['show_hidden'] ) ) {
 			$where_conditions['hidden'] = "g.status != 'hidden'";
@@ -1185,8 +1185,8 @@ class BP_Groups_Group {
 			if ( ! is_array( $r['slug'] ) ) {
 				$r['slug'] = preg_split( '/[\s,]+/', $r['slug'] );
 			}
-			$r['slug'] = array_map( 'sanitize_title', $r['slug'] );
-			$slug_in = "'" . implode( "','", $r['slug'] ) . "'";
+			$r['slug']                = array_map( 'sanitize_title', $r['slug'] );
+			$slug_in                  = "'" . implode( "','", $r['slug'] ) . "'";
 			$where_conditions['slug'] = "g.slug IN ({$slug_in})";
 		}
 
@@ -1196,7 +1196,7 @@ class BP_Groups_Group {
 		}
 
 		if ( $search ) {
-			$leading_wild = ( ltrim( $search, '*' ) != $search );
+			$leading_wild  = ( ltrim( $search, '*' ) != $search );
 			$trailing_wild = ( rtrim( $search, '*' ) != $search );
 			if ( $leading_wild && $trailing_wild ) {
 				$wild = 'both';
@@ -1210,10 +1210,10 @@ class BP_Groups_Group {
 			}
 			$search = trim( $search, '*' );
 
-			$searches = array();
-			$leading_wild = ( 'leading' == $wild || 'both' == $wild ) ? '%' : '';
+			$searches      = array();
+			$leading_wild  = ( 'leading' == $wild || 'both' == $wild ) ? '%' : '';
 			$trailing_wild = ( 'trailing' == $wild || 'both' == $wild ) ? '%' : '';
-			$wildcarded = $leading_wild . bp_esc_like( $search ) . $trailing_wild;
+			$wildcarded    = $leading_wild . bp_esc_like( $search ) . $trailing_wild;
 
 			$search_columns = array( 'name', 'description' );
 			if ( $r['search_columns'] ) {
@@ -1270,7 +1270,7 @@ class BP_Groups_Group {
 		}
 
 		if ( ! empty( $r['include'] ) ) {
-			$include        = implode( ',', wp_parse_id_list( $r['include'] ) );
+			$include                     = implode( ',', wp_parse_id_list( $r['include'] ) );
 			$where_conditions['include'] = "g.id IN ({$include})";
 		}
 
@@ -1286,7 +1286,7 @@ class BP_Groups_Group {
 		}
 
 		if ( ! empty( $r['exclude'] ) ) {
-			$exclude        = implode( ',', wp_parse_id_list( $r['exclude'] ) );
+			$exclude                     = implode( ',', wp_parse_id_list( $r['exclude'] ) );
 			$where_conditions['exclude'] = "g.id NOT IN ({$exclude})";
 		}
 
@@ -1323,11 +1323,11 @@ class BP_Groups_Group {
 
 		// 'total_member_count' and 'last_activity' sorts require additional table joins.
 		if ( 'total_member_count' === $orderby ) {
-			$sql['from'] .= " JOIN {$bp->groups->table_name_groupmeta} gm_total_member_count ON ( g.id = gm_total_member_count.group_id )";
+			$sql['from']                           .= " JOIN {$bp->groups->table_name_groupmeta} gm_total_member_count ON ( g.id = gm_total_member_count.group_id )";
 			$where_conditions['total_member_count'] = "gm_total_member_count.meta_key = 'total_member_count'";
 		} elseif ( 'last_activity' === $orderby ) {
 
-			$sql['from'] .= " JOIN {$bp->groups->table_name_groupmeta} gm_last_activity on ( g.id = gm_last_activity.group_id )";
+			$sql['from']                      .= " JOIN {$bp->groups->table_name_groupmeta} gm_last_activity on ( g.id = gm_last_activity.group_id )";
 			$where_conditions['last_activity'] = "gm_last_activity.meta_key = 'last_activity'";
 		}
 
@@ -1373,7 +1373,7 @@ class BP_Groups_Group {
 		$where = '';
 		if ( ! empty( $where_conditions ) ) {
 			$sql['where'] = implode( ' AND ', $where_conditions );
-			$where = "WHERE {$sql['where']}";
+			$where        = "WHERE {$sql['where']}";
 		}
 
 		$paged_groups_sql = "{$sql['select']} FROM {$sql['from']} {$where} {$sql['orderby']} {$sql['pagination']}";

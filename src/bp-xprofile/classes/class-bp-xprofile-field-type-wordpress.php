@@ -174,7 +174,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 			if ( bp_displayed_user_id() ) {
 				$wp_field['value'] = bp_get_displayed_user()->userdata->{$this->wp_user_key};
 			} elseif ( $user_id ) {
-				$user = get_user_by( 'id', $user_id );
+				$user              = get_user_by( 'id', $user_id );
 				$wp_field['value'] = $user->{$this->wp_user_key};
 			}
 
@@ -214,7 +214,7 @@ abstract class BP_XProfile_Field_Type_WordPress extends BP_XProfile_Field_Type {
 										$meta_object = wp_list_filter( $metas, array( 'meta_key' => $meta_key, 'meta_value' => $meta_value ) );
 
 										if ( 1 === count( $meta_object ) ) {
-											$meta_object = reset( $meta_object );
+											$meta_object                                     = reset( $meta_object );
 											$user_mid[ $meta_key ][ $meta_object->umeta_id ] = $meta_value;
 
 											// Set the meta_id for the requested field.

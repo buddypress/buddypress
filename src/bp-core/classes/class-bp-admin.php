@@ -288,7 +288,7 @@ class BP_Admin {
 		);
 
 		$this->submenu_pages['settings']['bp-components'] = $bp_components_page;
-		$hooks[]                                          = $bp_components_page;
+		$hooks[] = $bp_components_page;
 
 		if ( 'rewrites' === bp_core_get_query_parser() ) {
 			$bp_rewrites_settings_page = add_submenu_page(
@@ -742,7 +742,7 @@ class BP_Admin {
 	 */
 	public function add_privacy_policy_content() {
 		$suggested_text = '<strong class="privacy-policy-tutorial">' . esc_html__( 'Suggested text:', 'buddypress' ) . ' </strong>';
-		$content = '';
+		$content        = '';
 
 		$content .= '<div class="wp-suggested-text">';
 
@@ -1587,7 +1587,7 @@ class BP_Admin {
 			$help_tab_css   = '';
 
 			if ( $screen->get_help_tabs() ) {
-				$help_tab_css  = '#screen-meta { margin-right: 0; } #screen-meta-links { position: absolute; right: 0; }';
+				$help_tab_css = '#screen-meta { margin-right: 0; } #screen-meta-links { position: absolute; right: 0; }';
 			}
 
 			wp_add_inline_style(

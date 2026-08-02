@@ -169,7 +169,7 @@ function bp_activity_adjust_mention_count( $activity_id = 0, $action = 'add' ) {
 	}
 
 	// Get activity object.
-	$activity  = new BP_Activity_Activity( $activity_id );
+	$activity = new BP_Activity_Activity( $activity_id );
 
 	// Try to find mentions.
 	$usernames = bp_activity_find_mentions( wp_strip_all_tags( $activity->content ) );
@@ -884,7 +884,7 @@ function bp_activity_get_action( $component_id, $key ) {
  * @return array array( type => description ), ...
  */
 function bp_activity_get_types() {
-	$actions  = array();
+	$actions = array();
 
 	// Walk through the registered actions, and build an array of actions/values.
 	foreach ( bp_activity_get_actions() as $action ) {
@@ -2844,7 +2844,7 @@ function bp_activity_new_comment( $args = '' ) {
 	$activity_id = $r['activity_id'];
 
 	// Get the parent activity.
-	$activity  = new BP_Activity_Activity( $activity_id );
+	$activity = new BP_Activity_Activity( $activity_id );
 
 	// Bail if the parent activity does not exist.
 	if ( empty( $activity->date_recorded ) ) {
@@ -3468,7 +3468,7 @@ function bp_activity_create_summary( $content, $activity ) {
 			esc_html( $content->post_title )
 		);
 
-		$more_text  = sprintf(
+		$more_text = sprintf(
 			'<span>%s</span>',
 			trim( __( ' [&hellip;]', 'buddypress' ) )
 		);
@@ -3529,7 +3529,7 @@ function bp_activity_create_summary( $content, $activity ) {
 
 	// Embeds must be subtracted from the paragraph count.
 	if ( ! empty( $media['has']['embeds'] ) ) {
-		$has_embeds = $media['has']['embeds'] > 0;
+		$has_embeds  = $media['has']['embeds'] > 0;
 		$para_count -= $media['has']['embeds'];
 	}
 
@@ -4332,7 +4332,7 @@ function bp_activity_transition_post_type_comment_status( $new_status, $old_stat
 
 	// Add "new_post_type_comment" to the allowed activity types, so that the activity's Akismet history is generated.
 	$post_type_comment_action = $activity_comment_object->action_id;
-	$comment_akismet_history = function ( $activity_types ) use ( $post_type_comment_action ) {
+	$comment_akismet_history  = function ( $activity_types ) use ( $post_type_comment_action ) {
 		$activity_types[] = $post_type_comment_action;
 
 		return $activity_types;
@@ -4386,7 +4386,7 @@ function bp_activity_personal_data_exporter( $email_address, $page ) {
 		),
 	) );
 
-	$activity_actions    = bp_activity_get_actions();
+	$activity_actions = bp_activity_get_actions();
 
 	foreach ( $activities['activities'] as $activity ) {
 		if ( ! empty( $activity_actions->{$activity->component}->{$activity->type}['format_callback'] ) ) {

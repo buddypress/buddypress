@@ -339,7 +339,7 @@ function bp_nouveau_push_sitewide_notices() {
 		$bp = buddypress();
 
 		if ( empty( $bp->template_message ) ) {
-			$message = sprintf(
+			$message                   = sprintf(
 				'<strong class="subject">%s</strong>
 				%s',
 				stripslashes( $notice->subject ),

@@ -202,7 +202,7 @@ function bp_members_membership_requests_notify_site_admins( $signup ) {
 			bp_get_admin_url( 'users.php' )
 		);
 
-		$args  = array(
+		$args = array(
 			'tokens' => array(
 				'admin.id'                   => $admin_id,
 				'manage.url'                 => esc_url_raw( $manage_url ),

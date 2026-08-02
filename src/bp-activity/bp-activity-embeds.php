@@ -201,20 +201,20 @@ function bp_activity_embed_media() {
 	if ( isset( $media['embeds'] ) && true === $allow_media ) {
 		// Autoembed first URL.
 		$oembed_defaults = wp_embed_defaults();
-		$oembed_args = array(
+		$oembed_args     = array(
 			'width'    => $oembed_defaults['width'],
 			'height'   => $oembed_defaults['height'],
 			'discover' => true
 		);
-		$url      = $media['embeds'][0]['url'];
-		$cachekey = '_oembed_response_' . md5( $url . serialize( $oembed_args ) );
+		$url             = $media['embeds'][0]['url'];
+		$cachekey        = '_oembed_response_' . md5( $url . serialize( $oembed_args ) );
 
 		// Try to fetch oEmbed response from meta.
 		$oembed = bp_activity_get_meta( bp_get_activity_id(), $cachekey );
 
 		// No cache, so fetch full oEmbed response now!
 		if ( '' === $oembed ) {
-			$o = _wp_oembed_get_object();
+			$o      = _wp_oembed_get_object();
 			$oembed = $o->fetch( $o->get_provider( $url, $oembed_args ), $url, $oembed_args );
 
 			// Cache oEmbed response.
@@ -303,7 +303,7 @@ EOD;
 			// Set up caption.
 			if ( '' !== $caption ) {
 				$css_class = isset( $oembed->provider_name ) ? sprintf( ' provider-%s', sanitize_html_class( strtolower( $oembed->provider_name ) ) ) : '';
-				$caption = sprintf( '<div class="caption%1$s" style="width:%2$s">%3$s</div>',
+				$caption   = sprintf( '<div class="caption%1$s" style="width:%2$s">%3$s</div>',
 					$css_class,
 					$thumb_width > $float_width ? 100 . '%' : round( ( $width - (int) $thumb_width ) / $width * 100 ) . '%',
 					$caption

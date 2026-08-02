@@ -701,7 +701,7 @@ function bp_the_notification_mark_unread_url( $user_id = 0 ) {
 	function bp_get_the_notification_mark_unread_url( $user_id = 0 ) {
 
 		// Get the notification ID.
-		$id   = bp_get_the_notification_id();
+		$id = bp_get_the_notification_id();
 
 		// Get the args to add to the URL.
 		$args = array(

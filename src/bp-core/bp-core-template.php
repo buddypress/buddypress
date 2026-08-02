@@ -54,7 +54,7 @@ function bp_get_options_nav( $parent_slug = '' ) {
 
 	// For a single item, try to use the component's nav.
 	} else {
-		$current_item = bp_current_item();
+		$current_item          = bp_current_item();
 		$single_item_component = bp_current_component();
 
 		// Adjust the selected nav item for the current single item if needed.
@@ -166,8 +166,8 @@ function bp_avatar_admin_step() {
 	 *         if none is found.
 	 */
 	function bp_get_avatar_admin_step() {
-		$bp   = buddypress();
-		$step = isset( $bp->avatar_admin->step )
+		$bp         = buddypress();
+		$step       = isset( $bp->avatar_admin->step )
 			? $step = $bp->avatar_admin->step
 			: 'upload-image';
 
@@ -451,11 +451,11 @@ function bp_search_form_type_select() {
 	}
 
 	if ( bp_is_active( 'groups' ) ) {
-		$options['groups']  = _x( 'Groups', 'search form', 'buddypress' );
+		$options['groups'] = _x( 'Groups', 'search form', 'buddypress' );
 	}
 
 	if ( bp_is_active( 'blogs' ) && is_multisite() ) {
-		$options['blogs']   = _x( 'Blogs', 'search form', 'buddypress' );
+		$options['blogs'] = _x( 'Blogs', 'search form', 'buddypress' );
 	}
 
 	$options['posts'] = _x( 'Posts', 'search form', 'buddypress' );
@@ -840,7 +840,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 			$contentLength = mb_strlen( preg_replace( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $tag[3] ) );
 
 			if ( $contentLength + $totalLength > $length ) {
-				$left = $length - $totalLength;
+				$left           = $length - $totalLength;
 				$entitiesLength = 0;
 				if ( preg_match_all( '/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', $tag[3], $entities, PREG_OFFSET_CAPTURE ) ) {
 					foreach ( $entities[0] as $entity ) {
@@ -856,7 +856,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 				$truncate .= mb_substr( $tag[3], 0, $left + $entitiesLength );
 				break;
 			} else {
-				$truncate .= $tag[3];
+				$truncate    .= $tag[3];
 				$totalLength += $contentLength;
 			}
 			if ( $totalLength >= $length ) {
@@ -900,19 +900,19 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 		$truncate_tags = array();
 		if ( ! empty( $_truncate_tags[0] ) ) {
 			foreach ( $_truncate_tags[0] as $_tt ) {
-				$_tt['start'] = $_tt[1];
-				$_tt['end']   = $_tt[1] + strlen( $_tt[0] );
+				$_tt['start']                 = $_tt[1];
+				$_tt['end']                   = $_tt[1] + strlen( $_tt[0] );
 				$truncate_tags[ $_tt['end'] ] = $_tt;
 			}
 		}
 
 		$truncate_length = mb_strlen( $truncate );
-		$spacepos = $truncate_length + 1;
+		$spacepos        = $truncate_length + 1;
 		for ( $pos = $truncate_length - 1; $pos >= 0; $pos-- ) {
 			// Word boundaries are spaces and the close of HTML tags, when the tag is preceded by a space.
 			$is_word_boundary = ' ' === $truncate[ $pos ];
 			if ( ! $is_word_boundary && isset( $truncate_tags[ $pos - 1 ] ) ) {
-				$preceding_tag    = $truncate_tags[ $pos - 1 ];
+				$preceding_tag = $truncate_tags[ $pos - 1 ];
 				if ( ' ' === $truncate[ $preceding_tag['start'] - 1 ] ) {
 					$is_word_boundary = true;
 					break;
@@ -3508,7 +3508,7 @@ function bp_get_nav_menu_items( $component = 'members' ) {
 			$submenus = array();
 
 			foreach ( $nav_menu->children as $sub_menu ) {
-				$submenu = new stdClass;
+				$submenu         = new stdClass;
 				$submenu->class  = array( 'menu-child' );
 				$submenu->css_id = $sub_menu->css_id;
 				$submenu->link   = $sub_menu->link;
@@ -3614,7 +3614,7 @@ function bp_nav_menu( $args = array() ) {
 	$args = apply_filters( 'bp_nav_menu_args', $args );
 	$args = (object) $args;
 
-	$items = $nav_menu = '';
+	$items          = $nav_menu = '';
 	$show_container = false;
 
 	// Create custom walker if one wasn't set.
@@ -3690,8 +3690,8 @@ function bp_nav_menu( $args = array() ) {
 	$items = apply_filters( 'bp_nav_menu_items', $items, $args );
 
 	// Build the output.
-	$wrap_class  = $args->menu_class ? $args->menu_class : '';
-	$nav_menu   .= sprintf( $args->items_wrap, esc_attr( $wrap_id ), esc_attr( $wrap_class ), $items );
+	$wrap_class = $args->menu_class ? $args->menu_class : '';
+	$nav_menu  .= sprintf( $args->items_wrap, esc_attr( $wrap_id ), esc_attr( $wrap_class ), $items );
 	unset( $items );
 
 	// If we've wrapped the ul, close it.
@@ -3739,7 +3739,7 @@ function bp_email_the_salutation( $settings = array() ) {
 	 */
 	function bp_email_get_salutation( $settings = array() ) {
 		$email_type = bp_email_get_type();
-		$salutation  = '';
+		$salutation = '';
 
 		if ( $email_type ) {
 			$types_schema = bp_email_get_type_schema( 'named_salutation' );

@@ -925,15 +925,15 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 
 			// If 'button' element is set add the nonce link to data-attr attr, else add it to the href.
 			if ( 'button' === $button_element ) {
-				$buttons['unban_member']['button_attr']['data-bp-nonce'] = bp_get_group_member_unban_link( $user_id );
-				$buttons['ban_member']['button_attr']['data-bp-nonce'] = bp_get_group_member_ban_link( $user_id );
-				$buttons['promote_mod']['button_attr']['data-bp-nonce'] = bp_get_group_member_promote_mod_link();
+				$buttons['unban_member']['button_attr']['data-bp-nonce']  = bp_get_group_member_unban_link( $user_id );
+				$buttons['ban_member']['button_attr']['data-bp-nonce']    = bp_get_group_member_ban_link( $user_id );
+				$buttons['promote_mod']['button_attr']['data-bp-nonce']   = bp_get_group_member_promote_mod_link();
 				$buttons['promote_admin']['button_attr']['data-bp-nonce'] = bp_get_group_member_promote_admin_link();
 				$buttons['remove_member']['button_attr']['data-bp-nonce'] = bp_get_group_member_remove_link( $user_id );
 			} else {
-				$buttons['unban_member']['button_attr']['href'] = bp_get_group_member_unban_link( $user_id );
-				$buttons['ban_member']['button_attr']['href'] = bp_get_group_member_ban_link( $user_id );
-				$buttons['promote_mod']['button_attr']['href'] = bp_get_group_member_promote_mod_link();
+				$buttons['unban_member']['button_attr']['href']  = bp_get_group_member_unban_link( $user_id );
+				$buttons['ban_member']['button_attr']['href']    = bp_get_group_member_ban_link( $user_id );
+				$buttons['promote_mod']['button_attr']['href']   = bp_get_group_member_promote_mod_link();
 				$buttons['promote_admin']['button_attr']['href'] = bp_get_group_member_promote_admin_link();
 				$buttons['remove_member']['button_attr']['href'] = bp_get_group_member_remove_link( $user_id );
 			}
@@ -1004,7 +1004,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 
 		// It's the first entry of the loop, so build the Group and sort it
 		if ( ! isset( bp_nouveau()->groups->group_buttons ) || ! is_a( bp_nouveau()->groups->group_buttons, 'BP_Buttons_Group' ) ) {
-			$sort = true;
+			$sort                               = true;
 			bp_nouveau()->groups->group_buttons = new BP_Buttons_Group( $buttons_group );
 
 		// It's not the first entry, the order is set, we simply need to update the Buttons Group

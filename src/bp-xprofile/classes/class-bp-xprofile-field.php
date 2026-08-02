@@ -813,14 +813,14 @@ class BP_XProfile_Field {
 
 		$label = '';
 		if ( ! empty( $member_types ) ) {
-			$has_null = false;
+			$has_null           = false;
 			$member_type_labels = array();
 			foreach ( $member_types as $member_type ) {
 				if ( 'null' === $member_type ) {
 					$has_null = true;
 					continue;
 				} else {
-					$mt_obj = bp_get_member_type_object( $member_type );
+					$mt_obj               = bp_get_member_type_object( $member_type );
 					$member_type_labels[] = $mt_obj->labels['name'];
 				}
 			}
@@ -1031,7 +1031,7 @@ class BP_XProfile_Field {
 		$id = bp_core_get_incremented_cache( $field_name, 'bp_xprofile_fields_by_name' );
 		if ( false === $id ) {
 			$sql = $wpdb->prepare( "SELECT id FROM {$bp->profile->table_name_fields} WHERE name = %s AND parent_id = 0", $field_name );
-			$id = $wpdb->get_var( $sql );
+			$id  = $wpdb->get_var( $sql );
 			bp_core_set_incremented_cache( $field_name, 'bp_xprofile_fields_by_name', $id );
 		}
 
@@ -1141,7 +1141,7 @@ class BP_XProfile_Field {
 		if ( ! in_array( '_none', $member_types ) ) {
 			if ( ! empty( $all_recorded_field_ids ) ) {
 				$all_recorded_field_ids_sql = implode( ',', array_map( 'absint', $all_recorded_field_ids ) );
-				$unrestricted_field_ids = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id NOT IN ({$all_recorded_field_ids_sql})" );
+				$unrestricted_field_ids     = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id NOT IN ({$all_recorded_field_ids_sql})" );
 			} else {
 				$unrestricted_field_ids = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields}" );
 			}
@@ -1790,7 +1790,7 @@ class BP_XProfile_Field {
 		$signup_position      = $this->get_signup_position();
 
 		if ( 0 === $signup_position ) {
-			$signup_fields_order = bp_xprofile_get_signup_field_ids();
+			$signup_fields_order  = bp_xprofile_get_signup_field_ids();
 			$next_signup_position = count( $signup_fields_order ) + 1;
 		} else {
 			$next_signup_position = $signup_position;
@@ -1825,7 +1825,7 @@ class BP_XProfile_Field {
 
 		// Init default field hidden inputs.
 		$default_field_hidden_inputs = array();
-		$hidden_fields = array(
+		$hidden_fields               = array(
 			'required' => array(
 				'name'  => 'required',
 				'id'    => 'required',

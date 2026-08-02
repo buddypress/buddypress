@@ -138,7 +138,7 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 
 	// Multisite.
 	if ( is_multisite() ) {
-		$sql = array();
+		$sql           = array();
 		$sql['select'] = $wpdb->prepare( "SELECT blog_id, last_updated FROM {$wpdb->base_prefix}blogs WHERE mature = 0 AND spam = 0 AND deleted = 0 AND site_id = %d", $r['site_id'] );
 
 		// Omit root blog if large network.
@@ -684,12 +684,12 @@ function bp_blogs_update_post_activity_meta( $post, $activity, $activity_post_ob
 
 				// Query for activity comments connected to a blog post.
 				unset( $args['filter'] );
-				$args['meta_query'] = array( array(
+				$args['meta_query']       = array( array(
 					'key'     => 'bp_blogs_' . $post->post_type . '_comment_id',
 					'value'   => $comment_ids,
 					'compare' => 'IN',
 				) );
-				$args['type'] = 'activity_comment';
+				$args['type']             = 'activity_comment';
 				$args['display_comments'] = 'stream';
 
 				$activities = bp_activity_get( $args );
@@ -887,7 +887,7 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 		if ( ! empty( $user_roles ) ) {
 
 			// Get blog roles.
-			$blog_roles      = array_keys( bp_get_current_blog_roles() );
+			$blog_roles = array_keys( bp_get_current_blog_roles() );
 
 			// Look for blog only roles of the user.
 			$intersect_roles = array_intersect( $user_roles, $blog_roles );
@@ -1140,7 +1140,7 @@ function bp_blogs_remove_associated_blog_comments( $activity_ids = array(), $for
 
 	// Get comment.
 	$comment_query = new WP_Comment_Query;
-	$comments = $comment_query->query( $query_args );
+	$comments      = $comment_query->query( $query_args );
 
 	// Found the corresponding comments
 	// let's delete them!

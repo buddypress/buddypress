@@ -53,7 +53,7 @@ function xprofile_screen_edit_profile() {
 		$posted_field_ids = wp_parse_id_list( $_POST['field_ids'] );
 		$is_required      = array();
 
-		$bp_displayed_user = bp_get_displayed_user();
+		$bp_displayed_user               = bp_get_displayed_user();
 		$bp_displayed_user->updated_keys = array();
 
 		// Loop through the posted fields formatting any datebox values then validate the field.

@@ -676,9 +676,9 @@ class BP_Members_Admin {
 			array( $this, 'invitations_admin' )
 		);
 
-		$edit_page         = 'user-edit';
-		$profile_page      = 'profile';
-		$this->users_page  = 'users';
+		$edit_page        = 'user-edit';
+		$profile_page     = 'profile';
+		$this->users_page = 'users';
 
 		// Self profile check is needed for this pages.
 		$page_head = array(
@@ -920,8 +920,8 @@ class BP_Members_Admin {
 
 		// Conditionally add a referer if it exists in the existing request.
 		if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
-			$wp_http_referer = wp_unslash( $_REQUEST['wp_http_referer'] );
-			$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+			$wp_http_referer               = wp_unslash( $_REQUEST['wp_http_referer'] );
+			$wp_http_referer               = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
 			$query_args['wp_http_referer'] = urlencode( $wp_http_referer );
 		}
 
@@ -1047,7 +1047,7 @@ class BP_Members_Admin {
 			}
 
 			if ( true === $this->is_self_profile ) {
-				$help_content['overview']    = __( 'This is the admin view of your extended profile.', 'buddypress' );
+				$help_content['overview'] = __( 'This is the admin view of your extended profile.', 'buddypress' );
 
 				if ( isset( $available_actions['stats'] ) ) {
 					$help_content['main_column'] = __( 'In the main column, you can edit the fields of your extended profile.', 'buddypress' );
@@ -1556,9 +1556,9 @@ class BP_Members_Admin {
 				);
 
 				if ( ! empty( $_REQUEST['wp_http_referer'] ) ) {
-					$wp_http_referer = wp_unslash( $_REQUEST['wp_http_referer'] );
-					$wp_http_referer = remove_query_arg( array( 'action', 'updated' ), $wp_http_referer );
-					$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+					$wp_http_referer               = wp_unslash( $_REQUEST['wp_http_referer'] );
+					$wp_http_referer               = remove_query_arg( array( 'action', 'updated' ), $wp_http_referer );
+					$wp_http_referer               = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
 					$query_args['wp_http_referer'] = urlencode( $wp_http_referer );
 				}
 
@@ -1689,8 +1689,8 @@ class BP_Members_Admin {
 		}
 
 		// Add the referer.
-		$wp_http_referer = wp_unslash( $_SERVER['REQUEST_URI'] );
-		$wp_http_referer = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
+		$wp_http_referer         = wp_unslash( $_SERVER['REQUEST_URI'] );
+		$wp_http_referer         = wp_validate_redirect( esc_url_raw( $wp_http_referer ) );
 		$args['wp_http_referer'] = urlencode( $wp_http_referer );
 
 		// Add the "Extended" link if the current user can edit this user.
@@ -1850,7 +1850,7 @@ class BP_Members_Admin {
 			$views['all'] = str_replace( 'class="current"', '', $views['all'] );
 			$class        = 'current';
 		} else {
-			$class        = '';
+			$class = '';
 		}
 
 		$signups = BP_Signup::count_signups();
@@ -3372,7 +3372,7 @@ class BP_Members_Admin {
 		switch ( $action ) {
 			case 'delete' :
 				// Query for matching invites, and filter out bad IDs.
-				$args = array(
+				$args       = array(
 					'id'          => $ids,
 					'invite_sent' => 'all',
 					'accepted'    => 'all',
@@ -3393,7 +3393,7 @@ class BP_Members_Admin {
 				 * Query for matching invites, and filter out bad IDs
 				 * or those that have already been accepted.
 				 */
-				$args = array(
+				$args       = array(
 					'id'          => $ids,
 					'invite_sent' => 'all',
 					'accepted'    => 'pending',

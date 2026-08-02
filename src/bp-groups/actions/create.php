@@ -91,7 +91,7 @@ function groups_action_create_group() {
 		}
 
 		if ( 'group-settings' == bp_get_groups_current_create_step() ) {
-			$group_status = 'public';
+			$group_status       = 'public';
 			$group_enable_forum = 1;
 
 			if ( !isset($_POST['group-show-forum']) ) {
@@ -165,7 +165,7 @@ function groups_action_create_group() {
 		 * we need to add the current step to the array of completed steps, then update the cookies
 		 * holding the information
 		 */
-		$completed_create_steps = isset( $bp->groups->completed_create_steps ) ? $bp->groups->completed_create_steps : array();
+		$completed_create_steps                   = isset( $bp->groups->completed_create_steps ) ? $bp->groups->completed_create_steps : array();
 		if ( !in_array( bp_get_groups_current_create_step(), $completed_create_steps ) )
 			$bp->groups->completed_create_steps[] = bp_get_groups_current_create_step();
 

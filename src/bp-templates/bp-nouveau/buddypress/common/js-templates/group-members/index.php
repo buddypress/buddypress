@@ -97,7 +97,7 @@ if ( ! did_action( '_bp_groups_print_manage_group_members_placeholders' ) ) {
 
 <script type="text/html" id="tmpl-bp-manage-members-search">
 	<?php
-		$button_classes = array( 'bp-button', 'bp-search' );
+		$button_classes      = array( 'bp-button', 'bp-search' );
 		$screen_reader_class = 'bp-screen-reader-text';
 
 		if ( is_admin() ) {
@@ -117,7 +117,7 @@ if ( ! did_action( '_bp_groups_print_manage_group_members_placeholders' ) ) {
 
 <script type="text/html" id="tmpl-bp-manage-members-paginate">
 	<?php
-		$button_classes = array( 'group-members-paginate-button' );
+		$button_classes      = array( 'group-members-paginate-button' );
 		$screen_reader_class = 'bp-screen-reader-text';
 
 		if ( is_admin() ) {

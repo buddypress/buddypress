@@ -1374,7 +1374,7 @@ function bp_core_time_diff( $args = array() ) {
 					break;
 				case WEEK_IN_SECONDS :
 					/* translators: %s: the number of weeks. */
-					$retval[]= sprintf( _n( '%s week', '%s weeks', $count, 'buddypress' ), $count );
+					$retval[] = sprintf( _n( '%s week', '%s weeks', $count, 'buddypress' ), $count );
 					break;
 				case DAY_IN_SECONDS :
 					/* translators: %s: the number of days. */
@@ -1701,7 +1701,7 @@ function bp_core_render_message() {
 	$bp = buddypress();
 
 	if ( !empty( $bp->template_message ) ) :
-		$type    = ( 'success' === $bp->template_message_type ) ? 'updated' : 'error';
+		$type = ( 'success' === $bp->template_message_type ) ? 'updated' : 'error';
 
 		/**
 		 * Filters the 'template_notices' feedback message content.
@@ -2018,7 +2018,7 @@ function bp_use_embed_in_private_messages() {
  */
 function bp_core_extract_media_from_content( $content = '', $type = 'all' ) {
 	if ( is_string( $type ) ) {
-		$class = new ReflectionClass( 'BP_Media_Extractor' );
+		$class   = new ReflectionClass( 'BP_Media_Extractor' );
 		$bitmask = $class->getConstant( strtoupper( $type ) );
 	} else {
 		$bitmask = (int) $type;
@@ -2029,7 +2029,7 @@ function bp_core_extract_media_from_content( $content = '', $type = 'all' ) {
 		return false;
 	}
 
-	$x = new BP_Media_Extractor;
+	$x     = new BP_Media_Extractor;
 	$media = $x->extract( $content, $bitmask );
 
 	unset( $media['has'] );
@@ -2265,7 +2265,7 @@ function bp_is_multiblog_mode() {
 function bp_is_network_activated() {
 
 	// Default to is_multisite().
-	$retval  = is_multisite();
+	$retval = is_multisite();
 
 	// Check the sitewide plugins array.
 	$base    = buddypress()->basename;
@@ -2768,7 +2768,7 @@ function bp_remove_adjacent_posts_rel_link() {
  */
 function _bp_strip_spans_from_title( $title_part = '' ) {
 	$title = $title_part;
-	$span = strpos( $title, '<span' );
+	$span  = strpos( $title, '<span' );
 	if ( false !== $span ) {
 		$title = substr( $title, 0, $span - 1 );
 	}
@@ -3033,7 +3033,7 @@ function bp_nav_menu_get_loggedout_pages() {
 	$bp_directory_page_ids = bp_core_get_directory_page_ids();
 
 	if( ! empty( $bp_directory_page_ids['register'] ) ) {
-		$register_page = get_post( $bp_directory_page_ids['register'] );
+		$register_page   = get_post( $bp_directory_page_ids['register'] );
 		$bp_menu_items[] = array(
 			'name' => $register_page->post_title,
 			'slug' => 'register',
@@ -4551,8 +4551,8 @@ function bp_email_unsubscribe_handler() {
 
 	// Don't let authenticated users unsubscribe other users' email notifications.
 	} elseif ( is_user_logged_in() && get_current_user_id() !== $raw_user_id ) {
-		$result_msg  = __( 'Something has gone wrong.', 'buddypress' );
-		$unsub_msg   = __( 'Please go to your notifications settings to unsubscribe from emails.', 'buddypress' );
+		$result_msg = __( 'Something has gone wrong.', 'buddypress' );
+		$unsub_msg  = __( 'Please go to your notifications settings to unsubscribe from emails.', 'buddypress' );
 
 		if ( bp_is_active( 'settings' ) ) {
 			$redirect_to = bp_members_get_user_url(
@@ -5141,7 +5141,7 @@ function bp_get_community_visibility( $component = 'global' ) {
 
 	if ( 'all' === $component ) {
 		// Build the component list.
-		$retval = array(
+		$retval          = array(
 			'global' => $saved_value['global']
 		);
 		$directory_pages = bp_core_get_directory_pages();

@@ -147,7 +147,7 @@ function groups_notification_new_membership_request( $requesting_user_id = 0, $a
 	);
 
 	$request_message = '';
-	$requests = groups_get_requests( $args = array(
+	$requests        = groups_get_requests( $args = array(
 		'user_id'    => $requesting_user_id,
 		'item_id'    => $group_id,
 	) );
@@ -314,7 +314,7 @@ add_action( 'group_member_promoted', 'groups_notification_promoted_member', 10, 
 function groups_notification_group_invites( &$group, &$member, $inviter_user_id ) {
 
 	// @todo $inviter_ud may be used for caching, test without it
-	$inviter_ud      = bp_core_get_core_userdata( $inviter_user_id );
+	$inviter_ud = bp_core_get_core_userdata( $inviter_user_id );
 
 	if ( $member instanceof BP_Groups_Member ) {
 		$invited_user_id = $member->user_id;
@@ -348,7 +348,7 @@ function groups_notification_group_invites( &$group, &$member, $inviter_user_id 
 	);
 
 	$invite_message = '';
-	$invitations = groups_get_invites( $args = array(
+	$invitations    = groups_get_invites( $args = array(
 		'user_id'    => $invited_user_id,
 		'item_id'    => $group->id,
 		'inviter_id' => $inviter_user_id,
@@ -885,11 +885,11 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 			break;
 
 		case 'group_invite':
-			$group_id           = $item_id;
-			$group              = groups_get_group( $group_id );
-			$group_link         = bp_get_group_url( $group );
-			$amount             = 'single';
-			$notification_link  = add_query_arg(
+			$group_id          = $item_id;
+			$group             = groups_get_group( $group_id );
+			$group_link        = bp_get_group_url( $group );
+			$amount            = 'single';
+			$notification_link = add_query_arg(
 				'n',
 				1,
 				bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_get_groups_slug(), 'invites' ) ) )
@@ -897,7 +897,7 @@ function groups_format_notifications( $action, $item_id, $secondary_item_id, $to
 
 			if ( (int) $total_items > 1 ) {
 				/* translators: %d: number of group invites */
-				$text = sprintf( __( 'You have %d new group invitations', 'buddypress' ), (int) $total_items );
+				$text   = sprintf( __( 'You have %d new group invitations', 'buddypress' ), (int) $total_items );
 				$amount = 'multiple';
 
 				if ( 'string' == $format ) {
@@ -1161,15 +1161,15 @@ add_action( 'groups_remove_data_for_user', 'bp_groups_remove_data_for_user_notif
 function groups_screen_notification_settings() {
 
 	if ( ! $group_invite = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_invite', true ) ) {
-		$group_invite  = 'yes';
+		$group_invite = 'yes';
 	}
 
 	if ( ! $group_update = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_group_updated', true ) ) {
-		$group_update  = 'yes';
+		$group_update = 'yes';
 	}
 
 	if ( ! $group_promo = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_admin_promotion', true ) ) {
-		$group_promo   = 'yes';
+		$group_promo = 'yes';
 	}
 
 	if ( ! $group_request = bp_get_user_meta( bp_displayed_user_id(), 'notification_groups_membership_request', true ) ) {

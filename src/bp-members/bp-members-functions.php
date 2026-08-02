@@ -587,7 +587,7 @@ function bp_core_get_total_member_count() {
 
 	if ( false === $count ) {
 		$status_sql = bp_core_get_status_sql();
-		$count = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->users} WHERE {$status_sql}" );
+		$count      = $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->users} WHERE {$status_sql}" );
 		wp_cache_set( 'bp_total_member_count', $count, 'bp' );
 	}
 
@@ -2212,7 +2212,7 @@ function bp_members_migrate_signups() {
 		// Fetch activation keys separately, to avoid the all_with_meta
 		// overhead.
 		$status_2_ids_sql = implode( ',', $status_2_ids );
-		$ak_data = $wpdb->get_results( "SELECT user_id, meta_value FROM {$wpdb->usermeta} WHERE meta_key = 'activation_key' AND user_id IN ({$status_2_ids_sql})" );
+		$ak_data          = $wpdb->get_results( "SELECT user_id, meta_value FROM {$wpdb->usermeta} WHERE meta_key = 'activation_key' AND user_id IN ({$status_2_ids_sql})" );
 
 		// Rekey.
 		$activation_keys = array();
@@ -2288,8 +2288,8 @@ function bp_core_map_user_registration( $user_id ) {
 	// Add the user's fullname to Xprofile.
 	if ( bp_is_active( 'xprofile' ) ) {
 		$firstname = bp_get_user_meta( $user_id, 'first_name', true );
-		$lastname = ' ' . bp_get_user_meta( $user_id, 'last_name', true );
-		$name = $firstname . $lastname;
+		$lastname  = ' ' . bp_get_user_meta( $user_id, 'last_name', true );
+		$name      = $firstname . $lastname;
 
 		if ( empty( $name ) || ' ' == $name ) {
 			$name = bp_get_user_meta( $user_id, 'nickname', true );
@@ -2930,7 +2930,7 @@ function bp_register_member_type( $member_type, $args = array() ) {
 
 	// Make sure the relevant labels have been filled in.
 	$default_name = isset( $r['labels']['name'] ) ? $r['labels']['name'] : ucfirst( $r['name'] );
-	$r['labels'] = array_merge( array(
+	$r['labels']  = array_merge( array(
 		'name'          => $default_name,
 		'singular_name' => $default_name,
 	), $r['labels'] );
@@ -3447,7 +3447,7 @@ function bp_members_invitations_user_has_sent_invites( $user_id = 0 ) {
 		}
 	}
 	$invites_class = new BP_Members_Invitation_Manager();
-	$args = array(
+	$args          = array(
 		'inviter_id' => $user_id,
 	);
 	return (bool) $invites_class->invitation_exists( $args );

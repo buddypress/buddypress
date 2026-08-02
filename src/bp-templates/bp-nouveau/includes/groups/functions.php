@@ -322,7 +322,7 @@ function bp_nouveau_get_group_potential_invites( $args = array() ) {
 
 	$response = new stdClass();
 
-	$response->meta = array( 'total_page' => 0, 'current_page' => 0 );
+	$response->meta  = array( 'total_page' => 0, 'current_page' => 0 );
 	$response->users = array();
 
 	if ( ! empty( $query->results ) ) {

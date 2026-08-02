@@ -336,7 +336,7 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 				<?php endif; ?>
 
 				<?php
-				$signup_groups = bp_xprofile_get_groups(
+				$signup_groups       = bp_xprofile_get_groups(
 					array(
 						'fetch_fields'       => true,
 						'signup_fields_only' => true,
@@ -774,7 +774,7 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
 
 	// Switch type to 'option' if type is not 'field'.
 	// @todo trust this param.
-	$field_type  = ( 'field' == $field_type ) ? __( 'field', 'buddypress' ) : __( 'option', 'buddypress' );
+	$field_type = ( 'field' == $field_type ) ? __( 'field', 'buddypress' ) : __( 'option', 'buddypress' );
 
 	// Display the field/option delete confirmation screen.
 	if ( in_array( $mode, array( 'delete_field', 'delete_option' ) ) ) {

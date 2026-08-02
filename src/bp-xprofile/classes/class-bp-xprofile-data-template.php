@@ -308,7 +308,7 @@ class BP_XProfile_Data_Template {
 		global $group;
 
 		$this->in_the_loop = true;
-		$group = $this->next_group();
+		$group             = $this->next_group();
 
 		// Loop has just started.
 		if ( 0 === $this->current_group ) {

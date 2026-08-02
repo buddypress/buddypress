@@ -153,7 +153,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 			if ( bp_displayed_user_id() ) {
 				$field_value = bp_get_displayed_user()->userdata->{$this->wp_user_key};
 			} elseif ( $user_id ) {
-				$user = get_user_by( 'id', $user_id );
+				$user        = get_user_by( 'id', $user_id );
 				$field_value = $user->{$this->wp_user_key};
 			}
 		} else {
@@ -240,7 +240,7 @@ class BP_XProfile_Field_Type_WordPress_Textbox extends BP_XProfile_Field_Type_Wo
 	 */
 	public function admin_save_settings( $field_id, $settings ) {
 		$existing_setting = self::get_field_settings( $field_id );
-		$setting = '';
+		$setting          = '';
 
 		if ( isset( $settings['wp_user_key'] ) ) {
 			$setting = sanitize_key( $settings['wp_user_key'] );

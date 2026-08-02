@@ -431,9 +431,9 @@ function bp_nouveau_ajax_get_user_message_threads() {
 				'url_only'  => true,
 			) );
 
-			$threads->threads[ $i ]['star_link']  = $star_link;
+			$threads->threads[ $i ]['star_link'] = $star_link;
 
-			$star_link_data = explode( '/', $star_link );
+			$star_link_data                       = explode( '/', $star_link );
 			$threads->threads[ $i ]['is_starred'] = array_search( 'unstar', $star_link_data );
 
 			// Defaults to last
@@ -566,7 +566,7 @@ function bp_nouveau_ajax_get_thread_messages() {
 	}
 
 	$thread->messages = array();
-	$i = 0;
+	$i                = 0;
 
 	while ( bp_thread_messages() ) : bp_thread_the_message();
 		$sender_data = bp_nouveau_ajax_get_message_sender_data( bp_get_the_thread_message_sender_id() );

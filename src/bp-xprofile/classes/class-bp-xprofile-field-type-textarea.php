@@ -25,8 +25,8 @@ class BP_XProfile_Field_Type_Textarea extends BP_XProfile_Field_Type {
 	public function __construct() {
 		parent::__construct();
 
-		$this->category = _x( 'Single Fields', 'xprofile field type category', 'buddypress' );
-		$this->name     = _x( 'Multi-line Text Area', 'xprofile field type', 'buddypress' );
+		$this->category          = _x( 'Single Fields', 'xprofile field type category', 'buddypress' );
+		$this->name              = _x( 'Multi-line Text Area', 'xprofile field type', 'buddypress' );
 		$this->supports_richtext = true;
 
 		$this->set_format( '/^.*$/m', 'replace' );

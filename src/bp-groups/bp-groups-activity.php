@@ -293,9 +293,9 @@ function bp_groups_prefetch_activity_object_data( $activities ) {
 
 		if ( ! empty( $uncached_ids ) ) {
 			global $wpdb;
-			$bp = buddypress();
+			$bp               = buddypress();
 			$uncached_ids_sql = implode( ',', wp_parse_id_list( $uncached_ids ) );
-			$groups = $wpdb->get_results( "SELECT * FROM {$bp->groups->table_name} WHERE id IN ({$uncached_ids_sql})" );
+			$groups           = $wpdb->get_results( "SELECT * FROM {$bp->groups->table_name} WHERE id IN ({$uncached_ids_sql})" );
 			foreach ( $groups as $group ) {
 				wp_cache_set( $group->id, $group, 'bp_groups' );
 			}

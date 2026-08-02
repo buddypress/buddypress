@@ -240,8 +240,8 @@ class BP_Groups_Invite_Template {
 	public function the_invite() {
 		global $group_id;
 
-		$this->in_the_loop  = true;
-		$user_id            = $this->next_invite();
+		$this->in_the_loop = true;
+		$user_id           = $this->next_invite();
 
 		$this->invite       = new stdClass;
 		$this->invite->user = $this->invite_data[ $user_id ];
@@ -299,7 +299,7 @@ class BP_Groups_Invite_Template {
 		$this->invite->user->last_active = bp_core_get_last_activity( $this->invite->user->last_activity, __( 'Active %s', 'buddypress' ) );
 
 		if ( bp_is_active( 'groups' ) ) {
-			$total_groups = BP_Groups_Member::total_group_count( $user_id );
+			$total_groups                     = BP_Groups_Member::total_group_count( $user_id );
 			$this->invite->user->total_groups = sprintf( _n( '%d group', '%d groups', $total_groups, 'buddypress' ), $total_groups );
 		}
 

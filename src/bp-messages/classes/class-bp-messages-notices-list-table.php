@@ -134,7 +134,7 @@ class BP_Messages_Notices_List_Table extends WP_List_Table {
 
 		if ( ! empty( $item->is_active ) ) {
 			/* translators: %s: notice subject */
-			$item->subject = sprintf( _x( 'Active: %s', 'Tag prepended to active site-wide notice titles on WP Admin notices list table', 'buddypress' ), $item->subject );
+			$item->subject                  = sprintf( _x( 'Active: %s', 'Tag prepended to active site-wide notice titles on WP Admin notices list table', 'buddypress' ), $item->subject );
 			$actions['activate_deactivate'] = sprintf( '<a href="%s" data-bp-notice-id="%d" data-bp-action="deactivate">%s</a>',
 				esc_url( wp_nonce_url( add_query_arg( array(
 					'page'          => 'bp-notices',

@@ -303,7 +303,7 @@ class BP_Groups_Template {
 			);
 
 			if ( ! empty( $search_terms ) ) {
-				$query_arg = bp_core_get_component_search_query_arg( 'groups' );
+				$query_arg              = bp_core_get_component_search_query_arg( 'groups' );
 				$add_args[ $query_arg ] = urlencode( $search_terms );
 			}
 

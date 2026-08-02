@@ -171,7 +171,7 @@ function bp_has_blogs( $args = '' ) {
 
 	// Check for and use search terms.
 	$search_terms_default = false;
-	$search_query_arg = bp_core_get_component_search_query_arg( 'blogs' );
+	$search_query_arg     = bp_core_get_component_search_query_arg( 'blogs' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
 		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
 	} elseif ( ! empty( $_REQUEST['s'] ) ) {
@@ -1011,7 +1011,7 @@ function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
  *              featured image of the given size.
  */
 function bp_blog_latest_post_has_featured_image( $thumbnail = 'thumbnail' ) {
-	$image  = bp_get_blog_latest_post_featured_image( $thumbnail );
+	$image = bp_get_blog_latest_post_featured_image( $thumbnail );
 
 	/**
 	 * Filters whether or not the latest blog post has a featured image.

@@ -54,7 +54,7 @@ function bp_members_invitations_complete_signup() {
 
 	// User has already verified their email by responding to the invitation, so we can activate.
 	$signup = bp_members_get_signup_by( 'user_email', $invite->invitee_email );
-	$key = false;
+	$key    = false;
 	if ( ! empty( $signup->activation_key ) ) {
 		$key = $signup->activation_key;
 	}

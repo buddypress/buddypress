@@ -250,14 +250,14 @@ function bp_activity_at_name_filter( $content, $activity_id = 0 ) {
 	// We don't want to link @mentions that are inside of links, so we
 	// temporarily remove them.
 	$replace_count = 0;
-	$replacements = array();
+	$replacements  = array();
 	foreach ( $usernames as $username ) {
 		// Prevent @ name linking inside <a> tags.
 		preg_match_all( '/(<a.*?(?!<\/a>)@' . $username . '.*?<\/a>)/', $content, $content_matches );
 		if ( ! empty( $content_matches[1] ) ) {
 			foreach ( $content_matches[1] as $replacement ) {
 				$replacements[ '#BPAN' . $replace_count ] = $replacement;
-				$content = str_replace( $replacement, '#BPAN' . $replace_count, $content );
+				$content                                  = str_replace( $replacement, '#BPAN' . $replace_count, $content );
 				$replace_count++;
 			}
 		}
@@ -438,7 +438,7 @@ function bp_activity_truncate_entry( $text, $args = array() ) {
 	 *
 	 * @param string $value Internationalized "Read more" text.
 	 */
-	$append_text    = apply_filters( 'bp_activity_excerpt_append_text', __( '[Read more]', 'buddypress' ) );
+	$append_text = apply_filters( 'bp_activity_excerpt_append_text', __( '[Read more]', 'buddypress' ) );
 
 	$excerpt_length = bp_activity_get_excerpt_length();
 
@@ -450,7 +450,7 @@ function bp_activity_truncate_entry( $text, $args = array() ) {
 	);
 
 	// Run the text through the excerpt function. If it's too short, the original text will be returned.
-	$excerpt        = bp_create_excerpt( $text, $excerpt_length, $args );
+	$excerpt = bp_create_excerpt( $text, $excerpt_length, $args );
 
 	/*
 	 * If the text returned by bp_create_excerpt() is different from the original text (ie it's
@@ -566,7 +566,7 @@ function bp_activity_heartbeat_last_recorded( $response = array(), $data = array
 		$activity_latest_args['search_terms'] = addslashes( $data['bp_activity_last_recorded_search_terms'] );
 	}
 
-	$newest_activities = array();
+	$newest_activities      = array();
 	$last_activity_recorded = 0;
 
 	// Temporarily add a just-posted class for new activity items.

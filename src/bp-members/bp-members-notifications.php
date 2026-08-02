@@ -147,7 +147,7 @@ function bp_members_invitations_accepted_invitation_notification( $invite, $new_
 	}
 
 	// Notify all inviters.
-	$args = array(
+	$args    = array(
 		'invitee_email' => $new_user->user_email,
 		'accepted'      => 'all',
 	);

@@ -235,7 +235,7 @@ function bp_messages_screen_conversation_mark_notifications() {
 		'component_action'  => 'new_message',
 		'is_new'            => 1,
 	) );
-	$unread_message_ids = wp_list_pluck( $new_pm_notifications, 'item_id' );
+	$unread_message_ids   = wp_list_pluck( $new_pm_notifications, 'item_id' );
 
 	// No unread PMs, so stop!
 	if ( empty( $unread_message_ids ) ) {

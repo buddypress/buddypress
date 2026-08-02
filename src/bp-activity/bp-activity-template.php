@@ -233,7 +233,7 @@ function bp_has_activities( $args = '' ) {
 		: false;
 
 	$search_terms_default = false;
-	$search_query_arg = bp_core_get_component_search_query_arg( 'activity' );
+	$search_query_arg     = bp_core_get_component_search_query_arg( 'activity' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
 		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
 	}
@@ -995,7 +995,7 @@ function bp_activity_avatar( $args = '' ) {
 		$current_activity_item = isset( $activities_template->activity->current_comment ) ? $activities_template->activity->current_comment : $activities_template->activity;
 
 		// Activity user display name.
-		$dn_default  = isset( $current_activity_item->display_name ) ? $current_activity_item->display_name : '';
+		$dn_default = isset( $current_activity_item->display_name ) ? $current_activity_item->display_name : '';
 
 		// Prepend some descriptive text to alt.
 		$alt_default = esc_html__( 'Profile picture', 'buddypress' );
@@ -1741,7 +1741,7 @@ function bp_insert_activity_meta( $content = '' ) {
 	$new_content = str_replace( '<span class="time-since">%s</span>', '', $content );
 
 	// Get the time since this activity was recorded.
-	$date_recorded  = bp_core_time_since( $activities_template->activity->date_recorded );
+	$date_recorded = bp_core_time_since( $activities_template->activity->date_recorded );
 
 	// Set up 'time-since' <span>.
 	$time_since = sprintf(
@@ -2751,7 +2751,7 @@ function bp_activity_comment_form_action() {
 	 * @return string The activity comment form action.
 	 */
 	function bp_get_activity_comment_form_action() {
-		$url  = bp_rewrites_get_url(
+		$url = bp_rewrites_get_url(
 			array(
 				'component_id'       => 'activity',
 				'single_item_action' => 'reply',
@@ -3231,19 +3231,19 @@ function bp_activity_filter_links( $args = false ) {
 
 			switch ( $r['style'] ) {
 				case 'list':
-					$tag = 'li';
+					$tag    = 'li';
 					$before = '<li id="afilter-' . $component . '"' . $selected . '>';
-					$after = '</li>';
+					$after  = '</li>';
 				break;
 				case 'paragraph':
-					$tag = 'p';
+					$tag    = 'p';
 					$before = '<p id="afilter-' . $component . '"' . $selected . '>';
-					$after = '</p>';
+					$after  = '</p>';
 				break;
 				case 'span':
-					$tag = 'span';
+					$tag    = 'span';
 					$before = '<span id="afilter-' . $component . '"' . $selected . '>';
-					$after = '</span>';
+					$after  = '</span>';
 				break;
 			}
 
@@ -3686,7 +3686,7 @@ function bp_activity_post_form_action() {
 	 * @return string The activity post form action.
 	 */
 	function bp_get_activity_post_form_action() {
-		$url  = bp_rewrites_get_url(
+		$url = bp_rewrites_get_url(
 			array(
 				'component_id'       => 'activity',
 				'single_item_action' => 'post',
@@ -3970,7 +3970,7 @@ function bp_sitewide_activity_feed_link() {
 	 * @return string The sitewide activity feed link.
 	 */
 	function bp_get_sitewide_activity_feed_link() {
-		$url  = bp_rewrites_get_url(
+		$url = bp_rewrites_get_url(
 			array(
 				'component_id'       => 'activity',
 				'single_item_action' => 'feed',

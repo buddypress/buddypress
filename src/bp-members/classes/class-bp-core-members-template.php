@@ -248,7 +248,7 @@ class BP_Core_Members_Template {
 			$add_args = array();
 
 			if ( ! empty( $r['search_terms'] ) ) {
-				$query_arg = bp_core_get_component_search_query_arg( 'members' );
+				$query_arg              = bp_core_get_component_search_query_arg( 'members' );
 				$add_args[ $query_arg ] = urlencode( $r['search_terms'] );
 			}
 

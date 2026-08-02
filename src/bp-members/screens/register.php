@@ -50,7 +50,7 @@ function bp_core_screen_signup() {
 		$maybe_invite = bp_get_members_invitation_from_request();
 		if ( $maybe_invite->id && $maybe_invite->invitee_email ) {
 			// Check if this user is already a member.
-			$args = array(
+			$args             = array(
 				'invitee_email' => $maybe_invite->invitee_email,
 				'accepted'      => 'accepted',
 				'fields'        => 'ids',
@@ -126,7 +126,7 @@ function bp_core_screen_signup() {
 		}
 
 		$bp->signup->username = $_POST['signup_username'];
-		$bp->signup->email = $_POST['signup_email'];
+		$bp->signup->email    = $_POST['signup_email'];
 
 		// Now we've checked account details, we can check profile information.
 		if ( bp_is_active( 'xprofile' ) ) {

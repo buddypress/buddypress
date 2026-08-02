@@ -151,15 +151,15 @@ class BP_Messages_Notices_Admin {
 			$success = false;
 			switch ( $_GET['notice_action'] ) {
 				case 'activate':
-					$notice = new BP_Messages_Notice( $notice_id );
+					$notice  = new BP_Messages_Notice( $notice_id );
 					$success = $notice->activate();
 					break;
 				case 'deactivate':
-					$notice = new BP_Messages_Notice( $notice_id );
+					$notice  = new BP_Messages_Notice( $notice_id );
 					$success = $notice->deactivate();
 					break;
 				case 'delete':
-					$notice = new BP_Messages_Notice( $notice_id );
+					$notice  = new BP_Messages_Notice( $notice_id );
 					$success = $notice->delete();
 					break;
 			}

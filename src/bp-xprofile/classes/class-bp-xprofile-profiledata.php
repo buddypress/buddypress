@@ -253,11 +253,11 @@ class BP_XProfile_ProfileData {
 
 		if ( $this->is_valid_field() ) {
 			if ( $this->exists() && strlen( trim( $this->value ) ) ) {
-				$result   = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
+				$result = $wpdb->query( $wpdb->prepare( "UPDATE {$bp->profile->table_name_data} SET value = %s, last_updated = %s WHERE user_id = %d AND field_id = %d", $this->value, $this->last_updated, $this->user_id, $this->field_id ) );
 
 			} elseif ( $this->exists() && empty( $this->value ) ) {
 				// Data removed, delete the entry.
-				$result   = $this->delete();
+				$result = $this->delete();
 
 			} else {
 				$result   = $wpdb->query( $wpdb->prepare("INSERT INTO {$bp->profile->table_name_data} (user_id, field_id, value, last_updated) VALUES (%d, %d, %s, %s)", $this->user_id, $this->field_id, $this->value, $this->last_updated ) );
@@ -348,9 +348,9 @@ class BP_XProfile_ProfileData {
 
 		// Prime the cache.
 		if ( ! empty( $uncached_field_ids ) ) {
-			$bp = buddypress();
+			$bp                     = buddypress();
 			$uncached_field_ids_sql = implode( ',', wp_parse_id_list( $uncached_field_ids ) );
-			$uncached_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id IN ({$uncached_field_ids_sql}) AND user_id = %d", $user_id ) );
+			$uncached_data          = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id IN ({$uncached_field_ids_sql}) AND user_id = %d", $user_id ) );
 
 			// Rekey.
 			$queried_data = array();
@@ -414,7 +414,7 @@ class BP_XProfile_ProfileData {
 				$data[ $key ]->id = (int) $data[ $key ]->id;
 			}
 			if ( isset( $data[ $key ]->user_id ) ) {
-				$data[ $key ]->user_id  = (int) $data[ $key ]->user_id;
+				$data[ $key ]->user_id = (int) $data[ $key ]->user_id;
 			}
 
 			$data[ $key ]->field_id = (int) $data[ $key ]->field_id;
@@ -558,9 +558,9 @@ class BP_XProfile_ProfileData {
 
 		// Prime caches.
 		if ( ! empty( $uncached_ids ) ) {
-			$bp = buddypress();
+			$bp               = buddypress();
 			$uncached_ids_sql = implode( ',', $uncached_ids );
-			$queried_data = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$uncached_ids_sql})", $field_id ) );
+			$queried_data     = $wpdb->get_results( $wpdb->prepare( "SELECT id, user_id, field_id, value, last_updated FROM {$bp->profile->table_name_data} WHERE field_id = %d AND user_id IN ({$uncached_ids_sql})", $field_id ) );
 
 			// Rekey.
 			$qd = array();
@@ -615,7 +615,7 @@ class BP_XProfile_ProfileData {
 				$data[ $key ]->id = (int) $data[ $key ]->id;
 			}
 			if ( isset( $data[ $key ]->user_id ) ) {
-				$data[ $key ]->user_id  = (int) $data[ $key ]->user_id;
+				$data[ $key ]->user_id = (int) $data[ $key ]->user_id;
 			}
 
 			$data[ $key ]->field_id = (int) $data[ $key ]->field_id;

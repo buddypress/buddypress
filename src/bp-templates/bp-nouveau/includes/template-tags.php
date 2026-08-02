@@ -981,7 +981,7 @@ function bp_nouveau_nav_classes() {
 
 			// If we are here, it's the member's subnav
 			} elseif ( 'personal' === $bp_nouveau->displayed_nav ) {
-				$classes  = array( 'bp-' . $bp_nouveau->displayed_nav . '-sub-tab' );
+				$classes = array( 'bp-' . $bp_nouveau->displayed_nav . '-sub-tab' );
 			}
 
 			if ( $nav_item->slug === $selected ) {
@@ -1136,7 +1136,7 @@ function bp_nouveau_nav_link_id() {
 	function bp_nouveau_get_nav_link_id() {
 		$bp_nouveau = bp_nouveau();
 		$nav_item   = $bp_nouveau->current_nav_item;
-		$link_id   = '';
+		$link_id    = '';
 
 		if ( ( 'groups' === $bp_nouveau->displayed_nav || 'personal' === $bp_nouveau->displayed_nav ) && ! empty( $nav_item->css_id ) ) {
 			$link_id = $nav_item->css_id;
@@ -1349,7 +1349,7 @@ function bp_nouveau_directory_type_navs_class() {
 	 * @return string
 	 */
 	function bp_nouveau_get_directory_type_navs_class() {
-		$component  = sanitize_key( bp_current_component() );
+		$component = sanitize_key( bp_current_component() );
 
 		// If component is 'blogs' we need to access options as 'Sites'.
 		if ('blogs' === $component) {
@@ -1357,8 +1357,8 @@ function bp_nouveau_directory_type_navs_class() {
 		};
 
 		$customizer_option = sprintf( '%s_dir_tabs', $component );
-		$nav_style  = bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
-		$tab_style = '';
+		$nav_style         = bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
+		$tab_style         = '';
 
 		if ( 1 === $nav_style ) {
 			$tab_style = $component . '-nav-tabs';
@@ -1520,7 +1520,7 @@ function bp_nouveau_container_classes() {
 
 		// Set via earlier switch for component check to provide correct option key.
 		if ( $customizer_option ) {
-			$layout_prefs  = bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
+			$layout_prefs = bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
 
 			if ( $layout_prefs && (int) $layout_prefs === 1 && ( bp_is_user() || bp_is_group() ) ) {
 				$classes[] = 'bp-single-vert-nav';
@@ -1536,8 +1536,8 @@ function bp_nouveau_container_classes() {
 			}
 		}
 
-		$global_alignment  = bp_nouveau_get_temporary_setting( 'global_alignment', bp_nouveau_get_appearance_settings( 'global_alignment' ) );
-		$layout_widths     = bp_nouveau_get_theme_layout_widths();
+		$global_alignment = bp_nouveau_get_temporary_setting( 'global_alignment', bp_nouveau_get_appearance_settings( 'global_alignment' ) );
+		$layout_widths    = bp_nouveau_get_theme_layout_widths();
 
 		if ( $global_alignment && 'alignnone' !== $global_alignment && $layout_widths ) {
 			$classes[] = $global_alignment;
@@ -1624,7 +1624,7 @@ function bp_nouveau_single_item_nav_classes() {
 		}
 
 		$classes[] = $menu_type;
-		$class = array_map( 'sanitize_html_class', $classes );
+		$class     = array_map( 'sanitize_html_class', $classes );
 
 		/**
 		 * Filters the final results for BuddyPress Nouveau single item nav classes.
@@ -1677,7 +1677,7 @@ function bp_nouveau_single_item_subnav_classes() {
 		}
 
 		$customizer_option = ( bp_is_user() )? 'user_subnav_tabs' : 'group_subnav_tabs';
-		$nav_tabs = (int) bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
+		$nav_tabs          = (int) bp_nouveau_get_temporary_setting( $customizer_option, bp_nouveau_get_appearance_settings( $customizer_option ) );
 
 		if ( bp_is_user() && 1 === $nav_tabs ) {
 			$classes[] = 'tabbed-links';
@@ -2100,7 +2100,7 @@ function bp_nouveau_current_object() {
 			$component_id = reset( $component_id );
 		}
 
-		$data_filter  = $component_id;
+		$data_filter = $component_id;
 
 		if ( 'friends' === $data_filter && bp_is_user_friend_requests() ) {
 			$data_filter = 'friend_requests';

@@ -786,7 +786,7 @@ function bp_nouveau_theme_cover_image( $params = array() ) {
 		$top_offset -= 40;
 	}
 
-	$cover_image = isset( $params['cover_image'] ) ? 'background-image: url( ' . $params['cover_image'] . ' );' : '';
+	$cover_image       = isset( $params['cover_image'] ) ? 'background-image: url( ' . $params['cover_image'] . ' );' : '';
 	$hide_avatar_style = '';
 
 	// Adjust the cover image header, in case avatars are completely disabled.

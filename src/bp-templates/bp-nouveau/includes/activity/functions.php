@@ -79,8 +79,8 @@ function bp_nouveau_activity_localize_scripts( $params = array() ) {
 	$user_displayname = bp_get_loggedin_user_fullname();
 
 	if ( buddypress()->avatar->show_avatars ) {
-		$width  = bp_core_avatar_thumb_width();
-		$height = bp_core_avatar_thumb_height();
+		$width           = bp_core_avatar_thumb_width();
+		$height          = bp_core_avatar_thumb_height();
 		$activity_params = array_merge( $activity_params, array(
 			'avatar_url'    => bp_get_loggedin_user_avatar( array(
 				'width'  => $width,

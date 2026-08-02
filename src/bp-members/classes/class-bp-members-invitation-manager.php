@@ -52,7 +52,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 				return false;
 			}
 
-			$invite_url = esc_url(
+			$invite_url       = esc_url(
 				add_query_arg(
 					array(
 						'inv' => $invitation->id,
@@ -112,7 +112,7 @@ class BP_Members_Invitation_Manager extends BP_Invitation_Manager {
 
 				// We will mark all invitations to this user as "accepted."
 				if ( ! empty( $invite->invitee_email )  ) {
-					$args  = array(
+					$args = array(
 						'invitee_email' => $invite->invitee_email,
 						'item_id'       => get_current_network_id(),
 						'type'          => 'all'

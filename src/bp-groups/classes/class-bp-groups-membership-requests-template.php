@@ -149,7 +149,7 @@ class BP_Groups_Membership_Requests_Template {
 			$this->requests[ $rk ]->id      = $rv->membership_id;
 
 			// Miscellaneous values.
-			$this->requests[ $rk ]->group_id   = $r['group_id'];
+			$this->requests[ $rk ]->group_id = $r['group_id'];
 		}
 
 		if ( empty( $r['max'] ) || ( $r['max'] >= (int) $mquery->total_users ) ) {

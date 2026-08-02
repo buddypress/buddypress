@@ -429,7 +429,7 @@ function bp_has_members( $args = '' ) {
 	}
 
 	$search_terms_default = null;
-	$search_query_arg = bp_core_get_component_search_query_arg( 'members' );
+	$search_query_arg     = bp_core_get_component_search_query_arg( 'members' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
 		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
 	}
@@ -1196,7 +1196,7 @@ function bp_member_latest_update( $args = '' ) {
 		}
 
 		if ( isset( $update['id'] ) ) {
-			$activity_id = (int) $update['id'];
+			$activity_id         = (int) $update['id'];
 			$update['permalink'] = bp_activity_get_permalink( $activity_id );
 		}
 
@@ -1221,7 +1221,7 @@ function bp_member_latest_update( $args = '' ) {
 			* from the original text (ie it's been truncated), add the "View" link.
 			*/
 			if ( $view_link && $update['permalink'] && ( strlen( $excerpt ) < strlen( $update['content'] ) ) ) {
-				$update_content      = sprintf(
+				$update_content = sprintf(
 					'%1$s<span class="activity-read-more"><a href="%2$s" rel="nofollow">%3$s</a></span>',
 					$update_content . "\n",
 					esc_url( $update['permalink'] ),
@@ -2657,7 +2657,7 @@ function bp_signup_username_value() {
 	 * @return string
 	 */
 	function bp_get_signup_username_value() {
-		$value = '';
+		$value     = '';
 		if ( isset( $_POST['signup_username'] ) )
 			$value = $_POST['signup_username'];
 
@@ -2725,7 +2725,7 @@ function bp_signup_with_blog_value() {
 	 * @return string
 	 */
 	function bp_get_signup_with_blog_value() {
-		$value = '';
+		$value     = '';
 		if ( isset( $_POST['signup_with_blog'] ) )
 			$value = $_POST['signup_with_blog'];
 
@@ -2757,7 +2757,7 @@ function bp_signup_blog_url_value() {
 	 * @return string
 	 */
 	function bp_get_signup_blog_url_value() {
-		$value = '';
+		$value     = '';
 		if ( isset( $_POST['signup_blog_url'] ) )
 			$value = $_POST['signup_blog_url'];
 
@@ -2825,7 +2825,7 @@ function bp_signup_blog_title_value() {
 	 * @return string
 	 */
 	function bp_get_signup_blog_title_value() {
-		$value = '';
+		$value     = '';
 		if ( isset( $_POST['signup_blog_title'] ) )
 			$value = $_POST['signup_blog_title'];
 
@@ -2857,7 +2857,7 @@ function bp_signup_blog_privacy_value() {
 	 * @return string
 	 */
 	function bp_get_signup_blog_privacy_value() {
-		$value = '';
+		$value     = '';
 		if ( isset( $_POST['signup_blog_privacy'] ) )
 			$value = $_POST['signup_blog_privacy'];
 
@@ -3493,7 +3493,7 @@ function bp_the_members_invitation_property( $property = '', $context = 'html' )
 			default:
 				// A known property has not been specified.
 				$property = null;
-				$value = '';
+				$value    = '';
 				break;
 		}
 
@@ -3632,7 +3632,7 @@ function bp_the_members_invitations_resend_url( $user_id = 0 ) {
 	function bp_get_the_members_invitations_resend_url( $user_id = 0 ) {
 		// Set default user ID to use.
 		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
-		$link = bp_get_members_invitations_list_invites_permalink( $user_id );
+		$link    = bp_get_members_invitations_list_invites_permalink( $user_id );
 
 		// Get the ID.
 		$id = bp_get_the_members_invitation_property( 'id' );
@@ -3730,7 +3730,7 @@ function bp_the_members_invitations_delete_url( $user_id = 0 ) {
 	function bp_get_the_members_invitations_delete_url( $user_id = 0 ) {
 		// Set default user ID to use.
 		$user_id = 0 === $user_id ? bp_displayed_user_id() : $user_id;
-		$link = bp_get_members_invitations_list_invites_permalink( $user_id );
+		$link    = bp_get_members_invitations_list_invites_permalink( $user_id );
 
 		// Get the ID.
 		$id = bp_get_the_members_invitation_property( 'id' );

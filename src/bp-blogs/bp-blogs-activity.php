@@ -62,7 +62,7 @@ function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) 
 	 *
 	 * @param array $value Array of post types to track.
 	 */
-	$post_types = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
+	$post_types       = apply_filters( 'bp_blogs_record_post_post_types', array( 'post' ) );
 	$post_types_array = array_flip( $post_types );
 
 	if ( ! isset( $post_types_array[ $post_type ] ) ) {
@@ -93,11 +93,11 @@ function bp_blogs_register_post_tracking_args( $params = null, $post_type = 0 ) 
 		 *
 		 * @param array $value Array of post types to track.
 		 */
-		$comment_post_types = apply_filters( 'bp_blogs_record_comment_post_types', array( 'post' ) );
+		$comment_post_types       = apply_filters( 'bp_blogs_record_comment_post_types', array( 'post' ) );
 		$comment_post_types_array = array_flip( $comment_post_types );
 
 		if ( isset( $comment_post_types_array[ $post_type ] ) ) {
-			$params->comments_tracking = new stdClass();
+			$params->comments_tracking                  = new stdClass();
 			$params->comments_tracking->component_id    = buddypress()->blogs->id;
 			$params->comments_tracking->action_id       = 'new_blog_comment';
 			$params->comments_tracking->admin_filter    = __( 'New post comment posted', 'buddypress' );
@@ -822,7 +822,7 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 	//
 	// @todo since this is done after AJAX posting, the activity comment permalink
 	// doesn't change on the front end until the next page refresh.
-	$resave_activity = new BP_Activity_Activity( $comment_id );
+	$resave_activity               = new BP_Activity_Activity( $comment_id );
 	$resave_activity->primary_link = get_comment_link( $post_comment_id );
 
 	/**
@@ -1064,7 +1064,7 @@ function bp_blogs_new_blog_comment_query_backpat( $args ) {
 	if ( ! isset( $args['scope'] ) || 'null' === $args['scope'] ) {
 		$args['scope'] = '';
 	} elseif ( 'just-me' === $args['scope'] ) {
-		$filter_query = array(
+		$filter_query  = array(
 			'relation' => 'AND',
 			array(
 				'column' => 'user_id',
@@ -1146,7 +1146,7 @@ function bp_blogs_setup_activity_loop_globals( $activity ) {
 		buddypress()->blogs->allow_comments = array();
 	}
 	if ( ! isset( buddypress()->blogs->thread_depth ) ) {
-		buddypress()->blogs->thread_depth   = array();
+		buddypress()->blogs->thread_depth = array();
 	}
 	if ( ! isset( buddypress()->blogs->comment_moderation ) ) {
 		buddypress()->blogs->comment_moderation = array();

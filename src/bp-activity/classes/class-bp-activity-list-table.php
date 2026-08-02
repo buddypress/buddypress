@@ -91,11 +91,11 @@ class BP_Activity_List_Table extends WP_List_Table {
 	function prepare_items() {
 
 		// Option defaults.
-		$filter           = array();
-		$filter_query     = false;
-		$include_id       = false;
-		$search_terms     = false;
-		$spam             = 'ham_only';
+		$filter       = array();
+		$filter_query = false;
+		$include_id   = false;
+		$search_terms = false;
+		$spam         = 'ham_only';
 
 		// Set current page.
 		$page = $this->get_pagenum();
@@ -127,7 +127,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 
 			if ( ! empty( $has_filter_query['filter_query'] ) ) {
 				// Reset the filter.
-				$filter       = array();
+				$filter = array();
 
 				// And use the filter query instead.
 				$filter_query = $has_filter_query['filter_query'];
@@ -157,7 +157,9 @@ class BP_Activity_List_Table extends WP_List_Table {
 			'spam'             => 'spam_only',
 			'count_total_only' => true,
 		) );
+
 		$this->spam_count = $spams['total'];
+
 		unset( $spams );
 
 		// Get the activities from the database.
@@ -560,17 +562,22 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	public function row_actions( $actions, $always_visible = false ) {
 		$action_count = count( $actions );
-		$i = 0;
+		$i            = 0;
 
-		if ( !$action_count )
+		if ( !$action_count ) {
 			return '';
+		}
 
 		$out = '<div class="' . ( $always_visible ? 'row-actions visible' : 'row-actions' ) . '">';
+
 		foreach ( $actions as $action => $link ) {
 			++$i;
+
 			( $i == $action_count ) ? $sep = '' : $sep = ' | ';
+
 			$out .= "<span class='$action'>$link$sep</span>";
 		}
+
 		$out .= '</div>';
 
 		return $out;

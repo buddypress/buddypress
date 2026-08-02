@@ -291,7 +291,7 @@ function bp_messages_star_set_action( $args = array() ) {
 		// Unstar all messages in a thread.
 		} else {
 			$thread = new BP_Messages_Thread( $thread_id );
-			$mids = wp_list_pluck( $thread->messages, 'id' );
+			$mids   = wp_list_pluck( $thread->messages, 'id' );
 
 			foreach ( $mids as $mid ) {
 				if ( true === bp_messages_is_message_starred( $mid, $r['user_id'] ) ) {
@@ -368,7 +368,7 @@ add_filter( 'bp_get_the_thread_message_css_class', 'bp_messages_star_message_css
  * @return array $r Array of starred message threads.
  */
 function bp_messages_filter_starred_message_threads( $r = array() ) {
-	$r['box'] = 'starred';
+	$r['box']        = 'starred';
 	$r['meta_query'] = array( array(
 		'key'   => 'starred_by_user',
 		'value' => $r['user_id']

@@ -44,7 +44,7 @@ function bp_messages_star_bulk_manage_handler() {
 			// If we're starring a thread, we only star the first message in the thread.
 			foreach ( $threads as $thread ) {
 				$thread = new BP_Messages_thread( $thread );
-				$mids = wp_list_pluck( $thread->messages, 'id' );
+				$mids   = wp_list_pluck( $thread->messages, 'id' );
 
 				bp_messages_star_set_action( array(
 					'action'     => 'star',

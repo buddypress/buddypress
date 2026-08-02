@@ -315,12 +315,12 @@ function bp_nouveau_ajax_get_users_to_invite() {
 	);
 
 	$bp->groups->invites_scope = 'members';
-	$message = __( 'Select members to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" navigation item to continue.', 'buddypress' );
+	$message                   = __( 'Select members to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" navigation item to continue.', 'buddypress' );
 
 	if ( 'friends' === $request['scope'] ) {
-		$request['user_id'] = bp_loggedin_user_id();
+		$request['user_id']        = bp_loggedin_user_id();
 		$bp->groups->invites_scope = 'friends';
-		$message = __( 'Select friends to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" navigation item to continue.', 'buddypress' );
+		$message                   = __( 'Select friends to invite by clicking the + button. Once you\'ve made your selection, use the "Send Invites" navigation item to continue.', 'buddypress' );
 	}
 
 	if ( 'invited' === $request['scope'] ) {
@@ -332,9 +332,9 @@ function bp_nouveau_ajax_get_users_to_invite() {
 			) );
 		}
 
-		$request['is_confirmed'] = false;
+		$request['is_confirmed']   = false;
 		$bp->groups->invites_scope = 'invited';
-		$message = __( 'You can view the group\'s pending invitations from this screen.', 'buddypress' );
+		$message                   = __( 'You can view the group\'s pending invitations from this screen.', 'buddypress' );
 	}
 
 	$potential_invites = bp_nouveau_get_group_potential_invites( $request );

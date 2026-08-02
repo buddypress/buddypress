@@ -902,7 +902,7 @@ function bp_group_status( $group = false ) {
 	 * @return string
 	 */
 	function bp_get_group_status( $group = false ) {
-		$group  = bp_get_group( $group );
+		$group = bp_get_group( $group );
 
 		if ( empty( $group->id ) ) {
 			return '';
@@ -3999,7 +3999,7 @@ function bp_group_has_members( $args = '' ) {
 	 * doesn't add a search clause.
 	 */
 	$search_terms_default = false;
-	$search_query_arg = bp_core_get_component_search_query_arg( 'members' );
+	$search_query_arg     = bp_core_get_component_search_query_arg( 'members' );
 	if ( ! empty( $_REQUEST[ $search_query_arg ] ) ) {
 		$search_terms_default = stripslashes( $_REQUEST[ $search_query_arg ] );
 	}
@@ -4968,11 +4968,11 @@ function bp_group_creation_form_action() {
 		$url          = '';
 
 		if ( ! bp_action_variable( 1 ) ) {
-			$keys = array_keys( $create_steps );
+			$keys                    = array_keys( $create_steps );
 			$bp->action_variables[1] = array_shift( $keys );
 		}
 
-		$create_step  = bp_action_variable( 1 );
+		$create_step = bp_action_variable( 1 );
 		if ( $create_step && isset( $create_steps[ $create_step ]['rewrite_id'], $create_steps[ $create_step ]['default_slug'] ) ) {
 			$url = bp_groups_get_create_url( array( $create_steps[ $create_step ]['default_slug'] ) );
 		}

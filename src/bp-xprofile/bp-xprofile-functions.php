@@ -521,7 +521,7 @@ function xprofile_set_field_data( $field, $user_id, $value, $is_required = false
 		$field->user_id  = $user_id;
 
 		// Gets un/reserialized via xprofile_sanitize_data_value_before_save().
-		$field->value    = maybe_serialize( $value );
+		$field->value = maybe_serialize( $value );
 
 		$retval = $field->save();
 	}
@@ -708,7 +708,7 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 	$field_value = bp_unserialize_profile_field( $field_value );
 
 	if ( 'datebox' != $field_type ) {
-		$content = $field_value;
+		$content     = $field_value;
 		$field_value = str_replace( ']]>', ']]&gt;', $content );
 	}
 
@@ -796,8 +796,8 @@ function bp_xprofile_bp_user_query_search( $sql, BP_User_Query $query ) {
 	) );
 
 	if ( ! empty( $matched_user_ids ) ) {
-		$search_core     = $sql['where']['search'];
-		$search_combined = " ( u.{$query->uid_name} IN (" . implode(',', $matched_user_ids) . ") OR {$search_core} )";
+		$search_core            = $sql['where']['search'];
+		$search_combined        = " ( u.{$query->uid_name} IN (" . implode(',', $matched_user_ids) . ") OR {$search_core} )";
 		$sql['where']['search'] = $search_combined;
 	}
 
@@ -985,7 +985,7 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
 	if ( empty( $meta_key ) ) {
 		$table_key  = 'xprofile_' . $object_type . 'meta';
 		$table_name = $wpdb->{$table_key};
-		$keys = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$table_name} WHERE object_type = %s AND object_id = %d", $object_type, $object_id ) );
+		$keys       = $wpdb->get_col( $wpdb->prepare( "SELECT meta_key FROM {$table_name} WHERE object_type = %s AND object_id = %d", $object_type, $object_id ) );
 
 		// Force delete_all to false if deleting all for object.
 		$delete_all = false;
@@ -1435,7 +1435,7 @@ function bp_xprofile_personal_data_exporter( $email_address ) {
 		}
 
 		// Re-pull the data so that BuddyPress formats and sanitizes properly.
-		$value = xprofile_get_field_data( $field['field_id'], $user->ID, 'comma' );
+		$value                 = xprofile_get_field_data( $field['field_id'], $user->ID, 'comma' );
 		$user_data_to_export[] = array(
 			'name'  => $field_name,
 			'value' => $value,

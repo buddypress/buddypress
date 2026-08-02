@@ -141,8 +141,8 @@ function bp_groups_admin_load() {
 	// Build redirection URL.
 	$redirect_to = remove_query_arg( array( 'action', 'action2', 'gid', 'deleted', 'error', 'updated' ), $_SERVER['REQUEST_URI'] );
 
-	$doaction   = bp_admin_list_table_current_bulk_action();
-	$min        = bp_core_get_minified_asset_suffix();
+	$doaction = bp_admin_list_table_current_bulk_action();
+	$min      = bp_core_get_minified_asset_suffix();
 
 	/**
 	 * Fires at top of groups admin page.
@@ -910,7 +910,7 @@ function bp_groups_admin_index() {
 
 	// If the user has just made a change to a group, build status messages.
 	if ( ! empty( $_REQUEST['deleted'] ) ) {
-		$deleted  = ! empty( $_REQUEST['deleted'] ) ? (int) $_REQUEST['deleted'] : 0;
+		$deleted = ! empty( $_REQUEST['deleted'] ) ? (int) $_REQUEST['deleted'] : 0;
 
 		if ( $deleted > 0 ) {
 			/* translators: %s: number of deleted groups */

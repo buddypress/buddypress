@@ -455,7 +455,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 
 			if ( ! empty( $link[0] ) && ! empty( $link[1] ) ) {
 				$delete_args['link_text'] = $link[1];
-				$subject = str_replace( $delete_args['link_text'], '', $link[0] );
+				$subject                  = str_replace( $delete_args['link_text'], '', $link[0] );
 			}
 
 			preg_match_all( '/([\w\-]+)=([^"\'> ]+|([\'"]?)(?:[^\3]|\3+)+?\3)/', $subject, $attrs );
@@ -578,7 +578,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 
 		// It's the first entry of the loop, so build the Group and sort it
 		if ( ! isset( bp_nouveau()->activity->entry_buttons ) || ! is_a( bp_nouveau()->activity->entry_buttons, 'BP_Buttons_Group' ) ) {
-			$sort = true;
+			$sort                                 = true;
 			bp_nouveau()->activity->entry_buttons = new BP_Buttons_Group( $buttons_group );
 
 		// It's not the first entry, the order is set, we simply need to update the Buttons Group
@@ -863,10 +863,10 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 
 		// If button element set add nonce link to data-attr attr
 		if ( 'button' === $button_element ) {
-			$buttons['activity_comment_reply']['button_attr']['data-bp-act-reply-nonce'] = sprintf( '#acomment-%s', $activity_comment_id );
+			$buttons['activity_comment_reply']['button_attr']['data-bp-act-reply-nonce']         = sprintf( '#acomment-%s', $activity_comment_id );
 			$buttons['activity_comment_delete']['button_attr']['data-bp-act-reply-delete-nonce'] = bp_get_activity_comment_delete_link();
 		} else {
-			$buttons['activity_comment_reply']['button_attr']['href'] = sprintf( '#acomment-%s', $activity_comment_id );
+			$buttons['activity_comment_reply']['button_attr']['href']  = sprintf( '#acomment-%s', $activity_comment_id );
 			$buttons['activity_comment_delete']['button_attr']['href'] = bp_get_activity_comment_delete_link();
 		}
 
@@ -928,7 +928,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 
 		// It's the first comment of the loop, so build the Group and sort it
 		if ( ! isset( bp_nouveau()->activity->comment_buttons ) || ! is_a( bp_nouveau()->activity->comment_buttons, 'BP_Buttons_Group' ) ) {
-			$sort = true;
+			$sort                                   = true;
 			bp_nouveau()->activity->comment_buttons = new BP_Buttons_Group( $buttons_group );
 
 		// It's not the first comment, the order is set, we simply need to update the Buttons Group
@@ -1029,7 +1029,7 @@ function bp_nouveau_activity_rss_tooltip() {
 	 */
 	function bp_nouveau_activity_get_rss_tooltip() {
 		$bp_nouveau = bp_nouveau();
-		$tooltip       = '';
+		$tooltip    = '';
 
 		if ( isset( $bp_nouveau->activity->current_rss_feed['tooltip'] ) ) {
 			$tooltip = $bp_nouveau->activity->current_rss_feed['tooltip'];

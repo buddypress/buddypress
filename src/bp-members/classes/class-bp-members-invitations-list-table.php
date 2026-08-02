@@ -354,7 +354,7 @@ class BP_Members_Invitations_List_Table extends WP_Users_List_Table {
 	public function column_invitee_email( $invite = null ) {
 		echo esc_html( $invite->invitee_email );
 
-		$actions = array();
+		$actions   = array();
 		$tools_url = bp_get_admin_url( 'tools.php' );
 
 		if ( is_network_admin() ) {

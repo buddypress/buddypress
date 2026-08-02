@@ -105,7 +105,7 @@ class BP_Akismet {
 		if ( $akismet_result ) {
 			$b = array();
 			foreach ( $actions as $k => $item ) {
-				$b[ $k ] = $item;
+				$b[ $k ]          = $item;
 				if ( $k == 'edit' )
 					$b['history'] = '<a href="' . esc_url( bp_get_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) ) . '#bp_activity_history"> '. esc_html__( 'History', 'buddypress' ) . '</a>';
 			}

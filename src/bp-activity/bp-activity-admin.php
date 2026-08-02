@@ -151,7 +151,7 @@ function bp_activity_admin_edit_hidden_metaboxes( $hidden, $screen ) {
 	}
 
 	// Hide the primary link meta box by default.
-	$hidden  = array_merge( (array) $hidden, array( 'bp_activity_itemids', 'bp_activity_link', 'bp_activity_type', 'bp_activity_userid', ) );
+	$hidden = array_merge( (array) $hidden, array( 'bp_activity_itemids', 'bp_activity_link', 'bp_activity_type', 'bp_activity_userid', ) );
 
 	/**
 	 * Filters default hidden metaboxes so plugins can alter list.
@@ -723,7 +723,7 @@ function bp_activity_admin_edit() {
 		$activity = $activity['activities'][0];
 
 		// Workaround to use WP's touch_time() without duplicating that function.
-		$GLOBALS['comment'] = new stdClass;
+		$GLOBALS['comment']               = new stdClass;
 		$GLOBALS['comment']->comment_date = $activity->date_recorded;
 	} else {
 		$activity = '';
@@ -944,7 +944,7 @@ function bp_activity_admin_edit_metabox_userid( $item ) {
  * @return array $actions
  */
 function bp_activity_admin_get_activity_actions() {
-	$actions  = array();
+	$actions = array();
 
 	// Walk through the registered actions, and build an array of actions/values.
 	foreach ( bp_activity_get_actions() as $action ) {
@@ -1114,7 +1114,7 @@ function bp_activity_admin_index() {
 					$error_msg .= '<li>' . sprintf( __( '#%s', 'buddypress' ), number_format_i18n( $error ) ) . '</li>';
 				}
 
-				$error_msg  .= '</ul>';
+				$error_msg .= '</ul>';
 				$messages[] = $error_msg;
 			}
 		}

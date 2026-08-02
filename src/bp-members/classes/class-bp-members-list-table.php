@@ -85,7 +85,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 
 		$signups = BP_Signup::get( $args );
 
-		$this->items = $signups['signups'];
+		$this->items         = $signups['signups'];
 		$this->signup_counts = $signups['total'];
 
 		$this->set_pagination_args( array(
