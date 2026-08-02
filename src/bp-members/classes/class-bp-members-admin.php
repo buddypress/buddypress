@@ -612,7 +612,7 @@ class BP_Members_Admin {
 
 		// Setup the screen ID's.
 		$this->screen_id = array(
-			$this->user_page    . '-user',
+			$this->user_page . '-user',
 			$this->user_profile . '-user'
 		);
 
@@ -682,8 +682,8 @@ class BP_Members_Admin {
 
 		// Self profile check is needed for this pages.
 		$page_head = array(
-			$edit_page        . '.php',
-			$profile_page     . '.php',
+			$edit_page . '.php',
+			$profile_page . '.php',
 			$this->user_page,
 			$this->users_page . '.php',
 		);
@@ -749,7 +749,7 @@ class BP_Members_Admin {
 			$this->is_self_profile = true;
 
 		// Is the user attempting to edit their own profile.
-		} elseif ( isset( $_GET['user_id' ] ) || ( isset( $_GET['page'] ) && ( 'bp-profile-edit' === $_GET['page'] ) ) ) {
+		} elseif ( isset( $_GET['user_id'] ) || ( isset( $_GET['page'] ) && ( 'bp-profile-edit' === $_GET['page'] ) ) ) {
 			$this->is_self_profile = (bool) ( $this->get_user_id() === $this->current_user_id );
 		}
 
@@ -1409,7 +1409,7 @@ class BP_Members_Admin {
 							<label class="spam"><input type="radio" name="user_status" value="spam" <?php checked( $is_spammer, true ); ?>><?php esc_html_e( 'Spammer', 'buddypress' ); ?></label>
 						</div>
 
-					<?php endif ;?>
+					<?php endif;?>
 
 					<div class="misc-pub-section curtime misc-pub-section-last">
 						<?php
@@ -1954,7 +1954,7 @@ class BP_Members_Admin {
 			$signup_help_content = '<p>' . esc_html__( 'Hovering over a row in the pending accounts list will display action links that allow you to manage pending accounts. You can perform the following actions:', 'buddypress' ) . '</p>';
 
 			if ( bp_get_membership_requests_required() ) {
-				$signup_help_content .= '<ul><li>' . esc_html__( '"Activate" will activate the user immediately without requiring that they validate their email.', 'buddypress' ) .'</li>' .
+				$signup_help_content .= '<ul><li>' . esc_html__( '"Activate" will activate the user immediately without requiring that they validate their email.', 'buddypress' ) . '</li>' .
 					'<li>' . esc_html__( '"Approve Request" or "Resend Approval" takes you to the confirmation screen before being able to send the activation link to the desired pending request. You can only send the activation email once per day.', 'buddypress' ) . '</li>';
 
 				if ( bp_is_active( 'xprofile' ) ) {
@@ -2019,8 +2019,8 @@ class BP_Members_Admin {
 			}
 
 		} else {
-			if ( ! empty( $_REQUEST['signup_ids' ] ) ) {
-				$signups = wp_parse_id_list( $_REQUEST['signup_ids' ] );
+			if ( ! empty( $_REQUEST['signup_ids'] ) ) {
+				$signups = wp_parse_id_list( $_REQUEST['signup_ids'] );
 			}
 
 			// Handle resent activation links.
@@ -2175,9 +2175,9 @@ class BP_Members_Admin {
 						$notice['message'] .= sprintf(
 							/* translators: %s: number of activation emails sent */
 							_nx( '%s activation email successfully sent! ', '%s activation emails successfully sent! ',
-							 absint( $_REQUEST['resent'] ),
-							 'signup resent',
-							 'buddypress'
+							absint( $_REQUEST['resent'] ),
+							'signup resent',
+							'buddypress'
 							),
 							number_format_i18n( absint( $_REQUEST['resent'] ) )
 						);
@@ -2187,9 +2187,9 @@ class BP_Members_Admin {
 						$notice['message'] .= sprintf(
 							/* translators: %s: number of unsent activation emails */
 							_nx( '%s activation email was not sent.', '%s activation emails were not sent.',
-							 absint( $_REQUEST['notsent'] ),
-							 'signup notsent',
-							 'buddypress'
+							absint( $_REQUEST['notsent'] ),
+							'signup notsent',
+							'buddypress'
 							),
 							number_format_i18n( absint( $_REQUEST['notsent'] ) )
 						);
@@ -2211,9 +2211,9 @@ class BP_Members_Admin {
 						$notice['message'] .= sprintf(
 							/* translators: %s: number of activated accounts */
 							_nx( '%s account successfully activated! ', '%s accounts successfully activated! ',
-							 absint( $_REQUEST['activated'] ),
-							 'signup resent',
-							 'buddypress'
+							absint( $_REQUEST['activated'] ),
+							'signup resent',
+							'buddypress'
 							),
 							number_format_i18n( absint( $_REQUEST['activated'] ) )
 						);
@@ -2223,9 +2223,9 @@ class BP_Members_Admin {
 						$notice['message'] .= sprintf(
 							/* translators: %s: number of accounts not activated */
 							_nx( '%s account was not activated.', '%s accounts were not activated.',
-							 absint( $_REQUEST['notactivated'] ),
-							 'signup notsent',
-							 'buddypress'
+							absint( $_REQUEST['notactivated'] ),
+							'signup notsent',
+							'buddypress'
 							),
 							number_format_i18n( absint( $_REQUEST['notactivated'] ) )
 						);
@@ -2247,9 +2247,9 @@ class BP_Members_Admin {
 						$notice['message'] .= sprintf(
 							/* translators: %s: number of deleted signups */
 							_nx( '%s sign-up successfully deleted!', '%s sign-ups successfully deleted!',
-							 absint( $_REQUEST['deleted'] ),
-							 'signup deleted',
-							 'buddypress'
+							absint( $_REQUEST['deleted'] ),
+							'signup deleted',
+							'buddypress'
 							),
 							number_format_i18n( absint( $_REQUEST['deleted'] ) )
 						);
@@ -2343,7 +2343,7 @@ class BP_Members_Admin {
 
 					<ul><?php $this->signups_display_errors();?></ul>
 
-				<?php endif ;?>
+				<?php endif;?>
 
 			</div>
 
@@ -2434,7 +2434,7 @@ class BP_Members_Admin {
 			<?php // Display each signups on its own row. ?>
 			<?php $bp_members_signup_list_table->views(); ?>
 
-			<form id="bp-signups-search-form" action="<?php echo esc_url( $search_form_url ) ;?>">
+			<form id="bp-signups-search-form" action="<?php echo esc_url( $search_form_url );?>">
 				<input type="hidden" name="page" value="<?php echo esc_attr( $plugin_page ); ?>" />
 				<?php $bp_members_signup_list_table->search_box( __( 'Search Pending Users', 'buddypress' ), 'bp-signups' ); ?>
 			</form>
@@ -2671,7 +2671,7 @@ class BP_Members_Admin {
 
 				<p><strong><?php esc_html_e( 'This action cannot be undone.', 'buddypress' ) ?></strong></p>
 
-			<?php endif ; ?>
+			<?php endif; ?>
 
 			<a class="button-primary" href="<?php echo esc_url( $action_url ); ?>"><?php esc_html_e( 'Confirm', 'buddypress' ); ?></a>
 			<a class="button" href="<?php echo esc_url( $cancel_url ); ?>"><?php esc_html_e( 'Cancel', 'buddypress' ) ?></a>
@@ -3016,10 +3016,10 @@ class BP_Members_Admin {
 			) );
 
 		} else {
-			if ( empty( $_REQUEST['invite_ids' ] ) ) {
+			if ( empty( $_REQUEST['invite_ids'] ) ) {
 				return;
 			}
-			$invite_ids = wp_parse_id_list( $_REQUEST['invite_ids' ] );
+			$invite_ids = wp_parse_id_list( $_REQUEST['invite_ids'] );
 
 			// Handle resent invitations.
 			if ( 'do_resend' == $doaction ) {
@@ -3330,7 +3330,7 @@ class BP_Members_Admin {
 			<?php // Display each invitation on its own row. ?>
 			<?php $bp_members_invitations_list_table->views(); ?>
 
-			<form id="bp-members-invitations-search-form" action="<?php echo esc_url( $search_form_url ) ;?>">
+			<form id="bp-members-invitations-search-form" action="<?php echo esc_url( $search_form_url );?>">
 				<input type="hidden" name="page" value="<?php echo esc_attr( $plugin_page ); ?>" />
 				<?php $bp_members_invitations_list_table->search_box( __( 'Search Invitations', 'buddypress' ), 'bp-members-invitations' ); ?>
 			</form>
@@ -3472,7 +3472,7 @@ class BP_Members_Admin {
 					<?php endforeach; ?>
 				</ol>
 
-			<?php endif ; ?>
+			<?php endif; ?>
 
 			<?php if ( 'delete' === $action ) : ?>
 

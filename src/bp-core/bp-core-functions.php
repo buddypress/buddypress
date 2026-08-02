@@ -1350,7 +1350,7 @@ function bp_core_time_diff( $args = array() ) {
 	if ( 0 <= $diff && (int) $r['time_chunks'] ) {
 		// Step one: the first chunk.
 		for ( $i = 0, $j = count( $chunks ); $i < $j; ++$i ) {
-			$seconds = $chunks[$i];
+			$seconds = $chunks[ $i ];
 
 			// Finding the biggest chunk (if the chunk fits, break).
 			$count = floor( $diff / $seconds );
@@ -1401,7 +1401,7 @@ function bp_core_time_diff( $args = array() ) {
 			 * for our purposes.
 			 */
 			if ( 2 === (int) $r['time_chunks'] && $i + 2 < $j ) {
-				$seconds2 = $chunks[$i + 1];
+				$seconds2 = $chunks[ $i + 1 ];
 				$count2   = floor( ( $diff - ( $seconds * $count ) ) / $seconds2 );
 
 				// Add the second chunk of time diff.
@@ -1588,7 +1588,7 @@ function bp_core_time_old( $birth_date ) {
  *
  * @param string $timestamp String of date to convert. Timezone should be UTC before using this.
  */
- function bp_core_iso8601_date( $timestamp = '' ) {
+function bp_core_iso8601_date( $timestamp = '' ) {
 	echo esc_attr( bp_core_get_iso8601_date( $timestamp ) );
 }
 	/**
@@ -1599,7 +1599,7 @@ function bp_core_time_old( $birth_date ) {
 	 * @param string $timestamp String of date to convert. Timezone should be UTC before using this.
 	 * @return string
 	 */
-	 function bp_core_get_iso8601_date( $timestamp = '' ) {
+	function bp_core_get_iso8601_date( $timestamp = '' ) {
 		if ( ! $timestamp ) {
 			return '';
 		}
@@ -2455,7 +2455,7 @@ function bp_verify_nonce_request( $action = '', $query_arg = '_wpnonce' ) {
 	$matched_url = apply_filters( 'bp_verify_nonce_request_url', $requested_url );
 
 	// Check the nonce.
-	$result = isset( $_REQUEST[$query_arg] ) ? wp_verify_nonce( $_REQUEST[$query_arg], $action ) : false;
+	$result = isset( $_REQUEST[ $query_arg ] ) ? wp_verify_nonce( $_REQUEST[ $query_arg ], $action ) : false;
 
 	// Nonce check failed.
 	if ( empty( $result ) || empty( $action ) || ( strpos( $matched_url, $home_url ) !== 0 ) ) {
@@ -3678,7 +3678,7 @@ function bp_get_taxonomy_types( $taxonomy = '', $types = array() ) {
 					}
 
 					if ( isset( $db_type->{$key_prop} ) && '' !== $db_type->{$key_prop} ) {
-						$types[ $db_type_name  ]->{$key_prop} = $db_type->{$key_prop};
+						$types[ $db_type_name ]->{$key_prop} = $db_type->{$key_prop};
 					}
 				}
 
@@ -5217,7 +5217,7 @@ function bp_core_get_admin_notifications() {
 			'text'    => __( 'Discover BuddyPress Add-ons', 'buddypress' ),
 			'title'   => __( 'Hello BuddyPress Add-ons!', 'buddypress' ),
 			'content' => __( 'Add-ons are features as Plugins or Blocks maintained by the BuddyPress development team & hosted on the WordPress.org plugins directory.', 'buddypress' ) .
-			             __( 'Thanks to this new tab inside your Dashboard screen to add plugins, you’ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ),
+						__( 'Thanks to this new tab inside your Dashboard screen to add plugins, you’ll be able to find them faster and eventually contribute to beta features early to give the BuddyPress development team your feedbacks.', 'buddypress' ),
 			'version' => 10.0,
 		),
 		'bp114-prepare-for-rewrites' => (object) array(

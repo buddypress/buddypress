@@ -386,8 +386,8 @@ class BP_Activity_Feed {
 
 		// Set 304 status if feed hasn't been updated since last fetch.
 		if ( ( $client_last_modified && $client_etag ) ?
-				 ( ( $client_modified_timestamp >= $modified_timestamp ) && ( $client_etag == $etag ) ) :
-				 ( ( $client_modified_timestamp >= $modified_timestamp ) || ( $client_etag == $etag ) ) ) {
+				( ( $client_modified_timestamp >= $modified_timestamp ) && ( $client_etag == $etag ) ) :
+				( ( $client_modified_timestamp >= $modified_timestamp ) || ( $client_etag == $etag ) ) ) {
 			$status = 304;
 		} else {
 			$status = false;
@@ -413,7 +413,7 @@ class BP_Activity_Feed {
 	 */
 	protected function output() {
 		$this->http_headers();
-		echo '<?xml version="1.0" encoding="' . esc_attr( get_option( 'blog_charset' ) ) . '"?'.'>';
+		echo '<?xml version="1.0" encoding="' . esc_attr( get_option( 'blog_charset' ) ) . '"?' . '>';
 
 		/**
 		 * Fires between the xml and rss tags in an Activity feed.

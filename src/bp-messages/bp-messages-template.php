@@ -947,8 +947,8 @@ function bp_message_search_form() {
 
 	// Setup a few values based on what's being searched for.
 	$search_submitted   = ! empty( $_REQUEST['s'] ) ? stripslashes( $_REQUEST['s'] ) : $default_search_value;
-	$search_placeholder = ( $search_submitted === $default_search_value ) ? ' placeholder="' .  esc_attr( $search_submitted ) . '"' : '';
-	$search_value       = ( $search_submitted !== $default_search_value ) ? ' value="'       .  esc_attr( $search_submitted ) . '"' : '';
+	$search_placeholder = ( $search_submitted === $default_search_value ) ? ' placeholder="' . esc_attr( $search_submitted ) . '"' : '';
+	$search_value       = ( $search_submitted !== $default_search_value ) ? ' value="' . esc_attr( $search_submitted ) . '"' : '';
 
 	// phpcs:disable WordPress.Security.EscapeOutput
 

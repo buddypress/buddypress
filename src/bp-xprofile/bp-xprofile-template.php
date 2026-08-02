@@ -1484,11 +1484,11 @@ function bp_profile_settings_visibility_select( $args = '' ) {
 				echo $r['before_controls'];
 			?>
 
-				<label for="<?php echo esc_attr( 'field_' . $r['field_id'] ) ; ?>_visibility" class="<?php echo esc_attr( $r['label_class'] ); ?>"><?php
+				<label for="<?php echo esc_attr( 'field_' . $r['field_id'] ); ?>_visibility" class="<?php echo esc_attr( $r['label_class'] ); ?>"><?php
 					/* translators: accessibility text */
 					esc_html_e( 'Select visibility', 'buddypress' );
 				?></label>
-				<select class="<?php echo esc_attr( $r['class'] ); ?>" name="<?php echo esc_attr( 'field_' . $r['field_id'] ) ; ?>_visibility" id="<?php echo esc_attr( 'field_' . $r['field_id'] ) ; ?>_visibility">
+				<select class="<?php echo esc_attr( $r['class'] ); ?>" name="<?php echo esc_attr( 'field_' . $r['field_id'] ); ?>_visibility" id="<?php echo esc_attr( 'field_' . $r['field_id'] ); ?>_visibility">
 
 					<?php foreach ( bp_xprofile_get_visibility_levels() as $level ) : ?>
 

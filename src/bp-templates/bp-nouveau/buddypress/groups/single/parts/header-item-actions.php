@@ -24,7 +24,7 @@
 
 		<?php
 		if ( bp_group_has_moderators() ) :
-			  bp_nouveau_group_hook( 'before', 'menu_mods' );
+				bp_nouveau_group_hook( 'before', 'menu_mods' );
 		?>
 
 			<dl class="moderators-lists">

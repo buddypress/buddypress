@@ -346,7 +346,7 @@ class BP_Groups_Template {
 	 */
 	function next_group() {
 		$this->current_group++;
-		$this->group = $this->groups[$this->current_group];
+		$this->group = $this->groups[ $this->current_group ];
 
 		return $this->group;
 	}

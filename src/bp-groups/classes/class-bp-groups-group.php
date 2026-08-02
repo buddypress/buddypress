@@ -1588,7 +1588,7 @@ class BP_Groups_Group {
 					'terms'    => $types,
 				),
 			)
-		 );
+		);
 
 		$site_id  = bp_get_taxonomy_term_site_id( bp_get_group_type_tax_name() );
 		$switched = false;

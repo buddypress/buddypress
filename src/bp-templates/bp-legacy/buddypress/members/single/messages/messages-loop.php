@@ -157,7 +157,7 @@ do_action( 'bp_before_member_messages_loop' ); ?>
 							<?php else : ?>
 								<a class="unread" href="<?php bp_the_message_thread_mark_unread_url( bp_displayed_user_id() );?>"><?php esc_html_e( 'Unread', 'buddypress' ); ?></a>
 							<?php endif; ?>
-							 |
+							|
 							<a class="delete" href="<?php bp_message_thread_delete_link( bp_displayed_user_id() ); ?>"><?php esc_html_e( 'Delete', 'buddypress' ); ?></a>
 
 							<?php

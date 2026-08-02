@@ -45,9 +45,9 @@ bp_nouveau_before_loop(); ?>
 
 						<?php if ( bp_nouveau_member_has_extra_content() ) : ?>
 							<div class="item-extra-content">
-								<?php bp_nouveau_member_extra_content() ; ?>
+								<?php bp_nouveau_member_extra_content(); ?>
 							</div><!-- .item-extra-content -->
-						<?php endif ; ?>
+						<?php endif; ?>
 
 						<?php
 						bp_nouveau_members_loop_buttons(

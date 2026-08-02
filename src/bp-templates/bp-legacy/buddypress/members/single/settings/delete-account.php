@@ -37,7 +37,7 @@ do_action( 'bp_before_member_settings_template' ); ?>
 
 	<label for="delete-account-understand">
 		<input type="checkbox" name="delete-account-understand" id="delete-account-understand" value="1" onclick="if(this.checked) { document.getElementById('delete-account-button').disabled = ''; } else { document.getElementById('delete-account-button').disabled = 'disabled'; }" />
-		 <?php esc_html_e( 'I understand the consequences.', 'buddypress' ); ?>
+		<?php esc_html_e( 'I understand the consequences.', 'buddypress' ); ?>
 	</label>
 
 	<div class="submit">

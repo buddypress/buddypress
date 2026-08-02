@@ -738,11 +738,11 @@ class BP_Notifications_Notification {
 
 		// Integer casting.
 		foreach ( $results as $key => $result ) {
-			$results[$key]->id                = (int) $results[$key]->id;
-			$results[$key]->user_id           = (int) $results[$key]->user_id;
-			$results[$key]->item_id           = (int) $results[$key]->item_id;
-			$results[$key]->secondary_item_id = (int) $results[$key]->secondary_item_id;
-			$results[$key]->is_new            = (int) $results[$key]->is_new;
+			$results[ $key ]->id                = (int) $results[ $key ]->id;
+			$results[ $key ]->user_id           = (int) $results[ $key ]->user_id;
+			$results[ $key ]->item_id           = (int) $results[ $key ]->item_id;
+			$results[ $key ]->secondary_item_id = (int) $results[ $key ]->secondary_item_id;
+			$results[ $key ]->is_new            = (int) $results[ $key ]->is_new;
 		}
 
 		// Update meta cache.

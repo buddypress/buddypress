@@ -460,7 +460,7 @@ function bp_nouveau_activity_entry_buttons( $args = array() ) {
 
 			if ( ! empty( $attrs[1] ) && ! empty( $attrs[2] ) ) {
 				foreach ( $attrs[1] as $key_attr => $key_value ) {
-					$delete_args[ 'link_'. $key_value ] = trim( $attrs[2][$key_attr], '"' );
+					$delete_args[ 'link_' . $key_value ] = trim( $attrs[2][ $key_attr ], '"' );
 				}
 			}
 
@@ -826,7 +826,7 @@ function bp_nouveau_activity_comment_buttons( $args = array() ) {
 		 * otherwise default to 'a' (anchor).
 		 */
 		if ( ! empty( $args['button_element'] ) ) {
-			$button_element = $args['button_element'] ;
+			$button_element = $args['button_element'];
 		} else {
 			$button_element = 'a';
 		}

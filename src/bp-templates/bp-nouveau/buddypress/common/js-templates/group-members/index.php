@@ -36,7 +36,7 @@ if ( ! did_action( '_bp_groups_print_manage_group_members_placeholders' ) ) {
 </script>
 
 <script type="text/html" id="tmpl-bp-manage-members-error">
-   <small>{{data.message}}</small>
+    <small>{{data.message}}</small>
 </script>
 
 <script type="text/html" id="tmpl-bp-manage-members-header">

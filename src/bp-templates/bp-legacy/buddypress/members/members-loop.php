@@ -80,13 +80,13 @@ do_action( 'bp_before_members_loop' ); ?>
 				do_action( 'bp_directory_members_item' ); ?>
 
 				<?php
-				 /***
-				  * If you want to show specific profile fields here you can,
-				  * but it'll add an extra query for each member in the loop
-				  * (only one regardless of the number of fields you show):
-				  *
-				  * bp_member_profile_data( 'field=the field name' );
-				  */
+				/***
+				 * If you want to show specific profile fields here you can,
+				 * but it'll add an extra query for each member in the loop
+				 * (only one regardless of the number of fields you show):
+				 *
+				 * bp_member_profile_data( 'field=the field name' );
+				 */
 				?>
 			</div>
 

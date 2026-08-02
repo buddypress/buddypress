@@ -1381,7 +1381,7 @@ function bp_root_slug( $component = '' ) {
 			// was stored as an array value in $bp->active_components.
 			$component_name = ( '1' == $bp->active_components[ $component ] )
 				? $component
-				: $bp->active_components[$component];
+				: $bp->active_components[ $component ];
 
 			// Component has specific root slug.
 			if ( ! empty( $bp->{$component_name}->root_slug ) ) {

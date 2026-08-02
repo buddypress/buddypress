@@ -49,7 +49,7 @@
 					printf(
 						/* translators: %s: login url */
 						esc_html__( 'Your account was activated successfully! You can now %s with the username and password you provided when you signed up.', 'buddypress' ),
-						'<a href="'. esc_url( wp_login_url( bp_get_root_url() ) ) . '">' . esc_html__( 'log in', 'buddypress' ) . '</a>'
+						'<a href="' . esc_url( wp_login_url( bp_get_root_url() ) ) . '">' . esc_html__( 'log in', 'buddypress' ) . '</a>'
 					);
 					?>
 				</p>

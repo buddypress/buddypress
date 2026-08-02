@@ -518,8 +518,8 @@ function xprofile_admin_delete_group( $group_id ) {
 	check_admin_referer( 'bp_xprofile_delete_group' );
 
 	$mode = ! empty( $_GET['mode'] )
-		  ? sanitize_key( $_GET['mode'] )
-		  : false;
+			? sanitize_key( $_GET['mode'] )
+			: false;
 
 	// Display the group delete confirmation screen.
 	if ( 'delete_group' === $mode ) {

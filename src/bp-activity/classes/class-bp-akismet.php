@@ -107,7 +107,7 @@ class BP_Akismet {
 			foreach ( $actions as $k => $item ) {
 				$b[ $k ]          = $item;
 				if ( $k == 'edit' )
-					$b['history'] = '<a href="' . esc_url( bp_get_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) ) . '#bp_activity_history"> '. esc_html__( 'History', 'buddypress' ) . '</a>';
+					$b['history'] = '<a href="' . esc_url( bp_get_admin_url( 'admin.php?page=bp-activity&amp;action=edit&aid=' . $activity['id'] ) ) . '#bp_activity_history"> ' . esc_html__( 'History', 'buddypress' ) . '</a>';
 			}
 
 			$actions = $b;
@@ -379,8 +379,8 @@ class BP_Akismet {
 		 * If the new activity was a reply to an existing item, check the nonce with the activity parent ID.
 		 * This helps Akismet ensure that the update was a valid form submission.
 		 */
-		elseif ( ! empty( $activity->secondary_item_id ) && ! empty( $_POST['_bp_as_nonce_' . $activity->secondary_item_id] ) )
-			$activity_data['akismet_comment_nonce'] = wp_verify_nonce( $_POST["_bp_as_nonce_{$activity->secondary_item_id}"], "_bp_as_nonce_{$userdata->ID}_{$activity->secondary_item_id}" ) ? 'passed' : 'failed';
+		elseif ( ! empty( $activity->secondary_item_id ) && ! empty( $_POST[ '_bp_as_nonce_' . $activity->secondary_item_id ] ) )
+			$activity_data['akismet_comment_nonce'] = wp_verify_nonce( $_POST[ "_bp_as_nonce_{$activity->secondary_item_id}" ], "_bp_as_nonce_{$userdata->ID}_{$activity->secondary_item_id}" ) ? 'passed' : 'failed';
 
 		/**
 		 * Filters activity data before being sent to Akismet to inspect.
@@ -582,7 +582,7 @@ class BP_Akismet {
 		// Loop through _POST args and rekey strings.
 		foreach ( $_POST as $key => $value )
 			if ( is_string( $value ) && 'cookie' != $key )
-				$activity_data['POST_' . $key] = $value;
+				$activity_data[ 'POST_' . $key ] = $value;
 
 		// Keys to ignore.
 		$ignore = array( 'HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW' );
@@ -592,11 +592,11 @@ class BP_Akismet {
 
 			// Key should not be ignored.
 			if ( ! in_array( $key, $ignore ) && is_string( $value ) ) {
-				$activity_data[$key] = $value;
+				$activity_data[ $key ] = $value;
 
 			// Key should be ignored.
 			} else {
-				$activity_data[$key] = '';
+				$activity_data[ $key ] = '';
 			}
 		}
 
@@ -635,7 +635,7 @@ class BP_Akismet {
 	 * @return string $user_agent Modified user agent string.
 	 */
 	public function buddypress_ua( $user_agent ) {
-		$user_agent = 'BuddyPress/' . bp_get_version() . ' | Akismet/'. constant( 'AKISMET_VERSION' );
+		$user_agent = 'BuddyPress/' . bp_get_version() . ' | Akismet/' . constant( 'AKISMET_VERSION' );
 		return $user_agent;
 	}
 

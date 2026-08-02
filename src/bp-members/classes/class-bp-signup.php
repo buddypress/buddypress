@@ -591,11 +591,11 @@ class BP_Signup {
 				$profile_field_ids = explode( ',', $usermeta['profile_field_ids'] );
 
 				foreach ( (array) $profile_field_ids as $field_id ) {
-					if ( empty( $usermeta["field_{$field_id}"] ) ) {
+					if ( empty( $usermeta[ "field_{$field_id}" ] ) ) {
 						continue;
 					}
 
-					$current_field = $usermeta["field_{$field_id}"];
+					$current_field = $usermeta[ "field_{$field_id}" ];
 					xprofile_set_field_data( $field_id, $user_id, $current_field );
 
 					/*

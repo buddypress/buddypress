@@ -1465,7 +1465,7 @@ function bp_directory_members_search_form() {
 	}
 
 	$search_form_html = '<form action="" method="get" id="search-members-form">
-		<label for="members_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="members_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<label for="members_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="members_search" placeholder="' . esc_attr( $search_value ) . '" /></label>
 		<input type="submit" id="members_search_submit" name="members_search_submit" value="' . esc_html__( 'Search', 'buddypress' ) . '" />
 	</form>';
 
@@ -1563,7 +1563,7 @@ function bp_get_loggedin_user_nav() {
 	}
 
 	// Always add a log out list item to the end of the navigation.
-	$logout_link = '<li><a id="wp-logout" href="' .  esc_url( wp_logout_url( bp_get_root_url() ) ) . '">' . esc_html__( 'Log Out', 'buddypress' ) . '</a></li>';
+	$logout_link = '<li><a id="wp-logout" href="' . esc_url( wp_logout_url( bp_get_root_url() ) ) . '">' . esc_html__( 'Log Out', 'buddypress' ) . '</a></li>';
 
 	// phpcs:ignore WordPress.Security.EscapeOutput
 	echo apply_filters( 'bp_logout_nav_link', $logout_link );

@@ -13,7 +13,7 @@
  * @since 2.3.0
  */
 function bp_messages_star_bulk_manage_handler() {
-	if ( empty( $_POST['messages_bulk_nonce' ] ) ) {
+	if ( empty( $_POST['messages_bulk_nonce'] ) ) {
 		return;
 	}
 

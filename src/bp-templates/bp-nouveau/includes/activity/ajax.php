@@ -117,7 +117,7 @@ function bp_nouveau_ajax_mark_activity_favorite() {
 				$activity_favorites_url = bp_loggedin_user_url( bp_members_get_path_chunks( array( bp_nouveau_get_component_slug( 'activity' ), 'favorites' ) ) );
 
 				$response['directory_tab'] = '<li id="activity-favorites" data-bp-scope="favorites" data-bp-object="activity">
-					<a href="' . esc_url( $activity_favorites_url ). '">
+					<a href="' . esc_url( $activity_favorites_url ) . '">
 						' . esc_html__( 'My Favorites', 'buddypress' ) . '
 					</a>
 				</li>';

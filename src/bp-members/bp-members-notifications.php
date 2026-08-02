@@ -106,10 +106,10 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 		 * @param int          $item_id           The primary item ID.
 		 * @param int          $secondary_item_id The secondary item ID.
 		 */
-		$return = apply_filters( 'bp_members_' . $amount . '_'. $action . '_notification', '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>', (int) $total_items, $item_id, $secondary_item_id );
+		$return = apply_filters( 'bp_members_' . $amount . '_' . $action . '_notification', '<a href="' . esc_url( $link ) . '">' . esc_html( $text ) . '</a>', (int) $total_items, $item_id, $secondary_item_id );
 	} else {
 		/** This filter is documented in bp-members/bp-members-notifications.php */
-		$return = apply_filters( 'bp_members_' . $amount . '_'. $action . '_notification', array(
+		$return = apply_filters( 'bp_members_' . $amount . '_' . $action . '_notification', array(
 			'link' => $link,
 			'text' => $text
 		), (int) $total_items, $item_id, $secondary_item_id );

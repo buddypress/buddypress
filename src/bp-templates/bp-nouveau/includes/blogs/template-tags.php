@@ -211,7 +211,7 @@ function bp_nouveau_blogs_loop_buttons( $args = array() ) {
 		}
 
 		if ( ! empty( $args['button_element'] ) ) {
-			$button_element = $args['button_element'] ;
+			$button_element = $args['button_element'];
 		} else {
 			$button_element = 'a';
 		}

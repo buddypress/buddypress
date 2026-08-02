@@ -50,7 +50,7 @@ function groups_action_create_group() {
 	}
 
 	// If this is a creation step that is not recognized, just redirect them back to the first screen.
-	if ( bp_get_groups_current_create_step() && empty( $bp->groups->group_creation_steps[bp_get_groups_current_create_step()] ) ) {
+	if ( bp_get_groups_current_create_step() && empty( $bp->groups->group_creation_steps[ bp_get_groups_current_create_step() ] ) ) {
 		bp_core_add_message( __('There was an error saving group details. Please try again.', 'buddypress'), 'error' );
 		bp_core_redirect( $redirect_url );
 	}
@@ -327,7 +327,7 @@ function groups_action_sort_creation_steps() {
 	}
 
 	foreach ( (array) $bp->groups->group_creation_steps as $slug => $step ) {
-		while ( ! empty( $temp[$step['position']] ) ) {
+		while ( ! empty( $temp[ $step['position'] ] ) ) {
 			$step['position']++;
 		}
 

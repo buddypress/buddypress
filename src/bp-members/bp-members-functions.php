@@ -1357,7 +1357,7 @@ add_action( 'delete_user', 'bp_core_delete_avatar_on_delete_user' );
 function bp_core_ucfirst( $str ) {
 	if ( function_exists( 'mb_strtoupper' ) && function_exists( 'mb_substr' ) ) {
 		$fc = mb_strtoupper( mb_substr( $str, 0, 1 ) );
-		return $fc.mb_substr( $str, 1 );
+		return $fc . mb_substr( $str, 1 );
 	} else {
 		return ucfirst( $str );
 	}
@@ -2104,7 +2104,7 @@ function bp_core_activate_signup( $key ) {
 			$profile_field_ids = explode( ',', $user['meta']['profile_field_ids'] );
 
 			foreach ( (array) $profile_field_ids as $field_id ) {
-				$current_field = isset( $user['meta']["field_{$field_id}"] ) ? $user['meta']["field_{$field_id}"] : false;
+				$current_field = isset( $user['meta'][ "field_{$field_id}" ] ) ? $user['meta'][ "field_{$field_id}" ] : false;
 
 				if ( ! empty( $current_field ) ) {
 					xprofile_set_field_data( $field_id, $user_id, $current_field );

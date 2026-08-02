@@ -986,8 +986,8 @@ function bp_blog_latest_post_featured_image( $size = 'thumbnail' ) {
 
 		$retval = '';
 
-		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->images[$size] ) ) {
-			$retval = $blogs_template->blog->latest_post->images[$size];
+		if ( ! empty( $blogs_template->blog->latest_post ) && ! empty( $blogs_template->blog->latest_post->images[ $size ] ) ) {
+			$retval = $blogs_template->blog->latest_post->images[ $size ];
 		}
 
 		/**
@@ -1034,7 +1034,7 @@ function bp_blog_latest_post_has_featured_image( $thumbnail = 'thumbnail' ) {
  */
 function bp_blog_hidden_fields() {
 	if ( isset( $_REQUEST['s'] ) ) {
-		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ). '" name="search_terms" />';
+		echo '<input type="hidden" id="search_terms" value="' . esc_attr( $_REQUEST['s'] ) . '" name="search_terms" />';
 	}
 
 	if ( isset( $_REQUEST['letter'] ) ) {
@@ -1485,7 +1485,7 @@ function bp_directory_blogs_search_form() {
 	}
 
 	$search_form_html = '<form action="" method="get" id="search-blogs-form">
-		<label for="blogs_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="blogs_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
+		<label for="blogs_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="blogs_search" placeholder="' . esc_attr( $search_value ) . '" /></label>
 		<input type="submit" id="blogs_search_submit" name="blogs_search_submit" value="' . esc_attr__( 'Search', 'buddypress' ) . '" />
 	</form>';
 

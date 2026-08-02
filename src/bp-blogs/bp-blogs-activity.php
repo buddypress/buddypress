@@ -567,8 +567,8 @@ function bp_blogs_comments_open( $activity ) {
 		}
 
 		/*
-		   Commenting out for now - needs some more thought...
-		   should we add the post type to activity meta?
+			Commenting out for now - needs some more thought...
+			should we add the post type to activity meta?
 
 		$post = get_post($post_id);
 
@@ -1306,14 +1306,14 @@ function bp_blogs_can_comment_reply( $retval, $comment ) {
 	}
 
 	// Check comment depth and disable if depth is too large.
-	if ( isset( buddypress()->blogs->thread_depth[$comment->item_id] ) ){
-		if ( bp_activity_get_comment_depth( $comment ) >= buddypress()->blogs->thread_depth[$comment->item_id] ) {
+	if ( isset( buddypress()->blogs->thread_depth[ $comment->item_id ] ) ){
+		if ( bp_activity_get_comment_depth( $comment ) >= buddypress()->blogs->thread_depth[ $comment->item_id ] ) {
 			$retval = false;
 		}
 	}
 
 	// Check if we should disable activity replies based on the parent activity.
-	if ( isset( buddypress()->blogs->allow_comments[$comment->item_id] ) ){
+	if ( isset( buddypress()->blogs->allow_comments[ $comment->item_id ] ) ){
 		// The blog post has closed off commenting, so we should disable all activity
 		// comments under the parent 'new_blog_post' activity entry.
 		if ( ! buddypress()->blogs->allow_comments[ $comment->item_id ] ) {

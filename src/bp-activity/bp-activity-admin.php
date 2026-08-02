@@ -956,11 +956,11 @@ function bp_activity_admin_get_activity_actions() {
 			 * - a mis-named Friends activity type from before BP 1.6,
 			 * - The Group's component 'activity_update' one as the Activity component is using it.
 			 */
-			if ( 'friends_register_activity_action' === $action[$i]['key'] || 'bp_groups_format_activity_action_group_activity_update' === $action[$i]['format_callback'] ) {
+			if ( 'friends_register_activity_action' === $action[ $i ]['key'] || 'bp_groups_format_activity_action_group_activity_update' === $action[ $i ]['format_callback'] ) {
 				continue;
 			}
 
-			$actions[ $action[$i]['key'] ] = $action[$i]['value'];
+			$actions[ $action[ $i ]['key'] ] = $action[ $i ]['value'];
 		}
 	}
 
@@ -992,11 +992,11 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 			 * - a mis-named Friends activity type from before BP 1.6,
 			 * - The Group's component 'activity_update' one as the Activity component is using it.
 			 */
-			if ( 'friends_register_activity_action' === $action[$i]['key'] || 'bp_groups_format_activity_action_group_activity_update' === $action[$i]['format_callback'] ) {
+			if ( 'friends_register_activity_action' === $action[ $i ]['key'] || 'bp_groups_format_activity_action_group_activity_update' === $action[ $i ]['format_callback'] ) {
 				continue;
 			}
 
-			$actions[ $action[$i]['key'] ] = $action[$i]['value'];
+			$actions[ $action[ $i ]['key'] ] = $action[ $i ]['value'];
 		}
 	}
 
@@ -1086,8 +1086,8 @@ function bp_activity_admin_index() {
 
 		// Make sure we don't get any empty values in $errors.
 		for ( $i = 0, $errors_count = count( $errors ); $i < $errors_count; $i++ ) {
-			if ( 0 === $errors[$i] ) {
-				unset( $errors[$i] );
+			if ( 0 === $errors[ $i ] ) {
+				unset( $errors[ $i ] );
 			}
 		}
 

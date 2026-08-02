@@ -218,7 +218,7 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 			$key = array_search( $activity_id, $new_mentions );
 
 			if ( $key !== false ) {
-				unset( $new_mentions[$key] );
+				unset( $new_mentions[ $key ] );
 			}
 
 			break;
@@ -891,7 +891,7 @@ function bp_activity_get_types() {
 		$action = array_values( (array) $action );
 
 		for ( $i = 0, $i_count = count( $action ); $i < $i_count; $i++ ) {
-			$actions[ $action[$i]['key'] ] = $action[$i]['value'];
+			$actions[ $action[ $i ]['key'] ] = $action[ $i ]['value'];
 		}
 	}
 
@@ -2906,7 +2906,7 @@ function bp_activity_new_comment( $args = '' ) {
 	}
 	wp_cache_delete( $activity_id, 'bp_activity' );
 
-	if ( empty( $r[ 'skip_notification' ] ) ) {
+	if ( empty( $r['skip_notification'] ) ) {
 		/**
 		 * Fires near the end of an activity comment posting, before the returning of the comment ID.
 		 * Sends a notification to the user @see bp_activity_new_comment_notification_helper().

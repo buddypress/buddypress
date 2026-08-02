@@ -353,7 +353,7 @@ class BP_Friends_Friendship {
 				}
 
 				if ( ( 'OR' === $operator && $matched > 0 )
-				  || ( 'NOT' === $operator && 0 === $matched ) ) {
+					|| ( 'NOT' === $operator && 0 === $matched ) ) {
 					$friendships[ $friendship->id ] = $friendship;
 				}
 

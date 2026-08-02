@@ -688,7 +688,7 @@ function bp_nouveau_groups_manage_members_buttons( $args = array() ) {
 		}
 
 		if ( ! empty( $args['button_element'] ) ) {
-			$button_element = $args['button_element'] ;
+			$button_element = $args['button_element'];
 		} else {
 			$button_element = 'a';
 		}

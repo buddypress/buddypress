@@ -37,7 +37,7 @@ if ( bp_has_profile( 'profile_group_id=' . bp_get_current_profile_group_id() ) )
 				<?php bp_profile_group_tabs(); ?>
 
 			</ul>
-		<?php endif ;?>
+		<?php endif;?>
 
 		<div class="clear"></div>
 

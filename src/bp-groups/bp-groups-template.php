@@ -4730,8 +4730,8 @@ function bp_groups_get_front_template( $group = null ) {
 	}
 
 	$template_names = array(
-		'groups/single/front-id-'     . (int) $group->id . '.php',
-		'groups/single/front-slug-'   . sanitize_file_name( $group->slug )   . '.php',
+		'groups/single/front-id-' . (int) $group->id . '.php',
+		'groups/single/front-slug-' . sanitize_file_name( $group->slug ) . '.php',
 	);
 
 	if ( bp_groups_get_group_types() ) {
@@ -4740,7 +4740,7 @@ function bp_groups_get_front_template( $group = null ) {
 			$group_type = 'none';
 		}
 
-		$template_names[] = 'groups/single/front-group-type-' . sanitize_file_name( $group_type )   . '.php';
+		$template_names[] = 'groups/single/front-group-type-' . sanitize_file_name( $group_type ) . '.php';
 	}
 
 	$template_names = array_merge( $template_names, array(
@@ -4947,7 +4947,7 @@ function bp_group_creation_stage_title() {
 		 * @param string $value HTML markup for the group creation stage title.
 		 */
 		'bp_group_creation_stage_title',
-		'<span>&mdash; ' . esc_html( $bp->groups->group_creation_steps[bp_get_groups_current_create_step()]['name'] ) . '</span>'
+		'<span>&mdash; ' . esc_html( $bp->groups->group_creation_steps[ bp_get_groups_current_create_step() ]['name'] ) . '</span>'
 	);
 }
 
@@ -5602,8 +5602,8 @@ function bp_directory_groups_search_form() {
 	}
 
 	$search_form_html = '<form action="" method="get" id="search-groups-form">
-		<label for="groups_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="groups_search" placeholder="'. esc_attr( $search_value ) .'" /></label>
-		<input type="submit" id="groups_search_submit" name="groups_search_submit" value="'. esc_html__( 'Search', 'buddypress' ) .'" />
+		<label for="groups_search"><input type="text" name="' . esc_attr( $query_arg ) . '" id="groups_search" placeholder="' . esc_attr( $search_value ) . '" /></label>
+		<input type="submit" id="groups_search_submit" name="groups_search_submit" value="' . esc_html__( 'Search', 'buddypress' ) . '" />
 	</form>';
 
 	// phpcs:ignore WordPress.Security.EscapeOutput

@@ -191,7 +191,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 			$new_activities[] = (array) $activity_item;
 
 			// Build an array of activity-to-user ID mappings for better efficiency in the In Response To column.
-			$this->activity_user_id[$activity_item->id] = $activity_item->user_id;
+			$this->activity_user_id[ $activity_item->id ] = $activity_item->user_id;
 		}
 
 		// Set raw data to display.
@@ -529,7 +529,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 							// Skip the incorrectly named pre-1.6 action.
 							if ( 'friends_register_activity_action' !== $action_key  ) : ?>
 
-								<option value="<?php echo esc_attr( $action_key ); ?>" <?php selected( $action_key, $selected ); ?>><?php echo esc_html( $action_values[ 'value' ] ); ?></option>
+								<option value="<?php echo esc_attr( $action_key ); ?>" <?php selected( $action_key, $selected ); ?>><?php echo esc_html( $action_values['value'] ); ?></option>
 
 							<?php endif; ?>
 
@@ -883,8 +883,8 @@ class BP_Activity_List_Table extends WP_List_Table {
 	 */
 	protected function get_activity_user_id( $activity_id ) {
 		// If there is an existing activity/user ID mapping, just return the user ID.
-		if ( ! empty( $this->activity_user_id[$activity_id] ) ) {
-			return $this->activity_user_id[$activity_id];
+		if ( ! empty( $this->activity_user_id[ $activity_id ] ) ) {
+			return $this->activity_user_id[ $activity_id ];
 
 		/*
 		 * We don't have a mapping. This means the $activity_id is not on the current

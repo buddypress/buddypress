@@ -174,8 +174,8 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 		}
 	}
 
-	 // Bail if there are no blogs.
-	 if ( empty( $blogs ) ) {
+	// Bail if there are no blogs.
+	if ( empty( $blogs ) ) {
 		// Make sure we remove our offset marker.
 		if ( is_multisite() ) {
 			bp_delete_option( '_bp_record_blogs_offset' );
@@ -880,7 +880,7 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	if ( empty( $role ) ) {
 
 		// Get user capabilities.
-		$key        = $wpdb->get_blog_prefix( $blog_id ). 'capabilities';
+		$key        = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
 		$user_roles = array_keys( (array) bp_get_user_meta( $user_id, $key, true ) );
 
 		// User has roles so lets.
