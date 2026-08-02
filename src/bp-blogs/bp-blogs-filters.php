@@ -9,15 +9,15 @@
 
 /** Display Filters **********************************************************/
 
-add_filter( 'bp_get_blog_latest_post_title', 'wptexturize'   );
+add_filter( 'bp_get_blog_latest_post_title', 'wptexturize' );
 add_filter( 'bp_get_blog_latest_post_title', 'convert_chars' );
-add_filter( 'bp_get_blog_latest_post_title', 'trim'          );
+add_filter( 'bp_get_blog_latest_post_title', 'trim' );
 
-add_filter( 'bp_blog_latest_post_content', 'wptexturize'        );
-add_filter( 'bp_blog_latest_post_content', 'convert_smilies'    );
-add_filter( 'bp_blog_latest_post_content', 'convert_chars'      );
-add_filter( 'bp_blog_latest_post_content', 'wpautop'            );
-add_filter( 'bp_blog_latest_post_content', 'shortcode_unautop'  );
+add_filter( 'bp_blog_latest_post_content', 'wptexturize' );
+add_filter( 'bp_blog_latest_post_content', 'convert_smilies' );
+add_filter( 'bp_blog_latest_post_content', 'convert_chars' );
+add_filter( 'bp_blog_latest_post_content', 'wpautop' );
+add_filter( 'bp_blog_latest_post_content', 'shortcode_unautop' );
 add_filter( 'bp_blog_latest_post_content', 'prepend_attachment' );
 
 /**

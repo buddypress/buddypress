@@ -459,15 +459,31 @@ function bp_blogs_record_activity( $args = '' ) {
 	}
 
 	// Check for an existing entry and update if one exists.
-	$id = bp_activity_get_activity_id( array(
-		'user_id'           => $r['user_id'],
-		'component'         => $r['component'],
-		'type'              => $r['type'],
-		'item_id'           => $r['item_id'],
-		'secondary_item_id' => $r['secondary_item_id'],
-	) );
+	$id = bp_activity_get_activity_id(
+		array(
+			'user_id'           => $r['user_id'],
+			'component'         => $r['component'],
+			'type'              => $r['type'],
+			'item_id'           => $r['item_id'],
+			'secondary_item_id' => $r['secondary_item_id'],
+		)
+	);
 
-	return bp_activity_add( array( 'id' => $id, 'user_id' => $r['user_id'], 'action' => $r['action'], 'content' => $r['content'], 'primary_link' => $r['primary_link'], 'component' => $r['component'], 'type' => $r['type'], 'item_id' => $r['item_id'], 'secondary_item_id' => $r['secondary_item_id'], 'recorded_time' => $r['recorded_time'], 'hide_sitewide' => $r['hide_sitewide'] ) );
+	return bp_activity_add(
+		array(
+			'id' => $id,
+			'user_id' => $r['user_id'],
+			'action' => $r['action'],
+			'content' => $r['content'],
+			'primary_link' => $r['primary_link'],
+			'component' => $r['component'],
+			'type' => $r['type'],
+			'item_id' => $r['item_id'],
+			'secondary_item_id' => $r['secondary_item_id'],
+			'recorded_time' => $r['recorded_time'],
+			'hide_sitewide' => $r['hide_sitewide'],
+		)
+	);
 }
 
 /**
@@ -605,21 +621,23 @@ function bp_blogs_comments_open( $activity ) {
 function bp_blogs_record_activity_on_site_creation( $recorded_blog, $is_private, $is_recorded, $no_activity ) {
 	// Only record this activity if the blog is public.
 	if ( ! $is_private && ! $no_activity && bp_blogs_is_blog_trackable( $recorded_blog->blog_id, $recorded_blog->user_id ) ) {
-		bp_blogs_record_activity( array(
-			'user_id'      => $recorded_blog->user_id,
+		bp_blogs_record_activity(
+			array(
+				'user_id'      => $recorded_blog->user_id,
 
-			/**
-			 * Filters the activity created blog primary link.
-			 *
-			 * @since 1.1.0
-			 *
-			 * @param string $link    Blog primary link.
-			 * @param int    $blog_id Blog ID.
-			 */
-			'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', bp_blogs_get_blogmeta( $recorded_blog->blog_id, 'url' ), $recorded_blog->blog_id ),
-			'type'         => 'new_blog',
-			'item_id'      => $recorded_blog->blog_id
-		) );
+				/**
+				 * Filters the activity created blog primary link.
+				 *
+				 * @since 1.1.0
+				 *
+				 * @param string $link    Blog primary link.
+				 * @param int    $blog_id Blog ID.
+				 */
+				'primary_link' => apply_filters( 'bp_blogs_activity_created_blog_primary_link', bp_blogs_get_blogmeta( $recorded_blog->blog_id, 'url' ), $recorded_blog->blog_id ),
+				'type'         => 'new_blog',
+				'item_id'      => $recorded_blog->blog_id,
+			)
+		);
 	}
 }
 add_action( 'bp_blogs_new_blog', 'bp_blogs_record_activity_on_site_creation', 10, 4 );
@@ -636,7 +654,7 @@ function bp_blogs_delete_new_blog_activity_for_site( $blog_id, $user_id = 0 ) {
 	$args = array(
 		'item_id'   => $blog_id,
 		'component' => buddypress()->blogs->id,
-		'type'      => 'new_blog'
+		'type'      => 'new_blog',
 	);
 
 	/**
@@ -660,11 +678,13 @@ add_action( 'bp_blogs_remove_blog_for_user', 'bp_blogs_delete_new_blog_activity_
  * @param int $blog_id Site ID.
  */
 function bp_blogs_delete_activity_for_site( $blog_id ) {
-	bp_blogs_delete_activity( array(
-		'item_id'   => $blog_id,
-		'component' => buddypress()->blogs->id,
-		'type'      => false
-	) );
+	bp_blogs_delete_activity(
+		array(
+			'item_id'   => $blog_id,
+			'component' => buddypress()->blogs->id,
+			'type'      => false,
+		)
+	);
 }
 add_action( 'bp_blogs_remove_data_for_blog', 'bp_blogs_delete_activity_for_site' );
 
@@ -708,12 +728,14 @@ function bp_blogs_remove_post( $post_id, $blog_id = 0, $user_id = 0 ) {
 	 */
 	do_action( 'bp_blogs_before_remove_post', $blog_id, $post_id, $user_id );
 
-	bp_blogs_delete_activity( array(
-		'item_id'           => $blog_id,
-		'secondary_item_id' => $post_id,
-		'component'         => buddypress()->blogs->id,
-		'type'              => 'new_blog_post'
-	) );
+	bp_blogs_delete_activity(
+		array(
+			'item_id'           => $blog_id,
+			'secondary_item_id' => $post_id,
+			'component'         => buddypress()->blogs->id,
+			'type'              => 'new_blog_post',
+		)
+	);
 
 	/**
 	 * Fires after removal of a blog post activity item from the activity stream.
@@ -793,7 +815,7 @@ function bp_blogs_sync_add_from_activity_comment( $comment_id, $params, $parent_
 		'comment_type'         => '', // Could be interesting to add 'BuddyPress' here...
 		'comment_parent'       => (int) $comment_parent,
 		'user_id'              => $params['user_id'],
-		'comment_approved'     => 1
+		'comment_approved'     => 1,
 	);
 
 	// Prevent separate activity entry being made.
@@ -884,11 +906,13 @@ function bp_blogs_sync_delete_from_activity_comment( $retval, $parent_activity_i
 	}
 
 	// Fetch the activity comments for the activity item.
-	$activity = bp_activity_get( array(
-		'in'               => $activity_id,
-		'display_comments' => 'stream',
-		'spam'             => 'all',
-	) );
+	$activity = bp_activity_get(
+		array(
+			'in'               => $activity_id,
+			'display_comments' => 'stream',
+			'spam'             => 'all',
+		)
+	);
 
 	// Get all activity comment IDs for the pending deleted item.
 	$activity_ids   = bp_activity_recurse_comments_activity_ids( $activity );
@@ -972,10 +996,12 @@ function bp_blogs_sync_activity_edit_to_post_comment( BP_Activity_Activity $acti
 			wp_untrash_comment( $post_comment_id );
 		} else {
 			// Update the blog post comment.
-			wp_update_comment( array(
-				'comment_ID'       => $post_comment_id,
-				'comment_content'  => $activity->content,
-			) );
+			wp_update_comment(
+				array(
+					'comment_ID'       => $post_comment_id,
+					'comment_content'  => $activity->content,
+				)
+			);
 		}
 	}
 
@@ -1085,7 +1111,7 @@ function bp_blogs_new_blog_comment_query_backpat( $args ) {
 		array(
 			'column'  => 'id',
 			'value'   => $activity_ids,
-			'compare' => 'IN'
+			'compare' => 'IN',
 		),
 	);
 

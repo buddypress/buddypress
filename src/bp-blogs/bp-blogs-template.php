@@ -91,7 +91,7 @@ function bp_get_blogs_directory_url( $path_chunks = array() ) {
 	$path_chunks = bp_parse_args(
 		array_intersect_key( $path_chunks, $supported_chunks ),
 		array(
-			'component_id' => 'blogs'
+			'component_id' => 'blogs',
 		)
 	);
 
@@ -462,7 +462,8 @@ function bp_blog_avatar( $args = '' ) {
 					$size = (int) $r['width'];
 				}
 
-				$avatar = sprintf( '<img src="%1$s" class="%2$s" width="%3$s" height="%3$s" alt="%4$s" />',
+				$avatar = sprintf(
+					'<img src="%1$s" class="%2$s" width="%3$s" height="%3$s" alt="%4$s" />',
 					esc_url( $site_icon ),
 					esc_attr( "{$r['class']} avatar-{$size}" ),
 					esc_attr( $size ),
@@ -1134,7 +1135,14 @@ function bp_show_blog_signup_form( $blogname = '', $blog_title = '', $errors = '
 		 *      WP_Error $errors     WP_Error object.
 		 * }
 		 */
-		$filtered_results = apply_filters('signup_another_blog_init', array('blogname' => $blogname, 'blog_title' => $blog_title, 'errors' => $errors ));
+		$filtered_results = apply_filters(
+			'signup_another_blog_init',
+			array(
+				'blogname' => $blogname,
+				'blog_title' => $blog_title,
+				'errors' => $errors,
+			)
+		);
 		$blogname         = $filtered_results['blogname'];
 		$blog_title       = $filtered_results['blog_title'];
 		$errors           = $filtered_results['errors'];
@@ -1271,7 +1279,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 		if ( ! is_subdomain_install() ) {
 			$url = sprintf(
 				/* translators: %s is the site domain and path. */
-				__( '%sblogname', 'buddypress'),
+				__( '%sblogname', 'buddypress' ),
 				$current_site->domain . $current_site->path
 			);
 		}
@@ -1280,7 +1288,8 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 			'<p>(<strong>%1$s.</strong> %2$s)</p>',
 			sprintf(
 				/* translators: %s is the site url. */
-				esc_html__( 'Your address will be %s', 'buddypress' ), esc_url( $url )
+				esc_html__( 'Your address will be %s', 'buddypress' ),
+				esc_url( $url )
 			),
 			esc_html__( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!', 'buddypress' )
 		);
@@ -1289,7 +1298,7 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	// Blog Title.
 	?>
 	<p>
-		<label for="blog_title"><?php esc_html_e('Site Title:', 'buddypress') ?></label>
+		<label for="blog_title"><?php esc_html_e( 'Site Title:', 'buddypress' ) ?></label>
 		<input name="blog_title" type="text" id="blog_title" value="<?php echo esc_html( $blog_title ); ?>" />
 
 		<?php
@@ -1306,14 +1315,14 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 		<p>
 			<label class="checkbox" for="blog_public_on">
 				<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php checked( ! isset( $_POST['blog_public'] ) || 1 === (int) $_POST['blog_public'] ); ?> />
-				<strong><?php esc_html_e( 'Yes', 'buddypress'); ?></strong>
+				<strong><?php esc_html_e( 'Yes', 'buddypress' ); ?></strong>
 			</label>
 		</p>
 
 		<p>
 			<label class="checkbox" for="blog_public_off">
 				<input type="radio" id="blog_public_off" name="blog_public" value="0" <?php checked( isset( $_POST['blog_public'] ) && 0 === (int) $_POST['blog_public'] ); ?> />
-				<strong><?php esc_html_e( 'No', 'buddypress'); ?></strong>
+				<strong><?php esc_html_e( 'No', 'buddypress' ); ?></strong>
 			</label>
 		</p>
 
@@ -1379,13 +1388,20 @@ function bp_blogs_validate_blog_signup() {
 	 *      string $public Default public status.
 	 * }
 	 */
-	$meta = apply_filters( 'add_signup_meta', array( 'lang_id' => 1, 'public' => $public ) );
+	$meta = apply_filters(
+		'add_signup_meta',
+		array(
+			'lang_id' => 1,
+			'public' => $public,
+		)
+	);
 
 	return wpmu_create_blog(
 		$blog['domain'],
 		$blog['path'],
 		$blog['blog_title'],
-		$current_user->ID, $meta,
+		$current_user->ID,
+		$meta,
 		$current_site->id
 	);
 }

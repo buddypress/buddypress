@@ -191,10 +191,12 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 		wp_cache_delete( $blog->blog_id, 'bp_blog_meta' );
 
 		// Get all users.
-		$users = get_users( array(
-			'blog_id' => $blog->blog_id,
-			'fields'  => 'ID'
-		) );
+		$users = get_users(
+			array(
+				'blog_id' => $blog->blog_id,
+				'fields'  => 'ID',
+			)
+		);
 
 		// Continue on if no users exist for this site (how did this happen?).
 		if ( empty( $users ) ) {
@@ -223,14 +225,16 @@ function bp_blogs_record_existing_blogs( $args = array() ) {
 		$blog_ids = $wpdb->get_results( implode( ' ', $sql ) );
 
 		// We have more blogs; record offset and re-run function.
-		if ( ! empty( $blog_ids  ) ) {
+		if ( ! empty( $blog_ids ) ) {
 			bp_update_option( '_bp_record_blogs_offset', $r['limit'] + $r['offset'] );
-			bp_blogs_record_existing_blogs( array(
-				'offset'   => $r['limit'] + $r['offset'],
-				'limit'    => $r['limit'],
-				'blog_ids' => $r['blog_ids'],
-				'site_id'  => $r['site_id']
-			) );
+			bp_blogs_record_existing_blogs(
+				array(
+					'offset'   => $r['limit'] + $r['offset'],
+					'limit'    => $r['limit'],
+					'blog_ids' => $r['blog_ids'],
+					'site_id'  => $r['site_id'],
+				)
+			);
 
 			// Bail since we have more blogs to record.
 			return;
@@ -572,7 +576,7 @@ function bp_blogs_update_option_site_icon( $old_value, $new_value ) {
 	} else {
 		// Save site icon URL as blogmeta.
 		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_thumb', bp_blogs_get_site_icon_url( $blog_id, bp_core_avatar_thumb_width() ) );
-		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_full', bp_blogs_get_site_icon_url( $blog_id, bp_core_avatar_full_width()  ) );
+		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_full', bp_blogs_get_site_icon_url( $blog_id, bp_core_avatar_full_width() ) );
 	}
 }
 add_action( 'update_option_site_icon', 'bp_blogs_update_option_site_icon', 10, 2 );
@@ -684,11 +688,13 @@ function bp_blogs_update_post_activity_meta( $post, $activity, $activity_post_ob
 
 				// Query for activity comments connected to a blog post.
 				unset( $args['filter'] );
-				$args['meta_query']       = array( array(
-					'key'     => 'bp_blogs_' . $post->post_type . '_comment_id',
-					'value'   => $comment_ids,
-					'compare' => 'IN',
-				) );
+				$args['meta_query']       = array(
+					array(
+						'key'     => 'bp_blogs_' . $post->post_type . '_comment_id',
+						'value'   => $comment_ids,
+						'compare' => 'IN',
+					),
+				);
 				$args['type']             = 'activity_comment';
 				$args['display_comments'] = 'stream';
 
@@ -758,12 +764,14 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 
 		if ( isset( $activity_post_object->action_id ) && isset( $activity_post_object->component_id ) ) {
 			// Find the parent 'new_post_type' activity entry.
-			$parent_activity_id = bp_activity_get_activity_id( array(
-				'component'         => $activity_post_object->component_id,
-				'type'              => $activity_post_object->action_id,
-				'item_id'           => $blog_id,
-				'secondary_item_id' => $comment->comment_post_ID
-			) );
+			$parent_activity_id = bp_activity_get_activity_id(
+				array(
+					'component'         => $activity_post_object->component_id,
+					'type'              => $activity_post_object->action_id,
+					'item_id'           => $blog_id,
+					'secondary_item_id' => $comment->comment_post_ID,
+				)
+			);
 
 			// Try to create a new activity item for the parent blog post.
 			if ( empty( $parent_activity_id ) ) {
@@ -911,8 +919,8 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	bp_blogs_record_blog( $blog_id, $user_id, true );
 }
 add_action( 'add_user_to_blog', 'bp_blogs_add_user_to_blog', 10, 3 );
-add_action( 'profile_update', 'bp_blogs_add_user_to_blog'        );
-add_action( 'user_register', 'bp_blogs_add_user_to_blog'        );
+add_action( 'profile_update', 'bp_blogs_add_user_to_blog' );
+add_action( 'user_register', 'bp_blogs_add_user_to_blog' );
 
 /**
  * The allowed blog roles a member must have to be recorded into the
@@ -1065,11 +1073,13 @@ function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_pos
 		 */
 		if ( ! empty( $activity_id ) ) {
 			// Fetch the activity comments for the activity item.
-			$activity = bp_activity_get( array(
-				'in'               => $activity_id,
-				'display_comments' => 'stream',
-				'spam'             => 'all',
-			) );
+			$activity = bp_activity_get(
+				array(
+					'in'               => $activity_id,
+					'display_comments' => 'stream',
+					'spam'             => 'all',
+				)
+			);
 
 			// Get all activity comment IDs for the pending deleted item.
 			if ( ! empty( $activity['activities'] ) ) {
@@ -1078,9 +1088,11 @@ function bp_blogs_post_type_remove_comment( $deleted, $comment_id, $activity_pos
 
 				// Delete activity items.
 				foreach ( $activity_ids as $activity_id ) {
-					bp_activity_delete( array(
-						'id' => $activity_id
-					) );
+					bp_activity_delete(
+						array(
+							'id' => $activity_id,
+						)
+					);
 				}
 
 				// Remove associated blog comments.
@@ -1134,8 +1146,8 @@ function bp_blogs_remove_associated_blog_comments( $activity_ids = array(), $for
 				'key'     => 'bp_activity_comment_id',
 				'value'   => implode( ',', (array) $activity_ids ),
 				'compare' => 'IN',
-			)
-		)
+			),
+		),
 	);
 
 	// Get comment.
@@ -1271,7 +1283,7 @@ function bp_blogs_get_random_blogs( $per_page = null, $page = null ) {
 		array(
 			'type'     => 'random',
 			'per_page' => $per_page,
-			'page'     => $page
+			'page'     => $page,
 		)
 	);
 }
