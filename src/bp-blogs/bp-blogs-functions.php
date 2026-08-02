@@ -568,11 +568,11 @@ function bp_blogs_update_option_site_icon( $old_value, $new_value ) {
 
 	if ( 0 === $new_value ) {
 		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_thumb', 0 );
-		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_full',  0 );
+		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_full', 0 );
 	} else {
 		// Save site icon URL as blogmeta.
 		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_thumb', bp_blogs_get_site_icon_url( $blog_id, bp_core_avatar_thumb_width() ) );
-		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_full',  bp_blogs_get_site_icon_url( $blog_id, bp_core_avatar_full_width()  ) );
+		bp_blogs_update_blogmeta( $blog_id, 'site_icon_url_full', bp_blogs_get_site_icon_url( $blog_id, bp_core_avatar_full_width()  ) );
 	}
 }
 add_action( 'update_option_site_icon', 'bp_blogs_update_option_site_icon', 10, 2 );
@@ -614,7 +614,7 @@ function bp_blogs_publish_post_activity_meta( $activity_id, $post, $args ) {
 		$post_permalink = $post->guid;
 	}
 
-	bp_activity_update_meta( $activity_id, 'post_url',   $post_permalink );
+	bp_activity_update_meta( $activity_id, 'post_url', $post_permalink );
 
 	// Update the blog's last activity.
 	bp_blogs_update_blogmeta( $args['item_id'], 'last_activity', bp_core_current_time() );
@@ -740,7 +740,7 @@ function bp_blogs_comment_sync_activity_comment( &$activity_id, $comment = null,
 	if ( ! empty( $activity_id ) && ! empty( $activity_args['item_id'] ) && 'new_blog_comment' === $activity_post_object->comment_action_id ) {
 		// Add some post info in activity meta.
 		bp_activity_update_meta( $activity_id, 'post_title', $comment->post->post_title );
-		bp_activity_update_meta( $activity_id, 'post_url',   esc_url_raw( add_query_arg( 'p', $comment->post->ID, home_url( '/' ) ) ) );
+		bp_activity_update_meta( $activity_id, 'post_url', esc_url_raw( add_query_arg( 'p', $comment->post->ID, home_url( '/' ) ) ) );
 	}
 
 	// Sync comment - activity comment.
@@ -911,8 +911,8 @@ function bp_blogs_add_user_to_blog( $user_id, $role = false, $blog_id = 0 ) {
 	bp_blogs_record_blog( $blog_id, $user_id, true );
 }
 add_action( 'add_user_to_blog', 'bp_blogs_add_user_to_blog', 10, 3 );
-add_action( 'profile_update',   'bp_blogs_add_user_to_blog'        );
-add_action( 'user_register',    'bp_blogs_add_user_to_blog'        );
+add_action( 'profile_update', 'bp_blogs_add_user_to_blog'        );
+add_action( 'user_register', 'bp_blogs_add_user_to_blog'        );
 
 /**
  * The allowed blog roles a member must have to be recorded into the
@@ -1448,7 +1448,7 @@ function bp_blogs_remove_data( $user_id ) {
 	 */
 	do_action( 'bp_blogs_remove_data', $user_id );
 }
-add_action( 'wpmu_delete_user',  'bp_blogs_remove_data' );
+add_action( 'wpmu_delete_user', 'bp_blogs_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_blogs_remove_data' );
 
 /**

@@ -144,11 +144,11 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 
 		$columns = array(
 			'cb'         => '<input type="checkbox" />',
-			'username'   => __( 'Username',    'buddypress' ),
-			'name'       => __( 'Name',        'buddypress' ),
-			'email'      => __( 'Email',       'buddypress' ),
-			'registered' => __( 'Registered',  'buddypress' ),
-			'date_sent'  => __( 'Last Sent',   'buddypress' ),
+			'username'   => __( 'Username', 'buddypress' ),
+			'name'       => __( 'Name', 'buddypress' ),
+			'email'      => __( 'Email', 'buddypress' ),
+			'registered' => __( 'Registered', 'buddypress' ),
+			'date_sent'  => __( 'Last Sent', 'buddypress' ),
 			'count_sent' => __( 'Emails Sent', 'buddypress' )
 		);
 
@@ -170,7 +170,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 	public function get_bulk_actions() {
 		$actions = array(
 			'activate' => _x( 'Activate', 'Pending signup action', 'buddypress' ),
-			'resend'   => _x( 'Email',    'Pending signup action', 'buddypress' ),
+			'resend'   => _x( 'Email', 'Pending signup action', 'buddypress' ),
 		);
 
 		if ( current_user_can( 'delete_users' ) ) {
@@ -366,7 +366,7 @@ class BP_Members_MS_List_Table extends WP_MS_Users_List_Table {
 		$actions = array();
 
 		$actions['activate'] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $activate_link ), esc_html__( 'Activate', 'buddypress' ) );
-		$actions['resend']   = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $email_link    ), esc_html__( 'Email',    'buddypress' ) );
+		$actions['resend']   = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $email_link    ), esc_html__( 'Email', 'buddypress' ) );
 
 		if ( current_user_can( 'delete_users' ) ) {
 			$actions['delete'] = sprintf( '<a href="%1$s" class="delete">%2$s</a>', esc_url( $delete_link ), esc_html__( 'Delete', 'buddypress' ) );

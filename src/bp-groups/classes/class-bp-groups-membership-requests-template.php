@@ -124,7 +124,7 @@ class BP_Groups_Membership_Requests_Template {
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
 		$mquery = new BP_Group_Member_Query( array(
 			'group_id' => $r['group_id'],

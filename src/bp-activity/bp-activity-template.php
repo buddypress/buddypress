@@ -3248,7 +3248,7 @@ function bp_activity_filter_links( $args = false ) {
 			}
 
 			$link = add_query_arg( 'afilter', $component );
-			$link = remove_query_arg( 'acpage' , $link );
+			$link = remove_query_arg( 'acpage', $link );
 
 			/**
 			 * Filters the activity filter link URL for the current activity component.
@@ -3263,7 +3263,7 @@ function bp_activity_filter_links( $args = false ) {
 			$component_links[] = $before . '<a href="' . esc_url( $link ) . '">' . ucwords( $component ) . '</a>' . $after;
 		}
 
-		$link = remove_query_arg( 'afilter' , $link );
+		$link = remove_query_arg( 'afilter', $link );
 
 		if ( isset( $_GET['afilter'] ) ) {
 			$component_links[] = '<' . $tag . ' id="afilter-clear"><a href="' . esc_url( $link ) . '">' . esc_html__( 'Clear Filter', 'buddypress' ) . '</a></' . $tag . '>';

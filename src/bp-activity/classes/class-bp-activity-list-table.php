@@ -527,7 +527,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 							// Skip the incorrectly named pre-1.6 action.
 							if ( 'friends_register_activity_action' !== $action_key  ) : ?>
 
-								<option value="<?php echo esc_attr( $action_key ); ?>" <?php selected( $action_key,  $selected ); ?>><?php echo esc_html( $action_values[ 'value' ] ); ?></option>
+								<option value="<?php echo esc_attr( $action_key ); ?>" <?php selected( $action_key, $selected ); ?>><?php echo esc_html( $action_values[ 'value' ] ); ?></option>
 
 							<?php endif; ?>
 

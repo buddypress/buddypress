@@ -46,15 +46,15 @@ class BP_Activity_Theme_Compat {
 			/** This action is documented in bp-activity/bp-activity-screens.php */
 			do_action( 'bp_activity_screen_index' );
 
-			add_filter( 'bp_get_buddypress_template',                array( $this, 'directory_template_hierarchy' ) );
+			add_filter( 'bp_get_buddypress_template', array( $this, 'directory_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
-			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
+			add_filter( 'bp_replace_the_content', array( $this, 'directory_content'    ) );
 
 		// Single activity.
 		} elseif ( bp_is_single_activity() ) {
-			add_filter( 'bp_get_buddypress_template',                array( $this, 'single_template_hierarchy' ) );
+			add_filter( 'bp_get_buddypress_template', array( $this, 'single_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post' ) );
-			add_filter( 'bp_replace_the_content',                    array( $this, 'single_dummy_content'    ) );
+			add_filter( 'bp_replace_the_content', array( $this, 'single_dummy_content'    ) );
 		}
 	}
 

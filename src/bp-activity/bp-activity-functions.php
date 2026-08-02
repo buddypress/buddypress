@@ -206,7 +206,7 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 
 	// Adjust the mention list and count for the member.
 	$new_mention_count = (int) bp_get_user_meta( $user_id, 'bp_new_mention_count', true );
-	$new_mentions      =       bp_get_user_meta( $user_id, 'bp_new_mentions',      true );
+	$new_mentions      =       bp_get_user_meta( $user_id, 'bp_new_mentions', true );
 
 	// Make sure new mentions is an array.
 	if ( empty( $new_mentions ) ) {
@@ -237,7 +237,7 @@ function bp_activity_update_mention_count_for_user( $user_id, $activity_id, $act
 
 	// Resave the user_meta.
 	bp_update_user_meta( $user_id, 'bp_new_mention_count', $new_mention_count );
-	bp_update_user_meta( $user_id, 'bp_new_mentions',      $new_mentions );
+	bp_update_user_meta( $user_id, 'bp_new_mentions', $new_mentions );
 
 	return true;
 }
@@ -1431,7 +1431,7 @@ function bp_activity_remove_all_user_data( $user_id = 0 ) {
 	 */
 	do_action( 'bp_activity_remove_all_user_data', $user_id );
 }
-add_action( 'wpmu_delete_user',  'bp_activity_remove_all_user_data' );
+add_action( 'wpmu_delete_user', 'bp_activity_remove_all_user_data' );
 
 /**
  * Deletes user activity data on the 'delete_user' hook.
@@ -2622,7 +2622,7 @@ function bp_activity_post_type_comment( $comment_id = 0, $is_approved = true, $a
 
 	// Backward compatibility filters for the 'blogs' component.
 	if ( 'blogs' == $activity_comment_object->component_id )  {
-		$activity_content      = apply_filters_ref_array( 'bp_blogs_activity_new_comment_content',      array( $post_type_comment->comment_content, &$post_type_comment, $comment_link ) );
+		$activity_content      = apply_filters_ref_array( 'bp_blogs_activity_new_comment_content', array( $post_type_comment->comment_content, &$post_type_comment, $comment_link ) );
 		$activity_primary_link = apply_filters_ref_array( 'bp_blogs_activity_new_comment_primary_link', array( $comment_link, &$post_type_comment ) );
 	} else {
 		$activity_content      = $post_type_comment->comment_content;
@@ -3366,11 +3366,11 @@ function bp_activity_thumbnail_content_images( $content, $link = false, $args = 
 	if ( !empty( $matches ) && !empty( $matches[0] ) ) {
 
 		// Get the SRC value.
-		preg_match( '/<img.*?(src\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i',    $matches[0][0], $src    );
+		preg_match( '/<img.*?(src\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $src    );
 
 		// Get the width and height.
 		preg_match( '/<img.*?(height\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $height );
-		preg_match( '/<img.*?(width\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i',  $matches[0][0], $width  );
+		preg_match( '/<img.*?(width\=[\'|"]{0,1}.*?[\'|"]{0,1})[\s|>]{1}/i', $matches[0][0], $width  );
 
 		if ( ! empty( $src ) ) {
 			$src = substr( substr( str_replace( 'src=', '', $src[1] ), 0, -1 ), 1 );
@@ -3991,9 +3991,9 @@ add_action( 'bp_activity_comment_posted', 'bp_activity_new_comment_notification_
  * @see bp_embed_activity_save_cache()
  */
 function bp_activity_embed() {
-	add_filter( 'embed_post_id',         'bp_get_activity_id'                  );
-	add_filter( 'oembed_dataparse',      'bp_activity_oembed_dataparse', 10, 2 );
-	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
+	add_filter( 'embed_post_id', 'bp_get_activity_id'                  );
+	add_filter( 'oembed_dataparse', 'bp_activity_oembed_dataparse', 10, 2 );
+	add_filter( 'bp_embed_get_cache', 'bp_embed_activity_cache', 10, 3 );
 	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }
 add_action( 'activity_loop_start', 'bp_activity_embed' );
@@ -4029,8 +4029,8 @@ function bp_activity_oembed_dataparse( $retval, $data ) {
  * @see bp_embed_activity_save_cache()
  */
 function bp_activity_comment_embed() {
-	add_filter( 'embed_post_id',         'bp_get_activity_comment_id'          );
-	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
+	add_filter( 'embed_post_id', 'bp_get_activity_comment_id'          );
+	add_filter( 'bp_embed_get_cache', 'bp_embed_activity_cache', 10, 3 );
 	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }
 add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
@@ -4047,11 +4047,11 @@ add_action( 'bp_before_activity_comment', 'bp_activity_comment_embed' );
 function bp_dtheme_embed_read_more( $activity ) {
 	buddypress()->activity->read_more_id = $activity->id;
 
-	add_filter( 'embed_post_id',         function () { return buddypress()->activity->read_more_id; } );
-	add_filter( 'bp_embed_get_cache',    'bp_embed_activity_cache',      10, 3 );
+	add_filter( 'embed_post_id', function () { return buddypress()->activity->read_more_id; } );
+	add_filter( 'bp_embed_get_cache', 'bp_embed_activity_cache', 10, 3 );
 	add_action( 'bp_embed_update_cache', 'bp_embed_activity_save_cache', 10, 3 );
 }
-add_action( 'bp_dtheme_get_single_activity_content',       'bp_dtheme_embed_read_more' );
+add_action( 'bp_dtheme_get_single_activity_content', 'bp_dtheme_embed_read_more' );
 add_action( 'bp_legacy_theme_get_single_activity_content', 'bp_dtheme_embed_read_more' );
 
 /**

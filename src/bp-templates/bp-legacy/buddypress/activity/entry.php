@@ -39,7 +39,7 @@ do_action( 'bp_before_activity_entry' ); ?>
 
 			<div class="activity-inner">
 
-				<?php bp_get_template_part( 'activity/type-parts/content',  bp_activity_type_part() ); ?>
+				<?php bp_get_template_part( 'activity/type-parts/content', bp_activity_type_part() ); ?>
 
 			</div>
 

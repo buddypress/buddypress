@@ -151,11 +151,11 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 
 		$columns = array(
 			'cb'         => '<input type="checkbox" />',
-			'username'   => __( 'Username',    'buddypress' ),
-			'name'       => __( 'Name',        'buddypress' ),
-			'email'      => __( 'Email',       'buddypress' ),
-			'registered' => __( 'Registered',  'buddypress' ),
-			'date_sent'  => __( 'Last Sent',   'buddypress' ),
+			'username'   => __( 'Username', 'buddypress' ),
+			'name'       => __( 'Name', 'buddypress' ),
+			'email'      => __( 'Email', 'buddypress' ),
+			'registered' => __( 'Registered', 'buddypress' ),
+			'date_sent'  => __( 'Last Sent', 'buddypress' ),
 			'count_sent' => __( 'Emails Sent', 'buddypress' )
 		);
 
@@ -177,7 +177,7 @@ class BP_Members_List_Table extends WP_Users_List_Table {
 	public function get_bulk_actions() {
 		$actions = array(
 			'activate' => _x( 'Activate', 'Pending signup action', 'buddypress' ),
-			'resend'   => _x( 'Email',    'Pending signup action', 'buddypress' ),
+			'resend'   => _x( 'Email', 'Pending signup action', 'buddypress' ),
 		);
 
 		if ( current_user_can( 'delete_users' ) ) {

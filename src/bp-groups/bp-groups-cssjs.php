@@ -24,7 +24,7 @@ function bp_groups_register_scripts() {
         true
     );
 }
-add_action( 'bp_enqueue_scripts',       'bp_groups_register_scripts', 1 );
+add_action( 'bp_enqueue_scripts', 'bp_groups_register_scripts', 1 );
 add_action( 'bp_admin_enqueue_scripts', 'bp_groups_register_scripts', 1 );
 
 /**

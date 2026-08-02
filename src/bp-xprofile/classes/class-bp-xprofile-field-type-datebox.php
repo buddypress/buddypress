@@ -224,18 +224,18 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 
 			case 'month':
 				$months = array(
-					esc_html__( 'January',   'buddypress' ),
-					esc_html__( 'February',  'buddypress' ),
-					esc_html__( 'March',     'buddypress' ),
-					esc_html__( 'April',     'buddypress' ),
-					esc_html__( 'May',       'buddypress' ),
-					esc_html__( 'June',      'buddypress' ),
-					esc_html__( 'July',      'buddypress' ),
-					esc_html__( 'August',    'buddypress' ),
+					esc_html__( 'January', 'buddypress' ),
+					esc_html__( 'February', 'buddypress' ),
+					esc_html__( 'March', 'buddypress' ),
+					esc_html__( 'April', 'buddypress' ),
+					esc_html__( 'May', 'buddypress' ),
+					esc_html__( 'June', 'buddypress' ),
+					esc_html__( 'July', 'buddypress' ),
+					esc_html__( 'August', 'buddypress' ),
 					esc_html__( 'September', 'buddypress' ),
-					esc_html__( 'October',   'buddypress' ),
-					esc_html__( 'November',  'buddypress' ),
-					esc_html__( 'December',  'buddypress' ),
+					esc_html__( 'October', 'buddypress' ),
+					esc_html__( 'November', 'buddypress' ),
+					esc_html__( 'December', 'buddypress' ),
 				);
 
 				$html = sprintf( '<option value="" %1$s>%2$s</option>', selected( $month, 0, false ), /* translators: no option picked in select box */ esc_html__( '----', 'buddypress' ) );

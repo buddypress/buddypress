@@ -91,28 +91,28 @@ class BP_Legacy extends BP_Theme_Compat {
 			// Register buttons for the relevant component templates
 			// Friends button.
 			if ( bp_is_active( 'friends' ) )
-				add_action( 'bp_member_header_actions',    'bp_add_friend_button',           5 );
+				add_action( 'bp_member_header_actions', 'bp_add_friend_button', 5 );
 
 			// Activity button.
 			if ( bp_is_active( 'activity' ) && bp_activity_do_mentions() )
-				add_action( 'bp_member_header_actions',    'bp_send_public_message_button',  20 );
+				add_action( 'bp_member_header_actions', 'bp_send_public_message_button', 20 );
 
 			// Messages button.
 			if ( bp_is_active( 'messages' ) )
-				add_action( 'bp_member_header_actions',    'bp_send_private_message_button', 20 );
+				add_action( 'bp_member_header_actions', 'bp_send_private_message_button', 20 );
 
 			// Group buttons.
 			if ( bp_is_active( 'groups' ) ) {
-				add_action( 'bp_group_header_actions',          'bp_group_join_button',               5           );
-				add_action( 'bp_directory_groups_actions',      'bp_group_join_button'                            );
+				add_action( 'bp_group_header_actions', 'bp_group_join_button', 5           );
+				add_action( 'bp_directory_groups_actions', 'bp_group_join_button'                            );
 				add_action( 'bp_groups_directory_group_filter', 'bp_legacy_theme_group_create_nav', 999           );
-				add_action( 'bp_after_group_admin_content',     'bp_legacy_groups_admin_screen_hidden_input'      );
-				add_action( 'bp_before_group_admin_form',       'bp_legacy_theme_group_manage_members_add_search' );
+				add_action( 'bp_after_group_admin_content', 'bp_legacy_groups_admin_screen_hidden_input'      );
+				add_action( 'bp_before_group_admin_form', 'bp_legacy_theme_group_manage_members_add_search' );
 			}
 
 			// Blog button.
 			if ( bp_is_active( 'blogs' ) ) {
-				add_action( 'bp_directory_blogs_actions',    'bp_blogs_visit_blog_button'           );
+				add_action( 'bp_directory_blogs_actions', 'bp_blogs_visit_blog_button'           );
 				add_action( 'bp_blogs_directory_blog_types', 'bp_legacy_theme_blog_create_nav', 999 );
 			}
 		}
@@ -213,7 +213,7 @@ class BP_Legacy extends BP_Theme_Compat {
 		$min = bp_core_get_minified_asset_suffix();
 
 		// Locate the BP stylesheet.
-		$ltr = $this->locate_asset_in_stack( "buddypress{$min}.css",     'css' );
+		$ltr = $this->locate_asset_in_stack( "buddypress{$min}.css", 'css' );
 
 		// LTR.
 		if ( ! is_rtl() && isset( $ltr['location'], $ltr['handle'] ) ) {

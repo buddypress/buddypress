@@ -791,7 +791,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 	 *
 	 * @param int $length Length of returned string, including ellipsis.
 	 */
-	$length = apply_filters( 'bp_excerpt_length',      $length      );
+	$length = apply_filters( 'bp_excerpt_length', $length      );
 
 	/**
 	 * Filters the excerpt appended text value.
@@ -825,7 +825,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 
 		foreach ( $tags as $tag ) {
 			// Process tags that need to be closed.
-			if ( !preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s',  $tag[2] ) ) {
+			if ( !preg_match( '/img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param/s', $tag[2] ) ) {
 				if ( preg_match( '/<[\w]+[^>]*>/s', $tag[0] ) ) {
 					array_unshift( $openTags, $tag[2] );
 				} elseif ( preg_match('/<\/([\w]+)[^>]*>/s', $tag[0], $closeTag ) ) {
@@ -853,7 +853,7 @@ function bp_create_excerpt( $text, $length = 225, $options = array() ) {
 					}
 				}
 
-				$truncate .= mb_substr( $tag[3], 0 , $left + $entitiesLength );
+				$truncate .= mb_substr( $tag[3], 0, $left + $entitiesLength );
 				break;
 			} else {
 				$truncate .= $tag[3];

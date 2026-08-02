@@ -1409,7 +1409,7 @@ function bp_core_remove_data( $user_id ) {
 	// Flush the cache to remove the user from all cached objects.
 	wp_cache_flush();
 }
-add_action( 'wpmu_delete_user',  'bp_core_remove_data' );
+add_action( 'wpmu_delete_user', 'bp_core_remove_data' );
 add_action( 'bp_make_spam_user', 'bp_core_remove_data' );
 
 /**
@@ -1641,7 +1641,7 @@ function bp_core_add_validation_error_messages( WP_Error $errors, $validation_re
 	}
 
 	if ( ! empty( $validation_results['domain_banned'] ) ) {
-		$errors->add( 'user_email',  __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
+		$errors->add( 'user_email', __( 'Sorry, that email address is not allowed!', 'buddypress' ) );
 	}
 
 	if ( ! empty( $validation_results['domain_not_allowed'] ) ) {

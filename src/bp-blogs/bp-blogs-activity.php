@@ -543,8 +543,8 @@ function bp_blogs_comments_open( $activity ) {
 		}
 
 		bp_blogs_update_blogmeta( $blog_id, 'close_comments_for_old_posts', get_option( 'close_comments_for_old_posts' ) );
-		bp_blogs_update_blogmeta( $blog_id, 'close_comments_days_old',      get_option( 'close_comments_days_old' ) );
-		bp_blogs_update_blogmeta( $blog_id, 'thread_comments_depth',        $thread_depth );
+		bp_blogs_update_blogmeta( $blog_id, 'close_comments_days_old', get_option( 'close_comments_days_old' ) );
+		bp_blogs_update_blogmeta( $blog_id, 'thread_comments_depth', $thread_depth );
 
 		restore_current_blog();
 
@@ -647,7 +647,7 @@ function bp_blogs_delete_new_blog_activity_for_site( $blog_id, $user_id = 0 ) {
 
 	bp_blogs_delete_activity( $args );
 }
-add_action( 'bp_blogs_remove_blog',          'bp_blogs_delete_new_blog_activity_for_site', 10, 1 );
+add_action( 'bp_blogs_remove_blog', 'bp_blogs_delete_new_blog_activity_for_site', 10, 1 );
 add_action( 'bp_blogs_remove_blog_for_user', 'bp_blogs_delete_new_blog_activity_for_site', 10, 2 );
 
 /**
@@ -978,8 +978,8 @@ function bp_blogs_sync_activity_edit_to_post_comment( BP_Activity_Activity $acti
 	}
 
 	// Restore actions.
-	add_action( 'transition_comment_status',     'bp_activity_transition_post_type_comment_status', 10, 3 );
-	add_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_comment',          10, 4 );
+	add_action( 'transition_comment_status', 'bp_activity_transition_post_type_comment_status', 10, 3 );
+	add_action( 'bp_activity_post_type_comment', 'bp_blogs_comment_sync_activity_comment', 10, 4 );
 
 	restore_current_blog();
 }
@@ -1099,7 +1099,7 @@ function bp_blogs_new_blog_comment_query_backpat( $args ) {
 	// Return the original arguments.
 	return $args;
 }
-add_filter( 'bp_after_has_activities_parse_args',                'bp_blogs_new_blog_comment_query_backpat' );
+add_filter( 'bp_after_has_activities_parse_args', 'bp_blogs_new_blog_comment_query_backpat' );
 add_filter( 'bp_activity_list_table_filter_activity_type_items', 'bp_blogs_new_blog_comment_query_backpat' );
 
 /**

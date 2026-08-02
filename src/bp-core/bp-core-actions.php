@@ -30,21 +30,21 @@ defined( 'ABSPATH' ) || exit;
  *
  *           v--WordPress Actions       v--BuddyPress Sub-actions
  */
-add_action( 'plugins_loaded',          'bp_loaded',                 10    );
-add_action( 'init',                    'bp_init',                   10    );
-add_action( 'rest_api_init',           'bp_rest_api_init',          20    ); // After WP core.
-add_action( 'customize_register',      'bp_customize_register',     20    ); // After WP core.
-add_action( 'parse_query',             'bp_parse_query',            2     ); // Early for overrides.
-add_action( 'wp',                      'bp_ready',                  10    );
-add_action( 'set_current_user',        'bp_setup_current_user',     10    );
-add_action( 'setup_theme',             'bp_setup_theme',            10    );
-add_action( 'after_setup_theme',       'bp_after_setup_theme',      100   ); // After WP themes.
-add_action( 'wp_enqueue_scripts',      'bp_enqueue_scripts',        10    );
-add_action( 'enqueue_embed_scripts',   'bp_enqueue_embed_scripts',  10    );
-add_action( 'admin_bar_menu',          'bp_setup_admin_bar',        20    ); // After WP core.
-add_action( 'template_redirect',       'bp_template_redirect',      10    );
-add_action( 'widgets_init',            'bp_widgets_init',           10    );
-add_action( 'generate_rewrite_rules',  'bp_generate_rewrite_rules', 10    );
+add_action( 'plugins_loaded', 'bp_loaded', 10    );
+add_action( 'init', 'bp_init', 10    );
+add_action( 'rest_api_init', 'bp_rest_api_init', 20    ); // After WP core.
+add_action( 'customize_register', 'bp_customize_register', 20    ); // After WP core.
+add_action( 'parse_query', 'bp_parse_query', 2     ); // Early for overrides.
+add_action( 'wp', 'bp_ready', 10    );
+add_action( 'set_current_user', 'bp_setup_current_user', 10    );
+add_action( 'setup_theme', 'bp_setup_theme', 10    );
+add_action( 'after_setup_theme', 'bp_after_setup_theme', 100   ); // After WP themes.
+add_action( 'wp_enqueue_scripts', 'bp_enqueue_scripts', 10    );
+add_action( 'enqueue_embed_scripts', 'bp_enqueue_embed_scripts', 10    );
+add_action( 'admin_bar_menu', 'bp_setup_admin_bar', 20    ); // After WP core.
+add_action( 'template_redirect', 'bp_template_redirect', 10    );
+add_action( 'widgets_init', 'bp_widgets_init', 10    );
+add_action( 'generate_rewrite_rules', 'bp_generate_rewrite_rules', 10    );
 
 /**
  * The bp_loaded hook - Attached to 'plugins_loaded' above.
@@ -53,12 +53,12 @@ add_action( 'generate_rewrite_rules',  'bp_generate_rewrite_rules', 10    );
  * The load order helps to execute code at the correct time.
  *                                                      v---Load order
  */
-add_action( 'bp_loaded', 'bp_setup_components',         2  );
-add_action( 'bp_loaded', 'bp_include',                  4  );
-add_action( 'bp_loaded', 'bp_setup_option_filters',     5  );
-add_action( 'bp_loaded', 'bp_setup_cache_groups',       5  );
-add_action( 'bp_loaded', 'bp_setup_widgets',            6  );
-add_action( 'bp_loaded', 'bp_register_theme_packages',  12 );
+add_action( 'bp_loaded', 'bp_setup_components', 2  );
+add_action( 'bp_loaded', 'bp_include', 4  );
+add_action( 'bp_loaded', 'bp_setup_option_filters', 5  );
+add_action( 'bp_loaded', 'bp_setup_cache_groups', 5  );
+add_action( 'bp_loaded', 'bp_setup_widgets', 6  );
+add_action( 'bp_loaded', 'bp_register_theme_packages', 12 );
 
 /**
  * The bp_init hook - Attached to 'init' above.
@@ -67,16 +67,16 @@ add_action( 'bp_loaded', 'bp_register_theme_packages',  12 );
  * The load order helps to execute code at the correct time.
  *                                                   v---Load order
  */
-add_action( 'bp_init', 'bp_register_post_types',     2  );
-add_action( 'bp_init', 'bp_register_post_statuses',  2  );
-add_action( 'bp_init', 'bp_register_taxonomies',     2  );
-add_action( 'bp_init', 'bp_setup_globals',           4  );
-add_action( 'bp_init', 'bp_register_nav',            5  );
-add_action( 'bp_init', 'bp_blocks_init',             10 );
+add_action( 'bp_init', 'bp_register_post_types', 2  );
+add_action( 'bp_init', 'bp_register_post_statuses', 2  );
+add_action( 'bp_init', 'bp_register_taxonomies', 2  );
+add_action( 'bp_init', 'bp_setup_globals', 4  );
+add_action( 'bp_init', 'bp_register_nav', 5  );
+add_action( 'bp_init', 'bp_blocks_init', 10 );
 add_action( 'bp_init', 'bp_core_load_admin_bar_css', 12 );
-add_action( 'bp_init', 'bp_add_rewrite_tags',        20 );
-add_action( 'bp_init', 'bp_add_rewrite_rules',       30 );
-add_action( 'bp_init', 'bp_add_permastructs',        40 );
+add_action( 'bp_init', 'bp_add_rewrite_tags', 20 );
+add_action( 'bp_init', 'bp_add_rewrite_rules', 30 );
+add_action( 'bp_init', 'bp_add_permastructs', 40 );
 
 /**
  * Adapt BuddyPress key actions starting point according to the request parser in use.
@@ -155,18 +155,18 @@ add_action( 'bp_setup_canonical_stack', 'bp_late_include', 20 );
  *                                                           v---Load order
  */
 add_action( 'bp_template_redirect', 'bp_redirect_canonical', 2  );
-add_action( 'bp_template_redirect', 'bp_actions',            4  );
-add_action( 'bp_template_redirect', 'bp_screens',            6  );
-add_action( 'bp_template_redirect', 'bp_post_request',       10 );
-add_action( 'bp_template_redirect', 'bp_get_request',        10 );
+add_action( 'bp_template_redirect', 'bp_actions', 4  );
+add_action( 'bp_template_redirect', 'bp_screens', 6  );
+add_action( 'bp_template_redirect', 'bp_post_request', 10 );
+add_action( 'bp_template_redirect', 'bp_get_request', 10 );
 
 /**
  * Add the BuddyPress functions file and the Theme Compat Default features.
  */
-add_action( 'bp_after_setup_theme', 'bp_check_theme_template_pack_dependency',   -10 );
-add_action( 'bp_after_setup_theme', 'bp_set_block_theme_compat',                  0  );
-add_action( 'bp_after_setup_theme', 'bp_load_theme_functions',                    1  );
-add_action( 'bp_after_setup_theme', 'bp_register_theme_compat_default_features',  10 );
+add_action( 'bp_after_setup_theme', 'bp_check_theme_template_pack_dependency', -10 );
+add_action( 'bp_after_setup_theme', 'bp_set_block_theme_compat', 0  );
+add_action( 'bp_after_setup_theme', 'bp_load_theme_functions', 1  );
+add_action( 'bp_after_setup_theme', 'bp_register_theme_compat_default_features', 10 );
 
 // Adds a new hook to be sure to enqueue scripts when `is_buddypress()` is true.
 add_action( 'bp_enqueue_scripts', 'bp_enqueue_community_scripts' );

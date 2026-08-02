@@ -225,9 +225,9 @@ class BP_Activity_Feed {
 	 * @since 1.8.0
 	 */
 	protected function setup_hooks() {
-		add_action( 'bp_activity_feed_rss_attributes',   array( $this, 'backpat_rss_attributes' ) );
+		add_action( 'bp_activity_feed_rss_attributes', array( $this, 'backpat_rss_attributes' ) );
 		add_action( 'bp_activity_feed_channel_elements', array( $this, 'backpat_channel_elements' ) );
-		add_action( 'bp_activity_feed_item_elements',    array( $this, 'backpat_item_elements' ) );
+		add_action( 'bp_activity_feed_item_elements', array( $this, 'backpat_item_elements' ) );
 	}
 
 	/** BACKPAT HOOKS ********************************************************/

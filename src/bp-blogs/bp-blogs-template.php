@@ -1264,14 +1264,14 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 	if ( ! is_user_logged_in() ) {
 		$url = sprintf(
 			/* translators: %s is the site domain and path. */
-			__( 'domain.%s' , 'buddypress' ),
+			__( 'domain.%s', 'buddypress' ),
 			$current_site->domain . $current_site->path
 		);
 
 		if ( ! is_subdomain_install() ) {
 			$url = sprintf(
 				/* translators: %s is the site domain and path. */
-				__( '%sblogname' , 'buddypress'),
+				__( '%sblogname', 'buddypress'),
 				$current_site->domain . $current_site->path
 			);
 		}
@@ -1280,9 +1280,9 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 			'<p>(<strong>%1$s.</strong> %2$s)</p>',
 			sprintf(
 				/* translators: %s is the site url. */
-				esc_html__( 'Your address will be %s' , 'buddypress' ), esc_url( $url )
+				esc_html__( 'Your address will be %s', 'buddypress' ), esc_url( $url )
 			),
-			esc_html__( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!' , 'buddypress' )
+			esc_html__( 'Must be at least 4 characters, letters and numbers only. It cannot be changed so choose carefully!', 'buddypress' )
 		);
 	}
 
@@ -1306,14 +1306,14 @@ function bp_blogs_signup_blog( $blogname = '', $blog_title = '', $errors = '' ) 
 		<p>
 			<label class="checkbox" for="blog_public_on">
 				<input type="radio" id="blog_public_on" name="blog_public" value="1" <?php checked( ! isset( $_POST['blog_public'] ) || 1 === (int) $_POST['blog_public'] ); ?> />
-				<strong><?php esc_html_e( 'Yes' , 'buddypress'); ?></strong>
+				<strong><?php esc_html_e( 'Yes', 'buddypress'); ?></strong>
 			</label>
 		</p>
 
 		<p>
 			<label class="checkbox" for="blog_public_off">
 				<input type="radio" id="blog_public_off" name="blog_public" value="0" <?php checked( isset( $_POST['blog_public'] ) && 0 === (int) $_POST['blog_public'] ); ?> />
-				<strong><?php esc_html_e( 'No' , 'buddypress'); ?></strong>
+				<strong><?php esc_html_e( 'No', 'buddypress'); ?></strong>
 			</label>
 		</p>
 

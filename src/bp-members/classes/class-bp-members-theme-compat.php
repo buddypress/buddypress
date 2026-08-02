@@ -57,9 +57,9 @@ class BP_Members_Theme_Compat {
 			 */
 			do_action( 'bp_members_screen_display_profile' );
 
-			add_filter( 'bp_get_buddypress_template',                array( $this, 'single_template_hierarchy' ) );
+			add_filter( 'bp_get_buddypress_template', array( $this, 'single_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'single_dummy_post'    ) );
-			add_filter( 'bp_replace_the_content',                    array( $this, 'single_dummy_content' ) );
+			add_filter( 'bp_replace_the_content', array( $this, 'single_dummy_content' ) );
 
 		// Members Directory.
 		} elseif ( ! bp_current_action() && ! bp_current_item() ) {
@@ -72,9 +72,9 @@ class BP_Members_Theme_Compat {
 			 */
 			do_action( 'bp_members_screen_index' );
 
-			add_filter( 'bp_get_buddypress_template',                array( $this, 'directory_template_hierarchy' ) );
+			add_filter( 'bp_get_buddypress_template', array( $this, 'directory_template_hierarchy' ) );
 			add_action( 'bp_template_include_reset_dummy_post_data', array( $this, 'directory_dummy_post' ) );
-			add_filter( 'bp_replace_the_content',                    array( $this, 'directory_content'    ) );
+			add_filter( 'bp_replace_the_content', array( $this, 'directory_content'    ) );
 		}
 	}
 

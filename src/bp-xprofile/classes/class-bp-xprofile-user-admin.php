@@ -61,7 +61,7 @@ class BP_XProfile_User_Admin {
 		add_action( 'bp_members_admin_xprofile_metabox', array( $this, 'register_metaboxes' ), 10, 3 );
 
 		// Saves the profile actions for user ( profile fields ).
-		add_action( 'bp_members_admin_update_user',      array( $this, 'user_admin_load'    ), 10, 4 );
+		add_action( 'bp_members_admin_update_user', array( $this, 'user_admin_load'    ), 10, 4 );
 	}
 
 	/**
@@ -246,7 +246,7 @@ class BP_XProfile_User_Admin {
 
 			// Set the feedback messages.
 			if ( ! empty( $errors ) ) {
-				$redirect_to = add_query_arg( 'error',   '3', $redirect_to );
+				$redirect_to = add_query_arg( 'error', '3', $redirect_to );
 			} else {
 				$redirect_to = add_query_arg( 'updated', '1', $redirect_to );
 			}

@@ -93,7 +93,7 @@ class BP_Nouveau_Friends {
 
 		// The number formatting is done into the `bp_nouveau_nav_count()` template tag.
 		remove_filter( 'friends_get_total_friend_count', 'bp_core_number_format' );
-		remove_filter( 'bp_get_total_friend_count',      'bp_core_number_format' );
+		remove_filter( 'bp_get_total_friend_count', 'bp_core_number_format' );
 	}
 
 	/**

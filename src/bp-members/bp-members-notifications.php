@@ -53,11 +53,11 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 				// This is the inviter whose invitation was accepted.
 				if ( 0 !== (int) $secondary_item_id )  {
 					/* translators: %s: new user name */
-					$text = sprintf( __( '%s accepted your membership invitation', 'buddypress' ),  bp_core_get_user_displayname( $item_id ) );
+					$text = sprintf( __( '%s accepted your membership invitation', 'buddypress' ), bp_core_get_user_displayname( $item_id ) );
 					// This is someone who also invited that user to join.
 				} else {
 					/* translators: %s: new user name */
-					$text = sprintf( __( '%s is now a member of the site', 'buddypress' ),  bp_core_get_user_displayname( $item_id ) );
+					$text = sprintf( __( '%s is now a member of the site', 'buddypress' ), bp_core_get_user_displayname( $item_id ) );
 				}
 			}
 			break;
@@ -83,7 +83,7 @@ function members_format_notifications( $action, $item_id, $secondary_item_id, $t
 				$amount = 'single';
 
 				/* translators: %s: new user name */
-				$text = sprintf( __( '%s has requested site membership.', 'buddypress' ),  esc_html( $signup->user_login ) );
+				$text = sprintf( __( '%s has requested site membership.', 'buddypress' ), esc_html( $signup->user_login ) );
 			}
 			break;
 	}

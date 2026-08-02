@@ -40,7 +40,7 @@ do_action( 'bp_before_group_header' );
 			 */
 			do_action( 'bp_before_group_menu_mods' ); ?>
 
-			<h2><?php esc_html_e( 'Group Mods' , 'buddypress' ); ?></h2>
+			<h2><?php esc_html_e( 'Group Mods', 'buddypress' ); ?></h2>
 
 			<?php bp_group_list_mods();
 

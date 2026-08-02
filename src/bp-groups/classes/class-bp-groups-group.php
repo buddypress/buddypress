@@ -272,12 +272,12 @@ class BP_Groups_Group {
 
 		$bp = buddypress();
 
-		$this->creator_id   = apply_filters( 'groups_group_creator_id_before_save',   $this->creator_id,   $this->id );
-		$this->name         = apply_filters( 'groups_group_name_before_save',         $this->name,         $this->id );
-		$this->slug         = apply_filters( 'groups_group_slug_before_save',         $this->slug,         $this->id );
-		$this->description  = apply_filters( 'groups_group_description_before_save',  $this->description,  $this->id );
-		$this->status       = apply_filters( 'groups_group_status_before_save',       $this->status,       $this->id );
-		$this->parent_id    = apply_filters( 'groups_group_parent_id_before_save',    $this->parent_id,    $this->id );
+		$this->creator_id   = apply_filters( 'groups_group_creator_id_before_save', $this->creator_id, $this->id );
+		$this->name         = apply_filters( 'groups_group_name_before_save', $this->name, $this->id );
+		$this->slug         = apply_filters( 'groups_group_slug_before_save', $this->slug, $this->id );
+		$this->description  = apply_filters( 'groups_group_description_before_save', $this->description, $this->id );
+		$this->status       = apply_filters( 'groups_group_status_before_save', $this->status, $this->id );
+		$this->parent_id    = apply_filters( 'groups_group_parent_id_before_save', $this->parent_id, $this->id );
 		$this->enable_forum = apply_filters( 'groups_group_enable_forum_before_save', $this->enable_forum, $this->id );
 		$this->date_created = apply_filters( 'groups_group_date_created_before_save', $this->date_created, $this->id );
 

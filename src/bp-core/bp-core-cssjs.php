@@ -83,7 +83,7 @@ function bp_core_register_common_scripts() {
 		wp_register_script( $id, $script['file'], $script['dependencies'], $version, $script['footer'] );
 	}
 }
-add_action( 'bp_enqueue_scripts',       'bp_core_register_common_scripts', 1 );
+add_action( 'bp_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
 add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_scripts', 1 );
 
 /**
@@ -143,7 +143,7 @@ function bp_core_register_common_styles() {
 		}
 	}
 }
-add_action( 'bp_enqueue_scripts',       'bp_core_register_common_styles', 1 );
+add_action( 'bp_enqueue_scripts', 'bp_core_register_common_styles', 1 );
 add_action( 'bp_admin_enqueue_scripts', 'bp_core_register_common_styles', 1 );
 
 /**
@@ -181,8 +181,8 @@ function bp_core_avatar_scripts() {
 
 	// Add Some actions for Theme backcompat.
 	add_action( 'bp_after_profile_avatar_upload_content', 'bp_avatar_template_check' );
-	add_action( 'bp_after_group_admin_content',           'bp_avatar_template_check' );
-	add_action( 'bp_after_group_avatar_creation_step',    'bp_avatar_template_check' );
+	add_action( 'bp_after_group_admin_content', 'bp_avatar_template_check' );
+	add_action( 'bp_after_group_avatar_creation_step', 'bp_avatar_template_check' );
 }
 add_action( 'bp_enqueue_community_scripts', 'bp_core_avatar_scripts' );
 

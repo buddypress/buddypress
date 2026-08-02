@@ -183,7 +183,7 @@ class BP_Core_Members_Template {
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page_number'] );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page']    );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page']    );
 		$this->type     = $r['type'];
 
 		if ( ! empty( $_REQUEST['letter'] ) ) {

@@ -1112,7 +1112,7 @@ function bp_groups_screen_my_groups_mark_notifications() {
 		bp_notifications_mark_notifications_by_type( $user_id, $group_id, 'member_promoted_to_admin'    );
 	}
 }
-add_action( 'groups_screen_my_groups',  'bp_groups_screen_my_groups_mark_notifications', 10 );
+add_action( 'groups_screen_my_groups', 'bp_groups_screen_my_groups_mark_notifications', 10 );
 add_action( 'groups_screen_group_home', 'bp_groups_screen_my_groups_mark_notifications', 10 );
 
 /**
@@ -1194,7 +1194,7 @@ function groups_screen_notification_settings() {
 		<tbody>
 			<tr id="groups-notification-settings-invitation">
 				<td></td>
-				<td><?php echo esc_html_x( 'A member invites you to join a group', 'group settings on notification settings page','buddypress' ) ?></td>
+				<td><?php echo esc_html_x( 'A member invites you to join a group', 'group settings on notification settings page', 'buddypress' ) ?></td>
 				<td class="yes"><input type="radio" name="notifications[notification_groups_invite]" id="notification-groups-invite-yes" value="yes" <?php checked( $group_invite, 'yes', true ) ?>/><label for="notification-groups-invite-yes" class="bp-screen-reader-text"><?php
 					/* translators: accessibility text */
 					esc_html_e( 'Yes, send email', 'buddypress' );

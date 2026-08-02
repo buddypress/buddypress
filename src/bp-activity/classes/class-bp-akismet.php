@@ -43,25 +43,25 @@ class BP_Akismet {
 	protected function setup_actions() {
 		// Add nonces to activity stream lists.
 		add_action( 'bp_after_activity_post_form', array( $this, 'add_activity_stream_nonce' ) );
-		add_action( 'bp_activity_entry_comments',  array( $this, 'add_activity_stream_nonce' ) );
+		add_action( 'bp_activity_entry_comments', array( $this, 'add_activity_stream_nonce' ) );
 
 		// Add a "mark as spam" button to individual activity items.
-		add_action( 'bp_activity_entry_meta',      array( $this, 'add_activity_spam_button' ) );
+		add_action( 'bp_activity_entry_meta', array( $this, 'add_activity_spam_button' ) );
 		add_action( 'bp_activity_comment_options', array( $this, 'add_activity_comment_spam_button' ) );
 
 		// Check activity for spam.
-		add_action( 'bp_activity_before_save',     array( $this, 'check_activity' ), 4, 1 );
+		add_action( 'bp_activity_before_save', array( $this, 'check_activity' ), 4, 1 );
 
 		// Tidy up member's latest (activity) update.
-		add_action( 'bp_activity_posted_update',   array( $this, 'check_member_activity_update' ), 1, 3 );
+		add_action( 'bp_activity_posted_update', array( $this, 'check_member_activity_update' ), 1, 3 );
 
 		// Hooks to extend Activity core spam/ham functions for Akismet.
-		add_action( 'bp_activity_mark_as_spam',    array( $this, 'mark_as_spam' ), 10, 2 );
-		add_action( 'bp_activity_mark_as_ham',     array( $this, 'mark_as_ham' ),  10, 2 );
+		add_action( 'bp_activity_mark_as_spam', array( $this, 'mark_as_spam' ), 10, 2 );
+		add_action( 'bp_activity_mark_as_ham', array( $this, 'mark_as_ham' ), 10, 2 );
 
 		// Hook into the Activity wp-admin screen.
 		add_action( 'bp_activity_admin_comment_row_actions', array( $this, 'comment_row_action' ), 10, 2 );
-		add_action( 'bp_activity_admin_load',                array( $this, 'add_history_metabox' ) );
+		add_action( 'bp_activity_admin_load', array( $this, 'add_history_metabox' ) );
 	}
 
 	/**
@@ -652,7 +652,7 @@ class BP_Akismet {
 			return;
 
 		// Display meta box with a low priority (low position on screen by default).
-		add_meta_box( 'bp_activity_history',  __( 'Activity History', 'buddypress' ), array( $this, 'history_metabox' ), get_current_screen()->id, 'normal', 'low' );
+		add_meta_box( 'bp_activity_history', __( 'Activity History', 'buddypress' ), array( $this, 'history_metabox' ), get_current_screen()->id, 'normal', 'low' );
 	}
 
 	/**

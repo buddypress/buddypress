@@ -228,11 +228,11 @@ function bp_activity_admin_load() {
 		);
 
 		// Register metaboxes for the edit screen.
-		add_meta_box( 'submitdiv',           _x( 'Status', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_status', get_current_screen()->id, 'side', 'core' );
+		add_meta_box( 'submitdiv', _x( 'Status', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_status', get_current_screen()->id, 'side', 'core' );
 		add_meta_box( 'bp_activity_itemids', _x( 'Primary Item/Secondary Item', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_itemids', get_current_screen()->id, 'normal', 'core' );
-		add_meta_box( 'bp_activity_link',    _x( 'Link', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_link', get_current_screen()->id, 'normal', 'core' );
-		add_meta_box( 'bp_activity_type',    _x( 'Type', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_type', get_current_screen()->id, 'normal', 'core' );
-		add_meta_box( 'bp_activity_userid',  _x( 'Author ID', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_userid', get_current_screen()->id, 'normal', 'core' );
+		add_meta_box( 'bp_activity_link', _x( 'Link', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_link', get_current_screen()->id, 'normal', 'core' );
+		add_meta_box( 'bp_activity_type', _x( 'Type', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_type', get_current_screen()->id, 'normal', 'core' );
+		add_meta_box( 'bp_activity_userid', _x( 'Author ID', 'activity admin edit screen', 'buddypress' ), 'bp_activity_admin_edit_metabox_userid', get_current_screen()->id, 'normal', 'core' );
 
 		/**
 		 * Fires after the registration of all of the default activity meta boxes.
@@ -287,11 +287,11 @@ function bp_activity_admin_load() {
 	}
 
 	// Enqueue CSS and JavaScript.
-	wp_enqueue_script( 'bp_activity_admin_js', $bp->plugin_url . "bp-activity/admin/js/admin{$min}.js",   array( 'jquery', 'wp-ajax-response' ), bp_get_version(), true );
+	wp_enqueue_script( 'bp_activity_admin_js', $bp->plugin_url . "bp-activity/admin/js/admin{$min}.js", array( 'jquery', 'wp-ajax-response' ), bp_get_version(), true );
 	wp_localize_script( 'bp_activity_admin_js', 'bp_activity_admin_vars', array(
 		'page' => get_current_screen()->id
 	) );
-	wp_enqueue_style( 'bp_activity_admin_css', $bp->plugin_url . "bp-activity/admin/css/admin{$min}.css", array(),                               bp_get_version()       );
+	wp_enqueue_style( 'bp_activity_admin_css', $bp->plugin_url . "bp-activity/admin/css/admin{$min}.css", array(), bp_get_version()       );
 
 	wp_style_add_data( 'bp_activity_admin_css', 'rtl', 'replace' );
 	if ( $min ) {
@@ -1032,7 +1032,7 @@ function bp_activity_admin_edit_metabox_type( $item ) {
 	</label>
 	<select name="bp-activities-type" id="bp-activities-type">
 		<?php foreach ( $actions as $k => $v ) : ?>
-			<option value="<?php echo esc_attr( $k ); ?>" <?php selected( $k,  $selected ); ?>><?php echo esc_html( $v ); ?></option>
+			<option value="<?php echo esc_attr( $k ); ?>" <?php selected( $k, $selected ); ?>><?php echo esc_html( $v ); ?></option>
 		<?php endforeach; ?>
 	</select>
 

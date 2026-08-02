@@ -1003,7 +1003,7 @@ function bp_messages_form_action() {
 		 *
 		 * @param string $url The form action.
 		 */
-		return apply_filters( 'bp_get_messages_form_action',$url );
+		return apply_filters( 'bp_get_messages_form_action', $url );
 	}
 
 /**

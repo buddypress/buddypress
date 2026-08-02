@@ -156,7 +156,7 @@ class BP_Groups_Group_Members_Template {
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
 		/**
 		 * Check the current group is the same as the supplied group ID.

@@ -226,7 +226,7 @@ class BP_Activity_Template {
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
 		// Check if post/comment replies are disabled.
 		$this->disable_blogforum_replies = (bool) bp_core_get_root_option( 'bp-disable-blogforum-comments' );

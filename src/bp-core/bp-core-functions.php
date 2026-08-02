@@ -955,11 +955,11 @@ function bp_core_add_page_mappings( $components, $existing = 'keep', $return_pag
  */
 function bp_core_get_directory_page_default_titles() {
 	$page_default_titles = array(
-		'activity' => _x( 'Activity', 'Page title for the Activity directory.',       'buddypress' ),
-		'groups'   => _x( 'Groups',   'Page title for the Groups directory.',         'buddypress' ),
-		'blogs'    => _x( 'Sites',    'Page title for the Sites directory.',          'buddypress' ),
-		'members'  => _x( 'Members',  'Page title for the Members directory.',        'buddypress' ),
-		'activate' => _x( 'Activate', 'Page title for the user activation screen.',   'buddypress' ),
+		'activity' => _x( 'Activity', 'Page title for the Activity directory.', 'buddypress' ),
+		'groups'   => _x( 'Groups', 'Page title for the Groups directory.', 'buddypress' ),
+		'blogs'    => _x( 'Sites', 'Page title for the Sites directory.', 'buddypress' ),
+		'members'  => _x( 'Members', 'Page title for the Members directory.', 'buddypress' ),
+		'activate' => _x( 'Activate', 'Page title for the user activation screen.', 'buddypress' ),
 		'register' => _x( 'Register', 'Page title for the user registration screen.', 'buddypress' ),
 	);
 
@@ -1418,7 +1418,7 @@ function bp_core_time_diff( $args = array() ) {
 							break;
 						case DAY_IN_SECONDS :
 							/* translators: %s: the number of days. */
-							$retval[] = sprintf( _n( '%s day', '%s days',  $count2, 'buddypress' ), $count2 );
+							$retval[] = sprintf( _n( '%s day', '%s days', $count2, 'buddypress' ), $count2 );
 							break;
 						case HOUR_IN_SECONDS :
 							/* translators: %s: the number of hours. */
@@ -1529,7 +1529,7 @@ function bp_core_time_since( $older_date, $newer_date = false ) {
 		 *
 		 * @param string $value String representing the time since the older date.
 		 */
-		$unknown_text = apply_filters( 'bp_core_time_since_unknown_text', __( 'sometime',  'buddypress' ) );
+		$unknown_text = apply_filters( 'bp_core_time_since_unknown_text', __( 'sometime', 'buddypress' ) );
 		$output       = sprintf( $ago_text, $unknown_text );
 	}
 
@@ -1635,8 +1635,8 @@ function bp_core_add_message( $message, $type = '' ) {
 	}
 
 	// Send the values to the cookie for page reload display.
-	@setcookie( 'bp-message',      $message, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
-	@setcookie( 'bp-message-type', $type,    time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	@setcookie( 'bp-message', $message, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
+	@setcookie( 'bp-message-type', $type, time() + 60 * 60 * 24, COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 
 	// Get BuddyPress.
 	$bp = buddypress();

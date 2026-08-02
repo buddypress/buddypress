@@ -1118,8 +1118,8 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 				<?php
 				switch ( $member_type ) :
 					case 'admin'  : esc_html_e( 'Administrators', 'buddypress' ); break;
-					case 'mod'    : esc_html_e( 'Moderators',     'buddypress' ); break;
-					case 'member' : esc_html_e( 'Members',        'buddypress' ); break;
+					case 'mod'    : esc_html_e( 'Moderators', 'buddypress' ); break;
+					case 'member' : esc_html_e( 'Members', 'buddypress' ); break;
 					case 'banned' : esc_html_e( 'Banned Members', 'buddypress' ); break;
 				endswitch;
 				?>
@@ -1180,8 +1180,8 @@ function bp_groups_admin_edit_metabox_members( $item ) {
 							</label>
 							<select class="bp-groups-role" id="bp-groups-role-<?php echo esc_attr( $type_user->ID ); ?>" name="bp-groups-role[<?php echo esc_attr( $type_user->ID ); ?>]">
 								<optgroup label="<?php esc_attr_e( 'Roles', 'buddypress' ); ?>">
-									<option class="admin"  value="admin"  <?php selected( 'admin',  $member_type ); ?>><?php esc_html_e( 'Administrator', 'buddypress' ); ?></option>
-									<option class="mod"    value="mod"    <?php selected( 'mod',    $member_type ); ?>><?php esc_html_e( 'Moderator', 'buddypress' ); ?></option>
+									<option class="admin"  value="admin"  <?php selected( 'admin', $member_type ); ?>><?php esc_html_e( 'Administrator', 'buddypress' ); ?></option>
+									<option class="mod"    value="mod"    <?php selected( 'mod', $member_type ); ?>><?php esc_html_e( 'Moderator', 'buddypress' ); ?></option>
 									<option class="member" value="member" <?php selected( 'member', $member_type ); ?>><?php esc_html_e( 'Member', 'buddypress' ); ?></option>
 
 									<?php if ( 'banned' === $member_type ) : ?>

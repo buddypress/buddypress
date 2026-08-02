@@ -13,99 +13,99 @@ defined( 'ABSPATH' ) || exit;
 /* Filters *******************************************************************/
 
 // Apply WordPress defined filters.
-add_filter( 'bp_get_activity_content_body',          'bp_activity_filter_kses', 1 );
-add_filter( 'bp_get_activity_parent_content',        'bp_activity_filter_kses', 1 );
-add_filter( 'bp_get_activity_latest_update',         'bp_activity_filter_kses', 1 );
+add_filter( 'bp_get_activity_content_body', 'bp_activity_filter_kses', 1 );
+add_filter( 'bp_get_activity_parent_content', 'bp_activity_filter_kses', 1 );
+add_filter( 'bp_get_activity_latest_update', 'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'bp_activity_filter_kses', 1 );
 add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_filter_kses', 1 );
-add_filter( 'bp_activity_content_before_save',       'bp_activity_filter_kses', 1 );
-add_filter( 'bp_activity_action_before_save',        'bp_activity_filter_kses', 1 );
-add_filter( 'bp_activity_latest_update_content',     'bp_activity_filter_kses', 1 );
+add_filter( 'bp_activity_content_before_save', 'bp_activity_filter_kses', 1 );
+add_filter( 'bp_activity_action_before_save', 'bp_activity_filter_kses', 1 );
+add_filter( 'bp_activity_latest_update_content', 'bp_activity_filter_kses', 1 );
 
-add_filter( 'bp_get_activity_action',                'force_balance_tags' );
-add_filter( 'bp_get_activity_content_body',          'force_balance_tags' );
-add_filter( 'bp_get_activity_content',               'force_balance_tags' );
-add_filter( 'bp_get_activity_latest_update',         'force_balance_tags' );
+add_filter( 'bp_get_activity_action', 'force_balance_tags' );
+add_filter( 'bp_get_activity_content_body', 'force_balance_tags' );
+add_filter( 'bp_get_activity_content', 'force_balance_tags' );
+add_filter( 'bp_get_activity_latest_update', 'force_balance_tags' );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'force_balance_tags' );
 add_filter( 'bp_get_activity_feed_item_description', 'force_balance_tags' );
-add_filter( 'bp_activity_content_before_save',       'force_balance_tags' );
-add_filter( 'bp_activity_action_before_save',        'force_balance_tags' );
+add_filter( 'bp_activity_content_before_save', 'force_balance_tags' );
+add_filter( 'bp_activity_action_before_save', 'force_balance_tags' );
 
 add_filter( 'bp_activity_content_before_save', 'wp_encode_emoji' );
 
-add_filter( 'bp_get_activity_action',                'wptexturize' );
-add_filter( 'bp_get_activity_content_body',          'wptexturize' );
-add_filter( 'bp_get_activity_content',               'wptexturize' );
-add_filter( 'bp_get_activity_parent_content',        'wptexturize' );
-add_filter( 'bp_get_activity_latest_update',         'wptexturize' );
+add_filter( 'bp_get_activity_action', 'wptexturize' );
+add_filter( 'bp_get_activity_content_body', 'wptexturize' );
+add_filter( 'bp_get_activity_content', 'wptexturize' );
+add_filter( 'bp_get_activity_parent_content', 'wptexturize' );
+add_filter( 'bp_get_activity_latest_update', 'wptexturize' );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'wptexturize' );
-add_filter( 'bp_activity_get_embed_excerpt',         'wptexturize' );
+add_filter( 'bp_activity_get_embed_excerpt', 'wptexturize' );
 
-add_filter( 'bp_get_activity_action',                'convert_smilies' );
-add_filter( 'bp_get_activity_content_body',          'convert_smilies' );
-add_filter( 'bp_get_activity_content',               'convert_smilies' );
-add_filter( 'bp_get_activity_parent_content',        'convert_smilies' );
-add_filter( 'bp_get_activity_latest_update',         'convert_smilies' );
+add_filter( 'bp_get_activity_action', 'convert_smilies' );
+add_filter( 'bp_get_activity_content_body', 'convert_smilies' );
+add_filter( 'bp_get_activity_content', 'convert_smilies' );
+add_filter( 'bp_get_activity_parent_content', 'convert_smilies' );
+add_filter( 'bp_get_activity_latest_update', 'convert_smilies' );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'convert_smilies' );
-add_filter( 'bp_activity_get_embed_excerpt',         'convert_smilies' );
+add_filter( 'bp_activity_get_embed_excerpt', 'convert_smilies' );
 
-add_filter( 'bp_get_activity_action',                'convert_chars' );
-add_filter( 'bp_get_activity_content_body',          'convert_chars' );
-add_filter( 'bp_get_activity_content',               'convert_chars' );
-add_filter( 'bp_get_activity_parent_content',        'convert_chars' );
-add_filter( 'bp_get_activity_latest_update',         'convert_chars' );
+add_filter( 'bp_get_activity_action', 'convert_chars' );
+add_filter( 'bp_get_activity_content_body', 'convert_chars' );
+add_filter( 'bp_get_activity_content', 'convert_chars' );
+add_filter( 'bp_get_activity_parent_content', 'convert_chars' );
+add_filter( 'bp_get_activity_latest_update', 'convert_chars' );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'convert_chars' );
-add_filter( 'bp_activity_get_embed_excerpt',         'convert_chars' );
+add_filter( 'bp_activity_get_embed_excerpt', 'convert_chars' );
 
-add_filter( 'bp_get_activity_action',                'wpautop' );
-add_filter( 'bp_get_activity_content_body',          'wpautop' );
-add_filter( 'bp_get_activity_content',               'wpautop' );
+add_filter( 'bp_get_activity_action', 'wpautop' );
+add_filter( 'bp_get_activity_content_body', 'wpautop' );
+add_filter( 'bp_get_activity_content', 'wpautop' );
 add_filter( 'bp_get_activity_feed_item_description', 'wpautop' );
-add_filter( 'bp_activity_get_embed_excerpt',         'wpautop' );
+add_filter( 'bp_activity_get_embed_excerpt', 'wpautop' );
 
-add_filter( 'bp_get_activity_action',                'make_clickable', 9 );
-add_filter( 'bp_get_activity_content_body',          'make_clickable', 9 );
-add_filter( 'bp_get_activity_content',               'make_clickable', 9 );
-add_filter( 'bp_get_activity_parent_content',        'make_clickable', 9 );
-add_filter( 'bp_get_activity_latest_update',         'make_clickable', 9 );
+add_filter( 'bp_get_activity_action', 'make_clickable', 9 );
+add_filter( 'bp_get_activity_content_body', 'make_clickable', 9 );
+add_filter( 'bp_get_activity_content', 'make_clickable', 9 );
+add_filter( 'bp_get_activity_parent_content', 'make_clickable', 9 );
+add_filter( 'bp_get_activity_latest_update', 'make_clickable', 9 );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'make_clickable', 9 );
 add_filter( 'bp_get_activity_feed_item_description', 'make_clickable', 9 );
-add_filter( 'bp_activity_get_embed_excerpt',         'make_clickable', 9 );
+add_filter( 'bp_activity_get_embed_excerpt', 'make_clickable', 9 );
 
-add_filter( 'bp_acomment_name',                      'stripslashes_deep', 5 );
-add_filter( 'bp_get_activity_action',                'stripslashes_deep', 5 );
-add_filter( 'bp_get_activity_content',               'stripslashes_deep', 5 );
-add_filter( 'bp_get_activity_content_body',          'stripslashes_deep', 5 );
-add_filter( 'bp_get_activity_parent_content',        'stripslashes_deep', 5 );
-add_filter( 'bp_get_activity_latest_update',         'stripslashes_deep', 5 );
+add_filter( 'bp_acomment_name', 'stripslashes_deep', 5 );
+add_filter( 'bp_get_activity_action', 'stripslashes_deep', 5 );
+add_filter( 'bp_get_activity_content', 'stripslashes_deep', 5 );
+add_filter( 'bp_get_activity_content_body', 'stripslashes_deep', 5 );
+add_filter( 'bp_get_activity_parent_content', 'stripslashes_deep', 5 );
+add_filter( 'bp_get_activity_latest_update', 'stripslashes_deep', 5 );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'stripslashes_deep', 5 );
 add_filter( 'bp_get_activity_feed_item_description', 'stripslashes_deep', 5 );
 
-add_filter( 'bp_activity_primary_link_before_save',  'esc_url_raw' );
+add_filter( 'bp_activity_primary_link_before_save', 'esc_url_raw' );
 
 // Apply BuddyPress-defined filters.
-add_filter( 'bp_get_activity_content',               'bp_activity_make_nofollow_filter' );
-add_filter( 'bp_get_activity_content_body',          'bp_activity_make_nofollow_filter' );
-add_filter( 'bp_get_activity_parent_content',        'bp_activity_make_nofollow_filter' );
-add_filter( 'bp_get_activity_latest_update',         'bp_activity_make_nofollow_filter' );
+add_filter( 'bp_get_activity_content', 'bp_activity_make_nofollow_filter' );
+add_filter( 'bp_get_activity_content_body', 'bp_activity_make_nofollow_filter' );
+add_filter( 'bp_get_activity_parent_content', 'bp_activity_make_nofollow_filter' );
+add_filter( 'bp_get_activity_latest_update', 'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_latest_update_excerpt', 'bp_activity_make_nofollow_filter' );
 add_filter( 'bp_get_activity_feed_item_description', 'bp_activity_make_nofollow_filter' );
 
 add_filter( 'bp_get_activity_content_body', 'bp_core_add_loading_lazy_attribute' );
-add_filter( 'bp_activity_comment_content',  'bp_core_add_loading_lazy_attribute' );
+add_filter( 'bp_activity_comment_content', 'bp_core_add_loading_lazy_attribute' );
 
-add_filter( 'pre_comment_content',                   'bp_activity_at_name_filter' );
-add_filter( 'the_content',                           'bp_activity_at_name_filter' );
-add_filter( 'bp_activity_get_embed_excerpt',         'bp_activity_at_name_filter' );
+add_filter( 'pre_comment_content', 'bp_activity_at_name_filter' );
+add_filter( 'the_content', 'bp_activity_at_name_filter' );
+add_filter( 'bp_activity_get_embed_excerpt', 'bp_activity_at_name_filter' );
 
-add_filter( 'bp_get_activity_parent_content',        'bp_create_excerpt' );
+add_filter( 'bp_get_activity_parent_content', 'bp_create_excerpt' );
 
 add_filter( 'bp_get_activity_content_body', 'bp_activity_truncate_entry', 5 );
-add_filter( 'bp_get_activity_content',      'bp_activity_truncate_entry', 5 );
+add_filter( 'bp_get_activity_content', 'bp_activity_truncate_entry', 5 );
 
-add_filter( 'bp_activity_get_user_favorites',       'bp_activity_sanitize_user_favorites_meta' );
+add_filter( 'bp_activity_get_user_favorites', 'bp_activity_sanitize_user_favorites_meta' );
 add_filter( 'bp_get_total_favorite_count_for_user', 'bp_core_number_format'                    );
-add_filter( 'bp_get_total_mention_count_for_user',  'bp_core_number_format'                    );
+add_filter( 'bp_get_total_mention_count_for_user', 'bp_core_number_format'                    );
 
 add_filter( 'bp_activity_get_embed_excerpt', 'bp_activity_embed_excerpt_onclick_location_filter', 9 );
 
@@ -119,7 +119,7 @@ add_action( 'bp_activity_before_save', 'bp_activity_at_name_filter_updates' );
 
 // Activity stream moderation.
 add_action( 'bp_activity_before_save', 'bp_activity_check_moderation_keys', 2, 1 );
-add_action( 'bp_activity_before_save', 'bp_activity_check_disallowed_keys',  2, 1 );
+add_action( 'bp_activity_before_save', 'bp_activity_check_disallowed_keys', 2, 1 );
 
 /** Functions *****************************************************************/
 

@@ -63,7 +63,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		// Add Group Type column and bulk change controls.
 		if ( bp_groups_get_group_types() ) {
 			// Add Group Type column.
-			add_filter( 'bp_groups_list_table_get_columns',        array( $this, 'add_type_column' )                  );
+			add_filter( 'bp_groups_list_table_get_columns', array( $this, 'add_type_column' )                  );
 			add_filter( 'bp_groups_admin_get_group_custom_column', array( $this, 'column_content_group_type' ), 10, 3 );
 			// Add the bulk change select.
 			add_action( 'bp_groups_list_table_after_bulk_actions', array( $this, 'add_group_type_bulk_change_select' ) );
@@ -474,11 +474,11 @@ class BP_Groups_List_Table extends WP_List_Table {
 		 */
 		return apply_filters( 'bp_groups_list_table_get_columns', array(
 			'cb'          => '<input name type="checkbox" />',
-			'comment'     => _x( 'Name', 'Groups admin Group Name column header',               'buddypress' ),
+			'comment'     => _x( 'Name', 'Groups admin Group Name column header', 'buddypress' ),
 			'description' => _x( 'Description', 'Groups admin Group Description column header', 'buddypress' ),
-			'status'      => _x( 'Status', 'Groups admin Privacy Status column header',         'buddypress' ),
-			'members'     => _x( 'Members', 'Groups admin Members column header',               'buddypress' ),
-			'last_active' => _x( 'Last Active', 'Groups admin Last Active column header',       'buddypress' )
+			'status'      => _x( 'Status', 'Groups admin Privacy Status column header', 'buddypress' ),
+			'members'     => _x( 'Members', 'Groups admin Members column header', 'buddypress' ),
+			'last_active' => _x( 'Last Active', 'Groups admin Last Active column header', 'buddypress' )
 		) );
 	}
 
@@ -614,13 +614,13 @@ class BP_Groups_List_Table extends WP_List_Table {
 
 		// Rollover actions.
 		// Edit.
-		$actions['edit']   = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url   ), __( 'Edit',   'buddypress' ) );
+		$actions['edit']   = sprintf( '<a href="%s">%s</a>', esc_url( $edit_url   ), __( 'Edit', 'buddypress' ) );
 
 		// Delete.
 		$actions['delete'] = sprintf( '<a href="%s">%s</a>', esc_url( $delete_url ), __( 'Delete', 'buddypress' ) );
 
 		// View.
-		$actions['view']   = sprintf( '<a href="%s">%s</a>', esc_url( $view_url   ), __( 'View',   'buddypress' ) );
+		$actions['view']   = sprintf( '<a href="%s">%s</a>', esc_url( $view_url   ), __( 'View', 'buddypress' ) );
 
 		/**
 		 * Filters the actions that will be shown for the column content.

@@ -173,11 +173,11 @@ class BP_Admin {
 		/* General Actions ***************************************************/
 
 		// Add some page specific output to the <head>.
-		add_action( 'bp_admin_head',            array( $this, 'admin_head' ), 999 );
+		add_action( 'bp_admin_head', array( $this, 'admin_head' ), 999 );
 
 		// Add menu item to settings menu.
-		add_action( 'admin_menu',               array( $this, 'site_admin_menus' ), 5 );
-		add_action( bp_core_admin_hook(),       array( $this, 'admin_menus' ), 5 );
+		add_action( 'admin_menu', array( $this, 'site_admin_menus' ), 5 );
+		add_action( bp_core_admin_hook(), array( $this, 'admin_menus' ), 5 );
 
 		// Enqueue all admin JS and CSS.
 		add_action( 'bp_admin_enqueue_scripts', array( $this, 'admin_register_styles' ), 1 );
@@ -199,7 +199,7 @@ class BP_Admin {
 
 		// Add a description of BuddyPress tools in the available tools page.
 		if ( bp_current_user_can( 'bp_moderate' ) ) {
-			add_action( 'tool_box',            'bp_core_admin_available_tools_intro' );
+			add_action( 'tool_box', 'bp_core_admin_available_tools_intro' );
 			add_action( 'bp_network_tool_box', 'bp_core_admin_available_tools_intro' );
 		}
 
@@ -207,7 +207,7 @@ class BP_Admin {
 		add_action( 'load-users.php', 'bp_core_admin_user_manage_spammers' );
 
 		// Emails.
-		add_filter( 'manage_' . bp_get_email_post_type() . '_posts_columns',       array( $this, 'emails_register_situation_column' ) );
+		add_filter( 'manage_' . bp_get_email_post_type() . '_posts_columns', array( $this, 'emails_register_situation_column' ) );
 		add_action( 'manage_' . bp_get_email_post_type() . '_posts_custom_column', array( $this, 'emails_display_situation_column_data' ), 10, 2 );
 
 		// Privacy Policy.
@@ -225,12 +225,12 @@ class BP_Admin {
 		/* Filters ***********************************************************/
 
 		// Add link to settings page.
-		add_filter( 'plugin_action_links',               array( $this, 'modify_plugin_action_links' ), 10, 2 );
+		add_filter( 'plugin_action_links', array( $this, 'modify_plugin_action_links' ), 10, 2 );
 		add_filter( 'network_admin_plugin_action_links', array( $this, 'modify_plugin_action_links' ), 10, 2 );
 
 		// Add "Mark as Spam" row actions on users.php.
 		add_filter( 'ms_user_row_actions', 'bp_core_admin_user_row_actions', 10, 2 );
-		add_filter( 'user_row_actions',    'bp_core_admin_user_row_actions', 10, 2 );
+		add_filter( 'user_row_actions', 'bp_core_admin_user_row_actions', 10, 2 );
 
 		// Emails.
 		add_filter( 'bp_admin_menu_order', array( $this, 'emails_admin_menu_order' ), 20 );
@@ -553,7 +553,7 @@ class BP_Admin {
 			add_settings_section( 'bp_xprofile', _x( 'Extended Profiles', 'BuddyPress setting tab', 'buddypress' ), 'bp_admin_setting_callback_xprofile_section', 'buddypress' );
 
 			// Profile sync setting.
-			add_settings_field( 'bp-disable-profile-sync',   __( 'Profile Syncing',  'buddypress' ), 'bp_admin_setting_callback_profile_sync', 'buddypress', 'bp_xprofile' );
+			add_settings_field( 'bp-disable-profile-sync', __( 'Profile Syncing', 'buddypress' ), 'bp_admin_setting_callback_profile_sync', 'buddypress', 'bp_xprofile' );
 			register_setting( 'buddypress', 'bp-disable-profile-sync', 'intval' );
 		}
 
@@ -562,10 +562,10 @@ class BP_Admin {
 		if ( bp_is_active( 'groups' ) ) {
 
 			// Add the main section.
-			add_settings_section( 'bp_groups', __( 'User Groups',  'buddypress' ), 'bp_admin_setting_callback_groups_section', 'buddypress' );
+			add_settings_section( 'bp_groups', __( 'User Groups', 'buddypress' ), 'bp_admin_setting_callback_groups_section', 'buddypress' );
 
 			// Allow subscriptions setting.
-			add_settings_field( 'bp_restrict_group_creation', __( 'Group Creation', 'buddypress' ), 'bp_admin_setting_callback_group_creation',   'buddypress', 'bp_groups' );
+			add_settings_field( 'bp_restrict_group_creation', __( 'Group Creation', 'buddypress' ), 'bp_admin_setting_callback_group_creation', 'buddypress', 'bp_groups' );
 			register_setting( 'buddypress', 'bp_restrict_group_creation', 'intval' );
 
 			// Allow group avatars.

@@ -875,9 +875,9 @@ function xprofile_sync_wp_profile( $user_id = 0, ...$args ) {
 		}
 	}
 
-	bp_update_user_meta( $user_id, 'nickname',   $fullname  );
+	bp_update_user_meta( $user_id, 'nickname', $fullname  );
 	bp_update_user_meta( $user_id, 'first_name', $userdata['first_name'] );
-	bp_update_user_meta( $user_id, 'last_name',  $userdata['last_name']  );
+	bp_update_user_meta( $user_id, 'last_name', $userdata['last_name']  );
 
 	wp_update_user( array( 'ID' => $user_id, 'display_name' => $fullname ) );
 }
@@ -933,7 +933,7 @@ add_action( 'xprofile_data_after_save', 'xprofile_sync_wp_profile_on_single_fiel
 function xprofile_remove_data( $user_id ) {
 	BP_XProfile_ProfileData::delete_data_for_user( $user_id );
 }
-add_action( 'wpmu_delete_user',  'xprofile_remove_data' );
+add_action( 'wpmu_delete_user', 'xprofile_remove_data' );
 add_action( 'bp_make_spam_user', 'xprofile_remove_data' );
 
 /**
@@ -1088,7 +1088,7 @@ function bp_xprofile_update_meta( $object_id, $object_type, $meta_key, $meta_val
 function bp_xprofile_add_meta( $object_id, $object_type, $meta_key, $meta_value, $unique = false ) {
 	add_filter( 'query', 'bp_filter_metaid_column_name' );
 	add_filter( 'query', 'bp_xprofile_filter_meta_query' );
-	$retval = add_metadata( 'xprofile_' . $object_type , $object_id, $meta_key, $meta_value, $unique );
+	$retval = add_metadata( 'xprofile_' . $object_type, $object_id, $meta_key, $meta_value, $unique );
 	remove_filter( 'query', 'bp_filter_metaid_column_name' );
 	remove_filter( 'query', 'bp_xprofile_filter_meta_query' );
 

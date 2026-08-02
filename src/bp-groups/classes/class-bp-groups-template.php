@@ -196,7 +196,7 @@ class BP_Groups_Template {
 
 		$this->pag_arg  = sanitize_key( $r['page_arg'] );
 		$this->pag_page = bp_sanitize_pagination_arg( $this->pag_arg, $r['page']     );
-		$this->pag_num  = bp_sanitize_pagination_arg( 'num',          $r['per_page'] );
+		$this->pag_num  = bp_sanitize_pagination_arg( 'num', $r['per_page'] );
 
 		if ( bp_current_user_can( 'bp_moderate' ) || ( is_user_logged_in() && $user_id == bp_loggedin_user_id() ) ) {
 			$show_hidden = true;

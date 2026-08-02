@@ -293,18 +293,18 @@ class BP_Members_Admin {
 		add_action( 'bp_admin_enqueue_scripts', array( $this, 'enqueue_scripts'   )        );
 
 		// Add some page specific output to the <head>.
-		add_action( 'bp_admin_head',            array( $this, 'admin_head'        ), 999   );
+		add_action( 'bp_admin_head', array( $this, 'admin_head'        ), 999   );
 
 		// Add menu item to all users menu.
-		add_action( 'admin_menu',               array( $this, 'admin_menus'       ), 5     );
-		add_action( 'network_admin_menu',       array( $this, 'admin_menus'       ), 5     );
+		add_action( 'admin_menu', array( $this, 'admin_menus'       ), 5     );
+		add_action( 'network_admin_menu', array( $this, 'admin_menus'       ), 5     );
 
 		if ( bp_members_is_community_profile_enabled() ) {
 			add_action( 'user_admin_menu', array( $this, 'user_profile_menu' ), 5     );
 
 			// Create the Profile Navigation (Profile/Extended Profile).
-			add_action( 'edit_user_profile',        array( $this, 'profile_nav'       ), 99, 1 );
-			add_action( 'show_user_profile',        array( $this, 'profile_nav'       ), 99, 1 );
+			add_action( 'edit_user_profile', array( $this, 'profile_nav'       ), 99, 1 );
+			add_action( 'show_user_profile', array( $this, 'profile_nav'       ), 99, 1 );
 
 			// Editing users of a specific site.
 			add_action( "admin_head-site-users.php", array( $this, 'profile_admin_head' ) );
@@ -317,7 +317,7 @@ class BP_Members_Admin {
 			}
 
 			add_action( 'admin_init', array( $this, 'add_edit_profile_url_filter' ) );
-			add_action( 'wp_after_admin_bar_render',  array( $this, 'remove_edit_profile_url_filter' ) );
+			add_action( 'wp_after_admin_bar_render', array( $this, 'remove_edit_profile_url_filter' ) );
 		}
 
 		// Add user row actions for single site.
@@ -351,11 +351,11 @@ class BP_Members_Admin {
 				}
 
 				add_filter( "views_{$user_screen}", array( $this, 'signup_filter_view'    ), 10, 1 );
-				add_filter( 'set-screen-option',    array( $this, 'signup_screen_options' ), 10, 3 );
+				add_filter( 'set-screen-option', array( $this, 'signup_screen_options' ), 10, 3 );
 			}
 
 			// Registration is turned on.
-			add_action( 'update_site_option_registration',  array( $this, 'multisite_registration_on' ),   10, 2 );
+			add_action( 'update_site_option_registration', array( $this, 'multisite_registration_on' ), 10, 2 );
 			add_action( 'update_option_users_can_register', array( $this, 'single_site_registration_on' ), 10, 2 );
 
 			// Member invitations are enabled.
@@ -373,10 +373,10 @@ class BP_Members_Admin {
 
 			// Add "Change type" <select> to WP admin users list table and process bulk members type changes.
 			add_action( 'restrict_manage_users', array( $this, 'users_table_output_type_change_select' ) );
-			add_action( 'load-users.php',        array( $this, 'users_table_process_bulk_type_change'  ) );
+			add_action( 'load-users.php', array( $this, 'users_table_process_bulk_type_change'  ) );
 
 			// Add the member type column to the WP admin users list table.
-			add_filter( 'manage_users_columns',       array( $this, 'users_table_add_type_column'    )        );
+			add_filter( 'manage_users_columns', array( $this, 'users_table_add_type_column'    )        );
 			add_filter( 'manage_users_custom_column', array( $this, 'users_table_populate_type_cell' ), 10, 3 );
 
 			// Filter WP admin users list table to include users of the specified type.
@@ -603,8 +603,8 @@ class BP_Members_Admin {
 		// Add the faux "Edit Profile" submenu page.
 		$hooks['user'] = $this->user_page = add_submenu_page(
 			'profile.php',
-			__( 'Edit Profile',  'buddypress' ),
-			__( 'Edit Profile',  'buddypress' ),
+			__( 'Edit Profile', 'buddypress' ),
+			__( 'Edit Profile', 'buddypress' ),
 			'exist',
 			'bp-profile-edit',
 			array( $this, 'user_admin' )
@@ -623,7 +623,7 @@ class BP_Members_Admin {
 
 		// Add the profile_admin_head method to proper admin_head actions.
 		add_action( "admin_head-{$this->user_page}", array( $this, 'profile_admin_head' ) );
-		add_action( "admin_head-profile.php",        array( $this, 'profile_admin_head' ) );
+		add_action( "admin_head-profile.php", array( $this, 'profile_admin_head' ) );
 	}
 
 	/**
@@ -640,8 +640,8 @@ class BP_Members_Admin {
 			// Manage user's profile.
 			$hooks['user'] = $this->user_page = add_submenu_page(
 				$this->user_profile . '.php',
-				__( 'Edit Profile',  'buddypress' ),
-				__( 'Edit Profile',  'buddypress' ),
+				__( 'Edit Profile', 'buddypress' ),
+				__( 'Edit Profile', 'buddypress' ),
 				'read',
 				'bp-profile-edit',
 				array( $this, 'user_admin' )
@@ -651,10 +651,10 @@ class BP_Members_Admin {
 		// Only show sign-ups where they belong.
 		if ( ( ! bp_is_network_activated() && ! is_network_admin() ) || ( is_network_admin() && bp_is_network_activated() ) ) {
 
-			$signups_menu_label = __( 'Manage Signups',  'buddypress' );
+			$signups_menu_label = __( 'Manage Signups', 'buddypress' );
 
 			if ( bp_get_membership_requests_required() ) {
-				$signups_menu_label = __( 'Manage Pending Memberships',  'buddypress' );
+				$signups_menu_label = __( 'Manage Pending Memberships', 'buddypress' );
 			}
 
 			// Manage signups.
@@ -669,8 +669,8 @@ class BP_Members_Admin {
 
 		$hooks['members_invitations'] = $this->members_invites_page = add_submenu_page(
 			$this->tools_parent,
-			__( 'Manage Invitations',  'buddypress' ),
-			__( 'Manage Invitations',  'buddypress' ),
+			__( 'Manage Invitations', 'buddypress' ),
+			__( 'Manage Invitations', 'buddypress' ),
 			$this->capability,
 			'bp-members-invitations',
 			array( $this, 'invitations_admin' )
@@ -804,7 +804,7 @@ class BP_Members_Admin {
 	 * @since 2.0.0
 	 */
 	public function admin_head() {
-		remove_submenu_page( 'users.php',   'bp-profile-edit' );
+		remove_submenu_page( 'users.php', 'bp-profile-edit' );
 		remove_submenu_page( 'profile.php', 'bp-profile-edit' );
 
 		// Manage Invitations Tool screen is a tab of BP Tools.
@@ -1253,7 +1253,7 @@ class BP_Members_Admin {
 
 		// Construct title.
 		if ( true === $this->is_self_profile ) {
-			$title = __( 'Profile',   'buddypress' );
+			$title = __( 'Profile', 'buddypress' );
 		} else {
 			/* translators: %s: User's display name. */
 			$title = sprintf( __( 'Edit User %s', 'buddypress' ), $user->display_name );
@@ -1313,7 +1313,7 @@ class BP_Members_Admin {
 							</div>
 
 							<div id="postbox-container-2" class="postbox-container">
-								<?php do_meta_boxes( get_current_screen()->id, 'normal',   $user ); ?>
+								<?php do_meta_boxes( get_current_screen()->id, 'normal', $user ); ?>
 								<?php do_meta_boxes( get_current_screen()->id, 'advanced', $user ); ?>
 							</div>
 						</div><!-- #post-body -->
@@ -1321,7 +1321,7 @@ class BP_Members_Admin {
 					</div><!-- #poststuff -->
 
 					<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-					<?php wp_nonce_field( 'meta-box-order',  'meta-box-order-nonce', false ); ?>
+					<?php wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
 					<?php wp_nonce_field( 'edit-bp-profile_' . $user->ID ); ?>
 
 				</form>
@@ -1698,7 +1698,7 @@ class BP_Members_Admin {
 
 			// Add query args and setup the Extended link.
 			$edit_profile      = add_query_arg( $args, $this->edit_profile_url );
-			$edit_profile_link = sprintf( '<a href="%1$s">%2$s</a>',  esc_url( $edit_profile ), esc_html__( 'Extended', 'buddypress' ) );
+			$edit_profile_link = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $edit_profile ), esc_html__( 'Extended', 'buddypress' ) );
 
 			/**
 			 * Check the edit action is available

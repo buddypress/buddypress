@@ -267,9 +267,9 @@ function bp_members_membership_requests_delete_notifications_on_change( $signup_
 		}
 	}
 }
-add_action( 'bp_core_signup_after_resend',   'bp_members_membership_requests_delete_notifications_on_change' );
+add_action( 'bp_core_signup_after_resend', 'bp_members_membership_requests_delete_notifications_on_change' );
 add_action( 'bp_core_signup_after_activate', 'bp_members_membership_requests_delete_notifications_on_change' );
-add_action( 'bp_core_signup_after_delete',   'bp_members_membership_requests_delete_notifications_on_change' );
+add_action( 'bp_core_signup_after_delete', 'bp_members_membership_requests_delete_notifications_on_change' );
 
 /**
  * In the Nouveau template pack, when membership requests are required,

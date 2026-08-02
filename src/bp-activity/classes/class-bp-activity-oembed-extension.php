@@ -30,7 +30,7 @@ class BP_Activity_oEmbed_Extension extends BP_Core_oEmbed_Extension {
 	 * @since 2.6.0
 	 */
 	protected function custom_hooks() {
-		add_action( 'oembed_dataparse',   array( $this, 'use_custom_iframe_sandbox_attribute' ), 20, 3 );
+		add_action( 'oembed_dataparse', array( $this, 'use_custom_iframe_sandbox_attribute' ), 20, 3 );
 		add_action( 'embed_content_meta', array( $this, 'embed_comments_button' ), 5 );
 		add_action( 'get_template_part_assets/embeds/header', array( $this, 'on_activity_header' ), 10, 2 );
 
