@@ -179,7 +179,7 @@ class BP_XProfile_Field_Type_Checkbox_Acceptance extends BP_XProfile_Field_Type 
 			return;
 		}
 
-		$class   = $current_field->type != $type ? 'display: none;' : '';
+		$class   = $current_field->type !== $type ? 'display: none;' : '';
 		$page_id = bp_xprofile_get_meta( $current_field->id, 'field', 'bp_xprofile_checkbox_acceptance_page', true );
 		?>
 

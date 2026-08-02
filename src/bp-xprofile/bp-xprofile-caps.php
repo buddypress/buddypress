@@ -38,19 +38,19 @@ function bp_xprofile_map_meta_caps( $caps, $cap, $user_id, $args ) {
 			}
 
 			// Visibility on the fullname field is not editable.
-			if ( 1 == $field_id ) {
+			if ( 1 === $field_id ) {
 				$caps[] = 'do_not_allow';
 				break;
 			}
 
 			// Has the admin disabled visibility modification for this field?
-			if ( 'disabled' == bp_xprofile_get_meta( $field_id, 'field', 'allow_custom_visibility' ) ) {
+			if ( 'disabled' === bp_xprofile_get_meta( $field_id, 'field', 'allow_custom_visibility' ) ) {
 				$caps[] = 'do_not_allow';
 				break;
 			}
 
 			// Friends don't let friends edit each other's visibility.
-			if ( $profile_user_id != bp_displayed_user_id() && ! bp_current_user_can( 'bp_moderate' ) ) {
+			if ( $profile_user_id !== bp_displayed_user_id() && ! bp_current_user_can( 'bp_moderate' ) ) {
 				$caps[] = 'do_not_allow';
 				break;
 			}

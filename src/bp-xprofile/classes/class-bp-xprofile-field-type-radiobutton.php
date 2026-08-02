@@ -125,7 +125,7 @@ class BP_XProfile_Field_Type_Radiobutton extends BP_XProfile_Field_Type {
 
 			// Check for updated posted values, but errors preventing them from
 			// being saved first time.
-			if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $option_value != $_POST[ 'field_' . $this->field_obj->id ] ) {
+			if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $option_value !== $_POST[ 'field_' . $this->field_obj->id ] ) {
 				if ( ! empty( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
 					$option_value = sanitize_text_field( $_POST[ 'field_' . $this->field_obj->id ] );
 				}

@@ -194,11 +194,11 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 		// being saved first time.
 		if ( ! empty( $_POST[ 'field_' . $this->field_obj->id . '_day' ] ) ) {
 			$new_day = (int) $_POST[ 'field_' . $this->field_obj->id . '_day' ];
-			$day     = ( $day != $new_day ) ? $new_day : $day;
+			$day     = ( $day !== $new_day ) ? $new_day : $day;
 		}
 
 		if ( ! empty( $_POST[ 'field_' . $this->field_obj->id . '_month' ] ) ) {
-			if ( in_array( $_POST[ 'field_' . $this->field_obj->id . '_month' ], $eng_months ) ) {
+			if ( in_array( $_POST[ 'field_' . $this->field_obj->id . '_month' ], $eng_months, true ) ) {
 				$new_month = $_POST[ 'field_' . $this->field_obj->id . '_month' ];
 			} else {
 				$new_month = $month;
@@ -209,7 +209,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 
 		if ( ! empty( $_POST[ 'field_' . $this->field_obj->id . '_year' ] ) ) {
 			$new_year = (int) $_POST[ 'field_' . $this->field_obj->id . '_year' ];
-			$year     = ( $year != $new_year ) ? $new_year : $year;
+			$year     = ( $year !== $new_year ) ? $new_year : $year;
 		}
 
 		// $type will be passed by calling function when needed.
@@ -477,7 +477,7 @@ class BP_XProfile_Field_Type_Datebox extends BP_XProfile_Field_Type {
 			return;
 		}
 
-		$class = $current_field->type != $type ? 'display: none;' : '';
+		$class = $current_field->type !== $type ? 'display: none;' : '';
 
 		$settings = self::get_field_settings( $current_field->id );
 		?>

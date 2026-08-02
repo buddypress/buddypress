@@ -126,7 +126,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 
 		// Check for updated posted values, but errors preventing them from
 		// being saved first time.
-		if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $option_values != maybe_serialize( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
+		if ( isset( $_POST[ 'field_' . $this->field_obj->id ] ) && $option_values !== maybe_serialize( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
 			if ( ! empty( $_POST[ 'field_' . $this->field_obj->id ] ) ) {
 				$option_values = array_map( 'sanitize_text_field', $_POST[ 'field_' . $this->field_obj->id ] );
 			}
@@ -142,7 +142,7 @@ class BP_XProfile_Field_Type_Checkbox extends BP_XProfile_Field_Type {
 				// so we'll be sure to get a match.
 				$allowed_options = xprofile_sanitize_data_value_before_save( $options[ $k ]->name, false, false );
 
-				if ( $option_values[ $j ] === $allowed_options || in_array( $allowed_options, $option_values ) ) {
+				if ( $option_values[ $j ] === $allowed_options || in_array( $allowed_options, $option_values, true ) ) {
 					$selected = ' checked="checked"';
 					break;
 				}

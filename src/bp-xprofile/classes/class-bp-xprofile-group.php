@@ -932,7 +932,7 @@ class BP_XProfile_Group {
 
 			<form id="bp-xprofile-add-field-group" action="<?php echo esc_url( $action ); ?>" method="post">
 				<div id="poststuff">
-					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 == get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
+					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 === get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
 						<div id="post-body-content">
 							<div id="titlediv">
 								<div class="titlewrap">

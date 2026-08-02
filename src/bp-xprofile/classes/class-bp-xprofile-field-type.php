@@ -346,7 +346,7 @@ abstract class BP_XProfile_Field_Type {
 			return;
 		}
 
-		$class            = $current_field->type != $type ? 'display: none;' : '';
+		$class            = $current_field->type !== $type ? 'display: none;' : '';
 		$current_type_obj = bp_xprofile_create_field_type( $type );
 		?>
 

@@ -102,7 +102,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 		if ( false !== $group_id ) {
 
 			// Add field to group.
-			if ( 'add_field' == $mode ) {
+			if ( 'add_field' === $mode ) {
 				xprofile_admin_manage_field( $group_id );
 
 			// Edit field of group.
@@ -132,7 +132,7 @@ function xprofile_admin( $message = '', $type = 'error' ) {
 			xprofile_admin_delete_field( $option_id, 'option' );
 
 		// Add group.
-		} elseif ( 'add_group' == $mode ) {
+		} elseif ( 'add_group' === $mode ) {
 			xprofile_admin_manage_group();
 		}
 
@@ -185,7 +185,8 @@ function xprofile_admin_screen( $message = '', $type = 'error' ) {
 			wp_nonce_field( 'bp_reorder_groups', '_wpnonce_reorder_groups', false );
 
 			if ( ! empty( $message ) ) :
-				$type = ( $type == 'error' ) ? 'error' : 'updated'; ?>
+				$type = ( $type === 'error' ) ? 'error' : 'updated';
+				?>
 
 				<div id="message" class="<?php echo esc_attr( $type ); ?> fade notice is-dismissible">
 					<p><?php echo esc_html( $message ); ?></p>
@@ -478,7 +479,7 @@ function xprofile_admin_manage_group( $group_id = null ) {
 				$type    = 'success';
 
 				// @todo remove these old options.
-				if ( 1 == $group_id ) {
+				if ( 1 === $group_id ) {
 					bp_update_option( 'bp-xprofile-base-group-name', $group->name );
 				}
 
@@ -665,7 +666,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				$type    = 'success';
 
 				// @todo remove these old options.
-				if ( 1 == $field_id ) {
+				if ( 1 === $field_id ) {
 					bp_update_option( 'bp-xprofile-fullname-field-name', $field->name );
 				}
 
@@ -680,7 +681,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				}
 
 				// Validate default visibility.
-				if ( ! empty( $_POST['default-visibility'] ) && in_array( $_POST['default-visibility'], wp_list_pluck( bp_xprofile_get_visibility_levels(), 'id' ) ) ) {
+				if ( ! empty( $_POST['default-visibility'] ) && in_array( $_POST['default-visibility'], wp_list_pluck( bp_xprofile_get_visibility_levels(), 'id' ), true ) ) {
 					$default_visibility = $_POST['default-visibility'];
 
 					if ( ! $field->field_type_supports( 'allow_custom_visibility' ) ) {
@@ -696,7 +697,7 @@ function xprofile_admin_manage_field( $group_id, $field_id = null ) {
 				}
 
 				// Validate custom visibility.
-				if ( ! empty( $_POST['allow-custom-visibility'] ) && in_array( $_POST['allow-custom-visibility'], array( 'allowed', 'disabled' ) ) ) {
+				if ( ! empty( $_POST['allow-custom-visibility'] ) && in_array( $_POST['allow-custom-visibility'], array( 'allowed', 'disabled' ), true ) ) {
 					$allow_custom_visibility = $_POST['allow-custom-visibility'];
 
 					if ( ! $field->field_type_supports( 'allow_custom_visibility' ) ) {
@@ -775,10 +776,10 @@ function xprofile_admin_delete_field( $field_id, $field_type = 'field', $delete_
 
 	// Switch type to 'option' if type is not 'field'.
 	// @todo trust this param.
-	$field_type = ( 'field' == $field_type ) ? __( 'field', 'buddypress' ) : __( 'option', 'buddypress' );
+	$field_type = ( 'field' === $field_type ) ? __( 'field', 'buddypress' ) : __( 'option', 'buddypress' );
 
 	// Display the field/option delete confirmation screen.
-	if ( in_array( $mode, array( 'delete_field', 'delete_option' ) ) ) {
+	if ( in_array( $mode, array( 'delete_field', 'delete_option' ), true ) ) {
 		xprofile_admin_delete_field_screen( $field_id, $field_type );
 
 	// Handle the deletion of field
@@ -1127,7 +1128,7 @@ function xprofile_admin_field( $admin_field, $admin_group, $class = '', $is_sign
 		<div class="field-wrapper">
 
 			<?php
-			if ( in_array( $field->type, array_keys( bp_xprofile_get_field_types() ) ) ) {
+			if ( in_array( $field->type, array_keys( bp_xprofile_get_field_types() ), true ) ) {
 				$field_type = bp_xprofile_create_field_type( $field->type );
 				$field_type->admin_field_html();
 			} else {

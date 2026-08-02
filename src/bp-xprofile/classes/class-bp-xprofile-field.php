@@ -300,7 +300,7 @@ class BP_XProfile_Field {
 			}
 
 			// Cast numeric strings as integers.
-			if ( true === in_array( $k, $int_fields ) ) {
+			if ( true === in_array( $k, $int_fields, true ) ) {
 				$v = (int) $v;
 			}
 
@@ -366,7 +366,7 @@ class BP_XProfile_Field {
 		// Prevent deletion if no ID is present.
 		// Prevent deletion by url when can_delete is false.
 		// Prevent deletion of option 1 since this invalidates fields with options.
-		if ( empty( $this->id ) || empty( $this->can_delete ) || ( $this->parent_id && $this->option_order == 1 ) ) {
+		if ( empty( $this->id ) || empty( $this->can_delete ) || ( $this->parent_id && $this->option_order === 1 ) ) {
 			return false;
 		}
 
@@ -544,12 +544,12 @@ class BP_XProfile_Field {
 								$is_default = 1;
 							}
 						} else {
-							if ( (int) $defaults == $option_key ) {
+							if ( (int) $defaults === $option_key ) {
 								$is_default = 1;
 							}
 						}
 
-						if ( '' != $option_value ) {
+						if ( '' !== $option_value ) {
 							$sql = $wpdb->prepare( "INSERT INTO {$bp->profile->table_name_fields} (group_id, parent_id, type, name, description, is_required, option_order, is_default_option) VALUES (%d, %d, 'option', %s, '', 0, %d, %d)", $this->group_id, $parent_id, $option_value, $counter, $is_default );
 							if ( ! $wpdb->query( $sql ) ) {
 								return false;
@@ -678,7 +678,7 @@ class BP_XProfile_Field {
 
 		// If '_none' is found in the array, it overrides all types.
 		$types = array();
-		if ( ! in_array( '_none', $raw_types ) ) {
+		if ( ! in_array( '_none', $raw_types, true ) ) {
 			$registered_types = bp_get_member_types();
 
 			// Eliminate invalid member types saved in the database.
@@ -793,7 +793,7 @@ class BP_XProfile_Field {
 	 */
 	public function get_member_type_label() {
 		// Field 1 is always displayed to everyone, so never gets a label.
-		if ( 1 == $this->id ) {
+		if ( 1 === $this->id ) {
 			return '';
 		}
 
@@ -807,7 +807,7 @@ class BP_XProfile_Field {
 
 		// If the field applies to all member types, show no message.
 		$all_types[] = 'null';
-		if ( array_values( $all_types ) == $member_types ) {
+		if ( array_values( $all_types ) === $member_types ) {
 			return '';
 		}
 
@@ -1138,7 +1138,7 @@ class BP_XProfile_Field {
 		}
 
 		// Any fields with no member_type metadata are available to all member types.
-		if ( ! in_array( '_none', $member_types ) ) {
+		if ( ! in_array( '_none', $member_types, true ) ) {
 			if ( ! empty( $all_recorded_field_ids ) ) {
 				$all_recorded_field_ids_sql = implode( ',', array_map( 'absint', $all_recorded_field_ids ) );
 				$unrestricted_field_ids     = $wpdb->get_col( "SELECT id FROM {$bp->profile->table_name_fields} WHERE id NOT IN ({$all_recorded_field_ids_sql})" );
@@ -1318,7 +1318,7 @@ class BP_XProfile_Field {
 
 			<form id="bp-xprofile-add-field" action="<?php echo esc_url( $action ); ?>" method="post">
 				<div id="poststuff">
-					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 == get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
+					<div id="post-body" class="metabox-holder columns-<?php echo ( 1 === get_current_screen()->get_columns() ) ? '1' : '2'; ?>">
 						<div id="post-body-content">
 
 							<?php
@@ -1606,7 +1606,7 @@ class BP_XProfile_Field {
 					<?php foreach ( $member_types as $member_type ) : ?>
 					<li>
 						<label for="member-type-<?php echo esc_attr( $member_type->labels['name'] ); ?>">
-							<input name="member-types[]" id="member-type-<?php echo esc_attr( $member_type->labels['name'] ); ?>" class="member-type-selector" type="checkbox" value="<?php echo esc_attr( $member_type->name ); ?>" <?php checked( in_array( $member_type->name, $field_member_types ) ); ?>/>
+							<input name="member-types[]" id="member-type-<?php echo esc_attr( $member_type->labels['name'] ); ?>" class="member-type-selector" type="checkbox" value="<?php echo esc_attr( $member_type->name ); ?>" <?php checked( in_array( $member_type->name, $field_member_types, true ) ); ?>/>
 							<?php echo esc_html( $member_type->labels['name'] ); ?>
 						</label>
 					</li>
@@ -1614,7 +1614,7 @@ class BP_XProfile_Field {
 
 					<li>
 						<label for="member-type-none">
-							<input name="member-types[]" id="member-type-none" class="member-type-selector" type="checkbox" value="null" <?php checked( in_array( 'null', $field_member_types ) ); ?>/>
+							<input name="member-types[]" id="member-type-none" class="member-type-selector" type="checkbox" value="null" <?php checked( in_array( 'null', $field_member_types, true ) ); ?>/>
 							<?php esc_html_e( 'Users with no member type', 'buddypress' ); ?>
 						</label>
 					</li>

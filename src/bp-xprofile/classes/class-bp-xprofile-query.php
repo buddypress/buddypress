@@ -366,14 +366,18 @@ class BP_XProfile_Query {
 			$clause['compare'] = isset( $clause['value'] ) && is_array( $clause['value'] ) ? 'IN' : '=';
 		}
 
-		if ( ! in_array( $clause['compare'], array(
-			'=', '!=', '>', '>=', '<', '<=',
-			'LIKE', 'NOT LIKE',
-			'IN', 'NOT IN',
-			'BETWEEN', 'NOT BETWEEN',
-			'EXISTS', 'NOT EXISTS',
-			'REGEXP', 'NOT REGEXP', 'RLIKE',
-		) ) ) {
+		if ( ! in_array(
+			$clause['compare'],
+			array(
+				'=', '!=', '>', '>=', '<', '<=',
+				'LIKE', 'NOT LIKE',
+				'IN', 'NOT IN',
+				'BETWEEN', 'NOT BETWEEN',
+				'EXISTS', 'NOT EXISTS',
+				'REGEXP', 'NOT REGEXP', 'RLIKE',
+			),
+			true
+		) ) {
 			$clause['compare'] = '=';
 		}
 
@@ -433,7 +437,7 @@ class BP_XProfile_Query {
 			$field_value = $clause['value'];
 			$field_type  = $this->get_cast_for_type( isset( $clause['type'] ) ? $clause['type'] : '' );
 
-			if ( in_array( $field_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
+			if ( in_array( $field_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ), true ) ) {
 				if ( ! is_array( $field_value ) ) {
 					$field_value = preg_split( '/[,\s]+/', $field_value );
 				}
@@ -523,7 +527,7 @@ class BP_XProfile_Query {
 
 			$clause_compare  = strtoupper( $clause['compare'] );
 			$sibling_compare = strtoupper( $sibling['compare'] );
-			if ( in_array( $clause_compare, $compatible_compares ) && in_array( $sibling_compare, $compatible_compares ) ) {
+			if ( in_array( $clause_compare, $compatible_compares, true ) && in_array( $sibling_compare, $compatible_compares, true ) ) {
 				$alias = preg_replace( '/\W/', '_', $sibling['alias'] );
 				break;
 			}

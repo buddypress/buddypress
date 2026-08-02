@@ -258,7 +258,7 @@ function xprofile_insert_field( $args = '' ) {
 	}
 
 	// Check this is a non-empty, valid field type.
-	if ( ! in_array( $r['type'], (array) buddypress()->profile->field_types ) ) {
+	if ( ! in_array( $r['type'], (array) buddypress()->profile->field_types, true ) ) {
 		return false;
 	}
 
@@ -407,7 +407,7 @@ function xprofile_get_field_data( $field, $user_id = 0, $multi_format = 'array' 
 			$data[] = apply_filters( 'xprofile_get_field_data', $value, $field_id, $user_id );
 		}
 
-		if ( 'comma' == $multi_format ) {
+		if ( 'comma' === $multi_format ) {
 			$data = implode( ', ', $data );
 		}
 	} else {
@@ -707,7 +707,7 @@ function xprofile_format_profile_field( $field_type, $field_value ) {
 
 	$field_value = bp_unserialize_profile_field( $field_value );
 
-	if ( 'datebox' != $field_type ) {
+	if ( 'datebox' !== $field_type ) {
 		$content     = $field_value;
 		$field_value = str_replace( ']]>', ']]&gt;', $content );
 	}
@@ -977,7 +977,7 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
 	global $wpdb;
 
 	// Sanitize object type.
-	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
+	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ), true ) ) {
 		return false;
 	}
 
@@ -1031,7 +1031,7 @@ function bp_xprofile_delete_meta( $object_id, $object_type, $meta_key = false, $
  */
 function bp_xprofile_get_meta( $object_id, $object_type, $meta_key = '', $single = true ) {
 	// Sanitize object type.
-	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ) ) ) {
+	if ( ! in_array( $object_type, array( 'group', 'field', 'data' ), true ) ) {
 		return false;
 	}
 
@@ -1302,7 +1302,7 @@ function bp_xprofile_get_hidden_field_types_for_user( $displayed_user_id = 0, $c
 
 		// Nothing's private when viewing your own profile, or when the
 		// current user is an admin.
-		if ( $displayed_user_id == $current_user_id || bp_current_user_can( 'bp_moderate' ) ) {
+		if ( $displayed_user_id === $current_user_id || bp_current_user_can( 'bp_moderate' ) ) {
 			$hidden_levels = array();
 
 		// If the current user and displayed user are friends, show all.
@@ -1357,21 +1357,21 @@ function bp_xprofile_get_fields_by_visibility_levels( $user_id, $levels = array(
 	foreach ( (array) $default_visibility_levels as $d_field_id => $defaults ) {
 		// If the admin has forbidden custom visibility levels for this field, replace
 		// the user-provided setting with the default specified by the admin.
-		if ( isset( $defaults['allow_custom'] ) && isset( $defaults['default'] ) && 'disabled' == $defaults['allow_custom'] ) {
+		if ( isset( $defaults['allow_custom'] ) && isset( $defaults['default'] ) && 'disabled' === $defaults['allow_custom'] ) {
 			$user_visibility_levels[ $d_field_id ] = $defaults['default'];
 		}
 	}
 
 	$field_ids = array();
 	foreach ( $user_visibility_levels as $field_id => $field_visibility ) {
-		if ( in_array( $field_visibility, $levels ) ) {
+		if ( in_array( $field_visibility, $levels, true ) ) {
 			$field_ids[] = $field_id;
 		}
 	}
 
 	// Never allow the fullname field to be excluded.
-	if ( in_array( 1, $field_ids ) ) {
-		$key = array_search( 1, $field_ids );
+	if ( in_array( 1, $field_ids, true ) ) {
+		$key = array_search( 1, $field_ids, true );
 		unset( $field_ids[ $key ] );
 	}
 

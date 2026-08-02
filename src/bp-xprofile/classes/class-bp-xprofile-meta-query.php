@@ -180,14 +180,18 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 			$clause['compare'] = isset( $clause['value'] ) && is_array( $clause['value'] ) ? 'IN' : '=';
 		}
 
-		if ( ! in_array( $clause['compare'], array(
-			'=', '!=', '>', '>=', '<', '<=',
-			'LIKE', 'NOT LIKE',
-			'IN', 'NOT IN',
-			'BETWEEN', 'NOT BETWEEN',
-			'EXISTS', 'NOT EXISTS',
-			'REGEXP', 'NOT REGEXP', 'RLIKE',
-		) ) ) {
+		if ( ! in_array(
+			$clause['compare'],
+			array(
+				'=', '!=', '>', '>=', '<', '<=',
+				'LIKE', 'NOT LIKE',
+				'IN', 'NOT IN',
+				'BETWEEN', 'NOT BETWEEN',
+				'EXISTS', 'NOT EXISTS',
+				'REGEXP', 'NOT REGEXP', 'RLIKE',
+			),
+			true
+		) ) {
 			$clause['compare'] = '=';
 		}
 
@@ -257,7 +261,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 		if ( array_key_exists( 'value', $clause ) ) {
 			$meta_value = $clause['value'];
 
-			if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ) ) ) {
+			if ( in_array( $meta_compare, array( 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ), true ) ) {
 				if ( ! is_array( $meta_value ) ) {
 					$meta_value = preg_split( '/[,\s]+/', $meta_value );
 				}
@@ -310,7 +314,7 @@ class BP_XProfile_Meta_Query extends WP_Meta_Query {
 		if ( array_key_exists( 'object', $clause ) ) {
 			$object_type = $clause['object'];
 
-			if ( in_array( $meta_compare, array( 'IN', 'NOT IN' ) ) ) {
+			if ( in_array( $meta_compare, array( 'IN', 'NOT IN' ), true ) ) {
 				if ( ! is_array( $object_type ) ) {
 					$object_type = preg_split( '/[,\s]+/', $object_type );
 				}
